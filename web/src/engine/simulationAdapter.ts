@@ -24,8 +24,9 @@ import { assembleTriggeredEquipment, validateConfiguration } from './simulationT
 import { assembleNaturalSkillSources, type SimulationSkillOriginTrace } from './simulationNaturalSkillSources';
 import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive, primaryMechanicRequirements, validateMechanicStateInputs } from './simulationPrimaryAttack';
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
+import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
 
-export const SIMULATION_ADAPTER_VERSION = 'v10-ammo-special-primary';
+export const SIMULATION_ADAPTER_VERSION = 'v11-single-initial-skill';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -79,10 +80,11 @@ function ruleIsPlain(rule: SkillTriggerRuleDetail, path: string, hit = false) {
 }
 
 type Program = {
-  provider: ProviderDefinition; rules: GenericRules; formulas: CompileRequest['formulas'];
+  provider: ProviderDefinition | null; rules: GenericRules; formulas: CompileRequest['formulas'];
   types: CompileRequest['typeCatalog']['types']; coverage: SimulationCoverage[];
-  operationOrigins: OperationOrigin[]; basicAttackBinding: BasicAttackBinding;
-  required: Map<'source' | 'target', Set<string>>; configuration: SkillConfiguration;
+  operationOrigins: OperationOrigin[]; basicAttackBinding: BasicAttackBinding | null;
+  required: Map<'source' | 'target', Set<string>>; configuration?: SkillConfiguration;
+  active?: ReturnType<typeof assembleActiveSkills>;
   equipment: ReturnType<typeof assembleEquipment>;
   passives: ReturnType<typeof assembleEquipmentPassives>;
   triggered: ReturnType<typeof assembleTriggeredEquipment>;
@@ -90,7 +92,9 @@ type Program = {
 };
 
 /** 装配首批完整普攻形状，不依赖技能名称；不支持的启用入口整体拒绝。 */
-function program(snapshot: SimulationSnapshot): Program {
+function program(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = []): Program {
+  if (snapshot.selection.basicAttackSkillKey === null) return activeProgram(snapshot, ignoredCosts);
+  if (snapshot.selection.plannedSkills.length || ignoredCosts.length) fail('selection.plannedSkills', '6A不开放技能与普攻混合');
   const natural = assembleNaturalSkillSources(snapshot);
   const triggered = assembleTriggeredEquipment(snapshot);
   const triggeredPrograms = [triggered, natural.triggered];
@@ -98,6 +102,7 @@ function program(snapshot: SimulationSnapshot): Program {
     new Set(natural.derivations.filter(row => row.attributeKey === 'attack_speed').map(row => row.combatantKey)));
   const passives = assembleEquipmentPassives(snapshot);
   const selection = snapshot.selection;
+  if (selection.basicAttackLevel === null) fail('selection.basicAttackLevel', '普攻技能与等级必须配对提供');
   const config = snapshot.skillConfigurations.find(row => row.skill.skillKey === selection.basicAttackSkillKey);
   if (!config) fail('skillConfigurations', '缺少完整所选普攻配置');
   validateConfiguration(config, snapshot.gameId, `skills.${config.skill.skillKey}`, false, selection.basicAttackLevel);
@@ -187,7 +192,7 @@ function program(snapshot: SimulationSnapshot): Program {
     types.set(damageType, 'damage');
     const vamp = adaptDamageVamp(snapshot.catalogs.vampRules.rules, {
       gameId: snapshot.gameId, skillKey: config!.skill.skillKey, skillCategoryKeys: config!.skill.skillCategoryKeys,
-      skillLevel: selection.basicAttackLevel, characterLevel: selection.sourceLevel,
+      skillLevel: selection.basicAttackLevel!, characterLevel: selection.sourceLevel,
       detail, parameters: config!.parameters, formulas: config!.formulas
     });
     for (const [key, amount] of Object.entries(vamp.params)) {
@@ -471,11 +476,78 @@ function program(snapshot: SimulationSnapshot): Program {
   };
 }
 
-export function inspectSimulationSnapshot(snapshot: SimulationSnapshot): {
+function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[]): Program {
+  const natural = assembleNaturalSkillSources(snapshot);
+  const triggered = assembleTriggeredEquipment(snapshot);
+  const active = assembleActiveSkills(snapshot, ignoredCosts);
+  const equipment = assembleEquipment(snapshot, new Set([...natural.derivationSides, ...triggered.derivationSides]),
+    new Set(natural.derivations.filter(row => row.attributeKey === 'attack_speed').map(row => row.combatantKey)));
+  const passives = assembleEquipmentPassives(snapshot);
+  const existing = natural.providers.find(provider => provider.providerKey === active.binding.providerDefinitionRef);
+  const activeAbilityOffset = existing?.abilities?.length ?? 0;
+  const activeProcessOffset = existing?.processes?.length ?? 0;
+  if (existing) {
+    const provider = active.providers.shift()!;
+    existing.abilities = [...(existing.abilities ?? []), ...(provider.abilities ?? [])];
+    existing.processes = [...(existing.processes ?? []), ...(provider.processes ?? [])];
+  } else natural.mounts.push({ side: 'source', providerRef: active.binding.providerRef, definitionRef: active.binding.providerDefinitionRef });
+  const assemblies = [triggered, natural.triggered, active];
+  const rules: GenericRules = { skillActionBindings: [active.binding], damageTypeFormulas: [],
+    attributeDerivations: [...equipment.derivations, ...natural.derivations] };
+  validateSimulationAttributeDerivations(rules.attributeDerivations!);
+  for (const assembly of assemblies) {
+    for (const formula of assembly.rules.damageTypeFormulas ?? []) {
+      const previous = rules.damageTypeFormulas!.find(row => row.damageType === formula.damageType);
+      if (previous && JSON.stringify(previous) !== JSON.stringify(formula)) fail('rules.damageTypeFormulas', '同一伤害类型的防御规则冲突');
+      if (!previous) rules.damageTypeFormulas!.push(formula);
+    }
+    if (assembly.rules.vampRules) {
+      if (rules.vampRules && JSON.stringify(rules.vampRules) !== JSON.stringify(assembly.rules.vampRules)) fail('rules.vampRules', '主动与自然来源必须共享真实吸血规则');
+      rules.vampRules = assembly.rules.vampRules;
+    }
+  }
+  const types = new Map([...assemblies.flatMap(assembly => assembly.types)].map(type => [type.key, type.domain]));
+  if (passives.mounts.length || natural.mounts.length) types.set('event/source_initialized', 'event');
+  const required = new Map<'source' | 'target', Set<string>>((['source', 'target'] as const).map(side =>
+    [side, new Set(['hp', ...equipment.required[side], ...passives.required[side], ...triggered.required[side], ...natural.required[side]])]));
+  for (const rule of rules.vampRules ?? []) required.get('source')!.add(rule.sourceAttributeKey);
+  const collect = (value: unknown): void => {
+    if (Array.isArray(value)) { value.forEach(collect); return; }
+    if (!value || typeof value !== 'object') return;
+    const row = value as Record<string, unknown>;
+    const read = typeof row.path === 'string' ? /^(source|target)\.attr\.([a-z][a-z0-9_]*)\./.exec(row.path) : null;
+    if (row.op === 'read' && read) required.get(read[1] as 'source' | 'target')!.add(read[2]!);
+    Object.values(row).forEach(collect);
+  };
+  collect(active.providers); collect(active.formulas); collect(rules); collect(existing);
+  const providers = [...equipment.providers, ...passives.providers, ...triggered.providers, ...natural.providers, ...active.providers];
+  const providerIndices = new Map(providers.map((provider, index) => [provider.providerKey, index]));
+  const rebase = (path: string, activePath = false) => {
+    const shifted = activePath ? path.replace(/\.abilities\[(\d+)\]/g, (_original, index: string) => `.abilities[${Number(index) + activeAbilityOffset}]`)
+      .replace(/\.processes\[(\d+)\]/g, (_original, index: string) => `.processes[${Number(index) + activeProcessOffset}]`) : path;
+    return shifted.replace(/sharedProviders(?:\[([^\]]+)\]|\.([^.]+))/, (original, bracket: string, dotted: string) => {
+      const key = bracket ?? dotted;
+      return providerIndices.has(key) ? `sharedProviders[${providerIndices.get(key)}]` : original;
+    });
+  };
+  const coverage = [...equipment.coverage.map(row => ({ ...row, compiledPath: row.compiledPath
+    .replace(/sharedProviders\[(\d+)\]/, (_original, index: string) => `sharedProviders[${Number(index) - 1}]`)
+    .replace(/combatants\[0\]\.providers\[(\d+)\]/, (_original, index: string) => `combatants[0].providers[${Number(index) - 1}]`) })),
+    ...passives.coverage, ...triggered.coverage, ...natural.coverage, ...active.coverage];
+  const mergedCoverage = coverage.map(row => ({ ...row, compiledPath: rebase(row.compiledPath, active.coverage.includes(row)) }));
+  const origins = assemblies.flatMap(assembly => assembly.operationOrigins.map(origin => ({ ...origin,
+    compiledPaths: origin.compiledPaths.map(path => rebase(path, assembly === active)) })));
+  return { provider: null, active, rules, formulas: assemblies.flatMap(assembly => assembly.formulas),
+    types: [...types].map(([key, domain]) => ({ key, domain })), required, equipment, passives, triggered, natural,
+    coverage: mergedCoverage,
+    operationOrigins: origins, basicAttackBinding: null };
+}
+
+export function inspectSimulationSnapshot(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = []): {
   requirements: SimulationAttributeRequirement[]; coverage: SimulationCoverage[]; equipmentOrigins: EquipmentOrigin[];
   mechanicRequirements: ReturnType<typeof primaryMechanicRequirements>
 } {
-  const compiled = program(snapshot);
+  const compiled = program(snapshot, ignoredCosts);
   const requirements: SimulationAttributeRequirement[] = [];
   for (const side of ['source', 'target'] as const) {
     for (const key of [...compiled.required.get(side)!].sort()) {
@@ -485,25 +557,26 @@ export function inspectSimulationSnapshot(snapshot: SimulationSnapshot): {
     }
   }
   return { requirements, coverage: compiled.coverage, equipmentOrigins: compiled.equipment.origins,
-    mechanicRequirements: primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema) };
+    mechanicRequirements: compiled.provider ? primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema) : [] };
 }
 
 export function assembleSimulation(
   snapshot: SimulationSnapshot, attributeInputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
-  assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = []
+  assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = [],
+  ignoredCosts: readonly SimulationCastCostRef[] = []
 ): { compileRequest: CompileRequest; coverage: SimulationCoverage[]; operationOrigins: OperationOrigin[];
-  equipmentOrigins: EquipmentOrigin[]; skillOrigins: SimulationSkillOriginTrace[]; basicAttackBinding: BasicAttackBinding; snapshotDigest: string;
+  equipmentOrigins: EquipmentOrigin[]; skillOrigins: SimulationSkillOriginTrace[]; basicAttackBinding: BasicAttackBinding | null; snapshotDigest: string;
   attributeInputs: SimulationAttributeInputs; initialHealth: SimulationInitialHealth; equipmentAssumptions: SimulationEquipmentAssumption[];
-  mechanicStateInputs: SimulationMechanicStateInput[] } {
-  const compiled = program(snapshot);
+  mechanicStateInputs: SimulationMechanicStateInput[]; ignoredCastCosts: SimulationCastCostRef[] } {
+  const compiled = program(snapshot, ignoredCosts);
   const equipmentAssumptions = validateEquipmentAssumptions(snapshot, assumptions);
-  const mechanicStateInputs = validateMechanicStateInputs(primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema), mechanicInputs);
+  const mechanicStateInputs = validateMechanicStateInputs(compiled.provider ? primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema) : [], mechanicInputs);
   for (const input of mechanicStateInputs) {
-    const field = compiled.provider.initialStateSchema?.[input.stateKey];
+    const field = compiled.provider?.initialStateSchema?.[input.stateKey];
     if (!field || typeof field !== 'object' || field.stateKind !== 'ammo') fail('mechanicStateInputs', '机制初值缺少真实弹药编译声明');
-    compiled.provider.initialStateSchema![input.stateKey] = { ...field, defaultValue: input.value };
+    compiled.provider!.initialStateSchema![input.stateKey] = { ...field, defaultValue: input.value };
   }
-  const { requirements } = inspectSimulationSnapshot(snapshot);
+  const { requirements } = inspectSimulationSnapshot(snapshot, ignoredCosts);
   const actors = (['source', 'target'] as const).map(side => {
     const attributes: Record<string, AttributeSlot> = {};
     const combined = { ...snapshot[side].selectedLevelValues };
@@ -528,7 +601,7 @@ export function assembleSimulation(
     if (!Number.isFinite(hpLimit) || !(hpLimit > 0)) fail(`combatants.${side}.hp`, '初始生命上限必须是有限正数');
     const currentHp = finiteNumber(initialHealth?.[side], `initialHealth.${side}`, fail);
     if (currentHp < 0 || currentHp > hpLimit) fail(`initialHealth.${side}`, '初始当前生命须在0与含装备生命上限之间，不自动填满或夹取');
-    if (side === 'source' && !hasDerivation && !(combined.attack_speed! > 0)) fail('combatants.source.attack_speed', '初始攻速必须是有限正数');
+    if (compiled.basicAttackBinding && side === 'source' && !hasDerivation && !(combined.attack_speed! > 0)) fail('combatants.source.attack_speed', '初始攻速必须是有限正数');
     for (const [key, raw] of Object.entries(combined)) {
       const amount = finiteNumber(raw, `combatants.${side}.attributes.${key}`, fail);
       const resolved = amount + equipmentContribution(snapshot, side, key);
@@ -536,7 +609,7 @@ export function assembleSimulation(
     }
     return { key: side, displayName: snapshot[side].character.name, types: ['combatant/champion'], attributes,
       resources: {}, providers: [
-        ...(side === 'source' ? [{ providerRef: MOUNT, definitionRef: DEFINITION }] : []),
+        ...(side === 'source' && compiled.basicAttackBinding ? [{ providerRef: MOUNT, definitionRef: DEFINITION }] : []),
         ...compiled.equipment.origins.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
         ...compiled.passives.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
         ...compiled.triggered.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
@@ -547,18 +620,19 @@ export function assembleSimulation(
     compileRequest: {
       schemaVersion: 'generic-p0', schemaHash: SIMULATION_SCHEMA_HASH, rulesHash: 'pending',
       typeCatalog: { types: compiled.types, relations: [] }, combatants: actors,
-      sharedProviders: [compiled.provider, ...compiled.equipment.providers, ...compiled.passives.providers, ...compiled.triggered.providers, ...compiled.natural.providers], formulas: compiled.formulas, rules: compiled.rules,
+      sharedProviders: [...(compiled.provider ? [compiled.provider] : []), ...compiled.equipment.providers, ...compiled.passives.providers, ...compiled.triggered.providers, ...compiled.natural.providers, ...(compiled.active?.providers ?? [])], formulas: compiled.formulas, rules: compiled.rules,
       settings: { maxEvents: 10000, maxCommandsPerEvent: 256, maxQueueEvents: 10000, maxChainDepth: 32 }
     }, coverage: compiled.coverage, operationOrigins: compiled.operationOrigins, basicAttackBinding: compiled.basicAttackBinding,
     equipmentOrigins: compiled.equipment.origins, skillOrigins: compiled.natural.origins, snapshotDigest: snapshot.snapshotDigest,
-    attributeInputs: structuredClone(attributeInputs), initialHealth: structuredClone(initialHealth), equipmentAssumptions, mechanicStateInputs
+    attributeInputs: structuredClone(attributeInputs), initialHealth: structuredClone(initialHealth), equipmentAssumptions, mechanicStateInputs,
+    ignoredCastCosts: compiled.active?.ignoredCastCosts ?? []
   };
 }
 
 /** 摘要仅含业务输入和适配后的定义；不包含接口基址、令牌或读取时间。 */
 export async function prepareSimulation(snapshot: SimulationSnapshot, inputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
-  assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = []) {
-  const assembled = assembleSimulation(snapshot, inputs, initialHealth, assumptions, mechanicInputs);
+  assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = [], ignoredCosts: readonly SimulationCastCostRef[] = []) {
+  const assembled = assembleSimulation(snapshot, inputs, initialHealth, assumptions, mechanicInputs, ignoredCosts);
   assembled.compileRequest.rulesHash = await simulationHash({ snapshotDigest: snapshot.snapshotDigest, adapter: SIMULATION_ADAPTER_VERSION,
     attributeInputs: inputs, initialHealth, equipmentAssumptions: assembled.equipmentAssumptions,
     mechanicStateInputs: assembled.mechanicStateInputs, request: assembled.compileRequest });

@@ -11,7 +11,7 @@ export function simulationSnapshotWithSelection(snapshot: SimulationSnapshot, se
 
 export function simulationComparisonSelection(patch: Partial<SimulationSelection> = {}): SimulationSelection {
   return { sourceCharacterKey: 'champion_aatrox', sourceLevel: 1, targetCharacterKey: 'champion_ahri', targetLevel: 1,
-    basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, sourceEquipmentKeys: [], targetEquipmentKeys: [],
+    basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, plannedSkills: [], sourceEquipmentKeys: [], targetEquipmentKeys: [],
     sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: [], ...patch };
 }
 

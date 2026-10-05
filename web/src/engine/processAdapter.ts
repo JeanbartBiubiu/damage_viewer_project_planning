@@ -56,6 +56,7 @@ export type AuthoredProcessProgram = {
   formulas?: readonly SkillFormula[];
   owner?: 'source' | 'target';
   castCosts: readonly CastCostRef[];
+  ignoreCastCosts?: boolean;
 };
 
 export type AdaptedProcessControl = {
@@ -410,7 +411,7 @@ function compileEffectResults(
 type CostPlan = {
   costs: ProcessCostDefinition[];
   resources: Set<string>;
-  skipByEffect: Map<string, Set<string>>;
+  skipByBinding: Map<string, Set<string>>;
 };
 
 function compileCosts(authored: AuthoredProcessProgram, process: SkillProcess, state: NumericCompileState): CostPlan {
@@ -419,7 +420,7 @@ function compileCosts(authored: AuthoredProcessProgram, process: SkillProcess, s
   const costs: ProcessCostDefinition[] = [];
   const resources = new Set<string>();
   const seen = new Set<string>();
-  const skipByEffect = new Map<string, Set<string>>();
+  const skipByBinding = new Map<string, Set<string>>();
   authored.castCosts.forEach((ref, index) => {
     const path = `${root}[${index}]`;
     if (!isRecord(ref)) fail(path, '成本引用必须是对象');
@@ -453,16 +454,19 @@ function compileCosts(authored: AuthoredProcessProgram, process: SkillProcess, s
     const folded = tryFoldConstant(amount);
     if (folded !== null && (!Number.isFinite(folded) || folded < 0)) fail(`${resultPath}.valueRule`, '施放成本必须是有限非负数值');
     // 原生逐笔验证后再按资源汇总，不能让正负成本在宿主提前抵消。
-    costs.push({ resourceKey, amount });
-    resources.add(resourceKey);
-    const skipped = skipByEffect.get(effectKey) ?? new Set<string>();
+    if (!authored.ignoreCastCosts) {
+      costs.push({ resourceKey, amount });
+      resources.add(resourceKey);
+    }
+    const bindingIdentity = `${bindingKey}\0${effectKey}`;
+    const skipped = skipByBinding.get(bindingIdentity) ?? new Set<string>();
     skipped.add(resultKey);
-    skipByEffect.set(effectKey, skipped);
+    skipByBinding.set(bindingIdentity, skipped);
   });
   return {
     costs,
     resources,
-    skipByEffect
+    skipByBinding
   };
 }
 
@@ -742,7 +746,8 @@ function momentOperationsFor(
     const moment = readMoment(binding.moment, `${path}.moment`);
     assertMomentFits(moment, process.steps, `${path}.moment`);
     const effect = lookupEffect(authored, binding.effectKey, `${path}.effectKey`);
-    add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey, costs.skipByEffect.get(effect.effectKey) ?? new Set()));
+    add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey,
+      costs.skipByBinding.get(`${binding.bindingKey}\0${effect.effectKey}`) ?? new Set()));
   }
   for (const rule of controls.momentRules) {
     const path = planPath(authored.skillKey, `rules.${rule.ruleKey}`);
@@ -781,7 +786,7 @@ function momentOperationsFor(
       state.runtimeInputReads = Object.keys(reads).length ? reads : undefined;
       state.formulaNamespace = `${previousNamespace}/rules/${rule.ruleKey}/actions/${action.actionKey}`;
       try {
-        add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey, costs.skipByEffect.get(effect.effectKey) ?? new Set()));
+        add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey, new Set()));
       } finally {
         state.runtimeInputReads = previous;
         state.formulaNamespace = previousNamespace;
@@ -810,9 +815,10 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (!isRecord(authored)) fail('adapter.processPlan', '过程程序必须是对象');
   exactKeys(authored, [
     'gameId', 'skillKey', 'skillLevel', 'characterLevel', 'process', 'rules', 'effects',
-    'parameters', 'formulas', 'owner', 'castCosts'
+    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts'
   ], 'adapter.processPlan');
   const gameId = catalogKey(authored.gameId, 'gameId');
+  if (authored.ignoreCastCosts !== undefined && typeof authored.ignoreCastCosts !== 'boolean') fail('ignoreCastCosts', '忽略施法成本必须明确声明');
   const skillKey = catalogKey(authored.skillKey, 'skillKey');
   if (!Number.isInteger(authored.skillLevel) || authored.skillLevel < 1) fail('skillLevel', '本次等级必须明确且有效');
   if (!Number.isInteger(authored.characterLevel) || authored.characterLevel < 1) fail('characterLevel', '本次等级必须明确且有效');

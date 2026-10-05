@@ -336,6 +336,7 @@ export type ProviderDefinition = {
 };
 
 export type GenericRules = {
+  skillActionBindings?: SkillActionBinding[];
   operations?: OperationDefinition[];
   modifiers?: ModifierDefinition[];
   listeners?: ListenerDefinition[];
@@ -476,6 +477,19 @@ export type DriverPlan = {
   entries: DriverEntry[];
   conditionRecheckIntervalMs: number;
   basicAttack?: BasicAttackPlan;
+  skillActions?: SkillActionPlan[];
+};
+
+export type SkillActionBinding = {
+  bindingKey: string; source: 'source'; providerRef: string; providerDefinitionRef: string; skillKey: string;
+  controls: Array<{ action: 'INITIAL'; processKey: string; abilityRef: string }>;
+  hitBindings: Array<{ hitBindingKey: string; processKey: string; moment: ProcessMomentDefinition; hitAbilityRef: string }>;
+};
+
+export type SkillActionPlan = {
+  instructionKey: string; firstAtMs: number; sortOrder: number; source: 'source'; target: 'source' | 'target';
+  skillKey: string; bindingKey: string; action: 'INITIAL'; abilityRef: string; parentInstructionKey?: string | null;
+  hitBindings: Array<{ hitBindingKey: string; preset: 'TARGET_HIT' | 'MISS' }>;
 };
 
 export type BasicAttackPlan = {
@@ -512,7 +526,8 @@ export type SafetyBudget = {
   maxBasicAttacks?: number;
 };
 
-export type RecordBudget = { maxAttackRecords?: number; maxDamageRecords?: number; maxMechanicRecords?: number };
+export type RecordBudget = { maxAttackRecords?: number; maxDamageRecords?: number; maxMechanicRecords?: number;
+  maxSkillActionRecords?: number; maxSkillUseRecords?: number; maxHealingRecords?: number };
 
 export type ProcessControlAction = 'INITIAL' | 'RECAST' | 'CHARGE_RELEASE' | 'CANCEL' | 'INTERRUPT';
 
@@ -658,11 +673,15 @@ export type RunSummary = {
   evidenceTruncated: boolean;
   seriesDownsampled: boolean;
   basicAttack?: BasicAttackSummary;
+  skillActions?: SkillActionSummary;
+  skillUses?: SkillUseSummary;
   execution?: ExecutionSummary;
   sourceHpLoss?: number;
   targetHpLoss?: number;
   sourceVampHealing?: number;
   targetVampHealing?: number;
+  sourceDirectHealing?: number;
+  targetDirectHealing?: number;
   damageBreakdown?: DamageBreakdown[];
   abilityStats: Array<{
     abilityRef: string;
@@ -676,6 +695,25 @@ export type RunSummary = {
 
 export type BasicAttackSummary = { planKey: string; startedCount: number; hitCount: number; completedCount: number;
   initialMechanicReadyAtMs?: number | null };
+export type SkillActionSummary = { plannedCount: number; reachedCount: number; acceptedCount: number; rejectedCount: number;
+  abortedBeforeAcceptCount: number; unreachedCount: number };
+export type SkillUseSummary = { startedCount: number; releasedCount: number; hitCount: number; completedCount: number;
+  failedCount: number; inFlightCount: number };
+export type SkillActionRecord = {
+  instructionKey: string; requestedAtMs: number; actualAtMs: number; action: 'INITIAL'; source: string; target: string;
+  skillKey: string; bindingKey: string; providerRef: string; providerDefinitionRef: string;
+  outcome: 'ACCEPTED' | 'REJECTED' | 'ABORTED_BEFORE_ACCEPT'; reason: string | null; useRef: string | null;
+};
+export type SkillUseRecord = {
+  instructionKey: string; timeMs: number; kind: 'STARTED' | 'RELEASED' | 'HIT' | 'COMPLETED' | 'FAILED';
+  source: string; target: string; skillKey: string; providerRef: string; processKey: string; useRef: string;
+  hitRef: string | null; reason: string | null;
+};
+export type HealingRecord = {
+  timeMs: number; source: string; target: string; abilityRef: string; operationRef: string; useRef: string | null;
+  instructionKey: string | null; rawAmount: number; healingAfterDone: number; healingAfterModifiers: number;
+  actualHealing: number; overheal: number; hpBefore: number; hpAfter: number;
+};
 export type BudgetCause = 'max_events' | 'max_commands_per_event' | 'max_chain_depth' | 'max_queue_events'
   | 'max_process_instances' | 'max_skill_hits' | 'max_basic_attacks' | 'max_use_trigger_ledger';
 export type ExecutionSummary = {
@@ -700,7 +738,8 @@ export type DamageBreakdown = {
 };
 export type DamageRecord = Omit<DamageBreakdown, 'damageCount'> & {
   providerActivatedAtMs?: number;
-  damageId: number; attackIndex: number; useRef: string; timeMs: number; castInstanceId: number; operationPath: string;
+  damageId: number; attackIndex: number | null; useRef: string; instructionKey?: string | null; hitRef?: string | null;
+  timeMs: number; castInstanceId: number; operationPath: string;
   rawAmount: number; hpBefore: number; hpAfter: number;
   sourceHpBefore: number | null; sourceHpAfter: number | null;
   eligible?: boolean; policy?: string; baseRawAmount?: number; originalCritChance?: number;
@@ -710,6 +749,9 @@ export type DamageRecord = Omit<DamageBreakdown, 'damageCount'> & {
   effectiveResistance?: number; resistanceFactor?: number; modifiers?: Record<string, unknown>[];
 };
 export type RecordingSummary = {
+  skillActionRecordCount?: number; returnedSkillActionRecords?: number; droppedSkillActionRecords?: number; skillActionRecordsTruncated?: boolean;
+  skillUseRecordCount?: number; returnedSkillUseRecords?: number; droppedSkillUseRecords?: number; skillUseRecordsTruncated?: boolean;
+  healingRecordCount?: number; returnedHealingRecords?: number; droppedHealingRecords?: number; healingRecordsTruncated?: boolean;
   attackRecordCount: number; returnedAttackRecords: number; droppedAttackRecords: number; attackRecordsTruncated: boolean;
   damageRecordCount: number; returnedDamageRecords: number; droppedDamageRecords: number; damageRecordsTruncated: boolean;
   mechanicRecordCount: number; returnedMechanicRecords: number; droppedMechanicRecords: number; mechanicRecordsTruncated: boolean;
@@ -770,6 +812,9 @@ export type DoneResult = {
   attackRecords?: AttackRecord[];
   damageRecords?: DamageRecord[];
   mechanicRecords?: MechanicRecord[];
+  skillActionRecords?: SkillActionRecord[];
+  skillUseRecords?: SkillUseRecord[];
+  healingRecords?: HealingRecord[];
   recording?: RecordingSummary;
 };
 

@@ -448,7 +448,7 @@ export function assessContinuousAttackResult(
   const vampHealing = { source: 0, target: 0 };
   const hpLoss = { source: 0, target: 0 };
   const lastDamageByAttack = new Map<number, number>();
-  damages.forEach((row, index) => { if (row.attackIndex > 0) lastDamageByAttack.set(row.attackIndex, index); });
+  damages.forEach((row, index) => { if (row.attackIndex !== null && row.attackIndex > 0) lastDamageByAttack.set(row.attackIndex, index); });
   let time = 0;
   let attackIndex = 0;
   damages.forEach((row, index) => {
@@ -456,13 +456,13 @@ export function assessContinuousAttackResult(
     const target = row.target as 'source' | 'target';
     check(close(row.sourceHpBefore as number, hp[source]) && close(row.hpBefore, hp[target]),
       'damageRecords', '来源受量或对手扣血缺少连续可靠生命链');
-    check(row.timeMs >= time && (row.attackIndex === 0 || row.attackIndex >= attackIndex), 'damageRecords', '已提交伤害顺序不一致');
+    check(row.attackIndex !== null && row.timeMs >= time && (row.attackIndex === 0 || row.attackIndex >= attackIndex), 'damageRecords', '连续普攻伤害刀号或已提交顺序不一致');
     hp[target] = row.hpAfter; hp[source] = row.sourceHpAfter as number;
     vampHealing[source] += (row.sourceHpAfter as number) - (row.sourceHpBefore as number);
     hpLoss[target] += row.actualHpLoss;
-    time = row.timeMs; if (row.attackIndex > 0) attackIndex = row.attackIndex;
-    const attack = attacks[row.attackIndex - 1];
-    if (!recording.damageRecordsTruncated && attack && lastDamageByAttack.get(row.attackIndex) === index) {
+    time = row.timeMs; if (row.attackIndex !== null && row.attackIndex > 0) attackIndex = row.attackIndex;
+    const attack = row.attackIndex === null ? undefined : attacks[row.attackIndex - 1];
+    if (!recording.damageRecordsTruncated && attack && row.attackIndex !== null && lastDamageByAttack.get(row.attackIndex) === index) {
       check(close(attack.sourceHpAfter, hp.source) && close(attack.targetHpAfter, hp.target), 'attackRecords',
         '同步尾部检查点与逐笔来源受量、对手扣血不一致');
     }
@@ -484,7 +484,7 @@ export function assessContinuousAttackResult(
       check(finalTime === firstDeath.timeMs && attacks.every(attack => attack.startAtMs <= firstDeath.timeMs),
         'summary.execution', '真实死亡以后仍推进观察时刻或启动攻击');
       check(damages.slice(firstDeathIndex + 1).every(row => row.timeMs === firstDeath.timeMs
-        && (firstDeath.attackIndex > 0 ? row.attackIndex === firstDeath.attackIndex
+        && (firstDeath.attackIndex !== null && firstDeath.attackIndex > 0 ? row.attackIndex === firstDeath.attackIndex
           : row.attackIndex === 0 && row.castInstanceId === firstDeath.castInstanceId)),
       'damageRecords', '真实死亡以后出现新的攻击或独立周期，而非原同步提交尾部');
     }

@@ -30,7 +30,7 @@ export function simulationSample(gameId = 'demo'): SimulationSnapshot {
   });
   return {
     gameId, selection: { sourceCharacterKey: 'actor_a', sourceLevel: 1, targetCharacterKey: 'actor_b', targetLevel: 1,
-      basicAttackSkillKey: skillKey, basicAttackLevel: 1, sourceEquipmentKeys: [], targetEquipmentKeys: [],
+      basicAttackSkillKey: skillKey, basicAttackLevel: 1, plannedSkills: [], sourceEquipmentKeys: [], targetEquipmentKeys: [],
       sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: [] },
     source: actor('actor_a', '样例A', sourceValues), target: actor('actor_b', '样例B', targetValues),
     skillConfigurations: [{

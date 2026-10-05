@@ -15,6 +15,7 @@ import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerAction, type SkillTri
 import type { FormulaExpressionNode } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
+import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import { executableEquipmentRelations, validateSimulationSkillSourceManifest, type TriggeredSkillSourceDescription } from './simulationSkillSourceDescription';
 import {
   compileFormulaExpression, compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
@@ -161,6 +162,23 @@ function ordered<T extends { sortOrder: number }>(rows: T[], path: string): T[] 
   return rows.map((row, index) => ({ row, index }))
     .sort((left, right) => left.row.sortOrder - right.row.sortOrder || left.index - right.index).map(entry => entry.row);
 }
+
+export function compileSimulationDamageFormula(snapshot: SimulationSnapshot, damageKey: string): GenericDamageTypeFormula {
+  stableKey(damageKey, `catalogs.damageTypes.${damageKey}`);
+  const entries = snapshot.catalogs.damageTypes.filter(row => row.type.damageTypeKey === damageKey);
+  const authored = entries[0];
+  if (entries.length !== 1 || !authored || authored.type.gameId !== snapshot.gameId || authored.type.status !== 'ENABLED'
+    || authored.type.formulaConfigured !== true) fail(`catalogs.damageTypes.${damageKey}`, '缺少唯一已启用的真实五阶段防御公式');
+  exact(authored.type, ['gameId', 'damageTypeKey', 'status', 'formulaConfigured', ...METADATA], `catalogs.damageTypes.${damageKey}.type`);
+  exact(authored.formula, ['gameId', 'damageTypeKey', 'formula', 'updatedAt'], `catalogs.damageTypes.${damageKey}.formula`);
+  if (authored.formula.gameId !== snapshot.gameId || authored.formula.damageTypeKey !== damageKey) fail(`catalogs.damageTypes.${damageKey}.formula`, '防御公式归属不一致');
+  exact(authored.formula.formula, DAMAGE_TYPE_FORMULA_STAGE_KEYS, `damageTypes.${damageKey}.formula`);
+  const formula = {} as GenericDamageTypeFormula['formula'];
+  for (const [index, stage] of DAMAGE_TYPE_FORMULA_STAGE_KEYS.entries()) {
+    formula[stage] = compileDefense(authored.formula.formula[stage], `damageTypes.${damageKey}.formula.${stage}`, index);
+  }
+  return { damageType: `damage/${damageKey}`, formula };
+}
 function combine(operation: 'min' | 'max', expressions: GenericFormulaExpr[]): GenericFormulaExpr {
   if (!expressions.length) fail('conditionGroups', '条件组不能为空');
   return expressions.reduce((left, right) => ({ op: operation, args: [left, right] }));
@@ -291,22 +309,13 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
     const damageType = `damage/${damageKey}`;
     types.set(damageType, 'damage');
     if (rules.damageTypeFormulas!.some(row => row.damageType === damageType)) return damageType;
-    const entries = snapshot.catalogs.damageTypes.filter(row => row.type.damageTypeKey === damageKey);
-    const authored = entries[0];
-    if (entries.length !== 1 || !authored || authored.type.gameId !== snapshot.gameId || authored.type.status !== 'ENABLED'
-      || authored.type.formulaConfigured !== true) fail(`catalogs.damageTypes.${damageKey}`, '缺少唯一已启用的真实五阶段防御公式');
-    exact(authored.type, ['gameId', 'damageTypeKey', 'status', 'formulaConfigured', ...METADATA], `catalogs.damageTypes.${damageKey}.type`);
-    exact(authored.formula, ['gameId', 'damageTypeKey', 'formula', 'updatedAt'], `catalogs.damageTypes.${damageKey}.formula`);
-    if (authored.formula.gameId !== snapshot.gameId || authored.formula.damageTypeKey !== damageKey) fail(`catalogs.damageTypes.${damageKey}.formula`, '防御公式归属不一致');
-    exact(authored.formula.formula, DAMAGE_TYPE_FORMULA_STAGE_KEYS, `damageTypes.${damageKey}.formula`);
-    const formula = {} as GenericDamageTypeFormula['formula'];
+    const compiled = compileSimulationDamageFormula(snapshot, damageKey);
     const index = rules.damageTypeFormulas!.length;
-    for (const [stageIndex, stage] of DAMAGE_TYPE_FORMULA_STAGE_KEYS.entries()) {
+    for (const stage of DAMAGE_TYPE_FORMULA_STAGE_KEYS) {
       const path = `damageTypes.${damageKey}.formula.${stage}`;
-      formula[stage] = compileDefense(authored.formula.formula[stage], path, stageIndex);
       cover(path, `rules.damageTypeFormulas[${index}].formula.${stage}`);
     }
-    rules.damageTypeFormulas!.push({ damageType, formula });
+    rules.damageTypeFormulas!.push(compiled);
     cover(`catalogs.damageTypes.${damageKey}.type`, `typeCatalog.types[${damageType}]`);
     return damageType;
   };
@@ -1027,7 +1036,9 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (source.allowedRootKeys && !source.allowedRootKeys.includes(rule.ruleKey)) fail(rulePath, '必要闭包的事件尾规则尚未接入，不能编译自然根后忽略尾部');
           if (event === 'SOURCE_INITIALIZED' && rule.oncePerUse !== null) fail(rulePath, '初始化没有真实攻击使用身份，不能配置同次使用额度');
           const eventTypes: Record<string, string> = { BASIC_ATTACK_START: 'event/basic_attack_start', ATTACK_LINK_APPLIED: 'event/attack_link_applied',
-            SKILL_USED: 'event/basic_attack_start', SKILL_HIT: 'event/basic_attack_hit', BASIC_ATTACK_HIT: 'event/basic_attack_hit', HIT_LINK_APPLIED: 'event/hit_link_applied',
+            SKILL_USED: snapshot.selection.basicAttackSkillKey === null ? 'event/ability_started' : 'event/basic_attack_start',
+            SKILL_HIT: snapshot.selection.basicAttackSkillKey === null ? 'event/skill_hit' : 'event/basic_attack_hit',
+            BASIC_ATTACK_HIT: 'event/basic_attack_hit', HIT_LINK_APPLIED: 'event/hit_link_applied',
             DAMAGE_TAKEN: 'event/damage_taken', BASIC_ATTACK_RECEIVED: 'event/basic_attack_received', DAMAGE_DEALT: 'event/damage_instance',
             SOURCE_INITIALIZED: 'event/source_initialized' };
           const eventType = eventTypes[event];
@@ -1053,12 +1064,21 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           } else if (event === 'SKILL_USED' || event === 'SKILL_HIT') {
             exact(rule.eventSource.detail, event === 'SKILL_USED' ? ['sourceSkillKey', 'useKind', 'castPhase'] : ['sourceSkillKey'], `${rulePath}.eventSource.detail`);
             const detail = record(rule.eventSource.detail, `${rulePath}.eventSource.detail`);
-            if (side !== 'source' || detail.sourceSkillKey !== null && detail.sourceSkillKey !== snapshot.selection.basicAttackSkillKey
+            const drivenSkillKey = snapshot.selection.basicAttackSkillKey ?? snapshot.selection.plannedSkills[0]?.skillKey;
+            if (side !== 'source' || !drivenSkillKey || detail.sourceSkillKey !== null && detail.sourceSkillKey !== drivenSkillKey
               || event === 'SKILL_USED' && (detail.castPhase !== 'INITIAL' || !['ANY', 'ACTIVE'].includes(String(detail.useKind)))) {
-              fail(rulePath, '本期仅接入所选真实普攻自身的开始或命中，不自动执行主动兄弟');
+              fail(rulePath, '只监听本次真实驱动技能的成功使用或命中，不自动执行主动兄弟');
             }
-            const identity = `ability/skill/${snapshot.selection.basicAttackSkillKey}`;
+            const identity = `ability/skill/${drivenSkillKey}`;
             types.set(identity, 'ability'); matcher.all.push(identity);
+            if (snapshot.selection.basicAttackSkillKey === null && event === 'SKILL_USED') {
+              const plan = snapshot.selection.plannedSkills[0]!;
+              const identities = snapshot.source.skillSources.map(source => simulationSkillSourceIdentity(source.origin, source.skillKey)).sort();
+              const index = identities.indexOf(simulationSkillSourceIdentity(plan.origin, plan.skillKey));
+              if (index < 0) fail(rulePath, '成功首次事件缺少真实主动来源');
+              const initialType = `ability/initial_cast/source/source_natural_skill_${index}`;
+              types.set(initialType, 'ability'); matcher.all.push(initialType);
+            }
           } else if (event === 'HIT_LINK_APPLIED' || event === 'ATTACK_LINK_APPLIED') {
             exact(rule.eventSource.detail, ['sourceSkillKey'], `${rulePath}.eventSource.detail`);
             const sourceSkillKey = record(rule.eventSource.detail, `${rulePath}.eventSource.detail`).sourceSkillKey;

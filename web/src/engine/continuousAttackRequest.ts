@@ -30,6 +30,7 @@ export async function continuousAttackRequest(
     fail('compileRequest.combatants', '连续普攻需要唯一攻击方与目标。');
   }
   const binding = prepared.basicAttackBinding;
+  if (!binding || snapshot.selection.plannedSkills.length) fail('continuous.basicAttack', '连续普攻入口不接受6A主动计划');
   const startBinding = simulationAbility(input, binding.startAbilityRef);
   const hitBinding = simulationAbility(input, binding.hitAbilityRef);
   const controlBinding = simulationAbility(input, binding.initialControlAbilityRef);

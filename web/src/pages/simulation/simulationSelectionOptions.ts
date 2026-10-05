@@ -10,6 +10,7 @@ export type SelectionContext = { apiBaseUrl: string; gameId: string; token: stri
 export type SimulationEntityOption = { key: string; name: string } &
   ({ kind: 'character' } | { kind: 'equipment' } | { kind: 'skill'; maxLevel: number });
 export type SimulationImageLoader = (option: SimulationEntityOption) => Promise<string | null>;
+export type SimulationCharacterSkillOption = SimulationEntityOption & { kind: 'skill'; basicAttack: boolean };
 
 function checkActive(signal: AbortSignal) {
   if (signal.aborted) throw new DOMException('请求已取消', 'AbortError');
@@ -47,13 +48,13 @@ export async function loadEquipmentOptions(context: SelectionContext, signal: Ab
   return data.items.map(row => ({ key: row.equipmentKey, name: row.name, kind: 'equipment' }));
 }
 
-export async function loadBasicAttackOptions(
+export async function loadCharacterSkillOptions(
   context: SelectionContext, characterKey: string, signal: AbortSignal
-): Promise<SimulationEntityOption[]> {
+): Promise<SimulationCharacterSkillOption[]> {
   const { data } = await listCharacterSkillRelations(context.apiBaseUrl, context.gameId, context.token, { characterKey }, signal);
   checkActive(signal);
   const relations = data.items.filter(row => row.skillStatus === 'ENABLED');
-  const options: SimulationEntityOption[] = [];
+  const options: SimulationCharacterSkillOption[] = [];
   // 只读攻击方挂载的技能；详情请求每批最多四个，不读取全游戏技能。
   for (let index = 0; index < relations.length; index += 4) {
     checkActive(signal);
@@ -69,12 +70,18 @@ export async function loadBasicAttackOptions(
     }));
     checkActive(signal);
     for (const skill of skills) {
-      if (skill.status === 'ENABLED' && skill.skillCategoryKeys.includes('basic_attack')) {
-        options.push({ key: skill.skillKey, name: skill.name, kind: 'skill', maxLevel: skill.maxLevel });
+      if (skill.status === 'ENABLED') {
+        options.push({ key: skill.skillKey, name: skill.name, kind: 'skill', maxLevel: skill.maxLevel,
+          basicAttack: skill.skillCategoryKeys.includes('basic_attack') });
       }
     }
   }
   return options;
+}
+
+export async function loadBasicAttackOptions(context: SelectionContext, characterKey: string, signal: AbortSignal): Promise<SimulationEntityOption[]> {
+  return (await loadCharacterSkillOptions(context, characterKey, signal)).filter(option => option.basicAttack)
+    .map(({ basicAttack: _basicAttack, ...option }) => option);
 }
 
 export function createSimulationImageLoader(context: SelectionContext, signal: AbortSignal): SimulationImageLoader {

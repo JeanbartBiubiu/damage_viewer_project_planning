@@ -276,7 +276,7 @@ describe('processAdapter', () => {
       { resourceKey: 'mana', amount: { op: 'const', value: 20 } }
     ]);
     const amounts = adapted.provider.processes![0]!.momentOperations[0]!.operations.map((operation) => operation.amount);
-    expect(amounts).toEqual([{ op: 'const', value: 5 }, { op: 'const', value: 5 }]);
+    expect(amounts).toEqual([{ op: 'const', value: 5 }, { op: 'const', value: -20 }, { op: 'const', value: -40 }, { op: 'const', value: 5 }]);
   });
 
   it('不同失败筛选穿插时仍保留绑定A、绑定B、规则C的作者顺序', () => {
@@ -301,6 +301,31 @@ describe('processAdapter', () => {
     expect(groups.flatMap((group) => group.operations.map((operation) => operation.amount))).toEqual([
       { op: 'const', value: 1000 }, { op: 'const', value: 2000 }, { op: 'const', value: 3000 }
     ]);
+  });
+
+  it.each(['PROCESS_START', 'PROCESS_COMPLETE'] as const)('忽略成本只命中特定挂接，同效果在%s的必要消费保留', momentType => {
+    const authored = program({ ignoreCastCosts: true, effects: [effect([resource('CONSUME', fixedValue(50))])] });
+    const moment = { momentType, stepKey: null, failureReason: null };
+    authored.process.effectBindings.push({ bindingKey: 'necessary_spend', effectKey: 'mana_cost', moment, sortOrder: 20 });
+    const adapted = adaptProcessProgram(authored).provider.processes[0]!;
+    expect(adapted.costs).toEqual([]);
+    expect(adapted.momentOperations).toEqual([{ moment, operations: [
+      { operation: 'resource_change', target: 'source', resourceKey: 'mana', amount: { op: 'const', value: -50 } }
+    ] }]);
+  });
+
+  it('忽略过程开始成本不删除时点规则再次执行同效果的必要消费', () => {
+    const authored = program({ ignoreCastCosts: true, effects: [effect([resource('CONSUME', fixedValue(50))])] });
+    authored.rules.push(rule({ ruleKey: 'necessary_spend', eventSource: { eventType: 'PROCESS_MOMENT',
+      detail: { processKey: 'cast', moment: complete() } }, actions: [{
+        actionKey: 'consume', name: '必要消费', actionType: 'EXECUTE_EFFECT', sortOrder: 10, targetContext: 'CURRENT_TARGET',
+        detail: { effectKey: 'mana_cost' }, runtimeInputBindings: [], resultModifiers: []
+      }] }));
+    const adapted = adaptProcessProgram(authored).provider.processes[0]!;
+    expect(adapted.costs).toEqual([]);
+    expect(adapted.momentOperations).toEqual([{ moment: complete(), operations: [
+      { operation: 'resource_change', target: 'source', resourceKey: 'mana', amount: { op: 'const', value: -50 } }
+    ] }]);
   });
 
   it('负成本不能被同资源正成本抵消，动态成本也保留逐笔表达式', () => {

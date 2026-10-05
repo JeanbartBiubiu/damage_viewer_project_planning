@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getErrorMessage } from '../../services/apiClient';
 import {
-  createSimulationImageLoader, loadBasicAttackOptions, loadCharacterOptions, loadCharacterLevelOptions, loadEquipmentOptions,
+  createSimulationImageLoader, loadCharacterSkillOptions, loadCharacterOptions, loadCharacterLevelOptions, loadEquipmentOptions,
   type SimulationImageLoader
 } from './simulationSelectionOptions';
 
@@ -43,8 +43,10 @@ export function useSimulationSelectionOptions(apiBaseUrl: string, gameId: string
   const skillScope = useMemo(() => context && characters.items.some(row => row.key === sourceKey)
     ? { context, sourceKey } : null, [context, characters.items, sourceKey]);
   const loadSkills = useCallback((signal: AbortSignal) => skillScope
-    ? loadBasicAttackOptions(skillScope.context, skillScope.sourceKey, signal) : Promise.resolve([]), [skillScope]);
-  const skills = useOptionList(skillScope, loadSkills);
+    ? loadCharacterSkillOptions(skillScope.context, skillScope.sourceKey, signal) : Promise.resolve([]), [skillScope]);
+  const boundSkills = useOptionList(skillScope, loadSkills);
+  const skills = { ...boundSkills, items: boundSkills.items.filter(option => option.basicAttack) };
+  const activeSkills = { ...boundSkills, items: boundSkills.items.filter(option => !option.basicAttack) };
   const [images, setImages] = useState<{ scope: object; load: SimulationImageLoader } | null>(null);
   useEffect(() => {
     if (!context) return;
@@ -52,5 +54,5 @@ export function useSimulationSelectionOptions(apiBaseUrl: string, gameId: string
     setImages({ scope: context, load: createSimulationImageLoader(context, controller.signal) });
     return () => controller.abort();
   }, [context]);
-  return { characters, skills, equipment, levels, imageLoader: images?.scope === context ? images.load : null };
+  return { characters, skills, activeSkills, equipment, levels, imageLoader: images?.scope === context ? images.load : null };
 }

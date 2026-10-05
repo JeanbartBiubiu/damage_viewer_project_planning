@@ -1,6 +1,6 @@
 import type { ContinuousAttackView } from './continuousAttackPresentation';
 
-const archiveFields = ['taskKind', 'adapterVersion', 'snapshot', 'snapshotDigest', 'attributeInputs', 'initialHealth', 'equipmentAssumptions', 'mechanicStateInputs',
+const archiveFields = ['taskKind', 'adapterVersion', 'snapshot', 'snapshotDigest', 'attributeInputs', 'initialHealth', 'equipmentAssumptions', 'mechanicStateInputs', 'ignoredCastCosts',
   'attackSpeedAdmission', 'compileRequest', 'runRequest', 'runInputHash', 'coverage', 'operationOrigins', 'equipmentOrigins', 'skillOrigins', 'wasm',
   'compileResult', 'runResult', 'releaseResult', 'assessment', 'outcome', 'cleanup', 'failurePhase', 'error'] as const;
 const forbiddenField = /^(?:__proto__|prototype|constructor|headers?|requests?|responses?|connection|apiBaseUrl|baseUrl|adminToken|authorization|proxyAuthorization|cookies?|password|passwd|secret|apiKey|api_key|accessToken|refreshToken|bearerToken|token|controller|client|worker|localStorage|sessionStorage)$/i;
@@ -28,6 +28,27 @@ export function buildContinuousAttackArchive(input: unknown, view: ContinuousAtt
     view: { breakdownMode: view.breakdownMode, amountMetric: view.amountMetric, timeRangeMs: [...view.timeRangeMs], dpsMode: view.dpsMode, visibleCurves: [...view.visibleCurves],
       sourceKeys: [...view.sourceKeys], damageTypes: [...view.damageTypes], attackIndex: view.attackIndex,
       selectedAttack, selectedDamageId: view.selectedDamageId } };
+}
+
+export function buildSkillActionArchive(input: unknown, timeRangeMs: [number, number]) {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('缺少冻结主动运行档案。');
+  const source = input as Record<string, unknown>;
+  return { ...Object.fromEntries(archiveFields.map(key => [key, safeBusiness(source[key], key === 'error')])),
+    displayDefinitionVersion: 1, view: { timeRangeMs: [...timeRangeMs] } };
+}
+
+export type SkillActionCsvKind = 'skillAction' | 'skillUse' | 'healing' | 'damage';
+export function buildSkillActionCsv(kind: SkillActionCsvKind, rows: ReadonlyArray<object>, inputHash: string | null,
+  timeRangeMs: [number, number], recording: unknown) {
+  const fields: Record<SkillActionCsvKind, string[]> = {
+    skillAction: ['instructionKey', 'requestedAtMs', 'actualAtMs', 'action', 'source', 'target', 'skillKey', 'bindingKey', 'providerRef', 'providerDefinitionRef', 'outcome', 'reason', 'useRef'],
+    skillUse: ['instructionKey', 'timeMs', 'kind', 'source', 'target', 'skillKey', 'providerRef', 'processKey', 'useRef', 'hitRef', 'reason'],
+    healing: ['timeMs', 'source', 'target', 'abilityRef', 'operationRef', 'useRef', 'instructionKey', 'rawAmount', 'healingAfterDone', 'healingAfterModifiers', 'actualHealing', 'overheal', 'hpBefore', 'hpAfter'],
+    damage: ['damageId', 'attackIndex', 'timeMs', 'instructionKey', 'useRef', 'hitRef', 'owner', 'source', 'target', 'abilityRef', 'operationRef', 'damageType', 'rawAmount', 'postDefenseDamage', 'shieldAbsorbed', 'actualHpLoss', 'overkillDamage', 'hpBefore', 'hpAfter']
+  };
+  const metadata = [inputHash, '仅原生已返回事实；不恢复截断记录', ...timeRangeMs, recording];
+  return '\uFEFF' + [['运行条件摘要', '导出范围', '起点毫秒', '终点毫秒', '独立记录统计', ...fields[kind]].map(csvCell).join(','),
+    ...rows.map(row => [...metadata, ...fields[kind].map(field => (row as Record<string, unknown>)[field])].map(csvCell).join(','))].join('\r\n');
 }
 export type ContinuousCsvKind = 'breakdown' | 'attack' | 'damage' | 'series';
 export type ContinuousCsvContext = {

@@ -61,7 +61,7 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
   };
   const selectDamage = (row: DamageRecord) => {
     const planKey = archive.runRequest?.driverPlan.basicAttack?.planKey;
-    if (!planKey) return;
+    if (!planKey || row.attackIndex === null) return;
     patchView({ selectedAttack: { planKey, attackIndex: row.attackIndex, useRef: row.useRef }, selectedDamageId: row.damageId });
     setShowOrigin(false);
   };

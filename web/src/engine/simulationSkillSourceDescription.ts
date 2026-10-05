@@ -29,16 +29,92 @@ function fail(path: string, message: string): never { throw new NumericAdaptatio
 
 const OWN_ATTACK_EVENTS = new Set(['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'HIT_LINK_APPLIED', 'ATTACK_LINK_APPLIED']);
 
+export function plannedSkillRuleKeys(configuration: SkillConfiguration) {
+  return configuration.triggerRules.filter(rule => {
+    const event = rule.eventSource;
+    return rule.actions.length && (event.eventType === 'SKILL_USED' && event.detail.castPhase === 'INITIAL'
+      && event.detail.sourceSkillKey === configuration.skill.skillKey
+      || event.eventType === 'SKILL_HIT' && event.detail.sourceSkillKey === configuration.skill.skillKey);
+  }).map(rule => rule.ruleKey).sort();
+}
+
+export function sourceIsPlanned(snapshot: SimulationSnapshot, side: Side, source: SimulationSkillSource) {
+  return side === 'source' && snapshot.selection.plannedSkills.some(plan =>
+    simulationSkillSourceIdentity(plan.origin, plan.skillKey) === simulationSkillSourceIdentity(source.origin, source.skillKey));
+}
+
+function activeReachableRoots(snapshot: SimulationSnapshot) {
+  const sources = (['source', 'target'] as const).flatMap(side => snapshot[side].skillSources
+    .filter(source => source.enabled && source.skillStatus === 'ENABLED' && source.skillLevel !== 0)
+    .map(source => ({ source, side, configuration: snapshot.skillConfigurations.find(row => row.skill.skillKey === source.skillKey) })));
+  const roots = new Map<string, Set<string>>();
+  const identity = (side: Side, source: SimulationSkillSource) => `${side}:${simulationSkillSourceIdentity(source.origin, source.skillKey)}`;
+  for (const entry of sources) {
+    const selected = new Set<string>();
+    for (const rule of entry.configuration?.triggerRules ?? []) {
+      const event = rule.eventSource;
+      if (!rule.actions.length) continue;
+      if (event.eventType === 'SOURCE_INITIALIZED' || entry.side === 'source'
+        && (event.eventType === 'SKILL_HIT' || event.eventType === 'SKILL_USED' && event.detail.castPhase === 'INITIAL')
+        && (event.detail.sourceSkillKey === null || snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey))) selected.add(rule.ruleKey);
+    }
+    roots.set(identity(entry.side, entry.source), selected);
+  }
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const producer of sources) {
+      const selected = roots.get(identity(producer.side, producer.source))!;
+      if (!producer.configuration || !selected.size) continue;
+      const closure = selectSimulationSkillSourceClosure(producer.configuration, [...selected]).configuration;
+      for (const subscriber of sources) for (const rule of subscriber.configuration?.triggerRules ?? []) {
+        const subscribed = roots.get(identity(subscriber.side, subscriber.source))!;
+        if (subscribed.has(rule.ruleKey) || !rule.actions.length) continue;
+        const event = rule.eventSource;
+        if (!['DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN', 'ATTACK_LINK_APPLIED', 'HIT_LINK_APPLIED'].includes(event.eventType)) continue;
+        const detail = event.detail as Record<string, unknown>;
+        if (detail.sourceSkillKey != null && detail.sourceSkillKey !== producer.source.skillKey) continue;
+        const possible = closure.effects.some(effect => effect.results.some(result => {
+          if (event.eventType === 'ATTACK_LINK_APPLIED' || event.eventType === 'HIT_LINK_APPLIED') return subscriber.side === producer.side
+            && result.resultType === (event.eventType === 'ATTACK_LINK_APPLIED' ? 'ATTACK_LINK_APPLICATION' : 'HIT_LINK_APPLICATION');
+          if (result.resultType !== 'DAMAGE') return false;
+          if (event.eventType === 'DAMAGE_DEALT' && subscriber.side !== producer.side) return false;
+          const recipient = result.target === 'SOURCE' ? producer.side : producer.side === 'source' ? 'target' : 'source';
+          if (event.eventType !== 'DAMAGE_DEALT' && subscriber.side !== recipient) return false;
+          return (['damageTypeKey', 'deliveryKind', 'originKind'] as const).every(field =>
+            detail[field] == null || detail[field] === 'ANY' || detail[field] === result.detail[field]);
+        }));
+        if (possible) { subscribed.add(rule.ruleKey); changed = true; }
+      }
+    }
+  }
+  return roots;
+}
+
 export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: SkillConfiguration, side: Side) {
+  if (snapshot.selection.basicAttackSkillKey === null) {
+    const reachable = activeReachableRoots(snapshot);
+    const keys = new Set(snapshot[side].skillSources.filter(source => source.skillKey === configuration.skill.skillKey)
+      .flatMap(source => [...(reachable.get(`${side}:${simulationSkillSourceIdentity(source.origin, source.skillKey)}`) ?? [])]));
+    const planned = snapshot.selection.plannedSkills.some(plan => plan.skillKey === configuration.skill.skillKey);
+    return configuration.triggerRules.filter(rule => keys.has(rule.ruleKey)
+      && !(planned && plannedSkillRuleKeys(configuration).includes(rule.ruleKey))).map(rule => rule.ruleKey).sort();
+  }
   const allSides = new Set(['SOURCE_INITIALIZED', 'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN']);
   return configuration.triggerRules.filter(rule => {
     if (!rule.actions.length) return false;
     const event = rule.eventSource;
     if (allSides.has(event.eventType)) return true;
-    if (OWN_ATTACK_EVENTS.has(event.eventType)) return side === 'source';
-    if (event.eventType === 'BASIC_ATTACK_RECEIVED') return side === 'target';
+    if (OWN_ATTACK_EVENTS.has(event.eventType)) {
+      if (side !== 'source') return false;
+      return true;
+    }
+    if (event.eventType === 'BASIC_ATTACK_RECEIVED') return side === 'target' && snapshot.selection.basicAttackSkillKey !== null;
     if (event.eventType === 'SKILL_USED' || event.eventType === 'SKILL_HIT') {
-      return side === 'source' && (event.detail.sourceSkillKey === null || event.detail.sourceSkillKey === snapshot.selection.basicAttackSkillKey)
+      if (snapshot.selection.plannedSkills.some(plan => plan.skillKey === configuration.skill.skillKey)
+        && event.detail.sourceSkillKey === configuration.skill.skillKey) return false;
+      return side === 'source' && (event.detail.sourceSkillKey === null || event.detail.sourceSkillKey === snapshot.selection.basicAttackSkillKey
+        || snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey))
         && (event.eventType !== 'SKILL_USED' || event.detail.castPhase === 'INITIAL');
     }
     return false;
@@ -88,7 +164,7 @@ function sourceRelations(snapshot: SimulationSnapshot, side: Side) {
 export function validateSimulationSkillSourceManifest(snapshot: SimulationSnapshot) {
   const configurations = new Map(snapshot.skillConfigurations.map(row => [row.skill.skillKey, row]));
   if (configurations.size !== snapshot.skillConfigurations.length) fail('skillConfigurations', '完整作者配置不能重复');
-  const allowedConfigurations = new Set([snapshot.selection.basicAttackSkillKey,
+  const allowedConfigurations = new Set([snapshot.selection.basicAttackSkillKey, ...snapshot.selection.plannedSkills.map(plan => plan.skillKey),
     ...snapshot.references.map(row => row.targetSkillKey).filter(Boolean)]);
   for (const side of ['source', 'target'] as const) {
     if (!Array.isArray(snapshot[side].skillSources) || !Array.isArray(snapshot[side].selectedBuilds)) {
@@ -120,13 +196,15 @@ export function validateSimulationSkillSourceManifest(snapshot: SimulationSnapsh
       if (source.enabled && source.skillStatus === 'ENABLED' && source.skillLevel !== 0 && configuration) {
         const selectedPrimary = side === 'source' && source.origin.kind === 'CHARACTER'
           && source.skillKey === snapshot.selection.basicAttackSkillKey;
-        const roots = naturalRuleKeys(snapshot, configuration, side);
+        const planned = sourceIsPlanned(snapshot, side, source);
+        const roots = [...naturalRuleKeys(snapshot, configuration, side), ...(planned ? plannedSkillRuleKeys(configuration) : [])];
+        if (planned && (source.inactiveReason !== null || !roots.length)) fail(`${side}.skillSources.${source.skillKey}`, '计划来源必须具备真实已启用首次入口');
         if (source.inactiveReason === 'NO_AUTONOMOUS_ATTACK') {
           const undrivenPrimary = source.origin.kind === 'CHARACTER' && !selectedPrimary
             && configuration.skill.skillCategoryKeys.includes('basic_attack')
             && roots.every(key => OWN_ATTACK_EVENTS.has(configuration.triggerRules.find(rule => rule.ruleKey === key)!.eventSource.eventType))
             && onlyUndrivenAttackRoots(configuration);
-          const undrivenNatural = side === 'target' && source.origin.kind !== 'EQUIPMENT'
+          const undrivenNatural = (side === 'target' || snapshot.selection.basicAttackSkillKey === null) && source.origin.kind !== 'EQUIPMENT'
             && roots.length === 0 && onlyUndrivenAttackRoots(configuration);
           if (selectedPrimary || source.enabledRuleKeys.length || !undrivenPrimary && !undrivenNatural) {
             fail(`${side}.skillSources.${source.skillKey}`, '无自主普攻排除原因不能隐藏真实自然入口或所选主体，必须是本场不驱动的真实攻击来源');
@@ -144,6 +222,14 @@ export function validateSimulationSkillSourceManifest(snapshot: SimulationSnapsh
     }
     if (actual.size !== expected.size) fail(`${side}.skillSources`, '默认来源不能被过滤为部分绑定');
     if (settings.some(row => !expected.has(simulationSkillSourceIdentity(row.origin, row.skillKey)))) fail(`selection.${side}SkillSettings`, '覆盖设置不能授予额外未绑定技能');
+  }
+  for (const plan of snapshot.selection.plannedSkills) {
+    const source = snapshot.source.skillSources.find(row => sourceIsPlanned(snapshot, 'source', row)
+      && simulationSkillSourceIdentity(row.origin, row.skillKey) === simulationSkillSourceIdentity(plan.origin, plan.skillKey));
+    if (!source || !source.enabled || source.skillStatus !== 'ENABLED' || source.skillLevel !== plan.skillLevel
+      || plan.origin.characterKey !== snapshot.source.character.characterKey || plan.skillLevel < 1) {
+      fail('selection.plannedSkills', '主动计划只能使用攻击方真实绑定、已开启且已学的同等级来源');
+    }
   }
   for (const configuration of snapshot.skillConfigurations) if (!allowedConfigurations.has(configuration.skill.skillKey)
     || configuration.skill.gameId !== snapshot.gameId) fail('skillConfigurations', '配置集合只能包含默认来源及实际只读依赖');

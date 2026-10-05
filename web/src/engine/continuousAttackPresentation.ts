@@ -31,7 +31,7 @@ export function damageMatchesSource(row: DamageBreakdown | DamageRecord, view: C
 }
 export function filterContinuousPresentation(assessment: ContinuousAttackAssessment, view: ContinuousAttackView) {
   const within = (timeMs: number) => timeMs >= view.timeRangeMs[0] && timeMs <= view.timeRangeMs[1];
-  const attackMatches = (attackIndex: number) => view.attackIndex === null || view.attackIndex === attackIndex;
+  const attackMatches = (attackIndex: number | null) => view.attackIndex === null || view.attackIndex === attackIndex;
   const attackRows = assessment.attackRecords.filter(row => within(row.startAtMs) && attackMatches(row.attackIndex));
   const damageRows = assessment.damageRecords.filter(row => within(row.timeMs) && attackMatches(row.attackIndex) && damageMatchesSource(row, view));
   const breakdownRows = assessment.damageBreakdown.filter(row => damageMatchesSource(row, view));

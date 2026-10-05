@@ -42,13 +42,21 @@ export type SimulationSkillSource = {
 
 export type SimulationSelectedBuild = { definition: BuildDefinition; configuration: BuildConfiguration };
 
+export type SimulationPlannedSkill = {
+  origin: Extract<SimulationSkillOrigin, { kind: 'CHARACTER' }>;
+  skillKey: string;
+  skillLevel: number;
+  phaseKinds: ['INITIAL'];
+};
+
 export type SimulationSelection = {
   sourceCharacterKey: string;
   sourceLevel: number;
   targetCharacterKey: string;
   targetLevel: number;
-  basicAttackSkillKey: string;
-  basicAttackLevel: number;
+  basicAttackSkillKey: string | null;
+  basicAttackLevel: number | null;
+  plannedSkills: SimulationPlannedSkill[];
   sourceEquipmentKeys: string[];
   targetEquipmentKeys: string[];
   sourceBuildConfigurations: BuildConfiguration[];

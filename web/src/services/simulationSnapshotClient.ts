@@ -7,8 +7,7 @@ import type {
 
 const KEY = /^[a-z][a-z0-9_]{0,63}$/;
 const selectionKeys = [
-  'sourceCharacterKey', 'sourceLevel', 'targetCharacterKey', 'targetLevel',
-  'basicAttackSkillKey', 'basicAttackLevel'
+  'sourceCharacterKey', 'sourceLevel', 'targetCharacterKey', 'targetLevel'
 ] as const;
 const equipmentSelectionKeys = ['sourceEquipmentKeys', 'targetEquipmentKeys'] as const;
 const inactiveReasons = ['GLOBAL_DISABLED', 'SCENE_DISABLED', 'UNLEARNED', 'NO_AUTONOMOUS_ATTACK',
@@ -105,12 +104,26 @@ function skillSettings(value: unknown, path: string): SimulationSkillSetting[] {
 
 export function normalizeSimulationSelection(value: SimulationSelection): SimulationSelection {
   const selection = exactRecord(value, [...selectionKeys, ...equipmentSelectionKeys, 'sourceBuildConfigurations',
-    'targetBuildConfigurations', 'sourceSkillSettings', 'targetSkillSettings'], 'selection');
+    'targetBuildConfigurations', 'sourceSkillSettings', 'targetSkillSettings', 'basicAttackSkillKey', 'basicAttackLevel', 'plannedSkills'], 'selection');
   const result = {} as SimulationSelection;
   for (const name of selectionKeys) {
     if (name.endsWith('Key')) Object.assign(result, { [name]: key(selection[name], `selection.${name}`) });
     else Object.assign(result, { [name]: integer(selection[name], 1, `selection.${name}`) });
   }
+  if ((selection.basicAttackSkillKey === null) !== (selection.basicAttackLevel === null)) bad('selection.basicAttack');
+  result.basicAttackSkillKey = selection.basicAttackSkillKey === null ? null : key(selection.basicAttackSkillKey, 'selection.basicAttackSkillKey');
+  result.basicAttackLevel = selection.basicAttackLevel === null ? null : integer(selection.basicAttackLevel, 1, 'selection.basicAttackLevel');
+  const plans = rows(selection.plannedSkills, 'selection.plannedSkills');
+  if (plans.length > 16) bad('selection.plannedSkills');
+  result.plannedSkills = sortedUnique(plans.map((plan, index) => {
+    const path = `selection.plannedSkills[${index}]`;
+    exactRecord(plan, ['origin', 'skillKey', 'skillLevel', 'phaseKinds'], path);
+    const source = origin(plan.origin, `${path}.origin`);
+    if (source.kind !== 'CHARACTER' || source.characterKey !== result.sourceCharacterKey) bad(`${path}.origin`);
+    if (!Array.isArray(plan.phaseKinds) || plan.phaseKinds.length !== 1 || plan.phaseKinds[0] !== 'INITIAL') bad(`${path}.phaseKinds`);
+    return { origin: source, skillKey: key(plan.skillKey, `${path}.skillKey`),
+      skillLevel: integer(plan.skillLevel, 1, `${path}.skillLevel`), phaseKinds: ['INITIAL'] as ['INITIAL'] };
+  }), plan => simulationSkillSourceIdentity(plan.origin, plan.skillKey), 'selection.plannedSkills');
   for (const side of ['source', 'target'] as const) {
     result[`${side}EquipmentKeys`] = normalizeEquipmentKeys(selection[`${side}EquipmentKeys`], `selection.${side}EquipmentKeys`);
     result[`${side}BuildConfigurations`] = buildConfigurations(selection[`${side}BuildConfigurations`], `selection.${side}BuildConfigurations`);
@@ -125,6 +138,11 @@ export function normalizeSimulationSelection(value: SimulationSelection): Simula
       if (side === 'source' && source.kind === 'CHARACTER' && setting.skillKey === result.basicAttackSkillKey
         && setting.skillLevel !== undefined && setting.skillLevel !== result.basicAttackLevel) bad('selection.sourceSkillSettings.skillLevel');
     }
+  }
+  for (const plan of result.plannedSkills) {
+    const setting = result.sourceSkillSettings.find(row => simulationSkillSourceIdentity(row.origin, row.skillKey)
+      === simulationSkillSourceIdentity(plan.origin, plan.skillKey));
+    if (setting && (!setting.enabled || setting.skillLevel !== undefined && setting.skillLevel !== plan.skillLevel)) bad('selection.plannedSkills');
   }
   return result;
 }
@@ -255,7 +273,7 @@ export function validateSimulationSnapshot(
       if (JSON.stringify(selection[name]) !== JSON.stringify(expected[name])) bad(`selection.${name}`);
     }
   }
-  const expectedSkills = new Set([expected.basicAttackSkillKey]);
+  const expectedSkills = new Set<string>(expected.basicAttackSkillKey === null ? [] : [expected.basicAttackSkillKey]);
   const equipmentAttributeKeys = new Set<string>();
   const sourceRows: Record<string, unknown>[] = [];
   for (const side of ['source', 'target'] as const) {
@@ -287,9 +305,10 @@ export function validateSimulationSnapshot(
         || !['ENABLED', 'DISABLED'].includes(String(relation.skillStatus))) bad(`${side}.attachedSkills`);
       seen.add(skillKey);
       addBinding(binding(relation, { kind: 'CHARACTER', characterKey }, `${side}.attachedSkills`,
-        side === 'source' && skillKey === expected.basicAttackSkillKey ? expected.basicAttackLevel : undefined));
+        side === 'source' && skillKey === expected.basicAttackSkillKey ? expected.basicAttackLevel! : undefined));
     }
-    if (side === 'source' && !attached.some(row => row.skillKey === expected.basicAttackSkillKey && row.skillStatus === 'ENABLED')) {
+    if (side === 'source' && expected.basicAttackSkillKey !== null
+      && !attached.some(row => row.skillKey === expected.basicAttackSkillKey && row.skillStatus === 'ENABLED')) {
       bad('source.attachedSkills');
     }
     const selectedEquipment = rows(actor.selectedEquipment, `${side}.selectedEquipment`);
@@ -385,6 +404,14 @@ export function validateSimulationSnapshot(
     if (sources.some(source => (source.enabledRuleKeys as string[]).some(ruleKey => !ruleKeys.has(ruleKey)))) bad(`skillConfigurations[${index}].triggerRules`);
   }
   if ([...expectedSkills].some(skillKey => !seenSkills.has(skillKey))) bad('skillConfigurations');
+  for (const plan of expected.plannedSkills) {
+    const source = sourceRows.find(row => row.skillKey === plan.skillKey
+      && simulationSkillSourceIdentity(origin(row.origin, 'source.skillSources.origin'), plan.skillKey)
+        === simulationSkillSourceIdentity(plan.origin, plan.skillKey));
+    const configuration = configurations.find(row => record(row.skill, 'skillConfigurations.skill').skillKey === plan.skillKey);
+    if (!source || source.enabled !== true || source.skillStatus !== 'ENABLED' || source.skillLevel !== plan.skillLevel
+      || source.inactiveReason !== null || !configuration) bad('selection.plannedSkills');
+  }
   const catalogs = record(root.catalogs, 'catalogs');
   const levels = record(catalogs.levelConfig, 'catalogs.levelConfig');
   if (levels.gameId !== gameId || !Number.isInteger(levels.minLevel) || !Number.isInteger(levels.maxLevel)

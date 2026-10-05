@@ -6,6 +6,7 @@ import { simulationSkillSourceIdentity } from '../services/simulationSkillSource
 import { validateSimulationSkillSourceManifest, type TriggeredSkillSourceDescription } from './simulationSkillSourceDescription';
 import { assembleTriggeredSkillSources } from './simulationTriggeredEquipment';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
+import { naturalRuleKeys, sourceIsPlanned } from './simulationSkillSourceDescription';
 export { executableEquipmentRelations, validateSimulationSkillSourceManifest, equipmentSourceEnabled } from './simulationSkillSourceDescription';
 import { compileNumericValue, constExpr, createNumericCompileState, NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression } from './numericAdapter';
 import type { SimulationCoverage } from './simulationAdapter';
@@ -88,7 +89,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
   const derivations: SimulationAttributeDerivation[] = [];
   const descriptions: TriggeredSkillSourceDescription[] = [];
   for (const side of ['source', 'target'] as const) {
-    const sources = [...snapshot[side].skillSources].sort((left, right) => {
+    const sources = structuredClone(snapshot[side].skillSources).sort((left, right) => {
       const leftKey = simulationSkillSourceIdentity(left.origin, left.skillKey);
       const rightKey = simulationSkillSourceIdentity(right.origin, right.skillKey);
       return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;
@@ -97,6 +98,13 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
       const root = `${side}.skillSources[${sourceIndex}]`;
       const trace: SimulationSkillOriginTrace = { ...structuredClone(source), side };
       origins.push(trace);
+      if (sourceIsPlanned(snapshot, side, source)) {
+        trace.providerRef = `${side}_natural_skill_${sourceIndex}`;
+        trace.definitionRef = `${trace.providerRef}_definition`;
+        const roots = naturalRuleKeys(snapshot, snapshot.skillConfigurations.find(row => row.skill.skillKey === source.skillKey)!, side);
+        if (!roots.length) continue;
+        source.enabledRuleKeys = roots;
+      }
       const selectedPrimary = side === 'source' && source.origin.kind === 'CHARACTER'
         && source.skillKey === snapshot.selection.basicAttackSkillKey;
       if (selectedPrimary) {

@@ -92,6 +92,9 @@ export function selectSimulationSkillSourceClosure(configuration: SkillConfigura
         || event.eventType === 'RESULT_AVAILABLE' && producedEffects.has(event.detail.effectKey)
           && configuration.effects.some(effect => effect.effectKey === event.detail.effectKey
             && effect.results.some(result => result.resultKey === event.detail.resultKey))
+        || event.eventType === 'SPELL_SHIELD_BLOCKED' && producedEffects.has(event.detail.shieldEffectKey)
+          && configuration.effects.some(effect => effect.effectKey === event.detail.shieldEffectKey
+            && effect.results.some(result => result.resultType === 'SPELL_SHIELD'))
         || event.eventType === 'INTERNAL_STATE_CHANGED' && producedStates.has(event.detail.stateKey)
           && event.detail.stateSkillKey === skillKey
         || event.eventType === 'STATUS_CHANGED' && producedStatuses.has(event.detail.statusKey);

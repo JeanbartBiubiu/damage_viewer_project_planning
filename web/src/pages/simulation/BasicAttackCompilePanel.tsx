@@ -33,6 +33,10 @@ import { fillSimulationSkillLevelDefaults } from './simulationSkillLevelDefaults
 import { SimulationMechanicInputs } from './SimulationMechanicInputs';
 import { mechanicDraftIssues, mechanicInputsFromDrafts, type SimulationMechanicDrafts } from './simulationMechanicDrafts';
 import './SimulationSkillSources.css';
+import { skillActionRequest, type PreparedSkillAction, type SkillActionInputs } from '../../engine/skillActionRequest';
+import { assessSkillActionResult, type SkillActionAssessment } from '../../engine/skillActionResult';
+import { SkillActionResult } from './SkillActionResult';
+import { simulationCastCostCandidates, type SimulationCastCostRef } from '../../engine/simulationActiveSkills';
 
 export type BasicAttackCompilePanelProps = {
   apiBaseUrl: string;
@@ -41,17 +45,18 @@ export type BasicAttackCompilePanelProps = {
   onDirtyChange: (busy: boolean) => void;
 };
 
-type SelectionDraft = Omit<SimulationSelection, 'sourceLevel' | 'targetLevel' | 'basicAttackLevel'> & {
+type SelectionDraft = Omit<SimulationSelection, 'sourceLevel' | 'targetLevel' | 'basicAttackLevel' | 'basicAttackSkillKey'> & {
   sourceLevel: number | undefined;
   targetLevel: number | undefined;
   basicAttackLevel: number | undefined;
+  basicAttackSkillKey: string;
 };
 type Inspection = ReturnType<typeof inspectSimulationSnapshot>;
 type PreparedSimulation = Awaited<ReturnType<typeof prepareSimulation>>;
 type AttributeDrafts = { source: Record<string, number | undefined>; target: Record<string, number | undefined> };
 type InitialHealthDraft = { source: number | undefined; target: number | undefined };
 type TaskPhase = 'idle' | 'reading' | 'preparing' | 'compiling' | 'running' | 'releasing';
-type TaskKind = 'snapshot' | 'compile' | 'single_attack' | 'continuous_attack';
+type TaskKind = 'snapshot' | 'compile' | 'single_attack' | 'continuous_attack' | 'skill_action';
 type Cleanup = 'not_needed' | 'released' | 'worker_destroyed' | 'release_failed';
 type Task = {
   kind: TaskKind;
@@ -70,6 +75,8 @@ type Task = {
   assessment: SingleAttackAssessment | null;
   continuousPrepared: PreparedContinuousAttack | null;
   continuousAssessment: ContinuousAttackAssessment | null;
+  skillPrepared: PreparedSkillAction | null;
+  skillAssessment: SkillActionAssessment | null;
   cleanup: Cleanup;
 };
 type CompileArchive = {
@@ -83,6 +90,7 @@ type CompileArchive = {
   initialHealth: SimulationInitialHealth;
   equipmentAssumptions: SimulationEquipmentAssumption[];
   mechanicStateInputs: PreparedSimulation['mechanicStateInputs'];
+  ignoredCastCosts: SimulationCastCostRef[];
   compileRequest: PreparedSimulation['compileRequest'];
   coverage: SimulationCoverage[];
   operationOrigins: PreparedSimulation['operationOrigins'];
@@ -104,7 +112,10 @@ export type ContinuousAttackArchive = Omit<SingleAttackArchive, 'taskKind' | 'as
   taskKind: 'continuous_attack'; assessment: ContinuousAttackAssessment | null;
   runInputHash: string | null; attackSpeedAdmission: PreparedContinuousAttack['attackSpeedAdmission'] | null;
 };
-type SimulationArchive = CompileArchive | SingleAttackArchive | ContinuousAttackArchive;
+export type SkillActionArchive = Omit<SingleAttackArchive, 'taskKind' | 'assessment'> & {
+  taskKind: 'skill_action'; assessment: SkillActionAssessment | null; runInputHash: string | null;
+};
+type SimulationArchive = CompileArchive | SingleAttackArchive | ContinuousAttackArchive | SkillActionArchive;
 
 const phaseLabels: Record<Exclude<TaskPhase, 'idle'>, string> = {
   reading: '正在读取场景快照', preparing: '正在准备编译请求',
@@ -124,7 +135,7 @@ const stableKeyPattern = /^[a-z][a-z0-9_]{0,63}$/;
 function emptySelection(): SelectionDraft {
   return {
     sourceCharacterKey: '', sourceLevel: undefined, targetCharacterKey: '', targetLevel: undefined,
-    basicAttackSkillKey: '', basicAttackLevel: undefined, sourceEquipmentKeys: [], targetEquipmentKeys: [],
+    basicAttackSkillKey: '', basicAttackLevel: undefined, plannedSkills: [], sourceEquipmentKeys: [], targetEquipmentKeys: [],
     sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: []
   };
 }
@@ -132,13 +143,13 @@ function emptySelection(): SelectionDraft {
 function emptyAttributeDrafts(): AttributeDrafts { return { source: {}, target: {} }; }
 function emptyInitialHealth(): InitialHealthDraft { return { source: undefined, target: undefined }; }
 
-function selectionFromDraft(draft: SelectionDraft, characterLevels: number[], skillLevels: number[]): SimulationSelection {
+function selectionFromDraft(draft: SelectionDraft, characterLevels: number[], skillLevels: number[], skillMode: boolean): SimulationSelection {
   const keys = [
     ['sourceCharacterKey', '攻击方角色标识'], ['targetCharacterKey', '目标角色标识'],
     ['basicAttackSkillKey', '普攻技能标识']
   ] as const;
   for (const [field, label] of keys) {
-    if (!stableKeyPattern.test(draft[field].trim())) {
+    if (!(skillMode && field === 'basicAttackSkillKey') && !stableKeyPattern.test(draft[field].trim())) {
       throw new Error(`selection.${field}: ${label}需填写合法的稳定标识。`);
     }
   }
@@ -148,14 +159,16 @@ function selectionFromDraft(draft: SelectionDraft, characterLevels: number[], sk
   ] as const;
   for (const [field, label, options] of levels) {
     const value = draft[field];
-    if (value === undefined || !options.includes(value)) {
+    if (!(skillMode && field === 'basicAttackLevel') && (value === undefined || !options.includes(value))) {
       throw new Error(`selection.${field}: ${label}需在当前合法等级范围内明确选择。`);
     }
   }
+  if (skillMode && draft.plannedSkills.length !== 1) throw new Error('plannedSkills: 请明确选择一项已开启、已学的攻击方主动技能');
   return normalizeSimulationSelection({
     sourceCharacterKey: draft.sourceCharacterKey.trim(), sourceLevel: draft.sourceLevel!,
     targetCharacterKey: draft.targetCharacterKey.trim(), targetLevel: draft.targetLevel!,
-    basicAttackSkillKey: draft.basicAttackSkillKey.trim(), basicAttackLevel: draft.basicAttackLevel!,
+    basicAttackSkillKey: skillMode ? null : draft.basicAttackSkillKey.trim(), basicAttackLevel: skillMode ? null : draft.basicAttackLevel!,
+    plannedSkills: skillMode ? draft.plannedSkills : [],
     sourceEquipmentKeys: normalizeEquipmentKeys(draft.sourceEquipmentKeys, 'selection.sourceEquipmentKeys'),
     targetEquipmentKeys: normalizeEquipmentKeys(draft.targetEquipmentKeys, 'selection.targetEquipmentKeys'),
     sourceBuildConfigurations: draft.sourceBuildConfigurations, targetBuildConfigurations: draft.targetBuildConfigurations,
@@ -207,10 +220,14 @@ function archiveFor(task: Task, outcome: CompileArchive['outcome'], error: strin
     initialHealth: task.prepared.initialHealth,
     equipmentAssumptions: task.prepared.equipmentAssumptions,
     mechanicStateInputs: task.prepared.mechanicStateInputs,
+    ignoredCastCosts: task.prepared.ignoredCastCosts,
     compileRequest: task.prepared.compileRequest, coverage: task.prepared.coverage,
     operationOrigins: task.prepared.operationOrigins, equipmentOrigins: task.prepared.equipmentOrigins, skillOrigins: task.prepared.skillOrigins,
     compileResult: task.result, releaseResult: task.release, error
   };
+  if (task.kind === 'skill_action') return { ...common, taskKind: 'skill_action', runRequest: task.runRequest,
+    runResult: task.runResult, assessment: task.skillAssessment, cleanup: task.cleanup, failurePhase: task.failurePhase,
+    runInputHash: task.skillPrepared?.runInputHash ?? null };
   if (task.kind === 'continuous_attack') return {
     ...common, taskKind: 'continuous_attack', runRequest: task.runRequest, runResult: task.runResult,
     assessment: task.continuousAssessment, cleanup: task.cleanup, failurePhase: task.failurePhase,
@@ -297,6 +314,12 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const [prepared, setPrepared] = useState<PreparedSimulation | null>(null);
   const [archive, setArchive] = useState<SimulationArchive | null>(null);
   const [recordTimeSeries, setRecordTimeSeries] = useState(true);
+  const [skillMode, setSkillMode] = useState(false);
+  const [ignoredCastCosts, setIgnoredCastCosts] = useState<SimulationCastCostRef[]>([]);
+  const [skillInputs, setSkillInputs] = useState<Omit<SkillActionInputs, 'durationMs' | 'recordTimeSeries'>>({
+    instructionKey: 'selected_skill_instruction', atMs: 0, sortOrder: 0, targetSide: 'target', hitPreset: null,
+    maxSkillActionRecords: 32, maxSkillUseRecords: 128, maxHealingRecords: 256
+  });
   const [resultStale, setResultStale] = useState(false);
   const [phase, setPhase] = useState<TaskPhase>('idle');
   const [error, setError] = useState<string | null>(null);
@@ -306,15 +329,16 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const token = adminToken.trim();
   const busy = phase !== 'idle';
   const candidateUnconfirmed = snapshot !== null && (confirmationRequired || !sameSkillDigests(snapshot, confirmedDigests));
-  const { characters, skills, equipment, levels, imageLoader } = useSimulationSelectionOptions(apiBaseUrl, selectedGameId, token, selection.sourceCharacterKey);
+  const { characters, skills, activeSkills, equipment, levels, imageLoader } = useSimulationSelectionOptions(apiBaseUrl, selectedGameId, token, selection.sourceCharacterKey);
   const selectedSkill = skills.items.find(row => row.key === selection.basicAttackSkillKey);
   const skillLevels = useMemo(() => selectedSkill?.kind === 'skill'
     ? Array.from({ length: selectedSkill.maxLevel }, (_, index) => index + 1) : [], [selectedSkill]);
   const levelsSelected = levels.items.includes(selection.sourceLevel!) && levels.items.includes(selection.targetLevel!)
-    && skillLevels.includes(selection.basicAttackLevel!);
+    && (skillMode ? selection.plannedSkills.length === 1 : skillLevels.includes(selection.basicAttackLevel!));
   const objectsSelected = characters.items.some(row => row.key === selection.sourceCharacterKey)
     && characters.items.some(row => row.key === selection.targetCharacterKey)
-    && skills.items.some(row => row.key === selection.basicAttackSkillKey)
+    && (skillMode ? activeSkills.items.some(row => row.key === selection.plannedSkills[0]?.skillKey)
+      : skills.items.some(row => row.key === selection.basicAttackSkillKey))
     && [...selection.sourceEquipmentKeys, ...selection.targetEquipmentKeys].every(key => equipment.items.some(row => row.key === key));
   const requirements = inspection?.requirements ?? [];
   const missing = requirements.filter(row => row.storedValue === undefined);
@@ -383,7 +407,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     const task: Task = {
       kind, phase: nextPhase, failurePhase: null, cancelled: false, controller: new AbortController(), client: null,
       snapshot: null, prepared: null, result: null, release: null, sessionId: null,
-      runRequest: null, runResult: null, assessment: null, continuousPrepared: null, continuousAssessment: null, cleanup: 'not_needed'
+      runRequest: null, runResult: null, assessment: null, continuousPrepared: null, continuousAssessment: null,
+      skillPrepared: null, skillAssessment: null, cleanup: 'not_needed'
     };
     taskRef.current = task;
     setPhase(nextPhase);
@@ -420,7 +445,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   };
 
   const invalidateRunResult = (preserveSingleResult = false) => {
-    setArchive(current => preserveSingleResult || current?.taskKind === 'continuous_attack' ? current : null);
+    setArchive(current => preserveSingleResult || current?.taskKind === 'continuous_attack' || current?.taskKind === 'skill_action' ? current : null);
     setResultStale(true);
   };
 
@@ -437,7 +462,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const patchSelection = <K extends keyof SelectionDraft>(key: K, value: SelectionDraft[K]) => {
     if (taskRef.current) return;
     setSelection(current => retainSourceSettings({ ...current, [key]: value,
-      ...(key === 'sourceCharacterKey' ? { basicAttackSkillKey: '', basicAttackLevel: undefined }
+      ...(key === 'sourceCharacterKey' ? { basicAttackSkillKey: '', basicAttackLevel: undefined, plannedSkills: [] }
         : key === 'basicAttackSkillKey' ? { basicAttackLevel: undefined } : {}) }));
     clearArtifacts();
   };
@@ -482,7 +507,12 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       const existing = settings.find(setting => simulationSkillSourceIdentity(setting.origin, setting.skillKey) === identity);
       const setting: SimulationSkillSetting = { origin: source.origin, skillKey: source.skillKey, enabled: snapshot ? source.enabled : true, ...existing, ...patch };
       if (setting.skillLevel === undefined) delete setting.skillLevel;
-      return retainSourceSettings({ ...current, [`${side}SkillSettings`]: [...settings.filter(item => simulationSkillSourceIdentity(item.origin, item.skillKey) !== identity), setting] });
+      const plannedSkills = current.plannedSkills.flatMap(plan => {
+        if (side !== 'source' || simulationSkillSourceIdentity(plan.origin, plan.skillKey) !== identity) return [plan];
+        if (!setting.enabled || setting.skillLevel === 0 || 'skillLevel' in patch && patch.skillLevel === undefined) return [];
+        return [{ ...plan, skillLevel: setting.skillLevel ?? plan.skillLevel }];
+      });
+      return retainSourceSettings({ ...current, plannedSkills, [`${side}SkillSettings`]: [...settings.filter(item => simulationSkillSourceIdentity(item.origin, item.skillKey) !== identity), setting] });
     });
     if ('skillLevel' in patch) setClearedSkillLevels(current => ({ ...current, [`${side}:${identity}`]: patch.skillLevel === undefined }));
     clearArtifacts();
@@ -496,9 +526,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       target: next.target.skillSources.filter(source => source.origin.kind === 'BUILD_OPTION').map(source => simulationSkillSourceIdentity(source.origin, source.skillKey))
     });
     setInspection(null);
-    setClearedSkillLevels({});
     try {
-      setInspection(inspectSimulationSnapshot(next));
+      setInspection(inspectSimulationSnapshot(next, ignoredCastCosts));
       return true;
     } catch (cause) {
       setError(`快照已读取，但编译准入检查未通过：${taskError(cause)}。可在默认来源表关闭非必需来源后重新读取。`);
@@ -518,7 +547,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const readSnapshot = async () => {
     if (taskRef.current || !selectedGameId || !token || !objectsSelected || !buildsReady.source || !buildsReady.target) return;
     let requested: SimulationSelection;
-    try { requested = selectionFromDraft(selection, levels.items, skillLevels); }
+    try { requested = selectionFromDraft(selection, levels.items, skillLevels, skillMode); }
     catch (cause) { setError(taskError(cause)); return; }
     const task = beginTask('reading');
     if (!task) return;
@@ -532,7 +561,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         setSnapshot(null);
         setInspection(null);
         setSourcesSnapshot(result.data);
-        setSelection(defaults.selection);
+        setSelection(current => ({ ...defaults.selection, basicAttackSkillKey: current.basicAttackSkillKey, basicAttackLevel: current.basicAttackLevel }));
         result = await getSimulationSnapshot(apiBaseUrl, selectedGameId, defaults.selection, token, task.controller.signal);
         if (!isCurrent(task)) return;
       }
@@ -607,7 +636,33 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     setPrepared(null); invalidateRunResult(); setError(null); setNotice(null);
   };
 
-  const execute = async (kind: 'compile' | 'single_attack' | 'continuous_attack') => {
+  const selectActiveSkill = (skillKey: string) => {
+    if (taskRef.current) return;
+    const option = activeSkills.items.find(row => row.key === skillKey);
+    if (option?.kind !== 'skill') return;
+    const origin = { kind: 'CHARACTER' as const, characterKey: selection.sourceCharacterKey };
+    const identity = simulationSkillSourceIdentity(origin, skillKey);
+    const setting = selection.sourceSkillSettings.find(row => simulationSkillSourceIdentity(row.origin, row.skillKey) === identity);
+    if (setting?.enabled === false || setting?.skillLevel === 0 || clearedSkillLevels[`source:${identity}`]) {
+      setError('来源关闭、0级未学或等级草稿已清空，不能列入主动计划；请先明确修改来源。');
+      return;
+    }
+    const skillLevel = setting?.skillLevel ?? option.maxLevel;
+    setSelection(current => ({ ...current, plannedSkills: [{ origin, skillKey, skillLevel, phaseKinds: ['INITIAL'] }],
+      sourceSkillSettings: [...current.sourceSkillSettings.filter(row => simulationSkillSourceIdentity(row.origin, row.skillKey) !== identity),
+        { origin, skillKey, enabled: true, skillLevel }] }));
+    setIgnoredCastCosts([]);
+    setSkillInputs(current => ({ ...current, hitPreset: null }));
+    clearArtifacts();
+  };
+
+  const editSkillInput = <Key extends keyof typeof skillInputs>(key: Key, value: typeof skillInputs[Key]) => {
+    if (taskRef.current) return;
+    setSkillInputs(current => ({ ...current, [key]: value }));
+    invalidateRunResult(true); setError(null); setNotice(null);
+  };
+
+  const execute = async (kind: 'compile' | 'single_attack' | 'continuous_attack' | 'skill_action') => {
     if (taskRef.current || !snapshot || !inspection || candidateUnconfirmed || !selectedGameId) return;
     if (mechanicIssues.length) { setError(mechanicIssues.join('；')); return; }
     if (kind !== 'compile') {
@@ -652,10 +707,15 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       const assumptions: SimulationEquipmentAssumption[] = equipmentRangeRequirements(task.snapshot)
         .map(({ owner, equipmentKey }) => ({ owner, equipmentKey, target: owner === 'source' ? 'target' : 'source', inRange: auraConfirmed[`${owner}:${equipmentKey}`] === true }));
       task.prepared = await prepareSimulation(task.snapshot, inputs, { source: initialHealth.source, target: initialHealth.target }, assumptions,
-        mechanicInputsFromDrafts(mechanicRequirements, mechanicDrafts));
+        mechanicInputsFromDrafts(mechanicRequirements, mechanicDrafts), ignoredCastCosts);
       if (!isCurrent(task)) return;
       if (kind === 'continuous_attack') {
         task.continuousPrepared = await continuousAttackRequest(task.prepared, task.snapshot, continuousInputs);
+        if (!isCurrent(task)) return;
+      }
+      if (kind === 'skill_action') {
+        task.skillPrepared = await skillActionRequest(task.prepared, task.snapshot,
+          { ...skillInputs, durationMs: durationMs as number, recordTimeSeries });
         if (!isCurrent(task)) return;
       }
       setPrepared(task.prepared);
@@ -677,6 +737,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       if (failure) task.failurePhase = 'compiling';
       if (!failure && kind !== 'compile') {
         task.runRequest = kind === 'single_attack' ? singleAttackRequest(task.prepared.compileRequest, task.sessionId!)
+          : kind === 'skill_action' ? { ...task.skillPrepared!.runRequest, sessionId: task.sessionId! }
           : { ...task.continuousPrepared!.runRequest, sessionId: task.sessionId! };
         task.runRequest.runtimeOptions = { ...task.runRequest.runtimeOptions, equipmentAssumptions: task.prepared.equipmentAssumptions,
           skillOrigins: task.prepared.skillOrigins, mechanicStateInputs: task.prepared.mechanicStateInputs };
@@ -687,6 +748,9 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         if (kind === 'single_attack') {
           task.assessment = assessSingleAttackResult(task.prepared.compileRequest, task.runRequest, task.runResult);
           if (!task.assessment.complete) failure = `单次执行未完整验证：${task.assessment.issues.join('；')}`;
+        } else if (kind === 'skill_action') {
+          task.skillAssessment = assessSkillActionResult(task.prepared.compileRequest, task.runRequest, task.runResult);
+          if (!task.skillAssessment.complete) failure = `指定技能结果未完整核对：${task.skillAssessment.issues.join('；') || '公共执行明确不完整'}`;
         } else {
           task.continuousAssessment = assessContinuousAttackResult(task.prepared.compileRequest, task.runRequest, task.runResult, task.prepared.operationOrigins);
           if (!task.continuousAssessment.complete) failure = `连续计算未完整完成：${task.continuousAssessment.issues.join('；')
@@ -721,7 +785,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       }
       if (isCurrent(task)) {
         const passed = failure === null && task.result?.ok === true && task.release?.released === true
-          && task.cleanup === 'released' && (kind === 'compile' || task.assessment?.complete === true || task.continuousAssessment?.complete === true);
+          && task.cleanup === 'released' && (kind === 'compile' || task.assessment?.complete === true || task.continuousAssessment?.complete === true || task.skillAssessment?.complete === true);
         if (!passed && failure === null) failure = kind === 'single_attack'
           ? '未完成完整单次运行与会话释放，不能标记运行通过。'
           : kind === 'continuous_attack' ? '未完成完整连续运行与会话释放，不能标记运行通过。' : '未完成编译与会话释放，不能标记验证通过。';
@@ -732,6 +796,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         setNotice(passed ? kind === 'single_attack' ? '单次普攻运行通过，不代表连续攻击通过。'
           : kind === 'continuous_attack' ? task.continuousAssessment?.execution.targetKilled ? '连续普攻已完成击杀，会话正常释放。'
             : '连续普攻已完成观察，目标未被击杀，会话正常释放。'
+          : kind === 'skill_action' ? '6A单次主动观察完成，会话已释放；不代表背景普攻或6B已开放。'
           : '仅编译验证通过，不代表单次/连续计算通过。' : null);
         finishTask(task);
       }
@@ -750,6 +815,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         action={<Button disabled={busy} onClick={characters.retry}>重试角色列表</Button>} /> : null}
       {skills.error ? <Alert key="skill-options-error" type="error" content={`普攻列表读取失败：${skills.error}`}
         action={<Button disabled={busy} onClick={skills.retry}>重试普攻列表</Button>} /> : null}
+      {skillMode && activeSkills.error ? <Alert key="active-options-error" type="error" content={`角色技能候选读取失败：${activeSkills.error}`}
+        action={<Button disabled={busy} onClick={activeSkills.retry}>重试角色技能候选</Button>} /> : null}
       {levels.error ? <Alert key="level-options-error" type="error" content={`角色等级范围读取失败：${levels.error}`}
         action={<Button disabled={busy} onClick={levels.retry}>重试等级范围</Button>} /> : null}
       {equipment.error ? <Alert key="equipment-options-error" type="error" content={`装备列表读取失败：${equipment.error}`}
@@ -759,9 +826,22 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         content="输入已改变；上一份冻结结果已过期，不代表当前场景。" /> : null}
 
       <Form key="scene-selection" layout="vertical" aria-label="普攻场景选择">
+        <Form.Item label="执行范围">
+          <Checkbox aria-label="6A指定单次主动技能" checked={skillMode} disabled={busy} onChange={checked => {
+            setSkillMode(checked); setIgnoredCastCosts([]); clearArtifacts();
+          }}>6A指定单次主动技能（仅首次尝试，无背景普攻；关闭后保留原普攻模式）</Checkbox>
+        </Form.Item>
         <div className="simulation-combatants-grid">
           <section className="simulation-combatant-config" aria-labelledby="simulation-source-config-title">
             <Typography.Title heading={5} id="simulation-source-config-title" style={{ margin: '0 0 16px' }}>攻击方配置</Typography.Title>
+            {skillMode ? <>
+              <Form.Item label="攻击方主动技能候选" required>
+                <SimulationEntitySelect label="攻击方主动技能候选" value={selection.plannedSkills[0]?.skillKey ?? ''}
+                  options={activeSkills.items} loading={activeSkills.loading} disabled={busy || activeSkills.loading || Boolean(activeSkills.error)}
+                  loadImage={imageLoader} onChange={selectActiveSkill} placeholder="选择攻击方真实绑定技能，完整主动程序另行准入" />
+              </Form.Item>
+              <Typography.Paragraph type="secondary">计划等级：{selection.plannedSkills[0]?.skillLevel ?? '尚未选择'}。首次选择使用真实最高等级；来源表中的低等级、0、关闭或清空不会自动覆盖。阶段固定为首次使用。</Typography.Paragraph>
+            </> : null}
             <Form.Item label="攻击方角色" required>
               <SimulationEntitySelect label="攻击方角色" value={selection.sourceCharacterKey} options={characters.items}
                 loading={characters.loading} disabled={busy || !selectedGameId || !token || characters.loading || Boolean(characters.error)}
@@ -776,7 +856,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
             </Form.Item>
             <Form.Item label="普攻技能" required>
               <SimulationEntitySelect label="普攻技能" value={selection.basicAttackSkillKey} options={skills.items}
-                loading={skills.loading} disabled={busy || !characters.items.some(row => row.key === selection.sourceCharacterKey)
+                loading={skills.loading} disabled={busy || skillMode || !characters.items.some(row => row.key === selection.sourceCharacterKey)
                   || skills.loading || Boolean(skills.error) || !selectedGameId || !token}
                 loadImage={imageLoader} onChange={value => patchSelection('basicAttackSkillKey', value)}
                 placeholder={!selection.sourceCharacterKey ? '先选择攻击方角色' : skills.loading ? '正在读取挂载的普攻…'
@@ -785,7 +865,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
             </Form.Item>
             <Form.Item label="普攻技能等级" required>
               <Select aria-label="普攻技能等级" className="simulation-level-select" value={selection.basicAttackLevel} allowClear
-                loading={skills.loading} disabled={busy || skills.loading || !skillLevels.length || Boolean(skills.error)}
+                loading={skills.loading} disabled={busy || skillMode || skills.loading || !skillLevels.length || Boolean(skills.error)}
                 options={skillLevels.map(value => ({ value, label: String(value) }))}
                 placeholder={!selectedSkill ? '先选择普攻技能' : '请选择技能等级'}
                 onChange={(value: number | undefined) => patchSelection('basicAttackLevel', value)} />
@@ -801,7 +881,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
             <SimulationSkillSources side="source" snapshot={sourcesSnapshot}
               sources={sourcesSnapshot?.source.skillSources.filter(source => selectedOrigin(source.origin, selection, 'source')
                 && (source.origin.kind !== 'BUILD_OPTION' || buildSourceIdentities.source.includes(simulationSkillSourceIdentity(source.origin, source.skillKey)))) ?? []}
-              settings={selection.sourceSkillSettings} basicAttackSkillKey={selection.basicAttackSkillKey} basicAttackLevel={selection.basicAttackLevel}
+              settings={selection.sourceSkillSettings} basicAttackSkillKey={skillMode ? '' : selection.basicAttackSkillKey} basicAttackLevel={skillMode ? undefined : selection.basicAttackLevel}
               stale={!snapshot} clearedLevels={clearedSkillLevels} disabled={busy} onChange={(source, patch) => patchSkillSource('source', source, patch)} />
           </section>
           <section className="simulation-combatant-config" aria-labelledby="simulation-target-config-title">
@@ -829,7 +909,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
             <SimulationSkillSources side="target" snapshot={sourcesSnapshot}
               sources={sourcesSnapshot?.target.skillSources.filter(source => selectedOrigin(source.origin, selection, 'target')
                 && (source.origin.kind !== 'BUILD_OPTION' || buildSourceIdentities.target.includes(simulationSkillSourceIdentity(source.origin, source.skillKey)))) ?? []}
-              settings={selection.targetSkillSettings} basicAttackSkillKey={selection.basicAttackSkillKey} basicAttackLevel={selection.basicAttackLevel}
+              settings={selection.targetSkillSettings} basicAttackSkillKey={skillMode ? '' : selection.basicAttackSkillKey} basicAttackLevel={skillMode ? undefined : selection.basicAttackLevel}
               stale={!snapshot} clearedLevels={clearedSkillLevels} disabled={busy} onChange={(source, patch) => patchSkillSource('target', source, patch)} />
           </section>
         </div>
@@ -844,6 +924,48 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
           {busy ? <Button status="danger" onClick={cancelTask}>取消当前请求</Button> : null}
         </Space>
       </Form>
+
+      {skillMode ? <section key="skill-action-plan" aria-label="6A指定技能计划">
+        <Typography.Title heading={5}>指定技能计划：单条首次尝试</Typography.Title>
+        <Typography.Paragraph>背景普攻固定关闭，不自动延期、重试或补放。技能、来源、等级变化须重新读取并确认；只改时刻、顺序或命中预设会使旧结果过期。</Typography.Paragraph>
+        <Form layout="vertical">
+          <Form.Item label="尝试时刻（毫秒）" required>
+            <InputNumber aria-label="技能尝试时刻" value={Number.isFinite(skillInputs.atMs) ? skillInputs.atMs : undefined} min={0} precision={0}
+              disabled={busy} onChange={value => editSkillInput('atMs', value ?? NaN)} />
+          </Form.Item>
+          <Form.Item label="同刻顺序" required>
+            <InputNumber aria-label="技能同刻顺序" value={Number.isFinite(skillInputs.sortOrder) ? skillInputs.sortOrder : undefined} min={0} precision={0}
+              disabled={busy} onChange={value => editSkillInput('sortOrder', value ?? NaN)} />
+          </Form.Item>
+          <Form.Item label="本次目标" required>
+            <Select aria-label="技能目标" value={skillInputs.targetSide} disabled={busy} onChange={value => editSkillInput('targetSide', value)}
+              options={[{ label: '唯一目标B', value: 'target' }, { label: '攻击方A自身', value: 'source' }]} />
+          </Form.Item>
+          <Form.Item label="有界命中预设">
+            <Select aria-label="技能命中预设" value={skillInputs.hitPreset ?? undefined} allowClear disabled={busy}
+              onChange={value => editSkillInput('hitPreset', value ?? null)} options={[
+                { label: '成功完成原过程后对唯一目标尝试命中', value: 'TARGET_HIT' }, { label: '本次明确未命中', value: 'MISS' }
+              ]} />
+            <Typography.Text type="secondary">自身治疗保持空值，不生成命中；伤害技能必须明确选择，不模拟弹道。</Typography.Text>
+          </Form.Item>
+          {(['maxSkillActionRecords', 'maxSkillUseRecords', 'maxHealingRecords'] as const).map(field => <Form.Item key={field}
+            label={{ maxSkillActionRecords: '技能行动记录上限', maxSkillUseRecords: '技能使用记录上限', maxHealingRecords: '治疗记录上限' }[field]} required>
+            <InputNumber aria-label={field} value={Number.isFinite(skillInputs[field]) ? skillInputs[field] : undefined} min={0}
+              max={field === 'maxSkillActionRecords' ? 4096 : 10000} precision={0} disabled={busy}
+              onChange={value => editSkillInput(field, value ?? NaN)} />
+          </Form.Item>)}
+        </Form>
+        {snapshot ? simulationCastCostCandidates(snapshot).map(cost => <Checkbox key={JSON.stringify(cost)}
+          aria-label={`声明施法成本 ${cost.effectKey}.${cost.resultKey}`} disabled={busy}
+          checked={ignoredCastCosts.some(row => JSON.stringify(row) === JSON.stringify(cost))} onChange={checked => {
+            const next = ignoredCastCosts.filter(row => JSON.stringify(row) !== JSON.stringify(cost));
+            if (checked) next.push(cost);
+            setIgnoredCastCosts(next); setPrepared(null); invalidateRunResult(true);
+            try { setInspection(inspectSimulationSnapshot(snapshot, next)); setError(null); }
+            catch (cause) { setInspection(null); setError(taskError(cause)); }
+          }}>明确声明{cost.effectKey}.{cost.resultKey}（挂接{cost.bindingKey}）是施法成本，本期忽略门槛、扣除与退款；其它消费不忽略。</Checkbox>) : null}
+        <Typography.Paragraph type="secondary">记录上限可显式为0；各类预算独立，不改变完整累计或结算。</Typography.Paragraph>
+      </section> : null}
 
       {error ? <Alert key="task-error" type="error" content={<span style={{ whiteSpace: 'pre-wrap' }}>{error}</span>} /> : null}
 
@@ -957,7 +1079,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
                   min={1} max={600000} precision={0} onChange={value => updateContinuousInput('duration', value)} />
                 <Typography.Text type="secondary">30000毫秒为技术运行初值，可以修改。</Typography.Text>
               </Form.Item>
-              {speedAttribute?.maxValue === null ? <Form.Item label="攻速输入上界" required>
+              {!skillMode && speedAttribute?.maxValue === null ? <Form.Item label="攻速输入上界" required>
                 <InputNumber aria-label="攻速输入上界" value={attackSpeedInputMax} disabled={busy}
                   onChange={value => updateContinuousInput('speed', value)} placeholder="明确填写不小于本场景攻速的正上界" />
                 <Typography.Text type="secondary">真实属性目录未设上界，请显式填写；仅作输入准入，不是游戏攻速封顶。</Typography.Text>
@@ -967,8 +1089,10 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
           </Form>
           <Space wrap style={{ marginTop: 16 }}>
             <Button disabled={busy || unfilled.length === 0} onClick={fillMissingWithZero}>将缺失属性填写为0</Button>
-            <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0 || mechanicRequirements.length > 0} onClick={() => void execute('single_attack')}>执行一次普攻</Button>
-            <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('continuous_attack')}>连续普攻</Button>
+            {!skillMode ? <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0 || mechanicRequirements.length > 0} onClick={() => void execute('single_attack')}>执行一次普攻</Button> : null}
+            {!skillMode ? <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('continuous_attack')}>连续普攻</Button> : null}
+            {skillMode ? <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
+              onClick={() => void execute('skill_action')}>执行单次主动尝试（6A）</Button> : null}
             <Button disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('compile')}>编译验证</Button>
           </Space>
           {mechanicRequirements.length ? <Typography.Paragraph type="secondary">弹药主体使用连续普攻，由原生统一核对攻击许可、冻结开始库存及安排恢复；单次外部事件入口不支持此闭环。</Typography.Paragraph> : null}
@@ -979,6 +1103,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       ) : null}
 
       {archive?.taskKind === 'single_attack' ? <SingleAttackResult key="single-attack-result" archive={archive} /> : null}
+      {archive?.taskKind === 'skill_action' ? <SkillActionResult key={archive.runInputHash ?? 'skill-action-result'} archive={archive} stale={resultStale} /> : null}
       {archive?.taskKind === 'continuous_attack' ? <ContinuousAttackResult key="continuous-attack-result" archive={archive} stale={resultStale}
         cleanupLabel={cleanupLabels[archive.cleanup]} released={archive.cleanup === 'released'} warnings={archive.runResult?.warnings ?? []}
         onDownload={view => downloadJson('basic-attack-continuous-run.json', buildContinuousAttackArchive(archive, view))} /> : null}
