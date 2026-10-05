@@ -265,7 +265,7 @@ public final class SkillObjectReferences {
         private void state() {
             JsonNode detail = source.data().path("detail");
             switch (required(source.data(), "stateType", "stateType")) {
-                case "COUNTER" -> formulas(detail, "detail", "initialValue", "maxValue");
+                case "COUNTER" -> formulas(detail, "detail", "initialValue", "maxValue", "durationValue");
                 case "AMMO" -> formulas(detail, "detail", "initialValue", "maxValue", "recoveryIntervalValue");
                 case "INTERNAL_COOLDOWN" -> formulas(detail, "detail", "durationValue");
                 case "MODE", "FLAG" -> { }

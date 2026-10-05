@@ -216,6 +216,10 @@ public final class SkillNumericSemantics {
                                 ? Bound.POSITIVE_INTEGER : Bound.NON_NEGATIVE_INTEGER, false);
                             compareInitialCapacity(initial, maximum);
                             if ("AMMO".equals(text(d, "stateType"))) use(a, detail, "detail", "recoveryIntervalValue", Bound.POSITIVE, false);
+                            if ("COUNTER".equals(text(d, "stateType")) && !detail.path("durationValue").isMissingNode()
+                                && !detail.path("durationValue").isNull()) {
+                                use(a, detail, "detail", "durationValue", Bound.NON_NEGATIVE_INTEGER, false);
+                            }
                         }
                         case "INTERNAL_COOLDOWN" -> use(a, detail, "detail", "durationValue", Bound.NON_NEGATIVE, false);
                         default -> { }

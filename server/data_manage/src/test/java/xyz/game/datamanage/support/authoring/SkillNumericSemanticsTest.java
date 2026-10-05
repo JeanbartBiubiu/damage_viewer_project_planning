@@ -40,6 +40,20 @@ class SkillNumericSemanticsTest {
         assertIssue(code, path, List.of(object), List.of());
     }
 
+    @Test
+    void counterHoldDurationIsOptionalAndMustBeNonNegativeInteger() {
+        for (String duration : List.of("0", "4000")) {
+            assertDoesNotThrow(() -> SkillNumericSemantics.validate(List.of(state("COUNTER",
+                "{\"initialValue\":" + fixed("0") + ",\"maxValue\":" + fixed("3")
+                    + ",\"durationValue\":" + fixed(duration) + "}")), List.of()));
+        }
+        for (String duration : List.of("-1", "1.5")) {
+            assertThrows(ApiException.class, () -> SkillNumericSemantics.validate(List.of(state("COUNTER",
+                "{\"initialValue\":" + fixed("0") + ",\"maxValue\":" + fixed("3")
+                    + ",\"durationValue\":" + fixed(duration) + "}")), List.of()));
+        }
+    }
+
     static Stream<Arguments> invalidStaticBounds() {
         return Stream.of(
             Arguments.of(process("PERIODIC", "{\"repeatCountValue\":" + fixed("1") + ",\"intervalValue\":" + fixed("0") + "}"),

@@ -15,6 +15,8 @@ public record SkillInternalStateCounterDetail(
     SkillNumericValue initialValue,
     @Valid
     SkillNumericValue maxValue,
+    @Valid
+    SkillNumericValue durationValue,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillInternalStateDetail {
@@ -25,7 +27,11 @@ public record SkillInternalStateCounterDetail(
     }
 
     public SkillInternalStateCounterDetail(SkillNumericValue initialValue, SkillNumericValue maxValue) {
-        this(initialValue, maxValue, Set.of(), Set.of());
+        this(initialValue, maxValue, null, Set.of(), Set.of());
+    }
+
+    public SkillInternalStateCounterDetail(SkillNumericValue initialValue, SkillNumericValue maxValue, SkillNumericValue durationValue) {
+        this(initialValue, maxValue, durationValue, Set.of(), Set.of());
     }
 
     @JsonCreator
@@ -36,18 +42,18 @@ public record SkillInternalStateCounterDetail(
         @JsonProperty("recoveryMode") JsonNode recoveryMode,
         @JsonProperty("options") JsonNode options,
         @JsonProperty("initialEnabled") JsonNode initialEnabled,
-        @JsonProperty("durationValue") JsonNode durationValue,
+        @JsonProperty("durationValue") SkillNumericValue durationValue,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillInternalStateCounterDetail(
             initialValue,
             maxValue,
+            durationValue,
             SkillInternalStateDetailFieldCapture.captureForeign(
                 "recoveryIntervalValue", recoveryIntervalValue,
                 "recoveryMode", recoveryMode,
                 "options", options,
-                "initialEnabled", initialEnabled,
-                "durationValue", durationValue
+                "initialEnabled", initialEnabled
             ),
             SkillInternalStateDetailFieldCapture.captureUnknown(unknown)
         );

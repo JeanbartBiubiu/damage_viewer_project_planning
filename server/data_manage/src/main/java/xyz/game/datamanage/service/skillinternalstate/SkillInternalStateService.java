@@ -423,6 +423,7 @@ public class SkillInternalStateService {
                 }
                 addFormula(refs, issues, "detail.initialValue", counter.initialValue());
                 addFormula(refs, issues, "detail.maxValue", counter.maxValue());
+                if (counter.durationValue() != null) addFormula(refs, issues, "detail.durationValue", counter.durationValue());
             }
             case AMMO -> {
                 if (!(detail instanceof SkillInternalStateAmmoDetail ammo)) {

@@ -95,7 +95,13 @@ final class SnapshotSkillClosure {
             boolean deferred = rules(source).stream().anyMatch(rule ->
                 Set.of("SKILL_USED", "SKILL_HIT").contains(rule.data().path("eventSource").path("eventType").asText())
                     && !rule.data().path("actions").isEmpty());
-            source.inactive = deferred ? InactiveReason.ACTIVE_DEFERRED : InactiveReason.CONFIGURATION_INCOMPLETE;
+            Set<String> attackEvents = Set.of("BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "HIT_LINK_APPLIED", "ATTACK_LINK_APPLIED");
+            boolean withoutAttackDriver = source.side.equals("target") && rules(source).stream().anyMatch(rule ->
+                attackEvents.contains(rule.data().path("eventSource").path("eventType").asText()) && !rule.data().path("actions").isEmpty())
+                && rules(source).stream().noneMatch(rule -> NATURAL_EVENTS.contains(rule.data().path("eventSource").path("eventType").asText())
+                    && !attackEvents.contains(rule.data().path("eventSource").path("eventType").asText()) && !rule.data().path("actions").isEmpty());
+            source.inactive = withoutAttackDriver ? InactiveReason.NO_AUTONOMOUS_ATTACK
+                : deferred ? InactiveReason.ACTIVE_DEFERRED : InactiveReason.CONFIGURATION_INCOMPLETE;
         }
         List<Aggregate> needed = visited.stream().map(Invocation::object).distinct().toList();
         Set<Target> targets = new HashSet<>();

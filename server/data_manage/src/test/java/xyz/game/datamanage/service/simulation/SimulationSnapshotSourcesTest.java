@@ -63,6 +63,30 @@ class SimulationSnapshotSourcesTest {
     }
 
     @Test
+    void targetAttackOnlyNaturalSourceIsNotMisreportedAsIncompleteAndCannotHideInitialization() throws Exception {
+        fixture.attach("hero_a", ATTACK, "attack_only");
+        fixture.attach("hero_b", ATTACK, "attack_only");
+        String attackRule = """
+            {"ruleKey":"on_start","eventSource":{"eventType":"BASIC_ATTACK_START","detail":{}},"conditionGroups":[],
+             "actions":[{"actionKey":"apply","actionType":"EXECUTE_EFFECT","targetContext":"CURRENT_TARGET",
+               "detail":{"effectKey":"heal"},"runtimeInputBindings":[],"resultModifiers":[]}]}
+            """;
+        String effects = "\"effects\":[" + heal("heal", "{\"kind\":\"FIXED\",\"value\":1}") + "]";
+        fixture.configuration("attack_only", 1, "{" + effects + ",\"triggerRules\":[" + attackRule + "]}");
+        var result = fixture.service.get(GAME, fixture.choice());
+        assertNull(row(result, "source", "attack_only").inactiveReason());
+        assertEquals(List.of("on_start"), row(result, "source", "attack_only").enabledRuleKeys());
+        assertEquals(InactiveReason.NO_AUTONOMOUS_ATTACK, row(result, "target", "attack_only").inactiveReason());
+        assertTrue(row(result, "target", "attack_only").enabled());
+        assertTrue(row(result, "target", "attack_only").enabledRuleKeys().isEmpty());
+        fixture.configuration("attack_only", 1, "{" + effects + ",\"triggerRules\":[" + attackRule + ","
+            + initialization("initialize", "heal") + "]}");
+        var initialized = fixture.service.get(GAME, fixture.choice());
+        assertNull(row(initialized, "target", "attack_only").inactiveReason());
+        assertEquals(List.of("initialize"), row(initialized, "target", "attack_only").enabledRuleKeys());
+    }
+
+    @Test
     void bothSidesKeepIndependentGradesWhileSharingOneAuthorTree() throws Exception {
         fixture.attach("hero_a", ATTACK, "scaled_passive");
         fixture.attach("hero_b", ATTACK, "scaled_passive");

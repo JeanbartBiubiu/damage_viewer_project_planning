@@ -122,6 +122,28 @@ class SkillInternalStateServiceTest {
     }
 
     @Test
+    void savesAndReadsTargetCounterHoldDurationAndChecksItsFormula() {
+        SkillInternalStateDetailResponse created = service.create(GAME_ID, SKILL_KEY,
+            new SkillInternalStateCreateRequest("timed_hits", "有期目标计数", SkillInternalStateType.COUNTER,
+                SkillInternalStateScope.TARGET, null, 0,
+                new SkillInternalStateCounterDetail(SkillNumericValue.formula(FORMULA_KEY),
+                    SkillNumericValue.formula("max_stacks"), SkillNumericValue.formula("hold_duration"))));
+        assertEquals(SkillNumericValue.formula("hold_duration"),
+            ((SkillInternalStateCounterDetail) created.detail()).durationValue());
+        assertEquals(SkillNumericValue.formula("hold_duration"),
+            ((SkillInternalStateCounterDetail) service.get(GAME_ID, SKILL_KEY, "timed_hits").detail()).durationValue());
+        verify(mapper).lockFormulas(eq(GAME_ID), eq(SKILL_KEY),
+            eq(List.of(FORMULA_KEY, "hold_duration", "max_stacks")));
+        when(mapper.lockFormulas(eq(GAME_ID), eq(SKILL_KEY), anyCollection())).thenReturn(List.of(FORMULA_KEY, "max_stacks"));
+        ApiException exception = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillInternalStateCreateRequest("missing_hold", "缺期限公式", SkillInternalStateType.COUNTER,
+                SkillInternalStateScope.TARGET, null, 0,
+                new SkillInternalStateCounterDetail(SkillNumericValue.formula(FORMULA_KEY),
+                    SkillNumericValue.formula("max_stacks"), SkillNumericValue.formula("hold_duration")))));
+        assertField(exception, "detail.durationValue", "UNKNOWN_FORMULA");
+    }
+
+    @Test
     void editedAmmoRequiresRecoveryStartConditionWhileOldDetailRemainsReadable() {
         SkillInternalStateAmmoDetail incomplete = new SkillInternalStateAmmoDetail(
             SkillNumericValue.fixed(java.math.BigDecimal.ZERO),
@@ -390,7 +412,7 @@ class SkillInternalStateServiceTest {
                     null,
                     0,
                     new SkillInternalStateCounterDetail(
-                        SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_stacks"), Set.of("initialEnabled"), Set.of()
+                        SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_stacks"), null, Set.of("initialEnabled"), Set.of()
                     )
                 )
             )
