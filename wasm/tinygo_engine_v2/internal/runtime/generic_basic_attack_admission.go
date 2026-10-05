@@ -68,7 +68,7 @@ func (s *genericRunState) validateIdleBasicAttackProvider(provider compilebundle
 	fail := func() *model.EngineError {
 		return s.basicAttackErr("idle opponent binding must contain its complete static basic attack and unique owner-start listener", "initialSnapshot.combatants.providers")
 	}
-	if provider.AbilityCount != 3 || len(provider.Processes) != 1 || provider.Lifecycle != nil || len(provider.Modifiers)+len(provider.StateFields)+len(provider.StatusContributions) != 0 {
+	if provider.AbilityCount != 3 || len(provider.Processes) != 1 || provider.Lifecycle != nil || len(provider.Modifiers)+len(provider.StatusContributions) != 0 || !validBasicAttackAmmoProvider(provider) {
 		return fail()
 	}
 	process := provider.Processes[0]
@@ -85,6 +85,9 @@ func (s *genericRunState) validateIdleBasicAttackProvider(provider compilebundle
 			return fail()
 		}
 		for _, operation := range s.compiled.Operations[int(moment.OperationStart) : int(moment.OperationStart)+int(moment.OperationCount)] {
+			if provider.AmmoBinding != nil && operation.Path == provider.AmmoBinding.ConsumptionPath {
+				continue
+			}
 			if operation.Operation != model.OperationKindApplyAttackLink && operation.Operation != model.OperationKindApplyHitLink {
 				return fail()
 			}

@@ -62,12 +62,13 @@ func (v *DriverPlan) UnmarshalJSON(data []byte) error {
 
 // Pointer budgets distinguish an explicit zero (no retained records) from omission.
 type RecordBudget struct {
-	MaxAttackRecords *int `json:"maxAttackRecords,omitempty"`
-	MaxDamageRecords *int `json:"maxDamageRecords,omitempty"`
+	MaxMechanicRecords *int `json:"maxMechanicRecords,omitempty"`
+	MaxAttackRecords   *int `json:"maxAttackRecords,omitempty"`
+	MaxDamageRecords   *int `json:"maxDamageRecords,omitempty"`
 }
 
 func (v *RecordBudget) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "RecordBudget", "maxAttackRecords maxDamageRecords", ""); err != nil {
+	if err := processJSONShape(data, "RecordBudget", "maxAttackRecords maxDamageRecords maxMechanicRecords", ""); err != nil {
 		return err
 	}
 	type plain RecordBudget
@@ -80,6 +81,16 @@ func (v *RecordBudget) UnmarshalJSON(data []byte) error {
 	}
 	if result.MaxDamageRecords != nil && (*result.MaxDamageRecords < 0 || *result.MaxDamageRecords > 10000) {
 		return errors.New("recordBudget.maxDamageRecords must be an integer in [0,10000]")
+	}
+	if result.MaxMechanicRecords != nil && (*result.MaxMechanicRecords < 0 || *result.MaxMechanicRecords > 10000) {
+		return errors.New("recordBudget.maxMechanicRecords must be an integer in [0,10000]")
+	}
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	if raw, present := fields["maxMechanicRecords"]; present && string(raw) == "null" {
+		return errors.New("recordBudget.maxMechanicRecords must be an integer in [0,10000]")
 	}
 	*v = RecordBudget(result)
 	return nil
@@ -107,10 +118,11 @@ func (v *SamplingConfig) UnmarshalJSON(data []byte) error {
 }
 
 type BasicAttackSummary struct {
-	PlanKey        string `json:"planKey"`
-	StartedCount   int    `json:"startedCount"`
-	HitCount       int    `json:"hitCount"`
-	CompletedCount int    `json:"completedCount"`
+	PlanKey                  string `json:"planKey"`
+	StartedCount             int    `json:"startedCount"`
+	HitCount                 int    `json:"hitCount"`
+	CompletedCount           int    `json:"completedCount"`
+	InitialMechanicReadyAtMs *int64 `json:"initialMechanicReadyAtMs"`
 }
 type RunExecutionSummary struct {
 	RequestedDurationMs int64        `json:"requestedDurationMs"`
@@ -121,6 +133,7 @@ type RunExecutionSummary struct {
 	TargetKilledAtMs    *int64       `json:"targetKilledAtMs"`
 }
 type BasicAttackRecord struct {
+	MechanicReadyAtMs *int64  `json:"mechanicReadyAtMs"`
 	PlanKey           string  `json:"planKey"`
 	AttackIndex       int     `json:"attackIndex"`
 	UseRef            string  `json:"useRef"`
@@ -154,12 +167,37 @@ type DamageBreakdown struct {
 	OverkillDamage        float64 `json:"overkillDamage"`
 }
 type RecordingSummary struct {
-	AttackRecordCount      int  `json:"attackRecordCount"`
-	ReturnedAttackRecords  int  `json:"returnedAttackRecords"`
-	DroppedAttackRecords   int  `json:"droppedAttackRecords"`
-	AttackRecordsTruncated bool `json:"attackRecordsTruncated"`
-	DamageRecordCount      int  `json:"damageRecordCount"`
-	ReturnedDamageRecords  int  `json:"returnedDamageRecords"`
-	DroppedDamageRecords   int  `json:"droppedDamageRecords"`
-	DamageRecordsTruncated bool `json:"damageRecordsTruncated"`
+	MechanicRecordCount      int  `json:"mechanicRecordCount"`
+	ReturnedMechanicRecords  int  `json:"returnedMechanicRecords"`
+	DroppedMechanicRecords   int  `json:"droppedMechanicRecords"`
+	MechanicRecordsTruncated bool `json:"mechanicRecordsTruncated"`
+	AttackRecordCount        int  `json:"attackRecordCount"`
+	ReturnedAttackRecords    int  `json:"returnedAttackRecords"`
+	DroppedAttackRecords     int  `json:"droppedAttackRecords"`
+	AttackRecordsTruncated   bool `json:"attackRecordsTruncated"`
+	DamageRecordCount        int  `json:"damageRecordCount"`
+	ReturnedDamageRecords    int  `json:"returnedDamageRecords"`
+	DroppedDamageRecords     int  `json:"droppedDamageRecords"`
+	DamageRecordsTruncated   bool `json:"damageRecordsTruncated"`
 }
+
+type MechanicRecord struct {
+	TimeMs                int64   `json:"timeMs"`
+	Kind                  string  `json:"kind"`
+	Owner                 string  `json:"owner"`
+	ProviderRef           string  `json:"providerRef"`
+	ProviderDefinitionRef string  `json:"providerDefinitionRef"`
+	SkillKey              string  `json:"skillKey"`
+	StateKey              string  `json:"stateKey"`
+	BeforeValue           float64 `json:"beforeValue"`
+	AfterValue            float64 `json:"afterValue"`
+	OperationRef          string  `json:"operationRef"`
+	UseRef                *string `json:"useRef"`
+	ReadyAtMs             *int64  `json:"readyAtMs"`
+}
+
+const (
+	MechanicStateChanged = "STATE_CHANGED"
+	MechanicWaitStarted  = "WAIT_STARTED"
+	MechanicWaitEnded    = "WAIT_ENDED"
+)

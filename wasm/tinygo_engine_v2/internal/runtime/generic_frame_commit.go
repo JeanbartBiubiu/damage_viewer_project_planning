@@ -58,6 +58,15 @@ func (f *executionFrame) recordOverheal(source string, amount float64) {
 
 func (f *executionFrame) commitFrameFacts() {
 	f.committed = true
+	if capture := f.pendingAmmoCapture; capture != nil {
+		f.run.skillUses[capture.useRef].ammoBefore = capture
+	}
+	for _, record := range f.pendingMechanicRecords {
+		f.run.mechanicRecordCount++
+		if len(f.run.mechanicRecords) < f.run.maxMechanicRecords {
+			f.run.mechanicRecords = append(f.run.mechanicRecords, record)
+		}
+	}
 	f.run.nextDamageID += f.pendingDamageIDs
 	for _, row := range f.pendingDamageHistory {
 		f.run.recordDamage(row.sourceKey, row.targetKey, row.amount, row.timeMs)

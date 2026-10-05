@@ -172,7 +172,16 @@ func compileStructuredStateField(obj map[string]interface{}, path, key string, c
 	durRaw, hasDur := obj["durationMs"]
 	var dur int64
 	var durOK bool
-	if !hasDur {
+	if obj["stateKind"] == model.ProviderStateKindAmmo {
+		if hasDur {
+			collector.addError(model.GenericErrFormulaTypeError, path+".durationMs", "ammo recovery cannot be combined with a state holding duration", key)
+			ok = false
+		}
+		if _, present := obj["refreshPolicy"]; present {
+			collector.addError(model.GenericErrFormulaTypeError, path+".refreshPolicy", "ammo recovery cannot be combined with a state refresh policy", key)
+			ok = false
+		}
+	} else if !hasDur {
 		collector.addError(model.GenericErrMissingRequiredField, path+".durationMs", "structured state field requires durationMs", key)
 		ok = false
 	} else {

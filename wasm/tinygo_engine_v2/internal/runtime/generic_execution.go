@@ -85,6 +85,9 @@ type eventFormulaSnapshot struct {
 }
 
 type executionFrame struct {
+	pendingAmmoWait        *ammoRecoveryWait
+	pendingAmmoCapture     *ammoUseCapture
+	pendingMechanicRecords []model.MechanicRecord
 	pendingBasicAttackWait *basicAttackWait
 	processUseKey          string
 	processUseSkillKey     string
@@ -445,6 +448,7 @@ func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) form
 		ctx.HasOperationOutputs = true
 		ctx.OperationOutputs = f.operationOutputs
 	}
+	f.populateMechanicEvalContext(&ctx, ability)
 	return ctx
 }
 
@@ -536,7 +540,20 @@ func (f *executionFrame) resolveAttributesFor(combatantKey string, attrs map[str
 	if staged := f.staged["target"]; staged != nil {
 		targetAttrs = staged.attributes
 	}
-	resolved, err = resolveDerivedAttributes(f.run.compiled, combatantKey, resolved, sc.resolver, sourceAttrs, targetAttrs, f.providerFormulaContextFunc(combatantKey))
+	ordinary := map[string]map[string]model.AttributeSlotDef{"source": sourceAttrs, "target": targetAttrs}
+	for _, owner := range []string{"source", "target"} {
+		host := f.stageFor(owner)
+		dependencyContext := evalCtx
+		dependencyContext.SourceAttrs, dependencyContext.TargetAttrs = sourceAttrs, targetAttrs
+		ordinary[owner], err = host.resolver.ResolveAttributesWithProviderContext(ordinary[owner], dependencyContext, f.run.compiled.Formulas, f.providerFormulaContextFunc(owner))
+		if err != nil {
+			f.fatal = true
+			f.fatalErr = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+owner+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+			return attrs
+		}
+	}
+	ordinary[combatantKey] = resolved
+	resolved, err = resolveDerivedAttributes(f.run.compiled, combatantKey, resolved, sc.resolver, ordinary["source"], ordinary["target"], f.providerFormulaContextFunc(combatantKey))
 	if err != nil {
 		f.fatal = true
 		f.fatalErr = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -965,11 +982,18 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 	switch scope {
 	case stateScopeProvider:
 		bag.lazyExpireProviderState(f.run.nowMs)
+		before := bag.state[op.Ref]
 		next, message := bag.nextStateValue(op.Ref, bag.state[op.Ref], amount, op.ValuePolicy)
 		if message != "" {
 			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, message, op.Path+".amount", op.Ref, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
 		bag.state[op.Ref] = next
+		ammoField := op.OwnerProviderIndex >= 0 && op.OwnerProviderIndex < len(f.run.compiled.Providers) && f.run.compiled.Providers[op.OwnerProviderIndex].StateFields[op.Ref].StateKind == model.ProviderStateKindAmmo
+		if ammoField {
+			if err := f.stageAmmoConsumption(op, ability, before, next); err != nil {
+				return err
+			}
+		}
 		if !bag.refreshExpireAtOnWrite(op.Ref, f.run.nowMs) {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "provider state duration overflow", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
@@ -982,6 +1006,14 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 		sc := f.stageFor(ownerKey)
 		sc.attributes = f.resolveAttributesFor(ownerKey, sc.attributes, f.evalContext(ability))
 		f.reResolveStagedAttributesTwoPass(ability)
+		if ammoField && next == 0 {
+			if f.fatal {
+				return f.fatalErr
+			}
+			if err := f.stageAmmoRecovery(ability); err != nil {
+				return err
+			}
+		}
 	case stateScopeProviderTarget:
 		// Order: lazy-expire -> activate -> seed this key's default -> policy -> cap -> refresh.
 		bag.lazyExpireProviderTargetState(f.run.nowMs)

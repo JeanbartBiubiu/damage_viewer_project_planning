@@ -86,12 +86,26 @@ type ProviderDefinition struct {
 // ProviderStateFieldSchema 是 initialStateSchema 的结构化字段形态（Gate H1）。
 // 旧形态仍允许纯数字默认值；结构化对象携带封顶与定时元数据。
 type ProviderStateFieldSchema struct {
-	ValueType     string  `json:"valueType,omitempty"`
-	DefaultValue  float64 `json:"defaultValue"`
-	MaxValue      float64 `json:"maxValue"`
-	DurationMs    int64   `json:"durationMs"`
-	RefreshPolicy string  `json:"refreshPolicy,omitempty"`
+	StateKind     string              `json:"stateKind,omitempty"`
+	AmmoRecovery  *AmmoRecoverySchema `json:"ammoRecovery,omitempty"`
+	ValueType     string              `json:"valueType,omitempty"`
+	DefaultValue  float64             `json:"defaultValue"`
+	MaxValue      float64             `json:"maxValue"`
+	DurationMs    int64               `json:"durationMs"`
+	RefreshPolicy string              `json:"refreshPolicy,omitempty"`
 }
+
+type AmmoRecoverySchema struct {
+	IntervalMs     GenericFormulaExpr `json:"intervalMs"`
+	Mode           string             `json:"mode"`
+	StartCondition string             `json:"startCondition"`
+}
+
+const (
+	ProviderStateKindAmmo = "ammo"
+	AmmoRecoveryAllAtOnce = "all_at_once"
+	AmmoRecoveryWhenEmpty = "when_empty"
+)
 
 // ProviderStateRefreshOnWrite 是每次写入续期的既有 refreshPolicy。
 const ProviderStateRefreshOnWrite = "refresh_on_write"
@@ -290,6 +304,7 @@ type RulesContainer struct {
 }
 
 type AttributeDerivationDefinition struct {
+	ValuePolicy  string             `json:"valuePolicy,omitempty"`
 	CombatantKey string             `json:"combatantKey"`
 	AttributeKey string             `json:"attributeKey"`
 	Value        GenericFormulaExpr `json:"value"`

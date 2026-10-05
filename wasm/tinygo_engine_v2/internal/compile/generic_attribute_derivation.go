@@ -9,8 +9,8 @@ import (
 
 func compileAttributeDerivations(definitions []model.AttributeDerivationDefinition, ctx *genericCompileContext) {
 	collector := ctx.collector
-	if len(definitions) > 2 {
-		collector.addError(model.GenericErrRuntimeInvariantFailed, "rules.attributeDerivations", "at most two attribute derivations are supported", "")
+	if len(definitions) > 4 {
+		collector.addError(model.GenericErrRuntimeInvariantFailed, "rules.attributeDerivations", "at most four attribute derivations are supported", "")
 		return
 	}
 	attributes := map[string]map[string]model.AttributeSlotDef{}
@@ -18,19 +18,23 @@ func compileAttributeDerivations(definitions []model.AttributeDerivationDefiniti
 		attributes[actor.Key] = actor.Attributes
 	}
 	derived := map[string]bool{}
-	seenActors := map[string]bool{}
+	seenOutputs := map[string]bool{}
 	for index, definition := range definitions {
 		path := "rules.attributeDerivations[" + itoa(index) + "]"
-		if definition.AttributeKey != "attack_speed" {
-			collector.addError(model.GenericErrUnknownRef, path+".attributeKey", "this stage supports only the attack_speed derivation", definition.AttributeKey)
+		if definition.AttributeKey != "attack_speed" && definition.AttributeKey != "attack_damage" {
+			collector.addError(model.GenericErrUnknownRef, path+".attributeKey", "only attack_speed and attack_damage derivations are supported", definition.AttributeKey)
+		}
+		if (definition.AttributeKey == "attack_damage" && definition.ValuePolicy != "multiply") || (definition.AttributeKey == "attack_speed" && definition.ValuePolicy != "") {
+			collector.addError(model.GenericErrFormulaTypeError, path+".valuePolicy", "attack_damage requires multiply; attack_speed requires its absolute value policy", definition.ValuePolicy)
 		}
 		if definition.CombatantKey != "source" && definition.CombatantKey != "target" {
 			collector.addError(model.GenericErrUnknownRef, path+".combatantKey", "unknown derivation combatant", definition.CombatantKey)
 		}
-		if seenActors[definition.CombatantKey] {
-			collector.addError(model.GenericErrRuntimeInvariantFailed, path, "at most one derivation per combatant is supported", definition.CombatantKey)
+		output := definition.CombatantKey + "." + definition.AttributeKey
+		if seenOutputs[output] {
+			collector.addError(model.GenericErrRuntimeInvariantFailed, path, "each combatant's derived output must be unique", output)
 		}
-		seenActors[definition.CombatantKey] = true
+		seenOutputs[output] = true
 		if _, exists := attributes[definition.CombatantKey][definition.AttributeKey]; !exists {
 			collector.addError(model.GenericErrUnknownRef, path+".attributeKey", "derived attribute slot is missing", definition.AttributeKey)
 		}
@@ -69,7 +73,7 @@ func compileAttributeDerivations(definitions []model.AttributeDerivationDefiniti
 		}
 		program := ctx.registerFormula(path+".value", instructions)
 		ctx.session.AttributeDerivations = append(ctx.session.AttributeDerivations, CompiledAttributeDerivation{
-			CombatantKey: definition.CombatantKey, AttributeKey: definition.AttributeKey, ValueProgram: program, Path: path,
+			CombatantKey: definition.CombatantKey, AttributeKey: definition.AttributeKey, ValuePolicy: definition.ValuePolicy, ValueProgram: program, Path: path,
 		})
 	}
 }

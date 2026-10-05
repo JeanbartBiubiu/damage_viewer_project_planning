@@ -621,7 +621,17 @@ func (s *genericRunState) resolveAttributesFor(combatantKey string, attrs map[st
 	if len(s.compiled.AttributeDerivations) == 0 {
 		return resolved
 	}
-	resolved, err = resolveDerivedAttributes(s.compiled, combatantKey, resolved, c.resolver, s.combatants["source"].attributes, s.combatants["target"].attributes, s.providerFormulaContextFunc(combatantKey, activeTargetKey))
+	ordinary := map[string]map[string]model.AttributeSlotDef{}
+	for _, owner := range []string{"source", "target"} {
+		host := s.combatants[owner]
+		ordinary[owner], err = host.resolver.ResolveAttributesWithProviderContext(host.attributes, evalCtx, s.compiled.Formulas, s.providerFormulaContextFunc(owner, activeTargetKey))
+		if err != nil {
+			s.processFailure = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+owner+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+			return attrs
+		}
+	}
+	ordinary[combatantKey] = resolved
+	resolved, err = resolveDerivedAttributes(s.compiled, combatantKey, resolved, c.resolver, ordinary["source"], ordinary["target"], s.providerFormulaContextFunc(combatantKey, activeTargetKey))
 	if err != nil {
 		s.processFailure = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 		return attrs

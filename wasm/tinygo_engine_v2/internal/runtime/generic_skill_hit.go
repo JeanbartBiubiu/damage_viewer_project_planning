@@ -21,6 +21,7 @@ const (
 )
 
 type skillUseRuntime struct {
+	ammoBefore   *ammoUseCapture
 	useKey       string
 	source       string
 	skillKey     string

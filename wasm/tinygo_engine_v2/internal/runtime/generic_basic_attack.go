@@ -12,6 +12,7 @@ import (
 const maxJSONSafeInteger int64 = 9007199254740991
 
 type basicAttackRuntime struct {
+	ammo               *basicAttackAmmo
 	plan               model.BasicAttackPlan
 	summary            model.BasicAttackSummary
 	current            *model.BasicAttackRecord
@@ -65,6 +66,7 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		return s.basicAttackErr("basic attack requires the selected source provider", "driverPlan.basicAttack.startAbilityRef")
 	}
 	periodicOperations := map[string]bool{}
+	ammoOperations := map[string]bool{}
 	idleAttackProvider := ""
 	for _, actor := range s.compiled.Combatants {
 		gearKeys := map[string]bool{}
@@ -82,6 +84,9 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 				}
 				if err := s.validateIdleBasicAttackProvider(gear, actor.Key, mount.ProviderRef); err != nil {
 					return err
+				}
+				if gear.AmmoBinding != nil {
+					ammoOperations[gear.AmmoBinding.ConsumptionPath] = true
 				}
 				idleAttackProvider = mount.ProviderRef
 				continue
@@ -144,7 +149,7 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		}
 	}
 	for _, derivation := range s.compiled.AttributeDerivations {
-		if derivation.AttributeKey != p.AttackSpeedAttributeKey {
+		if derivation.AttributeKey != p.AttackSpeedAttributeKey && derivation.AttributeKey != "attack_damage" {
 			return s.basicAttackErr("this stage allows only the actual attack-speed derivation", derivation.Path+".attributeKey")
 		}
 	}
@@ -191,11 +196,18 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 	s.basicAttack = &basicAttackRuntime{plan: *p, summary: model.BasicAttackSummary{PlanKey: p.PlanKey}, currentRecordIndex: -1, initialAbility: initial}
 	// Stage 2 accepts the same complete static subset emitted by the host adapter.
 	// Extra mechanisms fail closed instead of being filtered or implicitly executed.
-	if len(provider.Processes) != 1 || provider.AbilityCount != 3 || provider.Lifecycle != nil || len(provider.Modifiers)+len(provider.StateFields)+len(provider.StatusContributions) != 0 {
+	if len(provider.Processes) != 1 || provider.AbilityCount != 3 || provider.Lifecycle != nil || len(provider.Modifiers)+len(provider.StatusContributions) != 0 || !validBasicAttackAmmoProvider(provider) {
 		return s.basicAttackErr("continuous basic attack requires the complete static three-ability provider", "driverPlan.basicAttack")
 	}
 	if len(s.runtimeListeners) != 0 {
 		return s.basicAttackErr("continuous basic attack requires the unique native-start listener", "driverPlan.basicAttack")
+	}
+	if provider.AmmoBinding != nil {
+		if provider.AmmoBinding.ProcessIndex != processIndex || s.compiled.Abilities[provider.AmmoBinding.InitialAbilityIndex].AbilityKey != initial.AbilityKey {
+			return s.basicAttackErr("ammo binding does not address the selected initial process", "driverPlan.basicAttack.initialControlAbilityRef")
+		}
+		s.basicAttack.ammo = &basicAttackAmmo{owner: p.Source, providerRef: selectedRef.ProviderRef, definition: provider, binding: *provider.AmmoBinding}
+		ammoOperations[provider.AmmoBinding.ConsumptionPath] = true
 	}
 	var listener compilebundle.CompiledListener
 	startListeners := 0
@@ -255,12 +267,18 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 			return s.basicAttackErr("unsupported process moment", moment.Path)
 		}
 		for _, op := range s.compiled.Operations[int(moment.OperationStart) : int(moment.OperationStart)+int(moment.OperationCount)] {
+			if provider.AmmoBinding != nil && op.Path == provider.AmmoBinding.ConsumptionPath {
+				continue
+			}
 			if op.Operation != model.OperationKindApplyAttackLink && op.Operation != model.OperationKindApplyHitLink {
 				return s.basicAttackErr("pre-hit operation is outside the static link subset", op.Path)
 			}
 		}
 	}
 	for _, op := range s.compiled.Operations {
+		if ammoOperations[op.Path] {
+			continue
+		}
 		if initializationOperations[op.Path] || triggerOperations[op.Path] || periodicOperations[op.Path] {
 			continue
 		}
@@ -308,6 +326,9 @@ func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
 	}
 	if s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0 {
 		return nil
+	}
+	if ready, readinessError := s.basicAttackAmmoReady(); readinessError != nil || !ready {
+		return readinessError
 	}
 	currentSpeed := s.combatants[b.plan.Source].attributes[b.plan.AttackSpeedAttributeKey].Resolved
 	if math.IsNaN(currentSpeed) || math.IsInf(currentSpeed, 0) || currentSpeed <= 0 || currentSpeed > b.plan.AttackSpeedInputMax {

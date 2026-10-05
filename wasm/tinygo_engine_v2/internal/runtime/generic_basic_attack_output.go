@@ -105,5 +105,5 @@ func (s *genericRunState) recordingSummary() model.RecordingSummary {
 	if s.basicAttack != nil {
 		attacks = s.basicAttack.summary.StartedCount
 	}
-	return model.RecordingSummary{AttackRecordCount: attacks, ReturnedAttackRecords: len(s.attackRecords), DroppedAttackRecords: attacks - len(s.attackRecords), AttackRecordsTruncated: attacks > len(s.attackRecords), DamageRecordCount: s.damageRecordCount, ReturnedDamageRecords: len(s.damageRecords), DroppedDamageRecords: s.damageRecordCount - len(s.damageRecords), DamageRecordsTruncated: s.damageRecordCount > len(s.damageRecords)}
+	return model.RecordingSummary{MechanicRecordCount: s.mechanicRecordCount, ReturnedMechanicRecords: len(s.mechanicRecords), DroppedMechanicRecords: s.mechanicRecordCount - len(s.mechanicRecords), MechanicRecordsTruncated: s.mechanicRecordCount > len(s.mechanicRecords), AttackRecordCount: attacks, ReturnedAttackRecords: len(s.attackRecords), DroppedAttackRecords: attacks - len(s.attackRecords), AttackRecordsTruncated: attacks > len(s.attackRecords), DamageRecordCount: s.damageRecordCount, ReturnedDamageRecords: len(s.damageRecords), DroppedDamageRecords: s.damageRecordCount - len(s.damageRecords), DamageRecordsTruncated: s.damageRecordCount > len(s.damageRecords)}
 }

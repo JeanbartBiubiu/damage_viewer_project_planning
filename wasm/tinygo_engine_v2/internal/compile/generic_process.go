@@ -422,7 +422,7 @@ func validateProcessKey(key, path string, ctx *genericCompileContext) {
 
 func processMomentOperationSupported(kind string) bool {
 	switch kind {
-	case "damage", "heal", "shield", "resource_change", "attribute_change", "cooldown_change", "apply_provider", "refresh_provider", "expire_provider", "emit_event", model.OperationKindExecuteThreshold, model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
+	case "damage", "heal", "shield", "resource_change", "attribute_change", "cooldown_change", "state_change", "apply_provider", "refresh_provider", "expire_provider", "emit_event", model.OperationKindExecuteThreshold, model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
 		return true
 	}
 	return false

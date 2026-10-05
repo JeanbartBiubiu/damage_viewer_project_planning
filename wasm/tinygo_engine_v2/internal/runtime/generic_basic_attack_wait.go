@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"strings"
+	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/scheduler"
@@ -10,6 +11,8 @@ import (
 )
 
 type basicAttackWait struct {
+	providerState    map[string]float64
+	targetState      map[string]float64
 	initialReady     int64
 	sourceAttributes map[string]model.AttributeSlotDef
 	targetAttributes map[string]model.AttributeSlotDef
@@ -44,15 +47,31 @@ func (f *executionFrame) stageInitialBasicAttackWait(process *processRuntime, re
 	}
 	source := f.stageFor(attack.plan.Source).attributes
 	target := f.stageFor(attack.plan.Target).attributes
+	context := f.evalContext(attack.initialAbility)
 	f.pendingBasicAttackWait = &basicAttackWait{initialReady: ready, anchor: f.run.nowMs, period: ready - f.run.nowMs, remaining: 1,
 		speed: source[attack.plan.AttackSpeedAttributeKey].Resolved, ready: ready, generation: attack.waitGeneration + 1,
-		sourceAttributes: cloneAttributeMap(source), targetAttributes: cloneAttributeMap(target)}
+		sourceAttributes: cloneAttributeMap(source), targetAttributes: cloneAttributeMap(target),
+		providerState: basicAttackStateSnapshot(context.ProviderState, context.ProviderStateDefaults), targetState: basicAttackStateSnapshot(context.ProviderTargetState, context.ProviderStateDefaults)}
 	return nil
 }
 
-func basicAttackWaitDependenciesChanged(program formula.GenericProgram, wait *basicAttackWait, source, target map[string]model.AttributeSlotDef) bool {
+func basicAttackWaitDependenciesChanged(program formula.GenericProgram, wait *basicAttackWait, source, target map[string]model.AttributeSlotDef, context formula.GenericEvalContext) bool {
 	for _, instruction := range program.Instr {
 		if instruction.Op != formula.GenericOpRead {
+			continue
+		}
+		if instruction.ReadKind == formula.ReadProviderState || instruction.ReadKind == formula.ReadProviderTargetState {
+			previous, current := wait.providerState, context.ProviderState
+			if instruction.ReadKind == formula.ReadProviderTargetState {
+				previous, current = wait.targetState, context.ProviderTargetState
+			}
+			value, exists := current[instruction.ReadKey]
+			if !exists {
+				value = context.ProviderStateDefaults[instruction.ReadKey]
+			}
+			if previous[instruction.ReadKey] != value {
+				return true
+			}
 			continue
 		}
 		previous, current := wait.sourceAttributes, source
@@ -84,6 +103,15 @@ func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 		previous = f.pendingBasicAttackWait
 	}
 	if previous == nil {
+		if f.pendingAmmoWait != nil && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
+			return 1, nil
+		}
+		return 0, nil
+	}
+	if previous.ready <= f.run.nowMs {
+		if f.pendingAmmoWait != nil && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
+			return 1, nil
+		}
 		return 0, nil
 	}
 	staged := f.stageFor(attack.plan.Source)
@@ -100,8 +128,9 @@ func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 	}
 	process := f.run.compiled.Providers[attack.initialAbility.ProviderIndex].Processes[attack.initialAbility.ProcessControl.ProcessIndex]
 	program := f.run.compiled.Formulas.Programs[process.Cooldown.DurationProgram]
-	if speed == previous.speed && !basicAttackWaitDependenciesChanged(program, previous, sourceAttributes, targetAttributes) {
-		if f.pendingBasicAttackWait != nil && !f.run.heap.HasBasicAttack() {
+	evalContext := context.evalContext(attack.initialAbility)
+	if speed == previous.speed && !basicAttackWaitDependenciesChanged(program, previous, sourceAttributes, targetAttributes, evalContext) {
+		if (f.pendingBasicAttackWait != nil || f.pendingAmmoWait != nil) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
 			return 1, nil
 		}
 		return 0, nil
@@ -126,11 +155,13 @@ func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 	wait.anchor, wait.period, wait.speed = f.run.nowMs, period, speed
 	wait.sourceAttributes = cloneAttributeMap(sourceAttributes)
 	wait.targetAttributes = cloneAttributeMap(targetAttributes)
+	wait.providerState = basicAttackStateSnapshot(evalContext.ProviderState, evalContext.ProviderStateDefaults)
+	wait.targetState = basicAttackStateSnapshot(evalContext.ProviderTargetState, evalContext.ProviderStateDefaults)
 	wait.ready = f.run.nowMs + int64(delay)
 	wait.generation++
 	f.pendingBasicAttackWait = &wait
 	staged.cooldowns[attack.plan.InitialControlAbilityRef] = wait.ready
-	if !f.run.heap.HasBasicAttack() {
+	if !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
 		return 1, nil
 	}
 	return 0, nil
@@ -140,6 +171,8 @@ func (f *executionFrame) basicAttackWaitContext() (*executionFrame, *model.Engin
 	attack := f.run.basicAttack
 	context := &executionFrame{run: f.run, sourceKey: attack.plan.Source, targetKey: attack.plan.Target,
 		abilityRef: attack.plan.InitialControlAbilityRef, strictReads: true, staged: f.staged}
+	parsed, _ := compilebundle.ParseAbilityRef(attack.plan.InitialControlAbilityRef)
+	context.ownerCombatantKey, context.ownerProviderRef = attack.plan.Source, parsed.ProviderRef
 	providerChanges := false
 	for _, staged := range f.staged {
 		providerChanges = providerChanges || len(staged.providerOps) > 0
@@ -209,22 +242,32 @@ func (f *executionFrame) unmountWaitingProvider(owner, ref string) {
 }
 
 func (f *executionFrame) commitBasicAttackWait() {
-	if f.pendingBasicAttackWait == nil {
+	if f.pendingBasicAttackWait == nil && f.pendingAmmoWait == nil {
 		return
 	}
+	attack := f.run.basicAttack
 	wait := f.pendingBasicAttackWait
-	initial := f.run.basicAttack.wait == nil
-	f.run.basicAttack.wait = wait
-	f.run.basicAttack.waitGeneration = wait.generation
-	if !f.run.heap.RescheduleBasicAttack(wait.ready, wait.generation) {
-		f.run.pushCombatEvent(scheduler.GenericEvent{TimeMs: wait.ready, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1, BasicAttackGeneration: wait.generation})
+	initial := wait != nil && attack.wait == nil
+	if wait != nil {
+		attack.wait = wait
+		attack.waitGeneration = wait.generation
 	}
-	if initial && f.run.basicAttack.current != nil {
+	if f.continuousCombatantsLive() {
+		generation := uint64(0)
+		if attack.wait != nil {
+			generation = attack.wait.generation
+		}
+		ready := f.run.nextBasicAttackTime()
+		if !f.run.heap.RescheduleBasicAttack(ready, generation) {
+			f.run.pushCombatEvent(scheduler.GenericEvent{TimeMs: ready, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1, BasicAttackGeneration: generation})
+		}
+	}
+	if initial && attack.current != nil {
 		ready := wait.initialReady
 		f.run.basicAttack.current.ReadyAtMs = &ready
 	}
 	f.run.publishBasicAttackWait()
-	if initial && wait.ready == wait.initialReady {
+	if wait == nil || (initial && wait.ready == wait.initialReady) {
 		return
 	}
 	f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "basic_attack_wait_adjusted", Ref: f.run.basicAttack.plan.InitialControlAbilityRef,
@@ -233,7 +276,12 @@ func (f *executionFrame) commitBasicAttackWait() {
 
 func (s *genericRunState) publishBasicAttackWait() {
 	attack := s.basicAttack
-	if attack == nil || attack.current == nil {
+	if attack == nil {
+		return
+	}
+	next := s.nextBasicAttackTime()
+	attack.windowSettled = next > s.startMs+s.durationMs
+	if attack.current == nil {
 		return
 	}
 	if s.stopReasonSet && (s.stopReason == model.StopReasonBudgetExceeded || s.stopReason == model.StopReasonSourceDead || s.stopReason == model.StopReasonTargetDead || s.stopReason == model.StopReasonBothDead) {
@@ -249,9 +297,8 @@ func (s *genericRunState) publishBasicAttackWait() {
 	ready := attack.wait.ready
 	attack.current.FinalReadyAtMs = &ready
 	attack.current.NextStartAtMs = nil
-	attack.windowSettled = ready > s.startMs+s.durationMs
 	if !attack.windowSettled && s.combatantHp(attack.plan.Source) > 0 && s.combatantHp(attack.plan.Target) > 0 && s.budgetCause == "" {
-		attack.current.NextStartAtMs = &ready
+		attack.current.NextStartAtMs = &next
 	}
 	if attack.currentRecordIndex >= 0 {
 		s.attackRecords[attack.currentRecordIndex] = *attack.current
@@ -263,8 +310,33 @@ func (s *genericRunState) basicAttackEventCurrent(event scheduler.GenericEvent) 
 		return false
 	}
 	if s.basicAttack.wait == nil {
-		return event.BasicAttackGeneration == 0
+		return event.BasicAttackGeneration == 0 && event.TimeMs == s.nextBasicAttackTime()
 	}
 	wait := s.basicAttack.wait
-	return event.BasicAttackGeneration == wait.generation && event.TimeMs == wait.ready && s.combatants[s.basicAttack.plan.Source].cooldowns[s.basicAttack.plan.InitialControlAbilityRef] == wait.ready
+	return event.BasicAttackGeneration == wait.generation && event.TimeMs == s.nextBasicAttackTime() && s.combatants[s.basicAttack.plan.Source].cooldowns[s.basicAttack.plan.InitialControlAbilityRef] == wait.ready
+}
+
+func (s *genericRunState) nextBasicAttackTime() int64 {
+	ready := s.nowMs
+	if s.basicAttack.wait != nil && s.basicAttack.wait.ready > ready {
+		ready = s.basicAttack.wait.ready
+	}
+	if ammo := s.basicAttack.ammo; ammo != nil && ammo.wait.active && ammo.wait.readyAt > ready {
+		ready = ammo.wait.readyAt
+	}
+	return ready
+}
+
+func basicAttackStateSnapshot(values, defaults map[string]float64) map[string]float64 {
+	if len(values)+len(defaults) == 0 {
+		return nil
+	}
+	snapshot := make(map[string]float64, len(values)+len(defaults))
+	for key, value := range defaults {
+		snapshot[key] = value
+	}
+	for key, value := range values {
+		snapshot[key] = value
+	}
+	return snapshot
 }

@@ -73,6 +73,9 @@ type genericRunState struct {
 	budgetCause               model.BudgetCause
 	basicAttack               *basicAttackRuntime
 	attackRecords             []model.BasicAttackRecord
+	mechanicRecords           []model.MechanicRecord
+	mechanicRecordCount       int
+	maxMechanicRecords        int
 	damageRecords             []map[string]interface{}
 	damageBreakdown           []model.DamageBreakdown
 	damageBreakdownIndex      map[damageBreakdownKey]int
@@ -267,10 +270,14 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	state.heap.SetLimit(compiled.Settings.MaxQueueEvents)
 	state.maxAttackRecords, state.maxDamageRecords = 1000, 2000
 	state.attackRecords = []model.BasicAttackRecord{}
+	state.mechanicRecords = []model.MechanicRecord{}
 	state.damageRecords = []map[string]interface{}{}
 	state.damageBreakdown = []model.DamageBreakdown{}
 	state.damageBreakdownIndex = map[damageBreakdownKey]int{}
 	if req.RecordBudget != nil {
+		if req.RecordBudget.MaxMechanicRecords != nil {
+			state.maxMechanicRecords = *req.RecordBudget.MaxMechanicRecords
+		}
 		if req.RecordBudget.MaxAttackRecords != nil {
 			state.maxAttackRecords = *req.RecordBudget.MaxAttackRecords
 		}
@@ -278,7 +285,7 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 			state.maxDamageRecords = *req.RecordBudget.MaxDamageRecords
 		}
 	}
-	if state.maxAttackRecords < 0 || state.maxAttackRecords > 4096 || state.maxDamageRecords < 0 || state.maxDamageRecords > 10000 {
+	if state.maxAttackRecords < 0 || state.maxAttackRecords > 4096 || state.maxDamageRecords < 0 || state.maxDamageRecords > 10000 || state.maxMechanicRecords < 0 || state.maxMechanicRecords > 10000 {
 		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "invalid record retention budget", "recordBudget", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 	}
 	if err := state.initSamplingCursor(); err != nil {
@@ -336,6 +343,9 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 				if in.ReadKind == formula.ReadProcessActualCost {
 					addError(model.GenericErrFormulaTypeError, path, "process actual costs are unavailable in a driver condition", in.ReadKey)
 				}
+				if in.ReadKind == formula.ReadUseAmmoBefore {
+					addError(model.GenericErrFormulaTypeError, path, "use.ammo.before is unavailable before native attack admission", "use.ammo.before")
+				}
 			}
 			if len(instr) > 0 {
 				key := "run:" + path
@@ -361,6 +371,9 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 			for _, in := range instr {
 				if in.ReadKind == formula.ReadProcessActualCost {
 					addError(model.GenericErrFormulaTypeError, path, "process actual costs are unavailable in a driver repeat", in.ReadKey)
+				}
+				if in.ReadKind == formula.ReadUseAmmoBefore {
+					addError(model.GenericErrFormulaTypeError, path, "use.ammo.before is unavailable in a driver repeat", "use.ammo.before")
 				}
 			}
 			if len(instr) == 0 {
@@ -751,6 +764,8 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			if s.basicAttackEventCurrent(ev) {
 				err = s.handleBasicAttack()
 			}
+		case scheduler.GenericEventAmmoRecovery:
+			err = s.handleAmmoRecovery(ev)
 		}
 		if err == nil {
 			err = s.processFailure
@@ -1106,10 +1121,11 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 	warnings, warningCount := s.buildWarnings(downsampled, droppedSeriesPoints)
 
 	return model.DoneResult{
-		OK:            true,
-		AttackRecords: s.attackRecords,
-		DamageRecords: s.damageRecords,
-		Recording:     s.recordingSummary(),
+		OK:              true,
+		AttackRecords:   s.attackRecords,
+		DamageRecords:   s.damageRecords,
+		MechanicRecords: s.mechanicRecords,
+		Recording:       s.recordingSummary(),
 		Summary: model.RunSummary{
 			BasicAttack:         basicSummary,
 			Execution:           s.executionSummary(),

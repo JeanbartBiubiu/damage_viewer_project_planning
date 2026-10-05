@@ -47,6 +47,9 @@ const (
 	ReadDamageSelf
 	ReadDamageStage
 	ReadEventLink
+	ReadUseAmmoBefore
+	ReadSourceStatusPresent
+	ReadTargetStatusPresent
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -316,6 +319,18 @@ func validForwardJump(pc, target, length int) bool {
 }
 
 func parseReadPath(path string) (GenericReadKind, string, bool) {
+	if path == "use.ammo.before" {
+		return ReadUseAmmoBefore, "before", true
+	}
+	for _, statusPath := range []struct {
+		prefix string
+		kind   GenericReadKind
+	}{{"source.status.", ReadSourceStatusPresent}, {"target.status.", ReadTargetStatusPresent}} {
+		if strings.HasPrefix(path, statusPath.prefix) {
+			key := strings.TrimSuffix(strings.TrimPrefix(path, statusPath.prefix), ".present")
+			return statusPath.kind, key, key != "" && !strings.ContainsAny(key, ".[] ") && strings.HasSuffix(path, ".present")
+		}
+	}
 	if strings.HasPrefix(path, "damage.stage.") {
 		key := strings.TrimPrefix(path, "damage.stage.")
 		_, ok := model.DamageStageIndex(key)

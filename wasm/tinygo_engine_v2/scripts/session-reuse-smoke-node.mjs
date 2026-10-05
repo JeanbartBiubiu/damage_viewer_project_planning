@@ -38,12 +38,13 @@ for (const [index, request] of (fixture.runVariants ?? []).entries()) {
   variants.push({ index, requestedDurationMs: request.stopPolicy?.durationMs, durationMs: done.summary.durationMs });
 }
 const truncatedFixture = { ...fixture, runRequest: { ...fixture.runRequest,
-  recordBudget: { maxAttackRecords: 0, maxDamageRecords: 0 } } };
+  recordBudget: { maxAttackRecords: 0, maxDamageRecords: 0, maxMechanicRecords: 0 } } };
 const truncated = runCanonicalSession(host.exports, truncatedFixture, compiled.sessionId, compiled.rulesHash);
 assert.deepEqual(truncated.summary, baseline.summary);
 assert.deepEqual(truncated.finalSnapshot, baseline.finalSnapshot);
 assert.equal(truncated.attackRecords.length, 0);
 assert.equal(truncated.damageRecords.length, 0);
+assert.equal(truncated.mechanicRecords.length, 0);
 const rejectedRequest = { ...fixture.runRequest, sessionId: compiled.sessionId, expectedRulesHash: 'invalid_reuse_probe_hash' };
 assert.throws(() => invokeFrame(host.exports, 'engine_run', FRAME_GENERIC_RUN, rejectedRequest), /hash_mismatch|expectedRulesHash/i);
 assert.deepEqual(runCanonicalSession(host.exports, fixture, compiled.sessionId, compiled.rulesHash), baseline);

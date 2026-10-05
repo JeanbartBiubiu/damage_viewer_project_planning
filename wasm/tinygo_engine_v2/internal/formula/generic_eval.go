@@ -10,6 +10,11 @@ import (
 
 // GenericEvalContext 是 generic formula 运行时只读视图。
 type GenericEvalContext struct {
+	HasUseAmmoBefore      bool
+	UseAmmoBefore         float64
+	HasStatusContext      bool
+	SourceStatuses        map[string]bool
+	TargetStatuses        map[string]bool
 	DamageStages          [5]float64
 	DamageStageCount      int
 	HasEventLink          bool
@@ -257,6 +262,29 @@ func bool01(ok bool) float64 {
 }
 
 func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64, error) {
+	if kind == ReadUseAmmoBefore {
+		if !ctx.HasUseAmmoBefore {
+			return 0, errors.New("use.ammo.before requires the original owning use's committed ammo capture")
+		}
+		return ctx.UseAmmoBefore, nil
+	}
+	if kind == ReadSourceStatusPresent || kind == ReadTargetStatusPresent {
+		if !ctx.HasStatusContext {
+			return 0, errors.New("status presence requires a combatant status context")
+		}
+		statuses := ctx.SourceStatuses
+		if kind == ReadTargetStatusPresent {
+			statuses = ctx.TargetStatuses
+		}
+		present, declared := statuses[key]
+		if !declared {
+			return 0, errors.New("unknown status presence key: " + key)
+		}
+		if present {
+			return 1, nil
+		}
+		return 0, nil
+	}
 	switch kind {
 	case ReadSourceAttr:
 		return readAttrValueChecked(ctx.SourceAttrs, key, ctx.StrictReads)

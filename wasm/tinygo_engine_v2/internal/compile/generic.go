@@ -23,6 +23,8 @@ type CompiledAbilityRef struct {
 
 // CompiledSession 是 generic compile 输出的只读 session 快照。
 type CompiledSession struct {
+	HasMechanicReads     bool
+	StatusKeys           []string
 	SchemaVersion        string
 	SchemaHash           string
 	RulesHash            string
@@ -42,6 +44,7 @@ type CompiledSession struct {
 }
 
 type CompiledAttributeDerivation struct {
+	ValuePolicy  string
 	CombatantKey string
 	AttributeKey string
 	ValueProgram formula.GenericProgramID
@@ -137,6 +140,8 @@ type CompiledStatusContribution struct {
 
 // CompiledProviderStateField 是 initialStateSchema 规范化后的 provider-scope 字段定义（Gate H1）。
 type CompiledProviderStateField struct {
+	StateKind     string
+	AmmoRecovery  *CompiledAmmoRecovery
 	ValueType     string
 	DefaultValue  float64
 	MaxValue      float64
@@ -147,6 +152,7 @@ type CompiledProviderStateField struct {
 
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
+	AmmoBinding         *CompiledAmmoBinding
 	Processes           []CompiledProcess
 	ProviderKey         string
 	Kind                string
@@ -217,6 +223,7 @@ type CompiledAbility struct {
 
 // CompiledOperation 是 compile 后的 operation 定义。
 type CompiledOperation struct {
+	OwnerProviderIndex    int
 	Operation             string
 	Target                string
 	DamageType            string
@@ -438,6 +445,8 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	validateProcessAbilityRefs(req, ctx)
 	validateAllAbilityRefs(req, ctx)
 	finalizeListenerIndex(ctx)
+	compileAmmoBindings(ctx)
+	validateMechanicFormulaContexts(ctx)
 	validateDamageStageContexts(ctx)
 	if len(session.Operations) > 65535 {
 		collector.addError(model.GenericErrRuntimeInvariantFailed, "operations", "compiled operations exceed supported index range", "")
@@ -567,6 +576,7 @@ func compileProviderDefinition(provider model.ProviderDefinition, path string, c
 	compiled.StatusContributions = compileStatusContributions(provider.StatusContributions, path+".statusContributions", ctx)
 	validateProviderStatusLifecycle(provider, compiled, path, collector)
 	compiled.StateFields = compileInitialStateSchema(provider.InitialStateSchema, path+".initialStateSchema", collector)
+	compileAmmoStateFields(provider.InitialStateSchema, compiled.StateFields, path+".initialStateSchema", ctx)
 	session.Providers = append(session.Providers, compiled)
 }
 
@@ -1189,6 +1199,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		Target:                op.Target,
 		DamageType:            op.DamageType,
 		ResourceKey:           op.ResourceKey,
+		OwnerProviderIndex:    ownerProviderIndex,
 		AttributeKey:          op.AttributeKey,
 		ValuePolicy:           op.ValuePolicy,
 		ProviderDefinitionRef: op.ProviderDefinitionRef,

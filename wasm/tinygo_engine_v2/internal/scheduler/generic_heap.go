@@ -14,6 +14,7 @@ const (
 	GenericCategoryAnchoredTick
 	GenericCategoryExpireCleanup
 	GenericCategoryProviderTick
+	GenericCategoryAmmoRecovery
 	GenericCategoryAbilityAttempt
 	GenericCategoryTriggeredContinuation
 	GenericCategorySample
@@ -32,6 +33,7 @@ const (
 	GenericEventProcessTimer
 	GenericEventBasicAttack
 	GenericEventSourceInitialized
+	GenericEventAmmoRecovery
 )
 
 // ProviderInstanceRef 定位 combatant 上的 provider instance。
@@ -42,6 +44,7 @@ type ProviderInstanceRef struct {
 
 // GenericEvent 是 generic runtime 调度事件。
 type GenericEvent struct {
+	AmmoGeneration        uint64
 	BasicAttackGeneration uint64
 	ProcessIndex          int
 	ProcessStepVersion    int

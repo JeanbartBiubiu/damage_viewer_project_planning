@@ -117,6 +117,9 @@ func (f *executionFrame) commitKeysAndPreflight() ([]string, *model.EngineError)
 	}
 	sort.Strings(keys)
 	count := len(f.pendingStateExpiry) + len(f.pendingAnchoredTicks) + waitEvents
+	if f.pendingAmmoWait != nil && f.pendingAmmoWait.active && f.continuousCombatantsLive() {
+		count++
+	}
 	if f.providerTickCanContinue() {
 		count++
 	}
@@ -256,6 +259,7 @@ func (f *executionFrame) preflightProviderMutation(providers []status.ProviderIn
 }
 
 func (f *executionFrame) commitFrameQueues() {
+	f.commitAmmoWait()
 	f.commitBasicAttackWait()
 	for _, pending := range f.pendingStateExpiry {
 		f.run.enqueueExpireCleanup(pending.at, pending.payload)

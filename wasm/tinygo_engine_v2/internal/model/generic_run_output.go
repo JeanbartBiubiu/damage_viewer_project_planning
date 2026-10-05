@@ -48,6 +48,7 @@ const (
 
 // DoneResult 是 generic run 成功时的 outbox payload。
 type DoneResult struct {
+	MechanicRecords        []MechanicRecord         `json:"mechanicRecords"`
 	OK                     bool                     `json:"ok"`
 	Summary                RunSummary               `json:"summary"`
 	AttackRecords          []BasicAttackRecord      `json:"attackRecords"`
