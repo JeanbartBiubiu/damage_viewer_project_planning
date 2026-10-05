@@ -58,6 +58,12 @@ func (f *executionFrame) recordOverheal(source string, amount float64) {
 
 func (f *executionFrame) commitFrameFacts() {
 	f.committed = true
+	if f.processIsNew && f.processOriginal != nil {
+		f.run.publishSkillActionStart(f.processOriginal)
+	}
+	for _, record := range f.pendingDirectHealing {
+		f.run.recordDirectHealing(record)
+	}
 	if capture := f.pendingAmmoCapture; capture != nil {
 		f.run.skillUses[capture.useRef].ammoBefore = capture
 	}
@@ -78,6 +84,7 @@ func (f *executionFrame) commitFrameFacts() {
 		f.run.recordCommittedDamage(f, damage)
 	}
 	for _, item := range f.pendingEvidence {
+		f.run.recordSkillActionHit(item)
 		f.run.recordEvidence(item)
 	}
 	if f.copyableCollector != nil {

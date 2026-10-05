@@ -96,6 +96,7 @@ graph LR
 | 对象 | 职责 |
 | --- | --- |
 | `CompiledSession` | 只读规则快照：schema/rules hash、combatants、providers、abilities、operations、formulas、settings、abilityRefIndex |
+| `CompiledSkillActionBinding` | 编译期固定来源、首次过程控制与合法完成命中绑定；运行只选择预设，不改过程时点或能力引用 |
 | `CompiledCombatant` | combatant 模板与 provider mounts |
 | `CompiledProvider` / `CompiledAbility` | capability 与 ability 定义；含 `instanceScope`、`statusContributions` 与治疗组计算方式 |
 | `CompiledOperation` | 执行期 operation IR；`resolve_skill_hit` 携带编译后的命中计划；`outputRef` 导出同帧伤害口径 |
@@ -133,6 +134,8 @@ graph TD
 `generic_sampling_cursor.go`只在战斗时点之间和同刻全部提交后观察，独立于`scheduler.GenericHeap`。调整或关闭采样、截断记录都不改变战斗时钟、事件预算或可靠汇总。具体运行字段与验收以规划工作树阶段2设计及验收记录为准，本图不另定义契约。
 
 ## 主动过程运行链
+
+阶段6A `generic_skill_actions.go` 的原生单条行动与现有事件堆共用时钟。指令时点调用真实过程控制，开始帧提交发布使用身份；过程成功完成的同步尾部生成同一使用的命中事实，不另排宿主计时器或预加载成功事实。直接治疗与实际扣血在原帧提交时累计，行动、使用、治疗记录预算只控制保留数量。6B混合占用及6C复杂指令尚未开放；详细契约以规划真源阶段6设计为准。
 
 `model/generic_process.go` 固定第4项过程、控制事实与实例快照；`compile/generic_process.go` 编译步骤时间、逐笔成本和有序时点操作。`runtime/generic_process.go` 负责单次控制入口、暂存付款、统一时点和终结；`runtime/generic_process_snapshot.go` 负责严格恢复与计时重建。
 

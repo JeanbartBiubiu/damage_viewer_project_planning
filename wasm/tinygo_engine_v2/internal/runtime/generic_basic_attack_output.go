@@ -26,10 +26,10 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 	data["sourceHpBefore"], data["sourceHpAfter"] = nil, nil
 	if ev.hasSourceHp {
 		data["sourceHpBefore"], data["sourceHpAfter"] = ev.sourceHpBefore, ev.sourceHpAfter
-		if s.basicAttack != nil {
-			if ev.source == s.basicAttack.plan.Source {
+		if s.automatedRun() {
+			if ev.source == model.SelectorSource {
 				s.sourceVampHealing += ev.sourceHpAfter - ev.sourceHpBefore
-			} else if ev.source == s.basicAttack.plan.Target {
+			} else if ev.source == model.SelectorTarget {
 				s.targetVampHealing += ev.sourceHpAfter - ev.sourceHpBefore
 			}
 		}
@@ -39,6 +39,23 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 	data["operationRef"] = ev.operationRef
 	data["useRef"] = ""
 	data["attackIndex"] = 0
+	if s.skillAction != nil {
+		data["attackIndex"] = nil
+		data["hitRef"] = nil
+		hit := f.skillHitOccurrenceID
+		if hit == 0 && f.eventCtx != nil && f.eventCtx.skillHit != nil {
+			hit = f.eventCtx.skillHit.occurrenceID
+		}
+		if hit != 0 {
+			data["hitRef"] = "hit:" + itoa(uint32(hit))
+		}
+	}
+	if use := f.skillActionUseRef(); use != "" {
+		data["useRef"] = use
+		if s.skillAction != nil && use == s.skillAction.useRef {
+			data["instructionKey"] = s.skillAction.plan.InstructionKey
+		}
+	}
 	data["timeMs"] = s.nowMs
 	if s.basicAttack != nil && s.basicAttack.current != nil && s.basicAttackEventActive {
 		row := s.basicAttack.current
@@ -52,7 +69,12 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 		at := s.nowMs
 		s.basicAttack.targetKilledAt = &at
 	}
+	if s.skillAction != nil && ev.target == model.SelectorTarget && ev.hpBefore > 0 && ev.hpAfter <= 0 && s.skillAction.targetKilledAt == nil {
+		at := s.nowMs
+		s.skillAction.targetKilledAt = &at
+	}
 	if ev.target == model.SelectorSource {
+
 		s.sourceHpLoss += ev.outcome.HPDamage
 	}
 	if ev.target == model.SelectorTarget {
@@ -79,6 +101,16 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 }
 
 func (s *genericRunState) executionSummary() *model.RunExecutionSummary {
+	if s.skillAction != nil {
+		result := &model.RunExecutionSummary{RequestedDurationMs: s.durationMs, Complete: s.budgetCause == "" && (s.nowMs >= s.startMs+s.durationMs || s.combatantHp(model.SelectorSource) <= 0 || s.combatantHp(model.SelectorTarget) <= 0), TargetKilled: s.skillAction.targetKilledAt != nil, TargetKilledAtMs: s.skillAction.targetKilledAt}
+		if s.budgetCause != "" {
+			cause := s.budgetCause
+			result.BudgetCause = &cause
+			reason := "budget_exceeded"
+			result.IncompleteReason = &reason
+		}
+		return result
+	}
 	if s.basicAttack == nil {
 		return nil
 	}

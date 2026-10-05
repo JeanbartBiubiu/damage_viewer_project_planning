@@ -51,6 +51,18 @@ type damageRecord struct {
 }
 
 type genericRunState struct {
+	skillAction                *skillActionRuntime
+	skillActionRecords         []model.SkillActionRecord
+	skillUseRecords            []model.SkillUseRecord
+	healingRecords             []model.DirectHealingRecord
+	skillActionRecordCount     int
+	skillUseRecordCount        int
+	healingRecordCount         int
+	maxSkillActionRecords      int
+	maxSkillUseRecords         int
+	maxHealingRecords          int
+	sourceDirectHealing        float64
+	targetDirectHealing        float64
 	processInstances           []*processRuntime
 	processFacts               map[string]model.ProcessCommandFact
 	processFailure             *model.EngineError
@@ -161,7 +173,7 @@ func RunGeneric(compiled compilebundle.CompiledSession, req model.RunRequest) (m
 }
 
 func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunRequest) (*genericRunState, *model.EngineError) {
-	if req.DriverPlan.BasicAttack != nil && len(compiled.RuleModifiers) != 0 {
+	if (req.DriverPlan.BasicAttack != nil || len(req.DriverPlan.SkillActions) > 0) && len(compiled.RuleModifiers) != 0 {
 		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "continuous basic attack does not admit unselected global modifiers", "rules.modifiers", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 	}
 	recheck := normalizeConditionRecheckInterval(req.DriverPlan.ConditionRecheckIntervalMs)
@@ -204,7 +216,7 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 		if sb.MaxBasicAttacks > 0 {
 			budget.MaxBasicAttacks = sb.MaxBasicAttacks
 		}
-		if req.DriverPlan.BasicAttack != nil && ((sb.MaxEvents > compiled.Settings.MaxEvents && compiled.Settings.MaxEvents > 0) || (sb.MaxCommandsPerEvent > compiled.Settings.MaxCommandsPerEvent && compiled.Settings.MaxCommandsPerEvent > 0) || (sb.MaxChainDepth > compiled.Settings.MaxChainDepth && compiled.Settings.MaxChainDepth > 0)) {
+		if (req.DriverPlan.BasicAttack != nil || len(req.DriverPlan.SkillActions) > 0) && ((sb.MaxEvents > compiled.Settings.MaxEvents && compiled.Settings.MaxEvents > 0) || (sb.MaxCommandsPerEvent > compiled.Settings.MaxCommandsPerEvent && compiled.Settings.MaxCommandsPerEvent > 0) || (sb.MaxChainDepth > compiled.Settings.MaxChainDepth && compiled.Settings.MaxChainDepth > 0)) {
 			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "run safety budget exceeds compiled limits", "safetyBudget", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 		}
 		if sb.MaxProcessInstances > 0 {
@@ -309,10 +321,14 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	if err := state.initBasicAttack(); err != nil {
 		return nil, err
 	}
+	if err := state.initSkillAction(); err != nil {
+		return nil, err
+	}
 	if err := state.seedSourceInitialization(); err != nil {
 		return nil, err
 	}
 	state.seedDriverAttempts()
+	state.seedSkillAction()
 	state.seedExpireCleanups()
 	state.seedProviderTicks()
 	if state.basicAttack != nil {
@@ -703,13 +719,23 @@ func (s *genericRunState) runLoop() *model.EngineError {
 	end := s.startMs + s.durationMs
 	for {
 		if s.processFailure != nil {
-			if s.basicAttack == nil || s.processFailure.BudgetCause == "" {
+			if !s.automatedRun() || s.processFailure.BudgetCause == "" {
 				return s.processFailure
 			}
 			s.setStopReason(model.StopReasonBudgetExceeded)
 			break
 		}
 		next, hasNext := s.heap.PeekTime()
+		if s.skillAction != nil && (s.combatantHp(model.SelectorSource) <= 0 || s.combatantHp(model.SelectorTarget) <= 0) {
+			s.finalizeStopReason()
+			break
+		}
+		if s.skillAction != nil && (!hasNext || next > end) {
+			s.flushSamplesBefore(end)
+			s.nowMs = end
+			s.setStopReason(model.StopReasonDurationReached)
+			break
+		}
 		// A known cooldown beyond the window finishes observation without a combat event.
 		if s.basicAttack != nil && !s.basicAttack.unfinishedTail && s.basicAttack.windowSettled && (!hasNext || next > end) {
 			s.flushSamplesBefore(end)
@@ -744,6 +770,9 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		s.flushSamplesBefore(ev.TimeMs)
 		s.nowMs = ev.TimeMs
 		s.processedEvents++
+		if s.skillAction != nil {
+			s.currentEventCommands = 0
+		}
 		var err *model.EngineError
 		switch ev.Kind {
 		case scheduler.GenericEventSourceInitialized:
@@ -758,6 +787,8 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			err = s.handleProviderTick(ev)
 		case scheduler.GenericEventAbilityAttempt:
 			err = s.handleAbilityAttempt(ev)
+		case scheduler.GenericEventSkillAction:
+			err = s.handleSkillAction()
 		case scheduler.GenericEventTriggeredContinuation:
 			err = s.handleTriggeredContinuation(ev)
 		case scheduler.GenericEventBasicAttack:
@@ -771,7 +802,7 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			err = s.processFailure
 		}
 		if err != nil {
-			if s.basicAttack == nil || err.BudgetCause == "" {
+			if !s.automatedRun() || err.BudgetCause == "" {
 				return err
 			}
 			s.setStopReason(model.StopReasonBudgetExceeded)
@@ -889,6 +920,9 @@ func (s *genericRunState) handleAbilityAttempt(ev scheduler.GenericEvent) *model
 		return s.handleProcessCommand(entry, ev.DriverEntryIndex, ability, statRef)
 	}
 	gate := s.checkAttemptGate(entry, ev.DriverEntryIndex)
+	if gate.err != nil {
+		return gate.err
+	}
 	if gate.skipped {
 		s.attemptSkippedCount++
 		acc.skipCount++
@@ -1101,6 +1135,18 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 	}
 	var basicSummary *model.BasicAttackSummary
 	var sourceVampHealing, targetVampHealing *float64
+	var actionSummary *model.SkillActionSummary
+	var useSummary *model.SkillUseSummary
+	var sourceDirectHealing, targetDirectHealing *float64
+	if s.skillAction != nil {
+		s.skillAction.summary.UnreachedCount = s.skillAction.summary.PlannedCount - s.skillAction.summary.ReachedCount
+		s.skillAction.uses.InFlightCount = s.skillAction.uses.StartedCount - s.skillAction.uses.CompletedCount - s.skillAction.uses.FailedCount
+		actionSummary, useSummary = &s.skillAction.summary, &s.skillAction.uses
+	}
+	if s.automatedRun() {
+		sourceDirectHealing, targetDirectHealing = &s.sourceDirectHealing, &s.targetDirectHealing
+		sourceVampHealing, targetVampHealing = &s.sourceVampHealing, &s.targetVampHealing
+	}
 	if s.basicAttack != nil {
 		basicSummary = &s.basicAttack.summary
 		sourceVampHealing, targetVampHealing = &s.sourceVampHealing, &s.targetVampHealing
@@ -1121,12 +1167,19 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 	warnings, warningCount := s.buildWarnings(downsampled, droppedSeriesPoints)
 
 	return model.DoneResult{
-		OK:              true,
-		AttackRecords:   s.attackRecords,
-		DamageRecords:   s.damageRecords,
-		MechanicRecords: s.mechanicRecords,
-		Recording:       s.recordingSummary(),
+		SkillActionRecords: s.skillActionRecords,
+		SkillUseRecords:    s.skillUseRecords,
+		HealingRecords:     s.healingRecords,
+		OK:                 true,
+		AttackRecords:      s.attackRecords,
+		DamageRecords:      s.damageRecords,
+		MechanicRecords:    s.mechanicRecords,
+		Recording:          s.skillRecordingSummary(s.recordingSummary()),
 		Summary: model.RunSummary{
+			SkillActions:        actionSummary,
+			SkillUses:           useSummary,
+			SourceDirectHealing: sourceDirectHealing,
+			TargetDirectHealing: targetDirectHealing,
 			BasicAttack:         basicSummary,
 			Execution:           s.executionSummary(),
 			SourceHpLoss:        s.sourceHpLoss,
@@ -1203,7 +1256,7 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 			snapshot.Combatants[i].Vars = map[string]interface{}{}
 		}
 	}
-	if s.basicAttack == nil || s.budgetCause == "" {
+	if !s.automatedRun() || s.budgetCause == "" {
 		s.lazyExpireAllProviderState()
 	}
 	for i, c := range snapshot.Combatants {

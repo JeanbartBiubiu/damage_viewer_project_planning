@@ -34,6 +34,7 @@ const (
 	GenericEventBasicAttack
 	GenericEventSourceInitialized
 	GenericEventAmmoRecovery
+	GenericEventSkillAction
 )
 
 // ProviderInstanceRef 定位 combatant 上的 provider instance。

@@ -149,6 +149,7 @@ type executionFrame struct {
 	committed             bool
 	pendingEvidence       []model.EvidenceItem
 	pendingDamage         []genericDamageEvidence
+	pendingDirectHealing  []model.DirectHealingRecord
 	pendingDamageHistory  []damageRecord
 	pendingOverheal       map[string]float64
 	pendingDamageIDs      uint64
@@ -614,7 +615,7 @@ func (f *executionFrame) executeOperations(ability compilebundle.CompiledAbility
 }
 
 func (f *executionFrame) bumpCommandBudget() *model.EngineError {
-	if f.run.basicAttackEventActive || f.run.initializationEventActive {
+	if f.run.basicAttackEventActive || f.run.initializationEventActive || f.run.skillAction != nil {
 		return f.run.consumeEventCommands(1)
 	}
 	if f.copyableCollector != nil {
@@ -732,13 +733,17 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			}
 			return f.applyDamageCommand(cmd, op, critEv, ability, critMods)
 		}
+		operationRef := op.Ref
+		if operationRef == "" {
+			operationRef = op.Path
+		}
 		cmd := command.Command{
 			Kind:       command.Kind(op.Operation),
 			Source:     f.sourceKey,
 			Target:     targetKey,
 			Amount:     amount,
 			DamageType: op.DamageType,
-			Ref:        op.AttributeKey,
+			Ref:        operationRef,
 		}
 		return f.applyCommand(cmd, ability)
 	case "resource_change":
@@ -2166,6 +2171,16 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	}
 	// Mint after successful gate (driver) / lifecycle staging; Listener AbilityRef always new ID.
 	frame.castInstanceID = s.mintCastInstanceID()
+	if s.skillAction != nil {
+		if fact, exists := s.skillHitFacts[driverEntryKey]; exists && fact.UseRef != nil && *fact.UseRef == s.skillAction.useRef {
+			for _, process := range s.processInstances {
+				if process.UseKey == *fact.UseRef {
+					frame.castInstanceID = process.castID
+					break
+				}
+			}
+		}
+	}
 	frame.castOrigin = ability.CastOrigin
 	frame.countCastOnCommit = !isNativeHitFollowUp(frame.driverEntryKey)
 	if err := frame.executeOperations(ability, ops); err != nil {
@@ -2415,7 +2430,6 @@ func (f *executionFrame) maybeQueueDamageDealtEvent(ability compilebundle.Compil
 
 // maybeDispatchAbilityStartedEvent 在顶层成功 cast 后自动合成 event/ability_started（reserved 20205）。
 // 条件：chainDepth==0，且 ability TypeSet 不含 ability/basic_attack（经 type catalog Lookup，禁止 abilityKey 启发式）。
-// catalog 缺 ability/basic_attack 时 fail closed（不合成）；缺 event/ability_started 时同样不合成。
 // gate/cost/cooldown 失败不会进入本路径；listener child cast（chainDepth>0）不合成。
 // TypeSet includes event/ability_started plus the source ability TypeSet keys.
 func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.CompiledAbility) *model.EngineError {
@@ -2432,11 +2446,7 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.
 		}
 	}
 	basicAttackID, ok := f.run.compiled.Types.Registry.Lookup(abilityTypeBasicAttack)
-	if !ok {
-		// Fail closed: without the classifier type, never treat all abilities as non-basic-attack.
-		return nil
-	}
-	if ability.TypeSet.Contains(basicAttackID) {
+	if ability.IsBasicAttack || (ok && ability.TypeSet.Contains(basicAttackID)) {
 		return nil
 	}
 	if _, ok := f.run.compiled.Types.Registry.Lookup(eventTypeAbilityStarted); !ok {
@@ -2450,6 +2460,15 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.
 		"source":    f.sourceKey,
 		"target":    f.targetKey,
 		"eventType": eventTypeAbilityStarted,
+	}
+	useRef := f.processUseKey
+	if useRef != "" {
+		startedData["useRef"], startedData["skillKey"], startedData["phaseKind"] = useRef, f.processUseSkillKey, "INITIAL"
+		startedData["owner"], startedData["providerRef"] = f.ownerCombatantKey, f.ownerProviderRef
+		if f.run.skillAction != nil && f.run.skillAction.useRef == useRef {
+			startedData["instructionKey"] = f.run.skillAction.plan.InstructionKey
+			startedData["providerDefinitionRef"] = f.run.skillAction.binding.ProviderDefinitionRef
+		}
 	}
 	attachCastProvenance(startedData, f.castInstanceID, f.castOrigin)
 	f.recordEvidence(model.EvidenceItem{
@@ -2467,6 +2486,10 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.
 		snapshot:       f.captureEmitSnapshot(eventTypeAbilityStarted, f.sourceKey, f.targetKey),
 		castInstanceID: f.castInstanceID,
 		castOrigin:     f.castOrigin,
+	}
+	if useRef != "" {
+		ev.hasUse, ev.useKey, ev.useSource, ev.useSkillKey = true, useRef, f.processUseSource, f.processUseSkillKey
+		ev.snapshot.hasUse, ev.snapshot.useKey, ev.snapshot.useSource, ev.snapshot.useSkillKey = true, useRef, f.processUseSource, f.processUseSkillKey
 	}
 	return f.run.dispatchListeners(ev, f.chainDepth+1)
 }
@@ -2790,7 +2813,7 @@ func (s *genericRunState) dispatchListenerOperations(listener compilebundle.Comp
 	if listener.SourceAbilityIndex >= 0 && listener.SourceAbilityIndex < len(s.compiled.Abilities) {
 		frame.abilityRef = listener.OwnerCombatantKey + ".provider[" + listener.OwnerProviderRef + "].ability[" + ability.AbilityKey + "]"
 	}
-	frame.strictReads = s.basicAttack != nil || listener.HasCondition || listener.HasOncePerUse
+	frame.strictReads = s.automatedRun() || listener.HasCondition || listener.HasOncePerUse
 	frame.chainDepth = chainDepth
 	frame.ownerCombatantKey = listener.OwnerCombatantKey
 	frame.ownerProviderRef = listener.OwnerProviderRef

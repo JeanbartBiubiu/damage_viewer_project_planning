@@ -23,6 +23,7 @@ type CompiledAbilityRef struct {
 
 // CompiledSession 是 generic compile 输出的只读 session 快照。
 type CompiledSession struct {
+	SkillActionBindings  []CompiledSkillActionBinding
 	HasMechanicReads     bool
 	StatusKeys           []string
 	SchemaVersion        string
@@ -442,6 +443,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	compileRulesOperations(req.Rules, ctx)
 	compileAttributeDerivations(req.Rules.AttributeDerivations, ctx)
 	buildAbilityRefIndex(ctx)
+	compileSkillActionBindings(req.Rules.SkillActionBindings, ctx)
 	validateProcessAbilityRefs(req, ctx)
 	validateAllAbilityRefs(req, ctx)
 	finalizeListenerIndex(ctx)

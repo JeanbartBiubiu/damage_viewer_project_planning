@@ -245,10 +245,19 @@ func (f *executionFrame) applyHealingDirection(hostKey, direction, category stri
 }
 
 func (f *executionFrame) applyDirectHeal(cmd command.Command, ability compilebundle.CompiledAbility) *model.EngineError {
+	hpBefore := f.stageFor(cmd.Target).attributes["hp"].Current
 	heal, err := f.settleHealing(cmd.Source, cmd.Target, cmd.Amount, model.HealDirect, ability, f.evalContext(ability))
 	if err != nil {
 		return err
 	}
+	record := model.DirectHealingRecord{TimeMs: f.run.nowMs, Source: cmd.Source, Target: cmd.Target, AbilityRef: f.abilityRef, OperationRef: cmd.Ref, RawAmount: heal.before, HealingAfterDone: heal.afterDone, HealingAfterModifiers: heal.after, ActualHealing: heal.actual, Overheal: heal.overheal, HpBefore: hpBefore, HpAfter: f.stageFor(cmd.Target).attributes["hp"].Current}
+	if use := f.skillActionUseRef(); use != "" {
+		record.UseRef = &use
+		if f.run.skillAction != nil && use == f.run.skillAction.useRef {
+			record.InstructionKey = &f.run.skillAction.plan.InstructionKey
+		}
+	}
+	f.pendingDirectHealing = append(f.pendingDirectHealing, record)
 	f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindHeal, Ref: f.abilityRef, Data: map[string]interface{}{
 		"source": cmd.Source, "target": cmd.Target, "category": model.HealDirect,
 		"healingBeforeModifiers": heal.before, "healingAfterDone": heal.afterDone, "healingAfterModifiers": heal.after,

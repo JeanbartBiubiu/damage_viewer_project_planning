@@ -294,6 +294,7 @@ type TypeMatcher struct {
 
 // RulesContainer 聚合全局规则。
 type RulesContainer struct {
+	SkillActionBindings  []SkillActionBinding            `json:"skillActionBindings,omitempty"`
 	AttributeDerivations []AttributeDerivationDefinition `json:"attributeDerivations,omitempty"`
 	DamageTypeFormulas   []DamageTypeFormulaDefinition   `json:"damageTypeFormulas,omitempty"`
 	VampRules            []VampRuleDefinition            `json:"vampRules,omitempty"`
@@ -341,9 +342,10 @@ type GenericCompileSettings struct {
 
 // DriverPlan 是 run 期 ability attempt 调度计划（compile 阶段仅校验 DTO 形态）。
 type DriverPlan struct {
-	BasicAttack                *BasicAttackPlan `json:"basicAttack,omitempty"`
-	Entries                    []DriverEntry    `json:"entries"`
-	ConditionRecheckIntervalMs int64            `json:"conditionRecheckIntervalMs,omitempty"`
+	SkillActions               []SkillActionPlan `json:"skillActions,omitempty"`
+	BasicAttack                *BasicAttackPlan  `json:"basicAttack,omitempty"`
+	Entries                    []DriverEntry     `json:"entries"`
+	ConditionRecheckIntervalMs int64             `json:"conditionRecheckIntervalMs,omitempty"`
 }
 
 // DriverEntry 是 driver plan 单条 entry。

@@ -147,6 +147,9 @@ func (s *genericRunState) rejectProcess(entry model.DriverEntry, reason string) 
 }
 
 func (s *genericRunState) rejectProcessUse(entry model.DriverEntry, ref, use, reason string) *model.EngineError {
+	if s.skillAction != nil && entry.EntryKey == s.skillAction.plan.InstructionKey {
+		s.skillAction.rejection = reason
+	}
 	s.attemptSkippedCount++
 	s.statFor(ref).skipCount++
 	s.recordEvidence(model.EvidenceItem{TimeMs: s.nowMs, Kind: "process_rejected", Ref: ref, Path: "driverPlan.entries[" + entry.EntryKey + "]", Data: map[string]interface{}{"entryKey": entry.EntryKey, "useKey": use, "reason": reason}})
@@ -254,6 +257,9 @@ func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, 
 	}
 	if err := s.commitProcessFrame(p, f); err != nil {
 		return err
+	}
+	if p.Status != "active" {
+		return nil
 	}
 	if err := f.maybeDispatchAbilityStartedEvent(ability); err != nil {
 		return err
@@ -463,7 +469,14 @@ func (s *genericRunState) finishProcessWithCast(p *processRuntime, status, reaso
 	if err := s.applyProcessMoment(p, f, kind, reason); err != nil {
 		return err
 	}
-	return s.commitProcessFrame(p, f)
+	err := s.commitProcessFrame(p, f)
+	if f.committed {
+		s.publishSkillActionFinish(p)
+	}
+	if err != nil {
+		return err
+	}
+	return s.resolveSkillActionRelease(p)
 }
 
 func (s *genericRunState) enqueueProcessTimer(p *processRuntime) *model.EngineError {

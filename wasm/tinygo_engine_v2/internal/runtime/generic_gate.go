@@ -11,6 +11,7 @@ import (
 )
 
 type gateCheckResult struct {
+	err        *model.EngineError
 	skipped    bool
 	reason     model.AttemptSkipReason
 	readyAtMs  int64
@@ -59,7 +60,11 @@ func (s *genericRunState) checkAttemptGate(entry model.DriverEntry, entryIndex i
 			hasAbility: true,
 		}
 	}
-	if blocked := s.conditionGate(entry, entryIndex, sourceKey, targetKey, ability, resolvedRef); blocked {
+	blocked, conditionErr := s.conditionGate(entry, entryIndex, sourceKey, targetKey, ability, resolvedRef)
+	if conditionErr != nil {
+		return gateCheckResult{err: conditionErr}
+	}
+	if blocked {
 		return gateCheckResult{
 			skipped:    true,
 			reason:     model.AttemptSkipConditionFalse,
@@ -173,12 +178,13 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability comp
 	return readyAt, true
 }
 
-func (s *genericRunState) conditionGate(entry model.DriverEntry, entryIndex int, sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string) bool {
+func (s *genericRunState) conditionGate(entry model.DriverEntry, entryIndex int, sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string) (bool, *model.EngineError) {
 	if entryIndex >= 0 && entryIndex < len(s.entryConditions) && s.entryConditions[entryIndex] != nil {
 		programID := *s.entryConditions[entryIndex]
 		source := s.combatants[sourceKey]
 		target := s.combatants[targetKey]
 		ctx := formula.GenericEvalContext{
+			StrictReads:     s.automatedRun(),
 			SourceAttrs:     source.attributes,
 			TargetAttrs:     target.attributes,
 			SourceResources: source.resources,
@@ -186,22 +192,21 @@ func (s *genericRunState) conditionGate(entry model.DriverEntry, entryIndex int,
 			AbilityParams:   ability.Params,
 		}
 		value, err := s.compiled.Formulas.Eval(programID, ctx)
-		if err != nil || value == 0 {
-			return true
+		if err != nil {
+			return false, s.gateFormulaError(programID, err.Error(), abilityRef)
+		}
+		if value == 0 {
+			return true, nil
 		}
 	}
 	if ability.HasCastCondition {
-		if s.castConditionBlocked(sourceKey, targetKey, ability, abilityRef) {
-			return true
-		}
+		return s.castConditionBlocked(sourceKey, targetKey, ability, abilityRef)
 	}
 	_ = entry
-	return false
+	return false, nil
 }
 
-// castConditionBlocked evaluates ability-level castCondition in the owning mounted
-// provider's state context (provider.state.*). False or eval error → gate skip.
-func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string) bool {
+func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string) (bool, *model.EngineError) {
 	ownerKey := sourceKey
 	providerRef := ""
 	if parsed, ok := compilebundle.ParseAbilityRef(abilityRef); ok {
@@ -226,6 +231,7 @@ func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, abil
 	source := s.combatants[sourceKey]
 	target := s.combatants[targetKey]
 	ctx := formula.GenericEvalContext{
+		StrictReads:        s.automatedRun(),
 		SourceAttrs:        source.attributes,
 		TargetAttrs:        target.attributes,
 		SourceResources:    source.resources,
@@ -255,9 +261,17 @@ func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, abil
 	}
 	value, err := s.compiled.Formulas.Eval(ability.CastConditionProgram, ctx)
 	if err != nil {
-		return true
+		return false, s.gateFormulaError(ability.CastConditionProgram, err.Error(), abilityRef)
 	}
-	return value == 0
+	return value == 0, nil
+}
+
+func (s *genericRunState) gateFormulaError(program formula.GenericProgramID, message, ref string) *model.EngineError {
+	path := ref + ".condition"
+	if int(program) < len(s.compiled.Formulas.Programs) {
+		path = s.compiled.Formulas.Programs[program].Key
+	}
+	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, message, path, ref, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 }
 
 func (s *genericRunState) nextWhileReadyTime(entry model.DriverEntry, result gateCheckResult) int64 {
