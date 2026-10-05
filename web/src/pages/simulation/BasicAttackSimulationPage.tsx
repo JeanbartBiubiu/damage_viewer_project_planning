@@ -17,7 +17,7 @@ export function BasicAttackSimulationPage({ apiBaseUrl, selectedGameId, adminTok
       <Typography.Paragraph>
         当前游戏：{selectedGameId ?? '未选择'}
       </Typography.Paragraph>
-      <Alert type="info" content="保留单次／连续普攻；6A新增单条首次主动尝试，固定关闭背景普攻，混合列表及6B／6C尚未开放。完整汇总、有限记录和观察终点分别展示。" style={{ marginBottom: 16 }} />
+      <Alert type="info" content="保留单次／连续普攻；指定技能计划支持1～64条首次尝试和可选背景普攻，共用原生时钟。计划步骤须作者明确行动占用；6C重施、蓄力等仍拒绝。完整累计、有限记录和观察終点分别展示。" style={{ marginBottom: 16 }} />
       <BasicAttackCompilePanel apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
         adminToken={adminToken} onDirtyChange={onDirtyChange} />
     </section>

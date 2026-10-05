@@ -15,7 +15,6 @@ import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerAction, type SkillTri
 import type { FormulaExpressionNode } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
-import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import { executableEquipmentRelations, validateSimulationSkillSourceManifest, type TriggeredSkillSourceDescription } from './simulationSkillSourceDescription';
 import {
   compileFormulaExpression, compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
@@ -350,6 +349,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const stackEffects = new Map<string, { key: string; amount: number; policy: string }>();
         const periodicEffects = new Map<string, { definition: ProviderDefinition; dynamic: boolean }>();
         const activeProcesses = new Set<string>();
+        const empoweredProcesses = new Set<string>();
+        const deferredAbilities: AbilityDefinition[] = [];
         const activeEffects = new Set<string>();
         let rootEvent = '';
         const skillTypes = configuration.skill.skillCategoryKeys.map(category);
@@ -423,6 +424,10 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             exact(state.detail, ['durationValue'], `${statePath}.detail`);
             schema[stateKey(state)] = { valueType: 'number', defaultValue: 0, maxValue: 1,
               durationMs: constant(state.detail.durationValue, `${statePath}.detail.durationValue`, true, 1), refreshPolicy: 'start_on_first_write' };
+          } else if (state.stateType === 'FLAG') {
+            exact(state.detail, ['initialEnabled'], `${statePath}.detail`);
+            if (typeof state.detail.initialEnabled !== 'boolean') fail(statePath, '标志初值必须来自明确作者布尔');
+            schema[stateKey(state)] = { valueType: 'number', defaultValue: state.detail.initialEnabled ? 1 : 0, maxValue: 1, durationMs: 0 };
           } else fail(statePath, '未接入的内部状态类型，不能补默认值');
         }
         const effect = (key: string, effectPath: string) => {
@@ -447,16 +452,23 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (!authored) fail(processPath, '过程引用缺失');
           const authorPath = `${root}.processes.${key}`;
           exact(authored, ['gameId', 'skillKey', 'processKey', 'activationType', 'cooldown', 'steps', 'effectBindings', 'stateOperations', ...METADATA], authorPath);
-          if (authored.gameId !== snapshot.gameId || authored.skillKey !== skillKey || authored.activationType !== 'PASSIVE'
+          const empowered = authored.steps.length === 1 && authored.steps[0]!.stepType === 'EMPOWERED_BASIC_ATTACK';
+          if (authored.gameId !== snapshot.gameId || authored.skillKey !== skillKey || (empowered ? authored.activationType !== 'ACTIVE' : authored.activationType !== 'PASSIVE')
             || authored.cooldown !== null) fail(authorPath, '仅支持无费用、无冷却的完整即时被动过程');
           uniqueRows(authored.steps, row => row.stepKey, `${authorPath}.steps`);
           uniqueRows(authored.effectBindings, row => row.bindingKey, `${authorPath}.effectBindings`);
           uniqueRows(authored.stateOperations, row => row.operationKey, `${authorPath}.stateOperations`);
           if (!authored.steps.length) fail(authorPath, '即时被动过程缺少完整步骤');
           for (const step of ordered(authored.steps, `${authorPath}.steps`)) {
-            exact(step, ['stepKey', 'stepType', 'detail', ...METADATA], `${authorPath}.steps.${step.stepKey}`);
-            if (step.stepType !== 'IMMEDIATE') fail(`${authorPath}.steps.${step.stepKey}`, '只静态展开全部IMMEDIATE步骤，不伪造延迟或循环');
-            exact(step.detail, [], `${authorPath}.steps.${step.stepKey}.detail`);
+            exact(step, ['stepKey', 'stepType', 'detail', 'occupiesAction', ...METADATA], `${authorPath}.steps.${step.stepKey}`);
+            if (step.occupiesAction != null && typeof step.occupiesAction !== 'boolean') fail(`${authorPath}.steps.${step.stepKey}.occupiesAction`, '行动占用必须是布尔或空值');
+            if (empowered && step.stepType === 'EMPOWERED_BASIC_ATTACK') {
+              exact(step.detail, ['windowValue', 'consumeMoment'], `${authorPath}.steps.${step.stepKey}.detail`);
+              if (step.detail.consumeMoment !== 'ATTACK_HIT' || step.occupiesAction !== false) fail(authorPath, '强化待击只开放明确不占用行动、实际命中一次消费');
+            } else {
+              if (step.stepType !== 'IMMEDIATE') fail(`${authorPath}.steps.${step.stepKey}`, '只静态展开即时步骤或单段强化待击，不伪造延迟或循环');
+              exact(step.detail, [], `${authorPath}.steps.${step.stepKey}.detail`);
+            }
           }
           usedProcesses.add(key);
           return authored;
@@ -503,6 +515,9 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           }
           if (state.stateType === 'INTERNAL_COOLDOWN' && ['START', 'RESET'].includes(operation.operation) && operation.value === null) {
             return stateChange(stateKey(state), 'set', constExpr(operation.operation === 'START' ? 1 : 0), state.scope);
+          }
+          if (state.stateType === 'FLAG' && ['ENABLE', 'DISABLE'].includes(operation.operation) && operation.value === null) {
+            return stateChange(stateKey(state), 'set', constExpr(operation.operation === 'ENABLE' ? 1 : 0), state.scope);
           }
           return fail(operationPath, '状态操作与真实COUNTER或内部冷却不一致');
         };
@@ -902,11 +917,70 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             } else if (action.actionType === 'START_PROCESS') {
               exact(action.detail, ['processKey'], `${actionPath}.detail`);
               if (context !== 'target' && event !== 'SOURCE_INITIALIZED') fail(actionPath, '静态被动过程必须保持同一真实对手目标');
-              compileProcess(process(action.detail.processKey, actionPath), output, outputRoot, abilityRef, event, context);
+              const authored = process(action.detail.processKey, actionPath);
+              if (authored.steps[0]!.stepType === 'EMPOWERED_BASIC_ATTACK') compileEmpoweredProcess(authored, output, outputRoot, event);
+              else compileProcess(authored, output, outputRoot, abilityRef, event, context);
             } else fail(actionPath, '未接入的动作节点');
             cover(actionPath, output.length ? operationPath : `${compiledRoot}.abilities`);
           }
         };
+        function compileEmpoweredProcess(authored: SkillProcess, output: OperationDefinition[], outputRoot: string, event: string) {
+          const processPath = `${root}.processes.${authored.processKey}`;
+          const step = authored.steps[0]!;
+          if (step.stepType !== 'EMPOWERED_BASIC_ATTACK' || event !== 'SKILL_USED' || side !== 'source') fail(processPath, '强化待击必须由A真实成功主动施法开启');
+          const windowMs = constant(step.detail.windowValue, `${processPath}.steps.${step.stepKey}.detail.windowValue`, true, 1);
+          const starts = authored.stateOperations.filter(operation => operation.moment.momentType === 'PROCESS_START');
+          const timeouts = authored.stateOperations.filter(operation => operation.moment.momentType === 'STEP_TIMEOUT');
+          if (starts.length !== 1 || starts[0]!.operation !== 'ENABLE' || starts[0]!.moment.stepKey !== null
+            || timeouts.length !== 1 || timeouts[0]!.operation !== 'DISABLE' || timeouts[0]!.stateKey !== starts[0]!.stateKey
+            || timeouts[0]!.moment.stepKey !== step.stepKey || authored.effectBindings.some(binding => binding.moment.momentType !== 'STEP_EXECUTION'
+              || binding.moment.stepKey !== step.stepKey) || configuration.triggerRules.some(rule => rule.eventSource.eventType === 'PROCESS_MOMENT'
+                && rule.eventSource.detail.processKey === authored.processKey)) fail(processPath, '强化待击只开放完整单标志、命中结果和清空超时，必要其它时点不能丢弃');
+          const ready = lookupState(starts[0]!.stateKey, starts[0]!.stateSkillKey, processPath);
+          if (ready.stateType !== 'FLAG' || ready.scope !== 'SKILL' || ready.detail.initialEnabled) fail(processPath, '强化待击需要明确初始关闭的自身标志');
+          const readyKey = stateKey(ready);
+          schema[readyKey] = { ...schema[readyKey]!, durationMs: windowMs, refreshPolicy: 'refresh_on_write' };
+          output.push(compileStateOperation(starts[0]!, `${processPath}.stateOperations.${starts[0]!.operationKey}`));
+          cover(`${processPath}.stateOperations.${starts[0]!.operationKey}`, `${outputRoot}[${output.length - 1}]`);
+          cover(`${processPath}.stateOperations.${timeouts[0]!.operationKey}`, `${compiledRoot}.initialStateSchema.${readyKey}.durationMs`);
+          if (!empoweredProcesses.has(authored.processKey)) {
+            empoweredProcesses.add(authored.processKey);
+            const abilityKey = namedKey(skillKey, `consume_${authored.processKey}`);
+            const index = provider.abilities!.length + 1 + deferredAbilities.length;
+            const consumeRoot = `${compiledRoot}.abilities[${index}].listenerSpec.operations`;
+            const consumeRef = `${side}.provider[${providerRef}].ability[${abilityKey}]`;
+            const operations: OperationDefinition[] = [];
+            const entries = [
+              ...authored.effectBindings.map(binding => ({ sortOrder: binding.sortOrder, key: binding.bindingKey, execute: () => {
+                const bindingPath = `${processPath}.effectBindings.${binding.bindingKey}`;
+                exact(binding, ['bindingKey', 'effectKey', 'moment', 'sortOrder'], bindingPath);
+                executeEffect(effect(binding.effectKey, bindingPath), operations, consumeRoot, consumeRef, 'BASIC_ATTACK_HIT', bindingPath, 'target');
+                cover(bindingPath, consumeRoot);
+              } })),
+              ...authored.stateOperations.filter(operation => !starts.includes(operation) && !timeouts.includes(operation)).map(operation => ({
+                sortOrder: operation.sortOrder, key: operation.operationKey, execute: () => {
+                  if (operation.moment.momentType !== 'STEP_EXECUTION' || operation.moment.stepKey !== step.stepKey) fail(processPath, '强化待击其它必要时点未接入');
+                  const operationPath = `${processPath}.stateOperations.${operation.operationKey}`;
+                  operations.push(compileStateOperation(operation, operationPath));
+                  cover(operationPath, `${consumeRoot}[${operations.length - 1}]`);
+                }
+              }))
+            ].sort((left, right) => left.sortOrder - right.sortOrder);
+            entries.forEach((entry, entryIndex) => {
+              if (entryIndex && entries[entryIndex - 1]!.sortOrder === entry.sortOrder) fail(processPath, '强化结果与消费同刻排序必须明确');
+              entry.execute();
+            });
+            const consumesReady = authored.stateOperations.filter(operation => operation.moment.momentType === 'STEP_EXECUTION'
+              && operation.stateKey === ready.stateKey && operation.operation === 'DISABLE');
+            if (consumesReady.length !== 1 || !operations.some(operation => operation.operation === 'damage')) fail(processPath, '强化待击必须完整命中伤害并唯一消费原标志');
+            types.set('event/basic_attack_hit', 'event'); types.set('event/source_owner', 'event');
+            deferredAbilities.push({ abilityKey, kind: 'passive_listener', skillKey, types: [...skillTypes, `ability/skill/${skillKey}`],
+              listenerSpec: { listenerKey: abilityKey, eventMatcher: { all: ['event/basic_attack_hit', 'event/source_owner'] }, maxTriggersPerEvent: 1,
+                condition: { op: 'eq', args: [{ op: 'read', path: `provider.state.${readyKey}` }, constExpr(1)] }, operations } });
+          }
+          cover(`${processPath}.steps.${step.stepKey}`, `${compiledRoot}.initialStateSchema.${readyKey}`);
+          cover(processPath, compiledRoot);
+        }
         const executeMomentRule = (rule: SkillTriggerRuleDetail, output: OperationDefinition[], outputRoot: string, abilityRef: string, event: string) => {
           const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
           if (rule.oncePerUse !== null) fail(rulePath, '静态过程时点不能丢弃独立同次使用额度');
@@ -1036,15 +1110,15 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (source.allowedRootKeys && !source.allowedRootKeys.includes(rule.ruleKey)) fail(rulePath, '必要闭包的事件尾规则尚未接入，不能编译自然根后忽略尾部');
           if (event === 'SOURCE_INITIALIZED' && rule.oncePerUse !== null) fail(rulePath, '初始化没有真实攻击使用身份，不能配置同次使用额度');
           const eventTypes: Record<string, string> = { BASIC_ATTACK_START: 'event/basic_attack_start', ATTACK_LINK_APPLIED: 'event/attack_link_applied',
-            SKILL_USED: snapshot.selection.basicAttackSkillKey === null ? 'event/ability_started' : 'event/basic_attack_start',
-            SKILL_HIT: snapshot.selection.basicAttackSkillKey === null ? 'event/skill_hit' : 'event/basic_attack_hit',
+            SKILL_USED: snapshot.selection.plannedSkills.length ? 'event/ability_started' : 'event/basic_attack_start',
+            SKILL_HIT: snapshot.selection.plannedSkills.length ? 'event/skill_hit' : 'event/basic_attack_hit',
             BASIC_ATTACK_HIT: 'event/basic_attack_hit', HIT_LINK_APPLIED: 'event/hit_link_applied',
             DAMAGE_TAKEN: 'event/damage_taken', BASIC_ATTACK_RECEIVED: 'event/basic_attack_received', DAMAGE_DEALT: 'event/damage_instance',
             SOURCE_INITIALIZED: 'event/source_initialized' };
           const eventType = eventTypes[event];
           if (!eventType) fail(`${rulePath}.eventSource.eventType`, '未接入的事件节点，整件装备拒绝');
           const receiver = event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED';
-          const matcher = { all: [eventType, receiver ? 'event/target_owner' : 'event/source_owner'] };
+          const matcher: { all: string[]; any?: string[] } = { all: [eventType, receiver ? 'event/target_owner' : 'event/source_owner'] };
           matcher.all.forEach(key => types.set(key, 'event'));
           if (event === 'DAMAGE_TAKEN' || event === 'DAMAGE_DEALT') {
             const detail = record(rule.eventSource.detail, `${rulePath}.eventSource.detail`);
@@ -1064,21 +1138,16 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           } else if (event === 'SKILL_USED' || event === 'SKILL_HIT') {
             exact(rule.eventSource.detail, event === 'SKILL_USED' ? ['sourceSkillKey', 'useKind', 'castPhase'] : ['sourceSkillKey'], `${rulePath}.eventSource.detail`);
             const detail = record(rule.eventSource.detail, `${rulePath}.eventSource.detail`);
-            const drivenSkillKey = snapshot.selection.basicAttackSkillKey ?? snapshot.selection.plannedSkills[0]?.skillKey;
-            if (side !== 'source' || !drivenSkillKey || detail.sourceSkillKey !== null && detail.sourceSkillKey !== drivenSkillKey
+            const drivenSkillKeys = (snapshot.selection.plannedSkills.length ? snapshot.selection.plannedSkills.map(plan => plan.skillKey)
+              : [snapshot.selection.basicAttackSkillKey]).filter((key): key is string => key !== null);
+            if (side !== 'source' || !drivenSkillKeys.length || detail.sourceSkillKey !== null && !drivenSkillKeys.includes(String(detail.sourceSkillKey))
               || event === 'SKILL_USED' && (detail.castPhase !== 'INITIAL' || !['ANY', 'ACTIVE'].includes(String(detail.useKind)))) {
               fail(rulePath, '只监听本次真实驱动技能的成功使用或命中，不自动执行主动兄弟');
             }
-            const identity = `ability/skill/${drivenSkillKey}`;
-            types.set(identity, 'ability'); matcher.all.push(identity);
-            if (snapshot.selection.basicAttackSkillKey === null && event === 'SKILL_USED') {
-              const plan = snapshot.selection.plannedSkills[0]!;
-              const identities = snapshot.source.skillSources.map(source => simulationSkillSourceIdentity(source.origin, source.skillKey)).sort();
-              const index = identities.indexOf(simulationSkillSourceIdentity(plan.origin, plan.skillKey));
-              if (index < 0) fail(rulePath, '成功首次事件缺少真实主动来源');
-              const initialType = `ability/initial_cast/source/source_natural_skill_${index}`;
-              types.set(initialType, 'ability'); matcher.all.push(initialType);
-            }
+            const identities = drivenSkillKeys.filter(key => detail.sourceSkillKey === null || detail.sourceSkillKey === key).map(key => `ability/skill/${key}`);
+            identities.forEach(identity => types.set(identity, 'ability'));
+            if (identities.length === 1) matcher.all.push(identities[0]!);
+            else matcher.any = identities;
           } else if (event === 'HIT_LINK_APPLIED' || event === 'ATTACK_LINK_APPLIED') {
             exact(rule.eventSource.detail, ['sourceSkillKey'], `${rulePath}.eventSource.detail`);
             const sourceSkillKey = record(rule.eventSource.detail, `${rulePath}.eventSource.detail`).sourceSkillKey;
@@ -1119,6 +1188,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           }
           const ability: AbilityDefinition = { abilityKey, kind: 'passive_listener', skillKey, types: [...skillTypes, `ability/skill/${skillKey}`], listenerSpec: listener };
           abilities.push(ability); provider.abilities!.push(ability);
+          abilities.push(...deferredAbilities); provider.abilities!.push(...deferredAbilities); deferredAbilities.length = 0;
           usedRules.add(rule.ruleKey);
           cover(rulePath, `${abilityRoot}.listenerSpec`);
           cover(`${rulePath}.eventSource`, `${abilityRoot}.listenerSpec.eventMatcher`);

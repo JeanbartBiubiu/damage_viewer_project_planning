@@ -21,7 +21,7 @@ async function sample() {
     const actualHpLoss = Math.min(100, hpBefore);
     attackRecords.push({ planKey: plan.planKey, attackIndex: index, useRef: `use_${index}`, source: 'source', target: 'target', skillKey: plan.skillKey,
       startAtMs: (index - 1) * 1000, hitAtMs: (index - 1) * 1000, readyAtMs: index * 1000,
-      finalReadyAtMs: index * 1000, mechanicReadyAtMs: null, nextStartAtMs: index === 3 ? null : index * 1000, attackSpeed: 1, postDefenseDamage: 100, actualHpLoss,
+      finalReadyAtMs: index * 1000, mechanicReadyAtMs: null, actionReadyAtMs: null, nextStartAtMs: index === 3 ? null : index * 1000, attackSpeed: 1, postDefenseDamage: 100, actualHpLoss,
       sourceHpAfter: 650, targetHpAfter: hpBefore - actualHpLoss, completed: true });
     damageRecords.push({ damageId: index, attackIndex: index, useRef: `use_${index}`, timeMs: (index - 1) * 1000,
       owner: 'source', source: 'source', target: 'target', abilityRef: plan.hitAbilityRef, castInstanceId: index * 3,
@@ -44,7 +44,7 @@ async function sample() {
       sourceDamageDealt: 300, targetDamageTaken: 300, sourceDamageTaken: 0, targetDamageDealt: 0,
       sourceHpLoss: 0, targetHpLoss: 250, sourceVampHealing: 0, targetVampHealing: 0, abilityAttemptCount: 6, abilityCastCount: 9, attemptSkippedCount: 0,
       warningCount: 0, evidenceTruncated: false, seriesDownsampled: false, abilityStats: [],
-      basicAttack: { planKey: plan.planKey, startedCount: 3, hitCount: 3, completedCount: 3 },
+      basicAttack: { planKey: plan.planKey, startedCount: 3, hitCount: 3, completedCount: 3, initialActionReadyAtMs: null },
       execution: { requestedDurationMs: 30000, complete: true, incompleteReason: null, budgetCause: null, targetKilled: true, targetKilledAtMs: 2000 },
       damageBreakdown: [{ owner: 'source', source: 'source', target: 'target', abilityRef: plan.hitAbilityRef,
         operationRef: origin.operationRef, damageType: 'damage/physics', damageCount: 3, postDefenseDamage: 300, shieldAbsorbed: 0, actualHpLoss: 250, overkillDamage: 50 }] },
@@ -57,6 +57,54 @@ async function sample() {
   return { prepared, request, done };
 }
 const assess = (item: Awaited<ReturnType<typeof sample>>) => assessContinuousAttackResult(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins);
+
+describe('6B新增行动事实不放宽既有严格核对', () => {
+  it('无贡献须显式null，字段缺失不被旧记录或默认值代替', async () => {
+    const input = await sample();
+    delete (input.done.summary.basicAttack as unknown as Record<string, unknown>).initialActionReadyAtMs;
+    expect(() => assess(input)).toThrow(/initialActionReadyAtMs/);
+    input.done.summary.basicAttack!.initialActionReadyAtMs = null;
+    delete (input.done.attackRecords![0] as unknown as Record<string, unknown>).actionReadyAtMs;
+    expect(() => assess(input)).toThrow(/actionReadyAtMs/);
+  });
+
+  it('没有显式主动计划不接受非空行动贡献，旧刀号身份仍严格', async () => {
+    const input = await sample();
+    input.done.attackRecords![0]!.actionReadyAtMs = 1000;
+    expect(assess(input).factsValid).toBe(false);
+    input.done.attackRecords![0]!.actionReadyAtMs = null;
+    input.done.attackRecords![1]!.attackIndex = 1;
+    expect(assess(input).factsValid).toBe(false);
+  });
+
+  it('真实占用到2000毫秒不能被空贡献及1000毫秒假下一刀隐藏，截断行动记录也不能绕过', async () => {
+    const input = await sample();
+    input.done.summary.sourceDirectHealing = 0;
+    input.done.summary.targetDirectHealing = 0;
+    input.done.healingRecords = [];
+    const binding = { bindingKey: 'locked_binding', source: 'source', providerRef: 'locked', providerDefinitionRef: 'locked_definition', skillKey: 'locked_spell',
+      controls: [{ action: 'INITIAL', processKey: 'cast', abilityRef: 'source.provider[locked].ability[initial]' }], hitBindings: [] };
+    input.prepared.compileRequest.rules.skillActionBindings = [binding];
+    input.prepared.compileRequest.sharedProviders!.push({ providerKey: binding.providerDefinitionRef, kind: 'character', stableId: 'locked_spell',
+      processes: [{ processKey: 'cast', skillKey: 'locked_spell', steps: [{ stepKey: 'delay', stepType: 'DELAY', delayMs: { op: 'const', value: 1500 }, occupiesAction: true }],
+        costs: [], cooldown: null, momentOperations: [] }] });
+    input.request.driverPlan.skillActions = [{ instructionKey: 'locked', firstAtMs: 500, sortOrder: 0, source: 'source', target: 'target',
+      skillKey: binding.skillKey, bindingKey: binding.bindingKey, abilityRef: binding.controls[0]!.abilityRef, action: 'INITIAL', hitBindings: [] }];
+    input.done.finalSnapshot.processInstances!.push({ owner: 'source', target: 'target', providerRef: binding.providerRef, processKey: 'cast', skillKey: binding.skillKey,
+      useKey: 'skill:locked', stepKey: 'delay', stepVersion: 1, startedAtMs: 500, stepStartedAtMs: 500, advanceAtMs: 2000, expiresAtMs: 2000,
+      actualCosts: {}, cooldownStarted: false, status: 'complete', failureReason: null, finishedAtMs: 2000 });
+    input.done.skillActionRecords = [{ instructionKey: 'locked', requestedAtMs: 500, actualAtMs: 500, source: 'source', target: 'target',
+      skillKey: binding.skillKey, bindingKey: binding.bindingKey, providerRef: binding.providerRef, providerDefinitionRef: binding.providerDefinitionRef,
+      action: 'INITIAL', outcome: 'ACCEPTED', reason: null, useRef: 'skill:locked' }];
+    for (const truncated of [false, true]) {
+      input.done.recording!.skillActionRecordsTruncated = truncated;
+      if (truncated) input.done.skillActionRecords = [];
+      const result = assess(input);
+      expect(result.factsValid).toBe(false);
+      expect(result.issues.some(issue => issue.includes('actionReadyAtMs'))).toBe(true);
+    }
+  });
+});
 type Sample = Awaited<ReturnType<typeof sample>>;
 type Side = 'source' | 'target';
 

@@ -57,6 +57,7 @@ export type AuthoredProcessProgram = {
   owner?: 'source' | 'target';
   castCosts: readonly CastCostRef[];
   ignoreCastCosts?: boolean;
+  roundPositiveCooldownMs?: boolean;
 };
 
 export type AdaptedProcessControl = {
@@ -275,7 +276,8 @@ function compileSteps(process: SkillProcess, state: NumericCompileState): Proces
   const steps: ProcessStepDefinition[] = [];
   for (const step of ordered) {
     const path = `${root}.${step.stepKey || 'missing'}`;
-    exactKeys(step, ['stepKey', 'name', 'description', 'sortOrder', 'stepType', 'detail'], path);
+    exactKeys(step, ['stepKey', 'name', 'description', 'sortOrder', 'stepType', 'detail', 'occupiesAction'], path);
+    if (step.occupiesAction != null && typeof step.occupiesAction !== 'boolean') fail(`${path}.occupiesAction`, '行动占用必须是明确布尔或空值');
     const stepKey = catalogKey(step.stepKey, `${path}.stepKey`);
     if (seen.has(stepKey)) fail(`${path}.stepKey`, '步骤标识重复');
     seen.add(stepKey);
@@ -308,7 +310,7 @@ function compileSteps(process: SkillProcess, state: NumericCompileState): Proces
       steps.push({ stepKey, stepType: 'RECAST', windowMs: compileTime(step.detail.windowValue, `${path}.detail.windowValue`, state, 'positive') });
     } else fail(`${path}.stepType`, '本期只接受 IMMEDIATE、DELAY，以及末尾至多一个 CHARGE 或单次 RECAST');
   }
-  return steps;
+  return steps.map(step => ({ ...step, occupiesAction: ordered.find(author => author.stepKey === step.stepKey)!.occupiesAction ?? null }));
 }
 
 function lookupEffect(authored: AuthoredProcessProgram, effectKey: string, path: string): SkillEffect {
@@ -815,10 +817,11 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (!isRecord(authored)) fail('adapter.processPlan', '过程程序必须是对象');
   exactKeys(authored, [
     'gameId', 'skillKey', 'skillLevel', 'characterLevel', 'process', 'rules', 'effects',
-    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts'
+    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs'
   ], 'adapter.processPlan');
   const gameId = catalogKey(authored.gameId, 'gameId');
   if (authored.ignoreCastCosts !== undefined && typeof authored.ignoreCastCosts !== 'boolean') fail('ignoreCastCosts', '忽略施法成本必须明确声明');
+  if (authored.roundPositiveCooldownMs !== undefined && typeof authored.roundPositiveCooldownMs !== 'boolean') fail('roundPositiveCooldownMs', '正冷却离散化必须明确声明');
   const skillKey = catalogKey(authored.skillKey, 'skillKey');
   if (!Number.isInteger(authored.skillLevel) || authored.skillLevel < 1) fail('skillLevel', '本次等级必须明确且有效');
   if (!Number.isInteger(authored.characterLevel) || authored.characterLevel < 1) fail('characterLevel', '本次等级必须明确且有效');
@@ -848,10 +851,14 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     exactKeys(process.cooldown, ['durationValue', 'startMoment'], cooldownPath);
     const startMoment = readMoment(process.cooldown.startMoment, `${cooldownPath}.startMoment`);
     assertMomentFits(startMoment, process.steps, `${cooldownPath}.startMoment`);
-    cooldown = {
-      durationMs: compileTime(process.cooldown.durationValue, `${cooldownPath}.durationValue`, state, 'nonNegative'),
-      startMoment
-    };
+    const durationMs = authored.roundPositiveCooldownMs
+      ? compileFoldable(process.cooldown.durationValue, `${cooldownPath}.durationValue`, state, '时间不能使用未供值的计算时输入')
+      : compileTime(process.cooldown.durationValue, `${cooldownPath}.durationValue`, state, 'nonNegative');
+    const duration = tryFoldConstant(durationMs);
+    if (authored.roundPositiveCooldownMs && duration !== null && (!Number.isFinite(duration) || duration <= 0 || duration > Number.MAX_SAFE_INTEGER)) {
+      fail(`${cooldownPath}.durationValue`, '原冷却必须是有限正值，不能将0或非法值舍入成1');
+    }
+    cooldown = { durationMs, startMoment, ...(authored.roundPositiveCooldownMs ? { roundPositiveMs: true } : {}) };
   }
   const controlRows: AdaptedProcessControl[] = [
     controls.initial, ...controls.advances, ...(controls.cancel ? [controls.cancel] : [])

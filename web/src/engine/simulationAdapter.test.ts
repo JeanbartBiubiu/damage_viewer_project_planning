@@ -20,7 +20,7 @@ describe('首批场景装配', () => {
     const prepared = await prepareSimulation(snapshot, zeroInputs(snapshot), initialHealth);
     const base = { snapshotDigest: snapshot.snapshotDigest, attributeInputs: prepared.attributeInputs,
       initialHealth, equipmentAssumptions: prepared.equipmentAssumptions, request: prepared.compileRequest };
-    expect(SIMULATION_ADAPTER_VERSION).toBe('v11-single-initial-skill');
+    expect(SIMULATION_ADAPTER_VERSION).toBe('v12-initial-skill-plan');
     expect(prepared.compileRequest.rulesHash).not.toBe(await simulationHash({ ...base, adapter: 'v8-default-skill-sources' }));
   });
 

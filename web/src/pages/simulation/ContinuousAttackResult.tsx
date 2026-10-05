@@ -196,6 +196,7 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
         <Table data={data.attackRows} rowKey="useRef" pagination={{ pageSize: 10, current: attackPage, onChange: setAttackPage }} scroll={{ x: 1000 }} columns={[
           { title: '刀号', dataIndex: 'attackIndex' }, { title: '开始（毫秒）', dataIndex: 'startAtMs' }, { title: '命中（毫秒）', render: (_, row) => row.hitAtMs ?? '未发生' },
           { title: '普通冷却就绪', render: (_, row) => row.finalReadyAtMs ?? '未发生' }, { title: '机制就绪', render: (_, row) => row.mechanicReadyAtMs ?? '无需等待' },
+          { title: '行动就绪贡献', render: (_, row) => row.actionReadyAtMs ?? '无贡献' },
           { title: '下一刀', render: (_, row) => row.nextStartAtMs ?? '未安排' },
           { title: '造成伤害', render: (_, row) => number(row.postDefenseDamage) }, { title: '实际扣血', render: (_, row) => number(row.actualHpLoss) },
           { title: '目标尾部生命', render: (_, row) => number(row.targetHpAfter) }, { title: '尾部完成', render: (_, row) => row.completed ? '是' : '否' },

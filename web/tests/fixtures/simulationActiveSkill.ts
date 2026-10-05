@@ -29,7 +29,7 @@ export function simulationActiveSample(healing = false) {
     skill: { ...basic.skill, skillKey, name: '独立单段主动', skillCategoryKeys: ['active'] }, parameters: [], formulas: [],
     processes: [{ ...structuredClone(basic.processes[0]!), skillKey, processKey: 'cast', effectBindings: [],
       cooldown: { durationValue: fixedValue(1000), startMoment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null } },
-      steps: [{ stepKey: 'delay', name: '有限延时', description: null, sortOrder: 0, stepType: 'DELAY', detail: { delayValue: fixedValue(100) } }] }],
+      steps: [{ stepKey: 'delay', name: '有限延时', description: null, sortOrder: 0, occupiesAction: true, stepType: 'DELAY', detail: { delayValue: fixedValue(100) } }] }],
     effects: [], triggerRules: [initial], baseDigest: 'active_independent_sample' };
   if (!healing) {
     const damage = structuredClone(basic.effects[1]!.results[0]!);

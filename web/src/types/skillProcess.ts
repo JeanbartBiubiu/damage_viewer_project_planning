@@ -92,6 +92,7 @@ export type SkillProcessEmpoweredBasicAttackDetail = {
 
 type SkillProcessStepBase = {
   stepKey: string;
+  occupiesAction?: boolean | null;
   name: string;
   description: string | null;
   sortOrder: number;

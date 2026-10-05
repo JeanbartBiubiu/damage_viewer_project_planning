@@ -160,6 +160,7 @@ export type SkillProcessMomentDraft = {
 
 export type SkillProcessStepDraft = {
   stepKey: string;
+  occupiesAction: boolean | null;
   name: string;
   stepType: SkillProcessStepType;
   description: string;
@@ -239,6 +240,7 @@ export type SkillProcessDraftErrors = {
 
 export type SkillProcessStepDraftField =
   | 'stepKey'
+  | 'occupiesAction'
   | 'name'
   | 'stepType'
   | 'description'
@@ -367,6 +369,7 @@ const PROCESS_DRAFT_FIELDS = new Set<SkillProcessDraftField>([
 
 const STEP_FIELD_BY_PATH: { [path: string]: SkillProcessStepDraftField } = {
   stepKey: 'stepKey',
+  occupiesAction: 'occupiesAction',
   name: 'name',
   stepType: 'stepType',
   description: 'description',
@@ -465,6 +468,7 @@ export function createEmptyStepDraft(
 ): SkillProcessStepDraft {
   return clearHiddenStepFields({
     stepKey: '',
+    occupiesAction: null,
     name: '',
     stepType,
     description: '',
@@ -578,6 +582,7 @@ export function skillProcessToDraft(process: SkillProcess): SkillProcessDraft {
 export function skillProcessStepToDraft(step: SkillProcessStep): SkillProcessStepDraft {
   const draft = createEmptyStepDraft(step.stepType);
   draft.stepKey = step.stepKey;
+  draft.occupiesAction = step.occupiesAction ?? null;
   draft.name = step.name;
   draft.stepType = step.stepType;
   draft.description = step.description ?? '';
@@ -1095,6 +1100,9 @@ function validateAndBuildStep(
   const stepKey = draft.stepKey.trim();
   const name = draft.name.trim();
   const description = draft.description.trim();
+  if (draft.occupiesAction !== null && typeof draft.occupiesAction !== 'boolean') {
+    fieldErrors.occupiesAction = '行动占用只能明确选择占用、不占用或未核定空值。';
+  }
   if (!stepKey) {
     fieldErrors.stepKey = '步骤标识不能为空。';
   } else if (!SKILL_PROCESS_KEY_PATTERN.test(stepKey)) {
@@ -1196,7 +1204,7 @@ function buildStep(
   description: string | null,
   sortOrder: number
 ): SkillProcessStep {
-  const base = { stepKey, name, description, sortOrder };
+  const base = { stepKey, name, description, sortOrder, occupiesAction: draft.occupiesAction };
   switch (draft.stepType) {
     case 'IMMEDIATE':
       return { ...base, stepType: 'IMMEDIATE', detail: {} };

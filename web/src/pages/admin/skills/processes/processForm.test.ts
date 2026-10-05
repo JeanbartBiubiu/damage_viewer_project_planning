@@ -151,6 +151,15 @@ const SAVED_PROCESS: SkillProcess = {
 };
 
 describe('skill process form defaults and conversion', () => {
+  it.each([null, true, false])('步骤行动占用%j原样回读与保存，不为DELAY补默认', occupiesAction => {
+    const saved = structuredClone(SAVED_PROCESS);
+    saved.steps[0]!.occupiesAction = occupiesAction;
+    const converted = skillProcessToDraft(saved);
+    expect(converted.steps[0]!.occupiesAction).toBe(occupiesAction);
+    const normalized = expectValid(validProcessDraft({ steps: [immediateStep({ occupiesAction })] }));
+    expect(normalized.steps[0]!.occupiesAction).toBe(occupiesAction);
+    expect(createEmptyStepDraft('DELAY').occupiesAction).toBeNull();
+  });
   it('starts a new process with one immediate step and empty behaviors', () => {
     const empty = createEmptyProcessDraft();
     expect(empty.steps).toHaveLength(1);

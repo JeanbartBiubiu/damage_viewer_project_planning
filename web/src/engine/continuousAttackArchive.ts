@@ -37,14 +37,16 @@ export function buildSkillActionArchive(input: unknown, timeRangeMs: [number, nu
     displayDefinitionVersion: 1, view: { timeRangeMs: [...timeRangeMs] } };
 }
 
-export type SkillActionCsvKind = 'skillAction' | 'skillUse' | 'healing' | 'damage';
+export type SkillActionCsvKind = 'skillAction' | 'skillUse' | 'healing' | 'damage' | 'attack' | 'mechanic';
 export function buildSkillActionCsv(kind: SkillActionCsvKind, rows: ReadonlyArray<object>, inputHash: string | null,
   timeRangeMs: [number, number], recording: unknown) {
   const fields: Record<SkillActionCsvKind, string[]> = {
     skillAction: ['instructionKey', 'requestedAtMs', 'actualAtMs', 'action', 'source', 'target', 'skillKey', 'bindingKey', 'providerRef', 'providerDefinitionRef', 'outcome', 'reason', 'useRef'],
     skillUse: ['instructionKey', 'timeMs', 'kind', 'source', 'target', 'skillKey', 'providerRef', 'processKey', 'useRef', 'hitRef', 'reason'],
     healing: ['timeMs', 'source', 'target', 'abilityRef', 'operationRef', 'useRef', 'instructionKey', 'rawAmount', 'healingAfterDone', 'healingAfterModifiers', 'actualHealing', 'overheal', 'hpBefore', 'hpAfter'],
-    damage: ['damageId', 'attackIndex', 'timeMs', 'instructionKey', 'useRef', 'hitRef', 'owner', 'source', 'target', 'abilityRef', 'operationRef', 'damageType', 'rawAmount', 'postDefenseDamage', 'shieldAbsorbed', 'actualHpLoss', 'overkillDamage', 'hpBefore', 'hpAfter']
+    damage: ['damageId', 'attackIndex', 'timeMs', 'instructionKey', 'useRef', 'hitRef', 'owner', 'source', 'target', 'abilityRef', 'operationRef', 'operationPath', 'providerDefinitionRef', 'castInstanceId', 'damageType', 'rawAmount', 'postDefenseDamage', 'shieldAbsorbed', 'actualHpLoss', 'overkillDamage', 'hpBefore', 'hpAfter', 'sourceHpBefore', 'sourceHpAfter'],
+    attack: ['planKey', 'attackIndex', 'useRef', 'source', 'target', 'skillKey', 'startAtMs', 'hitAtMs', 'readyAtMs', 'finalReadyAtMs', 'mechanicReadyAtMs', 'actionReadyAtMs', 'nextStartAtMs', 'attackSpeed', 'postDefenseDamage', 'actualHpLoss', 'sourceHpAfter', 'targetHpAfter', 'completed'],
+    mechanic: ['timeMs', 'kind', 'owner', 'providerRef', 'providerDefinitionRef', 'skillKey', 'stateKey', 'beforeValue', 'afterValue', 'operationRef', 'useRef', 'readyAtMs']
   };
   const metadata = [inputHash, '仅原生已返回事实；不恢复截断记录', ...timeRangeMs, recording];
   return '\uFEFF' + [['运行条件摘要', '导出范围', '起点毫秒', '终点毫秒', '独立记录统计', ...fields[kind]].map(csvCell).join(','),
@@ -63,9 +65,9 @@ const csvColumns: Record<ContinuousCsvKind, string[][]> = {
   breakdown: [...sourceColumns, ['damageCount', '结算笔数'], ...amountColumns],
   attack: [['planKey', '计划标识'], ['attackIndex', '刀号'], ['useRef', '使用身份'], ['source', '攻击方'], ['target', '目标'],
     ['skillKey', '技能标识'], ['startAtMs', '开始（毫秒）'], ['hitAtMs', '命中（毫秒）'], ['readyAtMs', '就绪（毫秒）'],
-    ['finalReadyAtMs', '普通攻击最终就绪（毫秒）'], ['mechanicReadyAtMs', '机制就绪（毫秒）'], ['nextStartAtMs', '下一刀（毫秒）'], ['attackSpeed', '攻速'], ['postDefenseDamage', '造成伤害'], ['actualHpLoss', '实际扣血'],
+    ['finalReadyAtMs', '普通攻击最终就绪（毫秒）'], ['mechanicReadyAtMs', '机制就绪（毫秒）'], ['actionReadyAtMs', '行动就绪贡献（毫秒）'], ['nextStartAtMs', '下一刀（毫秒）'], ['attackSpeed', '攻速'], ['postDefenseDamage', '造成伤害'], ['actualHpLoss', '实际扣血'],
     ['sourceHpAfter', '攻击方尾部生命'], ['targetHpAfter', '目标尾部生命'], ['completed', '尾部完成']],
-  damage: [['damageId', '伤害编号'], ['attackIndex', '刀号'], ['useRef', '使用身份'], ['timeMs', '时刻（毫秒）'],
+  damage: [['damageId', '伤害编号'], ['attackIndex', '刀号'], ['useRef', '使用身份'], ['instructionKey', '指令标识'], ['hitRef', '命中身份'], ['timeMs', '时刻（毫秒）'],
     ...sourceColumns, ['providerActivatedAtMs', '周期激活时点（毫秒）'], ['castInstanceId', '施放实例'], ['operationPath', '编译路径'], ['rawAmount', '防御前输入金额'], ...amountColumns,
     ['hpBefore', '受伤方生命之前'], ['hpAfter', '受伤方生命之后'], ['sourceHpBefore', '伤害来源生命之前'],
     ['sourceHpAfter', '伤害来源生命之后'], ['vampHealing', '本笔实际吸血入账']],

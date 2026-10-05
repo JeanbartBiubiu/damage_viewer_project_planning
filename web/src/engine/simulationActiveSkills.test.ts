@@ -11,7 +11,8 @@ import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosu
 import type { SkillEffect } from '../types/skillEffect';
 import { adaptHitProgram } from './hitAdapter';
 
-const inputs: SkillActionInputs = { instructionKey: 'first_cast', atMs: 50, sortOrder: 0, targetSide: 'target', hitPreset: 'TARGET_HIT',
+const inputs: SkillActionInputs = { actions: [{ origin: { kind: 'CHARACTER', characterKey: 'actor_a' }, skillKey: 'sample_active', skillLevel: 1,
+  instructionKey: 'first_cast', atMs: 50, sortOrder: 0, targetSide: 'target', hitPreset: 'TARGET_HIT', phaseKind: 'INITIAL', parentInstructionKey: null }],
   durationMs: 200, recordTimeSeries: true, maxSkillActionRecords: 32, maxSkillUseRecords: 128, maxHealingRecords: 256 };
 
 describe('6A完整单次主动装配', () => {
@@ -44,7 +45,7 @@ describe('6A完整单次主动装配', () => {
     expect(run.runRequest.driverPlan.skillActions).toHaveLength(1);
     expect(run.runRequest.driverPlan.skillActions![0]).toMatchObject({ firstAtMs: 50, action: 'INITIAL', parentInstructionKey: null });
     for (const field of ['skillUses', 'skillHitFacts', 'attackStartFacts', 'processCommandFacts'] as const) expect(run.runRequest[field]).toEqual([]);
-    const missed = await skillActionRequest(prepared, snapshot, { ...inputs, hitPreset: 'MISS' });
+    const missed = await skillActionRequest(prepared, snapshot, { ...inputs, actions: [{ ...inputs.actions[0]!, hitPreset: 'MISS' }] });
     expect(missed.runInputHash).not.toBe(run.runInputHash);
   });
 
@@ -57,11 +58,11 @@ describe('6A完整单次主动装配', () => {
     expect(listeners).toHaveLength(2);
     expect(listeners.every(row => row.listenerSpec!.condition && row.listenerSpec!.operations!.every(operation => !operation.condition))).toBe(true);
     expect(provider.processes![0]!.momentOperations).toEqual([]);
-    const run = await skillActionRequest(prepared, snapshot, { ...inputs, targetSide: 'source', hitPreset: null,
+    const run = await skillActionRequest(prepared, snapshot, { ...inputs, actions: [{ ...inputs.actions[0]!, targetSide: 'source', hitPreset: null }],
       maxSkillActionRecords: 0, maxSkillUseRecords: 0, maxHealingRecords: 0 });
     expect(run.runRequest.driverPlan.skillActions![0]!.hitBindings).toEqual([]);
     expect(run.runRequest.recordBudget!.maxHealingRecords).toBe(0);
-    await expect(skillActionRequest(prepared, snapshot, { ...inputs, targetSide: 'source' })).rejects.toThrow(/自身治疗/);
+    await expect(skillActionRequest(prepared, snapshot, { ...inputs, actions: [{ ...inputs.actions[0]!, targetSide: 'source' }] })).rejects.toThrow(/自身治疗/);
   });
 
   it.each(['disabled', 'unlearned', 'wrong_owner', 'wrong_level'] as const)('拒绝非法真实计划：%s', kind => {
@@ -74,13 +75,13 @@ describe('6A完整单次主动装配', () => {
     expect(() => inspectSimulationSnapshot(snapshot)).toThrow();
   });
 
-  it('6B混合、多条与6C复杂步骤明确拒绝，不切成部分成功', () => {
+  it('重复来源仍拒绝，背景普攻可选，6C复杂步骤不切成部分成功', () => {
     const snapshot = simulationActiveSample();
     snapshot.selection.plannedSkills.push(structuredClone(snapshot.selection.plannedSkills[0]!));
-    expect(() => assembleActiveSkills(snapshot)).toThrow(/6A/);
+    expect(() => assembleActiveSkills(snapshot)).toThrow(/不同真实来源/);
     snapshot.selection.plannedSkills.pop();
     snapshot.selection.basicAttackSkillKey = 'sample_basic_attack';
-    expect(() => assembleActiveSkills(snapshot)).toThrow(/背景普攻/);
+    expect(assembleActiveSkills(snapshot).bindings).toHaveLength(1);
     snapshot.selection.basicAttackSkillKey = null;
     snapshot.skillConfigurations[1]!.processes[0]!.steps.push(structuredClone(snapshot.skillConfigurations[1]!.processes[0]!.steps[0]!));
     expect(() => assembleActiveSkills(snapshot)).toThrow(/有限延时/);
@@ -187,10 +188,10 @@ describe('6A完整单次主动装配', () => {
     expect(inspectSimulationSnapshot(normal).requirements.length).toBeGreaterThan(0);
     const { snapshot, prepared } = preparedActiveSample();
     const original = await skillActionRequest(prepared, snapshot, inputs);
-    const changed = await skillActionRequest(prepared, snapshot, { ...inputs, atMs: 51 });
+    const changed = await skillActionRequest(prepared, snapshot, { ...inputs, actions: [{ ...inputs.actions[0]!, atMs: 51 }] });
     expect(changed.runRequest.rulesHash).toBe(original.runRequest.rulesHash);
     expect(changed.runInputHash).not.toBe(original.runInputHash);
-    await expect(skillActionRequest(prepared, snapshot, { ...inputs, atMs: 201 })).rejects.toThrow(/atMs/);
+    await expect(skillActionRequest(prepared, snapshot, { ...inputs, actions: [{ ...inputs.actions[0]!, atMs: 201 }] })).rejects.toThrow(/atMs/);
     await expect(skillActionRequest(prepared, snapshot, { ...inputs, maxSkillUseRecords: 10001 })).rejects.toThrow(/maxSkillUseRecords/);
     const result = await prepareSimulation(snapshot, prepared.attributeInputs, prepared.initialHealth);
     expect(result.compileRequest.rulesHash).not.toBe('pending');

@@ -1,13 +1,18 @@
 import { Alert, Button, InputNumber, Space, Table, Typography } from '@arco-design/web-react';
 import { useState } from 'react';
-import { buildSkillActionArchive, buildSkillActionCsv, type SkillActionCsvKind } from '../../engine/continuousAttackArchive';
+import { buildContinuousAttackArchive, buildSkillActionArchive, buildSkillActionCsv, type SkillActionCsvKind } from '../../engine/continuousAttackArchive';
 import type { SkillActionArchive } from './BasicAttackCompilePanel';
+import { ContinuousAttackResult } from './ContinuousAttackResult';
+import { assessContinuousAttackResult } from '../../engine/continuousAttackResult';
 
 const fieldLabels: Record<string, string> = {
   instructionKey: '指令标识', requestedAtMs: '请求时刻', actualAtMs: '实际时刻', outcome: '尝试结果', reason: '原因', useRef: '使用身份',
   timeMs: '实际时刻', kind: '使用事实', processKey: '过程标识', hitRef: '命中身份', source: '来源方', target: '作用方', operationRef: '作者结果',
   rawAmount: '原始治疗', healingAfterDone: '给予治疗修正后', healingAfterModifiers: '收到治疗修正后', actualHealing: '有效治疗',
-  overheal: '溢出', hpBefore: '之前生命', hpAfter: '之后生命', attackIndex: '普攻刀号', postDefenseDamage: '造成伤害', actualHpLoss: '实际扣血'
+  overheal: '溢出', hpBefore: '之前生命', hpAfter: '之后生命', attackIndex: '普攻刀号', postDefenseDamage: '造成伤害', actualHpLoss: '实际扣血',
+  skillKey: '技能标识', owner: '真实拥有者', startAtMs: '普攻开始', hitAtMs: '普攻命中', finalReadyAtMs: '普通冷却就绪',
+  mechanicReadyAtMs: '弹药就绪', actionReadyAtMs: '行动就绪贡献', nextStartAtMs: '实际唯一下一刀', providerRef: '来源挂载',
+  stateKey: '机制状态', beforeValue: '原库存', afterValue: '新库存', readyAtMs: '实际就绪'
 };
 const useLabels = { STARTED: '成功首次', RELEASED: '原过程释放', HIT: '实际命中', COMPLETED: '过程完成', FAILED: '过程失败' };
 
@@ -25,18 +30,23 @@ export function SkillActionResult({ archive, stale }: { archive: SkillActionArch
   const uses = (done.skillUseRecords ?? []).filter(row => within(row.timeMs));
   const healing = (done.healingRecords ?? []).filter(row => within(row.timeMs));
   const damage = (done.damageRecords ?? []).filter(row => within(row.timeMs));
+  const attacks = (done.attackRecords ?? []).filter(row => within(row.startAtMs));
+  const mechanics = (done.mechanicRecords ?? []).filter(row => within(row.timeMs));
+  const mixed = !!archive.runRequest?.driverPlan.basicAttack;
   const summary = done.summary;
   const tables = [
-    { kind: 'skillAction', title: '指令尝试', rows: actions, fields: ['instructionKey', 'requestedAtMs', 'actualAtMs', 'outcome', 'reason', 'useRef'] },
+    { kind: 'skillAction', title: '指令尝试', rows: actions, fields: ['instructionKey', 'skillKey', 'source', 'target', 'requestedAtMs', 'actualAtMs', 'outcome', 'reason', 'useRef'] },
     { kind: 'skillUse', title: '实际使用与过程', rows: uses, fields: ['instructionKey', 'timeMs', 'kind', 'processKey', 'useRef', 'hitRef', 'reason'] },
-    { kind: 'healing', title: '直接治疗', rows: healing, fields: ['timeMs', 'source', 'target', 'operationRef', 'rawAmount', 'healingAfterDone', 'healingAfterModifiers', 'actualHealing', 'overheal', 'hpBefore', 'hpAfter'] },
-    { kind: 'damage', title: '逐笔伤害', rows: damage, fields: ['timeMs', 'source', 'target', 'operationRef', 'instructionKey', 'useRef', 'hitRef', 'attackIndex', 'postDefenseDamage', 'actualHpLoss'] }
+    { kind: 'healing', title: '直接治疗', rows: healing, fields: ['timeMs', 'source', 'target', 'instructionKey', 'useRef', 'operationRef', 'rawAmount', 'healingAfterDone', 'healingAfterModifiers', 'actualHealing', 'overheal', 'hpBefore', 'hpAfter'] },
+    { kind: 'damage', title: '逐笔伤害', rows: damage, fields: ['timeMs', 'owner', 'source', 'target', 'operationRef', 'instructionKey', 'useRef', 'hitRef', 'attackIndex', 'postDefenseDamage', 'actualHpLoss'] },
+    { kind: 'attack', title: '背景普攻事实', rows: attacks, fields: ['attackIndex', 'useRef', 'startAtMs', 'hitAtMs', 'finalReadyAtMs', 'mechanicReadyAtMs', 'actionReadyAtMs', 'nextStartAtMs', 'postDefenseDamage', 'actualHpLoss'] },
+    { kind: 'mechanic', title: '弹药与机制事实', rows: mechanics, fields: ['timeMs', 'kind', 'owner', 'providerRef', 'stateKey', 'beforeValue', 'afterValue', 'readyAtMs'] }
   ] as const;
   return <section aria-label="指定技能结果">
-    <Typography.Title heading={4}>6A单次主动观察结果</Typography.Title>
+    <Typography.Title heading={4}>{mixed ? '技能与背景普攻混合观察结果' : '指定主动技能观察结果'}</Typography.Title>
     <Typography.Paragraph>冻结场景：A {archive.snapshot.source.character.name}（等级{archive.snapshot.selection.sourceLevel}），
       B {archive.snapshot.target.character.name}（等级{archive.snapshot.selection.targetLevel}）；
-      主动技能{archive.snapshot.selection.plannedSkills[0]?.skillKey}，等级{archive.snapshot.selection.plannedSkills[0]?.skillLevel}。
+      计划来源：{archive.snapshot.selection.plannedSkills.map(plan => `${plan.skillKey} 等级${plan.skillLevel}`).join('；')}。
       初始生命A：{archive.initialHealth.source}，B：{archive.initialHealth.target}；运行条件摘要：{archive.runInputHash ?? '尚未准备'}。</Typography.Paragraph>
     <Alert type={archive.assessment?.complete && archive.cleanup === 'released' ? 'success' : 'warning'} content={
       `观察${summary.execution?.complete ? '完整' : '不完整'}；${archive.cleanup === 'released' ? '会话已释放' : '会话未正常释放'}。
@@ -48,15 +58,25 @@ export function SkillActionResult({ archive, stale }: { archive: SkillActionArch
     <Typography.Paragraph>造成伤害A：{summary.sourceDamageDealt}，B：{summary.targetDamageDealt}；实际扣血A：{summary.sourceHpLoss ?? '缺失'}，B：{summary.targetHpLoss ?? '缺失'}。
       直接治疗A：{summary.sourceDirectHealing ?? '缺失'}，B：{summary.targetDirectHealing ?? '缺失'}；吸血A：{summary.sourceVampHealing ?? '缺失'}，B：{summary.targetVampHealing ?? '缺失'}。
       最终生命A：{summary.sourceFinalHp}，B：{summary.targetFinalHp}。完整累计不随缩放、零记录或截断改变。</Typography.Paragraph>
+    {mixed ? <Typography.Paragraph>背景普攻开始{summary.basicAttack?.startedCount}，命中{summary.basicAttack?.hitCount}，完成{summary.basicAttack?.completedCount}；
+      首刀前行动就绪贡献：{summary.basicAttack?.initialActionReadyAtMs ?? '无贡献'}毫秒；初始弹药就绪：{summary.basicAttack?.initialMechanicReadyAtMs ?? '无需等待'}。
+      下一刀只取普通冷却、弹药和真实行动贡献的最大值，不累加等待、不从有限记录推导。</Typography.Paragraph> : null}
+    <Table data={archive.runRequest?.driverPlan.skillActions ?? []} rowKey="instructionKey" pagination={false}
+      columns={['instructionKey', 'skillKey', 'firstAtMs', 'sortOrder', 'target', 'action', 'hitBindings'].map(field => ({
+        title: ({ firstAtMs: '请求时刻', sortOrder: '同刻顺序', action: '首次阶段', hitBindings: '明确命中输入' } as Record<string, string>)[field] ?? fieldLabels[field],
+        render: (_value: unknown, row: object) => JSON.stringify((row as Record<string, unknown>)[field]) }))} />
     {archive.assessment?.issues.length ? <Alert type="error" content={archive.assessment.issues.join('；')} /> : null}
+    {archive.assessment?.identityGaps.length ? <Alert type="warning" content={`完整累计与观察状态独立核对；明细身份仅部分核实：${archive.assessment.identityGaps.join('；')}。不通过金额、最近刀号或调试证据补造关联。`} /> : null}
     <Typography.Paragraph>独立记录：{JSON.stringify(done.recording)}。仅展示与导出原生已返回事实，不通过调试证据还原丢弃记录。</Typography.Paragraph>
     <Space wrap>
       <InputNumber aria-label="主动时间轴起点" value={range[0]} min={0} max={range[1]} onChange={value => value !== undefined && setRange([value, range[1]])} />
       <InputNumber aria-label="主动时间轴终点" value={range[1]} min={range[0]} max={summary.durationMs} onChange={value => value !== undefined && setRange([range[0], value])} />
-      <Button onClick={() => download('single-active-skill-archive.json', JSON.stringify(buildSkillActionArchive(archive, range), null, 2), 'application/json')}>下载主动冻结档案</Button>
+      <Button onClick={() => download('skill-plan-archive.json', JSON.stringify(buildSkillActionArchive(archive, range), null, 2), 'application/json')}>下载主动冻结档案</Button>
     </Space>
     <svg role="img" aria-label="实际主动使用时间轴" viewBox="0 0 900 90" style={{ width: '100%', maxHeight: 120 }}>
       <line x1="30" x2="870" y1="35" y2="35" stroke="currentColor" />
+      {attacks.map(row => <circle key={row.useRef} cx={30 + 840 * (row.startAtMs - range[0]) / Math.max(1, range[1] - range[0])}
+        cy="35" r="4" fill="#16a34a"><title>{`${row.startAtMs}毫秒 普攻${row.attackIndex} ${row.useRef}`}</title></circle>)}
       {uses.map((row, index) => {
         const horizontal = 30 + 840 * (row.timeMs - range[0]) / Math.max(1, range[1] - range[0]);
         return <g key={`${row.useRef}:${row.kind}:${row.hitRef}:${index}`}>
@@ -73,10 +93,14 @@ export function SkillActionResult({ archive, stale }: { archive: SkillActionArch
     </svg>
     {tables.map(table => <section key={table.kind} aria-label={table.title}>
       <Typography.Title heading={5}>{table.title}（当前已返回{table.rows.length}条）</Typography.Title>
-      <Button onClick={() => download(`single-active-${table.kind}.csv`, buildSkillActionCsv(table.kind as SkillActionCsvKind,
+      <Button onClick={() => download(`skill-plan-${table.kind}.csv`, buildSkillActionCsv(table.kind as SkillActionCsvKind,
         table.rows, archive.runInputHash, range, done.recording), 'text/csv;charset=utf-8')}>导出{table.title}CSV</Button>
       <Table data={table.rows.map((row, index) => ({ ...row, recordKey: index }))} rowKey="recordKey" pagination={false} scroll={{ x: 1200, y: 280 }}
         columns={table.fields.map(field => ({ title: fieldLabels[field] ?? field, render: (_value: unknown, row: object) => String((row as Record<string, unknown>)[field] ?? '—') }))} />
     </section>)}
+    {mixed && archive.runRequest ? <ContinuousAttackResult archive={{ ...archive, taskKind: 'continuous_attack',
+      assessment: assessContinuousAttackResult(archive.compileRequest, archive.runRequest, done, archive.operationOrigins) }} stale={stale}
+      cleanupLabel={archive.cleanup === 'released' ? '会话已正常释放' : '会话未正常释放'} released={archive.cleanup === 'released'} warnings={done.warnings}
+      onDownload={view => download('mixed-timeline-archive.json', JSON.stringify(buildContinuousAttackArchive(archive, view), null, 2), 'application/json')} /> : null}
   </section>;
 }

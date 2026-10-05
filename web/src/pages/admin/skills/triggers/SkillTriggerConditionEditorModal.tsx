@@ -626,7 +626,7 @@ export function SkillTriggerConditionEditorModal({
           {current.conditionType === 'INTERNAL_STATE_CHECK' ? (
             <>
               <Form.Item label="内部状态所属技能" required>
-                <Input aria-label="条件状态所属技能" value={current.detail.stateSkillKey || skillKey}
+                <Input aria-label="条件状态所属技能" value={current.detail.stateSkillKey ?? ''} placeholder="请明确填写所属技能，不为已存空值补默认"
                   disabled={disabled} onChange={(value) => setCurrent({ ...current,
                     detail: { ...current.detail, stateSkillKey: value.trim(), stateKey: '' } })} />
               </Form.Item>

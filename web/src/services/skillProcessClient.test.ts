@@ -5,7 +5,8 @@ import {
   deleteSkillProcess,
   getSkillProcess,
   listSkillProcesses,
-  updateSkillProcess
+  updateSkillProcess,
+  parseSkillProcess
 } from './skillProcessClient';
 import type {
   CreateSkillProcessRequest,
@@ -20,6 +21,19 @@ function jsonResponse(status: number, body: unknown): Response {
     headers: { 'Content-Type': 'application/json' }
   });
 }
+
+describe('步骤行动占用读回合同', () => {
+  it.each([null, true, false])('保留%j，不猜默认布尔', occupiesAction => {
+    const value = structuredClone(detail);
+    value.steps[0]!.occupiesAction = occupiesAction;
+    expect(parseSkillProcess(value).steps[0]!.occupiesAction).toBe(occupiesAction);
+  });
+  it('拒绝字符串布尔，不能让管理读回伪装核定', () => {
+    const value = structuredClone(detail);
+    Object.assign(value.steps[0]!, { occupiesAction: 'true' });
+    expect(() => parseSkillProcess(value)).toThrow(/occupiesAction/);
+  });
+});
 
 const summary: SkillProcessSummary = {
   gameId: 'demo',

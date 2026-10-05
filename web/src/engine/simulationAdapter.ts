@@ -26,7 +26,7 @@ import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
 
-export const SIMULATION_ADAPTER_VERSION = 'v11-single-initial-skill';
+export const SIMULATION_ADAPTER_VERSION = 'v12-initial-skill-plan';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -94,7 +94,7 @@ type Program = {
 /** 装配首批完整普攻形状，不依赖技能名称；不支持的启用入口整体拒绝。 */
 function program(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = []): Program {
   if (snapshot.selection.basicAttackSkillKey === null) return activeProgram(snapshot, ignoredCosts);
-  if (snapshot.selection.plannedSkills.length || ignoredCosts.length) fail('selection.plannedSkills', '6A不开放技能与普攻混合');
+  if (!snapshot.selection.plannedSkills.length && ignoredCosts.length) fail('ignoredCastCosts', '没有计划技能不能声明施法成本');
   const natural = assembleNaturalSkillSources(snapshot);
   const triggered = assembleTriggeredEquipment(snapshot);
   const triggeredPrograms = [triggered, natural.triggered];
@@ -293,7 +293,7 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   }
   const genericProcess: ProcessDefinition = {
     processKey: process.processKey, skillKey: config.skill.skillKey,
-    steps: ordered(process.steps, `${processPath}.steps`).map(step => ({ stepKey: stableKey(step.stepKey, processPath), stepType: 'IMMEDIATE' })),
+    steps: ordered(process.steps, `${processPath}.steps`).map(step => ({ stepKey: stableKey(step.stepKey, processPath), stepType: 'IMMEDIATE', occupiesAction: step.occupiesAction ?? null })),
     costs: [], cooldown: {
       durationMs: value(process.cooldown.durationValue, `${processPath}.cooldown.durationValue`),
       roundPositiveMs: true,
@@ -302,7 +302,8 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   };
   addCoverage(`${processPath}.cooldown`, 'sharedProviders[0].processes[0].cooldown');
   for (const [index, step] of ordered(process.steps, `${processPath}.steps`).entries()) {
-    exact(step, ['stepKey', 'name', 'description', 'sortOrder', 'stepType', 'detail'], `${processPath}.steps.${step.stepKey}`);
+    exact(step, ['stepKey', 'name', 'description', 'sortOrder', 'stepType', 'detail', 'occupiesAction'], `${processPath}.steps.${step.stepKey}`);
+    if (step.occupiesAction != null && typeof step.occupiesAction !== 'boolean') fail(`${processPath}.steps.${step.stepKey}.occupiesAction`, '行动占用必须是布尔或空值');
     addCoverage(`${processPath}.steps.${step.stepKey}`, `sharedProviders[0].processes[0].steps[${index}]`);
   }
   for (const binding of ordered(process.effectBindings, `${processPath}.effectBindings`)) {
@@ -467,32 +468,24 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   }
   const mergedCoverage = [...coverageByReference.values()].map(({ row, notes }) =>
     notes.size ? { ...row, note: [...notes].join('；') } : row);
-  return { provider, rules, formulas: [...state.namedFormulas.values(), ...triggeredPrograms.flatMap(assembly => assembly.formulas)], types: [...types].map(([key, domain]) => ({ key, domain })),
+  const assembled: Program = { provider, rules, formulas: [...state.namedFormulas.values(), ...triggeredPrograms.flatMap(assembly => assembly.formulas)], types: [...types].map(([key, domain]) => ({ key, domain })),
     coverage: mergedCoverage, required, configuration: config, operationOrigins: mergedOrigins, equipment, passives, triggered, natural,
     basicAttackBinding: { source: 'source', target: 'target', skillKey: config.skill.skillKey,
       startAbilityRef: `source.provider[${MOUNT}].ability[${START_ABILITY}]`,
       hitAbilityRef: `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`,
       initialControlAbilityRef: `source.provider[${MOUNT}].ability[${controlKey}]`, attackSpeedAttributeKey: 'attack_speed' }
   };
+  return snapshot.selection.plannedSkills.length ? mergeActiveProgram(assembled, snapshot, ignoredCosts) : assembled;
 }
 
 function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[]): Program {
   const natural = assembleNaturalSkillSources(snapshot);
   const triggered = assembleTriggeredEquipment(snapshot);
-  const active = assembleActiveSkills(snapshot, ignoredCosts);
   const equipment = assembleEquipment(snapshot, new Set([...natural.derivationSides, ...triggered.derivationSides]),
     new Set(natural.derivations.filter(row => row.attributeKey === 'attack_speed').map(row => row.combatantKey)));
   const passives = assembleEquipmentPassives(snapshot);
-  const existing = natural.providers.find(provider => provider.providerKey === active.binding.providerDefinitionRef);
-  const activeAbilityOffset = existing?.abilities?.length ?? 0;
-  const activeProcessOffset = existing?.processes?.length ?? 0;
-  if (existing) {
-    const provider = active.providers.shift()!;
-    existing.abilities = [...(existing.abilities ?? []), ...(provider.abilities ?? [])];
-    existing.processes = [...(existing.processes ?? []), ...(provider.processes ?? [])];
-  } else natural.mounts.push({ side: 'source', providerRef: active.binding.providerRef, definitionRef: active.binding.providerDefinitionRef });
-  const assemblies = [triggered, natural.triggered, active];
-  const rules: GenericRules = { skillActionBindings: [active.binding], damageTypeFormulas: [],
+  const assemblies = [triggered, natural.triggered];
+  const rules: GenericRules = { damageTypeFormulas: [],
     attributeDerivations: [...equipment.derivations, ...natural.derivations] };
   validateSimulationAttributeDerivations(rules.attributeDerivations!);
   for (const assembly of assemblies) {
@@ -519,13 +512,11 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
     if (row.op === 'read' && read) required.get(read[1] as 'source' | 'target')!.add(read[2]!);
     Object.values(row).forEach(collect);
   };
-  collect(active.providers); collect(active.formulas); collect(rules); collect(existing);
-  const providers = [...equipment.providers, ...passives.providers, ...triggered.providers, ...natural.providers, ...active.providers];
+  collect(natural.providers); collect(rules);
+  const providers = [...equipment.providers, ...passives.providers, ...triggered.providers, ...natural.providers];
   const providerIndices = new Map(providers.map((provider, index) => [provider.providerKey, index]));
-  const rebase = (path: string, activePath = false) => {
-    const shifted = activePath ? path.replace(/\.abilities\[(\d+)\]/g, (_original, index: string) => `.abilities[${Number(index) + activeAbilityOffset}]`)
-      .replace(/\.processes\[(\d+)\]/g, (_original, index: string) => `.processes[${Number(index) + activeProcessOffset}]`) : path;
-    return shifted.replace(/sharedProviders(?:\[([^\]]+)\]|\.([^.]+))/, (original, bracket: string, dotted: string) => {
+  const rebase = (path: string) => {
+    return path.replace(/sharedProviders(?:\[([^\]]+)\]|\.([^.]+))/, (original, bracket: string, dotted: string) => {
       const key = bracket ?? dotted;
       return providerIndices.has(key) ? `sharedProviders[${providerIndices.get(key)}]` : original;
     });
@@ -533,14 +524,67 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
   const coverage = [...equipment.coverage.map(row => ({ ...row, compiledPath: row.compiledPath
     .replace(/sharedProviders\[(\d+)\]/, (_original, index: string) => `sharedProviders[${Number(index) - 1}]`)
     .replace(/combatants\[0\]\.providers\[(\d+)\]/, (_original, index: string) => `combatants[0].providers[${Number(index) - 1}]`) })),
-    ...passives.coverage, ...triggered.coverage, ...natural.coverage, ...active.coverage];
-  const mergedCoverage = coverage.map(row => ({ ...row, compiledPath: rebase(row.compiledPath, active.coverage.includes(row)) }));
+    ...passives.coverage, ...triggered.coverage, ...natural.coverage];
+  const mergedCoverage = coverage.map(row => ({ ...row, compiledPath: rebase(row.compiledPath) }));
   const origins = assemblies.flatMap(assembly => assembly.operationOrigins.map(origin => ({ ...origin,
-    compiledPaths: origin.compiledPaths.map(path => rebase(path, assembly === active)) })));
-  return { provider: null, active, rules, formulas: assemblies.flatMap(assembly => assembly.formulas),
+    compiledPaths: origin.compiledPaths.map(rebase) })));
+  return mergeActiveProgram({ provider: null, rules, formulas: assemblies.flatMap(assembly => assembly.formulas),
     types: [...types].map(([key, domain]) => ({ key, domain })), required, equipment, passives, triggered, natural,
     coverage: mergedCoverage,
-    operationOrigins: origins, basicAttackBinding: null };
+    operationOrigins: origins, basicAttackBinding: null }, snapshot, ignoredCosts);
+}
+
+function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[]): Program {
+  const active = assembleActiveSkills(snapshot, ignoredCosts);
+  const offsets = new Map<string, { abilities: number; processes: number }>();
+  for (const binding of active.bindings) {
+    const provider = active.providers.find(row => row.providerKey === binding.providerDefinitionRef)!;
+    const existing = base.natural.providers.find(row => row.providerKey === binding.providerDefinitionRef);
+    offsets.set(binding.providerDefinitionRef, { abilities: existing?.abilities?.length ?? 0, processes: existing?.processes?.length ?? 0 });
+    if (existing) {
+      if (provider.abilities?.some(ability => existing.abilities?.some(previous => previous.abilityKey === ability.abilityKey))
+        || provider.processes?.some(process => existing.processes?.some(previous => previous.processKey === process.processKey))) {
+        fail('sharedProviders', '主动与自然来源不能重复装配同一能力或过程');
+      }
+      existing.abilities = [...(existing.abilities ?? []), ...(provider.abilities ?? [])];
+      existing.processes = [...(existing.processes ?? []), ...(provider.processes ?? [])];
+      active.providers = active.providers.filter(row => row !== provider);
+    } else base.natural.mounts.push({ side: 'source', providerRef: binding.providerRef, definitionRef: binding.providerDefinitionRef });
+  }
+  base.rules.skillActionBindings = active.bindings;
+  for (const formula of active.rules.damageTypeFormulas) {
+    const previous = base.rules.damageTypeFormulas!.find(row => row.damageType === formula.damageType);
+    if (previous && JSON.stringify(previous) !== JSON.stringify(formula)) fail('rules.damageTypeFormulas', '主动与普攻必须共享完整防御规则');
+    if (!previous) base.rules.damageTypeFormulas!.push(formula);
+  }
+  if (active.rules.vampRules) {
+    if (base.rules.vampRules && JSON.stringify(base.rules.vampRules) !== JSON.stringify(active.rules.vampRules)) fail('rules.vampRules', '主动与普攻必须共享真实吸血规则');
+    base.rules.vampRules = active.rules.vampRules;
+  }
+  for (const rule of base.rules.vampRules ?? []) base.required.get('source')!.add(rule.sourceAttributeKey);
+  const providers = [...(base.provider ? [base.provider] : []), ...base.equipment.providers, ...base.passives.providers,
+    ...base.triggered.providers, ...base.natural.providers, ...active.providers];
+  const indices = new Map(providers.map((provider, index) => [provider.providerKey, index]));
+  const rebase = (path: string) => path.replace(/sharedProviders\[([^\]]+)\](.*)/, (original, definition: string, suffix: string) => {
+    if (!indices.has(definition)) return original;
+    const offset = offsets.get(definition);
+    return `sharedProviders[${indices.get(definition)}]${suffix.replace(/\.abilities\[(\d+)\]/g,
+      (_match, index: string) => `.abilities[${Number(index) + (offset?.abilities ?? 0)}]`).replace(/\.processes\[(\d+)\]/g,
+      (_match, index: string) => `.processes[${Number(index) + (offset?.processes ?? 0)}]`)}`;
+  });
+  const types = new Map([...base.types, ...active.types].map(type => [type.key, type.domain]));
+  const collect = (value: unknown): void => {
+    if (Array.isArray(value)) { value.forEach(collect); return; }
+    if (!value || typeof value !== 'object') return;
+    const row = value as Record<string, unknown>;
+    const read = typeof row.path === 'string' ? /^(source|target)\.attr\.([a-z][a-z0-9_]*)\./.exec(row.path) : null;
+    if (row.op === 'read' && read) base.required.get(read[1] as 'source' | 'target')!.add(read[2]!);
+    Object.values(row).forEach(collect);
+  };
+  collect(providers); collect(active.formulas); collect(base.rules);
+  return { ...base, active, types: [...types].map(([key, domain]) => ({ key, domain })), formulas: [...(base.formulas ?? []), ...active.formulas],
+    coverage: [...base.coverage, ...active.coverage.map(row => ({ ...row, compiledPath: rebase(row.compiledPath) }))],
+    operationOrigins: [...base.operationOrigins, ...active.operationOrigins.map(origin => ({ ...origin, compiledPaths: origin.compiledPaths.map(rebase) }))] };
 }
 
 export function inspectSimulationSnapshot(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = []): {

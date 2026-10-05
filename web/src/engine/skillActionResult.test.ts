@@ -7,8 +7,9 @@ import { buildSkillActionArchive, buildSkillActionCsv } from './continuousAttack
 
 async function sample() {
   const { prepared, snapshot } = preparedActiveSample(true);
-  const request = (await skillActionRequest(prepared, snapshot, { instructionKey: 'first_cast', atMs: 0, sortOrder: 0,
-    targetSide: 'source', hitPreset: null, durationMs: 200, recordTimeSeries: false,
+  const request = (await skillActionRequest(prepared, snapshot, { actions: [{ ...snapshot.selection.plannedSkills[0]!,
+    instructionKey: 'first_cast', atMs: 0, sortOrder: 0, phaseKind: 'INITIAL', parentInstructionKey: null,
+    targetSide: 'source', hitPreset: null }], durationMs: 200, recordTimeSeries: false,
     maxSkillActionRecords: 32, maxSkillUseRecords: 128, maxHealingRecords: 256 })).runRequest;
   const binding = prepared.compileRequest.rules.skillActionBindings![0]!;
   const useRef = 'skill:first_cast';
@@ -45,9 +46,31 @@ async function sample() {
 }
 
 describe('6A原生事实与冻结导出核对', () => {
+  it('多条同来源首次累计守恒，真实使用不能跨指令互借', async () => {
+    const { prepared, request, done } = await sample();
+    const second = { ...request.driverPlan.skillActions![0]!, instructionKey: 'second_cast', firstAtMs: 1000 };
+    request.driverPlan.skillActions!.push(second);
+    request.stopPolicy.durationMs = 1200;
+    done.summary.durationMs = done.finalSnapshot.timeMs = 1200;
+    done.summary.execution!.requestedDurationMs = 1200;
+    done.summary.skillActions = { plannedCount: 2, reachedCount: 2, acceptedCount: 2, rejectedCount: 0, abortedBeforeAcceptCount: 0, unreachedCount: 0 };
+    done.summary.skillUses = { startedCount: 2, releasedCount: 2, hitCount: 0, completedCount: 2, failedCount: 0, inFlightCount: 0 };
+    done.skillActionRecords!.push({ ...done.skillActionRecords![0]!, instructionKey: 'second_cast', requestedAtMs: 1000, actualAtMs: 1000, useRef: 'skill:second_cast' });
+    done.skillUseRecords!.push(...done.skillUseRecords!.map(row => ({ ...row, instructionKey: 'second_cast', useRef: 'skill:second_cast', timeMs: row.timeMs + 1000 })));
+    done.healingRecords!.push({ ...done.healingRecords![0]!, instructionKey: 'second_cast', useRef: 'skill:second_cast', timeMs: 1000,
+      abilityRef: done.healingRecords![0]!.abilityRef.replace('heal_1', 'heal_0'), operationRef: done.healingRecords![0]!.operationRef.replace('heal_1', 'heal_0'),
+      rawAmount: 40, healingAfterDone: 40, healingAfterModifiers: 40, actualHealing: 40, hpBefore: 310, hpAfter: 350 });
+    done.summary.sourceDirectHealing = 100;
+    done.summary.sourceFinalHp = done.finalSnapshot.combatants[0]!.attributes.hp!.current = 350;
+    done.recording = { ...done.recording!, skillActionRecordCount: 2, returnedSkillActionRecords: 2, skillUseRecordCount: 6, returnedSkillUseRecords: 6,
+      healingRecordCount: 2, returnedHealingRecords: 2 };
+    expect(assessSkillActionResult(prepared.compileRequest, request, done).complete).toBe(true);
+    done.skillUseRecords![3]!.useRef = 'skill:first_cast';
+    expect(assessSkillActionResult(prepared.compileRequest, request, done).factsValid).toBe(false);
+  });
   it('自身治疗与吸血明确分开，完整生命账和有限明细一致', async () => {
     const { prepared, request, done } = await sample();
-    expect(assessSkillActionResult(prepared.compileRequest, request, done)).toEqual({ complete: true, factsValid: true, issues: [] });
+    expect(assessSkillActionResult(prepared.compileRequest, request, done)).toEqual({ complete: true, factsValid: true, detailIdentityVerified: true, identityGaps: [], issues: [] });
   });
 
   it('0记录不从证据补造明细、不影响完整观察累计', async () => {
@@ -59,7 +82,7 @@ describe('6A原生事实与冻结导出核对', () => {
       const capital = kind[0]!.toUpperCase() + kind.slice(1);
       recording[`returned${capital}Records`] = 0; recording[`dropped${capital}Records`] = total; recording[`${kind}RecordsTruncated`] = true;
     }
-    expect(assessSkillActionResult(prepared.compileRequest, request, done).complete).toBe(true);
+    expect(assessSkillActionResult(prepared.compileRequest, request, done)).toMatchObject({ complete: true, detailIdentityVerified: false });
     expect(buildSkillActionCsv('healing', [], 'frozen', [0, 200], done.recording).split('\r\n')).toHaveLength(1);
   });
 

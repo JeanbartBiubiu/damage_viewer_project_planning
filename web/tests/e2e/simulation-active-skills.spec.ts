@@ -88,8 +88,9 @@ async function runSample(page: Page, snapshot: SimulationSnapshot, sample: Sampl
     const process = prepared.compileRequest.sharedProviders!.find(row => row.providerKey === binding.providerDefinitionRef)!.processes![0]!;
     const delay = process.steps[0]!.delayMs ? tryFoldConstant(process.steps[0]!.delayMs!) : 0;
     if (delay === null || !Number.isSafeInteger(delay) || delay < 0) throw new Error('首批有限延时必须来自原声明，不按技能键猜释放时刻');
-    const actionInputs = { instructionKey: 'first_cast', atMs: 0, sortOrder: 0, targetSide: healing ? 'source' as const : 'target' as const,
-      hitPreset: healing ? null : 'TARGET_HIT' as const, durationMs: delay + 100, recordTimeSeries: true,
+    const actionInputs = { actions: [{ ...snapshot.selection.plannedSkills[0]!, instructionKey: 'first_cast', atMs: 0, sortOrder: 0,
+      phaseKind: 'INITIAL' as const, parentInstructionKey: null, targetSide: healing ? 'source' as const : 'target' as const,
+      hitPreset: healing ? null : 'TARGET_HIT' as const }], durationMs: delay + 100, recordTimeSeries: true,
       maxSkillActionRecords: 32, maxSkillUseRecords: 128, maxHealingRecords: 256 };
     const client = new GenericEngineClient();
     let sessionId: string | null = null;
@@ -114,8 +115,9 @@ async function runSample(page: Page, snapshot: SimulationSnapshot, sample: Sampl
         { name: 'sampling-disabled', request: { ...baselineRequest.runRequest, sampling: { ...baselineRequest.runRequest.sampling, disabled: true } } }
       ];
       variants.push({ name: 'scheduled-at-100', request: (await skillActionRequest(prepared, snapshot,
-        { ...actionInputs, atMs: 100, durationMs: delay + 200 }, sessionId)).runRequest });
-      if (!healing) variants.push({ name: 'miss', request: (await skillActionRequest(prepared, snapshot, { ...actionInputs, hitPreset: 'MISS' }, sessionId)).runRequest });
+        { ...actionInputs, actions: [{ ...actionInputs.actions[0]!, atMs: 100 }], durationMs: delay + 200 }, sessionId)).runRequest });
+      if (!healing) variants.push({ name: 'miss', request: (await skillActionRequest(prepared, snapshot,
+        { ...actionInputs, actions: [{ ...actionInputs.actions[0]!, hitPreset: 'MISS' }] }, sessionId)).runRequest });
       if (delay > 1 && healthRatio > 0) variants.push({ name: 'before-release', request: (await skillActionRequest(prepared, snapshot, { ...actionInputs, durationMs: delay - 1 }, sessionId)).runRequest });
       for (const variant of variants) {
         const done = await client.run(variant.request);

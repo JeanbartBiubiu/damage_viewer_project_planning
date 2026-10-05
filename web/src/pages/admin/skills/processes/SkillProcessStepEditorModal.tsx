@@ -247,6 +247,15 @@ export function SkillProcessStepEditorModal({
             </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
+            label="行动占用"
+            help="未核定保存为空；计划技能运行前必须明确是否占用。延时不自动代表占用。"
+          >
+            <Select aria-label="步骤行动占用" value={draft.occupiesAction === null ? 'unknown' : draft.occupiesAction ? 'yes' : 'no'}
+              disabled={readOnly} options={[{ value: 'unknown', label: '未核定（空值）' },
+                { value: 'yes', label: '占用行动' }, { value: 'no', label: '不占用行动' }]}
+              onChange={value => patchDraft({ ...draft, occupiesAction: value === 'unknown' ? null : value === 'yes' })} />
+          </Form.Item>
+          <Form.Item
             label="排序"
             required
             validateStatus={errors.sortOrder ? 'error' : undefined}

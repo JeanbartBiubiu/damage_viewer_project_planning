@@ -465,7 +465,7 @@ describe('processAdapter', () => {
     ];
     const adapted = adaptProcessProgram(recast);
     expect(adapted.provider.processes![0]!.steps[0]).toMatchObject({ stepType: 'DELAY', delayMs: { op: 'const', value: 50 } });
-    expect(adapted.provider.processes![0]!.steps[1]).toEqual({ stepKey: 'again', stepType: 'RECAST', windowMs: { op: 'const', value: 1000 } });
+    expect(adapted.provider.processes![0]!.steps[1]).toEqual({ stepKey: 'again', stepType: 'RECAST', windowMs: { op: 'const', value: 1000 }, occupiesAction: null });
     expect(adapted.controls.map((control) => control.action)).toEqual(['INITIAL', 'RECAST']);
     expect(adapted.provider.abilities![1]).toMatchObject({ kind: 'active', processControl: { action: 'RECAST', stepKey: 'again' } });
 

@@ -566,6 +566,7 @@ export type ProcessMomentDefinition = {
 
 export type ProcessStepDefinition = {
   stepKey: string;
+  occupiesAction?: boolean | null;
   stepType: ProcessStepType;
   delayMs?: GenericFormulaExpr;
   minimumChargeMs?: GenericFormulaExpr;
@@ -694,7 +695,7 @@ export type RunSummary = {
 };
 
 export type BasicAttackSummary = { planKey: string; startedCount: number; hitCount: number; completedCount: number;
-  initialMechanicReadyAtMs?: number | null };
+  initialMechanicReadyAtMs?: number | null; initialActionReadyAtMs: number | null };
 export type SkillActionSummary = { plannedCount: number; reachedCount: number; acceptedCount: number; rejectedCount: number;
   abortedBeforeAcceptCount: number; unreachedCount: number };
 export type SkillUseSummary = { startedCount: number; releasedCount: number; hitCount: number; completedCount: number;
@@ -728,6 +729,7 @@ export type AttackRecord = {
   planKey: string; attackIndex: number; useRef: string; source: string; target: string; skillKey: string;
   startAtMs: number; hitAtMs: number | null; readyAtMs: number | null; finalReadyAtMs: number | null; nextStartAtMs: number | null;
   mechanicReadyAtMs: number | null;
+  actionReadyAtMs: number | null;
   attackSpeed: number; postDefenseDamage: number; actualHpLoss: number;
   sourceHpAfter: number; targetHpAfter: number; completed: boolean;
 };

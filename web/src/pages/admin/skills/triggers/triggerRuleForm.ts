@@ -2179,7 +2179,6 @@ export function fromDetail(detail: SkillTriggerRuleDetail, ownerSkillKey?: strin
       normalized.eventSource.detail.sourceSkillKey ??= null;
     }
     for (const group of normalized.conditionGroups) for (const condition of group.conditions) {
-      if (condition.conditionType === 'INTERNAL_STATE_CHECK') condition.detail.stateSkillKey ||= ownerSkillKey;
       if (condition.conditionType === 'LIFECYCLE_CHECK') condition.detail.effectSkillKey ||= ownerSkillKey;
       if (condition.conditionType === 'STATUS_CHECK') {
         if (condition.detail.checkKind === 'PRESENT' || condition.detail.checkKind === 'ABSENT') {

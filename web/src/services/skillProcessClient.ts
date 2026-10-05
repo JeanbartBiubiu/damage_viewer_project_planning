@@ -94,6 +94,11 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 export function parseSkillProcess(value: unknown): SkillProcess {
   assertNumericUses(value, 'process', (path) => { throw new Error(`数值取值响应不合法：${path}`); });
   if (!isRecord(value)) protocolError('process');
+  if (Array.isArray(value.steps)) value.steps.forEach((step, index) => {
+    if (!isRecord(step) || step.occupiesAction != null && typeof step.occupiesAction !== 'boolean') {
+      protocolError(`process.steps[${index}].occupiesAction`);
+    }
+  });
   if (isRecord(value.cooldown) && 'startMoment' in value.cooldown) {
     value.cooldown.startMoment = parseSkillProcessMoment(
       value.cooldown.startMoment,
