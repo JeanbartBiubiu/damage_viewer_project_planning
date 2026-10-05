@@ -240,7 +240,9 @@ final class SnapshotSkillClosure {
         JsonNode event = rule.data().path("eventSource");
         String type = event.path("eventType").asText();
         if (Set.of("SKILL_USED", "SKILL_HIT").contains(type)) {
-            if (!source.side.equals("source") || !event.path("detail").path("sourceSkillKey").asText().equals(attackKey)) return false;
+            JsonNode detail = event.path("detail");
+            if (!source.side.equals("source") || detail.hasNonNull("sourceSkillKey")
+                && !detail.path("sourceSkillKey").asText().equals(attackKey)) return false;
             return !type.equals("SKILL_USED") || event.path("detail").path("castPhase").asText().equals("INITIAL");
         }
         if (!NATURAL_EVENTS.contains(type)) return false;

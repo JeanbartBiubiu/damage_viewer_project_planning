@@ -11,6 +11,7 @@ import java.util.Set;
 
 public record SkillTriggerSkillEventDetail(
     String sourceSkillKey,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     SkillTriggerEventUseKind useKind,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     SkillTriggerCastPhase castPhase,

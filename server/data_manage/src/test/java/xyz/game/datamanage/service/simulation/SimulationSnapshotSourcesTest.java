@@ -87,6 +87,21 @@ class SimulationSnapshotSourcesTest {
     }
 
     @Test
+    void unfilteredSkillHitRootsAreKeptForTheActualAttackingSide() throws Exception {
+        String hit = """
+            {"ruleKey":"own_hit","eventSource":{"eventType":"SKILL_HIT","detail":{"sourceSkillKey":null}},
+             "conditionGroups":[],"actions":[{"actionKey":"apply","actionType":"EXECUTE_EFFECT",
+             "targetContext":"CURRENT_TARGET","detail":{"effectKey":"heal"},"runtimeInputBindings":[],"resultModifiers":[]}]}
+            """;
+        fixture.configuration(ATTACK, 2, "{\"effects\":[" + heal("heal", "{\"kind\":\"FIXED\",\"value\":1}")
+            + "],\"triggerRules\":[" + hit + "]}");
+        var snapshot = fixture.service.get(GAME, fixture.choice());
+        assertEquals(List.of("own_hit"), row(snapshot, "source", ATTACK).enabledRuleKeys());
+        assertTrue(row(snapshot, "target", ATTACK).enabledRuleKeys().isEmpty());
+        assertEquals(InactiveReason.NO_AUTONOMOUS_ATTACK, row(snapshot, "target", ATTACK).inactiveReason());
+    }
+
+    @Test
     void bothSidesKeepIndependentGradesWhileSharingOneAuthorTree() throws Exception {
         fixture.attach("hero_a", ATTACK, "scaled_passive");
         fixture.attach("hero_b", ATTACK, "scaled_passive");

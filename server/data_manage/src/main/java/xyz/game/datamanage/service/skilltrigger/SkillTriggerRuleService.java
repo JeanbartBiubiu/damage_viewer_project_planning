@@ -285,10 +285,10 @@ public class SkillTriggerRuleService {
                 for (SkillTriggerCondition condition : nullToEmpty(group.conditions())) {
                     String prefix = "conditionGroups[" + group.groupKey() + "].conditions[" + condition.conditionKey() + "].detail";
                     if (condition.detail() instanceof SkillTriggerStatusConditionDetail status
-                        && effects.contains(status.sourceEffectKey())
-                        && skillKey.equals(readOwner(status.effectSkillKey(), sourceSkillKey))
                         && (status.checkKind() == SkillTriggerStatusCheckKind.STACKS_COMPARE
                             || status.checkKind() == SkillTriggerStatusCheckKind.REMAINING_MS_COMPARE)
+                        && effects.contains(status.sourceEffectKey())
+                        && skillKey.equals(readOwner(status.effectSkillKey(), sourceSkillKey))
                         && mapper.countStatusApplyPersistent(gameId, skillKey, status.sourceEffectKey(),
                             status.sourceResultKey(), status.statusKey()) <= 0) {
                         issues.add(fieldIssue(prefix + ".sourceResultKey", "TRIGGER_RULE_SHAPE_IN_USE", "持续状态结果已不符合来源与身份要求"));
@@ -1496,6 +1496,11 @@ public class SkillTriggerRuleService {
                     prefix + ".detail",
                     issues
                 );
+                if (detail.valueKind() == SkillTriggerInternalStateValueKind.ATTACK_START_VALUE
+                    && eventSource.eventType() != SkillTriggerEventType.SKILL_HIT) {
+                    issues.add(fieldIssue(prefix + ".detail.valueKind", "EVENT_VALUE_NOT_AVAILABLE",
+                        "本次攻击开始值只能由原技能命中读取"));
+                }
             }
             case EVENT_VALUE_COMPARE -> {
                 if (!(condition.detail() instanceof SkillTriggerEventValueConditionDetail detail)) {
@@ -1602,7 +1607,7 @@ public class SkillTriggerRuleService {
         List<Map<String, String>> issues
     ) {
         switch (valueKind) {
-            case VALUE, REMAINING_MS -> {
+            case VALUE, ATTACK_START_VALUE, REMAINING_MS -> {
                 if (comparator == null) {
                     issues.add(fieldIssue(prefix + ".comparator", "REQUIRED", "比较符不能为空"));
                 }
@@ -1660,6 +1665,10 @@ public class SkillTriggerRuleService {
                 if (binding.detail() instanceof SkillTriggerInternalStateBindingDetail detail) {
                     require(detail.stateSkillKey(), prefix + ".detail.stateSkillKey", "内部状态所属技能不能为空", issues);
                     require(detail.stateKey(), prefix + ".detail.stateKey", "内部状态标识不能为空", issues);
+                    if (detail.valueKind() == SkillTriggerInternalStateValueKind.ATTACK_START_VALUE) {
+                        issues.add(fieldIssue(prefix + ".detail.valueKind", "FORBIDDEN",
+                            "本次攻击开始值只用于弹药条件，不开放计算时输入绑定"));
+                    }
                 }
             }
             case COMBAT_STATUS -> {
@@ -2117,6 +2126,17 @@ public class SkillTriggerRuleService {
         }
         if (condition.conditionType() == SkillTriggerConditionType.INTERNAL_STATE_CHECK
             && condition.detail() instanceof SkillTriggerInternalStateConditionDetail detail) {
+            if (detail.valueKind() == SkillTriggerInternalStateValueKind.ATTACK_START_VALUE
+                && !skillKey.equals(detail.stateSkillKey())) {
+                issues.add(fieldIssue(prefix + ".detail.stateSkillKey", "REFERENCE_TYPE_MISMATCH",
+                    "本次攻击开始值必须读取当前技能自己的弹药"));
+            }
+            if (detail.valueKind() == SkillTriggerInternalStateValueKind.ATTACK_START_VALUE
+                && eventSource.detail() instanceof SkillTriggerSkillEventDetail skillEvent
+                && skillEvent.sourceSkillKey() != null && !skillKey.equals(skillEvent.sourceSkillKey())) {
+                issues.add(fieldIssue(prefix + ".detail.valueKind", "EVENT_VALUE_NOT_AVAILABLE",
+                    "其它技能的命中不能读取当前技能的攻击开始弹药"));
+            }
             SkillTriggerInternalStateLockRow state = states.get(detail.stateSkillKey() + "\0" + detail.stateKey());
             if (state != null && !internalStateValueMatches(state.stateType(), detail.valueKind())) {
                 issues.add(fieldIssue(
@@ -3054,6 +3074,7 @@ public class SkillTriggerRuleService {
     ) {
         return switch (valueKind) {
             case VALUE -> stateType == SkillInternalStateType.COUNTER || stateType == SkillInternalStateType.AMMO;
+            case ATTACK_START_VALUE -> stateType == SkillInternalStateType.AMMO;
             case OPTION_SELECTED -> stateType == SkillInternalStateType.MODE;
             case ENABLED -> stateType == SkillInternalStateType.FLAG;
             case REMAINING_MS -> stateType == SkillInternalStateType.INTERNAL_COOLDOWN;

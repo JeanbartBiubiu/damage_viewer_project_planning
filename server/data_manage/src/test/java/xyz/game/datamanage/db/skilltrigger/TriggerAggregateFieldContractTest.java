@@ -31,10 +31,25 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputSourceType
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusChangeKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventUseKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase;
 import xyz.game.datamanage.support.authoring.AggregateJson;
 
 /** 用真实接口序列化字段核对迁移及查询，避免从旧 SQL 列名推断接口字段。 */
 class TriggerAggregateFieldContractTest {
+    @Test
+    void skillHitDoesNotReturnUnusedCastFields() {
+        JsonNode hit = json(new SkillTriggerSkillEventDetail(null, null));
+        assertTrue(hit.has("sourceSkillKey"));
+        assertFalse(hit.has("useKind"));
+        assertFalse(hit.has("castPhase"));
+        JsonNode used = json(new SkillTriggerSkillEventDetail(null,
+            SkillTriggerEventUseKind.ANY, SkillTriggerCastPhase.INITIAL));
+        assertEquals("ANY", used.path("useKind").asText());
+        assertEquals("INITIAL", used.path("castPhase").asText());
+    }
+
     private static final String PART = "db/game_manage/migrations/breaking/aggregate_parts/triggers.sql";
     private static final String TOTAL = "db/game_manage/migrations/breaking/skill_aggregate_migration.sql";
     private static final String READ_MODEL =

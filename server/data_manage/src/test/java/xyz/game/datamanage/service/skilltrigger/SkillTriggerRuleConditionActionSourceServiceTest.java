@@ -1,6 +1,7 @@
 package xyz.game.datamanage.service.skilltrigger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -50,6 +51,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateCondition
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateValueKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessFailureReason;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleCreateRequest;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusCheckKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
@@ -274,6 +276,66 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
         ));
         assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", eventSourceTarget.getCode());
         assertField(eventSourceTarget, "actions[0].targetContext", "EVENT_SOURCE_NOT_AVAILABLE");
+    }
+
+    @Test
+    void attackStartAmmoValueIsSavedAndReadBackWithoutChangingItsMeaning() {
+        when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.state("ammo", SkillInternalStateType.AMMO)));
+        SkillTriggerCondition ammo = attackStartAmmoCondition(SKILL_KEY, "ammo");
+        service.create(GAME_ID, SKILL_KEY, withGroupsOn("fourth_shot",
+            new SkillTriggerEventSource(SkillTriggerEventType.SKILL_HIT, new SkillTriggerSkillEventDetail(null, null)),
+            List.of(group("g", ammo))));
+        assertEquals(ammo, service.get(GAME_ID, SKILL_KEY, "fourth_shot").conditionGroups().get(0).conditions().get(0));
+    }
+
+    @Test
+    void attackStartValueRejectsCounterAndOtherSkillState() {
+        SkillTriggerEventSource hit = new SkillTriggerEventSource(SkillTriggerEventType.SKILL_HIT,
+            new SkillTriggerSkillEventDetail(null, null));
+        ApiException counter = thrown(() -> service.create(GAME_ID, SKILL_KEY, withGroupsOn("counter",
+            hit, List.of(group("g", attackStartAmmoCondition(SKILL_KEY, "stacks"))))));
+        assertField(counter, "conditionGroups[0].conditions[0].detail.valueKind", "REFERENCE_TYPE_MISMATCH");
+        when(mapper.lockInternalStates(eq(GAME_ID), eq("other_skill"), any())).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.state("ammo", SkillInternalStateType.AMMO)));
+        ApiException foreign = thrown(() -> service.create(GAME_ID, SKILL_KEY, withGroupsOn("foreign",
+            hit, List.of(group("g", attackStartAmmoCondition("other_skill", "ammo"))))));
+        assertField(foreign, "conditionGroups[0].conditions[0].detail.stateSkillKey", "REFERENCE_TYPE_MISMATCH");
+    }
+
+    @Test
+    void attackStartValueRejectsEventsWithoutTheOriginalAmmoCapture() {
+        ApiException ordinary = thrown(() -> service.create(GAME_ID, SKILL_KEY,
+            withGroups("ordinary", List.of(group("g", attackStartAmmoCondition(SKILL_KEY, "ammo"))))));
+        assertField(ordinary, "conditionGroups[0].conditions[0].detail.valueKind", "EVENT_VALUE_NOT_AVAILABLE");
+        when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.state("ammo", SkillInternalStateType.AMMO)));
+        ApiException foreignHit = thrown(() -> service.create(GAME_ID, SKILL_KEY, withGroupsOn("foreign_hit",
+            new SkillTriggerEventSource(SkillTriggerEventType.SKILL_HIT, new SkillTriggerSkillEventDetail("other_skill", null)),
+            List.of(group("g", attackStartAmmoCondition(SKILL_KEY, "ammo"))))));
+        assertField(foreignHit, "conditionGroups[0].conditions[0].detail.valueKind", "EVENT_VALUE_NOT_AVAILABLE");
+    }
+
+    @Test
+    void statusPresenceDoesNotRequireAnEffectOriginWhenAnEffectChanges() {
+        for (SkillTriggerStatusCheckKind checkKind : List.of(SkillTriggerStatusCheckKind.PRESENT, SkillTriggerStatusCheckKind.ABSENT)) {
+            String ruleKey = "status_" + checkKind.name().toLowerCase(java.util.Locale.ROOT);
+            SkillTriggerCondition status = condition("target_frost", SkillTriggerConditionType.STATUS_CHECK,
+                new SkillTriggerStatusConditionDetail(SkillTriggerSubject.CURRENT_TARGET, "frost",
+                    checkKind, null, null, null, null, null));
+            service.create(GAME_ID, SKILL_KEY, withGroups(ruleKey, List.of(group("frost", status))));
+            var savedRule = mapper.findRule(GAME_ID, SKILL_KEY, ruleKey);
+            when(mapper.listRulesForGame(GAME_ID)).thenReturn(List.of(savedRule));
+            assertDoesNotThrow(() -> service.validateAffectedConfigurationFinal(GAME_ID, SKILL_KEY,
+                List.of(EFFECT_KEY), List.of(), List.of()));
+        }
+    }
+
+    private static SkillTriggerCondition attackStartAmmoCondition(String stateSkillKey, String stateKey) {
+        return condition("last_ammo", SkillTriggerConditionType.INTERNAL_STATE_CHECK,
+            new SkillTriggerInternalStateConditionDetail(stateSkillKey, stateKey,
+                SkillTriggerInternalStateValueKind.ATTACK_START_VALUE, null, null,
+                SkillTriggerComparator.EQ, SkillNumericValue.fixed(java.math.BigDecimal.ONE)));
     }
 
     private static SkillTriggerRuleCreateRequest withGroups(String ruleKey, List<SkillTriggerConditionGroup> groups) {
