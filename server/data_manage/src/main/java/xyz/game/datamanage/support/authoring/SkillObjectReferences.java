@@ -284,7 +284,8 @@ public final class SkillObjectReferences {
                 switch (required(step, "stepType", path)) {
                     case "DELAY" -> formulas(detail, dp, "delayValue");
                     case "MULTI_HIT", "PERIODIC" -> formulas(detail, dp, "repeatCountValue", "intervalValue");
-                    case "CHANNEL" -> formulas(detail, dp, "durationValue", "executionCountValue");
+                    case "CHANNEL" -> formulas(detail, dp, "durationValue", "executionCountValue",
+                        "firstExecutionOffsetValue", "lastExecutionOffsetValue");
                     case "CHARGE" -> formulas(detail, dp, "minimumChargeValue", "maximumChargeValue");
                     case "RECAST" -> formulas(detail, dp, "windowValue", "maximumRecastCountValue");
                     case "EMPOWERED_BASIC_ATTACK" -> formulas(detail, dp, "windowValue");

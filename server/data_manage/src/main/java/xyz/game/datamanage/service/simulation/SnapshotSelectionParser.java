@@ -18,6 +18,7 @@ import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.SkillSett
 
 public final class SnapshotSelectionParser {
     private static final Pattern KEY = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
+    private static final Set<String> PHASES = Set.of("INITIAL", "RECAST", "CHARGE_RELEASE", "CANCEL");
     private static final Set<String> FIELDS = Set.of("sourceCharacterKey", "sourceLevel", "targetCharacterKey",
         "targetLevel", "basicAttackSkillKey", "basicAttackLevel", "sourceEquipmentKeys", "targetEquipmentKeys",
         "sourceBuildConfigurations", "targetBuildConfigurations", "sourceSkillSettings", "targetSkillSettings", "plannedSkills");
@@ -81,15 +82,20 @@ public final class SnapshotSelectionParser {
             array(phases, item + ".phaseKinds");
             if (phases.isEmpty()) throw SnapshotIssues.request(item + ".phaseKinds", "REQUIRED", "必须明确选择首次使用阶段");
             Set<String> seenPhases = new HashSet<>();
+            List<String> selectedPhases = new ArrayList<>();
             for (int phaseIndex = 0; phaseIndex < phases.size(); phaseIndex++) {
                 String phasePath = item + ".phaseKinds[" + phaseIndex + "]";
                 JsonNode phase = phases.get(phaseIndex);
-                if (!phase.isTextual() || !phase.textValue().equals("INITIAL")) {
-                    throw SnapshotIssues.request(phasePath, "ENUM_INVALID", "本阶段只接受INITIAL首次使用");
+                if (!phase.isTextual() || !PHASES.contains(phase.textValue())) {
+                    throw SnapshotIssues.request(phasePath, "ENUM_INVALID", "只接受首次使用、重施、蓄力释放或主动取消阶段");
                 }
                 unique(seenPhases, phase.textValue(), phasePath);
+                selectedPhases.add(phase.textValue());
             }
-            result.add(new PlannedSkill(identity, skillKey, level, List.of("INITIAL")));
+            if (!seenPhases.contains("INITIAL")) {
+                throw SnapshotIssues.request(item + ".phaseKinds", "INITIAL_REQUIRED", "计划技能至少必须包含首次使用阶段");
+            }
+            result.add(new PlannedSkill(identity, skillKey, level, List.copyOf(selectedPhases)));
         }
         return List.copyOf(result);
     }

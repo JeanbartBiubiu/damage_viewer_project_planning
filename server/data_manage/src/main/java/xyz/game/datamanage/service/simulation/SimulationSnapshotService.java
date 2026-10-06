@@ -124,7 +124,9 @@ public class SimulationSnapshotService {
             selection.targetEquipmentKeys().stream().sorted().toList(),
             normalizeBuilds(selection.sourceBuildConfigurations()), normalizeBuilds(selection.targetBuildConfigurations()),
             normalizeSettings(selection.sourceSkillSettings()), normalizeSettings(selection.targetSkillSettings()),
-            selection.plannedSkills().stream().sorted(Comparator.comparing((PlannedSkill planned) -> planned.origin().toString())
+            selection.plannedSkills().stream().map(planned -> new PlannedSkill(planned.origin(), planned.skillKey(),
+                planned.skillLevel(), planned.phaseKinds().stream().sorted().toList()))
+                .sorted(Comparator.comparing((PlannedSkill planned) -> planned.origin().toString())
                 .thenComparing(PlannedSkill::skillKey)).toList());
         LevelConfigResponse levels = characters.getLevelConfig(gameId);
         validateLevel("sourceLevel", choice.sourceLevel(), levels);

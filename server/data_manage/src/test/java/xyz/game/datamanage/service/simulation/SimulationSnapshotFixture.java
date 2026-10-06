@@ -150,6 +150,8 @@ final class SimulationSnapshotFixture {
                 SkillProcessStepDetail detail = switch (step.stepType()) {
                     case IMMEDIATE -> json.treeToValue(detailData, SkillProcessImmediateStepDetail.class);
                     case DELAY -> json.treeToValue(detailData, SkillProcessDelayStepDetail.class);
+                    case CHARGE -> json.treeToValue(detailData, SkillProcessChargeStepDetail.class);
+                    case RECAST -> json.treeToValue(detailData, SkillProcessRecastStepDetail.class);
                     default -> throw new IllegalArgumentException("未声明的隔离测试过程步骤");
                 };
                 steps.add(new SkillProcessStepResponse(step.stepKey(), step.name(), step.stepType(), step.description(), step.sortOrder(), step.occupiesAction(), detail));

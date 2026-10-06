@@ -109,6 +109,9 @@ public class GameConfigurationWriteGuard {
         SkillExplicitTargetIsSourceConditionSemantics.validate(affected);
         SkillHitTargetIsEnemyConditionSemantics.validate(affected);
         SkillCastingPhaseSemantics.validate(affected, after.aggregates());
+        Set<String> changedSkills = changes.changed().stream().map(Source::skill).collect(java.util.stream.Collectors.toSet());
+        SkillChargeDurationSemantics.validate(after.aggregates().stream().filter(aggregate -> changedSkills.contains(aggregate.skillKey())).toList(),
+            after.aggregates());
         SkillTriggerOncePerUseSemantics.validate(affected);
         if (!affected.isEmpty() || changes.vampRulesChanged())
             vampSemantics.validate(gameId, affected, after.aggregates(), changes.vampRulesChanged());

@@ -1291,6 +1291,18 @@
           AND step_key = #{stepKey}
     </select>
 
+    <select id="findChargeReleaseAtMaximum" resultType="java.lang.Boolean">
+        SELECT CASE WHEN jsonb_typeof(step->'detail'->'releaseAtMaximum') = 'boolean'
+                    THEN (step->'detail'->>'releaseAtMaximum')::boolean END
+        FROM public.skill_processes process
+        CROSS JOIN LATERAL jsonb_array_elements(process.steps) step
+        WHERE process.game_id = #{gameId}
+          AND process.skill_key = #{skillKey}
+          AND process.process_key = #{processKey}
+          AND step->>'stepKey' = #{stepKey}
+          AND step->>'stepType' = 'CHARGE'
+    </select>
+
     <select id="countStatusApplyPersistent" resultType="long">
         SELECT COUNT(1)
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectStatusOperationDetails"/>) d

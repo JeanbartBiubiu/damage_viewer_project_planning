@@ -21,6 +21,8 @@ import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationResponse;
 import xyz.game.datamanage.model.skillparameter.SkillParameterResponse;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
 import xyz.game.datamanage.service.simulation.SnapshotSources.Source;
+import xyz.game.datamanage.support.authoring.SkillCastingPhaseSemantics;
+import xyz.game.datamanage.support.authoring.SkillChargeDurationSemantics;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Reference;
@@ -74,21 +76,32 @@ final class SnapshotSkillClosure {
                 for (String key : source.ruleKeys) enqueue(source, objects.get(new ObjectKey(source.skillKey, SourceType.TRIGGER, key)), true);
             } else source.ruleKeys.clear();
         }
-        while (!pending.isEmpty()) {
-            Invocation invocation = pending.removeFirst();
-            Aggregate object = invocation.object();
-            for (Reference reference : references(object)) {
-                follow(invocation, reference);
+        boolean controlsAdded = false;
+        while (true) {
+            while (!pending.isEmpty()) {
+                Invocation invocation = pending.removeFirst();
+                Aggregate object = invocation.object();
+                for (Reference reference : references(object)) {
+                    follow(invocation, reference);
+                }
+                if (invocation.executes()) subscribe(invocation);
+                if (levelsChanged) {
+                    visited.clear();
+                    pending.clear();
+                    active.clear();
+                    sources.forEach(source -> source.ruleKeys.clear());
+                    levelsChanged = false;
+                    return collect();
+                }
             }
-            if (invocation.executes()) subscribe(invocation);
-            if (levelsChanged) {
-                visited.clear();
-                pending.clear();
-                active.clear();
-                sources.forEach(source -> source.ruleKeys.clear());
-                levelsChanged = false;
-                return collect();
+            if (controlsAdded) break;
+            for (Source source : sources) {
+                if (source.inactive == null && source.planned != null) validatePlannedControls(source);
             }
+            controlsAdded = true;
+        }
+        for (Source source : sources) {
+            if (source.inactive == null && source.planned != null) plannedProcess(source);
         }
         for (Source source : sources) {
             if (source.inactive != null) continue;
@@ -118,6 +131,8 @@ final class SnapshotSkillClosure {
         references.stream().map(Reference::target).filter(target -> target.skillKey().isEmpty()).forEach(targets::add);
         try {
             SkillObjectReferences.extractAndValidate(gameId, needed, List.copyOf(objects.values()), targets);
+            SkillCastingPhaseSemantics.validate(needed, List.copyOf(objects.values()));
+            SkillChargeDurationSemantics.validate(needed, needed);
         } catch (ApiException exception) {
             throw translate(exception);
         }
@@ -277,7 +292,11 @@ final class SnapshotSkillClosure {
                 String skillKey = detail.path("sourceSkillKey").asText();
                 if (!skillKey.equals(attackKey) && sources.stream().noneMatch(candidate -> candidate.planned != null && candidate.skillKey.equals(skillKey))) return false;
             } else if (attackKey == null && sources.stream().noneMatch(candidate -> candidate.planned != null)) return false;
-            return !type.equals("SKILL_USED") || event.path("detail").path("castPhase").asText().equals("INITIAL");
+            if (!type.equals("SKILL_USED")) return true;
+            String phase = detail.path("castPhase").asText();
+            return phase.equals("INITIAL") || sources.stream().anyMatch(candidate -> candidate.planned != null
+                && (!detail.hasNonNull("sourceSkillKey") || detail.path("sourceSkillKey").asText().equals(candidate.skillKey))
+                && candidate.planned.phaseKinds().contains(phase));
         }
         if (!NATURAL_EVENTS.contains(type)) return false;
         if (attackKey == null) return type.equals("SOURCE_INITIALIZED");
@@ -289,7 +308,7 @@ final class SnapshotSkillClosure {
     }
 
     private void validatePlannedRoots(Source source) {
-        boolean initial = false;
+        Set<String> phases = new HashSet<>();
         for (Aggregate rule : rules(source)) {
             JsonNode event = rule.data().path("eventSource");
             JsonNode detail = event.path("detail");
@@ -302,9 +321,92 @@ final class SnapshotSkillClosure {
             if (!Set.of("INITIAL", "RECAST", "CHARGE_RELEASE").contains(phase)) {
                 throw SnapshotIssues.invalid(objectPath(rule) + ".eventSource.detail.castPhase", "CAST_PHASE_INVALID", "计划技能使用入口的施放阶段不合法");
             }
-            if (phase.equals("INITIAL")) initial = true;
+            phases.add(phase);
         }
-        if (!initial) throw SnapshotIssues.invalid(source.plannedPath + ".phaseKinds", "PHASE_ROOT_MISSING", "计划来源没有所选首次阶段的实际使用根");
+        for (String phase : source.planned.phaseKinds()) {
+            if (!phase.equals("CANCEL") && !phases.contains(phase)) throw missingPhase(source, phase);
+        }
+    }
+
+    private Aggregate plannedProcess(Source source) {
+        List<Aggregate> processes = visited.stream().filter(invocation -> invocation.owner() == source && invocation.executes()
+            && invocation.object().type() == SourceType.PROCESS).map(Invocation::object).distinct().toList();
+        if (processes.size() > 1) {
+            throw SnapshotIssues.invalid(source.plannedPath + ".phaseKinds", "PHASE_PROCESS_AMBIGUOUS", "计划来源只能包含一个可执行过程，不能任意选择多过程");
+        }
+        if (source.planned.phaseKinds().size() == 1) return processes.isEmpty() ? null : processes.getFirst();
+        if (processes.isEmpty()) {
+            throw SnapshotIssues.invalid(source.plannedPath + ".phaseKinds", "PHASE_PROCESS_MISSING", "重施、释放或取消必须关联首次使用实际启动的过程");
+        }
+        Aggregate process = processes.getFirst();
+        if (!process.data().path("activationType").asText().equals("ACTIVE")) {
+            throw SnapshotIssues.invalid(objectPath(process) + ".activationType", "PHASE_PROCESS_INVALID", "计划控制阶段只允许同来源的主动过程");
+        }
+        return process;
+    }
+
+    private void validatePlannedControls(Source source) {
+        Aggregate process = plannedProcess(source);
+        if (process == null) return;
+        Set<String> controls = new HashSet<>();
+        for (Aggregate rule : rules(source)) {
+            JsonNode event = rule.data().path("eventSource");
+            JsonNode detail = event.path("detail");
+            String phase = detail.path("castPhase").asText();
+            if (!event.path("eventType").asText().equals("SKILL_USED") || !source.planned.phaseKinds().contains(phase)
+                || detail.hasNonNull("sourceSkillKey") && !detail.path("sourceSkillKey").asText().equals(source.skillKey)) continue;
+            JsonNode actions = rule.data().path("actions");
+            for (int index = 0; index < actions.size(); index++) {
+                JsonNode action = actions.get(index);
+                String type = action.path("actionType").asText();
+                if (!Set.of("START_PROCESS", "ADVANCE_PROCESS", "FAIL_PROCESS").contains(type)) continue;
+                String path = objectPath(rule) + ".actions[" + index + "]";
+                if (!action.path("detail").path("processKey").asText().equals(process.key())) {
+                    throw SnapshotIssues.invalid(path + ".detail.processKey", "PHASE_PROCESS_MISMATCH", "首次、重施、释放和取消必须指向所选同一过程");
+                }
+                if (type.equals("START_PROCESS") && !phase.equals("INITIAL") || type.equals("ADVANCE_PROCESS") && phase.equals("INITIAL")) {
+                    throw SnapshotIssues.invalid(path + ".actionType", "PHASE_CONTROL_INVALID", "首次只能启动过程，重施或释放只能推进已有过程");
+                }
+                if (type.equals("ADVANCE_PROCESS") && !detail.path("sourceSkillKey").asText().equals(source.skillKey)) {
+                    throw SnapshotIssues.invalid(objectPath(rule) + ".eventSource.detail.sourceSkillKey", "PHASE_SOURCE_MISMATCH", "推进阶段必须明确所选真实来源技能");
+                }
+                if (type.equals("START_PROCESS") || type.equals("ADVANCE_PROCESS")) controls.add(phase);
+            }
+        }
+        if (source.planned.phaseKinds().size() > 1) {
+            for (String phase : source.planned.phaseKinds()) {
+                if (!phase.equals("CANCEL") && !controls.contains(phase)) throw missingPhase(source, phase);
+            }
+        }
+        if (!source.planned.phaseKinds().contains("CANCEL")) return;
+        boolean cancel = false;
+        for (Aggregate rule : rules(source)) {
+            JsonNode event = rule.data().path("eventSource");
+            JsonNode actions = rule.data().path("actions");
+            if (!event.path("eventType").asText().equals("PROCESS_CANCEL_REQUESTED")
+                || !event.path("detail").path("processKey").asText().equals(process.key()) || actions.isEmpty()) continue;
+            JsonNode last = actions.get(actions.size() - 1);
+            if (!last.path("actionType").asText().equals("FAIL_PROCESS")
+                || !last.path("detail").path("failureReason").asText().equals("ACTIVE_CANCELLED")
+                || !last.path("detail").path("processKey").asText().equals(process.key())) {
+                throw SnapshotIssues.invalid(objectPath(rule) + ".actions[" + (actions.size() - 1) + "]", "CANCEL_ROOT_INVALID",
+                    "主动取消根必须以同过程的主动取消失败动作结束");
+            }
+            for (int index = 0; index < actions.size() - 1; index++) {
+                if (actions.get(index).path("actionType").asText().equals("FAIL_PROCESS")) {
+                    throw SnapshotIssues.invalid(objectPath(rule) + ".actions[" + index + "]", "CANCEL_ROOT_INVALID", "取消失败动作只能有一个且必须排在最后");
+                }
+            }
+            source.ruleKeys.add(rule.key());
+            enqueue(source, rule, true);
+            cancel = true;
+        }
+        if (!cancel) throw missingPhase(source, "CANCEL");
+    }
+
+    private ApiException missingPhase(Source source, String phase) {
+        return SnapshotIssues.invalid(source.plannedPath + ".phaseKinds[" + source.planned.phaseKinds().indexOf(phase) + "]",
+            "PHASE_ROOT_MISSING", "计划来源没有所选阶段" + phase + "的同来源、同过程实际入口");
     }
 
     private boolean requiresLevel(Source source, Aggregate root) {

@@ -29,6 +29,24 @@ import xyz.game.datamanage.support.error.ApiException;
 
 class SkillObjectReferencesTest {
     @Test
+    void channelWindowCollectsParameterAndFormulaTargetsAtPreciseAuthorPaths() {
+        Aggregate source = aggregate(SourceType.PROCESS, "s1", "cast", """
+            {"steps":[{"stepKey":"channel","stepType":"CHANNEL","detail":{"firstExecution":"CUSTOM_WINDOW",
+             "durationValue":{"kind":"FIXED","value":20},"executionCountValue":{"kind":"FIXED","value":4},
+             "firstExecutionOffsetValue":{"kind":"PARAMETER","parameterKey":"first"},
+             "lastExecutionOffsetValue":{"kind":"FORMULA","formulaKey":"last"}}}],"cooldown":null,"effectBindings":[],"stateOperations":[]}
+            """);
+        Set<Target> targets = Set.of(new Target(TargetType.PARAMETER, "s1", "first", ""), new Target(TargetType.FORMULA, "s1", "last", ""));
+        List<Reference> references = SkillObjectReferences.extractAndValidate("lol", List.of(source), targets);
+        assertEquals(Set.of("steps[0].detail.firstExecutionOffsetValue.parameterKey", "steps[0].detail.lastExecutionOffsetValue.formulaKey"),
+            references.stream().map(Reference::fieldPath).collect(Collectors.toSet()));
+        assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", List.of(source),
+            Set.of(new Target(TargetType.PARAMETER, "s1", "first", ""))));
+        assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", List.of(source),
+            Set.of(new Target(TargetType.FORMULA, "s1", "last", ""))));
+    }
+
+    @Test
     void readExtractionUsesTheSameBusinessFieldsWithoutPretendingTargetsExist() {
         List<Aggregate> sources = fixture();
         assertEquals(SkillObjectReferences.extractAndValidate("lol", sources, catalog()),

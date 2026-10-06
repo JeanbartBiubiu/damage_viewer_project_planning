@@ -99,7 +99,8 @@ public final class SkillTriggerEventCapabilities {
             case BASIC_ATTACK_HIT -> valueKey == SkillTriggerEventValueKey.HIT_INDEX;
             case SKILL_HIT -> valueKey == SkillTriggerEventValueKey.HIT_INDEX
                 || valueKey == SkillTriggerEventValueKey.SKILL_HIT_FIRST_CONTACT
-                || valueKey == SkillTriggerEventValueKey.SKILL_HIT_SPELL_SHIELD_BLOCKED;
+                || valueKey == SkillTriggerEventValueKey.SKILL_HIT_SPELL_SHIELD_BLOCKED
+                || valueKey == SkillTriggerEventValueKey.CHARGE_DURATION_MS && stepType == SkillProcessStepType.CHARGE;
             case PROCESS_MOMENT -> processMomentValueAllowed(valueKey, momentType, stepType);
             case LIFECYCLE_MOMENT -> false;
             case HEALTH_THRESHOLD_CROSSED -> valueKey == SkillTriggerEventValueKey.ATTRIBUTE_BEFORE

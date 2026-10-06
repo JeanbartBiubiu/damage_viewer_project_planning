@@ -26,6 +26,28 @@
 
 定向检查：`mvn "-Dtest=SkillProcessStepRequestTest,SkillProcessServiceTest,SkillProcessAdminControllerTest,SkillConfigurationServiceTest,SimulationSnapshotPlannedSkillsTest" test`；收尾运行 `mvn test` 和 `mvn -DskipTests package`。测试使用隔离替身；真实数据只读核验不替代管理页面更新或最终Wasm／工作线程验收。现有 `plannedSkills`（计划技能）已支持多个完整来源，本次不修改其接口。
 
+## 阶段6C控制阶段与充能输入
+
+场景选择的 `phaseKinds`（阶段集合）接受 `INITIAL`（首次使用）、`RECAST`（重施）、`CHARGE_RELEASE`（蓄力释放）及 `CANCEL`（主动取消），不可重复且至少包含首次。原有16份来源上限、真实角色归属、已学等级和开关约束不变；阶段集合规范化参与摘要，不把指令时刻放入快照。每份计划来源最多一个可执行过程；有控制阶段时必须由首次实际启动同一主动过程，重施／释放用已有推进动作指向该过程的对应步骤。缺根、错来源、错过程或多过程均明确拒绝，不任意选择。
+
+取消入口只认同过程的 `PROCESS_CANCEL_REQUESTED`（过程取消请求）规则，末尾唯一 `FAIL_PROCESS`（终结过程）须指向该过程，原因为 `ACTIVE_CANCELLED`（主动取消）。不新增取消动作或使用阶段，不以其它失败原因或过程定义充当取消根。条件、前序动作、必要引用、真实失败分支及目录完整进入闭包；后端不裁掉Web或Wasm尚不支持的组成，也不证明它们已经能执行。
+
+已有 `EVENT_VALUE`（事件值）／`CHARGE_DURATION_MS`（充能毫秒）只在本技能具有唯一实际主动充能过程、首次启动，以及合法蓄力释放推进或明确布尔值 `releaseAtMaximum: true`（最大时长自动释放）时，开放给明确同技能的命中条件与动作绑定。快照中的必要命中读取必须由所选闭包的实际释放根或明确自动释放声明证明；自动释放允许仅选首次，不添加释放根或指令。false、空值、未声明或非布尔值不能证明自动释放，普通技能及外来／未明确来源仍拒绝。充能步骤实际执行时点及原有完成／超时时点的读取规则保留。统一保存及提交前复核检查最终组成，删除首次／释放或修改充能步骤不能使未修改的命中绑定悬空；不增加表或枚举。管理校验只读已有步骤JSON中的实际声明，不补写默认值。
+
+后端仅保存、校验和回读，不冻结实际时长、不执行时间／伤害、不补零或满蓄力默认值。实际释放与原使用上下文由原生执行和Web绑定核验；共享含义以规划真源[阶段6设计第4.1、7、10节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段6主动技能接入与混合时间线详细设计.md)为准。真实数据只读核验不替代负责人通过管理页补录。
+
+真实查询将过程类型、步骤、效果挂接等分别返回；充能命中能力判定按过程标识合并这些行，不因步骤行没有过程类型而丢掉充能步骤。同次统一保存先落地全部过程和规则，再按事务内最终组成检查充能时长上下文，命中规则提交顺序不影响结果。首次启动、手动释放或明确最大自动释放仍须由完整最终配置证明，缺根继续拒绝；不得要求拆成两次保存规避校验。
+
+定向检查：`mvn "-Dtest=SimulationSnapshotPhasesTest,SimulationSnapshotPlannedSkillsTest,SimulationSnapshotAdminControllerTest,SkillTriggerChargeDurationServiceTest,SkillTriggerChargeDurationMapperTest,SkillChargeDurationSemanticsTest,SkillNumericSemanticsTest,GameConfigurationWriteGuardTest,SkillTriggerCastingPhaseServiceTest" test`；收尾运行 `mvn test` 和 `mvn -DskipTests package`。测试使用隔离替身，不是实库写入、Web或最终Wasm验收。
+
+### 通用引导首末执行窗口
+
+引导步骤的 `firstExecution`（首次执行口径）增加 `CUSTOM_WINDOW`（指定首末执行窗口），必须成对保存 `firstExecutionOffsetValue`、`lastExecutionOffsetValue`（相对进入步骤的首末毫秒取值）。两项复用现有固定数值／参数／公式对象与步骤JSON，引用收集、统一聚合保存、删除保护和事务最终数值复核均识别，不增加表或按英雄分支。其它引导口径不接受这对字段，包括显式空值；周期步骤不接受指定窗口口径。
+
+可静态核对的引导值要求完整时长为正安全整数、次数为1至64，两端为非负安全整数且首段不晚于末段、末段不超完整时长。多段跨度至少为次数减一，单段两端相等；指定窗口允许1毫秒时长的0与1毫秒两段，既有等分口径仍要求时长不小于次数。参数按相同等级对齐、独立等级组合分别核对，可静态求值的公式参与检查；动态取值保留原绑定要求，实际求值、冻结、执行和恢复由原生负责。共享定义唯一来源为规划真源[阶段6设计第7.1节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段6主动技能接入与混合时间线详细设计.md)。
+
+定向检查：`mvn "-Dtest=SkillChannelWindowSemanticsTest,SkillProcessStepRequestTest,SkillProcessServiceTest,SkillProcessAdminControllerTest,SkillConfigurationServiceTest,SkillObjectReferencesTest,SkillNumericSemanticsTest,GameConfigurationWriteGuardTest" test`。负责人使用8080录入时，验证用同目录临时构建配置只将构建目录改为 `target/phase6c-channel`，分别执行定向检查、全量测试和打包；不替换原服务的类文件或JAR，不切换、停止或重启服务。替身与静态检查不代表真实管理录入或最终Wasm验收。
+
 ## 开发范围与入口
 
 默认写入范围为本模块、`db/**`、后端接口文档和直接相关的 `tools/**`；`web/**`、`wasm/**` 与其他模块设计只读参考。修改前先读 [本模块规则](AGENTS.md) 和 [仓库规则](../../AGENTS.md)。
@@ -360,11 +382,11 @@ CORS 当前覆盖 `/api/**`，并暴露 `ETag` 响应头。启动成功但首次
 
 ## 验证入口与证据边界
 
-### 场景配置只读快照（阶段6A）
+### 场景配置只读快照（阶段6A～6C）
 
 使用 `POST /api/admin/games/{gameId}/simulation-snapshot`；旧 GET 已删除，不保留旧查询参数读取或格式兼容。请求保留双方角色／等级、所选普通攻击／等级、双方装备键八个字段，并要求明确提供 `sourceBuildConfigurations`、`targetBuildConfigurations`、`sourceSkillSettings`、`targetSkillSettings`、`plannedSkills` 五个数组。空构筑数组表示未选择系统，空设置数组表示不覆盖默认来源，空计划数组表示不选择主动入口；未知字段、缺字段、重复身份、字符串布尔值、非整数和超出每侧6件的装备选择返回现有400字段问题形状。
 
-`basicAttackSkillKey`（普通攻击标识）与 `basicAttackLevel`（普通攻击等级）仍必须明确提供，但允许配对为空，表示没有背景普攻；仅一项为空拒绝。`plannedSkills`（计划技能）最多16份不同完整来源，每项为 `origin`（来源身份）、`skillKey`（技能标识）、`skillLevel`（技能等级）及 `phaseKinds`（阶段集合）。本期身份仅允许A的 `CHARACTER`（角色）及其真实角色标识，阶段仅允许无重复的 `INITIAL`（首次使用）。计划不能授予技能或供给默认等级，必须与 `sourceSkillSettings` 核定的已启用、已学最终来源等级一致；与默认自然来源使用同一挂载实例。装备、构筑与B主动计划不开放。
+`basicAttackSkillKey`（普通攻击标识）与 `basicAttackLevel`（普通攻击等级）仍必须明确提供，但允许配对为空，表示没有背景普攻；仅一项为空拒绝。`plannedSkills`（计划技能）最多16份不同完整来源，每项为 `origin`（来源身份）、`skillKey`（技能标识）、`skillLevel`（技能等级）及 `phaseKinds`（阶段集合）。本期身份仅允许A的 `CHARACTER`（角色）及其真实角色标识，阶段按本文件“阶段6C控制阶段与充能输入”核对实际根。计划不能授予技能或供给默认等级，必须与 `sourceSkillSettings` 核定的已启用、已学最终来源等级一致；与默认自然来源使用同一挂载实例。装备、构筑与B主动计划不开放。
 
 关闭背景普攻后不独立播种普攻开始、命中和接收根；双方初始化、本次计划的首次成功使用、合法技能命中、真实过程订阅及显式结果可产生的伤害／接收／联动尾部仍展开完整引用。未计划主动作者原样保留，与未激活理由分开。所选使用入口缺少或具有未知 `castPhase`（施放阶段）时拒绝，不默认首次；没有所选阶段的实际根也拒绝。时刻、同刻顺序和命中预设不接受为场景选择字段，不能以本次未命中裁剪命中作者。场景摘要覆盖规范化计划与完整作者内容，不包含读取时刻；唯一增量契约为规划真源[阶段6设计第4.1节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段6主动技能接入与混合时间线详细设计.md)。
 

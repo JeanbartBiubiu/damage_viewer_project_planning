@@ -237,10 +237,7 @@ public final class SkillNumericSemantics {
                                 use(a, detail, path, "repeatCountValue", Bound.POSITIVE_INTEGER, false);
                                 use(a, detail, path, "intervalValue", Bound.POSITIVE, false);
                             }
-                            case "CHANNEL" -> {
-                                use(a, detail, path, "durationValue", Bound.NON_NEGATIVE, false);
-                                use(a, detail, path, "executionCountValue", Bound.POSITIVE_INTEGER, false);
-                            }
+                            case "CHANNEL" -> validateChannel(a, detail, path);
                             case "CHARGE" -> {
                                 Use minimum = use(a, detail, path, "minimumChargeValue", Bound.NON_NEGATIVE, false);
                                 Use maximum = use(a, detail, path, "maximumChargeValue", Bound.NON_NEGATIVE, false);
@@ -306,6 +303,65 @@ public final class SkillNumericSemantics {
                         }
                         actionIndex++;
                     }
+                }
+            }
+        }
+
+        private record ChannelValues(Levels levels, Map<String, Fraction> values) {}
+
+        private void validateChannel(Aggregate source, JsonNode detail, String path) {
+            boolean custom = "CUSTOM_WINDOW".equals(text(detail, "firstExecution"));
+            List<String> fields = custom
+                ? List.of("durationValue", "executionCountValue", "firstExecutionOffsetValue", "lastExecutionOffsetValue")
+                : List.of("durationValue", "executionCountValue");
+            if (!custom) for (String field : List.of("firstExecutionOffsetValue", "lastExecutionOffsetValue")) {
+                if (detail.has(field)) throw invalid(source, path + "." + field, "FIELD_NOT_ALLOWED", "只有指定窗口引导可以配置首末执行偏移");
+            }
+            List<ChannelValues> combinations = List.of(new ChannelValues(new Levels("", ""), Map.of()));
+            for (String field : fields) {
+                boolean positive = "durationValue".equals(field) || "executionCountValue".equals(field);
+                Use value = use(source, detail, path, field, positive ? Bound.POSITIVE_INTEGER : Bound.NON_NEGATIVE_INTEGER, false);
+                if (value == null) throw invalid(source, path + "." + field, "REQUIRED", "引导必须完整配置次数、时长和所选首末执行窗口");
+                Map<Levels, Fraction> values = optionalStaticValues(value);
+                if (values == null) continue;
+                Fraction maximum = Fraction.of(new BigDecimal("executionCountValue".equals(field) ? "64" : "9007199254740991"));
+                for (Fraction number : values.values()) {
+                    if (!number.denominator().equals(BigInteger.ONE)) throw invalid(source, value.path(), "VALUE_TYPE_MISMATCH", "引导次数和时间必须为整数");
+                    if (number.compareTo(Fraction.of(positive ? BigDecimal.ONE : BigDecimal.ZERO)) < 0 || number.compareTo(maximum) > 0) {
+                        throw invalid(source, value.path(), "VALUE_RANGE_INVALID", "引导时间必须为安全整数毫秒，次数为1至64，完整时长大于零");
+                    }
+                }
+                List<ChannelValues> next = new ArrayList<>();
+                for (ChannelValues combination : combinations) for (var entry : values.entrySet()) {
+                    if (!combination.levels().compatible(entry.getKey())) continue;
+                    Map<String, Fraction> merged = new LinkedHashMap<>(combination.values());
+                    merged.put(field, entry.getValue());
+                    next.add(new ChannelValues(combination.levels().merge(entry.getKey()), merged));
+                }
+                combinations = next;
+            }
+            for (ChannelValues combination : combinations) {
+                Map<String, Fraction> values = combination.values();
+                Fraction duration = values.get("durationValue"), count = values.get("executionCountValue");
+                Fraction first = values.get("firstExecutionOffsetValue"), last = values.get("lastExecutionOffsetValue");
+                if (!custom) {
+                    if (duration != null && count != null && duration.compareTo(count) < 0) {
+                        throw invalid(source, path + ".durationValue", "CHANNEL_WINDOW_INVALID", "等分引导时长不得小于执行次数");
+                    }
+                    continue;
+                }
+                if (duration != null && first != null && first.compareTo(duration) > 0) {
+                    throw invalid(source, path + ".firstExecutionOffsetValue", "CHANNEL_WINDOW_INVALID", "首段执行偏移不能超过完整引导时长");
+                }
+                if (duration != null && last != null && last.compareTo(duration) > 0) {
+                    throw invalid(source, path + ".lastExecutionOffsetValue", "CHANNEL_WINDOW_INVALID", "末段执行偏移不能超过完整引导时长");
+                }
+                if (first == null || last == null) continue;
+                Fraction span = last.subtract(first);
+                if (span.compareTo(Fraction.of(BigDecimal.ZERO)) < 0 || count != null
+                    && (count.compareTo(Fraction.of(BigDecimal.ONE)) == 0 ? span.compareTo(Fraction.of(BigDecimal.ZERO)) != 0
+                        : span.compareTo(count.subtract(Fraction.of(BigDecimal.ONE))) < 0)) {
+                    throw invalid(source, path + ".lastExecutionOffsetValue", "CHANNEL_WINDOW_INVALID", "首段不得晚于末段；单段两端相等，多段跨度至少为次数减一");
                 }
             }
         }
@@ -834,6 +890,9 @@ public final class SkillNumericSemantics {
 
         private void validateSkillHitEventValue(Aggregate rule, JsonNode detail, String path) {
             String valueKey = text(detail, "eventValueKey");
+            if ("CHARGE_DURATION_MS".equals(valueKey) && !SkillChargeDurationSemantics.valueAvailable(rule, objects.values())) {
+                throw invalid(rule, path + ".eventValueKey", "EVENT_VALUE_NOT_AVAILABLE", "充能时长必须来自本技能实际充能释放组成或合法充能过程时点");
+            }
             String label = switch (valueKey) {
                 case "SKILL_HIT_SPELL_SHIELD_BLOCKED" -> "技能命中护盾结果";
                 case "SKILL_HIT_FIRST_CONTACT" -> "本次使用首次目标接触";

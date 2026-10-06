@@ -109,6 +109,54 @@ class SkillProcessServiceTest {
     }
 
     @Test
+    void channelWindowCollectsBothFormulaReferencesAndPreservesAggregateReadback() {
+        SkillProcessChannelStepDetail detail = new SkillProcessChannelStepDetail(
+            SkillNumericValue.fixed(new java.math.BigDecimal("20")), SkillNumericValue.fixed(new java.math.BigDecimal("4")),
+            SkillProcessFirstExecution.CUSTOM_WINDOW, SkillNumericValue.formula("first_window"), SkillNumericValue.formula("last_window"));
+        SkillProcessCreateRequest request = new SkillProcessCreateRequest(PROCESS_KEY, "指定窗口", SkillProcessActivationType.ACTIVE,
+            null, 0, null, List.of(new SkillProcessStepRequest("channel", "引导", SkillProcessStepType.CHANNEL, null, 0, true, detail)),
+            List.of(processStartBinding()), List.of());
+        SkillProcessDetailResponse response = service.create(GAME_ID, SKILL_KEY, request);
+        verify(mapper).lockFormulas(GAME_ID, SKILL_KEY, List.of("first_window", "last_window"));
+        assertEquals(detail, response.steps().getFirst().detail());
+    }
+
+    @Test
+    void channelWindowMissingEndpointAndPeriodicCustomWindowRejectBeforeWrites() {
+        SkillProcessChannelStepDetail detail = new SkillProcessChannelStepDetail(
+            SkillNumericValue.fixed(java.math.BigDecimal.TEN), SkillNumericValue.fixed(java.math.BigDecimal.ONE),
+            SkillProcessFirstExecution.CUSTOM_WINDOW, SkillNumericValue.fixed(java.math.BigDecimal.ZERO), null);
+        SkillProcessCreateRequest request = new SkillProcessCreateRequest(PROCESS_KEY, "指定窗口", SkillProcessActivationType.ACTIVE,
+            null, 0, null, List.of(new SkillProcessStepRequest("channel", "引导", SkillProcessStepType.CHANNEL, null, 0, true, detail)),
+            List.of(processStartBinding()), List.of());
+        ApiException error = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY, request));
+        assertField(error, "steps[0].detail.lastExecutionOffsetValue", "REQUIRED");
+        SkillProcessCreateRequest periodic = new SkillProcessCreateRequest(PROCESS_KEY, "周期", SkillProcessActivationType.ACTIVE,
+            null, 0, null, List.of(new SkillProcessStepRequest("periodic", "周期", SkillProcessStepType.PERIODIC, null, 0, false,
+                new SkillProcessPeriodicStepDetail(SkillNumericValue.fixed(java.math.BigDecimal.ONE),
+                    SkillNumericValue.fixed(java.math.BigDecimal.ONE), SkillProcessFirstExecution.CUSTOM_WINDOW))),
+            List.of(processStartBinding()), List.of());
+        ApiException periodicError = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY, periodic));
+        assertField(periodicError, "steps[0].detail.firstExecution", "TYPE_MISMATCH");
+        verify(mapper, never()).insertProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void legacyChannelRejectsExplicitNullEndpointsBeforeWrites() {
+        SkillProcessStepRequest step = AggregateJson.read("""
+            {"stepKey":"channel","name":"引导","stepType":"CHANNEL","sortOrder":0,
+             "detail":{"durationValue":{"kind":"FIXED","value":20},"executionCountValue":{"kind":"FIXED","value":4},
+              "firstExecution":"IMMEDIATE","firstExecutionOffsetValue":null}}
+            """, SkillProcessStepRequest.class);
+        SkillProcessCreateRequest request = new SkillProcessCreateRequest(PROCESS_KEY, "引导", SkillProcessActivationType.ACTIVE,
+            null, 0, null, List.of(step), List.of(processStartBinding()), List.of());
+        ApiException error = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY, request));
+        assertEquals("400.INVALID_BODY", error.getCode());
+        assertField(error, "steps[0].detail.firstExecutionOffsetValue", "FIELD_MUTEX");
+        verify(mapper, never()).insertProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
     void emptyBindingsAndOperationsReturnDualFieldErrorBeforeDatabaseWrites() {
         ApiException exception = assertThrows(
             ApiException.class,

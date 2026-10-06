@@ -121,6 +121,9 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerValueDomain;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.authoring.AggregateJson;
+import xyz.game.datamanage.support.authoring.SkillChargeDurationSemantics;
+import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
+import xyz.game.datamanage.support.authoring.SkillObjectReferences.SourceType;
 import xyz.game.datamanage.support.authoring.SkillExplicitTargetIsSourceConditionSemantics;
 import xyz.game.datamanage.support.authoring.SkillHitTargetIsEnemyConditionSemantics;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillHitTargetIsEnemyConditionDetail;
@@ -2591,6 +2594,13 @@ public class SkillTriggerRuleService {
             return false;
         }
         return switch (eventSource.eventType()) {
+            case SKILL_HIT -> {
+                boolean charge = valueKey == SkillTriggerEventValueKey.CHARGE_DURATION_MS
+                    && eventSource.detail() instanceof SkillTriggerSkillEventDetail detail
+                    && chargeHitAvailable(gameId, skillKey, detail.sourceSkillKey());
+                yield SkillTriggerEventCapabilities.eventValueAllowed(eventSource.eventType(), valueKey, null,
+                    charge ? SkillProcessStepType.CHARGE : null);
+            }
             case LIFECYCLE_MOMENT -> eventSource.detail() instanceof SkillTriggerLifecycleEventDetail detail
                 && SkillTriggerEventCapabilities.lifecycleEventValueAllowed(valueKey, detail.moment());
             case INTERNAL_STATE_CHANGED -> eventSource.detail() instanceof SkillTriggerInternalStateEventDetail detail
@@ -2619,6 +2629,32 @@ public class SkillTriggerRuleService {
                 null
             );
         };
+    }
+
+    private boolean chargeHitAvailable(String gameId, String skillKey, String sourceSkillKey) {
+        List<Aggregate> context = new ArrayList<>();
+        for (var process : indexProcesses(nullToEmpty(mapper.listProcessShapes(gameId, skillKey))).entrySet()) {
+            var activationTypes = process.getValue().stream().map(SkillTriggerProcessShapeRow::activationType)
+                .filter(Objects::nonNull).distinct().toList();
+            if (activationTypes.size() != 1) return false;
+            List<Map<String, Object>> steps = new ArrayList<>();
+            for (SkillTriggerProcessShapeRow shape : process.getValue()) {
+                if (shape.stepKey() == null || shape.stepType() == null) continue;
+                Boolean automaticRelease = shape.stepType() == SkillProcessStepType.CHARGE
+                    ? mapper.findChargeReleaseAtMaximum(gameId, skillKey, shape.processKey(), shape.stepKey()) : null;
+                steps.add(Map.of("stepKey", shape.stepKey(), "stepType", shape.stepType().name(), "detail",
+                    automaticRelease == null ? Map.of() : Map.of("releaseAtMaximum", automaticRelease)));
+            }
+            var data = AggregateJson.tree(AggregateJson.write(Map.of("activationType", activationTypes.getFirst().name(), "steps", steps)));
+            context.add(new Aggregate(SourceType.PROCESS, skillKey, process.getKey(), data));
+        }
+        for (SkillTriggerRuleRow row : nullToEmpty(mapper.listRules(gameId, skillKey))) {
+            if (row.eventSourceJson() == null || row.actionsJson() == null) continue;
+            var data = AggregateJson.tree(AggregateJson.write(Map.of("eventSource", AggregateJson.tree(row.eventSourceJson()),
+                "actions", AggregateJson.tree(row.actionsJson()))));
+            context.add(new Aggregate(SourceType.TRIGGER, skillKey, row.ruleKey(), data));
+        }
+        return SkillChargeDurationSemantics.hitAvailable(skillKey, sourceSkillKey, context);
     }
 
     private void collectEventRefs(

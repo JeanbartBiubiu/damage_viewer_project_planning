@@ -73,6 +73,41 @@ class GameConfigurationWriteGuardTest {
     }
 
     @Test
+    void finalChannelEndpointChangeRollsBackBeforeReferenceReplacement() throws Exception {
+        Connection connection = connection();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of(
+            Map.of("target_type", "PARAMETER", "skill_key", "ez_q", "object_key", "last")));
+        List<Map<String, Object>> objects = List.of(Map.of("source_type", "PROCESS", "skill_key", "ez_q", "source_key", "cast", "data", """
+            {"steps":[{"stepKey":"channel","stepType":"CHANNEL","detail":{"firstExecution":"CUSTOM_WINDOW",
+             "durationValue":{"kind":"FIXED","value":20},"executionCountValue":{"kind":"FIXED","value":4},
+             "firstExecutionOffsetValue":{"kind":"FIXED","value":2},"lastExecutionOffsetValue":{"kind":"PARAMETER","parameterKey":"last"}}}],
+             "cooldown":null,"effectBindings":[],"stateOperations":[]}
+            """));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(objects);
+        List<Map<String, Object>> beforeRows = new java.util.ArrayList<>(snapshotRows(objects));
+        List<Map<String, Object>> afterRows = new java.util.ArrayList<>(snapshotRows(objects));
+        beforeRows.add(Map.of("object_type", "PARAMETER", "skill_key", "ez_q", "object_key", "last", "data", "{\"fixed_value\":13}"));
+        afterRows.add(Map.of("object_type", "PARAMETER", "skill_key", "ez_q", "object_key", "last", "data", "{\"fixed_value\":4}"));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(beforeRows, afterRows);
+        when(jdbc.queryForList(GameConfigurationWriteGuard.REFERENCES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "source_skill_key", "ez_q", "source_type", "PROCESS", "source_key", "cast",
+            "field_path", "steps[0].detail.lastExecutionOffsetValue.parameterKey", "target_type", "PARAMETER", "target_skill_key", "ez_q",
+            "target_key", "last", "target_sub_key", "")));
+        when(jdbc.queryForList(SkillNumericSemantics.PARAMETERS_SQL, "lol")).thenReturn(List.of(Map.of(
+            "skill_key", "ez_q", "parameter_key", "last", "value_type", "INTEGER", "value_mode", "FIXED", "fixed_value", 4)));
+        ApiException failure = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            jdbc.update("UPDATE channel endpoint for test");
+            return null;
+        }));
+        assertEquals("400.INVALID_SKILL_NUMERIC_VALUE", failure.getCode());
+        assertTrue(failure.getDetails().toString().contains("CHANNEL_WINDOW_INVALID"));
+        verify(connection).rollback();
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
+        verify(jdbc, never()).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), any(List.class));
+    }
+
+    @Test
     void rejectsMissingOrReadOnlyTransactionBeforeAnyDatabaseAccess() throws Exception {
         assertThrows(IllegalStateException.class, () -> guard.begin("lol"));
         Connection connection = connection();
@@ -466,6 +501,48 @@ class GameConfigurationWriteGuardTest {
         assertTrue(error.getDetails().toString().contains("ONCE_PER_USE_EVENT_INVALID"));
         assertTrue(error.getDetails().toString().contains("limits.oncePerUse"));
         verify(jdbc).update("UPDATE once per use bypass for test");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
+        verify(connection).rollback();
+        verify(connection, never()).commit();
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void deletingTheReleaseRootRespectsTheExplicitAutomaticReleaseDeclaration(boolean automaticRelease) throws Exception {
+        Connection connection = connection();
+        Map<String, Object> process = Map.of("source_type", "PROCESS", "skill_key", "charge_skill", "source_key", "cast", "data", """
+            {"activationType":"ACTIVE","steps":[{"stepKey":"charge","stepType":"CHARGE","detail":{"releaseAtMaximum":%s}}],"effectBindings":[],"stateOperations":[]}
+            """.formatted(automaticRelease));
+        Map<String, Object> initial = Map.of("source_type", "TRIGGER", "skill_key", "charge_skill", "source_key", "initial", "data", """
+            {"eventSource":{"eventType":"SKILL_USED","detail":{"sourceSkillKey":"charge_skill","castPhase":"INITIAL"}},
+             "conditionGroups":[],"actions":[{"actionType":"START_PROCESS","detail":{"processKey":"cast"},"runtimeInputBindings":[]}]}
+            """);
+        Map<String, Object> release = Map.of("source_type", "TRIGGER", "skill_key", "charge_skill", "source_key", "release", "data", """
+            {"eventSource":{"eventType":"SKILL_USED","detail":{"sourceSkillKey":"charge_skill","castPhase":"CHARGE_RELEASE"}},
+             "conditionGroups":[],"actions":[{"actionType":"ADVANCE_PROCESS","detail":{"processKey":"cast","stepKey":"charge"},"runtimeInputBindings":[]}]}
+            """);
+        Map<String, Object> hit = Map.of("source_type", "TRIGGER", "skill_key", "charge_skill", "source_key", "hit", "data", """
+            {"eventSource":{"eventType":"SKILL_HIT","detail":{"sourceSkillKey":"charge_skill"}},
+             "conditionGroups":[{"conditions":[{"conditionType":"EVENT_VALUE_COMPARE","detail":{"eventValueKey":"CHARGE_DURATION_MS"}}]}],"actions":[]}
+            """);
+        List<Map<String, Object>> before = List.of(process, initial, release, hit);
+        List<Map<String, Object>> after = List.of(process, initial, hit);
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(before, after);
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(snapshotRows(before), snapshotRows(after));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of());
+        if (automaticRelease) {
+            transaction(connection).execute(status -> { guard.begin("lol"); return null; });
+            verify(connection).commit();
+            verify(connection, never()).rollback();
+            return;
+        }
+        ApiException error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            return null;
+        }));
+        assertEquals("409.SKILL_OBJECT_REFERENCE_INVALID", error.getCode());
+        assertTrue(error.getDetails().toString().contains("EVENT_VALUE_NOT_AVAILABLE"));
+        assertTrue(error.getDetails().toString().contains("sourceKey=hit"));
         verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(connection).rollback();
         verify(connection, never()).commit();

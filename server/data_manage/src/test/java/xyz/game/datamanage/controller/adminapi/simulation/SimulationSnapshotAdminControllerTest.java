@@ -130,10 +130,15 @@ class SimulationSnapshotAdminControllerTest {
             ((ObjectNode) missing.path("plannedSkills").get(0)).remove(field);
             invalid(missing, "selection.plannedSkills[0]." + field, "REQUIRED");
         }
-        for (String phase : List.of("RECAST", "CHARGE_RELEASE", "CANCEL", "unknown")) {
+        for (String phase : List.of("RECAST", "CHARGE_RELEASE", "CANCEL")) {
             ObjectNode unsupported = body();
             unsupported.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[\"" + phase + "\"]")));
-            invalid(unsupported, "selection.plannedSkills[0].phaseKinds[0]", "ENUM_INVALID");
+            invalid(unsupported, "selection.plannedSkills[0].phaseKinds", "INITIAL_REQUIRED");
+        }
+        for (String phases : List.of("[\"INITIAL\",\"unknown\"]", "[\"INITIAL\",null]", "[\"INITIAL\",1]", "[\"INITIAL\",{}]")) {
+            ObjectNode unsupported = body();
+            unsupported.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, phases)));
+            invalid(unsupported, "selection.plannedSkills[0].phaseKinds[1]", "ENUM_INVALID");
         }
         ObjectNode empty = body();
         empty.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[]")));
@@ -141,6 +146,22 @@ class SimulationSnapshotAdminControllerTest {
         ObjectNode duplicatePhase = body();
         duplicatePhase.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[\"INITIAL\",\"INITIAL\"]")));
         invalid(duplicatePhase, "selection.plannedSkills[0].phaseKinds[1]", "DUPLICATE_KEY");
+    }
+
+    @Test
+    void allDeclaredControlPhasesArePreservedAndRemainUnique() throws Exception {
+        ObjectNode request = body();
+        request.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[\"CANCEL\",\"RECAST\",\"INITIAL\",\"CHARGE_RELEASE\"]")));
+        Selection choice = SnapshotSelectionParser.parse(request);
+        when(service.get("lol", choice)).thenReturn(snapshot(choice));
+        mvc.perform(request(request)).andExpect(status().isOk())
+            .andExpect(jsonPath("$.selection.plannedSkills[0].phaseKinds[0]").value("CANCEL"))
+            .andExpect(jsonPath("$.selection.plannedSkills[0].phaseKinds[3]").value("CHARGE_RELEASE"));
+        for (String phase : List.of("RECAST", "CHARGE_RELEASE", "CANCEL")) {
+            ObjectNode duplicate = body();
+            duplicate.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[\"INITIAL\",\"" + phase + "\",\"" + phase + "\"]")));
+            invalid(duplicate, "selection.plannedSkills[0].phaseKinds[2]", "DUPLICATE_KEY");
+        }
     }
 
     @Test
