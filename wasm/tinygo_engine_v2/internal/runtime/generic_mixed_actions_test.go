@@ -82,7 +82,14 @@ func TestMixedActionStableFullSortAndUseIdentity(test *testing.T) {
 	request.DriverPlan.SkillActions[0].SortOrder = 70000
 	request.DriverPlan.SkillActions[1].SortOrder = 60000
 	done := authoringRun(test, input, request)
-	if done.SkillActionRecords[0].SkillKey != "second" || done.SkillUseRecords[2].UseRef != "skill:second_first" || done.DamageRecords[0]["instructionKey"] != "second_first" || done.DamageRecords[1]["instructionKey"] != "first_first" || done.DamageRecords[0]["attackIndex"] != nil || done.Summary.SkillUses.HitCount != 2 {
+	firstHitUse := ""
+	for _, record := range done.SkillUseRecords {
+		if record.Kind == "HIT" {
+			firstHitUse = record.UseRef
+			break
+		}
+	}
+	if done.SkillActionRecords[0].SkillKey != "second" || firstHitUse != "skill:second_first" || done.DamageRecords[0]["instructionKey"] != "second_first" || done.DamageRecords[1]["instructionKey"] != "first_first" || done.DamageRecords[0]["attackIndex"] != nil || done.Summary.SkillUses.HitCount != 2 {
 		test.Fatal(done.SkillActionRecords, done.SkillUseRecords, done.DamageRecords)
 	}
 	request.DriverPlan.SkillActions[0], request.DriverPlan.SkillActions[1] = request.DriverPlan.SkillActions[1], request.DriverPlan.SkillActions[0]

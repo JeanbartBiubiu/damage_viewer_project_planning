@@ -169,7 +169,7 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 		}
 	}
 	if stepIndex < 0 {
-		if row.Status != "failed" || row.StepKey != "" || row.StepVersion != 0 || row.ExpiresAtMs != nil || row.StepStartedAtMs != row.StartedAtMs || row.AdvanceAtMs != row.StartedAtMs {
+		if (row.Status != "failed" && row.Status != "active") || row.StepKey != "" || row.StepVersion != 0 || row.ExpiresAtMs != nil || row.StepStartedAtMs != row.StartedAtMs || row.AdvanceAtMs != row.StartedAtMs || row.Status == "active" && row.StartedAtMs != s.nowMs {
 			return bad(".stepKey", "unknown process step")
 		}
 	} else if row.StepVersion != stepIndex+1 {
@@ -194,7 +194,7 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 		return bad(".status", "unknown process status")
 	}
 	if row.Status == "active" {
-		if row.FinishedAtMs != nil || row.FailureReason != nil || stepIndex < 0 || row.ExpiresAtMs == nil || *row.ExpiresAtMs < s.nowMs {
+		if row.FinishedAtMs != nil || row.FailureReason != nil || stepIndex >= 0 && def.Steps[stepIndex].StepType != "IMMEDIATE" && (row.ExpiresAtMs == nil || *row.ExpiresAtMs < s.nowMs) {
 			return bad(".expiresAtMs", "active process requires a pending timer and no terminal markers")
 		}
 		if s.combatantHasHp(row.Owner) && s.combatantHp(row.Owner) <= 0 {
@@ -216,8 +216,14 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 	}
 	if stepIndex >= 0 {
 		step := def.Steps[stepIndex]
-		if step.StepType == "IMMEDIATE" {
-			if row.Status == "active" || row.ExpiresAtMs != nil || row.AdvanceAtMs != row.StepStartedAtMs {
+		if step.StepType == "MULTI_HIT" || step.StepType == "CHANNEL" {
+			if err := s.validateRestoredProcessRepeat(row, step, path); err != nil {
+				return nil, err
+			}
+		} else if row.Repeat != nil {
+			return bad(".repeat", "repeat progress belongs only to a finite repeated step")
+		} else if step.StepType == "IMMEDIATE" {
+			if row.Status == "active" && row.StepStartedAtMs != s.nowMs || row.ExpiresAtMs != nil || row.AdvanceAtMs != row.StepStartedAtMs {
 				return bad(".expiresAtMs", "immediate step cannot restore an active timer")
 			}
 			if row.FinishedAtMs != nil && *row.FinishedAtMs != row.StepStartedAtMs {
@@ -241,6 +247,9 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 			}
 		}
 	}
+	if err := s.validateRestoredStepProgress(row, def, stepIndex, path); err != nil {
+		return nil, err
+	}
 	if !validRestoredProcessCooldown(row, def, stepIndex) {
 		return bad(".cooldownStarted", "cooldown marker contradicts the reached process moment")
 	}
@@ -250,7 +259,186 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 	}
 	row.ActualCosts = cloneProcessCosts(row.ActualCosts)
 	ability := s.compiled.Abilities[ai]
-	return &processRuntime{ProcessInstanceSnapshot: row, definition: def, ability: ability, abilityRef: row.Owner + ".provider[" + row.ProviderRef + "].ability[" + ability.AbilityKey + "]", stepIndex: stepIndex, castID: s.mintCastInstanceID()}, nil
+	process := &processRuntime{ProcessInstanceSnapshot: row, definition: def, ability: ability, abilityRef: row.Owner + ".provider[" + row.ProviderRef + "].ability[" + ability.AbilityKey + "]", stepIndex: stepIndex, castID: s.mintCastInstanceID()}
+	if row.Repeat != nil {
+		repeat := *row.Repeat
+		process.Repeat = &repeat
+	}
+	if err := s.validateRestoredActionOccupancies(process, path); err != nil {
+		return nil, err
+	}
+	return process, nil
+}
+
+func (state *genericRunState) validateRestoredStepProgress(row model.ProcessInstanceSnapshot, definition *compilebundle.CompiledProcess, stepIndex int, path string) *model.EngineError {
+	bad := func(message string) *model.EngineError {
+		return state.processErr(path+".stepExecutionIndex", message, row.UseKey)
+	}
+	if stepIndex < 0 {
+		if row.StepExecutionIndex != 0 || row.LastExecutionAtMs != nil || row.StepCompletedAtMs != nil || row.Repeat != nil {
+			return bad("before-first-step process cannot invent committed progress")
+		}
+		return nil
+	}
+	step := definition.Steps[stepIndex]
+	maximum := 1
+	if row.Repeat != nil {
+		maximum = row.Repeat.ExecutionCount
+		if row.StepExecutionIndex != row.Repeat.ExecutionIndex {
+			return bad("current execution index must equal frozen repeated progress")
+		}
+	}
+	if row.StepExecutionIndex < 0 || row.StepExecutionIndex > maximum || (row.StepExecutionIndex == 0) != (row.LastExecutionAtMs == nil) {
+		return bad("committed execution index and last execution time are inconsistent")
+	}
+	if row.LastExecutionAtMs != nil {
+		last := *row.LastExecutionAtMs
+		if last < row.StepStartedAtMs || last > state.nowMs || row.FinishedAtMs != nil && last > *row.FinishedAtMs || row.ExpiresAtMs != nil && last > *row.ExpiresAtMs {
+			return bad("last committed execution lies outside its actual process interval")
+		}
+		switch step.StepType {
+		case "IMMEDIATE":
+			if last != row.StepStartedAtMs {
+				return bad("immediate execution must commit at its step start")
+			}
+		case "DELAY":
+			if row.ExpiresAtMs == nil || last != *row.ExpiresAtMs {
+				return bad("delay execution must commit at its frozen deadline")
+			}
+		case "CHARGE", "RECAST":
+			if last < row.AdvanceAtMs || row.ExpiresAtMs == nil || last == *row.ExpiresAtMs && (step.StepType == "RECAST" || !step.ReleaseAtMaximum) {
+				return bad("controlled execution must commit inside its declared release window")
+			}
+		case "MULTI_HIT", "CHANNEL":
+			previous := *row.Repeat
+			previous.ExecutionIndex--
+			probe := &processRuntime{ProcessInstanceSnapshot: row, definition: &compilebundle.CompiledProcess{Steps: []compilebundle.CompiledProcessStep{step}}, stepIndex: 0}
+			probe.Repeat = &previous
+			if last != nextProcessRepeatAt(probe) {
+				return bad("last repeated execution must match its frozen absolute segment time")
+			}
+		}
+	}
+	if row.StepCompletedAtMs != nil {
+		completed := *row.StepCompletedAtMs
+		if row.StepExecutionIndex != maximum || row.LastExecutionAtMs == nil || completed < *row.LastExecutionAtMs || completed > state.nowMs || row.FinishedAtMs != nil && completed > *row.FinishedAtMs {
+			return bad("step completion requires all actual executions and a committed completion time")
+		}
+		if step.StepType == "CHANNEL" {
+			if row.ExpiresAtMs == nil || completed != *row.ExpiresAtMs {
+				return bad("channel completion must retain its full declared duration")
+			}
+		} else if completed != *row.LastExecutionAtMs {
+			return bad("step completion must follow its actual synchronous execution")
+		}
+	}
+	if row.Status == "complete" && (row.StepCompletedAtMs == nil || row.FinishedAtMs == nil || *row.StepCompletedAtMs != *row.FinishedAtMs) {
+		return bad("completed process must retain its committed final step completion")
+	}
+	pending := row.StepCompletedAtMs
+	if pending == nil && row.Repeat == nil && row.StepExecutionIndex > 0 {
+		pending = row.LastExecutionAtMs
+	}
+	if row.Status == "active" && pending != nil && *pending != state.nowMs {
+		return bad("pending committed step transition must resume at the same snapshot time")
+	}
+	return nil
+}
+
+func (state *genericRunState) validateRestoredProcessRepeat(row model.ProcessInstanceSnapshot, step compilebundle.CompiledProcessStep, path string) *model.EngineError {
+	repeat := row.Repeat
+	bad := func(message string) *model.EngineError { return state.processErr(path+".repeat", message, row.UseKey) }
+	if repeat == nil || repeat.ExecutionCount < 1 || repeat.ExecutionCount > 64 || repeat.ExecutionIndex < 0 || repeat.ExecutionIndex > repeat.ExecutionCount || row.ExpiresAtMs == nil || *row.ExpiresAtMs < row.StepStartedAtMs || row.AdvanceAtMs != *row.ExpiresAtMs {
+		return bad("finite repeated step requires consistent frozen progress and end time")
+	}
+	duration := *row.ExpiresAtMs - row.StepStartedAtMs
+	probe := &processRuntime{ProcessInstanceSnapshot: row, definition: &compilebundle.CompiledProcess{Steps: []compilebundle.CompiledProcessStep{step}}, stepIndex: 0}
+	if step.StepType == "MULTI_HIT" {
+		if repeat.IntervalMs < 0 || repeat.ExecutionCount > 1 && (repeat.IntervalMs == 0 || repeat.IntervalMs > math.MaxInt64/int64(repeat.ExecutionCount-1)) || duration != int64(repeat.ExecutionCount-1)*repeat.IntervalMs || repeat.FirstExecutionOffsetMs != 0 || repeat.LastExecutionOffsetMs != duration {
+			return bad("multi-hit progress contradicts its frozen interval or execution count")
+		}
+	} else {
+		if repeat.IntervalMs != 0 {
+			return bad("channel progress cannot mix a fixed multi-hit interval")
+		}
+		if step.FirstExecution == "CUSTOM_WINDOW" {
+			if !validProcessChannelWindow(duration, repeat) {
+				return bad("channel window contradicts its frozen safe duration, offsets or execution count")
+			}
+		} else if duration < int64(repeat.ExecutionCount) || repeat.FirstExecutionOffsetMs != processRepeatOffset(probe, 0) || repeat.LastExecutionOffsetMs != processRepeatOffset(probe, repeat.ExecutionCount-1) {
+			return bad("channel progress requires its complete frozen duration and actual first and last execution offsets")
+		}
+	}
+	if row.Status != "active" {
+		if repeat.NextExecutionAtMs != nil {
+			return bad("terminated repeated process cannot retain another execution")
+		}
+	} else if repeat.ExecutionIndex < repeat.ExecutionCount {
+		if repeat.NextExecutionAtMs == nil {
+			return bad("unfinished repeated step requires the next actual execution time")
+		}
+		if *repeat.NextExecutionAtMs != nextProcessRepeatAt(probe) || row.Status == "active" && *repeat.NextExecutionAtMs < state.nowMs {
+			return bad("next repeated execution contradicts frozen progress or lies in the past")
+		}
+	} else if repeat.NextExecutionAtMs != nil {
+		return bad("all committed segments cannot retain another execution")
+	}
+	if repeat.ExecutionIndex > 0 {
+		previous := *repeat
+		previous.ExecutionIndex--
+		probe := &processRuntime{ProcessInstanceSnapshot: row, definition: &compilebundle.CompiledProcess{Steps: []compilebundle.CompiledProcessStep{step}}, stepIndex: 0}
+		probe.Repeat = &previous
+		last := nextProcessRepeatAt(probe)
+		if last > state.nowMs || row.FinishedAtMs != nil && last > *row.FinishedAtMs {
+			return bad("committed repeated execution cannot lie after the snapshot or termination")
+		}
+	}
+	if row.Status == "complete" && (repeat.ExecutionIndex != repeat.ExecutionCount || row.FinishedAtMs == nil || *row.FinishedAtMs != *row.ExpiresAtMs) {
+		return bad("completed repeated step must commit all segments and its complete duration")
+	}
+	return nil
+}
+
+func (state *genericRunState) validateRestoredActionOccupancies(process *processRuntime, path string) *model.EngineError {
+	if process.ActionOccupancies == nil || len(process.ActionOccupancies) > len(process.definition.Steps) {
+		return state.processErr(path+".actionOccupancies", "process requires its complete bounded occupancy history", process.UseKey)
+	}
+	expected := 0
+	for stepIndex := 0; stepIndex <= process.stepIndex; stepIndex++ {
+		if process.definition.Steps[stepIndex].OccupiesAction {
+			expected++
+		}
+	}
+	if len(process.ActionOccupancies) != expected {
+		return state.processErr(path+".actionOccupancies", "occupancy history must cover every actually entered occupied step", process.UseKey)
+	}
+	previousVersion, previousEnd := 0, process.StartedAtMs
+	active := false
+	for index, interval := range process.ActionOccupancies {
+		stepIndex := interval.StepVersion - 1
+		if active || interval.StepVersion <= previousVersion || stepIndex < 0 || stepIndex >= len(process.definition.Steps) || stepIndex > process.stepIndex || process.definition.Steps[stepIndex].StepKey != interval.StepKey || !process.definition.Steps[stepIndex].OccupiesAction || interval.StartedAtMs < previousEnd || interval.StartedAtMs > state.nowMs || interval.ExpectedEndAtMs < interval.StartedAtMs {
+			return state.processErr(path+".actionOccupancies", "occupancy interval contradicts the actual ordered process steps", process.UseKey)
+		}
+		if interval.StepVersion == process.StepVersion && (interval.StartedAtMs != process.StepStartedAtMs || interval.ExpectedEndAtMs != processActionDeadline(process) || interval.FinishedAtMs != nil && (process.FinishedAtMs == nil || *interval.FinishedAtMs != *process.FinishedAtMs)) {
+			return state.processErr(path+".actionOccupancies", "current occupancy must retain its complete frozen duration and actual terminal exit", process.UseKey)
+		}
+		if interval.FinishedAtMs != nil {
+			if *interval.FinishedAtMs < interval.StartedAtMs || *interval.FinishedAtMs > interval.ExpectedEndAtMs || *interval.FinishedAtMs > state.nowMs {
+				return state.processErr(path+".actionOccupancies", "occupancy interval has an invalid committed exit", process.UseKey)
+			}
+			previousEnd = *interval.FinishedAtMs
+		} else {
+			if process.Status != "active" || interval.StepVersion != process.StepVersion || index != len(process.ActionOccupancies)-1 || interval.StartedAtMs != process.StepStartedAtMs || interval.ExpectedEndAtMs != processActionDeadline(process) {
+				return state.processErr(path+".actionOccupancies", "open occupancy requires the actual active step and frozen deadline", process.UseKey)
+			}
+			active = true
+		}
+		previousVersion = interval.StepVersion
+	}
+	if active != processOccupiesAction(process, process.Owner) {
+		return state.processErr(path+".actionOccupancies", "occupancy history must retain the actual current permission", process.UseKey)
+	}
+	return nil
 }
 
 func cloneProcessCosts(costs map[string]float64) map[string]float64 {
@@ -286,6 +474,12 @@ func validRestoredProcessCooldown(row model.ProcessInstanceSnapshot, def *compil
 	}
 	if m.MomentType == "STEP_START" || idx < stepIndex {
 		return row.CooldownStarted
+	}
+	if m.MomentType == "STEP_EXECUTION" {
+		return row.CooldownStarted == (row.StepExecutionIndex > 0)
+	}
+	if m.MomentType == "STEP_COMPLETE" {
+		return row.CooldownStarted == (row.StepCompletedAtMs != nil)
 	}
 	if row.Status == "active" {
 		return !row.CooldownStarted

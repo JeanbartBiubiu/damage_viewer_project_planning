@@ -125,15 +125,19 @@ type SkillActionSummary struct {
 }
 
 type SkillUseSummary struct {
-	StartedCount   int `json:"startedCount"`
-	ReleasedCount  int `json:"releasedCount"`
-	HitCount       int `json:"hitCount"`
-	CompletedCount int `json:"completedCount"`
-	FailedCount    int `json:"failedCount"`
-	InFlightCount  int `json:"inFlightCount"`
+	StepEnteredCount   int `json:"stepEnteredCount"`
+	StepExecutedCount  int `json:"stepExecutedCount"`
+	StepCompletedCount int `json:"stepCompletedCount"`
+	StartedCount       int `json:"startedCount"`
+	ReleasedCount      int `json:"releasedCount"`
+	HitCount           int `json:"hitCount"`
+	CompletedCount     int `json:"completedCount"`
+	FailedCount        int `json:"failedCount"`
+	InFlightCount      int `json:"inFlightCount"`
 }
 
 type SkillActionRecord struct {
+	ParentInstructionKey  *string `json:"parentInstructionKey"`
 	InstructionKey        string  `json:"instructionKey"`
 	RequestedAtMs         int64   `json:"requestedAtMs"`
 	ActualAtMs            int64   `json:"actualAtMs"`
@@ -150,6 +154,9 @@ type SkillActionRecord struct {
 }
 
 type SkillUseRecord struct {
+	StepKey        string  `json:"stepKey"`
+	StepVersion    int     `json:"stepVersion"`
+	ExecutionIndex int     `json:"executionIndex"`
 	InstructionKey string  `json:"instructionKey"`
 	TimeMs         int64   `json:"timeMs"`
 	Kind           string  `json:"kind"`

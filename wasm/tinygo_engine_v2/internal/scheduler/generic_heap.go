@@ -52,6 +52,7 @@ type GenericEvent struct {
 	BasicAttackGeneration uint64
 	ProcessIndex          int
 	ProcessStepVersion    int
+	ProcessExecutionIndex int
 	ProcessSortKey        string
 	TimeMs                int64
 	Category              GenericEventCategory

@@ -50,6 +50,7 @@ const (
 	ReadUseAmmoBefore
 	ReadSourceStatusPresent
 	ReadTargetStatusPresent
+	ReadUseChargeDuration
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -319,6 +320,9 @@ func validForwardJump(pc, target, length int) bool {
 }
 
 func parseReadPath(path string) (GenericReadKind, string, bool) {
+	if path == "use.charge_duration_ms" {
+		return ReadUseChargeDuration, "charge_duration_ms", true
+	}
 	if path == "use.ammo.before" {
 		return ReadUseAmmoBefore, "before", true
 	}

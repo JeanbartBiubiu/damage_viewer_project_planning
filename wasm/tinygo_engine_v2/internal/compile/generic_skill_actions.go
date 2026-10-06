@@ -7,7 +7,8 @@ import (
 
 type CompiledSkillActionBinding struct {
 	model.SkillActionBinding
-	InitialAbilityIndex uint16
+	InitialAbilityIndex   uint16
+	ControlAbilityIndices map[string]uint16
 }
 
 func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *genericCompileContext) {
@@ -26,8 +27,8 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 			continue
 		}
 		seen[binding.BindingKey], seenOrigins[binding.ProviderRef] = true, true
-		if len(binding.Controls) != 1 || binding.Controls[0].Action != "INITIAL" || len(binding.HitBindings) > 1 {
-			fail("single-cast binding requires one INITIAL control and at most one completed hit")
+		if len(binding.Controls) < 1 || len(binding.Controls) > 4 || binding.Controls[0].Action != "INITIAL" || len(binding.HitBindings) > 64 {
+			fail("planned binding requires an initial control and finite same-process controls and releases")
 			continue
 		}
 		control := binding.Controls[0]
@@ -44,32 +45,72 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 			continue
 		}
 		process := provider.Processes[ability.ProcessControl.ProcessIndex]
-		if process.SkillKey != binding.SkillKey || len(process.Steps) != 1 || (process.Steps[0].StepType != "DELAY" && process.Steps[0].StepType != "IMMEDIATE") {
-			fail("single cast requires one declared finite immediate or delay step")
+		if process.SkillKey != binding.SkillKey || len(process.Steps) < 1 || len(process.Steps) > 64 {
+			fail("planned cast requires one declared finite process with at most 64 steps")
 			continue
 		}
-		if !process.Steps[0].HasActionOccupancy {
-			fail("planned skill step requires an explicit occupiesAction boolean")
-			continue
+		invalid := false
+		complexStep := ""
+		for stepIndex, step := range process.Steps {
+			if !step.HasActionOccupancy {
+				fail("every planned skill step requires an explicit occupiesAction boolean")
+				invalid = true
+			}
+			if step.StepType == "MULTI_HIT" || step.StepType == "CHANNEL" || step.StepType == "CHARGE" || step.StepType == "RECAST" {
+				if complexStep != "" || stepIndex != len(process.Steps)-1 {
+					fail("planned complex process admits only one final complex step")
+					invalid = true
+				}
+				complexStep = step.StepKey
+			}
 		}
 		if _, exists := ctx.session.Types.Registry.Lookup("event/ability_started"); !exists {
 			fail("single cast requires its real successful-use event catalog")
 			continue
 		}
-		if len(binding.HitBindings) == 1 {
-			hit := binding.HitBindings[0]
-			parsedHit, validHit := ParseAbilityRef(hit.HitAbilityRef)
-			hitRef, foundHit := ctx.session.AbilityRefIndex[hit.HitAbilityRef]
-			if !validHit || !foundHit || parsedHit.Combatant != binding.Source || parsedHit.ProviderRef != binding.ProviderRef || strings.TrimSpace(hit.HitBindingKey) == "" || hit.ProcessKey != control.ProcessKey || hit.Moment.MomentType != "PROCESS_COMPLETE" || hit.Moment.StepKey != nil || hit.Moment.FailureReason != nil {
-				fail("hit binding must name this process successful completion and source mount")
+		controls := map[string]uint16{"INITIAL": ref.AbilityIndex}
+		for _, selected := range binding.Controls[1:] {
+			selectedRef, exists := ctx.session.AbilityRefIndex[selected.AbilityRef]
+			selectedMount, valid := ParseAbilityRef(selected.AbilityRef)
+			_, duplicate := controls[selected.Action]
+			if duplicate || !exists || !valid || selectedMount.Combatant != binding.Source || selectedMount.ProviderRef != binding.ProviderRef || selected.ProcessKey != control.ProcessKey || (selected.Action != "RECAST" && selected.Action != "CHARGE_RELEASE" && selected.Action != "CANCEL") || selectedRef.ProviderIndex != ref.ProviderIndex {
+				fail("control must name a unique declared phase on the original source process")
+				invalid = true
 				continue
 			}
+			selectedAbility := ctx.session.Abilities[selectedRef.AbilityIndex]
+			if selectedAbility.Kind != "active" || selectedAbility.IsBasicAttack || selectedAbility.SkillKey != binding.SkillKey || selectedAbility.ProcessControl == nil || selectedAbility.ProcessControl.Action != selected.Action || selectedAbility.ProcessControl.ProcessKey != control.ProcessKey || selectedAbility.ProcessControl.UseRefFromEvent {
+				fail("control must match the actual stage ability without another initial use")
+				invalid = true
+				continue
+			}
+			controls[selected.Action] = selectedRef.AbilityIndex
+		}
+		seenHits, seenMoments := map[string]bool{}, map[string]bool{}
+		for _, hit := range binding.HitBindings {
+			parsedHit, validHit := ParseAbilityRef(hit.HitAbilityRef)
+			hitRef, foundHit := ctx.session.AbilityRefIndex[hit.HitAbilityRef]
+			momentKey := hit.Moment.MomentType
+			validMoment := complexStep == "" && hit.Moment.MomentType == "PROCESS_COMPLETE" && hit.Moment.StepKey == nil
+			if hit.Moment.MomentType == "STEP_EXECUTION" && hit.Moment.StepKey != nil {
+				validMoment = complexStep != "" && *hit.Moment.StepKey == complexStep
+				momentKey += "|" + *hit.Moment.StepKey
+			}
+			if !validHit || !foundHit || parsedHit.Combatant != binding.Source || parsedHit.ProviderRef != binding.ProviderRef || strings.TrimSpace(hit.HitBindingKey) == "" || seenHits[hit.HitBindingKey] || seenMoments[momentKey] || hit.ProcessKey != control.ProcessKey || !validMoment || hit.Moment.FailureReason != nil {
+				fail("hit binding must uniquely name this process real execution or successful completion")
+				invalid = true
+				continue
+			}
+			seenHits[hit.HitBindingKey], seenMoments[momentKey] = true, true
 			hitAbility := ctx.session.Abilities[hitRef.AbilityIndex]
 			if hitRef.ProviderIndex != ref.ProviderIndex || !hitAbility.HasSkillHit || hitAbility.IsBasicAttack || hitAbility.SkillKey != binding.SkillKey || hitAbility.Kind != "active" || hitAbility.Cost != nil || hitAbility.Cooldown != nil || hitAbility.ProcessControl != nil {
 				fail("release must resolve the same skill with no independent cost or cooldown")
+				invalid = true
 				continue
 			}
 		}
-		ctx.session.SkillActionBindings = append(ctx.session.SkillActionBindings, CompiledSkillActionBinding{SkillActionBinding: binding, InitialAbilityIndex: ref.AbilityIndex})
+		if !invalid {
+			ctx.session.SkillActionBindings = append(ctx.session.SkillActionBindings, CompiledSkillActionBinding{SkillActionBinding: binding, InitialAbilityIndex: ref.AbilityIndex, ControlAbilityIndices: controls})
+		}
 	}
 }

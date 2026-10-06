@@ -1,6 +1,9 @@
 package runtime
 
-import "tinygo_engine_v2/internal/model"
+import (
+	"sort"
+	"tinygo_engine_v2/internal/model"
+)
 
 func processOccupiesAction(process *processRuntime, owner string) bool {
 	return process != nil && process.Owner == owner && process.Status == "active" && process.stepIndex >= 0 && process.stepIndex < len(process.definition.Steps) && process.definition.Steps[process.stepIndex].OccupiesAction
@@ -18,8 +21,8 @@ func (state *genericRunState) actionOccupied(owner string) bool {
 func (state *genericRunState) actionReadyAt(owner string) int64 {
 	ready := state.nowMs
 	for _, process := range state.processInstances {
-		if processOccupiesAction(process, owner) && process.AdvanceAtMs > ready {
-			ready = process.AdvanceAtMs
+		if processOccupiesAction(process, owner) && processActionDeadline(process) > ready {
+			ready = processActionDeadline(process)
 		}
 	}
 	return ready
@@ -27,12 +30,91 @@ func (state *genericRunState) actionReadyAt(owner string) int64 {
 
 func (frame *executionFrame) prepareActionWait() *model.EngineError {
 	attack := frame.run.basicAttack
-	if attack == nil || frame.pendingProcess == nil {
+	if frame.pendingProcess == nil {
+		return nil
+	}
+	previous, pending := frame.processOriginal, frame.pendingProcess
+	beforeOwn, afterOwn := processOccupiesAction(previous, pending.Owner), processOccupiesAction(pending, pending.Owner)
+	changedStep := previous != nil && previous.StepVersion != pending.StepVersion
+	if beforeOwn && (!afterOwn || changedStep) {
+		last := len(pending.ActionOccupancies) - 1
+		if last < 0 || pending.ActionOccupancies[last].StepVersion != previous.StepVersion || pending.ActionOccupancies[last].FinishedAtMs != nil {
+			return frame.run.processErr("processInstances.actionOccupancies", "action release requires its real active interval", pending.UseKey)
+		}
+		at := frame.run.nowMs
+		pending.ActionOccupancies[last].FinishedAtMs = &at
+	}
+	if afterOwn && (!beforeOwn || changedStep) {
+		pending.ActionOccupancies = append(pending.ActionOccupancies, model.ProcessActionOccupancy{StepKey: pending.StepKey, StepVersion: pending.StepVersion, StartedAtMs: pending.StepStartedAtMs, ExpectedEndAtMs: processActionDeadline(pending)})
+	}
+	if attack == nil {
 		return nil
 	}
 	before, after := processOccupiesAction(frame.processOriginal, attack.plan.Source), processOccupiesAction(frame.pendingProcess, attack.plan.Source)
-	frame.pendingActionWait = before != after || (before && frame.processOriginal.AdvanceAtMs != frame.pendingProcess.AdvanceAtMs)
+	frame.pendingActionWait = before != after || (before && processActionDeadline(frame.processOriginal) != processActionDeadline(frame.pendingProcess))
 	return nil
+}
+
+func processActionDeadline(process *processRuntime) int64 {
+	if process.ExpiresAtMs != nil {
+		return *process.ExpiresAtMs
+	}
+	return process.AdvanceAtMs
+}
+
+func (state *genericRunState) actionContribution(start, end int64) *int64 {
+	if state.basicAttack == nil {
+		return nil
+	}
+	var contribution *int64
+	for _, process := range state.processInstances {
+		if process.Owner != state.basicAttack.plan.Source {
+			continue
+		}
+		for _, interval := range process.ActionOccupancies {
+			if interval.StartedAtMs < start || interval.StartedAtMs >= end {
+				continue
+			}
+			deadline := interval.ExpectedEndAtMs
+			if interval.FinishedAtMs != nil {
+				deadline = *interval.FinishedAtMs
+			}
+			if deadline > interval.StartedAtMs && (contribution == nil || deadline > *contribution) {
+				at := deadline
+				contribution = &at
+			}
+		}
+	}
+	return contribution
+}
+
+func (state *genericRunState) refreshActionContributions() {
+	if state.basicAttack == nil {
+		return
+	}
+	starts := []int64{}
+	for _, process := range state.processInstances {
+		if process.abilityRef == state.basicAttack.plan.InitialControlAbilityRef && process.Owner == state.basicAttack.plan.Source {
+			starts = append(starts, process.StartedAtMs)
+		}
+	}
+	sort.Slice(starts, func(first, second int) bool { return starts[first] < starts[second] })
+	first := state.nowMs + 1
+	if len(starts) > 0 {
+		first = starts[0]
+	}
+	state.basicAttack.summary.InitialActionReadyAtMs = state.actionContribution(0, first)
+	for index := range state.attackRecords {
+		record := &state.attackRecords[index]
+		next := state.nowMs + 1
+		for _, start := range starts {
+			if start > record.StartAtMs {
+				next = start
+				break
+			}
+		}
+		record.ActionReadyAtMs = state.actionContribution(record.StartAtMs, next)
+	}
 }
 
 func (frame *executionFrame) validatePlannedProcessDeadline() *model.EngineError {
@@ -42,6 +124,9 @@ func (frame *executionFrame) validatePlannedProcessDeadline() *model.EngineError
 	}
 	if process.AdvanceAtMs > maxJSONSafeInteger || (process.ExpiresAtMs != nil && *process.ExpiresAtMs > maxJSONSafeInteger) {
 		return frame.run.basicAttackErr("planned process requires a safe real step deadline", "processInstances.advanceAtMs")
+	}
+	if process.Repeat != nil && process.Repeat.NextExecutionAtMs != nil && *process.Repeat.NextExecutionAtMs > maxJSONSafeInteger {
+		return frame.run.basicAttackErr("planned segment requires a safe real execution deadline", "processInstances.repeat.nextExecutionAtMs")
 	}
 	if staged := frame.staged[process.Owner]; staged != nil && staged.cooldowns[process.abilityRef] > maxJSONSafeInteger {
 		return frame.run.basicAttackErr("planned cooldown requires a safe actual deadline", "processInstances.cooldown")
@@ -95,7 +180,12 @@ func (state *genericRunState) validatePlannedSkillProvider(owner, providerRef st
 		matched := false
 		for _, action := range state.skillActions {
 			if action.binding.ProviderRef == providerRef && action.binding.Source == owner {
-				matched = ref == action.binding.Controls[0].AbilityRef || (len(action.binding.HitBindings) == 1 && ref == action.binding.HitBindings[0].HitAbilityRef)
+				for _, control := range action.binding.Controls {
+					matched = matched || ref == control.AbilityRef
+				}
+				for _, hit := range action.binding.HitBindings {
+					matched = matched || ref == hit.HitAbilityRef
+				}
 				if matched {
 					break
 				}

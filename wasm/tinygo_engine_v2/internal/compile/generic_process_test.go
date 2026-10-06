@@ -118,7 +118,7 @@ func TestProcessCompileRejectsInvalidDefinitionMatrix(t *testing.T) {
 		{"empty steps", "steps", func(r *model.CompileRequest) { r.SharedProviders[0].Processes[0].Steps = nil }},
 		{"empty step key", "stepKey", func(r *model.CompileRequest) { r.SharedProviders[0].Processes[0].Steps[0].StepKey = "" }},
 		{"duplicate step", "stepKey", func(r *model.CompileRequest) { r.SharedProviders[0].Processes[0].Steps[1].StepKey = "begin" }},
-		{"unknown step", "stepType", func(r *model.CompileRequest) { r.SharedProviders[0].Processes[0].Steps[0].StepType = "CHANNEL" }},
+		{"unknown step", "stepType", func(r *model.CompileRequest) { r.SharedProviders[0].Processes[0].Steps[0].StepType = "UNKNOWN" }},
 		{"nonterminal recast", "stepType", func(r *model.CompileRequest) {
 			r.SharedProviders[0].Processes[0].Steps = append(r.SharedProviders[0].Processes[0].Steps, model.ProcessStepDefinition{StepKey: "extra", StepType: "IMMEDIATE"})
 		}},

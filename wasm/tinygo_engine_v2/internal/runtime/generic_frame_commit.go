@@ -61,6 +61,14 @@ func (f *executionFrame) commitFrameFacts() {
 	if f.processIsNew && f.processOriginal != nil {
 		f.run.publishSkillActionStart(f.processOriginal)
 	}
+	if f.processOriginal != nil {
+		if f.countCastOnCommit {
+			f.run.publishSkillActionControl(f.processOriginal, f.castStatRef)
+		}
+		if f.processMomentKind != "" {
+			f.run.publishSkillActionMoment(f.processOriginal, f.processMomentKind)
+		}
+	}
 	for _, record := range f.pendingDirectHealing {
 		f.run.recordDirectHealing(record)
 	}

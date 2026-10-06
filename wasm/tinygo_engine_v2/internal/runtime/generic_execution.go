@@ -96,6 +96,7 @@ type executionFrame struct {
 	damageDefenseContext   *formula.GenericEvalContext
 	processActualCosts     map[string]float64
 	processCostReadable    bool
+	processMomentKind      string
 	run                    *genericRunState
 	frameID                uint64
 	sourceKey              string
@@ -402,6 +403,11 @@ func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) form
 		TargetResources:       f.stageFor(f.targetKey).resources,
 		AbilityParams:         ability.Params,
 		StrictReads:           f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit),
+	}
+	if process := f.pendingProcess; process != nil && f.processMomentKind == "STEP_EXECUTION" && process.stepIndex >= 0 && process.definition.Steps[process.stepIndex].StepType == "CHARGE" {
+		ctx.HasUseChargeDuration, ctx.UseChargeDurationMs = true, f.run.nowMs-process.StepStartedAtMs
+	} else if action := f.run.skillActionByUse[f.skillActionUseRef()]; action != nil && action.chargeDurationMs != nil {
+		ctx.HasUseChargeDuration, ctx.UseChargeDurationMs = true, *action.chargeDurationMs
 	}
 	if f.ownerProviderRef != "" {
 		ctx.HasProviderContext = true

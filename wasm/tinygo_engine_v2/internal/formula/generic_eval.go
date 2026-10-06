@@ -10,6 +10,8 @@ import (
 
 // GenericEvalContext 是 generic formula 运行时只读视图。
 type GenericEvalContext struct {
+	HasUseChargeDuration  bool
+	UseChargeDurationMs   int64
 	HasUseAmmoBefore      bool
 	UseAmmoBefore         float64
 	HasStatusContext      bool
@@ -441,6 +443,11 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 			return float64(ctx.LinkIndex), nil
 		}
 		return float64(ctx.LinkCount), nil
+	case ReadUseChargeDuration:
+		if !ctx.HasUseChargeDuration || ctx.UseChargeDurationMs < 0 {
+			return 0, errors.New("use.charge_duration_ms requires a real charge execution or associated release hit")
+		}
+		return float64(ctx.UseChargeDurationMs), nil
 	case ReadProcessActualCost:
 		if !ctx.HasProcessActualCosts {
 			return 0, errors.New("process.actual_cost." + key + " requires process completion or failure context")

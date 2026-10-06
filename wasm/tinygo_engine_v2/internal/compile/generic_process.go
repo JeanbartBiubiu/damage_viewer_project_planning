@@ -21,20 +21,28 @@ type CompiledProcess struct {
 }
 
 type CompiledProcessStep struct {
-	StepKey              string
-	StepType             string
-	OccupiesAction       bool
-	HasActionOccupancy   bool
-	DelayProgram         formula.GenericProgramID
-	MinimumChargeProgram formula.GenericProgramID
-	MaximumChargeProgram formula.GenericProgramID
-	WindowProgram        formula.GenericProgramID
-	HasDelay             bool
-	HasMinimumCharge     bool
-	HasMaximumCharge     bool
-	HasWindow            bool
-	ReleaseAtMaximum     bool
-	Path                 string
+	StepKey                     string
+	StepType                    string
+	OccupiesAction              bool
+	HasActionOccupancy          bool
+	DelayProgram                formula.GenericProgramID
+	MinimumChargeProgram        formula.GenericProgramID
+	MaximumChargeProgram        formula.GenericProgramID
+	WindowProgram               formula.GenericProgramID
+	RepeatCountProgram          formula.GenericProgramID
+	IntervalProgram             formula.GenericProgramID
+	DurationProgram             formula.GenericProgramID
+	ExecutionCountProgram       formula.GenericProgramID
+	FirstExecutionOffsetProgram formula.GenericProgramID
+	LastExecutionOffsetProgram  formula.GenericProgramID
+	HasInterval                 bool
+	FirstExecution              string
+	HasDelay                    bool
+	HasMinimumCharge            bool
+	HasMaximumCharge            bool
+	HasWindow                   bool
+	ReleaseAtMaximum            bool
+	Path                        string
 }
 
 type CompiledProcessCost struct {
@@ -185,6 +193,7 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 
 func compileProcessStep(def model.ProcessStepDefinition, path string, last bool, ctx *genericCompileContext) CompiledProcessStep {
 	compiled := CompiledProcessStep{StepKey: def.StepKey, StepType: def.StepType, Path: path}
+	customWindow := def.StepType == "CHANNEL" && def.FirstExecution != nil && *def.FirstExecution == "CUSTOM_WINDOW"
 	if def.OccupiesAction != nil {
 		compiled.HasActionOccupancy, compiled.OccupiesAction = true, *def.OccupiesAction
 	}
@@ -202,6 +211,12 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 		{"maximumChargeMs", def.MaximumChargeMs != nil, def.StepType == "CHARGE"},
 		{"releaseAtMaximum", def.ReleaseAtMaximum != nil, def.StepType == "CHARGE"},
 		{"windowMs", def.WindowMs != nil, def.StepType == "RECAST"},
+		{"repeatCount", def.RepeatCount != nil, def.StepType == "MULTI_HIT"},
+		{"durationMs", def.DurationMs != nil, def.StepType == "CHANNEL"},
+		{"executionCount", def.ExecutionCount != nil, def.StepType == "CHANNEL"},
+		{"firstExecution", def.FirstExecution != nil, def.StepType == "CHANNEL"},
+		{"firstExecutionOffsetMs", def.FirstExecutionOffsetMs != nil, customWindow},
+		{"lastExecutionOffsetMs", def.LastExecutionOffsetMs != nil, customWindow},
 	}
 	for _, field := range fields {
 		if field.present && !field.allowed {
@@ -230,10 +245,83 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 		}
 	case "RECAST":
 		compiled.WindowProgram, compiled.HasWindow = compileProcessFormula(def.WindowMs, path+".windowMs", true, true, ctx)
+	case "MULTI_HIT":
+		compiled.RepeatCountProgram, _ = compileProcessFormula(def.RepeatCount, path+".repeatCount", true, true, ctx)
+		if def.IntervalMs != nil {
+			compiled.IntervalProgram, compiled.HasInterval = compileProcessFormula(def.IntervalMs, path+".intervalMs", true, true, ctx)
+		}
+		validateProcessExecutionCount(def.RepeatCount, path+".repeatCount", ctx)
+		if def.RepeatCount != nil && def.IntervalMs == nil {
+			instructions := formula.CompileGenericFormula(*def.RepeatCount, path+".repeatCount", ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
+			if count, folded := formula.TryFoldConst(instructions); folded && count > 1 {
+				ctx.collector.addError(model.GenericErrMissingRequiredField, path+".intervalMs", "multiple executions require an explicit positive interval", def.StepKey)
+			}
+		}
+	case "CHANNEL":
+		var hasDuration, hasCount bool
+		if customWindow {
+			compiled.DurationProgram, hasDuration = compileProcessWindowFormula(def.DurationMs, path+".durationMs", true, ctx)
+		} else {
+			compiled.DurationProgram, hasDuration = compileProcessFormula(def.DurationMs, path+".durationMs", true, true, ctx)
+		}
+		compiled.ExecutionCountProgram, hasCount = compileProcessFormula(def.ExecutionCount, path+".executionCount", true, true, ctx)
+		validateProcessExecutionCount(def.ExecutionCount, path+".executionCount", ctx)
+		if def.FirstExecution != nil {
+			compiled.FirstExecution = *def.FirstExecution
+		}
+		if customWindow {
+			var hasFirst, hasLast bool
+			compiled.FirstExecutionOffsetProgram, hasFirst = compileProcessWindowFormula(def.FirstExecutionOffsetMs, path+".firstExecutionOffsetMs", false, ctx)
+			compiled.LastExecutionOffsetProgram, hasLast = compileProcessWindowFormula(def.LastExecutionOffsetMs, path+".lastExecutionOffsetMs", false, ctx)
+			if hasFirst && hasLast {
+				first, firstConstant := formula.TryFoldConst(ctx.session.Formulas.Programs[compiled.FirstExecutionOffsetProgram].Instr)
+				last, lastConstant := formula.TryFoldConst(ctx.session.Formulas.Programs[compiled.LastExecutionOffsetProgram].Instr)
+				if firstConstant && lastConstant && first > last {
+					ctx.collector.addError(model.GenericErrFormulaTypeError, path+".firstExecutionOffsetMs", "channel first execution must not follow its last execution", def.StepKey)
+				}
+				if hasDuration {
+					duration, durationConstant := formula.TryFoldConst(ctx.session.Formulas.Programs[compiled.DurationProgram].Instr)
+					if lastConstant && durationConstant && last > duration {
+						ctx.collector.addError(model.GenericErrFormulaTypeError, path+".lastExecutionOffsetMs", "channel execution window must fit its complete duration", def.StepKey)
+					}
+				}
+				if hasCount {
+					count, countConstant := formula.TryFoldConst(ctx.session.Formulas.Programs[compiled.ExecutionCountProgram].Instr)
+					if firstConstant && lastConstant && countConstant && (count == 1 && first != last || count > 1 && last-first < count-1) {
+						ctx.collector.addError(model.GenericErrFormulaTypeError, path+".lastExecutionOffsetMs", "channel window must match its count and allow distinct integer execution times", def.StepKey)
+					}
+				}
+			}
+		} else if compiled.FirstExecution != "IMMEDIATE" && compiled.FirstExecution != "AFTER_INTERVAL" {
+			ctx.collector.addError(model.GenericErrUnknownRef, path+".firstExecution", "channel first execution must be explicit", def.StepKey)
+		}
 	default:
 		ctx.collector.addError(model.GenericErrUnknownRef, path+".stepType", "unsupported process step type", def.StepType)
 	}
+	if def.IntervalMs != nil && def.StepType != "MULTI_HIT" {
+		ctx.collector.addError(model.GenericErrUnknownRef, path+".intervalMs", "interval belongs only to finite multi-hit steps", def.StepKey)
+	}
 	return compiled
+}
+
+func compileProcessWindowFormula(expression *model.GenericFormulaExpr, path string, positive bool, ctx *genericCompileContext) (formula.GenericProgramID, bool) {
+	program, present := compileProcessFormula(expression, path, true, positive, ctx)
+	if present {
+		if value, folded := formula.TryFoldConst(ctx.session.Formulas.Programs[program].Instr); folded && value > 9007199254740991 {
+			ctx.collector.addError(model.GenericErrFormulaTypeError, path, "channel window milliseconds must be safe integers", "")
+		}
+	}
+	return program, present
+}
+
+func validateProcessExecutionCount(expression *model.GenericFormulaExpr, path string, ctx *genericCompileContext) {
+	if expression == nil {
+		return
+	}
+	instructions := formula.CompileGenericFormula(*expression, path, ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
+	if count, folded := formula.TryFoldConst(instructions); folded && (count < 1 || count > 64 || count != math.Trunc(count)) {
+		ctx.collector.addError(model.GenericErrFormulaTypeError, path, "finite execution count must be an integer in [1,64]", "")
+	}
 }
 
 func compileProcessFormula(expr *model.GenericFormulaExpr, path string, duration, positive bool, ctx *genericCompileContext) (formula.GenericProgramID, bool) {
@@ -275,6 +363,15 @@ func validateProcessFormulaContext(instr []formula.GenericInstr, path string, al
 		case formula.ReadOperationOutput:
 			if !allowOutput {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path, "process timing and costs cannot read operation outputs", item.ReadKey)
+			}
+		case formula.ReadUseChargeDuration:
+			valid := allowOutput && ctx.currentProcess != nil && ctx.currentProcessMoment != nil && ctx.currentProcessMoment.MomentType == "STEP_EXECUTION" && ctx.currentProcessMoment.StepKey != nil
+			if valid {
+				step := findCompiledProcessStep(ctx.currentProcess, *ctx.currentProcessMoment.StepKey)
+				valid = step != nil && step.StepType == "CHARGE"
+			}
+			if !valid {
+				ctx.collector.addError(model.GenericErrFormulaTypeError, path, "charge duration requires its actual charge step execution", item.ReadKey)
 			}
 		default:
 			ctx.collector.addError(model.GenericErrFormulaTypeError, path, "formula read requires an unavailable process context", item.ReadKey)

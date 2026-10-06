@@ -444,12 +444,16 @@ func (f *executionFrame) resolveSkillHit(op compilebundle.CompiledOperation, abi
 		Ref:    eventType,
 		Data:   emitData,
 	})
+	eventTypes := []string{eventType}
+	if eventType == model.EventTypeSkillHit {
+		eventTypes = append(eventTypes, f.abilityTypeKeys(ability)...)
+	}
 	ev := emittedEvent{
 		eventType:      eventType,
 		ref:            eventType,
 		sourceKey:      f.sourceKey,
 		targetKey:      f.targetKey,
-		types:          f.appendCastOriginEventType([]string{eventType}),
+		types:          f.appendCastOriginEventType(eventTypes),
 		snapshot:       snap,
 		castInstanceID: f.castInstanceID,
 		castOrigin:     f.castOrigin,

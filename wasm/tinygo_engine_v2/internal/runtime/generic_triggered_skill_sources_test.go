@@ -612,8 +612,8 @@ func TestTriggeredSkillSourceRejectsUnownedAndIncompleteGraphs(test *testing.T) 
 			case "extra_process":
 				definition.Listeners[0].AbilityRef = authoringRef("initial")
 			case "foreign_root_event":
-				input.TypeCatalog.Types = append(input.TypeCatalog.Types, model.TypeCatalogEntry{Key: model.EventTypeSkillHit, Domain: "event"})
-				definition.Listeners[0].EventMatcher.All[0] = model.EventTypeSkillHit
+				input.TypeCatalog.Types = append(input.TypeCatalog.Types, model.TypeCatalogEntry{Key: "event/unadmitted_root", Domain: "event"})
+				definition.Listeners[0].EventMatcher.All[0] = "event/unadmitted_root"
 			case "active_ability":
 				definition.Abilities = []model.AbilityDefinition{{AbilityKey: "unexpected_active", Kind: "active"}}
 			case "recursive_link":

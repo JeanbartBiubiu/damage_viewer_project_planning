@@ -95,11 +95,11 @@ func basicAttackWaitDependenciesChanged(program formula.GenericProgram, wait *ba
 
 func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 	attack := f.run.basicAttack
-	if attack == nil {
-		return 0, nil
-	}
 	if err := f.prepareActionWait(); err != nil {
 		return 0, err
+	}
+	if attack == nil {
+		return 0, nil
 	}
 	previous := attack.wait
 	if f.pendingBasicAttackWait != nil {
@@ -298,9 +298,8 @@ func (s *genericRunState) publishBasicAttackWait() {
 	}
 	next := s.nextBasicAttackTime()
 	attack.windowSettled = next > s.startMs+s.durationMs
-	actionReady := s.actionReadyAt(attack.plan.Source)
-	if attack.summary.StartedCount == 0 && actionReady > s.nowMs {
-		attack.summary.InitialActionReadyAtMs = &actionReady
+	if attack.summary.StartedCount == 0 {
+		attack.summary.InitialActionReadyAtMs = s.actionContribution(0, s.nowMs+1)
 	}
 	if attack.current == nil {
 		return
@@ -317,9 +316,7 @@ func (s *genericRunState) publishBasicAttackWait() {
 	}
 	ready := attack.wait.ready
 	attack.current.FinalReadyAtMs = &ready
-	if actionReady > s.nowMs && (attack.current.ActionReadyAtMs == nil || actionReady > *attack.current.ActionReadyAtMs) {
-		attack.current.ActionReadyAtMs = &actionReady
-	}
+	attack.current.ActionReadyAtMs = s.actionContribution(attack.current.StartAtMs, s.nowMs+1)
 	attack.current.NextStartAtMs = nil
 	if !attack.windowSettled && !s.actionDeaths[attack.plan.Source] && !s.actionDeaths[attack.plan.Target] && s.combatantHp(attack.plan.Source) > 0 && s.combatantHp(attack.plan.Target) > 0 && s.budgetCause == "" {
 		attack.current.NextStartAtMs = &next

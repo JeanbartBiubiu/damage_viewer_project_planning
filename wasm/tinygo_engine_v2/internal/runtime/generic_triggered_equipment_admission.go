@@ -10,6 +10,7 @@ func (s *genericRunState) validateEquipmentHitListener(listener compilebundle.Co
 	qualified := false
 	for _, event := range []struct{ kind, relation string }{
 		{model.EventTypeBasicAttackStart, eventSourceOwner}, {model.EventTypeBasicAttackHit, eventSourceOwner},
+		{model.EventTypeSkillHit, eventSourceOwner},
 		{model.EventTypeAttackLinkApplied, eventSourceOwner}, {model.EventTypeHitLinkApplied, eventSourceOwner},
 		{model.EventTypeBasicAttackReceived, eventTargetOwner}, {model.EventTypeDamageTaken, eventTargetOwner},
 		{eventTypeDamageInstance, eventSourceOwner},

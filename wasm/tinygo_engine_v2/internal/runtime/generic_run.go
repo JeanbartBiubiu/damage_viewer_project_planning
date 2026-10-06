@@ -1102,6 +1102,7 @@ func (s *genericRunState) damageInWindow(combatantKey string, asDealer bool, fro
 }
 
 func (s *genericRunState) buildDoneResult() model.DoneResult {
+	s.refreshActionContributions()
 	finalSnapshot := s.buildFinalSnapshot()
 
 	rawSeriesCount := len(s.series)
