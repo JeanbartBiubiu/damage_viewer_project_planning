@@ -94,6 +94,6 @@ describe('6B明确计划与完整装配', () => {
     const inputs = mixedInputs(snapshot);
     await expect(skillActionRequest(prepared, snapshot, { ...inputs, actions: [inputs.actions[0]!, inputs.actions[0]!] })).rejects.toThrow(/唯一/);
     await expect(skillActionRequest(prepared, snapshot, { ...inputs, actions: [{ ...inputs.actions[0]!, origin: { kind: 'CHARACTER', characterKey: 'actor_b' } }] })).rejects.toThrow(/真实来源/);
-    await expect(skillActionRequest(prepared, snapshot, { ...inputs, actions: [{ ...inputs.actions[0]!, phaseKind: 'RECAST' as 'INITIAL' }] })).rejects.toThrow(/6C/);
+    await expect(skillActionRequest(prepared, snapshot, { ...inputs, actions: [{ ...inputs.actions[0]!, phaseKind: 'RECAST' }] })).rejects.toThrow(/关联原首次/);
   });
 });

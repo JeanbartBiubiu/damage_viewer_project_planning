@@ -1,4 +1,7 @@
 import { expect, test, type Locator, type Page, type Route } from '@playwright/test';
+import { mkdirSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { simulationComplexSample } from '../fixtures/simulationComplexSkills';
 
 const API = 'http://127.0.0.1:19085';
 const GAME_ID = 'authoring_p6';
@@ -325,6 +328,22 @@ class AuthoringP6Api {
   }
 }
 
+class ChargeHitAuthoringApi extends AuthoringP6Api {
+  private authored = JSON.parse(JSON.stringify(simulationComplexSample('CHARGE').skillConfigurations[1])
+    .replaceAll('demo', GAME_ID).replaceAll('sample_active', SKILL_KEY)) as ReturnType<typeof simulationComplexSample>['skillConfigurations'][number];
+
+  constructor(qualified: boolean) {
+    super();
+    this.rules = this.authored.triggerRules.map(rule => ({ ...rule })) as Json[];
+    if (!qualified) this.rules = this.rules.filter(rule => rule.ruleKey !== 'release_cast');
+  }
+
+  configuration() {
+    return { ...super.configuration(), parameters: this.authored.parameters, formulas: this.authored.formulas,
+      effects: this.authored.effects, processes: this.authored.processes };
+  }
+}
+
 async function prepare(page: Page, api: AuthoringP6Api, hash = '/#/skills') {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -508,6 +527,44 @@ test('录入检查把 limits.oncePerUse.scope 定位到平铺范围锚点', asyn
   await expect(editor.locator('[data-authoring-field="scope"].authoring-field-active')).toBeVisible();
   await expect(editor.getByRole('radio', { name: '每个目标', exact: true })).toBeChecked();
   await editor.getByRole('button', { name: '取消', exact: true }).click();
+  expect(api.writes).toHaveLength(0);
+  assertClean();
+});
+
+for (const qualified of [true, false]) test(`6C独立管理表单：${qualified ? '真实同源蓄力命中绑定可确认到草稿' : '缺实际释放声明不得提供充能值'}`, async ({ page }) => {
+  const api = new ChargeHitAuthoringApi(qualified);
+  const assertClean = await prepare(page, api);
+  const shell = await openTriggers(page);
+  const key = api.rules.find(rule => (rule.eventSource as Json).eventType === 'SKILL_HIT')!.ruleKey as string;
+  await ruleCard(shell, key).getByRole('button', { name: '编辑', exact: true }).click();
+  const editor = modal(page, '编辑规则');
+  await editor.getByRole('button', { name: '编辑', exact: true }).first().click();
+  const action = modal(page, '编辑动作');
+  await action.getByRole('button', { name: '编辑', exact: true }).click();
+  const binding = modal(page, '编辑绑定');
+  await binding.getByLabel('绑定事件值', { exact: true }).click();
+  const option = page.getByRole('option', { name: /实际蓄力毫秒数/ });
+  if (qualified) {
+    await expect(option).toBeVisible();
+    await option.click();
+    await binding.getByRole('button', { name: '确定', exact: true }).click();
+    await expect(binding).toBeHidden();
+    await action.getByRole('button', { name: '确定', exact: true }).click();
+    await expect(action).toBeHidden();
+    await editor.getByLabel('规则名称', { exact: true }).fill('独立同源蓄力命中草稿');
+    await editor.getByRole('button', { name: '确认到技能草稿', exact: true }).click();
+    await expect(editor).toBeHidden();
+    await expect(ruleCard(shell, key)).toContainText('独立同源蓄力命中草稿');
+    mkdirSync(resolve('output/phase6c'), { recursive: true });
+    await page.screenshot({ path: resolve('output/phase6c/construct-charge-hit-authoring.png'), fullPage: true });
+  } else {
+    await expect(option).toHaveCount(0);
+    await binding.getByLabel('绑定事件值', { exact: true }).click();
+    await binding.getByRole('button', { name: '取消', exact: true }).click();
+    await action.getByRole('button', { name: '取消', exact: true }).click();
+    await editor.getByRole('button', { name: '确认到技能草稿', exact: true }).click();
+    await expect(editor.getByText('当前事件不提供该事件值。', { exact: true })).toBeVisible();
+  }
   expect(api.writes).toHaveLength(0);
   assertClean();
 });

@@ -71,7 +71,9 @@ export type SkillProcessPeriodicDetail = {
 export type SkillProcessChannelDetail = {
   durationValue: NumericValue;
   executionCountValue: NumericValue;
-  firstExecution: SkillProcessFirstExecution;
+  firstExecution: SkillProcessFirstExecution | 'CUSTOM_WINDOW';
+  firstExecutionOffsetValue?: NumericValue;
+  lastExecutionOffsetValue?: NumericValue;
 };
 
 export type SkillProcessChargeDetail = {

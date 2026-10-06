@@ -54,6 +54,13 @@ export function assertNumericUses(root: unknown, domain: 'effect' | 'process' | 
     };
     for (const [index, step] of list(root.steps, 'steps').entries()) {
       for (const key of keys[String(step.stepType)] ?? []) slot(step.detail, key, `steps[${index}].detail`, step.stepType === 'MULTI_HIT' && key === 'intervalValue');
+      if (step.stepType === 'CHANNEL') {
+        const detail = record(step.detail, `steps[${index}].detail`);
+        for (const key of ['firstExecutionOffsetValue', 'lastExecutionOffsetValue']) {
+          if (detail.firstExecution === 'CUSTOM_WINDOW') slot(detail, key, `steps[${index}].detail`);
+          else if (key in detail) fail(`steps[${index}].detail.${key}`);
+        }
+      }
     }
     for (const [index, operation] of list(root.stateOperations, 'stateOperations').entries()) {
       slot(operation, 'value', `stateOperations[${index}]`, !['INCREASE', 'DECREASE', 'CONSUME', 'SET'].includes(String(operation.operation)));

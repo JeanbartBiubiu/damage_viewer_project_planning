@@ -84,7 +84,7 @@ describe('6A完整单次主动装配', () => {
     expect(assembleActiveSkills(snapshot).bindings).toHaveLength(1);
     snapshot.selection.basicAttackSkillKey = null;
     snapshot.skillConfigurations[1]!.processes[0]!.steps.push(structuredClone(snapshot.skillConfigurations[1]!.processes[0]!.steps[0]!));
-    expect(() => assembleActiveSkills(snapshot)).toThrow(/有限延时/);
+    expect(() => assembleActiveSkills(snapshot)).toThrow(/步骤标识重复/);
   });
 
   it('只忽略逐项明确声明的成本引用，另一资源消费仍被严格拒绝', () => {

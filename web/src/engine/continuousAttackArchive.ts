@@ -41,8 +41,8 @@ export type SkillActionCsvKind = 'skillAction' | 'skillUse' | 'healing' | 'damag
 export function buildSkillActionCsv(kind: SkillActionCsvKind, rows: ReadonlyArray<object>, inputHash: string | null,
   timeRangeMs: [number, number], recording: unknown) {
   const fields: Record<SkillActionCsvKind, string[]> = {
-    skillAction: ['instructionKey', 'requestedAtMs', 'actualAtMs', 'action', 'source', 'target', 'skillKey', 'bindingKey', 'providerRef', 'providerDefinitionRef', 'outcome', 'reason', 'useRef'],
-    skillUse: ['instructionKey', 'timeMs', 'kind', 'source', 'target', 'skillKey', 'providerRef', 'processKey', 'useRef', 'hitRef', 'reason'],
+    skillAction: ['instructionKey', 'parentInstructionKey', 'requestedAtMs', 'actualAtMs', 'action', 'source', 'target', 'skillKey', 'bindingKey', 'providerRef', 'providerDefinitionRef', 'outcome', 'reason', 'useRef'],
+    skillUse: ['instructionKey', 'timeMs', 'kind', 'source', 'target', 'skillKey', 'providerRef', 'processKey', 'stepKey', 'stepVersion', 'executionIndex', 'useRef', 'hitRef', 'reason'],
     healing: ['timeMs', 'source', 'target', 'abilityRef', 'operationRef', 'useRef', 'instructionKey', 'rawAmount', 'healingAfterDone', 'healingAfterModifiers', 'actualHealing', 'overheal', 'hpBefore', 'hpAfter'],
     damage: ['damageId', 'attackIndex', 'timeMs', 'instructionKey', 'useRef', 'hitRef', 'owner', 'source', 'target', 'abilityRef', 'operationRef', 'operationPath', 'providerDefinitionRef', 'castInstanceId', 'damageType', 'rawAmount', 'postDefenseDamage', 'shieldAbsorbed', 'actualHpLoss', 'overkillDamage', 'hpBefore', 'hpAfter', 'sourceHpBefore', 'sourceHpAfter'],
     attack: ['planKey', 'attackIndex', 'useRef', 'source', 'target', 'skillKey', 'startAtMs', 'hitAtMs', 'readyAtMs', 'finalReadyAtMs', 'mechanicReadyAtMs', 'actionReadyAtMs', 'nextStartAtMs', 'attackSpeed', 'postDefenseDamage', 'actualHpLoss', 'sourceHpAfter', 'targetHpAfter', 'completed'],

@@ -37,8 +37,10 @@ async function sample() {
   finalSnapshot.combatants[1]!.attributes.hp!.current = 0;
   finalSnapshot.processInstances = [1, 2, 3].map(index => ({ owner: 'source', target: 'target', providerRef: 'selected_basic_attack',
     processKey: 'attack', skillKey: plan.skillKey, useKey: `use_${index}`, stepKey: 'begin', stepVersion: 1,
+    stepExecutionIndex: 1, lastExecutionAtMs: (index - 1) * 1000, stepCompletedAtMs: (index - 1) * 1000,
     startedAtMs: (index - 1) * 1000, stepStartedAtMs: (index - 1) * 1000, advanceAtMs: (index - 1) * 1000,
-    expiresAtMs: null, actualCosts: {}, cooldownStarted: true, status: 'complete', failureReason: null, finishedAtMs: (index - 1) * 1000 }));
+    expiresAtMs: null, actualCosts: {}, cooldownStarted: true, status: 'complete', failureReason: null, finishedAtMs: (index - 1) * 1000,
+    repeat: null, actionOccupancies: [] }));
   const done: DoneResult = { ok: true,
     summary: { durationMs: 2000, stopReason: 'target_dead', sourceFinalHp: 650, targetFinalHp: 0,
       sourceDamageDealt: 300, targetDamageTaken: 300, sourceDamageTaken: 0, targetDamageDealt: 0,
@@ -92,8 +94,10 @@ describe('6B新增行动事实不放宽既有严格核对', () => {
       skillKey: binding.skillKey, bindingKey: binding.bindingKey, abilityRef: binding.controls[0]!.abilityRef, action: 'INITIAL', hitBindings: [] }];
     input.done.finalSnapshot.processInstances!.push({ owner: 'source', target: 'target', providerRef: binding.providerRef, processKey: 'cast', skillKey: binding.skillKey,
       useKey: 'skill:locked', stepKey: 'delay', stepVersion: 1, startedAtMs: 500, stepStartedAtMs: 500, advanceAtMs: 2000, expiresAtMs: 2000,
-      actualCosts: {}, cooldownStarted: false, status: 'complete', failureReason: null, finishedAtMs: 2000 });
-    input.done.skillActionRecords = [{ instructionKey: 'locked', requestedAtMs: 500, actualAtMs: 500, source: 'source', target: 'target',
+      stepExecutionIndex: 1, lastExecutionAtMs: 2000, stepCompletedAtMs: 2000,
+      actualCosts: {}, cooldownStarted: false, status: 'complete', failureReason: null, finishedAtMs: 2000, repeat: null,
+      actionOccupancies: [{ stepKey: 'delay', stepVersion: 1, startedAtMs: 500, expectedEndAtMs: 2000, finishedAtMs: 2000 }] });
+    input.done.skillActionRecords = [{ instructionKey: 'locked', parentInstructionKey: null, requestedAtMs: 500, actualAtMs: 500, source: 'source', target: 'target',
       skillKey: binding.skillKey, bindingKey: binding.bindingKey, providerRef: binding.providerRef, providerDefinitionRef: binding.providerDefinitionRef,
       action: 'INITIAL', outcome: 'ACCEPTED', reason: null, useRef: 'skill:locked' }];
     for (const truncated of [false, true]) {

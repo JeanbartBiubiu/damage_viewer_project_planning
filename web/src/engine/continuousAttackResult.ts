@@ -5,6 +5,7 @@ import type {
 import type { OperationOrigin } from './simulationAdapter';
 import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
+import { inspectSimulationProcessFacts, simulationActionContribution } from './simulationProcessFacts';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
@@ -111,6 +112,9 @@ function damageContract(ability: AbilityDefinition, suffix: string, origin: Oper
     }
     if (matcher.all?.includes('event/ability_started') && matcher.all.includes('event/source_owner')) {
       return { kind: 'active', allowed: true, required: false, origin };
+    }
+    if (matcher.all?.includes('event/skill_hit') && matcher.all.includes('event/source_owner')) {
+      return { kind: 'active', allowed: origin.abilityRef.startsWith('source.provider['), required: false, origin };
     }
     if (!matcher.all?.includes('event/basic_attack_hit') || !matcher.all.includes('event/source_owner')) return undefined;
     const allowed = origin.abilityRef.startsWith('source.provider[') && !matcher.none?.some(key => eventTypes.includes(key));
@@ -344,36 +348,13 @@ export function assessContinuousAttackResult(
   const initialAmmo = ammoDeclarations.length === 1 ? ammoDeclarations[0]![1].defaultValue : undefined;
   const initialMechanicReadyAt = nullableTime(basic.initialMechanicReadyAtMs ?? null, 'summary.basicAttack.initialMechanicReadyAtMs');
   const initialActionReadyAt = nullableTime(basic.initialActionReadyAtMs, 'summary.basicAttack.initialActionReadyAtMs');
-  const acceptedActions = new Map((done.skillActionRecords ?? []).filter(action => action.outcome === 'ACCEPTED' && action.useRef)
-    .map(action => [action.useRef!, action]));
-  const occupiedProcesses = (done.finalSnapshot.processInstances ?? []).filter(process => {
-    const binding = input.rules.skillActionBindings?.find(binding => process.owner === binding.source && process.providerRef === binding.providerRef
-      && process.skillKey === binding.skillKey && process.processKey === binding.controls[0]?.processKey);
-    const definition = binding && input.sharedProviders?.find(provider => provider.providerKey === binding.providerDefinitionRef)
-      ?.processes?.find(definition => definition.processKey === process.processKey);
-    const step = definition?.steps.find(step => step.stepKey === process.stepKey);
-    if (!binding || step?.occupiesAction !== true || process.advanceAtMs <= process.startedAtMs) return false;
-    const action = acceptedActions.get(process.useKey);
-    const candidates = request.driverPlan.skillActions?.filter(action => action.bindingKey === binding.bindingKey
-      && action.firstAtMs === process.startedAtMs && action.source === process.owner && action.target === process.target) ?? [];
-    check(candidates.length > 0 && process.startedAtMs <= finalTime && Number.isSafeInteger(process.advanceAtMs)
-      && (process.status === 'complete' ? process.finishedAtMs === process.advanceAtMs && process.failureReason === null
-        : process.status === 'active' ? process.finishedAtMs === null && process.advanceAtMs > durationMs
-          : process.status === 'failed' && process.finishedAtMs !== null && process.finishedAtMs <= durationMs)
-      && (done.recording?.skillActionRecordsTruncated || !!action && candidates.some(candidate => candidate.instructionKey === action.instructionKey)
-        && action.providerRef === binding.providerRef && action.skillKey === binding.skillKey),
-    'processInstances.actionReady', '行动贡献没有对应已接受指令、明确占用步骤或真实过程期限');
-    return true;
-  });
+  const processFacts = mixed ? inspectSimulationProcessFacts(input, request, done) : { issues: [], occupancies: [] };
+  issues.push(...processFacts.issues);
   const actualAttackStarts = [...processUses.values()].map(process => process.startedAtMs as number).sort((first, second) => first - second);
   const firstActualStart = actualAttackStarts[0] ?? Infinity;
-  const expectedActionContribution = (start: number, end: number): number | null => {
-    const deadlines = occupiedProcesses.filter(process => process.startedAtMs >= start && process.startedAtMs < end)
-      .map(process => process.advanceAtMs);
-    return deadlines.length ? Math.max(...deadlines) : null;
-  };
-  for (const start of actualAttackStarts) check(!occupiedProcesses.some(process => start >= process.stepStartedAtMs
-    && start < (process.finishedAtMs ?? process.advanceAtMs)), 'processInstances.actionReady', '真实普攻不能在已提交行动占用期间开始');
+  const expectedActionContribution = (start: number, end: number) => simulationActionContribution(processFacts.occupancies, start, end);
+  for (const start of actualAttackStarts) check(!processFacts.occupancies.some(occupancy => start >= occupancy.startedAtMs
+    && start < (occupancy.finishedAtMs ?? occupancy.expectedEndAtMs)), 'processInstances.actionReady', '真实普攻不能在完整已提交占用历史内开始');
   check(initialActionReadyAt === expectedActionContribution(0, firstActualStart),
     'summary.basicAttack.initialActionReadyAtMs', '首刀贡献必须完整对应首刀前真实占用实例，不能省略或伪造');
   check(initialActionReadyAt === null || mixed && initialActionReadyAt > 0,

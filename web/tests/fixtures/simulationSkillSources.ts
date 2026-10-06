@@ -1,4 +1,5 @@
 import { simulationSkillSourceIdentity } from '../../src/services/simulationSkillSourceIdentity';
+import { plannedSkillRuleKeys } from '../../src/engine/simulationSkillSourceDescription';
 import type { SimulationSelection, SimulationSkillOrigin, SimulationSkillSetting, SimulationSkillSource, SimulationSnapshot } from '../../src/types/simulationSnapshot';
 
 const naturalEvents = new Set(['SOURCE_INITIALIZED', 'BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'BASIC_ATTACK_RECEIVED',
@@ -19,10 +20,10 @@ export function syncSimulationSkillSources(snapshot: SimulationSnapshot): Simula
       const selectedAttack = side === 'source' && origin.kind === 'CHARACTER' && relation.skillKey === snapshot.selection.basicAttackSkillKey;
       const skillLevel = selectedAttack ? snapshot.selection.basicAttackLevel : grantedLevel ?? setting?.skillLevel ?? previous.get(identity)?.skillLevel ?? null;
       const enabled = setting?.enabled ?? true;
-      const planned = side === 'source' && snapshot.selection.plannedSkills.some(plan => simulationSkillSourceIdentity(plan.origin, plan.skillKey) === identity);
+      const planned = side === 'source' ? snapshot.selection.plannedSkills.find(plan => simulationSkillSourceIdentity(plan.origin, plan.skillKey) === identity) : undefined;
+      const plannedRoots = configuration && planned ? plannedSkillRuleKeys(configuration, planned.phaseKinds) : [];
       const rules = configuration?.triggerRules.filter(rule => naturalEvents.has(rule.eventSource.eventType)
-        || planned && (rule.eventSource.eventType === 'SKILL_USED' && rule.eventSource.detail.castPhase === 'INITIAL'
-          || rule.eventSource.eventType === 'SKILL_HIT')) ?? [];
+        || plannedRoots.includes(rule.ruleKey)) ?? [];
       const inactiveReason = relation.skillStatus === 'DISABLED' ? 'GLOBAL_DISABLED' : !enabled ? 'SCENE_DISABLED' : skillLevel === 0 ? 'UNLEARNED'
         : origin.kind === 'CHARACTER' && configuration?.skill.skillCategoryKeys.includes('basic_attack') && !selectedAttack ? 'NO_AUTONOMOUS_ATTACK'
           : !configuration || !rules.length ? configuration?.triggerRules.some(rule => rule.eventSource.eventType === 'SKILL_USED' || rule.eventSource.eventType === 'SKILL_HIT')

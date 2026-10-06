@@ -78,11 +78,22 @@ export function SkillFormulaDraftDialog({
     setApplyError(null);
     reportDirty(next);
   };
-  const close = () => {
-    if (JSON.stringify(draft) !== JSON.stringify(initial)
-      && !window.confirm('当前公式修改尚未确认，确定放弃吗？')) return;
+  const actuallyClose = () => {
     onDirtyChange(false);
     onClose();
+  };
+  const close = () => {
+    if (JSON.stringify(draft) !== JSON.stringify(initial)) {
+      Modal.confirm({
+        title: '放弃公式修改',
+        content: '当前公式修改尚未确认，确定放弃吗？',
+        okText: '放弃',
+        cancelText: '继续编辑',
+        onOk: actuallyClose
+      });
+      return;
+    }
+    actuallyClose();
   };
   const apply = () => {
     if (!attributesReady) {

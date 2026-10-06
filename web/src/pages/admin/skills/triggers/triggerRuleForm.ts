@@ -91,6 +91,7 @@ import {
   SKILL_PROCESS_MOMENT_TYPE_LABELS
 } from '../processes/processForm';
 import { SKILL_INTERNAL_STATE_TYPE_LABELS } from '../processes/internalStateForm';
+import { allowsChargeHitValue, type ChargeHitContext } from './chargeHitContext';
 
 export const SKILL_TRIGGER_KEY_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
 
@@ -1520,9 +1521,13 @@ export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
 
 export function allowedEventValuesFor(
   eventSource: SkillTriggerEventSource,
-  stepType: SkillProcessStepType | null = null
+  stepType: SkillProcessStepType | null = null,
+  chargeHitContext?: ChargeHitContext
 ): SkillTriggerEventValueKey[] {
   switch (eventSource.eventType) {
+    case 'SKILL_HIT':
+      return [...SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES.SKILL_HIT,
+        ...(allowsChargeHitValue(eventSource, chargeHitContext) ? ['CHARGE_DURATION_MS' as const] : [])];
     case 'PROCESS_MOMENT': {
       const momentType = eventSource.detail.moment.momentType;
       const values: SkillTriggerEventValueKey[] = [];
@@ -2483,9 +2488,10 @@ export function analyzeEventSwitchImpact(
   draft: SkillTriggerRuleDraft,
   nextSource: SkillTriggerEventSource,
   stepType: SkillProcessStepType | null = null,
-  processes?: ReadonlyArray<SourceCastResourceCostProcess>
+  processes?: ReadonlyArray<SourceCastResourceCostProcess>,
+  chargeHitContext?: ChargeHitContext
 ): EventSwitchImpact {
-  const allowed = new Set(allowedEventValuesFor(nextSource, stepType));
+  const allowed = new Set(allowedEventValuesFor(nextSource, stepType, chargeHitContext));
   const staleValues = SKILL_TRIGGER_EVENT_VALUE_KEYS.filter((key) => (
     usesEventValueKey(draft, key) && !allowed.has(key)
   ));
@@ -2628,10 +2634,11 @@ export function applyEventSwitchCleanup(
   draft: SkillTriggerRuleDraft,
   nextSource: SkillTriggerEventSource,
   stepType: SkillProcessStepType | null = null,
-  processes?: ReadonlyArray<SourceCastResourceCostProcess>
+  processes?: ReadonlyArray<SourceCastResourceCostProcess>,
+  chargeHitContext?: ChargeHitContext
 ): SkillTriggerRuleDraft {
   const hasEventSource = eventHasEventSource(nextSource.eventType);
-  const allowed = allowedEventValuesFor(nextSource, stepType);
+  const allowed = allowedEventValuesFor(nextSource, stepType, chargeHitContext);
   const nextGroups = draft.conditionGroups.map((group) => {
     const conditions: SkillTriggerConditionDraft[] = [];
     for (const condition of group.conditions) {
@@ -3433,6 +3440,7 @@ export function validateSkillTriggerDraft(
     effectsByKey?: ReadonlyMap<string, SkillEffect>;
     damageTypesByKey?: ReadonlyMap<string, DamageType>;
     processesByKey?: ReadonlyMap<string, SkillProcess>;
+    triggerRules?: readonly SkillTriggerRuleDetail[];
     statesByKey?: ReadonlyMap<string, SkillInternalState>;
     stepType?: SkillProcessStepType | null;
   }
@@ -3454,7 +3462,9 @@ export function validateSkillTriggerDraft(
     fieldErrors.eventSource = INCOMPLETE_CATALOG_MESSAGE;
   }
 
-  const allowedValues = allowedEventValuesFor(draft.eventSource, options.stepType ?? null);
+  const chargeHitContext = options.skillKey && options.processesByKey && options.triggerRules
+    ? { skillKey: options.skillKey, processes: [...options.processesByKey.values()], rules: options.triggerRules } : undefined;
+  const allowedValues = allowedEventValuesFor(draft.eventSource, options.stepType ?? null, chargeHitContext);
   const hasEventSource = eventHasEventSource(draft.eventSource.eventType);
   if (draft.eventSource.eventType === 'SOURCE_INITIALIZED'
     || draft.eventSource.eventType === 'BASIC_ATTACK_RECEIVED') {

@@ -267,6 +267,84 @@ test('冲突保留草稿，成功后回读失败保留冻结内容并可只读�
   expect(api.writes).toHaveLength(2);
 });
 
+test('公式关闭确认：未修改或恢复原值后直接关闭', async ({ page }) => {
+  const api = new ConfigurationApi();
+  await api.install(page);
+  const nativeDialogs: string[] = [];
+  page.on('dialog', async (dialog) => {
+    nativeDialogs.push(dialog.message());
+    await dialog.dismiss();
+  });
+  await openSkills(page);
+  const workspace = await openExistingSkill(page, 'sample_q', '参数与公式');
+  const editFormula = workspace.getByRole('button', { name: '编辑', exact: true }).last();
+  const formulaDialog = page.getByRole('dialog', { name: '编辑公式 · 总伤害', exact: true });
+
+  await editFormula.click();
+  await formulaDialog.getByRole('button', { name: '取消', exact: true }).click();
+  await expect(formulaDialog).toBeHidden();
+  await expect(page.getByRole('dialog', { name: '放弃公式修改', exact: true })).toBeHidden();
+
+  await editFormula.click();
+  await formulaDialog.getByRole('textbox', { name: '公式名称', exact: true }).fill('临时公式名');
+  await formulaDialog.getByRole('textbox', { name: '公式名称', exact: true }).fill('总伤害');
+  await formulaDialog.getByRole('button', { name: '取消', exact: true }).click();
+  await expect(formulaDialog).toBeHidden();
+  await expect(page.getByRole('dialog', { name: '放弃公式修改', exact: true })).toBeHidden();
+  await expect(workspace.getByText('已读取', { exact: true })).toBeVisible();
+  expect(nativeDialogs).toEqual([]);
+  expect(api.writes).toHaveLength(0);
+  expect(api.unexpected).toEqual([]);
+});
+
+for (const closeMethod of ['取消按钮', '关闭按钮', '遮罩'] as const) {
+  test(`公式关闭确认：${closeMethod}保留继续编辑并明确放弃`, async ({ page }) => {
+    const api = new ConfigurationApi();
+    await api.install(page);
+    const nativeDialogs: string[] = [];
+    page.on('dialog', async (dialog) => {
+      nativeDialogs.push(dialog.message());
+      await dialog.dismiss();
+    });
+    await openSkills(page);
+    const workspace = await openExistingSkill(page, 'sample_q', '参数与公式');
+    const editFormula = workspace.getByRole('button', { name: '编辑', exact: true }).last();
+    await editFormula.click();
+    const formulaDialog = page.getByRole('dialog', { name: '编辑公式 · 总伤害', exact: true });
+    await formulaDialog.getByRole('textbox', { name: '公式名称', exact: true }).fill('未确认的公式名');
+    const closeFormula = async () => {
+      if (closeMethod === '取消按钮') {
+        await formulaDialog.getByRole('button', { name: '取消', exact: true }).click();
+      } else if (closeMethod === '关闭按钮') {
+        await formulaDialog.locator('.arco-modal-close-icon').click();
+      } else {
+        await page.locator('.arco-modal-wrapper:visible').click({ position: { x: 5, y: 5 } });
+      }
+    };
+    const confirmation = page.getByRole('dialog', { name: '放弃公式修改', exact: true });
+
+    await closeFormula();
+    await expect(confirmation).toBeVisible();
+    await expect(confirmation.getByText('当前公式修改尚未确认，确定放弃吗？')).toBeVisible();
+    await confirmation.getByRole('button', { name: '继续编辑', exact: true }).click();
+    await expect(confirmation).toBeHidden();
+    await expect(formulaDialog).toBeVisible();
+    await expect(formulaDialog.getByRole('textbox', { name: '公式名称', exact: true })).toHaveValue('未确认的公式名');
+    await expect(workspace.getByText('未保存', { exact: true })).toBeVisible();
+
+    await closeFormula();
+    await confirmation.getByRole('button', { name: '放弃', exact: true }).click();
+    await expect(confirmation).toBeHidden();
+    await expect(formulaDialog).toBeHidden();
+    await expect(workspace.getByText('已读取', { exact: true })).toBeVisible();
+    await editFormula.click();
+    await expect(formulaDialog.getByRole('textbox', { name: '公式名称', exact: true })).toHaveValue('总伤害');
+    expect(nativeDialogs).toEqual([]);
+    expect(api.writes).toHaveLength(0);
+    expect(api.unexpected).toEqual([]);
+  });
+}
+
 test('未保存参数可被同次新建公式选择，两项共同保存并重开', async ({ page }) => {
   const api = new ConfigurationApi();
   await api.install(page);

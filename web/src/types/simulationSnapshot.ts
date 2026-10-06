@@ -42,11 +42,13 @@ export type SimulationSkillSource = {
 
 export type SimulationSelectedBuild = { definition: BuildDefinition; configuration: BuildConfiguration };
 
+export type SimulationSkillPhase = 'INITIAL' | 'CHARGE_RELEASE' | 'RECAST' | 'CANCEL';
+
 export type SimulationPlannedSkill = {
   origin: Extract<SimulationSkillOrigin, { kind: 'CHARACTER' }>;
   skillKey: string;
   skillLevel: number;
-  phaseKinds: ['INITIAL'];
+  phaseKinds: SimulationSkillPhase[];
 };
 
 export type SimulationSelection = {

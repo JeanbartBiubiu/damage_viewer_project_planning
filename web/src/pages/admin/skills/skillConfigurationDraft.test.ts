@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { SkillConfiguration } from '../../../types/skillConfiguration';
 import type { SkillEffect } from '../../../types/skillEffect';
 import type { SkillInternalState } from '../../../types/skillInternalState';
-import { fixedValue } from '../../../types/numericValue';
+import { fixedValue, parameterValue, formulaValue } from '../../../types/numericValue';
 import { skillEffectToDraft } from './effects/effectForm';
 import { skillInternalStateToDraft } from './processes/internalStateForm';
 import {
@@ -45,6 +45,44 @@ const baseline: SkillConfiguration = {
 };
 
 describe('技能配置草稿', () => {
+  it('指定窗口两端引用同次新增参数和公式完整聚合保存与回读，引用反查保护删除', () => {
+    const complete = structuredClone(baseline);
+    complete.parameters.push({ ...baseline.parameters[1]!, parameterKey: 'first', name: '首段', valueType: 'INTEGER', fixedValue: 2 },
+      { ...baseline.parameters[1]!, parameterKey: 'last', name: '末段', valueType: 'INTEGER', fixedValue: 13 });
+    complete.formulas.push({ gameId: 'demo', skillKey: 'sample_q', formulaKey: 'last_formula', name: '末段公式', description: null, sortOrder: 0,
+      expression: { nodeType: 'PARAMETER', parameterKey: 'last' }, createdAt: '', updatedAt: '' });
+    complete.processes.push({ gameId: 'demo', skillKey: 'sample_q', processKey: 'channel', name: '指定窗口引导', activationType: 'ACTIVE',
+      description: null, sortOrder: 0, cooldown: null, createdAt: '', updatedAt: '',
+      steps: [{ stepKey: 'channel', name: '指定窗口', stepType: 'CHANNEL', occupiesAction: true, description: null, sortOrder: 0,
+        detail: { durationValue: fixedValue(20), executionCountValue: fixedValue(4), firstExecution: 'CUSTOM_WINDOW',
+          firstExecutionOffsetValue: parameterValue('first'), lastExecutionOffsetValue: formulaValue('last_formula') } }],
+      effectBindings: [], stateOperations: [] });
+    const draft = configurationToDraft(complete);
+    const process = complete.processes[0]!;
+    draft.processes[0]!.value = { processKey: process.processKey, name: process.name, activationType: process.activationType,
+      description: process.description, sortOrder: process.sortOrder, cooldown: process.cooldown, steps: process.steps,
+      effectBindings: process.effectBindings, stateOperations: process.stateOperations };
+    const built = buildConfigurationChanges(baseline, draft, null);
+    expect(built.ok, JSON.stringify(built)).toBe(true);
+    if (!built.ok) return;
+    expect(built.changes.map(change => [change.objectType, change.operation, change.key])).toEqual([
+      ['PARAMETER', 'CREATE', 'first'], ['PARAMETER', 'CREATE', 'last'], ['FORMULA', 'CREATE', 'last_formula'], ['PROCESS', 'CREATE', 'channel']
+    ]);
+    expect(configurationMatchesRequest(complete, undefined, built.changes)).toBe(true);
+    const damaged = structuredClone(complete);
+    const step = damaged.processes[0]!.steps[0]!;
+    if (step.stepType !== 'CHANNEL') throw new Error('样例步骤不符');
+    step.detail.lastExecutionOffsetValue = fixedValue(13);
+    expect(configurationMatchesRequest(damaged, undefined, built.changes)).toBe(false);
+    for (const kind of ['parameter', 'formula'] as const) {
+      const changed = configurationToDraft(complete);
+      if (kind === 'parameter') changed.parameters = changed.parameters.filter(entry => entry.draft.parameterKey !== 'first');
+      else changed.formulas = [];
+      const result = buildConfigurationChanges(complete, changed, null);
+      expect(result.ok).toBe(false);
+      if (!result.ok) expect(Object.values(result.processErrors).join(';')).toContain('仍引用');
+    }
+  });
   it('过程与规则引用同次新增效果时一起生成变更并回读核对', () => {
     const process: SkillProcess = {
       gameId: 'demo', skillKey: 'sample_q', processKey: 'cast', name: '施放',

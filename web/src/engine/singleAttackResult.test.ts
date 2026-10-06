@@ -35,7 +35,7 @@ function sample(options: { damage?: number; hp?: number; hitCount?: number; atta
   source.cooldowns[controlRef] = { readyAtMs: 1500, remainingMs: 1500 };
   const instance: ProcessInstanceSnapshot = { ...processIdentity, owner: 'source', target: 'target', startedAtMs: 0,
     stepStartedAtMs: 0, advanceAtMs: 0, expiresAtMs: null, actualCosts: {}, cooldownStarted: true,
-    status: 'complete', finishedAtMs: 0 };
+    status: 'complete', finishedAtMs: 0, repeat: null, actionOccupancies: [], stepExecutionIndex: 1, lastExecutionAtMs: 0, stepCompletedAtMs: 0 };
   finalSnapshot.processInstances = [instance];
   const evidence: EvidenceItem[] = [
     { timeMs: 0, kind: 'emitted_event', ref: 'event/basic_attack_start', data: { ...identity, eventType: 'event/basic_attack_start', castInstanceId: 1 } },

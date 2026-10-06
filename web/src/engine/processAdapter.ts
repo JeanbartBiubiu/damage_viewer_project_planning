@@ -247,7 +247,7 @@ function readMoment(value: SkillProcessMoment, path: string): ProcessMomentDefin
 }
 
 function stepAllows(step: SkillProcessStep, momentType: ProcessMomentType): boolean {
-  if (step.stepType === 'IMMEDIATE' || step.stepType === 'DELAY') {
+  if (['IMMEDIATE', 'DELAY', 'MULTI_HIT', 'CHANNEL'].includes(step.stepType)) {
     return momentType === 'STEP_START' || momentType === 'STEP_EXECUTION' || momentType === 'STEP_COMPLETE';
   }
   if (step.stepType === 'CHARGE' || step.stepType === 'RECAST') {
@@ -266,7 +266,7 @@ function assertMomentFits(moment: ProcessMomentDefinition, steps: readonly Skill
 function compileSteps(process: SkillProcess, state: NumericCompileState): ProcessStepDefinition[] {
   const root = planPath(process.skillKey, `processes.${process.processKey}.steps`);
   if (!Array.isArray(process.steps)) fail(root, '步骤必须是数组');
-  if (!process.steps.length) fail(root, '过程缺少步骤');
+  if (!process.steps.length || process.steps.length > 64) fail(root, '过程需要1～64个明确步骤');
   const ordered = stableSorted(process.steps, (step) => {
     if (typeof step.sortOrder !== 'number' || !Number.isFinite(step.sortOrder)) fail(`${root}.sortOrder`, '步骤排序必须是有限数值');
     return step.sortOrder;
@@ -282,13 +282,52 @@ function compileSteps(process: SkillProcess, state: NumericCompileState): Proces
     if (seen.has(stepKey)) fail(`${path}.stepKey`, '步骤标识重复');
     seen.add(stepKey);
     if (!isRecord(step.detail)) fail(`${path}.detail`, '步骤明细必须是对象');
-    if (terminal) fail(path, '蓄力或重施只能位于末尾');
+    if (terminal) fail(path, '复杂步骤只能位于末尾且至多一个');
     if (step.stepType === 'IMMEDIATE') {
       exactKeys(step.detail, [], `${path}.detail`);
       steps.push({ stepKey, stepType: 'IMMEDIATE' });
     } else if (step.stepType === 'DELAY') {
       exactKeys(step.detail, ['delayValue'], `${path}.detail`);
       steps.push({ stepKey, stepType: 'DELAY', delayMs: compileTime(step.detail.delayValue, `${path}.detail.delayValue`, state, 'positive') });
+    } else if (step.stepType === 'MULTI_HIT') {
+      exactKeys(step.detail, ['repeatCountValue', 'intervalValue'], `${path}.detail`);
+      const repeatCount = compileExecutionCount(step.detail.repeatCountValue, `${path}.detail.repeatCountValue`, state);
+      if (step.detail.intervalValue === null && tryFoldConstant(repeatCount) !== 1) {
+        fail(`${path}.detail.intervalValue`, '只有明确单段可不填间隔，多段必须声明正整数间隔');
+      }
+      terminal = true;
+      steps.push({ stepKey, stepType: 'MULTI_HIT', repeatCount, intervalMs: step.detail.intervalValue === null ? null
+        : compileTime(step.detail.intervalValue, `${path}.detail.intervalValue`, state, 'positive') });
+    } else if (step.stepType === 'CHANNEL') {
+      const customWindow = step.detail.firstExecution === 'CUSTOM_WINDOW';
+      exactKeys(step.detail, ['durationValue', 'executionCountValue', 'firstExecution',
+        ...(customWindow ? ['firstExecutionOffsetValue', 'lastExecutionOffsetValue'] : [])], `${path}.detail`);
+      if (!['IMMEDIATE', 'AFTER_INTERVAL', 'CUSTOM_WINDOW'].includes(step.detail.firstExecution)) fail(`${path}.detail.firstExecution`, '必须明确首段口径');
+      const durationMs = compileTime(step.detail.durationValue, `${path}.detail.durationValue`, state, 'positive');
+      const executionCount = compileExecutionCount(step.detail.executionCountValue, `${path}.detail.executionCountValue`, state);
+      const duration = tryFoldConstant(durationMs);
+      const count = tryFoldConstant(executionCount);
+      const firstExecutionOffsetMs = customWindow
+        ? compileTime(step.detail.firstExecutionOffsetValue!, `${path}.detail.firstExecutionOffsetValue`, state, 'nonNegative') : undefined;
+      const lastExecutionOffsetMs = customWindow
+        ? compileTime(step.detail.lastExecutionOffsetValue!, `${path}.detail.lastExecutionOffsetValue`, state, 'nonNegative') : undefined;
+      if (customWindow) {
+        const first = tryFoldConstant(firstExecutionOffsetMs!);
+        const last = tryFoldConstant(lastExecutionOffsetMs!);
+        if (first !== null && last !== null) {
+          if (first > last) fail(`${path}.detail.lastExecutionOffsetValue`, '末段偏移不能小于首段偏移');
+          if (count !== null && (count === 1 ? first !== last : last - first < count - 1)) {
+            fail(`${path}.detail.lastExecutionOffsetValue`, '单段首末偏移必须相等，多段窗口须容纳不同整数时点');
+          }
+        }
+        if (duration !== null && last !== null && last > duration) fail(`${path}.detail.lastExecutionOffsetValue`, '末段偏移不能超过完整引导时长');
+        if (duration !== null && first !== null && first > duration) fail(`${path}.detail.firstExecutionOffsetValue`, '首段偏移不能超过完整引导时长');
+      } else if (duration !== null && count !== null && duration < count) {
+        fail(`${path}.detail.durationValue`, '引导时长不得小于次数，须保留不同整数段时点');
+      }
+      terminal = true;
+      steps.push({ stepKey, stepType: 'CHANNEL', durationMs, executionCount, firstExecution: step.detail.firstExecution,
+        ...(customWindow ? { firstExecutionOffsetMs, lastExecutionOffsetMs } : {}) });
     } else if (step.stepType === 'CHARGE') {
       exactKeys(step.detail, ['minimumChargeValue', 'maximumChargeValue', 'releaseAtMaximum'], `${path}.detail`);
       if (typeof step.detail.releaseAtMaximum !== 'boolean') fail(`${path}.detail.releaseAtMaximum`, '释放到最大值必须明确');
@@ -308,9 +347,16 @@ function compileSteps(process: SkillProcess, state: NumericCompileState): Proces
       if (count !== 1) fail(`${path}.detail.maximumRecastCountValue`, '重施次数必须为 1');
       terminal = true;
       steps.push({ stepKey, stepType: 'RECAST', windowMs: compileTime(step.detail.windowValue, `${path}.detail.windowValue`, state, 'positive') });
-    } else fail(`${path}.stepType`, '本期只接受 IMMEDIATE、DELAY，以及末尾至多一个 CHARGE 或单次 RECAST');
+    } else fail(`${path}.stepType`, '本期只接受即时、延时及末尾唯一有限多段、引导、蓄力或单次重施');
   }
   return steps.map(step => ({ ...step, occupiesAction: ordered.find(author => author.stepKey === step.stepKey)!.occupiesAction ?? null }));
+}
+
+function compileExecutionCount(value: NumericValue, path: string, state: NumericCompileState): GenericFormulaExpr {
+  const expression = compileFoldable(value, path, state, '段数不能使用未供值的计算时输入');
+  const count = tryFoldConstant(expression);
+  if (count !== null && (!Number.isSafeInteger(count) || count < 1 || count > 64)) fail(path, '实际段数必须为1～64整数');
+  return expression;
 }
 
 function lookupEffect(authored: AuthoredProcessProgram, effectKey: string, path: string): SkillEffect {

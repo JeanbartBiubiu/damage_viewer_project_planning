@@ -1,6 +1,6 @@
 import type { ProviderDefinition } from '../types/genericEngine';
 import type { SkillConfiguration } from '../types/skillConfiguration';
-import type { SimulationSkillOrigin, SimulationSkillSource, SimulationSnapshot } from '../types/simulationSnapshot';
+import type { SimulationSkillOrigin, SimulationSkillPhase, SimulationSkillSource, SimulationSnapshot } from '../types/simulationSnapshot';
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import { NumericAdaptationError } from './numericAdapter';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
@@ -29,11 +29,15 @@ function fail(path: string, message: string): never { throw new NumericAdaptatio
 
 const OWN_ATTACK_EVENTS = new Set(['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'HIT_LINK_APPLIED', 'ATTACK_LINK_APPLIED']);
 
-export function plannedSkillRuleKeys(configuration: SkillConfiguration) {
+export function plannedSkillRuleKeys(configuration: SkillConfiguration, phases: readonly SimulationSkillPhase[] = ['INITIAL']) {
+  const processes = new Set(configuration.triggerRules.filter(rule => rule.eventSource.eventType === 'SKILL_USED'
+    && rule.eventSource.detail.sourceSkillKey === configuration.skill.skillKey && rule.eventSource.detail.castPhase === 'INITIAL')
+    .flatMap(rule => rule.actions.filter(action => action.actionType === 'START_PROCESS').map(action => action.detail.processKey)));
   return configuration.triggerRules.filter(rule => {
     const event = rule.eventSource;
-    return rule.actions.length && (event.eventType === 'SKILL_USED' && event.detail.castPhase === 'INITIAL'
+    return rule.actions.length && (event.eventType === 'SKILL_USED' && event.detail.castPhase !== null && phases.includes(event.detail.castPhase)
       && event.detail.sourceSkillKey === configuration.skill.skillKey
+      || event.eventType === 'PROCESS_CANCEL_REQUESTED' && phases.includes('CANCEL') && processes.has(event.detail.processKey)
       || event.eventType === 'SKILL_HIT' && event.detail.sourceSkillKey === configuration.skill.skillKey);
   }).map(rule => rule.ruleKey).sort();
 }
@@ -55,7 +59,9 @@ function activeReachableRoots(snapshot: SimulationSnapshot) {
       const event = rule.eventSource;
       if (!rule.actions.length) continue;
       if (event.eventType === 'SOURCE_INITIALIZED' || entry.side === 'source'
-        && (event.eventType === 'SKILL_HIT' || event.eventType === 'SKILL_USED' && event.detail.castPhase === 'INITIAL')
+        && (event.eventType === 'SKILL_HIT' || event.eventType === 'SKILL_USED' && event.detail.castPhase !== null
+          && snapshot.selection.plannedSkills.some(plan => plan.phaseKinds.includes(event.detail.castPhase!)
+            && (event.detail.sourceSkillKey === null || event.detail.sourceSkillKey === plan.skillKey)))
         && (event.detail.sourceSkillKey === null || snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey))) selected.add(rule.ruleKey);
     }
     roots.set(identity(entry.side, entry.source), selected);
@@ -96,9 +102,9 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
     const reachable = activeReachableRoots(snapshot);
     const keys = new Set(snapshot[side].skillSources.filter(source => source.skillKey === configuration.skill.skillKey)
       .flatMap(source => [...(reachable.get(`${side}:${simulationSkillSourceIdentity(source.origin, source.skillKey)}`) ?? [])]));
-    const planned = snapshot.selection.plannedSkills.some(plan => plan.skillKey === configuration.skill.skillKey);
+    const plan = snapshot.selection.plannedSkills.find(plan => plan.skillKey === configuration.skill.skillKey);
     return configuration.triggerRules.filter(rule => keys.has(rule.ruleKey)
-      && !(planned && plannedSkillRuleKeys(configuration).includes(rule.ruleKey))).map(rule => rule.ruleKey).sort();
+      && !(plan && plannedSkillRuleKeys(configuration, plan.phaseKinds).includes(rule.ruleKey))).map(rule => rule.ruleKey).sort();
   }
   const allSides = new Set(['SOURCE_INITIALIZED', 'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN']);
   return configuration.triggerRules.filter(rule => {
@@ -115,7 +121,9 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
         && event.detail.sourceSkillKey === configuration.skill.skillKey) return false;
       return side === 'source' && (event.detail.sourceSkillKey === null || event.detail.sourceSkillKey === snapshot.selection.basicAttackSkillKey
         || snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey))
-        && (event.eventType !== 'SKILL_USED' || event.detail.castPhase === 'INITIAL');
+        && (event.eventType !== 'SKILL_USED' || event.detail.castPhase === 'INITIAL' || event.detail.castPhase !== null
+          && snapshot.selection.plannedSkills.some(plan => plan.phaseKinds.includes(event.detail.castPhase!)
+            && (event.detail.sourceSkillKey === null || event.detail.sourceSkillKey === plan.skillKey)));
     }
     return false;
   }).map(rule => rule.ruleKey).sort();
@@ -197,7 +205,8 @@ export function validateSimulationSkillSourceManifest(snapshot: SimulationSnapsh
         const selectedPrimary = side === 'source' && source.origin.kind === 'CHARACTER'
           && source.skillKey === snapshot.selection.basicAttackSkillKey;
         const planned = sourceIsPlanned(snapshot, side, source);
-        const roots = [...naturalRuleKeys(snapshot, configuration, side), ...(planned ? plannedSkillRuleKeys(configuration) : [])];
+        const plan = snapshot.selection.plannedSkills.find(plan => simulationSkillSourceIdentity(plan.origin, plan.skillKey) === identity);
+        const roots = [...naturalRuleKeys(snapshot, configuration, side), ...(planned && plan ? plannedSkillRuleKeys(configuration, plan.phaseKinds) : [])];
         if (planned && (source.inactiveReason !== null || !roots.length)) fail(`${side}.skillSources.${source.skillKey}`, '计划来源必须具备真实已启用首次入口');
         if (source.inactiveReason === 'NO_AUTONOMOUS_ATTACK') {
           const undrivenPrimary = source.origin.kind === 'CHARACTER' && !selectedPrimary

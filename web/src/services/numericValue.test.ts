@@ -46,6 +46,21 @@ const slots = roots.flatMap(({ root, domain }) => paths(root).map((path) => ({ r
 const fail = (path: string): never => { throw new Error(`协议不符：${path}`); };
 
 describe('34处数值响应统一契约', () => {
+  it('指定窗口响应必须完整且严格解析三种NumericValue，旧口径不能夹带端点', () => {
+    const process = { cooldown: null, stateOperations: [], steps: [{ stepType: 'CHANNEL', detail: {
+      durationValue: fixedValue(20), executionCountValue: fixedValue(4), firstExecution: 'CUSTOM_WINDOW',
+      firstExecutionOffsetValue: parameterValue('first'), lastExecutionOffsetValue: formulaValue('last') } }] };
+    expect(() => assertNumericUses(process, 'process', fail)).not.toThrow();
+    for (const field of ['firstExecutionOffsetValue', 'lastExecutionOffsetValue']) {
+      for (const value of [undefined, null, 'old_formula', { kind: 'FIXED', value: 0, parameterKey: 'first' }]) {
+        const copy = structuredClone(process);
+        Object.assign(copy.steps[0]!.detail, { [field]: value });
+        expect(() => assertNumericUses(copy, 'process', fail)).toThrow(field);
+      }
+    }
+    process.steps[0]!.detail.firstExecution = 'IMMEDIATE';
+    expect(() => assertNumericUses(process, 'process', fail)).toThrow('firstExecutionOffsetValue');
+  });
   it('覆盖全部使用位置', () => expect(slots).toHaveLength(34));
   it.each(slots)('$label 接收三种形状并拒绝旧字符串、混合与缺失字段', ({ root, domain, path }) => {
     const copy = structuredClone(root);

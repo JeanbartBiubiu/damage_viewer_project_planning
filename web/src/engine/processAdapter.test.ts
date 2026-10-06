@@ -550,7 +550,7 @@ describe('processAdapter', () => {
       expect(() => adaptProcessProgram(authored)).toThrow(pattern);
     };
     reject((authored) => { authored.process.activationType = 'PASSIVE'; }, /ACTIVE/);
-    reject((authored) => { authored.process.steps = [step('CHANNEL', 'bad', { durationValue: fixedValue(1), executionCountValue: fixedValue(1), firstExecution: 'IMMEDIATE' })]; }, /IMMEDIATE|DELAY|CHARGE|RECAST/);
+    reject((authored) => { authored.process.steps = [step('CHANNEL', 'bad', { durationValue: fixedValue(1), executionCountValue: fixedValue(0), firstExecution: 'IMMEDIATE' })]; }, /1～64/);
     reject((authored) => {
       authored.process.steps = [step('RECAST', 'again', { windowValue: fixedValue(1000), maximumRecastCountValue: fixedValue(2) }, 20), step('IMMEDIATE', 'start', {}, 10)];
     }, /末尾|重施次数必须为 1/);

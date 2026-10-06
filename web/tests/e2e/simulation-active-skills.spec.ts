@@ -170,7 +170,7 @@ test('真实索拉卡原始生命上限40%等值、两侧边界及满生命溢�
   const maximum = snapshot.source.selectedLevelValues.hp!;
   const ratios = [(maximum * .4 - .1) / maximum, .4, (maximum * .4 + .1) / maximum, 1];
   const results = [];
-  for (const ratio of ratios) results.push(await runSample(page, snapshot, sample, ratio, 1));
+  for (const ratio of ratios) results.push(await runSample(page, snapshot, sample, ratio));
   const healing = results.map(result => result.baseline.healingRecords!.filter(row => row.instructionKey === 'first_cast'));
   expect(healing.every(rows => rows.length === 1), '冻结互斥分支只能治疗一次').toBe(true);
   expect(healing[0]![0]!.rawAmount).toBeGreaterThan(healing[1]![0]!.rawAmount);
@@ -182,10 +182,11 @@ test('真实索拉卡原始生命上限40%等值、两侧边界及满生命溢�
 test('真实库奇初始死亡时指令未到达，不伪造尝试、成功使用或命中', async ({ request, page }) => {
   const sample = samples[0];
   const snapshot = await realSnapshot(request, sample);
-  const result = await runSample(page, snapshot, sample, 0, 1);
+  const result = await runSample(page, snapshot, sample, 0);
   expect(result.baseline.summary.skillActions).toEqual({ plannedCount: 1, reachedCount: 0, acceptedCount: 0,
     rejectedCount: 0, abortedBeforeAcceptCount: 0, unreachedCount: 1 });
-  expect(result.baseline.summary.skillUses).toEqual({ startedCount: 0, releasedCount: 0, hitCount: 0, completedCount: 0, failedCount: 0, inFlightCount: 0 });
+  expect(result.baseline.summary.skillUses).toEqual({ startedCount: 0, releasedCount: 0, hitCount: 0, completedCount: 0, failedCount: 0, inFlightCount: 0,
+    stepEnteredCount: 0, stepExecutedCount: 0, stepCompletedCount: 0 });
   expect(result.baseline.skillActionRecords).toEqual([]);
   expect(result.baseline.damageRecords).toEqual([]);
 });

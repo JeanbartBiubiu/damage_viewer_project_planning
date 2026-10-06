@@ -482,13 +482,13 @@ export type DriverPlan = {
 
 export type SkillActionBinding = {
   bindingKey: string; source: 'source'; providerRef: string; providerDefinitionRef: string; skillKey: string;
-  controls: Array<{ action: 'INITIAL'; processKey: string; abilityRef: string }>;
+  controls: Array<{ action: SkillActionPhase; processKey: string; abilityRef: string }>;
   hitBindings: Array<{ hitBindingKey: string; processKey: string; moment: ProcessMomentDefinition; hitAbilityRef: string }>;
 };
 
 export type SkillActionPlan = {
   instructionKey: string; firstAtMs: number; sortOrder: number; source: 'source'; target: 'source' | 'target';
-  skillKey: string; bindingKey: string; action: 'INITIAL'; abilityRef: string; parentInstructionKey?: string | null;
+  skillKey: string; bindingKey: string; action: SkillActionPhase; abilityRef: string; parentInstructionKey?: string | null;
   hitBindings: Array<{ hitBindingKey: string; preset: 'TARGET_HIT' | 'MISS' }>;
 };
 
@@ -530,6 +530,7 @@ export type RecordBudget = { maxAttackRecords?: number; maxDamageRecords?: numbe
   maxSkillActionRecords?: number; maxSkillUseRecords?: number; maxHealingRecords?: number };
 
 export type ProcessControlAction = 'INITIAL' | 'RECAST' | 'CHARGE_RELEASE' | 'CANCEL' | 'INTERRUPT';
+export type SkillActionPhase = Exclude<ProcessControlAction, 'INTERRUPT'>;
 
 export type ProcessFailureReason =
   | 'CONTROLLED'
@@ -547,7 +548,7 @@ export type ProcessControlDefinition = {
   useRefFromEvent?: boolean;
 };
 
-export type ProcessStepType = 'IMMEDIATE' | 'DELAY' | 'CHARGE' | 'RECAST';
+export type ProcessStepType = 'IMMEDIATE' | 'DELAY' | 'CHARGE' | 'RECAST' | 'MULTI_HIT' | 'CHANNEL';
 
 export type ProcessMomentType =
   | 'PROCESS_START'
@@ -567,6 +568,13 @@ export type ProcessMomentDefinition = {
 export type ProcessStepDefinition = {
   stepKey: string;
   occupiesAction?: boolean | null;
+  repeatCount?: GenericFormulaExpr;
+  intervalMs?: GenericFormulaExpr | null;
+  durationMs?: GenericFormulaExpr;
+  executionCount?: GenericFormulaExpr;
+  firstExecution?: 'IMMEDIATE' | 'AFTER_INTERVAL' | 'CUSTOM_WINDOW';
+  firstExecutionOffsetMs?: GenericFormulaExpr;
+  lastExecutionOffsetMs?: GenericFormulaExpr;
   stepType: ProcessStepType;
   delayMs?: GenericFormulaExpr;
   minimumChargeMs?: GenericFormulaExpr;
@@ -602,6 +610,23 @@ export type ProcessDefinition = {
 
 export type ProcessInstanceStatus = 'active' | 'complete' | 'failed';
 
+export type ProcessRepeatSnapshot = {
+  executionCount: number;
+  executionIndex: number;
+  intervalMs: number;
+  firstExecutionOffsetMs: number;
+  lastExecutionOffsetMs: number;
+  nextExecutionAtMs: number | null;
+};
+
+export type ProcessActionOccupancy = {
+  stepKey: string;
+  stepVersion: number;
+  startedAtMs: number;
+  expectedEndAtMs: number;
+  finishedAtMs: number | null;
+};
+
 export type ProcessInstanceSnapshot = {
   owner: 'source' | 'target';
   providerRef: string;
@@ -611,6 +636,9 @@ export type ProcessInstanceSnapshot = {
   target: 'source' | 'target';
   stepKey: string;
   stepVersion: number;
+  stepExecutionIndex: number;
+  lastExecutionAtMs: number | null;
+  stepCompletedAtMs: number | null;
   startedAtMs: number;
   stepStartedAtMs: number;
   advanceAtMs: number;
@@ -620,6 +648,8 @@ export type ProcessInstanceSnapshot = {
   status: ProcessInstanceStatus;
   failureReason: ProcessFailureReason | null;
   finishedAtMs: number | null;
+  repeat: ProcessRepeatSnapshot | null;
+  actionOccupancies: ProcessActionOccupancy[];
 };
 
 export type ProcessCommandFact = {
@@ -699,16 +729,19 @@ export type BasicAttackSummary = { planKey: string; startedCount: number; hitCou
 export type SkillActionSummary = { plannedCount: number; reachedCount: number; acceptedCount: number; rejectedCount: number;
   abortedBeforeAcceptCount: number; unreachedCount: number };
 export type SkillUseSummary = { startedCount: number; releasedCount: number; hitCount: number; completedCount: number;
-  failedCount: number; inFlightCount: number };
+  failedCount: number; inFlightCount: number; stepEnteredCount: number; stepExecutedCount: number; stepCompletedCount: number };
 export type SkillActionRecord = {
-  instructionKey: string; requestedAtMs: number; actualAtMs: number; action: 'INITIAL'; source: string; target: string;
+  instructionKey: string; requestedAtMs: number; actualAtMs: number; action: SkillActionPhase; source: string; target: string;
+  parentInstructionKey: string | null;
   skillKey: string; bindingKey: string; providerRef: string; providerDefinitionRef: string;
   outcome: 'ACCEPTED' | 'REJECTED' | 'ABORTED_BEFORE_ACCEPT'; reason: string | null; useRef: string | null;
 };
+export type SkillUseRecordKind = 'STARTED' | 'RELEASED' | 'HIT' | 'COMPLETED' | 'FAILED' | 'STEP_ENTERED' | 'STEP_EXECUTED' | 'STEP_COMPLETED';
 export type SkillUseRecord = {
-  instructionKey: string; timeMs: number; kind: 'STARTED' | 'RELEASED' | 'HIT' | 'COMPLETED' | 'FAILED';
+  instructionKey: string; timeMs: number; kind: SkillUseRecordKind;
   source: string; target: string; skillKey: string; providerRef: string; processKey: string; useRef: string;
   hitRef: string | null; reason: string | null;
+  stepKey: string; stepVersion: number; executionIndex: number;
 };
 export type HealingRecord = {
   timeMs: number; source: string; target: string; abilityRef: string; operationRef: string; useRef: string | null;

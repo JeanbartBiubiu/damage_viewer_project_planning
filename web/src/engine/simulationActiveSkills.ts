@@ -77,14 +77,15 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   if (!complete) fail(root, '缺少计划技能的完整作者配置');
   validateConfiguration(complete, snapshot.gameId, root, false, plan.skillLevel);
   if (plan.origin.kind !== 'CHARACTER' || plan.origin.characterKey !== snapshot.selection.sourceCharacterKey
-    || complete.skill.skillCategoryKeys.includes('basic_attack') || plan.phaseKinds.length !== 1 || plan.phaseKinds[0] !== 'INITIAL') {
-    fail('selection.plannedSkills', '6B只开放攻击方真实角色主动技能的首次使用，6C仍拒绝');
+    || complete.skill.skillCategoryKeys.includes('basic_attack') || !plan.phaseKinds.includes('INITIAL')
+    || new Set(plan.phaseKinds).size !== plan.phaseKinds.length
+    || plan.phaseKinds.some(phase => !['INITIAL', 'CHARGE_RELEASE', 'RECAST', 'CANCEL'].includes(phase))) {
+    fail('selection.plannedSkills', '只开放攻击方真实角色主动技能，阶段必须明确且包含首次');
   }
-  const roots = plannedSkillRuleKeys(complete);
+  const roots = plannedSkillRuleKeys(complete, plan.phaseKinds);
   const { configuration, excludedRuleKeys } = selectSimulationSkillSourceClosure(complete, roots);
-  if (configuration.processes.length !== 1 || configuration.internalStates.length) fail(root, '6A只开放唯一单段有限施放过程，无未支持的必要状态消费');
+  if (configuration.processes.length !== 1 || configuration.internalStates.length) fail(root, '只开放唯一有限施放过程，无未支持的必要状态消费');
   const process = configuration.processes[0]!;
-  if (process.steps.length !== 1 || !['DELAY', 'IMMEDIATE'].includes(process.steps[0]!.stepType)) fail(`${root}.processes`, '6B只开放一个有限延时或即时步骤，6C仍拒绝');
   for (const step of process.steps) if (typeof step.occupiesAction !== 'boolean') {
     fail(`${root}.processes.${process.processKey}.steps.${step.stepKey}.occupiesAction`, '计划步骤必须由作者明确是否占用行动，不为延时猜默认值');
   }
@@ -102,6 +103,9 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     characterLevel: snapshot.selection.sourceLevel, process, rules: processRules, effects: configuration.effects,
     parameters: configuration.parameters, formulas: configuration.formulas, owner: 'source',
     castCosts: ignoredCosts.map(({ skillKey: _skillKey, ...cost }) => cost), ignoreCastCosts: true, roundPositiveCooldownMs: true });
+  if (adapted.controls.length !== plan.phaseKinds.length || plan.phaseKinds.some(phase => adapted.controls.filter(control => control.action === phase).length !== 1)) {
+    fail(`${root}.triggerRules`, '每个选定阶段必须有唯一真实同源控制，取消必须沿过程取消请求与主动取消失败动作');
+  }
   const providers: ProviderDefinition[] = [];
   const formulas: NamedFormula[] = [...adapted.formulas];
   const types = new Map<string, string>([['combatant/champion', 'combatant'], ['event/ability_started', 'event'], ['event/source_owner', 'event']]);
@@ -155,22 +159,27 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   }
   const binding: SkillActionBinding = { bindingKey: `planned_${providerRef}`, source: 'source', providerRef,
     providerDefinitionRef: definitionRef, skillKey: plan.skillKey,
-    controls: [{ action: 'INITIAL', processKey: process.processKey, abilityRef: `source.provider[${providerRef}].ability[${adapted.initialAbilityKey}]` }], hitBindings: [] };
+    controls: adapted.controls.map(control => ({ action: control.action as SkillActionBinding['controls'][number]['action'],
+      processKey: process.processKey, abilityRef: `source.provider[${providerRef}].ability[${control.abilityKey}]` })), hitBindings: [] };
   const defenses = new Map<string, ReturnType<typeof compileSimulationDamageFormula>>();
   let vampRules: ReturnType<typeof adaptHitProgram>['vampRules'];
   if (hitRules.length) {
+    const terminal = provider.processes[0]!.steps[provider.processes[0]!.steps.length - 1]!;
+    const stepExecution = ['CHARGE', 'RECAST', 'MULTI_HIT', 'CHANNEL'].includes(terminal.stepType);
     const hit = adaptHitProgram({ gameId: snapshot.gameId, skillKey: plan.skillKey, skillLevel: plan.skillLevel,
       characterLevel: snapshot.selection.sourceLevel, rules: hitRules, effects: configuration.effects,
       parameters: configuration.parameters, formulas: configuration.formulas, statuses: snapshot.catalogs.statuses,
       modifierZones: snapshot.catalogs.modifierZones, skillCategoryKeys: configuration.skill.skillCategoryKeys,
-      vampRules: snapshot.catalogs.vampRules.rules, identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } } });
+      vampRules: snapshot.catalogs.vampRules.rules, identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
+      ...(terminal.stepType === 'CHARGE' && (plan.phaseKinds.includes('CHARGE_RELEASE') || terminal.releaseAtMaximum === true)
+        ? { chargeReleaseContext: { process, rules: processRules } } : {}) });
     if (!hit.skillHit.candidates.length) fail(`${root}.triggerRules`, '计划命中缺少完整必要结果');
     const hitAbilityIndex = provider.abilities.length;
     provider.abilities.push({ abilityKey: 'selected_skill_hit', kind: 'active', skillKey: plan.skillKey,
       types: [...new Set([...categories, skillType, ...hit.abilityTypes])], params: hit.params,
       operations: [{ operation: 'resolve_skill_hit', target: 'target', skillHit: hit.skillHit }] });
     binding.hitBindings.push({ hitBindingKey: 'selected_skill_release_hit', processKey: process.processKey,
-      moment: { momentType: 'PROCESS_COMPLETE', stepKey: null, failureReason: null },
+      moment: { momentType: stepExecution ? 'STEP_EXECUTION' : 'PROCESS_COMPLETE', stepKey: stepExecution ? terminal.stepKey : null, failureReason: null },
       hitAbilityRef: `source.provider[${providerRef}].ability[selected_skill_hit]` });
     providers.push(...hit.providers);
     formulas.push(...hit.formulas);

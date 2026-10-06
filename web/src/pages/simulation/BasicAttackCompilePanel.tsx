@@ -37,7 +37,7 @@ import { skillActionRequest, type PreparedSkillAction, type SkillActionInputs, t
 import { assessSkillActionResult, type SkillActionAssessment } from '../../engine/skillActionResult';
 import { SkillActionResult } from './SkillActionResult';
 import { simulationCastCostCandidates, type SimulationCastCostRef } from '../../engine/simulationActiveSkills';
-import { plannedSkillsFromActions } from './simulationSkillActionDrafts';
+import { plannedSkillsFromActions, removeSkillActionDraft, skillActionParentCandidates, skillActionPhases } from './simulationSkillActionDrafts';
 
 export type BasicAttackCompilePanelProps = {
   apiBaseUrl: string;
@@ -663,7 +663,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       return;
     }
     const skillLevel = setting?.skillLevel ?? option.maxLevel;
-    if (!replaceInstructionKey && skillInputs.actions.length >= 64) { setError('本次最多64条明确首次尝试'); return; }
+    if (!replaceInstructionKey && skillInputs.actions.length >= 64) { setError('本次最多64条明确技能指令'); return; }
     const previous = skillInputs.actions.find(row => row.instructionKey === replaceInstructionKey);
     const action: SkillActionInput = { origin, skillKey, skillLevel, instructionKey: previous?.instructionKey ?? `skill_instruction_${nextInstruction.current++}`,
       atMs: previous?.atMs ?? 0, sortOrder: previous?.sortOrder ?? 0, targetSide: previous?.targetSide ?? 'target',
@@ -682,13 +682,18 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
 
   const editSkillAction = (instructionKey: string, patch: Partial<SkillActionInput>) => {
     if (taskRef.current) return;
-    setSkillInputs(current => ({ ...current, actions: current.actions.map(row => row.instructionKey === instructionKey ? { ...row, ...patch } : row) }));
-    invalidateRunResult(true); setError(null); setNotice(null);
+    const actions = skillInputs.actions.map(row => row.instructionKey === instructionKey ? { ...row, ...patch } : row);
+    let plans: SimulationSelection['plannedSkills'];
+    try { plans = plannedSkillsFromActions(actions); } catch (cause) { setError(taskError(cause)); return; }
+    setSkillInputs(current => ({ ...current, actions }));
+    setSelection(current => ({ ...current, plannedSkills: plans }));
+    if (JSON.stringify(plans) !== JSON.stringify(selection.plannedSkills)) { setIgnoredCastCosts([]); clearArtifacts(); }
+    else { invalidateRunResult(true); setError(null); setNotice(null); }
   };
 
   const removeSkillAction = (instructionKey: string) => {
     if (taskRef.current) return;
-    const actions = skillInputs.actions.filter(row => row.instructionKey !== instructionKey);
+    const actions = removeSkillActionDraft(skillInputs.actions, instructionKey);
     const plans = plannedSkillsFromActions(actions);
     setSkillInputs(current => ({ ...current, actions }));
     setSelection(current => ({ ...current, plannedSkills: plans }));
@@ -836,7 +841,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         setNotice(passed ? kind === 'single_attack' ? '单次普攻运行通过，不代表连续攻击通过。'
           : kind === 'continuous_attack' ? task.continuousAssessment?.execution.targetKilled ? '连续普攻已完成击杀，会话正常释放。'
             : '连续普攻已完成观察，目标未被击杀，会话正常释放。'
-          : kind === 'skill_action' ? '指定技能计划观察完成，会话已释放；完整事实以冻结结果为准，6C仍未开放。'
+          : kind === 'skill_action' ? '指定技能计划观察完成，会话已释放；各段与控制只以真实返回事实为准。'
           : '仅编译验证通过，不代表单次/连续计算通过。' : null);
         finishTask(task);
       }
@@ -869,7 +874,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         <Form.Item label="执行范围">
           <Checkbox aria-label="指定技能行动计划" checked={skillMode} disabled={busy} onChange={checked => {
             setSkillMode(checked); setIgnoredCastCosts([]); clearArtifacts();
-          }}>指定技能行动计划（1～64条首次尝试；关闭后保留原普攻模式）</Checkbox>
+          }}>指定技能行动计划（1～64条明确指令；关闭后保留原普攻模式）</Checkbox>
           {skillMode ? <Checkbox aria-label="开启背景普攻" checked={backgroundAttack} disabled={busy} onChange={checked => {
             setBackgroundAttack(checked); clearArtifacts();
           }}>明确开启背景持续普攻（共用原生时钟和唯一下一刀）</Checkbox> : null}
@@ -884,7 +889,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
                   loadImage={imageLoader} onChange={setActiveSkillKey} placeholder="选择攻击方真实绑定技能，完整主动程序另行准入" />
                 <Button disabled={busy || !activeSkillKey || skillInputs.actions.length >= 64} onClick={() => selectActiveSkill(activeSkillKey)}>添加首次尝试</Button>
               </Form.Item>
-              <Typography.Paragraph type="secondary">不同来源{selection.plannedSkills.length}／16，明确指令{skillInputs.actions.length}／64。首次选择使用真实最高等级；来源表中的低等级、0、关闭或清空不会自动覆盖。阶段固定为首次使用。</Typography.Paragraph>
+              <Typography.Paragraph type="secondary">不同来源{selection.plannedSkills.length}／16，明确指令{skillInputs.actions.length}／64。首次选择使用真实最高等级；来源表中的低等级、0、关闭或清空不会自动覆盖。阶段按真实作者入口选择；释放、重施和取消必须明确关联原首次，不补控制时刻。</Typography.Paragraph>
             </> : null}
             <Form.Item label="攻击方角色" required>
               <SimulationEntitySelect label="攻击方角色" value={selection.sourceCharacterKey} options={characters.items}
@@ -970,16 +975,26 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       </Form>
 
       {skillMode ? <section key="skill-action-plan" aria-label="指定技能计划">
-        <Typography.Title heading={5}>指定技能计划：1～64条明确首次尝试</Typography.Title>
-        <Typography.Paragraph>背景普攻{backgroundAttack ? '明确开启' : '关闭'}，指定技能不自动延期、重试或补放。按时刻、同刻顺序、稳定指令标识执行；重复同技能不重复挂载。编辑时刻、顺序等运行输入不读新快照，旧结果立即过期；每次执行前重读完整摘要，变化则拒绝并保留草稿，须重新明确确认。重施、蓄力、取消等6C仍拒绝。</Typography.Paragraph>
+        <Typography.Title heading={5}>指定技能计划：1～64条明确技能指令</Typography.Title>
+        <Typography.Paragraph>背景普攻{backgroundAttack ? '明确开启' : '关闭'}，指定技能不自动延期、重试或补放。按时刻、同刻顺序、稳定指令标识执行；重复同技能不重复挂载。释放、重施或取消必须明确填写时刻并关联排序更早的同来源、同目标、同技能和同等级首次，不默认满蓄力。阶段来自真实作者控制；变更阶段集合须重新读取确认，编辑时刻、顺序仅令结果过期。</Typography.Paragraph>
         <Table<SkillActionInput> data={skillInputs.actions} rowKey="instructionKey" pagination={false} scroll={{ x: 1200 }} columns={[
           { title: '稳定指令标识', dataIndex: 'instructionKey' },
-          { title: '技能／首次阶段／等级', render: (_, row) => <Space direction="vertical">
+          { title: '技能／阶段／等级', render: (_, row) => <Space direction="vertical">
             <Select aria-label={`计划技能 ${row.instructionKey}`} value={row.skillKey} disabled={busy}
               options={activeSkills.items.map(option => ({ value: option.key, label: `${option.name}（${option.key}）` }))}
               onChange={value => selectActiveSkill(value, row.instructionKey)} />
-            <Typography.Text>首次使用 · 等级{row.skillLevel}</Typography.Text>
+            <Select aria-label={`技能阶段 ${row.instructionKey}`} value={row.phaseKind} disabled={busy}
+              options={skillActionPhases(sourcesSnapshot?.skillConfigurations.find(configuration => configuration.skill.skillKey === row.skillKey))
+                .map(value => ({ value, label: { INITIAL: '首次使用', CHARGE_RELEASE: '蓄力释放', RECAST: '重施', CANCEL: '主动取消' }[value] }))}
+              onChange={value => editSkillAction(row.instructionKey, { phaseKind: value, parentInstructionKey: null, hitPreset: null,
+                ...(row.phaseKind === 'INITIAL' && value !== 'INITIAL' ? { atMs: NaN } : {}) })} />
+            <Typography.Text>等级{row.skillLevel}</Typography.Text>
           </Space> },
+          { title: '关联原首次指令', render: (_, row) => row.phaseKind === 'INITIAL' ? <Typography.Text>不关联</Typography.Text>
+            : <Select aria-label={`关联首次指令 ${row.instructionKey}`} value={row.parentInstructionKey ?? undefined} disabled={busy} allowClear
+              placeholder="明确选择排序更早的原首次" onChange={value => editSkillAction(row.instructionKey, { parentInstructionKey: value ?? null })}
+              options={skillActionParentCandidates(skillInputs.actions, row).map(parent => ({ value: parent.instructionKey,
+                label: `${parent.instructionKey} · ${parent.atMs}毫秒 · 顺序${parent.sortOrder}` }))} /> },
           { title: '尝试时刻（毫秒）', render: (_, row) => <InputNumber aria-label={`技能尝试时刻 ${row.instructionKey}`}
             value={Number.isFinite(row.atMs) ? row.atMs : undefined} min={0} precision={0} disabled={busy}
             onChange={value => editSkillAction(row.instructionKey, { atMs: value ?? NaN })} /> },
@@ -990,11 +1005,12 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
             onChange={value => editSkillAction(row.instructionKey, { targetSide: value })}
             options={[{ label: '唯一目标B', value: 'target' }, { label: '攻击方A自身', value: 'source' }]} /> },
           { title: '明确命中预设', render: (_, row) => <Select aria-label={`技能命中预设 ${row.instructionKey}`} value={row.hitPreset ?? undefined}
-            allowClear disabled={busy} onChange={value => editSkillAction(row.instructionKey, { hitPreset: value ?? null })}
+            allowClear disabled={busy || row.phaseKind !== 'INITIAL'} placeholder={row.phaseKind === 'INITIAL' ? '明确填写' : '继承原首次预设'}
+            onChange={value => editSkillAction(row.instructionKey, { hitPreset: value ?? null })}
             options={[{ label: '释放后对唯一目标尝试命中', value: 'TARGET_HIT' }, { label: '本次明确未命中', value: 'MISS' }]} /> },
           { title: '编辑', render: (_, row) => <Button aria-label={`删除指令 ${row.instructionKey}`} disabled={busy} onClick={() => removeSkillAction(row.instructionKey)}>删除</Button> }
         ]} />
-        <Typography.Text type="secondary">自身治疗保持空命中预设、目标为A；伤害技能必须明确选择目标B与命中预设，不模拟弹道。</Typography.Text>
+        <Typography.Text type="secondary">自身治疗保持空命中预设、目标为A；伤害首次必须明确选择目标B与命中预设。控制不重新填写命中，继承原使用；同刻到期先于控制。有限多段及引导由原生求绝对段时点，不模拟弹道。</Typography.Text>
         <Typography.Paragraph type="secondary">主动冷却只读取作者表达式，原值必须为正；原生正数四舍五入且最小1毫秒。装备与固有急速沿实际属性来源合并，不在页面重复折扣；普攻只沿攻速冷却。</Typography.Paragraph>
         <Form layout="vertical">
           {(['maxSkillActionRecords', 'maxSkillUseRecords', 'maxHealingRecords'] as const).map(field => <Form.Item key={field}

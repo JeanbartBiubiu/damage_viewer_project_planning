@@ -124,8 +124,9 @@ export const TIMEOUT_ALLOWED_STEP_TYPES = [
 
 export const FIRST_EXECUTION_LABELS = {
   IMMEDIATE: '立即执行',
-  AFTER_INTERVAL: '等待一个间隔'
-} as const satisfies { [K in SkillProcessFirstExecution]: string };
+  AFTER_INTERVAL: '等待一个间隔',
+  CUSTOM_WINDOW: '指定首末执行窗口'
+} as const satisfies { [K in SkillProcessFirstExecution | 'CUSTOM_WINDOW']: string };
 
 export const EMPOWERED_CONSUME_MOMENT_LABELS = {
   ATTACK_START: '攻击发起',
@@ -168,9 +169,11 @@ export type SkillProcessStepDraft = {
   delayValue: NumericValue | null;
   repeatCountValue: NumericValue | null;
   intervalValue: NumericValue | null;
-  firstExecution: SkillProcessFirstExecution | '';
+  firstExecution: SkillProcessFirstExecution | 'CUSTOM_WINDOW' | '';
   durationValue: NumericValue | null;
   executionCountValue: NumericValue | null;
+  firstExecutionOffsetValue: NumericValue | null;
+  lastExecutionOffsetValue: NumericValue | null;
   minimumChargeValue: NumericValue | null;
   maximumChargeValue: NumericValue | null;
   releaseAtMaximum: boolean;
@@ -251,6 +254,8 @@ export type SkillProcessStepDraftField =
   | 'firstExecution'
   | 'durationValue'
   | 'executionCountValue'
+  | 'firstExecutionOffsetValue'
+  | 'lastExecutionOffsetValue'
   | 'minimumChargeValue'
   | 'maximumChargeValue'
   | 'releaseAtMaximum'
@@ -381,6 +386,8 @@ const STEP_FIELD_BY_PATH: { [path: string]: SkillProcessStepDraftField } = {
   'detail.firstExecution': 'firstExecution',
   'detail.durationValue': 'durationValue',
   'detail.executionCountValue': 'executionCountValue',
+  'detail.firstExecutionOffsetValue': 'firstExecutionOffsetValue',
+  'detail.lastExecutionOffsetValue': 'lastExecutionOffsetValue',
   'detail.minimumChargeValue': 'minimumChargeValue',
   'detail.maximumChargeValue': 'maximumChargeValue',
   'detail.releaseAtMaximum': 'releaseAtMaximum',
@@ -483,6 +490,8 @@ export function createEmptyStepDraft(
         : '',
     durationValue: null,
     executionCountValue: null,
+    firstExecutionOffsetValue: null,
+    lastExecutionOffsetValue: null,
     minimumChargeValue: null,
     maximumChargeValue: null,
     releaseAtMaximum: true,
@@ -607,6 +616,8 @@ export function skillProcessStepToDraft(step: SkillProcessStep): SkillProcessSte
       draft.durationValue = step.detail.durationValue;
       draft.executionCountValue = step.detail.executionCountValue;
       draft.firstExecution = step.detail.firstExecution;
+      draft.firstExecutionOffsetValue = step.detail.firstExecutionOffsetValue ?? null;
+      draft.lastExecutionOffsetValue = step.detail.lastExecutionOffsetValue ?? null;
       break;
     case 'CHARGE':
       draft.minimumChargeValue = step.detail.minimumChargeValue;
@@ -679,6 +690,8 @@ export function applyStepTypeChange(
         : '',
     durationValue: null,
     executionCountValue: null,
+    firstExecutionOffsetValue: null,
+    lastExecutionOffsetValue: null,
     minimumChargeValue: null,
     maximumChargeValue: null,
     releaseAtMaximum: true,
@@ -700,6 +713,8 @@ export function clearHiddenStepFields(draft: SkillProcessStepDraft): SkillProces
       : '',
     durationValue: type === 'CHANNEL' ? draft.durationValue : null,
     executionCountValue: type === 'CHANNEL' ? draft.executionCountValue : null,
+    firstExecutionOffsetValue: type === 'CHANNEL' && draft.firstExecution === 'CUSTOM_WINDOW' ? draft.firstExecutionOffsetValue : null,
+    lastExecutionOffsetValue: type === 'CHANNEL' && draft.firstExecution === 'CUSTOM_WINDOW' ? draft.lastExecutionOffsetValue : null,
     minimumChargeValue: type === 'CHARGE' ? draft.minimumChargeValue : null,
     maximumChargeValue: type === 'CHARGE' ? draft.maximumChargeValue : null,
     releaseAtMaximum: type === 'CHARGE' ? draft.releaseAtMaximum : true,
@@ -805,7 +820,9 @@ export function stepSummary(step: SkillProcessStepDraft): string {
     case 'PERIODIC':
       return `${numericValueSummary(step.repeatCountValue)} / ${numericValueSummary(step.intervalValue)}`;
     case 'CHANNEL':
-      return `${numericValueSummary(step.durationValue)} / ${numericValueSummary(step.executionCountValue)}`;
+      return `${numericValueSummary(step.durationValue)} / ${numericValueSummary(step.executionCountValue)}`
+        + (step.firstExecution === 'CUSTOM_WINDOW'
+          ? ` / 首段${numericValueSummary(step.firstExecutionOffsetValue)}～末段${numericValueSummary(step.lastExecutionOffsetValue)}毫秒` : '');
     case 'CHARGE':
       return `${numericValueSummary(step.minimumChargeValue)} ~ ${numericValueSummary(step.maximumChargeValue)}`;
     case 'RECAST':
@@ -1162,11 +1179,20 @@ function validateStepDetail(
     case 'CHANNEL':
       requireNonEmpty(draft.durationValue, fieldErrors, 'durationValue', '请选择持续时间取值。');
       requireNonEmpty(draft.executionCountValue, fieldErrors, 'executionCountValue', '请选择执行次数取值。');
-      if (draft.firstExecution !== 'IMMEDIATE' && draft.firstExecution !== 'AFTER_INTERVAL') {
+      if (draft.firstExecution !== 'IMMEDIATE' && draft.firstExecution !== 'AFTER_INTERVAL' && draft.firstExecution !== 'CUSTOM_WINDOW') {
         fieldErrors.firstExecution = '请选择首次执行时机。';
       }
       validateFormulaRef(options, draft.durationValue, fieldErrors, 'durationValue');
       validateFormulaRef(options, draft.executionCountValue, fieldErrors, 'executionCountValue');
+      if (draft.firstExecution === 'CUSTOM_WINDOW') {
+        requireNonEmpty(draft.firstExecutionOffsetValue, fieldErrors, 'firstExecutionOffsetValue', '请配置首段执行偏移。');
+        requireNonEmpty(draft.lastExecutionOffsetValue, fieldErrors, 'lastExecutionOffsetValue', '请配置末段执行偏移。');
+        validateFormulaRef(options, draft.firstExecutionOffsetValue, fieldErrors, 'firstExecutionOffsetValue');
+        validateFormulaRef(options, draft.lastExecutionOffsetValue, fieldErrors, 'lastExecutionOffsetValue');
+      } else if (draft.firstExecutionOffsetValue !== null || draft.lastExecutionOffsetValue !== null) {
+        fieldErrors.firstExecution = '只有指定窗口引导可以配置首末执行偏移。';
+      }
+      validateChannelStaticValues(draft, options.parameters ?? [], fieldErrors);
       break;
     case 'CHARGE':
       requireNonEmpty(draft.minimumChargeValue, fieldErrors, 'minimumChargeValue', '请选择最短蓄力取值。');
@@ -1194,6 +1220,41 @@ function validateStepDetail(
       const unexpected: never = draft.stepType;
       void unexpected;
     }
+  }
+}
+
+function validateChannelStaticValues(
+  draft: SkillProcessStepDraft, parameters: readonly SkillParameter[], errors: SkillProcessStepDraftErrors
+): void {
+  const fields = ['durationValue', 'executionCountValue',
+    ...(draft.firstExecution === 'CUSTOM_WINDOW' ? ['firstExecutionOffsetValue', 'lastExecutionOffsetValue'] as const : [])] as const;
+  type Field = typeof fields[number];
+  let combinations: Array<{ levels: Record<string, string>; values: Partial<Record<Field, number>> }> = [{ levels: {}, values: {} }];
+  for (const field of fields) {
+    const value = draft[field];
+    const parameter = value?.kind === 'PARAMETER' ? parameters.find(item => item.parameterKey === value.parameterKey) : undefined;
+    const mode = parameter?.valueMode ?? 'FIXED';
+    const entries: Array<[string, number]> | null = value?.kind === 'FIXED' ? [['', value.value]]
+      : parameter && mode === 'FIXED' && parameter.fixedValue !== null ? [['', parameter.fixedValue]]
+        : parameter && mode !== 'RUNTIME_INPUT' ? Object.entries(parameter.levelValues ?? {}) : null;
+    if (!entries) continue;
+    if (entries.some(([, number]) => !Number.isSafeInteger(number) || number < (field === 'durationValue' || field === 'executionCountValue' ? 1 : 0)
+      || field === 'executionCountValue' && number > 64)) errors[field] = field === 'executionCountValue'
+        ? '执行次数必须为1～64的整数。' : '时间必须为合法安全整数毫秒，完整时长大于零。';
+    combinations = combinations.flatMap(row => entries.filter(([level]) => mode === 'FIXED' || !row.levels[mode] || row.levels[mode] === level)
+      .map(([level, number]) => ({ levels: { ...row.levels, ...(mode === 'FIXED' ? {} : { [mode]: level }) }, values: { ...row.values, [field]: number } })));
+  }
+  for (const { values } of combinations) {
+    const { durationValue: duration, executionCountValue: count, firstExecutionOffsetValue: first, lastExecutionOffsetValue: last } = values;
+    if (draft.firstExecution !== 'CUSTOM_WINDOW') {
+      if (duration !== undefined && count !== undefined && duration < count) errors.durationValue = '等分引导时长不得小于执行次数。';
+      continue;
+    }
+    if (first !== undefined && last !== undefined && (first > last || count !== undefined && (count === 1 ? first !== last : last - first < count - 1))) {
+      errors.lastExecutionOffsetValue = '首段不得晚于末段；单段两端相等，多段跨度至少为次数减一。';
+    }
+    if (duration !== undefined && last !== undefined && last > duration) errors.lastExecutionOffsetValue = '末段偏移不能超过完整引导时长。';
+    if (duration !== undefined && first !== undefined && first > duration) errors.firstExecutionOffsetValue = '首段偏移不能超过完整引导时长。';
   }
 }
 
@@ -1236,7 +1297,11 @@ function buildStep(
         detail: {
           durationValue: draft.durationValue!,
           executionCountValue: draft.executionCountValue!,
-          firstExecution: draft.firstExecution as SkillProcessFirstExecution
+          firstExecution: draft.firstExecution as SkillProcessFirstExecution | 'CUSTOM_WINDOW',
+          ...(draft.firstExecution === 'CUSTOM_WINDOW' ? {
+            firstExecutionOffsetValue: draft.firstExecutionOffsetValue!,
+            lastExecutionOffsetValue: draft.lastExecutionOffsetValue!
+          } : {})
         }
       };
     case 'CHARGE':

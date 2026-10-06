@@ -5,6 +5,7 @@ import type {
 } from '../types/skillEffect';
 import type { SkillFormula } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
+import type { SkillProcess } from '../types/skillProcess';
 import type { GameStatus, StatusKind } from '../types/status';
 import type { ModifierZone } from '../types/modifierZone';
 import type { SkillTriggerCondition, SkillTriggerEventValueCompareCondition, SkillTriggerRuleDetail } from '../types/skillTriggerRule';
@@ -51,6 +52,7 @@ export type AuthoredHitProgram = {
   identity: { source: CombatantIdentityFact; target: CombatantIdentityFact };
   skillCategoryKeys?: readonly string[];
   vampRules?: readonly GameVampRule[];
+  chargeReleaseContext?: { process: SkillProcess; rules: readonly SkillTriggerRuleDetail[] };
 };
 
 export type HitResolveKind = 'skill' | 'basic_attack';
@@ -590,13 +592,45 @@ function assertHitRule(rule: SkillTriggerRuleDetail, authored: AuthoredHitProgra
   }
   for (const action of rule.actions) {
     if (action.actionType !== 'EXECUTE_EFFECT') return fail(`${root}.actions.${action.actionKey}.actionType`, '未支持的过程或动作依赖，按共享契约整体拒绝');
-    if (action.runtimeInputBindings.length || action.resultModifiers.length) {
+    if (action.resultModifiers.length) {
       return fail(`${root}.actions.${action.actionKey}.runtimeInputBindings`, '未支持的动作依赖、来源或目标，按共享契约整体拒绝');
     }
     if (action.targetContext !== 'CURRENT_TARGET') {
       return fail(`${root}.actions.${action.actionKey}.targetContext`, '未支持的目标上下文');
     }
   }
+}
+
+function hitActionState(authored: AuthoredHitProgram, action: SkillTriggerRuleDetail['actions'][number], state: NumericCompileState): NumericCompileState {
+  const reads: Record<string, GenericFormulaExpr> = {};
+  const keys = new Set<string>();
+  const context = authored.chargeReleaseContext;
+  const process = context?.process;
+  const orderedSteps = process && [...process.steps].sort((left, right) => left.sortOrder - right.sortOrder);
+  const terminal = orderedSteps?.[orderedSteps.length - 1];
+  const chargeRelease = process?.gameId === authored.gameId && process.skillKey === authored.skillKey && terminal?.stepType === 'CHARGE'
+    && context!.rules.some(rule => rule.eventSource.eventType === 'SKILL_USED' && rule.eventSource.detail.sourceSkillKey === authored.skillKey
+      && rule.eventSource.detail.useKind === 'ACTIVE' && rule.eventSource.detail.castPhase === 'INITIAL'
+      && rule.actions.length === 1 && rule.actions[0]!.actionType === 'START_PROCESS' && rule.actions[0]!.detail.processKey === process.processKey)
+    && (terminal.detail.releaseAtMaximum === true || context!.rules.some(rule => rule.eventSource.eventType === 'SKILL_USED' && rule.eventSource.detail.sourceSkillKey === authored.skillKey
+      && rule.eventSource.detail.useKind === 'ACTIVE' && rule.eventSource.detail.castPhase === 'CHARGE_RELEASE'
+      && !rule.conditionGroups.length && !rule.perTargetCooldown && !rule.maxTriggersPerProcess && !rule.oncePerUse
+      && rule.actions.length === 1 && rule.actions[0]!.actionType === 'ADVANCE_PROCESS'
+      && rule.actions[0]!.targetContext === null && !rule.actions[0]!.runtimeInputBindings.length && !rule.actions[0]!.resultModifiers.length
+      && rule.actions[0]!.detail.processKey === process.processKey && rule.actions[0]!.detail.stepKey === terminal.stepKey));
+  for (const binding of action.runtimeInputBindings) {
+    const path = planPath(authored.skillKey, `actions.${action.actionKey}.runtimeInputBindings.${binding.bindingKey}`);
+    const parameter = authored.parameters?.filter(parameter => parameter.parameterKey === binding.parameterKey);
+    if (!chargeRelease || binding.sourceType !== 'EVENT_VALUE' || binding.detail.eventValueKey !== 'CHARGE_DURATION_MS'
+      || keys.has(binding.bindingKey) || binding.parameterKey in reads || parameter?.length !== 1
+      || parameter[0]!.gameId !== authored.gameId || parameter[0]!.skillKey !== authored.skillKey || parameter[0]!.valueMode !== 'RUNTIME_INPUT') {
+      fail(path, '仅真实同源蓄力释放的命中动作允许绑定实际蓄力毫秒；其它动态输入或重复绑定仍拒绝');
+    }
+    catalogKey(binding.bindingKey, `${path}.bindingKey`);
+    keys.add(binding.bindingKey);
+    reads[binding.parameterKey] = { op: 'read', path: 'use.charge_duration_ms' };
+  }
+  return { ...state, runtimeInputReads: reads };
 }
 
 export function provenSkillUseFact(input: {
@@ -662,11 +696,12 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
     const converted = convertRuleConditions(rule, authored, state, resolveKind);
     for (const action of stableSorted(rule.actions, (item) => item.sortOrder)) {
       if (action.actionType !== 'EXECUTE_EFFECT') continue;
+      const actionState = hitActionState(authored, action, state);
       const effect = lookupEffect(authored, action.detail.effectKey, planPath(authored.skillKey, `rules.${rule.ruleKey}.actions.${action.actionKey}.detail.effectKey`));
       const occurrence = `${rule.ruleKey}:${action.actionKey}`;
       for (const result of stableSorted(effect.results, (item) => item.sortOrder)) {
         const path = planPath(authored.skillKey, `effects.${effect.effectKey}.results.${result.resultKey}`);
-        const compiled = compileResultOperations(authored, effect, result, path, state, providers, typeEntries, resolveKind);
+        const compiled = compileResultOperations(authored, effect, result, path, actionState, providers, typeEntries, resolveKind);
         if (compiled.vamp) {
           if (vampRules && !sameJson(vampRules, compiled.vamp.rules)) fail(path, '同一命中计划的游戏吸血规则不一致');
           vampRules = compiled.vamp.rules;

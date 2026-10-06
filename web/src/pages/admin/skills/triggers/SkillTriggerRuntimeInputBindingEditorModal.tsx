@@ -24,6 +24,8 @@ import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
 import type { SkillParameter, SkillParameterValueType } from '../../../../types/skillParameter';
+import type { SkillProcessStepType } from '../../../../types/skillProcess';
+import type { ChargeHitContext } from './chargeHitContext';
 import type { GameStatus } from '../../../../types/status';
 import type {
   SkillTriggerCombatStatusValueKind,
@@ -173,6 +175,8 @@ type SkillTriggerRuntimeInputBindingEditorModalProps = {
   reachableParameters: readonly SkillParameter[];
   currentBindings: readonly SkillTriggerRuntimeInputBinding[];
   eventSource: SkillTriggerEventSource;
+  chargeHitContext?: ChargeHitContext;
+  stepType?: SkillProcessStepType | null;
   actions: readonly SkillTriggerActionDraft[];
   currentActionIndex: number;
   internalStates: readonly SkillInternalState[];
@@ -216,6 +220,8 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   reachableParameters,
   currentBindings,
   eventSource,
+  chargeHitContext,
+  stepType,
   actions,
   currentActionIndex,
   internalStates,
@@ -244,7 +250,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   const sourceCostError = current.sourceType === 'SOURCE_CAST_RESOURCE_COST'
     ? sourceCastResourceCostError(current, eventSource, reachableParameters, attributes, attributesLoadState, processes, processesLoadState)
     : null;
-  const allowedValues = allowedEventValuesFor(eventSource);
+  const allowedValues = allowedEventValuesFor(eventSource, stepType, chargeHitContext);
   const subjectOptions = subjectOptionsForEvent(eventSource.eventType);
   const earlierActions = useMemo(
     () => listEarlierExecuteEffectActions(actions, currentActionIndex),

@@ -2,7 +2,7 @@ import { ApiRequestError, encodePathSegment, requestJson, type ApiResult } from 
 import { validateSkillConfiguration } from './skillConfigurationClient';
 import { simulationSkillSourceIdentity } from './simulationSkillSourceIdentity';
 import type {
-  BuildConfiguration, BuildDefinition, SimulationSelection, SimulationSkillSetting, SimulationSkillOrigin, SimulationSnapshot
+  BuildConfiguration, BuildDefinition, SimulationPlannedSkill, SimulationSelection, SimulationSkillSetting, SimulationSkillOrigin, SimulationSnapshot
 } from '../types/simulationSnapshot';
 
 const KEY = /^[a-z][a-z0-9_]{0,63}$/;
@@ -120,9 +120,12 @@ export function normalizeSimulationSelection(value: SimulationSelection): Simula
     exactRecord(plan, ['origin', 'skillKey', 'skillLevel', 'phaseKinds'], path);
     const source = origin(plan.origin, `${path}.origin`);
     if (source.kind !== 'CHARACTER' || source.characterKey !== result.sourceCharacterKey) bad(`${path}.origin`);
-    if (!Array.isArray(plan.phaseKinds) || plan.phaseKinds.length !== 1 || plan.phaseKinds[0] !== 'INITIAL') bad(`${path}.phaseKinds`);
+    if (!Array.isArray(plan.phaseKinds) || !plan.phaseKinds.includes('INITIAL')
+      || new Set(plan.phaseKinds).size !== plan.phaseKinds.length
+      || plan.phaseKinds.some(phase => !['INITIAL', 'CHARGE_RELEASE', 'RECAST', 'CANCEL'].includes(phase))) bad(`${path}.phaseKinds`);
     return { origin: source, skillKey: key(plan.skillKey, `${path}.skillKey`),
-      skillLevel: integer(plan.skillLevel, 1, `${path}.skillLevel`), phaseKinds: ['INITIAL'] as ['INITIAL'] };
+      skillLevel: integer(plan.skillLevel, 1, `${path}.skillLevel`),
+      phaseKinds: [...plan.phaseKinds].sort() as SimulationPlannedSkill['phaseKinds'] };
   }), plan => simulationSkillSourceIdentity(plan.origin, plan.skillKey), 'selection.plannedSkills');
   for (const side of ['source', 'target'] as const) {
     result[`${side}EquipmentKeys`] = normalizeEquipmentKeys(selection[`${side}EquipmentKeys`], `selection.${side}EquipmentKeys`);

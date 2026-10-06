@@ -19,13 +19,31 @@ const { instantiateGenericHost, compileCanonicalSession, runCanonicalSession, re
 const bytes = readFileSync(options.wasm);
 const wasm = { bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex') };
 const files = readdirSync(options.directory).filter(name => name.endsWith('-compile-run.json')).sort();
-assert(files.length > 0, '尚无真实Worker保存的6B请求；不构造替代作者数据');
+assert(files.length > 0, '尚无实际Worker保存的请求；不构造替代作者数据');
+const semanticRun = request => {
+  const { recordBudget, sampling, ...semantics } = request;
+  return semantics;
+};
 for (const name of files) {
   const fixture = JSON.parse(readFileSync(resolve(options.directory, name), 'utf8'));
   if (process.env.SIMULATION_EXPECTED_WASM_SHA256) assert.equal(wasm.sha256, process.env.SIMULATION_EXPECTED_WASM_SHA256.toLowerCase());
   assert.deepEqual(wasm, { bytes: fixture.wasm.bytes, sha256: fixture.wasm.sha256 }, 'Worker请求与当前Wasm身份不同，须按新产物重跑');
   assert(fixture.runRequest.driverPlan.skillActions.length >= 1 && fixture.runRequest.driverPlan.skillActions.length <= 64);
-  assert(fixture.runRequest.driverPlan.skillActions.every(action => action.action === 'INITIAL' && action.parentInstructionKey === null));
+  const earlier = new Map();
+  const ordered = [...fixture.runRequest.driverPlan.skillActions].sort((left, right) => left.firstAtMs - right.firstAtMs || left.sortOrder - right.sortOrder
+    || (left.instructionKey < right.instructionKey ? -1 : left.instructionKey > right.instructionKey ? 1 : 0));
+  for (const action of ordered) {
+    assert(['INITIAL', 'CHARGE_RELEASE', 'RECAST', 'CANCEL'].includes(action.action));
+    if (action.action === 'INITIAL') assert.equal(action.parentInstructionKey, null);
+    else {
+      const parent = earlier.get(action.parentInstructionKey);
+      assert(parent && parent.action === 'INITIAL' && parent.bindingKey === action.bindingKey && parent.source === action.source
+        && parent.target === action.target && parent.skillKey === action.skillKey, '控制必须关联完整排序中更早的同源同目标原首次');
+      assert.deepEqual(action.hitBindings, [], '控制不得改写原首次预设');
+    }
+    assert(!earlier.has(action.instructionKey));
+    earlier.set(action.instructionKey, action);
+  }
   assert.deepEqual(fixture.runRequest.driverPlan.entries, []);
   const host = await instantiateGenericHost(options.wasm);
   const compiled = compileCanonicalSession(host.exports, fixture);
@@ -38,6 +56,10 @@ for (const name of files) {
     const variantFixture = { ...fixture, runRequest: request };
     const done = runCanonicalSession(host.exports, variantFixture, compiled.sessionId, compiled.rulesHash);
     assert.deepEqual(runCanonicalSession(host.exports, variantFixture, compiled.sessionId, compiled.rulesHash), done);
+    if (JSON.stringify(semanticRun(request)) === JSON.stringify(semanticRun(fixture.runRequest))) {
+      assert.deepEqual(done.summary, baseline.summary, '记录或采样变体不得改变完整累计');
+      assert.deepEqual(done.finalSnapshot, baseline.finalSnapshot, '记录或采样变体不得改变完整过程、段与占用历史');
+    }
     variants.push({ index, summary: done.summary, recording: done.recording });
   }
   const withoutRecords = { ...fixture, runRequest: { ...fixture.runRequest, recordBudget: {

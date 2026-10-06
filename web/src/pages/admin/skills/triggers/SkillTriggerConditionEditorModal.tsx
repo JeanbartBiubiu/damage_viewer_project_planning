@@ -5,6 +5,8 @@ import { allowsTargetCategoryCheck, targetCategoryConditionError, targetCategory
 import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerTargetCategory } from '../../../../types/skillTriggerRule';
 import { numericValueError } from '../numericValueForm';
 import type { SkillParameter } from '../../../../types/skillParameter';
+import type { SkillProcessStepType } from '../../../../types/skillProcess';
+import type { ChargeHitContext } from './chargeHitContext';
 import { NumericValueField } from '../NumericValueField';
 import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
 import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
@@ -87,6 +89,8 @@ type SkillTriggerConditionEditorModalProps = {
   effectsLoadState?: 'idle' | 'loading' | 'ready' | 'error';
   onRetryLifecycleEffects: () => Promise<void>;
   eventSource: SkillTriggerEventSource;
+  chargeHitContext?: ChargeHitContext;
+  stepType?: SkillProcessStepType | null;
   attributes: readonly Attribute[];
   statuses: readonly GameStatus[];
   parameters: readonly SkillParameter[];
@@ -124,6 +128,8 @@ export function SkillTriggerConditionEditorModal({
   effectsLoadState,
   onRetryLifecycleEffects,
   eventSource,
+  chargeHitContext,
+  stepType,
   attributes,
   statuses,
   parameters,
@@ -143,7 +149,7 @@ export function SkillTriggerConditionEditorModal({
   );
   const [localError, setLocalError] = useState<string | null>(null);
   const [reloadingEffects, setReloadingEffects] = useState(false);
-  const allowedValues = allowedEventValuesFor(eventSource);
+  const allowedValues = allowedEventValuesFor(eventSource, stepType, chargeHitContext);
   const subjectOptions = subjectOptionsForEvent(eventSource.eventType);
   const conditionTypes = SKILL_TRIGGER_CONDITION_TYPES.filter(
     (value) => value !== 'EVENT_VALUE_COMPARE' || allowedValues.length > 0
