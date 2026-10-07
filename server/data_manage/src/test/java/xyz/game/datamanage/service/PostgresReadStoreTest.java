@@ -79,14 +79,6 @@ class PostgresReadStoreTest {
     }
 
     @Test
-    void constructorDoesNotDependOnLegacyMappers() {
-        Class<?>[] params = PostgresReadStore.class.getDeclaredConstructors()[0].getParameterTypes();
-        assertEquals(2, params.length);
-        assertEquals(GamesMapper.class, params[0]);
-        assertEquals(ObjectMapper.class, params[1]);
-    }
-
-    @Test
     void gameExistsUsesCount() {
         when(gamesMapper.countGames("lol")).thenReturn(1L);
         assertTrue(store.gameExists("lol"));

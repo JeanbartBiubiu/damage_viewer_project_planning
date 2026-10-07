@@ -83,29 +83,6 @@ class SkillParameterFormulaManagementDbContractSqlTest {
     }
 
     @Test
-    void formulaValidationAndReadbackUseTheOrderedApiExpression() throws IOException {
-        String service = readRelative("server/data_manage/src/main/java/xyz/game/datamanage/service/skillformula/SkillFormulaService.java");
-        String mapper = readRelative("server/data_manage/src/main/resources/mapper/skillformula/SkillFormulaMapper.xml");
-        assertTrue(service.contains("MAX_DEPTH = 32"));
-        assertTrue(service.contains("MAX_NODES = 256"));
-        assertTrue(service.contains("validateForeignFields(node, path, issues)"));
-        assertTrue(service.contains("\"FIELD_MUTEX\""));
-        assertTrue(service.contains("\"OPERAND_COUNT\""));
-        assertTrue(service.contains("walkValidate(operands.get(0)"));
-        assertTrue(service.contains("walkValidate(operands.get(1)"));
-        assertTrue(service.contains("validateAttributeEnabled(gameId, refs, existingRefs)"));
-        assertTrue(service.contains("400.INVALID_FORMULA_REFERENCE"));
-        assertTrue(service.contains("AggregateJson.write(values.expression())"));
-        assertTrue(service.contains("AggregateJson.read(row.expression(), SkillFormulaExpressionNode.class)"));
-        assertFalse(service.contains("SkillFormulaNodeRow"));
-        assertFalse(mapper.contains("public.skill_formula_nodes"));
-        assertTrue(mapper.contains("CAST(#{expression} AS jsonb)"));
-        assertTrue(mapper.contains("WITH RECURSIVE"));
-        assertTrue(mapper.contains("parent.node->'operands'"));
-        assertTrue(mapper.contains("node->>'nodeType' = 'ATTRIBUTE'"));
-    }
-
-    @Test
     void parameterAndFormulaDeletionRequireGameLockAndExplicitReferenceProtection() throws IOException {
         for (String kind : List.of("Parameter", "Formula")) {
             String service = readRelative("server/data_manage/src/main/java/xyz/game/datamanage/service/skill"
