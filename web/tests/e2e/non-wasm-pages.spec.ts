@@ -280,6 +280,7 @@ type SkillProcessMomentRow = {
 
 type SkillProcessStepRow = {
   stepKey: string;
+  occupiesAction?: boolean | null;
   name: string;
   stepType: string;
   description: string | null;
@@ -2157,6 +2158,7 @@ class MockApi {
             const item = raw as Json;
             return {
               stepKey: String(item.stepKey),
+              occupiesAction: typeof item.occupiesAction === 'boolean' ? item.occupiesAction : null,
               name: String(item.name),
               stepType: String(item.stepType),
               description: typeof item.description === 'string' ? item.description : null,
@@ -6453,6 +6455,7 @@ test.describe('skill management without Wasm', () => {
     const hitStep = visibleModal(page, '编辑步骤');
     await hitStep.getByLabel('步骤标识', { exact: true }).fill('hit');
     await hitStep.getByLabel('步骤名称', { exact: true }).fill('命中');
+    await chooseSelectOption(page, hitStep, '步骤行动占用', '占用行动');
     await saveOpenModal(hitStep);
 
     await createModal.getByRole('button', { name: '新增步骤', exact: true }).click();
@@ -6460,6 +6463,7 @@ test.describe('skill management without Wasm', () => {
     await delayStep.getByLabel('步骤标识', { exact: true }).fill('delay');
     await delayStep.getByLabel('步骤名称', { exact: true }).fill('延迟');
     await chooseSelectOption(page, delayStep, '步骤种类', '延迟');
+    await chooseSelectOption(page, delayStep, '步骤行动占用', '不占用行动');
     await chooseSelectOption(page, delayStep, '延迟取值', '延迟');
     await saveOpenModal(delayStep);
 
@@ -6513,8 +6517,8 @@ test.describe('skill management without Wasm', () => {
       }
     });
     expect(createProcess.steps).toEqual(expect.arrayContaining([
-      expect.objectContaining({ stepKey: 'hit', stepType: 'IMMEDIATE', detail: {} }),
-      expect.objectContaining({ stepKey: 'delay', stepType: 'DELAY', detail: { delayValue: formulaValue("impact_delay_ms") } })
+      expect.objectContaining({ stepKey: 'hit', stepType: 'IMMEDIATE', occupiesAction: true, detail: {} }),
+      expect.objectContaining({ stepKey: 'delay', stepType: 'DELAY', occupiesAction: false, detail: { delayValue: formulaValue("impact_delay_ms") } })
     ]));
     expect(createProcess.effectBindings).toEqual(expect.arrayContaining([
       expect.objectContaining({
@@ -8309,6 +8313,7 @@ test('casting phase cooldown failure reason clears when ordinary cooldown is dis
   await saveSkillConfiguration(shell);
   expect(mock.skillProcesses[0].cooldown).toEqual({ durationValue: fixedValue(0.5),
     startMoment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null } });
+  expect(mock.skillProcesses[0].steps[0]).toHaveProperty('occupiesAction', null);
   await configurationCard(shell, 'primary_cast').getByRole('button', { name: '编辑', exact: true }).click();
   await expect(visibleModal(page, '编辑过程').getByLabel('冷却时长取值固定数值', { exact: true })).toHaveValue('0.5');
   diagnostics.assertClean('casting phase ordinary cooldown switch clears stale failure reason');
