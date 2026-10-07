@@ -14,6 +14,16 @@ function inputsFor(snapshot: ReturnType<typeof equipmentSimulationSample>) {
 const health = { source: 650, target: 590 };
 
 describe('阶段4A纯属性装备装配', () => {
+  it('名单外的纯属性装备使用真实属性与独立来源，不要求装备编号或被动关系', () => {
+    const snapshot = equipmentSimulationSample(['item_1036']);
+    snapshot.selection.sourceEquipmentKeys = ['authored_plain_equipment'];
+    const item = snapshot.source.selectedEquipment[0]!;
+    item.equipment.equipmentKey = 'authored_plain_equipment';
+    item.attributes.equipmentKey = 'authored_plain_equipment';
+    const result = assembleSimulation(snapshot, inputsFor(snapshot), health);
+    expect(result.compileRequest.combatants[0]!.attributes.attack_damage!.resolved).toBe(70);
+    expect(result.equipmentOrigins).toMatchObject([{ equipmentKey: 'authored_plain_equipment', attributeValues: { attack_damage: 10 } }]);
+  });
   it('每件仅一份item来源，固定增量只进入add修正，固有值不混装', () => {
     const snapshot = equipmentSimulationSample(['item_1036']);
     const result = assembleSimulation(snapshot, inputsFor(snapshot), health);

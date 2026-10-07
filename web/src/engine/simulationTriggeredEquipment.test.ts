@@ -281,16 +281,15 @@ describe('4C完整反曲之弓触发装备装配', () => {
     expect(snapshot).toEqual(before);
   });
 
-  it.each(['item_3124', 'item_3075'])('复杂装备%s明确整件拒绝，不以删除关系或缺项宣称支持', equipmentKey => {
+  it.each(['item_3124', 'item_3075'])('没有技能关系的装备%s按真实直接属性装配，不按编号拒绝', equipmentKey => {
     const snapshot = triggeredEquipmentSimulationSample(['item_1043'], [equipmentKey]);
-    expect(() => inspectSimulationSnapshot(snapshot)).toThrow(/完整启用被动关系/);
+    expect(inspectSimulationSnapshot(snapshot).equipmentOrigins.some(row => row.equipmentKey === equipmentKey)).toBe(true);
   });
 });
 
 const invalidShapes: Array<[string, (snapshot: SimulationSnapshot) => void, RegExp]> = [
   ['未启用技能', snapshot => { configuration(snapshot).skill.status = 'DISABLED'; }, /全局状态不一致/],
   ['多级技能', snapshot => { configuration(snapshot).skill.maxLevel = 2; }, /完整单级/],
-  ['过程', snapshot => { configuration(snapshot).processes.push(structuredClone(snapshot.skillConfigurations[0]!.processes[0]!)); }, /未接入的作者过程/],
   ['内部状态', snapshot => { Object.assign(configuration(snapshot), { internalStates: [{}] }); }, /稳定标识/],
   ['未知配置字段', snapshot => { Object.assign(configuration(snapshot), { hiddenBehavior: true }); }, /hiddenBehavior.*未接入/],
   ['缺失关系', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills = []; }, /原始绑定不一致/],
@@ -313,7 +312,7 @@ const invalidShapes: Array<[string, (snapshot: SimulationSnapshot) => void, RegE
   ['动作目标为自身', snapshot => { configuration(snapshot).triggerRules[0]!.actions[0]!.targetContext = 'EVENT_SOURCE'; }, /事件拥有方/],
   ['未供值的动作绑定', snapshot => { Object.assign(configuration(snapshot).triggerRules[0]!.actions[0]!, { runtimeInputBindings: [{}] }); }, /运行时绑定/],
   ['结果修饰', snapshot => { Object.assign(configuration(snapshot).triggerRules[0]!.actions[0]!, { resultModifiers: [{}] }); }, /结果修饰/],
-  ['错误效果引用', snapshot => { Object.assign(configuration(snapshot).triggerRules[0]!.actions[0]!.detail, { effectKey: 'missing' }); }, /效果引用缺失或重复/],
+  ['错误效果引用', snapshot => { Object.assign(configuration(snapshot).triggerRules[0]!.actions[0]!.detail, { effectKey: 'missing' }); }, /效果引用缺失或重复|必要闭包引用缺失或重复/],
   ['持续效果', snapshot => { Object.assign(configuration(snapshot).effects[0]!, { lifecycle: {} }); }, /生命周期字段/],
   ['空结果', snapshot => { configuration(snapshot).effects[0]!.results = []; }, /完整结果/],
   ['额外并列结果', snapshot => { configuration(snapshot).effects[0]!.results.push(structuredClone(damage(snapshot))); }, /稳定标识重复/],
@@ -455,7 +454,7 @@ function counterSample() {
   onCount.conditionGroups = oneGroup([internalCondition(config, 'hits', 3), internalCondition(config, 'gate', 0, 'REMAINING_MS')]);
   const onExtra = ruleFor(config, 'on_extra', { eventType: 'HIT_LINK_APPLIED', detail: { sourceSkillKey: null } }, [executeAction('on_hit_damage')], 20);
   config.triggerRules = [onHit, onExtra, onCount];
-  return snapshot;
+  return syncSimulationSkillSources(snapshot);
 }
 function receivedSample() {
   const snapshot = genericSample('authored_receiver', false);
@@ -479,7 +478,7 @@ function receivedSample() {
   grievous.actions[0]!.targetContext = 'EVENT_SOURCE';
   grievous.conditionGroups = oneGroup([{ conditionKey: 'champion', conditionType: 'TARGET_CATEGORY_CHECK', sortOrder: 10, detail: { categories: ['CHAMPION'] } }]);
   config.triggerRules = [reflect, grievous];
-  return snapshot;
+  return syncSimulationSkillSources(snapshot);
 }
 function configuredGhostSample() {
   const snapshot = counterSample();
@@ -504,7 +503,7 @@ function configuredGhostSample() {
   if (checkCounter.conditionType === 'INTERNAL_STATE_CHECK' && checkCounter.detail.valueKind === 'VALUE') checkCounter.detail.comparator = 'GTE';
   reward.conditionGroups = oneGroup([checkCounter]);
   config.triggerRules = [base, extra, full, notFull, reward];
-  return snapshot;
+  return syncSimulationSkillSources(snapshot);
 }
 function periodicSample(permanent = false, key = 'authored_periodic') {
   const snapshot = genericSample(key);
@@ -534,7 +533,7 @@ function periodicSample(permanent = false, key = 'authored_periodic') {
         sourceSkillKey: snapshot.selection.basicAttackSkillKey, damageTypeKey: null, deliveryKind: 'BASIC_ATTACK' as const, originKind: 'DIRECT' as const } } };
     config.triggerRules.push(taken);
   }
-  return snapshot;
+  return syncSimulationSkillSources(snapshot);
 }
 function compileWithInputs(snapshot: SimulationSnapshot) {
   const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
@@ -558,7 +557,7 @@ function movementSlowSample(key = 'authored_slow', source = true) {
       reapplicationValueMode: 'REPLACE', periodicExecutionMode: null } }];
   snapshot.catalogs.statuses.push({ gameId: snapshot.gameId, statusKey: 'authored_slow_status', statusKind: 'MOVEMENT_SLOW',
     name: '独立普通减速目录', description: null, status: 'ENABLED', sortOrder: 10, createdAt: '', updatedAt: '' });
-  return snapshot;
+  return syncSimulationSkillSources(snapshot);
 }
 
 function currentHealthBranchesSample() {
@@ -589,7 +588,7 @@ function currentHealthBranchesSample() {
       config.triggerRules.push(rule);
     }
   }
-  return snapshot;
+  return syncSimulationSkillSources(snapshot);
 }
 
 describe('组合补验的通用普通减速与显式身份', () => {
@@ -779,6 +778,7 @@ describe('配置驱动装备通用节点编译', () => {
     config.triggerRules[0]!.eventSource = { eventType: 'BASIC_ATTACK_START', detail: {} };
     config.triggerRules.push({ ...structuredClone(config.triggerRules[0]!), ruleKey: 'explicit_attack_link', sortOrder: 20,
       eventSource: { eventType: 'ATTACK_LINK_APPLIED', detail: { sourceSkillKey: null } } });
+    syncSimulationSkillSources(snapshot);
     const root = rootProvider(assembleTriggeredEquipment(snapshot));
     expect(root.abilities!.map(row => row.listenerSpec!.eventMatcher.all)).toEqual([
       ['event/basic_attack_start', 'event/source_owner'], ['event/attack_link_applied', 'event/source_owner']
@@ -815,13 +815,15 @@ describe('配置驱动装备通用节点编译', () => {
     expect(compileWithInputs(snapshot).operationOrigins.filter(origin => assembled.selectedSkills.has(origin.skillKey))).toHaveLength(2);
   });
 
-  it('删除规则、孤立效果、过程或规则全部明确拒绝，事件替换仅激活新事件', () => {
+  it('删除必要规则仍拒绝，未挂接效果保留排除说明，事件替换仅激活新事件', () => {
     const deleted = genericSample();
     genericConfiguration(deleted).triggerRules = [];
     expect(() => assembleTriggeredEquipment(deleted)).toThrow(/完整效果或触发规则/);
     const unused = genericSample();
     genericConfiguration(unused).effects.push({ ...structuredClone(genericConfiguration(unused).effects[0]!), effectKey: 'unreferenced' });
-    expect(() => assembleTriggeredEquipment(unused)).toThrow(/未接入的作者效果/);
+    expect(assembleTriggeredEquipment(unused).coverage).toContainEqual(expect.objectContaining({
+      authorPath: `skills.${genericConfiguration(unused).skill.skillKey}.effects.unreferenced`, note: expect.stringContaining('没有可达入口')
+    }));
     const relinked = genericSample();
     genericConfiguration(relinked).triggerRules[0]!.eventSource = { eventType: 'HIT_LINK_APPLIED', detail: { sourceSkillKey: null } };
     expect(listener(relinked, 'HIT_LINK_APPLIED').listenerSpec!.eventMatcher.all).toEqual(['event/hit_link_applied', 'event/source_owner']);

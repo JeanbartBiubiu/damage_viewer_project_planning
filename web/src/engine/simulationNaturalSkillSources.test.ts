@@ -397,7 +397,7 @@ describe('5B真实默认来源复用通用触发核心', () => {
     expect(() => scene(source)).toThrow(/排除原因不能隐藏真实自然入口或所选主体/);
   });
 
-  it('此理由不扩展到A自然来源、额外主动或其它独立非本场入口，也不接受空参数技能', () => {
+  it('未驱动主动兄弟可保留；此理由仍不能隐藏A自然来源、未知入口或空配置', () => {
     const source = undrivenTargetSample();
     source.source.skillSources.find(row => row.skillKey === 'sample_natural')!.inactiveReason = 'NO_AUTONOMOUS_ATTACK';
     source.source.skillSources.find(row => row.skillKey === 'sample_natural')!.enabledRuleKeys = [];
@@ -409,7 +409,8 @@ describe('5B真实默认来源复用通用触发核心', () => {
       const snapshot = undrivenTargetSample();
       const configuration = dynamicConfiguration(snapshot);
       configuration.triggerRules.push({ ...structuredClone(configuration.triggerRules[0]!), ruleKey: 'other_entry', eventSource });
-      expect(() => scene(snapshot)).toThrow(/排除原因不能隐藏/);
+      if (eventSource.eventType === 'SKILL_USED') expect(() => scene(snapshot)).not.toThrow();
+      else expect(() => scene(snapshot)).toThrow(/排除原因不能隐藏/);
     }
     const empty = undrivenTargetSample();
     empty.selection.sourceSkillSettings[0]!.enabled = false;
@@ -440,7 +441,7 @@ describe('5B真实默认来源复用通用触发核心', () => {
     expect(() => scene(level)).toThrow(/等级与真实绑定授予不一致/);
   });
 
-  it('普通攻击分类也不能把空配置或独立主动入口伪装成完整不驱动攻击来源', () => {
+  it('普通攻击分类的独立主动兄弟保留但不驱动，空配置仍拒绝', () => {
     for (const active of [false, true]) {
       const snapshot = undrivenTargetSample();
       snapshot.selection.sourceSkillSettings[0]!.enabled = false;
@@ -451,7 +452,8 @@ describe('5B真实默认来源复用通用触发核心', () => {
         eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'sample_natural', useKind: 'ACTIVE', castPhase: 'INITIAL' } } });
       else configuration.triggerRules = [];
       snapshot.target.skillSources.find(row => row.skillKey === 'sample_natural')!.inactiveReason = 'NO_AUTONOMOUS_ATTACK';
-      expect(() => scene(snapshot)).toThrow(/target.skillSources.sample_natural.*排除原因不能隐藏/);
+      if (active) expect(() => scene(snapshot)).not.toThrow();
+      else expect(() => scene(snapshot)).toThrow(/target.skillSources.sample_natural.*排除原因不能隐藏/);
     }
   });
 

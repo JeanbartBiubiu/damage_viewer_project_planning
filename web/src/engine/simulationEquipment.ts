@@ -2,9 +2,7 @@ import type { GenericRules, ProviderDefinition } from '../types/genericEngine';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import { normalizeEquipmentKeys } from '../services/simulationSnapshotClient';
 import { constExpr, finiteNumber, NumericAdaptationError } from './numericAdapter';
-import { PERMANENT_EQUIPMENT_SKILLS } from './simulationEquipmentPassives';
 
-export const PURE_EQUIPMENT_KEYS = ['item_1028', 'item_1036', 'item_1042'] as const;
 export type EquipmentOrigin = {
   side: 'source' | 'target'; equipmentKey: string; equipmentName: string;
   providerRef: string; definitionRef: string; attributeValues: Record<string, number>;
@@ -35,10 +33,6 @@ export function assembleEquipment(snapshot: SimulationSnapshot, skillDerivationS
         fail(path, '装备归属或属性标识不一致');
       }
       if (!Array.isArray(item.attachedSkills)) fail(`${path}.attachedSkills`, '装备必须保留完整技能关系数组');
-      const supportedPassive = PERMANENT_EQUIPMENT_SKILLS[equipmentKey] || item.attachedSkills.length > 0;
-      if (snapshot.gameId !== 'lol' || (!supportedPassive && !PURE_EQUIPMENT_KEYS.includes(equipmentKey as typeof PURE_EQUIPMENT_KEYS[number]))) {
-        fail(path, '该装备尚未核定为4A纯属性，且缺少完整启用被动关系，不能仅取直接属性');
-      }
       const values = item.attributes.attributeValues;
       if (!values || typeof values !== 'object' || Array.isArray(values)) fail(`${path}.attributes.attributeValues`, '需要完整直接属性映射');
       const providerRef = `${side}_equipment_${equipmentKey}`;

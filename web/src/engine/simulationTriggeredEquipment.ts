@@ -16,6 +16,7 @@ import type { FormulaExpressionNode } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import { executableEquipmentRelations, validateSimulationSkillSourceManifest, type TriggeredSkillSourceDescription } from './simulationSkillSourceDescription';
+import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
 import {
   compileFormulaExpression, compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
   NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression
@@ -237,6 +238,7 @@ function validateValueRule(rule: SkillEffectValueRule, path: string) {
 export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): TriggeredEquipmentAssembly {
   validateSimulationSkillSourceManifest(snapshot);
   const descriptions: TriggeredSkillSourceDescription[] = [];
+  const excludedCoverage: SimulationCoverage[] = [];
   for (const side of ['source', 'target'] as const) {
     const keys = array(snapshot.selection[`${side}EquipmentKeys`], `selection.${side}EquipmentKeys`);
     const items = array(snapshot[side].selectedEquipment, `${side}.selectedEquipment`);
@@ -268,12 +270,32 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
         providerRef, definitionRef, path, skills: ordered(relations, `${path}.attachedSkills`).map(relation => {
           const configurations = snapshot.skillConfigurations.filter(row => row.skill.skillKey === relation.skillKey);
           if (configurations.length !== 1) fail(`${path}.attachedSkills`, '完整被动配置缺失或重复，整件装备拒绝');
+          const complete = configurations[0]!;
+          validateConfiguration(complete, snapshot.gameId, `skills.${relation.skillKey}`, true, 1);
+          const source = snapshot[side].skillSources.find(source => source.origin.kind === 'EQUIPMENT'
+            && source.origin.equipmentKey === equipmentKey && source.skillKey === relation.skillKey)!;
+          const rootKeys = source.enabledRuleKeys;
+          const { configuration } = selectSimulationSkillSourceClosure(complete, rootKeys);
+          // 作者说明公式与参数继续完整校验、保留，不把未挂接的值冒充实际效果。
+          configuration.parameters = complete.parameters;
+          configuration.formulas = complete.formulas;
+          for (const [collection, key] of [
+            ['effects', 'effectKey'], ['processes', 'processKey'], ['internalStates', 'stateKey'], ['triggerRules', 'ruleKey']
+          ] as const) for (const authored of complete[collection]) {
+            const stableKey = (authored as unknown as Record<string, unknown>)[key];
+            if (!configuration[collection].some(row => (row as unknown as Record<string, unknown>)[key] === stableKey)) {
+              excludedCoverage.push({ authorPath: `skills.${relation.skillKey}.${collection}.${stableKey}`,
+                compiledPath: 'runtimeOptions.skillOrigins', note: '完整作者配置保留；本场没有可达入口，不生成执行程序' });
+            }
+          }
           return { skillKey: relation.skillKey, skillLevel: 1,
-            path: `${path}.attachedSkills[${relations.indexOf(relation)}]`, configuration: configurations[0]! };
+            path: `${path}.attachedSkills[${relations.indexOf(relation)}]`, configuration, allowedRootKeys: rootKeys };
         }) });
     }
   }
-  return assembleTriggeredSkillSources(snapshot, descriptions);
+  const assembled = assembleTriggeredSkillSources(snapshot, descriptions);
+  assembled.coverage.push(...excludedCoverage);
+  return assembled;
 }
 
 export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, descriptions: readonly TriggeredSkillSourceDescription[]): TriggeredEquipmentAssembly {
@@ -887,6 +909,9 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               }
               cover(effectPath, outputRoot);
             } else if (authored.lifecycle?.instanceScope === 'SOURCE') {
+              if (authored.lifecycle.expiryMode === 'EXPLICIT_ONLY') {
+                fail(effectPath, '本场可达的永久常驻效果尚未接入通用装配，不能只取装备固定属性');
+              }
               const stack = ensureStack(authored);
               const operationPath = `${outputRoot}[${output.length}]`;
               output.push(stateChange(stack.key, stack.policy, constExpr(stack.amount)));
@@ -1158,8 +1183,16 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           } else exact(rule.eventSource.detail, [], `${rulePath}.eventSource.detail`);
           if (event === 'SOURCE_INITIALIZED' && description.kind === 'item') {
             if (rule.conditionGroups.length || rule.oncePerUse !== null) fail(rulePath, '固定周期必须有无条件真实初始化依据');
-            for (const action of rule.actions) if (action.actionType !== 'EXECUTE_EFFECT'
-              || !configuration.effects.find(row => row.effectKey === action.detail.effectKey)?.lifecycle?.periodicIntervalValue) fail(rulePath, '通用初始化只接入完整始终持久周期，4B常驻关系不重复编译');
+            for (const action of rule.actions) {
+              const effect = action.actionType === 'EXECUTE_EFFECT'
+                ? configuration.effects.find(row => row.effectKey === action.detail.effectKey) : undefined;
+              if (effect?.lifecycle?.expiryMode === 'EXPLICIT_ONLY' && effect.lifecycle.periodicIntervalValue === null) {
+                fail(rulePath, '本场可达的永久常驻效果尚未接入通用装配，不能只取装备固定属性');
+              }
+              if (action.actionType !== 'EXECUTE_EFFECT' || !effect?.lifecycle?.periodicIntervalValue) {
+                fail(rulePath, '通用初始化只接入完整始终持久周期，4B常驻关系不重复编译');
+              }
+            }
             const ignored: OperationDefinition[] = [];
             executeActions(rule, ignored, `${compiledRoot}.abilities`, `${side}.provider[${providerRef}]`, event);
             if (ignored.length) fail(rulePath, '固定周期不能把有限窗口改成常驻');

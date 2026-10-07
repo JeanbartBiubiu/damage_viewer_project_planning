@@ -129,8 +129,9 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
   }).map(rule => rule.ruleKey).sort();
 }
 
-function onlyUndrivenAttackRoots(configuration: SkillConfiguration) {
+function onlyUndrivenAttackRoots(configuration: SkillConfiguration, allowDeferredSkills = false) {
   const roots = configuration.triggerRules.filter(rule => (OWN_ATTACK_EVENTS.has(rule.eventSource.eventType)
+    || allowDeferredSkills && ['SKILL_USED', 'SKILL_HIT'].includes(rule.eventSource.eventType)
     || configuration.skill.skillCategoryKeys.includes('basic_attack') && rule.eventSource.eventType === 'SKILL_HIT'
       && (rule.eventSource.detail.sourceSkillKey === null || rule.eventSource.detail.sourceSkillKey === configuration.skill.skillKey))
     && rule.actions.length > 0).map(rule => rule.ruleKey);
@@ -145,7 +146,13 @@ export function executableEquipmentRelations(snapshot: SimulationSnapshot, side:
     const matches = snapshot[side].skillSources.filter(source => source.origin.kind === 'EQUIPMENT'
       && source.origin.equipmentKey === equipmentKey && source.skillKey === relation.skillKey);
     if (matches.length !== 1) fail(`${side}.skillSources`, '装备绑定技能的默认来源缺失或重复');
-    return matches[0]!.enabled && matches[0]!.skillStatus === 'ENABLED' && matches[0]!.skillLevel !== 0;
+    const source = matches[0]!;
+    if (!source.enabled || source.skillStatus !== 'ENABLED' || source.skillLevel === 0) return false;
+    if (source.inactiveReason === 'NO_AUTONOMOUS_ATTACK' || source.inactiveReason === 'ACTIVE_DEFERRED') return false;
+    if (source.inactiveReason !== null || source.skillLevel === null) {
+      fail(`${side}.skillSources.${source.skillKey}`, '开启装备来源缺少完整程序或明确等级，不能只取直接属性');
+    }
+    return true;
   });
 }
 
@@ -213,18 +220,21 @@ export function validateSimulationSkillSourceManifest(snapshot: SimulationSnapsh
             && configuration.skill.skillCategoryKeys.includes('basic_attack')
             && roots.every(key => OWN_ATTACK_EVENTS.has(configuration.triggerRules.find(rule => rule.ruleKey === key)!.eventSource.eventType))
             && onlyUndrivenAttackRoots(configuration);
-          const undrivenNatural = (side === 'target' || snapshot.selection.basicAttackSkillKey === null) && source.origin.kind !== 'EQUIPMENT'
-            && roots.length === 0 && onlyUndrivenAttackRoots(configuration);
+          const undrivenNatural = (side === 'target' || snapshot.selection.basicAttackSkillKey === null)
+            && roots.length === 0 && configuration.triggerRules.some(rule => OWN_ATTACK_EVENTS.has(rule.eventSource.eventType) && rule.actions.length > 0)
+            && onlyUndrivenAttackRoots(configuration, true);
           if (selectedPrimary || source.enabledRuleKeys.length || !undrivenPrimary && !undrivenNatural) {
             fail(`${side}.skillSources.${source.skillKey}`, '无自主普攻排除原因不能隐藏真实自然入口或所选主体，必须是本场不驱动的真实攻击来源');
           }
         }
         if (source.inactiveReason === 'ACTIVE_DEFERRED' && (roots.length
-          || !configuration.triggerRules.some(rule => ['SKILL_USED', 'SKILL_HIT'].includes(rule.eventSource.eventType)))) {
+          || !configuration.triggerRules.some(rule => ['SKILL_USED', 'SKILL_HIT'].includes(rule.eventSource.eventType))
+          || !onlyUndrivenAttackRoots(configuration, true))) {
           fail(`${side}.skillSources.${source.skillKey}`, '主动后置原因不能隐藏真实自然入口');
         }
-        if (source.origin.kind !== 'EQUIPMENT' && source.inactiveReason === null
-          && (source.enabledRuleKeys.length !== roots.length || source.enabledRuleKeys.some(key => !roots.includes(key)))) {
+        if (source.inactiveReason === null
+          && (roots.some(key => !source.enabledRuleKeys.includes(key))
+            || source.origin.kind !== 'EQUIPMENT' && (source.enabledRuleKeys.length !== roots.length || source.enabledRuleKeys.some(key => !roots.includes(key))))) {
           fail(`${side}.skillSources.${source.skillKey}`, '开启来源必须完整保留真实自然入口');
         }
       }

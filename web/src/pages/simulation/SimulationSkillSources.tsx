@@ -17,7 +17,7 @@ type Props = {
 
 const reasonLabels: Record<SimulationSkillInactiveReason, string> = {
   GLOBAL_DISABLED: '全局禁用，本场不能重开', SCENE_DISABLED: '本场关闭', UNLEARNED: '未学（等级0）',
-  NO_AUTONOMOUS_ATTACK: '不是本次自主普攻主体', ACTIVE_DEFERRED: '仅主动入口，阶段6暂缓',
+  NO_AUTONOMOUS_ATTACK: '本场没有该来源的自身攻击入口', ACTIVE_DEFERRED: '仅主动入口，阶段6暂缓',
   CONFIGURATION_INCOMPLETE: '自然程序尚未配置完整', LEVEL_REQUIRED: '自然程序仍需明确技能等级'
 };
 const eventLabels: Record<string, string> = {

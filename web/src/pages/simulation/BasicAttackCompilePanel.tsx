@@ -14,7 +14,7 @@ import {
 import { getErrorMessage } from '../../services/apiClient';
 import { getSimulationSnapshot, normalizeEquipmentKeys, normalizeSimulationSelection } from '../../services/simulationSnapshotClient';
 import { simulationSkillSourceIdentity } from '../../services/simulationSkillSourceIdentity';
-import { equipmentContribution, PURE_EQUIPMENT_KEYS, simulationHealthLimit } from '../../engine/simulationEquipment';
+import { equipmentContribution, simulationHealthLimit } from '../../engine/simulationEquipment';
 import { equipmentRangeRequirements } from '../../engine/simulationEquipmentPassives';
 import type { CompileResult, DoneResult, GenericReleaseDonePayload, RunRequest } from '../../types/genericEngine';
 import type { BuildConfiguration, BuildDefinition, SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth,
@@ -963,7 +963,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
           </section>
         </div>
         <Typography.Paragraph type="secondary">
-          纯属性样本：{PURE_EQUIPMENT_KEYS.join('、')}。被动按完整技能配置激活命中、计数、额外联动、受击及周期；未接入的节点整件拒绝。鬼索、荆棘、日炎部分时序使用项目暂定配置，后续可校准。
+          装备固定属性按真实目录装配，不按装备编号限制。被动按本场可触发的完整分支执行，未触发分支保留配置与审计说明；可触发但未接入的节点仍明确报错。鬼索、荆棘、日炎部分时序使用项目暂定配置，后续可校准。
           同一装备可由双方各选一次。来源开关、技能等级和构筑均按侧别独立；改变选择保留当前生命及属性草稿，必须重新读取快照。
         </Typography.Paragraph>
         <Space wrap>
