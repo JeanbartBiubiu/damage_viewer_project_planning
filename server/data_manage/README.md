@@ -2,9 +2,15 @@
 
 `server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片、属性、角色、装备、构筑系统、技能、状态，以及技能公式、伤害类型结算公式、效果、内部状态、过程和触发规则的录入管理。
 
-当前实现保存、校验和回读配置，并为所选场景提供一致的只读配置快照；不执行公式、过程或事件，不组装 Wasm 请求。旧 `/combat-data/**`、当前版本查询和 `versions:publish` 发布链路已删除。
+当前实现保存、校验和回读配置，并为所选场景提供一致的只读配置快照；只对静态管理位置作精确数值证明，不执行战斗公式、过程或事件，不组装 Wasm 请求。旧 `/combat-data/**`、当前版本查询和 `versions:publish` 发布链路已删除。
 
 阶段4B沿4A快照读取所选完整装备作者树，不新增战斗计算接口或数据库结构。管理页聚合配置保存使用 `PATCH`（部分更新请求方法），`WebCorsConfig` 已允许其跨域预检；鉴权过滤器、令牌校验和写事务约束不变。预检通过不等于管理写入免鉴权。
+
+## 共同公式定义与校验第一阶段
+
+`support/formula/FormulaContractValidator` 提供原始JSON定义及调用者授权绑定目录到首个 `{code,path}` 问题的纯校验入口，成功返回空值。结构读取规划真源生成的规范，校验全部声明与分支的结构、预算、十进制范围、唯一标识、授权绑定、引用和依赖环；保留常量原字符串，不执行算术，也不访问数据库或网络。字段路径使用JSON Pointer（JSON字段定位路径），根为空串。
+
+共享含义以规划真源[共同公式定义与校验详细设计](../../../damage_viewer_project_planning/文档记录/详细设计/项目/共同公式定义与校验详细设计.md)为准。定向检查为 `mvn "-Dtest=FormulaContractValidatorTest" test`，收尾运行 `mvn test`。同源样例来自生成资源，生成文件不得手改；本阶段尚未切换现行管理保存、快照或正式计算入口，不需要数据库迁移。
 
 ## 阶段5B计数保持与属性乘算
 
@@ -313,23 +319,15 @@
 
 ### 伤害类型结算公式
 
-`damage_types.calculation_formula` 是可空 JSONB。NULL 表示未配置；非空只要求根 JSON 对象，五阶段语义由服务校验。不另建公式表、公式键、默认公式或 JSONB 搜索索引，也不按物理、法术、真实等名称生成公式。
+`damage_types.calculation_formula` 是可空 JSONB。NULL 表示未配置；当前非空配置只使用完整共同定义 `inputs/stages/outputStageKey`，十进制常量原字符串保存。结构、运算、预算和错误顺序由共同公式规范与 `FormulaContractValidator` 唯一定义；技能公式第三B同样保存完整共同定义，详见下节。
 
-基础资料的列表、详情、创建和更新响应增加只读 `formulaConfigured`，值为该列非空。创建和基础资料更新不接受这个字段；基础更新只写名称、说明、状态、排序和 `updated_at`，不覆盖公式。
+基础资料响应保留只读 `formulaConfigured`，基础更新仍只修改名称、说明、状态、排序和 `updated_at`。公式子资源为 `/api/admin/games/{gameId}/damage-types/{damageTypeKey}/formula`，GET 返回 `gameId/damageTypeKey/formula/updatedAt`，PUT 请求外层仍为 `{formula}`，DELETE 清空定义。缺公式返回 `404.DAMAGE_TYPE_FORMULA_NOT_FOUND`，游戏和类型缺失分别沿既有404错误。
 
-公式子资源为 `/api/admin/games/{gameId}/damage-types/{damageTypeKey}/formula`：
+保存从当前游戏的真实启用属性目录建立权限，仅授权来源／目标、本帧、BASE／BONUS／TOTAL。参数、上下文、拥有者、事件视图和其他属性口径不在本使用点开放。所有新保存都要求启用绑定；管理读取可以展示停用属性配置以供修复。共同校验返回 `400.VALIDATION_FAILED` 的首个 `fieldIssues`，保留共同错误码和从 `/formula` 开始的JSON字段定位路径；请求外层绑定失败仍为 `400.INVALID_BODY`。后端不求值，不替代动态除零与倍率范围检查。
 
-- GET 返回 `gameId`、`damageTypeKey`、`formula`、`updatedAt`。未配置返回 `404.DAMAGE_TYPE_FORMULA_NOT_FOUND`。
-- PUT 请求体只有 `formula`，新建或完整替换，成功 200，并在同一事务回读。
-- DELETE 只把公式设为 NULL，成功 204。未配置同样返回 `404.DAMAGE_TYPE_FORMULA_NOT_FOUND`。
+保存定义、替换来源引用和提交前检查在游戏行锁事务内完成。`skill_object_references` 的伤害类型来源使用 `DAMAGE_TYPE`、空 `source_skill_key` 与类型原键 `source_key`；两个按来源种类生成的可空所属列分别保留技能和伤害类型外键，原组合主键与目标索引不变。属性引用路径为 `inputs/i/binding/attributeKey`。启用类型不能保留停用依赖；停用类型可保留定义和引用，属性删除仍受保护；再次启用类型或依赖它的技能会按最终目录复核。清空或删除来源只替换本次来源索引，失败则定义与索引一起回滚。
 
-PUT 和 DELETE 先调用 `GameConfigurationWriteGuard.begin(gameId)`，确认游戏和伤害类型，锁定目标行，更新 `updated_at`。游戏或伤害类型不存在仍返回 `404.GAME_NOT_FOUND`、`404.DAMAGE_TYPE_NOT_FOUND`。
-
-`formula` 必须且只能有 `resistanceBeforePenetration`、`penetrationPercent`、`penetrationFlat`、`effectiveResistance`、`resistanceFactor` 五个阶段。每个阶段是一棵表达式树，节点只允许 OPERATION、FIXED、ATTRIBUTE、STAGE_RESULT。运算只允许 ADD、SUBTRACT、MULTIPLY、DIVIDE、MIN、MAX，且恰好两个有序操作数。属性对象沿用 SOURCE、TARGET，取值沿用 BASE、BONUS、TOTAL、CURRENT、MISSING、CURRENT_RATIO、MISSING_RATIO。不接受技能 PARAMETER 节点。每个阶段深度最多 32，节点最多 256。固定值必须是明确的有限数值。
-
-阶段结果只能引用更早的阶段：第一阶段不能引用阶段结果，其后每个阶段只能引用自己之前的阶段。同阶段、后序、未知阶段和回指都拒绝。属性必须属于当前游戏。创建公式只能引用 ENABLED 属性；替换时，已有 DISABLED 引用可以按 `(attributeOwner, attributeKey, attributeValueKind)` 原样保留，改变任一项都算新引用，不能新增停用属性。属性当前没有删除接口，这些游戏级引用不写入 `skill_object_references`。
-
-请求无法绑定的 JSON、字段类型或枚举返回 `400.INVALID_BODY`。阶段、节点、字段互斥、深度、节点数和固定值形状错误返回 `400.VALIDATION_FAILED`。未知属性、跨游戏属性或非法阶段引用返回 `400.INVALID_DAMAGE_TYPE_FORMULA_REFERENCE`。新增停用属性返回 `409.FORMULA_ATTRIBUTE_DISABLED`。同一次检查返回全部可定位 `fieldIssues`，路径形如 `formula.effectiveResistance.operands[1].stageKey`。本模块不执行公式，也不静态检查除零、结果范围或最终倍率。
+本批结构增量为 [damage_type_common_formula_references.sql](../../db/game_manage/migrations/damage_type_common_formula_references.sql)。已有库必须先用 [一次性转换工具](../../tools/authoring/ApplyDamageTypeCommonFormula.java) 只读准备完整前值档案，独立复核后在同事务执行本次DDL、三条旧公式转换和新来源引用插入；不重放初始化，不重建原9900条引用。工具提供明确的 `preview/apply/readback`（预览／应用／独立读回），命令与防重放规则见 [工具说明](../../tools/authoring/README.md)。单测和SQL源文件不表示实库已执行。
 
 ### 技能挂载与代表图片
 
@@ -400,7 +398,7 @@ CORS 当前覆盖 `/api/**`，并暴露 `ETag` 响应头。启动成功但首次
 
 完整作者读取与自然执行闭包分开：`enabledRuleKeys` 回显该实例的有效自然根；闭包继续反查实际可产生的过程、结果、内部状态、生命周期订阅并展开其完整引用，直到稳定。关闭、未学、缺等级和独立主动兄弟不被当作必须执行的依赖。只读定义不自动授予来源或注册订阅；必要运行组成须有同侧实际开启的对应来源，不能以另一实例冒充。响应中的 `references`（引用）反映启用闭包，完整作者内容仍由 `skillConfigurations` 保留。
 
-目录包含真实角色／装备固定属性、开启闭包及伤害类型五阶段公式的依赖。英雄常驻额外攻速同样读取攻速及收益系数目录，不因未选装备而遗漏；角色从未录入的附加数值保持缺失，不补零。固有等级图、原装备属性和必要目录损坏仍拒绝。场景摘要覆盖规范化选择、双方资料、构筑定义／实例、来源设置、等级、自然根、排除原因和完整作者／依赖，全文排除 `readAt`（读取时间）；只改开关或被排除作者内容也会改变摘要。
+目录包含真实角色／装备固定属性、开启闭包及伤害类型完整共同公式的依赖。英雄常驻额外攻速同样读取攻速及收益系数目录，不因未选装备而遗漏；角色从未录入的附加数值保持缺失，不补零。固有等级图、原装备属性和必要目录损坏仍拒绝。场景摘要覆盖规范化选择、双方资料、构筑定义／实例、来源设置、等级、自然根、排除原因和完整作者／依赖，全文排除 `readAt`（读取时间）；只改开关或被排除作者内容也会改变摘要。
 
 真实来源、构筑合法性、等级与必要依赖错误沿 `409.SIMULATION_SNAPSHOT_INVALID` 返回具体字段问题，不返回部分成功快照；请求数组错误保留原输入下标，成功回显采用稳定顺序。游戏、角色或所选装备不存在沿原404，管理鉴权沿401／403。快照读取成功与原因为空均不证明 Wasm 准入或战斗通过；阶段5A新增运行支持、5B／5C机制和真实构筑数据闭环不由本模块补造。
 
@@ -451,3 +449,15 @@ mvn "-Dtest=LegacyCombatDataCleanupDbContractSqlTest,SkillParameterFormulaManage
 状态种类增加击飞（`AIRBORNE`），复用现有无强度状态施加和移除；创建后种类不可改，引用保护及事件关系仍按状态标识处理。具体生命周期以来源为准，不为整个种类额外限定持续生效或有限期限。唯一共享含义见规划真源《系统精简实施说明》的“击飞状态增量”。
 
 已有 test0221 库使用 [约束增量](../../db/game_manage/migrations/add_airborne_status_kind.sql) 与 [单次执行器](../../tools/authoring/ApplyAirborneStatusKind.java)。执行器核对独立批准的文件散列、完整只读基线和固定目标，先建尝试记录再执行；已有记录或提交结果不明时先独立核对，不能重放。仅追加约束与注释，不创建状态条目。首次新增击飞目录与科加斯Q返回须经真实页面；隔离模拟页面不代替该项验收。
+
+## 技能共同公式第三B
+
+技能公式保留 `expression`（表达式）字段，保存完整 `inputs/stages/outputStageKey` 共同定义；旧三类树只留在一次性转换工具，正式接口不双读。技能公式授权本游戏启用属性、来源与目标、本帧、八种口径及本技能最终参数集合。管理读取保留停用属性供修复，新保存及启用技能的依赖重新检查全部声明；参数删除、属性删除和引用替换继续在游戏锁同一事务内完成。
+
+引用索引覆盖全部输入声明。动作供值、等级需要和静态／动态分类只看输出可达 `read`，包括条件两分支并集；未使用声明及未用结果不增加供值。静态管理位置沿原等级组合和精确分数复核生命比例、单层护盾、计数／弹药上限等，并消费全部共同运算与局部结果；后端不替代最终原生64位浮点执行。
+
+快照返回完整定义、参数目录和声明引用，真实目录权限独立复核；属性目录包括全部运输公式的声明，未激活公式同样有真实目录身份。执行引用与运行供值仍按原开启闭包及输出实际读取，不为这些额外目录补等级值或运行值。角色录入检查消费共同结构。检查定位使用输入／结果稳定 `key`，操作数 `args` 的位置0～2，并保留完整公式快照防止重新读取后错位。
+
+转换工具 `tools/authoring/ApplySkillCommonFormula.java` 提供只读预览与独立回查；受保护应用要求准确数据库、档案与工具摘要、独占尝试记录、全部前值核对和涉及表锁，借正式提交守卫替换仅FORMULA来源索引，失败全批回滚。本批不需要DDL；命令和档案边界见工具README。第三A伤害类型定义及来源引用保持。
+
+定向检查：`mvn "-Dtest=SkillFormulaServiceTest,SkillFormulaAdminControllerTest,SkillCommonNumericSemanticsTest,SkillConfigurationServiceTest,SkillObjectReferencesTest,GameConfigurationWriteGuardTest,SimulationSnapshotServiceTest,CharacterAuthoringCheckServiceTest,AuthoringCheckLocationResolverTest" test`；收尾 `mvn test`、`mvn -DskipTests package`。移除旧模型后首次使用 `mvn clean test` 清理陈旧编译类。静态、单测、实库转换、真实HTTP、页面与Wasm证据分别记录。

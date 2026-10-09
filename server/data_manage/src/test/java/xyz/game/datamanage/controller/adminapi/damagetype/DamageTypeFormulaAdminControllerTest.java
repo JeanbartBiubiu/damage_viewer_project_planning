@@ -25,8 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;
-import xyz.game.datamanage.model.damagetype.DamageTypeCalculationFormula;
-import xyz.game.datamanage.model.damagetype.DamageTypeFormulaFixedNode;
+import static xyz.game.datamanage.support.formula.DamageTypeFormulaFixtures.definition;
 import xyz.game.datamanage.model.damagetype.DamageTypeFormulaReplaceRequest;
 import xyz.game.datamanage.model.damagetype.DamageTypeFormulaResponse;
 import xyz.game.datamanage.service.damagetype.DamageTypeService;
@@ -56,11 +55,10 @@ class DamageTypeFormulaAdminControllerTest {
 
     @Test
     void getsPutsAndDeletesFormula() throws Exception {
-        DamageTypeFormulaFixedNode fixed = new DamageTypeFormulaFixedNode(new BigDecimal("1"));
         DamageTypeFormulaResponse response = new DamageTypeFormulaResponse(
             "lol",
             "physical",
-            new DamageTypeCalculationFormula(fixed, fixed, fixed, fixed, fixed),
+            definition("1.00"),
             OffsetDateTime.parse("2026-09-27T08:00:00Z")
         );
         when(service.getFormula("lol", "physical")).thenReturn(response);
@@ -71,13 +69,13 @@ class DamageTypeFormulaAdminControllerTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.gameId").value("lol"))
             .andExpect(jsonPath("$.damageTypeKey").value("physical"))
-            .andExpect(jsonPath("$.formula.resistanceFactor.nodeType").value("FIXED"))
-            .andExpect(jsonPath("$.formula.resistanceFactor.value").value(1));
+            .andExpect(jsonPath("$.formula.stages[0].expression.op").value("const"))
+            .andExpect(jsonPath("$.formula.stages[0].expression.value").value("1.00"));
 
         mockMvc.perform(put(PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"formula":{"resistanceBeforePenetration":{"nodeType":"FIXED","value":1}}}
+                    {"formula":{"inputs":[],"stages":[{"key":"x","name":"倍率","expression":{"op":"const","value":"1"}}],"outputStageKey":"x"}}
                     """))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.damageTypeKey").value("physical"));

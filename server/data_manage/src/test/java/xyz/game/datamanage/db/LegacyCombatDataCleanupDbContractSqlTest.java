@@ -465,7 +465,8 @@ class LegacyCombatDataCleanupDbContractSqlTest {
             assertTrue(migration.contains("add constraint " + check + " check ("), check);
         }
         assertEquals(12, checks.size());
-        assertTrue(schemaNormalized.contains("foreign key (game_id, source_skill_key) references public.skills (game_id, skill_key) on delete cascade"));
+        assertTrue(schemaNormalized.contains("foreign key (game_id, source_owner_skill_key) references public.skills (game_id, skill_key) on delete cascade"));
+        assertTrue(schemaNormalized.contains("foreign key (game_id, source_owner_damage_type_key) references public.damage_types (game_id, damage_type_key) on delete cascade"));
         assertTrue(schemaNormalized.contains("create index ix_skill_object_references_target on public.skill_object_references (game_id, target_type, target_skill_key, target_key, target_sub_key)"));
     }
 

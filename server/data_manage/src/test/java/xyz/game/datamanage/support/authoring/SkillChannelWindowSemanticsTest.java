@@ -79,7 +79,7 @@ class SkillChannelWindowSemanticsTest {
              "lastExecutionOffsetValue":{"kind":"FORMULA","formulaKey":"last_formula"}}
             """);
         Aggregate formula = new Aggregate(SourceType.FORMULA, "skill", "last_formula", AggregateJson.tree("""
-            {"expression":{"nodeType":"PARAMETER","parameterKey":"last"}}
+            {"expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"skill","parameterKey":"last"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}}
             """));
         Parameter first = new Parameter("skill", "first", "INTEGER", "SKILL_LEVEL", null, AggregateJson.tree("{\"1\":2,\"2\":100}"));
         Parameter last = new Parameter("skill", "last", "INTEGER", "SKILL_LEVEL", null, AggregateJson.tree("{\"1\":13,\"2\":103}"));

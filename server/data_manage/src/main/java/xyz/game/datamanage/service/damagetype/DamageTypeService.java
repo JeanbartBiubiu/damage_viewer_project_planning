@@ -1,10 +1,10 @@
 package xyz.game.datamanage.service.damagetype;
 
 import jakarta.validation.Valid;
+import com.fasterxml.jackson.databind.JsonNode;
+import xyz.game.datamanage.support.formula.DamageTypeFormulaBindings;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -19,23 +19,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.damagetype.DamageTypeMapper;
-import xyz.game.datamanage.model.attribute.AttributeStatus;
-import xyz.game.datamanage.model.damagetype.DamageTypeCalculationFormula;
 import xyz.game.datamanage.model.damagetype.DamageTypeCreateRequest;
 import xyz.game.datamanage.model.damagetype.DamageTypeFormulaAttributeStatusRow;
 import xyz.game.datamanage.model.damagetype.DamageTypeFormulaReplaceRequest;
 import xyz.game.datamanage.model.damagetype.DamageTypeFormulaResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeFormulaRow;
-import xyz.game.datamanage.model.damagetype.DamageTypeFormulaStage;
 import xyz.game.datamanage.model.damagetype.DamageTypeListQuery;
 import xyz.game.datamanage.model.damagetype.DamageTypeListResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeStatus;
 import xyz.game.datamanage.model.damagetype.DamageTypeUpdateRequest;
-import xyz.game.datamanage.service.damagetype.DamageTypeFormulaParser.AttributeIdentity;
-import xyz.game.datamanage.service.damagetype.DamageTypeFormulaParser.AttributeUse;
-import xyz.game.datamanage.service.damagetype.DamageTypeFormulaParser.Shape;
-import xyz.game.datamanage.service.damagetype.DamageTypeFormulaParser.StageUse;
 import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.support.error.ApiException;
 
@@ -158,11 +151,16 @@ public class DamageTypeService {
     ) {
         configurationWrites.begin(gameId);
         requireGame(gameId);
-        DamageTypeFormulaRow locked = requireFormulaRowForUpdate(gameId, damageTypeKey);
-        Shape shape = DamageTypeFormulaParser.parseShape(request == null ? null : request.formula());
-        Set<AttributeIdentity> existing = existingAttributes(locked);
-        assertReferences(gameId, shape, existing);
-        if (mapper.updateFormula(gameId, damageTypeKey, AggregateJson.write(shape.toModel())) == 0) {
+        requireFormulaRowForUpdate(gameId, damageTypeKey);
+        JsonNode formula = request == null ? null : request.formula();
+        DamageTypeFormulaParser.validateBeforeCatalog(formula);
+        Set<String> keys = DamageTypeFormulaBindings.attributeKeys(formula);
+        List<DamageTypeFormulaAttributeStatusRow> rows = keys.isEmpty() ? List.of() : mapper.findAttributesByKeys(gameId, keys);
+        Set<String> enabled = rows == null ? Set.of() : rows.stream()
+            .filter(row -> "ENABLED".equals(row.status())).map(DamageTypeFormulaAttributeStatusRow::attributeKey)
+            .collect(java.util.stream.Collectors.toSet());
+        DamageTypeFormulaParser.validate(formula, enabled);
+        if (mapper.updateFormula(gameId, damageTypeKey, AggregateJson.write(formula)) == 0) {
             throw notFound(damageTypeKey);
         }
         return toFormulaResponse(requireFormulaRow(gameId, damageTypeKey));
@@ -255,14 +253,7 @@ public class DamageTypeService {
         );
     }
 
-    private Set<AttributeIdentity> existingAttributes(DamageTypeFormulaRow locked) {
-        if (locked.calculationFormula() == null) {
-            return Set.of();
-        }
-        return DamageTypeFormulaParser.identities(readStoredFormula(locked));
-    }
-
-    private DamageTypeCalculationFormula readStoredFormula(DamageTypeFormulaRow row) {
+    private JsonNode readStoredFormula(DamageTypeFormulaRow row) {
         try {
             return DamageTypeFormulaParser.readStored(row.calculationFormula());
         } catch (RuntimeException ex) {
@@ -282,78 +273,6 @@ public class DamageTypeService {
                 )
             );
         }
-    }
-
-    private void assertReferences(String gameId, Shape shape, Set<AttributeIdentity> existing) {
-        List<Map<String, String>> referenceIssues = new ArrayList<>();
-        for (StageUse use : shape.stages()) {
-            DamageTypeFormulaStage target = DamageTypeFormulaStage.fromText(use.stageKey());
-            if (target == null || !use.owner().allows(target)) {
-                referenceIssues.add(fieldIssue(
-                    use.path(),
-                    "STAGE_REFERENCE_INVALID",
-                    "阶段结果只能引用更早的结算阶段"
-                ));
-            }
-        }
-        Map<String, String> statusByKey = loadAttributeStatus(gameId, shape);
-        List<Map<String, String>> disabledIssues = new ArrayList<>();
-        for (AttributeUse use : shape.attributes()) {
-            String status = statusByKey.get(use.attributeKey());
-            if (status == null) {
-                referenceIssues.add(fieldIssue(
-                    use.path(),
-                    "UNKNOWN_ATTRIBUTE",
-                    "属性不存在或不属于当前游戏"
-                ));
-            } else if (!existing.contains(use.identity()) && !AttributeStatus.ENABLED.name().equals(status)) {
-                disabledIssues.add(fieldIssue(
-                    use.path(),
-                    "FORMULA_ATTRIBUTE_DISABLED",
-                    "不能新增停用属性引用"
-                ));
-            }
-        }
-        List<Map<String, String>> allIssues = new ArrayList<>(referenceIssues.size() + disabledIssues.size());
-        allIssues.addAll(referenceIssues);
-        allIssues.addAll(disabledIssues);
-        sortIssues(allIssues);
-        if (!referenceIssues.isEmpty()) {
-            throw new ApiException(
-                HttpStatus.BAD_REQUEST,
-                "400.INVALID_DAMAGE_TYPE_FORMULA_REFERENCE",
-                "伤害类型结算公式引用不合法",
-                Map.of("fieldIssues", List.copyOf(allIssues))
-            );
-        }
-        if (!disabledIssues.isEmpty()) {
-            throw new ApiException(
-                HttpStatus.CONFLICT,
-                "409.FORMULA_ATTRIBUTE_DISABLED",
-                "不能新增停用属性引用",
-                Map.of("fieldIssues", List.copyOf(allIssues), "gameId", gameId)
-            );
-        }
-    }
-
-    private Map<String, String> loadAttributeStatus(String gameId, Shape shape) {
-        Set<String> keys = shape.attributeKeys();
-        Map<String, String> statusByKey = new HashMap<>();
-        if (keys.isEmpty()) {
-            return statusByKey;
-        }
-        List<DamageTypeFormulaAttributeStatusRow> rows = mapper.findAttributesByKeys(gameId, keys);
-        if (rows != null) {
-            for (DamageTypeFormulaAttributeStatusRow row : rows) {
-                statusByKey.put(row.attributeKey(), row.status());
-            }
-        }
-        return statusByKey;
-    }
-
-    private static void sortIssues(List<Map<String, String>> issues) {
-        issues.sort(Comparator.comparing((Map<String, String> issue) -> issue.get("field"))
-            .thenComparing(issue -> issue.get("code")));
     }
 
     private static ApiException formulaNotFound(String gameId, String damageTypeKey) {

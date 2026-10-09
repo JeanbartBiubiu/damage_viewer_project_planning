@@ -31,6 +31,8 @@ public record AuthoringCheckLocation(
         "OBJECT_MISSING", "CORRUPT_OBJECT"
     );
     public static final Map<String, String> COLLECTION_KEYS = Map.ofEntries(
+        Map.entry("inputs", "key"),
+        Map.entry("stages", "key"),
         Map.entry("results", "resultKey"),
         Map.entry("steps", "stepKey"),
         Map.entry("effectBindings", "bindingKey"),
@@ -129,7 +131,7 @@ public record AuthoringCheckLocation(
 
         record FormulaOperand(int operand) implements AuthoringCheckLocationSegment {
             public FormulaOperand {
-                if (operand != 0 && operand != 1) throw invalid("公式操作数只能是 0 或 1");
+                if (operand < 0 || operand > 2) throw invalid("共同公式操作数只能是 0 到 2");
             }
 
             @Override

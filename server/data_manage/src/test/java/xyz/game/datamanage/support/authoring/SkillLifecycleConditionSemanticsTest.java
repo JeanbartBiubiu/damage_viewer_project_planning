@@ -86,7 +86,7 @@ class SkillLifecycleConditionSemanticsTest {
     void directOrFormulaRuntimeDependenciesAreForbidden(String kind) {
         String value = "PARAMETER".equals(kind) ? "{\"kind\":\"PARAMETER\",\"parameterKey\":\"stacks\"}"
             : "{\"kind\":\"FORMULA\",\"formulaKey\":\"stack_formula\"}";
-        Aggregate formula = aggregate(SourceType.FORMULA, "stack_formula", "{\"expression\":{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"stacks\"}}");
+        Aggregate formula = aggregate(SourceType.FORMULA, "stack_formula", "{\"expression\":{\"inputs\":[{\"key\":\"input_0\",\"binding\":{\"kind\":\"parameter\",\"skillKey\":\"skill\",\"parameterKey\":\"stacks\"}}],\"stages\":[{\"key\":\"output\",\"name\":\"原技能公式输出\",\"expression\":{\"op\":\"read\",\"inputKey\":\"input_0\"}}],\"outputStageKey\":\"output\"}}");
         List<Aggregate> objects = List.of(rule("STACKS_COMPARE", "CURRENT_TARGET", value, "BASIC_ATTACK_HIT"), formula);
         assertDoesNotThrow(() -> SkillNumericSemantics.validate(objects,
             List.of(new Parameter("skill", "stacks", "INTEGER", "FIXED", BigDecimal.ONE, null))));

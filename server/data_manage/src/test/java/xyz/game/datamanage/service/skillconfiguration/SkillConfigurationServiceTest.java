@@ -56,7 +56,7 @@ import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
 import xyz.game.datamanage.model.skillformula.SkillFormulaDetailResponse;
 import xyz.game.datamanage.model.skillformula.SkillFormulaCreateRequest;
 import xyz.game.datamanage.model.skillformula.SkillFormulaUpdateRequest;
-import xyz.game.datamanage.model.skillformula.SkillFormulaParameterNode;
+
 import xyz.game.datamanage.model.skillformula.SkillFormulaSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
@@ -249,7 +249,7 @@ class SkillConfigurationServiceTest {
         SkillConfigurationChange formula = new SkillConfigurationChange("FORMULA", "CREATE", "damage",
             json.readTree("""
                 {"formulaKey":"damage","name":"伤害","description":null,"sortOrder":1,
-                 "expression":{"nodeType":"PARAMETER","parameterKey":"base"}}
+                 "expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"ezreal_q","parameterKey":"base"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}}
                 """));
         SkillConfigurationChange parameter = new SkillConfigurationChange("PARAMETER", "CREATE", "base",
             json.readTree("""
@@ -293,7 +293,7 @@ class SkillConfigurationServiceTest {
         SkillConfigurationChange formula = new SkillConfigurationChange("FORMULA", "CREATE", "duration",
             json.readTree("""
                 {"formulaKey":"duration","name":"恢复间隔","description":null,"sortOrder":1,
-                 "expression":{"nodeType":"PARAMETER","parameterKey":"base"}}
+                 "expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"ezreal_q","parameterKey":"base"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}}
                 """));
         SkillConfigurationChange parameter = new SkillConfigurationChange("PARAMETER", "CREATE", "base",
             json.readTree("""
@@ -422,7 +422,7 @@ class SkillConfigurationServiceTest {
     void deletingParameterAfterRewritingFormulaUsesFinalCandidate() throws Exception {
         when(parameterService.list(GAME, SKILL)).thenReturn(List.of(parameter("old", null), parameter("new", null)));
         var oldFormula = new SkillFormulaDetailResponse(GAME, SKILL, "damage", "伤害", null, 1,
-            new SkillFormulaParameterNode("old"), TIME, TIME);
+            xyz.game.datamanage.support.formula.SkillFormulaFixtures.parameter(SKILL, "old"), TIME, TIME);
         when(formulaService.list(GAME, SKILL)).thenReturn(List.of(new SkillFormulaSummaryResponse(
             GAME, SKILL, "damage", "伤害", null, 1, TIME, TIME)));
         when(formulaService.get(GAME, SKILL, "damage")).thenReturn(oldFormula);
@@ -431,11 +431,11 @@ class SkillConfigurationServiceTest {
         SkillConfigurationChange rewrite = new SkillConfigurationChange("FORMULA", "UPDATE", "damage",
             json.readTree("""
                 {"name":"伤害","description":null,"sortOrder":1,
-                 "expression":{"nodeType":"PARAMETER","parameterKey":"new"}}
+                 "expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"ezreal_q","parameterKey":"new"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}}
                 """));
         service.update(GAME, SKILL, new SkillConfigurationSaveRequest(digest, null, List.of(delete, rewrite)));
         verify(formulaService).validateFinalParameterReferences(eq(GAME), eq(SKILL),
-            eq(Map.of("damage", new SkillFormulaParameterNode("new"))), eq(Set.of("new")));
+            eq(Map.of("damage", xyz.game.datamanage.support.formula.SkillFormulaFixtures.parameter(SKILL, "new"))), eq(Set.of("new")));
         InOrder order = inOrder(formulaService, parameterService);
         order.verify(formulaService).updateWithinConfiguration(eq(GAME), eq(SKILL), eq("damage"),
             any(SkillFormulaUpdateRequest.class), eq(Set.of("new")));
@@ -448,7 +448,7 @@ class SkillConfigurationServiceTest {
         String digest = service.get(GAME, SKILL).baseDigest();
         JsonNode incomplete = json.readTree("""
             {"formulaKey":"damage","name":"伤害","sortOrder":1,
-             "expression":{"nodeType":"PARAMETER","parameterKey":"base"}}
+             "expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"ezreal_q","parameterKey":"base"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}}
             """);
         ApiException error = assertThrows(ApiException.class, () -> service.update(GAME, SKILL,
             new SkillConfigurationSaveRequest(digest, null,

@@ -174,6 +174,11 @@ public class SimulationSnapshotService {
         sources.stream().filter(item -> item.inactive == null).forEach(item -> requiredCategories.addAll(item.configuration.skill().skillCategoryKeys()));
         for (int skillIndex = 0; skillIndex < skills.size(); skillIndex++) {
             SkillConfigurationResponse skill = skills.get(skillIndex);
+            // 快照运输完整作者定义；未执行公式的全部属性声明同样需要真实目录授权。
+            for (int formulaIndex = 0; formulaIndex < skill.formulas().size(); formulaIndex++) {
+                collectAttributeKeys(skill.formulas().get(formulaIndex).expression(), attributeKeys,
+                    "skillConfigurations[" + skillIndex + "].formulas[" + formulaIndex + "].expression");
+            }
             for (int categoryIndex = 0; categoryIndex < skill.skill().skillCategoryKeys().size(); categoryIndex++) {
                 categoryKeys.putIfAbsent(skill.skill().skillCategoryKeys().get(categoryIndex),
                     "skillConfigurations[" + skillIndex + "].skill.skillCategoryKeys[" + categoryIndex + "]");
@@ -225,21 +230,46 @@ public class SimulationSnapshotService {
             DamageTypeResponse type = readDependency(() -> damageTypes.get(gameId, key), dependency.getValue());
             requireEnabled(type.status(), dependency.getValue());
             if (!type.formulaConfigured()) {
-                throw invalid("catalogs.damageTypes." + key + ".formula", "FORMULA_MISSING", "伤害类型缺少五阶段结算公式");
+                throw invalid("catalogs.damageTypes." + key + ".formula", "FORMULA_MISSING", "伤害类型缺少共同结算公式");
             }
             DamageTypeFormulaResponse formula = readDependency(() -> damageTypes.getFormula(gameId, key),
                 "catalogs.damageTypes." + key + ".formula");
-            if (formula.formula() == null || formula.formula().resistanceBeforePenetration() == null
-                || formula.formula().penetrationPercent() == null || formula.formula().penetrationFlat() == null
-                || formula.formula().effectiveResistance() == null || formula.formula().resistanceFactor() == null) {
-                throw invalid("catalogs.damageTypes." + key + ".formula", "FORMULA_MISSING", "伤害类型缺少完整五阶段结算公式");
+            if (!gameId.equals(type.gameId()) || !key.equals(type.damageTypeKey())
+                || !gameId.equals(formula.gameId()) || !key.equals(formula.damageTypeKey())) {
+                throw invalid("catalogs.damageTypes." + key, "REFERENCE_OUT_OF_SCOPE", "伤害类型定义不属于当前游戏与目录身份");
             }
-            collectAttributeKeys(json.valueToTree(formula.formula()), attributeKeys,
-                "catalogs.damageTypes." + key + ".formula");
+            String formulaPath = "catalogs.damageTypes." + key + ".formula";
+            if (formula.formula() == null) throw invalid(formulaPath, "FORMULA_MISSING", "伤害类型缺少共同结算公式");
+            var structuralIssue = xyz.game.datamanage.support.formula.FormulaContractValidator.validate(formula.formula(),
+                xyz.game.datamanage.support.formula.DamageTypeFormulaBindings.allowed(
+                    xyz.game.datamanage.support.formula.DamageTypeFormulaBindings.attributeKeys(formula.formula())));
+            if (structuralIssue != null) throw invalid(formulaPath + structuralIssue.path(), structuralIssue.code(), "伤害类型共同公式损坏");
+            var dependencies = SkillObjectReferences.extract(gameId, List.of(new Aggregate(
+                SkillObjectReferences.SourceType.DAMAGE_TYPE, "", key,
+                json.createObjectNode().set("formula", formula.formula()))));
+            for (var row : dependencies) {
+                attributeKeys.putIfAbsent(row.target().key(), formulaPath + "/" + row.fieldPath());
+                references.add(new Reference("", "DAMAGE_TYPE", key, row.fieldPath(), "ATTRIBUTE", "", row.target().key(), ""));
+            }
             selectedDamageTypes.add(new DamageTypeEntry(type, formula));
         }
         List<AttributeResponse> selectedAttributes = loadAttributes(gameId, attributeKeys);
-        validateEquipmentAttributes(source, "source", selectedAttributes);
+        for (DamageTypeEntry entry : selectedDamageTypes) {
+            var issue = xyz.game.datamanage.support.formula.FormulaContractValidator.validate(entry.formula().formula(),
+                xyz.game.datamanage.support.formula.DamageTypeFormulaBindings.allowed(
+                    selectedAttributes.stream().map(AttributeResponse::attributeKey).toList()));
+            if (issue != null) throw invalid("catalogs.damageTypes." + entry.type().damageTypeKey() + ".formula" + issue.path(),
+                issue.code(), "伤害类型共同公式结构或授权绑定不合法");
+        }
+        for (Aggregate object : execution.objects()) {
+            if (object.type() != SkillObjectReferences.SourceType.FORMULA) continue;
+            var owner = skills.stream().filter(configuration -> configuration.skill().skillKey().equals(object.skillKey())).findFirst().orElseThrow();
+            var issue = xyz.game.datamanage.support.formula.FormulaContractValidator.validate(object.data().path("expression"),
+                xyz.game.datamanage.support.formula.SkillFormulaBindings.allowed(object.skillKey(),
+                    selectedAttributes.stream().map(AttributeResponse::attributeKey).toList(),
+                    owner.parameters().stream().map(parameter -> parameter.parameterKey()).toList()));
+            if (issue != null) throw invalid(closure.objectPath(object) + "/expression" + issue.path(), issue.code(), "场景必要技能公式授权不合法");
+        }        validateEquipmentAttributes(source, "source", selectedAttributes);
         validateEquipmentAttributes(target, "target", selectedAttributes);
         Catalogs catalogs = new Catalogs(levels, selectedAttributes,
             loadCategories(gameId, categoryKeys, requiredCategories), List.copyOf(selectedDamageTypes),
@@ -460,6 +490,9 @@ public class SimulationSnapshotService {
         for (var dependency : keys.entrySet()) {
             AttributeResponse value = readDependency(() -> attributes.get(gameId, dependency.getKey()), dependency.getValue());
             requireEnabled(value.status(), dependency.getValue());
+            if (!gameId.equals(value.gameId()) || !dependency.getKey().equals(value.attributeKey())) {
+                throw invalid(dependency.getValue(), "REFERENCE_OUT_OF_SCOPE", "属性不属于当前游戏与目录身份");
+            }
             result.add(value);
         }
         return List.copyOf(result);

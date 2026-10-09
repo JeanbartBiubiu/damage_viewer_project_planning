@@ -356,7 +356,7 @@ CREATE UNIQUE INDEX uq_damage_types_name
     ON public.damage_types (game_id, lower(btrim(name)));
 
 COMMENT ON TABLE public.damage_types IS '伤害类型';
-COMMENT ON COLUMN public.damage_types.calculation_formula IS '伤害类型结算公式；NULL 表示未配置，非空仅要求 JSON 对象，阶段语义由服务层校验';
+COMMENT ON COLUMN public.damage_types.calculation_formula IS '伤害类型共同结算公式；NULL 表示未配置，非空仅要求 JSON 对象，共同结构及授权绑定由服务层校验';
 
 CREATE TABLE public.modifier_zones (
     game_id varchar(64) NOT NULL,
@@ -684,12 +684,16 @@ ALTER TABLE public.skill_trigger_rules ADD CONSTRAINT ck_skill_trigger_rules_con
 ALTER TABLE public.skill_trigger_rules ADD CONSTRAINT ck_skill_trigger_rules_actions_array CHECK (jsonb_typeof(actions) = 'array');
 ALTER TABLE public.skill_trigger_rules ADD CONSTRAINT ck_skill_trigger_rules_limits_object CHECK (jsonb_typeof(limits) = 'object');
 
--- 系统派生的引用明细，没有独立业务编辑入口；由游戏配置写事务整体重建。
+-- 系统派生的引用明细，没有独立业务编辑入口；由游戏配置写事务按实际变更来源替换。
 CREATE TABLE public.skill_object_references (
     game_id varchar(64) NOT NULL,
     source_skill_key varchar(64) NOT NULL,
     source_type varchar(16) NOT NULL,
     source_key varchar(64) NOT NULL,
+    source_owner_skill_key varchar(64) GENERATED ALWAYS AS
+        (CASE WHEN source_type <> 'DAMAGE_TYPE' THEN source_skill_key END) STORED,
+    source_owner_damage_type_key varchar(64) GENERATED ALWAYS AS
+        (CASE WHEN source_type = 'DAMAGE_TYPE' THEN source_key END) STORED,
     field_path text NOT NULL,
     target_type varchar(16) NOT NULL,
     target_skill_key varchar(64) NOT NULL,
@@ -701,10 +705,16 @@ CREATE TABLE public.skill_object_references (
     ),
     CONSTRAINT fk_skill_object_references_game FOREIGN KEY (game_id)
         REFERENCES public.games (game_id) ON DELETE CASCADE,
-    CONSTRAINT fk_skill_object_references_skill FOREIGN KEY (game_id, source_skill_key)
+    CONSTRAINT fk_skill_object_references_skill FOREIGN KEY (game_id, source_owner_skill_key)
         REFERENCES public.skills (game_id, skill_key) ON DELETE CASCADE,
+    CONSTRAINT fk_skill_object_references_damage_type FOREIGN KEY (game_id, source_owner_damage_type_key)
+        REFERENCES public.damage_types (game_id, damage_type_key) ON DELETE CASCADE,
     CONSTRAINT ck_skill_object_references_source_type CHECK (
-        source_type IN ('FORMULA', 'EFFECT', 'STATE', 'PROCESS', 'TRIGGER')
+        source_type IN ('FORMULA', 'EFFECT', 'STATE', 'PROCESS', 'TRIGGER', 'DAMAGE_TYPE')
+    ),
+    CONSTRAINT ck_skill_object_references_source_shape CHECK (
+        (source_type = 'DAMAGE_TYPE' AND source_skill_key = '' AND btrim(source_key) <> '')
+        OR (source_type <> 'DAMAGE_TYPE' AND btrim(source_skill_key) <> '' AND btrim(source_key) <> '')
     ),
     CONSTRAINT ck_skill_object_references_target_type CHECK (
         target_type IN ('ATTRIBUTE', 'PARAMETER', 'FORMULA', 'SKILL', 'CATEGORY', 'DAMAGE_TYPE',
@@ -718,7 +728,7 @@ CREATE TABLE public.skill_object_references (
 CREATE INDEX ix_skill_object_references_target ON public.skill_object_references
     (game_id, target_type, target_skill_key, target_key, target_sub_key);
 
-COMMENT ON TABLE public.skill_object_references IS '从技能组成提取的系统引用明细';
+COMMENT ON TABLE public.skill_object_references IS '从技能组成及伤害类型共同公式提取的系统引用明细';
 
 CREATE TABLE public.build_systems (
     game_id varchar(64) NOT NULL,

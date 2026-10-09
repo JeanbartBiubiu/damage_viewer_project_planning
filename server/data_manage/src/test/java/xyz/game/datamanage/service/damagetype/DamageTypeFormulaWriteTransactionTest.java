@@ -87,7 +87,7 @@ class DamageTypeFormulaWriteTransactionTest {
 
         assertEquals(1, transactions.commits);
         assertEquals(0, transactions.rollbacks);
-        assertTrue(committed.get().contains("\"nodeType\":\"FIXED\""));
+        assertTrue(committed.get().contains("\"op\":\"const\""));
     }
 
     @Test
@@ -95,7 +95,7 @@ class DamageTypeFormulaWriteTransactionTest {
         ApiException error = assertThrows(ApiException.class,
             () -> service.replaceFormula("lol", "physical", request("[]")));
 
-        assertEquals("400.INVALID_BODY", error.getCode());
+        assertEquals("400.VALIDATION_FAILED", error.getCode());
         assertEquals(0, transactions.commits);
         assertEquals(1, transactions.rollbacks);
         assertEquals(null, committed.get());
@@ -130,14 +130,7 @@ class DamageTypeFormulaWriteTransactionTest {
     }
 
     private static String fixedFormula(String number) {
-        String node = "{\"nodeType\":\"FIXED\",\"value\":" + number + "}";
-        return "{"
-            + "\"resistanceBeforePenetration\":" + node + ","
-            + "\"penetrationPercent\":" + node + ","
-            + "\"penetrationFlat\":" + node + ","
-            + "\"effectiveResistance\":" + node + ","
-            + "\"resistanceFactor\":" + node
-            + "}";
+        return xyz.game.datamanage.support.formula.DamageTypeFormulaFixtures.definition(number).toString();
     }
 
     @Configuration(proxyBeanMethods = false)

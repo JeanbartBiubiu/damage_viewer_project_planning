@@ -1,5 +1,7 @@
 package xyz.game.datamanage.model.skillformula;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import java.time.OffsetDateTime;
 
 public record SkillFormulaDetailResponse(
@@ -9,7 +11,7 @@ public record SkillFormulaDetailResponse(
     String name,
     String description,
     Integer sortOrder,
-    SkillFormulaExpressionNode expression,
+    JsonNode expression,
     OffsetDateTime createdAt,
     OffsetDateTime updatedAt
 ) {

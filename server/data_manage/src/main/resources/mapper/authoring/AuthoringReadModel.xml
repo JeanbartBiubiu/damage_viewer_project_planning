@@ -189,18 +189,40 @@
         WHERE j->>'resultType' = 'STATUS_OPERATION'
     </sql>
 
+    <!-- 全部声明用于授权和删除保护；不以输出可达性过滤。 -->
     <sql id="formulaNodes">
-        WITH RECURSIVE nodes AS (
-            SELECT f.game_id, f.skill_key, f.formula_key, f.expression AS node FROM public.skill_formulas f
-            UNION ALL
-            SELECT n.game_id, n.skill_key, n.formula_key, c.node FROM nodes n
-            CROSS JOIN LATERAL jsonb_array_elements(CASE WHEN n.node->>'nodeType'='OPERATION' THEN n.node->'operands' ELSE '[]'::jsonb END) c(node)
-        ) SELECT game_id, skill_key, formula_key, node->>'nodeType' AS node_type,
-            node->>'parameterKey' AS parameter_key, node->>'attributeKey' AS attribute_key,
-            node->>'attributeOwner' AS attribute_owner, node->>'attributeValueKind' AS attribute_value_kind,
-            node->>'operation' AS operation FROM nodes
+        SELECT f.game_id, f.skill_key, f.formula_key,
+               upper(i->'binding'->>'kind') AS node_type,
+               i->'binding'->>'skillKey' AS parameter_skill_key,
+               i->'binding'->>'parameterKey' AS parameter_key,
+               i->'binding'->>'attributeKey' AS attribute_key,
+               upper(i->'binding'->>'object') AS attribute_owner,
+               i->'binding'->>'valueKind' AS attribute_value_kind
+        FROM public.skill_formulas f CROSS JOIN LATERAL jsonb_array_elements(f.expression->'inputs') i
     </sql>
 
+    <!-- 动作供值和计算时输入禁令：输出可达read，所有args包括if两分支并集。 -->
+    <sql id="formulaReadInputs">
+        WITH RECURSIVE nodes(game_id,skill_key,formula_key,definition,node) AS (
+            SELECT f.game_id,f.skill_key,f.formula_key,f.expression,s->'expression'
+            FROM public.skill_formulas f CROSS JOIN LATERAL jsonb_array_elements(f.expression->'stages') s
+            WHERE s->>'key'=f.expression->>'outputStageKey'
+            UNION
+            SELECT n.game_id,n.skill_key,n.formula_key,n.definition,c.node
+            FROM nodes n CROSS JOIN LATERAL (
+                SELECT a AS node FROM jsonb_array_elements(CASE WHEN jsonb_typeof(n.node->'args')='array' THEN n.node->'args' ELSE '[]'::jsonb END) a
+                UNION ALL
+                SELECT s->'expression' AS node FROM jsonb_array_elements(n.definition->'stages') s
+                WHERE n.node->>'op'='ref' AND s->>'key'=n.node->>'stageKey'
+            ) c
+        )
+        SELECT DISTINCT n.game_id,n.skill_key,n.formula_key,upper(i->'binding'->>'kind') AS node_type,
+               i->'binding'->>'skillKey' AS parameter_skill_key,i->'binding'->>'parameterKey' AS parameter_key,
+               i->'binding'->>'attributeKey' AS attribute_key,
+               upper(i->'binding'->>'object') AS attribute_owner,i->'binding'->>'valueKind' AS attribute_value_kind
+        FROM nodes n CROSS JOIN LATERAL jsonb_array_elements(n.definition->'inputs') i
+        WHERE n.node->>'op'='read' AND i->>'key'=n.node->>'inputKey'
+    </sql>
     <sql id="internalStateAmmoDetails">
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,

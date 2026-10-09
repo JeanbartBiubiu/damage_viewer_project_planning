@@ -164,7 +164,7 @@ class SimulationSnapshotPhasesTest {
             {"parameterKey":"charge_ms","valueType":"DECIMAL","valueMode":"RUNTIME_INPUT"}
             """));
         author.withArray("formulas").add(fixture.json.readTree("""
-            {"formulaKey":"charge_value","expression":{"nodeType":"PARAMETER","parameterKey":"charge_ms"}}
+            {"formulaKey":"charge_value","expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"selected_spell","parameterKey":"charge_ms"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}}
             """));
         author.withArray("effects").add(fixture.json.readTree(heal("charge_hit", "{\"kind\":\"FORMULA\",\"formulaKey\":\"charge_value\"}")));
         author.withArray("triggerRules").add(fixture.json.readTree("""

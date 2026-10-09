@@ -309,14 +309,13 @@ class CharacterAuthoringCheckServiceTest {
     }
 
     @Test
-    void validFormulaTreeIsOnlyStructurallyCheckedWithoutExecutingIt() {
+    void validFormulaDefinitionIsStructurallyCheckedWithoutExecutingIt() {
+        var definition = xyz.game.datamanage.support.formula.SkillFormulaFixtures.parameter("skill", "base");
         when(checks.listObjects("lol", "hero")).thenReturn(List.of(new ObjectRow("skill", "FORMULA", "sum", "公式", 0,
-            "{\"expression\":{\"nodeType\":\"OPERATION\",\"operation\":\"ADD\",\"operands\":[{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"base\"},"
-            + "{\"nodeType\":\"ATTRIBUTE\",\"attributeKey\":\"hp\",\"attributeOwner\":\"SOURCE\",\"attributeValueKind\":\"TOTAL\"}]}}")));
+            new com.fasterxml.jackson.databind.ObjectMapper().createObjectNode().set("expression", definition).toString())));
         assertTrue(check().issues().isEmpty());
         assertEquals("NOT_RUN", check().conclusions().runtime());
     }
-
     @Test
     void missingResourcesKeepExistingErrorsAndQueryFailuresPropagate() {
         when(games.countGames("lol")).thenReturn(0L);

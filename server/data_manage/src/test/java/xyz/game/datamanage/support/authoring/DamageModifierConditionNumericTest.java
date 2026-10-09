@@ -31,10 +31,7 @@ class DamageModifierConditionNumericTest {
     @Test
     void staticFormulaEvaluatesEverySkillAndCharacterLevelCombinationExactly() {
         Aggregate formula = formula("""
-            {"nodeType":"OPERATION","operation":"DIVIDE","operands":[
-              {"nodeType":"PARAMETER","parameterKey":"threshold"},
-              {"nodeType":"PARAMETER","parameterKey":"denominator"}]}
-            """);
+            {"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"skill","parameterKey":"threshold"}},{"key":"input_1","binding":{"kind":"parameter","skillKey":"skill","parameterKey":"denominator"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"div","args":[{"op":"read","inputKey":"input_0"},{"op":"read","inputKey":"input_1"}]}}],"outputStageKey":"output"}""");
         Parameter denominator = new Parameter("skill", "denominator", "DECIMAL", "CHARACTER_LEVEL", null,
             AggregateJson.tree("{\"1\":2,\"2\":4}"));
         assertDoesNotThrow(() -> validate(List.of(effect(FORMULA), formula),
@@ -50,11 +47,10 @@ class DamageModifierConditionNumericTest {
         assertDoesNotThrow(() -> validate(List.of(effect), List.of(levels("0.4", "0.6"))));
         assertIssue("VALUE_RANGE_INVALID", List.of(effect), List.of(levels("0.4", "1.1")));
 
-        Aggregate staticFormula = formula("{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"threshold\"}");
+        Aggregate staticFormula = formula("{\"inputs\":[{\"key\":\"input_0\",\"binding\":{\"kind\":\"parameter\",\"skillKey\":\"skill\",\"parameterKey\":\"threshold\"}}],\"stages\":[{\"key\":\"output\",\"name\":\"原技能公式输出\",\"expression\":{\"op\":\"read\",\"inputKey\":\"input_0\"}}],\"outputStageKey\":\"output\"}");
         assertDoesNotThrow(() -> validate(List.of(effect(FORMULA), staticFormula), List.of(levels("0.4", "0.6"))));
         assertIssue("ATTRIBUTE_FORBIDDEN", List.of(effect(FORMULA), formula("""
-            {"nodeType":"ATTRIBUTE","attributeOwner":"SOURCE","attributeKey":"hp","attributeValueKind":"TOTAL"}
-            """)), List.of(levels("0.4", "0.6")));
+            {"inputs":[{"key":"input_0","binding":{"kind":"attribute","object":"source","attributeKey":"hp","valueKind":"TOTAL","view":"current_frame"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}""")), List.of(levels("0.4", "0.6")));
     }
 
     @Test
@@ -64,7 +60,7 @@ class DamageModifierConditionNumericTest {
         assertIssue("RUNTIME_INPUT_FORBIDDEN", List.of(effect(PARAMETER)), List.of(
             new Parameter("skill", "threshold", "DECIMAL", "RUNTIME_INPUT", null, null)));
         assertIssue("RUNTIME_INPUT_FORBIDDEN", List.of(effect(FORMULA),
-            formula("{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"threshold\"}")), List.of(
+            formula("{\"inputs\":[{\"key\":\"input_0\",\"binding\":{\"kind\":\"parameter\",\"skillKey\":\"skill\",\"parameterKey\":\"threshold\"}}],\"stages\":[{\"key\":\"output\",\"name\":\"原技能公式输出\",\"expression\":{\"op\":\"read\",\"inputKey\":\"input_0\"}}],\"outputStageKey\":\"output\"}")), List.of(
                 new Parameter("skill", "threshold", "DECIMAL", "RUNTIME_INPUT", null, null)));
     }
 

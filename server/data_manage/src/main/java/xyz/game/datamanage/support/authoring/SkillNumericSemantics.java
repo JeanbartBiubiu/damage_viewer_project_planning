@@ -24,7 +24,7 @@ import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.SourceType;
 import xyz.game.datamanage.support.error.ApiException;
 
-/** 同游戏事务最终状态的数值边界和动作输入复核，不执行具名公式。 */
+/** 同游戏事务最终状态的数值边界和动作输入复核；共同公式只作精确静态管理证明。 */
 public final class SkillNumericSemantics {
     private final JdbcTemplate jdbc;
     public SkillNumericSemantics(JdbcTemplate jdbc) { this.jdbc = jdbc; }
@@ -79,7 +79,6 @@ public final class SkillNumericSemantics {
     private enum Bound { ANY, INTEGER, NON_NEGATIVE, NON_NEGATIVE_FINITE, POSITIVE, NON_NEGATIVE_INTEGER, POSITIVE_INTEGER }
     private record Id(String skill, SourceType type, String key) {}
     private record Use(Aggregate source, String path, SkillNumericValue value) {}
-    private record StaticValues(String dimension, Map<String, BigDecimal> values) {}
     private record Levels(String skill, String character) {
         private boolean compatible(Levels other) {
             return (skill.isEmpty() || other.skill.isEmpty() || skill.equals(other.skill))
@@ -145,7 +144,7 @@ public final class SkillNumericSemantics {
             if (!collected.add(id(a))) return;
             JsonNode d = a.data();
             switch (a.type()) {
-                case FORMULA -> { /* 公式仍由原表达式校验负责。 */ }
+                case FORMULA -> { /* 全声明结构由共同校验负责，使用点按输出依赖作静态证明。 */ }
                 case EFFECT -> {
                     JsonNode life = d.path("lifecycle");
                     use(a, life, "lifecycle", "durationValue", Bound.NON_NEGATIVE, false);
@@ -387,20 +386,17 @@ public final class SkillNumericSemantics {
                     throw invalid(a, use.path(), "VALUE_TYPE_MISMATCH", "该位置要求整数参数");
                 }
             }
-            StaticValues known = known(use);
-            if (known != null) for (BigDecimal value : known.values().values()) {
-                if (integer(bound) && value.stripTrailingZeros().scale() > 0) throw invalid(a, use.path(), "VALUE_TYPE_MISMATCH", "该位置要求整数");
-                if ((bound == Bound.NON_NEGATIVE || bound == Bound.NON_NEGATIVE_INTEGER || bound == Bound.NON_NEGATIVE_FINITE) && value.signum() < 0) {
+            Map<Levels, Fraction> known = bound == Bound.ANY ? null : optionalStaticValues(use);
+            if (known != null) for (Fraction value : known.values()) {
+                if (integer(bound) && !value.denominator().equals(BigInteger.ONE)) throw invalid(a, use.path(), "VALUE_TYPE_MISMATCH", "该位置要求整数");
+                if ((bound == Bound.NON_NEGATIVE || bound == Bound.NON_NEGATIVE_INTEGER || bound == Bound.NON_NEGATIVE_FINITE) && value.numerator().signum() < 0) {
                     throw invalid(a, use.path(), "VALUE_RANGE_INVALID", "该位置的数值不能小于零");
                 }
-                if (bound == Bound.NON_NEGATIVE_FINITE && !Double.isFinite(value.doubleValue())) {
-                    throw invalid(a, use.path(), "VALUE_RANGE_INVALID", "该位置的数值必须是有限非负数");
-                }
-                if ((bound == Bound.POSITIVE || bound == Bound.POSITIVE_INTEGER) && value.signum() <= 0) {
+                if (bound == Bound.NON_NEGATIVE_FINITE && !finite(value)) throw invalid(a, use.path(), "VALUE_RANGE_INVALID", "该位置的数值必须是有限非负数");
+                if ((bound == Bound.POSITIVE || bound == Bound.POSITIVE_INTEGER) && value.numerator().signum() <= 0) {
                     throw invalid(a, use.path(), "VALUE_RANGE_INVALID", "该位置的数值必须大于零");
                 }
-            }
-            return use;
+            }            return use;
         }
 
         private Parameter parameter(Use use) {
@@ -409,36 +405,15 @@ public final class SkillNumericSemantics {
             return p;
         }
 
-        private StaticValues known(Use use) {
-            if (use == null) return null;
-            if (use.value().kind() == SkillNumericValue.Kind.FIXED) return new StaticValues("FIXED", Map.of("", use.value().value()));
-            if (use.value().kind() == SkillNumericValue.Kind.FORMULA) return null;
-            Parameter p = parameter(use);
-            if ("RUNTIME_INPUT".equals(p.valueMode())) return null;
-            if ("FIXED".equals(p.valueMode())) {
-                if (p.fixedValue() == null) throw invalid(use.source(), use.path(), "PARAMETER_VALUES_INVALID", "固定参数缺少数值");
-                return new StaticValues("FIXED", Map.of("", p.fixedValue()));
-            }
-            Map<String, BigDecimal> values = new LinkedHashMap<>();
-            if (p.levelValues() == null || !p.levelValues().isObject()) throw invalid(use.source(), use.path(), "PARAMETER_VALUES_INVALID", "等级参数缺少完整取值图");
-            p.levelValues().fields().forEachRemaining(entry -> {
-                if (!entry.getValue().isNumber()) throw invalid(use.source(), use.path(), "PARAMETER_VALUES_INVALID", "等级参数取值必须为数值");
-                values.put(entry.getKey(), entry.getValue().decimalValue());
-            });
-            return new StaticValues(p.valueMode(), values);
-        }
-
         private void compareCharge(Use minimum, Use maximum) {
-            StaticValues min = known(minimum), max = known(maximum);
+            Map<Levels, Fraction> min = minimum == null ? null : optionalStaticValues(minimum);
+            Map<Levels, Fraction> max = maximum == null ? null : optionalStaticValues(maximum);
             if (min == null || max == null) return;
-            for (Map.Entry<String, BigDecimal> lower : min.values().entrySet()) {
-                for (Map.Entry<String, BigDecimal> upper : max.values().entrySet()) {
-                    if (!"FIXED".equals(min.dimension()) && min.dimension().equals(max.dimension()) && !lower.getKey().equals(upper.getKey())) continue;
-                    if (upper.getValue().compareTo(lower.getValue()) < 0) throw invalid(maximum.source(), maximum.path(), "CHARGE_RANGE_INVALID", "最大蓄力时间不能小于最小蓄力时间");
-                }
+            for (var lower : min.entrySet()) for (var upper : max.entrySet()) {
+                if (lower.getKey().compatible(upper.getKey()) && upper.getValue().compareTo(lower.getValue()) < 0)
+                    throw invalid(maximum.source(), maximum.path(), "CHARGE_RANGE_INVALID", "最大蓄力时间不能小于最小蓄力时间");
             }
         }
-
         private void validateDamageModifierCondition(Aggregate effect, JsonNode result, String path) {
             JsonNode detail = result.path("detail");
             JsonNode raw = detail.path("condition");
@@ -547,49 +522,87 @@ public final class SkillNumericSemantics {
             return values;
         }
 
-        private Map<Levels, Fraction> evaluateFormula(Use use, JsonNode node, int depth) {
-            if (depth > 32) throw invalid(use.source(), use.path(), "FORMULA_INVALID", "门槛公式超过深度限制");
-            return switch (text(node, "nodeType")) {
-                case "PARAMETER" -> {
-                    Parameter parameter = parameters.get(use.source().skillKey() + "/" + text(node, "parameterKey"));
-                    if (parameter == null) throw invalid(use.source(), use.path(), "UNKNOWN_PARAMETER", "门槛公式引用的参数不存在");
-                    yield staticParameterValues(use, parameter);
+        private record FormulaValues(Levels levels, Map<String, Fraction> inputs) {}
+
+        private Map<Levels, Fraction> evaluateFormula(Use use, JsonNode definition, int ignoredDepth) {
+            var issue = xyz.game.datamanage.service.skillformula.SkillFormulaParser.structuralIssue(use.source().skillKey(), definition);
+            if (issue != null) throw invalid(use.source(), use.path(), issue.code(), "共同公式结构不合法");
+            List<JsonNode> bindings = xyz.game.datamanage.support.formula.SkillFormulaBindings.reachableBindings(definition);
+            for (JsonNode binding : bindings) {
+                if ("attribute".equals(text(binding, "kind"))) throw invalid(use.source(), use.path(), "ATTRIBUTE_FORBIDDEN", "静态数值公式不能读取属性");
+            }
+            List<FormulaValues> combinations = List.of(new FormulaValues(new Levels("", ""), Map.of()));
+            for (JsonNode input : definition.path("inputs")) {
+                JsonNode binding = input.path("binding");
+                if (!bindings.contains(binding)) continue;
+                String parameterKey = text(binding, "parameterKey");
+                Parameter parameter = parameters.get(use.source().skillKey() + "/" + parameterKey);
+                if (parameter == null) throw invalid(use.source(), use.path(), "UNKNOWN_PARAMETER", "公式参数不存在或不属于当前技能");
+                List<FormulaValues> next = new ArrayList<>();
+                for (FormulaValues combination : combinations) for (var value : staticParameterValues(use, parameter).entrySet()) {
+                    if (!combination.levels().compatible(value.getKey())) continue;
+                    Map<String, Fraction> values = new LinkedHashMap<>(combination.inputs());
+                    values.put(text(input, "key"), value.getValue());
+                    next.add(new FormulaValues(combination.levels().merge(value.getKey()), values));
+                    if (next.size() > 10000) throw invalid(use.source(), use.path(), "FORMULA_LIMIT", "静态等级组合超限");
                 }
-                case "ATTRIBUTE" -> throw invalid(use.source(), use.path(), "ATTRIBUTE_FORBIDDEN", "逐笔生命门槛的右值公式不能读取属性");
-                case "OPERATION" -> {
-                    JsonNode operands = node.path("operands");
-                    if (!operands.isArray() || operands.size() != 2) {
-                        throw invalid(use.source(), use.path(), "FORMULA_INVALID", "门槛公式运算必须有两个子节点");
-                    }
-                    Map<Levels, Fraction> left = evaluateFormula(use, operands.get(0), depth + 1);
-                    Map<Levels, Fraction> right = evaluateFormula(use, operands.get(1), depth + 1);
-                    String operation = text(node, "operation");
-                    Map<Levels, Fraction> values = new LinkedHashMap<>();
-                    for (var lhs : left.entrySet()) for (var rhs : right.entrySet()) {
-                        if (!lhs.getKey().compatible(rhs.getKey())) continue;
-                        Fraction value;
-                        try {
-                            value = switch (operation) {
-                                case "ADD" -> lhs.getValue().add(rhs.getValue());
-                                case "SUBTRACT" -> lhs.getValue().subtract(rhs.getValue());
-                                case "MULTIPLY" -> lhs.getValue().multiply(rhs.getValue());
-                                case "DIVIDE" -> lhs.getValue().divide(rhs.getValue());
-                                case "MIN" -> lhs.getValue().compareTo(rhs.getValue()) <= 0 ? lhs.getValue() : rhs.getValue();
-                                case "MAX" -> lhs.getValue().compareTo(rhs.getValue()) >= 0 ? lhs.getValue() : rhs.getValue();
-                                default -> throw invalid(use.source(), use.path(), "FORMULA_INVALID", "门槛公式运算方式不合法");
-                            };
-                        } catch (ArithmeticException ex) {
-                            throw invalid(use.source(), use.path(), "FORMULA_NOT_STATIC", "门槛公式存在除零，无法静态求值");
-                        }
-                        values.put(lhs.getKey().merge(rhs.getKey()), value);
-                    }
-                    if (values.isEmpty()) throw invalid(use.source(), use.path(), "FORMULA_NOT_STATIC", "门槛公式没有可求值的等级组合");
-                    yield values;
+                combinations = next;
+            }
+            Map<String, JsonNode> stages = new LinkedHashMap<>();
+            for (JsonNode stage : definition.path("stages")) stages.put(text(stage, "key"), stage.path("expression"));
+            Map<Levels, Fraction> results = new LinkedHashMap<>();
+            for (FormulaValues combination : combinations) {
+                try {
+                    results.put(combination.levels(), evaluateStage(text(definition, "outputStageKey"), stages, combination.inputs(), new LinkedHashMap<>()));
+                } catch (ArithmeticException ex) {
+                    throw invalid(use.source(), use.path(), "FORMULA_NOT_STATIC", "共同公式在实际静态分支存在除零或上下界错误");
                 }
-                default -> throw invalid(use.source(), use.path(), "FORMULA_INVALID", "门槛公式节点类型不合法");
+            }
+            if (results.isEmpty()) throw invalid(use.source(), use.path(), "FORMULA_NOT_STATIC", "公式没有可求值的等级组合");
+            return results;
+        }
+
+        private static Fraction evaluateStage(String key, Map<String, JsonNode> stages, Map<String, Fraction> inputs, Map<String, Fraction> cache) {
+            if (!cache.containsKey(key)) cache.put(key, evaluateExpression(stages.get(key), stages, inputs, cache));
+            return cache.get(key);
+        }
+
+        private static Fraction evaluateExpression(JsonNode node, Map<String, JsonNode> stages, Map<String, Fraction> inputs, Map<String, Fraction> cache) {
+            String op = text(node, "op");
+            if (op.equals("const")) return Fraction.of(new BigDecimal(text(node, "value")));
+            if (op.equals("read")) return inputs.get(text(node, "inputKey"));
+            if (op.equals("ref")) return evaluateStage(text(node, "stageKey"), stages, inputs, cache);
+            JsonNode args = node.path("args");
+            Fraction a = evaluateExpression(args.get(0), stages, inputs, cache);
+            if (op.equals("if")) return evaluateExpression(args.get(a.numerator().signum() == 0 ? 2 : 1), stages, inputs, cache);
+            if (Set.of("floor", "ceil", "trunc", "round").contains(op)) {
+                int decimals = op.equals("round") ? node.path("decimals").asInt() : 0;
+                java.math.RoundingMode mode = switch (op) {
+                    case "floor" -> java.math.RoundingMode.FLOOR;
+                    case "ceil" -> java.math.RoundingMode.CEILING;
+                    case "trunc" -> java.math.RoundingMode.DOWN;
+                    default -> java.math.RoundingMode.HALF_UP;
+                };
+                return Fraction.of(new BigDecimal(a.numerator()).divide(new BigDecimal(a.denominator()), decimals, mode));
+            }
+            Fraction b = evaluateExpression(args.get(1), stages, inputs, cache);
+            int comparison = a.compareTo(b);
+            return switch (op) {
+                case "add" -> a.add(b); case "sub" -> a.subtract(b); case "mul" -> a.multiply(b); case "div" -> a.divide(b);
+                case "min" -> comparison <= 0 ? a : b; case "max" -> comparison >= 0 ? a : b;
+                case "eq" -> truth(comparison == 0); case "ne" -> truth(comparison != 0);
+                case "lt" -> truth(comparison < 0); case "lte" -> truth(comparison <= 0);
+                case "gt" -> truth(comparison > 0); case "gte" -> truth(comparison >= 0);
+                case "clamp" -> {
+                    Fraction c = evaluateExpression(args.get(2), stages, inputs, cache);
+                    if (b.compareTo(c) > 0) throw new ArithmeticException("下界大于上界");
+                    yield a.compareTo(b) < 0 ? b : a.compareTo(c) > 0 ? c : a;
+                }
+                default -> throw new IllegalStateException("未支持的共同公式运算");
             };
         }
 
+        private static Fraction truth(boolean value) { return Fraction.of(value ? BigDecimal.ONE : BigDecimal.ZERO); }
         private Set<String> runtime(Use use) {
             Set<String> keys = new LinkedHashSet<>();
             if (use.value().kind() == SkillNumericValue.Kind.PARAMETER) {
@@ -598,20 +611,22 @@ public final class SkillNumericSemantics {
             } else if (use.value().kind() == SkillNumericValue.Kind.FORMULA) {
                 Aggregate formula = objects.get(new Id(use.source().skillKey(), SourceType.FORMULA, use.value().formulaKey()));
                 if (formula == null) throw invalid(use.source(), use.path(), "UNKNOWN_FORMULA", "公式不存在或不属于当前技能");
-                collectFormulaParameters(formula.data().path("expression"), keys, use.source().skillKey());
+                collectFormulaParameters(formula.data().path("expression"), keys, use);
             }
             return keys;
         }
 
-        private void collectFormulaParameters(JsonNode node, Set<String> runtime, String skill) {
-            if ("PARAMETER".equals(text(node, "nodeType"))) {
-                Parameter p = parameters.get(skill + "/" + text(node, "parameterKey"));
-                if (p != null && "RUNTIME_INPUT".equals(p.valueMode())) runtime.add(p.key());
-            } else if ("OPERATION".equals(text(node, "nodeType"))) {
-                for (JsonNode child : node.path("operands")) collectFormulaParameters(child, runtime, skill);
+        private void collectFormulaParameters(JsonNode definition, Set<String> runtime, Use use) {
+            String skill = use.source().skillKey();
+            var issue = xyz.game.datamanage.service.skillformula.SkillFormulaParser.structuralIssue(skill, definition);
+            if (issue != null) throw invalid(use.source(), use.path() + "/expression" + issue.path(), issue.code(), "共同公式定义不合法");
+            for (JsonNode binding : xyz.game.datamanage.support.formula.SkillFormulaBindings.reachableBindings(definition)) {
+                if (!"parameter".equals(text(binding, "kind"))) continue;
+                Parameter p = parameters.get(skill + "/" + text(binding, "parameterKey"));
+                if (p == null) throw invalid(use.source(), use.path(), "UNKNOWN_PARAMETER", "共同公式参数不存在");
+                if ("RUNTIME_INPUT".equals(p.valueMode())) runtime.add(p.key());
             }
         }
-
         private void dependencies(Aggregate consumer, Id target, Set<String> runtime, Set<Id> visited) {
             if (!visited.add(target)) return;
             Aggregate a = objects.get(target);
@@ -775,14 +790,14 @@ public final class SkillNumericSemantics {
             JsonNode modifier,
             String errorPath
         ) {
-            StaticValues known = known(valueUse);
-            if (known == null) return; // 具名公式和计算时传入值留给运行适配检查。
-            for (BigDecimal value : known.values().values()) {
-                BigDecimal effective = applyFixedRule(value, valueRule);
+            Map<Levels, Fraction> known = valueUse == null ? null : optionalStaticValues(valueUse);
+            if (known == null) return;
+            for (Fraction value : known.values()) {
+                Fraction effective = applyFixedRule(value, valueRule);
                 if (modifier != null) effective = applyFixedRule(effective, modifier);
-                if (!Double.isFinite(effective.doubleValue())
-                    || effective.compareTo(BigDecimal.ZERO) < 0
-                    || effective.compareTo(BigDecimal.ONE) > 0) {
+                if (!finite(effective)
+                    || effective.compareTo(Fraction.of(BigDecimal.ZERO)) < 0
+                    || effective.compareTo(Fraction.of(BigDecimal.ONE)) > 0) {
                     throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "比例减少取强的有效减少比例必须有限且位于0到1之间");
                 }
             }
@@ -804,12 +819,12 @@ public final class SkillNumericSemantics {
             JsonNode modifier,
             String errorPath
         ) {
-            StaticValues known = known(valueUse);
-            if (known == null) return; // 具名公式和计算时传入值留给执行时验证。
-            for (BigDecimal value : known.values().values()) {
-                BigDecimal effective = applyFixedRule(value, valueRule);
+            Map<Levels, Fraction> known = valueUse == null ? null : optionalStaticValues(valueUse);
+            if (known == null) return;
+            for (Fraction value : known.values()) {
+                Fraction effective = applyFixedRule(value, valueRule);
                 if (modifier != null) effective = applyFixedRule(effective, modifier);
-                if (effective.compareTo(BigDecimal.ZERO) < 0 || effective.compareTo(BigDecimal.ONE) > 0) {
+                if (effective.compareTo(Fraction.of(BigDecimal.ZERO)) < 0 || effective.compareTo(Fraction.of(BigDecimal.ONE)) > 0) {
                     throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "按比例减少剩余冷却的有效比例必须在0到1之间");
                 }
             }
@@ -828,12 +843,12 @@ public final class SkillNumericSemantics {
                 || (modifierUpperBound != null && modifierUpperBound.signum() < 0)) {
                 throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "设置剩余冷却不能使用负数上界");
             }
-            StaticValues known = known(valueUse);
-            if (known == null) return; // 具名公式和计算时传入值留给执行时验证。
-            for (BigDecimal value : known.values().values()) {
-                BigDecimal effective = applyFixedRule(value, valueRule);
+            Map<Levels, Fraction> known = valueUse == null ? null : optionalStaticValues(valueUse);
+            if (known == null) return;
+            for (Fraction value : known.values()) {
+                Fraction effective = applyFixedRule(value, valueRule);
                 if (modifier != null) effective = applyFixedRule(effective, modifier);
-                if (effective.signum() < 0 || !Double.isFinite(effective.doubleValue())) {
+                if (effective.numerator().signum() < 0 || !finite(effective)) {
                     throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "设置剩余冷却的有效毫秒数必须是有限非负数");
                 }
             }
@@ -855,34 +870,36 @@ public final class SkillNumericSemantics {
             JsonNode modifier,
             String errorPath
         ) {
-            StaticValues known = known(valueUse);
-            if (known == null) return; // 具名公式和计算时传入值留给执行时验证。
-            for (BigDecimal value : known.values().values()) {
-                BigDecimal effective = applyFixedRule(value, valueRule);
+            Map<Levels, Fraction> known = valueUse == null ? null : optionalStaticValues(valueUse);
+            if (known == null) return;
+            for (Fraction value : known.values()) {
+                Fraction effective = applyFixedRule(value, valueRule);
                 if (modifier != null) effective = applyFixedRule(effective, modifier);
-                if (!Double.isFinite(effective.doubleValue())) {
+                if (!finite(effective)) {
                     throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "延长剩余时长的有效增加毫秒数超出可保存范围");
                 }
-                if (effective.signum() < 0) {
+                if (effective.numerator().signum() < 0) {
                     throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "延长剩余时长的有效增加毫秒数不能小于零");
                 }
-                if (effective.stripTrailingZeros().scale() > 0) {
+                if (!effective.denominator().equals(BigInteger.ONE)) {
                     throw invalid(source, errorPath, "VALUE_TYPE_MISMATCH", "延长剩余时长的有效增加毫秒数必须为整数");
                 }
             }
         }
 
-        private static BigDecimal applyFixedRule(BigDecimal value, JsonNode rule) {
-            if (rule == null || !rule.isObject()) return value;
-            BigDecimal multiplier = decimal(rule, "fixedMultiplier");
-            BigDecimal effective = multiplier == null ? value : value.multiply(multiplier);
-            BigDecimal minimum = decimal(rule, "fixedMinValue");
-            if (minimum != null && effective.compareTo(minimum) < 0) effective = minimum;
-            BigDecimal maximum = decimal(rule, "fixedMaxValue");
-            if (maximum != null && effective.compareTo(maximum) > 0) effective = maximum;
-            return effective;
+        private static boolean finite(Fraction value) {
+            return Double.isFinite(new BigDecimal(value.numerator()).divide(new BigDecimal(value.denominator()), java.math.MathContext.DECIMAL128).doubleValue());
         }
 
+        private static Fraction applyFixedRule(Fraction value, JsonNode rule) {
+            if (rule == null || !rule.isObject()) return value;
+            BigDecimal multiplier = decimal(rule, "fixedMultiplier");
+            Fraction effective = multiplier == null ? value : value.multiply(Fraction.of(multiplier));
+            BigDecimal minimum = decimal(rule, "fixedMinValue"), maximum = decimal(rule, "fixedMaxValue");
+            if (minimum != null && effective.compareTo(Fraction.of(minimum)) < 0) effective = Fraction.of(minimum);
+            if (maximum != null && effective.compareTo(Fraction.of(maximum)) > 0) effective = Fraction.of(maximum);
+            return effective;
+        }
         private static BigDecimal decimal(JsonNode parent, String field) {
             JsonNode value = parent.get(field);
             return value != null && value.isNumber() ? value.decimalValue() : null;

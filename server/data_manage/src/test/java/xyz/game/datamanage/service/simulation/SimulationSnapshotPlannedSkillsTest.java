@@ -25,11 +25,10 @@ class SimulationSnapshotPlannedSkillsTest {
         fixture = new SimulationSnapshotFixture();
         fixture.attach("hero_a", ATTACK, SPELL);
         active(SPELL);
-        DamageTypeFormulaFixedNode zero = new DamageTypeFormulaFixedNode(BigDecimal.ZERO);
         when(fixture.damageTypes.get(GAME, "magic")).thenReturn(new DamageTypeResponse(GAME, "magic", "魔法", null,
             DamageTypeStatus.ENABLED, 0, null, null, true));
         when(fixture.damageTypes.getFormula(GAME, "magic")).thenReturn(new DamageTypeFormulaResponse(GAME, "magic",
-            new DamageTypeCalculationFormula(zero, zero, zero, zero, new DamageTypeFormulaFixedNode(BigDecimal.ONE)), null));
+            xyz.game.datamanage.support.formula.DamageTypeFormulaFixtures.definition("1"), null));
     }
 
     @Test
@@ -313,7 +312,7 @@ class SimulationSnapshotPlannedSkillsTest {
     private void active(String key) throws Exception {
         fixture.configuration(key, 2, """
             {"parameters":[{"parameterKey":"amount","valueType":"DECIMAL","valueMode":"SKILL_LEVEL","levelValues":{"1":10,"2":20}}],
-             "formulas":[{"formulaKey":"damage","expression":{"nodeType":"PARAMETER","parameterKey":"amount"}}],
+             "formulas":[{"formulaKey":"damage","expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"%2$s","parameterKey":"amount"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}}],
              "effects":[{"effectKey":"hit","results":[{"resultKey":"damage","resultType":"DAMAGE","target":"TARGET",
                "valueRule":{"value":{"kind":"FORMULA","formulaKey":"damage"},"fixedMultiplier":1},
                "detail":{"damageTypeKey":"magic","deliveryKind":"SKILL","originKind":"DIRECT",

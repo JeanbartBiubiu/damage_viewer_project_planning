@@ -155,7 +155,7 @@ final class SnapshotSkillClosure {
             SkillParameterResponse parameter = configuration.parameters().stream()
                 .filter(candidate -> candidate.parameterKey().equals(target.key())).findFirst().orElse(null);
             if (parameter == null) throw SnapshotIssues.invalid(path, "REFERENCE_MISSING", "必要参数不存在");
-            validateParameter(invocation.owner(), configuration, parameter);
+            if (readsParameter(invocation.object(), target.key())) validateParameter(invocation.owner(), configuration, parameter);
             return;
         }
         ObjectKey key = objectKey(target);
@@ -421,7 +421,7 @@ final class SnapshotSkillClosure {
             for (Reference reference : references(object)) {
                 Target target = reference.target();
                 if (!target.skillKey().equals(source.skillKey)) continue;
-                if (target.type() == TargetType.PARAMETER && source.configuration.parameters().stream()
+                if (target.type() == TargetType.PARAMETER && readsParameter(object, target.key()) && source.configuration.parameters().stream()
                     .anyMatch(parameter -> parameter.parameterKey().equals(target.key()) && parameter.valueMode() == SkillParameterValueMode.SKILL_LEVEL)) return true;
                 ObjectKey key = objectKey(target);
                 if (key != null && objects.containsKey(key)) remaining.add(new Invocation(source, objects.get(key),
@@ -433,6 +433,10 @@ final class SnapshotSkillClosure {
         return false;
     }
 
+    private static boolean readsParameter(Aggregate object, String key) {
+        return object.type() != SourceType.FORMULA || xyz.game.datamanage.support.formula.SkillFormulaBindings
+            .reachableParameterKeys(object.data().path("expression")).contains(key);
+    }
     private void validateParameter(Source source, SkillConfigurationResponse configuration, SkillParameterResponse parameter) {
         String path = "skillConfigurations[" + indexOf(configuration.skill().skillKey()) + "].parameters." + parameter.parameterKey();
         SkillParameterValueMode mode = parameter.valueMode();
@@ -485,13 +489,14 @@ final class SnapshotSkillClosure {
         }
         Map<SourceType, String> fields = Map.of(SourceType.FORMULA, "formulas", SourceType.EFFECT, "effects", SourceType.STATE, "internalStates",
             SourceType.PROCESS, "processes", SourceType.TRIGGER, "triggerRules");
-        for (SourceType type : SourceType.values()) {
+        for (SourceType type : List.of(SourceType.FORMULA, SourceType.EFFECT, SourceType.STATE, SourceType.PROCESS, SourceType.TRIGGER)) {
             String keyField = switch (type) {
                 case FORMULA -> "formulaKey";
                 case EFFECT -> "effectKey";
                 case STATE -> "stateKey";
                 case PROCESS -> "processKey";
                 case TRIGGER -> "ruleKey";
+                case DAMAGE_TYPE -> throw new IllegalStateException("伤害类型不属于技能作者树");
             };
             for (JsonNode row : data.path(fields.get(type))) {
                 String key = row.path(keyField).asText();
@@ -500,6 +505,12 @@ final class SnapshotSkillClosure {
                     throw SnapshotIssues.invalid(objectPath(identity) + "." + keyField, "DUPLICATE_KEY", "作者对象标识缺失、不合法或重复");
                 }
                 ObjectNode aggregate = row.deepCopy();
+                if (type == SourceType.FORMULA) {
+                    var issue = xyz.game.datamanage.support.formula.FormulaContractValidator.validate(aggregate.path("expression"),
+                        xyz.game.datamanage.support.formula.SkillFormulaBindings.allowed(skillKey,
+                            xyz.game.datamanage.support.formula.SkillFormulaBindings.attributeKeys(aggregate.path("expression")), parameters));
+                    if (issue != null) throw SnapshotIssues.invalid(objectPath(identity) + "/expression" + issue.path(), issue.code(), "技能共同公式结构或参数目录不合法");
+                }
                 if (type == SourceType.TRIGGER) {
                     ObjectNode limits = aggregate.putObject("limits");
                     for (String field : List.of("perTargetCooldown", "maxTriggersPerProcess", "oncePerUse")) limits.set(field, aggregate.get(field));
@@ -548,6 +559,7 @@ final class SnapshotSkillClosure {
             case STATE -> "internalStates";
             case PROCESS -> "processes";
             case TRIGGER -> "triggerRules";
+            case DAMAGE_TYPE -> throw new IllegalStateException("伤害类型不属于技能作者树");
         };
         return "skillConfigurations[" + indexOf(object.skillKey()) + "]." + field + "." + object.key();
     }

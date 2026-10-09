@@ -30,6 +30,7 @@ final class ConfigurationChangeScope {
         Set<Source> changed = new LinkedHashSet<>();
         Set<Target> changedTargets = new LinkedHashSet<>();
         Set<String> changedSkillCategories = new LinkedHashSet<>();
+        Set<String> changedSkillStatus = new LinkedHashSet<>();
         boolean globalVampChanged = false;
         Set<Row> rows = new LinkedHashSet<>(before.rows().keySet());
         rows.addAll(after.rows().keySet());
@@ -40,6 +41,9 @@ final class ConfigurationChangeScope {
             else if (row.type().equals("SKILL_CATEGORIES")) changedSkillCategories.add(row.skill());
             else if (row.type().equals("VAMP_RULE")) globalVampChanged = true;
             else {
+                if (row.type().equals("SKILL") && !Objects.equals(
+                    before.rows().get(row) == null ? null : before.rows().get(row).get("status"),
+                    after.rows().get(row) == null ? null : after.rows().get(row).get("status"))) changedSkillStatus.add(row.key());
                 try { changedTargets.add(new Target(TargetType.valueOf(row.type()), row.skill(), row.key(), "")); }
                 catch (IllegalArgumentException ignored) { /* 等级配置的实际参数改动另外比较。 */ }
                 if (vampDependency(row, before.rows()) || vampDependency(row, after.rows())) globalVampChanged = true;
@@ -47,6 +51,7 @@ final class ConfigurationChangeScope {
         }
         Set<Source> affected = new LinkedHashSet<>(changed);
         for (Aggregate aggregate : after.aggregates()) {
+            if (changedSkillStatus.contains(aggregate.skillKey())) affected.add(Source.of(aggregate));
             if (aggregate.type() == SourceType.EFFECT
                 && (globalVampChanged || changedSkillCategories.contains(aggregate.skillKey()))
                 && hasDamage(aggregate)) affected.add(Source.of(aggregate));

@@ -1,5 +1,8 @@
 package xyz.game.datamanage.service.simulation;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import static xyz.game.datamanage.support.formula.DamageTypeFormulaFixtures.definition;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -113,11 +116,7 @@ class SimulationSnapshotServiceTest {
         }
         when(damageTypes.get("lol", "physical")).thenReturn(new DamageTypeResponse("lol", "physical",
             "物理", null, DamageTypeStatus.ENABLED, 0, null, null, true));
-        DamageTypeCalculationFormula formula = new DamageTypeCalculationFormula(
-            new DamageTypeFormulaAttributeNode(
-                xyz.game.datamanage.model.skillformula.AttributeOwner.TARGET,
-                "armor", xyz.game.datamanage.model.skillformula.AttributeValueKind.TOTAL),
-            fixed(0), fixed(0), fixed(0), fixed(1));
+        JsonNode formula = definition("1", "armor");
         when(damageTypes.getFormula("lol", "physical")).thenReturn(
             new DamageTypeFormulaResponse("lol", "physical", formula, null));
     }
@@ -229,9 +228,9 @@ class SimulationSnapshotServiceTest {
     }
 
     @Test
-    void incompleteFiveStageFormulaCannotProducePartialSuccessfulSnapshot() {
-        damageFormula(new DamageTypeCalculationFormula(fixed(0), fixed(0), fixed(0), fixed(0), null));
-        assertIssue("FORMULA_MISSING", "catalogs.damageTypes.physical.formula");
+    void invalidCommonFormulaCannotProducePartialSuccessfulSnapshot() {
+        damageFormula(json.createObjectNode());
+        assertIssue("FORMULA_INVALID_STRUCTURE", "catalogs.damageTypes.physical.formula/inputs");
     }
 
     @Test
@@ -243,10 +242,7 @@ class SimulationSnapshotServiceTest {
             List.of(effect(new SkillEffectCriticalPolicy(SkillEffectCriticalMode.SOURCE_CRIT_CHANCE,
                 SkillNumericValue.formula("crit_multiplier")), "amount")),
             List.of(), List.of(), skill.triggerRules(), "skill-digest"));
-        damageFormula(new DamageTypeCalculationFormula(
-            new DamageTypeFormulaAttributeNode(AttributeOwner.TARGET, "armor", AttributeValueKind.TOTAL),
-            new DamageTypeFormulaAttributeNode(AttributeOwner.SOURCE, "armor_pen_percent", AttributeValueKind.TOTAL),
-            fixed(0), fixed(0), fixed(1)));
+        damageFormula(definition("1", "armor", "armor_pen_percent"));
         when(vampRules.get("lol")).thenReturn(new GameVampRules(List.of(new GameVampRule(
             SkillEffectVampType.LIFE_STEAL, "life_steal_percent", SkillEffectVampBasisOutputKind.POST_DEFENSE_DAMAGE,
             BigDecimal.ONE, List.of(SkillEffectDamageDeliveryKind.BASIC_ATTACK),
@@ -306,7 +302,7 @@ class SimulationSnapshotServiceTest {
     @Test
     void selectedParameterNumberIsRequiredWhileRuntimeInputKeepsNoDefault() {
         var formula = new SkillFormulaDetailResponse("lol", "shared_basic_attack", "amount", "参数取值", null, 0,
-            new SkillFormulaParameterNode("p"), null, null);
+            xyz.game.datamanage.support.formula.SkillFormulaFixtures.parameter("shared_basic_attack", "p"), null, null);
         configure(new SkillConfigurationResponse(skill.skill(), List.of(parameter(SkillParameterValueMode.FIXED, null, null)),
             List.of(formula), skill.effects(), List.of(), List.of(), skill.triggerRules(), "skill-digest"));
         assertIssue("NUMBER_MISSING", "parameters.p.fixedValue");
@@ -326,9 +322,38 @@ class SimulationSnapshotServiceTest {
         characterValues("hero_b", "{\"1\":{\"armor\":40,\"health\":250}}");
         String changedActor = service.get("lol", CHOICE).snapshotDigest();
         assertNotEquals(original, changedActor);
-        damageFormula(new DamageTypeCalculationFormula(fixed(0), fixed(0), fixed(0), fixed(0), fixed(2)));
+        damageFormula(definition("2"));
         assertNotEquals(changedActor, service.get("lol", CHOICE).snapshotDigest());
         assertEquals("skill-digest", skill.baseDigest());
+    }
+
+    @Test
+    void snapshotTransportsCompleteCommonDefinitionReferencesAndUnusedResultDigest() {
+        var formula = (com.fasterxml.jackson.databind.node.ObjectNode) definition("1.000", "armor");
+        formula.withArray("stages").addObject().put("key", "unused").put("name", "未用结果")
+            .putObject("expression").put("op", "const").put("value", "0.2500");
+        damageFormula(formula);
+        var first = service.get("lol", CHOICE);
+        assertEquals(formula, first.catalogs().damageTypes().getFirst().formula().formula());
+        assertEquals("0.2500", first.catalogs().damageTypes().getFirst().formula().formula().at("/stages/1/expression/value").textValue());
+        assertTrue(first.references().stream().anyMatch(reference -> reference.sourceType().equals("DAMAGE_TYPE")
+            && reference.sourceSkillKey().isEmpty() && reference.sourceKey().equals("physical")
+            && reference.fieldPath().equals("inputs/0/binding/attributeKey") && reference.targetKey().equals("armor")));
+        var renamed = formula.deepCopy();
+        ((com.fasterxml.jackson.databind.node.ObjectNode) renamed.at("/stages/1")).put("name", "改名后的未用结果");
+        damageFormula(renamed);
+        assertNotEquals(first.snapshotDigest(), service.get("lol", CHOICE).snapshotDigest());
+    }
+
+    @Test
+    void unusedCommonInputStillRequiresEnabledSameGameAttributeCatalog() {
+        damageFormula(definition("1", "external"));
+        when(attributes.get("lol", "external")).thenReturn(new AttributeResponse("other", "external", "外部",
+            AttributeValueType.DECIMAL, null, null, null, AttributeStatus.ENABLED, 0, null, null));
+        assertIssue("REFERENCE_OUT_OF_SCOPE", "catalogs.damageTypes.physical.formula/inputs/0/binding/attributeKey");
+        when(attributes.get("lol", "external")).thenReturn(new AttributeResponse("lol", "external", "停用",
+            AttributeValueType.DECIMAL, null, null, null, AttributeStatus.DISABLED, 0, null, null));
+        assertIssue("REFERENCE_DISABLED", "catalogs.damageTypes.physical.formula/inputs/0/binding/attributeKey");
     }
 
     @Test
@@ -440,6 +465,24 @@ class SimulationSnapshotServiceTest {
         assertEquals(100, result.target().selectedEquipment().getFirst().attributes().attributeValues().path("health").intValue());
         assertEquals(xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.InactiveReason.GLOBAL_DISABLED,
             result.target().skillSources().getFirst().inactiveReason());
+    }
+
+    @Test
+    void inactiveCompleteFormulaDeclarationsHaveCatalogDefinitionsWithoutBecomingExecutionReads() throws Exception {
+        selectedEquipment("item_a", "{}", "item_passive");
+        attribute("ability_power");
+        var passive = selectedPassive("item_passive", 1);
+        var formula = new SkillFormulaDetailResponse("lol", "item_passive", "unused_amount", "未执行公式", null, 0,
+            xyz.game.datamanage.support.formula.SkillFormulaFixtures.attribute("source", "ability_power", "TOTAL"), null, null);
+        when(configurations.get("lol", "item_passive")).thenReturn(new SkillConfigurationResponse(passive.skill(),
+            List.of(), List.of(formula), List.of(), List.of(), List.of(), List.of(), "inactive-formula-digest"));
+        var result = service.get("lol", equipmentChoice(List.of(), List.of("item_a")));
+        assertTrue(result.catalogs().attributes().stream().anyMatch(row -> row.attributeKey().equals("ability_power")));
+        assertEquals(xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.InactiveReason.CONFIGURATION_INCOMPLETE,
+            result.target().skillSources().getFirst().inactiveReason());
+        assertTrue(result.skillConfigurations().stream().anyMatch(row -> row.formulas().contains(formula)));
+        assertTrue(result.references().stream().noneMatch(row -> row.targetKey().equals("ability_power")));
+        assertTrue(!result.target().selectedLevelValues().has("ability_power"));
     }
 
     @Test
@@ -575,7 +618,7 @@ class SimulationSnapshotServiceTest {
         }
         SkillConfigurationResponse passive = selectedPassive("item_passive", 1);
         var formula = new SkillFormulaDetailResponse("lol", "item_passive", "item_amount", "附伤公式", null, 0,
-            new SkillFormulaAttributeNode(AttributeOwner.SOURCE, "bonus_armor", AttributeValueKind.BONUS), null, null);
+            xyz.game.datamanage.support.formula.SkillFormulaFixtures.attribute("source", "bonus_armor", "BONUS"), null, null);
         var effect = new SkillEffectDetailResponse("lol", "item_passive", "item_effect", "被动效果", null, 0,
             List.of(new SkillEffectResultResponse("damage", "附伤", SkillEffectResultType.DAMAGE, SkillEffectTarget.TARGET, null, 0,
                     new SkillEffectValueRuleResponse(SkillNumericValue.formula("item_amount"), BigDecimal.ONE, null, null),
@@ -592,9 +635,7 @@ class SimulationSnapshotServiceTest {
         when(damageTypes.get("lol", "magic")).thenReturn(new DamageTypeResponse("lol", "magic", "魔法", null,
             DamageTypeStatus.ENABLED, 0, null, null, true));
         when(damageTypes.getFormula("lol", "magic")).thenReturn(new DamageTypeFormulaResponse("lol", "magic",
-            new DamageTypeCalculationFormula(new DamageTypeFormulaAttributeNode(AttributeOwner.TARGET, "magic_resistance", AttributeValueKind.TOTAL),
-                new DamageTypeFormulaAttributeNode(AttributeOwner.SOURCE, "magic_pen_percent", AttributeValueKind.TOTAL),
-                fixed(0), fixed(0), fixed(1)), null));
+            definition("1", "magic_resistance", "magic_pen_percent"), null));
         ModifierZoneResponse zone = new ModifierZoneResponse("lol", "bonus_zone", "额外属性加算", ModifierZoneDomain.ATTRIBUTE,
             ModifierZoneCalculationMode.FLAT_ADD, ModifierZoneApplicationStage.ATTRIBUTE_FLAT, null, ModifierZoneStatus.ENABLED, 0, null, null);
         when(zones.get("lol", "bonus_zone")).thenReturn(zone);
@@ -624,7 +665,7 @@ class SimulationSnapshotServiceTest {
         selectedEquipment("item_a", "{}", "item_passive");
         SkillConfigurationResponse passive = selectedPassive("item_passive", 1);
         var formula = new SkillFormulaDetailResponse("lol", "item_passive", "amount", "公式", null, 0,
-            new SkillFormulaAttributeNode(AttributeOwner.SOURCE, "health", AttributeValueKind.TOTAL), null, null);
+            xyz.game.datamanage.support.formula.SkillFormulaFixtures.attribute("source", "health", "TOTAL"), null, null);
         when(configurations.get("lol", "item_passive")).thenReturn(new SkillConfigurationResponse(passive.skill(),
             List.of(), List.of(formula, formula), List.of(), List.of(), List.of(), List.of(), "passive-digest"));
         assertIssue(choice, "DUPLICATE_KEY", "skillConfigurations[0].formulas.amount.formulaKey");
@@ -706,9 +747,6 @@ class SimulationSnapshotServiceTest {
         assertTrue(error.getDetails().toString().contains(field), error.getDetails().toString());
     }
 
-    private static DamageTypeFormulaFixedNode fixed(int value) {
-        return new DamageTypeFormulaFixedNode(BigDecimal.valueOf(value));
-    }
 
     private void configure(SkillConfigurationResponse value) {
         when(configurations.get("lol", "shared_basic_attack")).thenReturn(value);
@@ -724,13 +762,13 @@ class SimulationSnapshotServiceTest {
             null, null, null, AttributeStatus.ENABLED, 0, null, null));
     }
 
-    private void damageFormula(DamageTypeCalculationFormula formula) {
+    private void damageFormula(JsonNode formula) {
         when(damageTypes.getFormula("lol", "physical")).thenReturn(new DamageTypeFormulaResponse("lol", "physical", formula, null));
     }
 
     private SkillFormulaDetailResponse formula(String key, String attribute) {
         return new SkillFormulaDetailResponse("lol", "shared_basic_attack", key, key, null, 0,
-            new SkillFormulaAttributeNode(AttributeOwner.SOURCE, attribute, AttributeValueKind.TOTAL), null, null);
+            xyz.game.datamanage.support.formula.SkillFormulaFixtures.attribute("source", attribute, "TOTAL"), null, null);
     }
 
     private SkillEffectDetailResponse effect(SkillEffectCriticalPolicy critical, String amountFormula) {

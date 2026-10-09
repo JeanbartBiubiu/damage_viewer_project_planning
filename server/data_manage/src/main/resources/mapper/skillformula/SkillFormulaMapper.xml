@@ -22,7 +22,7 @@
         <constructor>
             <arg column="attribute_owner" javaType="xyz.game.datamanage.model.skillformula.AttributeOwner"/>
             <arg column="attribute_key" javaType="java.lang.String"/>
-            <arg column="attribute_value_kind" javaType="xyz.game.datamanage.model.skillformula.AttributeValueKind"/>
+            <arg column="attribute_value_kind" javaType="java.lang.String"/>
         </constructor>
     </resultMap>
 
@@ -91,25 +91,13 @@
     </delete>
 
     <select id="listAttributeRefs" resultMap="attributeRef">
-        WITH RECURSIVE nodes(node) AS (
-            SELECT expression
-            FROM public.skill_formulas
-            WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND formula_key = #{formulaKey}
-            UNION ALL
-            SELECT child.node
-            FROM nodes parent
-            CROSS JOIN LATERAL jsonb_array_elements(
-                CASE WHEN parent.node->>'nodeType' = 'OPERATION'
-                     THEN parent.node->'operands' ELSE '[]'::jsonb END
-            ) AS child(node)
-        )
-        SELECT DISTINCT node->>'attributeOwner' AS attribute_owner,
-                        node->>'attributeKey' AS attribute_key,
-                        node->>'attributeValueKind' AS attribute_value_kind
-        FROM nodes
-        WHERE node->>'nodeType' = 'ATTRIBUTE'
+        SELECT DISTINCT upper(i->'binding'->>'object') AS attribute_owner,
+                        i->'binding'->>'attributeKey' AS attribute_key,
+                        i->'binding'->>'valueKind' AS attribute_value_kind
+        FROM public.skill_formulas f CROSS JOIN LATERAL jsonb_array_elements(f.expression->'inputs') i
+        WHERE f.game_id = #{gameId} AND f.skill_key = #{skillKey} AND f.formula_key = #{formulaKey}
+          AND i->'binding'->>'kind'='attribute'
     </select>
-
     <select id="findAttributesByKeys" resultMap="attributeStatus">
         SELECT attribute_key, status
         FROM public.attributes
