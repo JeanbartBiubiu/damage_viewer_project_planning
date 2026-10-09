@@ -1,3 +1,4 @@
+import { validateStoredSkillFormula } from './skillFormulaContract';
 import { ApiRequestError, requestJson } from './apiClient';
 import type { ApiResult } from './apiClient';
 import { skillsPath } from './skillClient';
@@ -15,16 +16,6 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-function hasFullExpression(value: unknown): boolean {
-  if (!isRecord(value)) return false;
-  if (value.nodeType === 'PARAMETER') return typeof value.parameterKey === 'string' && Boolean(value.parameterKey.trim());
-  if (value.nodeType === 'ATTRIBUTE') return typeof value.attributeOwner === 'string'
-    && typeof value.attributeKey === 'string' && Boolean(value.attributeKey.trim())
-    && typeof value.attributeValueKind === 'string';
-  return value.nodeType === 'OPERATION' && typeof value.operation === 'string'
-    && Array.isArray(value.operands) && value.operands.length === 2
-    && value.operands.every(hasFullExpression);
-}
 
 export function validateSkillConfiguration(
   value: unknown,
@@ -51,7 +42,7 @@ export function validateSkillConfiguration(
       throw new ApiRequestError('技能配置含重复的稳定标识，请重新读取。', 502, 'INVALID_CONFIGURATION_RESPONSE');
     }
   }
-  if ((value.formulas as unknown[]).some((formula) => !isRecord(formula) || !hasFullExpression(formula.expression))) {
+  if ((value.formulas as unknown[]).some((formula) => !isRecord(formula) || validateStoredSkillFormula(formula.expression, skillKey) !== null)) {
     throw new ApiRequestError('技能公式详情不完整，请重新读取。', 502, 'INVALID_CONFIGURATION_RESPONSE');
   }
   return value as SkillConfiguration;

@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../../../../../tests/fixtures/skillFormulaDefinition';
 import { formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import type { SkillEffect, SkillEffectResult } from '../../../../types/skillEffect';
@@ -142,23 +143,23 @@ const FIXED_RATIO = parameter({
   fixedValue: 0.3
 });
 
-const FOLLOW_UP = formula('follow_up', { nodeType: 'PARAMETER', parameterKey: 'prior_hit_value' });
-const STACK_FORMULA = formula('stack_scale', { nodeType: 'PARAMETER', parameterKey: 'focus_stacks_input' });
-const THRESHOLD = formula('hp_threshold', { nodeType: 'PARAMETER', parameterKey: 'low_health_ratio' });
-const ATTRIBUTE_ONLY = formula('current_hp', {
+const FOLLOW_UP = formula('follow_up', skillFormulaDefinition('ashe_q', { nodeType: 'PARAMETER', parameterKey: 'prior_hit_value' }));
+const STACK_FORMULA = formula('stack_scale', skillFormulaDefinition('ashe_q', { nodeType: 'PARAMETER', parameterKey: 'focus_stacks_input' }));
+const THRESHOLD = formula('hp_threshold', skillFormulaDefinition('ashe_q', { nodeType: 'PARAMETER', parameterKey: 'low_health_ratio' }));
+const ATTRIBUTE_ONLY = formula('current_hp', skillFormulaDefinition('ashe_q', {
   nodeType: 'ATTRIBUTE',
   attributeOwner: 'TARGET',
   attributeKey: 'hp',
   attributeValueKind: 'CURRENT'
-});
-const NESTED = formula('nested_scale', {
+}));
+const NESTED = formula('nested_scale', skillFormulaDefinition('ashe_q', {
   nodeType: 'OPERATION',
   operation: 'MULTIPLY',
   operands: [
     { nodeType: 'PARAMETER', parameterKey: 'prior_hit_value' },
     { nodeType: 'PARAMETER', parameterKey: 'focus_stacks_input' }
   ]
-});
+}));
 
 const HIT_EFFECT = effect('on_hit_damage', [damageResult('damage', 'follow_up')]);
 const MARK_EFFECT = effect('focus_mark', [

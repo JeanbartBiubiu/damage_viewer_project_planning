@@ -1,7 +1,8 @@
-import {
-  DAMAGE_TYPE_FORMULA_MAX_DEPTH, DAMAGE_TYPE_FORMULA_MAX_NODES, DAMAGE_TYPE_FORMULA_STAGE_KEYS,
-  damageTypeFormulaStageFromResultKey, type DamageTypeFormulaNode
-} from '../types/damageTypeFormula';
+import { sameFormulaPayload } from '../services/skillFormulaContract';
+import { skillFormulaParameterKeys, skillFormulaReachableInputs, validateStoredSkillFormula } from '../services/skillFormulaContract';
+import { TypeCatalogEntries } from './typeCatalogEntries';
+import { damageTypeFormulaAllowedBindings } from '../types/damageTypeFormula';
+import { parseDamageTypeFormulaDefinition } from '../services/damageTypeClient';
 import type {
   CompileRequest, GenericDamageTypeFormula, GenericFormulaExpr, GenericRules, NamedFormula,
   AbilityDefinition, ModifierDefinition, OperationDefinition, ProviderDefinition, ProviderStateFieldSchema
@@ -13,13 +14,12 @@ import type { SkillInternalState } from '../types/skillInternalState';
 import type { SkillProcess, SkillProcessMoment, SkillProcessStateOperation } from '../types/skillProcess';
 import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerAction, type SkillTriggerCondition, type SkillTriggerRuleDetail } from '../types/skillTriggerRule';
 import type { FormulaExpressionNode } from '../types/skillFormula';
-import type { SkillParameter } from '../types/skillParameter';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import { executableEquipmentRelations, validateSimulationSkillSourceManifest, type TriggeredSkillSourceDescription } from './simulationSkillSourceDescription';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
 import {
-  compileFormulaExpression, compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
-  NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression
+  compileAttributeValue, compileNumericValue, registerCommonFormula, constExpr, createNumericCompileState, finiteNumber,
+  NumericAdaptationError, tryFoldConstant, staticNumericField, wrapValueRuleExpression
 } from './numericAdapter';
 import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
 import { adaptDamageVamp } from './vampAdapter';
@@ -69,19 +69,9 @@ function uniqueRows<T>(rows: T[], keyFor: (row: T) => string, path: string) {
     seen.add(key);
   }
 }
-function validateFormulaNode(node: FormulaExpressionNode, path: string, depth = 0) {
-  if (depth > DAMAGE_TYPE_FORMULA_MAX_DEPTH) fail(path, '公式深度超过限制');
-  record(node, path);
-  if (node.nodeType === 'PARAMETER') {
-    exact(node, ['nodeType', 'parameterKey'], path);
-    stableKey(node.parameterKey, `${path}.parameterKey`);
-  } else if (node.nodeType === 'ATTRIBUTE') {
-    exact(node, ['nodeType', 'attributeOwner', 'attributeKey', 'attributeValueKind'], path);
-  } else if (node.nodeType === 'OPERATION') {
-    exact(node, ['nodeType', 'operation', 'operands'], path);
-    if (array(node.operands, `${path}.operands`).length !== 2) fail(path, '公式运算必须有两个操作数');
-    node.operands.forEach((operand, index) => validateFormulaNode(operand, `${path}.operands[${index}]`, depth + 1));
-  } else fail(path, '未知公式节点');
+function validateFormulaNode(node: FormulaExpressionNode, path: string, skillKey: string) {
+  const problem = validateStoredSkillFormula(node, skillKey);
+  if (problem) fail(path + problem.path, problem.code);
 }
 function validateNumeric(value: NumericValue, path: string) {
   record(value, path);
@@ -94,9 +84,18 @@ function collectAttributes(value: unknown, owner: Side, required: Record<Side, S
   if (Array.isArray(value)) { value.forEach(row => collectAttributes(row, owner, required)); return; }
   if (!value || typeof value !== 'object') return;
   const row = value as Record<string, unknown>;
+  if (Array.isArray(row.inputs) && Array.isArray(row.stages) && typeof row.outputStageKey === 'string') {
+    for (const input of skillFormulaReachableInputs(row as unknown as FormulaExpressionNode)) if (input.binding.kind === 'attribute') {
+      required[input.binding.object === 'source' ? owner : owner === 'source' ? 'target' : 'source'].add(input.binding.attributeKey);
+    }
+    return;
+  }
   if (row.op === 'read' && typeof row.path === 'string') {
     const match = /^(source|target)\.attr\.([a-z][a-z0-9_]*)\./.exec(row.path);
     if (match) required[match[1] === 'source' ? owner : owner === 'source' ? 'target' : 'source'].add(match[2]!);
+  }
+  if (row.kind === 'attribute' && (row.object === 'source' || row.object === 'target') && typeof row.attributeKey === 'string') {
+    required[row.object === 'source' ? owner : owner === 'source' ? 'target' : 'source'].add(row.attributeKey);
   }
   Object.values(row).forEach(child => collectAttributes(child, owner, required));
 }
@@ -111,52 +110,6 @@ function renameFormulaRefs(expression: GenericFormulaExpr, names: ReadonlyMap<st
   };
 }
 
-function compileDefense(node: DamageTypeFormulaNode, path: string, stageIndex: number): GenericFormulaExpr {
-  const parameters: SkillParameter[] = [];
-  const runtimeInputReads: Record<string, GenericFormulaExpr> = {};
-  let nodes = 0;
-  function translate(current: DamageTypeFormulaNode, currentPath: string, depth: number): FormulaExpressionNode {
-    nodes++;
-    if (depth > DAMAGE_TYPE_FORMULA_MAX_DEPTH || nodes > DAMAGE_TYPE_FORMULA_MAX_NODES) fail(currentPath, '防御公式超过大小限制');
-    record(current, currentPath);
-    if (current.nodeType === 'FIXED' || current.nodeType === 'STAGE_RESULT') {
-      const parameterKey = `defense_value_${parameters.length}`;
-      let read: GenericFormulaExpr;
-      if (current.nodeType === 'FIXED') {
-        exact(current, ['nodeType', 'value'], currentPath);
-        read = constExpr(finiteNumber(current.value, currentPath, fail));
-      } else {
-        exact(current, ['nodeType', 'stageKey'], currentPath);
-        const prior = damageTypeFormulaStageFromResultKey(current.stageKey);
-        if (!prior || DAMAGE_TYPE_FORMULA_STAGE_KEYS.indexOf(prior) >= stageIndex) fail(currentPath, '只能引用已完成的前序防御阶段');
-        read = { op: 'read', path: `damage.stage.${current.stageKey}` };
-      }
-      parameters.push({ gameId: 'lol', skillKey: 'equipment_defense', parameterKey, valueType: 'DECIMAL',
-        valueMode: 'RUNTIME_INPUT', fixedValue: null, levelValues: null, name: parameterKey, description: null,
-        sortOrder: parameters.length, createdAt: '', updatedAt: '' });
-      runtimeInputReads[parameterKey] = read;
-      return { nodeType: 'PARAMETER', parameterKey };
-    }
-    if (current.nodeType === 'ATTRIBUTE') {
-      exact(current, ['nodeType', 'attributeOwner', 'attributeKey', 'attributeValueKind'], currentPath);
-      return { ...current };
-    }
-    if (current.nodeType !== 'OPERATION') fail(currentPath, '未知防御公式节点');
-    exact(current, ['nodeType', 'operation', 'operands'], currentPath);
-    if (array(current.operands, `${currentPath}.operands`).length !== 2) fail(currentPath, '防御运算必须有两个操作数');
-    return { nodeType: 'OPERATION', operation: current.operation, operands: [
-      translate(current.operands[0], `${currentPath}.operands[0]`, depth + 1),
-      translate(current.operands[1], `${currentPath}.operands[1]`, depth + 1)
-    ] };
-  }
-  const translated = translate(node, path, 0);
-  return compileFormulaExpression(translated, path, createNumericCompileState({
-    gameId: 'lol', skillKey: 'equipment_defense', skillLevel: 1, characterLevel: 1, parameters,
-    formulaNamespace: 'equipment_defense', bindParameters: false, allowAttributeReads: true,
-    runtimeInputReads, runtimeInputMessage: '防御阶段引用缺失'
-  }), fail);
-}
-
 function ordered<T extends { sortOrder: number }>(rows: T[], path: string): T[] {
   if (array(rows, path).some(row => !Number.isInteger(row.sortOrder))) fail(path, '排序必须为整数');
   return rows.map((row, index) => ({ row, index }))
@@ -168,16 +121,13 @@ export function compileSimulationDamageFormula(snapshot: SimulationSnapshot, dam
   const entries = snapshot.catalogs.damageTypes.filter(row => row.type.damageTypeKey === damageKey);
   const authored = entries[0];
   if (entries.length !== 1 || !authored || authored.type.gameId !== snapshot.gameId || authored.type.status !== 'ENABLED'
-    || authored.type.formulaConfigured !== true) fail(`catalogs.damageTypes.${damageKey}`, '缺少唯一已启用的真实五阶段防御公式');
+    || authored.type.formulaConfigured !== true) fail(`catalogs.damageTypes.${damageKey}`, '缺少唯一已启用的真实共同防御公式');
   exact(authored.type, ['gameId', 'damageTypeKey', 'status', 'formulaConfigured', ...METADATA], `catalogs.damageTypes.${damageKey}.type`);
   exact(authored.formula, ['gameId', 'damageTypeKey', 'formula', 'updatedAt'], `catalogs.damageTypes.${damageKey}.formula`);
   if (authored.formula.gameId !== snapshot.gameId || authored.formula.damageTypeKey !== damageKey) fail(`catalogs.damageTypes.${damageKey}.formula`, '防御公式归属不一致');
-  exact(authored.formula.formula, DAMAGE_TYPE_FORMULA_STAGE_KEYS, `damageTypes.${damageKey}.formula`);
-  const formula = {} as GenericDamageTypeFormula['formula'];
-  for (const [index, stage] of DAMAGE_TYPE_FORMULA_STAGE_KEYS.entries()) {
-    formula[stage] = compileDefense(authored.formula.formula[stage], `damageTypes.${damageKey}.formula.${stage}`, index);
-  }
-  return { damageType: `damage/${damageKey}`, formula };
+  const formula = parseDamageTypeFormulaDefinition(authored.formula.formula,
+    damageTypeFormulaAllowedBindings(snapshot.catalogs.attributes.filter(attribute => attribute.gameId === snapshot.gameId)));
+  return { damageType: damageKey, formula };
 }
 function combine(operation: 'min' | 'max', expressions: GenericFormulaExpr[]): GenericFormulaExpr {
   if (!expressions.length) fail('conditionGroups', '条件组不能为空');
@@ -215,7 +165,7 @@ export function validateConfiguration(configuration: SkillConfiguration, gameId:
     const path = `${root}.formulas.${formula.formulaKey}`;
     exact(formula, ['gameId', 'skillKey', 'formulaKey', 'expression', ...METADATA], path);
     if (formula.gameId !== gameId || formula.skillKey !== configuration.skill.skillKey) fail(path, '公式归属不一致');
-    validateFormulaNode(formula.expression, `${path}.expression`);
+    validateFormulaNode(formula.expression, `${path}.expression`, configuration.skill.skillKey);
   }
 }
 function validateLifecycle(lifecycle: SkillEffectLifecycle, path: string) {
@@ -301,7 +251,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
 export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, descriptions: readonly TriggeredSkillSourceDescription[]): TriggeredEquipmentAssembly {
   const providers: ProviderDefinition[] = [];
   const mounts: TriggeredEquipmentAssembly['mounts'] = [];
-  const types = new Map<string, string>();
+  const types = new TypeCatalogEntries();
   const formulas = new Map<string, NamedFormula>();
   const rules: GenericRules = { damageTypeFormulas: [] };
   const operationOrigins: OperationOrigin[] = [];
@@ -312,7 +262,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
   const cover = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const addFormula = (formula: NamedFormula, path: string) => {
     const existing = formulas.get(formula.key);
-    if (existing && JSON.stringify(existing.expression) !== JSON.stringify(formula.expression)) fail(path, '具名公式冲突');
+    if (existing && !sameFormulaPayload(existing, formula)) fail(path, '具名公式冲突');
     formulas.set(formula.key, formula);
   };
   const category = (key: string) => {
@@ -327,16 +277,12 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
   };
   const defense = (damageKey: string) => {
     stableKey(damageKey, `catalogs.damageTypes.${damageKey}`);
-    const damageType = `damage/${damageKey}`;
+    const damageType = damageKey;
     types.set(damageType, 'damage');
     if (rules.damageTypeFormulas!.some(row => row.damageType === damageType)) return damageType;
     const compiled = compileSimulationDamageFormula(snapshot, damageKey);
     const index = rules.damageTypeFormulas!.length;
-    for (const stage of DAMAGE_TYPE_FORMULA_STAGE_KEYS) {
-      const path = `damageTypes.${damageKey}.formula.${stage}`;
-      cover(path, `rules.damageTypeFormulas[${index}].formula.${stage}`);
-    }
-    rules.damageTypeFormulas!.push(compiled);
+    cover(`damageTypes.${damageKey}.formula`, `rules.damageTypeFormulas[${index}].formula`);    rules.damageTypeFormulas!.push(compiled);
     cover(`catalogs.damageTypes.${damageKey}.type`, `typeCatalog.types[${damageType}]`);
     return damageType;
   };
@@ -347,7 +293,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
       const compiledRoot = `sharedProviders.${definitionRef}`;
       const schema: Record<string, ProviderStateFieldSchema> = {};
       const modifiers: ModifierDefinition[] = [];
-      const provider: ProviderDefinition = { providerKey: definitionRef, stableId, kind: description.kind, abilities: [] };
+      const provider: ProviderDefinition = { providerKey: definitionRef, skillKey: skills.length === 1 ? skills[0]!.skillKey : undefined, stableId, kind: description.kind, abilities: [] };
       const opponent = side === 'source' ? 'target' : 'source';
       const namedKey = (skillKey: string, key: string) => skills.length === 1 ? key : `${skillKey}_${key}`;
 
@@ -360,6 +306,13 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           characterLevel: snapshot.selection[`${side}Level`], parameters: configuration.parameters,
           formulas: configuration.formulas, formulaNamespace: skills.length === 1 ? providerRef : `${providerRef}/${skillKey}`,
           bindParameters: true, allowAttributeReads: true, runtimeInputMessage: '触发来源不允许未供值的计算时参数' });
+        const staticField = (authored: NumericValue, fieldPath: string, state: import('./numericAdapter').NumericCompileState, reject: typeof fail) => {
+          const field = staticNumericField(authored, fieldPath, state, reject);
+          if (skills.length === 1 || typeof field === 'number') return field;
+          const approved = tryFoldConstant(field);
+          if (approved === null || !Number.isFinite(approved)) return reject(fieldPath, '聚合状态字段需要原生核定的静态数值');
+          return approved;
+        };
         const usedParameters = new Set<string>();
         const usedFormulas = new Set<string>();
         const usedEffects = new Set<string>();
@@ -381,11 +334,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (value.kind === 'FORMULA') {
             usedFormulas.add(value.formulaKey);
             const formula = configuration.formulas.find(row => row.formulaKey === value.formulaKey);
-            const noteNode = (node: FormulaExpressionNode) => {
-              if (node.nodeType === 'PARAMETER') usedParameters.add(node.parameterKey);
-              if (node.nodeType === 'OPERATION') node.operands.forEach(noteNode);
-            };
-            if (formula) noteNode(formula.expression);
+            if (formula) skillFormulaParameterKeys(formula.expression, false).forEach(key => usedParameters.add(key));
           }
         };
         const value = (authored: NumericValue, valuePath: string) => {
@@ -440,12 +389,13 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             if (initial > maximum) fail(statePath, '计数初始值不能超过上限');
             const durationValue = state.detail.durationValue;
             const durationMs = durationValue == null ? 0 : constant(durationValue, `${statePath}.detail.durationValue`, true);
-            schema[stateKey(state)] = { valueType: 'integer', defaultValue: initial, maxValue: maximum, durationMs,
+            schema[stateKey(state)] = { valueType: 'integer', defaultValue: staticField(state.detail.initialValue, statePath + '.detail.initialValue', numeric, fail), maxValue: staticField(state.detail.maxValue, statePath + '.detail.maxValue', numeric, fail),
+              durationMs: durationValue ? staticField(durationValue, statePath + '.detail.durationValue', numeric, fail) : 0,
               ...(durationMs > 0 ? { refreshPolicy: 'refresh_on_write' } : {}) };
           } else if (state.stateType === 'INTERNAL_COOLDOWN') {
             exact(state.detail, ['durationValue'], `${statePath}.detail`);
             schema[stateKey(state)] = { valueType: 'number', defaultValue: 0, maxValue: 1,
-              durationMs: constant(state.detail.durationValue, `${statePath}.detail.durationValue`, true, 1), refreshPolicy: 'start_on_first_write' };
+              durationMs: staticField(state.detail.durationValue, `${statePath}.detail.durationValue`, numeric, fail), refreshPolicy: 'start_on_first_write' };
           } else if (state.stateType === 'FLAG') {
             exact(state.detail, ['initialEnabled'], `${statePath}.detail`);
             if (typeof state.detail.initialEnabled !== 'boolean') fail(statePath, '标志初值必须来自明确作者布尔');
@@ -551,14 +501,14 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (life.instanceScope !== 'SOURCE' || life.periodicIntervalValue !== null || life.firstPeriodicExecution !== null
             || life.expiryMode !== 'ALL_AT_ONCE' || !['INCREASE', 'KEEP', 'REPLACE'].includes(life.reapplicationStackMode)
             || !['REFRESH_ALL', 'KEEP_REMAINING'].includes(life.reapplicationDurationMode ?? '')) fail(`${authorPath}.lifecycle`, '来源叠层需要完整有期、同刻到期且无周期的生命周期');
-          const duration = life.durationValue ? constant(life.durationValue, `${authorPath}.lifecycle.durationValue`, true, 1) : fail(authorPath, '来源叠层时长缺失');
+          life.durationValue ? constant(life.durationValue, `${authorPath}.lifecycle.durationValue`, true, 1) : fail(authorPath, '来源叠层时长缺失');
           const maximum = constant(life.maxStacksValue, `${authorPath}.lifecycle.maxStacksValue`, true, 1);
           const stacks = constant(life.applicationStacksValue, `${authorPath}.lifecycle.applicationStacksValue`, true, 1);
           if (stacks > maximum || life.reapplicationStackMode === 'KEEP' && maximum !== 1) fail(authorPath, '未接入保持多层的叠层方式');
           const key = namedKey(skillKey, `effect_${authored.effectKey}`);
           if (schema[key]) fail(authorPath, '生命周期状态标识与内部状态冲突');
           const refreshPolicy = life.reapplicationDurationMode === 'REFRESH_ALL' ? 'refresh_on_write' : 'start_on_first_write';
-          schema[key] = { valueType: 'integer', defaultValue: 0, maxValue: maximum, durationMs: duration, refreshPolicy };
+          schema[key] = { valueType: 'integer', defaultValue: 0, maxValue: staticField(life.maxStacksValue, authorPath + '.lifecycle.maxStacksValue', numeric, fail), durationMs: staticField(life.durationValue!, authorPath + '.lifecycle.durationValue', numeric, fail), refreshPolicy };
           if (!authored.results.length) fail(authorPath, '来源叠层缺少完整属性结果');
           for (const result of ordered(authored.results, `${authorPath}.results`)) {
             const resultPath = `${authorPath}.results.${result.resultKey}`;
@@ -639,7 +589,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             exact(detail, ['subject', 'attributeKey', 'attributeValueKind', 'comparator', 'comparisonValue'], detailPath);
             if (!['SOURCE', 'CURRENT_TARGET', 'EVENT_SOURCE'].includes(detail.subject)) fail(detailPath, '未知条件属性对象');
             const receiver = event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED';
-            const expression = compileFormulaExpression({ nodeType: 'ATTRIBUTE', attributeOwner: detail.subject === 'CURRENT_TARGET' && !receiver ? 'TARGET' : 'SOURCE',
+            const expression = compileAttributeValue({ attributeOwner: detail.subject === 'CURRENT_TARGET' && !receiver ? 'TARGET' : 'SOURCE',
               attributeKey: detail.attributeKey, attributeValueKind: detail.attributeValueKind }, detailPath, numeric, fail);
             const eventRead = (node: GenericFormulaExpr): GenericFormulaExpr => ({ ...node,
               ...(node.path ? { path: node.path.replace(/^source\.attr\./, 'event.source.attr.') } : {}),
@@ -721,7 +671,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           Object.assign(operation, vamp.operation, { vampOverrides: vamp.operation.vampOverrides?.map(override => override.mode === 'OVERRIDE'
             ? { ...override, efficiency: renameFormulaRefs(override.efficiency, names) } : override) });
           Object.assign(numeric.params, vamp.params);
-          for (const formula of vamp.formulas) addFormula({ key: names.get(formula.key)!, expression: renameFormulaRefs(formula.expression, names) }, resultPath);
+          for (const formula of vamp.formulas) addFormula({ ...structuredClone(formula), key: names.get(formula.key)! }, resultPath);
           for (const entry of vamp.typeEntries) {
             if (entry.domain === 'ability') category(entry.key.slice('ability/'.length));
             types.set(entry.key, entry.domain);
@@ -769,7 +719,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             compiled.provider.stableId = provider.stableId;
             Object.assign(numeric.params, compiled.params);
             const names = new Map(compiled.formulas.map(formula => [formula.key, `${numeric.formulaNamespace}/${formula.key}`]));
-            for (const formula of compiled.formulas) addFormula({ key: names.get(formula.key)!, expression: renameFormulaRefs(formula.expression, names) }, resultPath);
+            for (const formula of compiled.formulas) addFormula({ ...structuredClone(formula), key: names.get(formula.key)! }, resultPath);
             if (compiled.provider.lifecycle?.durationMs) {
               compiled.provider.lifecycle.durationMs = renameFormulaRefs(compiled.provider.lifecycle.durationMs, names);
             }
@@ -803,7 +753,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             if (!providers.some(row => row.providerKey === key)) providers.push(compiled.provider);
             Object.assign(numeric.params, compiled.params);
             const names = new Map(compiled.formulas.map(formula => [formula.key, `${numeric.formulaNamespace}/${formula.key}`]));
-            for (const formula of compiled.formulas) addFormula({ key: names.get(formula.key)!, expression: renameFormulaRefs(formula.expression, names) }, resultPath);
+            for (const formula of compiled.formulas) addFormula({ ...structuredClone(formula), key: names.get(formula.key)! }, resultPath);
             if (compiled.provider.lifecycle?.durationMs) {
               compiled.provider.lifecycle.durationMs = renameFormulaRefs(compiled.provider.lifecycle.durationMs, names);
             }
@@ -837,7 +787,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             compiled.provider.stableId = provider.stableId;
             Object.assign(numeric.params, compiled.params);
             const names = new Map(compiled.formulas.map(formula => [formula.key, `${numeric.formulaNamespace}/${formula.key}`]));
-            for (const formula of compiled.formulas) addFormula({ key: names.get(formula.key)!, expression: renameFormulaRefs(formula.expression, names) }, resultPath);
+            for (const formula of compiled.formulas) addFormula({ ...structuredClone(formula), key: names.get(formula.key)! }, resultPath);
             if (compiled.provider.lifecycle?.durationMs) {
               compiled.provider.lifecycle.durationMs = renameFormulaRefs(compiled.provider.lifecycle.durationMs, names);
             }
@@ -895,7 +845,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                 const key = `${definitionRef}_${authored.effectKey}_${result.resultKey}`;
                 const modifier = source.permanentModifier(result, resultPath);
                 if (!providers.some(row => row.providerKey === key)) providers.push({
-                  providerKey: key, stableId, kind: 'status', modifiers: [modifier]
+                  providerKey: key, skillKey, stableId, kind: 'status', modifiers: [modifier]
                 });
                 const operationPath = `${outputRoot}[${output.length}]`;
                 output.push({ operation: 'apply_provider', target: 'self', providerDefinitionRef: key, providerRef: key });
@@ -1082,7 +1032,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             const key = dynamic ? `${definitionRef}_${skillKey}_${authored.effectKey}_periodic` : definitionRef;
             const tick: AbilityDefinition = { abilityKey: dynamic ? 'tick' : namedKey(skillKey, `tick_${authored.effectKey}`), kind: 'tick',
               skillKey, types: [...skillTypes, `ability/skill/${skillKey}`], tickSpec: { intervalMs: interval, startDelayMs: interval, onTick: [] } };
-            const tickProvider: ProviderDefinition = dynamic ? { providerKey: key, stableId: provider.stableId, kind: 'status',
+            const tickProvider: ProviderDefinition = dynamic ? { providerKey: key, skillKey, stableId: provider.stableId, kind: 'status',
               lifecycle: { durationMs: constExpr(constant(life.durationValue!, `${effectPath}.lifecycle.durationValue`, true, 1)),
                 maxStacks: 1, refreshPolicy: 'replace', instanceScope: 'source_target' }, abilities: [tick] } : provider;
             if (!dynamic && provider.abilities!.some(ability => ability.kind === 'tick')) fail(effectPath, '固定来源不支持第二项独立周期');
@@ -1233,14 +1183,16 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         for (const authored of configuration.triggerRules) if (!usedRules.has(authored.ruleKey)) fail(`${root}.triggerRules.${authored.ruleKey}`, '存在未接入的作者规则或时点');
         for (const authored of configuration.formulas) if (!usedFormulas.has(authored.formulaKey)) {
           const authorPath = `${root}.formulas.${authored.formulaKey}.expression`;
-          const numericValue: NumericValue = { kind: 'FORMULA', formulaKey: authored.formulaKey };
-          compileNumericValue(numericValue, authorPath, numeric, fail);
-          noteNumeric(numericValue);
+          registerCommonFormula(authored, authorPath, numeric, fail);
+
           const key = `${numeric.formulaNamespace}/${authored.formulaKey}`;
           coverage.push({ authorPath, compiledPath: `formulas[${key}].expression`,
-            note: '非战斗引用：完整翻译并保留可用作者公式，未绑定动作，不替换任何战斗节点数值' });
+            note: '非战斗引用：完整透传共同公式，未绑定动作，不替换任何战斗节点数值' });
         }
         for (const parameter of configuration.parameters) {
+          if (parameter.valueMode === 'RUNTIME_INPUT') {
+            continue;
+          }
           compileNumericValue({ kind: 'PARAMETER', parameterKey: parameter.parameterKey }, `${root}.parameters.${parameter.parameterKey}`, numeric, fail);
           if (parameter.valueType === 'INTEGER' && !Number.isInteger(numeric.params[parameter.parameterKey])) fail(`${root}.parameters.${parameter.parameterKey}`, '参数违反整数约束');
           for (const ability of abilities) {
@@ -1256,6 +1208,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         }
         for (const formula of numeric.namedFormulas.values()) addFormula(formula, root);
         for (const ability of abilities) {
+          ability.skillKey = skillKey;
           ability.params = { ...numeric.params };
           collectAttributes(ability, side, required);
         }

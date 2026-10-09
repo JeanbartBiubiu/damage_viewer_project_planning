@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import { adaptDamageVamp, withVampConfiguration, type AuthoredVampDamage } from './vampAdapter';
 import type { CompileRequest } from '../types/genericEngine';
@@ -96,14 +97,11 @@ describe('吸血管理配置适配', () => {
     row.detail.vampOverrides = [{ vampType: 'OMNIVAMP', mode: 'OVERRIDE', basisOutputKind: 'ACTUAL_HP_LOSS',
       efficiencyValue: { kind: 'FORMULA', formulaKey: 'health_ratio' } }];
     row.formulas = [{ gameId: 'lol', skillKey: 'ahri_q', formulaKey: 'health_ratio', name: '生命比例', description: null,
-      sortOrder: 0, createdAt: '', updatedAt: '', expression: {
+      sortOrder: 0, createdAt: '', updatedAt: '', expression: skillFormulaDefinition('ahri_q', {
         nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'health', attributeValueKind: 'MISSING_RATIO'
-      } }];
+      }) }];
     const result = adaptDamageVamp(rules, row);
-    expect(result.formulas).toEqual([{ key: 'vamp/ahri_q/health_ratio', expression: {
-      op: 'div', args: [{ op: 'sub', args: [{ op: 'read', path: 'source.attr.health.max' }, { op: 'read', path: 'source.attr.health.current' }] },
-        { op: 'read', path: 'source.attr.health.max' }]
-    } }]);
+    expect(result.formulas).toEqual([{ key: 'vamp/ahri_q/levels/1/1/health_ratio', skillKey: 'ahri_q', expression: row.formulas![0]!.expression, parameters: [] }]);
     expect(result.requiredAttributes).toContain('health');
   });
 
@@ -162,10 +160,12 @@ describe('吸血配置接入通用编译请求', () => {
     expect(() => withVampConfiguration(request(), rules, [bind(), bind()], options)).toThrow('重复绑定');
   });
 
-  it('类型域与参数冲突不覆盖原值，规则摘要必须更新', () => {
+  it('不同类型域的同名条目各自保留，参数冲突不覆盖原值且规则摘要必须更新', () => {
     const input = request();
     input.typeCatalog.types.push({ key: 'combatant/champion', domain: 'ability' });
-    expect(() => withVampConfiguration(input, rules, [bind()], options)).toThrow('类型域冲突');
+    expect(withVampConfiguration(input, rules, [bind()], options).typeCatalog.types).toEqual(expect.arrayContaining([
+      { key: 'combatant/champion', domain: 'ability' }, { key: 'combatant/champion', domain: 'combatant' }
+    ]));
     const other = request();
     other.sharedProviders![0]!.abilities![0]!.params = { efficiency: 1 };
     expect(() => withVampConfiguration(other, rules, [bind(parameterDamage())], options)).toThrow('参数与现有运行输入冲突');

@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
@@ -137,9 +138,9 @@ test('同区未命中动态金额不求值，独立乘区仍相乘', async ({ pa
   second.resultKey = 'other'; second.detail.condition!.comparator = 'GT';
   second.valueRule.value = { kind: 'FORMULA', formulaKey: 'divide_by_current' }; second.valueRule.fixedMinValue = 0;
   p.formulas = [{ gameId: 'lol', skillKey: p.skillKey, formulaKey: 'divide_by_current', name: '合成动态比值', description: null,
-    sortOrder: 10, createdAt: '', updatedAt: '', expression: { nodeType: 'OPERATION', operation: 'DIVIDE', operands: [
+    sortOrder: 10, createdAt: '', updatedAt: '', expression: skillFormulaDefinition(p.skillKey, { nodeType: 'OPERATION', operation: 'DIVIDE', operands: [
       { nodeType: 'ATTRIBUTE', attributeKey: 'power', attributeOwner: 'TARGET', attributeValueKind: 'BASE' },
-      { nodeType: 'ATTRIBUTE', attributeKey: 'power', attributeOwner: 'TARGET', attributeValueKind: 'CURRENT' }] } }];
+      { nodeType: 'ATTRIBUTE', attributeKey: 'power', attributeOwner: 'TARGET', attributeValueKind: 'CURRENT' }] }) }];
   p.effects[0]!.results.push(second);
   const input = scenario(399);
   input.compileRequest.combatants[1]!.attributes.power = { base: 1, current: 0, max: 1, resolved: 1 };
@@ -160,8 +161,8 @@ test('静态十进制公式与实际生命比例等值时不误触发严格门�
     sortOrder: 10, createdAt: '', updatedAt: '', valueMode: 'FIXED', valueType: 'DECIMAL', fixedValue: Number(value), levelValues: null
   }));
   p.formulas = [{ gameId: 'lol', skillKey: p.skillKey, formulaKey: 'sum', name: '十进制门槛', description: null,
-    sortOrder: 10, createdAt: '', updatedAt: '', expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [
-      { nodeType: 'PARAMETER', parameterKey: 'a' }, { nodeType: 'PARAMETER', parameterKey: 'b' }] } }];
+    sortOrder: 10, createdAt: '', updatedAt: '', expression: skillFormulaDefinition(p.skillKey, { nodeType: 'OPERATION', operation: 'ADD', operands: [
+      { nodeType: 'PARAMETER', parameterKey: 'a' }, { nodeType: 'PARAMETER', parameterKey: 'b' }] }) }];
   (p.effects[0]!.results[0]! as SkillEffectDamageModifierResult).detail.condition!.comparisonValue = { kind: 'FORMULA', formulaKey: 'sum' };
   for (const [hp, expected] of [[300, 100], [299, 108]]) {
     const result = await run(page, scenario(hp!), p);

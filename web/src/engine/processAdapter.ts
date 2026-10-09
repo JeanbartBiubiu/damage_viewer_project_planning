@@ -1,3 +1,6 @@
+import { formulasUsedByInternalValue } from './approvedFormulaValues';
+import { sameFormulaPayload } from '../services/skillFormulaContract';
+import { validateStoredSkillFormula } from '../services/skillFormulaContract';
 import type { NumericValue } from '../types/numericValue';
 import type {
   SkillEffect, SkillEffectResult, SkillEffectValueRule
@@ -17,7 +20,7 @@ import type {
 } from '../types/genericEngine';
 import {
   compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
-  NumericAdaptationError, tryFoldConstant, type NumericCompileState, wrapValueRuleExpression
+  NumericAdaptationError, tryFoldConstant, hasNamedFormulaReference, type NumericCompileState, wrapValueRuleExpression
 } from './numericAdapter';
 
 export class ProcessAdaptationError extends NumericAdaptationError {
@@ -70,6 +73,7 @@ export type AdaptedProcessControl = {
 export type AdaptedProcessProgram = {
   provider: {
     providerKey: string;
+    skillKey?: string;
     kind: string;
     stableId: string;
     abilities: AbilityDefinition[];
@@ -132,7 +136,7 @@ function numericState(authored: AuthoredProcessProgram): NumericCompileState {
   for (const formula of authored.formulas ?? []) {
     const path = planPath(authored.skillKey, `formulas.${formula.formulaKey}`);
     exactKeys(formula, ['gameId', 'skillKey', 'formulaKey', 'name', 'description', 'sortOrder', 'createdAt', 'updatedAt', 'expression'], path);
-    assertFormulaShape(formula.expression, `${path}.expression`);
+    assertFormulaShape(formula.expression, `${path}.expression`, authored.skillKey);
   }
   return createNumericCompileState({
     gameId: authored.gameId, skillKey: authored.skillKey, skillLevel: authored.skillLevel,
@@ -151,19 +155,9 @@ function scratchState(state: NumericCompileState, message: string, allowAttribut
   });
 }
 
-function assertFormulaShape(node: unknown, path: string, depth = 0): void {
-  if (depth > 32) fail(path, '公式深度超过限制');
-  if (!isRecord(node)) fail(path, '公式节点必须是对象');
-  if (node.nodeType === 'PARAMETER') {
-    exactKeys(node, ['nodeType', 'parameterKey'], path);
-    catalogKey(node.parameterKey, `${path}.parameterKey`);
-  } else if (node.nodeType === 'ATTRIBUTE') {
-    exactKeys(node, ['nodeType', 'attributeOwner', 'attributeKey', 'attributeValueKind'], path);
-  } else if (node.nodeType === 'OPERATION') {
-    exactKeys(node, ['nodeType', 'operation', 'operands'], path);
-    if (!Array.isArray(node.operands) || node.operands.length !== 2) fail(`${path}.operands`, '公式运算必须有两个操作数');
-    node.operands.forEach((operand, index) => assertFormulaShape(operand, `${path}.operands[${index}]`, depth + 1));
-  } else fail(`${path}.nodeType`, '不支持的公式节点');
+function assertFormulaShape(node: unknown, path: string, skillKey: string): void {
+  const problem = validateStoredSkillFormula(node, skillKey);
+  if (problem) fail(path + problem.path, problem.code);
 }
 
 function assertNumericShape(value: NumericValue, path: string): void {
@@ -182,6 +176,7 @@ function assertNumericShape(value: NumericValue, path: string): void {
 
 function compileFoldable(value: NumericValue, path: string, state: NumericCompileState, message: string): GenericFormulaExpr {
   assertNumericShape(value, path);
+  if (value.kind === 'FORMULA') return compileNumericValue(value, path, state, fail);
   const folded = tryFoldConstant(compileNumericValue(value, path, scratchState(state, message, true), fail));
   if (folded !== null) return constExpr(finiteNumber(folded, path, fail));
   return compileNumericValue(value, path, state, fail);
@@ -215,14 +210,14 @@ function compileTime(value: NumericValue, path: string, state: NumericCompileSta
   const folded = tryFoldConstant(expr);
   if (folded !== null) {
     assertTime(folded, path, mode);
-    return constExpr(folded);
+    return hasNamedFormulaReference(expr) ? expr : constExpr(folded);
   }
   return expr;
 }
 
 function negate(amount: GenericFormulaExpr): GenericFormulaExpr {
   const signed: GenericFormulaExpr = { op: 'mul', args: [amount, constExpr(-1)] };
-  const folded = tryFoldConstant(signed);
+  const folded = hasNamedFormulaReference(signed) ? null : tryFoldConstant(signed);
   return folded === null ? signed : constExpr(folded);
 }
 
@@ -933,13 +928,14 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     ...controlAbility(control, process.processKey, skillKey, params),
     ...(firstEffects.length && control.action === 'INITIAL' ? { types: [INITIAL_CAST_TYPE] } : {})
   })).concat(firstEffects);
+  for (const ability of abilities) ability.skillKey = skillKey;
   const providerKey = `process_${skillKey}`;
   return {
     provider: {
-      providerKey, kind: 'champion', stableId: providerKey, abilities,
+      providerKey, skillKey: authored.skillKey, kind: 'champion', stableId: providerKey, abilities,
       processes: [{ processKey: process.processKey, skillKey, steps, costs: costs.costs, cooldown, momentOperations }]
     },
-    params, formulas: [...state.namedFormulas.values()], requiredAttributes: [...state.requiredAttributes],
+    params, formulas: formulasUsedByInternalValue([abilities, momentOperations, steps, costs.costs, cooldown], [...state.namedFormulas.values()]), requiredAttributes: [...state.requiredAttributes],
     initialAbilityKey: controls.initial.abilityKey, controls: controlRows
   };
 }
@@ -985,8 +981,7 @@ export function withProcessProgram(
       ['ability/basic_attack', 'ability'], ['event/ability_started', 'event'],
       ['event/source_owner', 'event'], [boundType, 'ability']
     ]) {
-      const existingType = request.typeCatalog.types.find((item) => item.key === key);
-      if (existingType && existingType.domain !== domain) fail(`typeCatalog.types.${key}`, '已有类型目录与过程监听冲突');
+      const existingType = request.typeCatalog.types.find((item) => item.key === key && item.domain === domain);
       if (!existingType) request.typeCatalog.types.push({ key, domain });
     }
   }
@@ -1038,7 +1033,7 @@ export function withProcessProgram(
   }
   for (const formula of adapted.formulas) {
     const old = request.formulas.find((row) => row.key === formula.key);
-    if (old && JSON.stringify(old.expression) !== JSON.stringify(formula.expression)) fail('formulas', '具名公式与现有输入冲突');
+    if (old && !sameFormulaPayload(old, formula)) fail('formulas', '具名公式与现有输入冲突');
     if (!old) request.formulas.push(formula);
   }
   for (const combatant of request.combatants) {

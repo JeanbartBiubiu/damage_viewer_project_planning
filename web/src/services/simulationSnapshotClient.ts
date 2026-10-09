@@ -1,6 +1,10 @@
+import { skillFormulaAllowedBindings } from './skillFormulaContract';
+import { validateFormulaDefinition } from './formulaContract';
 import { ApiRequestError, encodePathSegment, requestJson, type ApiResult } from './apiClient';
 import { validateSkillConfiguration } from './skillConfigurationClient';
 import { simulationSkillSourceIdentity } from './simulationSkillSourceIdentity';
+import { parseDamageTypeFormulaDefinition } from './damageTypeClient';
+import { damageTypeFormulaAllowedBindings } from '../types/damageTypeFormula';
 import type {
   BuildConfiguration, BuildDefinition, SimulationPlannedSkill, SimulationSelection, SimulationSkillSetting, SimulationSkillOrigin, SimulationSnapshot
 } from '../types/simulationSnapshot';
@@ -387,6 +391,18 @@ export function validateSimulationSnapshot(
     if (settings.some(setting => !seenSources.has(simulationSkillSourceIdentity(setting.origin, setting.skillKey)))) bad(`selection.${side}SkillSettings`);
   }
   const references = rows(root.references, 'references');
+  for (const [index, reference] of references.entries()) {
+    const path = `references[${index}]`;
+    if (reference.sourceType === 'DAMAGE_TYPE') {
+      if (reference.sourceSkillKey !== '' || reference.targetType !== 'ATTRIBUTE'
+        || reference.targetSkillKey !== '' || reference.targetSubKey !== ''
+        || typeof reference.fieldPath !== 'string' || !/^inputs\/\d+\/binding\/attributeKey$/.test(reference.fieldPath)) bad(path);
+      key(reference.sourceKey, `${path}.sourceKey`);
+      key(reference.targetKey, `${path}.targetKey`);
+    } else {
+      key(reference.sourceSkillKey, `${path}.sourceSkillKey`);
+    }
+  }
   const permittedSkills = new Set([...expectedSkills, ...sourceRows.map(source => String(source.skillKey)),
     ...references.flatMap(reference => [String(reference.targetSkillKey), reference.targetType === 'SKILL' ? String(reference.targetKey) : ''])]);
   const configurations = rows(root.skillConfigurations, 'skillConfigurations');
@@ -421,6 +437,15 @@ export function validateSimulationSnapshot(
     || expected.sourceLevel < Number(levels.minLevel) || expected.targetLevel < Number(levels.minLevel)
     || expected.sourceLevel > Number(levels.maxLevel) || expected.targetLevel > Number(levels.maxLevel)) bad('catalogs.levelConfig');
   const attributes = uniqueCatalog(catalogs.attributes, 'attributeKey', 'catalogs.attributes', gameId);
+  for (const [index, configuration] of configurations.entries()) {
+    const skill = configuration.skill as { skillKey: string; status: string };
+    const parameters = configuration.parameters as import('../types/skillParameter').SkillParameter[];
+    const allowed = skillFormulaAllowedBindings(skill.skillKey, parameters, attributes.map(row => ({ attributeKey: String(row.attributeKey), status: String(row.status) })));
+    for (const [formulaIndex, formula] of (configuration.formulas as import('../types/skillFormula').SkillFormula[]).entries()) {
+      const problem = validateFormulaDefinition(formula.expression, allowed);
+      if (problem) bad('skillConfigurations[' + index + '].formulas[' + formulaIndex + '].expression' + problem.path);
+    }
+  }
   for (const name of equipmentAttributeKeys) {
     if (!attributes.some(attribute => attribute.attributeKey === name)) bad(`catalogs.attributes.${name}`);
   }
@@ -443,7 +468,9 @@ export function validateSimulationSnapshot(
       || type.formulaConfigured !== true || formula.gameId !== gameId || formula.damageTypeKey !== damageTypeKey) {
       bad(`catalogs.damageTypes[${index}]`);
     }
-    record(formula.formula, `catalogs.damageTypes[${index}].formula.formula`);
+    parseDamageTypeFormulaDefinition(formula.formula, damageTypeFormulaAllowedBindings(attributes.map(attribute => ({
+      attributeKey: String(attribute.attributeKey), status: String(attribute.status)
+    }))));
     seenDamageTypes.add(damageTypeKey);
   }
   const vamp = record(catalogs.vampRules, 'catalogs.vampRules');

@@ -149,7 +149,7 @@ export function SkillFormulaDraftDialog({
         </AuthoringFieldAnchor>
         <AuthoringFieldAnchor field="expression" active={field === 'expression' && !focusPath}>
           <Form.Item label="公式结构" validateStatus={errors.expression ? 'error' : undefined} help={errors.expression}>
-            <FormulaExpressionEditor root={draft.expression} path="expression" node={draft.expression}
+            <FormulaExpressionEditor skillKey={original?.skillKey ?? parameters[0]?.skillKey} root={draft.expression} path="expression" node={draft.expression}
               readOnly={false} disabled={!attributesReady} parameters={parameters} attributes={attributes}
               retainedDisabledAttributeKeys={retainedDisabledAttributeKeys}
               nodeIssues={nodeIssues} focusPath={focusPath}

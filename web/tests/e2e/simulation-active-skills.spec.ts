@@ -73,6 +73,11 @@ async function runSample(page: Page, snapshot: SimulationSnapshot, sample: Sampl
     const { assessSkillActionResult } = await import(assessmentPath) as typeof import('../../src/engine/skillActionResult');
     const { GenericEngineClient } = await import(clientPath) as typeof import('../../src/engine/genericEngineClient');
     const { tryFoldConstant } = await import(numericPath) as typeof import('../../src/engine/numericAdapter');
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { preflightSkillFormulas } = await import(preflightPath) as typeof import('../../src/engine/skillFormulaPreflight');
+    const { validateConsumedFormulaValues, validateApprovedFormulaValues } = await import(proofPath) as typeof import('../../src/engine/approvedFormulaValues');
+    const client = new GenericEngineClient();
+    const formulaPreflight = await preflightSkillFormulas(snapshot, client);
     const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     for (const row of inspectSimulationSnapshot(snapshot, costs).requirements) if (row.storedValue === undefined) {
       const key = row.attribute.attributeKey;
@@ -92,13 +97,14 @@ async function runSample(page: Page, snapshot: SimulationSnapshot, sample: Sampl
       phaseKind: 'INITIAL' as const, parentInstructionKey: null, targetSide: healing ? 'source' as const : 'target' as const,
       hitPreset: healing ? null : 'TARGET_HIT' as const }], durationMs: delay + 100, recordTimeSeries: true,
       maxSkillActionRecords: 32, maxSkillUseRecords: 128, maxHealingRecords: 256 };
-    const client = new GenericEngineClient();
     let sessionId: string | null = null;
     const runs: Array<{ name: string; runRequest: RunRequest; done: DoneResult }> = [];
     try {
       const compiled = await client.compile(prepared.compileRequest);
       if (!compiled.ok || !compiled.sessionId) throw new Error(JSON.stringify(compiled.errors));
       sessionId = compiled.sessionId;
+      validateConsumedFormulaValues(prepared.approvedFormulaValues, prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
+      validateApprovedFormulaValues(prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
       const baselineRequest = await skillActionRequest(prepared, snapshot, actionInputs, sessionId);
       const baseline = await client.run(baselineRequest.runRequest);
       const checked = assessSkillActionResult(prepared.compileRequest, baselineRequest.runRequest, baseline);
@@ -141,7 +147,7 @@ async function runSample(page: Page, snapshot: SimulationSnapshot, sample: Sampl
       if (JSON.stringify(recovered) !== JSON.stringify(baseline)) throw new Error('错误摘要后未恢复完整初态');
       const release = await client.release(sessionId, prepared.compileRequest.rulesHash);
       sessionId = null;
-      return { prepared, runRequest: baselineRequest.runRequest, runInputHash: baselineRequest.runInputHash,
+      return { prepared, formulaPreflight, runRequest: baselineRequest.runRequest, runInputHash: baselineRequest.runInputHash,
         baseline, iterations, runs, release, healthRatio, initialMaximum: maximum, delay };
     } finally {
       if (sessionId && client.hasLiveWorker) await client.release(sessionId, prepared.compileRequest.rulesHash);

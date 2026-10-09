@@ -15,7 +15,7 @@ import {
 import { ApiRequestError } from './apiClient';
 import type { DamageType } from '../types/damageType';
 import type { DamageTypeFormula, DamageTypeFormulaNode } from '../types/damageTypeFormula';
-import { DAMAGE_TYPE_FORMULA_STAGE_KEYS } from '../types/damageTypeFormula';
+
 
 function jsonResponse(status: number, body: unknown): Response {
   return new Response(status === 204 ? null : JSON.stringify(body), {
@@ -39,20 +39,10 @@ function damageType(formulaConfigured: boolean, overrides: Partial<DamageType> =
   };
 }
 
-function fixed(value: number): DamageTypeFormulaNode {
-  return { nodeType: 'FIXED', value };
+function fixed(value: number): DamageTypeFormulaNode { return { op: 'const', value: String(value) }; }
+function formulaWith(expression: DamageTypeFormulaNode): DamageTypeFormula {
+  return { inputs: [], stages: [{ key: 'factor', name: '倍率', expression }], outputStageKey: 'factor' };
 }
-
-function formulaWith(stageNode: DamageTypeFormulaNode): DamageTypeFormula {
-  return {
-    resistanceBeforePenetration: stageNode,
-    penetrationPercent: fixed(0),
-    penetrationFlat: fixed(0),
-    effectiveResistance: fixed(0),
-    resistanceFactor: fixed(1)
-  };
-}
-
 function formulaDetail(formula: DamageTypeFormula, gameId = 'demo', damageTypeKey = 'physical/bonus') {
   return { gameId, damageTypeKey, formula, updatedAt: '2026-09-27T01:00:00Z' };
 }
@@ -148,22 +138,13 @@ describe('damageTypeClient', () => {
     expect(deleted.data).toBeNull();
   });
 
-  it('encodes the formula path and accepts only the five-stage detail', async () => {
-    const formula = formulaWith({
-      nodeType: 'OPERATION',
-      operation: 'ADD',
-      operands: [
-        { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'armor', attributeValueKind: 'CURRENT' },
-        fixed(1)
-      ]
-    });
-    formula.penetrationPercent = {
-      nodeType: 'OPERATION',
-      operation: 'ADD',
-      operands: [
-        { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'armor', attributeValueKind: 'CURRENT' },
-        { nodeType: 'STAGE_RESULT', stageKey: 'RESISTANCE_BEFORE_PENETRATION' }
-      ]
+  it('encodes the formula path and preserves the complete common definition and decimal text', async () => {
+    const formula: DamageTypeFormula = {
+      inputs: [{ key: 'armor', binding: { kind: 'attribute', object: 'target', attributeKey: 'armor', valueKind: 'TOTAL', view: 'current_frame' } }],
+      stages: [
+        { key: 'factor', name: '倍率', expression: { op: 'add', args: [{ op: 'read', inputKey: 'armor' }, { op: 'ref', stageKey: 'base' }] } },
+        { key: 'base', name: '常量', expression: { op: 'const', value: '1.000' } }
+      ], outputStageKey: 'factor'
     };
     const detail = formulaDetail(formula, 'demo arena', 'physical/bonus');
     const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
@@ -182,7 +163,7 @@ describe('damageTypeClient', () => {
       'physical/bonus',
       'token'
     );
-    expect(loaded.data.formula.penetrationPercent).toEqual(formula.penetrationPercent);
+    expect(loaded.data.formula).toEqual(formula);
     expect(Object.keys(loaded.data)).toEqual(['gameId', 'damageTypeKey', 'formula', 'updatedAt']);
   });
 
@@ -268,56 +249,41 @@ describe('damageTypeClient', () => {
       .rejects.toMatchObject({ status: 404, code: '404.DAMAGE_TYPE_FORMULA_NOT_FOUND' });
 
     const expected = { gameId: 'demo', damageTypeKey: 'physical' };
-    expect(() => parseDamageTypeFormulaDetail(formulaDetail(formulaWith({
-      nodeType: 'PARAMETER',
-      parameterKey: 'ratio'
-    } as unknown as DamageTypeFormulaNode), 'demo', 'physical'), expected)).toThrow(/PARAMETER/);
-    expect(() => parseDamageTypeFormulaDetail({
-      ...formulaDetail(formulaWith(fixed(1)), 'demo', 'physical'),
-      extra: true
-    }, expected)).toThrow(/不完整/);
-    expect(() => parseDamageTypeFormulaDetail(
-      formulaDetail(formulaWith(fixed(1)), 'other', 'physical'),
-      expected
-    )).toThrow(/不一致/);
-
-    const future = formulaWith(fixed(1));
-    future.resistanceBeforePenetration = { nodeType: 'STAGE_RESULT', stageKey: 'PENETRATION_PERCENT' };
-    expect(() => parseDamageTypeFormulaDetail(formulaDetail(future, 'demo', 'physical'), expected))
-      .toThrow(/当前或后续阶段/);
-
-    const legacyStageName = formulaWith(fixed(1));
-    legacyStageName.effectiveResistance = {
-      nodeType: 'STAGE_RESULT',
-      stageKey: 'resistanceBeforePenetration'
-    } as unknown as DamageTypeFormulaNode;
-    expect(() => parseDamageTypeFormulaDetail(
-      formulaDetail(legacyStageName, 'demo', 'physical'),
-      expected
-    )).toThrow(/当前或后续阶段/);
+    expect(() => parseDamageTypeFormulaDetail(formulaDetail(formulaWith({ nodeType: 'FIXED', value: 1 } as unknown as DamageTypeFormulaNode), 'demo', 'physical'), expected))
+      .toThrow(/FORMULA_INVALID_STRUCTURE/);
+    expect(() => parseDamageTypeFormulaDetail({ ...formulaDetail(formulaWith(fixed(1)), 'demo', 'physical'), extra: true }, expected)).toThrow(/不完整/);
+    expect(() => parseDamageTypeFormulaDetail(formulaDetail(formulaWith(fixed(1)), 'other', 'physical'), expected)).toThrow(/不一致/);
+    const unknown = formulaWith({ op: 'ref', stageKey: 'missing' });
+    expect(() => parseDamageTypeFormulaDetail(formulaDetail(unknown, 'demo', 'physical'), expected)).toThrow(/FORMULA_UNKNOWN_STAGE/);
+    const cycle = formulaWith({ op: 'ref', stageKey: 'factor' });
+    expect(() => parseDamageTypeFormulaDetail(formulaDetail(cycle, 'demo', 'physical'), expected)).toThrow(/FORMULA_CYCLE/);
+    const unauthorized = formulaWith(fixed(1));
+    unauthorized.inputs.push({ key: 'unapproved', binding: { kind: 'context', contextKey: 'raw_damage' } });
+    expect(() => parseDamageTypeFormulaDetail(formulaDetail(unauthorized, 'demo', 'physical'), expected)).toThrow(/FORMULA_UNKNOWN_BINDING/);
+    const old = { resistanceBeforePenetration: fixed(0), penetrationPercent: fixed(0), penetrationFlat: fixed(0), effectiveResistance: fixed(0), resistanceFactor: fixed(1) };
+    expect(() => parseDamageTypeFormulaDetail(formulaDetail(old as unknown as DamageTypeFormula, 'demo', 'physical'), expected)).toThrow(/FORMULA_INVALID_STRUCTURE/);
   });
-
   it('rejects formula trees beyond 32 levels or 256 nodes', () => {
     const expected = { gameId: 'demo', damageTypeKey: 'physical' };
     let deep: DamageTypeFormulaNode = fixed(1);
     for (let depth = 2; depth <= 33; depth += 1) {
-      deep = { nodeType: 'OPERATION', operation: 'ADD', operands: [deep, fixed(1)] };
+      deep = { op: 'add', args: [deep, fixed(1)] };
     }
     expect(() => parseDamageTypeFormulaDetail(
       formulaDetail(formulaWith(deep), 'demo', 'physical'),
       expected
-    )).toThrow(/公式深度不能超过 32/);
+    )).toThrow(/FORMULA_LIMIT/);
 
     const wide = wideTree(257);
     expect(() => parseDamageTypeFormulaDetail(
       formulaDetail(formulaWith(wide), 'demo', 'physical'),
       expected
-    )).toThrow(/公式节点总数不能超过 256/);
+    )).toThrow(/FORMULA_LIMIT/);
     expect(parseDamageTypeFormulaDetail(
       formulaDetail(formulaWith(wideTree(255)), 'demo', 'physical'),
       expected
-    ).formula.resistanceBeforePenetration.nodeType).toBe('OPERATION');
-    expect(DAMAGE_TYPE_FORMULA_STAGE_KEYS).toHaveLength(5);
+    ).formula.stages[0]!.expression.op).toBe('add');
+
   });
 });
 
@@ -326,8 +292,7 @@ function wideTree(count: number): DamageTypeFormulaNode {
   const rest = count - 1;
   const leftCount = rest / 2 % 2 === 1 ? rest / 2 : rest / 2 - 1;
   return {
-    nodeType: 'OPERATION',
-    operation: 'ADD',
-    operands: [wideTree(leftCount), wideTree(rest - leftCount)]
+    op: 'add',
+    args: [wideTree(leftCount), wideTree(rest - leftCount)]
   };
 }

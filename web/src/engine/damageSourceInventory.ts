@@ -85,7 +85,7 @@ const rulesKeys = ['operations', 'modifiers', 'listeners', 'triggerRules', 'vamp
 const combatantKeys = ['key', 'displayName', 'types', 'tags', 'attributes', 'resources', 'providers'];
 const mountKeys = ['providerRef', 'definitionRef', 'initialState', 'initialAbilityState'];
 const providerKeys = [
-  'providerKey', 'kind', 'stableId', 'types', 'tags', 'abilities', 'modifiers',
+  'providerKey', 'skillKey', 'kind', 'stableId', 'types', 'tags', 'abilities', 'modifiers',
   'listeners', 'lifecycle', 'statusContributions', 'initialStateSchema', 'processes'
 ];
 const abilityKeys = [

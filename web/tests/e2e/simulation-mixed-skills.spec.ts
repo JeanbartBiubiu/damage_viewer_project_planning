@@ -226,6 +226,10 @@ async function runLive(page: Page, snapshot: SimulationSnapshot, label: string, 
     const { inspectSimulationSnapshot, prepareSimulation } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
     const { tryFoldConstant } = await import(numericPath) as typeof import('../../src/engine/numericAdapter');
     const { simulationCastCostCandidates } = await import(activePath) as typeof import('../../src/engine/simulationActiveSkills');
+    const clientPath = '/src/engine/genericEngineClient.ts', preflightPath = '/src/engine/skillFormulaPreflight.ts';
+    const { GenericEngineClient } = await import(clientPath) as typeof import('../../src/engine/genericEngineClient');
+    const { preflightSkillFormulas } = await import(preflightPath) as typeof import('../../src/engine/skillFormulaPreflight');
+    const inspectionPreflight = await preflightSkillFormulas(snapshot, new GenericEngineClient());
     const costs = simulationCastCostCandidates(snapshot);
     if (costs.some(cost => cost.effectKey !== 'mana_cost' || cost.resultKey !== 'consume_mana' || cost.bindingKey !== 'mana_cost')) {
       throw new Error('真实样本出现未核定成本，不能自动忽略必要消费');
@@ -262,8 +266,8 @@ async function runLive(page: Page, snapshot: SimulationSnapshot, label: string, 
       maxSkillActionRecords: 64, maxSkillUseRecords: 256, maxHealingRecords: 256 };
     const inputVariants = options.cooldownAtMs === undefined ? [] : [{ ...inputs, actions: [...initialActions,
       { ...actions[0]!, instructionKey: 'real_cd_after', atMs: options.cooldownAtMs + 1 }] }];
-    return runMixedWorkerCase(snapshot, inputs, 100, costs, attributes, {
-      source: snapshot.source.selectedLevelValues.hp! * (options.sourceHealthRatio ?? .3), target: snapshot.target.selectedLevelValues.hp! }, inputVariants);
+    return { ...await runMixedWorkerCase(snapshot, inputs, 100, costs, attributes, {
+      source: snapshot.source.selectedLevelValues.hp! * (options.sourceHealthRatio ?? .3), target: snapshot.target.selectedLevelValues.hp! }, inputVariants), inspectionPreflight };
   }, { snapshot, hasteSupplement, options });
   mkdirSync(output, { recursive: true });
   writeFileSync(resolve(output, `real-${label}-compile-run.json`), JSON.stringify({ wasm: wasmIdentity(), snapshot,

@@ -1,3 +1,5 @@
+import { approveSnapshotFixture, compileFixtureWithNative } from '../../tests/fixtures/nativeFormulaProof';
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import { triggeredEquipmentSimulationSample } from '../../tests/fixtures/simulationTriggeredEquipment';
 import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkillSources';
@@ -6,10 +8,10 @@ import type { SkillEffect, SkillEffectDamageResult, SkillEffectLifecycle, SkillE
 import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillProcess, SkillProcessMoment, SkillProcessStateOperation } from '../types/skillProcess';
 import type { SkillTriggerAction, SkillTriggerCondition, SkillTriggerRuleDetail } from '../types/skillTriggerRule';
-import { assembleSimulation, inspectSimulationSnapshot, SIMULATION_ADAPTER_VERSION } from './simulationAdapter';
+import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot, SIMULATION_ADAPTER_VERSION } from './simulationAdapter';
 import { equipmentRangeRequirements } from './simulationEquipmentPassives';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
-import { assembleTriggeredEquipment } from './simulationTriggeredEquipment';
+import { assembleTriggeredEquipment as raw_assembleTriggeredEquipment } from './simulationTriggeredEquipment';
 
 function configuration(snapshot: SimulationSnapshot) {
   return snapshot.skillConfigurations.find(row => row.skill.skillKey === 'item_1043_passive')!;
@@ -23,11 +25,38 @@ function operation(snapshot: SimulationSnapshot) {
 function reads(expression: unknown): string[] {
   if (Array.isArray(expression)) return expression.flatMap(reads);
   if (!expression || typeof expression !== 'object') return [];
-  const row = expression as GenericFormulaExpr;
+  const row = expression as GenericFormulaExpr & { binding?: import('../types/formulaContract.generated').Binding };
+  if (row.binding?.kind === 'attribute') return [`${row.binding.object}.attr.${row.binding.attributeKey}.${({ TOTAL: 'resolved', BASE: 'base', CURRENT: 'current', MAX: 'max' } as Record<string, string>)[row.binding.valueKind] ?? row.binding.valueKind}`];
+  if (row.binding?.kind === 'parameter') return [`parameter.${row.binding.skillKey}.${row.binding.parameterKey}`];
   return [...(row.op === 'read' && row.path ? [row.path] : []), ...Object.values(row).flatMap(reads)];
 }
 
 describe('4C完整反曲之弓触发装备装配', () => {
+  it('同装备多技能聚合状态消费核定静态数字，保持各共同目录并正式编译', () => {
+    const snapshot = triggeredEquipmentSimulationSample();
+    const first = configuration(snapshot);
+    first.parameters.push({ ...first.parameters[0]!, parameterKey: 'probe_initial', fixedValue: 0 });
+    first.formulas.push({ gameId: snapshot.gameId, skillKey: first.skill.skillKey, formulaKey: 'probe_initial', name: '初始计数', description: null, sortOrder: 0, createdAt: '', updatedAt: '',
+      expression: skillFormulaDefinition(first.skill.skillKey, { nodeType: 'PARAMETER', parameterKey: 'probe_initial' }) });
+    first.internalStates.push({ gameId: snapshot.gameId, skillKey: first.skill.skillKey, stateKey: 'probe', name: '计数', description: null, sortOrder: 0, createdAt: '', updatedAt: '', scope: 'SKILL', stateType: 'COUNTER',
+      detail: { initialValue: { kind: 'FORMULA', formulaKey: 'probe_initial' }, maxValue: { kind: 'FIXED', value: 3 }, durationValue: null } });
+    first.triggerRules[0]!.conditionGroups = oneGroup([internalCondition(first, 'probe', 0)]);
+    const second = structuredClone(first); second.skill.skillKey = 'item_1043_second';
+    for (const row of [...second.parameters, ...second.formulas, ...second.effects, ...second.internalStates]) row.skillKey = second.skill.skillKey;
+    for (const formula of second.formulas) for (const input of formula.expression.inputs) if (input.binding.kind === 'parameter') input.binding.skillKey = second.skill.skillKey;
+    second.triggerRules[0]!.conditionGroups = oneGroup([internalCondition(second, 'probe', 0)]);
+    snapshot.skillConfigurations.push(second);
+    snapshot.source.selectedEquipment[0]!.attachedSkills.push({ ...snapshot.source.selectedEquipment[0]!.attachedSkills[0]!, skillKey: second.skill.skillKey });
+    syncSimulationSkillSources(snapshot);
+    const prepared = compileWithInputs(snapshot);
+    const aggregate = prepared.compileRequest.sharedProviders!.find(provider => Object.keys(provider.initialStateSchema ?? {}).length === 2)!;
+    expect(aggregate.skillKey).toBeUndefined();
+    expect(Object.values(aggregate.initialStateSchema!).every(field => typeof field === 'object' && field.defaultValue === 0)).toBe(true);
+    expect(prepared.compileRequest.formulas!.filter(formula => formula.key.endsWith('/probe_initial')).map(formula => formula.skillKey).sort()).toEqual([first.skill.skillKey, second.skill.skillKey].sort());
+    const result = compileFixtureWithNative(prepared.compileRequest);
+    expect(result.ok, JSON.stringify(result.errors)).toBe(true);
+  });
+
   it('没有装备名算法表，无所选触发关系时返回空片段，不认领4A/4B配置', () => {
     const assembled = assembleTriggeredEquipment(triggeredEquipmentSimulationSample(['item_1036', 'item_3065'], ['item_1042', 'item_3110']));
     expect(assembled).toEqual({ providers: [], mounts: [], types: [], formulas: [], rules: { damageTypeFormulas: [] },
@@ -45,7 +74,7 @@ describe('4C完整反曲之弓触发装备装配', () => {
         abilityKey: 'resolve_on_basic_attack_hit', kind: 'passive_listener', skillKey: 'item_1043_passive',
         types: ['ability/passive', 'ability/skill/item_1043_passive'], params: { on_hit_damage: 15 }, listenerSpec: {
           listenerKey: 'resolve_on_basic_attack_hit', eventMatcher: { all: ['event/basic_attack_hit', 'event/source_owner'] },
-          maxTriggersPerEvent: 1, operations: [{ operation: 'damage', target: 'target', damageType: 'damage/physics',
+          maxTriggersPerEvent: 1, operations: [{ operation: 'damage', target: 'target', damageType: 'physics',
             critEligible: false, vampQualification: 'RESOLVED', vampOverrides: [{ vampType: 'LIFE_STEAL', mode: 'OVERRIDE',
               basisOutputKind: 'POST_DEFENSE_DAMAGE', efficiency: { op: 'const', value: 1 } }],
             types: ['damage_trait/delivery_basic_attack', 'damage_trait/origin_direct'],
@@ -59,7 +88,7 @@ describe('4C完整反曲之弓触发装备装配', () => {
     expect(assembled.types).toEqual(expect.arrayContaining([
       { key: 'event/basic_attack_hit', domain: 'event' }, { key: 'event/source_owner', domain: 'event' },
       { key: 'ability/passive', domain: 'ability' }, { key: 'ability/basic_attack', domain: 'ability' },
-      { key: 'damage/physics', domain: 'damage' }, { key: 'combatant/champion', domain: 'combatant' }
+      { key: 'physics', domain: 'damage' }, { key: 'combatant/champion', domain: 'combatant' }
     ]));
     expect(assembled.rules.vampRules).toMatchObject([{ vampType: 'LIFE_STEAL', sourceAttributeKey: 'life_steal_percent',
       basisOutputKind: 'POST_DEFENSE_DAMAGE', defaultEfficiency: 1, abilityMatcher: { any: ['ability/basic_attack'] } }]);
@@ -105,46 +134,28 @@ describe('4C完整反曲之弓触发装备装配', () => {
     expect(assembled.providers[0]!.abilities![0]!.types).toEqual(['ability/passive', 'ability/skill/item_1043_passive']);
   });
 
-  it('保留实际R/P/F/E/M五阶段、前序依赖和穿透，不替换成常量防御倍率', () => {
-    const assembled = assembleTriggeredEquipment(triggeredEquipmentSimulationSample());
+  it('完整共同定义直接透传，表达式、具名结果与十进制原文保持，不在Web展开', () => {
+    const snapshot = triggeredEquipmentSimulationSample();
+    const original = structuredClone(snapshot.catalogs.damageTypes[0]!.formula.formula);
+    const assembled = assembleTriggeredEquipment(snapshot);
     const defense = assembled.rules.damageTypeFormulas![0]!;
-    expect(defense.damageType).toBe('damage/physics');
-    expect(defense.formula).toEqual({
-      resistanceBeforePenetration: { op: 'read', path: 'target.attr.armor.resolved' },
-      penetrationPercent: { op: 'read', path: 'source.attr.armor_pen_percent.resolved' },
-      penetrationFlat: { op: 'read', path: 'source.attr.armor_pen_flat.resolved' },
-      effectiveResistance: { op: 'max', args: [{ op: 'const', value: 0 }, { op: 'sub', args: [
-        { op: 'mul', args: [{ op: 'read', path: 'damage.stage.RESISTANCE_BEFORE_PENETRATION' },
-          { op: 'sub', args: [{ op: 'const', value: 1 }, { op: 'read', path: 'damage.stage.PENETRATION_PERCENT' }] }] },
-        { op: 'read', path: 'damage.stage.PENETRATION_FLAT' }
-      ] }] },
-      resistanceFactor: { op: 'div', args: [{ op: 'const', value: 100 }, { op: 'add', args: [
-        { op: 'const', value: 100 }, { op: 'read', path: 'damage.stage.EFFECTIVE_RESISTANCE' }
-      ] }] }
-    });
-    for (const stage of Object.keys(defense.formula)) {
-      expect(assembled.coverage).toContainEqual({ authorPath: `damageTypes.physics.formula.${stage}`, compiledPath: `rules.damageTypeFormulas[0].formula.${stage}` });
-    }
+    expect(defense.damageType).toBe('physics');
+    expect(defense.formula).toEqual(original);
+    expect(defense.formula).not.toBe(snapshot.catalogs.damageTypes[0]!.formula.formula);
+    expect(assembled.coverage).toContainEqual({ authorPath: 'damageTypes.physics.formula', compiledPath: 'rules.damageTypeFormulas[0].formula' });
   });
 
-  it('真实伤害也保留作者完整五阶段，而非在前端按名称跳过', () => {
+  it('真实伤害明确常量1且可只有一个结果，不从伤害名称补防御模板', () => {
     const snapshot = triggeredEquipmentSimulationSample();
     const entry = structuredClone(snapshot.catalogs.damageTypes[0]!);
-    entry.type.damageTypeKey = 'real';
-    entry.formula.damageTypeKey = 'real';
-    for (const stage of Object.keys(entry.formula.formula) as Array<keyof typeof entry.formula.formula>) {
-      entry.formula.formula[stage] = { nodeType: 'FIXED', value: stage === 'resistanceFactor' ? 1 : 0 };
-    }
+    entry.type.damageTypeKey = entry.formula.damageTypeKey = 'real';
+    entry.formula.formula = { inputs: [], stages: [{ key: 'unmitigated', name: '明确免防御', expression: { op: 'const', value: '1.00' } }], outputStageKey: 'unmitigated' };
     snapshot.catalogs.damageTypes.push(entry);
     damage(snapshot).detail.damageTypeKey = 'real';
     const assembled = assembleTriggeredEquipment(snapshot);
-    expect(assembled.rules.damageTypeFormulas![0]).toEqual({ damageType: 'damage/real', formula: {
-      resistanceBeforePenetration: { op: 'const', value: 0 }, penetrationPercent: { op: 'const', value: 0 },
-      penetrationFlat: { op: 'const', value: 0 }, effectiveResistance: { op: 'const', value: 0 }, resistanceFactor: { op: 'const', value: 1 }
-    } });
+    expect(assembled.rules.damageTypeFormulas![0]).toEqual({ damageType: 'real', formula: entry.formula.formula });
     expect(assembled.required.target.size).toBe(0);
   });
-
   it('双方角色等级参数按各自等级绑定，不设技能等级或运行输入默认值', () => {
     const snapshot = triggeredEquipmentSimulationSample(['item_1043'], ['item_1043']);
     snapshot.selection.targetLevel = 4;
@@ -157,26 +168,26 @@ describe('4C完整反曲之弓触发装备装配', () => {
     const snapshot = triggeredEquipmentSimulationSample([], ['item_1043']);
     const config = configuration(snapshot);
     config.formulas.push({ ...snapshot.skillConfigurations[0]!.formulas[0]!, skillKey: config.skill.skillKey, formulaKey: 'on_hit_formula',
-      expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [
+      expression: skillFormulaDefinition(config.skill.skillKey, { nodeType: 'OPERATION', operation: 'ADD', operands: [
         { nodeType: 'PARAMETER', parameterKey: 'on_hit_damage' }, { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'MISSING_RATIO' }
-      ] } });
+      ] }) });
     damage(snapshot).valueRule.value = { kind: 'FORMULA', formulaKey: 'on_hit_formula' };
     config.parameters.push({ ...config.parameters[0]!, parameterKey: 'critical_base', valueType: 'DECIMAL', fixedValue: 1.75 });
-    config.formulas.push({ ...config.formulas[0]!, formulaKey: 'critical_multiplier', expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [
+    config.formulas.push({ ...config.formulas[0]!, formulaKey: 'critical_multiplier', expression: skillFormulaDefinition(config.skill.skillKey, { nodeType: 'OPERATION', operation: 'ADD', operands: [
       { nodeType: 'PARAMETER', parameterKey: 'critical_base' },
       { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'critical_strike_damage_bonus_percent', attributeValueKind: 'TOTAL' }
-    ] } });
+    ] }) });
     damage(snapshot).detail.critical = { mode: 'SOURCE_CRIT_CHANCE', multiplierValue: { kind: 'FORMULA', formulaKey: 'critical_multiplier' } };
     const assembled = assembleTriggeredEquipment(snapshot);
     const compiled = assembled.providers[0]!.abilities![0]!.listenerSpec!.operations![0]!;
     expect(compiled.critChance).toEqual({ op: 'read', path: 'source.attr.critical_strike_chance.resolved' });
-    expect(compiled.critMultiplier).toEqual({ op: 'ref', ref: 'target_item_1043_passive/critical_multiplier' });
-    expect(assembled.formulas.map(row => row.key)).toEqual(['target_item_1043_passive/on_hit_formula', 'target_item_1043_passive/critical_multiplier']);
+    expect(compiled.critMultiplier).toEqual({ op: 'ref', ref: 'target_item_1043_passive/levels/1/1/critical_multiplier' });
+    expect(assembled.formulas.map(row => row.key)).toEqual(['target_item_1043_passive/levels/1/1/on_hit_formula', 'target_item_1043_passive/levels/1/1/critical_multiplier']);
     expect(assembled.required.source).toEqual(new Set(['hp', 'armor']));
     expect(assembled.required.target).toEqual(new Set(['critical_strike_chance', 'critical_strike_damage_bonus_percent', 'life_steal_percent', 'armor_pen_percent', 'armor_pen_flat']));
     expect(assembled.coverage).toContainEqual({ authorPath: 'skills.item_1043_passive.formulas.critical_multiplier.expression',
-      compiledPath: 'formulas[target_item_1043_passive/critical_multiplier].expression' });
-    expect(reads(assembled.formulas)).toContain('target.attr.hp.current');
+      compiledPath: 'formulas[target_item_1043_passive/levels/1/1/critical_multiplier].expression' });
+    expect(assembled.formulas.find(row => row.key.endsWith('/on_hit_formula'))!.expression.inputs.some(input => input.binding.kind === 'attribute' && input.binding.object === 'target' && input.binding.attributeKey === 'hp')).toBe(true); // 作者对象保持target，运行上下文由实际拥有方原生映射
   });
 
   it('强制暴击保留作者倍率，但不额外索取暴击概率', () => {
@@ -226,23 +237,23 @@ describe('4C完整反曲之弓触发装备装配', () => {
     const config = configuration(snapshot);
     config.parameters.push({ ...config.parameters[0]!, parameterKey: 'efficiency', valueType: 'DECIMAL', fixedValue: .5 });
     config.formulas.push({ ...snapshot.skillConfigurations[0]!.formulas[0]!, skillKey: config.skill.skillKey, formulaKey: 'vamp_efficiency',
-      expression: { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
+      expression: skillFormulaDefinition(config.skill.skillKey, { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
         { nodeType: 'PARAMETER', parameterKey: 'efficiency' },
         { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'CURRENT_RATIO' }
-      ] } });
+      ] }) });
     damage(snapshot).detail.vampOverrides = [{ vampType: 'LIFE_STEAL', mode: 'OVERRIDE', basisOutputKind: 'ACTUAL_HP_LOSS',
       efficiencyValue: { kind: 'FORMULA', formulaKey: 'vamp_efficiency' } }];
     const assembled = assembleTriggeredEquipment(snapshot);
     expect(assembled.formulas.map(row => row.key)).toEqual([
-      'source_item_1043_passive/vamp/item_1043_passive/vamp_efficiency',
-      'target_item_1043_passive/vamp/item_1043_passive/vamp_efficiency'
+      'source_item_1043_passive/levels/1/1/vamp/item_1043_passive/levels/1/1/vamp_efficiency',
+      'target_item_1043_passive/levels/1/1/vamp/item_1043_passive/levels/1/1/vamp_efficiency'
     ]);
     for (const [index, side] of (['source', 'target'] as const).entries()) {
       const ability = assembled.providers[index]!.abilities![0]!;
       expect(ability.types).toEqual(['ability/passive', 'ability/skill/item_1043_passive']);
       expect(ability.params).toEqual({ on_hit_damage: 15, efficiency: .5 });
       expect(ability.listenerSpec!.operations![0]!.vampOverrides).toEqual([{ vampType: 'LIFE_STEAL', mode: 'OVERRIDE', basisOutputKind: 'ACTUAL_HP_LOSS',
-        efficiency: { op: 'ref', ref: `${side}_item_1043_passive/vamp/item_1043_passive/vamp_efficiency` } }]);
+        efficiency: { op: 'ref', ref: `${side}_item_1043_passive/levels/1/1/vamp/item_1043_passive/levels/1/1/vamp_efficiency` } }]);
       expect(assembled.required[side].has('hp')).toBe(true);
     }
   });
@@ -297,7 +308,7 @@ const invalidShapes: Array<[string, (snapshot: SimulationSnapshot) => void, RegE
   ['禁用关系', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills[0]!.skillStatus = 'DISABLED'; }, /完整启用被动关系|真实绑定授予不一致/],
   ['错误关系装备', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills[0]!.equipmentKey = 'item_1042'; }, /完整启用被动关系/],
   ['未知关系字段', snapshot => { Object.assign(snapshot.source.selectedEquipment[0]!.attachedSkills[0]!, { skillLevelMode: 'CHARACTER_LEVEL' }); }, /skillLevelMode.*未接入/],
-  ['缺少配置', snapshot => { snapshot.skillConfigurations.pop(); }, /完整启用作者配置缺失/],
+  ['缺少配置', snapshot => { snapshot.skillConfigurations.pop(); }, /完整启用作者配置缺失|公式预检缺少真实来源技能配置/],
   ['重复配置', snapshot => { snapshot.skillConfigurations.push(structuredClone(configuration(snapshot))); }, /完整作者配置不能重复/],
   ['缺少效果', snapshot => { configuration(snapshot).effects = []; }, /完整效果或触发规则/],
   ['多余效果', snapshot => { configuration(snapshot).effects.push(structuredClone(configuration(snapshot).effects[0]!)); }, /稳定标识重复/],
@@ -335,23 +346,22 @@ const invalidShapes: Array<[string, (snapshot: SimulationSnapshot) => void, RegE
   ['运行输入无绑定', snapshot => { Object.assign(configuration(snapshot).parameters[0]!, { valueMode: 'RUNTIME_INPUT', fixedValue: null }); }, /未供值的计算时参数/],
   ['等级参数缺失', snapshot => { Object.assign(configuration(snapshot).parameters[0]!, { valueMode: 'CHARACTER_LEVEL', fixedValue: null, levelValues: {} }); }, /有限数值/],
   ['参数重复', snapshot => { configuration(snapshot).parameters.push(structuredClone(configuration(snapshot).parameters[0]!)); }, /稳定标识重复/],
-  ['未引用参数未知输入', snapshot => { configuration(snapshot).parameters.push({ ...configuration(snapshot).parameters[0]!, parameterKey: 'unused', valueMode: 'RUNTIME_INPUT', fixedValue: null }); }, /未供值的计算时参数/],
   ['整数参数为小数', snapshot => { configuration(snapshot).parameters[0]!.fixedValue = 15.5; }, /整数约束/],
   ['固定参数夹带等级值', snapshot => { configuration(snapshot).parameters[0]!.levelValues = { '1': 20 }; }, /不能忽略另一组数值/],
-  ['未引用未知公式节点', snapshot => { configuration(snapshot).formulas.push({ ...snapshot.skillConfigurations[0]!.formulas[0]!, skillKey: 'item_1043_passive' }); Object.assign(configuration(snapshot).formulas[0]!.expression, { nodeType: 'UNKNOWN' }); }, /未知公式节点/],
+  ['未引用未知公式节点', snapshot => { configuration(snapshot).formulas.push({ ...snapshot.skillConfigurations[0]!.formulas[0]!, skillKey: 'item_1043_passive' }); Object.assign(configuration(snapshot).formulas[0]!.expression, { nodeType: 'UNKNOWN' }); }, /FORMULA_INVALID_STRUCTURE/],
   ['分类未核定', snapshot => { configuration(snapshot).skill.skillCategoryKeys.push('unknown'); }, /真实技能分类/],
   ['吸血规则分类未核定', snapshot => { snapshot.catalogs.vampRules.rules[0]!.skillCategoryKeys.push('unknown'); }, /真实技能分类/],
   ['分类目录禁用', snapshot => { snapshot.catalogs.skillCategories.find(row => row.skillCategoryKey === 'passive')!.status = 'DISABLED'; }, /真实技能分类/],
-  ['未知伤害目录', snapshot => { damage(snapshot).detail.damageTypeKey = 'unknown'; }, /真实五阶段防御/],
-  ['防御目录禁用', snapshot => { snapshot.catalogs.damageTypes[0]!.type.status = 'DISABLED'; }, /真实五阶段防御/],
-  ['防御未配置', snapshot => { snapshot.catalogs.damageTypes[0]!.type.formulaConfigured = false; }, /真实五阶段防御/],
-  ['防御类型重复', snapshot => { snapshot.catalogs.damageTypes.push(structuredClone(snapshot.catalogs.damageTypes[0]!)); }, /真实五阶段防御/],
+  ['未知伤害目录', snapshot => { damage(snapshot).detail.damageTypeKey = 'unknown'; }, /真实共同防御/],
+  ['防御目录禁用', snapshot => { snapshot.catalogs.damageTypes[0]!.type.status = 'DISABLED'; }, /真实共同防御/],
+  ['防御未配置', snapshot => { snapshot.catalogs.damageTypes[0]!.type.formulaConfigured = false; }, /真实共同防御/],
+  ['防御类型重复', snapshot => { snapshot.catalogs.damageTypes.push(structuredClone(snapshot.catalogs.damageTypes[0]!)); }, /真实共同防御/],
   ['防御目录夹带未知语义', snapshot => { Object.assign(snapshot.catalogs.damageTypes[0]!.type, { bypassArmor: true }); }, /bypassArmor.*未接入/],
   ['完整防御公式缺失', snapshot => { Object.assign(snapshot.catalogs.damageTypes[0]!, { formula: null }); }, /catalogs.damageTypes.physics.formula.*完整对象/],
-  ['防御前序越界', snapshot => { snapshot.catalogs.damageTypes[0]!.formula.formula.penetrationPercent = { nodeType: 'STAGE_RESULT', stageKey: 'RESISTANCE_FACTOR' }; }, /前序防御阶段/],
-  ['防御节点未知', snapshot => { Object.assign(snapshot.catalogs.damageTypes[0]!.formula.formula.resistanceFactor, { nodeType: 'UNKNOWN' }); }, /未知防御公式节点/],
-  ['防御阶段缺失', snapshot => { Reflect.deleteProperty(snapshot.catalogs.damageTypes[0]!.formula.formula, 'resistanceFactor'); }, /resistanceFactor.*完整对象/],
-  ['伤害依赖属性缺目录', snapshot => { snapshot.catalogs.attributes = snapshot.catalogs.attributes.filter(row => row.attributeKey !== 'armor'); }, /catalogs.attributes.armor.*真实目录/],
+  ['防御循环引用', snapshot => { snapshot.catalogs.damageTypes[0]!.formula.formula.stages[0]!.expression = { op: 'ref', stageKey: 'factor' }; }, /FORMULA_CYCLE/],
+  ['防御节点未知', snapshot => { Object.assign(snapshot.catalogs.damageTypes[0]!.formula.formula.stages[4]!.expression, { op: 'UNKNOWN' }); }, /FORMULA_INVALID_STRUCTURE/],
+  ['防御输出缺失', snapshot => { snapshot.catalogs.damageTypes[0]!.formula.formula.outputStageKey = 'absent'; }, /FORMULA_UNKNOWN_STAGE/],
+  ['伤害依赖属性缺目录', snapshot => { snapshot.catalogs.attributes = snapshot.catalogs.attributes.filter(row => row.attributeKey !== 'armor'); }, /FORMULA_UNKNOWN_BINDING/],
   ['吸血属性缺目录', snapshot => { snapshot.catalogs.attributes = snapshot.catalogs.attributes.filter(row => row.attributeKey !== 'life_steal_percent'); }, /catalogs.attributes.life_steal_percent.*真实目录/],
   ['装备完整集缺失', snapshot => { snapshot.source.selectedEquipment = []; }, /原始绑定不一致/],
   ['所选装备重复', snapshot => { snapshot.selection.sourceEquipmentKeys.push('item_1043'); }, /selection.sourceEquipmentKeys.*重复/],
@@ -516,11 +526,11 @@ function periodicSample(permanent = false, key = 'authored_periodic') {
   const ratio = addParameter(config, 'health_ratio', .015);
   config.parameters[0]!.fixedValue = 20;
   config.formulas.push({ gameId: 'lol', skillKey: config.skill.skillKey, formulaKey: 'scaled_periodic_damage', name: '配置周期伤害', description: null,
-    expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [
+    expression: skillFormulaDefinition(config.skill.skillKey, { nodeType: 'OPERATION', operation: 'ADD', operands: [
       { nodeType: 'PARAMETER', parameterKey: config.parameters[0]!.parameterKey },
       { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [{ nodeType: 'PARAMETER', parameterKey: ratio.parameterKey },
         { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'hp', attributeValueKind: 'BONUS' }] }
-    ] }, sortOrder: 10, createdAt: '', updatedAt: '' });
+    ] }), sortOrder: 10, createdAt: '', updatedAt: '' });
   result.valueRule.value = { kind: 'FORMULA', formulaKey: 'scaled_periodic_damage' };
   config.effects[0]!.lifecycle = sourceLife(permanent ? null : addParameter(config, 'active_window', 3000), 1000);
   if (permanent) {
@@ -571,10 +581,10 @@ function currentHealthBranchesSample() {
   for (const [branch, flag, ratio] of [['melee', 1, .09000000357627869], ['ranged', 0, .05999999865889549]] as const) {
     const parameter = addParameter(config, `${branch}_ratio`, ratio);
     config.formulas.push({ ...snapshot.skillConfigurations[0]!.formulas[0]!, skillKey: config.skill.skillKey,
-      formulaKey: `${branch}_current_health`, expression: { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
+      formulaKey: `${branch}_current_health`, expression: skillFormulaDefinition(config.skill.skillKey, { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
         { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'CURRENT' },
         { nodeType: 'PARAMETER', parameterKey: parameter.parameterKey }
-      ] } });
+      ] }) });
     const result = structuredClone(template.results[0]!) as SkillEffectDamageResult;
     result.valueRule.value = { kind: 'FORMULA', formulaKey: `${branch}_current_health` };
     config.effects.push({ ...template, effectKey: `${branch}_damage`, results: [result] });
@@ -620,10 +630,10 @@ describe('组合补验的通用普通减速与显式身份', () => {
     const snapshot = movementSlowSample('snapshot_slow', false);
     const config = genericConfiguration(snapshot);
     config.formulas.push({ ...snapshot.skillConfigurations[0]!.formulas[0]!, skillKey: config.skill.skillKey, formulaKey: 'snapshot_strength',
-      expression: { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
+      expression: skillFormulaDefinition(config.skill.skillKey, { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
         { nodeType: 'PARAMETER', parameterKey: 'slow_ratio' },
         { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'CURRENT_RATIO' }
-      ] } });
+      ] }) });
     config.effects[0]!.results[0]!.valueRule!.value = { kind: 'FORMULA', formulaKey: 'snapshot_strength' };
     const assembled = assembleTriggeredEquipment(snapshot);
     const status = assembled.providers.find(provider => provider.kind === 'status')!;
@@ -639,12 +649,12 @@ describe('组合补验的通用普通减速与显式身份', () => {
     const snapshot = movementSlowSample('authored_duration', side === 'source');
     const config = genericConfiguration(snapshot);
     config.formulas.push({ ...snapshot.skillConfigurations[0]!.formulas[0]!, skillKey: config.skill.skillKey,
-      formulaKey: 'authored_duration', expression: dynamic ? {
+      formulaKey: 'authored_duration', expression: dynamic ? skillFormulaDefinition(config.skill.skillKey, {
         nodeType: 'OPERATION', operation: 'ADD', operands: [
           { nodeType: 'PARAMETER', parameterKey: 'slow_duration' },
           { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'hp', attributeValueKind: 'TOTAL' }
         ]
-      } : { nodeType: 'PARAMETER', parameterKey: 'slow_duration' } });
+      }) : skillFormulaDefinition(config.skill.skillKey, { nodeType: 'PARAMETER', parameterKey: 'slow_duration' }) });
     config.effects[0]!.lifecycle!.durationValue = { kind: 'FORMULA', formulaKey: 'authored_duration' };
     const before = structuredClone(snapshot);
     const assembled = assembleTriggeredEquipment(snapshot);
@@ -900,26 +910,26 @@ describe('配置驱动装备通用节点编译', () => {
     const maximum = addParameter(config, 'max_stacks', 4);
     config.effects.find(effect => effect.effectKey === 'stacking')!.lifecycle!.maxStacksValue = maximum;
     config.formulas.push({ gameId: 'lol', skillKey: config.skill.skillKey, formulaKey: 'max_attack_speed_bonus', name: '作者上界说明',
-      description: null, sortOrder: 10, createdAt: '', updatedAt: '', expression: { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
+      description: null, sortOrder: 10, createdAt: '', updatedAt: '', expression: skillFormulaDefinition(config.skill.skillKey, { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
         { nodeType: 'PARAMETER', parameterKey: 'per_stack_speed' }, { nodeType: 'PARAMETER', parameterKey: 'max_stacks' }
-      ] } });
+      ] }) });
     const totalCount = addParameter(config, 'phantom_total_on_hit_count', 2);
     const normalCount = addParameter(config, 'normal_on_hit_count', 1);
-    config.formulas.push({ ...config.formulas[0]!, formulaKey: 'phantom_extra_on_hit_count', expression: { nodeType: 'OPERATION', operation: 'SUBTRACT', operands: [
+    config.formulas.push({ ...config.formulas[0]!, formulaKey: 'phantom_extra_on_hit_count', expression: skillFormulaDefinition(config.skill.skillKey, { nodeType: 'OPERATION', operation: 'SUBTRACT', operands: [
       { nodeType: 'PARAMETER', parameterKey: totalCount.parameterKey }, { nodeType: 'PARAMETER', parameterKey: normalCount.parameterKey }
-    ] } });
+    ] }) });
     config.effects.find(effect => effect.effectKey === 'extra_contact')!.results[0]!.valueRule!.value = { kind: 'FORMULA', formulaKey: 'phantom_extra_on_hit_count' };
     const assembled = assembleTriggeredEquipment(snapshot);
     const root = rootProvider(assembled);
     expect(root.modifiers![0]!.value.args![0]).toEqual({ op: 'const', value: .1 });
     const upper = assembled.formulas.find(formula => formula.key.endsWith('/max_attack_speed_bonus'))!;
-    expect(upper.expression).toEqual({ op: 'mul', args: [{ op: 'read', path: 'ability.param.per_stack_speed' }, { op: 'read', path: 'ability.param.max_stacks' }] });
+    expect(upper.expression).toEqual(config.formulas.find(row => row.formulaKey === 'max_attack_speed_bonus')!.expression);
     expect(assembled.coverage.find(row => row.authorPath.endsWith('.formulas.max_attack_speed_bonus.expression'))!.note).toMatch(/非战斗引用/);
     const link = root.abilities!.find(ability => ability.abilityKey === 'full_count')!.listenerSpec!.operations!.find(operation => operation.operation === 'apply_hit_link')!;
-    expect(link.amount).toEqual({ op: 'ref', ref: 'source_authored_blade_passive/phantom_extra_on_hit_count' });
+    expect(link.amount).toEqual({ op: 'ref', ref: 'source_authored_blade_passive/levels/1/1/phantom_extra_on_hit_count' });
     const linkCount = assembled.formulas.find(formula => formula.key === link.amount!.ref)!;
-    expect(linkCount.expression).toEqual({ op: 'sub', args: [{ op: 'read', path: 'ability.param.phantom_total_on_hit_count' },
-      { op: 'read', path: 'ability.param.normal_on_hit_count' }] });
+    expect(linkCount.expression).toEqual(config.formulas.find(row => row.formulaKey === 'phantom_extra_on_hit_count')!.expression);
+    expect(linkCount.parameters).toEqual(expect.arrayContaining([{ parameterKey: 'phantom_total_on_hit_count', valueMode: 'FIXED', valueType: 'DECIMAL', value: 2 }, { parameterKey: 'normal_on_hit_count', valueMode: 'FIXED', valueType: 'DECIMAL', value: 1 }]));
   });
 
   it('全部可用固定参数完整校验并保留；显示速率参数不自动生成任何周期', () => {
@@ -1010,7 +1020,7 @@ describe('配置驱动装备通用节点编译', () => {
       damageTypeKey: 'physics', deliveryKind: 'BASIC_ATTACK', originKind: 'DIRECT' } };
     config.triggerRules[0]!.actions[0]!.targetContext = 'EVENT_SOURCE';
     const root = rootProvider(assembleTriggeredEquipment(snapshot), 'target');
-    expect(root.abilities![0]!.listenerSpec!.eventMatcher.all).toEqual(['event/damage_taken', 'event/target_owner', 'damage/physics',
+    expect(root.abilities![0]!.listenerSpec!.eventMatcher.all).toEqual(['event/damage_taken', 'event/target_owner', 'physics',
       'damage_trait/delivery_basic_attack', 'damage_trait/origin_direct', `ability/skill/${snapshot.selection.basicAttackSkillKey}`]);
     expect(root.abilities![0]!.listenerSpec!.operations![0]!.target).toBe('target');
     const request = compileWithInputs(snapshot).compileRequest;
@@ -1026,12 +1036,12 @@ describe('配置驱动装备通用节点编译', () => {
     snapshot.catalogs.damageTypes.push(extraType);
     (genericConfiguration(snapshot).effects[0]!.results[0] as SkillEffectDamageResult).detail.damageTypeKey = 'independent_magic';
     const compiled = compileWithInputs(snapshot);
-    expect(compiled.compileRequest.rules.damageTypeFormulas!.map(row => row.damageType)).toEqual(['damage/physics', 'damage/independent_magic']);
-    const stages = compiled.coverage.filter(row => row.authorPath.startsWith('damageTypes.independent_magic.formula.'));
-    expect(stages).toHaveLength(5);
-    expect(stages.every(row => row.compiledPath.startsWith('rules.damageTypeFormulas[1].formula.'))).toBe(true);
-    expect(compiled.coverage.filter(row => row.authorPath.startsWith('damageTypes.physics.formula.'))
-      .every(row => row.compiledPath.startsWith('rules.damageTypeFormulas[0].formula.'))).toBe(true);
+    expect(compiled.compileRequest.rules.damageTypeFormulas!.map(row => row.damageType)).toEqual(['physics', 'independent_magic']);
+    const stages = compiled.coverage.filter(row => row.authorPath === 'damageTypes.independent_magic.formula');
+    expect(stages).toHaveLength(1);
+    expect(stages.every(row => row.compiledPath === 'rules.damageTypeFormulas[1].formula')).toBe(true);
+    expect(compiled.coverage.filter(row => row.authorPath === 'damageTypes.physics.formula')
+      .every(row => row.compiledPath === 'rules.damageTypeFormulas[0].formula')).toBe(true);
   });
 
   it('结果前受击反伤及英雄减疗分开，真实减疗取强目录、原作者ref和同装备稳定来源保留', () => {
@@ -1084,7 +1094,7 @@ describe('配置驱动装备通用节点编译', () => {
     expect(root.lifecycle).toBeUndefined();
     expect(root.abilities![0]!.params).toMatchObject({ on_hit_damage: 20, health_ratio: .015 });
     const formula = assembled.formulas.find(formula => formula.key.endsWith('/scaled_periodic_damage'))!;
-    expect(reads(formula.expression)).toEqual(expect.arrayContaining(['ability.param.on_hit_damage', 'ability.param.health_ratio', 'source.attr.hp.resolved', 'source.attr.hp.base']));
+    expect(reads(formula.expression)).toEqual(expect.arrayContaining(['parameter.' + formula.skillKey + '.on_hit_damage', 'parameter.' + formula.skillKey + '.health_ratio', 'source.attr.hp.BONUS']));
     expect(assembled.operationOrigins[0]!.providerDefinitionRef).toBeUndefined();
     expect(assembled.operationOrigins[0]!.abilityRef).toContain(assembled.mounts[0]!.providerRef);
   });
@@ -1187,3 +1197,8 @@ describe('配置驱动装备通用节点编译', () => {
     expect(snapshot).toEqual(before);
   });
 });
+
+const assembleSimulation = (...args: Parameters<typeof raw_assembleSimulation>): ReturnType<typeof raw_assembleSimulation> => { approveSnapshotFixture(args[0]); return raw_assembleSimulation(...args); };
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };
+
+const assembleTriggeredEquipment = (...args: Parameters<typeof raw_assembleTriggeredEquipment>): ReturnType<typeof raw_assembleTriggeredEquipment> => { approveSnapshotFixture(args[0]); return raw_assembleTriggeredEquipment(...args); };

@@ -199,6 +199,18 @@ describe('场景只读快照接口', () => {
     expect(validateSimulationSnapshot(sample, 'demo', sample.selection).source.skillSources).toHaveLength(1);
   });
 
+  it('伤害类型来源允许空技能归属和共同输入路径，其他来源继续要求技能标识', () => {
+    const snapshot = simulationSample();
+    snapshot.references.push({ sourceType: 'DAMAGE_TYPE', sourceSkillKey: '', sourceKey: 'physics',
+      fieldPath: 'inputs/0/binding/attributeKey', targetType: 'ATTRIBUTE', targetSkillKey: '', targetKey: 'armor', targetSubKey: '' });
+    expect(validateSimulationSnapshot(snapshot, 'demo', snapshot.selection)).toBe(snapshot);
+    snapshot.references[0]!.sourceType = 'TRIGGER';
+    expect(() => validateSimulationSnapshot(snapshot, 'demo', snapshot.selection)).toThrow(/sourceSkillKey/);
+    snapshot.references[0]!.sourceType = 'DAMAGE_TYPE';
+    snapshot.references[0]!.sourceSkillKey = 'sample_basic_attack';
+    expect(() => validateSimulationSnapshot(snapshot, 'demo', snapshot.selection)).toThrow(/references/);
+  });
+
   it('真实零与未填保持区别，选中等级必须来自同一属性图', () => {
     const snapshot = simulationSample();
     snapshot.source.selectedLevelValues.attack_damage = 0;

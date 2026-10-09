@@ -1,3 +1,4 @@
+import { TypeCatalogEntries } from './typeCatalogEntries';
 import type { NamedFormula, ProviderDefinition, SkillActionBinding } from '../types/genericEngine';
 import type { SimulationPlannedSkill, SimulationSnapshot } from '../types/simulationSnapshot';
 import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
@@ -40,7 +41,7 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
     assembleActiveSkill(snapshot, plan, ignoredCosts.filter(cost => cost.skillKey === plan.skillKey)));
   const providers = new Map<string, ProviderDefinition>();
   const formulas = new Map<string, NamedFormula>();
-  const types = new Map<string, string>();
+  const types = new TypeCatalogEntries();
   const defenses = new Map<string, ReturnType<typeof compileSimulationDamageFormula>>();
   let vampRules: ReturnType<typeof adaptHitProgram>['vampRules'];
   for (const assembly of assemblies) {
@@ -108,7 +109,7 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   }
   const providers: ProviderDefinition[] = [];
   const formulas: NamedFormula[] = [...adapted.formulas];
-  const types = new Map<string, string>([['combatant/champion', 'combatant'], ['event/ability_started', 'event'], ['event/source_owner', 'event']]);
+  const types = new TypeCatalogEntries([['combatant/champion', 'combatant'], ['event/ability_started', 'event'], ['event/source_owner', 'event']]);
   const coverage: SimulationCoverage[] = [];
   const operationOrigins: OperationOrigin[] = [];
   const sourceIndex = [...snapshot.source.skillSources].sort((left, right) => {

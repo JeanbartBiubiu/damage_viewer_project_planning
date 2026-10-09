@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from './skillFormulaDefinition';
 import type { SimulationSelectedBuild, SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import type { SkillEffectResult } from '../../src/types/skillEffect';
 import { fixedValue, formulaValue } from '../../src/types/numericValue';
@@ -40,13 +41,13 @@ export function simulationSample(gameId = 'demo'): SimulationSnapshot {
         { gameId, skillKey, parameterKey: 'milliseconds', name: '毫秒', valueType: 'DECIMAL', valueMode: 'FIXED', fixedValue: 1000, levelValues: null, description: null, sortOrder: 1, ...metadata }
       ],
       formulas: [
-        { gameId, skillKey, formulaKey: 'raw', name: '原始伤害', expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'attack_damage', attributeValueKind: 'TOTAL' }, description: null, sortOrder: 0, ...metadata },
-        { gameId, skillKey, formulaKey: 'interval', name: '间隔', expression: { nodeType: 'OPERATION', operation: 'DIVIDE', operands: [
+        { gameId, skillKey, formulaKey: 'raw', name: '原始伤害', expression: skillFormulaDefinition('sample_basic_attack', { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'attack_damage', attributeValueKind: 'TOTAL' }), description: null, sortOrder: 0, ...metadata },
+        { gameId, skillKey, formulaKey: 'interval', name: '间隔', expression: skillFormulaDefinition('sample_basic_attack', { nodeType: 'OPERATION', operation: 'DIVIDE', operands: [
           { nodeType: 'PARAMETER', parameterKey: 'milliseconds' }, { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'attack_speed', attributeValueKind: 'TOTAL' }
-        ] }, description: null, sortOrder: 1, ...metadata },
-        { gameId, skillKey, formulaKey: 'multiplier', name: '暴击倍率', expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [
+        ] }), description: null, sortOrder: 1, ...metadata },
+        { gameId, skillKey, formulaKey: 'multiplier', name: '暴击倍率', expression: skillFormulaDefinition('sample_basic_attack', { nodeType: 'OPERATION', operation: 'ADD', operands: [
           { nodeType: 'PARAMETER', parameterKey: 'base_multiplier' }, { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'critical_strike_damage_bonus_percent', attributeValueKind: 'TOTAL' }
-        ] }, description: null, sortOrder: 2, ...metadata }
+        ] }), description: null, sortOrder: 2, ...metadata }
       ],
       effects: [
         { gameId, skillKey, effectKey: 'start', name: '发起效果', description: null, sortOrder: 0, lifecycle: null, results: [
@@ -81,15 +82,20 @@ export function simulationSample(gameId = 'demo'): SimulationSnapshot {
       skillCategories: [{ gameId, skillCategoryKey: 'basic_attack', name: '普攻', description: null, status: 'ENABLED', sortOrder: 0, ...metadata }],
       damageTypes: [{ type: { gameId, damageTypeKey: 'physics', name: '物理', description: null, status: 'ENABLED', sortOrder: 0, formulaConfigured: true, ...metadata },
         formula: { gameId, damageTypeKey: 'physics', updatedAt: '', formula: {
-          resistanceBeforePenetration: { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'armor', attributeValueKind: 'TOTAL' },
-          penetrationPercent: { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'armor_pen_percent', attributeValueKind: 'TOTAL' },
-          penetrationFlat: { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'armor_pen_flat', attributeValueKind: 'TOTAL' },
-          effectiveResistance: { nodeType: 'STAGE_RESULT', stageKey: 'RESISTANCE_BEFORE_PENETRATION' },
-          resistanceFactor: { nodeType: 'OPERATION', operation: 'DIVIDE', operands: [
-            { nodeType: 'FIXED', value: 100 }, { nodeType: 'OPERATION', operation: 'ADD', operands: [
-              { nodeType: 'FIXED', value: 100 }, { nodeType: 'STAGE_RESULT', stageKey: 'EFFECTIVE_RESISTANCE' }
-            ] }
-          ] }
+          inputs: [
+            { key: 'resistance', binding: { kind: 'attribute', object: 'target', attributeKey: 'armor', valueKind: 'TOTAL', view: 'current_frame' } },
+            { key: 'percent_pen', binding: { kind: 'attribute', object: 'source', attributeKey: 'armor_pen_percent', valueKind: 'TOTAL', view: 'current_frame' } },
+            { key: 'flat_pen', binding: { kind: 'attribute', object: 'source', attributeKey: 'armor_pen_flat', valueKind: 'TOTAL', view: 'current_frame' } }
+          ],
+          stages: [
+            { key: 'resistance', name: '穿透前抗性', expression: { op: 'read', inputKey: 'resistance' } },
+            { key: 'percent_pen', name: '百分比穿透', expression: { op: 'read', inputKey: 'percent_pen' } },
+            { key: 'flat_pen', name: '固定穿透', expression: { op: 'read', inputKey: 'flat_pen' } },
+            { key: 'effective', name: '有效抗性', expression: { op: 'ref', stageKey: 'resistance' } },
+            { key: 'factor', name: '防御倍率', expression: { op: 'div', args: [
+              { op: 'const', value: '100' }, { op: 'add', args: [{ op: 'const', value: '100' }, { op: 'ref', stageKey: 'effective' }] }
+            ] } }
+          ], outputStageKey: 'factor'
         } }
       }],
       modifierZones: [], statuses: [], vampRules: { rules: [{ vampType: 'LIFE_STEAL', sourceAttributeKey: 'life_steal_percent', basisOutputKind: 'POST_DEFENSE_DAMAGE', defaultEfficiency: 1,

@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from './skillFormulaDefinition';
 import type { SkillActionInput, SkillActionInputs } from '../../src/engine/skillActionRequest';
 import { inspectSimulationSnapshot, prepareSimulation } from '../../src/engine/simulationAdapter';
 import { simulationActiveSample } from './simulationActiveSkill';
@@ -109,13 +110,13 @@ export function simulationHasteSample(haste = 10) {
       description: null, sortOrder: 0, createdAt: '', updatedAt: '', valueType: 'DECIMAL', valueMode: 'FIXED', fixedValue: Number(amount), levelValues: null
     }));
     configuration.formulas = [{ gameId: snapshot.gameId, skillKey: configuration.skill.skillKey, formulaKey: 'effective_cooldown',
-      name: '独立作者急速冷却', description: null, sortOrder: 0, createdAt: '', updatedAt: '', expression: {
+      name: '独立作者急速冷却', description: null, sortOrder: 0, createdAt: '', updatedAt: '', expression: skillFormulaDefinition(configuration.skill.skillKey, {
         nodeType: 'OPERATION', operation: 'DIVIDE', operands: [
           { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [{ nodeType: 'PARAMETER', parameterKey: 'base_cooldown_ms' }, { nodeType: 'PARAMETER', parameterKey: 'haste_scale' }] },
           { nodeType: 'OPERATION', operation: 'ADD', operands: [{ nodeType: 'PARAMETER', parameterKey: 'haste_scale' },
             { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'ability_haste', attributeValueKind: 'TOTAL' }] }
         ]
-      } }];
+      }) }];
     configuration.processes[0]!.cooldown!.durationValue = formulaValue('effective_cooldown');
   }
   return snapshot;

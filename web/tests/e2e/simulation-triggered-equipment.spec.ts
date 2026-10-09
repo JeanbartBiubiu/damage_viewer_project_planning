@@ -27,6 +27,11 @@ async function runSnapshot(page: import('@playwright/test').Page, snapshot: Simu
     const { continuousAttackRequest } = await import(continuousPath) as typeof import('../../src/engine/continuousAttackRequest');
     const { assessSingleAttackResult } = await import(singleResultPath) as typeof import('../../src/engine/singleAttackResult');
     const { assessContinuousAttackResult } = await import(continuousResultPath) as typeof import('../../src/engine/continuousAttackResult');
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { preflightSkillFormulas } = await import(preflightPath) as typeof import('../../src/engine/skillFormulaPreflight');
+    const { validateConsumedFormulaValues, validateApprovedFormulaValues } = await import(proofPath) as typeof import('../../src/engine/approvedFormulaValues');
+    const client = new GenericEngineClient();
+    const formulaPreflight = await preflightSkillFormulas(snapshot, client);
     const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) {
       inputs[row.side][row.attribute.attributeKey] = row.attribute.attributeKey === 'attack_speed_ratio' ? .651
@@ -36,12 +41,13 @@ async function runSnapshot(page: import('@playwright/test').Page, snapshot: Simu
     const assumptions = (['source', 'target'] as const).filter(owner => snapshot.selection[`${owner}EquipmentKeys`].includes('item_3110'))
       .map(owner => ({ owner, equipmentKey: 'item_3110', target: owner === 'source' ? 'target' as const : 'source' as const, inRange: true }));
     const prepared = await prepareSimulation(snapshot, inputs, initialHealth, assumptions);
-    const client = new GenericEngineClient();
     let release;
     let compiled;
     try {
       compiled = await client.compile(prepared.compileRequest);
       if (!compiled.ok || !compiled.sessionId) throw new Error(JSON.stringify(compiled.errors));
+      validateConsumedFormulaValues(prepared.approvedFormulaValues, prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
+      validateApprovedFormulaValues(prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
       const singleRequest = singleAttackRequest(prepared.compileRequest, compiled.sessionId);
       singleRequest.runtimeOptions = { ...singleRequest.runtimeOptions, equipmentAssumptions: assumptions, skillOrigins: prepared.skillOrigins };
       const single = await client.run(singleRequest);
@@ -55,7 +61,7 @@ async function runSnapshot(page: import('@playwright/test').Page, snapshot: Simu
       const truncatedAssessment = assessContinuousAttackResult(prepared.compileRequest, truncatedRequest, truncated, prepared.operationOrigins);
       release = await client.release(compiled.sessionId, prepared.compileRequest.rulesHash);
       client.terminate();
-      return { snapshot, prepared, inputs, initialHealth, single, singleAssessment, continuous, continuousAssessment, repeated, truncated, truncatedAssessment, release, liveWorker: client.hasLiveWorker };
+      return { snapshot, prepared, formulaPreflight, inputs, initialHealth, single, singleAssessment, continuous, continuousAssessment, repeated, truncated, truncatedAssessment, release, liveWorker: client.hasLiveWorker };
     } finally {
       if (compiled?.sessionId && client.hasLiveWorker) await client.release(compiled.sessionId, prepared.compileRequest.rulesHash);
       client.terminate();
@@ -110,6 +116,11 @@ test('4C通用构造来源叠层400毫秒到期，实际Worker按剩余比例更
     const { prepareSimulation, inspectSimulationSnapshot } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
     const { GenericEngineClient } = await import(clientPath) as typeof import('../../src/engine/genericEngineClient');
     const { simulationInitialSnapshot } = await import(initialPath) as typeof import('../../src/engine/simulationInitialSnapshot');
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { preflightSkillFormulas } = await import(preflightPath) as typeof import('../../src/engine/skillFormulaPreflight');
+    const { validateConsumedFormulaValues, validateApprovedFormulaValues } = await import(proofPath) as typeof import('../../src/engine/approvedFormulaValues');
+    const client = new GenericEngineClient();
+    const formulaPreflight = await preflightSkillFormulas(snapshot, client);
     const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) inputs[row.side][row.attribute.attributeKey] = 0;
     const prepared = await prepareSimulation(snapshot, inputs, { source: 650, target: 590 });
@@ -135,11 +146,12 @@ test('4C通用构造来源叠层400毫秒到期，实际Worker按剩余比例更
           types: ['state_scope/provider'], valuePolicy: 'add', amount: { op: 'const', value: 1 } }] }]
     });
     input.combatants[0]!.providers.push({ providerRef: 'mechanism_fixed', definitionRef: 'mechanism_fixed' }, { providerRef: 'mechanism_passive', definitionRef: 'mechanism_passive' });
-    const client = new GenericEngineClient();
     let compiled;
     try {
       compiled = await client.compile(input);
       if (!compiled.ok || !compiled.sessionId) throw new Error(JSON.stringify(compiled.errors));
+      validateConsumedFormulaValues(prepared.approvedFormulaValues, input.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
+      validateApprovedFormulaValues(input.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
       const request: import('../../src/types/genericEngine').RunRequest = {
         sessionId: compiled.sessionId, expectedRulesHash: input.rulesHash, schemaVersion: input.schemaVersion, schemaHash: input.schemaHash, rulesHash: input.rulesHash,
         initialSnapshot: simulationInitialSnapshot(input), driverPlan: { conditionRecheckIntervalMs: 100, entries: [], basicAttack: { ...prepared.basicAttackBinding, planKey: 'timed-stack-construct', attackSpeedInputMax: 10 } },
@@ -149,7 +161,7 @@ test('4C通用构造来源叠层400毫秒到期，实际Worker按剩余比例更
       const repeated = await client.run(request);
       const release = await client.release(compiled.sessionId, input.rulesHash);
       client.terminate();
-      return { input, request, done, repeated, release, liveWorker: client.hasLiveWorker };
+      return { input, formulaPreflight, request, done, repeated, release, liveWorker: client.hasLiveWorker };
     } finally {
       if (compiled?.sessionId && client.hasLiveWorker) await client.release(compiled.sessionId, input.rulesHash);
       client.terminate();

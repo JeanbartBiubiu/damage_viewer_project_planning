@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../../../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import type { SkillConfiguration } from '../../../types/skillConfiguration';
 import type { SkillEffect } from '../../../types/skillEffect';
@@ -50,7 +51,7 @@ describe('技能配置草稿', () => {
     complete.parameters.push({ ...baseline.parameters[1]!, parameterKey: 'first', name: '首段', valueType: 'INTEGER', fixedValue: 2 },
       { ...baseline.parameters[1]!, parameterKey: 'last', name: '末段', valueType: 'INTEGER', fixedValue: 13 });
     complete.formulas.push({ gameId: 'demo', skillKey: 'sample_q', formulaKey: 'last_formula', name: '末段公式', description: null, sortOrder: 0,
-      expression: { nodeType: 'PARAMETER', parameterKey: 'last' }, createdAt: '', updatedAt: '' });
+      expression: skillFormulaDefinition('sample_q', { nodeType: 'PARAMETER', parameterKey: 'last' }), createdAt: '', updatedAt: '' });
     complete.processes.push({ gameId: 'demo', skillKey: 'sample_q', processKey: 'channel', name: '指定窗口引导', activationType: 'ACTIVE',
       description: null, sortOrder: 0, cooldown: null, createdAt: '', updatedAt: '',
       steps: [{ stepKey: 'channel', name: '指定窗口', stepType: 'CHANNEL', occupiesAction: true, description: null, sortOrder: 0,
@@ -307,7 +308,7 @@ describe('技能配置草稿', () => {
     const formula = createNewFormulaEntry('new-formula');
     formula.draft.formulaKey = 'total';
     formula.draft.name = '总伤害';
-    formula.draft.expression = { nodeType: 'PARAMETER', parameterKey: 'bonus' };
+    formula.draft.expression = skillFormulaDefinition('sample_q', { nodeType: 'PARAMETER', parameterKey: 'bonus' });
     draft.formulas.push(formula);
     const result = buildConfigurationChanges(baseline, draft, null);
     expect(result.ok).toBe(true);
@@ -319,14 +320,14 @@ describe('技能配置草稿', () => {
       } },
       { objectType: 'FORMULA', operation: 'CREATE', key: 'total', value: {
         formulaKey: 'total', name: '总伤害', description: null, sortOrder: 0,
-        expression: { nodeType: 'PARAMETER', parameterKey: 'bonus' }
+        expression: skillFormulaDefinition('sample_q', { nodeType: 'PARAMETER', parameterKey: 'bonus' })
       } }
     ]);
     const current = structuredClone(baseline);
     current.parameters.push({ ...baseline.parameters[1]!, parameterKey: 'bonus', name: '加成', sortOrder: 0 });
     current.formulas.push({
       gameId: 'demo', skillKey: 'sample_q', formulaKey: 'total', name: '总伤害',
-      description: null, sortOrder: 0, expression: { nodeType: 'PARAMETER', parameterKey: 'bonus' },
+      description: null, sortOrder: 0, expression: skillFormulaDefinition('sample_q', { nodeType: 'PARAMETER', parameterKey: 'bonus' }),
       createdAt: '2026-01-01', updatedAt: '2026-01-01'
     });
     expect(configurationMatchesRequest(current, undefined, result.changes)).toBe(true);
@@ -336,7 +337,7 @@ describe('技能配置草稿', () => {
     const current = structuredClone(baseline);
     current.formulas.push({
       gameId: 'demo', skillKey: 'sample_q', formulaKey: 'total', name: '总伤害',
-      description: null, sortOrder: 0, expression: { nodeType: 'PARAMETER', parameterKey: 'ratio' },
+      description: null, sortOrder: 0, expression: skillFormulaDefinition('sample_q', { nodeType: 'PARAMETER', parameterKey: 'ratio' }),
       createdAt: '2026-01-01', updatedAt: '2026-01-01'
     });
     const draft = configurationToDraft(current);
@@ -345,7 +346,7 @@ describe('技能配置草稿', () => {
     expect(invalid.ok).toBe(false);
     if (invalid.ok) return;
     expect(invalid.formulaNodeIssues.total?.[0]?.message).toContain('ratio');
-    draft.formulas[0]!.draft.expression = { nodeType: 'PARAMETER', parameterKey: 'damage' };
+    draft.formulas[0]!.draft.expression = skillFormulaDefinition('sample_q', { nodeType: 'PARAMETER', parameterKey: 'damage' });
     const valid = buildConfigurationChanges(current, draft, null);
     expect(valid.ok).toBe(true);
     if (!valid.ok) return;
@@ -353,7 +354,7 @@ describe('技能配置草稿', () => {
       { objectType: 'PARAMETER', operation: 'DELETE', key: 'ratio' },
       { objectType: 'FORMULA', operation: 'UPDATE', key: 'total', value: {
         name: '总伤害', description: null, sortOrder: 0,
-        expression: { nodeType: 'PARAMETER', parameterKey: 'damage' }
+        expression: skillFormulaDefinition('sample_q', { nodeType: 'PARAMETER', parameterKey: 'damage' })
       } }
     ]);
   });

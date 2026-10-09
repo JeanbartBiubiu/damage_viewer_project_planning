@@ -1,10 +1,12 @@
+import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import { simulationBuildSample, simulationSample } from '../../tests/fixtures/simulationSnapshot';
 import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkillSources';
 import { permanentEquipmentSimulationSample } from '../../tests/fixtures/simulationPermanentEquipment';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
-import { assembleSimulation, inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
+import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
 import { continuousAttackRequest } from './continuousAttackRequest';
 import { recurveBowConfiguration, triggeredEquipmentSimulationSample } from '../../tests/fixtures/simulationTriggeredEquipment';
 import type { SkillEffect, SkillEffectLifecycle } from '../types/skillEffect';
@@ -510,7 +512,7 @@ describe('5B真实默认来源复用通用触发核心', () => {
     if (damage.resultType !== 'DAMAGE') throw new Error('需要实际伤害结果');
     if (kind === 'FORMULA') configuration.formulas.push({ gameId: snapshot.gameId, skillKey: configuration.skill.skillKey,
       formulaKey: 'vamp_efficiency_formula', name: '等级吸血效率', description: null, sortOrder: 0, createdAt: '', updatedAt: '',
-      expression: { nodeType: 'PARAMETER', parameterKey: 'vamp_efficiency' } });
+      expression: skillFormulaDefinition(configuration.skill.skillKey, { nodeType: 'PARAMETER', parameterKey: 'vamp_efficiency' }) });
     damage.detail.vampOverrides[0]!.efficiencyValue = kind === 'PARAMETER'
       ? { kind: 'PARAMETER', parameterKey: 'vamp_efficiency' }
       : { kind: 'FORMULA', formulaKey: 'vamp_efficiency_formula' };
@@ -535,7 +537,8 @@ describe('5B真实默认来源复用通用触发核心', () => {
         else {
           expect(override.efficiency.ref).toContain(origin.providerRef);
           const formula = assembled.compileRequest.formulas.find(row => row.key === override.efficiency.ref)!;
-          expect(formula.expression).toEqual({ op: 'read', path: 'ability.param.vamp_efficiency' });
+          expect(formula.expression.inputs).toContainEqual({ key: 'input_0', binding: { kind: 'parameter', skillKey: formula.skillKey, parameterKey: 'vamp_efficiency' } });
+          expect(formula.parameters).toContainEqual({ parameterKey: 'vamp_efficiency', valueMode: 'SKILL_LEVEL', valueType: 'DECIMAL', value: expected });
         }
       }
     }
@@ -576,10 +579,10 @@ describe('5B真实默认来源复用通用触发核心', () => {
     if (dynamic) {
       configuration.formulas.push({ gameId: snapshot.gameId, skillKey: configuration.skill.skillKey, formulaKey: 'owned_duration',
         name: '实际拥有方生命期限', description: null, sortOrder: 0, createdAt: '', updatedAt: '',
-        expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [
+        expression: skillFormulaDefinition(configuration.skill.skillKey, { nodeType: 'OPERATION', operation: 'ADD', operands: [
           { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'hp', attributeValueKind: 'TOTAL' },
           { nodeType: 'PARAMETER', parameterKey: configuration.parameters[0]!.parameterKey }
-        ] } });
+        ] }) });
     }
     configuration.effects.push(armor);
     const reward = configuration.triggerRules.find(row => row.ruleKey === 'threshold_reward')!;
@@ -604,7 +607,7 @@ describe('5B真实默认来源复用通用触发核心', () => {
         const reference = persistent.lifecycle!.durationMs!.ref;
         const formula = assembled.compileRequest.formulas.find(row => row.key === reference)!;
         expect(formula.key).toContain(`${origin.side}_natural_skill_`);
-        expect(formula.expression).toMatchObject({ op: 'add' });
+        expect(formula.expression.stages[0]!.expression).toMatchObject({ op: 'add' });
       } else expect(persistent.lifecycle!.durationMs).toEqual({ op: 'const', value: 4000 });
     }
     expect(assembled.operationOrigins.filter(row => row.resultKey === 'armor')).toHaveLength(2);
@@ -801,3 +804,6 @@ describe('5B真实默认来源复用通用触发核心', () => {
     expect(source.abilities![1]!.listenerSpec!.operations![0]!.ref).toBe('effect_stacking');
   });
 });
+
+const assembleSimulation = (...args: Parameters<typeof raw_assembleSimulation>): ReturnType<typeof raw_assembleSimulation> => { approveSnapshotFixture(args[0]); return raw_assembleSimulation(...args); };
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };

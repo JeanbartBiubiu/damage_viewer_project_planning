@@ -56,7 +56,7 @@ export function assembleEquipmentPassives(snapshot: SimulationSnapshot) {
       const root = `skills.${expectedSkill}`;
       if (configuration.skill.gameId !== snapshot.gameId || configuration.skill.status !== 'ENABLED'
         || configuration.skill.maxLevel !== 1 || !configuration.skill.skillCategoryKeys.includes('passive')
-        || configuration.processes.length || configuration.internalStates.length || configuration.formulas.length) {
+        || configuration.processes.length || configuration.internalStates.length) {
         fail(root, '4B仅接入完整单级、无过程、无内部状态的核定常驻被动');
       }
       const expectedTypes = equipmentKey === 'item_3065' ? ['HEALING_MODIFIER', 'SHIELD_RECEIVED_MODIFIER'] : ['ATTRIBUTE_CHANGE'];
@@ -65,7 +65,7 @@ export function assembleEquipmentPassives(snapshot: SimulationSnapshot) {
       }
       const sourceRef = `${side}_${equipmentKey}_passive`;
       const sourceDefinition = `${sourceRef}_definition`;
-      const initializer: ProviderDefinition = { providerKey: sourceDefinition, stableId: `${side}_equipment_${equipmentKey}_definition`, kind: 'item', listeners: [] };
+      const initializer: ProviderDefinition = { providerKey: sourceDefinition, skillKey: expectedSkill, stableId: `${side}_equipment_${equipmentKey}_definition`, kind: 'item', listeners: [] };
       mounts.push({ side, providerRef: sourceRef, definitionRef: sourceDefinition });
       const seenTypes = new Set<string>();
       const seenRules = new Set<string>();
@@ -79,9 +79,11 @@ export function assembleEquipmentPassives(snapshot: SimulationSnapshot) {
         if (!life || life.instanceScope !== 'SOURCE' || life.expiryMode !== 'EXPLICIT_ONLY' || life.durationValue !== null
           || life.reapplicationStackMode !== 'KEEP' || life.reapplicationDurationMode !== null || life.periodicIntervalValue !== null
           || life.firstPeriodicExecution !== null || life.endWhenShieldEndsResultKey != null
-          || life.maxStacksValue.kind !== 'FIXED' || life.maxStacksValue.value !== 1
-          || life.applicationStacksValue.kind !== 'FIXED' || life.applicationStacksValue.value !== 1 || effect.results.length !== 1) {
+          || effect.results.length !== 1) {
           fail(`${effectPath}.lifecycle`, '4B常驻效果必须为来源范围、永久单层、无周期的完整效果');
+        }
+        for (const field of ['maxStacksValue', 'applicationStacksValue'] as const) {
+          if (tryFoldConstant(compileNumericValue(life[field], effectPath + '.lifecycle.' + field, numeric, fail)) !== 1) fail(effectPath, '常驻层数须由原生核定恒1');
         }
         const result = effect.results[0]!;
         const resultPath = `${effectPath}.results.${result.resultKey}`;
@@ -120,7 +122,7 @@ export function assembleEquipmentPassives(snapshot: SimulationSnapshot) {
             bucket: zone.modifierZoneKey, stage: 'total', valuePolicy: 'multiply', value: constExpr(1 - ratio) };
           coverage.push({ authorPath: `equipmentAssumptions.${side}.${equipmentKey}.target`, compiledPath: `sharedProviders.${definitionRef}.modifiers[0].target` });
         }
-        providers.push({ providerKey: definitionRef, stableId: definitionRef, kind: 'status', modifiers: [modifier] });
+        providers.push({ providerKey: definitionRef, skillKey: expectedSkill, stableId: definitionRef, kind: 'status', modifiers: [modifier] });
         const rules = configuration.triggerRules.filter(rule => rule.actions.some(action => action.actionType === 'EXECUTE_EFFECT' && action.detail.effectKey === effect.effectKey));
         if (rules.length !== 1) fail(effectPath, '每项常驻效果必须由唯一初始化规则执行');
         const rule = rules[0]!;

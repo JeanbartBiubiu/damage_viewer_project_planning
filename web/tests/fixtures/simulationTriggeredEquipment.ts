@@ -41,16 +41,11 @@ export function triggeredEquipmentSimulationSample(
   snapshot.catalogs.skillCategories.push({ gameId: 'lol', skillCategoryKey: 'passive', name: '独立被动分类',
     description: null, status: 'ENABLED', sortOrder: 1, ...metadata });
   const defense = snapshot.catalogs.damageTypes[0]!.formula.formula;
-  defense.effectiveResistance = { nodeType: 'OPERATION', operation: 'MAX', operands: [
-    { nodeType: 'FIXED', value: 0 },
-    { nodeType: 'OPERATION', operation: 'SUBTRACT', operands: [
-      { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
-        { nodeType: 'STAGE_RESULT', stageKey: 'RESISTANCE_BEFORE_PENETRATION' },
-        { nodeType: 'OPERATION', operation: 'SUBTRACT', operands: [
-          { nodeType: 'FIXED', value: 1 }, { nodeType: 'STAGE_RESULT', stageKey: 'PENETRATION_PERCENT' }
-        ] }
-      ] },
-      { nodeType: 'STAGE_RESULT', stageKey: 'PENETRATION_FLAT' }
+  defense.stages.find(stage => stage.key === 'effective')!.expression = { op: 'max', args: [
+    { op: 'const', value: '0' }, { op: 'sub', args: [
+      { op: 'mul', args: [{ op: 'ref', stageKey: 'resistance' }, { op: 'sub', args: [
+        { op: 'const', value: '1' }, { op: 'ref', stageKey: 'percent_pen' }
+      ] }] }, { op: 'ref', stageKey: 'flat_pen' }
     ] }
   ] };
   for (const side of ['source', 'target'] as const) {

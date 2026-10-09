@@ -1,10 +1,12 @@
+import { approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import type { GenericFormulaExpr } from '../types/genericEngine';
 import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
 import type { SkillEffectDamageModifierResult } from '../types/skillEffect';
 import {
-  adaptDamageModifierProgram, withDamageModifierPrograms,
+  adaptDamageModifierProgram as raw_adaptDamageModifierProgram, withDamageModifierPrograms,
   type AuthoredDamageModifierProgram, type DamageModifierScenario
 } from './damageModifierAdapter';
 
@@ -67,6 +69,7 @@ function evaluate(expr: GenericFormulaExpr, reads: Record<string, number>): numb
     return reads[expr.path!]!;
   }
   if (expr.op === 'if') return evaluate(expr.args![evaluate(expr.args![0]!, reads) !== 0 ? 1 : 2]!, reads);
+  if (expr.op === 'ref') throw new Error('共同公式外部引用须由原生求值');
   const [a, b] = expr.args!.map(x => evaluate(x, reads)) as [number, number];
   switch (expr.op) {
     case 'min': return Math.min(a, b); case 'max': return Math.max(a, b);
@@ -135,12 +138,12 @@ describe('damageModifierAdapter', () => {
   it('当前等级静态公式作为门槛，运行输入和属性依赖不能偷偷补值', () => {
     const a = program();
     a.formulas = [{ gameId: 'lol', skillKey: a.skillKey, formulaKey: 'threshold_formula', name: '门槛', description: null,
-      expression: { nodeType: 'PARAMETER', parameterKey: 'threshold' }, sortOrder: 10, createdAt: '', updatedAt: '' }];
+      expression: skillFormulaDefinition(a.skillKey, { nodeType: 'PARAMETER', parameterKey: 'threshold' }), sortOrder: 10, createdAt: '', updatedAt: '' }];
     result(a).detail.condition!.comparisonValue = formulaValue('threshold_formula');
     expect(multiplier(a, 399)).toBe(1.08);
     a.parameters![1]!.valueMode = 'RUNTIME_INPUT'; a.parameters![1]!.fixedValue = null;
     expect(() => adaptDamageModifierProgram(a, 'rune:test')).toThrow(/运行输入/);
-    a.formulas[0]!.expression = { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'CURRENT_RATIO' };
+    a.formulas[0]!.expression = skillFormulaDefinition('rune_passive', { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'CURRENT_RATIO' });
     expect(() => adaptDamageModifierProgram(a, 'rune:test')).toThrow(/属性/);
   });
   it('不支持的条件、结果与生命周期明确拒绝，不删去后运行', () => {
@@ -211,11 +214,11 @@ describe('damageModifierAdapter', () => {
     other.valueRule.value = formulaValue('dynamic');
     other.valueRule.fixedMinValue = 0;
     a.formulas = [{ gameId: 'lol', skillKey: a.skillKey, formulaKey: 'dynamic', name: '动态金额', description: null,
-      expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'power', attributeValueKind: 'CURRENT' },
+      expression: skillFormulaDefinition(a.skillKey, { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'power', attributeValueKind: 'CURRENT' }),
       sortOrder: 10, createdAt: '', updatedAt: '' }];
     a.effects[0]!.results.push(other);
     expect(multiplier(a, 399)).toBe(1.08);
-    expect(() => multiplier(a, 600)).toThrow(/target.attr.power.current/);
+    expect(() => multiplier(a, 600)).toThrow(/共同公式外部引用须由原生求值/);
     const modifier = adaptDamageModifierProgram(a, 'rune:test').provider.modifiers![0]!;
     expect(evaluate(modifier.condition!, { 'damage.self': 1, 'damage.trait.origin_direct': 1 })).toBe(0);
     other.valueRule.fixedMinValue = null;
@@ -231,14 +234,17 @@ describe('damageModifierAdapter', () => {
     a.parameters = [...a.parameters!, { ...a.parameters![0]!, parameterKey: 'a', fixedValue: 0.1 },
       { ...a.parameters![0]!, parameterKey: 'b', fixedValue: 0.2 }];
     a.formulas = [{ gameId: 'lol', skillKey: a.skillKey, formulaKey: 'sum', name: '门槛', description: null,
-      sortOrder: 10, createdAt: '', updatedAt: '', expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [
-        { nodeType: 'PARAMETER', parameterKey: 'a' }, { nodeType: 'PARAMETER', parameterKey: 'b' }] } }];
+      sortOrder: 10, createdAt: '', updatedAt: '', expression: skillFormulaDefinition(a.skillKey, { nodeType: 'OPERATION', operation: 'ADD', operands: [
+        { nodeType: 'PARAMETER', parameterKey: 'a' }, { nodeType: 'PARAMETER', parameterKey: 'b' }] }) }];
     result(a).detail.condition!.comparisonValue = formulaValue('sum');
-    expect(multiplier(a, 300)).toBe(1);
+    expect(multiplier(a, 300)).toBe(1.08); // 原生64位浮点核定0.1+0.2，不借Web分数覆盖执行语义
     expect(multiplier(a, 299)).toBe(1.08);
     a.parameters![2]!.fixedValue = 1; a.parameters![3]!.fixedValue = 1e-17;
-    a.formulas[0]!.expression = { nodeType: 'OPERATION', operation: 'SUBTRACT', operands: [
-      { nodeType: 'PARAMETER', parameterKey: 'a' }, { nodeType: 'PARAMETER', parameterKey: 'b' }] };
-    expect(() => adaptDamageModifierProgram(a, 'rune:test')).toThrow(/精度/);
+    a.formulas[0]!.expression = skillFormulaDefinition('rune_passive', { nodeType: 'OPERATION', operation: 'SUBTRACT', operands: [
+      { nodeType: 'PARAMETER', parameterKey: 'a' }, { nodeType: 'PARAMETER', parameterKey: 'b' }] });
+    expect(() => adaptDamageModifierProgram(a, 'rune:test')).not.toThrow();
+    expect(multiplier(a, 999)).toBe(1.08); // 原生核定1-1e-17舍入成1，Web不另设分数精度解释器
   });
 });
+
+const adaptDamageModifierProgram = (...args: Parameters<typeof raw_adaptDamageModifierProgram>): ReturnType<typeof raw_adaptDamageModifierProgram> => { approveAuthoredFixture(args[0]); return raw_adaptDamageModifierProgram(...args); };

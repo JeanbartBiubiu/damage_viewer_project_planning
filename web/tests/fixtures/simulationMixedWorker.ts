@@ -6,17 +6,20 @@ import { prepareSimulation, inspectSimulationSnapshot } from '../../src/engine/s
 import { skillActionRequest } from '../../src/engine/skillActionRequest';
 import { assessSkillActionResult } from '../../src/engine/skillActionResult';
 import { GenericEngineClient } from '../../src/engine/genericEngineClient';
+import { preflightSkillFormulas } from '../../src/engine/skillFormulaPreflight';
+import { validateConsumedFormulaValues, validateApprovedFormulaValues } from '../../src/engine/approvedFormulaValues';
 
 export async function runMixedWorkerCase(snapshot: SimulationSnapshot, inputs: SkillActionInputs, iterations = 100,
   costs: SimulationCastCostRef[] = [], attributeInputs?: { source: Record<string, number>; target: Record<string, number> },
   initialHealth?: { source: number; target: number }, inputVariants: SkillActionInputs[] = []) {
+  const client = new GenericEngineClient();
+  const formulaPreflight = await preflightSkillFormulas(snapshot, client);
   const attributes = attributeInputs ?? { source: {} as Record<string, number>, target: {} as Record<string, number> };
   if (!attributeInputs) for (const row of inspectSimulationSnapshot(snapshot, costs).requirements) {
     if (row.storedValue === undefined) attributes[row.side][row.attribute.attributeKey] = 0;
   }
   const prepared = await prepareSimulation(snapshot, attributes, initialHealth ?? { source: snapshot.source.selectedLevelValues.hp! * .3,
     target: snapshot.target.selectedLevelValues.hp! }, [], [], costs);
-  const client = new GenericEngineClient();
   let sessionId: string | null = null;
   const compare = (first: unknown, second: unknown, label: string) => {
     if (JSON.stringify(first) !== JSON.stringify(second)) throw new Error(label);
@@ -29,6 +32,8 @@ export async function runMixedWorkerCase(snapshot: SimulationSnapshot, inputs: S
     const compiled = await client.compile(prepared.compileRequest);
     if (!compiled.ok || !compiled.sessionId) throw new Error(JSON.stringify(compiled.errors));
     sessionId = compiled.sessionId;
+    validateConsumedFormulaValues(prepared.approvedFormulaValues, prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
+    validateApprovedFormulaValues(prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
     const run = await skillActionRequest(prepared, snapshot, inputs, sessionId);
     const baseline = await client.run(run.runRequest);
     checked(run.runRequest, baseline);
@@ -86,7 +91,7 @@ export async function runMixedWorkerCase(snapshot: SimulationSnapshot, inputs: S
     compare(await client.run(run.runRequest), baseline, '错误摘要后未从初态恢复');
     const release = await client.release(sessionId, prepared.compileRequest.rulesHash);
     sessionId = null;
-    return { prepared, runRequest: run.runRequest, runInputHash: run.runInputHash, baseline, runVariants, variants, inputVariantResults, iterations, release };
+    return { prepared, compile: compiled, formulaPreflight, runRequest: run.runRequest, runInputHash: run.runInputHash, baseline, runVariants, variants, inputVariantResults, iterations, release };
   } finally {
     if (sessionId && client.hasLiveWorker) await client.release(sessionId, prepared.compileRequest.rulesHash);
     client.terminate();

@@ -1,7 +1,8 @@
+import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { describe, expect, it } from 'vitest';
 import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
 import type { AbilityDefinition, AttackRecord, DamageRecord, DoneResult, GenericFormulaExpr, OperationDefinition, ProviderDefinition } from '../types/genericEngine';
-import { assembleSimulation, inspectSimulationSnapshot } from './simulationAdapter';
+import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot } from './simulationAdapter';
 import { continuousAttackRequest } from './continuousAttackRequest';
 import { assessContinuousAttackResult } from './continuousAttackResult';
 
@@ -25,7 +26,7 @@ async function sample() {
       sourceHpAfter: 650, targetHpAfter: hpBefore - actualHpLoss, completed: true });
     damageRecords.push({ damageId: index, attackIndex: index, useRef: `use_${index}`, timeMs: (index - 1) * 1000,
       owner: 'source', source: 'source', target: 'target', abilityRef: plan.hitAbilityRef, castInstanceId: index * 3,
-      operationRef: origin.operationRef, operationPath: origin.compiledPaths[0]!, damageType: 'damage/physics',
+      operationRef: origin.operationRef, operationPath: origin.compiledPaths[0]!, damageType: 'physics',
       rawAmount: 100, postDefenseDamage: 100, shieldAbsorbed: 0, actualHpLoss, overkillDamage: 100 - actualHpLoss, hpBefore, hpAfter: hpBefore - actualHpLoss,
       sourceHpBefore: 650, sourceHpAfter: 650,
       resistanceBeforePenetration: 0, penetrationPercent: 0, penetrationFlat: 0, effectiveResistance: 0, resistanceFactor: 1,
@@ -49,7 +50,7 @@ async function sample() {
       basicAttack: { planKey: plan.planKey, startedCount: 3, hitCount: 3, completedCount: 3, initialActionReadyAtMs: null },
       execution: { requestedDurationMs: 30000, complete: true, incompleteReason: null, budgetCause: null, targetKilled: true, targetKilledAtMs: 2000 },
       damageBreakdown: [{ owner: 'source', source: 'source', target: 'target', abilityRef: plan.hitAbilityRef,
-        operationRef: origin.operationRef, damageType: 'damage/physics', damageCount: 3, postDefenseDamage: 300, shieldAbsorbed: 0, actualHpLoss: 250, overkillDamage: 50 }] },
+        operationRef: origin.operationRef, damageType: 'physics', damageCount: 3, postDefenseDamage: 300, shieldAbsorbed: 0, actualHpLoss: 250, overkillDamage: 50 }] },
     finalSnapshot, attackRecords, damageRecords, mechanicRecords: [],
     recording: { attackRecordCount: 3, returnedAttackRecords: 3, droppedAttackRecords: 0, attackRecordsTruncated: false,
       damageRecordCount: 3, returnedDamageRecords: 3, droppedDamageRecords: 0, damageRecordsTruncated: false,
@@ -147,7 +148,7 @@ function mechanism(input: Sample, side: Side, key: string, kind: 'passive_listen
   const providerRef = `${side}_${key}`;
   const operationRef = `skills.${key}.effects.passive.results.damage`;
   const operation: OperationDefinition = { operation: 'damage', target: 'target', amount: { op: 'const', value: 15 },
-    damageType: 'damage/physics', ref: operationRef, condition };
+    damageType: 'physics', ref: operationRef, condition };
   const ability: AbilityDefinition = { abilityKey: 'passive', kind, skillKey: key };
   if (kind === 'passive_listener') ability.listenerSpec = { listenerKey: key,
     eventMatcher: { all: ['event/basic_attack_hit', 'event/source_owner'] }, maxTriggersPerEvent: 1, operations: [operation] };
@@ -414,7 +415,7 @@ describe('连续可靠结果解释', () => {
     const operationRef = `skills.${plan.skillKey}.effects.process_start.results.damage`;
     const operationPath = `sharedProviders[0].processes[0].momentOperations[${momentIndex}].operations[0]`;
     process.momentOperations.push({ moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null },
-      operations: [{ operation: 'damage', target: 'target', ref: operationRef, damageType: 'damage/physics', amount: { op: 'const', value: 5 } }] });
+      operations: [{ operation: 'damage', target: 'target', ref: operationRef, damageType: 'physics', amount: { op: 'const', value: 5 } }] });
     input.prepared.operationOrigins.push({ abilityRef: plan.initialControlAbilityRef, operationRef, skillKey: plan.skillKey,
       effectKey: 'process_start', resultKey: 'damage', compiledPaths: [operationPath] });
     input.done.damageRecords!.unshift(...[1, 2, 3].map(index => ({ ...input.done.damageRecords![0]!, attackIndex: index, useRef: `use_${index}`,
@@ -765,3 +766,6 @@ describe('连续可靠结果解释', () => {
     ]) { const input = await sample(); mutate(input); expect(assess(input).complete).toBe(false); }
   });
 });
+
+const assembleSimulation = (...args: Parameters<typeof raw_assembleSimulation>): ReturnType<typeof raw_assembleSimulation> => { approveSnapshotFixture(args[0]); return raw_assembleSimulation(...args); };
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };

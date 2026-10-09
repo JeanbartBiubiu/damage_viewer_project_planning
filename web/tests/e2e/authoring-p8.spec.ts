@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { expect, test, type Page, type Route } from '@playwright/test';
 
 const API = 'http://127.0.0.1:19084';
@@ -52,14 +53,14 @@ function valueRule(value: number | { kind: 'PARAMETER'; parameterKey: string }) 
   return { value: numeric, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null };
 }
 
-const formulaExpression = {
+const formulaExpression = skillFormulaDefinition(SKILL_KEY, {
   nodeType: 'OPERATION',
   operation: 'ADD',
   operands: [
     { nodeType: 'PARAMETER', parameterKey: 'ratio' },
     { nodeType: 'PARAMETER', parameterKey: 'bonus' }
   ]
-};
+});
 
 function damageResult(): Json {
   return {
@@ -293,36 +294,40 @@ function checkReport(): Json {
     }
   );
   const formulaOk = location(
-    { skillKey: SKILL_KEY, objectType: 'FORMULA', objectKey: 'scale', fieldPath: 'expression.operands[1].parameterKey' },
+    { skillKey: SKILL_KEY, objectType: 'FORMULA', objectKey: 'scale', fieldPath: '/expression/stages/0/expression/args/1/inputKey' },
     'FORMULA',
     {
       segments: [
         { kind: 'FIELD', field: 'expression' },
-        { kind: 'EXPECT_VALUE', field: 'nodeType', value: 'OPERATION' },
+        { kind: 'KEYED_CHILD', collection: 'stages', keyField: 'key', key: 'output' },
+        { kind: 'FIELD', field: 'expression' },
+        { kind: 'EXPECT_VALUE', field: 'op', value: 'add' },
         { kind: 'FORMULA_OPERAND', operand: 1 },
-        { kind: 'EXPECT_VALUE', field: 'nodeType', value: 'PARAMETER' },
-        { kind: 'FIELD', field: 'parameterKey' }
+        { kind: 'EXPECT_VALUE', field: 'op', value: 'read' },
+        { kind: 'FIELD', field: 'inputKey' }
       ],
       formulaSnapshot: formulaExpression
     }
   );
   const formulaSwap = location(
-    { skillKey: SKILL_KEY, objectType: 'FORMULA', objectKey: 'scale', fieldPath: 'expression.operands[1].parameterKey' },
+    { skillKey: SKILL_KEY, objectType: 'FORMULA', objectKey: 'scale', fieldPath: '/expression/stages/0/expression/args/1/inputKey' },
     'FORMULA',
     {
       segments: [
         { kind: 'FIELD', field: 'expression' },
+        { kind: 'KEYED_CHILD', collection: 'stages', keyField: 'key', key: 'output' },
+        { kind: 'FIELD', field: 'expression' },
         { kind: 'FORMULA_OPERAND', operand: 1 },
-        { kind: 'FIELD', field: 'parameterKey' }
+        { kind: 'FIELD', field: 'inputKey' }
       ],
-      formulaSnapshot: {
+      formulaSnapshot: skillFormulaDefinition(SKILL_KEY, {
         nodeType: 'OPERATION',
         operation: 'ADD',
         operands: [
           { nodeType: 'PARAMETER', parameterKey: 'bonus' },
           { nodeType: 'PARAMETER', parameterKey: 'ratio' }
         ]
-      }
+      })
     }
   );
   const missingResult = location(
@@ -863,7 +868,7 @@ test('录入检查按稳定键直达字段、公式交换降级、草稿取消�
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
 
   await check.getByRole('row').filter({ hasText: '核对公式右操作数' }).getByRole('button', { name: '定位问题', exact: true }).click();
-  await expect(modal(page, '编辑公式').locator('[data-authoring-field="expression.operands[1]"].authoring-field-active')).toBeVisible();
+  await expect(modal(page, '编辑公式').locator('[data-authoring-field="/expression/stages/0/expression/args/1"].authoring-field-active')).toBeVisible();
   await closeEditor(page, '编辑公式');
   await expectWorkspaceModule(page, '参数与公式');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
@@ -872,7 +877,7 @@ test('录入检查按稳定键直达字段、公式交换降级、草稿取消�
   const swapped = modal(page, '编辑公式');
   await expect(swapped.getByText(/无法精确定位/)).toBeVisible();
   await expect(swapped.getByText(/公式表达式已变化/)).toBeVisible();
-  await expect(swapped.locator('[data-authoring-field="expression.operands[1]"].authoring-field-active')).toHaveCount(0);
+  await expect(swapped.locator('[data-authoring-field="/expression/stages/0/expression/args/1"].authoring-field-active')).toHaveCount(0);
   await closeEditor(page, '编辑公式');
   await expectWorkspaceModule(page, '参数与公式');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();

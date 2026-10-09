@@ -1,10 +1,7 @@
 import type { ApiResult } from './apiClient';
 import { ApiRequestError, encodePathSegment, requestJson } from './apiClient';
-import type {
-  FormulaAttributeOwner,
-  FormulaAttributeValueKind,
-  FormulaOperation
-} from '../types/skillFormula';
+import { validateFormulaDefinition } from './formulaContract';
+import type { Binding } from '../types/formulaContract.generated';
 import type {
   CreateDamageTypeRequest,
   DamageType,
@@ -15,36 +12,13 @@ import type {
 } from '../types/damageType';
 import type {
   DamageTypeFormula,
-  DamageTypeFormulaDetail,
-  DamageTypeFormulaNode,
-  DamageTypeFormulaStageKey
+  DamageTypeFormulaDetail
 } from '../types/damageTypeFormula';
-import {
-  DAMAGE_TYPE_FORMULA_MAX_DEPTH,
-  DAMAGE_TYPE_FORMULA_MAX_NODES,
-  DAMAGE_TYPE_FORMULA_STAGE_KEYS,
-  isDamageTypeFormulaStageResultKey,
-  priorDamageTypeFormulaStageResults
-} from '../types/damageTypeFormula';
+import { isDamageTypeFormulaAttributeBinding } from '../types/damageTypeFormula';
 
-const OPERATIONS = new Set<FormulaOperation>(['ADD', 'SUBTRACT', 'MULTIPLY', 'DIVIDE', 'MIN', 'MAX']);
-const ATTRIBUTE_OWNERS = new Set<FormulaAttributeOwner>(['SOURCE', 'TARGET']);
-const ATTRIBUTE_VALUE_KINDS = new Set<FormulaAttributeValueKind>([
-  'BASE',
-  'BONUS',
-  'TOTAL',
-  'CURRENT',
-  'MISSING',
-  'CURRENT_RATIO',
-  'MISSING_RATIO'
-]);
 const STATUSES = new Set<DamageTypeStatus>(['ENABLED', 'DISABLED']);
 
 const DETAIL_KEYS = ['gameId', 'damageTypeKey', 'formula', 'updatedAt'] as const;
-const OPERATION_KEYS = ['nodeType', 'operation', 'operands'] as const;
-const FIXED_KEYS = ['nodeType', 'value'] as const;
-const ATTRIBUTE_KEYS = ['nodeType', 'attributeOwner', 'attributeKey', 'attributeValueKind'] as const;
-const STAGE_RESULT_KEYS = ['nodeType', 'stageKey'] as const;
 
 export class UnconfirmedDamageTypeFormulaWriteError extends Error {
   constructor(message: string) {
@@ -137,74 +111,20 @@ function parseDamageTypeList(result: ApiResult<unknown>): ApiResult<DamageTypeLi
   };
 }
 
-function rejectFormula(path: string, message = '伤害类型公式响应不完整。'): never {
-  throw new Error(path ? `${message}：${path}` : message);
+/** 此处只校验保存结构、局部引用和使用点形状，不把作者声明当成目录授权。 */
+export function parseDamageTypeFormulaDefinition(value: unknown, allowedBindings?: readonly Binding[]): DamageTypeFormula {
+  const declaredBindings = isRecord(value) && Array.isArray(value.inputs)
+    ? value.inputs.flatMap(input => isRecord(input) && isRecord(input.binding) ? [input.binding as Binding] : []) : [];
+  const problem = validateFormulaDefinition(value, allowedBindings ?? declaredBindings.filter(isDamageTypeFormulaAttributeBinding));
+  if (problem) throw new Error(`伤害类型公式不合法：${problem.code} ${problem.path || '/'}`);
+  const formula = value as DamageTypeFormula;
+  for (const [index, input] of formula.inputs.entries()) {
+    if (!isDamageTypeFormulaAttributeBinding(input.binding)) {
+      throw new Error(`伤害类型公式输入未授权：FORMULA_UNKNOWN_BINDING /inputs/${index}/binding`);
+    }
+  }
+  return structuredClone(formula);
 }
-
-function parseFormulaNode(
-  value: unknown,
-  stage: DamageTypeFormulaStageKey,
-  path: string,
-  depth: number,
-  counter: { count: number }
-): DamageTypeFormulaNode {
-  counter.count += 1;
-  if (depth > DAMAGE_TYPE_FORMULA_MAX_DEPTH) {
-    rejectFormula(path, `公式深度不能超过 ${DAMAGE_TYPE_FORMULA_MAX_DEPTH}。`);
-  }
-  if (counter.count > DAMAGE_TYPE_FORMULA_MAX_NODES) {
-    rejectFormula(path, `公式节点总数不能超过 ${DAMAGE_TYPE_FORMULA_MAX_NODES}。`);
-  }
-  if (!isRecord(value)) rejectFormula(path);
-  if (value.nodeType === 'PARAMETER') {
-    rejectFormula(path, '伤害类型公式不允许 PARAMETER。');
-  }
-
-  if (value.nodeType === 'OPERATION' && hasExactKeys(value, OPERATION_KEYS)) {
-    if (!OPERATIONS.has(value.operation as FormulaOperation) || !Array.isArray(value.operands) || value.operands.length !== 2) {
-      rejectFormula(path);
-    }
-    return {
-      nodeType: 'OPERATION',
-      operation: value.operation as FormulaOperation,
-      operands: [
-        parseFormulaNode(value.operands[0], stage, `${path}.operands[0]`, depth + 1, counter),
-        parseFormulaNode(value.operands[1], stage, `${path}.operands[1]`, depth + 1, counter)
-      ]
-    };
-  }
-
-  if (value.nodeType === 'FIXED' && hasExactKeys(value, FIXED_KEYS)) {
-    if (typeof value.value !== 'number' || !Number.isFinite(value.value)) rejectFormula(path);
-    return { nodeType: 'FIXED', value: value.value };
-  }
-
-  if (value.nodeType === 'ATTRIBUTE' && hasExactKeys(value, ATTRIBUTE_KEYS)) {
-    if (!ATTRIBUTE_OWNERS.has(value.attributeOwner as FormulaAttributeOwner)
-      || typeof value.attributeKey !== 'string'
-      || value.attributeKey.trim() === ''
-      || !ATTRIBUTE_VALUE_KINDS.has(value.attributeValueKind as FormulaAttributeValueKind)) {
-      rejectFormula(path);
-    }
-    return {
-      nodeType: 'ATTRIBUTE',
-      attributeOwner: value.attributeOwner as FormulaAttributeOwner,
-      attributeKey: value.attributeKey,
-      attributeValueKind: value.attributeValueKind as FormulaAttributeValueKind
-    };
-  }
-
-  if (value.nodeType === 'STAGE_RESULT' && hasExactKeys(value, STAGE_RESULT_KEYS)) {
-    if (!isDamageTypeFormulaStageResultKey(value.stageKey)
-      || !priorDamageTypeFormulaStageResults(stage).includes(value.stageKey)) {
-      rejectFormula(path, '伤害类型公式引用了当前或后续阶段。');
-    }
-    return { nodeType: 'STAGE_RESULT', stageKey: value.stageKey };
-  }
-
-  rejectFormula(path);
-}
-
 export function parseDamageTypeFormulaDetail(
   value: unknown,
   expected: { gameId: string; damageTypeKey: string }
@@ -218,13 +138,7 @@ export function parseDamageTypeFormulaDetail(
   if (typeof value.updatedAt !== 'string' || value.updatedAt.length === 0 || !isRecord(value.formula)) {
     throw new Error('伤害类型公式响应不完整。');
   }
-  if (!hasExactKeys(value.formula, DAMAGE_TYPE_FORMULA_STAGE_KEYS)) {
-    throw new Error('伤害类型公式响应不完整。');
-  }
-  const formula = {} as DamageTypeFormula;
-  for (const stage of DAMAGE_TYPE_FORMULA_STAGE_KEYS) {
-    formula[stage] = parseFormulaNode(value.formula[stage], stage, `formula.${stage}`, 1, { count: 0 });
-  }
+  const formula = parseDamageTypeFormulaDefinition(value.formula);
   return {
     gameId: value.gameId,
     damageTypeKey: value.damageTypeKey,
@@ -335,10 +249,11 @@ export function updateDamageTypeFormula(
   token: string,
   body: { formula: DamageTypeFormula }
 ): Promise<ApiResult<DamageTypeFormulaDetail>> {
+  const formula = parseDamageTypeFormulaDefinition(body.formula);
   return requestJson<unknown>(apiBaseUrl, damageTypeFormulaPath(gameId, damageTypeKey), {
     method: 'PUT',
     token,
-    body: JSON.stringify({ formula: body.formula })
+    body: JSON.stringify({ formula })
   }).then((result) => {
     try {
       return parseFormulaResult(result, { gameId, damageTypeKey });

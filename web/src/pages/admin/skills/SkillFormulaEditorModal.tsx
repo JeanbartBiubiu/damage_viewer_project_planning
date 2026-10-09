@@ -1,3 +1,4 @@
+import { sameFormulaPayload } from '../../../services/skillFormulaContract';
 import {
   Alert,
   Button,
@@ -8,10 +9,10 @@ import {
   Space,
   Typography
 } from '@arco-design/web-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
 import { listAttributes } from '../../../services/attributeClient';
-import { createSkillFormula, getSkillFormula, updateSkillFormula } from '../../../services/skillFormulaClient';
+import { createSkillFormula, getSkillFormula, updateSkillFormula, UnconfirmedSkillFormulaWriteError } from '../../../services/skillFormulaClient';
 import { listSkillParameters } from '../../../services/skillParameterClient';
 import type { Attribute } from '../../../types/attribute';
 import type { SkillFormula, SkillFormulaSummary } from '../../../types/skillFormula';
@@ -81,6 +82,8 @@ export function SkillFormulaEditorModal({
   onSkillMissing,
   authoringLocation
 }: SkillFormulaEditorModalProps) {
+  const context = JSON.stringify([visible, apiBaseUrl, selectedGameId, skillKey, adminToken, mode, formula?.formulaKey]);
+  const contextRef = useRef(context); contextRef.current = context;
   const [draft, setDraft] = useState<SkillFormulaDraft>(createEmptyFormulaDraft());
   const [baseline, setBaseline] = useState<SkillFormulaDraft>(createEmptyFormulaDraft());
   const [locateNotice, setLocateNotice] = useState<string | null>(null);
@@ -100,14 +103,15 @@ export function SkillFormulaEditorModal({
   const [detailReady, setDetailReady] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [pendingSubmission, setPendingSubmission] = useState<import('../../../types/skillFormula').CreateSkillFormulaRequest | null>(null);
   const readOnly = mode === 'view';
   const expressionReady = mode === 'create' ? catalogReady : detailReady;
-  const canSave = !readOnly && catalogReady && detailReady && !loading && !loadError && !catalogError;
+  const canSave = !readOnly && catalogReady && detailReady && !loading && !loadError && !catalogError && !pendingSubmission;
 
   const previewCatalog = useMemo(() => ({
-    parameters,
+    skillKey, parameters,
     attributes
-  }), [attributes, parameters]);
+  }), [attributes, parameters, skillKey]);
 
   const previewSegments = useMemo(
     () => previewFormulaExpression(draft.expression, previewCatalog),
@@ -133,6 +137,7 @@ export function SkillFormulaEditorModal({
     setErrors({});
     setNodeIssues([]);
     setSaving(false);
+    setPendingSubmission(null);
     setCatalogReady(false);
     setDetailReady(mode === 'create');
     setDraft(createEmptyFormulaDraft());
@@ -203,7 +208,7 @@ export function SkillFormulaEditorModal({
             name: formula.name,
             description: formula.description ?? '',
             sortOrder: String(formula.sortOrder),
-            expression: { nodeType: 'empty' }
+            expression: { inputs: [], stages: [], outputStageKey: '' }
           });
         }
         if (!catalogsOk) {
@@ -226,7 +231,7 @@ export function SkillFormulaEditorModal({
             name: formula.name,
             description: formula.description ?? '',
             sortOrder: String(formula.sortOrder),
-            expression: { nodeType: 'empty' }
+            expression: { inputs: [], stages: [], outputStageKey: '' }
           });
         }
         setCatalogReady(catalogsOk);
@@ -306,6 +311,20 @@ export function SkillFormulaEditorModal({
     setSaveError(null);
   };
 
+  const confirmSaved = async (submitted: import('../../../types/skillFormula').CreateSkillFormulaRequest) => {
+    const started = context;
+    setPendingSubmission(structuredClone(submitted));
+    setSaving(true);
+    try {
+      const result = await getSkillFormula(apiBaseUrl, selectedGameId, skillKey, submitted.formulaKey, adminToken.trim());
+      if (contextRef.current !== started) return;
+      const readback = { formulaKey: result.data.formulaKey, ...buildUpdateFormulaRequest(result.data) };
+      if (!sameFormulaPayload(submitted, readback)) { setSaveError('保存结果待确认，请重新读取确认。'); return; }
+      setPendingSubmission(null);
+      await onSaved();
+    } catch { if (contextRef.current === started) setSaveError('保存结果待确认，请重新读取确认。'); }
+    finally { if (contextRef.current === started) setSaving(false); }
+  };
   const save = async () => {
     if (!canSave) return;
     const validation = validateFormulaDraft(draft, mode === 'create', previewCatalog);
@@ -319,6 +338,7 @@ export function SkillFormulaEditorModal({
       setSaveError('请先配置 Admin Token。');
       return;
     }
+    const started = context;
     setSaving(true);
     setSaveError(null);
     try {
@@ -340,8 +360,11 @@ export function SkillFormulaEditorModal({
           buildUpdateFormulaRequest(validation.normalized)
         );
       }
-      await onSaved();
+      if (contextRef.current !== started) return;
+      await confirmSaved(validation.normalized);
     } catch (error) {
+      if (contextRef.current !== started) return;
+      if (error instanceof UnconfirmedSkillFormulaWriteError) { await confirmSaved(validation.normalized); return; }
       if (error instanceof ApiRequestError && error.code === '404.SKILL_NOT_FOUND') {
         onSkillMissing();
         return;
@@ -357,11 +380,11 @@ export function SkillFormulaEditorModal({
         setSaveError(getErrorMessage(error));
       }
     } finally {
-      setSaving(false);
+      if (contextRef.current === started) setSaving(false);
     }
   };
 
-  const formEditable = !readOnly && catalogReady && !saving;
+  const formEditable = !readOnly && catalogReady && !saving && !pendingSubmission;
 
   return (
     <Modal
@@ -372,6 +395,7 @@ export function SkillFormulaEditorModal({
       style={{ width: 840 }}
       footer={
         <Space>
+          {pendingSubmission ? <Button loading={saving} onClick={() => void confirmSaved(pendingSubmission)}>重新读取确认</Button> : null}
           <Button onClick={close} disabled={saving}>{readOnly ? '关闭' : '取消'}</Button>
           {canSave ? (
             <Button type="primary" loading={saving} onClick={() => void save()}>保存</Button>
@@ -462,7 +486,7 @@ export function SkillFormulaEditorModal({
             >
               {expressionReady ? (
                 <FormulaExpressionEditor
-                  root={draft.expression}
+                  skillKey={skillKey} root={draft.expression}
                   path="expression"
                   node={draft.expression}
                   readOnly={readOnly}

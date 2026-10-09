@@ -34,7 +34,7 @@ export function selectSimulationSkillSourceClosure(configuration: SkillConfigura
     }
     if (!value || typeof value !== 'object') return;
     const row = value as Record<string, unknown>;
-    if (row.kind === 'PARAMETER' || row.nodeType === 'PARAMETER') include('parameters', row.parameterKey, path);
+    if (row.kind === 'PARAMETER' || row.kind === 'parameter') { ownSkill(row.skillKey, path); include('parameters', row.parameterKey, path); }
     if (row.kind === 'FORMULA') include('formulas', row.formulaKey, path);
     if (row.actionType === 'EXECUTE_EFFECT') {
       const detail = row.detail as Record<string, unknown> | undefined;

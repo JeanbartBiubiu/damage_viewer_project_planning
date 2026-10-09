@@ -1,3 +1,4 @@
+import { skillFormulaParameterKeys } from '../../../../services/skillFormulaContract';
 import { lifecycleConditionError, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
 import { allowsExplicitTargetIsSource, explicitTargetIsSourceError } from './explicitTargetCondition';
 import { allowsSkillHitEnemy, skillHitEnemyError } from './skillHitEnemyCondition';
@@ -2864,16 +2865,7 @@ export function bindingSummary(binding: SkillTriggerRuntimeInputBinding): string
   }
 }
 
-export function collectFormulaParameterKeys(expression: FormulaExpressionNode): string[] {
-  if (expression.nodeType === 'PARAMETER') return [expression.parameterKey];
-  if (expression.nodeType === 'OPERATION') {
-    return [
-      ...collectFormulaParameterKeys(expression.operands[0]),
-      ...collectFormulaParameterKeys(expression.operands[1])
-    ];
-  }
-  return [];
-}
+export function collectFormulaParameterKeys(expression: FormulaExpressionNode): string[] { return skillFormulaParameterKeys(expression); }
 
 export function formulaHasRuntimeInput(
   formula: SkillFormula | undefined,

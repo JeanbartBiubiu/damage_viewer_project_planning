@@ -1,5 +1,6 @@
+import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { describe, expect, it } from 'vitest';
-import { assembleSimulation, inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } from './simulationAdapter';
+import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } from './simulationAdapter';
 import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
 import { triggeredEquipmentSimulationSample } from '../../tests/fixtures/simulationTriggeredEquipment';
 import { SIMULATION_ADAPTER_VERSION } from './simulationAdapter';
@@ -15,6 +16,20 @@ function zeroInputs(snapshot = simulationSample()) {
 const initialHealth = { source: 650, target: 590 };
 
 describe('首批场景装配', () => {
+  it('伤害和属性同名时保留两个明确作用域，原键和完整公式不被覆盖或展开', () => {
+    const snapshot = simulationSample();
+    snapshot.catalogs.damageTypes[0]!.type.damageTypeKey = 'armor';
+    snapshot.catalogs.damageTypes[0]!.formula.damageTypeKey = 'armor';
+    const damage = snapshot.skillConfigurations[0]!.effects[1]!.results[0]!;
+    if (damage.resultType === 'DAMAGE') damage.detail.damageTypeKey = 'armor';
+    const before = structuredClone(snapshot);
+    const request = assembleSimulation(snapshot, zeroInputs(snapshot), initialHealth).compileRequest;
+    expect(request.typeCatalog.types.filter(type => type.key === 'armor')).toEqual([
+      { key: 'armor', domain: 'damage' }, { key: 'armor', domain: 'attribute' }
+    ]);
+    expect(request.rules.damageTypeFormulas![0]).toEqual({ damageType: 'armor', formula: snapshot.catalogs.damageTypes[0]!.formula.formula });
+    expect(snapshot).toEqual(before);
+  });
   it('5B适配版本参与摘要，即使编译形状未变也不能与5A规则摘要混用', async () => {
     const snapshot = simulationSample();
     const prepared = await prepareSimulation(snapshot, zeroInputs(snapshot), initialHealth);
@@ -63,16 +78,16 @@ describe('首批场景装配', () => {
     const hit = provider.abilities!.find(row => row.abilityKey === 'attack_hit')!;
     const candidates = hit.operations![0]!.skillHit!.candidates;
     expect(candidates.map(row => row.resultKey)).toEqual(['damage', 'hit_link']);
-    expect(candidates[0]!.operations[0]).toMatchObject({ damageType: 'damage/physics', critEligible: true,
+    expect(candidates[0]!.operations[0]).toMatchObject({ damageType: 'physics', critEligible: true,
       critChance: { op: 'read', path: 'source.attr.critical_strike_chance.resolved' },
-      critMultiplier: { op: 'ref', ref: 'selected/sample_basic_attack/multiplier' } });
+      critMultiplier: { op: 'ref', ref: 'selected/sample_basic_attack/levels/1/1/multiplier' } });
     expect(candidates[1]!.operations[0]!.operation).toBe('apply_hit_link');
     expect(provider.processes![0]!.momentOperations[0]!.operations[0]!.operation).toBe('apply_attack_link');
     expect(provider.listeners![0]!.eventMatcher.all).toContain('event/basic_attack_start');
     expect(provider.abilities![1]!.processControl).toMatchObject({ useRefFromEvent: true });
-    expect(request.rules.damageTypeFormulas![0]!.formula.resistanceFactor).toMatchObject({ op: 'div' });
+    expect(request.rules.damageTypeFormulas![0]!.formula.stages.find(stage => stage.key === 'factor')!.expression).toMatchObject({ op: 'div' });
     expect(request.rules.triggerRules).toBeUndefined();
-    expect(JSON.stringify(coverage)).toContain('resistanceFactor');
+    expect(coverage).toContainEqual({ authorPath: 'damageTypes.physics.formula', compiledPath: 'rules.damageTypeFormulas[0].formula' });
     expect(request.combatants[0]!.attributes.attack_damage!.base).toBe(60);
     expect(request.combatants[0]!.attributes.crit_damage).toBeUndefined();
   });
@@ -80,9 +95,11 @@ describe('首批场景装配', () => {
   it('编译时刻绑定实际等级参数，间隔只做明确整数毫秒转换', () => {
     const snapshot = simulationSample();
     const { compileRequest: request } = assembleSimulation(snapshot, zeroInputs(snapshot), initialHealth);
-    expect(request.sharedProviders![0]!.abilities![1]!.params).toMatchObject({ milliseconds: 1000, base_multiplier: 2 });
+    expect(request.sharedProviders![0]!.abilities![1]!.params).toEqual({});
+    expect(request.formulas?.find(row => row.key.endsWith('/interval'))?.parameters).toEqual([{ parameterKey: 'milliseconds', valueMode: 'FIXED', valueType: 'DECIMAL', value: 1000 }]);
+    expect(request.formulas?.find(row => row.key.endsWith('/multiplier'))?.parameters).toEqual([{ parameterKey: 'base_multiplier', valueMode: 'FIXED', valueType: 'DECIMAL', value: 2 }]);
     expect(request.sharedProviders![0]!.processes![0]!.cooldown).toMatchObject({
-      roundPositiveMs: true, durationMs: { op: 'ref', ref: 'selected/sample_basic_attack/interval' }
+      roundPositiveMs: true, durationMs: { op: 'ref', ref: 'selected/sample_basic_attack/levels/1/1/interval' }
     });
   });
 
@@ -97,13 +114,13 @@ describe('首批场景装配', () => {
     orphan.skillConfigurations[0]!.effects.push({ ...structuredClone(orphan.skillConfigurations[0]!.effects[0]!), effectKey: 'extra' });
     expect(() => inspectSimulationSnapshot(orphan)).toThrow(/未接入的效果/);
     const forward = simulationSample();
-    forward.catalogs.damageTypes[0]!.formula.formula.resistanceBeforePenetration = { nodeType: 'STAGE_RESULT', stageKey: 'RESISTANCE_FACTOR' };
-    expect(() => inspectSimulationSnapshot(forward)).toThrow(/前序防御阶段/);
+    forward.catalogs.damageTypes[0]!.formula.formula.stages[0]!.expression = { op: 'ref', stageKey: 'factor' };
+    expect(() => inspectSimulationSnapshot(forward)).toThrow(/FORMULA_CYCLE/);
   });
 
   it('缺公式、非法攻速、非有限与超范围补充值给出明确路径', () => {
     const missing = simulationSample(); missing.catalogs.damageTypes = [];
-    expect(() => inspectSimulationSnapshot(missing)).toThrow(/缺少实际五阶段/);
+    expect(() => inspectSimulationSnapshot(missing)).toThrow(/真实共同防御/);
     const zeroSpeed = simulationSample(); zeroSpeed.source.selectedLevelValues.attack_speed = 0;
     expect(() => assembleSimulation(zeroSpeed, zeroInputs(), initialHealth)).toThrow(/初始攻速/);
     const inputs = zeroInputs(); inputs.source.critical_strike_chance = 1.1;
@@ -148,3 +165,6 @@ describe('首批场景装配', () => {
     expect(prepared.compileRequest.combatants[1]!.attributes.hp!.current).toBe(0);
   });
 });
+
+const assembleSimulation = (...args: Parameters<typeof raw_assembleSimulation>): ReturnType<typeof raw_assembleSimulation> => { approveSnapshotFixture(args[0]); return raw_assembleSimulation(...args); };
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };

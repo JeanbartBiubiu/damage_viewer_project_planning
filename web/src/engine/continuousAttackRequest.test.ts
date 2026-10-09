@@ -1,6 +1,7 @@
+import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { describe, expect, it } from 'vitest';
 import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
-import { assembleSimulation, inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
+import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
 import { continuousAttackRequest, continuousAttackRunInputHash } from './continuousAttackRequest';
 
 function sample() {
@@ -101,3 +102,6 @@ describe('连续普攻请求与冻结身份', () => {
     expect(new Set(origin.compiledPaths).size).toBe(2);
   });
 });
+
+const assembleSimulation = (...args: Parameters<typeof raw_assembleSimulation>): ReturnType<typeof raw_assembleSimulation> => { approveSnapshotFixture(args[0]); return raw_assembleSimulation(...args); };
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };

@@ -1,10 +1,12 @@
+import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
 import { fixedValue, formulaValue } from '../types/numericValue';
 import type { SkillTriggerCondition } from '../types/skillTriggerRule';
 import type { SkillEffectDamageResult } from '../types/skillEffect';
 import type { SimulationMechanicStateInput, SimulationSnapshot } from '../types/simulationSnapshot';
-import { assembleSimulation, inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } from './simulationAdapter';
+import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } from './simulationAdapter';
 import { continuousAttackRequest } from './continuousAttackRequest';
 
 export function specialPrimarySample(ammo = true) {
@@ -39,8 +41,8 @@ export function specialPrimarySample(ammo = true) {
     effect.results.splice(1, 0, { ...structuredClone(effect.results[0] as SkillEffectDamageResult), resultKey: 'missing_health', sortOrder: 15,
       valueRule: { value: formulaValue('missing'), fixedMultiplier: .2, fixedMinValue: null, fixedMaxValue: null },
       detail: { ...(effect.results[0] as SkillEffectDamageResult).detail, critical: { mode: 'DISALLOWED', multiplierValue: null } } });
-    configuration.formulas.push({ ...configuration.formulas[0]!, formulaKey: 'missing', expression: {
-      nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'MISSING' } });
+    configuration.formulas.push({ ...configuration.formulas[0]!, formulaKey: 'missing', expression: skillFormulaDefinition(configuration.skill.skillKey, {
+      nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'MISSING' }) });
   } else snapshot.catalogs.statuses.push({ gameId: snapshot.gameId, statusKey: 'frost', name: '减速状态', statusKind: 'MOVEMENT_SLOW',
     status: 'ENABLED', description: null, sortOrder: 0, createdAt: '', updatedAt: '' });
   return snapshot;
@@ -171,3 +173,6 @@ describe('5C配置驱动特殊普攻与弹药', () => {
     expect(JSON.stringify(next.compileRequest)).toBe(JSON.stringify(old.compileRequest).replaceAll('sample_basic_attack', 'unrelated_primary').replaceAll('rounds', 'inventory'));
   });
 });
+
+const assembleSimulation = (...args: Parameters<typeof raw_assembleSimulation>): ReturnType<typeof raw_assembleSimulation> => { approveSnapshotFixture(args[0]); return raw_assembleSimulation(...args); };
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };

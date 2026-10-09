@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { expect, test, type Page, type Route } from '@playwright/test';
 
 const API = 'http://127.0.0.1:19083';
@@ -204,7 +205,7 @@ class AuthoringP9Api {
       formulas: [{
         gameId, skillKey, formulaKey: 'reduce_ms', name: '减少量',
         description: null, sortOrder: 0,
-        expression: { nodeType: 'PARAMETER', parameterKey: 'cooldown_ms' },
+        expression: skillFormulaDefinition(skillKey, { nodeType: 'PARAMETER', parameterKey: 'cooldown_ms' }),
         createdAt: NOW, updatedAt: NOW
       }],
       effects: [effect, otherEffect],

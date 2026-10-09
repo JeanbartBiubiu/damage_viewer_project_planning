@@ -204,15 +204,21 @@ for (const budget of [{ maxCommandsPerEvent: 1 }, { maxEvents: 1 }, { maxProcess
     const { skillActionRequest } = await import(requestPath) as typeof import('../../src/engine/skillActionRequest');
     const { assessSkillActionResult } = await import(resultPath) as typeof import('../../src/engine/skillActionResult');
     const snapshot = simulationComplexSample();
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { preflightSkillFormulas } = await import(preflightPath) as typeof import('../../src/engine/skillFormulaPreflight');
+    const { validateConsumedFormulaValues, validateApprovedFormulaValues } = await import(proofPath) as typeof import('../../src/engine/approvedFormulaValues');
+    const client = new GenericEngineClient();
+    const formulaPreflight = await preflightSkillFormulas(snapshot, client);
     const attributes = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) attributes[row.side][row.attribute.attributeKey] = 0;
     const prepared = await prepareSimulation(snapshot, attributes, { source: 1000, target: 5000 });
-    const client = new GenericEngineClient();
     let sessionId: string | null = null;
     try {
       const compiled = await client.compile(prepared.compileRequest);
       if (!compiled.ok || !compiled.sessionId) throw new Error('实际编译失败');
       sessionId = compiled.sessionId;
+      validateConsumedFormulaValues(prepared.approvedFormulaValues, prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
+      validateApprovedFormulaValues(prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
       const run = await skillActionRequest(prepared, snapshot, complexInputs([complexAction(snapshot, 'first', 0)]), sessionId);
       const request = { ...run.runRequest, safetyBudget: { ...run.runRequest.safetyBudget, ...budget } };
       const baseline = await client.run(request);
@@ -232,7 +238,7 @@ for (const budget of [{ maxCommandsPerEvent: 1 }, { maxEvents: 1 }, { maxProcess
           || JSON.stringify(done.finalSnapshot) !== JSON.stringify(baseline.finalSnapshot)) throw new Error('预算截断改变已提交事实');
       }
       const release = await client.release(sessionId, prepared.compileRequest.rulesHash); sessionId = null;
-      return { snapshot, compileRequest: prepared.compileRequest, runRequest: request, runVariants, baseline, assessment, release, iterations };
+      return { snapshot, formulaPreflight, compileRequest: prepared.compileRequest, runRequest: request, runVariants, baseline, assessment, release, iterations };
     } finally {
       if (sessionId && client.hasLiveWorker) await client.release(sessionId, prepared.compileRequest.rulesHash);
       client.terminate();
@@ -338,6 +344,10 @@ for (const live of liveCases) test(`真实只读组合${live.label}：完整作�
     const { runMixedWorkerCase } = await import(workerPath) as typeof import('../fixtures/simulationMixedWorker');
     const { inspectSimulationSnapshot } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
     const { simulationCastCostCandidates } = await import(costPath) as typeof import('../../src/engine/simulationActiveSkills');
+    const clientPath = '/src/engine/genericEngineClient.ts', preflightPath = '/src/engine/skillFormulaPreflight.ts';
+    const { GenericEngineClient } = await import(clientPath) as typeof import('../../src/engine/genericEngineClient');
+    const { preflightSkillFormulas } = await import(preflightPath) as typeof import('../../src/engine/skillFormulaPreflight');
+    const inspectionPreflight = await preflightSkillFormulas(snapshot, new GenericEngineClient());
     const costs = simulationCastCostCandidates(snapshot);
     const attributes = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     for (const row of inspectSimulationSnapshot(snapshot, costs).requirements) if (row.storedValue === undefined) {
@@ -355,9 +365,9 @@ for (const live of liveCases) test(`真实只读组合${live.label}：完整作�
       actions.push({ ...parent, instructionKey: `real_control_${index}`, atMs: control.atMs, sortOrder: index + actions.length,
         phaseKind: control.phaseKind, parentInstructionKey: parent.instructionKey, hitPreset: null });
     }
-    return runMixedWorkerCase(snapshot, { actions, durationMs: live.durationMs, recordTimeSeries: true, attackSpeedInputMax: 10,
+    return { ...await runMixedWorkerCase(snapshot, { actions, durationMs: live.durationMs, recordTimeSeries: true, attackSpeedInputMax: 10,
       maxSkillActionRecords: 64, maxSkillUseRecords: 512, maxHealingRecords: 256 }, 100, costs, attributes,
-    { source: snapshot.source.selectedLevelValues.hp!, target: snapshot.target.selectedLevelValues.hp! });
+    { source: snapshot.source.selectedLevelValues.hp!, target: snapshot.target.selectedLevelValues.hp! }), inspectionPreflight };
   }, { snapshot, live });
   mkdirSync(output, { recursive: true });
   writeFileSync(resolve(output, `real-${live.label}-compile-run.json`), JSON.stringify({ wasm: wasmIdentity(), snapshot,

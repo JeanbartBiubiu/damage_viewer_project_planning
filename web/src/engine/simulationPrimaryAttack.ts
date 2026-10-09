@@ -3,8 +3,8 @@ import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillTriggerCondition, SkillTriggerRuleDetail } from '../types/skillTriggerRule';
 import type { SimulationMechanicStateInput, SimulationSnapshot } from '../types/simulationSnapshot';
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
-import { compileFormulaExpression, compileNumericValue, constExpr, createNumericCompileState,
-  NumericAdaptationError, tryFoldConstant, type NumericCompileState } from './numericAdapter';
+import { compileAttributeValue, compileNumericValue, constExpr, createNumericCompileState,
+  NumericAdaptationError, tryFoldConstant, staticNumericField, type NumericCompileState } from './numericAdapter';
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 function exact(value: unknown, keys: string[], path: string) {
@@ -57,7 +57,7 @@ export function compilePrimaryCondition(snapshot: SimulationSnapshot, config: Sk
         const detail = condition.detail;
         exact(detail, ['subject', 'attributeKey', 'attributeValueKind', 'comparator', 'comparisonValue'], conditionPath);
         if (!['SOURCE', 'CURRENT_TARGET'].includes(detail.subject)) fail(conditionPath, '主体条件只读取真实攻击方或目标');
-        const expression = compileFormulaExpression({ nodeType: 'ATTRIBUTE', attributeOwner: detail.subject === 'SOURCE' ? 'SOURCE' : 'TARGET',
+        const expression = compileAttributeValue({ attributeOwner: detail.subject === 'SOURCE' ? 'SOURCE' : 'TARGET',
           attributeKey: detail.attributeKey, attributeValueKind: detail.attributeValueKind }, conditionPath, numeric, fail);
         return compare(detail.comparator, expression, compileNumericValue(detail.comparisonValue, conditionPath, numeric, fail), conditionPath);
       }
@@ -85,8 +85,7 @@ export function primaryConditionsExclusive(left: GenericFormulaExpr, right: Gene
   const fold = (expression: GenericFormulaExpr): number | null => {
     if (expression.op === 'read' && expression.path?.startsWith('ability.param.')) return numeric.params[expression.path.slice('ability.param.'.length)] ?? null;
     if (expression.op === 'ref') {
-      const formula = numeric.namedFormulas.get(expression.ref!);
-      return formula ? fold(formula.expression) : null;
+      return tryFoldConstant(expression);
     }
     if (expression.args) {
       const values = expression.args.map(fold);
@@ -134,7 +133,7 @@ export function compilePrimaryAmmo(config: SkillConfiguration, numeric: NumericC
   const interval = tryFoldConstant(intervalMs);
   if (interval !== null && (!Number.isSafeInteger(interval) || interval < 1)) fail(path, '恢复间隔必须为正整数毫秒');
   for (const formula of ammoNumeric.namedFormulas.values()) numeric.namedFormulas.set(formula.key, formula);
-  const schema: Record<string, ProviderStateFieldSchema> = { [state.stateKey]: { valueType: 'integer', defaultValue: initial, maxValue: maximum,
+  const schema: Record<string, ProviderStateFieldSchema> = { [state.stateKey]: { valueType: 'integer', defaultValue: staticNumericField(state.detail.initialValue, path + '.detail.initialValue', ammoNumeric, fail), maxValue: staticNumericField(state.detail.maxValue, path + '.detail.maxValue', ammoNumeric, fail),
     stateKind: 'ammo', ammoRecovery: { intervalMs, mode: 'all_at_once', startCondition: 'when_empty' } } };
   const operations = config.processes.flatMap(process => process.stateOperations);
   if (operations.length !== 1) fail(root, '每次已接受攻击需要唯一开始消费');
@@ -165,7 +164,8 @@ export function primaryMechanicRequirements(snapshot: SimulationSnapshot, schema
     const declaration = field as ProviderStateFieldSchema;
     const config = snapshot.skillConfigurations.find(row => row.skill.skillKey === snapshot.selection.basicAttackSkillKey)!;
     return { side: 'source', origin: { kind: 'CHARACTER', characterKey: snapshot.selection.sourceCharacterKey }, skillKey: config.skill.skillKey,
-      stateKey, initialValue: declaration.defaultValue, maxValue: declaration.maxValue!, skillName: config.skill.name,
+      stateKey, initialValue: typeof declaration.defaultValue === 'number' ? declaration.defaultValue : tryFoldConstant(declaration.defaultValue) ?? fail(stateKey, '弹药初值尚未由原生核定'),
+      maxValue: typeof declaration.maxValue === 'number' ? declaration.maxValue : declaration.maxValue ? tryFoldConstant(declaration.maxValue) ?? fail(stateKey, '弹药上限尚未由原生核定') : fail(stateKey, '弹药上限缺失'), skillName: config.skill.name,
       name: config.internalStates.find(row => row.stateKey === stateKey)!.name };
   });
 }

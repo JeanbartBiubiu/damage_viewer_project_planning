@@ -1,3 +1,4 @@
+import { formulasUsedByInternalValue } from './approvedFormulaValues';
 import type { CompileRequest, GenericFormulaExpr, ModifierDefinition, ProviderDefinition, RunRequest } from '../types/genericEngine';
 import type { SkillEffect, SkillEffectDamageModifierResult } from '../types/skillEffect';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
@@ -6,9 +7,9 @@ import type { SkillFormula } from '../types/skillFormula';
 import type { ModifierZone } from '../types/modifierZone';
 import type { NumericValue } from '../types/numericValue';
 import type { CombatantCategory, CombatantIdentityFact } from './hitAdapter';
-import { compileFormulaExpression, compileNumericValue, constExpr, createNumericCompileState, finiteNumber, NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression } from './numericAdapter';
+import { compileNumericValue, constExpr, createNumericCompileState, finiteNumber, NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression } from './numericAdapter';
 import { runtimeDamageType } from './damageTypeAdapter';
-import { staticRatioValue } from './staticRatioValue';
+
 import { auditAuthoredOrdinaryDamageSources, type OrdinaryDamageSourceAuditInput } from './ordinaryDamageSourceAudit';
 
 export class DamageModifierAdaptationError extends NumericAdaptationError {
@@ -71,10 +72,11 @@ function staticNumber(a: AuthoredDamageModifierProgram, value: NumericValue, pat
 }
 function staticThreshold(a: AuthoredDamageModifierProgram, value: NumericValue, path: string): number {
   const state = numericState(a, false);
-  if (value.kind !== 'FORMULA') return staticRatioValue(compileNumericValue(value, path, state, fail), path, fail);
-  const rows = a.formulas?.filter(row => row.formulaKey === value.formulaKey) ?? [];
-  if (rows.length !== 1 || rows[0]!.gameId !== a.gameId || rows[0]!.skillKey !== a.skillKey) fail(path, '门槛公式缺失、重复或归属错误');
-  return staticRatioValue(compileFormulaExpression(rows[0]!.expression, `${path}.expression`, state, fail), path, fail);
+  const expression = compileNumericValue(value, path, state, fail);
+  const result = tryFoldConstant(expression);
+  if (result === null) return fail(path, '生命门槛需要原生核定的静态数值');
+  if (result < 0 || result > 1) return fail(path, '生命比例门槛必须在0至1');
+  return result;
 }
 function assertIdentity(a: AuthoredDamageModifierProgram): void {
   if (!['source', 'target'].includes(a.owner)) fail('owner', '拥有者必须明确');
@@ -121,7 +123,7 @@ function compileResult(a: AuthoredDamageModifierProgram, result: SkillEffectDama
   if (detail.operation === 'DECREASE') value = { op: 'mul', args: [constExpr(-1), value] };
   const predicates: GenericFormulaExpr[] = [];
   if (detail.damageTypeKey !== null) {
-    const type = runtimeDamageType(detail.damageTypeKey, `${path}.detail.damageTypeKey`, fail).slice('damage/'.length);
+    const type = runtimeDamageType(detail.damageTypeKey, `${path}.detail.damageTypeKey`, fail);
     predicates.push({ op: 'read', path: `damage.type.${type}` });
   }
   if (detail.deliveryKind !== 'ANY') {
@@ -206,8 +208,8 @@ export function adaptDamageModifierProgram(a: AuthoredDamageModifierProgram, pro
     value: { op: 'max', args: [constExpr(0), { op: 'add', args: [constExpr(1), combine('add', rows.map(r => when(r.condition, r.value)), 0)] }] },
     condition: combine('max', rows.map(r => r.condition), 0)
   }));
-  const provider: ProviderDefinition = { providerKey, kind: 'passive', stableId: `${a.gameId}/${a.skillKey}/${effect.effectKey}`, modifiers };
-  return { provider, requiredAttributes: [...requiredAttributes], ratioAttributes: [...ratioAttributes], requiredReads, zones: [...groups.keys()] };
+  const provider: ProviderDefinition = { providerKey, skillKey: a.skillKey, kind: 'passive', stableId: `${a.gameId}/${a.skillKey}/${effect.effectKey}`, modifiers };
+  return { provider, formulas: formulasUsedByInternalValue(provider, []), requiredAttributes: [...requiredAttributes], ratioAttributes: [...ratioAttributes], requiredReads, zones: [...groups.keys()] };
 }
 
 function canonical(value: unknown): string {
@@ -268,6 +270,12 @@ export async function withDamageModifierPrograms(input: DamageModifierScenario, 
       const type = `damage_trait/${key}`, existing = request.typeCatalog.types.find(t => t.key === type);
       if (existing && existing.domain !== 'damage_trait') fail('typeCatalog', '伤害标签域冲突');
       if (!existing) request.typeCatalog.types.push({ key: type, domain: 'damage_trait' });
+    }
+    request.formulas ??= [];
+    for (const formula of adapted.formulas) {
+      const old = request.formulas.find(row => row.key === formula.key);
+      if (old && JSON.stringify(old) !== JSON.stringify(formula)) fail('formulas', '完整共同公式程序冲突');
+      if (!old) request.formulas.push(formula);
     }
     request.sharedProviders.push(adapted.provider);
     request.combatants.find(c => c.key === a.owner)!.providers.push({ providerRef: binding.providerKey, definitionRef: binding.providerKey });

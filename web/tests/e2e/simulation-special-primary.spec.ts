@@ -129,6 +129,9 @@ async function runScenario(page: Page, name: string, snapshot: SimulationSnapsho
     const { simulationHealthLimit } = await import(equipmentPath) as typeof import('../../src/engine/simulationEquipment');
     const { equipmentRangeRequirements } = await import(passivePath) as typeof import('../../src/engine/simulationEquipmentPassives');
     const { assessContinuousAttackResult } = await import(assessmentPath) as typeof import('../../src/engine/continuousAttackResult');
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { preflightSkillFormulas } = await import(preflightPath) as typeof import('../../src/engine/skillFormulaPreflight');
+    const { validateConsumedFormulaValues, validateApprovedFormulaValues } = await import(proofPath) as typeof import('../../src/engine/approvedFormulaValues');
     let stage = '真实来源与作者树检查';
     let prepared: Awaited<ReturnType<typeof prepareSimulation>> | undefined;
     let compile: import('../../src/types/genericEngine').CompileResult | undefined;
@@ -136,6 +139,7 @@ async function runScenario(page: Page, name: string, snapshot: SimulationSnapsho
     let done: DoneResult | undefined;
     let release: import('../../src/types/genericEngine').GenericReleaseDonePayload | undefined;
     const client = new GenericEngineClient();
+    const formulaPreflight = await preflightSkillFormulas(snapshot, client);
     const runTrace: Array<{ name: string; sessionId: string; liveWorker: boolean; requestedDurationMs: number;
       durationMs: number; stopReason: string; elapsedMs: number }> = [];
     const probes: Array<{ name: string; runRequest: RunRequest; done: DoneResult;
@@ -190,6 +194,8 @@ async function runScenario(page: Page, name: string, snapshot: SimulationSnapsho
       stage = '真实最终Worker编译';
       compile = await client.compile(prepared.compileRequest);
       if (!compile.ok || !compile.sessionId) throw new Error(JSON.stringify(compile.errors));
+      validateConsumedFormulaValues(prepared.approvedFormulaValues, prepared.compileRequest.formulas ?? [], compile.metadata?.approvedStaticValues ?? {});
+      validateApprovedFormulaValues(prepared.compileRequest.formulas ?? [], compile.metadata?.approvedStaticValues ?? {});
       stage = '原生连续运行';
       const continuous = await continuousAttackRequest(prepared, snapshot, {
         durationMs: options.durationMs ?? 6000, attackSpeedInputMax: 10
@@ -267,7 +273,7 @@ async function runScenario(page: Page, name: string, snapshot: SimulationSnapsho
       stage = '原会话释放';
       const liveWorker = client.hasLiveWorker;
       release = await client.release(compile.sessionId, prepared.compileRequest.rulesHash);
-      return { status: 'returned' as const, prepared, compile, runRequest, done, assessment, release,
+      return { status: 'returned' as const, prepared, formulaPreflight, compile, runRequest, done, assessment, release,
         iterations, elapsedMs, pressureElapsedMs, liveWorker, fullJsonConsistent: true, runTrace, probes, variants };
     } catch (error) {
       let releaseFailure: string | undefined;
@@ -276,7 +282,7 @@ async function runScenario(page: Page, name: string, snapshot: SimulationSnapsho
         catch (releaseError) { releaseFailure = String(releaseError); }
       }
       return { status: 'failed' as const, failure: { stage, message: String(error),
-        ...(error instanceof GenericEngineClientError ? { engineError: error.engineError } : {}) }, prepared, compile, runRequest, done,
+        ...(error instanceof GenericEngineClientError ? { engineError: error.engineError } : {}) }, prepared, formulaPreflight, compile, runRequest, done,
         release, releaseFailure, options, runTrace, probes, variants };
     } finally { client.terminate(); }
   }, { snapshot, options });

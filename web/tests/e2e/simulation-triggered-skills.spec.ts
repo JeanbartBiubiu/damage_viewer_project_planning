@@ -1,9 +1,10 @@
+import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { expect, test, type APIRequestContext, type Page } from '@playwright/test';
 import type { DamageRecord, DoneResult, RunRequest } from '../../src/types/genericEngine';
-import type { FormulaExpressionNode } from '../../src/types/skillFormula';
+import type { Expression } from '../../src/types/formulaContract.generated';
 import type { SimulationSelection, SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 import { simulationComparisonSelection } from '../fixtures/simulationSnapshotRequests';
@@ -58,6 +59,11 @@ async function runTriggered(page: Page, snapshot: SimulationSnapshot, iterations
     const { simulationHealthLimit } = await import(equipmentPath) as typeof import('../../src/engine/simulationEquipment');
     const { equipmentRangeRequirements } = await import(passivePath) as typeof import('../../src/engine/simulationEquipmentPassives');
     const { assessContinuousAttackResult } = await import(assessmentPath) as typeof import('../../src/engine/continuousAttackResult');
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { preflightSkillFormulas } = await import(preflightPath) as typeof import('../../src/engine/skillFormulaPreflight');
+    const { validateConsumedFormulaValues, validateApprovedFormulaValues } = await import(proofPath) as typeof import('../../src/engine/approvedFormulaValues');
+    const client = new GenericEngineClient();
+    const formulaPreflight = await preflightSkillFormulas(snapshot, client);
     const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     const requirements = inspectSimulationSnapshot(snapshot).requirements;
     for (const row of requirements) {
@@ -79,7 +85,6 @@ async function runTriggered(page: Page, snapshot: SimulationSnapshot, iterations
     const prepared = await prepareSimulation(snapshot, inputs,
       { source: options.initialHealth?.source ?? simulationHealthLimit(snapshot, 'source')!,
         target: options.initialHealth?.target ?? simulationHealthLimit(snapshot, 'target')! }, assumptions);
-    const client = new GenericEngineClient();
     let compile: import('../../src/types/genericEngine').CompileResult | undefined;
     const probes: Array<{ name: string; runRequest: RunRequest; done: DoneResult }> = [];
     const runTrace: Array<{ name: string; sessionId: string; requestedDurationMs: number; durationMs: number; stopReason: string }> = [];
@@ -94,6 +99,8 @@ async function runTriggered(page: Page, snapshot: SimulationSnapshot, iterations
     try {
       compile = await client.compile(prepared.compileRequest);
       if (!compile.ok || !compile.sessionId) throw new Error(JSON.stringify(compile.errors));
+      validateConsumedFormulaValues(prepared.approvedFormulaValues, prepared.compileRequest.formulas ?? [], compile.metadata?.approvedStaticValues ?? {});
+      validateApprovedFormulaValues(prepared.compileRequest.formulas ?? [], compile.metadata?.approvedStaticValues ?? {});
       const continuous = await continuousAttackRequest(prepared, snapshot, { durationMs, attackSpeedInputMax: 10 }, compile.sessionId);
       const done = await runSameWorker(continuous.runRequest, 'continuous');
       const assessment = assessContinuousAttackResult(prepared.compileRequest, continuous.runRequest, done, prepared.operationOrigins);
@@ -144,7 +151,7 @@ async function runTriggered(page: Page, snapshot: SimulationSnapshot, iterations
         }
       }
       const release = await client.release(compile.sessionId, prepared.compileRequest.rulesHash);
-      return { prepared, compile, runRequest: continuous.runRequest, done, assessment, release, iterations, elapsedMs, probes, runTrace };
+      return { prepared, formulaPreflight, compile, runRequest: continuous.runRequest, done, assessment, release, iterations, elapsedMs, probes, runTrace };
     } finally { client.terminate(); }
   }, { snapshot, iterations, durationMs, options });
 }
@@ -207,10 +214,10 @@ test('5B构造动态期限嵌入真实装备形状，命名公式经最终Worker
   expect(duration.kind).toBe('PARAMETER');
   if (duration.kind !== 'PARAMETER') throw new Error('真实期限不是已核定参数');
   configuration.formulas.push({ ...configuration.formulas[0]!, formulaKey: 'constructed_duration', name: '独立构造期限',
-    expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [
+    expression: skillFormulaDefinition(selection.sourceCharacterKey === 'champion_vi' ? 'vi_w' : 'jax_p', { nodeType: 'OPERATION', operation: 'ADD', operands: [
       { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'attack_range', attributeValueKind: 'BASE' },
       { nodeType: 'PARAMETER', parameterKey: duration.parameterKey }
-    ] } });
+    ] }) });
   slow.lifecycle!.durationValue = { kind: 'FORMULA', formulaKey: 'constructed_duration' };
   const result = await runTriggered(page, snapshot);
   expect(result.prepared.compileRequest.formulas!.some(row => row.key.includes('/status/') && row.key.endsWith('/constructed_duration'))).toBe(true);
@@ -260,13 +267,15 @@ function viConfiguration(snapshot: SimulationSnapshot) {
   expect(damage).toMatchObject({ resultType: 'DAMAGE', target: 'TARGET', valueRule: { value: { kind: 'FORMULA', formulaKey: 'damage' } },
     detail: { damageTypeKey: 'physics', vampQualification: 'RESOLVED' } });
   const formula = configuration.formulas.find(row => row.formulaKey === 'damage')!;
-  const nodes = (node: FormulaExpressionNode): FormulaExpressionNode[] => [node,
-    ...(node.nodeType === 'OPERATION' ? node.operands.flatMap(nodes) : [])];
-  expect(nodes(formula.expression)).toContainEqual({ nodeType: 'OPERATION', operation: 'ADD', operands: [
-    { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'CURRENT' },
-    { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'MISSING' }
+  const nodes = (node: Expression): Expression[] => [node, ...('args' in node ? node.args.flatMap(nodes) : [])];
+  const hpInput = (kind: string) => formula.expression.inputs.find(input => input.binding.kind === 'attribute'
+    && input.binding.object === 'target' && input.binding.attributeKey === 'hp' && input.binding.valueKind === kind);
+  expect(hpInput('CURRENT')).toBeDefined();
+  expect(hpInput('MISSING')).toBeDefined();
+  expect(hpInput('TOTAL')).toBeUndefined();
+  expect(formula.expression.stages.flatMap(stage => nodes(stage.expression))).toContainEqual({ op: 'add', args: [
+    { op: 'read', inputKey: hpInput('CURRENT')!.key }, { op: 'read', inputKey: hpInput('MISSING')!.key }
   ] });
-  expect(nodes(formula.expression).some(row => row.nodeType === 'ATTRIBUTE' && row.attributeKey === 'hp' && row.attributeValueKind === 'TOTAL')).toBe(false);
   return configuration;
 }
 
@@ -304,9 +313,7 @@ function viProbe(result: TriggeredResult, name: string) {
 }
 
 function assertArmor(row: DamageRecord, armor: number) {
-  expect(row.damageType).toBe('damage/physics');
-  expect(row.resistanceBeforePenetration).toBeCloseTo(armor, 8);
-  expect(row.effectiveResistance).toBeCloseTo(armor, 8);
+  expect(row.damageType).toBe('physics');
   expect(row.resistanceFactor).toBeCloseTo(100 / (100 + armor), 8);
   expect(row.postDefenseDamage).toBeCloseTo(row.rawAmount * 100 / (100 + armor), 8);
 }

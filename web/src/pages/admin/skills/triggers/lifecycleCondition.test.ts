@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../../../../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import { fixedValue, formulaValue, parameterValue } from '../../../../types/numericValue';
 import type { SkillEffect, SkillEffectLifecycleInstanceScope } from '../../../../types/skillEffect';
@@ -97,7 +98,7 @@ describe('生命周期条件聚合草稿', () => {
     const draft = rule(stacks(formulaValue('computed')));
     expect(collectDirectFormulaKeys(draft)).toEqual(['computed']);
     const validation = validateSkillTriggerDraft(draft, { includeRuleKey: true, skillKey: 'w', effectsByKey: new Map([['mark', effect]]), parameters: [parameter({ valueMode: 'RUNTIME_INPUT', fixedValue: null })],
-      formulasByKey: new Map([['computed', { expression: { nodeType: 'PARAMETER', parameterKey: 'count' }, formulaKey: 'computed' } as import('../../../../types/skillFormula').SkillFormula]]) });
+      formulasByKey: new Map([['computed', { expression: skillFormulaDefinition('w', { nodeType: 'PARAMETER', parameterKey: 'count' }), formulaKey: 'computed' } as import('../../../../types/skillFormula').SkillFormula]]) });
     expect(validation.ok).toBe(false);
     if (!validation.ok) expect(validation.nestedErrors.some((item) => item.message.includes('不能引用计算时传入参数'))).toBe(true);
   });

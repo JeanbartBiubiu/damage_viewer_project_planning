@@ -325,7 +325,7 @@ export function buildConfigurationChanges(
   const formulaErrors: Record<string, SkillFormulaDraftErrors> = {};
   const formulaNodeIssues: Record<string, FormulaNodeIssue[]> = {};
   const previewParameters = draft.parameters.map((entry) => ({
-    parameterKey: entry.draft.parameterKey.trim(), name: entry.draft.name,
+    skillKey: baseline?.skill.skillKey ?? draft.skill.skillKey.trim(), parameterKey: entry.draft.parameterKey.trim(), name: entry.draft.name,
     valueMode: entry.draft.valueMode
   }));
   for (const entry of draft.formulas) {
@@ -594,12 +594,7 @@ function writableFormula(formula: SkillFormula): UpdateSkillFormulaRequest {
 }
 
 function formulaReferencesRemovedParameter(formula: SkillFormula, keys: ReadonlySet<string>): boolean {
-  const walk = (node: SkillFormula['expression']): boolean => {
-    if (node.nodeType === 'PARAMETER') return !keys.has(node.parameterKey);
-    if (node.nodeType === 'OPERATION') return node.operands.some(walk);
-    return false;
-  };
-  return walk(formula.expression);
+  return formula.expression.inputs.some(input => input.binding.kind === 'parameter' && !keys.has(input.binding.parameterKey));
 }
 
 function validateExistingSkill(baseline: SkillConfiguration): {

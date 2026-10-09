@@ -19,15 +19,16 @@ export type SimulationSkillOriginTrace = SimulationSkillSource & {
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 
-function validatePermanentEffect(effect: SkillConfiguration['effects'][number], effectPath: string) {
+function validatePermanentEffect(effect: SkillConfiguration['effects'][number], effectPath: string, snapshot: SimulationSnapshot, configuration: SkillConfiguration, source: SimulationSkillSource, side: Side) {
   const life = effect.lifecycle;
   if (!life || life.instanceScope !== 'SOURCE' || life.expiryMode !== 'EXPLICIT_ONLY' || life.durationValue !== null
     || life.periodicIntervalValue !== null || life.firstPeriodicExecution !== null || life.endWhenShieldEndsResultKey != null
     || life.reapplicationStackMode !== 'KEEP' || life.reapplicationDurationMode !== null
-    || life.maxStacksValue.kind !== 'FIXED' || life.maxStacksValue.value !== 1
-    || life.applicationStacksValue.kind !== 'FIXED' || life.applicationStacksValue.value !== 1 || effect.results.length === 0) {
+    || effect.results.length === 0) {
     fail(`${effectPath}.lifecycle`, '5A需要来源范围、永久单层、无周期的完整效果');
   }
+  const numeric = createNumericCompileState({ gameId: snapshot.gameId, skillKey: source.skillKey, skillLevel: source.skillLevel!, characterLevel: snapshot.selection[`${side}Level`], parameters: configuration.parameters, formulas: configuration.formulas, formulaNamespace: `${side}/${source.skillKey}`, bindParameters: false, allowAttributeReads: false, runtimeInputMessage: '常驻层数不能读取计算时输入' });
+  for (const field of ['maxStacksValue', 'applicationStacksValue'] as const) if (tryFoldConstant(compileNumericValue(life![field], effectPath + '.lifecycle.' + field, numeric, fail)) !== 1) fail(effectPath, '常驻层数须由原生核定恒1');
 
 }
 
@@ -94,7 +95,8 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
       const rightKey = simulationSkillSourceIdentity(right.origin, right.skillKey);
       return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;
     });
-    for (const [sourceIndex, source] of sources.entries()) {
+    for (const [sourceIndex, storedSource] of sources.entries()) {
+      const source = structuredClone(storedSource);
       const root = `${side}.skillSources[${sourceIndex}]`;
       const trace: SimulationSkillOriginTrace = { ...structuredClone(source), side };
       origins.push(trace);
@@ -137,7 +139,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
       if (!Number.isInteger(source.skillLevel) || source.skillLevel < 1 || source.skillLevel > configuration.skill.maxLevel) fail(`${root}.skillLevel`, '已学等级超出真实定义');
       const providerRef = `${side}_natural_skill_${sourceIndex}`;
       const definitionRef = `${providerRef}_definition`;
-      const initializer: ProviderDefinition = { providerKey: definitionRef, stableId: definitionRef,
+      const initializer: ProviderDefinition = { providerKey: definitionRef, skillKey: source.skillKey, stableId: definitionRef,
         kind: source.origin.kind === 'CHARACTER' ? 'character' : 'build', listeners: [] };
       trace.providerRef = providerRef;
       trace.definitionRef = definitionRef;
@@ -153,7 +155,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
             skillKey: source.skillKey, skillLevel: source.skillLevel, path: root, configuration,
             allowedRootKeys: source.enabledRuleKeys, permanentModifier: (result, resultPath) => {
               const effect = configuration.effects.find(row => row.results.includes(result))!;
-              validatePermanentEffect(effect, `skills.${source.skillKey}.effects.${effect.effectKey}`);
+              validatePermanentEffect(effect, `skills.${source.skillKey}.effects.${effect.effectKey}`, snapshot, configuration, source, side);
               const modifier = permanentModifier(snapshot, configuration, source, side, result, resultPath);
               if ('combatantKey' in modifier) fail(resultPath, '属性转换只允许完整无条件初始化，不能改为动态触发');
               return modifier;
@@ -189,7 +191,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
             if (resultTail || lifecycleTail) fail(`${effectPath}.triggerRules.${subscriber.ruleKey}`,
               '完整初始化效果的结果或生命周期尾规则尚未接入5A，不能只执行属性部分');
           }
-          validatePermanentEffect(effect, effectPath);
+          validatePermanentEffect(effect, effectPath, snapshot, configuration, source, side);
           for (const result of [...effect.results].sort((left, right) => left.sortOrder - right.sortOrder)) {
             const resultPath = `${effectPath}.results.${result.resultKey}`;
             const modifier = permanentModifier(snapshot, configuration, source, side, result, resultPath);
@@ -207,7 +209,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
               continue;
             }
             const effectRef = `${providerRef}_effect_${providers.length}`;
-            providers.push({ providerKey: effectRef, stableId: effectRef, kind: 'status', modifiers: [modifier] });
+            providers.push({ providerKey: effectRef, skillKey: source.skillKey, stableId: effectRef, kind: 'status', modifiers: [modifier] });
             operations.push({ operation: 'apply_provider', target: 'self', providerDefinitionRef: effectRef, providerRef: effectRef });
             coverage.push({ authorPath: resultPath, compiledPath: `sharedProviders[${effectRef}].modifiers[0]` });
             if (result.resultType === 'ATTRIBUTE_CHANGE') {

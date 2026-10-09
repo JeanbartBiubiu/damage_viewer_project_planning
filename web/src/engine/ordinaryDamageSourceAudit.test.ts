@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import type { CompileRequest, RunRequest } from '../types/genericEngine';
 import type { Skill } from '../types/skill';
@@ -73,7 +74,7 @@ function parameter(parameterKey: string, value: number, mode: 'FIXED' | 'SKILL_L
 const formula: SkillFormula = {
   gameId: 'lol', skillKey: 'annie_q', formulaKey: 'damage', name: '命中伤害',
   description: null, sortOrder: 10, createdAt: '', updatedAt: '',
-  expression: {
+  expression: skillFormulaDefinition('annie_q', {
     nodeType: 'OPERATION', operation: 'ADD', operands: [
       { nodeType: 'PARAMETER', parameterKey: 'base_damage' },
       { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
@@ -82,7 +83,7 @@ const formula: SkillFormula = {
           attributeKey: 'ability_power', attributeValueKind: 'TOTAL' }
       ] }
     ]
-  }
+  })
 };
 
 function authored(): AuthoredHitProgram {
@@ -260,7 +261,7 @@ describe('已核普通直接伤害来源', () => {
       characterKey: 'champion_annie', providerRef: 'annie_mount',
       skillKey: 'annie_q', ruleKey: 'actual_hit', actionKey: 'damage',
       effectKey: 'spell_hit', resultKey: 'damage', damageTypeKey: 'magic',
-      operation: { operation: 'damage', damageType: 'damage/magic' },
+      operation: { operation: 'damage', damageType: 'magic' },
       driverEntryKeys: ['hit']
     });
     expect(audit.facts[0]?.operationPath).toContain('.skillHit.candidates["actual_hit:damage:damage"].operations[0]');
@@ -365,8 +366,8 @@ describe('已核普通直接伤害来源', () => {
       f.request.sharedProviders![0]!.abilities![0]!.operations![0]!.skillHit!.candidates[0]!.operations[0]!.copyableOnHit = true;
     }, 'sharedProviders["annie_definition"].abilities["hit"].operations', 'compiled_mismatch'],
     ['参数被改', (f: ReturnType<typeof fixture>) => {
-      f.request.sharedProviders![0]!.abilities![0]!.params!.base_damage = 81;
-    }, 'sharedProviders["annie_definition"].abilities["hit"].params.base_damage', 'compiled_mismatch'],
+      f.request.formulas![0]!.parameters.find(row => row.parameterKey === 'base_damage')!.value = 81;
+    }, 'formulas["hit/annie_q/levels/1/1/damage"]', 'compiled_mismatch'],
     ['额外普攻能力分类', (f: ReturnType<typeof fixture>) => {
       f.request.sharedProviders![0]!.abilities![0]!.types!.push('ability/basic_attack');
       f.request.typeCatalog.types.push({ key: 'event/basic_attack_hit', domain: 'event' });
@@ -384,8 +385,8 @@ describe('已核普通直接伤害来源', () => {
       f.request.sharedProviders![0]!.abilities![0]!.castOrigin = 'innate';
     }, 'sharedProviders["annie_definition"].abilities["hit"].castOrigin', 'compiled_mismatch'],
     ['公式被改', (f: ReturnType<typeof fixture>) => {
-      f.request.formulas![0]!.expression = { op: 'const', value: 0 };
-    }, 'formulas["hit/annie_q/damage"]', 'compiled_mismatch'],
+      f.request.formulas![0]!.expression.stages[0]!.expression = { op: 'const', value: '0' };
+    }, 'formulas["hit/annie_q/levels/1/1/damage"]', 'compiled_mismatch'],
     ['吸血规则被改', (f: ReturnType<typeof fixture>) => {
       f.request.rules.vampRules![0]!.defaultEfficiency = 0.5;
     }, 'rules.vampRules', 'compiled_mismatch'],

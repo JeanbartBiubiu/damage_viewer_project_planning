@@ -1,3 +1,5 @@
+import { preflightSkillFormulas, snapshotFormulaProofIdentity } from '../../engine/skillFormulaPreflight';
+import { clearFormulaProofScope, validateConsumedFormulaValues, validateApprovedFormulaValues } from '../../engine/approvedFormulaValues';
 import { Alert, Button, Checkbox, Form, InputNumber, Select, Space, Table, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { JsonBlock } from '../../components/JsonBlock';
@@ -66,6 +68,8 @@ type Task = {
   cancelled: boolean;
   controller: AbortController;
   client: GenericEngineClient | null;
+  formulaPreflight?: { compileCount: number; released: boolean; formulaCount: number };
+  formulaProofIdentity?: string;
   snapshot: SimulationSnapshot | null;
   prepared: PreparedSimulation | null;
   result: CompileResult | null;
@@ -225,7 +229,7 @@ function archiveFor(task: Task, outcome: CompileArchive['outcome'], error: strin
     ignoredCastCosts: task.prepared.ignoredCastCosts,
     compileRequest: task.prepared.compileRequest, coverage: task.prepared.coverage,
     operationOrigins: task.prepared.operationOrigins, equipmentOrigins: task.prepared.equipmentOrigins, skillOrigins: task.prepared.skillOrigins,
-    compileResult: task.result, releaseResult: task.release, error
+    formulaPreflight: task.formulaPreflight ?? null, compileResult: task.result, releaseResult: task.release, error
   };
   if (task.kind === 'skill_action') return { ...common, taskKind: 'skill_action', runRequest: task.runRequest,
     runResult: task.runResult, assessment: task.skillAssessment, cleanup: task.cleanup, failurePhase: task.failurePhase,
@@ -299,6 +303,7 @@ function downloadJson(name: string, value: unknown) {
 
 export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken, onDirtyChange }: BasicAttackCompilePanelProps) {
   const [selection, setSelection] = useState(emptySelection);
+  const [formulaPreflight, setFormulaPreflight] = useState<{ compileCount: number; released: boolean; formulaCount: number } | null>(null);
   const [snapshot, setSnapshot] = useState<SimulationSnapshot | null>(null);
   const [sourcesSnapshot, setSourcesSnapshot] = useState<SimulationSnapshot | null>(null);
   const [confirmedDigests, setConfirmedDigests] = useState<Record<string, string> | null>(null);
@@ -330,6 +335,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const active = useRef(true);
+  const formulaProofIdentityRef = useRef<string | null>(null);
   const taskRef = useRef<Task | null>(null);
   const token = adminToken.trim();
   const busy = phase !== 'idle';
@@ -369,6 +375,16 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     try { return equipmentRangeRequirements(snapshot); } catch { return []; }
   }, [snapshot]);
 
+  const clearOwnedFormulaProof = (identity: string | null | undefined) => {
+    if (!identity) return;
+    clearFormulaProofScope(identity);
+    if (formulaProofIdentityRef.current === identity) formulaProofIdentityRef.current = null;
+  };
+  const trackFormulaProof = (task: Task, next: SimulationSnapshot) => {
+    task.formulaProofIdentity = snapshotFormulaProofIdentity(next);
+    formulaProofIdentityRef.current = task.formulaProofIdentity;
+  };
+
   useEffect(() => {
     active.current = true;
     setSelection(emptySelection());
@@ -376,6 +392,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     setActiveSkillKey('');
     setIgnoredCastCosts([]);
     setSnapshot(null);
+    setFormulaPreflight(null);
     setSourcesSnapshot(null);
     setConfirmedDigests(null);
     setConfirmationRequired(false);
@@ -404,7 +421,9 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         task.cancelled = true;
         task.controller.abort();
         task.client?.terminate();
+        clearOwnedFormulaProof(task.formulaProofIdentity);
       }
+      clearOwnedFormulaProof(formulaProofIdentityRef.current);
       onDirtyChange(false);
     };
   }, [apiBaseUrl, selectedGameId, token, onDirtyChange]);
@@ -440,6 +459,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     task.cancelled = true;
     task.controller.abort();
     task.client?.terminate();
+    clearOwnedFormulaProof(task.formulaProofIdentity ?? formulaProofIdentityRef.current);
     task.cleanup = task.client ? 'worker_destroyed' : 'not_needed';
     taskRef.current = null;
     const cancelledArchive = archiveFor(task, 'cancelled', null);
@@ -459,6 +479,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   };
 
   const clearArtifacts = () => {
+    clearOwnedFormulaProof(formulaProofIdentityRef.current);
+    setFormulaPreflight(null);
     setAuraConfirmed({});
     setSnapshot(null);
     setInspection(null);
@@ -533,7 +555,13 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     clearArtifacts();
   };
 
-  const acceptSnapshot = (next: SimulationSnapshot) => {
+  const acceptSnapshot = async (next: SimulationSnapshot, task: NonNullable<typeof taskRef.current>) => {
+    trackFormulaProof(task, next);
+    task.client = new GenericEngineClient();
+    const evidence = await preflightSkillFormulas(next, task.client, () => isCurrent(task));
+    if (!isCurrent(task)) return false;
+    task.formulaPreflight = evidence;
+    setFormulaPreflight(evidence);
     setSnapshot(next);
     setSourcesSnapshot(next);
     setBuildSourceIdentities({
@@ -545,6 +573,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       setInspection(inspectSimulationSnapshot(next, ignoredCastCosts));
       return true;
     } catch (cause) {
+      clearOwnedFormulaProof(task.formulaProofIdentity);
       setError(`快照已读取，但编译准入检查未通过：${taskError(cause)}。可在默认来源表关闭非必需来源后重新读取。`);
       return false;
     }
@@ -573,6 +602,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       if (!isCurrent(task)) return;
       const defaults = fillSimulationSkillLevelDefaults(result.data.selection, result.data, clearedSkillLevels);
       if (defaults.changed) {
+        clearOwnedFormulaProof(formulaProofIdentityRef.current);
         setSnapshot(null);
         setInspection(null);
         setSourcesSnapshot(result.data);
@@ -581,11 +611,14 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         if (!isCurrent(task)) return;
       }
       task.snapshot = result.data;
-      const admitted = acceptSnapshot(result.data);
+      const admitted = await acceptSnapshot(result.data, task);
       setNotice(admitted ? '场景快照已读取，未设置的角色来源技能默认最高等级；请核对技能配置及必要的场景补充值。'
         : '原始默认来源与完整关系已保留；准入失败不妨碍关闭来源、供等级或修改构筑。');
     } catch (cause) {
-      if (isCurrent(task)) setError(taskError(cause));
+      if (isCurrent(task)) {
+        clearOwnedFormulaProof(task.formulaProofIdentity ?? formulaProofIdentityRef.current);
+        setError(taskError(cause));
+      }
     } finally {
       finishTask(task);
     }
@@ -731,13 +764,19 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       const latest = await getSimulationSnapshot(apiBaseUrl, selectedGameId, snapshot.selection, token, task.controller.signal);
       if (!isCurrent(task)) return;
       if (!sameSkillDigests(latest.data, confirmedDigests) || latest.data.snapshotDigest !== snapshot.snapshotDigest) {
-        acceptSnapshot(latest.data);
+        await acceptSnapshot(latest.data, task);
         setConfirmationRequired(true);
-        setNotice('技能作者配置、来源或构筑已变化，草稿已保留。请核对并明确确认最新配置；本次没有提交编译或运行。');
+        setNotice('技能作者配置、来源或构筑已变化，草稿已保留。最新配置已完成共同公式预检，请核对并明确确认后重新执行本次场景。');
         finishTask(task);
         return;
       }
       task.snapshot = structuredClone(latest.data);
+      trackFormulaProof(task, task.snapshot);
+      task.client = new GenericEngineClient();
+      const preflight = await preflightSkillFormulas(task.snapshot, task.client, () => isCurrent(task));
+      if (!isCurrent(task)) return;
+      task.formulaPreflight = preflight;
+      setFormulaPreflight(preflight);
       task.phase = 'preparing';
       setPhase('preparing');
       const inputs: SimulationAttributeInputs = { source: {}, target: {} };
@@ -764,7 +803,6 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         if (!isCurrent(task)) return;
       }
       setPrepared(task.prepared);
-      task.client = new GenericEngineClient();
       task.phase = 'compiling';
       setPhase('compiling');
       task.result = await task.client.compile(task.prepared.compileRequest);
@@ -778,6 +816,10 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       } else if (task.result.rulesHash !== task.prepared.compileRequest.rulesHash
         || task.result.schemaHash !== task.prepared.compileRequest.schemaHash) {
         failure = '编译响应的结构或规则摘要与本次请求不一致。';
+      }
+      if (!failure) {
+        validateConsumedFormulaValues(task.prepared.approvedFormulaValues, task.prepared.compileRequest.formulas ?? [], task.result.metadata?.approvedStaticValues ?? {});
+        validateApprovedFormulaValues(task.prepared.compileRequest.formulas ?? [], task.result.metadata?.approvedStaticValues ?? {});
       }
       if (failure) task.failurePhase = 'compiling';
       if (!failure && kind !== 'compile') {
@@ -831,6 +873,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       if (isCurrent(task)) {
         const passed = failure === null && task.result?.ok === true && task.release?.released === true
           && task.cleanup === 'released' && (kind === 'compile' || task.assessment?.complete === true || task.continuousAssessment?.complete === true || task.skillAssessment?.complete === true);
+        if (!passed) clearOwnedFormulaProof(task.formulaProofIdentity ?? formulaProofIdentityRef.current);
         if (!passed && failure === null) failure = kind === 'single_attack'
           ? '未完成完整单次运行与会话释放，不能标记运行通过。'
           : kind === 'continuous_attack' ? '未完成完整连续运行与会话释放，不能标记运行通过。' : '未完成编译与会话释放，不能标记验证通过。';
@@ -851,6 +894,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   // Space 会过滤空子节点；固定区域标识，避免提示增减时重挂载输入框。
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      {formulaPreflight ? <Typography.Text type="secondary">共同公式原生预检：编译{formulaPreflight.compileCount}次，完整程序{formulaPreflight.formulaCount}份，预检会话已释放。最终场景编译仍独立校验。</Typography.Text> : null}
       {!selectedGameId ? <Alert key="missing-game" type="warning" content="请先在顶部选择游戏。" /> : null}
       {selectedGameId && !token ? <Alert key="missing-token" type="warning" content="请先在顶部配置 Admin Token。" /> : null}
       {notice ? <Alert key="task-notice" type={archive?.outcome === 'passed' ? 'success' : 'info'} content={notice} /> : null}

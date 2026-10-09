@@ -42,6 +42,7 @@ export type CompileResultMetadata = {
   abilityCount: number;
   typeCount: number;
   formulaCount: number;
+  approvedStaticValues?: Record<string, number>;
 };
 
 export type TypeCatalog = {
@@ -92,8 +93,13 @@ export type GenericFormulaExpr = {
 
 export type NamedFormula = {
   key: string;
-  expression: GenericFormulaExpr;
+  skillKey: string;
+  expression: import('./formulaContract.generated').FormulaDefinition;
+  parameters: Array<{ parameterKey: string; valueMode: import('./skillParameter').SkillParameter['valueMode'];
+    valueType: 'DECIMAL' | 'INTEGER'; value?: number;
+    runtimeSource?: { kind: 'use_charge_duration' } | { kind: 'process_actual_cost'; resourceKey: string } }>;
 };
+export type StaticNumericValue = number | { op: 'ref'; ref: string };
 
 export type TypeMatcher = { any?: string[]; all?: string[]; none?: string[] };
 export type GenericVampType = 'LIFE_STEAL' | 'OMNIVAMP' | 'PHYSICAL_VAMP' | 'SPELL_VAMP';
@@ -294,9 +300,9 @@ export type AbilityDefinition = {
 /** Structured provider initialStateSchema field (Guinsoo H+K / Gate H1). */
 export type ProviderStateFieldSchema = {
   valueType: string;
-  defaultValue: number;
-  maxValue?: number;
-  durationMs?: number;
+  defaultValue: StaticNumericValue;
+  maxValue?: StaticNumericValue;
+  durationMs?: StaticNumericValue;
   refreshPolicy?: string;
   stateKind?: 'ammo';
   ammoRecovery?: { intervalMs: GenericFormulaExpr; mode: 'all_at_once'; startCondition: 'when_empty' };
@@ -314,6 +320,7 @@ export type StatusContributionDefinition = {
 
 export type ProviderDefinition = {
   providerKey: string;
+  skillKey?: string;
   kind: string;
   stableId: string;
   types?: string[];
@@ -323,9 +330,9 @@ export type ProviderDefinition = {
   listeners?: ListenerDefinition[];
   lifecycle?: {
     durationMs?: GenericFormulaExpr;
-    maxStacks?: number;
+    maxStacks?: StaticNumericValue;
     refreshPolicy?: string;
-    tickIntervalMs?: number;
+    tickIntervalMs?: StaticNumericValue;
     instanceScope?: ProviderInstanceScope;
   };
   statusContributions?: StatusContributionDefinition[];
@@ -345,6 +352,7 @@ export type GenericRules = {
   damageTypeFormulas?: GenericDamageTypeFormula[];
   attributeDerivations?: Array<{
     combatantKey: 'source' | 'target';
+    skillKey?: string;
     attributeKey: string;
     value: GenericFormulaExpr;
     valuePolicy?: 'multiply';
@@ -353,10 +361,7 @@ export type GenericRules = {
 
 export type GenericDamageTypeFormula = {
   damageType: string;
-  formula: Record<
-    'resistanceBeforePenetration' | 'penetrationPercent' | 'penetrationFlat' | 'effectiveResistance' | 'resistanceFactor',
-    GenericFormulaExpr
-  >;
+  formula: import('./formulaContract.generated').FormulaDefinition;
 };
 
 export type CompileSettings = {

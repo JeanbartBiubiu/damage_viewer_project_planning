@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -215,10 +216,10 @@ function syntheticSpellblade(): AuthoredTriggerProgram {
   authored.parameters = [{ gameId: 'lol', skillKey, parameterKey: 'mana_refund_damage_multiplier', name: '回蓝倍率', valueType: 'DECIMAL', valueMode: 'FIXED', fixedValue: 0.5, levelValues: null, description: null, sortOrder: 0, createdAt: '', updatedAt: '' }];
   authored.formulas = [{
     gameId: 'lol', skillKey, formulaKey: 'total_mana_refund', name: '回蓝', description: null, sortOrder: 0, createdAt: '', updatedAt: '',
-    expression: { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
+    expression: skillFormulaDefinition('synth_spellblade', { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
       { nodeType: 'PARAMETER', parameterKey: 'mana_refund_damage_multiplier' },
       { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'attack_damage', attributeValueKind: 'TOTAL' }
-    ] }
+    ] })
   }];
   authored.processes[0]!.effectBindings.push({ bindingKey: 'do_refund', effectKey: 'refund', moment: stepExec('aa'), sortOrder: 20 });
   for (const op of authored.processes[0]!.stateOperations) if (op.moment.momentType === 'STEP_EXECUTION') op.sortOrder += 10;
@@ -1134,13 +1135,13 @@ test('原库夺萃回蓝组成→GET→Worker，护甲与护盾扣血不同但�
   const formula = await read('/formulas/total_mana_refund');
   expect(parameters.find((row: { parameterKey: string }) => row.parameterKey === 'spellblade_window_ms')?.fixedValue).toBe(10000);
   expect(parameters.find((row: { parameterKey: string }) => row.parameterKey === 'mana_refund_damage_multiplier')?.fixedValue).toBe(0.5);
-  expect(formula.expression).toEqual({
+  expect(formula.expression).toEqual(skillFormulaDefinition('synth_spellblade', {
     nodeType: 'OPERATION', operation: 'MULTIPLY',
     operands: [
       { nodeType: 'PARAMETER', parameterKey: 'mana_refund_damage_multiplier' },
       { attributeKey: 'attack_damage', attributeOwner: 'SOURCE', attributeValueKind: 'TOTAL', nodeType: 'ATTRIBUTE' }
     ]
-  });
+  }));
   const program = formulaManaProgram({
     skillKey: 'item_3508_passive', parameters, formulas: [formula], effect
   });

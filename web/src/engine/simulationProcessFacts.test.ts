@@ -1,7 +1,8 @@
+import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { describe, expect, it } from 'vitest';
 import type { DoneResult } from '../types/genericEngine';
 import { complexAction, complexInputs, simulationComplexSample } from '../../tests/fixtures/simulationComplexSkills';
-import { inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
+import { inspectSimulationSnapshot as raw_inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
 import { skillActionRequest } from './skillActionRequest';
 import { inspectSimulationProcessFacts, simulationActionContribution } from './simulationProcessFacts';
 
@@ -197,3 +198,5 @@ describe('6C完整过程占用事实独立于有限明细', () => {
     expect(inspectSimulationProcessFacts(prepared.compileRequest, request, done).issues.length).toBeGreaterThan(0);
   });
 });
+
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };

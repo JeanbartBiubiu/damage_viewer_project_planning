@@ -1,3 +1,5 @@
+import { approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import type { CompileRequest } from '../types/genericEngine';
 import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
@@ -9,7 +11,7 @@ import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
 import type { AuthoredTriggerProgram } from './triggerAdapter';
 import { withTriggerProgram } from './triggerAdapter';
 import {
-  adaptProcessProgram, explicitProcessInterrupt, processCommandFact, withProcessProgram,
+  adaptProcessProgram as raw_adaptProcessProgram, explicitProcessInterrupt, processCommandFact, withProcessProgram,
   type AuthoredProcessProgram
 } from './processAdapter';
 
@@ -189,20 +191,23 @@ describe('processAdapter', () => {
     authored.parameters!.push(parameter({ parameterKey: 'base_heal', levelValues: { '1': 100 }, sortOrder: 40 }));
     authored.parameters!.push(parameter({ parameterKey: 'ap_ratio', valueType: 'DECIMAL', levelValues: { '1': 1 }, sortOrder: 50 }));
     authored.formulas = [{ gameId: 'lol', skillKey: 'cast_skill', formulaKey: 'total_heal', name: '治疗公式',
-      description: null, sortOrder: 10, createdAt: '', updatedAt: '', expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [
+      description: null, sortOrder: 10, createdAt: '', updatedAt: '', expression: skillFormulaDefinition('cast_skill', { nodeType: 'OPERATION', operation: 'ADD', operands: [
         { nodeType: 'PARAMETER', parameterKey: 'base_heal' },
         { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
           { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'ap', attributeValueKind: 'TOTAL' },
           { nodeType: 'PARAMETER', parameterKey: 'ap_ratio' }
         ] }
-      ] } }];
+      ] }) }];
     authored.effects[1]!.results[0]!.valueRule!.value = formulaValue('total_heal');
     const adapted = adaptProcessProgram(authored);
     expect(adapted.requiredAttributes).toEqual(expect.arrayContaining(['hp', 'ap']));
     expect(adapted.provider.abilities[1]!.listenerSpec!.operations![0]!.amount).toEqual({
-      op: 'max', args: [{ op: 'add', args: [{ op: 'const', value: 100 }, { op: 'mul', args: [
-        { op: 'read', path: 'source.attr.ap.resolved' }, { op: 'const', value: 1 }
-      ] }] }, { op: 'const', value: 0 }]
+      op: 'max', args: [{ op: 'ref', ref: 'process/cast_skill/levels/1/1/total_heal' }, { op: 'const', value: 0 }]
+    });
+    expect(adapted.formulas.find(row => row.key.endsWith('/total_heal'))).toMatchObject({
+      skillKey: 'cast_skill', expression: authored.formulas[0]!.expression, parameters: [
+        { parameterKey: 'base_heal', value: 100 }, { parameterKey: 'ap_ratio', value: 1 }
+      ]
     });
   });
 
@@ -344,11 +349,11 @@ describe('processAdapter', () => {
     ]);
     authored.formulas = [{ gameId: 'lol', skillKey: 'cast_skill', formulaKey: 'dynamic', name: '动态', description: null,
       sortOrder: 10, createdAt: '', updatedAt: '',
-      expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'power', attributeValueKind: 'CURRENT' } }];
+      expression: skillFormulaDefinition('cast_skill', { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'power', attributeValueKind: 'CURRENT' }) }];
     second.valueRule = { value: formulaValue('dynamic'), fixedMultiplier: -1, fixedMinValue: null, fixedMaxValue: null };
     const costs = adaptProcessProgram(authored).provider.processes[0]!.costs;
     expect(costs).toHaveLength(2);
-    expect(costs[1]!.amount).toEqual({ op: 'mul', args: [{ op: 'ref', ref: 'process/cast_skill/dynamic' }, { op: 'const', value: -1 }] });
+    expect(costs[1]!.amount).toEqual({ op: 'mul', args: [{ op: 'ref', ref: 'process/cast_skill/levels/1/1/dynamic' }, { op: 'const', value: -1 }] });
     expect(JSON.stringify(costs)).not.toContain('"op":"max"');
     authored.castCosts = [...authored.castCosts, authored.castCosts[0]!];
     expect(() => adaptProcessProgram(authored)).toThrow(/castCosts\[2\].*重复/);
@@ -372,16 +377,18 @@ describe('processAdapter', () => {
       parameters: [parameter({ parameterKey: 'paid', valueMode: 'RUNTIME_INPUT', valueType: 'DECIMAL', fixedValue: null, levelValues: null }),
         parameter({ parameterKey: 'half', valueMode: 'FIXED', valueType: 'DECIMAL', fixedValue: 0.5, levelValues: null })],
       formulas: [{ gameId: 'lol', skillKey: 'cast_skill', formulaKey: 'half_paid', name: '一半', description: null, sortOrder: 10, createdAt: '', updatedAt: '',
-        expression: { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [{ nodeType: 'PARAMETER', parameterKey: 'paid' }, { nodeType: 'PARAMETER', parameterKey: 'half' }] } }],
+        expression: skillFormulaDefinition('cast_skill', { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [{ nodeType: 'PARAMETER', parameterKey: 'paid' }, { nodeType: 'PARAMETER', parameterKey: 'half' }] }) }],
       castCosts: [{ bindingKey: 'pay', effectKey: 'mana_cost', resultKey: 'consume_mana' }, { bindingKey: 'pay', effectKey: 'mana_cost', resultKey: 'consume_energy' }],
       rules: [initialRule(), rule({ ruleKey: 'refund', eventSource: { eventType: 'PROCESS_MOMENT', detail: { processKey: 'cast', moment: complete() } }, actions })]
     });
     const adapted = adaptProcessProgram(authored);
     const amounts = adapted.provider.processes[0]!.momentOperations.flatMap((group) => group.operations.map((operation) => operation.amount));
     expect(amounts).toHaveLength(2);
-    const refunds = amounts.map((amount) => adapted.formulas.find((formula) => formula.key === amount?.ref)?.expression);
-    expect(refunds[0]).toEqual({ op: 'mul', args: [{ op: 'read', path: 'process.actual_cost.mana' }, { op: 'read', path: 'ability.param.half' }] });
-    expect(refunds[1]).toEqual({ op: 'mul', args: [{ op: 'read', path: 'process.actual_cost.energy' }, { op: 'read', path: 'ability.param.half' }] });
+    const refunds = amounts.map((amount) => adapted.formulas.find((formula) => formula.key === amount?.ref)!);
+    expect(refunds[0]!.expression).toEqual(authored.formulas![0]!.expression);
+    expect(refunds[1]!.expression).toEqual(authored.formulas![0]!.expression);
+    expect(refunds.map(row => row.parameters.find(parameter => parameter.parameterKey === 'paid')?.runtimeSource)).toEqual([{ kind: 'process_actual_cost', resourceKey: 'mana' }, { kind: 'process_actual_cost', resourceKey: 'energy' }]);
+    expect(refunds.every(row => row.parameters.find(parameter => parameter.parameterKey === 'half')?.value === .5)).toBe(true);
     actions[1]!.runtimeInputBindings = [];
     expect(() => adaptProcessProgram(authored)).toThrow(/计算时输入/);
   });
@@ -403,10 +410,10 @@ describe('processAdapter', () => {
     expect(() => adaptProcessProgram(authored)).toThrow(/effects\.mana_cost\.unknownBehavior/);
     delete (authored.effects[0]! as { unknownBehavior?: unknown }).unknownBehavior;
     authored.formulas = [{ gameId: 'lol', skillKey: 'cast_skill', formulaKey: 'bad', name: '公式', description: null, sortOrder: 10, createdAt: '', updatedAt: '',
-      expression: { nodeType: 'PARAMETER', parameterKey: 'mana_cost' } }];
+      expression: skillFormulaDefinition('cast_skill', { nodeType: 'PARAMETER', parameterKey: 'mana_cost' }) }];
     Object.assign(authored.formulas[0]!.expression, { operands: [] });
     authored.process.steps = [step('DELAY', 'wait', { delayValue: formulaValue('bad') })];
-    expect(() => adaptProcessProgram(authored)).toThrow(/formulas\.bad\.expression\.operands/);
+    expect(() => adaptProcessProgram(authored)).toThrow(/formulas\.bad\.expression\/operands/);
     delete (authored.formulas[0]!.expression as { operands?: unknown }).operands;
     expect(() => adaptProcessProgram(authored)).not.toThrow();
   });
@@ -647,7 +654,7 @@ describe('processAdapter', () => {
     const formula: SkillFormula = {
       gameId: 'lol', skillKey: 'cast_skill', formulaKey: 'from_power', name: '力量', description: null, sortOrder: 10,
       createdAt: '', updatedAt: '',
-      expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'power', attributeValueKind: 'CURRENT' }
+      expression: skillFormulaDefinition('cast_skill', { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'power', attributeValueKind: 'CURRENT' })
     };
     const cost = resource('CONSUME', formulaValue('from_power'));
     if (cost.resultType !== 'RESOURCE_CHANGE') throw new Error('fixture');
@@ -658,8 +665,8 @@ describe('processAdapter', () => {
       parameters: [parameter({ parameterKey: 'paid', valueMode: 'RUNTIME_INPUT', valueType: 'DECIMAL', fixedValue: null, levelValues: null })]
     });
     const adapted = adaptProcessProgram(authored);
-    expect(adapted.provider.processes![0]!.costs[0]!.amount).toEqual({ op: 'ref', ref: 'process/cast_skill/from_power' });
-    expect(adapted.formulas).toEqual([{ key: 'process/cast_skill/from_power', expression: { op: 'read', path: 'source.attr.power.current' } }]);
+    expect(adapted.provider.processes![0]!.costs[0]!.amount).toEqual({ op: 'ref', ref: 'process/cast_skill/levels/1/1/from_power' });
+    expect(adapted.formulas).toEqual([{ key: 'process/cast_skill/levels/1/1/from_power', skillKey: 'cast_skill', expression: formula.expression, parameters: [] }]);
     authored.rules.push(rule({
       ruleKey: 'settle', sortOrder: 20,
       eventSource: { eventType: 'PROCESS_MOMENT', detail: { processKey: 'cast', moment: complete() } },
@@ -723,3 +730,5 @@ function spellblade(): AuthoredTriggerProgram {
     ]
   };
 }
+
+const adaptProcessProgram = (...args: Parameters<typeof raw_adaptProcessProgram>): ReturnType<typeof raw_adaptProcessProgram> => { approveAuthoredFixture(args[0]); return raw_adaptProcessProgram(...args); };

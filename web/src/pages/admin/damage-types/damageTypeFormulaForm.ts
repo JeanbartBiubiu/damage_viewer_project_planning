@@ -1,761 +1,183 @@
+import { COMMON_FORMULA_OPERATIONS, commonFormulaOperationLabel, commonFormulaNode, type CommonFormulaOperation, type CommonFormulaNodeDraft } from '../common-formula/commonFormulaForm';
 import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
-import type {
-  FormulaAttributeOwner,
-  FormulaAttributeValueKind,
-  FormulaOperation
-} from '../../../types/skillFormula';
-import type {
-  DamageTypeFormula,
-  DamageTypeFormulaDetail,
-  DamageTypeFormulaNode,
-  DamageTypeFormulaStageKey,
-  DamageTypeFormulaStageResultKey
-} from '../../../types/damageTypeFormula';
-import {
-  DAMAGE_TYPE_FORMULA_MAX_DEPTH,
-  DAMAGE_TYPE_FORMULA_MAX_NODES,
-  DAMAGE_TYPE_FORMULA_NOT_FOUND,
-  DAMAGE_TYPE_FORMULA_STAGE_KEYS,
-  damageTypeFormulaStageFromResultKey,
-  isDamageTypeFormulaStageResultKey,
-  isDamageTypeFormulaStageKey,
-  priorDamageTypeFormulaStageResults,
-  priorDamageTypeFormulaStages
-} from '../../../types/damageTypeFormula';
+import { validateFormulaDefinition } from '../../../services/formulaContract';
+import { FORMULA_SCHEMA } from '../../../types/formulaContract.generated';
+import type { DamageTypeFormula, DamageTypeFormulaDetail } from '../../../types/damageTypeFormula';
+import { DAMAGE_TYPE_FORMULA_NOT_FOUND, damageTypeFormulaAllowedBindings } from '../../../types/damageTypeFormula';
 
 export const FORMULA_SAVE_PENDING_MESSAGE = '保存结果待确认';
-
-const FIXED_VALUE_PATTERN = /^[+-]?(?:(?:\d+(?:\.\d*)?)|(?:\.\d+))(?:[eE][+-]?\d+)?$/u;
-const OPERATIONS: FormulaOperation[] = ['ADD', 'SUBTRACT', 'MULTIPLY', 'DIVIDE', 'MIN', 'MAX'];
-const ATTRIBUTE_OWNERS: FormulaAttributeOwner[] = ['SOURCE', 'TARGET'];
-const ATTRIBUTE_VALUE_KINDS: FormulaAttributeValueKind[] = [
-  'BASE',
-  'BONUS',
-  'TOTAL',
-  'CURRENT',
-  'MISSING',
-  'CURRENT_RATIO',
-  'MISSING_RATIO'
-];
-
-export type DamageTypeFormulaNodeKind = 'empty' | 'OPERATION' | 'FIXED' | 'ATTRIBUTE' | 'STAGE_RESULT';
-
-export type DamageTypeFormulaNodeDraft =
-  | { nodeType: 'empty' }
-  | {
-      nodeType: 'OPERATION';
-      operation: FormulaOperation | '';
-      left: DamageTypeFormulaNodeDraft;
-      right: DamageTypeFormulaNodeDraft;
-    }
-  | { nodeType: 'FIXED'; value: string }
-  | {
-      nodeType: 'ATTRIBUTE';
-      attributeOwner: FormulaAttributeOwner | '';
-      attributeKey: string;
-      attributeValueKind: FormulaAttributeValueKind | '';
-    }
-  | { nodeType: 'STAGE_RESULT'; stageKey: DamageTypeFormulaStageResultKey | '' };
-
-export type DamageTypeFormulaDraft = Record<DamageTypeFormulaStageKey, DamageTypeFormulaNodeDraft>;
-
-export type DamageTypeFormulaNodeIssue = {
-  path: string;
-  message: string;
+export type DamageTypeFormulaOperation = CommonFormulaOperation;
+export const DAMAGE_TYPE_FORMULA_OPERATIONS = COMMON_FORMULA_OPERATIONS;
+export type DamageTypeFormulaNodeKind = CommonFormulaNodeDraft['op'];
+export type DamageTypeFormulaNodeDraft = CommonFormulaNodeDraft;
+export type DamageTypeFormulaInputDraft = {
+  key: string;
+  binding: { kind: 'attribute'; object: 'source' | 'target' | ''; attributeKey: string;
+    valueKind: 'BASE' | 'BONUS' | 'TOTAL' | ''; view: 'current_frame' };
 };
-
+export type DamageTypeFormulaDraft = {
+  inputs: DamageTypeFormulaInputDraft[];
+  stages: Array<{ key: string; name: string; expression: DamageTypeFormulaNodeDraft }>;
+  outputStageKey: string;
+};
+export type DamageTypeFormulaNodeIssue = { path: string; message: string };
 export type DamageTypeFormulaValidation =
   | { ok: true; formula: DamageTypeFormula }
   | { ok: false; nodeIssues: DamageTypeFormulaNodeIssue[] };
+export type DamageTypeFormulaAttributeOption = { attributeKey: string; name: string; status: string };
+export type DamageTypeFormulaRequestContext = { apiBaseUrl: string; gameId: string; token: string; damageTypeKey: string };
 
-export type DamageTypeFormulaAttributeOption = {
-  attributeKey: string;
-  name: string;
-  status: string;
-};
-
-export type DamageTypeFormulaAttributeTriple = {
-  attributeOwner: FormulaAttributeOwner;
-  attributeKey: string;
-  attributeValueKind: FormulaAttributeValueKind;
-};
-
-export type DamageTypeFormulaPreviewSegment = {
-  text: string;
-  error?: boolean;
-};
-
-export type DamageTypeFormulaChainPreview = {
-  stageKey: DamageTypeFormulaStageKey;
-  symbol: 'R' | 'P' | 'F' | 'E' | 'M';
-  label: string;
-  segments: DamageTypeFormulaPreviewSegment[];
-};
-
-export type DamageTypeFormulaRequestContext = {
-  apiBaseUrl: string;
-  gameId: string;
-  token: string;
-  damageTypeKey: string;
-};
-
-export function damageTypeFormulaStageLabel(stage: DamageTypeFormulaStageKey): string {
-  switch (stage) {
-    case 'resistanceBeforePenetration':
-      return '穿透前抗性';
-    case 'penetrationPercent':
-      return '百分比穿透';
-    case 'penetrationFlat':
-      return '固定穿透';
-    case 'effectiveResistance':
-      return '有效抗性';
-    case 'resistanceFactor':
-      return '抗性系数';
-    default:
-      return stage;
-  }
+export function damageTypeFormulaOperationLabel(operation: DamageTypeFormulaOperation): string {
+  return commonFormulaOperationLabel(operation);
 }
-
-export function damageTypeFormulaStageSymbol(
-  stage: DamageTypeFormulaStageKey
-): DamageTypeFormulaChainPreview['symbol'] {
-  switch (stage) {
-    case 'resistanceBeforePenetration':
-      return 'R';
-    case 'penetrationPercent':
-      return 'P';
-    case 'penetrationFlat':
-      return 'F';
-    case 'effectiveResistance':
-      return 'E';
-    case 'resistanceFactor':
-      return 'M';
-    default:
-      return stage;
-  }
+export function damageTypeFormulaOwnerLabel(owner: string): string {
+  return owner === 'source' ? '来源' : owner === 'target' ? '目标' : '未选对象';
 }
-
-export function damageTypeFormulaOwnerLabel(owner: FormulaAttributeOwner | ''): string {
-  if (owner === 'SOURCE') return '来源';
-  if (owner === 'TARGET') return '目标';
-  return '';
+export function damageTypeFormulaValueKindLabel(kind: string): string {
+  return kind === 'BASE' ? '基础值' : kind === 'BONUS' ? '加成值' : kind === 'TOTAL' ? '最终值' : '未选口径';
 }
-
-export function damageTypeFormulaValueKindLabel(kind: FormulaAttributeValueKind | ''): string {
-  switch (kind) {
-    case 'BASE':
-      return '基础值';
-    case 'BONUS':
-      return '加成值';
-    case 'TOTAL':
-      return '最终值';
-    case 'CURRENT':
-      return '当前值';
-    case 'MISSING':
-      return '已损失值';
-    case 'CURRENT_RATIO':
-      return '当前值比例';
-    case 'MISSING_RATIO':
-      return '已损失比例';
-    default:
-      return '';
-  }
-}
-
-export function damageTypeFormulaOperationLabel(operation: FormulaOperation | ''): string {
-  switch (operation) {
-    case 'ADD':
-      return '加';
-    case 'SUBTRACT':
-      return '减';
-    case 'MULTIPLY':
-      return '乘';
-    case 'DIVIDE':
-      return '除';
-    case 'MIN':
-      return '取较小值';
-    case 'MAX':
-      return '取较大值';
-    default:
-      return '';
-  }
-}
-
 export function createBlankDamageTypeFormulaDraft(): DamageTypeFormulaDraft {
-  return {
-    resistanceBeforePenetration: { nodeType: 'empty' },
-    penetrationPercent: { nodeType: 'empty' },
-    penetrationFlat: { nodeType: 'empty' },
-    effectiveResistance: { nodeType: 'empty' },
-    resistanceFactor: { nodeType: 'empty' }
-  };
+  return { inputs: [], stages: [], outputStageKey: '' };
 }
-
-export function switchDamageTypeFormulaNode(nextType: DamageTypeFormulaNodeKind): DamageTypeFormulaNodeDraft {
-  if (nextType === 'empty') return { nodeType: 'empty' };
-  if (nextType === 'OPERATION') {
-    return {
-      nodeType: 'OPERATION',
-      operation: '',
-      left: { nodeType: 'empty' },
-      right: { nodeType: 'empty' }
-    };
-  }
-  if (nextType === 'FIXED') return { nodeType: 'FIXED', value: '' };
-  if (nextType === 'ATTRIBUTE') {
-    return {
-      nodeType: 'ATTRIBUTE',
-      attributeOwner: '',
-      attributeKey: '',
-      attributeValueKind: ''
-    };
-  }
-  return { nodeType: 'STAGE_RESULT', stageKey: '' };
+export function createDamageTypeFormulaInputDraft(): DamageTypeFormulaInputDraft {
+  return { key: '', binding: { kind: 'attribute', object: '', attributeKey: '', valueKind: '', view: 'current_frame' } };
 }
-
-function nodeToDraft(node: DamageTypeFormulaNode): DamageTypeFormulaNodeDraft {
-  if (node.nodeType === 'OPERATION') {
-    return {
-      nodeType: 'OPERATION',
-      operation: node.operation,
-      left: nodeToDraft(node.operands[0]),
-      right: nodeToDraft(node.operands[1])
-    };
-  }
-  if (node.nodeType === 'FIXED') return { nodeType: 'FIXED', value: String(node.value) };
-  if (node.nodeType === 'STAGE_RESULT') return { nodeType: 'STAGE_RESULT', stageKey: node.stageKey };
-  return {
-    nodeType: 'ATTRIBUTE',
-    attributeOwner: node.attributeOwner,
-    attributeKey: node.attributeKey,
-    attributeValueKind: node.attributeValueKind
-  };
+export function formulaOperationArity(operation: DamageTypeFormulaOperation): number {
+  if (operation === 'if' || operation === 'clamp') return 3;
+  if (operation === 'floor' || operation === 'ceil' || operation === 'trunc' || operation === 'round') return 1;
+  return 2;
 }
-
+export function switchDamageTypeFormulaNode(op: DamageTypeFormulaNodeKind): DamageTypeFormulaNodeDraft { return commonFormulaNode(op); }
 export function formulaToDraft(formula: DamageTypeFormula): DamageTypeFormulaDraft {
-  return {
-    resistanceBeforePenetration: nodeToDraft(formula.resistanceBeforePenetration),
-    penetrationPercent: nodeToDraft(formula.penetrationPercent),
-    penetrationFlat: nodeToDraft(formula.penetrationFlat),
-    effectiveResistance: nodeToDraft(formula.effectiveResistance),
-    resistanceFactor: nodeToDraft(formula.resistanceFactor)
-  };
+  return structuredClone(formula) as DamageTypeFormulaDraft;
 }
-
-export function formulaStageViews(draft: DamageTypeFormulaDraft): Array<{
-  stageKey: DamageTypeFormulaStageKey;
-  label: string;
-  path: string;
-  priorStageKeys: DamageTypeFormulaStageKey[];
-  node: DamageTypeFormulaNodeDraft;
-}> {
-  return DAMAGE_TYPE_FORMULA_STAGE_KEYS.map((stageKey) => ({
-    stageKey,
-    label: damageTypeFormulaStageLabel(stageKey),
-    path: `formula.${stageKey}`,
-    priorStageKeys: priorDamageTypeFormulaStages(stageKey),
-    node: draft[stageKey]
-  }));
-}
-
-export function stageResultOptions(stage: DamageTypeFormulaStageKey): Array<{
-  value: DamageTypeFormulaStageResultKey;
-  label: string;
-}> {
-  return priorDamageTypeFormulaStageResults(stage).map((value) => ({
-    value,
-    label: damageTypeFormulaStageLabel(damageTypeFormulaStageFromResultKey(value))
-  }));
-}
-
-function stageFromPath(path: string): DamageTypeFormulaStageKey | null {
-  const match = /^formula\.([^.]+)/.exec(path);
-  const stage = match?.[1];
-  return isDamageTypeFormulaStageKey(stage) ? stage : null;
-}
-
-function relativeToStage(stage: DamageTypeFormulaStageKey, path: string): string {
-  const prefix = `formula.${stage}`;
-  if (path === prefix) return '';
-  if (path.startsWith(`${prefix}.`)) return path.slice(prefix.length + 1);
-  return '';
-}
-
-function childAt(node: DamageTypeFormulaNodeDraft, part: string): DamageTypeFormulaNodeDraft | null {
-  if (node.nodeType !== 'OPERATION') return null;
-  if (part === 'operands[0]' || part === 'left') return node.left;
-  if (part === 'operands[1]' || part === 'right') return node.right;
-  return null;
-}
-
-export function getDamageTypeFormulaNodeAtPath(
-  draft: DamageTypeFormulaDraft,
-  path: string
-): DamageTypeFormulaNodeDraft | null {
-  const stage = stageFromPath(path);
-  if (!stage) return null;
-  const relative = relativeToStage(stage, path);
-  let current = draft[stage];
-  if (!relative) return current;
-  for (const part of relative.split('.').filter(Boolean)) {
-    const next = childAt(current, part);
-    if (!next) return null;
-    current = next;
+export function selectableAttributeOptions(attributes: readonly DamageTypeFormulaAttributeOption[], selectedKey: string) {
+  const enabled = attributes.filter(attribute => attribute.status === 'ENABLED')
+    .map(attribute => ({ value: attribute.attributeKey, label: `${attribute.name}（${attribute.attributeKey}）` }));
+  if (selectedKey && !enabled.some(attribute => attribute.value === selectedKey)) {
+    const stored = attributes.find(attribute => attribute.attributeKey === selectedKey);
+    enabled.push({ value: selectedKey, label: stored ? `${stored.name}（${selectedKey}）已停用，请修复` : `${selectedKey}（目录中不存在，请修复）` });
   }
-  return current;
+  return enabled;
 }
 
-function updateRelative(
-  node: DamageTypeFormulaNodeDraft,
-  parts: string[],
-  next: DamageTypeFormulaNodeDraft
-): DamageTypeFormulaNodeDraft {
-  if (parts.length === 0) return next;
-  if (node.nodeType !== 'OPERATION') return node;
-  const [head, ...rest] = parts;
-  if (head === 'operands[0]' || head === 'left') {
-    return { ...node, left: updateRelative(node.left, rest, next) };
-  }
-  if (head === 'operands[1]' || head === 'right') {
-    return { ...node, right: updateRelative(node.right, rest, next) };
+function expressionAtPath(draft: DamageTypeFormulaDraft, path: string): DamageTypeFormulaNodeDraft | null {
+  const match = /^\/formula\/stages\/(\d+)\/expression((?:\/args\/\d+)*)$/.exec(path);
+  if (!match) return null;
+  let node = draft.stages[Number(match[1])]?.expression;
+  if (!node) return null;
+  const indexes = [...match[2]!.matchAll(/\/args\/(\d+)/g)].map(part => Number(part[1]));
+  for (const index of indexes) {
+    if (!('args' in node)) return null;
+    node = node.args[index];
+    if (!node) return null;
   }
   return node;
 }
-
-export function updateFormulaDraftAtPath(
-  draft: DamageTypeFormulaDraft,
-  path: string,
-  next: DamageTypeFormulaNodeDraft
-): DamageTypeFormulaDraft {
-  const stage = stageFromPath(path);
-  if (!stage) return draft;
-  const relative = relativeToStage(stage, path);
-  return {
-    ...draft,
-    [stage]: relative
-      ? updateRelative(draft[stage], relative.split('.').filter(Boolean), next)
-      : next
-  };
+export function getDamageTypeFormulaNodeAtPath(draft: DamageTypeFormulaDraft, path: string) {
+  return expressionAtPath(draft, path);
 }
-
+export function updateFormulaDraftAtPath(draft: DamageTypeFormulaDraft, path: string, next: DamageTypeFormulaNodeDraft): DamageTypeFormulaDraft {
+  const match = /^\/formula\/stages\/(\d+)\/expression((?:\/args\/\d+)*)$/.exec(path);
+  if (!match || !expressionAtPath(draft, path)) return draft;
+  const stageIndex = Number(match[1]);
+  const indexes = [...match[2]!.matchAll(/\/args\/(\d+)/g)].map(part => Number(part[1]));
+  function update(node: DamageTypeFormulaNodeDraft, remaining: number[]): DamageTypeFormulaNodeDraft {
+    if (!remaining.length) return next;
+    if (!('args' in node)) return node;
+    const [head, ...tail] = remaining;
+    return { ...node, args: node.args.map((child, index) => index === head ? update(child, tail) : child) };
+  }
+  return { ...draft, stages: draft.stages.map((stage, index) => index === stageIndex
+    ? { ...stage, expression: update(stage.expression, indexes) } : stage) };
+}
 export function countDamageTypeFormulaNodes(node: DamageTypeFormulaNodeDraft): number {
-  if (node.nodeType === 'OPERATION') {
-    return 1 + countDamageTypeFormulaNodes(node.left) + countDamageTypeFormulaNodes(node.right);
-  }
-  return 1;
+  return 1 + ('args' in node ? node.args.reduce((sum, child) => sum + countDamageTypeFormulaNodes(child), 0) : 0);
 }
-
-export function measureDamageTypeFormulaDepth(node: DamageTypeFormulaNodeDraft, depth = 1): number {
-  if (node.nodeType !== 'OPERATION') return depth;
-  return Math.max(
-    measureDamageTypeFormulaDepth(node.left, depth + 1),
-    measureDamageTypeFormulaDepth(node.right, depth + 1)
-  );
+export function measureDamageTypeFormulaDepth(node: DamageTypeFormulaNodeDraft): number {
+  return 1 + ('args' in node ? Math.max(0, ...node.args.map(measureDamageTypeFormulaDepth)) : 0);
 }
-
-function depthAtPath(node: DamageTypeFormulaNodeDraft, relative: string, depth = 1): number {
-  if (!relative) return depth;
-  let current = node;
-  let currentDepth = depth;
-  for (const part of relative.split('.').filter(Boolean)) {
-    const next = childAt(current, part);
-    if (!next) return currentDepth;
-    current = next;
-    currentDepth += 1;
+export function canReplaceDamageTypeFormulaNode(draft: DamageTypeFormulaDraft, path: string, next: DamageTypeFormulaNodeDraft) {
+  const updated = updateFormulaDraftAtPath(draft, path, next);
+  const limits = FORMULA_SCHEMA['x-limits'];
+  if (updated.stages.reduce((sum, stage) => sum + countDamageTypeFormulaNodes(stage.expression), 0) > limits.maxNodes) {
+    return { ok: false as const, path, message: `整份公式节点不能超过 ${limits.maxNodes} 个。` };
   }
-  return currentDepth;
+  if (updated.stages.some(stage => measureDamageTypeFormulaDepth(stage.expression) > limits.maxDepth)) {
+    return { ok: false as const, path, message: `公式深度不能超过 ${limits.maxDepth} 层。` };
+  }
+  return { ok: true as const };
 }
-
-export function canExpandDamageTypeFormulaOperation(
-  stage: DamageTypeFormulaStageKey,
-  root: DamageTypeFormulaNodeDraft,
-  path: string
-): { ok: true } | { ok: false; path: string; message: string } {
-  const nextCount = countDamageTypeFormulaNodes(root) + 2;
-  if (nextCount > DAMAGE_TYPE_FORMULA_MAX_NODES) {
-    return {
-      ok: false,
-      path,
-      message: `公式节点总数不能超过 ${DAMAGE_TYPE_FORMULA_MAX_NODES}。`
-    };
-  }
-  const parentDepth = depthAtPath(root, relativeToStage(stage, path));
-  if (parentDepth + 1 > DAMAGE_TYPE_FORMULA_MAX_DEPTH) {
-    return {
-      ok: false,
-      path,
-      message: `公式深度不能超过 ${DAMAGE_TYPE_FORMULA_MAX_DEPTH}。`
-    };
-  }
-  return { ok: true };
+const ISSUE_MESSAGES: Record<string, string> = {
+  FORMULA_INVALID_STRUCTURE: '字段不完整或格式不合法。', FORMULA_INVALID_DECIMAL: '常量必须是可表示的有限十进制数。',
+  FORMULA_DUPLICATE_KEY: '标识重复，请使用不同标识。', FORMULA_UNKNOWN_INPUT: '引用的输入不存在。',
+  FORMULA_UNKNOWN_STAGE: '引用的结果不存在。', FORMULA_UNKNOWN_BINDING: '输入须选择当前游戏启用属性、来源或目标、当前帧及基础／加成／最终值。',
+  FORMULA_CYCLE: '结果引用形成循环，请修复。', FORMULA_LIMIT: '公式超过共同节点、指令或深度限制。'
+};
+export function validateDamageTypeFormulaDraft(draft: DamageTypeFormulaDraft, attributes: readonly DamageTypeFormulaAttributeOption[]): DamageTypeFormulaValidation {
+  const problem = validateFormulaDefinition(draft, damageTypeFormulaAllowedBindings(attributes));
+  if (problem) return { ok: false, nodeIssues: [{ path: normalizeDamageTypeFormulaFieldPath(`/formula${problem.path}`) ?? '/formula',
+    message: `${ISSUE_MESSAGES[problem.code]}（${problem.code}）` }] };
+  return { ok: true, formula: structuredClone(draft) as DamageTypeFormula };
 }
-
-function isOwner(value: string): value is FormulaAttributeOwner {
-  return ATTRIBUTE_OWNERS.some((owner) => owner === value);
+/** 只展示作者表达式，不展开引用，不求运行数值。 */
+export function previewDamageTypeFormulaStage(node: DamageTypeFormulaNodeDraft, draft: DamageTypeFormulaDraft): string {
+  if (node.op === 'empty') return '（空节点）';
+  if (node.op === 'const') return node.value || '（未填常量）';
+  if (node.op === 'read') {
+    const input = draft.inputs.find(input => input.key === node.inputKey);
+    return input ? `${input.key}（${damageTypeFormulaOwnerLabel(input.binding.object)}.${input.binding.attributeKey}.${damageTypeFormulaValueKindLabel(input.binding.valueKind)}）`
+      : `（输入 ${node.inputKey || '未选择'}）`;
+  }
+  if (node.op === 'ref') {
+    const stage = draft.stages.find(stage => stage.key === node.stageKey);
+    return stage ? `${stage.name}（${stage.key}）` : `（结果 ${node.stageKey || '未选择'}）`;
+  }
+  return `${damageTypeFormulaOperationLabel(node.op)}(${node.args.map(argument => previewDamageTypeFormulaStage(argument, draft)).join('，')}${node.op === 'round' ? `；小数位 ${node.decimals ?? '未填'}` : ''})`;
 }
-
-function isValueKind(value: string): value is FormulaAttributeValueKind {
-  return ATTRIBUTE_VALUE_KINDS.some((kind) => kind === value);
-}
-
-function isOperation(value: string): value is FormulaOperation {
-  return OPERATIONS.some((operation) => operation === value);
-}
-
-function triplesEqual(
-  left: DamageTypeFormulaAttributeTriple,
-  right: DamageTypeFormulaAttributeTriple
-): boolean {
-  return left.attributeOwner === right.attributeOwner
-    && left.attributeKey === right.attributeKey
-    && left.attributeValueKind === right.attributeValueKind;
-}
-
-export function retainedDisabledAttributeTriples(
-  draft: DamageTypeFormulaDraft,
-  attributes: readonly DamageTypeFormulaAttributeOption[]
-): DamageTypeFormulaAttributeTriple[] {
-  const triples: DamageTypeFormulaAttributeTriple[] = [];
-  for (const stage of DAMAGE_TYPE_FORMULA_STAGE_KEYS) walk(draft[stage]);
-  return triples;
-
-  function walk(node: DamageTypeFormulaNodeDraft): void {
-    if (node.nodeType === 'OPERATION') {
-      walk(node.left);
-      walk(node.right);
-      return;
-    }
-    if (node.nodeType !== 'ATTRIBUTE' || !node.attributeOwner || !node.attributeKey || !node.attributeValueKind) {
-      return;
-    }
-    if (!isOwner(node.attributeOwner) || !isValueKind(node.attributeValueKind)) return;
-    const attribute = attributes.find((item) => item.attributeKey === node.attributeKey);
-    if (attribute?.status !== 'DISABLED') return;
-    const triple = {
-      attributeOwner: node.attributeOwner,
-      attributeKey: node.attributeKey,
-      attributeValueKind: node.attributeValueKind
-    };
-    if (!triples.some((item) => triplesEqual(item, triple))) triples.push(triple);
-  }
-}
-
-export function selectableAttributeOptions(
-  attributes: readonly DamageTypeFormulaAttributeOption[],
-  retained: readonly DamageTypeFormulaAttributeTriple[],
-  node: DamageTypeFormulaNodeDraft
-): Array<{ attributeKey: string; label: string }> {
-  const options: Array<{ attributeKey: string; label: string }> = [];
-  const seen = new Set<string>();
-  for (const attribute of attributes) {
-    if (attribute.status !== 'ENABLED' || seen.has(attribute.attributeKey)) continue;
-    seen.add(attribute.attributeKey);
-    options.push({
-      attributeKey: attribute.attributeKey,
-      label: `${attribute.name}（${attribute.attributeKey}）`
-    });
-  }
-  if (node.nodeType !== 'ATTRIBUTE' || !node.attributeKey || seen.has(node.attributeKey)) return options;
-  const attribute = attributes.find((item) => item.attributeKey === node.attributeKey);
-  const retainedMatch = isOwner(node.attributeOwner)
-    && isValueKind(node.attributeValueKind)
-    && retained.some((item) => triplesEqual(item, {
-      attributeOwner: node.attributeOwner as FormulaAttributeOwner,
-      attributeKey: node.attributeKey,
-      attributeValueKind: node.attributeValueKind as FormulaAttributeValueKind
-    }));
-  if (attribute?.status === 'DISABLED' && retainedMatch) {
-    options.push({
-      attributeKey: node.attributeKey,
-      label: `${attribute.name}（${node.attributeKey}）已停用`
-    });
-  } else if (!attribute) {
-    options.push({
-      attributeKey: node.attributeKey,
-      label: `${node.attributeKey}（目录中不存在）`
-    });
-  }
-  return options;
-}
-
-function parseFixedValue(raw: string): number | null {
-  const trimmed = raw.trim();
-  if (!FIXED_VALUE_PATTERN.test(trimmed)) return null;
-  const value = Number(trimmed);
-  return Number.isFinite(value) ? value : null;
-}
-
-function buildNode(
-  node: DamageTypeFormulaNodeDraft,
-  stage: DamageTypeFormulaStageKey,
-  path: string,
-  attributes: readonly DamageTypeFormulaAttributeOption[],
-  retained: readonly DamageTypeFormulaAttributeTriple[],
-  issues: DamageTypeFormulaNodeIssue[]
-): DamageTypeFormulaNode | null {
-  if (node.nodeType === 'empty') {
-    issues.push({ path, message: '请选择节点类型。' });
-    return null;
-  }
-  if (node.nodeType === 'OPERATION') {
-    const operationReady = isOperation(node.operation);
-    if (!operationReady) {
-      issues.push({ path, message: node.operation ? '运算类型无效。' : '请选择运算。' });
-    }
-    const left = buildNode(node.left, stage, `${path}.operands[0]`, attributes, retained, issues);
-    const right = buildNode(node.right, stage, `${path}.operands[1]`, attributes, retained, issues);
-    if (!operationReady || !left || !right) return null;
-    return { nodeType: 'OPERATION', operation: node.operation as FormulaOperation, operands: [left, right] };
-  }
-  if (node.nodeType === 'FIXED') {
-    if (!node.value.trim()) {
-      issues.push({ path, message: '请填写固定值。' });
-      return null;
-    }
-    const value = parseFixedValue(node.value);
-    if (value === null) {
-      issues.push({ path, message: '固定值必须是有限数字。' });
-      return null;
-    }
-    return { nodeType: 'FIXED', value };
-  }
-  if (node.nodeType === 'ATTRIBUTE') {
-    if (!isOwner(node.attributeOwner)) {
-      issues.push({ path, message: node.attributeOwner ? '属性对象无效。' : '请选择属性对象。' });
-      return null;
-    }
-    if (!node.attributeKey.trim()) {
-      issues.push({ path, message: '请选择属性。' });
-      return null;
-    }
-    if (!isValueKind(node.attributeValueKind)) {
-      issues.push({ path, message: node.attributeValueKind ? '属性取值方式无效。' : '请选择属性取值方式。' });
-      return null;
-    }
-    const attribute = attributes.find((item) => item.attributeKey === node.attributeKey);
-    if (!attribute) {
-      issues.push({ path, message: `属性不存在：${node.attributeKey}` });
-      return null;
-    }
-    const triple: DamageTypeFormulaAttributeTriple = {
-      attributeOwner: node.attributeOwner,
-      attributeKey: node.attributeKey,
-      attributeValueKind: node.attributeValueKind
-    };
-    if (attribute.status !== 'ENABLED' && !retained.some((item) => triplesEqual(item, triple))) {
-      issues.push({
-        path,
-        message: attribute.status === 'DISABLED' ? '已停用的属性不能用于新的选择。' : '属性不可用。'
-      });
-      return null;
-    }
-    return { nodeType: 'ATTRIBUTE', ...triple };
-  }
-  if (node.nodeType === 'STAGE_RESULT') {
-    const prior = priorDamageTypeFormulaStageResults(stage);
-    if (prior.length === 0) {
-      issues.push({ path, message: '当前阶段没有可引用的前序结果。' });
-      return null;
-    }
-    if (!node.stageKey) {
-      issues.push({ path, message: '请选择前序结果。' });
-      return null;
-    }
-    if (!isDamageTypeFormulaStageResultKey(node.stageKey) || !prior.includes(node.stageKey)) {
-      issues.push({ path, message: '只能引用更早的阶段结果。' });
-      return null;
-    }
-    return { nodeType: 'STAGE_RESULT', stageKey: node.stageKey };
-  }
-  issues.push({ path, message: '节点类型无效。' });
-  return null;
-}
-
-export function validateDamageTypeFormulaDraft(
-  draft: DamageTypeFormulaDraft,
-  attributes: readonly DamageTypeFormulaAttributeOption[],
-  retained: readonly DamageTypeFormulaAttributeTriple[]
-): DamageTypeFormulaValidation {
-  const issues: DamageTypeFormulaNodeIssue[] = [];
-  const formula = {} as DamageTypeFormula;
-  for (const stage of DAMAGE_TYPE_FORMULA_STAGE_KEYS) {
-    const path = `formula.${stage}`;
-    const node = draft[stage];
-    if (countDamageTypeFormulaNodes(node) > DAMAGE_TYPE_FORMULA_MAX_NODES) {
-      issues.push({ path, message: `公式节点总数不能超过 ${DAMAGE_TYPE_FORMULA_MAX_NODES}。` });
-    }
-    if (measureDamageTypeFormulaDepth(node) > DAMAGE_TYPE_FORMULA_MAX_DEPTH) {
-      issues.push({ path, message: `公式深度不能超过 ${DAMAGE_TYPE_FORMULA_MAX_DEPTH}。` });
-    }
-    const built = buildNode(node, stage, path, attributes, retained, issues);
-    if (built) formula[stage] = built;
-  }
-  if (issues.length > 0 || DAMAGE_TYPE_FORMULA_STAGE_KEYS.some((stage) => !formula[stage])) {
-    if (issues.length === 0) issues.push({ path: 'formula', message: '结算公式不完整。' });
-    return { ok: false, nodeIssues: issues };
-  }
-  return { ok: true, formula };
-}
-
-function previewNode(
-  node: DamageTypeFormulaNodeDraft,
-  stage: DamageTypeFormulaStageKey,
-  catalog: readonly DamageTypeFormulaAttributeOption[],
-  retained: readonly DamageTypeFormulaAttributeTriple[],
-  wrap: boolean,
-  stageReferenceStyle: 'label' | 'symbol'
-): DamageTypeFormulaPreviewSegment[] {
-  if (node.nodeType === 'empty') return [{ text: '（空节点）', error: true }];
-  if (node.nodeType === 'FIXED') {
-    if (!node.value.trim()) return [{ text: '（未填固定值）', error: true }];
-    if (parseFixedValue(node.value) === null) return [{ text: node.value.trim(), error: true }];
-    return [{ text: node.value.trim() }];
-  }
-  if (node.nodeType === 'STAGE_RESULT') {
-    if (!node.stageKey) return [{ text: '（未选前序结果）', error: true }];
-    const prior = priorDamageTypeFormulaStageResults(stage);
-    if (!isDamageTypeFormulaStageResultKey(node.stageKey) || !prior.includes(node.stageKey)) {
-      return [{ text: node.stageKey, error: true }];
-    }
-    const referencedStage = damageTypeFormulaStageFromResultKey(node.stageKey);
-    const label = damageTypeFormulaStageLabel(referencedStage);
-    return [{
-      text: stageReferenceStyle === 'symbol'
-        ? `${damageTypeFormulaStageSymbol(referencedStage)}（${label}）`
-        : label
-    }];
-  }
-  if (node.nodeType === 'ATTRIBUTE') {
-    if (!node.attributeOwner || !node.attributeKey || !node.attributeValueKind) {
-      return [{ text: '（属性不完整）', error: true }];
-    }
-    const owner = damageTypeFormulaOwnerLabel(node.attributeOwner) || node.attributeOwner;
-    const kind = damageTypeFormulaValueKindLabel(node.attributeValueKind) || node.attributeValueKind;
-    const attribute = catalog.find((item) => item.attributeKey === node.attributeKey);
-    const tripleReady = isOwner(node.attributeOwner) && isValueKind(node.attributeValueKind);
-    const retainedMatch = tripleReady && retained.some((item) => triplesEqual(item, {
-      attributeOwner: node.attributeOwner as FormulaAttributeOwner,
-      attributeKey: node.attributeKey,
-      attributeValueKind: node.attributeValueKind as FormulaAttributeValueKind
-    }));
-    if (!attribute || (attribute.status !== 'ENABLED' && !retainedMatch)) {
-      return [{ text: `${owner}.${attribute?.name ?? node.attributeKey}.${kind}`, error: true }];
-    }
-    return [{ text: `${owner}.${attribute.name}.${kind}` }];
-  }
-  if (!isOperation(node.operation)) return [{ text: '（未选运算）', error: true }];
-  const left = previewNode(node.left, stage, catalog, retained, true, stageReferenceStyle);
-  const right = previewNode(node.right, stage, catalog, retained, true, stageReferenceStyle);
-  if (node.operation === 'MIN' || node.operation === 'MAX') {
-    const label = node.operation === 'MIN' ? '取较小值' : '取较大值';
-    return [{ text: `${label}(` }, ...left, { text: ', ' }, ...right, { text: ')' }];
-  }
-  const operator = node.operation === 'ADD'
-    ? ' + '
-    : node.operation === 'SUBTRACT'
-      ? ' − '
-      : node.operation === 'MULTIPLY'
-        ? ' × '
-        : ' ÷ ';
-  const body = [...left, { text: operator }, ...right];
-  const needsWrap = wrap || node.operation === 'SUBTRACT' || node.operation === 'DIVIDE';
-  if (!needsWrap || !wrap) return body;
-  return [{ text: '(' }, ...body, { text: ')' }];
-}
-
-export function previewDamageTypeFormulaStage(
-  node: DamageTypeFormulaNodeDraft,
-  stage: DamageTypeFormulaStageKey,
-  catalog: readonly DamageTypeFormulaAttributeOption[],
-  retained: readonly DamageTypeFormulaAttributeTriple[] = []
-): DamageTypeFormulaPreviewSegment[] {
-  return previewNode(node, stage, catalog, retained, false, 'label');
-}
-
-export function previewDamageTypeFormulaChain(
-  draft: DamageTypeFormulaDraft,
-  catalog: readonly DamageTypeFormulaAttributeOption[],
-  retained: readonly DamageTypeFormulaAttributeTriple[] = []
-): DamageTypeFormulaChainPreview[] {
-  return DAMAGE_TYPE_FORMULA_STAGE_KEYS.map((stageKey) => ({
-    stageKey,
-    symbol: damageTypeFormulaStageSymbol(stageKey),
-    label: damageTypeFormulaStageLabel(stageKey),
-    segments: previewNode(draft[stageKey], stageKey, catalog, retained, false, 'symbol')
-  }));
-}
-
 function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
-
 export function normalizeDamageTypeFormulaFieldPath(field: string): string | null {
-  if (!field.startsWith('formula.')) return null;
-  const parts = field.slice('formula.'.length).split('.').filter(Boolean);
-  const stage = parts[0];
-  if (!isDamageTypeFormulaStageKey(stage)) return null;
-  const kept: string[] = [stage];
-  for (const part of parts.slice(1)) {
-    if (/^operands\[\d+\]$/.test(part)) {
-      if (part !== 'operands[0]' && part !== 'operands[1]') return null;
-      kept.push(part);
-      continue;
-    }
-    break;
+  let pointer = field;
+  if (pointer.startsWith('inputs/') || pointer.startsWith('stages/') || pointer === 'outputStageKey') pointer = `/${pointer}`;
+  if (pointer.startsWith('formula.')) pointer = `/${pointer.replace(/\[(\d+)\]/g, '.$1').split('.').join('/')}`;
+  if (pointer.startsWith('/stages/') || pointer.startsWith('/inputs/') || pointer === '/outputStageKey') pointer = `/formula${pointer}`;
+  if (/^\/formula\/stages\/\d+\/expression/.test(pointer)) {
+    const match = /^\/formula\/stages\/\d+\/expression(?:\/args\/\d+)*/.exec(pointer);
+    return match?.[0] ?? null;
   }
-  return `formula.${kept.join('.')}`;
+  if (/^\/formula\/inputs\/\d+(?:\/key|\/binding(?:\/(?:object|attributeKey|view|valueKind))?)?$/.test(pointer)
+    || /^\/formula\/stages\/\d+\/(?:key|name)$/.test(pointer) || pointer === '/formula/outputStageKey') return pointer;
+  return pointer === '/formula' ? pointer : null;
 }
-
-export function mapDamageTypeFormulaFieldIssues(source: unknown): {
-  nodeIssues: DamageTypeFormulaNodeIssue[];
-  unmappedMessages: string[];
-} {
+export function mapDamageTypeFormulaFieldIssues(source: unknown) {
   const nodeIssues: DamageTypeFormulaNodeIssue[] = [];
   const unmappedMessages: string[] = [];
   const details = isRecord(source) && 'details' in source ? source.details : source;
-  if (!isRecord(details) || !Array.isArray(details.fieldIssues)) {
-    return { nodeIssues, unmappedMessages };
-  }
-  for (const rawIssue of details.fieldIssues) {
-    if (!isRecord(rawIssue)) {
-      unmappedMessages.push('字段值不合法。');
-      continue;
-    }
-    const message = typeof rawIssue.message === 'string' && rawIssue.message.trim()
-      ? rawIssue.message.trim()
-      : '字段值不合法。';
-    const field = typeof rawIssue.field === 'string' ? rawIssue.field : '';
-    const path = field ? normalizeDamageTypeFormulaFieldPath(field) : null;
-    if (!path) {
-      unmappedMessages.push(field ? `${field}：${message}` : message);
-      continue;
-    }
-    nodeIssues.push({ path, message });
+  if (!isRecord(details) || !Array.isArray(details.fieldIssues)) return { nodeIssues, unmappedMessages };
+  for (const raw of details.fieldIssues) {
+    if (!isRecord(raw)) { unmappedMessages.push('字段值不合法。'); continue; }
+    const message = typeof raw.message === 'string' && raw.message.trim() ? raw.message.trim() : '字段值不合法。';
+    const field = typeof raw.field === 'string' ? raw.field : typeof raw.path === 'string' ? raw.path : '';
+    const path = normalizeDamageTypeFormulaFieldPath(field);
+    if (path) nodeIssues.push({ path, message });
+    else unmappedMessages.push(field ? `${field}：${message}` : message);
   }
   return { nodeIssues, unmappedMessages };
 }
-
-export function partitionFormulaNodeIssues(
-  draft: DamageTypeFormulaDraft,
-  issues: readonly DamageTypeFormulaNodeIssue[]
-): { placed: DamageTypeFormulaNodeIssue[]; unplaced: DamageTypeFormulaNodeIssue[] } {
-  const placed: DamageTypeFormulaNodeIssue[] = [];
-  const unplaced: DamageTypeFormulaNodeIssue[] = [];
+export function partitionFormulaNodeIssues(draft: DamageTypeFormulaDraft, issues: readonly DamageTypeFormulaNodeIssue[]) {
+  const placed: DamageTypeFormulaNodeIssue[] = [], unplaced: DamageTypeFormulaNodeIssue[] = [];
   for (const issue of issues) {
-    if (getDamageTypeFormulaNodeAtPath(draft, issue.path)) placed.push(issue);
+    if (expressionAtPath(draft, issue.path)) placed.push(issue);
     else unplaced.push(issue);
   }
   return { placed, unplaced };
 }
-
-export function visibleFormulaIssueMessages(
-  draft: DamageTypeFormulaDraft,
-  mapped: { nodeIssues: readonly DamageTypeFormulaNodeIssue[]; unmappedMessages: readonly string[] }
-): string[] {
-  const { unplaced } = partitionFormulaNodeIssues(draft, mapped.nodeIssues);
-  return [...mapped.unmappedMessages, ...unplaced.map((issue) => issue.message)];
+export function visibleFormulaIssueMessages(draft: DamageTypeFormulaDraft,
+  mapped: { nodeIssues: readonly DamageTypeFormulaNodeIssue[]; unmappedMessages: readonly string[] }) {
+  return [...mapped.unmappedMessages, ...partitionFormulaNodeIssues(draft, mapped.nodeIssues).unplaced.map(issue => issue.message)];
 }
-
 function canonical(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(canonical);
   if (value && typeof value === 'object') {

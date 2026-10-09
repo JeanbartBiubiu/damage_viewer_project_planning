@@ -1,6 +1,7 @@
+import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { describe, expect, it } from 'vitest';
 import { equipmentSimulationSample } from '../../tests/fixtures/simulationEquipment';
-import { assembleSimulation, inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } from './simulationAdapter';
+import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } from './simulationAdapter';
 import { continuousAttackRequest } from './continuousAttackRequest';
 import { simulationHealthLimit } from './simulationEquipment';
 
@@ -141,7 +142,7 @@ describe('阶段4A纯属性装备装配', () => {
     } });
     expect(request.combatants[0]!.attributes.bonus_attack_speed_percent!.base).toBe(0.2);
     expect(request.combatants[0]!.attributes.attack_speed!.resolved).toBe(0.651);
-    expect(request.sharedProviders![0]!.processes![0]!.cooldown!.durationMs).toEqual({ op: 'ref', ref: 'selected/sample_basic_attack/interval' });
+    expect(request.sharedProviders![0]!.processes![0]!.cooldown!.durationMs).toEqual({ op: 'ref', ref: 'selected/sample_basic_attack/levels/1/1/interval' });
     snapshot.source.selectedLevelValues.attack_speed = 0;
     expect(assembleSimulation(snapshot, inputs, health).compileRequest.combatants[0]!.attributes.attack_speed!.base).toBe(0);
   });
@@ -157,7 +158,7 @@ describe('阶段4A纯属性装备装配', () => {
     const otherGame = equipmentSimulationSample(['item_1036']);
     otherGame.gameId = 'other';
     otherGame.source.selectedEquipment[0]!.equipment.gameId = 'other';
-    expect(() => inspectSimulationSnapshot(otherGame)).toThrow(/配置集合只能包含默认来源及实际只读依赖/);
+    expect(() => inspectSimulationSnapshot(otherGame)).toThrow(/配置集合只能包含默认来源及实际只读依赖|公式不属于当前游戏和技能/);
   });
 
   it('未知属性、非有限装备数值、属性范围及不完整所选集合明确失败', () => {
@@ -224,3 +225,6 @@ describe('阶段4A纯属性装备装配', () => {
     await expect(continuousAttackRequest(prepared, snapshot, { durationMs: 1000, attackSpeedInputMax: 2 })).rejects.toThrow(/不能夹带被动/);
   });
 });
+
+const assembleSimulation = (...args: Parameters<typeof raw_assembleSimulation>): ReturnType<typeof raw_assembleSimulation> => { approveSnapshotFixture(args[0]); return raw_assembleSimulation(...args); };
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };

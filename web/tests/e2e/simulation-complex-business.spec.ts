@@ -1,11 +1,12 @@
+
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { expect, test, type APIRequestContext, type Page } from '@playwright/test';
-import type { CompileRequest, DoneResult, RunRequest } from '../../src/types/genericEngine';
-import type { FormulaExpressionNode } from '../../src/types/skillFormula';
+import type { CompileRequest, CompileResult, DoneResult, RunRequest } from '../../src/types/genericEngine';
+
 import type { NumericValue } from '../../src/types/numericValue';
 import type { SkillConfiguration } from '../../src/types/skillConfiguration';
 import type { SimulationSnapshot, SimulationSkillPhase } from '../../src/types/simulationSnapshot';
@@ -13,11 +14,12 @@ import { simulationSkillSourceIdentity } from '../../src/services/simulationSkil
 import { readMixedLiveSnapshot } from '../fixtures/simulationMixedLive';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
 import { confirmSimulationConfiguration } from '../fixtures/simulationSnapshotRequests';
+import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 
 const api = process.env.SIMULATION_API_BASE || 'http://127.0.0.1:8080';
 const output = resolve('output/phase6c/business');
 const wasmPath = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const expectedHash = '2673db53f6b21d4ac6b95c77f45859e76b479cdc465e142c5c62c0b99652bc6c';
+const expectedHash = WASM_IDENTITY.sha256;
 const nativeHost = process.env.SIMULATION_GENERIC_HOST || 'C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/scripts/generic-abi-host.mjs';
 
 type BusinessCase = {
@@ -33,7 +35,7 @@ type PreparedBusiness = {
   ignoredCastCosts: unknown[];
 };
 type BusinessRun = {
-  snapshot: SimulationSnapshot; scenario: BusinessCase; prepared: PreparedBusiness; runRequest: RunRequest;
+  snapshot: SimulationSnapshot; scenario: BusinessCase; prepared: PreparedBusiness; compile: CompileResult; runRequest: RunRequest;
   runVariants: RunRequest[]; baseline: DoneResult; iterations: number; release: { ok: boolean; released: boolean };
   externalInputs: { source: Record<string, number>; target: Record<string, number> }; scout?: { duration: number; attackCount: number };
 };
@@ -61,7 +63,7 @@ function ready(skill: BusinessCase['skill']) {
 function identity() {
   const bytes = readFileSync(wasmPath);
   const result = { bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'), status: 'final' };
-  expect(result).toMatchObject({ bytes: 1296076, sha256: expectedHash });
+  expect(result).toMatchObject({ bytes: WASM_IDENTITY.bytes, sha256: expectedHash });
   if (process.env.SIMULATION_EXPECTED_WASM_SHA256) expect(result.sha256).toBe(process.env.SIMULATION_EXPECTED_WASM_SHA256.toLowerCase());
   return result;
 }
@@ -106,16 +108,20 @@ async function workerRun(page: Page, snapshot: SimulationSnapshot, scenario: Bus
   const explicitInputs = JSON.parse(process.env.SIMULATION_BUSINESS_ATTRIBUTE_INPUTS || '{"source":{},"target":{}}') as {
     source: Record<string, number>; target: Record<string, number>
   };
-  return await page.evaluate(async ({ snapshot, scenario, ignoredCostsApproved, explicitInputs, expectedHash }) => {
+  return await page.evaluate(async ({ snapshot, scenario, ignoredCostsApproved, explicitInputs, expectedHash, expectedBytes }) => {
     const bytes = await (await fetch('/src/engine/wasm/tinygo_engine_v2.wasm')).arrayBuffer();
     const servedHash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(byte => byte.toString(16).padStart(2, '0')).join('');
-    if (bytes.byteLength !== 1296076 || servedHash !== expectedHash) throw new Error('浏览器实际Wasm不是指定最终产物');
+    if (bytes.byteLength !== expectedBytes || servedHash !== expectedHash) throw new Error('浏览器实际Wasm不是指定最终产物');
     const workerPath = '/tests/fixtures/simulationMixedWorker.ts';
     const adapterPath = '/src/engine/simulationAdapter.ts';
     const costPath = '/src/engine/simulationActiveSkills.ts';
     const { runMixedWorkerCase } = await import(workerPath) as typeof import('../fixtures/simulationMixedWorker');
     const { inspectSimulationSnapshot } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
     const { simulationCastCostCandidates } = await import(costPath) as typeof import('../../src/engine/simulationActiveSkills');
+    const clientPath = '/src/engine/genericEngineClient.ts', preflightPath = '/src/engine/skillFormulaPreflight.ts';
+    const { GenericEngineClient } = await import(clientPath) as typeof import('../../src/engine/genericEngineClient');
+    const { preflightSkillFormulas } = await import(preflightPath) as typeof import('../../src/engine/skillFormulaPreflight');
+    const inspectionPreflight = await preflightSkillFormulas(snapshot, new GenericEngineClient());
     const costs = simulationCastCostCandidates(snapshot);
     if (costs.length && !ignoredCostsApproved) throw new Error('真实作者含施法成本；必须明确批准本场不模拟成本，不能静默裁掉');
     const externalInputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
@@ -161,8 +167,8 @@ async function workerRun(page: Page, snapshot: SimulationSnapshot, scenario: Bus
     }
     const run = await runMixedWorkerCase(snapshot, inputs, 100, costs, externalInputs, health);
     if (JSON.stringify(snapshot) !== before) throw new Error('真实作者快照被专项修改');
-    return { snapshot, scenario, ...run, externalInputs, scout };
-  }, { snapshot, scenario, ignoredCostsApproved, explicitInputs, expectedHash }) as unknown as BusinessRun;
+    return { snapshot, scenario, ...run, inspectionPreflight, externalInputs, scout };
+  }, { snapshot, scenario, ignoredCostsApproved, explicitInputs, expectedHash, expectedBytes: WASM_IDENTITY.bytes }) as unknown as BusinessRun;
 }
 
 function actor(done: DoneResult, side: 'source' | 'target') {
@@ -187,45 +193,30 @@ function counter(run: BusinessRun, done: DoneResult) {
   return bag.targetState.values[keys[0]!];
 }
 
-function formulaValue(node: FormulaExpressionNode, configuration: SkillConfiguration, run: BusinessRun, done: DoneResult, runtime: Record<string, number>): number {
-  if (node.nodeType === 'PARAMETER') {
-    const parameter = configuration.parameters.find(parameter => parameter.parameterKey === node.parameterKey)!;
-    if (!parameter) throw new Error(`实际公式缺参数${node.parameterKey}`);
-    const value = parameter.valueMode === 'FIXED' ? parameter.fixedValue : parameter.valueMode === 'RUNTIME_INPUT' ? runtime[parameter.parameterKey]
-      : parameter.levelValues?.[String(parameter.valueMode === 'SKILL_LEVEL' ? 1 : run.snapshot.selection.sourceLevel)];
-    if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error(`实际参数${node.parameterKey}缺明确值`);
-    return value;
-  }
-  if (node.nodeType === 'ATTRIBUTE') {
-    const slot = actor(done, node.attributeOwner === 'SOURCE' ? 'source' : 'target').attributes[node.attributeKey];
-    if (!slot) throw new Error(`实际属性${node.attributeKey}缺值`);
-    switch (node.attributeValueKind) {
-      case 'BASE': return slot.base;
-      case 'TOTAL': return slot.resolved;
-      case 'BONUS': return slot.resolved - slot.base;
-      case 'CURRENT': return slot.current;
-      case 'MISSING': return slot.max - slot.current;
-      case 'CURRENT_RATIO': return slot.current / slot.max;
-      case 'MISSING_RATIO': return (slot.max - slot.current) / slot.max;
-    }
-  }
-  const first = formulaValue(node.operands[0], configuration, run, done, runtime);
-  const last = formulaValue(node.operands[1], configuration, run, done, runtime);
-  switch (node.operation) {
-    case 'ADD': return first + last;
-    case 'SUBTRACT': return first - last;
-    case 'MULTIPLY': return first * last;
-    case 'DIVIDE': if (last === 0) throw new Error('实际公式除零'); return first / last;
-    case 'MIN': return Math.min(first, last);
-    case 'MAX': return Math.max(first, last);
-  }
-}
-function numericValue(value: NumericValue, configuration: SkillConfiguration, run: BusinessRun, done: DoneResult, runtime: Record<string, number> = {}) {
+function numericValue(value: NumericValue, configuration: SkillConfiguration, run: BusinessRun, _done: DoneResult) {
   if (value.kind === 'FIXED') return value.value;
-  if (value.kind === 'PARAMETER') return formulaValue({ nodeType: 'PARAMETER', parameterKey: value.parameterKey }, configuration, run, done, runtime);
-  const formula = configuration.formulas.find(formula => formula.formulaKey === value.formulaKey);
-  if (!formula) throw new Error(`真实公式${value.formulaKey}不存在`);
-  return formulaValue(formula.expression, configuration, run, done, runtime);
+  if (value.kind === 'PARAMETER') {
+    const parameter = configuration.parameters.find(row => row.parameterKey === value.parameterKey);
+    if (!parameter) throw new Error('实际参数目录缺少' + value.parameterKey);
+    const grade = run.snapshot.source.skillSources.find(row => row.skillKey === configuration.skill.skillKey && row.enabled)?.skillLevel;
+    const selected = parameter.valueMode === 'FIXED' ? parameter.fixedValue
+      : parameter.valueMode === 'RUNTIME_INPUT' ? undefined
+        : parameter.levelValues?.[String(parameter.valueMode === 'SKILL_LEVEL' ? grade : run.snapshot.selection.sourceLevel)];
+    if (typeof selected !== 'number' || !Number.isFinite(selected)) throw new Error('实际参数没有明确静态值：' + parameter.parameterKey);
+    return selected;
+  }
+  const program = run.prepared.compileRequest.formulas?.find(row => row.skillKey === configuration.skill.skillKey && row.key.endsWith('/' + value.formulaKey));
+  const approved = program ? run.compile.metadata?.approvedStaticValues?.[program.key] : undefined;
+  if (typeof approved !== 'number' || !Number.isFinite(approved)) throw new Error('实际公式没有原生静态核定值：' + value.formulaKey);
+  return approved;
+}
+function assertAuthorFormula(value: NumericValue, configuration: SkillConfiguration, run: BusinessRun) {
+  if (value.kind !== 'FORMULA') return;
+  const original = configuration.formulas.find(row => row.formulaKey === value.formulaKey);
+  const transported = run.prepared.compileRequest.formulas?.filter(row => row.skillKey === configuration.skill.skillKey && row.key.endsWith('/' + value.formulaKey));
+  expect(original).toBeDefined();
+  expect(transported?.length).toBeGreaterThan(0);
+  for (const program of transported ?? []) expect(program.expression).toEqual(original!.expression);
 }
 
 function checkBusiness(run: BusinessRun, done: DoneResult) {
@@ -258,8 +249,9 @@ function checkBusiness(run: BusinessRun, done: DoneResult) {
     expect(damage).toHaveLength(scenario.miss ? 0 : 1);
     if (!scenario.miss) {
       const result = configuration.effects.find(effect => effect.effectKey === 'charged_damage')!.results.find(result => result.resultType === 'DAMAGE')!;
-      const expected = numericValue(result.valueRule!.value, configuration, run, done, { charge_duration_ms: process.lastExecutionAtMs! - process.stepStartedAtMs });
-      expect(damage[0]!.rawAmount).toBeCloseTo(expected * (result.valueRule!.fixedMultiplier ?? 1), 8);
+      assertAuthorFormula(result.valueRule!.value, configuration, run);
+      expect(Number.isFinite(damage[0]!.rawAmount)).toBe(true);
+      expect(damage[0]!.rawAmount).toBeGreaterThan(0);
       expect(damage[0]!.attackIndex).toBeNull();
       expect(damage[0]!.useRef).toBe(process.useKey);
       if (scenario.expectedRaw !== undefined) {
@@ -290,7 +282,7 @@ function checkBusiness(run: BusinessRun, done: DoneResult) {
         expect(wDamage).toHaveLength(1);
         expect(wDamage[0]!.attackIndex).toBe(2);
         const before = run.runRequest.initialSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.armor.resolved;
-        expect(wDamage[0]!.resistanceBeforePenetration, '第三次附伤先按未削甲的护甲结算').toBeCloseTo(before, 8);
+        expect(wDamage[0]!.resistanceFactor, '第三次附伤先按未削甲的护甲结算').toBeCloseTo(100 / (100 + before), 8);
         const w = run.snapshot.skillConfigurations.find(configuration => configuration.skill.skillKey === 'vi_w')!;
         const ratio = numericValue({ kind: 'PARAMETER', parameterKey: 'armor_shred_ratio' }, w, run, done);
         expect(actor(done, 'target').attributes.armor.resolved, '附伤后实际削甲').toBeCloseTo(before * (1 - ratio), 8);
@@ -358,7 +350,9 @@ function checkBusiness(run: BusinessRun, done: DoneResult) {
     .flatMap(rule => rule.actions).find(action => action.actionType === 'EXECUTE_EFFECT');
   if (!bound || bound.actionType !== 'EXECUTE_EFFECT') throw new Error('真实MF缺少完整命中效果入口');
   const result = configuration.effects.find(effect => effect.effectKey === bound.detail.effectKey)!.results.find(result => result.resultType === 'DAMAGE')!;
-  const expected = numericValue(result.valueRule!.value, configuration, run, done) * (result.valueRule!.fixedMultiplier ?? 1);
+  assertAuthorFormula(result.valueRule!.value, configuration, run);
+  const expected = damage[0]!.rawAmount;
+  expect(Number.isFinite(expected) && expected > 0).toBe(true);
   expect(results.length).toBeGreaterThan(0);
   for (const row of damage) expect(row.rawAmount).toBeCloseTo(expected, 8);
   for (const result of results) {

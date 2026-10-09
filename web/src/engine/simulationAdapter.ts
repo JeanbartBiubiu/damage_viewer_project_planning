@@ -1,10 +1,10 @@
+import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
+import { consumedApprovedFormulaValues, resetConsumedApprovedFormulaValues, collectedCommonFormulaDefinitions } from './approvedFormulaValues';
+import { TypeCatalogEntries } from './typeCatalogEntries';
 import type { Attribute } from '../types/attribute';
-import {
-  DAMAGE_TYPE_FORMULA_STAGE_KEYS, damageTypeFormulaStageFromResultKey,
-  type DamageTypeFormulaNode
-} from '../types/damageTypeFormula';
+
 import type {
-  AbilityDefinition, AttributeSlot, BasicAttackPlan, CompileRequest, GenericDamageTypeFormula, GenericFormulaExpr,
+  AbilityDefinition, AttributeSlot, BasicAttackPlan, CompileRequest, GenericFormulaExpr,
   GenericRules, OperationDefinition, ProcessDefinition, ProviderDefinition, RunRequest, SkillHitCandidate
 } from '../types/genericEngine';
 import type { SkillEffect, SkillEffectResult } from '../types/skillEffect';
@@ -20,7 +20,7 @@ import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
 import { assembleEquipment, equipmentContribution, type EquipmentOrigin } from './simulationEquipment';
 import { assembleEquipmentPassives, validateEquipmentAssumptions } from './simulationEquipmentPassives';
-import { assembleTriggeredEquipment, validateConfiguration } from './simulationTriggeredEquipment';
+import { assembleTriggeredEquipment, compileSimulationDamageFormula, validateConfiguration } from './simulationTriggeredEquipment';
 import { assembleNaturalSkillSources, type SimulationSkillOriginTrace } from './simulationNaturalSkillSources';
 import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive, primaryMechanicRequirements, validateMechanicStateInputs } from './simulationPrimaryAttack';
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
@@ -33,9 +33,7 @@ const DEFINITION = 'selected_basic_attack_definition';
 const START_ABILITY = 'attack_start';
 const HIT_ABILITY = 'attack_hit';
 const KEY = /^[a-z][a-z0-9_]{0,63}$/;
-const OPERATIONS: Record<string, string> = {
-  ADD: 'add', SUBTRACT: 'sub', MULTIPLY: 'mul', DIVIDE: 'div', MIN: 'min', MAX: 'max'
-};
+
 
 export type SimulationCoverage = { authorPath: string; compiledPath: string; note?: string };
 export type OperationOrigin = {
@@ -93,6 +91,7 @@ type Program = {
 
 /** 装配首批完整普攻形状，不依赖技能名称；不支持的启用入口整体拒绝。 */
 function program(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = []): Program {
+  resetConsumedApprovedFormulaValues();
   if (snapshot.selection.basicAttackSkillKey === null) return activeProgram(snapshot, ignoredCosts);
   if (!snapshot.selection.plannedSkills.length && ignoredCosts.length) fail('ignoredCastCosts', '没有计划技能不能声明施法成本');
   const natural = assembleNaturalSkillSources(snapshot);
@@ -123,7 +122,7 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   const coverage: SimulationCoverage[] = [];
   const operationOrigins: OperationOrigin[] = [];
   const usedEffects = new Set<string>();
-  const types = new Map<string, string>([
+  const types = new TypeCatalogEntries([
     ['ability/basic_attack', 'ability'], ['combatant/champion', 'combatant'],
     ['event/basic_attack_start', 'event'], ['event/basic_attack_hit', 'event'],
     ['event/source_owner', 'event'], ['event/attack_link_applied', 'event'], ['event/hit_link_applied', 'event']
@@ -188,7 +187,7 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
     exact(detail, ['damageTypeKey', 'deliveryKind', 'originKind', 'critical', 'vampQualification', 'vampOverrides'], `${path}.detail`);
     if (detail.deliveryKind !== 'BASIC_ATTACK' || detail.originKind !== 'DIRECT') fail(`${path}.detail`, '首批只接受普通攻击直接伤害');
     const damageKey = stableKey(detail.damageTypeKey, `${path}.detail.damageTypeKey`);
-    const damageType = `damage/${damageKey}`;
+    const damageType = damageKey;
     types.set(damageType, 'damage');
     const vamp = adaptDamageVamp(snapshot.catalogs.vampRules.rules, {
       gameId: snapshot.gameId, skillKey: config!.skill.skillKey, skillCategoryKeys: config!.skill.skillCategoryKeys,
@@ -219,16 +218,14 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
       addCoverage(`${path}.detail.critical.multiplierValue`, `${compiledPath}.critMultiplier`);
     } else fail(`${path}.detail.critical.mode`, '未知暴击模式');
     if (!rules.damageTypeFormulas!.some(row => row.damageType === damageType)) {
-      const authored = snapshot.catalogs.damageTypes.find(row => row.type.damageTypeKey === damageKey);
-      if (!authored || !authored.type.formulaConfigured) fail(`catalogs.damageTypes.${damageKey}`, '缺少实际五阶段防御公式');
-      const formula = {} as GenericDamageTypeFormula['formula'];
+      const compiled = compileSimulationDamageFormula(snapshot, damageKey);
       const typeIndex = rules.damageTypeFormulas!.length;
-      for (const [index, stage] of DAMAGE_TYPE_FORMULA_STAGE_KEYS.entries()) {
-        const path = `damageTypes.${damageKey}.formula.${stage}`;
-        formula[stage] = damageFormula(authored.formula.formula[stage], path, index);
-        addCoverage(path, `rules.damageTypeFormulas[${typeIndex}].formula.${stage}`);
+      addCoverage(`damageTypes.${damageKey}.formula`, `rules.damageTypeFormulas[${typeIndex}].formula`);
+      for (const input of compiled.formula.inputs) {
+        const binding = input.binding;
+        if (binding.kind === 'attribute' && (binding.object === 'source' || binding.object === 'target')) required.get(binding.object)!.add(binding.attributeKey);
       }
-      rules.damageTypeFormulas!.push({ damageType, formula });
+      rules.damageTypeFormulas!.push(compiled);
     }
     return operation;
   }
@@ -246,37 +243,6 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
       return operation;
     });
   }
-  function damageFormula(node: DamageTypeFormulaNode, path: string, stageIndex: number, depth = 0): GenericFormulaExpr {
-    if (depth > 32) fail(path, '防御公式超过最大深度');
-    record(node, path);
-    if (node.nodeType === 'FIXED') return constExpr(finiteNumber(node.value, path, fail));
-    if (node.nodeType === 'STAGE_RESULT') {
-      const prior = damageTypeFormulaStageFromResultKey(node.stageKey);
-      if (!prior || DAMAGE_TYPE_FORMULA_STAGE_KEYS.indexOf(prior) >= stageIndex) fail(path, '只能引用已完成的前序防御阶段');
-      return { op: 'read', path: `damage.stage.${node.stageKey}` };
-    }
-    if (node.nodeType === 'OPERATION') {
-      if (!OPERATIONS[node.operation] || !Array.isArray(node.operands) || node.operands.length !== 2) fail(path, '未知防御运算');
-      return { op: OPERATIONS[node.operation]!, args: node.operands.map((row, index) => damageFormula(row, `${path}.operands[${index}]`, stageIndex, depth + 1)) };
-    }
-    if (node.nodeType !== 'ATTRIBUTE' || !['SOURCE', 'TARGET'].includes(node.attributeOwner)) fail(path, '未知防御公式节点');
-    const side = node.attributeOwner === 'SOURCE' ? 'source' : 'target';
-    const key = stableKey(node.attributeKey, `${path}.attributeKey`);
-    required.get(side)!.add(key);
-    const read = (suffix: string): GenericFormulaExpr => ({ op: 'read', path: `${side}.attr.${key}.${suffix}` });
-    const missing: GenericFormulaExpr = { op: 'sub', args: [read('max'), read('current')] };
-    switch (node.attributeValueKind) {
-      case 'BASE': return read('base');
-      case 'TOTAL': return read('resolved');
-      case 'CURRENT': return read('current');
-      case 'BONUS': return { op: 'sub', args: [read('resolved'), read('base')] };
-      case 'MISSING': return missing;
-      case 'CURRENT_RATIO': return { op: 'div', args: [read('current'), read('max')] };
-      case 'MISSING_RATIO': return { op: 'div', args: [missing, read('max')] };
-      default: return fail(path, '未知属性取值口径');
-    }
-  }
-
   const process = config.processes[0]!;
   const controlKey = `process_${process.processKey}`;
   const processPath = `${skillPath}.processes.${process.processKey}`;
@@ -419,13 +385,19 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   for (const key of Object.keys(state.params)) {
     addCoverage(`${skillPath}.parameters.${key}`, `sharedProviders[0].abilities[2].params.${key}`);
   }
-  const provider: ProviderDefinition = { providerKey: DEFINITION, stableId: DEFINITION, kind: 'champion', abilities, listeners, processes: [genericProcess],
+  const provider: ProviderDefinition = { providerKey: DEFINITION, skillKey: config.skill.skillKey, stableId: DEFINITION, kind: 'champion', abilities, listeners, processes: [genericProcess],
     ...(ammo.schema ? { initialStateSchema: ammo.schema } : {}) };
   // 从已翻译的表达式按实际source/target收集，不把某一侧所需属性强塞给双方。
   const collect = (value: unknown) => {
     if (Array.isArray(value)) { value.forEach(collect); return; }
     if (!value || typeof value !== 'object') return;
     const row = value as Record<string, unknown>;
+    if (Array.isArray(row.inputs) && Array.isArray(row.stages) && typeof row.outputStageKey === 'string') {
+      for (const input of skillFormulaReachableInputs(row as unknown as import('../types/formulaContract.generated').FormulaDefinition)) {
+        if (input.binding.kind === 'attribute') required.get(input.binding.object as 'source' | 'target')?.add(input.binding.attributeKey);
+      }
+      return;
+    }
     if (row.op === 'read' && typeof row.path === 'string') {
       const match = /^(source|target)\.attr\.([a-z][a-z0-9_]*)\./.exec(row.path);
       if (match) required.get(match[1] as 'source' | 'target')!.add(match[2]!);
@@ -499,7 +471,7 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
       rules.vampRules = assembly.rules.vampRules;
     }
   }
-  const types = new Map([...assemblies.flatMap(assembly => assembly.types)].map(type => [type.key, type.domain]));
+  const types = new TypeCatalogEntries([...assemblies.flatMap(assembly => assembly.types)].map(type => [type.key, type.domain]));
   if (passives.mounts.length || natural.mounts.length) types.set('event/source_initialized', 'event');
   const required = new Map<'source' | 'target', Set<string>>((['source', 'target'] as const).map(side =>
     [side, new Set(['hp', ...equipment.required[side], ...passives.required[side], ...triggered.required[side], ...natural.required[side]])]));
@@ -510,6 +482,7 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
     const row = value as Record<string, unknown>;
     const read = typeof row.path === 'string' ? /^(source|target)\.attr\.([a-z][a-z0-9_]*)\./.exec(row.path) : null;
     if (row.op === 'read' && read) required.get(read[1] as 'source' | 'target')!.add(read[2]!);
+    if (row.kind === 'attribute' && (row.object === 'source' || row.object === 'target') && typeof row.attributeKey === 'string') required.get(row.object)!.add(row.attributeKey);
     Object.values(row).forEach(collect);
   };
   collect(natural.providers); collect(rules);
@@ -572,13 +545,14 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
       (_match, index: string) => `.abilities[${Number(index) + (offset?.abilities ?? 0)}]`).replace(/\.processes\[(\d+)\]/g,
       (_match, index: string) => `.processes[${Number(index) + (offset?.processes ?? 0)}]`)}`;
   });
-  const types = new Map([...base.types, ...active.types].map(type => [type.key, type.domain]));
+  const types = new TypeCatalogEntries([...base.types, ...active.types].map(type => [type.key, type.domain]));
   const collect = (value: unknown): void => {
     if (Array.isArray(value)) { value.forEach(collect); return; }
     if (!value || typeof value !== 'object') return;
     const row = value as Record<string, unknown>;
     const read = typeof row.path === 'string' ? /^(source|target)\.attr\.([a-z][a-z0-9_]*)\./.exec(row.path) : null;
     if (row.op === 'read' && read) base.required.get(read[1] as 'source' | 'target')!.add(read[2]!);
+    if (row.kind === 'attribute' && (row.object === 'source' || row.object === 'target') && typeof row.attributeKey === 'string') base.required.get(row.object)!.add(row.attributeKey);
     Object.values(row).forEach(collect);
   };
   collect(providers); collect(active.formulas); collect(base.rules);
@@ -663,8 +637,8 @@ export function assembleSimulation(
   return {
     compileRequest: {
       schemaVersion: 'generic-p0', schemaHash: SIMULATION_SCHEMA_HASH, rulesHash: 'pending',
-      typeCatalog: { types: compiled.types, relations: [] }, combatants: actors,
-      sharedProviders: [...(compiled.provider ? [compiled.provider] : []), ...compiled.equipment.providers, ...compiled.passives.providers, ...compiled.triggered.providers, ...compiled.natural.providers, ...(compiled.active?.providers ?? [])], formulas: compiled.formulas, rules: compiled.rules,
+      typeCatalog: { types: [...compiled.types, ...snapshot.catalogs.attributes.map(attribute => ({ key: attribute.attributeKey, domain: 'attribute' }))], relations: [] }, combatants: actors,
+      sharedProviders: [...(compiled.provider ? [compiled.provider] : []), ...compiled.equipment.providers, ...compiled.passives.providers, ...compiled.triggered.providers, ...compiled.natural.providers, ...(compiled.active?.providers ?? [])], formulas: [...new Map([...(compiled.formulas ?? []), ...collectedCommonFormulaDefinitions()].map(formula => [formula.key, formula])).values()], rules: compiled.rules,
       settings: { maxEvents: 10000, maxCommandsPerEvent: 256, maxQueueEvents: 10000, maxChainDepth: 32 }
     }, coverage: compiled.coverage, operationOrigins: compiled.operationOrigins, basicAttackBinding: compiled.basicAttackBinding,
     equipmentOrigins: compiled.equipment.origins, skillOrigins: compiled.natural.origins, snapshotDigest: snapshot.snapshotDigest,
@@ -677,10 +651,17 @@ export function assembleSimulation(
 export async function prepareSimulation(snapshot: SimulationSnapshot, inputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
   assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = [], ignoredCosts: readonly SimulationCastCostRef[] = []) {
   const assembled = assembleSimulation(snapshot, inputs, initialHealth, assumptions, mechanicInputs, ignoredCosts);
+  const approvedFormulaValues = consumedApprovedFormulaValues();
+  assembled.compileRequest.formulas ??= [];
+  for (const row of approvedFormulaValues) {
+    const previous = assembled.compileRequest.formulas.find(formula => formula.key === row.formula.key);
+    if (previous && JSON.stringify(previous) !== JSON.stringify(row.formula)) fail('formulas', '已消费静态公式与最终程序身份冲突');
+    if (!previous) assembled.compileRequest.formulas.push(row.formula);
+  }
   assembled.compileRequest.rulesHash = await simulationHash({ snapshotDigest: snapshot.snapshotDigest, adapter: SIMULATION_ADAPTER_VERSION,
     attributeInputs: inputs, initialHealth, equipmentAssumptions: assembled.equipmentAssumptions,
     mechanicStateInputs: assembled.mechanicStateInputs, request: assembled.compileRequest });
-  return assembled;
+  return { ...assembled, approvedFormulaValues };
 }
 
 /** 单次入口保持一次真实开始与命中，不重复调度。 */

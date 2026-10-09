@@ -1,15 +1,17 @@
+import { approveSnapshotFixture, approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import { preparedActiveSample, simulationActiveSample } from '../../tests/fixtures/simulationActiveSkill';
-import { inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
+import { inspectSimulationSnapshot as raw_inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
 import { skillActionRequest, type SkillActionInputs } from './skillActionRequest';
 import { normalizeSimulationSelection, validateSimulationSnapshot } from '../services/simulationSnapshotClient';
-import { assembleActiveSkills, simulationCastCostCandidates } from './simulationActiveSkills';
+import { assembleActiveSkills as raw_assembleActiveSkills, simulationCastCostCandidates } from './simulationActiveSkills';
 import { fixedValue, formulaValue } from '../types/numericValue';
 import { naturalRuleKeys, plannedSkillRuleKeys } from './simulationSkillSourceDescription';
 import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
 import type { SkillEffect } from '../types/skillEffect';
-import { adaptHitProgram } from './hitAdapter';
+import { adaptHitProgram as raw_adaptHitProgram } from './hitAdapter';
 
 const inputs: SkillActionInputs = { actions: [{ origin: { kind: 'CHARACTER', characterKey: 'actor_a' }, skillKey: 'sample_active', skillLevel: 1,
   instructionKey: 'first_cast', atMs: 50, sortOrder: 0, targetSide: 'target', hitPreset: 'TARGET_HIT', phaseKind: 'INITIAL', parentInstructionKey: null }],
@@ -134,7 +136,7 @@ describe('6A完整单次主动装配', () => {
       name: '格挡治疗', valueType: 'DECIMAL', valueMode: 'FIXED', fixedValue: 20, levelValues: null, description: null,
       sortOrder: 0, createdAt: '', updatedAt: '' });
     configuration.formulas.push({ gameId: snapshot.gameId, skillKey: configuration.skill.skillKey, formulaKey: 'blocked_heal',
-      name: '格挡治疗', description: null, sortOrder: 0, createdAt: '', updatedAt: '', expression: { nodeType: 'PARAMETER', parameterKey: 'heal_amount' } });
+      name: '格挡治疗', description: null, sortOrder: 0, createdAt: '', updatedAt: '', expression: skillFormulaDefinition(configuration.skill.skillKey, { nodeType: 'PARAMETER', parameterKey: 'heal_amount' }) });
     configuration.processes[0]!.effectBindings.push({ bindingKey: 'grant_guard', effectKey: 'guard',
       moment: { momentType: 'PROCESS_COMPLETE', stepKey: null, failureReason: null }, sortOrder: 0 });
     const blocked = { ...structuredClone(configuration.triggerRules[1]!), ruleKey: 'consume_on_block',
@@ -177,6 +179,8 @@ describe('6A完整单次主动装配', () => {
     expect(naturalRuleKeys(snapshot, snapshot.skillConfigurations[0]!, 'source')).toEqual([]);
     const natural = structuredClone(snapshot.skillConfigurations[0]!);
     natural.skill.skillKey = 'use_listener';
+    for (const parameter of natural.parameters) parameter.skillKey = 'use_listener';
+    for (const formula of natural.formulas) { formula.skillKey = 'use_listener'; for (const input of formula.expression.inputs) if (input.binding.kind === 'parameter') input.binding.skillKey = 'use_listener'; }
     natural.triggerRules[0]!.eventSource = { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'sample_active', useKind: 'ACTIVE', castPhase: 'INITIAL' } };
     snapshot.skillConfigurations.push(natural);
     snapshot.source.skillSources.push({ ...snapshot.source.skillSources[1]!, skillKey: 'use_listener' });
@@ -197,3 +201,8 @@ describe('6A完整单次主动装配', () => {
     expect(result.compileRequest.rulesHash).not.toBe('pending');
   });
 });
+
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };
+const adaptHitProgram = (...args: Parameters<typeof raw_adaptHitProgram>): ReturnType<typeof raw_adaptHitProgram> => { approveAuthoredFixture(args[0]); return raw_adaptHitProgram(...args); };
+
+const assembleActiveSkills = (...args: Parameters<typeof raw_assembleActiveSkills>): ReturnType<typeof raw_assembleActiveSkills> => { approveSnapshotFixture(args[0]); return raw_assembleActiveSkills(...args); };

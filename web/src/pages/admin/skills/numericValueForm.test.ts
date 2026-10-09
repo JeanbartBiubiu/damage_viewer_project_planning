@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../../../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import { fixedValue, formulaValue, isNumericValue, parameterValue } from '../../../types/numericValue';
 import type { SkillParameter } from '../../../types/skillParameter';
@@ -126,6 +127,6 @@ it('动态输入闭包同时收集直接取值、公式、效果及状态初始�
   const cooldown = { stateType: 'INTERNAL_COOLDOWN', detail: { durationValue: parameterValue('cooldown') } } as SkillInternalState;
   const values = [...collectExecuteEffectValues(effect), ...collectStartProcessValues(process, new Map([['hit', effect]]), new Map([['ammo', ammo], ['cooldown', cooldown]]))];
   const parameters = ['direct', 'computed_input', 'initial', 'maximum', 'recovery', 'cooldown', 'unused'].map((parameterKey) => parameter({ parameterKey, valueMode: 'RUNTIME_INPUT', fixedValue: null }));
-  const formulas = new Map([['computed', { expression: { nodeType: 'PARAMETER', parameterKey: 'computed_input' } } as import('../../../types/skillFormula').SkillFormula]]);
+  const formulas = new Map([['computed', { expression: skillFormulaDefinition('q', { nodeType: 'PARAMETER', parameterKey: 'computed_input' }) } as import('../../../types/skillFormula').SkillFormula]]);
   expect(reachableRuntimeInputParameters(values, formulas, parameters).map((item) => item.parameterKey)).toEqual(['direct', 'computed_input', 'initial', 'maximum', 'recovery', 'cooldown']);
 });

@@ -70,17 +70,23 @@ async function runNatural(page: Page, snapshot: SimulationSnapshot, iterations =
     const { GenericEngineClient } = await import(clientPath) as typeof import('../../src/engine/genericEngineClient');
     const { continuousAttackRequest } = await import(continuousPath) as typeof import('../../src/engine/continuousAttackRequest');
     const { simulationHealthLimit } = await import(equipmentPath) as typeof import('../../src/engine/simulationEquipment');
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { preflightSkillFormulas } = await import(preflightPath) as typeof import('../../src/engine/skillFormulaPreflight');
+    const { validateConsumedFormulaValues, validateApprovedFormulaValues } = await import(proofPath) as typeof import('../../src/engine/approvedFormulaValues');
+    const client = new GenericEngineClient();
+    const formulaPreflight = await preflightSkillFormulas(snapshot, client);
     const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) {
       inputs[row.side][row.attribute.attributeKey] = row.attribute.attributeKey === 'attack_speed_ratio'
         ? row.side === 'source' ? .665 : .668 : 0;
     }
     const prepared = await prepareSimulation(snapshot, inputs, { source: simulationHealthLimit(snapshot, 'source')!, target: simulationHealthLimit(snapshot, 'target')! });
-    const client = new GenericEngineClient();
     let compiled;
     try {
       compiled = await client.compile(prepared.compileRequest);
       if (!compiled.ok || !compiled.sessionId) throw new Error(JSON.stringify(compiled.errors));
+      validateConsumedFormulaValues(prepared.approvedFormulaValues, prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
+      validateApprovedFormulaValues(prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
       const continuous = await continuousAttackRequest(prepared, snapshot, { durationMs: 2000, attackSpeedInputMax: 10 }, compiled.sessionId);
       const first = await client.run(continuous.runRequest);
       if (!first.ok) throw new Error(JSON.stringify(first));
@@ -90,7 +96,7 @@ async function runNatural(page: Page, snapshot: SimulationSnapshot, iterations =
         if (JSON.stringify(repeated) !== expected) throw new Error('同编译会话重复运行不一致');
       }
       const release = await client.release(compiled.sessionId, prepared.compileRequest.rulesHash);
-      return { prepared, compile: compiled, runRequest: continuous.runRequest, done: first, release, iterations };
+      return { prepared, formulaPreflight, compile: compiled, runRequest: continuous.runRequest, done: first, release, iterations };
     } finally { client.terminate(); }
   }, { snapshot, iterations });
 }

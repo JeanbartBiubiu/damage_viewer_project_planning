@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { fixedValue, formulaValue, type NumericValue } from '../../src/types/numericValue';
 import type { GameVampRule } from '../../src/types/gameVamp';
 /**
@@ -3023,7 +3024,7 @@ function seedSkillEffectCatalog(
       name: '伤害公式',
       description: null,
       sortOrder: 0,
-      expression: { nodeType: 'PARAMETER', parameterKey: 'base_damage' },
+      expression: skillFormulaDefinition(skillKey, { nodeType: 'PARAMETER', parameterKey: 'base_damage' }),
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT
     },
@@ -3034,7 +3035,7 @@ function seedSkillEffectCatalog(
       name: '治疗公式',
       description: null,
       sortOrder: 1,
-      expression: { nodeType: 'PARAMETER', parameterKey: 'base_heal' },
+      expression: skillFormulaDefinition(skillKey, { nodeType: 'PARAMETER', parameterKey: 'base_heal' }),
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT
     },
@@ -3045,7 +3046,7 @@ function seedSkillEffectCatalog(
       name: '一层',
       description: null,
       sortOrder: 2,
-      expression: { nodeType: 'PARAMETER', parameterKey: 'one' },
+      expression: skillFormulaDefinition(skillKey, { nodeType: 'PARAMETER', parameterKey: 'one' }),
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT
     },
@@ -3056,7 +3057,7 @@ function seedSkillEffectCatalog(
       name: '持续时间',
       description: null,
       sortOrder: 3,
-      expression: { nodeType: 'PARAMETER', parameterKey: 'poison_duration_ms' },
+      expression: skillFormulaDefinition(skillKey, { nodeType: 'PARAMETER', parameterKey: 'poison_duration_ms' }),
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT
     },
@@ -3067,7 +3068,7 @@ function seedSkillEffectCatalog(
       name: '周期间隔',
       description: null,
       sortOrder: 4,
-      expression: { nodeType: 'PARAMETER', parameterKey: 'poison_tick_interval_ms' },
+      expression: skillFormulaDefinition(skillKey, { nodeType: 'PARAMETER', parameterKey: 'poison_tick_interval_ms' }),
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT
     }
@@ -3236,7 +3237,7 @@ function formulaRow(
     name,
     description: null,
     sortOrder,
-    expression: { nodeType: 'PARAMETER', parameterKey: formulaKey },
+    expression: skillFormulaDefinition(skillKey, { nodeType: 'PARAMETER', parameterKey: formulaKey }),
     createdAt: CREATED_AT,
     updatedAt: UPDATED_AT
   };
@@ -3402,14 +3403,14 @@ function seedSkillTriggerCatalog(mock: MockApi, skillKey = 'varus_w', skillName 
       name: '追加伤害公式',
       description: null,
       sortOrder: 41,
-      expression: { nodeType: 'PARAMETER', parameterKey: 'prior_hit_value' },
+      expression: skillFormulaDefinition(skillKey, { nodeType: 'PARAMETER', parameterKey: 'prior_hit_value' }),
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT
     }
   ];
   mock.skillFormulas = mock.skillFormulas.map((item) => (
     item.formulaKey === 'hp_threshold'
-      ? { ...item, expression: { nodeType: 'PARAMETER', parameterKey: 'low_health_ratio' } }
+      ? { ...item, expression: skillFormulaDefinition(skillKey, { nodeType: 'PARAMETER', parameterKey: 'low_health_ratio' }) }
       : item
   ));
   mock.skillEffects = [
@@ -4299,27 +4300,23 @@ test.describe('skill category and damage type management without Wasm', () => {
     await damageTypeRow(page, 'physical').getByRole('button', { name: '配置公式', exact: true }).click();
     const formulaModal = visibleModal(page, '结算公式 - 物理伤害');
     await expect(formulaModal.getByText('当前伤害类型尚未配置结算公式。', { exact: true })).toBeVisible();
-    const fixedStages: Array<[string, string]> = [
-      ['resistanceBeforePenetration', '100'],
-      ['penetrationPercent', '0'],
-      ['penetrationFlat', '0'],
-      ['resistanceFactor', '0.5']
-    ];
-    for (const [stage, value] of fixedStages) {
-      const path = `formula.${stage}`;
-      await formulaModal.getByLabel(`${path}节点类型`, { exact: true })
-        .getByText('固定值', { exact: true }).click();
-      await formulaModal.getByLabel(`${path}固定值`, { exact: true }).fill(value);
-    }
-    await formulaModal.getByLabel('formula.effectiveResistance节点类型', { exact: true })
-      .getByText('前序结果', { exact: true }).click();
-    await formulaModal.getByLabel('formula.effectiveResistance前序结果', { exact: true }).click();
-    await chooseVisibleOption(page, '穿透前抗性');
-    const relationshipPreview = formulaModal.getByRole('region', { name: '五阶段关系预览', exact: true });
-    await expect(relationshipPreview).toContainText('R（穿透前抗性） = 100');
-    await expect(relationshipPreview).toContainText('E（有效抗性） = R（穿透前抗性）');
-    await expect(formulaModal.getByText('本阶段预览', { exact: true })).toHaveCount(5);
-    await expect(formulaModal.getByText('结构预览', { exact: true })).toHaveCount(0);
+    await formulaModal.getByRole('button', { name: '添加结果', exact: true }).click();
+    await formulaModal.getByRole('button', { name: '添加结果', exact: true }).click();
+    await formulaModal.getByLabel('结果1标识', { exact: true }).fill('factor');
+    await formulaModal.getByLabel('结果1名称', { exact: true }).fill('结算倍率');
+    await formulaModal.getByLabel('结果2标识', { exact: true }).fill('basis');
+    await formulaModal.getByLabel('结果2名称', { exact: true }).fill('后置基础值');
+    await formulaModal.getByLabel('结果1表达式节点类型', { exact: true }).click();
+    await chooseVisibleOption(page, '结果引用');
+    await formulaModal.getByLabel('结果1表达式结果引用', { exact: true }).click();
+    await chooseVisibleOption(page, '后置基础值（basis）');
+    await formulaModal.getByLabel('结果2表达式节点类型', { exact: true }).click();
+    await chooseVisibleOption(page, '固定值');
+    await formulaModal.getByLabel('结果2表达式固定值', { exact: true }).fill('0.500');
+    await formulaModal.getByLabel('最终输出结果', { exact: true }).click();
+    await chooseVisibleOption(page, '结算倍率（factor）');
+    await expect(formulaModal).toContainText('表达式预览：后置基础值（basis）');
+    await expect(formulaModal).toContainText('表达式预览：0.500');
     await formulaModal.getByRole('button', { name: '保存', exact: true }).click();
     await expect(formulaModal).toBeHidden();
     await expect(damageTypeRow(page, 'physical')).toContainText('已配置');
@@ -4327,17 +4324,17 @@ test.describe('skill category and damage type management without Wasm', () => {
       write.method === 'PUT' && write.path.endsWith('/damage-types/physical/formula')
     ))?.body).toMatchObject({
       formula: {
-        effectiveResistance: {
-          nodeType: 'STAGE_RESULT',
-          stageKey: 'RESISTANCE_BEFORE_PENETRATION'
-        }
+        inputs: [], stages: [
+          { key: 'factor', name: '结算倍率', expression: { op: 'ref', stageKey: 'basis' } },
+          { key: 'basis', name: '后置基础值', expression: { op: 'const', value: '0.500' } }
+        ], outputStageKey: 'factor'
       }
     });
 
     await damageTypeRow(page, 'physical').getByRole('button', { name: '查看公式', exact: true }).click();
     const formulaViewer = visibleModal(page, '结算公式 - 物理伤害');
-    await expect(formulaViewer.getByLabel('formula.resistanceFactor固定值', { exact: true })).toHaveValue('0.5');
-    await expect(formulaViewer.getByLabel('formula.resistanceFactor固定值', { exact: true })).toBeDisabled();
+    await expect(formulaViewer.getByLabel('结果2表达式固定值', { exact: true })).toHaveValue('0.500');
+    await expect(formulaViewer.getByLabel('结果2表达式固定值', { exact: true })).toBeDisabled();
     await formulaViewer.getByRole('button', { name: '关闭', exact: true }).click();
     await expect(formulaViewer).toBeHidden();
 
@@ -5095,23 +5092,28 @@ test.describe('skill management without Wasm', () => {
     await expect(formulaModal.getByText('加载中…')).toBeHidden({ timeout: 15_000 });
     await formulaModal.getByLabel('稳定标识').fill('missing_health_damage');
     await formulaModal.getByLabel('公式名称').fill('已损失生命值伤害');
-    await formulaModal.getByLabel('expression节点类型').getByText('运算', { exact: true }).click();
-    await formulaModal.getByLabel('expression运算').click();
-    await page.getByRole('option', { name: '乘', exact: true }).click();
-    await formulaModal.getByLabel('expression.operands[0]节点类型').getByText('属性', { exact: true }).click();
-    await formulaModal.getByLabel('expression.operands[0]属性对象').getByText('目标', { exact: true }).click();
-    await formulaModal.getByRole('combobox', { name: 'expression.operands[0]属性', exact: true }).click();
-    await page.getByRole('option', { name: '生命值（hp）', exact: true }).click();
-    await formulaModal.getByRole('combobox', { name: 'expression.operands[0]属性取值方式', exact: true }).click();
-    await page.getByRole('option', { name: '已损失值', exact: true }).click();
-    await formulaModal.getByLabel('expression.operands[1]节点类型').getByText('技能参数', { exact: true }).click();
-    await formulaModal.getByRole('combobox', { name: 'expression.operands[1]技能参数', exact: true }).click();
-    await page.getByRole('option', { name: '已损失生命值系数（missing_health_ratio）', exact: true }).click();
-    await expect(formulaModal.getByText('目标.生命值.已损失值 × 已损失生命值系数')).toBeVisible();
+    await formulaModal.getByRole('button', { name: '添加公式输入', exact: true }).click();
+    await formulaModal.getByLabel('公式输入1标识').fill('input_0');
+    await formulaModal.getByLabel('公式输入1来源').click(); await page.getByRole('option', { name: '属性', exact: true }).click();
+    await formulaModal.getByLabel('公式输入1对象').click(); await page.getByRole('option', { name: '目标', exact: true }).click();
+    await formulaModal.getByLabel('公式输入1属性').click(); await page.getByRole('option', { name: '生命值（hp）', exact: true }).click();
+    await formulaModal.getByLabel('公式输入1取值口径').click(); await page.getByRole('option', { name: '已损失值', exact: true }).click();
+    await formulaModal.getByRole('button', { name: '添加公式输入', exact: true }).click();
+    await formulaModal.getByLabel('公式输入2标识').fill('input_1');
+    await formulaModal.getByLabel('公式输入2技能参数').click(); await page.getByRole('option', { name: '已损失生命值系数（missing_health_ratio）', exact: true }).click();
+    await formulaModal.getByRole('button', { name: '添加公式结果', exact: true }).click();
+    await formulaModal.getByLabel('公式结果1标识').fill('output'); await formulaModal.getByLabel('公式结果1名称').fill('用例输出');
+    await formulaModal.getByLabel('公式结果1节点类型').click(); await page.getByRole('option', { name: '乘', exact: true }).click();
+    await formulaModal.getByLabel('公式结果1第1项节点类型').click(); await page.getByRole('option', { name: '输入值', exact: true }).last().click();
+    await formulaModal.getByLabel('公式结果1第1项输入值').click(); await page.getByRole('option', { name: 'input_0', exact: true }).click();
+    await formulaModal.getByLabel('公式结果1第2项节点类型').click(); await page.getByRole('option', { name: '输入值', exact: true }).last().click();
+    await formulaModal.getByLabel('公式结果1第2项输入值').click(); await page.getByRole('option', { name: 'input_1', exact: true }).click();
+    await formulaModal.getByLabel('公式最终输出').click(); await page.getByRole('option', { name: '用例输出（output）', exact: true }).click();
+    await expect(formulaModal.getByText(/乘\(目标\.生命值\.已损失值，已损失生命值系数\)/)).toBeVisible();
     await formulaModal.getByRole('button', { name: '确认到技能草稿', exact: true }).click();
     await expect(formulaModal).toBeHidden();
     await expect(shell).toBeVisible();
-    await expect(shell.getByText('中文预览：目标.生命值.已损失值 × 已损失生命值系数')).toBeVisible();
+    await expect(shell.getByText(/中文预览：.*乘\(目标\.生命值\.已损失值，已损失生命值系数\)/)).toBeVisible();
     expect(mock.writes).toHaveLength(0);
 
     const ratioRow = parameterCard(shell, 'missing_health_ratio');
@@ -5131,7 +5133,7 @@ test.describe('skill management without Wasm', () => {
     const baseDamage = mock.skillParameters.find((item) => item.parameterKey === 'base_damage');
     expect(baseDamage?.valueMode).toBe('SKILL_LEVEL');
     expect(baseDamage?.levelValues).toEqual({ '1': 20, '2': 45, '3': 70, '4': 95, '5': 120 });
-    expect(mock.skillFormulas[0]?.expression).toEqual({
+    expect(mock.skillFormulas[0]?.expression).toEqual(skillFormulaDefinition('varus_w', {
       nodeType: 'OPERATION',
       operation: 'MULTIPLY',
       operands: [
@@ -5146,7 +5148,7 @@ test.describe('skill management without Wasm', () => {
           parameterKey: 'missing_health_ratio'
         }
       ]
-    });
+    }));
 
     await shell.getByRole('button', { name: '返回', exact: true }).click();
     await expect(shell).toBeHidden();
@@ -5463,7 +5465,7 @@ test.describe('skill management without Wasm', () => {
         name: '技能急速180',
         description: null,
         sortOrder: 20,
-        expression: { nodeType: 'PARAMETER', parameterKey: 'skill_haste_180' },
+        expression: skillFormulaDefinition('varus_w', { nodeType: 'PARAMETER', parameterKey: 'skill_haste_180' }),
         createdAt: CREATED_AT,
         updatedAt: UPDATED_AT
       }

@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { expect, test, type Page } from '@playwright/test';
 import type { SkillConfiguration, SkillConfigurationChange } from '../../src/types/skillConfiguration';
 import { fixedValue } from '../../src/types/numericValue';
@@ -10,7 +11,7 @@ function configuration(): SkillConfiguration {
   return { skill: { ...base, name: '独立窗口表单样例', maxLevel: 1, status: 'ENABLED', skillCategoryKeys: [] },
     parameters: ['first', 'last'].map((parameterKey, index) => ({ ...base, parameterKey, name: index ? '末段参数' : '首段参数',
       valueType: 'INTEGER', valueMode: 'FIXED', fixedValue: index, levelValues: null })),
-    formulas: [{ ...base, formulaKey: 'last_formula', name: '末段公式', expression: { nodeType: 'PARAMETER', parameterKey: 'last' } }],
+    formulas: [{ ...base, formulaKey: 'last_formula', name: '末段公式', expression: skillFormulaDefinition('window_sample', { nodeType: 'PARAMETER', parameterKey: 'last' }) }],
     effects: [{ ...base, effectKey: 'marker', name: '表单引用样例', lifecycle: null, results: [] }],
     processes: [{ ...base, processKey: 'window', name: '指定窗口引导', activationType: 'ACTIVE', cooldown: null,
       steps: [{ stepKey: 'channel', name: '引导步骤', stepType: 'CHANNEL', occupiesAction: true, description: null, sortOrder: 0,

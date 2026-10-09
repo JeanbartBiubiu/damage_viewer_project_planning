@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from './skillFormulaDefinition';
 import { simulationActiveSample } from './simulationActiveSkill';
 import type { SkillActionInput, SkillActionInputs } from '../../src/engine/skillActionRequest';
 import type { SkillProcessStep } from '../../src/types/skillProcess';
@@ -44,9 +45,9 @@ export function simulationComplexSample(kind: ComplexSampleKind = 'MULTI_HIT', b
         valueType: 'DECIMAL', valueMode: 'FIXED', fixedValue: 100, levelValues: null, createdAt: '', updatedAt: '' }
     ];
     configuration.formulas = [{ gameId: snapshot.gameId, skillKey: plan.skillKey, formulaKey: 'charged_damage', name: '独立蓄力伤害表达式',
-      description: null, sortOrder: 0, createdAt: '', updatedAt: '', expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [
+      description: null, sortOrder: 0, createdAt: '', updatedAt: '', expression: skillFormulaDefinition(plan.skillKey, { nodeType: 'OPERATION', operation: 'ADD', operands: [
         { nodeType: 'PARAMETER', parameterKey: 'base_hit' }, { nodeType: 'PARAMETER', parameterKey: 'charged_ms' }
-      ] } }];
+      ] }) }];
     configuration.effects[0]!.results[0]!.valueRule!.value = formulaValue('charged_damage');
     const hitRule = configuration.triggerRules.find(rule => rule.eventSource.eventType === 'SKILL_HIT')!;
     hitRule.actions[0]!.runtimeInputBindings = [{ bindingKey: 'charge_input', parameterKey: 'charged_ms', sourceType: 'EVENT_VALUE', detail: { eventValueKey: 'CHARGE_DURATION_MS' } }];

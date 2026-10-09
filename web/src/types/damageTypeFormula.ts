@@ -1,81 +1,18 @@
-import type {
-  FormulaAttributeOwner,
-  FormulaAttributeValueKind,
-  FormulaExpressionNode,
-  FormulaOperation
-} from './skillFormula';
+import { FORMULA_SCHEMA } from './formulaContract.generated';
+import type { Binding, Expression, FormulaDefinition } from './formulaContract.generated';
 
-export const DAMAGE_TYPE_FORMULA_STAGE_KEYS = [
-  'resistanceBeforePenetration',
-  'penetrationPercent',
-  'penetrationFlat',
-  'effectiveResistance',
-  'resistanceFactor'
-] as const;
-
-export type DamageTypeFormulaStageKey = (typeof DAMAGE_TYPE_FORMULA_STAGE_KEYS)[number];
-
-export const DAMAGE_TYPE_FORMULA_STAGE_RESULT_KEYS = [
-  'RESISTANCE_BEFORE_PENETRATION',
-  'PENETRATION_PERCENT',
-  'PENETRATION_FLAT',
-  'EFFECTIVE_RESISTANCE',
-  'RESISTANCE_FACTOR'
-] as const;
-
-export type DamageTypeFormulaStageResultKey = (typeof DAMAGE_TYPE_FORMULA_STAGE_RESULT_KEYS)[number];
-
-const STAGE_RESULT_KEY_BY_STAGE: Record<DamageTypeFormulaStageKey, DamageTypeFormulaStageResultKey> = {
-  resistanceBeforePenetration: 'RESISTANCE_BEFORE_PENETRATION',
-  penetrationPercent: 'PENETRATION_PERCENT',
-  penetrationFlat: 'PENETRATION_FLAT',
-  effectiveResistance: 'EFFECTIVE_RESISTANCE',
-  resistanceFactor: 'RESISTANCE_FACTOR'
+/** 伤害类型完整消费共同定义；技能公式的旧协议保持独立。 */
+export type DamageTypeFormula = FormulaDefinition;
+export type DamageTypeFormulaNode = Expression;
+export type DamageTypeFormulaAttributeBinding = Extract<Binding, { kind: 'attribute' }> & {
+  object: 'source' | 'target';
+  view: 'current_frame';
+  valueKind: 'BASE' | 'BONUS' | 'TOTAL';
 };
 
-const STAGE_BY_RESULT_KEY: Record<DamageTypeFormulaStageResultKey, DamageTypeFormulaStageKey> = {
-  RESISTANCE_BEFORE_PENETRATION: 'resistanceBeforePenetration',
-  PENETRATION_PERCENT: 'penetrationPercent',
-  PENETRATION_FLAT: 'penetrationFlat',
-  EFFECTIVE_RESISTANCE: 'effectiveResistance',
-  RESISTANCE_FACTOR: 'resistanceFactor'
-};
-
-export const DAMAGE_TYPE_FORMULA_MAX_DEPTH = 32;
-export const DAMAGE_TYPE_FORMULA_MAX_NODES = 256;
-
+export const DAMAGE_TYPE_FORMULA_MAX_DEPTH = FORMULA_SCHEMA['x-limits'].maxDepth;
+export const DAMAGE_TYPE_FORMULA_MAX_NODES = FORMULA_SCHEMA['x-limits'].maxNodes;
 export const DAMAGE_TYPE_FORMULA_NOT_FOUND = '404.DAMAGE_TYPE_FORMULA_NOT_FOUND';
-
-export type DamageTypeFormulaOperationNode = {
-  nodeType: 'OPERATION';
-  operation: FormulaOperation;
-  operands: [DamageTypeFormulaNode, DamageTypeFormulaNode];
-};
-
-export type DamageTypeFormulaFixedNode = {
-  nodeType: 'FIXED';
-  value: number;
-};
-
-export type DamageTypeFormulaAttributeNode = {
-  nodeType: 'ATTRIBUTE';
-  attributeOwner: FormulaAttributeOwner;
-  attributeKey: string;
-  attributeValueKind: FormulaAttributeValueKind;
-};
-
-export type DamageTypeFormulaStageResultNode = {
-  nodeType: 'STAGE_RESULT';
-  stageKey: DamageTypeFormulaStageResultKey;
-};
-
-export type DamageTypeFormulaNode =
-  | DamageTypeFormulaOperationNode
-  | DamageTypeFormulaFixedNode
-  | DamageTypeFormulaAttributeNode
-  | DamageTypeFormulaStageResultNode;
-
-export type DamageTypeFormula = Record<DamageTypeFormulaStageKey, DamageTypeFormulaNode>;
 
 export type DamageTypeFormulaDetail = {
   gameId: string;
@@ -83,53 +20,19 @@ export type DamageTypeFormulaDetail = {
   formula: DamageTypeFormula;
   updatedAt: string;
 };
+export type UpdateDamageTypeFormulaRequest = { formula: DamageTypeFormula };
 
-export type UpdateDamageTypeFormulaRequest = {
-  formula: DamageTypeFormula;
-};
-
-export function isDamageTypeFormulaStageKey(value: unknown): value is DamageTypeFormulaStageKey {
-  return DAMAGE_TYPE_FORMULA_STAGE_KEYS.some((stage) => stage === value);
+export function isDamageTypeFormulaAttributeBinding(binding: Binding): binding is DamageTypeFormulaAttributeBinding {
+  return binding.kind === 'attribute'
+    && (binding.object === 'source' || binding.object === 'target')
+    && binding.view === 'current_frame'
+    && (binding.valueKind === 'BASE' || binding.valueKind === 'BONUS' || binding.valueKind === 'TOTAL');
 }
 
-export function isDamageTypeFormulaStageResultKey(value: unknown): value is DamageTypeFormulaStageResultKey {
-  return DAMAGE_TYPE_FORMULA_STAGE_RESULT_KEYS.some((stage) => stage === value);
+/** 由当前使用点的独立属性目录产生辅助校验集合。真实保存权限由后端检查。 */
+export function damageTypeFormulaAllowedBindings(attributes: readonly { attributeKey: string; status: string }[]): Binding[] {
+  return attributes.filter(attribute => attribute.status === 'ENABLED').flatMap(attribute =>
+    (['source', 'target'] as const).flatMap(object => (['BASE', 'BONUS', 'TOTAL'] as const).map(valueKind => ({
+      kind: 'attribute' as const, object, attributeKey: attribute.attributeKey, view: 'current_frame' as const, valueKind
+    }))));
 }
-
-export function damageTypeFormulaStageResultKey(
-  stage: DamageTypeFormulaStageKey
-): DamageTypeFormulaStageResultKey {
-  return STAGE_RESULT_KEY_BY_STAGE[stage];
-}
-
-export function damageTypeFormulaStageFromResultKey(
-  stage: DamageTypeFormulaStageResultKey
-): DamageTypeFormulaStageKey {
-  return STAGE_BY_RESULT_KEY[stage];
-}
-
-export function priorDamageTypeFormulaStages(
-  stage: DamageTypeFormulaStageKey
-): DamageTypeFormulaStageKey[] {
-  const index = DAMAGE_TYPE_FORMULA_STAGE_KEYS.indexOf(stage);
-  return DAMAGE_TYPE_FORMULA_STAGE_KEYS.slice(0, index);
-}
-
-export function priorDamageTypeFormulaStageResults(
-  stage: DamageTypeFormulaStageKey
-): DamageTypeFormulaStageResultKey[] {
-  return priorDamageTypeFormulaStages(stage).map(damageTypeFormulaStageResultKey);
-}
-
-type SkillFormulaNodeType = FormulaExpressionNode['nodeType'];
-type DamageTypeFormulaNodeType = DamageTypeFormulaNode['nodeType'];
-
-type _SkillFormulaExcludesDamageTypeNodes = Extract<SkillFormulaNodeType, 'FIXED' | 'STAGE_RESULT'> extends never
-  ? true
-  : never;
-type _DamageTypeFormulaExcludesParameter = Extract<DamageTypeFormulaNodeType, 'PARAMETER'> extends never
-  ? true
-  : never;
-
-export const skillFormulaExcludesDamageTypeNodes: _SkillFormulaExcludesDamageTypeNodes = true;
-export const damageTypeFormulaExcludesParameter: _DamageTypeFormulaExcludesParameter = true;

@@ -1,7 +1,9 @@
+import { approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
-import { adaptHitProgram } from './hitAdapter';
+import { adaptHitProgram as raw_adaptHitProgram } from './hitAdapter';
 import {
-  adaptTriggerProgram, attackStartFact, basicAttackHitAbility, basicAttackStartAbility,
+  adaptTriggerProgram as raw_adaptTriggerProgram, attackStartFact, basicAttackHitAbility, basicAttackStartAbility,
   initialCastAbilityType, provenTriggerUse, triggerProviderStateSnapshot, useTriggerLedgerEntry,
   withTriggerProgram, type AuthoredTriggerProgram
 } from './triggerAdapter';
@@ -185,13 +187,13 @@ function manaRefundFormula(skillKey: string): SkillFormula {
   return {
     gameId: 'lol', skillKey, formulaKey: 'total_mana_refund', name: '回蓝', description: null, sortOrder: 20,
     createdAt: '', updatedAt: '',
-    expression: {
+    expression: skillFormulaDefinition(skillKey, {
       nodeType: 'OPERATION', operation: 'MULTIPLY',
       operands: [
         { nodeType: 'PARAMETER', parameterKey: 'mana_refund_damage_multiplier' },
         { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'attack_damage', attributeValueKind: 'TOTAL' }
       ]
-    }
+    })
   };
 }
 
@@ -269,7 +271,7 @@ function request(): CompileRequest {
   const slot = { base: 100, current: 100, max: 200, resolved: 100 };
   return {
     schemaVersion: 'generic-p0', schemaHash: 'schema.p6', rulesHash: 'before',
-    typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }], relations: [] }, rules: {},
+    typeCatalog: { types: [{ key: 'physics', domain: 'damage' }], relations: [] }, rules: {},
     combatants: (['source', 'target'] as const).map((key) => ({
       key, resources: { mana: { current: 0, max: 200 } },
       providers: [{ providerRef: 'champion', definitionRef: 'champion' }],
@@ -323,7 +325,7 @@ describe('有界触发与过程适配', () => {
     }
   });
 
-  it.each([['physics', 'damage/physical'], ['magic', 'damage/magic'], ['real', 'damage/true']])('管理伤害键%s转换为原生%s且不改作者对象', (key, runtimeType) => {
+  it.each([['physics', 'physics'], ['magic', 'magic'], ['real', 'real'], ['heat', 'heat']])('管理伤害原键%s原样进入%s且不改作者对象', (key, runtimeType) => {
     const authored = windowProgram();
     for (const effect of authored.effects) for (const result of effect.results) {
       if (result.resultType === 'DAMAGE') result.detail.damageTypeKey = key;
@@ -333,14 +335,6 @@ describe('有界触发与过程适配', () => {
     expect(adapted.typeEntries).toContainEqual({ key: runtimeType, domain: 'damage' });
     expect(JSON.stringify(adapted)).toContain(`"damageType":"${runtimeType}"`);
     expect(authored).toEqual(before);
-  });
-
-  it('未知管理伤害键在原字段路径拒绝，不透传给原生引擎', () => {
-    const authored = windowProgram();
-    for (const effect of authored.effects) for (const result of effect.results) {
-      if (result.resultType === 'DAMAGE') result.detail.damageTypeKey = 'heat';
-    }
-    expect(() => adaptTriggerProgram(authored)).toThrow(/damageTypeKey/);
   });
 
   it('合成计数窗口：不改输入、共享 oncePerUse、首次写开窗且奖励单元含清计数与冷却', () => {
@@ -1006,8 +1000,9 @@ describe('有界触发与过程适配', () => {
   it('回蓝走来源总攻击力公式，不新增事件字段或前序伤害依赖', () => {
     const authored = spellbladeProgram();
     const adapted = adaptTriggerProgram(authored);
-    expect(JSON.stringify(adapted.formulas)).toContain('source.attr.attack_damage.resolved');
-    expect(JSON.stringify(adapted.provider.abilities?.[1]?.listenerSpec?.operations)).toContain('trigger/synth_spellblade/total_mana_refund');
+    expect(JSON.stringify(adapted.formulas)).toContain('attack_damage');
+    expect(adapted.formulas[0]!.expression.inputs.some(input => input.binding.kind === 'attribute' && input.binding.object === 'source' && input.binding.attributeKey === 'attack_damage' && input.binding.valueKind === 'TOTAL')).toBe(true);
+    expect(JSON.stringify(adapted.provider.abilities?.[1]?.listenerSpec?.operations)).toContain('trigger/synth_spellblade/levels/1/1/total_mana_refund');
     expect(adapted.requiredAttributes).toContain('attack_damage');
     expect(adapted.formulas.some((row) => row.key.includes('total_mana_refund'))).toBe(true);
     expect(adapted.provider.abilities?.[1]?.listenerSpec?.operations?.[0]).toMatchObject({
@@ -1017,3 +1012,6 @@ describe('有界触发与过程适配', () => {
   });
 
 });
+
+const adaptHitProgram = (...args: Parameters<typeof raw_adaptHitProgram>): ReturnType<typeof raw_adaptHitProgram> => { approveAuthoredFixture(args[0]); return raw_adaptHitProgram(...args); };
+const adaptTriggerProgram = (...args: Parameters<typeof raw_adaptTriggerProgram>): ReturnType<typeof raw_adaptTriggerProgram> => { approveAuthoredFixture(args[0]); return raw_adaptTriggerProgram(...args); };

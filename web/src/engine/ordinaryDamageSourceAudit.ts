@@ -244,12 +244,12 @@ function checkDependencies(
   }
   for (const formula of adapted.formulas) {
     const matches = (request.formulas ?? []).filter((item) => item.key === formula.key);
-    if (matches.length !== 1 || !same(matches[0]!.expression, formula.expression)) {
+    if (matches.length !== 1 || !same(matches[0], formula)) {
       fail('compiled_mismatch', `formulas[${JSON.stringify(formula.key)}]`, '最终具名公式与完整命中转换不一致');
     }
   }
   for (const entry of adapted.typeEntries) {
-    const matches = request.typeCatalog.types.filter((item) => item.key === entry.key);
+    const matches = request.typeCatalog.types.filter((item) => item.key === entry.key && item.domain === entry.domain);
     if (matches.length !== 1 || matches[0]!.domain !== entry.domain) {
       fail('compiled_mismatch', `typeCatalog.types[${JSON.stringify(entry.key)}]`, '最终类型目录缺失或类型域冲突');
     }

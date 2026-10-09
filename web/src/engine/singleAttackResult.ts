@@ -383,7 +383,7 @@ export function assessSingleAttackResult(compileRequest: CompileRequest, runRequ
       check(data.providerRef === providerRef, `${path}.data.providerRef`, '与实际来源能力引用中的挂载不一致');
     }
     for (const key of ['rawAmount', 'mitigatedAmount', 'postDefenseDamage', 'shieldAbsorbed', 'actualHpLoss', 'overkillDamage']) nonnegative(data[key], `${path}.data.${key}`);
-    for (const key of ['resistanceBeforePenetration', 'penetrationPercent', 'penetrationFlat', 'effectiveResistance', 'resistanceFactor', 'normalPartPostResistance', 'critPartPostResistance']) finite(data[key], `${path}.data.${key}`);
+    for (const key of ['resistanceFactor', 'normalPartPostResistance', 'critPartPostResistance']) finite(data[key], `${path}.data.${key}`);
     const damageId = integer(data.damageId, `${path}.data.damageId`);
     const castId = integer(data.castInstanceId, `${path}.data.castInstanceId`);
     const phantom = boolean(data.phantom, `${path}.data.phantom`);

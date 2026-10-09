@@ -1,3 +1,5 @@
+import { formulasUsedByInternalValue } from './approvedFormulaValues';
+import { sameFormulaPayload } from '../services/skillFormulaContract';
 import type { SkillEffectLifecycle, SkillEffectResult, SkillEffectValueRule } from '../types/skillEffect';
 import type { SkillFormula } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
@@ -10,7 +12,7 @@ import type {
 } from '../types/genericEngine';
 import {
   compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
-  NumericAdaptationError, type NumericCompileState, tryFoldConstant, wrapValueRuleExpression
+  NumericAdaptationError, staticNumericField, type NumericCompileState, tryFoldConstant, wrapValueRuleExpression
 } from './numericAdapter';
 
 export class PersistentAdaptationError extends NumericAdaptationError {
@@ -194,9 +196,9 @@ function adaptMovementSlow(
   const strength = compileValueRule(result.valueRule, `${resultPath}.valueRule`, bindState);
   return {
     provider: {
-      providerKey, kind: 'status', stableId: providerKey,
+      providerKey, skillKey: authored.skillKey, kind: 'status', stableId: providerKey,
       lifecycle: {
-        durationMs: duration, maxStacks: 1, refreshPolicy: 'replace', instanceScope: 'source_target'
+        durationMs: duration, maxStacks: staticNumericField(authored.lifecycle.maxStacksValue, root + '.lifecycle.maxStacksValue', numericState(authored, false, false), fail), refreshPolicy: 'replace', instanceScope: 'source_target'
       },
       statusContributions: [{
         resultRef: authored.result.resultKey, statusKey: detail.statusKey,
@@ -250,9 +252,9 @@ function adaptHealingRatioMax(
   };
   return {
     provider: {
-      providerKey, kind: 'status', stableId: providerKey,
+      providerKey, skillKey: authored.skillKey, kind: 'status', stableId: providerKey,
       lifecycle: {
-        durationMs: duration, maxStacks: 1, refreshPolicy: 'replace', instanceScope: 'source_target'
+        durationMs: duration, maxStacks: staticNumericField(authored.lifecycle.maxStacksValue, root + '.lifecycle.maxStacksValue', numericState(authored, false, false), fail), refreshPolicy: 'replace', instanceScope: 'source_target'
       },
       modifiers: [modifier]
     },
@@ -286,8 +288,8 @@ function adaptTargetAttribute(authored: AuthoredPersistentResult, providerKey: s
   const modifier: ModifierDefinition = { modifierKey: result.resultKey, kind: 'attribute', target: `self.attr.${attributeKey}`,
     valuePolicy: multiplier ? 'multiply' : zone.calculationMode === 'FLAT_ADD' ? 'add' : 'add_percent', bucket: zone.modifierZoneKey,
     value: constExpr(multiplier ? 1 + signedValue : signedValue) };
-  return { provider: { providerKey, stableId: providerKey, kind: 'status',
-    lifecycle: { durationMs: duration, maxStacks: 1, refreshPolicy: 'replace', instanceScope: 'source_target' }, modifiers: [modifier] },
+  return { provider: { providerKey, stableId: providerKey, skillKey: authored.skillKey, kind: 'status',
+    lifecycle: { durationMs: duration, maxStacks: staticNumericField(authored.lifecycle.maxStacksValue, root + '.lifecycle.maxStacksValue', numericState(authored, false, false), fail), refreshPolicy: 'replace', instanceScope: 'source_target' }, modifiers: [modifier] },
     operation: { operation: 'apply_provider', target: 'target', providerDefinitionRef: providerKey }, params: numeric.params,
     formulas: [...numeric.namedFormulas.values()], requiredAttributes: [...new Set([attributeKey, ...numeric.requiredAttributes])] };
 }
@@ -321,7 +323,8 @@ function compilePersistentResultBody(
 
 /** 命中入口复用的持续结果编译；保留原法术护盾粒度，不在这里拒绝或改写。 */
 export function compilePersistentResult(authored: AuthoredPersistentResult, providerKey: string): AdaptedPersistentResult {
-  return compilePersistentResultBody(authored, providerKey);
+  const result = compilePersistentResultBody(authored, providerKey);
+  return { ...result, formulas: formulasUsedByInternalValue(result, result.formulas) };
 }
 
 export function adaptPersistentResult(authored: AuthoredPersistentResult, providerKey: string): AdaptedPersistentResult {
@@ -407,7 +410,7 @@ export function withPersistentResults(
     ability.operations.push(adapted.operation);
     for (const formula of adapted.formulas) {
       const old = request.formulas.find((row) => row.key === formula.key);
-      if (old && JSON.stringify(old.expression) !== JSON.stringify(formula.expression)) fail('formulas', '具名公式与现有输入冲突');
+      if (old && !sameFormulaPayload(old, formula)) fail('formulas', '具名公式与现有输入冲突');
       if (!old) request.formulas.push(formula);
     }
     for (const actor of request.combatants) {

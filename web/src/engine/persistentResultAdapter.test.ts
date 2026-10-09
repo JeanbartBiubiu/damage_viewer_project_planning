@@ -1,5 +1,7 @@
+import { approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
-import { adaptPersistentResult, compilePersistentResult, withPersistentResults, type AuthoredPersistentResult } from './persistentResultAdapter';
+import { adaptPersistentResult as raw_adaptPersistentResult, compilePersistentResult, withPersistentResults, type AuthoredPersistentResult } from './persistentResultAdapter';
 import type { CompileRequest } from '../types/genericEngine';
 import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
 import type { SkillEffectLifecycle, SkillEffectResult } from '../types/skillEffect';
@@ -99,7 +101,7 @@ describe('有界持续结果适配', () => {
     const formula: SkillFormula = {
       gameId: 'lol', skillKey: 'urgot_q', formulaKey: 'slow_formula', name: '减速', description: null,
       sortOrder: 0, createdAt: '', updatedAt: '',
-      expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'move_speed', attributeValueKind: 'CURRENT' }
+      expression: skillFormulaDefinition('urgot_q', { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'move_speed', attributeValueKind: 'CURRENT' })
     };
     const row = authored('slow', {
       formulas: [formula],
@@ -115,11 +117,11 @@ describe('有界持续结果适配', () => {
     expect(adapted.provider.statusContributions?.[0]?.strength).toEqual({
       op: 'min',
       args: [
-        { op: 'max', args: [{ op: 'mul', args: [{ op: 'ref', ref: 'status/urgot_q/slow_formula' }, { op: 'const', value: 0.01 }] }, { op: 'const', value: 0 }] },
+        { op: 'max', args: [{ op: 'mul', args: [{ op: 'ref', ref: 'status/urgot_q/levels/1/1/slow_formula' }, { op: 'const', value: 0.01 }] }, { op: 'const', value: 0 }] },
         { op: 'const', value: 1 }
       ]
     });
-    expect(adapted.formulas[0]?.expression).toEqual({ op: 'read', path: 'target.attr.move_speed.current' });
+    expect(adapted.formulas[0]?.expression).toEqual(formula.expression);
     expect(adapted.requiredAttributes).toEqual(['move_speed']);
     expect(adapted.operation).toEqual({ operation: 'apply_provider', target: 'target', providerDefinitionRef: 'status:slow' });
   });
@@ -198,7 +200,7 @@ describe('有界持续结果适配', () => {
     const formula: SkillFormula = {
       gameId: 'lol', skillKey: 'morellonomicon', formulaKey: 'hp', name: '生命', description: null,
       sortOrder: 0, createdAt: '', updatedAt: '',
-      expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'CURRENT' }
+      expression: skillFormulaDefinition('morellonomicon', { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'CURRENT' })
     };
     expect(() => adaptPersistentResult(authored('wound', {
       formulas: [formula],
@@ -248,3 +250,5 @@ describe('有界持续结果适配', () => {
     expect(merged.sharedProviders![0]!.abilities![0]!.operations?.[1]).toMatchObject({ operation: 'apply_provider' });
   });
 });
+
+const adaptPersistentResult = (...args: Parameters<typeof raw_adaptPersistentResult>): ReturnType<typeof raw_adaptPersistentResult> => { approveAuthoredFixture(args[0]); return raw_adaptPersistentResult(...args); };

@@ -1,3 +1,4 @@
+import { tryFoldConstant } from './numericAdapter';
 import type {
   AbilityDefinition, AttackRecord, BudgetCause, CompileRequest, DamageBreakdown, DamageRecord, DoneResult,
   ExecutionSummary, MechanicRecord, OperationDefinition, ProviderStateFieldSchema, RecordingSummary, RunRequest, StopReason, SeriesPoint, SeriesSamplingEvidence
@@ -331,16 +332,17 @@ export function assessContinuousAttackResult(
     const at = integer(row.timeMs, `${path}.timeMs`);
     for (const key of ['owner', 'providerRef', 'providerDefinitionRef', 'skillKey', 'stateKey', 'operationRef']) text(row[key], `${path}.${key}`);
     const declaration = ammoDeclarations.find(([key]) => key === row.stateKey)?.[1];
+    const maximum = typeof declaration?.maxValue === 'number' ? declaration.maxValue : declaration?.maxValue ? tryFoldConstant(declaration.maxValue) : null;
     const before = integer(row.beforeValue, `${path}.beforeValue`);
     const after = integer(row.afterValue, `${path}.afterValue`);
     const ready = nullableTime(row.readyAtMs, `${path}.readyAtMs`);
     if (row.useRef !== null) text(row.useRef, `${path}.useRef`);
     check(at <= finalTime && row.owner === plan.source && row.providerRef === primaryRef && row.providerDefinitionRef === primaryProvider?.providerKey
-      && row.skillKey === plan.skillKey && !!declaration && before <= declaration.maxValue! && after <= declaration.maxValue!, path, '机制记录身份、时刻或库存与主体声明不一致');
+      && row.skillKey === plan.skillKey && !!declaration && maximum !== null && before <= maximum && after <= maximum, path, '机制记录身份、时刻或库存与主体声明不一致');
     check(['STATE_CHANGED', 'WAIT_STARTED', 'WAIT_ENDED'].includes(row.kind as string), path, '未知机制记录种类');
     if (row.kind === 'WAIT_STARTED') check(before === 0 && after === 0 && ready !== null && ready > at, path, '等待必须由耗尽启动并提供真实唤醒时点');
-    if (row.kind === 'WAIT_ENDED') check(before === 0 && after === declaration?.maxValue && row.useRef === null && (ready === null || ready === at), path, '恢复结束必须一次补满且不能伪造攻击身份');
-    if (row.kind === 'STATE_CHANGED') check(row.useRef === null ? before === 0 && after === declaration?.maxValue : before > 0 && after === before - 1,
+    if (row.kind === 'WAIT_ENDED') check(before === 0 && after === maximum && row.useRef === null && (ready === null || ready === at), path, '恢复结束必须一次补满且不能伪造攻击身份');
+    if (row.kind === 'STATE_CHANGED') check(row.useRef === null ? before === 0 && after === maximum : before > 0 && after === before - 1,
       path, '库存变化必须是实际消费1或合法一次补满');
     return row as MechanicRecord;
   });
@@ -438,7 +440,7 @@ export function assessContinuousAttackResult(
     check(sourceHpAfter >= sourceHpBefore && sourceHpAfter <= hpMaximum[row.source as 'source' | 'target']
       && hpBefore <= hpMaximum[row.target as 'source' | 'target'] && hpAfter <= hpBefore,
     path, '伤害来源生命受量减少或逐笔生命超过初始上限');
-    for (const key of ['resistanceBeforePenetration', 'penetrationPercent', 'penetrationFlat', 'effectiveResistance', 'resistanceFactor', 'normalPartPostResistance', 'critPartPostResistance']) finite(row[key], `${path}.${key}`);
+    for (const key of ['resistanceFactor', 'normalPartPostResistance', 'critPartPostResistance']) finite(row[key], `${path}.${key}`);
     const operation = compiledOperation(input, row.operationPath as string);
     const contract = damageContracts.get(row.operationPath as string);
     check(operation?.operation === 'damage' && operation.ref === row.operationRef && operation.damageType === row.damageType

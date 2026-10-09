@@ -1,8 +1,10 @@
+import { declaredFormulaForApprovedReads } from './approvedFormulaValues';
+import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
 import type { GenericFormulaExpr, GenericRules } from '../types/genericEngine';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillEffectResult } from '../types/skillEffect';
 import type { SimulationSkillSource, SimulationSnapshot } from '../types/simulationSnapshot';
-import { compileNumericValue, constExpr, createNumericCompileState, NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression } from './numericAdapter';
+import { compileNumericValue, constExpr, createNumericCompileState, NumericAdaptationError, tryFoldConstant, hasNamedFormulaReference, wrapValueRuleExpression } from './numericAdapter';
 
 export type SimulationAttributeDerivation = NonNullable<GenericRules['attributeDerivations']>[number];
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
@@ -36,8 +38,9 @@ export function permanentAttributeConversion(snapshot: SimulationSnapshot, confi
   const rebind = (expression: GenericFormulaExpr): GenericFormulaExpr => ({ ...expression,
     ...(expression.path ? { path: expression.path.replace(/^(source|target)\./, (_whole, owner: string) => `${owner === 'source' ? side : side === 'source' ? 'target' : 'source'}.`) } : {}),
     ...(expression.args ? { args: expression.args.map(rebind) } : {}) });
-  const value = rebind(overwrite ? magnitude : { op: 'add', args: [constExpr(1), magnitude] });
-  return { combatantKey: side, attributeKey, value, ...(multiplier ? { valuePolicy: 'multiply' as const } : {}) };
+  const selected = folded === null ? magnitude : constExpr(folded);
+  const value = rebind(overwrite ? selected : { op: 'add', args: [constExpr(1), selected] });
+  return { combatantKey: side, ...(hasNamedFormulaReference(value) ? { skillKey: source.skillKey } : {}), attributeKey, value, ...(multiplier ? { valuePolicy: 'multiply' as const } : {}) };
 }
 
 export function validateSimulationAttributeDerivations(derivations: SimulationAttributeDerivation[]) {
@@ -49,12 +52,20 @@ export function validateSimulationAttributeDerivations(derivations: SimulationAt
     }
     outputs.add(key);
   }
-  const visit = (value: GenericFormulaExpr, path: string) => {
+  const visit = (value: GenericFormulaExpr, path: string, owner: 'source' | 'target') => {
+    if (value.op === 'ref' && value.ref) {
+      const formula = declaredFormulaForApprovedReads(value.ref);
+      if (!formula) fail(path, '派生公式缺少完整读取依赖');
+      for (const input of skillFormulaReachableInputs(formula!.expression)) if (input.binding.kind === 'attribute') {
+        const side = input.binding.object === 'source' ? owner : owner === 'source' ? 'target' : 'source';
+        if (input.binding.valueKind !== 'BASE' && outputs.has(`${side}.${input.binding.attributeKey}`)) fail(path, '派生不得回读自身或其它派生总值');
+      }
+    }
     if (value.op === 'read') {
       const match = /^(source|target)\.attr\.([a-z][a-z0-9_]*)\.(\w+)$/.exec(value.path ?? '');
       if (!match || match[3] !== 'base' && outputs.has(`${match[1]}.${match[2]}`)) fail(path, '派生不得回读自身或其它派生总值');
     }
-    value.args?.forEach((child, index) => visit(child, `${path}.args[${index}]`));
+    value.args?.forEach((child, index) => visit(child, `${path}.args[${index}]`, owner));
   };
-  derivations.forEach((row, index) => visit(row.value, `rules.attributeDerivations[${index}].value`));
+  derivations.forEach((row, index) => visit(row.value, `rules.attributeDerivations[${index}].value`, row.combatantKey));
 }

@@ -2,7 +2,7 @@ import type { ContinuousAttackView } from './continuousAttackPresentation';
 
 const archiveFields = ['taskKind', 'adapterVersion', 'snapshot', 'snapshotDigest', 'attributeInputs', 'initialHealth', 'equipmentAssumptions', 'mechanicStateInputs', 'ignoredCastCosts',
   'attackSpeedAdmission', 'compileRequest', 'runRequest', 'runInputHash', 'coverage', 'operationOrigins', 'equipmentOrigins', 'skillOrigins', 'wasm',
-  'compileResult', 'runResult', 'releaseResult', 'assessment', 'outcome', 'cleanup', 'failurePhase', 'error'] as const;
+  'formulaPreflight', 'compileResult', 'runResult', 'releaseResult', 'assessment', 'outcome', 'cleanup', 'failurePhase', 'error'] as const;
 const forbiddenField = /^(?:__proto__|prototype|constructor|headers?|requests?|responses?|connection|apiBaseUrl|baseUrl|adminToken|authorization|proxyAuthorization|cookies?|password|passwd|secret|apiKey|api_key|accessToken|refreshToken|bearerToken|token|controller|client|worker|localStorage|sessionStorage)$/i;
 const forbiddenSuffix = /(?:password|secret|token|apiKey)$/i;
 function safeErrorText(value: string) {

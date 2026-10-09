@@ -6,6 +6,7 @@ import { simulationSample } from '../fixtures/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import type { RecordBudget, SafetyBudget, SamplingConfig } from '../../src/types/genericEngine';
+import type { NumericValue } from '../../src/types/numericValue';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 import { confirmSimulationConfiguration, isolateCharacterSourcesOnPage, readIsolatedSimulationSnapshot, simulationComparisonSelection, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
 import { continuousExpectation } from '../fixtures/continuousExpectation';
@@ -17,6 +18,61 @@ test.beforeEach(async ({ page }) => {
   await page.route('**/api/games', route => route.fulfill({ json: [{ gameId: 'demo', gameName: '独立连续用例', representativeImageKey: null }] }));
   await installSimulationSelectionApi(page, '**', 'demo');
   await page.goto('/#/simulation/basic-attack');
+});
+
+test('有限共同普攻独立期望核对原关系，保留倍率夹取暴击且拒绝未知作者结构', () => {
+  const snapshot = simulationSample('lol');
+  const configuration = snapshot.skillConfigurations[0]!;
+  const skillKey = 'shared_basic_attack';
+  const formulaKeys: Record<string, string> = { raw: 'attack_damage', interval: 'attack_interval_ms', multiplier: 'critical_multiplier' };
+  const parameterKeys: Record<string, string> = { milliseconds: 'milliseconds_per_second', base_multiplier: 'base_critical_multiplier' };
+  configuration.skill.skillKey = skillKey;
+  snapshot.selection.basicAttackSkillKey = skillKey;
+  for (const row of configuration.parameters) { row.skillKey = skillKey; row.parameterKey = parameterKeys[row.parameterKey]!; }
+  for (const row of configuration.formulas) {
+    row.skillKey = skillKey; row.formulaKey = formulaKeys[row.formulaKey]!;
+    for (const input of row.expression.inputs) if (input.binding.kind === 'parameter') {
+      input.binding.skillKey = skillKey; input.binding.parameterKey = parameterKeys[input.binding.parameterKey]!;
+    }
+  }
+  const renameNumeric = (value: NumericValue) => {
+    if (value.kind === 'FORMULA') value.formulaKey = formulaKeys[value.formulaKey]!;
+    else if (value.kind === 'PARAMETER') value.parameterKey = parameterKeys[value.parameterKey]!;
+  };
+  for (const effect of configuration.effects) {
+    effect.skillKey = skillKey;
+    for (const result of effect.results) {
+      if (result.valueRule) renameNumeric(result.valueRule.value);
+      if (result.resultType === 'DAMAGE' && result.detail.critical.multiplierValue) renameNumeric(result.detail.critical.multiplierValue);
+    }
+  }
+  for (const process of configuration.processes) { process.skillKey = skillKey; if (process.cooldown) renameNumeric(process.cooldown.durationValue); }
+  Object.assign(snapshot.source.selectedLevelValues, { attack_damage: 100, attack_speed: .8 });
+  snapshot.target.selectedLevelValues.armor = 100;
+  const inputs = { source: { critical_strike_chance: .25, critical_strike_damage_bonus_percent: .5 }, target: { armor_pen_flat: 0 } };
+  expect(continuousExpectation(snapshot, inputs)).toMatchObject({ rawInterval: 1250, interval: 1250, count: 9,
+    damagePerAttack: 68.75, damageTotal: 618.75, killedAtMs: 10000 });
+  const result = configuration.effects[1]!.results[0]!;
+  if (result.resultType !== 'DAMAGE') throw new Error('明确样例缺少原伤害结果。');
+  result.valueRule!.fixedMultiplier = 2;
+  result.valueRule!.fixedMinValue = 50;
+  result.valueRule!.fixedMaxValue = 150;
+  expect(continuousExpectation(snapshot, inputs)).toMatchObject({ count: 6, damagePerAttack: 103.125, damageTotal: 618.75, killedAtMs: 6250 });
+  result.valueRule!.fixedMultiplier = 1;
+  result.valueRule!.fixedMinValue = 200;
+  result.valueRule!.fixedMaxValue = null;
+  expect(continuousExpectation(snapshot, inputs)).toMatchObject({ count: 5, damagePerAttack: 137.5, damageTotal: 687.5, killedAtMs: 5000 });
+  const changed = structuredClone(snapshot);
+  changed.skillConfigurations[0]!.formulas[0]!.expression.stages[0]!.expression = { op: 'const', value: '100' };
+  expect(() => continuousExpectation(changed, inputs)).toThrow(/运算关系/);
+  const foreign = structuredClone(snapshot);
+  const binding = foreign.skillConfigurations[0]!.formulas[1]!.expression.inputs.find(input => input.binding.kind === 'parameter')!.binding;
+  if (binding.kind === 'parameter') binding.skillKey = 'different_skill';
+  expect(() => continuousExpectation(foreign, inputs)).toThrow(/绑定/);
+  const dynamic = structuredClone(snapshot);
+  dynamic.skillConfigurations[0]!.parameters[0]!.valueMode = 'RUNTIME_INPUT';
+  dynamic.skillConfigurations[0]!.parameters[0]!.fixedValue = null;
+  expect(() => continuousExpectation(dynamic, inputs)).toThrow(/固定参数目录/);
 });
 
 function sample(damage = 100, armor = 0, speed = 1) {
@@ -40,6 +96,11 @@ async function runSnapshot(page: Page, snapshot: SimulationSnapshot, testInfo: T
     const { continuousAttackRequest, continuousAttackRunInputHash } = await import(requestPath);
     const { GenericEngineClient } = await import(clientPath);
     const { assessContinuousAttackResult } = await import(resultPath);
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { preflightSkillFormulas } = await import(preflightPath);
+    const { validateConsumedFormulaValues, validateApprovedFormulaValues } = await import(proofPath);
+    const client = new GenericEngineClient();
+    const formulaPreflight = await preflightSkillFormulas(snapshot, client);
     const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) inputs[row.side as 'source' | 'target'][row.attribute.attributeKey] = 0;
     if (options.crit !== undefined) inputs.source.critical_strike_chance = options.crit;
@@ -52,11 +113,12 @@ async function runSnapshot(page: Page, snapshot: SimulationSnapshot, testInfo: T
     if (options.safetyBudget) Object.assign(continuous.runRequest.safetyBudget, options.safetyBudget);
     if (options.sampling) continuous.runRequest.sampling = options.sampling;
     continuous.runInputHash = await continuousAttackRunInputHash(continuous.runRequest, continuous.attackSpeedAdmission);
-    const client = new GenericEngineClient();
     let compileResult, runRequest, done, assessment, error, releaseResult;
     try {
       compileResult = await client.compile(prepared.compileRequest);
       if (!compileResult.ok || !compileResult.sessionId) throw new Error(JSON.stringify(compileResult.errors));
+      validateConsumedFormulaValues(prepared.approvedFormulaValues, prepared.compileRequest.formulas ?? [], compileResult.metadata?.approvedStaticValues ?? {});
+      validateApprovedFormulaValues(prepared.compileRequest.formulas ?? [], compileResult.metadata?.approvedStaticValues ?? {});
       runRequest = { ...continuous.runRequest, sessionId: compileResult.sessionId };
       done = await client.run(runRequest);
       assessment = assessContinuousAttackResult(prepared.compileRequest, runRequest, done, prepared.operationOrigins);
@@ -65,7 +127,7 @@ async function runSnapshot(page: Page, snapshot: SimulationSnapshot, testInfo: T
       if (compileResult?.sessionId && client.hasLiveWorker) releaseResult = await client.release(compileResult.sessionId, prepared.compileRequest.rulesHash);
       client.terminate();
     }
-    return { prepared, continuous, compileResult, runRequest, done, assessment, error, releaseResult, liveWorker: client.hasLiveWorker };
+    return { prepared, formulaPreflight, continuous, compileResult, runRequest, done, assessment, error, releaseResult, liveWorker: client.hasLiveWorker };
   }, { snapshot, options });
   const path = testInfo.outputPath(`${name}.json`);
   mkdirSync(dirname(path), { recursive: true });
@@ -159,9 +221,11 @@ test('同名结果及多次挂接的完整作者路径逐笔可追溯，独立�
 });
 
 async function preparePage(page: Page, snapshot = sample()) {
+  let loaded: SimulationSnapshot | undefined;
   await page.route('**/api/admin/games/demo/simulation-snapshot', route => {
     expect(route.request().method()).toBe('POST');
-    return route.fulfill({ json: simulationSnapshotWithSelection(snapshot, route.request().postDataJSON()) });
+    loaded = simulationSnapshotWithSelection(snapshot, route.request().postDataJSON());
+    return route.fulfill({ json: loaded });
   });
   await chooseSimulationEntity(page, '攻击方角色', 'actor_a'); await chooseSimulationLevel(page, '攻击方等级', 1);
   await chooseSimulationEntity(page, '目标角色', 'actor_b'); await chooseSimulationLevel(page, '目标等级', 1);
@@ -170,6 +234,16 @@ async function preparePage(page: Page, snapshot = sample()) {
   await confirmSimulationConfiguration(page);
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
+  if (!loaded) throw new Error('页面没有实际读取快照。');
+  return loaded;
+}
+async function hasFormulaProof(page: Page, snapshot: SimulationSnapshot) {
+  return page.evaluate(async snapshot => {
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { snapshotFormulaProofIdentity } = await import(preflightPath);
+    const { matchesFormulaProofScope } = await import(proofPath);
+    return matchesFormulaProofScope(snapshotFormulaProofIdentity(snapshot));
+  }, snapshot);
 }
 const runButton = (page: Page) => page.getByRole('button', { name: '连续普攻', exact: true });
 
@@ -179,12 +253,12 @@ test('页面显式上界与生命准入、完整击杀、白名单档案及输�
   await expect(page.getByLabel('观察时长（毫秒）', { exact: true })).toHaveValue('30000');
   await runButton(page).click();
   await expect(page.getByText(/属性目录未提供上界，请明确填写/)).toBeVisible();
-  expect(workers).toBe(0);
+  expect(workers).toBe(2); // 读取预检与执行准入预检均正常释放，尚未正式运行。
   await page.getByLabel('攻速输入上界', { exact: true }).fill('1');
   await page.getByLabel('目标初始当前生命', { exact: true }).fill('0');
   await runButton(page).click();
   await expect(page.getByText(/目标初始已死亡，不能执行本阶段连续普攻/)).toBeVisible();
-  expect(workers).toBe(0);
+  expect(workers).toBe(2);
   await page.getByLabel('目标初始当前生命', { exact: true }).fill('250');
   await runButton(page).click();
   await expect(page.getByText('连续普攻已完成击杀，会话正常释放。', { exact: true })).toBeVisible();
@@ -214,14 +288,16 @@ async function fault(page: Page, mode: 'record' | 'stall' | 'crash' | 'release_f
     const state = { created: 0, terminated: 0, messages: [] as string[] };
     (window as unknown as { continuousWorkers: Diagnostics }).continuousWorkers = state;
     window.Worker = class extends NativeWorker {
+      private hasRun = false;
       constructor(url: string | URL, options?: WorkerOptions) { super(url, options); state.created++; }
       postMessage(message: { type: string; id?: string; sessionId?: string }) {
         state.messages.push(message.type);
+        if (message.type === 'run') this.hasRun = true;
         if (message.type === 'run' && (mode === 'stall' || mode === 'crash')) {
           if (mode === 'crash') queueMicrotask(() => this.onerror?.call(this, new ErrorEvent('error', { message: '专项线程崩溃' })));
           return;
         }
-        if (message.type === 'release' && mode === 'release_fail') {
+        if (message.type === 'release' && mode === 'release_fail' && this.hasRun) {
           queueMicrotask(() => this.onmessage?.call(this, new MessageEvent('message', { data: { type: 'releaseResult', id: message.id,
             frames: [{ kind: 214, schemaVersion: 1, flags: 0, payload: Array.from(new TextEncoder().encode(JSON.stringify({ ok: false, released: false, sessionId: message.sessionId }))) }] } })));
           return;
@@ -234,7 +310,7 @@ async function fault(page: Page, mode: 'record' | 'stall' | 'crash' | 'release_f
 }
 const diagnostics = (page: Page) => page.evaluate(() => (window as unknown as { continuousWorkers: Diagnostics }).continuousWorkers);
 for (const mode of ['stall', 'crash', 'release_fail'] as const) test(`连续${mode}异常收尾不重建线程或报整体成功`, async ({ page }) => {
-  await preparePage(page); await page.getByLabel('攻速输入上界', { exact: true }).fill('1');
+  const snapshot = await preparePage(page); await page.getByLabel('攻速输入上界', { exact: true }).fill('1');
   await fault(page, mode);
   if (mode === 'stall') await page.clock.install();
   await runButton(page).click();
@@ -245,9 +321,10 @@ for (const mode of ['stall', 'crash', 'release_fail'] as const) test(`连续${mo
     await expect(page.getByTestId('continuous-attack-completed-count')).toHaveText('6');
     await expect(page.getByRole('region', { name: '连续普攻结果', exact: true })).toContainText('会话释放失败');
   } else await expect(page.getByRole('region', { name: '连续普攻结果', exact: true })).toContainText('线程已销毁');
-  expect((await diagnostics(page)).created).toBe(1);
-  expect((await diagnostics(page)).terminated).toBe(1);
-  expect((await diagnostics(page)).messages.filter(row => row === 'release')).toHaveLength(mode === 'release_fail' ? 1 : 0);
+  expect((await diagnostics(page)).created).toBe(2);
+  expect((await diagnostics(page)).terminated).toBe(2);
+  expect((await diagnostics(page)).messages.filter(row => row === 'release')).toHaveLength(mode === 'release_fail' ? 2 : 1);
+  expect(await hasFormulaProof(page, snapshot)).toBe(false);
 });
 
 async function holdResult(page: Page) {
@@ -270,14 +347,14 @@ test('同步双击互斥、输入冻结、取消重跑及迟到结果守卫', as
   await expect(page.getByLabel('攻速输入上界', { exact: true })).toBeDisabled();
   await expect(page.getByRole('button', { name: '执行一次普攻', exact: true })).toBeDisabled();
   await expect(page.getByRole('button', { name: '编译验证', exact: true })).toBeDisabled();
-  expect((await diagnostics(page)).created).toBe(1);
+  expect((await diagnostics(page)).created).toBe(2);
   await page.getByRole('button', { name: '取消当前请求', exact: true }).click();
   await page.getByLabel('观察时长（毫秒）', { exact: true }).fill('999'); await runButton(page).click();
   await expect(page.getByTestId('continuous-attack-completed-count')).toHaveText('1');
   await page.evaluate(() => (window as unknown as { resumeContinuous: () => void }).resumeContinuous());
   await expect(page.getByTestId('continuous-attack-completed-count')).toHaveText('1');
-  expect((await diagnostics(page)).created).toBe(2);
-  expect((await diagnostics(page)).messages.filter(row => row === 'release')).toHaveLength(1);
+  expect((await diagnostics(page)).created).toBe(4);
+  expect((await diagnostics(page)).messages.filter(row => row === 'release')).toHaveLength(3);
 });
 
 test('连续运行拒绝离开保留任务，确认离开销毁工作线程', async ({ page }) => {
@@ -286,30 +363,31 @@ test('连续运行拒绝离开保留任务，确认离开销毁工作线程', as
   await expect.poll(() => page.evaluate(() => typeof (window as unknown as { resumeContinuous: () => void }).resumeContinuous)).toBe('function');
   page.once('dialog', dialog => dialog.dismiss());
   await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
-  expect((await diagnostics(page)).terminated).toBe(0);
+  expect((await diagnostics(page)).terminated).toBe(1);
   page.once('dialog', dialog => dialog.accept());
   await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
   await expect(page).toHaveURL(/#\/attributes$/);
-  await expect.poll(async () => (await diagnostics(page)).terminated).toBe(1);
+  await expect.poll(async () => (await diagnostics(page)).terminated).toBe(2);
   await page.evaluate(() => (window as unknown as { resumeContinuous: () => void }).resumeContinuous());
   await expect(page.getByRole('region', { name: '连续普攻结果', exact: true })).toHaveCount(0);
 });
 
 test('连接变更确认后旧连续任务与输入失效，迟到结果不能回流', async ({ page }) => {
-  await preparePage(page); await page.getByLabel('攻速输入上界', { exact: true }).fill('1');
+  const snapshot = await preparePage(page); await page.getByLabel('攻速输入上界', { exact: true }).fill('1');
   await fault(page, 'record'); await holdResult(page); await runButton(page).click();
   await expect.poll(() => page.evaluate(() => typeof (window as unknown as { resumeContinuous: () => void }).resumeContinuous)).toBe('function');
   await page.locator('.app-toolbar-field--api input').fill('http://127.0.0.1:19199');
   page.once('dialog', dialog => dialog.dismiss());
   await page.getByRole('button', { name: '应用', exact: true }).click();
-  expect((await diagnostics(page)).terminated).toBe(0);
+  expect((await diagnostics(page)).terminated).toBe(1);
   page.once('dialog', dialog => dialog.accept());
   await page.getByRole('button', { name: '应用', exact: true }).click();
-  await expect.poll(async () => (await diagnostics(page)).terminated).toBe(1);
+  await expect.poll(async () => (await diagnostics(page)).terminated).toBe(2);
   await page.evaluate(() => (window as unknown as { resumeContinuous: () => void }).resumeContinuous());
   await expect(page.getByRole('region', { name: '连续普攻结果', exact: true })).toHaveCount(0);
   await expect(page.getByLabel('攻速输入上界', { exact: true })).toHaveCount(0);
-  expect((await diagnostics(page)).messages.filter(row => row === 'release')).toHaveLength(0);
+  expect((await diagnostics(page)).messages.filter(row => row === 'release')).toHaveLength(1);
+  expect(await hasFormulaProof(page, snapshot)).toBe(false);
 });
 
 test('真实只读接口亚托克斯对阿狸：最新原配置经实际页面与最终Wasm连续击杀', async ({ page, request }, testInfo) => {
@@ -342,10 +420,14 @@ test('真实只读接口亚托克斯对阿狸：最新原配置经实际页面�
     if (url.origin === apiBase && request.method() !== 'OPTIONS') methods.push({ path: url.pathname, method: request.method() });
   });
   const httpReads: { method: string; path: string; status: number }[] = [];
+  const pageSnapshotReads: Promise<SimulationSnapshot>[] = [];
   page.on('response', response => {
     const url = new URL(response.url());
     const method = response.request().method();
     if (url.origin === apiBase && method !== 'OPTIONS') httpReads.push({ method, path: url.pathname, status: response.status() });
+    if (response.url() === apiBase + path && method === 'POST' && response.status() === 200) {
+      pageSnapshotReads.push(response.json() as Promise<SimulationSnapshot>);
+    }
   });
   await page.reload();
   await chooseSimulationEntity(page, '攻击方角色', 'champion_aatrox'); await chooseSimulationLevel(page, '攻击方等级', 1);
@@ -365,7 +447,11 @@ test('真实只读接口亚托克斯对阿狸：最新原配置经实际页面�
   const archive = JSON.parse(readFileSync((await (await pending).path())!, 'utf8'));
   expect(archive).toMatchObject({ taskKind: 'continuous_attack', outcome: 'passed', cleanup: 'released', assessment: { complete: true, completedCount: count } });
   expect(archive.assessment.damageDealt).toBeCloseTo(expected.damageTotal, 8);
-  expect(archive.snapshotDigest).toBe(snapshot.snapshotDigest);
+  // 页面明确保留来源等级；摘要必须对应本次页面实际读取，不能与另一组选项请求混比。
+  const pageSnapshots = await Promise.all(pageSnapshotReads);
+  expect(pageSnapshots.length).toBeGreaterThanOrEqual(2);
+  const pageSnapshot = pageSnapshots[pageSnapshots.length - 1]!;
+  expect(archive.snapshotDigest).toBe(pageSnapshot.snapshotDigest);
   expect(archive.runRequest.sampling.disabled).toBe(false);
   expect(archive.assessment.factsValid).toBe(true);
   expect(archive.runResult.seriesSamplingEvidence).toMatchObject({ method: 'uniform_time', requestedSampleEveryMs: 100,

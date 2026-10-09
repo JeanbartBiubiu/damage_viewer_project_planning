@@ -1,3 +1,6 @@
+import { formulasUsedByInternalValue } from './approvedFormulaValues';
+import { sameFormulaPayload } from '../services/skillFormulaContract';
+import { TypeCatalogEntries } from './typeCatalogEntries';
 import type { GameVampRule } from '../types/gameVamp';
 import type { NumericValue } from '../types/numericValue';
 import type {
@@ -20,7 +23,7 @@ import type {
 } from '../types/genericEngine';
 import {
   compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
-  NumericAdaptationError, type NumericCompileState, wrapValueRuleExpression
+  NumericAdaptationError, tryFoldConstant, staticNumericField, type NumericCompileState, wrapValueRuleExpression
 } from './numericAdapter';
 import { adaptDamageVamp, type AuthoredVampDamage } from './vampAdapter';
 import { runtimeDamageType } from './damageTypeAdapter';
@@ -121,7 +124,7 @@ type Combo = CountWindowCombo | EmpoweredCombo;
 type CompileCtx = {
   authored: AuthoredTriggerProgram;
   state: NumericCompileState;
-  typeEntries: Map<string, string>;
+  typeEntries: TypeCatalogEntries;
   vampRules?: GenericVampRule[];
   abilityTypes: Set<string>;
   outputRefs: Map<string, string>;
@@ -267,17 +270,19 @@ function lookupEffect(authored: AuthoredTriggerProgram, effectKey: string, path:
 }
 
 function foldPositiveInt(value: GenericFormulaExpr, path: string, label: string): number {
-  if (value.op !== 'const' || typeof value.value !== 'number' || !Number.isSafeInteger(value.value) || value.value <= 0) {
+  const approved = tryFoldConstant(value);
+  if (approved === null || !Number.isSafeInteger(approved) || approved <= 0) {
     return fail(path, `${label}必须是正整数，不能猜测窗口或补默认`);
   }
-  return value.value;
+  return approved;
 }
 
 function foldNumber(value: GenericFormulaExpr, path: string, label: string): number {
-  if (value.op !== 'const' || typeof value.value !== 'number' || !Number.isFinite(value.value)) {
+  const approved = tryFoldConstant(value);
+  if (approved === null || !Number.isFinite(approved)) {
     return fail(path, `${label}必须是明确有限数值，不能猜测`);
   }
-  return value.value;
+  return approved;
 }
 
 function compileConstNumber(value: NumericValue, path: string, authored: AuthoredTriggerProgram, label: string): number {
@@ -1013,8 +1018,8 @@ function compileCountWindow(combo: CountWindowCombo, ctx: CompileCtx): { abiliti
       listenerAbility(`listen_${pair.rewardRule.ruleKey}`, pair.rewardRule.ruleKey, matcher, rewardOps, ctx, combo.oncePerUse, rewardCondition)
     );
   }
-  const counterMax = compileConstNumber(combo.counter.detail.maxValue, planPath(ctx.authored.skillKey, `internalStates.${combo.counter.stateKey}.detail.maxValue`), ctx.authored, '计数上限');
-  const icdMs = foldPositiveInt(
+  compileConstNumber(combo.counter.detail.maxValue, planPath(ctx.authored.skillKey, `internalStates.${combo.counter.stateKey}.detail.maxValue`), ctx.authored, '计数上限');
+  foldPositiveInt(
     compileNumericValue(combo.icd.detail.durationValue, planPath(ctx.authored.skillKey, `internalStates.${combo.icd.stateKey}.detail.durationValue`), constantState(ctx.authored), fail),
     planPath(ctx.authored.skillKey, `internalStates.${combo.icd.stateKey}.detail.durationValue`),
     '内部冷却'
@@ -1023,10 +1028,10 @@ function compileCountWindow(combo: CountWindowCombo, ctx: CompileCtx): { abiliti
     abilities,
     schema: {
       [combo.counter.stateKey]: {
-        valueType: 'number', defaultValue: initial, maxValue: counterMax, durationMs: combo.delayMs, refreshPolicy: 'start_on_first_write'
+        valueType: 'number', defaultValue: staticNumericField(combo.counter.detail.initialValue, 'counter.initialValue', constantState(ctx.authored), fail), maxValue: staticNumericField(combo.counter.detail.maxValue, 'counter.maxValue', constantState(ctx.authored), fail), durationMs: combo.delayMs, refreshPolicy: 'start_on_first_write'
       },
       [combo.icd.stateKey]: {
-        valueType: 'number', defaultValue: 0, maxValue: 1, durationMs: icdMs, refreshPolicy: 'start_on_first_write'
+        valueType: 'number', defaultValue: 0, maxValue: 1, durationMs: staticNumericField(combo.icd.detail.durationValue, 'cooldown.durationValue', constantState(ctx.authored), fail), refreshPolicy: 'start_on_first_write'
       }
     }
   };
@@ -1127,7 +1132,7 @@ export function adaptTriggerProgram(authored: AuthoredTriggerProgram): AdaptedTr
   if (!Number.isInteger(authored.characterLevel) || authored.characterLevel < 1) fail('characterLevel', '本次等级必须明确且有效');
   const combo = classifyTriggerProgram(authored);
   const ctx: CompileCtx = {
-    authored, state: numericState(authored), typeEntries: new Map(), abilityTypes: new Set(), outputRefs: new Map(),
+    authored, state: numericState(authored), typeEntries: new TypeCatalogEntries(), abilityTypes: new Set(), outputRefs: new Map(),
     stateKeys: new Set([combo.kind === 'count_window' ? combo.counter.stateKey : combo.flag.stateKey, combo.icd.stateKey]),
     shieldGuard: {
       rule: combo.kind === 'count_window' ? combo.pairs[0]!.rewardRule : combo.startRule,
@@ -1140,9 +1145,10 @@ export function adaptTriggerProgram(authored: AuthoredTriggerProgram): AdaptedTr
     const authorOrder = stableSorted(authored.rules, (rule) => rule.sortOrder).map((rule) => rule.ruleKey);
     compiled.abilities.sort((left, right) => authorOrder.indexOf(left.listenerSpec!.listenerKey) - authorOrder.indexOf(right.listenerSpec!.listenerKey));
   }
+  for (const ability of compiled.abilities) ability.skillKey = authored.skillKey;
   const providerKey = `trigger:${authored.skillKey}`;
   const provider: ProviderDefinition = {
-    providerKey, kind: 'item', stableId: providerKey,
+    providerKey, skillKey: authored.skillKey, kind: 'item', stableId: providerKey,
     abilities: compiled.abilities,
     initialStateSchema: compiled.schema
   };
@@ -1152,7 +1158,7 @@ export function adaptTriggerProgram(authored: AuthoredTriggerProgram): AdaptedTr
       ? eventTypeKey(combo.pairs[0]!.eventType) as AdaptedTriggerProgram['consumeEvent']
       : undefined;
   return {
-    provider, params: ctx.state.params, formulas: [...ctx.state.namedFormulas.values()],
+    provider, params: ctx.state.params, formulas: formulasUsedByInternalValue(provider, [...ctx.state.namedFormulas.values()]),
     requiredAttributes: [...ctx.state.requiredAttributes],
     typeEntries: [...ctx.typeEntries].map(([key, domain]) => ({ key, domain })),
     vampRules: ctx.vampRules, abilityTypes: [...ctx.abilityTypes], combo: combo.kind,
@@ -1165,9 +1171,8 @@ export function adaptTriggerProgram(authored: AuthoredTriggerProgram): AdaptedTr
   };
 }
 
-function addType(request: CompileRequest, key: string, domain: string, path: string): void {
-  const old = request.typeCatalog.types.find((row) => row.key === key);
-  if (old && old.domain !== domain) fail(path, `类型域冲突：${key}`);
+function addType(request: CompileRequest, key: string, domain: string, _path: string): void {
+  const old = request.typeCatalog.types.find((row) => row.key === key && row.domain === domain);
   if (!old) request.typeCatalog.types.push({ key, domain });
 }
 
@@ -1279,7 +1284,7 @@ export function withTriggerProgram(
   }
   for (const formula of adapted.formulas) {
     const old = request.formulas.find((row) => row.key === formula.key);
-    if (old && JSON.stringify(old.expression) !== JSON.stringify(formula.expression)) fail('formulas', '具名公式与现有输入冲突');
+    if (old && !sameFormulaPayload(old, formula)) fail('formulas', '具名公式与现有输入冲突');
     if (!old) request.formulas.push(formula);
   }
   const actor = request.combatants.find((row) => row.key === owner);

@@ -1,7 +1,8 @@
+import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { describe, expect, it } from 'vitest';
 import { triggeredEquipmentSimulationSample } from '../../tests/fixtures/simulationTriggeredEquipment';
-import { assembleTriggeredEquipment } from './simulationTriggeredEquipment';
-import { assembleSimulation, inspectSimulationSnapshot } from './simulationAdapter';
+import { assembleTriggeredEquipment as raw_assembleTriggeredEquipment } from './simulationTriggeredEquipment';
+import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot } from './simulationAdapter';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 
 function undrivenEquipment() {
@@ -88,3 +89,8 @@ describe('按场景入口核对装备来源', () => {
     expect(() => inspectSimulationSnapshot(snapshot)).toThrow(/主动后置原因不能隐藏真实自然入口/);
   });
 });
+
+const assembleSimulation = (...args: Parameters<typeof raw_assembleSimulation>): ReturnType<typeof raw_assembleSimulation> => { approveSnapshotFixture(args[0]); return raw_assembleSimulation(...args); };
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };
+
+const assembleTriggeredEquipment = (...args: Parameters<typeof raw_assembleTriggeredEquipment>): ReturnType<typeof raw_assembleTriggeredEquipment> => { approveSnapshotFixture(args[0]); return raw_assembleTriggeredEquipment(...args); };

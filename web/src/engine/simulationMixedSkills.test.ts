@@ -1,7 +1,8 @@
+import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { describe, expect, it } from 'vitest';
 import { mixedAction, mixedInputs, prepareMixedSample, simulationEmpoweredSample, simulationMixedSample } from '../../tests/fixtures/simulationMixedSkills';
 import { skillActionRequest } from './skillActionRequest';
-import { inspectSimulationSnapshot } from './simulationAdapter';
+import { inspectSimulationSnapshot as raw_inspectSimulationSnapshot } from './simulationAdapter';
 import { plannedSkillsFromActions } from '../pages/simulation/simulationSkillActionDrafts';
 import { fixedValue } from '../types/numericValue';
 
@@ -97,3 +98,5 @@ describe('6B明确计划与完整装配', () => {
     await expect(skillActionRequest(prepared, snapshot, { ...inputs, actions: [{ ...inputs.actions[0]!, phaseKind: 'RECAST' }] })).rejects.toThrow(/关联原首次/);
   });
 });
+
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };

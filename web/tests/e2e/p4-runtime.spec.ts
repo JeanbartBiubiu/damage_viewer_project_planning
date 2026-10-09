@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -75,7 +76,7 @@ function program(kind: 'CHARGE' | 'RECAST' | 'DELAY' = 'CHARGE', autoRelease = f
 function refundProgram(): AuthoredProcessProgram {
   const p = program();
   p.formulas = [{ gameId: 'lol', skillKey: key, formulaKey: 'cost', name: '当前力量', description: null, createdAt: '', updatedAt: '',
-    expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'power', attributeValueKind: 'TOTAL' } }];
+    expression: skillFormulaDefinition(key, { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'power', attributeValueKind: 'TOTAL' }) }];
   p.effects[0]!.results[0]!.valueRule!.value = { kind: 'FORMULA', formulaKey: 'cost' };
   const refund = resource('refund', 'REFUND', parameterValue('paid'));
   refund.results[0]!.valueRule!.fixedMultiplier = 0.5;

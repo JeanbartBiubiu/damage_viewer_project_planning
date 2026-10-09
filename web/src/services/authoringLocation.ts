@@ -40,7 +40,7 @@ function validSegment(value: unknown): value is AuthoringLocationSegment {
       return exactKeys(value, ['kind', 'collection', 'value'])
         && (value.collection === 'skillKeys' || value.collection === 'skillCategoryKeys') && nonempty(value.value);
     case 'FORMULA_OPERAND':
-      return exactKeys(value, ['kind', 'operand']) && (value.operand === 0 || value.operand === 1);
+      return exactKeys(value, ['kind', 'operand']) && (value.operand === 0 || value.operand === 1 || value.operand === 2);
     case 'EXPECT_VALUE':
       return exactKeys(value, ['kind', 'field', 'value']) && field(value.field) && scalar(value.value);
     default:

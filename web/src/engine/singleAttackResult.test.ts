@@ -1,6 +1,7 @@
+import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { describe, expect, it } from 'vitest';
 import type { DoneResult, EvidenceItem, ProcessInstanceSnapshot } from '../types/genericEngine';
-import { assembleSimulation, inspectSimulationSnapshot, singleAttackRequest } from './simulationAdapter';
+import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot, singleAttackRequest } from './simulationAdapter';
 import { assessSingleAttackResult } from './singleAttackResult';
 import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
 
@@ -44,7 +45,7 @@ function sample(options: { damage?: number; hp?: number; hitCount?: number; atta
     { timeMs: 0, kind: 'skill_hit', ref: hitAbility, path: 'driverPlan.entries[first_attack_hit]', data: { ...identity, occurrenceId: 1, blocked: 0, reused: false } },
     { timeMs: 0, kind: 'emitted_event', ref: 'event/basic_attack_hit', data: { ...identity, eventType: 'event/basic_attack_hit', occurrenceId: 1, blocked: 0, reused: false } },
     { timeMs: 0, kind: 'damage', ref: hitAbility, data: {
-      phase: 'original', phantom: false, source: 'source', target: 'target', damageType: 'damage/physics',
+      phase: 'original', phantom: false, source: 'source', target: 'target', damageType: 'physics',
       abilityRef: hitAbility, operationRef: 'skills.sample_basic_attack.effects.hit.results.damage', castInstanceId: 3, damageId: 1,
       rawAmount: damage * 2, mitigatedAmount: damage, postDefenseDamage: damage, shieldAbsorbed: 0,
       actualHpLoss, overkillDamage: damage - actualHpLoss,
@@ -300,3 +301,6 @@ describe('单次普攻结果解释', () => {
     expect(() => assess(badWarning)).toThrow(/runResult\.warnings/);
   });
 });
+
+const assembleSimulation = (...args: Parameters<typeof raw_assembleSimulation>): ReturnType<typeof raw_assembleSimulation> => { approveSnapshotFixture(args[0]); return raw_assembleSimulation(...args); };
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };

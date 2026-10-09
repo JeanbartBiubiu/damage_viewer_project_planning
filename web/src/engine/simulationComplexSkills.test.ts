@@ -1,9 +1,11 @@
+import { approveSnapshotFixture, approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import { complexAction, complexHitRules, complexInputs, simulationComplexSample, simulationComplexNaturalSample } from '../../tests/fixtures/simulationComplexSkills';
-import { assembleActiveSkills } from './simulationActiveSkills';
-import { inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
+import { assembleActiveSkills as raw_assembleActiveSkills } from './simulationActiveSkills';
+import { inspectSimulationSnapshot as raw_inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
 import { skillActionRequest } from './skillActionRequest';
-import { adaptHitProgram } from './hitAdapter';
+import { adaptHitProgram as raw_adaptHitProgram } from './hitAdapter';
 import { normalizeSimulationSelection } from '../services/simulationSnapshotClient';
 import { plannedSkillsFromActions, removeSkillActionDraft, skillActionParentCandidates, skillActionPhases } from '../pages/simulation/simulationSkillActionDrafts';
 import { fixedValue, parameterValue, formulaValue } from '../types/numericValue';
@@ -64,14 +66,14 @@ describe('6C有限步骤和真实阶段', () => {
       parameterKey, name: parameterKey, description: null, sortOrder: index, valueType: 'INTEGER', valueMode: 'FIXED',
       fixedValue: index === 0 ? 5 : 105, levelValues: null, createdAt: '', updatedAt: '' }));
     configuration.formulas = [{ gameId: snapshot.gameId, skillKey: configuration.skill.skillKey, formulaKey: 'last_formula', name: '末段',
-      description: null, sortOrder: 0, expression: { nodeType: 'PARAMETER', parameterKey: 'last' }, createdAt: '', updatedAt: '' }];
+      description: null, sortOrder: 0, expression: skillFormulaDefinition(configuration.skill.skillKey, { nodeType: 'PARAMETER', parameterKey: 'last' }), createdAt: '', updatedAt: '' }];
     const channel = configuration.processes[0]!.steps[1]!;
     if (channel.stepType !== 'CHANNEL') throw new Error('样例步骤不符');
     channel.detail.firstExecution = 'CUSTOM_WINDOW';
     channel.detail.firstExecutionOffsetValue = parameterValue('first');
     channel.detail.lastExecutionOffsetValue = formulaValue('last_formula');
     expect(assembleActiveSkills(snapshot).providers[0]!.processes![0]!.steps[1]).toMatchObject({
-      firstExecutionOffsetMs: { op: 'const', value: 5 }, lastExecutionOffsetMs: { op: 'const', value: 105 } });
+      firstExecutionOffsetMs: { op: 'const', value: 5 }, lastExecutionOffsetMs: { op: 'ref', ref: 'process/sample_active/levels/1/1/last_formula' } });
     configuration.parameters[1]!.fixedValue = 601;
     expect(() => assembleActiveSkills(snapshot)).toThrow(/末段偏移不能超过/);
   });
@@ -230,7 +232,7 @@ describe('6C有限步骤和真实阶段', () => {
       identity: { source: { category: 'CHAMPION' as const, hostility: 'SELF' as const }, target: { category: 'CHAMPION' as const, hostility: 'ENEMY' as const } },
       chargeReleaseContext: { process: configuration.processes[0]!, rules: configuration.triggerRules } };
     const hit = adaptHitProgram(authored);
-    expect(JSON.stringify(hit.formulas)).toContain('use.charge_duration_ms');
+    expect(JSON.stringify(hit.formulas)).toContain('use_charge_duration');
     expect(hit.params).not.toHaveProperty('charged_ms');
     expect(() => adaptHitProgram({ ...authored, chargeReleaseContext: undefined })).toThrow(/同源蓄力/);
     const wrong = structuredClone(authored);
@@ -257,6 +259,11 @@ describe('6C有限步骤和真实阶段', () => {
     step.detail.releaseAtMaximum = true;
     const assembly = assembleActiveSkills(snapshot);
     expect(assembly.bindings[0]!.controls.map(control => control.action)).toEqual(['INITIAL']);
-    expect(JSON.stringify(assembly.formulas)).toContain('use.charge_duration_ms');
+    expect(JSON.stringify(assembly.formulas)).toContain('use_charge_duration');
   });
 });
+
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };
+const adaptHitProgram = (...args: Parameters<typeof raw_adaptHitProgram>): ReturnType<typeof raw_adaptHitProgram> => { approveAuthoredFixture(args[0]); return raw_adaptHitProgram(...args); };
+
+const assembleActiveSkills = (...args: Parameters<typeof raw_assembleActiveSkills>): ReturnType<typeof raw_assembleActiveSkills> => { approveSnapshotFixture(args[0]); return raw_assembleActiveSkills(...args); };
