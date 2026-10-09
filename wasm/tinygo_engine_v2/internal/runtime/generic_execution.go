@@ -7,11 +7,11 @@ import (
 
 	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/command"
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/crit"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/resource"
 	"tinygo_engine_v2/internal/scheduler"
 	"tinygo_engine_v2/internal/status"
@@ -188,8 +188,8 @@ type copyableDamageFrozen struct {
 	eventSourceKey       string
 	eventTargetKey       string
 	crit                 frozenCritEvidence
-	ability              compilebundle.CompiledAbility
-	operation            compilebundle.CompiledOperation
+	ability              planbundle.CompiledAbility
+	operation            planbundle.CompiledOperation
 	castInstanceID       uint64
 	castOrigin           string
 	consumedFirstPerCast map[string]bool
@@ -393,8 +393,9 @@ func (f *executionFrame) stageFor(key string) *stagedCombatant {
 	return sc
 }
 
-func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) formula.GenericEvalContext {
+func (f *executionFrame) evalContext(ability planbundle.CompiledAbility) formula.GenericEvalContext {
 	ctx := formula.GenericEvalContext{
+		RuntimeSkillKey:       ability.SkillKey,
 		ProcessActualCosts:    f.processActualCosts,
 		HasProcessActualCosts: f.processCostReadable,
 		SourceAttrs:           f.stageFor(f.sourceKey).attributes,
@@ -403,6 +404,19 @@ func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) form
 		TargetResources:       f.stageFor(f.targetKey).resources,
 		AbilityParams:         ability.Params,
 		StrictReads:           f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit),
+	}
+	if ctx.RuntimeSkillKey == "" {
+		ctx.RuntimeSkillKey = f.processUseSkillKey
+	}
+	if ctx.RuntimeSkillKey == "" && f.ownerProviderRef != "" {
+		if owner, ok := f.run.combatants[f.providerOwnerKey()]; ok {
+			for _, instance := range owner.providers {
+				if instance.ProviderRef == f.ownerProviderRef && int(instance.DefinitionIndex) < len(f.run.compiled.Providers) {
+					ctx.RuntimeSkillKey = f.run.compiled.Providers[instance.DefinitionIndex].SkillKey
+					break
+				}
+			}
+		}
 	}
 	if process := f.pendingProcess; process != nil && f.processMomentKind == "STEP_EXECUTION" && process.stepIndex >= 0 && process.definition.Steps[process.stepIndex].StepType == "CHARGE" {
 		ctx.HasUseChargeDuration, ctx.UseChargeDurationMs = true, f.run.nowMs-process.StepStartedAtMs
@@ -530,12 +544,12 @@ func (f *executionFrame) resolveAttributesFor(combatantKey string, attrs map[str
 	resolved, err := sc.resolver.ResolveAttributesWithProviderContext(
 		attrs,
 		evalCtx,
-		f.run.compiled.Formulas,
+		f.run.formulas,
 		f.providerFormulaContextFunc(combatantKey),
 	)
 	if err != nil {
 		f.fatal = true
-		f.fatalErr = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		f.fatalErr = f.preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID))
 		return attrs
 	}
 	if len(f.run.compiled.AttributeDerivations) == 0 {
@@ -553,37 +567,37 @@ func (f *executionFrame) resolveAttributesFor(combatantKey string, attrs map[str
 		host := f.stageFor(owner)
 		dependencyContext := evalCtx
 		dependencyContext.SourceAttrs, dependencyContext.TargetAttrs = sourceAttrs, targetAttrs
-		ordinary[owner], err = host.resolver.ResolveAttributesWithProviderContext(ordinary[owner], dependencyContext, f.run.compiled.Formulas, f.providerFormulaContextFunc(owner))
+		ordinary[owner], err = host.resolver.ResolveAttributesWithProviderContext(ordinary[owner], dependencyContext, f.run.formulas, f.providerFormulaContextFunc(owner))
 		if err != nil {
 			f.fatal = true
-			f.fatalErr = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+owner+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+			f.fatalErr = f.preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+owner+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID))
 			return attrs
 		}
 	}
 	ordinary[combatantKey] = resolved
-	resolved, err = resolveDerivedAttributes(f.run.compiled, combatantKey, resolved, sc.resolver, ordinary["source"], ordinary["target"], f.providerFormulaContextFunc(combatantKey))
+	resolved, err = resolveDerivedAttributes(f.run.compiled, f.run.formulas, combatantKey, resolved, sc.resolver, ordinary["source"], ordinary["target"], f.providerFormulaContextFunc(combatantKey))
 	if err != nil {
 		f.fatal = true
-		f.fatalErr = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		f.fatalErr = f.preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID))
 		return attrs
 	}
 	return resolved
 }
 
-func (f *executionFrame) evalAmount(programID formula.GenericProgramID, ability compilebundle.CompiledAbility) (float64, *model.EngineError) {
-	value, err := f.run.compiled.Formulas.Eval(programID, f.evalContext(ability))
+func (f *executionFrame) evalAmount(programID formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError) {
+	value, err := f.run.formulas.Eval(programID, f.evalContext(ability))
 	if err != nil {
 		msg := err.Error()
 		out := engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, msg, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
-		if f.skillHitOccurrenceID != 0 && int(programID) < len(f.run.compiled.Formulas.Programs) {
-			out.Path = f.run.compiled.Formulas.Programs[programID].Key
+		if f.skillHitOccurrenceID != 0 && int(programID) < len(f.run.formulas.Programs) {
+			out.Path = f.run.formulas.Programs[programID].Key
 			out.Ref = f.abilityRef
 		}
 		if strings.HasPrefix(msg, "event.skill_hit.") {
 			out.Path = msg
 			out.Ref = f.abilityRef
 		}
-		return 0, out
+		return 0, f.preserveFormulaIssue(err, out)
 	}
 	if math.IsNaN(value) || math.IsInf(value, 0) {
 		return 0, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite formula result", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -591,7 +605,7 @@ func (f *executionFrame) evalAmount(programID formula.GenericProgramID, ability 
 	return value, nil
 }
 
-func (f *executionFrame) executeOperations(ability compilebundle.CompiledAbility, ops []compilebundle.CompiledOperation) *model.EngineError {
+func (f *executionFrame) executeOperations(ability planbundle.CompiledAbility, ops []planbundle.CompiledOperation) *model.EngineError {
 	if f.chainDepth > f.run.budget.MaxChainDepth {
 		f.fatal = true
 		f.fatalErr = f.run.budgetError(model.BudgetCauseMaxChainDepth, "max chain depth exceeded")
@@ -639,7 +653,7 @@ func (f *executionFrame) bumpCommandBudget() *model.EngineError {
 	return nil
 }
 
-func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility, op compilebundle.CompiledOperation) *model.EngineError {
+func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op planbundle.CompiledOperation) *model.EngineError {
 	if err := f.bumpCommandBudget(); err != nil {
 		return err
 	}
@@ -967,7 +981,7 @@ func isSkillHitBlockedWrite(op string) bool {
 	}
 }
 
-func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) applyStateChange(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {
 	if f.ownerProviderRef == "" {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "state_change requires provider context", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
@@ -1065,7 +1079,7 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 	return nil
 }
 
-func (f *executionFrame) applyStateDurationChange(op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) applyStateDurationChange(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {
 	if f.ownerProviderRef == "" {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "state_duration_change requires provider context", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
@@ -1167,7 +1181,7 @@ func (f *executionFrame) applyStateDurationChange(op compilebundle.CompiledOpera
 
 // applyExecuteThreshold 仅在真实 event/basic_attack_hit 的 emit snapshot 上判定；
 // 命中后经 command/pipeline 置零 live HP，不写 damage summary/evidence，不 emit。
-func (f *executionFrame) applyExecuteThreshold(op compilebundle.CompiledOperation, targetKey string, ability compilebundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) applyExecuteThreshold(op planbundle.CompiledOperation, targetKey string, ability planbundle.CompiledAbility) *model.EngineError {
 	// Fail closed：无 event context 或非 basic_attack_hit 不触发。
 	if f.eventCtx == nil || f.eventCtx.eventType != eventTypeBasicAttackHit {
 		return nil
@@ -1281,7 +1295,7 @@ func genericExecuteEvidenceItem(ev genericExecuteEvidence, timeMs int64) model.E
 	}
 }
 
-func (f *executionFrame) recordOperationOutput(op compilebundle.CompiledOperation, outcome pipeline.DamageOutcome) {
+func (f *executionFrame) recordOperationOutput(op planbundle.CompiledOperation, outcome pipeline.DamageOutcome) {
 	if op.OutputRef == "" {
 		return
 	}
@@ -1295,7 +1309,7 @@ func (f *executionFrame) recordOperationOutput(op compilebundle.CompiledOperatio
 	}
 }
 
-func (f *executionFrame) applyCommand(cmd command.Command, ability compilebundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) applyCommand(cmd command.Command, ability planbundle.CompiledAbility) *model.EngineError {
 	if cmd.Kind == command.KindHeal {
 		return f.applyDirectHeal(cmd, ability)
 	}
@@ -1339,7 +1353,7 @@ func (f *executionFrame) applyCommand(cmd command.Command, ability compilebundle
 // (once on merged, then proportional part projection) → one resistance factor on both
 // parts → incoming_crit_part_post_mitigation (crit part only) → merge →
 // incoming_post_mitigation → shields/HP.
-func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundle.CompiledOperation, critEv frozenCritEvidence, ability compilebundle.CompiledAbility, modEvidence []map[string]interface{}) *model.EngineError {
+func (f *executionFrame) applyDamageCommand(cmd command.Command, op planbundle.CompiledOperation, critEv frozenCritEvidence, ability planbundle.CompiledAbility, modEvidence []map[string]interface{}) *model.EngineError {
 	operationRef := op.Ref
 	sourceHealthBefore, sourceHasHealth := f.stageFor(cmd.Source).attributes["hp"]
 	traits := append([]string(nil), op.Types...)
@@ -1406,6 +1420,7 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundl
 		castOrigin:                  f.castOrigin,
 		hasPostResistanceEvidence:   true,
 		resistanceFactor:            numbers.resistanceFactor,
+		hasNativeDefenseDetails:     numbers.hasNativeDefenseDetails,
 		normalPartPostResistance:    numbers.normalPartPostResistance,
 		critPartPostResistance:      numbers.critPartPostResistance,
 		resistanceBeforePenetration: numbers.resistanceBeforePenetration,
@@ -1439,15 +1454,15 @@ func projectCritPartsAfterOutgoing(preOutgoingMerged, normalPart, critPart, post
 	return postOutgoingMerged, 0
 }
 
-func (f *executionFrame) matchesBasicDamageChannel(ability compilebundle.CompiledAbility) bool {
-	basicAttackID, ok := f.run.compiled.Types.Registry.Lookup(abilityTypeBasicAttack)
+func (f *executionFrame) matchesBasicDamageChannel(ability planbundle.CompiledAbility) bool {
+	basicAttackID, ok := f.run.compiled.Types.Registry.LookupDomain("ability", abilityTypeBasicAttack)
 	if !ok {
 		return false
 	}
 	return ability.TypeSet.Contains(basicAttackID)
 }
 
-func (f *executionFrame) matchingDamagePipelineChannels(ability compilebundle.CompiledAbility) []string {
+func (f *executionFrame) matchingDamagePipelineChannels(ability planbundle.CompiledAbility) []string {
 	channels := []string{"all_damage"}
 	if f.matchesBasicDamageChannel(ability) {
 		channels = append(channels, "basic_damage")
@@ -1465,7 +1480,7 @@ func pipelineModifierIdentity(mod pipeline.MountedDamageModifier) string {
 func (f *executionFrame) applyPipelineDamageModifiers(
 	hostKey, sourceKey, targetKey, command, stage string,
 	amount float64,
-	ability compilebundle.CompiledAbility,
+	ability planbundle.CompiledAbility,
 	damageType string,
 	traits []string,
 	evidence []map[string]interface{},
@@ -1509,9 +1524,9 @@ func (f *executionFrame) applyPipelineDamageModifiers(
 			modCtx.ProviderStateDefaults = pctx.ProviderStateDefaults
 		}
 		if mod.HasCondition {
-			cond, err := f.run.compiled.Formulas.Eval(mod.ConditionProg, modCtx)
+			cond, err := f.run.formulas.Eval(mod.ConditionProg, modCtx)
 			if err != nil {
-				return 0, evidence, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+				return 0, evidence, f.preserveFormulaIssue(err, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID))
 			}
 			if cond == 0 {
 				continue
@@ -1520,9 +1535,9 @@ func (f *executionFrame) applyPipelineDamageModifiers(
 		if !mod.HasValue {
 			continue
 		}
-		value, err := f.run.compiled.Formulas.Eval(mod.ValueProgram, modCtx)
+		value, err := f.run.formulas.Eval(mod.ValueProgram, modCtx)
 		if err != nil {
-			return 0, evidence, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+			return 0, evidence, f.preserveFormulaIssue(err, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID))
 		}
 		if math.IsNaN(value) || math.IsInf(value, 0) {
 			return 0, evidence, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite pipeline modifier value", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -1614,6 +1629,7 @@ type genericDamageEvidence struct {
 	// hasPostResistanceEvidence gates additive resistance/part fields for successful
 	// settlements only; fail-closed and phantom replay omit them.
 	hasPostResistanceEvidence   bool
+	hasNativeDefenseDetails     bool
 	resistanceFactor            float64
 	normalPartPostResistance    float64
 	critPartPostResistance      float64
@@ -1674,10 +1690,12 @@ func genericDamageEvidenceItem(ev genericDamageEvidence, timeMs int64) model.Evi
 		data["resistanceFactor"] = ev.resistanceFactor
 		data["normalPartPostResistance"] = ev.normalPartPostResistance
 		data["critPartPostResistance"] = ev.critPartPostResistance
-		data["resistanceBeforePenetration"] = ev.resistanceBeforePenetration
-		data["penetrationPercent"] = ev.penetrationPercent
-		data["penetrationFlat"] = ev.penetrationFlat
-		data["effectiveResistance"] = ev.effectiveResistance
+		if ev.hasNativeDefenseDetails {
+			data["resistanceBeforePenetration"] = ev.resistanceBeforePenetration
+			data["penetrationPercent"] = ev.penetrationPercent
+			data["penetrationFlat"] = ev.penetrationFlat
+			data["effectiveResistance"] = ev.effectiveResistance
+		}
 	}
 	if len(ev.modifiers) > 0 {
 		data["modifiers"] = ev.modifiers
@@ -1723,7 +1741,7 @@ func writeCritEvidenceFields(data map[string]interface{}, critEv frozenCritEvide
 // settleExpectedCrit applies the unified deterministic expected-crit branch pipeline
 // before outgoing modifiers / resistance. Only CritEligible damage settles; otherwise
 // amount is unchanged. No command-budget cost. No RNG.
-func (f *executionFrame) settleExpectedCrit(op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility, baseRawAmount float64, targetKey string) (frozenCritEvidence, float64, []map[string]interface{}, *model.EngineError) {
+func (f *executionFrame) settleExpectedCrit(op planbundle.CompiledOperation, ability planbundle.CompiledAbility, baseRawAmount float64, targetKey string) (frozenCritEvidence, float64, []map[string]interface{}, *model.EngineError) {
 	if !op.CritEligible {
 		return frozenCritEvidence{}, baseRawAmount, nil, nil
 	}
@@ -1848,7 +1866,7 @@ func stableDamageReplayedFrom(providerRef, abilityRef, operationRef string) map[
 	return from
 }
 
-func (f *executionFrame) applyResourceChange(targetKey, resourceKey string, amount float64, ability compilebundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) applyResourceChange(targetKey, resourceKey string, amount float64, ability planbundle.CompiledAbility) *model.EngineError {
 	if resourceKey == "" {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "resource_change requires resourceKey", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
@@ -1878,7 +1896,7 @@ func (f *executionFrame) applyCooldownChange(targetKey, abilityRef string, ready
 	return nil
 }
 
-func (f *executionFrame) applyAttributeChange(targetKey, attributeKey, valuePolicy string, amount float64, ability compilebundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) applyAttributeChange(targetKey, attributeKey, valuePolicy string, amount float64, ability planbundle.CompiledAbility) *model.EngineError {
 	sc := f.stageFor(targetKey)
 	slot, ok := sc.attributes[attributeKey]
 	if !ok {
@@ -1929,7 +1947,7 @@ func combatantPrefixFromAbilityRef(abilityRef string) string {
 	return abilityRef
 }
 
-func (f *executionFrame) stageLifecycleCostCooldown(ability compilebundle.CompiledAbility, sourceKey string) *model.EngineError {
+func (f *executionFrame) stageLifecycleCostCooldown(ability planbundle.CompiledAbility, sourceKey string) *model.EngineError {
 	if ability.Cost != nil && ability.Cost.HasAmount {
 		amount, err := f.evalAmount(ability.Cost.AmountProgram, ability)
 		if err != nil {
@@ -1975,7 +1993,7 @@ func (f *executionFrame) commit() {
 		c.providerState = cloneProviderStateMap(staged.providerState)
 		f.run.combatants[key] = c
 	}
-	evalAbility := compilebundle.CompiledAbility{Params: map[string]float64{}}
+	evalAbility := planbundle.CompiledAbility{Params: map[string]float64{}}
 	evalCtx := f.evalContext(evalAbility)
 	for _, key := range keys {
 		staged := f.staged[key]
@@ -2035,18 +2053,18 @@ func (f *executionFrame) commit() {
 	}
 }
 
-func (f *executionFrame) evalShieldDuration(op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility) (int64, *model.EngineError) {
+func (f *executionFrame) evalShieldDuration(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) (int64, *model.EngineError) {
 	wasStrict := f.strictReads
 	f.strictReads = true
 	ctx := f.evalContext(ability)
 	f.strictReads = wasStrict
 	path := "shieldDurationMs"
-	if int(op.ShieldDurationProgram) < len(f.run.compiled.Formulas.Programs) {
-		path = f.run.compiled.Formulas.Programs[op.ShieldDurationProgram].Key
+	if int(op.ShieldDurationProgram) < len(f.run.formulas.Programs) {
+		path = f.run.formulas.Programs[op.ShieldDurationProgram].Key
 	}
-	value, err := f.run.compiled.Formulas.Eval(op.ShieldDurationProgram, ctx)
+	value, err := f.run.formulas.Eval(op.ShieldDurationProgram, ctx)
 	if err != nil {
-		return 0, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), path, op.ShieldRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		return 0, f.preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), path, op.ShieldRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID))
 	}
 	if !formula.ValidPositiveInt64DurationMs(value) {
 		return 0, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "shieldDurationMs must be a positive integer within the timestamp range", path, op.ShieldRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -2168,7 +2186,7 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	if int(ref.CombatantIndex) < len(s.compiled.Combatants) {
 		frame.ownerCombatantKey = s.compiled.Combatants[ref.CombatantIndex].Key
 	}
-	if parsed, ok := compilebundle.ParseAbilityRef(resolvedRef); ok {
+	if parsed, ok := planbundle.ParseAbilityRef(resolvedRef); ok {
 		frame.ownerProviderRef = parsed.ProviderRef
 		if frame.ownerCombatantKey == "" {
 			frame.ownerCombatantKey = parsed.Combatant
@@ -2280,7 +2298,7 @@ func damageSnapshotEvidenceData(snap formula.EventDamageSnapshot) map[string]int
 	}
 }
 
-func (f *executionFrame) abilityTypeKeys(ability compilebundle.CompiledAbility) []string {
+func (f *executionFrame) abilityTypeKeys(ability planbundle.CompiledAbility) []string {
 	keys := make([]string, 0)
 	for i, key := range f.run.compiled.Types.Registry.Keys {
 		if ability.TypeSet.Contains(typeset.TypeID(i)) {
@@ -2294,22 +2312,22 @@ func (f *executionFrame) abilityTypeKeys(ability compilebundle.CompiledAbility) 
 // operation completes settlement without structural failure (including zero amounts).
 func (f *executionFrame) maybeQueueDamageInstanceEvent(
 	cmd command.Command,
-	op compilebundle.CompiledOperation,
-	ability compilebundle.CompiledAbility,
+	op planbundle.CompiledOperation,
+	ability planbundle.CompiledAbility,
 	critEv frozenCritEvidence,
 	baseRawAmount, preMitigationAmount, mitigatedAmount float64,
 ) {
 	if f.copyableCollector != nil && f.copyableCollector.phantomDepth > 0 {
 		return
 	}
-	if _, ok := f.run.compiled.Types.Registry.Lookup(eventTypeDamageInstance); !ok {
+	if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", eventTypeDamageInstance); !ok {
 		return
 	}
 	traits := append([]string(nil), op.Types...)
 	snap := buildDamageInstanceSnapshot(critEv, baseRawAmount, preMitigationAmount, mitigatedAmount)
 	eventTypes := []string{eventTypeDamageInstance}
 	if cmd.DamageType != "" {
-		if _, ok := f.run.compiled.Types.Registry.Lookup(cmd.DamageType); ok {
+		if _, ok := f.run.compiled.Types.Registry.LookupDomain("damage", cmd.DamageType); ok {
 			eventTypes = append(eventTypes, cmd.DamageType)
 		}
 	}
@@ -2361,20 +2379,18 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 // 仅 ability TypeSet 含 ability/basic_attack 时附加 event/damage_dealt/basic_attack。
 // catalog 缺合成所需 type 时 fail closed（不 emit、不 fatal）。
 // phantom replay 与 listener child（chainDepth>0）不走此路径；同一 frame 多个合格 physical op 只合成一次。
-func (f *executionFrame) maybeQueueDamageDealtEvent(ability compilebundle.CompiledAbility) {
+func (f *executionFrame) maybeQueueDamageDealtEvent(ability planbundle.CompiledAbility) {
 	if f.chainDepth != 0 {
 		return
 	}
 	if f.linkedPhysicalMitigated <= 0 {
 		return
 	}
-	required := []string{
-		damageTypePhysical,
-		eventTypeDamageDealt,
-		eventTypeDamageDealtPhysical,
+	required := []struct{ domain, key string }{
+		{"damage", damageTypePhysical}, {"event", eventTypeDamageDealt}, {"event", eventTypeDamageDealtPhysical},
 	}
-	for _, key := range required {
-		if _, ok := f.run.compiled.Types.Registry.Lookup(key); !ok {
+	for _, identity := range required {
+		if _, ok := f.run.compiled.Types.Registry.LookupDomain(identity.domain, identity.key); !ok {
 			return
 		}
 	}
@@ -2383,11 +2399,11 @@ func (f *executionFrame) maybeQueueDamageDealtEvent(ability compilebundle.Compil
 		eventTypeDamageDealt,
 		eventTypeDamageDealtPhysical,
 	}
-	basicAttackID, hasBasicType := f.run.compiled.Types.Registry.Lookup(abilityTypeBasicAttack)
+	basicAttackID, hasBasicType := f.run.compiled.Types.Registry.LookupDomain("ability", abilityTypeBasicAttack)
 	isBasicAttack := hasBasicType && ability.TypeSet.Contains(basicAttackID)
 	// Optional qualifier: missing event/damage_dealt/basic_attack must not block core emit.
 	if isBasicAttack {
-		if _, ok := f.run.compiled.Types.Registry.Lookup(eventTypeDamageDealtBasicAttack); ok {
+		if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", eventTypeDamageDealtBasicAttack); ok {
 			eventTypes = append(eventTypes, eventTypeDamageDealtBasicAttack)
 		}
 	}
@@ -2440,7 +2456,7 @@ func (f *executionFrame) maybeQueueDamageDealtEvent(ability compilebundle.Compil
 // 条件：chainDepth==0，且 ability TypeSet 不含 ability/basic_attack（经 type catalog Lookup，禁止 abilityKey 启发式）。
 // gate/cost/cooldown 失败不会进入本路径；listener child cast（chainDepth>0）不合成。
 // TypeSet includes event/ability_started plus the source ability TypeSet keys.
-func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability planbundle.CompiledAbility) *model.EngineError {
 	if f.chainDepth != 0 {
 		return nil
 	}
@@ -2453,11 +2469,11 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.
 			}
 		}
 	}
-	basicAttackID, ok := f.run.compiled.Types.Registry.Lookup(abilityTypeBasicAttack)
+	basicAttackID, ok := f.run.compiled.Types.Registry.LookupDomain("ability", abilityTypeBasicAttack)
 	if ability.IsBasicAttack || (ok && ability.TypeSet.Contains(basicAttackID)) {
 		return nil
 	}
-	if _, ok := f.run.compiled.Types.Registry.Lookup(eventTypeAbilityStarted); !ok {
+	if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", eventTypeAbilityStarted); !ok {
 		// Event type absent from catalog: cannot participate in type-set matching; do not invent it.
 		return nil
 	}
@@ -2502,7 +2518,7 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.
 	return f.run.dispatchListeners(ev, f.chainDepth+1)
 }
 
-func (f *executionFrame) maybeDispatchBasicAttackHit(ability compilebundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) maybeDispatchBasicAttackHit(ability planbundle.CompiledAbility) *model.EngineError {
 	if f.chainDepth != 0 || f.driverEntryKey == "" {
 		return nil
 	}
@@ -2515,7 +2531,7 @@ func (f *executionFrame) maybeDispatchBasicAttackHit(ability compilebundle.Compi
 	if _, isStart := f.run.attackStartFacts[f.driverEntryKey]; isStart {
 		return nil
 	}
-	if _, ok := f.run.compiled.Types.Registry.Lookup(model.EventTypeBasicAttackHit); !ok {
+	if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackHit); !ok {
 		return nil
 	}
 	eventTypes := []string{model.EventTypeBasicAttackHit}
@@ -2556,7 +2572,7 @@ func (f *executionFrame) maybeDispatchBasicAttackHit(ability compilebundle.Compi
 	return f.run.dispatchListeners(ev, f.chainDepth+1)
 }
 
-func (f *executionFrame) maybeDispatchBasicAttackStart(ability compilebundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) maybeDispatchBasicAttackStart(ability planbundle.CompiledAbility) *model.EngineError {
 	if f.chainDepth != 0 || f.driverEntryKey == "" {
 		return nil
 	}
@@ -2567,7 +2583,7 @@ func (f *executionFrame) maybeDispatchBasicAttackStart(ability compilebundle.Com
 	if !ability.IsBasicAttack || ability.HasSkillHit || ability.OperationCount != 0 {
 		return f.run.skillHitErr(model.GenericErrUnknownRef, "attack start driver must be an empty-operations basic_attack ability", "attackStartFacts", f.driverEntryKey)
 	}
-	if _, ok := f.run.compiled.Types.Registry.Lookup(model.EventTypeBasicAttackStart); !ok {
+	if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackStart); !ok {
 		return f.run.skillHitErr(model.GenericErrUnknownTypeKey, "attack start requires event/basic_attack_start in typeCatalog", "attackStartFacts", f.driverEntryKey)
 	}
 	use, found := f.run.skillUses[fact.UseRef]
@@ -2636,7 +2652,7 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 	s.lazyExpireAllProviderState()
 	collector := &eventCopyableCollector{}
 	baseEventTypes := s.eventTypeSet(ev.types)
-	listeners := append(append([]compilebundle.CompiledListener{}, s.compiled.Listeners...), s.runtimeListeners...)
+	listeners := append(append([]planbundle.CompiledListener{}, s.compiled.Listeners...), s.runtimeListeners...)
 	frozen := make([]bool, len(listeners))
 	frozenOK := make([]bool, len(listeners))
 	for i, listener := range listeners {
@@ -2754,7 +2770,7 @@ const (
 	eventTargetOwner    = "event/target_owner"
 )
 
-func (s *genericRunState) listenerMatchesEvent(listener compilebundle.CompiledListener, ev emittedEvent, baseEventTypes typeset.TypeSet) bool {
+func (s *genericRunState) listenerMatchesEvent(listener planbundle.CompiledListener, ev emittedEvent, baseEventTypes typeset.TypeSet) bool {
 	if !s.listenerStillLive(listener) {
 		return false
 	}
@@ -2766,7 +2782,7 @@ func (s *genericRunState) listenerMatchesEvent(listener compilebundle.CompiledLi
 	if listener.OwnerCombatantKey != "" {
 		eventTypes = s.augmentOwnerRelativeEventTypes(baseEventTypes, ev.sourceKey, listener.OwnerCombatantKey)
 		if ev.targetKey == listener.OwnerCombatantKey {
-			if identity, declared := s.compiled.Types.Registry.Lookup(eventTargetOwner); declared {
+			if identity, declared := s.compiled.Types.Registry.LookupDomain("event", eventTargetOwner); declared {
 				eventTypes.Add(identity)
 			}
 		}
@@ -2781,13 +2797,13 @@ func (s *genericRunState) augmentOwnerRelativeEventTypes(base typeset.TypeSet, e
 	if eventSourceKey == ownerKey {
 		relKey = eventSourceOwner
 	}
-	if id, ok := s.compiled.Types.Registry.Lookup(relKey); ok {
+	if id, ok := s.compiled.Types.Registry.LookupDomain("event", relKey); ok {
 		out.Add(id)
 	}
 	return out
 }
 
-func (s *genericRunState) listenerFrameCombatants(ev emittedEvent, listener compilebundle.CompiledListener) (sourceKey, targetKey string) {
+func (s *genericRunState) listenerFrameCombatants(ev emittedEvent, listener planbundle.CompiledListener) (sourceKey, targetKey string) {
 	sourceKey = ev.sourceKey
 	targetKey = ev.targetKey
 	if ev.eventType == model.EventTypeSourceInitialized {
@@ -2806,14 +2822,14 @@ func (s *genericRunState) listenerFrameCombatants(ev emittedEvent, listener comp
 	return sourceKey, targetKey
 }
 
-func (s *genericRunState) dispatchListenerOperations(listener compilebundle.CompiledListener, sourceKey, targetKey string, chainDepth int, eventCtx *eventFormulaSnapshot, collector *eventCopyableCollector) *model.EngineError {
+func (s *genericRunState) dispatchListenerOperations(listener planbundle.CompiledListener, sourceKey, targetKey string, chainDepth int, eventCtx *eventFormulaSnapshot, collector *eventCopyableCollector) *model.EngineError {
 	start := listener.OperationStart
 	end := start + listener.OperationCount
 	if int(end) > len(s.compiled.Operations) {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "listener operation range out of bounds", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
 	ops := s.compiled.Operations[start:end]
-	ability := compilebundle.CompiledAbility{Params: map[string]float64{}}
+	ability := planbundle.CompiledAbility{Params: map[string]float64{}}
 	if listener.SourceAbilityIndex >= 0 && listener.SourceAbilityIndex < len(s.compiled.Abilities) {
 		ability = s.compiled.Abilities[listener.SourceAbilityIndex]
 	}
@@ -2848,7 +2864,7 @@ func (s *genericRunState) eventTypeSet(keys []string) typeset.TypeSet {
 		if key == "" {
 			continue
 		}
-		if id, ok := s.compiled.Types.Registry.Lookup(key); ok {
+		if id, ok := s.compiled.Types.LookupForEntity(key, typeset.EntityListener); ok {
 			set.Add(id)
 		}
 	}
@@ -2868,7 +2884,7 @@ func syncHPResolved(attrs map[string]model.AttributeSlotDef) map[string]model.At
 // reResolveStagedAttributesTwoPass 在 live HP/resource/attribute 变更后，确定性两遍
 // 重算 Resolved（每遍先 source 后 target）。只改 Resolved；保留 Current/Max；
 // 每遍结束后强制 hp.Resolved=hp.Current。不改 Base（attribute_change 的 Base 策略除外）。
-func (f *executionFrame) reResolveStagedAttributesTwoPass(ability compilebundle.CompiledAbility) {
+func (f *executionFrame) reResolveStagedAttributesTwoPass(ability planbundle.CompiledAbility) {
 	for pass := 0; pass < 2; pass++ {
 		for _, key := range []string{f.sourceKey, f.targetKey} {
 			if key == "" {
@@ -2915,7 +2931,7 @@ func (s *genericRunState) recordOverheal(sourceKey string, amount float64) {
 	}
 }
 
-func (f *executionFrame) registerDeferredRepeat(op compilebundle.CompiledOperation) *model.EngineError {
+func (f *executionFrame) registerDeferredRepeat(op planbundle.CompiledOperation) *model.EngineError {
 	collector := f.copyableCollector
 	if collector == nil || collector.phantomDepth > 0 {
 		return nil
@@ -2943,7 +2959,7 @@ func (f *executionFrame) registerDeferredRepeat(op compilebundle.CompiledOperati
 	return nil
 }
 
-func (f *executionFrame) maybeCollectCopyableDamage(op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility, rawAmount float64, targetKey string, critEv frozenCritEvidence) *model.EngineError {
+func (f *executionFrame) maybeCollectCopyableDamage(op planbundle.CompiledOperation, ability planbundle.CompiledAbility, rawAmount float64, targetKey string, critEv frozenCritEvidence) *model.EngineError {
 	collector := f.copyableCollector
 	if collector == nil || collector.phantomDepth > 0 || !op.CopyableOnHit || op.Operation != "damage" {
 		return nil
@@ -3262,30 +3278,35 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 	frame.damageDealt += result.Amount
 	frame.recordDamage(dmg.sourceKey, dmg.targetKey, result.Amount)
 	damageRecordIndex := len(frame.pendingDamage)
+	_, configuredDefense := s.compiled.DamageTypeFormulas[dmg.damageType]
 	frame.recordGenericDamageEvidence(genericDamageEvidence{
-		source:          dmg.sourceKey,
-		target:          dmg.targetKey,
-		damageType:      dmg.damageType,
-		rawAmount:       numbers.rawAmount,
-		mitigatedAmount: result.Amount,
-		providerRef:     dmg.providerRef,
-		abilityRef:      dmg.originRef,
-		operationRef:    dmg.operationRef,
-		operationPath:   dmg.operation.Path,
-		hpBefore:        targetHPBefore,
-		hpAfter:         attribute.ReadHP(next.Attributes),
-		hasSourceHp:     sourceHasHealth,
-		sourceHpBefore:  sourceHealthBefore.Current,
-		phantom:         true,
-		repeatTag:       repeatTag,
-		replayedFrom:    stableDamageReplayedFrom(dmg.providerRef, dmg.originRef, dmg.operationRef),
-		crit:            numbers.crit,
-		modifiers:       numbers.modifiers,
-		traits:          dmg.operation.Types,
-		castInstanceID:  dmg.castInstanceID,
-		castOrigin:      dmg.castOrigin,
-		damageID:        damageID,
-		outcome:         &outcome,
+		source:                    dmg.sourceKey,
+		target:                    dmg.targetKey,
+		damageType:                dmg.damageType,
+		rawAmount:                 numbers.rawAmount,
+		mitigatedAmount:           result.Amount,
+		providerRef:               dmg.providerRef,
+		abilityRef:                dmg.originRef,
+		operationRef:              dmg.operationRef,
+		operationPath:             dmg.operation.Path,
+		hpBefore:                  targetHPBefore,
+		hpAfter:                   attribute.ReadHP(next.Attributes),
+		hasSourceHp:               sourceHasHealth,
+		sourceHpBefore:            sourceHealthBefore.Current,
+		phantom:                   true,
+		repeatTag:                 repeatTag,
+		replayedFrom:              stableDamageReplayedFrom(dmg.providerRef, dmg.originRef, dmg.operationRef),
+		crit:                      numbers.crit,
+		modifiers:                 numbers.modifiers,
+		traits:                    dmg.operation.Types,
+		castInstanceID:            dmg.castInstanceID,
+		castOrigin:                dmg.castOrigin,
+		damageID:                  damageID,
+		outcome:                   &outcome,
+		hasPostResistanceEvidence: configuredDefense,
+		resistanceFactor:          numbers.resistanceFactor,
+		normalPartPostResistance:  numbers.normalPartPostResistance,
+		critPartPostResistance:    numbers.critPartPostResistance,
 	})
 	if err := frame.settleDamageVamp(cmd, dmg.operation, dmg.ability, outcome, targetHPBefore, damageID, true); err != nil {
 		return err

@@ -2,8 +2,8 @@ package runtime
 
 import (
 	"math"
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func (s *genericRunState) validateBasicAttackInitialSnapshot() *model.EngineError {
@@ -64,7 +64,7 @@ func (s *genericRunState) validateBasicAttackInitialSnapshot() *model.EngineErro
 	return nil
 }
 
-func (s *genericRunState) validateIdleBasicAttackProvider(provider compilebundle.CompiledProvider, owner, ref string) *model.EngineError {
+func (s *genericRunState) validateIdleBasicAttackProvider(provider planbundle.CompiledProvider, owner, ref string) *model.EngineError {
 	fail := func() *model.EngineError {
 		return s.basicAttackErr("idle opponent binding must contain its complete static basic attack and unique owner-start listener", "initialSnapshot.combatants.providers")
 	}
@@ -93,7 +93,7 @@ func (s *genericRunState) validateIdleBasicAttackProvider(provider compilebundle
 			}
 		}
 	}
-	var start compilebundle.CompiledAbility
+	var start planbundle.CompiledAbility
 	initialRef := ""
 	starts, hits := 0, 0
 	for _, ability := range s.compiled.Abilities[int(provider.AbilityStart) : int(provider.AbilityStart)+int(provider.AbilityCount)] {
@@ -121,8 +121,8 @@ func (s *genericRunState) validateIdleBasicAttackProvider(provider compilebundle
 	if initialRef == "" || starts != 1 || hits != 1 {
 		return fail()
 	}
-	startType, declared := s.compiled.Types.Registry.Lookup(model.EventTypeBasicAttackStart)
-	ownerType, ownerDeclared := s.compiled.Types.Registry.Lookup(eventSourceOwner)
+	startType, declared := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackStart)
+	ownerType, ownerDeclared := s.compiled.Types.Registry.LookupDomain("event", eventSourceOwner)
 	start.TypeSet.Add(startType)
 	listeners := 0
 	for _, listener := range s.compiled.Listeners {

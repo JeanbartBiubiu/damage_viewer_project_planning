@@ -7,6 +7,7 @@ import (
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/typeset"
 )
 
@@ -328,7 +329,7 @@ func nightstalkerTargetShieldRemaining(done model.DoneResult) float64 {
 	return 0
 }
 
-func nightstalkerFindProvider(t *testing.T, result compile.GenericCompileResult) *compile.CompiledProvider {
+func nightstalkerFindProvider(t *testing.T, result compile.GenericCompileResult) *planbundle.CompiledProvider {
 	t.Helper()
 	for i := range result.Session.Providers {
 		p := &result.Session.Providers[i]
@@ -340,7 +341,7 @@ func nightstalkerFindProvider(t *testing.T, result compile.GenericCompileResult)
 	return nil
 }
 
-func nightstalkerFindListener(t *testing.T, result compile.GenericCompileResult) *compile.CompiledListener {
+func nightstalkerFindListener(t *testing.T, result compile.GenericCompileResult) *planbundle.CompiledListener {
 	t.Helper()
 	p := nightstalkerFindProvider(t, result)
 	for i := range p.Listeners {

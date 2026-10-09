@@ -43,7 +43,7 @@ func TestCompileC1RejectsUnknownDamageTypeAndEventDamagePaths(t *testing.T) {
 	addError := func(code model.GenericErrCode, path, message, ref string) {
 		errors = append(errors, model.EngineError{Code: code})
 	}
-	for _, path := range []string{"damage.type.chaos", "event.damage.unknownField", "damage.trait."} {
+	for _, path := range []string{"damage.type.", "event.damage.unknownField", "damage.trait."} {
 		errors = nil
 		CompileGenericFormula(
 			model.GenericFormulaExpr{Op: "read", Path: path},
@@ -75,10 +75,10 @@ func TestEvalC1DamageTraitTypeAndEventDamage(t *testing.T) {
 		t.Fatal("expected fail closed without damage context")
 	}
 
-	reg = mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "damage.type.magic"})
+	reg = mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "damage.type.damage/magical"})
 	got, err = reg.Eval(0, GenericEvalContext{HasDamageContext: true, DamageTypeKey: "damage/magical"})
 	if err != nil || got != 1 {
-		t.Fatalf("magic alias got=%v err=%v", got, err)
+		t.Fatalf("raw type got=%v err=%v", got, err)
 	}
 
 	reg = mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.damage.mitigatedAmount"})

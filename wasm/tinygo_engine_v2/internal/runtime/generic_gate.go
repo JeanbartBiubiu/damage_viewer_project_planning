@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"math"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/resource"
 )
 
@@ -15,7 +15,7 @@ type gateCheckResult struct {
 	skipped    bool
 	reason     model.AttemptSkipReason
 	readyAtMs  int64
-	ability    compilebundle.CompiledAbility
+	ability    planbundle.CompiledAbility
 	sourceKey  string
 	hasAbility bool
 }
@@ -50,7 +50,11 @@ func (s *genericRunState) checkAttemptGate(entry model.DriverEntry, entryIndex i
 			hasAbility: true,
 		}
 	}
-	if readyAt, blocked := s.resourceGate(sourceKey, targetKey, ability, resolvedRef, entry); blocked {
+	readyAt, blocked, resourceErr := s.resourceGate(sourceKey, targetKey, ability, resolvedRef, entry)
+	if resourceErr != nil {
+		return gateCheckResult{err: resourceErr}
+	}
+	if blocked {
 		return gateCheckResult{
 			skipped:    true,
 			reason:     model.AttemptSkipResourceInsufficient,
@@ -98,16 +102,17 @@ func (s *genericRunState) cooldownGate(sourceKey, abilityRef string) (readyAtMs 
 	return 0, false
 }
 
-func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string, entry model.DriverEntry) (readyAtMs int64, blocked bool) {
+func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability planbundle.CompiledAbility, abilityRef string, entry model.DriverEntry) (readyAtMs int64, blocked bool, formulaErr *model.EngineError) {
 	if ability.Cost == nil || !ability.Cost.HasAmount {
-		return 0, false
+		return 0, false, nil
 	}
 	c, ok := s.combatants[sourceKey]
 	if !ok {
-		return s.nowMs + s.conditionRecheckIntervalMs, true
+		return s.nowMs + s.conditionRecheckIntervalMs, true, nil
 	}
 	target := s.combatants[targetKey]
 	ctx := formula.GenericEvalContext{
+		RuntimeSkillKey: ability.SkillKey,
 		SourceAttrs:     c.attributes,
 		TargetAttrs:     target.attributes,
 		SourceResources: c.resources,
@@ -117,7 +122,7 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability comp
 	// Provider-aware cost preflight: only a valid parsed provider ability ref binds
 	// HasProviderContext + lazy-expired provider state (mirrors lifecycle charging).
 	// Unparseable refs stay fail-closed (no context → provider.state eval error → MaxFloat64).
-	if parsed, ok := compilebundle.ParseAbilityRef(abilityRef); ok {
+	if parsed, ok := planbundle.ParseAbilityRef(abilityRef); ok {
 		ownerKey := sourceKey
 		providerRef := parsed.ProviderRef
 		switch parsed.Combatant {
@@ -152,17 +157,20 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability comp
 		}
 	}
 	_ = entry
-	amount, err := s.compiled.Formulas.Eval(ability.Cost.AmountProgram, ctx)
+	amount, err := s.formulas.Eval(ability.Cost.AmountProgram, ctx)
 	if err != nil {
-		amount = math.MaxFloat64
+		return 0, false, s.evalFormulaError(ability.Cost.AmountProgram, err, abilityRef)
+	}
+	if math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
+		return 0, false, s.gateFormulaError(ability.Cost.AmountProgram, "resource cost must be finite and nonnegative", abilityRef)
 	}
 	current := resource.ReadCurrent(c.resources, ability.Cost.ResourceKey)
 	if ability.Cost.AllowPartial {
 		if current >= 0 {
-			return 0, false
+			return 0, false, nil
 		}
 	} else if current >= amount {
-		return 0, false
+		return 0, false, nil
 	}
 	slot := c.resources[ability.Cost.ResourceKey]
 	readyAt := resource.EstimateReadyTimeMs(
@@ -175,10 +183,10 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability comp
 	if readyAt <= s.nowMs {
 		readyAt = s.nowMs + s.conditionRecheckIntervalMs
 	}
-	return readyAt, true
+	return readyAt, true, nil
 }
 
-func (s *genericRunState) conditionGate(entry model.DriverEntry, entryIndex int, sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string) (bool, *model.EngineError) {
+func (s *genericRunState) conditionGate(entry model.DriverEntry, entryIndex int, sourceKey, targetKey string, ability planbundle.CompiledAbility, abilityRef string) (bool, *model.EngineError) {
 	if entryIndex >= 0 && entryIndex < len(s.entryConditions) && s.entryConditions[entryIndex] != nil {
 		programID := *s.entryConditions[entryIndex]
 		source := s.combatants[sourceKey]
@@ -191,9 +199,9 @@ func (s *genericRunState) conditionGate(entry model.DriverEntry, entryIndex int,
 			TargetResources: target.resources,
 			AbilityParams:   ability.Params,
 		}
-		value, err := s.compiled.Formulas.Eval(programID, ctx)
+		value, err := s.formulas.Eval(programID, ctx)
 		if err != nil {
-			return false, s.gateFormulaError(programID, err.Error(), abilityRef)
+			return false, s.evalFormulaError(programID, err, abilityRef)
 		}
 		if value == 0 {
 			return true, nil
@@ -206,10 +214,10 @@ func (s *genericRunState) conditionGate(entry model.DriverEntry, entryIndex int,
 	return false, nil
 }
 
-func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string) (bool, *model.EngineError) {
+func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, ability planbundle.CompiledAbility, abilityRef string) (bool, *model.EngineError) {
 	ownerKey := sourceKey
 	providerRef := ""
-	if parsed, ok := compilebundle.ParseAbilityRef(abilityRef); ok {
+	if parsed, ok := planbundle.ParseAbilityRef(abilityRef); ok {
 		providerRef = parsed.ProviderRef
 		switch parsed.Combatant {
 		case model.SelectorSource, model.SelectorSelf, "":
@@ -259,17 +267,17 @@ func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, abil
 		bag.lazyExpireProviderState(s.nowMs)
 		ctx.ProviderState = bag.state
 	}
-	value, err := s.compiled.Formulas.Eval(ability.CastConditionProgram, ctx)
+	value, err := s.formulas.Eval(ability.CastConditionProgram, ctx)
 	if err != nil {
-		return false, s.gateFormulaError(ability.CastConditionProgram, err.Error(), abilityRef)
+		return false, s.evalFormulaError(ability.CastConditionProgram, err, abilityRef)
 	}
 	return value == 0, nil
 }
 
 func (s *genericRunState) gateFormulaError(program formula.GenericProgramID, message, ref string) *model.EngineError {
 	path := ref + ".condition"
-	if int(program) < len(s.compiled.Formulas.Programs) {
-		path = s.compiled.Formulas.Programs[program].Key
+	if int(program) < len(s.formulas.Programs) {
+		path = s.formulas.Programs[program].Key
 	}
 	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, message, path, ref, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 }
@@ -339,7 +347,7 @@ func cloneCooldownMap(src map[string]int64) map[string]int64 {
 
 // normalizeAbilityRef 将 self/opponent abilityRef 归一为 source/target concrete ref。
 func normalizeAbilityRef(abilityRef, sourceKey, targetKey string) string {
-	parsed, ok := compilebundle.ParseAbilityRef(abilityRef)
+	parsed, ok := planbundle.ParseAbilityRef(abilityRef)
 	if !ok {
 		return abilityRef
 	}

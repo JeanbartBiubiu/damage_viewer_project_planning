@@ -3,8 +3,8 @@ package runtime
 import (
 	"fmt"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 	"tinygo_engine_v2/internal/status"
 )
@@ -20,11 +20,11 @@ type anchoredTickPayload struct {
 	expectedExpireAt int64
 }
 
-func tickSpecAnchoredTo(ts *compilebundle.CompiledTickSpec, stateKey string) bool {
+func tickSpecAnchoredTo(ts *planbundle.CompiledTickSpec, stateKey string) bool {
 	return ts != nil && ts.IsAnchored() && ts.AnchorStateKey == stateKey
 }
 
-func (s *genericRunState) findAnchoredTickAbility(defIdx uint16, stateKey string) (*compilebundle.CompiledAbility, bool) {
+func (s *genericRunState) findAnchoredTickAbility(defIdx uint16, stateKey string) (*planbundle.CompiledAbility, bool) {
 	if int(defIdx) >= len(s.compiled.Providers) {
 		return nil, false
 	}

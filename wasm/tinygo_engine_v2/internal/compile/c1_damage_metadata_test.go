@@ -146,7 +146,7 @@ func TestCompileC1RejectsUnknownDamageTypeFormulaRead(t *testing.T) {
 	if result.OK {
 		t.Fatal("expected unknown damage.type compile failure")
 	}
-	if !hasErrorCode(result.Result.Errors, model.GenericErrFormulaTypeError) {
+	if !hasErrorCode(result.Result.Errors, model.GenericErrUnknownTypeKey) {
 		t.Fatalf("errors=%+v", result.Result.Errors)
 	}
 }

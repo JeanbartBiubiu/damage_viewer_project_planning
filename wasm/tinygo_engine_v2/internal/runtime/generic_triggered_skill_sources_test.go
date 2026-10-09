@@ -7,7 +7,9 @@ import (
 
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
 func discreteSourceField(defaultValue, maximum float64, duration int64) map[string]interface{} {
@@ -457,10 +459,11 @@ func TestTriggeredSkillSourceRecipientAttributeRestoresAndExpiresPrecisely(test 
 	input.Combatants[0].Attributes["armor_duration"] = authoringSlot(1200)
 	request.InitialSnapshot.Combatants[0].Attributes["armor_duration"] = authoringSlot(1200)
 	input.Formulas = append(input.Formulas,
-		model.NamedFormula{Key: "constructed/armor_duration", Expression: model.GenericFormulaExpr{Op: "ref", Ref: "constructed/nested_duration"}},
-		model.NamedFormula{Key: "constructed/nested_duration", Expression: authoringRead("source.attr.armor_duration.resolved")})
+		formuladefinition.FromExpr("constructed/armor_duration", "paired_counter", authoringRead("source.attr.armor_duration.resolved"), nil))
+	input.TypeCatalog.Types = append(input.TypeCatalog.Types, model.TypeCatalogEntry{Key: "armor_duration", Domain: "attribute"})
 	for index := range input.SharedProviders {
 		if input.SharedProviders[index].ProviderKey == armor {
+			input.SharedProviders[index].SkillKey = "paired_counter"
 			input.SharedProviders[index].Lifecycle.DurationMs = authoringAmount(model.GenericFormulaExpr{Op: "ref", Ref: "constructed/armor_duration"})
 		}
 	}
@@ -502,7 +505,7 @@ func TestTriggeredSkillSourceRecipientAttributeRestoresAndExpiresPrecisely(test 
 			}
 		}
 	}
-	input.Formulas[len(input.Formulas)-1].Expression = authoringConst(1200)
+	input.Formulas[len(input.Formulas)-1] = formuladefinition.Constant("constructed/armor_duration", "paired_counter", 1200)
 	constantNamedDuration := authoringRun(test, input, request)
 	if !reflect.DeepEqual(done, constantNamedDuration) {
 		test.Fatal("constant and actual attribute-read nested duration formulas diverged")
@@ -652,7 +655,7 @@ func TestTriggeredSkillSourceDynamicAttributeBudgetFailureIsAtomic(test *testing
 		for _, operation := range state.compiled.Operations {
 			if operation.ProviderDefinitionRef == speed {
 				operation.HasCondition = false
-				if err := frame.executeOperations(state.basicAttack.initialAbility, []compilebundle.CompiledOperation{operation}); err != nil {
+				if err := frame.executeOperations(state.basicAttack.initialAbility, []planbundle.CompiledOperation{operation}); err != nil {
 					test.Fatal(err)
 				}
 				break

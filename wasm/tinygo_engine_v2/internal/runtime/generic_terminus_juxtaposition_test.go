@@ -4,8 +4,8 @@ import (
 	"math"
 	"testing"
 
-	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // item_3302 Terminus / 界弓 — Juxtaposition / 交相 (generic ABI, Phase-A).
@@ -530,8 +530,8 @@ func TestGenericTerminusJuxtapositionPPCrossCheck(t *testing.T) {
 		{11, 7},
 		{12.5, 7.5},
 		{14, 8},
-		{0, 6},   // clamp low
-		{18, 8},  // clamp high
+		{0, 6},  // clamp low
+		{18, 8}, // clamp high
 	}
 	for _, tc := range cases {
 		if got := tjExpectedPP(tc.level); math.Abs(got-tc.want) > 1e-12 {
@@ -546,7 +546,7 @@ func TestGenericTerminusJuxtapositionSchemaCompiled(t *testing.T) {
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
-	var found *compile.CompiledProvider
+	var found *planbundle.CompiledProvider
 	for i := range result.Session.Providers {
 		p := &result.Session.Providers[i]
 		if p.ProviderKey == tjProviderRef {

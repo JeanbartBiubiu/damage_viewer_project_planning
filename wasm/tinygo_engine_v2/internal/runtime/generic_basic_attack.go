@@ -3,10 +3,10 @@ package runtime
 import (
 	"math"
 	"strconv"
-	compilebundle "tinygo_engine_v2/internal/compile"
-	"tinygo_engine_v2/internal/formula"
+
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 const maxJSONSafeInteger int64 = 9007199254740991
@@ -20,7 +20,7 @@ type basicAttackRuntime struct {
 	targetKilledAt     *int64
 	unfinishedTail     bool
 	windowSettled      bool
-	initialAbility     compilebundle.CompiledAbility
+	initialAbility     planbundle.CompiledAbility
 	wait               *basicAttackWait
 	waitGeneration     uint64
 }
@@ -61,7 +61,7 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		return s.basicAttackErr("both initial HP values must be finite and positive", "initialSnapshot.combatants.attributes.hp")
 	}
 	source := s.combatants[p.Source]
-	selectedRef, validRef := compilebundle.ParseAbilityRef(p.StartAbilityRef)
+	selectedRef, validRef := planbundle.ParseAbilityRef(p.StartAbilityRef)
 	if !validRef || selectedRef.Combatant != p.Source {
 		return s.basicAttackErr("basic attack requires the selected source provider", "driverPlan.basicAttack.startAbilityRef")
 	}
@@ -138,12 +138,12 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 			}
 			gearKeys[gear.StableID] = true
 			for _, modifier := range gear.Modifiers {
-				if !modifier.HasValue || int(modifier.ValueProgram) >= len(s.compiled.Formulas.Programs) {
+				if !modifier.HasValue || int(modifier.ValueProgram) >= len(s.formulas.Programs) {
 					return s.basicAttackErr("equipment attribute contribution is missing", "initialSnapshot.combatants.providers")
 				}
 				selector := pipeline.ModifierTargetCombatantSelector(modifier.Target)
-				program := s.compiled.Formulas.Programs[modifier.ValueProgram]
-				if modifier.Kind != "attribute" || modifier.HasCondition || modifier.ValuePolicy != "add" || (selector != "" && selector != model.SelectorSelf) || len(program.Instr) != 1 || program.Instr[0].Op != formula.GenericOpConst {
+				_, static := s.formulas.FoldStatic(modifier.ValueProgram)
+				if modifier.Kind != "attribute" || modifier.HasCondition || modifier.ValuePolicy != "add" || (selector != "" && selector != model.SelectorSelf) || !static {
 					return s.basicAttackErr("equipment attributes require unconditional flat contributions", "initialSnapshot.combatants.providers")
 				}
 			}
@@ -160,14 +160,14 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		}
 	}
 	as, ok := source.attributes[p.AttackSpeedAttributeKey]
-	_, initializes := s.compiled.Types.Registry.Lookup(model.EventTypeSourceInitialized)
+	_, initializes := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeSourceInitialized)
 	if !ok || math.IsNaN(as.Resolved) || math.IsInf(as.Resolved, 0) || as.Resolved <= 0 || math.IsNaN(p.AttackSpeedInputMax) || math.IsInf(p.AttackSpeedInputMax, 0) || p.AttackSpeedInputMax <= 0 || (!initializes && as.Resolved > p.AttackSpeedInputMax) {
 		return s.basicAttackErr("attack speed must be positive and within the explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
 	}
-	lookup := func(ref string) (compilebundle.CompiledAbility, bool) {
+	lookup := func(ref string) (planbundle.CompiledAbility, bool) {
 		entry := model.DriverEntry{AbilityRef: ref, Source: p.Source, Target: p.Target}
 		ability, normalized, found := s.lookupDriverAbility(entry)
-		parsed, valid := compilebundle.ParseAbilityRef(ref)
+		parsed, valid := planbundle.ParseAbilityRef(ref)
 		return ability, found && valid && normalized == ref && parsed.Combatant == p.Source && parsed.ProviderRef == selectedRef.ProviderRef && ability.SkillKey == p.SkillKey && ability.IsBasicAttack
 	}
 	start, good := lookup(p.StartAbilityRef)
@@ -215,7 +215,7 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		s.basicAttack.ammo = &basicAttackAmmo{owner: p.Source, providerRef: selectedRef.ProviderRef, definition: provider, binding: *provider.AmmoBinding}
 		ammoOperations[provider.AmmoBinding.ConsumptionPath] = true
 	}
-	var listener compilebundle.CompiledListener
+	var listener planbundle.CompiledListener
 	startListeners := 0
 	initializationOperations := map[string]bool{}
 	triggerOperations := map[string]bool{}
@@ -260,11 +260,11 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		return s.basicAttackErr("pre-hit listener must only start the actual selected process", "driverPlan.basicAttack.initialControlAbilityRef")
 	}
 	set := start.TypeSet
-	if id, ok := s.compiled.Types.Registry.Lookup(model.EventTypeBasicAttackStart); ok {
+	if id, ok := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackStart); ok {
 		set.Add(id)
 	}
 	if start.CastOrigin != "" {
-		if id, ok := s.compiled.Types.Registry.Lookup("cast_origin/" + start.CastOrigin); ok {
+		if id, ok := s.compiled.Types.Registry.LookupDomain("cast_origin", "cast_origin/"+start.CastOrigin); ok {
 			set.Add(id)
 		}
 	}

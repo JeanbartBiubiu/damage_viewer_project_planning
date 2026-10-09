@@ -3,9 +3,9 @@ package runtime
 import (
 	"math"
 	"strings"
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 	"tinygo_engine_v2/internal/status"
 )
@@ -144,7 +144,7 @@ func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 		return 0, f.run.basicAttackErr("modified attack speed violates its explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
 	}
 	process := f.run.compiled.Providers[attack.initialAbility.ProviderIndex].Processes[attack.initialAbility.ProcessControl.ProcessIndex]
-	program := f.run.compiled.Formulas.Programs[process.Cooldown.DurationProgram]
+	program := formula.GenericProgram{Instr: f.run.formulas.ReadDependencies(process.Cooldown.DurationProgram)}
 	evalContext := context.evalContext(attack.initialAbility)
 	if speed == previous.speed && !basicAttackWaitDependenciesChanged(program, previous, sourceAttributes, targetAttributes, evalContext) {
 		if (f.pendingBasicAttackWait != nil || f.pendingAmmoWait != nil || f.pendingActionWait) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
@@ -188,7 +188,7 @@ func (f *executionFrame) basicAttackWaitContext() (*executionFrame, *model.Engin
 	attack := f.run.basicAttack
 	context := &executionFrame{run: f.run, sourceKey: attack.plan.Source, targetKey: attack.plan.Target,
 		abilityRef: attack.plan.InitialControlAbilityRef, strictReads: true, staged: f.staged}
-	parsed, _ := compilebundle.ParseAbilityRef(attack.plan.InitialControlAbilityRef)
+	parsed, _ := planbundle.ParseAbilityRef(attack.plan.InitialControlAbilityRef)
 	context.ownerCombatantKey, context.ownerProviderRef = attack.plan.Source, parsed.ProviderRef
 	providerChanges := false
 	for _, staged := range f.staged {

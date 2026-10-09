@@ -44,10 +44,10 @@ func TestCompileCastOriginAndPerCastThrottleCollectAll(t *testing.T) {
 		},
 		PerCastThrottleMs: 1000,
 		Operations: []model.OperationDefinition{{
-			Operation: "damage",
-			Target:    "target",
+			Operation:  "damage",
+			Target:     "target",
 			DamageType: "damage/physical",
-			Amount:    &model.GenericFormulaExpr{Op: "const", Value: floatPtr(1)},
+			Amount:     &model.GenericFormulaExpr{Op: "const", Value: floatPtr(1)},
 		}},
 	}}
 	result := CompileGeneric(req)

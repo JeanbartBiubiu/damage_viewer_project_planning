@@ -1,12 +1,12 @@
 package runtime
 
 import (
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
-func (s *genericRunState) validateEquipmentHitListener(listener compilebundle.CompiledListener) *model.EngineError {
+func (s *genericRunState) validateEquipmentHitListener(listener planbundle.CompiledListener) *model.EngineError {
 	qualified := false
 	for _, event := range []struct{ kind, relation string }{
 		{model.EventTypeBasicAttackStart, eventSourceOwner}, {model.EventTypeBasicAttackHit, eventSourceOwner},
@@ -16,8 +16,8 @@ func (s *genericRunState) validateEquipmentHitListener(listener compilebundle.Co
 		{eventTypeDamageInstance, eventSourceOwner},
 		{eventTypeAbilityStarted, eventSourceOwner},
 	} {
-		kind, kindDeclared := s.compiled.Types.Registry.Lookup(event.kind)
-		relation, relationDeclared := s.compiled.Types.Registry.Lookup(event.relation)
+		kind, kindDeclared := s.compiled.Types.Registry.LookupDomain("event", event.kind)
+		relation, relationDeclared := s.compiled.Types.Registry.LookupDomain("event", event.relation)
 		qualified = qualified || kindDeclared && relationDeclared && listener.EventMatcher.RequiresAllType(kind) && listener.EventMatcher.RequiresAllType(relation)
 	}
 	if !qualified || listener.OwnerCombatantKey == "" || listener.OwnerProviderRef == "" || listener.HasAbilityRef || listener.PerCastThrottleMs != 0 || listener.OperationCount == 0 || listener.MaxTriggersPerEvent != 1 {
@@ -39,7 +39,7 @@ func (s *genericRunState) validateEquipmentHitListener(listener compilebundle.Co
 			if operation.Operation == model.OperationKindApplyAttackLink {
 				eventType = model.EventTypeAttackLinkApplied
 			}
-			linkType, declared := s.compiled.Types.Registry.Lookup(eventType)
+			linkType, declared := s.compiled.Types.Registry.LookupDomain("event", eventType)
 			if declared && listener.EventMatcher.RequiresAllType(linkType) {
 				return s.basicAttackErr("a link listener cannot recursively apply the same link", operation.Path)
 			}
@@ -113,7 +113,7 @@ func (s *genericRunState) validateEquipmentDynamicDefinition(owner, providerRef,
 	return nil
 }
 
-func (s *genericRunState) validateEquipmentHitProvider(provider compilebundle.CompiledProvider, owner, providerRef string) *model.EngineError {
+func (s *genericRunState) validateEquipmentHitProvider(provider planbundle.CompiledProvider, owner, providerRef string) *model.EngineError {
 	if (provider.Kind != "item" && provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || provider.Lifecycle != nil || len(provider.Processes)+len(provider.StatusContributions) != 0 {
 		return s.basicAttackErr("triggered skill must remain an owned permanent passive source", "initialSnapshot.combatants.providers")
 	}

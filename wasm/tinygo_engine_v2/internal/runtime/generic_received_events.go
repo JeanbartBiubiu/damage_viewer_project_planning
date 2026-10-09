@@ -2,13 +2,13 @@ package runtime
 
 import (
 	"tinygo_engine_v2/internal/command"
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func (s *genericRunState) dispatchBasicAttackReceived(original emittedEvent, depth int) *model.EngineError {
-	if _, declared := s.compiled.Types.Registry.Lookup(model.EventTypeBasicAttackReceived); !declared {
+	if _, declared := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackReceived); !declared {
 		return nil
 	}
 	received := original
@@ -25,9 +25,9 @@ func (s *genericRunState) dispatchBasicAttackReceived(original emittedEvent, dep
 	return s.dispatchListeners(received, depth)
 }
 
-func (f *executionFrame) queueDamageTaken(cmd command.Command, operation compilebundle.CompiledOperation,
-	ability compilebundle.CompiledAbility, critical frozenCritEvidence, base, raw float64, outcome pipeline.DamageOutcome) {
-	if _, declared := f.run.compiled.Types.Registry.Lookup(model.EventTypeDamageTaken); !declared {
+func (f *executionFrame) queueDamageTaken(cmd command.Command, operation planbundle.CompiledOperation,
+	ability planbundle.CompiledAbility, critical frozenCritEvidence, base, raw float64, outcome pipeline.DamageOutcome) {
+	if _, declared := f.run.compiled.Types.Registry.LookupDomain("event", model.EventTypeDamageTaken); !declared {
 		return
 	}
 	event := emittedEvent{eventType: model.EventTypeDamageTaken, ref: operation.Ref, sourceKey: cmd.Source, targetKey: cmd.Target,

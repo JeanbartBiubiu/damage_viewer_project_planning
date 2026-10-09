@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"strings"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/status"
 )
 
@@ -63,8 +63,8 @@ type frozenSkillHitContext struct {
 	shieldSource        string
 	reusedSkillUnit     bool
 	matchedIndexes      []int
-	ability             compilebundle.CompiledAbility
-	plan                *compilebundle.CompiledSkillHit
+	ability             planbundle.CompiledAbility
+	plan                *planbundle.CompiledSkillHit
 	abilityRef          string
 }
 
@@ -273,13 +273,13 @@ func (s *genericRunState) groupOrderKnown(members, heapOrder []string) (bool, *m
 	return true, nil
 }
 
-func (s *genericRunState) lookupDriverAbility(entry model.DriverEntry) (compilebundle.CompiledAbility, string, bool) {
+func (s *genericRunState) lookupDriverAbility(entry model.DriverEntry) (planbundle.CompiledAbility, string, bool) {
 	sourceKey, _ := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
 	targetKey, _ := s.resolveDriverCombatantKey(entry.Target, sourceKey)
 	resolved := normalizeAbilityRef(entry.AbilityRef, sourceKey, targetKey)
 	ref, ok := s.compiled.AbilityRefIndex[resolved]
 	if !ok || int(ref.AbilityIndex) >= len(s.compiled.Abilities) {
-		return compilebundle.CompiledAbility{}, resolved, false
+		return planbundle.CompiledAbility{}, resolved, false
 	}
 	return s.compiled.Abilities[ref.AbilityIndex], resolved, true
 }
@@ -288,7 +288,7 @@ func (s *genericRunState) skillHitErr(code model.GenericErrCode, message, path, 
 	return engineErrorPtrAt(model.GenericPhaseRun, code, message, path, ref, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 }
 
-func (f *executionFrame) resolveSkillHit(op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) resolveSkillHit(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {
 	if op.SkillHit == nil {
 		return f.run.skillHitErr(model.GenericErrMissingRequiredField, "resolve_skill_hit missing compiled plan", f.abilityRef, "")
 	}
@@ -418,10 +418,10 @@ func (f *executionFrame) resolveSkillHit(op compilebundle.CompiledOperation, abi
 	eventType := model.EventTypeSkillHit
 	if ability.IsBasicAttack {
 		eventType = model.EventTypeBasicAttackHit
-		if _, ok := f.run.compiled.Types.Registry.Lookup(eventType); !ok {
+		if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", eventType); !ok {
 			return f.run.skillHitErr(model.GenericErrUnknownTypeKey, "basic attack resolve requires event/basic_attack_hit in typeCatalog", f.abilityRef, "")
 		}
-	} else if _, ok := f.run.compiled.Types.Registry.Lookup(model.EventTypeSkillHit); !ok {
+	} else if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", model.EventTypeSkillHit); !ok {
 		return f.run.skillHitErr(model.GenericErrUnknownTypeKey, "resolve_skill_hit requires event/skill_hit in typeCatalog", f.abilityRef, "")
 	}
 	snap := f.captureEmitSnapshot(eventType, f.sourceKey, f.targetKey)
@@ -566,7 +566,7 @@ func bool01(ok bool) float64 {
 	return 0
 }
 
-func (f *executionFrame) selectSkillHitCandidates(plan *compilebundle.CompiledSkillHit, ability compilebundle.CompiledAbility, firstHas bool, firstVal float64) ([]int, *model.EngineError) {
+func (f *executionFrame) selectSkillHitCandidates(plan *planbundle.CompiledSkillHit, ability planbundle.CompiledAbility, firstHas bool, firstVal float64) ([]int, *model.EngineError) {
 	var out []int
 	for i := range plan.Candidates {
 		cand := plan.Candidates[i]
@@ -603,19 +603,19 @@ func (f *executionFrame) selectSkillHitCandidates(plan *compilebundle.CompiledSk
 	return out, nil
 }
 
-func (f *executionFrame) matchEventValueConds(cand compilebundle.CompiledSkillHitCandidate, firstHas bool, firstVal float64, blockedHas bool, blockedVal float64, includeBlocked bool) (bool, *model.EngineError) {
-	ability := compilebundle.CompiledAbility{Params: f.skillHitAbilityParams()}
+func (f *executionFrame) matchEventValueConds(cand planbundle.CompiledSkillHitCandidate, firstHas bool, firstVal float64, blockedHas bool, blockedVal float64, includeBlocked bool) (bool, *model.EngineError) {
+	ability := planbundle.CompiledAbility{Params: f.skillHitAbilityParams()}
 	for _, cond := range cand.EventValueConds {
 		if cond.Key == model.SkillHitValueBlocked && !includeBlocked {
 			continue
 		}
-		value, evalErr := f.run.compiled.Formulas.Eval(cond.ValueProg, f.evalContext(ability))
+		value, evalErr := f.run.formulas.Eval(cond.ValueProg, f.evalContext(ability))
 		if evalErr != nil {
 			wrapped := engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, evalErr.Error(), cond.Path+".value", cand.CandidateKey, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 			if strings.HasPrefix(evalErr.Error(), "event.skill_hit.") {
 				wrapped.Path = evalErr.Error()
 			}
-			return false, wrapped
+			return false, f.preserveFormulaIssue(evalErr, wrapped)
 		}
 		if math.IsNaN(value) || math.IsInf(value, 0) {
 			return false, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite eventValueConditions value", cond.Path+".value", cand.CandidateKey, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -657,8 +657,8 @@ func (f *executionFrame) skillHitAbilityParams() map[string]float64 {
 	return f.run.compiled.Abilities[ref.AbilityIndex].Params
 }
 
-func (f *executionFrame) formSkillHitUnit(plan *compilebundle.CompiledSkillHit, set []int, occurrenceID uint64, useRef string) (*frozenSkillHitContext, *model.EngineError) {
-	var first *compilebundle.CompiledSkillHitCandidate
+func (f *executionFrame) formSkillHitUnit(plan *planbundle.CompiledSkillHit, set []int, occurrenceID uint64, useRef string) (*frozenSkillHitContext, *model.EngineError) {
+	var first *planbundle.CompiledSkillHitCandidate
 	for _, idx := range set {
 		cand := plan.Candidates[idx]
 		if cand.InboundBlockEligible && cand.HasBlockScope {
@@ -691,7 +691,7 @@ func (f *executionFrame) formSkillHitUnit(plan *compilebundle.CompiledSkillHit, 
 	return unit, nil
 }
 
-func unitCoversCandidates(unit *frozenSkillHitContext, plan *compilebundle.CompiledSkillHit, set []int, occurrenceID uint64, useRef string) bool {
+func unitCoversCandidates(unit *frozenSkillHitContext, plan *planbundle.CompiledSkillHit, set []int, occurrenceID uint64, useRef string) bool {
 	if unit == nil {
 		return false
 	}
@@ -707,7 +707,7 @@ func unitCoversCandidates(unit *frozenSkillHitContext, plan *compilebundle.Compi
 	return true
 }
 
-func (f *executionFrame) consumptionMatchedCandidates(plan *compilebundle.CompiledSkillHit, ability compilebundle.CompiledAbility, set []int, freeze *frozenSkillHitContext) ([]int, *model.EngineError) {
+func (f *executionFrame) consumptionMatchedCandidates(plan *planbundle.CompiledSkillHit, ability planbundle.CompiledAbility, set []int, freeze *frozenSkillHitContext) ([]int, *model.EngineError) {
 	var out []int
 	for _, idx := range set {
 		cand := plan.Candidates[idx]
@@ -733,7 +733,7 @@ func (f *executionFrame) activeSpellShields(ownerKey string) []status.ProviderIn
 	if !ok {
 		return nil
 	}
-	id, found := f.run.compiled.Types.Registry.Lookup(model.ProviderTypeSpellShield)
+	id, found := f.run.compiled.Types.Registry.LookupDomain("provider", model.ProviderTypeSpellShield)
 	if !found {
 		return nil
 	}
@@ -794,7 +794,7 @@ func (s *genericRunState) dispatchSkillHitEvent(ev emittedEvent, chainDepth int)
 	return nil
 }
 
-func (s *genericRunState) executeSkillHitCandidate(ev emittedEvent, freeze *frozenSkillHitContext, cand compilebundle.CompiledSkillHitCandidate, skipWrites bool, chainDepth int) *model.EngineError {
+func (s *genericRunState) executeSkillHitCandidate(ev emittedEvent, freeze *frozenSkillHitContext, cand planbundle.CompiledSkillHitCandidate, skipWrites bool, chainDepth int) *model.EngineError {
 	start := cand.OperationStart
 	end := start + cand.OperationCount
 	if int(end) > len(s.compiled.Operations) {
@@ -848,7 +848,7 @@ func (s *genericRunState) dispatchSpellShieldBlocked(parent emittedEvent, freeze
 	return s.dispatchListeners(ev, chainDepth)
 }
 
-func (f *executionFrame) expireProviderFromEvent(op compilebundle.CompiledOperation) *model.EngineError {
+func (f *executionFrame) expireProviderFromEvent(op planbundle.CompiledOperation) *model.EngineError {
 	if f.eventCtx == nil || f.eventCtx.skillHit == nil || f.eventCtx.eventType != model.EventTypeSpellShieldBlocked {
 		return f.run.skillHitErr(model.GenericErrMissingRequiredField, "providerRefFromEvent requires event/spell_shield_blocked context", f.abilityRef, "")
 	}
@@ -946,7 +946,7 @@ func (s *genericRunState) unbindProviderInstanceListeners(ownerKey, providerRef 
 	s.runtimeListeners = out
 }
 
-func (s *genericRunState) listenerStillLive(listener compilebundle.CompiledListener) bool {
+func (s *genericRunState) listenerStillLive(listener planbundle.CompiledListener) bool {
 	if listener.OwnerCombatantKey == "" || listener.OwnerProviderRef == "" {
 		return true
 	}

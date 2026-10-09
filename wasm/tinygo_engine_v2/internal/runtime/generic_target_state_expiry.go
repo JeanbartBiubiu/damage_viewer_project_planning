@@ -1,8 +1,8 @@
 package runtime
 
 import (
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // scheduleProviderTargetStateExpiry enqueues a deterministic expire_cleanup for one
@@ -61,7 +61,7 @@ func (s *genericRunState) applyProviderTargetStateExpiry(payload expireCleanupPa
 	stagedBag := staged.providerState[payload.providerRef]
 	stagedBag.targetValues[payload.stateKey] = stagedBag.fieldDefs[payload.stateKey].defaultValue
 	stagedBag.targetExpireAt[payload.stateKey] = 0
-	frame.reResolveStagedAttributesTwoPass(compilebundle.CompiledAbility{})
+	frame.reResolveStagedAttributesTwoPass(planbundle.CompiledAbility{})
 	frame.recordEvidence(model.EvidenceItem{TimeMs: s.nowMs, Kind: "provider_target_state_expired", Ref: payload.providerRef,
 		Data: map[string]interface{}{"owner": payload.combatantKey, "target": payload.targetKey, "stateKey": payload.stateKey, "expectedExpireAt": payload.expectedExpireAt}})
 	frame.commit()

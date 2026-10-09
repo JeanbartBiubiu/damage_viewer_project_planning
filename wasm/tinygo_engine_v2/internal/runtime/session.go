@@ -7,6 +7,7 @@ import (
 	"tinygo_engine_v2/internal/abi"
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 type Session struct {
@@ -21,7 +22,7 @@ type genericSessionEntry struct {
 	schemaVersion string
 	schemaHash    string
 	rulesHash     string
-	compiled      compilebundle.CompiledSession
+	compiled      planbundle.CompiledSession
 }
 
 func NewSession() *Session {
@@ -67,6 +68,7 @@ func (s *Session) CompileJSON(payload []byte) int32 {
 	result := compiled.Result
 	result.SessionID = sessionID
 	if code := s.outbox.WriteJSON(model.FrameKindGenericCompileResult, result); code != model.ErrOK {
+		delete(s.genericSessions, sessionID)
 		s.writeGenericError(model.GenericPhaseABI, model.GenericErrRuntimeInvariantFailed, "compile result frame write failed", result.SchemaHash, result.RulesHash, sessionID)
 		return -1
 	}
@@ -171,7 +173,7 @@ func (s *Session) ReleaseSessionJSON(payload []byte) int32 {
 	return 0
 }
 
-func (s *Session) registerGenericSession(session compilebundle.CompiledSession) string {
+func (s *Session) registerGenericSession(session planbundle.CompiledSession) string {
 	s.nextGenericSessionID++
 	sessionID := "generic-session-" + itoa(s.nextGenericSessionID)
 	s.genericSessions[sessionID] = genericSessionEntry{

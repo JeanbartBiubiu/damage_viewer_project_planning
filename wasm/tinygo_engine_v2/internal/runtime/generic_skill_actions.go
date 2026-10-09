@@ -4,14 +4,14 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 )
 
 type skillActionRuntime struct {
 	plan                model.SkillActionPlan
-	binding             compilebundle.CompiledSkillActionBinding
+	binding             planbundle.CompiledSkillActionBinding
 	summary             model.SkillActionSummary
 	uses                model.SkillUseSummary
 	useRef              string

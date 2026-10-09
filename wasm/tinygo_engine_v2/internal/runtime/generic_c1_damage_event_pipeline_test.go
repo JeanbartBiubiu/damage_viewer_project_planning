@@ -438,7 +438,7 @@ func TestC1DamageTraitAndTypePredicates(t *testing.T) {
 			Op: "mul",
 			Args: []model.GenericFormulaExpr{
 				{Op: "read", Path: "damage.trait.on_hit"},
-				{Op: "read", Path: "damage.type.physical"},
+				{Op: "read", Path: "damage.type.damage/physical"},
 			},
 		},
 	})
@@ -469,7 +469,7 @@ func TestC1DamageTraitAndTypePredicates(t *testing.T) {
 			Op: "mul",
 			Args: []model.GenericFormulaExpr{
 				{Op: "read", Path: "damage.trait.on_hit"},
-				{Op: "read", Path: "damage.type.physical"},
+				{Op: "read", Path: "damage.type.damage/physical"},
 			},
 		},
 	})

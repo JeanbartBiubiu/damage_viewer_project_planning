@@ -7,21 +7,11 @@ import (
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
+	"tinygo_engine_v2/internal/typeset"
 )
 
-type CompiledAmmoRecovery struct {
-	IntervalProgram formula.GenericProgramID
-	Path            string
-}
-
-type CompiledAmmoBinding struct {
-	StateKey            string
-	InitialAbilityIndex int
-	ProcessIndex        int
-	ConsumptionPath     string
-}
-
-func compileAmmoStateFields(schema map[string]interface{}, fields map[string]CompiledProviderStateField, path string, ctx *genericCompileContext) {
+func compileAmmoStateFields(schema map[string]interface{}, fields map[string]plan.CompiledProviderStateField, path string, ctx *genericCompileContext) {
 	keys := make([]string, 0, len(schema))
 	for key := range schema {
 		keys = append(keys, key)
@@ -88,17 +78,20 @@ func compileAmmoStateFields(schema map[string]interface{}, fields map[string]Com
 		}
 		formulaPath := fieldPath + ".ammoRecovery.intervalMs"
 		instructions := formula.CompileGenericFormula(declaration.IntervalMs, formulaPath, ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-		if value, constant := formula.TryFoldConst(instructions); constant && (!formula.ValidPositiveInt64DurationMs(value) || value > 9007199254740991) {
+		if value, constant := ctx.session.Formulas.FoldInstructions(instructions); constant && (!formula.ValidPositiveInt64DurationMs(value) || value > 9007199254740991) {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, formulaPath, "ammo recovery interval must be a positive safe integer in milliseconds", key)
 		}
-		for _, instruction := range instructions {
+		for _, instruction := range ctx.session.Formulas.InstructionDependencies(instructions, nil) {
 			if instruction.Op == formula.GenericOpRead && instruction.ReadKind != formula.ReadSourceAttr && instruction.ReadKind != formula.ReadTargetAttr && instruction.ReadKind != formula.ReadAbilityParam && instruction.ReadKind != formula.ReadProviderState {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, formulaPath, "ammo recovery cannot depend on transient event or use values", instruction.ReadKey)
 			}
 		}
 		if len(instructions) > 0 {
 			field.StateKind = model.ProviderStateKindAmmo
-			field.AmmoRecovery = &CompiledAmmoRecovery{IntervalProgram: ctx.registerFormula(formulaPath, instructions), Path: fieldPath + ".ammoRecovery"}
+			program, registered := ctx.registerFormula(formulaPath, instructions)
+			if registered {
+				field.AmmoRecovery = &plan.CompiledAmmoRecovery{IntervalProgram: program, Path: fieldPath + ".ammoRecovery"}
+			}
 			fields[key] = field
 		}
 	}
@@ -120,7 +113,7 @@ func compileAmmoBindings(ctx *genericCompileContext) {
 		if stateKey == "" {
 			continue
 		}
-		var binding *CompiledAmmoBinding
+		var binding *plan.CompiledAmmoBinding
 		for processIndex, process := range provider.Processes {
 			for _, moment := range process.MomentOperations {
 				for _, operation := range ctx.session.Operations[int(moment.OperationStart) : int(moment.OperationStart)+int(moment.OperationCount)] {
@@ -134,13 +127,13 @@ func compileAmmoBindings(ctx *genericCompileContext) {
 					initial := ctx.session.Abilities[process.InitialAbilityIndex]
 					value, constant := float64(0), false
 					if operation.HasAmount {
-						value, constant = formula.TryFoldConst(ctx.session.Formulas.Programs[operation.AmountProgram].Instr)
+						value, constant = ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[operation.AmountProgram].Instr)
 					}
 					if binding != nil || moment.Moment.MomentType != "PROCESS_START" || !initial.IsBasicAttack || initial.ProcessControl == nil || !initial.ProcessControl.UseRefFromEvent || operation.HasCondition || operation.StateScope != "state_scope/provider" || (operation.Target != model.SelectorSource && operation.Target != model.SelectorSelf) || operation.ValuePolicy != "add" || !constant || value != -1 {
 						ctx.collector.addError(model.GenericErrRuntimeInvariantFailed, operation.Path, "ammo consumption requires one unconditional native attack-start add(-1) operation", stateKey)
 						continue
 					}
-					binding = &CompiledAmmoBinding{StateKey: stateKey, InitialAbilityIndex: process.InitialAbilityIndex, ProcessIndex: processIndex, ConsumptionPath: operation.Path}
+					binding = &plan.CompiledAmmoBinding{StateKey: stateKey, InitialAbilityIndex: process.InitialAbilityIndex, ProcessIndex: processIndex, ConsumptionPath: operation.Path}
 				}
 			}
 		}
@@ -165,7 +158,7 @@ func compileAmmoBindings(ctx *genericCompileContext) {
 					if !listener.HasAbilityRef {
 						continue
 					}
-					parsed, valid := ParseAbilityRef(listener.AbilityRef)
+					parsed, valid := plan.ParseAbilityRef(listener.AbilityRef)
 					if valid && parsed.Combatant == "self" {
 						parsed.Combatant = listener.OwnerCombatantKey
 					}
@@ -173,8 +166,8 @@ func compileAmmoBindings(ctx *genericCompileContext) {
 						continue
 					}
 					listeners++
-					startType, startDeclared := ctx.session.Types.Registry.Lookup(model.EventTypeBasicAttackStart)
-					ownerType, ownerDeclared := ctx.session.Types.Registry.Lookup("event/source_owner")
+					startType, startDeclared := ctx.session.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackStart)
+					ownerType, ownerDeclared := ctx.session.Types.Registry.LookupDomain("event", "event/source_owner")
 					if listener.OwnerCombatantKey != actor.Key || listener.OwnerProviderRef != mount.ProviderRef || !startDeclared || !ownerDeclared || !listener.EventMatcher.RequiresAllType(startType) || !listener.EventMatcher.RequiresAllType(ownerType) || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 || listener.MaxTriggersPerEvent != 1 || listener.OperationCount != 0 {
 						ctx.collector.addError(model.GenericErrRuntimeInvariantFailed, initialRef, "ammo start chain requires an unconditional owned native-start listener", stateKey)
 					}
@@ -202,9 +195,8 @@ func validMechanicStatusKey(key string) bool {
 func validateMechanicFormulaContexts(ctx *genericCompileContext) {
 	allowedAmmo := map[formula.GenericProgramID]bool{}
 	statusKeys := map[string]bool{}
-	for _, key := range ctx.catalog.Registry.Keys {
-		identifier, _ := ctx.catalog.Registry.Lookup(key)
-		if ctx.catalog.Domains[identifier] != "status" {
+	for identifier, key := range ctx.catalog.Registry.Keys {
+		if ctx.catalog.Domains[typeset.TypeID(identifier)] != "status" {
 			continue
 		}
 		statusKey := strings.TrimPrefix(key, "status/")
@@ -242,7 +234,7 @@ func validateMechanicFormulaContexts(ctx *genericCompileContext) {
 	}
 	for index, program := range ctx.session.Formulas.Programs {
 		_, named := ctx.namedFormulas[program.Key]
-		for _, instruction := range program.Instr {
+		for _, instruction := range ctx.session.Formulas.ReadDependencies(formula.GenericProgramID(index)) {
 			if instruction.Op != formula.GenericOpRead {
 				continue
 			}

@@ -1,11 +1,11 @@
 package runtime
 
 import (
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
-func (s *genericRunState) validateEquipmentPeriodicProvider(provider compilebundle.CompiledProvider, owner, providerRef string) *model.EngineError {
+func (s *genericRunState) validateEquipmentPeriodicProvider(provider planbundle.CompiledProvider, owner, providerRef string) *model.EngineError {
 	if provider.Kind != "item" || provider.StableID == "" || provider.Lifecycle != nil || len(provider.Processes)+len(provider.StatusContributions) != 0 {
 		return s.basicAttackErr("equipment periodic source must be an owned permanent selected passive", "initialSnapshot.combatants.providers")
 	}

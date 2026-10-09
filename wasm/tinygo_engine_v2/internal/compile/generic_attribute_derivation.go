@@ -2,9 +2,11 @@ package compile
 
 import (
 	"strings"
+	"unsafe"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 func compileAttributeDerivations(definitions []model.AttributeDerivationDefinition, ctx *genericCompileContext) {
@@ -43,7 +45,9 @@ func compileAttributeDerivations(definitions []model.AttributeDerivationDefiniti
 	for index, definition := range definitions {
 		path := "rules.attributeDerivations[" + itoa(index) + "]"
 		instructions := formula.CompileGenericFormula(definition.Value, path+".value", ctx.namedFormulas, map[string]bool{}, collector.addError)
-		for _, instruction := range instructions {
+		previousSkill := ctx.currentSkillKey
+		ctx.currentSkillKey = definition.SkillKey
+		for _, instruction := range ctx.session.Formulas.InstructionDependencies(instructions, nil) {
 			if instruction.Op != formula.GenericOpRead {
 				continue
 			}
@@ -57,7 +61,18 @@ func compileAttributeDerivations(definitions []model.AttributeDerivationDefiniti
 				collector.addError(model.GenericErrFormulaTypeError, path+".value", "derivations may read only ordinary attributes and frozen attribute bases", instruction.ReadKey)
 				continue
 			}
-			attributeKey, field, hasField := strings.Cut(instruction.ReadKey, ".")
+			if instruction.AuthoredRead && definition.CombatantKey == "target" {
+				if owner == "source" {
+					owner = "target"
+				} else {
+					owner = "source"
+				}
+			}
+			fieldAt := strings.LastIndex(instruction.ReadKey, ".")
+			attributeKey, field, hasField := instruction.ReadKey, "", fieldAt > 0
+			if hasField {
+				attributeKey, field = instruction.ReadKey[:fieldAt], instruction.ReadKey[fieldAt+1:]
+			}
 			if !hasField || (field != "base" && field != "current" && field != "max" && field != "resolved") {
 				collector.addError(model.GenericErrFormulaTypeError, path+".value", "derivation requires an explicit attribute slot field", instruction.ReadKey)
 			}
@@ -69,11 +84,17 @@ func compileAttributeDerivations(definitions []model.AttributeDerivationDefiniti
 			}
 		}
 		if len(instructions) == 0 {
+			ctx.currentSkillKey = previousSkill
 			continue
 		}
-		program := ctx.registerFormula(path+".value", instructions)
-		ctx.session.AttributeDerivations = append(ctx.session.AttributeDerivations, CompiledAttributeDerivation{
-			CombatantKey: definition.CombatantKey, AttributeKey: definition.AttributeKey, ValuePolicy: definition.ValuePolicy, ValueProgram: program, Path: path,
+		bytes := uint64(unsafe.Sizeof(plan.CompiledAttributeDerivation{})) + uint64(len(definition.SkillKey)+len(definition.CombatantKey)+len(definition.AttributeKey)+len(definition.ValuePolicy)+len(path))
+		program, registered := ctx.registerFormula(path+".value", instructions, bytes)
+		ctx.currentSkillKey = previousSkill
+		if !registered {
+			continue
+		}
+		ctx.session.AttributeDerivations = append(ctx.session.AttributeDerivations, plan.CompiledAttributeDerivation{
+			SkillKey: definition.SkillKey, CombatantKey: definition.CombatantKey, AttributeKey: definition.AttributeKey, ValuePolicy: definition.ValuePolicy, ValueProgram: program, Path: path,
 		})
 	}
 }

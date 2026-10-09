@@ -6,6 +6,7 @@ import (
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/typeset"
 )
 
@@ -304,7 +305,7 @@ func shapedChargeTypeSet(t *testing.T, result compile.GenericCompileResult, keys
 
 func shapedChargeAssertMatcher(t *testing.T, result compile.GenericCompileResult) {
 	t.Helper()
-	var found *compile.CompiledListener
+	var found *planbundle.CompiledListener
 	for i := range result.Session.Providers {
 		p := &result.Session.Providers[i]
 		if p.ProviderKey != shapedChargeProviderRef {
@@ -362,7 +363,7 @@ func shapedChargeTargetShieldRemaining(done model.DoneResult) float64 {
 func TestGenericShapedCharge2520SchemaAndMatcher(t *testing.T) {
 	compileReq, _ := shapedChargeLoadFixture(t)
 	result := shapedChargeCompile(t, compileReq)
-	var found *compile.CompiledProvider
+	var found *planbundle.CompiledProvider
 	for i := range result.Session.Providers {
 		p := &result.Session.Providers[i]
 		if p.ProviderKey == shapedChargeProviderRef {

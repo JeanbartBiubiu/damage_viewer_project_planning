@@ -3,9 +3,9 @@ package pipeline
 import (
 	"testing"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func TestAttributeResolverMultipleModifiersByPriority(t *testing.T) {
@@ -15,8 +15,8 @@ func TestAttributeResolverMultipleModifiersByPriority(t *testing.T) {
 			{Key: "v5", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 5}}},
 		},
 	}
-	provider := compilebundle.CompiledProvider{
-		Modifiers: []compilebundle.CompiledModifier{
+	provider := planbundle.CompiledProvider{
+		Modifiers: []planbundle.CompiledModifier{
 			{ModifierKey: "m_low", Kind: "attribute", Target: "attack_damage", ValuePolicy: "add", ValueProgram: 0, HasValue: true, Priority: 1},
 			{ModifierKey: "m_high", Kind: "attribute", Target: "attack_damage", ValuePolicy: "add", ValueProgram: 1, HasValue: true, Priority: 5},
 		},
@@ -41,7 +41,7 @@ func TestAttributeResolverZeroBaseDoesNotReuseCurrentTotal(t *testing.T) {
 		{Key: "gear_speed", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 0.15}}},
 	}}
 	var resolver AttributeResolver
-	resolver.MountCompiledModifierOwned("source", "gear", compilebundle.CompiledModifier{
+	resolver.MountCompiledModifierOwned("source", "gear", planbundle.CompiledModifier{
 		ModifierKey: "gear_speed", Kind: "attribute", Target: "bonus_attack_speed_percent",
 		ValuePolicy: "add", ValueProgram: 0, HasValue: true,
 	})
@@ -74,8 +74,8 @@ func TestAttributeResolverUnmountProvider(t *testing.T) {
 			{Key: "v20", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 20}}},
 		},
 	}
-	provider := compilebundle.CompiledProvider{
-		Modifiers: []compilebundle.CompiledModifier{
+	provider := planbundle.CompiledProvider{
+		Modifiers: []planbundle.CompiledModifier{
 			{ModifierKey: "buff", Kind: "attribute", Target: "attack_damage", ValuePolicy: "add", ValueProgram: 0, HasValue: true},
 		},
 	}
@@ -101,7 +101,7 @@ func TestAttributeResolverUnmountProvider(t *testing.T) {
 }
 
 func TestAttributeResolverUnmountProviderOwnedIsolation(t *testing.T) {
-	mod := compilebundle.CompiledModifier{
+	mod := planbundle.CompiledModifier{
 		ModifierKey: "shred", Kind: "attribute", Target: "opponent.attr.armor",
 		ValuePolicy: "add", ValueProgram: 0, HasValue: true,
 	}
@@ -131,8 +131,8 @@ func TestAttributeResolverCanonicalPathTarget(t *testing.T) {
 			{Key: "v25", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 25}}},
 		},
 	}
-	provider := compilebundle.CompiledProvider{
-		Modifiers: []compilebundle.CompiledModifier{
+	provider := planbundle.CompiledProvider{
+		Modifiers: []planbundle.CompiledModifier{
 			{ModifierKey: "path_buff", Kind: "attribute", Target: "source.attr.attack_damage", ValuePolicy: "add", ValueProgram: 0, HasValue: true},
 		},
 	}
@@ -163,11 +163,11 @@ func TestAttributeResolverPerModifierProviderContext(t *testing.T) {
 		},
 	}
 	var resolver AttributeResolver
-	resolver.MountCompiledModifierOwned("source", "buff_a", compilebundle.CompiledModifier{
+	resolver.MountCompiledModifierOwned("source", "buff_a", planbundle.CompiledModifier{
 		ModifierKey: "a", Kind: "attribute", Target: "attack_damage",
 		ValuePolicy: "add", ValueProgram: 0, HasValue: true,
 	})
-	resolver.MountCompiledModifierOwned("source", "buff_b", compilebundle.CompiledModifier{
+	resolver.MountCompiledModifierOwned("source", "buff_b", planbundle.CompiledModifier{
 		ModifierKey: "b", Kind: "attribute", Target: "attack_damage",
 		ValuePolicy: "add", ValueProgram: 0, HasValue: true,
 	})
@@ -226,7 +226,7 @@ func TestAttributeResolverCrossCombatantOwnerContext(t *testing.T) {
 		},
 	}
 	var r2 AttributeResolver
-	r2.MountCompiledModifierOwned("source", "bc", compilebundle.CompiledModifier{
+	r2.MountCompiledModifierOwned("source", "bc", planbundle.CompiledModifier{
 		ModifierKey: "carve", Kind: "attribute", Target: "opponent.attr.armor",
 		ValuePolicy: "percent_add", ValueProgram: 0, HasValue: true,
 	})
@@ -262,11 +262,11 @@ func TestAttributeResolverModifierKeyOrderBeforeOwnerProvider(t *testing.T) {
 	// owner "zzz" / key "a_mul" then owner "aaa" / key "b_add".
 	// Correct order by modifierKey: a_mul then b_add => (100*2)+10 = 210.
 	// If owner sorted before modifierKey: aaa/b_add then zzz/a_mul => (100+10)*2 = 220.
-	resolver.MountCompiledModifierOwned("zzz", "prov_z", compilebundle.CompiledModifier{
+	resolver.MountCompiledModifierOwned("zzz", "prov_z", planbundle.CompiledModifier{
 		ModifierKey: "a_mul", Kind: "attribute", Target: "attack_damage",
 		ValuePolicy: "multiply", ValueProgram: 0, HasValue: true, Priority: 1,
 	})
-	resolver.MountCompiledModifierOwned("aaa", "prov_a", compilebundle.CompiledModifier{
+	resolver.MountCompiledModifierOwned("aaa", "prov_a", planbundle.CompiledModifier{
 		ModifierKey: "b_add", Kind: "attribute", Target: "attack_damage",
 		ValuePolicy: "add", ValueProgram: 1, HasValue: true, Priority: 1,
 	})

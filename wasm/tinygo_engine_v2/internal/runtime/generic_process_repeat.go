@@ -2,8 +2,8 @@ package runtime
 
 import (
 	"math"
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func processTimerAt(process *processRuntime) int64 {
@@ -25,7 +25,7 @@ func processTimerAt(process *processRuntime) int64 {
 	return process.AdvanceAtMs
 }
 
-func (state *genericRunState) enterProcessRepeat(frame *executionFrame, step compilebundle.CompiledProcessStep) *model.EngineError {
+func (state *genericRunState) enterProcessRepeat(frame *executionFrame, step planbundle.CompiledProcessStep) *model.EngineError {
 	process := frame.pendingProcess
 	countProgram := step.RepeatCountProgram
 	if step.StepType == "CHANNEL" {

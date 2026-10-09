@@ -2,14 +2,14 @@ package runtime
 
 import (
 	"math"
-	compilebundle "tinygo_engine_v2/internal/compile"
-	"tinygo_engine_v2/internal/formula"
+
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/typeset"
 )
 
-func (s *genericRunState) validateStaticInitializer(provider compilebundle.CompiledProvider, owner, providerRef string) *model.EngineError {
+func (s *genericRunState) validateStaticInitializer(provider planbundle.CompiledProvider, owner, providerRef string) *model.EngineError {
 	if (provider.Kind != "item" && provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || provider.AbilityCount != 0 || provider.Lifecycle != nil || len(provider.Listeners) == 0 || len(provider.Processes)+len(provider.StateFields)+len(provider.StatusContributions)+len(provider.Modifiers) != 0 {
 		return s.basicAttackErr("initializer must be a complete static owned source", "initialSnapshot.combatants.providers")
 	}
@@ -23,9 +23,9 @@ func (s *genericRunState) validateStaticInitializer(provider compilebundle.Compi
 	return nil
 }
 
-func (s *genericRunState) validateStaticInitializationListener(listener compilebundle.CompiledListener) *model.EngineError {
-	initializationType, declared := s.compiled.Types.Registry.Lookup(model.EventTypeSourceInitialized)
-	ownerType, ownerDeclared := s.compiled.Types.Registry.Lookup("event/source_owner")
+func (s *genericRunState) validateStaticInitializationListener(listener planbundle.CompiledListener) *model.EngineError {
+	initializationType, declared := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeSourceInitialized)
+	ownerType, ownerDeclared := s.compiled.Types.Registry.LookupDomain("event", "event/source_owner")
 	var eventTypes typeset.TypeSet
 	eventTypes.Add(initializationType)
 	if !declared || !ownerDeclared || listener.OwnerCombatantKey == "" || listener.OwnerProviderRef == "" || listener.HasAbilityRef || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 || listener.OperationCount == 0 || listener.MaxTriggersPerEvent != 1 || !listener.EventMatcher.RequiresAllType(initializationType) || !listener.EventMatcher.RequiresAllType(ownerType) || !s.listenerMatchesEvent(listener, emittedEvent{eventType: model.EventTypeSourceInitialized, sourceKey: listener.OwnerCombatantKey, targetKey: listener.OwnerCombatantKey}, eventTypes) {
@@ -44,15 +44,15 @@ func (s *genericRunState) validateStaticInitializationListener(listener compileb
 			return s.basicAttackErr("initialized effect must contain one permanent static modifier", operation.Path)
 		}
 		modifier := effect.Modifiers[0]
-		if !modifier.HasValue || modifier.HasCondition || int(modifier.ValueProgram) >= len(s.compiled.Formulas.Programs) {
+		if !modifier.HasValue || modifier.HasCondition || int(modifier.ValueProgram) >= len(s.formulas.Programs) {
 			return s.basicAttackErr("initialization modifier requires a finite constant", operation.Path)
 		}
-		program := s.compiled.Formulas.Programs[modifier.ValueProgram]
-		if len(program.Instr) != 1 || program.Instr[0].Op != formula.GenericOpConst || math.IsNaN(program.Instr[0].Value) || math.IsInf(program.Instr[0].Value, 0) {
+		value, static := s.formulas.FoldStatic(modifier.ValueProgram)
+		if !static || math.IsNaN(value) || math.IsInf(value, 0) {
 			return s.basicAttackErr("initialization modifier requires an application snapshot constant", operation.Path)
 		}
 		if modifier.Kind == "attribute" && modifier.Target == "opponent.attr.attack_speed" && modifier.ValuePolicy == "multiply" {
-			if program.Instr[0].Value <= 0 || program.Instr[0].Value > 1 {
+			if value <= 0 || value > 1 {
 				return s.basicAttackErr("static attack-speed aura requires a multiplier within (0,1]", operation.Path)
 			}
 			continue

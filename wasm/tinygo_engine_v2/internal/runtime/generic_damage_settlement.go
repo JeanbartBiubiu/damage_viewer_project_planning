@@ -4,9 +4,9 @@ import (
 	"math"
 
 	"tinygo_engine_v2/internal/command"
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // damageNumbers 是普通与复制伤害共用的乘区、抗性和暴击分支数值结算。
@@ -24,11 +24,12 @@ type damageNumbers struct {
 	penetrationPercent          float64
 	penetrationFlat             float64
 	effectiveResistance         float64
+	hasNativeDefenseDetails     bool
 }
 
 func (f *executionFrame) resolveDamageNumbers(
-	cmd command.Command, op compilebundle.CompiledOperation, critEv frozenCritEvidence,
-	ability compilebundle.CompiledAbility, modifiers []map[string]interface{},
+	cmd command.Command, op planbundle.CompiledOperation, critEv frozenCritEvidence,
+	ability planbundle.CompiledAbility, modifiers []map[string]interface{},
 	targetMitigationAttrs, sourcePenetrationAttrs map[string]model.AttributeSlotDef,
 ) (damageNumbers, *model.EngineError) {
 	out := damageNumbers{crit: critEv, modifiers: modifiers}
@@ -70,6 +71,7 @@ func (f *executionFrame) resolveDamageNumbers(
 			ok = true
 		} else {
 			mitigation, ok = pipeline.MitigateRawDamageWithSource(cmd.Amount, cmd.DamageType, targetMitigationAttrs, sourcePenetrationAttrs)
+			out.hasNativeDefenseDetails = true
 		}
 		if !ok {
 			out.failClosed = true

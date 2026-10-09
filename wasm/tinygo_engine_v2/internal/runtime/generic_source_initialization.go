@@ -7,7 +7,7 @@ import (
 )
 
 func (s *genericRunState) seedSourceInitialization() *model.EngineError {
-	if _, declared := s.compiled.Types.Registry.Lookup(model.EventTypeSourceInitialized); !declared {
+	if _, declared := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeSourceInitialized); !declared {
 		return nil
 	}
 	if s.startMs != 0 {

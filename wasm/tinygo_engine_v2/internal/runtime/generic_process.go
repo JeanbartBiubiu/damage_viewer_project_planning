@@ -5,16 +5,16 @@ import (
 	"sort"
 	"strings"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 )
 
 type processRuntime struct {
 	model.ProcessInstanceSnapshot
-	definition *compilebundle.CompiledProcess
-	ability    compilebundle.CompiledAbility
+	definition *planbundle.CompiledProcess
+	ability    planbundle.CompiledAbility
 	abilityRef string
 	stepIndex  int
 	castID     uint64
@@ -54,12 +54,12 @@ func (s *genericRunState) processMounted(owner, provider string, definition uint
 	return false
 }
 
-func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryIndex int, controlAbility compilebundle.CompiledAbility, resolvedRef string) *model.EngineError {
+func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryIndex int, controlAbility planbundle.CompiledAbility, resolvedRef string) *model.EngineError {
 	control := controlAbility.ProcessControl
 	fact := s.processFacts[entry.EntryKey]
 	source, _ := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
 	target, _ := s.resolveDriverCombatantKey(entry.Target, source)
-	parsed, _ := compilebundle.ParseAbilityRef(resolvedRef)
+	parsed, _ := planbundle.ParseAbilityRef(resolvedRef)
 	p := &s.compiled.Providers[controlAbility.ProviderIndex].Processes[control.ProcessIndex]
 	var instance *processRuntime
 	for _, current := range s.processInstances {
@@ -187,7 +187,7 @@ func (s *genericRunState) newProcessFrame(p *processRuntime) *executionFrame {
 }
 
 // Condition false is represented by a normal process rejection; formula failures remain errors.
-func (s *genericRunState) evalProcessCondition(entryIndex int, f *executionFrame, ability compilebundle.CompiledAbility) (bool, *model.EngineError) {
+func (s *genericRunState) evalProcessCondition(entryIndex int, f *executionFrame, ability planbundle.CompiledAbility) (bool, *model.EngineError) {
 	ids := []formula.GenericProgramID{}
 	if entryIndex >= 0 && entryIndex < len(s.entryConditions) && s.entryConditions[entryIndex] != nil {
 		ids = append(ids, *s.entryConditions[entryIndex])
@@ -207,7 +207,7 @@ func (s *genericRunState) evalProcessCondition(entryIndex int, f *executionFrame
 	return true, nil
 }
 
-func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability compilebundle.CompiledAbility, definition *compilebundle.CompiledProcess, use string, depth int, collector *eventCopyableCollector) *model.EngineError {
+func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, depth int, collector *eventCopyableCollector) *model.EngineError {
 	if len(s.processInstances) >= s.budget.MaxProcessInstances {
 		err := s.budgetError(model.BudgetCauseMaxProcessInstances, "process instance budget exceeded")
 		err.Path, err.Ref = "safetyBudget.maxProcessInstances", use

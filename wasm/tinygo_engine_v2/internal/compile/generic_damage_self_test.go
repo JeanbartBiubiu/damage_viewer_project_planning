@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
 func TestDamageSelfRejectedInAttributeModifiers(t *testing.T) {
@@ -14,8 +15,9 @@ func TestDamageSelfRejectedInAttributeModifiers(t *testing.T) {
 				r := minimalValidCompileRequest()
 				read := model.GenericFormulaExpr{Op: "read", Path: model.FormulaPathDamageSelf}
 				if named {
-					r.Formulas = append(r.Formulas, model.NamedFormula{Key: "is_self", Expression: read})
-					read = model.GenericFormulaExpr{Op: "ref", Ref: "is_self"}
+					r.Formulas = append(r.Formulas, formuladefinition.Constant("is_self", "test", 1))
+					r.SharedProviders[0].SkillKey = "test"
+					read = model.GenericFormulaExpr{Op: "mul", Args: []model.GenericFormulaExpr{read, {Op: "ref", Ref: "is_self"}}}
 				}
 				one := 1.0
 				mod := model.ModifierDefinition{ModifierKey: "self_probe", Kind: kind, Target: "attack_damage", ValuePolicy: "add", Value: model.GenericFormulaExpr{Op: "const", Value: &one}}

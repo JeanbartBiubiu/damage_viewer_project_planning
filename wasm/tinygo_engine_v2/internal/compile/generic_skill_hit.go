@@ -5,6 +5,7 @@ import (
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func uniqueResolveSkillHit(ops []model.OperationDefinition) (model.OperationDefinition, bool) {
@@ -14,7 +15,7 @@ func uniqueResolveSkillHit(ops []model.OperationDefinition) (model.OperationDefi
 	return ops[0], true
 }
 
-func lastSkillHitOperationIndex(session *CompiledSession) int {
+func lastSkillHitOperationIndex(session *planbundle.CompiledSession) int {
 	for i := len(session.Operations) - 1; i >= 0; i-- {
 		if session.Operations[i].Operation == model.OperationKindResolveSkillHit {
 			return i
@@ -35,7 +36,7 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 	}
 	if op.SkillHit == nil {
 		collector.addError(model.GenericErrMissingRequiredField, opPath+".skillHit", "resolve_skill_hit requires skillHit", ability.AbilityKey)
-		session.Operations = append(session.Operations, CompiledOperation{Operation: model.OperationKindResolveSkillHit, Target: op.Target})
+		session.Operations = append(session.Operations, planbundle.CompiledOperation{Operation: model.OperationKindResolveSkillHit, Target: op.Target})
 		return
 	}
 	if op.Payload != nil {
@@ -51,13 +52,13 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 	ctx.compilingBasicAttack = abilityIsBasicAttack(ability, ctx)
 	defer func() { ctx.compilingBasicAttack = wasBasic }()
 	if ctx.compilingBasicAttack {
-		requireCatalogType(ctx, model.EventTypeBasicAttackHit, opPath+".skillHit", "basic attack resolve_skill_hit requires event/basic_attack_hit in typeCatalog")
+		requireEventType(ctx, model.EventTypeBasicAttackHit, opPath+".skillHit", "basic attack resolve_skill_hit requires event/basic_attack_hit in typeCatalog")
 	} else {
-		requireCatalogType(ctx, model.EventTypeSkillHit, opPath+".skillHit", "resolve_skill_hit requires event/skill_hit in typeCatalog")
+		requireEventType(ctx, model.EventTypeSkillHit, opPath+".skillHit", "resolve_skill_hit requires event/skill_hit in typeCatalog")
 	}
 
 	seenCandidate := map[string]int{}
-	plan := &CompiledSkillHit{SkillKey: op.SkillHit.SkillKey}
+	plan := &planbundle.CompiledSkillHit{SkillKey: op.SkillHit.SkillKey}
 	inboundNonNull := 0
 	for i, cand := range op.SkillHit.Candidates {
 		cpath := opPath + ".skillHit.candidates[" + itoa(i) + "]"
@@ -81,7 +82,7 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 			collector.addError(model.GenericErrOperationTargetMissing, opPath+".target", "unknown operation target", op.Target)
 		}
 	}
-	session.Operations = append(session.Operations, CompiledOperation{
+	session.Operations = append(session.Operations, planbundle.CompiledOperation{
 		Operation: model.OperationKindResolveSkillHit,
 		Target:    op.Target,
 		Ref:       op.Ref,
@@ -89,9 +90,9 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 	})
 }
 
-func compileSkillHitCandidate(cand model.SkillHitCandidate, path string, ownerProviderIndex int, ctx *genericCompileContext) CompiledSkillHitCandidate {
+func compileSkillHitCandidate(cand model.SkillHitCandidate, path string, ownerProviderIndex int, ctx *genericCompileContext) planbundle.CompiledSkillHitCandidate {
 	collector := ctx.collector
-	out := CompiledSkillHitCandidate{
+	out := planbundle.CompiledSkillHitCandidate{
 		CandidateKey:        cand.CandidateKey,
 		EffectOccurrenceKey: cand.EffectOccurrenceKey,
 		EffectKey:           cand.EffectKey,
@@ -128,17 +129,16 @@ func compileSkillHitCandidate(cand model.SkillHitCandidate, path string, ownerPr
 	}
 	if cand.ParticipationCondition != nil {
 		instr := formula.CompileGenericFormula(*cand.ParticipationCondition, path+".participationCondition", ctx.namedFormulas, map[string]bool{}, collector.addError)
-		if formulaHasForbiddenHitReads(instr) {
+		if formulaHasForbiddenHitReads(ctx.session.Formulas.InstructionDependencies(instr, nil)) {
 			collector.addError(model.GenericErrFormulaTypeError, path+".participationCondition", "participationCondition cannot read skill hit values, event snapshots that are not yet produced, or damage pipeline writes", cand.CandidateKey)
 		}
 		if len(instr) > 0 {
-			out.ParticipationProgram = ctx.registerFormula(path+".participationCondition", instr)
-			out.HasParticipation = true
+			out.ParticipationProgram, out.HasParticipation = ctx.registerFormula(path+".participationCondition", instr)
 		}
 	}
 	for j, cond := range cand.EventValueConditions {
 		cpath := path + ".eventValueConditions[" + itoa(j) + "]"
-		compiled := CompiledSkillHitValueCond{Key: cond.Key, Comparator: cond.Comparator, Path: cpath}
+		compiled := planbundle.CompiledSkillHitValueCond{Key: cond.Key, Comparator: cond.Comparator, Path: cpath}
 		if cond.Key != model.SkillHitValueFirstContact && cond.Key != model.SkillHitValueBlocked {
 			collector.addError(model.GenericErrUnknownRef, cpath+".key", "eventValueConditions key must be first_contact or blocked", cond.Key)
 		}
@@ -149,12 +149,11 @@ func compileSkillHitCandidate(cand model.SkillHitCandidate, path string, ownerPr
 			collector.addError(model.GenericErrUnknownRef, cpath+".comparator", "unsupported eventValueConditions comparator", cond.Comparator)
 		}
 		instr := formula.CompileGenericFormula(cond.Value, cpath+".value", ctx.namedFormulas, map[string]bool{}, collector.addError)
-		if formulaReadsKind(instr, formula.ReadEventSkillHit) {
+		if formulaReadsKind(ctx.session.Formulas.InstructionDependencies(instr, nil), formula.ReadEventSkillHit) {
 			collector.addError(model.GenericErrFormulaTypeError, cpath+".value", "eventValueConditions value cannot reverse-read unproduced skill hit values", cand.CandidateKey)
 		}
 		if len(instr) > 0 {
-			compiled.ValueProg = ctx.registerFormula(cpath+".value", instr)
-			compiled.HasValue = true
+			compiled.ValueProg, compiled.HasValue = ctx.registerFormula(cpath+".value", instr)
 		} else {
 			collector.addError(model.GenericErrMissingRequiredField, cpath+".value", "eventValueConditions value is required", cand.CandidateKey)
 		}
@@ -363,7 +362,7 @@ func providerHasTypeKey(ctx *genericCompileContext, definitionRef, typeKey strin
 	if !ok || int(idx) >= len(ctx.session.Providers) {
 		return false
 	}
-	id, found := ctx.session.Types.Registry.Lookup(typeKey)
+	id, found := ctx.session.Types.Registry.LookupDomain("provider", typeKey)
 	if !found {
 		return false
 	}
@@ -419,11 +418,11 @@ func formulaHasForbiddenHitReads(instr []formula.GenericInstr) bool {
 	return false
 }
 
-func requireCatalogType(ctx *genericCompileContext, key, path, message string) {
+func requireEventType(ctx *genericCompileContext, key, path, message string) {
 	if ctx == nil || ctx.session == nil {
 		return
 	}
-	if _, ok := ctx.session.Types.Registry.Lookup(key); ok {
+	if _, ok := ctx.session.Types.Registry.LookupDomain("event", key); ok {
 		return
 	}
 	ctx.collector.addError(model.GenericErrUnknownTypeKey, path, message, key)
@@ -457,7 +456,7 @@ func validateProviderRefFromEvent(op model.OperationDefinition, path string, own
 	if !hasBlocked {
 		ctx.collector.addError(model.GenericErrMatcherDomainError, path+".providerRefFromEvent", "providerRefFromEvent requires eventMatcher.all to include event/spell_shield_blocked", "")
 	}
-	requireCatalogType(ctx, model.EventTypeSpellShieldBlocked, path+".providerRefFromEvent", "providerRefFromEvent requires event/spell_shield_blocked in typeCatalog")
+	requireEventType(ctx, model.EventTypeSpellShieldBlocked, path+".providerRefFromEvent", "providerRefFromEvent requires event/spell_shield_blocked in typeCatalog")
 }
 
 func validateEmitEventNotForged(op model.OperationDefinition, path string, ctx *genericCompileContext) {

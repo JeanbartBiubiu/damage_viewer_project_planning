@@ -6,6 +6,7 @@ import (
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
 func processCompileNumber(value float64) *model.GenericFormulaExpr {
@@ -18,6 +19,7 @@ func processCompileBool(value bool) *bool       { return &value }
 func processCompileRequest() model.CompileRequest {
 	req := minimalValidCompileRequest()
 	provider := &req.SharedProviders[0]
+	provider.SkillKey = "skill:q"
 	provider.Abilities = []model.AbilityDefinition{
 		{AbilityKey: "initial", Kind: "active", SkillKey: "skill:q", ProcessControl: &model.ProcessControlDefinition{ProcessKey: "cast", Action: "INITIAL"}},
 		{AbilityKey: "recast", Kind: "active", SkillKey: "skill:q", ProcessControl: &model.ProcessControlDefinition{ProcessKey: "cast", Action: "RECAST", StepKey: "window"}},
@@ -297,7 +299,7 @@ func TestProcessCompileControlValidation(t *testing.T) {
 func TestProcessCompileActualCostReadScopesAndNamedFormulas(t *testing.T) {
 	for _, moment := range []string{"PROCESS_COMPLETE", "PROCESS_FAILURE"} {
 		req := processCompileRequest()
-		req.Formulas = []model.NamedFormula{{Key: "actual", Expression: model.GenericFormulaExpr{Op: "read", Path: "process.actual_cost.mana"}}}
+		req.Formulas = []model.NamedFormula{formuladefinition.FromExpr("actual", "skill:q", model.GenericFormulaExpr{Op: "read", Path: "process.actual_cost.mana"}, nil)}
 		binding := &req.SharedProviders[0].Processes[0].MomentOperations[0]
 		binding.Moment.MomentType = moment
 		binding.Operations[0].Amount = &model.GenericFormulaExpr{Op: "ref", Ref: "actual"}
@@ -333,7 +335,7 @@ func TestProcessCompileActualCostReadScopesAndNamedFormulas(t *testing.T) {
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			req := processCompileRequest()
-			req.Formulas = []model.NamedFormula{{Key: "actual", Expression: model.GenericFormulaExpr{Op: "read", Path: "process.actual_cost.mana"}}}
+			req.Formulas = []model.NamedFormula{formuladefinition.FromExpr("actual", "skill:q", model.GenericFormulaExpr{Op: "read", Path: "process.actual_cost.mana"}, nil)}
 			tc.mutate(&req)
 			requireProcessCompileError(t, req, tc.path)
 		})
@@ -425,7 +427,7 @@ func TestProcessCompileFoldsNamedTimeAndCosts(t *testing.T) {
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			req := processCompileRequest()
-			req.Formulas = []model.NamedFormula{{Key: "inner", Expression: tc.expression}, {Key: "outer", Expression: model.GenericFormulaExpr{Op: "ref", Ref: "inner"}}}
+			req.Formulas = []model.NamedFormula{formuladefinition.FromExpr("outer", "skill:q", tc.expression, nil)}
 			if tc.path == "delayMs" {
 				req.SharedProviders[0].Processes[0].Steps[1].DelayMs = &model.GenericFormulaExpr{Op: "ref", Ref: "outer"}
 			} else {
@@ -475,8 +477,7 @@ func TestProcessCompileActualCostCannotEscapeThroughOtherFormulaSlots(t *testing
 		t.Run(tc.name, func(t *testing.T) {
 			req := processCompileRequest()
 			req.Formulas = []model.NamedFormula{
-				{Key: "inner", Expression: model.GenericFormulaExpr{Op: "read", Path: "process.actual_cost.mana"}},
-				{Key: "outer", Expression: model.GenericFormulaExpr{Op: "ref", Ref: "inner"}},
+				formuladefinition.FromExpr("outer", "skill:q", model.GenericFormulaExpr{Op: "read", Path: "process.actual_cost.mana"}, nil),
 			}
 			req.SharedProviders[0].Abilities = append(req.SharedProviders[0].Abilities, model.AbilityDefinition{AbilityKey: "ordinary", Kind: "active"})
 			tc.mutate(&req)

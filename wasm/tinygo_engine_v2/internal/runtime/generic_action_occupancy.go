@@ -199,7 +199,7 @@ func (state *genericRunState) validatePlannedSkillProvider(owner, providerRef st
 		if listener.OwnerCombatantKey != owner || listener.OwnerProviderRef != providerRef {
 			continue
 		}
-		started, declared := state.compiled.Types.Registry.Lookup(eventTypeAbilityStarted)
+		started, declared := state.compiled.Types.Registry.LookupDomain("event", eventTypeAbilityStarted)
 		if declared && listener.EventMatcher.RequiresAllType(started) && !listener.HasAbilityRef && listener.OperationCount > 0 && listener.MaxTriggersPerEvent == 1 {
 			continue
 		}

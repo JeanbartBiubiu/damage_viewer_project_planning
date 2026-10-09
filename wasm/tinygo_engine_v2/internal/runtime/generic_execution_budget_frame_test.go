@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 )
 
@@ -84,7 +84,7 @@ func TestExecutionBudgetProcessCountHasExplicitCause(t *testing.T) {
 func TestExecutionBudgetUseLedgerExplicitCauseAndCommitBoundary(t *testing.T) {
 	c, r := frameCommitInput(frameCommitDamage(10), frameCommitDamage(10))
 	s := frameCommitState(t, c, r)
-	listener := compilebundle.CompiledListener{ListenerKey: "once", HasOncePerUse: true, OwnerCombatantKey: "source", OwnerProviderRef: "attack", OncePerUseGroup: "once", OncePerUseScope: model.OncePerUseScopeProvider}
+	listener := planbundle.CompiledListener{ListenerKey: "once", HasOncePerUse: true, OwnerCombatantKey: "source", OwnerProviderRef: "attack", OncePerUseGroup: "once", OncePerUseScope: model.OncePerUseScopeProvider}
 	ev := emittedEvent{eventType: model.EventTypeBasicAttackHit, sourceKey: "source", targetKey: "target", hasUse: true, useSource: "source", useSkillKey: "attack", useKey: "u1"}
 	s.useTriggerLedger = make(map[useTriggerKey]*useTriggerRecord)
 	for i := 0; i < maxUseTriggerLedger; i++ {

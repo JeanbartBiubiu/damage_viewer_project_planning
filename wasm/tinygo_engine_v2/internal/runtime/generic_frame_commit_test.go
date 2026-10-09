@@ -6,6 +6,7 @@ import (
 
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 )
 
@@ -41,7 +42,7 @@ func frameCommitState(t *testing.T, c model.CompileRequest, r model.RunRequest) 
 	return s
 }
 
-func frameCommitFrame(s *genericRunState) (*executionFrame, compilebundle.CompiledAbility, []compilebundle.CompiledOperation) {
+func frameCommitFrame(s *genericRunState) (*executionFrame, planbundle.CompiledAbility, []planbundle.CompiledOperation) {
 	entry := s.req.DriverPlan.Entries[0]
 	ability, ref, _ := s.lookupDriverAbility(entry)
 	f := s.newExecutionFrame("source", "target", ref)
@@ -105,7 +106,7 @@ func TestFrameCommitSharedBudgetKeepsEarlierFrames(t *testing.T) {
 	for _, count := range []int{100, 100, 57} {
 		f, ability, ops := frameCommitFrame(s)
 		f.copyableCollector = &eventCopyableCollector{}
-		batch := make([]compilebundle.CompiledOperation, count)
+		batch := make([]planbundle.CompiledOperation, count)
 		for i := range batch {
 			batch[i] = ops[0]
 		}

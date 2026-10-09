@@ -7,9 +7,9 @@ import (
 	"sort"
 	"strings"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // MountedAttributeModifier 是已挂载到 combatant 的属性 modifier。
@@ -85,7 +85,7 @@ func ModifierTargetCombatantSelector(target string) string {
 
 // MountProviderModifiers 挂载 provider 的 attribute modifier（kind=attribute）到本 resolver。
 // ownerCombatantKey 写入每条 mount 的 provenance；同 combatant 挂载时通常等于宿主 key。
-func (r *AttributeResolver) MountProviderModifiers(ownerCombatantKey, providerRef string, provider compilebundle.CompiledProvider, formulas formula.GenericRegistry) {
+func (r *AttributeResolver) MountProviderModifiers(ownerCombatantKey, providerRef string, provider planbundle.CompiledProvider, formulas formula.GenericRegistry) {
 	for _, mod := range provider.Modifiers {
 		r.MountCompiledModifierOwned(ownerCombatantKey, providerRef, mod)
 	}
@@ -93,12 +93,12 @@ func (r *AttributeResolver) MountProviderModifiers(ownerCombatantKey, providerRe
 }
 
 // MountCompiledModifier 挂载单个已编译 attribute modifier（owner 空，兼容 rules / 旧调用）。
-func (r *AttributeResolver) MountCompiledModifier(providerRef string, mod compilebundle.CompiledModifier) {
+func (r *AttributeResolver) MountCompiledModifier(providerRef string, mod planbundle.CompiledModifier) {
 	r.MountCompiledModifierOwned("", providerRef, mod)
 }
 
 // MountCompiledModifierOwned 挂载单个 modifier，并记录 owner combatant provenance。
-func (r *AttributeResolver) MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod compilebundle.CompiledModifier) {
+func (r *AttributeResolver) MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier) {
 	if mod.Kind != "attribute" && mod.Kind != "" {
 		return
 	}
@@ -245,6 +245,9 @@ func (r AttributeResolver) resolveAttributes(attrs map[string]model.AttributeSlo
 				modCtx.ProviderStateDefaults = pctx.ProviderStateDefaults
 			}
 			value, err := formulas.Eval(mod.ValueProgram, modCtx)
+			if err != nil {
+				return nil, fmt.Errorf("attribute %s modifier %s: %w", attrKey, mod.ModifierKey, err)
+			}
 			if err != nil || math.IsNaN(value) || math.IsInf(value, 0) {
 				return nil, fmt.Errorf("attribute %s modifier %s: invalid value: %v", attrKey, mod.ModifierKey, err)
 			}

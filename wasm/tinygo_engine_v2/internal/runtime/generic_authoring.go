@@ -2,62 +2,93 @@ package runtime
 
 import (
 	"math"
+	"tinygo_engine_v2/internal/expression"
+	"tinygo_engine_v2/internal/inputbinding"
 
 	"tinygo_engine_v2/internal/command"
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func (f *executionFrame) formulaError(id formula.GenericProgramID, message string) *model.EngineError {
 	path := "formula"
-	if int(id) < len(f.run.compiled.Formulas.Programs) {
-		path = f.run.compiled.Formulas.Programs[id].Key
+	if int(id) < len(f.run.formulas.Programs) {
+		path = f.run.formulas.Programs[id].Key
 	}
 	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, message, path, f.abilityRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 }
 
-func (f *executionFrame) evalResultFormula(id formula.GenericProgramID, ability compilebundle.CompiledAbility, target string) (float64, *model.EngineError) {
+func (f *executionFrame) evalResultFormula(id formula.GenericProgramID, ability planbundle.CompiledAbility, target string) (float64, *model.EngineError) {
 	ctx := f.evalContext(ability)
 	ctx.StrictReads = true
 	ctx.TargetAttrs = f.stageFor(target).attributes
 	ctx.TargetResources = f.stageFor(target).resources
-	value, err := f.run.compiled.Formulas.Eval(id, ctx)
+	value, err := f.run.formulas.Eval(id, ctx)
 	if err != nil {
-		return 0, f.formulaError(id, err.Error())
+		return 0, f.run.evalFormulaError(id, err, f.abilityRef)
 	}
 	return value, nil
 }
 
+func (f *executionFrame) configuredFormulaIssue(def planbundle.CompiledDamageTypeFormula, issue expression.ContractIssue) *model.EngineError {
+	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrCode(issue.Code), issue.Code, def.Path+issue.Path, f.abilityRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+}
+
 func (f *executionFrame) resolveConfiguredDefense(cmd command.Command, targetAttrs, sourceAttrs map[string]model.AttributeSlotDef) (pipeline.MitigationResult, *model.EngineError) {
 	def := f.run.compiled.DamageTypeFormulas[cmd.DamageType]
-	ctx := formula.GenericEvalContext{
-		SourceAttrs: sourceAttrs, TargetAttrs: targetAttrs,
-		SourceResources: f.stageFor(cmd.Source).resources, TargetResources: f.stageFor(cmd.Target).resources,
-		StrictReads: true,
-	}
 	if f.damageDefenseContext != nil {
-		ctx = *f.damageDefenseContext
-	}
-	ctx.StrictReads = true
-	for stage, id := range def.Programs {
-		ctx.DamageStageCount = stage
-		value, err := f.run.compiled.Formulas.Eval(id, ctx)
-		if err != nil {
-			return pipeline.MitigationResult{}, f.formulaError(id, err.Error())
+		sourceAttrs, targetAttrs = f.damageDefenseContext.SourceAttrs, f.damageDefenseContext.TargetAttrs
+	} else {
+		// 当前帧读值使用进入帧时已完成派生的只读视图，不观察后续暂存写入。
+		entry := func(key string) map[string]model.AttributeSlotDef {
+			if key == f.sourceKey {
+				return f.entrySourceAttrs
+			}
+			if key == f.targetKey {
+				return f.entryTargetAttrs
+			}
+			attrs, _ := f.snapshotCombatantMaps(key)
+			return attrs
 		}
-		ctx.DamageStages[stage] = value
+		sourceAttrs, targetAttrs = entry(cmd.Source), entry(cmd.Target)
 	}
-	factor := ctx.DamageStages[4]
+	values := make([]inputbinding.Value, len(def.Reads))
+	for i, read := range def.Reads {
+		attrs := sourceAttrs
+		if read.Object == "target" {
+			attrs = targetAttrs
+		}
+		slot, exists := attrs[read.AttributeKey]
+		if !exists {
+			continue
+		}
+		values[i] = inputbinding.Value{Base: inputbinding.Scalar{Value: slot.Base, Present: slot.HasBase()}, Total: inputbinding.Scalar{Value: slot.Resolved, Present: slot.HasResolved()}}
+	}
+	reader, issue := def.Binding.Reader(values)
+	if issue != nil {
+		return pipeline.MitigationResult{}, f.configuredFormulaIssue(def, *issue)
+	}
+	factor, err := f.run.formulas.Eval(def.Program, formula.GenericEvalContext{ReadInput: reader})
+	if err != nil {
+		if authored, ok := err.(*formula.AuthoredEvaluationError); ok {
+			return pipeline.MitigationResult{}, f.configuredFormulaIssue(def, authored.Issue)
+		}
+		return pipeline.MitigationResult{}, f.formulaError(def.Program, err.Error())
+	}
 	amount := cmd.Amount * factor
-	if factor < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
-		return pipeline.MitigationResult{}, f.formulaError(def.Programs[4], "configured resistance factor must be non-negative and produce finite damage")
+	if factor < 0 {
+		result := f.configuredFormulaIssue(def, expression.ContractIssue{Code: "FORMULA_INVALID_OUTPUT"})
+		result.Path, result.Message = def.OutputPath, "configured defense factor must be non-negative"
+		return pipeline.MitigationResult{}, result
 	}
-	return pipeline.MitigationResult{
-		Amount: amount, ResistanceBeforePenetration: ctx.DamageStages[0], PenetrationPercent: ctx.DamageStages[1],
-		PenetrationFlat: ctx.DamageStages[2], EffectiveResistance: ctx.DamageStages[3], ResistanceFactor: factor,
-	}, nil
+	if math.IsNaN(factor) || math.IsInf(factor, 0) || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
+		result := f.configuredFormulaIssue(def, expression.ContractIssue{Code: "FORMULA_NON_FINITE"})
+		result.Path = def.OutputPath
+		return pipeline.MitigationResult{}, result
+	}
+	return pipeline.MitigationResult{Amount: amount, ResistanceFactor: factor}, nil
 }
 
 func attachUseToSnapshot(ev *emittedEvent) {
@@ -68,7 +99,7 @@ func attachUseToSnapshot(ev *emittedEvent) {
 	ev.snapshot.useKey, ev.snapshot.useSource, ev.snapshot.useSkillKey = ev.useKey, ev.useSource, ev.useSkillKey
 }
 
-func (f *executionFrame) applyLink(ability compilebundle.CompiledAbility, op compilebundle.CompiledOperation, target string) *model.EngineError {
+func (f *executionFrame) applyLink(ability planbundle.CompiledAbility, op planbundle.CompiledOperation, target string) *model.EngineError {
 	useKey, useSource, useSkill := f.processUseKey, f.processUseSource, f.processUseSkillKey
 	if useKey == "" && f.eventCtx != nil && f.eventCtx.hasUse {
 		useKey, useSource, useSkill = f.eventCtx.useKey, f.eventCtx.useSource, f.eventCtx.useSkillKey
@@ -121,11 +152,11 @@ func (f *executionFrame) applyLink(ability compilebundle.CompiledAbility, op com
 	return nil
 }
 
-func (s *genericRunState) startProcessFromEvent(source, target, ref string, ability compilebundle.CompiledAbility, depth int, event *eventFormulaSnapshot, driverKey string, collector *eventCopyableCollector) *model.EngineError {
+func (s *genericRunState) startProcessFromEvent(source, target, ref string, ability planbundle.CompiledAbility, depth int, event *eventFormulaSnapshot, driverKey string, collector *eventCopyableCollector) *model.EngineError {
 	if driverKey != "" || depth < 1 || event == nil || event.eventType != model.EventTypeBasicAttackStart || !event.hasUse || ability.ProcessControl.Action != "INITIAL" || !ability.IsBasicAttack {
 		return s.processErr("abilityRef", "event-bound INITIAL requires a real basic_attack_start listener context", ref)
 	}
-	parsed, ok := compilebundle.ParseAbilityRef(ref)
+	parsed, ok := planbundle.ParseAbilityRef(ref)
 	use, exists := s.skillUses[event.useKey]
 	if !ok || !exists || parsed.Combatant != source || event.eventSourceKey != source || event.eventTargetKey != target || event.useSource != source || event.useSkillKey != ability.SkillKey || use.source != source || use.skillKey != ability.SkillKey {
 		return s.processErr("processControl.useRefFromEvent", "native attack and process must share the real source, target, skill and use", ref)
@@ -166,8 +197,8 @@ func (d copyableDamageFrozen) entryResourcesForCombatant(key string) map[string]
 	return d.entrySourceResources
 }
 
-func (f *executionFrame) requireAttackProcess(ability compilebundle.CompiledAbility, skill, use string) *model.EngineError {
-	parsed, _ := compilebundle.ParseAbilityRef(f.abilityRef)
+func (f *executionFrame) requireAttackProcess(ability planbundle.CompiledAbility, skill, use string) *model.EngineError {
+	parsed, _ := planbundle.ParseAbilityRef(f.abilityRef)
 	for _, def := range f.run.compiled.Providers[ability.ProviderIndex].Processes {
 		if def.SkillKey != skill || def.InitialAbilityIndex < 0 || !f.run.compiled.Abilities[def.InitialAbilityIndex].ProcessControl.UseRefFromEvent {
 			continue

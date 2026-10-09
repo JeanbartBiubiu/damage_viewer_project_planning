@@ -382,10 +382,10 @@ func TestC2ModifierConditionDamageTraitAndHostEvidence(t *testing.T) {
 		t.Fatalf("providerOwner=%v", mods[0]["providerOwner"])
 	}
 
-	// Target-hosted crit-part condition on damage.type.physical.
+	// Target-hosted crit-part condition on damage.type.damage/physical.
 	compileReq2, runReq2 := loadCritEligibleDamageFixture(t, 1, 2, true)
 	part := c2PipelineMod("type_gate", "damage", "all_damage", "incoming_crit_part_post_mitigation", "multiply", 0.5, 0)
-	part.Condition = &model.GenericFormulaExpr{Op: "read", Path: "damage.type.physical"}
+	part.Condition = &model.GenericFormulaExpr{Op: "read", Path: "damage.type.damage/physical"}
 	mountPipelineProvider(&compileReq2, &runReq2, model.SelectorTarget, "item:c2_tgt", "c2_tgt", part)
 	done2 := runCritFixture(t, compileReq2, runReq2)
 	data2 := firstOriginalDamage(t, done2)

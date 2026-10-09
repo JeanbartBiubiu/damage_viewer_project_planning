@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"sort"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 	"tinygo_engine_v2/internal/status"
 )
 
-func findTickAbility(provider compilebundle.CompiledProvider, session compilebundle.CompiledSession) (*compilebundle.CompiledAbility, bool) {
+func findTickAbility(provider planbundle.CompiledProvider, session planbundle.CompiledSession) (*planbundle.CompiledAbility, bool) {
 	start := provider.AbilityStart
 	end := start + provider.AbilityCount
 	for i := start; i < end; i++ {

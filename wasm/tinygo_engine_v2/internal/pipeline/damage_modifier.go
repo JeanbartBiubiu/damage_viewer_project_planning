@@ -4,8 +4,8 @@ package pipeline
 import (
 	"sort"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // MountedDamageModifier is a provider/rules pipeline damage modifier mounted on a combatant.
@@ -43,7 +43,7 @@ func (r DamageModifierResolver) Clone() DamageModifierResolver {
 }
 
 // MountCompiledModifierOwned mounts a kind=pipeline damage modifier with owner provenance.
-func (r *DamageModifierResolver) MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod compilebundle.CompiledModifier) {
+func (r *DamageModifierResolver) MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier) {
 	if mod.Kind != "pipeline" {
 		return
 	}

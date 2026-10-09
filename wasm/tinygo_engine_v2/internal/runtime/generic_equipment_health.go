@@ -3,12 +3,12 @@ package runtime
 import (
 	"math"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
-func validateFixedEquipmentHealth(compiled compilebundle.CompiledSession, actors map[string]combatantRuntime, sessionID string) *model.EngineError {
+func validateFixedEquipmentHealth(compiled planbundle.CompiledSession, actors map[string]combatantRuntime, sessionID string) *model.EngineError {
 	for _, actor := range compiled.Combatants {
 		hasHealthContribution := false
 		for _, mount := range actor.ProviderMounts {

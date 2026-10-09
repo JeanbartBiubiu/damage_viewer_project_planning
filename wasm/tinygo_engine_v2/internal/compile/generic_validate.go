@@ -4,6 +4,7 @@ import (
 	"math"
 
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 type genericCollector struct {
@@ -48,7 +49,7 @@ func (c *genericCollector) addWarning(code model.WarningCode, path, message stri
 
 // ValidateAbilityRefFormat 校验 abilityRef 字符串格式（不含解析）。
 func ValidateAbilityRefFormat(ref string) bool {
-	_, ok := ParseAbilityRef(ref)
+	_, ok := plan.ParseAbilityRef(ref)
 	return ok
 }
 
@@ -57,7 +58,7 @@ func RejectBareAbilityRef(ref string) model.GenericErrCode {
 	if ref == "" {
 		return model.GenericErrMissingRequiredField
 	}
-	if _, ok := ParseAbilityRef(ref); ok {
+	if _, ok := plan.ParseAbilityRef(ref); ok {
 		return ""
 	}
 	if stringsContains(ref, "::") {
@@ -83,11 +84,11 @@ func indexString(s, sub string) int {
 }
 
 // compileInitialStateSchema 规范化 initialStateSchema：旧数字默认值兼容，结构化对象 collect-all 校验。
-func compileInitialStateSchema(schema map[string]interface{}, path string, collector *genericCollector) map[string]CompiledProviderStateField {
+func compileInitialStateSchema(schema map[string]interface{}, path string, collector *genericCollector) map[string]plan.CompiledProviderStateField {
 	if len(schema) == 0 {
 		return nil
 	}
-	out := make(map[string]CompiledProviderStateField, len(schema))
+	out := make(map[string]plan.CompiledProviderStateField, len(schema))
 	for key, raw := range schema {
 		fieldPath := path + "." + key
 		if key == "" {
@@ -99,7 +100,7 @@ func compileInitialStateSchema(schema map[string]interface{}, path string, colle
 				collector.addError(model.GenericErrFormulaTypeError, fieldPath, "initialStateSchema default value must be finite", key)
 				continue
 			}
-			out[key] = CompiledProviderStateField{DefaultValue: n}
+			out[key] = plan.CompiledProviderStateField{DefaultValue: n}
 			continue
 		}
 		obj, ok := raw.(map[string]interface{})
@@ -118,8 +119,8 @@ func compileInitialStateSchema(schema map[string]interface{}, path string, colle
 	return out
 }
 
-func compileStructuredStateField(obj map[string]interface{}, path, key string, collector *genericCollector) (CompiledProviderStateField, bool) {
-	var field CompiledProviderStateField
+func compileStructuredStateField(obj map[string]interface{}, path, key string, collector *genericCollector) (plan.CompiledProviderStateField, bool) {
+	var field plan.CompiledProviderStateField
 	ok := true
 	if raw, declared := obj["valueType"]; declared {
 		valueType, valid := raw.(string)
@@ -214,7 +215,7 @@ func compileStructuredStateField(obj map[string]interface{}, path, key string, c
 	}
 
 	if !ok {
-		return CompiledProviderStateField{}, false
+		return plan.CompiledProviderStateField{}, false
 	}
 	return field, true
 }
@@ -239,19 +240,25 @@ func asSchemaFloat64(v interface{}) (float64, bool) {
 func asSchemaInt64(v interface{}) (int64, bool) {
 	switch n := v.(type) {
 	case float64:
-		if n != math.Trunc(n) || !isFiniteFloat(n) {
+		if n != math.Trunc(n) || !isFiniteFloat(n) || math.Abs(n) > 9007199254740991 {
 			return 0, false
 		}
 		return int64(n), true
 	case float32:
 		f := float64(n)
-		if f != math.Trunc(f) || !isFiniteFloat(f) {
+		if f != math.Trunc(f) || !isFiniteFloat(f) || math.Abs(f) > 9007199254740991 {
 			return 0, false
 		}
 		return int64(f), true
 	case int:
+		if int64(n) > 9007199254740991 || int64(n) < -9007199254740991 {
+			return 0, false
+		}
 		return int64(n), true
 	case int64:
+		if n > 9007199254740991 || n < -9007199254740991 {
+			return 0, false
+		}
 		return n, true
 	case int32:
 		return int64(n), true

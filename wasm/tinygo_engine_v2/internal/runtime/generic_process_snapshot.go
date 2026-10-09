@@ -3,8 +3,8 @@ package runtime
 import (
 	"math"
 	"strings"
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func (s *genericRunState) initProcessState() *model.EngineError {
@@ -81,7 +81,7 @@ func (s *genericRunState) initProcessState() *model.EngineError {
 		}
 		source, sourceOK := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
 		target, targetOK := s.resolveDriverCombatantKey(entry.Target, source)
-		parsed, parsedOK := compilebundle.ParseAbilityRef(ref)
+		parsed, parsedOK := planbundle.ParseAbilityRef(ref)
 		if !sourceOK || !targetOK || entry.Source == "" || entry.Target == "" || !parsedOK || parsed.Combatant != source || !s.combatantExists(target) {
 			return s.processErr(path, "process driver must identify its real owner and target", ref)
 		}
@@ -132,7 +132,7 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 	if !s.combatantExists(row.Owner) || !s.combatantExists(row.Target) || strings.TrimSpace(row.UseKey) == "" || strings.TrimSpace(row.ProviderRef) == "" {
 		return bad("", "process identity requires explicit real owner, target, provider and use")
 	}
-	var def *compilebundle.CompiledProcess
+	var def *planbundle.CompiledProcess
 	var providerIndex uint16
 	for _, c := range s.compiled.Combatants {
 		if c.Key != row.Owner {
@@ -270,7 +270,7 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 	return process, nil
 }
 
-func (state *genericRunState) validateRestoredStepProgress(row model.ProcessInstanceSnapshot, definition *compilebundle.CompiledProcess, stepIndex int, path string) *model.EngineError {
+func (state *genericRunState) validateRestoredStepProgress(row model.ProcessInstanceSnapshot, definition *planbundle.CompiledProcess, stepIndex int, path string) *model.EngineError {
 	bad := func(message string) *model.EngineError {
 		return state.processErr(path+".stepExecutionIndex", message, row.UseKey)
 	}
@@ -312,7 +312,7 @@ func (state *genericRunState) validateRestoredStepProgress(row model.ProcessInst
 		case "MULTI_HIT", "CHANNEL":
 			previous := *row.Repeat
 			previous.ExecutionIndex--
-			probe := &processRuntime{ProcessInstanceSnapshot: row, definition: &compilebundle.CompiledProcess{Steps: []compilebundle.CompiledProcessStep{step}}, stepIndex: 0}
+			probe := &processRuntime{ProcessInstanceSnapshot: row, definition: &planbundle.CompiledProcess{Steps: []planbundle.CompiledProcessStep{step}}, stepIndex: 0}
 			probe.Repeat = &previous
 			if last != nextProcessRepeatAt(probe) {
 				return bad("last repeated execution must match its frozen absolute segment time")
@@ -345,14 +345,14 @@ func (state *genericRunState) validateRestoredStepProgress(row model.ProcessInst
 	return nil
 }
 
-func (state *genericRunState) validateRestoredProcessRepeat(row model.ProcessInstanceSnapshot, step compilebundle.CompiledProcessStep, path string) *model.EngineError {
+func (state *genericRunState) validateRestoredProcessRepeat(row model.ProcessInstanceSnapshot, step planbundle.CompiledProcessStep, path string) *model.EngineError {
 	repeat := row.Repeat
 	bad := func(message string) *model.EngineError { return state.processErr(path+".repeat", message, row.UseKey) }
 	if repeat == nil || repeat.ExecutionCount < 1 || repeat.ExecutionCount > 64 || repeat.ExecutionIndex < 0 || repeat.ExecutionIndex > repeat.ExecutionCount || row.ExpiresAtMs == nil || *row.ExpiresAtMs < row.StepStartedAtMs || row.AdvanceAtMs != *row.ExpiresAtMs {
 		return bad("finite repeated step requires consistent frozen progress and end time")
 	}
 	duration := *row.ExpiresAtMs - row.StepStartedAtMs
-	probe := &processRuntime{ProcessInstanceSnapshot: row, definition: &compilebundle.CompiledProcess{Steps: []compilebundle.CompiledProcessStep{step}}, stepIndex: 0}
+	probe := &processRuntime{ProcessInstanceSnapshot: row, definition: &planbundle.CompiledProcess{Steps: []planbundle.CompiledProcessStep{step}}, stepIndex: 0}
 	if step.StepType == "MULTI_HIT" {
 		if repeat.IntervalMs < 0 || repeat.ExecutionCount > 1 && (repeat.IntervalMs == 0 || repeat.IntervalMs > math.MaxInt64/int64(repeat.ExecutionCount-1)) || duration != int64(repeat.ExecutionCount-1)*repeat.IntervalMs || repeat.FirstExecutionOffsetMs != 0 || repeat.LastExecutionOffsetMs != duration {
 			return bad("multi-hit progress contradicts its frozen interval or execution count")
@@ -386,7 +386,7 @@ func (state *genericRunState) validateRestoredProcessRepeat(row model.ProcessIns
 	if repeat.ExecutionIndex > 0 {
 		previous := *repeat
 		previous.ExecutionIndex--
-		probe := &processRuntime{ProcessInstanceSnapshot: row, definition: &compilebundle.CompiledProcess{Steps: []compilebundle.CompiledProcessStep{step}}, stepIndex: 0}
+		probe := &processRuntime{ProcessInstanceSnapshot: row, definition: &planbundle.CompiledProcess{Steps: []planbundle.CompiledProcessStep{step}}, stepIndex: 0}
 		probe.Repeat = &previous
 		last := nextProcessRepeatAt(probe)
 		if last > state.nowMs || row.FinishedAtMs != nil && last > *row.FinishedAtMs {
@@ -449,7 +449,7 @@ func cloneProcessCosts(costs map[string]float64) map[string]float64 {
 	return out
 }
 
-func validRestoredProcessCooldown(row model.ProcessInstanceSnapshot, def *compilebundle.CompiledProcess, stepIndex int) bool {
+func validRestoredProcessCooldown(row model.ProcessInstanceSnapshot, def *planbundle.CompiledProcess, stepIndex int) bool {
 	if def.Cooldown == nil {
 		return !row.CooldownStarted
 	}

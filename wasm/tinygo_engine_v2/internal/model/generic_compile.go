@@ -47,10 +47,12 @@ type CombatantDefinition struct {
 // AttributeSlotDef 是 compile input / snapshot 属性槽。
 // finalSnapshot 要求 resolved 稳定输出，故不加 omitempty。
 type AttributeSlotDef struct {
-	Base     float64 `json:"base"`
-	Current  float64 `json:"current"`
-	Max      float64 `json:"max"`
-	Resolved float64 `json:"resolved"`
+	Base        float64 `json:"base"`
+	Current     float64 `json:"current"`
+	Max         float64 `json:"max"`
+	Resolved    float64 `json:"resolved"`
+	jsonDecoded bool
+	present     uint8
 }
 
 // ResourceSlotDef 是 compile input 资源槽初始值。
@@ -69,6 +71,7 @@ type CombatantProviderMount struct {
 
 // ProviderDefinition 是可复用 capability provider 定义。
 type ProviderDefinition struct {
+	SkillKey            string                         `json:"skillKey,omitempty"`
 	Processes           []ProcessDefinition            `json:"processes,omitempty"`
 	ProviderKey         string                         `json:"providerKey"`
 	Kind                string                         `json:"kind"`
@@ -89,9 +92,9 @@ type ProviderStateFieldSchema struct {
 	StateKind     string              `json:"stateKind,omitempty"`
 	AmmoRecovery  *AmmoRecoverySchema `json:"ammoRecovery,omitempty"`
 	ValueType     string              `json:"valueType,omitempty"`
-	DefaultValue  float64             `json:"defaultValue"`
-	MaxValue      float64             `json:"maxValue"`
-	DurationMs    int64               `json:"durationMs"`
+	DefaultValue  any                 `json:"defaultValue"`
+	MaxValue      any                 `json:"maxValue"`
+	DurationMs    any                 `json:"durationMs"`
 	RefreshPolicy string              `json:"refreshPolicy,omitempty"`
 }
 
@@ -125,9 +128,9 @@ const (
 // ProviderLifecycle 描述 dynamic provider 生命周期。
 type ProviderLifecycle struct {
 	DurationMs     *GenericFormulaExpr `json:"durationMs,omitempty"`
-	MaxStacks      int                 `json:"maxStacks,omitempty"`
+	MaxStacks      any                 `json:"maxStacks,omitempty"`
 	RefreshPolicy  string              `json:"refreshPolicy,omitempty"`
-	TickIntervalMs int64               `json:"tickIntervalMs,omitempty"`
+	TickIntervalMs any                 `json:"tickIntervalMs,omitempty"`
 	InstanceScope  string              `json:"instanceScope,omitempty"`
 }
 
@@ -305,6 +308,7 @@ type RulesContainer struct {
 }
 
 type AttributeDerivationDefinition struct {
+	SkillKey     string             `json:"skillKey,omitempty"`
 	ValuePolicy  string             `json:"valuePolicy,omitempty"`
 	CombatantKey string             `json:"combatantKey"`
 	AttributeKey string             `json:"attributeKey"`
@@ -314,20 +318,23 @@ type AttributeDerivationDefinition struct {
 // NamedFormula 是命名公式定义（供 ref 引用）。
 type NamedFormula struct {
 	Key        string             `json:"key"`
-	Expression GenericFormulaExpr `json:"expression"`
+	SkillKey   string             `json:"skillKey"`
+	Expression any                `json:"expression"`
+	Parameters []FormulaParameter `json:"parameters"`
 }
 
 // GenericFormulaExpr 是通用数值表达式节点。内部 if 固定三个 args：条件非零取第二项，
 // 否则取第三项；运行只求选中的分支，编译仍校验两支。管理作者公式不因此增加节点。
 type GenericFormulaExpr struct {
-	Op       string               `json:"op"`
-	Value    *float64             `json:"value,omitempty"`
-	Path     string               `json:"path,omitempty"`
-	Ref      string               `json:"ref,omitempty"`
-	Args     []GenericFormulaExpr `json:"args,omitempty"`
-	Decimals *int                 `json:"decimals,omitempty"`
-	Min      *GenericFormulaExpr  `json:"min,omitempty"`
-	Max      *GenericFormulaExpr  `json:"max,omitempty"`
+	LinkedProgram *uint16              `json:"-"`
+	Op            string               `json:"op"`
+	Value         *float64             `json:"value,omitempty"`
+	Path          string               `json:"path,omitempty"`
+	Ref           string               `json:"ref,omitempty"`
+	Args          []GenericFormulaExpr `json:"args,omitempty"`
+	Decimals      *int                 `json:"decimals,omitempty"`
+	Min           *GenericFormulaExpr  `json:"min,omitempty"`
+	Max           *GenericFormulaExpr  `json:"max,omitempty"`
 	// clamp/round/floor/ceil/trunc 使用 value 字段承载子表达式
 	Expr *GenericFormulaExpr `json:"expr,omitempty"`
 }

@@ -12,7 +12,7 @@ func phantomHealthModifier(comparator string, threshold float64, firstPerCast bo
 	mod := healthGateModifier(comparator, threshold)
 	mod.Channel = "all_damage"
 	mod.Condition = &model.GenericFormulaExpr{Op: "min", Args: []model.GenericFormulaExpr{
-		*mod.Condition, {Op: "read", Path: "damage.type.magic"},
+		*mod.Condition, {Op: "read", Path: "damage.type.damage/magic"},
 	}}
 	if firstPerCast {
 		mod.Bucket = "first_per_cast"
@@ -151,7 +151,7 @@ func TestPhantomRetainsCritBranchAndAppliesIncomingCritPartWithoutRecrit(t *test
 		ModifierKey: "copy_crit_part", Kind: "pipeline", Command: "damage", Channel: "all_damage",
 		Stage: "incoming_crit_part_post_mitigation", Bucket: "all_instances", ValuePolicy: "multiply",
 		Value:     model.GenericFormulaExpr{Op: "const", Value: pipeFloat(.5)},
-		Condition: &model.GenericFormulaExpr{Op: "read", Path: "damage.type.magic"},
+		Condition: &model.GenericFormulaExpr{Op: "read", Path: "damage.type.damage/magic"},
 	}
 	mountPipelineProvider(&c, &r, model.SelectorTarget, "item:copy_crit_part", "copy_crit_part", critPart)
 	done := runGuinsooK(t, c, r)

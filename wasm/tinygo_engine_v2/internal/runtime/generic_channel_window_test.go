@@ -6,6 +6,7 @@ import (
 	"testing"
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 )
 
@@ -525,7 +526,7 @@ func TestComplexSkillChannelWindowRoundingRetainsSafeIntegerEndpoints(test *test
 		{64, 0, maxJSONSafeInteger, 1, 142971416741920},
 		{64, maxJSONSafeInteger - 63, maxJSONSafeInteger, 62, maxJSONSafeInteger - 1},
 	} {
-		process := &processRuntime{ProcessInstanceSnapshot: model.ProcessInstanceSnapshot{Repeat: &model.ProcessRepeatSnapshot{ExecutionCount: scenario.count, FirstExecutionOffsetMs: scenario.first, LastExecutionOffsetMs: scenario.last}}, definition: &compilebundle.CompiledProcess{Steps: []compilebundle.CompiledProcessStep{{StepType: "CHANNEL", FirstExecution: "CUSTOM_WINDOW"}}}}
+		process := &processRuntime{ProcessInstanceSnapshot: model.ProcessInstanceSnapshot{Repeat: &model.ProcessRepeatSnapshot{ExecutionCount: scenario.count, FirstExecutionOffsetMs: scenario.first, LastExecutionOffsetMs: scenario.last}}, definition: &planbundle.CompiledProcess{Steps: []planbundle.CompiledProcessStep{{StepType: "CHANNEL", FirstExecution: "CUSTOM_WINDOW"}}}}
 		if offset := processRepeatOffset(process, scenario.slot); offset != scenario.want {
 			test.Fatal("absolute rounding lost a safe integer millisecond", scenario, offset)
 		}

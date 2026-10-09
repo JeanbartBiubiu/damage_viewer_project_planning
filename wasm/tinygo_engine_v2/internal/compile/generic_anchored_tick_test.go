@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 func anchoredTickBaseRequest(t *testing.T) model.CompileRequest {
@@ -50,7 +51,7 @@ func TestCompileGenericAnchoredTickSpecSuccess(t *testing.T) {
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
-	var tick *CompiledAbility
+	var tick *plan.CompiledAbility
 	for i := range result.Session.Abilities {
 		if result.Session.Abilities[i].AbilityKey == "venom_tick" {
 			tick = &result.Session.Abilities[i]

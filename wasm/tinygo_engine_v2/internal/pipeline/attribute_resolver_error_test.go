@@ -3,9 +3,9 @@ package pipeline
 import (
 	"testing"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func TestAttributeResolverRejectsMissingReadsInsteadOfDroppingModifier(t *testing.T) {
@@ -13,7 +13,7 @@ func TestAttributeResolverRejectsMissingReadsInsteadOfDroppingModifier(t *testin
 		{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceAttr, ReadKey: "missing.resolved"},
 	}}}}
 	var resolver AttributeResolver
-	resolver.MountCompiledModifierOwned("source", "gear", compilebundle.CompiledModifier{
+	resolver.MountCompiledModifierOwned("source", "gear", planbundle.CompiledModifier{
 		ModifierKey: "bad", Kind: "attribute", Target: "armor", ValuePolicy: "add", ValueProgram: 0, HasValue: true,
 	})
 	attrs := map[string]model.AttributeSlotDef{"armor": {Base: 10, Current: 10, Resolved: 10}}

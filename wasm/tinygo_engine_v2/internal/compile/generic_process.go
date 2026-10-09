@@ -6,73 +6,13 @@ import (
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
-// CompiledProcess 保存有序步骤和作者顺序的时点操作，不持有运行实例。
-type CompiledProcess struct {
-	ProcessKey          string
-	SkillKey            string
-	Steps               []CompiledProcessStep
-	Costs               []CompiledProcessCost
-	Cooldown            *CompiledProcessCooldown
-	MomentOperations    []CompiledProcessMomentOperations
-	InitialAbilityIndex int
-	Path                string
-}
-
-type CompiledProcessStep struct {
-	StepKey                     string
-	StepType                    string
-	OccupiesAction              bool
-	HasActionOccupancy          bool
-	DelayProgram                formula.GenericProgramID
-	MinimumChargeProgram        formula.GenericProgramID
-	MaximumChargeProgram        formula.GenericProgramID
-	WindowProgram               formula.GenericProgramID
-	RepeatCountProgram          formula.GenericProgramID
-	IntervalProgram             formula.GenericProgramID
-	DurationProgram             formula.GenericProgramID
-	ExecutionCountProgram       formula.GenericProgramID
-	FirstExecutionOffsetProgram formula.GenericProgramID
-	LastExecutionOffsetProgram  formula.GenericProgramID
-	HasInterval                 bool
-	FirstExecution              string
-	HasDelay                    bool
-	HasMinimumCharge            bool
-	HasMaximumCharge            bool
-	HasWindow                   bool
-	ReleaseAtMaximum            bool
-	Path                        string
-}
-
-type CompiledProcessCost struct {
-	ResourceKey   string
-	AmountProgram formula.GenericProgramID
-	HasAmount     bool
-	Path          string
-}
-
-type CompiledProcessCooldown struct {
-	DurationProgram formula.GenericProgramID
-	HasDuration     bool
-	RoundPositiveMs bool
-	StartMoment     model.ProcessMomentDefinition
-	Path            string
-}
-
-type CompiledProcessMomentOperations struct {
-	Moment         model.ProcessMomentDefinition
-	OperationStart uint16
-	OperationCount uint16
-	Path           string
-}
-
-type CompiledProcessControl struct {
-	model.ProcessControlDefinition
-	ProcessIndex int
-}
-
 func compileProviderProcesses(provider model.ProviderDefinition, path string, ctx *genericCompileContext) {
+	previousSkill := ctx.currentSkillKey
+	ctx.currentSkillKey = provider.SkillKey
+	defer func() { ctx.currentSkillKey = previousSkill }()
 	if len(provider.Processes) > 0 && (provider.Lifecycle != nil || provider.Kind == "status") {
 		ctx.collector.addError(model.GenericErrUnknownRef, path+".processes", "processes require a static mounted provider without a dynamic lifecycle", provider.ProviderKey)
 	}
@@ -83,7 +23,11 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 	seen := map[string]bool{}
 	for i, def := range provider.Processes {
 		p := path + ".processes[" + itoa(i) + "]"
-		compiled := CompiledProcess{ProcessKey: def.ProcessKey, SkillKey: def.SkillKey, InitialAbilityIndex: -1, Path: p}
+		if provider.SkillKey != "" && provider.SkillKey != def.SkillKey {
+			ctx.collector.addError(model.GenericErrUnknownRef, p+".skillKey", "process skill must match its provider", def.SkillKey)
+		}
+		ctx.currentSkillKey = def.SkillKey
+		compiled := plan.CompiledProcess{ProcessKey: def.ProcessKey, SkillKey: def.SkillKey, InitialAbilityIndex: -1, Path: p}
 		validateProcessKey(def.ProcessKey, p+".processKey", ctx)
 		validateProcessKey(def.SkillKey, p+".skillKey", ctx)
 		if seen[def.ProcessKey] {
@@ -109,7 +53,7 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 			cp := p + ".costs[" + itoa(j) + "]"
 			validateProcessKey(cost.ResourceKey, cp+".resourceKey", ctx)
 			program, has := compileProcessFormula(&cost.Amount, cp+".amount", false, false, ctx)
-			compiled.Costs = append(compiled.Costs, CompiledProcessCost{ResourceKey: cost.ResourceKey, AmountProgram: program, HasAmount: has, Path: cp})
+			compiled.Costs = append(compiled.Costs, plan.CompiledProcessCost{ResourceKey: cost.ResourceKey, AmountProgram: program, HasAmount: has, Path: cp})
 		}
 		// 成本在时点之前编译，完成/失败表达式只能读取已经声明的资源账。
 		previousProcess, previousMoment := ctx.currentProcess, ctx.currentProcessMoment
@@ -120,17 +64,17 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 			ctx.currentProcessMoment = &def.Cooldown.StartMoment
 			program, has := compileProcessFormula(&def.Cooldown.DurationMs, cp+".durationMs", !def.Cooldown.RoundPositiveMs, def.Cooldown.RoundPositiveMs, ctx)
 			if def.Cooldown.RoundPositiveMs && has {
-				if raw, folded := formula.TryFoldConst(ctx.session.Formulas.Programs[program].Instr); folded && (!isFiniteFloat(raw) || math.Max(1, math.Round(raw)) >= 9223372036854775808.0) {
+				if raw, folded := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[program].Instr); folded && (!isFiniteFloat(raw) || math.Max(1, math.Round(raw)) >= 9223372036854775808.0) {
 					ctx.collector.addError(model.GenericErrFormulaTypeError, cp+".durationMs", "rounded positive cooldown exceeds native time range", "")
 				}
 			}
-			compiled.Cooldown = &CompiledProcessCooldown{DurationProgram: program, HasDuration: has, StartMoment: def.Cooldown.StartMoment, RoundPositiveMs: def.Cooldown.RoundPositiveMs, Path: cp}
+			compiled.Cooldown = &plan.CompiledProcessCooldown{DurationProgram: program, HasDuration: has, StartMoment: def.Cooldown.StartMoment, RoundPositiveMs: def.Cooldown.RoundPositiveMs, Path: cp}
 		}
 		for j, binding := range def.MomentOperations {
 			mp := p + ".momentOperations[" + itoa(j) + "]"
 			validateProcessMoment(binding.Moment, &compiled, mp+".moment", ctx)
 			ctx.currentProcessMoment = &binding.Moment
-			moment := CompiledProcessMomentOperations{Moment: binding.Moment, OperationStart: uint16(len(ctx.session.Operations)), Path: mp}
+			moment := plan.CompiledProcessMomentOperations{Moment: binding.Moment, OperationStart: uint16(len(ctx.session.Operations)), Path: mp}
 			ctx.beginOutputUnit()
 			for k, op := range binding.Operations {
 				opPath := mp + ".operations[" + itoa(k) + "]"
@@ -191,8 +135,8 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 	}
 }
 
-func compileProcessStep(def model.ProcessStepDefinition, path string, last bool, ctx *genericCompileContext) CompiledProcessStep {
-	compiled := CompiledProcessStep{StepKey: def.StepKey, StepType: def.StepType, Path: path}
+func compileProcessStep(def model.ProcessStepDefinition, path string, last bool, ctx *genericCompileContext) plan.CompiledProcessStep {
+	compiled := plan.CompiledProcessStep{StepKey: def.StepKey, StepType: def.StepType, Path: path}
 	customWindow := def.StepType == "CHANNEL" && def.FirstExecution != nil && *def.FirstExecution == "CUSTOM_WINDOW"
 	if def.OccupiesAction != nil {
 		compiled.HasActionOccupancy, compiled.OccupiesAction = true, *def.OccupiesAction
@@ -237,8 +181,8 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 			compiled.ReleaseAtMaximum = *def.ReleaseAtMaximum
 		}
 		if compiled.HasMinimumCharge && compiled.HasMaximumCharge {
-			min, minConst := formula.TryFoldConst(ctx.session.Formulas.Programs[compiled.MinimumChargeProgram].Instr)
-			max, maxConst := formula.TryFoldConst(ctx.session.Formulas.Programs[compiled.MaximumChargeProgram].Instr)
+			min, minConst := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[compiled.MinimumChargeProgram].Instr)
+			max, maxConst := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[compiled.MaximumChargeProgram].Instr)
 			if minConst && maxConst && min > max {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path+".minimumChargeMs", "minimum charge must not exceed maximum charge", def.StepKey)
 			}
@@ -253,7 +197,7 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 		validateProcessExecutionCount(def.RepeatCount, path+".repeatCount", ctx)
 		if def.RepeatCount != nil && def.IntervalMs == nil {
 			instructions := formula.CompileGenericFormula(*def.RepeatCount, path+".repeatCount", ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-			if count, folded := formula.TryFoldConst(instructions); folded && count > 1 {
+			if count, folded := ctx.session.Formulas.FoldInstructions(instructions); folded && count > 1 {
 				ctx.collector.addError(model.GenericErrMissingRequiredField, path+".intervalMs", "multiple executions require an explicit positive interval", def.StepKey)
 			}
 		}
@@ -274,19 +218,19 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 			compiled.FirstExecutionOffsetProgram, hasFirst = compileProcessWindowFormula(def.FirstExecutionOffsetMs, path+".firstExecutionOffsetMs", false, ctx)
 			compiled.LastExecutionOffsetProgram, hasLast = compileProcessWindowFormula(def.LastExecutionOffsetMs, path+".lastExecutionOffsetMs", false, ctx)
 			if hasFirst && hasLast {
-				first, firstConstant := formula.TryFoldConst(ctx.session.Formulas.Programs[compiled.FirstExecutionOffsetProgram].Instr)
-				last, lastConstant := formula.TryFoldConst(ctx.session.Formulas.Programs[compiled.LastExecutionOffsetProgram].Instr)
+				first, firstConstant := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[compiled.FirstExecutionOffsetProgram].Instr)
+				last, lastConstant := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[compiled.LastExecutionOffsetProgram].Instr)
 				if firstConstant && lastConstant && first > last {
 					ctx.collector.addError(model.GenericErrFormulaTypeError, path+".firstExecutionOffsetMs", "channel first execution must not follow its last execution", def.StepKey)
 				}
 				if hasDuration {
-					duration, durationConstant := formula.TryFoldConst(ctx.session.Formulas.Programs[compiled.DurationProgram].Instr)
+					duration, durationConstant := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[compiled.DurationProgram].Instr)
 					if lastConstant && durationConstant && last > duration {
 						ctx.collector.addError(model.GenericErrFormulaTypeError, path+".lastExecutionOffsetMs", "channel execution window must fit its complete duration", def.StepKey)
 					}
 				}
 				if hasCount {
-					count, countConstant := formula.TryFoldConst(ctx.session.Formulas.Programs[compiled.ExecutionCountProgram].Instr)
+					count, countConstant := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[compiled.ExecutionCountProgram].Instr)
 					if firstConstant && lastConstant && countConstant && (count == 1 && first != last || count > 1 && last-first < count-1) {
 						ctx.collector.addError(model.GenericErrFormulaTypeError, path+".lastExecutionOffsetMs", "channel window must match its count and allow distinct integer execution times", def.StepKey)
 					}
@@ -307,7 +251,7 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 func compileProcessWindowFormula(expression *model.GenericFormulaExpr, path string, positive bool, ctx *genericCompileContext) (formula.GenericProgramID, bool) {
 	program, present := compileProcessFormula(expression, path, true, positive, ctx)
 	if present {
-		if value, folded := formula.TryFoldConst(ctx.session.Formulas.Programs[program].Instr); folded && value > 9007199254740991 {
+		if value, folded := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[program].Instr); folded && value > 9007199254740991 {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, path, "channel window milliseconds must be safe integers", "")
 		}
 	}
@@ -319,7 +263,7 @@ func validateProcessExecutionCount(expression *model.GenericFormulaExpr, path st
 		return
 	}
 	instructions := formula.CompileGenericFormula(*expression, path, ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-	if count, folded := formula.TryFoldConst(instructions); folded && (count < 1 || count > 64 || count != math.Trunc(count)) {
+	if count, folded := ctx.session.Formulas.FoldInstructions(instructions); folded && (count < 1 || count > 64 || count != math.Trunc(count)) {
 		ctx.collector.addError(model.GenericErrFormulaTypeError, path, "finite execution count must be an integer in [1,64]", "")
 	}
 }
@@ -330,7 +274,7 @@ func compileProcessFormula(expr *model.GenericFormulaExpr, path string, duration
 	}
 	instr := formula.CompileGenericFormula(*expr, path, ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
 	validateProcessFormulaContext(instr, path, false, ctx)
-	if value, folded := formula.TryFoldConst(instr); folded {
+	if value, folded := ctx.session.Formulas.FoldInstructions(instr); folded {
 		valid := isFiniteFloat(value) && value >= 0
 		if duration {
 			valid = valid && value == math.Trunc(value) && value < 9223372036854775808.0
@@ -345,11 +289,12 @@ func compileProcessFormula(expr *model.GenericFormulaExpr, path string, duration
 	if len(instr) == 0 {
 		return 0, false
 	}
-	return ctx.registerFormula(path, instr), true
+	return ctx.registerFormula(path, instr)
 }
 
 // 过程没有监听事件或伤害修正上下文；操作输出仅在同一时点操作单元内可读。
 func validateProcessFormulaContext(instr []formula.GenericInstr, path string, allowOutput bool, ctx *genericCompileContext) {
+	instr = ctx.session.Formulas.InstructionDependencies(instr, nil)
 	if allowOutput {
 		validateOperationOutputReads(instr, path, ctx)
 	}
@@ -380,6 +325,7 @@ func validateProcessFormulaContext(instr []formula.GenericInstr, path string, al
 }
 
 func validateProcessActualCostReads(instr []formula.GenericInstr, path string, ctx *genericCompileContext) {
+	instr = ctx.session.Formulas.InstructionDependencies(instr, nil)
 	for _, item := range instr {
 		if item.Op != formula.GenericOpRead || item.ReadKind != formula.ReadProcessActualCost {
 			continue
@@ -402,7 +348,7 @@ func validateProcessActualCostReads(instr []formula.GenericInstr, path string, c
 	}
 }
 
-func validateProcessMoment(moment model.ProcessMomentDefinition, process *CompiledProcess, path string, ctx *genericCompileContext) {
+func validateProcessMoment(moment model.ProcessMomentDefinition, process *plan.CompiledProcess, path string, ctx *genericCompileContext) {
 	stepMoment := false
 	switch moment.MomentType {
 	case "PROCESS_START", "PROCESS_COMPLETE", "PROCESS_FAILURE":
@@ -429,12 +375,12 @@ func validateProcessMoment(moment model.ProcessMomentDefinition, process *Compil
 	}
 }
 
-func validateProcessControl(ability model.AbilityDefinition, path string, providerIndex uint16, ctx *genericCompileContext) *CompiledProcessControl {
+func validateProcessControl(ability model.AbilityDefinition, path string, providerIndex uint16, ctx *genericCompileContext) *plan.CompiledProcessControl {
 	if ability.ProcessControl == nil {
 		return nil
 	}
 	def := *ability.ProcessControl
-	compiled := &CompiledProcessControl{ProcessControlDefinition: def, ProcessIndex: -1}
+	compiled := &plan.CompiledProcessControl{ProcessControlDefinition: def, ProcessIndex: -1}
 	cp := path + ".processControl"
 	validateProcessKey(ability.AbilityKey, path+".abilityKey", ctx)
 	validateProcessKey(def.ProcessKey, cp+".processKey", ctx)
@@ -457,7 +403,7 @@ func validateProcessControl(ability model.AbilityDefinition, path string, provid
 			ctx.collector.addError(model.GenericErrUnknownRef, path+"."+field.name, "process control cannot mix another execution mechanism", ability.AbilityKey)
 		}
 	}
-	var process *CompiledProcess
+	var process *plan.CompiledProcess
 	if int(providerIndex) < len(ctx.session.Providers) {
 		for i := range ctx.session.Providers[providerIndex].Processes {
 			candidate := &ctx.session.Providers[providerIndex].Processes[i]
@@ -507,7 +453,7 @@ func validateProcessControl(ability model.AbilityDefinition, path string, provid
 	return compiled
 }
 
-func findCompiledProcessStep(process *CompiledProcess, key string) *CompiledProcessStep {
+func findCompiledProcessStep(process *plan.CompiledProcess, key string) *plan.CompiledProcessStep {
 	for i := range process.Steps {
 		if process.Steps[i].StepKey == key {
 			return &process.Steps[i]
@@ -589,7 +535,7 @@ func matcherAllContains(matcher model.TypeMatcher, key string) bool {
 }
 
 func processControlRefIndices(ref string, ctx *genericCompileContext) []int {
-	parsed, ok := ParseAbilityRef(ref)
+	parsed, ok := plan.ParseAbilityRef(ref)
 	if !ok {
 		return nil
 	}

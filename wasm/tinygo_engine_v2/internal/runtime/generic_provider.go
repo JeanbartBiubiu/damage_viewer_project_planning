@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"sort"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 	shieldpkg "tinygo_engine_v2/internal/shield"
 	"tinygo_engine_v2/internal/status"
@@ -545,7 +545,7 @@ func (s *genericRunState) resolveProviderStateFieldDefs(combatantKey, providerRe
 }
 
 func compiledStateFieldsForProvider(
-	compiled compilebundle.CompiledSession,
+	compiled planbundle.CompiledSession,
 	combatantKey, providerRef string,
 	providers []status.ProviderInstance,
 ) map[string]providerStateFieldDef {
@@ -611,11 +611,11 @@ func (s *genericRunState) resolveAttributesFor(combatantKey string, attrs map[st
 	resolved, err := c.resolver.ResolveAttributesWithProviderContext(
 		attrs,
 		evalCtx,
-		s.compiled.Formulas,
+		s.formulas,
 		s.providerFormulaContextFunc(combatantKey, activeTargetKey),
 	)
 	if err != nil {
-		s.processFailure = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+		s.processFailure = preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
 		return attrs
 	}
 	if len(s.compiled.AttributeDerivations) == 0 {
@@ -624,16 +624,16 @@ func (s *genericRunState) resolveAttributesFor(combatantKey string, attrs map[st
 	ordinary := map[string]map[string]model.AttributeSlotDef{}
 	for _, owner := range []string{"source", "target"} {
 		host := s.combatants[owner]
-		ordinary[owner], err = host.resolver.ResolveAttributesWithProviderContext(host.attributes, evalCtx, s.compiled.Formulas, s.providerFormulaContextFunc(owner, activeTargetKey))
+		ordinary[owner], err = host.resolver.ResolveAttributesWithProviderContext(host.attributes, evalCtx, s.formulas, s.providerFormulaContextFunc(owner, activeTargetKey))
 		if err != nil {
-			s.processFailure = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+owner+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+			s.processFailure = preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+owner+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
 			return attrs
 		}
 	}
 	ordinary[combatantKey] = resolved
-	resolved, err = resolveDerivedAttributes(s.compiled, combatantKey, resolved, c.resolver, ordinary["source"], ordinary["target"], s.providerFormulaContextFunc(combatantKey, activeTargetKey))
+	resolved, err = resolveDerivedAttributes(s.compiled, s.formulas, combatantKey, resolved, c.resolver, ordinary["source"], ordinary["target"], s.providerFormulaContextFunc(combatantKey, activeTargetKey))
 	if err != nil {
-		s.processFailure = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+		s.processFailure = preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
 		return attrs
 	}
 	return resolved
@@ -649,7 +649,7 @@ func (s *genericRunState) refreshProviderAwareAttributes(sourceKey, targetKey st
 	}
 }
 
-func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantKey string, compiled compilebundle.CompiledSession, combatantKeys map[string]bool, path string, schemaHash, rulesHash, sessionID string) ([]status.ProviderInstance, pipeline.AttributeResolver, *model.EngineError) {
+func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantKey string, compiled planbundle.CompiledSession, combatantKeys map[string]bool, path string, schemaHash, rulesHash, sessionID string) ([]status.ProviderInstance, pipeline.AttributeResolver, *model.EngineError) {
 	// Resolver stays empty here; cross-combatant mounts happen in remountAllProviderModifiers.
 	resolver := pipeline.AttributeResolver{}
 	if len(snapshot) == 0 {
@@ -742,7 +742,7 @@ func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantK
 
 // remountAllProviderModifiers clears then remounts every provider modifier onto the correct
 // combatant resolver (including opponent.attr.* cross-combatant mounts).
-func remountAllProviderModifiers(combatants map[string]combatantRuntime, compiled compilebundle.CompiledSession) {
+func remountAllProviderModifiers(combatants map[string]combatantRuntime, compiled planbundle.CompiledSession) {
 	for key, c := range combatants {
 		c.resolver = pipeline.AttributeResolver{}
 		c.damageResolver = pipeline.DamageModifierResolver{}
@@ -796,7 +796,7 @@ func materializeShields(snapshot []model.CombatantShieldSnapshot, combatantKey s
 	return out
 }
 
-func findProviderDefIndex(compiled compilebundle.CompiledSession, definitionRef string) (uint16, bool) {
+func findProviderDefIndex(compiled planbundle.CompiledSession, definitionRef string) (uint16, bool) {
 	for i, p := range compiled.Providers {
 		if p.ProviderKey == definitionRef {
 			return uint16(i), true

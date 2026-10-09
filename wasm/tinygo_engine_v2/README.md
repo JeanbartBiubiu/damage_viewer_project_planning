@@ -12,6 +12,54 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 更细的模块依赖与时序见 [`ARCHITECTURE.md`](ARCHITECTURE.md)。协作规则见 [`AGENTS.md`](AGENTS.md)。
 
+## 共同公式定义第一阶段
+
+`internal/expression/contract.go` 提供 `ValidateDefinition` 纯校验入口，检查共同定义结构、声明授权、全部结果依赖及整份预算，返回确定性的错误码和JSON字段定位路径。常量保留十进制字符串，合法0不补值；第一阶段只验结构，不替换现行正式编译输入。该入口在第二阶段迁入独立纯表达式包，不保留旧包转发。
+
+结构规范及共同样例由规划主分支的 `contracts/formula` 维护，模块常量由 `tools/formula-contract/generate.mjs` 明确生成并检查。定向检查为 `go test -count=1 ./internal/expression -run Contract`；设计和验收以规划工作树《共同公式定义与校验详细设计》为准。
+
+## 纯公式、输入绑定和执行计划第二阶段
+
+`internal/expression`（纯表达式）提供共同定义编译、惰性程序求值和数学原语，仅依赖基础库；`internal/inputbinding`（输入绑定）按原身份、对象、视图和口径绑定明确数值，不读写战斗状态。共享结果及输入每次求值各读取一次，缺值、除0、非有限与错误限制边界明确失败。现行公式执行器复用纯数学原语，原管理结构及默认类型分支尚未切换。
+
+`internal/plan`（执行计划）拥有31个编译后结构及完整能力引用解析；compile生产计划，runtime及pipeline消费。运行态独立持有公式表，驱动条件和重复间隔仅追加到本次表，失败或重跑不修改共享会话。公式注册在生成16位编号前检查65536程序、每程序512指令、累计262144指令及32MiB逻辑计费；失败不设置可消费标记。
+
+最终正式验证产物为 `target/formula-phase2/tinygo_engine_v2.wasm`，1,302,969字节，SHA256 `546de175f6a14d8a3e5996575334efc6718259768fc29e31f041f65587de7c3f`。独立纯核心验证产物为同目录 `formula_probe.wasm`，分别执行 `node scripts/formula-phase2-smoke-node.mjs target/formula-phase2/tinygo_engine_v2.wasm` 和 `node scripts/formula-probe-node.mjs target/formula-phase2/formula_probe.wasm`。两者固定256MiB，前者验证正式固定样例与同会话20次，后者验证新纯公式的11项、同一程序20次变化输入及20次独立重复；新协议仍未接正式战斗ABI、真实管理数据或浏览器工作线程。设计与分层证据由规划真源《纯公式编译求值与执行计划拆分详细设计》及第二阶段验收记录维护。
+
+## 伤害类型共同公式第三阶段A
+
+伤害类型的 `rules.damageTypeFormulas[].formula` 直接消费共同 `inputs/stages/outputStageKey`，不再识别五字段。可信属性目录以 `domain: attribute` 与原键授权来源／目标、当前帧、基础／加成／总值；目录身份以声明作用域与原键组合保存，不从前缀猜类型。同键在本使用点存在多个允许身份时拒绝歧义，原伤害条件按完整原键比较。
+
+原生事件、普攻能力、法术护盾供值器和施放来源的明确读取均按其已知作用域查询。属性与这些原键同名仍正常触发真实事件、普攻乘区及护盾消费；无域关系和通用匹配遇到多个可用身份继续拒绝歧义。
+
+共同纯程序以 `GenericProgram.Authored` 进入原公式注册表，与技能旧指令共享65536程序、单程序512指令、累计262144指令、32MiB计费；共同输入累计262144、结果累计65536，绑定和读值描述一并收费。运行复制描述与索引，只共享只读内容。JSON属性缺字段保持缺失，null或非数字拒绝，合法0保留；复制属性视图保留存在标记。
+
+正式防御位置一次求得有限非负倍率，共用于普通和暴击部分。当前帧使用入口只读视图，复制使用原事件入口冻结视图；暴击专属修正、整体修正、护盾、生命顺序保持。新定义诊断只输出实际倍率与防御后两部分，不伪造五个固定步骤。动态共同错误码及JSON字段路径保留到正式错误载荷，负倍率使用 `FORMULA_INVALID_OUTPUT`。内部用途表达式和未配置类型的默认抗性分支继续按本批范围保留。
+
+## 技能共同公式第三阶段B
+
+方案唯一来源为规划工作树《技能共同公式闭环详细设计》。`CompileRequest.formulas[]`（具名公式表）只接受 `key/skillKey/expression/parameters`：完整共同定义、作者技能归属和私有已选参数目录一起进入原生注册表，旧作者树不再运输。固定／技能等级／角色等级参数必须有明确有限值；计算时参数禁止默认值，实际蓄力及已提交过程成本只在原有合法使用时点开放。供值器新增可选 `skillKey`（技能归属），共同引用按真实使用点独立核对，不能借能力参数、程序名称或同名外国参数换绑。
+
+内部用途包装通过已声明程序编号调用共同程序，不展开作者树；临时包装键不能成为宿主外部引用。每次调用创建独立输入读取器，来源／目标属性沿现有求值入口的当前视图，前序操作可影响后续求值。全部声明用于授权，输出可达读取及条件两支并集用于供值和限制；实际求值仍惰性。第三A的入口与复制冻结视图独立保留。注册预算统一计入参数、绑定、定位和依赖，调用最多32层，单次组合最多262144条指令，编译和运行分别检查。
+
+现有属性派生项新增可选 `skillKey`（作者技能归属）；引用共同程序时必须明确并匹配，内部字面值与既有读取不新增身份要求。派生以 `combatantKey` 所属拥有方作为共同读取的来源，以另一方作为目标，原定义不重写；内部用途读取保留原战斗侧语义。编译按相同映射核对真实属性目录、输出回读及计算时参数禁令。运行的共同错误附实际拥有方，归属、定位及依赖描述计入同一注册预算。
+
+状态默认值／上限／保持期限及生命周期最大层数／固定间隔接受数字或严格外部引用，原生检查固定／已选等级依赖后求值，按原范围冻结成计划数字。常驻与静态装备按静态依赖准入。成功编译的 `metadata.approvedStaticValues`（已核定静态输出）仅含已声明具名程序，不含临时键或动态输出；共同错误保留错误码、原定义字段定位、程序身份和实际使用引用，资源预检直接返回公式错误。
+
+独立输入可注入真实HTTP定义和参数目录，构造与最终专项入口如下；它们不读取或复制原固定样例。标准验证仍单独复用原样例，目标生命保持900。
+
+```powershell
+go test -count=1 ./...
+go run ./cmd/bench
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/formula-phase3b/tinygo_engine_v2.wasm
+node .\scripts\smoke-node.mjs --wasm target/formula-phase3b/tinygo_engine_v2.wasm
+node .\scripts\formula-phase3-smoke-node.mjs target/formula-phase3b/tinygo_engine_v2.wasm
+node .\scripts\formula-phase3b-smoke-node.mjs
+node .\scripts\bench-node.mjs --wasm target/formula-phase3b/tinygo_engine_v2.wasm --mode generic-run --iterations 10 --warmup 2
+```
+
+独立构造在 `scripts/formula-phase3-input.mjs`，不读取或复制原固定样例。最终产物 `target/formula-phase3/tinygo_engine_v2.wasm` 为1,332,322字节，SHA256 `ff7178b1fcf40eb748755edd0dbf55ec6d57bb3500e4698b93529860cb6b7cfd`；全量Go、原生基准、TinyGo构建、标准冒烟、18组共同公式正式入口专项及Node基准通过。专项入口：`node scripts/formula-phase3-smoke-node.mjs target/formula-phase3/tinygo_engine_v2.wasm`。原固定样例保持900，独立heat为原伤害120、防御50、护盾30、生命1000→950。这些原生／Node构造证据不代替真实HTTP、数据库或浏览器工作线程验收，跨端证据由规划真源独立保存。
+
 ## 阶段5A自身常驻
 
 连续普攻准入接受角色或构筑的独立常驻来源挂载，沿同一拥有方初始化事件建立永久常量修正，不按英雄、装备或符文标识分支。首批开放完整自身非生命属性加算／比例加算及已有受到治疗／护盾修正；不接生命上限、条件、周期、动态状态或额外自主普攻。来源开关与等级由Web按完整作者数据翻译，原生不解释构筑布局，也不补默认技能等级。

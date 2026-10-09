@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"math"
+	"strings"
 	"testing"
 
 	"tinygo_engine_v2/internal/compile"
@@ -415,20 +416,14 @@ func TestGenericProviderStateCostGateMalformedProviderRefFailClosed(t *testing.T
 	}
 	runReq.StopPolicy.DurationMs = 50
 	done, err := RunGeneric(result.Session, runReq)
-	if err != nil {
-		t.Fatal(err)
+	if err == nil || err.Code != model.GenericErrFormulaTypeError || err.Ref != broken || !strings.Contains(err.Path, "cost.amount") {
+		t.Fatalf("missing provider context must retain its formula failure: %+v", err)
 	}
-	if done.Summary.AbilityCastCount != 0 {
-		t.Fatalf("castCount=%d want 0 (fail-closed)", done.Summary.AbilityCastCount)
+	if done.Summary.AbilityCastCount != 0 || pscgDamageCount(done) != 0 {
+		t.Fatal("failed preflight cast or dealt damage")
 	}
-	if pscgSkipCount(done, model.AttemptSkipResourceInsufficient) != 1 {
-		t.Fatal("want resource_insufficient from MaxFloat64 cost on missing provider context")
-	}
-	if math.Abs(pscgSourceMana(t, done.FinalSnapshot)-500) > pscgTol {
-		t.Fatalf("mana=%v want 500 (no charge)", pscgSourceMana(t, done.FinalSnapshot))
-	}
-	if pscgDamageCount(done) != 0 {
-		t.Fatal("no damage on fail-closed skip")
+	if runReq.InitialSnapshot.Combatants[0].Resources["mana"].Current != 500 {
+		t.Fatal("failed preflight changed caller resource")
 	}
 }
 

@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 func TestCompileGenericBasicDamage(t *testing.T) {
@@ -210,14 +211,14 @@ func TestCompileGenericMatcherNoClosureExpansion(t *testing.T) {
 }
 
 func TestParseAbilityRefCanonical(t *testing.T) {
-	ref, ok := ParseAbilityRef("source.provider[champion:ashe].ability[basic_attack]")
+	ref, ok := plan.ParseAbilityRef("source.provider[champion:ashe].ability[basic_attack]")
 	if !ok {
 		t.Fatal("expected parse ok")
 	}
 	if ref.Combatant != "source" || ref.ProviderRef != "champion:ashe" || ref.AbilityKey != "basic_attack" {
 		t.Fatalf("parsed %+v", ref)
 	}
-	if _, ok := ParseAbilityRef("champion:ashe::basic_attack"); ok {
+	if _, ok := plan.ParseAbilityRef("champion:ashe::basic_attack"); ok {
 		t.Fatal("expected reject :: form")
 	}
 }

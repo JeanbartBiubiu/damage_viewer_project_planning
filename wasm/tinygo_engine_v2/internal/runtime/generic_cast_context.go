@@ -49,7 +49,7 @@ func (f *executionFrame) appendCastOriginEventType(types []string) []string {
 		return types
 	}
 	key := "cast_origin/" + f.castOrigin
-	if _, ok := f.run.compiled.Types.Registry.Lookup(key); !ok {
+	if _, ok := f.run.compiled.Types.Registry.LookupDomain("cast_origin", key); !ok {
 		return types
 	}
 	for _, existing := range types {

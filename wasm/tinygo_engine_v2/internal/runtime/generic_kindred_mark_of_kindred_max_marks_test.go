@@ -7,6 +7,7 @@ import (
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // hero_kindred P Mark of the Kindred / 千珏之印 — fixed 25-mark Phase-A (generic ABI).
@@ -50,12 +51,12 @@ const (
 	kindredMMProbeOpRef   = "op:kindred_p_resolve_probe"
 
 	// 25-mark algebra (baked constants — no marks state):
-	kindredMMRangeBonus   = 250.0 // +75@4 + 25*(25-4)/3 = +250
-	kindredMMASBonus      = 1.60  // 0.35 + 0.05*25
-	kindredMMASDurationMs = 4000.0
-	kindredMMWBase        = 45.0
-	kindredMMWHPRatio     = 0.265 // 0.015 + 0.01*25
-	kindredMMEBase        = 200.0
+	kindredMMRangeBonus    = 250.0 // +75@4 + 25*(25-4)/3 = +250
+	kindredMMASBonus       = 1.60  // 0.35 + 0.05*25
+	kindredMMASDurationMs  = 4000.0
+	kindredMMWBase         = 45.0
+	kindredMMWHPRatio      = 0.265 // 0.015 + 0.01*25
+	kindredMMEBase         = 200.0
 	kindredMMEMissingRatio = 0.175 // 0.05 + 0.005*25
 
 	kindredMMBaseRange     = 500.0
@@ -356,7 +357,7 @@ func kindredMMCompile(t *testing.T, compileReq model.CompileRequest) compile.Gen
 	return result
 }
 
-func kindredMMFindProvider(t *testing.T, result compile.GenericCompileResult) *compile.CompiledProvider {
+func kindredMMFindProvider(t *testing.T, result compile.GenericCompileResult) *planbundle.CompiledProvider {
 	t.Helper()
 	for i := range result.Session.Providers {
 		p := &result.Session.Providers[i]
@@ -368,7 +369,7 @@ func kindredMMFindProvider(t *testing.T, result compile.GenericCompileResult) *c
 	return nil
 }
 
-func kindredMMFindAbility(t *testing.T, result compile.GenericCompileResult, abilityKey string) compile.CompiledAbility {
+func kindredMMFindAbility(t *testing.T, result compile.GenericCompileResult, abilityKey string) planbundle.CompiledAbility {
 	t.Helper()
 	found := kindredMMFindProvider(t, result)
 	for i := 0; i < int(found.AbilityCount); i++ {
@@ -378,7 +379,7 @@ func kindredMMFindAbility(t *testing.T, result compile.GenericCompileResult, abi
 		}
 	}
 	t.Fatalf("missing ability %q", abilityKey)
-	return compile.CompiledAbility{}
+	return planbundle.CompiledAbility{}
 }
 
 func kindredMMProgramInstr(t *testing.T, result compile.GenericCompileResult, id formula.GenericProgramID) []formula.GenericInstr {
@@ -669,9 +670,9 @@ func TestKindredMarkOfKindredMaxMarksQASBeforeActiveExpiry(t *testing.T) {
 // TestKindredMarkOfKindredMaxMarksWCrossValues: rank5 magic 45+0.265*currentHP; armor/MR 0.
 func TestKindredMarkOfKindredMaxMarksWCrossValues(t *testing.T) {
 	cases := []struct {
-		name       string
-		currentHP  float64
-		wantRaw    float64
+		name      string
+		currentHP float64
+		wantRaw   float64
 	}{
 		{name: "hp_1000", currentHP: 1000, wantRaw: kindredMMExpectedWRaw(1000)}, // 310
 		{name: "hp_2000", currentHP: 2000, wantRaw: kindredMMExpectedWRaw(2000)}, // 575
@@ -719,7 +720,7 @@ func TestKindredMarkOfKindredMaxMarksECrossValues(t *testing.T) {
 		currentHP float64
 		wantRaw   float64
 	}{
-		{name: "missing_600", maxHP: 1000, currentHP: 400, wantRaw: kindredMMExpectedERaw(1000, 400)},   // 305
+		{name: "missing_600", maxHP: 1000, currentHP: 400, wantRaw: kindredMMExpectedERaw(1000, 400)},  // 305
 		{name: "missing_1500", maxHP: 2000, currentHP: 500, wantRaw: kindredMMExpectedERaw(2000, 500)}, // 462.5
 	}
 	for _, tc := range cases {

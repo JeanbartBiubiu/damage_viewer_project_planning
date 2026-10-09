@@ -6,24 +6,45 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-func TestCompileTypeCatalogDomainMismatch(t *testing.T) {
-	var errors []model.EngineError
-	addError := func(code model.GenericErrCode, path, message, ref string) {
-		errors = append(errors, model.EngineError{Code: code, Path: path})
+func TestCompileTypeCatalogUsesExplicitDomainAndOriginalKey(t *testing.T) {
+	var failures []model.EngineError
+	result := CompileTypeCatalog(model.TypeCatalog{Types: []model.TypeCatalogEntry{{Key: "ability/basic_attack", Domain: "status"}, {Key: "heat", Domain: "damage"}, {Key: "heat", Domain: "attribute"}}}, func(code model.GenericErrCode, path, message, ref string) {
+		failures = append(failures, model.EngineError{Code: code, Path: path})
+	})
+	if len(failures) != 0 {
+		t.Fatal(failures)
 	}
-	catalog := CompileTypeCatalog(model.TypeCatalog{
-		Types: []model.TypeCatalogEntry{
-			{Key: "ability/basic_attack", Domain: "status"},
-		},
-		Relations: []model.TypeRelation{},
-	}, addError)
-	if len(errors) == 0 {
-		t.Fatal("expected domain mismatch error")
+	if id, ok := result.Registry.LookupDomain("status", "ability/basic_attack"); !ok || result.Domains[id] != "status" {
+		t.Fatal("key prefix changed identity")
 	}
-	if errors[0].Code != model.GenericErrMatcherDomainError {
-		t.Fatalf("code=%q", errors[0].Code)
+	damage, damageOK := result.Registry.LookupDomain("damage", "heat")
+	attribute, attributeOK := result.Registry.LookupDomain("attribute", "heat")
+	if !damageOK || !attributeOK || damage == attribute {
+		t.Fatal("scoped identities merged")
 	}
-	_ = catalog
+	if _, ok := result.Registry.Lookup("heat"); ok {
+		t.Fatal("ambiguous key selected a first entry")
+	}
+	failures = nil
+	ValidateTypeKeys([]string{"heat"}, EntityOperationDamageType, result, "damageType", func(code model.GenericErrCode, path, message, ref string) {
+		failures = append(failures, model.EngineError{Code: code, Path: path})
+	})
+	if len(failures) != 0 {
+		t.Fatal(failures)
+	}
+	CompileGenericMatcher(model.TypeMatcher{All: []string{"heat"}}, result, EntityListener, "matcher", func(code model.GenericErrCode, path, message, ref string) {
+		failures = append(failures, model.EngineError{Code: code, Path: path})
+	})
+	if len(failures) != 0 {
+		t.Fatal("attribute domain interfered with damage matcher", failures)
+	}
+	result = CompileTypeCatalog(model.TypeCatalog{Types: []model.TypeCatalogEntry{{Key: "heat", Domain: "damage"}, {Key: "heat", Domain: "tag"}, {Key: "heat", Domain: "attribute"}}}, func(model.GenericErrCode, string, string, string) {})
+	CompileGenericMatcher(model.TypeMatcher{All: []string{"heat"}}, result, EntityListener, "matcher", func(code model.GenericErrCode, path, message, ref string) {
+		failures = append(failures, model.EngineError{Code: code, Path: path})
+	})
+	if len(failures) == 0 {
+		t.Fatal("two permitted domains accepted an ambiguous matcher")
+	}
 }
 
 func TestCompileTypeCatalogRelationDepthAndCycle(t *testing.T) {

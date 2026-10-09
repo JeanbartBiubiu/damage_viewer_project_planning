@@ -1,9 +1,9 @@
 package runtime
 
 import (
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 )
 
@@ -24,12 +24,12 @@ type ammoRecoveryWait struct {
 type basicAttackAmmo struct {
 	owner       string
 	providerRef string
-	definition  compilebundle.CompiledProvider
-	binding     compilebundle.CompiledAmmoBinding
+	definition  planbundle.CompiledProvider
+	binding     planbundle.CompiledAmmoBinding
 	wait        ammoRecoveryWait
 }
 
-func validBasicAttackAmmoProvider(provider compilebundle.CompiledProvider) bool {
+func validBasicAttackAmmoProvider(provider planbundle.CompiledProvider) bool {
 	if provider.AmmoBinding == nil {
 		return len(provider.StateFields) == 0
 	}
@@ -72,7 +72,7 @@ func (s *genericRunState) basicAttackAmmoReady() (bool, *model.EngineError) {
 	return false, frame.fatalErr
 }
 
-func (f *executionFrame) stageAmmoConsumption(operation compilebundle.CompiledOperation, ability compilebundle.CompiledAbility, before, after float64) *model.EngineError {
+func (f *executionFrame) stageAmmoConsumption(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, before, after float64) *model.EngineError {
 	attack := f.run.basicAttack
 	if attack == nil || attack.ammo == nil {
 		return f.run.basicAttackErr("ammo consumption requires the native attack's original use", operation.Path)
@@ -88,7 +88,7 @@ func (f *executionFrame) stageAmmoConsumption(operation compilebundle.CompiledOp
 	return nil
 }
 
-func (f *executionFrame) stageAmmoRecovery(ability compilebundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) stageAmmoRecovery(ability planbundle.CompiledAbility) *model.EngineError {
 	ammo := f.run.basicAttack.ammo
 	if ammo.wait.active || f.pendingAmmoWait != nil {
 		return f.run.basicAttackErr("ammo recovery is already scheduled", ammo.binding.StateKey)
@@ -177,7 +177,7 @@ func (s *genericRunState) handleAmmoRecovery(event scheduler.GenericEvent) *mode
 	return frame.fatalErr
 }
 
-func (f *executionFrame) populateMechanicEvalContext(context *formula.GenericEvalContext, ability compilebundle.CompiledAbility) {
+func (f *executionFrame) populateMechanicEvalContext(context *formula.GenericEvalContext, ability planbundle.CompiledAbility) {
 	if !f.run.compiled.HasMechanicReads {
 		return
 	}

@@ -3,13 +3,8 @@ package compile
 import (
 	"strings"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
-
-type CompiledSkillActionBinding struct {
-	model.SkillActionBinding
-	InitialAbilityIndex   uint16
-	ControlAbilityIndices map[string]uint16
-}
 
 func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *genericCompileContext) {
 	seen := map[string]bool{}
@@ -32,7 +27,7 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 			continue
 		}
 		control := binding.Controls[0]
-		parsed, valid := ParseAbilityRef(control.AbilityRef)
+		parsed, valid := plan.ParseAbilityRef(control.AbilityRef)
 		ref, found := ctx.session.AbilityRefIndex[control.AbilityRef]
 		if !valid || !found || parsed.Combatant != binding.Source || parsed.ProviderRef != binding.ProviderRef {
 			fail("control must belong to the actual source mount")
@@ -64,14 +59,14 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 				complexStep = step.StepKey
 			}
 		}
-		if _, exists := ctx.session.Types.Registry.Lookup("event/ability_started"); !exists {
+		if _, exists := ctx.session.Types.Registry.LookupDomain("event", "event/ability_started"); !exists {
 			fail("single cast requires its real successful-use event catalog")
 			continue
 		}
 		controls := map[string]uint16{"INITIAL": ref.AbilityIndex}
 		for _, selected := range binding.Controls[1:] {
 			selectedRef, exists := ctx.session.AbilityRefIndex[selected.AbilityRef]
-			selectedMount, valid := ParseAbilityRef(selected.AbilityRef)
+			selectedMount, valid := plan.ParseAbilityRef(selected.AbilityRef)
 			_, duplicate := controls[selected.Action]
 			if duplicate || !exists || !valid || selectedMount.Combatant != binding.Source || selectedMount.ProviderRef != binding.ProviderRef || selected.ProcessKey != control.ProcessKey || (selected.Action != "RECAST" && selected.Action != "CHARGE_RELEASE" && selected.Action != "CANCEL") || selectedRef.ProviderIndex != ref.ProviderIndex {
 				fail("control must name a unique declared phase on the original source process")
@@ -88,7 +83,7 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 		}
 		seenHits, seenMoments := map[string]bool{}, map[string]bool{}
 		for _, hit := range binding.HitBindings {
-			parsedHit, validHit := ParseAbilityRef(hit.HitAbilityRef)
+			parsedHit, validHit := plan.ParseAbilityRef(hit.HitAbilityRef)
 			hitRef, foundHit := ctx.session.AbilityRefIndex[hit.HitAbilityRef]
 			momentKey := hit.Moment.MomentType
 			validMoment := complexStep == "" && hit.Moment.MomentType == "PROCESS_COMPLETE" && hit.Moment.StepKey == nil
@@ -110,7 +105,7 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 			}
 		}
 		if !invalid {
-			ctx.session.SkillActionBindings = append(ctx.session.SkillActionBindings, CompiledSkillActionBinding{SkillActionBinding: binding, InitialAbilityIndex: ref.AbilityIndex, ControlAbilityIndices: controls})
+			ctx.session.SkillActionBindings = append(ctx.session.SkillActionBindings, plan.CompiledSkillActionBinding{SkillActionBinding: binding, InitialAbilityIndex: ref.AbilityIndex, ControlAbilityIndices: controls})
 		}
 	}
 }

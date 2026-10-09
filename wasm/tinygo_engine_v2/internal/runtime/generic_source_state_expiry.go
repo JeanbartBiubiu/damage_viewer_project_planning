@@ -1,8 +1,8 @@
 package runtime
 
 import (
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func (s *genericRunState) applyProviderSourceStateExpiry(payload expireCleanupPayload) {
@@ -24,7 +24,7 @@ func (s *genericRunState) applyProviderSourceStateExpiry(payload expireCleanupPa
 	stagedBag := staged.providerState[payload.providerRef]
 	stagedBag.state[payload.stateKey] = stagedBag.fieldDefs[payload.stateKey].defaultValue
 	stagedBag.expireAt[payload.stateKey] = 0
-	frame.reResolveStagedAttributesTwoPass(compilebundle.CompiledAbility{})
+	frame.reResolveStagedAttributesTwoPass(planbundle.CompiledAbility{})
 	frame.recordEvidence(model.EvidenceItem{TimeMs: s.nowMs, Kind: "provider_state_expired", Ref: payload.providerRef,
 		Data: map[string]interface{}{"owner": payload.combatantKey, "stateKey": payload.stateKey, "expectedExpireAt": payload.expectedExpireAt}})
 	frame.commit()

@@ -6,6 +6,7 @@ import (
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // item_3032 Yun Tal Wildarrows — Flurry / 疾风骤雨 (generic ABI).
@@ -354,7 +355,7 @@ func TestYunTalFlurry3032WikiConstantsAndCompileContract(t *testing.T) {
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
-	var provider *compile.CompiledProvider
+	var provider *planbundle.CompiledProvider
 	for i := range result.Session.Providers {
 		if result.Session.Providers[i].ProviderKey == yunTalFlurryProviderRef {
 			provider = &result.Session.Providers[i]

@@ -4,8 +4,8 @@ import (
 	"math"
 	"testing"
 
-	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 )
 
@@ -271,11 +271,11 @@ func TestFlushDelayedMultipleDamagesAndSameTimeContinuationsDeterministic(t *tes
 
 func TestTriggeredContinuationNoRecursionAndFreshCommandBudget(t *testing.T) {
 	s := &genericRunState{
-		budget: model.SafetyBudget{MaxCommandsPerEvent: 1, MaxEvents: 1000, MaxChainDepth: 8},
-		nowMs:  0,
-		heap:   scheduler.NewGenericHeap(4),
+		budget:        model.SafetyBudget{MaxCommandsPerEvent: 1, MaxEvents: 1000, MaxChainDepth: 8},
+		nowMs:         0,
+		heap:          scheduler.NewGenericHeap(4),
 		continuations: make(map[uint64]*triggeredContinuationPayload),
-		compiled: compileSessionStubForRepeatDelay(),
+		compiled:      compileSessionStubForRepeatDelay(),
 		combatants: map[string]combatantRuntime{
 			model.SelectorSource: {
 				key: model.SelectorSource,
@@ -407,8 +407,8 @@ func TestTriggeredContinuationHeapPushFailureIsRunError(t *testing.T) {
 	}
 }
 
-func compileSessionStubForRepeatDelay() compile.CompiledSession {
-	return compile.CompiledSession{
+func compileSessionStubForRepeatDelay() planbundle.CompiledSession {
+	return planbundle.CompiledSession{
 		SchemaHash: "s",
 		RulesHash:  "r",
 	}

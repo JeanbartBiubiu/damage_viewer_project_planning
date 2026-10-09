@@ -12,11 +12,15 @@ graph TD
     Session["runtime.Session registry"]
     Model["internal/model generic DTO"]
     Compile["compile.CompileGeneric"]
-    Compiled["CompiledSession"]
+    Compiled["plan.CompiledSession 只读计划"]
     Run["runtime.RunGeneric"]
     Exec["generic_execution / gate / provider"]
     Scheduler["scheduler.GenericHeap"]
     Formula["formula generic"]
+    Pure["expression 纯公式与数学原语"]
+    Binding["inputbinding 独立输入绑定"]
+    Probe["独立纯公式验证入口"]
+    RunFormulas["本次独立公式表"]
     Typeset["typeset generic"]
     Pipeline["pipeline resolver"]
     Testkit["testkit fixtures + ABI helpers"]
@@ -28,6 +32,9 @@ graph TD
     Session --> Model
     Session --> Compile
     Compile --> Compiled
+    Compile --> Formula
+    Compile --> Pure
+    Compile --> Binding
     Session --> Compiled
     Session --> Run
     Run --> Exec
@@ -35,6 +42,15 @@ graph TD
     Run --> Formula
     Run --> Typeset
     Run --> Pipeline
+    Run --> Compiled
+    Exec --> Compiled
+    Exec --> Binding
+    Pipeline --> Compiled
+    Run --> RunFormulas
+    Formula --> Pure
+    Probe --> Pure
+    Probe --> Binding
+    Binding --> Pure
     Testkit --> Session
     Testkit --> Model
 ```
@@ -95,13 +111,16 @@ graph LR
 
 | 对象 | 职责 |
 | --- | --- |
-| `CompiledSession` | 只读规则快照：schema/rules hash、combatants、providers、abilities、operations、formulas、settings、abilityRefIndex |
+| `plan.CompiledSession` | 只读规则快照：schema/rules hash、combatants、providers、abilities、operations、formulas、settings、abilityRefIndex；类型归执行计划包，编译器仅生产它 |
 | `CompiledSkillActionBinding` | 编译期固定来源、首次过程控制与合法完成命中绑定；运行只选择预设，不改过程时点或能力引用 |
 | `CompiledCombatant` | combatant 模板与 provider mounts |
 | `CompiledProvider` / `CompiledAbility` | capability 与 ability 定义；含 `instanceScope`、`statusContributions` 与治疗组计算方式 |
 | `CompiledOperation` | 执行期 operation IR；`resolve_skill_hit` 携带编译后的命中计划；`outputRef` 导出同帧伤害口径 |
 | `CompiledSkillHit` | 命中候选、阻挡范围、供值条件与候选 operations 切片 |
-| `formula.GenericRegistry` | 已编译公式程序 |
+| `formula.GenericRegistry` | 内部用途指令与技能／伤害共同只读程序共享的有界注册表；外部调用只链接已声明具名程序 |
+| `formula.SkillBinding` | 私有作者归属、原定义定位、已选参数、实际运行来源及只读绑定；可达依赖覆盖条件两支 |
+| `CompiledAttributeDerivation` | 明确派生拥有方与可选作者技能；共同读取按拥有方解释，内部读取维持战斗侧语义 |
+| `CompiledDamageTypeFormula` | 共同程序编号、只读绑定及原属性读值描述；一次防御求值供两部分使用 |
 | `typeset.CatalogResult` | flat type key / matcher 输入 |
 
 ## 运行时状态（glance）
@@ -110,7 +129,7 @@ graph LR
 graph TD
     Session["Session: genericSessions + outbox"]
     Entry["genericSessionEntry: sessionId hashes CompiledSession"]
-    State["genericRunState: combatants heap budget skillUses/skillHitFacts/useTriggerLedger"]
+    State["genericRunState: 本次formulas combatants heap budget skillUses/skillHitFacts/useTriggerLedger"]
     Outbox["abi.Outbox priority frames"]
 
     Session --> Entry
@@ -124,6 +143,8 @@ graph TD
 2. 再看 `compile/generic.go` → `session.go` → `RunGeneric`，确认 call chain。
 3. 新机制落在 provider/ability/operation + gate/execution；legacy step-loop/DPS 源码与导出已删除。
 4. 验证契约：`generic_p0_basic_damage.json` + `smoke-node.mjs` + `go run ./cmd/bench`。
+
+第二阶段执行及数值管道已解除对编译器包的类型依赖；会话接线仍调用真实编译入口。临时驱动程序只追加到本次独立公式表，派生与其他求值共同读取该表。第三阶段A将伤害共同定义接入正式防御结算；第三阶段B将技能具名共同定义和私有参数绑定先注册，再链接内部用途包装，统一读取依赖、静态冻结、作用域及调用预算。成功编译的已核定静态输出只供宿主消费本次真实程序结果，不另设求值导出。正式技能／伤害专项经过真实编译、运行和释放导出，Node证据不代替浏览器工作线程。
 
 ## 阶段2连续运行链
 

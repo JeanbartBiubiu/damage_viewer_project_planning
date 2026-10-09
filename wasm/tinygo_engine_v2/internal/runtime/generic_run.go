@@ -7,10 +7,10 @@ import (
 	"sort"
 	"strconv"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 	shieldpkg "tinygo_engine_v2/internal/shield"
 	"tinygo_engine_v2/internal/status"
@@ -71,7 +71,8 @@ type genericRunState struct {
 	processFacts               map[string]model.ProcessCommandFact
 	processFailure             *model.EngineError
 	settlingProcessDeaths      bool
-	compiled                   compilebundle.CompiledSession
+	compiled                   planbundle.CompiledSession
+	formulas                   formula.GenericRegistry
 	req                        model.RunRequest
 	nowMs                      int64
 	startMs                    int64
@@ -158,14 +159,14 @@ type genericRunState struct {
 	skillHitGroups          map[string]*skillHitGroup
 	skillHitLedger          map[string]*frozenSkillHitContext
 	skillHitOccurrenceCount uint64
-	runtimeListeners        []compilebundle.CompiledListener
+	runtimeListeners        []planbundle.CompiledListener
 	attackStartFacts        map[string]model.AttackStartFact
 	useTriggerLedger        map[useTriggerKey]*useTriggerRecord
 	useTriggerReserving     int
 }
 
 // RunGeneric 执行单次 generic deterministic run，返回 DoneResult。
-func RunGeneric(compiled compilebundle.CompiledSession, req model.RunRequest) (model.DoneResult, *model.EngineError) {
+func RunGeneric(compiled planbundle.CompiledSession, req model.RunRequest) (model.DoneResult, *model.EngineError) {
 	state, err := newGenericRunState(compiled, req)
 	if err != nil {
 		return model.DoneResult{}, err
@@ -176,7 +177,7 @@ func RunGeneric(compiled compilebundle.CompiledSession, req model.RunRequest) (m
 	return state.buildDoneResult(), nil
 }
 
-func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunRequest) (*genericRunState, *model.EngineError) {
+func newGenericRunState(compiled planbundle.CompiledSession, req model.RunRequest) (*genericRunState, *model.EngineError) {
 	if (req.DriverPlan.BasicAttack != nil || len(req.DriverPlan.SkillActions) > 0) && len(compiled.RuleModifiers) != 0 {
 		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "continuous basic attack does not admit unselected global modifiers", "rules.modifiers", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 	}
@@ -242,7 +243,8 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	}
 	validateRuntimeOptions(req.RuntimeOptions)
 
-	combatants, err := materializeCombatants(req.InitialSnapshot, compiled, req.SessionID)
+	formulas := *compiled.Formulas.CloneForRun()
+	combatants, err := materializeCombatants(req.InitialSnapshot, compiled, formulas, req.SessionID)
 	if err != nil {
 		return nil, err
 	}
@@ -264,6 +266,7 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 
 	state := &genericRunState{
 		compiled:                   compiled,
+		formulas:                   formulas,
 		req:                        req,
 		nowMs:                      req.InitialSnapshot.TimeMs,
 		startMs:                    req.InitialSnapshot.TimeMs,
@@ -359,10 +362,24 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 		compileErrors = append(compileErrors, err)
 	}
 	for i, entry := range s.req.DriverPlan.Entries {
+		refs := s.formulas.DeclaredReferences()
+		skill := ""
+		source, _ := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
+		target, _ := s.resolveDriverCombatantKey(entry.Target, source)
+		if ref, ok := s.compiled.AbilityRefIndex[normalizeAbilityRef(entry.AbilityRef, source, target)]; ok {
+			skill = s.compiled.Abilities[ref.AbilityIndex].SkillKey
+		}
 		if entry.Condition != nil {
 			path := "driverPlan.entries[" + entry.EntryKey + "].condition"
-			instr := formula.CompileGenericFormula(*entry.Condition, path, map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError)
-			for _, in := range instr {
+			instr := formula.CompileGenericFormula(*entry.Condition, path, refs, map[string]bool{}, addError)
+			if !s.formulas.ValidDeclaredScope(instr, skill) {
+				addError(model.GenericErrUnknownRef, path, "driver common formula requires its actual ability skill", entry.AbilityRef)
+				continue
+			}
+			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
+				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadUseChargeDuration {
+					addError(model.GenericErrFormulaTypeError, path, "runtime parameters unavailable in driver condition", in.ReadKey)
+				}
 				if in.ReadKind == formula.ReadProcessActualCost {
 					addError(model.GenericErrFormulaTypeError, path, "process actual costs are unavailable in a driver condition", in.ReadKey)
 				}
@@ -372,9 +389,12 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 			}
 			if len(instr) > 0 {
 				key := "run:" + path
-				id := formula.GenericProgramID(len(s.compiled.Formulas.Programs))
-				s.compiled.Formulas.Programs = append(s.compiled.Formulas.Programs, formula.GenericProgram{Key: key, Instr: instr})
-				s.entryConditions[i] = &id
+				id, err := s.formulas.Register(formula.GenericProgram{Key: key, Instr: instr})
+				if err != nil {
+					addError(model.GenericErrFormulaTypeError, path, err.Error(), key)
+				} else {
+					s.entryConditions[i] = &id
+				}
 			}
 		}
 		if entry.Repeat == nil {
@@ -390,8 +410,15 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 			addError(model.GenericErrMissingRequiredField, repeatPath, "repeat requires intervalMs or intervalFormula", entry.AbilityRef)
 		case hasFormula:
 			path := repeatPath + ".intervalFormula"
-			instr := formula.CompileGenericFormula(*entry.Repeat.IntervalFormula, path, map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError)
-			for _, in := range instr {
+			instr := formula.CompileGenericFormula(*entry.Repeat.IntervalFormula, path, refs, map[string]bool{}, addError)
+			if !s.formulas.ValidDeclaredScope(instr, skill) {
+				addError(model.GenericErrUnknownRef, path, "driver common formula requires its actual ability skill", entry.AbilityRef)
+				continue
+			}
+			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
+				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadUseChargeDuration {
+					addError(model.GenericErrFormulaTypeError, path, "runtime parameters unavailable in driver repeat", in.ReadKey)
+				}
 				if in.ReadKind == formula.ReadProcessActualCost {
 					addError(model.GenericErrFormulaTypeError, path, "process actual costs are unavailable in a driver repeat", in.ReadKey)
 				}
@@ -403,9 +430,12 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 				continue
 			}
 			key := "run:" + path
-			id := formula.GenericProgramID(len(s.compiled.Formulas.Programs))
-			s.compiled.Formulas.Programs = append(s.compiled.Formulas.Programs, formula.GenericProgram{Key: key, Instr: instr})
-			s.entryIntervalPrograms[i] = &id
+			id, err := s.formulas.Register(formula.GenericProgram{Key: key, Instr: instr})
+			if err != nil {
+				addError(model.GenericErrFormulaTypeError, path, err.Error(), key)
+			} else {
+				s.entryIntervalPrograms[i] = &id
+			}
 		}
 	}
 	if len(compileErrors) > 0 {
@@ -427,7 +457,7 @@ func normalizeConditionRecheckInterval(raw int64) int64 {
 	return raw
 }
 
-func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.CompiledSession, sessionID string) (map[string]combatantRuntime, *model.EngineError) {
+func materializeCombatants(snapshot model.Snapshot, compiled planbundle.CompiledSession, formulas formula.GenericRegistry, sessionID string) (map[string]combatantRuntime, *model.EngineError) {
 	out := make(map[string]combatantRuntime, len(snapshot.Combatants))
 	combatantKeys := make(map[string]bool, len(snapshot.Combatants))
 	for _, c := range snapshot.Combatants {
@@ -477,7 +507,7 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 		}
 		var resolveErr error
 		c.attributes, resolveErr = c.resolver.ResolveAttributesWithProviderContext(
-			c.attributes, evalCtx, compiled.Formulas,
+			c.attributes, evalCtx, formulas,
 			func(ownerKey, providerRef string) formula.GenericEvalContext {
 				bagOwner := ownerKey
 				if bagOwner == "" {
@@ -495,7 +525,7 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 			},
 		)
 		if resolveErr != nil {
-			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID)
+			return nil, preserveFormulaIssue(resolveErr, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID))
 		}
 		out[key] = c
 	}
@@ -517,7 +547,7 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 		castProxy := model.SelectorTarget
 		var resolveErr error
 		c.attributes, resolveErr = c.resolver.ResolveAttributesWithProviderContext(
-			c.attributes, evalCtx, compiled.Formulas,
+			c.attributes, evalCtx, formulas,
 			func(ownerKey, providerRef string) formula.GenericEvalContext {
 				bagOwner := ownerKey
 				if bagOwner == "" {
@@ -535,7 +565,7 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 			},
 		)
 		if resolveErr != nil {
-			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID)
+			return nil, preserveFormulaIssue(resolveErr, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID))
 		}
 		out[key] = c
 	}
@@ -544,9 +574,9 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 		if !exists {
 			continue
 		}
-		resolved, resolveErr := resolveDerivedAttributes(compiled, key, actor.attributes, actor.resolver, out["source"].attributes, out["target"].attributes, nil)
+		resolved, resolveErr := resolveDerivedAttributes(compiled, formulas, key, actor.attributes, actor.resolver, out["source"].attributes, out["target"].attributes, nil)
 		if resolveErr != nil {
-			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID)
+			return nil, preserveFormulaIssue(resolveErr, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID))
 		}
 		actor.attributes = resolved
 		out[key] = actor
@@ -554,7 +584,7 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 	return out, nil
 }
 
-func mountRuleModifiers(resolver *pipeline.AttributeResolver, damageResolver *pipeline.DamageModifierResolver, combatantKey string, compiled compilebundle.CompiledSession) {
+func mountRuleModifiers(resolver *pipeline.AttributeResolver, damageResolver *pipeline.DamageModifierResolver, combatantKey string, compiled planbundle.CompiledSession) {
 	for _, mod := range compiled.RuleModifiers {
 		if mod.Kind == "pipeline" {
 			mountRulePipelineModifier(damageResolver, combatantKey, mod)
@@ -597,7 +627,7 @@ func mountRuleModifiers(resolver *pipeline.AttributeResolver, damageResolver *pi
 // mountRulePipelineModifier mounts rules pipeline modifiers by stage ownership:
 // command=crit + outgoing_pre_mitigation → source;
 // incoming_crit_part_post_mitigation + incoming_post_mitigation → target.
-func mountRulePipelineModifier(damageResolver *pipeline.DamageModifierResolver, combatantKey string, mod compilebundle.CompiledModifier) {
+func mountRulePipelineModifier(damageResolver *pipeline.DamageModifierResolver, combatantKey string, mod planbundle.CompiledModifier) {
 	if damageResolver == nil {
 		return
 	}
@@ -976,9 +1006,9 @@ func (s *genericRunState) scheduleDynamicRepeatNext(entry model.DriverEntry, ent
 		TargetResources: tgt.resources,
 	}
 	path := "driverPlan.entries[" + entry.EntryKey + "].repeat.intervalFormula"
-	raw, evalErr := s.compiled.Formulas.Eval(*s.entryIntervalPrograms[entryIndex], evalCtx)
+	raw, evalErr := s.formulas.Eval(*s.entryIntervalPrograms[entryIndex], evalCtx)
 	if evalErr != nil {
-		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "intervalFormula eval failed: "+evalErr.Error(), s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+		return s.evalFormulaError(*s.entryIntervalPrograms[entryIndex], evalErr, entry.AbilityRef)
 	}
 	if math.IsNaN(raw) || math.IsInf(raw, 0) || raw <= 0 {
 		err := model.NewEngineError(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "intervalFormula must evaluate to a finite value > 0")
@@ -1450,7 +1480,7 @@ func (s *genericRunState) finalizeSeries() ([]model.SeriesPoint, bool) {
 	return out, true
 }
 
-func validateGenericRunRequest(compiled compilebundle.CompiledSession, req model.RunRequest) *model.EngineError {
+func validateGenericRunRequest(compiled planbundle.CompiledSession, req model.RunRequest) *model.EngineError {
 	if req.SessionID == "" {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "sessionId is required", compiled.SchemaHash, compiled.RulesHash, "")
 	}

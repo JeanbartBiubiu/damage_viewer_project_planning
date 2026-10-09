@@ -5,10 +5,10 @@ import (
 
 	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/command"
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/typeset"
 )
 
@@ -24,7 +24,7 @@ func (f *executionFrame) vampError(message, path, ref string) *model.EngineError
 }
 
 // settleDamageVamp 是普通与复制伤害共同的末尾步骤；调用点在扣血后、派生事件前。
-func (f *executionFrame) settleDamageVamp(cmd command.Command, op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility, outcome pipeline.DamageOutcome, targetHPBefore float64, damageID uint64, phantom bool) *model.EngineError {
+func (f *executionFrame) settleDamageVamp(cmd command.Command, op planbundle.CompiledOperation, ability planbundle.CompiledAbility, outcome pipeline.DamageOutcome, targetHPBefore float64, damageID uint64, phantom bool) *model.EngineError {
 	if len(f.run.compiled.VampRules) == 0 {
 		return nil
 	}
@@ -75,7 +75,7 @@ func (f *executionFrame) settleDamageVamp(cmd command.Command, op compilebundle.
 		if !rule.TargetMatcher.Match(targetTypes) {
 			continue
 		}
-		var override *compilebundle.CompiledVampOverride
+		var override *planbundle.CompiledVampOverride
 		for i := range op.VampOverrides {
 			if op.VampOverrides[i].VampType == rule.VampType {
 				override = &op.VampOverrides[i]
@@ -92,9 +92,9 @@ func (f *executionFrame) settleDamageVamp(cmd command.Command, op compilebundle.
 		if override != nil {
 			basisKind = override.BasisOutputKind
 			var err error
-			efficiency, err = f.run.compiled.Formulas.Eval(override.EfficiencyProgram, ctx)
+			efficiency, err = f.run.formulas.Eval(override.EfficiencyProgram, ctx)
 			if err != nil {
-				return f.vampError(err.Error(), override.Path, op.Ref)
+				return f.preserveFormulaIssue(err, f.vampError(err.Error(), override.Path, op.Ref))
 			}
 			if math.IsNaN(efficiency) || math.IsInf(efficiency, 0) || efficiency < 0 {
 				return f.vampError("vamp efficiency must be finite and non-negative", override.Path, op.Ref)
@@ -145,7 +145,7 @@ func (f *executionFrame) combatantTypeSet(key string) typeset.TypeSet {
 }
 
 // settleHealing 先计算所有修正，再经过既有生命管道一次性治疗；不派发伤害事件。
-func (f *executionFrame) settleHealing(sourceKey, targetKey string, amount float64, category string, ability compilebundle.CompiledAbility, baseCtx formula.GenericEvalContext) (healingOutcome, *model.EngineError) {
+func (f *executionFrame) settleHealing(sourceKey, targetKey string, amount float64, category string, ability planbundle.CompiledAbility, baseCtx formula.GenericEvalContext) (healingOutcome, *model.EngineError) {
 	out := healingOutcome{before: amount, modifiers: []map[string]interface{}{}}
 	ctx := baseCtx
 	ctx.StrictReads = true
@@ -196,17 +196,17 @@ func (f *executionFrame) applyHealingDirection(hostKey, direction, category stri
 			ctx.HasProviderContext, ctx.ProviderState, ctx.ProviderTargetState = pctx.HasProviderContext, pctx.ProviderState, pctx.ProviderTargetState
 		}
 		if mod.HasCondition {
-			value, err := f.run.compiled.Formulas.Eval(mod.ConditionProg, ctx)
+			value, err := f.run.formulas.Eval(mod.ConditionProg, ctx)
 			if err != nil {
-				return 0, evidence, f.vampError(err.Error(), "heal.modifiers["+mod.ModifierKey+"].condition", mod.ModifierKey)
+				return 0, evidence, f.preserveFormulaIssue(err, f.vampError(err.Error(), "heal.modifiers["+mod.ModifierKey+"].condition", mod.ModifierKey))
 			}
 			if value == 0 {
 				continue
 			}
 		}
-		value, err := f.run.compiled.Formulas.Eval(mod.ValueProgram, ctx)
+		value, err := f.run.formulas.Eval(mod.ValueProgram, ctx)
 		if err != nil {
-			return 0, evidence, f.vampError(err.Error(), "heal.modifiers["+mod.ModifierKey+"].value", mod.ModifierKey)
+			return 0, evidence, f.preserveFormulaIssue(err, f.vampError(err.Error(), "heal.modifiers["+mod.ModifierKey+"].value", mod.ModifierKey))
 		}
 		if math.IsNaN(value) || math.IsInf(value, 0) {
 			return 0, evidence, f.vampError("non-finite healing modifier", "heal.modifiers["+mod.ModifierKey+"]", mod.ModifierKey)
@@ -244,7 +244,7 @@ func (f *executionFrame) applyHealingDirection(hostKey, direction, category stri
 	return amount, evidence, nil
 }
 
-func (f *executionFrame) applyDirectHeal(cmd command.Command, ability compilebundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) applyDirectHeal(cmd command.Command, ability planbundle.CompiledAbility) *model.EngineError {
 	hpBefore := f.stageFor(cmd.Target).attributes["hp"].Current
 	heal, err := f.settleHealing(cmd.Source, cmd.Target, cmd.Amount, model.HealDirect, ability, f.evalContext(ability))
 	if err != nil {

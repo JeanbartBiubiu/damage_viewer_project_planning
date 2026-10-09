@@ -4,8 +4,8 @@ import (
 	"math"
 	"testing"
 
-	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // item_6699 Voltaic Cyclosword / 电震涡流剑 — Firmament / 苍穹 (ranged precharged ABI).
@@ -413,7 +413,7 @@ func TestGenericFirmament6699SchemaCompiled(t *testing.T) {
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
-	var found *compile.CompiledProvider
+	var found *planbundle.CompiledProvider
 	for i := range result.Session.Providers {
 		p := &result.Session.Providers[i]
 		if p.ProviderKey == firmamentProviderRef {

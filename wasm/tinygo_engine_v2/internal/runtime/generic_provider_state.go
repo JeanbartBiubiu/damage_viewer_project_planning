@@ -3,8 +3,8 @@ package runtime
 import (
 	"math"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 const (
@@ -301,7 +301,7 @@ func finiteState(v float64) bool {
 	return !math.IsNaN(v) && !math.IsInf(v, 0)
 }
 
-func compiledStateFieldsToRuntime(fields map[string]compilebundle.CompiledProviderStateField) map[string]providerStateFieldDef {
+func compiledStateFieldsToRuntime(fields map[string]planbundle.CompiledProviderStateField) map[string]providerStateFieldDef {
 	if len(fields) == 0 {
 		return map[string]providerStateFieldDef{}
 	}
