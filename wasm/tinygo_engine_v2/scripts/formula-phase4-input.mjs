@@ -13,7 +13,6 @@ export function createFormulaPhase4Input() {
       { key: 'damage/physical', domain: 'damage' },
       { key: 'event/damage_dealt', domain: 'event' },
       { key: 'event/ability_cast', domain: 'event' },
-      { key: 'event/source_owner', domain: 'event' },
     ], relations: [] },
     combatants: [
       { key: 'source', types: ['combatant/champion'], attributes: { hp: slot(1000), attack_damage: slot(100), armor: slot(0), magic_resist: slot(0) }, resources: { mana: { current: 200, max: 200 } }, providers: [{ providerRef, definitionRef: providerRef }] },
