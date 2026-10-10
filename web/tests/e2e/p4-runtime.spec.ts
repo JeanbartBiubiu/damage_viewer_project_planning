@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { test, expect, type Page, type TestInfo } from '@playwright/test';
-import type { CompileRequest, DoneResult, InitialSnapshot, ProcessControlAction } from '../../src/types/genericEngine';
+import type { CompileRequest, DoneResult, InitialSnapshot, ProcessControlAction, RunRequest } from '../../src/types/genericEngine';
 import type { AuthoredProcessProgram } from '../../src/engine/processAdapter';
 import type { AuthoredTriggerProgram } from '../../src/engine/triggerAdapter';
 import type { AuthoredHitProgram } from '../../src/engine/hitAdapter';
@@ -12,12 +12,15 @@ import type { SkillProcessMoment, SkillProcessStep } from '../../src/types/skill
 import type { SkillTriggerRuleDetail } from '../../src/types/skillTriggerRule';
 import type { NumericValue } from '../../src/types/numericValue';
 import { fixedValue, parameterValue } from '../../src/types/numericValue';
+import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { authoredConstantDefense } from '../fixtures/authoredDamageFormula';
 
 const key = 'cast_skill';
+const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
 test('施放阶段验收使用最终Wasm产物', () => {
   const bytes = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
-  expect(bytes.length).toBe(1028660);
-  expect(createHash('sha256').update(bytes).digest('hex').toUpperCase()).toBe('BD007EA626FD934C1677C6F18C2CE8D9CBFBC51832F91E489F37DCA66866F1E7');
+  expect(bytes.length).toBe(WASM_IDENTITY.bytes);
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe(WASM_IDENTITY.sha256);
 });
 const moment = (momentType: SkillProcessMoment['momentType'], stepKey: string | null = null,
   failureReason: SkillProcessMoment['failureReason'] = null): SkillProcessMoment => ({ momentType, stepKey, failureReason } as SkillProcessMoment);
@@ -162,7 +165,8 @@ type Command = { action: ProcessControlAction | 'MUTATE' | 'KILL' | 'HIT'; at: n
 type Payload = { program: AuthoredProcessProgram; commands: Command[]; durationMs: number; initialMana?: number; initialEnergy?: number;
   initialHp?: number; receivedHealChange?: number; extraMount?: boolean; blade?: boolean; hit?: boolean;
   resume?: { commands: Command[]; durationMs: number; corrupt?: 'past_driver' | 'negative_cost' | 'past_expiry' }; budget?: number };
-type Result = { done?: DoneResult; resumed?: DoneResult; runError?: string; resumeError?: string; compileErrors?: unknown; adapterError?: string; released?: boolean };
+type Result = { done?: DoneResult; resumed?: DoneResult; runError?: string; resumeError?: string; compileErrors?: unknown; adapterError?: string; released?: boolean;
+  compileRequest?: CompileRequest; runRequests?: RunRequest[] };
 async function run(page: Page, payload: Payload): Promise<Result> {
   await page.route('**/p4-browser-harness', route => route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>施放阶段运行验收</title>' }));
   await page.goto('/p4-browser-harness');
@@ -171,11 +175,14 @@ async function run(page: Page, payload: Payload): Promise<Result> {
     const { withTriggerProgram } = await import(/* @vite-ignore */ '/src/engine/triggerAdapter.ts');
     const { withHitProgram, provenSkillUseFact, skillHitFact } = await import(/* @vite-ignore */ '/src/engine/hitAdapter.ts');
     const { GenericEngineClient } = await import(/* @vite-ignore */ '/src/engine/genericEngineClient.ts');
+    const { approveAuthoredFormulaProof } = await import(/* @vite-ignore */ '/tests/fixtures/browserAuthoredFormulaProof.ts');
     const owner = data.program.owner ?? 'source'; const other = owner === 'source' ? 'target' : 'source';
     const slot = (value: number, max = value) => ({ base: value, current: value, max, resolved: value });
     let request: CompileRequest = { schemaVersion: 'generic-p0', schemaHash: 'p4-browser-v1', rulesHash: 'before-p4',
-      typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }, { key: 'ability/spell', domain: 'ability' },
-        { key: 'damage_trait/delivery_skill', domain: 'damage_trait' }, { key: 'damage_trait/origin_direct', domain: 'damage_trait' }], relations: [] }, rules: {},
+      typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }, { key: 'physics', domain: 'damage' }, { key: 'ability/spell', domain: 'ability' },
+        { key: 'damage_trait/delivery_skill', domain: 'damage_trait' }, { key: 'damage_trait/origin_direct', domain: 'damage_trait' },
+        ...['hp', 'power', 'ability_power', 'armor', 'omnivamp_percent'].map(key => ({ key, domain: 'attribute' }))], relations: [] },
+      rules: { damageTypeFormulas: data.damageTypeFormulas },
       combatants: (['source', 'target'] as const).map(actor => ({ key: actor,
         attributes: { hp: { base: 1000, current: actor === owner ? data.initialHp ?? 1000 : 1000, max: 1000, resolved: 1000 },
           power: slot(60, 200), ability_power: slot(100), armor: slot(0), omnivamp_percent: slot(0) },
@@ -189,6 +196,7 @@ async function run(page: Page, payload: Payload): Promise<Result> {
     const client = new GenericEngineClient(); let sessionId: string | undefined;
     const result: Result = {};
     try {
+      await approveAuthoredFormulaProof(data.program, client, request.typeCatalog);
       const adapted = adaptProcessProgram(data.program);
       request = withProcessProgram(request, { processProviderKey: 'casting', authored: data.program }, { rulesHash: 'p4-casting' });
       if (data.extraMount) request = withProcessProgram(request, { processProviderKey: 'other_casting', authored: data.program }, { rulesHash: 'p4-two' });
@@ -204,6 +212,8 @@ async function run(page: Page, payload: Payload): Promise<Result> {
       if (data.blade) request = withTriggerProgram(request, { triggerProviderKey: 'probe_blade', authored: data.probeBlade,
         initialCastAbilities: [{ providerRef: 'casting', abilityKey: adapted.initialAbilityKey }] }, { rulesHash: 'p4-blade' });
       if (data.hit) request = withHitProgram(request, { hitProviderKey: 'hit', hitAbilityKey: 'hit', authored: data.probeHit }, { rulesHash: 'p4-hit' });
+      result.compileRequest = request;
+      result.runRequests = [];
       const compiled = await client.compile(request);
       if (!compiled.ok) { result.compileErrors = compiled.errors; return result; }
       sessionId = compiled.sessionId;
@@ -225,10 +235,12 @@ async function run(page: Page, payload: Payload): Promise<Result> {
           facts.push(processCommandFact(entryKey, useRef));
           return { entryKey, abilityRef: `${owner}.provider[${command.providerRef ?? 'casting'}].ability[${ability}]`, source: owner, target: other, firstAtMs: command.at };
         });
-        return client.run({ sessionId: compiled.sessionId, expectedRulesHash: request.rulesHash, schemaVersion: request.schemaVersion, schemaHash: request.schemaHash, rulesHash: request.rulesHash,
+        const runRequest: RunRequest = { sessionId: compiled.sessionId, expectedRulesHash: request.rulesHash, schemaVersion: request.schemaVersion, schemaHash: request.schemaHash, rulesHash: request.rulesHash,
           initialSnapshot: snapshot, driverPlan: { entries, conditionRecheckIntervalMs: 10 }, stopPolicy: { durationMs, stopOnTargetDeath: false, stopWhenNoEvents: false },
           sampling: { sampleEveryMs: 50, dpsWindowMs: 100, maxSeriesPoints: 100 }, safetyBudget: { maxProcessInstances: data.budget ?? 10000 },
-          skillUses: [...uses.values()], processCommandFacts: facts, skillHitFacts: hits });
+          skillUses: [...uses.values()], processCommandFacts: facts, skillHitFacts: hits };
+        result.runRequests!.push(runRequest);
+        return client.run(runRequest);
       };
       try { result.done = await doRun(data.commands, data.durationMs, initialSnapshot); } catch (error) { result.runError = String(error); }
       if (result.done && data.resume) {
@@ -240,9 +252,13 @@ async function run(page: Page, payload: Payload): Promise<Result> {
     } catch (error) { result.adapterError = String(error); }
     finally { if (sessionId) result.released = (await client.release(sessionId, request.rulesHash)).released; client.terminate(); }
     return result;
-  }, { ...payload, probeBlade: bladeProbe(), probeHit: hitProbe() });
+  }, { ...payload, probeBlade: bladeProbe(), probeHit: hitProbe(), damageTypeFormulas: [
+    { damageType: 'damage/physical', formula: authoredConstantDefense('1') },
+    { damageType: 'physics', formula: authoredConstantDefense('1') }
+  ] });
 }
 async function passed(result: Result, info: TestInfo): Promise<DoneResult> {
+  await info.attach(`p4-native-run-${info.attachments.length}`, { contentType: 'application/json', body: Buffer.from(JSON.stringify(result, null, 2)) });
   if (!result.done || result.runError || result.adapterError || result.compileErrors) await info.attach('p4-failure', { contentType: 'application/json', body: Buffer.from(JSON.stringify(result, null, 2)) });
   expect(result.adapterError).toBeUndefined(); expect(result.compileErrors).toBeUndefined(); expect(result.runError).toBeUndefined(); expect(result.done).toBeDefined(); expect(result.released).toBe(true);
   return result.done!;
@@ -342,7 +358,7 @@ test('真实Worker：首次自身治疗冻结互斥分支并隔离过程拥有�
 
 test('真实API索拉卡R完整已保存组成进入Worker：首次互斥自身治疗', async ({ page, request }, info) => {
   test.skip(process.env.P4_SORAKA_LIVE_API !== '1', '正式三条规则保存重开并独立回读后启用只读专项');
-  const base = 'http://127.0.0.1:8080/api/admin/games/lol/skills/soraka_r';
+  const base = `${apiBase}/api/admin/games/lol/skills/soraka_r`;
   const read = async (path: string) => {
     const response = await request.get(`${base}${path}`, { headers: { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` } });
     expect(response.status(), path).toBe(200);
@@ -399,7 +415,14 @@ test('真实Worker：重施到期优先，蓄力最大值两种明确分支', as
   ] as [AuthoredProcessProgram, Command[], number][]) {
     const done = await passed(await run(page, { program: p, commands, durationMs: 1100 }), info);
     expect(actor(done).resources.mana.current).toBe(40); expect(actor(done).resources.energy.current).toBe(energy);
-    expect(instance(done)).toMatchObject({ status: 'complete', finishedAtMs: 1000 }); expect(cooldown(done)).toBe(3000);
+    const timedOut = p.process.steps[0]!.stepType === 'RECAST'
+      || p.process.steps[0]!.stepType === 'CHARGE' && !p.process.steps[0]!.detail.releaseAtMaximum;
+    expect(instance(done)).toMatchObject({ status: timedOut ? 'failed' : 'complete', finishedAtMs: 1000 });
+    if (timedOut) {
+      expect(instance(done).failureReason).toBe('EVENT_ABORTED');
+      expect(actor(done).cooldowns).toEqual({});
+      expect(done.evidence.items.filter(item => item.kind === 'process_moment' && item.data.moment === 'PROCESS_COMPLETE')).toHaveLength(0);
+    } else expect(cooldown(done)).toBe(3000);
   }
 });
 
@@ -470,12 +493,41 @@ test('真实Worker：过程首次接第6项待击，重施与同use第5项命中
   expect(done.evidence.items.filter(item => item.kind === 'emitted_event' && item.ref === 'event/skill_hit')).toHaveLength(1);
 });
 
-test('真实API三名代表的原成本、已挂冷却及延时进入Worker，原规则不补写', async ({ page, request }, info) => {
+test('真实API三名代表保持当前完整作者：Lux/Jax成本冷却运行，Vi已升级6C且旧入口明确拒绝', async ({ page, request }, info) => {
   test.skip(process.env.P4_LIVE_API !== '1', '显式启用实际服务的只读回查');
+  await page.goto('/');
   const records: unknown[] = [];
   for (const [skillKey, remaining, readyAt] of [['vi_q', 50, null], ['lux_e', 30, 10000], ['jax_e', 50, 17000]] as const) {
-    const read = async (path: string) => { const response = await request.get(`http://127.0.0.1:8080/api/admin/games/lol/skills/${skillKey}${path}`, { headers: { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` } }); expect(response.status()).toBe(200); return response.json(); };
+    const read = async (path: string) => { const response = await request.get(`${apiBase}/api/admin/games/lol/skills/${skillKey}${path}`, { headers: { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` } }); expect(response.status()).toBe(200); return response.json(); };
     const [savedProcess, costEffect, parameters, rules] = await Promise.all([read('/processes/cast'), read('/effects/mana_cost'), read('/parameters'), read('/trigger-rules')]);
+    if (skillKey === 'vi_q') {
+      const configuration = await read('/configuration');
+      expect(configuration.processes.find((row: { processKey: string }) => row.processKey === 'cast')).toEqual(savedProcess);
+      expect(configuration.triggerRules.map((row: SkillTriggerRuleDetail) => row.ruleKey).sort())
+        .toEqual(rules.map((row: { ruleKey: string }) => row.ruleKey).sort());
+      const fullRules = await Promise.all(rules.map((row: { ruleKey: string }) => read(`/trigger-rules/${row.ruleKey}`)));
+      for (const fullRule of fullRules) expect(configuration.triggerRules.find((row: SkillTriggerRuleDetail) => row.ruleKey === fullRule.ruleKey)).toEqual(fullRule);
+      expect(savedProcess.steps.map((step: SkillProcessStep) => step.stepType)).toEqual(['IMMEDIATE', 'CHARGE']);
+      expect(savedProcess.steps.every((step: SkillProcessStep) => step.occupiesAction === true)).toBe(true);
+      expect(rules.map((row: SkillTriggerRuleDetail) => row.ruleKey).sort()).toEqual(['cancel_cast', 'cancel_cooldown', 'cast_initial', 'charge_release', 'charged_hit', 'timeout_cooldown']);
+      const cost = costEffect.results[0].valueRule.value;
+      expect(cost.kind).toBe('PARAMETER');
+      const parameter = parameters.find((row: { parameterKey: string }) => row.parameterKey === cost.parameterKey);
+      expect(parameter).toMatchObject({ valueMode: 'SKILL_LEVEL', levelValues: { '1': 50 } });
+      const authored: AuthoredProcessProgram = { gameId: 'lol', skillKey, skillLevel: 1, characterLevel: 1,
+        process: savedProcess, effects: configuration.effects, parameters: configuration.parameters,
+        formulas: configuration.formulas, rules: configuration.triggerRules,
+        castCosts: [{ bindingKey: 'mana_cost', effectKey: 'mana_cost', resultKey: 'consume_mana' }] };
+      const rejected = await page.evaluate(async authored => {
+        const { adaptProcessProgram } = await import(/* @vite-ignore */ '/src/engine/processAdapter.ts');
+        try { adaptProcessProgram(authored); return ''; } catch (error) { return String(error); }
+      }, authored);
+      expect(rejected).toContain('rules.charged_hit.actions.charged_damage.runtimeInputBindings: 该动作不能携带动态输入');
+      expect(await read('/configuration')).toEqual(configuration);
+      records.push({ skillKey, directoryCostAtLevel1: 50, rejected, configuration,
+        boundary: '当前完整两步及六规则已升级6C；旧P4作者入口明确拒绝，不裁掉作者节点重试成功。最终6C释放与取消另行真实验证。' });
+      continue;
+    }
     expect(rules).toEqual([]);
     const before = JSON.stringify(savedProcess);
     const p: AuthoredProcessProgram = { gameId: 'lol', skillKey, skillLevel: 1, characterLevel: 1, process: structuredClone(savedProcess), effects: [costEffect], parameters, formulas: [],

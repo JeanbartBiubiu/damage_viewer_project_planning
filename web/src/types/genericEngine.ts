@@ -785,8 +785,7 @@ export type DamageRecord = Omit<DamageBreakdown, 'damageCount'> & {
   eligible?: boolean; policy?: string; baseRawAmount?: number; originalCritChance?: number;
   effectiveCritChance?: number; multiplier?: number; normalPart?: number; critPart?: number;
   critAdjustedRawAmount?: number; normalPartPostResistance?: number; critPartPostResistance?: number;
-  resistanceBeforePenetration?: number; penetrationPercent?: number; penetrationFlat?: number;
-  effectiveResistance?: number; resistanceFactor?: number; modifiers?: Record<string, unknown>[];
+  resistanceFactor?: number; modifiers?: Record<string, unknown>[];
 };
 export type RecordingSummary = {
   skillActionRecordCount?: number; returnedSkillActionRecords?: number; droppedSkillActionRecords?: number; skillActionRecordsTruncated?: boolean;

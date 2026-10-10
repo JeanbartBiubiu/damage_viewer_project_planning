@@ -3,8 +3,10 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { test, expect } from '@playwright/test';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { createExplicitDamageInput } from '../fixtures/formulaPhase4AuthorInput';
 
-const fixture = JSON.parse(readFileSync(resolve('../wasm/tinygo_engine_v2/internal/testkit/fixtures/generic_p0_basic_damage.json'), 'utf8'));
+const fixture = createExplicitDamageInput();
+const oldFixture = JSON.parse(readFileSync(resolve('../wasm/tinygo_engine_v2/internal/testkit/fixtures/generic_p0_basic_damage.json'), 'utf8'));
 
 test.beforeEach(async ({ page }) => {
   await page.route('**/api/games', route => route.fulfill({ json: [] }));
@@ -14,7 +16,7 @@ test.beforeEach(async ({ page }) => {
   expect(createHash('sha256').update(Uint8Array.from(bytes)).digest('hex')).toBe(WASM_IDENTITY.sha256);
 });
 
-test('最终正式Wasm通过真实Worker执行固定样例、同会话20次、释放和后续拒绝', async ({ page }, testInfo) => {
+test('最终正式Wasm通过真实Worker执行明确作者基准、同会话20次、释放和后续拒绝', async ({ page }, testInfo) => {
   const workers: string[] = [];
   page.on('worker', worker => workers.push(worker.url()));
   const result = await page.evaluate(async (input) => {
@@ -44,6 +46,21 @@ test('最终正式Wasm通过真实Worker执行固定样例、同会话20次、�
   expect(result.rejected).toContain('session_not_found');
   expect(result.aliveAfterTerminate).toBe(false);
   await testInfo.attach('真实工作线程往返.json', { body: JSON.stringify({ ...result, workers, wasm: WASM_IDENTITY }, null, 2), contentType: 'application/json' });
+});
+
+test('原固定样例保持原字节，最终Worker明确拒绝缺少作者公式', async ({ page }, testInfo) => {
+  const bytes = readFileSync(resolve('../wasm/tinygo_engine_v2/internal/testkit/fixtures/generic_p0_basic_damage.json'));
+  // 本工作树原文件为CRLF，原生冻结档案为LF；只读核对两种摘要，不写回文件。
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe('66f59f38db0108716e82a89b6098eac3ed55001fbc74badc34acdaf22b67b591');
+  expect(createHash('sha256').update(bytes.toString('utf8').replace(/\r\n/g, '\n')).digest('hex')).toBe('cf597916d5200bc4f5c4328fd15bb2dd0eb5c8c521a77fc815a4dfd4704fda05');
+  const compiled = await page.evaluate(async input => {
+    const { GenericEngineClient } = await import(/* @vite-ignore */ '/src/engine/genericEngineClient.ts');
+    const client = new GenericEngineClient();
+    try { return await client.compile(input.compileRequest); } finally { client.terminate(); }
+  }, oldFixture);
+  expect(compiled.ok).toBe(false);
+  expect(compiled.errors).toContainEqual(expect.objectContaining({ phase: 'compile', code: 'missing_damage_type_formula', ref: 'damage/physical' }));
+  await testInfo.attach('原输入拒绝.json', { body: JSON.stringify({ canonicalSha256: createHash('sha256').update(bytes).digest('hex'), compiled }), contentType: 'application/json' });
 });
 
 test('驱动临时程序与失败后重跑不污染同一Worker会话', async ({ page }, testInfo) => {

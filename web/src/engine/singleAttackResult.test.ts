@@ -49,7 +49,6 @@ function sample(options: { damage?: number; hp?: number; hitCount?: number; atta
       abilityRef: hitAbility, operationRef: 'skills.sample_basic_attack.effects.hit.results.damage', castInstanceId: 3, damageId: 1,
       rawAmount: damage * 2, mitigatedAmount: damage, postDefenseDamage: damage, shieldAbsorbed: 0,
       actualHpLoss, overkillDamage: damage - actualHpLoss,
-      resistanceBeforePenetration: 100, penetrationPercent: 0, penetrationFlat: 0, effectiveResistance: 100,
       resistanceFactor: 0.5, normalPartPostResistance: damage, critPartPostResistance: 0,
       eligible: true, policy: 'expected', baseRawAmount: damage * 2, originalCritChance: 0, effectiveCritChance: 0,
       multiplier: 2, normalPart: damage * 2, critPart: 0, critAdjustedRawAmount: damage * 2

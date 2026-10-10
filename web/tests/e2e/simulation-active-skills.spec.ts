@@ -7,7 +7,7 @@ import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import type { SimulationCastCostRef } from '../../src/engine/simulationActiveSkills';
 import { simulationComparisonSelection } from '../fixtures/simulationSnapshotRequests';
 
-const api = process.env.SIMULATION_API_BASE || 'http://127.0.0.1:8080';
+const api = process.env.SIMULATION_LIVE_API_BASE_URL || process.env.SIMULATION_API_BASE || 'http://127.0.0.1:8080';
 const output = resolve('output/phase6a');
 const samples = [
   { hero: 'corki', skillKey: 'corki_q', healing: false, costs: [{ bindingKey: 'mana_cost', effectKey: 'mana_cost', resultKey: 'consume_mana' }] },

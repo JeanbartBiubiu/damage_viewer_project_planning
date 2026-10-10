@@ -7,10 +7,13 @@ import type { AuthoredHitProgram } from '../../src/engine/hitAdapter';
 import { fixedValue } from '../../src/types/numericValue';
 import type { SkillEffect, SkillEffectResult } from '../../src/types/skillEffect';
 import type { SkillTriggerRuleDetail } from '../../src/types/skillTriggerRule';
+import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { authoredConstantDefense } from '../fixtures/authoredDamageFormula';
 
 const WASM_PATH = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const WASM_SHA256 = 'BD007EA626FD934C1677C6F18C2CE8D9CBFBC51832F91E489F37DCA66866F1E7';
-const WASM_BYTES = 1028660;
+const WASM_SHA256 = WASM_IDENTITY.sha256.toUpperCase();
+const WASM_BYTES = WASM_IDENTITY.bytes;
+const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
 
 function slot(value: number, max = value) {
   return { base: value, current: value, max, resolved: value };
@@ -176,7 +179,8 @@ function baseRequest(grantShield = false): CompileRequest {
   }
   return {
     schemaVersion: 'generic-p0', schemaHash: 'schema.p5.browser', rulesHash: 'before-p5',
-    typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }], relations: [] }, rules: {},
+    typeCatalog: { types: [{ key: 'physics', domain: 'damage' }], relations: [] },
+    rules: { damageTypeFormulas: [{ damageType: 'physics', formula: authoredConstantDefense('1') }] },
     combatants: [
       {
         key: 'source',
@@ -509,7 +513,7 @@ test('实际 Worker：阈值小数、缺事实错误、同会话重跑不泄漏�
 
 test('真实 API GET→adapter→Worker 或明确错误，404 不算通过', async ({ page, request }, testInfo) => {
   test.skip(process.env.P5_LIVE_API !== '1', '显式启用后只读本地实际服务');
-  const api = 'http://127.0.0.1:8080/api/admin/games/lol';
+  const api = `${apiBase}/api/admin/games/lol`;
   const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
   const read = async (path: string) => {
     const response = await request.get(api + path, { headers });
@@ -572,7 +576,8 @@ test('真实 API GET→adapter→Worker 或明确错误，404 不算通过', asy
     try {
       let request = withHitProgram({
         schemaVersion: 'generic-p0', schemaHash: 'schema.p5.live', rulesHash: 'before-live',
-        typeCatalog: { types: [{ key: `damage/${data.damage.results[0].detail.damageTypeKey}`, domain: 'damage' }], relations: [] },
+        typeCatalog: { types: [{ key: data.damage.results[0].detail.damageTypeKey, domain: 'damage' },
+          { key: 'attack_damage', domain: 'attribute' }, { key: 'ability_power', domain: 'attribute' }], relations: [] },
         rules: {},
         combatants: [
           { key: 'source', attributes: { hp: { base: 1000, current: 1000, max: 2000, resolved: 1000 }, attack_damage: { base: 100, current: 100, max: 200, resolved: 100 } }, resources: {}, providers: [{ providerRef: 'champion', definitionRef: 'champion' }] },
@@ -607,7 +612,9 @@ test('真实 API GET→adapter→Worker 或明确错误，404 不算通过', asy
         actor.attributes.attack_damage = { base: actor.key === 'target' ? 200 : 100, current: actor.key === 'target' ? 200 : 100, max: 300, resolved: actor.key === 'target' ? 200 : 100 };
         actor.attributes.ability_power = { base: actor.key === 'target' ? 100 : 0, current: actor.key === 'target' ? 100 : 0, max: 300, resolved: actor.key === 'target' ? 100 : 0 };
       }
-      request = withHitProgram(request, { hitProviderKey: 'champion', hitAbilityKey: 'skill_hit', authored: sivirAuthored }, { rulesHash: 'with-live-shield' });
+      request.sharedProviders.push({ providerKey: 'sivir', skillKey: 'sivir_e', stableId: 'sivir_e', kind: 'champion',
+        abilities: [{ abilityKey: 'shield_hit', kind: 'active', operations: [] }] });
+      request = withHitProgram(request, { hitProviderKey: 'sivir', hitAbilityKey: 'shield_hit', authored: sivirAuthored }, { rulesHash: 'with-live-shield' });
       const shieldSession = await client.compile(request);
       if (!shieldSession.ok) throw new Error(JSON.stringify(shieldSession.errors));
       const blockedRun = await client.run({

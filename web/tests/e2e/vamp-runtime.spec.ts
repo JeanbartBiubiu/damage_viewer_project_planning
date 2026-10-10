@@ -2,13 +2,16 @@ import { test, expect, type Page } from '@playwright/test';
 import type { CompileRequest, RunRequest } from '../../src/types/genericEngine';
 import type { GameVampRule } from '../../src/types/gameVamp';
 import type { AuthoredVampDamage } from '../../src/engine/vampAdapter';
+import { authoredResistanceDefense } from '../fixtures/authoredDamageFormula';
+const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
 
 // 明确构造代表输入；验证真实浏览器 Worker/最终 Wasm，不代表完整英雄数据装配。
 function sample(kind: 'attack' | 'skill' | 'disabled' | 'override' = 'attack') {
   const slot = (value: number, max = value) => ({ base: value, current: value, max, resolved: value });
   const input: CompileRequest = {
     schemaVersion: 'generic-p0', schemaHash: 'schema.vamp.browser', rulesHash: 'before-vamp',
-    typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }], relations: [] }, rules: {},
+    typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }, { key: 'armor', domain: 'attribute' }], relations: [] },
+    rules: { damageTypeFormulas: [{ damageType: 'damage/physical', formula: authoredResistanceDefense('armor') }] },
     combatants: [
       { key: 'source', attributes: { hp: slot(kind === 'attack' ? 95 : 50, 100), life_steal_percent: slot(0.1), omnivamp_percent: slot(0.2),
         heal_shield_power_percent: slot(9) }, resources: {}, providers: [{ providerRef: 'champion', definitionRef: 'sample' }] },
@@ -36,7 +39,7 @@ function sample(kind: 'attack' | 'skill' | 'disabled' | 'override' = 'attack') {
   const damage: AuthoredVampDamage = {
     gameId: 'lol', skillKey: kind === 'skill' ? 'ordinary_q' : 'shared_basic_attack',
     skillCategoryKeys: [kind === 'skill' ? 'common' : 'basic_attack'], skillLevel: 1, characterLevel: 1,
-    detail: { damageTypeKey: 'physical', deliveryKind: kind === 'skill' ? 'SKILL' : 'BASIC_ATTACK', originKind: 'DIRECT',
+    detail: { damageTypeKey: 'damage/physical', deliveryKind: kind === 'skill' ? 'SKILL' : 'BASIC_ATTACK', originKind: 'DIRECT',
       critical: { mode: 'DISALLOWED', multiplierValue: null }, vampQualification: 'RESOLVED', vampOverrides: [] }
   };
   if (kind === 'disabled') damage.detail.vampOverrides = rules.map(rule => ({ vampType: rule.vampType, mode: 'DISABLED', basisOutputKind: null, efficiencyValue: null }));
@@ -76,9 +79,10 @@ async function runSample(page: Page, payload: ReturnType<typeof sample>) {
         { combatantKinds: { source: 'CHAMPION', target: 'CHAMPION' }, rulesHash: 'with-vamp' });
       const compiled = await client.compile(request);
       if (!compiled.ok) throw new Error(JSON.stringify(compiled.errors));
-      const done = await client.run({ ...data.run, sessionId: compiled.sessionId });
+      const runRequest = { ...data.run, sessionId: compiled.sessionId };
+      const done = await client.run(runRequest);
       const released = await client.release(compiled.sessionId, request.rulesHash);
-      return { done, released };
+      return { compileRequest: request, runRequest, done, released };
     } finally { client.terminate(); }
   }, payload);
 }
@@ -106,13 +110,13 @@ for (const scenario of [
 }
 
 for (const representative of [
-  { skillKey: 'shared_basic_attack', effectKey: 'attack_hit', kind: 'attack', healing: 5 },
-  { skillKey: 'annie_q', effectKey: 'spell_hit', kind: 'skill', healing: 7.2 },
-  { skillKey: 'annie_w', effectKey: 'spell_hit', kind: 'skill', healing: 7.2 }
+  { skillKey: 'shared_basic_attack', effectKey: 'attack_hit', kind: 'attack', healing: 5, damageType: 'physics', resistanceAttribute: 'armor' },
+  { skillKey: 'annie_q', effectKey: 'spell_hit', kind: 'skill', healing: 7.2, damageType: 'magic', resistanceAttribute: 'magic_resist' },
+  { skillKey: 'annie_w', effectKey: 'spell_hit', kind: 'skill', healing: 7.2, damageType: 'magic', resistanceAttribute: 'magic_resist' }
 ] as const) {
   test(`原库配置进入实际 Worker：${representative.skillKey}`, async ({ page, request }, testInfo) => {
     test.skip(process.env.VAMP_LIVE_API !== '1', '显式启用后只读本地实际服务');
-    const api = 'http://127.0.0.1:8080/api/admin/games/lol';
+    const api = `${apiBase}/api/admin/games/lol`;
     const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
     const read = async (path: string) => {
       const response = await request.get(api + path, { headers });
@@ -131,9 +135,11 @@ for (const representative of [
     payload.damage = { gameId: skill.gameId, skillKey: skill.skillKey, skillCategoryKeys: skill.skillCategoryKeys,
       skillLevel: 1, characterLevel: 1, detail: damage.detail };
     // 实库提供规则、资格、分类；本专项明确提供100伤害、100抗性、20护盾及生命值。
-    const damageType = damage.detail.damageTypeKey === 'physics' ? 'damage/physical' : 'damage/magic';
-    expect(['physics', 'magic']).toContain(damage.detail.damageTypeKey);
-    payload.input.typeCatalog.types = [{ key: damageType, domain: 'damage' }];
+    const damageType = representative.damageType;
+    expect(damage.detail.damageTypeKey).toBe(damageType);
+    payload.input.typeCatalog.types = [{ key: damageType, domain: 'damage' },
+      { key: representative.resistanceAttribute, domain: 'attribute' }];
+    payload.input.rules.damageTypeFormulas = [{ damageType, formula: authoredResistanceDefense(representative.resistanceAttribute) }];
     payload.input.sharedProviders![0]!.abilities![0]!.operations![0]!.damageType = damageType;
     const resistance = { base: 100, current: 100, max: 100, resolved: 100 };
     payload.input.combatants[1]!.attributes.magic_resist = resistance;
@@ -154,10 +160,10 @@ test('实际页面读取游戏通用吸血规则', async ({ page }, testInfo) =>
   test.skip(process.env.VAMP_LIVE_API !== '1', '显式启用后只读本地实际服务');
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.addInitScript(token => {
-    localStorage.setItem('damage-viewer.web.api-base-url', 'http://127.0.0.1:8080');
+  await page.addInitScript(({ apiBase, token }) => {
+    localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
     localStorage.setItem('damage-viewer.web.admin-token', token);
-  }, process.env.DAMAGE_ADMIN_TOKEN || 'test');
+  }, { apiBase, token: process.env.DAMAGE_ADMIN_TOKEN || 'test' });
   await page.goto('/#/game-settings');
   await expect(page.getByRole('spinbutton', { name: '生命偷取默认效率', exact: true })).toHaveValue('1');
   await expect(page.getByRole('spinbutton', { name: '全能吸血默认效率', exact: true })).toHaveValue('1');

@@ -78,7 +78,7 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
     return (skill?.skill.name ?? origin?.skillKey ?? row.abilityRef) + ' / ' + (origin ? origin.effectKey + '.' + origin.resultKey : row.operationRef)
       + '（拥有者' + (sides[row.owner] ?? row.owner) + '，' + (sides[row.source] ?? row.source) + '→' + (sides[row.target] ?? row.target) + '）';
   };
-  const damageTypeLabel = (key: string) => archive.snapshot.catalogs.damageTypes.find(row => 'damage/' + row.type.damageTypeKey === key)?.type.name ?? key;
+  const damageTypeLabel = (key: string) => archive.snapshot.catalogs.damageTypes.find(row => row.type.damageTypeKey === key)?.type.name ?? key;
   const sourceRows = [...new Map((usable?.damageBreakdown ?? []).map(row => [continuousSourceKey(row), row])).entries()];
   const contributionRows = usable && data ? continuousContributions(usable.damageBreakdown, data.breakdownRows, view.breakdownMode, view.amountMetric) : [];
   const contributionLabel = (key: string, sourceKey: string | null) => sourceKey ? sourceLabel(sourceRows.find(([value]) => value === sourceKey)![1]) : damageTypeLabel(key);
@@ -254,8 +254,7 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
             ['受伤方生命之前', selectedDamage.hpBefore], ['受伤方生命之后', selectedDamage.hpAfter], ['暴击资格', selectedDamage.eligible],
             ['暴击策略', selectedDamage.policy], ['基础金额', selectedDamage.baseRawAmount], ['原暴击率', selectedDamage.originalCritChance],
             ['有效暴击率', selectedDamage.effectiveCritChance], ['暴击倍率', selectedDamage.multiplier], ['正常部分', selectedDamage.normalPart], ['暴击部分', selectedDamage.critPart],
-            ['出伤修正前暴击调整金额', selectedDamage.critAdjustedRawAmount], ['穿透前抗性', selectedDamage.resistanceBeforePenetration], ['百分比穿透', selectedDamage.penetrationPercent],
-            ['固定穿透', selectedDamage.penetrationFlat], ['有效抗性', selectedDamage.effectiveResistance], ['抗性系数', selectedDamage.resistanceFactor],
+            ['出伤修正前暴击调整金额', selectedDamage.critAdjustedRawAmount], ['防御倍率', selectedDamage.resistanceFactor],
             ['防御后正常部分', selectedDamage.normalPartPostResistance], ['防御后暴击部分', selectedDamage.critPartPostResistance]]
             .map(([label, value]) => <div key={String(label)} style={{ display: 'contents' }}><dt>{label}</dt><dd>{showValue(value)}</dd></div>)}</dl>
           <Typography.Paragraph className="continuous-path">作者路径：{selectedDamage.operationRef}；编译路径：{selectedDamage.operationPath}</Typography.Paragraph>

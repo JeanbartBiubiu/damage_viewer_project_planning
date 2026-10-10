@@ -8,10 +8,13 @@ import { fixedValue, parameterValue } from '../../src/types/numericValue';
 import type { SkillParameter } from '../../src/types/skillParameter';
 import type { GameVampRule } from '../../src/types/gameVamp';
 import type { AuthoredVampDamage } from '../../src/engine/vampAdapter';
+import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { authoredConstantDefense } from '../fixtures/authoredDamageFormula';
 
 const WASM_PATH = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const WASM_SHA256 = 'BD007EA626FD934C1677C6F18C2CE8D9CBFBC51832F91E489F37DCA66866F1E7';
-const WASM_BYTES = 1028660;
+const WASM_SHA256 = WASM_IDENTITY.sha256.toUpperCase();
+const WASM_BYTES = WASM_IDENTITY.bytes;
+const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
 
 function slot(value: number, max = value) {
   return { base: value, current: value, max, resolved: value };
@@ -77,7 +80,8 @@ function strengthParam(value: number): SkillParameter {
 function baseRequest(): CompileRequest {
   return {
     schemaVersion: 'generic-p0', schemaHash: 'schema.p7.browser', rulesHash: 'before-p7',
-    typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }], relations: [] }, rules: {},
+    typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }], relations: [] },
+    rules: { damageTypeFormulas: [{ damageType: 'damage/physical', formula: authoredConstantDefense('1') }] },
     combatants: [
       {
         key: 'source',
@@ -281,7 +285,7 @@ test('实际 Worker：直接治疗与吸血走同一取强乘区', async ({ page
   ];
   const damage: AuthoredVampDamage = {
     gameId: 'lol', skillKey: 'shared_basic_attack', skillCategoryKeys: ['basic_attack'], skillLevel: 1, characterLevel: 1,
-    detail: { damageTypeKey: 'physical', deliveryKind: 'BASIC_ATTACK', originKind: 'DIRECT',
+    detail: { damageTypeKey: 'damage/physical', deliveryKind: 'BASIC_ATTACK', originKind: 'DIRECT',
       critical: { mode: 'DISALLOWED', multiplierValue: null }, vampQualification: 'RESOLVED', vampOverrides: [] }
   };
   const result = await runBindings(page, [
@@ -302,7 +306,7 @@ test('实际 Worker：直接治疗与吸血走同一取强乘区', async ({ page
 
 test('原库乌尔加特配置保留命中要求，独立结果入口拒绝绕过', async ({ page, request }, testInfo) => {
   test.skip(process.env.P7_LIVE_API !== '1', '显式启用后只读本地实际服务');
-  const api = 'http://127.0.0.1:8080/api/admin/games/lol';
+  const api = `${apiBase}/api/admin/games/lol`;
   const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
   const read = async (path: string) => {
     const response = await request.get(api + path, { headers });
@@ -337,7 +341,7 @@ test('原库乌尔加特配置保留命中要求，独立结果入口拒绝绕�
 
 test('真实页面保存的两项重伤→GET→Worker，同组40%取强且各自到期', async ({ page, request }, testInfo) => {
   test.skip(process.env.P7_LIVE_API !== '1', '显式启用后只读本地实际服务');
-  const api = 'http://127.0.0.1:8080/api/admin/games/lol';
+  const api = `${apiBase}/api/admin/games/lol`;
   const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
   const read = async (path: string) => {
     const response = await request.get(api + path, { headers });

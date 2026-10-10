@@ -29,7 +29,7 @@ async function sample() {
       operationRef: origin.operationRef, operationPath: origin.compiledPaths[0]!, damageType: 'physics',
       rawAmount: 100, postDefenseDamage: 100, shieldAbsorbed: 0, actualHpLoss, overkillDamage: 100 - actualHpLoss, hpBefore, hpAfter: hpBefore - actualHpLoss,
       sourceHpBefore: 650, sourceHpAfter: 650,
-      resistanceBeforePenetration: 0, penetrationPercent: 0, penetrationFlat: 0, effectiveResistance: 0, resistanceFactor: 1,
+      resistanceFactor: 1,
       normalPartPostResistance: 100, critPartPostResistance: 0, eligible: true, policy: 'expected', baseRawAmount: 100,
       originalCritChance: 0, effectiveCritChance: 0, multiplier: 2, normalPart: 100, critPart: 0, critAdjustedRawAmount: 100 });
   }

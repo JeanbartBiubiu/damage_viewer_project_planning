@@ -55,6 +55,18 @@ function expectInventoryError(run: () => unknown, code: DamageSourceInventoryErr
 }
 
 describe('伤害来源结构清单', () => {
+  it('完整作者防御定义与实际伤害同时进入清单，数值定义不产生额外操作', () => {
+    const input = request();
+    input.rules.damageTypeFormulas = [{ damageType: 'damage/physical', formula: {
+      inputs: [], stages: [{ key: 'factor', name: '作者防御倍率', expression: { op: 'const', value: '1' } }], outputStageKey: 'factor'
+    } }];
+    input.sharedProviders![0]!.abilities = [{ abilityKey: 'hit', kind: 'active', operations: [damage('authored')] }];
+    const inventory = inventoryDamageOperations(input);
+    expect(inventory.damageOperations).toHaveLength(1);
+    expect(inventory.damageOperations[0]!.operation.ref).toBe('authored');
+    expect(inventory.repeatOperations).toEqual([]);
+    expect(inventory.executeThresholdOperations).toEqual([]);
+  });
   it('覆盖规则、监听、能力、周期、过程和命中候选中的所有直接伤害，包含未挂载定义', () => {
     const input = request();
     const candidateKey = 'candidate-one';

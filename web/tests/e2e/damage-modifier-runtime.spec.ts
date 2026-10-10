@@ -9,6 +9,10 @@ import type { SkillTriggerRuleDetail } from '../../src/types/skillTriggerRule';
 import type { SkillParameter } from '../../src/types/skillParameter';
 import type { SkillFormula } from '../../src/types/skillFormula';
 import { fixedValue } from '../../src/types/numericValue';
+import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { createExplicitDamageInput } from '../fixtures/formulaPhase4AuthorInput';
+import { authoredConstantDefense } from '../fixtures/authoredDamageFormula';
+const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
 
 function authored(comparator: 'LT' | 'GT' = 'LT'): AuthoredDamageModifierProgram {
   return {
@@ -37,11 +41,17 @@ function authored(comparator: 'LT' | 'GT' = 'LT'): AuthoredDamageModifierProgram
   };
 }
 function scenario(hp: number, owner: 'source' | 'target' = 'source', options: { hits?: number; self?: boolean; type?: string; delivery?: string; origin?: string } = {}): DamageModifierScenario {
-  const fixture = JSON.parse(readFileSync(resolve('../wasm/tinygo_engine_v2/internal/testkit/fixtures/generic_p0_basic_damage.json'), 'utf8')) as DamageModifierScenario;
+  const fixture = createExplicitDamageInput();
   const { compileRequest: request, runRequest: run } = fixture;
   run.schemaVersion = request.schemaVersion; run.schemaHash = request.schemaHash; run.rulesHash = request.rulesHash;
-  request.typeCatalog.types.push({ key: 'combatant/champion', domain: 'combatant' },
+  request.typeCatalog.types.push({ key: 'physics', domain: 'damage' }, { key: 'hp', domain: 'attribute' },
     { key: 'damage/magic', domain: 'damage' }, { key: 'damage/true', domain: 'damage' });
+  request.rules.damageTypeFormulas = [
+    { damageType: 'damage/physical', formula: authoredConstantDefense('1') },
+    { damageType: 'physics', formula: authoredConstantDefense('1') },
+    { damageType: 'damage/magic', formula: authoredConstantDefense('1') },
+    { damageType: 'damage/true', formula: authoredConstantDefense('1') }
+  ];
   for (const actor of request.combatants) {
     actor.types = ['combatant/champion']; actor.providers = [];
     actor.attributes.hp = { base: 1000, current: actor.key === owner && !options.self ? 900 : hp, max: 1000, resolved: 1000 };
@@ -51,7 +61,7 @@ function scenario(hp: number, owner: 'source' | 'target' = 'source', options: { 
   }
   const provider = request.sharedProviders![0]!;
   const operation = provider.abilities![0]!.operations![0]!;
-  operation.damageType = options.type ?? 'damage/physical'; operation.target = options.self ? 'self' : 'target';
+  operation.damageType = options.type ?? 'physics'; operation.target = options.self ? 'self' : 'target';
   operation.types = [`damage_trait/${options.delivery ?? 'delivery_basic_attack'}`, `damage_trait/${options.origin ?? 'origin_direct'}`];
   provider.abilities![0]!.operations = Array.from({ length: options.hits ?? 1 }, () => structuredClone(operation));
   request.combatants.find(c => c.key === owner)!.providers.push({ providerRef: provider.providerKey, definitionRef: provider.providerKey });
@@ -68,11 +78,13 @@ async function run(page: Page, input: DamageModifierScenario, program: AuthoredD
   return page.evaluate(async ({ input, program, restore }) => {
     const { withDamageModifierPrograms } = await import(/* @vite-ignore */ '/src/engine/damageModifierAdapter.ts');
     const { GenericEngineClient } = await import(/* @vite-ignore */ '/src/engine/genericEngineClient.ts');
-    const scenario = await withDamageModifierPrograms(input, [{ providerKey: 'rune:health_bonus', authored: program }]);
+    const { approveAuthoredFormulaProof } = await import(/* @vite-ignore */ '/tests/fixtures/browserAuthoredFormulaProof.ts');
     const client = new GenericEngineClient();
     try {
+      const formulaProof = await approveAuthoredFormulaProof(program, client, input.compileRequest.typeCatalog);
+      const scenario = await withDamageModifierPrograms(input, [{ providerKey: 'rune:health_bonus', authored: program }]);
       const compiled = await client.compile(scenario.compileRequest);
-      if (!compiled.ok) return { compiled, scenario };
+      if (!compiled.ok) return { compiled, scenario, formulaProof };
       scenario.runRequest.sessionId = compiled.sessionId!;
       const done = await client.run(scenario.runRequest);
       let resumed;
@@ -84,15 +96,15 @@ async function run(page: Page, input: DamageModifierScenario, program: AuthoredD
         resumed = await client.run(next);
       }
       const released = await client.release(compiled.sessionId!, scenario.compileRequest.rulesHash);
-      return { compiled, scenario, done, resumed, released };
+      return { compiled, scenario, formulaProof, done, resumed, released };
     } finally { client.terminate(); }
   }, { input, program, restore });
 }
 
 test('最终产物摘要记录与实际Worker严格生命边界', async ({ page }, info) => {
   const wasm = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
-  expect(wasm.length).toBe(1028660);
-  expect(createHash('sha256').update(wasm).digest('hex')).toBe('bd007ea626fd934c1677c6f18c2ce8d9cbfbc51832f91e489f37dca66866f1e7');
+  expect(wasm.length).toBe(WASM_IDENTITY.bytes);
+  expect(createHash('sha256').update(wasm).digest('hex')).toBe(WASM_IDENTITY.sha256);
   await info.attach('wasm-identity', { contentType: 'application/json', body: Buffer.from(JSON.stringify({ bytes: wasm.length,
     sha256: createHash('sha256').update(wasm).digest('hex') })) });
   for (const [comparison, hp, damage] of [['LT', 399, 108], ['LT', 400, 100], ['LT', 401, 100], ['GT', 601, 108], ['GT', 600, 100], ['GT', 599, 100]] as const) {
@@ -143,6 +155,7 @@ test('同区未命中动态金额不求值，独立乘区仍相乘', async ({ pa
       { nodeType: 'ATTRIBUTE', attributeKey: 'power', attributeOwner: 'TARGET', attributeValueKind: 'CURRENT' }] }) }];
   p.effects[0]!.results.push(second);
   const input = scenario(399);
+  input.compileRequest.typeCatalog.types.push({ key: 'power', domain: 'attribute' });
   input.compileRequest.combatants[1]!.attributes.power = { base: 1, current: 0, max: 1, resolved: 1 };
   input.runRequest.initialSnapshot.combatants[1]!.attributes.power = { base: 1, current: 0, max: 1, resolved: 1 };
   const lazy = await run(page, input, p);
@@ -150,11 +163,11 @@ test('同区未命中动态金额不求值，独立乘区仍相乘', async ({ pa
   expect(lazy.done!.summary.sourceDamageDealt).toBe(108);
   second.valueRule.value = fixedValue(0.1); second.detail.condition = null; second.detail.modifierZoneKey = 'separate';
   p.modifierZones = [...p.modifierZones, { ...p.modifierZones[0]!, modifierZoneKey: 'separate', sortOrder: 20 }];
-  const multiplied = await run(page, scenario(399), p);
+  const multiplied = await run(page, input, p);
   expect(multiplied.done!.summary.sourceDamageDealt).toBeCloseTo(118.8, 8);
   await info.attach('short-circuit-and-zones', { contentType: 'application/json', body: Buffer.from(JSON.stringify({ lazy, multiplied })) });
 });
-test('静态十进制公式与实际生命比例等值时不误触发严格门槛', async ({ page }, info) => {
+test('共同十进制原和与作者显式取一位分别遵守真实浮点门槛', async ({ page }, info) => {
   const p = authored();
   p.parameters = [['a', 0.1], ['b', 0.2]].map(([key, value]) => ({
     gameId: 'lol', skillKey: p.skillKey, parameterKey: String(key), name: String(key), description: null,
@@ -164,9 +177,18 @@ test('静态十进制公式与实际生命比例等值时不误触发严格门�
     sortOrder: 10, createdAt: '', updatedAt: '', expression: skillFormulaDefinition(p.skillKey, { nodeType: 'OPERATION', operation: 'ADD', operands: [
       { nodeType: 'PARAMETER', parameterKey: 'a' }, { nodeType: 'PARAMETER', parameterKey: 'b' }] }) }];
   (p.effects[0]!.results[0]! as SkillEffectDamageModifierResult).detail.condition!.comparisonValue = { kind: 'FORMULA', formulaKey: 'sum' };
+  const unrounded = await run(page, scenario(300), p);
+  expect(unrounded.compiled.ok, JSON.stringify(unrounded.compiled)).toBe(true);
+  expect(Object.values(unrounded.formulaProof.values)).toContain(0.30000000000000004);
+  expect(unrounded.done!.summary.sourceDamageDealt).toBe(108);
+  await info.attach('decimal-original-float', { contentType: 'application/json', body: Buffer.from(JSON.stringify(unrounded)) });
+  const rounded = structuredClone(p);
+  const originalExpression = rounded.formulas![0]!.expression.stages[0]!.expression;
+  rounded.formulas![0]!.expression.stages[0]!.expression = { op: 'round', args: [originalExpression], decimals: 1 };
   for (const [hp, expected] of [[300, 100], [299, 108]]) {
-    const result = await run(page, scenario(hp!), p);
+    const result = await run(page, scenario(hp!), rounded);
     expect(result.compiled.ok, JSON.stringify(result.compiled)).toBe(true);
+    expect(Object.values(result.formulaProof.values)).toContain(0.3);
     expect(result.done!.summary.sourceDamageDealt).toBe(expected);
     await info.attach(`decimal-boundary-${hp}`, { contentType: 'application/json', body: Buffer.from(JSON.stringify(result)) });
   }
@@ -177,7 +199,7 @@ for (const [id, name, comparator, threshold] of [[8014, '致命一击', 'LT', 0.
     test.skip(process.env.DAMAGE_MODIFIER_LIVE_API !== '1', '仅页面保存重开及独立回读后启用；启用时缺组成必须失败');
     const skillKey = `rune_${id}_passive`, snapshots: Record<string, unknown> = {};
     const get = async <T,>(route: string): Promise<T> => {
-      const response = await request.get(`http://127.0.0.1:8080/api/admin/games/lol${route}`,
+      const response = await request.get(`${apiBase}/api/admin/games/lol${route}`,
         { headers: { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'local-readonly-verification'}` } });
       expect(response.status(), route).toBe(200);
       const data = await response.json(); snapshots[route] = data; return data as T;

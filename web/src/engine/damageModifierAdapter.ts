@@ -8,7 +8,6 @@ import type { ModifierZone } from '../types/modifierZone';
 import type { NumericValue } from '../types/numericValue';
 import type { CombatantCategory, CombatantIdentityFact } from './hitAdapter';
 import { compileNumericValue, constExpr, createNumericCompileState, finiteNumber, NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression } from './numericAdapter';
-import { runtimeDamageType } from './damageTypeAdapter';
 
 import { auditAuthoredOrdinaryDamageSources, type OrdinaryDamageSourceAuditInput } from './ordinaryDamageSourceAudit';
 
@@ -123,7 +122,8 @@ function compileResult(a: AuthoredDamageModifierProgram, result: SkillEffectDama
   if (detail.operation === 'DECREASE') value = { op: 'mul', args: [constExpr(-1), value] };
   const predicates: GenericFormulaExpr[] = [];
   if (detail.damageTypeKey !== null) {
-    const type = runtimeDamageType(detail.damageTypeKey, `${path}.detail.damageTypeKey`, fail);
+    const type = detail.damageTypeKey;
+    if (typeof type !== 'string' || !type) fail(`${path}.detail.damageTypeKey`, '需要明确的伤害类型原键');
     predicates.push({ op: 'read', path: `damage.type.${type}` });
   }
   if (detail.deliveryKind !== 'ANY') {

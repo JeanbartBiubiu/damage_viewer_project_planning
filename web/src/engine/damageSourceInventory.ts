@@ -81,7 +81,7 @@ const requestKeys = [
   'schemaVersion', 'schemaHash', 'rulesHash', 'typeCatalog', 'combatants',
   'sharedProviders', 'rules', 'formulas', 'settings'
 ];
-const rulesKeys = ['operations', 'modifiers', 'listeners', 'triggerRules', 'vampRules'];
+const rulesKeys = ['operations', 'modifiers', 'listeners', 'triggerRules', 'vampRules', 'damageTypeFormulas'];
 const combatantKeys = ['key', 'displayName', 'types', 'tags', 'attributes', 'resources', 'providers'];
 const mountKeys = ['providerRef', 'definitionRef', 'initialState', 'initialAbilityState'];
 const providerKeys = [

@@ -328,14 +328,15 @@ test('独立页面：真实控制选择、时刻留空、父关联、快照阶�
 });
 
 type LiveCase = { label: string; hero: string; skills: string[]; equipmentKeys?: string[]; naturalSkills?: string[]; phaseKinds: Record<string, SimulationSkillPhase[]>;
-  controls: Array<{ skillKey: string; phaseKind: Exclude<SimulationSkillPhase, 'INITIAL'>; atMs: number }>; durationMs: number };
+  controls: Array<{ skillKey: string; phaseKind: Exclude<SimulationSkillPhase, 'INITIAL'>; atMs: number }>; durationMs: number;
+  expectedHitCount?: number; expectedFailureReason?: string };
 const liveCases: LiveCase[] = process.env.SIMULATION_COMPLEX_CASES ? JSON.parse(process.env.SIMULATION_COMPLEX_CASES)
   : [{ label: 'vi-q-charge', hero: 'vi', skills: ['vi_q'], phaseKinds: { vi_q: ['INITIAL', 'CHARGE_RELEASE', 'CANCEL'] },
     controls: [{ skillKey: 'vi_q', phaseKind: 'CHARGE_RELEASE', atMs: 625 }], durationMs: 7000 }];
 
 for (const live of liveCases) test(`真实只读组合${live.label}：完整作者、Worker100次、记录与采样一致`, async ({ page, request }) => {
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '真实对象仅由主负责人核定并保存，未启用不算真实验收');
-  const snapshot = await readMixedLiveSnapshot(request, process.env.SIMULATION_API_BASE || 'http://127.0.0.1:8080', live.hero, live.skills,
+  const snapshot = await readMixedLiveSnapshot(request, process.env.SIMULATION_LIVE_API_BASE_URL || process.env.SIMULATION_API_BASE || 'http://127.0.0.1:8080', live.hero, live.skills,
     live.equipmentKeys ?? [], { phaseKinds: live.phaseKinds, naturalSkills: live.naturalSkills });
   const result = await page.evaluate(async ({ snapshot, live }) => {
     const workerPath = '/tests/fixtures/simulationMixedWorker.ts';
@@ -376,5 +377,12 @@ for (const live of liveCases) test(`真实只读组合${live.label}：完整作�
   expect(result.iterations).toBe(100);
   expect(result.release.released).toBe(true);
   expect(result.baseline.summary.skillUses!.startedCount).toBeGreaterThan(0);
-  expect(result.baseline.summary.skillUses!.hitCount).toBeGreaterThan(0);
+  if (live.expectedHitCount === undefined) expect(result.baseline.summary.skillUses!.hitCount).toBeGreaterThan(0);
+  else expect(result.baseline.summary.skillUses!.hitCount).toBe(live.expectedHitCount);
+  if (live.expectedFailureReason) {
+    expect(result.baseline.finalSnapshot.processInstances).toContainEqual(expect.objectContaining({
+      skillKey: live.skills[0], status: 'failed', failureReason: live.expectedFailureReason
+    }));
+    expect(result.baseline.damageRecords!.filter(row => live.skills.some(skillKey => row.operationRef.startsWith(`skills.${skillKey}.`)))).toEqual([]);
+  }
 });

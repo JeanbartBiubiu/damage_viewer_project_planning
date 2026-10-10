@@ -666,7 +666,7 @@ test('4C真实组合补验 同Worker100次完整30秒运行与释放后重编译
   expect(result.runCount).toBe(101);
   expect(result.request.stopPolicy.durationMs).toBe(30000);
   expect(result.request.sampling).toMatchObject({ disabled: false, sampleEveryMs: 100, maxSeriesPoints: 5000 });
-  expect(result.request.recordBudget).toEqual({ maxAttackRecords: 1000, maxDamageRecords: 2000 });
+  expect(result.request.recordBudget).toEqual({ maxAttackRecords: 1000, maxDamageRecords: 2000, maxMechanicRecords: 2000 });
   expect(result.baseline.recording).toMatchObject({ attackRecordsTruncated: false, damageRecordsTruncated: false });
   expect(result.baseline.summary.execution!.complete).toBe(true);
   expect(result.last).toEqual(result.baseline);

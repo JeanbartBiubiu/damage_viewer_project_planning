@@ -1,6 +1,6 @@
 import { approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
-import { readFileSync } from 'node:fs';
+import { createExplicitDamageInput } from '../../tests/fixtures/formulaPhase4AuthorInput';
 import { describe, expect, it } from 'vitest';
 import type { GenericFormulaExpr } from '../types/genericEngine';
 import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
@@ -48,7 +48,7 @@ function program(comparator: 'LT' | 'GT' = 'LT'): AuthoredDamageModifierProgram 
 }
 function result(a: AuthoredDamageModifierProgram) { return a.effects[0]!.results[0]! as SkillEffectDamageModifierResult; }
 function scenario(): DamageModifierScenario {
-  const fixture = JSON.parse(readFileSync(new URL('../../../wasm/tinygo_engine_v2/internal/testkit/fixtures/generic_p0_basic_damage.json', import.meta.url), 'utf8')) as DamageModifierScenario;
+  const fixture = createExplicitDamageInput();
   const { compileRequest, runRequest } = fixture;
   runRequest.schemaVersion = compileRequest.schemaVersion;
   runRequest.schemaHash = compileRequest.schemaHash;

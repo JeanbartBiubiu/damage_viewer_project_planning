@@ -26,7 +26,6 @@ import {
   NumericAdaptationError, tryFoldConstant, staticNumericField, type NumericCompileState, wrapValueRuleExpression
 } from './numericAdapter';
 import { adaptDamageVamp, type AuthoredVampDamage } from './vampAdapter';
-import { runtimeDamageType } from './damageTypeAdapter';
 import type { CombatantCategory, CombatantHostility, CombatantIdentityFact } from './hitAdapter';
 
 export class TriggerAdaptationError extends NumericAdaptationError {
@@ -787,7 +786,8 @@ function compileDamage(
   }
   if (result.detail.originKind !== 'DIRECT') fail(`${path}.detail.originKind`, '未支持的来源性质');
   if (result.detail.critical.mode !== 'DISALLOWED') fail(`${path}.detail.critical`, '未支持的暴击策略');
-  const damageType = runtimeDamageType(result.detail.damageTypeKey, `${path}.detail.damageTypeKey`, fail);
+  const damageType = result.detail.damageTypeKey;
+  if (typeof damageType !== 'string' || !damageType) fail(`${path}.detail.damageTypeKey`, '需要明确的伤害类型原键');
   ctx.typeEntries.set(damageType, 'damage');
   if (result.detail.vampQualification === 'UNRESOLVED') fail(`${path}.detail.vampQualification`, '吸血资格尚未核定，不能运行');
   if (result.detail.vampQualification !== 'RESOLVED') fail(`${path}.detail.vampQualification`, '未知吸血资格');

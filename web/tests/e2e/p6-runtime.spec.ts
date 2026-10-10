@@ -18,10 +18,13 @@ import type { GameVampRulesResponse } from '../../src/types/gameVamp';
 import type { StatusListResponse } from '../../src/types/status';
 import type { ModifierZoneListResponse } from '../../src/types/modifierZone';
 import { parseGameVampRules } from '../../src/services/gameVampClient';
+import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { authoredResistanceDefense } from '../fixtures/authoredDamageFormula';
 
 const WASM_PATH = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const WASM_SHA256 = 'BD007EA626FD934C1677C6F18C2CE8D9CBFBC51832F91E489F37DCA66866F1E7';
-const WASM_BYTES = 1028660;
+const WASM_SHA256 = WASM_IDENTITY.sha256.toUpperCase();
+const WASM_BYTES = WASM_IDENTITY.bytes;
+const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
 
 function slot(value: number, max = value) {
   return { base: value, current: value, max, resolved: value };
@@ -321,7 +324,12 @@ function dummyHit(): AuthoredHitProgram {
 function baseRequest(): CompileRequest {
   return {
     schemaVersion: 'generic-p0', schemaHash: 'schema.p6.browser', rulesHash: 'before-p6',
-    typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }], relations: [] }, rules: {},
+    typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }, { key: 'physics', domain: 'damage' },
+      ...['hp', 'attack_damage', 'armor', 'omnivamp_percent', 'critical_strike_chance'].map(key => ({ key, domain: 'attribute' }))], relations: [] },
+    rules: { damageTypeFormulas: [
+      { damageType: 'damage/physical', formula: authoredResistanceDefense('armor') },
+      { damageType: 'physics', formula: authoredResistanceDefense('armor') }
+    ] },
     combatants: [
       {
         key: 'source',
@@ -343,14 +351,15 @@ function baseRequest(): CompileRequest {
     sharedProviders: [{
       providerKey: 'champion', stableId: 'champion', kind: 'champion',
       abilities: [
-        { abilityKey: 'skill_hit', kind: 'active', operations: [] },
-        { abilityKey: 'cast', kind: 'active', skillKey: 'champion_q', operations: [] }
+        { abilityKey: 'skill_hit', kind: 'active', operations: [] }
       ]
     }]
   };
 }
 
 type WorkerResult = {
+  compileRequest?: CompileRequest;
+  runRequest?: import('../../src/types/genericEngine').RunRequest;
   adapted?: { combo?: string; oncePerUse?: unknown; consumeEvent?: string; outputRef?: string };
   adapterError?: string;
   compileOk?: boolean;
@@ -405,10 +414,12 @@ async function runP6(page: Page, payload: {
     } = await import(/* @vite-ignore */ '/src/engine/triggerAdapter.ts');
     const { adaptHitProgram, withHitProgram, provenSkillUseFact, skillHitFact } = await import(/* @vite-ignore */ '/src/engine/hitAdapter.ts');
     const { GenericEngineClient } = await import(/* @vite-ignore */ '/src/engine/genericEngineClient.ts');
+    const { approveAuthoredFormulaProof } = await import(/* @vite-ignore */ '/tests/fixtures/browserAuthoredFormulaProof.ts');
     const authoredWindow = data.mode === 'window' && data.program ? data.program : data.window;
     const authoredBlade = data.mode !== 'window' && data.program ? data.program : data.blade;
     const dummy = data.dummy;
     const input = data.input;
+    const client = new GenericEngineClient();
     try {
       if (data.mode === 'reject-first-contact') {
         const broken = structuredClone(authoredWindow);
@@ -440,6 +451,7 @@ async function runP6(page: Page, payload: {
       const authored = data.mode === 'window' ? authoredWindow : authoredBlade;
       const owner = authored.owner ?? 'source';
       const counterpart = owner === 'source' ? 'target' : 'source';
+      await approveAuthoredFormulaProof(authored, client, input.typeCatalog);
       const adapted = adaptTriggerProgram(authored);
       const hitAdapted = data.mode === 'window' ? adaptHitProgram(dummy) : null;
       let request = structuredClone(input);
@@ -451,12 +463,10 @@ async function runP6(page: Page, payload: {
       if (data.mode === 'window') {
         request = withHitProgram(request, { hitProviderKey: 'champion', hitAbilityKey: 'skill_hit', authored: dummy }, { rulesHash: 'with-p6-hit' });
         if (data.aaHits?.length) {
-          const champion = request.sharedProviders![0]!;
-          champion.abilities = [
-            ...(champion.abilities ?? []),
-            basicAttackStartAbility({ abilityKey: 'aa_start', skillKey: 'aa_basic' }),
-            basicAttackHitAbility({ abilityKey: 'aa_hit', skillKey: 'aa_basic' })
-          ];
+          request.sharedProviders!.push({ providerKey: 'aa_harness', skillKey: 'aa_basic', stableId: 'aa_basic', kind: 'champion',
+            abilities: [basicAttackStartAbility({ abilityKey: 'aa_start', skillKey: 'aa_basic' }),
+              basicAttackHitAbility({ abilityKey: 'aa_hit', skillKey: 'aa_basic' })] });
+          request.combatants.find(actor => actor.key === owner)!.providers.push({ providerRef: 'aa_harness', definitionRef: 'aa_harness' });
           request.typeCatalog.types.push({ key: 'event/basic_attack_start', domain: 'event' }, { key: 'event/basic_attack_hit', domain: 'event' }, { key: 'ability/basic_attack', domain: 'ability' });
         }
       } else {
@@ -521,7 +531,6 @@ async function runP6(page: Page, payload: {
           }]
         });
       }
-      const client = new GenericEngineClient();
       try {
         const compiled = await client.compile(request);
         if (!compiled.ok) {
@@ -557,7 +566,7 @@ async function runP6(page: Page, payload: {
                 source: owner, target: counterpart, firstAtMs: row.at
               })),
               ...(data.aaHits ?? []).map((row) => ({
-                entryKey: row.entryKey, abilityRef: `${owner}.provider[champion].ability[aa_hit]`,
+                entryKey: row.entryKey, abilityRef: `${owner}.provider[aa_harness].ability[aa_hit]`,
                 source: owner, target: counterpart, firstAtMs: row.at
               }))
             ]
@@ -660,7 +669,7 @@ async function runP6(page: Page, payload: {
             combo: adapted.combo, oncePerUse: adapted.oncePerUse, consumeEvent: adapted.consumeEvent,
             outputRef: adapted.provider.abilities?.at(-1)?.listenerSpec?.operations?.[0]?.outputRef
           },
-          compileOk: true, done, secondDone, resumedDone, consumedRestoredDone, released: released.released, hitAdapted: hitAdapted?.resolveKind
+          compileOk: true, compileRequest: request, runRequest: runBody, done, secondDone, resumedDone, consumedRestoredDone, released: released.released, hitAdapted: hitAdapted?.resolveKind
         };
       } catch (error) {
         return {
@@ -672,7 +681,7 @@ async function runP6(page: Page, payload: {
       }
     } catch (error) {
       return { adapterError: String(error) };
-    }
+    } finally { client.terminate(); }
   }, { ...payload, window: syntheticWindow(), blade: syntheticSpellblade(), dummy: dummyHit(), input: payload.input ?? baseRequest() });
 }
 
@@ -682,6 +691,7 @@ function providerState(done: DoneResult, providerRef: string): Record<string, un
 }
 
 async function assertNativeResult(result: WorkerResult, testInfo: import('@playwright/test').TestInfo): Promise<void> {
+  await testInfo.attach(`p6-native-run-${testInfo.attachments.length}`, { contentType: 'application/json', body: Buffer.from(JSON.stringify(result, null, 2)) });
   if (!result.compileOk || result.runError || !result.done) {
     await testInfo.attach('p6-native-failure', { contentType: 'application/json', body: Buffer.from(JSON.stringify(result, null, 2)) });
   }
@@ -888,7 +898,7 @@ test('实际 Worker：限时护盾在第二次独立使用生效，到期边界�
 
 test('原库星蚀普通护盾组成→GET→Worker，保留原公式与期限且不升格完整触发资格', async ({ page, request }, testInfo) => {
   test.skip(process.env.P6_LIVE_API !== '1', '显式启用后只读本地实际服务');
-  const api = 'http://127.0.0.1:8080/api/admin/games/lol/skills/item_6692_passive';
+  const api = `${apiBase}/api/admin/games/lol/skills/item_6692_passive`;
   const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
   const read = async (path: string) => {
     const response = await request.get(api + path, { headers }); expect(response.status(), path).toBe(200); return response.json();
@@ -1124,7 +1134,7 @@ test('实际 Worker：重新绑定W后，旧Q入口不能刷新窗口', async ({
 
 test('原库夺萃回蓝组成→GET→Worker，护甲与护盾扣血不同但回蓝相同', async ({ page, request }, testInfo) => {
   test.skip(process.env.P6_LIVE_API !== '1', '显式启用后只读本地实际服务');
-  const api = 'http://127.0.0.1:8080/api/admin/games/lol/skills/item_3508_passive';
+  const api = `${apiBase}/api/admin/games/lol/skills/item_3508_passive`;
   const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
   const read = async (path: string) => {
     const response = await request.get(api + path, { headers }); expect(response.status(), path).toBe(200); return response.json();
@@ -1135,13 +1145,17 @@ test('原库夺萃回蓝组成→GET→Worker，护甲与护盾扣血不同但�
   const formula = await read('/formulas/total_mana_refund');
   expect(parameters.find((row: { parameterKey: string }) => row.parameterKey === 'spellblade_window_ms')?.fixedValue).toBe(10000);
   expect(parameters.find((row: { parameterKey: string }) => row.parameterKey === 'mana_refund_damage_multiplier')?.fixedValue).toBe(0.5);
-  expect(formula.expression).toEqual(skillFormulaDefinition('synth_spellblade', {
+  const expectedExpression = skillFormulaDefinition('item_3508_passive', {
     nodeType: 'OPERATION', operation: 'MULTIPLY',
     operands: [
       { nodeType: 'PARAMETER', parameterKey: 'mana_refund_damage_multiplier' },
       { attributeKey: 'attack_damage', attributeOwner: 'SOURCE', attributeValueKind: 'TOTAL', nodeType: 'ATTRIBUTE' }
     ]
-  }));
+  });
+  expect(formula.expression.inputs).toEqual(expectedExpression.inputs);
+  expect(formula.expression.stages.map((stage: { key: string; expression: unknown }) => ({ key: stage.key, expression: stage.expression })))
+    .toEqual(expectedExpression.stages.map(stage => ({ key: stage.key, expression: stage.expression })));
+  expect(formula.expression.outputStageKey).toBe(expectedExpression.outputStageKey);
   const program = formulaManaProgram({
     skillKey: 'item_3508_passive', parameters, formulas: [formula], effect
   });
@@ -1202,7 +1216,7 @@ async function readLiveSpellblade(
   const audit: Array<{ route: string; status: number }> = [];
   const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
   const read = async <T,>(route: string): Promise<T> => {
-    const response = await request.get(`http://127.0.0.1:8080${route}`, { headers });
+    const response = await request.get(`${apiBase}${route}`, { headers });
     audit.push({ route, status: response.status() });
     if (response.status() !== 200) throw new Error(`正式配置未就绪：GET ${route} 返回 ${response.status()}`);
     const body: unknown = await response.json();

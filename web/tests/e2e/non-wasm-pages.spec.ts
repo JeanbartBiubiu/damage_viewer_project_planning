@@ -1953,8 +1953,8 @@ class MockApi {
       }
       if (change.objectType === 'INTERNAL_STATE' && this.internalStateWriteFailure
         && await this.applyInternalStateWriteFailure(route)) return;
+      if (change.objectType === 'TRIGGER_RULE' && this.triggerRuleWriteHold) await this.triggerRuleWriteHold;
       if (change.objectType === 'TRIGGER_RULE' && this.triggerRuleWriteFailure) {
-        if (this.triggerRuleWriteHold) await this.triggerRuleWriteHold;
         if (this.triggerRuleWriteFailure === 'not-found') {
           await this.error(route, 404, '404.SKILL_TRIGGER_RULE_NOT_FOUND', '触发规则不存在');
           return;

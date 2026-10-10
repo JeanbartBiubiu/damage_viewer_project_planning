@@ -1,6 +1,5 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 import { expect, test, type APIRequestContext } from '@playwright/test';
 import type { AuthoredHitProgram } from '../../src/engine/hitAdapter';
 import type { AuthoredDamageModifierProgram, DamageModifierScenario } from '../../src/engine/damageModifierAdapter';
@@ -12,8 +11,11 @@ import type { SkillEffect, SkillEffectDamageModifierResult } from '../../src/typ
 import type { SkillFormula } from '../../src/types/skillFormula';
 import type { SkillParameter } from '../../src/types/skillParameter';
 import type { SkillTriggerRuleDetail } from '../../src/types/skillTriggerRule';
+import { createExplicitDamageInput } from '../fixtures/formulaPhase4AuthorInput';
+import { authoredConstantDefense, authoredResistanceDefense } from '../fixtures/authoredDamageFormula';
 
 const candidate = process.env.DAMAGE_SOURCE_CANDIDATE === '1';
+const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
 const catalogSha = 'e4ab45d130c6f97828ca929e3866624726ed77bf17f4093e507c16cfee467803';
 const identity: AuthoredHitProgram['identity'] = {
   source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' }
@@ -23,7 +25,7 @@ function reader(request: APIRequestContext) {
   return {
     snapshots,
     async get<T>(route: string): Promise<T> {
-      const response = await request.get(`http://127.0.0.1:8080/api/admin/games/lol${route}`, {
+      const response = await request.get(`${apiBase}/api/admin/games/lol${route}`, {
         headers: { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'local-readonly-verification'}` }
       });
       expect(response.status(), route).toBe(200);
@@ -87,11 +89,17 @@ async function loadModifier(get: Reader['get'], id: 8014 | 8017) {
   return authored;
 }
 function scene(hp: number, characterKey: string, owner: 'source' | 'target'): DamageModifierScenario {
-  const input = JSON.parse(readFileSync(resolve('../wasm/tinygo_engine_v2/internal/testkit/fixtures/generic_p0_basic_damage.json'), 'utf8')) as DamageModifierScenario;
+  const input = createExplicitDamageInput();
   const request = input.compileRequest, run = input.runRequest;
   const providerKey = `champion:${characterKey}`;
   const slot = (n: number) => ({ base: n, current: n, max: n, resolved: n });
-  request.typeCatalog.types = [{ key: 'combatant/champion', domain: 'combatant' }];
+  request.typeCatalog.types = [{ key: 'combatant/champion', domain: 'combatant' },
+    { key: 'magic', domain: 'damage' }, { key: 'real', domain: 'damage' },
+    ...['hp', 'ability_power', 'armor', 'magic_resist', 'life_steal_percent', 'omnivamp_percent'].map(key => ({ key, domain: 'attribute' }))];
+  request.rules.damageTypeFormulas = [
+    { damageType: 'magic', formula: authoredResistanceDefense('magic_resist') },
+    { damageType: 'real', formula: authoredConstantDefense('1') }
+  ];
   request.sharedProviders = [{ providerKey, kind: 'champion', stableId: characterKey,
     abilities: [{ abilityKey: 'hit', kind: 'active', operations: [] }] }];
   for (const actor of request.combatants) {
