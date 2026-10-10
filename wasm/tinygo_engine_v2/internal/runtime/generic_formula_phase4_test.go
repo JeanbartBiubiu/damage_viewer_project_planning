@@ -54,7 +54,7 @@ func TestFormulaPhase4DamagePlanGuardPrecedesEveryAmountShortcut(t *testing.T) {
 			s.formulas.Programs[d.Program].Instr = []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 999}}
 		}},
 		{"foreign skill program", func(s *genericRunState, d planbundle.CompiledDamageTypeFormula) {
-			s.formulas.Programs[d.Program].SkillBinding = &formula.SkillBinding{}
+			s.formulas.Programs[d.Program].NamedBinding = &formula.NamedBinding{}
 		}},
 	}
 	for _, test := range corruptions {

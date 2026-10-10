@@ -11,7 +11,7 @@ func TestAttributeDerivationRejectsCyclesMissingAndRuntimeReads(t *testing.T) {
 		t.Run(readPath, func(t *testing.T) {
 			input := loadGenericFixtureCompileRequest(t, "formula_phase4_explicit_basic_damage.json")
 			input.Combatants[0].Attributes["attack_speed"] = model.AttributeSlotDef{Base: 1, Current: 1, Max: 1, Resolved: 1}
-			input.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{{CombatantKey: "source", AttributeKey: "attack_speed", Value: model.GenericFormulaExpr{Op: "read", Path: readPath}}}
+			input.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{{ValuePolicy: "set", ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_speed", Value: model.GenericFormulaExpr{Op: "read", Path: readPath}}}
 			if result := CompileGeneric(input); result.OK {
 				t.Fatal("invalid derivation accepted")
 			}
@@ -22,7 +22,7 @@ func TestAttributeDerivationRejectsCyclesMissingAndRuntimeReads(t *testing.T) {
 func TestAttributeDerivationAllowsFrozenBaseAndRejectsDuplicates(t *testing.T) {
 	input := loadGenericFixtureCompileRequest(t, "formula_phase4_explicit_basic_damage.json")
 	input.Combatants[0].Attributes["attack_speed"] = model.AttributeSlotDef{Base: 1, Current: 1, Max: 1, Resolved: 1}
-	definition := model.AttributeDerivationDefinition{CombatantKey: "source", AttributeKey: "attack_speed", Value: model.GenericFormulaExpr{Op: "read", Path: "source.attr.attack_speed.base"}}
+	definition := model.AttributeDerivationDefinition{ValuePolicy: "set", ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_speed", Value: model.GenericFormulaExpr{Op: "read", Path: "source.attr.attack_speed.base"}}
 	input.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{definition}
 	if result := CompileGeneric(input); !result.OK {
 		t.Fatal(result.Result.Errors)

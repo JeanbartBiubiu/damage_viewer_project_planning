@@ -598,7 +598,7 @@ func TestCompileGenericDamageCritEligibleProjects(t *testing.T) {
 	req := minimalValidCompileRequest()
 	one := 1.0
 	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",
@@ -650,7 +650,7 @@ func TestCompileGenericCritEligibleRejectsNonDamage(t *testing.T) {
 	req := minimalValidCompileRequest()
 	one := 1.0
 	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "heal",
 			Target:       "source",
 			Amount:       &model.GenericFormulaExpr{Op: "const", Value: &one},
@@ -963,7 +963,7 @@ func TestCompileGenericExecuteThresholdRejectsInvalidThreshold(t *testing.T) {
 func TestCompileGenericExecuteThresholdCollectAllForbiddenFields(t *testing.T) {
 	req := minimalValidCompileRequest()
 	one := 1.0
-	op := model.OperationDefinition{
+	op := model.OperationDefinition{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 		Operation:             model.OperationKindExecuteThreshold,
 		Target:                model.SelectorTarget,
 		Threshold:             0.05,

@@ -26,7 +26,7 @@ func resolveDerivedAttributes(compiled planbundle.CompiledSession, formulas form
 			ctx.TargetAttrs = attrs
 		}
 		actorContext := ctx
-		if derivation.SkillKey != "" {
+		{
 			actorContext.RuntimeSkillKey = derivation.SkillKey
 			actorContext.HasAuthoredActorContext = true
 			actorContext.AuthoredCombatantKey = actorKey
@@ -35,37 +35,21 @@ func resolveDerivedAttributes(compiled planbundle.CompiledSession, formulas form
 				actorContext.AuthoredSourceAttrs, actorContext.AuthoredTargetAttrs = ctx.TargetAttrs, ctx.SourceAttrs
 			}
 		}
-		for _, instruction := range formulas.ReadDependencies(derivation.ValueProgram) {
-			if instruction.Op != formula.GenericOpRead || instruction.ReadKey != "attack_speed_ratio.resolved" {
-				continue
-			}
-			ratioAttrs := ctx.SourceAttrs
-			if instruction.ReadKind == formula.ReadTargetAttr {
-				ratioAttrs = ctx.TargetAttrs
-			}
-			if instruction.AuthoredRead && actorContext.HasAuthoredActorContext {
-				ratioAttrs = actorContext.AuthoredSourceAttrs
-				if instruction.ReadKind == formula.ReadTargetAttr {
-					ratioAttrs = actorContext.AuthoredTargetAttrs
-				}
-			}
-			ratio, exists := ratioAttrs["attack_speed_ratio"]
-			if !exists || math.IsNaN(ratio.Resolved) || math.IsInf(ratio.Resolved, 0) || ratio.Resolved <= 0 {
-				return nil, fmt.Errorf("%s: attack_speed_ratio must be explicitly finite and positive", derivation.Path)
-			}
-		}
 		value, err := formulas.Eval(derivation.ValueProgram, actorContext)
 		if err != nil {
 			return nil, fmt.Errorf("%s: %w", derivation.Path, err)
 		}
-		if math.IsNaN(value) || math.IsInf(value, 0) || (derivation.ValuePolicy == "multiply" && value < 0) || (derivation.ValuePolicy != "multiply" && value <= 0) {
-			return nil, fmt.Errorf("%s: attack speed must be finite and positive; attack damage factor must be finite and non-negative", derivation.Path)
+		if math.IsNaN(value) || math.IsInf(value, 0) || (derivation.ValuePolicy == "multiply" && value < 0) {
+			return nil, fmt.Errorf("%s: derived value must be finite; multiplier must be nonnegative", derivation.Path)
 		}
 		slot := out[derivation.AttributeKey]
 		if derivation.ValuePolicy == "multiply" {
 			slot.Resolved *= value
-			if math.IsNaN(slot.Resolved) || math.IsInf(slot.Resolved, 0) || slot.Resolved < 0 {
-				return nil, fmt.Errorf("%s: converted attack damage must be finite and non-negative", derivation.Path)
+			if math.IsNaN(slot.Resolved) || math.IsInf(slot.Resolved, 0) {
+				return nil, fmt.Errorf("%s: derived attribute must remain finite", derivation.Path)
+			}
+			if err := validateDerivedOutput(derivation, slot.Resolved); err != nil {
+				return nil, err
 			}
 			out[derivation.AttributeKey] = slot
 			continue
@@ -81,10 +65,17 @@ func resolveDerivedAttributes(compiled planbundle.CompiledSession, formulas form
 		if resolveErr != nil {
 			return nil, fmt.Errorf("%s: %w", derivation.Path, resolveErr)
 		}
-		if resolvedSlot.Resolved <= 0 {
-			return nil, fmt.Errorf("%s: modified attack speed must be positive", derivation.Path)
+		if err := validateDerivedOutput(derivation, resolvedSlot.Resolved); err != nil {
+			return nil, err
 		}
 		out[derivation.AttributeKey] = resolvedSlot
 	}
 	return out, nil
+}
+
+func validateDerivedOutput(derivation planbundle.CompiledAttributeDerivation, value float64) error {
+	if math.IsNaN(value) || math.IsInf(value, 0) || (derivation.ValueType == "INTEGER" && (math.Trunc(value) != value || math.Abs(value) > float64(maxJSONSafeInteger))) {
+		return fmt.Errorf("%s: derived output violates its explicit numeric type", derivation.Path)
+	}
+	return nil
 }

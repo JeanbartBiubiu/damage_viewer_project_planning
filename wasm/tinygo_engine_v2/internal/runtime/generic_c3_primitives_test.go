@@ -143,7 +143,7 @@ func TestC3PhantomUsesFrozenSourcePenetrationAndOmitsPostResistFields(t *testing
 		{
 			ListenerKey:  "c3_copyable",
 			EventMatcher: model.TypeMatcher{All: []string{guinsooKHitEvent, "event/source_owner"}},
-			Operations: []model.OperationDefinition{{
+			Operations: []model.OperationDefinition{{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 				Operation:     "damage",
 				Target:        "target",
 				DamageType:    "damage/physical",

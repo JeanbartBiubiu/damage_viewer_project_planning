@@ -105,7 +105,7 @@ type GenericProgram struct {
 	Authored *expression.Program
 	// BindingBytes是本使用点在执行计划保留的绑定和读值描述计费。
 	BindingBytes  uint64
-	SkillBinding  *SkillBinding
+	NamedBinding  *NamedBinding
 	DeclaredNamed bool
 }
 
@@ -128,7 +128,7 @@ func CompileGenericFormula(expr model.GenericFormulaExpr, path string, named map
 // CompileNamedFormulas 编译命名公式表。
 func CompileNamedFormulas(formulas []model.NamedFormula, addError func(code model.GenericErrCode, path, message, ref string)) GenericRegistry {
 	reg := GenericRegistry{Programs: make([]GenericProgram, 0), Index: make(map[string]GenericProgramID)}
-	CompileSkillNamedFormulas(formulas, nil, &reg, addError)
+	CompileDeclaredNamedFormulas(formulas, nil, &reg, addError)
 	return reg
 }
 

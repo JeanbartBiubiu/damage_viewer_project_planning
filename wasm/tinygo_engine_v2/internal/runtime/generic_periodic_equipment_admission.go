@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
@@ -42,8 +43,11 @@ func (s *genericRunState) validateEquipmentPeriodicProvider(provider planbundle.
 		return s.basicAttackErr("equipment periodic source requires its complete tick ability", "initialSnapshot.combatants.providers")
 	}
 	for _, modifier := range provider.Modifiers {
-		if modifier.Kind != "attribute" || modifier.Target != "self.attr.bonus_attack_speed_percent" || modifier.HasCondition || modifier.ValuePolicy != "add" || !modifier.HasValue {
-			return s.basicAttackErr("equipment periodic modifiers require owned additive bonus attack speed", "initialSnapshot.combatants.providers")
+		key := pipeline.AttributeKeyFromModifierTarget(modifier.Target)
+		actor, present := s.combatants[owner]
+		_, declared := actor.attributes[key]
+		if modifier.Kind != "attribute" || pipeline.ModifierTargetCombatantSelector(modifier.Target) != model.SelectorSelf || key == "" || key == "hp" || !present || !declared || modifier.HasCondition || modifier.ValuePolicy != "add" || !modifier.HasValue {
+			return s.basicAttackErr("equipment periodic modifiers require an owned declared non-HP additive attribute", "initialSnapshot.combatants.providers")
 		}
 	}
 	for _, listener := range s.compiled.Listeners {

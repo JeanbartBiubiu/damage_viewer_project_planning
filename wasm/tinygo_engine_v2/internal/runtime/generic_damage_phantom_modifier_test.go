@@ -25,6 +25,11 @@ func phantomHealthFixture(t *testing.T, hp float64, delayMs, repeatCount int,
 	t.Helper()
 	copyable := guinsooKCopyableListener("copyable_magic", 100, true)
 	copyable.Operations[0].CritEligible = critEligible
+	if critEligible {
+		copyable.Operations[0].CritChance = &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}
+		copyable.Operations[0].CritMultiplier = &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}
+		copyable.Operations[0].CritMultiplierMin = model.Float64Ptr(1)
+	}
 	listeners := []model.ListenerDefinition{copyable}
 	for i := 0; i < repeatCount; i++ {
 		repeat := guinsooKRepeatListener("copy_" + itoaRuntime(i))

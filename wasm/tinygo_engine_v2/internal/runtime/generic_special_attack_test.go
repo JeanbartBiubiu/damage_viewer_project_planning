@@ -117,8 +117,8 @@ func TestSpecialAttackDamageConversionAfterOrdinaryPipelineDoesNotReapplyModifie
 		addPermanentSkillSource(&input, &request, 0, modifier.ModifierKey, "character", modifier)
 	}
 	input.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{
-		{CombatantKey: "source", AttributeKey: "attack_speed", Value: authoringConst(.8)},
-		{CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("add", authoringConst(1), authoringRead("source.attr.bonus_attack_speed_percent.resolved"))},
+		{ValuePolicy: "set", ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_speed", Value: authoringConst(.8)},
+		{ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("add", authoringConst(1), authoringRead("source.attr.bonus_attack_speed_percent.resolved"))},
 	}
 	request.DriverPlan.BasicAttack.AttackSpeedInputMax = 2
 	done := authoringRun(test, input, request)
@@ -135,8 +135,8 @@ func TestSpecialAttackFixedSpeedRetainsDebuffWithoutScalingReload(test *testing.
 	addFixedEquipment(&input, &request, 0, "extra_speed", "bonus_attack_speed_percent", .2)
 	addPermanentInitializer(&input, &request, 1, model.ModifierDefinition{ModifierKey: "aura", Kind: "attribute", Target: "opponent.attr.attack_speed", Stage: "total", ValuePolicy: "multiply", Value: authoringConst(.5)})
 	input.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{
-		{CombatantKey: "source", AttributeKey: "attack_speed", Value: authoringConst(.8)},
-		{CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("add", authoringConst(1), authoringRead("source.attr.bonus_attack_speed_percent.resolved"))},
+		{ValuePolicy: "set", ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_speed", Value: authoringConst(.8)},
+		{ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("add", authoringConst(1), authoringRead("source.attr.bonus_attack_speed_percent.resolved"))},
 	}
 	input.SharedProviders[0].Processes[0].Cooldown.DurationMs = authoringBinary("div", authoringConst(1000), authoringRead("source.attr.attack_speed.resolved"))
 	done := authoringRun(test, input, request)
@@ -159,8 +159,8 @@ func TestSpecialAttackDynamicOrdinaryDamageDependencyRecomputesCooldownInSameFra
 	definition.Modifiers = []model.ModifierDefinition{{ModifierKey: "dynamic_extra_speed", Kind: "attribute", Target: "self.attr.bonus_attack_speed_percent", ValuePolicy: "add", Value: authoringBinary("mul", authoringConst(.5), authoringRead("provider.state.layers"))}}
 	addTriggeredSkillSource(&input, &request, 0, "dynamic_conversion", "character", definition)
 	input.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{
-		{CombatantKey: "source", AttributeKey: "attack_speed", Value: authoringConst(1)},
-		{CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("add", authoringConst(1), authoringRead("source.attr.bonus_attack_speed_percent.resolved"))},
+		{ValuePolicy: "set", ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_speed", Value: authoringConst(1)},
+		{ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("add", authoringConst(1), authoringRead("source.attr.bonus_attack_speed_percent.resolved"))},
 	}
 	input.SharedProviders[0].Processes[0].Cooldown.DurationMs = authoringBinary("div", authoringConst(100000), authoringRead("source.attr.attack_damage.resolved"))
 	done := authoringRun(test, input, request)
@@ -182,8 +182,8 @@ func TestSpecialAttackDerivationOutputLimitsAndDependencyRestrictions(test *test
 			input.Combatants[actor].Attributes["attack_speed"] = authoringSlot(1)
 			owner := input.Combatants[actor].Key
 			input.Rules.AttributeDerivations = append(input.Rules.AttributeDerivations,
-				model.AttributeDerivationDefinition{CombatantKey: owner, AttributeKey: "attack_speed", Value: authoringConst(1)},
-				model.AttributeDerivationDefinition{CombatantKey: owner, AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringConst(1.2)})
+				model.AttributeDerivationDefinition{ValuePolicy: "set", ValueType: "DECIMAL", CombatantKey: owner, AttributeKey: "attack_speed", Value: authoringConst(1)},
+				model.AttributeDerivationDefinition{ValueType: "DECIMAL", CombatantKey: owner, AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringConst(1.2)})
 		}
 		if result := compilebundle.CompileGeneric(input); !result.OK || len(result.Session.AttributeDerivations) != 4 {
 			test.Fatal("one AS and AD per side rejected", result.Result.Errors)
@@ -201,11 +201,19 @@ func TestSpecialAttackDerivationOutputLimitsAndDependencyRestrictions(test *test
 			test.Fatal("duplicate output compiled")
 		}
 	}
-	for _, attribute := range []string{"attack_speed", "armor"} {
+	for _, attribute := range []string{"attack_speed", "armor", "hp", "missing"} {
 		input, _ := continuousAttackInput(1, 10000, 100, 0, 0, 1)
-		input.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{{CombatantKey: "source", AttributeKey: attribute, ValuePolicy: "multiply", Value: authoringConst(1)}}
-		if result := compilebundle.CompileGeneric(input); result.OK {
-			test.Fatal("multiply escaped its finite AD scope", attribute)
+		if attribute == "armor" {
+			input.Combatants[0].Attributes[attribute] = authoringSlot(100)
+		}
+		input.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{{ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: attribute, ValuePolicy: "multiply", Value: authoringConst(1)}}
+		result := compilebundle.CompileGeneric(input)
+		if attribute == "attack_speed" || attribute == "armor" {
+			if !result.OK {
+				test.Fatal("ordinary declared multiply output rejected", attribute, result.Result.Errors)
+			}
+		} else if result.OK {
+			test.Fatal("life or missing output escaped ordinary derivation constraints", attribute)
 		}
 	}
 }
@@ -243,10 +251,10 @@ func TestSpecialAttackBothSidesOrdinaryDependenciesIgnoreDerivationOrderAndPrevi
 		definition.Modifiers = []model.ModifierDefinition{{ModifierKey: "dynamic_source_input", Kind: "attribute", Target: "self.attr.bonus_attack_speed_percent", ValuePolicy: "add", Value: authoringBinary("mul", authoringConst(.5), authoringRead("provider.state.layers"))}}
 		addTriggeredSkillSource(&input, &request, 0, "dynamic_source", "character", definition)
 		input.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{
-			{CombatantKey: "source", AttributeKey: "attack_speed", Value: authoringBinary("add", authoringConst(1), authoringRead("target.attr.bonus_attack_speed_percent.resolved"))},
-			{CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("add", authoringConst(1), authoringRead("target.attr.bonus_attack_speed_percent.resolved"))},
-			{CombatantKey: "target", AttributeKey: "attack_speed", Value: authoringConst(.6)},
-			{CombatantKey: "target", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("add", authoringConst(1), authoringRead("source.attr.bonus_attack_speed_percent.resolved"))},
+			{ValuePolicy: "set", ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_speed", Value: authoringBinary("add", authoringConst(1), authoringRead("target.attr.bonus_attack_speed_percent.resolved"))},
+			{ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("add", authoringConst(1), authoringRead("target.attr.bonus_attack_speed_percent.resolved"))},
+			{ValuePolicy: "set", ValueType: "DECIMAL", CombatantKey: "target", AttributeKey: "attack_speed", Value: authoringConst(.6)},
+			{ValueType: "DECIMAL", CombatantKey: "target", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("add", authoringConst(1), authoringRead("source.attr.bonus_attack_speed_percent.resolved"))},
 		}
 		if reverse {
 			for index := 0; index < len(input.Rules.AttributeDerivations)/2; index++ {

@@ -101,6 +101,15 @@ func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 	if attack == nil {
 		return 0, nil
 	}
+	// 初始化时尚无等待节点也要在本帧提交前检查真正消费的速度。
+	initialContext, initialError := f.basicAttackWaitContext()
+	if initialError != nil {
+		return 0, initialError
+	}
+	initialSpeed := initialContext.stageFor(attack.plan.Source).attributes[attack.plan.AttackSpeedAttributeKey].Resolved
+	if math.IsNaN(initialSpeed) || math.IsInf(initialSpeed, 0) || initialSpeed <= 0 || initialSpeed > attack.plan.AttackSpeedInputMax {
+		return 0, f.run.basicAttackErr("modified attack speed violates its explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
+	}
 	previous := attack.wait
 	if f.pendingBasicAttackWait != nil {
 		previous = f.pendingBasicAttackWait

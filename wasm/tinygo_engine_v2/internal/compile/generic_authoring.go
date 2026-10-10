@@ -104,6 +104,12 @@ func compileDamageTypeFormulas(defs []model.DamageTypeFormulaDefinition, ctx *ge
 
 func compileCritFormulas(op model.OperationDefinition, compiled *plan.CompiledOperation, path string, ctx *genericCompileContext) {
 	if op.CritChance == nil && op.CritMultiplier == nil {
+		if op.CritEligible {
+			ctx.collector.addError(model.GenericErrMissingRequiredField, path+".critChance", "eligible damage requires explicit critChance and critMultiplier", "")
+		}
+		if op.CritMultiplierMin != nil {
+			ctx.collector.addError(model.GenericErrFormulaTypeError, path+".critMultiplierMin", "crit minimum requires an eligible damage operation", "")
+		}
 		return
 	}
 	if op.Operation != "damage" || !op.CritEligible {
@@ -112,6 +118,13 @@ func compileCritFormulas(op model.OperationDefinition, compiled *plan.CompiledOp
 	if op.CritChance == nil || op.CritMultiplier == nil {
 		ctx.collector.addError(model.GenericErrMissingRequiredField, path+".critMultiplier", "critChance and critMultiplier must be declared together", "")
 		return
+	}
+	if op.CritMultiplierMin != nil {
+		if math.IsNaN(*op.CritMultiplierMin) || math.IsInf(*op.CritMultiplierMin, 0) || *op.CritMultiplierMin < 0 {
+			ctx.collector.addError(model.GenericErrFormulaTypeError, path+".critMultiplierMin", "critical multiplier minimum must be finite and nonnegative", "")
+			return
+		}
+		compiled.HasCritMultiplierMin, compiled.CritMultiplierMin = true, *op.CritMultiplierMin
 	}
 	registeredAll := true
 	for i, expr := range []*model.GenericFormulaExpr{op.CritChance, op.CritMultiplier} {

@@ -16,7 +16,9 @@ func (ctx *genericCompileContext) validateFormulaScope(instr []formula.GenericIn
 			continue
 		}
 		program := ctx.session.Formulas.Programs[in.RefIndex]
-		if !program.DeclaredNamed || program.SkillBinding == nil || ctx.currentSkillKey == "" || program.SkillBinding.SkillKey() != ctx.currentSkillKey {
+		if !program.DeclaredNamed || program.NamedBinding == nil ||
+			(program.NamedBinding.Scope() != "skill" && program.NamedBinding.Scope() != "game") ||
+			(program.NamedBinding.Scope() == "skill" && (ctx.currentSkillKey == "" || program.NamedBinding.SkillKey() != ctx.currentSkillKey)) {
 			ctx.collector.addError(model.GenericErrUnknownRef, path, "common formula requires its independently declared owning skill", program.Key)
 			valid = false
 		}

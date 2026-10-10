@@ -191,7 +191,7 @@ func xayahDPWAbility() model.AbilityDefinition {
 
 func xayahDPBasicAttackOps(includeOnHitProc bool) []model.OperationDefinition {
 	ops := []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",
@@ -861,7 +861,7 @@ func TestGenericXayahDeadlyPlumagePhantomDoesNotReplayBaseOrRerunMul(t *testing.
 
 	one := 1.0
 	compileReq.SharedProviders[0].Abilities[1].Operations = []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",

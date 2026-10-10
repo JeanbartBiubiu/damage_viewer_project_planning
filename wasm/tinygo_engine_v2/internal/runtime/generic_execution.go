@@ -1700,24 +1700,25 @@ func (f *executionFrame) settleExpectedCrit(op planbundle.CompiledOperation, abi
 	if !op.CritEligible {
 		return frozenCritEvidence{}, baseRawAmount, nil, nil
 	}
-	src := f.stageFor(f.sourceKey)
 	var chanceRaw, critDamageRaw float64
 	var err *model.EngineError
-	if op.HasCritFormula {
+	if op.HasCritFormula && int(op.CritChanceProgram) < len(f.run.formulas.Programs) && int(op.CritMultiplierProgram) < len(f.run.formulas.Programs) &&
+		f.run.formulas.Programs[op.CritChanceProgram].Key == op.Path+".critChance" &&
+		f.run.formulas.Programs[op.CritMultiplierProgram].Key == op.Path+".critMultiplier" &&
+		(!op.HasCritMultiplierMin || (!math.IsNaN(op.CritMultiplierMin) && !math.IsInf(op.CritMultiplierMin, 0) && op.CritMultiplierMin >= 0)) {
 		chanceRaw, err = f.evalResultFormula(op.CritChanceProgram, ability, targetKey)
 		if err == nil {
 			critDamageRaw, err = f.evalResultFormula(op.CritMultiplierProgram, ability, targetKey)
 		}
 	} else {
-		chanceRaw, err = readRequiredResolvedAttr(src.attributes, "crit_chance", f)
-		if err == nil {
-			critDamageRaw, err = readRequiredResolvedAttr(src.attributes, "crit_damage", f)
-		}
+		return frozenCritEvidence{}, 0, nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed,
+			"eligible damage requires compiled critical formulas", op.Path+".critChance", op.Ref,
+			f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
 	if err != nil {
 		return frozenCritEvidence{}, 0, nil, err
 	}
-	p, _ := crit.ClampValue("crit_chance", "source", chanceRaw, crit.ProbabilityBounds())
+	p, _ := crit.ClampValue("critical_probability", "source", chanceRaw, crit.ProbabilityBounds())
 	traits := append([]string(nil), op.Types...)
 	var modEvidence []map[string]interface{}
 
@@ -1727,32 +1728,37 @@ func (f *executionFrame) settleExpectedCrit(op planbundle.CompiledOperation, abi
 	if err != nil {
 		return frozenCritEvidence{}, 0, nil, err
 	}
-	q, _ = crit.ClampValue("crit_chance", "source", q, crit.ProbabilityBounds())
+	q, _ = crit.ClampValue("critical_probability", "source", q, crit.ProbabilityBounds())
 
 	mForced := critDamageRaw
-	if mForced < 1 {
-		mForced = 1
+	if op.HasCritMultiplierMin && mForced < op.CritMultiplierMin {
+		mForced = op.CritMultiplierMin
 	}
 	mForced, modEvidence, err = f.applyPipelineDamageModifiers(
 		f.sourceKey, f.sourceKey, targetKey, "crit", "crit_multiplier_forced_branch", mForced, ability, op.DamageType, traits, modEvidence)
 	if err != nil {
 		return frozenCritEvidence{}, 0, nil, err
 	}
-	if mForced < 1 {
-		mForced = 1
+	if op.HasCritMultiplierMin && mForced < op.CritMultiplierMin {
+		mForced = op.CritMultiplierMin
 	}
 
 	mNatural := critDamageRaw
-	if mNatural < 1 {
-		mNatural = 1
+	if op.HasCritMultiplierMin && mNatural < op.CritMultiplierMin {
+		mNatural = op.CritMultiplierMin
 	}
 	mNatural, modEvidence, err = f.applyPipelineDamageModifiers(
 		f.sourceKey, f.sourceKey, targetKey, "crit", "crit_multiplier_natural_branch", mNatural, ability, op.DamageType, traits, modEvidence)
 	if err != nil {
 		return frozenCritEvidence{}, 0, nil, err
 	}
-	if mNatural < 1 {
-		mNatural = 1
+	if op.HasCritMultiplierMin && mNatural < op.CritMultiplierMin {
+		mNatural = op.CritMultiplierMin
+	}
+	if math.IsNaN(mNatural) || math.IsInf(mNatural, 0) || mNatural < 0 || math.IsNaN(mForced) || math.IsInf(mForced, 0) || mForced < 0 {
+		return frozenCritEvidence{}, 0, nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed,
+			"critical branch multipliers must remain finite and nonnegative", op.Path+".critMultiplier", op.Ref,
+			f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
 
 	naturalWeight := p
@@ -1767,6 +1773,13 @@ func (f *executionFrame) settleExpectedCrit(op planbundle.CompiledOperation, abi
 	normalPart := baseRawAmount * normalWeight
 	critPart := baseRawAmount * (naturalWeight*mNatural + forcedWeight*mForced)
 	critAdjusted := normalPart + critPart
+	if math.IsNaN(normalPart) || math.IsInf(normalPart, 0) || normalPart < 0 ||
+		math.IsNaN(critPart) || math.IsInf(critPart, 0) || critPart < 0 ||
+		math.IsNaN(critAdjusted) || math.IsInf(critAdjusted, 0) || critAdjusted < 0 {
+		return frozenCritEvidence{}, 0, nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed,
+			"critical expected amounts must remain finite and nonnegative", op.Path+".critMultiplier", op.Ref,
+			f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
 
 	// Legacy single multiplier field: prefer natural; when branches equal it matches the old scalar.
 	legacyMult := mNatural
@@ -1791,18 +1804,6 @@ func (f *executionFrame) settleExpectedCrit(op planbundle.CompiledOperation, abi
 		critPart:              critPart,
 		critAdjustedRawAmount: critAdjusted,
 	}, critAdjusted, modEvidence, nil
-}
-
-func readRequiredResolvedAttr(attrs map[string]model.AttributeSlotDef, key string, f *executionFrame) (float64, *model.EngineError) {
-	slot, ok := attrs[key]
-	if !ok {
-		return 0, engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "missing required attribute: "+key, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
-	}
-	value := slot.Resolved
-	if math.IsNaN(value) || math.IsInf(value, 0) {
-		return 0, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite attribute: "+key, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
-	}
-	return value, nil
 }
 
 // stableDamageReplayedFrom 用 providerRef + ability/listener ref + operationRef 构造稳定 provenance。
@@ -1861,7 +1862,13 @@ func (f *executionFrame) applyAttributeChange(targetKey, attributeKey, valuePoli
 		slot = model.AttributeSlotDef{}
 	}
 	base0 := slot.Base
-	slot.Base = applyAttributeBasePolicy(slot.Base, base0, valuePolicy, amount)
+	nextBase := applyAttributeBasePolicy(slot.Base, base0, valuePolicy, amount)
+	if math.IsNaN(nextBase) || math.IsInf(nextBase, 0) {
+		return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed,
+			"attribute change result must remain finite", "combatants."+targetKey+".attributes."+attributeKey+".base", attributeKey,
+			f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	slot.Base = nextBase
 	if slot.Max > 0 {
 		if slot.Base < 0 {
 			slot.Base = 0

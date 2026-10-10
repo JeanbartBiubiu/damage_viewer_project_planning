@@ -20,7 +20,7 @@ type FormulaRuntimeSource struct {
 }
 
 func (v *NamedFormula) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "NamedFormula", "key skillKey expression parameters", "key skillKey expression parameters"); err != nil {
+	if err := processJSONShape(data, "NamedFormula", "key scope skillKey expression parameters", "key scope expression parameters"); err != nil {
 		return err
 	}
 	var shape map[string]json.RawMessage
@@ -34,6 +34,17 @@ func (v *NamedFormula) UnmarshalJSON(data []byte) error {
 	var decoded plain
 	if err := json.Unmarshal(data, &decoded); err != nil {
 		return err
+	}
+	if decoded.Scope == "game" {
+		if _, declared := shape["skillKey"]; declared || len(decoded.Parameters) != 0 {
+			return errors.New("game formula cannot declare a skill or parameters")
+		}
+	} else if decoded.Scope == "skill" {
+		if _, declared := shape["skillKey"]; !declared {
+			return errors.New("skill formula must declare its owning skill")
+		}
+	} else {
+		return errors.New("NamedFormula scope must be skill or game")
 	}
 	*v = NamedFormula(decoded)
 	return nil

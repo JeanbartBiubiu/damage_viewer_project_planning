@@ -28,7 +28,7 @@ func authoringSlot(v float64) model.AttributeSlotDef {
 func authoringRef(key string) string { return "source.provider[attack].ability[" + key + "]" }
 
 func authoringInput() (model.CompileRequest, model.RunRequest) {
-	damage := model.OperationDefinition{Operation: "damage", Target: "target", Ref: "body", Amount: authoringAmount(authoringRead("source.attr.attack_damage.resolved")), DamageType: "damage/physics", CritEligible: true,
+	damage := model.OperationDefinition{CritMultiplierMin: model.Float64Ptr(1), Operation: "damage", Target: "target", Ref: "body", Amount: authoringAmount(authoringRead("source.attr.attack_damage.resolved")), DamageType: "damage/physics", CritEligible: true,
 		CritChance:     authoringAmount(authoringRead("source.attr.critical_strike_chance.resolved")),
 		CritMultiplier: authoringAmount(model.GenericFormulaExpr{Op: "ref", Ref: "test/critical_multiplier"})}
 	link := model.OperationDefinition{Operation: model.OperationKindApplyHitLink, Target: "target", Ref: "hit_link", Amount: authoringAmount(authoringConst(1))}

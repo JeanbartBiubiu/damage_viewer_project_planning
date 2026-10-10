@@ -147,22 +147,22 @@ func (r GenericRegistry) eval(id GenericProgramID, ctx GenericEvalContext, const
 		if len(program.Instr) != 0 {
 			return 0, &AuthoredEvaluationError{Issue: expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}}
 		}
-		if constOnly && program.SkillBinding == nil && program.Authored.Stats().Inputs != 0 {
+		if constOnly && program.NamedBinding == nil && program.Authored.Stats().Inputs != 0 {
 			return 0, errConstFormulaRead
 		}
 		reader := ctx.ReadInput
-		if program.SkillBinding != nil {
+		if program.NamedBinding != nil {
 			var issue *expression.ContractIssue
-			reader, issue = program.SkillBinding.reader(ctx, constOnly)
+			reader, issue = program.NamedBinding.reader(ctx, constOnly)
 			if issue != nil {
-				return 0, &AuthoredEvaluationError{Issue: *issue, ProgramKey: program.Key, DefinitionPath: program.SkillBinding.path, CombatantKey: ctx.AuthoredCombatantKey}
+				return 0, &AuthoredEvaluationError{Issue: *issue, ProgramKey: program.Key, DefinitionPath: program.NamedBinding.path, CombatantKey: ctx.AuthoredCombatantKey}
 			}
 		}
 		result, issue := program.Authored.Evaluate(reader)
 		if issue != nil {
 			path := ""
-			if program.SkillBinding != nil {
-				path = program.SkillBinding.path
+			if program.NamedBinding != nil {
+				path = program.NamedBinding.path
 			}
 			return 0, &AuthoredEvaluationError{Issue: *issue, ProgramKey: program.Key, DefinitionPath: path, CombatantKey: ctx.AuthoredCombatantKey}
 		}

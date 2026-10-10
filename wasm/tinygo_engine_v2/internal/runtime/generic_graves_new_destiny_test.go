@@ -250,7 +250,7 @@ func gravesNDCritBranchModifier(key, stage string) model.ModifierDefinition {
 
 func gravesNDBasicAttackOps() []model.OperationDefinition {
 	return []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:     "damage",
 			Target:        "target",
 			DamageType:    "damage/physical",

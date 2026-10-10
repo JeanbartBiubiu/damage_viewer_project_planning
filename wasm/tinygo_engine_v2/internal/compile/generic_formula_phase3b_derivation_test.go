@@ -17,7 +17,7 @@ func phase3BDeriveCompileInput() model.CompileRequest {
 		r.Combatants[i].Attributes["armor"] = model.AttributeSlotDef{Base: 10, Resolved: 10, Current: 10, Max: 100}
 	}
 	r.Formulas[0] = formuladefinition.FromExpr("value", "probe", model.GenericFormulaExpr{Op: "read", Path: "source.attr.armor.resolved"}, nil)
-	r.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{{CombatantKey: "target", SkillKey: "probe", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: model.GenericFormulaExpr{Op: "ref", Ref: "value"}}}
+	r.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{{ValueType: "DECIMAL", CombatantKey: "target", SkillKey: "probe", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: model.GenericFormulaExpr{Op: "ref", Ref: "value"}}}
 	return r
 }
 
@@ -39,7 +39,7 @@ func TestPhase3BDerivationIndependentSkillScopeAndRuntimeInputsRejected(t *testi
 		}
 	}
 	r := phase3BDeriveCompileInput()
-	r.Rules.AttributeDerivations = append(r.Rules.AttributeDerivations, model.AttributeDerivationDefinition{CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: model.GenericFormulaExpr{Op: "ref", Ref: "value"}})
+	r.Rules.AttributeDerivations = append(r.Rules.AttributeDerivations, model.AttributeDerivationDefinition{ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: model.GenericFormulaExpr{Op: "ref", Ref: "value"}})
 	result := CompileGeneric(r)
 	if result.OK || !hasErrorPath(result.Result.Errors, "attributeDerivations[1].value") {
 		t.Fatal("following derivation inherited prior skill identity", result.Result.Errors)
@@ -70,7 +70,7 @@ func TestPhase3BDerivationDependencyActorMappingChecksOutputReadsAndMissingSlots
 	if result := CompileGeneric(r); !result.OK {
 		t.Fatal(result.Result.Errors)
 	}
-	r.Rules.AttributeDerivations = append(r.Rules.AttributeDerivations, model.AttributeDerivationDefinition{CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: model.GenericFormulaExpr{Op: "const", Value: model.Float64Ptr(1)}})
+	r.Rules.AttributeDerivations = append(r.Rules.AttributeDerivations, model.AttributeDerivationDefinition{ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: model.GenericFormulaExpr{Op: "const", Value: model.Float64Ptr(1)}})
 	if result := CompileGeneric(r); result.OK {
 		t.Fatal("foreign derived output escaped owner-mapped cycle prohibition")
 	}

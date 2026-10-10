@@ -40,6 +40,7 @@ type CompiledSession struct {
 type CompiledAttributeDerivation struct {
 	SkillKey     string
 	ValuePolicy  string
+	ValueType    string
 	CombatantKey string
 	AttributeKey string
 	ValueProgram formula.GenericProgramID
@@ -245,6 +246,8 @@ type CompiledOperation struct {
 	HasCritFormula        bool
 	CritChanceProgram     formula.GenericProgramID
 	CritMultiplierProgram formula.GenericProgramID
+	HasCritMultiplierMin  bool
+	CritMultiplierMin     float64
 	Path                  string
 	VampQualification     string
 	VampOverrides         []CompiledVampOverride

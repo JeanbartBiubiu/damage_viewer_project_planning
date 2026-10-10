@@ -12,6 +12,25 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 更细的模块依赖与时序见 [`ARCHITECTURE.md`](ARCHITECTURE.md)。协作规则见 [`AGENTS.md`](AGENTS.md)。
 
+## 暴击与攻速作者绑定当前产物
+
+具名公式必填 `scope`（归属）：技能保留真实技能标识和私参；游戏公式不允许技能标识及私参。派生明确 `set/multiply`（修正前替换／修正后乘算）及目录数值类型，不按攻击力或攻速属性名称限制输出。完整游戏配置由后端快照运输、Web映射到同一共同编译器；原生不补概率属性、收益系数或攻速公式。倍率下限可明确为0或省略；暴击伤害必须成对声明概率和倍率，确定性三分支权重保持。
+
+实际速度在首次等待及后续提交前核对正数、上界。已有计划过程时点或即时属性命中只准入真实普通属性槽、明确加算和本次行动目标；生命周期、监听器和普攻原门槛保持。暴击合成金额及属性新基础值在证据、裁剪和提交前检查有限值，失败帧不提交。
+
+当前正式产物 `target/calculation-rules/tinygo_engine_v2.wasm` 为1,384,822字节，SHA256 `e5ad0845d1e3a9d95e461da3916cb78c7dbcb4df270030cf0aeb3b203174a755`，固定256MiB。全量Go、原生基准、标准Node往返、既有第三A／B及第四／第五阶段专项、同会话200次通过。新12项专项覆盖重命名概率、倍率下限、游戏拥有方、更换完整公式及溢出两次拒绝后同会话100次恢复和释放重编；不替代真实服务及浏览器证据。共享契约与分层验收由规划真源《暴击与攻速作者绑定和属性派生详细设计》及2026-10-11验收记录维护。
+
+```powershell
+go test -count=1 ./...
+go run ./cmd/bench
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/calculation-rules/tinygo_engine_v2.wasm
+node .\scripts\calculation-rules-smoke-node.mjs target/calculation-rules/tinygo_engine_v2.wasm
+node .\scripts\smoke-node.mjs --wasm target/calculation-rules/tinygo_engine_v2.wasm
+node .\scripts\session-reuse-smoke-node.mjs --wasm target/calculation-rules/tinygo_engine_v2.wasm --iterations 200
+```
+
+以下各阶段产物与数字保留历史验收口径，当前产物以上节为准。
+
 ## 伤害聚合与常驻装备通用装配
 
 根能力与过程时点仍沿原提交位置派发 `event/damage_dealt`（伤害造成聚合事件），现在收集所有防御后金额为正的作者伤害原键。同帧只派发一次，类型分类排序去重，重复同键的实际金额与操作引用均保留。证据提供 `damageTypes`（实际类型集合）及 `damageBreakdown`（按原键贡献明细）；单类型保留 `damageType`，混合类型省略。物理限定监听由作者明确匹配通用事件、`damage/physical` 与拥有方分类，不再依赖物理专用事件分类。
@@ -20,7 +39,7 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 静态初始化的对手光环准入按真实非生命属性槽检查，不再固定对手攻速。明确总值阶段、乘算策略及有限非负静态值后，沿原拥有方挂载向对手投送修正；缺槽、生命上限、动态值或其他策略仍拒绝。Web的装备来源、永久结果及范围确认采用通用作者闭包装配，完整边界以规划真源《伤害聚合事件与常驻装备通用装配详细设计》为准。
 
-当前正式产物 `target/formula-phase5/tinygo_engine_v2.wasm` 为1,378,093字节，SHA256 `f510e11b7c02246c0b46e6d5e8b116d055c1ee3e2f9afb60309f16efcbef4e5f`，固定256MiB。全量Go、原生基准、标准Node往返、第三A／B及第四阶段专项、Node基准和同会话200次通过。新增专项验证任意原键、混合贡献、同会话101次／释放重编，以及同键／跨键溢出拒绝后同会话恢复；它不代替真实作者数据及浏览器证据。
+本阶段历史产物 `target/formula-phase5/tinygo_engine_v2.wasm` 为1,378,093字节，SHA256 `f510e11b7c02246c0b46e6d5e8b116d055c1ee3e2f9afb60309f16efcbef4e5f`，固定256MiB。全量Go、原生基准、标准Node往返、第三A／B及第四阶段专项、Node基准和同会话200次通过。新增专项验证任意原键、混合贡献、同会话101次／释放重编，以及同键／跨键溢出拒绝后同会话恢复；它不代替真实作者数据及浏览器证据。
 
 ```powershell
 go test -count=1 ./...

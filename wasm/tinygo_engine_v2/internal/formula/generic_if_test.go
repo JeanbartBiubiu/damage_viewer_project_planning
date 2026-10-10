@@ -95,7 +95,7 @@ func TestGenericIfConstantFoldUsesOnlyChosenPath(t *testing.T) {
 func TestGenericIfCompilesNamedExpansionAndValidatesUnselectedBranches(t *testing.T) {
 	defs := []model.NamedFormula{
 		formuladefinition.FromExpr("branch", "test", ifExpr(ifConst(0), ifConst(99), ifConst(40)), nil),
-		{Key: "result", SkillKey: "test", Parameters: []model.FormulaParameter{}, Expression: formuladefinition.Definition(nil, []any{
+		{Scope: "skill", Key: "result", SkillKey: "test", Parameters: []model.FormulaParameter{}, Expression: formuladefinition.Definition(nil, []any{
 			formuladefinition.Stage("branch", map[string]any{"op": "if", "args": []any{formuladefinition.Const(0), formuladefinition.Const(99), formuladefinition.Const(40)}}),
 			formuladefinition.Stage("output", map[string]any{"op": "add", "args": []any{map[string]any{"op": "ref", "stageKey": "branch"}, formuladefinition.Const(2)}})}, "output")},
 	}

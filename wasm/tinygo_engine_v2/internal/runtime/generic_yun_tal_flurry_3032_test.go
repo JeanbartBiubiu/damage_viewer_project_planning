@@ -197,7 +197,7 @@ func yunTalFlurryEnsureTypes(req *model.CompileRequest) {
 
 func yunTalFlurryAAOps(multi bool) []model.OperationDefinition {
 	aa := yunTalFlurryAADamage
-	ops := []model.OperationDefinition{{
+	ops := []model.OperationDefinition{{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 		Operation:    "damage",
 		Target:       "target",
 		DamageType:   "damage/physical",
@@ -206,7 +206,7 @@ func yunTalFlurryAAOps(multi bool) []model.OperationDefinition {
 		Ref:          yunTalFlurryAAOpRef,
 	}}
 	if multi {
-		ops = append(ops, model.OperationDefinition{
+		ops = append(ops, model.OperationDefinition{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",

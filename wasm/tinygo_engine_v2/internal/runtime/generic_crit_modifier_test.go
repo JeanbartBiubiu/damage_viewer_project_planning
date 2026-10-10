@@ -67,6 +67,11 @@ func loadCritEligibleDamageFixture(t *testing.T, chance, multiplier float64, eli
 		CritEligible: eligible,
 		Ref:          "op:crit_aa",
 	}}
+	if eligible {
+		compileReq.SharedProviders[0].Abilities[0].Operations[0].CritChance = &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}
+		compileReq.SharedProviders[0].Abilities[0].Operations[0].CritMultiplier = &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}
+		compileReq.SharedProviders[0].Abilities[0].Operations[0].CritMultiplierMin = model.Float64Ptr(1)
+	}
 	setSourceCritAttrs(&compileReq, &runReq, chance, multiplier)
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
 		Base: 100000, Current: 100000, Max: 100000, Resolved: 100000,
@@ -236,8 +241,8 @@ func TestGenericCritModifierMissingCritChanceFails(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected missing crit_chance run error")
 	}
-	if err.Code != model.GenericErrMissingRequiredField {
-		t.Fatalf("code=%q want missing_required_field", err.Code)
+	if err.Code != model.GenericErrFormulaTypeError {
+		t.Fatalf("explicit missing attribute read error=%+v", err)
 	}
 }
 
@@ -329,7 +334,7 @@ func TestGenericCritModifierEligibleCopyablePhantomFreezes(t *testing.T) {
 		{
 			ListenerKey:  "crit_copyable_on_hit",
 			EventMatcher: model.TypeMatcher{All: []string{guinsooKHitEvent, "event/source_owner"}},
-			Operations: []model.OperationDefinition{{
+			Operations: []model.OperationDefinition{{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 				Operation:     "damage",
 				Target:        "target",
 				DamageType:    "damage/physical",

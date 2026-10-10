@@ -23,11 +23,14 @@ func compileAttributeDerivations(definitions []model.AttributeDerivationDefiniti
 	seenOutputs := map[string]bool{}
 	for index, definition := range definitions {
 		path := "rules.attributeDerivations[" + itoa(index) + "]"
-		if definition.AttributeKey != "attack_speed" && definition.AttributeKey != "attack_damage" {
-			collector.addError(model.GenericErrUnknownRef, path+".attributeKey", "only attack_speed and attack_damage derivations are supported", definition.AttributeKey)
+		if definition.AttributeKey == "" || definition.AttributeKey == "hp" {
+			collector.addError(model.GenericErrUnknownRef, path+".attributeKey", "derivation requires an explicit non-HP attribute", definition.AttributeKey)
 		}
-		if (definition.AttributeKey == "attack_damage" && definition.ValuePolicy != "multiply") || (definition.AttributeKey == "attack_speed" && definition.ValuePolicy != "") {
-			collector.addError(model.GenericErrFormulaTypeError, path+".valuePolicy", "attack_damage requires multiply; attack_speed requires its absolute value policy", definition.ValuePolicy)
+		if definition.ValuePolicy != "set" && definition.ValuePolicy != "multiply" {
+			collector.addError(model.GenericErrFormulaTypeError, path+".valuePolicy", "derivation requires an explicit set or multiply policy", definition.ValuePolicy)
+		}
+		if definition.ValueType != "DECIMAL" && definition.ValueType != "INTEGER" {
+			collector.addError(model.GenericErrFormulaTypeError, path+".valueType", "derivation requires its explicit numeric output type", definition.ValueType)
 		}
 		if definition.CombatantKey != "source" && definition.CombatantKey != "target" {
 			collector.addError(model.GenericErrUnknownRef, path+".combatantKey", "unknown derivation combatant", definition.CombatantKey)
@@ -87,14 +90,14 @@ func compileAttributeDerivations(definitions []model.AttributeDerivationDefiniti
 			ctx.currentSkillKey = previousSkill
 			continue
 		}
-		bytes := uint64(unsafe.Sizeof(plan.CompiledAttributeDerivation{})) + uint64(len(definition.SkillKey)+len(definition.CombatantKey)+len(definition.AttributeKey)+len(definition.ValuePolicy)+len(path))
+		bytes := uint64(unsafe.Sizeof(plan.CompiledAttributeDerivation{})) + uint64(len(definition.SkillKey)+len(definition.CombatantKey)+len(definition.AttributeKey)+len(definition.ValuePolicy)+len(definition.ValueType)+len(path))
 		program, registered := ctx.registerFormula(path+".value", instructions, bytes)
 		ctx.currentSkillKey = previousSkill
 		if !registered {
 			continue
 		}
 		ctx.session.AttributeDerivations = append(ctx.session.AttributeDerivations, plan.CompiledAttributeDerivation{
-			SkillKey: definition.SkillKey, CombatantKey: definition.CombatantKey, AttributeKey: definition.AttributeKey, ValuePolicy: definition.ValuePolicy, ValueProgram: program, Path: path,
+			SkillKey: definition.SkillKey, CombatantKey: definition.CombatantKey, AttributeKey: definition.AttributeKey, ValuePolicy: definition.ValuePolicy, ValueType: definition.ValueType, ValueProgram: program, Path: path,
 		})
 	}
 }

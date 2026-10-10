@@ -154,11 +154,6 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 			}
 		}
 	}
-	for _, derivation := range s.compiled.AttributeDerivations {
-		if derivation.AttributeKey != p.AttackSpeedAttributeKey && derivation.AttributeKey != "attack_damage" {
-			return s.basicAttackErr("this stage allows only the actual attack-speed derivation", derivation.Path+".attributeKey")
-		}
-	}
 	as, ok := source.attributes[p.AttackSpeedAttributeKey]
 	_, initializes := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeSourceInitialized)
 	if !ok || math.IsNaN(as.Resolved) || math.IsInf(as.Resolved, 0) || as.Resolved <= 0 || math.IsNaN(p.AttackSpeedInputMax) || math.IsInf(p.AttackSpeedInputMax, 0) || p.AttackSpeedInputMax <= 0 || (!initializes && as.Resolved > p.AttackSpeedInputMax) {

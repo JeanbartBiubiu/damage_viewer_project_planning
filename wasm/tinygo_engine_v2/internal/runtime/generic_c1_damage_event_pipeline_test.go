@@ -571,6 +571,9 @@ func TestC1DamageInstanceNaturalBranchProjectsOutgoing(t *testing.T) {
 		model.TypeCatalogEntry{Key: "event/damage_instance", Domain: "event"},
 	)
 	compileReq.SharedProviders[0].Abilities[0].Operations[0].CritEligible = true
+	compileReq.SharedProviders[0].Abilities[0].Operations[0].CritChance = &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}
+	compileReq.SharedProviders[0].Abilities[0].Operations[0].CritMultiplier = &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}
+	compileReq.SharedProviders[0].Abilities[0].Operations[0].CritMultiplierMin = model.Float64Ptr(1)
 	compileReq.SharedProviders[0].Abilities[0].Operations[0].Ref = "op:c1_crit_out"
 	setSourceCritAttrs(&compileReq, &runReq, chance, multiplier)
 	mountPipelineProvider(&compileReq, &runReq, model.SelectorSource, "item:c1_out_mul", "c1_out_mul", model.ModifierDefinition{

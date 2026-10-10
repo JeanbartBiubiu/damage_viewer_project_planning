@@ -378,7 +378,7 @@ func ob2512UltAbility() model.AbilityDefinition {
 }
 
 func ob2512AAOps(raw float64, critEligible bool) []model.OperationDefinition {
-	return []model.OperationDefinition{
+	operations := []model.OperationDefinition{
 		{
 			Operation:    "damage",
 			Target:       "target",
@@ -394,12 +394,18 @@ func ob2512AAOps(raw float64, critEligible bool) []model.OperationDefinition {
 			Ref:       ob2512HitEvent,
 		},
 	}
+	if critEligible {
+		operations[0].CritChance = &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}
+		operations[0].CritMultiplier = &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}
+		operations[0].CritMultiplierMin = model.Float64Ptr(1)
+	}
+	return operations
 }
 
 func ob2512MultiAAOps(raw float64) []model.OperationDefinition {
 	raw2 := raw * 0.5
 	return []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",
@@ -407,7 +413,7 @@ func ob2512MultiAAOps(raw float64) []model.OperationDefinition {
 			CritEligible: true,
 			Ref:          ob2512AAOpRef,
 		},
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",

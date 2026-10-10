@@ -42,7 +42,7 @@ func (f *executionFrame) requireConfiguredDefense(damageType, operationPath stri
 	valid := exists && def.DamageType == damageType && def.Binding != nil && int(def.Program) < len(f.run.formulas.Programs)
 	if valid {
 		program := f.run.formulas.Programs[def.Program]
-		valid = program.Authored != nil && program.Authored.Stats().Stages > 0 && len(program.Instr) == 0 && program.SkillBinding == nil
+		valid = program.Authored != nil && program.Authored.Stats().Stages > 0 && len(program.Instr) == 0 && program.NamedBinding == nil
 	}
 	if !valid {
 		return planbundle.CompiledDamageTypeFormula{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "damage operation requires a valid authored defense plan", operationPath+".damageType", damageType, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)

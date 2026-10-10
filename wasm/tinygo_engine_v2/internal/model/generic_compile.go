@@ -234,6 +234,7 @@ type OperationDefinition struct {
 	// CritChance / CritMultiplier 成对声明当前结果的期望暴击供值，不覆盖来源全局属性。
 	CritChance        *GenericFormulaExpr      `json:"critChance,omitempty"`
 	CritMultiplier    *GenericFormulaExpr      `json:"critMultiplier,omitempty"`
+	CritMultiplierMin *float64                 `json:"critMultiplierMin,omitempty"`
 	VampQualification string                   `json:"vampQualification,omitempty"`
 	VampOverrides     []VampOverrideDefinition `json:"vampOverrides,omitempty"`
 	RepeatScope       string                   `json:"repeatScope,omitempty"`
@@ -309,7 +310,8 @@ type RulesContainer struct {
 
 type AttributeDerivationDefinition struct {
 	SkillKey     string             `json:"skillKey,omitempty"`
-	ValuePolicy  string             `json:"valuePolicy,omitempty"`
+	ValuePolicy  string             `json:"valuePolicy"`
+	ValueType    string             `json:"valueType"`
 	CombatantKey string             `json:"combatantKey"`
 	AttributeKey string             `json:"attributeKey"`
 	Value        GenericFormulaExpr `json:"value"`
@@ -318,7 +320,8 @@ type AttributeDerivationDefinition struct {
 // NamedFormula 是命名公式定义（供 ref 引用）。
 type NamedFormula struct {
 	Key        string             `json:"key"`
-	SkillKey   string             `json:"skillKey"`
+	Scope      string             `json:"scope"`
+	SkillKey   string             `json:"skillKey,omitempty"`
 	Expression any                `json:"expression"`
 	Parameters []FormulaParameter `json:"parameters"`
 }

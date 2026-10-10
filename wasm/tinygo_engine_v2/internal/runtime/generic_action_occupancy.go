@@ -3,6 +3,7 @@ package runtime
 import (
 	"sort"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func processOccupiesAction(process *processRuntime, owner string) bool {
@@ -209,15 +210,63 @@ func (state *genericRunState) validatePlannedSkillProvider(owner, providerRef st
 			}
 		}
 	}
-	for _, operation := range state.compiled.Operations {
+	for index, operation := range state.compiled.Operations {
 		if operation.OwnerProviderIndex != int(providerIndex) {
 			continue
 		}
 		switch operation.Operation {
+		case "attribute_change":
+			if operation.AttributeKey == "" || operation.AttributeKey == "hp" || operation.ValuePolicy != "add" ||
+				(operation.Target != "source" && operation.Target != "self" && operation.Target != "target") ||
+				!state.plannedAttributeOperationPosition(provider, index) {
+				return state.basicAttackErr("planned attribute change requires an ordinary explicit additive process or instant hit result", operation.Path)
+			}
+			matched := false
+			for _, action := range state.skillActions {
+				if action.binding.Source != owner || action.binding.ProviderRef != providerRef {
+					continue
+				}
+				matched = true
+				target, exists := state.resolveCombatantKey(operation.Target, action.plan.Source, action.plan.Target)
+				if !exists {
+					return state.basicAttackErr("planned attribute change requires its actual action recipient", operation.Path)
+				}
+				if _, exists := state.combatants[target].attributes[operation.AttributeKey]; !exists {
+					return state.basicAttackErr("planned attribute change requires an explicit recipient slot", operation.Path+".attributeKey")
+				}
+			}
+			if !matched {
+				return state.basicAttackErr("planned attribute change requires its actual action binding", operation.Path)
+			}
 		case "damage", "heal", "shield", "state_change", "apply_provider", "expire_provider", "refresh_provider", "cooldown_change", "resource_change", model.OperationKindResolveSkillHit, model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
 		default:
 			return state.basicAttackErr("planned source operation is outside the finite action subset", operation.Path)
 		}
 	}
 	return nil
+}
+
+// 只开放现有过程时点和即时属性命中，不借此扩大监听器操作集合。
+func (state *genericRunState) plannedAttributeOperationPosition(provider planbundle.CompiledProvider, index int) bool {
+	contains := func(start, count uint16) bool { return index >= int(start) && index < int(start)+int(count) }
+	for _, process := range provider.Processes {
+		for _, moment := range process.MomentOperations {
+			if contains(moment.OperationStart, moment.OperationCount) {
+				return true
+			}
+		}
+	}
+	for _, ability := range state.compiled.Abilities[int(provider.AbilityStart) : int(provider.AbilityStart)+int(provider.AbilityCount)] {
+		for _, operation := range state.compiled.Operations[int(ability.OperationStart) : int(ability.OperationStart)+int(ability.OperationCount)] {
+			if operation.SkillHit == nil {
+				continue
+			}
+			for _, candidate := range operation.SkillHit.Candidates {
+				if candidate.Semantic.ResultType == model.SkillHitResultAttributeChange && candidate.Semantic.Moment == model.SkillHitMomentInstant && contains(candidate.OperationStart, candidate.OperationCount) {
+					return true
+				}
+			}
+		}
+	}
+	return false
 }

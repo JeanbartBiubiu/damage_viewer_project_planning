@@ -11,7 +11,7 @@ func attackSpeedDerivation(owner string) model.AttributeDerivationDefinition {
 	read := func(key, field string) model.GenericFormulaExpr {
 		return model.GenericFormulaExpr{Op: "read", Path: owner + ".attr." + key + "." + field}
 	}
-	return model.AttributeDerivationDefinition{CombatantKey: owner, AttributeKey: "attack_speed", Value: model.GenericFormulaExpr{Op: "add", Args: []model.GenericFormulaExpr{
+	return model.AttributeDerivationDefinition{ValuePolicy: "set", ValueType: "DECIMAL", CombatantKey: owner, AttributeKey: "attack_speed", Value: model.GenericFormulaExpr{Op: "add", Args: []model.GenericFormulaExpr{
 		read("attack_speed", "base"), {Op: "mul", Args: []model.GenericFormulaExpr{
 			read("attack_speed_ratio", "resolved"), {Op: "sub", Args: []model.GenericFormulaExpr{read("bonus_attack_speed_percent", "resolved"), read("bonus_attack_speed_percent", "base")}},
 		}},
@@ -43,8 +43,8 @@ func TestContinuousAttackEquipmentSpeedUsesRatioWithoutDoubleGrowth(t *testing.T
 	}
 }
 
-func TestEquipmentAttackSpeedRejectsNonPositiveRatioNatively(t *testing.T) {
-	for _, ratio := range []float64{0, -1} {
+func TestEquipmentAttackSpeedUsesAuthoredRatioAndRejectsNonPositiveOutput(t *testing.T) {
+	for _, ratio := range []float64{0, -1, -10, -20} {
 		input, request := continuousAttackInput(1, 10000, 100, 0, 0, 1000)
 		for key, amount := range map[string]float64{"attack_speed_ratio": ratio, "bonus_attack_speed_percent": 0} {
 			input.Combatants[0].Attributes[key] = authoringSlot(amount)
@@ -53,8 +53,19 @@ func TestEquipmentAttackSpeedRejectsNonPositiveRatioNatively(t *testing.T) {
 		addFixedEquipment(&input, &request, 0, "item_1042", "bonus_attack_speed_percent", .1)
 		input.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{attackSpeedDerivation("source")}
 		compiled := authoringCompile(t, input)
-		if _, err := RunGeneric(compiled, request); err == nil {
-			t.Fatalf("ratio %v accepted", ratio)
+		done, err := RunGeneric(compiled, request)
+		wantSpeed := 1 + ratio*.1
+		if wantSpeed <= 0 {
+			if err == nil {
+				t.Fatalf("nonpositive authored final speed %v accepted", wantSpeed)
+			}
+			continue
+		}
+		if err != nil || math.Abs(done.FinalSnapshot.Combatants[0].Attributes["attack_speed"].Resolved-wantSpeed) > 1e-12 {
+			t.Fatalf("ratio %v final speed must follow authored math: want %v, done=%+v err=%+v", ratio, wantSpeed, done.FinalSnapshot, err)
+		}
+		if len(done.AttackRecords) == 0 || math.Abs(done.AttackRecords[0].AttackSpeed-wantSpeed) > 1e-12 {
+			t.Fatal("continuous consumer did not use authored final speed", done.AttackRecords)
 		}
 	}
 }

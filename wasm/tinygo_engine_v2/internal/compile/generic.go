@@ -89,7 +89,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 			attributeKeys = append(attributeKeys, key)
 		}
 	}
-	formula.CompileSkillNamedFormulas(req.Formulas, attributeKeys, &session.Formulas, collector.addError)
+	formula.CompileDeclaredNamedFormulas(req.Formulas, attributeKeys, &session.Formulas, collector.addError)
 	ctx.namedFormulas = session.Formulas.DeclaredReferences()
 	compileVampRules(req.Rules.VampRules, req.Combatants, ctx)
 	compileDamageTypeFormulas(req.Rules.DamageTypeFormulas, ctx)

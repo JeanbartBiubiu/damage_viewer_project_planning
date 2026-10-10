@@ -20,7 +20,7 @@ func Definition(inputs, stages []any, output string) any {
 	return map[string]any{"inputs": inputs, "stages": stages, "outputStageKey": output}
 }
 func Constant(key, skill string, value float64) model.NamedFormula {
-	return model.NamedFormula{Key: key, SkillKey: skill, Expression: Definition(nil, []any{Stage("output", Const(value))}, "output"), Parameters: []model.FormulaParameter{}}
+	return model.NamedFormula{Scope: "skill", Key: key, SkillKey: skill, Expression: Definition(nil, []any{Stage("output", Const(value))}, "output"), Parameters: []model.FormulaParameter{}}
 }
 
 // FromExpr迁移测试构造中的已知属性/参数树，不接受内部事件或状态用途读。
@@ -95,5 +95,5 @@ func FromExpr(key, skill string, root model.GenericFormulaExpr, values map[strin
 		return out
 	}
 	output := convert(root)
-	return model.NamedFormula{Key: key, SkillKey: skill, Expression: Definition(inputs, []any{Stage("output", output)}, "output"), Parameters: parameters}
+	return model.NamedFormula{Scope: "skill", Key: key, SkillKey: skill, Expression: Definition(inputs, []any{Stage("output", output)}, "output"), Parameters: parameters}
 }

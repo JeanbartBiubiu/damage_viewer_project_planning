@@ -29,7 +29,7 @@ func phase3BDerivationInput() (model.CompileRequest, model.RunRequest) {
 			legacy = "source.attr.armor.base"
 		}
 		value := authoringBinary("add", model.GenericFormulaExpr{Op: "ref", Ref: "owner_dynamic"}, authoringBinary("div", authoringRead(legacy), authoringConst(100)))
-		c.Rules.AttributeDerivations = append(c.Rules.AttributeDerivations, model.AttributeDerivationDefinition{CombatantKey: side, AttributeKey: "attack_damage", SkillKey: "probe", ValuePolicy: "multiply", Value: value})
+		c.Rules.AttributeDerivations = append(c.Rules.AttributeDerivations, model.AttributeDerivationDefinition{ValueType: "DECIMAL", CombatantKey: side, AttributeKey: "attack_damage", SkillKey: "probe", ValuePolicy: "multiply", Value: value})
 	}
 	c.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{{Operation: "attribute_change", Target: "source", AttributeKey: "armor", ValuePolicy: "add", Amount: authoringAmount(authoringConst(10))}, {Operation: "attribute_change", Target: "target", AttributeKey: "armor", ValuePolicy: "add", Amount: authoringAmount(authoringConst(5))}, {Operation: "damage", Target: "target", DamageType: "heat", Amount: authoringAmount(model.GenericFormulaExpr{Op: "ref", Ref: "read_damage"})}}
 	return c, r
@@ -109,7 +109,7 @@ func TestPhase3BDerivationTypedErrorIncludesActualActorAndOriginalProgramPointer
 
 func TestPhase3BDerivationLegacyWithoutAuthorIdentityKeepsBattleSideSemantics(t *testing.T) {
 	c, r := phase3BDerivationInput()
-	c.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{{CombatantKey: "source", AttributeKey: "attack_speed", Value: authoringConst(2)}, {CombatantKey: "target", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("div", authoringRead("source.attr.armor.base"), authoringConst(10))}}
+	c.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{{ValuePolicy: "set", ValueType: "DECIMAL", CombatantKey: "source", AttributeKey: "attack_speed", Value: authoringConst(2)}, {ValueType: "DECIMAL", CombatantKey: "target", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("div", authoringRead("source.attr.armor.base"), authoringConst(10))}}
 	c.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{{Operation: "heal", Target: "source", Amount: authoringAmount(authoringConst(0))}}
 	done := authoringRun(t, c, r)
 	if done.FinalSnapshot.Combatants[0].Attributes["attack_speed"].Resolved != 2 || done.FinalSnapshot.Combatants[1].Attributes["attack_damage"].Resolved != 50 {

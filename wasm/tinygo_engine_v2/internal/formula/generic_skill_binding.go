@@ -11,30 +11,37 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-// SkillBinding私有保存作者身份、读值计划和已选参数，能力params不是参数目录。
-type SkillBinding struct {
-	skillKey, path string
-	plan           *inputbinding.Plan
-	inputs         []expression.Input
-	parameters     []model.FormulaParameter
-	dependencies   []GenericInstr
+// NamedBinding私有保存真实归属、读值计划和已选参数。
+type NamedBinding struct {
+	scope, skillKey, path string
+	plan                  *inputbinding.Plan
+	inputs                []expression.Input
+	parameters            []model.FormulaParameter
+	dependencies          []GenericInstr
 }
 
-func (b *SkillBinding) SkillKey() string {
+func (b *NamedBinding) Scope() string {
+	if b == nil {
+		return ""
+	}
+	return b.scope
+}
+
+func (b *NamedBinding) SkillKey() string {
 	if b == nil {
 		return ""
 	}
 	return b.skillKey
 }
-func (b *SkillBinding) Path() string {
+func (b *NamedBinding) Path() string {
 	if b == nil {
 		return ""
 	}
 	return b.path
 }
 
-// CompileSkillNamedFormulas把每个完整共同定义直接注册到同一个有界表。
-func CompileSkillNamedFormulas(defs []model.NamedFormula, attributes []string, reg *GenericRegistry, add func(model.GenericErrCode, string, string, string)) {
+// CompileDeclaredNamedFormulas把每个完整共同定义直接注册到同一个有界表。
+func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string, reg *GenericRegistry, add func(model.GenericErrCode, string, string, string)) {
 	if len(defs) > MaxGenericPrograms {
 		add(model.GenericErrCode("FORMULA_LIMIT"), "/formulas/65536/key", "formula program count exceeds maximum", "")
 		return
@@ -43,7 +50,9 @@ func CompileSkillNamedFormulas(defs []model.NamedFormula, attributes []string, r
 	for i, def := range defs {
 		path := "/formulas/" + strconv.Itoa(i)
 		problem := func(code, suffix string) { add(model.GenericErrCode(code), path+suffix, code, def.Key) }
-		if strings.TrimSpace(def.Key) == "" || strings.TrimSpace(def.SkillKey) == "" {
+		if strings.TrimSpace(def.Key) == "" || (def.Scope != "skill" && def.Scope != "game") ||
+			(def.Scope == "skill" && strings.TrimSpace(def.SkillKey) == "") ||
+			(def.Scope == "game" && (def.SkillKey != "" || len(def.Parameters) != 0)) {
 			problem("FORMULA_INVALID_STRUCTURE", "")
 			continue
 		}
@@ -102,7 +111,13 @@ func CompileSkillNamedFormulas(defs []model.NamedFormula, attributes []string, r
 		var allowed []any
 		for _, key := range attributes {
 			for _, object := range []string{"source", "target"} {
+				if def.Scope == "game" && object != "source" {
+					continue
+				}
 				for _, kind := range []string{"BASE", "BONUS", "TOTAL", "CURRENT", "MAX", "MISSING", "CURRENT_RATIO", "MISSING_RATIO"} {
+					if def.Scope == "game" && kind != "BASE" && kind != "BONUS" && kind != "TOTAL" {
+						continue
+					}
 					allowed = append(allowed, map[string]any{"kind": "attribute", "object": object, "attributeKey": key, "valueKind": kind, "view": "current_frame"})
 				}
 			}
@@ -140,7 +155,7 @@ func CompileSkillNamedFormulas(defs []model.NamedFormula, attributes []string, r
 		for j, binding := range catalog {
 			ordered[j].Binding = binding
 		}
-		binding := &SkillBinding{skillKey: def.SkillKey, path: path + "/expression", plan: bindingPlan, inputs: ordered, parameters: params}
+		binding := &NamedBinding{scope: def.Scope, skillKey: def.SkillKey, path: path + "/expression", plan: bindingPlan, inputs: ordered, parameters: params}
 		for _, input := range program.OutputInputs() {
 			b := input.Binding
 			if b.Kind == "attribute" {
@@ -180,7 +195,7 @@ func CompileSkillNamedFormulas(defs []model.NamedFormula, attributes []string, r
 				binding.dependencies = append(binding.dependencies, GenericInstr{Op: GenericOpRead, ReadKind: kind, ReadKey: key})
 			}
 		}
-		bytes := bindingPlan.ChargedBytes() + uint64(unsafe.Sizeof(SkillBinding{})) + uint64(len(binding.skillKey)+len(binding.path)) + uint64(cap(ordered))*uint64(unsafe.Sizeof(expression.Input{})) + uint64(cap(params))*uint64(unsafe.Sizeof(model.FormulaParameter{})) + uint64(cap(binding.dependencies))*uint64(unsafe.Sizeof(GenericInstr{}))
+		bytes := bindingPlan.ChargedBytes() + uint64(unsafe.Sizeof(NamedBinding{})) + uint64(len(binding.scope)+len(binding.skillKey)+len(binding.path)) + uint64(cap(ordered))*uint64(unsafe.Sizeof(expression.Input{})) + uint64(cap(params))*uint64(unsafe.Sizeof(model.FormulaParameter{})) + uint64(cap(binding.dependencies))*uint64(unsafe.Sizeof(GenericInstr{}))
 		for _, input := range ordered {
 			b := input.Binding
 			bytes += uint64(len(b.Kind) + len(b.Object) + len(b.AttributeKey) + len(b.ValueKind) + len(b.View) + len(b.SkillKey) + len(b.ParameterKey))
@@ -197,7 +212,7 @@ func CompileSkillNamedFormulas(defs []model.NamedFormula, attributes []string, r
 		for _, dep := range binding.dependencies {
 			bytes += uint64(len(dep.ReadKey))
 		}
-		if _, err := reg.Register(GenericProgram{Key: def.Key, Authored: program, SkillBinding: binding, BindingBytes: bytes, DeclaredNamed: true}); err != nil {
+		if _, err := reg.Register(GenericProgram{Key: def.Key, Authored: program, NamedBinding: binding, BindingBytes: bytes, DeclaredNamed: true}); err != nil {
 			code := "FORMULA_INVALID_PROGRAM"
 			if IsRegistryLimit(err) {
 				code = "FORMULA_LIMIT"
@@ -210,7 +225,7 @@ func CompileSkillNamedFormulas(defs []model.NamedFormula, attributes []string, r
 	}
 }
 
-func (b *SkillBinding) reader(ctx GenericEvalContext, static bool) (expression.ReadInput, *expression.ContractIssue) {
+func (b *NamedBinding) reader(ctx GenericEvalContext, static bool) (expression.ReadInput, *expression.ContractIssue) {
 	values := make([]inputbinding.Value, len(b.inputs))
 	for i, input := range b.inputs {
 		binding := input.Binding
@@ -285,7 +300,9 @@ func (r GenericRegistry) ValidDeclaredScope(instructions []GenericInstr, skill s
 			return false
 		}
 		p := r.Programs[in.RefIndex]
-		if !p.DeclaredNamed || p.SkillBinding == nil || skill == "" || p.SkillBinding.SkillKey() != skill {
+		if !p.DeclaredNamed || p.NamedBinding == nil ||
+			(p.NamedBinding.Scope() != "skill" && p.NamedBinding.Scope() != "game") ||
+			(p.NamedBinding.Scope() == "skill" && (skill == "" || p.NamedBinding.SkillKey() != skill)) {
 			return false
 		}
 	}
@@ -297,13 +314,13 @@ func (r GenericRegistry) ReadDependencies(id GenericProgramID) []GenericInstr {
 	if int(id) >= len(r.Programs) {
 		return nil
 	}
-	return r.InstructionDependencies(r.Programs[id].Instr, r.Programs[id].SkillBinding)
+	return r.InstructionDependencies(r.Programs[id].Instr, r.Programs[id].NamedBinding)
 }
-func (r GenericRegistry) InstructionDependencies(instructions []GenericInstr, own *SkillBinding) []GenericInstr {
+func (r GenericRegistry) InstructionDependencies(instructions []GenericInstr, own *NamedBinding) []GenericInstr {
 	var out []GenericInstr
 	seen := make(map[GenericProgramID]bool)
-	var visit func([]GenericInstr, *SkillBinding)
-	visit = func(code []GenericInstr, b *SkillBinding) {
+	var visit func([]GenericInstr, *NamedBinding)
+	visit = func(code []GenericInstr, b *NamedBinding) {
 		if b != nil {
 			out = append(out, b.dependencies...)
 		}
@@ -316,7 +333,7 @@ func (r GenericRegistry) InstructionDependencies(instructions []GenericInstr, ow
 				if !seen[id] && int(id) < len(r.Programs) {
 					seen[id] = true
 					p := r.Programs[id]
-					visit(p.Instr, p.SkillBinding)
+					visit(p.Instr, p.NamedBinding)
 				}
 			}
 		}

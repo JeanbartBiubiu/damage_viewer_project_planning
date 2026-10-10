@@ -201,7 +201,7 @@ func genericProgramMemoryBytes(program GenericProgram) (uint64, error) {
 }
 
 func sameGenericProgram(a, b GenericProgram) bool {
-	if a.Key != b.Key || a.Authored != b.Authored || a.BindingBytes != b.BindingBytes || a.PlanBytes != b.PlanBytes || a.SkillBinding != b.SkillBinding || a.DeclaredNamed != b.DeclaredNamed || len(a.Instr) != len(b.Instr) {
+	if a.Key != b.Key || a.Authored != b.Authored || a.BindingBytes != b.BindingBytes || a.PlanBytes != b.PlanBytes || a.NamedBinding != b.NamedBinding || a.DeclaredNamed != b.DeclaredNamed || len(a.Instr) != len(b.Instr) {
 		return false
 	}
 	for i, instr := range a.Instr {

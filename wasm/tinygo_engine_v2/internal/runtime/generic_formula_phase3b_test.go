@@ -202,7 +202,7 @@ func TestPhase3BNativeInputRoundTripRetainsCommonDecimalAndStrictSlots(t *testin
 	}
 	var registry formula.GenericRegistry
 	def := formuladefinition.FromExpr("zero", "probe", authoringRead("ability.param.zero"), map[string]float64{"zero": 0})
-	formula.CompileSkillNamedFormulas([]model.NamedFormula{def}, nil, &registry, func(code model.GenericErrCode, path, message, ref string) { t.Fatal(code, path) })
+	formula.CompileDeclaredNamedFormulas([]model.NamedFormula{def}, nil, &registry, func(code model.GenericErrCode, path, message, ref string) { t.Fatal(code, path) })
 	value, issue := registry.Eval(0, formula.GenericEvalContext{})
 	if issue != nil || value != 0 || math.Signbit(value) {
 		t.Fatal(value, issue)
