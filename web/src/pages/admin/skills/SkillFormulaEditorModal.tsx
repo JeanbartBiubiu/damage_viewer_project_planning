@@ -27,7 +27,7 @@ import {
   lastFieldName,
   shouldDegradeUnsupportedAnchor
 } from './authoringFocus';
-import { FormulaExpressionEditor } from './FormulaExpressionEditor';
+import { CommonFormulaDefinitionEditor } from '../common-formula/CommonFormulaDefinitionEditor';
 import {
   buildCreateFormulaRequest,
   buildUpdateFormulaRequest,
@@ -485,7 +485,7 @@ export function SkillFormulaEditorModal({
               help={errors.expression}
             >
               {expressionReady ? (
-                <FormulaExpressionEditor
+                <CommonFormulaDefinitionEditor
                   skillKey={skillKey} root={draft.expression}
                   path="expression"
                   node={draft.expression}

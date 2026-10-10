@@ -1,7 +1,8 @@
-import type { GenericRules, ProviderDefinition } from '../types/genericEngine';
+import type { ProviderDefinition } from '../types/genericEngine';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import { normalizeEquipmentKeys } from '../services/simulationSnapshotClient';
 import { constExpr, finiteNumber, NumericAdaptationError } from './numericAdapter';
+import { changedAttributes } from './simulationCalculationRules';
 
 export type EquipmentOrigin = {
   side: 'source' | 'target'; equipmentKey: string; equipmentName: string;
@@ -11,12 +12,11 @@ export type EquipmentOrigin = {
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 
-export function assembleEquipment(snapshot: SimulationSnapshot, skillDerivationSides: ReadonlySet<'source' | 'target'> = new Set(),
-  fixedAttackSpeedSides: ReadonlySet<'source' | 'target'> = new Set()) {
+export function assembleEquipment(snapshot: SimulationSnapshot) {
   const providers: ProviderDefinition[] = [];
   const origins: EquipmentOrigin[] = [];
   const coverage: Array<{ authorPath: string; compiledPath: string }> = [];
-  const derivations: NonNullable<GenericRules['attributeDerivations']> = [];
+  const changed = changedAttributes();
   const required = { source: new Set<string>(), target: new Set<string>() };
   for (const side of ['source', 'target'] as const) {
     const selectedKeys = normalizeEquipmentKeys(snapshot.selection[`${side}EquipmentKeys`], `selection.${side}EquipmentKeys`);
@@ -25,7 +25,6 @@ export function assembleEquipment(snapshot: SimulationSnapshot, skillDerivationS
       || new Set(selected.map(row => row.equipment.equipmentKey)).size !== selected.length) {
       fail(`${side}.selectedEquipment`, '所选装备完整集缺失或重复');
     }
-    let needsDerivation = skillDerivationSides.has(side);
     for (const equipmentKey of selectedKeys) {
       const path = `${side}.selectedEquipment[${equipmentKey}]`;
       const item = selected.find(row => row.equipment.equipmentKey === equipmentKey);
@@ -47,7 +46,7 @@ export function assembleEquipment(snapshot: SimulationSnapshot, skillDerivationS
         const amount = finiteNumber(values[attributeKey], authorPath, fail);
         if (attributes[0]!.valueType === 'INTEGER' && !Number.isInteger(amount)) fail(authorPath, '装备属性增量违反整数约束');
         required[side].add(attributeKey);
-        if (attributeKey === 'bonus_attack_speed_percent') needsDerivation = true;
+        changed[side].add(attributeKey);
         coverage.push({ authorPath, compiledPath: `${compiledPath}.modifiers[${index}]` });
         return { modifierKey: `attribute_${attributeKey}`, kind: 'attribute', target: `self.attr.${attributeKey}`,
           valuePolicy: 'add', value: constExpr(amount) };
@@ -57,33 +56,9 @@ export function assembleEquipment(snapshot: SimulationSnapshot, skillDerivationS
         attributeValues: { ...values }, authorPath: path, compiledPath });
       coverage.push({ authorPath: `${path}.equipment.equipmentKey`, compiledPath: `combatants[${side === 'source' ? 0 : 1}].providers[${mountIndex}]` });
     }
-    if (needsDerivation && !fixedAttackSpeedSides.has(side)) {
-      const ratio = snapshot.catalogs.attributes.filter(row => row.attributeKey === 'attack_speed_ratio' && row.status === 'ENABLED');
-      if (ratio.length !== 1 || ratio[0]!.valueType !== 'DECIMAL' || ratio[0]!.minValue !== 0) {
-        fail(`catalogs.attributes.attack_speed_ratio`, `${side === 'source' ? '攻击方' : '目标'}装备攻速需要已启用、小数类型且最小值为0的收益系数目录；缺目录不能运行短剑`);
-      }
-      for (const attributeKey of ['attack_speed', 'bonus_attack_speed_percent', 'attack_speed_ratio']) required[side].add(attributeKey);
-      const read = (attributeKey: string, slot: string) => ({ op: 'read', path: `${side}.attr.${attributeKey}.${slot}` });
-      const index = derivations.length;
-      derivations.push({ combatantKey: side, attributeKey: 'attack_speed', value: {
-        op: 'add', args: [read('attack_speed', 'base'), { op: 'mul', args: [read('attack_speed_ratio', 'resolved'), {
-          op: 'sub', args: [read('bonus_attack_speed_percent', 'resolved'), read('bonus_attack_speed_percent', 'base')]
-        }] }]
-      } });
-      const expressionPath = `rules.attributeDerivations[${index}].value`;
-      const baselinePath = (attributeKey: string) => Object.prototype.hasOwnProperty.call(snapshot[side].selectedLevelValues, attributeKey)
-        ? `${side}.selectedLevelValues.${attributeKey}` : `attributeInputs.${side}.${attributeKey}`;
-      coverage.push(
-        { authorPath: baselinePath('attack_speed'), compiledPath: `${expressionPath}.args[0]` },
-        { authorPath: baselinePath('attack_speed_ratio'), compiledPath: `${expressionPath}.args[1].args[0]` },
-        { authorPath: baselinePath('bonus_attack_speed_percent'), compiledPath: `${expressionPath}.args[1].args[1].args[1]` }
-      );
-      for (const origin of origins.filter(row => row.side === side && 'bonus_attack_speed_percent' in row.attributeValues)) {
-        coverage.push({ authorPath: `${origin.authorPath}.attributes.attributeValues.bonus_attack_speed_percent`, compiledPath: `${expressionPath}.args[1].args[1].args[0]` });
-      }
-    }
+
   }
-  return { providers, origins, coverage, derivations, required };
+  return { providers, origins, coverage, changedAttributes: changed, required };
 }
 
 export function equipmentContribution(snapshot: SimulationSnapshot, side: 'source' | 'target', attributeKey: string): number {

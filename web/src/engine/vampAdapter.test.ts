@@ -101,7 +101,7 @@ describe('吸血管理配置适配', () => {
         nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'health', attributeValueKind: 'MISSING_RATIO'
       }) }];
     const result = adaptDamageVamp(rules, row);
-    expect(result.formulas).toEqual([{ key: 'vamp/ahri_q/levels/1/1/health_ratio', skillKey: 'ahri_q', expression: row.formulas![0]!.expression, parameters: [] }]);
+    expect(result.formulas).toEqual([{ scope: 'skill',  key: 'vamp/ahri_q/levels/1/1/health_ratio', skillKey: 'ahri_q', expression: row.formulas![0]!.expression, parameters: [] }]);
     expect(result.requiredAttributes).toContain('health');
   });
 

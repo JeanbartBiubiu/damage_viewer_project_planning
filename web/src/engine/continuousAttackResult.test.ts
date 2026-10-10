@@ -696,7 +696,7 @@ describe('连续可靠结果解释', () => {
   });
   it('4A派生只按静态原生最终攻速核对逐刀事实，不把固有攻速当装备后总值', async () => {
     const input = await sample();
-    input.prepared.compileRequest.rules.attributeDerivations = [{ combatantKey: 'source', attributeKey: 'attack_speed', value: {
+    input.prepared.compileRequest.rules.attributeDerivations = [{ combatantKey: 'source', attributeKey: 'attack_speed', valuePolicy: 'set', valueType: 'DECIMAL', value: {
       op: 'read', path: 'source.attr.attack_speed.base'
     } }];
     input.request.initialSnapshot.combatants[0]!.attributes.attack_speed!.resolved = 0.5;

@@ -1,3 +1,4 @@
+import { assembleGameAttributeDerivations, calculationConfiguration, changedAttributes, simulationCriticalBinding } from './simulationCalculationRules';
 import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
 import { consumedApprovedFormulaValues, resetConsumedApprovedFormulaValues, collectedCommonFormulaDefinitions } from './approvedFormulaValues';
 import { TypeCatalogEntries } from './typeCatalogEntries';
@@ -12,7 +13,7 @@ import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
 import type { SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth, SimulationMechanicStateInput, SimulationSnapshot } from '../types/simulationSnapshot';
 import {
-  compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
+  compileNumericValue, createNumericCompileState, finiteNumber,
   NumericAdaptationError, wrapValueRuleExpression
 } from './numericAdapter';
 import { adaptDamageVamp } from './vampAdapter';
@@ -26,7 +27,7 @@ import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
 
-export const SIMULATION_ADAPTER_VERSION = 'v13-generic-permanent-equipment';
+export const SIMULATION_ADAPTER_VERSION = 'v14-authored-game-calculation';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -40,7 +41,7 @@ export type OperationOrigin = {
   abilityRef: string; operationRef: string; skillKey: string; effectKey: string; resultKey: string; compiledPaths: string[];
   providerDefinitionRef?: string;
 };
-export type BasicAttackBinding = Omit<BasicAttackPlan, 'planKey' | 'attackSpeedInputMax'>;
+export type BasicAttackBinding = Omit<BasicAttackPlan, 'planKey' | 'attackSpeedInputMax' | 'attackSpeedAttributeKey'> & { attackSpeedAttributeKey: string | null };
 export type SimulationAttributeRequirement = {
   side: 'source' | 'target'; attribute: Attribute; storedValue: number | undefined
 };
@@ -107,8 +108,13 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   const triggered = assembleTriggeredEquipment(snapshot);
   recordCompiledEquipmentSources(natural, triggered);
   const triggeredPrograms = [triggered, natural.triggered];
-  const equipment = assembleEquipment(snapshot, new Set([...natural.derivationSides, ...triggered.derivationSides]),
-    new Set(natural.derivations.filter(row => row.attributeKey === 'attack_speed').map(row => row.combatantKey)));
+  const equipment = assembleEquipment(snapshot);
+  const changed = changedAttributes();
+  for (const side of ['source', 'target'] as const) for (const assembly of [equipment, natural, triggered]) {
+    for (const key of assembly.changedAttributes[side]) changed[side].add(key);
+  }
+  const game = assembleGameAttributeDerivations(snapshot, changed, natural.derivations);
+  const speedAttributeKey = calculationConfiguration(snapshot)?.attackSpeedAttributeKey ?? null;
   const selection = snapshot.selection;
   if (selection.basicAttackLevel === null) fail('selection.basicAttackLevel', '普攻技能与等级必须配对提供');
   const config = snapshot.skillConfigurations.find(row => row.skill.skillKey === selection.basicAttackSkillKey);
@@ -150,9 +156,9 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   abilityTypes.push(skillIdentity);
   const rules: GenericRules = { damageTypeFormulas: [] };
   const required = new Map<'source' | 'target', Set<string>>([
-    ['source', new Set(['hp', 'attack_speed', ...equipment.required.source])], ['target', new Set(['hp', ...equipment.required.target])]
+    ['source', new Set(['hp', ...(speedAttributeKey ? [speedAttributeKey] : []), ...equipment.required.source, ...game.required.source])], ['target', new Set(['hp', ...equipment.required.target, ...game.required.target])]
   ]);
-  coverage.push(...equipment.coverage);
+  coverage.push(...equipment.coverage, ...game.coverage);
   coverage.push(...triggered.coverage);
   coverage.push(...natural.coverage);
   operationOrigins.push(...triggeredPrograms.flatMap(assembly => assembly.operationOrigins));
@@ -161,7 +167,7 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   for (const type of triggeredPrograms.flatMap(assembly => assembly.types)) types.set(type.key, type.domain);
   if (natural.mounts.length) types.set('event/source_initialized', 'event');
   if (ammo.schema) types.set('state_scope/provider', 'state_scope');
-  if (equipment.derivations.length || natural.derivations.length) rules.attributeDerivations = [...equipment.derivations, ...natural.derivations];
+  if (game.derivations.length || natural.derivations.length) rules.attributeDerivations = [...game.derivations, ...natural.derivations];
   validateSimulationAttributeDerivations(rules.attributeDerivations ?? []);
   const addCoverage = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const skillPath = `skills.${config.skill.skillKey}`;
@@ -220,8 +226,7 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
       if (!detail.critical.multiplierValue) fail(`${path}.detail.critical.multiplierValue`, '暴击需要原配置倍率');
       operation.critEligible = true;
       operation.critMultiplier = value(detail.critical.multiplierValue, `${path}.detail.critical.multiplierValue`);
-      operation.critChance = critical.mode === 'FORCED' ? constExpr(1)
-        : { op: 'read', path: 'source.attr.critical_strike_chance.resolved' };
+      Object.assign(operation, simulationCriticalBinding(snapshot, critical.mode === 'FORCED', `${path}.detail.critical.mode`));
       addCoverage(`${path}.detail.critical.mode`, `${compiledPath}.critChance`);
       addCoverage(`${path}.detail.critical.multiplierValue`, `${compiledPath}.critMultiplier`);
     } else fail(`${path}.detail.critical.mode`, '未知暴击模式');
@@ -436,8 +441,8 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
     const indices = defenseIndices.find(assembly => assembly.coverage.includes(row))?.indices;
     const path = indices ? row.compiledPath.replace(/rules\.damageTypeFormulas\[(\d+)\]/,
       (original, index: string) => indices.has(Number(index)) ? `rules.damageTypeFormulas[${indices.get(Number(index))}]` : original) : row.compiledPath;
-    const compiledPath = rebase(path).replace(/rules\.attributeDerivations\[conversion_(\d+)\]/,
-      (_original, index: string) => `rules.attributeDerivations[${equipment.derivations.length + Number(index)}]`);
+    const compiledPath = rebase(path).replace(/rules\.attributeDerivations\[game_(\d+)\]/, (_whole, index: string) => `rules.attributeDerivations[${index}]`).replace(/rules\.attributeDerivations\[conversion_(\d+)\]/,
+      (_original, index: string) => `rules.attributeDerivations[${game.derivations.length + Number(index)}]`);
     const key = JSON.stringify([row.authorPath, compiledPath]);
     let entry = coverageByReference.get(key);
     if (!entry) {
@@ -448,12 +453,12 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   }
   const mergedCoverage = [...coverageByReference.values()].map(({ row, notes }) =>
     notes.size ? { ...row, note: [...notes].join('；') } : row);
-  const assembled: Program = { provider, rules, formulas: [...state.namedFormulas.values(), ...triggeredPrograms.flatMap(assembly => assembly.formulas)], types: [...types].map(([key, domain]) => ({ key, domain })),
+  const assembled: Program = { provider, rules, formulas: [...game.formulas, ...state.namedFormulas.values(), ...triggeredPrograms.flatMap(assembly => assembly.formulas)], types: [...types].map(([key, domain]) => ({ key, domain })),
     coverage: mergedCoverage, required, configuration: config, operationOrigins: mergedOrigins, equipment, triggered, natural,
     basicAttackBinding: { source: 'source', target: 'target', skillKey: config.skill.skillKey,
       startAbilityRef: `source.provider[${MOUNT}].ability[${START_ABILITY}]`,
       hitAbilityRef: `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`,
-      initialControlAbilityRef: `source.provider[${MOUNT}].ability[${controlKey}]`, attackSpeedAttributeKey: 'attack_speed' }
+      initialControlAbilityRef: `source.provider[${MOUNT}].ability[${controlKey}]`, attackSpeedAttributeKey: speedAttributeKey }
   };
   return snapshot.selection.plannedSkills.length ? mergeActiveProgram(assembled, snapshot, ignoredCosts) : assembled;
 }
@@ -462,11 +467,15 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
   const natural = assembleNaturalSkillSources(snapshot);
   const triggered = assembleTriggeredEquipment(snapshot);
   recordCompiledEquipmentSources(natural, triggered);
-  const equipment = assembleEquipment(snapshot, new Set([...natural.derivationSides, ...triggered.derivationSides]),
-    new Set(natural.derivations.filter(row => row.attributeKey === 'attack_speed').map(row => row.combatantKey)));
+  const equipment = assembleEquipment(snapshot);
+  const changed = changedAttributes();
+  for (const side of ['source', 'target'] as const) for (const assembly of [equipment, natural, triggered]) {
+    for (const key of assembly.changedAttributes[side]) changed[side].add(key);
+  }
+  const game = assembleGameAttributeDerivations(snapshot, changed, natural.derivations);
   const assemblies = [triggered, natural.triggered];
   const rules: GenericRules = { damageTypeFormulas: [],
-    attributeDerivations: [...equipment.derivations, ...natural.derivations] };
+    attributeDerivations: [...game.derivations, ...natural.derivations] };
   validateSimulationAttributeDerivations(rules.attributeDerivations!);
   for (const assembly of assemblies) {
     for (const formula of assembly.rules.damageTypeFormulas ?? []) {
@@ -482,7 +491,7 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
   const types = new TypeCatalogEntries([...assemblies.flatMap(assembly => assembly.types)].map(type => [type.key, type.domain]));
   if (natural.mounts.length) types.set('event/source_initialized', 'event');
   const required = new Map<'source' | 'target', Set<string>>((['source', 'target'] as const).map(side =>
-    [side, new Set(['hp', ...equipment.required[side], ...triggered.required[side], ...natural.required[side]])]));
+    [side, new Set(['hp', ...equipment.required[side], ...game.required[side], ...triggered.required[side], ...natural.required[side]])]));
   for (const rule of rules.vampRules ?? []) required.get('source')!.add(rule.sourceAttributeKey);
   const collect = (value: unknown): void => {
     if (Array.isArray(value)) { value.forEach(collect); return; }
@@ -505,11 +514,11 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
   const coverage = [...equipment.coverage.map(row => ({ ...row, compiledPath: row.compiledPath
     .replace(/sharedProviders\[(\d+)\]/, (_original, index: string) => `sharedProviders[${Number(index) - 1}]`)
     .replace(/combatants\[0\]\.providers\[(\d+)\]/, (_original, index: string) => `combatants[0].providers[${Number(index) - 1}]`) })),
-    ...triggered.coverage, ...natural.coverage];
-  const mergedCoverage = coverage.map(row => ({ ...row, compiledPath: rebase(row.compiledPath) }));
+    ...game.coverage, ...triggered.coverage, ...natural.coverage];
+  const mergedCoverage = coverage.map(row => ({ ...row, compiledPath: rebase(row.compiledPath).replace(/rules\.attributeDerivations\[game_(\d+)\]/, (_whole, index: string) => `rules.attributeDerivations[${index}]`).replace(/rules\.attributeDerivations\[conversion_(\d+)\]/, (_whole, index: string) => `rules.attributeDerivations[${game.derivations.length + Number(index)}]`) }));
   const origins = assemblies.flatMap(assembly => assembly.operationOrigins.map(origin => ({ ...origin,
     compiledPaths: origin.compiledPaths.map(rebase) })));
-  return mergeActiveProgram({ provider: null, rules, formulas: assemblies.flatMap(assembly => assembly.formulas),
+  return mergeActiveProgram({ provider: null, rules, formulas: [...game.formulas, ...assemblies.flatMap(assembly => assembly.formulas)],
     types: [...types].map(([key, domain]) => ({ key, domain })), required, equipment, triggered, natural,
     coverage: mergedCoverage,
     operationOrigins: origins, basicAttackBinding: null }, snapshot, ignoredCosts);
@@ -517,6 +526,15 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
 
 function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[]): Program {
   const active = assembleActiveSkills(snapshot, ignoredCosts);
+  const existingDerivations = base.rules.attributeDerivations ?? [];
+  const extraGame = assembleGameAttributeDerivations(snapshot, active.changedAttributes, existingDerivations);
+  if (extraGame.derivations.length) {
+    base.rules.attributeDerivations = [...existingDerivations, ...extraGame.derivations];
+    validateSimulationAttributeDerivations(base.rules.attributeDerivations);
+  }
+  for (const side of ['source', 'target'] as const) for (const key of extraGame.required[side]) base.required.get(side)!.add(key);
+  base.coverage.push(...extraGame.coverage.map(row => ({ ...row, compiledPath: row.compiledPath.replace(/rules\.attributeDerivations\[game_(\d+)\]/,
+    (_whole, index: string) => `rules.attributeDerivations[${existingDerivations.length + Number(index)}]`) })));
   const offsets = new Map<string, { abilities: number; processes: number }>();
   for (const binding of active.bindings) {
     const provider = active.providers.find(row => row.providerKey === binding.providerDefinitionRef)!;
@@ -564,7 +582,7 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
     Object.values(row).forEach(collect);
   };
   collect(providers); collect(active.formulas); collect(base.rules);
-  return { ...base, active, types: [...types].map(([key, domain]) => ({ key, domain })), formulas: [...(base.formulas ?? []), ...active.formulas],
+  return { ...base, active, types: [...types].map(([key, domain]) => ({ key, domain })), formulas: [...(base.formulas ?? []), ...extraGame.formulas, ...active.formulas],
     coverage: [...base.coverage, ...active.coverage.map(row => ({ ...row, compiledPath: rebase(row.compiledPath) }))],
     operationOrigins: [...base.operationOrigins, ...active.operationOrigins.map(origin => ({ ...origin, compiledPaths: origin.compiledPaths.map(rebase) }))] };
 }
@@ -622,12 +640,9 @@ export function assembleSimulation(
         || (attribute.maxValue !== null && resolved > attribute.maxValue)) fail(`combatants.${side}.attributes.${key}`, '装备平加后的属性违反真实范围');
     }
     const hpLimit = combined.hp! + equipmentContribution(snapshot, side, 'hp');
-    const hasDerivation = compiled.rules.attributeDerivations?.some(row => row.combatantKey === side && row.attributeKey === 'attack_speed');
-    if (compiled.equipment.derivations.some(row => row.combatantKey === side) && !(combined.attack_speed_ratio! > 0)) fail(`attributeInputs.${side}.attack_speed_ratio`, '装备攻速收益系数必须明确填写有限正数，不提供默认值');
     if (!Number.isFinite(hpLimit) || !(hpLimit > 0)) fail(`combatants.${side}.hp`, '初始生命上限必须是有限正数');
     const currentHp = finiteNumber(initialHealth?.[side], `initialHealth.${side}`, fail);
     if (currentHp < 0 || currentHp > hpLimit) fail(`initialHealth.${side}`, '初始当前生命须在0与含装备生命上限之间，不自动填满或夹取');
-    if (compiled.basicAttackBinding && side === 'source' && !hasDerivation && !(combined.attack_speed! > 0)) fail('combatants.source.attack_speed', '初始攻速必须是有限正数');
     for (const [key, raw] of Object.entries(combined)) {
       const amount = finiteNumber(raw, `combatants.${side}.attributes.${key}`, fail);
       const resolved = amount + equipmentContribution(snapshot, side, key);

@@ -1,12 +1,45 @@
 import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { describe, expect, it } from 'vitest';
-import { mixedAction, mixedInputs, prepareMixedSample, simulationEmpoweredSample, simulationMixedSample } from '../../tests/fixtures/simulationMixedSkills';
+import { readFileSync } from 'node:fs';
+import { changingSpeedInputs, mixedAction, mixedInputs, prepareMixedSample, simulationChangingSpeedSample, simulationEmpoweredSample, simulationMixedSample } from '../../tests/fixtures/simulationMixedSkills';
 import { skillActionRequest } from './skillActionRequest';
 import { inspectSimulationSnapshot as raw_inspectSimulationSnapshot } from './simulationAdapter';
 import { plannedSkillsFromActions } from '../pages/simulation/simulationSkillActionDrafts';
 import { fixedValue } from '../types/numericValue';
+import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
+import { assessSkillActionResult } from './skillActionResult';
+import { hasDynamicSpeedDependency } from './simulationCalculationRules';
 
 describe('6B明确计划与完整装配', () => {
+  it('主动命中中途修改重命名输入后原生速度1变1.2，逐刀完整结果及上下界保持核对', async () => {
+    const snapshot = simulationChangingSpeedSample();
+    approveSnapshotFixture(snapshot);
+    const prepared = await prepareMixedSample(snapshot);
+    const inputs = changingSpeedInputs(snapshot);
+    const bridge = await TinyGoV2Bridge.create({ wasmUrl: 'data:application/wasm;base64,' + readFileSync(new URL('./wasm/tinygo_engine_v2.wasm', import.meta.url)).toString('base64') });
+    const compiled = parseCompileResult(bridge.compile(prepared.compileRequest));
+    expect(compiled.ok, JSON.stringify(compiled.errors)).toBe(true);
+    expect(compiled.sessionId).toBeTruthy();
+    try {
+      const { runRequest } = await skillActionRequest(prepared, snapshot, inputs, compiled.sessionId!);
+      expect(hasDynamicSpeedDependency(prepared.compileRequest, 'source', 'saved_tempo', runRequest)).toBe(true);
+      const done = parseDoneResult(bridge.run(runRequest));
+      expect(assessSkillActionResult(prepared.compileRequest, runRequest, done, prepared.operationOrigins)).toMatchObject({ complete: true, factsValid: true });
+      expect(done.attackRecords!.map(row => row.startAtMs)).toEqual([0, 934, 1767, 2600]);
+      expect(done.attackRecords![0]).toMatchObject({ readyAtMs: 1000, finalReadyAtMs: 934, nextStartAtMs: 934 });
+      expect(done.attackRecords!.map(row => row.attackSpeed)).toEqual([1, 1.2, 1.2, 1.2]);
+      expect(done.finalSnapshot.combatants[0]!.attributes.saved_extra!.resolved).toBe(.2);
+      expect(done.finalSnapshot.combatants[0]!.attributes.saved_tempo!.resolved).toBe(1.2);
+      expect(parseDoneResult(bridge.run(runRequest))).toEqual(done);
+      for (const invalidSpeed of [0, runRequest.driverPlan.basicAttack!.attackSpeedInputMax + 1]) {
+        const invalid = structuredClone(done); invalid.attackRecords![0]!.attackSpeed = invalidSpeed;
+        expect(assessSkillActionResult(prepared.compileRequest, runRequest, invalid, prepared.operationOrigins).factsValid).toBe(false);
+      }
+    } finally {
+      expect(parseReleaseResult(bridge.releaseSession(compiled.sessionId!, prepared.compileRequest.rulesHash)).released).toBe(true);
+    }
+  });
   it('单段强化待击完整挂接为真实首次激活、原生窗口、命中一次消费和内部冷却', async () => {
     const snapshot = simulationEmpoweredSample();
     const prepared = await prepareMixedSample(snapshot);

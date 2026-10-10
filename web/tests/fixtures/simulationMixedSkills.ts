@@ -4,6 +4,7 @@ import { inspectSimulationSnapshot, prepareSimulation } from '../../src/engine/s
 import { simulationActiveSample } from './simulationActiveSkill';
 import { triggeredEquipmentSimulationSample } from './simulationTriggeredEquipment';
 import { fixedValue, formulaValue } from '../../src/types/numericValue';
+import { syncSimulationSkillSources } from './simulationSkillSources';
 
 export function simulationMixedSample(backgroundAttack = true, occupiesAction = true) {
   const snapshot = simulationActiveSample();
@@ -52,6 +53,44 @@ export async function prepareMixedSample(snapshot = simulationMixedSample()) {
   const attributes = { source: {} as Record<string, number>, target: {} as Record<string, number> };
   for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) attributes[row.side][row.attribute.attributeKey] = 0;
   return prepareSimulation(snapshot, attributes, { source: 300, target: 5000 });
+}
+
+export function simulationChangingSpeedSample() {
+  const snapshot = simulationMixedSample(true, false);
+  snapshot.selection.plannedSkills = snapshot.selection.plannedSkills.filter(plan => plan.skillKey === 'sample_active');
+  snapshot.selection.sourceSkillSettings.find(setting => setting.skillKey === 'sample_second')!.enabled = false;
+  snapshot.catalogs.attributes.find(row => row.attributeKey === 'attack_speed')!.attributeKey = 'saved_tempo';
+  snapshot.catalogs.attributes.push({ ...snapshot.catalogs.attributes.find(row => row.attributeKey === 'saved_tempo')!,
+    attributeKey: 'saved_extra', name: '作者额外速度', minValue: 0, maxValue: null });
+  for (const side of ['source', 'target'] as const) {
+    const values = snapshot[side].selectedLevelValues;
+    values.saved_tempo = values.attack_speed!;
+    delete values.attack_speed;
+    values.saved_extra = 0;
+    snapshot[side].attributes.levelValues['1'] = { ...values };
+  }
+  for (const configuration of snapshot.skillConfigurations) for (const formula of configuration.formulas) {
+    for (const input of formula.expression.inputs) if (input.binding.kind === 'attribute' && input.binding.attributeKey === 'attack_speed') input.binding.attributeKey = 'saved_tempo';
+  }
+  const calculation = snapshot.catalogs.calculationRules.configuration!;
+  calculation.attackSpeedAttributeKey = 'saved_tempo';
+  calculation.attributeDerivations = [{ ruleKey: 'active_speed', attributeKey: 'saved_tempo', valuePolicy: 'set',
+    activationAttributeKeys: ['saved_extra'], formula: {
+      inputs: [{ key: 'base', binding: { kind: 'attribute', object: 'source', attributeKey: 'saved_tempo', valueKind: 'BASE', view: 'current_frame' } },
+        { key: 'extra', binding: { kind: 'attribute', object: 'source', attributeKey: 'saved_extra', valueKind: 'TOTAL', view: 'current_frame' } }],
+      stages: [{ key: 'output', name: '作者最终速度', expression: { op: 'add', args: [{ op: 'read', inputKey: 'base' }, { op: 'read', inputKey: 'extra' }] } }], outputStageKey: 'output'
+    } }];
+  const active = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'sample_active')!;
+  active.effects[0]!.results.push({ resultKey: 'speed_gain', name: '即时自身速度输入', resultType: 'ATTRIBUTE_CHANGE', target: 'SOURCE',
+    description: null, sortOrder: 30, spellShieldBlockScope: null, lifecycleBehavior: null,
+    valueRule: { value: fixedValue(.2), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
+    detail: { attributeKey: 'saved_extra', operation: 'INCREASE', modifierZoneKey: null } });
+  return syncSimulationSkillSources(snapshot);
+}
+
+export function changingSpeedInputs(snapshot = simulationChangingSpeedSample()): SkillActionInputs {
+  return { actions: [mixedAction(snapshot, 'sample_active', 'speed_cast', 500)], durationMs: 2700, attackSpeedInputMax: 10,
+    recordTimeSeries: false, maxSkillActionRecords: 64, maxSkillUseRecords: 256, maxHealingRecords: 256 };
 }
 
 export function simulationEmpoweredSample() {

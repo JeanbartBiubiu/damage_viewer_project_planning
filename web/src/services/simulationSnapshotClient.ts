@@ -5,6 +5,8 @@ import { validateSkillConfiguration } from './skillConfigurationClient';
 import { simulationSkillSourceIdentity } from './simulationSkillSourceIdentity';
 import { parseDamageTypeFormulaDefinition } from './damageTypeClient';
 import { damageTypeFormulaAllowedBindings } from '../types/damageTypeFormula';
+import { parseGameCalculationRules } from './gameCalculationRulesClient';
+import type { Attribute } from '../types/attribute';
 import type {
   BuildConfiguration, BuildDefinition, SimulationPlannedSkill, SimulationSelection, SimulationSkillSetting, SimulationSkillOrigin, SimulationSnapshot
 } from '../types/simulationSnapshot';
@@ -437,6 +439,7 @@ export function validateSimulationSnapshot(
     || expected.sourceLevel < Number(levels.minLevel) || expected.targetLevel < Number(levels.minLevel)
     || expected.sourceLevel > Number(levels.maxLevel) || expected.targetLevel > Number(levels.maxLevel)) bad('catalogs.levelConfig');
   const attributes = uniqueCatalog(catalogs.attributes, 'attributeKey', 'catalogs.attributes', gameId);
+  parseGameCalculationRules(catalogs.calculationRules, gameId, attributes as unknown as Attribute[]);
   for (const [index, configuration] of configurations.entries()) {
     const skill = configuration.skill as { skillKey: string; status: string };
     const parameters = configuration.parameters as import('../types/skillParameter').SkillParameter[];

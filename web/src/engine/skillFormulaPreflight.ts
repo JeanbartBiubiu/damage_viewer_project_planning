@@ -3,11 +3,15 @@ import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import { GenericEngineClient } from './genericEngineClient';
 import { createNumericCompileState, registerCommonFormula } from './numericAdapter';
 import { rememberApprovedFormulaValues, selectFormulaProofScope, matchesFormulaProofScope, clearFormulaProofScope } from './approvedFormulaValues';
+import { calculationConfiguration, gameDerivationFormula } from './simulationCalculationRules';
 
 /** 完整场景来源、等级及绑定共同组成预检身份，任何相关快照变更都重新编译。 */
 export function snapshotFormulaProofIdentity(snapshot: SimulationSnapshot) { return JSON.stringify(snapshot); }
 export function skillFormulaPreflightRequest(snapshot: SimulationSnapshot): CompileRequest {
   const formulas: NamedFormula[] = [];
+  for (const side of ['source', 'target'] as const) for (const rule of calculationConfiguration(snapshot)?.attributeDerivations ?? []) {
+    formulas.push(gameDerivationFormula(snapshot, rule, side));
+  }
   for (const side of ['source', 'target'] as const) for (const [sourceIndex, source] of snapshot[side].skillSources.entries()) {
     if (!source.enabled || source.inactiveReason !== null || source.skillLevel === null || source.skillLevel < 1) continue;
     const config = snapshot.skillConfigurations.find(row => row.skill.skillKey === source.skillKey);

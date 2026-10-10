@@ -166,7 +166,7 @@ export function registerCommonFormula(row: SkillFormula, path: string, state: Nu
     if (!directory.some(parameter => parameter.parameterKey === (input.binding as Extract<typeof input.binding, {kind: 'parameter'}>).parameterKey)) return fail(path, '公式参数声明不在真实参数目录中');
   }
   const key = state.formulaNamespace + '/' + row.formulaKey;
-  const payload: NamedFormula = { key, skillKey: row.skillKey, expression: structuredClone(row.expression), parameters: structuredClone(directory) };
+  const payload: NamedFormula = { key, scope: 'skill', skillKey: row.skillKey, expression: structuredClone(row.expression), parameters: structuredClone(directory) };
   const existing = state.namedFormulas.get(key);
   if (existing && !sameFormulaPayload(existing, payload)) return fail(path, '具名公式与现有完整输入冲突');
   if (!existing) state.namedFormulas.set(key, payload);

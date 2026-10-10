@@ -77,7 +77,7 @@ export async function equipmentCadenceConstruct(prepared: Awaited<ReturnType<typ
       definition.initialStateSchema = { active: { valueType: 'number', defaultValue: 0, maxValue: 1, durationMs: 400, refreshPolicy: 'refresh_on_write' } };
       definition.modifiers = [{ modifierKey: 'periodic_speed', kind: 'attribute', target: 'self.attr.bonus_attack_speed_percent', valuePolicy: 'add', value: { op: 'read', path: 'provider.state.active' } }];
       operations.push(stateChange('active', 'override', 1));
-      input.rules.attributeDerivations = [{ combatantKey: 'source', attributeKey: 'attack_speed', value: { op: 'add', args: [
+      input.rules.attributeDerivations = [{ combatantKey: 'source', attributeKey: 'attack_speed', valuePolicy: 'set', valueType: 'DECIMAL', value: { op: 'add', args: [
         { op: 'read', path: 'source.attr.attack_speed.base' }, { op: 'mul', args: [{ op: 'read', path: 'source.attr.attack_speed_ratio.resolved' },
           { op: 'read', path: 'source.attr.bonus_attack_speed_percent.resolved' }] }
       ] } }];

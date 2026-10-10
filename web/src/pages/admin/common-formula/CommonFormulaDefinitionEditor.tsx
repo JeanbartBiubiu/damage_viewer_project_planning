@@ -2,20 +2,22 @@ import { Alert, Button, Card, Input, Select, Space, Typography } from '@arco-des
 import type { Attribute } from '../../../types/attribute';
 import type { SkillParameter } from '../../../types/skillParameter';
 import { SKILL_FORMULA_VALUE_KINDS } from '../../../services/skillFormulaContract';
-import { CommonFormulaExpressionEditor } from '../common-formula/CommonFormulaExpressionEditor';
-import type { CommonFormulaDraft, CommonFormulaInputDraft, CommonFormulaNodeDraft, CommonFormulaNodeIssue } from '../common-formula/commonFormulaForm';
-import { attributeValueKindLabel } from './formulaExpression';
+import { CommonFormulaExpressionEditor } from './CommonFormulaExpressionEditor';
+import type { CommonFormulaDraft, CommonFormulaInputDraft, CommonFormulaNodeDraft, CommonFormulaNodeIssue } from './commonFormulaForm';
+const attributeValueKindLabel = (value: string) => ({ BASE: '基础值', BONUS: '加成值', TOTAL: '最终值', CURRENT: '当前值', MAX: '最大值', MISSING: '已损失值', CURRENT_RATIO: '当前值比例', MISSING_RATIO: '已损失比例' } as Record<string, string>)[value] ?? value;
 type Props = {
   root: CommonFormulaDraft; path: string; node: CommonFormulaDraft;
   readOnly: boolean; disabled: boolean; parameters: SkillParameter[]; attributes: Attribute[];
   retainedDisabledAttributeKeys: Set<string>; nodeIssues: CommonFormulaNodeIssue[];
   focusPath?: string | null; skillKey?: string;
+  bindingScope?: 'skill' | 'game';
   updateAtPath: (path: string, next: CommonFormulaDraft | CommonFormulaNodeDraft) => void;
   onNodeIssue: (issue: CommonFormulaNodeIssue) => void;
 };
-export function FormulaExpressionEditor(props: Props) {
+export function CommonFormulaDefinitionEditor(props: Props) {
   const { root, readOnly, disabled, parameters, attributes, nodeIssues, updateAtPath, onNodeIssue } = props;
   const locked = readOnly || disabled;
+  const gameScope = props.bindingScope === 'game';
   const skillKey = props.skillKey ?? parameters[0]?.skillKey ?? '';
   const change = (next: CommonFormulaDraft) => updateAtPath('expression', next);
   const inputChange = (index: number, input: CommonFormulaInputDraft) => change({ ...root, inputs: root.inputs.map((row, i) => i === index ? input : row) });
@@ -27,7 +29,8 @@ export function FormulaExpressionEditor(props: Props) {
   return <Space direction="vertical" size="medium" style={{ width: '100%' }}>
     {nodeIssues.filter(issue => !issue.path.includes('/stages/') || !issue.path.includes('/expression')).map((issue, index) => <Alert key={index} type="error" content={issue.message} />)}
     <Typography.Text>输入声明参与引用保护；只有最终输出可达的读取要求动作供值。公式只预览结构。</Typography.Text>
-    <Button disabled={locked || root.inputs.length >= 64} onClick={() => change({ ...root, inputs: [...root.inputs, { key: '', binding: { kind: 'parameter', skillKey, parameterKey: '' } }] })}>添加公式输入</Button>
+    <Button disabled={locked || root.inputs.length >= 64} onClick={() => change({ ...root, inputs: [...root.inputs, { key: '', binding: gameScope
+      ? { kind: 'attribute', object: 'source', attributeKey: '', valueKind: 'TOTAL', view: 'current_frame' } : { kind: 'parameter', skillKey, parameterKey: '' } }] })}>添加公式输入</Button>
     {root.inputs.map((input, index) => {
       const binding = input.binding;
       const attributeOptions = attributes.filter(row => row.status === 'ENABLED').map(row => ({ value: row.attributeKey, label: row.name + '（' + row.attributeKey + '）' }));
@@ -38,13 +41,13 @@ export function FormulaExpressionEditor(props: Props) {
       return <Card key={index} size="small" data-authoring-field={'/expression/inputs/' + index} style={{ width: '100%' }}>
         <Space direction="vertical" style={{ width: '100%' }}>
           <Input aria-label={label + '标识'} value={input.key} disabled={locked} placeholder="输入标识" onChange={key => inputChange(index, { ...input, key })} />
-          <Select aria-label={label + '来源'} value={binding.kind} disabled={locked} options={[{ value: 'parameter', label: '技能参数' }, { value: 'attribute', label: '属性' }]}
+          <Select aria-label={label + '来源'} value={binding.kind} disabled={locked} options={gameScope ? [{ value: 'attribute', label: '拥有方属性' }] : [{ value: 'parameter', label: '技能参数' }, { value: 'attribute', label: '属性' }]}
             onChange={kind => inputChange(index, { ...input, binding: kind === 'parameter' ? { kind: 'parameter', skillKey, parameterKey: '' } : { kind: 'attribute', object: 'source', attributeKey: '', valueKind: 'TOTAL', view: 'current_frame' } })} />
           {binding.kind === 'parameter' ? <Select aria-label={label + '技能参数'} value={binding.parameterKey || undefined} disabled={locked} options={parameterOptions} onChange={parameterKey => inputChange(index, { ...input, binding: { ...binding, parameterKey: String(parameterKey) } })} /> : null}
           {binding.kind === 'attribute' ? <>
-            <Select aria-label={label + '对象'} value={binding.object || undefined} disabled={locked} options={[{ value: 'source', label: '施法者' }, { value: 'target', label: '目标' }]} onChange={object => inputChange(index, { ...input, binding: { ...binding, object } })} />
+            <Select aria-label={label + '对象'} value={binding.object || undefined} disabled={locked} options={gameScope ? [{ value: 'source', label: '派生拥有方' }] : [{ value: 'source', label: '施法者' }, { value: 'target', label: '目标' }]} onChange={object => inputChange(index, { ...input, binding: { ...binding, object } })} />
             <Select aria-label={label + '属性'} value={binding.attributeKey || undefined} disabled={locked} options={attributeOptions} onChange={attributeKey => inputChange(index, { ...input, binding: { ...binding, attributeKey: String(attributeKey) } })} />
-            <Select aria-label={label + '取值口径'} value={binding.valueKind || undefined} disabled={locked} options={SKILL_FORMULA_VALUE_KINDS.map(value => ({ value, label: attributeValueKindLabel(value) }))} onChange={valueKind => inputChange(index, { ...input, binding: { ...binding, valueKind } })} />
+            <Select aria-label={label + '取值口径'} value={binding.valueKind || undefined} disabled={locked} options={(gameScope ? ['BASE', 'BONUS', 'TOTAL'] as const : SKILL_FORMULA_VALUE_KINDS).map(value => ({ value, label: attributeValueKindLabel(value) }))} onChange={valueKind => inputChange(index, { ...input, binding: { ...binding, valueKind } })} />
             <Typography.Text type="secondary">当前帧</Typography.Text>
           </> : null}
           <Button status="danger" disabled={locked} onClick={() => change({ ...root, inputs: root.inputs.filter((_row, i) => i !== index) })}>删除公式输入{index + 1}</Button>

@@ -13,6 +13,20 @@ function assemble(scene = sample()) {
 }
 
 describe('5C作者常驻转换只映射一次属性派生', () => {
+  it('外部转换公式读取逐侧成为明确供值要求，没有攻速装备也不漏原生属性槽', () => {
+    const scene = sample();
+    for (const side of ['source', 'target'] as const) delete scene.snapshot[side].selectedLevelValues.bonus_attack_speed_percent;
+    const requirements = inspectSimulationSnapshot(scene.snapshot).requirements.filter(row => row.attribute.attributeKey === 'bonus_attack_speed_percent');
+    expect(requirements.map(row => row.side)).toEqual(['source', 'target']);
+    expect(requirements.every(row => row.storedValue === undefined)).toBe(true);
+    const missing = { source: {} as Record<string, number>, target: {} as Record<string, number> };
+    for (const row of inspectSimulationSnapshot(scene.snapshot).requirements) if (row.storedValue === undefined && row.attribute.attributeKey !== 'bonus_attack_speed_percent') missing[row.side][row.attribute.attributeKey] = 0;
+    expect(() => assembleSimulation(scene.snapshot, missing, { source: 650, target: 590 })).toThrow(/bonus_attack_speed_percent/);
+    const prepared = assemble(scene);
+    expect(prepared.compileRequest.combatants.map(actor => actor.attributes.bonus_attack_speed_percent!.resolved)).toEqual([0, 0]);
+    const compiled = compileFixtureWithNative(prepared.compileRequest);
+    expect(compiled.ok, JSON.stringify(compiled.errors)).toBe(true);
+  });
   it('静态共同公式转换使用原生核定literal，并能进入正式原生编译', () => {
     const scene = sample();
     scene.configuration.formulas.push({ ...scene.configuration.formulas[0]!, formulaKey: 'static_speed',
@@ -69,7 +83,7 @@ describe('5C作者常驻转换只映射一次属性派生', () => {
     expect(prepared.compileRequest.rules.attributeDerivations!.filter(row => row.attributeKey === 'attack_damage')).toHaveLength(2);
     expect(compileFixtureWithNative(prepared.compileRequest).ok).toBe(true);
     (dynamic.configuration.effects[0]!.results[1]! as SkillEffectAttributeChangeResult).detail.attributeKey = 'armor';
-    expect(() => inspectSimulationSnapshot(dynamic.snapshot)).toThrow(/首批仅开放/);
+    expect(() => inspectSimulationSnapshot(dynamic.snapshot)).not.toThrow();
   });
   it.each(['attack_damage', 'attack_speed'])('拒绝依赖%s自身或其它派生总值', attributeKey => {
     const scene = sample();
@@ -82,14 +96,18 @@ describe('5C作者常驻转换只映射一次属性派生', () => {
     expect(() => inspectSimulationSnapshot(dynamic.snapshot)).toThrow(/明确等级与静态配置/);
     const wrongMode = sample();
     wrongMode.configuration.effects[0]!.results[0]!.lifecycleBehavior!.valueReadMode = 'MOMENT_EVALUATION';
-    expect(() => inspectSimulationSnapshot(wrongMode.snapshot)).toThrow(/固定攻速使用施加快照/);
+    expect(() => inspectSimulationSnapshot(wrongMode.snapshot)).toThrow(/覆盖输出使用施加快照/);
   });
-  it('拒绝重复输出、未知覆盖输出、动态攻击力快照转换、缺等级或必要不支持分支', () => {
+  it('拒绝超量、重复或未知输出、动态属性快照转换、缺等级或必要不支持分支', () => {
     const duplicate = sample();
     duplicate.configuration.effects[0]!.results.push({ ...structuredClone(duplicate.configuration.effects[0]!.results[0]!), resultKey: 'duplicate_speed' });
-    expect(() => inspectSimulationSnapshot(duplicate.snapshot)).toThrow(/一个派生输出/);
+    expect(() => inspectSimulationSnapshot(duplicate.snapshot)).toThrow(/实际派生输出不能超过4项/);
+    duplicate.configuration.effects[0]!.results = duplicate.configuration.effects[0]!.results.filter(row => row.resultKey !== 'converted_damage');
+    expect(() => inspectSimulationSnapshot(duplicate.snapshot)).toThrow(/一个明确类型与策略的派生输出/);
     const wrong = sample(); (wrong.configuration.effects[0]!.results[0]! as SkillEffectAttributeChangeResult).detail.attributeKey = 'armor';
-    expect(() => inspectSimulationSnapshot(wrong.snapshot)).toThrow(/首批仅开放/);
+    expect(() => inspectSimulationSnapshot(wrong.snapshot)).not.toThrow();
+    (wrong.configuration.effects[0]!.results[0]! as SkillEffectAttributeChangeResult).detail.attributeKey = 'unknown_attribute';
+    expect(() => inspectSimulationSnapshot(wrong.snapshot)).toThrow(/唯一启用的非生命属性目录/);
     const frozen = sample(); frozen.configuration.effects[0]!.results[1]!.lifecycleBehavior!.valueReadMode = 'APPLICATION_SNAPSHOT';
     expect(() => inspectSimulationSnapshot(frozen.snapshot)).toThrow(/依赖施加时属性的公式/);
     const missing = sample(); missing.snapshot.selection.sourceLevel = 3;

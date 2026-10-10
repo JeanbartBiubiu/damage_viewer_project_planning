@@ -1,3 +1,4 @@
+import { authoredCalculationRules } from './simulationCalculationRules';
 import { skillFormulaDefinition } from './skillFormulaDefinition';
 import type { SimulationSelectedBuild, SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import type { SkillEffectResult } from '../../src/types/skillEffect';
@@ -77,6 +78,7 @@ export function simulationSample(gameId = 'demo'): SimulationSnapshot {
       ], baseDigest: 'independent_sample'
     }],
     catalogs: {
+      calculationRules: authoredCalculationRules(gameId),
       levelConfig: { gameId, minLevel: 1, maxLevel: 1 },
       attributes: ['hp','attack_damage','attack_speed','armor','critical_strike_chance','critical_strike_damage_bonus_percent','armor_pen_percent','armor_pen_flat','life_steal_percent'].map(attribute),
       skillCategories: [{ gameId, skillCategoryKey: 'basic_attack', name: '普攻', description: null, status: 'ENABLED', sortOrder: 0, ...metadata }],

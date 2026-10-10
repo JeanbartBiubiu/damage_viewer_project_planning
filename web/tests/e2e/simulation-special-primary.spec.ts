@@ -694,13 +694,23 @@ for (const hero of ['ashe', 'jhin'] as const) for (const [name, sourceEquipmentK
     const extraCount = extra.reduce((total, row) => total + Number(row.data!.count), 0);
     for (const item of ['item_3124', sourceEquipmentKeys[1]]) {
       const rows = result.done.damageRecords!.filter(row => row.operationRef.startsWith(`skills.${item}_passive.`));
-      expect(rows).toHaveLength(attacks.length + extraCount);
-      const linkedRules = configuration(snapshot, `${item}_passive`).triggerRules.filter(row => row.eventSource.eventType === 'HIT_LINK_APPLIED').map(row => row.ruleKey);
+      const saved = configuration(snapshot, `${item}_passive`);
+      const damageRules = (eventType: 'BASIC_ATTACK_HIT' | 'HIT_LINK_APPLIED') => saved.triggerRules.filter(rule => rule.eventSource.eventType === eventType
+        && rule.actions.some(action => action.actionType === 'EXECUTE_EFFECT'
+          && saved.effects.find(effect => effect.effectKey === action.detail.effectKey)?.results.some(result => result.resultType === 'DAMAGE'))).map(rule => rule.ruleKey);
+      const ordinaryRules = damageRules('BASIC_ATTACK_HIT');
+      const ordinary = rows.filter(row => ordinaryRules.some(key => row.abilityRef.endsWith(`.ability[${key}]`)));
+      const ordinaryPerAttack = ordinaryRules.length ? 1 : 0;
+      expect(ordinary).toHaveLength(attacks.length * ordinaryPerAttack);
+      const linkedRules = damageRules('HIT_LINK_APPLIED');
       const linked = rows.filter(row => linkedRules.some(key => row.abilityRef.endsWith(`.ability[${key}]`)));
       expect(linked).toHaveLength(attacks.length + extraCount);
+      expect(rows).toHaveLength(attacks.length * (1 + ordinaryPerAttack) + extraCount);
       for (const attack of attacks) {
-        expect(rows.filter(row => row.useRef === attack.useRef)).toHaveLength(1 + extra.filter(row => row.data!.useRef === attack.useRef)
-          .reduce((total, row) => total + Number(row.data!.count), 0));
+        const linkedCount = 1 + extra.filter(row => row.data!.useRef === attack.useRef).reduce((total, row) => total + Number(row.data!.count), 0);
+        expect(linked.filter(row => row.useRef === attack.useRef)).toHaveLength(linkedCount);
+        expect(ordinary.filter(row => row.useRef === attack.useRef)).toHaveLength(ordinaryPerAttack);
+        expect(rows.filter(row => row.useRef === attack.useRef)).toHaveLength(linkedCount + ordinaryPerAttack);
       }
       if (item === 'item_3153') for (const row of rows) {
         expect(row.operationRef).toContain('on_hit_damage_ranged');

@@ -108,6 +108,7 @@ export type SimulationSnapshot = {
     modifierZones: ModifierZone[];
     statuses: GameStatus[];
     vampRules: GameVampRulesResponse;
+    calculationRules: import('./gameCalculationRules').GameCalculationRulesResponse;
   };
   references: SimulationReference[];
   snapshotDigest: string;

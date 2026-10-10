@@ -1,3 +1,4 @@
+import { changedAttributes, simulationCriticalBinding } from './simulationCalculationRules';
 import { sameFormulaPayload } from '../services/skillFormulaContract';
 import { skillFormulaParameterKeys, skillFormulaReachableInputs, validateStoredSkillFormula } from '../services/skillFormulaContract';
 import { TypeCatalogEntries } from './typeCatalogEntries';
@@ -39,7 +40,7 @@ export type TriggeredEquipmentAssembly = {
   coverage: SimulationCoverage[];
   required: Record<Side, Set<string>>;
   selectedSkills: Set<string>;
-  derivationSides: Set<Side>;
+  changedAttributes: ReturnType<typeof changedAttributes>;
   compiledSources: Array<{ side: Side; providerRef: string; definitionRef: string; skillKey: string }>;
 };
 
@@ -274,7 +275,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
   const coverage: SimulationCoverage[] = [];
   const required: Record<Side, Set<string>> = { source: new Set(), target: new Set() };
   const selectedSkills = new Set<string>();
-  const derivationSides = new Set<Side>();
+  const changed = changedAttributes();
   const compiledSources: TriggeredEquipmentAssembly['compiledSources'] = [];
   const cover = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const addFormula = (formula: NamedFormula, path: string) => {
@@ -549,7 +550,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             }
             stableKey(result.detail.attributeKey, `${resultPath}.detail.attributeKey`);
             required[side].add(result.detail.attributeKey);
-            if (result.detail.attributeKey === 'bonus_attack_speed_percent') derivationSides.add(side);
+            changed[side].add(result.detail.attributeKey);
             const magnitude = foldAmount(result, resultPath) * (result.detail.operation === 'DECREASE' ? -1 : 1);
             const read: GenericFormulaExpr = { op: 'read', path: `provider.state.${key}` };
             const layers = behavior.stackValueMode === 'PER_STACK' ? read : { op: 'min', args: [constExpr(1), read] };
@@ -663,7 +664,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           } else if (critical.mode === 'SOURCE_CRIT_CHANCE' || critical.mode === 'FORCED') {
             if (!critical.multiplierValue) fail(resultPath, '暴击必须保留原作者倍率');
             operation.critEligible = true;
-            operation.critChance = critical.mode === 'FORCED' ? constExpr(1) : { op: 'read', path: 'source.attr.critical_strike_chance.resolved' };
+            Object.assign(operation, simulationCriticalBinding(snapshot, critical.mode === 'FORCED', `${resultPath}.detail.critical.mode`));
             operation.critMultiplier = value(critical.multiplierValue, `${resultPath}.detail.critical.multiplierValue`);
           } else fail(resultPath, '未知暴击模式');
           if (result.detail.vampQualification !== 'RESOLVED') fail(`${resultPath}.detail.vampQualification`, '吸血资格尚未核定，整件装备拒绝');
@@ -745,6 +746,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             }));
             if (!providers.some(row => row.providerKey === key)) providers.push(compiled.provider);
             required[result.target === 'SOURCE' ? side : opponent].add(result.detail.attributeKey);
+            changed[result.target === 'SOURCE' ? side : opponent].add(result.detail.attributeKey);
             collectAttributes(compiled.provider, side, required);
             operation = { ...compiled.operation, ref: resultPath };
             cover(`${root}.effects.${authored.effectKey}.lifecycle`, `sharedProviders.${key}.lifecycle`);
@@ -886,7 +888,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                   const attributeKey = String(result.detail.attributeKey);
                   const recipient = result.target === 'TARGET' ? opponent : side;
                   required[recipient].add(attributeKey);
-                  if (recipient === side && attributeKey === 'bonus_attack_speed_percent') derivationSides.add(side);
+                  changed[recipient].add(attributeKey);
                   if (recipient === opponent && description.kind === 'item') {
                     cover(`equipmentAssumptions.${side}.${description.equipmentKey}.target`, `sharedProviders.${key}.modifiers[0].target`);
                   }
@@ -1284,5 +1286,5 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
     if (entries.length !== 1 || entries[0]!.gameId !== snapshot.gameId || entries[0]!.status !== 'ENABLED') fail(`catalogs.attributes.${key}`, '依赖属性缺少唯一已启用的真实目录');
   }
   return { providers, mounts, types: [...types].map(([key, domain]) => ({ key, domain })), formulas: [...formulas.values()],
-    rules, operationOrigins, coverage, required, selectedSkills, derivationSides, compiledSources };
+    rules, operationOrigins, coverage, required, selectedSkills, changedAttributes: changed, compiledSources };
 }

@@ -23,7 +23,7 @@ export function clearFormulaProofScope(identity: string, revision?: number) {
   scope = ''; approved.clear(); declared.clear(); consumed.clear();
 }
 function fingerprint(formula: NamedFormula): string {
-  return JSON.stringify([formula.skillKey, formula.expression, formula.parameters]);
+  return JSON.stringify([formula.scope, formula.skillKey, formula.expression, formula.parameters]);
 }
 export function rememberApprovedFormulaValues(formulas: readonly NamedFormula[], values: Readonly<Record<string, number>>) {
   for (const formula of formulas) {

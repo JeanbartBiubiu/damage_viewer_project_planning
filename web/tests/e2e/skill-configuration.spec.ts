@@ -48,7 +48,7 @@ class ConfigurationApi {
   current = configuration();
   writes: Array<{ method: string; body: Json }> = [];
   reads = 0;
-  failFirstConfigurationRead = false;
+  failConfigurationReads = false;
   ambiguousWrite = false;
   failNextWrite = false;
   failNextReadback = false;
@@ -93,7 +93,7 @@ class ConfigurationApi {
         await respond(route, { items: [this.current.skill], total: 1 });
       } else if (path.endsWith('/configuration') && request.method() === 'GET') {
         this.reads += 1;
-        if (this.failFirstConfigurationRead && this.reads === 1) await respond(route, { error: { code: 'READ_FAILED', message: '模拟读取失败' } }, 500);
+        if (this.failConfigurationReads) await respond(route, { error: { code: 'READ_FAILED', message: '模拟读取失败' } }, 500);
         else if (this.failNextReadback && this.writes.length) {
           this.failNextReadback = false;
           await respond(route, { error: { code: 'READBACK_FAILED', message: '模拟回读失败' } }, 500);
@@ -163,18 +163,22 @@ async function openExistingSkill(page: Page, key: string, module = '配置总览
 
 test('完整读取失败不开放空表单；主体与参数共同保存并回读', async ({ page }) => {
   const api = new ConfigurationApi();
-  api.failFirstConfigurationRead = true;
   await api.install(page);
   await openSkills(page);
+  api.failConfigurationReads = true;
   await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '编辑配置', exact: true }).click();
   const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
   await expect(workspace.getByText('模拟读取失败')).toBeVisible();
   await expect(workspace.getByLabel('技能名称')).toHaveCount(0);
   await expect(workspace.getByRole('button', { name: '保存更改' })).toBeDisabled();
+  const failedReads = api.reads;
+  expect(failedReads).toBeGreaterThan(0);
+  api.failConfigurationReads = false;
   await workspace.getByRole('button', { name: '重试读取' }).click();
   await workspace.getByRole('navigation', { name: '技能配置模块' })
     .getByRole('button', { name: '主体与分类', exact: true }).click();
   await expect(workspace.getByLabel('技能名称')).toHaveValue('样例技能');
+  expect(api.reads).toBeGreaterThan(failedReads);
   await workspace.getByLabel('技能名称').fill('修改后的技能');
   await workspace.getByRole('navigation', { name: '技能配置模块' }).getByRole('button', { name: '参数与公式' }).click();
   await expect(workspace.getByText('中文预览：用例输出（output）=伤害〔最终输出〕；').first()).toBeVisible();

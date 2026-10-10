@@ -68,6 +68,30 @@ test('独立构造：不占用仍拒绝同技能在途重入，首刀0，无行�
   expect(result.baseline.attackRecords!.every(row => row.actionReadyAtMs === null)).toBe(true);
 });
 
+test('独立构造：主动命中中途变速按实际重命名依赖核对，逐刀原生时钟与同Worker100次保持', async ({ page }, testInfo) => {
+  const data = await page.evaluate(async () => {
+    const fixturePath = '/tests/fixtures/simulationMixedSkills.ts';
+    const workerPath = '/tests/fixtures/simulationMixedWorker.ts';
+    const { simulationChangingSpeedSample, changingSpeedInputs } = await import(fixturePath) as typeof import('../fixtures/simulationMixedSkills');
+    const { runMixedWorkerCase } = await import(workerPath) as typeof import('../fixtures/simulationMixedWorker');
+    const snapshot = simulationChangingSpeedSample();
+    const inputs = changingSpeedInputs(snapshot);
+    return { snapshot, result: await runMixedWorkerCase(snapshot, inputs) };
+  });
+  const result = data.result;
+  expect(result.baseline.summary.skillActions).toMatchObject({ plannedCount: 1, acceptedCount: 1, rejectedCount: 0 });
+  expect(result.baseline.attackRecords!.map(row => row.startAtMs)).toEqual([0, 934, 1767, 2600]);
+  expect(result.baseline.attackRecords![0]).toMatchObject({ readyAtMs: 1000, finalReadyAtMs: 934, nextStartAtMs: 934 });
+  expect(result.baseline.attackRecords!.map(row => row.attackSpeed)).toEqual([1, 1.2, 1.2, 1.2]);
+  expect(result.baseline.attackRecords!.every(row => row.actionReadyAtMs === null)).toBe(true);
+  expect(result.baseline.finalSnapshot.combatants[0]!.attributes.saved_extra!.resolved).toBe(.2);
+  expect(result.baseline.finalSnapshot.combatants[0]!.attributes.saved_tempo!.resolved).toBe(1.2);
+  expect(result.release.released).toBe(true);
+  mkdirSync(output, { recursive: true });
+  writeFileSync(resolve(output, 'construct-changing-speed-compile-run.json'), JSON.stringify({ wasm: wasmIdentity(), ...data }, null, 2));
+  await testInfo.attach('主动命中中途变速实际Worker档案', { body: JSON.stringify({ wasm: wasmIdentity(), ...data }), contentType: 'application/json' });
+});
+
 test('独立构造：纯主动多条累计、直接治疗与完整观察，不挂假普攻', async ({ page }) => {
   const result = await runConstruct(page, false);
   expect(result.baseline.summary.skillActions).toMatchObject({ plannedCount: 6, acceptedCount: 3, rejectedCount: 3 });
@@ -139,16 +163,29 @@ test('独立页面：稳定计划标识，编辑时刻不读快照且过期，�
   const sample = simulationMixedSample();
   let snapshotReads = 0;
   let drift = false;
+  const businessRequests: Array<{ method: string; path: string }> = [];
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.addInitScript(() => {
     localStorage.setItem('damage-viewer.web.api-base-url', 'http://127.0.0.1:19606');
     localStorage.setItem('damage-viewer.web.admin-token', 'independent-readonly-fixture');
+    const scope = window as typeof window & { simulationWorkerMessages: Array<{ type: string; rulesHash: string | null; instructionKeys: string[] }> };
+    scope.simulationWorkerMessages = [];
+    const original = Worker.prototype.postMessage;
+    Worker.prototype.postMessage = function(message, ...options) {
+      if (message && typeof message === 'object' && ['compile', 'run', 'release'].includes(message.type)) {
+        scope.simulationWorkerMessages.push({ type: message.type,
+          rulesHash: message.request?.rulesHash ?? message.expectedRulesHash ?? null,
+          instructionKeys: message.request?.driverPlan?.skillActions?.map((action: { instructionKey: string }) => action.instructionKey) ?? [] });
+      }
+      return Reflect.apply(original, this, [message, ...options]);
+    };
   });
   await page.route('**/api/**', async route => {
     const request = route.request();
     if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*' } });
     const url = new URL(request.url());
+    businessRequests.push({ method: request.method(), path: url.pathname });
     const reply = (data: unknown) => route.fulfill({ json: data });
     if (url.pathname === '/api/games') return reply([{ gameId: 'demo', gameName: '独立页面构造', representativeImageKey: null }]);
     const resource = url.pathname.replace(/^\/api\/admin\/games\/[^/]+\//, '');
@@ -206,11 +243,25 @@ test('独立页面：稳定计划标识，编辑时刻不读快照且过期，�
   await page.getByRole('button', { name: '执行指定技能计划', exact: true }).click();
   await expect(page.getByText('指定技能计划观察完成，会话已释放', { exact: false })).toBeVisible();
   expect(snapshotReads).toBe(before + 1);
+  const workerCounts = () => page.evaluate(() => {
+    const messages = (window as typeof window & { simulationWorkerMessages: Array<{ type: string; rulesHash: string | null; instructionKeys: string[] }> }).simulationWorkerMessages;
+    return { preflightCompiles: messages.filter(message => message.type === 'compile' && message.rulesHash === 'skill-formula-preflight').length,
+      formalCompiles: messages.filter(message => message.type === 'compile' && message.rulesHash !== 'skill-formula-preflight').length,
+      runs: messages.filter(message => message.type === 'run').map(message => message.instructionKeys),
+      releases: messages.filter(message => message.type === 'release').length };
+  });
+  const beforeDrift = await workerCounts();
+  expect(beforeDrift.formalCompiles).toBe(2);
+  expect(beforeDrift.runs).toEqual([['skill_instruction_2'], ['skill_instruction_2']]);
   drift = true;
   await page.getByRole('button', { name: '执行指定技能计划', exact: true }).click();
-  await expect(page.getByText('本次没有提交编译或运行', { exact: false })).toBeVisible();
+  await expect(page.getByText('技能作者配置、来源或构筑已变化，草稿已保留。最新配置已完成共同公式预检，请核对并明确确认后重新执行本次场景。', { exact: true })).toBeVisible();
   await expect(page.getByLabel('技能尝试时刻 skill_instruction_2', { exact: true })).toHaveValue('50');
   await expect(page.getByRole('button', { name: '确认最新技能配置', exact: true })).toBeEnabled();
+  await expect(page.getByRole('button', { name: '执行指定技能计划', exact: true })).toBeDisabled();
+  const afterDrift = await workerCounts();
+  expect(afterDrift).toEqual({ ...beforeDrift, preflightCompiles: beforeDrift.preflightCompiles + 1, releases: beforeDrift.releases + 1 });
+  expect(businessRequests.every(request => request.method === 'GET' || request.method === 'POST' && request.path.endsWith('/simulation-snapshot'))).toBe(true);
   expect(errors).toEqual([]);
   await page.screenshot({ path: resolve(output, 'independent-plan-page.png'), fullPage: true });
 });

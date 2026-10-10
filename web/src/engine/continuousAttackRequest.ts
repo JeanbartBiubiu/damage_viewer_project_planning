@@ -88,6 +88,7 @@ export async function continuousAttackRequest(
     fail('continuous.basicAttack', '连续普攻不接受费用、延时或命中前扣血；必须整体保留作者配置。');
   }
   const attributeKey = binding.attackSpeedAttributeKey;
+  if (!attributeKey) fail('catalogs.calculationRules.configuration.attackSpeedAttributeKey', '连续普攻必须明确配置游戏攻击速度属性绑定。');
   const attributes = snapshot.catalogs.attributes.filter(row => row.attributeKey === attributeKey && row.status === 'ENABLED');
   if (attributes.length !== 1) fail(`catalogs.attributes.${attributeKey}`, '缺少唯一的真实攻速属性目录。');
   const range = attributes[0]!.maxValue;
@@ -102,7 +103,7 @@ export async function continuousAttackRequest(
     fail(`continuous.${attributeKey}`, '有效攻速必须为有限正数且不超过输入上界，不会自动夹取。');
   }
   const attackSpeedAdmission: AttackSpeedAdmission = { attributeKey, inputMax, source: range === null ? 'scenario_input' : 'attribute_range' };
-  const basicAttack: BasicAttackPlan = { ...binding, planKey: 'selected_basic_attack_plan', attackSpeedInputMax: inputMax };
+  const basicAttack: BasicAttackPlan = { ...binding, attackSpeedAttributeKey: attributeKey, planKey: 'selected_basic_attack_plan', attackSpeedInputMax: inputMax };
   const runRequest: RunRequest = {
     runtimeOptions: { equipmentAssumptions: prepared.equipmentAssumptions, skillOrigins: prepared.skillOrigins, mechanicStateInputs: prepared.mechanicStateInputs },
     sessionId, expectedRulesHash: input.rulesHash, schemaVersion: input.schemaVersion,

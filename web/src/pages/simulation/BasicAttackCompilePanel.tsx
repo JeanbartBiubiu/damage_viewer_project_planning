@@ -16,7 +16,7 @@ import {
 import { getErrorMessage } from '../../services/apiClient';
 import { getSimulationSnapshot, normalizeEquipmentKeys, normalizeSimulationSelection } from '../../services/simulationSnapshotClient';
 import { simulationSkillSourceIdentity } from '../../services/simulationSkillSourceIdentity';
-import { equipmentContribution, simulationHealthLimit } from '../../engine/simulationEquipment';
+import { simulationHealthLimit } from '../../engine/simulationEquipment';
 import { equipmentRangeRequirements } from '../../engine/simulationEquipmentRange';
 import type { CompileResult, DoneResult, GenericReleaseDonePayload, RunRequest } from '../../types/genericEngine';
 import type { BuildConfiguration, BuildDefinition, SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth,
@@ -367,7 +367,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     return current !== undefined && (!Number.isFinite(current) || current < 0 || (limit !== undefined && current > limit))
       ? [`initialHealth.${side}: ${sideLabels[side]}当前生命草稿${current}超出0～${limit ?? '待补全'}的含装备上限，请重新填写；不会自动满血或夹取。`] : [];
   });
-  const speedAttribute = snapshot?.catalogs.attributes.find(row => row.attributeKey === 'attack_speed');
+  const speedAttribute = snapshot?.catalogs.attributes.find(row => row.attributeKey === snapshot.catalogs.calculationRules.configuration?.attackSpeedAttributeKey);
   const fullHealthAvailable = typeof sourceHealthLimit === 'number' && Number.isFinite(sourceHealthLimit) && sourceHealthLimit > 0
     && typeof targetHealthLimit === 'number' && Number.isFinite(targetHealthLimit) && targetHealthLimit > 0;
   const rangeRequirements = useMemo(() => {
@@ -630,7 +630,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       ...current, [row.side]: { ...current[row.side], [row.attribute.attributeKey]: value }
     }));
     setPrepared(null);
-    invalidateRunResult(row.attribute.attributeKey === 'attack_speed_ratio');
+    invalidateRunResult(snapshot?.catalogs.calculationRules.configuration?.attributeDerivations.some(rule => rule.formula.inputs.some(input => input.binding.kind === 'attribute' && input.binding.attributeKey === row.attribute.attributeKey)) === true);
     setError(null);
     setNotice(null);
   };
@@ -641,7 +641,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       const next = { source: { ...current.source }, target: { ...current.target } };
       for (const row of missing) {
         const key = row.attribute.attributeKey;
-        if (key !== 'attack_speed_ratio' && next[row.side][key] === undefined) next[row.side][key] = 0;
+        if (next[row.side][key] === undefined) next[row.side][key] = 0;
       }
       return next;
     });
@@ -1114,14 +1114,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
             { title: '固定属性增量', render: (_, row) => Object.entries(row.attributeValues).map(([key, value]) => `${key}: ${value}`).join('；') },
             { title: '独立来源标识', dataIndex: 'providerRef' }
           ]} />
-          {(['source', 'target'] as const).filter(side => snapshot[side].selectedEquipment.some(item => 'bonus_attack_speed_percent' in item.attributes.attributeValues)).map(side => (
-            <Typography.Paragraph key={`${side}-speed-chain`}>
-              {sideLabels[side]}攻速来源链：固有每秒攻击次数 → 加上收益系数（attack_speed_ratio，需明确正值）×
-              （额外攻速总比例 − 固有额外比例）；装备额外比例平加为{equipmentContribution(snapshot, side, 'bonus_attack_speed_percent')}。
-              派生由原生引擎执行，不另建攻击时钟。
-            </Typography.Paragraph>
-          ))}
-        </section>
+       </section>
       ) : null}
 
       {inspection && snapshot ? (

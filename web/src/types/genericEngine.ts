@@ -91,14 +91,16 @@ export type GenericFormulaExpr = {
   expr?: GenericFormulaExpr;
 };
 
-export type NamedFormula = {
+type NamedFormulaBase = {
   key: string;
-  skillKey: string;
   expression: import('./formulaContract.generated').FormulaDefinition;
+};
+export type NamedFormula = NamedFormulaBase & ({ scope: 'game'; skillKey?: never; parameters: [] } | {
+  scope: 'skill'; skillKey: string;
   parameters: Array<{ parameterKey: string; valueMode: import('./skillParameter').SkillParameter['valueMode'];
     valueType: 'DECIMAL' | 'INTEGER'; value?: number;
     runtimeSource?: { kind: 'use_charge_duration' } | { kind: 'process_actual_cost'; resourceKey: string } }>;
-};
+});
 export type StaticNumericValue = number | { op: 'ref'; ref: string };
 
 export type TypeMatcher = { any?: string[]; all?: string[]; none?: string[] };
@@ -143,6 +145,7 @@ export type OperationDefinition = {
   /** 当前结果自己的期望暴击概率与倍率；必须成对，不改写全局属性。 */
   critChance?: GenericFormulaExpr;
   critMultiplier?: GenericFormulaExpr;
+  critMultiplierMin?: number;
   repeatScope?: string;
   repeatCount?: number;
   repeatTag?: string;
@@ -355,7 +358,8 @@ export type GenericRules = {
     skillKey?: string;
     attributeKey: string;
     value: GenericFormulaExpr;
-    valuePolicy?: 'multiply';
+    valuePolicy: 'set' | 'multiply';
+    valueType: 'DECIMAL' | 'INTEGER';
   }>;
 };
 

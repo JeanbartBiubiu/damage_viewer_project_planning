@@ -1,3 +1,4 @@
+import { authorEquipmentSpeedRule } from '../../tests/fixtures/simulationCalculationRules';
 import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
@@ -176,6 +177,7 @@ function naturalSample(snapshot: SimulationSnapshot = simulationSample()) {
     snapshot.selection[`${side}SkillSettings`].push({ origin: { kind: 'CHARACTER', characterKey: actor.character.characterKey },
       skillKey, enabled: true, skillLevel: side === 'source' ? 3 : 1 });
   }
+  authorEquipmentSpeedRule(snapshot);
   return syncSimulationSkillSources(snapshot);
 }
 

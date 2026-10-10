@@ -1,4 +1,4 @@
-import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
+import { approveSnapshotFixture, compileFixtureWithNative } from '../../tests/fixtures/nativeFormulaProof';
 import { describe, expect, it } from 'vitest';
 import { equipmentSimulationSample } from '../../tests/fixtures/simulationEquipment';
 import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } from './simulationAdapter';
@@ -91,37 +91,56 @@ describe('阶段4A纯属性装备装配', () => {
       .toEqual({ base: 0, current: 10, max: 10, resolved: 10 });
   });
 
-  it('收益系数目录缺失或停用只拦截装备攻速，不影响长剑与红水晶', () => {
+  it('完整作者配置的未知或停用引用拒绝，即使规则本场未激活也不丢声明', () => {
     const snapshot = equipmentSimulationSample(['item_1042']);
     snapshot.catalogs.attributes = snapshot.catalogs.attributes.filter(row => row.attributeKey !== 'attack_speed_ratio');
-    expect(() => inspectSimulationSnapshot(snapshot)).toThrow(/attack_speed_ratio.*缺目录不能运行短剑/);
+    expect(() => inspectSimulationSnapshot(snapshot)).toThrow(/FORMULA_UNKNOWN_BINDING/);
     const plain = equipmentSimulationSample(['item_1028', 'item_1036']);
     plain.catalogs.attributes = plain.catalogs.attributes.filter(row => row.attributeKey !== 'attack_speed_ratio');
+    expect(() => inspectSimulationSnapshot(plain)).toThrow(/FORMULA_UNKNOWN_BINDING/);
+    plain.catalogs.calculationRules.configuration!.attributeDerivations = [];
     expect(assembleSimulation(plain, inputsFor(plain), health).compileRequest.rules.attributeDerivations).toBeUndefined();
     const disabled = equipmentSimulationSample(['item_1042']);
     disabled.catalogs.attributes.find(row => row.attributeKey === 'attack_speed_ratio')!.status = 'DISABLED';
-    expect(() => inspectSimulationSnapshot(disabled)).toThrow(/attack_speed_ratio/);
+    expect(() => inspectSimulationSnapshot(disabled)).toThrow(/FORMULA_UNKNOWN_BINDING/);
   });
 
-  it('收益系数必须小数目录且最小0，不接受伪造定义', () => {
+  it('常量游戏输出保留未使用声明授权，缺场景数值仍可完整装配和原生编译', () => {
+    const snapshot = equipmentSimulationSample(['item_1042']);
+    snapshot.catalogs.attributes.push({ ...snapshot.catalogs.attributes[0]!, attributeKey: 'unused_probe', name: '未读取作者声明' });
+    const rule = snapshot.catalogs.calculationRules.configuration!.attributeDerivations[0]!;
+    rule.formula = { inputs: [{ key: 'unused', binding: { kind: 'attribute', object: 'source', attributeKey: 'unused_probe', valueKind: 'TOTAL', view: 'current_frame' } }],
+      stages: [{ key: 'output', name: '作者常量', expression: { op: 'const', value: '2' } }], outputStageKey: 'output' };
+    const inputs = inputsFor(snapshot);
+    expect(inputs.source.unused_probe).toBeUndefined();
+    expect(inspectSimulationSnapshot(snapshot).requirements.some(row => row.attribute.attributeKey === 'unused_probe')).toBe(false);
+    const prepared = assembleSimulation(snapshot, inputs, health);
+    expect(prepared.compileRequest.combatants[0]!.attributes.unused_probe).toBeUndefined();
+    expect(prepared.compileRequest.formulas!.find(row => row.key === 'game/lol/authored_speed_yield/source/attribute_derivation')!.expression).toEqual(rule.formula);
+    expect(compileFixtureWithNative(prepared.compileRequest).ok).toBe(true);
+  });
+
+  it('普通输入按真实类型和范围供值，不因收益系数名称限定小数或最小0', () => {
     for (const valueType of ['INTEGER', 'DECIMAL'] as const) {
       const snapshot = equipmentSimulationSample(['item_1042']);
       const ratio = snapshot.catalogs.attributes.find(row => row.attributeKey === 'attack_speed_ratio')!;
-      ratio.valueType = valueType;
-      ratio.minValue = valueType === 'DECIMAL' ? null : 0;
-      expect(() => inspectSimulationSnapshot(snapshot)).toThrow(/小数类型且最小值为0/);
+      ratio.valueType = valueType; ratio.minValue = null;
+      expect(() => inspectSimulationSnapshot(snapshot)).not.toThrow();
     }
   });
 
-  it('缺失、零或非有限收益系数拒绝，目标侧需求不泄漏到攻击方', () => {
+  it('缺失和非有限作者输入拒绝，合法0参与公式，目标侧激活不泄漏到攻击方', () => {
     const snapshot = equipmentSimulationSample([], ['item_1042']);
     const inputs = inputsFor(snapshot);
     expect(inspectSimulationSnapshot(snapshot).requirements.filter(row => row.attribute.attributeKey === 'attack_speed_ratio').map(row => row.side)).toEqual(['target']);
+    delete inputs.target.attack_speed_ratio;
     expect(() => assembleSimulation(snapshot, inputs, health)).toThrow(/attributeInputs.target.attack_speed_ratio/);
-    for (const value of [0, -1, Infinity, NaN]) {
+    for (const value of [-1, Infinity, NaN]) {
       inputs.target.attack_speed_ratio = value;
       expect(() => assembleSimulation(snapshot, inputs, health)).toThrow(/attack_speed_ratio/);
     }
+    inputs.target.attack_speed_ratio = 0;
+    expect(assembleSimulation(snapshot, inputs, health).compileRequest.combatants[1]!.attributes.attack_speed_ratio!.resolved).toBe(0);
     inputs.target.attack_speed_ratio = 0.668;
     expect(assembleSimulation(snapshot, inputs, health).compileRequest.rules.attributeDerivations!.map(row => row.combatantKey)).toEqual(['target']);
   });
@@ -133,13 +152,11 @@ describe('阶段4A纯属性装备装配', () => {
     inputs.target.attack_speed_ratio = 0.668;
     const request = assembleSimulation(snapshot, inputs, health).compileRequest;
     expect(request.rules.attributeDerivations).toHaveLength(2);
-    expect(request.rules.attributeDerivations![0]).toEqual({ combatantKey: 'source', attributeKey: 'attack_speed', value: {
-      op: 'add', args: [{ op: 'read', path: 'source.attr.attack_speed.base' }, { op: 'mul', args: [
-        { op: 'read', path: 'source.attr.attack_speed_ratio.resolved' }, { op: 'sub', args: [
-          { op: 'read', path: 'source.attr.bonus_attack_speed_percent.resolved' }, { op: 'read', path: 'source.attr.bonus_attack_speed_percent.base' }
-        ] }
-      ] }]
+    expect(request.rules.attributeDerivations![0]).toEqual({ combatantKey: 'source', attributeKey: 'attack_speed', valuePolicy: 'set', valueType: 'DECIMAL', value: {
+      op: 'ref', ref: 'game/lol/authored_speed_yield/source/attribute_derivation'
     } });
+    expect(request.formulas!.find(row => row.key === 'game/lol/authored_speed_yield/source/attribute_derivation')!.expression)
+      .toEqual(snapshot.catalogs.calculationRules.configuration!.attributeDerivations[0]!.formula);
     expect(request.combatants[0]!.attributes.bonus_attack_speed_percent!.base).toBe(0.2);
     expect(request.combatants[0]!.attributes.attack_speed!.resolved).toBe(0.651);
     expect(request.sharedProviders![0]!.processes![0]!.cooldown!.durationMs).toEqual({ op: 'ref', ref: 'selected/sample_basic_attack/levels/1/1/interval' });
@@ -158,7 +175,7 @@ describe('阶段4A纯属性装备装配', () => {
     const otherGame = equipmentSimulationSample(['item_1036']);
     otherGame.gameId = 'other';
     otherGame.source.selectedEquipment[0]!.equipment.gameId = 'other';
-    expect(() => inspectSimulationSnapshot(otherGame)).toThrow(/配置集合只能包含默认来源及实际只读依赖|公式不属于当前游戏和技能/);
+    expect(() => inspectSimulationSnapshot(otherGame)).toThrow(/calculationRules.gameId/);
   });
 
   it('未知属性、非有限装备数值、属性范围及不完整所选集合明确失败', () => {

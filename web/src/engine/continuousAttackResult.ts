@@ -1,3 +1,4 @@
+import { hasDynamicSpeedDependency } from './simulationCalculationRules';
 import { tryFoldConstant } from './numericAdapter';
 import type {
   AbilityDefinition, AttackRecord, BudgetCause, CompileRequest, DamageBreakdown, DamageRecord, DoneResult,
@@ -371,6 +372,7 @@ export function assessContinuousAttackResult(
     'summary.execution.complete', '无攻击的完整观察必须仍在实际初次机制等待或已死亡');
   }
   const firstWaitExplained = (startAt: number) => startAt === Math.max(initialMechanicReadyAt ?? 0, initialActionReadyAt ?? 0);
+  const dynamicSpeed = hasDynamicSpeedDependency(input, plan.source, plan.attackSpeedAttributeKey, request);
   const attacks = array(result.attackRecords, 'runResult.attackRecords').map((value, index) => {
     const path = `attackRecords[${index}]`; const row = object(value, path);
     for (const key of ['planKey', 'useRef', 'source', 'target', 'skillKey']) text(row[key], `${path}.${key}`);
@@ -403,8 +405,7 @@ export function assessContinuousAttackResult(
     const speedSnapshot = derived || initialized ? final : initial;
     const speedActor = array(speedSnapshot.combatants, 'attackSpeedSnapshot.combatants').map(actor => object(actor, 'attackSpeedSnapshot.combatants')).find(actor => actor.key === plan.source);
     const resolvedSpeed = finite(object(object(speedActor?.attributes, 'attackSpeedSnapshot.attributes')[plan.attackSpeedAttributeKey], 'attackSpeedSnapshot.attribute').resolved, 'attackSpeedSnapshot.resolved');
-    const dynamic = input.sharedProviders?.some(provider => provider.initialStateSchema && provider.modifiers?.some(modifier => modifier.kind === 'attribute' && /(?:attack_speed|bonus_attack_speed_percent)$/.test(modifier.target ?? '')));
-    check(speed > 0 && speed <= plan.attackSpeedInputMax && (dynamic || close(speed, resolvedSpeed)), path, '静态原生攻速或准入上界不一致');
+    check(speed > 0 && speed <= plan.attackSpeedInputMax && (dynamicSpeed || close(speed, resolvedSpeed)), path, '静态原生攻速或准入上界不一致');
     check(completed === (attackIndex <= completedCount) && (hitAt !== null) === (attackIndex <= hitCount)
       && (!completed || readyAt !== null), path, '逐刀完成、命中事实与累计次数矛盾');
     if (hitAt !== null) checkProcess(row.useRef as string, hitAt, path);

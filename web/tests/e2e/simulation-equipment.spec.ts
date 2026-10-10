@@ -275,15 +275,16 @@ test('换装保留生命草稿并使旧结果过期，新上限越界明确报�
   await expect(hp).toHaveValue('650');
 });
 
-test('短剑缺收益系数目录与不完整被动关系整件拒绝，长剑仍可取得快照', async ({ page }) => {
+test('完整游戏公式缺目录与不完整被动关系拒绝，恢复目录后长剑可取得快照', async ({ page }) => {
   const fixture = await installFixture(page);
   fixture.mode.missingRatio = true;
   await chooseEquipment(page, '攻击方', 'item_1042');
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
-  await expect(page.getByText(/缺目录不能运行短剑/)).toBeVisible();
+  await expect(page.getByText(/FORMULA_UNKNOWN_BINDING/)).toBeVisible();
   await expect(page.getByRole('button', { name: '编译验证', exact: true })).toHaveCount(0);
   await chooseEquipment(page, '攻击方', 'item_1042');
   await chooseEquipment(page, '攻击方', 'item_1036');
+  fixture.mode.missingRatio = false;
   await readSnapshot(page);
   fixture.mode.passive = true;
   await chooseEquipment(page, '目标', 'item_1036');
@@ -292,19 +293,20 @@ test('短剑缺收益系数目录与不完整被动关系整件拒绝，长剑�
   await expect(page.getByRole('button', { name: '执行一次普攻', exact: true })).toHaveCount(0);
 });
 
-test('短剑收益系数没有默认值或补零，显式正输入后才允许进入真实执行', async ({ page }) => {
+test('短剑作者公式输入不补默认值，显式补零与正值均按真实范围进入执行', async ({ page }) => {
   await installFixture(page);
   await chooseEquipment(page, '攻击方', 'item_1042');
   await readSnapshot(page);
-  await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
-  await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
   const ratio = page.getByRole('spinbutton', { name: '攻击方补充属性 attack_speed_ratio', exact: true });
   await expect(ratio).toHaveValue('');
   const single = page.getByRole('button', { name: '执行一次普攻', exact: true });
   await expect(single).toBeDisabled();
-  await ratio.fill('0');
+  await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
+  await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
+  await expect(ratio).toHaveValue('0');
+  await expect(single).toBeEnabled();
   await single.click();
-  await expect(page.getByText(/装备攻速收益系数必须明确填写有限正数/)).toBeVisible();
+  await expect(page.getByText('单次普攻运行通过，不代表连续攻击通过。', { exact: true })).toBeVisible();
   await expect(ratio).toHaveValue('0');
   await ratio.fill('0.651');
   await single.click();

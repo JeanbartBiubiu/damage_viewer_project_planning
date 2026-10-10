@@ -1,3 +1,4 @@
+import { authorEquipmentSpeedRule } from './simulationCalculationRules';
 import type { SimulationSelectedEquipment } from '../../src/types/simulationSnapshot';
 import { simulationSample } from './simulationSnapshot';
 import { syncSimulationSkillSources } from './simulationSkillSources';
@@ -21,5 +22,6 @@ export function equipmentSimulationSample(sourceKeys: string[] = [], targetKeys:
       attributes: { equipmentKey, attributeValues: { ...equipmentValues[equipmentKey] } }, attachedSkills: []
     } satisfies SimulationSelectedEquipment));
   }
+  authorEquipmentSpeedRule(snapshot);
   return syncSimulationSkillSources(snapshot);
 }

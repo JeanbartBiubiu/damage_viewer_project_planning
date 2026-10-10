@@ -60,7 +60,7 @@ describe('4C完整反曲之弓触发装备装配', () => {
   it('没有装备名算法表，无所选技能关系时返回空片段', () => {
     const assembled = assembleTriggeredEquipment(triggeredEquipmentSimulationSample(['item_1036', 'item_3065'], ['item_1042', 'item_3110']));
     expect(assembled).toEqual({ providers: [], mounts: [], types: [], formulas: [], rules: { damageTypeFormulas: [] },
-      operationOrigins: [], coverage: [], required: { source: new Set(), target: new Set() }, selectedSkills: new Set(), derivationSides: new Set(), compiledSources: [] });
+      operationOrigins: [], coverage: [], required: { source: new Set(), target: new Set() }, selectedSkills: new Set(), changedAttributes: { source: new Set(), target: new Set() }, compiledSources: [] });
   });
 
   it('完整已核定伤害由拥有方命中监听立即执行，保留参数、分类、伤害特征与资格', () => {
@@ -1124,7 +1124,7 @@ describe('配置驱动装备通用节点编译', () => {
     const compiled = compileWithInputs(snapshot);
     expect(compiled.compileRequest.combatants.every(combatant => combatant.providers.every(mount => mount.definitionRef !== temporary.providerKey))).toBe(true);
     expect(compiled.operationOrigins.find(origin => origin.providerDefinitionRef === temporary.providerKey)!.compiledPaths[0]).toMatch(/^sharedProviders\[\d+\]\.abilities\[0\]\.tickSpec.onTick\[0\]$/);
-    expect(SIMULATION_ADAPTER_VERSION).toBe('v13-generic-permanent-equipment');
+    expect(SIMULATION_ADAPTER_VERSION).toBe('v14-authored-game-calculation');
   });
 
   it('异名有期周期、改参改首跳只读取作者配置，3秒参数不自动成为常驻周期', () => {

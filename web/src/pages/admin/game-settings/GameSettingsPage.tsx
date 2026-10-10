@@ -5,6 +5,7 @@ import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
 import { getLevelConfig, updateLevelConfig } from '../../../services/characterClient';
 import { GameRepresentativeImagePanel } from '../relations/GameRepresentativeImagePanel';
 import { GameVampRulesPanel } from './GameVampRulesPanel';
+import { GameCalculationRulesPanel } from './GameCalculationRulesPanel';
 
 export type GameSettingsPageProps = {
   apiBaseUrl: string;
@@ -33,6 +34,7 @@ export function GameSettingsPage({
   const [confirming, setConfirming] = useState(false);
   const [imageDirty, setImageDirty] = useState(false);
   const [vampDirty, setVampDirty] = useState(false);
+  const [calculationDirty, setCalculationDirty] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const token = adminToken.trim();
@@ -52,8 +54,8 @@ export function GameSettingsPage({
   ), []);
 
   useEffect(() => {
-    onDirtyChange(levelDirty || imageDirty || vampDirty);
-  }, [imageDirty, levelDirty, vampDirty, onDirtyChange]);
+    onDirtyChange(levelDirty || imageDirty || vampDirty || calculationDirty);
+  }, [imageDirty, levelDirty, vampDirty, calculationDirty, onDirtyChange]);
 
   useEffect(() => () => onDirtyChange(false), [onDirtyChange]);
 
@@ -102,6 +104,7 @@ export function GameSettingsPage({
     setConfirming(false);
     setImageDirty(false);
     setVampDirty(false);
+    setCalculationDirty(false);
     void load();
     return () => {
       active.current = false;
@@ -244,6 +247,7 @@ export function GameSettingsPage({
         </Form>
       </Panel>
       <GameVampRulesPanel apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} onDirtyChange={setVampDirty} />
+      <GameCalculationRulesPanel apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} onDirtyChange={setCalculationDirty} />
       <GameRepresentativeImagePanel apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
         selectedGameName={selectedGameName} adminToken={adminToken}
         onDirtyChange={setImageDirty} onSaved={onGameImageSaved} />

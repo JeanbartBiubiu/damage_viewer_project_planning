@@ -666,7 +666,7 @@ describe('processAdapter', () => {
     });
     const adapted = adaptProcessProgram(authored);
     expect(adapted.provider.processes![0]!.costs[0]!.amount).toEqual({ op: 'ref', ref: 'process/cast_skill/levels/1/1/from_power' });
-    expect(adapted.formulas).toEqual([{ key: 'process/cast_skill/levels/1/1/from_power', skillKey: 'cast_skill', expression: formula.expression, parameters: [] }]);
+    expect(adapted.formulas).toEqual([{ scope: 'skill',  key: 'process/cast_skill/levels/1/1/from_power', skillKey: 'cast_skill', expression: formula.expression, parameters: [] }]);
     authored.rules.push(rule({
       ruleKey: 'settle', sortOrder: 20,
       eventSource: { eventType: 'PROCESS_MOMENT', detail: { processKey: 'cast', moment: complete() } },

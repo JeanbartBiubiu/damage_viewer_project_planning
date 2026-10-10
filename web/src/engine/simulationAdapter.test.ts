@@ -5,6 +5,7 @@ import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
 import { triggeredEquipmentSimulationSample } from '../../tests/fixtures/simulationTriggeredEquipment';
 import { SIMULATION_ADAPTER_VERSION } from './simulationAdapter';
 import { simulationHash } from './simulationHash';
+import { continuousAttackRequest } from './continuousAttackRequest';
 
 function zeroInputs(snapshot = simulationSample()) {
   const values = { source: {} as Record<string, number>, target: {} as Record<string, number> };
@@ -35,7 +36,7 @@ describe('首批场景装配', () => {
     const prepared = await prepareSimulation(snapshot, zeroInputs(snapshot), initialHealth);
     const base = { snapshotDigest: snapshot.snapshotDigest, attributeInputs: prepared.attributeInputs,
       initialHealth, equipmentAssumptions: prepared.equipmentAssumptions, request: prepared.compileRequest };
-    expect(SIMULATION_ADAPTER_VERSION).toBe('v13-generic-permanent-equipment');
+    expect(SIMULATION_ADAPTER_VERSION).toBe('v14-authored-game-calculation');
     expect(prepared.compileRequest.rulesHash).not.toBe(await simulationHash({ ...base, adapter: 'v8-default-skill-sources' }));
   });
 
@@ -118,11 +119,13 @@ describe('首批场景装配', () => {
     expect(() => inspectSimulationSnapshot(forward)).toThrow(/FORMULA_CYCLE/);
   });
 
-  it('缺公式、非法攻速、非有限与超范围补充值给出明确路径', () => {
+  it('缺公式、连续入口非法攻速、非有限与超范围补充值给出明确路径', async () => {
     const missing = simulationSample(); missing.catalogs.damageTypes = [];
     expect(() => inspectSimulationSnapshot(missing)).toThrow(/真实共同防御/);
     const zeroSpeed = simulationSample(); zeroSpeed.source.selectedLevelValues.attack_speed = 0;
-    expect(() => assembleSimulation(zeroSpeed, zeroInputs(), initialHealth)).toThrow(/初始攻速/);
+    const prepared = assembleSimulation(zeroSpeed, zeroInputs(), initialHealth);
+    expect(prepared.compileRequest.combatants[0]!.attributes.attack_speed!.resolved).toBe(0);
+    await expect(continuousAttackRequest(prepared, zeroSpeed, { durationMs: 1000, attackSpeedInputMax: 2 })).rejects.toThrow(/continuous.attack_speed/);
     const inputs = zeroInputs(); inputs.source.critical_strike_chance = 1.1;
     expect(() => assembleSimulation(simulationSample(), inputs, initialHealth)).toThrow(/critical_strike_chance/);
     inputs.source.critical_strike_chance = NaN;

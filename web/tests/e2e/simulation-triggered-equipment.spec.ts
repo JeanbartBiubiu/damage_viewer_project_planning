@@ -128,7 +128,7 @@ test('4C通用构造来源叠层400毫秒到期，实际Worker按剩余比例更
     input.rulesHash = 'explicit-timed-stack-mechanism-not-real-equipment';
     input.combatants[0]!.attributes.attack_speed = { base: 1, current: 1, max: 1, resolved: 1 };
     input.combatants[0]!.attributes.attack_speed_ratio = { base: 1, current: 1, max: 1, resolved: 1 };
-    input.rules.attributeDerivations = [{ combatantKey: 'source', attributeKey: 'attack_speed', value: {
+    input.rules.attributeDerivations = [{ combatantKey: 'source', attributeKey: 'attack_speed', valuePolicy: 'set', valueType: 'DECIMAL', value: {
       op: 'add', args: [{ op: 'read', path: 'source.attr.attack_speed.base' }, { op: 'mul', args: [
         { op: 'read', path: 'source.attr.attack_speed_ratio.resolved' }, { op: 'sub', args: [
           { op: 'read', path: 'source.attr.bonus_attack_speed_percent.resolved' }, { op: 'read', path: 'source.attr.bonus_attack_speed_percent.base' }

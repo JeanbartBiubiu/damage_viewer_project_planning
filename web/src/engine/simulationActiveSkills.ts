@@ -9,6 +9,7 @@ import { simulationSkillSourceIdentity } from '../services/simulationSkillSource
 import { plannedSkillRuleKeys } from './simulationSkillSourceDescription';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
 import { compileSimulationDamageFormula, validateConfiguration } from './simulationTriggeredEquipment';
+import { changedAttributes } from './simulationCalculationRules';
 
 export type SimulationCastCostRef = CastCostRef & { skillKey: string };
 const ordinaryCostResources = new Set(['mana', 'energy', 'hp']);
@@ -44,8 +45,20 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
   const types = new TypeCatalogEntries();
   const defenses = new Map<string, ReturnType<typeof compileSimulationDamageFormula>>();
   let vampRules: ReturnType<typeof adaptHitProgram>['vampRules'];
+  const changed = changedAttributes();
+  const collectChanged = (value: unknown): void => {
+    if (Array.isArray(value)) { value.forEach(collectChanged); return; }
+    if (!value || typeof value !== 'object') return;
+    const row = value as Record<string, unknown>;
+    if (row.operation === 'attribute_change' && typeof row.attributeKey === 'string') {
+      if (row.target !== 'source' && row.target !== 'target' && row.target !== 'self') fail('active.attribute_change.target', '计划属性操作缺少明确双方映射');
+      changed[row.target === 'target' ? 'target' : 'source'].add(row.attributeKey);
+    }
+    Object.values(row).forEach(collectChanged);
+  };
   for (const assembly of assemblies) {
     for (const provider of assembly.providers) {
+      collectChanged(provider);
       const previous = providers.get(provider.providerKey);
       if (previous && JSON.stringify(previous) !== JSON.stringify(provider)) fail('sharedProviders', '计划来源定义冲突');
       providers.set(provider.providerKey, provider);
@@ -69,7 +82,7 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
   return { providers: [...providers.values()], formulas: [...formulas.values()], types: [...types].map(([key, domain]) => ({ key, domain })),
     bindings: assemblies.map(assembly => assembly.binding), rules: { damageTypeFormulas: [...defenses.values()], ...(vampRules ? { vampRules } : {}) },
     coverage: assemblies.flatMap(assembly => assembly.coverage), operationOrigins: assemblies.flatMap(assembly => assembly.operationOrigins),
-    ignoredCastCosts: structuredClone([...ignoredCosts]) };
+    ignoredCastCosts: structuredClone([...ignoredCosts]), changedAttributes: changed };
 }
 
 function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlannedSkill, ignoredCosts: readonly SimulationCastCostRef[]) {

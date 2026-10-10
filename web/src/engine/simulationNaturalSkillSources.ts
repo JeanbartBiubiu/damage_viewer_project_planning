@@ -1,3 +1,4 @@
+import { changedAttributes } from './simulationCalculationRules';
 import type { ProviderDefinition } from '../types/genericEngine';
 import type { SimulationSkillSource, SimulationSnapshot } from '../types/simulationSnapshot';
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
@@ -10,6 +11,8 @@ import { NumericAdaptationError } from './numericAdapter';
 import { permanentModifier, validatePermanentEffect, type PermanentResultContext } from './simulationPermanentResults';
 import type { SimulationCoverage } from './simulationAdapter';
 import type { SimulationAttributeDerivation } from './simulationAttributeConversion';
+import { declaredFormulaForApprovedReads } from './approvedFormulaValues';
+import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
 
 type Side = 'source' | 'target';
 export type SimulationSkillOriginTrace = SimulationSkillSource & {
@@ -25,7 +28,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
   const origins: SimulationSkillOriginTrace[] = [];
   const coverage: SimulationCoverage[] = [];
   const required: Record<Side, Set<string>> = { source: new Set(), target: new Set() };
-  const derivationSides = new Set<Side>();
+  const changed = changedAttributes();
   const derivations: SimulationAttributeDerivation[] = [];
   const descriptions: TriggeredSkillSourceDescription[] = [];
   for (const side of ['source', 'target'] as const) {
@@ -140,10 +143,20 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
               const index = derivations.length;
               derivations.push(modifier);
               required[side].add(modifier.attributeKey);
+              changed[side].add(modifier.attributeKey);
               const collect = (expression: typeof modifier.value) => {
+                if (expression.op === 'ref') {
+                  const formula = expression.ref && declaredFormulaForApprovedReads(expression.ref);
+                  if (!formula) fail(resultPath, '派生公式缺少完整读取依赖');
+                  for (const input of skillFormulaReachableInputs(formula.expression)) if (input.binding.kind === 'attribute') {
+                    const reader = input.binding.object === 'source' ? side : side === 'source' ? 'target' : 'source';
+                    required[reader].add(input.binding.attributeKey);
+                  }
+                }
                 const read = /^(source|target)\.attr\.([a-z][a-z0-9_]*)\./.exec(expression.path ?? '');
                 if (read) required[read[1] as Side].add(read[2]!);
                 expression.args?.forEach(collect);
+                for (const child of [expression.min, expression.max, expression.expr]) if (child) collect(child);
               };
               collect(modifier.value);
               coverage.push({ authorPath: resultPath, compiledPath: `rules.attributeDerivations[conversion_${index}]` });
@@ -156,7 +169,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
             if (result.resultType === 'ATTRIBUTE_CHANGE') {
               const attributeKey = String(result.detail.attributeKey);
               required[side].add(attributeKey);
-              if (attributeKey === 'bonus_attack_speed_percent') derivationSides.add(side);
+              changed[side].add(attributeKey);
             }
           }
         }
@@ -174,7 +187,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
   coverage.push(...triggered.coverage);
   for (const side of ['source', 'target'] as const) {
     for (const key of triggered.required[side]) required[side].add(key);
-    if (triggered.derivationSides.has(side)) derivationSides.add(side);
+    for (const key of triggered.changedAttributes[side]) changed[side].add(key);
   }
-  return { providers, mounts, origins, coverage, required, derivationSides, derivations, triggered };
+  return { providers, mounts, origins, coverage, required, changedAttributes: changed, derivations, triggered };
 }

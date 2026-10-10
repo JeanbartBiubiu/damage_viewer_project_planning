@@ -38,7 +38,7 @@ describe('连续展示档案和安全表格导出', () => {
     const input = { snapshot: { selection: { sourceEquipmentKeys: ['item_1042'], targetEquipmentKeys: [] } },
       equipmentOrigins: [{ side: 'source', equipmentKey: 'item_1042', providerRef: 'source_equipment_item_1042', attributeValues: { bonus_attack_speed_percent: 0.1 } }],
       equipmentAssumptions: [{ owner: 'target', equipmentKey: 'item_3110', target: 'source', inRange: true }],
-      compileRequest: { rules: { attributeDerivations: [{ combatantKey: 'source', attributeKey: 'attack_speed', value: { op: 'read', path: 'source.attr.attack_speed.base' } }] } } };
+      compileRequest: { rules: { attributeDerivations: [{ combatantKey: 'source', attributeKey: 'attack_speed', valuePolicy: 'set', valueType: 'DECIMAL', value: { op: 'read', path: 'source.attr.attack_speed.base' } }] } } };
     const archive = buildContinuousAttackArchive(input, initialContinuousView(1000));
     input.snapshot.selection.sourceEquipmentKeys = [];
     input.equipmentOrigins[0]!.attributeValues.bonus_attack_speed_percent = 0.9;
