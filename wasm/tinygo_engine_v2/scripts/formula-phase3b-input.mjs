@@ -26,7 +26,7 @@ export function createFormulaPhase3BInput({
 } = {}) {
   const input = createFormulaPhase3Input({ damageType, attributeKey, formula: damageFormula });
   input.name = 'formula_phase3b_skill';
-  input.compileRequest.formulas = [{ key: programKey, skillKey, expression: structuredClone(expression), parameters: structuredClone(parameters) }];
+  input.compileRequest.formulas = [{ key: programKey, scope: 'skill', skillKey, expression: structuredClone(expression), parameters: structuredClone(parameters) }];
   const provider = input.compileRequest.sharedProviders[0];
   provider.skillKey = skillKey;
   provider.abilities[0].skillKey = skillKey;
@@ -69,17 +69,17 @@ export function createFormulaPhase3BDerivationInput() {
   const commonConst = value => ({ op: 'const', value: String(value) });
   const read = inputKey => ({ op: 'read', inputKey });
   const binary = (op, left, right) => ({ op, args: [left, right] });
-  input.compileRequest.formulas.push({ key: 'owner_dynamic', skillKey, parameters: [], expression: {
+  input.compileRequest.formulas.push({ key: 'owner_dynamic', scope: 'skill', skillKey, parameters: [], expression: {
     inputs: [
       { key: 'owner_defense', binding: { kind: 'attribute', object: 'source', attributeKey: 'armor', valueKind: 'TOTAL', view: 'current_frame' } },
       { key: 'opponent_health', binding: { kind: 'attribute', object: 'target', attributeKey: 'hp', valueKind: 'CURRENT', view: 'current_frame' } }
     ], stages: [{ key: 'factor', name: '拥有方防御与对手生命', expression: binary('div', binary('add', read('owner_defense'), binary('div', read('opponent_health'), commonConst(100))), commonConst(10)) }], outputStageKey: 'factor'
-  } }, { key: 'read_damage', skillKey, parameters: [], expression: {
+  } }, { key: 'read_damage', scope: 'skill', skillKey, parameters: [], expression: {
     inputs: [{ key: 'damage', binding: { kind: 'attribute', object: 'source', attributeKey: 'attack_damage', valueKind: 'TOTAL', view: 'current_frame' } }],
     stages: [{ key: 'output', name: '本次派生后攻击力', expression: read('damage') }], outputStageKey: 'output'
   } });
   input.compileRequest.rules.attributeDerivations = ['source', 'target'].map(combatantKey => ({
-    skillKey, combatantKey, attributeKey: 'attack_damage', valuePolicy: 'multiply', value: {
+    skillKey, combatantKey, attributeKey: 'attack_damage', valuePolicy: 'multiply', valueType: 'DECIMAL', value: {
       op: 'add', args: [{ op: 'ref', ref: 'owner_dynamic' }, { op: 'div', args: [
         { op: 'read', path: `${combatantKey === 'source' ? 'target' : 'source'}.attr.armor.base` }, { op: 'const', value: 100 }
       ] }]

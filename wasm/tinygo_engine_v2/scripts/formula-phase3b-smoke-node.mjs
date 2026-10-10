@@ -102,7 +102,7 @@ for (const [name, change, code] of [
   const input = createFormulaPhase3BInput();
   input.compileRequest.combatants[0].resources.mana = { current: 200, max: 200 };
   input.runRequest.initialSnapshot.combatants[0].resources.mana = { current: 200, max: 200 };
-  input.compileRequest.formulas.push({ key: 'gate', skillKey: 'formula_phase3b_probe', parameters: [], expression: {
+  input.compileRequest.formulas.push({ key: 'gate', scope: 'skill', skillKey: 'formula_phase3b_probe', parameters: [], expression: {
     inputs: [{ key: 'divisor', binding: { kind: 'attribute', object: 'source', attributeKey: 'armor', valueKind: 'TOTAL', view: 'current_frame' } }],
     stages: [{ key: 'cost', name: '成本', expression: { op: 'div', args: [constant(60), { op: 'read', inputKey: 'divisor' }] } }], outputStageKey: 'cost'
   } });
@@ -135,7 +135,7 @@ for (const [name, change, code] of [
 for (const failure of [false, true]) {
   const input = createFormulaPhase3BInput();
   const skillKey = input.compileRequest.formulas[0].skillKey;
-  const namedRuntime = (key, source) => ({ key, skillKey, parameters: [{ parameterKey: 'runtime', valueMode: 'RUNTIME_INPUT', valueType: 'DECIMAL', runtimeSource: source }], expression: {
+  const namedRuntime = (key, source) => ({ key, scope: 'skill', skillKey, parameters: [{ parameterKey: 'runtime', valueMode: 'RUNTIME_INPUT', valueType: 'DECIMAL', runtimeSource: source }], expression: {
     inputs: [{ key: 'runtime', binding: { kind: 'parameter', skillKey, parameterKey: 'runtime' } }],
     stages: [{ key: 'output', name: '实际使用输入', expression: { op: 'read', inputKey: 'runtime' } }], outputStageKey: 'output'
   } });
@@ -210,7 +210,7 @@ cases.push('作者派生缺归属及外国技能拒绝');
   input.compileRequest.formulas[1].expression.inputs[0].binding.attributeKey = 'attack_damage';
   fail(() => compile(input), 'formula_type_error', 'rules.attributeDerivations[0].value');
   const dynamic = createFormulaPhase3BDerivationInput();
-  dynamic.compileRequest.formulas[1] = { key: 'owner_dynamic', skillKey: dynamic.compileRequest.formulas[0].skillKey,
+  dynamic.compileRequest.formulas[1] = { key: 'owner_dynamic', scope: 'skill', skillKey: dynamic.compileRequest.formulas[0].skillKey,
     parameters: [{ parameterKey: 'input', valueMode: 'RUNTIME_INPUT', valueType: 'DECIMAL' }], expression: {
       inputs: [{ key: 'input', binding: { kind: 'parameter', skillKey: dynamic.compileRequest.formulas[0].skillKey, parameterKey: 'input' } }],
       stages: [{ key: 'out', name: '计算时读取', expression: { op: 'read', inputKey: 'input' } }], outputStageKey: 'out'
@@ -223,8 +223,8 @@ cases.push('作者派生缺归属及外国技能拒绝');
 {
   const input = createFormulaPhase3BDerivationInput();
   input.compileRequest.rules.attributeDerivations = [
-    { combatantKey: 'source', attributeKey: 'attack_speed', value: { op: 'const', value: 2 } },
-    { combatantKey: 'target', attributeKey: 'attack_damage', valuePolicy: 'multiply', value: { op: 'div', args: [{ op: 'read', path: 'source.attr.armor.base' }, { op: 'const', value: 10 }] } }
+    { combatantKey: 'source', attributeKey: 'attack_speed', valuePolicy: 'set', valueType: 'DECIMAL', value: { op: 'const', value: 2 } },
+    { combatantKey: 'target', attributeKey: 'attack_damage', valuePolicy: 'multiply', valueType: 'DECIMAL', value: { op: 'div', args: [{ op: 'read', path: 'source.attr.armor.base' }, { op: 'const', value: 10 }] } }
   ];
   input.compileRequest.sharedProviders[0].abilities[0].operations = [{ operation: 'heal', target: 'source', amount: { op: 'const', value: 0 } }];
   const session = compile(input);
