@@ -24,7 +24,7 @@ import {
 import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
 import { adaptDamageVamp } from './vampAdapter';
 import { compilePersistentResult } from './persistentResultAdapter';
-import { PERMANENT_EQUIPMENT_SKILLS } from './simulationEquipmentPassives';
+import { permanentModifier, validatePermanentEffect } from './simulationPermanentResults';
 import { compileSimulationStatusCondition } from './simulationPrimaryAttack';
 
 
@@ -40,6 +40,7 @@ export type TriggeredEquipmentAssembly = {
   required: Record<Side, Set<string>>;
   selectedSkills: Set<string>;
   derivationSides: Set<Side>;
+  compiledSources: Array<{ side: Side; providerRef: string; definitionRef: string; skillKey: string }>;
 };
 
 const METADATA = ['name', 'description', 'sortOrder', 'createdAt', 'updatedAt'];
@@ -212,12 +213,12 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
           fail(relationPath, '必须保留完整启用被动关系，整件装备拒绝，不能过滤后只取直接属性');
         }
       }
-      if (PERMANENT_EQUIPMENT_SKILLS[equipmentKey] || !relations.length) continue;
+      if (!relations.length) continue;
       if (!Number.isInteger(snapshot.selection[`${side}Level`]) || snapshot.selection[`${side}Level`] < 1) fail(`selection.${side}Level`, '装备拥有方等级必须明确且有效');
       const providerRef = `${side}_${equipmentKey}_passive`;
       const definitionRef = `${providerRef}_definition`;
       descriptions.push({ side, kind: 'item', stableId: `${side}_equipment_${equipmentKey}_definition`,
-        providerRef, definitionRef, path, skills: ordered(relations, `${path}.attachedSkills`).map(relation => {
+        providerRef, definitionRef, path, equipmentKey, skills: ordered(relations, `${path}.attachedSkills`).map(relation => {
           const configurations = snapshot.skillConfigurations.filter(row => row.skill.skillKey === relation.skillKey);
           if (configurations.length !== 1) fail(`${path}.attachedSkills`, '完整被动配置缺失或重复，整件装备拒绝');
           const complete = configurations[0]!;
@@ -239,11 +240,26 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
             }
           }
           return { skillKey: relation.skillKey, skillLevel: 1,
-            path: `${path}.attachedSkills[${relations.indexOf(relation)}]`, configuration, allowedRootKeys: rootKeys };
+            path: `${path}.attachedSkills[${relations.indexOf(relation)}]`, configuration, allowedRootKeys: rootKeys,
+            permanentModifier: (result, resultPath, onNumericConsumed) => {
+              const effect = configuration.effects.find(row => row.results.includes(result))!;
+              const context = { snapshot, configuration, source, side, formulaNamespace: `${providerRef}/${relation.skillKey}/permanent`, onNumericConsumed };
+              validatePermanentEffect(effect, `skills.${relation.skillKey}.effects.${effect.effectKey}`, context);
+              const modifier = permanentModifier(context, result, resultPath);
+              if ('combatantKey' in modifier) fail(resultPath, '装备常驻只接入明确静态修正，动态转换尚未开放');
+              return modifier;
+            } };
         }) });
     }
   }
   const assembled = assembleTriggeredSkillSources(snapshot, descriptions);
+  const expected = descriptions.flatMap(description => description.skills.map(skill =>
+    JSON.stringify([description.side, description.providerRef, description.definitionRef, skill.skillKey])));
+  const actual = assembled.compiledSources.map(source => JSON.stringify([source.side, source.providerRef, source.definitionRef, source.skillKey]));
+  if (new Set(expected).size !== expected.length || new Set(actual).size !== actual.length
+    || expected.length !== actual.length || expected.some(source => !actual.includes(source))) {
+    fail('skillSources', '开启装备来源与实编拥有方、挂载及技能身份不一致，不能漏编或覆盖兄弟技能');
+  }
   assembled.coverage.push(...excludedCoverage);
   return assembled;
 }
@@ -259,6 +275,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
   const required: Record<Side, Set<string>> = { source: new Set(), target: new Set() };
   const selectedSkills = new Set<string>();
   const derivationSides = new Set<Side>();
+  const compiledSources: TriggeredEquipmentAssembly['compiledSources'] = [];
   const cover = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const addFormula = (formula: NamedFormula, path: string) => {
     const existing = formulas.get(formula.key);
@@ -838,21 +855,41 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             if (authored.lifecycle?.periodicIntervalValue !== null && authored.lifecycle?.periodicIntervalValue !== undefined) {
               compilePeriodic(authored, output, outputRoot, event, actionPath);
             } else if (authored.lifecycle?.instanceScope === 'SOURCE' && authored.lifecycle.expiryMode === 'EXPLICIT_ONLY' && source.permanentModifier) {
+              if (description.kind === 'item' && (event !== 'SOURCE_INITIALIZED' || context !== 'self')) {
+                fail(actionPath, '装备永久结果只开放无条件拥有方初始化和明确自身动作');
+              }
               if (!authored.results.length) fail(effectPath, '永久效果缺少完整并列结果');
               for (const result of ordered(authored.results, `${effectPath}.results`)) {
                 const resultPath = `${effectPath}.results.${result.resultKey}`;
                 resultShape(result, resultPath);
-                const key = `${definitionRef}_${authored.effectKey}_${result.resultKey}`;
-                const modifier = source.permanentModifier(result, resultPath);
+                if (!result.valueRule) fail(`${resultPath}.valueRule`, '永久结果缺少完整数值规则');
+                validateValueRule(result.valueRule, `${resultPath}.valueRule`);
+                const key = [definitionRef, skillKey, authored.effectKey, result.resultKey].join('/');
+                const operationPath = `${outputRoot}[${output.length}]`;
+                const modifier = source.permanentModifier(result, resultPath, (authoredValue, authorPath, expression) => {
+                  noteNumeric(authoredValue);
+                  const consumedPath = authorPath.startsWith(`${effectPath}.lifecycle.`) ? operationPath : `sharedProviders.${key}.modifiers[0].value`;
+                  cover(authorPath, consumedPath);
+                  if (authoredValue.kind === 'PARAMETER') cover(`${root}.parameters.${authoredValue.parameterKey}`, consumedPath);
+                  if (authoredValue.kind === 'FORMULA') {
+                    if (expression.op !== 'ref' || !expression.ref) fail(authorPath, '已消费共同公式缺少实际程序引用');
+                    cover(`${root}.formulas.${authoredValue.formulaKey}.expression`, `formulas[${expression.ref}].expression`);
+                    const formula = configuration.formulas.find(row => row.formulaKey === authoredValue.formulaKey)!;
+                    for (const parameterKey of skillFormulaParameterKeys(formula.expression, false)) cover(`${root}.parameters.${parameterKey}`, consumedPath);
+                  }
+                });
                 if (!providers.some(row => row.providerKey === key)) providers.push({
                   providerKey: key, skillKey, stableId, kind: 'status', modifiers: [modifier]
                 });
-                const operationPath = `${outputRoot}[${output.length}]`;
-                output.push({ operation: 'apply_provider', target: 'self', providerDefinitionRef: key, providerRef: key });
+                output.push({ operation: 'apply_provider', target: 'self', providerDefinitionRef: key, providerRef: key, ref: resultPath });
                 if (result.resultType === 'ATTRIBUTE_CHANGE') {
                   const attributeKey = String(result.detail.attributeKey);
-                  required[side].add(attributeKey);
-                  if (attributeKey === 'bonus_attack_speed_percent') derivationSides.add(side);
+                  const recipient = result.target === 'TARGET' ? opponent : side;
+                  required[recipient].add(attributeKey);
+                  if (recipient === side && attributeKey === 'bonus_attack_speed_percent') derivationSides.add(side);
+                  if (recipient === opponent && description.kind === 'item') {
+                    cover(`equipmentAssumptions.${side}.${description.equipmentKey}.target`, `sharedProviders.${key}.modifiers[0].target`);
+                  }
                 }
                 origin(result, authored, abilityRef, [operationPath]);
                 cover(resultPath, `sharedProviders.${key}.modifiers[0]`);
@@ -1132,22 +1169,37 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             }
           } else exact(rule.eventSource.detail, [], `${rulePath}.eventSource.detail`);
           if (event === 'SOURCE_INITIALIZED' && description.kind === 'item') {
-            if (rule.conditionGroups.length || rule.oncePerUse !== null) fail(rulePath, '固定周期必须有无条件真实初始化依据');
+            if (rule.conditionGroups.length || rule.oncePerUse !== null) fail(rulePath, '常驻与固定周期必须有无条件真实初始化依据');
+            let hasPermanentResult = false;
             for (const action of rule.actions) {
               const effect = action.actionType === 'EXECUTE_EFFECT'
                 ? configuration.effects.find(row => row.effectKey === action.detail.effectKey) : undefined;
-              if (effect?.lifecycle?.expiryMode === 'EXPLICIT_ONLY' && effect.lifecycle.periodicIntervalValue === null) {
-                fail(rulePath, '本场可达的永久常驻效果尚未接入通用装配，不能只取装备固定属性');
+              const permanent = effect?.lifecycle?.expiryMode === 'EXPLICIT_ONLY' && effect.lifecycle.periodicIntervalValue === null;
+              if (action.actionType !== 'EXECUTE_EFFECT' || !effect?.lifecycle?.periodicIntervalValue && !permanent) {
+                fail(rulePath, '通用初始化只接入完整永久常驻或始终持久周期');
               }
-              if (action.actionType !== 'EXECUTE_EFFECT' || !effect?.lifecycle?.periodicIntervalValue) {
-                fail(rulePath, '通用初始化只接入完整始终持久周期，4B常驻关系不重复编译');
-              }
+              if (permanent && action.targetContext !== 'EVENT_SOURCE') fail(`${rulePath}.actions.${action.actionKey}`, '永久初始化动作必须明确作用于事件来源自身');
+              hasPermanentResult ||= permanent;
             }
-            const ignored: OperationDefinition[] = [];
-            executeActions(rule, ignored, `${compiledRoot}.abilities`, `${side}.provider[${providerRef}]`, event);
-            if (ignored.length) fail(rulePath, '固定周期不能把有限窗口改成常驻');
+            const operations: OperationDefinition[] = [];
+            const abilityKey = namedKey(skillKey, rule.ruleKey);
+            const abilityRoot = `${compiledRoot}.abilities[${provider.abilities!.length}]`;
+            const abilityRef = `${side}.provider[${providerRef}].ability[${abilityKey}]`;
+            if (hasPermanentResult) {
+              const initializer: AbilityDefinition = { abilityKey, kind: 'passive_listener', skillKey,
+                types: [...skillTypes, `ability/skill/${skillKey}`], listenerSpec: {
+                  listenerKey: namedKey(skillKey, rule.ruleKey), maxTriggersPerEvent: 1, eventMatcher: matcher, operations
+                } };
+              // 先保留能力槽位，再编译同规则中的周期，避免周期插入使来源路径错位。
+              abilities.push(initializer); provider.abilities!.push(initializer);
+            }
+            executeActions(rule, operations, `${abilityRoot}.listenerSpec.operations`, abilityRef, event);
+            if (operations.some(operation => operation.operation !== 'apply_provider')) fail(rulePath, '初始化不能把有限窗口改成常驻');
+            if (hasPermanentResult && !operations.length) fail(rulePath, '永久初始化缺少完整执行操作');
+            if (!hasPermanentResult && operations.length) fail(rulePath, '固定周期不能把有限窗口改成常驻');
             usedRules.add(rule.ruleKey);
-            cover(rulePath, `${compiledRoot}.abilities`);
+            cover(rulePath, hasPermanentResult ? `${abilityRoot}.listenerSpec` : `${compiledRoot}.abilities`);
+            if (hasPermanentResult) cover(`${rulePath}.eventSource`, `${abilityRoot}.listenerSpec.eventMatcher`);
             continue;
           }
           const abilityKey = namedKey(skillKey, rule.ruleKey);
@@ -1204,7 +1256,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         }
         for (const authored of configuration.formulas) {
           const authorPath = `${root}.formulas.${authored.formulaKey}.expression`;
-          if (!coverage.some(row => row.authorPath === authorPath && row.note)) cover(authorPath, `formulas[${numeric.formulaNamespace}/${authored.formulaKey}].expression`);
+          if (!coverage.some(row => row.authorPath === authorPath && row.compiledPath.startsWith('formulas['))) cover(authorPath, `formulas[${numeric.formulaNamespace}/${authored.formulaKey}].expression`);
         }
         for (const formula of numeric.namedFormulas.values()) addFormula(formula, root);
         for (const ability of abilities) {
@@ -1215,6 +1267,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         for (const formula of formulas.values()) if (formula.key.startsWith(`${numeric.formulaNamespace}/`)) collectAttributes(formula.expression, side, required);
         cover(source.path, compiledRoot);
         cover(`${root}.skill`, compiledRoot);
+        compiledSources.push({ side, providerRef, definitionRef, skillKey });
       }
       if (Object.keys(schema).length) provider.initialStateSchema = schema;
       if (modifiers.length) provider.modifiers = modifiers;
@@ -1231,5 +1284,5 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
     if (entries.length !== 1 || entries[0]!.gameId !== snapshot.gameId || entries[0]!.status !== 'ENABLED') fail(`catalogs.attributes.${key}`, '依赖属性缺少唯一已启用的真实目录');
   }
   return { providers, mounts, types: [...types].map(([key, domain]) => ({ key, domain })), formulas: [...formulas.values()],
-    rules, operationOrigins, coverage, required, selectedSkills, derivationSides };
+    rules, operationOrigins, coverage, required, selectedSkills, derivationSides, compiledSources };
 }

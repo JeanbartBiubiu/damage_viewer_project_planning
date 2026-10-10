@@ -4,6 +4,7 @@ import type { SimulationSkillOrigin, SimulationSkillPhase, SimulationSkillSource
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import { NumericAdaptationError } from './numericAdapter';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
+import type { PermanentNumericConsumer } from './simulationPermanentResults';
 
 export type SimulationSourceSide = 'source' | 'target';
 type Side = SimulationSourceSide;
@@ -14,13 +15,14 @@ export type TriggeredSkillSourceDescription = {
   providerRef: string;
   definitionRef: string;
   path: string;
+  equipmentKey?: string;
   skills: Array<{
     skillKey: string;
     skillLevel: number;
     path: string;
     configuration: SkillConfiguration;
     allowedRootKeys?: readonly string[];
-    permanentModifier?: (result: SkillConfiguration['effects'][number]['results'][number], path: string) =>
+    permanentModifier?: (result: SkillConfiguration['effects'][number]['results'][number], path: string, onNumericConsumed?: PermanentNumericConsumer) =>
       NonNullable<ProviderDefinition['modifiers']>[number];
   }>;
 };

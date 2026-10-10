@@ -121,13 +121,13 @@ async function runScenario(page: Page, name: string, snapshot: SimulationSnapsho
     const clientPath = '/src/engine/genericEngineClient.ts';
     const continuousPath = '/src/engine/continuousAttackRequest.ts';
     const equipmentPath = '/src/engine/simulationEquipment.ts';
-    const passivePath = '/src/engine/simulationEquipmentPassives.ts';
+    const passivePath = '/src/engine/simulationEquipmentRange.ts';
     const assessmentPath = '/src/engine/continuousAttackResult.ts';
     const { prepareSimulation, inspectSimulationSnapshot } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
     const { GenericEngineClient, GenericEngineClientError } = await import(clientPath) as typeof import('../../src/engine/genericEngineClient');
     const { continuousAttackRequest } = await import(continuousPath) as typeof import('../../src/engine/continuousAttackRequest');
     const { simulationHealthLimit } = await import(equipmentPath) as typeof import('../../src/engine/simulationEquipment');
-    const { equipmentRangeRequirements } = await import(passivePath) as typeof import('../../src/engine/simulationEquipmentPassives');
+    const { equipmentRangeRequirements } = await import(passivePath) as typeof import('../../src/engine/simulationEquipmentRange');
     const { assessContinuousAttackResult } = await import(assessmentPath) as typeof import('../../src/engine/continuousAttackResult');
     const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
     const { preflightSkillFormulas } = await import(preflightPath) as typeof import('../../src/engine/skillFormulaPreflight');

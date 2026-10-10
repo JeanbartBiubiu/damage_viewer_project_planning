@@ -111,14 +111,14 @@ async function runCombination(page: Page, snapshot: SimulationSnapshot, scenario
     const assessmentPath = '/src/engine/continuousAttackResult.ts';
     const singlePath = '/src/engine/singleAttackResult.ts';
     const equipmentPath = '/src/engine/simulationEquipment.ts';
-    const passivePath = '/src/engine/simulationEquipmentPassives.ts';
+    const passivePath = '/src/engine/simulationEquipmentRange.ts';
     const { inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
     const { GenericEngineClient } = await import(clientPath) as typeof import('../../src/engine/genericEngineClient');
     const { continuousAttackRequest } = await import(continuousPath) as typeof import('../../src/engine/continuousAttackRequest');
     const { assessContinuousAttackResult } = await import(assessmentPath) as typeof import('../../src/engine/continuousAttackResult');
     const { assessSingleAttackResult } = await import(singlePath) as typeof import('../../src/engine/singleAttackResult');
     const { simulationHealthLimit } = await import(equipmentPath) as typeof import('../../src/engine/simulationEquipment');
-    const { equipmentRangeRequirements } = await import(passivePath) as typeof import('../../src/engine/simulationEquipmentPassives');
+    const { equipmentRangeRequirements } = await import(passivePath) as typeof import('../../src/engine/simulationEquipmentRange');
     const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     const inspection = inspectSimulationSnapshot(snapshot);
     for (const row of inspection.requirements) if (row.storedValue === undefined) {
@@ -231,12 +231,12 @@ async function runCompleteRepeats(page: Page, snapshot: SimulationSnapshot, scen
     const clientPath = '/src/engine/genericEngineClient.ts';
     const continuousPath = '/src/engine/continuousAttackRequest.ts';
     const equipmentPath = '/src/engine/simulationEquipment.ts';
-    const passivePath = '/src/engine/simulationEquipmentPassives.ts';
+    const passivePath = '/src/engine/simulationEquipmentRange.ts';
     const { inspectSimulationSnapshot, prepareSimulation } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
     const { GenericEngineClient } = await import(clientPath) as typeof import('../../src/engine/genericEngineClient');
     const { continuousAttackRequest } = await import(continuousPath) as typeof import('../../src/engine/continuousAttackRequest');
     const { simulationHealthLimit } = await import(equipmentPath) as typeof import('../../src/engine/simulationEquipment');
-    const { equipmentRangeRequirements } = await import(passivePath) as typeof import('../../src/engine/simulationEquipmentPassives');
+    const { equipmentRangeRequirements } = await import(passivePath) as typeof import('../../src/engine/simulationEquipmentRange');
     const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) {
       const key = row.attribute.attributeKey;

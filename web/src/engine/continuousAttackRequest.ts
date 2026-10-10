@@ -46,7 +46,7 @@ export async function continuousAttackRequest(
       const providerRef = `${actor.key}_${origin.equipmentKey}_passive`;
       expected.push({ providerRef, definitionRef: `${providerRef}_definition` });
     }
-    for (const origin of prepared.skillOrigins.filter(row => row.side === actor.key && row.providerRef && row.definitionRef)) {
+    for (const origin of prepared.skillOrigins.filter(row => row.side === actor.key && row.origin.kind !== 'EQUIPMENT' && row.providerRef && row.definitionRef)) {
       expected.push({ providerRef: origin.providerRef!, definitionRef: origin.definitionRef! });
     }
     if (actor === source) expected.push({ providerRef: startBinding.mount.providerRef, definitionRef: startBinding.mount.definitionRef });

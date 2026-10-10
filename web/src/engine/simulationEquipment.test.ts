@@ -147,14 +147,14 @@ describe('阶段4A纯属性装备装配', () => {
     expect(assembleSimulation(snapshot, inputs, health).compileRequest.combatants[0]!.attributes.attack_speed!.base).toBe(0);
   });
 
-  it('任何被动关系及未核定无关系装备整体拒绝，不按名称或空参数猜能力', () => {
+  it('被动关系必须有完整来源；无被动关系装备不按编号猜能力', () => {
     for (const skillStatus of ['ENABLED', 'DISABLED'] as const) {
       const snapshot = equipmentSimulationSample(['item_1036']);
       snapshot.source.selectedEquipment[0]!.attachedSkills.push({ gameId: 'lol', equipmentKey: 'item_1036', equipmentName: '样例长剑',
         skillKey: 'passive', skillName: '样例被动', skillStatus, sortOrder: 0 });
       expect(() => inspectSimulationSnapshot(snapshot)).toThrow(/默认来源不能被过滤/);
     }
-    expect(() => inspectSimulationSnapshot(equipmentSimulationSample(['item_3065']))).toThrow(/来源开关缺失/);
+    expect(() => inspectSimulationSnapshot(equipmentSimulationSample(['item_3065']))).not.toThrow();
     const otherGame = equipmentSimulationSample(['item_1036']);
     otherGame.gameId = 'other';
     otherGame.source.selectedEquipment[0]!.equipment.gameId = 'other';

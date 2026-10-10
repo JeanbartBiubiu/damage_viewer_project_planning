@@ -30,12 +30,12 @@ describe('首批场景装配', () => {
     expect(request.rules.damageTypeFormulas![0]).toEqual({ damageType: 'armor', formula: snapshot.catalogs.damageTypes[0]!.formula.formula });
     expect(snapshot).toEqual(before);
   });
-  it('5B适配版本参与摘要，即使编译形状未变也不能与5A规则摘要混用', async () => {
+  it('通用常驻适配版本参与摘要，即使编译形状未变也不能与旧规则摘要混用', async () => {
     const snapshot = simulationSample();
     const prepared = await prepareSimulation(snapshot, zeroInputs(snapshot), initialHealth);
     const base = { snapshotDigest: snapshot.snapshotDigest, attributeInputs: prepared.attributeInputs,
       initialHealth, equipmentAssumptions: prepared.equipmentAssumptions, request: prepared.compileRequest };
-    expect(SIMULATION_ADAPTER_VERSION).toBe('v12-initial-skill-plan');
+    expect(SIMULATION_ADAPTER_VERSION).toBe('v13-generic-permanent-equipment');
     expect(prepared.compileRequest.rulesHash).not.toBe(await simulationHash({ ...base, adapter: 'v8-default-skill-sources' }));
   });
 

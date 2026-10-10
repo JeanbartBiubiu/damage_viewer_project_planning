@@ -48,6 +48,29 @@ describe('5C作者常驻转换只映射一次属性派生', () => {
     expect(JSON.stringify(prepared.compileRequest.formulas)).toContain('bonus_attack_speed_percent');
     expect(prepared.compileRequest.formulas!.filter(formula => formula.key.endsWith('/conversion_ratio')).every(formula => formula.expression.inputs.some(input => input.binding.kind === 'attribute' && input.binding.object === 'source' && input.binding.attributeKey === 'bonus_attack_speed_percent' && input.binding.valueKind === 'TOTAL'))).toBe(true);
   });
+  it.each(['FIXED', 'FORMULA'] as const)('MOMENT armor乘算的%s静态值不误入实时攻击力派生', valueKind => {
+    const scene = sample();
+    const result = scene.configuration.effects[0]!.results[1]! as SkillEffectAttributeChangeResult;
+    result.detail.attributeKey = 'armor';
+    result.valueRule!.value = valueKind === 'FIXED' ? { kind: 'FIXED', value: .2 } : formulaValue('static_armor_ratio');
+    if (valueKind === 'FORMULA') scene.configuration.formulas.push({ ...scene.configuration.formulas[0]!, formulaKey: 'static_armor_ratio',
+      expression: { inputs: [], stages: [{ key: 'amount', name: '静态比例', expression: { op: 'const', value: '0.2' } }], outputStageKey: 'amount' } });
+    const prepared = assemble(scene);
+    expect(prepared.compileRequest.rules.attributeDerivations!.every(row => row.attributeKey !== 'attack_damage')).toBe(true);
+    expect(prepared.compileRequest.sharedProviders!.flatMap(provider => provider.modifiers ?? [])
+      .filter(modifier => modifier.target === 'self.attr.armor' && modifier.valuePolicy === 'multiply').map(modifier => modifier.value))
+      .toEqual([{ op: 'const', value: 1.2 }, { op: 'const', value: 1.2 }]);
+    const compiled = compileFixtureWithNative(prepared.compileRequest);
+    expect(compiled.ok, JSON.stringify(compiled.errors)).toBe(true);
+  });
+  it('真实依赖属性的MOMENT armor动态乘算仍明确拒绝，攻击力动态转换保持原通路', () => {
+    const dynamic = sample();
+    const prepared = assemble(dynamic);
+    expect(prepared.compileRequest.rules.attributeDerivations!.filter(row => row.attributeKey === 'attack_damage')).toHaveLength(2);
+    expect(compileFixtureWithNative(prepared.compileRequest).ok).toBe(true);
+    (dynamic.configuration.effects[0]!.results[1]! as SkillEffectAttributeChangeResult).detail.attributeKey = 'armor';
+    expect(() => inspectSimulationSnapshot(dynamic.snapshot)).toThrow(/首批仅开放/);
+  });
   it.each(['attack_damage', 'attack_speed'])('拒绝依赖%s自身或其它派生总值', attributeKey => {
     const scene = sample();
     scene.configuration.formulas[0]!.expression = skillFormulaDefinition('saved_attribute_conversion', { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey, attributeValueKind: 'TOTAL' });
@@ -61,14 +84,14 @@ describe('5C作者常驻转换只映射一次属性派生', () => {
     wrongMode.configuration.effects[0]!.results[0]!.lifecycleBehavior!.valueReadMode = 'MOMENT_EVALUATION';
     expect(() => inspectSimulationSnapshot(wrongMode.snapshot)).toThrow(/固定攻速使用施加快照/);
   });
-  it('拒绝重复输出、未知覆盖输出、攻击力快照转换、缺等级或必要不支持分支', () => {
+  it('拒绝重复输出、未知覆盖输出、动态攻击力快照转换、缺等级或必要不支持分支', () => {
     const duplicate = sample();
     duplicate.configuration.effects[0]!.results.push({ ...structuredClone(duplicate.configuration.effects[0]!.results[0]!), resultKey: 'duplicate_speed' });
     expect(() => inspectSimulationSnapshot(duplicate.snapshot)).toThrow(/一个派生输出/);
     const wrong = sample(); (wrong.configuration.effects[0]!.results[0]! as SkillEffectAttributeChangeResult).detail.attributeKey = 'armor';
     expect(() => inspectSimulationSnapshot(wrong.snapshot)).toThrow(/首批仅开放/);
     const frozen = sample(); frozen.configuration.effects[0]!.results[1]!.lifecycleBehavior!.valueReadMode = 'APPLICATION_SNAPSHOT';
-    expect(() => inspectSimulationSnapshot(frozen.snapshot)).toThrow(/实时求值/);
+    expect(() => inspectSimulationSnapshot(frozen.snapshot)).toThrow(/依赖施加时属性的公式/);
     const missing = sample(); missing.snapshot.selection.sourceLevel = 3;
     expect(() => inspectSimulationSnapshot(missing.snapshot)).toThrow(/levelValues.3/);
     const mandatory = sample(); mandatory.configuration.effects[0]!.results.push({ ...mandatory.configuration.effects[0]!.results[0]!, resultKey: 'mandatory', resultType: 'DAMAGE' } as never);

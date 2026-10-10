@@ -9,7 +9,7 @@ import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillProcess, SkillProcessMoment, SkillProcessStateOperation } from '../types/skillProcess';
 import type { SkillTriggerAction, SkillTriggerCondition, SkillTriggerRuleDetail } from '../types/skillTriggerRule';
 import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot, SIMULATION_ADAPTER_VERSION } from './simulationAdapter';
-import { equipmentRangeRequirements } from './simulationEquipmentPassives';
+import { equipmentRangeRequirements } from './simulationEquipmentRange';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import { assembleTriggeredEquipment as raw_assembleTriggeredEquipment } from './simulationTriggeredEquipment';
 
@@ -57,10 +57,10 @@ describe('4C完整反曲之弓触发装备装配', () => {
     expect(result.ok, JSON.stringify(result.errors)).toBe(true);
   });
 
-  it('没有装备名算法表，无所选触发关系时返回空片段，不认领4A/4B配置', () => {
+  it('没有装备名算法表，无所选技能关系时返回空片段', () => {
     const assembled = assembleTriggeredEquipment(triggeredEquipmentSimulationSample(['item_1036', 'item_3065'], ['item_1042', 'item_3110']));
     expect(assembled).toEqual({ providers: [], mounts: [], types: [], formulas: [], rules: { damageTypeFormulas: [] },
-      operationOrigins: [], coverage: [], required: { source: new Set(), target: new Set() }, selectedSkills: new Set(), derivationSides: new Set() });
+      operationOrigins: [], coverage: [], required: { source: new Set(), target: new Set() }, selectedSkills: new Set(), derivationSides: new Set(), compiledSources: [] });
   });
 
   it('完整已核定伤害由拥有方命中监听立即执行，保留参数、分类、伤害特征与资格', () => {
@@ -1124,7 +1124,7 @@ describe('配置驱动装备通用节点编译', () => {
     const compiled = compileWithInputs(snapshot);
     expect(compiled.compileRequest.combatants.every(combatant => combatant.providers.every(mount => mount.definitionRef !== temporary.providerKey))).toBe(true);
     expect(compiled.operationOrigins.find(origin => origin.providerDefinitionRef === temporary.providerKey)!.compiledPaths[0]).toMatch(/^sharedProviders\[\d+\]\.abilities\[0\]\.tickSpec.onTick\[0\]$/);
-    expect(SIMULATION_ADAPTER_VERSION).toBe('v12-initial-skill-plan');
+    expect(SIMULATION_ADAPTER_VERSION).toBe('v13-generic-permanent-equipment');
   });
 
   it('异名有期周期、改参改首跳只读取作者配置，3秒参数不自动成为常驻周期', () => {

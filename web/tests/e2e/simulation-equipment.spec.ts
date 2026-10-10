@@ -60,7 +60,10 @@ async function installFixture(page: Page, permanent = false) {
   await page.route(`${API}/api/admin/games/lol/simulation-snapshot`, async route => {
     expect(route.request().method()).toBe('POST');
     const selection = route.request().postDataJSON() as SimulationSelection;
-    expect(Object.keys(selection)).toHaveLength(12);
+    expect(Object.keys(selection).sort()).toEqual(['sourceCharacterKey', 'sourceLevel', 'targetCharacterKey', 'targetLevel',
+      'basicAttackSkillKey', 'basicAttackLevel', 'plannedSkills', 'sourceEquipmentKeys', 'targetEquipmentKeys',
+      'sourceBuildConfigurations', 'targetBuildConfigurations', 'sourceSkillSettings', 'targetSkillSettings'].sort());
+    expect(selection.plannedSkills).toEqual([]);
     requests.push(selection);
     if (mode.hold) await new Promise<void>(resolveRequest => { pending = resolveRequest; });
     if (mode.fail) {
@@ -363,7 +366,7 @@ test('真实服务长剑与红水晶完整作者快照进入实际引擎，不�
     const catalog = (await listEquipment(base, 'lol', token)).data;
     const snapshot = await getIsolatedSimulationSnapshot(base, 'lol', {
       sourceCharacterKey: 'champion_aatrox', sourceLevel: 1, targetCharacterKey: 'champion_ahri', targetLevel: 1,
-      basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, sourceEquipmentKeys: ['item_1028', 'item_1036'], targetEquipmentKeys: ['item_1028'],
+      basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, plannedSkills: [], sourceEquipmentKeys: ['item_1028', 'item_1036'], targetEquipmentKeys: ['item_1028'],
       sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: []
     }, token);
     const inputs: SimulationAttributeInputs = { source: {}, target: {} };
@@ -394,7 +397,7 @@ test('真实服务短剑使用独立核定的角色收益系数，由原普攻�
     const { inspectSimulationSnapshot } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
     const snapshot = await getIsolatedSimulationSnapshot(base, 'lol', {
       sourceCharacterKey: 'champion_aatrox', sourceLevel: 1, targetCharacterKey: 'champion_ahri', targetLevel: 1,
-      basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, sourceEquipmentKeys: ['item_1042'], targetEquipmentKeys: ['item_1028'],
+      basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, plannedSkills: [], sourceEquipmentKeys: ['item_1042'], targetEquipmentKeys: ['item_1028'],
       sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: []
     }, token);
     const inputs: SimulationAttributeInputs = { source: {}, target: {} };
@@ -430,8 +433,8 @@ test('4B页面范围必须显式确认，冻结假设且修改后标记结果过
   await page.getByRole('spinbutton', { name: '攻速输入上界', exact: true }).fill('2');
   await page.getByRole('button', { name: '连续普攻', exact: true }).click();
   await expect(page.getByText('equipmentAssumptions.target.item_3110: 范围目标必须为另一方，且必须明确确认全程在范围内', { exact: true })).toBeVisible();
-  const confirmation = page.getByRole('checkbox', { name: '目标冰心全程在范围内', exact: true });
   const equipmentName = permanentEquipmentSimulationSample(['item_3065'], ['item_3110']).target.selectedEquipment[0]!.equipment.name;
+  const confirmation = page.getByRole('checkbox', { name: `目标${equipmentName}全程在范围内`, exact: true });
   const confirmationLabel = page.getByText(`明确确认：目标${equipmentName}的唯一对手全程在作用范围内（不模拟进出范围或多来源叠加）`, { exact: true });
   await confirmationLabel.click();
   await expect(confirmation).toBeChecked();
@@ -466,7 +469,7 @@ for (const combination of [
     const { inspectSimulationSnapshot } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
     const snapshot = await getIsolatedSimulationSnapshot(base, 'lol', {
       sourceCharacterKey: 'champion_aatrox', sourceLevel: 1, targetCharacterKey: 'champion_ahri', targetLevel: 1,
-      basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, sourceEquipmentKeys: combination.source, targetEquipmentKeys: combination.target,
+      basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, plannedSkills: [], sourceEquipmentKeys: combination.source, targetEquipmentKeys: combination.target,
       sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: []
     }, token);
     const inputs: SimulationAttributeInputs = { source: {}, target: {} };

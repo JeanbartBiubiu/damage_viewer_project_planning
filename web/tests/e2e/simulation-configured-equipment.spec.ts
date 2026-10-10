@@ -28,14 +28,19 @@ for (const scenario of scenarios) test(`4C配置驱动真实装备 ${scenario.na
     const assessmentPath = '/src/engine/continuousAttackResult.ts';
     const singlePath = '/src/engine/singleAttackResult.ts';
     const equipmentPath = '/src/engine/simulationEquipment.ts';
-    const passivePath = '/src/engine/simulationEquipmentPassives.ts';
+    const passivePath = '/src/engine/simulationEquipmentRange.ts';
     const { inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
     const { GenericEngineClient } = await import(clientPath) as typeof import('../../src/engine/genericEngineClient');
     const { continuousAttackRequest } = await import(continuousPath) as typeof import('../../src/engine/continuousAttackRequest');
     const { assessContinuousAttackResult } = await import(assessmentPath) as typeof import('../../src/engine/continuousAttackResult');
     const { assessSingleAttackResult } = await import(singlePath) as typeof import('../../src/engine/singleAttackResult');
     const { simulationHealthLimit } = await import(equipmentPath) as typeof import('../../src/engine/simulationEquipment');
-    const { equipmentRangeRequirements } = await import(passivePath) as typeof import('../../src/engine/simulationEquipmentPassives');
+    const { equipmentRangeRequirements } = await import(passivePath) as typeof import('../../src/engine/simulationEquipmentRange');
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { preflightSkillFormulas } = await import(preflightPath) as typeof import('../../src/engine/skillFormulaPreflight');
+    const { validateConsumedFormulaValues, validateApprovedFormulaValues } = await import(proofPath) as typeof import('../../src/engine/approvedFormulaValues');
+    const client = new GenericEngineClient();
+    const formulaPreflight = await preflightSkillFormulas(snapshot, client);
     const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) {
       inputs[row.side][row.attribute.attributeKey] = row.attribute.attributeKey === 'attack_speed_ratio' ? .651 : row.attribute.attributeKey === 'life_steal_percent' && row.side === 'source' ? .1 : 0;
@@ -44,12 +49,13 @@ for (const scenario of scenarios) test(`4C配置驱动真实装备 ${scenario.na
       target: owner === 'source' ? 'target' as const : 'source' as const, inRange: true }));
     const health = { source: simulationHealthLimit(snapshot, 'source')! - 100, target: simulationHealthLimit(snapshot, 'target')! };
     const prepared = await prepareSimulation(snapshot, inputs, health, assumptions);
-    const client = new GenericEngineClient();
     let sessionId: string | undefined;
     try {
       const compiled = await client.compile(prepared.compileRequest);
       if (!compiled.ok || !compiled.sessionId) throw new Error(`compile: ${JSON.stringify(compiled.errors)}`);
       sessionId = compiled.sessionId;
+      validateConsumedFormulaValues(prepared.approvedFormulaValues, prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
+      validateApprovedFormulaValues(prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
       const singleRequest = singleAttackRequest(prepared.compileRequest, sessionId);
       const single = await client.run(singleRequest);
       const singleAssessment = assessSingleAttackResult(prepared.compileRequest, singleRequest, single);
@@ -62,7 +68,7 @@ for (const scenario of scenarios) test(`4C配置驱动真实装备 ${scenario.na
       const truncatedAssessment = assessContinuousAttackResult(prepared.compileRequest, truncatedRequest, truncated, prepared.operationOrigins);
       const release = await client.release(sessionId, prepared.compileRequest.rulesHash);
       client.terminate();
-      return { snapshot, prepared, request: preparedRun.runRequest, single, singleAssessment, done, assessment, repeated, truncated, truncatedAssessment, release, liveWorker: client.hasLiveWorker };
+      return { snapshot, prepared, formulaPreflight, request: preparedRun.runRequest, single, singleAssessment, done, assessment, repeated, truncated, truncatedAssessment, release, liveWorker: client.hasLiveWorker };
     } finally {
       if (sessionId && client.hasLiveWorker) await client.release(sessionId, prepared.compileRequest.rulesHash);
       client.terminate();

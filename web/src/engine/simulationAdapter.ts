@@ -19,14 +19,14 @@ import { adaptDamageVamp } from './vampAdapter';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
 import { assembleEquipment, equipmentContribution, type EquipmentOrigin } from './simulationEquipment';
-import { assembleEquipmentPassives, validateEquipmentAssumptions } from './simulationEquipmentPassives';
+import { validateEquipmentAssumptions } from './simulationEquipmentRange';
 import { assembleTriggeredEquipment, compileSimulationDamageFormula, validateConfiguration } from './simulationTriggeredEquipment';
 import { assembleNaturalSkillSources, type SimulationSkillOriginTrace } from './simulationNaturalSkillSources';
 import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive, primaryMechanicRequirements, validateMechanicStateInputs } from './simulationPrimaryAttack';
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
 
-export const SIMULATION_ADAPTER_VERSION = 'v12-initial-skill-plan';
+export const SIMULATION_ADAPTER_VERSION = 'v13-generic-permanent-equipment';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -84,10 +84,19 @@ type Program = {
   required: Map<'source' | 'target', Set<string>>; configuration?: SkillConfiguration;
   active?: ReturnType<typeof assembleActiveSkills>;
   equipment: ReturnType<typeof assembleEquipment>;
-  passives: ReturnType<typeof assembleEquipmentPassives>;
   triggered: ReturnType<typeof assembleTriggeredEquipment>;
   natural: ReturnType<typeof assembleNaturalSkillSources>;
 };
+
+function recordCompiledEquipmentSources(natural: ReturnType<typeof assembleNaturalSkillSources>, triggered: ReturnType<typeof assembleTriggeredEquipment>) {
+  for (const compiled of triggered.compiledSources) {
+    const origins = natural.origins.filter(origin => origin.side === compiled.side && origin.skillKey === compiled.skillKey
+      && origin.origin.kind === 'EQUIPMENT' && `${compiled.side}_${origin.origin.equipmentKey}_passive` === compiled.providerRef);
+    if (origins.length !== 1) fail('skillOrigins', '实编装备程序必须对应唯一真实拥有方、装备及技能来源');
+    origins[0]!.providerRef = compiled.providerRef;
+    origins[0]!.definitionRef = compiled.definitionRef;
+  }
+}
 
 /** 装配首批完整普攻形状，不依赖技能名称；不支持的启用入口整体拒绝。 */
 function program(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = []): Program {
@@ -96,10 +105,10 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   if (!snapshot.selection.plannedSkills.length && ignoredCosts.length) fail('ignoredCastCosts', '没有计划技能不能声明施法成本');
   const natural = assembleNaturalSkillSources(snapshot);
   const triggered = assembleTriggeredEquipment(snapshot);
+  recordCompiledEquipmentSources(natural, triggered);
   const triggeredPrograms = [triggered, natural.triggered];
   const equipment = assembleEquipment(snapshot, new Set([...natural.derivationSides, ...triggered.derivationSides]),
     new Set(natural.derivations.filter(row => row.attributeKey === 'attack_speed').map(row => row.combatantKey)));
-  const passives = assembleEquipmentPassives(snapshot);
   const selection = snapshot.selection;
   if (selection.basicAttackLevel === null) fail('selection.basicAttackLevel', '普攻技能与等级必须配对提供');
   const config = snapshot.skillConfigurations.find(row => row.skill.skillKey === selection.basicAttackSkillKey);
@@ -141,17 +150,16 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   abilityTypes.push(skillIdentity);
   const rules: GenericRules = { damageTypeFormulas: [] };
   const required = new Map<'source' | 'target', Set<string>>([
-    ['source', new Set(['hp', 'attack_speed', ...equipment.required.source, ...passives.required.source])], ['target', new Set(['hp', ...equipment.required.target, ...passives.required.target])]
+    ['source', new Set(['hp', 'attack_speed', ...equipment.required.source])], ['target', new Set(['hp', ...equipment.required.target])]
   ]);
   coverage.push(...equipment.coverage);
-  coverage.push(...passives.coverage);
   coverage.push(...triggered.coverage);
   coverage.push(...natural.coverage);
   operationOrigins.push(...triggeredPrograms.flatMap(assembly => assembly.operationOrigins));
   for (const side of ['source', 'target'] as const) for (const key of triggered.required[side]) required.get(side)!.add(key);
   for (const side of ['source', 'target'] as const) for (const key of natural.required[side]) required.get(side)!.add(key);
   for (const type of triggeredPrograms.flatMap(assembly => assembly.types)) types.set(type.key, type.domain);
-  if (passives.mounts.length || natural.mounts.length) types.set('event/source_initialized', 'event');
+  if (natural.mounts.length) types.set('event/source_initialized', 'event');
   if (ammo.schema) types.set('state_scope/provider', 'state_scope');
   if (equipment.derivations.length || natural.derivations.length) rules.attributeDerivations = [...equipment.derivations, ...natural.derivations];
   validateSimulationAttributeDerivations(rules.attributeDerivations ?? []);
@@ -414,7 +422,7 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
     && JSON.stringify(assembly.rules.vampRules) !== JSON.stringify(rules.vampRules)) {
     fail('rules.vampRules', '自然来源、装备附伤与普攻必须共享本次真实游戏吸血规则');
   }
-  const providerIndices = new Map([...triggered.providers, ...natural.providers].map((definition, index) => [definition.providerKey, 1 + equipment.providers.length + passives.providers.length + index]));
+  const providerIndices = new Map([...triggered.providers, ...natural.providers].map((definition, index) => [definition.providerKey, 1 + equipment.providers.length + index]));
   const rebase = (path: string) => path.replace(/sharedProviders(?:\[([^\]]+)\]|\.([^.]+))/, (whole, bracket: string, dotted: string) => {
     const key = bracket ?? dotted;
     return providerIndices.has(key) ? `sharedProviders[${providerIndices.get(key)}]` : whole;
@@ -441,7 +449,7 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   const mergedCoverage = [...coverageByReference.values()].map(({ row, notes }) =>
     notes.size ? { ...row, note: [...notes].join('；') } : row);
   const assembled: Program = { provider, rules, formulas: [...state.namedFormulas.values(), ...triggeredPrograms.flatMap(assembly => assembly.formulas)], types: [...types].map(([key, domain]) => ({ key, domain })),
-    coverage: mergedCoverage, required, configuration: config, operationOrigins: mergedOrigins, equipment, passives, triggered, natural,
+    coverage: mergedCoverage, required, configuration: config, operationOrigins: mergedOrigins, equipment, triggered, natural,
     basicAttackBinding: { source: 'source', target: 'target', skillKey: config.skill.skillKey,
       startAbilityRef: `source.provider[${MOUNT}].ability[${START_ABILITY}]`,
       hitAbilityRef: `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`,
@@ -453,9 +461,9 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
 function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[]): Program {
   const natural = assembleNaturalSkillSources(snapshot);
   const triggered = assembleTriggeredEquipment(snapshot);
+  recordCompiledEquipmentSources(natural, triggered);
   const equipment = assembleEquipment(snapshot, new Set([...natural.derivationSides, ...triggered.derivationSides]),
     new Set(natural.derivations.filter(row => row.attributeKey === 'attack_speed').map(row => row.combatantKey)));
-  const passives = assembleEquipmentPassives(snapshot);
   const assemblies = [triggered, natural.triggered];
   const rules: GenericRules = { damageTypeFormulas: [],
     attributeDerivations: [...equipment.derivations, ...natural.derivations] };
@@ -472,9 +480,9 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
     }
   }
   const types = new TypeCatalogEntries([...assemblies.flatMap(assembly => assembly.types)].map(type => [type.key, type.domain]));
-  if (passives.mounts.length || natural.mounts.length) types.set('event/source_initialized', 'event');
+  if (natural.mounts.length) types.set('event/source_initialized', 'event');
   const required = new Map<'source' | 'target', Set<string>>((['source', 'target'] as const).map(side =>
-    [side, new Set(['hp', ...equipment.required[side], ...passives.required[side], ...triggered.required[side], ...natural.required[side]])]));
+    [side, new Set(['hp', ...equipment.required[side], ...triggered.required[side], ...natural.required[side]])]));
   for (const rule of rules.vampRules ?? []) required.get('source')!.add(rule.sourceAttributeKey);
   const collect = (value: unknown): void => {
     if (Array.isArray(value)) { value.forEach(collect); return; }
@@ -486,7 +494,7 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
     Object.values(row).forEach(collect);
   };
   collect(natural.providers); collect(rules);
-  const providers = [...equipment.providers, ...passives.providers, ...triggered.providers, ...natural.providers];
+  const providers = [...equipment.providers, ...triggered.providers, ...natural.providers];
   const providerIndices = new Map(providers.map((provider, index) => [provider.providerKey, index]));
   const rebase = (path: string) => {
     return path.replace(/sharedProviders(?:\[([^\]]+)\]|\.([^.]+))/, (original, bracket: string, dotted: string) => {
@@ -497,12 +505,12 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
   const coverage = [...equipment.coverage.map(row => ({ ...row, compiledPath: row.compiledPath
     .replace(/sharedProviders\[(\d+)\]/, (_original, index: string) => `sharedProviders[${Number(index) - 1}]`)
     .replace(/combatants\[0\]\.providers\[(\d+)\]/, (_original, index: string) => `combatants[0].providers[${Number(index) - 1}]`) })),
-    ...passives.coverage, ...triggered.coverage, ...natural.coverage];
+    ...triggered.coverage, ...natural.coverage];
   const mergedCoverage = coverage.map(row => ({ ...row, compiledPath: rebase(row.compiledPath) }));
   const origins = assemblies.flatMap(assembly => assembly.operationOrigins.map(origin => ({ ...origin,
     compiledPaths: origin.compiledPaths.map(rebase) })));
   return mergeActiveProgram({ provider: null, rules, formulas: assemblies.flatMap(assembly => assembly.formulas),
-    types: [...types].map(([key, domain]) => ({ key, domain })), required, equipment, passives, triggered, natural,
+    types: [...types].map(([key, domain]) => ({ key, domain })), required, equipment, triggered, natural,
     coverage: mergedCoverage,
     operationOrigins: origins, basicAttackBinding: null }, snapshot, ignoredCosts);
 }
@@ -535,7 +543,7 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
     base.rules.vampRules = active.rules.vampRules;
   }
   for (const rule of base.rules.vampRules ?? []) base.required.get('source')!.add(rule.sourceAttributeKey);
-  const providers = [...(base.provider ? [base.provider] : []), ...base.equipment.providers, ...base.passives.providers,
+  const providers = [...(base.provider ? [base.provider] : []), ...base.equipment.providers,
     ...base.triggered.providers, ...base.natural.providers, ...active.providers];
   const indices = new Map(providers.map((provider, index) => [provider.providerKey, index]));
   const rebase = (path: string) => path.replace(/sharedProviders\[([^\]]+)\](.*)/, (original, definition: string, suffix: string) => {
@@ -629,7 +637,6 @@ export function assembleSimulation(
       resources: {}, providers: [
         ...(side === 'source' && compiled.basicAttackBinding ? [{ providerRef: MOUNT, definitionRef: DEFINITION }] : []),
         ...compiled.equipment.origins.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
-        ...compiled.passives.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
         ...compiled.triggered.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
         ...compiled.natural.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef }))
       ] };
@@ -638,7 +645,7 @@ export function assembleSimulation(
     compileRequest: {
       schemaVersion: 'generic-p0', schemaHash: SIMULATION_SCHEMA_HASH, rulesHash: 'pending',
       typeCatalog: { types: [...compiled.types, ...snapshot.catalogs.attributes.map(attribute => ({ key: attribute.attributeKey, domain: 'attribute' }))], relations: [] }, combatants: actors,
-      sharedProviders: [...(compiled.provider ? [compiled.provider] : []), ...compiled.equipment.providers, ...compiled.passives.providers, ...compiled.triggered.providers, ...compiled.natural.providers, ...(compiled.active?.providers ?? [])], formulas: [...new Map([...(compiled.formulas ?? []), ...collectedCommonFormulaDefinitions()].map(formula => [formula.key, formula])).values()], rules: compiled.rules,
+      sharedProviders: [...(compiled.provider ? [compiled.provider] : []), ...compiled.equipment.providers, ...compiled.triggered.providers, ...compiled.natural.providers, ...(compiled.active?.providers ?? [])], formulas: [...new Map([...(compiled.formulas ?? []), ...collectedCommonFormulaDefinitions()].map(formula => [formula.key, formula])).values()], rules: compiled.rules,
       settings: { maxEvents: 10000, maxCommandsPerEvent: 256, maxQueueEvents: 10000, maxChainDepth: 32 }
     }, coverage: compiled.coverage, operationOrigins: compiled.operationOrigins, basicAttackBinding: compiled.basicAttackBinding,
     equipmentOrigins: compiled.equipment.origins, skillOrigins: compiled.natural.origins, snapshotDigest: snapshot.snapshotDigest,

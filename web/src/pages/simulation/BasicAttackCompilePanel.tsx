@@ -17,7 +17,7 @@ import { getErrorMessage } from '../../services/apiClient';
 import { getSimulationSnapshot, normalizeEquipmentKeys, normalizeSimulationSelection } from '../../services/simulationSnapshotClient';
 import { simulationSkillSourceIdentity } from '../../services/simulationSkillSourceIdentity';
 import { equipmentContribution, simulationHealthLimit } from '../../engine/simulationEquipment';
-import { equipmentRangeRequirements } from '../../engine/simulationEquipmentPassives';
+import { equipmentRangeRequirements } from '../../engine/simulationEquipmentRange';
 import type { CompileResult, DoneResult, GenericReleaseDonePayload, RunRequest } from '../../types/genericEngine';
 import type { BuildConfiguration, BuildDefinition, SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth,
   SimulationSelection, SimulationSkillOrigin, SimulationSkillSetting, SimulationSkillSource, SimulationSnapshot } from '../../types/simulationSnapshot';
@@ -1092,7 +1092,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       {snapshot ? (
         <section key="scene-snapshot" aria-label="场景快照">
           {rangeRequirements.map(({ owner, equipmentKey, equipmentName }) => (
-            <Checkbox key={`${owner}:${equipmentKey}`} aria-label={equipmentKey === 'item_3110' ? `${sideLabels[owner]}冰心全程在范围内` : `${sideLabels[owner]}${equipmentName}全程在范围内`} checked={auraConfirmed[`${owner}:${equipmentKey}`] === true} disabled={busy}
+            <Checkbox key={`${owner}:${equipmentKey}`} aria-label={`${sideLabels[owner]}${equipmentName}全程在范围内`} checked={auraConfirmed[`${owner}:${equipmentKey}`] === true} disabled={busy}
               onChange={checked => {
                 setAuraConfirmed(current => ({ ...current, [`${owner}:${equipmentKey}`]: checked }));
                 setPrepared(null); invalidateRunResult(); setError(null); setNotice(null);
