@@ -8,11 +8,12 @@ import (
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
 func frameCommitInput(ops ...model.OperationDefinition) (model.CompileRequest, model.RunRequest) {
 	c, r := authoringInput()
-	c.Rules.DamageTypeFormulas = nil
+	c.Rules.DamageTypeFormulas = []model.DamageTypeFormulaDefinition{{DamageType: "damage/physical", Formula: formuladefinition.ConstantDefense("1")}}
 	c.TypeCatalog.Types = append(c.TypeCatalog.Types, model.TypeCatalogEntry{Key: "damage/physical", Domain: "damage"})
 	c.SharedProviders[0].Processes = nil
 	c.SharedProviders[0].Listeners = nil

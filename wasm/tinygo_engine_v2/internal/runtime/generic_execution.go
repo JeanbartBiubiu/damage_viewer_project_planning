@@ -766,7 +766,7 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 			DamageType: op.DamageType,
 			Ref:        operationRef,
 		}
-		return f.applyCommand(cmd, ability)
+		return f.applyCommand(cmd, op, ability)
 	case "resource_change":
 		if !op.HasAmount {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "resource_change requires amount", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -1309,7 +1309,10 @@ func (f *executionFrame) recordOperationOutput(op planbundle.CompiledOperation, 
 	}
 }
 
-func (f *executionFrame) applyCommand(cmd command.Command, ability planbundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) applyCommand(cmd command.Command, op planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {
+	if cmd.Kind == command.KindDamage {
+		return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "damage command bypassed authored defense settlement", op.Path+".damageType", cmd.DamageType, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
 	if cmd.Kind == command.KindHeal {
 		return f.applyDirectHeal(cmd, ability)
 	}
@@ -1320,20 +1323,6 @@ func (f *executionFrame) applyCommand(cmd command.Command, ability planbundle.Co
 	sc.shields = next.Shields
 
 	switch cmd.Kind {
-	case command.KindDamage:
-		// 正常 damage 走 applyDamageCommand；此分支仅兜底，仍写 evidence。
-		f.applyDamageResult(cmd, result, sc)
-		f.reResolveStagedAttributesTwoPass(ability)
-		f.recordGenericDamageEvidence(genericDamageEvidence{
-			source:          cmd.Source,
-			target:          cmd.Target,
-			damageType:      cmd.DamageType,
-			rawAmount:       cmd.Amount,
-			mitigatedAmount: result.Amount,
-			providerRef:     f.ownerProviderRef,
-			abilityRef:      f.abilityRef,
-			phantom:         false,
-		})
 	case command.KindHeal:
 		f.healingDone += result.Amount
 		overheal := cmd.Amount - result.Amount
@@ -1364,8 +1353,7 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op planbundle.C
 	sc := f.stageFor(cmd.Target)
 	view := pipeline.CombatantView{Attributes: sc.attributes, Shields: sc.shields}
 
-	numbers, err := f.resolveDamageNumbers(cmd, op, critEv, ability, modEvidence,
-		view.Attributes, f.stageFor(cmd.Source).attributes)
+	numbers, err := f.resolveDamageNumbers(cmd, op, critEv, ability, modEvidence)
 	if err != nil {
 		return err
 	}
@@ -1399,36 +1387,31 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op planbundle.C
 	f.reResolveStagedAttributesTwoPass(ability)
 	damageRecordIndex := len(f.pendingDamage)
 	f.recordGenericDamageEvidence(genericDamageEvidence{
-		source:                      cmd.Source,
-		target:                      cmd.Target,
-		damageType:                  cmd.DamageType,
-		rawAmount:                   rawForEvidence,
-		mitigatedAmount:             result.Amount,
-		providerRef:                 f.ownerProviderRef,
-		abilityRef:                  f.abilityRef,
-		operationRef:                operationRef,
-		operationPath:               op.Path,
-		hpBefore:                    targetHPBefore,
-		hpAfter:                     attribute.ReadHP(next.Attributes),
-		hasSourceHp:                 sourceHasHealth,
-		sourceHpBefore:              sourceHealthBefore.Current,
-		phantom:                     false,
-		crit:                        critEv,
-		modifiers:                   modEvidence,
-		traits:                      traits,
-		castInstanceID:              f.castInstanceID,
-		castOrigin:                  f.castOrigin,
-		hasPostResistanceEvidence:   true,
-		resistanceFactor:            numbers.resistanceFactor,
-		hasNativeDefenseDetails:     numbers.hasNativeDefenseDetails,
-		normalPartPostResistance:    numbers.normalPartPostResistance,
-		critPartPostResistance:      numbers.critPartPostResistance,
-		resistanceBeforePenetration: numbers.resistanceBeforePenetration,
-		penetrationPercent:          numbers.penetrationPercent,
-		penetrationFlat:             numbers.penetrationFlat,
-		effectiveResistance:         numbers.effectiveResistance,
-		damageID:                    damageID,
-		outcome:                     &outcome,
+		source:                    cmd.Source,
+		target:                    cmd.Target,
+		damageType:                cmd.DamageType,
+		rawAmount:                 rawForEvidence,
+		mitigatedAmount:           result.Amount,
+		providerRef:               f.ownerProviderRef,
+		abilityRef:                f.abilityRef,
+		operationRef:              operationRef,
+		operationPath:             op.Path,
+		hpBefore:                  targetHPBefore,
+		hpAfter:                   attribute.ReadHP(next.Attributes),
+		hasSourceHp:               sourceHasHealth,
+		sourceHpBefore:            sourceHealthBefore.Current,
+		phantom:                   false,
+		crit:                      critEv,
+		modifiers:                 modEvidence,
+		traits:                    traits,
+		castInstanceID:            f.castInstanceID,
+		castOrigin:                f.castOrigin,
+		hasPostResistanceEvidence: true,
+		resistanceFactor:          numbers.resistanceFactor,
+		normalPartPostResistance:  numbers.normalPartPostResistance,
+		critPartPostResistance:    numbers.critPartPostResistance,
+		damageID:                  damageID,
+		outcome:                   &outcome,
 	})
 	if err := f.settleDamageVamp(cmd, op, ability, outcome, targetHPBefore, damageID, false); err != nil {
 		return err
@@ -1626,17 +1609,12 @@ type genericDamageEvidence struct {
 	castOrigin            string
 	damageID              uint64
 	outcome               *pipeline.DamageOutcome
-	// hasPostResistanceEvidence gates additive resistance/part fields for successful
-	// settlements only; fail-closed and phantom replay omit them.
-	hasPostResistanceEvidence   bool
-	hasNativeDefenseDetails     bool
-	resistanceFactor            float64
-	normalPartPostResistance    float64
-	critPartPostResistance      float64
-	resistanceBeforePenetration float64
-	penetrationPercent          float64
-	penetrationFlat             float64
-	effectiveResistance         float64
+	// 成功的普通与复制结算都记录真实共同倍率和防御后两部分。
+	// 金额无效的结算不伪造这些数值。
+	hasPostResistanceEvidence bool
+	resistanceFactor          float64
+	normalPartPostResistance  float64
+	critPartPostResistance    float64
 }
 
 func (s *genericRunState) recordGenericDamageEvidence(ev genericDamageEvidence) {
@@ -1690,12 +1668,6 @@ func genericDamageEvidenceItem(ev genericDamageEvidence, timeMs int64) model.Evi
 		data["resistanceFactor"] = ev.resistanceFactor
 		data["normalPartPostResistance"] = ev.normalPartPostResistance
 		data["critPartPostResistance"] = ev.critPartPostResistance
-		if ev.hasNativeDefenseDetails {
-			data["resistanceBeforePenetration"] = ev.resistanceBeforePenetration
-			data["penetrationPercent"] = ev.penetrationPercent
-			data["penetrationFlat"] = ev.penetrationFlat
-			data["effectiveResistance"] = ev.effectiveResistance
-		}
 	}
 	if len(ev.modifiers) > 0 {
 		data["modifiers"] = ev.modifiers
@@ -3229,9 +3201,6 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 	frame.consumedFirstPerCast = dmg.consumedFirstPerCast
 	frame.eventCtx = cloneEventSnapshot(dmg.eventCtx)
 	targetStage := frame.stageFor(dmg.targetKey)
-	// 冻结抗性仅用于本笔减伤；提交仍保留目标当前属性与生命。
-	mitigationAttrs := cloneAttributeMap(targetStage.attributes)
-	overlayEntryResistance(mitigationAttrs, dmg.entryAttrsForCombatant(dmg.targetKey))
 	view := pipeline.CombatantView{Attributes: targetStage.attributes, Shields: targetStage.shields}
 	cmd := command.Command{
 		Kind:       command.KindDamage,
@@ -3240,18 +3209,16 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 		Amount:     dmg.rawAmount,
 		DamageType: dmg.damageType,
 	}
-	// Phantom uses frozen event-entry source attrs for penetration; target resistance already overlaid.
-	sourcePenAttrs := dmg.entryAttrsForCombatant(dmg.sourceKey)
+	// 共同防御读取原事件入口完整冻结视图；提交仍使用当前护盾和生命。
 	frame.damageDefenseContext = &formula.GenericEvalContext{
-		SourceAttrs:     sourcePenAttrs,
+		SourceAttrs:     dmg.entryAttrsForCombatant(dmg.sourceKey),
 		TargetAttrs:     dmg.entryAttrsForCombatant(dmg.targetKey),
 		SourceResources: dmg.entryResourcesForCombatant(dmg.sourceKey),
 		TargetResources: dmg.entryResourcesForCombatant(dmg.targetKey),
 		StrictReads:     true,
 	}
 	// 暴击分支已冻结在 dmg.crit；本笔 modifiers 只登记重新执行的伤害修正。
-	numbers, err := frame.resolveDamageNumbers(cmd, dmg.operation, dmg.crit, dmg.ability,
-		nil, mitigationAttrs, sourcePenAttrs)
+	numbers, err := frame.resolveDamageNumbers(cmd, dmg.operation, dmg.crit, dmg.ability, nil)
 	if err != nil {
 		return err
 	}
@@ -3278,7 +3245,6 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 	frame.damageDealt += result.Amount
 	frame.recordDamage(dmg.sourceKey, dmg.targetKey, result.Amount)
 	damageRecordIndex := len(frame.pendingDamage)
-	_, configuredDefense := s.compiled.DamageTypeFormulas[dmg.damageType]
 	frame.recordGenericDamageEvidence(genericDamageEvidence{
 		source:                    dmg.sourceKey,
 		target:                    dmg.targetKey,
@@ -3303,7 +3269,7 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 		castOrigin:                dmg.castOrigin,
 		damageID:                  damageID,
 		outcome:                   &outcome,
-		hasPostResistanceEvidence: configuredDefense,
+		hasPostResistanceEvidence: true,
 		resistanceFactor:          numbers.resistanceFactor,
 		normalPartPostResistance:  numbers.normalPartPostResistance,
 		critPartPostResistance:    numbers.critPartPostResistance,
@@ -3332,17 +3298,6 @@ func (d copyableDamageFrozen) entryAttrsForCombatant(combatantKey string) map[st
 		return d.entryTargetAttrs
 	}
 	return d.entrySourceAttrs
-}
-
-func overlayEntryResistance(dst, entry map[string]model.AttributeSlotDef) {
-	if dst == nil || len(entry) == 0 {
-		return
-	}
-	for _, key := range []string{"armor", "magic_resist"} {
-		if slot, ok := entry[key]; ok {
-			dst[key] = slot
-		}
-	}
 }
 
 func (s *genericRunState) recordDamage(sourceKey, targetKey string, amount float64, timeMs int64) {

@@ -142,9 +142,9 @@ graph TD
 1. 先看 `internal/model/generic*.go` 与 `ARCHITECTURE` 本图，确认 ABI 边界。
 2. 再看 `compile/generic.go` → `session.go` → `RunGeneric`，确认 call chain。
 3. 新机制落在 provider/ability/operation + gate/execution；legacy step-loop/DPS 源码与导出已删除。
-4. 验证契约：`generic_p0_basic_damage.json` + `smoke-node.mjs` + `go run ./cmd/bench`。
+4. 当前验证契约：独立作者 `formula-phase4-input.mjs`／`formula_phase4_explicit_basic_damage.json` + `smoke-node.mjs` + `go run ./cmd/bench`。原 `generic_p0_basic_damage.json` 字节保留，当前协议明确拒绝；旧900结果由 `target/formula-phase4-baseline` 档案复核。
 
-第二阶段执行及数值管道已解除对编译器包的类型依赖；会话接线仍调用真实编译入口。临时驱动程序只追加到本次独立公式表，派生与其他求值共同读取该表。第三阶段A将伤害共同定义接入正式防御结算；第三阶段B将技能具名共同定义和私有参数绑定先注册，再链接内部用途包装，统一读取依赖、静态冻结、作用域及调用预算。成功编译的已核定静态输出只供宿主消费本次真实程序结果，不另设求值导出。正式技能／伤害专项经过真实编译、运行和释放导出，Node证据不代替浏览器工作线程。
+第二阶段执行及数值管道已解除对编译器包的类型依赖；会话接线仍调用真实编译入口。临时驱动程序只追加到本次独立公式表，派生与其他求值共同读取该表。第三阶段A将伤害共同定义接入正式防御结算；第三阶段B将技能具名共同定义和私有参数绑定先注册，再链接内部用途包装，统一读取依赖、静态冻结、作用域及调用预算。第四阶段要求每个实际伤害操作都有成功注册的共同防御计划，金额短路前检查计划约束；普通防御读取帧入口，复制读取完整冻结双方视图，统一结算后才经 `ApplyMitigatedDamage` 扣盾和生命。通用命令入口只保留治疗、护盾与斩杀。成功编译的已核定静态输出只供宿主消费本次真实程序结果，不另设求值导出。正式技能／伤害专项经过真实编译、运行和释放导出，Node证据不代替浏览器工作线程。
 
 ## 阶段2连续运行链
 

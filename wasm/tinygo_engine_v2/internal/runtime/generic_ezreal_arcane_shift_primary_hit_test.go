@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -217,6 +218,9 @@ func configureEzrealArcaneShiftProviders(compileReq *model.CompileRequest, runRe
 }
 
 func ensureEzrealArcaneShiftTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	need := []model.TypeCatalogEntry{{Key: "damage/magic", Domain: "damage"}}
 	have := map[string]bool{}
 	for _, t := range req.TypeCatalog.Types {

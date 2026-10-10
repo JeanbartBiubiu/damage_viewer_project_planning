@@ -1,5 +1,6 @@
+import { createFormulaPhase4Input } from './formula-phase4-input.mjs';
 // Node smoke：对 dist/tinygo_engine_v2.wasm 做 canonical generic ABI round-trip。
-// 非正式宿主（正式宿主为浏览器 Worker）；使用 generic_p0_basic_damage.json，不修改 fixture。
+// 非正式宿主（正式宿主为浏览器 Worker）；当前使用独立显式作者输入；--legacy-fixture仅复核旧档案。
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import {
@@ -16,12 +17,15 @@ function parseArgs(argv) {
   const args = {
     wasm: resolve(moduleRoot, "dist", "tinygo_engine_v2.wasm"),
     instantiateTimeoutMs: 30000,
+    legacyFixture: false,
   };
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === "--wasm") {
       args.wasm = resolve(moduleRoot, argv[++i]);
+    } else if (arg === "--legacy-fixture") {
+      args.legacyFixture = true;
     } else if (arg === "--instantiate-timeout-ms" || arg === "--timeout-ms") {
       // --timeout-ms is a backward-compatible alias for --instantiate-timeout-ms
       args.instantiateTimeoutMs = Number(argv[++i]);
@@ -44,7 +48,8 @@ function printHelp() {
   console.log(`Usage: node scripts/smoke-node.mjs [--wasm dist/tinygo_engine_v2.wasm] [--instantiate-timeout-ms 30000]
 
 Instantiates the TinyGo wasm module and runs a compile -> run -> release round-trip
-against internal/testkit/fixtures/generic_p0_basic_damage.json.
+against the explicit authored phase4 input. --legacy-fixture selects the unchanged
+original input for archived artifacts; current protocol rejects that input.
 
 --instantiate-timeout-ms soft-timeout covers instantiation/runtime startup only, not
 synchronous compile/run/release. --timeout-ms is a documented backward-compatible alias.`);
@@ -56,7 +61,7 @@ async function main() {
     throw new Error(`Wasm artifact not found: ${args.wasm}`);
   }
 
-  const fixture = loadCanonicalFixture();
+  const fixture = args.legacyFixture ? loadCanonicalFixture() : createFormulaPhase4Input();
   const host = await withTimeout(
     instantiateGenericHost(args.wasm),
     args.instantiateTimeoutMs,

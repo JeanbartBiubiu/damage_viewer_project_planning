@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -277,6 +278,12 @@ func configureAzirCSProvider(compileReq *model.CompileRequest, runReq *model.Run
 }
 
 func ensureAzirCSTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/magic", Domain: "damage"},
 		{Key: "damage/physical", Domain: "damage"},

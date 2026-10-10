@@ -4,6 +4,7 @@ import (
 	"math"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -69,6 +70,8 @@ func pscgConstCostAmount(amount float64) model.GenericFormulaExpr {
 }
 
 func pscgEnsureTypes(req *model.CompileRequest) {
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "state_scope/provider", Domain: "state_scope"},
 		{Key: "damage/true", Domain: "damage"},

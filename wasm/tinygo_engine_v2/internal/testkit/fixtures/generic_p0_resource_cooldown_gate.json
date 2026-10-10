@@ -72,7 +72,26 @@
         ]
       }
     ],
-    "rules": { "operations": [], "modifiers": [], "listeners": [], "triggerRules": [] },
+    "rules": {
+      "damageTypeFormulas": [
+        {
+          "damageType": "damage/magical",
+          "formula": {
+            "inputs": [],
+            "stages": [
+              {
+                "key": "factor",
+                "name": "作者明确防御倍率",
+                "expression": {
+                  "op": "const",
+                  "value": "1"
+                }
+              }
+            ],
+            "outputStageKey": "factor"
+          }
+        }
+      ], "operations": [], "modifiers": [], "listeners": [], "triggerRules": [] },
     "formulas": [],
     "settings": {}
   },

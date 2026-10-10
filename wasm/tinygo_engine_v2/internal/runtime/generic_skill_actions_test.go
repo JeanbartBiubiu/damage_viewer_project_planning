@@ -6,6 +6,7 @@ import (
 	"testing"
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
 func singleSkillInput(healing bool) (model.CompileRequest, model.RunRequest) {
@@ -32,6 +33,7 @@ func singleSkillInput(healing bool) (model.CompileRequest, model.RunRequest) {
 		plan.HitBindings = []model.SkillActionHitPreset{{HitBindingKey: "primary_hit", Preset: "TARGET_HIT"}}
 	}
 	request := model.CompileRequest{SchemaVersion: "generic-p0", SchemaHash: "single_skill_schema", RulesHash: "single_skill_rules", TypeCatalog: model.TypeCatalog{Types: []model.TypeCatalogEntry{{Key: "ability/spell", Domain: "ability"}, {Key: "event/ability_started", Domain: "event"}, {Key: "event/skill_hit", Domain: "event"}, {Key: "damage/physical", Domain: "damage"}}, Relations: []model.TypeRelation{}}, Combatants: actors, SharedProviders: []model.ProviderDefinition{provider}, Rules: model.RulesContainer{SkillActionBindings: []model.SkillActionBinding{binding}}}
+	formuladefinition.SetDamageFormula(&request, "damage/physical", formuladefinition.ConstantDefense("1"))
 	snapshot := model.Snapshot{SchemaHash: request.SchemaHash, RulesHash: request.RulesHash, Combatants: []model.CombatantSnapshot{}}
 	for _, actor := range actors {
 		providers := []model.CombatantProviderSnapshot{}

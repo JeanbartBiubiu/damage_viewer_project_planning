@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -107,6 +108,9 @@ func TestPerCastThrottleLessTieBreak(t *testing.T) {
 }
 
 func castCtxEnsureTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
 	ensureSpellbladeTypes(req)
 	need := []model.TypeCatalogEntry{
 		{Key: "event/damage_instance", Domain: "event"},

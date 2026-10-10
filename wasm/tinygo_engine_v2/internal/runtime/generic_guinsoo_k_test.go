@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -22,6 +23,11 @@ const (
 )
 
 func ensureGuinsooKTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: guinsooKHitEvent, Domain: "event"},
 		{Key: "event/source_owner", Domain: "event"},
@@ -650,6 +656,8 @@ func TestGenericPhantomReplayStableOrderViaShieldHP(t *testing.T) {
 			},
 		},
 	}
+	registerTestDefense(t, s, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+	registerTestDefense(t, s, "damage/magic", formuladefinition.ConstantDefense("1"))
 	// 故意按 provenance 逆序 append：z 在前、a 在后；physical/magic 抗性不同。
 	collector := &eventCopyableCollector{
 		damages: []copyableDamageFrozen{
@@ -1032,6 +1040,8 @@ func TestGenericRunGuinsooKPhantomUsesFrozenEntryResistance(t *testing.T) {
 		Base: armor, Current: armor, Max: armor, Resolved: armor,
 	})
 	runReq.StopPolicy.DurationMs = 100
+	formuladefinition.DeclareAttributes(&compileReq, "armor")
+	formuladefinition.SetDamageFormula(&compileReq, "damage/physical", formuladefinition.ResistanceDefense("armor"))
 	done := runGuinsooK(t, compileReq, runReq)
 
 	originalMitigated := expectedMitigatedPhysical(100, armor) // 50
@@ -1266,6 +1276,8 @@ func TestGenericRunDamageEvidencePhantomFields(t *testing.T) {
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "armor", model.AttributeSlotDef{
 		Base: armor, Current: armor, Max: armor, Resolved: armor,
 	})
+	formuladefinition.DeclareAttributes(&compileReq, "armor")
+	formuladefinition.SetDamageFormula(&compileReq, "damage/physical", formuladefinition.ResistanceDefense("armor"))
 	done := runGuinsooK(t, compileReq, runReq)
 
 	wantMitigated := expectedMitigatedPhysical(100, armor)

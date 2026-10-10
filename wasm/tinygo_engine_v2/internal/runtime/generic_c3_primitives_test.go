@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -29,6 +30,8 @@ func TestC3SourcePenetrationPhysicalAndEvidence(t *testing.T) {
 	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "lethality", model.AttributeSlotDef{
 		Base: 10, Current: 10, Max: 10, Resolved: 10,
 	})
+	formuladefinition.DeclareAttributes(&compileReq, "armor", "armor_pen_percent", "lethality")
+	formuladefinition.SetDamageFormula(&compileReq, "damage/physical", formuladefinition.PenetrationDefense("armor", "armor_pen_percent", "lethality"))
 	done := runCritFixture(t, compileReq, runReq)
 	// effective = 100*(1-0.4)-10 = 50; mitigated = 100*100/150
 	wantMit := 100.0 * 100 / 150
@@ -36,18 +39,7 @@ func TestC3SourcePenetrationPhysicalAndEvidence(t *testing.T) {
 		t.Fatalf("dealt=%v want %v", done.Summary.SourceDamageDealt, wantMit)
 	}
 	data := firstOriginalDamage(t, done)
-	if math.Abs(evidenceDataFloat(data, "resistanceBeforePenetration")-100) > 1e-12 {
-		t.Fatalf("resistanceBeforePenetration=%v", evidenceDataFloat(data, "resistanceBeforePenetration"))
-	}
-	if math.Abs(evidenceDataFloat(data, "penetrationPercent")-0.4) > 1e-12 {
-		t.Fatalf("penetrationPercent=%v", evidenceDataFloat(data, "penetrationPercent"))
-	}
-	if math.Abs(evidenceDataFloat(data, "penetrationFlat")-10) > 1e-12 {
-		t.Fatalf("penetrationFlat=%v", evidenceDataFloat(data, "penetrationFlat"))
-	}
-	if math.Abs(evidenceDataFloat(data, "effectiveResistance")-50) > 1e-12 {
-		t.Fatalf("effectiveResistance=%v", evidenceDataFloat(data, "effectiveResistance"))
-	}
+	assertNoLegacyDefenseFields(t, data)
 	if math.Abs(evidenceDataFloat(data, "resistanceFactor")-(wantMit/100)) > 1e-12 {
 		t.Fatalf("resistanceFactor=%v", evidenceDataFloat(data, "resistanceFactor"))
 	}
@@ -73,6 +65,8 @@ func TestC3SourcePenetrationMagicAndTrueEvidenceZeros(t *testing.T) {
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
 		Base: 10000, Current: 10000, Max: 10000, Resolved: 10000,
 	})
+	formuladefinition.DeclareAttributes(&compileReq, "magic_resist", "magic_pen_pct", "magic_pen")
+	formuladefinition.SetDamageFormula(&compileReq, "damage/magic", formuladefinition.PenetrationDefense("magic_resist", "magic_pen_pct", "magic_pen"))
 	done := runCritFixture(t, compileReq, runReq)
 	wantMagic := 100.0 * 100 / (100 + 30) // eff=30
 	wantTotal := wantMagic + 50
@@ -92,11 +86,7 @@ func TestC3SourcePenetrationMagicAndTrueEvidenceZeros(t *testing.T) {
 	if math.Abs(evidenceDataFloat(trueEv, "resistanceFactor")-1) > 1e-12 {
 		t.Fatalf("true resistanceFactor=%v", evidenceDataFloat(trueEv, "resistanceFactor"))
 	}
-	if math.Abs(evidenceDataFloat(trueEv, "penetrationPercent")) > 1e-12 ||
-		math.Abs(evidenceDataFloat(trueEv, "penetrationFlat")) > 1e-12 ||
-		math.Abs(evidenceDataFloat(trueEv, "effectiveResistance")) > 1e-12 {
-		t.Fatalf("true pen fields must be zero: %+v", trueEv)
-	}
+	assertNoLegacyDefenseFields(t, trueEv)
 }
 
 func TestC3TargetMapPenetrationNoOp(t *testing.T) {
@@ -113,6 +103,8 @@ func TestC3TargetMapPenetrationNoOp(t *testing.T) {
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "armor_pen_flat", model.AttributeSlotDef{
 		Base: 100, Current: 100, Max: 100, Resolved: 100,
 	})
+	formuladefinition.DeclareAttributes(&compileReq, "armor")
+	formuladefinition.SetDamageFormula(&compileReq, "damage/physical", formuladefinition.ResistanceDefense("armor"))
 	done := runCritFixture(t, compileReq, runReq)
 	if math.Abs(done.Summary.SourceDamageDealt-50) > 1e-9 {
 		t.Fatalf("target-map pen must no-op: dealt=%v want 50", done.Summary.SourceDamageDealt)
@@ -190,6 +182,8 @@ func TestC3PhantomUsesFrozenSourcePenetrationAndOmitsPostResistFields(t *testing
 	runReq.StopPolicy.StopOnTargetDeath = model.BoolPtr(false)
 	runReq.Sampling.SampleEveryMs = 100000
 
+	formuladefinition.DeclareAttributes(&compileReq, "armor", "armor_pen_pct")
+	formuladefinition.SetDamageFormula(&compileReq, "damage/physical", formuladefinition.PenetrationDefense("armor", "armor_pen_pct", ""))
 	done := runCritFixture(t, compileReq, runReq)
 	var orig, phant map[string]interface{}
 	for _, item := range damageEvidenceItems(done) {
@@ -215,15 +209,11 @@ func TestC3PhantomUsesFrozenSourcePenetrationAndOmitsPostResistFields(t *testing
 	if math.Abs(evidenceDataFloat(phant, "rawAmount")-100) > 1e-9 {
 		t.Fatalf("phantom raw must stay frozen (no second crit): %v", evidenceDataFloat(phant, "rawAmount"))
 	}
-	if _, ok := phant["resistanceFactor"]; ok {
-		t.Fatalf("phantom must omit post-resistance fields: %+v", phant)
+	if math.Abs(evidenceDataFloat(phant, "resistanceFactor")-1) > 1e-12 {
+		t.Fatalf("phantom common factor=%v want1", evidenceDataFloat(phant, "resistanceFactor"))
 	}
-	if _, ok := phant["penetrationPercent"]; ok {
-		t.Fatalf("phantom must omit penetrationPercent")
-	}
-	if math.Abs(evidenceDataFloat(orig, "penetrationPercent")-1) > 1e-12 {
-		t.Fatalf("original penetrationPercent=%v", evidenceDataFloat(orig, "penetrationPercent"))
-	}
+	assertNoLegacyDefenseFields(t, phant)
+	assertNoLegacyDefenseFields(t, orig)
 }
 
 func TestC3HPMutationPreservesCurrentMaxAndReResolvesProbe(t *testing.T) {

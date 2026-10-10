@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -293,6 +294,11 @@ func ob2512MakeHitListener() model.ListenerDefinition {
 }
 
 func ob2512EnsureTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	ensureSpellbladeTypes(req)
 	ensureDamageTrueType(req)
 	need := []model.TypeCatalogEntry{

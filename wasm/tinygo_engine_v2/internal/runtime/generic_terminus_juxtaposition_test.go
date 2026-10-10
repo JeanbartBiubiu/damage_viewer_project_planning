@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -346,6 +347,10 @@ func tjEnsureTypes(req *model.CompileRequest) {
 			req.TypeCatalog.Types = append(req.TypeCatalog.Types, t)
 		}
 	}
+
+	formuladefinition.DeclareAttributes(req, "armor", "magic_resist", "armor_pen_percent", "magic_pen_percent")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.PenetrationDefense("armor", "armor_pen_percent", ""))
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.PenetrationDefense("magic_resist", "magic_pen_percent", ""))
 }
 
 func tjMountProvider(compileReq *model.CompileRequest, runReq *model.RunRequest) {
@@ -741,9 +746,7 @@ func TestGenericTerminusJuxtapositionDarkPenetrationDamageEvidence(t *testing.T)
 			if physEv == nil {
 				t.Fatal("missing phys probe evidence")
 			}
-			if math.Abs(evidenceDataFloat(physEv, "penetrationPercent")-wantPen) > tjTol {
-				t.Fatalf("penetrationPercent=%v want %v", evidenceDataFloat(physEv, "penetrationPercent"), wantPen)
-			}
+			assertNoLegacyDefenseFields(t, physEv)
 		})
 	}
 }

@@ -35,6 +35,14 @@ func CanonicalBasicDamageCompileRequest() model.CompileRequest {
 	return fixture.CompileRequest
 }
 
+func FormulaPhase4BasicDamageCompileRequest() model.CompileRequest {
+	fixture, err := LoadGenericFixture("formula_phase4_explicit_basic_damage.json")
+	if err != nil {
+		panic(err)
+	}
+	return fixture.CompileRequest
+}
+
 func CanonicalCompileMultiErrorRequest() model.CompileRequest {
 	fixture, err := LoadGenericFixture("generic_p0_compile_multi_error.json")
 	if err != nil {
@@ -52,7 +60,7 @@ func GenericRunRequest(sessionID, expectedRulesHash string) model.GenericRunRequ
 
 func CompileGenericSession(session *runtime.Session) model.CompileResult {
 	session.ClearOutbox()
-	must(session.CompileFrame(EncodeGenericFrame(model.FrameKindGenericCompile, CanonicalBasicDamageCompileRequest())))
+	must(session.CompileFrame(EncodeGenericFrame(model.FrameKindGenericCompile, FormulaPhase4BasicDamageCompileRequest())))
 	return LastGenericCompileResult(session.OutboxBytes())
 }
 

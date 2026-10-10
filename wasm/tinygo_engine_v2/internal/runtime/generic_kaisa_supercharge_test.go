@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -129,6 +130,9 @@ func kaisaProbeAbility() model.AbilityDefinition {
 }
 
 func ensureKaisaSuperchargeTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/basic_attack", Domain: "ability"},
 		{Key: "damage/physical", Domain: "damage"},

@@ -12,6 +12,32 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 更细的模块依赖与时序见 [`ARCHITECTURE.md`](ARCHITECTURE.md)。协作规则见 [`AGENTS.md`](AGENTS.md)。
 
+## 共同公式默认分支清理第四阶段
+
+当前协议要求每个实际编入计划的伤害操作原键都具有成功注册的作者共同公式。已知目录缺定义返回编译错误 `missing_damage_type_formula`（缺少伤害类型作者公式），保留原操作 `damageType` 路径与原键；未知目录仍返回 `unknown_type_key`。未使用目录及无伤害预检允许缺定义。零金额也必须声明公式，明确常量0与1都合法。
+
+运行的数值结算入口先核对原键、绑定、程序索引和共同程序种类，再处理金额。损坏计划及绕过专用伤害入口的通用命令返回 `runtime_invariant_failed`（运行计划约束失败），不消费默认程序0、不提交本帧暂存写入。普通防御保持帧入口只读视图；复制通过完整冻结的双方属性视图求同一程序，提交仍使用当前护盾与生命。原生物理／魔法／真实白名单、默认抗性和穿透别名算法、复制固定属性覆盖及四个旧防御证据字段已经删除。治疗、护盾和斩杀继续使用通用数值管道；已求得的伤害金额统一由 `ApplyMitigatedDamage` 扣盾和生命。
+
+标准输入由 `scripts/formula-phase4-input.mjs` 从零构造，Go显式读取独立的 `internal/testkit/fixtures/formula_phase4_explicit_basic_damage.json`。它明确100原金额及常量1防御，目标生命1000→900；文件加载器只读取，不注入公式。原 `generic_p0_basic_damage.json` SHA256保持 `cf597916d5200bc4f5c4328fd15bb2dd0eb5c8c521a77fc815a4dfd4704fda05`，当前协议明确拒绝其缺定义。第三B原产物与旧900记录冻结于 `target/formula-phase4-baseline`，以下前三阶段章节是历史范围与证据。
+
+苍穹场景按已确认的帧入口口径运行：同帧穿透状态仍按原顺序10→22，伤害共同公式读取入口10，当前附伤为366.4819944598338；旧默认分支读取同帧暂存22，对应391.18864577173275。原生测试独立比较两份算术结果，并保留状态、费用、时点及下一帧读取22的断言；其他机制原金额和顺序断言保持。
+
+最终产物 `target/formula-phase4/tinygo_engine_v2.wasm` 为1,375,850字节，SHA256 `9ca312c719e5a7f2f7d1294a0f1135f6ecf81cb05cd9b6c2e65d06518851cd8c`，固定256MiB。全量Go、原生基准、标准Node往返、第三A／B及第四阶段专项、Node基准及同会话200次重复通过；计划损坏、程序0保护与帧回滚由原生故障注入专项证明。Node证据不替代真实服务或浏览器工作线程验收。
+
+```powershell
+go test -count=1 ./...
+go run ./cmd/bench
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/formula-phase4/tinygo_engine_v2.wasm
+node .\scripts\smoke-node.mjs --wasm target/formula-phase4/tinygo_engine_v2.wasm
+node .\scripts\formula-phase3-smoke-node.mjs target/formula-phase4/tinygo_engine_v2.wasm
+node .\scripts\formula-phase3b-smoke-node.mjs target/formula-phase4/tinygo_engine_v2.wasm
+node .\scripts\formula-phase4-smoke-node.mjs target/formula-phase4/tinygo_engine_v2.wasm
+node .\scripts\bench-node.mjs --wasm target/formula-phase4/tinygo_engine_v2.wasm --mode generic-run --iterations 10 --warmup 2
+node .\scripts\session-reuse-smoke-node.mjs --wasm target/formula-phase4/tinygo_engine_v2.wasm --iterations 200
+# 旧协议档案明确选择原固定输入，仍得到900：
+node .\scripts\smoke-node.mjs --legacy-fixture --wasm target/formula-phase4-baseline/tinygo_engine_v2.wasm
+```
+
 ## 共同公式定义第一阶段
 
 `internal/expression/contract.go` 提供 `ValidateDefinition` 纯校验入口，检查共同定义结构、声明授权、全部结果依赖及整份预算，返回确定性的错误码和JSON字段定位路径。常量保留十进制字符串，合法0不补值；第一阶段只验结构，不替换现行正式编译输入。该入口在第二阶段迁入独立纯表达式包，不保留旧包转发。
@@ -46,7 +72,7 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 状态默认值／上限／保持期限及生命周期最大层数／固定间隔接受数字或严格外部引用，原生检查固定／已选等级依赖后求值，按原范围冻结成计划数字。常驻与静态装备按静态依赖准入。成功编译的 `metadata.approvedStaticValues`（已核定静态输出）仅含已声明具名程序，不含临时键或动态输出；共同错误保留错误码、原定义字段定位、程序身份和实际使用引用，资源预检直接返回公式错误。
 
-独立输入可注入真实HTTP定义和参数目录，构造与最终专项入口如下；它们不读取或复制原固定样例。标准验证仍单独复用原样例，目标生命保持900。
+独立输入可注入真实HTTP定义和参数目录；它们不读取或复制原固定样例。以下是第三B当时的历史命令和范围；当前源脚本在第四阶段产物上单列原输入拒绝及新独立基准900，重验命令见第四阶段。
 
 ```powershell
 go test -count=1 ./...
@@ -138,7 +164,7 @@ node .\scripts\bench-node.mjs --wasm target/formula-phase3b/tinygo_engine_v2.was
 | 4. 编译层 | `CompileGeneric` → `CompiledSession`，collect-all | `internal/compile/generic.go`、`generic_validate.go` |
 | 5. 运行主循环 | `RunGeneric`、gate、provider、execution、scheduler | `internal/runtime/generic_run.go`、`generic_execution.go`、`generic_gate.go`、`generic_provider*.go` |
 | 6. 公式 / 类型集 / pipeline | 只读编译结果的消费边界 | `internal/formula/generic*.go`、`internal/typeset/generic.go`、`internal/pipeline/**` |
-| 7. 验证契约 | canonical fixture + Node/Go bench | `internal/testkit/fixtures/generic_p0_basic_damage.json`、`scripts/smoke-node.mjs`、`cmd/bench` |
+| 7. 验证契约 | 显式作者输入 + Node/Go基准 | `scripts/formula-phase4-input.mjs`、`internal/testkit/fixtures/formula_phase4_explicit_basic_damage.json`、`scripts/smoke-node.mjs`、`cmd/bench`；旧输入单列拒绝 |
 
 历史说明：旧 `engine_init` / `engine_begin_run` / `engine_step` 与 `dps_*.go` 单攻 DPS 曾作为 compat lane；现已从本模块源码与导出中移除。当前唯一业务 ABI 是 compile/run/release。
 
@@ -244,7 +270,7 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 
 组合补验只扩充已选装备下完整普通移动减速状态的连续准入：单个按来源与承受者的有期单层实例，必须投向真实对手，不得混合能力、修正或生命周期周期。沿既有状态快照、取强、重施及到期执行，不改变攻速、不模拟移动。当前生命附伤、近远属性条件、计数与内部冷却沿已有通用公式和状态操作，不按破败、智慧末刃标识增加算法。共享契约见阶段4详细设计8.3，定向入口为 `go test -count=1 ./internal/runtime -run 'ContinuousMovementEquipment'`；真实组合证据见4C验收记录第10节。
 
-同一会话重复运行的内存回收契约见阶段4详细设计8.4。宿主复制输出并解除输入引用后，`engine_outbox_clear`先清空输出长度，再进行标准垃圾回收；编译会话仍存活，固定256MiB、TinyGo版本及原回收方式不变，不在战斗执行帧中回收。该安排避免大量短命对象积累到堆满，晚回收后仍因连续空闲块太小而无法编码输出。`node scripts/session-reuse-smoke-node.mjs`复用未修改的普通基准，验证同会话重复、错误后恢复、释放重编及记录截断；`--fixture <文件>`可读相同结构的真实请求和可选 `runVariants`（不同观察请求），不是另一个业务宿主。内存诊断导出只存在于忽略目录的诊断构建，不进入正式接口；回收固定耗时和最终真实压力证据见4C验收记录第11节。
+同一会话重复运行的内存回收契约见阶段4详细设计8.4。宿主复制输出并解除输入引用后，`engine_outbox_clear`先清空输出长度，再进行标准垃圾回收；编译会话仍存活，固定256MiB、TinyGo版本及原回收方式不变，不在战斗执行帧中回收。该安排避免大量短命对象积累到堆满，晚回收后仍因连续空闲块太小而无法编码输出。`node scripts/session-reuse-smoke-node.mjs`显式使用第四阶段独立作者基准，验证同会话重复、错误后恢复、释放重编及记录截断；`--fixture <文件>`可读相同结构的真实请求和可选 `runVariants`（不同观察请求），不是另一个业务宿主。内存诊断导出只存在于忽略目录的诊断构建，不进入正式接口；回收固定耗时和最终真实压力证据见4C验收记录第11节。
 
 ### 现行数据的结果公式与单次攻击入口
 
@@ -273,7 +299,7 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 | 命中供值与法术护盾 | 已接入 | `resolve_skill_hit` 单次 driver、`skillUses`/`skillHitFacts`、四档阻挡与 `event/spell_shield_blocked` |
 | 同次使用、固定时间窗与普攻原生事件 | 已接入 | `listener.condition` 冻结、`oncePerUse` 专用账本、`start_on_first_write`、`operation.outputRef`、`event/basic_attack_*` |
 | 主动过程与阶段时点 | 已接入 | 顺序即时/延时、末尾蓄力或单次重施、原子成本、取消/中断、实际成本退款、可恢复实例 |
-| Canonical fixture | 已接入 | `generic_p0_basic_damage.json`（targetFinalHp=900） |
+| 显式作者基准 | 已接入 | `formula_phase4_explicit_basic_damage.json`（目标生命900）；旧固定输入缺公式明确拒绝 |
 | Node smoke | 已接入 | 真实 compile/run/release round-trip |
 | Node / Go bench | 已接入 | `--mode generic-run` / `go run ./cmd/bench` 默认 generic |
 
@@ -346,7 +372,7 @@ engine_outbox_clear()
 - `targets/wasm-256m.json` 固定 256 MiB initial/max memory。
 - 构建默认 `-scheduler=none -no-debug -opt=z`。
 - 网络、缓存、版本协商、文件加载留在 JS/Worker；TinyGo 只接收准备好的 frame payload。
-- 勿修改或复制 canonical fixture；smoke/bench 直接复用。
+- 勿修改或复制原固定样例；当前smoke与基准显式选择独立作者输入，旧档案用 `--legacy-fixture` 复核。通用加载器不补公式或缺失属性值。
 
 ## Generic runtime 精度契约（事件快照 / 抗性 / expected crit）
 

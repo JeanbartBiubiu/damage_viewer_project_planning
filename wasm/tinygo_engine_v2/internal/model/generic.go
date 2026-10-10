@@ -27,6 +27,7 @@ const (
 	GenericErrMissingRequiredField     GenericErrCode = "missing_required_field"
 	GenericErrUnknownRef               GenericErrCode = "unknown_ref"
 	GenericErrUnknownTypeKey           GenericErrCode = "unknown_type_key"
+	GenericErrMissingDamageTypeFormula GenericErrCode = "missing_damage_type_formula"
 	GenericErrMatcherDomainError       GenericErrCode = "matcher_domain_error"
 	GenericErrFormulaTypeError         GenericErrCode = "formula_type_error"
 	GenericErrOperationTargetMissing   GenericErrCode = "operation_target_missing"

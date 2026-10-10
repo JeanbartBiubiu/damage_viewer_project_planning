@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -92,6 +93,9 @@ func malzaharMVEStateSchema() map[string]interface{} {
 }
 
 func malzaharMVEEnsureTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/tick", Domain: "ability"},
 		{Key: "state_scope/provider_target", Domain: "state_scope"},

@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -44,15 +45,15 @@ import (
 //   not block a bounded direct-damage projection.
 
 const (
-	teemoBlindingDartCandidateKey = "hero_skill|hero_teemo|Q|致盲吹箭"
-	teemoBlindingDartRequestTitle = "Template:Data Teemo/Q"
+	teemoBlindingDartCandidateKey  = "hero_skill|hero_teemo|Q|致盲吹箭"
+	teemoBlindingDartRequestTitle  = "Template:Data Teemo/Q"
 	teemoBlindingDartResolvedTitle = "Template:Data Teemo/Blinding Dart"
-	teemoBlindingDartWikiPageID   = 1308208
-	teemoBlindingDartRevisionID   = 3948425
-	teemoBlindingDartTimestamp    = "2025-08-19T15:37:23Z"
-	teemoBlindingDartRawBytes     = 1639
-	teemoBlindingDartContentSHA   = "4e3c475ed55ec865f6a9060c8ad0b2665e5379b3ae7e9e5cb644f83212b240a7"
-	teemoBlindingDartBoundary     = "rank5_primary_target_single_hit; immediate_impact_scaffold; " +
+	teemoBlindingDartWikiPageID    = 1308208
+	teemoBlindingDartRevisionID    = 3948425
+	teemoBlindingDartTimestamp     = "2025-08-19T15:37:23Z"
+	teemoBlindingDartRawBytes      = 1639
+	teemoBlindingDartContentSHA    = "4e3c475ed55ec865f6a9060c8ad0b2665e5379b3ae7e9e5cb644f83212b240a7"
+	teemoBlindingDartBoundary      = "rank5_primary_target_single_hit; immediate_impact_scaffold; " +
 		"magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry"
 
 	teemoBlindingDartProviderRef = "provider_hero_teemo_q_blinding_dart"
@@ -69,10 +70,10 @@ const (
 	teemoBlindingDartManaCost   = 90.0
 	teemoBlindingDartCDMs       = 7000.0
 
-	teemoBlindingDartFixtureAP  = 200.0
+	teemoBlindingDartFixtureAP   = 200.0
 	teemoBlindingDartFixtureMana = 334.0
-	teemoBlindingDartTargetMR   = 100.0
-	teemoBlindingDartTargetHP   = 100000.0
+	teemoBlindingDartTargetMR    = 100.0
+	teemoBlindingDartTargetHP    = 100000.0
 
 	// Independent cross-check: AP=200 → raw 400; MR 100 → mitigated 200.
 	teemoBlindingDartExpectedRaw       = 400.0
@@ -165,6 +166,9 @@ func configureTeemoBlindingDartProvider(compileReq *model.CompileRequest, runReq
 }
 
 func ensureTeemoBlindingDartTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/magic", Domain: "damage"},
 	}

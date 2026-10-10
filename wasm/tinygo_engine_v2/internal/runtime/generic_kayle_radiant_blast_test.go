@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -41,7 +42,7 @@ const (
 	kayleRadiantBlastPhysOpRef   = "op:kayle_q_physical_probe"
 	kayleRadiantBlastMagicOpRef  = "op:kayle_q_magic_probe"
 
-	kayleRadiantBlastBaseDamage = 180.0
+	kayleRadiantBlastBaseDamage   = 180.0
 	kayleRadiantBlastBonusADRatio = 0.60
 	kayleRadiantBlastAPRatio      = 0.50
 	kayleRadiantBlastShredPct     = 0.15
@@ -49,9 +50,9 @@ const (
 	kayleRadiantBlastManaCost     = 100.0
 	kayleRadiantBlastCDMs         = 8000.0
 
-	kayleRadiantBlastADBase     = 100.0
-	kayleRadiantBlastADResolved = 140.0
-	kayleRadiantBlastFixtureAP  = 100.0
+	kayleRadiantBlastADBase      = 100.0
+	kayleRadiantBlastADResolved  = 140.0
+	kayleRadiantBlastFixtureAP   = 100.0
 	kayleRadiantBlastFixtureMana = 250.0
 
 	kayleRadiantBlastTargetArmor = 100.0
@@ -237,6 +238,12 @@ func kayleRadiantBlastProviderDef() model.ProviderDefinition {
 }
 
 func ensureKayleRadiantBlastTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/basic_attack", Domain: "ability"},
 		{Key: "damage/physical", Domain: "damage"},

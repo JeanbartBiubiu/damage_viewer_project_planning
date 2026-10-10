@@ -1,3 +1,4 @@
+import { createFormulaPhase4Input } from './formula-phase4-input.mjs';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
@@ -25,12 +26,14 @@ const damage = done => done.evidence.items.find(e => e.kind === 'damage').data;
 const constantDefinition = value => ({ inputs: [], stages: [{ key: 'output', name: '倍率', expression: { op: 'const', value } }], outputStageKey: 'output' });
 
 // 原固定样例只复用读取，原文件及预期都保持不动。
-const baseline = loadCanonicalFixture();
+fail(() => compileCanonicalSession(exports, loadCanonicalFixture()), "missing_damage_type_formula", "sharedProviders[0].abilities[0].operations[0].damageType");
+cases.push("原固定输入按新协议拒绝");
+const baseline = createFormulaPhase4Input();
 const baselineSession = compileCanonicalSession(exports, baseline);
 const baselineDone = runCanonicalSession(exports, baseline, baselineSession.sessionId, baselineSession.rulesHash);
 assert.equal(baselineDone.summary.targetFinalHp, 900);
 releaseCanonicalSession(exports, baselineSession.sessionId, baselineSession.rulesHash);
-cases.push('原固定样例900');
+cases.push('独立显式作者基准900');
 
 for (const stages of [1, 2, 6]) {
   const input = createFormulaPhase3Input({ stages });

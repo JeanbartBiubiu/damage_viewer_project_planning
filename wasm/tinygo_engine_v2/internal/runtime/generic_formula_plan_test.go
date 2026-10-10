@@ -11,7 +11,7 @@ import (
 )
 
 func TestRunDriverProgramsDoNotMutateReusablePlan(t *testing.T) {
-	request, run := loadGenericRunFixture(t, "generic_p0_basic_damage.json")
+	request, run := loadGenericRunFixture(t, "formula_phase4_explicit_basic_damage.json")
 	compiled := compile.CompileGeneric(request)
 	if !compiled.OK {
 		t.Fatal(compiled.Result.Errors)
@@ -59,7 +59,7 @@ func TestRunDriverProgramsDoNotMutateReusablePlan(t *testing.T) {
 }
 
 func TestRunDriverProgramBudgetRefusalPreservesPlan(t *testing.T) {
-	request, run := loadGenericRunFixture(t, "generic_p0_basic_damage.json")
+	request, run := loadGenericRunFixture(t, "formula_phase4_explicit_basic_damage.json")
 	compiled := compile.CompileGeneric(request)
 	if !compiled.OK {
 		t.Fatal(compiled.Result.Errors)

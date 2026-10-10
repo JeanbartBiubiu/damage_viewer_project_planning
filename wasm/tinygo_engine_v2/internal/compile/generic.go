@@ -902,8 +902,8 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		} else {
 			typeset.ValidateTypeKeys([]string{op.DamageType}, typeset.EntityOperationDamageType, catalog, path+".damageType", collector.addError)
 			_, hasFormula := session.DamageTypeFormulas[op.DamageType]
-			if !hasFormula && (len(session.DamageTypeFormulas) > 0 || !isKnownDamageSettlementType(op.DamageType)) {
-				collector.addError(model.GenericErrUnknownTypeKey, path+".damageType", "unknown damage settlement type", op.DamageType)
+			if _, known := catalog.Registry.LookupDomain("damage", op.DamageType); known && !hasFormula {
+				collector.addError(model.GenericErrMissingDamageTypeFormula, path+".damageType", "damage operation requires a successfully registered authored formula", op.DamageType)
 			}
 		}
 		if op.Amount == nil {
@@ -1303,19 +1303,6 @@ func normalizeGenericSettings(settings model.GenericCompileSettings, collector *
 func isForbiddenHPOperation(op string) bool {
 	switch strings.ToLower(op) {
 	case "set_hp_raw", "hp_raw_set", "sethpraw", "hp_set_raw":
-		return true
-	default:
-		return false
-	}
-}
-
-// isKnownDamageSettlementType 首批抗性结算白名单；未知 type 不得按 true/raw 静默处理。
-// magical / damage/magical 兼容既有 fixture，按 magic resistance 结算。
-func isKnownDamageSettlementType(damageType string) bool {
-	switch damageType {
-	case "physical", "damage/physical",
-		"magic", "damage/magic", "magical", "damage/magical",
-		"true", "damage/true":
 		return true
 	default:
 		return false

@@ -25,20 +25,20 @@ import (
 // Non-goals: landing/movement/path, W cooldown reset, other ranks.
 
 const (
-	dravenSpinningAxeProviderRef  = "hero:draven_spinning_axe"
-	dravenSpinningAxeFlightRef    = "hero:draven_axe_flight"
-	dravenSpinningAxeDamageOpRef  = "op:draven_spinning_axe_damage"
-	dravenSpinningAxeListenerArm  = "listener_hero_draven_spinning_axe_arm"
-	dravenSpinningAxeListenerHit  = "listener_hero_draven_spinning_axe_hit"
+	dravenSpinningAxeProviderRef   = "hero:draven_spinning_axe"
+	dravenSpinningAxeFlightRef     = "hero:draven_axe_flight"
+	dravenSpinningAxeDamageOpRef   = "op:draven_spinning_axe_damage"
+	dravenSpinningAxeListenerArm   = "listener_hero_draven_spinning_axe_arm"
+	dravenSpinningAxeListenerHit   = "listener_hero_draven_spinning_axe_hit"
 	dravenSpinningAxeListenerCatch = "listener_hero_draven_spinning_axe_catch"
-	dravenSpinningAxeReadyKey     = "spinning_axe_ready"
-	dravenSpinningAxeQKey         = "spinning_axe"
-	dravenSpinningAxeFlightTick   = "axe_flight_tick"
-	dravenSpinningAxeChampionRef  = spellbladeChampionRef
-	dravenSpinningAxeHitAbility   = spellbladeHitAbilityKey
-	dravenSpinningAxeCastEvent    = spellbladeCastEvent
-	dravenSpinningAxeHitEvent     = spellbladeHitEvent
-	dravenSpinningAxeCaughtEvent  = "event/axe_caught"
+	dravenSpinningAxeReadyKey      = "spinning_axe_ready"
+	dravenSpinningAxeQKey          = "spinning_axe"
+	dravenSpinningAxeFlightTick    = "axe_flight_tick"
+	dravenSpinningAxeChampionRef   = spellbladeChampionRef
+	dravenSpinningAxeHitAbility    = spellbladeHitAbilityKey
+	dravenSpinningAxeCastEvent     = spellbladeCastEvent
+	dravenSpinningAxeHitEvent      = spellbladeHitEvent
+	dravenSpinningAxeCaughtEvent   = "event/axe_caught"
 
 	dravenLevel1HP        = 675.0
 	dravenLevel1Mana      = 361.0
@@ -48,15 +48,15 @@ const (
 	dravenLevel1HPRegen   = 3.75
 	dravenLevel1ManaRegen = 8.05
 
-	dravenSpinningAxeADBase = 60.0
-	dravenSpinningAxeADRes  = 100.0
-	dravenSpinningAxeArmor  = 0.0
-	dravenSpinningAxeAA     = 10.0
-	dravenSpinningAxeFlat   = 60.0
-	dravenSpinningAxeRatio  = 1.15
-	dravenSpinningAxeReady  = 5800
-	dravenSpinningAxeMana   = 45.0
-	dravenSpinningAxeCDMs   = 8000.0
+	dravenSpinningAxeADBase    = 60.0
+	dravenSpinningAxeADRes     = 100.0
+	dravenSpinningAxeArmor     = 0.0
+	dravenSpinningAxeAA        = 10.0
+	dravenSpinningAxeFlat      = 60.0
+	dravenSpinningAxeRatio     = 1.15
+	dravenSpinningAxeReady     = 5800
+	dravenSpinningAxeMana      = 45.0
+	dravenSpinningAxeCDMs      = 8000.0
 	dravenSpinningAxeFlightDur = 1401.0
 	dravenSpinningAxeCatchMs   = int64(1400)
 )
@@ -754,16 +754,16 @@ func TestGenericDravenSpinningAxeCatchRearmAndDualAxe(t *testing.T) {
 	assertDravenSpinningAxeSchema(t, compileReq)
 
 	const (
-		aa1At   = int64(100)
-		aaKeep  = int64(6000) // refresh ready duration past Q2 via throw+catch
-		q2At    = int64(8000)
-		aa2At   = int64(8100)
-		aa3At   = int64(8200)
-		catch1  = aa1At + dravenSpinningAxeCatchMs   // 1500
+		aa1At     = int64(100)
+		aaKeep    = int64(6000) // refresh ready duration past Q2 via throw+catch
+		q2At      = int64(8000)
+		aa2At     = int64(8100)
+		aa3At     = int64(8200)
+		catch1    = aa1At + dravenSpinningAxeCatchMs  // 1500
 		catchKeep = aaKeep + dravenSpinningAxeCatchMs // 7400
-		catch2  = aa2At + dravenSpinningAxeCatchMs    // 9500
-		catch3  = aa3At + dravenSpinningAxeCatchMs    // 9600
-		overlap = int64(8300)                         // both dual flights live
+		catch2    = aa2At + dravenSpinningAxeCatchMs  // 9500
+		catch3    = aa3At + dravenSpinningAxeCatchMs  // 9600
+		overlap   = int64(8300)                       // both dual flights live
 	)
 
 	runReq.DriverPlan.Entries = []model.DriverEntry{

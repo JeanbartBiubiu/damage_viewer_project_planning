@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -312,6 +313,11 @@ func vayneTumbleProviderDef() model.ProviderDefinition {
 }
 
 func ensureVayneTumbleTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "state_scope/provider", Domain: "state_scope"},
 		{Key: "ability/basic_attack", Domain: "ability"},

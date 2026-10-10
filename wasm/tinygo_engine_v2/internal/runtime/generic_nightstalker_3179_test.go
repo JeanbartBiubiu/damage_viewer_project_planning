@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
@@ -130,6 +131,8 @@ func nightstalkerListener() model.ListenerDefinition {
 }
 
 func nightstalkerEnsureTypes(req *model.CompileRequest) {
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	ensureSpellbladeTypes(req)
 	ensureDamageTrueType(req)
 	need := []model.TypeCatalogEntry{

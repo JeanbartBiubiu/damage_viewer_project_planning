@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -222,6 +223,9 @@ func configureJinxZapProvider(compileReq *model.CompileRequest, runReq *model.Ru
 }
 
 func ensureJinxZapTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/physical", Domain: "damage"},
 		{Key: "ability/basic_attack", Domain: "ability"},

@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -21,17 +22,17 @@ import (
 // Backend hp=350 in resist math, live migrate/publish, source-owned mount.
 
 const (
-	jakshoProviderRef   = "provider_item_6665_jaksho_voidborn_resilience"
-	jakshoStableID      = "item_6665"
-	jakshoFullStackKey  = "full_stack"
-	jakshoArmorModKey   = "item_6665_voidborn_bonus_armor"
-	jakshoMRModKey      = "item_6665_voidborn_bonus_magic_resist"
-	jakshoTickAbility   = "voidborn_tick"
-	jakshoProbeAbility  = "jaksho_probe"
-	jakshoTickInterval  = int64(5000)
-	jakshoResistRatio   = 0.30
-	jakshoFixtureHP     = 100000.0 // Backend seed static hp=350 is data-only; not used here.
-	jakshoProbeRaw      = 100.0
+	jakshoProviderRef  = "provider_item_6665_jaksho_voidborn_resilience"
+	jakshoStableID     = "item_6665"
+	jakshoFullStackKey = "full_stack"
+	jakshoArmorModKey  = "item_6665_voidborn_bonus_armor"
+	jakshoMRModKey     = "item_6665_voidborn_bonus_magic_resist"
+	jakshoTickAbility  = "voidborn_tick"
+	jakshoProbeAbility = "jaksho_probe"
+	jakshoTickInterval = int64(5000)
+	jakshoResistRatio  = 0.30
+	jakshoFixtureHP    = 100000.0 // Backend seed static hp=350 is data-only; not used here.
+	jakshoProbeRaw     = 100.0
 )
 
 func jakshoFullStackSchema() map[string]interface{} {
@@ -121,6 +122,14 @@ func jakshoProviderDef() model.ProviderDefinition {
 }
 
 func ensureJakshoTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/tick", Domain: "ability"},
 		{Key: "damage/physical", Domain: "damage"},
@@ -185,10 +194,10 @@ func jakshoProbeRef() string {
 }
 
 type jakshoResistInput struct {
-	armor              float64
-	magicResist        float64
-	bonusArmor         float64
-	bonusMagicResist   float64
+	armor            float64
+	magicResist      float64
+	bonusArmor       float64
+	bonusMagicResist float64
 }
 
 func setJakshoTargetResists(compileReq *model.CompileRequest, runReq *model.RunRequest, in jakshoResistInput) {

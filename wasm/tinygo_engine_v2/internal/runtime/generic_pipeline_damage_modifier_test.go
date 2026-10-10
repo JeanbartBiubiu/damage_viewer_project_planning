@@ -4,6 +4,7 @@ import (
 	"math"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -113,6 +114,8 @@ func mountPipelineProvider(
 func loadPipelineDamageFixture(t *testing.T, raw float64, armor float64) (model.CompileRequest, model.RunRequest) {
 	t.Helper()
 	compileReq, runReq := loadBasicFixture(t)
+	formuladefinition.DeclareAttributes(&compileReq, "armor")
+	formuladefinition.SetDamageFormula(&compileReq, "damage/physical", formuladefinition.ResistanceDefense("armor"))
 	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{{
 		Operation:  "damage",
 		Target:     "target",
@@ -411,7 +414,7 @@ func TestPipelineUnsupportedModifierRejectedAtCompile(t *testing.T) {
 
 func TestPipelineNegativeModifierResultFailsClosed(t *testing.T) {
 	// Supported outgoing multiply yielding a finite negative amount must be a
-	// structured run error — not silent zero via MitigateRawDamage fail-closed.
+	// 共同求值返回定位明确的运行错误，不能静默按0结算。
 	compileReq, runReq := loadPipelineDamageFixture(t, 100, 0)
 	mountPipelineProvider(
 		&compileReq, &runReq, model.SelectorSource, pipeMagProviderRef, "magnification",

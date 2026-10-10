@@ -1,3 +1,4 @@
+import { createFormulaPhase4Input } from './formula-phase4-input.mjs';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
@@ -13,11 +14,13 @@ const run = (input, session, request = input.runRequest) => requireFramePayload(
 const fail = (action, code, path) => { let report; try { report = JSON.stringify(action()); } catch (error) { report = error.message; } assert.ok(report.includes(code), report); if (path) assert.ok(report.includes(path), report); };
 const constant = value => ({ op: 'const', value: String(value) });
 
-const canonical = loadCanonicalFixture();
+fail(() => compileCanonicalSession(exports, loadCanonicalFixture()), "missing_damage_type_formula", "sharedProviders[0].abilities[0].operations[0].damageType");
+cases.push("原固定输入按新协议拒绝");
+const canonical = createFormulaPhase4Input();
 const baseline = compileCanonicalSession(exports, canonical);
 assert.equal(runCanonicalSession(exports, canonical, baseline.sessionId, baseline.rulesHash).summary.targetFinalHp, 900);
 releaseCanonicalSession(exports, baseline.sessionId, baseline.rulesHash);
-cases.push('原固定样例900');
+cases.push('独立显式作者基准900');
 
 for (const stages of [2, 6]) {
   const input = createFormulaPhase3BInput({ expression: createFormulaPhase3BDefinition({ stages }) });

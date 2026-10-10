@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -130,6 +131,7 @@ func TestC1DamageInstanceEmitsStableOrderIncludingZero(t *testing.T) {
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
 		Base: 100000, Current: 100000, Max: 100000, Resolved: 100000,
 	})
+	formuladefinition.SetDamageFormula(&compileReq, "damage/true", formuladefinition.ConstantDefense("1"))
 	done := c1Run(t, compileReq, runReq)
 	evs := emittedEventsByRef(done, eventTypeDamageInstance)
 	if len(evs) != 2 {
@@ -254,6 +256,7 @@ func TestC1ListenerChildDamageKeepsTraitsAndRespectsBudget(t *testing.T) {
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
 		Base: 100000, Current: 100000, Max: 100000, Resolved: 100000,
 	})
+	formuladefinition.SetDamageFormula(&compileReq, "damage/magic", formuladefinition.ConstantDefense("1"))
 	done := c1Run(t, compileReq, runReq)
 	evs := emittedEventsByRef(done, eventTypeDamageInstance)
 	if len(evs) != 2 {
@@ -473,6 +476,7 @@ func TestC1DamageTraitAndTypePredicates(t *testing.T) {
 			},
 		},
 	})
+	formuladefinition.SetDamageFormula(&compileReq2, "damage/true", formuladefinition.ConstantDefense("1"))
 	done2 := runPipelineFixture(t, compileReq2, runReq2)
 	data2 := firstOriginalDamage(t, done2)
 	if math.Abs(evidenceDataFloat(data2, "rawAmount")-100) > 1e-9 {

@@ -8,6 +8,7 @@ import (
 	gort "runtime"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -303,6 +304,7 @@ func TestVampDeathSelfDamageZeroAndFullHealthBoundaries(t *testing.T) {
 			op := c.SharedProviders[0].Abilities[0].Operations[0]
 			op.Target = "source"
 			op.DamageType = "damage/true"
+			formuladefinition.SetDamageFormula(c, "damage/true", formuladefinition.ConstantDefense("1"))
 			c.SharedProviders[0].Abilities[0].Operations = append([]model.OperationDefinition{op}, c.SharedProviders[0].Abilities[0].Operations...)
 		}, []float64{0, 0}, "source_dead"},
 		{"target killed first hit", func(c *model.CompileRequest, r *model.RunRequest) {

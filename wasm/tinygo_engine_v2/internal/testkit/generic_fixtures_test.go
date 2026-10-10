@@ -26,7 +26,7 @@ func TestGenericFixtureResourceCooldownGateCompiles(t *testing.T) {
 }
 
 func TestGenericFixtureBasicDamageCompiles(t *testing.T) {
-	fixture, err := LoadGenericFixture("generic_p0_basic_damage.json")
+	fixture, err := LoadGenericFixture("formula_phase4_explicit_basic_damage.json")
 	if err != nil {
 		t.Fatalf("load fixture: %v", err)
 	}

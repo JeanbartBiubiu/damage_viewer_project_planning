@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -410,6 +411,11 @@ func kogmawLivingArtilleryProbeRef() string {
 }
 
 func ensureKogmawLivingArtilleryTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/magic", Domain: "damage"},
 		{Key: "damage/true", Domain: "damage"},

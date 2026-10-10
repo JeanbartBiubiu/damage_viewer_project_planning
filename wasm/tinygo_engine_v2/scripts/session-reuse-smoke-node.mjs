@@ -1,10 +1,11 @@
+import { createFormulaPhase4Input } from './formula-phase4-input.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { performance } from 'node:perf_hooks';
 import {
   compileCanonicalSession, FRAME_GENERIC_RUN, instantiateGenericHost, invokeFrame,
-  loadCanonicalFixture, moduleRoot, releaseCanonicalSession, runCanonicalSession
+  moduleRoot, releaseCanonicalSession, runCanonicalSession
 } from './generic-abi-host.mjs';
 
 const options = { wasm: resolve(moduleRoot, 'dist/tinygo_engine_v2.wasm'), fixture: null, output: null, iterations: 100 };
@@ -17,7 +18,7 @@ for (let index = 2; index < process.argv.length; index++) {
   else throw new Error(`Unknown option ${key}`);
 }
 assert(Number.isSafeInteger(options.iterations) && options.iterations >= 2);
-const fixture = options.fixture ? JSON.parse(readFileSync(options.fixture, 'utf8')) : loadCanonicalFixture();
+const fixture = options.fixture ? JSON.parse(readFileSync(options.fixture, 'utf8')) : createFormulaPhase4Input();
 assert(fixture.compileRequest && fixture.runRequest);
 const host = await instantiateGenericHost(options.wasm);
 const compiled = compileCanonicalSession(host.exports, fixture);

@@ -142,7 +142,7 @@ func TestVampCompilePreservesExplicitZeroAndFixedOrdering(t *testing.T) {
 }
 
 func TestVampCompileBaselineStillHasNoImplicitRules(t *testing.T) {
-	f, err := testkit.LoadGenericFixture("generic_p0_basic_damage.json")
+	f, err := testkit.LoadGenericFixture("formula_phase4_explicit_basic_damage.json")
 	if err != nil {
 		t.Fatal(err)
 	}

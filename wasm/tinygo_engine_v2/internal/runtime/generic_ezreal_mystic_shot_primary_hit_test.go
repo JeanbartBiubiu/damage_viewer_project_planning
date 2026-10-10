@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -319,6 +320,9 @@ func configureEzrealMSProviders(compileReq *model.CompileRequest, runReq *model.
 }
 
 func ensureEzrealMSTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/physical", Domain: "damage"},
 		{Key: "ability/basic_attack", Domain: "ability"},

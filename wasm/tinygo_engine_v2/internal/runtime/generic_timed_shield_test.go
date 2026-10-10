@@ -24,7 +24,7 @@ func timedShieldLoad(t *testing.T) (model.CompileRequest, model.RunRequest) {
 	if !ok {
 		t.Fatal("runtime.Caller failed")
 	}
-	raw, err := os.ReadFile(filepath.Join(filepath.Dir(file), "..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	raw, err := os.ReadFile(filepath.Join(filepath.Dir(file), "..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}

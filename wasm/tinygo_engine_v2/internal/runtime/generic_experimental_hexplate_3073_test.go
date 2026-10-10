@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -148,6 +149,9 @@ func hex3073MakeArmListener() model.ListenerDefinition {
 }
 
 func hex3073EnsureTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
 	ensureSpellbladeTypes(req)
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/ultimate", Domain: "ability"},

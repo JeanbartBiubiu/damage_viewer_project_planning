@@ -27,7 +27,7 @@ func loadBasicDamageRunRequest(t *testing.T) model.RunRequest {
 	if !ok {
 		t.Fatal("runtime.Caller failed")
 	}
-	path := filepath.Join(filepath.Dir(file), "..", "testkit", "fixtures", "generic_p0_basic_damage.json")
+	path := filepath.Join(filepath.Dir(file), "..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json")
 	raw, err := os.ReadFile(path)
 	if err != nil {
 		t.Fatal(err)
@@ -565,7 +565,7 @@ func TestGenericRunDynamicDriverRepeatWhileReadyDoesNotDoubleSchedule(t *testing
 }
 
 func TestGenericRunSampleLastAtSameTimeMs(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -617,7 +617,7 @@ func TestGenericRunDivByZeroFatalNoDone(t *testing.T) {
 	runReq.SessionID = compiled.SessionID
 	runReq.ExpectedRulesHash = compiled.RulesHash
 	// 重新编译带 div-by-zero amount 的 session
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -657,7 +657,7 @@ func TestGenericRunDivByZeroFatalNoDone(t *testing.T) {
 }
 
 func TestGenericRunHealClampsMax(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -697,7 +697,7 @@ func TestGenericRunHealClampsMax(t *testing.T) {
 }
 
 func TestGenericRunShieldAbsorbsBeforeHP(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1086,7 +1086,7 @@ func TestGenericRunEvidenceTruncatedWarningAndCountsByKind(t *testing.T) {
 }
 
 func TestGenericRunSeriesDownsampledWarning(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1145,7 +1145,7 @@ func TestGenericRunSeriesDownsampledWarning(t *testing.T) {
 }
 
 func TestGenericRunStopReasonBudgetOverDuration(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1253,7 +1253,7 @@ func TestGenericRunBudgetExceedsBothDeadPriority(t *testing.T) {
 }
 
 func TestGenericRunBothDeadStopReason(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1339,7 +1339,7 @@ func TestGenericRunFatalOutboxOnlyErrorFrame(t *testing.T) {
 	runReq := loadBasicDamageRunRequest(t)
 	runReq.SessionID = compiled.SessionID
 	runReq.ExpectedRulesHash = compiled.RulesHash
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1644,7 +1644,7 @@ func TestGenericRunAttributeChangeUpdatesResolved(t *testing.T) {
 }
 
 func TestGenericRunStopPolicyOmittedDefaultsStopOnTargetDeath(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1680,7 +1680,7 @@ func TestGenericRunStopPolicyOmittedDefaultsStopOnTargetDeath(t *testing.T) {
 }
 
 func TestGenericRunStopPolicyOmittedDefaultsStopWhenNoEvents(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1712,7 +1712,7 @@ func TestGenericRunStopPolicyOmittedDefaultsStopWhenNoEvents(t *testing.T) {
 }
 
 func TestGenericRunSafetyBudgetMaxCommandsPerEvent(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1753,7 +1753,7 @@ func TestGenericRunSafetyBudgetMaxCommandsPerEvent(t *testing.T) {
 }
 
 func TestGenericRunSafetyBudgetMaxEventsCannotExceedCompileCap(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1895,7 +1895,7 @@ func TestGenericRunCooldownChangeReduceAndReset(t *testing.T) {
 }
 
 func TestGenericRunEmitEventRecordsEvidence(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1937,7 +1937,7 @@ func TestGenericRunEmitEventRecordsEvidence(t *testing.T) {
 }
 
 func TestGenericRunDamageDealtUsesPreShieldAmount(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1983,7 +1983,7 @@ func TestGenericRunDamageDealtUsesPreShieldAmount(t *testing.T) {
 }
 
 func TestGenericRunHealOverhealReported(t *testing.T) {
-	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	fixtureRaw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}

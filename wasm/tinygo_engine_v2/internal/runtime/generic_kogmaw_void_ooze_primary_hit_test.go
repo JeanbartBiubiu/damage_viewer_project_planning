@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -80,10 +81,10 @@ const (
 	kogmawVoidOozePrimaryHitManaCost   = 100.0
 	kogmawVoidOozePrimaryHitCDMs       = 12000.0
 
-	kogmawVoidOozePrimaryHitFixtureAP  = 100.0
+	kogmawVoidOozePrimaryHitFixtureAP   = 100.0
 	kogmawVoidOozePrimaryHitFixtureMana = 325.0
-	kogmawVoidOozePrimaryHitTargetMR   = 100.0
-	kogmawVoidOozePrimaryHitTargetHP   = 100000.0
+	kogmawVoidOozePrimaryHitTargetMR    = 100.0
+	kogmawVoidOozePrimaryHitTargetHP    = 100000.0
 
 	// Independent cross-check: AP=100 → raw 295; MR 100 → mitigated 147.5.
 	kogmawVoidOozePrimaryHitExpectedRaw       = 295.0
@@ -176,6 +177,9 @@ func configureKogmawVoidOozePrimaryHitProvider(compileReq *model.CompileRequest,
 }
 
 func ensureKogmawVoidOozePrimaryHitTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/magic", Domain: "damage"},
 	}

@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -32,8 +33,8 @@ const (
 	asheVolleyManaCost   = 55.0
 	asheVolleyCDMs       = 4000.0
 
-	asheVolleyADBase     = 60.0
-	asheVolleyADResolved = 100.0
+	asheVolleyADBase      = 60.0
+	asheVolleyADResolved  = 100.0
 	asheVolleyTargetArmor = 100.0
 	asheVolleyTargetHP    = 100000.0
 	asheVolleyFixtureMana = 200.0
@@ -140,6 +141,9 @@ func configureAsheVolleyProvider(compileReq *model.CompileRequest, runReq *model
 }
 
 func ensureAsheVolleyTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/physical", Domain: "damage"},
 	}

@@ -8,7 +8,6 @@ import (
 	"tinygo_engine_v2/internal/command"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
-	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
@@ -36,8 +35,23 @@ func (f *executionFrame) configuredFormulaIssue(def planbundle.CompiledDamageTyp
 	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrCode(issue.Code), issue.Code, def.Path+issue.Path, f.abilityRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 }
 
-func (f *executionFrame) resolveConfiguredDefense(cmd command.Command, targetAttrs, sourceAttrs map[string]model.AttributeSlotDef) (pipeline.MitigationResult, *model.EngineError) {
-	def := f.run.compiled.DamageTypeFormulas[cmd.DamageType]
+type configuredDefenseResult struct{ amount, factor float64 }
+
+func (f *executionFrame) requireConfiguredDefense(damageType, operationPath string) (planbundle.CompiledDamageTypeFormula, *model.EngineError) {
+	def, exists := f.run.compiled.DamageTypeFormulas[damageType]
+	valid := exists && def.DamageType == damageType && def.Binding != nil && int(def.Program) < len(f.run.formulas.Programs)
+	if valid {
+		program := f.run.formulas.Programs[def.Program]
+		valid = program.Authored != nil && program.Authored.Stats().Stages > 0 && len(program.Instr) == 0 && program.SkillBinding == nil
+	}
+	if !valid {
+		return planbundle.CompiledDamageTypeFormula{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "damage operation requires a valid authored defense plan", operationPath+".damageType", damageType, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	return def, nil
+}
+
+func (f *executionFrame) resolveConfiguredDefense(cmd command.Command, def planbundle.CompiledDamageTypeFormula) (configuredDefenseResult, *model.EngineError) {
+	var sourceAttrs, targetAttrs map[string]model.AttributeSlotDef
 	if f.damageDefenseContext != nil {
 		sourceAttrs, targetAttrs = f.damageDefenseContext.SourceAttrs, f.damageDefenseContext.TargetAttrs
 	} else {
@@ -68,27 +82,27 @@ func (f *executionFrame) resolveConfiguredDefense(cmd command.Command, targetAtt
 	}
 	reader, issue := def.Binding.Reader(values)
 	if issue != nil {
-		return pipeline.MitigationResult{}, f.configuredFormulaIssue(def, *issue)
+		return configuredDefenseResult{}, f.configuredFormulaIssue(def, *issue)
 	}
 	factor, err := f.run.formulas.Eval(def.Program, formula.GenericEvalContext{ReadInput: reader})
 	if err != nil {
 		if authored, ok := err.(*formula.AuthoredEvaluationError); ok {
-			return pipeline.MitigationResult{}, f.configuredFormulaIssue(def, authored.Issue)
+			return configuredDefenseResult{}, f.configuredFormulaIssue(def, authored.Issue)
 		}
-		return pipeline.MitigationResult{}, f.formulaError(def.Program, err.Error())
+		return configuredDefenseResult{}, f.formulaError(def.Program, err.Error())
 	}
 	amount := cmd.Amount * factor
 	if factor < 0 {
 		result := f.configuredFormulaIssue(def, expression.ContractIssue{Code: "FORMULA_INVALID_OUTPUT"})
 		result.Path, result.Message = def.OutputPath, "configured defense factor must be non-negative"
-		return pipeline.MitigationResult{}, result
+		return configuredDefenseResult{}, result
 	}
 	if math.IsNaN(factor) || math.IsInf(factor, 0) || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
 		result := f.configuredFormulaIssue(def, expression.ContractIssue{Code: "FORMULA_NON_FINITE"})
 		result.Path = def.OutputPath
-		return pipeline.MitigationResult{}, result
+		return configuredDefenseResult{}, result
 	}
-	return pipeline.MitigationResult{Amount: amount, ResistanceFactor: factor}, nil
+	return configuredDefenseResult{amount: amount, factor: factor}, nil
 }
 
 func attachUseToSnapshot(ev *emittedEvent) {

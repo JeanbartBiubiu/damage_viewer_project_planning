@@ -33,7 +33,7 @@ func runGenericBench() {
 	const warmup = 10
 	const samples = 100
 
-	fixture, err := testkit.LoadGenericFixture("generic_p0_basic_damage.json")
+	fixture, err := testkit.LoadGenericFixture("formula_phase4_explicit_basic_damage.json")
 	if err != nil {
 		fatalf("load fixture: %v", err)
 	}
@@ -128,6 +128,8 @@ func summaryValue(summary model.RunSummary, key string) (interface{}, bool) {
 		return summary.TargetFinalHp, true
 	case "sourceFinalHp":
 		return summary.SourceFinalHp, true
+	case "sourceDamageDealt":
+		return summary.SourceDamageDealt, true
 	case "abilityAttemptCount":
 		return summary.AbilityAttemptCount, true
 	case "abilityCastCount":

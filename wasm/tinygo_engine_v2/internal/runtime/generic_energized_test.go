@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -89,6 +90,9 @@ func energizedStructuredUntimedCappedSchema() map[string]interface{} {
 }
 
 func ensureEnergizedTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	ensureSpellbladeTypes(req)
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/magic", Domain: "damage"},
