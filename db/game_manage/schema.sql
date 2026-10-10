@@ -1,4 +1,4 @@
--- 当前管理数据：29 张业务逻辑表；结构化内容由服务聚合校验。
+-- 当前管理数据：30 张业务逻辑表；结构化内容由服务聚合校验。
 
 CREATE TABLE public.games (
     game_id varchar(64) PRIMARY KEY,
@@ -71,6 +71,26 @@ CREATE TABLE public.game_vamp_rules (
 COMMENT ON TABLE public.game_vamp_rules IS '游戏通用吸血规则；集合去重、分类引用和比例属性类型由同游戏事务最终校验';
 COMMENT ON COLUMN public.game_vamp_rules.default_efficiency IS '非负有限倍率，1表示100%；不代替来源对象的实时吸血比例';
 COMMENT ON COLUMN public.game_vamp_rules.skill_category_keys IS '同游戏适用技能分类，集合内任一匹配，与产生方式、来源性质同时满足';
+
+CREATE TABLE public.game_calculation_rules (
+    game_id varchar(64) NOT NULL,
+    configuration jsonb NOT NULL,
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_game_calculation_rules PRIMARY KEY (game_id),
+    CONSTRAINT fk_game_calculation_rules_game FOREIGN KEY (game_id) REFERENCES public.games (game_id),
+    CONSTRAINT ck_game_calculation_rules_configuration CHECK (
+        jsonb_typeof(configuration) = 'object'
+        AND configuration ?& ARRAY['criticalChanceAttributeKey', 'criticalMultiplierMin', 'attackSpeedAttributeKey', 'attributeDerivations']
+        AND jsonb_typeof(configuration->'criticalChanceAttributeKey') IN ('string', 'null')
+        AND jsonb_typeof(configuration->'criticalMultiplierMin') IN ('number', 'null')
+        AND jsonb_typeof(configuration->'attackSpeedAttributeKey') IN ('string', 'null')
+        AND CASE WHEN jsonb_typeof(configuration->'attributeDerivations') = 'array'
+            THEN jsonb_array_length(configuration->'attributeDerivations') <= 4 ELSE false END
+    )
+);
+
+COMMENT ON TABLE public.game_calculation_rules IS '游戏暴击与连续速度用途绑定及完整共同属性派生；无默认业务配置';
+COMMENT ON COLUMN public.game_calculation_rules.configuration IS '完整作者JSON；严格字段、启用目录、非生命输出与共同公式授权由游戏锁内的最终态校验维护，不写入技能引用索引';
 
 CREATE TABLE public.game_level_configs (
     game_id varchar(64) NOT NULL,

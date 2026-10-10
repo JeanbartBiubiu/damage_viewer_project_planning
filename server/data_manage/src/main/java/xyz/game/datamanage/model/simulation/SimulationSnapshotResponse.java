@@ -15,6 +15,7 @@ import xyz.game.datamanage.model.damagetype.DamageTypeResponse;
 import xyz.game.datamanage.model.equipment.EquipmentAttributesResponse;
 import xyz.game.datamanage.model.equipment.EquipmentResponse;
 import xyz.game.datamanage.model.gamevamp.GameVampRules;
+import xyz.game.datamanage.model.calculation.GameCalculationRulesResponse;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneResponse;
 import xyz.game.datamanage.model.skillcategory.SkillCategoryResponse;
 import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationResponse;
@@ -88,7 +89,7 @@ public record SimulationSnapshotResponse(
                            List<SkillCategoryResponse> skillCategories,
                            List<DamageTypeEntry> damageTypes,
                            List<ModifierZoneResponse> modifierZones, List<StatusResponse> statuses,
-                           GameVampRules vampRules) { }
+                           GameVampRules vampRules, GameCalculationRulesResponse calculationRules) { }
 
     public record DamageTypeEntry(DamageTypeResponse type, DamageTypeFormulaResponse formula) { }
 

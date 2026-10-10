@@ -29,6 +29,9 @@ import xyz.game.datamanage.service.character.CharacterService;
 import xyz.game.datamanage.service.damagetype.DamageTypeService;
 import xyz.game.datamanage.service.equipment.EquipmentService;
 import xyz.game.datamanage.service.gamevamp.GameVampRuleService;
+import xyz.game.datamanage.service.calculation.GameCalculationRuleService;
+import xyz.game.datamanage.model.calculation.GameCalculationRulesResponse;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.service.modifierzone.ModifierZoneService;
 import xyz.game.datamanage.service.skillcategory.SkillCategoryService;
 import xyz.game.datamanage.service.skillconfiguration.SkillConfigurationService;
@@ -50,13 +53,17 @@ final class SimulationSnapshotFixture {
     final ModifierZoneService zones = mock(ModifierZoneService.class);
     final StatusService statuses = mock(StatusService.class);
     final GameVampRuleService vampRules = mock(GameVampRuleService.class);
+    final GameCalculationRuleService calculationRules = mock(GameCalculationRuleService.class);
     final BuildSystemService builds = mock(BuildSystemService.class);
     final ObjectMapper json = new ObjectMapper().findAndRegisterModules();
     final SimulationSnapshotService service;
 
     SimulationSnapshotFixture() throws Exception {
         service = new SimulationSnapshotService(characters, characterMapper, equipment, equipmentMapper, relations,
-            configurations, attributes, categories, damageTypes, zones, statuses, vampRules, builds, json);
+            configurations, attributes, categories, damageTypes, zones, statuses, vampRules, calculationRules, builds, json);
+        when(calculationRules.get(GAME)).thenReturn(new GameCalculationRulesResponse(GAME, "a".repeat(64), AggregateJson.tree("""
+            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[]}
+            """)));
         when(characters.getLevelConfig(GAME)).thenReturn(new LevelConfigResponse(GAME, 1, 18));
         for (String key : List.of("hero_a", "hero_b")) {
             String values = "{\"1\":{\"health\":100},\"2\":{\"health\":200}}";

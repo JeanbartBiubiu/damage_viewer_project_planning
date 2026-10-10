@@ -3,7 +3,7 @@
 > 当前入口：以 [后端 README](../server/data_manage/README.md) 和现行 `game_manage/schema.sql`、`game_manage/triggers.sql` 为准。新库仅按顺序执行这两份 SQL，没有必跑业务种子；已有库按目标功能选择实际存在的迁移。普通管理表不按游戏分区，当前分区函数只维护 `images`。
 > 下文通用战斗模型、发布和旧实体链路为历史设计参考，不代表当前后端能力，不作为新开发或初始化依据；第 11 节给出当前初始化入口。
 
-当前建库脚本为 29 张 public 逻辑表（含图片父表、不含子分区）；构筑系统使用四张表。已有当前符文三表的数据库使用 [build_system_management.sql](game_manage/migrations/build_system_management.sql) 作一次破坏式替换，具体前置、显式槽位映射和验收见后端 README。`rune_management.sql` 只保留为更早24表基线到符文专用结构的历史迁移，不是当前接口或最终结构。
+当前建库脚本为 30 张 public 逻辑表（含图片父表、不含子分区）；构筑系统使用四张表。已有当前符文三表的数据库使用 [build_system_management.sql](game_manage/migrations/build_system_management.sql) 作一次破坏式替换，具体前置、显式槽位映射和验收见后端 README。`rune_management.sql` 只保留为更早24表基线到符文专用结构的历史迁移，不是当前接口或最终结构。
 
 本文面向第一次接手 Damage Viewer 数据层的开发者，回答三个问题：`db` 下各目录分别负责什么、`game_manage/schema.sql` 为什么会拆成这些表、数据怎样从编辑态进入 Web 和 Wasm。
 

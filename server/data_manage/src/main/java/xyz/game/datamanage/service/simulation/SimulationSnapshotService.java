@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.HexFormat;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,6 +58,9 @@ import xyz.game.datamanage.model.skillrelation.EquipmentSkillRelationResponse;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneResponse;
 import xyz.game.datamanage.model.status.StatusResponse;
 import xyz.game.datamanage.service.attribute.AttributeService;
+import xyz.game.datamanage.service.calculation.GameCalculationRuleService;
+import xyz.game.datamanage.model.calculation.GameCalculationRulesResponse;
+import xyz.game.datamanage.support.authoring.GameCalculationRuleSemantics;
 import xyz.game.datamanage.service.build.BuildSystemService;
 import xyz.game.datamanage.service.character.CharacterService;
 import xyz.game.datamanage.service.damagetype.DamageTypeService;
@@ -88,6 +92,7 @@ public class SimulationSnapshotService {
     private final ModifierZoneService zones;
     private final StatusService statuses;
     private final GameVampRuleService vampRules;
+    private final GameCalculationRuleService calculationRules;
     private final BuildSystemService builds;
     private final ObjectMapper json;
 
@@ -97,7 +102,8 @@ public class SimulationSnapshotService {
                                      SkillConfigurationService configurations, AttributeService attributes,
                                      SkillCategoryService categories, DamageTypeService damageTypes,
                                      ModifierZoneService zones, StatusService statuses,
-                                     GameVampRuleService vampRules, BuildSystemService builds, ObjectMapper json) {
+                                     GameVampRuleService vampRules, GameCalculationRuleService calculationRules,
+                                     BuildSystemService builds, ObjectMapper json) {
         this.characters = characters;
         this.characterMapper = characterMapper;
         this.equipment = equipment;
@@ -110,6 +116,7 @@ public class SimulationSnapshotService {
         this.zones = zones;
         this.statuses = statuses;
         this.vampRules = vampRules;
+        this.calculationRules = calculationRules;
         this.builds = builds;
         this.json = json;
     }
@@ -210,10 +217,7 @@ public class SimulationSnapshotService {
         for (Aggregate object : execution.objects()) {
             collectAttributeKeys(object.data(), attributeKeys, closure.objectPath(object));
         }
-        if (attributeKeys.containsKey("bonus_attack_speed_percent")) {
-            attributeKeys.putIfAbsent("attack_speed", attributeKeys.get("bonus_attack_speed_percent"));
-            attributeKeys.putIfAbsent("attack_speed_ratio", attributeKeys.get("bonus_attack_speed_percent"));
-        }
+        GameCalculationRulesResponse calculation = readCalculationRules(gameId, attributeKeys);
         GameVampRules vamp = vampRules.get(gameId);
         for (int ruleIndex = 0; ruleIndex < vamp.rules().size(); ruleIndex++) {
             GameVampRule rule = vamp.rules().get(ruleIndex);
@@ -254,6 +258,11 @@ public class SimulationSnapshotService {
             selectedDamageTypes.add(new DamageTypeEntry(type, formula));
         }
         List<AttributeResponse> selectedAttributes = loadAttributes(gameId, attributeKeys);
+        Map<String, GameCalculationRuleSemantics.Attribute> calculationAttributes = new LinkedHashMap<>();
+        selectedAttributes.forEach(attribute -> calculationAttributes.put(attribute.attributeKey(),
+            new GameCalculationRuleSemantics.Attribute(attribute.valueType() == null ? null : attribute.valueType().name(), attribute.status().name())));
+        var calculationIssue = GameCalculationRuleSemantics.validate(calculation.configuration(), calculationAttributes);
+        if (calculationIssue != null) throw invalid("catalogs.calculationRules" + calculationIssue.field(), calculationIssue.code(), calculationIssue.message());
         for (DamageTypeEntry entry : selectedDamageTypes) {
             var issue = xyz.game.datamanage.support.formula.FormulaContractValidator.validate(entry.formula().formula(),
                 xyz.game.datamanage.support.formula.DamageTypeFormulaBindings.allowed(
@@ -273,7 +282,7 @@ public class SimulationSnapshotService {
         validateEquipmentAttributes(target, "target", selectedAttributes);
         Catalogs catalogs = new Catalogs(levels, selectedAttributes,
             loadCategories(gameId, categoryKeys, requiredCategories), List.copyOf(selectedDamageTypes),
-            loadZones(gameId, zoneKeys), loadStatuses(gameId, statusKeys), vamp);
+            loadZones(gameId, zoneKeys), loadStatuses(gameId, statusKeys), vamp, calculation);
         SimulationSnapshotResponse content = new SimulationSnapshotResponse(gameId, choice, source, target,
             skills, catalogs, List.copyOf(references), null, null);
         return new SimulationSnapshotResponse(gameId, choice, source, target, skills, catalogs,
@@ -454,10 +463,6 @@ public class SimulationSnapshotService {
             String path = side + ".selectedEquipment[" + equipmentIndex + "].attributes.attributeValues";
             combatant.selectedEquipment().get(equipmentIndex).attributes().attributeValues().fieldNames()
                 .forEachRemaining(key -> keys.putIfAbsent(key, path + "." + key));
-            if (combatant.selectedEquipment().get(equipmentIndex).attributes().attributeValues().has("bonus_attack_speed_percent")) {
-                keys.putIfAbsent("attack_speed", path + ".bonus_attack_speed_percent");
-                keys.putIfAbsent("attack_speed_ratio", path + ".bonus_attack_speed_percent.attackSpeedRatio");
-            }
         }
     }
 
@@ -532,15 +537,29 @@ public class SimulationSnapshotService {
         if (node.isObject()) {
             JsonNode key = node.get("attributeKey");
             if (key != null && key.isTextual() && !key.asText().isBlank()) keys.putIfAbsent(key.asText(), path + ".attributeKey");
-            if ("SOURCE_CRIT_CHANCE".equals(node.path("critical").path("mode").asText())) {
-                keys.putIfAbsent("critical_strike_chance", path + ".critical.mode");
-            }
             node.properties().forEach(entry -> collectAttributeKeys(entry.getValue(), keys, path + "." + entry.getKey()));
         } else if (node.isArray()) {
             for (int i = 0; i < node.size(); i++) {
                 collectAttributeKeys(node.get(i), keys, path + "[" + i + "]");
             }
         }
+    }
+
+    private GameCalculationRulesResponse readCalculationRules(String gameId, Map<String, String> attributeKeys) {
+        GameCalculationRulesResponse response = readDependency(() -> calculationRules.get(gameId), "catalogs.calculationRules");
+        if (response == null || response.configuration() == null || response.configuration().isNull()) {
+            throw invalid("catalogs.calculationRules.configuration", "CONFIGURATION_MISSING", "游戏计算配置尚未明确保存");
+        }
+        if (!gameId.equals(response.gameId()) || response.baseDigest() == null || !response.baseDigest().matches("[0-9a-f]{64}")) {
+            throw invalid("catalogs.calculationRules", "REFERENCE_OUT_OF_SCOPE", "游戏计算配置身份或摘要损坏");
+        }
+        Map<String, String> dependencies = GameCalculationRuleSemantics.dependencies(response.configuration());
+        Map<String, GameCalculationRuleSemantics.Attribute> structuralDirectory = new LinkedHashMap<>();
+        dependencies.keySet().forEach(key -> structuralDirectory.put(key, new GameCalculationRuleSemantics.Attribute("DECIMAL", "ENABLED")));
+        var issue = GameCalculationRuleSemantics.validate(response.configuration(), structuralDirectory);
+        if (issue != null) throw invalid("catalogs.calculationRules" + issue.field(), issue.code(), issue.message());
+        dependencies.forEach(attributeKeys::putIfAbsent);
+        return response;
     }
 
 

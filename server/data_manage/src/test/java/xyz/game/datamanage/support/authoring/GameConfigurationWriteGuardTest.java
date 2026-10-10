@@ -57,6 +57,7 @@ class GameConfigurationWriteGuardTest {
         lenient().when(jdbc.queryForList(eq(GameConfigurationWriteGuard.REFERENCES_SQL), anyString())).thenReturn(List.of());
         lenient().when(jdbc.queryForList(eq(GameConfigurationWriteGuard.SNAPSHOT_SQL), anyString())).thenReturn(List.of());
         lenient().when(jdbc.queryForList(eq(GameConfigurationWriteGuard.CATALOG_SQL), anyString())).thenReturn(List.of());
+        lenient().when(jdbc.queryForList(eq(GameCalculationRuleSemantics.RULES_SQL), eq(String.class), anyString())).thenReturn(List.of());
         lenient().when(jdbc.queryForList(eq(SkillNumericSemantics.PARAMETERS_SQL), anyString())).thenReturn(List.of());
         // 以下既有用例描述事务中写入给定的最终组成；起始快照尚无这些对象。
         AtomicInteger snapshots = new AtomicInteger();
@@ -854,6 +855,89 @@ class GameConfigurationWriteGuardTest {
             transaction(connection).execute(status -> { guard.begin("lol"); return null; });
             verify(connection).commit();
         }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"disable", "delete", "invalid_type", "integer_type"})
+    void gameCalculationBindingsRevalidateTheFinalAttributeStateWithoutSkillIndexOwnership(String scenario) throws Exception {
+        Connection connection = connection();
+        String configuration = """
+            {"criticalChanceAttributeKey":"chance","criticalMultiplierMin":0,"attackSpeedAttributeKey":null,"attributeDerivations":[]}
+            """;
+        when(jdbc.queryForList(GameCalculationRuleSemantics.RULES_SQL, String.class, "lol")).thenReturn(List.of(configuration));
+        Map<String, Object> before = calculationAttribute("chance", "DECIMAL", "ENABLED");
+        List<Map<String, Object>> after = switch (scenario) {
+            case "delete" -> List.of();
+            case "disable" -> List.of(calculationAttribute("chance", "DECIMAL", "DISABLED"));
+            case "invalid_type" -> List.of(calculationAttribute("chance", "INVALID", "ENABLED"));
+            default -> List.of(calculationAttribute("chance", "INTEGER", "ENABLED"));
+        };
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(List.of(before), after);
+        if (scenario.equals("integer_type")) {
+            transaction(connection).execute(status -> { guard.begin("lol"); jdbc.update("isolated attribute change"); return null; });
+            verify(connection).commit();
+        } else {
+            var error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+                guard.begin("lol"); jdbc.update("isolated attribute change"); return null;
+            }));
+            assertEquals("409.GAME_CALCULATION_RULES_INVALID", error.getCode());
+            assertTrue(error.getDetails().toString().contains("/configuration/criticalChanceAttributeKey"));
+            verify(connection).rollback();
+            verify(connection, never()).commit();
+        }
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
+        verify(jdbc, never()).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), any(List.class));
+    }
+
+    @Test void removingTheCalculationReferenceInTheSameTransactionAllowsFinalAttributeDeletion() throws Exception {
+        Connection connection = connection();
+        String beforeConfiguration = """
+            {"criticalChanceAttributeKey":"chance","criticalMultiplierMin":1,"attackSpeedAttributeKey":null,"attributeDerivations":[]}
+            """;
+        String afterConfiguration = beforeConfiguration.replace("\"chance\"", "null");
+        when(jdbc.queryForList(GameCalculationRuleSemantics.RULES_SQL, String.class, "lol"))
+            .thenReturn(List.of(beforeConfiguration), List.of(afterConfiguration));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol"))
+            .thenReturn(List.of(calculationAttribute("chance", "DECIMAL", "ENABLED")), List.of());
+        transaction(connection).execute(status -> { guard.begin("lol"); return null; });
+        verify(connection).commit();
+        verify(jdbc, never()).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), any(List.class));
+    }
+
+    @Test void unrelatedSkillWritesDoNotForceAnUnchangedIncompleteCalculationDraftToBecomeRunnable() throws Exception {
+        Connection connection = connection();
+        String unchanged = """
+            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[]}
+            """;
+        when(jdbc.queryForList(GameCalculationRuleSemantics.RULES_SQL, String.class, "lol")).thenReturn(List.of(unchanged));
+        transaction(connection).execute(status -> { guard.begin("lol"); return null; });
+        verify(connection).commit();
+        verify(jdbc, never()).queryForList(GameCalculationRuleSemantics.ATTRIBUTES_SQL, "lol");
+    }
+
+    @Test void newlyWrittenUnauthorizedGameFormulaRollsBackWithoutAnySkillReferenceReplacement() throws Exception {
+        Connection connection = connection();
+        String invalid = """
+            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,
+             "attributeDerivations":[{"ruleKey":"rule","attributeKey":"velocity","valuePolicy":"set","activationAttributeKeys":["growth"],
+               "formula":{"inputs":[{"key":"x","binding":{"kind":"parameter","skillKey":"skill","parameterKey":"amount"}}],
+                 "stages":[{"key":"result","name":"结果","expression":{"op":"const","value":"1"}}],"outputStageKey":"result"}}]}
+            """;
+        when(jdbc.queryForList(GameCalculationRuleSemantics.RULES_SQL, String.class, "lol")).thenReturn(List.of(), List.of(invalid));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(List.of(
+            calculationAttribute("velocity", "DECIMAL", "ENABLED"), calculationAttribute("growth", "DECIMAL", "ENABLED")));
+        var error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol"); jdbc.update("isolated calculation replacement"); return null;
+        }));
+        assertEquals("409.GAME_CALCULATION_RULES_INVALID", error.getCode());
+        assertTrue(error.getDetails().toString().contains("FORMULA_UNKNOWN_BINDING"));
+        verify(connection).rollback();
+        verify(jdbc, never()).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), any(List.class));
+    }
+
+    private static Map<String, Object> calculationAttribute(String key, String type, String status) {
+        return Map.of("object_type", "ATTRIBUTE", "skill_key", "", "object_key", key,
+            "data", "{\"value_type\":\"" + type + "\",\"status\":\"" + status + "\"}");
     }
 
     private static Map<String, Object> attributeSnapshot(String status) {

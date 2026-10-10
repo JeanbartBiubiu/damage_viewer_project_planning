@@ -12,6 +12,18 @@
 
 共享含义以规划真源[共同公式定义与校验详细设计](../../../damage_viewer_project_planning/文档记录/详细设计/项目/共同公式定义与校验详细设计.md)为准。定向检查为 `mvn "-Dtest=FormulaContractValidatorTest" test`，收尾运行 `mvn test`。同源样例来自生成资源，生成文件不得手改；本阶段尚未切换现行管理保存、快照或正式计算入口，不需要数据库迁移。
 
+## 暴击与攻速用途绑定及游戏属性派生
+
+`GET /api/admin/games/{gameId}/calculation-rules` 返回 `{gameId,baseDigest,configuration}`；没有保存配置时 `configuration` 明确为 `null`，空状态同样有摘要。`PUT` 接受 `{baseDigest,configuration}`，候选必须完整非空，四项字段为 `criticalChanceAttributeKey`（可空概率属性）、`criticalMultiplierMin`（可空有限非负倍率下限）、`attackSpeedAttributeKey`（可空连续速度属性）和 `attributeDerivations`（完整派生数组，最多4项）。空值和0保持不同，不补旧属性名或默认公式。
+
+派生项只接受 `{ruleKey,attributeKey,valuePolicy,activationAttributeKeys,formula}`。规则标识与输出分别唯一，策略必须明确为 `set`（修正前替换）或 `multiply`（修正后乘算），激活集合非空且无重复。用途、输出、激活和全部共同公式输入都来自当前游戏启用的数值目录，生命核心槽 `hp` 不能作为普通派生输出或激活项；普通属性激活不开放伤害、治疗或生命资源变化，拒绝问题定位到 `activationAttributeKeys` 的实际数组项。共同公式只授权拥有者 `source` 的 `current_frame`（当前帧）属性 `BASE/BONUS/TOTAL`（基础／加成／最终）；同批全部输出只允许读冻结基础值，不授权技能参数、上下文或事件视图。
+
+写入沿同游戏锁先读基线、比较摘要、校验完整候选、同事务写入及读回。摘要冲突返回 `409.GAME_CALCULATION_RULES_CHANGED`，`details.baseDigest` 给出当前摘要；候选问题返回 `400.VALIDATION_FAILED`，`details.fieldIssues` 保留 `/configuration/...` 字段路径和共同公式错误码。成功后由客户端独立 `GET` 核对。属性停用、删除或数值类型变更由游戏写入守卫按事务内最终配置独立复核，失败返回 `409.GAME_CALCULATION_RULES_INVALID` 并回滚，不扩充技能引用索引；两类合法数值类型之间变化经最终检查后允许。
+
+快照 `catalogs.calculationRules` 运输完整上述响应并进入场景摘要；依赖包括用途、输出、激活和全部声明输入，不根据固定攻速或概率名称追加属性。缺配置、损坏或停用依赖沿 `409.SIMULATION_SNAPSHOT_INVALID` 定位。后端仅保存和运输作者定义，仍由原生执行实际暴击、派生和连续时钟；管理草稿允许可空倍率，实际编译需要完整声明。共享语义见规划真源[暴击与攻速作者绑定和属性派生详细设计](../../../damage_viewer_project_planning/文档记录/详细设计/项目/暴击与攻速作者绑定和属性派生详细设计.md)。
+
+新库使用当前 `schema.sql`；已有库单次增量为 [game_calculation_rules.sql](../../db/game_manage/migrations/game_calculation_rules.sql)，只建表，不写默认游戏配置或改动其它真实数据。2026-10-11已在核定的test0221库执行，读回3列、主键、游戏外键与根对象检查；空表通过HTTP返回明确未配置状态。负责人沿真实游戏配置页录入lol的原概率身份、倍率下限1和完整原攻速公式，独立GET逐字段核对，快照及最终浏览器运行证据见规划验收记录。全量1,758项测试及打包通过。定向检查：`mvn "-Dtest=GameCalculationRuleSemanticsTest,GameCalculationRuleServiceTest,GameCalculationRuleAdminControllerTest,GameCalculationRuleSchemaSqlTest,GameConfigurationWriteGuardTest,SimulationSnapshot*Test,LegacyCombatDataCleanupDbContractSqlTest,BuildSchemaSqlTest" test`；收尾运行 `mvn test` 和 `mvn -DskipTests package`。静态SQL与隔离测试不代替真实数据库、HTTP或页面证据。
+
 ## 阶段5B计数保持与属性乘算
 
 阶段5B计数明细可提供 `durationValue`（保持期限），空值／未声明或0不计时，显式值须为非负整数毫秒；引用及数值检查沿现有作者校验，快照不执行计数。仅含目标方本场不驱动攻击根的合法自然来源保留 `NO_AUTONOMOUS_ATTACK`（本场不自主攻击），不能隐藏真实初始化或接收根。
@@ -71,7 +83,7 @@
 
 ## 当前存储结构
 
-[当前建表脚本](../../db/game_manage/schema.sql) 定义 **29 张 public 逻辑表**。这个数量包含 `images` 分区父表，不包含图片子分区和其他模式下的表。
+[当前建表脚本](../../db/game_manage/schema.sql) 定义 **30 张 public 逻辑表**。这个数量包含 `images` 分区父表，不包含图片子分区和其他模式下的表。
 
 | 用途 | 表 |
 | --- | --- |
@@ -203,7 +215,7 @@
 
 按顺序执行：
 
-1. [schema.sql](../../db/game_manage/schema.sql)：创建当前 29 张逻辑表及约束。
+1. [schema.sql](../../db/game_manage/schema.sql)：创建当前 30 张逻辑表及约束。
 2. [triggers.sql](../../db/game_manage/triggers.sql)：安装图片分区函数与游戏新增触发器。
 
 随后录入游戏及业务数据。当前没有新库必跑的业务种子；`migrations/**` 不属于新库初始化步骤，应用启动也不会自动执行迁移。

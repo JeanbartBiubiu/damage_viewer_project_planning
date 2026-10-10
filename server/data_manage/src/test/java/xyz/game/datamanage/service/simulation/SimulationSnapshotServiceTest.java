@@ -54,6 +54,9 @@ import xyz.game.datamanage.service.character.CharacterService;
 import xyz.game.datamanage.service.damagetype.DamageTypeService;
 import xyz.game.datamanage.service.equipment.EquipmentService;
 import xyz.game.datamanage.service.gamevamp.GameVampRuleService;
+import xyz.game.datamanage.service.calculation.GameCalculationRuleService;
+import xyz.game.datamanage.model.calculation.GameCalculationRulesResponse;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.service.modifierzone.ModifierZoneService;
 import xyz.game.datamanage.service.skillcategory.SkillCategoryService;
 import xyz.game.datamanage.service.skillconfiguration.SkillConfigurationService;
@@ -77,6 +80,7 @@ class SimulationSnapshotServiceTest {
     private final ModifierZoneService zones = mock(ModifierZoneService.class);
     private final StatusService statuses = mock(StatusService.class);
     private final GameVampRuleService vampRules = mock(GameVampRuleService.class);
+    private final GameCalculationRuleService calculationRules = mock(GameCalculationRuleService.class);
     private final BuildSystemService builds = mock(BuildSystemService.class);
     private final ObjectMapper json = new ObjectMapper().findAndRegisterModules();
     private SimulationSnapshotService service;
@@ -85,7 +89,10 @@ class SimulationSnapshotServiceTest {
     @BeforeEach
     void setup() throws Exception {
         service = new SimulationSnapshotService(characters, characterMapper, equipment, equipmentMapper, relations,
-            configurations, attributes, categories, damageTypes, zones, statuses, vampRules, builds, json);
+            configurations, attributes, categories, damageTypes, zones, statuses, vampRules, calculationRules, builds, json);
+        when(calculationRules.get("lol")).thenReturn(new GameCalculationRulesResponse("lol", "a".repeat(64), AggregateJson.tree("""
+            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[]}
+            """)));
         when(characters.getLevelConfig("lol")).thenReturn(new LevelConfigResponse("lol", 1, 18));
         for (String key : List.of("hero_a", "hero_b")) {
             String raw = key.equals("hero_a")
@@ -235,6 +242,9 @@ class SimulationSnapshotServiceTest {
 
     @Test
     void missingSceneSupplementalValuesStayAbsentWhileTheirDefinitionsReturn() {
+        when(calculationRules.get("lol")).thenReturn(new GameCalculationRulesResponse("lol", "a".repeat(64), AggregateJson.tree("""
+            {"criticalChanceAttributeKey":"critical_strike_chance","criticalMultiplierMin":1,"attackSpeedAttributeKey":null,"attributeDerivations":[]}
+            """)));
         for (String key : List.of("critical_strike_chance", "critical_strike_damage_bonus_percent",
             "armor_pen_percent", "life_steal_percent")) attribute(key);
         configure(new SkillConfigurationResponse(skill.skill(), skill.parameters(),
@@ -704,18 +714,16 @@ class SimulationSnapshotServiceTest {
     }
 
     @Test
-    void equipmentSpeedSnapshotIncludesRatioMetadataWithoutInventingCharacterValues() throws Exception {
+    void equipmentSnapshotCollectsOnlyExplicitAttributesWithoutInventingRatioBindings() throws Exception {
         selectedEquipment("item_1042", "{\"bonus_attack_speed_percent\":0.10}");
         attribute("bonus_attack_speed_percent");
         attribute("attack_speed");
         attribute("attack_speed_ratio");
         var result = service.get("lol", equipmentChoice(List.of("item_1042"), List.of()));
-        assertTrue(result.catalogs().attributes().stream().anyMatch(definition -> definition.attributeKey().equals("attack_speed_ratio")));
+        assertFalse(result.catalogs().attributes().stream().anyMatch(definition -> definition.attributeKey().equals("attack_speed_ratio")));
         assertFalse(result.source().selectedLevelValues().has("attack_speed_ratio"));
-        when(attributes.get("lol", "attack_speed_ratio")).thenReturn(new AttributeResponse("lol", "attack_speed_ratio", "攻速收益系数",
-            AttributeValueType.DECIMAL, BigDecimal.ZERO, null, null, AttributeStatus.DISABLED, 0, null, null));
-        assertIssue(equipmentChoice(List.of("item_1042"), List.of()), "REFERENCE_DISABLED",
-            "source.selectedEquipment[0].attributes.attributeValues.bonus_attack_speed_percent.attackSpeedRatio");
+        verify(attributes, never()).get("lol", "attack_speed_ratio");
+        verify(attributes, never()).get("lol", "attack_speed");
     }
 
     private void selectedEquipment(String key, String raw, String... skillKeys) throws Exception {

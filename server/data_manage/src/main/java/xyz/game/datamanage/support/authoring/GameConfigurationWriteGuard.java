@@ -62,6 +62,7 @@ public class GameConfigurationWriteGuard {
         }
         pending.games.add(gameId);
         pending.before.put(gameId, snapshot(gameId));
+        pending.beforeCalculations.put(gameId, GameCalculationRuleSemantics.read(jdbc, gameId));
     }
 
     /** 保留各管理接口已有的删除错误码；提交前仍会根据最终配置再次检查。 */
@@ -88,8 +89,9 @@ public class GameConfigurationWriteGuard {
         }
     }
 
-    private void validateAndReplace(String gameId, Snapshot before) {
+    private void validateAndReplace(String gameId, Snapshot before, com.fasterxml.jackson.databind.JsonNode calculationBefore) {
         Snapshot after = snapshot(gameId);
+        validateCalculationRules(gameId, before, after, calculationBefore);
         ConfigurationChangeScope.Changes changes = ConfigurationChangeScope.compare(before, after);
         List<Aggregate> sources = after.aggregates().stream()
             .filter(a -> changes.changed().contains(Source.of(a))).toList();
@@ -144,7 +146,27 @@ public class GameConfigurationWriteGuard {
             || TransactionSynchronizationManager.isCurrentTransactionReadOnly() || pending == null) {
             throw new IllegalStateException("最终配置校验必须位于已锁游戏的可写事务中");
         }
-        for (String game : pending.games) validateAndReplace(game, pending.before.get(game));
+        for (String game : pending.games) validateAndReplace(game, pending.before.get(game), pending.beforeCalculations.get(game));
+    }
+
+    private void validateCalculationRules(String gameId, Snapshot before, Snapshot after,
+                                         com.fasterxml.jackson.databind.JsonNode calculationBefore) {
+        var calculationAfter = GameCalculationRuleSemantics.read(jdbc, gameId);
+        if (calculationAfter == null) return;
+        boolean changed = !java.util.Objects.equals(calculationBefore, calculationAfter);
+        for (String dependency : GameCalculationRuleSemantics.dependencies(calculationAfter).keySet()) {
+            var id = new ConfigurationChangeScope.Row("ATTRIBUTE", "", dependency);
+            changed |= !java.util.Objects.equals(before.rows().get(id), after.rows().get(id));
+        }
+        if (!changed) return;
+        Map<String, GameCalculationRuleSemantics.Attribute> attributes = new LinkedHashMap<>();
+        after.rows().forEach((id, row) -> {
+            if (id.type().equals("ATTRIBUTE")) attributes.put(id.key(), new GameCalculationRuleSemantics.Attribute(
+                row.path("value_type").textValue(), row.path("status").textValue()));
+        });
+        var issue = GameCalculationRuleSemantics.validate(calculationAfter, attributes);
+        if (issue != null) throw new ApiException(HttpStatus.CONFLICT, "409.GAME_CALCULATION_RULES_INVALID",
+            "最终属性目录与游戏计算配置不一致", Map.of("fieldIssues", List.of(issue.details())));
     }
 
     private static void validateDamageTypes(List<Aggregate> affected, Snapshot after) {
@@ -233,12 +255,13 @@ public class GameConfigurationWriteGuard {
     private final class Pending implements TransactionSynchronization {
         private final Set<String> games = new LinkedHashSet<>();
         private final Map<String, Snapshot> before = new LinkedHashMap<>();
+        private final Map<String, com.fasterxml.jackson.databind.JsonNode> beforeCalculations = new LinkedHashMap<>();
 
         @Override public int getOrder() { return Ordered.LOWEST_PRECEDENCE; }
 
         @Override public void beforeCommit(boolean readOnly) {
             if (readOnly) throw new IllegalStateException("游戏配置写入不能提交为只读事务");
-            for (String gameId : games) validateAndReplace(gameId, before.get(gameId));
+            for (String gameId : games) validateAndReplace(gameId, before.get(gameId), beforeCalculations.get(gameId));
         }
 
         @Override public void suspend() {

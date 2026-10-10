@@ -35,10 +35,10 @@ class BuildSchemaSqlTest {
         "('rune_shards', 2, '防御', 'SHARD', 'defense')");
 
     @Test
-    void schemaReplacesRuneTablesWithTwentyNineBuildTables() throws Exception {
+    void schemaContainsCurrentTablesAndReplacesTheRuneTables() throws Exception {
         String schema = Files.readString(root().resolve("db/game_manage/schema.sql"));
-        assertTrue(schema.startsWith("-- 当前管理数据：29 张业务逻辑表"));
-        assertEquals(29, Pattern.compile("(?i)CREATE TABLE public\\.").matcher(schema).results().count());
+        assertTrue(schema.startsWith("-- 当前管理数据：30 张业务逻辑表"));
+        assertEquals(30, Pattern.compile("(?i)CREATE TABLE public\\.").matcher(schema).results().count());
         for (String table : List.of("build_systems", "build_options", "build_groups", "build_option_skill_relations")) {
             assertTrue(schema.contains("CREATE TABLE public." + table), table);
         }

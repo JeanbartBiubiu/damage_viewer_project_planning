@@ -252,7 +252,7 @@ class SimulationSnapshotSourcesTest {
     }
 
     @Test
-    void constantHeroSpeedContributionLoadsRatioEvenWithoutAnyEquipment() throws Exception {
+    void constantHeroContributionDoesNotImplicitlyAddFixedRatioBindings() throws Exception {
         fixture.attach("hero_a", ATTACK, "speed");
         fixture.configuration("speed", 1, """
             {"effects":[{"effectKey":"speed","results":[{"resultKey":"gain","resultType":"ATTRIBUTE_CHANGE","target":"SOURCE",
@@ -261,7 +261,9 @@ class SimulationSnapshotSourcesTest {
              "triggerRules":[%s]}
             """.formatted(initialization("initialize", "speed")));
         var result = fixture.service.get(GAME, fixture.choice());
-        assertTrue(result.catalogs().attributes().stream().anyMatch(attribute -> attribute.attributeKey().equals("attack_speed_ratio")));
+        assertFalse(result.catalogs().attributes().stream().anyMatch(attribute -> attribute.attributeKey().equals("attack_speed_ratio")));
+        verify(fixture.attributes, never()).get(GAME, "attack_speed_ratio");
+        verify(fixture.attributes, never()).get(GAME, "attack_speed");
         assertFalse(result.source().selectedLevelValues().has("attack_speed_ratio"));
         assertTrue(result.source().selectedEquipment().isEmpty());
         assertNull(row(result, "source", "speed").skillLevel());
