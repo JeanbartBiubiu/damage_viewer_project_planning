@@ -133,10 +133,8 @@ type executionFrame struct {
 	// copyableCollector：单次 emitted event / dispatchListeners 局部上下文；禁止挂到 genericRunState。
 	copyableCollector *eventCopyableCollector
 
-	// linkedPhysical*：chainDepth==0 顶层 frame 内合格 physical damage 聚合（供自动 event/damage_dealt）。
-	linkedPhysicalRaw       float64
-	linkedPhysicalMitigated float64
-	linkedPhysicalOpRefs    []string
+	// damageAggregation 收集本根帧正数伤害，类型身份来自实际作者操作。
+	damageAggregation frameDamageAggregation
 
 	// consumedFirstPerCast tracks first_per_cast pipeline modifiers already applied in this cast/frame.
 	// Key: ownerCombatantKey + "\x00" + providerRef + "\x00" + modifierKey.
@@ -1418,7 +1416,9 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op planbundle.C
 	}
 	f.pendingDamage[damageRecordIndex].sourceHpAfter = f.stageFor(cmd.Source).attributes["hp"].Current
 	f.queueDamageTaken(cmd, op, ability, critEv, baseRawAmount, rawForEvidence, outcome)
-	f.recordLinkedPhysicalDamage(cmd, result, operationRef)
+	if err := f.recordDamageContribution(cmd, result, operationRef, op.Path); err != nil {
+		return err
+	}
 	f.maybeQueueDamageInstanceEvent(cmd, op, ability, critEv, baseRawAmount, rawForEvidence, result.Amount)
 	return nil
 }
@@ -1554,23 +1554,6 @@ func (f *executionFrame) applyPipelineDamageModifiers(
 		})
 	}
 	return amount, evidence, nil
-}
-
-// recordLinkedPhysicalDamage 仅记录顶层真实 physical damage（result.Amount>0）供自动 damage_dealt 合成。
-// 不重算伤害；phantom / listener child（chainDepth>0）不记录。
-func (f *executionFrame) recordLinkedPhysicalDamage(cmd command.Command, result command.Result, operationRef string) {
-	if f.chainDepth != 0 {
-		return
-	}
-	if cmd.DamageType != damageTypePhysical {
-		return
-	}
-	if result.Amount <= 0 {
-		return
-	}
-	f.linkedPhysicalRaw += cmd.Amount
-	f.linkedPhysicalMitigated += result.Amount
-	f.linkedPhysicalOpRefs = append(f.linkedPhysicalOpRefs, operationRef)
 }
 
 func (f *executionFrame) applyDamageResult(cmd command.Command, result command.Result, sc *stagedCombatant) {
@@ -2212,10 +2195,8 @@ const (
 	eventTypeAbilityStarted         = "event/ability_started"
 	eventTypeBasicAttackHit         = "event/basic_attack_hit"
 	eventTypeDamageDealt            = "event/damage_dealt"
-	eventTypeDamageDealtPhysical    = "event/damage_dealt/physical"
 	eventTypeDamageDealtBasicAttack = "event/damage_dealt/basic_attack"
 	eventTypeDamageInstance         = "event/damage_instance"
-	damageTypePhysical              = "damage/physical"
 	executeThresholdTypeRatio       = "current_hp_ratio"
 	executeThresholdComparison      = "strict_below"
 )
@@ -2340,85 +2321,6 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 		targetKey:      cmd.Target,
 		types:          eventTypes,
 		snapshot:       snapshot,
-		castInstanceID: f.castInstanceID,
-		castOrigin:     f.castOrigin,
-	})
-}
-
-// maybeQueueDamageDealtEvent 在顶层真实 physical 伤害 commit 后合成 event/damage_dealt（追加 pending 尾部）。
-// 条件：chainDepth==0；本 frame 至少一次 damage/physical 经 pipeline 后 result.Amount>0。
-// 基本与非基本 root physical frame 均 emit event/damage_dealt + event/damage_dealt/physical；
-// 仅 ability TypeSet 含 ability/basic_attack 时附加 event/damage_dealt/basic_attack。
-// catalog 缺合成所需 type 时 fail closed（不 emit、不 fatal）。
-// phantom replay 与 listener child（chainDepth>0）不走此路径；同一 frame 多个合格 physical op 只合成一次。
-func (f *executionFrame) maybeQueueDamageDealtEvent(ability planbundle.CompiledAbility) {
-	if f.chainDepth != 0 {
-		return
-	}
-	if f.linkedPhysicalMitigated <= 0 {
-		return
-	}
-	required := []struct{ domain, key string }{
-		{"damage", damageTypePhysical}, {"event", eventTypeDamageDealt}, {"event", eventTypeDamageDealtPhysical},
-	}
-	for _, identity := range required {
-		if _, ok := f.run.compiled.Types.Registry.LookupDomain(identity.domain, identity.key); !ok {
-			return
-		}
-	}
-
-	eventTypes := []string{
-		eventTypeDamageDealt,
-		eventTypeDamageDealtPhysical,
-	}
-	basicAttackID, hasBasicType := f.run.compiled.Types.Registry.LookupDomain("ability", abilityTypeBasicAttack)
-	isBasicAttack := hasBasicType && ability.TypeSet.Contains(basicAttackID)
-	// Optional qualifier: missing event/damage_dealt/basic_attack must not block core emit.
-	if isBasicAttack {
-		if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", eventTypeDamageDealtBasicAttack); ok {
-			eventTypes = append(eventTypes, eventTypeDamageDealtBasicAttack)
-		}
-	}
-
-	data := map[string]interface{}{
-		"source":          f.sourceKey,
-		"target":          f.targetKey,
-		"eventType":       eventTypeDamageDealt,
-		"damageType":      damageTypePhysical,
-		"abilityRef":      f.abilityRef,
-		"rawAmount":       f.linkedPhysicalRaw,
-		"mitigatedAmount": f.linkedPhysicalMitigated,
-		"phantom":         false,
-	}
-	attachCastProvenance(data, f.castInstanceID, f.castOrigin)
-	switch len(f.linkedPhysicalOpRefs) {
-	case 0:
-		// unreachable when mitigated>0, but keep provenance deterministic
-	case 1:
-		if f.linkedPhysicalOpRefs[0] != "" {
-			data["operationRef"] = f.linkedPhysicalOpRefs[0]
-		}
-	default:
-		refs := make([]string, len(f.linkedPhysicalOpRefs))
-		copy(refs, f.linkedPhysicalOpRefs)
-		data["operationRefs"] = refs
-	}
-
-	eventTypes = f.appendCastOriginEventType(eventTypes)
-
-	f.recordEvidence(model.EvidenceItem{
-		TimeMs: f.run.nowMs,
-		Kind:   model.EvidenceKindEmittedEvent,
-		Ref:    eventTypeDamageDealt,
-		Data:   data,
-	})
-	f.pendingEvents = append(f.pendingEvents, emittedEvent{
-		eventType:      eventTypeDamageDealt,
-		ref:            eventTypeDamageDealt,
-		sourceKey:      f.sourceKey,
-		targetKey:      f.targetKey,
-		types:          eventTypes,
-		snapshot:       f.captureEmitSnapshot(eventTypeDamageDealt, f.sourceKey, f.targetKey),
 		castInstanceID: f.castInstanceID,
 		castOrigin:     f.castOrigin,
 	})

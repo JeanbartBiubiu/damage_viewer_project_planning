@@ -694,6 +694,7 @@ func TestKaisaSecondSkinFifthHitRuptureUsesPostCausticHPBeforePhysicalAA(t *test
 		"damage:" + kaisaSSCausticOpRef,
 		"damage:" + kaisaSSRuptureOpRef,
 		"damage:" + kaisaSSAAOpRef,
+		"event:" + eventTypeDamageDealt,
 		"event:" + kaisaSSHitEvent,
 	}
 	if len(timeline) < len(wantSuffix) {
@@ -815,9 +816,11 @@ func TestKaisaSecondSkinOneBasicAttackHitEventPerAttackAndEvidenceOrder(t *testi
 	want := []string{
 		"damage:" + kaisaSSCausticOpRef,
 		"damage:" + kaisaSSAAOpRef,
+		"event:" + eventTypeDamageDealt,
 		"event:" + kaisaSSHitEvent,
 		"damage:" + kaisaSSCausticOpRef,
 		"damage:" + kaisaSSAAOpRef,
+		"event:" + eventTypeDamageDealt,
 		"event:" + kaisaSSHitEvent,
 	}
 	if len(timeline) != len(want) {

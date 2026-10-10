@@ -1283,7 +1283,7 @@ func TestGenericKogmawLivingArtilleryDeterminismAndRelease(t *testing.T) {
 	if math.Abs(kogmawLivingArtilleryStacks(t, bundle.done.FinalSnapshot)-1) > kogmawLivingArtilleryTol {
 		t.Fatalf("frame-path stacks=%v want 1", kogmawLivingArtilleryStacks(t, bundle.done.FinalSnapshot))
 	}
-	if n := bundle.done.Evidence.CountsByKind[string(model.EvidenceKindEmittedEvent)]; n != 0 {
-		t.Fatalf("emitted events=%d want 0 (no ability_started dependency)", n)
+	if n := bundle.done.Evidence.CountsByKind[string(model.EvidenceKindEmittedEvent)]; n != 1 || countEmittedEvents(bundle.done, eventTypeDamageDealt) != 1 {
+		t.Fatalf("emitted events=%d want one generic damage aggregate, no ability_started", n)
 	}
 }

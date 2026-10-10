@@ -72,7 +72,7 @@ func TestPermanentAuraProjectsToOpponentAfterEquipmentDerivation(t *testing.T) {
 	}
 	addFixedEquipment(&input, &request, 0, "speed_item", "bonus_attack_speed_percent", .1)
 	input.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{attackSpeedDerivation("source")}
-	addPermanentInitializer(&input, &request, 1, model.ModifierDefinition{ModifierKey: "aura", Kind: "attribute", Target: "opponent.attr.attack_speed", ValuePolicy: "multiply", Value: authoringConst(.8)})
+	addPermanentInitializer(&input, &request, 1, model.ModifierDefinition{ModifierKey: "aura", Kind: "attribute", Target: "opponent.attr.attack_speed", Stage: "total", ValuePolicy: "multiply", Value: authoringConst(.8)})
 	for repeat := 0; repeat < 2; repeat++ {
 		done := authoringRun(t, input, request)
 		if len(done.AttackRecords) != 3 || done.AttackRecords[0].StartAtMs != 0 || done.AttackRecords[1].StartAtMs != 1190 {

@@ -676,11 +676,14 @@ func TestAkshanDirtyFightingOneBasicAttackHitEventPerAttackAndEvidenceOrder(t *t
 	timeline := akshanDFHitTimeline(done)
 	want := []string{
 		"damage:" + akshanDFAAOpRef,
+		"event:" + eventTypeDamageDealt,
 		"event:" + akshanDFHitEvent,
 		"damage:" + akshanDFAAOpRef,
+		"event:" + eventTypeDamageDealt,
 		"event:" + akshanDFHitEvent,
 		"damage:" + akshanDFAAOpRef,
 		"damage:" + akshanDFProcOpRef,
+		"event:" + eventTypeDamageDealt,
 		"event:" + akshanDFHitEvent,
 	}
 	if len(timeline) != len(want) {

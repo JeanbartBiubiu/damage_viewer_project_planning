@@ -51,9 +51,17 @@ func (s *genericRunState) validateStaticInitializationListener(listener planbund
 		if !static || math.IsNaN(value) || math.IsInf(value, 0) {
 			return s.basicAttackErr("initialization modifier requires an application snapshot constant", operation.Path)
 		}
-		if modifier.Kind == "attribute" && modifier.Target == "opponent.attr.attack_speed" && modifier.ValuePolicy == "multiply" {
-			if value <= 0 || value > 1 {
-				return s.basicAttackErr("static attack-speed aura requires a multiplier within (0,1]", operation.Path)
+		if modifier.Kind == "attribute" && pipeline.ModifierTargetCombatantSelector(modifier.Target) == model.SelectorOpponent {
+			attributeKey := pipeline.AttributeKeyFromModifierTarget(modifier.Target)
+			opponent, exists := s.combatants[opponentCombatantKey(listener.OwnerCombatantKey)]
+			if !exists || attributeKey == "" || attributeKey == "hp" {
+				return s.basicAttackErr("permanent aura requires a declared non-HP opponent attribute", operation.Path)
+			}
+			if _, declared := opponent.attributes[attributeKey]; !declared {
+				return s.basicAttackErr("permanent aura opponent attribute slot is missing", operation.Path)
+			}
+			if modifier.ValuePolicy != "multiply" || modifier.Stage != "total" || value < 0 {
+				return s.basicAttackErr("permanent aura requires an explicit nonnegative total multiplier", operation.Path)
 			}
 			continue
 		}

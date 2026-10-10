@@ -536,7 +536,6 @@ func TestC1DamageDealtAndBasicChannelRegression(t *testing.T) {
 	compileReq, runReq := loadBasicFixture(t)
 	ensureC1CatalogTypes(&compileReq,
 		model.TypeCatalogEntry{Key: "event/damage_dealt", Domain: "event"},
-		model.TypeCatalogEntry{Key: "event/damage_dealt/physical", Domain: "event"},
 		model.TypeCatalogEntry{Key: "event/damage_instance", Domain: "event"},
 	)
 	runReq.StopPolicy.DurationMs = 100

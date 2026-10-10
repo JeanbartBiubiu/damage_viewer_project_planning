@@ -133,7 +133,7 @@ func TestSpecialAttackFixedSpeedRetainsDebuffWithoutScalingReload(test *testing.
 	input.Combatants[0].Attributes["bonus_attack_speed_percent"] = authoringSlot(.1)
 	request.InitialSnapshot.Combatants[0].Attributes["bonus_attack_speed_percent"] = authoringSlot(.1)
 	addFixedEquipment(&input, &request, 0, "extra_speed", "bonus_attack_speed_percent", .2)
-	addPermanentInitializer(&input, &request, 1, model.ModifierDefinition{ModifierKey: "aura", Kind: "attribute", Target: "opponent.attr.attack_speed", ValuePolicy: "multiply", Value: authoringConst(.5)})
+	addPermanentInitializer(&input, &request, 1, model.ModifierDefinition{ModifierKey: "aura", Kind: "attribute", Target: "opponent.attr.attack_speed", Stage: "total", ValuePolicy: "multiply", Value: authoringConst(.5)})
 	input.Rules.AttributeDerivations = []model.AttributeDerivationDefinition{
 		{CombatantKey: "source", AttributeKey: "attack_speed", Value: authoringConst(.8)},
 		{CombatantKey: "source", AttributeKey: "attack_damage", ValuePolicy: "multiply", Value: authoringBinary("add", authoringConst(1), authoringRead("source.attr.bonus_attack_speed_percent.resolved"))},

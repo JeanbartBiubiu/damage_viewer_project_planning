@@ -12,6 +12,27 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 更细的模块依赖与时序见 [`ARCHITECTURE.md`](ARCHITECTURE.md)。协作规则见 [`AGENTS.md`](AGENTS.md)。
 
+## 伤害聚合与常驻装备通用装配
+
+根能力与过程时点仍沿原提交位置派发 `event/damage_dealt`（伤害造成聚合事件），现在收集所有防御后金额为正的作者伤害原键。同帧只派发一次，类型分类排序去重，重复同键的实际金额与操作引用均保留。证据提供 `damageTypes`（实际类型集合）及 `damageBreakdown`（按原键贡献明细）；单类型保留 `damageType`，混合类型省略。物理限定监听由作者明确匹配通用事件、`damage/physical` 与拥有方分类，不再依赖物理专用事件分类。
+
+累计总额及分类额在原帧提交前检查有限值；单笔有限但相加溢出返回 `runtime_invariant_failed`（运行约束失败），不提交本帧暂存写入，也不让序列化导致线程崩溃。没有声明通用事件目录时不启用聚合。零贡献、监听子帧、复制及周期不会增加本批聚合次数；逐笔伤害、受伤、吸血、冻结视图和扣盾扣血仍走原路径。
+
+静态初始化的对手光环准入按真实非生命属性槽检查，不再固定对手攻速。明确总值阶段、乘算策略及有限非负静态值后，沿原拥有方挂载向对手投送修正；缺槽、生命上限、动态值或其他策略仍拒绝。Web的装备来源、永久结果及范围确认采用通用作者闭包装配，完整边界以规划真源《伤害聚合事件与常驻装备通用装配详细设计》为准。
+
+当前正式产物 `target/formula-phase5/tinygo_engine_v2.wasm` 为1,378,093字节，SHA256 `f510e11b7c02246c0b46e6d5e8b116d055c1ee3e2f9afb60309f16efcbef4e5f`，固定256MiB。全量Go、原生基准、标准Node往返、第三A／B及第四阶段专项、Node基准和同会话200次通过。新增专项验证任意原键、混合贡献、同会话101次／释放重编，以及同键／跨键溢出拒绝后同会话恢复；它不代替真实作者数据及浏览器证据。
+
+```powershell
+go test -count=1 ./...
+go run ./cmd/bench
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/formula-phase5/tinygo_engine_v2.wasm
+node .\scripts\formula-phase5-smoke-node.mjs target/formula-phase5/tinygo_engine_v2.wasm
+node .\scripts\smoke-node.mjs --wasm target/formula-phase5/tinygo_engine_v2.wasm
+node .\scripts\session-reuse-smoke-node.mjs --wasm target/formula-phase5/tinygo_engine_v2.wasm --iterations 200
+```
+
+以下各阶段产物与数值保留对应历史验收口径，当前产物以上节为准。
+
 ## 共同公式默认分支清理第四阶段
 
 当前协议要求每个实际编入计划的伤害操作原键都具有成功注册的作者共同公式。已知目录缺定义返回编译错误 `missing_damage_type_formula`（缺少伤害类型作者公式），保留原操作 `damageType` 路径与原键；未知目录仍返回 `unknown_type_key`。未使用目录及无伤害预检允许缺定义。零金额也必须声明公式，明确常量0与1都合法。

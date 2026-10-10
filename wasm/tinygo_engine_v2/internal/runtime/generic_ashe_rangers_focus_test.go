@@ -932,6 +932,9 @@ func TestAsheFrostShotExpectedBasicAttackPhaseA(t *testing.T) {
 					t.Fatalf("must not mount crit pipeline modifiers: %+v", m)
 				}
 			}
+			if countEmittedEvents(done, eventTypeDamageDealt) != 1 {
+				t.Fatal("positive root damage must emit one generic aggregate", done.Evidence)
+			}
 			for _, item := range done.Evidence.Items {
 				switch item.Kind {
 				case model.EvidenceKindDamage, model.EvidenceKindEmittedEvent, model.EvidenceKindExecute:
@@ -947,7 +950,7 @@ func TestAsheFrostShotExpectedBasicAttackPhaseA(t *testing.T) {
 					}
 				}
 				if item.Kind == model.EvidenceKindEmittedEvent &&
-					item.Ref != asheHitEvent {
+					item.Ref != asheHitEvent && item.Ref != eventTypeDamageDealt {
 					t.Fatalf("unexpected emitted event %q", item.Ref)
 				}
 			}

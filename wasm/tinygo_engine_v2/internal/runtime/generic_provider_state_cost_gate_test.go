@@ -449,8 +449,8 @@ func TestGenericProviderStateCostGateNoListenerOrEventDependency(t *testing.T) {
 	}
 	runReq.StopPolicy.DurationMs = 50
 	done := pscgRun(t, compileReq, runReq)
-	if n := done.Evidence.CountsByKind[string(model.EvidenceKindEmittedEvent)]; n != 0 {
-		t.Fatalf("emitted events=%d want 0", n)
+	if n := done.Evidence.CountsByKind[string(model.EvidenceKindEmittedEvent)]; n != 1 || countEmittedEvents(done, eventTypeDamageDealt) != 1 {
+		t.Fatalf("emitted events=%d want one declared generic damage aggregate", n)
 	}
 	if n := done.Evidence.CountsByKind[string(model.EvidenceKindListenerSkipped)]; n != 0 {
 		t.Fatalf("listener skips=%d want 0", n)
