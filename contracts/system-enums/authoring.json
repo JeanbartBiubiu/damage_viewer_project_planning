@@ -1,0 +1,1209 @@
+{
+  "description": "系统固定语义枚举。作者只能选择已有值；枚举存在不代表所有运行场景已支持。",
+  "groups": [
+    {
+      "name": "SkillTriggerActionType",
+      "title": "触发动作",
+      "backend": "skilltrigger/SkillTriggerActionType.java",
+      "web": {
+        "typeName": "SkillTriggerActionType",
+        "values": "SKILL_TRIGGER_ACTION_TYPES",
+        "labels": "SKILL_TRIGGER_ACTION_TYPE_LABELS"
+      },
+      "members": [
+        {
+          "value": "EXECUTE_EFFECT",
+          "label": "执行效果"
+        },
+        {
+          "value": "START_PROCESS",
+          "label": "启动过程"
+        },
+        {
+          "value": "FAIL_PROCESS",
+          "label": "令过程失败"
+        },
+        {
+          "value": "ADVANCE_PROCESS",
+          "label": "推进当前过程"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerCastPhase",
+      "title": "施放阶段",
+      "backend": "skilltrigger/SkillTriggerCastPhase.java",
+      "web": {
+        "typeName": "SkillTriggerCastPhase",
+        "values": "SKILL_TRIGGER_CAST_PHASES",
+        "labels": "SKILL_TRIGGER_CAST_PHASE_LABELS"
+      },
+      "members": [
+        {
+          "value": "INITIAL",
+          "label": "首次施放"
+        },
+        {
+          "value": "RECAST",
+          "label": "再次施放"
+        },
+        {
+          "value": "CHARGE_RELEASE",
+          "label": "蓄力释放"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerCombatStatusValueKind",
+      "title": "战斗状态读值",
+      "backend": "skilltrigger/SkillTriggerCombatStatusValueKind.java",
+      "web": {
+        "typeName": "SkillTriggerCombatStatusValueKind",
+        "values": "SKILL_TRIGGER_COMBAT_STATUS_VALUE_KINDS",
+        "labels": "SKILL_TRIGGER_COMBAT_STATUS_VALUE_LABELS"
+      },
+      "members": [
+        {
+          "value": "PRESENT",
+          "label": "存在"
+        },
+        {
+          "value": "STACKS",
+          "label": "层数"
+        },
+        {
+          "value": "REMAINING_MS",
+          "label": "剩余时间"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerComparator",
+      "title": "比较符",
+      "backend": "skilltrigger/SkillTriggerComparator.java",
+      "web": {
+        "typeName": "SkillTriggerComparator",
+        "values": "SKILL_TRIGGER_COMPARATORS",
+        "labels": "SKILL_TRIGGER_COMPARATOR_LABELS"
+      },
+      "members": [
+        {
+          "value": "LT",
+          "label": "小于"
+        },
+        {
+          "value": "LTE",
+          "label": "小于等于"
+        },
+        {
+          "value": "EQ",
+          "label": "等于"
+        },
+        {
+          "value": "NE",
+          "label": "不等于"
+        },
+        {
+          "value": "GTE",
+          "label": "大于等于"
+        },
+        {
+          "value": "GT",
+          "label": "大于"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerConditionType",
+      "title": "触发条件",
+      "backend": "skilltrigger/SkillTriggerConditionType.java",
+      "web": {
+        "typeName": "SkillTriggerConditionType",
+        "values": "SKILL_TRIGGER_CONDITION_TYPES",
+        "labels": "SKILL_TRIGGER_CONDITION_TYPE_LABELS"
+      },
+      "members": [
+        {
+          "value": "ATTRIBUTE_COMPARE",
+          "label": "属性比较"
+        },
+        {
+          "value": "STATUS_CHECK",
+          "label": "战斗状态检查"
+        },
+        {
+          "value": "LIFECYCLE_CHECK",
+          "label": "生命周期检查"
+        },
+        {
+          "value": "TARGET_CATEGORY_CHECK",
+          "label": "事件对方类别"
+        },
+        {
+          "value": "EXPLICIT_TARGET_IS_SOURCE",
+          "label": "显式目标为来源对象"
+        },
+        {
+          "value": "SKILL_HIT_TARGET_IS_ENEMY",
+          "label": "技能命中敌方对象"
+        },
+        {
+          "value": "INTERNAL_STATE_CHECK",
+          "label": "技能内部状态检查"
+        },
+        {
+          "value": "EVENT_VALUE_COMPARE",
+          "label": "事件值比较"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerDamageDeliveryKind",
+      "title": "触发伤害产生方式",
+      "backend": "skilltrigger/SkillTriggerDamageDeliveryKind.java",
+      "web": {
+        "typeName": "SkillTriggerDamageDeliveryKind",
+        "values": "SKILL_TRIGGER_DAMAGE_DELIVERY_KINDS",
+        "labels": "SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS"
+      },
+      "members": [
+        {
+          "value": "ANY",
+          "label": "任意"
+        },
+        {
+          "value": "SKILL",
+          "label": "技能"
+        },
+        {
+          "value": "BASIC_ATTACK",
+          "label": "普通攻击"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerDamageOriginKind",
+      "title": "触发伤害来源性质",
+      "backend": "skilltrigger/SkillTriggerDamageOriginKind.java",
+      "web": {
+        "typeName": "SkillTriggerDamageOriginKind",
+        "values": "SKILL_TRIGGER_DAMAGE_ORIGIN_KINDS",
+        "labels": "SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS"
+      },
+      "members": [
+        {
+          "value": "ANY",
+          "label": "任意"
+        },
+        {
+          "value": "DIRECT",
+          "label": "直接伤害"
+        },
+        {
+          "value": "REFLECTED",
+          "label": "反伤"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerEventType",
+      "title": "触发事件",
+      "backend": "skilltrigger/SkillTriggerEventType.java",
+      "web": {
+        "typeName": "SkillTriggerEventType",
+        "values": "SKILL_TRIGGER_EVENT_TYPES",
+        "labels": "SKILL_TRIGGER_EVENT_TYPE_LABELS"
+      },
+      "members": [
+        {
+          "value": "SOURCE_INITIALIZED",
+          "label": "来源对象初始化完成",
+          "native": {
+            "file": "internal/model/generic_source_initialization.go",
+            "constant": "EventTypeSourceInitialized",
+            "value": "event/source_initialized"
+          }
+        },
+        {
+          "value": "SKILL_USED",
+          "label": "技能被主动或消耗使用"
+        },
+        {
+          "value": "BASIC_ATTACK_START",
+          "label": "普通攻击发起",
+          "native": {
+            "file": "internal/model/generic_p6.go",
+            "constant": "EventTypeBasicAttackStart",
+            "value": "event/basic_attack_start"
+          }
+        },
+        {
+          "value": "BASIC_ATTACK_HIT",
+          "label": "普通攻击命中",
+          "native": {
+            "file": "internal/model/generic_p6.go",
+            "constant": "EventTypeBasicAttackHit",
+            "value": "event/basic_attack_hit"
+          }
+        },
+        {
+          "value": "BASIC_ATTACK_RECEIVED",
+          "label": "普通攻击命中接收（结果前）",
+          "native": {
+            "file": "internal/model/generic_p6.go",
+            "constant": "EventTypeBasicAttackReceived",
+            "value": "event/basic_attack_received"
+          }
+        },
+        {
+          "value": "SKILL_HIT",
+          "label": "技能命中",
+          "native": {
+            "file": "internal/model/generic_skill_hit.go",
+            "constant": "EventTypeSkillHit",
+            "value": "event/skill_hit"
+          }
+        },
+        {
+          "value": "PROCESS_MOMENT",
+          "label": "当前技能过程到达固定时点"
+        },
+        {
+          "value": "RESULT_AVAILABLE",
+          "label": "当前技能某个无生命周期基础结果到达可用时点"
+        },
+        {
+          "value": "LIFECYCLE_MOMENT",
+          "label": "当前技能生命周期到达离散时点"
+        },
+        {
+          "value": "DAMAGE_PENDING",
+          "label": "即将受到伤害"
+        },
+        {
+          "value": "DAMAGE_DEALT",
+          "label": "来源对象造成伤害",
+          "native": {
+            "file": "internal/runtime/generic_execution.go",
+            "constant": "eventTypeDamageDealt",
+            "value": "event/damage_dealt"
+          }
+        },
+        {
+          "value": "DAMAGE_TAKEN",
+          "label": "来源对象受到伤害",
+          "native": {
+            "file": "internal/model/generic_p6.go",
+            "constant": "EventTypeDamageTaken",
+            "value": "event/damage_taken"
+          }
+        },
+        {
+          "value": "STATUS_CHANGED",
+          "label": "指定对象的战斗状态施加或移除"
+        },
+        {
+          "value": "HEALTH_THRESHOLD_CROSSED",
+          "label": "指定对象生命属性越过阈值"
+        },
+        {
+          "value": "INTERNAL_STATE_CHANGED",
+          "label": "当前技能内部状态发生固定变化"
+        },
+        {
+          "value": "CONTROL_RECEIVED",
+          "label": "来源对象受到控制"
+        },
+        {
+          "value": "ENTITY_DIED",
+          "label": "指定对象死亡"
+        },
+        {
+          "value": "ENTITY_UNTARGETABLE",
+          "label": "指定对象变为不可选取"
+        },
+        {
+          "value": "KILL",
+          "label": "来源对象完成击杀"
+        },
+        {
+          "value": "TAKEDOWN",
+          "label": "来源对象参与击杀"
+        },
+        {
+          "value": "PROCESS_CANCEL_REQUESTED",
+          "label": "指定过程收到主动取消请求"
+        },
+        {
+          "value": "SPELL_SHIELD_BLOCKED",
+          "label": "法术护盾成功阻挡",
+          "native": {
+            "file": "internal/model/generic_skill_hit.go",
+            "constant": "EventTypeSpellShieldBlocked",
+            "value": "event/spell_shield_blocked"
+          }
+        },
+        {
+          "value": "HIT_LINK_APPLIED",
+          "label": "应用命中联动"
+        },
+        {
+          "value": "ATTACK_LINK_APPLIED",
+          "label": "触发攻击联动"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerEventUseKind",
+      "title": "事件使用方式",
+      "backend": "skilltrigger/SkillTriggerEventUseKind.java",
+      "web": {
+        "typeName": "SkillTriggerEventUseKind",
+        "values": "SKILL_TRIGGER_USE_KINDS",
+        "labels": "SKILL_TRIGGER_USE_KIND_LABELS"
+      },
+      "members": [
+        {
+          "value": "ACTIVE",
+          "label": "主动"
+        },
+        {
+          "value": "CONSUMABLE",
+          "label": "消耗"
+        },
+        {
+          "value": "ANY",
+          "label": "任意"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerEventValueKey",
+      "title": "事件读值口径",
+      "backend": "skilltrigger/SkillTriggerEventValueKey.java",
+      "web": {
+        "typeName": "SkillTriggerEventValueKey",
+        "values": "SKILL_TRIGGER_EVENT_VALUE_KEYS",
+        "labels": "SKILL_TRIGGER_EVENT_VALUE_LABELS",
+        "domains": "SKILL_TRIGGER_EVENT_VALUE_DOMAINS"
+      },
+      "members": [
+        {
+          "value": "STEP_EXECUTION_INDEX",
+          "label": "当前步骤第几次执行",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "CHARGE_DURATION_MS",
+          "label": "实际蓄力毫秒数",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "RECAST_COUNT",
+          "label": "当前过程已重施次数",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "HIT_INDEX",
+          "label": "当前命中序号",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "SKILL_HIT_FIRST_CONTACT",
+          "label": "本次使用首次目标接触",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+          "label": "技能命中被法术护盾阻挡",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "LIFECYCLE_STACKS",
+          "label": "当前生命周期层数",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "PERIOD_INDEX",
+          "label": "当前周期序号",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "REMAINING_MS",
+          "label": "当前生命周期剩余毫秒数",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "STATE_BEFORE",
+          "label": "数值内部状态变化前值",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "STATE_AFTER",
+          "label": "数值内部状态变化后值",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "ATTRIBUTE_BEFORE",
+          "label": "生命属性越阈值前值",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "ATTRIBUTE_AFTER",
+          "label": "生命属性越阈值后值",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "THRESHOLD_VALUE",
+          "label": "本次阈值取值值",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "RAW_DAMAGE",
+          "label": "原始伤害",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "POST_DEFENSE_DAMAGE",
+          "label": "防御后伤害",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "HEALTH_BEFORE",
+          "label": "受伤前生命",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "PROJECTED_HEALTH_AFTER",
+          "label": "预计受伤后生命",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "SHIELD_ABSORBED",
+          "label": "护盾吸收",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "ACTUAL_HP_LOSS",
+          "label": "实际扣血",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "BLOCKED",
+          "label": "是否被法术护盾阻挡（0/1）",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "IMMUNE",
+          "label": "是否被伤害免疫（0/1）",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "KILLED",
+          "label": "是否形成击杀（0/1）",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "LINK_INDEX",
+          "label": "本次序号（从 1 开始）",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "LINK_COUNT",
+          "label": "总次数（从 1 开始）",
+          "domain": "INTEGER"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerHealthDirection",
+      "title": "生命越阈值方向",
+      "backend": "skilltrigger/SkillTriggerHealthDirection.java",
+      "web": {
+        "typeName": "SkillTriggerHealthDirection",
+        "values": "SKILL_TRIGGER_HEALTH_DIRECTIONS",
+        "labels": "SKILL_TRIGGER_HEALTH_DIRECTION_LABELS"
+      },
+      "members": [
+        {
+          "value": "UPWARD",
+          "label": "向上"
+        },
+        {
+          "value": "DOWNWARD",
+          "label": "向下"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerInternalStateChangeKind",
+      "title": "内部状态变化种类",
+      "backend": "skilltrigger/SkillTriggerInternalStateChangeKind.java",
+      "web": {
+        "typeName": "SkillTriggerInternalStateChangeKind",
+        "values": "SKILL_TRIGGER_INTERNAL_STATE_CHANGE_KINDS",
+        "labels": "SKILL_TRIGGER_INTERNAL_STATE_CHANGE_LABELS"
+      },
+      "members": [
+        {
+          "value": "VALUE_CHANGED",
+          "label": "数值变化"
+        },
+        {
+          "value": "OPTION_SELECTED",
+          "label": "模式选项变化"
+        },
+        {
+          "value": "FLAG_CHANGED",
+          "label": "准备标记变化"
+        },
+        {
+          "value": "COOLDOWN_READY",
+          "label": "内部冷却就绪"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerInternalStateValueKind",
+      "title": "内部状态读值",
+      "backend": "skilltrigger/SkillTriggerInternalStateValueKind.java",
+      "web": {
+        "typeName": "SkillTriggerInternalStateValueKind",
+        "values": "SKILL_TRIGGER_INTERNAL_STATE_VALUE_KINDS",
+        "labels": "SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS"
+      },
+      "members": [
+        {
+          "value": "VALUE",
+          "label": "数值"
+        },
+        {
+          "value": "ATTACK_START_VALUE",
+          "label": "本次攻击开始值"
+        },
+        {
+          "value": "OPTION_SELECTED",
+          "label": "模式是否选中"
+        },
+        {
+          "value": "ENABLED",
+          "label": "准备标记是否启用"
+        },
+        {
+          "value": "REMAINING_MS",
+          "label": "剩余毫秒"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerLifecycleCheckKind",
+      "title": "生命周期检查",
+      "backend": "skilltrigger/SkillTriggerLifecycleCheckKind.java",
+      "web": {
+        "typeName": "SkillTriggerLifecycleCheckKind",
+        "values": "SKILL_TRIGGER_LIFECYCLE_CHECK_KINDS",
+        "labels": "LIFECYCLE_CHECK_LABELS"
+      },
+      "members": [
+        {
+          "value": "PRESENT",
+          "label": "存在"
+        },
+        {
+          "value": "ABSENT",
+          "label": "不存在"
+        },
+        {
+          "value": "STACKS_COMPARE",
+          "label": "层数比较"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerLifecycleEventMoment",
+      "title": "生命周期离散事件",
+      "backend": "skilltrigger/SkillTriggerLifecycleEventMoment.java",
+      "web": {
+        "typeName": "SkillTriggerLifecycleEventMoment",
+        "values": "SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENTS",
+        "labels": "SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENT_LABELS"
+      },
+      "members": [
+        {
+          "value": "APPLICATION",
+          "label": "施加"
+        },
+        {
+          "value": "FULL_STACKS",
+          "label": "满层"
+        },
+        {
+          "value": "PERIODIC",
+          "label": "周期"
+        },
+        {
+          "value": "NATURAL_END",
+          "label": "自然结束"
+        },
+        {
+          "value": "EARLY_REMOVE",
+          "label": "提前移除"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerOncePerUseScope",
+      "title": "同次使用范围",
+      "backend": "skilltrigger/SkillTriggerOncePerUseScope.java",
+      "web": {
+        "typeName": "SkillTriggerOncePerUseScope",
+        "values": "SKILL_TRIGGER_ONCE_PER_USE_SCOPES",
+        "labels": "SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS"
+      },
+      "members": [
+        {
+          "value": "SKILL",
+          "label": "整个技能使用"
+        },
+        {
+          "value": "TARGET",
+          "label": "每个目标"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerPriorResultOutputKind",
+      "title": "前序结果读值",
+      "backend": "skilltrigger/SkillTriggerPriorResultOutputKind.java",
+      "web": {
+        "typeName": "SkillTriggerPriorResultOutputKind",
+        "values": "SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS",
+        "labels": "SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_LABELS",
+        "domains": "SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_DOMAINS"
+      },
+      "members": [
+        {
+          "value": "CONFIGURED_VALUE",
+          "label": "基础配置值",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "RAW_DAMAGE",
+          "label": "原始伤害",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "POST_DEFENSE_DAMAGE",
+          "label": "防御后伤害",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "SHIELD_ABSORBED",
+          "label": "护盾吸收",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "ACTUAL_HP_LOSS",
+          "label": "实际扣血",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "ACTUAL_HEALING",
+          "label": "实际治疗",
+          "domain": "DECIMAL"
+        },
+        {
+          "value": "BLOCKED",
+          "label": "是否被法术护盾阻挡（0/1）",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "IMMUNE",
+          "label": "是否被伤害免疫（0/1）",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "STATUS_APPLIED",
+          "label": "是否成功施加状态（0/1）",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "KILLED",
+          "label": "是否形成击杀（0/1）",
+          "domain": "INTEGER"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerProcessFailureReason",
+      "title": "过程失败原因",
+      "backend": "skilltrigger/SkillTriggerProcessFailureReason.java",
+      "web": {
+        "typeName": "SkillProcessFailureReason",
+        "values": "PROCESS_FAILURE_REASONS",
+        "labels": "PROCESS_FAILURE_REASON_LABELS"
+      },
+      "members": [
+        {
+          "value": "CONTROLLED",
+          "label": "受到控制"
+        },
+        {
+          "value": "SOURCE_DIED",
+          "label": "来源对象死亡"
+        },
+        {
+          "value": "TARGET_UNTARGETABLE",
+          "label": "当前目标不可选取"
+        },
+        {
+          "value": "ACTIVE_CANCELLED",
+          "label": "主动取消"
+        },
+        {
+          "value": "EVENT_ABORTED",
+          "label": "当前事件终止"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerRecentDamageOutputKind",
+      "title": "近期受伤读值",
+      "backend": "skilltrigger/SkillTriggerRecentDamageOutputKind.java",
+      "web": {
+        "typeName": "SkillTriggerRecentDamageOutputKind",
+        "values": "SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_KINDS",
+        "labels": "SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_LABELS"
+      },
+      "members": [
+        {
+          "value": "POST_DEFENSE_DAMAGE",
+          "label": "防御后伤害"
+        },
+        {
+          "value": "ACTUAL_HP_LOSS",
+          "label": "实际扣血"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerRuntimeInputSourceType",
+      "title": "运行输入来源",
+      "backend": "skilltrigger/SkillTriggerRuntimeInputSourceType.java",
+      "web": {
+        "typeName": "SkillTriggerRuntimeInputSourceType",
+        "values": "SKILL_TRIGGER_SOURCE_TYPES",
+        "labels": "SKILL_TRIGGER_SOURCE_TYPE_LABELS"
+      },
+      "members": [
+        {
+          "value": "INTERNAL_STATE",
+          "label": "技能内部状态"
+        },
+        {
+          "value": "COMBAT_STATUS",
+          "label": "战斗状态"
+        },
+        {
+          "value": "EVENT_VALUE",
+          "label": "当前事件值"
+        },
+        {
+          "value": "SOURCE_CAST_RESOURCE_COST",
+          "label": "来源施放资源消耗"
+        },
+        {
+          "value": "PRIOR_ACTION_RESULT",
+          "label": "更早动作结果"
+        },
+        {
+          "value": "COMBAT_ELAPSED_TIME",
+          "label": "本次入战后时长"
+        },
+        {
+          "value": "RECENT_DAMAGE_SUM",
+          "label": "近期受伤累计"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerStatusChangeKind",
+      "title": "战斗状态变化",
+      "backend": "skilltrigger/SkillTriggerStatusChangeKind.java",
+      "web": {
+        "typeName": "SkillTriggerStatusChangeKind",
+        "values": "SKILL_TRIGGER_STATUS_CHANGE_KINDS",
+        "labels": "SKILL_TRIGGER_STATUS_CHANGE_LABELS"
+      },
+      "members": [
+        {
+          "value": "APPLY",
+          "label": "施加"
+        },
+        {
+          "value": "REMOVE",
+          "label": "移除"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerStatusCheckKind",
+      "title": "战斗状态检查",
+      "backend": "skilltrigger/SkillTriggerStatusCheckKind.java",
+      "web": {
+        "typeName": "SkillTriggerStatusCheckKind",
+        "values": "SKILL_TRIGGER_STATUS_CHECK_KINDS",
+        "labels": "SKILL_TRIGGER_STATUS_CHECK_LABELS"
+      },
+      "members": [
+        {
+          "value": "PRESENT",
+          "label": "存在"
+        },
+        {
+          "value": "ABSENT",
+          "label": "不存在"
+        },
+        {
+          "value": "STACKS_COMPARE",
+          "label": "层数比较"
+        },
+        {
+          "value": "REMAINING_MS_COMPARE",
+          "label": "剩余时间比较"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerSubject",
+      "title": "触发主体",
+      "backend": "skilltrigger/SkillTriggerSubject.java",
+      "web": {
+        "typeName": "SkillTriggerSubject",
+        "values": "SKILL_TRIGGER_SUBJECTS",
+        "labels": "SKILL_TRIGGER_SUBJECT_LABELS"
+      },
+      "members": [
+        {
+          "value": "SOURCE",
+          "label": "来源对象"
+        },
+        {
+          "value": "CURRENT_TARGET",
+          "label": "当前目标"
+        },
+        {
+          "value": "EVENT_SOURCE",
+          "label": "事件来源对象"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerTargetCategory",
+      "title": "事件对方类别",
+      "backend": "skilltrigger/SkillTriggerTargetCategory.java",
+      "web": {
+        "typeName": "SkillTriggerTargetCategory",
+        "values": "SKILL_TRIGGER_TARGET_CATEGORIES",
+        "labels": "TARGET_CATEGORY_LABELS"
+      },
+      "members": [
+        {
+          "value": "CHAMPION",
+          "label": "英雄"
+        },
+        {
+          "value": "EPIC_MONSTER",
+          "label": "史诗野怪"
+        },
+        {
+          "value": "MINION",
+          "label": "小兵"
+        },
+        {
+          "value": "NON_EPIC_MONSTER",
+          "label": "非史诗野怪"
+        },
+        {
+          "value": "STRUCTURE",
+          "label": "建筑"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerTargetContext",
+      "title": "动作目标上下文",
+      "backend": "skilltrigger/SkillTriggerTargetContext.java",
+      "web": {
+        "typeName": "SkillTriggerTargetContext",
+        "values": "SKILL_TRIGGER_TARGET_CONTEXTS",
+        "labels": "SKILL_TRIGGER_TARGET_CONTEXT_LABELS"
+      },
+      "members": [
+        {
+          "value": "CURRENT_TARGET",
+          "label": "当前目标"
+        },
+        {
+          "value": "EVENT_SOURCE",
+          "label": "事件来源对象"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerValueDomain",
+      "title": "运行输入数值类型",
+      "backend": "skilltrigger/SkillTriggerValueDomain.java",
+      "web": {
+        "typeName": "SkillTriggerValueDomain",
+        "values": "SKILL_TRIGGER_VALUE_DOMAINS",
+        "labels": "SKILL_TRIGGER_VALUE_TYPE_LABELS"
+      },
+      "members": [
+        {
+          "value": "INTEGER",
+          "label": "整数"
+        },
+        {
+          "value": "DECIMAL",
+          "label": "小数"
+        }
+      ]
+    },
+    {
+      "name": "SkillProcessActivationType",
+      "title": "过程激活方式",
+      "backend": "skillprocess/SkillProcessActivationType.java",
+      "web": {
+        "typeName": "SkillProcessActivationType",
+        "values": "SKILL_PROCESS_ACTIVATION_TYPES",
+        "labels": "SKILL_PROCESS_ACTIVATION_TYPE_LABELS"
+      },
+      "members": [
+        {
+          "value": "ACTIVE",
+          "label": "主动"
+        },
+        {
+          "value": "PASSIVE",
+          "label": "被动"
+        },
+        {
+          "value": "CONSUMABLE",
+          "label": "消耗"
+        }
+      ]
+    },
+    {
+      "name": "SkillProcessEmpoweredConsumeMoment",
+      "title": "强化普攻消费时点",
+      "backend": "skillprocess/SkillProcessEmpoweredConsumeMoment.java",
+      "web": {
+        "typeName": "SkillProcessEmpoweredConsumeMoment",
+        "values": "EMPOWERED_CONSUME_MOMENTS",
+        "labels": "EMPOWERED_CONSUME_MOMENT_LABELS"
+      },
+      "members": [
+        {
+          "value": "ATTACK_START",
+          "label": "攻击发起"
+        },
+        {
+          "value": "ATTACK_HIT",
+          "label": "攻击命中"
+        }
+      ]
+    },
+    {
+      "name": "SkillProcessFirstExecution",
+      "title": "首次执行方式",
+      "backend": "skillprocess/SkillProcessFirstExecution.java",
+      "web": {
+        "typeName": "SkillProcessFirstExecutionKind",
+        "values": "SKILL_PROCESS_FIRST_EXECUTIONS",
+        "labels": "FIRST_EXECUTION_LABELS"
+      },
+      "members": [
+        {
+          "value": "IMMEDIATE",
+          "label": "立即执行"
+        },
+        {
+          "value": "AFTER_INTERVAL",
+          "label": "等待一个间隔"
+        },
+        {
+          "value": "CUSTOM_WINDOW",
+          "label": "指定首末执行窗口"
+        }
+      ],
+      "subsets": [
+        {
+          "typeName": "SkillProcessFirstExecution",
+          "values": "SKILL_PROCESS_INTERVAL_FIRST_EXECUTIONS",
+          "members": [
+            "IMMEDIATE",
+            "AFTER_INTERVAL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SkillProcessMomentType",
+      "title": "过程与步骤时点",
+      "backend": "skillprocess/SkillProcessMomentType.java",
+      "web": {
+        "typeName": "SkillProcessMomentType",
+        "values": "SKILL_PROCESS_MOMENT_TYPES",
+        "labels": "SKILL_PROCESS_MOMENT_TYPE_LABELS"
+      },
+      "members": [
+        {
+          "value": "PROCESS_START",
+          "label": "过程开始"
+        },
+        {
+          "value": "STEP_START",
+          "label": "步骤开始"
+        },
+        {
+          "value": "STEP_EXECUTION",
+          "label": "步骤执行"
+        },
+        {
+          "value": "STEP_COMPLETE",
+          "label": "步骤完成"
+        },
+        {
+          "value": "STEP_TIMEOUT",
+          "label": "步骤超时"
+        },
+        {
+          "value": "PROCESS_COMPLETE",
+          "label": "过程完成"
+        },
+        {
+          "value": "PROCESS_FAILURE",
+          "label": "过程失败"
+        }
+      ],
+      "subsets": [
+        {
+          "typeName": "SkillProcessProcessMomentType",
+          "values": "PROCESS_LEVEL_MOMENT_TYPES",
+          "members": [
+            "PROCESS_START",
+            "PROCESS_COMPLETE",
+            "PROCESS_FAILURE"
+          ]
+        },
+        {
+          "typeName": "SkillProcessStepMomentType",
+          "values": "STEP_LEVEL_MOMENT_TYPES",
+          "members": [
+            "STEP_START",
+            "STEP_EXECUTION",
+            "STEP_COMPLETE",
+            "STEP_TIMEOUT"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SkillProcessStateOperationKind",
+      "title": "内部状态操作",
+      "backend": "skillprocess/SkillProcessStateOperationKind.java",
+      "web": {
+        "typeName": "SkillProcessStateOperationKind",
+        "values": "SKILL_PROCESS_STATE_OPERATION_KINDS",
+        "labels": "STATE_OPERATION_LABELS"
+      },
+      "members": [
+        {
+          "value": "INCREASE",
+          "label": "增加"
+        },
+        {
+          "value": "DECREASE",
+          "label": "减少"
+        },
+        {
+          "value": "CONSUME",
+          "label": "消耗"
+        },
+        {
+          "value": "SET",
+          "label": "设置"
+        },
+        {
+          "value": "RESET",
+          "label": "重置"
+        },
+        {
+          "value": "SELECT",
+          "label": "选择"
+        },
+        {
+          "value": "ENABLE",
+          "label": "启用"
+        },
+        {
+          "value": "DISABLE",
+          "label": "停用"
+        },
+        {
+          "value": "TOGGLE",
+          "label": "切换"
+        },
+        {
+          "value": "START",
+          "label": "开始"
+        }
+      ]
+    },
+    {
+      "name": "SkillProcessStepType",
+      "title": "过程步骤",
+      "backend": "skillprocess/SkillProcessStepType.java",
+      "web": {
+        "typeName": "SkillProcessStepType",
+        "values": "SKILL_PROCESS_STEP_TYPES",
+        "labels": "SKILL_PROCESS_STEP_TYPE_LABELS"
+      },
+      "members": [
+        {
+          "value": "IMMEDIATE",
+          "label": "立即"
+        },
+        {
+          "value": "DELAY",
+          "label": "延迟"
+        },
+        {
+          "value": "MULTI_HIT",
+          "label": "多段"
+        },
+        {
+          "value": "PERIODIC",
+          "label": "周期"
+        },
+        {
+          "value": "CHANNEL",
+          "label": "引导"
+        },
+        {
+          "value": "CHARGE",
+          "label": "蓄力"
+        },
+        {
+          "value": "RECAST",
+          "label": "重施"
+        },
+        {
+          "value": "EMPOWERED_BASIC_ATTACK",
+          "label": "强化下一次普通攻击"
+        }
+      ]
+    }
+  ]
+}
