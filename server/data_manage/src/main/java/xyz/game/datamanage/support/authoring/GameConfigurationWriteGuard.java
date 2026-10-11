@@ -158,15 +158,21 @@ public class GameConfigurationWriteGuard {
             var id = new ConfigurationChangeScope.Row("ATTRIBUTE", "", dependency);
             changed |= !java.util.Objects.equals(before.rows().get(id), after.rows().get(id));
         }
+        for (String dependency : GameCalculationRuleSemantics.categoryDependencies(calculationAfter).keySet()) {
+            var id = new ConfigurationChangeScope.Row("CATEGORY", "", dependency);
+            changed |= !java.util.Objects.equals(before.rows().get(id), after.rows().get(id));
+        }
         if (!changed) return;
         Map<String, GameCalculationRuleSemantics.Attribute> attributes = new LinkedHashMap<>();
+        Map<String, GameCalculationRuleSemantics.Category> categories = new LinkedHashMap<>();
         after.rows().forEach((id, row) -> {
             if (id.type().equals("ATTRIBUTE")) attributes.put(id.key(), new GameCalculationRuleSemantics.Attribute(
                 row.path("value_type").textValue(), row.path("status").textValue()));
+            if (id.type().equals("CATEGORY")) categories.put(id.key(), new GameCalculationRuleSemantics.Category(row.path("status").textValue()));
         });
-        var issue = GameCalculationRuleSemantics.validate(calculationAfter, attributes);
+        var issue = GameCalculationRuleSemantics.validate(calculationAfter, attributes, categories);
         if (issue != null) throw new ApiException(HttpStatus.CONFLICT, "409.GAME_CALCULATION_RULES_INVALID",
-            "最终属性目录与游戏计算配置不一致", Map.of("fieldIssues", List.of(issue.details())));
+            "最终目录与游戏计算配置不一致", Map.of("fieldIssues", List.of(issue.details())));
     }
 
     private static void validateDamageTypes(List<Aggregate> affected, Snapshot after) {

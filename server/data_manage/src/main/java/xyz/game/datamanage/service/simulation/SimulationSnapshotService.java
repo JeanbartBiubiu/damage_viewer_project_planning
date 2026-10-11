@@ -135,6 +135,8 @@ public class SimulationSnapshotService {
                 planned.skillLevel(), planned.phaseKinds().stream().sorted().toList()))
                 .sorted(Comparator.comparing((PlannedSkill planned) -> planned.origin().toString())
                 .thenComparing(PlannedSkill::skillKey)).toList());
+        GameCalculationRulesResponse calculation = readCalculationRules(gameId);
+        String basicAttackCategoryKey = calculation.configuration().path("basicAttackCategoryKey").textValue();
         LevelConfigResponse levels = characters.getLevelConfig(gameId);
         validateLevel("sourceLevel", choice.sourceLevel(), levels);
         validateLevel("targetLevel", choice.targetLevel(), levels);
@@ -151,14 +153,17 @@ public class SimulationSnapshotService {
         sources.addAll(SnapshotSources.collect(target, "target", choice.targetLevel(), choice.basicAttackSkillKey(), choice.basicAttackLevel()));
         sources.sort(SnapshotSources.ORDER);
         Map<String, SkillConfigurationResponse> selected = selectedSkillConfigurations(gameId, sources);
-        if (choice.basicAttackSkillKey() != null
-            && !selected.get(choice.basicAttackSkillKey()).skill().skillCategoryKeys().contains("basic_attack")) {
-            throw invalid("basicAttackSkillKey", "BASIC_ATTACK_CATEGORY_REQUIRED", "所选真实主体必须属于普通攻击分类");
+        if (choice.basicAttackSkillKey() != null) {
+            if (basicAttackCategoryKey == null) throw invalid("catalogs.calculationRules.configuration.basicAttackCategoryKey",
+                "CATEGORY_BINDING_MISSING", "所选普通攻击需要明确绑定游戏普通攻击分类用途");
+            if (!selected.get(choice.basicAttackSkillKey()).skill().skillCategoryKeys().contains(basicAttackCategoryKey)) {
+                throw invalid("basicAttackSkillKey", "BASIC_ATTACK_CATEGORY_REQUIRED", "所选真实主体必须属于本次绑定的普通攻击分类");
+            }
         }
         SnapshotSources.apply(sources, selection.sourceSkillSettings(), "source", choice.basicAttackSkillKey());
         SnapshotSources.apply(sources, selection.targetSkillSettings(), "target", choice.basicAttackSkillKey());
         SnapshotSources.plan(sources, selection.plannedSkills());
-        SnapshotSkillClosure closure = new SnapshotSkillClosure(gameId, choice.basicAttackSkillKey(), json, sources, selected,
+        SnapshotSkillClosure closure = new SnapshotSkillClosure(gameId, choice.basicAttackSkillKey(), basicAttackCategoryKey, json, sources, selected,
             (key, path) -> readSkillConfiguration(gameId, key, path));
         SnapshotSkillClosure.Result execution = closure.collect();
         List<SkillConfigurationResponse> skills = execution.configurations();
@@ -169,15 +174,15 @@ public class SimulationSnapshotService {
             skillIndices.put(skills.get(skillIndex).skill().skillKey(), skillIndex);
         }
         List<SkillObjectReferences.Reference> referenced = execution.references();
-        Map<String, String> attributeKeys = new TreeMap<>();
+        Map<String, String> attributeKeys = new TreeMap<>(GameCalculationRuleSemantics.dependencies(calculation.configuration()));
         source.selectedLevelValues().fieldNames().forEachRemaining(key ->
             attributeKeys.putIfAbsent(key, "source.selectedLevelValues." + key));
         target.selectedLevelValues().fieldNames().forEachRemaining(key ->
             attributeKeys.putIfAbsent(key, "target.selectedLevelValues." + key));
         collectEquipmentAttributeKeys(source, "source", attributeKeys);
         collectEquipmentAttributeKeys(target, "target", attributeKeys);
-        Map<String, String> categoryKeys = new TreeMap<>();
-        Set<String> requiredCategories = new TreeSet<>();
+        Map<String, String> categoryKeys = new TreeMap<>(GameCalculationRuleSemantics.categoryDependencies(calculation.configuration()));
+        Set<String> requiredCategories = new TreeSet<>(categoryKeys.keySet());
         sources.stream().filter(item -> item.inactive == null).forEach(item -> requiredCategories.addAll(item.configuration.skill().skillCategoryKeys()));
         for (int skillIndex = 0; skillIndex < skills.size(); skillIndex++) {
             SkillConfigurationResponse skill = skills.get(skillIndex);
@@ -217,7 +222,6 @@ public class SimulationSnapshotService {
         for (Aggregate object : execution.objects()) {
             collectAttributeKeys(object.data(), attributeKeys, closure.objectPath(object));
         }
-        GameCalculationRulesResponse calculation = readCalculationRules(gameId, attributeKeys);
         GameVampRules vamp = vampRules.get(gameId);
         for (int ruleIndex = 0; ruleIndex < vamp.rules().size(); ruleIndex++) {
             GameVampRule rule = vamp.rules().get(ruleIndex);
@@ -261,7 +265,11 @@ public class SimulationSnapshotService {
         Map<String, GameCalculationRuleSemantics.Attribute> calculationAttributes = new LinkedHashMap<>();
         selectedAttributes.forEach(attribute -> calculationAttributes.put(attribute.attributeKey(),
             new GameCalculationRuleSemantics.Attribute(attribute.valueType() == null ? null : attribute.valueType().name(), attribute.status().name())));
-        var calculationIssue = GameCalculationRuleSemantics.validate(calculation.configuration(), calculationAttributes);
+        List<SkillCategoryResponse> selectedCategories = loadCategories(gameId, categoryKeys, requiredCategories);
+        Map<String, GameCalculationRuleSemantics.Category> calculationCategories = new LinkedHashMap<>();
+        selectedCategories.forEach(category -> calculationCategories.put(category.skillCategoryKey(),
+            new GameCalculationRuleSemantics.Category(category.status().name())));
+        var calculationIssue = GameCalculationRuleSemantics.validate(calculation.configuration(), calculationAttributes, calculationCategories);
         if (calculationIssue != null) throw invalid("catalogs.calculationRules" + calculationIssue.field(), calculationIssue.code(), calculationIssue.message());
         for (DamageTypeEntry entry : selectedDamageTypes) {
             var issue = xyz.game.datamanage.support.formula.FormulaContractValidator.validate(entry.formula().formula(),
@@ -281,7 +289,7 @@ public class SimulationSnapshotService {
         }        validateEquipmentAttributes(source, "source", selectedAttributes);
         validateEquipmentAttributes(target, "target", selectedAttributes);
         Catalogs catalogs = new Catalogs(levels, selectedAttributes,
-            loadCategories(gameId, categoryKeys, requiredCategories), List.copyOf(selectedDamageTypes),
+            selectedCategories, List.copyOf(selectedDamageTypes),
             loadZones(gameId, zoneKeys), loadStatuses(gameId, statusKeys), vamp, calculation);
         SimulationSnapshotResponse content = new SimulationSnapshotResponse(gameId, choice, source, target,
             skills, catalogs, List.copyOf(references), null, null);
@@ -508,6 +516,9 @@ public class SimulationSnapshotService {
         for (var dependency : keys.entrySet()) {
             SkillCategoryResponse value = readDependency(() -> categories.get(gameId, dependency.getKey()), dependency.getValue());
             if (required.contains(dependency.getKey())) requireEnabled(value.status(), dependency.getValue());
+            if (!gameId.equals(value.gameId()) || !dependency.getKey().equals(value.skillCategoryKey())) {
+                throw invalid(dependency.getValue(), "REFERENCE_OUT_OF_SCOPE", "分类不属于当前游戏与目录身份");
+            }
             result.add(value);
         }
         return List.copyOf(result);
@@ -545,7 +556,7 @@ public class SimulationSnapshotService {
         }
     }
 
-    private GameCalculationRulesResponse readCalculationRules(String gameId, Map<String, String> attributeKeys) {
+    private GameCalculationRulesResponse readCalculationRules(String gameId) {
         GameCalculationRulesResponse response = readDependency(() -> calculationRules.get(gameId), "catalogs.calculationRules");
         if (response == null || response.configuration() == null || response.configuration().isNull()) {
             throw invalid("catalogs.calculationRules.configuration", "CONFIGURATION_MISSING", "游戏计算配置尚未明确保存");
@@ -556,9 +567,11 @@ public class SimulationSnapshotService {
         Map<String, String> dependencies = GameCalculationRuleSemantics.dependencies(response.configuration());
         Map<String, GameCalculationRuleSemantics.Attribute> structuralDirectory = new LinkedHashMap<>();
         dependencies.keySet().forEach(key -> structuralDirectory.put(key, new GameCalculationRuleSemantics.Attribute("DECIMAL", "ENABLED")));
-        var issue = GameCalculationRuleSemantics.validate(response.configuration(), structuralDirectory);
+        Map<String, GameCalculationRuleSemantics.Category> structuralCategories = new LinkedHashMap<>();
+        GameCalculationRuleSemantics.categoryDependencies(response.configuration()).keySet().forEach(key ->
+            structuralCategories.put(key, new GameCalculationRuleSemantics.Category("ENABLED")));
+        var issue = GameCalculationRuleSemantics.validate(response.configuration(), structuralDirectory, structuralCategories);
         if (issue != null) throw invalid("catalogs.calculationRules" + issue.field(), issue.code(), issue.message());
-        dependencies.forEach(attributeKeys::putIfAbsent);
         return response;
     }
 

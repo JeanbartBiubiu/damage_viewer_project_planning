@@ -55,7 +55,8 @@ public class GameCalculationRuleService {
                 Map.of("baseDigest", baseline.baseDigest(), "fieldIssues", List.of(new Issue("baseDigest", "CONFLICT", "基线摘要与当前配置不一致").details())));
         }
         JsonNode configuration = request.get("configuration");
-        issue = GameCalculationRuleSemantics.validate(configuration, GameCalculationRuleSemantics.attributes(jdbc, gameId));
+        issue = GameCalculationRuleSemantics.validate(configuration, GameCalculationRuleSemantics.attributes(jdbc, gameId),
+            GameCalculationRuleSemantics.categories(jdbc, gameId));
         if (issue != null) throw invalid(issue);
         jdbc.update(UPSERT_SQL, gameId, AggregateJson.write(configuration));
         GameCalculationRulesResponse saved = read(gameId);

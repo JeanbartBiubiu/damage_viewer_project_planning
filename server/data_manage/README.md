@@ -12,17 +12,19 @@
 
 共享含义以规划真源[共同公式定义与校验详细设计](../../../damage_viewer_project_planning/文档记录/详细设计/项目/共同公式定义与校验详细设计.md)为准。定向检查为 `mvn "-Dtest=FormulaContractValidatorTest" test`，收尾运行 `mvn test`。同源样例来自生成资源，生成文件不得手改；本阶段尚未切换现行管理保存、快照或正式计算入口，不需要数据库迁移。
 
-## 暴击与攻速用途绑定及游戏属性派生
+## 游戏属性、技能分类与施法成本用途绑定
 
-`GET /api/admin/games/{gameId}/calculation-rules` 返回 `{gameId,baseDigest,configuration}`；没有保存配置时 `configuration` 明确为 `null`，空状态同样有摘要。`PUT` 接受 `{baseDigest,configuration}`，候选必须完整非空，四项字段为 `criticalChanceAttributeKey`（可空概率属性）、`criticalMultiplierMin`（可空有限非负倍率下限）、`attackSpeedAttributeKey`（可空连续速度属性）和 `attributeDerivations`（完整派生数组，最多4项）。空值和0保持不同，不补旧属性名或默认公式。
+`GET /api/admin/games/{gameId}/calculation-rules` 返回 `{gameId,baseDigest,configuration}`；没有保存配置时 `configuration` 明确为 `null`，空状态同样有摘要。`PUT` 接受 `{baseDigest,configuration}`，候选必须完整非空，七项字段为 `criticalChanceAttributeKey`（可空概率属性）、`criticalMultiplierMin`（可空有限非负倍率下限）、`attackSpeedAttributeKey`（可空连续速度属性）、`attributeDerivations`（完整派生数组，最多4项）、`basicAttackCategoryKey`（可空普通攻击分类）、`equipmentPassiveCategoryKey`（可空装备被动分类）和 `ignorableCastCostAttributeKeys`（0～32个可明确忽略的施法成本属性）。空值和0保持不同，不补旧目录名或默认公式。
+
+两个分类用途均绑定时不能使用同一分类；非空绑定必须属于本游戏启用目录。费用数组只接受唯一的本游戏启用数值属性原键，保留输入顺序，可以包含生命核心槽，但不增加资源扣费或自动忽略行为。普攻所选技能与来源闭包读取本次真实普通攻击用途，不再按固定分类键判断；所选普攻未绑定时返回 `CATEGORY_BINDING_MISSING`，定位 `catalogs.calculationRules.configuration.basicAttackCategoryKey`，不匹配时沿 `BASIC_ATTACK_CATEGORY_REQUIRED` 定位所选技能。纯主动或纯属性场景允许未使用的用途为空；装备被动的实际装配准入与逐项成本确认由前端消费完整快照。新增共享含义见规划真源[技能分类与施法成本用途绑定详细设计](../../../damage_viewer_project_planning/文档记录/详细设计/项目/技能分类与施法成本用途绑定详细设计.md)。
 
 派生项只接受 `{ruleKey,attributeKey,valuePolicy,activationAttributeKeys,formula}`。规则标识与输出分别唯一，策略必须明确为 `set`（修正前替换）或 `multiply`（修正后乘算），激活集合非空且无重复。用途、输出、激活和全部共同公式输入都来自当前游戏启用的数值目录，生命核心槽 `hp` 不能作为普通派生输出或激活项；普通属性激活不开放伤害、治疗或生命资源变化，拒绝问题定位到 `activationAttributeKeys` 的实际数组项。共同公式只授权拥有者 `source` 的 `current_frame`（当前帧）属性 `BASE/BONUS/TOTAL`（基础／加成／最终）；同批全部输出只允许读冻结基础值，不授权技能参数、上下文或事件视图。
 
-写入沿同游戏锁先读基线、比较摘要、校验完整候选、同事务写入及读回。摘要冲突返回 `409.GAME_CALCULATION_RULES_CHANGED`，`details.baseDigest` 给出当前摘要；候选问题返回 `400.VALIDATION_FAILED`，`details.fieldIssues` 保留 `/configuration/...` 字段路径和共同公式错误码。成功后由客户端独立 `GET` 核对。属性停用、删除或数值类型变更由游戏写入守卫按事务内最终配置独立复核，失败返回 `409.GAME_CALCULATION_RULES_INVALID` 并回滚，不扩充技能引用索引；两类合法数值类型之间变化经最终检查后允许。
+写入沿同游戏锁先读基线、比较摘要、校验完整候选、同事务写入及读回。摘要冲突返回 `409.GAME_CALCULATION_RULES_CHANGED`，`details.baseDigest` 给出当前摘要；候选问题返回 `400.VALIDATION_FAILED`，`details.fieldIssues` 保留 `/configuration/...` 字段路径和共同公式错误码。成功后由客户端独立 `GET` 核对。绑定分类停用或删除、属性停用、删除或数值类型变更由游戏写入守卫按事务内最终配置独立复核，失败返回 `409.GAME_CALCULATION_RULES_INVALID` 并回滚；分类依赖与属性依赖分别追踪，不扩充技能引用索引。两类合法数值类型之间变化、分类名称与说明变化经最终检查后允许，解除用途后可沿原删除流程处理目录。
 
-快照 `catalogs.calculationRules` 运输完整上述响应并进入场景摘要；依赖包括用途、输出、激活和全部声明输入，不根据固定攻速或概率名称追加属性。缺配置、损坏或停用依赖沿 `409.SIMULATION_SNAPSHOT_INVALID` 定位。后端仅保存和运输作者定义，仍由原生执行实际暴击、派生和连续时钟；管理草稿允许可空倍率，实际编译需要完整声明。共享语义见规划真源[暴击与攻速作者绑定和属性派生详细设计](../../../damage_viewer_project_planning/文档记录/详细设计/项目/暴击与攻速作者绑定和属性派生详细设计.md)。
+快照先读取本次真实规则，再判断所选普攻和来源闭包。`catalogs.calculationRules` 运输完整响应并进入场景摘要；全部引用分类、费用属性、用途、输出、激活和声明输入进入实际目录授权，未消费的非空用途也检查本游戏归属及启用状态。费用名单只运输元数据，不要求角色补填供值、不生成技能引用；不根据固定攻速或概率名称追加属性。缺配置、损坏或停用依赖沿 `409.SIMULATION_SNAPSHOT_INVALID` 定位。后端仅保存和运输作者定义，仍由原生执行实际暴击、派生和连续时钟；管理草稿允许可空倍率，实际编译需要完整声明。原属性语义见规划真源[暴击与攻速作者绑定和属性派生详细设计](../../../damage_viewer_project_planning/文档记录/详细设计/项目/暴击与攻速作者绑定和属性派生详细设计.md)。
 
-新库使用当前 `schema.sql`；已有库单次增量为 [game_calculation_rules.sql](../../db/game_manage/migrations/game_calculation_rules.sql)，只建表，不写默认游戏配置或改动其它真实数据。2026-10-11已在核定的test0221库执行，读回3列、主键、游戏外键与根对象检查；空表通过HTTP返回明确未配置状态。负责人沿真实游戏配置页录入lol的原概率身份、倍率下限1和完整原攻速公式，独立GET逐字段核对，快照及最终浏览器运行证据见规划验收记录。全量1,758项测试及打包通过。定向检查：`mvn "-Dtest=GameCalculationRuleSemanticsTest,GameCalculationRuleServiceTest,GameCalculationRuleAdminControllerTest,GameCalculationRuleSchemaSqlTest,GameConfigurationWriteGuardTest,SimulationSnapshot*Test,LegacyCombatDataCleanupDbContractSqlTest,BuildSchemaSqlTest" test`；收尾运行 `mvn test` 和 `mvn -DskipTests package`。静态SQL与隔离测试不代替真实数据库、HTTP或页面证据。
+新库使用当前 `schema.sql` 的完整七字段结构。初次建表迁移 [game_calculation_rules.sql](../../db/game_manage/migrations/game_calculation_rules.sql) 保留原字节，已有表不要重跑。已有四字段配置使用本批 [分类与费用用途增量](../../db/game_manage/migrations/game_calculation_classification_cost_bindings.sql)，在同一事务内锁表，只对缺字段补 `null`、`null`、`[]`；已有新字段、原四字段和 `updated_at`（更新时间）保持原值，再更换根字段类型与费用容量检查，不填写业务目录或删除数据。迁移执行、原数据独立读回和正式页面保存由主负责人完成，后端隔离测试只提供结构与事务语义证据。定向检查：`mvn "-Dtest=GameCalculationRuleSemanticsTest,GameCalculationRuleServiceTest,GameCalculationRuleAdminControllerTest,GameCalculationRuleSchemaSqlTest,GameConfigurationWriteGuardTest,SimulationSnapshot*Test,LegacyCombatDataCleanupDbContractSqlTest,BuildSchemaSqlTest" test`；收尾运行 `mvn test` 和 `mvn -DskipTests package`。静态SQL与隔离测试不代替真实数据库、HTTP或页面证据。
 
 ## 阶段5B计数保持与属性乘算
 

@@ -149,12 +149,29 @@ class SimulationSnapshotSourcesTest {
     }
 
     @Test
-    void disabledBasicAttackCategoryIsReadForAnInactiveSourceRatherThanDemandedForExecution() {
+    void disabledCategoryBoundToUsageIsRejectedEvenWhenItsSourceIsInactive() {
         when(fixture.categories.get(GAME, "basic_attack")).thenReturn(new SkillCategoryResponse(GAME, "basic_attack",
             "普通攻击", null, SkillCategoryStatus.DISABLED, 0, null, null));
-        var result = fixture.service.get(GAME, fixture.choice());
+        var error = assertThrows(ApiException.class, () -> fixture.service.get(GAME, fixture.choice()));
+        assertEquals("409.SIMULATION_SNAPSHOT_INVALID", error.getCode());
+        assertTrue(error.getDetails().toString().contains("catalogs.calculationRules.configuration.basicAttackCategoryKey"));
+        assertTrue(error.getDetails().toString().contains("REFERENCE_DISABLED"));
+    }
+
+    @Test
+    void disabledUnboundCategoryRemainsVisibleOnInactiveDefinitions() {
+        when(fixture.categories.get(GAME, "basic_attack")).thenReturn(new SkillCategoryResponse(GAME, "basic_attack",
+            "普通分类", null, SkillCategoryStatus.DISABLED, 0, null, null));
+        when(fixture.calculationRules.get(GAME)).thenReturn(new xyz.game.datamanage.model.calculation.GameCalculationRulesResponse(
+            GAME, "a".repeat(64), xyz.game.datamanage.support.authoring.AggregateJson.tree("""
+                {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[],
+                 "basicAttackCategoryKey":null,"equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[]}
+                """)));
+        fixture.attach("hero_a");
+        var result = fixture.service.get(GAME, new Selection("hero_a", 1, "hero_b", 2, null, null, List.of(), List.of(),
+            List.of(), List.of(), List.of(), List.of(), List.of()));
         assertEquals(SkillCategoryStatus.DISABLED, result.catalogs().skillCategories().getFirst().status());
-        assertEquals(InactiveReason.NO_AUTONOMOUS_ATTACK, row(result, "target", ATTACK).inactiveReason());
+        assertEquals(InactiveReason.CONFIGURATION_INCOMPLETE, row(result, "target", ATTACK).inactiveReason());
     }
 
     @Test

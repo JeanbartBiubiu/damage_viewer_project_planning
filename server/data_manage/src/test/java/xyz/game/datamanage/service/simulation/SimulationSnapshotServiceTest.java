@@ -91,7 +91,8 @@ class SimulationSnapshotServiceTest {
         service = new SimulationSnapshotService(characters, characterMapper, equipment, equipmentMapper, relations,
             configurations, attributes, categories, damageTypes, zones, statuses, vampRules, calculationRules, builds, json);
         when(calculationRules.get("lol")).thenReturn(new GameCalculationRulesResponse("lol", "a".repeat(64), AggregateJson.tree("""
-            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[]}
+            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[],
+             "basicAttackCategoryKey":"basic_attack","equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[]}
             """)));
         when(characters.getLevelConfig("lol")).thenReturn(new LevelConfigResponse("lol", 1, 18));
         for (String key : List.of("hero_a", "hero_b")) {
@@ -243,7 +244,8 @@ class SimulationSnapshotServiceTest {
     @Test
     void missingSceneSupplementalValuesStayAbsentWhileTheirDefinitionsReturn() {
         when(calculationRules.get("lol")).thenReturn(new GameCalculationRulesResponse("lol", "a".repeat(64), AggregateJson.tree("""
-            {"criticalChanceAttributeKey":"critical_strike_chance","criticalMultiplierMin":1,"attackSpeedAttributeKey":null,"attributeDerivations":[]}
+            {"criticalChanceAttributeKey":"critical_strike_chance","criticalMultiplierMin":1,"attackSpeedAttributeKey":null,"attributeDerivations":[],
+             "basicAttackCategoryKey":"basic_attack","equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[]}
             """)));
         for (String key : List.of("critical_strike_chance", "critical_strike_damage_bonus_percent",
             "armor_pen_percent", "life_steal_percent")) attribute(key);

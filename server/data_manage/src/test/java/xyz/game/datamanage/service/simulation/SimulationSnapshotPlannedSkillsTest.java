@@ -35,6 +35,11 @@ class SimulationSnapshotPlannedSkillsTest {
     void noAttackBindingIsRequiredAndAPlannedSourceIsMountedOnlyOnceWithItsFullClosure() throws Exception {
         fixture.attach("hero_a", SPELL);
         fixture.attach("hero_b");
+        when(fixture.calculationRules.get(GAME)).thenReturn(new xyz.game.datamanage.model.calculation.GameCalculationRulesResponse(
+            GAME, "a".repeat(64), xyz.game.datamanage.support.authoring.AggregateJson.tree("""
+                {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[],
+                 "basicAttackCategoryKey":null,"equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[]}
+                """)));
         var result = fixture.service.get(GAME, choice(settings(1), plans(1)));
         assertNull(result.selection().basicAttackSkillKey());
         assertNull(result.selection().basicAttackLevel());

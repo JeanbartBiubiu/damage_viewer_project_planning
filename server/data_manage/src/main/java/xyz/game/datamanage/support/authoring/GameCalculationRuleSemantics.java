@@ -19,14 +19,16 @@ import xyz.game.datamanage.support.formula.FormulaContractValidator;
 public final class GameCalculationRuleSemantics {
     public static final String RULES_SQL = "SELECT configuration::text FROM public.game_calculation_rules WHERE game_id = ?";
     public static final String ATTRIBUTES_SQL = "SELECT attribute_key, value_type, status FROM public.attributes WHERE game_id = ? ORDER BY attribute_key";
+    public static final String CATEGORIES_SQL = "SELECT skill_category_key, status FROM public.skill_categories WHERE game_id = ? ORDER BY skill_category_key";
     private static final Pattern KEY = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
     private static final List<String> CONFIG_FIELDS = List.of("criticalChanceAttributeKey", "criticalMultiplierMin",
-        "attackSpeedAttributeKey", "attributeDerivations");
+        "attackSpeedAttributeKey", "attributeDerivations", "basicAttackCategoryKey", "equipmentPassiveCategoryKey", "ignorableCastCostAttributeKeys");
     private static final List<String> RULE_FIELDS = List.of("ruleKey", "attributeKey", "valuePolicy", "activationAttributeKeys", "formula");
 
     private GameCalculationRuleSemantics() {}
 
     public record Attribute(String valueType, String status) {}
+    public record Category(String status) {}
     public record Issue(String field, String code, String message) {
         public Map<String, String> details() { return Map.of("field", field, "code", code, "message", message); }
     }
@@ -45,10 +47,44 @@ public final class GameCalculationRuleSemantics {
         return result;
     }
 
-    public static Issue validate(JsonNode configuration, Map<String, Attribute> attributes) {
+    public static Map<String, Category> categories(JdbcTemplate jdbc, String gameId) {
+        Map<String, Category> result = new LinkedHashMap<>();
+        for (Map<String, Object> row : jdbc.queryForList(CATEGORIES_SQL, gameId)) {
+            result.put((String) row.get("skill_category_key"), new Category((String) row.get("status")));
+        }
+        return result;
+    }
+
+    public static Issue validate(JsonNode configuration, Map<String, Attribute> attributes, Map<String, Category> categories) {
         String path = "/configuration";
         Issue issue = object(configuration, CONFIG_FIELDS, path);
         if (issue != null) return issue;
+        for (String field : List.of("basicAttackCategoryKey", "equipmentPassiveCategoryKey")) {
+            JsonNode value = configuration.get(field);
+            if (value.isNull()) continue;
+            issue = key(value, path + "/" + field);
+            if (issue != null) return issue;
+            Category category = categories.get(value.textValue());
+            if (category == null) return issue(path + "/" + field, "REFERENCE_NOT_FOUND", "分类不属于当前游戏目录");
+            if (!"ENABLED".equals(category.status())) return issue(path + "/" + field, "REFERENCE_DISABLED", "分类未启用");
+        }
+        if (!configuration.get("basicAttackCategoryKey").isNull()
+            && configuration.get("basicAttackCategoryKey").equals(configuration.get("equipmentPassiveCategoryKey"))) {
+            return issue(path + "/equipmentPassiveCategoryKey", "CATEGORY_USAGE_CONFLICT", "普通攻击与装备被动用途不能绑定同一分类");
+        }
+        JsonNode costs = configuration.get("ignorableCastCostAttributeKeys");
+        if (!costs.isArray()) return issue(path + "/ignorableCastCostAttributeKeys", "ARRAY_REQUIRED", "可明确忽略的施法成本属性必须为完整数组");
+        if (costs.size() > 32) return issue(path + "/ignorableCastCostAttributeKeys", "LIMIT", "可明确忽略的施法成本属性最多32项");
+        Set<String> costKeys = new LinkedHashSet<>();
+        for (int i = 0; i < costs.size(); i++) {
+            String costPath = path + "/ignorableCastCostAttributeKeys/" + i;
+            issue = key(costs.get(i), costPath);
+            if (issue != null) return issue;
+            String costKey = costs.get(i).textValue();
+            if (!costKeys.add(costKey)) return issue(costPath, "DUPLICATE_KEY", "可明确忽略的施法成本属性重复");
+            issue = attribute(costKey, attributes, costPath);
+            if (issue != null) return issue;
+        }
         for (String field : List.of("criticalChanceAttributeKey", "attackSpeedAttributeKey")) {
             JsonNode value = configuration.get(field);
             if (value.isNull()) continue;
@@ -134,6 +170,10 @@ public final class GameCalculationRuleSemantics {
         for (String field : List.of("criticalChanceAttributeKey", "attackSpeedAttributeKey")) {
             if (configuration.path(field).isTextual()) result.putIfAbsent(configuration.path(field).textValue(), path + "." + field);
         }
+        JsonNode costs = configuration.path("ignorableCastCostAttributeKeys");
+        for (int i = 0; costs.isArray() && i < costs.size(); i++) {
+            if (costs.get(i).isTextual()) result.putIfAbsent(costs.get(i).textValue(), path + ".ignorableCastCostAttributeKeys[" + i + "]");
+        }
         JsonNode rules = configuration.path("attributeDerivations");
         if (!rules.isArray()) return result;
         for (int i = 0; i < rules.size(); i++) {
@@ -150,6 +190,17 @@ public final class GameCalculationRuleSemantics {
                 JsonNode key = inputs.get(j).path("binding").path("attributeKey");
                 if (key.isTextual()) result.putIfAbsent(key.textValue(), rulePath + ".formula/inputs/" + j + "/binding/attributeKey");
             }
+        }
+        return result;
+    }
+
+    /** 分类用途独立追踪目录，不并入属性供值或技能引用索引。 */
+    public static Map<String, String> categoryDependencies(JsonNode configuration) {
+        Map<String, String> result = new LinkedHashMap<>();
+        if (configuration == null || !configuration.isObject()) return result;
+        for (String field : List.of("basicAttackCategoryKey", "equipmentPassiveCategoryKey")) {
+            if (configuration.path(field).isTextual()) result.putIfAbsent(configuration.path(field).textValue(),
+                "catalogs.calculationRules.configuration." + field);
         }
         return result;
     }

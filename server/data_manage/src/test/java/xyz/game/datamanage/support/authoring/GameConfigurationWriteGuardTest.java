@@ -25,6 +25,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -862,7 +863,8 @@ class GameConfigurationWriteGuardTest {
     void gameCalculationBindingsRevalidateTheFinalAttributeStateWithoutSkillIndexOwnership(String scenario) throws Exception {
         Connection connection = connection();
         String configuration = """
-            {"criticalChanceAttributeKey":"chance","criticalMultiplierMin":0,"attackSpeedAttributeKey":null,"attributeDerivations":[]}
+            {"criticalChanceAttributeKey":"chance","criticalMultiplierMin":0,"attackSpeedAttributeKey":null,"attributeDerivations":[],
+             "basicAttackCategoryKey":null,"equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[]}
             """;
         when(jdbc.queryForList(GameCalculationRuleSemantics.RULES_SQL, String.class, "lol")).thenReturn(List.of(configuration));
         Map<String, Object> before = calculationAttribute("chance", "DECIMAL", "ENABLED");
@@ -892,7 +894,8 @@ class GameConfigurationWriteGuardTest {
     @Test void removingTheCalculationReferenceInTheSameTransactionAllowsFinalAttributeDeletion() throws Exception {
         Connection connection = connection();
         String beforeConfiguration = """
-            {"criticalChanceAttributeKey":"chance","criticalMultiplierMin":1,"attackSpeedAttributeKey":null,"attributeDerivations":[]}
+            {"criticalChanceAttributeKey":"chance","criticalMultiplierMin":1,"attackSpeedAttributeKey":null,"attributeDerivations":[],
+             "basicAttackCategoryKey":null,"equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[]}
             """;
         String afterConfiguration = beforeConfiguration.replace("\"chance\"", "null");
         when(jdbc.queryForList(GameCalculationRuleSemantics.RULES_SQL, String.class, "lol"))
@@ -907,7 +910,8 @@ class GameConfigurationWriteGuardTest {
     @Test void unrelatedSkillWritesDoNotForceAnUnchangedIncompleteCalculationDraftToBecomeRunnable() throws Exception {
         Connection connection = connection();
         String unchanged = """
-            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[]}
+            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[],
+             "basicAttackCategoryKey":null,"equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[]}
             """;
         when(jdbc.queryForList(GameCalculationRuleSemantics.RULES_SQL, String.class, "lol")).thenReturn(List.of(unchanged));
         transaction(connection).execute(status -> { guard.begin("lol"); return null; });
@@ -919,6 +923,7 @@ class GameConfigurationWriteGuardTest {
         Connection connection = connection();
         String invalid = """
             {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,
+             "basicAttackCategoryKey":null,"equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[],
              "attributeDerivations":[{"ruleKey":"rule","attributeKey":"velocity","valuePolicy":"set","activationAttributeKeys":["growth"],
                "formula":{"inputs":[{"key":"x","binding":{"kind":"parameter","skillKey":"skill","parameterKey":"amount"}}],
                  "stages":[{"key":"result","name":"结果","expression":{"op":"const","value":"1"}}],"outputStageKey":"result"}}]}
@@ -938,6 +943,93 @@ class GameConfigurationWriteGuardTest {
     private static Map<String, Object> calculationAttribute(String key, String type, String status) {
         return Map.of("object_type", "ATTRIBUTE", "skill_key", "", "object_key", key,
             "data", "{\"value_type\":\"" + type + "\",\"status\":\"" + status + "\"}");
+    }
+
+    @ParameterizedTest
+    @CsvSource({"basicAttackCategoryKey,disable", "basicAttackCategoryKey,delete", "basicAttackCategoryKey,rename",
+        "equipmentPassiveCategoryKey,disable", "equipmentPassiveCategoryKey,delete", "equipmentPassiveCategoryKey,rename"})
+    void calculationCategoryBindingsRevalidateIndependentFinalDirectoryState(String field, String scenario) throws Exception {
+        Connection connection = connection();
+        var configuration = (com.fasterxml.jackson.databind.node.ObjectNode) AggregateJson.tree("""
+            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[],
+             "basicAttackCategoryKey":null,"equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[]}
+            """);
+        configuration.put(field, "renamed_category");
+        when(jdbc.queryForList(GameCalculationRuleSemantics.RULES_SQL, String.class, "lol")).thenReturn(List.of(configuration.toString()));
+        List<Map<String, Object>> after = scenario.equals("delete") ? List.of()
+            : List.of(calculationCategory("renamed_category", scenario.equals("disable") ? "DISABLED" : "ENABLED", "修改名称"));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol"))
+            .thenReturn(List.of(calculationCategory("renamed_category", "ENABLED", "原名称")), after);
+        if (scenario.equals("rename")) {
+            transaction(connection).execute(status -> { guard.begin("lol"); jdbc.update("isolated category metadata change"); return null; });
+            verify(connection).commit();
+        } else {
+            var error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+                guard.begin("lol"); jdbc.update("isolated category change"); return null;
+            }));
+            assertEquals("409.GAME_CALCULATION_RULES_INVALID", error.getCode());
+            assertTrue(error.getDetails().toString().contains("/configuration/" + field));
+            verify(connection).rollback();
+            verify(connection, never()).commit();
+        }
+        verify(jdbc, never()).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), any(List.class));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"disable", "delete", "invalid_type", "integer_type"})
+    void declaredIgnorableCostAloneProtectsItsFinalNumericDirectory(String scenario) throws Exception {
+        Connection connection = connection();
+        String configuration = """
+            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[],
+             "basicAttackCategoryKey":null,"equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":["custom_cost"]}
+            """;
+        when(jdbc.queryForList(GameCalculationRuleSemantics.RULES_SQL, String.class, "lol")).thenReturn(List.of(configuration));
+        List<Map<String, Object>> after = switch (scenario) {
+            case "delete" -> List.of();
+            case "disable" -> List.of(calculationAttribute("custom_cost", "DECIMAL", "DISABLED"));
+            case "invalid_type" -> List.of(calculationAttribute("custom_cost", "STRING", "ENABLED"));
+            default -> List.of(calculationAttribute("custom_cost", "INTEGER", "ENABLED"));
+        };
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol"))
+            .thenReturn(List.of(calculationAttribute("custom_cost", "DECIMAL", "ENABLED")), after);
+        if (scenario.equals("integer_type")) {
+            transaction(connection).execute(status -> { guard.begin("lol"); return null; });
+            verify(connection).commit();
+        } else {
+            var error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> { guard.begin("lol"); return null; }));
+            assertEquals("409.GAME_CALCULATION_RULES_INVALID", error.getCode());
+            assertTrue(error.getDetails().toString().contains("/configuration/ignorableCastCostAttributeKeys/0"));
+            verify(connection).rollback();
+            verify(connection, never()).commit();
+        }
+        verify(jdbc, never()).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), any(List.class));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"basicAttackCategoryKey", "equipmentPassiveCategoryKey", "ignorableCastCostAttributeKeys"})
+    void removingUsageBindingAllowsItsDirectoryDeletionInTheSameTransaction(String field) throws Exception {
+        Connection connection = connection();
+        var candidate = (com.fasterxml.jackson.databind.node.ObjectNode) AggregateJson.tree("""
+            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[],
+             "basicAttackCategoryKey":null,"equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[]}
+            """);
+        String after = candidate.toString();
+        boolean cost = field.equals("ignorableCastCostAttributeKeys");
+        if (cost) candidate.putArray(field).add("custom_cost");
+        else candidate.put(field, "renamed_category");
+        when(jdbc.queryForList(GameCalculationRuleSemantics.RULES_SQL, String.class, "lol"))
+            .thenReturn(List.of(candidate.toString()), List.of(after));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol"))
+            .thenReturn(List.of(cost ? calculationAttribute("custom_cost", "DECIMAL", "ENABLED")
+                : calculationCategory("renamed_category", "ENABLED", "原名称")), List.of());
+        transaction(connection).execute(status -> { guard.begin("lol"); return null; });
+        verify(connection).commit();
+        verify(jdbc, never()).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), any(List.class));
+    }
+
+    private static Map<String, Object> calculationCategory(String key, String status, String name) {
+        return Map.of("object_type", "CATEGORY", "skill_key", "", "object_key", key,
+            "data", "{\"status\":\"" + status + "\",\"name\":\"" + name + "\"}");
     }
 
     private static Map<String, Object> attributeSnapshot(String status) {

@@ -62,7 +62,8 @@ final class SimulationSnapshotFixture {
         service = new SimulationSnapshotService(characters, characterMapper, equipment, equipmentMapper, relations,
             configurations, attributes, categories, damageTypes, zones, statuses, vampRules, calculationRules, builds, json);
         when(calculationRules.get(GAME)).thenReturn(new GameCalculationRulesResponse(GAME, "a".repeat(64), AggregateJson.tree("""
-            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[]}
+            {"criticalChanceAttributeKey":null,"criticalMultiplierMin":null,"attackSpeedAttributeKey":null,"attributeDerivations":[],
+             "basicAttackCategoryKey":"basic_attack","equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[]}
             """)));
         when(characters.getLevelConfig(GAME)).thenReturn(new LevelConfigResponse(GAME, 1, 18));
         for (String key : List.of("hero_a", "hero_b")) {

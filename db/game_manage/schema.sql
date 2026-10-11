@@ -80,16 +80,21 @@ CREATE TABLE public.game_calculation_rules (
     CONSTRAINT fk_game_calculation_rules_game FOREIGN KEY (game_id) REFERENCES public.games (game_id),
     CONSTRAINT ck_game_calculation_rules_configuration CHECK (
         jsonb_typeof(configuration) = 'object'
-        AND configuration ?& ARRAY['criticalChanceAttributeKey', 'criticalMultiplierMin', 'attackSpeedAttributeKey', 'attributeDerivations']
+        AND configuration ?& ARRAY['criticalChanceAttributeKey', 'criticalMultiplierMin', 'attackSpeedAttributeKey', 'attributeDerivations',
+            'basicAttackCategoryKey', 'equipmentPassiveCategoryKey', 'ignorableCastCostAttributeKeys']
         AND jsonb_typeof(configuration->'criticalChanceAttributeKey') IN ('string', 'null')
         AND jsonb_typeof(configuration->'criticalMultiplierMin') IN ('number', 'null')
         AND jsonb_typeof(configuration->'attackSpeedAttributeKey') IN ('string', 'null')
+        AND jsonb_typeof(configuration->'basicAttackCategoryKey') IN ('string', 'null')
+        AND jsonb_typeof(configuration->'equipmentPassiveCategoryKey') IN ('string', 'null')
+        AND CASE WHEN jsonb_typeof(configuration->'ignorableCastCostAttributeKeys') = 'array'
+            THEN jsonb_array_length(configuration->'ignorableCastCostAttributeKeys') <= 32 ELSE false END
         AND CASE WHEN jsonb_typeof(configuration->'attributeDerivations') = 'array'
             THEN jsonb_array_length(configuration->'attributeDerivations') <= 4 ELSE false END
     )
 );
 
-COMMENT ON TABLE public.game_calculation_rules IS '游戏暴击与连续速度用途绑定及完整共同属性派生；无默认业务配置';
+COMMENT ON TABLE public.game_calculation_rules IS '游戏属性与技能分类用途绑定、可明确忽略的施法成本属性及完整共同属性派生；无默认业务配置';
 COMMENT ON COLUMN public.game_calculation_rules.configuration IS '完整作者JSON；严格字段、启用目录、非生命输出与共同公式授权由游戏锁内的最终态校验维护，不写入技能引用索引';
 
 CREATE TABLE public.game_level_configs (

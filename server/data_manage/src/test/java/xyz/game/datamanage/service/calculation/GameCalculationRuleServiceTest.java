@@ -27,7 +27,8 @@ class GameCalculationRuleServiceTest {
     private final GameCalculationRuleService service = new GameCalculationRuleService(jdbc, games, writes, new ObjectMapper());
     private final AtomicReference<String> stored = new AtomicReference<>();
     private static final String CONFIGURATION = """
-        {"criticalChanceAttributeKey":"chance","criticalMultiplierMin":0,"attackSpeedAttributeKey":"velocity","attributeDerivations":[]}
+        {"criticalChanceAttributeKey":"chance","criticalMultiplierMin":0,"attackSpeedAttributeKey":"velocity","attributeDerivations":[],
+         "basicAttackCategoryKey":null,"equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[]}
         """;
 
     @BeforeEach void databaseDouble() {
@@ -37,6 +38,10 @@ class GameCalculationRuleServiceTest {
         when(jdbc.queryForList(GameCalculationRuleSemantics.ATTRIBUTES_SQL, "example")).thenReturn(List.of(
             Map.of("attribute_key", "chance", "value_type", "DECIMAL", "status", "ENABLED"),
             Map.of("attribute_key", "velocity", "value_type", "INTEGER", "status", "ENABLED")));
+        when(jdbc.queryForList(GameCalculationRuleSemantics.CATEGORIES_SQL, "example")).thenReturn(List.of(
+            Map.of("skill_category_key", "renamed_attack", "status", "ENABLED"),
+            Map.of("skill_category_key", "renamed_passive", "status", "ENABLED"),
+            Map.of("skill_category_key", "disabled", "status", "DISABLED")));
         when(jdbc.update(eq(GameCalculationRuleService.UPSERT_SQL), eq("example"), anyString())).thenAnswer(invocation -> {
             stored.set(invocation.getArgument(2));
             return 1;
@@ -66,6 +71,7 @@ class GameCalculationRuleServiceTest {
         order.verify(games).countGames("example");
         order.verify(jdbc).queryForList(GameCalculationRuleSemantics.RULES_SQL, String.class, "example");
         order.verify(jdbc).queryForList(GameCalculationRuleSemantics.ATTRIBUTES_SQL, "example");
+        order.verify(jdbc).queryForList(GameCalculationRuleSemantics.CATEGORIES_SQL, "example");
         order.verify(jdbc).update(GameCalculationRuleService.UPSERT_SQL, "example", AggregateJson.write(request.path("configuration")));
         order.verify(jdbc).queryForList(GameCalculationRuleSemantics.RULES_SQL, String.class, "example");
     }
@@ -106,7 +112,7 @@ class GameCalculationRuleServiceTest {
     @Test void digestIgnoresObjectFieldOrderAndNumericScaleButPreservesConstantText() {
         stored.set(CONFIGURATION);
         String first = service.get("example").baseDigest();
-        stored.set("{\"attributeDerivations\":[],\"attackSpeedAttributeKey\":\"velocity\",\"criticalMultiplierMin\":0.00,\"criticalChanceAttributeKey\":\"chance\"}");
+        stored.set("{\"ignorableCastCostAttributeKeys\":[],\"equipmentPassiveCategoryKey\":null,\"basicAttackCategoryKey\":null,\"attributeDerivations\":[],\"attackSpeedAttributeKey\":\"velocity\",\"criticalMultiplierMin\":0.00,\"criticalChanceAttributeKey\":\"chance\"}");
         assertEquals(first, service.get("example").baseDigest());
         stored.set(CONFIGURATION.replace("\"criticalMultiplierMin\":0", "\"criticalMultiplierMin\":null"));
         assertNotEquals(first, service.get("example").baseDigest());
@@ -137,6 +143,47 @@ class GameCalculationRuleServiceTest {
     @Test void mismatchedWriteReadBackFailsInsteadOfReportingSuccess() {
         when(jdbc.update(eq(GameCalculationRuleService.UPSERT_SQL), eq("example"), anyString())).thenReturn(1);
         assertThrows(IllegalStateException.class, () -> service.replace("example", request(service.get("example").baseDigest(), CONFIGURATION)));
+    }
+
+    @Test void fullCustomUsageReplacementReadsBackAllNewFieldsAndChangesTheDigest() {
+        service.replace("example", request(service.get("example").baseDigest(), CONFIGURATION));
+        var before = service.get("example");
+        var candidate = (com.fasterxml.jackson.databind.node.ObjectNode) AggregateJson.tree(CONFIGURATION);
+        candidate.put("basicAttackCategoryKey", "renamed_attack").put("equipmentPassiveCategoryKey", "renamed_passive");
+        candidate.putArray("ignorableCastCostAttributeKeys").add("velocity").add("chance");
+        var saved = service.replace("example", request(before.baseDigest(), candidate.toString()));
+        assertEquals(candidate, service.get("example").configuration());
+        assertNotEquals(before.baseDigest(), saved.baseDigest());
+        var changed = candidate.deepCopy();
+        changed.putNull("equipmentPassiveCategoryKey");
+        var unbound = service.replace("example", request(saved.baseDigest(), changed.toString()));
+        assertNotEquals(saved.baseDigest(), unbound.baseDigest());
+        changed.putArray("ignorableCastCostAttributeKeys").add("chance").add("velocity");
+        var reordered = service.replace("example", request(unbound.baseDigest(), changed.toString()));
+        assertNotEquals(unbound.baseDigest(), reordered.baseDigest());
+        assertEquals(changed, service.get("example").configuration());
+        assertEquals("409.GAME_CALCULATION_RULES_CHANGED", assertThrows(ApiException.class,
+            () -> service.replace("example", request(before.baseDigest(), candidate.toString()))).getCode());
+    }
+
+    @Test void invalidUsageCandidatesCannotWriteOrChangeTheBaseline() {
+        stored.set(CONFIGURATION);
+        var before = service.get("example");
+        for (String scenario : List.of("missing", "disabled", "foreign", "conflict", "duplicate_cost", "foreign_cost")) {
+            var candidate = (com.fasterxml.jackson.databind.node.ObjectNode) AggregateJson.tree(CONFIGURATION);
+            switch (scenario) {
+                case "missing" -> candidate.remove("ignorableCastCostAttributeKeys");
+                case "disabled" -> candidate.put("basicAttackCategoryKey", "disabled");
+                case "foreign" -> candidate.put("equipmentPassiveCategoryKey", "another_game");
+                case "conflict" -> candidate.put("basicAttackCategoryKey", "renamed_attack").put("equipmentPassiveCategoryKey", "renamed_attack");
+                case "duplicate_cost" -> candidate.putArray("ignorableCastCostAttributeKeys").add("chance").add("chance");
+                default -> candidate.putArray("ignorableCastCostAttributeKeys").add("another_game");
+            }
+            assertEquals("400.VALIDATION_FAILED", assertThrows(ApiException.class,
+                () -> service.replace("example", request(before.baseDigest(), candidate.toString()))).getCode());
+            assertEquals(before, service.get("example"));
+        }
+        verify(jdbc, never()).update(anyString(), any(Object[].class));
     }
 
     @Test void nonexistentGameRejectsBeforeConfigurationRead() {

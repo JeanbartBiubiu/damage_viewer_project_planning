@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
@@ -81,8 +83,23 @@ class GameCalculationRuleAdminControllerTest {
         verifyNoInteractions(logs);
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"basicAttackCategoryKey", "equipmentPassiveCategoryKey", "ignorableCastCostAttributeKeys"})
+    void incompleteReplacementReportsTheMissingUsageFieldAndDoesNotSave(String field) throws Exception {
+        var request = new ObjectMapper().readTree(body(service.get("example").baseDigest(), "null"));
+        ((com.fasterxml.jackson.databind.node.ObjectNode) request.get("configuration")).remove(field);
+        mvc.perform(put(PATH).contentType(MediaType.APPLICATION_JSON).content(request.toString())
+                .requestAttr(AdminAuthFilter.AUTH_CONTEXT_ATTR, new AuthContext("admin@example.com", true, true)))
+            .andExpect(status().isBadRequest()).andExpect(jsonPath("$.error.code").value("400.VALIDATION_FAILED"))
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("/configuration/" + field))
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].code").value("REQUIRED"));
+        verify(jdbc, never()).update(anyString(), any(Object[].class));
+        verifyNoInteractions(logs);
+    }
+
     private static String body(String digest, String minimum) {
         return "{\"baseDigest\":\"" + digest + "\",\"configuration\":{\"criticalChanceAttributeKey\":null,\"criticalMultiplierMin\":"
-            + minimum + ",\"attackSpeedAttributeKey\":null,\"attributeDerivations\":[]}}";
+            + minimum + ",\"attackSpeedAttributeKey\":null,\"attributeDerivations\":[],\"basicAttackCategoryKey\":null,"
+            + "\"equipmentPassiveCategoryKey\":null,\"ignorableCastCostAttributeKeys\":[]}}";
     }
 }

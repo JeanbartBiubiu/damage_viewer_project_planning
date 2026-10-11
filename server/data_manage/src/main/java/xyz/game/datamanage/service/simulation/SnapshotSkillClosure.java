@@ -37,6 +37,7 @@ final class SnapshotSkillClosure {
         "BASIC_ATTACK_RECEIVED", "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN", "HIT_LINK_APPLIED", "ATTACK_LINK_APPLIED");
     private final String gameId;
     private final String attackKey;
+    private final String basicAttackCategoryKey;
     private final ObjectMapper json;
     private final List<Source> sources;
     private final Map<String, SkillConfigurationResponse> configurations;
@@ -48,11 +49,12 @@ final class SnapshotSkillClosure {
     private final Set<Source> active = new HashSet<>();
     private boolean levelsChanged;
 
-    SnapshotSkillClosure(String gameId, String attackKey, ObjectMapper json, List<Source> sources,
+    SnapshotSkillClosure(String gameId, String attackKey, String basicAttackCategoryKey, ObjectMapper json, List<Source> sources,
                          Map<String, SkillConfigurationResponse> configurations,
                          BiFunction<String, String, SkillConfigurationResponse> reader) {
         this.gameId = gameId;
         this.attackKey = attackKey;
+        this.basicAttackCategoryKey = basicAttackCategoryKey;
         this.json = json;
         this.sources = sources;
         this.configurations = configurations;
@@ -111,7 +113,7 @@ final class SnapshotSkillClosure {
                     && !rule.data().path("actions").isEmpty());
             Set<String> attackEvents = Set.of("BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "BASIC_ATTACK_RECEIVED", "HIT_LINK_APPLIED", "ATTACK_LINK_APPLIED");
             boolean withoutAttackDriver = (attackKey == null || source.side.equals("target"))
-                && (source.configuration.skill().skillCategoryKeys().contains("basic_attack")
+                && ((basicAttackCategoryKey != null && source.configuration.skill().skillCategoryKeys().contains(basicAttackCategoryKey))
                     || rules(source).stream().anyMatch(rule -> attackEvents.contains(rule.data().path("eventSource").path("eventType").asText())
                         && !rule.data().path("actions").isEmpty())
                     && rules(source).stream().noneMatch(rule -> NATURAL_EVENTS.contains(rule.data().path("eventSource").path("eventType").asText())

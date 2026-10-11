@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import xyz.game.datamanage.support.authoring.GameCalculationRuleSemantics.Attribute;
+import xyz.game.datamanage.support.authoring.GameCalculationRuleSemantics.Category;
 
 class GameCalculationRuleSemanticsTest {
     private static final Map<String, Attribute> ATTRIBUTES = Map.of(
@@ -17,15 +18,17 @@ class GameCalculationRuleSemanticsTest {
         "growth", new Attribute("INTEGER", "ENABLED"), "factor", new Attribute("DECIMAL", "ENABLED"),
         "other", new Attribute("DECIMAL", "ENABLED"), "hp", new Attribute("INTEGER", "ENABLED"),
         "max_hp", new Attribute("INTEGER", "ENABLED"));
+    private static final Map<String, Category> CATEGORIES = Map.of(
+        "renamed_attack", new Category("ENABLED"), "renamed_passive", new Category("ENABLED"), "disabled", new Category("DISABLED"));
 
     @Test void explicitNullAndZeroRemainDifferentAndNoDefaultRuleIsInvented() {
         ObjectNode empty = configuration();
         empty.putNull("criticalMultiplierMin");
         empty.putArray("attributeDerivations");
-        assertNull(GameCalculationRuleSemantics.validate(empty, ATTRIBUTES));
+        assertNull(GameCalculationRuleSemantics.validate(empty, ATTRIBUTES, CATEGORIES));
         assertTrue(empty.path("criticalMultiplierMin").isNull());
         empty.put("criticalMultiplierMin", 0);
-        assertNull(GameCalculationRuleSemantics.validate(empty, ATTRIBUTES));
+        assertNull(GameCalculationRuleSemantics.validate(empty, ATTRIBUTES, CATEGORIES));
         assertEquals(0, empty.path("criticalMultiplierMin").intValue());
         assertTrue(empty.path("attributeDerivations").isEmpty());
     }
@@ -33,7 +36,7 @@ class GameCalculationRuleSemanticsTest {
     @Test void realDirectoryAllowsBothNumericTypesAndKeepsAuthorDecimalStrings() {
         ObjectNode configuration = configuration();
         String before = configuration.toString();
-        assertNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES));
+        assertNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES, CATEGORIES));
         assertEquals(before, configuration.toString());
         assertEquals("0.1234500", configuration.at("/attributeDerivations/0/formula/stages/1/expression/value").textValue());
         assertEquals(4, GameCalculationRuleSemantics.dependencies(configuration).size());
@@ -78,7 +81,7 @@ class GameCalculationRuleSemanticsTest {
                 second.set("formula", constant());
                 rules.add(second);
                 binding(configuration).put("attributeKey", output).put("valueKind", kind);
-                if (kind.equals("BASE")) assertNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES));
+                if (kind.equals("BASE")) assertNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES, CATEGORIES));
                 else assertIssue(configuration, "/configuration/attributeDerivations/0/formula/inputs/0/binding", "FORMULA_UNKNOWN_BINDING");
             }
         }
@@ -89,7 +92,7 @@ class GameCalculationRuleSemanticsTest {
         rule(configuration).put("attributeKey", "hp");
         assertIssue(configuration, "/configuration/attributeDerivations/0/attributeKey", "LIFE_OUTPUT_FORBIDDEN");
         rule(configuration).put("attributeKey", "max_hp");
-        assertNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES));
+        assertNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES, CATEGORIES));
     }
 
     @Test void lifeActivationRejectsItsActualCollectionItemWithoutTreatingOtherNamesAsLife() {
@@ -99,7 +102,7 @@ class GameCalculationRuleSemanticsTest {
         rule(configuration).putArray("activationAttributeKeys").add("hp").add("growth");
         assertIssue(configuration, "/configuration/attributeDerivations/0/activationAttributeKeys/0", "LIFE_ACTIVATION_FORBIDDEN");
         rule(configuration).putArray("activationAttributeKeys").add("max_hp").add("growth");
-        assertNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES));
+        assertNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES, CATEGORIES));
     }
 
     @Test void duplicatesPoliciesActivationAndCapacityAreStrict() {
@@ -138,7 +141,7 @@ class GameCalculationRuleSemanticsTest {
         for (String key : new String[] {"chance", "velocity", "growth", "other"}) {
             Map<String, Attribute> attributes = new LinkedHashMap<>(ATTRIBUTES);
             attributes.put(key, new Attribute("DECIMAL", "DISABLED"));
-            var issue = GameCalculationRuleSemantics.validate(configuration(), attributes);
+            var issue = GameCalculationRuleSemantics.validate(configuration(), attributes, CATEGORIES);
             assertNotNull(issue, key);
             assertTrue(issue.code().equals("REFERENCE_DISABLED") || issue.code().equals("FORMULA_UNKNOWN_BINDING"));
         }
@@ -149,12 +152,103 @@ class GameCalculationRuleSemanticsTest {
     void multiplierMinimumRejectsNegativeOverflowAndCoercedValues(String value) {
         ObjectNode configuration = configuration();
         configuration.set("criticalMultiplierMin", AggregateJson.tree(value));
-        assertNotNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES));
+        assertNotNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES, CATEGORIES));
+    }
+
+    @Test void renamedClassificationBindingsUseTheirOwnEnabledDirectoryAndRemainOptional() {
+        ObjectNode configuration = configuration();
+        configuration.put("basicAttackCategoryKey", "renamed_attack").put("equipmentPassiveCategoryKey", "renamed_passive");
+        assertNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES, CATEGORIES));
+        assertEquals(Map.of("renamed_attack", "catalogs.calculationRules.configuration.basicAttackCategoryKey",
+            "renamed_passive", "catalogs.calculationRules.configuration.equipmentPassiveCategoryKey"),
+            GameCalculationRuleSemantics.categoryDependencies(configuration));
+        assertFalse(GameCalculationRuleSemantics.dependencies(configuration).containsKey("renamed_attack"));
+        configuration.putNull("basicAttackCategoryKey").putNull("equipmentPassiveCategoryKey");
+        assertNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES, Map.of()));
+        assertTrue(GameCalculationRuleSemantics.categoryDependencies(configuration).isEmpty());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"basicAttackCategoryKey", "equipmentPassiveCategoryKey", "ignorableCastCostAttributeKeys"})
+    void everyNewFieldMustBeExplicitlyPresent(String field) {
+        ObjectNode configuration = configuration();
+        configuration.remove(field);
+        assertIssue(configuration, "/configuration/" + field, "REQUIRED");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"basicAttackCategoryKey", "equipmentPassiveCategoryKey"})
+    void classificationCannotBindAnAttributeForeignGameOrDisabledCategory(String field) {
+        ObjectNode configuration = configuration();
+        configuration.put(field, "chance");
+        assertIssue(configuration, "/configuration/" + field, "REFERENCE_NOT_FOUND");
+        configuration.put(field, "disabled");
+        assertIssue(configuration, "/configuration/" + field, "REFERENCE_DISABLED");
+        for (String value : new String[] {"true", "1", "[]", "{}", "\"BadKey\"", "\"\""}) {
+            configuration.set(field, AggregateJson.tree(value));
+            assertIssue(configuration, "/configuration/" + field, "FORMAT_INVALID");
+        }
+    }
+
+    @Test void simultaneousClassificationUsesCannotShareOneCategory() {
+        ObjectNode configuration = configuration();
+        configuration.put("basicAttackCategoryKey", "renamed_attack").put("equipmentPassiveCategoryKey", "renamed_attack");
+        assertIssue(configuration, "/configuration/equipmentPassiveCategoryKey", "CATEGORY_USAGE_CONFLICT");
+    }
+
+    @Test void costDeclarationRetainsOrderAllowsLifeAndDoesNotGuessResourceNames() {
+        ObjectNode configuration = configuration();
+        configuration.putArray("ignorableCastCostAttributeKeys").add("other").add("hp").add("growth");
+        String before = configuration.toString();
+        assertNull(GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES, CATEGORIES));
+        assertEquals(before, configuration.toString());
+        assertEquals("catalogs.calculationRules.configuration.ignorableCastCostAttributeKeys[1]",
+            GameCalculationRuleSemantics.dependencies(configuration).get("hp"));
+        assertFalse(GameCalculationRuleSemantics.dependencies(configuration).containsKey("mana"));
+    }
+
+    @Test void costDeclarationRejectsInvalidShapeNullDuplicateAndUnavailableNumericIdentity() {
+        ObjectNode configuration = configuration();
+        for (String value : new String[] {"null", "{}", "\"hp\"", "true"}) {
+            configuration.set("ignorableCastCostAttributeKeys", AggregateJson.tree(value));
+            assertIssue(configuration, "/configuration/ignorableCastCostAttributeKeys", "ARRAY_REQUIRED");
+        }
+        configuration.putArray("ignorableCastCostAttributeKeys").add("hp").addNull();
+        assertIssue(configuration, "/configuration/ignorableCastCostAttributeKeys/1", "FORMAT_INVALID");
+        configuration.putArray("ignorableCastCostAttributeKeys").add("hp").add("hp");
+        assertIssue(configuration, "/configuration/ignorableCastCostAttributeKeys/1", "DUPLICATE_KEY");
+        configuration.putArray("ignorableCastCostAttributeKeys").add("outside_game");
+        assertIssue(configuration, "/configuration/ignorableCastCostAttributeKeys/0", "REFERENCE_NOT_FOUND");
+        configuration.putArray("ignorableCastCostAttributeKeys").add("hp");
+        for (String code : new String[] {"REFERENCE_DISABLED", "VALUE_TYPE_INVALID"}) {
+            Map<String, Attribute> directory = new LinkedHashMap<>(ATTRIBUTES);
+            directory.put("hp", code.equals("REFERENCE_DISABLED") ? new Attribute("INTEGER", "DISABLED") : new Attribute("STRING", "ENABLED"));
+            var issue = GameCalculationRuleSemantics.validate(configuration, directory, CATEGORIES);
+            assertEquals(code, issue.code());
+            assertEquals("/configuration/ignorableCastCostAttributeKeys/0", issue.field());
+        }
+    }
+
+    @Test void costCapacityIncludesThirtyTwoUniqueEntriesAndRejectsTheThirtyThird() {
+        ObjectNode configuration = configuration();
+        Map<String, Attribute> directory = new LinkedHashMap<>(ATTRIBUTES);
+        var costs = configuration.putArray("ignorableCastCostAttributeKeys");
+        for (int i = 0; i < 32; i++) {
+            String key = "cost_" + i;
+            costs.add(key);
+            directory.put(key, new Attribute("INTEGER", "ENABLED"));
+        }
+        assertNull(GameCalculationRuleSemantics.validate(configuration, directory, CATEGORIES));
+        costs.add("cost_32");
+        var issue = GameCalculationRuleSemantics.validate(configuration, directory, CATEGORIES);
+        assertEquals("LIMIT", issue.code());
+        assertEquals("/configuration/ignorableCastCostAttributeKeys", issue.field());
     }
 
     static ObjectNode configuration() {
         ObjectNode configuration = (ObjectNode) AggregateJson.tree("""
-            {"criticalChanceAttributeKey":"chance","criticalMultiplierMin":1,"attackSpeedAttributeKey":"velocity","attributeDerivations":[]}
+            {"criticalChanceAttributeKey":"chance","criticalMultiplierMin":1,"attackSpeedAttributeKey":"velocity","attributeDerivations":[],
+             "basicAttackCategoryKey":null,"equipmentPassiveCategoryKey":null,"ignorableCastCostAttributeKeys":[]}
             """);
         configuration.putArray("attributeDerivations").add(rule());
         return configuration;
@@ -177,7 +271,7 @@ class GameCalculationRuleSemanticsTest {
     private static ObjectNode rule(ObjectNode configuration) { return (ObjectNode) configuration.path("attributeDerivations").get(0); }
     private static ObjectNode binding(ObjectNode configuration) { return (ObjectNode) configuration.at("/attributeDerivations/0/formula/inputs/0/binding"); }
     private static void assertIssue(ObjectNode configuration, String field, String code) {
-        var issue = GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES);
+        var issue = GameCalculationRuleSemantics.validate(configuration, ATTRIBUTES, CATEGORIES);
         assertNotNull(issue);
         assertEquals(field, issue.field());
         assertEquals(code, issue.code());
