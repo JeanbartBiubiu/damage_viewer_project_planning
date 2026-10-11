@@ -1,6 +1,8 @@
 import { TypeCatalogEntries } from './typeCatalogEntries';
+import { skillCategoryTypeKey } from './skillCategoryType';
 import type { NamedFormula, ProviderDefinition, SkillActionBinding } from '../types/genericEngine';
 import type { SimulationPlannedSkill, SimulationSnapshot } from '../types/simulationSnapshot';
+import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
 import { adaptProcessProgram, type CastCostRef } from './processAdapter';
 import { adaptHitProgram } from './hitAdapter';
@@ -9,23 +11,38 @@ import { simulationSkillSourceIdentity } from '../services/simulationSkillSource
 import { plannedSkillRuleKeys } from './simulationSkillSourceDescription';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
 import { compileSimulationDamageFormula, validateConfiguration } from './simulationTriggeredEquipment';
-import { changedAttributes } from './simulationCalculationRules';
+import { calculationConfiguration, changedAttributes } from './simulationCalculationRules';
 
 export type SimulationCastCostRef = CastCostRef & { skillKey: string };
-const ordinaryCostResources = new Set(['mana', 'energy', 'hp']);
-
 export function simulationCastCostCandidates(snapshot: SimulationSnapshot): SimulationCastCostRef[] {
+  const ordinaryCostResources = new Set(calculationConfiguration(snapshot)?.ignorableCastCostAttributeKeys ?? []);
   return snapshot.selection.plannedSkills.flatMap(plan => {
-    const configuration = snapshot.skillConfigurations.find(row => row.skill.skillKey === plan.skillKey);
-    return configuration?.processes.flatMap(process => process.effectBindings.flatMap(binding => {
-      if (binding.moment.momentType !== 'PROCESS_START') return [];
+    const complete = snapshot.skillConfigurations.find(row => row.skill.skillKey === plan.skillKey);
+    const source = snapshot.source.skillSources.find(row => simulationSkillSourceIdentity(row.origin, row.skillKey)
+      === simulationSkillSourceIdentity(plan.origin, plan.skillKey));
+    if (!complete || complete.skill.gameId !== snapshot.gameId || complete.skill.status !== 'ENABLED'
+      || !source?.enabled || source.skillStatus !== 'ENABLED' || source.skillLevel !== plan.skillLevel || source.inactiveReason !== null
+      || plan.origin.kind !== 'CHARACTER' || plan.origin.characterKey !== snapshot.selection.sourceCharacterKey
+      || !Number.isSafeInteger(plan.skillLevel) || plan.skillLevel < 1 || plan.skillLevel > complete.skill.maxLevel
+      || !plan.phaseKinds.includes('INITIAL') || new Set(plan.phaseKinds).size !== plan.phaseKinds.length) return [];
+    const roots = plannedSkillRuleKeys(complete, plan.phaseKinds);
+    if (!roots.length) return [];
+    let configuration: SkillConfiguration;
+    try { configuration = selectSimulationSkillSourceClosure(complete, roots).configuration; }
+    catch (error) {
+      // 准入检查仍拒绝不完整闭包；候选显示不能遮掉原错误或使页面崩溃。
+      if (error instanceof NumericAdaptationError) return [];
+      throw error;
+    }
+    return configuration.processes.flatMap(process => process.effectBindings.flatMap(binding => {
+      if (binding.moment.momentType !== 'PROCESS_START' || binding.moment.stepKey !== null || binding.moment.failureReason != null) return [];
       const effect = configuration.effects.find(row => row.effectKey === binding.effectKey);
       return effect?.lifecycle === null ? effect.results.filter(result => result.resultType === 'RESOURCE_CHANGE'
         && result.detail.operation === 'CONSUME' && result.target === 'SOURCE'
         && ordinaryCostResources.has(result.detail.attributeKey)
-        && result.lifecycleBehavior === null && result.spellShieldBlockScope === null)
+        && result.valueRule != null && result.lifecycleBehavior === null && result.spellShieldBlockScope === null)
         .map(result => ({ skillKey: plan.skillKey, bindingKey: binding.bindingKey, effectKey: effect.effectKey, resultKey: result.resultKey })) : [];
-    })) ?? [];
+    }));
   });
 }
 
@@ -89,9 +106,10 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   const root = `skills.${plan.skillKey}`;
   const complete = snapshot.skillConfigurations.find(row => row.skill.skillKey === plan.skillKey);
   if (!complete) fail(root, '缺少计划技能的完整作者配置');
-  validateConfiguration(complete, snapshot.gameId, root, false, plan.skillLevel);
+  validateConfiguration(complete, snapshot.gameId, root, false, plan.skillLevel, null);
+  const basicAttackCategoryKey = calculationConfiguration(snapshot)?.basicAttackCategoryKey;
   if (plan.origin.kind !== 'CHARACTER' || plan.origin.characterKey !== snapshot.selection.sourceCharacterKey
-    || complete.skill.skillCategoryKeys.includes('basic_attack') || !plan.phaseKinds.includes('INITIAL')
+    || basicAttackCategoryKey != null && complete.skill.skillCategoryKeys.includes(basicAttackCategoryKey) || !plan.phaseKinds.includes('INITIAL')
     || new Set(plan.phaseKinds).size !== plan.phaseKinds.length
     || plan.phaseKinds.some(phase => !['INITIAL', 'CHARGE_RELEASE', 'RECAST', 'CANCEL'].includes(phase))) {
     fail('selection.plannedSkills', '只开放攻击方真实角色主动技能，阶段必须明确且包含首次');
@@ -141,8 +159,9 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   types.set(skillType, 'ability');
   const categories = configuration.skill.skillCategoryKeys.map(category => {
     if (!snapshot.catalogs.skillCategories.some(row => row.skillCategoryKey === category && row.status === 'ENABLED')) fail(`${root}.skillCategoryKeys`, '缺少真实已启用技能分类');
-    types.set(`ability/${category}`, 'ability');
-    return `ability/${category}`;
+    const type = skillCategoryTypeKey(category);
+    types.set(type, 'ability');
+    return type;
   });
   for (const [abilityIndex, ability] of provider.abilities.entries()) {
     ability.skillKey = plan.skillKey;

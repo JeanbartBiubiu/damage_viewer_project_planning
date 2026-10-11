@@ -2,6 +2,7 @@ import { assembleGameAttributeDerivations, calculationConfiguration, changedAttr
 import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
 import { consumedApprovedFormulaValues, resetConsumedApprovedFormulaValues, collectedCommonFormulaDefinitions } from './approvedFormulaValues';
 import { TypeCatalogEntries } from './typeCatalogEntries';
+import { skillCategoryTypeKey } from './skillCategoryType';
 import type { Attribute } from '../types/attribute';
 
 import type {
@@ -27,7 +28,7 @@ import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
 
-export const SIMULATION_ADAPTER_VERSION = 'v14-authored-game-calculation';
+export const SIMULATION_ADAPTER_VERSION = 'v15-classification-cost-bindings';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -103,6 +104,9 @@ function recordCompiledEquipmentSources(natural: ReturnType<typeof assembleNatur
 function program(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = []): Program {
   resetConsumedApprovedFormulaValues();
   if (snapshot.selection.basicAttackSkillKey === null) return activeProgram(snapshot, ignoredCosts);
+  const calculation = calculationConfiguration(snapshot);
+  const basicAttackCategoryKey = calculation?.basicAttackCategoryKey;
+  if (!basicAttackCategoryKey) fail('catalogs.calculationRules.configuration.basicAttackCategoryKey', '所选普通攻击需要明确配置分类用途绑定');
   if (!snapshot.selection.plannedSkills.length && ignoredCosts.length) fail('ignoredCastCosts', '没有计划技能不能声明施法成本');
   const natural = assembleNaturalSkillSources(snapshot);
   const triggered = assembleTriggeredEquipment(snapshot);
@@ -114,13 +118,13 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
     for (const key of assembly.changedAttributes[side]) changed[side].add(key);
   }
   const game = assembleGameAttributeDerivations(snapshot, changed, natural.derivations);
-  const speedAttributeKey = calculationConfiguration(snapshot)?.attackSpeedAttributeKey ?? null;
+  const speedAttributeKey = calculation?.attackSpeedAttributeKey ?? null;
   const selection = snapshot.selection;
   if (selection.basicAttackLevel === null) fail('selection.basicAttackLevel', '普攻技能与等级必须配对提供');
   const config = snapshot.skillConfigurations.find(row => row.skill.skillKey === selection.basicAttackSkillKey);
   if (!config) fail('skillConfigurations', '缺少完整所选普攻配置');
-  validateConfiguration(config, snapshot.gameId, `skills.${config.skill.skillKey}`, false, selection.basicAttackLevel);
-  if (config.skill.status !== 'ENABLED' || !config.skill.skillCategoryKeys.includes('basic_attack')) {
+  validateConfiguration(config, snapshot.gameId, `skills.${config.skill.skillKey}`, false, selection.basicAttackLevel, null);
+  if (config.skill.status !== 'ENABLED' || !config.skill.skillCategoryKeys.includes(basicAttackCategoryKey)) {
     fail('skillConfigurations[0].skill', '所选技能必须为已启用的普通攻击');
   }
   if (selection.basicAttackLevel < 1 || selection.basicAttackLevel > config.skill.maxLevel) {
@@ -147,13 +151,13 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
     if (!snapshot.catalogs.skillCategories.some(row => row.skillCategoryKey === categoryKey && row.status === 'ENABLED')) {
       fail(`catalogs.skillCategories.${categoryKey}`, '缺少已启用的真实技能分类');
     }
-    const typeKey = `ability/${categoryKey}`;
+    const typeKey = skillCategoryTypeKey(categoryKey);
     types.set(typeKey, 'ability');
     return typeKey;
   });
   const skillIdentity = `ability/skill/${config.skill.skillKey}`;
   types.set(skillIdentity, 'ability');
-  abilityTypes.push(skillIdentity);
+  abilityTypes.push('ability/basic_attack', skillIdentity);
   const rules: GenericRules = { damageTypeFormulas: [] };
   const required = new Map<'source' | 'target', Set<string>>([
     ['source', new Set(['hp', ...(speedAttributeKey ? [speedAttributeKey] : []), ...equipment.required.source, ...game.required.source])], ['target', new Set(['hp', ...equipment.required.target, ...game.required.target])]

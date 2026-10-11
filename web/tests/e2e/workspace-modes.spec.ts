@@ -64,6 +64,10 @@ async function installApi(page: Page) {
     if (match) {
       authenticatedReads.push(request.headers().authorization === `Bearer ${TOKEN}`);
       const [, gameId, resource] = match;
+      if (resource === 'calculation-rules') {
+        await respond(route, { gameId, baseDigest: 'c'.repeat(64), configuration: null });
+        return;
+      }
       if (resource === 'level-config') {
         await respond(route, { gameId, minLevel: 1, maxLevel: 18 });
         return;

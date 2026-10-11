@@ -32,11 +32,11 @@ function request(): CompileRequest {
   const slot = { base: 0, current: 0, max: 0, resolved: 0 };
   return {
     schemaVersion: 'generic-p0', schemaHash: 'schema.vamp.test', rulesHash: 'before',
-    typeCatalog: { types: [{ key: 'ability/basic_attack', domain: 'ability' }], relations: [] }, rules: {},
+    typeCatalog: { types: [{ key: 'ability/skill_category/basic_attack', domain: 'ability' }], relations: [] }, rules: {},
     combatants: (['source', 'target'] as const).map(key => ({ key, resources: {}, providers: [],
       attributes: { life_steal_percent: { ...slot }, omnivamp_percent: { ...slot } } })),
     sharedProviders: [{ providerKey: 'champion', stableId: 'champion', kind: 'champion', abilities: [
-      { abilityKey: 'q', kind: 'active', types: ['ability/basic_attack'], operations: [
+      { abilityKey: 'q', kind: 'active', types: ['ability/skill_category/basic_attack'], operations: [
         { operation: 'damage', target: 'target', damageType: 'magic', amount: { op: 'const', value: 100 } },
         { operation: 'damage', target: 'target', damageType: 'magic', amount: { op: 'const', value: 100 } }
       ] }
@@ -54,11 +54,11 @@ describe('吸血管理配置适配', () => {
     expect(first.operation.vampOverrides).toEqual([]);
     expect(first.rules.map(rule => rule.vampType)).toEqual(['LIFE_STEAL', 'OMNIVAMP']);
     expect(first.rules[0]).toMatchObject({
-      targetMatcher: { all: ['combatant/champion'] }, abilityMatcher: { any: ['ability/basic_attack'] },
+      targetMatcher: { all: ['combatant/champion'] }, abilityMatcher: { any: ['ability/skill_category/basic_attack'] },
       damageMatcher: { all: ['damage_trait/delivery_basic_attack', 'damage_trait/origin_direct'] }
     });
     expect(first.operation.types).toEqual(['damage_trait/delivery_skill', 'damage_trait/origin_direct']);
-    expect(first.abilityTypes).toEqual(['ability/common']);
+    expect(first.abilityTypes).toEqual(['ability/skill_category/common']);
   });
 
   it('两个伤害维度全允许时仍保留正向类型约束', () => {
@@ -139,7 +139,7 @@ describe('吸血配置接入通用编译请求', () => {
     const before = structuredClone(input);
     const output = withVampConfiguration(input, rules, [bind()], options);
     expect(input).toEqual(before);
-    expect(output.sharedProviders![0]!.abilities![0]!.types).toEqual(['ability/common']);
+    expect(output.sharedProviders![0]!.abilities![0]!.types).toEqual(['ability/skill_category/common']);
     expect(output.sharedProviders![0]!.abilities![0]!.operations![0]).toMatchObject({
       amount: { op: 'const', value: 100 }, vampQualification: 'RESOLVED', vampOverrides: []
     });
@@ -151,6 +151,17 @@ describe('吸血配置接入通用编译请求', () => {
     const input = request();
     delete input.combatants[0]!.attributes.omnivamp_percent;
     expect(() => withVampConfiguration(input, rules, [bind()], options)).toThrow('combatants.source.attributes.omnivamp_percent');
+  });
+
+  it('作者分类替换保留真实普攻与同源技能标记，分类原名basic_attack不会自动赋予普攻协议身份', () => {
+    const input = request();
+    input.typeCatalog.types.push({ key: 'ability/basic_attack', domain: 'ability' }, { key: 'ability/skill/ahri_q', domain: 'ability' });
+    input.sharedProviders![0]!.abilities![0]!.types!.push('ability/basic_attack', 'ability/skill/ahri_q');
+    const output = withVampConfiguration(input, rules, [bind()], options);
+    expect(output.sharedProviders![0]!.abilities![0]!.types).toEqual(['ability/basic_attack', 'ability/skill/ahri_q', 'ability/skill_category/common']);
+    const authored = adaptDamageVamp(rules, { ...damage(), skillCategoryKeys: ['basic_attack'] });
+    expect(authored.abilityTypes).toEqual(['ability/skill_category/basic_attack']);
+    expect(authored.abilityTypes).not.toContain('ability/basic_attack');
   });
 
   it('附伤跨技能、跨游戏、同技能分类冲突与重复绑定均拒绝', () => {

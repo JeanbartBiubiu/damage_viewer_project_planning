@@ -91,6 +91,8 @@ describe('6A完整单次主动装配', () => {
 
   it('只忽略逐项明确声明的成本引用，另一资源消费仍被严格拒绝', () => {
     const snapshot = simulationActiveSample(true);
+    snapshot.catalogs.calculationRules.configuration!.ignorableCastCostAttributeKeys = ['mana'];
+    snapshot.catalogs.attributes.push({ ...snapshot.catalogs.attributes[0]!, attributeKey: 'mana', name: '作者费用' });
     const config = snapshot.skillConfigurations[1]!;
     const process = config.processes[0]!;
     const effect = { ...structuredClone(config.effects[0]!), effectKey: 'cost', results: [

@@ -1,7 +1,8 @@
-import { changedAttributes, simulationCriticalBinding } from './simulationCalculationRules';
+import { calculationConfiguration, changedAttributes, simulationCriticalBinding } from './simulationCalculationRules';
 import { sameFormulaPayload } from '../services/skillFormulaContract';
 import { skillFormulaParameterKeys, skillFormulaReachableInputs, validateStoredSkillFormula } from '../services/skillFormulaContract';
 import { TypeCatalogEntries } from './typeCatalogEntries';
+import { SKILL_CATEGORY_TYPE_PREFIX, skillCategoryTypeKey } from './skillCategoryType';
 import { damageTypeFormulaAllowedBindings } from '../types/damageTypeFormula';
 import { parseDamageTypeFormulaDefinition } from '../services/damageTypeClient';
 import type {
@@ -135,14 +136,15 @@ function combine(operation: 'min' | 'max', expressions: GenericFormulaExpr[]): G
   if (!expressions.length) fail('conditionGroups', '条件组不能为空');
   return expressions.reduce((left, right) => ({ op: operation, args: [left, right] }));
 }
-export function validateConfiguration(configuration: SkillConfiguration, gameId: string, root: string, item: boolean, skillLevel: number) {
+export function validateConfiguration(configuration: SkillConfiguration, gameId: string, root: string, item: boolean, skillLevel: number, equipmentPassiveCategoryKey: string | null) {
   exact(configuration, ['skill', 'parameters', 'formulas', 'effects', 'processes', 'internalStates', 'triggerRules', 'baseDigest'], root);
   exact(configuration.skill, ['gameId', 'skillKey', 'maxLevel', 'status', 'skillCategoryKeys', ...METADATA], `${root}.skill`);
   const categories = array(configuration.skill.skillCategoryKeys, `${root}.skill.skillCategoryKeys`);
+  if (item && equipmentPassiveCategoryKey === null) fail('catalogs.calculationRules.configuration.equipmentPassiveCategoryKey', '实际启用且可达的装备技能需要明确配置被动分类用途绑定');
   if (configuration.skill.gameId !== gameId || configuration.skill.status !== 'ENABLED'
     || !Number.isSafeInteger(configuration.skill.maxLevel) || configuration.skill.maxLevel < 1
     || !Number.isSafeInteger(skillLevel) || skillLevel < 1 || skillLevel > configuration.skill.maxLevel
-    || item && (configuration.skill.maxLevel !== 1 || skillLevel !== 1 || !categories.includes('passive'))
+    || item && (configuration.skill.maxLevel !== 1 || skillLevel !== 1 || !categories.includes(equipmentPassiveCategoryKey!))
     || new Set(categories).size !== categories.length) {
     fail(root, item ? '装备关系需要完整单级、已启用的被动技能' : '自然来源需要真实启用技能与明确合法已学等级');
   }
@@ -223,7 +225,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
           const configurations = snapshot.skillConfigurations.filter(row => row.skill.skillKey === relation.skillKey);
           if (configurations.length !== 1) fail(`${path}.attachedSkills`, '完整被动配置缺失或重复，整件装备拒绝');
           const complete = configurations[0]!;
-          validateConfiguration(complete, snapshot.gameId, `skills.${relation.skillKey}`, true, 1);
+          validateConfiguration(complete, snapshot.gameId, `skills.${relation.skillKey}`, true, 1, calculationConfiguration(snapshot)?.equipmentPassiveCategoryKey ?? null);
           const source = snapshot[side].skillSources.find(source => source.origin.kind === 'EQUIPMENT'
             && source.origin.equipmentKey === equipmentKey && source.skillKey === relation.skillKey)!;
           const rootKeys = source.enabledRuleKeys;
@@ -289,9 +291,10 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
     if (matches.length !== 1 || matches[0]!.gameId !== snapshot.gameId || matches[0]!.status !== 'ENABLED') {
       fail(`catalogs.skillCategories.${key}`, '缺少唯一已启用的真实技能分类');
     }
-    types.set(`ability/${key}`, 'ability');
-    cover(`catalogs.skillCategories.${key}`, `typeCatalog.types[ability/${key}]`);
-    return `ability/${key}`;
+    const type = skillCategoryTypeKey(key);
+    types.set(type, 'ability');
+    cover(`catalogs.skillCategories.${key}`, `typeCatalog.types[${type}]`);
+    return type;
   };
   const defense = (damageKey: string) => {
     stableKey(damageKey, `catalogs.damageTypes.${damageKey}`);
@@ -318,7 +321,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
       for (const source of skills) {
         const { skillKey, skillLevel, configuration } = source;
         const root = `skills.${skillKey}`;
-        validateConfiguration(configuration, snapshot.gameId, root, description.kind === 'item', skillLevel);
+        validateConfiguration(configuration, snapshot.gameId, root, description.kind === 'item', skillLevel,
+          description.kind === 'item' ? calculationConfiguration(snapshot)?.equipmentPassiveCategoryKey ?? null : null);
         selectedSkills.add(skillKey);
         const numeric = createNumericCompileState({ gameId: snapshot.gameId, skillKey, skillLevel,
           characterLevel: snapshot.selection[`${side}Level`], parameters: configuration.parameters,
@@ -691,7 +695,10 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           Object.assign(numeric.params, vamp.params);
           for (const formula of vamp.formulas) addFormula({ ...structuredClone(formula), key: names.get(formula.key)! }, resultPath);
           for (const entry of vamp.typeEntries) {
-            if (entry.domain === 'ability') category(entry.key.slice('ability/'.length));
+            if (entry.domain === 'ability') {
+              if (!entry.key.startsWith(SKILL_CATEGORY_TYPE_PREFIX)) fail(resultPath, '吸血作者分类类型需要明确的分类作用域');
+              category(entry.key.slice(SKILL_CATEGORY_TYPE_PREFIX.length));
+            }
             types.set(entry.key, entry.domain);
           }
           for (const [index, vampRule] of vamp.rules.entries()) {

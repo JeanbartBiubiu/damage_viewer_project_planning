@@ -367,7 +367,7 @@ describe('有界触发与过程适配', () => {
     expect(listeners?.[1]?.operations?.[1]).toMatchObject({ ref: 'hits', valuePolicy: 'set', amount: { op: 'const', value: 0 } });
     expect(listeners?.[1]?.operations?.[2]).toMatchObject({ ref: 'icd', valuePolicy: 'set', amount: { op: 'const', value: 1 } });
     expect(adapted.provider.abilities?.[1]?.kind).toBe('passive_listener');
-    expect(adapted.provider.abilities?.[1]?.types).toEqual(['ability/common']);
+    expect(adapted.provider.abilities?.[1]?.types).toEqual(['ability/skill_category/common']);
   });
 
   it('单作者待击过程派生命中监听，按绑定伤害与来源公式回蓝，再清待命和开冷却', () => {

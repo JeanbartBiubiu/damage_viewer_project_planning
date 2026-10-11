@@ -7,6 +7,7 @@ import { parseDamageTypeFormulaDefinition } from './damageTypeClient';
 import { damageTypeFormulaAllowedBindings } from '../types/damageTypeFormula';
 import { parseGameCalculationRules } from './gameCalculationRulesClient';
 import type { Attribute } from '../types/attribute';
+import type { SkillCategory } from '../types/skillCategory';
 import type {
   BuildConfiguration, BuildDefinition, SimulationPlannedSkill, SimulationSelection, SimulationSkillSetting, SimulationSkillOrigin, SimulationSnapshot
 } from '../types/simulationSnapshot';
@@ -439,7 +440,8 @@ export function validateSimulationSnapshot(
     || expected.sourceLevel < Number(levels.minLevel) || expected.targetLevel < Number(levels.minLevel)
     || expected.sourceLevel > Number(levels.maxLevel) || expected.targetLevel > Number(levels.maxLevel)) bad('catalogs.levelConfig');
   const attributes = uniqueCatalog(catalogs.attributes, 'attributeKey', 'catalogs.attributes', gameId);
-  parseGameCalculationRules(catalogs.calculationRules, gameId, attributes as unknown as Attribute[]);
+  const skillCategories = uniqueCatalog(catalogs.skillCategories, 'skillCategoryKey', 'catalogs.skillCategories', gameId, true);
+  parseGameCalculationRules(catalogs.calculationRules, gameId, attributes as unknown as Attribute[], skillCategories as unknown as SkillCategory[]);
   for (const [index, configuration] of configurations.entries()) {
     const skill = configuration.skill as { skillKey: string; status: string };
     const parameters = configuration.parameters as import('../types/skillParameter').SkillParameter[];
@@ -459,7 +461,6 @@ export function validateSimulationSnapshot(
       if (amount != null && (typeof amount !== 'number' || !Number.isFinite(amount))) bad(`catalogs.attributes[${index}].${field}`);
     }
   }
-  uniqueCatalog(catalogs.skillCategories, 'skillCategoryKey', 'catalogs.skillCategories', gameId, true);
   uniqueCatalog(catalogs.modifierZones, 'modifierZoneKey', 'catalogs.modifierZones', gameId);
   uniqueCatalog(catalogs.statuses, 'statusKey', 'catalogs.statuses', gameId);
   const seenDamageTypes = new Set<string>();

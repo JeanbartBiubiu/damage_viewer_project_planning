@@ -4,7 +4,8 @@ import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 /** 独立作者数据；不由装配器、接口解析器或加载器补入。 */
 export function authoredCalculationRules(gameId: string): GameCalculationRulesResponse {
   return { gameId, baseDigest: 'c'.repeat(64), configuration: {
-    criticalChanceAttributeKey: 'critical_strike_chance', criticalMultiplierMin: 1, attackSpeedAttributeKey: 'attack_speed', attributeDerivations: []
+    criticalChanceAttributeKey: 'critical_strike_chance', criticalMultiplierMin: 1, attackSpeedAttributeKey: 'attack_speed',
+    basicAttackCategoryKey: 'basic_attack', equipmentPassiveCategoryKey: null, ignorableCastCostAttributeKeys: [], attributeDerivations: []
   } };
 }
 export function authorEquipmentSpeedRule(snapshot: SimulationSnapshot) {

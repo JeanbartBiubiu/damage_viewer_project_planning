@@ -122,5 +122,6 @@ export function simulationComplexNaturalSample() {
   snapshot.skillConfigurations.push(equipment.skillConfigurations.find(configuration => configuration.skill.skillKey === 'item_1043_passive')!);
   snapshot.source.skillSources.push(equipment.source.skillSources.find(source => source.origin.kind === 'EQUIPMENT')!);
   snapshot.catalogs.skillCategories.push(equipment.catalogs.skillCategories.find(category => category.skillCategoryKey === 'passive')!);
+  snapshot.catalogs.calculationRules.configuration!.equipmentPassiveCategoryKey = 'passive';
   return JSON.parse(JSON.stringify(snapshot).replaceAll('demo', 'lol')) as typeof snapshot;
 }

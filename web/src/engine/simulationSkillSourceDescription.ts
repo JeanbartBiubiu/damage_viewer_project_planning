@@ -5,6 +5,7 @@ import { simulationSkillSourceIdentity } from '../services/simulationSkillSource
 import { NumericAdaptationError } from './numericAdapter';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
 import type { PermanentNumericConsumer } from './simulationPermanentResults';
+import { calculationConfiguration } from './simulationCalculationRules';
 
 export type SimulationSourceSide = 'source' | 'target';
 type Side = SimulationSourceSide;
@@ -131,10 +132,10 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
   }).map(rule => rule.ruleKey).sort();
 }
 
-function onlyUndrivenAttackRoots(configuration: SkillConfiguration, allowDeferredSkills = false) {
+function onlyUndrivenAttackRoots(configuration: SkillConfiguration, basicAttackCategoryKey: string | null, allowDeferredSkills = false) {
   const roots = configuration.triggerRules.filter(rule => (OWN_ATTACK_EVENTS.has(rule.eventSource.eventType)
     || allowDeferredSkills && ['SKILL_USED', 'SKILL_HIT'].includes(rule.eventSource.eventType)
-    || configuration.skill.skillCategoryKeys.includes('basic_attack') && rule.eventSource.eventType === 'SKILL_HIT'
+    || basicAttackCategoryKey !== null && configuration.skill.skillCategoryKeys.includes(basicAttackCategoryKey) && rule.eventSource.eventType === 'SKILL_HIT'
       && (rule.eventSource.detail.sourceSkillKey === null || rule.eventSource.detail.sourceSkillKey === configuration.skill.skillKey))
     && rule.actions.length > 0).map(rule => rule.ruleKey);
   if (!roots.length) return false;
@@ -179,6 +180,7 @@ function sourceRelations(snapshot: SimulationSnapshot, side: Side) {
 }
 
 export function validateSimulationSkillSourceManifest(snapshot: SimulationSnapshot) {
+  const basicAttackCategoryKey = calculationConfiguration(snapshot)?.basicAttackCategoryKey ?? null;
   const configurations = new Map(snapshot.skillConfigurations.map(row => [row.skill.skillKey, row]));
   if (configurations.size !== snapshot.skillConfigurations.length) fail('skillConfigurations', '完整作者配置不能重复');
   const allowedConfigurations = new Set([snapshot.selection.basicAttackSkillKey, ...snapshot.selection.plannedSkills.map(plan => plan.skillKey),
@@ -219,19 +221,19 @@ export function validateSimulationSkillSourceManifest(snapshot: SimulationSnapsh
         if (planned && (source.inactiveReason !== null || !roots.length)) fail(`${side}.skillSources.${source.skillKey}`, '计划来源必须具备真实已启用首次入口');
         if (source.inactiveReason === 'NO_AUTONOMOUS_ATTACK') {
           const undrivenPrimary = source.origin.kind === 'CHARACTER' && !selectedPrimary
-            && configuration.skill.skillCategoryKeys.includes('basic_attack')
+            && basicAttackCategoryKey !== null && configuration.skill.skillCategoryKeys.includes(basicAttackCategoryKey)
             && roots.every(key => OWN_ATTACK_EVENTS.has(configuration.triggerRules.find(rule => rule.ruleKey === key)!.eventSource.eventType))
-            && onlyUndrivenAttackRoots(configuration);
+            && onlyUndrivenAttackRoots(configuration, basicAttackCategoryKey);
           const undrivenNatural = (side === 'target' || snapshot.selection.basicAttackSkillKey === null)
             && roots.length === 0 && configuration.triggerRules.some(rule => OWN_ATTACK_EVENTS.has(rule.eventSource.eventType) && rule.actions.length > 0)
-            && onlyUndrivenAttackRoots(configuration, true);
+            && onlyUndrivenAttackRoots(configuration, basicAttackCategoryKey, true);
           if (selectedPrimary || source.enabledRuleKeys.length || !undrivenPrimary && !undrivenNatural) {
             fail(`${side}.skillSources.${source.skillKey}`, '无自主普攻排除原因不能隐藏真实自然入口或所选主体，必须是本场不驱动的真实攻击来源');
           }
         }
         if (source.inactiveReason === 'ACTIVE_DEFERRED' && (roots.length
           || !configuration.triggerRules.some(rule => ['SKILL_USED', 'SKILL_HIT'].includes(rule.eventSource.eventType))
-          || !onlyUndrivenAttackRoots(configuration, true))) {
+          || !onlyUndrivenAttackRoots(configuration, basicAttackCategoryKey, true))) {
           fail(`${side}.skillSources.${source.skillKey}`, '主动后置原因不能隐藏真实自然入口');
         }
         if (source.inactiveReason === null

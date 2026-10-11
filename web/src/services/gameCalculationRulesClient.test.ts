@@ -3,6 +3,7 @@ import { getGameCalculationRules, parseGameCalculationConfiguration, parseGameCa
 import { authoredCalculationRules, authorEquipmentSpeedRule } from '../../tests/fixtures/simulationCalculationRules';
 import { equipmentSimulationSample } from '../../tests/fixtures/simulationEquipment';
 import { sameFormulaPayload } from './skillFormulaContract';
+import { classificationCostBindingsSample } from '../../tests/fixtures/classificationCostBindings';
 
 afterEach(() => vi.unstubAllGlobals());
 describe('游戏计算配置严格契约与完整保存', () => {
@@ -60,5 +61,86 @@ describe('游戏计算配置严格契约与完整保存', () => {
       .mockResolvedValueOnce(new Response(JSON.stringify({ ...value, configuration: { ...value.configuration, criticalMultiplierMin: 0 } }), { status: 200 }));
     vi.stubGlobal('fetch', fetch);
     await expect(updateGameCalculationRules('http://localhost:8080', 'demo', 'fixture-token', { baseDigest: value.baseDigest, configuration: value.configuration! })).rejects.toBeInstanceOf(UnconfirmedCalculationRulesWriteError);
+  });
+
+  it('七字段全部必填，不接旧四字段，不补分类、费用或自动排序', () => {
+    const snapshot = classificationCostBindingsSample();
+    const original = snapshot.catalogs.calculationRules.configuration!;
+    original.ignorableCastCostAttributeKeys = ['spell_fee', 'hp'];
+    const before = structuredClone(original);
+    const parsed = parseGameCalculationRules(snapshot.catalogs.calculationRules, snapshot.gameId, snapshot.catalogs.attributes, snapshot.catalogs.skillCategories);
+    expect(parsed.configuration).toEqual(before);
+    expect(parsed.configuration).not.toBe(original);
+    for (const field of Object.keys(original)) {
+      const incomplete = structuredClone(original) as Record<string, unknown>;
+      delete incomplete[field];
+      expect(() => parseGameCalculationConfiguration(incomplete)).toThrow(`configuration.${field}：missing_required_field`);
+    }
+    expect(original).toEqual(before);
+  });
+
+  it.each(['same_category', 'invalid_key', 'disabled_category', 'unknown_category', 'foreign_category', 'duplicate_category',
+    'null_cost_list', 'null_cost_key', 'duplicate_cost', 'too_many_costs', 'unknown_cost', 'disabled_cost', 'foreign_cost', 'not_numeric_cost'])('完整作者绑定候选%s拒绝', variant => {
+    const snapshot = classificationCostBindingsSample();
+    const configuration = snapshot.catalogs.calculationRules.configuration!;
+    if (variant === 'same_category') configuration.equipmentPassiveCategoryKey = configuration.basicAttackCategoryKey;
+    if (variant === 'invalid_key') configuration.basicAttackCategoryKey = 'bad/key';
+    if (variant === 'unknown_category') configuration.basicAttackCategoryKey = 'not_in_catalog';
+    if (variant === 'disabled_category') snapshot.catalogs.skillCategories[0]!.status = 'DISABLED';
+    if (variant === 'foreign_category') snapshot.catalogs.skillCategories[0]!.gameId = 'other';
+    if (variant === 'duplicate_category') snapshot.catalogs.skillCategories.push(structuredClone(snapshot.catalogs.skillCategories[0]!));
+    if (variant === 'null_cost_list') configuration.ignorableCastCostAttributeKeys = null as never;
+    if (variant === 'null_cost_key') configuration.ignorableCastCostAttributeKeys = [null as never];
+    if (variant === 'duplicate_cost') configuration.ignorableCastCostAttributeKeys.push('spell_fee');
+    if (variant === 'too_many_costs') {
+      configuration.ignorableCastCostAttributeKeys = Array.from({ length: 33 }, (_, index) => `fee_${index}`);
+      snapshot.catalogs.attributes.push(...configuration.ignorableCastCostAttributeKeys.map(attributeKey => ({ ...snapshot.catalogs.attributes[0]!, attributeKey })));
+    }
+    if (variant === 'unknown_cost') configuration.ignorableCastCostAttributeKeys = ['unknown_fee'];
+    const fee = snapshot.catalogs.attributes.find(row => row.attributeKey === 'spell_fee')!;
+    if (variant === 'disabled_cost') fee.status = 'DISABLED';
+    if (variant === 'foreign_cost') fee.gameId = 'other';
+    if (variant === 'not_numeric_cost') fee.valueType = 'TEXT' as never;
+    const before = structuredClone(snapshot);
+    expect(() => parseGameCalculationRules(snapshot.catalogs.calculationRules, snapshot.gameId, snapshot.catalogs.attributes, snapshot.catalogs.skillCategories)).toThrow();
+    expect(snapshot).toEqual(before);
+  });
+
+  it('容量32合法，生命可列入名单，空数组不自动恢复mana等旧名', () => {
+    const snapshot = classificationCostBindingsSample();
+    const configuration = snapshot.catalogs.calculationRules.configuration!;
+    configuration.ignorableCastCostAttributeKeys = ['hp', ...Array.from({ length: 31 }, (_, index) => `fee_${index}`)];
+    snapshot.catalogs.attributes.push(...configuration.ignorableCastCostAttributeKeys.slice(1).map(attributeKey => ({ ...snapshot.catalogs.attributes[0]!, attributeKey })));
+    expect(parseGameCalculationConfiguration(configuration, snapshot.catalogs.attributes, snapshot.catalogs.skillCategories).ignorableCastCostAttributeKeys).toEqual(configuration.ignorableCastCostAttributeKeys);
+    configuration.ignorableCastCostAttributeKeys = [];
+    expect(parseGameCalculationConfiguration(configuration).ignorableCastCostAttributeKeys).toEqual([]);
+  });
+
+  it('保护PUT冻结完整七字段候选，传输期间草稿编辑不能改变独立读回目标', async () => {
+    const original = classificationCostBindingsSample().catalogs.calculationRules;
+    const expected = structuredClone(original.configuration!);
+    let deliver!: (value: Response) => void;
+    const fetch = vi.fn().mockImplementationOnce(() => new Promise<Response>(resolve => { deliver = resolve; }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ ...original, baseDigest: 'd'.repeat(64), configuration: expected }), { status: 200 }));
+    vi.stubGlobal('fetch', fetch);
+    const pending = updateGameCalculationRules('http://api.test', 'demo', 'fixture-token', { baseDigest: original.baseDigest, configuration: original.configuration! });
+    original.configuration!.basicAttackCategoryKey = null;
+    original.configuration!.ignorableCastCostAttributeKeys = [];
+    deliver(new Response(JSON.stringify({ ...original, baseDigest: 'd'.repeat(64), configuration: expected }), { status: 200 }));
+    const response = await pending;
+    expect(JSON.parse(fetch.mock.calls[0]![1].body)).toEqual({ baseDigest: 'c'.repeat(64), configuration: expected });
+    expect(response.data.configuration).toEqual(expected);
+    expect(fetch.mock.calls[1]![1].method).toBeUndefined();
+  });
+
+  it.each(['basicAttackCategoryKey', 'equipmentPassiveCategoryKey', 'ignorableCastCostAttributeKeys'] as const)('独立读回%s漂移不得宣称保存成功', async field => {
+    const rules = classificationCostBindingsSample().catalogs.calculationRules;
+    const changed = structuredClone(rules);
+    if (field === 'ignorableCastCostAttributeKeys') changed.configuration![field] = [];
+    else changed.configuration![field] = null;
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(new Response(JSON.stringify(rules), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify(changed), { status: 200 })));
+    await expect(updateGameCalculationRules('http://api.test', 'demo', 'fixture-token', { baseDigest: rules.baseDigest, configuration: rules.configuration! }))
+      .rejects.toBeInstanceOf(UnconfirmedCalculationRulesWriteError);
   });
 });

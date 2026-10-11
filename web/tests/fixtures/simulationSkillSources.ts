@@ -6,6 +6,7 @@ const naturalEvents = new Set(['SOURCE_INITIALIZED', 'BASIC_ATTACK_START', 'BASI
   'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN', 'ATTACK_LINK_APPLIED', 'HIT_LINK_APPLIED']);
 
 export function syncSimulationSkillSources(snapshot: SimulationSnapshot): SimulationSnapshot {
+  const basicAttackCategoryKey = snapshot.catalogs.calculationRules.configuration?.basicAttackCategoryKey;
   for (const side of ['source', 'target'] as const) {
     const combatant = snapshot[side];
     const previous = new Map(combatant.skillSources.map(source => [simulationSkillSourceIdentity(source.origin, source.skillKey), source]));
@@ -25,7 +26,7 @@ export function syncSimulationSkillSources(snapshot: SimulationSnapshot): Simula
       const rules = configuration?.triggerRules.filter(rule => naturalEvents.has(rule.eventSource.eventType)
         || plannedRoots.includes(rule.ruleKey)) ?? [];
       const inactiveReason = relation.skillStatus === 'DISABLED' ? 'GLOBAL_DISABLED' : !enabled ? 'SCENE_DISABLED' : skillLevel === 0 ? 'UNLEARNED'
-        : origin.kind === 'CHARACTER' && configuration?.skill.skillCategoryKeys.includes('basic_attack') && !selectedAttack ? 'NO_AUTONOMOUS_ATTACK'
+        : origin.kind === 'CHARACTER' && basicAttackCategoryKey != null && configuration?.skill.skillCategoryKeys.includes(basicAttackCategoryKey) && !selectedAttack ? 'NO_AUTONOMOUS_ATTACK'
           : !configuration || !rules.length ? configuration?.triggerRules.some(rule => rule.eventSource.eventType === 'SKILL_USED' || rule.eventSource.eventType === 'SKILL_HIT')
             ? 'ACTIVE_DEFERRED' : 'CONFIGURATION_INCOMPLETE'
             : skillLevel === null && configuration.parameters.some(parameter => parameter.valueMode === 'SKILL_LEVEL') ? 'LEVEL_REQUIRED' : null;

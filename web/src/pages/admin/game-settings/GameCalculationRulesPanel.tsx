@@ -3,9 +3,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Panel } from '../../../components/Panel';
 import { getErrorMessage } from '../../../services/apiClient';
 import { listAttributes } from '../../../services/attributeClient';
-import { getGameCalculationRules, updateGameCalculationRules, UnconfirmedCalculationRulesWriteError } from '../../../services/gameCalculationRulesClient';
+import { listSkillCategories } from '../../../services/skillCategoryClient';
+import { getGameCalculationRules, parseGameCalculationRules, updateGameCalculationRules, UnconfirmedCalculationRulesWriteError } from '../../../services/gameCalculationRulesClient';
 import { sameFormulaPayload } from '../../../services/skillFormulaContract';
 import type { Attribute } from '../../../types/attribute';
+import type { SkillCategory } from '../../../types/skillCategory';
 import type { GameCalculationConfiguration, GameCalculationRulesResponse } from '../../../types/gameCalculationRules';
 import { CommonFormulaDefinitionEditor } from '../common-formula/CommonFormulaDefinitionEditor';
 import { updateCommonFormulaNode, type CommonFormulaDraft, type CommonFormulaNodeDraft } from '../common-formula/commonFormulaForm';
@@ -20,6 +22,7 @@ export function GameCalculationRulesPanel({ apiBaseUrl, selectedGameId, adminTok
   const [response, setResponse] = useState<GameCalculationRulesResponse | null>(null);
   const [draft, setDraft] = useState<GameCalculationDraft | null>(null);
   const [attributes, setAttributes] = useState<Attribute[]>([]);
+  const [categories, setCategories] = useState<SkillCategory[]>([]);
   const [pending, setPending] = useState<GameCalculationConfiguration | null>(null);
   const [loading, setLoading] = useState(false), [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null), [notice, setNotice] = useState<string | null>(null);
@@ -30,15 +33,18 @@ export function GameCalculationRulesPanel({ apiBaseUrl, selectedGameId, adminTok
   useEffect(() => () => onDirtyChange(false), [onDirtyChange]);
   const load = useCallback(async () => {
     const id = ++serial.current;
-    setLoaded(null); setResponse(null); setDraft(null); setPending(null); setAttributes([]); setError(null); setNotice(null);
+    setLoaded(null); setResponse(null); setDraft(null); setPending(null); setAttributes([]); setCategories([]); setError(null); setNotice(null);
     setLoading(Boolean(context.gameId && context.token));
     if (!context.gameId || !context.token) return;
     try {
-      const [rules, catalog] = await Promise.all([getGameCalculationRules(context.apiBaseUrl, context.gameId, context.token),
-        listAttributes(context.apiBaseUrl, context.gameId, context.token)]);
+      const [rules, catalog, categoryCatalog] = await Promise.all([getGameCalculationRules(context.apiBaseUrl, context.gameId, context.token),
+        listAttributes(context.apiBaseUrl, context.gameId, context.token), listSkillCategories(context.apiBaseUrl, context.gameId, context.token)]);
       if (!isCurrent(id, context)) return;
-      if (catalog.data.items.some(row => row.gameId !== context.gameId)) throw new Error('计算规则引用目录不属于当前游戏。');
-      setResponse(rules.data); setDraft(structuredClone(rules.data.configuration)); setAttributes(catalog.data.items); setLoaded(context);
+      if (catalog.data.total !== catalog.data.items.length || categoryCatalog.data.total !== categoryCatalog.data.items.length
+        || new Set(catalog.data.items.map(row => row.attributeKey)).size !== catalog.data.items.length
+        || new Set(categoryCatalog.data.items.map(row => row.skillCategoryKey)).size !== categoryCatalog.data.items.length) throw new Error('计算规则引用目录不完整或标识重复。');
+      const response = parseGameCalculationRules(rules.data, context.gameId, catalog.data.items, categoryCatalog.data.items);
+      setResponse(response); setDraft(structuredClone(response.configuration)); setAttributes(catalog.data.items); setCategories(categoryCatalog.data.items); setLoaded(context);
     } catch (error) { if (isCurrent(id, context)) setError(getErrorMessage(error)); }
     finally { if (isCurrent(id, context)) setLoading(false); }
   }, [context, isCurrent]);
@@ -59,15 +65,16 @@ export function GameCalculationRulesPanel({ apiBaseUrl, selectedGameId, adminTok
     try {
       const read = await getGameCalculationRules(context.apiBaseUrl, context.gameId, context.token);
       if (!isCurrent(id, context)) return;
-      if (!sameFormulaPayload(read.data.configuration, pending)) throw new Error('独立读回与待确认草稿不同，保留草稿；请核对当前版本。');
-      setResponse(read.data); setDraft(structuredClone(read.data.configuration)); setPending(null); setNotice('计算规则已独立读回确认。');
+      const response = parseGameCalculationRules(read.data, context.gameId, attributes, categories);
+      if (!sameFormulaPayload(response.configuration, pending)) throw new Error('独立读回与待确认草稿不同，保留草稿；请核对当前版本。');
+      setResponse(response); setDraft(structuredClone(response.configuration)); setPending(null); setNotice('计算规则已独立读回确认。');
     } catch (error) { if (isCurrent(id, context)) setError(getErrorMessage(error)); }
     finally { if (isCurrent(id, context)) { busy.current = false; setSaving(false); } }
   };
   const save = async () => {
     if (!ready || !draft || !response || pending || busy.current || !context.gameId) return;
     let candidate: GameCalculationConfiguration;
-    try { candidate = validateGameCalculationDraft(draft, attributes); }
+    try { candidate = validateGameCalculationDraft(draft, attributes, categories); }
     catch (error) { setError(getErrorMessage(error)); return; }
     const id = ++serial.current; busy.current = true; setSaving(true); setError(null); setNotice(null);
     try {
@@ -83,12 +90,13 @@ export function GameCalculationRulesPanel({ apiBaseUrl, selectedGameId, adminTok
   const disabled = !ready || loading || saving || pending !== null;
   const patch = (next: GameCalculationDraft) => { setDraft(next); setError(null); setNotice(null); };
   const options = attributes.map(row => ({ value: row.attributeKey, label: `${row.name} / ${row.attributeKey}${row.status === 'DISABLED' ? '（已停用）' : ''}`, disabled: row.status !== 'ENABLED' }));
+  const categoryOptions = categories.map(row => ({ value: row.skillCategoryKey, label: `${row.name} / ${row.skillCategoryKey}${row.status === 'DISABLED' ? '（已停用）' : ''}`, disabled: row.status !== 'ENABLED' }));
   const rulePatch = (index: number, next: GameCalculationDraft['attributeDerivations'][number]) => {
     if (draft) patch({ ...draft, attributeDerivations: draft.attributeDerivations.map((rule, i) => index === i ? next : rule) });
   };
   return <Panel title="游戏计算规则" actions={<Button loading={loading} disabled={saving || !context.gameId || !context.token} onClick={refresh}>刷新计算规则</Button>}>
     <Space direction="vertical" style={{ width: '100%' }} size="large">
-      <Typography.Paragraph>明确暴击概率、倍率下限及连续攻击速度的用途绑定。派生公式读取拥有方本帧属性；有来源明确输出时优先采用来源输出。未配置时不补默认属性或公式。</Typography.Paragraph>
+      <Typography.Paragraph>明确属性和技能分类的用途绑定。费用名单只允许进入逐项确认的忽略候选，不自动忽略费用。派生公式读取拥有方本帧属性；有来源明确输出时优先采用来源输出。未配置时不补默认目录或公式。</Typography.Paragraph>
       {error ? <Alert type="error" content={error} /> : null}{notice ? <Alert type="success" content={notice} /> : null}
       {ready && !draft ? <><Alert type="warning" content="尚未配置游戏计算规则。" /><Button onClick={() => patch(emptyGameCalculationDraft())}>配置游戏计算规则</Button></> : null}
       {ready && draft ? <>
@@ -97,7 +105,12 @@ export function GameCalculationRulesPanel({ apiBaseUrl, selectedGameId, adminTok
             <Form.Item label="暴击概率属性"><Select aria-label="暴击概率属性" allowClear showSearch value={draft.criticalChanceAttributeKey ?? undefined} options={options} style={{ width: 260 }} onChange={value => patch({ ...draft, criticalChanceAttributeKey: value || null })} /></Form.Item>
             <Form.Item label="暴击倍率下限（空值为不设下限）"><InputNumber aria-label="暴击倍率下限" min={0} value={draft.criticalMultiplierMin ?? undefined} onChange={value => patch({ ...draft, criticalMultiplierMin: value ?? null })} /></Form.Item>
             <Form.Item label="连续攻击速度属性"><Select aria-label="连续攻击速度属性" allowClear showSearch value={draft.attackSpeedAttributeKey ?? undefined} options={options.filter(row => row.value !== 'hp')} style={{ width: 260 }} onChange={value => patch({ ...draft, attackSpeedAttributeKey: value || null })} /></Form.Item>
+            <Form.Item label="普通攻击分类"><Select aria-label="普通攻击分类" allowClear showSearch value={draft.basicAttackCategoryKey ?? undefined} options={categoryOptions} style={{ width: 260 }} onChange={value => patch({ ...draft, basicAttackCategoryKey: value || null })} /></Form.Item>
+            <Form.Item label="装备被动分类"><Select aria-label="装备被动分类" allowClear showSearch value={draft.equipmentPassiveCategoryKey ?? undefined} options={categoryOptions} style={{ width: 260 }} onChange={value => patch({ ...draft, equipmentPassiveCategoryKey: value || null })} /></Form.Item>
           </Space>
+          <Form.Item label="可明确忽略的施法费用属性（最多32项，仍需逐项确认）"><Select aria-label="可明确忽略的施法费用属性" mode="multiple" allowClear showSearch value={draft.ignorableCastCostAttributeKeys}
+            options={options.filter(option => attributes.some(attribute => attribute.attributeKey === option.value && ['INTEGER', 'DECIMAL'].includes(attribute.valueType)))}
+            style={{ width: '100%' }} onChange={value => patch({ ...draft, ignorableCastCostAttributeKeys: value })} /></Form.Item>
         </Form>
         <Button disabled={disabled || draft.attributeDerivations.length >= 4} onClick={() => patch({ ...draft, attributeDerivations: [...draft.attributeDerivations,
           { ruleKey: '', attributeKey: '', valuePolicy: 'set', activationAttributeKeys: [], formula: { inputs: [], stages: [{ key: '', name: '', expression: { op: 'empty' } }], outputStageKey: '' } }] })}>添加属性派生</Button>

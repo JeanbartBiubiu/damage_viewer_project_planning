@@ -72,7 +72,7 @@ describe('4C完整反曲之弓触发装备装配', () => {
     expect(assembled.providers[0]).toMatchObject({ providerKey: 'source_item_1043_passive_definition',
       stableId: 'source_equipment_item_1043_definition', kind: 'item', abilities: [{
         abilityKey: 'resolve_on_basic_attack_hit', kind: 'passive_listener', skillKey: 'item_1043_passive',
-        types: ['ability/passive', 'ability/skill/item_1043_passive'], params: { on_hit_damage: 15 }, listenerSpec: {
+        types: ['ability/skill_category/passive', 'ability/skill/item_1043_passive'], params: { on_hit_damage: 15 }, listenerSpec: {
           listenerKey: 'resolve_on_basic_attack_hit', eventMatcher: { all: ['event/basic_attack_hit', 'event/source_owner'] },
           maxTriggersPerEvent: 1, operations: [{ operation: 'damage', target: 'target', damageType: 'physics',
             critEligible: false, vampQualification: 'RESOLVED', vampOverrides: [{ vampType: 'LIFE_STEAL', mode: 'OVERRIDE',
@@ -87,11 +87,11 @@ describe('4C完整反曲之弓触发装备装配', () => {
     expect(assembled.providers[0]!.abilities![0]!.cooldown).toBeUndefined();
     expect(assembled.types).toEqual(expect.arrayContaining([
       { key: 'event/basic_attack_hit', domain: 'event' }, { key: 'event/source_owner', domain: 'event' },
-      { key: 'ability/passive', domain: 'ability' }, { key: 'ability/basic_attack', domain: 'ability' },
+      { key: 'ability/skill_category/passive', domain: 'ability' }, { key: 'ability/skill_category/basic_attack', domain: 'ability' },
       { key: 'physics', domain: 'damage' }, { key: 'combatant/champion', domain: 'combatant' }
     ]));
     expect(assembled.rules.vampRules).toMatchObject([{ vampType: 'LIFE_STEAL', sourceAttributeKey: 'life_steal_percent',
-      basisOutputKind: 'POST_DEFENSE_DAMAGE', defaultEfficiency: 1, abilityMatcher: { any: ['ability/basic_attack'] } }]);
+      basisOutputKind: 'POST_DEFENSE_DAMAGE', defaultEfficiency: 1, abilityMatcher: { any: ['ability/skill_category/basic_attack'] } }]);
     expect(assembled.required.source).toEqual(new Set(['life_steal_percent', 'armor_pen_percent', 'armor_pen_flat']));
     expect(assembled.required.target).toEqual(new Set(['armor']));
   });
@@ -131,7 +131,7 @@ describe('4C完整反曲之弓触发装备装配', () => {
     expect(assembled.required.source).toEqual(new Set(['armor']));
     expect(assembled.required.target).toEqual(new Set(['life_steal_percent', 'armor_pen_percent', 'armor_pen_flat']));
     expect(assembled.operationOrigins[0]!.abilityRef).toMatch(/^target\.provider/);
-    expect(assembled.providers[0]!.abilities![0]!.types).toEqual(['ability/passive', 'ability/skill/item_1043_passive']);
+    expect(assembled.providers[0]!.abilities![0]!.types).toEqual(['ability/skill_category/passive', 'ability/skill/item_1043_passive']);
   });
 
   it('完整共同定义直接透传，表达式、具名结果与十进制原文保持，不在Web展开', () => {
@@ -209,9 +209,9 @@ describe('4C完整反曲之弓触发装备装配', () => {
     const assembled = assembleTriggeredEquipment(snapshot);
     expect(snapshot.catalogs.vampRules).toEqual(originalRules);
     expect(snapshot.catalogs.vampRules.rules[0]!.skillCategoryKeys).toEqual(['basic_attack']);
-    expect(assembled.rules.vampRules![0]!.abilityMatcher).toEqual({ any: ['ability/basic_attack'] });
+    expect(assembled.rules.vampRules![0]!.abilityMatcher).toEqual({ any: ['ability/skill_category/basic_attack'] });
     for (const provider of assembled.providers) {
-      expect(provider.abilities![0]!.types).toEqual(['ability/passive', 'ability/skill/item_1043_passive']);
+      expect(provider.abilities![0]!.types).toEqual(['ability/skill_category/passive', 'ability/skill/item_1043_passive']);
       expect(provider.abilities![0]!.listenerSpec!.operations![0]!.vampOverrides).toEqual([
         { vampType: 'LIFE_STEAL', mode: 'OVERRIDE', basisOutputKind: 'POST_DEFENSE_DAMAGE', efficiency: { op: 'const', value: 1 } }
       ]);
@@ -225,9 +225,9 @@ describe('4C完整反曲之弓触发装备装配', () => {
       basisOutputKind: 'POST_DEFENSE_DAMAGE', defaultEfficiency: 1, deliveryKinds: ['SKILL', 'BASIC_ATTACK'],
       originKinds: ['DIRECT'], skillCategoryKeys: ['basic_attack', 'passive'] });
     const assembled = assembleTriggeredEquipment(snapshot);
-    expect(assembled.providers[0]!.abilities![0]!.types).toEqual(['ability/passive', 'ability/skill/item_1043_passive']);
-    expect(assembled.rules.vampRules!.find(row => row.vampType === 'OMNIVAMP')!.abilityMatcher).toEqual({ any: ['ability/basic_attack', 'ability/passive'] });
-    expect(assembled.rules.vampRules!.find(row => row.vampType === 'LIFE_STEAL')!.abilityMatcher).toEqual({ any: ['ability/basic_attack'] });
+    expect(assembled.providers[0]!.abilities![0]!.types).toEqual(['ability/skill_category/passive', 'ability/skill/item_1043_passive']);
+    expect(assembled.rules.vampRules!.find(row => row.vampType === 'OMNIVAMP')!.abilityMatcher).toEqual({ any: ['ability/skill_category/basic_attack', 'ability/skill_category/passive'] });
+    expect(assembled.rules.vampRules!.find(row => row.vampType === 'LIFE_STEAL')!.abilityMatcher).toEqual({ any: ['ability/skill_category/basic_attack'] });
     expect(assembled.required.source.has('omnivamp_percent')).toBe(true);
     expect(assembled.required.target.has('omnivamp_percent')).toBe(false);
   });
@@ -250,7 +250,7 @@ describe('4C完整反曲之弓触发装备装配', () => {
     ]);
     for (const [index, side] of (['source', 'target'] as const).entries()) {
       const ability = assembled.providers[index]!.abilities![0]!;
-      expect(ability.types).toEqual(['ability/passive', 'ability/skill/item_1043_passive']);
+      expect(ability.types).toEqual(['ability/skill_category/passive', 'ability/skill/item_1043_passive']);
       expect(ability.params).toEqual({ on_hit_damage: 15, efficiency: .5 });
       expect(ability.listenerSpec!.operations![0]!.vampOverrides).toEqual([{ vampType: 'LIFE_STEAL', mode: 'OVERRIDE', basisOutputKind: 'ACTUAL_HP_LOSS',
         efficiency: { op: 'ref', ref: `${side}_item_1043_passive/levels/1/1/vamp/item_1043_passive/levels/1/1/vamp_efficiency` } }]);
@@ -351,7 +351,7 @@ const invalidShapes: Array<[string, (snapshot: SimulationSnapshot) => void, RegE
   ['未引用未知公式节点', snapshot => { configuration(snapshot).formulas.push({ ...snapshot.skillConfigurations[0]!.formulas[0]!, skillKey: 'item_1043_passive' }); Object.assign(configuration(snapshot).formulas[0]!.expression, { nodeType: 'UNKNOWN' }); }, /FORMULA_INVALID_STRUCTURE/],
   ['分类未核定', snapshot => { configuration(snapshot).skill.skillCategoryKeys.push('unknown'); }, /真实技能分类/],
   ['吸血规则分类未核定', snapshot => { snapshot.catalogs.vampRules.rules[0]!.skillCategoryKeys.push('unknown'); }, /真实技能分类/],
-  ['分类目录禁用', snapshot => { snapshot.catalogs.skillCategories.find(row => row.skillCategoryKey === 'passive')!.status = 'DISABLED'; }, /真实技能分类/],
+  ['用途绑定的分类目录禁用', snapshot => { snapshot.catalogs.skillCategories.find(row => row.skillCategoryKey === 'passive')!.status = 'DISABLED'; }, /configuration.equipmentPassiveCategoryKey.*unknown_skill_category/],
   ['未知伤害目录', snapshot => { damage(snapshot).detail.damageTypeKey = 'unknown'; }, /真实共同防御/],
   ['防御目录禁用', snapshot => { snapshot.catalogs.damageTypes[0]!.type.status = 'DISABLED'; }, /真实共同防御/],
   ['防御未配置', snapshot => { snapshot.catalogs.damageTypes[0]!.type.formulaConfigured = false; }, /真实共同防御/],
@@ -1124,7 +1124,7 @@ describe('配置驱动装备通用节点编译', () => {
     const compiled = compileWithInputs(snapshot);
     expect(compiled.compileRequest.combatants.every(combatant => combatant.providers.every(mount => mount.definitionRef !== temporary.providerKey))).toBe(true);
     expect(compiled.operationOrigins.find(origin => origin.providerDefinitionRef === temporary.providerKey)!.compiledPaths[0]).toMatch(/^sharedProviders\[\d+\]\.abilities\[0\]\.tickSpec.onTick\[0\]$/);
-    expect(SIMULATION_ADAPTER_VERSION).toBe('v14-authored-game-calculation');
+    expect(SIMULATION_ADAPTER_VERSION).toBe('v15-classification-cost-bindings');
   });
 
   it('异名有期周期、改参改首跳只读取作者配置，3秒参数不自动成为常驻周期', () => {

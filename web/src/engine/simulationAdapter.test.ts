@@ -36,7 +36,7 @@ describe('首批场景装配', () => {
     const prepared = await prepareSimulation(snapshot, zeroInputs(snapshot), initialHealth);
     const base = { snapshotDigest: snapshot.snapshotDigest, attributeInputs: prepared.attributeInputs,
       initialHealth, equipmentAssumptions: prepared.equipmentAssumptions, request: prepared.compileRequest };
-    expect(SIMULATION_ADAPTER_VERSION).toBe('v14-authored-game-calculation');
+    expect(SIMULATION_ADAPTER_VERSION).toBe('v15-classification-cost-bindings');
     expect(prepared.compileRequest.rulesHash).not.toBe(await simulationHash({ ...base, adapter: 'v8-default-skill-sources' }));
   });
 
@@ -156,7 +156,7 @@ describe('首批场景装配', () => {
     snapshot.skillConfigurations[0]!.skill.skillCategoryKeys.push('common');
     snapshot.catalogs.skillCategories.push({ ...snapshot.catalogs.skillCategories[0]!, skillCategoryKey: 'common' });
     const request = assembleSimulation(snapshot, zeroInputs(snapshot), initialHealth).compileRequest;
-    expect(request.sharedProviders![0]!.abilities!.every(ability => ability.types!.includes('ability/common'))).toBe(true);
+    expect(request.sharedProviders![0]!.abilities!.every(ability => ability.types!.includes('ability/skill_category/common'))).toBe(true);
   });
 
   it('双方当前生命为明确场景输入，允许真实0并与上限/基础值分开', () => {

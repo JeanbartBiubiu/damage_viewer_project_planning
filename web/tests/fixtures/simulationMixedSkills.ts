@@ -135,6 +135,7 @@ export function simulationEmpoweredSample() {
     enabledRuleKeys: ['arm'], inactiveReason: null });
   snapshot.catalogs.attributes.push({ ...snapshot.catalogs.attributes[0]!, attributeKey: 'ability_haste', name: '技能急速' });
   snapshot.catalogs.skillCategories.push(equipmentSample.catalogs.skillCategories.find(category => category.skillCategoryKey === 'passive')!);
+  snapshot.catalogs.calculationRules.configuration!.equipmentPassiveCategoryKey = 'passive';
   return JSON.parse(JSON.stringify(snapshot).replaceAll('demo', 'lol')) as typeof snapshot;
 }
 

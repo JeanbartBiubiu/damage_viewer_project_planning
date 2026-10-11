@@ -9,6 +9,7 @@ export function permanentEquipmentSimulationSample(sourceKeys: string[] = [], ta
   const basic = snapshot.skillConfigurations[0]!;
   const metadata = { createdAt: '', updatedAt: '' };
   snapshot.catalogs.skillCategories.push({ ...snapshot.catalogs.skillCategories[0]!, skillCategoryKey: 'passive' });
+  snapshot.catalogs.calculationRules.configuration!.equipmentPassiveCategoryKey = 'passive';
   for (const side of ['source', 'target'] as const) for (const item of snapshot[side].selectedEquipment) {
     const equipmentKey = item.equipment.equipmentKey;
     if (equipmentKey !== 'item_3065' && equipmentKey !== 'item_3110') continue;

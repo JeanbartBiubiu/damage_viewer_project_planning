@@ -173,7 +173,7 @@ describe('有界命中适配', () => {
     });
     expect(adapted.skillHit.candidates[0]?.operations[0]?.vampQualification).toBe('RESOLVED');
     expect(adapted.vampRules).toHaveLength(1);
-    expect(adapted.abilityTypes).toEqual(['ability/common']);
+    expect(adapted.abilityTypes).toEqual(['ability/skill_category/common']);
   });
 
   it('OR组提取公共命中值，剩余条件编成组内min组间max，全为1时可省略', () => {
@@ -270,7 +270,7 @@ describe('有界命中适配', () => {
     const adapted = withHitProgram(input, binding, { rulesHash: 'after' });
     expect(input).toEqual(before);
     expect(adapted.rules.vampRules?.[0]?.sourceAttributeKey).toBe('omnivamp_percent');
-    expect(adapted.sharedProviders![0]!.abilities![0]!.types).toEqual(['ability/common']);
+    expect(adapted.sharedProviders![0]!.abilities![0]!.types).toEqual(['ability/skill_category/common']);
     expect(adapted.combatants.every((actor) => actor.types?.includes('combatant/champion'))).toBe(true);
     delete input.combatants[0]!.attributes.omnivamp_percent;
     expect(() => withHitProgram(input, binding, { rulesHash: 'after' })).toThrow('不能自动补零');

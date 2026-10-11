@@ -6,7 +6,11 @@ import { getRepresentativeImage } from '../../services/imageRelationClient';
 import { getSkill } from '../../services/skillClient';
 import { listCharacterSkillRelations } from '../../services/skillRelationClient';
 import { listEquipment } from '../../services/equipmentClient';
-import { createSimulationImageLoader, loadBasicAttackOptions, loadCharacterOptions, loadCharacterLevelOptions, loadEquipmentOptions } from './simulationSelectionOptions';
+import { getGameCalculationRules } from '../../services/gameCalculationRulesClient';
+import { listSkillCategories } from '../../services/skillCategoryClient';
+import { authoredCalculationRules } from '../../../tests/fixtures/simulationCalculationRules';
+import { simulationSample } from '../../../tests/fixtures/simulationSnapshot';
+import { createSimulationImageLoader, loadBasicAttackOptions, loadCharacterSkillOptions, loadCharacterOptions, loadCharacterLevelOptions, loadEquipmentOptions } from './simulationSelectionOptions';
 
 vi.mock('../../services/characterClient');
 vi.mock('../../services/imageCache');
@@ -15,6 +19,8 @@ vi.mock('../../services/imageRelationClient');
 vi.mock('../../services/skillClient');
 vi.mock('../../services/skillRelationClient');
 vi.mock('../../services/equipmentClient');
+vi.mock('../../services/gameCalculationRulesClient', async original => ({ ...await original<typeof import('../../services/gameCalculationRulesClient')>(), getGameCalculationRules: vi.fn() }));
+vi.mock('../../services/skillCategoryClient');
 
 const context = { apiBaseUrl: 'http://example.test', gameId: 'demo', token: 'test-only' };
 const entity = { key: 'hero', name: '英雄', kind: 'character' as const };
@@ -26,7 +32,12 @@ const image = {
 };
 
 describe('模拟选择目录与按需头像', () => {
-  beforeEach(() => vi.resetAllMocks());
+  beforeEach(() => {
+    vi.resetAllMocks();
+    vi.mocked(getGameCalculationRules).mockResolvedValue(result(authoredCalculationRules('demo')));
+    const categories = simulationSample().catalogs.skillCategories;
+    vi.mocked(listSkillCategories).mockResolvedValue(result({ items: categories, total: categories.length }));
+  });
 
   it('真实装备列表复用现有client，完整保留目录且共用取消信号，不伪装全部可运行', async () => {
     const row = { gameId: 'demo', equipmentKey: 'item_1036', name: '长剑', description: null, createdAt: '', updatedAt: '' };
@@ -106,6 +117,67 @@ describe('模拟选择目录与按需头像', () => {
     expect(listCharacterSkillRelations).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', context.token, { characterKey: 'hero' }, signal);
     expect(getSkill).toHaveBeenCalledTimes(2);
     expect(getSkill).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', 'attack', context.token, signal);
+    expect(getGameCalculationRules).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', context.token, signal);
+    expect(listSkillCategories).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', context.token, {}, signal);
+  });
+
+  const bindSkill = (categories: string[]) => {
+    vi.mocked(listCharacterSkillRelations).mockResolvedValue(result({ items: [{ gameId: 'demo', characterKey: 'hero', characterName: '英雄',
+      skillKey: 'attack', skillName: '作者技能', skillStatus: 'ENABLED', sortOrder: 0 }], total: 1 }));
+    vi.mocked(getSkill).mockResolvedValue(result({ gameId: 'demo', skillKey: 'attack', name: '作者技能', description: null,
+      maxLevel: 1, status: 'ENABLED', sortOrder: 0, skillCategoryKeys: categories, createdAt: '', updatedAt: '' }));
+  };
+
+  it('真实读取的新分类键识别普攻，旧basic_attack目录不能替代绑定', async () => {
+    const rules = authoredCalculationRules('demo'); rules.configuration!.basicAttackCategoryKey = 'chosen_strike';
+    vi.mocked(getGameCalculationRules).mockResolvedValue(result(rules));
+    vi.mocked(listSkillCategories).mockResolvedValue(result({ items: [{ ...simulationSample().catalogs.skillCategories[0]!, skillCategoryKey: 'chosen_strike' }], total: 1 }));
+    bindSkill(['chosen_strike']);
+    expect(await loadBasicAttackOptions(context, 'hero', new AbortController().signal)).toHaveLength(1);
+    bindSkill(['basic_attack']);
+    expect(await loadBasicAttackOptions(context, 'hero', new AbortController().signal)).toEqual([]);
+  });
+
+  it.each(['null_configuration', 'null_binding'])('未绑定%s显示明确提示，普攻为空且不阻止未消费分类的主动候选', async kind => {
+    const rules = authoredCalculationRules('demo');
+    if (kind === 'null_configuration') rules.configuration = null;
+    else rules.configuration!.basicAttackCategoryKey = null;
+    vi.mocked(getGameCalculationRules).mockResolvedValue(result(rules));
+    bindSkill(['active']);
+    const read = await loadCharacterSkillOptions(context, 'hero', new AbortController().signal);
+    expect(read.notice).toContain('尚未配置普通攻击分类');
+    expect(read.items).toMatchObject([{ basicAttack: false, key: 'attack' }]);
+    expect(await loadBasicAttackOptions(context, 'hero', new AbortController().signal)).toEqual([]);
+  });
+
+  it('计算规则读取失败不回退原分类，不继续使用技能详情', async () => {
+    bindSkill(['basic_attack']);
+    vi.mocked(getGameCalculationRules).mockRejectedValue(new Error('计算规则读取失败'));
+    await expect(loadBasicAttackOptions(context, 'hero', new AbortController().signal)).rejects.toThrow('计算规则读取失败');
+    expect(getSkill).not.toHaveBeenCalled();
+  });
+
+  it.each(['disabled', 'foreign', 'missing', 'duplicate', 'partial'])('分类目录%s拒绝且不凭旧名恢复候选', async variant => {
+    bindSkill(['basic_attack']);
+    const category = simulationSample().catalogs.skillCategories[0]!;
+    if (variant === 'disabled') category.status = 'DISABLED';
+    if (variant === 'foreign') category.gameId = 'other';
+    const items = variant === 'missing' ? [] : variant === 'duplicate' ? [category, category] : [category];
+    vi.mocked(listSkillCategories).mockResolvedValue(result({ items, total: variant === 'partial' ? 2 : items.length }));
+    await expect(loadBasicAttackOptions(context, 'hero', new AbortController().signal)).rejects.toThrow();
+    expect(getSkill).not.toHaveBeenCalled();
+  });
+
+  it('取消后迟到计算规则和分类目录不能产出候选', async () => {
+    bindSkill(['basic_attack']);
+    let deliver!: (value: ReturnType<typeof result<ReturnType<typeof authoredCalculationRules>>>) => void;
+    vi.mocked(getGameCalculationRules).mockReturnValue(new Promise(resolve => { deliver = resolve; }));
+    const controller = new AbortController();
+    const pending = loadBasicAttackOptions(context, 'hero', controller.signal);
+    controller.abort();
+    deliver(result(authoredCalculationRules('demo')));
+    await expect(pending).rejects.toMatchObject({ name: 'AbortError' });
+    expect(getSkill).not.toHaveBeenCalled();
   });
 
   it('技能详情失败不伪装成空列表', async () => {

@@ -1,4 +1,5 @@
 import type { Attribute } from '../types/attribute';
+import type { SkillCategory } from '../types/skillCategory';
 import type { Binding } from '../types/formulaContract.generated';
 import type { GameCalculationConfiguration, GameCalculationRulesResponse } from '../types/gameCalculationRules';
 import { ApiRequestError, encodePathSegment, requestJson, type ApiResult } from './apiClient';
@@ -24,14 +25,33 @@ export function gameFormulaAllowedBindings(attributes: readonly Pick<Attribute, 
   return attributes.filter(row => row.status === 'ENABLED').flatMap(row => (['BASE', 'BONUS', 'TOTAL'] as const)
     .map(valueKind => ({ kind: 'attribute' as const, object: 'source' as const, attributeKey: row.attributeKey, valueKind, view: 'current_frame' as const })));
 }
-export function parseGameCalculationConfiguration(value: unknown, attributes?: readonly Attribute[]): GameCalculationConfiguration {
-  const row = record(value, ['criticalChanceAttributeKey', 'criticalMultiplierMin', 'attackSpeedAttributeKey', 'attributeDerivations'], 'configuration');
+export function parseGameCalculationConfiguration(value: unknown, attributes?: readonly Attribute[], skillCategories?: readonly SkillCategory[]): GameCalculationConfiguration {
+  const row = record(value, ['criticalChanceAttributeKey', 'criticalMultiplierMin', 'attackSpeedAttributeKey',
+    'basicAttackCategoryKey', 'equipmentPassiveCategoryKey', 'ignorableCastCostAttributeKeys', 'attributeDerivations'], 'configuration');
   const attribute = (value: unknown, path: string) => {
     const selected = key(value, path);
     if (attributes && attributes.filter(row => row.attributeKey === selected && row.status === 'ENABLED').length !== 1) fail(path, 'unknown_attribute');
     return selected;
   };
   for (const field of ['criticalChanceAttributeKey', 'attackSpeedAttributeKey'] as const) if (row[field] !== null) attribute(row[field], `configuration.${field}`);
+  for (const field of ['basicAttackCategoryKey', 'equipmentPassiveCategoryKey'] as const) if (row[field] !== null) {
+    const selected = key(row[field], `configuration.${field}`);
+    if (skillCategories && skillCategories.filter(category => category.skillCategoryKey === selected && category.status === 'ENABLED').length !== 1) {
+      fail(`configuration.${field}`, 'unknown_skill_category');
+    }
+  }
+  if (row.basicAttackCategoryKey !== null && row.basicAttackCategoryKey === row.equipmentPassiveCategoryKey) {
+    fail('configuration.equipmentPassiveCategoryKey', 'category_usage_conflict');
+  }
+  if (!Array.isArray(row.ignorableCastCostAttributeKeys) || row.ignorableCastCostAttributeKeys.length > 32) fail('configuration.ignorableCastCostAttributeKeys');
+  const costAttributes = new Set<string>();
+  row.ignorableCastCostAttributeKeys.forEach((entry, index) => {
+    const path = `configuration.ignorableCastCostAttributeKeys[${index}]`;
+    const selected = attribute(entry, path);
+    if (costAttributes.has(selected)) fail(path, 'duplicate_attribute');
+    if (attributes && !attributes.some(attribute => attribute.attributeKey === selected && ['INTEGER', 'DECIMAL'].includes(attribute.valueType))) fail(path, 'non_numeric_attribute');
+    costAttributes.add(selected);
+  });
   if (row.criticalMultiplierMin !== null && (typeof row.criticalMultiplierMin !== 'number'
     || !Number.isFinite(row.criticalMultiplierMin) || row.criticalMultiplierMin < 0)) fail('configuration.criticalMultiplierMin');
   if (!Array.isArray(row.attributeDerivations) || row.attributeDerivations.length > 4) fail('configuration.attributeDerivations');
@@ -69,27 +89,29 @@ export function parseGameCalculationConfiguration(value: unknown, attributes?: r
   }
   return structuredClone(row) as GameCalculationConfiguration;
 }
-export function parseGameCalculationRules(value: unknown, gameId?: string, attributes?: readonly Attribute[]): GameCalculationRulesResponse {
+export function parseGameCalculationRules(value: unknown, gameId?: string, attributes?: readonly Attribute[], skillCategories?: readonly SkillCategory[]): GameCalculationRulesResponse {
   const row = record(value, ['gameId', 'baseDigest', 'configuration'], 'calculationRules');
   if (typeof row.gameId !== 'string' || !row.gameId || gameId !== undefined && row.gameId !== gameId) fail('calculationRules.gameId');
   if (attributes?.some(attribute => attribute.gameId !== row.gameId)) fail('calculationRules.attributes', 'foreign_game_attribute');
+  if (skillCategories?.some(category => category.gameId !== row.gameId)) fail('calculationRules.skillCategories', 'foreign_game_skill_category');
   if (typeof row.baseDigest !== 'string' || !/^[0-9a-f]{64}$/.test(row.baseDigest)) fail('calculationRules.baseDigest');
   return { gameId: row.gameId, baseDigest: row.baseDigest,
-    configuration: row.configuration === null ? null : parseGameCalculationConfiguration(row.configuration, attributes) };
+    configuration: row.configuration === null ? null : parseGameCalculationConfiguration(row.configuration, attributes, skillCategories) };
 }
 function path(gameId: string) { return `/api/admin/games/${encodePathSegment(gameId)}/calculation-rules`; }
-export async function getGameCalculationRules(api: string, gameId: string, token: string): Promise<ApiResult<GameCalculationRulesResponse>> {
-  const result = await requestJson<unknown>(api, path(gameId), { token });
+export async function getGameCalculationRules(api: string, gameId: string, token: string, signal?: AbortSignal): Promise<ApiResult<GameCalculationRulesResponse>> {
+  const result = await requestJson<unknown>(api, path(gameId), { token, signal });
   return { ...result, data: parseGameCalculationRules(result.data, gameId) };
 }
 export class UnconfirmedCalculationRulesWriteError extends Error {}
 export async function updateGameCalculationRules(api: string, gameId: string, token: string,
   body: { baseDigest: string; configuration: GameCalculationConfiguration }): Promise<ApiResult<GameCalculationRulesResponse>> {
   if (body.configuration === null) fail('configuration');
-  parseGameCalculationRules({ gameId, ...body });
+  const candidate = parseGameCalculationRules({ gameId, ...body });
+  const frozenBody = { baseDigest: candidate.baseDigest, configuration: candidate.configuration! };
   let written: ApiResult<GameCalculationRulesResponse>;
   try {
-    const result = await requestJson<unknown>(api, path(gameId), { method: 'PUT', token, body: JSON.stringify(body) });
+    const result = await requestJson<unknown>(api, path(gameId), { method: 'PUT', token, body: JSON.stringify(frozenBody) });
     written = { ...result, data: parseGameCalculationRules(result.data, gameId) };
   } catch (error) {
     if (error instanceof ApiRequestError && error.status >= 400 && error.status < 500) throw error;
@@ -97,8 +119,8 @@ export async function updateGameCalculationRules(api: string, gameId: string, to
   }
   try {
     const read = await getGameCalculationRules(api, gameId, token);
-    if (read.data.baseDigest !== written.data.baseDigest || !sameFormulaPayload(read.data.configuration, body.configuration)
-      || !sameFormulaPayload(written.data.configuration, body.configuration)) throw new Error('读回不一致');
+    if (read.data.baseDigest !== written.data.baseDigest || !sameFormulaPayload(read.data.configuration, frozenBody.configuration)
+      || !sameFormulaPayload(written.data.configuration, frozenBody.configuration)) throw new Error('读回不一致');
     return read;
   } catch { throw new UnconfirmedCalculationRulesWriteError('计算配置已发送，独立读回未确认，请保留草稿并重新读取确认。'); }
 }

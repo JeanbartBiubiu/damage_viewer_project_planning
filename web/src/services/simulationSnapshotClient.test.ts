@@ -251,7 +251,7 @@ describe('场景只读快照接口', () => {
   it('停用分类可作元数据，但不放宽属性和伤害类型目录的已有约束', () => {
     for (const domain of ['attribute', 'damageType'] as const) {
       const snapshot = simulationSample();
-      snapshot.catalogs.skillCategories[0]!.status = 'DISABLED';
+      snapshot.catalogs.skillCategories.push({ ...snapshot.catalogs.skillCategories[0]!, skillCategoryKey: 'unused_disabled', status: 'DISABLED' });
       if (domain === 'attribute') snapshot.catalogs.attributes[0]!.status = 'DISABLED';
       else snapshot.catalogs.damageTypes[0]!.type.status = 'DISABLED';
       expect(() => validateSimulationSnapshot(snapshot, 'demo', snapshot.selection)).toThrow(/catalogs/);

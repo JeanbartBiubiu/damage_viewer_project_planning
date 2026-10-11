@@ -5,6 +5,8 @@ import { getRepresentativeImage } from '../../services/imageRelationClient';
 import { getSkill } from '../../services/skillClient';
 import { listCharacterSkillRelations } from '../../services/skillRelationClient';
 import { listEquipment } from '../../services/equipmentClient';
+import { getGameCalculationRules, parseGameCalculationRules } from '../../services/gameCalculationRulesClient';
+import { listSkillCategories } from '../../services/skillCategoryClient';
 
 export type SelectionContext = { apiBaseUrl: string; gameId: string; token: string };
 export type SimulationEntityOption = { key: string; name: string } &
@@ -50,9 +52,22 @@ export async function loadEquipmentOptions(context: SelectionContext, signal: Ab
 
 export async function loadCharacterSkillOptions(
   context: SelectionContext, characterKey: string, signal: AbortSignal
-): Promise<SimulationCharacterSkillOption[]> {
-  const { data } = await listCharacterSkillRelations(context.apiBaseUrl, context.gameId, context.token, { characterKey }, signal);
+): Promise<{ items: SimulationCharacterSkillOption[]; notice: string | null }> {
   checkActive(signal);
+  const [relationsResponse, rulesResponse, categoryResponse] = await Promise.all([
+    listCharacterSkillRelations(context.apiBaseUrl, context.gameId, context.token, { characterKey }, signal),
+    getGameCalculationRules(context.apiBaseUrl, context.gameId, context.token, signal),
+    listSkillCategories(context.apiBaseUrl, context.gameId, context.token, {}, signal)
+  ]);
+  checkActive(signal);
+  const catalog = categoryResponse.data;
+  if (!Array.isArray(catalog.items) || catalog.total !== catalog.items.length
+    || new Set(catalog.items.map(row => row.skillCategoryKey)).size !== catalog.items.length) {
+    throw new Error('技能分类目录不完整或标识重复，请重试。');
+  }
+  const rules = parseGameCalculationRules(rulesResponse.data, context.gameId, undefined, catalog.items);
+  const basicAttackCategoryKey = rules.configuration?.basicAttackCategoryKey ?? null;
+  const data = relationsResponse.data;
   const relations = data.items.filter(row => row.skillStatus === 'ENABLED');
   const options: SimulationCharacterSkillOption[] = [];
   // 只读攻击方挂载的技能；详情请求每批最多四个，不读取全游戏技能。
@@ -72,15 +87,15 @@ export async function loadCharacterSkillOptions(
     for (const skill of skills) {
       if (skill.status === 'ENABLED') {
         options.push({ key: skill.skillKey, name: skill.name, kind: 'skill', maxLevel: skill.maxLevel,
-          basicAttack: skill.skillCategoryKeys.includes('basic_attack') });
+          basicAttack: basicAttackCategoryKey !== null && skill.skillCategoryKeys.includes(basicAttackCategoryKey) });
       }
     }
   }
-  return options;
+  return { items: options, notice: basicAttackCategoryKey === null ? '尚未配置普通攻击分类用途绑定。' : null };
 }
 
 export async function loadBasicAttackOptions(context: SelectionContext, characterKey: string, signal: AbortSignal): Promise<SimulationEntityOption[]> {
-  return (await loadCharacterSkillOptions(context, characterKey, signal)).filter(option => option.basicAttack)
+  return (await loadCharacterSkillOptions(context, characterKey, signal)).items.filter(option => option.basicAttack)
     .map(({ basicAttack: _basicAttack, ...option }) => option);
 }
 

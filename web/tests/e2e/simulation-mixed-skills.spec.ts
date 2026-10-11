@@ -200,6 +200,8 @@ test('独立页面：稳定计划标识，编辑时刻不读快照且过期，�
     if (resource === 'characters') return reply({ items: [sample.source.character, sample.target.character], total: 2 });
     if (resource === 'equipment' || resource === 'build-systems') return reply({ items: [], total: 0 });
     if (resource === 'attributes') return reply({ items: sample.catalogs.attributes, total: sample.catalogs.attributes.length });
+    if (resource === 'calculation-rules') return reply(sample.catalogs.calculationRules);
+    if (resource === 'skill-categories') return reply({ items: sample.catalogs.skillCategories, total: sample.catalogs.skillCategories.length });
     if (resource === 'character-skill-relations') {
       const actor = url.searchParams.get('characterKey') === sample.source.character.characterKey ? sample.source : sample.target;
       return reply({ items: actor.attachedSkills, total: actor.attachedSkills.length });

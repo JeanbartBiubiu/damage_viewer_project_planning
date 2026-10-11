@@ -10,7 +10,7 @@ import { reachableAttributeChanges } from './simulationReachableAttributeChanges
 export type ChangedAttributes = Record<'source' | 'target', Set<string>>;
 export function changedAttributes(): ChangedAttributes { return { source: new Set(), target: new Set() }; }
 export function calculationConfiguration(snapshot: SimulationSnapshot) {
-  return parseGameCalculationRules(snapshot.catalogs.calculationRules, snapshot.gameId, snapshot.catalogs.attributes).configuration;
+  return parseGameCalculationRules(snapshot.catalogs.calculationRules, snapshot.gameId, snapshot.catalogs.attributes, snapshot.catalogs.skillCategories).configuration;
 }
 export function gameDerivationFormula(snapshot: SimulationSnapshot, rule: NonNullable<ReturnType<typeof calculationConfiguration>>['attributeDerivations'][number], side: 'source' | 'target'): NamedFormula {
   return { key: `game/${snapshot.gameId}/${rule.ruleKey}/${side}/attribute_derivation`, scope: 'game', parameters: [], expression: structuredClone(rule.formula) };

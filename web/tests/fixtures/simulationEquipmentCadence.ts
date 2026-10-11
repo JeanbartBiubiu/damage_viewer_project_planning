@@ -18,9 +18,9 @@ export async function equipmentCadenceConstruct(prepared: Awaited<ReturnType<typ
   input.rulesHash = `explicit-${scenario}-mechanism-not-real-equipment`;
   input.rules.attributeDerivations = [];
   input.rules.vampRules = [{ vampType: 'LIFE_STEAL', sourceAttributeKey: 'life_steal_percent', basisOutputKind: 'POST_DEFENSE_DAMAGE', defaultEfficiency: 1,
-    targetMatcher: { all: ['combatant/champion'] }, abilityMatcher: { any: ['ability/basic_attack', 'ability/passive'] },
+    targetMatcher: { all: ['combatant/champion'] }, abilityMatcher: { any: ['ability/skill_category/basic_attack', 'ability/skill_category/passive'] },
     damageMatcher: { all: ['damage_trait/origin_direct'], any: ['damage_trait/delivery_basic_attack', 'damage_trait/delivery_skill'] } }];
-  for (const entry of [{ key: 'combatant/champion', domain: 'combatant' }, { key: 'ability/passive', domain: 'ability' },
+  for (const entry of [{ key: 'combatant/champion', domain: 'combatant' }, { key: 'ability/skill_category/passive', domain: 'ability' },
     { key: 'state_scope/provider', domain: 'state_scope' }, { key: 'damage_trait/delivery_skill', domain: 'damage_trait' },
     { key: 'damage_trait/delivery_basic_attack', domain: 'damage_trait' }, { key: 'damage_trait/origin_direct', domain: 'damage_trait' }]) {
     if (!input.typeCatalog.types.some(declared => declared.key === entry.key)) input.typeCatalog.types.push(entry);
@@ -68,7 +68,7 @@ export async function equipmentCadenceConstruct(prepared: Awaited<ReturnType<typ
     const damageIndex = operations.length;
     operations.push(damage('conditional', scenario === 'counter' ? 40 : 25, `listenerSpec.operations[${damageIndex}]`, ready));
     operations.push(stateChange(scenario === 'counter' ? 'hits' : 'blocked', 'override', scenario === 'counter' ? 0 : 1, ready));
-    definition.abilities!.push({ abilityKey: 'cadence', skillKey, kind: 'passive_listener', types: ['ability/passive'], listenerSpec: {
+    definition.abilities!.push({ abilityKey: 'cadence', skillKey, kind: 'passive_listener', types: ['ability/skill_category/passive'], listenerSpec: {
       listenerKey: `${skillKey}_hit`, maxTriggersPerEvent: 1, eventMatcher: { all: ['event/basic_attack_hit', 'event/source_owner'] }, operations
     } });
   } else {
@@ -82,7 +82,7 @@ export async function equipmentCadenceConstruct(prepared: Awaited<ReturnType<typ
           { op: 'read', path: 'source.attr.bonus_attack_speed_percent.resolved' }] }
       ] } }];
     }
-    definition.abilities!.push({ abilityKey: 'cadence', skillKey, kind: 'tick', types: ['ability/passive'], tickSpec: {
+    definition.abilities!.push({ abilityKey: 'cadence', skillKey, kind: 'tick', types: ['ability/skill_category/passive'], tickSpec: {
       startDelayMs: scenario === 'periodic_speed' ? 400 : 500, intervalMs: 1000, onTick: operations
     } });
   }

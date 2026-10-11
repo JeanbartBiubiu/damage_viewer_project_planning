@@ -82,6 +82,11 @@ async function installApi(page: Page) {
     expect(request.headers().authorization).toBe(`Bearer ${TOKEN}`);
     const resource = url.pathname.replace(/^\/api\/admin\/games\/[^/]+\//, '');
     const gameId = url.pathname.split('/')[4]!;
+    if (resource === 'calculation-rules') return reply(simulationSample(gameId).catalogs.calculationRules);
+    if (resource === 'skill-categories') {
+      const items = simulationSample(gameId).catalogs.skillCategories;
+      return reply({ items, total: items.length });
+    }
     if (resource === 'level-config') return reply({ gameId, minLevel: 1, maxLevel: 18 });
     if (resource === 'equipment') return reply({ items: [], total: 0 });
     if (resource === 'build-systems') return reply({ items: [], total: 0 });

@@ -40,6 +40,7 @@ export function triggeredEquipmentSimulationSample(
   const metadata = { createdAt: '', updatedAt: '' };
   snapshot.catalogs.skillCategories.push({ gameId: 'lol', skillCategoryKey: 'passive', name: '独立被动分类',
     description: null, status: 'ENABLED', sortOrder: 1, ...metadata });
+  snapshot.catalogs.calculationRules.configuration!.equipmentPassiveCategoryKey = 'passive';
   const defense = snapshot.catalogs.damageTypes[0]!.formula.formula;
   defense.stages.find(stage => stage.key === 'effective')!.expression = { op: 'max', args: [
     { op: 'const', value: '0' }, { op: 'sub', args: [

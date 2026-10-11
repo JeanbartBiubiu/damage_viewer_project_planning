@@ -904,6 +904,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         action={<Button disabled={busy} onClick={characters.retry}>重试角色列表</Button>} /> : null}
       {skills.error ? <Alert key="skill-options-error" type="error" content={`普攻列表读取失败：${skills.error}`}
         action={<Button disabled={busy} onClick={skills.retry}>重试普攻列表</Button>} /> : null}
+      {skills.notice ? <Alert key="skill-options-notice" type="warning" content={skills.notice} /> : null}
       {skillMode && activeSkills.error ? <Alert key="active-options-error" type="error" content={`角色技能候选读取失败：${activeSkills.error}`}
         action={<Button disabled={busy} onClick={activeSkills.retry}>重试角色技能候选</Button>} /> : null}
       {levels.error ? <Alert key="level-options-error" type="error" content={`角色等级范围读取失败：${levels.error}`}
@@ -954,6 +955,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
                 loadImage={imageLoader} onChange={value => patchSelection('basicAttackSkillKey', value)}
                 placeholder={!selection.sourceCharacterKey ? '先选择攻击方角色' : skills.loading ? '正在读取挂载的普攻…'
                   : skills.error ? '普攻读取失败，请重试'
+                  : skills.notice ? '尚未配置普通攻击分类'
                   : skills.items.length ? '搜索普攻名称或标识' : '此角色没有启用的普攻技能'} />
             </Form.Item>
             <Form.Item label="普攻技能等级" required>

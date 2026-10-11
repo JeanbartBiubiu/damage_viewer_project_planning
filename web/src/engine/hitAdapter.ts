@@ -1,6 +1,7 @@
 import { formulasUsedByInternalValue } from './approvedFormulaValues';
 import { sameFormulaPayload } from '../services/skillFormulaContract';
 import { TypeCatalogEntries } from './typeCatalogEntries';
+import { SKILL_CATEGORY_TYPE_PREFIX } from './skillCategoryType';
 import type { GameVampRule } from '../types/gameVamp';
 import type {
   SkillEffect, SkillEffectResult, SkillEffectSpellShieldBlockScope, SkillEffectStatusOperationResult,
@@ -800,7 +801,7 @@ export function withHitProgram(
       return fail('rules.vampRules', '已有游戏吸血规则与命中计划冲突');
     }
     request.rules.vampRules = adapted.vampRules;
-    ability.types = [...new Set([...(ability.types ?? []).filter((key) => !key.startsWith('ability/')), ...adapted.abilityTypes])];
+    ability.types = [...new Set([...(ability.types ?? []).filter((key) => !key.startsWith(SKILL_CATEGORY_TYPE_PREFIX)), ...adapted.abilityTypes])];
     for (const actor of request.combatants) actor.types = [...new Set([...(actor.types ?? []), 'combatant/champion'])];
   }
   if (adapted.resolveKind === 'basic_attack') {

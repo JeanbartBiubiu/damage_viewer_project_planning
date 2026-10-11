@@ -1,5 +1,6 @@
 import { sameFormulaPayload } from '../services/skillFormulaContract';
 import { TypeCatalogEntries } from './typeCatalogEntries';
+import { SKILL_CATEGORY_TYPE_PREFIX, skillCategoryTypeKey } from './skillCategoryType';
 import { GAME_VAMP_TYPES, type GameVampRule } from '../types/gameVamp';
 import type { SkillEffectDamageDetail } from '../types/skillEffect';
 import type { SkillFormula } from '../types/skillFormula';
@@ -80,7 +81,7 @@ export function adaptDamageVamp(rules: readonly GameVampRule[], damage: Authored
     ...Object.values(deliveryTypes).map(key => [key, 'damage_trait'] as const),
     ...Object.values(originTypes).map(key => [key, 'damage_trait'] as const)
   ]);
-  const categoryType = (key: string) => { const type = `ability/${key}`; types.set(type, 'ability'); return type; };
+  const categoryType = (key: string) => { const type = skillCategoryTypeKey(key); types.set(type, 'ability'); return type; };
   const seen = new Set<string>();
   const genericRules = [...rules].sort((a, b) => GAME_VAMP_TYPES.indexOf(a.vampType) - GAME_VAMP_TYPES.indexOf(b.vampType)).map((rule, index): GenericVampRule => {
     const path = `game.vampRules[${index}]`;
@@ -190,7 +191,7 @@ export function withVampConfiguration(
     const adapted = adaptDamageVamp(rules, binding.damage);
     request.rules.vampRules = adapted.rules;
     for (const entry of adapted.typeEntries) addType(entry.key, entry.domain);
-    ability!.types = [...new Set([...(ability!.types ?? []).filter(key => !key.startsWith('ability/')), ...adapted.abilityTypes])];
+    ability!.types = [...new Set([...(ability!.types ?? []).filter(key => !key.startsWith(SKILL_CATEGORY_TYPE_PREFIX)), ...adapted.abilityTypes])];
     ability!.params ??= {};
     for (const [key, value] of Object.entries(adapted.params)) {
       if (key in ability!.params && ability!.params[key] !== value) fail(`ability.params.${key}`, '参数与现有运行输入冲突');

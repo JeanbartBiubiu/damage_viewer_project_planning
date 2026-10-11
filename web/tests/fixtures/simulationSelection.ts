@@ -26,6 +26,11 @@ export async function installSimulationSelectionApi(page: Page, api: string, gam
   const sourceKey = selectionSample || gameId === 'demo' ? sample.selection.sourceCharacterKey : 'source_sample';
   const targetKey = selectionSample || gameId === 'demo' ? sample.selection.targetCharacterKey : 'target_sample';
   const skillKey = selectionSample || gameId === 'demo' ? sample.selection.basicAttackSkillKey : 'shared_basic_attack';
+  await page.route(`${api}/api/admin/games/${gameId}/calculation-rules`, route => route.fulfill({ json: {
+    ...sample.catalogs.calculationRules, gameId
+  } }));
+  const categories = sample.catalogs.skillCategories.map(row => ({ ...row, gameId }));
+  await page.route(`${api}/api/admin/games/${gameId}/skill-categories`, route => route.fulfill({ json: { items: categories, total: categories.length } }));
   await page.route(`${api}/api/admin/games/${gameId}/level-config`, route => route.fulfill({ json: {
     ...sample.catalogs.levelConfig, gameId
   } }));
