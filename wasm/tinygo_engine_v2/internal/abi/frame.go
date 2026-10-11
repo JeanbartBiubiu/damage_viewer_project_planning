@@ -24,13 +24,17 @@ type Frame struct {
 
 func EncodeFrame(kind model.FrameKind, flags uint32, payload []byte) []byte {
 	out := make([]byte, HeaderLen+len(payload))
+	writeFrameHeader(out[:HeaderLen], kind, flags, len(payload))
+	copy(out[HeaderLen:], payload)
+	return out
+}
+
+func writeFrameHeader(out []byte, kind model.FrameKind, flags uint32, payloadLen int) {
 	binary.LittleEndian.PutUint32(out[0:4], Magic)
 	binary.LittleEndian.PutUint16(out[4:6], model.SchemaVersion)
 	binary.LittleEndian.PutUint16(out[6:8], uint16(kind))
 	binary.LittleEndian.PutUint32(out[8:12], flags)
-	binary.LittleEndian.PutUint32(out[12:16], uint32(len(payload)))
-	copy(out[HeaderLen:], payload)
-	return out
+	binary.LittleEndian.PutUint32(out[12:16], uint32(payloadLen))
 }
 
 func DecodeFrame(input []byte) (Frame, error) {

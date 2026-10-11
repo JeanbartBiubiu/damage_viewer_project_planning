@@ -18,15 +18,17 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 实际速度在首次等待及后续提交前核对正数、上界。已有计划过程时点或即时属性命中只准入真实普通属性槽、明确加算和本次行动目标；生命周期、监听器和普攻原门槛保持。暴击合成金额及属性新基础值在证据、裁剪和提交前检查有限值，失败帧不提交。
 
-当前正式产物 `target/calculation-rules/tinygo_engine_v2.wasm` 为1,384,822字节，SHA256 `e5ad0845d1e3a9d95e461da3916cb78c7dbcb4df270030cf0aeb3b203174a755`，固定256MiB。全量Go、原生基准、标准Node往返、既有第三A／B及第四／第五阶段专项、同会话200次通过。新12项专项覆盖重命名概率、倍率下限、游戏拥有方、更换完整公式及溢出两次拒绝后同会话100次恢复和释放重编；不替代真实服务及浏览器证据。共享契约与分层验收由规划真源《暴击与攻速作者绑定和属性派生详细设计》及2026-10-11验收记录维护。
+当前正式产物 `target/outbox-memory-fix/tinygo_engine_v2.wasm` 为1,386,371字节，SHA256 `4ed40c234cefce6aa54442e8520ba3add7fdd910ae6b6443167d1396ba4c5b4e`，固定256MiB。作者绑定开发收尾的前一产物是1,384,822字节、SHA256 `e5ad0845d1e3a9d95e461da3916cb78c7dbcb4df270030cf0aeb3b203174a755`。本次修复完整30秒重复输出的内存不足：JSON编码借用编码池缓冲，正文及帧头直接写入固定容量出箱，消除每次整份JSON副本与临时帧；协议字节、优先帧、丢弃计数、编码失败保留及容量错误保持。重叠正文先移动再写头，编码器终止换行不进入协议正文。
+
+当前全量Go、ABI边界检查、标准Node往返及作者绑定12项专项通过。正式Wasm在同一Node会话200次完整结果相等，并验证变化输出、错误恢复、释放重编；回收后堆占用稳定约5.9MB。真实服务的原100次同Worker压力用例通过，冻结失败档案另经实际浏览器Worker200次完整相等并释放。TinyGo的全局保守扫描本身未改，诊断地址名单不进入产品。共享契约与完整分层证据由规划真源《暴击与攻速作者绑定和属性派生详细设计》及2026-10-11验收记录维护。
 
 ```powershell
 go test -count=1 ./...
 go run ./cmd/bench
-powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/calculation-rules/tinygo_engine_v2.wasm
-node .\scripts\calculation-rules-smoke-node.mjs target/calculation-rules/tinygo_engine_v2.wasm
-node .\scripts\smoke-node.mjs --wasm target/calculation-rules/tinygo_engine_v2.wasm
-node .\scripts\session-reuse-smoke-node.mjs --wasm target/calculation-rules/tinygo_engine_v2.wasm --iterations 200
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/outbox-memory-fix/tinygo_engine_v2.wasm
+node .\scripts\calculation-rules-smoke-node.mjs target/outbox-memory-fix/tinygo_engine_v2.wasm
+node .\scripts\smoke-node.mjs --wasm target/outbox-memory-fix/tinygo_engine_v2.wasm
+node .\scripts\session-reuse-smoke-node.mjs --wasm target/outbox-memory-fix/tinygo_engine_v2.wasm --iterations 200
 ```
 
 以下各阶段产物与数字保留历史验收口径，当前产物以上节为准。

@@ -39,18 +39,36 @@ func (o *Outbox) Dropped() int {
 }
 
 func (o *Outbox) WriteJSON(kind model.FrameKind, payload any) model.ErrCode {
-	encoded, err := json.Marshal(payload)
-	if err != nil {
+	writer := outboxJSONWriter{outbox: o, kind: kind, code: model.ErrOK}
+	// Encoder 借用编码池缓冲，避免 Marshal 为每次完整结果分配副本。
+	// 完成编码后才写出箱；编码失败不会改变已有帧。
+	if err := json.NewEncoder(&writer).Encode(payload); err != nil {
 		return model.ErrInvalidInput
 	}
-	return o.WriteFrame(kind, 0, encoded)
+	return writer.code
+}
+
+type outboxJSONWriter struct {
+	outbox *Outbox
+	kind   model.FrameKind
+	code   model.ErrCode
+}
+
+func (w *outboxJSONWriter) Write(encoded []byte) (int, error) {
+	written := len(encoded)
+	// Encoder 追加的分隔换行不属于协议中的 JSON payload。
+	if written > 0 && encoded[written-1] == '\n' {
+		encoded = encoded[:written-1]
+	}
+	w.code = w.outbox.WriteFrame(w.kind, 0, encoded)
+	return written, nil
 }
 
 func (o *Outbox) WriteFrame(kind model.FrameKind, flags uint32, payload []byte) model.ErrCode {
-	frame := EncodeFrame(kind, flags, payload)
 	capacity := cap(o.buf)
 
-	if len(frame) > capacity {
+	// 先比较可用 payload 容量，避免头长度相加溢出，也不分配临时帧。
+	if len(payload) > capacity-HeaderLen {
 		if isPriorityFrame(kind) {
 			o.buf = o.buf[:0]
 			return model.ErrQueueOverflow
@@ -59,7 +77,8 @@ func (o *Outbox) WriteFrame(kind model.FrameKind, flags uint32, payload []byte) 
 		return model.ErrOK
 	}
 
-	if len(o.buf)+len(frame) > capacity {
+	frameLen := HeaderLen + len(payload)
+	if frameLen > capacity-len(o.buf) {
 		if isPriorityFrame(kind) {
 			o.buf = o.buf[:0]
 		} else {
@@ -68,7 +87,11 @@ func (o *Outbox) WriteFrame(kind model.FrameKind, flags uint32, payload []byte) 
 		}
 	}
 
-	o.buf = append(o.buf, frame...)
+	start := len(o.buf)
+	o.buf = o.buf[:start+frameLen]
+	// payload 可能引用原出箱；先移动正文，再写头，保留重叠输入。
+	copy(o.buf[start+HeaderLen:], payload)
+	writeFrameHeader(o.buf[start:start+HeaderLen], kind, flags, len(payload))
 	return model.ErrOK
 }
 
