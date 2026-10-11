@@ -1,11 +1,9 @@
+import { LIFECYCLE_CHECK_LABELS } from '../../../../types/skillSystemEnums.generated';
+export { LIFECYCLE_CHECK_LABELS };
 import { fixedValue } from '../../../../types/numericValue';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type { SkillTriggerLifecycleCheckDetail, SkillTriggerLifecycleCheckKind, SkillTriggerSubject } from '../../../../types/skillTriggerRule';
 import { numericValueError, type NumericCatalog, type NumericLimits } from '../numericValueForm';
-
-export const LIFECYCLE_CHECK_LABELS = {
-  PRESENT: '存在', ABSENT: '不存在', STACKS_COMPARE: '层数比较'
-} as const;
 
 export function lifecycleNeedsSubject(effect: SkillEffect | undefined): boolean {
   return effect?.lifecycle?.instanceScope === 'TARGET' || effect?.lifecycle?.instanceScope === 'SOURCE_TARGET';

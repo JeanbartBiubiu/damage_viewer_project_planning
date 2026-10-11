@@ -1,5 +1,45 @@
+import {
+  SKILL_PROCESS_INTERVAL_FIRST_EXECUTIONS,
+  SKILL_PROCESS_FIRST_EXECUTIONS,
+  EMPOWERED_CONSUME_MOMENTS
+} from '../../../../types/skillSystemEnums.generated';
+import {
+  SKILL_PROCESS_ACTIVATION_TYPES,
+  SKILL_PROCESS_ACTIVATION_TYPE_LABELS,
+  SKILL_PROCESS_STEP_TYPES,
+  SKILL_PROCESS_STEP_TYPE_LABELS,
+  SKILL_PROCESS_MOMENT_TYPES,
+  SKILL_PROCESS_MOMENT_TYPE_LABELS,
+  PROCESS_FAILURE_REASONS,
+  PROCESS_FAILURE_REASON_LABELS,
+  PROCESS_LEVEL_MOMENT_TYPES,
+  STEP_LEVEL_MOMENT_TYPES,
+  FIRST_EXECUTION_LABELS,
+  EMPOWERED_CONSUME_MOMENT_LABELS,
+  STATE_OPERATION_LABELS
+} from '../../../../types/skillSystemEnums.generated';
+export {
+  SKILL_PROCESS_ACTIVATION_TYPES,
+  SKILL_PROCESS_ACTIVATION_TYPE_LABELS,
+  SKILL_PROCESS_STEP_TYPES,
+  SKILL_PROCESS_STEP_TYPE_LABELS,
+  SKILL_PROCESS_MOMENT_TYPES,
+  SKILL_PROCESS_MOMENT_TYPE_LABELS,
+  PROCESS_FAILURE_REASONS,
+  PROCESS_FAILURE_REASON_LABELS,
+  PROCESS_LEVEL_MOMENT_TYPES,
+  STEP_LEVEL_MOMENT_TYPES,
+  FIRST_EXECUTION_LABELS,
+  EMPOWERED_CONSUME_MOMENT_LABELS,
+  STATE_OPERATION_LABELS
+};
 import type { SkillParameter } from '../../../../types/skillParameter';
-import { numericIssuePath, numericValueError, numericValueSummary, staticChargeRangeIsValid } from '../numericValueForm';
+import {
+  numericIssuePath,
+  numericValueError,
+  numericValueSummary,
+  staticChargeRangeIsValid
+} from '../numericValueForm';
 import { numericFormulaKey } from '../../../../types/numericValue';
 import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
@@ -18,6 +58,7 @@ import type {
   SkillProcessEmpoweredConsumeMoment,
   SkillProcessFailureReason,
   SkillProcessFirstExecution,
+  SkillProcessFirstExecutionKind,
   SkillProcessMoment,
   SkillProcessMomentType,
   SkillProcessProcessMomentType,
@@ -31,120 +72,13 @@ import type {
 
 export const SKILL_PROCESS_KEY_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
 
-export const SKILL_PROCESS_ACTIVATION_TYPES = [
-  'ACTIVE',
-  'PASSIVE',
-  'CONSUMABLE'
-] as const satisfies readonly SkillProcessActivationType[];
-
-export const SKILL_PROCESS_ACTIVATION_TYPE_LABELS = {
-  ACTIVE: '主动',
-  PASSIVE: '被动',
-  CONSUMABLE: '消耗'
-} as const satisfies { [K in SkillProcessActivationType]: string };
-
-export const SKILL_PROCESS_STEP_TYPES = [
-  'IMMEDIATE',
-  'DELAY',
-  'MULTI_HIT',
-  'PERIODIC',
-  'CHANNEL',
-  'CHARGE',
-  'RECAST',
-  'EMPOWERED_BASIC_ATTACK'
-] as const satisfies readonly SkillProcessStepType[];
-
-export const SKILL_PROCESS_STEP_TYPE_LABELS = {
-  IMMEDIATE: '立即',
-  DELAY: '延迟',
-  MULTI_HIT: '多段',
-  PERIODIC: '周期',
-  CHANNEL: '引导',
-  CHARGE: '蓄力',
-  RECAST: '重施',
-  EMPOWERED_BASIC_ATTACK: '强化下一次普通攻击'
-} as const satisfies { [K in SkillProcessStepType]: string };
-
-export const SKILL_PROCESS_MOMENT_TYPES = [
-  'PROCESS_START',
-  'STEP_START',
-  'STEP_EXECUTION',
-  'STEP_COMPLETE',
-  'STEP_TIMEOUT',
-  'PROCESS_COMPLETE',
-  'PROCESS_FAILURE'
-] as const satisfies readonly SkillProcessMomentType[];
-
-export const SKILL_PROCESS_MOMENT_TYPE_LABELS = {
-  PROCESS_START: '过程开始',
-  STEP_START: '步骤开始',
-  STEP_EXECUTION: '步骤执行',
-  STEP_COMPLETE: '步骤完成',
-  STEP_TIMEOUT: '步骤超时',
-  PROCESS_COMPLETE: '过程完成',
-  PROCESS_FAILURE: '过程失败'
-} as const satisfies { [K in SkillProcessMomentType]: string };
-
-export const PROCESS_FAILURE_REASONS = [
-  'CONTROLLED',
-  'SOURCE_DIED',
-  'TARGET_UNTARGETABLE',
-  'ACTIVE_CANCELLED',
-  'EVENT_ABORTED'
-] as const satisfies readonly SkillProcessFailureReason[];
-
-export const PROCESS_FAILURE_REASON_LABELS = {
-  CONTROLLED: '受到控制',
-  SOURCE_DIED: '来源对象死亡',
-  TARGET_UNTARGETABLE: '当前目标不可选取',
-  ACTIVE_CANCELLED: '主动取消',
-  EVENT_ABORTED: '当前事件终止'
-} as const satisfies { [K in SkillProcessFailureReason]: string };
-
 export const PROCESS_FAILURE_REASON_ANY_LABEL = '不限原因';
-
-export const PROCESS_LEVEL_MOMENT_TYPES = [
-  'PROCESS_START',
-  'PROCESS_COMPLETE',
-  'PROCESS_FAILURE'
-] as const satisfies readonly SkillProcessMomentType[];
-
-export const STEP_LEVEL_MOMENT_TYPES = [
-  'STEP_START',
-  'STEP_EXECUTION',
-  'STEP_COMPLETE',
-  'STEP_TIMEOUT'
-] as const satisfies readonly SkillProcessMomentType[];
 
 export const TIMEOUT_ALLOWED_STEP_TYPES = [
   'CHARGE',
   'RECAST',
   'EMPOWERED_BASIC_ATTACK'
 ] as const satisfies readonly SkillProcessStepType[];
-
-export const FIRST_EXECUTION_LABELS = {
-  IMMEDIATE: '立即执行',
-  AFTER_INTERVAL: '等待一个间隔',
-  CUSTOM_WINDOW: '指定首末执行窗口'
-} as const satisfies { [K in SkillProcessFirstExecution | 'CUSTOM_WINDOW']: string };
-
-export const EMPOWERED_CONSUME_MOMENT_LABELS = {
-  ATTACK_START: '攻击发起',
-  ATTACK_HIT: '攻击命中'
-} as const satisfies { [K in SkillProcessEmpoweredConsumeMoment]: string };
-
-export const STATE_OPERATION_LABELS = {
-  INCREASE: '增加',
-  DECREASE: '减少',
-  CONSUME: '消耗',
-  SET: '设置',
-  RESET: '重置',
-  SELECT: '选择',
-  ENABLE: '启用',
-  DISABLE: '停用',
-  TOGGLE: '切换',
-  START: '开始'
-} as const satisfies { [K in SkillProcessStateOperationKind]: string };
 
 export const MILLISECOND_FORMULA_HINT = '时长按毫秒解释';
 export const POSITIVE_INTEGER_FORMULA_HINT = '未来按正整数解释';
@@ -169,7 +103,7 @@ export type SkillProcessStepDraft = {
   delayValue: NumericValue | null;
   repeatCountValue: NumericValue | null;
   intervalValue: NumericValue | null;
-  firstExecution: SkillProcessFirstExecution | 'CUSTOM_WINDOW' | '';
+  firstExecution: SkillProcessFirstExecutionKind | '';
   durationValue: NumericValue | null;
   executionCountValue: NumericValue | null;
   firstExecutionOffsetValue: NumericValue | null;
@@ -1170,7 +1104,7 @@ function validateStepDetail(
     case 'PERIODIC':
       requireNonEmpty(draft.repeatCountValue, fieldErrors, 'repeatCountValue', '请选择执行次数取值。');
       requireNonEmpty(draft.intervalValue, fieldErrors, 'intervalValue', '请选择间隔取值。');
-      if (draft.firstExecution !== 'IMMEDIATE' && draft.firstExecution !== 'AFTER_INTERVAL') {
+      if (!(SKILL_PROCESS_INTERVAL_FIRST_EXECUTIONS as readonly string[]).includes(draft.firstExecution)) {
         fieldErrors.firstExecution = '请选择首次执行时机。';
       }
       validateFormulaRef(options, draft.repeatCountValue, fieldErrors, 'repeatCountValue');
@@ -1179,7 +1113,7 @@ function validateStepDetail(
     case 'CHANNEL':
       requireNonEmpty(draft.durationValue, fieldErrors, 'durationValue', '请选择持续时间取值。');
       requireNonEmpty(draft.executionCountValue, fieldErrors, 'executionCountValue', '请选择执行次数取值。');
-      if (draft.firstExecution !== 'IMMEDIATE' && draft.firstExecution !== 'AFTER_INTERVAL' && draft.firstExecution !== 'CUSTOM_WINDOW') {
+      if (!(SKILL_PROCESS_FIRST_EXECUTIONS as readonly string[]).includes(draft.firstExecution)) {
         fieldErrors.firstExecution = '请选择首次执行时机。';
       }
       validateFormulaRef(options, draft.durationValue, fieldErrors, 'durationValue');
@@ -1211,7 +1145,7 @@ function validateStepDetail(
       break;
     case 'EMPOWERED_BASIC_ATTACK':
       requireNonEmpty(draft.windowValue, fieldErrors, 'windowValue', '请选择有效窗口取值。');
-      if (draft.consumeMoment !== 'ATTACK_START' && draft.consumeMoment !== 'ATTACK_HIT') {
+      if (!(EMPOWERED_CONSUME_MOMENTS as readonly string[]).includes(draft.consumeMoment)) {
         fieldErrors.consumeMoment = '请选择消耗时点。';
       }
       validateFormulaRef(options, draft.windowValue, fieldErrors, 'windowValue');
@@ -1297,7 +1231,7 @@ function buildStep(
         detail: {
           durationValue: draft.durationValue!,
           executionCountValue: draft.executionCountValue!,
-          firstExecution: draft.firstExecution as SkillProcessFirstExecution | 'CUSTOM_WINDOW',
+          firstExecution: draft.firstExecution as SkillProcessFirstExecutionKind,
           ...(draft.firstExecution === 'CUSTOM_WINDOW' ? {
             firstExecutionOffsetValue: draft.firstExecutionOffsetValue!,
             lastExecutionOffsetValue: draft.lastExecutionOffsetValue!

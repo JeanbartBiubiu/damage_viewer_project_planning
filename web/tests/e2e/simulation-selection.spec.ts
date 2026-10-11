@@ -12,8 +12,26 @@ import { permanentEquipmentSimulationSample } from '../fixtures/simulationPerman
 import { triggeredEquipmentSimulationSample } from '../fixtures/simulationTriggeredEquipment';
 import { isolatedSimulationSelection, syncSimulationSkillSources } from '../fixtures/simulationSkillSources';
 import { validateSimulationSnapshot } from '../../src/services/simulationSnapshotClient';
+import { SKILL_TRIGGER_EVENT_TYPE_LABELS } from '../../src/types/skillSystemEnums.generated';
 
 test.use({ trace: 'off' });
+
+test('系统枚举专项：模拟来源初始化使用完整公共中文标签', async ({ page }) => {
+  const sample = simulationDefaultSourcesSample();
+  // 仅检查明确初始化入口的来源显示；保持已有准入失败样例，不证明编译或运行。
+  sample.skillConfigurations[0]!.triggerRules.unshift({
+    ...structuredClone(sample.skillConfigurations[0]!.triggerRules[0]!),
+    ruleKey: 'initialize_display', name: '初始化显示', eventSource: { eventType: 'SOURCE_INITIALIZED', detail: {} }
+  });
+  sample.skillConfigurations[0]!.processes = [];
+  const diagnostics = await installSnapshotStructureApi(page, sample);
+  await selectStructureScene(page);
+  await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
+  const sources = page.getByRole('region', { name: '攻击方角色技能来源', exact: true });
+  await expect(sources).toContainText(SKILL_TRIGGER_EVENT_TYPE_LABELS.SOURCE_INITIALIZED);
+  await expect(sources).not.toContainText('角色初始化');
+  diagnostics.assertClean();
+});
 
 test('5A测试样例同步：装备默认来源完整、双方独立，关闭英雄不丢关系或固定属性', () => {
   const samples = [equipmentSimulationSample(['item_1042'], ['item_1036']),

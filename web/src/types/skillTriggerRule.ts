@@ -1,145 +1,64 @@
+import type { SkillTriggerRecentDamageOutputKind } from './skillSystemEnums.generated';
+export type { SkillTriggerRecentDamageOutputKind };
+import { SKILL_TRIGGER_TARGET_CATEGORIES } from './skillSystemEnums.generated';
+export { SKILL_TRIGGER_TARGET_CATEGORIES };
+import type {
+  SkillTriggerEventType,
+  SkillTriggerConditionType,
+  SkillTriggerActionType,
+  SkillTriggerRuntimeInputSourceType,
+  SkillTriggerEventUseKind,
+  SkillTriggerLifecycleEventMoment,
+  SkillTriggerSubject,
+  SkillTriggerStatusChangeKind,
+  SkillTriggerHealthDirection,
+  SkillTriggerDamageDeliveryKind,
+  SkillTriggerDamageOriginKind,
+  SkillTriggerInternalStateChangeKind,
+  SkillTriggerEventValueKey,
+  SkillTriggerComparator,
+  SkillTriggerStatusCheckKind,
+  SkillTriggerInternalStateValueKind,
+  SkillTriggerTargetContext,
+  SkillTriggerCastPhase,
+  SkillTriggerCombatStatusValueKind,
+  SkillTriggerPriorResultOutputKind,
+  SkillTriggerValueDomain,
+  SkillTriggerLifecycleCheckKind,
+  SkillTriggerTargetCategory,
+  SkillTriggerOncePerUseScope
+} from './skillSystemEnums.generated';
+export type {
+  SkillTriggerEventType,
+  SkillTriggerConditionType,
+  SkillTriggerActionType,
+  SkillTriggerRuntimeInputSourceType,
+  SkillTriggerEventUseKind,
+  SkillTriggerLifecycleEventMoment,
+  SkillTriggerSubject,
+  SkillTriggerStatusChangeKind,
+  SkillTriggerHealthDirection,
+  SkillTriggerDamageDeliveryKind,
+  SkillTriggerDamageOriginKind,
+  SkillTriggerInternalStateChangeKind,
+  SkillTriggerEventValueKey,
+  SkillTriggerComparator,
+  SkillTriggerStatusCheckKind,
+  SkillTriggerInternalStateValueKind,
+  SkillTriggerTargetContext,
+  SkillTriggerCastPhase,
+  SkillTriggerCombatStatusValueKind,
+  SkillTriggerPriorResultOutputKind,
+  SkillTriggerValueDomain,
+  SkillTriggerLifecycleCheckKind,
+  SkillTriggerTargetCategory,
+  SkillTriggerOncePerUseScope
+};
 import { type NumericValue } from './numericValue';
 import type { FormulaAttributeValueKind } from './skillFormula';
 import type { SkillProcessFailureReason, SkillProcessMoment } from './skillProcess';
 
-export type SkillTriggerEventType =
-  | 'SOURCE_INITIALIZED'
-  | 'SKILL_USED'
-  | 'BASIC_ATTACK_START'
-  | 'BASIC_ATTACK_HIT'
-  | 'BASIC_ATTACK_RECEIVED'
-  | 'SKILL_HIT'
-  | 'PROCESS_MOMENT'
-  | 'RESULT_AVAILABLE'
-  | 'LIFECYCLE_MOMENT'
-  | 'DAMAGE_PENDING'
-  | 'DAMAGE_DEALT'
-  | 'DAMAGE_TAKEN'
-  | 'STATUS_CHANGED'
-  | 'HEALTH_THRESHOLD_CROSSED'
-  | 'INTERNAL_STATE_CHANGED'
-  | 'CONTROL_RECEIVED'
-  | 'ENTITY_DIED'
-  | 'ENTITY_UNTARGETABLE'
-  | 'KILL'
-  | 'TAKEDOWN'
-  | 'PROCESS_CANCEL_REQUESTED'
-  | 'SPELL_SHIELD_BLOCKED'
-  | 'HIT_LINK_APPLIED'
-  | 'ATTACK_LINK_APPLIED';
-
-export type SkillTriggerConditionType =
-  | 'ATTRIBUTE_COMPARE'
-  | 'STATUS_CHECK'
-  | 'LIFECYCLE_CHECK'
-  | 'TARGET_CATEGORY_CHECK'
-  | 'EXPLICIT_TARGET_IS_SOURCE'
-  | 'SKILL_HIT_TARGET_IS_ENEMY'
-  | 'INTERNAL_STATE_CHECK'
-  | 'EVENT_VALUE_COMPARE';
-
-export type SkillTriggerActionType =
-  | 'EXECUTE_EFFECT'
-  | 'START_PROCESS'
-  | 'FAIL_PROCESS'
-  | 'ADVANCE_PROCESS';
-
-export type SkillTriggerRuntimeInputSourceType =
-  | 'INTERNAL_STATE'
-  | 'COMBAT_STATUS'
-  | 'EVENT_VALUE'
-  | 'SOURCE_CAST_RESOURCE_COST'
-  | 'PRIOR_ACTION_RESULT'
-  | 'COMBAT_ELAPSED_TIME'
-  | 'RECENT_DAMAGE_SUM';
-
-export type SkillTriggerEventUseKind = 'ACTIVE' | 'CONSUMABLE' | 'ANY';
-
-export type SkillTriggerLifecycleEventMoment =
-  | 'APPLICATION'
-  | 'FULL_STACKS'
-  | 'PERIODIC'
-  | 'NATURAL_END'
-  | 'EARLY_REMOVE';
-
-export type SkillTriggerSubject = 'SOURCE' | 'CURRENT_TARGET' | 'EVENT_SOURCE';
-
-export type SkillTriggerStatusChangeKind = 'APPLY' | 'REMOVE';
-
-export type SkillTriggerHealthDirection = 'UPWARD' | 'DOWNWARD';
-
-export type SkillTriggerDamageDeliveryKind = 'ANY' | 'SKILL' | 'BASIC_ATTACK';
-export type SkillTriggerDamageOriginKind = 'ANY' | 'DIRECT' | 'REFLECTED';
-
-export type SkillTriggerInternalStateChangeKind =
-  | 'VALUE_CHANGED'
-  | 'OPTION_SELECTED'
-  | 'FLAG_CHANGED'
-  | 'COOLDOWN_READY';
-
-export type SkillTriggerEventValueKey =
-  | 'STEP_EXECUTION_INDEX'
-  | 'CHARGE_DURATION_MS'
-  | 'RECAST_COUNT'
-  | 'HIT_INDEX'
-  | 'SKILL_HIT_FIRST_CONTACT'
-  | 'SKILL_HIT_SPELL_SHIELD_BLOCKED'
-  | 'LIFECYCLE_STACKS'
-  | 'PERIOD_INDEX'
-  | 'REMAINING_MS'
-  | 'STATE_BEFORE'
-  | 'STATE_AFTER'
-  | 'ATTRIBUTE_BEFORE'
-  | 'ATTRIBUTE_AFTER'
-  | 'THRESHOLD_VALUE'
-  | 'RAW_DAMAGE'
-  | 'POST_DEFENSE_DAMAGE'
-  | 'HEALTH_BEFORE'
-  | 'PROJECTED_HEALTH_AFTER'
-  | 'SHIELD_ABSORBED'
-  | 'ACTUAL_HP_LOSS'
-  | 'BLOCKED'
-  | 'IMMUNE'
-  | 'KILLED'
-  | 'LINK_INDEX'
-  | 'LINK_COUNT';
-
-export type SkillTriggerComparator = 'LT' | 'LTE' | 'EQ' | 'NE' | 'GTE' | 'GT';
-
-export type SkillTriggerStatusCheckKind =
-  | 'PRESENT'
-  | 'ABSENT'
-  | 'STACKS_COMPARE'
-  | 'REMAINING_MS_COMPARE';
-
-export type SkillTriggerInternalStateValueKind =
-  | 'VALUE'
-  | 'ATTACK_START_VALUE'
-  | 'OPTION_SELECTED'
-  | 'ENABLED'
-  | 'REMAINING_MS';
-
-export type SkillTriggerTargetContext = 'CURRENT_TARGET' | 'EVENT_SOURCE';
-
-export type SkillTriggerCastPhase = 'INITIAL' | 'RECAST' | 'CHARGE_RELEASE';
-
 export type SkillTriggerProcessFailureReason = SkillProcessFailureReason;
-
-export type SkillTriggerCombatStatusValueKind = 'PRESENT' | 'STACKS' | 'REMAINING_MS';
-
-export type SkillTriggerPriorResultOutputKind =
-  | 'CONFIGURED_VALUE'
-  | 'RAW_DAMAGE'
-  | 'POST_DEFENSE_DAMAGE'
-  | 'SHIELD_ABSORBED'
-  | 'ACTUAL_HP_LOSS'
-  | 'ACTUAL_HEALING'
-  | 'BLOCKED'
-  | 'IMMUNE'
-  | 'STATUS_APPLIED'
-  | 'KILLED';
-
-export type SkillTriggerValueDomain = 'INTEGER' | 'DECIMAL';
 
 export type SkillTriggerEmptyDetail = {
   readonly [key: string]: never;
@@ -388,7 +307,6 @@ export type SkillTriggerStatusCheckDetail =
   | SkillTriggerStatusPresenceDetail
   | SkillTriggerStatusCompareDetail;
 
-export type SkillTriggerLifecycleCheckKind = 'PRESENT' | 'ABSENT' | 'STACKS_COMPARE';
 export type SkillTriggerLifecycleCheckDetail = {
   effectSkillKey: string;
   effectKey: string;
@@ -513,8 +431,6 @@ export type SkillTriggerCondition =
   | SkillTriggerInternalStateCheckCondition
   | SkillTriggerEventValueCompareCondition;
 
-export const SKILL_TRIGGER_TARGET_CATEGORIES = ['CHAMPION', 'EPIC_MONSTER', 'MINION', 'NON_EPIC_MONSTER', 'STRUCTURE'] as const;
-export type SkillTriggerTargetCategory = (typeof SKILL_TRIGGER_TARGET_CATEGORIES)[number];
 export type SkillTriggerTargetCategoryCheckDetail = { categories: SkillTriggerTargetCategory[] };
 
 export type SkillTriggerConditionGroup = {
@@ -564,7 +480,7 @@ export type SkillTriggerCombatElapsedTimeBindingDetail = {
 export type SkillTriggerRecentDamageSumBindingDetail = {
   subject: SkillTriggerSubject;
   windowValue: NumericValue;
-  outputKind: 'POST_DEFENSE_DAMAGE' | 'ACTUAL_HP_LOSS';
+  outputKind: SkillTriggerRecentDamageOutputKind;
   sourceSkillKey: string | null;
   damageTypeKey: string | null;
   deliveryKind: SkillTriggerDamageDeliveryKind;
@@ -707,8 +623,6 @@ export type SkillTriggerProcessLimit = {
   processKey: string;
   limitValue: NumericValue;
 };
-
-export type SkillTriggerOncePerUseScope = 'SKILL' | 'TARGET';
 
 export type SkillTriggerOncePerUse = {
   groupKey: string;

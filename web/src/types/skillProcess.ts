@@ -1,39 +1,28 @@
+import type { SkillProcessFirstExecutionKind } from './skillSystemEnums.generated';
+export type { SkillProcessFirstExecutionKind };
+import type {
+  SkillProcessActivationType,
+  SkillProcessStepType,
+  SkillProcessFirstExecution,
+  SkillProcessEmpoweredConsumeMoment,
+  SkillProcessProcessMomentType,
+  SkillProcessStepMomentType,
+  SkillProcessMomentType,
+  SkillProcessFailureReason,
+  SkillProcessStateOperationKind
+} from './skillSystemEnums.generated';
+export type {
+  SkillProcessActivationType,
+  SkillProcessStepType,
+  SkillProcessFirstExecution,
+  SkillProcessEmpoweredConsumeMoment,
+  SkillProcessProcessMomentType,
+  SkillProcessStepMomentType,
+  SkillProcessMomentType,
+  SkillProcessFailureReason,
+  SkillProcessStateOperationKind
+};
 import { type NumericValue } from './numericValue';
-export type SkillProcessActivationType = 'ACTIVE' | 'PASSIVE' | 'CONSUMABLE';
-
-export type SkillProcessStepType =
-  | 'IMMEDIATE'
-  | 'DELAY'
-  | 'MULTI_HIT'
-  | 'PERIODIC'
-  | 'CHANNEL'
-  | 'CHARGE'
-  | 'RECAST'
-  | 'EMPOWERED_BASIC_ATTACK';
-
-export type SkillProcessFirstExecution = 'IMMEDIATE' | 'AFTER_INTERVAL';
-
-export type SkillProcessEmpoweredConsumeMoment = 'ATTACK_START' | 'ATTACK_HIT';
-
-export type SkillProcessProcessMomentType =
-  | 'PROCESS_START'
-  | 'PROCESS_COMPLETE'
-  | 'PROCESS_FAILURE';
-
-export type SkillProcessStepMomentType =
-  | 'STEP_START'
-  | 'STEP_EXECUTION'
-  | 'STEP_COMPLETE'
-  | 'STEP_TIMEOUT';
-
-export type SkillProcessMomentType = SkillProcessProcessMomentType | SkillProcessStepMomentType;
-
-export type SkillProcessFailureReason =
-  | 'CONTROLLED'
-  | 'SOURCE_DIED'
-  | 'TARGET_UNTARGETABLE'
-  | 'ACTIVE_CANCELLED'
-  | 'EVENT_ABORTED';
 
 export type SkillProcessProcessMoment = {
   momentType: SkillProcessProcessMomentType;
@@ -71,7 +60,7 @@ export type SkillProcessPeriodicDetail = {
 export type SkillProcessChannelDetail = {
   durationValue: NumericValue;
   executionCountValue: NumericValue;
-  firstExecution: SkillProcessFirstExecution | 'CUSTOM_WINDOW';
+  firstExecution: SkillProcessFirstExecutionKind;
   firstExecutionOffsetValue?: NumericValue;
   lastExecutionOffsetValue?: NumericValue;
 };
@@ -200,8 +189,6 @@ export type SkillProcessStateOperation =
   | SkillProcessModeStateOperation
   | SkillProcessFlagStateOperation
   | SkillProcessInternalCooldownStateOperation;
-
-export type SkillProcessStateOperationKind = SkillProcessStateOperation['operation'];
 
 export type SkillProcessSummary = {
   gameId: string;

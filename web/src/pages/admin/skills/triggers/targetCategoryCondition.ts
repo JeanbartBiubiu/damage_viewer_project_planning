@@ -1,12 +1,6 @@
-import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerEventType, type SkillTriggerTargetCategory, type SkillTriggerTargetCategoryCheckDetail } from '../../../../types/skillTriggerRule';
-
-export const TARGET_CATEGORY_LABELS = {
-  CHAMPION: '英雄',
-  EPIC_MONSTER: '史诗野怪',
-  MINION: '小兵',
-  NON_EPIC_MONSTER: '非史诗野怪',
-  STRUCTURE: '建筑'
-} as const satisfies Record<SkillTriggerTargetCategory, string>;
+import { TARGET_CATEGORY_LABELS } from '../../../../types/skillSystemEnums.generated';
+export { TARGET_CATEGORY_LABELS };
+import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerEventType, type SkillTriggerTargetCategoryCheckDetail } from '../../../../types/skillTriggerRule';
 
 export function allowsTargetCategoryCheck(eventType: SkillTriggerEventType): boolean {
   return eventType === 'SKILL_HIT'

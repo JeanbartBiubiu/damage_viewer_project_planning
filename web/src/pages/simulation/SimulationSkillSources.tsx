@@ -1,3 +1,4 @@
+import { SKILL_TRIGGER_EVENT_TYPE_LABELS } from '../../types/skillSystemEnums.generated';
 import { Checkbox, Select, Table, Typography } from '@arco-design/web-react';
 import { simulationSkillSourceIdentity } from '../../services/simulationSkillSourceIdentity';
 import type { SimulationSkillInactiveReason, SimulationSkillSetting, SimulationSkillSource, SimulationSnapshot } from '../../types/simulationSnapshot';
@@ -20,12 +21,6 @@ const reasonLabels: Record<SimulationSkillInactiveReason, string> = {
   NO_AUTONOMOUS_ATTACK: '本场没有该来源的自身攻击入口', ACTIVE_DEFERRED: '仅主动入口，阶段6暂缓',
   CONFIGURATION_INCOMPLETE: '自然程序尚未配置完整', LEVEL_REQUIRED: '自然程序仍需明确技能等级'
 };
-const eventLabels: Record<string, string> = {
-  SOURCE_INITIALIZED: '角色初始化', BASIC_ATTACK_START: '普攻开始', BASIC_ATTACK_HIT: '普攻命中',
-  SKILL_USED: '实际技能使用', SKILL_HIT: '实际技能命中',
-  BASIC_ATTACK_RECEIVED: '收到普攻', DAMAGE_TAKEN: '实际受伤', ATTACK_LINK_APPLIED: '攻击联动', HIT_LINK_APPLIED: '命中联动'
-};
-
 export function SimulationSkillSources({ side, snapshot, sources, settings, basicAttackSkillKey, basicAttackLevel, stale, clearedLevels, disabled, onChange }: Props) {
   const label = side === 'source' ? '攻击方' : '目标';
   return <section className="simulation-skill-sources" aria-label={`${label}默认技能来源`}>
@@ -70,7 +65,7 @@ export function SimulationSkillSources({ side, snapshot, sources, settings, basi
               const configuration = snapshot?.skillConfigurations.find(item => item.skill.skillKey === source.skillKey);
               const roots = source.enabledRuleKeys.map(ruleKey => {
                 const event = configuration?.triggerRules.find(rule => rule.ruleKey === ruleKey)?.eventSource.eventType;
-                return `${event ? eventLabels[event] ?? event : '入口'}（${ruleKey}）`;
+                return `${event ? SKILL_TRIGGER_EVENT_TYPE_LABELS[event] : '入口'}（${ruleKey}）`;
               });
               const activeDeferred = configuration?.triggerRules.some(rule => !source.enabledRuleKeys.includes(rule.ruleKey)
                 && (rule.eventSource.eventType === 'SKILL_USED' || rule.eventSource.eventType === 'SKILL_HIT'));

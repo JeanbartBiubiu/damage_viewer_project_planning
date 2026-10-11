@@ -1,28 +1,14 @@
+import { PROCESS_FAILURE_REASONS, SKILL_PROCESS_MOMENT_TYPES } from '../types/skillSystemEnums.generated';
 import type {
   SkillProcessFailureReason,
   SkillProcessMoment,
   SkillProcessMomentType
 } from '../types/skillProcess';
 
-export const SKILL_PROCESS_FAILURE_REASONS = [
-  'CONTROLLED',
-  'SOURCE_DIED',
-  'TARGET_UNTARGETABLE',
-  'ACTIVE_CANCELLED',
-  'EVENT_ABORTED'
-] as const satisfies readonly SkillProcessFailureReason[];
+export { PROCESS_FAILURE_REASONS as SKILL_PROCESS_FAILURE_REASONS } from '../types/skillSystemEnums.generated';
+const PROCESS_MOMENT_TYPES = new Set<SkillProcessMomentType>(SKILL_PROCESS_MOMENT_TYPES);
 
-const PROCESS_MOMENT_TYPES = new Set<SkillProcessMomentType>([
-  'PROCESS_START',
-  'PROCESS_COMPLETE',
-  'PROCESS_FAILURE',
-  'STEP_START',
-  'STEP_EXECUTION',
-  'STEP_COMPLETE',
-  'STEP_TIMEOUT'
-]);
-
-const FAILURE_REASONS = new Set<string>(SKILL_PROCESS_FAILURE_REASONS);
+const FAILURE_REASONS = new Set<string>(PROCESS_FAILURE_REASONS);
 const MOMENT_KEYS = new Set(['momentType', 'stepKey', 'failureReason']);
 
 function isRecord(value: unknown): value is Record<string, unknown> {

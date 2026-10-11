@@ -2,9 +2,25 @@ import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { expect, test, type Page } from '@playwright/test';
 import type { SkillConfiguration, SkillConfigurationChange } from '../../src/types/skillConfiguration';
 import { fixedValue } from '../../src/types/numericValue';
+import { FIRST_EXECUTION_LABELS } from '../../src/types/skillSystemEnums.generated';
 
 const API = 'http://127.0.0.1:19091';
 const savedAt = '2026-10-06T00:00:00Z';
+
+test('系统枚举专项：引导首次执行完整选项保留原顺序与中文', async ({ page }) => {
+  const { state } = await install(page);
+  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  await workspace.getByRole('button', { name: '编辑', exact: true }).first().click();
+  const process = page.getByRole('dialog', { name: '编辑过程', exact: true });
+  await process.getByRole('button', { name: '编辑', exact: true }).first().click();
+  const step = page.getByRole('dialog', { name: '编辑步骤', exact: true });
+  for (const label of Object.values(FIRST_EXECUTION_LABELS)) await expect(step.getByText(label, { exact: true })).toBeVisible();
+  await step.getByRole('button', { name: '取消', exact: true }).click();
+  await expect(step).toBeHidden();
+  await process.getByRole('button', { name: '取消', exact: true }).click();
+  expect(state.writes).toHaveLength(0);
+  expect(state.unexpected).toEqual([]);
+});
 
 function configuration(): SkillConfiguration {
   const base = { gameId: 'window_fixture', skillKey: 'window_sample', description: null, sortOrder: 0, createdAt: savedAt, updatedAt: savedAt };

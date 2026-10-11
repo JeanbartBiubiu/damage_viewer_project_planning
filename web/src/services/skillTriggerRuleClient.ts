@@ -1,3 +1,18 @@
+import {
+  SKILL_TRIGGER_EVENT_TYPES,
+  SKILL_TRIGGER_CONDITION_TYPES,
+  SKILL_TRIGGER_ACTION_TYPES,
+  SKILL_TRIGGER_CAST_PHASES,
+  SKILL_TRIGGER_SOURCE_TYPES,
+  SKILL_TRIGGER_EVENT_VALUE_KEYS,
+  SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS,
+  SKILL_TRIGGER_ONCE_PER_USE_SCOPES,
+  SKILL_TRIGGER_DAMAGE_DELIVERY_KINDS,
+  SKILL_TRIGGER_DAMAGE_ORIGIN_KINDS,
+  SKILL_TRIGGER_SUBJECTS,
+  SKILL_TRIGGER_COMPARATORS,
+  SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_KINDS
+} from '../types/skillSystemEnums.generated';
 import { assertNumericUses } from './numericValue';
 import { isNumericValue } from '../types/numericValue';
 import { SKILL_TRIGGER_TARGET_CATEGORIES } from '../types/skillTriggerRule';
@@ -22,104 +37,33 @@ import type {
   UpdateSkillTriggerRuleRequest
 } from '../types/skillTriggerRule';
 
-const EVENT_TYPES = new Set<SkillTriggerEventType>([
-  'SOURCE_INITIALIZED',
-  'SKILL_USED',
-  'BASIC_ATTACK_START',
-  'BASIC_ATTACK_HIT',
-  'SKILL_HIT',
-  'PROCESS_MOMENT',
-  'RESULT_AVAILABLE',
-  'LIFECYCLE_MOMENT',
-  'DAMAGE_PENDING',
-  'DAMAGE_DEALT',
-  'DAMAGE_TAKEN',
-  'STATUS_CHANGED',
-  'HEALTH_THRESHOLD_CROSSED',
-  'INTERNAL_STATE_CHANGED',
-  'CONTROL_RECEIVED',
-  'ENTITY_DIED',
-  'ENTITY_UNTARGETABLE',
-  'KILL',
-  'TAKEDOWN',
-  'PROCESS_CANCEL_REQUESTED',
-  'SPELL_SHIELD_BLOCKED',
-  'HIT_LINK_APPLIED',
-  'ATTACK_LINK_APPLIED'
-]);
+const EVENT_TYPES = new Set<string>(SKILL_TRIGGER_EVENT_TYPES);
 
-const CONDITION_TYPES = new Set([
-  'ATTRIBUTE_COMPARE',
-  'STATUS_CHECK',
-  'LIFECYCLE_CHECK',
-  'TARGET_CATEGORY_CHECK',
-  'EXPLICIT_TARGET_IS_SOURCE',
-  'SKILL_HIT_TARGET_IS_ENEMY',
-  'INTERNAL_STATE_CHECK',
-  'EVENT_VALUE_COMPARE'
-]);
+const CONDITION_TYPES = new Set<string>(SKILL_TRIGGER_CONDITION_TYPES);
 
-const ACTION_TYPES = new Set(['EXECUTE_EFFECT', 'START_PROCESS', 'FAIL_PROCESS', 'ADVANCE_PROCESS']);
-const CAST_PHASES = new Set<SkillTriggerCastPhase>(['INITIAL', 'RECAST', 'CHARGE_RELEASE']);
+const ACTION_TYPES = new Set<string>(SKILL_TRIGGER_ACTION_TYPES);
+const CAST_PHASES = new Set<string>(SKILL_TRIGGER_CAST_PHASES);
 const SKILL_USED_DETAIL_KEYS = new Set(['sourceSkillKey', 'useKind', 'castPhase']);
 const ADVANCE_PROCESS_DETAIL_KEYS = new Set(['processKey', 'stepKey']);
 
-const SOURCE_TYPES = new Set([
-  'INTERNAL_STATE',
-  'COMBAT_STATUS',
-  'EVENT_VALUE',
-  'SOURCE_CAST_RESOURCE_COST',
-  'PRIOR_ACTION_RESULT'
-]);
+const SOURCE_TYPES = new Set<string>(SKILL_TRIGGER_SOURCE_TYPES);
 
-const EVENT_VALUE_KEYS = new Set([
-  'STEP_EXECUTION_INDEX',
-  'CHARGE_DURATION_MS',
-  'RECAST_COUNT',
-  'HIT_INDEX',
-  'SKILL_HIT_FIRST_CONTACT',
-  'SKILL_HIT_SPELL_SHIELD_BLOCKED',
-  'LIFECYCLE_STACKS',
-  'PERIOD_INDEX',
-  'REMAINING_MS',
-  'STATE_BEFORE',
-  'STATE_AFTER',
-  'ATTRIBUTE_BEFORE',
-  'ATTRIBUTE_AFTER',
-  'THRESHOLD_VALUE',
-  'RAW_DAMAGE',
-  'POST_DEFENSE_DAMAGE',
-  'HEALTH_BEFORE',
-  'PROJECTED_HEALTH_AFTER',
-  'SHIELD_ABSORBED',
-  'ACTUAL_HP_LOSS',
-  'BLOCKED',
-  'IMMUNE',
-  'KILLED',
-  'LINK_INDEX',
-  'LINK_COUNT'
-]);
+const EVENT_VALUE_KEYS = new Set<string>(SKILL_TRIGGER_EVENT_VALUE_KEYS);
 
-const PRIOR_RESULT_OUTPUT_KINDS = new Set([
-  'CONFIGURED_VALUE',
-  'RAW_DAMAGE',
-  'POST_DEFENSE_DAMAGE',
-  'SHIELD_ABSORBED',
-  'ACTUAL_HP_LOSS',
-  'ACTUAL_HEALING',
-  'BLOCKED',
-  'IMMUNE',
-  'STATUS_APPLIED',
-  'KILLED'
-]);
+const PRIOR_RESULT_OUTPUT_KINDS = new Set<string>(SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS);
 
 const PRIOR_RESULT_DETAIL_KEYS = new Set(['sourceActionKey', 'sourceResultKey', 'outputKind']);
-const ONCE_PER_USE_SCOPES = new Set<SkillTriggerOncePerUseScope>(['SKILL', 'TARGET']);
+const ONCE_PER_USE_SCOPES = new Set<string>(SKILL_TRIGGER_ONCE_PER_USE_SCOPES);
 const ONCE_PER_USE_KEYS = new Set(['groupKey', 'scope']);
 const TRIGGER_KEY_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
 
-const DAMAGE_DELIVERY_KINDS = new Set(['ANY', 'SKILL', 'BASIC_ATTACK']);
-const DAMAGE_ORIGIN_KINDS = new Set(['ANY', 'DIRECT', 'REFLECTED']);
+const DAMAGE_DELIVERY_KINDS = new Set<string>(SKILL_TRIGGER_DAMAGE_DELIVERY_KINDS);
+const DAMAGE_ORIGIN_KINDS = new Set<string>(SKILL_TRIGGER_DAMAGE_ORIGIN_KINDS);
+const SUBJECTS = new Set<string>(SKILL_TRIGGER_SUBJECTS);
+const COMPARATORS = new Set<string>(SKILL_TRIGGER_COMPARATORS);
+const RECENT_DAMAGE_OUTPUT_KINDS = new Set<string>(SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_KINDS);
+const RUNTIME_BINDING_KEYS = new Set(['bindingKey', 'parameterKey', 'sourceType', 'detail']);
+const RECENT_DAMAGE_DETAIL_KEYS = new Set(['subject', 'windowValue', 'outputKind', 'sourceSkillKey', 'damageTypeKey', 'deliveryKind', 'originKind']);
 
 export class SkillTriggerRuleProtocolError extends Error {
   constructor(message: string) {
@@ -193,6 +137,7 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
     protocolError(`${path}.detail.castPhase`);
   }
   switch (eventType) {
+    case 'BASIC_ATTACK_RECEIVED':
     case 'SOURCE_INITIALIZED':
     case 'TAKEDOWN':
       if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
@@ -345,9 +290,9 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
       const allowed = ['effectKey', 'subject', 'checkKind', 'comparator', 'comparisonValue'];
       if (Object.keys(detail).length !== allowed.length || Object.keys(detail).some((key) => !allowed.includes(key))) protocolError(`${path}.detail`);
       if (typeof detail.effectKey !== 'string' || !/^[a-z][a-z0-9_]{0,63}$/.test(detail.effectKey)) protocolError(`${path}.detail.effectKey`);
-      if (detail.subject !== null && (typeof detail.subject !== 'string' || !['SOURCE', 'CURRENT_TARGET', 'EVENT_SOURCE'].includes(detail.subject))) protocolError(`${path}.detail.subject`);
+      if (detail.subject !== null && (typeof detail.subject !== 'string' || !SUBJECTS.has(detail.subject))) protocolError(`${path}.detail.subject`);
       if (detail.checkKind === 'STACKS_COMPARE') {
-        if (typeof detail.comparator !== 'string' || !['EQ', 'NE', 'GT', 'GTE', 'LT', 'LTE'].includes(detail.comparator) || !isNumericValue(detail.comparisonValue)) protocolError(`${path}.detail`);
+        if (typeof detail.comparator !== 'string' || !COMPARATORS.has(detail.comparator) || !isNumericValue(detail.comparisonValue)) protocolError(`${path}.detail`);
         if (detail.comparisonValue.kind === 'FIXED' && (!Number.isInteger(detail.comparisonValue.value) || detail.comparisonValue.value < 0)) protocolError(`${path}.detail.comparisonValue`);
       } else if ((detail.checkKind !== 'PRESENT' && detail.checkKind !== 'ABSENT') || detail.comparator !== null || detail.comparisonValue !== null) protocolError(`${path}.detail`);
       break;
@@ -368,7 +313,7 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
         || typeof detail.eventValueKey !== 'string'
         || !EVENT_VALUE_KEYS.has(detail.eventValueKey)
         || typeof detail.comparator !== 'string'
-        || !['EQ', 'NE', 'GT', 'GTE', 'LT', 'LTE'].includes(detail.comparator)
+        || !COMPARATORS.has(detail.comparator)
         || !isNumericValue(detail.comparisonValue)
       ) {
         protocolError(`${path}.detail`);
@@ -388,6 +333,25 @@ function assertBinding(value: unknown, path: string): SkillTriggerRuntimeInputBi
   }
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
   const detail = value.detail;
+  if (sourceType === 'COMBAT_ELAPSED_TIME' || sourceType === 'RECENT_DAMAGE_SUM') {
+    if (Object.keys(value).length !== RUNTIME_BINDING_KEYS.size || Object.keys(value).some(key => !RUNTIME_BINDING_KEYS.has(key))) protocolError(path);
+    for (const key of ['bindingKey', 'parameterKey'] as const) {
+      if (typeof value[key] !== 'string' || !TRIGGER_KEY_PATTERN.test(value[key])) protocolError(`${path}.${key}`);
+    }
+    if (typeof detail.subject !== 'string' || !SUBJECTS.has(detail.subject)) protocolError(`${path}.detail.subject`);
+    if (sourceType === 'COMBAT_ELAPSED_TIME') {
+      if (Object.keys(detail).length !== 1) protocolError(`${path}.detail`);
+    } else {
+      if (Object.keys(detail).length !== RECENT_DAMAGE_DETAIL_KEYS.size || Object.keys(detail).some(key => !RECENT_DAMAGE_DETAIL_KEYS.has(key))) protocolError(`${path}.detail`);
+      if (!isNumericValue(detail.windowValue)) protocolError(`${path}.detail.windowValue`);
+      if (typeof detail.outputKind !== 'string' || !RECENT_DAMAGE_OUTPUT_KINDS.has(detail.outputKind)) protocolError(`${path}.detail.outputKind`);
+      for (const key of ['sourceSkillKey', 'damageTypeKey'] as const) {
+        if (detail[key] !== null && (typeof detail[key] !== 'string' || !TRIGGER_KEY_PATTERN.test(detail[key]))) protocolError(`${path}.detail.${key}`);
+      }
+      if (typeof detail.deliveryKind !== 'string' || !DAMAGE_DELIVERY_KINDS.has(detail.deliveryKind)) protocolError(`${path}.detail.deliveryKind`);
+      if (typeof detail.originKind !== 'string' || !DAMAGE_ORIGIN_KINDS.has(detail.originKind)) protocolError(`${path}.detail.originKind`);
+    }
+  }
   if (sourceType === 'EVENT_VALUE') {
     if (Object.keys(detail).length !== 1 || typeof detail.eventValueKey !== 'string' || !EVENT_VALUE_KEYS.has(detail.eventValueKey)) {
       protocolError(`${path}.detail.eventValueKey`);

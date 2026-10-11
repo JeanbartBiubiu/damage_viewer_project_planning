@@ -1,4 +1,13 @@
 import {
+  SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_KINDS,
+  SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_LABELS,
+  SKILL_TRIGGER_DAMAGE_DELIVERY_KINDS,
+  SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS,
+  SKILL_TRIGGER_DAMAGE_ORIGIN_KINDS,
+  SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS,
+  type SkillTriggerRecentDamageOutputKind
+} from '../../../../types/skillSystemEnums.generated';
+import {
   Alert,
   Button,
   Empty,
@@ -12,7 +21,11 @@ import {
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Attribute } from '../../../../types/attribute';
-import { allowsSourceCastResourceCost, sourceCastResourceCostError, type SourceCastResourceCostProcess } from './sourceCastResourceCost';
+import {
+  allowsSourceCastResourceCost,
+  sourceCastResourceCostError,
+  type SourceCastResourceCostProcess
+} from './sourceCastResourceCost';
 import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
 import { useQualifiedSkillEffect, useQualifiedSkillState } from '../useQualifiedSkillReference';
 import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
@@ -809,10 +822,9 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               </Form.Item>
               <Form.Item label="累计口径" required>
                 <Select aria-label="受伤累计口径" value={current.detail.outputKind} disabled={disabled}
-                  options={[{ value: 'POST_DEFENSE_DAMAGE', label: '防御后伤害' },
-                    { value: 'ACTUAL_HP_LOSS', label: '实际扣血' }]}
+                  options={SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_KINDS.map(value => ({ value, label: SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_LABELS[value] }))}
                   onChange={(value) => setCurrent({ ...current, detail: { ...current.detail,
-                    outputKind: value as 'POST_DEFENSE_DAMAGE' | 'ACTUAL_HP_LOSS' } })} />
+                    outputKind: value as SkillTriggerRecentDamageOutputKind } })} />
               </Form.Item>
               <Form.Item label="来源技能">
                 <Select aria-label="受伤来源技能" value={current.detail.sourceSkillKey ?? ''} disabled={disabled}
@@ -830,15 +842,13 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               </Form.Item>
               <Form.Item label="产生方式" required>
                 <Select aria-label="受伤产生方式" value={current.detail.deliveryKind} disabled={disabled}
-                  options={[{ value: 'ANY', label: '任意' }, { value: 'SKILL', label: '技能' },
-                    { value: 'BASIC_ATTACK', label: '普攻' }]}
+                  options={SKILL_TRIGGER_DAMAGE_DELIVERY_KINDS.map(value => ({ value, label: SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS[value] }))}
                   onChange={(value) => setCurrent({ ...current, detail: { ...current.detail,
                     deliveryKind: value as import('../../../../types/skillTriggerRule').SkillTriggerDamageDeliveryKind } })} />
               </Form.Item>
               <Form.Item label="来源性质" required>
                 <Select aria-label="受伤来源性质" value={current.detail.originKind} disabled={disabled}
-                  options={[{ value: 'ANY', label: '任意' }, { value: 'DIRECT', label: '直接' },
-                    { value: 'REFLECTED', label: '反弹' }]}
+                  options={SKILL_TRIGGER_DAMAGE_ORIGIN_KINDS.map(value => ({ value, label: SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS[value] }))}
                   onChange={(value) => setCurrent({ ...current, detail: { ...current.detail,
                     originKind: value as import('../../../../types/skillTriggerRule').SkillTriggerDamageOriginKind } })} />
               </Form.Item>
