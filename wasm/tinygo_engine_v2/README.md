@@ -12,6 +12,10 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 更细的模块依赖与时序见 [`ARCHITECTURE.md`](ARCHITECTURE.md)。协作规则见 [`AGENTS.md`](AGENTS.md)。
 
+无调用残留清理后，`internal/crit` 仅保留正式暴击结算使用的概率边界和数值夹取工具。未接入的 `internal/augment` 强化开关骨架，以及旧暴击策略、倍率0补1和旧期望拆分函数已删除。正式暴击三分支仍由运行层执行，下面的当前产物与既有机制验收口径保持。
+
+本次全量Go测试通过，重新构建的 `target/unused-residue-cleanup/tinygo_engine_v2.wasm` 与前批最终产物、Web源产物的字节完全相等：1,385,770字节，SHA256 `0967cb717dfa16c64f7b3e397400b73a7f7fdcc15a86ee59850fbaf784e297a2`。
+
 ## 当前产物与静态光环统一准入
 
 当前正式产物 `target/category-cost-bindings/tinygo_engine_v2.wasm` 为1,385,770字节，SHA256 `0967cb717dfa16c64f7b3e397400b73a7f7fdcc15a86ee59850fbaf784e297a2`，初始与最大内存仍固定256MiB。连续普攻不再按 `opponent.attr.attack_speed` 限制同拥有方只能挂一份光环；多个独立、完整静态来源沿现有属性修正规则叠加。来源唯一性、非生命对手属性槽、显式总值乘算、有限非负常量和事件命令预算保持。
