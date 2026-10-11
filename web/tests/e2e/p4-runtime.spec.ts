@@ -5,7 +5,7 @@ import { resolve } from 'node:path';
 import { test, expect, type Page, type TestInfo } from '@playwright/test';
 import type { CompileRequest, DoneResult, InitialSnapshot, ProcessControlAction, RunRequest } from '../../src/types/genericEngine';
 import type { AuthoredProcessProgram } from '../../src/engine/processAdapter';
-import type { AuthoredTriggerProgram } from '../../src/engine/triggerAdapter';
+import { waitingAttackProvider, TRIGGER_RUNTIME_TYPES } from '../fixtures/triggerRuntimePrograms';
 import type { AuthoredHitProgram } from '../../src/engine/hitAdapter';
 import type { SkillEffect, SkillEffectResult } from '../../src/types/skillEffect';
 import type { SkillProcessMoment, SkillProcessStep } from '../../src/types/skillProcess';
@@ -124,32 +124,6 @@ function healingProbe(): AuthoredProcessProgram {
   return p;
 }
 
-function bladeProbe(): AuthoredTriggerProgram {
-  const skillKey = 'probe_blade';
-  const icd = { conditionKey: 'icd', conditionType: 'INTERNAL_STATE_CHECK' as const, sortOrder: 20,
-    detail: { stateKey: 'icd', valueKind: 'REMAINING_MS' as const, optionKey: null, expectedBoolean: null, comparator: 'EQ' as const, comparisonValue: fixedValue(0) } };
-  const effect = resource('bonus', 'RESTORE', fixedValue(1)); effect.skillKey = skillKey;
-  return { gameId: 'lol', skillKey, skillLevel: 1, characterLevel: 1,
-    identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
-    statuses: [], modifierZones: [], skillCategoryKeys: [], vampRules: [],
-    internalStates: [
-      { gameId: 'lol', skillKey, stateKey: 'ready', name: '待命', scope: 'SKILL', description: null, sortOrder: 10, stateType: 'FLAG', detail: { initialEnabled: false }, createdAt: '', updatedAt: '' },
-      { gameId: 'lol', skillKey, stateKey: 'icd', name: '冷却', scope: 'SKILL', description: null, sortOrder: 20, stateType: 'INTERNAL_COOLDOWN', detail: { durationValue: fixedValue(1500) }, createdAt: '', updatedAt: '' }
-    ], effects: [effect],
-    processes: [{ gameId: 'lol', skillKey, processKey: 'blade', name: '待击', activationType: 'ACTIVE', description: null, sortOrder: 10, cooldown: null,
-      steps: [{ stepKey: 'aa', name: '待击', description: null, sortOrder: 10, stepType: 'EMPOWERED_BASIC_ATTACK', detail: { windowValue: fixedValue(400), consumeMoment: 'ATTACK_HIT' } }],
-      effectBindings: [{ bindingKey: 'bonus', effectKey: 'bonus', moment: moment('STEP_EXECUTION', 'aa'), sortOrder: 10 }],
-      stateOperations: [
-        { operationKey: 'arm', name: '开启', stateKey: 'ready', moment: moment('PROCESS_START'), sortOrder: 10, operation: 'ENABLE', value: null, optionKey: null },
-        { operationKey: 'consume', name: '消费', stateKey: 'ready', moment: moment('STEP_EXECUTION', 'aa'), sortOrder: 20, operation: 'DISABLE', value: null, optionKey: null },
-        { operationKey: 'icd', name: '冷却', stateKey: 'icd', moment: moment('STEP_EXECUTION', 'aa'), sortOrder: 30, operation: 'START', value: null, optionKey: null },
-        { operationKey: 'expire', name: '到期', stateKey: 'ready', moment: moment('STEP_TIMEOUT', 'aa'), sortOrder: 40, operation: 'DISABLE', value: null, optionKey: null }
-      ], createdAt: '', updatedAt: '' }],
-    rules: [
-      rule({ ruleKey: 'arm', eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } }, conditionGroups: [{ groupKey: 'ready', name: '冷却就绪', sortOrder: 10, conditions: [icd] }],
-        actions: [{ actionKey: 'arm', name: '启动', actionType: 'START_PROCESS', sortOrder: 10, targetContext: 'CURRENT_TARGET', detail: { processKey: 'blade' }, runtimeInputBindings: [], resultModifiers: [] }] })
-    ] };
-}
 function hitProbe(): AuthoredHitProgram {
   const damage = resource('hit', 'RESTORE', fixedValue(10));
   damage.results = [{ ...damage.results[0]!, resultType: 'DAMAGE', target: 'TARGET', detail: { damageTypeKey: 'physics', deliveryKind: 'SKILL', originKind: 'DIRECT',
@@ -172,7 +146,6 @@ async function run(page: Page, payload: Payload): Promise<Result> {
   await page.goto('/p4-browser-harness');
   return page.evaluate(async data => {
     const { adaptProcessProgram, withProcessProgram, processCommandFact, explicitProcessInterrupt } = await import(/* @vite-ignore */ '/src/engine/processAdapter.ts');
-    const { withTriggerProgram } = await import(/* @vite-ignore */ '/src/engine/triggerAdapter.ts');
     const { withHitProgram, provenSkillUseFact, skillHitFact } = await import(/* @vite-ignore */ '/src/engine/hitAdapter.ts');
     const { GenericEngineClient } = await import(/* @vite-ignore */ '/src/engine/genericEngineClient.ts');
     const { approveAuthoredFormulaProof } = await import(/* @vite-ignore */ '/tests/fixtures/browserAuthoredFormulaProof.ts');
@@ -209,8 +182,14 @@ async function run(page: Page, payload: Payload): Promise<Result> {
       }
       const mount = request.combatants.find(actor => actor.key === owner)!.providers.find(provider => provider.providerRef === 'casting')!;
       request.sharedProviders!.find(provider => provider.providerKey === mount.definitionRef)!.abilities!.push(explicitProcessInterrupt({ abilityKey: 'interrupt', processKey: 'cast', skillKey: data.program.skillKey, failureReason: 'CONTROLLED' }));
-      if (data.blade) request = withTriggerProgram(request, { triggerProviderKey: 'probe_blade', authored: data.probeBlade,
-        initialCastAbilities: [{ providerRef: 'casting', abilityKey: adapted.initialAbilityKey }] }, { rulesHash: 'p4-blade' });
+      if (data.blade) {
+        const initialAbility = request.sharedProviders!.find(provider => provider.providerKey === mount.definitionRef)!.abilities!.find(ability => ability.abilityKey === adapted.initialAbilityKey)!;
+        initialAbility.types = [...(initialAbility.types ?? []), 'ability/p4_initial_probe'];
+        request.typeCatalog.types.push(...data.probeTypes.filter(type => !request.typeCatalog.types.some(old => old.key === type.key && old.domain === type.domain)));
+        request.sharedProviders!.push(data.probeBlade);
+        request.combatants.find(actor => actor.key === owner)!.providers.push({ providerRef: data.probeBlade.providerKey, definitionRef: data.probeBlade.providerKey });
+        request.rulesHash = 'p4-explicit-waiting-probe';
+      }
       if (data.hit) request = withHitProgram(request, { hitProviderKey: 'hit', hitAbilityKey: 'hit', authored: data.probeHit }, { rulesHash: 'p4-hit' });
       result.compileRequest = request;
       result.runRequests = [];
@@ -252,7 +231,11 @@ async function run(page: Page, payload: Payload): Promise<Result> {
     } catch (error) { result.adapterError = String(error); }
     finally { if (sessionId) result.released = (await client.release(sessionId, request.rulesHash)).released; client.terminate(); }
     return result;
-  }, { ...payload, probeBlade: bladeProbe(), probeHit: hitProbe(), damageTypeFormulas: [
+  }, { ...payload, probeBlade: waitingAttackProvider({ providerKey: 'probe_blade', skillKey: 'probe_blade', castType: 'ability/p4_initial_probe',
+    groupKey: 'blade', windowMs: 400, cooldownMs: 1500, abilityTypes: [], reward: [
+      { operation: 'resource_change', target: 'source', resourceKey: 'mana', valuePolicy: 'add', amount: { op: 'const', value: 1 } }
+    ] }), probeTypes: [...TRIGGER_RUNTIME_TYPES.filter(type => type.key !== 'ability/p6_selected_cast'), { key: 'ability/p4_initial_probe', domain: 'ability' }],
+    probeHit: hitProbe(), damageTypeFormulas: [
     { damageType: 'damage/physical', formula: authoredConstantDefense('1') },
     { damageType: 'physics', formula: authoredConstantDefense('1') }
   ] });
@@ -484,7 +467,7 @@ test('真实Worker：失败绑定和规则保持作者顺序，最后设置为30
   expect(cooldown(done)).toBe(3100);
 });
 
-test('真实Worker：过程首次接第6项待击，重施与同use第5项命中不重发首次事件', async ({ page }, info) => {
+test('真实Worker：首次过程事件接明确待击监听，重施与同次命中不重发首次事件', async ({ page }, info) => {
   const done = await passed(await run(page, { program: program('RECAST'), blade: true, hit: true, durationMs: 450,
     commands: [{ action: 'INITIAL', at: 0 }, { action: 'RECAST', at: 300 }, { action: 'HIT', at: 350 }] }), info);
   expect(actor(done).providerState.probe_blade).toMatchObject({ state: { ready: 0, icd: 0 } });

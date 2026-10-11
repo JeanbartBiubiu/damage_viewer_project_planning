@@ -1,5 +1,5 @@
 import { pathToFileURL } from 'node:url';
-import type { DamageModifierScenario } from '../../src/engine/damageModifierAdapter';
+import type { CompileRequest, RunRequest } from '../../src/types/genericEngine';
 
 const builderUrl = process.env.FORMULA_PHASE5_INPUT_BUILDER_PATH
   ? pathToFileURL(process.env.FORMULA_PHASE5_INPUT_BUILDER_PATH).href
@@ -7,4 +7,4 @@ const builderUrl = process.env.FORMULA_PHASE5_INPUT_BUILDER_PATH
 const builder = await import(/* @vite-ignore */ builderUrl);
 export const createDamageEventInput = builder.createDamageEventInput as (options?: {
   mixed?: boolean; overflow?: boolean; sameType?: boolean; declared?: boolean;
-}) => DamageModifierScenario;
+}) => { compileRequest: CompileRequest; runRequest: RunRequest };

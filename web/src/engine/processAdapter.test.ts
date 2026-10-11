@@ -8,8 +8,6 @@ import type { SkillFormula } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
 import type { SkillProcess, SkillProcessMoment, SkillProcessStep } from '../types/skillProcess';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
-import type { AuthoredTriggerProgram } from './triggerAdapter';
-import { withTriggerProgram } from './triggerAdapter';
 import {
   adaptProcessProgram as raw_adaptProcessProgram, explicitProcessInterrupt, processCommandFact, withProcessProgram,
   type AuthoredProcessProgram
@@ -474,6 +472,7 @@ describe('processAdapter', () => {
     expect(adapted.provider.processes![0]!.steps[0]).toMatchObject({ stepType: 'DELAY', delayMs: { op: 'const', value: 50 } });
     expect(adapted.provider.processes![0]!.steps[1]).toEqual({ stepKey: 'again', stepType: 'RECAST', windowMs: { op: 'const', value: 1000 }, occupiesAction: null });
     expect(adapted.controls.map((control) => control.action)).toEqual(['INITIAL', 'RECAST']);
+    expect(adapted.provider.abilities![0]).toMatchObject({ skillKey: 'cast_skill', processControl: { action: 'INITIAL' } });
     expect(adapted.provider.abilities![1]).toMatchObject({ kind: 'active', processControl: { action: 'RECAST', stepKey: 'again' } });
 
     const charge = program();
@@ -626,30 +625,6 @@ describe('processAdapter', () => {
     expect(input.rulesHash).toBe('before-p4');
   });
 
-  it('初次能力可绑定待击启动，推进能力不能当成首次施法', () => {
-    const recast = program();
-    recast.process.steps.push(step('RECAST', 'again', { windowValue: fixedValue(1000), maximumRecastCountValue: fixedValue(1) }, 20));
-    recast.rules.push(rule({
-      ruleKey: 'recast', sortOrder: 20,
-      eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'cast_skill', useKind: 'ACTIVE', castPhase: 'RECAST' } },
-      actions: [{
-        actionKey: 'cast_recast', name: 'recast', actionType: 'ADVANCE_PROCESS', sortOrder: 10, targetContext: null,
-        detail: { processKey: 'cast', stepKey: 'again' }, runtimeInputBindings: [], resultModifiers: []
-      }]
-    }));
-    const bound = withProcessProgram(request(), { processProviderKey: 'q', authored: recast }, { rulesHash: 'with-process' });
-    const trigger = spellblade();
-    const marked = withTriggerProgram(bound, {
-      triggerProviderKey: 'blade', authored: trigger, initialCastAbilities: [{ providerRef: 'q', abilityKey: 'cast_initial' }]
-    }, { rulesHash: 'with-trigger' });
-    const ability = marked.sharedProviders!.find((provider) => provider.providerKey === 'trigger-bound:source:q')!.abilities!.find((row) => row.abilityKey === 'cast_initial')!;
-    expect(ability.types?.some((type) => type.includes('initial_cast'))).toBe(true);
-    expect(ability.skillKey).toBe('cast_skill');
-    expect(() => withTriggerProgram(bound, {
-      triggerProviderKey: 'blade', authored: trigger, initialCastAbilities: [{ providerRef: 'q', abilityKey: 'cast_recast' }]
-    }, { rulesHash: 'reject-recast' })).toThrow(/主动|首次/);
-  });
-
   it('属性公式成本保持读取，不存在的成本动态绑定不补零', () => {
     const formula: SkillFormula = {
       gameId: 'lol', skillKey: 'cast_skill', formulaKey: 'from_power', name: '力量', description: null, sortOrder: 10,
@@ -679,56 +654,5 @@ describe('processAdapter', () => {
     expect(() => adaptProcessProgram(authored)).toThrow(/不能补 0/);
   });
 });
-
-function spellblade(): AuthoredTriggerProgram {
-  const skillKey = 'blade';
-  const moment = (momentType: SkillProcessMoment['momentType'], stepKey: string | null = null): SkillProcessMoment => ({
-    momentType, stepKey, failureReason: null
-  });
-  return {
-    gameId: 'lol', skillKey, skillLevel: 1, characterLevel: 1, owner: 'source',
-    identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
-    statuses: [],
-    internalStates: [
-      { gameId: 'lol', skillKey, stateKey: 'ready', name: 'ready', scope: 'SKILL', description: null, sortOrder: 10, stateType: 'FLAG', detail: { initialEnabled: false }, createdAt: '', updatedAt: '' },
-      { gameId: 'lol', skillKey, stateKey: 'icd', name: 'icd', scope: 'SKILL', description: null, sortOrder: 20, stateType: 'INTERNAL_COOLDOWN', detail: { durationValue: fixedValue(1500) }, createdAt: '', updatedAt: '' }
-    ],
-    processes: [{
-      gameId: 'lol', skillKey, processKey: 'spellblade', name: 'spellblade', activationType: 'ACTIVE', description: null, sortOrder: 10, cooldown: null,
-      steps: [{ stepKey: 'aa', name: 'aa', description: null, sortOrder: 10, stepType: 'EMPOWERED_BASIC_ATTACK', detail: { windowValue: fixedValue(10000), consumeMoment: 'ATTACK_HIT' } }],
-      effectBindings: [{ bindingKey: 'do_bonus', effectKey: 'bonus', moment: moment('STEP_EXECUTION', 'aa'), sortOrder: 10 }],
-      stateOperations: [
-        { operationKey: 'arm', name: 'arm', stateKey: 'ready', moment: moment('PROCESS_START'), sortOrder: 10, operation: 'ENABLE', value: null, optionKey: null },
-        { operationKey: 'disarm', name: 'disarm', stateKey: 'ready', moment: moment('STEP_EXECUTION', 'aa'), sortOrder: 20, operation: 'DISABLE', value: null, optionKey: null },
-        { operationKey: 'start_icd', name: 'start_icd', stateKey: 'icd', moment: moment('STEP_EXECUTION', 'aa'), sortOrder: 30, operation: 'START', value: null, optionKey: null },
-        { operationKey: 'timeout', name: 'timeout', stateKey: 'ready', moment: moment('STEP_TIMEOUT', 'aa'), sortOrder: 40, operation: 'DISABLE', value: null, optionKey: null }
-      ],
-      createdAt: '', updatedAt: ''
-    }],
-    effects: [(() => {
-      const bonus = effect([{
-        resultKey: 'mana', name: 'mana', resultType: 'RESOURCE_CHANGE', target: 'SOURCE', description: null, sortOrder: 10,
-        lifecycleBehavior: null, spellShieldBlockScope: null,
-        valueRule: { value: fixedValue(1), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
-        detail: { attributeKey: 'mana', operation: 'RESTORE' }
-      }], 'bonus');
-      bonus.skillKey = skillKey;
-      return bonus;
-    })()],
-    rules: [
-      rule({
-        ruleKey: 'arm', sortOrder: 10,
-        eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
-        conditionGroups: [{
-          groupKey: 'cooldown_ready', name: '冷却就绪', sortOrder: 10,
-          conditions: [
-            { conditionKey: 'icd_ready', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 20, detail: { stateKey: 'icd', valueKind: 'REMAINING_MS', optionKey: null, expectedBoolean: null, comparator: 'EQ', comparisonValue: fixedValue(0) } }
-          ]
-        }],
-        actions: [{ actionKey: 'start', name: 'start', actionType: 'START_PROCESS', sortOrder: 10, targetContext: 'CURRENT_TARGET', detail: { processKey: 'spellblade' }, runtimeInputBindings: [], resultModifiers: [] }]
-      })
-    ]
-  };
-}
 
 const adaptProcessProgram = (...args: Parameters<typeof raw_adaptProcessProgram>): ReturnType<typeof raw_adaptProcessProgram> => { approveAuthoredFixture(args[0]); return raw_adaptProcessProgram(...args); };
