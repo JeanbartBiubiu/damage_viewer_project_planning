@@ -214,7 +214,6 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 	startListeners := 0
 	initializationOperations := map[string]bool{}
 	triggerOperations := map[string]bool{}
-	auraOwners := map[string]bool{}
 	for _, entry := range s.compiled.Listeners {
 		if s.plannedSkillProvider(entry.OwnerCombatantKey, entry.OwnerProviderRef) {
 			continue
@@ -236,14 +235,6 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 				continue
 			}
 			for _, operation := range s.compiled.Operations[int(entry.OperationStart) : int(entry.OperationStart)+int(entry.OperationCount)] {
-				definition, _ := s.findProviderDefinitionIndex(operation.ProviderDefinitionRef)
-				modifier := s.compiled.Providers[definition].Modifiers[0]
-				if modifier.Kind == "attribute" && modifier.Target == "opponent.attr.attack_speed" {
-					if auraOwners[entry.OwnerCombatantKey] {
-						return s.basicAttackErr("this stage accepts only one static attack-speed aura per opponent", operation.Path)
-					}
-					auraOwners[entry.OwnerCombatantKey] = true
-				}
 				initializationOperations[operation.Path] = true
 			}
 		}

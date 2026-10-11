@@ -12,6 +12,27 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 更细的模块依赖与时序见 [`ARCHITECTURE.md`](ARCHITECTURE.md)。协作规则见 [`AGENTS.md`](AGENTS.md)。
 
+## 当前产物与静态光环统一准入
+
+当前正式产物 `target/category-cost-bindings/tinygo_engine_v2.wasm` 为1,385,770字节，SHA256 `0967cb717dfa16c64f7b3e397400b73a7f7fdcc15a86ee59850fbaf784e297a2`，初始与最大内存仍固定256MiB。连续普攻不再按 `opponent.attr.attack_speed` 限制同拥有方只能挂一份光环；多个独立、完整静态来源沿现有属性修正规则叠加。来源唯一性、非生命对手属性槽、显式总值乘算、有限非负常量和事件命令预算保持。
+
+原生专项分别核对同一／不同属性、速度完全改名、两份独立效果挂载，以及同一编译会话三次完整结果相等。`.8×.5` 速度为`.4`，攻击时点为0／2500毫秒；`.8`速度与`.5`护甲光环分别作用，攻击时点为0／1250／2500毫秒。全量Go、原生基准、标准Node往返、作者绑定及伤害聚合专项、Node基准与200次会话复用通过。技能分类与施法成本用途绑定由后端和Web消费，唯一契约在规划真源《技能分类与施法成本用途绑定详细设计》。
+
+此前30秒完整失败档案在最终Node与实际浏览器Worker分别重复200次，完整结果与原成功档案一致；浏览器只建立一条Worker并正常释放。完整输出616,617字节，保留29条攻击、103条伤害、700条证据及301个采样点，未缩减记录或采样预算。本批作者分类改名与双光环的页面装配验收由规划真源的本批测试记录独立维护。
+
+```powershell
+go test -count=1 ./...
+go run ./cmd/bench
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/category-cost-bindings/tinygo_engine_v2.wasm
+node .\scripts\smoke-node.mjs --wasm target/category-cost-bindings/tinygo_engine_v2.wasm
+node .\scripts\calculation-rules-smoke-node.mjs target/category-cost-bindings/tinygo_engine_v2.wasm
+node .\scripts\formula-phase5-smoke-node.mjs target/category-cost-bindings/tinygo_engine_v2.wasm
+node .\scripts\session-reuse-smoke-node.mjs --wasm target/category-cost-bindings/tinygo_engine_v2.wasm --iterations 200
+node .\scripts\bench-node.mjs --wasm target/category-cost-bindings/tinygo_engine_v2.wasm --mode generic-run --iterations 10 --warmup 2
+```
+
+以下暴击与攻速作者绑定、内存修复及各阶段产物数字保留对应历史验收口径，当前产物以上节为准。
+
 ## 暴击与攻速作者绑定当前产物
 
 具名公式必填 `scope`（归属）：技能保留真实技能标识和私参；游戏公式不允许技能标识及私参。派生明确 `set/multiply`（修正前替换／修正后乘算）及目录数值类型，不按攻击力或攻速属性名称限制输出。完整游戏配置由后端快照运输、Web映射到同一共同编译器；原生不补概率属性、收益系数或攻速公式。倍率下限可明确为0或省略；暴击伤害必须成对声明概率和倍率，确定性三分支权重保持。

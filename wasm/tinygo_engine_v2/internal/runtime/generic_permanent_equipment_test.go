@@ -7,8 +7,11 @@ import (
 )
 
 func addPermanentInitializer(input *model.CompileRequest, request *model.RunRequest, actorIndex int, modifiers ...model.ModifierDefinition) {
+	addNamedPermanentInitializer(input, request, actorIndex, input.Combatants[actorIndex].Key+"_permanent_equipment", modifiers...)
+}
+
+func addNamedPermanentInitializer(input *model.CompileRequest, request *model.RunRequest, actorIndex int, key string, modifiers ...model.ModifierDefinition) {
 	owner := input.Combatants[actorIndex].Key
-	key := owner + "_permanent_equipment"
 	addFixedEquipment(input, request, actorIndex, key, "hp", 0)
 	initializer := model.ProviderDefinition{ProviderKey: key, StableID: key, Kind: "item"}
 	for _, modifier := range modifiers {
