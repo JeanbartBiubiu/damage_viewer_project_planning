@@ -115,7 +115,7 @@ func TestDamageDealtOverflowRejectsBeforeCommitRegardlessOfRecording(t *testing.
 			if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != "sharedProviders[0].abilities[0].operations[2]" {
 				t.Fatal("aggregation overflow did not fail at the contributing operation", issue)
 			}
-			if state.combatants["target"].attributes["hp"].Current != 1000 || len(state.combatants["target"].shields) != 0 || state.sourceDamageDealt != 0 || len(state.damageHistory) != 0 {
+			if state.combatants["target"].attributes.At("hp").Current != 1000 || len(state.combatants["target"].shields) != 0 || state.sourceDamageDealt != 0 || len(state.damageHistory) != 0 {
 				t.Fatal("aggregation overflow committed partial frame", sameType, evidenceLimit)
 			}
 			if !reflect.DeepEqual(state.formulas, beforeFormulas) {

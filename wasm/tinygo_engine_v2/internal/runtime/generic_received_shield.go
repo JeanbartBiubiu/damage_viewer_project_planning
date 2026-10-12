@@ -23,7 +23,7 @@ func (f *executionFrame) applyReceivedShieldModifiers(targetKey string, amount f
 			context.HasProviderContext, context.ProviderState, context.ProviderTargetState = owned.HasProviderContext, owned.ProviderState, owned.ProviderTargetState
 		}
 		if modifier.HasCondition {
-			condition, err := f.run.formulas.Eval(modifier.ConditionProg, context)
+			condition, err := f.run.formulas.EvalContext(modifier.ConditionProg, &context)
 			if err != nil {
 				return 0, f.preserveFormulaIssue(err, f.vampError(err.Error(), "shield.modifiers.condition", modifier.ModifierKey))
 			}
@@ -31,7 +31,7 @@ func (f *executionFrame) applyReceivedShieldModifiers(targetKey string, amount f
 				continue
 			}
 		}
-		value, err := f.run.formulas.Eval(modifier.ValueProgram, context)
+		value, err := f.run.formulas.EvalContext(modifier.ValueProgram, &context)
 		if err != nil {
 			return 0, f.preserveFormulaIssue(err, f.vampError(err.Error(), "shield.modifiers.value", modifier.ModifierKey))
 		}
@@ -52,8 +52,10 @@ func (f *executionFrame) applyReceivedShieldModifiers(targetKey string, amount f
 	if math.IsNaN(amount) || math.IsInf(amount, 0) {
 		return 0, f.vampError("invalid received shield result", "shield.amount", targetKey)
 	}
-	f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "shield", Ref: f.abilityRef, Data: map[string]interface{}{
-		"source": f.sourceKey, "target": targetKey, "shieldBeforeModifiers": before, "shieldAfterModifiers": amount, "groups": groups,
-	}})
+	f.recordEvidenceLazy("shield", func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "shield", Ref: f.abilityRef, Data: map[string]interface{}{
+			"source": f.sourceKey, "target": targetKey, "shieldBeforeModifiers": before, "shieldAfterModifiers": amount, "groups": groups,
+		}}
+	})
 	return amount, nil
 }

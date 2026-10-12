@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"strings"
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -14,8 +15,8 @@ type basicAttackWait struct {
 	providerState    map[string]float64
 	targetState      map[string]float64
 	initialReady     int64
-	sourceAttributes map[string]model.AttributeSlotDef
-	targetAttributes map[string]model.AttributeSlotDef
+	sourceAttributes attribute.Table
+	targetAttributes attribute.Table
 	anchor           int64
 	period           int64
 	remaining        float64
@@ -49,13 +50,13 @@ func (f *executionFrame) stageInitialBasicAttackWait(process *processRuntime, re
 	target := f.stageFor(attack.plan.Target).attributes
 	context := f.evalContext(attack.initialAbility)
 	f.pendingBasicAttackWait = &basicAttackWait{initialReady: ready, anchor: f.run.nowMs, period: ready - f.run.nowMs, remaining: 1,
-		speed: source[attack.plan.AttackSpeedAttributeKey].Resolved, ready: ready, generation: attack.waitGeneration + 1,
-		sourceAttributes: cloneAttributeMap(source), targetAttributes: cloneAttributeMap(target),
+		speed: source.At(attack.plan.AttackSpeedAttributeKey).Resolved, ready: ready, generation: attack.waitGeneration + 1,
+		sourceAttributes: source, targetAttributes: target,
 		providerState: basicAttackStateSnapshot(context.ProviderState, context.ProviderStateDefaults), targetState: basicAttackStateSnapshot(context.ProviderTargetState, context.ProviderStateDefaults)}
 	return nil
 }
 
-func basicAttackWaitDependenciesChanged(program formula.GenericProgram, wait *basicAttackWait, source, target map[string]model.AttributeSlotDef, context formula.GenericEvalContext) bool {
+func basicAttackWaitDependenciesChanged(program formula.GenericProgram, wait *basicAttackWait, source, target attribute.Table, context formula.GenericEvalContext) bool {
 	for _, instruction := range program.Instr {
 		if instruction.Op != formula.GenericOpRead {
 			continue
@@ -84,8 +85,8 @@ func basicAttackWaitDependenciesChanged(program formula.GenericProgram, wait *ba
 		if separator := strings.LastIndex(key, "."); separator >= 0 {
 			key = key[:separator]
 		}
-		before, beforeExists := previous[key]
-		after, afterExists := current[key]
+		before, beforeExists := previous.Lookup(key)
+		after, afterExists := current.Lookup(key)
 		if beforeExists != afterExists || before != after {
 			return true
 		}
@@ -102,11 +103,11 @@ func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 		return 0, nil
 	}
 	// 初始化时尚无等待节点也要在本帧提交前检查真正消费的速度。
-	initialContext, initialError := f.basicAttackWaitContext()
-	if initialError != nil {
+	var initialContext executionFrame
+	if initialError := f.basicAttackWaitContext(&initialContext); initialError != nil {
 		return 0, initialError
 	}
-	initialSpeed := initialContext.stageFor(attack.plan.Source).attributes[attack.plan.AttackSpeedAttributeKey].Resolved
+	initialSpeed := initialContext.stageFor(attack.plan.Source).attributes.At(attack.plan.AttackSpeedAttributeKey).Resolved
 	if math.IsNaN(initialSpeed) || math.IsInf(initialSpeed, 0) || initialSpeed <= 0 || initialSpeed > attack.plan.AttackSpeedInputMax {
 		return 0, f.run.basicAttackErr("modified attack speed violates its explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
 	}
@@ -142,18 +143,16 @@ func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 		return 0, nil
 	}
 	f.stageFor(attack.plan.Target)
-	context, contextError := f.basicAttackWaitContext()
-	if contextError != nil {
-		return 0, contextError
-	}
+	// 上述等待信息调整不会写公式输入，复用本帧已完成的预检视图。
+	context := &initialContext
 	sourceAttributes := context.stageFor(attack.plan.Source).attributes
 	targetAttributes := context.stageFor(attack.plan.Target).attributes
-	speed := sourceAttributes[attack.plan.AttackSpeedAttributeKey].Resolved
+	speed := sourceAttributes.At(attack.plan.AttackSpeedAttributeKey).Resolved
 	if math.IsNaN(speed) || math.IsInf(speed, 0) || speed <= 0 || speed > attack.plan.AttackSpeedInputMax {
 		return 0, f.run.basicAttackErr("modified attack speed violates its explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
 	}
 	process := f.run.compiled.Providers[attack.initialAbility.ProviderIndex].Processes[attack.initialAbility.ProcessControl.ProcessIndex]
-	program := formula.GenericProgram{Instr: f.run.formulas.ReadDependencies(process.Cooldown.DurationProgram)}
+	program := formula.GenericProgram{Instr: attack.cooldownDependencies}
 	evalContext := context.evalContext(attack.initialAbility)
 	if speed == previous.speed && !basicAttackWaitDependenciesChanged(program, previous, sourceAttributes, targetAttributes, evalContext) {
 		if (f.pendingBasicAttackWait != nil || f.pendingAmmoWait != nil || f.pendingActionWait) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
@@ -179,52 +178,55 @@ func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 		return 0, f.run.basicAttackErr("adjusted attack time exceeds safe integer range", "driverPlan.basicAttack.initialControlAbilityRef")
 	}
 	wait.anchor, wait.period, wait.speed = f.run.nowMs, period, speed
-	wait.sourceAttributes = cloneAttributeMap(sourceAttributes)
-	wait.targetAttributes = cloneAttributeMap(targetAttributes)
+	wait.sourceAttributes = context.stageFor(attack.plan.Source).attributes
+	wait.targetAttributes = context.stageFor(attack.plan.Target).attributes
 	wait.providerState = basicAttackStateSnapshot(evalContext.ProviderState, evalContext.ProviderStateDefaults)
 	wait.targetState = basicAttackStateSnapshot(evalContext.ProviderTargetState, evalContext.ProviderStateDefaults)
 	wait.ready = f.run.nowMs + int64(delay)
 	wait.generation++
 	f.pendingBasicAttackWait = &wait
-	staged.cooldowns[attack.plan.InitialControlAbilityRef] = wait.ready
+	staged.writableCooldowns()[attack.plan.InitialControlAbilityRef] = wait.ready
 	if !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
 		return 1, nil
 	}
 	return 0, nil
 }
 
-func (f *executionFrame) basicAttackWaitContext() (*executionFrame, *model.EngineError) {
+func (f *executionFrame) basicAttackWaitContext(context *executionFrame) *model.EngineError {
 	attack := f.run.basicAttack
-	context := &executionFrame{run: f.run, sourceKey: attack.plan.Source, targetKey: attack.plan.Target,
+	*context = executionFrame{run: f.run, sourceKey: attack.plan.Source, targetKey: attack.plan.Target,
 		abilityRef: attack.plan.InitialControlAbilityRef, strictReads: true, staged: f.staged}
 	parsed, _ := planbundle.ParseAbilityRef(attack.plan.InitialControlAbilityRef)
 	context.ownerCombatantKey, context.ownerProviderRef = attack.plan.Source, parsed.ProviderRef
 	providerChanges := false
-	for _, staged := range f.staged {
+	f.staged.Range(func(_ string, staged *stagedCombatant) {
 		providerChanges = providerChanges || len(staged.providerOps) > 0
-	}
+	})
 	if !providerChanges {
-		return context, nil
+		return nil
 	}
-	context.staged = make(map[string]*stagedCombatant, len(f.staged))
-	for key, staged := range f.staged {
+	context.staged = &frameStagedCollection{}
+	f.staged.Range(func(key string, staged *stagedCombatant) {
 		copy := *staged
-		copy.attributes = cloneAttributeMap(staged.attributes)
-		copy.resources = cloneResourceMap(staged.resources)
-		copy.cooldowns = cloneCooldownMap(staged.cooldowns)
+		copy.attributes = staged.attributes
+		copy.resources = staged.readonlyResources()
+		copy.resourcesShared = true
+		copy.cooldowns = staged.readonlyCooldowns()
+		copy.cooldownsShared = true
 		copy.providerState = cloneProviderStateMap(staged.providerState)
+		copy.providerStateShared = false
 		copy.providers = append([]status.ProviderInstance(nil), staged.providers...)
 		copy.resolver = staged.resolver.Clone()
 		copy.damageResolver = staged.damageResolver.Clone()
-		context.staged[key] = &copy
-	}
+		context.staged.Set(key, &copy)
+	})
 	for _, owner := range []string{attack.plan.Source, attack.plan.Target} {
 		staged := context.stageFor(owner)
 		for index, mutation := range staged.providerOps {
 			if mutation.kind == "apply" {
 				definitionIndex, exists := f.run.findProviderDefinitionIndex(mutation.definitionRef)
 				if !exists {
-					return nil, f.run.basicAttackErr("missing dynamic result definition", mutation.definitionRef)
+					return f.run.basicAttackErr("missing dynamic result definition", mutation.definitionRef)
 				}
 				definition := f.run.compiled.Providers[definitionIndex]
 				if definition.Lifecycle != nil && definition.Lifecycle.AllowsSourceTargetReuse() {
@@ -253,18 +255,18 @@ func (f *executionFrame) basicAttackWaitContext() (*executionFrame, *model.Engin
 	}
 	context.reResolveStagedAttributesTwoPass(attack.initialAbility)
 	if context.fatal {
-		return nil, context.fatalErr
+		return context.fatalErr
 	}
-	return context, nil
+	return nil
 }
 
 func (f *executionFrame) unmountWaitingProvider(owner, ref string) {
 	staged := f.stageFor(owner)
 	staged.providers = status.RemoveByRef(staged.providers, ref)
-	delete(staged.providerState, ref)
-	for _, host := range f.staged {
+	delete(staged.writableProviderStates(), ref)
+	f.staged.Range(func(_ string, host *stagedCombatant) {
 		host.resolver.UnmountProviderOwned(owner, ref)
-	}
+	})
 }
 
 func (f *executionFrame) commitBasicAttackWait() {
@@ -296,8 +298,10 @@ func (f *executionFrame) commitBasicAttackWait() {
 	if wait == nil || (initial && wait.ready == wait.initialReady) {
 		return
 	}
-	f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "basic_attack_wait_adjusted", Ref: f.run.basicAttack.plan.InitialControlAbilityRef,
-		Data: map[string]interface{}{"periodMs": wait.period, "remainingRatio": wait.remaining, "readyAtMs": wait.ready, "generation": wait.generation}})
+	f.recordEvidenceLazy("basic_attack_wait_adjusted", func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "basic_attack_wait_adjusted", Ref: f.run.basicAttack.plan.InitialControlAbilityRef,
+			Data: map[string]interface{}{"periodMs": wait.period, "remainingRatio": wait.remaining, "readyAtMs": wait.ready, "generation": wait.generation}}
+	})
 }
 
 func (s *genericRunState) publishBasicAttackWait() {

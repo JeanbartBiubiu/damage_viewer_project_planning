@@ -188,7 +188,7 @@ func (state *genericRunState) finishSkillActionAttempt(err *model.EngineError) {
 		action.summary.RejectedCount++
 	}
 	state.skillActionRecordCount++
-	if len(state.skillActionRecords) < state.maxSkillActionRecords {
+	if state.detailedOutput() && len(state.skillActionRecords) < state.maxSkillActionRecords {
 		state.skillActionRecords = append(state.skillActionRecords, record)
 	}
 	delete(state.processFacts, action.plan.InstructionKey)
@@ -212,7 +212,7 @@ func (state *genericRunState) recordSkillUse(process *processRuntime, kind strin
 		return
 	}
 	state.skillUseRecordCount++
-	if len(state.skillUseRecords) < state.maxSkillUseRecords {
+	if state.detailedOutput() && len(state.skillUseRecords) < state.maxSkillUseRecords {
 		state.skillUseRecords = append(state.skillUseRecords, model.SkillUseRecord{StepKey: process.StepKey, StepVersion: process.StepVersion, ExecutionIndex: process.StepExecutionIndex, InstructionKey: action.plan.InstructionKey, TimeMs: state.nowMs, Kind: kind, Source: process.Owner, Target: process.Target, SkillKey: process.SkillKey, ProviderRef: process.ProviderRef, ProcessKey: process.ProcessKey, UseRef: process.UseKey, HitRef: hit, Reason: reason})
 	}
 }
@@ -331,15 +331,31 @@ func (frame *executionFrame) skillActionUseRef() string {
 	return ""
 }
 
-func (state *genericRunState) recordSkillActionHit(item model.EvidenceItem) {
-	use, _ := item.Data["useRef"].(string)
-	action := state.skillActionByUse[use]
-	if action == nil || !action.accepted || item.Kind != model.EvidenceKindSkillHit {
+type committedSkillActionHit struct {
+	useRef        string
+	occurrenceID  uint64
+	evidenceIndex int
+}
+
+// 与对应命中证据一起暂存，只有成功提交后发布使用记录与命中统计。
+func (frame *executionFrame) recordSkillActionHit(useRef string, occurrenceID uint64) {
+	fact := committedSkillActionHit{useRef: useRef, occurrenceID: occurrenceID, evidenceIndex: frame.pendingEvidenceIndex()}
+	if frame.committed {
+		frame.run.recordSkillActionHit(fact)
+		return
+	}
+	frame.pendingSkillHits = append(frame.pendingSkillHits, fact)
+}
+
+func (state *genericRunState) recordSkillActionHit(fact committedSkillActionHit) {
+	action := state.skillActionByUse[fact.useRef]
+	if action == nil || !action.accepted {
 		return
 	}
 	action.uses.HitCount++
 	for _, process := range state.processInstances {
 		if process.UseKey == action.useRef {
+			// 保持原提交口径：HIT记录使用提交时的全局发生计数。
 			hit := "hit:" + strconv.FormatUint(state.skillHitOccurrenceCount, 10)
 			state.recordSkillUse(process, "HIT", &hit, nil)
 			return
@@ -355,7 +371,7 @@ func (state *genericRunState) recordDirectHealing(record model.DirectHealingReco
 		state.targetDirectHealing += record.ActualHealing
 	}
 	state.healingRecordCount++
-	if len(state.healingRecords) < state.maxHealingRecords {
+	if state.detailedOutput() && len(state.healingRecords) < state.maxHealingRecords {
 		state.healingRecords = append(state.healingRecords, record)
 	}
 }
@@ -390,13 +406,13 @@ func (state *genericRunState) skillSummaries() (model.SkillActionSummary, model.
 
 func (state *genericRunState) skillRecordingSummary(summary model.RecordingSummary) model.RecordingSummary {
 	summary.SkillActionRecordCount, summary.ReturnedSkillActionRecords = state.skillActionRecordCount, len(state.skillActionRecords)
-	summary.DroppedSkillActionRecords = summary.SkillActionRecordCount - summary.ReturnedSkillActionRecords
+	summary.DroppedSkillActionRecords = summary.SkillActionRecordCount - state.retainedRecordCount(summary.SkillActionRecordCount, summary.ReturnedSkillActionRecords, state.maxSkillActionRecords)
 	summary.SkillActionRecordsTruncated = summary.DroppedSkillActionRecords > 0
 	summary.SkillUseRecordCount, summary.ReturnedSkillUseRecords = state.skillUseRecordCount, len(state.skillUseRecords)
-	summary.DroppedSkillUseRecords = summary.SkillUseRecordCount - summary.ReturnedSkillUseRecords
+	summary.DroppedSkillUseRecords = summary.SkillUseRecordCount - state.retainedRecordCount(summary.SkillUseRecordCount, summary.ReturnedSkillUseRecords, state.maxSkillUseRecords)
 	summary.SkillUseRecordsTruncated = summary.DroppedSkillUseRecords > 0
 	summary.HealingRecordCount, summary.ReturnedHealingRecords = state.healingRecordCount, len(state.healingRecords)
-	summary.DroppedHealingRecords = summary.HealingRecordCount - summary.ReturnedHealingRecords
+	summary.DroppedHealingRecords = summary.HealingRecordCount - state.retainedRecordCount(summary.HealingRecordCount, summary.ReturnedHealingRecords, state.maxHealingRecords)
 	summary.HealingRecordsTruncated = summary.DroppedHealingRecords > 0
 	return summary
 }

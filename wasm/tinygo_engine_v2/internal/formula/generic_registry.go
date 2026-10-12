@@ -4,6 +4,8 @@ import (
 	"errors"
 	"math"
 	"unsafe"
+
+	"tinygo_engine_v2/internal/attribute"
 )
 
 const (
@@ -31,6 +33,7 @@ func IsRegistryLimit(err error) bool {
 
 // GenericRegistry的两种内容共享同一预算和编号；程序内容注册后只读。
 type GenericRegistry struct {
+	attributeLayout   *attribute.Layout
 	Programs          []GenericProgram
 	Index             map[string]GenericProgramID
 	accountedPrograms int
@@ -122,7 +125,7 @@ func (r *GenericRegistry) Register(program GenericProgram) (GenericProgramID, er
 	if r.Index == nil {
 		r.Index = make(map[string]GenericProgramID)
 	}
-	r.Programs = append(r.Programs, program)
+	r.Programs = append(r.Programs, bindProgramAttributes(program, r.attributeLayout))
 	r.Index[program.Key] = id
 	r.accountedPrograms, r.instructionCount = len(r.Programs), total.instructions
 	r.inputCount, r.stageCount, r.memoryBytes = total.inputs, total.stages, total.bytes
@@ -131,7 +134,7 @@ func (r *GenericRegistry) Register(program GenericProgram) (GenericProgramID, er
 
 // CloneForRun复制描述和索引，只共享旧只读指令与新不可变程序。
 func (r GenericRegistry) CloneForRun() *GenericRegistry {
-	clone := &GenericRegistry{Programs: make([]GenericProgram, len(r.Programs)), Index: make(map[string]GenericProgramID, len(r.Index)), accountedPrograms: r.accountedPrograms, instructionCount: r.instructionCount, inputCount: r.inputCount, stageCount: r.stageCount, memoryBytes: r.memoryBytes}
+	clone := &GenericRegistry{attributeLayout: r.attributeLayout, Programs: make([]GenericProgram, len(r.Programs)), Index: make(map[string]GenericProgramID, len(r.Index)), accountedPrograms: r.accountedPrograms, instructionCount: r.instructionCount, inputCount: r.inputCount, stageCount: r.stageCount, memoryBytes: r.memoryBytes}
 	copy(clone.Programs, r.Programs)
 	for key, id := range r.Index {
 		clone.Index[key] = id
@@ -201,7 +204,7 @@ func genericProgramMemoryBytes(program GenericProgram) (uint64, error) {
 }
 
 func sameGenericProgram(a, b GenericProgram) bool {
-	if a.Key != b.Key || a.Authored != b.Authored || a.BindingBytes != b.BindingBytes || a.PlanBytes != b.PlanBytes || a.NamedBinding != b.NamedBinding || a.DeclaredNamed != b.DeclaredNamed || len(a.Instr) != len(b.Instr) {
+	if a.Key != b.Key || a.Authored != b.Authored || a.BindingBytes != b.BindingBytes || a.PlanBytes != b.PlanBytes || !sameNamedBinding(a.NamedBinding, b.NamedBinding) || a.DeclaredNamed != b.DeclaredNamed || len(a.Instr) != len(b.Instr) {
 		return false
 	}
 	for i, instr := range a.Instr {

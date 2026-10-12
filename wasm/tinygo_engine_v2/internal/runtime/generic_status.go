@@ -95,7 +95,7 @@ func (f *executionFrame) evalPreparedDuration(provider planbundle.CompiledProvid
 	if path == "" {
 		path = "provider[" + provider.ProviderKey + "].lifecycle.durationMs"
 	}
-	value, err := f.run.formulas.Eval(lc.DurationProgram, evalCtx)
+	value, err := f.run.formulas.EvalContext(lc.DurationProgram, &evalCtx)
 	if err != nil {
 		return 0, f.preserveFormulaIssue(err, f.providerLifecycleError(model.GenericErrFormulaTypeError, path, err.Error(), provider.ProviderKey))
 	}
@@ -123,7 +123,7 @@ func (f *executionFrame) evalPreparedStatusContributions(provider planbundle.Com
 		if !item.HasStrength {
 			return nil, f.providerLifecycleError(model.GenericErrMissingRequiredField, path, "status contribution strength is required; explicit zero is allowed", item.ResultRef)
 		}
-		value, err := f.run.formulas.Eval(item.StrengthProgram, evalCtx)
+		value, err := f.run.formulas.EvalContext(item.StrengthProgram, &evalCtx)
 		if err != nil {
 			return nil, f.preserveFormulaIssue(err, f.providerLifecycleError(model.GenericErrFormulaTypeError, path, err.Error(), item.ResultRef))
 		}
@@ -197,19 +197,21 @@ func (s *genericRunState) recordProviderLifecycleEvidence(kind model.EvidenceKin
 	if source == "" {
 		source = inst.Owner
 	}
-	s.recordEvidence(model.EvidenceItem{
-		TimeMs: s.nowMs,
-		Kind:   kind,
-		Ref:    inst.ProviderRef,
-		Path:   "providers[" + inst.ProviderRef + "]",
-		Data: map[string]interface{}{
-			"providerRef":         inst.ProviderRef,
-			"definitionRef":       inst.DefinitionRef,
-			"source":              source,
-			"owner":               inst.Owner,
-			"expireAt":            inst.ExpireAt,
-			"statusContributions": snapshotStatusContributionsData(inst.StatusContributions),
-		},
+	s.recordEvidenceLazy(kind, func() model.EvidenceItem {
+		return model.EvidenceItem{
+			TimeMs: s.nowMs,
+			Kind:   kind,
+			Ref:    inst.ProviderRef,
+			Path:   "providers[" + inst.ProviderRef + "]",
+			Data: map[string]interface{}{
+				"providerRef":         inst.ProviderRef,
+				"definitionRef":       inst.DefinitionRef,
+				"source":              source,
+				"owner":               inst.Owner,
+				"expireAt":            inst.ExpireAt,
+				"statusContributions": snapshotStatusContributionsData(inst.StatusContributions),
+			},
+		}
 	})
 }
 

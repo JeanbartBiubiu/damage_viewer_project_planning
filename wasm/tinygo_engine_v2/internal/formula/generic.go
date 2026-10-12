@@ -84,6 +84,11 @@ const (
 
 // GenericInstr 是 generic formula 单条指令。
 type GenericInstr struct {
+	// 绑定索引只在目录原键一致时使用，0号槽由Bound明确区分未绑定。
+	AttrIndex      int
+	AttrIndexBound bool
+	AttrKey        string
+	AttrField      string
 	// AuthoredRead只标识共同读取依赖；内部指令不借此改变战斗侧语义。
 	AuthoredRead bool
 	Op           GenericOp
@@ -575,7 +580,7 @@ func TryFoldConst(instr []GenericInstr) (float64, bool) {
 		return 0, false
 	}
 	reg := GenericRegistry{Programs: []GenericProgram{{Instr: instr}}}
-	value, err := reg.eval(0, GenericEvalContext{}, true, 1, new(int))
+	value, err := reg.eval(0, &GenericEvalContext{}, true, 1, new(int))
 	if err == errConstFormulaRead {
 		return 0, false
 	}

@@ -8,6 +8,8 @@ import (
 
 // RunRequest 是 generic run frame 的顶层 payload。
 type RunRequest struct {
+	// OutputMode省略时返回完整明细；summary仅省略明细，采样仍由Sampling独立控制。
+	OutputMode          RunOutputMode        `json:"outputMode,omitempty"`
 	ProcessCommandFacts []ProcessCommandFact `json:"processCommandFacts,omitempty"`
 	SessionID           string               `json:"sessionId"`
 	ExpectedRulesHash   string               `json:"expectedRulesHash,omitempty"`
@@ -24,6 +26,26 @@ type RunRequest struct {
 	SkillHitFacts       []SkillHitFact       `json:"skillHitFacts,omitempty"`
 	AttackStartFacts    []AttackStartFact    `json:"attackStartFacts,omitempty"`
 	RecordBudget        *RecordBudget        `json:"recordBudget,omitempty"`
+}
+
+// RunOutputMode只控制展示记录，不改变执行、预算或数值汇总。
+type RunOutputMode string
+
+const (
+	RunOutputDetailed RunOutputMode = "detailed"
+	RunOutputSummary  RunOutputMode = "summary"
+)
+
+func (mode *RunOutputMode) UnmarshalJSON(data []byte) error {
+	var value string
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	if value != string(RunOutputDetailed) && value != string(RunOutputSummary) {
+		return errors.New("outputMode must be detailed or summary")
+	}
+	*mode = RunOutputMode(value)
+	return nil
 }
 
 // RunSafetyBudget 是 run 请求级安全预算覆盖（§4.1）。

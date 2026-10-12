@@ -4,7 +4,7 @@ param(
     [string]$Entry = "./cmd/engine_wasm",
     [string]$Out = "./dist/tinygo_engine_v2.wasm",
     [string]$Target = "./targets/wasm-256m.json",
-    [string[]]$TinyGoArgs = @("-scheduler=none", "-no-debug", "-opt=z")
+    [string[]]$TinyGoArgs = @("-scheduler=none", "-no-debug", "-opt=2")
 )
 
 $ErrorActionPreference = "Stop"

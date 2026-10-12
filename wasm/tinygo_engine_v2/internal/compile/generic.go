@@ -2,6 +2,7 @@ package compile
 
 import (
 	"strings"
+	"tinygo_engine_v2/internal/attribute"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -206,6 +207,15 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		TypeCount:            len(session.Types.Registry.Keys),
 		FormulaCount:         len(session.Formulas.Programs),
 	}
+	// 编号只由成功编译后的属性目录与实际槽生成；运行扩展只追加。
+	keys := append([]string(nil), attributeKeys...)
+	for _, actor := range session.Combatants {
+		for key := range actor.Attributes {
+			keys = append(keys, key)
+		}
+	}
+	session.AttributeLayout = attribute.NewLayout(keys)
+	session.Formulas.BindAttributeLayout(session.AttributeLayout)
 	return GenericCompileResult{
 		OK:      true,
 		Session: session,

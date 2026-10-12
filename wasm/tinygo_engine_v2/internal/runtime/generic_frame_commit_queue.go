@@ -45,8 +45,8 @@ func (f *executionFrame) continuousCombatantsLive() bool {
 			return false
 		}
 		health := f.run.combatantHp(key)
-		if staged := f.staged[key]; staged != nil {
-			health = staged.attributes["hp"].Current
+		if staged := f.staged.Get(key); staged != nil {
+			health = staged.attributes.At("hp").Current
 		}
 		if health <= 0 {
 			return false
@@ -106,7 +106,7 @@ func (f *executionFrame) stageAnchoredTicksOnTargetWrite(owner, provider, source
 	return nil
 }
 
-func (f *executionFrame) commitKeysAndPreflight() ([]string, *model.EngineError) {
+func (f *executionFrame) commitKeysAndPreflight(keyBuffer []string) ([]string, *model.EngineError) {
 	if f.run.processFailure != nil {
 		return nil, f.run.processFailure
 	}
@@ -117,11 +117,7 @@ func (f *executionFrame) commitKeysAndPreflight() ([]string, *model.EngineError)
 	if waitError != nil {
 		return nil, waitError
 	}
-	keys := make([]string, 0, len(f.staged))
-	for key := range f.staged {
-		keys = append(keys, key)
-	}
-	sort.Strings(keys)
+	keys := sortedFrameCombatantKeys(f.staged, keyBuffer)
 	count := len(f.pendingStateExpiry) + len(f.pendingAnchoredTicks) + waitEvents
 	if f.pendingAmmoWait != nil && f.pendingAmmoWait.active && f.continuousCombatantsLive() {
 		count++
@@ -133,7 +129,7 @@ func (f *executionFrame) commitKeysAndPreflight() ([]string, *model.EngineError)
 		count++
 	}
 	for _, pending := range f.pendingShieldExpires {
-		staged := f.staged[pending.combatantKey]
+		staged := f.staged.Get(pending.combatantKey)
 		if staged == nil || pending.expireAt <= 0 || pending.shieldRef == "" {
 			continue
 		}
@@ -148,7 +144,7 @@ func (f *executionFrame) commitKeysAndPreflight() ([]string, *model.EngineError)
 	}
 	// 只对本帧有生命周期操作的挂载列表做小范围预演。队列、历史与过程总表不复制。
 	for _, key := range keys {
-		staged := f.staged[key]
+		staged := f.staged.Get(key)
 		if len(staged.providerOps) == 0 {
 			continue
 		}
@@ -166,6 +162,22 @@ func (f *executionFrame) commitKeysAndPreflight() ([]string, *model.EngineError)
 		return nil, f.run.budgetError(model.BudgetCauseMaxQueueEvents, "frame combat event queue overflow")
 	}
 	return keys, nil
+}
+
+func sortedFrameCombatantKeys(staged *frameStagedCollection, keyBuffer []string) []string {
+	if staged.Len() > 2 {
+		// 额外参与者独立收集，避免常见两键缓冲流入通用排序。
+		keys := make([]string, 0, staged.Len())
+		staged.Range(func(key string, _ *stagedCombatant) { keys = append(keys, key) })
+		sort.Strings(keys)
+		return keys
+	}
+	keys := keyBuffer[:0]
+	staged.Range(func(key string, _ *stagedCombatant) { keys = append(keys, key) })
+	if len(keys) == 2 && keys[1] < keys[0] {
+		keys[0], keys[1] = keys[1], keys[0]
+	}
+	return keys
 }
 
 func (f *executionFrame) preflightProviderMutation(providers []status.ProviderInstance, mutation stagedProviderMutation) (int, []status.ProviderInstance, *model.EngineError) {

@@ -36,9 +36,17 @@ type providerStateFieldDef struct {
 // Field schema (defaultValue/maxValue/durationMs/refresh_on_write|start_on_first_write)
 // applies to both provider-scope and provider_target writes.
 type providerStateBag struct {
-	state          map[string]float64
-	expireAt       map[string]int64
-	fieldDefs      map[string]providerStateFieldDef
+	headerShared                 bool
+	state                        map[string]float64
+	expireAt                     map[string]int64
+	stateShared                  bool
+	expireAtShared               bool
+	targetValuesShared           bool
+	targetExpireAtShared         bool
+	anchoredTickGenerationShared bool
+	fieldDefs                    map[string]providerStateFieldDef
+	// 字段定义与默认值绑定后只读，暂存副本共享这份元数据。
+	fieldDefaults  map[string]float64
 	targetKey      string
 	targetValues   map[string]float64
 	targetExpireAt map[string]int64
@@ -52,22 +60,77 @@ type providerStateBag struct {
 func (b *providerStateBag) ensure() {
 	if b.state == nil {
 		b.state = map[string]float64{}
+		b.stateShared = false
 	}
 	if b.expireAt == nil {
 		b.expireAt = map[string]int64{}
+		b.expireAtShared = false
 	}
 	if b.fieldDefs == nil {
 		b.fieldDefs = map[string]providerStateFieldDef{}
 	}
 	if b.targetValues == nil {
 		b.targetValues = map[string]float64{}
+		b.targetValuesShared = false
 	}
 	if b.targetExpireAt == nil {
 		b.targetExpireAt = map[string]int64{}
+		b.targetExpireAtShared = false
 	}
 	if b.anchoredTickGeneration == nil {
 		b.anchoredTickGeneration = map[string]uint64{}
+		b.anchoredTickGenerationShared = false
 	}
+}
+
+func (b *providerStateBag) writableState() map[string]float64 {
+	if b.stateShared {
+		b.state = cloneFloatMap(b.state)
+		b.stateShared = false
+	} else if b.state == nil {
+		b.state = map[string]float64{}
+	}
+	return b.state
+}
+
+func (b *providerStateBag) writableExpireAt() map[string]int64 {
+	if b.expireAtShared {
+		b.expireAt = cloneInt64Map(b.expireAt)
+		b.expireAtShared = false
+	} else if b.expireAt == nil {
+		b.expireAt = map[string]int64{}
+	}
+	return b.expireAt
+}
+
+func (b *providerStateBag) writableTargetValues() map[string]float64 {
+	if b.targetValuesShared {
+		b.targetValues = cloneFloatMap(b.targetValues)
+		b.targetValuesShared = false
+	} else if b.targetValues == nil {
+		b.targetValues = map[string]float64{}
+	}
+	return b.targetValues
+}
+
+func (b *providerStateBag) writableTargetExpireAt() map[string]int64 {
+	if b.targetExpireAtShared {
+		b.targetExpireAt = cloneInt64Map(b.targetExpireAt)
+		b.targetExpireAtShared = false
+	} else if b.targetExpireAt == nil {
+		b.targetExpireAt = map[string]int64{}
+	}
+	return b.targetExpireAt
+}
+
+func (b *providerStateBag) writableAnchoredTickGeneration() map[string]uint64 {
+	if b.anchoredTickGenerationShared {
+		b.anchoredTickGeneration = cloneUint64Map(b.anchoredTickGeneration)
+		b.anchoredTickGenerationShared = false
+	} else if b.anchoredTickGeneration == nil {
+		b.anchoredTickGeneration = map[string]uint64{}
+	}
+	return b.anchoredTickGeneration
 }
 
 func cloneProviderStateMap(src map[string]*providerStateBag) map[string]*providerStateBag {
@@ -75,9 +138,42 @@ func cloneProviderStateMap(src map[string]*providerStateBag) map[string]*provide
 		return map[string]*providerStateBag{}
 	}
 	out := make(map[string]*providerStateBag, len(src))
+	// 包头一次连续分配；每个条目仍使用独立头，不共享可变标量。
+	copyHeads := make([]providerStateBag, len(src))
+	headIndex := 0
 	for k, bag := range src {
+		copied := &copyHeads[headIndex]
+		headIndex++
 		if bag == nil {
-			out[k] = &providerStateBag{
+			*copied = providerStateBag{
+				state:                  map[string]float64{},
+				expireAt:               map[string]int64{},
+				fieldDefs:              map[string]providerStateFieldDef{},
+				targetValues:           map[string]float64{},
+				targetExpireAt:         map[string]int64{},
+				anchoredTickGeneration: map[string]uint64{},
+			}
+			out[k] = copied
+			continue
+		}
+		// 包头独立，内部数值表共享；双方下一次写入都必须先取得独占表。
+		bag.stateShared, bag.expireAtShared = true, true
+		bag.targetValuesShared, bag.targetExpireAtShared = true, true
+		bag.anchoredTickGenerationShared = true
+		*copied = *bag
+		copied.headerShared = false
+		out[k] = copied
+	}
+	return out
+}
+
+// shareProviderStateMap 复制外层字典，冻结包头；使用包之前由所属字典取得独占头。
+func shareProviderStateMap(src map[string]*providerStateBag) map[string]*providerStateBag {
+	out := make(map[string]*providerStateBag, len(src))
+	for key, bag := range src {
+		if bag == nil {
+			// 保持帧暂存时空包归一化的既有行为，不改写来源的nil条目。
+			out[key] = &providerStateBag{
 				state:                  map[string]float64{},
 				expireAt:               map[string]int64{},
 				fieldDefs:              map[string]providerStateFieldDef{},
@@ -87,19 +183,198 @@ func cloneProviderStateMap(src map[string]*providerStateBag) map[string]*provide
 			}
 			continue
 		}
-		out[k] = &providerStateBag{
-			state:                   cloneFloatMap(bag.state),
-			expireAt:                cloneInt64Map(bag.expireAt),
-			fieldDefs:               cloneFieldDefMap(bag.fieldDefs),
-			targetKey:               bag.targetKey,
-			targetValues:            cloneFloatMap(bag.targetValues),
-			targetExpireAt:          cloneInt64Map(bag.targetExpireAt),
-			anchoredTickGeneration:  cloneUint64Map(bag.anchoredTickGeneration),
-			inclusiveAtExpiryKey:    bag.inclusiveAtExpiryKey,
-			inclusiveAtExpiryTarget: bag.inclusiveAtExpiryTarget,
-		}
+		bag.headerShared = true
+		bag.stateShared, bag.expireAtShared = true, true
+		bag.targetValuesShared, bag.targetExpireAtShared = true, true
+		bag.anchoredTickGenerationShared = true
+		out[key] = bag
 	}
 	return out
+}
+
+// freezeProviderStateView发布只读外层表；含nil条目时沿原规则独立归一化。
+func freezeProviderStateView(src map[string]*providerStateBag) map[string]*providerStateBag {
+	for _, bag := range src {
+		if bag == nil {
+			src = shareProviderStateMap(src)
+			break
+		}
+	}
+	for _, bag := range src {
+		bag.headerShared = true
+		bag.stateShared, bag.expireAtShared = true, true
+		bag.targetValuesShared, bag.targetExpireAtShared = true, true
+		bag.anchoredTickGenerationShared = true
+	}
+	return src
+}
+
+func writableProviderStateMap(bags *map[string]*providerStateBag, shared *bool) map[string]*providerStateBag {
+	if *shared || *bags == nil {
+		out := make(map[string]*providerStateBag, len(*bags))
+		for key, bag := range *bags {
+			out[key] = bag
+		}
+		*bags, *shared = out, false
+	}
+	return *bags
+}
+
+func (s *stagedCombatant) writableProviderStates() map[string]*providerStateBag {
+	return writableProviderStateMap(&s.providerState, &s.providerStateShared)
+}
+
+func (s *stagedCombatant) readonlyProviderStates() map[string]*providerStateBag {
+	if !s.providerStateShared {
+		s.providerState = freezeProviderStateView(s.providerState)
+		s.providerStateShared = true
+	}
+	return s.providerState
+}
+
+func (c *combatantRuntime) writableProviderStates() map[string]*providerStateBag {
+	return writableProviderStateMap(&c.providerState, &c.providerStateShared)
+}
+
+func readSharedProviderStateBag(bags *map[string]*providerStateBag, shared *bool, providerRef string, create bool, fields map[string]providerStateFieldDef, nowMs int64, options providerStateReadOptions) *providerStateBag {
+	bag := (*bags)[providerRef]
+	if bag != nil && bag.headerShared && !bag.needsReadPreparation(fields, nowMs, options) {
+		return bag
+	}
+	if bag == nil && !create {
+		return nil
+	}
+	return readProviderStateBag(writableProviderStateMap(bags, shared), providerRef, create, fields, nowMs, options)
+}
+
+// writableProviderStateBag 只复制实际使用的共享包头；五张表继续各自按写入复制。
+// bags必须由调用方独占；创建包前由调用方初始化外层字典。缺包且create=false不插入。
+// 包指针只在本次访问期间可写，发布或再次共享后必须从所属字典重新取得。
+func writableProviderStateBag(bags map[string]*providerStateBag, providerRef string, create bool) *providerStateBag {
+	if bags == nil {
+		return nil
+	}
+	bag := bags[providerRef]
+	if bag == nil {
+		if !create {
+			return nil
+		}
+		bag = &providerStateBag{
+			state:                  map[string]float64{},
+			expireAt:               map[string]int64{},
+			fieldDefs:              map[string]providerStateFieldDef{},
+			targetValues:           map[string]float64{},
+			targetExpireAt:         map[string]int64{},
+			anchoredTickGeneration: map[string]uint64{},
+		}
+		bags[providerRef] = bag
+		return bag
+	}
+	if !bag.headerShared {
+		return bag
+	}
+	copied := *bag
+	copied.headerShared = false
+	copied.stateShared, copied.expireAtShared = true, true
+	copied.targetValuesShared, copied.targetExpireAtShared = true, true
+	copied.anchoredTickGenerationShared = true
+	bag = &copied
+	bags[providerRef] = bag
+	return bag
+}
+
+type providerStateReadOptions struct {
+	expireTarget bool
+	defaults     bool
+	targetView   bool
+	targetKey    string
+}
+
+// readProviderStateBag 仅供公式借用；准备已完成的共享头不复制，真正需要准备时才取得独占头。
+// 返回的包及数值表只读，不能用于state_change、期限写入、目标切换或锚定周期写入。
+// bags必须由调用方独占；create=true时须先初始化外层字典。
+func readProviderStateBag(bags map[string]*providerStateBag, providerRef string, create bool, fields map[string]providerStateFieldDef, nowMs int64, options providerStateReadOptions) *providerStateBag {
+	bag := bags[providerRef]
+	if bag != nil && bag.headerShared && !bag.needsReadPreparation(fields, nowMs, options) {
+		return bag
+	}
+	bag = writableProviderStateBag(bags, providerRef, create)
+	if bag == nil {
+		return nil
+	}
+	bag.bindFieldDefs(fields)
+	bag.lazyExpireProviderState(nowMs)
+	if options.expireTarget {
+		bag.lazyExpireProviderTargetState(nowMs)
+	}
+	if options.defaults {
+		bag.defaultsForFormula()
+	}
+	if options.targetView && bag.targetKey == options.targetKey {
+		bag.targetStateForFormula()
+	}
+	return bag
+}
+
+func (b *providerStateBag) needsReadPreparation(fields map[string]providerStateFieldDef, nowMs int64, options providerStateReadOptions) bool {
+	bind := len(fields) > 0
+	if bind && len(b.fieldDefs) == 0 {
+		return true
+	}
+	if options.defaults && len(b.fieldDefs) > 0 && b.fieldDefaults == nil {
+		return true
+	}
+	if options.targetView && b.targetKey == options.targetKey && (b.targetValues == nil || !b.targetValuesShared) {
+		return true
+	}
+	if len(b.fieldDefs) == 0 {
+		return false
+	}
+	// bind与source惰性过期都沿原ensure初始化全部表；不额外填入未声明的数值键。
+	if b.state == nil || b.expireAt == nil || b.targetValues == nil || b.targetExpireAt == nil || b.anchoredTickGeneration == nil {
+		return true
+	}
+	for key, def := range b.fieldDefs {
+		if bind {
+			if _, exists := b.state[key]; !exists {
+				return true
+			}
+		}
+		if def.durationMs <= 0 {
+			continue
+		}
+		if expires := b.expireAt[key]; expires > 0 && nowMs >= expires {
+			return true
+		}
+		if options.expireTarget {
+			if expires := b.targetExpireAt[key]; expires > 0 && nowMs >= expires && !b.holdsInclusiveAtExpiry(key, nowMs, expires) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// needsLazyExpiration 仅判断既有两类惰性过期是否会写包，不绑定字段或填默认值。
+func (b *providerStateBag) needsLazyExpiration(nowMs int64) bool {
+	if b == nil || len(b.fieldDefs) == 0 {
+		return false
+	}
+	if b.state == nil || b.expireAt == nil || b.targetValues == nil || b.targetExpireAt == nil || b.anchoredTickGeneration == nil {
+		return true
+	}
+	for key, def := range b.fieldDefs {
+		if def.durationMs <= 0 {
+			continue
+		}
+		if expires := b.expireAt[key]; expires > 0 && nowMs >= expires {
+			return true
+		}
+		if expires := b.targetExpireAt[key]; expires > 0 && nowMs >= expires && !b.holdsInclusiveAtExpiry(key, nowMs, expires) {
+			return true
+		}
+	}
+	return false
 }
 
 func cloneFloatMap(src map[string]float64) map[string]float64 {
@@ -329,10 +604,11 @@ func (b *providerStateBag) bindFieldDefs(fields map[string]providerStateFieldDef
 	b.ensure()
 	if len(b.fieldDefs) == 0 {
 		b.fieldDefs = cloneFieldDefMap(fields)
+		b.fieldDefaults = nil
 	}
 	for k, def := range b.fieldDefs {
 		if _, ok := b.state[k]; !ok {
-			b.state[k] = def.defaultValue
+			b.writableState()[k] = def.defaultValue
 		}
 	}
 }
@@ -347,7 +623,7 @@ func (b *providerStateBag) seedTargetValueIfAbsent(key string) {
 		return
 	}
 	if def, ok := b.fieldDefs[key]; ok {
-		b.targetValues[key] = def.defaultValue
+		b.writableTargetValues()[key] = def.defaultValue
 	}
 }
 
@@ -387,17 +663,26 @@ func (b *providerStateBag) targetStateForFormula() map[string]float64 {
 	if b == nil {
 		return map[string]float64{}
 	}
-	return cloneFloatMap(b.targetValues)
+	if b.targetValues == nil {
+		b.targetValues = map[string]float64{}
+	}
+	// 公式只能读取；后续写入另建表，保留本次公式视图。
+	b.targetValuesShared = true
+	return b.targetValues
 }
 
 func (b *providerStateBag) defaultsForFormula() map[string]float64 {
 	if b == nil || len(b.fieldDefs) == 0 {
 		return nil
 	}
+	if b.fieldDefaults != nil {
+		return b.fieldDefaults
+	}
 	defaults := make(map[string]float64, len(b.fieldDefs))
 	for key, field := range b.fieldDefs {
 		defaults[key] = field.defaultValue
 	}
+	b.fieldDefaults = defaults
 	return defaults
 }
 
@@ -416,8 +701,8 @@ func (b *providerStateBag) lazyExpireProviderState(nowMs int64) {
 			continue
 		}
 		if nowMs >= exp {
-			b.state[key] = def.defaultValue
-			b.expireAt[key] = 0
+			b.writableState()[key] = def.defaultValue
+			b.writableExpireAt()[key] = 0
 		}
 	}
 }
@@ -442,8 +727,8 @@ func (b *providerStateBag) lazyExpireProviderTargetState(nowMs int64) {
 			if b.holdsInclusiveAtExpiry(key, nowMs, exp) {
 				continue
 			}
-			b.targetValues[key] = def.defaultValue
-			b.targetExpireAt[key] = 0
+			b.writableTargetValues()[key] = def.defaultValue
+			b.writableTargetExpireAt()[key] = 0
 		}
 	}
 }
@@ -484,7 +769,7 @@ func (b *providerStateBag) bumpAnchoredTickGeneration(anchorKey string) uint64 {
 		return 0
 	}
 	b.ensure()
-	b.anchoredTickGeneration[anchorKey]++
+	b.writableAnchoredTickGeneration()[anchorKey]++
 	return b.anchoredTickGeneration[anchorKey]
 }
 
@@ -502,8 +787,11 @@ func (b *providerStateBag) clearProviderTargetState() {
 	}
 	b.targetKey = ""
 	b.targetValues = map[string]float64{}
+	b.targetValuesShared = false
 	b.targetExpireAt = map[string]int64{}
+	b.targetExpireAtShared = false
 	b.anchoredTickGeneration = map[string]uint64{}
+	b.anchoredTickGenerationShared = false
 	b.clearInclusiveAtExpiryHold()
 }
 
@@ -563,14 +851,14 @@ func (b *providerStateBag) refreshExpireAtOnWrite(key string, nowMs int64) bool 
 	switch def.refreshPolicy {
 	case model.ProviderStateRefreshOnWrite:
 		if b.state[key] == def.defaultValue {
-			b.expireAt[key] = 0
+			b.writableExpireAt()[key] = 0
 			return true
 		}
 		exp, ok := addDuration(nowMs, def.durationMs)
 		if !ok {
 			return false
 		}
-		b.expireAt[key] = exp
+		b.writableExpireAt()[key] = exp
 		return true
 	case model.ProviderStateRefreshStartOnFirstWrite:
 		return b.applyStartOnFirstWrite(key, nowMs, b.state[key], def, false)
@@ -591,14 +879,14 @@ func (b *providerStateBag) refreshTargetExpireAtOnWrite(key string, nowMs int64)
 	switch def.refreshPolicy {
 	case model.ProviderStateRefreshOnWrite:
 		if b.targetValues[key] == def.defaultValue {
-			b.targetExpireAt[key] = 0
+			b.writableTargetExpireAt()[key] = 0
 			return 0, true
 		}
 		exp, ok := addDuration(nowMs, def.durationMs)
 		if !ok {
 			return 0, false
 		}
-		b.targetExpireAt[key] = exp
+		b.writableTargetExpireAt()[key] = exp
 		return exp, true
 	case model.ProviderStateRefreshStartOnFirstWrite:
 		if !b.applyStartOnFirstWrite(key, nowMs, b.targetValues[key], def, true) {
@@ -616,7 +904,11 @@ func (b *providerStateBag) applyStartOnFirstWrite(key string, nowMs int64, next 
 		expire = b.targetExpireAt
 	}
 	if next == def.defaultValue {
-		expire[key] = 0
+		if target {
+			b.writableTargetExpireAt()[key] = 0
+		} else {
+			b.writableExpireAt()[key] = 0
+		}
 		return true
 	}
 	current := expire[key]
@@ -627,7 +919,11 @@ func (b *providerStateBag) applyStartOnFirstWrite(key string, nowMs int64, next 
 	if !ok {
 		return false
 	}
-	expire[key] = exp
+	if target {
+		b.writableTargetExpireAt()[key] = exp
+	} else {
+		b.writableExpireAt()[key] = exp
+	}
 	return true
 }
 
@@ -651,10 +947,10 @@ func (b *providerStateBag) subtractProviderExpireAt(key string, nowMs, deltaMs i
 		next = nowMs
 	}
 	if next <= nowMs {
-		b.expireAt[key] = 0
+		b.writableExpireAt()[key] = 0
 		return true, true, 0
 	}
-	b.expireAt[key] = next
+	b.writableExpireAt()[key] = next
 	return true, false, next
 }
 
@@ -673,10 +969,10 @@ func (b *providerStateBag) subtractTargetExpireAt(key string, nowMs, deltaMs int
 		next = nowMs
 	}
 	if next <= nowMs {
-		b.targetExpireAt[key] = 0
+		b.writableTargetExpireAt()[key] = 0
 		return true, true, 0
 	}
-	b.targetExpireAt[key] = next
+	b.writableTargetExpireAt()[key] = next
 	return true, false, next
 }
 
@@ -718,6 +1014,11 @@ func restoreBagTimers(bag *providerStateBag, snapshotTime int64, combatantKeys m
 		return nil
 	}
 	bag.ensure()
+	// 恢复仅用于初始化校验；其中的默认值和期限写入必须使用独占表。
+	bag.writableState()
+	bag.writableExpireAt()
+	bag.writableTargetValues()
+	bag.writableTargetExpireAt()
 	if bag.targetKey != "" && !combatantKeys[bag.targetKey] {
 		return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "providerState target is unknown", path+".targetState.target", bag.targetKey, schemaHash, rulesHash, sessionID)
 	}

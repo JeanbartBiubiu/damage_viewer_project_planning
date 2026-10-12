@@ -20,8 +20,10 @@ func (s *genericRunState) dispatchBasicAttackReceived(original emittedEvent, dep
 	received.snapshot.eventType = received.eventType
 	s.refreshEmittedEventLiveSnapshot(&received)
 	attachUseToSnapshot(&received)
-	s.recordEvidence(model.EvidenceItem{TimeMs: s.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: received.eventType,
-		Data: map[string]interface{}{"source": received.sourceKey, "target": received.targetKey, "useRef": received.useKey, "skillKey": received.useSkillKey}})
+	s.recordEvidenceLazy(model.EvidenceKindEmittedEvent, func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: s.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: received.eventType,
+			Data: map[string]interface{}{"source": received.sourceKey, "target": received.targetKey, "useRef": received.useKey, "skillKey": received.useSkillKey}}
+	})
 	return s.dispatchListeners(received, depth)
 }
 
@@ -47,8 +49,10 @@ func (f *executionFrame) queueDamageTaken(cmd command.Command, operation planbun
 	event.hasUse = event.useKey != ""
 	attachUseToSnapshot(&event)
 	f.pendingEvents = append(f.pendingEvents, event)
-	f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: event.eventType,
-		Data: map[string]interface{}{"source": cmd.Source, "target": cmd.Target, "useRef": event.useKey,
-			"skillKey": event.useSkillKey, "operationRef": operation.Ref, "postDefenseDamage": outcome.MitigatedAmount,
-			"shieldAbsorbed": outcome.ShieldAbsorbed, "actualHpLoss": outcome.HPDamage}})
+	f.recordEvidenceLazy(model.EvidenceKindEmittedEvent, func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: event.eventType,
+			Data: map[string]interface{}{"source": cmd.Source, "target": cmd.Target, "useRef": event.useKey,
+				"skillKey": event.useSkillKey, "operationRef": operation.Ref, "postDefenseDamage": outcome.MitigatedAmount,
+				"shieldAbsorbed": outcome.ShieldAbsorbed, "actualHpLoss": outcome.HPDamage}}
+	})
 }

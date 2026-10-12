@@ -399,10 +399,11 @@ func useTriggerLedgerLess(a, b model.UseTriggerLedgerEntry) bool {
 
 func (s *genericRunState) lazyExpireAllProviderState() {
 	for key, c := range s.combatants {
-		for _, bag := range c.providerState {
-			if bag == nil {
+		for ref, bag := range c.providerState {
+			if !bag.needsLazyExpiration(s.nowMs) {
 				continue
 			}
+			bag = writableProviderStateBag(c.writableProviderStates(), ref, false)
 			bag.lazyExpireProviderState(s.nowMs)
 			bag.lazyExpireProviderTargetState(s.nowMs)
 		}
@@ -429,7 +430,9 @@ func (s *genericRunState) evalListenerCondition(listener planbundle.CompiledList
 	if listener.SourceAbilityIndex >= 0 && listener.SourceAbilityIndex < len(s.compiled.Abilities) {
 		ability = s.compiled.Abilities[listener.SourceAbilityIndex]
 	}
-	frame := s.newExecutionFrame(sourceKey, targetKey, "listener:"+listener.ListenerKey)
+	var frameStorage executionFrame
+	s.initExecutionFrame(&frameStorage, sourceKey, targetKey, "listener:"+listener.ListenerKey)
+	frame := &frameStorage
 	frame.strictReads = true
 	frame.ownerCombatantKey = listener.OwnerCombatantKey
 	frame.ownerProviderRef = listener.OwnerProviderRef
@@ -444,7 +447,7 @@ func (s *genericRunState) evalListenerCondition(listener planbundle.CompiledList
 	}
 	ctx := frame.evalContext(ability)
 	ctx.StrictReads = true
-	value, err := s.formulas.Eval(listener.ConditionProgram, ctx)
+	value, err := s.formulas.EvalContext(listener.ConditionProgram, &ctx)
 	if err != nil {
 		out := engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 		out.Path = "listeners[" + listener.ListenerKey + "].condition"

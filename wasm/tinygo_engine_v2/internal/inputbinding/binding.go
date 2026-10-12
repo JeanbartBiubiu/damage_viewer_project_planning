@@ -81,69 +81,82 @@ func (p *Plan) Reader(values []Value) (expression.ReadInput, *expression.Contrac
 		return nil, &expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM", Path: "/values"}
 	}
 	frozen := append([]Value(nil), values...)
-	return func(slot uint16) (float64, *expression.ContractIssue) {
-		if int(slot) >= len(p.inputs) {
-			return 0, &expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}
-		}
-		input := p.inputs[slot]
-		if int(input.catalog) >= len(frozen) {
+	return func(slot uint16) (float64, *expression.ContractIssue) { return p.readValue(frozen, slot) }, nil
+}
+
+// Evaluate只在同步求值期间借用数值切片，不保存或修改输入。
+func (p *Plan) Evaluate(program *expression.Program, values []Value) (expression.Evaluation, *expression.ContractIssue) {
+	if p == nil {
+		return expression.Evaluation{}, &expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}
+	}
+	if len(values) > p.entries {
+		return expression.Evaluation{}, &expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM", Path: "/values"}
+	}
+	return program.Evaluate(func(slot uint16) (float64, *expression.ContractIssue) { return p.readValue(values, slot) })
+}
+
+func (p *Plan) readValue(values []Value, slot uint16) (float64, *expression.ContractIssue) {
+	if int(slot) >= len(p.inputs) {
+		return 0, &expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}
+	}
+	input := p.inputs[slot]
+	if int(input.catalog) >= len(values) {
+		return 0, &expression.ContractIssue{Code: "FORMULA_MISSING_INPUT"}
+	}
+	value := values[input.catalog]
+	read := func(s Scalar) (float64, *expression.ContractIssue) {
+		if !s.Present {
 			return 0, &expression.ContractIssue{Code: "FORMULA_MISSING_INPUT"}
 		}
-		value := frozen[input.catalog]
-		read := func(s Scalar) (float64, *expression.ContractIssue) {
-			if !s.Present {
-				return 0, &expression.ContractIssue{Code: "FORMULA_MISSING_INPUT"}
-			}
-			if math.IsNaN(s.Value) || math.IsInf(s.Value, 0) {
-				return 0, &expression.ContractIssue{Code: "FORMULA_NON_FINITE"}
-			}
-			return s.Value, nil
+		if math.IsNaN(s.Value) || math.IsInf(s.Value, 0) {
+			return 0, &expression.ContractIssue{Code: "FORMULA_NON_FINITE"}
 		}
-		if input.kind == "parameter" || input.kind == "context" {
-			return read(value.Number)
+		return s.Value, nil
+	}
+	if input.kind == "parameter" || input.kind == "context" {
+		return read(value.Number)
+	}
+	if input.kind != "attribute" {
+		return 0, &expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}
+	}
+	switch input.value {
+	case "BASE":
+		return read(value.Base)
+	case "TOTAL":
+		return read(value.Total)
+	case "CURRENT":
+		return read(value.Current)
+	case "MAX":
+		return read(value.Max)
+	}
+	var left, right float64
+	var issue *expression.ContractIssue
+	if input.value == "BONUS" {
+		left, issue = read(value.Total)
+		if issue == nil {
+			right, issue = read(value.Base)
 		}
-		if input.kind != "attribute" {
-			return 0, &expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}
+	} else {
+		left, issue = read(value.Max)
+		if issue == nil {
+			right, issue = read(value.Current)
 		}
-		switch input.value {
-		case "BASE":
-			return read(value.Base)
-		case "TOTAL":
-			return read(value.Total)
-		case "CURRENT":
-			return read(value.Current)
-		case "MAX":
-			return read(value.Max)
-		}
-		var left, right float64
-		var issue *expression.ContractIssue
-		if input.value == "BONUS" {
-			left, issue = read(value.Total)
-			if issue == nil {
-				right, issue = read(value.Base)
-			}
-		} else {
-			left, issue = read(value.Max)
-			if issue == nil {
-				right, issue = read(value.Current)
-			}
-		}
+	}
+	if issue != nil {
+		return 0, issue
+	}
+	switch input.value {
+	case "BONUS", "MISSING":
+		return expression.Arithmetic("sub", []float64{left, right}, 0)
+	case "CURRENT_RATIO":
+		return expression.Arithmetic("div", []float64{right, left}, 0)
+	case "MISSING_RATIO":
+		missing, issue := expression.Arithmetic("sub", []float64{left, right}, 0)
 		if issue != nil {
 			return 0, issue
 		}
-		switch input.value {
-		case "BONUS", "MISSING":
-			return expression.Arithmetic("sub", []float64{left, right}, 0)
-		case "CURRENT_RATIO":
-			return expression.Arithmetic("div", []float64{right, left}, 0)
-		case "MISSING_RATIO":
-			missing, issue := expression.Arithmetic("sub", []float64{left, right}, 0)
-			if issue != nil {
-				return 0, issue
-			}
-			return expression.Arithmetic("div", []float64{missing, left}, 0)
-		default:
-			return 0, &expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}
-		}
-	}, nil
+		return expression.Arithmetic("div", []float64{missing, left}, 0)
+	default:
+		return 0, &expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}
+	}
 }

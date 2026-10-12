@@ -8,11 +8,30 @@ func (f *executionFrame) recordEvidence(item model.EvidenceItem) {
 		f.run.recordEvidence(item)
 		return
 	}
+	if !f.run.detailedOutput() {
+		f.recordEvidenceKind(item.Kind)
+		return
+	}
 	f.pendingEvidence = append(f.pendingEvidence, item)
 }
 
+func (f *executionFrame) recordEvidenceKind(kind model.EvidenceKind) {
+	if f.committed {
+		f.run.recordEvidence(model.EvidenceItem{Kind: kind})
+		return
+	}
+	f.pendingEvidenceKinds = append(f.pendingEvidenceKinds, kind)
+}
+
+func (f *executionFrame) pendingEvidenceIndex() int {
+	if !f.run.detailedOutput() {
+		return len(f.pendingEvidenceKinds)
+	}
+	return len(f.pendingEvidence)
+}
+
 func (f *executionFrame) recordGenericExecuteEvidence(ev genericExecuteEvidence) {
-	f.recordEvidence(genericExecuteEvidenceItem(ev, f.run.nowMs))
+	f.recordEvidenceLazy(model.EvidenceKindExecute, func() model.EvidenceItem { return genericExecuteEvidenceItem(ev, f.run.nowMs) })
 }
 
 func (f *executionFrame) recordGenericDamageEvidence(ev genericDamageEvidence) {
@@ -32,7 +51,7 @@ func (f *executionFrame) recordGenericDamageEvidence(ev genericDamageEvidence) {
 		}
 	}
 	f.pendingDamage = append(f.pendingDamage, ev)
-	f.recordEvidence(genericDamageEvidenceItem(ev, f.run.nowMs))
+	f.recordEvidenceLazy(model.EvidenceKindDamage, func() model.EvidenceItem { return genericDamageEvidenceItem(ev, f.run.nowMs) })
 }
 
 func (f *executionFrame) nextDamageID() uint64 {
@@ -77,7 +96,7 @@ func (f *executionFrame) commitFrameFacts() {
 	}
 	for _, record := range f.pendingMechanicRecords {
 		f.run.mechanicRecordCount++
-		if len(f.run.mechanicRecords) < f.run.maxMechanicRecords {
+		if f.run.detailedOutput() && len(f.run.mechanicRecords) < f.run.maxMechanicRecords {
 			f.run.mechanicRecords = append(f.run.mechanicRecords, record)
 		}
 	}
@@ -91,9 +110,23 @@ func (f *executionFrame) commitFrameFacts() {
 	for _, damage := range f.pendingDamage {
 		f.run.recordCommittedDamage(f, damage)
 	}
-	for _, item := range f.pendingEvidence {
-		f.run.recordSkillActionHit(item)
-		f.run.recordEvidence(item)
+	hitIndex := 0
+	if f.run.detailedOutput() {
+		for index, item := range f.pendingEvidence {
+			for hitIndex < len(f.pendingSkillHits) && f.pendingSkillHits[hitIndex].evidenceIndex == index {
+				f.run.recordSkillActionHit(f.pendingSkillHits[hitIndex])
+				hitIndex++
+			}
+			f.run.recordEvidence(item)
+		}
+	} else {
+		for index, kind := range f.pendingEvidenceKinds {
+			for hitIndex < len(f.pendingSkillHits) && f.pendingSkillHits[hitIndex].evidenceIndex == index {
+				f.run.recordSkillActionHit(f.pendingSkillHits[hitIndex])
+				hitIndex++
+			}
+			f.run.recordEvidence(model.EvidenceItem{Kind: kind})
+		}
 	}
 	if f.copyableCollector != nil {
 		f.copyableCollector.damages = append(f.copyableCollector.damages, f.pendingCopyable...)

@@ -2,6 +2,7 @@ package pipeline
 
 import (
 	"testing"
+	"tinygo_engine_v2/internal/attribute"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -16,9 +17,9 @@ func TestAttributeResolverRejectsMissingReadsInsteadOfDroppingModifier(t *testin
 	resolver.MountCompiledModifierOwned("source", "gear", planbundle.CompiledModifier{
 		ModifierKey: "bad", Kind: "attribute", Target: "armor", ValuePolicy: "add", ValueProgram: 0, HasValue: true,
 	})
-	attrs := map[string]model.AttributeSlotDef{"armor": {Base: 10, Current: 10, Resolved: 10}}
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"armor": {Base: 10, Current: 10, Resolved: 10}})
 	resolved, err := resolver.ResolveAttributes(attrs, formula.GenericEvalContext{SourceAttrs: attrs, StrictReads: true}, registry)
-	if err == nil || resolved != nil || attrs["armor"].Resolved != 10 {
+	if err == nil || resolved.Len() != 0 || attrs.At("armor").Resolved != 10 {
 		t.Fatalf("modifier must fail atomically: resolved=%v err=%v attrs=%v", resolved, err, attrs)
 	}
 }

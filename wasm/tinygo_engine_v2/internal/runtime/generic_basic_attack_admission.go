@@ -52,7 +52,7 @@ func (s *genericRunState) validateBasicAttackInitialSnapshot() *model.EngineErro
 				}
 				seenMounts[raw.ProviderRef] = true
 			}
-			hp := s.combatants[actor.Key].attributes["hp"]
+			hp := s.combatants[actor.Key].attributes.At("hp")
 			if math.IsNaN(hp.Max) || math.IsInf(hp.Max, 0) || hp.Max <= 0 || hp.Current < 0 || hp.Current > hp.Max || math.Abs(hp.Max-hp.Resolved) > 1e-9*math.Max(1, math.Abs(hp.Max)) {
 				return s.basicAttackErr("initial HP maximum must equal the native equipped maximum and current HP must stay within it", "initialSnapshot.combatants.attributes.hp")
 			}

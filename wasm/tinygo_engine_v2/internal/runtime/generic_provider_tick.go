@@ -137,7 +137,9 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 	}
 	ops := s.compiled.Operations[start:end]
 
-	frame := s.newExecutionFrame(sourceKey, targetKey, abilityRef)
+	var frameStorage executionFrame
+	s.initExecutionFrame(&frameStorage, sourceKey, targetKey, abilityRef)
+	frame := &frameStorage
 	if s.basicAttack != nil {
 		frame.strictReads = true
 	}
@@ -169,16 +171,18 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 		return err
 	}
 
-	s.recordEvidence(model.EvidenceItem{
-		TimeMs:  s.nowMs,
-		Kind:    model.EvidenceKindProviderTick,
-		Ref:     ref.ProviderRef,
-		Message: "provider tick executed",
-		Data: map[string]interface{}{
-			"combatantKey":  ref.CombatantKey,
-			"providerRef":   ref.ProviderRef,
-			"definitionRef": inst.DefinitionRef,
-		},
+	s.recordEvidenceLazy(model.EvidenceKindProviderTick, func() model.EvidenceItem {
+		return model.EvidenceItem{
+			TimeMs:  s.nowMs,
+			Kind:    model.EvidenceKindProviderTick,
+			Ref:     ref.ProviderRef,
+			Message: "provider tick executed",
+			Data: map[string]interface{}{
+				"combatantKey":  ref.CombatantKey,
+				"providerRef":   ref.ProviderRef,
+				"definitionRef": inst.DefinitionRef,
+			},
+		}
 	})
 	if s.basicAttack != nil {
 		return nil

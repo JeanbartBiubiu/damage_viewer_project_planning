@@ -5,6 +5,7 @@ import (
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 	shieldpkg "tinygo_engine_v2/internal/shield"
@@ -645,10 +646,10 @@ func TestGenericPhantomReplayStableOrderViaShieldHP(t *testing.T) {
 			},
 			model.SelectorTarget: {
 				key: model.SelectorTarget,
-				attributes: map[string]model.AttributeSlotDef{
+				attributes: attribute.FromMap(map[string]model.AttributeSlotDef{
 					"hp":    {Base: hp0, Current: hp0, Max: hp0, Resolved: hp0},
 					"armor": entryArmor,
-				},
+				}),
 				shields: []shieldpkg.Instance{{
 					ShieldRef: "test_shield", Source: model.SelectorSource, Owner: model.SelectorTarget,
 					Remaining: shield0, Priority: 0,
@@ -664,12 +665,12 @@ func TestGenericPhantomReplayStableOrderViaShieldHP(t *testing.T) {
 			{
 				providerRef: "prov:z", originRef: "listener:z", sourceKey: model.SelectorSource, targetKey: model.SelectorTarget,
 				damageType: "damage/physical", rawAmount: 100,
-				eventTargetKey: model.SelectorTarget, entryTargetAttrs: map[string]model.AttributeSlotDef{"armor": entryArmor},
+				eventTargetKey: model.SelectorTarget, entryTargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"armor": entryArmor}),
 			},
 			{
 				providerRef: "prov:a", originRef: "listener:a", sourceKey: model.SelectorSource, targetKey: model.SelectorTarget,
 				damageType: "damage/magic", rawAmount: 60,
-				eventTargetKey: model.SelectorTarget, entryTargetAttrs: map[string]model.AttributeSlotDef{"armor": entryArmor},
+				eventTargetKey: model.SelectorTarget, entryTargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"armor": entryArmor}),
 			},
 		},
 		repeats: []deferredRepeatRequest{{
@@ -700,7 +701,7 @@ func TestGenericPhantomReplayStableOrderViaShieldHP(t *testing.T) {
 	tgt := s.combatants[model.SelectorTarget]
 	// magic60：护盾40→HP-20；physical50：HP-50 → HP=30；护盾耗尽
 	wantHP := hp0 - (60 - shield0) - 50
-	gotHP := tgt.attributes["hp"].Current
+	gotHP := tgt.attributes.At("hp").Current
 	if math.Abs(gotHP-wantHP) > 1e-6 {
 		t.Fatalf("target hp=%v want %v", gotHP, wantHP)
 	}

@@ -50,7 +50,7 @@ func (s *genericRunState) initProcessState() *model.EngineError {
 		}
 		seenUses[row.UseKey] = true
 		if row.Status == "active" {
-			key := processMountKey(row.Owner, row.ProviderRef, row.ProcessKey)
+			key := processInstanceMountKey(p)
 			if active[key] {
 				return s.processErr(path, "multiple active instances on one mounted process", row.ProcessKey)
 			}
@@ -267,6 +267,7 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 	if err := s.validateRestoredActionOccupancies(process, path); err != nil {
 		return nil, err
 	}
+	process.cacheIdentityKeys()
 	return process, nil
 }
 

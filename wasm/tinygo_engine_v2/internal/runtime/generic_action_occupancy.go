@@ -129,7 +129,7 @@ func (frame *executionFrame) validatePlannedProcessDeadline() *model.EngineError
 	if process.Repeat != nil && process.Repeat.NextExecutionAtMs != nil && *process.Repeat.NextExecutionAtMs > maxJSONSafeInteger {
 		return frame.run.basicAttackErr("planned segment requires a safe real execution deadline", "processInstances.repeat.nextExecutionAtMs")
 	}
-	if staged := frame.staged[process.Owner]; staged != nil && staged.cooldowns[process.abilityRef] > maxJSONSafeInteger {
+	if staged := frame.staged.Get(process.Owner); staged != nil && staged.cooldowns[process.abilityRef] > maxJSONSafeInteger {
 		return frame.run.basicAttackErr("planned cooldown requires a safe actual deadline", "processInstances.cooldown")
 	}
 	return nil
@@ -231,7 +231,7 @@ func (state *genericRunState) validatePlannedSkillProvider(owner, providerRef st
 				if !exists {
 					return state.basicAttackErr("planned attribute change requires its actual action recipient", operation.Path)
 				}
-				if _, exists := state.combatants[target].attributes[operation.AttributeKey]; !exists {
+				if _, exists := state.combatants[target].attributes.Lookup(operation.AttributeKey); !exists {
 					return state.basicAttackErr("planned attribute change requires an explicit recipient slot", operation.Path+".attributeKey")
 				}
 			}

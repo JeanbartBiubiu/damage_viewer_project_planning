@@ -69,13 +69,13 @@ func TestFormulaPhase4DamagePlanGuardPrecedesEveryAmountShortcut(t *testing.T) {
 				f, ability, ops := frameCommitFrame(s)
 				def := s.compiled.DamageTypeFormulas["damage/physical"]
 				test.change(s, def)
-				before := s.combatants["target"].attributes["hp"]
+				before := s.combatants["target"].attributes.At("hp")
 				cmd := command.Command{Kind: command.KindDamage, Source: "source", Target: "target", DamageType: "damage/physical", Amount: amount}
 				_, issue := f.resolveDamageNumbers(cmd, ops[0], frozenCritEvidence{}, ability, nil)
 				if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != ops[0].Path+".damageType" || issue.Ref != "damage/physical" {
 					t.Fatalf("plan shortcut: amount=%v issue=%+v", amount, issue)
 				}
-				if s.combatants["target"].attributes["hp"] != before || s.sourceDamageDealt != 0 || len(s.damageHistory) != 0 {
+				if s.combatants["target"].attributes.At("hp") != before || s.sourceDamageDealt != 0 || len(s.damageHistory) != 0 {
 					t.Fatal("invalid plan committed combat results")
 				}
 			})
@@ -93,7 +93,7 @@ func TestFormulaPhase4BrokenDefenseDropsEarlierStagedWritesAndRecovers(t *testin
 	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != "sharedProviders[0].abilities[0].operations[1].damageType" {
 		t.Fatalf("run=%+v", issue)
 	}
-	if s.combatants["target"].attributes["hp"].Current != 1000 || len(s.combatants["target"].shields) != 0 || s.sourceDamageDealt != 0 || len(s.damageHistory) != 0 {
+	if s.combatants["target"].attributes.At("hp").Current != 1000 || len(s.combatants["target"].shields) != 0 || s.sourceDamageDealt != 0 || len(s.damageHistory) != 0 {
 		t.Fatal("failed frame submitted earlier shield or damage")
 	}
 	if !reflect.DeepEqual(s.formulas, before) {
@@ -111,7 +111,7 @@ func TestFormulaPhase4GenericDamageFallbackCannotWrite(t *testing.T) {
 	s := frameCommitState(t, c, r)
 	f, ability, ops := frameCommitFrame(s)
 	issue := f.applyCommand(command.Command{Kind: command.KindDamage, Source: "source", Target: "target", DamageType: "damage/physical", Amount: 100}, ops[0], ability)
-	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != ops[0].Path+".damageType" || len(f.staged) != 0 || s.sourceDamageDealt != 0 {
+	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != ops[0].Path+".damageType" || f.staged.Len() != 0 || s.sourceDamageDealt != 0 {
 		t.Fatalf("generic fallback escaped guard: %+v", issue)
 	}
 }
@@ -123,7 +123,7 @@ func TestFormulaPhase4CopiedZeroDamageRequiresRealPlan(t *testing.T) {
 	operation := planbundle.CompiledOperation{Path: "original.listener.operations[3]", Operation: "damage", DamageType: "damage/physical"}
 	damage := copyableDamageFrozen{sourceKey: "source", targetKey: "target", damageType: "damage/physical", operation: operation, rawAmount: 0}
 	issue := s.applyPhantomCopyableDamage(&eventCopyableCollector{}, damage, "copy")
-	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != operation.Path+".damageType" || s.combatants["target"].attributes["hp"].Current != 1000 || len(s.damageHistory) != 0 {
+	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != operation.Path+".damageType" || s.combatants["target"].attributes.At("hp").Current != 1000 || len(s.damageHistory) != 0 {
 		t.Fatalf("copied zero bypassed guard: %+v", issue)
 	}
 }

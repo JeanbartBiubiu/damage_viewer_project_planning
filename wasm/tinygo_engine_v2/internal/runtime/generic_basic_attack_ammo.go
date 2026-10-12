@@ -42,7 +42,9 @@ func (s *genericRunState) basicAttackAmmoReady() (bool, *model.EngineError) {
 	if ammo == nil {
 		return true, nil
 	}
-	frame := s.newExecutionFrame(ammo.owner, s.basicAttack.plan.Target, s.basicAttack.plan.InitialControlAbilityRef)
+	var frameStorage executionFrame
+	s.initExecutionFrame(&frameStorage, ammo.owner, s.basicAttack.plan.Target, s.basicAttack.plan.InitialControlAbilityRef)
+	frame := &frameStorage
 	frame.ownerCombatantKey, frame.ownerProviderRef = ammo.owner, ammo.providerRef
 	frame.strictReads = true
 	bag := frame.providerStateBag(ammo.owner, ammo.providerRef, true)
@@ -147,7 +149,9 @@ func (s *genericRunState) handleAmmoRecovery(event scheduler.GenericEvent) *mode
 	if !ammo.wait.active || event.AmmoGeneration != ammo.wait.generation || event.TimeMs != ammo.wait.readyAt || event.TimeMs != s.nowMs || event.ProviderInstanceRef.CombatantKey != ammo.owner || event.ProviderInstanceRef.ProviderRef != ammo.providerRef || s.combatantHp(s.basicAttack.plan.Source) <= 0 || s.combatantHp(s.basicAttack.plan.Target) <= 0 {
 		return nil
 	}
-	frame := s.newExecutionFrame(ammo.owner, s.basicAttack.plan.Target, s.basicAttack.plan.InitialControlAbilityRef)
+	var frameStorage executionFrame
+	s.initExecutionFrame(&frameStorage, ammo.owner, s.basicAttack.plan.Target, s.basicAttack.plan.InitialControlAbilityRef)
+	frame := &frameStorage
 	frame.ownerCombatantKey, frame.ownerProviderRef = ammo.owner, ammo.providerRef
 	frame.strictReads = true
 	if err := frame.consumeCommands(1); err != nil {
@@ -163,7 +167,7 @@ func (s *genericRunState) handleAmmoRecovery(event scheduler.GenericEvent) *mode
 	if message != "" {
 		return s.basicAttackErr(message, ammo.binding.StateKey)
 	}
-	bag.state[ammo.binding.StateKey] = after
+	bag.writableState()[ammo.binding.StateKey] = after
 	frame.stageFor(ammo.owner).dirty = true
 	wait := ammo.wait
 	wait.active = false

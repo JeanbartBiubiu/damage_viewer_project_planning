@@ -248,7 +248,7 @@ func TestCalculationAttributeBaseOverflowRejectsBeforeClampAndFrameCommit(t *tes
 		if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != "combatants.source.attributes.force.base" {
 			t.Fatal("nonfinite attribute accepted or silently clamped", maximum, issue)
 		}
-		if state.combatants["source"].attributes["force"].Base != 1e308 || len(state.combatants["target"].shields) != 0 {
+		if state.combatants["source"].attributes.At("force").Base != 1e308 || len(state.combatants["target"].shields) != 0 {
 			t.Fatal("attribute overflow committed partial frame")
 		}
 		if _, issue := json.Marshal(state.evidence); issue != nil {
@@ -277,7 +277,7 @@ func TestCalculationCriticalAmountOverflowRejectsBeforeCommitAndSessionRecovers(
 		if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != "sharedProviders[0].abilities[0].operations[1].critMultiplier" {
 			t.Fatal("critical amount overflow accepted", issue)
 		}
-		if state.combatants["target"].attributes["hp"].Current != 1000 || len(state.combatants["target"].shields) != 0 || state.sourceDamageDealt != 0 || len(state.damageHistory) != 0 {
+		if state.combatants["target"].attributes.At("hp").Current != 1000 || len(state.combatants["target"].shields) != 0 || state.sourceDamageDealt != 0 || len(state.damageHistory) != 0 {
 			t.Fatal("critical overflow committed frame", evidenceLimit)
 		}
 		if _, err := json.Marshal(state.evidence); err != nil {
@@ -346,9 +346,9 @@ func TestCalculationRenamedSpeedKeepsWaitingProgressAndUniqueNode(t *testing.T) 
 	state.nowMs = 400
 	frame := state.newExecutionFrame("source", "target", "renamed-speed")
 	staged := frame.stageFor("source")
-	slot := staged.attributes["tempo"]
+	slot := staged.attributes.At("tempo")
 	slot.Base, slot.Resolved = 2, 2
-	staged.attributes["tempo"] = slot
+	staged.attributes = staged.attributes.With("tempo", slot)
 	frame.commit()
 	if frame.fatal || state.basicAttack.wait.ready != 700 || state.basicAttack.wait.remaining != .6 || state.heap.Len() != 1 {
 		t.Fatal(frame.fatalErr, state.basicAttack.wait, state.heap.Len())
@@ -374,14 +374,14 @@ func TestCalculationFirstSpeedInvalidFrameDoesNotCommitAttributesOrClock(t *test
 		count := state.heap.Len()
 		frame := state.newExecutionFrame("source", "target", "invalid-initial-speed")
 		staged := frame.stageFor("source")
-		slot := staged.attributes["tempo"]
+		slot := staged.attributes.At("tempo")
 		slot.Base, slot.Resolved = invalid, invalid
-		staged.attributes["tempo"] = slot
-		hp := staged.attributes["hp"]
+		staged.attributes = staged.attributes.With("tempo", slot)
+		hp := staged.attributes.At("hp")
 		hp.Current -= 10
-		staged.attributes["hp"] = hp
+		staged.attributes = staged.attributes.With("hp", hp)
 		frame.commit()
-		if !frame.fatal || state.combatants["source"].attributes["tempo"].Resolved != 1 || state.combatants["source"].attributes["hp"].Current != c.Combatants[0].Attributes["hp"].Current || state.heap.Len() != count || state.basicAttack.wait != nil {
+		if !frame.fatal || state.combatants["source"].attributes.At("tempo").Resolved != 1 || state.combatants["source"].attributes.At("hp").Current != c.Combatants[0].Attributes["hp"].Current || state.heap.Len() != count || state.basicAttack.wait != nil {
 			t.Fatal(invalid, frame.fatalErr, state.combatants["source"].attributes, state.heap.Len())
 		}
 	}

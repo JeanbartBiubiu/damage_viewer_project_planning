@@ -26,7 +26,7 @@ func validateFixedEquipmentHealth(compiled planbundle.CompiledSession, actors ma
 		if !hasHealthContribution {
 			continue
 		}
-		hp := actors[actor.Key].attributes["hp"]
+		hp := actors[actor.Key].attributes.At("hp")
 		if math.IsNaN(hp.Max) || math.IsInf(hp.Max, 0) || math.IsNaN(hp.Current) || math.IsInf(hp.Current, 0) || hp.Max <= 0 || hp.Current < 0 || hp.Current > hp.Max || math.Abs(hp.Max-hp.Resolved) > 1e-9*math.Max(1, math.Abs(hp.Max)) {
 			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "equipped HP maximum must match native contributions and current HP must remain within it", "initialSnapshot.combatants."+actor.Key+".attributes.hp", "", compiled.SchemaHash, compiled.RulesHash, sessionID)
 		}

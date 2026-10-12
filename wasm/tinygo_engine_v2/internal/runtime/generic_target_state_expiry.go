@@ -36,11 +36,12 @@ func (s *genericRunState) applyProviderTargetStateExpiry(payload expireCleanupPa
 	if !ok {
 		return
 	}
-	bag := owner.providerState[payload.providerRef]
+	bag := writableProviderStateBag(owner.writableProviderStates(), payload.providerRef, false)
 	if bag == nil {
 		return
 	}
 	bag.ensure()
+	s.combatants[payload.combatantKey] = owner
 	// Stale after target switch or refresh: do not clear newer state.
 	if bag.targetKey != payload.targetKey {
 		return
@@ -51,19 +52,23 @@ func (s *genericRunState) applyProviderTargetStateExpiry(payload expireCleanupPa
 	if payload.expectedExpireAt > s.nowMs || payload.targetKey == "" {
 		return
 	}
-	frame := s.newExecutionFrame(payload.combatantKey, payload.targetKey, "target_state_expiry:"+payload.providerRef)
+	var frameStorage executionFrame
+	s.initExecutionFrame(&frameStorage, payload.combatantKey, payload.targetKey, "target_state_expiry:"+payload.providerRef)
+	frame := &frameStorage
 	frame.ownerCombatantKey, frame.ownerProviderRef = payload.combatantKey, payload.providerRef
 	if err := frame.consumeCommands(1); err != nil {
 		s.processFailure = err
 		return
 	}
 	staged := frame.stageFor(payload.combatantKey)
-	stagedBag := staged.providerState[payload.providerRef]
-	stagedBag.targetValues[payload.stateKey] = stagedBag.fieldDefs[payload.stateKey].defaultValue
-	stagedBag.targetExpireAt[payload.stateKey] = 0
+	stagedBag := writableProviderStateBag(staged.writableProviderStates(), payload.providerRef, false)
+	stagedBag.writableTargetValues()[payload.stateKey] = stagedBag.fieldDefs[payload.stateKey].defaultValue
+	stagedBag.writableTargetExpireAt()[payload.stateKey] = 0
 	frame.reResolveStagedAttributesTwoPass(planbundle.CompiledAbility{})
-	frame.recordEvidence(model.EvidenceItem{TimeMs: s.nowMs, Kind: "provider_target_state_expired", Ref: payload.providerRef,
-		Data: map[string]interface{}{"owner": payload.combatantKey, "target": payload.targetKey, "stateKey": payload.stateKey, "expectedExpireAt": payload.expectedExpireAt}})
+	frame.recordEvidenceLazy("provider_target_state_expired", func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: s.nowMs, Kind: "provider_target_state_expired", Ref: payload.providerRef,
+			Data: map[string]interface{}{"owner": payload.combatantKey, "target": payload.targetKey, "stateKey": payload.stateKey, "expectedExpireAt": payload.expectedExpireAt}}
+	})
 	frame.commit()
 	if frame.fatal {
 		s.processFailure = frame.fatalErr

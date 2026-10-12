@@ -142,12 +142,12 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability plan
 			ownerKey = parsed.Combatant
 		}
 		ctx.HasProviderContext = true
-		ctx.ProviderState = map[string]float64{}
-		ctx.ProviderTargetState = map[string]float64{}
+		ctx.ProviderState = nil
+		ctx.ProviderTargetState = nil
 		if owner, ok := s.combatants[ownerKey]; ok && providerRef != "" {
-			if bag := owner.providerState[providerRef]; bag != nil {
-				bag.bindFieldDefs(s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers))
-				bag.lazyExpireProviderState(s.nowMs)
+			if bag := readSharedProviderStateBag(&owner.providerState, &owner.providerStateShared, providerRef, false,
+				s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers), s.nowMs,
+				providerStateReadOptions{targetView: true, targetKey: targetKey}); bag != nil {
 				ctx.ProviderState = bag.state
 				if bag.targetKey == targetKey {
 					ctx.ProviderTargetState = bag.targetStateForFormula()
@@ -157,7 +157,7 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability plan
 		}
 	}
 	_ = entry
-	amount, err := s.formulas.Eval(ability.Cost.AmountProgram, ctx)
+	amount, err := s.formulas.EvalContext(ability.Cost.AmountProgram, &ctx)
 	if err != nil {
 		return 0, false, s.evalFormulaError(ability.Cost.AmountProgram, err, abilityRef)
 	}
@@ -199,7 +199,7 @@ func (s *genericRunState) conditionGate(entry model.DriverEntry, entryIndex int,
 			TargetResources: target.resources,
 			AbilityParams:   ability.Params,
 		}
-		value, err := s.formulas.Eval(programID, ctx)
+		value, err := s.formulas.EvalContext(programID, &ctx)
 		if err != nil {
 			return false, s.evalFormulaError(programID, err, abilityRef)
 		}
@@ -246,28 +246,18 @@ func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, abil
 		TargetResources:    target.resources,
 		AbilityParams:      ability.Params,
 		HasProviderContext: true,
-		ProviderState:      map[string]float64{},
+		ProviderState:      nil,
 	}
 	if owner, ok := s.combatants[ownerKey]; ok && providerRef != "" {
-		bag := owner.providerState[providerRef]
-		if bag == nil {
-			bag = &providerStateBag{
-				state:        map[string]float64{},
-				expireAt:     map[string]int64{},
-				fieldDefs:    map[string]providerStateFieldDef{},
-				targetValues: map[string]float64{},
-			}
-			if owner.providerState == nil {
-				owner.providerState = map[string]*providerStateBag{}
-			}
-			owner.providerState[providerRef] = bag
-			s.combatants[ownerKey] = owner
+		if owner.providerState == nil {
+			owner.providerState = map[string]*providerStateBag{}
 		}
-		bag.bindFieldDefs(s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers))
-		bag.lazyExpireProviderState(s.nowMs)
+		bag := readSharedProviderStateBag(&owner.providerState, &owner.providerStateShared, providerRef, true,
+			s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers), s.nowMs, providerStateReadOptions{})
+		s.combatants[ownerKey] = owner
 		ctx.ProviderState = bag.state
 	}
-	value, err := s.formulas.Eval(ability.CastConditionProgram, ctx)
+	value, err := s.formulas.EvalContext(ability.CastConditionProgram, &ctx)
 	if err != nil {
 		return false, s.evalFormulaError(ability.CastConditionProgram, err, abilityRef)
 	}

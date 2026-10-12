@@ -7,6 +7,7 @@ import (
 	"sort"
 	"strconv"
 
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
@@ -14,6 +15,7 @@ import (
 	"tinygo_engine_v2/internal/scheduler"
 	shieldpkg "tinygo_engine_v2/internal/shield"
 	"tinygo_engine_v2/internal/status"
+	"tinygo_engine_v2/internal/typeset"
 )
 
 const (
@@ -23,15 +25,26 @@ const (
 )
 
 type combatantRuntime struct {
-	key            string
-	attributes     map[string]model.AttributeSlotDef
-	resources      map[string]model.ResourceSlotDef
-	cooldowns      map[string]int64
-	providers      []status.ProviderInstance
-	shields        []shieldpkg.Instance
-	resolver       pipeline.AttributeResolver
-	damageResolver pipeline.DamageModifierResolver
-	providerState  map[string]*providerStateBag
+	providersShared     bool
+	key                 string
+	attributes          attribute.Table
+	resources           map[string]model.ResourceSlotDef
+	cooldowns           map[string]int64
+	providers           []status.ProviderInstance
+	shields             []shieldpkg.Instance
+	resolver            pipeline.AttributeResolver
+	damageResolver      pipeline.DamageModifierResolver
+	providerState       map[string]*providerStateBag
+	providerStateShared bool
+}
+
+// 实例列表可供帧读取；State与StatusContributions在列表内始终只读。
+func (c *combatantRuntime) writableProviders() []status.ProviderInstance {
+	if c.providersShared {
+		c.providers = append([]status.ProviderInstance(nil), c.providers...)
+		c.providersShared = false
+	}
+	return c.providers
 }
 
 type abilityStatAcc struct {
@@ -51,6 +64,9 @@ type damageRecord struct {
 }
 
 type genericRunState struct {
+	abilityTypeKeyCache        map[typeset.TypeSet][]string
+	attributeMemos             map[attributeMemoKey]*attributeMemo
+	providerDefinitionFields   []map[string]providerStateFieldDef
 	skillAction                *skillActionRuntime
 	skillActions               []skillActionRuntime
 	skillActionByUse           map[string]*skillActionRuntime
@@ -125,6 +141,8 @@ type genericRunState struct {
 	evidenceTruncated      bool
 	truncatedEvidenceCount int
 	evidenceCountsByKind   map[string]int
+	evidenceRetainedCount  int
+	evidenceRetainedByKind map[string]int
 
 	series                []model.SeriesPoint
 	seriesDownsampled     bool
@@ -178,6 +196,9 @@ func RunGeneric(compiled planbundle.CompiledSession, req model.RunRequest) (mode
 }
 
 func newGenericRunState(compiled planbundle.CompiledSession, req model.RunRequest) (*genericRunState, *model.EngineError) {
+	if req.OutputMode != "" && req.OutputMode != model.RunOutputDetailed && req.OutputMode != model.RunOutputSummary {
+		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "outputMode must be detailed or summary", "outputMode", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
+	}
 	if (req.DriverPlan.BasicAttack != nil || len(req.DriverPlan.SkillActions) > 0) && len(compiled.RuleModifiers) != 0 {
 		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "continuous basic attack does not admit unselected global modifiers", "rules.modifiers", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 	}
@@ -459,15 +480,24 @@ func normalizeConditionRecheckInterval(raw int64) int64 {
 
 func materializeCombatants(snapshot model.Snapshot, compiled planbundle.CompiledSession, formulas formula.GenericRegistry, sessionID string) (map[string]combatantRuntime, *model.EngineError) {
 	out := make(map[string]combatantRuntime, len(snapshot.Combatants))
+	layout := compiled.AttributeLayout
+	var additional []string
+	for _, c := range snapshot.Combatants {
+		for key := range c.Attributes {
+			additional = append(additional, key)
+		}
+	}
+	if layout == nil {
+		layout = attribute.NewLayout(additional)
+	} else {
+		layout = layout.Extend(additional)
+	}
 	combatantKeys := make(map[string]bool, len(snapshot.Combatants))
 	for _, c := range snapshot.Combatants {
 		combatantKeys[c.Key] = true
 	}
 	for i, c := range snapshot.Combatants {
 		attrs := c.Attributes
-		if attrs == nil {
-			attrs = map[string]model.AttributeSlotDef{}
-		}
 		resources := c.Resources
 		if resources == nil {
 			resources = map[string]model.ResourceSlotDef{}
@@ -480,7 +510,7 @@ func materializeCombatants(snapshot model.Snapshot, compiled planbundle.Compiled
 		shields := materializeShields(c.Shields, c.Key)
 		out[c.Key] = combatantRuntime{
 			key:           c.Key,
-			attributes:    cloneAttributeMap(attrs),
+			attributes:    attribute.FromMap(attrs, layout),
 			resources:     cloneResourceMap(resources),
 			cooldowns:     materializeCooldowns(c.Cooldowns),
 			providers:     providers,
@@ -508,7 +538,7 @@ func materializeCombatants(snapshot model.Snapshot, compiled planbundle.Compiled
 		var resolveErr error
 		c.attributes, resolveErr = c.resolver.ResolveAttributesWithProviderContext(
 			c.attributes, evalCtx, formulas,
-			func(ownerKey, providerRef string) formula.GenericEvalContext {
+			func(ownerKey, providerRef string) pipeline.ProviderFormulaContext {
 				bagOwner := ownerKey
 				if bagOwner == "" {
 					bagOwner = key
@@ -530,8 +560,8 @@ func materializeCombatants(snapshot model.Snapshot, compiled planbundle.Compiled
 		out[key] = c
 	}
 	// Re-resolve with cross-combatant eval context after both sides exist.
-	sourceAttrs := map[string]model.AttributeSlotDef{}
-	targetAttrs := map[string]model.AttributeSlotDef{}
+	sourceAttrs := attribute.Table{}
+	targetAttrs := attribute.Table{}
 	if src, ok := out[model.SelectorSource]; ok {
 		sourceAttrs = src.attributes
 	}
@@ -548,7 +578,7 @@ func materializeCombatants(snapshot model.Snapshot, compiled planbundle.Compiled
 		var resolveErr error
 		c.attributes, resolveErr = c.resolver.ResolveAttributesWithProviderContext(
 			c.attributes, evalCtx, formulas,
-			func(ownerKey, providerRef string) formula.GenericEvalContext {
+			func(ownerKey, providerRef string) pipeline.ProviderFormulaContext {
 				bagOwner := ownerKey
 				if bagOwner == "" {
 					bagOwner = key
@@ -682,7 +712,7 @@ func (s *genericRunState) combatantHp(key string) float64 {
 	if !ok {
 		return 0
 	}
-	if slot, ok := c.attributes["hp"]; ok {
+	if slot, ok := c.attributes.Lookup("hp"); ok {
 		return slot.Current
 	}
 	return 0
@@ -693,7 +723,7 @@ func (s *genericRunState) combatantHasHp(key string) bool {
 	if !ok {
 		return false
 	}
-	_, ok = c.attributes["hp"]
+	_, ok = c.attributes.Lookup("hp")
 	return ok
 }
 
@@ -1006,7 +1036,7 @@ func (s *genericRunState) scheduleDynamicRepeatNext(entry model.DriverEntry, ent
 		TargetResources: tgt.resources,
 	}
 	path := "driverPlan.entries[" + entry.EntryKey + "].repeat.intervalFormula"
-	raw, evalErr := s.formulas.Eval(*s.entryIntervalPrograms[entryIndex], evalCtx)
+	raw, evalErr := s.formulas.EvalContext(*s.entryIntervalPrograms[entryIndex], &evalCtx)
 	if evalErr != nil {
 		return s.evalFormulaError(*s.entryIntervalPrograms[entryIndex], evalErr, entry.AbilityRef)
 	}
@@ -1043,24 +1073,25 @@ func (s *genericRunState) isWhileReady(entry model.DriverEntry) bool {
 }
 
 func (s *genericRunState) recordAttemptSkipped(entry model.DriverEntry, reason model.AttemptSkipReason, readyAtMs int64) {
-	data := map[string]interface{}{
-		"entryKey":   entry.EntryKey,
-		"source":     entry.Source,
-		"target":     entry.Target,
-		"skipReason": string(reason),
-	}
-	if readyAtMs > 0 {
-		data["readyAtMs"] = readyAtMs
-	}
-	item := model.EvidenceItem{
-		TimeMs:  s.nowMs,
-		Kind:    model.EvidenceKindAttemptSkipped,
-		Ref:     entry.AbilityRef,
-		Path:    "driverPlan.entries[" + entry.EntryKey + "]",
-		Message: string(reason),
-		Data:    data,
-	}
-	s.recordEvidence(item)
+	s.recordEvidenceLazy(model.EvidenceKindAttemptSkipped, func() model.EvidenceItem {
+		data := map[string]interface{}{
+			"entryKey":   entry.EntryKey,
+			"source":     entry.Source,
+			"target":     entry.Target,
+			"skipReason": string(reason),
+		}
+		if readyAtMs > 0 {
+			data["readyAtMs"] = readyAtMs
+		}
+		return model.EvidenceItem{
+			TimeMs:  s.nowMs,
+			Kind:    model.EvidenceKindAttemptSkipped,
+			Ref:     entry.AbilityRef,
+			Path:    "driverPlan.entries[" + entry.EntryKey + "]",
+			Message: string(reason),
+			Data:    data,
+		}
+	})
 }
 
 func (s *genericRunState) recordEvidence(item model.EvidenceItem) {
@@ -1069,12 +1100,20 @@ func (s *genericRunState) recordEvidence(item model.EvidenceItem) {
 	}
 	kind := string(item.Kind)
 	s.evidenceCountsByKind[kind]++
-	if len(s.evidence) >= s.budget.MaxEvidenceItems {
+	if s.evidenceRetainedCount >= s.budget.MaxEvidenceItems {
 		s.evidenceTruncated = true
 		s.truncatedEvidenceCount++
 		return
 	}
-	s.evidence = append(s.evidence, item)
+	s.evidenceRetainedCount++
+	if s.detailedOutput() {
+		s.evidence = append(s.evidence, item)
+	} else {
+		if s.evidenceRetainedByKind == nil {
+			s.evidenceRetainedByKind = map[string]int{}
+		}
+		s.evidenceRetainedByKind[kind]++
+	}
 }
 
 func (s *genericRunState) handleSample() {
@@ -1206,6 +1245,7 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 	warnings, warningCount := s.buildWarnings(downsampled, droppedSeriesPoints)
 
 	return model.DoneResult{
+		OutputMode:         s.resultOutputMode(),
 		SkillActionRecords: s.skillActionRecords,
 		SkillUseRecords:    s.skillUseRecords,
 		HealingRecords:     s.healingRecords,
@@ -1275,7 +1315,7 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 		if !ok {
 			continue
 		}
-		snapshot.Combatants[i].Attributes = cloneAttributeMap(rt.attributes)
+		snapshot.Combatants[i].Attributes = rt.attributes.ToMap()
 		snapshot.Combatants[i].Resources = cloneResourceMap(rt.resources)
 		snapshot.Combatants[i].Cooldowns = cooldownsToSnapshot(rt.cooldowns, s.nowMs)
 		snapshot.Combatants[i].Providers = providersToSnapshot(rt.providers)
@@ -1315,33 +1355,40 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 
 func (s *genericRunState) appendTerminalEvidence(downsampled bool, requestedPoints, finalPointCount int) {
 	if downsampled {
-		s.recordEvidence(model.EvidenceItem{
-			TimeMs: s.nowMs,
-			Kind:   model.EvidenceKindDownsampled,
-			Data: map[string]interface{}{
-				"requestedPointCount": requestedPoints,
-				"finalPointCount":     finalPointCount,
-				"maxSeriesPoints":     s.sampling.MaxSeriesPoints,
-				"method":              "uniform_time",
-			},
+		s.recordEvidenceLazy(model.EvidenceKindDownsampled, func() model.EvidenceItem {
+			return model.EvidenceItem{
+				TimeMs: s.nowMs,
+				Kind:   model.EvidenceKindDownsampled,
+				Data: map[string]interface{}{
+					"requestedPointCount": requestedPoints,
+					"finalPointCount":     finalPointCount,
+					"maxSeriesPoints":     s.sampling.MaxSeriesPoints,
+					"method":              "uniform_time",
+				},
+			}
 		})
 	}
 	if s.stopReason == model.StopReasonBudgetExceeded {
-		s.recordEvidence(model.EvidenceItem{
-			TimeMs: s.nowMs,
-			Kind:   model.EvidenceKindBudgetExceeded,
-			Data: map[string]interface{}{
-				"processedEvents": s.processedEvents,
-				"maxEvents":       s.budget.MaxEvents,
-			},
+		s.recordEvidenceLazy(model.EvidenceKindBudgetExceeded, func() model.EvidenceItem {
+			return model.EvidenceItem{
+				TimeMs: s.nowMs,
+				Kind:   model.EvidenceKindBudgetExceeded,
+				Data: map[string]interface{}{
+					"processedEvents": s.processedEvents,
+					"maxEvents":       s.budget.MaxEvents,
+				},
+			}
 		})
 	}
 }
 
 func (s *genericRunState) truncatedEvidenceKinds() []string {
-	keptByKind := make(map[string]int)
-	for _, item := range s.evidence {
-		keptByKind[string(item.Kind)]++
+	keptByKind := s.evidenceRetainedByKind
+	if s.detailedOutput() {
+		keptByKind = make(map[string]int)
+		for _, item := range s.evidence {
+			keptByKind[string(item.Kind)]++
+		}
 	}
 	var kinds []string
 	for kind, total := range s.evidenceCountsByKind {

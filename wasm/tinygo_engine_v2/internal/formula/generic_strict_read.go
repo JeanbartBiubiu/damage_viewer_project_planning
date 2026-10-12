@@ -3,11 +3,11 @@ package formula
 import (
 	"errors"
 	"strings"
-	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/attribute"
 )
 
 // 严格读取不把缺值变成零，也不把合法的 Resolved=0 回退为 Current。
-func readAttrValueChecked(attrs map[string]model.AttributeSlotDef, key string, strict bool) (float64, error) {
+func readAttrValueChecked(attrs attribute.Table, key string, strict bool) (float64, error) {
 	if !strict {
 		return readAttrValue(attrs, key), nil
 	}
@@ -15,7 +15,7 @@ func readAttrValueChecked(attrs map[string]model.AttributeSlotDef, key string, s
 	if i := strings.LastIndex(key, "."); i > 0 {
 		attrKey, suffix = key[:i], key[i+1:]
 	}
-	slot, ok := attrs[attrKey]
+	slot, ok := attrs.Lookup(attrKey)
 	if !ok {
 		return 0, errors.New("missing attribute: " + attrKey)
 	}

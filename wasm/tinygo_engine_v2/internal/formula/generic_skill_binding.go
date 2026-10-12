@@ -18,6 +18,12 @@ type NamedBinding struct {
 	inputs                []expression.Input
 	parameters            []model.FormulaParameter
 	dependencies          []GenericInstr
+	attributeInputs       []namedAttributeBinding
+}
+
+type namedAttributeBinding struct {
+	index int
+	bound bool
 }
 
 func (b *NamedBinding) Scope() string {
@@ -155,7 +161,7 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 		for j, binding := range catalog {
 			ordered[j].Binding = binding
 		}
-		binding := &NamedBinding{scope: def.Scope, skillKey: def.SkillKey, path: path + "/expression", plan: bindingPlan, inputs: ordered, parameters: params}
+		binding := &NamedBinding{scope: def.Scope, skillKey: def.SkillKey, path: path + "/expression", plan: bindingPlan, inputs: ordered, parameters: params, attributeInputs: make([]namedAttributeBinding, len(ordered))}
 		for _, input := range program.OutputInputs() {
 			b := input.Binding
 			if b.Kind == "attribute" {
@@ -195,7 +201,7 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 				binding.dependencies = append(binding.dependencies, GenericInstr{Op: GenericOpRead, ReadKind: kind, ReadKey: key})
 			}
 		}
-		bytes := bindingPlan.ChargedBytes() + uint64(unsafe.Sizeof(NamedBinding{})) + uint64(len(binding.scope)+len(binding.skillKey)+len(binding.path)) + uint64(cap(ordered))*uint64(unsafe.Sizeof(expression.Input{})) + uint64(cap(params))*uint64(unsafe.Sizeof(model.FormulaParameter{})) + uint64(cap(binding.dependencies))*uint64(unsafe.Sizeof(GenericInstr{}))
+		bytes := bindingPlan.ChargedBytes() + uint64(unsafe.Sizeof(NamedBinding{})) + uint64(len(binding.scope)+len(binding.skillKey)+len(binding.path)) + uint64(cap(ordered))*uint64(unsafe.Sizeof(expression.Input{})) + uint64(cap(params))*uint64(unsafe.Sizeof(model.FormulaParameter{})) + uint64(cap(binding.dependencies))*uint64(unsafe.Sizeof(GenericInstr{})) + uint64(cap(binding.attributeInputs))*uint64(unsafe.Sizeof(namedAttributeBinding{}))
 		for _, input := range ordered {
 			b := input.Binding
 			bytes += uint64(len(b.Kind) + len(b.Object) + len(b.AttributeKey) + len(b.ValueKind) + len(b.View) + len(b.SkillKey) + len(b.ParameterKey))
@@ -225,8 +231,14 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 	}
 }
 
-func (b *NamedBinding) reader(ctx GenericEvalContext, static bool) (expression.ReadInput, *expression.ContractIssue) {
-	values := make([]inputbinding.Value, len(b.inputs))
+func (b *NamedBinding) evaluate(program *expression.Program, ctx *GenericEvalContext, static bool) (expression.Evaluation, *expression.ContractIssue) {
+	var valueBuffer [8]inputbinding.Value
+	values := valueBuffer[:0]
+	if len(b.inputs) <= len(valueBuffer) {
+		values = valueBuffer[:len(b.inputs)]
+	} else {
+		values = make([]inputbinding.Value, len(b.inputs))
+	}
 	for i, input := range b.inputs {
 		binding := input.Binding
 		if binding.Kind == "attribute" {
@@ -243,7 +255,11 @@ func (b *NamedBinding) reader(ctx GenericEvalContext, static bool) (expression.R
 					attrs = ctx.AuthoredTargetAttrs
 				}
 			}
-			slot, exists := attrs[binding.AttributeKey]
+			read := namedAttributeBinding{}
+			if i < len(b.attributeInputs) {
+				read = b.attributeInputs[i]
+			}
+			slot, exists := lookupAttributeSlot(attrs, binding.AttributeKey, read.index, read.bound)
 			if !exists {
 				continue
 			}
@@ -276,7 +292,7 @@ func (b *NamedBinding) reader(ctx GenericEvalContext, static bool) (expression.R
 			break
 		}
 	}
-	return b.plan.Reader(values)
+	return b.plan.Evaluate(program, values)
 }
 
 // DeclaredReferences不向宿主开放临时用途包装。
@@ -346,7 +362,7 @@ func (r GenericRegistry) FoldStatic(id GenericProgramID) (float64, bool) {
 	if int(id) >= len(r.Programs) || len(r.ReadDependencies(id)) != 0 {
 		return 0, false
 	}
-	value, err := r.eval(id, GenericEvalContext{}, true, 1, new(int))
+	value, err := r.eval(id, &GenericEvalContext{}, true, 1, new(int))
 	return value, err == nil
 }
 
@@ -366,5 +382,5 @@ func (r GenericRegistry) EvaluateInstructions(instr []GenericInstr, ctx GenericE
 	clone.Programs = make([]GenericProgram, len(r.Programs)+1)
 	copy(clone.Programs, r.Programs)
 	clone.Programs[len(r.Programs)] = GenericProgram{Key: "internal:constant", Instr: instr}
-	return clone.eval(GenericProgramID(len(r.Programs)), ctx, static, 1, new(int))
+	return clone.eval(GenericProgramID(len(r.Programs)), &ctx, static, 1, new(int))
 }

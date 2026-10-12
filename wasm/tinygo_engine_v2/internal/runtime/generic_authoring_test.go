@@ -74,8 +74,8 @@ func authoringInput() (model.CompileRequest, model.RunRequest) {
 	}
 	use := "attack/1"
 	r := model.RunRequest{SessionID: "test-session", InitialSnapshot: model.Snapshot{SchemaHash: c.SchemaHash, RulesHash: c.RulesHash, Combatants: []model.CombatantSnapshot{
-		{Key: "source", Attributes: cloneAttributeMap(sourceAttrs), Resources: map[string]model.ResourceSlotDef{}, Providers: []model.CombatantProviderSnapshot{{ProviderRef: "attack", DefinitionRef: "test_attack", Source: "source", Owner: "source", Stacks: 1}}},
-		{Key: "target", Attributes: cloneAttributeMap(targetAttrs), Resources: map[string]model.ResourceSlotDef{}},
+		{Key: "source", Attributes: sourceAttrs, Resources: map[string]model.ResourceSlotDef{}, Providers: []model.CombatantProviderSnapshot{{ProviderRef: "attack", DefinitionRef: "test_attack", Source: "source", Owner: "source", Stacks: 1}}},
+		{Key: "target", Attributes: targetAttrs, Resources: map[string]model.ResourceSlotDef{}},
 	}}, StopPolicy: model.StopPolicy{DurationMs: 100}, SkillUses: []model.SkillUseFact{{UseKey: use, Source: "source", SkillKey: "test_attack", HistoryState: model.SkillHitHistoryComplete}},
 		AttackStartFacts: []model.AttackStartFact{{DriverEntryKey: "start", UseRef: use}}, SkillHitFacts: []model.SkillHitFact{{DriverEntryKey: "hit", UseRef: &use}},
 		DriverPlan: model.DriverPlan{Entries: []model.DriverEntry{{EntryKey: "start", AbilityRef: authoringRef("native_start"), Source: "source", Target: "target", FirstAtMs: 0}, {EntryKey: "hit", AbilityRef: authoringRef("native_hit"), Source: "source", Target: "target", FirstAtMs: 25}}}}

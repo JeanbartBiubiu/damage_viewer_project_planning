@@ -57,7 +57,7 @@ func (s *genericRunState) validateStaticInitializationListener(listener planbund
 			if !exists || attributeKey == "" || attributeKey == "hp" {
 				return s.basicAttackErr("permanent aura requires a declared non-HP opponent attribute", operation.Path)
 			}
-			if _, declared := opponent.attributes[attributeKey]; !declared {
+			if _, declared := opponent.attributes.Lookup(attributeKey); !declared {
 				return s.basicAttackErr("permanent aura opponent attribute slot is missing", operation.Path)
 			}
 			if modifier.ValuePolicy != "multiply" || modifier.Stage != "total" || value < 0 {
@@ -71,7 +71,7 @@ func (s *genericRunState) validateStaticInitializationListener(listener planbund
 			if !ownerExists || attributeKey == "hp" || attributeKey == "" {
 				return s.basicAttackErr("permanent skill attribute requires a supported owned non-HP slot", operation.Path)
 			}
-			if _, exists := owner.attributes[attributeKey]; !exists {
+			if _, exists := owner.attributes.Lookup(attributeKey); !exists {
 				return s.basicAttackErr("permanent skill attribute slot is missing", operation.Path)
 			}
 			if modifier.ValuePolicy != "add" && modifier.ValuePolicy != "percent_add" && modifier.ValuePolicy != "multiply" {

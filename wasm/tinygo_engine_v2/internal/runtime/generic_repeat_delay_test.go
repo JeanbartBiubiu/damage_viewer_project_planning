@@ -5,6 +5,7 @@ import (
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
@@ -138,9 +139,9 @@ func TestFlushImmediateCompletesBeforeDelayedEnqueue(t *testing.T) {
 			},
 			model.SelectorTarget: {
 				key: model.SelectorTarget,
-				attributes: map[string]model.AttributeSlotDef{
+				attributes: attribute.FromMap(map[string]model.AttributeSlotDef{
 					"hp": {Base: 10000, Current: 10000, Max: 10000, Resolved: 10000},
-				},
+				}),
 			},
 		},
 	}
@@ -205,9 +206,9 @@ func TestFlushDelayedMultipleDamagesAndSameTimeContinuationsDeterministic(t *tes
 			},
 			model.SelectorTarget: {
 				key: model.SelectorTarget,
-				attributes: map[string]model.AttributeSlotDef{
+				attributes: attribute.FromMap(map[string]model.AttributeSlotDef{
 					"hp": {Base: 10000, Current: 10000, Max: 10000, Resolved: 10000},
-				},
+				}),
 			},
 		},
 	}
@@ -288,9 +289,9 @@ func TestTriggeredContinuationNoRecursionAndFreshCommandBudget(t *testing.T) {
 			},
 			model.SelectorTarget: {
 				key: model.SelectorTarget,
-				attributes: map[string]model.AttributeSlotDef{
+				attributes: attribute.FromMap(map[string]model.AttributeSlotDef{
 					"hp": {Base: 10000, Current: 10000, Max: 10000, Resolved: 10000},
-				},
+				}),
 			},
 		},
 	}
@@ -343,9 +344,9 @@ func TestTriggeredContinuationNoRecursionAndFreshCommandBudget(t *testing.T) {
 			},
 			model.SelectorTarget: {
 				key: model.SelectorTarget,
-				attributes: map[string]model.AttributeSlotDef{
+				attributes: attribute.FromMap(map[string]model.AttributeSlotDef{
 					"hp": {Base: 10000, Current: 10000, Max: 10000, Resolved: 10000},
-				},
+				}),
 			},
 		},
 	}
@@ -389,7 +390,7 @@ func TestTriggeredContinuationHeapPushFailureIsRunError(t *testing.T) {
 			},
 			model.SelectorTarget: {
 				key:        model.SelectorTarget,
-				attributes: map[string]model.AttributeSlotDef{"hp": {Base: 100, Current: 100, Max: 100, Resolved: 100}},
+				attributes: attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Base: 100, Current: 100, Max: 100, Resolved: 100}}),
 			},
 		},
 	}

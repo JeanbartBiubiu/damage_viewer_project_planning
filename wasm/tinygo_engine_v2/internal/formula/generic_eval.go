@@ -5,7 +5,9 @@ import (
 	"math"
 	"strings"
 
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/expression"
+	"tinygo_engine_v2/internal/inputbinding"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -13,8 +15,8 @@ import (
 type GenericEvalContext struct {
 	// 只有明确作者派生使用点设置。内部用途读取仍使用SourceAttrs/TargetAttrs。
 	HasAuthoredActorContext bool
-	AuthoredSourceAttrs     map[string]model.AttributeSlotDef
-	AuthoredTargetAttrs     map[string]model.AttributeSlotDef
+	AuthoredSourceAttrs     attribute.Table
+	AuthoredTargetAttrs     attribute.Table
 	AuthoredCombatantKey    string
 	RuntimeSkillKey         string
 	RuntimeParameters       map[string]float64
@@ -31,8 +33,8 @@ type GenericEvalContext struct {
 	LinkCount               int
 	ProcessActualCosts      map[string]float64
 	HasProcessActualCosts   bool
-	SourceAttrs             map[string]model.AttributeSlotDef
-	TargetAttrs             map[string]model.AttributeSlotDef
+	SourceAttrs             attribute.Table
+	TargetAttrs             attribute.Table
 	SourceResources         map[string]model.ResourceSlotDef
 	TargetResources         map[string]model.ResourceSlotDef
 	AbilityParams           map[string]float64
@@ -48,12 +50,12 @@ type GenericEvalContext struct {
 	// Event snapshot reads require an emit_event listener / child-ability context.
 	// Participants are the original emitted event source/target (not owner-remapped).
 	HasEventContext           bool
-	EventEntrySourceAttrs     map[string]model.AttributeSlotDef
-	EventEntryTargetAttrs     map[string]model.AttributeSlotDef
+	EventEntrySourceAttrs     attribute.Table
+	EventEntryTargetAttrs     attribute.Table
 	EventEntrySourceResources map[string]model.ResourceSlotDef
 	EventEntryTargetResources map[string]model.ResourceSlotDef
-	EventSourceAttrs          map[string]model.AttributeSlotDef
-	EventTargetAttrs          map[string]model.AttributeSlotDef
+	EventSourceAttrs          attribute.Table
+	EventTargetAttrs          attribute.Table
 	EventSourceResources      map[string]model.ResourceSlotDef
 	EventTargetResources      map[string]model.ResourceSlotDef
 
@@ -113,6 +115,15 @@ type EventDamageSnapshot struct {
 
 // Eval 执行 generic formula 程序，非有限数返回 error。
 func (r GenericRegistry) Eval(id GenericProgramID, ctx GenericEvalContext) (float64, error) {
+	return r.eval(id, &ctx, false, 1, new(int))
+}
+
+// EvalContext 同步借用只读上下文，避免再次复制完整视图；不会保存指针。
+// 调用方及自定义读取回调在求值期间不得修改上下文字段。
+func (r GenericRegistry) EvalContext(id GenericProgramID, ctx *GenericEvalContext) (float64, error) {
+	if ctx == nil {
+		return 0, errors.New("formula evaluation context is required")
+	}
 	return r.eval(id, ctx, false, 1, new(int))
 }
 
@@ -127,22 +138,48 @@ type AuthoredEvaluationError struct {
 
 func (e *AuthoredEvaluationError) Error() string { return e.Issue.Code + " at " + e.Issue.Path }
 
-func (r GenericRegistry) eval(id GenericProgramID, ctx GenericEvalContext, constOnly bool, depth int, spent *int) (float64, error) {
+func (r GenericRegistry) programForEvaluation(id GenericProgramID, depth int, spent *int) (*GenericProgram, error) {
 	if depth > 32 {
-		return 0, &AuthoredEvaluationError{Issue: expression.ContractIssue{Code: "FORMULA_LIMIT"}}
+		return nil, &AuthoredEvaluationError{Issue: expression.ContractIssue{Code: "FORMULA_LIMIT"}}
 	}
 	if int(id) >= len(r.Programs) {
-		return 0, errors.New("formula id out of range")
+		return nil, errors.New("formula id out of range")
 	}
-	program := r.Programs[id]
+	program := &r.Programs[id]
 	charge := len(program.Instr)
 	if program.Authored != nil {
 		charge = program.Authored.Stats().Instructions
 	}
 	if charge > MaxGenericTotalInstructions-*spent {
-		return 0, &AuthoredEvaluationError{Issue: expression.ContractIssue{Code: "FORMULA_LIMIT"}, ProgramKey: program.Key}
+		return nil, &AuthoredEvaluationError{Issue: expression.ContractIssue{Code: "FORMULA_LIMIT"}, ProgramKey: program.Key}
 	}
 	*spent += charge
+	return program, nil
+}
+
+// EvalBound直接执行已注册作者程序的同步数值绑定，复用通用指令计费。
+// 它不创建供值闭包，也不保存values；具名程序仍走各自的作者绑定。
+func (r GenericRegistry) EvalBound(id GenericProgramID, binding *inputbinding.Plan, values []inputbinding.Value) (float64, error) {
+	var spent int
+	program, err := r.programForEvaluation(id, 1, &spent)
+	if err != nil {
+		return 0, err
+	}
+	if program.Authored == nil || program.NamedBinding != nil || len(program.Instr) != 0 {
+		return 0, &AuthoredEvaluationError{Issue: expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}}
+	}
+	result, issue := binding.Evaluate(program.Authored, values)
+	if issue != nil {
+		return 0, &AuthoredEvaluationError{Issue: *issue, ProgramKey: program.Key}
+	}
+	return result.Value, nil
+}
+
+func (r GenericRegistry) eval(id GenericProgramID, ctx *GenericEvalContext, constOnly bool, depth int, spent *int) (float64, error) {
+	program, err := r.programForEvaluation(id, depth, spent)
+	if err != nil {
+		return 0, err
+	}
 	if program.Authored != nil {
 		if len(program.Instr) != 0 {
 			return 0, &AuthoredEvaluationError{Issue: expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}}
@@ -150,15 +187,13 @@ func (r GenericRegistry) eval(id GenericProgramID, ctx GenericEvalContext, const
 		if constOnly && program.NamedBinding == nil && program.Authored.Stats().Inputs != 0 {
 			return 0, errConstFormulaRead
 		}
-		reader := ctx.ReadInput
+		var result expression.Evaluation
+		var issue *expression.ContractIssue
 		if program.NamedBinding != nil {
-			var issue *expression.ContractIssue
-			reader, issue = program.NamedBinding.reader(ctx, constOnly)
-			if issue != nil {
-				return 0, &AuthoredEvaluationError{Issue: *issue, ProgramKey: program.Key, DefinitionPath: program.NamedBinding.path, CombatantKey: ctx.AuthoredCombatantKey}
-			}
+			result, issue = program.NamedBinding.evaluate(program.Authored, ctx, constOnly)
+		} else {
+			result, issue = program.Authored.Evaluate(ctx.ReadInput)
 		}
-		result, issue := program.Authored.Evaluate(reader)
 		if issue != nil {
 			path := ""
 			if program.NamedBinding != nil {
@@ -186,7 +221,7 @@ func (r GenericRegistry) eval(id GenericProgramID, ctx GenericEvalContext, const
 			if constOnly {
 				return 0, errConstFormulaRead
 			}
-			value, err := evalRead(instr.ReadKind, instr.ReadKey, ctx)
+			value, err := evalInstructionRead(instr, ctx)
 			if err != nil {
 				return 0, err
 			}
@@ -312,7 +347,7 @@ func genericArithmeticName(op GenericOp) string {
 	}
 }
 
-func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64, error) {
+func evalRead(kind GenericReadKind, key string, ctx *GenericEvalContext) (float64, error) {
 	if kind == ReadUseAmmoBefore {
 		if !ctx.HasUseAmmoBefore {
 			return 0, errors.New("use.ammo.before requires the original owning use's committed ammo capture")
@@ -513,7 +548,7 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 	}
 }
 
-func readOperationOutput(key string, ctx GenericEvalContext) (float64, error) {
+func readOperationOutput(key string, ctx *GenericEvalContext) (float64, error) {
 	path := "operation.output." + key
 	if !ctx.HasOperationOutputs {
 		return 0, errors.New(path + " is not available")
@@ -571,21 +606,18 @@ func readEventDamageField(snap EventDamageSnapshot, key string) (float64, error)
 	}
 }
 
-func requireEventContext(ctx GenericEvalContext) error {
+func requireEventContext(ctx *GenericEvalContext) error {
 	if !ctx.HasEventContext {
 		return errors.New("event.* requires event context")
 	}
 	return nil
 }
 
-func readAttrValue(attrs map[string]model.AttributeSlotDef, key string) float64 {
-	if attrs == nil {
-		return 0
-	}
+func readAttrValue(attrs attribute.Table, key string) float64 {
 	if idx := strings.LastIndex(key, "."); idx > 0 {
 		suffix := key[idx+1:]
 		attrKey := key[:idx]
-		slot, ok := attrs[attrKey]
+		slot, ok := attrs.Lookup(attrKey)
 		if !ok {
 			return 0
 		}
@@ -603,7 +635,7 @@ func readAttrValue(attrs map[string]model.AttributeSlotDef, key string) float64 
 			return slot.Max
 		}
 	}
-	slot, ok := attrs[key]
+	slot, ok := attrs.Lookup(key)
 	if !ok {
 		return 0
 	}

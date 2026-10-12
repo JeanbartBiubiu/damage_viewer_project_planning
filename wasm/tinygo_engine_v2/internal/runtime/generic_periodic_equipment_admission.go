@@ -45,7 +45,7 @@ func (s *genericRunState) validateEquipmentPeriodicProvider(provider planbundle.
 	for _, modifier := range provider.Modifiers {
 		key := pipeline.AttributeKeyFromModifierTarget(modifier.Target)
 		actor, present := s.combatants[owner]
-		_, declared := actor.attributes[key]
+		_, declared := actor.attributes.Lookup(key)
 		if modifier.Kind != "attribute" || pipeline.ModifierTargetCombatantSelector(modifier.Target) != model.SelectorSelf || key == "" || key == "hp" || !present || !declared || modifier.HasCondition || modifier.ValuePolicy != "add" || !modifier.HasValue {
 			return s.basicAttackErr("equipment periodic modifiers require an owned declared non-HP additive attribute", "initialSnapshot.combatants.providers")
 		}

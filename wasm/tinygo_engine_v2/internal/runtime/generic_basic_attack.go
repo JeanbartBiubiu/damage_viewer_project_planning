@@ -4,6 +4,7 @@ import (
 	"math"
 	"strconv"
 
+	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -12,17 +13,18 @@ import (
 const maxJSONSafeInteger int64 = 9007199254740991
 
 type basicAttackRuntime struct {
-	ammo               *basicAttackAmmo
-	plan               model.BasicAttackPlan
-	summary            model.BasicAttackSummary
-	current            *model.BasicAttackRecord
-	currentRecordIndex int
-	targetKilledAt     *int64
-	unfinishedTail     bool
-	windowSettled      bool
-	initialAbility     planbundle.CompiledAbility
-	wait               *basicAttackWait
-	waitGeneration     uint64
+	ammo                 *basicAttackAmmo
+	plan                 model.BasicAttackPlan
+	summary              model.BasicAttackSummary
+	current              *model.BasicAttackRecord
+	currentRecordIndex   int
+	targetKilledAt       *int64
+	unfinishedTail       bool
+	windowSettled        bool
+	initialAbility       planbundle.CompiledAbility
+	wait                 *basicAttackWait
+	waitGeneration       uint64
+	cooldownDependencies []formula.GenericInstr
 }
 
 func (s *genericRunState) basicAttackErr(message, path string) *model.EngineError {
@@ -154,7 +156,7 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 			}
 		}
 	}
-	as, ok := source.attributes[p.AttackSpeedAttributeKey]
+	as, ok := source.attributes.Lookup(p.AttackSpeedAttributeKey)
 	_, initializes := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeSourceInitialized)
 	if !ok || math.IsNaN(as.Resolved) || math.IsInf(as.Resolved, 0) || as.Resolved <= 0 || math.IsNaN(p.AttackSpeedInputMax) || math.IsInf(p.AttackSpeedInputMax, 0) || p.AttackSpeedInputMax <= 0 || (!initializes && as.Resolved > p.AttackSpeedInputMax) {
 		return s.basicAttackErr("attack speed must be positive and within the explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
@@ -194,7 +196,8 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 			return s.basicAttackErr("continuous basic attack currently requires immediate process steps", step.Path)
 		}
 	}
-	s.basicAttack = &basicAttackRuntime{plan: *p, summary: model.BasicAttackSummary{PlanKey: p.PlanKey}, currentRecordIndex: -1, initialAbility: initial}
+	s.basicAttack = &basicAttackRuntime{plan: *p, summary: model.BasicAttackSummary{PlanKey: p.PlanKey}, currentRecordIndex: -1, initialAbility: initial,
+		cooldownDependencies: s.formulas.ReadDependencies(process.Cooldown.DurationProgram)}
 	// Stage 2 accepts the same complete static subset emitted by the host adapter.
 	// Extra mechanisms fail closed instead of being filtered or implicitly executed.
 	if len(provider.Processes) != 1 || provider.AbilityCount != 3 || provider.Lifecycle != nil || len(provider.Modifiers)+len(provider.StatusContributions) != 0 || !validBasicAttackAmmoProvider(provider) {
@@ -331,7 +334,7 @@ func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
 	if ready, readinessError := s.basicAttackAmmoReady(); readinessError != nil || !ready {
 		return readinessError
 	}
-	currentSpeed := s.combatants[b.plan.Source].attributes[b.plan.AttackSpeedAttributeKey].Resolved
+	currentSpeed := s.combatants[b.plan.Source].attributes.At(b.plan.AttackSpeedAttributeKey).Resolved
 	if math.IsNaN(currentSpeed) || math.IsInf(currentSpeed, 0) || currentSpeed <= 0 || currentSpeed > b.plan.AttackSpeedInputMax {
 		return s.basicAttackErr("current attack speed violates its explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
 	}
@@ -346,9 +349,9 @@ func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
 	index := b.summary.StartedCount
 	useRef := "basic:" + b.plan.PlanKey + ":" + strconv.Itoa(index)
 	startKey, hitKey := useRef+":start", useRef+":hit"
-	b.current = &model.BasicAttackRecord{PlanKey: b.plan.PlanKey, AttackIndex: index, UseRef: useRef, Source: b.plan.Source, Target: b.plan.Target, SkillKey: b.plan.SkillKey, StartAtMs: s.nowMs, AttackSpeed: s.combatants[b.plan.Source].attributes[b.plan.AttackSpeedAttributeKey].Resolved}
+	b.current = &model.BasicAttackRecord{PlanKey: b.plan.PlanKey, AttackIndex: index, UseRef: useRef, Source: b.plan.Source, Target: b.plan.Target, SkillKey: b.plan.SkillKey, StartAtMs: s.nowMs, AttackSpeed: s.combatants[b.plan.Source].attributes.At(b.plan.AttackSpeedAttributeKey).Resolved}
 	b.currentRecordIndex = -1
-	if len(s.attackRecords) < s.maxAttackRecords {
+	if s.detailedOutput() && len(s.attackRecords) < s.maxAttackRecords {
 		b.currentRecordIndex = len(s.attackRecords)
 		s.attackRecords = append(s.attackRecords, *b.current)
 	}

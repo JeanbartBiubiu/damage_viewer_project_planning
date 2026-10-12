@@ -13,6 +13,9 @@ func (r DamageModifierResolver) CollectForHeal(direction, category string) []Mou
 			out = append(out, m)
 		}
 	}
+	if len(out) < 2 {
+		return out
+	}
 	sort.SliceStable(out, func(i, j int) bool {
 		a, b := out[i], out[j]
 		if a.Priority != b.Priority {

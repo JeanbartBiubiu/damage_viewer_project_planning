@@ -5,6 +5,7 @@ import (
 	"tinygo_engine_v2/internal/expression"
 	"tinygo_engine_v2/internal/inputbinding"
 
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/command"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -24,7 +25,7 @@ func (f *executionFrame) evalResultFormula(id formula.GenericProgramID, ability 
 	ctx.StrictReads = true
 	ctx.TargetAttrs = f.stageFor(target).attributes
 	ctx.TargetResources = f.stageFor(target).resources
-	value, err := f.run.formulas.Eval(id, ctx)
+	value, err := f.run.formulas.EvalContext(id, &ctx)
 	if err != nil {
 		return 0, f.run.evalFormulaError(id, err, f.abilityRef)
 	}
@@ -51,12 +52,12 @@ func (f *executionFrame) requireConfiguredDefense(damageType, operationPath stri
 }
 
 func (f *executionFrame) resolveConfiguredDefense(cmd command.Command, def planbundle.CompiledDamageTypeFormula) (configuredDefenseResult, *model.EngineError) {
-	var sourceAttrs, targetAttrs map[string]model.AttributeSlotDef
+	var sourceAttrs, targetAttrs attribute.Table
 	if f.damageDefenseContext != nil {
 		sourceAttrs, targetAttrs = f.damageDefenseContext.SourceAttrs, f.damageDefenseContext.TargetAttrs
 	} else {
 		// 当前帧读值使用进入帧时已完成派生的只读视图，不观察后续暂存写入。
-		entry := func(key string) map[string]model.AttributeSlotDef {
+		entry := func(key string) attribute.Table {
 			if key == f.sourceKey {
 				return f.entrySourceAttrs
 			}
@@ -68,23 +69,25 @@ func (f *executionFrame) resolveConfiguredDefense(cmd command.Command, def planb
 		}
 		sourceAttrs, targetAttrs = entry(cmd.Source), entry(cmd.Target)
 	}
-	values := make([]inputbinding.Value, len(def.Reads))
+	var valueBuffer [8]inputbinding.Value
+	values := valueBuffer[:0]
+	if len(def.Reads) <= len(valueBuffer) {
+		values = valueBuffer[:len(def.Reads)]
+	} else {
+		values = make([]inputbinding.Value, len(def.Reads))
+	}
 	for i, read := range def.Reads {
 		attrs := sourceAttrs
 		if read.Object == "target" {
 			attrs = targetAttrs
 		}
-		slot, exists := attrs[read.AttributeKey]
+		slot, exists := attrs.Lookup(read.AttributeKey)
 		if !exists {
 			continue
 		}
 		values[i] = inputbinding.Value{Base: inputbinding.Scalar{Value: slot.Base, Present: slot.HasBase()}, Total: inputbinding.Scalar{Value: slot.Resolved, Present: slot.HasResolved()}}
 	}
-	reader, issue := def.Binding.Reader(values)
-	if issue != nil {
-		return configuredDefenseResult{}, f.configuredFormulaIssue(def, *issue)
-	}
-	factor, err := f.run.formulas.Eval(def.Program, formula.GenericEvalContext{ReadInput: reader})
+	factor, err := f.run.formulas.EvalBound(def.Program, def.Binding, values)
 	if err != nil {
 		if authored, ok := err.(*formula.AuthoredEvaluationError); ok {
 			return configuredDefenseResult{}, f.configuredFormulaIssue(def, authored.Issue)
@@ -143,9 +146,11 @@ func (f *executionFrame) applyLink(ability planbundle.CompiledAbility, op planbu
 	if op.Operation == model.OperationKindApplyAttackLink {
 		eventType = model.EventTypeAttackLinkApplied
 	}
-	f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "link_application", Ref: op.Ref, Path: op.Path, Data: map[string]interface{}{
-		"eventType": eventType, "source": f.sourceKey, "target": target, "useRef": useKey, "skillKey": useSkill, "count": count,
-	}})
+	f.recordEvidenceLazy("link_application", func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "link_application", Ref: op.Ref, Path: op.Path, Data: map[string]interface{}{
+			"eventType": eventType, "source": f.sourceKey, "target": target, "useRef": useKey, "skillKey": useSkill, "count": count,
+		}}
+	})
 	for index := 1; index <= count; index++ {
 		eventTypes := append([]string{eventType}, f.abilityTypeKeys(ability)...)
 		snapshot := f.captureEmitSnapshot(eventType, f.sourceKey, target)
@@ -158,10 +163,12 @@ func (f *executionFrame) applyLink(ability planbundle.CompiledAbility, op planbu
 		}
 		attachUseToSnapshot(&ev)
 		f.pendingEvents = append(f.pendingEvents, ev)
-		f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: eventType, Path: op.Path, Data: map[string]interface{}{
-			"eventType": eventType, "source": f.sourceKey, "target": target, "useRef": useKey, "skillKey": useSkill,
-			"LINK_INDEX": index, "LINK_COUNT": count,
-		}})
+		f.recordEvidenceLazy(model.EvidenceKindEmittedEvent, func() model.EvidenceItem {
+			return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: eventType, Path: op.Path, Data: map[string]interface{}{
+				"eventType": eventType, "source": f.sourceKey, "target": target, "useRef": useKey, "skillKey": useSkill,
+				"LINK_INDEX": index, "LINK_COUNT": count,
+			}}
+		})
 	}
 	return nil
 }
@@ -181,11 +188,18 @@ func (s *genericRunState) startProcessFromEvent(source, target, ref string, abil
 		return s.processErr("processControl.processKey", "event-bound process requires its live mounted provider", ref)
 	}
 	entry := model.DriverEntry{EntryKey: model.EventTypeBasicAttackStart + "/" + event.useKey, AbilityRef: ref, Source: source, Target: target, FirstAtMs: s.nowMs}
+	var mountKey string
 	for _, current := range s.processInstances {
 		if current.UseKey == event.useKey {
 			return s.processErr("processControl.useRefFromEvent", "one native attack use cannot start another process instance", event.useKey)
 		}
-		if current.Status == "active" && processMountKey(current.Owner, current.ProviderRef, current.ProcessKey) == processMountKey(source, parsed.ProviderRef, def.ProcessKey) {
+		if current.Status != "active" {
+			continue
+		}
+		if mountKey == "" {
+			mountKey = processMountKey(source, parsed.ProviderRef, def.ProcessKey)
+		}
+		if processInstanceMountKey(current) == mountKey {
 			return s.rejectProcessUse(entry, ref, event.useKey, "process_already_active")
 		}
 	}

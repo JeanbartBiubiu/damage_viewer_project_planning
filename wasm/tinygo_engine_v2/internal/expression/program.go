@@ -197,6 +197,9 @@ func (p *Program) Evaluate(reader ReadInput) (Evaluation, *ContractIssue) {
 	if p == nil || len(p.stages) == 0 || len(p.stages) > DefinitionMaxStages || len(p.inputs) > DefinitionMaxInputs || int(p.output) >= len(p.stages) {
 		return Evaluation{}, contractProblem("FORMULA_INVALID_PROGRAM", "")
 	}
+	if result, issue, handled := p.evaluatePrimitive(reader); handled {
+		return result, issue
+	}
 	state := evaluationState{program: p, reader: reader}
 	value, issue := state.stage(p.output, 1)
 	if issue != nil {
@@ -204,6 +207,90 @@ func (p *Program) Evaluate(reader ReadInput) (Evaluation, *ContractIssue) {
 	}
 	state.stats.Value = value
 	return state.stats, nil
+}
+
+// 单独常量、读取或两叶值二元运算不需要初始化整套阶段、输入和运算栈缓存。
+func (p *Program) evaluatePrimitive(reader ReadInput) (Evaluation, *ContractIssue, bool) {
+	code := p.stages[p.output].code
+	if len(code) == 3 && (code[0].op == "const" || code[0].op == "read") && (code[1].op == "const" || code[1].op == "read") {
+		switch code[2].op {
+		case "add", "sub", "mul", "div", "min", "max", "eq", "ne", "lt", "lte", "gt", "gte":
+			result, issue := p.evaluateBinaryPrimitive(code, reader)
+			return result, issue, true
+		}
+	}
+	if len(code) != 1 || (code[0].op != "const" && code[0].op != "read") {
+		return Evaluation{}, nil, false
+	}
+	in := code[0]
+	value, reads := in.value, 0
+	if in.op == "read" {
+		if int(in.index) >= len(p.inputs) {
+			return Evaluation{}, contractProblem("FORMULA_INVALID_PROGRAM", in.path), true
+		}
+		if reader == nil {
+			return Evaluation{}, contractProblem("FORMULA_MISSING_INPUT", in.path), true
+		}
+		var issue *ContractIssue
+		value, issue = reader(in.index)
+		if issue != nil {
+			problem := *issue
+			if problem.Path == "" {
+				problem.Path = in.path
+			}
+			return Evaluation{}, &problem, true
+		}
+		reads = 1
+	}
+	if math.IsNaN(value) || math.IsInf(value, 0) {
+		return Evaluation{}, contractProblem("FORMULA_NON_FINITE", in.path), true
+	}
+	return Evaluation{Value: value, EvaluatedStages: 1, ReadInputs: reads}, nil, true
+}
+
+// 两个叶值加一个二元原语无需初始化完整栈；读取顺序、复用和错误定位与解释器相同。
+func (p *Program) evaluateBinaryPrimitive(code []instruction, reader ReadInput) (Evaluation, *ContractIssue) {
+	var values [2]float64
+	reads := 0
+	for index := range values {
+		in := &code[index]
+		value := in.value
+		if in.op == "read" {
+			if int(in.index) >= len(p.inputs) {
+				return Evaluation{}, contractProblem("FORMULA_INVALID_PROGRAM", in.path)
+			}
+			if index == 1 && code[0].op == "read" && in.index == code[0].index {
+				value = values[0]
+			} else {
+				if reader == nil {
+					return Evaluation{}, contractProblem("FORMULA_MISSING_INPUT", in.path)
+				}
+				var issue *ContractIssue
+				value, issue = reader(in.index)
+				if issue != nil {
+					problem := *issue
+					if problem.Path == "" {
+						problem.Path = in.path
+					}
+					return Evaluation{}, &problem
+				}
+				reads++
+			}
+		}
+		if math.IsNaN(value) || math.IsInf(value, 0) {
+			return Evaluation{}, contractProblem("FORMULA_NON_FINITE", in.path)
+		}
+		values[index] = value
+	}
+	value, issue := Arithmetic(code[2].op, values[:], code[2].decimals)
+	if issue != nil {
+		problem := *issue
+		if problem.Path == "" {
+			problem.Path = code[2].path
+		}
+		return Evaluation{}, &problem
+	}
+	return Evaluation{Value: value, EvaluatedStages: 1, ReadInputs: reads}, nil
 }
 
 func (s *evaluationState) stage(index uint16, depth int) (float64, *ContractIssue) {

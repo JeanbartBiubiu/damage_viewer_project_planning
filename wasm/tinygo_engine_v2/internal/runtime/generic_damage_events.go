@@ -72,42 +72,46 @@ func (f *executionFrame) maybeQueueDamageDealtEvent(ability planbundle.CompiledA
 	if _, declared := f.run.compiled.Types.Registry.LookupDomain("event", eventTypeDamageDealt); !declared {
 		return
 	}
-	damageTypes := make([]string, len(aggregation.byType))
-	breakdown := make([]map[string]interface{}, len(aggregation.byType))
 	eventTypes := []string{eventTypeDamageDealt}
-	for index, contribution := range aggregation.byType {
-		damageTypes[index] = contribution.damageType
+	for _, contribution := range aggregation.byType {
 		eventTypes = append(eventTypes, contribution.damageType)
-		breakdown[index] = map[string]interface{}{
-			"damageType": contribution.damageType, "rawAmount": contribution.rawAmount,
-			"mitigatedAmount": contribution.mitigatedAmount,
-			"operationRefs":   append([]string(nil), contribution.operationRefs...),
-		}
 	}
 	if id, declared := f.run.compiled.Types.Registry.LookupDomain("ability", abilityTypeBasicAttack); declared && ability.TypeSet.Contains(id) {
 		if _, declared := f.run.compiled.Types.Registry.LookupDomain("event", eventTypeDamageDealtBasicAttack); declared {
 			eventTypes = append(eventTypes, eventTypeDamageDealtBasicAttack)
 		}
 	}
-	data := map[string]interface{}{
-		"source": f.sourceKey, "target": f.targetKey, "eventType": eventTypeDamageDealt,
-		"abilityRef": f.abilityRef, "rawAmount": aggregation.rawAmount,
-		"mitigatedAmount": aggregation.mitigatedAmount, "phantom": false,
-		"damageTypes": damageTypes, "damageBreakdown": breakdown,
-	}
-	if len(damageTypes) == 1 {
-		data["damageType"] = damageTypes[0]
-	}
-	attachCastProvenance(data, f.castInstanceID, f.castOrigin)
-	if len(aggregation.operationRefs) == 1 {
-		if aggregation.operationRefs[0] != "" {
-			data["operationRef"] = aggregation.operationRefs[0]
+	f.recordEvidenceLazy(model.EvidenceKindEmittedEvent, func() model.EvidenceItem {
+		damageTypes := make([]string, len(aggregation.byType))
+		breakdown := make([]map[string]interface{}, len(aggregation.byType))
+		for index, contribution := range aggregation.byType {
+			damageTypes[index] = contribution.damageType
+			breakdown[index] = map[string]interface{}{
+				"damageType": contribution.damageType, "rawAmount": contribution.rawAmount,
+				"mitigatedAmount": contribution.mitigatedAmount,
+				"operationRefs":   append([]string(nil), contribution.operationRefs...),
+			}
 		}
-	} else if len(aggregation.operationRefs) > 1 {
-		data["operationRefs"] = append([]string(nil), aggregation.operationRefs...)
-	}
-	f.recordEvidence(model.EvidenceItem{
-		TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: eventTypeDamageDealt, Data: data,
+		data := map[string]interface{}{
+			"source": f.sourceKey, "target": f.targetKey, "eventType": eventTypeDamageDealt,
+			"abilityRef": f.abilityRef, "rawAmount": aggregation.rawAmount,
+			"mitigatedAmount": aggregation.mitigatedAmount, "phantom": false,
+			"damageTypes": damageTypes, "damageBreakdown": breakdown,
+		}
+		if len(damageTypes) == 1 {
+			data["damageType"] = damageTypes[0]
+		}
+		attachCastProvenance(data, f.castInstanceID, f.castOrigin)
+		if len(aggregation.operationRefs) == 1 {
+			if aggregation.operationRefs[0] != "" {
+				data["operationRef"] = aggregation.operationRefs[0]
+			}
+		} else if len(aggregation.operationRefs) > 1 {
+			data["operationRefs"] = append([]string(nil), aggregation.operationRefs...)
+		}
+		return model.EvidenceItem{
+			TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: eventTypeDamageDealt, Data: data,
+		}
 	})
 	f.pendingEvents = append(f.pendingEvents, emittedEvent{
 		eventType: eventTypeDamageDealt, ref: eventTypeDamageDealt,

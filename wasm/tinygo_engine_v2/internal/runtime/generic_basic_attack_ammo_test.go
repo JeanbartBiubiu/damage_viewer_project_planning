@@ -176,9 +176,9 @@ func TestAmmoAttackDeathAndStaleRecoveryDoNotWakeOrRefill(test *testing.T) {
 		}
 	}
 	actor := state.combatants["source"]
-	health := actor.attributes["hp"]
+	health := actor.attributes.At("hp")
 	health.Current = 0
-	actor.attributes["hp"] = health
+	actor.attributes = actor.attributes.With("hp", health)
 	state.combatants["source"] = actor
 	if err := state.handleAmmoRecovery(scheduler.GenericEvent{TimeMs: 2500, AmmoGeneration: 3, ProviderInstanceRef: scheduler.ProviderInstanceRef{CombatantKey: "source", ProviderRef: "attack"}}); err != nil || state.mechanicRecordCount != 0 || actor.providerState["attack"].state["rounds"] != 0 {
 		test.Fatal("dead source reloaded", err)
@@ -321,7 +321,7 @@ func TestAmmoRecoveryIntervalFrozenAtEmptyAndRuntimeInvalidIsAtomic(test *testin
 		test.Fatal("first attack failed")
 	}
 	actor := state.combatants["source"]
-	actor.attributes["reload_ms"] = authoringSlot(9000)
+	actor.attributes = actor.attributes.With("reload_ms", authoringSlot(9000))
 	state.combatants["source"] = actor
 	if state.basicAttack.ammo.wait.readyAt != 2500 || state.runLoop() != nil || state.basicAttack.summary.CompletedCount != 2 {
 		test.Fatal("reload interval was recomputed while waiting")

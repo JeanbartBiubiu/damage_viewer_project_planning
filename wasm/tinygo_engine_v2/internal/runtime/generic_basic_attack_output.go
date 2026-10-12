@@ -1,6 +1,9 @@
 package runtime
 
-import "tinygo_engine_v2/internal/model"
+import (
+	"math"
+	"tinygo_engine_v2/internal/model"
+)
 
 type damageBreakdownKey struct{ owner, source, target, ability, operation, damageType, definition string }
 
@@ -11,6 +14,55 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 	}
 	if s.damageBreakdownIndex == nil {
 		s.damageBreakdownIndex = map[damageBreakdownKey]int{}
+	}
+	if ev.hasSourceHp {
+		if s.automatedRun() {
+			if ev.source == model.SelectorSource {
+				s.sourceVampHealing += ev.sourceHpAfter - ev.sourceHpBefore
+			} else if ev.source == model.SelectorTarget {
+				s.targetVampHealing += ev.sourceHpAfter - ev.sourceHpBefore
+			}
+		}
+	}
+	if s.basicAttack != nil && s.basicAttack.current != nil && s.basicAttackEventActive {
+		row := s.basicAttack.current
+		if ev.source == s.basicAttack.plan.Source && ev.target == s.basicAttack.plan.Target {
+			row.PostDefenseDamage += ev.outcome.MitigatedAmount
+			row.ActualHpLoss += ev.outcome.HPDamage
+		}
+	}
+	if s.basicAttack != nil && ev.target == s.basicAttack.plan.Target && ev.hpBefore > 0 && ev.hpAfter <= 0 && s.basicAttack.targetKilledAt == nil {
+		at := s.nowMs
+		s.basicAttack.targetKilledAt = &at
+	}
+	if len(s.skillActions) > 0 && ev.target == model.SelectorTarget && ev.hpBefore > 0 && ev.hpAfter <= 0 && s.skillTargetKilledAt == nil {
+		at := s.nowMs
+		s.skillTargetKilledAt = &at
+	}
+	if ev.target == model.SelectorSource {
+
+		s.sourceHpLoss += ev.outcome.HPDamage
+	}
+	if ev.target == model.SelectorTarget {
+		s.targetHpLoss += ev.outcome.HPDamage
+	}
+	overkill := math.Max(0, ev.outcome.MitigatedAmount-ev.outcome.ShieldAbsorbed-ev.outcome.HPDamage)
+	key := damageBreakdownKey{ev.owner, ev.source, ev.target, ev.abilityRef, ev.operationRef, ev.damageType, ev.providerDefinitionRef}
+	index, ok := s.damageBreakdownIndex[key]
+	if !ok {
+		index = len(s.damageBreakdown)
+		s.damageBreakdownIndex[key] = index
+		s.damageBreakdown = append(s.damageBreakdown, model.DamageBreakdown{Owner: ev.owner, Source: ev.source, Target: ev.target, AbilityRef: ev.abilityRef, OperationRef: ev.operationRef, DamageType: ev.damageType, ProviderDefinitionRef: ev.providerDefinitionRef})
+	}
+	group := &s.damageBreakdown[index]
+	group.DamageCount++
+	group.PostDefenseDamage += ev.outcome.MitigatedAmount
+	group.ShieldAbsorbed += ev.outcome.ShieldAbsorbed
+	group.ActualHpLoss += ev.outcome.HPDamage
+	group.OverkillDamage += overkill
+	s.damageRecordCount++
+	if !s.detailedOutput() || len(s.damageRecords) >= s.maxDamageRecords {
+		return
 	}
 	data := genericDamageEvidenceItem(ev, s.nowMs).Data
 	data["owner"] = ev.owner
@@ -26,13 +78,6 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 	data["sourceHpBefore"], data["sourceHpAfter"] = nil, nil
 	if ev.hasSourceHp {
 		data["sourceHpBefore"], data["sourceHpAfter"] = ev.sourceHpBefore, ev.sourceHpAfter
-		if s.automatedRun() {
-			if ev.source == model.SelectorSource {
-				s.sourceVampHealing += ev.sourceHpAfter - ev.sourceHpBefore
-			} else if ev.source == model.SelectorTarget {
-				s.targetVampHealing += ev.sourceHpAfter - ev.sourceHpBefore
-			}
-		}
 	}
 	data["castInstanceId"] = ev.castInstanceID
 	data["abilityRef"] = ev.abilityRef
@@ -60,44 +105,8 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 	if s.basicAttack != nil && s.basicAttack.current != nil && s.basicAttackEventActive {
 		row := s.basicAttack.current
 		data["useRef"], data["attackIndex"] = row.UseRef, row.AttackIndex
-		if ev.source == s.basicAttack.plan.Source && ev.target == s.basicAttack.plan.Target {
-			row.PostDefenseDamage += ev.outcome.MitigatedAmount
-			row.ActualHpLoss += ev.outcome.HPDamage
-		}
 	}
-	if s.basicAttack != nil && ev.target == s.basicAttack.plan.Target && ev.hpBefore > 0 && ev.hpAfter <= 0 && s.basicAttack.targetKilledAt == nil {
-		at := s.nowMs
-		s.basicAttack.targetKilledAt = &at
-	}
-	if len(s.skillActions) > 0 && ev.target == model.SelectorTarget && ev.hpBefore > 0 && ev.hpAfter <= 0 && s.skillTargetKilledAt == nil {
-		at := s.nowMs
-		s.skillTargetKilledAt = &at
-	}
-	if ev.target == model.SelectorSource {
-
-		s.sourceHpLoss += ev.outcome.HPDamage
-	}
-	if ev.target == model.SelectorTarget {
-		s.targetHpLoss += ev.outcome.HPDamage
-	}
-	overkill := data["overkillDamage"].(float64)
-	key := damageBreakdownKey{ev.owner, ev.source, ev.target, ev.abilityRef, ev.operationRef, ev.damageType, ev.providerDefinitionRef}
-	index, ok := s.damageBreakdownIndex[key]
-	if !ok {
-		index = len(s.damageBreakdown)
-		s.damageBreakdownIndex[key] = index
-		s.damageBreakdown = append(s.damageBreakdown, model.DamageBreakdown{Owner: ev.owner, Source: ev.source, Target: ev.target, AbilityRef: ev.abilityRef, OperationRef: ev.operationRef, DamageType: ev.damageType, ProviderDefinitionRef: ev.providerDefinitionRef})
-	}
-	group := &s.damageBreakdown[index]
-	group.DamageCount++
-	group.PostDefenseDamage += ev.outcome.MitigatedAmount
-	group.ShieldAbsorbed += ev.outcome.ShieldAbsorbed
-	group.ActualHpLoss += ev.outcome.HPDamage
-	group.OverkillDamage += overkill
-	s.damageRecordCount++
-	if len(s.damageRecords) < s.maxDamageRecords {
-		s.damageRecords = append(s.damageRecords, data)
-	}
+	s.damageRecords = append(s.damageRecords, data)
 }
 
 func (s *genericRunState) executionSummary() *model.RunExecutionSummary {
@@ -137,5 +146,8 @@ func (s *genericRunState) recordingSummary() model.RecordingSummary {
 	if s.basicAttack != nil {
 		attacks = s.basicAttack.summary.StartedCount
 	}
-	return model.RecordingSummary{MechanicRecordCount: s.mechanicRecordCount, ReturnedMechanicRecords: len(s.mechanicRecords), DroppedMechanicRecords: s.mechanicRecordCount - len(s.mechanicRecords), MechanicRecordsTruncated: s.mechanicRecordCount > len(s.mechanicRecords), AttackRecordCount: attacks, ReturnedAttackRecords: len(s.attackRecords), DroppedAttackRecords: attacks - len(s.attackRecords), AttackRecordsTruncated: attacks > len(s.attackRecords), DamageRecordCount: s.damageRecordCount, ReturnedDamageRecords: len(s.damageRecords), DroppedDamageRecords: s.damageRecordCount - len(s.damageRecords), DamageRecordsTruncated: s.damageRecordCount > len(s.damageRecords)}
+	mechanicsKept := s.retainedRecordCount(s.mechanicRecordCount, len(s.mechanicRecords), s.maxMechanicRecords)
+	attacksKept := s.retainedRecordCount(attacks, len(s.attackRecords), s.maxAttackRecords)
+	damagesKept := s.retainedRecordCount(s.damageRecordCount, len(s.damageRecords), s.maxDamageRecords)
+	return model.RecordingSummary{MechanicRecordCount: s.mechanicRecordCount, ReturnedMechanicRecords: len(s.mechanicRecords), DroppedMechanicRecords: s.mechanicRecordCount - mechanicsKept, MechanicRecordsTruncated: s.mechanicRecordCount > mechanicsKept, AttackRecordCount: attacks, ReturnedAttackRecords: len(s.attackRecords), DroppedAttackRecords: attacks - attacksKept, AttackRecordsTruncated: attacks > attacksKept, DamageRecordCount: s.damageRecordCount, ReturnedDamageRecords: len(s.damageRecords), DroppedDamageRecords: s.damageRecordCount - damagesKept, DamageRecordsTruncated: s.damageRecordCount > damagesKept}
 }

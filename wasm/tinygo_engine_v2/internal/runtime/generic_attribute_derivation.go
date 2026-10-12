@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"math"
 
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/formula"
-	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
-func resolveDerivedAttributes(compiled planbundle.CompiledSession, formulas formula.GenericRegistry, actorKey string, attrs map[string]model.AttributeSlotDef, resolver pipeline.AttributeResolver, sourceAttrs, targetAttrs map[string]model.AttributeSlotDef, providerContext pipeline.ProviderFormulaContextFunc) (map[string]model.AttributeSlotDef, error) {
+func resolveDerivedAttributes(compiled planbundle.CompiledSession, formulas formula.GenericRegistry, actorKey string, attrs attribute.Table, resolver pipeline.AttributeResolver, sourceAttrs, targetAttrs attribute.Table, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
 	if len(compiled.AttributeDerivations) == 0 {
 		return attrs, nil
 	}
-	out := cloneAttributeMap(attrs)
+	out := attrs
 	for _, derivation := range compiled.AttributeDerivations {
 		if derivation.CombatantKey != actorKey {
 			continue
@@ -35,27 +35,27 @@ func resolveDerivedAttributes(compiled planbundle.CompiledSession, formulas form
 				actorContext.AuthoredSourceAttrs, actorContext.AuthoredTargetAttrs = ctx.TargetAttrs, ctx.SourceAttrs
 			}
 		}
-		value, err := formulas.Eval(derivation.ValueProgram, actorContext)
+		value, err := formulas.EvalContext(derivation.ValueProgram, &actorContext)
 		if err != nil {
-			return nil, fmt.Errorf("%s: %w", derivation.Path, err)
+			return attribute.Table{}, fmt.Errorf("%s: %w", derivation.Path, err)
 		}
 		if math.IsNaN(value) || math.IsInf(value, 0) || (derivation.ValuePolicy == "multiply" && value < 0) {
-			return nil, fmt.Errorf("%s: derived value must be finite; multiplier must be nonnegative", derivation.Path)
+			return attribute.Table{}, fmt.Errorf("%s: derived value must be finite; multiplier must be nonnegative", derivation.Path)
 		}
-		slot := out[derivation.AttributeKey]
+		slot := out.At(derivation.AttributeKey)
 		if derivation.ValuePolicy == "multiply" {
 			slot.Resolved *= value
 			if math.IsNaN(slot.Resolved) || math.IsInf(slot.Resolved, 0) {
-				return nil, fmt.Errorf("%s: derived attribute must remain finite", derivation.Path)
+				return attribute.Table{}, fmt.Errorf("%s: derived attribute must remain finite", derivation.Path)
 			}
 			if err := validateDerivedOutput(derivation, slot.Resolved); err != nil {
-				return nil, err
+				return attribute.Table{}, err
 			}
-			out[derivation.AttributeKey] = slot
+			out = out.With(derivation.AttributeKey, slot)
 			continue
 		}
 		slot.Resolved = value
-		out[derivation.AttributeKey] = slot
+		out = out.With(derivation.AttributeKey, slot)
 		if actorKey == "source" {
 			ctx.SourceAttrs = out
 		} else {
@@ -63,12 +63,12 @@ func resolveDerivedAttributes(compiled planbundle.CompiledSession, formulas form
 		}
 		resolvedSlot, resolveErr := resolver.ResolveDerivedAttribute(derivation.AttributeKey, slot, value, ctx, formulas, providerContext)
 		if resolveErr != nil {
-			return nil, fmt.Errorf("%s: %w", derivation.Path, resolveErr)
+			return attribute.Table{}, fmt.Errorf("%s: %w", derivation.Path, resolveErr)
 		}
 		if err := validateDerivedOutput(derivation, resolvedSlot.Resolved); err != nil {
-			return nil, err
+			return attribute.Table{}, err
 		}
-		out[derivation.AttributeKey] = resolvedSlot
+		out = out.With(derivation.AttributeKey, resolvedSlot)
 	}
 	return out, nil
 }

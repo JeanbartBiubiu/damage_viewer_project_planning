@@ -50,7 +50,9 @@ func (s *genericRunState) handleSourceInitialized(event scheduler.GenericEvent) 
 	s.initializationEventActive = true
 	s.currentEventCommands = 0
 	defer func() { s.initializationEventActive = false }()
-	frame := s.newExecutionFrame(key, key, "")
+	var frameStorage executionFrame
+	s.initExecutionFrame(&frameStorage, key, key, "")
+	frame := &frameStorage
 	initialization := emittedEvent{
 		eventType: model.EventTypeSourceInitialized, sourceKey: key, targetKey: key,
 		types:    []string{model.EventTypeSourceInitialized},
@@ -63,7 +65,9 @@ func (s *genericRunState) handleSourceInitialized(event scheduler.GenericEvent) 
 		return s.processFailure
 	}
 	s.initializationPending--
-	s.recordEvidence(model.EvidenceItem{TimeMs: 0, Kind: "source_initialized", Ref: key,
-		Data: map[string]interface{}{"eventSource": key, "currentTarget": key, "completed": true}})
+	s.recordEvidenceLazy("source_initialized", func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: 0, Kind: "source_initialized", Ref: key,
+			Data: map[string]interface{}{"eventSource": key, "currentTarget": key, "completed": true}}
+	})
 	return nil
 }

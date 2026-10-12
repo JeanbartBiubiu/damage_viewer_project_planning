@@ -341,7 +341,7 @@ func TestFrameCommitProcessCooldownEvaluatesOriginalOnce(t *testing.T) {
 	if err := s.handleAbilityAttempt(scheduler.GenericEvent{DriverEntryIndex: 0}); err != nil {
 		t.Fatalf("cooldown re-evaluated after source attribute changed: %+v", err)
 	}
-	if len(s.processInstances) != 1 || s.processInstances[0].Status != "complete" || s.combatants["source"].cooldowns[timedShieldRef("start")] != 1000 || s.combatants["source"].attributes["attack_speed"].Resolved != 0.5 {
+	if len(s.processInstances) != 1 || s.processInstances[0].Status != "complete" || s.combatants["source"].cooldowns[timedShieldRef("start")] != 1000 || s.combatants["source"].attributes.At("attack_speed").Resolved != 0.5 {
 		t.Fatalf("frozen cooldown: source=%+v process=%+v", s.combatants["source"], s.processInstances)
 	}
 }

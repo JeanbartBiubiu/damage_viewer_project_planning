@@ -28,19 +28,26 @@ func (f *executionFrame) settleDamageVamp(cmd command.Command, op planbundle.Com
 	if len(f.run.compiled.VampRules) == 0 {
 		return nil
 	}
-	contributions := make([]map[string]interface{}, 0, len(f.run.compiled.VampRules))
-	data := map[string]interface{}{
-		"damageId": damageID, "source": cmd.Source, "target": cmd.Source, "damageTarget": cmd.Target,
-		"abilityRef": f.abilityRef, "operationRef": op.Ref, "phantom": phantom,
-		"postDefenseDamage": outcome.MitigatedAmount, "shieldAbsorbed": outcome.ShieldAbsorbed,
-		"actualHpLoss": outcome.HPDamage, "overkillDamage": math.Max(0, outcome.MitigatedAmount-outcome.ShieldAbsorbed-outcome.HPDamage),
-		"contributions": contributions, "healingBeforeModifiers": 0.0, "healingAfterDone": 0.0,
-		"healingAfterModifiers": 0.0, "actualHealing": 0.0, "overheal": 0.0,
-		"modifiers": []map[string]interface{}{},
+	detailed := f.run.detailedOutput()
+	var contributions []map[string]interface{}
+	var data map[string]interface{}
+	if detailed {
+		contributions = make([]map[string]interface{}, 0, len(f.run.compiled.VampRules))
+		data = map[string]interface{}{
+			"damageId": damageID, "source": cmd.Source, "target": cmd.Source, "damageTarget": cmd.Target,
+			"abilityRef": f.abilityRef, "operationRef": op.Ref, "phantom": phantom,
+			"postDefenseDamage": outcome.MitigatedAmount, "shieldAbsorbed": outcome.ShieldAbsorbed,
+			"actualHpLoss": outcome.HPDamage, "overkillDamage": math.Max(0, outcome.MitigatedAmount-outcome.ShieldAbsorbed-outcome.HPDamage),
+			"contributions": contributions, "healingBeforeModifiers": 0.0, "healingAfterDone": 0.0,
+			"healingAfterModifiers": 0.0, "actualHealing": 0.0, "overheal": 0.0,
+			"modifiers": []map[string]interface{}{},
+		}
+		attachCastProvenance(data, f.castInstanceID, f.castOrigin)
 	}
-	attachCastProvenance(data, f.castInstanceID, f.castOrigin)
 	record := func() {
-		f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindVamp, Ref: op.Ref, Data: data})
+		f.recordEvidenceLazy(model.EvidenceKindVamp, func() model.EvidenceItem {
+			return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindVamp, Ref: op.Ref, Data: data}
+		})
 	}
 	skip := ""
 	switch {
@@ -54,7 +61,9 @@ func (f *executionFrame) settleDamageVamp(cmd command.Command, op planbundle.Com
 		skip = "no_damage_applied"
 	}
 	if skip != "" {
-		data["skippedReason"] = skip
+		if detailed {
+			data["skippedReason"] = skip
+		}
 		record()
 		return nil
 	}
@@ -71,6 +80,7 @@ func (f *executionFrame) settleDamageVamp(cmd command.Command, op planbundle.Com
 	targetTypes := f.combatantTypeSet(cmd.Target)
 	damageTypes := f.run.eventTypeSet(op.Types)
 	total := 0.0
+	qualifyingRules := 0
 	for _, rule := range f.run.compiled.VampRules {
 		if !rule.TargetMatcher.Match(targetTypes) {
 			continue
@@ -92,7 +102,7 @@ func (f *executionFrame) settleDamageVamp(cmd command.Command, op planbundle.Com
 		if override != nil {
 			basisKind = override.BasisOutputKind
 			var err error
-			efficiency, err = f.run.formulas.Eval(override.EfficiencyProgram, ctx)
+			efficiency, err = f.run.formulas.EvalContext(override.EfficiencyProgram, &ctx)
 			if err != nil {
 				return f.preserveFormulaIssue(err, f.vampError(err.Error(), override.Path, op.Ref))
 			}
@@ -100,7 +110,7 @@ func (f *executionFrame) settleDamageVamp(cmd command.Command, op planbundle.Com
 				return f.vampError("vamp efficiency must be finite and non-negative", override.Path, op.Ref)
 			}
 		}
-		slot, exists := f.stageFor(cmd.Source).attributes[rule.SourceAttributeKey]
+		slot, exists := f.stageFor(cmd.Source).attributes.Lookup(rule.SourceAttributeKey)
 		if !exists {
 			return f.vampError("missing vamp source attribute: "+rule.SourceAttributeKey, "combatants["+cmd.Source+"].attributes."+rule.SourceAttributeKey, op.Ref)
 		}
@@ -117,11 +127,18 @@ func (f *executionFrame) settleDamageVamp(cmd command.Command, op planbundle.Com
 			return f.vampError("non-finite vamp contribution", "vamp.contributions", op.Ref)
 		}
 		total += amount
-		contributions = append(contributions, map[string]interface{}{"vampType": rule.VampType, "basisOutputKind": basisKind, "basis": basis, "ratio": ratio, "efficiency": efficiency, "amount": amount})
+		qualifyingRules++
+		if detailed {
+			contributions = append(contributions, map[string]interface{}{"vampType": rule.VampType, "basisOutputKind": basisKind, "basis": basis, "ratio": ratio, "efficiency": efficiency, "amount": amount})
+		}
 	}
-	data["contributions"] = contributions
-	if len(contributions) == 0 {
-		data["skippedReason"] = "no_qualifying_rule"
+	if detailed {
+		data["contributions"] = contributions
+	}
+	if qualifyingRules == 0 {
+		if detailed {
+			data["skippedReason"] = "no_qualifying_rule"
+		}
 		record()
 		return nil
 	}
@@ -129,8 +146,10 @@ func (f *executionFrame) settleDamageVamp(cmd command.Command, op planbundle.Com
 	if err != nil {
 		return err
 	}
-	data["healingBeforeModifiers"], data["healingAfterDone"], data["healingAfterModifiers"] = heal.before, heal.afterDone, heal.after
-	data["actualHealing"], data["overheal"], data["modifiers"] = heal.actual, heal.overheal, heal.modifiers
+	if detailed {
+		data["healingBeforeModifiers"], data["healingAfterDone"], data["healingAfterModifiers"] = heal.before, heal.afterDone, heal.after
+		data["actualHealing"], data["overheal"], data["modifiers"] = heal.actual, heal.overheal, heal.modifiers
+	}
 	record()
 	return nil
 }
@@ -149,10 +168,11 @@ func (f *executionFrame) settleHealing(sourceKey, targetKey string, amount float
 	out := healingOutcome{before: amount, modifiers: []map[string]interface{}{}}
 	ctx := baseCtx
 	ctx.StrictReads = true
-	ctx.SourceAttrs = cloneAttributeMap(f.stageFor(sourceKey).attributes)
-	ctx.TargetAttrs = cloneAttributeMap(f.stageFor(targetKey).attributes)
-	ctx.SourceResources = cloneResourceMap(f.stageFor(sourceKey).resources)
-	ctx.TargetResources = cloneResourceMap(f.stageFor(targetKey).resources)
+	// 两方向公式求值完成前没有属性写；治疗提交仍走写时复制。
+	ctx.SourceAttrs = f.stageFor(sourceKey).attributes
+	ctx.TargetAttrs = f.stageFor(targetKey).attributes
+	ctx.SourceResources = f.stageFor(sourceKey).resources
+	ctx.TargetResources = f.stageFor(targetKey).resources
 	var err *model.EngineError
 	out.afterDone, out.modifiers, err = f.applyHealingDirection(sourceKey, model.HealDone, category, amount, ctx, out.modifiers)
 	if err != nil {
@@ -181,10 +201,11 @@ func (f *executionFrame) settleHealing(sourceKey, targetKey string, amount float
 func (f *executionFrame) applyHealingDirection(hostKey, direction, category string, amount float64, baseCtx formula.GenericEvalContext, evidence []map[string]interface{}) (float64, []map[string]interface{}, *model.EngineError) {
 	mods := f.stageFor(hostKey).damageResolver.CollectForHeal(direction, category)
 	type group struct {
-		key   string
-		mode  string
-		ratio float64
-		items []map[string]interface{}
+		key      string
+		mode     string
+		ratio    float64
+		items    []map[string]interface{}
+		hasValue bool
 	}
 	groups := make([]group, 0)
 	index := map[string]int{}
@@ -196,7 +217,7 @@ func (f *executionFrame) applyHealingDirection(hostKey, direction, category stri
 			ctx.HasProviderContext, ctx.ProviderState, ctx.ProviderTargetState = pctx.HasProviderContext, pctx.ProviderState, pctx.ProviderTargetState
 		}
 		if mod.HasCondition {
-			value, err := f.run.formulas.Eval(mod.ConditionProg, ctx)
+			value, err := f.run.formulas.EvalContext(mod.ConditionProg, &ctx)
 			if err != nil {
 				return 0, evidence, f.preserveFormulaIssue(err, f.vampError(err.Error(), "heal.modifiers["+mod.ModifierKey+"].condition", mod.ModifierKey))
 			}
@@ -204,7 +225,7 @@ func (f *executionFrame) applyHealingDirection(hostKey, direction, category stri
 				continue
 			}
 		}
-		value, err := f.run.formulas.Eval(mod.ValueProgram, ctx)
+		value, err := f.run.formulas.EvalContext(mod.ValueProgram, &ctx)
 		if err != nil {
 			return 0, evidence, f.preserveFormulaIssue(err, f.vampError(err.Error(), "heal.modifiers["+mod.ModifierKey+"].value", mod.ModifierKey))
 		}
@@ -221,7 +242,7 @@ func (f *executionFrame) applyHealingDirection(hostKey, direction, category stri
 			if value < -1 || value > 0 {
 				return 0, evidence, f.vampError("ratio_max healing modifier must be within [-1,0]", "heal.modifiers["+mod.ModifierKey+"].value", mod.ModifierKey)
 			}
-			if len(groups[i].items) == 0 || value < groups[i].ratio {
+			if !groups[i].hasValue || value < groups[i].ratio {
 				groups[i].ratio = value
 			}
 		} else {
@@ -230,7 +251,10 @@ func (f *executionFrame) applyHealingDirection(hostKey, direction, category stri
 				return 0, evidence, f.vampError("non-finite healing group ratio", "heal.modifiers", mod.ModifierKey)
 			}
 		}
-		groups[i].items = append(groups[i].items, map[string]interface{}{"modifierKey": mod.ModifierKey, "providerOwner": mod.OwnerCombatantKey, "providerRef": mod.ProviderRef, "value": value, "calculationMode": groups[i].mode})
+		groups[i].hasValue = true
+		if f.run.detailedOutput() {
+			groups[i].items = append(groups[i].items, map[string]interface{}{"modifierKey": mod.ModifierKey, "providerOwner": mod.OwnerCombatantKey, "providerRef": mod.ProviderRef, "value": value, "calculationMode": groups[i].mode})
+		}
 	}
 	for _, g := range groups {
 		before := amount
@@ -239,18 +263,20 @@ func (f *executionFrame) applyHealingDirection(hostKey, direction, category stri
 		if math.IsNaN(amount) || math.IsInf(amount, 0) {
 			return 0, evidence, f.vampError("non-finite healing modifier result", "heal.modifiers", g.key)
 		}
-		evidence = append(evidence, map[string]interface{}{"direction": direction, "groupKey": g.key, "calculationMode": g.mode, "netRatio": g.ratio, "factor": factor, "before": before, "after": amount, "items": g.items})
+		if f.run.detailedOutput() {
+			evidence = append(evidence, map[string]interface{}{"direction": direction, "groupKey": g.key, "calculationMode": g.mode, "netRatio": g.ratio, "factor": factor, "before": before, "after": amount, "items": g.items})
+		}
 	}
 	return amount, evidence, nil
 }
 
 func (f *executionFrame) applyDirectHeal(cmd command.Command, ability planbundle.CompiledAbility) *model.EngineError {
-	hpBefore := f.stageFor(cmd.Target).attributes["hp"].Current
+	hpBefore := f.stageFor(cmd.Target).attributes.At("hp").Current
 	heal, err := f.settleHealing(cmd.Source, cmd.Target, cmd.Amount, model.HealDirect, ability, f.evalContext(ability))
 	if err != nil {
 		return err
 	}
-	record := model.DirectHealingRecord{TimeMs: f.run.nowMs, Source: cmd.Source, Target: cmd.Target, AbilityRef: f.abilityRef, OperationRef: cmd.Ref, RawAmount: heal.before, HealingAfterDone: heal.afterDone, HealingAfterModifiers: heal.after, ActualHealing: heal.actual, Overheal: heal.overheal, HpBefore: hpBefore, HpAfter: f.stageFor(cmd.Target).attributes["hp"].Current}
+	record := model.DirectHealingRecord{TimeMs: f.run.nowMs, Source: cmd.Source, Target: cmd.Target, AbilityRef: f.abilityRef, OperationRef: cmd.Ref, RawAmount: heal.before, HealingAfterDone: heal.afterDone, HealingAfterModifiers: heal.after, ActualHealing: heal.actual, Overheal: heal.overheal, HpBefore: hpBefore, HpAfter: f.stageFor(cmd.Target).attributes.At("hp").Current}
 	if use := f.skillActionUseRef(); use != "" {
 		record.UseRef = &use
 		if action := f.run.skillActionByUse[use]; action != nil {
@@ -258,10 +284,12 @@ func (f *executionFrame) applyDirectHeal(cmd command.Command, ability planbundle
 		}
 	}
 	f.pendingDirectHealing = append(f.pendingDirectHealing, record)
-	f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindHeal, Ref: f.abilityRef, Data: map[string]interface{}{
-		"source": cmd.Source, "target": cmd.Target, "category": model.HealDirect,
-		"healingBeforeModifiers": heal.before, "healingAfterDone": heal.afterDone, "healingAfterModifiers": heal.after,
-		"actualHealing": heal.actual, "overheal": heal.overheal, "modifiers": heal.modifiers,
-	}})
+	f.recordEvidenceLazy(model.EvidenceKindHeal, func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindHeal, Ref: f.abilityRef, Data: map[string]interface{}{
+			"source": cmd.Source, "target": cmd.Target, "category": model.HealDirect,
+			"healingBeforeModifiers": heal.before, "healingAfterDone": heal.afterDone, "healingAfterModifiers": heal.after,
+			"actualHealing": heal.actual, "overheal": heal.overheal, "modifiers": heal.modifiers,
+		}}
+	})
 	return nil
 }

@@ -662,7 +662,7 @@ func TestTriggeredSkillSourceDynamicAttributeBudgetFailureIsAtomic(test *testing
 			}
 		}
 		frame.commit()
-		if !frame.fatal || frame.fatalErr.BudgetCause != cause || state.basicAttack.wait.ready != 1000 || state.combatants["source"].attributes["attack_speed"].Resolved != 1 || state.heap.Len() != queued {
+		if !frame.fatal || frame.fatalErr.BudgetCause != cause || state.basicAttack.wait.ready != 1000 || state.combatants["source"].attributes.At("attack_speed").Resolved != 1 || state.heap.Len() != queued {
 			test.Fatal(cause, frame.fatalErr, state.basicAttack.wait, state.heap.Len())
 		}
 		for _, provider := range state.combatants["source"].providers {

@@ -429,20 +429,25 @@ func (f *executionFrame) resolveSkillHit(op planbundle.CompiledOperation, abilit
 		snap.hasSkillHit = true
 		snap.skillHit = freeze
 	}
-	f.recordEvidence(model.EvidenceItem{
-		TimeMs: f.run.nowMs,
-		Kind:   model.EvidenceKindSkillHit,
-		Ref:    f.abilityRef,
-		Path:   "driverPlan.entries[" + f.driverEntryKey + "]",
-		Data:   skillHitEvidenceData(freeze),
+	f.recordSkillActionHit(freeze.useRef, freeze.occurrenceID)
+	f.recordEvidenceLazy(model.EvidenceKindSkillHit, func() model.EvidenceItem {
+		return model.EvidenceItem{
+			TimeMs: f.run.nowMs,
+			Kind:   model.EvidenceKindSkillHit,
+			Ref:    f.abilityRef,
+			Path:   "driverPlan.entries[" + f.driverEntryKey + "]",
+			Data:   skillHitEvidenceData(freeze),
+		}
 	})
-	emitData := skillHitEvidenceData(freeze)
-	emitData["eventType"] = eventType
-	f.recordEvidence(model.EvidenceItem{
-		TimeMs: f.run.nowMs,
-		Kind:   model.EvidenceKindEmittedEvent,
-		Ref:    eventType,
-		Data:   emitData,
+	f.recordEvidenceLazy(model.EvidenceKindEmittedEvent, func() model.EvidenceItem {
+		emitData := skillHitEvidenceData(freeze)
+		emitData["eventType"] = eventType
+		return model.EvidenceItem{
+			TimeMs: f.run.nowMs,
+			Kind:   model.EvidenceKindEmittedEvent,
+			Ref:    eventType,
+			Data:   emitData,
+		}
 	})
 	eventTypes := []string{eventType}
 	if eventType == model.EventTypeSkillHit {
@@ -609,7 +614,8 @@ func (f *executionFrame) matchEventValueConds(cand planbundle.CompiledSkillHitCa
 		if cond.Key == model.SkillHitValueBlocked && !includeBlocked {
 			continue
 		}
-		value, evalErr := f.run.formulas.Eval(cond.ValueProg, f.evalContext(ability))
+		ctx := f.evalContext(ability)
+		value, evalErr := f.run.formulas.EvalContext(cond.ValueProg, &ctx)
 		if evalErr != nil {
 			wrapped := engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, evalErr.Error(), cond.Path+".value", cand.CandidateKey, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 			if strings.HasPrefix(evalErr.Error(), "event.skill_hit.") {
@@ -754,12 +760,12 @@ func (s *genericRunState) refreshEmittedEventLiveSnapshot(ev *emittedEvent) {
 		return
 	}
 	if src, ok := s.combatants[ev.sourceKey]; ok {
-		ev.snapshot.sourceAttrs = cloneAttributeMap(src.attributes)
-		ev.snapshot.sourceResources = cloneResourceMap(src.resources)
+		ev.snapshot.sourceAttrs = src.attributes
+		ev.snapshot.sourceResources = src.resources
 	}
 	if tgt, ok := s.combatants[ev.targetKey]; ok {
-		ev.snapshot.targetAttrs = cloneAttributeMap(tgt.attributes)
-		ev.snapshot.targetResources = cloneResourceMap(tgt.resources)
+		ev.snapshot.targetAttrs = tgt.attributes
+		ev.snapshot.targetResources = tgt.resources
 	}
 	ev.snapshot.eventType = ev.eventType
 	ev.snapshot.eventSourceKey = ev.sourceKey
@@ -801,7 +807,9 @@ func (s *genericRunState) executeSkillHitCandidate(ev emittedEvent, freeze *froz
 		return s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "skill hit candidate operation range out of bounds", cand.Path, cand.CandidateKey)
 	}
 	ops := s.compiled.Operations[start:end]
-	frame := s.newExecutionFrame(freeze.sourceKey, freeze.targetKey, freeze.abilityRef)
+	var frameStorage executionFrame
+	s.initExecutionFrame(&frameStorage, freeze.sourceKey, freeze.targetKey, freeze.abilityRef)
+	frame := &frameStorage
 	frame.chainDepth = chainDepth
 	frame.eventCtx = cloneEventSnapshot(&ev.snapshot)
 	if frame.eventCtx != nil && ev.eventType == model.EventTypeSkillHit {
@@ -839,11 +847,13 @@ func (s *genericRunState) dispatchSpellShieldBlocked(parent emittedEvent, freeze
 		castOrigin:     parent.castOrigin,
 		skillHit:       freeze,
 	}
-	s.recordEvidence(model.EvidenceItem{
-		TimeMs: s.nowMs,
-		Kind:   model.EvidenceKindEmittedEvent,
-		Ref:    model.EventTypeSpellShieldBlocked,
-		Data:   skillHitEvidenceData(freeze),
+	s.recordEvidenceLazy(model.EvidenceKindEmittedEvent, func() model.EvidenceItem {
+		return model.EvidenceItem{
+			TimeMs: s.nowMs,
+			Kind:   model.EvidenceKindEmittedEvent,
+			Ref:    model.EventTypeSpellShieldBlocked,
+			Data:   skillHitEvidenceData(freeze),
+		}
 	})
 	return s.dispatchListeners(ev, chainDepth)
 }

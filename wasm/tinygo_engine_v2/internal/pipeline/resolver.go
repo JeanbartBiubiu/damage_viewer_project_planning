@@ -6,7 +6,6 @@ import (
 
 	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/command"
-	"tinygo_engine_v2/internal/model"
 	shieldpkg "tinygo_engine_v2/internal/shield"
 )
 
@@ -23,7 +22,7 @@ type ShieldInstance struct {
 
 // CombatantView 是 pipeline 可见的 combatant 属性/护盾视图。
 type CombatantView struct {
-	Attributes map[string]model.AttributeSlotDef
+	Attributes attribute.Table
 	Shields    []ShieldInstance
 }
 
@@ -120,7 +119,7 @@ func ApplyMitigatedDamage(raw, mitigated float64, view CombatantView, nowMs int6
 }
 
 // ResolveHeal 增加 HP 并 clamp max。
-func ResolveHeal(cmd command.Command, attrs map[string]model.AttributeSlotDef) (map[string]model.AttributeSlotDef, float64) {
+func ResolveHeal(cmd command.Command, attrs attribute.Table) (attribute.Table, float64) {
 	attrs, healed := attribute.ApplyHeal(attrs, cmd.Amount)
 	return attrs, healed
 }

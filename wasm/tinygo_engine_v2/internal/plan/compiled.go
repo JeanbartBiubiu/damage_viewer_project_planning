@@ -1,6 +1,7 @@
 package plan
 
 import (
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/inputbinding"
 	"tinygo_engine_v2/internal/model"
@@ -16,6 +17,7 @@ type CompiledAbilityRef struct {
 
 // CompiledSession 是 generic compile 输出的只读 session 快照。
 type CompiledSession struct {
+	AttributeLayout      *attribute.Layout
 	SkillActionBindings  []CompiledSkillActionBinding
 	HasMechanicReads     bool
 	StatusKeys           []string

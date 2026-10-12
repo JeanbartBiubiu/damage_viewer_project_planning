@@ -28,9 +28,9 @@ func changeWaitingSpeed(t *testing.T, state *genericRunState, at int64, speed fl
 	state.nowMs = at
 	frame := state.newExecutionFrame("source", "target", "test-speed")
 	staged := frame.stageFor("source")
-	slot := staged.attributes["attack_speed"]
+	slot := staged.attributes.At("attack_speed")
 	slot.Base, slot.Resolved = speed, speed
-	staged.attributes["attack_speed"] = slot
+	staged.attributes = staged.attributes.With("attack_speed", slot)
 	frame.commit()
 	return frame
 }
@@ -65,7 +65,7 @@ func TestContinuousWaitingBudgetFailureDoesNotPublishSpeedOrClock(t *testing.T) 
 	state := waitingTestState(t)
 	state.budget.MaxCommandsPerEvent = 0
 	frame := changeWaitingSpeed(t, state, 400, 2)
-	if !frame.fatal || frame.fatalErr.BudgetCause != model.BudgetCauseMaxCommandsPerEvent || state.combatants["source"].attributes["attack_speed"].Resolved != 1 || state.basicAttack.wait.ready != 1000 || state.heap.Len() != 1 {
+	if !frame.fatal || frame.fatalErr.BudgetCause != model.BudgetCauseMaxCommandsPerEvent || state.combatants["source"].attributes.At("attack_speed").Resolved != 1 || state.basicAttack.wait.ready != 1000 || state.heap.Len() != 1 {
 		t.Fatal(frame.fatalErr, state.basicAttack.wait)
 	}
 }

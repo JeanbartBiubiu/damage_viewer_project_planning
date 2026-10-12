@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
@@ -13,7 +14,7 @@ func TestPhase3BAttributeKindsExplicitSlotsAndUnselectedDynamicZero(t *testing.T
 		def := model.NamedFormula{Scope: "skill", Key: kind, SkillKey: "skill", Expression: formuladefinition.Definition([]any{map[string]any{"key": "value", "binding": map[string]any{"kind": "attribute", "object": "target", "attributeKey": "original_armor", "valueKind": kind, "view": "current_frame"}}}, []any{formuladefinition.Stage("output", map[string]any{"op": "read", "inputKey": "value"})}, "output"), Parameters: []model.FormulaParameter{}}
 		var registry GenericRegistry
 		CompileDeclaredNamedFormulas([]model.NamedFormula{def}, []string{"original_armor"}, &registry, func(c model.GenericErrCode, p, m, r string) { t.Fatal(c, p) })
-		ctx := GenericEvalContext{TargetAttrs: map[string]model.AttributeSlotDef{"original_armor": {Base: 3, Resolved: 8, Current: 2, Max: 10}}}
+		ctx := GenericEvalContext{TargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"original_armor": {Base: 3, Resolved: 8, Current: 2, Max: 10}})}
 		value, err := registry.Eval(0, ctx)
 		if err != nil || math.Abs(value-want) > 1e-12 {
 			t.Fatal(kind, value, err)
@@ -22,7 +23,7 @@ func TestPhase3BAttributeKindsExplicitSlotsAndUnselectedDynamicZero(t *testing.T
 		if err := json.Unmarshal([]byte(`{"base":3,"resolved":8,"current":2}`), &partial); err != nil {
 			t.Fatal(err)
 		}
-		ctx.TargetAttrs["original_armor"] = partial
+		ctx.TargetAttrs = ctx.TargetAttrs.With("original_armor", partial)
 		_, err = registry.Eval(0, ctx)
 		requiresMax := kind == "MAX" || kind == "MISSING" || kind == "CURRENT_RATIO" || kind == "MISSING_RATIO"
 		if requiresMax != (err != nil) {
