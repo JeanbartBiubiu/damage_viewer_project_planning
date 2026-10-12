@@ -672,6 +672,8 @@ export type AttackStartFact = {
 };
 
 export type RunRequest = {
+  /** 省略返回完整明细；summary仅省略记录，采样仍独立控制。 */
+  outputMode?: 'detailed' | 'summary';
   runtimeOptions?: {
     equipmentAssumptions: import('./simulationSnapshot').SimulationEquipmentAssumption[];
     skillOrigins?: Array<import('./simulationSnapshot').SimulationSkillSource & {
@@ -845,6 +847,8 @@ export type SeriesSamplingEvidence = {
 };
 
 export type DoneResult = {
+  /** summary表示未请求明细；预算丢弃量仍按原记录预算核对。 */
+  outputMode?: 'summary';
   ok: boolean;
   summary: RunSummary;
   finalSnapshot: InitialSnapshot;
