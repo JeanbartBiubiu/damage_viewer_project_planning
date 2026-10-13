@@ -3,9 +3,11 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
-	"tinygo_engine_v2/internal/compile"
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 )
 
@@ -137,12 +139,13 @@ func TestFlushImmediateCompletesBeforeDelayedEnqueue(t *testing.T) {
 			},
 			model.SelectorTarget: {
 				key: model.SelectorTarget,
-				attributes: map[string]model.AttributeSlotDef{
+				attributes: attribute.FromMap(map[string]model.AttributeSlotDef{
 					"hp": {Base: 10000, Current: 10000, Max: 10000, Resolved: 10000},
-				},
+				}),
 			},
 		},
 	}
+	registerTestDefense(t, s, "damage/true", formuladefinition.ConstantDefense("1"))
 	collector := &eventCopyableCollector{
 		damages: []copyableDamageFrozen{{
 			providerRef: "prov:a", originRef: "listener:a", sourceKey: model.SelectorSource, targetKey: model.SelectorTarget,
@@ -203,12 +206,13 @@ func TestFlushDelayedMultipleDamagesAndSameTimeContinuationsDeterministic(t *tes
 			},
 			model.SelectorTarget: {
 				key: model.SelectorTarget,
-				attributes: map[string]model.AttributeSlotDef{
+				attributes: attribute.FromMap(map[string]model.AttributeSlotDef{
 					"hp": {Base: 10000, Current: 10000, Max: 10000, Resolved: 10000},
-				},
+				}),
 			},
 		},
 	}
+	registerTestDefense(t, s, "damage/true", formuladefinition.ConstantDefense("1"))
 	collector := &eventCopyableCollector{
 		damages: []copyableDamageFrozen{
 			{providerRef: "prov:z", originRef: "o:z", sourceKey: model.SelectorSource, targetKey: model.SelectorTarget, damageType: "damage/true", rawAmount: 3},
@@ -271,11 +275,11 @@ func TestFlushDelayedMultipleDamagesAndSameTimeContinuationsDeterministic(t *tes
 
 func TestTriggeredContinuationNoRecursionAndFreshCommandBudget(t *testing.T) {
 	s := &genericRunState{
-		budget: model.SafetyBudget{MaxCommandsPerEvent: 1, MaxEvents: 1000, MaxChainDepth: 8},
-		nowMs:  0,
-		heap:   scheduler.NewGenericHeap(4),
+		budget:        model.SafetyBudget{MaxCommandsPerEvent: 1, MaxEvents: 1000, MaxChainDepth: 8},
+		nowMs:         0,
+		heap:          scheduler.NewGenericHeap(4),
 		continuations: make(map[uint64]*triggeredContinuationPayload),
-		compiled: compileSessionStubForRepeatDelay(),
+		compiled:      compileSessionStubForRepeatDelay(),
 		combatants: map[string]combatantRuntime{
 			model.SelectorSource: {
 				key: model.SelectorSource,
@@ -285,12 +289,13 @@ func TestTriggeredContinuationNoRecursionAndFreshCommandBudget(t *testing.T) {
 			},
 			model.SelectorTarget: {
 				key: model.SelectorTarget,
-				attributes: map[string]model.AttributeSlotDef{
+				attributes: attribute.FromMap(map[string]model.AttributeSlotDef{
 					"hp": {Base: 10000, Current: 10000, Max: 10000, Resolved: 10000},
-				},
+				}),
 			},
 		},
 	}
+	registerTestDefense(t, s, "damage/true", formuladefinition.ConstantDefense("1"))
 	// Exhaust original collector budget first; delayed continuation must use a fresh counter.
 	orig := &eventCopyableCollector{
 		commandCount: 1,
@@ -339,12 +344,13 @@ func TestTriggeredContinuationNoRecursionAndFreshCommandBudget(t *testing.T) {
 			},
 			model.SelectorTarget: {
 				key: model.SelectorTarget,
-				attributes: map[string]model.AttributeSlotDef{
+				attributes: attribute.FromMap(map[string]model.AttributeSlotDef{
 					"hp": {Base: 10000, Current: 10000, Max: 10000, Resolved: 10000},
-				},
+				}),
 			},
 		},
 	}
+	registerTestDefense(t, s2, "damage/true", formuladefinition.ConstantDefense("1"))
 	id := uint64(1)
 	s2.continuations[id] = &triggeredContinuationPayload{
 		damages: []copyableDamageFrozen{{
@@ -384,7 +390,7 @@ func TestTriggeredContinuationHeapPushFailureIsRunError(t *testing.T) {
 			},
 			model.SelectorTarget: {
 				key:        model.SelectorTarget,
-				attributes: map[string]model.AttributeSlotDef{"hp": {Base: 100, Current: 100, Max: 100, Resolved: 100}},
+				attributes: attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Base: 100, Current: 100, Max: 100, Resolved: 100}}),
 			},
 		},
 	}
@@ -407,8 +413,8 @@ func TestTriggeredContinuationHeapPushFailureIsRunError(t *testing.T) {
 	}
 }
 
-func compileSessionStubForRepeatDelay() compile.CompiledSession {
-	return compile.CompiledSession{
+func compileSessionStubForRepeatDelay() planbundle.CompiledSession {
+	return planbundle.CompiledSession{
 		SchemaHash: "s",
 		RulesHash:  "r",
 	}

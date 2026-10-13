@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -231,6 +232,9 @@ func xayahCCProviderDef() model.ProviderDefinition {
 }
 
 func ensureXayahCCTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/basic_attack", Domain: "ability"},
 		{Key: "ability/spell", Domain: "ability"},

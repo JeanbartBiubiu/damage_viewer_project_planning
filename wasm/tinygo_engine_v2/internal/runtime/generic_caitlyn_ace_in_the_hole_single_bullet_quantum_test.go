@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -283,6 +284,14 @@ func configureCaitlynAHProvider(compileReq *model.CompileRequest, runReq *model.
 }
 
 func ensureCaitlynAHTypes(req *model.CompileRequest, withE bool) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	if withE {
+		formuladefinition.DeclareAttributes(req, "magic_resist")
+		formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+	}
+
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/physical", Domain: "damage"},
 		{Key: "ability/basic_attack", Domain: "ability"},

@@ -2,14 +2,15 @@ package runtime
 
 import (
 	"fmt"
+	"sort"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 	"tinygo_engine_v2/internal/status"
 )
 
-func findTickAbility(provider compilebundle.CompiledProvider, session compilebundle.CompiledSession) (*compilebundle.CompiledAbility, bool) {
+func findTickAbility(provider planbundle.CompiledProvider, session planbundle.CompiledSession) (*planbundle.CompiledAbility, bool) {
 	start := provider.AbilityStart
 	end := start + provider.AbilityCount
 	for i := start; i < end; i++ {
@@ -47,6 +48,9 @@ func (s *genericRunState) providerTickSchedule(defIdx uint16) (intervalMs, start
 }
 
 func (s *genericRunState) scheduleInitialProviderTick(combatantKey, providerRef string, defIdx uint16, expireAt int64, sourceKey string) {
+	if s.basicAttack != nil && (s.combatantHp(s.basicAttack.plan.Source) <= 0 || s.combatantHp(s.basicAttack.plan.Target) <= 0) {
+		return
+	}
 	if int(defIdx) >= len(s.compiled.Providers) {
 		return
 	}
@@ -59,17 +63,27 @@ func (s *genericRunState) scheduleInitialProviderTick(combatantKey, providerRef 
 	if !ok {
 		return
 	}
-	firstAt := s.nowMs + startDelayMs
-	if expireAt > 0 && firstAt >= expireAt {
+	if startDelayMs > s.startMs+s.durationMs-s.nowMs {
 		return
 	}
-	s.enqueueProviderTickAt(firstAt, combatantKey, providerRef, intervalMs, expireAt)
+	firstAt := s.nowMs + startDelayMs
+	if s.basicAttack == nil && expireAt > 0 && firstAt >= expireAt {
+		return
+	}
+	s.enqueueProviderTickAt(firstAt, combatantKey, providerRef, intervalMs, expireAt, s.nowMs)
 	_ = sourceKey
 }
 
 func (s *genericRunState) seedProviderTicks() {
-	for key, c := range s.combatants {
-		for _, inst := range c.providers {
+	owners := make([]string, 0, len(s.combatants))
+	for key := range s.combatants {
+		owners = append(owners, key)
+	}
+	sort.Strings(owners)
+	for _, key := range owners {
+		instances := append([]status.ProviderInstance(nil), s.combatants[key].providers...)
+		sort.SliceStable(instances, func(previous, next int) bool { return instances[previous].ProviderRef < instances[next].ProviderRef })
+		for _, inst := range instances {
 			if inst.ExpireAt > 0 && inst.ExpireAt <= s.nowMs {
 				continue
 			}
@@ -88,7 +102,7 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 		return nil
 	}
 	inst, _, ok := status.FindByRef(c.providers, ref.ProviderRef)
-	if !ok {
+	if !ok || inst.Expired(s.nowMs) {
 		return nil
 	}
 	provider := s.compiled.Providers[inst.DefinitionIndex]
@@ -105,7 +119,15 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 	if targetKey == "" {
 		targetKey = ref.CombatantKey
 	}
-	abilityRef := fmt.Sprintf("%s.provider[%s].ability[%s]", ref.CombatantKey, inst.DefinitionRef, tickAbility.AbilityKey)
+	if s.basicAttack != nil {
+		if sourceKey == targetKey {
+			targetKey = s.basicAttack.plan.Source
+			if sourceKey == s.basicAttack.plan.Source {
+				targetKey = s.basicAttack.plan.Target
+			}
+		}
+	}
+	abilityRef := fmt.Sprintf("%s.provider[%s].ability[%s]", ref.CombatantKey, ref.ProviderRef, tickAbility.AbilityKey)
 
 	ts := tickAbility.TickSpec
 	start := ts.OnTickStart
@@ -115,14 +137,31 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 	}
 	ops := s.compiled.Operations[start:end]
 
-	frame := s.newExecutionFrame(sourceKey, targetKey, abilityRef)
+	var frameStorage executionFrame
+	s.initExecutionFrame(&frameStorage, sourceKey, targetKey, abilityRef)
+	frame := &frameStorage
+	if s.basicAttack != nil {
+		frame.strictReads = true
+	}
 	frame.ownerCombatantKey = ref.CombatantKey
 	frame.ownerProviderRef = ref.ProviderRef
+	if provider.Lifecycle != nil && provider.Lifecycle.AllowsSourceTargetReuse() {
+		frame.providerDefinitionRef = provider.ProviderKey
+		activatedAt := ev.ProviderTickActivatedAtMs
+		frame.providerActivatedAtMs = &activatedAt
+		frame.damageOwnerKey = sourceKey
+	}
 	// Independent TickSpec re-entry always mints a new cast instance.
 	frame.castInstanceID = s.mintCastInstanceID()
 	frame.castOrigin = tickAbility.CastOrigin
 	if err := frame.executeOperations(*tickAbility, ops); err != nil {
 		return err
+	}
+	if s.basicAttack != nil {
+		if ts.IntervalMs <= s.startMs+s.durationMs-s.nowMs {
+			nextAt := s.nowMs + ts.IntervalMs
+			frame.pendingProviderTick = &pendingFrameProviderTick{at: nextAt, owner: ref.CombatantKey, provider: ref.ProviderRef, intervalMs: ts.IntervalMs, expireAt: inst.ExpireAt, activatedAt: ev.ProviderTickActivatedAtMs}
+		}
 	}
 	frame.commit()
 	if frame.fatal {
@@ -132,26 +171,31 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 		return err
 	}
 
-	s.recordEvidence(model.EvidenceItem{
-		TimeMs:  s.nowMs,
-		Kind:    model.EvidenceKindProviderTick,
-		Ref:     ref.ProviderRef,
-		Message: "provider tick executed",
-		Data: map[string]interface{}{
-			"combatantKey":  ref.CombatantKey,
-			"providerRef":   ref.ProviderRef,
-			"definitionRef": inst.DefinitionRef,
-		},
+	s.recordEvidenceLazy(model.EvidenceKindProviderTick, func() model.EvidenceItem {
+		return model.EvidenceItem{
+			TimeMs:  s.nowMs,
+			Kind:    model.EvidenceKindProviderTick,
+			Ref:     ref.ProviderRef,
+			Message: "provider tick executed",
+			Data: map[string]interface{}{
+				"combatantKey":  ref.CombatantKey,
+				"providerRef":   ref.ProviderRef,
+				"definitionRef": inst.DefinitionRef,
+			},
+		}
 	})
+	if s.basicAttack != nil {
+		return nil
+	}
 
 	intervalMs, _, schedOK := s.providerTickSchedule(inst.DefinitionIndex)
 	if !schedOK {
 		return nil
 	}
-	nextAt := s.nowMs + intervalMs
-	if nextAt > s.startMs+s.durationMs {
+	if intervalMs > s.startMs+s.durationMs-s.nowMs {
 		return nil
 	}
-	s.enqueueProviderTickAt(nextAt, ref.CombatantKey, ref.ProviderRef, intervalMs, inst.ExpireAt)
+	nextAt := s.nowMs + intervalMs
+	s.enqueueProviderTickAt(nextAt, ref.CombatantKey, ref.ProviderRef, intervalMs, inst.ExpireAt, ev.ProviderTickActivatedAtMs)
 	return nil
 }

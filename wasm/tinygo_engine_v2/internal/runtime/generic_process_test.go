@@ -103,10 +103,15 @@ func TestProcessTimingAndUniqueTermination(t *testing.T) {
 			}
 			processEntry(&r, "advance", "advance", "u1", tc.at)
 			done := processRun(t, c, r)
-			if done.Summary.SourceDamageDealt != tc.damage || processResource(done, "source", "mana") != 140 || processCount(done, "process_rejected", "") != tc.rejected || processCount(done, "process_moment", "STEP_TIMEOUT") != tc.timeout || processCount(done, "process_moment", "PROCESS_COMPLETE") != 1 {
+			completed := tc.timeout == 0 || tc.auto
+			completeCount, status := 0, "failed"
+			if completed {
+				completeCount, status = 1, "complete"
+			}
+			if done.Summary.SourceDamageDealt != tc.damage || processResource(done, "source", "mana") != 140 || processCount(done, "process_rejected", "") != tc.rejected || processCount(done, "process_moment", "STEP_TIMEOUT") != tc.timeout || processCount(done, "process_moment", "PROCESS_COMPLETE") != completeCount {
 				t.Fatalf("unexpected result: %+v evidence=%+v", done.Summary, done.Evidence.Items)
 			}
-			if len(done.FinalSnapshot.ProcessInstances) != 1 || done.FinalSnapshot.ProcessInstances[0].Status != "complete" {
+			if len(done.FinalSnapshot.ProcessInstances) != 1 || done.FinalSnapshot.ProcessInstances[0].Status != status {
 				t.Fatal(done.FinalSnapshot.ProcessInstances)
 			}
 		})

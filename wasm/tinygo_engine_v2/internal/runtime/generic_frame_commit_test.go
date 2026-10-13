@@ -6,12 +6,14 @@ import (
 
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
 func frameCommitInput(ops ...model.OperationDefinition) (model.CompileRequest, model.RunRequest) {
 	c, r := authoringInput()
-	c.Rules.DamageTypeFormulas = nil
+	c.Rules.DamageTypeFormulas = []model.DamageTypeFormulaDefinition{{DamageType: "damage/physical", Formula: formuladefinition.ConstantDefense("1")}}
 	c.TypeCatalog.Types = append(c.TypeCatalog.Types, model.TypeCatalogEntry{Key: "damage/physical", Domain: "damage"})
 	c.SharedProviders[0].Processes = nil
 	c.SharedProviders[0].Listeners = nil
@@ -41,7 +43,7 @@ func frameCommitState(t *testing.T, c model.CompileRequest, r model.RunRequest) 
 	return s
 }
 
-func frameCommitFrame(s *genericRunState) (*executionFrame, compilebundle.CompiledAbility, []compilebundle.CompiledOperation) {
+func frameCommitFrame(s *genericRunState) (*executionFrame, planbundle.CompiledAbility, []planbundle.CompiledOperation) {
 	entry := s.req.DriverPlan.Entries[0]
 	ability, ref, _ := s.lookupDriverAbility(entry)
 	f := s.newExecutionFrame("source", "target", ref)
@@ -105,7 +107,7 @@ func TestFrameCommitSharedBudgetKeepsEarlierFrames(t *testing.T) {
 	for _, count := range []int{100, 100, 57} {
 		f, ability, ops := frameCommitFrame(s)
 		f.copyableCollector = &eventCopyableCollector{}
-		batch := make([]compilebundle.CompiledOperation, count)
+		batch := make([]planbundle.CompiledOperation, count)
 		for i := range batch {
 			batch[i] = ops[0]
 		}
@@ -339,7 +341,7 @@ func TestFrameCommitProcessCooldownEvaluatesOriginalOnce(t *testing.T) {
 	if err := s.handleAbilityAttempt(scheduler.GenericEvent{DriverEntryIndex: 0}); err != nil {
 		t.Fatalf("cooldown re-evaluated after source attribute changed: %+v", err)
 	}
-	if len(s.processInstances) != 1 || s.processInstances[0].Status != "complete" || s.combatants["source"].cooldowns[timedShieldRef("start")] != 1000 || s.combatants["source"].attributes["attack_speed"].Resolved != 0.5 {
+	if len(s.processInstances) != 1 || s.processInstances[0].Status != "complete" || s.combatants["source"].cooldowns[timedShieldRef("start")] != 1000 || s.combatants["source"].attributes.At("attack_speed").Resolved != 0.5 {
 		t.Fatalf("frozen cooldown: source=%+v process=%+v", s.combatants["source"], s.processInstances)
 	}
 }

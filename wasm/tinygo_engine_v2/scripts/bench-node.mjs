@@ -1,3 +1,4 @@
+import { createFormulaPhase4Input } from './formula-phase4-input.mjs';
 // Node benchmark：instantiate 开销或 generic ABI engine_run 延迟。
 // 非正式宿主；结果不代表浏览器 Worker 口径。
 import { existsSync } from "node:fs";
@@ -65,7 +66,7 @@ function printHelp() {
 Modes:
   instantiate_precompiled   measure WebAssembly.instantiate of a precompiled module (default)
   compile_and_instantiate   measure compile+instantiate each iteration (--compile-each)
-  generic-run               compile once, then measure engine_run against generic_p0_basic_damage.json`);
+  generic-run               compile once, then measure engine_run against the explicit authored phase4 input`);
 }
 
 function percentile(sorted, p) {
@@ -125,7 +126,7 @@ async function benchInstantiate(args) {
 }
 
 async function benchGenericRun(args) {
-  const fixture = loadCanonicalFixture();
+  const fixture = createFormulaPhase4Input();
   const host = await instantiateGenericHost(args.wasm);
   const compiled = compileCanonicalSession(host.exports, fixture);
   const totalRuns = args.warmup + args.iterations;

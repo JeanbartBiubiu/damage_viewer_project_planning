@@ -4,6 +4,7 @@ import (
 	"math"
 	"strings"
 
+	"tinygo_engine_v2/internal/expression"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -45,8 +46,12 @@ const (
 	ReadOperationOutput
 	ReadProcessActualCost
 	ReadDamageSelf
-	ReadDamageStage
 	ReadEventLink
+	ReadUseAmmoBefore
+	ReadSourceStatusPresent
+	ReadTargetStatusPresent
+	ReadUseChargeDuration
+	ReadAuthoredRuntimeParameter
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -79,149 +84,161 @@ const (
 
 // GenericInstr 是 generic formula 单条指令。
 type GenericInstr struct {
-	Op         GenericOp
-	Value      float64
-	ReadKind   GenericReadKind
-	ReadKey    string
-	RefIndex   uint16
-	Decimals   int
-	JumpTarget int // 指令下标；仅前跳，可指向程序末尾。
+	// 绑定索引只在目录原键一致时使用，0号槽由Bound明确区分未绑定。
+	AttrIndex      int
+	AttrIndexBound bool
+	AttrKey        string
+	AttrField      string
+	// AuthoredRead只标识共同读取依赖；内部指令不借此改变战斗侧语义。
+	AuthoredRead bool
+	Op           GenericOp
+	Value        float64
+	ReadKind     GenericReadKind
+	ReadKey      string
+	RefIndex     uint16
+	Decimals     int
+	JumpTarget   int // 指令下标；仅前跳，可指向程序末尾。
 }
 
 // GenericProgram 是已编译的 generic formula 程序。
 type GenericProgram struct {
-	Key   string
-	Instr []GenericInstr
+	// PlanBytes计入使用点保留的归属及定位等计划描述。
+	PlanBytes uint64
+	Key       string
+	Instr     []GenericInstr
+	// Authored与Instr互斥；新伤害定义使用共同只读程序。
+	Authored *expression.Program
+	// BindingBytes是本使用点在执行计划保留的绑定和读值描述计费。
+	BindingBytes  uint64
+	NamedBinding  *NamedBinding
+	DeclaredNamed bool
 }
 
-// GenericRegistry 持有 generic formula 程序表。
-type GenericRegistry struct {
-	Programs []GenericProgram
-	Index    map[string]GenericProgramID
-}
-
-// CompileGenericFormula 将单个 GenericFormulaExpr 编译为指令序列（collect-all）。
+// CompileGenericFormula 编译单个表达式；失败不返回可被消费的部分指令。
 func CompileGenericFormula(expr model.GenericFormulaExpr, path string, named map[string]model.GenericFormulaExpr, visiting map[string]bool, addError func(code model.GenericErrCode, path, message, ref string)) []GenericInstr {
 	var instr []GenericInstr
-	hasError := false
-	report := func(code model.GenericErrCode, path, message, ref string) {
-		hasError = true
-		addError(code, path, message, ref)
+	if visiting == nil {
+		visiting = make(map[string]bool)
 	}
-	compileGenericNode(expr, path, named, visiting, &instr, 1, report)
-	if !hasError && !validGenericProgramStack(instr) {
-		report(model.GenericErrFormulaTypeError, path, "formula bytecode stack or jump is invalid", "")
+	if !compileGenericNode(expr, path, named, visiting, &instr, 1, addError) {
+		return nil
+	}
+	if !validGenericProgramStack(instr) {
+		addError(model.GenericErrFormulaTypeError, path, "formula bytecode stack or jump is invalid", "")
+		return nil
 	}
 	return instr
 }
 
 // CompileNamedFormulas 编译命名公式表。
 func CompileNamedFormulas(formulas []model.NamedFormula, addError func(code model.GenericErrCode, path, message, ref string)) GenericRegistry {
-	reg := GenericRegistry{Programs: make([]GenericProgram, 0, len(formulas)), Index: make(map[string]GenericProgramID, len(formulas))}
-	named := make(map[string]model.GenericFormulaExpr, len(formulas))
-	for i, def := range formulas {
-		path := "formulas[" + itoa(i) + "]"
-		if def.Key == "" {
-			addError(model.GenericErrMissingRequiredField, path+".key", "formula key is required", "")
-			continue
-		}
-		if _, exists := named[def.Key]; exists {
-			addError(model.GenericErrUnknownRef, path+".key", "duplicate formula key", def.Key)
-			continue
-		}
-		named[def.Key] = def.Expression
-	}
-	for i, def := range formulas {
-		if def.Key == "" {
-			continue
-		}
-		path := "formulas[" + itoa(i) + "].expression"
-		visiting := map[string]bool{}
-		instr := CompileGenericFormula(def.Expression, path, named, visiting, addError)
-		if len(instr) == 0 {
-			continue
-		}
-		reg.Index[def.Key] = GenericProgramID(len(reg.Programs))
-		reg.Programs = append(reg.Programs, GenericProgram{Key: def.Key, Instr: instr})
-	}
+	reg := GenericRegistry{Programs: make([]GenericProgram, 0), Index: make(map[string]GenericProgramID)}
+	CompileDeclaredNamedFormulas(formulas, nil, &reg, addError)
 	return reg
 }
 
 const maxGenericFormulaDepth = 32
 
-func compileGenericNode(expr model.GenericFormulaExpr, path string, named map[string]model.GenericFormulaExpr, visiting map[string]bool, out *[]GenericInstr, depth int, addError func(code model.GenericErrCode, path, message, ref string)) {
+func compileGenericNode(expr model.GenericFormulaExpr, path string, named map[string]model.GenericFormulaExpr, visiting map[string]bool, out *[]GenericInstr, depth int, addError func(code model.GenericErrCode, path, message, ref string)) bool {
 	if depth > maxGenericFormulaDepth {
 		addError(model.GenericErrFormulaTypeError, path, "formula exceeds maximum depth", "")
-		return
+		return false
 	}
 	if expr.Op == "" {
 		addError(model.GenericErrFormulaTypeError, path+".op", "formula op is required", "")
-		return
+		return false
+	}
+	emit := func(instr GenericInstr) bool {
+		if len(*out) >= MaxGenericProgramInstructions {
+			addError(model.GenericErrFormulaTypeError, path, "formula instruction count exceeds maximum", "")
+			return false
+		}
+		*out = append(*out, instr)
+		return true
 	}
 	switch expr.Op {
 	case "const":
 		if expr.Value == nil {
 			addError(model.GenericErrFormulaTypeError, path+".value", "const formula requires value", "")
-			return
+			return false
 		}
 		if math.IsNaN(*expr.Value) || math.IsInf(*expr.Value, 0) {
 			addError(model.GenericErrFormulaTypeError, path+".value", "const value must be finite", "")
-			return
+			return false
 		}
-		*out = append(*out, GenericInstr{Op: GenericOpConst, Value: *expr.Value})
+		return emit(GenericInstr{Op: GenericOpConst, Value: *expr.Value})
 	case "read":
 		kind, key, ok := parseReadPath(expr.Path)
 		if !ok {
 			addError(model.GenericErrFormulaTypeError, path+".path", "formula read path not allowed in P0", expr.Path)
-			return
+			return false
 		}
-		*out = append(*out, GenericInstr{Op: GenericOpRead, ReadKind: kind, ReadKey: key})
+		return emit(GenericInstr{Op: GenericOpRead, ReadKind: kind, ReadKey: key})
 	case "ref":
 		if expr.Ref == "" {
 			addError(model.GenericErrFormulaTypeError, path+".ref", "ref formula requires ref key", "")
-			return
+			return false
 		}
 		if _, ok := named[expr.Ref]; !ok {
 			addError(model.GenericErrUnknownRef, path+".ref", "unknown formula ref", expr.Ref)
-			return
+			return false
+		}
+		if linked := named[expr.Ref].LinkedProgram; linked != nil {
+			return emit(GenericInstr{Op: GenericOpRef, RefIndex: *linked})
 		}
 		if visiting[expr.Ref] {
 			addError(model.GenericErrFormulaTypeError, path+".ref", "formula ref cycle detected", expr.Ref)
-			return
+			return false
 		}
 		visiting[expr.Ref] = true
-		compileGenericNode(named[expr.Ref], path+".ref:"+expr.Ref, named, visiting, out, depth+1, addError)
+		ok := compileGenericNode(named[expr.Ref], path+".ref:"+expr.Ref, named, visiting, out, depth+1, addError)
 		delete(visiting, expr.Ref)
+		return ok
 	case "add", "sub", "mul", "div", "min", "max":
 		if len(expr.Args) < 2 {
 			addError(model.GenericErrFormulaTypeError, path+".args", "binary formula requires two args", expr.Op)
-			return
+			return false
 		}
-		compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, depth+1, addError)
-		compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, depth+1, addError)
-		*out = append(*out, GenericInstr{Op: genericOpFor(expr.Op)})
+		if !compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, depth+1, addError) ||
+			!compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, depth+1, addError) {
+			return false
+		}
+		return emit(GenericInstr{Op: genericOpFor(expr.Op)})
 	case "eq", "ne", "lt", "lte", "gt", "gte":
 		if len(expr.Args) != 2 {
 			addError(model.GenericErrFormulaTypeError, path+".args", "comparison formula requires exactly two args", expr.Op)
-			return
+			return false
 		}
-		compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, depth+1, addError)
-		compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, depth+1, addError)
-		*out = append(*out, GenericInstr{Op: genericOpFor(expr.Op)})
+		if !compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, depth+1, addError) ||
+			!compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, depth+1, addError) {
+			return false
+		}
+		return emit(GenericInstr{Op: genericOpFor(expr.Op)})
 	case "if":
 		if len(expr.Args) != 3 {
 			addError(model.GenericErrFormulaTypeError, path+".args", "if formula requires exactly three args", expr.Op)
-			return
+			return false
 		}
-		compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, depth+1, addError)
+		if !compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, depth+1, addError) {
+			return false
+		}
 		conditionJump := len(*out)
-		*out = append(*out, GenericInstr{Op: GenericOpJumpIfZero})
-		compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, depth+1, addError)
+		if !emit(GenericInstr{Op: GenericOpJumpIfZero}) {
+			return false
+		}
+		if !compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, depth+1, addError) {
+			return false
+		}
 		endJump := len(*out)
-		*out = append(*out, GenericInstr{Op: GenericOpJump})
+		if !emit(GenericInstr{Op: GenericOpJump}) {
+			return false
+		}
 		(*out)[conditionJump].JumpTarget = len(*out)
-		compileGenericNode(expr.Args[2], path+".args[2]", named, visiting, out, depth+1, addError)
+		if !compileGenericNode(expr.Args[2], path+".args[2]", named, visiting, out, depth+1, addError) {
+			return false
+		}
 		(*out)[endJump].JumpTarget = len(*out)
+		return true
 	case "clamp":
 		valueExpr := expr.Expr
 		if valueExpr == nil && len(expr.Args) > 0 {
@@ -229,12 +246,14 @@ func compileGenericNode(expr model.GenericFormulaExpr, path string, named map[st
 		}
 		if valueExpr == nil || expr.Min == nil || expr.Max == nil {
 			addError(model.GenericErrFormulaTypeError, path, "clamp requires value, min and max", "")
-			return
+			return false
 		}
-		compileGenericNode(*valueExpr, path+".value", named, visiting, out, depth+1, addError)
-		compileGenericNode(*expr.Min, path+".min", named, visiting, out, depth+1, addError)
-		compileGenericNode(*expr.Max, path+".max", named, visiting, out, depth+1, addError)
-		*out = append(*out, GenericInstr{Op: GenericOpClamp})
+		if !compileGenericNode(*valueExpr, path+".value", named, visiting, out, depth+1, addError) ||
+			!compileGenericNode(*expr.Min, path+".min", named, visiting, out, depth+1, addError) ||
+			!compileGenericNode(*expr.Max, path+".max", named, visiting, out, depth+1, addError) {
+			return false
+		}
+		return emit(GenericInstr{Op: GenericOpClamp})
 	case "round", "floor", "ceil", "trunc":
 		valueExpr := expr.Expr
 		if valueExpr == nil && len(expr.Args) > 0 {
@@ -242,16 +261,19 @@ func compileGenericNode(expr model.GenericFormulaExpr, path string, named map[st
 		}
 		if valueExpr == nil {
 			addError(model.GenericErrFormulaTypeError, path, expr.Op+" requires value expression", "")
-			return
+			return false
 		}
-		compileGenericNode(*valueExpr, path+".value", named, visiting, out, depth+1, addError)
+		if !compileGenericNode(*valueExpr, path+".value", named, visiting, out, depth+1, addError) {
+			return false
+		}
 		decimals := 0
 		if expr.Decimals != nil {
 			decimals = *expr.Decimals
 		}
-		*out = append(*out, GenericInstr{Op: genericOpFor(expr.Op), Decimals: decimals})
+		return emit(GenericInstr{Op: genericOpFor(expr.Op), Decimals: decimals})
 	default:
 		addError(model.GenericErrFormulaTypeError, path+".op", "unsupported formula op", expr.Op)
+		return false
 	}
 }
 
@@ -279,7 +301,7 @@ func validGenericProgramStack(instr []GenericInstr) bool {
 		}
 		pop, push := 0, 0
 		switch in.Op {
-		case GenericOpConst, GenericOpRead:
+		case GenericOpConst, GenericOpRead, GenericOpRef:
 			push = 1
 		case GenericOpAdd, GenericOpSub, GenericOpMul, GenericOpDiv, GenericOpMin, GenericOpMax,
 			GenericOpEq, GenericOpNe, GenericOpLt, GenericOpLte, GenericOpGt, GenericOpGte:
@@ -316,11 +338,22 @@ func validForwardJump(pc, target, length int) bool {
 }
 
 func parseReadPath(path string) (GenericReadKind, string, bool) {
-	if strings.HasPrefix(path, "damage.stage.") {
-		key := strings.TrimPrefix(path, "damage.stage.")
-		_, ok := model.DamageStageIndex(key)
-		return ReadDamageStage, key, ok
+	if path == "use.charge_duration_ms" {
+		return ReadUseChargeDuration, "charge_duration_ms", true
 	}
+	if path == "use.ammo.before" {
+		return ReadUseAmmoBefore, "before", true
+	}
+	for _, statusPath := range []struct {
+		prefix string
+		kind   GenericReadKind
+	}{{"source.status.", ReadSourceStatusPresent}, {"target.status.", ReadTargetStatusPresent}} {
+		if strings.HasPrefix(path, statusPath.prefix) {
+			key := strings.TrimSuffix(strings.TrimPrefix(path, statusPath.prefix), ".present")
+			return statusPath.kind, key, key != "" && !strings.ContainsAny(key, ".[] ") && strings.HasSuffix(path, ".present")
+		}
+	}
+
 	if strings.HasPrefix(path, "process.actual_cost.") {
 		key := strings.TrimPrefix(path, "process.actual_cost.")
 		return ReadProcessActualCost, key, key != "" && !strings.ContainsAny(key, ".[] ")
@@ -387,7 +420,7 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 	}
 	if strings.HasPrefix(path, "damage.type.") {
 		name := strings.TrimPrefix(path, "damage.type.")
-		if !isKnownDamageTypePredicateName(name) {
+		if name == "" || strings.ContainsAny(name, "[] \t\n\r") {
 			return 0, "", false
 		}
 		return ReadDamageType, name, true
@@ -407,31 +440,6 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 		return ReadDamageAbilityType, name, true
 	}
 	return 0, "", false
-}
-
-// isKnownDamageTypePredicateName reports whether name is a compile-time damage.type.* token.
-func isKnownDamageTypePredicateName(name string) bool {
-	switch name {
-	case "physical", "magic", "true":
-		return true
-	default:
-		return false
-	}
-}
-
-// CanonicalDamageTypeKey maps a damage.type.* predicate name or settlement alias to the
-// canonical damage/* catalog key used for runtime matching.
-func CanonicalDamageTypeKey(nameOrKey string) string {
-	switch strings.ToLower(nameOrKey) {
-	case "physical", "damage/physical":
-		return "damage/physical"
-	case "magic", "damage/magic", "magical", "damage/magical":
-		return "damage/magic"
-	case "true", "damage/true":
-		return "damage/true"
-	default:
-		return nameOrKey
-	}
 }
 
 // EventDamageSnapshotField names the frozen event.damage.* numeric paths.
@@ -572,7 +580,7 @@ func TryFoldConst(instr []GenericInstr) (float64, bool) {
 		return 0, false
 	}
 	reg := GenericRegistry{Programs: []GenericProgram{{Instr: instr}}}
-	value, err := reg.eval(0, GenericEvalContext{}, true)
+	value, err := reg.eval(0, &GenericEvalContext{}, true, 1, new(int))
 	if err == errConstFormulaRead {
 		return 0, false
 	}

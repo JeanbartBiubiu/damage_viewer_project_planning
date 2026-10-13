@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -53,17 +54,17 @@ const (
 	gravesNDFInnerBase     = 0.595
 	gravesNDFInnerSlope    = 0.0225
 
-	gravesNDProbeAD      = 100.0
-	gravesNDTargetHP     = 100000.0
-	gravesNDTargetArmor  = 100.0
-	gravesNDTol          = 1e-9
-	gravesNDTolExact     = 1e-12
+	gravesNDProbeAD     = 100.0
+	gravesNDTargetHP    = 100000.0
+	gravesNDTargetArmor = 100.0
+	gravesNDTol         = 1e-9
+	gravesNDTolExact    = 1e-12
 
 	// Independent cross-check probes (not production constants).
-	gravesNDRawL1Chance0          = 139.9345498355
-	gravesNDRawL18Chance0         = 199.9163451355
-	gravesNDRawL18P025CD20        = 249.88368081131247
-	gravesNDRawL18P025CD23        = 259.8783230072812
+	gravesNDRawL1Chance0   = 139.9345498355
+	gravesNDRawL18Chance0  = 199.9163451355
+	gravesNDRawL18P025CD20 = 249.88368081131247
+	gravesNDRawL18P025CD23 = 259.8783230072812
 )
 
 func gravesNDFloat(v float64) *float64 { return &v }
@@ -93,7 +94,7 @@ func gravesNDExpectedRaw(level, ad, chance, critDamage float64) float64 {
 	if p > 1 {
 		p = 1
 	}
-	return base*((1-p)+p*m)
+	return base * ((1 - p) + p*m)
 }
 
 func gravesNDFxExpr() model.GenericFormulaExpr {
@@ -249,7 +250,7 @@ func gravesNDCritBranchModifier(key, stage string) model.ModifierDefinition {
 
 func gravesNDBasicAttackOps() []model.OperationDefinition {
 	return []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:     "damage",
 			Target:        "target",
 			DamageType:    "damage/physical",
@@ -290,6 +291,9 @@ func gravesNDAbilityRef() string {
 }
 
 func ensureGravesNDTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/basic_attack", Domain: "ability"},
 		{Key: "damage/physical", Domain: "damage"},

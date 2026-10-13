@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -190,7 +191,7 @@ func xayahDPWAbility() model.AbilityDefinition {
 
 func xayahDPBasicAttackOps(includeOnHitProc bool) []model.OperationDefinition {
 	ops := []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",
@@ -234,6 +235,12 @@ func xayahDPProbeAbility() model.AbilityDefinition {
 }
 
 func ensureXayahDPTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/basic_attack", Domain: "ability"},
 		{Key: xayahDPAbilityType, Domain: "ability"},
@@ -854,7 +861,7 @@ func TestGenericXayahDeadlyPlumagePhantomDoesNotReplayBaseOrRerunMul(t *testing.
 
 	one := 1.0
 	compileReq.SharedProviders[0].Abilities[1].Operations = []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",

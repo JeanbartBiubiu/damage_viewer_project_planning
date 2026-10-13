@@ -2,115 +2,114 @@ package compile
 
 import (
 	"math"
-	"strings"
+	"tinygo_engine_v2/internal/expression"
+	"tinygo_engine_v2/internal/inputbinding"
+	"unsafe"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
-	"tinygo_engine_v2/internal/typeset"
+	"tinygo_engine_v2/internal/plan"
 )
-
-type CompiledDamageTypeFormula struct {
-	DamageType string
-	Programs   [5]formula.GenericProgramID
-	Paths      [5]string
-}
 
 func compileDamageTypeFormulas(defs []model.DamageTypeFormulaDefinition, ctx *genericCompileContext) {
 	if len(defs) == 0 {
 		return
 	}
-	ctx.session.DamageTypeFormulas = make(map[string]CompiledDamageTypeFormula, len(defs))
-	for i, def := range defs {
-		path := "rules.damageTypeFormulas[" + itoa(i) + "]"
-		typeset.ValidateTypeKeys([]string{def.DamageType}, typeset.EntityOperationDamageType, ctx.catalog, path+".damageType", ctx.collector.addError)
-		if _, exists := ctx.session.DamageTypeFormulas[def.DamageType]; exists {
-			ctx.collector.addError(model.GenericErrUnknownRef, path+".damageType", "duplicate damage type formula", def.DamageType)
+	ctx.session.DamageTypeFormulas = make(map[string]plan.CompiledDamageTypeFormula, len(defs))
+	// 授权只能由独立属性目录生成，作者输入声明不能新增目录或权限。
+	var catalog []expression.Binding
+	var allowed []any
+	for _, key := range ctx.catalog.Registry.Keys {
+		if _, exists := ctx.catalog.Registry.LookupDomain("attribute", key); !exists {
+			continue
 		}
-		compiled := CompiledDamageTypeFormula{DamageType: def.DamageType}
-		exprs := [5]model.GenericFormulaExpr{def.Formula.ResistanceBeforePenetration, def.Formula.PenetrationPercent, def.Formula.PenetrationFlat, def.Formula.EffectiveResistance, def.Formula.ResistanceFactor}
-		for stage, expr := range exprs {
-			stagePath := path + ".formula." + model.DamageStageFields[stage]
-			compiled.Paths[stage] = stagePath
-			nodes := 0
-			validateDamageFormulaNode(expr, stagePath, stage, &nodes, ctx)
-			instr := formula.CompileGenericFormula(expr, stagePath, nil, map[string]bool{}, ctx.collector.addError)
-			for _, item := range instr {
-				if item.Op != formula.GenericOpRead {
-					continue
-				}
-				switch item.ReadKind {
-				case formula.ReadSourceAttr, formula.ReadTargetAttr, formula.ReadSourceResource, formula.ReadTargetResource:
-				case formula.ReadDamageStage:
-					index, ok := model.DamageStageIndex(item.ReadKey)
-					if !ok || index >= stage {
-						ctx.collector.addError(model.GenericErrFormulaTypeError, stagePath, "defense formula can only read an earlier stage", item.ReadKey)
-					}
-				default:
-					ctx.collector.addError(model.GenericErrFormulaTypeError, stagePath, "defense formula cannot read this context", item.ReadKey)
-				}
+		// 同名多域时Keys可重复，仅属性身份一次。
+		duplicate := false
+		for _, item := range catalog {
+			if item.AttributeKey == key {
+				duplicate = true
+				break
 			}
-			compiled.Programs[stage] = ctx.registerFormula(stagePath, instr)
 		}
+		if duplicate {
+			continue
+		}
+		for _, object := range []string{"source", "target"} {
+			for _, valueKind := range []string{"BASE", "BONUS", "TOTAL"} {
+				binding := expression.Binding{Kind: "attribute", Object: object, AttributeKey: key, ValueKind: valueKind, View: "current_frame"}
+				catalog = append(catalog, binding)
+				allowed = append(allowed, map[string]any{"kind": binding.Kind, "object": object, "attributeKey": key, "valueKind": valueKind, "view": binding.View})
+			}
+		}
+	}
+	for i, def := range defs {
+		path := "/rules/damageTypeFormulas/" + itoa(i)
+		if _, declared := ctx.catalog.Registry.LookupDomain("damage", def.DamageType); !declared {
+			ctx.collector.addError(model.GenericErrUnknownTypeKey, path+"/damageType", "unknown damage type in damage domain", def.DamageType)
+			continue
+		}
+		if _, exists := ctx.session.DamageTypeFormulas[def.DamageType]; exists {
+			ctx.collector.addError(model.GenericErrUnknownRef, path+"/damageType", "duplicate damage type formula", def.DamageType)
+			continue
+		}
+		formulaPath := path + "/formula"
+		program, issue := expression.CompileDefinition(def.Formula, allowed)
+		if issue != nil {
+			ctx.collector.addError(model.GenericErrCode(issue.Code), formulaPath+issue.Path, issue.Code, def.DamageType)
+			continue
+		}
+		// 仅缩窄已经授权的读值目录，绑定本身不授予权限。
+		used := make(map[expression.Binding]bool)
+		for _, input := range program.Inputs() {
+			used[input.Binding] = true
+		}
+		var boundCatalog []expression.Binding
+		var reads []plan.CompiledDamageAttributeRead
+		for _, binding := range catalog {
+			if used[binding] {
+				boundCatalog = append(boundCatalog, binding)
+				reads = append(reads, plan.CompiledDamageAttributeRead{Object: binding.Object, AttributeKey: binding.AttributeKey})
+			}
+		}
+		binding, issue := inputbinding.Bind(program, boundCatalog)
+		if issue != nil {
+			ctx.collector.addError(model.GenericErrCode(issue.Code), formulaPath+issue.Path, issue.Code, def.DamageType)
+			continue
+		}
+		compiled := plan.CompiledDamageTypeFormula{DamageType: def.DamageType, Binding: binding, Reads: reads, Path: formulaPath, OutputPath: formulaPath}
+		root := def.Formula.(map[string]any)
+		for stage, raw := range root["stages"].([]any) {
+			if raw.(map[string]any)["key"] == root["outputStageKey"] {
+				compiled.OutputPath = formulaPath + "/stages/" + itoa(stage) + "/expression"
+				break
+			}
+		}
+		bytes := binding.ChargedBytes() + uint64(unsafe.Sizeof(plan.CompiledDamageTypeFormula{})) + uint64(cap(reads))*uint64(unsafe.Sizeof(plan.CompiledDamageAttributeRead{})) + uint64(len(def.DamageType)+len(compiled.Path)+len(compiled.OutputPath))
+		for _, read := range reads {
+			bytes += uint64(len(read.Object) + len(read.AttributeKey))
+		}
+		id, err := ctx.session.Formulas.Register(formula.GenericProgram{Key: formulaPath, Authored: program, BindingBytes: bytes})
+		if err != nil {
+			code := "FORMULA_INVALID_PROGRAM"
+			if formula.IsRegistryLimit(err) {
+				code = "FORMULA_LIMIT"
+			}
+			ctx.collector.addError(model.GenericErrCode(code), formulaPath, err.Error(), def.DamageType)
+			continue
+		}
+		compiled.Program = id
 		ctx.session.DamageTypeFormulas[def.DamageType] = compiled
 	}
 }
 
-// 此处只接受作者四类节点对应的表达式，不扩张作者公式语言。
-func validateDamageFormulaNode(expr model.GenericFormulaExpr, path string, stage int, nodes *int, ctx *genericCompileContext) {
-	(*nodes)++
-	if *nodes > 256 {
-		if *nodes == 257 {
-			ctx.collector.addError(model.GenericErrFormulaTypeError, path, "defense formula exceeds 256 nodes", "")
-		}
-		return
-	}
-	if expr.Ref != "" || expr.Decimals != nil || expr.Min != nil || expr.Max != nil || expr.Expr != nil {
-		ctx.collector.addError(model.GenericErrFormulaTypeError, path, "defense formula contains a field outside the four author node kinds", "")
-	}
-	switch expr.Op {
-	case "const":
-		if expr.Path != "" || len(expr.Args) != 0 {
-			ctx.collector.addError(model.GenericErrFormulaTypeError, path, "constant defense node cannot contain reads or operands", "")
-		}
-	case "read":
-		if expr.Value != nil || len(expr.Args) != 0 {
-			ctx.collector.addError(model.GenericErrFormulaTypeError, path, "defense read cannot contain constants or operands", "")
-		}
-		if strings.HasPrefix(expr.Path, "damage.stage.") {
-			key := strings.TrimPrefix(expr.Path, "damage.stage.")
-			index, ok := model.DamageStageIndex(key)
-			if !ok || index >= stage {
-				ctx.collector.addError(model.GenericErrFormulaTypeError, path+".path", "defense stage must precede the current stage", expr.Path)
-			}
-		}
-	case "add", "sub", "mul", "div", "min", "max":
-		if len(expr.Args) != 2 || expr.Value != nil || expr.Path != "" {
-			ctx.collector.addError(model.GenericErrFormulaTypeError, path, "defense arithmetic requires exactly two operands and no unrelated fields", expr.Op)
-		}
-		for i, child := range expr.Args {
-			validateDamageFormulaNode(child, path+".args["+itoa(i)+"]", stage, nodes, ctx)
-		}
-	default:
-		ctx.collector.addError(model.GenericErrFormulaTypeError, path+".op", "defense formula only allows const/read/add/sub/mul/div/min/max", expr.Op)
-	}
-}
-
-func validateDamageStageContexts(ctx *genericCompileContext) {
-	allowed := map[formula.GenericProgramID]bool{}
-	for _, def := range ctx.session.DamageTypeFormulas {
-		for _, id := range def.Programs {
-			allowed[id] = true
-		}
-	}
-	for i, program := range ctx.session.Formulas.Programs {
-		if !allowed[formula.GenericProgramID(i)] && formulaReadsKind(program.Instr, formula.ReadDamageStage) {
-			ctx.collector.addError(model.GenericErrFormulaTypeError, program.Key, "stage results are only available inside the matching damage type formula", "")
-		}
-	}
-}
-
-func compileCritFormulas(op model.OperationDefinition, compiled *CompiledOperation, path string, ctx *genericCompileContext) {
+func compileCritFormulas(op model.OperationDefinition, compiled *plan.CompiledOperation, path string, ctx *genericCompileContext) {
 	if op.CritChance == nil && op.CritMultiplier == nil {
+		if op.CritEligible {
+			ctx.collector.addError(model.GenericErrMissingRequiredField, path+".critChance", "eligible damage requires explicit critChance and critMultiplier", "")
+		}
+		if op.CritMultiplierMin != nil {
+			ctx.collector.addError(model.GenericErrFormulaTypeError, path+".critMultiplierMin", "crit minimum requires an eligible damage operation", "")
+		}
 		return
 	}
 	if op.Operation != "damage" || !op.CritEligible {
@@ -120,21 +119,33 @@ func compileCritFormulas(op model.OperationDefinition, compiled *CompiledOperati
 		ctx.collector.addError(model.GenericErrMissingRequiredField, path+".critMultiplier", "critChance and critMultiplier must be declared together", "")
 		return
 	}
+	if op.CritMultiplierMin != nil {
+		if math.IsNaN(*op.CritMultiplierMin) || math.IsInf(*op.CritMultiplierMin, 0) || *op.CritMultiplierMin < 0 {
+			ctx.collector.addError(model.GenericErrFormulaTypeError, path+".critMultiplierMin", "critical multiplier minimum must be finite and nonnegative", "")
+			return
+		}
+		compiled.HasCritMultiplierMin, compiled.CritMultiplierMin = true, *op.CritMultiplierMin
+	}
+	registeredAll := true
 	for i, expr := range []*model.GenericFormulaExpr{op.CritChance, op.CritMultiplier} {
 		field := "critChance"
 		if i == 1 {
 			field = "critMultiplier"
 		}
 		instr := formula.CompileGenericFormula(*expr, path+"."+field, ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-		validateDamagePredicateReads(instr, path+"."+field, ctx.catalog, ctx.collector.addError)
-		id := ctx.registerFormula(path+"."+field, instr)
+		validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(instr, nil), path+"."+field, ctx.catalog, ctx.collector.addError)
+		id, registered := ctx.registerFormula(path+"."+field, instr)
+		if !registered {
+			registeredAll = false
+			continue
+		}
 		if i == 0 {
 			compiled.CritChanceProgram = id
 		} else {
 			compiled.CritMultiplierProgram = id
 		}
 	}
-	compiled.HasCritFormula = true
+	compiled.HasCritFormula = registeredAll
 }
 
 func validateLinkOperation(op model.OperationDefinition, path string, ctx *genericCompileContext) {
@@ -146,9 +157,9 @@ func validateLinkOperation(op model.OperationDefinition, path string, ctx *gener
 	if op.Operation == model.OperationKindApplyAttackLink {
 		eventType = model.EventTypeAttackLinkApplied
 	}
-	requireCatalogType(ctx, eventType, path+".operation", "link application requires its native event in typeCatalog")
+	requireEventType(ctx, eventType, path+".operation", "link application requires its native event in typeCatalog")
 	instr := formula.CompileGenericFormula(*op.Amount, path+".amount", ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-	if value, constant := formula.TryFoldConst(instr); constant && (math.IsNaN(value) || math.IsInf(value, 0) || value < 0 || math.Trunc(value) != value || value > float64(ctx.session.Settings.MaxCommandsPerEvent)) {
+	if value, constant := ctx.session.Formulas.FoldInstructions(instr); constant && (math.IsNaN(value) || math.IsInf(value, 0) || value < 0 || math.Trunc(value) != value || value > float64(ctx.session.Settings.MaxCommandsPerEvent)) {
 		ctx.collector.addError(model.GenericErrFormulaTypeError, path+".amount", "link count must be a finite non-negative integer within the command budget", "")
 	}
 	if op.CopyableOnHit || op.CritEligible || op.DamageType != "" || op.EventType != "" || op.Payload != nil || op.ValuePolicy != "" {

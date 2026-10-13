@@ -19,7 +19,7 @@ function fixture(kind = "CHARGE", releaseAtMaximum = true) {
     processes: [{ processKey: "p", skillKey: "synthetic:q", steps: [step], costs: [{ resourceKey: "mana", amount: expr(60) }], cooldown: null, momentOperations: [{ moment: moment("STEP_EXECUTION", "step"), operations: [{ operation: "damage", target: "target", damageType: "damage/physical", amount: expr(100) }] }] }],
   };
   const combatants = ["source", "target"].map((key) => ({ key, attributes: { hp: slot(1000), attack_damage: { ...slot(60), max: 500 } }, resources: { mana: { current: 200, max: 500 }, energy: { current: 20, max: 100 } }, providers: key === "source" ? [{ providerRef: "process", definitionRef: "process" }] : [] }));
-  const compileRequest = { schemaVersion: "generic-p0", schemaHash: "schema.p4.r2", rulesHash: "rules.p4.r2", typeCatalog: { types: [{ key: "ability/basic_attack", domain: "ability" }, { key: "ability/spell", domain: "ability" }, { key: "damage/physical", domain: "damage" }, { key: "event/ability_started", domain: "event" }], relations: [] }, combatants, sharedProviders: [definition], rules: {}, formulas: [] };
+  const compileRequest = { schemaVersion: "generic-p0", schemaHash: "schema.p4.r2", rulesHash: "rules.p4.r2", typeCatalog: { types: [{ key: "ability/basic_attack", domain: "ability" }, { key: "ability/spell", domain: "ability" }, { key: "damage/physical", domain: "damage" }, { key: "event/ability_started", domain: "event" }], relations: [] }, combatants, sharedProviders: [definition], rules: { damageTypeFormulas: [{ damageType: "damage/physical", formula: { inputs: [], stages: [{ key: "factor", name: "作者明确倍率", expression: { op: "const", value: "1" } }], outputStageKey: "factor" } }] }, formulas: [] };
   const runRequest = { sessionId: "pending", initialSnapshot: { schemaHash: compileRequest.schemaHash, rulesHash: compileRequest.rulesHash, timeMs: 0, processInstances: [], combatants: combatants.map((c) => ({ ...structuredClone(c), cooldowns: {}, providers: c.providers.map((p) => ({ ...p, owner: c.key, source: c.key, stacks: 1, expireAt: null, state: {} })), shields: [], abilityState: {}, providerState: {}, vars: {} })) }, driverPlan: { entries: [] }, skillUses: [{ useKey: "u1", source: "source", skillKey: "synthetic:q", historyState: "complete" }], processCommandFacts: [], stopPolicy: { durationMs: 600 } };
   const f = { compileRequest, runRequest }; entry(f, "start", "start", 0); return f;
 }
@@ -31,16 +31,36 @@ const source = (done) => done.finalSnapshot.combatants.find((c) => c.key === "so
 const count = (done, kind, value) => done.evidence.items.filter((e) => e.kind === kind && (value === undefined || e.data?.moment === value)).length;
 
 async function main() {
-  const host = await withTimeout(instantiateGenericHost(process.env.P4_WASM_PATH ?? resolve(moduleRoot, "dist/tinygo_engine_v2.wasm")), 30000, "instantiate");
+  const host = await withTimeout(instantiateGenericHost(process.env.P4_WASM_PATH ?? resolve(moduleRoot, process.argv[2] ?? "dist/tinygo_engine_v2.wasm")), 30000, "instantiate");
   let checks = 0;
   const session = (f, check) => {
     const compiled = compileCanonicalSession(host.exports, f);
     try { check((r = f.runRequest) => runCanonicalSession(host.exports, { ...f, runRequest: r }, compiled.sessionId, compiled.rulesHash)); checks++; }
     finally { releaseCanonicalSession(host.exports, compiled.sessionId, compiled.rulesHash); }
   };
-  for (const [kind, at, auto, damage, rejected] of [["CHARGE", 199, false, 0, 1], ["CHARGE", 200, false, 100, 0], ["CHARGE", 500, false, 0, 1], ["CHARGE", 500, true, 100, 1], ["RECAST", 200, false, 100, 0], ["RECAST", 500, false, 0, 1]]) {
+  // 与原生 TestProcessTimingAndUniqueTermination 使用相同明确超时／完成口径。
+  for (const [kind, at, auto, damage, rejected, completed, failed, timeout, status] of [
+    ["CHARGE", 199, false, 0, 1, 0, 1, 1, "failed"],
+    ["CHARGE", 200, false, 100, 0, 1, 0, 0, "complete"],
+    ["CHARGE", 500, false, 0, 1, 0, 1, 1, "failed"],
+    ["CHARGE", 500, true, 100, 1, 1, 0, 1, "complete"],
+    ["RECAST", 200, false, 100, 0, 1, 0, 0, "complete"],
+    ["RECAST", 500, false, 0, 1, 0, 1, 1, "failed"],
+  ]) {
     const f = fixture(kind, auto); entry(f, "advance", "advance", at);
-    session(f, (run) => { const done = run(); assert.equal(done.summary.sourceDamageDealt, damage); assert.equal(source(done).resources.mana.current, 140); assert.equal(count(done, "process_rejected"), rejected); assert.equal(count(done, "process_moment", "PROCESS_COMPLETE"), 1); assert.equal(done.evidence.items.filter((e) => e.ref === "event/ability_started").length, 1); });
+    session(f, (run) => {
+      const done = run();
+      assert.equal(done.summary.sourceDamageDealt, damage);
+      assert.equal(source(done).resources.mana.current, 140);
+      assert.equal(count(done, "process_rejected"), rejected);
+      assert.equal(count(done, "process_moment", "PROCESS_COMPLETE"), completed);
+      assert.equal(count(done, "process_moment", "PROCESS_FAILURE"), failed);
+      assert.equal(count(done, "process_moment", "STEP_TIMEOUT"), timeout);
+      assert.equal(done.finalSnapshot.processInstances.length, 1);
+      assert.equal(done.finalSnapshot.processInstances[0].status, status);
+      assert.equal(done.finalSnapshot.processInstances[0].failureReason, failed ? "EVENT_ABORTED" : null);
+      assert.equal(done.evidence.items.filter((e) => e.ref === "event/ability_started").length, 1);
+    });
   }
   const insufficient = fixture(); insufficient.compileRequest.sharedProviders[0].processes[0].costs.push({ resourceKey: "energy", amount: expr(30) });
   session(insufficient, (run) => { const done = run(); assert.equal(source(done).resources.mana.current, 200); assert.equal(source(done).resources.energy.current, 20); assert.equal(done.finalSnapshot.processInstances.length, 0); });

@@ -6,15 +6,19 @@ import (
 
 	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/command"
+	"tinygo_engine_v2/internal/expression"
+	"tinygo_engine_v2/internal/inputbinding"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
 func TestResolveDamageReducesHP(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{
+	defense := formuladefinition.ConstantDefense("1")
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp": {Current: 1000, Max: 1000},
-	}
+	})
 	cmd := command.Command{Kind: command.KindDamage, Amount: 100, DamageType: "damage/physical"}
-	outcome, view := resolveDamage(cmd, CombatantView{Attributes: attrs}, 0)
+	outcome, view := resolveAuthorDamage(t, defense, cmd, CombatantView{Attributes: attrs}, 0)
 	if outcome.HPDamage != 100 {
 		t.Fatalf("hpDamage=%v want 100", outcome.HPDamage)
 	}
@@ -23,30 +27,23 @@ func TestResolveDamageReducesHP(t *testing.T) {
 	}
 }
 
-func TestResolveDamageMustUsePipeline(t *testing.T) {
-	called := false
-	old := damageResolver
-	damageResolver = func(cmd command.Command, view CombatantView, sourceAttrs map[string]model.AttributeSlotDef, nowMs int64) (DamageOutcome, CombatantView) {
-		called = true
-		return old(cmd, view, sourceAttrs, nowMs)
-	}
-	defer func() { damageResolver = old }()
-
-	attrs := map[string]model.AttributeSlotDef{"hp": {Current: 1000, Max: 1000}}
-	view := CombatantView{Attributes: attrs}
-	ResolveCommand(command.Command{Kind: command.KindDamage, Amount: 50, DamageType: "damage/physical"}, view, 0)
-	if !called {
-		t.Fatal("damage must go through pipeline resolver")
+func TestGenericCommandCannotSettleDamage(t *testing.T) {
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Current: 1000, Max: 1000}})
+	view := CombatantView{Attributes: attrs, Shields: []ShieldInstance{{Remaining: 30}}}
+	result, next := ResolveCommand(command.Command{Kind: command.KindDamage, Amount: 50, DamageType: "damage/physical"}, view, 0)
+	if result.Applied || result.Amount != 0 || result.Message != "unsupported" || attribute.ReadHP(next.Attributes) != 1000 || next.Shields[0].Remaining != 30 {
+		t.Fatalf("damage escaped authored settlement: %+v %+v", result, next)
 	}
 }
 
 func TestResolveDamageShieldAbsorbFirst(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{"hp": {Current: 1000, Max: 1000}}
+	defense := formuladefinition.ConstantDefense("1")
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Current: 1000, Max: 1000}})
 	view := CombatantView{
 		Attributes: attrs,
 		Shields:    []ShieldInstance{{Remaining: 40}},
 	}
-	outcome, next := resolveDamage(command.Command{Kind: command.KindDamage, Amount: 100, DamageType: "damage/physical"}, view, 0)
+	outcome, next := resolveAuthorDamage(t, defense, command.Command{Kind: command.KindDamage, Amount: 100, DamageType: "damage/physical"}, view, 0)
 	if outcome.ShieldAbsorbed != 40 {
 		t.Fatalf("absorbed=%v want 40", outcome.ShieldAbsorbed)
 	}
@@ -59,18 +56,19 @@ func TestResolveDamageShieldAbsorbFirst(t *testing.T) {
 }
 
 func TestResolveHealClampsMax(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{"hp": {Current: 950, Max: 1000}}
-	_, healed := ResolveHeal(command.Command{Kind: command.KindHeal, Amount: 100}, attrs)
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Current: 950, Max: 1000}})
+	next, healed := ResolveHeal(command.Command{Kind: command.KindHeal, Amount: 100}, attrs)
 	if healed != 50 {
 		t.Fatalf("healed=%v want 50", healed)
 	}
-	if attribute.ReadHP(attrs) != 1000 {
-		t.Fatalf("hp=%v want 1000", attribute.ReadHP(attrs))
+	if attribute.ReadHP(next) != 1000 {
+		t.Fatalf("hp=%v want 1000", attribute.ReadHP(next))
 	}
 }
 
 func TestResolveDamageShieldPriorityOrder(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{"hp": {Current: 1000, Max: 1000}}
+	defense := formuladefinition.ConstantDefense("1")
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Current: 1000, Max: 1000}})
 	view := CombatantView{
 		Attributes: attrs,
 		Shields: []ShieldInstance{
@@ -78,7 +76,7 @@ func TestResolveDamageShieldPriorityOrder(t *testing.T) {
 			{ShieldRef: "low", Remaining: 30, Priority: 1},
 		},
 	}
-	outcome, next := resolveDamage(command.Command{Kind: command.KindDamage, Amount: 40, DamageType: "damage/physical"}, view, 0)
+	outcome, next := resolveAuthorDamage(t, defense, command.Command{Kind: command.KindDamage, Amount: 40, DamageType: "damage/physical"}, view, 0)
 	if outcome.ShieldAbsorbed != 40 {
 		t.Fatalf("absorbed=%v want 40", outcome.ShieldAbsorbed)
 	}
@@ -91,11 +89,12 @@ func TestResolveDamageShieldPriorityOrder(t *testing.T) {
 }
 
 func TestResolveDamagePhysicalArmorMitigation(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{
+	defense := formuladefinition.ResistanceDefense("armor")
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp":    {Current: 1000, Max: 1000},
 		"armor": {Base: 100, Current: 100, Max: 100, Resolved: 100},
-	}
-	outcome, next := resolveDamage(command.Command{
+	})
+	outcome, next := resolveAuthorDamage(t, defense, command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/physical",
 	}, CombatantView{Attributes: attrs}, 0)
 	if outcome.RawAmount != 100 {
@@ -113,11 +112,12 @@ func TestResolveDamagePhysicalArmorMitigation(t *testing.T) {
 }
 
 func TestResolveDamageMagicResistMitigation(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{
+	defense := formuladefinition.ResistanceDefense("magic_resist")
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp":           {Current: 1000, Max: 1000},
 		"magic_resist": {Base: 100, Current: 100, Max: 100, Resolved: 100},
-	}
-	outcome, _ := resolveDamage(command.Command{
+	})
+	outcome, _ := resolveAuthorDamage(t, defense, command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/magic",
 	}, CombatantView{Attributes: attrs}, 0)
 	if outcome.MitigatedAmount != 50 {
@@ -126,12 +126,13 @@ func TestResolveDamageMagicResistMitigation(t *testing.T) {
 }
 
 func TestResolveDamageMagicalAliasUsesMagicResist(t *testing.T) {
+	defense := formuladefinition.ResistanceDefense("magic_resist")
 	for _, dt := range []string{"magical", "damage/magical"} {
-		attrs := map[string]model.AttributeSlotDef{
+		attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 			"hp":           {Current: 1000, Max: 1000},
 			"magic_resist": {Base: 100, Current: 100, Max: 100, Resolved: 100},
-		}
-		outcome, next := resolveDamage(command.Command{
+		})
+		outcome, next := resolveAuthorDamage(t, defense, command.Command{
 			Kind: command.KindDamage, Amount: 100, DamageType: dt,
 		}, CombatantView{Attributes: attrs}, 0)
 		if outcome.MitigatedAmount != 50 {
@@ -144,12 +145,13 @@ func TestResolveDamageMagicalAliasUsesMagicResist(t *testing.T) {
 }
 
 func TestResolveDamageTrueIgnoresResistance(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{
+	defense := formuladefinition.ConstantDefense("1")
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp":           {Current: 1000, Max: 1000},
 		"armor":        {Resolved: 200},
 		"magic_resist": {Resolved: 200},
-	}
-	outcome, _ := resolveDamage(command.Command{
+	})
+	outcome, _ := resolveAuthorDamage(t, defense, command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/true",
 	}, CombatantView{Attributes: attrs}, 0)
 	if outcome.MitigatedAmount != 100 || outcome.HPDamage != 100 {
@@ -158,20 +160,21 @@ func TestResolveDamageTrueIgnoresResistance(t *testing.T) {
 }
 
 func TestResolveDamageZeroAndNegativeResistance(t *testing.T) {
-	attrs0 := map[string]model.AttributeSlotDef{
+	defense := formuladefinition.ResistanceDefense("armor")
+	attrs0 := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp": {Current: 1000, Max: 1000}, "armor": {Resolved: 0},
-	}
-	out0, _ := resolveDamage(command.Command{
+	})
+	out0, _ := resolveAuthorDamage(t, defense, command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "physical",
 	}, CombatantView{Attributes: attrs0}, 0)
 	if out0.MitigatedAmount != 100 {
 		t.Fatalf("R=0 mitigated=%v want 100", out0.MitigatedAmount)
 	}
 
-	attrsNeg := map[string]model.AttributeSlotDef{
+	attrsNeg := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp": {Current: 1000, Max: 1000}, "armor": {Resolved: -50},
-	}
-	outNeg, _ := resolveDamage(command.Command{
+	})
+	outNeg, _ := resolveAuthorDamage(t, defense, command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/physical",
 	}, CombatantView{Attributes: attrsNeg}, 0)
 	want := 100 * (2 - 100.0/(100-(-50)))
@@ -183,11 +186,12 @@ func TestResolveDamageZeroAndNegativeResistance(t *testing.T) {
 // Resolved=0 is legal after modifiers (e.g. Base/Current=100, flat -100).
 // Must not fall back to Current, or mitigation incorrectly uses 100 armor.
 func TestResolveDamageResolvedZeroIgnoresCurrent(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{
+	defense := formuladefinition.ResistanceDefense("armor")
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp":    {Current: 1000, Max: 1000},
 		"armor": {Base: 100, Current: 100, Max: 100, Resolved: 0},
-	}
-	outcome, _ := resolveDamage(command.Command{
+	})
+	outcome, _ := resolveAuthorDamage(t, defense, command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/physical",
 	}, CombatantView{Attributes: attrs}, 0)
 	if outcome.MitigatedAmount != 100 {
@@ -196,16 +200,17 @@ func TestResolveDamageResolvedZeroIgnoresCurrent(t *testing.T) {
 }
 
 func TestResolveDamageResistanceThenShield(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{
+	defense := formuladefinition.ResistanceDefense("armor")
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp":    {Current: 1000, Max: 1000},
 		"armor": {Resolved: 100},
-	}
+	})
 	view := CombatantView{
 		Attributes: attrs,
 		Shields:    []ShieldInstance{{Remaining: 20}},
 	}
 	// 100 physical / 100 armor => 50 mitigated; shield absorbs 20; HP takes 30.
-	outcome, next := resolveDamage(command.Command{
+	outcome, next := resolveAuthorDamage(t, defense, command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/physical",
 	}, view, 0)
 	if outcome.MitigatedAmount != 50 {
@@ -223,11 +228,12 @@ func TestResolveDamageResistanceThenShield(t *testing.T) {
 }
 
 func TestResolveDamageOverkillSummaryUsesMitigated(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{
+	defense := formuladefinition.ResistanceDefense("armor")
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp":    {Current: 30, Max: 1000},
 		"armor": {Resolved: 100},
-	}
-	outcome, next := resolveDamage(command.Command{
+	})
+	outcome, next := resolveAuthorDamage(t, defense, command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/physical",
 	}, CombatantView{Attributes: attrs}, 0)
 	// mitigated=50; HP clipped to 30.
@@ -242,20 +248,21 @@ func TestResolveDamageOverkillSummaryUsesMitigated(t *testing.T) {
 	}
 	result, _ := ResolveCommand(command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/physical",
-	}, CombatantView{Attributes: map[string]model.AttributeSlotDef{
+	}, CombatantView{Attributes: attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp": {Current: 30, Max: 1000}, "armor": {Resolved: 100},
-	}}, 0)
-	if result.Amount != 50 {
-		t.Fatalf("Result.Amount=%v want 50 mitigated", result.Amount)
+	})}, 0)
+	if result.Amount != 0 || result.Applied {
+		t.Fatalf("generic command must reject damage: %+v", result)
 	}
 }
 
 func TestResolveDamagePhysicalDoesNotReadMR(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{
+	defense := formuladefinition.ConstantDefense("1")
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp":           {Current: 1000, Max: 1000},
 		"magic_resist": {Resolved: 100},
-	}
-	outcome, _ := resolveDamage(command.Command{
+	})
+	outcome, _ := resolveAuthorDamage(t, defense, command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/physical",
 	}, CombatantView{Attributes: attrs}, 0)
 	if outcome.MitigatedAmount != 100 {
@@ -264,11 +271,12 @@ func TestResolveDamagePhysicalDoesNotReadMR(t *testing.T) {
 }
 
 func TestResolveDamageMagicDoesNotReadArmor(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{
+	defense := formuladefinition.ConstantDefense("1")
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp":    {Current: 1000, Max: 1000},
 		"armor": {Resolved: 100},
-	}
-	outcome, _ := resolveDamage(command.Command{
+	})
+	outcome, _ := resolveAuthorDamage(t, defense, command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/magic",
 	}, CombatantView{Attributes: attrs}, 0)
 	if outcome.MitigatedAmount != 100 {
@@ -277,14 +285,15 @@ func TestResolveDamageMagicDoesNotReadArmor(t *testing.T) {
 }
 
 func TestResolveDamageTargetMapPenetrationNoOp(t *testing.T) {
+	defense := formuladefinition.ResistanceDefense("armor")
 	// Penetration is source-side only; attrs on the target map must not affect mitigation.
-	attrs := map[string]model.AttributeSlotDef{
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp":             {Current: 1000, Max: 1000},
 		"armor":          {Resolved: 100},
 		"armor_pen_flat": {Resolved: 100},
 		"armor_pen_pct":  {Resolved: 1},
-	}
-	outcome, _ := resolveDamage(command.Command{
+	})
+	outcome, _ := resolveAuthorDamage(t, defense, command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/physical",
 	}, CombatantView{Attributes: attrs}, 0)
 	if outcome.MitigatedAmount != 50 {
@@ -292,86 +301,57 @@ func TestResolveDamageTargetMapPenetrationNoOp(t *testing.T) {
 	}
 }
 
-func TestMitigateRawDamageNoSourceCompat(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{"armor": {Resolved: 100}}
-	mitigated, ok := MitigateRawDamage(100, "damage/physical", attrs)
-	if !ok || mitigated != 50 {
-		t.Fatalf("no-source compat: mitigated=%v ok=%v want 50/true", mitigated, ok)
+func TestAuthoredDefenseNoSource(t *testing.T) {
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"armor": {Resolved: 100}})
+	res, ok := authoredMitigate(t, 100, formuladefinition.ResistanceDefense("armor"), attrs, attribute.Table{})
+	if !ok || res.Amount != 50 {
+		t.Fatalf("explicit definition=%+v ok=%v want50", res, ok)
 	}
 }
 
-func TestMitigateRawDamageWithSourcePhysicalAliasesOrderClampFloor(t *testing.T) {
-	target := map[string]model.AttributeSlotDef{"armor": {Resolved: 100}}
-
-	// First finite percent alias wins (armor_pen_pct over later physical_pen_percent).
-	src := map[string]model.AttributeSlotDef{
-		"armor_pen_pct":         {Resolved: 0.4},
-		"physical_pen_percent":  {Resolved: 0.9},
-		"armor_pen_flat":        {Resolved: 10},
-		"physical_pen":          {Resolved: 50},
+func TestAuthoredDefenseExplicitPhysicalBindingsClampFloor(t *testing.T) {
+	target := attribute.FromMap(map[string]model.AttributeSlotDef{"armor": {Resolved: 100}})
+	src := attribute.FromMap(map[string]model.AttributeSlotDef{"armor_pen_pct": {Resolved: 0.4}, "physical_pen_percent": {Resolved: 0.9}, "armor_pen_flat": {Resolved: 10}, "physical_pen": {Resolved: 50}})
+	res, ok := authoredMitigate(t, 100, formuladefinition.PenetrationDefense("armor", "armor_pen_pct", "armor_pen_flat"), target, src)
+	want := 100.0 * 100 / 150
+	if !ok || math.Abs(res.Amount-want) > 1e-9 || math.Abs(res.ResistanceFactor-want/100) > 1e-9 {
+		t.Fatalf("explicit bindings=%+v want%v", res, want)
 	}
-	res, ok := MitigateRawDamageWithSource(100, "damage/physical", target, src)
-	if !ok {
-		t.Fatal("expected ok")
+	src2 := attribute.FromMap(map[string]model.AttributeSlotDef{"armor_pen_percent": {Resolved: 2}, "lethality": {Resolved: -20}})
+	res2, ok := authoredMitigate(t, 100, formuladefinition.PenetrationDefense("armor", "armor_pen_percent", "lethality"), target, src2)
+	if !ok || res2.Amount != 100 {
+		t.Fatalf("explicit clamp/floor=%+v", res2)
 	}
-	// effective = 100*(1-0.4)-10 = 50; mitigated = 100*100/150
-	wantEff := 50.0
-	wantMit := 100.0 * 100 / (100 + wantEff)
-	if math.Abs(res.EffectiveResistance-wantEff) > 1e-9 || math.Abs(res.Amount-wantMit) > 1e-9 {
-		t.Fatalf("alias order: %+v want eff=%v mit=%v", res, wantEff, wantMit)
-	}
-	if res.PenetrationPercent != 0.4 || res.PenetrationFlat != 10 {
-		t.Fatalf("pen fields=%+v", res)
-	}
-
-	// Clamp percent >1 to 1; ignore negative flat; floor at 0.
-	src2 := map[string]model.AttributeSlotDef{
-		"armor_pen_percent": {Resolved: 2},
-		"lethality":         {Resolved: -20},
-	}
-	res2, ok := MitigateRawDamageWithSource(100, "physical", target, src2)
-	if !ok || res2.PenetrationPercent != 1 || res2.PenetrationFlat != 0 || res2.EffectiveResistance != 0 || res2.Amount != 100 {
-		t.Fatalf("clamp/floor/neg flat: %+v", res2)
-	}
-
-	// Non-positive base resistance unchanged (negative formula).
-	negTarget := map[string]model.AttributeSlotDef{"armor": {Resolved: -50}}
-	src3 := map[string]model.AttributeSlotDef{"armor_pen_percent": {Resolved: 1}, "armor_pen_flat": {Resolved: 100}}
-	res3, ok := MitigateRawDamageWithSource(100, "damage/physical", negTarget, src3)
+	neg := attribute.FromMap(map[string]model.AttributeSlotDef{"armor": {Resolved: -50}})
+	src3 := attribute.FromMap(map[string]model.AttributeSlotDef{"armor_pen_percent": {Resolved: 1}, "armor_pen_flat": {Resolved: 100}})
+	res3, ok := authoredMitigate(t, 100, formuladefinition.PenetrationDefense("armor", "armor_pen_percent", "armor_pen_flat"), neg, src3)
 	wantNeg := 100 * (2 - 100.0/(100-(-50)))
-	if !ok || res3.EffectiveResistance != -50 || math.Abs(res3.Amount-wantNeg) > 1e-9 {
-		t.Fatalf("neg base: %+v want amount %v", res3, wantNeg)
+	if !ok || math.Abs(res3.Amount-wantNeg) > 1e-9 {
+		t.Fatalf("explicit negative=%+v want%v", res3, wantNeg)
 	}
 }
 
-func TestMitigateRawDamageWithSourceMagicAliasesAndTrue(t *testing.T) {
-	target := map[string]model.AttributeSlotDef{"magic_resist": {Resolved: 100}}
-	src := map[string]model.AttributeSlotDef{
-		"magic_pen_pct":  {Resolved: 0.5},
-		"magic_pen_flat": {Resolved: 20},
+func TestAuthoredDefenseExplicitMagicAndConstant(t *testing.T) {
+	target := attribute.FromMap(map[string]model.AttributeSlotDef{"magic_resist": {Resolved: 100}})
+	src := attribute.FromMap(map[string]model.AttributeSlotDef{"magic_pen_pct": {Resolved: 0.5}, "magic_pen_flat": {Resolved: 20}})
+	res, ok := authoredMitigate(t, 100, formuladefinition.PenetrationDefense("magic_resist", "magic_pen_pct", "magic_pen_flat"), target, src)
+	want := 100.0 * 100 / 130
+	if !ok || math.Abs(res.Amount-want) > 1e-9 {
+		t.Fatalf("magic=%+v want%v", res, want)
 	}
-	res, ok := MitigateRawDamageWithSource(100, "damage/magic", target, src)
-	wantEff := 100*0.5 - 20 // 30
-	wantMit := 100.0 * 100 / (100 + wantEff)
-	if !ok || math.Abs(res.EffectiveResistance-wantEff) > 1e-9 || math.Abs(res.Amount-wantMit) > 1e-9 {
-		t.Fatalf("magic pen: %+v want eff=%v mit=%v", res, wantEff, wantMit)
-	}
-
-	trueRes, ok := MitigateRawDamageWithSource(100, "damage/true", map[string]model.AttributeSlotDef{
-		"armor": {Resolved: 200}, "magic_resist": {Resolved: 200},
-	}, src)
-	if !ok || trueRes.Amount != 100 || trueRes.ResistanceFactor != 1 || trueRes.PenetrationPercent != 0 || trueRes.EffectiveResistance != 0 {
-		t.Fatalf("true bypass: %+v", trueRes)
+	constantRes, ok := authoredMitigate(t, 100, formuladefinition.ConstantDefense("1"), attribute.FromMap(map[string]model.AttributeSlotDef{"armor": {Resolved: 200}, "magic_resist": {Resolved: 200}}), src)
+	if !ok || constantRes.Amount != 100 || constantRes.ResistanceFactor != 1 {
+		t.Fatalf("constant=%+v", constantRes)
 	}
 }
 
 func TestResolveDamageUnknownTypeDoesNotMutate(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{"hp": {Current: 1000, Max: 1000}}
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Current: 1000, Max: 1000}})
 	view := CombatantView{Attributes: attrs, Shields: []ShieldInstance{{Remaining: 10}}}
-	outcome, next := resolveDamage(command.Command{
+	outcome, next := ResolveCommand(command.Command{
 		Kind: command.KindDamage, Amount: 100, DamageType: "damage/chaos",
 	}, view, 0)
-	if outcome.MitigatedAmount != 0 || outcome.HPDamage != 0 || outcome.ShieldAbsorbed != 0 {
+	if outcome.Amount != 0 || outcome.Applied {
 		t.Fatalf("unknown type must not apply: %+v", outcome)
 	}
 	if attribute.ReadHP(next.Attributes) != 1000 {
@@ -383,8 +363,9 @@ func TestResolveDamageUnknownTypeDoesNotMutate(t *testing.T) {
 }
 
 func TestResolveDamageNonFiniteDoesNotMutate(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{"hp": {Current: 1000, Max: 1000}}
-	outcome, next := resolveDamage(command.Command{
+	defense := formuladefinition.ConstantDefense("1")
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Current: 1000, Max: 1000}})
+	outcome, next := resolveAuthorDamage(t, defense, command.Command{
 		Kind: command.KindDamage, Amount: math.NaN(), DamageType: "damage/physical",
 	}, CombatantView{Attributes: attrs}, 0)
 	if outcome.HPDamage != 0 {
@@ -396,7 +377,7 @@ func TestResolveDamageNonFiniteDoesNotMutate(t *testing.T) {
 }
 
 func TestResolveExecuteThresholdSetsHPZeroPreservesShield(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{"hp": {Current: 40, Max: 1000}}
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Current: 40, Max: 1000}})
 	view := CombatantView{
 		Attributes: attrs,
 		Shields: []ShieldInstance{
@@ -425,7 +406,7 @@ func TestResolveExecuteThresholdSetsHPZeroPreservesShield(t *testing.T) {
 }
 
 func TestResolveExecuteThresholdNotDamageResult(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{"hp": {Current: 10, Max: 1000}}
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Current: 10, Max: 1000}})
 	result, next := ResolveCommand(command.Command{
 		Kind: command.KindExecuteThreshold, Target: "target",
 	}, CombatantView{Attributes: attrs, Shields: []ShieldInstance{{Remaining: 30}}}, 0)
@@ -444,7 +425,7 @@ func TestResolveExecuteThresholdNotDamageResult(t *testing.T) {
 }
 
 func TestResolveExecuteThresholdLiveDeadSkip(t *testing.T) {
-	attrs := map[string]model.AttributeSlotDef{"hp": {Current: 0, Max: 1000}}
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Current: 0, Max: 1000}})
 	view := CombatantView{
 		Attributes: attrs,
 		Shields:    []ShieldInstance{{ShieldRef: "keep", Remaining: 80}},
@@ -464,18 +445,19 @@ func TestResolveExecuteThresholdLiveDeadSkip(t *testing.T) {
 }
 
 func TestResolveDamageAccumulatesAgainstDBShapedHP(t *testing.T) {
+	defense := formuladefinition.ConstantDefense("1")
 	// Real Web/DB slot: Base=Current=Max=Resolved=5000. SetHP only mutates Current;
 	// refresh leaves Resolved at Base. ReadHP must accumulate on Current across hits.
 	const initial = 5000.0
-	attrs := map[string]model.AttributeSlotDef{
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp": {Base: initial, Current: initial, Max: initial, Resolved: initial},
-	}
+	})
 	view := CombatantView{Attributes: attrs}
 	const hits = 10
 	const perHit = 100.0
 	for i := 0; i < hits; i++ {
 		var outcome DamageOutcome
-		outcome, view = resolveDamage(command.Command{
+		outcome, view = resolveAuthorDamage(t, defense, command.Command{
 			Kind: command.KindDamage, Amount: perHit, DamageType: "damage/true",
 		}, view, 0)
 		if outcome.HPDamage != perHit {
@@ -486,7 +468,7 @@ func TestResolveDamageAccumulatesAgainstDBShapedHP(t *testing.T) {
 	if got := attribute.ReadHP(view.Attributes); got != want {
 		t.Fatalf("ReadHP=%v want %v", got, want)
 	}
-	if slot := view.Attributes["hp"]; slot.Resolved != initial || slot.Base != initial {
+	if slot := view.Attributes.At("hp"); slot.Resolved != initial || slot.Base != initial {
 		t.Fatalf("Base/Resolved mutated: %+v want both %v", slot, initial)
 	}
 }
@@ -495,9 +477,9 @@ func TestResolveExecuteThresholdCurrentZeroWithStaleResolved(t *testing.T) {
 	// After execute, Base/Resolved may remain at initial; ReadHP must still see Current=0
 	// so a second execute skips (stopOnTargetDeath=false path).
 	const initial = 5000.0
-	attrs := map[string]model.AttributeSlotDef{
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"hp": {Base: initial, Current: 200, Max: initial, Resolved: initial},
-	}
+	})
 	view := CombatantView{
 		Attributes: attrs,
 		Shields:    []ShieldInstance{{ShieldRef: "keep", Remaining: 50}},
@@ -511,13 +493,13 @@ func TestResolveExecuteThresholdCurrentZeroWithStaleResolved(t *testing.T) {
 	if attribute.ReadHP(next.Attributes) != 0 {
 		t.Fatalf("hp=%v want 0", attribute.ReadHP(next.Attributes))
 	}
-	slot := next.Attributes["hp"]
+	slot := next.Attributes.At("hp")
 	if slot.Current != 0 {
 		t.Fatalf("Current=%v want 0", slot.Current)
 	}
 	// Base/Resolved 不必清零；模拟 refresh 把 Resolved 写回 Base。
 	slot.Resolved = slot.Base
-	next.Attributes["hp"] = slot
+	next.Attributes = next.Attributes.With("hp", slot)
 	skip, after := ResolveExecuteThreshold(command.Command{
 		Kind: command.KindExecuteThreshold, Target: "target", Threshold: 0.05,
 	}, next)
@@ -530,4 +512,54 @@ func TestResolveExecuteThresholdCurrentZeroWithStaleResolved(t *testing.T) {
 	if len(after.Shields) != 1 || after.Shields[0].Remaining != 50 {
 		t.Fatalf("shields=%+v", after.Shields)
 	}
+}
+
+// 单测作者明确提供共同定义，pipeline只消费其已经求得的金额。
+type authoredMitigation struct{ Amount, ResistanceFactor float64 }
+
+func authoredMitigate(t *testing.T, raw float64, definition map[string]any, target, source attribute.Table) (authoredMitigation, bool) {
+	t.Helper()
+	if raw <= 0 || math.IsNaN(raw) || math.IsInf(raw, 0) {
+		return authoredMitigation{}, false
+	}
+	var allowed []any
+	var bindings []expression.Binding
+	var values []inputbinding.Value
+	for _, item := range definition["inputs"].([]any) {
+		b := item.(map[string]any)["binding"].(map[string]any)
+		binding := expression.Binding{Kind: "attribute", Object: b["object"].(string), AttributeKey: b["attributeKey"].(string), ValueKind: "TOTAL", View: "current_frame"}
+		allowed = append(allowed, b)
+		bindings = append(bindings, binding)
+		attrs := target
+		if binding.Object == "source" {
+			attrs = source
+		}
+		slot, present := attrs.Lookup(binding.AttributeKey)
+		values = append(values, inputbinding.Value{Total: inputbinding.Scalar{Value: slot.Resolved, Present: present && slot.HasResolved()}})
+	}
+	program, issue := expression.CompileDefinition(definition, allowed)
+	if issue != nil {
+		t.Fatalf("authored definition: %+v", issue)
+	}
+	plan, issue := inputbinding.Bind(program, bindings)
+	if issue != nil {
+		t.Fatal(issue)
+	}
+	reader, issue := plan.Reader(values)
+	if issue != nil {
+		t.Fatal(issue)
+	}
+	evaluated, issue := program.Evaluate(reader)
+	if issue != nil {
+		t.Fatal(issue)
+	}
+	return authoredMitigation{Amount: raw * evaluated.Value, ResistanceFactor: evaluated.Value}, true
+}
+func resolveAuthorDamage(t *testing.T, definition map[string]any, cmd command.Command, view CombatantView, now int64) (DamageOutcome, CombatantView) {
+	t.Helper()
+	mitigation, ok := authoredMitigate(t, cmd.Amount, definition, view.Attributes, attribute.Table{})
+	if !ok {
+		return DamageOutcome{}, view
+	}
+	return ApplyMitigatedDamage(cmd.Amount, mitigation.Amount, view, now)
 }

@@ -3,9 +3,11 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/typeset"
 )
 
@@ -40,17 +42,17 @@ import (
 // Path: CompileGeneric → RunGeneric only. No dedicated runtime branch.
 
 const (
-	hex3073ProviderRef   = "item:3073_overdrive"
-	hex3073StableID      = "item_3073"
-	hex3073ActiveKey     = "overdrive_active"
-	hex3073CooldownKey   = "overdrive_cooldown"
-	hex3073ArmListener   = "listener_item_3073_overdrive_arm"
-	hex3073ASModKey      = "modifier_item_3073_overdrive_as"
-	hex3073UltKey        = "overdrive_ultimate"
-	hex3073SpellKey      = "overdrive_non_ultimate"
-	hex3073ProbeKey      = "overdrive_as_probe"
-	hex3073CastEvent     = spellbladeCastEvent
-	hex3073ChampionRef   = spellbladeChampionRef
+	hex3073ProviderRef = "item:3073_overdrive"
+	hex3073StableID    = "item_3073"
+	hex3073ActiveKey   = "overdrive_active"
+	hex3073CooldownKey = "overdrive_cooldown"
+	hex3073ArmListener = "listener_item_3073_overdrive_arm"
+	hex3073ASModKey    = "modifier_item_3073_overdrive_as"
+	hex3073UltKey      = "overdrive_ultimate"
+	hex3073SpellKey    = "overdrive_non_ultimate"
+	hex3073ProbeKey    = "overdrive_as_probe"
+	hex3073CastEvent   = spellbladeCastEvent
+	hex3073ChampionRef = spellbladeChampionRef
 
 	// Wiki classic panel (Module:ItemData/data, revid 4030984).
 	hex3073WikiAD = 40.0
@@ -147,6 +149,9 @@ func hex3073MakeArmListener() model.ListenerDefinition {
 }
 
 func hex3073EnsureTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
 	ensureSpellbladeTypes(req)
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/ultimate", Domain: "ability"},
@@ -309,7 +314,7 @@ func hex3073SetDriver(runReq *model.RunRequest, entries []model.DriverEntry, dur
 	runReq.StopPolicy.DurationMs = durationMs
 }
 
-func hex3073Provider(t *testing.T, result compile.GenericCompileResult) *compile.CompiledProvider {
+func hex3073Provider(t *testing.T, result compile.GenericCompileResult) *planbundle.CompiledProvider {
 	t.Helper()
 	for i := range result.Session.Providers {
 		p := &result.Session.Providers[i]
@@ -321,7 +326,7 @@ func hex3073Provider(t *testing.T, result compile.GenericCompileResult) *compile
 	return nil
 }
 
-func hex3073Listener(t *testing.T, p *compile.CompiledProvider, key string) *compile.CompiledListener {
+func hex3073Listener(t *testing.T, p *planbundle.CompiledProvider, key string) *planbundle.CompiledListener {
 	t.Helper()
 	for i := range p.Listeners {
 		if p.Listeners[i].ListenerKey == key {
@@ -332,7 +337,7 @@ func hex3073Listener(t *testing.T, p *compile.CompiledProvider, key string) *com
 	return nil
 }
 
-func hex3073Modifier(t *testing.T, p *compile.CompiledProvider, key string) *compile.CompiledModifier {
+func hex3073Modifier(t *testing.T, p *planbundle.CompiledProvider, key string) *planbundle.CompiledModifier {
 	t.Helper()
 	for i := range p.Modifiers {
 		if p.Modifiers[i].ModifierKey == key {
@@ -356,7 +361,7 @@ func hex3073TypeSet(t *testing.T, result compile.GenericCompileResult, keys ...s
 	return set
 }
 
-func hex3073FindAbility(t *testing.T, result compile.GenericCompileResult, abilityKey string) compile.CompiledAbility {
+func hex3073FindAbility(t *testing.T, result compile.GenericCompileResult, abilityKey string) planbundle.CompiledAbility {
 	t.Helper()
 	for i := range result.Session.Abilities {
 		a := result.Session.Abilities[i]
@@ -365,7 +370,7 @@ func hex3073FindAbility(t *testing.T, result compile.GenericCompileResult, abili
 		}
 	}
 	t.Fatalf("missing ability %q", abilityKey)
-	return compile.CompiledAbility{}
+	return planbundle.CompiledAbility{}
 }
 
 func hex3073State(t *testing.T, done model.DoneResult) (active, cooldown float64) {

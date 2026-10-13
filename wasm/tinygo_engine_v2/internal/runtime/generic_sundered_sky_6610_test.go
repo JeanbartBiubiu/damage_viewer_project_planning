@@ -3,9 +3,11 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/typeset"
 )
 
@@ -49,11 +51,11 @@ const (
 	ss6610WikiAD           = 45.0
 	ss6610WikiAbilityHaste = 10.0
 
-	ss6610CooldownMs   = 10000.0
-	ss6610CritTotal   = 1.60 // absolute total critical damage (60% bonus)
-	ss6610BaseRaw     = 100.0
-	ss6610TargetHP    = 100000.0
-	ss6610Tol         = 1e-9
+	ss6610CooldownMs = 10000.0
+	ss6610CritTotal  = 1.60 // absolute total critical damage (60% bonus)
+	ss6610BaseRaw    = 100.0
+	ss6610TargetHP   = 100000.0
+	ss6610Tol        = 1e-9
 )
 
 func ss6610Float(v float64) *float64 { return &v }
@@ -154,6 +156,9 @@ func ss6610HitListener() model.ListenerDefinition {
 }
 
 func ss6610EnsureTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
 	ensureSpellbladeTypes(req)
 	need := []model.TypeCatalogEntry{
 		{Key: "event/source_owner", Domain: "event"},
@@ -175,7 +180,7 @@ func ss6610EnsureTypes(req *model.CompileRequest) {
 
 func ss6610AAOps(raw float64) []model.OperationDefinition {
 	return []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",
@@ -301,7 +306,7 @@ func ss6610SetDriver(runReq *model.RunRequest, entries []model.DriverEntry, dura
 	runReq.StopPolicy.DurationMs = durationMs
 }
 
-func ss6610Provider(t *testing.T, result compile.GenericCompileResult) *compile.CompiledProvider {
+func ss6610Provider(t *testing.T, result compile.GenericCompileResult) *planbundle.CompiledProvider {
 	t.Helper()
 	for i := range result.Session.Providers {
 		p := &result.Session.Providers[i]
@@ -313,7 +318,7 @@ func ss6610Provider(t *testing.T, result compile.GenericCompileResult) *compile.
 	return nil
 }
 
-func ss6610Listener(t *testing.T, p *compile.CompiledProvider) *compile.CompiledListener {
+func ss6610Listener(t *testing.T, p *planbundle.CompiledProvider) *planbundle.CompiledListener {
 	t.Helper()
 	for i := range p.Listeners {
 		if p.Listeners[i].ListenerKey == ss6610ListenerKey {
@@ -324,7 +329,7 @@ func ss6610Listener(t *testing.T, p *compile.CompiledProvider) *compile.Compiled
 	return nil
 }
 
-func ss6610Modifier(t *testing.T, p *compile.CompiledProvider, key string) *compile.CompiledModifier {
+func ss6610Modifier(t *testing.T, p *planbundle.CompiledProvider, key string) *planbundle.CompiledModifier {
 	t.Helper()
 	for i := range p.Modifiers {
 		if p.Modifiers[i].ModifierKey == key {

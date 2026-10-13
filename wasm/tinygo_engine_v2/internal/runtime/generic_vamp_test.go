@@ -8,6 +8,7 @@ import (
 	gort "runtime"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -303,6 +304,7 @@ func TestVampDeathSelfDamageZeroAndFullHealthBoundaries(t *testing.T) {
 			op := c.SharedProviders[0].Abilities[0].Operations[0]
 			op.Target = "source"
 			op.DamageType = "damage/true"
+			formuladefinition.SetDamageFormula(c, "damage/true", formuladefinition.ConstantDefense("1"))
 			c.SharedProviders[0].Abilities[0].Operations = append([]model.OperationDefinition{op}, c.SharedProviders[0].Abilities[0].Operations...)
 		}, []float64{0, 0}, "source_dead"},
 		{"target killed first hit", func(c *model.CompileRequest, r *model.RunRequest) {
@@ -411,15 +413,15 @@ func TestVampPhantomUsesOriginalQualificationAndCurrentRatio(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	dmg := copyableDamageFrozen{rawAmount: 100, damageType: "damage/physical", sourceKey: "source", targetKey: "target", originRef: r.DriverPlan.Entries[0].AbilityRef, providerRef: "champion", operationRef: "sample_hit", ability: compiled.Session.Abilities[0], operation: compiled.Session.Operations[0], eventSourceKey: "source", eventTargetKey: "target", entrySourceAttrs: cloneAttributeMap(s.combatants["source"].attributes), entryTargetAttrs: cloneAttributeMap(s.combatants["target"].attributes), castInstanceID: 7}
+	dmg := copyableDamageFrozen{rawAmount: 100, damageType: "damage/physical", sourceKey: "source", targetKey: "target", originRef: r.DriverPlan.Entries[0].AbilityRef, providerRef: "champion", operationRef: "sample_hit", ability: compiled.Session.Abilities[0], operation: compiled.Session.Operations[0], eventSourceKey: "source", eventTargetKey: "target", entrySourceAttrs: s.combatants["source"].attributes, entryTargetAttrs: s.combatants["target"].attributes, castInstanceID: 7}
 	collector := &eventCopyableCollector{}
 	if err := s.applyPhantomCopyableDamage(collector, dmg, "sample_copy"); err != nil {
 		t.Fatal(err)
 	}
 	source := s.combatants["source"]
-	ratio := source.attributes["omnivamp_percent"]
+	ratio := source.attributes.At("omnivamp_percent")
 	ratio.Base, ratio.Resolved = .4, .4
-	source.attributes["omnivamp_percent"] = ratio
+	source.attributes = source.attributes.With("omnivamp_percent", ratio)
 	s.combatants["source"] = source
 	if err := s.applyPhantomCopyableDamage(collector, dmg, "sample_copy"); err != nil {
 		t.Fatal(err)

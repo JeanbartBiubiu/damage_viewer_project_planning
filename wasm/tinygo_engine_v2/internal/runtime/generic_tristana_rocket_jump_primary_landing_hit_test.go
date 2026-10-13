@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -292,6 +293,9 @@ func configureTristanaRJProvider(compileReq *model.CompileRequest, runReq *model
 }
 
 func ensureTristanaRJTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/magic", Domain: "damage"},
 		{Key: "ability/basic_attack", Domain: "ability"},

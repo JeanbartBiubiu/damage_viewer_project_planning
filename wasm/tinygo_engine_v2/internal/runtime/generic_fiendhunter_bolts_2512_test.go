@@ -3,9 +3,11 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/typeset"
 )
 
@@ -75,7 +77,7 @@ func ob2512TimedSlot(defaultValue, maxValue, durationMs float64) map[string]inte
 
 func ob2512StateSchema() map[string]interface{} {
 	return map[string]interface{}{
-		ob2512WindowKey:   ob2512TimedSlot(0, 1, ob2512WindowMs),
+		ob2512WindowKey: ob2512TimedSlot(0, 1, ob2512WindowMs),
 		ob2512ChargesKey: map[string]interface{}{
 			"defaultValue": float64(0),
 			"maxValue":     float64(3),
@@ -292,6 +294,11 @@ func ob2512MakeHitListener() model.ListenerDefinition {
 }
 
 func ob2512EnsureTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	ensureSpellbladeTypes(req)
 	ensureDamageTrueType(req)
 	need := []model.TypeCatalogEntry{
@@ -371,7 +378,7 @@ func ob2512UltAbility() model.AbilityDefinition {
 }
 
 func ob2512AAOps(raw float64, critEligible bool) []model.OperationDefinition {
-	return []model.OperationDefinition{
+	operations := []model.OperationDefinition{
 		{
 			Operation:    "damage",
 			Target:       "target",
@@ -387,12 +394,18 @@ func ob2512AAOps(raw float64, critEligible bool) []model.OperationDefinition {
 			Ref:       ob2512HitEvent,
 		},
 	}
+	if critEligible {
+		operations[0].CritChance = &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}
+		operations[0].CritMultiplier = &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}
+		operations[0].CritMultiplierMin = model.Float64Ptr(1)
+	}
+	return operations
 }
 
 func ob2512MultiAAOps(raw float64) []model.OperationDefinition {
 	raw2 := raw * 0.5
 	return []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",
@@ -400,7 +413,7 @@ func ob2512MultiAAOps(raw float64) []model.OperationDefinition {
 			CritEligible: true,
 			Ref:          ob2512AAOpRef,
 		},
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",
@@ -500,7 +513,7 @@ func ob2512SetDriver(runReq *model.RunRequest, entries []model.DriverEntry, dura
 	runReq.StopPolicy.DurationMs = durationMs
 }
 
-func ob2512Provider(t *testing.T, result compile.GenericCompileResult) *compile.CompiledProvider {
+func ob2512Provider(t *testing.T, result compile.GenericCompileResult) *planbundle.CompiledProvider {
 	t.Helper()
 	for i := range result.Session.Providers {
 		p := &result.Session.Providers[i]
@@ -512,7 +525,7 @@ func ob2512Provider(t *testing.T, result compile.GenericCompileResult) *compile.
 	return nil
 }
 
-func ob2512Listener(t *testing.T, p *compile.CompiledProvider, key string) *compile.CompiledListener {
+func ob2512Listener(t *testing.T, p *planbundle.CompiledProvider, key string) *planbundle.CompiledListener {
 	t.Helper()
 	for i := range p.Listeners {
 		if p.Listeners[i].ListenerKey == key {
@@ -523,7 +536,7 @@ func ob2512Listener(t *testing.T, p *compile.CompiledProvider, key string) *comp
 	return nil
 }
 
-func ob2512Modifier(t *testing.T, p *compile.CompiledProvider, key string) *compile.CompiledModifier {
+func ob2512Modifier(t *testing.T, p *planbundle.CompiledProvider, key string) *planbundle.CompiledModifier {
 	t.Helper()
 	for i := range p.Modifiers {
 		if p.Modifiers[i].ModifierKey == key {

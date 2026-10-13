@@ -3,27 +3,34 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
 const (
-	spellbladeReadyKey       = "spellblade_ready"
-	spellbladeICDKey         = "spellblade_icd"
-	spellbladeProviderRef    = "item:trinity_spellblade"
-	spellbladeChampionRef    = "champion:source_demo"
-	spellbladeTumbleKey      = "tumble"
-	spellbladeHitAbilityKey  = "basic_attack_hit"
-	spellbladeCastEvent      = "event/ability_started"
-	spellbladeHitEvent       = "event/basic_attack_hit"
-	spellbladeDamageOpRef    = "op:spellblade_damage"
-	spellbladeADBase         = 60.0
-	spellbladeAADamage       = 10.0
-	spellbladeReadyDuration  = 10000
-	spellbladeICDDuration    = 1500
+	spellbladeReadyKey      = "spellblade_ready"
+	spellbladeICDKey        = "spellblade_icd"
+	spellbladeProviderRef   = "item:trinity_spellblade"
+	spellbladeChampionRef   = "champion:source_demo"
+	spellbladeTumbleKey     = "tumble"
+	spellbladeHitAbilityKey = "basic_attack_hit"
+	spellbladeCastEvent     = "event/ability_started"
+	spellbladeHitEvent      = "event/basic_attack_hit"
+	spellbladeDamageOpRef   = "op:spellblade_damage"
+	spellbladeADBase        = 60.0
+	spellbladeAADamage      = 10.0
+	spellbladeReadyDuration = 10000
+	spellbladeICDDuration   = 1500
 )
 
 func ensureSpellbladeTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: spellbladeCastEvent, Domain: "event"},
 		{Key: spellbladeHitEvent, Domain: "event"},
@@ -200,11 +207,11 @@ func spellbladeAAOpsWithGuinsooStack() []model.OperationDefinition {
 
 func mountSpellbladeProvider(compileReq *model.CompileRequest, runReq *model.RunRequest) {
 	compileReq.SharedProviders = append(compileReq.SharedProviders, model.ProviderDefinition{
-		ProviderKey:         spellbladeProviderRef,
-		Kind:                "item",
-		StableID:            "trinity_spellblade",
-		InitialStateSchema:  spellbladeStateSchema(),
-		Listeners:           spellbladeListeners(),
+		ProviderKey:        spellbladeProviderRef,
+		Kind:               "item",
+		StableID:           "trinity_spellblade",
+		InitialStateSchema: spellbladeStateSchema(),
+		Listeners:          spellbladeListeners(),
 	})
 	compileReq.Combatants[0].Providers = append(compileReq.Combatants[0].Providers, model.CombatantProviderMount{
 		ProviderRef: spellbladeProviderRef, DefinitionRef: spellbladeProviderRef,
@@ -632,8 +639,7 @@ func TestSpellbladePhantomDoesNotCopyOrConsume(t *testing.T) {
 	}
 }
 
-// TestSpellbladeMissingBasicAttackTypeFailsClosed catalog 缺 ability/basic_attack 时不合成 ability_started。
-func TestSpellbladeMissingBasicAttackTypeFailsClosed(t *testing.T) {
+func TestSpellbladeNonBasicCastDoesNotRequireBasicAttackCatalog(t *testing.T) {
 	compileReq, runReq := loadSpellbladeFixture(t)
 	filtered := make([]model.TypeCatalogEntry, 0, len(compileReq.TypeCatalog.Types))
 	for _, entry := range compileReq.TypeCatalog.Types {
@@ -650,11 +656,11 @@ func TestSpellbladeMissingBasicAttackTypeFailsClosed(t *testing.T) {
 	}
 	runReq.StopPolicy.DurationMs = 50
 	done := runSpellblade(t, compileReq, runReq)
-	if countEmittedEvents(done, spellbladeCastEvent) != 0 {
-		t.Fatalf("ability_started count=%d want 0 (fail closed without ability/basic_attack)", countEmittedEvents(done, spellbladeCastEvent))
+	if countEmittedEvents(done, spellbladeCastEvent) != 1 {
+		t.Fatalf("ability_started count=%d want 1", countEmittedEvents(done, spellbladeCastEvent))
 	}
-	if got := spellbladeStateValue(t, done, spellbladeReadyKey); got != 0 {
-		t.Fatalf("spellblade_ready=%v want 0", got)
+	if got := spellbladeStateValue(t, done, spellbladeReadyKey); got != 1 {
+		t.Fatalf("spellblade_ready=%v want 1", got)
 	}
 	if done.Summary.AbilityCastCount != 1 {
 		t.Fatalf("abilityCastCount=%d want 1 (cast itself still succeeds)", done.Summary.AbilityCastCount)
@@ -664,14 +670,14 @@ func TestSpellbladeMissingBasicAttackTypeFailsClosed(t *testing.T) {
 // --- item_3100 Lich Bane Spellblade (generic ABI evidence) ---
 
 const (
-	lichBaneProviderRef   = "item:lich_bane_spellblade"
-	lichBaneDamageOpRef   = "op:lich_bane_spellblade_damage"
-	lichBaneASProbeEvent  = "event/lich_bane_as_probe"
-	lichBaneADBase        = 100.0
-	lichBaneAP            = 100.0
-	lichBaneASBase        = 1.0
-	lichBaneReadyASBonus  = 0.5
-	lichBaneAADamage      = 10.0
+	lichBaneProviderRef  = "item:lich_bane_spellblade"
+	lichBaneDamageOpRef  = "op:lich_bane_spellblade_damage"
+	lichBaneASProbeEvent = "event/lich_bane_as_probe"
+	lichBaneADBase       = 100.0
+	lichBaneAP           = 100.0
+	lichBaneASBase       = 1.0
+	lichBaneReadyASBonus = 0.5
+	lichBaneAADamage     = 10.0
 )
 
 func lichBaneExpectedRaw() float64 {

@@ -2,24 +2,23 @@ package model
 
 import (
 	"encoding/json"
-	"strings"
 	"testing"
 )
 
-func TestAuthoringDamageFormulaJSONRequiresAllStagesAndExactNodes(t *testing.T) {
-	valid := `{"damageType":"damage/custom","formula":{"resistanceBeforePenetration":{"op":"const","value":0},"penetrationPercent":{"op":"const","value":0},"penetrationFlat":{"op":"const","value":0},"effectiveResistance":{"op":"const","value":0},"resistanceFactor":{"op":"const","value":1}}}`
+func TestAuthoringDamageFormulaTransportPreservesCommonRawDefinition(t *testing.T) {
+	valid := []byte(`{"damageType":"heat","formula":{"inputs":[],"stages":[{"key":"factor","name":"倍率","expression":{"op":"const","value":"0.000"}}],"outputStageKey":"factor"}}`)
 	var def DamageTypeFormulaDefinition
-	if err := json.Unmarshal([]byte(valid), &def); err != nil {
+	if err := json.Unmarshal(valid, &def); err != nil {
 		t.Fatal(err)
 	}
-	for _, invalid := range []string{
-		strings.Replace(valid, `,"resistanceFactor":{"op":"const","value":1}`, "", 1),
-		strings.Replace(valid, `"op":"const","value":1`, `"op":"const","value":1,"unknown":0`, 1),
-		strings.Replace(valid, `"op":"const","value":1`, `"op":"ref","ref":"other"`, 1),
-		strings.Replace(valid, `"op":"const","value":1`, `"op":"add","args":[{"op":"const","value":1}]`, 1),
-	} {
-		if err := json.Unmarshal([]byte(invalid), &def); err == nil {
-			t.Fatal("invalid defense declaration decoded", invalid)
+	root := def.Formula.(map[string]any)
+	literal := root["stages"].([]any)[0].(map[string]any)["expression"].(map[string]any)["value"]
+	if def.DamageType != "heat" || literal != "0.000" {
+		t.Fatal(def)
+	}
+	for _, raw := range []string{`{"damageType":"heat"}`, `{"damageType":"heat","formula":null}`, `{"damageType":"heat","formula":{},"extra":0}`} {
+		if err := json.Unmarshal([]byte(raw), &def); err == nil {
+			t.Fatal("invalid outer transport accepted", raw)
 		}
 	}
 }

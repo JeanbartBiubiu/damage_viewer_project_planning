@@ -4,7 +4,7 @@ import (
 	"math"
 	"testing"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func TestApplyDamageValuePolicySubtract(t *testing.T) {
@@ -21,15 +21,15 @@ func TestApplyDamageValuePolicySubtract(t *testing.T) {
 
 func TestCollectForChannelsDedupesAndOrders(t *testing.T) {
 	var r DamageModifierResolver
-	r.MountCompiledModifierOwned("source", "item:a", compilebundle.CompiledModifier{
+	r.MountCompiledModifierOwned("source", "item:a", planbundle.CompiledModifier{
 		ModifierKey: "shared", Kind: "pipeline", Command: "damage", Channel: "all_damage",
 		Stage: "outgoing_pre_mitigation", Priority: 10, ValuePolicy: "multiply", HasValue: true,
 	})
-	r.MountCompiledModifierOwned("source", "item:a", compilebundle.CompiledModifier{
+	r.MountCompiledModifierOwned("source", "item:a", planbundle.CompiledModifier{
 		ModifierKey: "shared", Kind: "pipeline", Command: "damage", Channel: "basic_damage",
 		Stage: "outgoing_pre_mitigation", Priority: 10, ValuePolicy: "multiply", HasValue: true,
 	})
-	r.MountCompiledModifierOwned("source", "item:b", compilebundle.CompiledModifier{
+	r.MountCompiledModifierOwned("source", "item:b", planbundle.CompiledModifier{
 		ModifierKey: "early", Kind: "pipeline", Command: "damage", Channel: "all_damage",
 		Stage: "outgoing_pre_mitigation", Priority: 1, ValuePolicy: "subtract", HasValue: true,
 	})
@@ -47,19 +47,19 @@ func TestCollectForChannelsDedupesAndOrders(t *testing.T) {
 
 func TestCollectForCommandChannelsFiltersCommandAndStage(t *testing.T) {
 	var r DamageModifierResolver
-	r.MountCompiledModifierOwned("source", "item:crit", compilebundle.CompiledModifier{
+	r.MountCompiledModifierOwned("source", "item:crit", planbundle.CompiledModifier{
 		ModifierKey: "chance", Kind: "pipeline", Command: "crit", Channel: "all_damage",
 		Stage: "crit_chance_pre_settlement", Priority: 5, ValuePolicy: "override", HasValue: true,
 	})
-	r.MountCompiledModifierOwned("source", "item:crit", compilebundle.CompiledModifier{
+	r.MountCompiledModifierOwned("source", "item:crit", planbundle.CompiledModifier{
 		ModifierKey: "chance_basic", Kind: "pipeline", Command: "crit", Channel: "basic_damage",
 		Stage: "crit_chance_pre_settlement", Priority: 5, ValuePolicy: "override", HasValue: true,
 	})
-	r.MountCompiledModifierOwned("source", "item:out", compilebundle.CompiledModifier{
+	r.MountCompiledModifierOwned("source", "item:out", planbundle.CompiledModifier{
 		ModifierKey: "out", Kind: "pipeline", Command: "damage", Channel: "all_damage",
 		Stage: "outgoing_pre_mitigation", Priority: 1, ValuePolicy: "multiply", HasValue: true,
 	})
-	r.MountCompiledModifierOwned("target", "item:randuin", compilebundle.CompiledModifier{
+	r.MountCompiledModifierOwned("target", "item:randuin", planbundle.CompiledModifier{
 		ModifierKey: "crit_part", Kind: "pipeline", Command: "damage", Channel: "all_damage",
 		Stage: "incoming_crit_part_post_mitigation", Priority: 0, ValuePolicy: "multiply", HasValue: true,
 	})
@@ -84,4 +84,3 @@ func TestCollectForCommandChannelsFiltersCommandAndStage(t *testing.T) {
 		t.Fatalf("crit must not collect damage stage: %+v", mixed)
 	}
 }
-

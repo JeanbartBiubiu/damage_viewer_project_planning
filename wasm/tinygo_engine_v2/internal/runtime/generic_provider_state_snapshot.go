@@ -18,20 +18,28 @@ func (s *genericRunState) validateRawProviderState(raw map[string]interface{}, a
 		}
 		return out, nil
 	}
-	numbers := func(values map[string]interface{}, at string, timer bool) *model.EngineError {
+	numbers := func(values map[string]interface{}, at string, timer bool, fields map[string]providerStateFieldDef) *model.EngineError {
 		for key, value := range values {
 			if timer {
 				if n, ok := asInt64Strict(value); !ok || n < 0 {
 					return fail(at+"."+key, "expireAt must be a non-negative finite integer")
 				}
-			} else if n, ok := asFloat64(value); !ok || !finiteState(n) {
-				return fail(at+"."+key, "state value must be a finite number")
+			} else {
+				number, numeric := asFloat64(value)
+				if !numeric || !finiteState(number) {
+					return fail(at+"."+key, "state value must be a finite number")
+				}
+				field := fields[key]
+				if field.valueType == model.ProviderStateValueInteger && (!validStateInteger(number) || number < 0 || (field.hasCap && number > field.maxValue)) {
+					return fail(at+"."+key, "integer state value must be a non-negative safe integer within maxValue")
+				}
 			}
 		}
 		return nil
 	}
 	for ref, rawBag := range raw {
 		at := path + "[" + ref + "]"
+		fields := s.resolveProviderStateFieldDefs(actor.key, ref, actor.providers)
 		mounted := false
 		for _, provider := range actor.providers {
 			if provider.ProviderRef == ref {
@@ -55,14 +63,14 @@ func (s *genericRunState) validateRawProviderState(raw map[string]interface{}, a
 		if err != nil {
 			return err
 		}
-		if err = numbers(state, at+".state", false); err != nil {
+		if err = numbers(state, at+".state", false, fields); err != nil {
 			return err
 		}
 		expires, err := object(bag, "expireAt", at+".expireAt")
 		if err != nil {
 			return err
 		}
-		if err = numbers(expires, at+".expireAt", true); err != nil {
+		if err = numbers(expires, at+".expireAt", true, fields); err != nil {
 			return err
 		}
 		target, err := object(bag, "targetState", at+".targetState")
@@ -81,14 +89,14 @@ func (s *genericRunState) validateRawProviderState(raw map[string]interface{}, a
 		if err != nil {
 			return err
 		}
-		if err = numbers(values, at+".targetState.values", false); err != nil {
+		if err = numbers(values, at+".targetState.values", false, fields); err != nil {
 			return err
 		}
 		timers, err := object(target, "expireAt", at+".targetState.expireAt")
 		if err != nil {
 			return err
 		}
-		if err = numbers(timers, at+".targetState.expireAt", true); err != nil {
+		if err = numbers(timers, at+".targetState.expireAt", true, fields); err != nil {
 			return err
 		}
 		key, keyOK := target["target"].(string)

@@ -66,6 +66,10 @@
         {
           "key": "state_scope/provider",
           "domain": "state_scope"
+        },
+        {
+          "key": "armor",
+          "domain": "attribute"
         }
       ],
       "relations": []
@@ -100,6 +104,12 @@
             "current": 9,
             "max": 9,
             "resolved": 9
+          },
+          "armor": {
+            "base": 0,
+            "current": 0,
+            "max": 0,
+            "resolved": 0
           }
         },
         "resources": {},
@@ -262,6 +272,54 @@
             ]
           }
         }
+      ],
+      "damageTypeFormulas": [
+        {
+          "damageType": "damage/physical",
+          "formula": {
+            "inputs": [
+              {
+                "key": "armor",
+                "binding": {
+                  "kind": "attribute",
+                  "object": "target",
+                  "attributeKey": "armor",
+                  "valueKind": "TOTAL",
+                  "view": "current_frame"
+                }
+              }
+            ],
+            "stages": [
+              {
+                "key": "factor",
+                "name": "作者防御倍率",
+                "expression": {
+                  "op": "div",
+                  "args": [
+                    {
+                      "op": "const",
+                      "value": "100"
+                    },
+                    {
+                      "op": "add",
+                      "args": [
+                        {
+                          "op": "const",
+                          "value": "100"
+                        },
+                        {
+                          "op": "read",
+                          "inputKey": "armor"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "outputStageKey": "factor"
+          }
+        }
       ]
     }
   },
@@ -299,6 +357,12 @@
               "current": 9,
               "max": 9,
               "resolved": 9
+            },
+            "armor": {
+              "base": 0,
+              "current": 0,
+              "max": 0,
+              "resolved": 0
             }
           },
           "resources": {},

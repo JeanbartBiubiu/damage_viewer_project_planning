@@ -2,62 +2,110 @@ package runtime
 
 import (
 	"math"
+	"tinygo_engine_v2/internal/expression"
+	"tinygo_engine_v2/internal/inputbinding"
 
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/command"
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
-	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func (f *executionFrame) formulaError(id formula.GenericProgramID, message string) *model.EngineError {
 	path := "formula"
-	if int(id) < len(f.run.compiled.Formulas.Programs) {
-		path = f.run.compiled.Formulas.Programs[id].Key
+	if int(id) < len(f.run.formulas.Programs) {
+		path = f.run.formulas.Programs[id].Key
 	}
 	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, message, path, f.abilityRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 }
 
-func (f *executionFrame) evalResultFormula(id formula.GenericProgramID, ability compilebundle.CompiledAbility, target string) (float64, *model.EngineError) {
+func (f *executionFrame) evalResultFormula(id formula.GenericProgramID, ability planbundle.CompiledAbility, target string) (float64, *model.EngineError) {
 	ctx := f.evalContext(ability)
 	ctx.StrictReads = true
 	ctx.TargetAttrs = f.stageFor(target).attributes
 	ctx.TargetResources = f.stageFor(target).resources
-	value, err := f.run.compiled.Formulas.Eval(id, ctx)
+	value, err := f.run.formulas.EvalContext(id, &ctx)
 	if err != nil {
-		return 0, f.formulaError(id, err.Error())
+		return 0, f.run.evalFormulaError(id, err, f.abilityRef)
 	}
 	return value, nil
 }
 
-func (f *executionFrame) resolveConfiguredDefense(cmd command.Command, targetAttrs, sourceAttrs map[string]model.AttributeSlotDef) (pipeline.MitigationResult, *model.EngineError) {
-	def := f.run.compiled.DamageTypeFormulas[cmd.DamageType]
-	ctx := formula.GenericEvalContext{
-		SourceAttrs: sourceAttrs, TargetAttrs: targetAttrs,
-		SourceResources: f.stageFor(cmd.Source).resources, TargetResources: f.stageFor(cmd.Target).resources,
-		StrictReads: true,
+func (f *executionFrame) configuredFormulaIssue(def planbundle.CompiledDamageTypeFormula, issue expression.ContractIssue) *model.EngineError {
+	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrCode(issue.Code), issue.Code, def.Path+issue.Path, f.abilityRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+}
+
+type configuredDefenseResult struct{ amount, factor float64 }
+
+func (f *executionFrame) requireConfiguredDefense(damageType, operationPath string) (planbundle.CompiledDamageTypeFormula, *model.EngineError) {
+	def, exists := f.run.compiled.DamageTypeFormulas[damageType]
+	valid := exists && def.DamageType == damageType && def.Binding != nil && int(def.Program) < len(f.run.formulas.Programs)
+	if valid {
+		program := f.run.formulas.Programs[def.Program]
+		valid = program.Authored != nil && program.Authored.Stats().Stages > 0 && len(program.Instr) == 0 && program.NamedBinding == nil
 	}
+	if !valid {
+		return planbundle.CompiledDamageTypeFormula{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "damage operation requires a valid authored defense plan", operationPath+".damageType", damageType, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	return def, nil
+}
+
+func (f *executionFrame) resolveConfiguredDefense(cmd command.Command, def planbundle.CompiledDamageTypeFormula) (configuredDefenseResult, *model.EngineError) {
+	var sourceAttrs, targetAttrs attribute.Table
 	if f.damageDefenseContext != nil {
-		ctx = *f.damageDefenseContext
-	}
-	ctx.StrictReads = true
-	for stage, id := range def.Programs {
-		ctx.DamageStageCount = stage
-		value, err := f.run.compiled.Formulas.Eval(id, ctx)
-		if err != nil {
-			return pipeline.MitigationResult{}, f.formulaError(id, err.Error())
+		sourceAttrs, targetAttrs = f.damageDefenseContext.SourceAttrs, f.damageDefenseContext.TargetAttrs
+	} else {
+		// 当前帧读值使用进入帧时已完成派生的只读视图，不观察后续暂存写入。
+		entry := func(key string) attribute.Table {
+			if key == f.sourceKey {
+				return f.entrySourceAttrs
+			}
+			if key == f.targetKey {
+				return f.entryTargetAttrs
+			}
+			attrs, _ := f.snapshotCombatantMaps(key)
+			return attrs
 		}
-		ctx.DamageStages[stage] = value
+		sourceAttrs, targetAttrs = entry(cmd.Source), entry(cmd.Target)
 	}
-	factor := ctx.DamageStages[4]
+	var valueBuffer [8]inputbinding.Value
+	values := valueBuffer[:0]
+	if len(def.Reads) <= len(valueBuffer) {
+		values = valueBuffer[:len(def.Reads)]
+	} else {
+		values = make([]inputbinding.Value, len(def.Reads))
+	}
+	for i, read := range def.Reads {
+		attrs := sourceAttrs
+		if read.Object == "target" {
+			attrs = targetAttrs
+		}
+		slot, exists := attrs.Lookup(read.AttributeKey)
+		if !exists {
+			continue
+		}
+		values[i] = inputbinding.Value{Base: inputbinding.Scalar{Value: slot.Base, Present: slot.HasBase()}, Total: inputbinding.Scalar{Value: slot.Resolved, Present: slot.HasResolved()}}
+	}
+	factor, err := f.run.formulas.EvalBound(def.Program, def.Binding, values)
+	if err != nil {
+		if authored, ok := err.(*formula.AuthoredEvaluationError); ok {
+			return configuredDefenseResult{}, f.configuredFormulaIssue(def, authored.Issue)
+		}
+		return configuredDefenseResult{}, f.formulaError(def.Program, err.Error())
+	}
 	amount := cmd.Amount * factor
-	if factor < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
-		return pipeline.MitigationResult{}, f.formulaError(def.Programs[4], "configured resistance factor must be non-negative and produce finite damage")
+	if factor < 0 {
+		result := f.configuredFormulaIssue(def, expression.ContractIssue{Code: "FORMULA_INVALID_OUTPUT"})
+		result.Path, result.Message = def.OutputPath, "configured defense factor must be non-negative"
+		return configuredDefenseResult{}, result
 	}
-	return pipeline.MitigationResult{
-		Amount: amount, ResistanceBeforePenetration: ctx.DamageStages[0], PenetrationPercent: ctx.DamageStages[1],
-		PenetrationFlat: ctx.DamageStages[2], EffectiveResistance: ctx.DamageStages[3], ResistanceFactor: factor,
-	}, nil
+	if math.IsNaN(factor) || math.IsInf(factor, 0) || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
+		result := f.configuredFormulaIssue(def, expression.ContractIssue{Code: "FORMULA_NON_FINITE"})
+		result.Path = def.OutputPath
+		return configuredDefenseResult{}, result
+	}
+	return configuredDefenseResult{amount: amount, factor: factor}, nil
 }
 
 func attachUseToSnapshot(ev *emittedEvent) {
@@ -68,7 +116,7 @@ func attachUseToSnapshot(ev *emittedEvent) {
 	ev.snapshot.useKey, ev.snapshot.useSource, ev.snapshot.useSkillKey = ev.useKey, ev.useSource, ev.useSkillKey
 }
 
-func (f *executionFrame) applyLink(ability compilebundle.CompiledAbility, op compilebundle.CompiledOperation, target string) *model.EngineError {
+func (f *executionFrame) applyLink(ability planbundle.CompiledAbility, op planbundle.CompiledOperation, target string) *model.EngineError {
 	useKey, useSource, useSkill := f.processUseKey, f.processUseSource, f.processUseSkillKey
 	if useKey == "" && f.eventCtx != nil && f.eventCtx.hasUse {
 		useKey, useSource, useSkill = f.eventCtx.useKey, f.eventCtx.useSource, f.eventCtx.useSkillKey
@@ -98,33 +146,38 @@ func (f *executionFrame) applyLink(ability compilebundle.CompiledAbility, op com
 	if op.Operation == model.OperationKindApplyAttackLink {
 		eventType = model.EventTypeAttackLinkApplied
 	}
-	f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "link_application", Ref: op.Ref, Path: op.Path, Data: map[string]interface{}{
-		"eventType": eventType, "source": f.sourceKey, "target": target, "useRef": useKey, "skillKey": useSkill, "count": count,
-	}})
+	f.recordEvidenceLazy("link_application", func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "link_application", Ref: op.Ref, Path: op.Path, Data: map[string]interface{}{
+			"eventType": eventType, "source": f.sourceKey, "target": target, "useRef": useKey, "skillKey": useSkill, "count": count,
+		}}
+	})
 	for index := 1; index <= count; index++ {
+		eventTypes := append([]string{eventType}, f.abilityTypeKeys(ability)...)
 		snapshot := f.captureEmitSnapshot(eventType, f.sourceKey, target)
 		snapshot.hasLink, snapshot.linkIndex, snapshot.linkCount = true, index, count
 		ev := emittedEvent{
 			eventType: eventType, ref: op.Ref, sourceKey: f.sourceKey, targetKey: target,
-			types: f.appendCastOriginEventType([]string{eventType}), snapshot: snapshot,
+			types: f.appendCastOriginEventType(eventTypes), snapshot: snapshot,
 			castInstanceID: f.castInstanceID, castOrigin: f.castOrigin,
 			hasUse: true, useKey: useKey, useSource: useSource, useSkillKey: useSkill,
 		}
 		attachUseToSnapshot(&ev)
 		f.pendingEvents = append(f.pendingEvents, ev)
-		f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: eventType, Path: op.Path, Data: map[string]interface{}{
-			"eventType": eventType, "source": f.sourceKey, "target": target, "useRef": useKey, "skillKey": useSkill,
-			"LINK_INDEX": index, "LINK_COUNT": count,
-		}})
+		f.recordEvidenceLazy(model.EvidenceKindEmittedEvent, func() model.EvidenceItem {
+			return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: eventType, Path: op.Path, Data: map[string]interface{}{
+				"eventType": eventType, "source": f.sourceKey, "target": target, "useRef": useKey, "skillKey": useSkill,
+				"LINK_INDEX": index, "LINK_COUNT": count,
+			}}
+		})
 	}
 	return nil
 }
 
-func (s *genericRunState) startProcessFromEvent(source, target, ref string, ability compilebundle.CompiledAbility, depth int, event *eventFormulaSnapshot, driverKey string, collector *eventCopyableCollector) *model.EngineError {
+func (s *genericRunState) startProcessFromEvent(source, target, ref string, ability planbundle.CompiledAbility, depth int, event *eventFormulaSnapshot, driverKey string, collector *eventCopyableCollector) *model.EngineError {
 	if driverKey != "" || depth < 1 || event == nil || event.eventType != model.EventTypeBasicAttackStart || !event.hasUse || ability.ProcessControl.Action != "INITIAL" || !ability.IsBasicAttack {
 		return s.processErr("abilityRef", "event-bound INITIAL requires a real basic_attack_start listener context", ref)
 	}
-	parsed, ok := compilebundle.ParseAbilityRef(ref)
+	parsed, ok := planbundle.ParseAbilityRef(ref)
 	use, exists := s.skillUses[event.useKey]
 	if !ok || !exists || parsed.Combatant != source || event.eventSourceKey != source || event.eventTargetKey != target || event.useSource != source || event.useSkillKey != ability.SkillKey || use.source != source || use.skillKey != ability.SkillKey {
 		return s.processErr("processControl.useRefFromEvent", "native attack and process must share the real source, target, skill and use", ref)
@@ -135,11 +188,18 @@ func (s *genericRunState) startProcessFromEvent(source, target, ref string, abil
 		return s.processErr("processControl.processKey", "event-bound process requires its live mounted provider", ref)
 	}
 	entry := model.DriverEntry{EntryKey: model.EventTypeBasicAttackStart + "/" + event.useKey, AbilityRef: ref, Source: source, Target: target, FirstAtMs: s.nowMs}
+	var mountKey string
 	for _, current := range s.processInstances {
 		if current.UseKey == event.useKey {
 			return s.processErr("processControl.useRefFromEvent", "one native attack use cannot start another process instance", event.useKey)
 		}
-		if current.Status == "active" && processMountKey(current.Owner, current.ProviderRef, current.ProcessKey) == processMountKey(source, parsed.ProviderRef, def.ProcessKey) {
+		if current.Status != "active" {
+			continue
+		}
+		if mountKey == "" {
+			mountKey = processMountKey(source, parsed.ProviderRef, def.ProcessKey)
+		}
+		if processInstanceMountKey(current) == mountKey {
 			return s.rejectProcessUse(entry, ref, event.useKey, "process_already_active")
 		}
 	}
@@ -165,8 +225,8 @@ func (d copyableDamageFrozen) entryResourcesForCombatant(key string) map[string]
 	return d.entrySourceResources
 }
 
-func (f *executionFrame) requireAttackProcess(ability compilebundle.CompiledAbility, skill, use string) *model.EngineError {
-	parsed, _ := compilebundle.ParseAbilityRef(f.abilityRef)
+func (f *executionFrame) requireAttackProcess(ability planbundle.CompiledAbility, skill, use string) *model.EngineError {
+	parsed, _ := planbundle.ParseAbilityRef(f.abilityRef)
 	for _, def := range f.run.compiled.Providers[ability.ProviderIndex].Processes {
 		if def.SkillKey != skill || def.InitialAbilityIndex < 0 || !f.run.compiled.Abilities[def.InitialAbilityIndex].ProcessControl.UseRefFromEvent {
 			continue

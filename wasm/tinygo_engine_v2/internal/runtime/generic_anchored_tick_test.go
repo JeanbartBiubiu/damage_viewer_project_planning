@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -17,6 +18,8 @@ const (
 )
 
 func anchoredEnsureTypes(req *model.CompileRequest) {
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/tick", Domain: "ability"},
 		{Key: "state_scope/provider_target", Domain: "state_scope"},

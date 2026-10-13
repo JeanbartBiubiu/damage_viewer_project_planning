@@ -12,7 +12,7 @@ import (
 
 func loadBasicFixture(t *testing.T) (model.CompileRequest, model.RunRequest) {
 	t.Helper()
-	raw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "generic_p0_basic_damage.json"))
+	raw, err := os.ReadFile(filepath.Join("..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json"))
 	if err != nil {
 		t.Fatal(err)
 	}

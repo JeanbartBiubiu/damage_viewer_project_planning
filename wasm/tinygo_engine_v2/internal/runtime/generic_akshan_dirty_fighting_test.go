@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -217,6 +218,12 @@ func akshanDFBasicAttackOps() []model.OperationDefinition {
 }
 
 func ensureAkshanDFTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/basic_attack", Domain: "ability"},
 		{Key: "damage/physical", Domain: "damage"},
@@ -669,11 +676,14 @@ func TestAkshanDirtyFightingOneBasicAttackHitEventPerAttackAndEvidenceOrder(t *t
 	timeline := akshanDFHitTimeline(done)
 	want := []string{
 		"damage:" + akshanDFAAOpRef,
+		"event:" + eventTypeDamageDealt,
 		"event:" + akshanDFHitEvent,
 		"damage:" + akshanDFAAOpRef,
+		"event:" + eventTypeDamageDealt,
 		"event:" + akshanDFHitEvent,
 		"damage:" + akshanDFAAOpRef,
 		"damage:" + akshanDFProcOpRef,
+		"event:" + eventTypeDamageDealt,
 		"event:" + akshanDFHitEvent,
 	}
 	if len(timeline) != len(want) {

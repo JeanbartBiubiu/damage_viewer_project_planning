@@ -4,17 +4,18 @@ import (
 	"encoding/json"
 	"math"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/resource"
 )
 
 type gateCheckResult struct {
+	err        *model.EngineError
 	skipped    bool
 	reason     model.AttemptSkipReason
 	readyAtMs  int64
-	ability    compilebundle.CompiledAbility
+	ability    planbundle.CompiledAbility
 	sourceKey  string
 	hasAbility bool
 }
@@ -49,7 +50,11 @@ func (s *genericRunState) checkAttemptGate(entry model.DriverEntry, entryIndex i
 			hasAbility: true,
 		}
 	}
-	if readyAt, blocked := s.resourceGate(sourceKey, targetKey, ability, resolvedRef, entry); blocked {
+	readyAt, blocked, resourceErr := s.resourceGate(sourceKey, targetKey, ability, resolvedRef, entry)
+	if resourceErr != nil {
+		return gateCheckResult{err: resourceErr}
+	}
+	if blocked {
 		return gateCheckResult{
 			skipped:    true,
 			reason:     model.AttemptSkipResourceInsufficient,
@@ -59,7 +64,11 @@ func (s *genericRunState) checkAttemptGate(entry model.DriverEntry, entryIndex i
 			hasAbility: true,
 		}
 	}
-	if blocked := s.conditionGate(entry, entryIndex, sourceKey, targetKey, ability, resolvedRef); blocked {
+	blocked, conditionErr := s.conditionGate(entry, entryIndex, sourceKey, targetKey, ability, resolvedRef)
+	if conditionErr != nil {
+		return gateCheckResult{err: conditionErr}
+	}
+	if blocked {
 		return gateCheckResult{
 			skipped:    true,
 			reason:     model.AttemptSkipConditionFalse,
@@ -93,16 +102,17 @@ func (s *genericRunState) cooldownGate(sourceKey, abilityRef string) (readyAtMs 
 	return 0, false
 }
 
-func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string, entry model.DriverEntry) (readyAtMs int64, blocked bool) {
+func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability planbundle.CompiledAbility, abilityRef string, entry model.DriverEntry) (readyAtMs int64, blocked bool, formulaErr *model.EngineError) {
 	if ability.Cost == nil || !ability.Cost.HasAmount {
-		return 0, false
+		return 0, false, nil
 	}
 	c, ok := s.combatants[sourceKey]
 	if !ok {
-		return s.nowMs + s.conditionRecheckIntervalMs, true
+		return s.nowMs + s.conditionRecheckIntervalMs, true, nil
 	}
 	target := s.combatants[targetKey]
 	ctx := formula.GenericEvalContext{
+		RuntimeSkillKey: ability.SkillKey,
 		SourceAttrs:     c.attributes,
 		TargetAttrs:     target.attributes,
 		SourceResources: c.resources,
@@ -112,7 +122,7 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability comp
 	// Provider-aware cost preflight: only a valid parsed provider ability ref binds
 	// HasProviderContext + lazy-expired provider state (mirrors lifecycle charging).
 	// Unparseable refs stay fail-closed (no context → provider.state eval error → MaxFloat64).
-	if parsed, ok := compilebundle.ParseAbilityRef(abilityRef); ok {
+	if parsed, ok := planbundle.ParseAbilityRef(abilityRef); ok {
 		ownerKey := sourceKey
 		providerRef := parsed.ProviderRef
 		switch parsed.Combatant {
@@ -132,12 +142,12 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability comp
 			ownerKey = parsed.Combatant
 		}
 		ctx.HasProviderContext = true
-		ctx.ProviderState = map[string]float64{}
-		ctx.ProviderTargetState = map[string]float64{}
+		ctx.ProviderState = nil
+		ctx.ProviderTargetState = nil
 		if owner, ok := s.combatants[ownerKey]; ok && providerRef != "" {
-			if bag := owner.providerState[providerRef]; bag != nil {
-				bag.bindFieldDefs(s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers))
-				bag.lazyExpireProviderState(s.nowMs)
+			if bag := readSharedProviderStateBag(&owner.providerState, &owner.providerStateShared, providerRef, false,
+				s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers), s.nowMs,
+				providerStateReadOptions{targetView: true, targetKey: targetKey}); bag != nil {
 				ctx.ProviderState = bag.state
 				if bag.targetKey == targetKey {
 					ctx.ProviderTargetState = bag.targetStateForFormula()
@@ -147,17 +157,20 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability comp
 		}
 	}
 	_ = entry
-	amount, err := s.compiled.Formulas.Eval(ability.Cost.AmountProgram, ctx)
+	amount, err := s.formulas.EvalContext(ability.Cost.AmountProgram, &ctx)
 	if err != nil {
-		amount = math.MaxFloat64
+		return 0, false, s.evalFormulaError(ability.Cost.AmountProgram, err, abilityRef)
+	}
+	if math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
+		return 0, false, s.gateFormulaError(ability.Cost.AmountProgram, "resource cost must be finite and nonnegative", abilityRef)
 	}
 	current := resource.ReadCurrent(c.resources, ability.Cost.ResourceKey)
 	if ability.Cost.AllowPartial {
 		if current >= 0 {
-			return 0, false
+			return 0, false, nil
 		}
 	} else if current >= amount {
-		return 0, false
+		return 0, false, nil
 	}
 	slot := c.resources[ability.Cost.ResourceKey]
 	readyAt := resource.EstimateReadyTimeMs(
@@ -170,41 +183,41 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability comp
 	if readyAt <= s.nowMs {
 		readyAt = s.nowMs + s.conditionRecheckIntervalMs
 	}
-	return readyAt, true
+	return readyAt, true, nil
 }
 
-func (s *genericRunState) conditionGate(entry model.DriverEntry, entryIndex int, sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string) bool {
+func (s *genericRunState) conditionGate(entry model.DriverEntry, entryIndex int, sourceKey, targetKey string, ability planbundle.CompiledAbility, abilityRef string) (bool, *model.EngineError) {
 	if entryIndex >= 0 && entryIndex < len(s.entryConditions) && s.entryConditions[entryIndex] != nil {
 		programID := *s.entryConditions[entryIndex]
 		source := s.combatants[sourceKey]
 		target := s.combatants[targetKey]
 		ctx := formula.GenericEvalContext{
+			StrictReads:     s.automatedRun(),
 			SourceAttrs:     source.attributes,
 			TargetAttrs:     target.attributes,
 			SourceResources: source.resources,
 			TargetResources: target.resources,
 			AbilityParams:   ability.Params,
 		}
-		value, err := s.compiled.Formulas.Eval(programID, ctx)
-		if err != nil || value == 0 {
-			return true
+		value, err := s.formulas.EvalContext(programID, &ctx)
+		if err != nil {
+			return false, s.evalFormulaError(programID, err, abilityRef)
+		}
+		if value == 0 {
+			return true, nil
 		}
 	}
 	if ability.HasCastCondition {
-		if s.castConditionBlocked(sourceKey, targetKey, ability, abilityRef) {
-			return true
-		}
+		return s.castConditionBlocked(sourceKey, targetKey, ability, abilityRef)
 	}
 	_ = entry
-	return false
+	return false, nil
 }
 
-// castConditionBlocked evaluates ability-level castCondition in the owning mounted
-// provider's state context (provider.state.*). False or eval error → gate skip.
-func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, ability compilebundle.CompiledAbility, abilityRef string) bool {
+func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, ability planbundle.CompiledAbility, abilityRef string) (bool, *model.EngineError) {
 	ownerKey := sourceKey
 	providerRef := ""
-	if parsed, ok := compilebundle.ParseAbilityRef(abilityRef); ok {
+	if parsed, ok := planbundle.ParseAbilityRef(abilityRef); ok {
 		providerRef = parsed.ProviderRef
 		switch parsed.Combatant {
 		case model.SelectorSource, model.SelectorSelf, "":
@@ -226,38 +239,37 @@ func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, abil
 	source := s.combatants[sourceKey]
 	target := s.combatants[targetKey]
 	ctx := formula.GenericEvalContext{
+		StrictReads:        s.automatedRun(),
 		SourceAttrs:        source.attributes,
 		TargetAttrs:        target.attributes,
 		SourceResources:    source.resources,
 		TargetResources:    target.resources,
 		AbilityParams:      ability.Params,
 		HasProviderContext: true,
-		ProviderState:      map[string]float64{},
+		ProviderState:      nil,
 	}
 	if owner, ok := s.combatants[ownerKey]; ok && providerRef != "" {
-		bag := owner.providerState[providerRef]
-		if bag == nil {
-			bag = &providerStateBag{
-				state:        map[string]float64{},
-				expireAt:     map[string]int64{},
-				fieldDefs:    map[string]providerStateFieldDef{},
-				targetValues: map[string]float64{},
-			}
-			if owner.providerState == nil {
-				owner.providerState = map[string]*providerStateBag{}
-			}
-			owner.providerState[providerRef] = bag
-			s.combatants[ownerKey] = owner
+		if owner.providerState == nil {
+			owner.providerState = map[string]*providerStateBag{}
 		}
-		bag.bindFieldDefs(s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers))
-		bag.lazyExpireProviderState(s.nowMs)
+		bag := readSharedProviderStateBag(&owner.providerState, &owner.providerStateShared, providerRef, true,
+			s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers), s.nowMs, providerStateReadOptions{})
+		s.combatants[ownerKey] = owner
 		ctx.ProviderState = bag.state
 	}
-	value, err := s.compiled.Formulas.Eval(ability.CastConditionProgram, ctx)
+	value, err := s.formulas.EvalContext(ability.CastConditionProgram, &ctx)
 	if err != nil {
-		return true
+		return false, s.evalFormulaError(ability.CastConditionProgram, err, abilityRef)
 	}
-	return value == 0
+	return value == 0, nil
+}
+
+func (s *genericRunState) gateFormulaError(program formula.GenericProgramID, message, ref string) *model.EngineError {
+	path := ref + ".condition"
+	if int(program) < len(s.formulas.Programs) {
+		path = s.formulas.Programs[program].Key
+	}
+	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, message, path, ref, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 }
 
 func (s *genericRunState) nextWhileReadyTime(entry model.DriverEntry, result gateCheckResult) int64 {
@@ -325,7 +337,7 @@ func cloneCooldownMap(src map[string]int64) map[string]int64 {
 
 // normalizeAbilityRef 将 self/opponent abilityRef 归一为 source/target concrete ref。
 func normalizeAbilityRef(abilityRef, sourceKey, targetKey string) string {
-	parsed, ok := compilebundle.ParseAbilityRef(abilityRef)
+	parsed, ok := planbundle.ParseAbilityRef(abilityRef)
 	if !ok {
 		return abilityRef
 	}

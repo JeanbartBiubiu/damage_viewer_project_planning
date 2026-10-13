@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -410,6 +411,11 @@ func kogmawLivingArtilleryProbeRef() string {
 }
 
 func ensureKogmawLivingArtilleryTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/magic", Domain: "damage"},
 		{Key: "damage/true", Domain: "damage"},
@@ -1277,7 +1283,7 @@ func TestGenericKogmawLivingArtilleryDeterminismAndRelease(t *testing.T) {
 	if math.Abs(kogmawLivingArtilleryStacks(t, bundle.done.FinalSnapshot)-1) > kogmawLivingArtilleryTol {
 		t.Fatalf("frame-path stacks=%v want 1", kogmawLivingArtilleryStacks(t, bundle.done.FinalSnapshot))
 	}
-	if n := bundle.done.Evidence.CountsByKind[string(model.EvidenceKindEmittedEvent)]; n != 0 {
-		t.Fatalf("emitted events=%d want 0 (no ability_started dependency)", n)
+	if n := bundle.done.Evidence.CountsByKind[string(model.EvidenceKindEmittedEvent)]; n != 1 || countEmittedEvents(bundle.done, eventTypeDamageDealt) != 1 {
+		t.Fatalf("emitted events=%d want one generic damage aggregate, no ability_started", n)
 	}
 }

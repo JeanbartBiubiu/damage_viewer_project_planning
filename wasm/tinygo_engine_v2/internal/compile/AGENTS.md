@@ -1,12 +1,13 @@
 # TinyGo Compile AGENTS.md
 
-本文件适用于 `internal/compile/**`。该层把 `CompileRequest` 校验并编译为 `CompiledSession`，不拥有可变运行时状态。
+本文件适用于 `internal/compile/**`。该层把 `CompileRequest` 校验并编译为 `plan.CompiledSession`，不拥有可变运行时状态。
 
 ## 约束
 
 - `generic.go` 负责编译与索引，`generic_validate.go` 采用 collect-all（收集全部）语义错误。
 - 新 DTO 字段先在 `internal/model/generic*.go` 定义，再由编译层消费。
 - abilityRef 和 providerRef 在编译期转换为运行时可查的标识或索引。
+- 共享编译后结构归 `internal/plan`（执行计划）；公式注册返回显式成功标记，失败后不得索引、折叠或消费返回编号。
 - 不引入 scheduler、outbox 或运行时状态，不恢复旧 Bundle 编译路径。
 
 ## 验证

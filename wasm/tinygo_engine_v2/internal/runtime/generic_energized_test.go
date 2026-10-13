@@ -3,9 +3,11 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // Energized (Rapid Firecannon) contract tests: express the loop with pure
@@ -88,6 +90,9 @@ func energizedStructuredUntimedCappedSchema() map[string]interface{} {
 }
 
 func ensureEnergizedTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	ensureSpellbladeTypes(req)
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/magic", Domain: "damage"},
@@ -544,7 +549,7 @@ func TestEnergizedUntimedCappedStructuredSchemaCompileSuccess(t *testing.T) {
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
-	var field compile.CompiledProviderStateField
+	var field planbundle.CompiledProviderStateField
 	found := false
 	for _, p := range result.Session.Providers {
 		if p.ProviderKey != energizedProviderRef {

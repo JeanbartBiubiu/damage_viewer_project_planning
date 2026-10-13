@@ -6,14 +6,16 @@ import "tinygo_engine_v2/internal/model"
 const MaxGenericEventHeap = 100000
 
 // GenericEventCategory 是 P0 固定 category 顺序（值越小越先执行）。
-// AnchoredTick 插入为最早 category，其后旧 category 相对顺序不变。
 type GenericEventCategory uint8
 
 const (
-	GenericCategoryProcessTimer GenericEventCategory = iota
+	GenericCategorySourceInitialization GenericEventCategory = iota
+	GenericCategoryProcessTimer
 	GenericCategoryAnchoredTick
 	GenericCategoryExpireCleanup
 	GenericCategoryProviderTick
+	GenericCategoryAmmoRecovery
+	GenericCategorySkillAction
 	GenericCategoryAbilityAttempt
 	GenericCategoryTriggeredContinuation
 	GenericCategorySample
@@ -31,6 +33,10 @@ const (
 	GenericEventAnchoredTick
 	GenericEventProcessTimer
 	GenericEventBasicAttack
+	GenericEventSourceInitialized
+	GenericEventAmmoRecovery
+	GenericEventSkillAction
+	GenericEventAmmoAdmission
 )
 
 // ProviderInstanceRef 定位 combatant 上的 provider instance。
@@ -41,21 +47,26 @@ type ProviderInstanceRef struct {
 
 // GenericEvent 是 generic runtime 调度事件。
 type GenericEvent struct {
-	ProcessIndex       int
-	ProcessStepVersion int
-	ProcessSortKey     string
-	TimeMs             int64
-	Category           GenericEventCategory
-	Priority           int16
-	Seq                uint64
-	Kind               GenericEventKind
+	SkillActionIndex      int
+	AmmoGeneration        uint64
+	BasicAttackGeneration uint64
+	ProcessIndex          int
+	ProcessStepVersion    int
+	ProcessExecutionIndex int
+	ProcessSortKey        string
+	TimeMs                int64
+	Category              GenericEventCategory
+	Priority              int16
+	Seq                   uint64
+	Kind                  GenericEventKind
 	// DriverEntryIndex 指向 driver plan entry；-1 表示非 driver 事件。
 	DriverEntryIndex int
 	AttemptIndex     int
 	// ContinuationID 定位 run-local triggered continuation payload；0 表示无。
 	ContinuationID uint64
 	// ProviderInstanceRef 用于 provider_tick / expire_cleanup 定位 provider。
-	ProviderInstanceRef ProviderInstanceRef
+	ProviderInstanceRef       ProviderInstanceRef
+	ProviderTickActivatedAtMs int64
 }
 
 // GenericHeap 是 generic 专用最小堆。
@@ -116,6 +127,33 @@ func (h *GenericHeap) PeekTime() (int64, bool) {
 		return 0, false
 	}
 	return h.items[0].TimeMs, true
+}
+
+func (h *GenericHeap) HasBasicAttack() bool {
+	for _, event := range h.items {
+		if event.Kind == GenericEventBasicAttack {
+			return true
+		}
+	}
+	return false
+}
+
+func (h *GenericHeap) RescheduleBasicAttack(at int64, generation uint64) bool {
+	for index := range h.items {
+		if h.items[index].Kind != GenericEventBasicAttack {
+			continue
+		}
+		previous := h.items[index].TimeMs
+		h.items[index].TimeMs = at
+		h.items[index].BasicAttackGeneration = generation
+		if at < previous {
+			h.up(index)
+		} else {
+			h.down(index)
+		}
+		return true
+	}
+	return false
 }
 
 // GenericLess 定义 generic 堆序：timeMs → category → priority → seq。

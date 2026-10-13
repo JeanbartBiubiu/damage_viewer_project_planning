@@ -12,25 +12,25 @@ import (
 // empowered hit 顺序 0 damage → 1 heal → 2 repeat(+200ms) → 3 ICD arm → 4 ready consume。
 
 const (
-	duskAndDawnProviderRef       = "item:dusk_and_dawn_spellblade"
-	duskAndDawnDamageOpRef       = "op:dusk_and_dawn_spellblade_damage"
-	duskAndDawnHealOpRef         = "op:dusk_and_dawn_spellblade_heal"
-	duskAndDawnAuxProviderRef    = "item:dusk_and_dawn_aux_on_hit"
-	duskAndDawnAuxDamageOpRef    = "op:dusk_and_dawn_aux_copyable"
-	duskAndDawnRepeatTag         = "dusk_and_dawn_delayed_on_hit"
-	duskAndDawnADBase            = 100.0
-	duskAndDawnAP                = 100.0
-	duskAndDawnMR                = 100.0
-	duskAndDawnAADamage          = 10.0
-	duskAndDawnADRatio           = 0.75
-	duskAndDawnAPRatio           = 0.10
-	duskAndDawnHealAPRatio       = 0.10
-	duskAndDawnHealBonusHPRatio  = 0.03
-	duskAndDawnHPBase            = 1000.0
-	duskAndDawnHPMax             = 2000.0
-	duskAndDawnHPCurrent         = 1500.0
-	duskAndDawnAuxDamage         = 25.0
-	duskAndDawnRepeatDelayMs     = 200
+	duskAndDawnProviderRef      = "item:dusk_and_dawn_spellblade"
+	duskAndDawnDamageOpRef      = "op:dusk_and_dawn_spellblade_damage"
+	duskAndDawnHealOpRef        = "op:dusk_and_dawn_spellblade_heal"
+	duskAndDawnAuxProviderRef   = "item:dusk_and_dawn_aux_on_hit"
+	duskAndDawnAuxDamageOpRef   = "op:dusk_and_dawn_aux_copyable"
+	duskAndDawnRepeatTag        = "dusk_and_dawn_delayed_on_hit"
+	duskAndDawnADBase           = 100.0
+	duskAndDawnAP               = 100.0
+	duskAndDawnMR               = 100.0
+	duskAndDawnAADamage         = 10.0
+	duskAndDawnADRatio          = 0.75
+	duskAndDawnAPRatio          = 0.10
+	duskAndDawnHealAPRatio      = 0.10
+	duskAndDawnHealBonusHPRatio = 0.03
+	duskAndDawnHPBase           = 1000.0
+	duskAndDawnHPMax            = 2000.0
+	duskAndDawnHPCurrent        = 1500.0
+	duskAndDawnAuxDamage        = 25.0
+	duskAndDawnRepeatDelayMs    = 200
 )
 
 func duskAndDawnExpectedRaw(baseAD, resolvedAP float64) float64 {

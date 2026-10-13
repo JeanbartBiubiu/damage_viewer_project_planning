@@ -429,7 +429,7 @@ func loadRetributionFixture(t *testing.T, missingRatio float64) (model.CompileRe
 // (base AD + Tyranny), without reading ad.resolved inside the modifier formula.
 func TestGenericWikiReadyItemsRetributionMissingHealthADMultiply(t *testing.T) {
 	tyrannyBonus := tyrannyContributionAD(tyrannyBonusHealthFixed) // 10
-	preMulAD := tyrannyBaseAD + tyrannyBonus                        // 110
+	preMulAD := tyrannyBaseAD + tyrannyBonus                       // 110
 	cases := []struct {
 		missingRatio float64
 		wantFactor   float64

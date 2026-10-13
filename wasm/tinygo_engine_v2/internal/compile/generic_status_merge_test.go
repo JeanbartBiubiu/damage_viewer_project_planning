@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 func statusConst(v float64) model.GenericFormulaExpr {
@@ -46,7 +47,7 @@ func TestCompileSourceTargetLifecycleAndStatusContributions(t *testing.T) {
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
-	var found *CompiledProvider
+	var found *plan.CompiledProvider
 	for i := range result.Session.Providers {
 		if result.Session.Providers[i].ProviderKey == "status:slow" {
 			found = &result.Session.Providers[i]

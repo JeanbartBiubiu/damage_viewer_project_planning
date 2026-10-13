@@ -4,8 +4,8 @@ import (
 	"math"
 	"strings"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 const maxUseTriggerLedger = 1024
@@ -34,7 +34,7 @@ type useTriggerRecord struct {
 }
 
 type pendingUseReservation struct {
-	listener compilebundle.CompiledListener
+	listener planbundle.CompiledListener
 	event    emittedEvent
 }
 
@@ -103,7 +103,7 @@ func (s *genericRunState) validateAttackStartFacts() *model.EngineError {
 		if use.skillKey != ability.SkillKey {
 			return s.skillHitErr(model.GenericErrUnknownRef, "attack start skillKey must equal skillUses.skillKey", path+".useRef", fact.UseRef)
 		}
-		if _, ok := s.compiled.Types.Registry.Lookup(model.EventTypeBasicAttackStart); !ok {
+		if _, ok := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackStart); !ok {
 			return s.skillHitErr(model.GenericErrUnknownTypeKey, "attack start requires event/basic_attack_start in typeCatalog", path, model.EventTypeBasicAttackStart)
 		}
 		s.attackStartFacts[fact.DriverEntryKey] = fact
@@ -185,8 +185,8 @@ func (s *genericRunState) restoreUseTriggerLedger(rows []model.UseTriggerLedgerE
 	return nil
 }
 
-func (s *genericRunState) mountedOncePerUseGroups() map[string]compilebundle.CompiledListener {
-	out := map[string]compilebundle.CompiledListener{}
+func (s *genericRunState) mountedOncePerUseGroups() map[string]planbundle.CompiledListener {
+	out := map[string]planbundle.CompiledListener{}
 	for _, listener := range s.compiled.Listeners {
 		if !listener.HasOncePerUse || listener.OwnerCombatantKey == "" || listener.OwnerProviderRef == "" {
 			continue
@@ -200,7 +200,7 @@ func (s *genericRunState) mountedOncePerUseGroups() map[string]compilebundle.Com
 	return out
 }
 
-func (s *genericRunState) validateRestoredLedgerRow(row model.UseTriggerLedgerEntry, path string, mounted map[string]compilebundle.CompiledListener) *model.EngineError {
+func (s *genericRunState) validateRestoredLedgerRow(row model.UseTriggerLedgerEntry, path string, mounted map[string]planbundle.CompiledListener) *model.EngineError {
 	if strings.TrimSpace(row.Owner) == "" || strings.TrimSpace(row.ProviderRef) == "" || strings.TrimSpace(row.GroupKey) == "" ||
 		strings.TrimSpace(row.Scope) == "" || strings.TrimSpace(row.UseSource) == "" || strings.TrimSpace(row.UseSkillKey) == "" || strings.TrimSpace(row.UseKey) == "" {
 		return s.skillHitErr(model.GenericErrMissingRequiredField, "useTriggerLedger fields must be complete", path, row.UseKey)
@@ -247,12 +247,12 @@ func ledgerKeyFromEntry(row model.UseTriggerLedgerEntry) useTriggerKey {
 	return key
 }
 
-func (s *genericRunState) oncePerUseKey(listener compilebundle.CompiledListener, ev emittedEvent) (useTriggerKey, *model.EngineError) {
+func (s *genericRunState) oncePerUseKey(listener planbundle.CompiledListener, ev emittedEvent) (useTriggerKey, *model.EngineError) {
 	if !ev.hasUse || strings.TrimSpace(ev.useKey) == "" {
 		return useTriggerKey{}, s.skillHitErr(model.GenericErrMissingRequiredField, "oncePerUse requires a real use fact on the triggering event", "listeners["+listener.ListenerKey+"].oncePerUse", listener.OncePerUseGroup)
 	}
 	if !model.IsRealUseEvent(ev.eventType) {
-		return useTriggerKey{}, s.skillHitErr(model.GenericErrUnknownRef, "oncePerUse only accepts skill_hit, basic_attack_hit or basic_attack_start", "listeners["+listener.ListenerKey+"].oncePerUse", ev.eventType)
+		return useTriggerKey{}, s.skillHitErr(model.GenericErrUnknownRef, "oncePerUse requires an engine-produced originating-use event", "listeners["+listener.ListenerKey+"].oncePerUse", ev.eventType)
 	}
 	key := useTriggerKey{
 		owner:       listener.OwnerCombatantKey,
@@ -264,11 +264,14 @@ func (s *genericRunState) oncePerUseKey(listener compilebundle.CompiledListener,
 	}
 	if listener.OncePerUseScope == model.OncePerUseScopeProviderTarget {
 		key.target = ev.targetKey
+		if ev.eventType == model.EventTypeDamageTaken || ev.eventType == model.EventTypeBasicAttackReceived {
+			_, key.target = s.listenerFrameCombatants(ev, listener)
+		}
 	}
 	return key, nil
 }
 
-func (s *genericRunState) reserveOncePerUse(listener compilebundle.CompiledListener, ev emittedEvent) (reserved bool, skip bool, err *model.EngineError) {
+func (s *genericRunState) reserveOncePerUse(listener planbundle.CompiledListener, ev emittedEvent) (reserved bool, skip bool, err *model.EngineError) {
 	if !listener.HasOncePerUse {
 		return false, false, nil
 	}
@@ -290,7 +293,7 @@ func (s *genericRunState) reserveOncePerUse(listener compilebundle.CompiledListe
 	return true, false, nil
 }
 
-func (s *genericRunState) commitOncePerUse(listener compilebundle.CompiledListener, ev emittedEvent) {
+func (s *genericRunState) commitOncePerUse(listener planbundle.CompiledListener, ev emittedEvent) {
 	if !listener.HasOncePerUse {
 		return
 	}
@@ -396,10 +399,11 @@ func useTriggerLedgerLess(a, b model.UseTriggerLedgerEntry) bool {
 
 func (s *genericRunState) lazyExpireAllProviderState() {
 	for key, c := range s.combatants {
-		for _, bag := range c.providerState {
-			if bag == nil {
+		for ref, bag := range c.providerState {
+			if !bag.needsLazyExpiration(s.nowMs) {
 				continue
 			}
+			bag = writableProviderStateBag(c.writableProviderStates(), ref, false)
 			bag.lazyExpireProviderState(s.nowMs)
 			bag.lazyExpireProviderTargetState(s.nowMs)
 		}
@@ -420,13 +424,15 @@ func addDuration(nowMs, durationMs int64) (int64, bool) {
 	return nowMs + durationMs, true
 }
 
-func (s *genericRunState) evalListenerCondition(listener compilebundle.CompiledListener, ev emittedEvent) (bool, *model.EngineError) {
+func (s *genericRunState) evalListenerCondition(listener planbundle.CompiledListener, ev emittedEvent) (bool, *model.EngineError) {
 	sourceKey, targetKey := s.listenerFrameCombatants(ev, listener)
-	ability := compilebundle.CompiledAbility{Params: map[string]float64{}}
+	ability := planbundle.CompiledAbility{Params: map[string]float64{}}
 	if listener.SourceAbilityIndex >= 0 && listener.SourceAbilityIndex < len(s.compiled.Abilities) {
 		ability = s.compiled.Abilities[listener.SourceAbilityIndex]
 	}
-	frame := s.newExecutionFrame(sourceKey, targetKey, "listener:"+listener.ListenerKey)
+	var frameStorage executionFrame
+	s.initExecutionFrame(&frameStorage, sourceKey, targetKey, "listener:"+listener.ListenerKey)
+	frame := &frameStorage
 	frame.strictReads = true
 	frame.ownerCombatantKey = listener.OwnerCombatantKey
 	frame.ownerProviderRef = listener.OwnerProviderRef
@@ -441,12 +447,12 @@ func (s *genericRunState) evalListenerCondition(listener compilebundle.CompiledL
 	}
 	ctx := frame.evalContext(ability)
 	ctx.StrictReads = true
-	value, err := s.compiled.Formulas.Eval(listener.ConditionProgram, ctx)
+	value, err := s.formulas.EvalContext(listener.ConditionProgram, &ctx)
 	if err != nil {
 		out := engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 		out.Path = "listeners[" + listener.ListenerKey + "].condition"
 		out.Ref = listener.ListenerKey
-		return false, out
+		return false, preserveFormulaIssue(err, out)
 	}
 	if math.IsNaN(value) || math.IsInf(value, 0) {
 		return false, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "listener.condition result must be finite", "listeners["+listener.ListenerKey+"].condition", listener.ListenerKey, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)

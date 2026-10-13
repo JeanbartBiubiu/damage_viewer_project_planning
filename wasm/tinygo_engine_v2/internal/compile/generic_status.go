@@ -5,13 +5,14 @@ import (
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
-func compileStatusContributions(items []model.StatusContributionDefinition, path string, ctx *genericCompileContext) []CompiledStatusContribution {
+func compileStatusContributions(items []model.StatusContributionDefinition, path string, ctx *genericCompileContext) []plan.CompiledStatusContribution {
 	if len(items) == 0 {
 		return nil
 	}
-	out := make([]CompiledStatusContribution, 0, len(items))
+	out := make([]plan.CompiledStatusContribution, 0, len(items))
 	seen := map[string]int{}
 	for i, item := range items {
 		p := path + "[" + itoa(i) + "]"
@@ -30,7 +31,7 @@ func compileStatusContributions(items []model.StatusContributionDefinition, path
 		if item.StatusKind != model.StatusKindMovementSlow {
 			add(model.GenericErrUnknownRef, p+".statusKind", "status contribution statusKind must be movement_slow", item.StatusKind)
 		}
-		compiled := CompiledStatusContribution{
+		compiled := plan.CompiledStatusContribution{
 			ResultRef:  item.ResultRef,
 			StatusKey:  item.StatusKey,
 			StatusKind: item.StatusKind,
@@ -38,8 +39,7 @@ func compileStatusContributions(items []model.StatusContributionDefinition, path
 		}
 		instr := formula.CompileGenericFormula(item.Strength, p+".strength", ctx.namedFormulas, map[string]bool{}, add)
 		if len(instr) > 0 {
-			compiled.StrengthProgram = ctx.registerFormula(p+".strength", instr)
-			compiled.HasStrength = true
+			compiled.StrengthProgram, compiled.HasStrength = ctx.registerFormula(p+".strength", instr)
 		} else {
 			add(model.GenericErrMissingRequiredField, p+".strength", "status contribution strength is required; explicit zero is allowed", item.ResultRef)
 		}
@@ -48,7 +48,7 @@ func compileStatusContributions(items []model.StatusContributionDefinition, path
 	return out
 }
 
-func validateProviderStatusLifecycle(def model.ProviderDefinition, compiled CompiledProvider, path string, collector *genericCollector) {
+func validateProviderStatusLifecycle(def model.ProviderDefinition, compiled plan.CompiledProvider, path string, collector *genericCollector) {
 	lc := def.Lifecycle
 	scope := ""
 	if lc != nil {
@@ -64,7 +64,7 @@ func validateProviderStatusLifecycle(def model.ProviderDefinition, compiled Comp
 	if scope != model.InstanceScopeSourceTarget {
 		return
 	}
-	if lc == nil || lc.MaxStacks != 1 {
+	if compiled.Lifecycle == nil || compiled.Lifecycle.MaxStacks != 1 {
 		collector.addError(model.GenericErrUnknownRef, path+".lifecycle.maxStacks", "source_target requires explicit maxStacks=1", def.ProviderKey)
 	}
 	if lc == nil || lc.RefreshPolicy != model.RefreshPolicyReplace {

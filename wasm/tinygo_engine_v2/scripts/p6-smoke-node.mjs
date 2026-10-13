@@ -27,7 +27,7 @@ function emitted(done, ref) {
 }
 
 async function main() {
-  const wasmPath = resolve(moduleRoot, "dist", "tinygo_engine_v2.wasm");
+  const wasmPath = resolve(moduleRoot, process.argv[2] ?? "dist/tinygo_engine_v2.wasm");
   const host = await withTimeout(instantiateGenericHost(wasmPath), 30000, "instantiate");
   const run = (fixture, check) => {
     const compiled = compileCanonicalSession(host.exports, fixture);

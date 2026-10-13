@@ -7,13 +7,15 @@ import (
 	"sort"
 	"strconv"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 	shieldpkg "tinygo_engine_v2/internal/shield"
 	"tinygo_engine_v2/internal/status"
+	"tinygo_engine_v2/internal/typeset"
 )
 
 const (
@@ -23,15 +25,26 @@ const (
 )
 
 type combatantRuntime struct {
-	key            string
-	attributes     map[string]model.AttributeSlotDef
-	resources      map[string]model.ResourceSlotDef
-	cooldowns      map[string]int64
-	providers      []status.ProviderInstance
-	shields        []shieldpkg.Instance
-	resolver       pipeline.AttributeResolver
-	damageResolver pipeline.DamageModifierResolver
-	providerState  map[string]*providerStateBag
+	providersShared     bool
+	key                 string
+	attributes          attribute.Table
+	resources           map[string]model.ResourceSlotDef
+	cooldowns           map[string]int64
+	providers           []status.ProviderInstance
+	shields             []shieldpkg.Instance
+	resolver            pipeline.AttributeResolver
+	damageResolver      pipeline.DamageModifierResolver
+	providerState       map[string]*providerStateBag
+	providerStateShared bool
+}
+
+// 实例列表可供帧读取；State与StatusContributions在列表内始终只读。
+func (c *combatantRuntime) writableProviders() []status.ProviderInstance {
+	if c.providersShared {
+		c.providers = append([]status.ProviderInstance(nil), c.providers...)
+		c.providersShared = false
+	}
+	return c.providers
 }
 
 type abilityStatAcc struct {
@@ -51,11 +64,31 @@ type damageRecord struct {
 }
 
 type genericRunState struct {
+	abilityTypeKeyCache        map[typeset.TypeSet][]string
+	attributeMemos             map[attributeMemoKey]*attributeMemo
+	providerDefinitionFields   []map[string]providerStateFieldDef
+	skillAction                *skillActionRuntime
+	skillActions               []skillActionRuntime
+	skillActionByUse           map[string]*skillActionRuntime
+	skillTargetKilledAt        *int64
+	actionDeaths               map[string]bool
+	skillActionRecords         []model.SkillActionRecord
+	skillUseRecords            []model.SkillUseRecord
+	healingRecords             []model.DirectHealingRecord
+	skillActionRecordCount     int
+	skillUseRecordCount        int
+	healingRecordCount         int
+	maxSkillActionRecords      int
+	maxSkillUseRecords         int
+	maxHealingRecords          int
+	sourceDirectHealing        float64
+	targetDirectHealing        float64
 	processInstances           []*processRuntime
 	processFacts               map[string]model.ProcessCommandFact
 	processFailure             *model.EngineError
 	settlingProcessDeaths      bool
-	compiled                   compilebundle.CompiledSession
+	compiled                   planbundle.CompiledSession
+	formulas                   formula.GenericRegistry
 	req                        model.RunRequest
 	nowMs                      int64
 	startMs                    int64
@@ -65,22 +98,29 @@ type genericRunState struct {
 	combatants map[string]combatantRuntime
 	heap       scheduler.GenericHeap
 
-	budget                 model.SafetyBudget
-	currentEventCommands   int
-	basicAttackEventActive bool
-	budgetCause            model.BudgetCause
-	basicAttack            *basicAttackRuntime
-	attackRecords          []model.BasicAttackRecord
-	damageRecords          []map[string]interface{}
-	damageBreakdown        []model.DamageBreakdown
-	damageBreakdownIndex   map[damageBreakdownKey]int
-	sourceHpLoss           float64
-	targetHpLoss           float64
-	damageRecordCount      int
-	maxAttackRecords       int
-	maxDamageRecords       int
-	effectiveSampleEveryMs int64
-	nextSampleAtMs         int64
+	budget                    model.SafetyBudget
+	currentEventCommands      int
+	basicAttackEventActive    bool
+	initializationEventActive bool
+	initializationPending     int
+	budgetCause               model.BudgetCause
+	basicAttack               *basicAttackRuntime
+	attackRecords             []model.BasicAttackRecord
+	mechanicRecords           []model.MechanicRecord
+	mechanicRecordCount       int
+	maxMechanicRecords        int
+	damageRecords             []map[string]interface{}
+	damageBreakdown           []model.DamageBreakdown
+	damageBreakdownIndex      map[damageBreakdownKey]int
+	sourceHpLoss              float64
+	targetHpLoss              float64
+	sourceVampHealing         float64
+	targetVampHealing         float64
+	damageRecordCount         int
+	maxAttackRecords          int
+	maxDamageRecords          int
+	effectiveSampleEveryMs    int64
+	nextSampleAtMs            int64
 
 	abilityAttemptCount int
 	abilityCastCount    int
@@ -101,6 +141,8 @@ type genericRunState struct {
 	evidenceTruncated      bool
 	truncatedEvidenceCount int
 	evidenceCountsByKind   map[string]int
+	evidenceRetainedCount  int
+	evidenceRetainedByKind map[string]int
 
 	series                []model.SeriesPoint
 	seriesDownsampled     bool
@@ -135,14 +177,14 @@ type genericRunState struct {
 	skillHitGroups          map[string]*skillHitGroup
 	skillHitLedger          map[string]*frozenSkillHitContext
 	skillHitOccurrenceCount uint64
-	runtimeListeners        []compilebundle.CompiledListener
+	runtimeListeners        []planbundle.CompiledListener
 	attackStartFacts        map[string]model.AttackStartFact
 	useTriggerLedger        map[useTriggerKey]*useTriggerRecord
 	useTriggerReserving     int
 }
 
 // RunGeneric 执行单次 generic deterministic run，返回 DoneResult。
-func RunGeneric(compiled compilebundle.CompiledSession, req model.RunRequest) (model.DoneResult, *model.EngineError) {
+func RunGeneric(compiled planbundle.CompiledSession, req model.RunRequest) (model.DoneResult, *model.EngineError) {
 	state, err := newGenericRunState(compiled, req)
 	if err != nil {
 		return model.DoneResult{}, err
@@ -153,7 +195,13 @@ func RunGeneric(compiled compilebundle.CompiledSession, req model.RunRequest) (m
 	return state.buildDoneResult(), nil
 }
 
-func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunRequest) (*genericRunState, *model.EngineError) {
+func newGenericRunState(compiled planbundle.CompiledSession, req model.RunRequest) (*genericRunState, *model.EngineError) {
+	if req.OutputMode != "" && req.OutputMode != model.RunOutputDetailed && req.OutputMode != model.RunOutputSummary {
+		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "outputMode must be detailed or summary", "outputMode", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
+	}
+	if (req.DriverPlan.BasicAttack != nil || len(req.DriverPlan.SkillActions) > 0) && len(compiled.RuleModifiers) != 0 {
+		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "continuous basic attack does not admit unselected global modifiers", "rules.modifiers", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
+	}
 	recheck := normalizeConditionRecheckInterval(req.DriverPlan.ConditionRecheckIntervalMs)
 
 	sampling := req.Sampling
@@ -194,7 +242,7 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 		if sb.MaxBasicAttacks > 0 {
 			budget.MaxBasicAttacks = sb.MaxBasicAttacks
 		}
-		if req.DriverPlan.BasicAttack != nil && ((sb.MaxEvents > compiled.Settings.MaxEvents && compiled.Settings.MaxEvents > 0) || (sb.MaxCommandsPerEvent > compiled.Settings.MaxCommandsPerEvent && compiled.Settings.MaxCommandsPerEvent > 0) || (sb.MaxChainDepth > compiled.Settings.MaxChainDepth && compiled.Settings.MaxChainDepth > 0)) {
+		if (req.DriverPlan.BasicAttack != nil || len(req.DriverPlan.SkillActions) > 0) && ((sb.MaxEvents > compiled.Settings.MaxEvents && compiled.Settings.MaxEvents > 0) || (sb.MaxCommandsPerEvent > compiled.Settings.MaxCommandsPerEvent && compiled.Settings.MaxCommandsPerEvent > 0) || (sb.MaxChainDepth > compiled.Settings.MaxChainDepth && compiled.Settings.MaxChainDepth > 0)) {
 			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "run safety budget exceeds compiled limits", "safetyBudget", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 		}
 		if sb.MaxProcessInstances > 0 {
@@ -216,8 +264,12 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	}
 	validateRuntimeOptions(req.RuntimeOptions)
 
-	combatants, err := materializeCombatants(req.InitialSnapshot, compiled, req.SessionID)
+	formulas := *compiled.Formulas.CloneForRun()
+	combatants, err := materializeCombatants(req.InitialSnapshot, compiled, formulas, req.SessionID)
 	if err != nil {
+		return nil, err
+	}
+	if err := validateFixedEquipmentHealth(compiled, combatants, req.SessionID); err != nil {
 		return nil, err
 	}
 	usedProviderRefs := map[string]bool{}
@@ -235,6 +287,7 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 
 	state := &genericRunState{
 		compiled:                   compiled,
+		formulas:                   formulas,
 		req:                        req,
 		nowMs:                      req.InitialSnapshot.TimeMs,
 		startMs:                    req.InitialSnapshot.TimeMs,
@@ -257,10 +310,14 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	state.heap.SetLimit(compiled.Settings.MaxQueueEvents)
 	state.maxAttackRecords, state.maxDamageRecords = 1000, 2000
 	state.attackRecords = []model.BasicAttackRecord{}
+	state.mechanicRecords = []model.MechanicRecord{}
 	state.damageRecords = []map[string]interface{}{}
 	state.damageBreakdown = []model.DamageBreakdown{}
 	state.damageBreakdownIndex = map[damageBreakdownKey]int{}
 	if req.RecordBudget != nil {
+		if req.RecordBudget.MaxMechanicRecords != nil {
+			state.maxMechanicRecords = *req.RecordBudget.MaxMechanicRecords
+		}
 		if req.RecordBudget.MaxAttackRecords != nil {
 			state.maxAttackRecords = *req.RecordBudget.MaxAttackRecords
 		}
@@ -268,7 +325,7 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 			state.maxDamageRecords = *req.RecordBudget.MaxDamageRecords
 		}
 	}
-	if state.maxAttackRecords < 0 || state.maxAttackRecords > 4096 || state.maxDamageRecords < 0 || state.maxDamageRecords > 10000 {
+	if state.maxAttackRecords < 0 || state.maxAttackRecords > 4096 || state.maxDamageRecords < 0 || state.maxDamageRecords > 10000 || state.maxMechanicRecords < 0 || state.maxMechanicRecords > 10000 {
 		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "invalid record retention budget", "recordBudget", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 	}
 	if err := state.initSamplingCursor(); err != nil {
@@ -289,13 +346,23 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	if err := state.initProcessState(); err != nil {
 		return nil, err
 	}
+	if err := state.initSkillAction(); err != nil {
+		return nil, err
+	}
 	if err := state.initBasicAttack(); err != nil {
 		return nil, err
 	}
+	if err := state.seedSourceInitialization(); err != nil {
+		return nil, err
+	}
 	state.seedDriverAttempts()
+	state.seedSkillAction()
 	state.seedExpireCleanups()
 	state.seedProviderTicks()
 	if state.basicAttack != nil {
+		if state.basicAttack.ammo != nil && len(state.skillActions) > 0 {
+			state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.startMs, Category: scheduler.GenericCategoryAmmoRecovery, Kind: scheduler.GenericEventAmmoAdmission, DriverEntryIndex: -1})
+		}
 		state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.startMs, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1})
 	}
 	return state, nil
@@ -316,19 +383,39 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 		compileErrors = append(compileErrors, err)
 	}
 	for i, entry := range s.req.DriverPlan.Entries {
+		refs := s.formulas.DeclaredReferences()
+		skill := ""
+		source, _ := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
+		target, _ := s.resolveDriverCombatantKey(entry.Target, source)
+		if ref, ok := s.compiled.AbilityRefIndex[normalizeAbilityRef(entry.AbilityRef, source, target)]; ok {
+			skill = s.compiled.Abilities[ref.AbilityIndex].SkillKey
+		}
 		if entry.Condition != nil {
 			path := "driverPlan.entries[" + entry.EntryKey + "].condition"
-			instr := formula.CompileGenericFormula(*entry.Condition, path, map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError)
-			for _, in := range instr {
+			instr := formula.CompileGenericFormula(*entry.Condition, path, refs, map[string]bool{}, addError)
+			if !s.formulas.ValidDeclaredScope(instr, skill) {
+				addError(model.GenericErrUnknownRef, path, "driver common formula requires its actual ability skill", entry.AbilityRef)
+				continue
+			}
+			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
+				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadUseChargeDuration {
+					addError(model.GenericErrFormulaTypeError, path, "runtime parameters unavailable in driver condition", in.ReadKey)
+				}
 				if in.ReadKind == formula.ReadProcessActualCost {
 					addError(model.GenericErrFormulaTypeError, path, "process actual costs are unavailable in a driver condition", in.ReadKey)
+				}
+				if in.ReadKind == formula.ReadUseAmmoBefore {
+					addError(model.GenericErrFormulaTypeError, path, "use.ammo.before is unavailable before native attack admission", "use.ammo.before")
 				}
 			}
 			if len(instr) > 0 {
 				key := "run:" + path
-				id := formula.GenericProgramID(len(s.compiled.Formulas.Programs))
-				s.compiled.Formulas.Programs = append(s.compiled.Formulas.Programs, formula.GenericProgram{Key: key, Instr: instr})
-				s.entryConditions[i] = &id
+				id, err := s.formulas.Register(formula.GenericProgram{Key: key, Instr: instr})
+				if err != nil {
+					addError(model.GenericErrFormulaTypeError, path, err.Error(), key)
+				} else {
+					s.entryConditions[i] = &id
+				}
 			}
 		}
 		if entry.Repeat == nil {
@@ -344,19 +431,32 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 			addError(model.GenericErrMissingRequiredField, repeatPath, "repeat requires intervalMs or intervalFormula", entry.AbilityRef)
 		case hasFormula:
 			path := repeatPath + ".intervalFormula"
-			instr := formula.CompileGenericFormula(*entry.Repeat.IntervalFormula, path, map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError)
-			for _, in := range instr {
+			instr := formula.CompileGenericFormula(*entry.Repeat.IntervalFormula, path, refs, map[string]bool{}, addError)
+			if !s.formulas.ValidDeclaredScope(instr, skill) {
+				addError(model.GenericErrUnknownRef, path, "driver common formula requires its actual ability skill", entry.AbilityRef)
+				continue
+			}
+			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
+				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadUseChargeDuration {
+					addError(model.GenericErrFormulaTypeError, path, "runtime parameters unavailable in driver repeat", in.ReadKey)
+				}
 				if in.ReadKind == formula.ReadProcessActualCost {
 					addError(model.GenericErrFormulaTypeError, path, "process actual costs are unavailable in a driver repeat", in.ReadKey)
+				}
+				if in.ReadKind == formula.ReadUseAmmoBefore {
+					addError(model.GenericErrFormulaTypeError, path, "use.ammo.before is unavailable in a driver repeat", "use.ammo.before")
 				}
 			}
 			if len(instr) == 0 {
 				continue
 			}
 			key := "run:" + path
-			id := formula.GenericProgramID(len(s.compiled.Formulas.Programs))
-			s.compiled.Formulas.Programs = append(s.compiled.Formulas.Programs, formula.GenericProgram{Key: key, Instr: instr})
-			s.entryIntervalPrograms[i] = &id
+			id, err := s.formulas.Register(formula.GenericProgram{Key: key, Instr: instr})
+			if err != nil {
+				addError(model.GenericErrFormulaTypeError, path, err.Error(), key)
+			} else {
+				s.entryIntervalPrograms[i] = &id
+			}
 		}
 	}
 	if len(compileErrors) > 0 {
@@ -378,17 +478,26 @@ func normalizeConditionRecheckInterval(raw int64) int64 {
 	return raw
 }
 
-func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.CompiledSession, sessionID string) (map[string]combatantRuntime, *model.EngineError) {
+func materializeCombatants(snapshot model.Snapshot, compiled planbundle.CompiledSession, formulas formula.GenericRegistry, sessionID string) (map[string]combatantRuntime, *model.EngineError) {
 	out := make(map[string]combatantRuntime, len(snapshot.Combatants))
+	layout := compiled.AttributeLayout
+	var additional []string
+	for _, c := range snapshot.Combatants {
+		for key := range c.Attributes {
+			additional = append(additional, key)
+		}
+	}
+	if layout == nil {
+		layout = attribute.NewLayout(additional)
+	} else {
+		layout = layout.Extend(additional)
+	}
 	combatantKeys := make(map[string]bool, len(snapshot.Combatants))
 	for _, c := range snapshot.Combatants {
 		combatantKeys[c.Key] = true
 	}
 	for i, c := range snapshot.Combatants {
 		attrs := c.Attributes
-		if attrs == nil {
-			attrs = map[string]model.AttributeSlotDef{}
-		}
 		resources := c.Resources
 		if resources == nil {
 			resources = map[string]model.ResourceSlotDef{}
@@ -401,7 +510,7 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 		shields := materializeShields(c.Shields, c.Key)
 		out[c.Key] = combatantRuntime{
 			key:           c.Key,
-			attributes:    cloneAttributeMap(attrs),
+			attributes:    attribute.FromMap(attrs, layout),
 			resources:     cloneResourceMap(resources),
 			cooldowns:     materializeCooldowns(c.Cooldowns),
 			providers:     providers,
@@ -426,9 +535,10 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 			SourceAttrs: c.attributes,
 			TargetAttrs: c.attributes,
 		}
-		c.attributes = c.resolver.ResolveAttributesWithProviderContext(
-			c.attributes, evalCtx, compiled.Formulas,
-			func(ownerKey, providerRef string) formula.GenericEvalContext {
+		var resolveErr error
+		c.attributes, resolveErr = c.resolver.ResolveAttributesWithProviderContext(
+			c.attributes, evalCtx, formulas,
+			func(ownerKey, providerRef string) pipeline.ProviderFormulaContext {
 				bagOwner := ownerKey
 				if bagOwner == "" {
 					bagOwner = key
@@ -444,11 +554,14 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 				return providerFormulaContextFromBag(bag, providerTargetActiveKey(key, ownerKey, ""))
 			},
 		)
+		if resolveErr != nil {
+			return nil, preserveFormulaIssue(resolveErr, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID))
+		}
 		out[key] = c
 	}
 	// Re-resolve with cross-combatant eval context after both sides exist.
-	sourceAttrs := map[string]model.AttributeSlotDef{}
-	targetAttrs := map[string]model.AttributeSlotDef{}
+	sourceAttrs := attribute.Table{}
+	targetAttrs := attribute.Table{}
 	if src, ok := out[model.SelectorSource]; ok {
 		sourceAttrs = src.attributes
 	}
@@ -462,9 +575,10 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 		}
 		// Same-combatant cast-proxy default remains target (historical materialize semantics).
 		castProxy := model.SelectorTarget
-		c.attributes = c.resolver.ResolveAttributesWithProviderContext(
-			c.attributes, evalCtx, compiled.Formulas,
-			func(ownerKey, providerRef string) formula.GenericEvalContext {
+		var resolveErr error
+		c.attributes, resolveErr = c.resolver.ResolveAttributesWithProviderContext(
+			c.attributes, evalCtx, formulas,
+			func(ownerKey, providerRef string) pipeline.ProviderFormulaContext {
 				bagOwner := ownerKey
 				if bagOwner == "" {
 					bagOwner = key
@@ -480,12 +594,27 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 				return providerFormulaContextFromBag(bag, providerTargetActiveKey(key, ownerKey, castProxy))
 			},
 		)
+		if resolveErr != nil {
+			return nil, preserveFormulaIssue(resolveErr, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID))
+		}
 		out[key] = c
+	}
+	for _, key := range []string{"source", "target"} {
+		actor, exists := out[key]
+		if !exists {
+			continue
+		}
+		resolved, resolveErr := resolveDerivedAttributes(compiled, formulas, key, actor.attributes, actor.resolver, out["source"].attributes, out["target"].attributes, nil)
+		if resolveErr != nil {
+			return nil, preserveFormulaIssue(resolveErr, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID))
+		}
+		actor.attributes = resolved
+		out[key] = actor
 	}
 	return out, nil
 }
 
-func mountRuleModifiers(resolver *pipeline.AttributeResolver, damageResolver *pipeline.DamageModifierResolver, combatantKey string, compiled compilebundle.CompiledSession) {
+func mountRuleModifiers(resolver *pipeline.AttributeResolver, damageResolver *pipeline.DamageModifierResolver, combatantKey string, compiled planbundle.CompiledSession) {
 	for _, mod := range compiled.RuleModifiers {
 		if mod.Kind == "pipeline" {
 			mountRulePipelineModifier(damageResolver, combatantKey, mod)
@@ -528,7 +657,7 @@ func mountRuleModifiers(resolver *pipeline.AttributeResolver, damageResolver *pi
 // mountRulePipelineModifier mounts rules pipeline modifiers by stage ownership:
 // command=crit + outgoing_pre_mitigation → source;
 // incoming_crit_part_post_mitigation + incoming_post_mitigation → target.
-func mountRulePipelineModifier(damageResolver *pipeline.DamageModifierResolver, combatantKey string, mod compilebundle.CompiledModifier) {
+func mountRulePipelineModifier(damageResolver *pipeline.DamageModifierResolver, combatantKey string, mod planbundle.CompiledModifier) {
 	if damageResolver == nil {
 		return
 	}
@@ -583,7 +712,7 @@ func (s *genericRunState) combatantHp(key string) float64 {
 	if !ok {
 		return 0
 	}
-	if slot, ok := c.attributes["hp"]; ok {
+	if slot, ok := c.attributes.Lookup("hp"); ok {
 		return slot.Current
 	}
 	return 0
@@ -594,7 +723,7 @@ func (s *genericRunState) combatantHasHp(key string) bool {
 	if !ok {
 		return false
 	}
-	_, ok = c.attributes["hp"]
+	_, ok = c.attributes.Lookup("hp")
 	return ok
 }
 
@@ -657,13 +786,23 @@ func (s *genericRunState) runLoop() *model.EngineError {
 	end := s.startMs + s.durationMs
 	for {
 		if s.processFailure != nil {
-			if s.basicAttack == nil || s.processFailure.BudgetCause == "" {
+			if !s.automatedRun() || s.processFailure.BudgetCause == "" {
 				return s.processFailure
 			}
 			s.setStopReason(model.StopReasonBudgetExceeded)
 			break
 		}
 		next, hasNext := s.heap.PeekTime()
+		if len(s.skillActions) > 0 && (s.actionDeaths[model.SelectorSource] || s.actionDeaths[model.SelectorTarget] || s.combatantHp(model.SelectorSource) <= 0 || s.combatantHp(model.SelectorTarget) <= 0) {
+			s.finalizeStopReason()
+			break
+		}
+		if len(s.skillActions) > 0 && (!hasNext || next > end) {
+			s.flushSamplesBefore(end)
+			s.nowMs = end
+			s.setStopReason(model.StopReasonDurationReached)
+			break
+		}
 		// A known cooldown beyond the window finishes observation without a combat event.
 		if s.basicAttack != nil && !s.basicAttack.unfinishedTail && s.basicAttack.windowSettled && (!hasNext || next > end) {
 			s.flushSamplesBefore(end)
@@ -698,8 +837,13 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		s.flushSamplesBefore(ev.TimeMs)
 		s.nowMs = ev.TimeMs
 		s.processedEvents++
+		if len(s.skillActions) > 0 {
+			s.currentEventCommands = 0
+		}
 		var err *model.EngineError
 		switch ev.Kind {
+		case scheduler.GenericEventSourceInitialized:
+			err = s.handleSourceInitialized(ev)
 		case scheduler.GenericEventProcessTimer:
 			err = s.handleProcessTimer(ev)
 		case scheduler.GenericEventAnchoredTick:
@@ -710,20 +854,32 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			err = s.handleProviderTick(ev)
 		case scheduler.GenericEventAbilityAttempt:
 			err = s.handleAbilityAttempt(ev)
+		case scheduler.GenericEventSkillAction:
+			err = s.handleSkillAction(ev.SkillActionIndex)
 		case scheduler.GenericEventTriggeredContinuation:
 			err = s.handleTriggeredContinuation(ev)
 		case scheduler.GenericEventBasicAttack:
-			err = s.handleBasicAttack()
+			if s.basicAttackEventCurrent(ev) {
+				err = s.handleBasicAttack()
+			}
+		case scheduler.GenericEventAmmoRecovery:
+			err = s.handleAmmoRecovery(ev)
+		case scheduler.GenericEventAmmoAdmission:
+			_, err = s.basicAttackAmmoReady()
 		}
 		if err == nil {
 			err = s.processFailure
 		}
 		if err != nil {
-			if s.basicAttack == nil || err.BudgetCause == "" {
+			if !s.automatedRun() || err.BudgetCause == "" {
 				return err
 			}
 			s.setStopReason(model.StopReasonBudgetExceeded)
 			break
+		}
+		if s.basicAttack != nil && (s.combatantHp(s.basicAttack.plan.Source) <= 0 || s.combatantHp(s.basicAttack.plan.Target) <= 0) {
+			s.publishBasicAttackWait()
+			s.finalizeStopReason()
 		}
 		next, hasNext = s.heap.PeekTime()
 		if !hasNext || next > s.nowMs {
@@ -734,6 +890,7 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		}
 	}
 	s.finalizeStopReason()
+	s.publishBasicAttackWait()
 	if s.stopReason == model.StopReasonBudgetExceeded && s.budgetCause == "" {
 		s.budgetCause = model.BudgetCauseMaxEvents
 	}
@@ -777,11 +934,11 @@ func (s *genericRunState) finalizeStopReason() {
 			best = reason
 		}
 	}
-	if s.processedEvents >= s.budget.MaxEvents || s.budgetCause != "" || (s.stopReasonSet && s.stopReason == model.StopReasonBudgetExceeded) {
+	if s.budgetCause != "" || (s.stopReasonSet && s.stopReason == model.StopReasonBudgetExceeded) {
 		consider(model.StopReasonBudgetExceeded)
 	}
-	sourceDead := s.combatantHasHp(model.SelectorSource) && s.combatantHp(model.SelectorSource) <= 0
-	targetDead := s.combatantHasHp(model.SelectorTarget) && s.combatantHp(model.SelectorTarget) <= 0
+	sourceDead := s.actionDeaths[model.SelectorSource] || s.combatantHasHp(model.SelectorSource) && s.combatantHp(model.SelectorSource) <= 0
+	targetDead := s.actionDeaths[model.SelectorTarget] || s.combatantHasHp(model.SelectorTarget) && s.combatantHp(model.SelectorTarget) <= 0
 	if sourceDead && targetDead {
 		consider(model.StopReasonBothDead)
 	} else if sourceDead {
@@ -832,6 +989,9 @@ func (s *genericRunState) handleAbilityAttempt(ev scheduler.GenericEvent) *model
 		return s.handleProcessCommand(entry, ev.DriverEntryIndex, ability, statRef)
 	}
 	gate := s.checkAttemptGate(entry, ev.DriverEntryIndex)
+	if gate.err != nil {
+		return gate.err
+	}
 	if gate.skipped {
 		s.attemptSkippedCount++
 		acc.skipCount++
@@ -876,9 +1036,9 @@ func (s *genericRunState) scheduleDynamicRepeatNext(entry model.DriverEntry, ent
 		TargetResources: tgt.resources,
 	}
 	path := "driverPlan.entries[" + entry.EntryKey + "].repeat.intervalFormula"
-	raw, evalErr := s.compiled.Formulas.Eval(*s.entryIntervalPrograms[entryIndex], evalCtx)
+	raw, evalErr := s.formulas.EvalContext(*s.entryIntervalPrograms[entryIndex], &evalCtx)
 	if evalErr != nil {
-		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "intervalFormula eval failed: "+evalErr.Error(), s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+		return s.evalFormulaError(*s.entryIntervalPrograms[entryIndex], evalErr, entry.AbilityRef)
 	}
 	if math.IsNaN(raw) || math.IsInf(raw, 0) || raw <= 0 {
 		err := model.NewEngineError(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "intervalFormula must evaluate to a finite value > 0")
@@ -913,24 +1073,25 @@ func (s *genericRunState) isWhileReady(entry model.DriverEntry) bool {
 }
 
 func (s *genericRunState) recordAttemptSkipped(entry model.DriverEntry, reason model.AttemptSkipReason, readyAtMs int64) {
-	data := map[string]interface{}{
-		"entryKey":   entry.EntryKey,
-		"source":     entry.Source,
-		"target":     entry.Target,
-		"skipReason": string(reason),
-	}
-	if readyAtMs > 0 {
-		data["readyAtMs"] = readyAtMs
-	}
-	item := model.EvidenceItem{
-		TimeMs:  s.nowMs,
-		Kind:    model.EvidenceKindAttemptSkipped,
-		Ref:     entry.AbilityRef,
-		Path:    "driverPlan.entries[" + entry.EntryKey + "]",
-		Message: string(reason),
-		Data:    data,
-	}
-	s.recordEvidence(item)
+	s.recordEvidenceLazy(model.EvidenceKindAttemptSkipped, func() model.EvidenceItem {
+		data := map[string]interface{}{
+			"entryKey":   entry.EntryKey,
+			"source":     entry.Source,
+			"target":     entry.Target,
+			"skipReason": string(reason),
+		}
+		if readyAtMs > 0 {
+			data["readyAtMs"] = readyAtMs
+		}
+		return model.EvidenceItem{
+			TimeMs:  s.nowMs,
+			Kind:    model.EvidenceKindAttemptSkipped,
+			Ref:     entry.AbilityRef,
+			Path:    "driverPlan.entries[" + entry.EntryKey + "]",
+			Message: string(reason),
+			Data:    data,
+		}
+	})
 }
 
 func (s *genericRunState) recordEvidence(item model.EvidenceItem) {
@@ -939,12 +1100,20 @@ func (s *genericRunState) recordEvidence(item model.EvidenceItem) {
 	}
 	kind := string(item.Kind)
 	s.evidenceCountsByKind[kind]++
-	if len(s.evidence) >= s.budget.MaxEvidenceItems {
+	if s.evidenceRetainedCount >= s.budget.MaxEvidenceItems {
 		s.evidenceTruncated = true
 		s.truncatedEvidenceCount++
 		return
 	}
-	s.evidence = append(s.evidence, item)
+	s.evidenceRetainedCount++
+	if s.detailedOutput() {
+		s.evidence = append(s.evidence, item)
+	} else {
+		if s.evidenceRetainedByKind == nil {
+			s.evidenceRetainedByKind = map[string]int{}
+		}
+		s.evidenceRetainedByKind[kind]++
+	}
 }
 
 func (s *genericRunState) handleSample() {
@@ -1002,6 +1171,7 @@ func (s *genericRunState) damageInWindow(combatantKey string, asDealer bool, fro
 }
 
 func (s *genericRunState) buildDoneResult() model.DoneResult {
+	s.refreshActionContributions()
 	finalSnapshot := s.buildFinalSnapshot()
 
 	rawSeriesCount := len(s.series)
@@ -1043,8 +1213,21 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 		droppedSeriesPoints = requestedPoints - len(series)
 	}
 	var basicSummary *model.BasicAttackSummary
+	var sourceVampHealing, targetVampHealing *float64
+	var actionSummary *model.SkillActionSummary
+	var useSummary *model.SkillUseSummary
+	var sourceDirectHealing, targetDirectHealing *float64
+	if len(s.skillActions) > 0 {
+		actions, uses := s.skillSummaries()
+		actionSummary, useSummary = &actions, &uses
+	}
+	if s.automatedRun() {
+		sourceDirectHealing, targetDirectHealing = &s.sourceDirectHealing, &s.targetDirectHealing
+		sourceVampHealing, targetVampHealing = &s.sourceVampHealing, &s.targetVampHealing
+	}
 	if s.basicAttack != nil {
 		basicSummary = &s.basicAttack.summary
+		sourceVampHealing, targetVampHealing = &s.sourceVampHealing, &s.targetVampHealing
 	}
 
 	s.appendTerminalEvidence(downsampled, requestedPoints, len(series))
@@ -1062,15 +1245,26 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 	warnings, warningCount := s.buildWarnings(downsampled, droppedSeriesPoints)
 
 	return model.DoneResult{
-		OK:            true,
-		AttackRecords: s.attackRecords,
-		DamageRecords: s.damageRecords,
-		Recording:     s.recordingSummary(),
+		OutputMode:         s.resultOutputMode(),
+		SkillActionRecords: s.skillActionRecords,
+		SkillUseRecords:    s.skillUseRecords,
+		HealingRecords:     s.healingRecords,
+		OK:                 true,
+		AttackRecords:      s.attackRecords,
+		DamageRecords:      s.damageRecords,
+		MechanicRecords:    s.mechanicRecords,
+		Recording:          s.skillRecordingSummary(s.recordingSummary()),
 		Summary: model.RunSummary{
+			SkillActions:        actionSummary,
+			SkillUses:           useSummary,
+			SourceDirectHealing: sourceDirectHealing,
+			TargetDirectHealing: targetDirectHealing,
 			BasicAttack:         basicSummary,
 			Execution:           s.executionSummary(),
 			SourceHpLoss:        s.sourceHpLoss,
 			TargetHpLoss:        s.targetHpLoss,
+			SourceVampHealing:   sourceVampHealing,
+			TargetVampHealing:   targetVampHealing,
 			DamageBreakdown:     s.damageBreakdown,
 			DurationMs:          s.nowMs - s.startMs,
 			StopReason:          s.stopReason,
@@ -1121,7 +1315,7 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 		if !ok {
 			continue
 		}
-		snapshot.Combatants[i].Attributes = cloneAttributeMap(rt.attributes)
+		snapshot.Combatants[i].Attributes = rt.attributes.ToMap()
 		snapshot.Combatants[i].Resources = cloneResourceMap(rt.resources)
 		snapshot.Combatants[i].Cooldowns = cooldownsToSnapshot(rt.cooldowns, s.nowMs)
 		snapshot.Combatants[i].Providers = providersToSnapshot(rt.providers)
@@ -1141,7 +1335,9 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 			snapshot.Combatants[i].Vars = map[string]interface{}{}
 		}
 	}
-	s.lazyExpireAllProviderState()
+	if !s.automatedRun() || s.budgetCause == "" {
+		s.lazyExpireAllProviderState()
+	}
 	for i, c := range snapshot.Combatants {
 		rt, ok := s.combatants[c.Key]
 		if !ok {
@@ -1159,33 +1355,40 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 
 func (s *genericRunState) appendTerminalEvidence(downsampled bool, requestedPoints, finalPointCount int) {
 	if downsampled {
-		s.recordEvidence(model.EvidenceItem{
-			TimeMs: s.nowMs,
-			Kind:   model.EvidenceKindDownsampled,
-			Data: map[string]interface{}{
-				"requestedPointCount": requestedPoints,
-				"finalPointCount":     finalPointCount,
-				"maxSeriesPoints":     s.sampling.MaxSeriesPoints,
-				"method":              "uniform_time",
-			},
+		s.recordEvidenceLazy(model.EvidenceKindDownsampled, func() model.EvidenceItem {
+			return model.EvidenceItem{
+				TimeMs: s.nowMs,
+				Kind:   model.EvidenceKindDownsampled,
+				Data: map[string]interface{}{
+					"requestedPointCount": requestedPoints,
+					"finalPointCount":     finalPointCount,
+					"maxSeriesPoints":     s.sampling.MaxSeriesPoints,
+					"method":              "uniform_time",
+				},
+			}
 		})
 	}
 	if s.stopReason == model.StopReasonBudgetExceeded {
-		s.recordEvidence(model.EvidenceItem{
-			TimeMs: s.nowMs,
-			Kind:   model.EvidenceKindBudgetExceeded,
-			Data: map[string]interface{}{
-				"processedEvents": s.processedEvents,
-				"maxEvents":       s.budget.MaxEvents,
-			},
+		s.recordEvidenceLazy(model.EvidenceKindBudgetExceeded, func() model.EvidenceItem {
+			return model.EvidenceItem{
+				TimeMs: s.nowMs,
+				Kind:   model.EvidenceKindBudgetExceeded,
+				Data: map[string]interface{}{
+					"processedEvents": s.processedEvents,
+					"maxEvents":       s.budget.MaxEvents,
+				},
+			}
 		})
 	}
 }
 
 func (s *genericRunState) truncatedEvidenceKinds() []string {
-	keptByKind := make(map[string]int)
-	for _, item := range s.evidence {
-		keptByKind[string(item.Kind)]++
+	keptByKind := s.evidenceRetainedByKind
+	if s.detailedOutput() {
+		keptByKind = make(map[string]int)
+		for _, item := range s.evidence {
+			keptByKind[string(item.Kind)]++
+		}
 	}
 	var kinds []string
 	for kind, total := range s.evidenceCountsByKind {
@@ -1324,7 +1527,7 @@ func (s *genericRunState) finalizeSeries() ([]model.SeriesPoint, bool) {
 	return out, true
 }
 
-func validateGenericRunRequest(compiled compilebundle.CompiledSession, req model.RunRequest) *model.EngineError {
+func validateGenericRunRequest(compiled planbundle.CompiledSession, req model.RunRequest) *model.EngineError {
 	if req.SessionID == "" {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "sessionId is required", compiled.SchemaHash, compiled.RulesHash, "")
 	}

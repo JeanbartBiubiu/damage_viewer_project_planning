@@ -1,9 +1,9 @@
 package runtime
 
 import (
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/status"
 )
 
@@ -48,7 +48,7 @@ func mountProviderModifiersAcross(
 	combatants map[string]combatantRuntime,
 	ownerKey string,
 	inst status.ProviderInstance,
-	compiled compilebundle.CompiledSession,
+	compiled planbundle.CompiledSession,
 ) {
 	if int(inst.DefinitionIndex) >= len(compiled.Providers) {
 		return

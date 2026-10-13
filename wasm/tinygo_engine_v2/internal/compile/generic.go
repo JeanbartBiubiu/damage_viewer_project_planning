@@ -1,11 +1,12 @@
 package compile
 
 import (
-	"regexp"
 	"strings"
+	"tinygo_engine_v2/internal/attribute"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/typeset"
 )
 
@@ -14,286 +15,19 @@ const (
 	defaultGenericMaxCommandsPerEvent = 256
 )
 
-// CompiledAbilityRef 是 intern 后的 ability 三元组引用。
-type CompiledAbilityRef struct {
-	CombatantIndex uint8
-	ProviderIndex  uint16
-	AbilityIndex   uint16
-}
-
-// CompiledSession 是 generic compile 输出的只读 session 快照。
-type CompiledSession struct {
-	SchemaVersion      string
-	SchemaHash         string
-	RulesHash          string
-	Types              typeset.CatalogResult
-	Combatants         []CompiledCombatant
-	Providers          []CompiledProvider
-	Abilities          []CompiledAbility
-	Operations         []CompiledOperation
-	Formulas           formula.GenericRegistry
-	Settings           model.GenericCompileSettings
-	AbilityRefIndex    map[string]CompiledAbilityRef
-	RuleModifiers      []CompiledModifier
-	Listeners          []CompiledListener
-	VampRules          []CompiledVampRule
-	DamageTypeFormulas map[string]CompiledDamageTypeFormula
-}
-
-// CompiledCombatant 是 compile 后的 combatant 定义。
-type CompiledCombatant struct {
-	Key            string
-	DisplayName    string
-	TypeSet        typeset.TypeSet
-	Attributes     map[string]model.AttributeSlotDef
-	Resources      map[string]model.ResourceSlotDef
-	ProviderMounts []CompiledProviderMount
-}
-
-// CompiledProviderMount 是 combatant 上已解析的 provider 挂载。
-type CompiledProviderMount struct {
-	ProviderRef          string
-	DefinitionIndex      uint16
-	MountedProviderIndex uint16
-}
-
-// CompiledModifier 是 compile 后的 provider / rule modifier。
-// CompiledModifier 是 compile 后的 provider / rule modifier。
-type CompiledModifier struct {
-	ModifierKey              string
-	Kind                     string
-	Target                   string
-	Command                  string
-	Channel                  string
-	Bucket                   string
-	Stage                    string
-	Priority                 int
-	HealDirection            string
-	HealCategory             string
-	HealGroupKey             string
-	HealGroupCalculationMode string
-	ValuePolicy              string
-	ValueProgram             formula.GenericProgramID
-	HasValue                 bool
-	HasCondition             bool
-	ConditionProg            formula.GenericProgramID
-}
-
-// CompiledListener 是 compile 后的 listener（provider / rules / inline listenerSpec）。
-type CompiledListener struct {
-	ListenerKey         string
-	AbilityRef          string
-	HasAbilityRef       bool
-	MaxTriggersPerEvent int
-	ChainLimitKey       string
-	PerCastThrottleMs   int
-	EventMatcher        typeset.Matcher
-	OwnerCombatantKey   string // empty for rules listeners; concrete key for provider-owned
-	OwnerProviderRef    string // empty for rules / inline without mount context
-	SourceAbilityIndex  int    // >=0 when compiled from passive_listener ability ops
-	OperationStart      uint16
-	OperationCount      uint16
-	HasCondition        bool
-	ConditionProgram    formula.GenericProgramID
-	HasOncePerUse       bool
-	OncePerUseGroup     string
-	OncePerUseScope     string
-}
-
-// CompiledProviderLifecycle 是 compile 后的 provider 生命周期。
-// CompiledProviderLifecycle 是 compile 后的 provider 生命周期。
-type CompiledProviderLifecycle struct {
-	DurationProgram formula.GenericProgramID
-	HasDuration     bool
-	MaxStacks       int
-	RefreshPolicy   string
-	TickIntervalMs  int64
-	InstanceScope   string
-	DurationPath    string
-}
-
-// AllowsSourceTargetReuse 报告是否按 definitionRef+source+owner 复用实例。
-func (lc *CompiledProviderLifecycle) AllowsSourceTargetReuse() bool {
-	return lc != nil && lc.InstanceScope == model.InstanceScopeSourceTarget
-}
-
-// CompiledStatusContribution 是 compile 后的普通减速能力。
-type CompiledStatusContribution struct {
-	ResultRef       string
-	StatusKey       string
-	StatusKind      string
-	StrengthProgram formula.GenericProgramID
-	HasStrength     bool
-	Path            string
-}
-
-// CompiledProviderStateField 是 initialStateSchema 规范化后的 provider-scope 字段定义（Gate H1）。
-type CompiledProviderStateField struct {
-	DefaultValue  float64
-	MaxValue      float64
-	HasCap        bool
-	DurationMs    int64
-	RefreshPolicy string
-}
-
-// CompiledProvider 是 compile 后的 provider 定义。
-type CompiledProvider struct {
-	Processes           []CompiledProcess
-	ProviderKey         string
-	Kind                string
-	StableID            string
-	TypeSet             typeset.TypeSet
-	AbilityStart        uint16
-	AbilityCount        uint16
-	Modifiers           []CompiledModifier
-	Listeners           []CompiledListener
-	Lifecycle           *CompiledProviderLifecycle
-	StateFields         map[string]CompiledProviderStateField
-	StatusContributions []CompiledStatusContribution
-}
-
-// CompiledAbilityCost 是 compile 后的 ability 资源消耗。
-type CompiledAbilityCost struct {
-	ResourceKey   string
-	AmountProgram formula.GenericProgramID
-	HasAmount     bool
-	AllowPartial  bool
-}
-
-// CompiledAbilityCooldown 是 compile 后的 ability 冷却。
-type CompiledAbilityCooldown struct {
-	DurationProgram formula.GenericProgramID
-	HasDuration     bool
-	StartsOn        string
-	GroupKey        string
-}
-
-// CompiledTickSpec 是 compile 后的 tick ability 行为。
-// AnchorScope/AnchorStateKey 非空表示 target-state-anchored 模式（StartDelayMs 保持 0，不默认成 interval）。
-type CompiledTickSpec struct {
-	IntervalMs     int64
-	StartDelayMs   int64
-	OnTickStart    uint16
-	OnTickCount    uint16
-	AnchorScope    string
-	AnchorStateKey string
-}
-
-// IsAnchored 报告该 tickSpec 是否为配对锚点模式。
-func (ts *CompiledTickSpec) IsAnchored() bool {
-	return ts != nil && ts.AnchorScope != "" && ts.AnchorStateKey != ""
-}
-
-// CompiledAbility 是 compile 后的 ability 定义。
-type CompiledAbility struct {
-	ProcessControl       *CompiledProcessControl
-	AbilityKey           string
-	Kind                 string
-	TypeSet              typeset.TypeSet
-	Params               map[string]float64
-	CastOrigin           string // champion|item|pet|innate；空表示未声明
-	Cost                 *CompiledAbilityCost
-	Cooldown             *CompiledAbilityCooldown
-	CastConditionProgram formula.GenericProgramID
-	HasCastCondition     bool
-	TickSpec             *CompiledTickSpec
-	ProviderIndex        uint16
-	OperationStart       uint16
-	OperationCount       uint16
-	HasSkillHit          bool
-	SkillHitSkillKey     string
-	SkillKey             string
-	IsBasicAttack        bool
-}
-
-// CompiledOperation 是 compile 后的 operation 定义。
-type CompiledOperation struct {
-	Operation             string
-	Target                string
-	DamageType            string
-	AmountProgram         formula.GenericProgramID
-	HasAmount             bool
-	ResourceKey           string
-	AttributeKey          string
-	ValuePolicy           string
-	ProviderDefinitionRef string
-	ProviderRef           string
-	ShieldRef             string
-	AbilityRef            CompiledAbilityRef
-	HasAbilityRef         bool
-	AbilityRefStr         string
-	EventType             string
-	Ref                   string
-	ConditionProgram      formula.GenericProgramID
-	HasCondition          bool
-	StateScope            string // state_scope/provider | state_scope/provider_target for state_change
-	Types                 []string
-	CopyableOnHit         bool
-	CritEligible          bool
-	HasCritFormula        bool
-	CritChanceProgram     formula.GenericProgramID
-	CritMultiplierProgram formula.GenericProgramID
-	Path                  string
-	VampQualification     string
-	VampOverrides         []CompiledVampOverride
-	RepeatScope           string
-	RepeatCount           int
-	RepeatTag             string
-	RepeatDelayMs         int
-	TriggerStateKey       string
-	Threshold             float64
-	ProviderRefFromEvent  bool
-	SkillHit              *CompiledSkillHit
-	OutputRef             string
-	HasShieldDuration     bool
-	ShieldDurationProgram formula.GenericProgramID
-}
-
-// CompiledSkillHit 是 resolve_skill_hit 的编译计划。
-type CompiledSkillHit struct {
-	SkillKey   string
-	Candidates []CompiledSkillHitCandidate
-}
-
-// CompiledSkillHitCandidate 保存资格、条件程序与候选操作区间。
-type CompiledSkillHitCandidate struct {
-	CandidateKey         string
-	EffectOccurrenceKey  string
-	EffectKey            string
-	ResultKey            string
-	Semantic             model.SkillHitSemantic
-	BlockScope           string // empty = null
-	HasBlockScope        bool
-	InboundBlockEligible bool
-	ParticipationProgram formula.GenericProgramID
-	HasParticipation     bool
-	EventValueConds      []CompiledSkillHitValueCond
-	OperationStart       uint16
-	OperationCount       uint16
-	Path                 string
-}
-
-// CompiledSkillHitValueCond 是编译后的 first_contact/blocked 比较。
-type CompiledSkillHitValueCond struct {
-	Key        string
-	Comparator string
-	ValueProg  formula.GenericProgramID
-	HasValue   bool
-	Path       string
-}
-
 // GenericCompileResult 是 CompileGeneric 的返回值。
 type GenericCompileResult struct {
 	OK      bool
-	Session CompiledSession
+	Session plan.CompiledSession
 	Result  model.CompileResult
 }
 
 type genericCompileContext struct {
-	currentProcess       *CompiledProcess
+	currentSkillKey      string
+	currentProcess       *plan.CompiledProcess
 	currentProcessMoment *model.ProcessMomentDefinition
 	collector            *genericCollector
-	session              *CompiledSession
+	session              *plan.CompiledSession
 	catalog              typeset.CatalogResult
 	namedFormulas        map[string]model.GenericFormulaExpr
 	providerKeyIndex     map[string]uint16
@@ -312,8 +46,6 @@ type healGroupModeSeen struct {
 	path string
 }
 
-var abilityRefPattern = regexp.MustCompile(`^(source|target|self|opponent)\.provider\[([^\]]+)\]\.ability\[([^\]]+)\]$`)
-
 // CompileGeneric 将 canonical CompileRequest 编译为只读 CompiledSession（collect-all）。
 func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	collector := newGenericCollector(req.SchemaHash, req.RulesHash)
@@ -331,12 +63,12 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	}
 
 	catalog := typeset.CompileTypeCatalog(req.TypeCatalog, collector.addError)
-	session := CompiledSession{
+	session := plan.CompiledSession{
 		SchemaVersion:   req.SchemaVersion,
 		SchemaHash:      req.SchemaHash,
 		RulesHash:       req.RulesHash,
 		Types:           catalog,
-		AbilityRefIndex: make(map[string]CompiledAbilityRef),
+		AbilityRefIndex: make(map[string]plan.CompiledAbilityRef),
 		Settings:        normalizeGenericSettings(req.Settings, collector),
 		Formulas: formula.GenericRegistry{
 			Programs: make([]formula.GenericProgram, 0),
@@ -347,11 +79,19 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		collector:        collector,
 		session:          &session,
 		catalog:          catalog,
-		namedFormulas:    buildNamedFormulaMap(req.Formulas, collector),
+		namedFormulas:    make(map[string]model.GenericFormulaExpr),
 		providerKeyIndex: make(map[string]uint16),
 		healGroupModes:   make(map[string]healGroupModeSeen),
 	}
 
+	var attributeKeys []string
+	for _, key := range catalog.Registry.Keys {
+		if _, ok := catalog.Registry.LookupDomain("attribute", key); ok {
+			attributeKeys = append(attributeKeys, key)
+		}
+	}
+	formula.CompileDeclaredNamedFormulas(req.Formulas, attributeKeys, &session.Formulas, collector.addError)
+	ctx.namedFormulas = session.Formulas.DeclaredReferences()
 	compileVampRules(req.Rules.VampRules, req.Combatants, ctx)
 	compileDamageTypeFormulas(req.Rules.DamageTypeFormulas, ctx)
 	for i, provider := range req.SharedProviders {
@@ -379,7 +119,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 			continue
 		}
 		combatantKeys[combatant.Key] = uint8(len(session.Combatants))
-		compiled := CompiledCombatant{
+		compiled := plan.CompiledCombatant{
 			Key:         combatant.Key,
 			DisplayName: combatant.DisplayName,
 			Attributes:  combatant.Attributes,
@@ -408,7 +148,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 				collector.addError(model.GenericErrUnknownRef, mountPath+".definitionRef", "unknown provider definition", mount.DefinitionRef)
 				continue
 			}
-			compiled.ProviderMounts = append(compiled.ProviderMounts, CompiledProviderMount{
+			compiled.ProviderMounts = append(compiled.ProviderMounts, plan.CompiledProviderMount{
 				ProviderRef:          mount.ProviderRef,
 				DefinitionIndex:      defIdx,
 				MountedProviderIndex: uint16(len(compiled.ProviderMounts)),
@@ -417,20 +157,33 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		session.Combatants = append(session.Combatants, compiled)
 	}
 
-	namedRegistry := formula.CompileNamedFormulas(req.Formulas, collector.addError)
-	for _, prog := range namedRegistry.Programs {
-		validateDamagePredicateReads(prog.Instr, "formulas["+prog.Key+"]", catalog, collector.addError)
-		session.Formulas.Index[prog.Key] = formula.GenericProgramID(len(session.Formulas.Programs))
-		session.Formulas.Programs = append(session.Formulas.Programs, prog)
-	}
 	compileRulesOperations(req.Rules, ctx)
+	compileAttributeDerivations(req.Rules.AttributeDerivations, ctx)
 	buildAbilityRefIndex(ctx)
+	compileSkillActionBindings(req.Rules.SkillActionBindings, ctx)
 	validateProcessAbilityRefs(req, ctx)
 	validateAllAbilityRefs(req, ctx)
 	finalizeListenerIndex(ctx)
-	validateDamageStageContexts(ctx)
+	compileAmmoBindings(ctx)
+	validateMechanicFormulaContexts(ctx)
 	if len(session.Operations) > 65535 {
 		collector.addError(model.GenericErrRuntimeInvariantFailed, "operations", "compiled operations exceed supported index range", "")
+	}
+	approvedStatic := make(map[string]float64)
+	for i, program := range session.Formulas.Programs {
+		if !program.DeclaredNamed || len(session.Formulas.ReadDependencies(formula.GenericProgramID(i))) != 0 {
+			continue
+		}
+		value, err := session.Formulas.Eval(formula.GenericProgramID(i), formula.GenericEvalContext{})
+		if err != nil {
+			if authored, ok := err.(*formula.AuthoredEvaluationError); ok {
+				collector.addError(model.GenericErrCode(authored.Issue.Code), authored.DefinitionPath+authored.Issue.Path, authored.Error(), authored.ProgramKey)
+			} else {
+				collector.addError(model.GenericErrFormulaTypeError, program.Key, err.Error(), program.Key)
+			}
+			continue
+		}
+		approvedStatic[program.Key] = value
 	}
 
 	if len(collector.errors) > 0 {
@@ -447,12 +200,22 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	}
 
 	metadata := &model.CompileResultMetadata{
-		CombatantCount: len(session.Combatants),
-		ProviderCount:  len(session.Providers),
-		AbilityCount:   len(session.Abilities),
-		TypeCount:      len(session.Types.Registry.Keys),
-		FormulaCount:   len(session.Formulas.Programs),
+		ApprovedStaticValues: approvedStatic,
+		CombatantCount:       len(session.Combatants),
+		ProviderCount:        len(session.Providers),
+		AbilityCount:         len(session.Abilities),
+		TypeCount:            len(session.Types.Registry.Keys),
+		FormulaCount:         len(session.Formulas.Programs),
 	}
+	// 编号只由成功编译后的属性目录与实际槽生成；运行扩展只追加。
+	keys := append([]string(nil), attributeKeys...)
+	for _, actor := range session.Combatants {
+		for key := range actor.Attributes {
+			keys = append(keys, key)
+		}
+	}
+	session.AttributeLayout = attribute.NewLayout(keys)
+	session.Formulas.BindAttributeLayout(session.AttributeLayout)
 	return GenericCompileResult{
 		OK:      true,
 		Session: session,
@@ -465,22 +228,6 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 			Warnings:      collector.warnings,
 		},
 	}
-}
-
-func buildNamedFormulaMap(formulas []model.NamedFormula, collector *genericCollector) map[string]model.GenericFormulaExpr {
-	named := make(map[string]model.GenericFormulaExpr, len(formulas))
-	for i, def := range formulas {
-		path := "formulas[" + itoa(i) + "]"
-		if def.Key == "" {
-			continue
-		}
-		if _, exists := named[def.Key]; exists {
-			collector.addError(model.GenericErrUnknownRef, path+".key", "duplicate formula key", def.Key)
-			continue
-		}
-		named[def.Key] = def.Expression
-	}
-	return named
 }
 
 func validateAllAbilityRefs(req model.CompileRequest, ctx *genericCompileContext) {
@@ -522,6 +269,9 @@ func validateAllAbilityRefs(req model.CompileRequest, ctx *genericCompileContext
 }
 
 func compileProviderDefinition(provider model.ProviderDefinition, path string, ctx *genericCompileContext) {
+	previousSkill := ctx.currentSkillKey
+	ctx.currentSkillKey = provider.SkillKey
+	defer func() { ctx.currentSkillKey = previousSkill }()
 	collector := ctx.collector
 	session := ctx.session
 	if provider.ProviderKey == "" {
@@ -540,7 +290,8 @@ func compileProviderDefinition(provider model.ProviderDefinition, path string, c
 	}
 	idx := uint16(len(session.Providers))
 	ctx.providerKeyIndex[provider.ProviderKey] = idx
-	compiled := CompiledProvider{
+	compiled := plan.CompiledProvider{
+		SkillKey:     provider.SkillKey,
 		ProviderKey:  provider.ProviderKey,
 		Kind:         provider.Kind,
 		StableID:     provider.StableID,
@@ -556,11 +307,15 @@ func compileProviderDefinition(provider model.ProviderDefinition, path string, c
 	}
 	compiled.StatusContributions = compileStatusContributions(provider.StatusContributions, path+".statusContributions", ctx)
 	validateProviderStatusLifecycle(provider, compiled, path, collector)
-	compiled.StateFields = compileInitialStateSchema(provider.InitialStateSchema, path+".initialStateSchema", collector)
+	compiled.StateFields = compileInitialStateSchema(ctx.freezeStateSchema(provider.InitialStateSchema, path+".initialStateSchema"), path+".initialStateSchema", collector)
+	compileAmmoStateFields(provider.InitialStateSchema, compiled.StateFields, path+".initialStateSchema", ctx)
 	session.Providers = append(session.Providers, compiled)
 }
 
 func compileProviderAbilities(provider model.ProviderDefinition, path string, ctx *genericCompileContext) {
+	previousSkill := ctx.currentSkillKey
+	ctx.currentSkillKey = provider.SkillKey
+	defer func() { ctx.currentSkillKey = previousSkill }()
 	providerIdx, ok := findProviderIndex(ctx.session, provider.ProviderKey)
 	if !ok {
 		return
@@ -578,6 +333,15 @@ func compileProviderAbilities(provider model.ProviderDefinition, path string, ct
 }
 
 func compileAbilityDefinition(ability model.AbilityDefinition, path string, providerIndex uint16, ctx *genericCompileContext) {
+	previousSkill := ctx.currentSkillKey
+	ctx.currentSkillKey = ability.SkillKey
+	if ability.SkillKey != "" {
+		if previousSkill != "" && previousSkill != ability.SkillKey {
+			ctx.collector.addError(model.GenericErrUnknownRef, path+".skillKey", "ability skill must match its provider", ability.SkillKey)
+		}
+		ctx.currentSkillKey = ability.SkillKey
+	}
+	defer func() { ctx.currentSkillKey = previousSkill }()
 	collector := ctx.collector
 	session := ctx.session
 	if ability.AbilityKey == "" {
@@ -588,7 +352,7 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 		collector.addError(model.GenericErrMissingRequiredField, path+".kind", "ability kind is required", ability.AbilityKey)
 	}
 	abilityIndex := len(session.Abilities)
-	compiled := CompiledAbility{
+	compiled := plan.CompiledAbility{
 		AbilityKey:     ability.AbilityKey,
 		Kind:           ability.Kind,
 		Params:         ability.Params,
@@ -607,7 +371,7 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 	}
 	compiled.TypeSet = typeset.ValidateTypeKeys(ability.Types, typeset.EntityAbility, session.Types, path+".types", collector.addError)
 	typeset.ValidateTypeKeys(ability.Tags, typeset.EntityAbility, session.Types, path+".tags", collector.addError)
-	if id, ok := session.Types.Registry.Lookup(model.AbilityTypeBasicAttack); ok && compiled.TypeSet.Contains(id) {
+	if id, ok := session.Types.Registry.LookupDomain("ability", model.AbilityTypeBasicAttack); ok && compiled.TypeSet.Contains(id) {
 		compiled.IsBasicAttack = true
 	}
 	compiled.SkillKey = strings.TrimSpace(ability.SkillKey)
@@ -616,27 +380,25 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			collector.addError(model.GenericErrMissingRequiredField, path+".cost.resourceKey", "cost resourceKey is required", ability.AbilityKey)
 		}
 		instr := formula.CompileGenericFormula(ability.Cost.Amount, path+".cost.amount", ctx.namedFormulas, map[string]bool{}, collector.addError)
-		cost := &CompiledAbilityCost{
+		cost := &plan.CompiledAbilityCost{
 			ResourceKey:  ability.Cost.ResourceKey,
 			AllowPartial: ability.Cost.AllowPartial,
 		}
 		if len(instr) > 0 {
 			key := path + ".cost.amount"
-			cost.AmountProgram = ctx.registerFormula(key, instr)
-			cost.HasAmount = true
+			cost.AmountProgram, cost.HasAmount = ctx.registerFormula(key, instr)
 		}
 		compiled.Cost = cost
 	}
 	if ability.Cooldown != nil {
 		instr := formula.CompileGenericFormula(ability.Cooldown.DurationMs, path+".cooldown.durationMs", ctx.namedFormulas, map[string]bool{}, collector.addError)
-		cd := &CompiledAbilityCooldown{
+		cd := &plan.CompiledAbilityCooldown{
 			StartsOn: ability.Cooldown.StartsOn,
 			GroupKey: ability.Cooldown.GroupKey,
 		}
 		if len(instr) > 0 {
 			key := path + ".cooldown.durationMs"
-			cd.DurationProgram = ctx.registerFormula(key, instr)
-			cd.HasDuration = true
+			cd.DurationProgram, cd.HasDuration = ctx.registerFormula(key, instr)
 		}
 		compiled.Cooldown = cd
 	}
@@ -644,8 +406,7 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 		instr := formula.CompileGenericFormula(*ability.CastCondition, path+".castCondition", ctx.namedFormulas, map[string]bool{}, collector.addError)
 		if len(instr) > 0 {
 			key := path + ".castCondition"
-			compiled.CastConditionProgram = ctx.registerFormula(key, instr)
-			compiled.HasCastCondition = true
+			compiled.CastConditionProgram, compiled.HasCastCondition = ctx.registerFormula(key, instr)
 		}
 	}
 	compiled.OperationStart = uint16(len(session.Operations))
@@ -688,7 +449,10 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 		if ts.IntervalMs <= 0 {
 			collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.intervalMs", "tickSpec.intervalMs must be > 0", ability.AbilityKey)
 		}
-		tickSpec := &CompiledTickSpec{
+		if ts.StartDelayMs < 0 {
+			collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.startDelayMs", "tickSpec.startDelayMs must be >= 0", ability.AbilityKey)
+		}
+		tickSpec := &plan.CompiledTickSpec{
 			IntervalMs:   ts.IntervalMs,
 			StartDelayMs: ts.StartDelayMs,
 			OnTickStart:  uint16(len(session.Operations)),
@@ -814,9 +578,9 @@ func validateDamageParticipantReadContext(instr []formula.GenericInstr, mod mode
 	}
 }
 
-func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *genericCompileContext) CompiledModifier {
+func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *genericCompileContext) plan.CompiledModifier {
 	collector := ctx.collector
-	compiled := CompiledModifier{
+	compiled := plan.CompiledModifier{
 		ModifierKey:              mod.ModifierKey,
 		Kind:                     mod.Kind,
 		Target:                   mod.Target,
@@ -831,6 +595,9 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 		HealGroupKey:             mod.HealGroupKey,
 		HealGroupCalculationMode: mod.HealGroupCalculationMode,
 	}
+	if (compiled.Kind == "attribute" || compiled.Kind == "") && compiled.ValuePolicy == "add_percent" {
+		compiled.ValuePolicy = "percent_add"
+	}
 	if mod.ModifierKey == "" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".modifierKey", "modifierKey is required", "")
 	}
@@ -838,21 +605,19 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 		collector.addError(model.GenericErrMissingRequiredField, path+".valuePolicy", "valuePolicy is required", mod.ModifierKey)
 	}
 	instr := formula.CompileGenericFormula(mod.Value, path+".value", ctx.namedFormulas, map[string]bool{}, collector.addError)
-	validateDamagePredicateReads(instr, path+".value", ctx.catalog, collector.addError)
-	validateDamageParticipantReadContext(instr, mod, path+".value", collector)
+	validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(instr, nil), path+".value", ctx.catalog, collector.addError)
+	validateDamageParticipantReadContext(ctx.session.Formulas.InstructionDependencies(instr, nil), mod, path+".value", collector)
 	if len(instr) > 0 {
 		key := path + ".value"
-		compiled.ValueProgram = ctx.registerFormula(key, instr)
-		compiled.HasValue = true
+		compiled.ValueProgram, compiled.HasValue = ctx.registerFormula(key, instr)
 	}
 	if mod.Condition != nil {
 		condInstr := formula.CompileGenericFormula(*mod.Condition, path+".condition", ctx.namedFormulas, map[string]bool{}, collector.addError)
-		validateDamagePredicateReads(condInstr, path+".condition", ctx.catalog, collector.addError)
-		validateDamageParticipantReadContext(condInstr, mod, path+".condition", collector)
+		validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(condInstr, nil), path+".condition", ctx.catalog, collector.addError)
+		validateDamageParticipantReadContext(ctx.session.Formulas.InstructionDependencies(condInstr, nil), mod, path+".condition", collector)
 		if len(condInstr) > 0 {
 			key := path + ".condition"
-			compiled.ConditionProg = ctx.registerFormula(key, condInstr)
-			compiled.HasCondition = true
+			compiled.ConditionProg, compiled.HasCondition = ctx.registerFormula(key, condInstr)
 		}
 	}
 	if compiled.Kind == "pipeline" {
@@ -875,7 +640,13 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 // command=damage stages: outgoing_pre_mitigation|incoming_crit_part_post_mitigation|incoming_post_mitigation
 // command=crit stages: crit_chance_pre_settlement|crit_multiplier_forced_branch|crit_multiplier_natural_branch
 // Channels: basic_damage|all_damage. Buckets: all_instances|first_per_cast.
-func validatePipelineModifier(mod CompiledModifier, path string, collector *genericCollector) {
+func validatePipelineModifier(mod plan.CompiledModifier, path string, collector *genericCollector) {
+	if mod.Command == "shield" {
+		if mod.Channel != "normal_shield" || mod.Stage != "received" || mod.Bucket == "" || mod.ValuePolicy != "add_percent" || !mod.HasValue || mod.HealDirection != "" || mod.HealCategory != "" || mod.HealGroupKey != "" || mod.HealGroupCalculationMode != "" {
+			collector.addError(model.GenericErrUnknownRef, path, "shield modifiers require normal_shield/received, an explicit group and add_percent", mod.ModifierKey)
+		}
+		return
+	}
 	if mod.Command == "heal" {
 		validateHealPipelineModifier(mod, path, collector)
 		return
@@ -906,7 +677,7 @@ func validatePipelineModifier(mod CompiledModifier, path string, collector *gene
 	}
 }
 
-func validateDamagePipelineModifier(mod CompiledModifier, path string, collector *genericCollector) {
+func validateDamagePipelineModifier(mod plan.CompiledModifier, path string, collector *genericCollector) {
 	switch mod.Stage {
 	case "outgoing_pre_mitigation", "incoming_post_mitigation":
 		switch mod.ValuePolicy {
@@ -925,7 +696,7 @@ func validateDamagePipelineModifier(mod CompiledModifier, path string, collector
 	}
 }
 
-func validateCritPipelineModifier(mod CompiledModifier, path string, collector *genericCollector) {
+func validateCritPipelineModifier(mod plan.CompiledModifier, path string, collector *genericCollector) {
 	switch mod.Stage {
 	case "crit_chance_pre_settlement", "crit_multiplier_forced_branch", "crit_multiplier_natural_branch":
 	default:
@@ -938,12 +709,20 @@ func validateCritPipelineModifier(mod CompiledModifier, path string, collector *
 	}
 }
 
-func compileProviderLifecycle(lc model.ProviderLifecycle, path string, ctx *genericCompileContext) *CompiledProviderLifecycle {
+func compileProviderLifecycle(lc model.ProviderLifecycle, path string, ctx *genericCompileContext) *plan.CompiledProviderLifecycle {
 	collector := ctx.collector
-	out := &CompiledProviderLifecycle{
-		MaxStacks:      lc.MaxStacks,
+	maxStacks, _ := ctx.freezeStatic(lc.MaxStacks, path+".maxStacks", true)
+	tickInterval, _ := ctx.freezeStatic(lc.TickIntervalMs, path+".tickIntervalMs", true)
+	if !validStateInteger(maxStacks) || maxStacks < 0 || maxStacks > 2147483647 {
+		collector.addError(model.GenericErrFormulaTypeError, path+".maxStacks", "maxStacks must be a non-negative safe integer", "")
+	}
+	if !validStateInteger(tickInterval) || tickInterval < 0 {
+		collector.addError(model.GenericErrFormulaTypeError, path+".tickIntervalMs", "tickIntervalMs must be a non-negative safe integer", "")
+	}
+	out := &plan.CompiledProviderLifecycle{
+		MaxStacks:      int(maxStacks),
 		RefreshPolicy:  lc.RefreshPolicy,
-		TickIntervalMs: lc.TickIntervalMs,
+		TickIntervalMs: int64(tickInterval),
 		InstanceScope:  lc.InstanceScope,
 		DurationPath:   path + ".durationMs",
 	}
@@ -951,8 +730,7 @@ func compileProviderLifecycle(lc model.ProviderLifecycle, path string, ctx *gene
 		instr := formula.CompileGenericFormula(*lc.DurationMs, path+".durationMs", ctx.namedFormulas, map[string]bool{}, collector.addError)
 		if len(instr) > 0 {
 			key := path + ".durationMs"
-			out.DurationProgram = ctx.registerFormula(key, instr)
-			out.HasDuration = true
+			out.DurationProgram, out.HasDuration = ctx.registerFormula(key, instr)
 		}
 	}
 	if out.RefreshPolicy == "" {
@@ -965,12 +743,12 @@ func compileProviderLifecycle(lc model.ProviderLifecycle, path string, ctx *gene
 	return out
 }
 
-func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCombatantKey, ownerProviderRef string, sourceAbilityIndex, ownerProviderIndex int, ctx *genericCompileContext) CompiledListener {
+func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCombatantKey, ownerProviderRef string, sourceAbilityIndex, ownerProviderIndex int, ctx *genericCompileContext) plan.CompiledListener {
 	collector := ctx.collector
 	if sourceAbilityIndex < 0 {
 		sourceAbilityIndex = -1
 	}
-	compiled := CompiledListener{
+	compiled := plan.CompiledListener{
 		ListenerKey:         listener.ListenerKey,
 		MaxTriggersPerEvent: listener.MaxTriggersPerEvent,
 		ChainLimitKey:       listener.ChainLimitKey,
@@ -1029,7 +807,7 @@ func listenerMatcherRequiresDamageInstance(matcher model.TypeMatcher) bool {
 	return false
 }
 
-func compileProviderListener(listener model.ListenerDefinition, path string, ctx *genericCompileContext) CompiledListener {
+func compileProviderListener(listener model.ListenerDefinition, path string, ctx *genericCompileContext) plan.CompiledListener {
 	return compileListenerDefinition(listener, path, "", "", -1, -1, ctx)
 }
 
@@ -1037,17 +815,53 @@ func compileListener(listener model.ListenerDefinition, path string, ctx *generi
 	_ = compileListenerDefinition(listener, path, "", "", -1, -1, ctx)
 }
 
-func (ctx *genericCompileContext) registerFormula(key string, instr []formula.GenericInstr) formula.GenericProgramID {
-	validateProcessActualCostReads(instr, key, ctx)
-	validateOperationOutputReads(instr, key, ctx)
-	session := ctx.session
-	if id, exists := session.Formulas.Index[key]; exists {
-		return id
+func (ctx *genericCompileContext) registerFormula(key string, instr []formula.GenericInstr, planBytes ...uint64) (formula.GenericProgramID, bool) {
+	if !ctx.validateFormulaScope(instr, key) {
+		return 0, false
 	}
-	id := formula.GenericProgramID(len(session.Formulas.Programs))
-	session.Formulas.Index[key] = id
-	session.Formulas.Programs = append(session.Formulas.Programs, formula.GenericProgram{Key: key, Instr: instr})
-	return id
+	deps := ctx.session.Formulas.InstructionDependencies(instr, nil)
+	for _, dependency := range deps {
+		definitionRead := strings.Contains(key, ".lifecycle.") || strings.Contains(key, ".modifiers[") || strings.Contains(key, ".statusContributions[")
+		if dependency.ReadKind == formula.ReadUseChargeDuration && ctx.currentProcess == nil && !strings.Contains(key, ".skillHit.candidates[") && !definitionRead {
+			ctx.collector.addError(model.GenericErrFormulaTypeError, key, "charge runtime input requires an actual charge process or associated hit result", dependency.ReadKey)
+			return 0, false
+		}
+	}
+	if strings.Contains(strings.ToLower(key), "condition") || strings.Contains(key, "eventValueConditions") {
+		for _, dependency := range deps {
+			if dependency.ReadKind == formula.ReadAuthoredRuntimeParameter || dependency.ReadKind == formula.ReadUseChargeDuration || dependency.ReadKind == formula.ReadProcessActualCost {
+				ctx.collector.addError(model.GenericErrFormulaTypeError, key, "condition cannot use runtime formula parameters", dependency.ReadKey)
+				return 0, false
+			}
+		}
+	}
+	validateProcessActualCostReads(deps, key, ctx)
+	validateOperationOutputReads(deps, key, ctx)
+	hasRef := false
+	for _, in := range instr {
+		if in.Op == formula.GenericOpRef {
+			hasRef = true
+		}
+	}
+	if hasRef && len(deps) == 0 {
+		if _, err := ctx.session.Formulas.EvaluateInstructions(instr, formula.GenericEvalContext{}, true); err != nil {
+			if authored, ok := err.(*formula.AuthoredEvaluationError); ok {
+				ctx.collector.addError(model.GenericErrCode(authored.Issue.Code), authored.DefinitionPath+authored.Issue.Path, authored.Error(), authored.ProgramKey)
+			}
+			ctx.collector.addError(model.GenericErrFormulaTypeError, key, err.Error(), key)
+			return 0, false
+		}
+	}
+	bytes := uint64(0)
+	if len(planBytes) > 0 {
+		bytes = planBytes[0]
+	}
+	id, err := ctx.session.Formulas.Register(formula.GenericProgram{Key: key, Instr: instr, PlanBytes: bytes})
+	if err != nil {
+		ctx.collector.addError(model.GenericErrFormulaTypeError, key, err.Error(), key)
+		return 0, false
+	}
+	return id, true
 }
 
 func compileOperation(op model.OperationDefinition, path string, ownerProviderIndex int, ctx *genericCompileContext) {
@@ -1098,8 +912,8 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		} else {
 			typeset.ValidateTypeKeys([]string{op.DamageType}, typeset.EntityOperationDamageType, catalog, path+".damageType", collector.addError)
 			_, hasFormula := session.DamageTypeFormulas[op.DamageType]
-			if !hasFormula && (len(session.DamageTypeFormulas) > 0 || !isKnownDamageSettlementType(op.DamageType)) {
-				collector.addError(model.GenericErrUnknownTypeKey, path+".damageType", "unknown damage settlement type", op.DamageType)
+			if _, known := catalog.Registry.LookupDomain("damage", op.DamageType); known && !hasFormula {
+				collector.addError(model.GenericErrMissingDamageTypeFormula, path+".damageType", "damage operation requires a successfully registered authored formula", op.DamageType)
 			}
 		}
 		if op.Amount == nil {
@@ -1112,6 +926,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 			collector.addError(model.GenericErrMissingRequiredField, path+".amount", op.Operation+" requires amount", "")
 		}
 	case "apply_provider":
+		ctx.validateForeignProviderRuntime(op.ProviderDefinitionRef, path)
 		if op.ProviderDefinitionRef == "" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".providerDefinitionRef", "apply_provider requires providerDefinitionRef", "")
 		}
@@ -1161,12 +976,13 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	case model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
 		validateLinkOperation(op, path, ctx)
 	}
-	compiled := CompiledOperation{
+	compiled := plan.CompiledOperation{
 		Path:                  path,
 		Operation:             op.Operation,
 		Target:                op.Target,
 		DamageType:            op.DamageType,
 		ResourceKey:           op.ResourceKey,
+		OwnerProviderIndex:    ownerProviderIndex,
 		AttributeKey:          op.AttributeKey,
 		ValuePolicy:           op.ValuePolicy,
 		ProviderDefinitionRef: op.ProviderDefinitionRef,
@@ -1196,30 +1012,29 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	}
 	if op.Amount != nil {
 		instr := formula.CompileGenericFormula(*op.Amount, path+".amount", ctx.namedFormulas, map[string]bool{}, collector.addError)
+		if op.Operation == "state_change" && ownerProviderIndex >= 0 && ownerProviderIndex < len(session.Providers) && session.Providers[ownerProviderIndex].StateFields[op.Ref].ValueType == model.ProviderStateValueInteger {
+			if value, constant := ctx.session.Formulas.FoldInstructions(instr); constant && (!validStateInteger(value) || (value < 0 && op.ValuePolicy != "add" && op.ValuePolicy != "")) {
+				collector.addError(model.GenericErrFormulaTypeError, path+".amount", "integer state requires a safe integer operand; only addition accepts a negative delta", op.Ref)
+			}
+		}
 		validateProcessActualCostReads(instr, path+".amount", ctx)
 		if op.Operation == "cooldown_change" && op.ValuePolicy == "set_remaining" {
-			if value, constant := formula.TryFoldConst(instr); constant && (value < 0 || (value != 0 && !formula.ValidPositiveInt64DurationMs(value))) {
+			if value, constant := ctx.session.Formulas.FoldInstructions(instr); constant && (value < 0 || (value != 0 && !formula.ValidPositiveInt64DurationMs(value))) {
 				collector.addError(model.GenericErrFormulaTypeError, path+".amount", "set_remaining requires finite non-negative integer milliseconds", "")
 			}
 		}
-		validateDamagePredicateReads(instr, path+".amount", catalog, collector.addError)
+		validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(instr, nil), path+".amount", catalog, collector.addError)
 		if len(instr) > 0 {
 			key := path + ".amount"
-			if _, exists := session.Formulas.Index[key]; !exists {
-				session.Formulas.Index[key] = formula.GenericProgramID(len(session.Formulas.Programs))
-				session.Formulas.Programs = append(session.Formulas.Programs, formula.GenericProgram{Key: key, Instr: instr})
-			}
-			compiled.AmountProgram = session.Formulas.Index[key]
-			compiled.HasAmount = true
+			compiled.AmountProgram, compiled.HasAmount = ctx.registerFormula(key, instr)
 		}
 	}
 	if op.Condition != nil {
 		instr := formula.CompileGenericFormula(*op.Condition, path+".condition", ctx.namedFormulas, map[string]bool{}, collector.addError)
-		validateDamagePredicateReads(instr, path+".condition", catalog, collector.addError)
+		validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(instr, nil), path+".condition", catalog, collector.addError)
 		if len(instr) > 0 {
 			key := path + ".condition"
-			compiled.ConditionProgram = ctx.registerFormula(key, instr)
-			compiled.HasCondition = true
+			compiled.ConditionProgram, compiled.HasCondition = ctx.registerFormula(key, instr)
 		}
 	}
 	if op.AbilityRef != "" {
@@ -1235,7 +1050,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	session.Operations = append(session.Operations, compiled)
 }
 
-func compileShieldDuration(op model.OperationDefinition, path string, compiled *CompiledOperation, ctx *genericCompileContext) {
+func compileShieldDuration(op model.OperationDefinition, path string, compiled *plan.CompiledOperation, ctx *genericCompileContext) {
 	if op.ShieldDurationMs == nil || op.Operation != "shield" {
 		return
 	}
@@ -1244,9 +1059,8 @@ func compileShieldDuration(op model.OperationDefinition, path string, compiled *
 	if len(instr) == 0 {
 		return
 	}
-	compiled.ShieldDurationProgram = ctx.registerFormula(path+".shieldDurationMs", instr)
-	compiled.HasShieldDuration = true
-	if value, folded := formula.TryFoldConst(instr); folded && !formula.ValidPositiveInt64DurationMs(value) {
+	compiled.ShieldDurationProgram, compiled.HasShieldDuration = ctx.registerFormula(path+".shieldDurationMs", instr)
+	if value, folded := ctx.session.Formulas.FoldInstructions(instr); folded && !formula.ValidPositiveInt64DurationMs(value) {
 		collector.addError(model.GenericErrFormulaTypeError, path+".shieldDurationMs", "shieldDurationMs must be a positive integer within the timestamp range", op.ShieldRef)
 	}
 }
@@ -1329,7 +1143,7 @@ func finalizeListenerIndex(ctx *genericCompileContext) {
 	validateOncePerUseGroups(session, ctx)
 }
 
-func validateOncePerUseGroups(session *CompiledSession, ctx *genericCompileContext) {
+func validateOncePerUseGroups(session *plan.CompiledSession, ctx *genericCompileContext) {
 	type groupID struct {
 		owner string
 		pref  string
@@ -1394,15 +1208,15 @@ func buildAbilityRefIndex(ctx *genericCompileContext) {
 	}
 }
 
-func (ctx *genericCompileContext) resolveAbilityRef(abilityRef, path string) (CompiledAbilityRef, bool) {
+func (ctx *genericCompileContext) resolveAbilityRef(abilityRef, path string) (plan.CompiledAbilityRef, bool) {
 	collector := ctx.collector
 	session := ctx.session
-	parsed, ok := ParseAbilityRef(abilityRef)
+	parsed, ok := plan.ParseAbilityRef(abilityRef)
 	if !ok {
 		if path != "" {
 			collector.addError(model.GenericErrUnknownRef, path, "invalid abilityRef format", abilityRef)
 		}
-		return CompiledAbilityRef{}, false
+		return plan.CompiledAbilityRef{}, false
 	}
 	combatantKey := parsed.Combatant
 	if combatantKey == model.SelectorSelf || combatantKey == model.SelectorOpponent {
@@ -1411,28 +1225,28 @@ func (ctx *genericCompileContext) resolveAbilityRef(abilityRef, path string) (Co
 		if path != "" && !ctx.abilityExistsOnAnyCombatant(parsed.ProviderRef, parsed.AbilityKey) {
 			collector.addError(model.GenericErrUnknownRef, path, "unknown providerRef/abilityKey in abilityRef", abilityRef)
 		}
-		return CompiledAbilityRef{}, false
+		return plan.CompiledAbilityRef{}, false
 	}
 	ci, ok := ctx.combatantByKey[combatantKey]
 	if !ok {
 		if path != "" {
 			collector.addError(model.GenericErrUnknownRef, path, "unknown combatant in abilityRef", abilityRef)
 		}
-		return CompiledAbilityRef{}, false
+		return plan.CompiledAbilityRef{}, false
 	}
 	mounts, ok := ctx.providerMounts[combatantKey]
 	if !ok {
 		if path != "" {
 			collector.addError(model.GenericErrUnknownRef, path, "combatant has no provider mounts", abilityRef)
 		}
-		return CompiledAbilityRef{}, false
+		return plan.CompiledAbilityRef{}, false
 	}
 	mountIdx, ok := mounts[parsed.ProviderRef]
 	if !ok {
 		if path != "" {
 			collector.addError(model.GenericErrUnknownRef, path, "unknown providerRef in abilityRef", abilityRef)
 		}
-		return CompiledAbilityRef{}, false
+		return plan.CompiledAbilityRef{}, false
 	}
 	mount := session.Combatants[ci].ProviderMounts[mountIdx]
 	abilityMap := ctx.providerAbilityIndex[mount.DefinitionIndex]
@@ -1441,9 +1255,9 @@ func (ctx *genericCompileContext) resolveAbilityRef(abilityRef, path string) (Co
 		if path != "" {
 			collector.addError(model.GenericErrUnknownRef, path, "unknown abilityKey in abilityRef", abilityRef)
 		}
-		return CompiledAbilityRef{}, false
+		return plan.CompiledAbilityRef{}, false
 	}
-	return CompiledAbilityRef{
+	return plan.CompiledAbilityRef{
 		CombatantIndex: ci,
 		ProviderIndex:  mount.DefinitionIndex,
 		AbilityIndex:   ai,
@@ -1467,7 +1281,7 @@ func (ctx *genericCompileContext) abilityExistsOnAnyCombatant(providerRef, abili
 	return false
 }
 
-func findProviderIndex(session *CompiledSession, providerKey string) (int, bool) {
+func findProviderIndex(session *plan.CompiledSession, providerKey string) (int, bool) {
 	for i, provider := range session.Providers {
 		if provider.ProviderKey == providerKey {
 			return i, true
@@ -1505,19 +1319,6 @@ func isForbiddenHPOperation(op string) bool {
 	}
 }
 
-// isKnownDamageSettlementType 首批抗性结算白名单；未知 type 不得按 true/raw 静默处理。
-// magical / damage/magical 兼容既有 fixture，按 magic resistance 结算。
-func isKnownDamageSettlementType(damageType string) bool {
-	switch damageType {
-	case "physical", "damage/physical",
-		"magic", "damage/magic", "magical", "damage/magical",
-		"true", "damage/true":
-		return true
-	default:
-		return false
-	}
-}
-
 // validateDamagePredicateReads fail-closes unknown damage.trait.* / damage.type.* catalog bindings.
 func validateDamagePredicateReads(
 	instr []formula.GenericInstr,
@@ -1532,7 +1333,7 @@ func validateDamagePredicateReads(
 		switch in.ReadKind {
 		case formula.ReadDamageTrait:
 			key := "damage_trait/" + in.ReadKey
-			id, ok := catalog.Registry.Lookup(key)
+			id, ok := catalog.Registry.LookupDomain("damage_trait", key)
 			if !ok {
 				addError(model.GenericErrUnknownTypeKey, path+".path", "unknown damage trait predicate", "damage.trait."+in.ReadKey)
 				continue
@@ -1546,7 +1347,7 @@ func validateDamagePredicateReads(
 			}
 		case formula.ReadDamageCastOrigin:
 			key := "cast_origin/" + in.ReadKey
-			id, ok := catalog.Registry.Lookup(key)
+			id, ok := catalog.Registry.LookupDomain("cast_origin", key)
 			if !ok {
 				addError(model.GenericErrUnknownTypeKey, path+".path", "unknown cast origin predicate", "damage.cast_origin."+in.ReadKey)
 				continue
@@ -1556,7 +1357,7 @@ func validateDamagePredicateReads(
 			}
 		case formula.ReadDamageAbilityType:
 			key := "ability/" + in.ReadKey
-			id, ok := catalog.Registry.Lookup(key)
+			id, ok := catalog.Registry.LookupDomain("ability", key)
 			if !ok {
 				addError(model.GenericErrUnknownTypeKey, path+".path", "unknown ability type predicate", "damage.ability_type."+in.ReadKey)
 				continue
@@ -1568,35 +1369,9 @@ func validateDamagePredicateReads(
 	}
 }
 
-func damageTypePredicateDeclared(predName string, catalog typeset.CatalogResult) bool {
-	canonical := formula.CanonicalDamageTypeKey(predName)
-	candidates := []string{canonical, predName}
-	switch predName {
-	case "physical":
-		candidates = append(candidates, "physical", "damage/physical")
-	case "magic":
-		candidates = append(candidates, "magic", "damage/magic", "magical", "damage/magical")
-	case "true":
-		candidates = append(candidates, "true", "damage/true")
-	}
-	seen := map[string]struct{}{}
-	for _, key := range candidates {
-		if key == "" {
-			continue
-		}
-		if _, ok := seen[key]; ok {
-			continue
-		}
-		seen[key] = struct{}{}
-		id, ok := catalog.Registry.Lookup(key)
-		if !ok {
-			continue
-		}
-		if catalog.Domains[id] == "damage" {
-			return true
-		}
-	}
-	return false
+func damageTypePredicateDeclared(key string, catalog typeset.CatalogResult) bool {
+	_, declared := catalog.Registry.LookupDomain("damage", key)
+	return declared
 }
 
 // normalizeDamageTraitTypes keeps cataloged damage_trait/* keys in declaration order.
@@ -1607,7 +1382,7 @@ func normalizeDamageTraitTypes(types []string, catalog typeset.CatalogResult) []
 	out := make([]string, 0, len(types))
 	seen := map[string]struct{}{}
 	for _, t := range types {
-		id, ok := catalog.Registry.Lookup(t)
+		id, ok := catalog.Registry.LookupDomain("damage_trait", t)
 		if !ok || catalog.Domains[id] != "damage_trait" {
 			continue
 		}
@@ -1618,26 +1393,6 @@ func normalizeDamageTraitTypes(types []string, catalog typeset.CatalogResult) []
 		out = append(out, t)
 	}
 	return out
-}
-
-// ParsedAbilityRef 是解析后的 abilityRef 组件。
-type ParsedAbilityRef struct {
-	Combatant   string
-	ProviderRef string
-	AbilityKey  string
-}
-
-// ParseAbilityRef 解析 canonical abilityRef 字符串。
-func ParseAbilityRef(ref string) (ParsedAbilityRef, bool) {
-	matches := abilityRefPattern.FindStringSubmatch(ref)
-	if len(matches) != 4 {
-		return ParsedAbilityRef{}, false
-	}
-	return ParsedAbilityRef{
-		Combatant:   matches[1],
-		ProviderRef: matches[2],
-		AbilityKey:  matches[3],
-	}, true
 }
 
 func itoa(v int) string {

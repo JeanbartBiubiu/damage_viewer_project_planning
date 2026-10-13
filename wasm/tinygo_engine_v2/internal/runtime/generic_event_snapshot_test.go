@@ -3,12 +3,16 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
 func ensureDamageMagicType(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	for _, t := range req.TypeCatalog.Types {
 		if t.Key == "damage/magic" {
 			return
@@ -415,6 +419,8 @@ func TestGenericRunPhysicalResistanceSummary(t *testing.T) {
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "magic_resist", model.AttributeSlotDef{Base: 200, Current: 200, Max: 200, Resolved: 200})
 	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "armor_pen_flat", model.AttributeSlotDef{Base: 100, Current: 100, Max: 100, Resolved: 100})
 	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "armor_pen_pct", model.AttributeSlotDef{Base: 1, Current: 1, Max: 1, Resolved: 1})
+	formuladefinition.DeclareAttributes(&compileReq, "armor", "armor_pen_pct", "armor_pen_flat")
+	formuladefinition.SetDamageFormula(&compileReq, "damage/physical", formuladefinition.PenetrationDefense("armor", "armor_pen_pct", "armor_pen_flat"))
 	result := compile.CompileGeneric(compileReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
@@ -431,15 +437,7 @@ func TestGenericRunPhysicalResistanceSummary(t *testing.T) {
 		t.Fatalf("sourceDamageDealt=%v want 100 (full pen)", done.Summary.SourceDamageDealt)
 	}
 	data := firstOriginalDamage(t, done)
-	if math.Abs(evidenceDataFloat(data, "penetrationPercent")-1) > 1e-12 {
-		t.Fatalf("penetrationPercent=%v want 1", evidenceDataFloat(data, "penetrationPercent"))
-	}
-	if math.Abs(evidenceDataFloat(data, "penetrationFlat")-100) > 1e-12 {
-		t.Fatalf("penetrationFlat=%v want 100", evidenceDataFloat(data, "penetrationFlat"))
-	}
-	if math.Abs(evidenceDataFloat(data, "effectiveResistance")) > 1e-12 {
-		t.Fatalf("effectiveResistance=%v want 0", evidenceDataFloat(data, "effectiveResistance"))
-	}
+	assertNoLegacyDefenseFields(t, data)
 	if math.Abs(evidenceDataFloat(data, "resistanceFactor")-1) > 1e-12 {
 		t.Fatalf("resistanceFactor=%v want 1", evidenceDataFloat(data, "resistanceFactor"))
 	}
@@ -458,6 +456,8 @@ func TestGenericRunPhysicalResistanceNoSourceCompat(t *testing.T) {
 		},
 	}
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "armor", model.AttributeSlotDef{Base: 100, Current: 100, Max: 100, Resolved: 100})
+	formuladefinition.DeclareAttributes(&compileReq, "armor")
+	formuladefinition.SetDamageFormula(&compileReq, "damage/physical", formuladefinition.ResistanceDefense("armor"))
 	result := compile.CompileGeneric(compileReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)

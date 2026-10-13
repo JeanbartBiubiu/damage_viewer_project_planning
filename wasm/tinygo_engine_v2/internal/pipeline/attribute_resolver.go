@@ -2,13 +2,15 @@
 package pipeline
 
 import (
+	"fmt"
 	"math"
 	"sort"
 	"strings"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // MountedAttributeModifier 是已挂载到 combatant 的属性 modifier。
@@ -29,14 +31,28 @@ type MountedAttributeModifier struct {
 
 // AttributeResolver 聚合 combatant 上的 attribute modifier。
 type AttributeResolver struct {
-	mounts []MountedAttributeModifier
+	// 这些切片与索引在创建后不再写入，Clone 可以安全共享。
+	mounts        []MountedAttributeModifier
+	byAttribute   map[string][]MountedAttributeModifier
+	attributeKeys []string
 }
 
-// Clone 深拷贝 resolver 状态。
+// Clone 共享不可变修正计划；挂载与卸载始终创建新计划。
 func (r AttributeResolver) Clone() AttributeResolver {
-	out := AttributeResolver{mounts: make([]MountedAttributeModifier, len(r.mounts))}
-	copy(out.mounts, r.mounts)
-	return out
+	return r
+}
+
+// MountedModifiers 返回当前不可变修正计划，只供调用方读取，禁止修改其内容。
+func (r AttributeResolver) MountedModifiers() []MountedAttributeModifier {
+	return r.mounts
+}
+
+// SameMounts 核对是否共享同一修正计划；两个空计划视为相同。
+func (r AttributeResolver) SameMounts(other AttributeResolver) bool {
+	if len(r.mounts) != len(other.mounts) {
+		return false
+	}
+	return len(r.mounts) == 0 || &r.mounts[0] == &other.mounts[0]
 }
 
 // AttributeKeyFromModifierTarget 从 modifier target path 提取属性 key。
@@ -84,7 +100,7 @@ func ModifierTargetCombatantSelector(target string) string {
 
 // MountProviderModifiers 挂载 provider 的 attribute modifier（kind=attribute）到本 resolver。
 // ownerCombatantKey 写入每条 mount 的 provenance；同 combatant 挂载时通常等于宿主 key。
-func (r *AttributeResolver) MountProviderModifiers(ownerCombatantKey, providerRef string, provider compilebundle.CompiledProvider, formulas formula.GenericRegistry) {
+func (r *AttributeResolver) MountProviderModifiers(ownerCombatantKey, providerRef string, provider planbundle.CompiledProvider, formulas formula.GenericRegistry) {
 	for _, mod := range provider.Modifiers {
 		r.MountCompiledModifierOwned(ownerCombatantKey, providerRef, mod)
 	}
@@ -92,12 +108,12 @@ func (r *AttributeResolver) MountProviderModifiers(ownerCombatantKey, providerRe
 }
 
 // MountCompiledModifier 挂载单个已编译 attribute modifier（owner 空，兼容 rules / 旧调用）。
-func (r *AttributeResolver) MountCompiledModifier(providerRef string, mod compilebundle.CompiledModifier) {
+func (r *AttributeResolver) MountCompiledModifier(providerRef string, mod planbundle.CompiledModifier) {
 	r.MountCompiledModifierOwned("", providerRef, mod)
 }
 
 // MountCompiledModifierOwned 挂载单个 modifier，并记录 owner combatant provenance。
-func (r *AttributeResolver) MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod compilebundle.CompiledModifier) {
+func (r *AttributeResolver) MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier) {
 	if mod.Kind != "attribute" && mod.Kind != "" {
 		return
 	}
@@ -111,7 +127,7 @@ func (r *AttributeResolver) MountCompiledModifierOwned(ownerCombatantKey, provid
 	if attrKey == "" {
 		return
 	}
-	r.mounts = append(r.mounts, MountedAttributeModifier{
+	mount := MountedAttributeModifier{
 		OwnerCombatantKey: ownerCombatantKey,
 		ProviderRef:       providerRef,
 		ModifierKey:       mod.ModifierKey,
@@ -122,7 +138,16 @@ func (r *AttributeResolver) MountCompiledModifierOwned(ownerCombatantKey, provid
 		ValuePolicy:       mod.ValuePolicy,
 		ValueProgram:      mod.ValueProgram,
 		HasValue:          mod.HasValue,
+	}
+	// 相同排序键插在已有条目之后，保留原挂载顺序。
+	index := sort.Search(len(r.mounts), func(i int) bool {
+		return mountedAttributeModifierLess(mount, r.mounts[i])
 	})
+	mounts := make([]MountedAttributeModifier, len(r.mounts)+1)
+	copy(mounts, r.mounts[:index])
+	mounts[index] = mount
+	copy(mounts[index+1:], r.mounts[index:])
+	r.setMounts(mounts)
 }
 
 // UnmountProvider 移除 ProviderRef 匹配且 OwnerCombatantKey 为空的 mount（rules / 旧同侧路径）。
@@ -133,27 +158,80 @@ func (r *AttributeResolver) UnmountProvider(providerRef string) {
 // UnmountProviderOwned 按 ownerCombatantKey + providerRef 移除 mount。
 // ownerCombatantKey 为空时仅移除同样 owner 为空的条目，避免卸掉对侧同名 providerRef。
 func (r *AttributeResolver) UnmountProviderOwned(ownerCombatantKey, providerRef string) {
-	if len(r.mounts) == 0 {
+	remaining := 0
+	for _, m := range r.mounts {
+		if m.ProviderRef != providerRef || m.OwnerCombatantKey != ownerCombatantKey {
+			remaining++
+		}
+	}
+	if remaining == len(r.mounts) {
 		return
 	}
-	out := r.mounts[:0]
+	out := make([]MountedAttributeModifier, 0, remaining)
 	for _, m := range r.mounts {
 		if m.ProviderRef == providerRef && m.OwnerCombatantKey == ownerCombatantKey {
 			continue
 		}
 		out = append(out, m)
 	}
-	r.mounts = out
+	r.setMounts(out)
 }
 
-// ProviderFormulaContextFunc 按 owner + providerRef 返回该 modifier 求值用的 provider formula context。
-// 仅 HasProviderContext / ProviderState / ProviderTargetState 会覆盖到 base evalCtx；
-// source/target attrs/resources、ability、event 字段始终来自 base。
-type ProviderFormulaContextFunc func(ownerCombatantKey, providerRef string) formula.GenericEvalContext
+func mountedAttributeModifierLess(a, b MountedAttributeModifier) bool {
+	if a.AttributeKey != b.AttributeKey {
+		return a.AttributeKey < b.AttributeKey
+	}
+	if a.Bucket != b.Bucket {
+		return a.Bucket < b.Bucket
+	}
+	if a.Stage != b.Stage {
+		return a.Stage < b.Stage
+	}
+	if a.Priority != b.Priority {
+		return a.Priority < b.Priority
+	}
+	if a.ModifierKey != b.ModifierKey {
+		return a.ModifierKey < b.ModifierKey
+	}
+	if a.OwnerCombatantKey != b.OwnerCombatantKey {
+		return a.OwnerCombatantKey < b.OwnerCombatantKey
+	}
+	return a.ProviderRef < b.ProviderRef
+}
+
+// setMounts 只接受新建且已排序的切片；索引只在挂载列表变化时重建。
+func (r *AttributeResolver) setMounts(mounts []MountedAttributeModifier) {
+	r.mounts = mounts
+	r.byAttribute = nil
+	r.attributeKeys = nil
+	if len(mounts) == 0 {
+		return
+	}
+	r.byAttribute = make(map[string][]MountedAttributeModifier)
+	for start := 0; start < len(mounts); {
+		key := mounts[start].AttributeKey
+		end := start + 1
+		for end < len(mounts) && mounts[end].AttributeKey == key {
+			end++
+		}
+		r.byAttribute[key] = mounts[start:end:end]
+		r.attributeKeys = append(r.attributeKeys, key)
+		start = end
+	}
+}
+
+// ProviderFormulaContext 只携带供值状态覆盖项，避免复制无关的完整公式上下文。
+type ProviderFormulaContext struct {
+	HasProviderContext                                        bool
+	ProviderState, ProviderTargetState, ProviderStateDefaults map[string]float64
+}
+
+// 来源、目标属性、资源和事件字段始终来自原求值上下文。
+type ProviderFormulaContextFunc func(ownerCombatantKey, providerRef string) ProviderFormulaContext
 
 // ResolveAttributes 按 bucket/stage/priority 聚合 modifier，写回 resolved。
 // 等价于 ResolveAttributesWithProviderContext(..., nil)。
-func (r AttributeResolver) ResolveAttributes(attrs map[string]model.AttributeSlotDef, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry) map[string]model.AttributeSlotDef {
+func (r AttributeResolver) ResolveAttributes(attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry) (attribute.Table, error) {
 	return r.ResolveAttributesWithProviderContext(attrs, evalCtx, formulas, nil)
 }
 
@@ -161,80 +239,72 @@ func (r AttributeResolver) ResolveAttributes(attrs map[string]model.AttributeSlo
 // OwnerCombatantKey + ProviderRef 注入逐 provider 的 formula context。
 // providerContext 为 nil 时行为与 ResolveAttributes 一致。
 func (r AttributeResolver) ResolveAttributesWithProviderContext(
-	attrs map[string]model.AttributeSlotDef,
+	attrs attribute.Table,
 	evalCtx formula.GenericEvalContext,
 	formulas formula.GenericRegistry,
 	providerContext ProviderFormulaContextFunc,
-) map[string]model.AttributeSlotDef {
-	if attrs == nil {
-		return attrs
-	}
-	byAttr := map[string][]MountedAttributeModifier{}
-	for _, m := range r.mounts {
-		byAttr[m.AttributeKey] = append(byAttr[m.AttributeKey], m)
-	}
-	out := make(map[string]model.AttributeSlotDef, len(attrs))
-	for k, v := range attrs {
-		out[k] = v
-	}
-	for attrKey, slot := range out {
-		mods := byAttr[attrKey]
-		base := slot.Base
-		if base == 0 {
-			base = slot.Current
+) (attribute.Table, error) {
+	out := attrs.Edit()
+	attrs.Range(func(key string, slot model.AttributeSlotDef) bool {
+		// 有修正的槽在下方按既有顺序计算最终值，不先写入临时Base值。
+		if len(r.byAttribute[key]) != 0 {
+			return true
 		}
-		if len(mods) == 0 {
-			slot.Resolved = base
-			out[attrKey] = slot
+		slot.Resolved = slot.Base
+		out.SetIndex(attrs.Index(key), slot)
+		return true
+	})
+	for _, key := range r.attributeKeys {
+		slot, exists := attrs.Lookup(key)
+		if !exists {
 			continue
 		}
-		resolved := base
-		sorted := append([]MountedAttributeModifier(nil), mods...)
-		sort.SliceStable(sorted, func(i, j int) bool {
-			if sorted[i].Bucket != sorted[j].Bucket {
-				return sorted[i].Bucket < sorted[j].Bucket
-			}
-			if sorted[i].Stage != sorted[j].Stage {
-				return sorted[i].Stage < sorted[j].Stage
-			}
-			if sorted[i].Priority != sorted[j].Priority {
-				return sorted[i].Priority < sorted[j].Priority
-			}
-			// Historical order: bucket, stage, priority, modifierKey.
-			// OwnerCombatantKey / ProviderRef may only break ties after ModifierKey.
-			if sorted[i].ModifierKey != sorted[j].ModifierKey {
-				return sorted[i].ModifierKey < sorted[j].ModifierKey
-			}
-			if sorted[i].OwnerCombatantKey != sorted[j].OwnerCombatantKey {
-				return sorted[i].OwnerCombatantKey < sorted[j].OwnerCombatantKey
-			}
-			if sorted[i].ProviderRef != sorted[j].ProviderRef {
-				return sorted[i].ProviderRef < sorted[j].ProviderRef
-			}
-			return false
-		})
-		for _, mod := range sorted {
-			if !mod.HasValue {
-				continue
-			}
-			modCtx := evalCtx
-			if providerContext != nil {
-				pctx := providerContext(mod.OwnerCombatantKey, mod.ProviderRef)
-				modCtx.HasProviderContext = pctx.HasProviderContext
-				modCtx.ProviderState = pctx.ProviderState
-				modCtx.ProviderTargetState = pctx.ProviderTargetState
-				modCtx.ProviderStateDefaults = pctx.ProviderStateDefaults
-			}
-			value, err := formulas.Eval(mod.ValueProgram, modCtx)
-			if err != nil || math.IsNaN(value) || math.IsInf(value, 0) {
-				continue
-			}
-			resolved = applyValuePolicy(resolved, base, mod.ValuePolicy, value)
+		value, err := r.resolveAttributeValue(key, slot.Base, evalCtx, formulas, providerContext)
+		if err != nil {
+			return attribute.Table{}, err
 		}
-		slot.Resolved = resolved
-		out[attrKey] = slot
+		slot.Resolved = value
+		out.SetIndex(attrs.Index(key), slot)
 	}
-	return out
+	return out.Finish(), nil
+}
+
+func (r AttributeResolver) ResolveDerivedAttribute(attributeKey string, slot model.AttributeSlotDef, value float64, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (model.AttributeSlotDef, error) {
+	resolved, err := r.resolveAttributeValue(attributeKey, value, evalCtx, formulas, providerContext)
+	if err != nil {
+		return model.AttributeSlotDef{}, err
+	}
+	slot.Resolved = resolved
+	return slot, nil
+}
+
+func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float64, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (float64, error) {
+	resolved := base
+	for _, mod := range r.byAttribute[attributeKey] {
+		if !mod.HasValue {
+			continue
+		}
+		modCtx := evalCtx
+		if providerContext != nil {
+			pctx := providerContext(mod.OwnerCombatantKey, mod.ProviderRef)
+			modCtx.HasProviderContext = pctx.HasProviderContext
+			modCtx.ProviderState = pctx.ProviderState
+			modCtx.ProviderTargetState = pctx.ProviderTargetState
+			modCtx.ProviderStateDefaults = pctx.ProviderStateDefaults
+		}
+		value, err := formulas.EvalContext(mod.ValueProgram, &modCtx)
+		if err != nil {
+			return 0, fmt.Errorf("attribute %s modifier %s: %w", attributeKey, mod.ModifierKey, err)
+		}
+		if math.IsNaN(value) || math.IsInf(value, 0) {
+			return 0, fmt.Errorf("attribute %s modifier %s: invalid value: %v", attributeKey, mod.ModifierKey, err)
+		}
+		resolved = applyValuePolicy(resolved, base, mod.ValuePolicy, value)
+		if math.IsNaN(resolved) || math.IsInf(resolved, 0) {
+			return 0, fmt.Errorf("attribute %s modifier %s: non-finite resolved value", attributeKey, mod.ModifierKey)
+		}
+	}
+	return resolved, nil
 }
 
 func applyValuePolicy(current, base float64, policy string, value float64) float64 {

@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
 const (
+	damageTypePhysical        = "damage/physical"
 	blackCleaverProviderRef   = "provider_item_3071_black_cleaver_carve"
 	blackCleaverListenerKey   = "listener_item_3071_carve"
 	blackCleaverCarveKey      = "carve_stacks"
@@ -22,13 +24,20 @@ const (
 )
 
 func ensureLinkedEffectsTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/basic_attack", Domain: "ability"},
 		{Key: "damage/physical", Domain: "damage"},
 		{Key: "damage/magic", Domain: "damage"},
 		{Key: "damage/true", Domain: "damage"},
 		{Key: eventTypeDamageDealt, Domain: "event"},
-		{Key: eventTypeDamageDealtPhysical, Domain: "event"},
 		{Key: eventTypeDamageDealtBasicAttack, Domain: "event"},
 		{Key: "event/source_owner", Domain: "event"},
 		{Key: "event/source_opponent", Domain: "event"},
@@ -77,7 +86,7 @@ func blackCleaverCarveListener() model.ListenerDefinition {
 		ListenerKey: blackCleaverListenerKey,
 		EventMatcher: model.TypeMatcher{All: []string{
 			eventTypeDamageDealt,
-			eventTypeDamageDealtPhysical,
+			damageTypePhysical,
 			"event/source_owner",
 		}},
 		Operations: []model.OperationDefinition{
@@ -471,8 +480,8 @@ func TestGenericLinkedEffectsTwoPhysicalOpsOneEmit(t *testing.T) {
 	}
 }
 
-// TestGenericLinkedEffectsMagicOnlyBasicAttackNoSynthesis: magic-only 普攻不合成、不叠层。
-func TestGenericLinkedEffectsMagicOnlyBasicAttackNoSynthesis(t *testing.T) {
+// 魔法普攻合成通用事件，物理限定监听不叠层。
+func TestGenericLinkedEffectsMagicOnlyBasicAttackSynthesizesWithoutCarve(t *testing.T) {
 	magic := blackCleaverAADamage
 	c, r := loadLinkedEffectsFixture(t, 1, func(compileReq *model.CompileRequest, _ *model.RunRequest) {
 		configureLinkedEffectsChampionAA(compileReq, []model.OperationDefinition{
@@ -486,8 +495,8 @@ func TestGenericLinkedEffectsMagicOnlyBasicAttackNoSynthesis(t *testing.T) {
 		}, []string{"ability/basic_attack"})
 	})
 	done := runLinkedEffects(t, c, r)
-	if len(damageDealtEmittedEvidence(done)) != 0 {
-		t.Fatalf("damage_dealt emits=%d want 0", len(damageDealtEmittedEvidence(done)))
+	if len(damageDealtEmittedEvidence(done)) != 1 {
+		t.Fatalf("damage_dealt emits=%d want 1", len(damageDealtEmittedEvidence(done)))
 	}
 	if carveStacksFromSnapshot(t, done.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 0 {
 		t.Fatalf("carve_stacks want 0")
@@ -547,13 +556,13 @@ func TestGenericLinkedEffectsZeroMitigatedNoSynthesis(t *testing.T) {
 	}
 }
 
-// TestGenericLinkedEffectsMissingCatalogQualifierFailsClosed: 缺 event/damage_dealt/physical 时 fail closed。
-func TestGenericLinkedEffectsMissingCatalogQualifierFailsClosed(t *testing.T) {
+// 缺通用事件目录时，不影响伤害提交但不合成该事件。
+func TestGenericLinkedEffectsMissingGenericEventCatalogFailsClosed(t *testing.T) {
 	c, r := loadLinkedEffectsFixture(t, 1, func(compileReq *model.CompileRequest, runReq *model.RunRequest) {
 		unmountBlackCleaver(compileReq, runReq)
 		filtered := make([]model.TypeCatalogEntry, 0, len(compileReq.TypeCatalog.Types))
 		for _, entry := range compileReq.TypeCatalog.Types {
-			if entry.Key == eventTypeDamageDealtPhysical {
+			if entry.Key == eventTypeDamageDealt {
 				continue
 			}
 			filtered = append(filtered, entry)
@@ -645,7 +654,7 @@ func TestGenericLinkedEffectsListenerChildNoRecursion(t *testing.T) {
 			ListenerKey: "listener_child_physical",
 			EventMatcher: model.TypeMatcher{All: []string{
 				eventTypeDamageDealt,
-				eventTypeDamageDealtPhysical,
+				damageTypePhysical,
 				"event/source_owner",
 			}},
 			Operations: []model.OperationDefinition{
@@ -853,7 +862,7 @@ func TestGenericLinkedEffectsNonBasicPhysicalSkipsBasicOnlyListener(t *testing.T
 			ListenerKey: "listener_basic_only_carve",
 			EventMatcher: model.TypeMatcher{All: []string{
 				eventTypeDamageDealt,
-				eventTypeDamageDealtPhysical,
+				damageTypePhysical,
 				eventTypeDamageDealtBasicAttack,
 				"event/source_owner",
 			}},
@@ -887,7 +896,7 @@ func TestGenericLinkedEffectsNonBasicPhysicalSkipsBasicOnlyListener(t *testing.T
 }
 
 // TestGenericLinkedEffectsTrueDamageNoSynthesisNoCarve: true damage 不合成、不叠层。
-func TestGenericLinkedEffectsTrueDamageNoSynthesisNoCarve(t *testing.T) {
+func TestGenericLinkedEffectsTrueDamageSynthesizesWithoutCarve(t *testing.T) {
 	amt := blackCleaverAADamage
 	c, r := loadLinkedEffectsFixture(t, 1, func(compileReq *model.CompileRequest, _ *model.RunRequest) {
 		configureLinkedEffectsChampionAA(compileReq, []model.OperationDefinition{
@@ -901,8 +910,8 @@ func TestGenericLinkedEffectsTrueDamageNoSynthesisNoCarve(t *testing.T) {
 		}, []string{"ability/basic_attack"})
 	})
 	done := runLinkedEffects(t, c, r)
-	if len(damageDealtEmittedEvidence(done)) != 0 {
-		t.Fatalf("damage_dealt emits=%d want 0", len(damageDealtEmittedEvidence(done)))
+	if len(damageDealtEmittedEvidence(done)) != 1 {
+		t.Fatalf("damage_dealt emits=%d want 1", len(damageDealtEmittedEvidence(done)))
 	}
 	if carveStacksFromSnapshot(t, done.FinalSnapshot, model.SelectorSource, blackCleaverProviderRef) != 0 {
 		t.Fatalf("carve_stacks want 0")

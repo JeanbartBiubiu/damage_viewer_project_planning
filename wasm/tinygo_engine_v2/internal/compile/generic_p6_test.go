@@ -33,11 +33,11 @@ func TestCompileOncePerUseRejectsAbilityRefAndOpCondition(t *testing.T) {
 	p6Types(&req)
 	one := 1.0
 	req.SharedProviders[0].Listeners = []model.ListenerDefinition{{
-		ListenerKey:  "once",
-		EventMatcher: model.TypeMatcher{All: []string{model.EventTypeSkillHit, "event/source_owner"}},
-		AbilityRef:   "source.provider[champion:source_demo].ability[basic_attack]",
+		ListenerKey:         "once",
+		EventMatcher:        model.TypeMatcher{All: []string{model.EventTypeSkillHit, "event/source_owner"}},
+		AbilityRef:          "source.provider[champion:source_demo].ability[basic_attack]",
 		MaxTriggersPerEvent: 2,
-		OncePerUse:   &model.OncePerUseLimit{GroupKey: "g", Scope: model.OncePerUseScopeProvider},
+		OncePerUse:          &model.OncePerUseLimit{GroupKey: "g", Scope: model.OncePerUseScopeProvider},
 		Operations: []model.OperationDefinition{{
 			Operation: "damage", Target: "target", DamageType: "damage/physical", Amount: &model.GenericFormulaExpr{Op: "const", Value: &one},
 			Condition: &model.GenericFormulaExpr{Op: "const", Value: &one},
@@ -83,7 +83,7 @@ func TestCompileOutputRefRejectsDuplicateForwardAndNonDamage(t *testing.T) {
 }
 
 func TestCompileRejectsForgedBasicAttackEvents(t *testing.T) {
-	for _, eventType := range []string{model.EventTypeBasicAttackHit, model.EventTypeBasicAttackStart} {
+	for _, eventType := range []string{model.EventTypeBasicAttackHit, model.EventTypeBasicAttackStart, model.EventTypeSourceInitialized} {
 		req := minimalValidCompileRequest()
 		p6Types(&req)
 		req.SharedProviders[0].Abilities = []model.AbilityDefinition{{

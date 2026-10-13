@@ -3,9 +3,11 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // item_3032 Yun Tal Wildarrows — Flurry / 疾风骤雨 (generic ABI).
@@ -169,6 +171,9 @@ func yunTalFlurryMakeListener() model.ListenerDefinition {
 }
 
 func yunTalFlurryEnsureTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
 	ensureSpellbladeTypes(req)
 	need := []model.TypeCatalogEntry{
 		{Key: "event/damage_instance", Domain: "event"},
@@ -192,7 +197,7 @@ func yunTalFlurryEnsureTypes(req *model.CompileRequest) {
 
 func yunTalFlurryAAOps(multi bool) []model.OperationDefinition {
 	aa := yunTalFlurryAADamage
-	ops := []model.OperationDefinition{{
+	ops := []model.OperationDefinition{{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 		Operation:    "damage",
 		Target:       "target",
 		DamageType:   "damage/physical",
@@ -201,7 +206,7 @@ func yunTalFlurryAAOps(multi bool) []model.OperationDefinition {
 		Ref:          yunTalFlurryAAOpRef,
 	}}
 	if multi {
-		ops = append(ops, model.OperationDefinition{
+		ops = append(ops, model.OperationDefinition{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",
@@ -354,7 +359,7 @@ func TestYunTalFlurry3032WikiConstantsAndCompileContract(t *testing.T) {
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
-	var provider *compile.CompiledProvider
+	var provider *planbundle.CompiledProvider
 	for i := range result.Session.Providers {
 		if result.Session.Providers[i].ProviderKey == yunTalFlurryProviderRef {
 			provider = &result.Session.Providers[i]

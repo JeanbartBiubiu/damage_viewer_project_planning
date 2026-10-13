@@ -1,10 +1,6 @@
 package typeset
 
-import (
-	"strings"
-
-	"tinygo_engine_v2/internal/model"
-)
+import "tinygo_engine_v2/internal/model"
 
 const maxRelationDepth = 2
 
@@ -20,7 +16,7 @@ func CompileTypeCatalog(catalog model.TypeCatalog, addError func(code model.Gene
 		Registry: NewRegistry(),
 		Domains:  make(map[TypeID]string),
 	}
-	seen := make(map[string]struct{}, len(catalog.Types))
+	seen := make(map[typeIdentity]struct{}, len(catalog.Types))
 	for i, entry := range catalog.Types {
 		path := "typeCatalog.types[" + itoa(i) + "]"
 		if entry.Key == "" {
@@ -31,21 +27,13 @@ func CompileTypeCatalog(catalog model.TypeCatalog, addError func(code model.Gene
 			addError(model.GenericErrMissingRequiredField, path+".domain", "type domain is required", entry.Key)
 			continue
 		}
-		if !strings.Contains(entry.Key, "/") {
-			addError(model.GenericErrUnknownTypeKey, path+".key", "type key must be domain/name", entry.Key)
-			continue
-		}
-		prefix := strings.SplitN(entry.Key, "/", 2)[0]
-		if prefix != entry.Domain {
-			addError(model.GenericErrMatcherDomainError, path, "type key domain prefix does not match domain field", entry.Key)
-			continue
-		}
-		if _, exists := seen[entry.Key]; exists {
+		identity := typeIdentity{entry.Domain, entry.Key}
+		if _, exists := seen[identity]; exists {
 			addError(model.GenericErrUnknownTypeKey, path+".key", "duplicate type key", entry.Key)
 			continue
 		}
-		seen[entry.Key] = struct{}{}
-		id, ok := result.Registry.Intern(entry.Key)
+		seen[identity] = struct{}{}
+		id, ok := result.Registry.InternScoped(entry.Domain, entry.Key)
 		if !ok {
 			addError(model.GenericErrUnknownTypeKey, path+".key", "too many type keys", entry.Key)
 			continue
@@ -200,8 +188,12 @@ func ValidateTypeKeys(keys []string, kind EntityKind, catalog CatalogResult, pat
 			addError(model.GenericErrMissingRequiredField, itemPath, "type key is empty", "")
 			continue
 		}
-		id, ok := catalog.Registry.Lookup(key)
+		id, ok := catalog.LookupForEntity(key, kind)
 		if !ok {
+			if _, known := catalog.Registry.Lookup(key); known {
+				addError(model.GenericErrMatcherDomainError, itemPath, "type domain not allowed for entity", key)
+				continue
+			}
 			addError(model.GenericErrUnknownTypeKey, itemPath, "unknown type key", key)
 			continue
 		}
@@ -217,35 +209,23 @@ func ValidateTypeKeys(keys []string, kind EntityKind, catalog CatalogResult, pat
 
 // CompileGenericMatcher 编译 canonical TypeMatcher，并按实体类别校验 domain。
 func CompileGenericMatcher(input model.TypeMatcher, catalog CatalogResult, kind EntityKind, path string, addError func(code model.GenericErrCode, path, message, ref string)) Matcher {
-	legacy := model.TypeMatcherV2{Any: input.Any, All: input.All, None: input.None}
-	matcher, problems := CompileMatcher(legacy, catalog.Registry)
-	for _, problem := range problems {
-		addError(model.GenericErrUnknownTypeKey, path, problem, "")
-	}
-	validateMatcherTypeDomains(input, catalog, kind, path, addError)
-	return matcher
+	return Matcher{any: ValidateTypeKeys(input.Any, kind, catalog, path+".any", addError), all: ValidateTypeKeys(input.All, kind, catalog, path+".all", addError), none: ValidateTypeKeys(input.None, kind, catalog, path+".none", addError), hasAny: len(input.Any) > 0}
 }
 
-func validateMatcherTypeDomains(input model.TypeMatcher, catalog CatalogResult, kind EntityKind, path string, addError func(code model.GenericErrCode, path, message, ref string)) {
+// 单键引用只在本使用点的允许作用域中选唯一身份；多个允许身份明确拒绝。
+func (catalog CatalogResult) LookupForEntity(key string, kind EntityKind) (TypeID, bool) {
 	allowed := allowedDomains[kind]
-	checkKeys := func(keys []string, suffix string) {
-		for i, key := range keys {
-			if key == "" {
-				continue
-			}
-			id, ok := catalog.Registry.Lookup(key)
-			if !ok {
-				continue
-			}
-			domain := catalog.Domains[id]
-			if _, domainOK := allowed[domain]; !domainOK {
-				addError(model.GenericErrMatcherDomainError, path+suffix+"["+itoa(i)+"]", "type domain not allowed for matcher", key)
-			}
+	found, count := TypeID(0), 0
+	for i, candidate := range catalog.Registry.Keys {
+		if candidate != key {
+			continue
+		}
+		if _, allowedDomain := allowed[catalog.Domains[TypeID(i)]]; allowedDomain {
+			found = TypeID(i)
+			count++
 		}
 	}
-	checkKeys(input.Any, ".any")
-	checkKeys(input.All, ".all")
-	checkKeys(input.None, ".none")
+	return found, count == 1
 }
 
 func itoa(v int) string {

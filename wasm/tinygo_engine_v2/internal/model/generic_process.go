@@ -11,13 +11,21 @@ type ProcessControlDefinition struct {
 }
 
 type ProcessStepDefinition struct {
-	StepKey          string              `json:"stepKey"`
-	StepType         string              `json:"stepType"`
-	DelayMs          *GenericFormulaExpr `json:"delayMs,omitempty"`
-	MinimumChargeMs  *GenericFormulaExpr `json:"minimumChargeMs,omitempty"`
-	MaximumChargeMs  *GenericFormulaExpr `json:"maximumChargeMs,omitempty"`
-	ReleaseAtMaximum *bool               `json:"releaseAtMaximum,omitempty"`
-	WindowMs         *GenericFormulaExpr `json:"windowMs,omitempty"`
+	StepKey                string              `json:"stepKey"`
+	StepType               string              `json:"stepType"`
+	OccupiesAction         *bool               `json:"occupiesAction,omitempty"`
+	DelayMs                *GenericFormulaExpr `json:"delayMs,omitempty"`
+	MinimumChargeMs        *GenericFormulaExpr `json:"minimumChargeMs,omitempty"`
+	MaximumChargeMs        *GenericFormulaExpr `json:"maximumChargeMs,omitempty"`
+	ReleaseAtMaximum       *bool               `json:"releaseAtMaximum,omitempty"`
+	WindowMs               *GenericFormulaExpr `json:"windowMs,omitempty"`
+	RepeatCount            *GenericFormulaExpr `json:"repeatCount,omitempty"`
+	IntervalMs             *GenericFormulaExpr `json:"intervalMs,omitempty"`
+	DurationMs             *GenericFormulaExpr `json:"durationMs,omitempty"`
+	ExecutionCount         *GenericFormulaExpr `json:"executionCount,omitempty"`
+	FirstExecution         *string             `json:"firstExecution,omitempty"`
+	FirstExecutionOffsetMs *GenericFormulaExpr `json:"firstExecutionOffsetMs,omitempty"`
+	LastExecutionOffsetMs  *GenericFormulaExpr `json:"lastExecutionOffsetMs,omitempty"`
 }
 
 type ProcessMomentDefinition struct {
@@ -56,24 +64,46 @@ type ProcessCommandFact struct {
 	UseRef         string `json:"useRef"`
 }
 
+type ProcessRepeatSnapshot struct {
+	ExecutionCount         int    `json:"executionCount"`
+	ExecutionIndex         int    `json:"executionIndex"`
+	IntervalMs             int64  `json:"intervalMs"`
+	FirstExecutionOffsetMs int64  `json:"firstExecutionOffsetMs"`
+	LastExecutionOffsetMs  int64  `json:"lastExecutionOffsetMs"`
+	NextExecutionAtMs      *int64 `json:"nextExecutionAtMs"`
+}
+
+type ProcessActionOccupancy struct {
+	StepKey         string `json:"stepKey"`
+	StepVersion     int    `json:"stepVersion"`
+	StartedAtMs     int64  `json:"startedAtMs"`
+	ExpectedEndAtMs int64  `json:"expectedEndAtMs"`
+	FinishedAtMs    *int64 `json:"finishedAtMs"`
+}
+
 type ProcessInstanceSnapshot struct {
-	Owner           string             `json:"owner"`
-	ProviderRef     string             `json:"providerRef"`
-	ProcessKey      string             `json:"processKey"`
-	SkillKey        string             `json:"skillKey"`
-	UseKey          string             `json:"useKey"`
-	Target          string             `json:"target"`
-	StepKey         string             `json:"stepKey"`
-	StepVersion     int                `json:"stepVersion"`
-	StartedAtMs     int64              `json:"startedAtMs"`
-	StepStartedAtMs int64              `json:"stepStartedAtMs"`
-	AdvanceAtMs     int64              `json:"advanceAtMs"`
-	ExpiresAtMs     *int64             `json:"expiresAtMs"`
-	ActualCosts     map[string]float64 `json:"actualCosts"`
-	CooldownStarted bool               `json:"cooldownStarted"`
-	Status          string             `json:"status"`
-	FailureReason   *string            `json:"failureReason"`
-	FinishedAtMs    *int64             `json:"finishedAtMs"`
+	Owner              string                   `json:"owner"`
+	ProviderRef        string                   `json:"providerRef"`
+	ProcessKey         string                   `json:"processKey"`
+	SkillKey           string                   `json:"skillKey"`
+	UseKey             string                   `json:"useKey"`
+	Target             string                   `json:"target"`
+	StepKey            string                   `json:"stepKey"`
+	StepVersion        int                      `json:"stepVersion"`
+	StepExecutionIndex int                      `json:"stepExecutionIndex"`
+	LastExecutionAtMs  *int64                   `json:"lastExecutionAtMs"`
+	StepCompletedAtMs  *int64                   `json:"stepCompletedAtMs"`
+	StartedAtMs        int64                    `json:"startedAtMs"`
+	StepStartedAtMs    int64                    `json:"stepStartedAtMs"`
+	AdvanceAtMs        int64                    `json:"advanceAtMs"`
+	ExpiresAtMs        *int64                   `json:"expiresAtMs"`
+	ActualCosts        map[string]float64       `json:"actualCosts"`
+	CooldownStarted    bool                     `json:"cooldownStarted"`
+	Status             string                   `json:"status"`
+	FailureReason      *string                  `json:"failureReason"`
+	FinishedAtMs       *int64                   `json:"finishedAtMs"`
+	Repeat             *ProcessRepeatSnapshot   `json:"repeat"`
+	ActionOccupancies  []ProcessActionOccupancy `json:"actionOccupancies"`
 }
 
 func ValidProcessFailureReason(reason string) bool {

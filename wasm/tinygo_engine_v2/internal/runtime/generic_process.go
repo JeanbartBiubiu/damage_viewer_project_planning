@@ -5,17 +5,20 @@ import (
 	"sort"
 	"strings"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 )
 
 type processRuntime struct {
 	model.ProcessInstanceSnapshot
-	definition *compilebundle.CompiledProcess
-	ability    compilebundle.CompiledAbility
+	definition *planbundle.CompiledProcess
+	ability    planbundle.CompiledAbility
 	abilityRef string
+	// 过程身份在构造后不变；帧复制保留同一份不可变排序键。
+	mountKey   string
+	stableKey  string
 	stepIndex  int
 	castID     uint64
 	chainDepth int
@@ -41,6 +44,19 @@ func processMountKey(owner, provider, process string) string {
 	return owner + "\x00" + provider + "\x00" + process
 }
 
+func (p *processRuntime) cacheIdentityKeys() {
+	p.stableKey = p.Owner + "\x00" + p.ProviderRef + "\x00" + p.ProcessKey + "\x00" + p.UseKey
+	p.mountKey = p.stableKey[:len(p.stableKey)-len(p.UseKey)-1]
+}
+
+func processInstanceMountKey(p *processRuntime) string {
+	if p.mountKey != "" {
+		return p.mountKey
+	}
+	// 内部手工构造或零值对象尚未建立缓存；生产构造始终先建立键。
+	return processMountKey(p.Owner, p.ProviderRef, p.ProcessKey)
+}
+
 func (s *genericRunState) processMounted(owner, provider string, definition uint16) bool {
 	c, ok := s.combatants[owner]
 	if !ok {
@@ -54,12 +70,12 @@ func (s *genericRunState) processMounted(owner, provider string, definition uint
 	return false
 }
 
-func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryIndex int, controlAbility compilebundle.CompiledAbility, resolvedRef string) *model.EngineError {
+func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryIndex int, controlAbility planbundle.CompiledAbility, resolvedRef string) *model.EngineError {
 	control := controlAbility.ProcessControl
 	fact := s.processFacts[entry.EntryKey]
 	source, _ := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
 	target, _ := s.resolveDriverCombatantKey(entry.Target, source)
-	parsed, _ := compilebundle.ParseAbilityRef(resolvedRef)
+	parsed, _ := planbundle.ParseAbilityRef(resolvedRef)
 	p := &s.compiled.Providers[controlAbility.ProviderIndex].Processes[control.ProcessIndex]
 	var instance *processRuntime
 	for _, current := range s.processInstances {
@@ -75,13 +91,23 @@ func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryInd
 		if instance != nil {
 			return s.rejectProcess(entry, "use_already_started")
 		}
+		var mountKey string
 		for _, current := range s.processInstances {
-			if current.Status == "active" && processMountKey(current.Owner, current.ProviderRef, current.ProcessKey) == processMountKey(source, parsed.ProviderRef, p.ProcessKey) {
+			if current.Status != "active" {
+				continue
+			}
+			if mountKey == "" {
+				mountKey = processMountKey(source, parsed.ProviderRef, p.ProcessKey)
+			}
+			if processInstanceMountKey(current) == mountKey {
 				return s.rejectProcess(entry, "process_already_active")
 			}
 		}
 		if s.combatantHasHp(source) && s.combatantHp(source) <= 0 {
 			return s.rejectProcess(entry, "source_dead")
+		}
+		if len(s.skillActions) > 0 && s.actionOccupied(source) {
+			return s.rejectProcess(entry, "action_occupied")
 		}
 		if _, blocked := s.cooldownGate(source, resolvedRef); blocked {
 			return s.rejectProcess(entry, "cooldown_not_ready")
@@ -103,7 +129,9 @@ func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryInd
 	if control.StepKey != "" && control.StepKey != instance.StepKey {
 		return s.rejectProcess(entry, "wrong_step")
 	}
-	allowed, conditionErr := s.evalProcessCondition(entryIndex, s.newProcessFrame(instance), controlAbility)
+	var conditionFrame executionFrame
+	s.initProcessFrame(&conditionFrame, instance)
+	allowed, conditionErr := s.evalProcessCondition(entryIndex, &conditionFrame, controlAbility)
 	if conditionErr != nil {
 		return conditionErr
 	}
@@ -118,13 +146,18 @@ func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryInd
 		if (control.Action == "RECAST" && step.StepType != "RECAST") || (control.Action == "CHARGE_RELEASE" && step.StepType != "CHARGE") {
 			return s.rejectProcess(entry, "wrong_step")
 		}
-		f := s.newProcessFrame(instance)
+		var frameStorage executionFrame
+		s.initProcessFrame(&frameStorage, instance)
+		f := &frameStorage
 		f.countCastOnCommit, f.castStatRef = true, resolvedRef
 		f.recordProcess(f.pendingProcess, "process_use", control.Action)
 		if err := s.applyProcessMoment(instance, f, "STEP_EXECUTION", ""); err != nil {
 			return err
 		}
 		if err := s.commitProcessFrame(instance, f); err != nil {
+			return err
+		}
+		if err := s.resolveSkillActionMoment(instance, "STEP_EXECUTION"); err != nil {
 			return err
 		}
 		return s.completeProcessStep(instance)
@@ -147,15 +180,25 @@ func (s *genericRunState) rejectProcess(entry model.DriverEntry, reason string) 
 }
 
 func (s *genericRunState) rejectProcessUse(entry model.DriverEntry, ref, use, reason string) *model.EngineError {
+	if s.skillAction != nil && entry.EntryKey == s.skillAction.plan.InstructionKey {
+		s.skillAction.rejection = reason
+	}
 	s.attemptSkippedCount++
 	s.statFor(ref).skipCount++
-	s.recordEvidence(model.EvidenceItem{TimeMs: s.nowMs, Kind: "process_rejected", Ref: ref, Path: "driverPlan.entries[" + entry.EntryKey + "]", Data: map[string]interface{}{"entryKey": entry.EntryKey, "useKey": use, "reason": reason}})
+	s.recordEvidenceLazy("process_rejected", func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: s.nowMs, Kind: "process_rejected", Ref: ref, Path: "driverPlan.entries[" + entry.EntryKey + "]", Data: map[string]interface{}{"entryKey": entry.EntryKey, "useKey": use, "reason": reason}}
+	})
 	return nil
 }
 
-func (s *genericRunState) newProcessFrame(p *processRuntime) *executionFrame {
-	f := s.newExecutionFrame(p.Owner, p.Target, p.abilityRef)
+func (s *genericRunState) initProcessFrame(f *executionFrame, p *processRuntime) {
+	s.initExecutionFrame(f, p.Owner, p.Target, p.abilityRef)
 	staged := *p
+	if p.Repeat != nil {
+		repeat := *p.Repeat
+		staged.Repeat = &repeat
+	}
+	staged.ActionOccupancies = append([]model.ProcessActionOccupancy{}, p.ActionOccupancies...)
 	staged.ActualCosts = make(map[string]float64, len(p.ActualCosts))
 	for key, amount := range p.ActualCosts {
 		staged.ActualCosts[key] = amount
@@ -169,11 +212,10 @@ func (s *genericRunState) newProcessFrame(p *processRuntime) *executionFrame {
 	f.chainDepth, f.copyableCollector = p.chainDepth, p.collector
 	f.processActualCosts = staged.ActualCosts
 	f.processUseKey, f.processUseSkillKey, f.processUseSource = p.UseKey, p.SkillKey, p.Owner
-	return f
 }
 
 // Condition false is represented by a normal process rejection; formula failures remain errors.
-func (s *genericRunState) evalProcessCondition(entryIndex int, f *executionFrame, ability compilebundle.CompiledAbility) (bool, *model.EngineError) {
+func (s *genericRunState) evalProcessCondition(entryIndex int, f *executionFrame, ability planbundle.CompiledAbility) (bool, *model.EngineError) {
 	ids := []formula.GenericProgramID{}
 	if entryIndex >= 0 && entryIndex < len(s.entryConditions) && s.entryConditions[entryIndex] != nil {
 		ids = append(ids, *s.entryConditions[entryIndex])
@@ -193,17 +235,20 @@ func (s *genericRunState) evalProcessCondition(entryIndex int, f *executionFrame
 	return true, nil
 }
 
-func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability compilebundle.CompiledAbility, definition *compilebundle.CompiledProcess, use string, depth int, collector *eventCopyableCollector) *model.EngineError {
+func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, depth int, collector *eventCopyableCollector) *model.EngineError {
 	if len(s.processInstances) >= s.budget.MaxProcessInstances {
 		err := s.budgetError(model.BudgetCauseMaxProcessInstances, "process instance budget exceeded")
 		err.Path, err.Ref = "safetyBudget.maxProcessInstances", use
 		return err
 	}
 	s.refreshProviderAwareAttributes(owner, target)
-	p := &processRuntime{ProcessInstanceSnapshot: model.ProcessInstanceSnapshot{Owner: owner, ProviderRef: provider, ProcessKey: definition.ProcessKey, SkillKey: definition.SkillKey, UseKey: use, Target: target, StartedAtMs: s.nowMs, StepStartedAtMs: s.nowMs, AdvanceAtMs: s.nowMs, ActualCosts: map[string]float64{}, Status: "active"}, definition: definition, ability: ability, abilityRef: ref, stepIndex: -1}
+	p := &processRuntime{ProcessInstanceSnapshot: model.ProcessInstanceSnapshot{Owner: owner, ProviderRef: provider, ProcessKey: definition.ProcessKey, SkillKey: definition.SkillKey, UseKey: use, Target: target, StartedAtMs: s.nowMs, StepStartedAtMs: s.nowMs, AdvanceAtMs: s.nowMs, ActualCosts: map[string]float64{}, ActionOccupancies: []model.ProcessActionOccupancy{}, Status: "active"}, definition: definition, ability: ability, abilityRef: ref, stepIndex: -1}
+	p.cacheIdentityKeys()
 	p.chainDepth, p.collector = depth, collector
 	defer func() { p.chainDepth, p.collector = 0, nil }()
-	f := s.newProcessFrame(p)
+	var frameStorage executionFrame
+	s.initProcessFrame(&frameStorage, p)
+	f := &frameStorage
 	f.processIsNew, f.countCastOnCommit = true, true
 	allowed, err := s.evalProcessCondition(entryIndex, f, ability)
 	if err != nil {
@@ -255,6 +300,9 @@ func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, 
 	if err := s.commitProcessFrame(p, f); err != nil {
 		return err
 	}
+	if p.Status != "active" {
+		return nil
+	}
 	if err := f.maybeDispatchAbilityStartedEvent(ability); err != nil {
 		return err
 	}
@@ -276,6 +324,27 @@ func processMomentMatches(m model.ProcessMomentDefinition, kind, step, reason st
 
 func (s *genericRunState) applyProcessMoment(p *processRuntime, f *executionFrame, kind, reason string) *model.EngineError {
 	p = f.pendingProcess
+	f.processMomentKind = kind
+	if kind == "STEP_EXECUTION" {
+		if p.StepCompletedAtMs != nil || p.Repeat == nil && p.StepExecutionIndex > 0 {
+			return s.processErr(p.definition.Path, "process step execution has already committed", p.UseKey)
+		}
+		p.StepExecutionIndex++
+		at := s.nowMs
+		p.LastExecutionAtMs = &at
+		if p.Repeat != nil {
+			if err := s.stageProcessRepeatExecution(f); err != nil {
+				return err
+			}
+		}
+	}
+	if kind == "STEP_COMPLETE" {
+		if p.StepCompletedAtMs != nil {
+			return s.processErr(p.definition.Path, "process step completion has already committed", p.UseKey)
+		}
+		at := s.nowMs
+		p.StepCompletedAtMs = &at
+	}
 	f.processCostReadable = kind == "PROCESS_COMPLETE" || kind == "PROCESS_FAILURE"
 	if cd := p.definition.Cooldown; cd != nil && !p.CooldownStarted && processMomentMatches(cd.StartMoment, kind, p.StepKey, reason) {
 		value, err := f.evalAmount(cd.DurationProgram, p.ability)
@@ -293,6 +362,9 @@ func (s *genericRunState) applyProcessMoment(p *processRuntime, f *executionFram
 			return f.formulaError(cd.DurationProgram, "invalid process cooldown duration or timestamp overflow")
 		}
 		if err := f.applyCooldownChange(p.Owner, p.abilityRef, ready); err != nil {
+			return err
+		}
+		if err := f.stageInitialBasicAttackWait(p, ready); err != nil {
 			return err
 		}
 		p.CooldownStarted = true
@@ -336,11 +408,17 @@ func (s *genericRunState) commitProcessFrame(p *processRuntime, f *executionFram
 }
 
 func (s *genericRunState) runProcessMoment(p *processRuntime, kind, reason string) *model.EngineError {
-	f := s.newProcessFrame(p)
+	var frameStorage executionFrame
+	s.initProcessFrame(&frameStorage, p)
+	f := &frameStorage
 	if err := s.applyProcessMoment(p, f, kind, reason); err != nil {
 		return err
 	}
-	return s.commitProcessFrame(p, f)
+	err := s.commitProcessFrame(p, f)
+	if err != nil {
+		return err
+	}
+	return s.resolveSkillActionMoment(p, kind)
 }
 
 func (s *genericRunState) enterProcessStep(p *processRuntime, index int) *model.EngineError {
@@ -348,7 +426,9 @@ func (s *genericRunState) enterProcessStep(p *processRuntime, index int) *model.
 		if index >= len(p.definition.Steps) {
 			return s.finishProcess(p, "complete", "")
 		}
-		f := s.newProcessFrame(p)
+		var frameStorage executionFrame
+		s.initProcessFrame(&frameStorage, p)
+		f := &frameStorage
 		staged := f.pendingProcess
 		staged.stepIndex = index
 		staged.StepVersion = index + 1
@@ -357,6 +437,9 @@ func (s *genericRunState) enterProcessStep(p *processRuntime, index int) *model.
 		staged.StepStartedAtMs = s.nowMs
 		staged.AdvanceAtMs = s.nowMs
 		staged.ExpiresAtMs = nil
+		staged.Repeat = nil
+		staged.StepExecutionIndex = 0
+		staged.LastExecutionAtMs, staged.StepCompletedAtMs = nil, nil
 		duration := func(id formula.GenericProgramID, zero bool, path string) (int64, *model.EngineError) {
 			v, err := f.evalAmount(id, p.ability)
 			if err != nil {
@@ -396,8 +479,12 @@ func (s *genericRunState) enterProcessStep(p *processRuntime, index int) *model.
 			}
 			staged.AdvanceAtMs = minimum
 			staged.ExpiresAtMs = &maximum
+		case "MULTI_HIT", "CHANNEL":
+			if err := s.enterProcessRepeat(f, step); err != nil {
+				return err
+			}
 		}
-		f.pendingProcessTimer = step.StepType != "IMMEDIATE"
+		f.pendingProcessTimer = step.StepType != "IMMEDIATE" && (staged.Repeat == nil || staged.Repeat.NextExecutionAtMs != nil && *staged.Repeat.NextExecutionAtMs > s.nowMs)
 		if err := s.applyProcessMoment(p, f, "STEP_START", ""); err != nil {
 			return err
 		}
@@ -405,6 +492,12 @@ func (s *genericRunState) enterProcessStep(p *processRuntime, index int) *model.
 			return err
 		}
 		if p.Status != "active" {
+			return nil
+		}
+		if p.Repeat != nil {
+			if p.Repeat.NextExecutionAtMs != nil && *p.Repeat.NextExecutionAtMs == s.nowMs {
+				return s.executeProcessRepeat(p)
+			}
 			return nil
 		}
 		if step.StepType != "IMMEDIATE" {
@@ -445,10 +538,15 @@ func (s *genericRunState) finishProcessWithCast(p *processRuntime, status, reaso
 	if p.Status != "active" {
 		return nil
 	}
-	f := s.newProcessFrame(p)
+	var frameStorage executionFrame
+	s.initProcessFrame(&frameStorage, p)
+	f := &frameStorage
 	f.countCastOnCommit, f.castStatRef = castRef != "", castRef
 	staged := f.pendingProcess
 	staged.Status = status
+	if staged.Repeat != nil {
+		staged.Repeat.NextExecutionAtMs = nil
+	}
 	at := s.nowMs
 	staged.FinishedAtMs = &at
 	staged.FailureReason = nil
@@ -460,11 +558,18 @@ func (s *genericRunState) finishProcessWithCast(p *processRuntime, status, reaso
 	if err := s.applyProcessMoment(p, f, kind, reason); err != nil {
 		return err
 	}
-	return s.commitProcessFrame(p, f)
+	err := s.commitProcessFrame(p, f)
+	if f.committed {
+		s.publishSkillActionFinish(p)
+	}
+	if err != nil {
+		return err
+	}
+	return s.resolveSkillActionMoment(p, kind)
 }
 
 func (s *genericRunState) enqueueProcessTimer(p *processRuntime) *model.EngineError {
-	if p.ExpiresAtMs == nil {
+	if p.ExpiresAtMs == nil && p.StepVersion != 0 && (p.stepIndex < 0 || p.definition.Steps[p.stepIndex].StepType != "IMMEDIATE") {
 		return s.processErr("processInstances.expiresAtMs", "active timed process requires expiration", p.UseKey)
 	}
 	index := -1
@@ -474,7 +579,7 @@ func (s *genericRunState) enqueueProcessTimer(p *processRuntime) *model.EngineEr
 			break
 		}
 	}
-	if s.heap.Push(scheduler.GenericEvent{TimeMs: *p.ExpiresAtMs, Category: scheduler.GenericCategoryProcessTimer, Kind: scheduler.GenericEventProcessTimer, ProcessIndex: index, ProcessStepVersion: p.StepVersion, ProcessSortKey: processMountKey(p.Owner, p.ProviderRef, p.ProcessKey) + "\x00" + p.UseKey, DriverEntryIndex: -1}) != model.ErrOK {
+	if s.heap.Push(scheduler.GenericEvent{TimeMs: processTimerAt(p), Category: scheduler.GenericCategoryProcessTimer, Kind: scheduler.GenericEventProcessTimer, ProcessIndex: index, ProcessStepVersion: p.StepVersion, ProcessExecutionIndex: p.StepExecutionIndex, ProcessSortKey: processStableKey(p), DriverEntryIndex: -1}) != model.ErrOK {
 		return s.budgetError(model.BudgetCauseMaxQueueEvents, "process timer queue overflow")
 	}
 	return nil
@@ -485,10 +590,31 @@ func (s *genericRunState) handleProcessTimer(ev scheduler.GenericEvent) *model.E
 		return s.processErr("processInstances", "unknown process timer instance", "")
 	}
 	p := s.processInstances[ev.ProcessIndex]
-	if p.Status != "active" || p.StepVersion != ev.ProcessStepVersion || p.ExpiresAtMs == nil || *p.ExpiresAtMs != s.nowMs {
+	if p.Status != "active" || p.StepVersion != ev.ProcessStepVersion || p.StepExecutionIndex != ev.ProcessExecutionIndex || processTimerAt(p) != s.nowMs {
 		return nil
 	}
+	if p.StepVersion == 0 {
+		return s.enterProcessStep(p, 0)
+	}
+	if p.StepCompletedAtMs != nil {
+		return s.enterProcessStep(p, p.stepIndex+1)
+	}
+	if p.Repeat == nil && p.StepExecutionIndex > 0 {
+		return s.completeProcessStep(p)
+	}
 	step := p.definition.Steps[p.stepIndex]
+	if step.StepType == "IMMEDIATE" {
+		if err := s.runProcessMoment(p, "STEP_EXECUTION", ""); err != nil {
+			return err
+		}
+		return s.completeProcessStep(p)
+	}
+	if p.Repeat != nil {
+		if p.Repeat.NextExecutionAtMs != nil {
+			return s.executeProcessRepeat(p)
+		}
+		return s.completeProcessStep(p)
+	}
 	if step.StepType != "DELAY" {
 		if err := s.runProcessMoment(p, "STEP_TIMEOUT", ""); err != nil {
 			return err
@@ -496,6 +622,9 @@ func (s *genericRunState) handleProcessTimer(ev scheduler.GenericEvent) *model.E
 	}
 	if p.Status != "active" {
 		return nil
+	}
+	if step.StepType == "RECAST" || (step.StepType == "CHARGE" && !step.ReleaseAtMaximum) {
+		return s.finishProcess(p, "failed", "EVENT_ABORTED")
 	}
 	if step.StepType == "DELAY" || (step.StepType == "CHARGE" && step.ReleaseAtMaximum) {
 		if err := s.runProcessMoment(p, "STEP_EXECUTION", ""); err != nil {
@@ -519,6 +648,19 @@ func (s *genericRunState) failDeadProcesses() *model.EngineError {
 	if !deadOwner {
 		return nil
 	}
+	// 无待终结实例时，原冻结循环不会执行任何效果；避免复制并排序历史过程。
+	if !s.settlingProcessDeaths {
+		hasPending := false
+		for _, p := range s.processInstances {
+			if p.Status == "active" && (s.actionDeaths[p.Owner] || s.combatantHasHp(p.Owner) && s.combatantHp(p.Owner) <= 0) {
+				hasPending = true
+				break
+			}
+		}
+		if !hasPending {
+			return nil
+		}
+	}
 	s.settlingProcessDeaths = true
 	defer func() { s.settlingProcessDeaths = false }()
 	// Stable instance order; termination claims ownership before executing failure effects.
@@ -527,7 +669,7 @@ func (s *genericRunState) failDeadProcesses() *model.EngineError {
 	for {
 		pending := make([]*processRuntime, 0)
 		for _, p := range ordered {
-			if p.Status == "active" && s.combatantHasHp(p.Owner) && s.combatantHp(p.Owner) <= 0 {
+			if p.Status == "active" && (s.actionDeaths[p.Owner] || s.combatantHasHp(p.Owner) && s.combatantHp(p.Owner) <= 0) {
 				pending = append(pending, p)
 			}
 		}
@@ -545,30 +687,45 @@ func (s *genericRunState) failDeadProcesses() *model.EngineError {
 }
 
 func processStableKey(p *processRuntime) string {
-	return processMountKey(p.Owner, p.ProviderRef, p.ProcessKey) + "\x00" + p.UseKey
+	if p.stableKey != "" {
+		return p.stableKey
+	}
+	return processInstanceMountKey(p) + "\x00" + p.UseKey
+}
+
+func processSnapshotLess(a, b *processRuntime) bool {
+	ka, kb := processInstanceMountKey(a), processInstanceMountKey(b)
+	if ka != kb {
+		return ka < kb
+	}
+	return a.UseKey < b.UseKey
 }
 
 func (f *executionFrame) recordProcess(p *processRuntime, kind, value string) {
-	f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKind(kind), Ref: p.abilityRef, Data: map[string]interface{}{"owner": p.Owner, "providerRef": p.ProviderRef, "processKey": p.ProcessKey, "skillKey": p.SkillKey, "useKey": p.UseKey, "target": p.Target, "stepKey": p.StepKey, "stepVersion": p.StepVersion, "moment": value, "status": p.Status, "failureReason": p.FailureReason}})
+	f.recordEvidenceLazy(model.EvidenceKind(kind), func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKind(kind), Ref: p.abilityRef, Data: map[string]interface{}{"owner": p.Owner, "providerRef": p.ProviderRef, "processKey": p.ProcessKey, "skillKey": p.SkillKey, "useKey": p.UseKey, "target": p.Target, "stepKey": p.StepKey, "stepVersion": p.StepVersion, "moment": value, "status": p.Status, "failureReason": p.FailureReason}}
+	})
 }
 
 func (s *genericRunState) snapshotProcesses() []model.ProcessInstanceSnapshot {
-	rows := make([]model.ProcessInstanceSnapshot, 0, len(s.processInstances))
-	for _, p := range s.processInstances {
+	ordered := s.processInstances
+	if len(ordered) > 1 {
+		ordered = append([]*processRuntime(nil), ordered...)
+		sort.Slice(ordered, func(i, j int) bool { return processSnapshotLess(ordered[i], ordered[j]) })
+	}
+	rows := make([]model.ProcessInstanceSnapshot, 0, len(ordered))
+	for _, p := range ordered {
 		row := p.ProcessInstanceSnapshot
+		row.ActionOccupancies = append([]model.ProcessActionOccupancy{}, p.ActionOccupancies...)
+		if p.Repeat != nil {
+			repeat := *p.Repeat
+			row.Repeat = &repeat
+		}
 		row.ActualCosts = make(map[string]float64, len(p.ActualCosts))
 		for k, v := range p.ActualCosts {
 			row.ActualCosts[k] = v
 		}
 		rows = append(rows, row)
 	}
-	sort.Slice(rows, func(i, j int) bool {
-		a, b := rows[i], rows[j]
-		ka, kb := processMountKey(a.Owner, a.ProviderRef, a.ProcessKey), processMountKey(b.Owner, b.ProviderRef, b.ProcessKey)
-		if ka != kb {
-			return ka < kb
-		}
-		return a.UseKey < b.UseKey
-	})
 	return rows
 }

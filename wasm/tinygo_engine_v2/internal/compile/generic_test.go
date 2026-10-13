@@ -10,10 +10,11 @@ import (
 	"testing"
 
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 func TestCompileGenericBasicDamage(t *testing.T) {
-	req := loadGenericFixtureCompileRequest(t, "generic_p0_basic_damage.json")
+	req := loadGenericFixtureCompileRequest(t, "formula_phase4_explicit_basic_damage.json")
 	result := CompileGeneric(req)
 	if !result.OK {
 		t.Fatalf("expected compile ok, errors=%v", result.Result.Errors)
@@ -210,14 +211,14 @@ func TestCompileGenericMatcherNoClosureExpansion(t *testing.T) {
 }
 
 func TestParseAbilityRefCanonical(t *testing.T) {
-	ref, ok := ParseAbilityRef("source.provider[champion:ashe].ability[basic_attack]")
+	ref, ok := plan.ParseAbilityRef("source.provider[champion:ashe].ability[basic_attack]")
 	if !ok {
 		t.Fatal("expected parse ok")
 	}
 	if ref.Combatant != "source" || ref.ProviderRef != "champion:ashe" || ref.AbilityKey != "basic_attack" {
 		t.Fatalf("parsed %+v", ref)
 	}
-	if _, ok := ParseAbilityRef("champion:ashe::basic_attack"); ok {
+	if _, ok := plan.ParseAbilityRef("champion:ashe::basic_attack"); ok {
 		t.Fatal("expected reject :: form")
 	}
 }
@@ -227,7 +228,7 @@ func minimalValidCompileRequest() model.CompileRequest {
 	if !ok {
 		panic("runtime.Caller failed")
 	}
-	path := filepath.Join(filepath.Dir(file), "..", "testkit", "fixtures", "generic_p0_basic_damage.json")
+	path := filepath.Join(filepath.Dir(file), "..", "testkit", "fixtures", "formula_phase4_explicit_basic_damage.json")
 	raw, err := os.ReadFile(path)
 	if err != nil {
 		panic(err)
@@ -410,7 +411,7 @@ func TestCompileGenericStateChangeAcceptsSourceAndSelf(t *testing.T) {
 	}
 }
 
-func TestCompileGenericRejectsUnknownDamageSettlementType(t *testing.T) {
+func TestCompileGenericKnownDamageRequiresAuthorFormula(t *testing.T) {
 	req := minimalValidCompileRequest()
 	req.TypeCatalog.Types = append(req.TypeCatalog.Types, model.TypeCatalogEntry{Key: "damage/chaos", Domain: "damage"})
 	one := 1.0
@@ -426,21 +427,15 @@ func TestCompileGenericRejectsUnknownDamageSettlementType(t *testing.T) {
 	if result.OK {
 		t.Fatal("expected compile failure for unknown damage settlement type")
 	}
-	if !hasErrorCode(result.Result.Errors, model.GenericErrUnknownTypeKey) {
+	if !hasErrorCode(result.Result.Errors, model.GenericErrMissingDamageTypeFormula) {
 		t.Fatalf("errors=%+v", result.Result.Errors)
 	}
-	found := false
-	for _, err := range result.Result.Errors {
-		if err.Code == model.GenericErrUnknownTypeKey && err.Ref == "damage/chaos" &&
-			(err.Message == "unknown damage settlement type" || err.Path != "") {
-			if err.Message == "unknown damage settlement type" {
-				found = true
-			}
+	for _, issue := range result.Result.Errors {
+		if issue.Code == model.GenericErrMissingDamageTypeFormula && issue.Ref == "damage/chaos" && issue.Path == "sharedProviders[0].abilities[0].operations[0].damageType" {
+			return
 		}
 	}
-	if !found {
-		t.Fatalf("expected settlement-type reject, errors=%+v", result.Result.Errors)
-	}
+	t.Fatalf("expected original key and operation path: %+v", result.Result.Errors)
 }
 
 func TestCompileGenericInitialStateSchemaLegacyNumeric(t *testing.T) {
@@ -603,7 +598,7 @@ func TestCompileGenericDamageCritEligibleProjects(t *testing.T) {
 	req := minimalValidCompileRequest()
 	one := 1.0
 	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",
@@ -655,7 +650,7 @@ func TestCompileGenericCritEligibleRejectsNonDamage(t *testing.T) {
 	req := minimalValidCompileRequest()
 	one := 1.0
 	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "heal",
 			Target:       "source",
 			Amount:       &model.GenericFormulaExpr{Op: "const", Value: &one},
@@ -968,7 +963,7 @@ func TestCompileGenericExecuteThresholdRejectsInvalidThreshold(t *testing.T) {
 func TestCompileGenericExecuteThresholdCollectAllForbiddenFields(t *testing.T) {
 	req := minimalValidCompileRequest()
 	one := 1.0
-	op := model.OperationDefinition{
+	op := model.OperationDefinition{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 		Operation:             model.OperationKindExecuteThreshold,
 		Target:                model.SelectorTarget,
 		Threshold:             0.05,

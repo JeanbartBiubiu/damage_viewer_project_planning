@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // scheduleProviderTargetStateExpiry enqueues a deterministic expire_cleanup for one
@@ -35,11 +36,12 @@ func (s *genericRunState) applyProviderTargetStateExpiry(payload expireCleanupPa
 	if !ok {
 		return
 	}
-	bag := owner.providerState[payload.providerRef]
+	bag := writableProviderStateBag(owner.writableProviderStates(), payload.providerRef, false)
 	if bag == nil {
 		return
 	}
 	bag.ensure()
+	s.combatants[payload.combatantKey] = owner
 	// Stale after target switch or refresh: do not clear newer state.
 	if bag.targetKey != payload.targetKey {
 		return
@@ -47,30 +49,28 @@ func (s *genericRunState) applyProviderTargetStateExpiry(payload expireCleanupPa
 	if bag.targetExpireAt[payload.stateKey] != payload.expectedExpireAt {
 		return
 	}
-	def, hasDef := bag.fieldDefs[payload.stateKey]
-	defaultValue := 0.0
-	if hasDef {
-		defaultValue = def.defaultValue
-	}
-	bag.targetValues[payload.stateKey] = defaultValue
-	bag.targetExpireAt[payload.stateKey] = 0
-	owner.providerState[payload.providerRef] = bag
-	s.combatants[payload.combatantKey] = owner
-
-	affectedKey := payload.targetKey
-	if affectedKey == "" {
+	if payload.expectedExpireAt > s.nowMs || payload.targetKey == "" {
 		return
 	}
-	evalCtx := s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
-	if affected, ok := s.combatants[affectedKey]; ok {
-		affected.attributes = s.resolveAttributesFor(affectedKey, affected.attributes, evalCtx, affectedKey)
-		s.combatants[affectedKey] = affected
+	var frameStorage executionFrame
+	s.initExecutionFrame(&frameStorage, payload.combatantKey, payload.targetKey, "target_state_expiry:"+payload.providerRef)
+	frame := &frameStorage
+	frame.ownerCombatantKey, frame.ownerProviderRef = payload.combatantKey, payload.providerRef
+	if err := frame.consumeCommands(1); err != nil {
+		s.processFailure = err
+		return
 	}
-	// Owner-side modifiers reading target_state (rare) also refresh.
-	if payload.combatantKey != affectedKey {
-		if own, ok := s.combatants[payload.combatantKey]; ok {
-			own.attributes = s.resolveAttributesFor(payload.combatantKey, own.attributes, evalCtx, affectedKey)
-			s.combatants[payload.combatantKey] = own
-		}
+	staged := frame.stageFor(payload.combatantKey)
+	stagedBag := writableProviderStateBag(staged.writableProviderStates(), payload.providerRef, false)
+	stagedBag.writableTargetValues()[payload.stateKey] = stagedBag.fieldDefs[payload.stateKey].defaultValue
+	stagedBag.writableTargetExpireAt()[payload.stateKey] = 0
+	frame.reResolveStagedAttributesTwoPass(planbundle.CompiledAbility{})
+	frame.recordEvidenceLazy("provider_target_state_expired", func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: s.nowMs, Kind: "provider_target_state_expired", Ref: payload.providerRef,
+			Data: map[string]interface{}{"owner": payload.combatantKey, "target": payload.targetKey, "stateKey": payload.stateKey, "expectedExpireAt": payload.expectedExpireAt}}
+	})
+	frame.commit()
+	if frame.fatal {
+		s.processFailure = frame.fatalErr
 	}
 }

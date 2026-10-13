@@ -7,6 +7,8 @@
 package main
 
 import (
+	goruntime "runtime"
+
 	"tinygo_engine_v2/internal/abi"
 	"tinygo_engine_v2/internal/runtime"
 )
@@ -46,6 +48,7 @@ func engine_outbox_len() uint32 {
 //export engine_outbox_clear
 func engine_outbox_clear() {
 	session.ClearOutbox()
+	goruntime.GC()
 }
 
 //export engine_compile

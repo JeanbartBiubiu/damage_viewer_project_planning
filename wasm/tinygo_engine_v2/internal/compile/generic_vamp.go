@@ -7,26 +7,9 @@ import (
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/typeset"
 )
-
-type CompiledVampRule struct {
-	VampType           string
-	SourceAttributeKey string
-	BasisOutputKind    string
-	DefaultEfficiency  float64
-	TargetMatcher      typeset.Matcher
-	AbilityMatcher     typeset.Matcher
-	DamageMatcher      typeset.Matcher
-}
-
-type CompiledVampOverride struct {
-	VampType          string
-	Mode              string
-	BasisOutputKind   string
-	EfficiencyProgram formula.GenericProgramID
-	Path              string
-}
 
 func vampTypeIndex(kind string) int {
 	for i, known := range model.VampTypeOrder {
@@ -46,7 +29,7 @@ func compileVampRules(rules []model.VampRuleDefinition, combatants []model.Comba
 		for i, c := range combatants {
 			found := false
 			for _, key := range c.Types {
-				if strings.HasPrefix(key, "combatant/") {
+				if _, declared := ctx.catalog.Registry.LookupDomain("combatant", key); declared {
 					found = true
 				}
 			}
@@ -86,7 +69,7 @@ func compileVampRules(rules []model.VampRuleDefinition, combatants []model.Comba
 		} else if !found {
 			add(model.GenericErrUnknownRef, path+".sourceAttributeKey", "vamp source attribute is not declared on any combatant", rule.SourceAttributeKey)
 		}
-		compiled := CompiledVampRule{
+		compiled := plan.CompiledVampRule{
 			VampType: rule.VampType, SourceAttributeKey: rule.SourceAttributeKey,
 			BasisOutputKind: rule.BasisOutputKind, DefaultEfficiency: efficiency,
 			TargetMatcher:  compileVampMatcher(rule.TargetMatcher, "combatant", path+".targetMatcher", ctx),
@@ -100,7 +83,7 @@ func compileVampRules(rules []model.VampRuleDefinition, combatants []model.Comba
 	})
 }
 
-func validateVampAbilityInputs(def model.AbilityDefinition, ability CompiledAbility, path string, ctx *genericCompileContext) {
+func validateVampAbilityInputs(def model.AbilityDefinition, ability plan.CompiledAbility, path string, ctx *genericCompileContext) {
 	if len(ctx.session.VampRules) == 0 {
 		return
 	}
@@ -110,7 +93,7 @@ func validateVampAbilityInputs(def model.AbilityDefinition, ability CompiledAbil
 		}
 		found := false
 		for _, key := range def.Types {
-			if strings.HasPrefix(key, "ability/") {
+			if _, declared := ctx.catalog.Registry.LookupDomain("ability", key); declared {
 				found = true
 			}
 		}
@@ -121,7 +104,7 @@ func validateVampAbilityInputs(def model.AbilityDefinition, ability CompiledAbil
 			if override.Mode != model.VampOverride {
 				continue
 			}
-			for _, instr := range ctx.session.Formulas.Programs[override.EfficiencyProgram].Instr {
+			for _, instr := range ctx.session.Formulas.ReadDependencies(override.EfficiencyProgram) {
 				if instr.Op == formula.GenericOpRead && instr.ReadKind == formula.ReadAbilityParam {
 					if _, ok := def.Params[instr.ReadKey]; !ok {
 						ctx.collector.addError(model.GenericErrUnknownRef, override.Path, "missing ability parameter: "+instr.ReadKey, instr.ReadKey)
@@ -144,9 +127,14 @@ func compileVampMatcher(input model.TypeMatcher, domain, path string, ctx *gener
 		seen := map[string]bool{}
 		for i, key := range part.keys {
 			p := path + "." + part.suffix + "[" + itoa(i) + "]"
-			id, ok := ctx.catalog.Registry.Lookup(key)
+			id, ok := ctx.catalog.Registry.LookupDomain(domain, key)
 			if !ok {
-				add(model.GenericErrUnknownTypeKey, p, "unknown vamp matcher type", key)
+				// 全域查找仅区分诊断，不参与授权或匹配选取。
+				code := model.GenericErrUnknownTypeKey
+				if _, known := ctx.catalog.Registry.Lookup(key); known {
+					code = model.GenericErrMatcherDomainError
+				}
+				add(code, p, "unknown vamp matcher type in domain "+domain, key)
 				continue
 			}
 			if ctx.catalog.Domains[id] != domain {
@@ -158,11 +146,11 @@ func compileVampMatcher(input model.TypeMatcher, domain, path string, ctx *gener
 			seen[key] = true
 		}
 	}
-	matcher, _ := typeset.CompileMatcher(model.TypeMatcherV2{Any: input.Any, All: input.All, None: input.None}, ctx.catalog.Registry)
+	matcher, _ := typeset.CompileDomainMatcher(model.TypeMatcherV2{Any: input.Any, All: input.All, None: input.None}, ctx.catalog.Registry, domain)
 	return matcher
 }
 
-func compileVampOverrides(op model.OperationDefinition, out *CompiledOperation, path string, ctx *genericCompileContext) {
+func compileVampOverrides(op model.OperationDefinition, out *plan.CompiledOperation, path string, ctx *genericCompileContext) {
 	add := ctx.collector.addError
 	out.VampQualification = op.VampQualification
 	if op.Operation != "damage" {
@@ -209,7 +197,7 @@ func compileVampOverrides(op model.OperationDefinition, out *CompiledOperation, 
 		if !found {
 			add(model.GenericErrUnknownRef, p+".vampType", "vamp override requires the corresponding game rule", item.VampType)
 		}
-		v := CompiledVampOverride{VampType: item.VampType, Mode: item.Mode, BasisOutputKind: item.BasisOutputKind, Path: p + ".efficiency"}
+		v := plan.CompiledVampOverride{VampType: item.VampType, Mode: item.Mode, BasisOutputKind: item.BasisOutputKind, Path: p + ".efficiency"}
 		switch item.Mode {
 		case model.VampDisabled:
 			if item.BasisOutputKind != "" || item.Efficiency != nil {
@@ -223,11 +211,15 @@ func compileVampOverrides(op model.OperationDefinition, out *CompiledOperation, 
 				add(model.GenericErrMissingRequiredField, p+".efficiency", "OVERRIDE requires efficiency", item.VampType)
 			} else {
 				instr := formula.CompileGenericFormula(*item.Efficiency, p+".efficiency", ctx.namedFormulas, map[string]bool{}, add)
-				validateDamagePredicateReads(instr, p+".efficiency", ctx.catalog, add)
+				validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(instr, nil), p+".efficiency", ctx.catalog, add)
 				if item.Efficiency.Op == "const" && item.Efficiency.Value != nil && *item.Efficiency.Value < 0 {
 					add(model.GenericErrFormulaTypeError, p+".efficiency", "vamp efficiency must be non-negative", item.VampType)
 				}
-				v.EfficiencyProgram = ctx.registerFormula(p+".efficiency", instr)
+				program, registered := ctx.registerFormula(p+".efficiency", instr)
+				if !registered {
+					continue
+				}
+				v.EfficiencyProgram = program
 			}
 		default:
 			add(model.GenericErrUnknownRef, p+".mode", "unsupported vamp override mode", item.Mode)
@@ -239,7 +231,7 @@ func compileVampOverrides(op model.OperationDefinition, out *CompiledOperation, 
 	})
 }
 
-func validateHealPipelineModifier(mod CompiledModifier, path string, collector *genericCollector) {
+func validateHealPipelineModifier(mod plan.CompiledModifier, path string, collector *genericCollector) {
 	add := collector.addError
 	if mod.HealDirection != model.HealDone && mod.HealDirection != model.HealReceived {
 		add(model.GenericErrUnknownRef, path+".healDirection", "heal direction must be DONE or RECEIVED", mod.HealDirection)

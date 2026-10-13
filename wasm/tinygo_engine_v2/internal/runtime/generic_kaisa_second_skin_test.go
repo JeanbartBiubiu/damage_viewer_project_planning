@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -275,6 +276,12 @@ func kaisaSSBasicAttackOps() []model.OperationDefinition {
 }
 
 func ensureKaisaSSTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/basic_attack", Domain: "ability"},
 		{Key: "damage/physical", Domain: "damage"},
@@ -687,6 +694,7 @@ func TestKaisaSecondSkinFifthHitRuptureUsesPostCausticHPBeforePhysicalAA(t *test
 		"damage:" + kaisaSSCausticOpRef,
 		"damage:" + kaisaSSRuptureOpRef,
 		"damage:" + kaisaSSAAOpRef,
+		"event:" + eventTypeDamageDealt,
 		"event:" + kaisaSSHitEvent,
 	}
 	if len(timeline) < len(wantSuffix) {
@@ -808,9 +816,11 @@ func TestKaisaSecondSkinOneBasicAttackHitEventPerAttackAndEvidenceOrder(t *testi
 	want := []string{
 		"damage:" + kaisaSSCausticOpRef,
 		"damage:" + kaisaSSAAOpRef,
+		"event:" + eventTypeDamageDealt,
 		"event:" + kaisaSSHitEvent,
 		"damage:" + kaisaSSCausticOpRef,
 		"damage:" + kaisaSSAAOpRef,
+		"event:" + eventTypeDamageDealt,
 		"event:" + kaisaSSHitEvent,
 	}
 	if len(timeline) != len(want) {

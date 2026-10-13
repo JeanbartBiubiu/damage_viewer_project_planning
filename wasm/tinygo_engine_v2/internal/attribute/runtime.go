@@ -7,11 +7,8 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-// ReadAttr 从属性 map 读取槽位，支持 key 或 key.suffix（resolved/current/base/max）。
-func ReadAttr(attrs map[string]model.AttributeSlotDef, key string) float64 {
-	if attrs == nil {
-		return 0
-	}
+// ReadAttr从不可变属性表读取槽位，支持key或key.suffix（resolved/current/base/max）。
+func ReadAttr(attrs Table, key string) float64 {
 	slot, field, ok := resolveAttrKey(attrs, key)
 	if !ok {
 		return 0
@@ -39,16 +36,13 @@ func ReadAttr(attrs map[string]model.AttributeSlotDef, key string) float64 {
 // ReadHP 读取 hp.current，缺省 0。
 // 必须走 "hp.current"：ReadAttr("hp") 默认优先非零 Resolved，而 damage/heal 的 SetHP
 // 只改 Current；属性 refresh 还会把 Resolved 重置为 Base，导致跨 hit 读到陈旧满血。
-func ReadHP(attrs map[string]model.AttributeSlotDef) float64 {
+func ReadHP(attrs Table) float64 {
 	return ReadAttr(attrs, "hp.current")
 }
 
 // ReadHPMax 读取 hp.max，缺省 current。
-func ReadHPMax(attrs map[string]model.AttributeSlotDef) float64 {
-	if attrs == nil {
-		return 0
-	}
-	slot, ok := attrs["hp"]
+func ReadHPMax(attrs Table) float64 {
+	slot, ok := attrs.Lookup("hp")
 	if !ok {
 		return 0
 	}
@@ -59,11 +53,8 @@ func ReadHPMax(attrs map[string]model.AttributeSlotDef) float64 {
 }
 
 // SetHP 设置 hp.current 并 clamp 到 [0, max]。
-func SetHP(attrs map[string]model.AttributeSlotDef, value float64) map[string]model.AttributeSlotDef {
-	if attrs == nil {
-		attrs = map[string]model.AttributeSlotDef{}
-	}
-	slot := attrs["hp"]
+func SetHP(attrs Table, value float64) Table {
+	slot := attrs.At("hp")
 	maxHP := slot.Max
 	if maxHP <= 0 {
 		maxHP = slot.Current
@@ -81,12 +72,11 @@ func SetHP(attrs map[string]model.AttributeSlotDef, value float64) map[string]mo
 	if slot.Max <= 0 {
 		slot.Max = maxHP
 	}
-	attrs["hp"] = slot
-	return attrs
+	return attrs.With("hp", slot)
 }
 
 // ApplyHeal 增加 hp.current，clamp 到 max，返回实际治疗量。
-func ApplyHeal(attrs map[string]model.AttributeSlotDef, amount float64) (map[string]model.AttributeSlotDef, float64) {
+func ApplyHeal(attrs Table, amount float64) (Table, float64) {
 	if amount <= 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
 		return attrs, 0
 	}
@@ -100,7 +90,7 @@ func ApplyHeal(attrs map[string]model.AttributeSlotDef, amount float64) (map[str
 	return attrs, after - before
 }
 
-func resolveAttrKey(attrs map[string]model.AttributeSlotDef, key string) (model.AttributeSlotDef, string, bool) {
+func resolveAttrKey(attrs Table, key string) (model.AttributeSlotDef, string, bool) {
 	for i := len(key) - 1; i >= 0; i-- {
 		if key[i] != '.' {
 			continue
@@ -109,10 +99,10 @@ func resolveAttrKey(attrs map[string]model.AttributeSlotDef, key string) (model.
 		switch suffix {
 		case "resolved", "current", "base", "max":
 			attrKey := key[:i]
-			slot, ok := attrs[attrKey]
+			slot, ok := attrs.Lookup(attrKey)
 			return slot, suffix, ok
 		}
 	}
-	slot, ok := attrs[key]
+	slot, ok := attrs.Lookup(key)
 	return slot, "", ok
 }

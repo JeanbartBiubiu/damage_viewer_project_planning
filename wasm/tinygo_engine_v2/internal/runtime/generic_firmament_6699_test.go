@@ -3,9 +3,10 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
-	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // item_6699 Voltaic Cyclosword / 电震涡流剑 — Firmament / 苍穹 (ranged precharged ABI).
@@ -23,8 +24,8 @@ import (
 //       2) bonus physical damage 0.07 * event.target.attr.hp.current
 //          (post-triggering-AA emit snapshot; never event.entry_target)
 //       3) consume energized_charge → 0
-//   - Item base fixture armor_pen_flat=10; same-hit Firmament damage evidences
-//     penetrationFlat=22 (10+12) after same-sequence attribute re-resolution
+//   - 作者伤害公式使用帧入口穿透10；同帧先写入的12仍提交为属性22，供后续帧读取。
+//     第四阶段已确认此口径；旧默认分支在此笔读取暂存22，两者金额独立对照。
 //   - copyable_on_hit=false; Guinsoo phantom neither damages nor re-arms/consumes
 //
 // Path: CompileGeneric → RunGeneric only.
@@ -121,7 +122,7 @@ func firmamentHitListener() model.ListenerDefinition {
 	zero := 0.0
 	one := 1.0
 	ready := firmamentReadyCond()
-	// Order: arm lethality → damage (observes re-resolved pen) → consume charge.
+	// 先写穿透状态，再伤害，再消费；共同防御仍读取本帧入口只读视图。
 	return model.ListenerDefinition{
 		ListenerKey:  firmamentListenerKey,
 		EventMatcher: model.TypeMatcher{All: []string{firmamentHitEvent, "event/source_owner"}},
@@ -172,6 +173,9 @@ func firmamentEnsureTypes(req *model.CompileRequest) {
 			req.TypeCatalog.Types = append(req.TypeCatalog.Types, t)
 		}
 	}
+
+	formuladefinition.DeclareAttributes(req, "armor", "armor_pen_flat")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.PenetrationDefense("armor", "", "armor_pen_flat"))
 }
 
 func firmamentAAOps() []model.OperationDefinition {
@@ -392,8 +396,13 @@ func firmamentExpectedBonusRaw() float64 {
 	return firmamentHPRatio * firmamentExpectedRemainingHPAfterAA()
 }
 
-func firmamentExpectedBonusMitigated() float64 {
+func firmamentLegacyStagedBonusMitigated() float64 {
 	eff := firmamentTargetArmor - (firmamentBasePenFlat + firmamentLethalityFlat) // 78
+	return expectedMitigatedPhysical(firmamentExpectedBonusRaw(), eff)
+}
+
+func firmamentEntryViewBonusMitigated() float64 {
+	eff := firmamentTargetArmor - firmamentBasePenFlat // 帧入口明确为10，当前状态写入不重写入口。
 	return expectedMitigatedPhysical(firmamentExpectedBonusRaw(), eff)
 }
 
@@ -413,7 +422,7 @@ func TestGenericFirmament6699SchemaCompiled(t *testing.T) {
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
-	var found *compile.CompiledProvider
+	var found *planbundle.CompiledProvider
 	for i := range result.Session.Providers {
 		p := &result.Session.Providers[i]
 		if p.ProviderKey == firmamentProviderRef {
@@ -436,7 +445,7 @@ func TestGenericFirmament6699SchemaCompiled(t *testing.T) {
 }
 
 // TestGenericFirmament6699PrechargeProcArmPenAndConsume: charge100→proc once; event.target 7% HP;
-// arm-before-damage yields penetrationFlat=22; raw+mitigated cross-check; charge→0; second AA no retrigger.
+// 同帧属性提交为22，伤害公式按入口10；保留费用、顺序和下一帧读取22的断言。
 func TestGenericFirmament6699PrechargeProcArmPenAndConsume(t *testing.T) {
 	compileReq, runReq := firmamentLoadFixture(t)
 	firmamentSeedCharge(&runReq, firmamentChargeMax)
@@ -447,7 +456,11 @@ func TestGenericFirmament6699PrechargeProcArmPenAndConsume(t *testing.T) {
 		t.Fatalf("firmament proc count=%d want 1", n)
 	}
 	wantRaw := firmamentExpectedBonusRaw()
-	wantMit := firmamentExpectedBonusMitigated()
+	wantMit := firmamentEntryViewBonusMitigated()
+	legacyStaged := firmamentLegacyStagedBonusMitigated()
+	if math.Abs(wantMit-366.4819944598338) > firmamentTol || math.Abs(legacyStaged-391.18864577173275) > firmamentTol || math.Abs(legacyStaged-wantMit) < 1 {
+		t.Fatalf("入口与旧暂存口径没有独立区分: entry=%v legacyStaged=%v", wantMit, legacyStaged)
+	}
 	if math.Abs(wantRaw-0.07*firmamentTargetHP) < 1 {
 		t.Fatalf("expected remaining-HP raw must differ from entry HP*0.07: raw=%v entry=%v",
 			wantRaw, 0.07*firmamentTargetHP)
@@ -459,12 +472,9 @@ func TestGenericFirmament6699PrechargeProcArmPenAndConsume(t *testing.T) {
 		t.Fatalf("firmament mitigated=%v want %v", got, wantMit)
 	}
 	data := firmamentDamageData(t, done)
-	if math.Abs(evidenceDataFloat(data, "penetrationFlat")-22) > firmamentTol {
-		t.Fatalf("penetrationFlat=%v want 22 (base10+temp12; same-sequence re-resolve)",
-			evidenceDataFloat(data, "penetrationFlat"))
-	}
-	if math.Abs(evidenceDataFloat(data, "effectiveResistance")-78) > firmamentTol {
-		t.Fatalf("effectiveResistance=%v want 78", evidenceDataFloat(data, "effectiveResistance"))
+	assertNoLegacyDefenseFields(t, data)
+	if got := evidenceDataFloat(data, "resistanceFactor"); math.Abs(got-100.0/190) > firmamentTol {
+		t.Fatalf("共同倍率没有使用入口穿透10: factor=%v", got)
 	}
 	if got := firmamentStateValue(t, done, firmamentChargeKey); math.Abs(got) > firmamentTol {
 		t.Fatalf("energized_charge after consume=%v want 0", got)
@@ -530,20 +540,12 @@ func TestGenericFirmament6699Exact4000msExpiry(t *testing.T) {
 	if len(probes) != 2 {
 		t.Fatalf("probe count=%d want 2", len(probes))
 	}
-	if math.Abs(evidenceDataFloat(probes[0], "penetrationFlat")-22) > firmamentTol {
-		t.Fatalf("probe@3999 penetrationFlat=%v want 22", evidenceDataFloat(probes[0], "penetrationFlat"))
-	}
-	if math.Abs(evidenceDataFloat(probes[0], "effectiveResistance")-78) > firmamentTol {
-		t.Fatalf("probe@3999 effectiveResistance=%v want 78", evidenceDataFloat(probes[0], "effectiveResistance"))
-	}
+	assertNoLegacyDefenseFields(t, probes[0])
 	wantLiveMit := expectedMitigatedPhysical(firmamentProbeRaw, 78)
 	if math.Abs(evidenceDataFloat(probes[0], "mitigatedAmount")-wantLiveMit) > firmamentTol {
 		t.Fatalf("probe@3999 mitigated=%v want %v", evidenceDataFloat(probes[0], "mitigatedAmount"), wantLiveMit)
 	}
-	if math.Abs(evidenceDataFloat(probes[1], "penetrationFlat")-firmamentBasePenFlat) > firmamentTol {
-		t.Fatalf("probe@4000 penetrationFlat=%v want %v (exact expiry)",
-			evidenceDataFloat(probes[1], "penetrationFlat"), firmamentBasePenFlat)
-	}
+	assertNoLegacyDefenseFields(t, probes[1])
 	wantDeadMit := expectedMitigatedPhysical(firmamentProbeRaw, firmamentTargetArmor-firmamentBasePenFlat)
 	if math.Abs(evidenceDataFloat(probes[1], "mitigatedAmount")-wantDeadMit) > firmamentTol {
 		t.Fatalf("probe@4000 mitigated=%v want %v", evidenceDataFloat(probes[1], "mitigatedAmount"), wantDeadMit)
@@ -579,6 +581,7 @@ func TestGenericFirmament6699ExplicitReseedRefresh(t *testing.T) {
 		t.Fatalf("energized_charge=%v want 0 after second consume", got)
 	}
 	probes := make([]map[string]interface{}, 0, 2)
+	probeTimes := make([]int64, 0, 2)
 	for _, item := range damageEvidenceItems(done) {
 		if evidenceDataString(item.Data, "operationRef") != firmamentProbeOpRef {
 			continue
@@ -587,17 +590,26 @@ func TestGenericFirmament6699ExplicitReseedRefresh(t *testing.T) {
 			continue
 		}
 		probes = append(probes, item.Data)
+		probeTimes = append(probeTimes, item.TimeMs)
 	}
 	if len(probes) != 2 {
 		t.Fatalf("probe count=%d want 2", len(probes))
 	}
-	if math.Abs(evidenceDataFloat(probes[0], "penetrationFlat")-22) > firmamentTol {
-		t.Fatalf("probe@5999 penetrationFlat=%v want 22 (refreshed window)",
-			evidenceDataFloat(probes[0], "penetrationFlat"))
-	}
-	if math.Abs(evidenceDataFloat(probes[1], "penetrationFlat")-firmamentBasePenFlat) > firmamentTol {
-		t.Fatalf("probe@6000 penetrationFlat=%v want %v",
-			evidenceDataFloat(probes[1], "penetrationFlat"), firmamentBasePenFlat)
+	assertNoLegacyDefenseFields(t, probes[0])
+	assertNoLegacyDefenseFields(t, probes[1])
+	for i, expected := range []struct {
+		timeMs int64
+		factor float64
+	}{{5999, 100.0 / 178}, {6000, 100.0 / 190}} {
+		if probeTimes[i] != expected.timeMs {
+			t.Fatalf("刷新窗口探针时刻=%d want %d", probeTimes[i], expected.timeMs)
+		}
+		if got := evidenceDataFloat(probes[i], "resistanceFactor"); math.Abs(got-expected.factor) > firmamentTol {
+			t.Fatalf("probe@%d factor=%v want %v", expected.timeMs, got, expected.factor)
+		}
+		if got := evidenceDataFloat(probes[i], "mitigatedAmount"); math.Abs(got-firmamentProbeRaw*expected.factor) > firmamentTol {
+			t.Fatalf("probe@%d mitigated=%v want %v", expected.timeMs, got, firmamentProbeRaw*expected.factor)
+		}
 	}
 }
 

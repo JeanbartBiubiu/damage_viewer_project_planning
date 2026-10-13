@@ -3,8 +3,8 @@ package runtime
 import (
 	"fmt"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 	"tinygo_engine_v2/internal/status"
 )
@@ -20,11 +20,11 @@ type anchoredTickPayload struct {
 	expectedExpireAt int64
 }
 
-func tickSpecAnchoredTo(ts *compilebundle.CompiledTickSpec, stateKey string) bool {
+func tickSpecAnchoredTo(ts *planbundle.CompiledTickSpec, stateKey string) bool {
 	return ts != nil && ts.IsAnchored() && ts.AnchorStateKey == stateKey
 }
 
-func (s *genericRunState) findAnchoredTickAbility(defIdx uint16, stateKey string) (*compilebundle.CompiledAbility, bool) {
+func (s *genericRunState) findAnchoredTickAbility(defIdx uint16, stateKey string) (*planbundle.CompiledAbility, bool) {
 	if int(defIdx) >= len(s.compiled.Providers) {
 		return nil, false
 	}
@@ -128,11 +128,12 @@ func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.E
 		return nil
 	}
 
-	bag := owner.providerState[payload.providerRef]
+	bag := writableProviderStateBag(owner.writableProviderStates(), payload.providerRef, false)
 	if bag == nil {
 		return nil
 	}
 	bag.ensure()
+	s.combatants[payload.ownerKey] = owner
 	// Active target binding is mandatory; never fall back to inst.Owner.
 	if bag.targetKey == "" || bag.targetKey != payload.targetKey {
 		return nil
@@ -160,7 +161,7 @@ func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.E
 		s.combatants[payload.ownerKey] = owner
 		defer func() {
 			if c, ok := s.combatants[payload.ownerKey]; ok {
-				if b := c.providerState[payload.providerRef]; b != nil {
+				if b := writableProviderStateBag(c.writableProviderStates(), payload.providerRef, false); b != nil {
 					b.clearInclusiveAtExpiryHold()
 					c.providerState[payload.providerRef] = b
 					s.combatants[payload.ownerKey] = c
@@ -178,7 +179,9 @@ func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.E
 	ops := s.compiled.Operations[start:end]
 	abilityRef := fmt.Sprintf("%s.provider[%s].ability[%s]", payload.ownerKey, inst.DefinitionRef, tickAbility.AbilityKey)
 
-	frame := s.newExecutionFrame(sourceKey, payload.targetKey, abilityRef)
+	var frameStorage executionFrame
+	s.initExecutionFrame(&frameStorage, sourceKey, payload.targetKey, abilityRef)
+	frame := &frameStorage
 	frame.ownerCombatantKey = payload.ownerKey
 	frame.ownerProviderRef = payload.providerRef
 	frame.castInstanceID = s.mintCastInstanceID()
@@ -194,20 +197,22 @@ func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.E
 		return err
 	}
 
-	s.recordEvidence(model.EvidenceItem{
-		TimeMs:  s.nowMs,
-		Kind:    model.EvidenceKindProviderTick,
-		Ref:     payload.providerRef,
-		Message: "anchored provider tick executed",
-		Data: map[string]interface{}{
-			"combatantKey":   payload.ownerKey,
-			"providerRef":    payload.providerRef,
-			"definitionRef":  inst.DefinitionRef,
-			"targetKey":      payload.targetKey,
-			"anchorStateKey": payload.anchorStateKey,
-			"generation":     payload.generation,
-			"anchored":       true,
-		},
+	s.recordEvidenceLazy(model.EvidenceKindProviderTick, func() model.EvidenceItem {
+		return model.EvidenceItem{
+			TimeMs:  s.nowMs,
+			Kind:    model.EvidenceKindProviderTick,
+			Ref:     payload.providerRef,
+			Message: "anchored provider tick executed",
+			Data: map[string]interface{}{
+				"combatantKey":   payload.ownerKey,
+				"providerRef":    payload.providerRef,
+				"definitionRef":  inst.DefinitionRef,
+				"targetKey":      payload.targetKey,
+				"anchorStateKey": payload.anchorStateKey,
+				"generation":     payload.generation,
+				"anchored":       true,
+			},
+		}
 	})
 	// Intentionally do not reschedule: cadence is fully planned at qualifying write time.
 	return nil

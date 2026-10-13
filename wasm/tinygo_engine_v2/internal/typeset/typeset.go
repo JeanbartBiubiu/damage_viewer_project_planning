@@ -9,9 +9,13 @@ type TypeID uint16
 type TypeSet [4]uint64
 
 type Registry struct {
-	Keys []string
-	ids  map[string]TypeID
+	Keys      []string
+	ids       map[string]TypeID
+	scoped    map[typeIdentity]TypeID
+	ambiguous map[string]bool
 }
+
+type typeIdentity struct{ domain, key string }
 
 type Matcher struct {
 	any        TypeSet
@@ -23,29 +27,56 @@ type Matcher struct {
 
 func NewRegistry() Registry {
 	return Registry{
-		Keys: make([]string, 0),
-		ids:  make(map[string]TypeID),
+		Keys:      make([]string, 0),
+		ids:       make(map[string]TypeID),
+		scoped:    make(map[typeIdentity]TypeID),
+		ambiguous: make(map[string]bool),
 	}
 }
 
 func (r *Registry) Intern(key string) (TypeID, bool) {
+	return r.InternScoped("", key)
+}
+
+// InternScoped只使用声明的作用域和原键，不从键内容推断身份。
+func (r *Registry) InternScoped(domain, key string) (TypeID, bool) {
 	if r.ids == nil {
 		r.ids = make(map[string]TypeID)
 	}
-	if id, ok := r.ids[key]; ok {
+	if r.scoped == nil {
+		r.scoped = make(map[typeIdentity]TypeID)
+	}
+	if r.ambiguous == nil {
+		r.ambiguous = make(map[string]bool)
+	}
+	identity := typeIdentity{domain, key}
+	if id, ok := r.scoped[identity]; ok {
 		return id, true
 	}
 	if len(r.Keys) >= MaxTypes {
 		return 0, false
 	}
 	id := TypeID(len(r.Keys))
-	r.ids[key] = id
+	r.scoped[identity] = id
+	if _, exists := r.ids[key]; exists {
+		r.ambiguous[key] = true
+	} else {
+		r.ids[key] = id
+	}
 	r.Keys = append(r.Keys, key)
 	return id, true
 }
 
 func (r Registry) Lookup(key string) (TypeID, bool) {
+	if r.ambiguous[key] {
+		return 0, false
+	}
 	id, ok := r.ids[key]
+	return id, ok
+}
+
+func (r Registry) LookupDomain(domain, key string) (TypeID, bool) {
+	id, ok := r.scoped[typeIdentity{domain, key}]
 	return id, ok
 }
 
@@ -91,12 +122,21 @@ func (s TypeSet) Empty() bool {
 }
 
 func CompileMatcher(input model.TypeMatcherV2, registry Registry) (Matcher, []string) {
+	return compileMatcher(input, registry.Lookup)
+}
+
+// CompileDomainMatcher用于调用点已明确单一作用域的匹配，不受其他域同名影响。
+func CompileDomainMatcher(input model.TypeMatcherV2, registry Registry, domain string) (Matcher, []string) {
+	return compileMatcher(input, func(key string) (TypeID, bool) { return registry.LookupDomain(domain, key) })
+}
+
+func compileMatcher(input model.TypeMatcherV2, lookup func(string) (TypeID, bool)) (Matcher, []string) {
 	var matcher Matcher
 	var problems []string
 
 	matcher.hasAny = len(input.Any) > 0
 	for _, key := range input.Any {
-		id, ok := registry.Lookup(key)
+		id, ok := lookup(key)
 		if !ok {
 			problems = append(problems, "unknown type: "+key)
 			continue
@@ -105,7 +145,7 @@ func CompileMatcher(input model.TypeMatcherV2, registry Registry) (Matcher, []st
 	}
 
 	for _, key := range input.All {
-		id, ok := registry.Lookup(key)
+		id, ok := lookup(key)
 		if !ok {
 			problems = append(problems, "unknown type: "+key)
 			matcher.impossible = true
@@ -115,7 +155,7 @@ func CompileMatcher(input model.TypeMatcherV2, registry Registry) (Matcher, []st
 	}
 
 	for _, key := range input.None {
-		id, ok := registry.Lookup(key)
+		id, ok := lookup(key)
 		if !ok {
 			problems = append(problems, "unknown type: "+key)
 			continue
@@ -124,6 +164,10 @@ func CompileMatcher(input model.TypeMatcherV2, registry Registry) (Matcher, []st
 	}
 
 	return matcher, problems
+}
+
+func (m Matcher) RequiresAllType(id TypeID) bool {
+	return m.all.Contains(id)
 }
 
 func (m Matcher) Match(types TypeSet) bool {

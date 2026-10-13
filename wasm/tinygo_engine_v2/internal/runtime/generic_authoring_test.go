@@ -7,6 +7,8 @@ import (
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
 // 独立构造通用机制数据，不读取或复制通用基准样例，也不代表真实管理数据验收。
@@ -26,7 +28,7 @@ func authoringSlot(v float64) model.AttributeSlotDef {
 func authoringRef(key string) string { return "source.provider[attack].ability[" + key + "]" }
 
 func authoringInput() (model.CompileRequest, model.RunRequest) {
-	damage := model.OperationDefinition{Operation: "damage", Target: "target", Ref: "body", Amount: authoringAmount(authoringRead("source.attr.attack_damage.resolved")), DamageType: "damage/physics", CritEligible: true,
+	damage := model.OperationDefinition{CritMultiplierMin: model.Float64Ptr(1), Operation: "damage", Target: "target", Ref: "body", Amount: authoringAmount(authoringRead("source.attr.attack_damage.resolved")), DamageType: "damage/physics", CritEligible: true,
 		CritChance:     authoringAmount(authoringRead("source.attr.critical_strike_chance.resolved")),
 		CritMultiplier: authoringAmount(model.GenericFormulaExpr{Op: "ref", Ref: "test/critical_multiplier"})}
 	link := model.OperationDefinition{Operation: model.OperationKindApplyHitLink, Target: "target", Ref: "hit_link", Amount: authoringAmount(authoringConst(1))}
@@ -45,7 +47,7 @@ func authoringInput() (model.CompileRequest, model.RunRequest) {
 	} {
 		c.TypeCatalog.Types = append(c.TypeCatalog.Types, entry)
 	}
-	c.SharedProviders = []model.ProviderDefinition{{ProviderKey: "test_attack", Kind: "skill", StableID: "test_attack", Types: []string{"provider/skill"}, Processes: []model.ProcessDefinition{process}, Abilities: []model.AbilityDefinition{
+	c.SharedProviders = []model.ProviderDefinition{{SkillKey: "test_attack", ProviderKey: "test_attack", Kind: "skill", StableID: "test_attack", Types: []string{"provider/skill"}, Processes: []model.ProcessDefinition{process}, Abilities: []model.AbilityDefinition{
 		{AbilityKey: "native_start", Kind: "active", SkillKey: "test_attack", Types: []string{model.AbilityTypeBasicAttack}},
 		{AbilityKey: "initial", Kind: "active", SkillKey: "test_attack", Types: []string{model.AbilityTypeBasicAttack}, ProcessControl: &model.ProcessControlDefinition{ProcessKey: "attack", Action: "INITIAL", UseRefFromEvent: true}},
 		{AbilityKey: "native_hit", Kind: "active", SkillKey: "test_attack", Params: map[string]float64{"base_critical_multiplier": 2}, Types: []string{model.AbilityTypeBasicAttack}, Operations: []model.OperationDefinition{{Operation: model.OperationKindResolveSkillHit, Target: "target", SkillHit: &model.SkillHitDefinition{SkillKey: "test_attack", Candidates: []model.SkillHitCandidate{candidate("damage", model.SkillHitResultDamage, damage), candidate("hit_link", model.SkillHitResultHitLink, link)}}}}},
@@ -56,29 +58,31 @@ func authoringInput() (model.CompileRequest, model.RunRequest) {
 		{Key: "source", Types: []string{"combatant/champion"}, Attributes: sourceAttrs, Resources: map[string]model.ResourceSlotDef{}, Providers: []model.CombatantProviderMount{{ProviderRef: "attack", DefinitionRef: "test_attack"}}},
 		{Key: "target", Types: []string{"combatant/champion"}, Attributes: targetAttrs, Resources: map[string]model.ResourceSlotDef{}, Providers: []model.CombatantProviderMount{}},
 	}
-	stage := func(index int) model.GenericFormulaExpr {
-		return authoringRead("damage.stage." + model.DamageStageKeys[index])
+	for _, key := range []string{"armor", "armor_pen_percent", "armor_pen_flat", "attack_speed", "critical_strike_damage_bonus_percent"} {
+		c.TypeCatalog.Types = append(c.TypeCatalog.Types, model.TypeCatalogEntry{Key: key, Domain: "attribute"})
 	}
-	effective := authoringBinary("max", authoringConst(0), authoringBinary("sub", authoringBinary("mul", stage(0), authoringBinary("sub", authoringConst(1), stage(1))), stage(2)))
-	c.Rules.DamageTypeFormulas = []model.DamageTypeFormulaDefinition{{DamageType: "damage/physics", Formula: model.DamageTypeFormula{
-		ResistanceBeforePenetration: authoringRead("target.attr.armor.resolved"), PenetrationPercent: authoringRead("source.attr.armor_pen_percent.resolved"), PenetrationFlat: authoringRead("source.attr.armor_pen_flat.resolved"), EffectiveResistance: effective,
-		ResistanceFactor: authoringBinary("div", authoringConst(100), authoringBinary("add", authoringConst(100), stage(3))),
+	c.Rules.DamageTypeFormulas = []model.DamageTypeFormulaDefinition{{DamageType: "damage/physics", Formula: map[string]any{
+		"inputs": []any{phase3Input("armor", "target", "armor", "TOTAL"), phase3Input("percent", "source", "armor_pen_percent", "TOTAL"), phase3Input("flat", "source", "armor_pen_flat", "TOTAL")},
+		"stages": []any{
+			phase3Stage("effective", phase3Binary("max", phase3Const("0"), phase3Binary("sub", phase3Binary("mul", phase3Read("armor"), phase3Binary("sub", phase3Const("1"), phase3Read("percent"))), phase3Read("flat")))),
+			phase3Stage("factor", phase3Binary("div", phase3Const("100"), phase3Binary("add", phase3Const("100"), phase3Ref("effective")))),
+		}, "outputStageKey": "factor",
 	}}}
 	c.Formulas = []model.NamedFormula{
-		{Key: "test/attack_interval_ms", Expression: authoringBinary("div", authoringConst(1000), authoringRead("source.attr.attack_speed.resolved"))},
-		{Key: "test/critical_multiplier", Expression: authoringBinary("add", authoringRead("ability.param.base_critical_multiplier"), authoringRead("source.attr.critical_strike_damage_bonus_percent.resolved"))},
+		formuladefinition.FromExpr("test/attack_interval_ms", "test_attack", authoringBinary("div", authoringConst(1000), authoringRead("source.attr.attack_speed.resolved")), nil),
+		formuladefinition.FromExpr("test/critical_multiplier", "test_attack", authoringBinary("add", authoringRead("ability.param.base_critical_multiplier"), authoringRead("source.attr.critical_strike_damage_bonus_percent.resolved")), map[string]float64{"base_critical_multiplier": 2}),
 	}
 	use := "attack/1"
 	r := model.RunRequest{SessionID: "test-session", InitialSnapshot: model.Snapshot{SchemaHash: c.SchemaHash, RulesHash: c.RulesHash, Combatants: []model.CombatantSnapshot{
-		{Key: "source", Attributes: cloneAttributeMap(sourceAttrs), Resources: map[string]model.ResourceSlotDef{}, Providers: []model.CombatantProviderSnapshot{{ProviderRef: "attack", DefinitionRef: "test_attack", Source: "source", Owner: "source", Stacks: 1}}},
-		{Key: "target", Attributes: cloneAttributeMap(targetAttrs), Resources: map[string]model.ResourceSlotDef{}},
+		{Key: "source", Attributes: sourceAttrs, Resources: map[string]model.ResourceSlotDef{}, Providers: []model.CombatantProviderSnapshot{{ProviderRef: "attack", DefinitionRef: "test_attack", Source: "source", Owner: "source", Stacks: 1}}},
+		{Key: "target", Attributes: targetAttrs, Resources: map[string]model.ResourceSlotDef{}},
 	}}, StopPolicy: model.StopPolicy{DurationMs: 100}, SkillUses: []model.SkillUseFact{{UseKey: use, Source: "source", SkillKey: "test_attack", HistoryState: model.SkillHitHistoryComplete}},
 		AttackStartFacts: []model.AttackStartFact{{DriverEntryKey: "start", UseRef: use}}, SkillHitFacts: []model.SkillHitFact{{DriverEntryKey: "hit", UseRef: &use}},
 		DriverPlan: model.DriverPlan{Entries: []model.DriverEntry{{EntryKey: "start", AbilityRef: authoringRef("native_start"), Source: "source", Target: "target", FirstAtMs: 0}, {EntryKey: "hit", AbilityRef: authoringRef("native_hit"), Source: "source", Target: "target", FirstAtMs: 25}}}}
 	return c, r
 }
 
-func authoringCompile(t *testing.T, c model.CompileRequest) compile.CompiledSession {
+func authoringCompile(t *testing.T, c model.CompileRequest) planbundle.CompiledSession {
 	t.Helper()
 	result := compile.CompileGeneric(c)
 	if !result.OK {
@@ -117,7 +121,7 @@ func TestAuthoringSingleAttackConsumesCritDefenseProcessAndLinks(t *testing.T) {
 				}
 			}
 		}
-		if evidence.Kind == "damage" && (evidence.Data["multiplier"] != 2.3 || evidence.Data["effectiveResistance"] != 80.0) {
+		if evidence.Kind == "damage" && (evidence.Data["multiplier"] != 2.3 || math.Abs(evidence.Data["resistanceFactor"].(float64)-100.0/180) > 1e-12) {
 			t.Fatal(evidence)
 		}
 	}
@@ -184,7 +188,7 @@ func TestAuthoringConfiguredKnownTypeReplacesNativeDefense(t *testing.T) {
 	c, r := authoringInput()
 	c.TypeCatalog.Types[3].Key = "damage/physical"
 	c.Rules.DamageTypeFormulas[0].DamageType = "damage/physical"
-	c.Rules.DamageTypeFormulas[0].Formula.ResistanceFactor = authoringConst(.2)
+	c.Rules.DamageTypeFormulas[0].Formula = phase3ConstantDefinition("0.2")
 	c.SharedProviders[0].Abilities[2].Operations[0].SkillHit.Candidates[0].Operations[0].DamageType = "damage/physical"
 	done := authoringRun(t, c, r)
 	if math.Abs(done.Summary.SourceDamageDealt-26.5) > 1e-9 {
@@ -194,12 +198,23 @@ func TestAuthoringConfiguredKnownTypeReplacesNativeDefense(t *testing.T) {
 
 func TestAuthoringPhantomKeepsCritAndEntryDefenseWithoutDoubleSettlement(t *testing.T) {
 	c, r := authoringInput()
+	// 允许真实改变防御与暴击属性，避免配置最大值夹取使冻结断言无效。
+	for _, key := range []string{"armor_pen_flat", "critical_strike_damage_bonus_percent"} {
+		slot := c.Combatants[0].Attributes[key]
+		slot.Max = 1000
+		c.Combatants[0].Attributes[key] = slot
+		r.InitialSnapshot.Combatants[0].Attributes[key] = slot
+	}
+	slot := c.Combatants[1].Attributes["armor"]
+	slot.Max = 1000
+	c.Combatants[1].Attributes["armor"] = slot
+	r.InitialSnapshot.Combatants[1].Attributes["armor"] = slot
 	c.SharedProviders[0].InitialStateSchema = map[string]interface{}{"copy_ready": 1.0}
 	ab := &c.SharedProviders[0].Abilities[2]
 	damage := ab.Operations[0].SkillHit.Candidates[0].Operations[0]
 	damage.CopyableOnHit = true
 	ab.Operations[0].SkillHit.Candidates = nil
-	c.SharedProviders[0].Abilities = append(c.SharedProviders[0].Abilities, model.AbilityDefinition{AbilityKey: "copy_effect", Kind: "active", Types: []string{model.AbilityTypeBasicAttack}, Params: map[string]float64{"base_critical_multiplier": 2}, Operations: []model.OperationDefinition{
+	c.SharedProviders[0].Abilities = append(c.SharedProviders[0].Abilities, model.AbilityDefinition{AbilityKey: "copy_effect", Kind: "active", SkillKey: "test_attack", Types: []string{model.AbilityTypeBasicAttack}, Params: map[string]float64{"base_critical_multiplier": 2}, Operations: []model.OperationDefinition{
 		damage,
 		{Operation: "attribute_change", Target: "target", AttributeKey: "armor", ValuePolicy: "add_flat", Amount: authoringAmount(authoringConst(120))},
 		{Operation: "attribute_change", Target: "source", AttributeKey: "armor_pen_flat", ValuePolicy: "add_flat", Amount: authoringAmount(authoringConst(10))},
@@ -211,6 +226,9 @@ func TestAuthoringPhantomKeepsCritAndEntryDefenseWithoutDoubleSettlement(t *test
 	if math.Abs(done.Summary.SourceDamageDealt-2*132.5*100/180) > 1e-9 {
 		t.Fatal("phantom repeated crit or used changed defense", done.Summary)
 	}
+	if done.FinalSnapshot.Combatants[1].Attributes["armor"].Resolved != 240 || done.FinalSnapshot.Combatants[0].Attributes["armor_pen_flat"].Resolved != 20 || done.FinalSnapshot.Combatants[0].Attributes["critical_strike_damage_bonus_percent"].Resolved != .8 {
+		t.Fatal("defense and crit did not actually change", done.FinalSnapshot.Combatants)
+	}
 	rows := 0
 	for _, e := range done.Evidence.Items {
 		if e.Kind == "damage" {
@@ -218,6 +236,7 @@ func TestAuthoringPhantomKeepsCritAndEntryDefenseWithoutDoubleSettlement(t *test
 			if e.Data["rawAmount"] != 132.5 || e.Data["multiplier"] != 2.3 {
 				t.Fatal(e)
 			}
+			phase3AssertNear(t, e.Data["resistanceFactor"].(float64), 100.0/180)
 		}
 	}
 	if rows != 2 {
@@ -235,15 +254,6 @@ func TestAuthoringCompileRejectsMissingOrMisboundDeclarations(t *testing.T) {
 		{"partial crit", func(c *model.CompileRequest) {
 			c.SharedProviders[0].Abilities[2].Operations[0].SkillHit.Candidates[0].Operations[0].CritMultiplier = nil
 		}, ".critMultiplier"},
-		{"same stage", func(c *model.CompileRequest) {
-			c.Rules.DamageTypeFormulas[0].Formula.EffectiveResistance = authoringRead("damage.stage.EFFECTIVE_RESISTANCE")
-		}, ".effectiveResistance"},
-		{"later stage", func(c *model.CompileRequest) {
-			c.Rules.DamageTypeFormulas[0].Formula.PenetrationPercent = authoringRead("damage.stage.RESISTANCE_FACTOR")
-		}, ".penetrationPercent"},
-		{"skill param defense", func(c *model.CompileRequest) {
-			c.Rules.DamageTypeFormulas[0].Formula.PenetrationFlat = authoringRead("ability.param.any")
-		}, ".penetrationFlat"},
 		{"other event control", func(c *model.CompileRequest) {
 			c.SharedProviders[0].Listeners[0].EventMatcher.All = []string{model.EventTypeBasicAttackHit, "event/source_owner"}
 		}, ".abilityRef"},
@@ -309,10 +319,10 @@ func TestAuthoringRejectsMissingNumbersAndBorrowedUse(t *testing.T) {
 		{"defense absent", func(c *model.CompileRequest, r *model.RunRequest) {
 			delete(c.Combatants[1].Attributes, "armor")
 			delete(r.InitialSnapshot.Combatants[1].Attributes, "armor")
-		}, ".resistanceBeforePenetration"},
+		}, "/inputKey"},
 		{"divide zero", func(c *model.CompileRequest, r *model.RunRequest) {
-			c.Rules.DamageTypeFormulas[0].Formula.ResistanceFactor = authoringBinary("div", authoringConst(1), authoringConst(0))
-		}, ".resistanceFactor"},
+			c.Rules.DamageTypeFormulas[0].Formula = phase3Definition(nil, []any{phase3Stage("factor", phase3Binary("div", phase3Const("1"), phase3Const("0")))}, "factor")
+		}, "/expression"},
 		{"event control driver", func(c *model.CompileRequest, r *model.RunRequest) {
 			r.DriverPlan.Entries[0].AbilityRef = authoringRef("initial")
 			r.AttackStartFacts = nil
@@ -343,6 +353,13 @@ func TestAuthoringRejectsMissingNumbersAndBorrowedUse(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			c, r := authoringInput()
 			test.change(&c, &r)
+			if test.name == "other skill" {
+				result := compile.CompileGeneric(c)
+				if result.OK || !strings.Contains(result.Result.Errors[0].Path, ".skillKey") {
+					t.Fatalf("foreign skill must fail independent compile ownership: %+v", result.Result.Errors)
+				}
+				return
+			}
 			session := authoringCompile(t, c)
 			r.ExpectedRulesHash = session.RulesHash
 			_, err := RunGeneric(session, r)

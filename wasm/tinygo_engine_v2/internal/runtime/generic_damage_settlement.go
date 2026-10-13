@@ -4,41 +4,38 @@ import (
 	"math"
 
 	"tinygo_engine_v2/internal/command"
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
-	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // damageNumbers 是普通与复制伤害共用的乘区、抗性和暴击分支数值结算。
-// 复制仅冻结原金额、暴击分支和入场抗性；条件及金额仍读本笔实际双方。
+// 复制保留原金额、暴击分支及完整冻结防御视图；乘区仍读本笔实际双方。
 type damageNumbers struct {
-	rawAmount                   float64
-	mitigatedAmount             float64
-	crit                        frozenCritEvidence
-	modifiers                   []map[string]interface{}
-	failClosed                  bool
-	resistanceFactor            float64
-	normalPartPostResistance    float64
-	critPartPostResistance      float64
-	resistanceBeforePenetration float64
-	penetrationPercent          float64
-	penetrationFlat             float64
-	effectiveResistance         float64
+	rawAmount                float64
+	mitigatedAmount          float64
+	crit                     frozenCritEvidence
+	modifiers                []map[string]interface{}
+	failClosed               bool
+	resistanceFactor         float64
+	normalPartPostResistance float64
+	critPartPostResistance   float64
 }
 
 func (f *executionFrame) resolveDamageNumbers(
-	cmd command.Command, op compilebundle.CompiledOperation, critEv frozenCritEvidence,
-	ability compilebundle.CompiledAbility, modifiers []map[string]interface{},
-	targetMitigationAttrs, sourcePenetrationAttrs map[string]model.AttributeSlotDef,
+	cmd command.Command, op planbundle.CompiledOperation, critEv frozenCritEvidence,
+	ability planbundle.CompiledAbility, modifiers []map[string]interface{},
 ) (damageNumbers, *model.EngineError) {
 	out := damageNumbers{crit: critEv, modifiers: modifiers}
+	def, err := f.requireConfiguredDefense(cmd.DamageType, op.Path)
+	if err != nil {
+		return out, err
+	}
 	traits := append([]string(nil), op.Types...)
 	preOutgoingMerged := cmd.Amount
 	normalPart, critPart := 0.0, 0.0
 	if critEv.present && critEv.eligible {
 		normalPart, critPart = critEv.normalPart, critEv.critPart
 	}
-	var err *model.EngineError
 	cmd.Amount, out.modifiers, err = f.applyPipelineDamageModifiers(
 		cmd.Source, cmd.Source, cmd.Target, "damage", "outgoing_pre_mitigation", cmd.Amount,
 		ability, cmd.DamageType, traits, out.modifiers)
@@ -56,35 +53,15 @@ func (f *executionFrame) resolveDamageNumbers(
 	}
 
 	mitigatedNormal, mitigatedCrit := 0.0, 0.0
-	_, hasFormula := f.run.compiled.DamageTypeFormulas[cmd.DamageType]
-	if cmd.Amount == 0 && !hasFormula {
-		out.resistanceFactor = 1
-	} else {
-		var mitigation pipeline.MitigationResult
-		var ok bool
-		if hasFormula {
-			mitigation, err = f.resolveConfiguredDefense(cmd, targetMitigationAttrs, sourcePenetrationAttrs)
-			if err != nil {
-				return out, err
-			}
-			ok = true
-		} else {
-			mitigation, ok = pipeline.MitigateRawDamageWithSource(cmd.Amount, cmd.DamageType, targetMitigationAttrs, sourcePenetrationAttrs)
-		}
-		if !ok {
-			out.failClosed = true
-			return out, nil
-		}
-		out.resistanceFactor = mitigation.ResistanceFactor
-		out.resistanceBeforePenetration = mitigation.ResistanceBeforePenetration
-		out.penetrationPercent = mitigation.PenetrationPercent
-		out.penetrationFlat = mitigation.PenetrationFlat
-		out.effectiveResistance = mitigation.EffectiveResistance
-		mitigatedNormal = mitigation.Amount
-		if critEv.present && critEv.eligible {
-			mitigatedNormal = normalPart * mitigation.ResistanceFactor
-			mitigatedCrit = critPart * mitigation.ResistanceFactor
-		}
+	mitigation, err := f.resolveConfiguredDefense(cmd, def)
+	if err != nil {
+		return out, err
+	}
+	out.resistanceFactor = mitigation.factor
+	mitigatedNormal = mitigation.amount
+	if critEv.present && critEv.eligible {
+		mitigatedNormal = normalPart * mitigation.factor
+		mitigatedCrit = critPart * mitigation.factor
 	}
 	out.normalPartPostResistance, out.critPartPostResistance = mitigatedNormal, mitigatedCrit
 	if critEv.present && critEv.eligible {

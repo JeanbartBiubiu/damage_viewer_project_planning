@@ -3,9 +3,9 @@ package runtime
 import (
 	"math"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/status"
 )
 
@@ -15,7 +15,7 @@ type preparedProviderLifecycle struct {
 	contributions []status.StatusContribution
 }
 
-func (f *executionFrame) evalContextForProviderApply(ability compilebundle.CompiledAbility, sourceKey, targetKey string) formula.GenericEvalContext {
+func (f *executionFrame) evalContextForProviderApply(ability planbundle.CompiledAbility, sourceKey, targetKey string) formula.GenericEvalContext {
 	ctx := f.evalContext(ability)
 	if sourceKey != "" && sourceKey != f.sourceKey {
 		sc := f.stageFor(sourceKey)
@@ -30,8 +30,8 @@ func (f *executionFrame) evalContextForProviderApply(ability compilebundle.Compi
 	return ctx
 }
 
-func (f *executionFrame) prepareProviderMutation(definitionRef, providerRef, sourceKey, targetKey string, ability compilebundle.CompiledAbility) (*preparedProviderLifecycle, *model.EngineError) {
-	var provider compilebundle.CompiledProvider
+func (f *executionFrame) prepareProviderMutation(definitionRef, providerRef, sourceKey, targetKey string, ability planbundle.CompiledAbility) (*preparedProviderLifecycle, *model.EngineError) {
+	var provider planbundle.CompiledProvider
 	if definitionRef != "" {
 		defIdx, ok := f.run.findProviderDefinitionIndex(definitionRef)
 		if !ok {
@@ -60,7 +60,7 @@ func (f *executionFrame) prepareProviderMutation(definitionRef, providerRef, sou
 	return f.prepareProviderLifecycle(provider, evalCtx)
 }
 
-func (f *executionFrame) prepareProviderLifecycle(provider compilebundle.CompiledProvider, evalCtx formula.GenericEvalContext) (*preparedProviderLifecycle, *model.EngineError) {
+func (f *executionFrame) prepareProviderLifecycle(provider planbundle.CompiledProvider, evalCtx formula.GenericEvalContext) (*preparedProviderLifecycle, *model.EngineError) {
 	out := &preparedProviderLifecycle{}
 	if provider.Lifecycle != nil && provider.Lifecycle.HasDuration {
 		expireAt, err := f.evalPreparedDuration(provider, evalCtx)
@@ -89,15 +89,15 @@ func (f *executionFrame) prepareProviderLifecycle(provider compilebundle.Compile
 	return out, nil
 }
 
-func (f *executionFrame) evalPreparedDuration(provider compilebundle.CompiledProvider, evalCtx formula.GenericEvalContext) (int64, *model.EngineError) {
+func (f *executionFrame) evalPreparedDuration(provider planbundle.CompiledProvider, evalCtx formula.GenericEvalContext) (int64, *model.EngineError) {
 	lc := provider.Lifecycle
 	path := lc.DurationPath
 	if path == "" {
 		path = "provider[" + provider.ProviderKey + "].lifecycle.durationMs"
 	}
-	value, err := f.run.compiled.Formulas.Eval(lc.DurationProgram, evalCtx)
+	value, err := f.run.formulas.EvalContext(lc.DurationProgram, &evalCtx)
 	if err != nil {
-		return 0, f.providerLifecycleError(model.GenericErrFormulaTypeError, path, err.Error(), provider.ProviderKey)
+		return 0, f.preserveFormulaIssue(err, f.providerLifecycleError(model.GenericErrFormulaTypeError, path, err.Error(), provider.ProviderKey))
 	}
 	if math.IsNaN(value) || math.IsInf(value, 0) {
 		return 0, f.providerLifecycleError(model.GenericErrFormulaTypeError, path, "non-finite duration", provider.ProviderKey)
@@ -116,16 +116,16 @@ func (f *executionFrame) evalPreparedDuration(provider compilebundle.CompiledPro
 	return expireAt, nil
 }
 
-func (f *executionFrame) evalPreparedStatusContributions(provider compilebundle.CompiledProvider, evalCtx formula.GenericEvalContext) ([]status.StatusContribution, *model.EngineError) {
+func (f *executionFrame) evalPreparedStatusContributions(provider planbundle.CompiledProvider, evalCtx formula.GenericEvalContext) ([]status.StatusContribution, *model.EngineError) {
 	out := make([]status.StatusContribution, 0, len(provider.StatusContributions))
 	for _, item := range provider.StatusContributions {
 		path := item.Path + ".strength"
 		if !item.HasStrength {
 			return nil, f.providerLifecycleError(model.GenericErrMissingRequiredField, path, "status contribution strength is required; explicit zero is allowed", item.ResultRef)
 		}
-		value, err := f.run.compiled.Formulas.Eval(item.StrengthProgram, evalCtx)
+		value, err := f.run.formulas.EvalContext(item.StrengthProgram, &evalCtx)
 		if err != nil {
-			return nil, f.providerLifecycleError(model.GenericErrFormulaTypeError, path, err.Error(), item.ResultRef)
+			return nil, f.preserveFormulaIssue(err, f.providerLifecycleError(model.GenericErrFormulaTypeError, path, err.Error(), item.ResultRef))
 		}
 		if math.IsNaN(value) || math.IsInf(value, 0) || value < 0 || value > 1 {
 			return nil, f.providerLifecycleError(model.GenericErrFormulaTypeError, path, "status contribution strength must be finite and within [0,1]", item.ResultRef)
@@ -197,19 +197,21 @@ func (s *genericRunState) recordProviderLifecycleEvidence(kind model.EvidenceKin
 	if source == "" {
 		source = inst.Owner
 	}
-	s.recordEvidence(model.EvidenceItem{
-		TimeMs: s.nowMs,
-		Kind:   kind,
-		Ref:    inst.ProviderRef,
-		Path:   "providers[" + inst.ProviderRef + "]",
-		Data: map[string]interface{}{
-			"providerRef":         inst.ProviderRef,
-			"definitionRef":       inst.DefinitionRef,
-			"source":              source,
-			"owner":               inst.Owner,
-			"expireAt":            inst.ExpireAt,
-			"statusContributions": snapshotStatusContributionsData(inst.StatusContributions),
-		},
+	s.recordEvidenceLazy(kind, func() model.EvidenceItem {
+		return model.EvidenceItem{
+			TimeMs: s.nowMs,
+			Kind:   kind,
+			Ref:    inst.ProviderRef,
+			Path:   "providers[" + inst.ProviderRef + "]",
+			Data: map[string]interface{}{
+				"providerRef":         inst.ProviderRef,
+				"definitionRef":       inst.DefinitionRef,
+				"source":              source,
+				"owner":               inst.Owner,
+				"expireAt":            inst.ExpireAt,
+				"statusContributions": snapshotStatusContributionsData(inst.StatusContributions),
+			},
+		}
 	})
 }
 
@@ -270,7 +272,7 @@ func (s *genericRunState) buildEffectiveStatuses(instances []status.ProviderInst
 	return out
 }
 
-func restoreStatusContributions(snap model.CombatantProviderSnapshot, provider compilebundle.CompiledProvider, path string, schemaHash, rulesHash, sessionID string) ([]status.StatusContribution, *model.EngineError) {
+func restoreStatusContributions(snap model.CombatantProviderSnapshot, provider planbundle.CompiledProvider, path string, schemaHash, rulesHash, sessionID string) ([]status.StatusContribution, *model.EngineError) {
 	defs := provider.StatusContributions
 	raw := snap.StatusContributions
 	if len(defs) == 0 && len(raw) == 0 {
@@ -326,11 +328,11 @@ func restoreStatusContributions(snap model.CombatantProviderSnapshot, provider c
 	return out, nil
 }
 
-func findCompiledStatusContribution(defs []compilebundle.CompiledStatusContribution, resultRef string) (compilebundle.CompiledStatusContribution, bool) {
+func findCompiledStatusContribution(defs []planbundle.CompiledStatusContribution, resultRef string) (planbundle.CompiledStatusContribution, bool) {
 	for _, def := range defs {
 		if def.ResultRef == resultRef {
 			return def, true
 		}
 	}
-	return compilebundle.CompiledStatusContribution{}, false
+	return planbundle.CompiledStatusContribution{}, false
 }

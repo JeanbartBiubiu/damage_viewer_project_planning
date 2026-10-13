@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -130,6 +131,7 @@ func TestC1DamageInstanceEmitsStableOrderIncludingZero(t *testing.T) {
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
 		Base: 100000, Current: 100000, Max: 100000, Resolved: 100000,
 	})
+	formuladefinition.SetDamageFormula(&compileReq, "damage/true", formuladefinition.ConstantDefense("1"))
 	done := c1Run(t, compileReq, runReq)
 	evs := emittedEventsByRef(done, eventTypeDamageInstance)
 	if len(evs) != 2 {
@@ -254,6 +256,7 @@ func TestC1ListenerChildDamageKeepsTraitsAndRespectsBudget(t *testing.T) {
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
 		Base: 100000, Current: 100000, Max: 100000, Resolved: 100000,
 	})
+	formuladefinition.SetDamageFormula(&compileReq, "damage/magic", formuladefinition.ConstantDefense("1"))
 	done := c1Run(t, compileReq, runReq)
 	evs := emittedEventsByRef(done, eventTypeDamageInstance)
 	if len(evs) != 2 {
@@ -438,7 +441,7 @@ func TestC1DamageTraitAndTypePredicates(t *testing.T) {
 			Op: "mul",
 			Args: []model.GenericFormulaExpr{
 				{Op: "read", Path: "damage.trait.on_hit"},
-				{Op: "read", Path: "damage.type.physical"},
+				{Op: "read", Path: "damage.type.damage/physical"},
 			},
 		},
 	})
@@ -469,10 +472,11 @@ func TestC1DamageTraitAndTypePredicates(t *testing.T) {
 			Op: "mul",
 			Args: []model.GenericFormulaExpr{
 				{Op: "read", Path: "damage.trait.on_hit"},
-				{Op: "read", Path: "damage.type.physical"},
+				{Op: "read", Path: "damage.type.damage/physical"},
 			},
 		},
 	})
+	formuladefinition.SetDamageFormula(&compileReq2, "damage/true", formuladefinition.ConstantDefense("1"))
 	done2 := runPipelineFixture(t, compileReq2, runReq2)
 	data2 := firstOriginalDamage(t, done2)
 	if math.Abs(evidenceDataFloat(data2, "rawAmount")-100) > 1e-9 {
@@ -532,7 +536,6 @@ func TestC1DamageDealtAndBasicChannelRegression(t *testing.T) {
 	compileReq, runReq := loadBasicFixture(t)
 	ensureC1CatalogTypes(&compileReq,
 		model.TypeCatalogEntry{Key: "event/damage_dealt", Domain: "event"},
-		model.TypeCatalogEntry{Key: "event/damage_dealt/physical", Domain: "event"},
 		model.TypeCatalogEntry{Key: "event/damage_instance", Domain: "event"},
 	)
 	runReq.StopPolicy.DurationMs = 100
@@ -568,6 +571,9 @@ func TestC1DamageInstanceNaturalBranchProjectsOutgoing(t *testing.T) {
 		model.TypeCatalogEntry{Key: "event/damage_instance", Domain: "event"},
 	)
 	compileReq.SharedProviders[0].Abilities[0].Operations[0].CritEligible = true
+	compileReq.SharedProviders[0].Abilities[0].Operations[0].CritChance = &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}
+	compileReq.SharedProviders[0].Abilities[0].Operations[0].CritMultiplier = &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}
+	compileReq.SharedProviders[0].Abilities[0].Operations[0].CritMultiplierMin = model.Float64Ptr(1)
 	compileReq.SharedProviders[0].Abilities[0].Operations[0].Ref = "op:c1_crit_out"
 	setSourceCritAttrs(&compileReq, &runReq, chance, multiplier)
 	mountPipelineProvider(&compileReq, &runReq, model.SelectorSource, "item:c1_out_mul", "c1_out_mul", model.ModifierDefinition{

@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -195,6 +196,9 @@ func configureVarusChainOfCorruptionPrimaryHitProvider(compileReq *model.Compile
 }
 
 func ensureVarusChainOfCorruptionPrimaryHitTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "damage/magic", Domain: "damage"},
 	}
@@ -977,10 +981,13 @@ func TestVarusChainOfCorruptionPrimaryHitCanonicalSingleTargetDamage(t *testing.
 
 	// Cooldown skip must not mutate mana beyond the two successful costs, nor add
 	// damage / listener / state / control evidence beyond the two R magic ops.
+	if countEmittedEvents(done, eventTypeDamageDealt) != 2 {
+		t.Fatal("only the two successful casts may emit damage aggregates", done.Evidence)
+	}
 	for _, item := range done.Evidence.Items {
 		if item.Kind == model.EvidenceKindListenerSkipped ||
 			item.Kind == model.EvidenceKindProviderTick ||
-			item.Kind == model.EvidenceKindEmittedEvent {
+			(item.Kind == model.EvidenceKindEmittedEvent && (item.Ref != eventTypeDamageDealt || item.TimeMs == 59999)) {
 			t.Fatalf("cooldown path must not emit listener/state/control-like evidence: %+v", item)
 		}
 		if item.Kind == model.EvidenceKindDamage && item.TimeMs == 59999 {

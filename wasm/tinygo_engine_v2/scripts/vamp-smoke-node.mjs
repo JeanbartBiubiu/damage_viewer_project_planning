@@ -19,7 +19,7 @@ const freshFixture = () => JSON.parse(readFileSync(fixturePath, "utf8"));
 const close = (actual, expected, label) => assert.ok(Math.abs(actual - expected) < 1e-9, `${label}: ${actual} != ${expected}`);
 
 async function main() {
-  const wasmPath = resolve(moduleRoot, "dist/tinygo_engine_v2.wasm");
+  const wasmPath = resolve(moduleRoot, process.argv[2] ?? "dist/tinygo_engine_v2.wasm");
   const host = await withTimeout(instantiateGenericHost(wasmPath), 30000, "instantiate");
   const run = (fixture, check) => {
     const compiled = compileCanonicalSession(host.exports, fixture);

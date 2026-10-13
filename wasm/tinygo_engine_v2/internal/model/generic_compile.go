@@ -47,10 +47,12 @@ type CombatantDefinition struct {
 // AttributeSlotDef 是 compile input / snapshot 属性槽。
 // finalSnapshot 要求 resolved 稳定输出，故不加 omitempty。
 type AttributeSlotDef struct {
-	Base     float64 `json:"base"`
-	Current  float64 `json:"current"`
-	Max      float64 `json:"max"`
-	Resolved float64 `json:"resolved"`
+	Base        float64 `json:"base"`
+	Current     float64 `json:"current"`
+	Max         float64 `json:"max"`
+	Resolved    float64 `json:"resolved"`
+	jsonDecoded bool
+	present     uint8
 }
 
 // ResourceSlotDef 是 compile input 资源槽初始值。
@@ -69,6 +71,7 @@ type CombatantProviderMount struct {
 
 // ProviderDefinition 是可复用 capability provider 定义。
 type ProviderDefinition struct {
+	SkillKey            string                         `json:"skillKey,omitempty"`
 	Processes           []ProcessDefinition            `json:"processes,omitempty"`
 	ProviderKey         string                         `json:"providerKey"`
 	Kind                string                         `json:"kind"`
@@ -86,14 +89,34 @@ type ProviderDefinition struct {
 // ProviderStateFieldSchema 是 initialStateSchema 的结构化字段形态（Gate H1）。
 // 旧形态仍允许纯数字默认值；结构化对象携带封顶与定时元数据。
 type ProviderStateFieldSchema struct {
-	DefaultValue  float64 `json:"defaultValue"`
-	MaxValue      float64 `json:"maxValue"`
-	DurationMs    int64   `json:"durationMs"`
-	RefreshPolicy string  `json:"refreshPolicy,omitempty"`
+	StateKind     string              `json:"stateKind,omitempty"`
+	AmmoRecovery  *AmmoRecoverySchema `json:"ammoRecovery,omitempty"`
+	ValueType     string              `json:"valueType,omitempty"`
+	DefaultValue  any                 `json:"defaultValue"`
+	MaxValue      any                 `json:"maxValue"`
+	DurationMs    any                 `json:"durationMs"`
+	RefreshPolicy string              `json:"refreshPolicy,omitempty"`
 }
+
+type AmmoRecoverySchema struct {
+	IntervalMs     GenericFormulaExpr `json:"intervalMs"`
+	Mode           string             `json:"mode"`
+	StartCondition string             `json:"startCondition"`
+}
+
+const (
+	ProviderStateKindAmmo = "ammo"
+	AmmoRecoveryAllAtOnce = "all_at_once"
+	AmmoRecoveryWhenEmpty = "when_empty"
+)
 
 // ProviderStateRefreshOnWrite 是每次写入续期的既有 refreshPolicy。
 const ProviderStateRefreshOnWrite = "refresh_on_write"
+
+const (
+	ProviderStateValueNumber  = "number"
+	ProviderStateValueInteger = "integer"
+)
 
 // Provider 实例范围与普通减速种类。
 const (
@@ -105,9 +128,9 @@ const (
 // ProviderLifecycle 描述 dynamic provider 生命周期。
 type ProviderLifecycle struct {
 	DurationMs     *GenericFormulaExpr `json:"durationMs,omitempty"`
-	MaxStacks      int                 `json:"maxStacks,omitempty"`
+	MaxStacks      any                 `json:"maxStacks,omitempty"`
 	RefreshPolicy  string              `json:"refreshPolicy,omitempty"`
-	TickIntervalMs int64               `json:"tickIntervalMs,omitempty"`
+	TickIntervalMs any                 `json:"tickIntervalMs,omitempty"`
 	InstanceScope  string              `json:"instanceScope,omitempty"`
 }
 
@@ -211,6 +234,7 @@ type OperationDefinition struct {
 	// CritChance / CritMultiplier 成对声明当前结果的期望暴击供值，不覆盖来源全局属性。
 	CritChance        *GenericFormulaExpr      `json:"critChance,omitempty"`
 	CritMultiplier    *GenericFormulaExpr      `json:"critMultiplier,omitempty"`
+	CritMultiplierMin *float64                 `json:"critMultiplierMin,omitempty"`
 	VampQualification string                   `json:"vampQualification,omitempty"`
 	VampOverrides     []VampOverrideDefinition `json:"vampOverrides,omitempty"`
 	RepeatScope       string                   `json:"repeatScope,omitempty"`
@@ -274,31 +298,46 @@ type TypeMatcher struct {
 
 // RulesContainer 聚合全局规则。
 type RulesContainer struct {
-	DamageTypeFormulas []DamageTypeFormulaDefinition `json:"damageTypeFormulas,omitempty"`
-	VampRules          []VampRuleDefinition          `json:"vampRules,omitempty"`
-	Operations         []OperationDefinition         `json:"operations,omitempty"`
-	Modifiers          []ModifierDefinition          `json:"modifiers,omitempty"`
-	Listeners          []ListenerDefinition          `json:"listeners,omitempty"`
-	TriggerRules       []interface{}                 `json:"triggerRules,omitempty"`
+	SkillActionBindings  []SkillActionBinding            `json:"skillActionBindings,omitempty"`
+	AttributeDerivations []AttributeDerivationDefinition `json:"attributeDerivations,omitempty"`
+	DamageTypeFormulas   []DamageTypeFormulaDefinition   `json:"damageTypeFormulas,omitempty"`
+	VampRules            []VampRuleDefinition            `json:"vampRules,omitempty"`
+	Operations           []OperationDefinition           `json:"operations,omitempty"`
+	Modifiers            []ModifierDefinition            `json:"modifiers,omitempty"`
+	Listeners            []ListenerDefinition            `json:"listeners,omitempty"`
+	TriggerRules         []interface{}                   `json:"triggerRules,omitempty"`
+}
+
+type AttributeDerivationDefinition struct {
+	SkillKey     string             `json:"skillKey,omitempty"`
+	ValuePolicy  string             `json:"valuePolicy"`
+	ValueType    string             `json:"valueType"`
+	CombatantKey string             `json:"combatantKey"`
+	AttributeKey string             `json:"attributeKey"`
+	Value        GenericFormulaExpr `json:"value"`
 }
 
 // NamedFormula 是命名公式定义（供 ref 引用）。
 type NamedFormula struct {
 	Key        string             `json:"key"`
-	Expression GenericFormulaExpr `json:"expression"`
+	Scope      string             `json:"scope"`
+	SkillKey   string             `json:"skillKey,omitempty"`
+	Expression any                `json:"expression"`
+	Parameters []FormulaParameter `json:"parameters"`
 }
 
 // GenericFormulaExpr 是通用数值表达式节点。内部 if 固定三个 args：条件非零取第二项，
 // 否则取第三项；运行只求选中的分支，编译仍校验两支。管理作者公式不因此增加节点。
 type GenericFormulaExpr struct {
-	Op       string               `json:"op"`
-	Value    *float64             `json:"value,omitempty"`
-	Path     string               `json:"path,omitempty"`
-	Ref      string               `json:"ref,omitempty"`
-	Args     []GenericFormulaExpr `json:"args,omitempty"`
-	Decimals *int                 `json:"decimals,omitempty"`
-	Min      *GenericFormulaExpr  `json:"min,omitempty"`
-	Max      *GenericFormulaExpr  `json:"max,omitempty"`
+	LinkedProgram *uint16              `json:"-"`
+	Op            string               `json:"op"`
+	Value         *float64             `json:"value,omitempty"`
+	Path          string               `json:"path,omitempty"`
+	Ref           string               `json:"ref,omitempty"`
+	Args          []GenericFormulaExpr `json:"args,omitempty"`
+	Decimals      *int                 `json:"decimals,omitempty"`
+	Min           *GenericFormulaExpr  `json:"min,omitempty"`
+	Max           *GenericFormulaExpr  `json:"max,omitempty"`
 	// clamp/round/floor/ceil/trunc 使用 value 字段承载子表达式
 	Expr *GenericFormulaExpr `json:"expr,omitempty"`
 }
@@ -313,9 +352,10 @@ type GenericCompileSettings struct {
 
 // DriverPlan 是 run 期 ability attempt 调度计划（compile 阶段仅校验 DTO 形态）。
 type DriverPlan struct {
-	BasicAttack                *BasicAttackPlan `json:"basicAttack,omitempty"`
-	Entries                    []DriverEntry    `json:"entries"`
-	ConditionRecheckIntervalMs int64            `json:"conditionRecheckIntervalMs,omitempty"`
+	SkillActions               []SkillActionPlan `json:"skillActions,omitempty"`
+	BasicAttack                *BasicAttackPlan  `json:"basicAttack,omitempty"`
+	Entries                    []DriverEntry     `json:"entries"`
+	ConditionRecheckIntervalMs int64             `json:"conditionRecheckIntervalMs,omitempty"`
 }
 
 // DriverEntry 是 driver plan 单条 entry。

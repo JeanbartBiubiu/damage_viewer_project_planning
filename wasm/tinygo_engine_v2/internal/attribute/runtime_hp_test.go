@@ -7,10 +7,10 @@ import (
 )
 
 // DB-shaped hp：Base/Current/Max/Resolved 同为初值；damage 只改 Current。
-func dbShapedHP(initial float64) map[string]model.AttributeSlotDef {
-	return map[string]model.AttributeSlotDef{
+func dbShapedHP(initial float64) Table {
+	return FromMap(map[string]model.AttributeSlotDef{
 		"hp": {Base: initial, Current: initial, Max: initial, Resolved: initial},
-	}
+	})
 }
 
 func TestReadHPUsesCurrentNotResolvedFallback(t *testing.T) {
@@ -41,10 +41,10 @@ func TestReadHPTracksRepeatedSetHPAgainstStaleResolved(t *testing.T) {
 	got := ReadHP(attrs)
 	want := 5000 - perHit*144
 	if got > 0 {
-		t.Fatalf("after 144 hits ReadHP=%v want <=0 (accumulated Current), Resolved still %v", got, attrs["hp"].Resolved)
+		t.Fatalf("after 144 hits ReadHP=%v want <=0 (accumulated Current), Resolved still %v", got, attrs.At("hp").Resolved)
 	}
-	if attrs["hp"].Resolved != 5000 {
-		t.Fatalf("Resolved mutated=%v want 5000 (SetHP must not touch Resolved)", attrs["hp"].Resolved)
+	if attrs.At("hp").Resolved != 5000 {
+		t.Fatalf("Resolved mutated=%v want 5000 (SetHP must not touch Resolved)", attrs.At("hp").Resolved)
 	}
 	if want > 0 {
 		t.Fatalf("fixture math: want overkill (5000-6720)<0, got want=%v", want)

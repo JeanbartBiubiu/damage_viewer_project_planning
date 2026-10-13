@@ -1,17 +1,17 @@
 package runtime
 
 import (
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 func parseFrameAbilityOwner(ref string) (string, bool) {
-	parsed, ok := compilebundle.ParseAbilityRef(ref)
+	parsed, ok := planbundle.ParseAbilityRef(ref)
 	return parsed.Combatant, ok
 }
 
 func (f *executionFrame) commandsSpent() int {
-	if f.run.basicAttackEventActive {
+	if f.run.basicAttackEventActive || f.run.initializationEventActive || len(f.run.skillActions) > 0 {
 		return f.run.currentEventCommands
 	}
 	if f.copyableCollector != nil {
@@ -22,7 +22,7 @@ func (f *executionFrame) commandsSpent() int {
 
 // 整批联动在分配事件前消费额度；失败帧也不退回已经消费的额度。
 func (f *executionFrame) consumeCommands(count int) *model.EngineError {
-	if f.run.basicAttackEventActive {
+	if f.run.basicAttackEventActive || f.run.initializationEventActive || len(f.run.skillActions) > 0 {
 		return f.run.consumeEventCommands(count)
 	}
 	remaining := f.run.budget.MaxCommandsPerEvent - f.commandsSpent()

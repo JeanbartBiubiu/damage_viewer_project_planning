@@ -3,7 +3,9 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 	shieldpkg "tinygo_engine_v2/internal/shield"
@@ -22,6 +24,11 @@ const (
 )
 
 func ensureGuinsooKTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: guinsooKHitEvent, Domain: "event"},
 		{Key: "event/source_owner", Domain: "event"},
@@ -639,10 +646,10 @@ func TestGenericPhantomReplayStableOrderViaShieldHP(t *testing.T) {
 			},
 			model.SelectorTarget: {
 				key: model.SelectorTarget,
-				attributes: map[string]model.AttributeSlotDef{
+				attributes: attribute.FromMap(map[string]model.AttributeSlotDef{
 					"hp":    {Base: hp0, Current: hp0, Max: hp0, Resolved: hp0},
 					"armor": entryArmor,
-				},
+				}),
 				shields: []shieldpkg.Instance{{
 					ShieldRef: "test_shield", Source: model.SelectorSource, Owner: model.SelectorTarget,
 					Remaining: shield0, Priority: 0,
@@ -650,18 +657,20 @@ func TestGenericPhantomReplayStableOrderViaShieldHP(t *testing.T) {
 			},
 		},
 	}
+	registerTestDefense(t, s, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+	registerTestDefense(t, s, "damage/magic", formuladefinition.ConstantDefense("1"))
 	// 故意按 provenance 逆序 append：z 在前、a 在后；physical/magic 抗性不同。
 	collector := &eventCopyableCollector{
 		damages: []copyableDamageFrozen{
 			{
 				providerRef: "prov:z", originRef: "listener:z", sourceKey: model.SelectorSource, targetKey: model.SelectorTarget,
 				damageType: "damage/physical", rawAmount: 100,
-				eventTargetKey: model.SelectorTarget, entryTargetAttrs: map[string]model.AttributeSlotDef{"armor": entryArmor},
+				eventTargetKey: model.SelectorTarget, entryTargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"armor": entryArmor}),
 			},
 			{
 				providerRef: "prov:a", originRef: "listener:a", sourceKey: model.SelectorSource, targetKey: model.SelectorTarget,
 				damageType: "damage/magic", rawAmount: 60,
-				eventTargetKey: model.SelectorTarget, entryTargetAttrs: map[string]model.AttributeSlotDef{"armor": entryArmor},
+				eventTargetKey: model.SelectorTarget, entryTargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"armor": entryArmor}),
 			},
 		},
 		repeats: []deferredRepeatRequest{{
@@ -692,7 +701,7 @@ func TestGenericPhantomReplayStableOrderViaShieldHP(t *testing.T) {
 	tgt := s.combatants[model.SelectorTarget]
 	// magic60：护盾40→HP-20；physical50：HP-50 → HP=30；护盾耗尽
 	wantHP := hp0 - (60 - shield0) - 50
-	gotHP := tgt.attributes["hp"].Current
+	gotHP := tgt.attributes.At("hp").Current
 	if math.Abs(gotHP-wantHP) > 1e-6 {
 		t.Fatalf("target hp=%v want %v", gotHP, wantHP)
 	}
@@ -1032,6 +1041,8 @@ func TestGenericRunGuinsooKPhantomUsesFrozenEntryResistance(t *testing.T) {
 		Base: armor, Current: armor, Max: armor, Resolved: armor,
 	})
 	runReq.StopPolicy.DurationMs = 100
+	formuladefinition.DeclareAttributes(&compileReq, "armor")
+	formuladefinition.SetDamageFormula(&compileReq, "damage/physical", formuladefinition.ResistanceDefense("armor"))
 	done := runGuinsooK(t, compileReq, runReq)
 
 	originalMitigated := expectedMitigatedPhysical(100, armor) // 50
@@ -1266,6 +1277,8 @@ func TestGenericRunDamageEvidencePhantomFields(t *testing.T) {
 	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "armor", model.AttributeSlotDef{
 		Base: armor, Current: armor, Max: armor, Resolved: armor,
 	})
+	formuladefinition.DeclareAttributes(&compileReq, "armor")
+	formuladefinition.SetDamageFormula(&compileReq, "damage/physical", formuladefinition.ResistanceDefense("armor"))
 	done := runGuinsooK(t, compileReq, runReq)
 
 	wantMitigated := expectedMitigatedPhysical(100, armor)

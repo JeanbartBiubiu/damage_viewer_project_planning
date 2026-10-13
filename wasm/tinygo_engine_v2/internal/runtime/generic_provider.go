@@ -3,11 +3,13 @@ package runtime
 
 import (
 	"fmt"
+	"sort"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
+	"tinygo_engine_v2/internal/attribute"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/scheduler"
 	shieldpkg "tinygo_engine_v2/internal/shield"
 	"tinygo_engine_v2/internal/status"
@@ -136,7 +138,7 @@ func (s *genericRunState) applyProviderInstance(targetKey, sourceKey, definition
 		StatusContributions: cloneStatusContributions(contributions),
 	}
 	c := s.combatants[targetKey]
-	c.providers = append(c.providers, inst)
+	c.providers = append(c.writableProviders(), inst)
 	s.combatants[targetKey] = c
 	mountProviderModifiersAcross(s.combatants, targetKey, inst, s.compiled)
 	s.reResolveAfterProviderChange(targetKey, sourceKey)
@@ -168,7 +170,7 @@ func (s *genericRunState) replaceProviderInstance(targetKey string, idx int, ins
 		inst.StatusContributions = cloneStatusContributions(contributions)
 	}
 	c := s.combatants[targetKey]
-	c.providers[idx] = inst
+	c.writableProviders()[idx] = inst
 	s.combatants[targetKey] = c
 	s.reResolveAfterProviderChange(targetKey, inst.Source)
 	s.recordProviderLifecycleEvidence(kind, inst)
@@ -230,7 +232,7 @@ func (s *genericRunState) refreshProviderInstance(targetKey, providerRef string,
 	if contributions != nil {
 		inst.StatusContributions = cloneStatusContributions(contributions)
 	}
-	c.providers[idx] = inst
+	c.writableProviders()[idx] = inst
 	s.combatants[targetKey] = c
 	s.reResolveAfterProviderChange(targetKey, inst.Source)
 	s.recordProviderLifecycleEvidence(model.EvidenceKindProviderRefresh, inst)
@@ -243,11 +245,15 @@ func (s *genericRunState) reResolveAfterProviderChange(targetKey, sourceKey stri
 		evalCtx = s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
 	}
 	c := s.combatants[targetKey]
-	c.attributes = s.resolveAttributesFor(targetKey, c.attributes, evalCtx, "")
+	resolved := s.resolveAttributesFor(targetKey, c.attributes, evalCtx, "")
+	c = s.combatants[targetKey]
+	c.attributes = resolved
 	s.combatants[targetKey] = c
 	if opp := opponentCombatantKey(targetKey); opp != "" {
 		if oc, ok := s.combatants[opp]; ok {
-			oc.attributes = s.resolveAttributesFor(opp, oc.attributes, evalCtx, "")
+			resolved := s.resolveAttributesFor(opp, oc.attributes, evalCtx, "")
+			oc = s.combatants[opp]
+			oc.attributes = resolved
 			s.combatants[opp] = oc
 		}
 	}
@@ -267,16 +273,20 @@ func (s *genericRunState) removeProviderInstance(targetKey, providerRef string, 
 		return
 	}
 	s.unbindProviderInstanceListeners(targetKey, providerRef)
-	c.providers = status.RemoveByRef(c.providers, providerRef)
-	delete(c.providerState, providerRef)
+	c.providers = status.RemoveByRef(c.writableProviders(), providerRef)
+	delete(c.writableProviderStates(), providerRef)
 	s.combatants[targetKey] = c
 	unmountProviderModifiersAcross(s.combatants, targetKey, providerRef)
 	c = s.combatants[targetKey]
-	c.attributes = s.resolveAttributesFor(targetKey, c.attributes, evalCtx, "")
+	resolved := s.resolveAttributesFor(targetKey, c.attributes, evalCtx, "")
+	c = s.combatants[targetKey]
+	c.attributes = resolved
 	s.combatants[targetKey] = c
 	if opp := opponentCombatantKey(targetKey); opp != "" {
 		if oc, ok := s.combatants[opp]; ok {
-			oc.attributes = s.resolveAttributesFor(opp, oc.attributes, evalCtx, "")
+			resolved := s.resolveAttributesFor(opp, oc.attributes, evalCtx, "")
+			oc = s.combatants[opp]
+			oc.attributes = resolved
 			s.combatants[opp] = oc
 		}
 	}
@@ -302,10 +312,29 @@ func (s *genericRunState) handleExpireCleanup(ev scheduler.GenericEvent) {
 				}
 			}
 			evalCtx := s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
-			s.removeProviderInstance(payload.combatantKey, payload.providerRef, evalCtx, model.EvidenceKindProviderExpire)
+			if s.basicAttack == nil {
+				s.removeProviderInstance(payload.combatantKey, payload.providerRef, evalCtx, model.EvidenceKindProviderExpire)
+			} else {
+				var frameStorage executionFrame
+				s.initExecutionFrame(&frameStorage, s.basicAttack.plan.Source, s.basicAttack.plan.Target, "provider_expiry:"+payload.providerRef)
+				frame := &frameStorage
+				if err := frame.consumeCommands(1); err != nil {
+					s.processFailure = err
+					return
+				}
+				staged := frame.stageFor(payload.combatantKey)
+				staged.providerOps = append(staged.providerOps, stagedProviderMutation{kind: "expire", targetKey: payload.combatantKey,
+					providerRef: payload.providerRef, evidenceKind: model.EvidenceKindProviderExpire})
+				frame.commit()
+				if frame.fatal {
+					s.processFailure = frame.fatalErr
+				}
+			}
 		}
 	case "provider_target_state":
 		s.applyProviderTargetStateExpiry(payload)
+	case "provider_source_state":
+		s.applyProviderSourceStateExpiry(payload)
 	case "shield":
 		s.removeExpiredShieldInstance(payload.combatantKey, payload.shieldRef)
 	default:
@@ -324,7 +353,7 @@ func (s *genericRunState) sweepExpiredInstances() {
 			if inst.Expired(s.nowMs) {
 				expiredRefs = append(expiredRefs, inst.ProviderRef)
 				expiredInsts = append(expiredInsts, inst)
-				delete(c.providerState, inst.ProviderRef)
+				delete(c.writableProviderStates(), inst.ProviderRef)
 				changed = true
 				continue
 			}
@@ -332,16 +361,21 @@ func (s *genericRunState) sweepExpiredInstances() {
 		}
 		if changed {
 			c.providers = active
+			c.providersShared = false
 			s.combatants[key] = c
 			for _, ref := range expiredRefs {
 				unmountProviderModifiersAcross(s.combatants, key, ref)
 			}
 			c = s.combatants[key]
-			c.attributes = s.resolveAttributesFor(key, c.attributes, evalCtx, "")
+			resolved := s.resolveAttributesFor(key, c.attributes, evalCtx, "")
+			c = s.combatants[key]
+			c.attributes = resolved
 			s.combatants[key] = c
 			if opp := opponentCombatantKey(key); opp != "" {
 				if oc, ok := s.combatants[opp]; ok {
-					oc.attributes = s.resolveAttributesFor(opp, oc.attributes, evalCtx, "")
+					resolved := s.resolveAttributesFor(opp, oc.attributes, evalCtx, "")
+					oc = s.combatants[opp]
+					oc.attributes = resolved
 					s.combatants[opp] = oc
 				}
 			}
@@ -396,7 +430,11 @@ func (s *genericRunState) addShieldInstance(targetKey, sourceKey string, amount 
 }
 
 func (s *genericRunState) seedExpireCleanups() {
-	for key, c := range s.combatants {
+	for _, key := range []string{model.SelectorSource, model.SelectorTarget} {
+		c, exists := s.combatants[key]
+		if !exists {
+			continue
+		}
 		for _, inst := range c.providers {
 			if inst.ExpireAt > 0 && inst.ExpireAt > s.nowMs {
 				s.enqueueExpireCleanup(inst.ExpireAt, expireCleanupPayload{
@@ -415,23 +453,52 @@ func (s *genericRunState) seedExpireCleanups() {
 				})
 			}
 		}
+		refs := make([]string, 0, len(c.providerState))
+		for ref := range c.providerState {
+			refs = append(refs, ref)
+		}
+		sort.Strings(refs)
+		for _, ref := range refs {
+			bag := c.providerState[ref]
+			if bag == nil {
+				continue
+			}
+			for _, scope := range []string{"provider_source_state", "provider_target_state"} {
+				timers := bag.expireAt
+				if scope == "provider_target_state" {
+					timers = bag.targetExpireAt
+				}
+				fields := make([]string, 0, len(timers))
+				for field := range timers {
+					fields = append(fields, field)
+				}
+				sort.Strings(fields)
+				for _, field := range fields {
+					if expires := timers[field]; expires > s.nowMs {
+						s.enqueueExpireCleanup(expires, expireCleanupPayload{kind: scope, combatantKey: key,
+							providerRef: ref, targetKey: bag.targetKey, stateKey: field, expectedExpireAt: expires})
+					}
+				}
+			}
+		}
 	}
 }
 
-func (s *genericRunState) enqueueProviderTickAt(atMs int64, combatantKey, providerRef string, intervalMs, expireAt int64) {
+func (s *genericRunState) enqueueProviderTickAt(atMs int64, combatantKey, providerRef string, intervalMs, expireAt, activatedAt int64) {
 	if intervalMs <= 0 {
 		return
 	}
 	if atMs > s.startMs+s.durationMs {
 		return
 	}
-	if expireAt > 0 && atMs > expireAt {
+	if s.basicAttack == nil && expireAt > 0 && atMs > expireAt {
 		return
 	}
 	s.pushCombatEvent(scheduler.GenericEvent{
-		TimeMs:   atMs,
-		Category: scheduler.GenericCategoryProviderTick,
-		Kind:     scheduler.GenericEventProviderTick,
+		TimeMs:                    atMs,
+		Category:                  scheduler.GenericCategoryProviderTick,
+		Kind:                      scheduler.GenericEventProviderTick,
+		ProviderTickActivatedAtMs: activatedAt,
 		ProviderInstanceRef: scheduler.ProviderInstanceRef{
 			CombatantKey: combatantKey,
 			ProviderRef:  providerRef,
@@ -441,7 +508,7 @@ func (s *genericRunState) enqueueProviderTickAt(atMs int64, combatantKey, provid
 }
 
 func (s *genericRunState) evalContextForCombatants(sourceKey, targetKey string) formula.GenericEvalContext {
-	ctx := formula.GenericEvalContext{AbilityParams: map[string]float64{}}
+	ctx := formula.GenericEvalContext{}
 	if c, ok := s.combatants[sourceKey]; ok {
 		ctx.SourceAttrs = c.attributes
 		ctx.SourceResources = c.resources
@@ -455,23 +522,13 @@ func (s *genericRunState) evalContextForCombatants(sourceKey, targetKey string) 
 
 // providerFormulaContextFromBag builds the H2a provider overlay. Attrs/resources/ability/event
 // are intentionally left unset so ResolveAttributesWithProviderContext keeps them from base.
-func providerFormulaContextFromBag(bag *providerStateBag, activeTargetKey string) formula.GenericEvalContext {
+func providerFormulaContextFromBag(bag *providerStateBag, activeTargetKey string) pipeline.ProviderFormulaContext {
 	if bag == nil {
-		return formula.GenericEvalContext{
-			HasProviderContext:  true,
-			ProviderState:       map[string]float64{},
-			ProviderTargetState: map[string]float64{},
-		}
+		return pipeline.ProviderFormulaContext{HasProviderContext: true}
 	}
-	ctx := formula.GenericEvalContext{
-		HasProviderContext:    true,
-		ProviderState:         bag.state,
-		ProviderStateDefaults: bag.defaultsForFormula(),
-	}
+	ctx := pipeline.ProviderFormulaContext{HasProviderContext: true, ProviderState: bag.state, ProviderStateDefaults: bag.defaultsForFormula()}
 	if activeTargetKey != "" && bag.targetKey == activeTargetKey {
 		ctx.ProviderTargetState = bag.targetStateForFormula()
-	} else {
-		ctx.ProviderTargetState = map[string]float64{}
 	}
 	return ctx
 }
@@ -490,23 +547,41 @@ func (s *genericRunState) resolveProviderStateFieldDefs(combatantKey, providerRe
 	if s == nil || providerRef == "" {
 		return nil
 	}
-	return compiledStateFieldsForProvider(s.compiled, combatantKey, providerRef, providers)
+	index := compiledStateDefinitionIndex(s.compiled, combatantKey, providerRef, providers)
+	if index < 0 {
+		return nil
+	}
+	if s.providerDefinitionFields == nil {
+		s.providerDefinitionFields = make([]map[string]providerStateFieldDef, len(s.compiled.Providers))
+	}
+	if s.providerDefinitionFields[index] == nil {
+		s.providerDefinitionFields[index] = compiledStateFieldsToRuntime(s.compiled.Providers[index].StateFields)
+	}
+	return s.providerDefinitionFields[index]
 }
 
 func compiledStateFieldsForProvider(
-	compiled compilebundle.CompiledSession,
+	compiled planbundle.CompiledSession,
 	combatantKey, providerRef string,
 	providers []status.ProviderInstance,
 ) map[string]providerStateFieldDef {
-	if providerRef == "" {
+	index := compiledStateDefinitionIndex(compiled, combatantKey, providerRef, providers)
+	if index < 0 {
 		return nil
+	}
+	return compiledStateFieldsToRuntime(compiled.Providers[index].StateFields)
+}
+
+func compiledStateDefinitionIndex(compiled planbundle.CompiledSession, combatantKey, providerRef string, providers []status.ProviderInstance) int {
+	if providerRef == "" {
+		return -1
 	}
 	for _, inst := range providers {
 		if inst.ProviderRef != providerRef {
 			continue
 		}
 		if int(inst.DefinitionIndex) < len(compiled.Providers) {
-			return compiledStateFieldsToRuntime(compiled.Providers[inst.DefinitionIndex].StateFields)
+			return int(inst.DefinitionIndex)
 		}
 	}
 	for _, combatant := range compiled.Combatants {
@@ -518,20 +593,20 @@ func compiledStateFieldsForProvider(
 				continue
 			}
 			if int(mount.DefinitionIndex) < len(compiled.Providers) {
-				return compiledStateFieldsToRuntime(compiled.Providers[mount.DefinitionIndex].StateFields)
+				return int(mount.DefinitionIndex)
 			}
 		}
 	}
-	for _, p := range compiled.Providers {
+	for index, p := range compiled.Providers {
 		if p.ProviderKey == providerRef {
-			return compiledStateFieldsToRuntime(p.StateFields)
+			return index
 		}
 	}
-	return nil
+	return -1
 }
 
 func (s *genericRunState) providerFormulaContextFunc(combatantKey, castTargetKey string) pipeline.ProviderFormulaContextFunc {
-	return func(ownerCombatantKey, providerRef string) formula.GenericEvalContext {
+	return func(ownerCombatantKey, providerRef string) pipeline.ProviderFormulaContext {
 		bagOwnerKey := ownerCombatantKey
 		if bagOwnerKey == "" {
 			bagOwnerKey = combatantKey
@@ -540,29 +615,52 @@ func (s *genericRunState) providerFormulaContextFunc(combatantKey, castTargetKey
 		if !ok {
 			return providerFormulaContextFromBag(nil, providerTargetActiveKey(combatantKey, ownerCombatantKey, castTargetKey))
 		}
-		bag := c.providerState[providerRef]
+		activeTarget := providerTargetActiveKey(combatantKey, ownerCombatantKey, castTargetKey)
+		bag := readSharedProviderStateBag(&c.providerState, &c.providerStateShared, providerRef, false,
+			s.resolveProviderStateFieldDefs(bagOwnerKey, providerRef, c.providers), s.nowMs,
+			providerStateReadOptions{expireTarget: true, defaults: true, targetView: activeTarget != "", targetKey: activeTarget})
 		if bag == nil {
 			return providerFormulaContextFromBag(nil, providerTargetActiveKey(combatantKey, ownerCombatantKey, castTargetKey))
 		}
-		bag.bindFieldDefs(s.resolveProviderStateFieldDefs(bagOwnerKey, providerRef, c.providers))
-		bag.lazyExpireProviderState(s.nowMs)
-		bag.lazyExpireProviderTargetState(s.nowMs)
 		s.combatants[bagOwnerKey] = c
-		return providerFormulaContextFromBag(bag, providerTargetActiveKey(combatantKey, ownerCombatantKey, castTargetKey))
+		return providerFormulaContextFromBag(bag, activeTarget)
 	}
 }
 
-func (s *genericRunState) resolveAttributesFor(combatantKey string, attrs map[string]model.AttributeSlotDef, evalCtx formula.GenericEvalContext, activeTargetKey string) map[string]model.AttributeSlotDef {
+func (s *genericRunState) resolveAttributesFor(combatantKey string, attrs attribute.Table, evalCtx formula.GenericEvalContext, activeTargetKey string) attribute.Table {
 	c, ok := s.combatants[combatantKey]
 	if !ok {
 		return attrs
 	}
-	return c.resolver.ResolveAttributesWithProviderContext(
+	resolved, err := s.resolveOrdinaryAttributes(combatantKey,
 		attrs,
+		c.resolver,
 		evalCtx,
-		s.compiled.Formulas,
 		s.providerFormulaContextFunc(combatantKey, activeTargetKey),
 	)
+	if err != nil {
+		s.processFailure = preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
+		return attrs
+	}
+	if len(s.compiled.AttributeDerivations) == 0 {
+		return resolved
+	}
+	ordinary := map[string]attribute.Table{}
+	for _, owner := range []string{"source", "target"} {
+		host := s.combatants[owner]
+		ordinary[owner], err = s.resolveOrdinaryAttributes(owner, host.attributes, host.resolver, evalCtx, s.providerFormulaContextFunc(owner, activeTargetKey))
+		if err != nil {
+			s.processFailure = preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+owner+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
+			return attrs
+		}
+	}
+	ordinary[combatantKey] = resolved
+	resolved, err = s.resolveDerivedAttributesCached(combatantKey, resolved, c.resolver, ordinary["source"], ordinary["target"], s.providerFormulaContextFunc(combatantKey, activeTargetKey))
+	if err != nil {
+		s.processFailure = preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
+		return attrs
+	}
+	return resolved
 }
 
 // refreshProviderAwareAttributes lazy-expires provider timed state and re-resolves attributes
@@ -570,12 +668,14 @@ func (s *genericRunState) resolveAttributesFor(combatantKey string, attrs map[st
 func (s *genericRunState) refreshProviderAwareAttributes(sourceKey, targetKey string) {
 	evalCtx := s.evalContextForCombatants(sourceKey, targetKey)
 	for key, c := range s.combatants {
-		c.attributes = s.resolveAttributesFor(key, c.attributes, evalCtx, targetKey)
+		resolved := s.resolveAttributesFor(key, c.attributes, evalCtx, targetKey)
+		c = s.combatants[key]
+		c.attributes = resolved
 		s.combatants[key] = c
 	}
 }
 
-func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantKey string, compiled compilebundle.CompiledSession, combatantKeys map[string]bool, path string, schemaHash, rulesHash, sessionID string) ([]status.ProviderInstance, pipeline.AttributeResolver, *model.EngineError) {
+func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantKey string, compiled planbundle.CompiledSession, combatantKeys map[string]bool, path string, schemaHash, rulesHash, sessionID string) ([]status.ProviderInstance, pipeline.AttributeResolver, *model.EngineError) {
 	// Resolver stays empty here; cross-combatant mounts happen in remountAllProviderModifiers.
 	resolver := pipeline.AttributeResolver{}
 	if len(snapshot) == 0 {
@@ -668,7 +768,7 @@ func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantK
 
 // remountAllProviderModifiers clears then remounts every provider modifier onto the correct
 // combatant resolver (including opponent.attr.* cross-combatant mounts).
-func remountAllProviderModifiers(combatants map[string]combatantRuntime, compiled compilebundle.CompiledSession) {
+func remountAllProviderModifiers(combatants map[string]combatantRuntime, compiled planbundle.CompiledSession) {
 	for key, c := range combatants {
 		c.resolver = pipeline.AttributeResolver{}
 		c.damageResolver = pipeline.DamageModifierResolver{}
@@ -722,7 +822,7 @@ func materializeShields(snapshot []model.CombatantShieldSnapshot, combatantKey s
 	return out
 }
 
-func findProviderDefIndex(compiled compilebundle.CompiledSession, definitionRef string) (uint16, bool) {
+func findProviderDefIndex(compiled planbundle.CompiledSession, definitionRef string) (uint16, bool) {
 	for i, p := range compiled.Providers {
 		if p.ProviderKey == definitionRef {
 			return uint16(i), true

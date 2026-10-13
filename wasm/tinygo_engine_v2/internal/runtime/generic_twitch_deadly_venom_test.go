@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -35,13 +36,13 @@ const (
 	twitchDVChampionRef    = spellbladeChampionRef
 	twitchDVAAOpRef        = "op:twitch_aa"
 
-	twitchDVMaxStacks   = 6.0
-	twitchDVDurationMs  = 6000.0
-	twitchDVIntervalMs  = int64(1000)
-	twitchDVAPRatio     = 0.03
-	twitchDVAADamage    = 10.0
-	twitchDVTargetHP    = 100000.0
-	twitchDVTol         = 1e-9
+	twitchDVMaxStacks  = 6.0
+	twitchDVDurationMs = 6000.0
+	twitchDVIntervalMs = int64(1000)
+	twitchDVAPRatio    = 0.03
+	twitchDVAADamage   = 10.0
+	twitchDVTargetHP   = 100000.0
+	twitchDVTol        = 1e-9
 )
 
 var twitchDVFlatByLevel = []struct {
@@ -81,6 +82,8 @@ func twitchDVStateSchema() map[string]interface{} {
 }
 
 func twitchDVEnsureTypes(req *model.CompileRequest) {
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	gcohEnsureTypes(req)
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/tick", Domain: "ability"},

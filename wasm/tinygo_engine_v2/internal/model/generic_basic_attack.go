@@ -45,7 +45,7 @@ func (v *BasicAttackPlan) UnmarshalJSON(data []byte) error {
 	return nil
 }
 func (v *DriverPlan) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "DriverPlan", "entries conditionRecheckIntervalMs basicAttack", ""); err != nil {
+	if err := processJSONShape(data, "DriverPlan", "entries conditionRecheckIntervalMs basicAttack skillActions", ""); err != nil {
 		return err
 	}
 	type plain DriverPlan
@@ -53,7 +53,7 @@ func (v *DriverPlan) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &result); err != nil {
 		return err
 	}
-	if result.BasicAttack != nil && result.Entries == nil {
+	if (result.BasicAttack != nil || len(result.SkillActions) > 0) && result.Entries == nil {
 		return errors.New("continuous driverPlan.entries must be an empty array")
 	}
 	*v = DriverPlan(result)
@@ -62,12 +62,16 @@ func (v *DriverPlan) UnmarshalJSON(data []byte) error {
 
 // Pointer budgets distinguish an explicit zero (no retained records) from omission.
 type RecordBudget struct {
-	MaxAttackRecords *int `json:"maxAttackRecords,omitempty"`
-	MaxDamageRecords *int `json:"maxDamageRecords,omitempty"`
+	MaxSkillActionRecords *int `json:"maxSkillActionRecords,omitempty"`
+	MaxSkillUseRecords    *int `json:"maxSkillUseRecords,omitempty"`
+	MaxHealingRecords     *int `json:"maxHealingRecords,omitempty"`
+	MaxMechanicRecords    *int `json:"maxMechanicRecords,omitempty"`
+	MaxAttackRecords      *int `json:"maxAttackRecords,omitempty"`
+	MaxDamageRecords      *int `json:"maxDamageRecords,omitempty"`
 }
 
 func (v *RecordBudget) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "RecordBudget", "maxAttackRecords maxDamageRecords", ""); err != nil {
+	if err := processJSONShape(data, "RecordBudget", "maxAttackRecords maxDamageRecords maxMechanicRecords maxSkillActionRecords maxSkillUseRecords maxHealingRecords", ""); err != nil {
 		return err
 	}
 	type plain RecordBudget
@@ -80,6 +84,25 @@ func (v *RecordBudget) UnmarshalJSON(data []byte) error {
 	}
 	if result.MaxDamageRecords != nil && (*result.MaxDamageRecords < 0 || *result.MaxDamageRecords > 10000) {
 		return errors.New("recordBudget.maxDamageRecords must be an integer in [0,10000]")
+	}
+	if result.MaxMechanicRecords != nil && (*result.MaxMechanicRecords < 0 || *result.MaxMechanicRecords > 10000) {
+		return errors.New("recordBudget.maxMechanicRecords must be an integer in [0,10000]")
+	}
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	if raw, present := fields["maxMechanicRecords"]; present && string(raw) == "null" {
+		return errors.New("recordBudget.maxMechanicRecords must be an integer in [0,10000]")
+	}
+	for key, budget := range map[string]*int{"maxSkillActionRecords": result.MaxSkillActionRecords, "maxSkillUseRecords": result.MaxSkillUseRecords, "maxHealingRecords": result.MaxHealingRecords} {
+		limit := 10000
+		if key == "maxSkillActionRecords" {
+			limit = 4096
+		}
+		if raw, present := fields[key]; present && (string(raw) == "null" || budget == nil || *budget < 0 || *budget > limit) {
+			return errors.New("recordBudget." + key + " must be a non-negative integer within its limit")
+		}
 	}
 	*v = RecordBudget(result)
 	return nil
@@ -107,10 +130,12 @@ func (v *SamplingConfig) UnmarshalJSON(data []byte) error {
 }
 
 type BasicAttackSummary struct {
-	PlanKey        string `json:"planKey"`
-	StartedCount   int    `json:"startedCount"`
-	HitCount       int    `json:"hitCount"`
-	CompletedCount int    `json:"completedCount"`
+	PlanKey                  string `json:"planKey"`
+	StartedCount             int    `json:"startedCount"`
+	HitCount                 int    `json:"hitCount"`
+	CompletedCount           int    `json:"completedCount"`
+	InitialMechanicReadyAtMs *int64 `json:"initialMechanicReadyAtMs"`
+	InitialActionReadyAtMs   *int64 `json:"initialActionReadyAtMs"`
 }
 type RunExecutionSummary struct {
 	RequestedDurationMs int64        `json:"requestedDurationMs"`
@@ -121,6 +146,8 @@ type RunExecutionSummary struct {
 	TargetKilledAtMs    *int64       `json:"targetKilledAtMs"`
 }
 type BasicAttackRecord struct {
+	MechanicReadyAtMs *int64  `json:"mechanicReadyAtMs"`
+	ActionReadyAtMs   *int64  `json:"actionReadyAtMs"`
 	PlanKey           string  `json:"planKey"`
 	AttackIndex       int     `json:"attackIndex"`
 	UseRef            string  `json:"useRef"`
@@ -130,6 +157,7 @@ type BasicAttackRecord struct {
 	StartAtMs         int64   `json:"startAtMs"`
 	HitAtMs           *int64  `json:"hitAtMs"`
 	ReadyAtMs         *int64  `json:"readyAtMs"`
+	FinalReadyAtMs    *int64  `json:"finalReadyAtMs"`
 	NextStartAtMs     *int64  `json:"nextStartAtMs"`
 	AttackSpeed       float64 `json:"attackSpeed"`
 	PostDefenseDamage float64 `json:"postDefenseDamage"`
@@ -139,25 +167,63 @@ type BasicAttackRecord struct {
 	Completed         bool    `json:"completed"`
 }
 type DamageBreakdown struct {
-	Owner             string  `json:"owner"`
-	Source            string  `json:"source"`
-	Target            string  `json:"target"`
-	AbilityRef        string  `json:"abilityRef"`
-	OperationRef      string  `json:"operationRef"`
-	DamageType        string  `json:"damageType"`
-	DamageCount       int     `json:"damageCount"`
-	PostDefenseDamage float64 `json:"postDefenseDamage"`
-	ShieldAbsorbed    float64 `json:"shieldAbsorbed"`
-	ActualHpLoss      float64 `json:"actualHpLoss"`
-	OverkillDamage    float64 `json:"overkillDamage"`
+	ProviderDefinitionRef string  `json:"providerDefinitionRef,omitempty"`
+	Owner                 string  `json:"owner"`
+	Source                string  `json:"source"`
+	Target                string  `json:"target"`
+	AbilityRef            string  `json:"abilityRef"`
+	OperationRef          string  `json:"operationRef"`
+	DamageType            string  `json:"damageType"`
+	DamageCount           int     `json:"damageCount"`
+	PostDefenseDamage     float64 `json:"postDefenseDamage"`
+	ShieldAbsorbed        float64 `json:"shieldAbsorbed"`
+	ActualHpLoss          float64 `json:"actualHpLoss"`
+	OverkillDamage        float64 `json:"overkillDamage"`
 }
 type RecordingSummary struct {
-	AttackRecordCount      int  `json:"attackRecordCount"`
-	ReturnedAttackRecords  int  `json:"returnedAttackRecords"`
-	DroppedAttackRecords   int  `json:"droppedAttackRecords"`
-	AttackRecordsTruncated bool `json:"attackRecordsTruncated"`
-	DamageRecordCount      int  `json:"damageRecordCount"`
-	ReturnedDamageRecords  int  `json:"returnedDamageRecords"`
-	DroppedDamageRecords   int  `json:"droppedDamageRecords"`
-	DamageRecordsTruncated bool `json:"damageRecordsTruncated"`
+	SkillActionRecordCount      int  `json:"skillActionRecordCount"`
+	ReturnedSkillActionRecords  int  `json:"returnedSkillActionRecords"`
+	DroppedSkillActionRecords   int  `json:"droppedSkillActionRecords"`
+	SkillActionRecordsTruncated bool `json:"skillActionRecordsTruncated"`
+	SkillUseRecordCount         int  `json:"skillUseRecordCount"`
+	ReturnedSkillUseRecords     int  `json:"returnedSkillUseRecords"`
+	DroppedSkillUseRecords      int  `json:"droppedSkillUseRecords"`
+	SkillUseRecordsTruncated    bool `json:"skillUseRecordsTruncated"`
+	HealingRecordCount          int  `json:"healingRecordCount"`
+	ReturnedHealingRecords      int  `json:"returnedHealingRecords"`
+	DroppedHealingRecords       int  `json:"droppedHealingRecords"`
+	HealingRecordsTruncated     bool `json:"healingRecordsTruncated"`
+	MechanicRecordCount         int  `json:"mechanicRecordCount"`
+	ReturnedMechanicRecords     int  `json:"returnedMechanicRecords"`
+	DroppedMechanicRecords      int  `json:"droppedMechanicRecords"`
+	MechanicRecordsTruncated    bool `json:"mechanicRecordsTruncated"`
+	AttackRecordCount           int  `json:"attackRecordCount"`
+	ReturnedAttackRecords       int  `json:"returnedAttackRecords"`
+	DroppedAttackRecords        int  `json:"droppedAttackRecords"`
+	AttackRecordsTruncated      bool `json:"attackRecordsTruncated"`
+	DamageRecordCount           int  `json:"damageRecordCount"`
+	ReturnedDamageRecords       int  `json:"returnedDamageRecords"`
+	DroppedDamageRecords        int  `json:"droppedDamageRecords"`
+	DamageRecordsTruncated      bool `json:"damageRecordsTruncated"`
 }
+
+type MechanicRecord struct {
+	TimeMs                int64   `json:"timeMs"`
+	Kind                  string  `json:"kind"`
+	Owner                 string  `json:"owner"`
+	ProviderRef           string  `json:"providerRef"`
+	ProviderDefinitionRef string  `json:"providerDefinitionRef"`
+	SkillKey              string  `json:"skillKey"`
+	StateKey              string  `json:"stateKey"`
+	BeforeValue           float64 `json:"beforeValue"`
+	AfterValue            float64 `json:"afterValue"`
+	OperationRef          string  `json:"operationRef"`
+	UseRef                *string `json:"useRef"`
+	ReadyAtMs             *int64  `json:"readyAtMs"`
+}
+
+const (
+	MechanicStateChanged = "STATE_CHANGED"
+	MechanicWaitStarted  = "WAIT_STARTED"
+	MechanicWaitEnded    = "WAIT_ENDED"
+)

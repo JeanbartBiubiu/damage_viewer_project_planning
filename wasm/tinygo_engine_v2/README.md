@@ -12,6 +12,269 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 更细的模块依赖与时序见 [`ARCHITECTURE.md`](ARCHITECTURE.md)。协作规则见 [`AGENTS.md`](AGENTS.md)。
 
+无调用残留清理后，`internal/crit` 仅保留正式暴击结算使用的概率边界和数值夹取工具。未接入的 `internal/augment` 强化开关骨架，以及旧暴击策略、倍率0补1和旧期望拆分函数已删除。正式暴击三分支仍由运行层执行，下面的当前产物与既有机制验收口径保持。
+
+上一批全量Go测试通过，重新构建的 `target/unused-residue-cleanup/tinygo_engine_v2.wasm` 与当时Web源产物的字节完全相等：1,385,770字节，SHA256 `0967cb717dfa16c64f7b3e397400b73a7f7fdcc15a86ee59850fbaf784e297a2`。
+
+## 当前击杀计算优化产物
+
+本次开源源码核对后，增加无修正分支提前筛选、零／单项收集跳过排序、两叶值二元公式直接求值。最新同轮浏览器正反序对照：无装备约快3%～6%，装备约快0%～3%。最终独立复测纯计算无装备1.237毫秒、装备13.333毫秒，仍未达到1毫秒；完整结果逐字节保持。当前正式产物与证据见 [开源参考与单次优化](C:/project/damage_web_dev/web/output/kill-reference-2026-10-12/开源参考与单次优化.md)。下文旧轮次耗时保留为历史记录，不能与本轮绝对值作单项对照。
+
+2026-10-12当前产物 `target/single-core-context/tinygo_engine_v2.wasm` 为2,259,663字节，SHA256 `54d5abfcdce8fe9757331e43f0593d229c1c07e6128e42732ea72251ab1a5f53`，已集成Web；固定256MiB和正式编译／运行／释放入口保持。本轮调整Wasm内存结构、求值与构建配置，不涉及数据库或后端结构。
+
+属性修正只在挂载变化时重建有序索引；普通与派生求值核对实际属性、状态与字段存在性依赖，未变化时复用Resolved（最终属性值）。派生独立缓存只保存实际派生输出，键集合与真实公式依赖仍完整核对。生命当前值和上限不从缓存恢复，状态读取仍执行惰性过期。整轮缓存只用于双方读取方向一致的source→target，反向和自身行动继续原两遍，保留全局补算的除零等错误。无法证明完整依赖的程序继续求值。
+
+运行属性已从字符串字典迁为索引槽表，每页8个槽；初始化时从请求字典装入，最终响应边界才转回字典。只读入口、事件、复制伤害和等待预检共享不可变页；真正写入只复制页目录及受影响页，同次普通求值或缓存恢复用临时编辑器合并写入，每页最多复制一次，发布后继续写入仍另建版本。编译期绑定索引，读取时核对布局原键；运行快照附加键追加到本次布局，不修改已编译计划。缺失槽、合法0、负0和字段存在标记分别保留。
+
+属性依赖缓存按页核对，未变页跳过重复槽比较；实际公式、供值器状态及缺失槽依赖仍按原规则检查。资源及供值器状态共享只读版本，真正写入前分别复制。供值器的状态、到期、目标状态、目标到期和周期代数各自复制；真实过期与零金额资源返还的语义保持。供值器回调只返回实际使用的四项状态上下文，避免传递整份公式上下文。普攻等待预检复用同次结果，冷却依赖只读缓存，数值仍实时求值。失败帧不发布。
+
+供值器实例列表在帧暂存、提交时共享，实际挂载、刷新、替换和移除前才复制；等待预演仍保留独立列表和独立状态包头。伤害修正规则共享不可变挂载表，增删才创建新表。状态外层字典与包头在帧暂存、提交时共享；实际创建、删除、状态写入或读取准备会改变包时，先取得独占外层表与对应包头，内部五张表仍各自按写入复制。已准备的公式读取直接借用；全局过期只有真正到期或需要原初始化时才取得独占头。锚定结束清理重新获取最新包。普通帧上下文只过期源状态，属性供值回调过期两类状态，目标可见性独立判断，保持原时序。
+
+属性依赖核对按首次挂载顺序合并同一拥有者、同一供值器的重复回调，每轮仍调用一次以保留惰性过期。状态依赖预绑定供值器数组编号，属性依赖复用公式索引并校验目录原键；缺失、默认值、负0与作者方向保持。监听器分发直接读取只读编译列表，仅冻结动态列表；条件仍全部先求值，保持触发顺序和合并编号。事件上下文只在实际子帧入口冻结一次；能力引用使用等价的定界扫描，避免正则解析分配。
+
+运行请求增加 `outputMode`（输出模式）：省略或 `detailed`（详细）保持完整响应字节形态；`summary`（汇总）沿同一执行链省去六类记录和证据展示字典，返回明确空数组及响应模式标识。实际统计、最终快照、警告、执行与预算语义保持；未请求明细不计作预算丢弃，返回记录数为0。命中和伤害依赖明确的提交事实，不再依赖展示字典。空串、null、数字和未知模式拒绝。采样独立控制，汇总不隐含关闭时间序列；纯数值请求同时使用 `outputMode: "summary"` 和 `sampling: { disabled: true }`。现有页面仍默认详细模式。
+
+本轮进一步减少重复写入与临时对象：普通属性只写最终值，缓存恢复在核对存在位、生命字段、私有标志及负零后共享不可变页；冷却表按写入复制。普通帧、过程帧与等待预检帧由调用方持有，常见两键提交使用栈缓冲。公式内部只读上下文按指针传递，具名公式同步借用8项以内栈输入，超出仍完整求值；原冻结读取保持快照语义。单条常量或读取跳过通用阶段缓存，原错误与指令计费保持。操作分发借用编译计划，汇总帧只暂存有序证据类别，命中位置、预算、失败隔离和详细字节保持。
+
+前序采用单次运行内有界的能力类型键缓存、常见两角色的紧凑暂存集合及绑定防御公式的同步栈输入求值。只读计划和结果顺序保持，更多角色仍完整暂存，独立集合避免让整份帧逃逸到堆。
+
+本轮属性页所有权改为位集合，小表表头与目录合并分配，属性页仍独立；未变化页的公式读取签名复用上次完整探测，失败不晋升成功签名。上下文准备只取双方各一次暂存角色，公式同步借用只读上下文，原状态准备和计费保持。过程身份只拼接一次，死亡清理仅在无待终结实例时跳过历史复制排序；存在待终结实例时保留全表与原等键次序。详细结果保持。
+
+两个冻结击杀请求在最终浏览器Worker每模式预热10次、计时100次。装备纯计算13.487毫秒，无装备1.267毫秒，P95分别14.100／1.400毫秒；纯计算含每次初始化、事件循环与可靠汇总，排除编译、JSON编解码、输出清理回收、传输及界面。装备正式完整往返60.961毫秒，汇总往返29.463毫秒；汇总诊断清理回收14.103毫秒。**单点1毫秒目标尚未达到。** 本轮前六项实际浏览器A／B／A对照，无装备约改善4.6%、装备约改善1.8%；上下文借用另做正反顺序对照，只见小幅收益，未宣称大幅提速。原生386装备累计分配1.463→1.307MB、对象20,817→14,132，约减少32.1%对象；分配量不是峰值内存。当前原生386装备纯计算8.312毫秒，amd64未重测。
+
+上一阶段同源opt=z与opt=2交替两轮实际Worker对照后，默认构建采用opt=2：装备纯计算两轮均值15.994→14.540毫秒，无装备1.501→1.376毫秒；当时包体1,463,604→2,258,404字节，增加54.3%。该比较未计时首次下载及实例化，不能据此推断全部往返改善。当前正式产物不含诊断导出，阶段时标只加入独立源副本。
+
+最终全量Go、原生通用基准、Node协议和装备输出模式20轮通过，同会话Node详细/汇总交替1000次通过；实际浏览器两组各同一Worker详细/汇总交替200轮，共800次。完整JSON与最初逐字节相同，汇总数值、最终快照、警告、证据计数及预算保持；零预算、非法输入后恢复、时长变化后恢复、释放重编通过。Web类型检查与生产构建通过，正式产物与Web源、生产包和实际Worker身份一致。最终证据在Web工作树 `web/output/kill-single-context-2026-10-12/单次计算优化复测.md`，前六项检查点和历史报告保留。
+
+当前继续以单次纯击杀计算1毫秒以内为优化目标，日志和展示分开计时。两个属性各100点、1万个击杀时长在30秒内完成的需求，以及批量变量、时长专用结果和线程池方向，单独记录在 [后续网格优化](后续网格优化.md)，留待后续实施。原吞吐和回收实验报告在Web工作树 `web/output/kill-grid-2026-10-12/性能与网格方向评估.md`；前序报告 `web/output/kill-continuous-2026-10-12/性能复测.md` 保留。
+
+上一版状态按需准备历史产物 `target/lazy-state-headers/tinygo_engine_v2.wasm` 为1,459,544字节，SHA256 `7cf7c7ecaf5bc6296da53bbc85a3e298f1e6ecd61d4b74fbe61cdc7a5145f762`；装备纯计算17.412毫秒、完整往返67.949毫秒，证据保留在 `web/output/kill-state-lazy-2026-10-12/`。
+
+上一轮帧共享历史产物 `target/frame-state-sharing/tinygo_engine_v2.wasm` 为1,456,022字节，SHA256 `07a1982cbbb903d26828ea46bf035797e504cfea938bbc8c22db8ff2e6dd0ea6`；装备纯数值18.947毫秒、完整往返74.656毫秒，证据保留在 `web/output/kill-frame-state-2026-10-12/`。
+
+上一轮分页历史产物 `target/paged-attributes/tinygo_engine_v2.wasm` 为1,456,730字节，SHA256 `8ce72b075e908b076b7177351cf27aac5b3116566e7aae1bd0d5a9db371329aa`；装备纯数值20.701毫秒、完整循环23.989毫秒、完整往返78.038毫秒，证据保留在 `web/output/kill-paged-2026-10-12/`。
+
+上一轮历史产物 `target/derived-output-cache/tinygo_engine_v2.wasm` 为1,442,445字节，SHA256 `d3c2693902a3a27096d7b18704881479144dc951bdd645c3f39265aa4f151d9c`；装备纯数值27.564毫秒、完整循环29.744毫秒、完整往返83.737毫秒，证据仍保留在 `web/output/kill-optimization-2026-10-12/`。
+
+第一轮历史产物 `target/attribute-dependency-cache/tinygo_engine_v2.wasm` 为1,402,730字节、SHA256 `10ff580ae00722e859cc191a83dfa93e224b2c3ce46169586dfb00b82799f308`；当时装备循环46.251毫秒、完整往返115.672毫秒、临时分配13.1MB。原始与第一轮报告保留，不覆盖。
+
+```powershell
+go test -count=1 ./...
+go run ./cmd/bench
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/single-core-context/tinygo_engine_v2.wasm
+node .\scripts\smoke-node.mjs --wasm target/single-core-context/tinygo_engine_v2.wasm
+node .\scripts\calculation-rules-smoke-node.mjs target/single-core-context/tinygo_engine_v2.wasm
+node .\scripts\formula-phase5-smoke-node.mjs target/single-core-context/tinygo_engine_v2.wasm
+node .\scripts\output-mode-smoke-node.mjs --wasm target/single-core-context/tinygo_engine_v2.wasm
+# 同一冻结请求的运行内核计时；短场景添加 -batch 20，报告的是组内单次平均。
+go run ./cmd/bench-output-mode -input 'C:/project/damage_web_dev/web/output/kill-latency-2026-10-11/input-1.json' -output 'target/single-core-context/native-report.json'
+```
+
+## 静态光环统一准入历史验收
+
+当时正式产物 `target/category-cost-bindings/tinygo_engine_v2.wasm` 为1,385,770字节，SHA256 `0967cb717dfa16c64f7b3e397400b73a7f7fdcc15a86ee59850fbaf784e297a2`，初始与最大内存仍固定256MiB。连续普攻不再按 `opponent.attr.attack_speed` 限制同拥有方只能挂一份光环；多个独立、完整静态来源沿现有属性修正规则叠加。来源唯一性、非生命对手属性槽、显式总值乘算、有限非负常量和事件命令预算保持。
+
+原生专项分别核对同一／不同属性、速度完全改名、两份独立效果挂载，以及同一编译会话三次完整结果相等。`.8×.5` 速度为`.4`，攻击时点为0／2500毫秒；`.8`速度与`.5`护甲光环分别作用，攻击时点为0／1250／2500毫秒。全量Go、原生基准、标准Node往返、作者绑定及伤害聚合专项、Node基准与200次会话复用通过。技能分类与施法成本用途绑定由后端和Web消费，唯一契约在规划真源《技能分类与施法成本用途绑定详细设计》。
+
+此前30秒完整失败档案在最终Node与实际浏览器Worker分别重复200次，完整结果与原成功档案一致；浏览器只建立一条Worker并正常释放。完整输出616,617字节，保留29条攻击、103条伤害、700条证据及301个采样点，未缩减记录或采样预算。本批作者分类改名与双光环的页面装配验收由规划真源的本批测试记录独立维护。
+
+```powershell
+go test -count=1 ./...
+go run ./cmd/bench
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/category-cost-bindings/tinygo_engine_v2.wasm
+node .\scripts\smoke-node.mjs --wasm target/category-cost-bindings/tinygo_engine_v2.wasm
+node .\scripts\calculation-rules-smoke-node.mjs target/category-cost-bindings/tinygo_engine_v2.wasm
+node .\scripts\formula-phase5-smoke-node.mjs target/category-cost-bindings/tinygo_engine_v2.wasm
+node .\scripts\session-reuse-smoke-node.mjs --wasm target/category-cost-bindings/tinygo_engine_v2.wasm --iterations 200
+node .\scripts\bench-node.mjs --wasm target/category-cost-bindings/tinygo_engine_v2.wasm --mode generic-run --iterations 10 --warmup 2
+```
+
+以下暴击与攻速作者绑定、内存修复及各阶段产物数字保留对应历史验收口径，当前产物以上节为准。
+
+## 暴击与攻速作者绑定当前产物
+
+具名公式必填 `scope`（归属）：技能保留真实技能标识和私参；游戏公式不允许技能标识及私参。派生明确 `set/multiply`（修正前替换／修正后乘算）及目录数值类型，不按攻击力或攻速属性名称限制输出。完整游戏配置由后端快照运输、Web映射到同一共同编译器；原生不补概率属性、收益系数或攻速公式。倍率下限可明确为0或省略；暴击伤害必须成对声明概率和倍率，确定性三分支权重保持。
+
+实际速度在首次等待及后续提交前核对正数、上界。已有计划过程时点或即时属性命中只准入真实普通属性槽、明确加算和本次行动目标；生命周期、监听器和普攻原门槛保持。暴击合成金额及属性新基础值在证据、裁剪和提交前检查有限值，失败帧不提交。
+
+当前正式产物 `target/outbox-memory-fix/tinygo_engine_v2.wasm` 为1,386,371字节，SHA256 `4ed40c234cefce6aa54442e8520ba3add7fdd910ae6b6443167d1396ba4c5b4e`，固定256MiB。作者绑定开发收尾的前一产物是1,384,822字节、SHA256 `e5ad0845d1e3a9d95e461da3916cb78c7dbcb4df270030cf0aeb3b203174a755`。本次修复完整30秒重复输出的内存不足：JSON编码借用编码池缓冲，正文及帧头直接写入固定容量出箱，消除每次整份JSON副本与临时帧；协议字节、优先帧、丢弃计数、编码失败保留及容量错误保持。重叠正文先移动再写头，编码器终止换行不进入协议正文。
+
+当前全量Go、ABI边界检查、标准Node往返及作者绑定12项专项通过。正式Wasm在同一Node会话200次完整结果相等，并验证变化输出、错误恢复、释放重编；回收后堆占用稳定约5.9MB。真实服务的原100次同Worker压力用例通过，冻结失败档案另经实际浏览器Worker200次完整相等并释放。TinyGo的全局保守扫描本身未改，诊断地址名单不进入产品。共享契约与完整分层证据由规划真源《暴击与攻速作者绑定和属性派生详细设计》及2026-10-11验收记录维护。
+
+```powershell
+go test -count=1 ./...
+go run ./cmd/bench
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/outbox-memory-fix/tinygo_engine_v2.wasm
+node .\scripts\calculation-rules-smoke-node.mjs target/outbox-memory-fix/tinygo_engine_v2.wasm
+node .\scripts\smoke-node.mjs --wasm target/outbox-memory-fix/tinygo_engine_v2.wasm
+node .\scripts\session-reuse-smoke-node.mjs --wasm target/outbox-memory-fix/tinygo_engine_v2.wasm --iterations 200
+```
+
+以下各阶段产物与数字保留历史验收口径，当前产物以上节为准。
+
+## 伤害聚合与常驻装备通用装配
+
+根能力与过程时点仍沿原提交位置派发 `event/damage_dealt`（伤害造成聚合事件），现在收集所有防御后金额为正的作者伤害原键。同帧只派发一次，类型分类排序去重，重复同键的实际金额与操作引用均保留。证据提供 `damageTypes`（实际类型集合）及 `damageBreakdown`（按原键贡献明细）；单类型保留 `damageType`，混合类型省略。物理限定监听由作者明确匹配通用事件、`damage/physical` 与拥有方分类，不再依赖物理专用事件分类。
+
+累计总额及分类额在原帧提交前检查有限值；单笔有限但相加溢出返回 `runtime_invariant_failed`（运行约束失败），不提交本帧暂存写入，也不让序列化导致线程崩溃。没有声明通用事件目录时不启用聚合。零贡献、监听子帧、复制及周期不会增加本批聚合次数；逐笔伤害、受伤、吸血、冻结视图和扣盾扣血仍走原路径。
+
+静态初始化的对手光环准入按真实非生命属性槽检查，不再固定对手攻速。明确总值阶段、乘算策略及有限非负静态值后，沿原拥有方挂载向对手投送修正；缺槽、生命上限、动态值或其他策略仍拒绝。Web的装备来源、永久结果及范围确认采用通用作者闭包装配，完整边界以规划真源《伤害聚合事件与常驻装备通用装配详细设计》为准。
+
+本阶段历史产物 `target/formula-phase5/tinygo_engine_v2.wasm` 为1,378,093字节，SHA256 `f510e11b7c02246c0b46e6d5e8b116d055c1ee3e2f9afb60309f16efcbef4e5f`，固定256MiB。全量Go、原生基准、标准Node往返、第三A／B及第四阶段专项、Node基准和同会话200次通过。新增专项验证任意原键、混合贡献、同会话101次／释放重编，以及同键／跨键溢出拒绝后同会话恢复；它不代替真实作者数据及浏览器证据。
+
+```powershell
+go test -count=1 ./...
+go run ./cmd/bench
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/formula-phase5/tinygo_engine_v2.wasm
+node .\scripts\formula-phase5-smoke-node.mjs target/formula-phase5/tinygo_engine_v2.wasm
+node .\scripts\smoke-node.mjs --wasm target/formula-phase5/tinygo_engine_v2.wasm
+node .\scripts\session-reuse-smoke-node.mjs --wasm target/formula-phase5/tinygo_engine_v2.wasm --iterations 200
+```
+
+以下各阶段产物与数值保留对应历史验收口径，当前产物以上节为准。
+
+## 共同公式默认分支清理第四阶段
+
+当前协议要求每个实际编入计划的伤害操作原键都具有成功注册的作者共同公式。已知目录缺定义返回编译错误 `missing_damage_type_formula`（缺少伤害类型作者公式），保留原操作 `damageType` 路径与原键；未知目录仍返回 `unknown_type_key`。未使用目录及无伤害预检允许缺定义。零金额也必须声明公式，明确常量0与1都合法。
+
+运行的数值结算入口先核对原键、绑定、程序索引和共同程序种类，再处理金额。损坏计划及绕过专用伤害入口的通用命令返回 `runtime_invariant_failed`（运行计划约束失败），不消费默认程序0、不提交本帧暂存写入。普通防御保持帧入口只读视图；复制通过完整冻结的双方属性视图求同一程序，提交仍使用当前护盾与生命。原生物理／魔法／真实白名单、默认抗性和穿透别名算法、复制固定属性覆盖及四个旧防御证据字段已经删除。治疗、护盾和斩杀继续使用通用数值管道；已求得的伤害金额统一由 `ApplyMitigatedDamage` 扣盾和生命。
+
+标准输入由 `scripts/formula-phase4-input.mjs` 从零构造，Go显式读取独立的 `internal/testkit/fixtures/formula_phase4_explicit_basic_damage.json`。它明确100原金额及常量1防御，目标生命1000→900；文件加载器只读取，不注入公式。原 `generic_p0_basic_damage.json` SHA256保持 `cf597916d5200bc4f5c4328fd15bb2dd0eb5c8c521a77fc815a4dfd4704fda05`，当前协议明确拒绝其缺定义。第三B原产物与旧900记录冻结于 `target/formula-phase4-baseline`，以下前三阶段章节是历史范围与证据。
+
+苍穹场景按已确认的帧入口口径运行：同帧穿透状态仍按原顺序10→22，伤害共同公式读取入口10，当前附伤为366.4819944598338；旧默认分支读取同帧暂存22，对应391.18864577173275。原生测试独立比较两份算术结果，并保留状态、费用、时点及下一帧读取22的断言；其他机制原金额和顺序断言保持。
+
+最终产物 `target/formula-phase4/tinygo_engine_v2.wasm` 为1,375,850字节，SHA256 `9ca312c719e5a7f2f7d1294a0f1135f6ecf81cb05cd9b6c2e65d06518851cd8c`，固定256MiB。全量Go、原生基准、标准Node往返、第三A／B及第四阶段专项、Node基准及同会话200次重复通过；计划损坏、程序0保护与帧回滚由原生故障注入专项证明。Node证据不替代真实服务或浏览器工作线程验收。
+
+```powershell
+go test -count=1 ./...
+go run ./cmd/bench
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/formula-phase4/tinygo_engine_v2.wasm
+node .\scripts\smoke-node.mjs --wasm target/formula-phase4/tinygo_engine_v2.wasm
+node .\scripts\formula-phase3-smoke-node.mjs target/formula-phase4/tinygo_engine_v2.wasm
+node .\scripts\formula-phase3b-smoke-node.mjs target/formula-phase4/tinygo_engine_v2.wasm
+node .\scripts\formula-phase4-smoke-node.mjs target/formula-phase4/tinygo_engine_v2.wasm
+node .\scripts\bench-node.mjs --wasm target/formula-phase4/tinygo_engine_v2.wasm --mode generic-run --iterations 10 --warmup 2
+node .\scripts\session-reuse-smoke-node.mjs --wasm target/formula-phase4/tinygo_engine_v2.wasm --iterations 200
+# 旧协议档案明确选择原固定输入，仍得到900：
+node .\scripts\smoke-node.mjs --legacy-fixture --wasm target/formula-phase4-baseline/tinygo_engine_v2.wasm
+```
+
+## 共同公式定义第一阶段
+
+`internal/expression/contract.go` 提供 `ValidateDefinition` 纯校验入口，检查共同定义结构、声明授权、全部结果依赖及整份预算，返回确定性的错误码和JSON字段定位路径。常量保留十进制字符串，合法0不补值；第一阶段只验结构，不替换现行正式编译输入。该入口在第二阶段迁入独立纯表达式包，不保留旧包转发。
+
+结构规范及共同样例由规划主分支的 `contracts/formula` 维护，模块常量由 `tools/formula-contract/generate.mjs` 明确生成并检查。定向检查为 `go test -count=1 ./internal/expression -run Contract`；设计和验收以规划工作树《共同公式定义与校验详细设计》为准。
+
+## 纯公式、输入绑定和执行计划第二阶段
+
+`internal/expression`（纯表达式）提供共同定义编译、惰性程序求值和数学原语，仅依赖基础库；`internal/inputbinding`（输入绑定）按原身份、对象、视图和口径绑定明确数值，不读写战斗状态。共享结果及输入每次求值各读取一次，缺值、除0、非有限与错误限制边界明确失败。现行公式执行器复用纯数学原语，原管理结构及默认类型分支尚未切换。
+
+`internal/plan`（执行计划）拥有31个编译后结构及完整能力引用解析；compile生产计划，runtime及pipeline消费。运行态独立持有公式表，驱动条件和重复间隔仅追加到本次表，失败或重跑不修改共享会话。公式注册在生成16位编号前检查65536程序、每程序512指令、累计262144指令及32MiB逻辑计费；失败不设置可消费标记。
+
+最终正式验证产物为 `target/formula-phase2/tinygo_engine_v2.wasm`，1,302,969字节，SHA256 `546de175f6a14d8a3e5996575334efc6718259768fc29e31f041f65587de7c3f`。独立纯核心验证产物为同目录 `formula_probe.wasm`，分别执行 `node scripts/formula-phase2-smoke-node.mjs target/formula-phase2/tinygo_engine_v2.wasm` 和 `node scripts/formula-probe-node.mjs target/formula-phase2/formula_probe.wasm`。两者固定256MiB，前者验证正式固定样例与同会话20次，后者验证新纯公式的11项、同一程序20次变化输入及20次独立重复；新协议仍未接正式战斗ABI、真实管理数据或浏览器工作线程。设计与分层证据由规划真源《纯公式编译求值与执行计划拆分详细设计》及第二阶段验收记录维护。
+
+## 伤害类型共同公式第三阶段A
+
+伤害类型的 `rules.damageTypeFormulas[].formula` 直接消费共同 `inputs/stages/outputStageKey`，不再识别五字段。可信属性目录以 `domain: attribute` 与原键授权来源／目标、当前帧、基础／加成／总值；目录身份以声明作用域与原键组合保存，不从前缀猜类型。同键在本使用点存在多个允许身份时拒绝歧义，原伤害条件按完整原键比较。
+
+原生事件、普攻能力、法术护盾供值器和施放来源的明确读取均按其已知作用域查询。属性与这些原键同名仍正常触发真实事件、普攻乘区及护盾消费；无域关系和通用匹配遇到多个可用身份继续拒绝歧义。
+
+共同纯程序以 `GenericProgram.Authored` 进入原公式注册表，与技能旧指令共享65536程序、单程序512指令、累计262144指令、32MiB计费；共同输入累计262144、结果累计65536，绑定和读值描述一并收费。运行复制描述与索引，只共享只读内容。JSON属性缺字段保持缺失，null或非数字拒绝，合法0保留；复制属性视图保留存在标记。
+
+正式防御位置一次求得有限非负倍率，共用于普通和暴击部分。当前帧使用入口只读视图，复制使用原事件入口冻结视图；暴击专属修正、整体修正、护盾、生命顺序保持。新定义诊断只输出实际倍率与防御后两部分，不伪造五个固定步骤。动态共同错误码及JSON字段路径保留到正式错误载荷，负倍率使用 `FORMULA_INVALID_OUTPUT`。内部用途表达式和未配置类型的默认抗性分支继续按本批范围保留。
+
+## 技能共同公式第三阶段B
+
+方案唯一来源为规划工作树《技能共同公式闭环详细设计》。`CompileRequest.formulas[]`（具名公式表）只接受 `key/skillKey/expression/parameters`：完整共同定义、作者技能归属和私有已选参数目录一起进入原生注册表，旧作者树不再运输。固定／技能等级／角色等级参数必须有明确有限值；计算时参数禁止默认值，实际蓄力及已提交过程成本只在原有合法使用时点开放。供值器新增可选 `skillKey`（技能归属），共同引用按真实使用点独立核对，不能借能力参数、程序名称或同名外国参数换绑。
+
+内部用途包装通过已声明程序编号调用共同程序，不展开作者树；临时包装键不能成为宿主外部引用。每次调用创建独立输入读取器，来源／目标属性沿现有求值入口的当前视图，前序操作可影响后续求值。全部声明用于授权，输出可达读取及条件两支并集用于供值和限制；实际求值仍惰性。第三A的入口与复制冻结视图独立保留。注册预算统一计入参数、绑定、定位和依赖，调用最多32层，单次组合最多262144条指令，编译和运行分别检查。
+
+现有属性派生项新增可选 `skillKey`（作者技能归属）；引用共同程序时必须明确并匹配，内部字面值与既有读取不新增身份要求。派生以 `combatantKey` 所属拥有方作为共同读取的来源，以另一方作为目标，原定义不重写；内部用途读取保留原战斗侧语义。编译按相同映射核对真实属性目录、输出回读及计算时参数禁令。运行的共同错误附实际拥有方，归属、定位及依赖描述计入同一注册预算。
+
+状态默认值／上限／保持期限及生命周期最大层数／固定间隔接受数字或严格外部引用，原生检查固定／已选等级依赖后求值，按原范围冻结成计划数字。常驻与静态装备按静态依赖准入。成功编译的 `metadata.approvedStaticValues`（已核定静态输出）仅含已声明具名程序，不含临时键或动态输出；共同错误保留错误码、原定义字段定位、程序身份和实际使用引用，资源预检直接返回公式错误。
+
+独立输入可注入真实HTTP定义和参数目录；它们不读取或复制原固定样例。以下是第三B当时的历史命令和范围；当前源脚本在第四阶段产物上单列原输入拒绝及新独立基准900，重验命令见第四阶段。
+
+```powershell
+go test -count=1 ./...
+go run ./cmd/bench
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -Out target/formula-phase3b/tinygo_engine_v2.wasm
+node .\scripts\smoke-node.mjs --wasm target/formula-phase3b/tinygo_engine_v2.wasm
+node .\scripts\formula-phase3-smoke-node.mjs target/formula-phase3b/tinygo_engine_v2.wasm
+node .\scripts\formula-phase3b-smoke-node.mjs
+node .\scripts\bench-node.mjs --wasm target/formula-phase3b/tinygo_engine_v2.wasm --mode generic-run --iterations 10 --warmup 2
+```
+
+独立构造在 `scripts/formula-phase3-input.mjs`，不读取或复制原固定样例。最终产物 `target/formula-phase3/tinygo_engine_v2.wasm` 为1,332,322字节，SHA256 `ff7178b1fcf40eb748755edd0dbf55ec6d57bb3500e4698b93529860cb6b7cfd`；全量Go、原生基准、TinyGo构建、标准冒烟、18组共同公式正式入口专项及Node基准通过。专项入口：`node scripts/formula-phase3-smoke-node.mjs target/formula-phase3/tinygo_engine_v2.wasm`。原固定样例保持900，独立heat为原伤害120、防御50、护盾30、生命1000→950。这些原生／Node构造证据不代替真实HTTP、数据库或浏览器工作线程验收，跨端证据由规划真源独立保存。
+
+## 阶段5A自身常驻
+
+连续普攻准入接受角色或构筑的独立常驻来源挂载，沿同一拥有方初始化事件建立永久常量修正，不按英雄、装备或符文标识分支。首批开放完整自身非生命属性加算／比例加算及已有受到治疗／护盾修正；不接生命上限、条件、周期、动态状态或额外自主普攻。来源开关与等级由Web按完整作者数据翻译，原生不解释构筑布局，也不补默认技能等级。
+
+额外攻速进入原属性派生，双方初始化尾部完成后才开放首刀；一个会话重复运行不残留前次常驻。`generic_permanent_skill_sources_test.go` 验证角色／构筑共同初始化和非生命边界，真实克格莫Q与攻速碎片由最终Wasm及Web工作线程补证。最终产物1,154,180字节、SHA256 `87b9d2e89898018b32d4e37df34d379f1038e8cad5d01600d78716a051f03cfa`，固定256MiB及输出清理回收契约不变；证据见规划真源《阶段5A默认技能来源与常驻初始化验收-2026-10-04》。后续章节保留各前段历史能力与产物，不将其当作当前总准入。
+
+## 阶段5B开始与命中通用来源
+
+连续普攻接受完整角色／构筑开始、命中、接收及明确联动，不占装备槽、不按英雄编号分支。显式 `integer`（离散整数）状态在编译、初态／恢复、写入操作数及封顶前结果检查非负安全整数，消费不可透支；普通数值声明不改义。目标计数沿实际来源与对手状态，保持刷新、旧期限守卫及精确到期复用既有实现。
+
+实际首次过程求冷却时捕获属性／状态基线，开始结果变更后纯求值完整周期，以0完成进度预检、提交唯一等待，不重启过程或重复消费。封顶公式、非攻速依赖、同刻改期及预算失败原子性见 `generic_triggered_skill_sources_test.go`。来源有期叠层按完整声明整体到期，未新增逐层衰减或弹药恢复。
+
+来源与承受者的单层有期普通属性实例可修正承受者自身，初值与恢复不改基础模板。总属性削减必须由明确的乘算声明编译为 `multiply`（乘算），在装备加算后执行；既有比例加算仍使用固有基数，不能偷换。25点装备加算与100点固有护甲经0.8乘数为100，到期恢复125，已作独立原生检查。
+
+5B产物1,168,861字节、SHA256 `8a636006deed81d247bc4c1035fa2479985cc7371aa0922644a4d3d2ba7bc12b`。真实贾克斯及蔚W已按确认配置进入同一通用链；蔚W附伤后削甲、额外命中计数及仅全能吸血通过最终工作线程及两组同会话压力，不新增英雄专用代码或为此次配置重新构建相同原生产物。分层证据由规划真源《阶段5B开始命中通用链路与首批组合验收-2026-10-05》记录。前述5A／5B二进制为历史版本。
+
+## 阶段5C特殊主体与弹药恢复
+
+连续普攻支持保存的条件命中主体、状态存在判定、有限攻速覆盖／攻击力乘算，以及明确弹药声明。编译期核对同一拥有方和来源的唯一弹药、开始链唯一消费1和恢复方式；仅开放耗尽时一次恢复全部。真实攻击开始前检查许可并冻结消费前库存，沿原使用身份供命中条件读取。恢复与普通冷却共同约束唯一下一刀，不相加、不轮询、不生成空弹攻击；初值0先恢复，死亡和旧恢复代号不能再次唤醒攻击。
+
+`mechanicRecords`（有限机制记录）与完整汇总独立；记录关闭、截断及采样变化均不改变结算。`summary.basicAttack.initialMechanicReadyAtMs`（初次实际机制就绪时刻）仅在零弹恢复帧成功提交后记录，允许观察终点早于恢复时返回完整的零刀结果，不依赖有限记录反推。计数与弹药即使同名也按实际拥有方、来源和状态键隔离。
+
+属性派生按每侧最多一条攻速和一条攻击力转换执行；先完成普通依赖属性，再转换。固定攻速只消费明确静态声明，攻击力乘算不能回读自身或其他转换总值。真实艾希和烬按规划真源阶段5设计第6.4节的有限配置执行，不含随机暴击状态、强化减速、暴击移速或主动提前装填。弹药闭环仅开放连续入口，不把单次外部开始事件当作完整恢复场景。
+
+状态存在读取只消费类型目录中明确的 `status/<key>`、`domain: status` 声明，不依赖产生该状态的效果是否开启；原生未声明拒绝，已声明但未施加为不存在。贡献不能反推目录或为关闭来源补造状态。
+
+5C产物1,210,941字节、SHA256 `6f74674aa9c374dc8daac55a4f70b1e895633a3e352845af60718b8baaca0303`，固定256MiB。定向测试位于 `generic_basic_attack_ammo_test.go`、`generic_special_attack_test.go`；最终Wasm冒烟通过，真实组合复验由本轮记录独立列明。配置保存、HTTP、工作线程与页面证据见规划真源《阶段5C特殊普攻与弹药恢复组合验收-2026-10-05》。
+
+## 阶段6A单次主动施放
+
+共享契约唯一来源为规划工作树《阶段6主动技能接入与混合时间线详细设计》。本版只接一条首次尝试，不接背景普攻、重复施放或蓄力／重施。仍使用原编译、会话、运行和释放入口，不生成宿主定时伤害。
+
+`rules.skillActionBindings`（编译期技能行动绑定）锁定拥有方、实际挂载、定义、技能、首次能力及成功完成命中能力；`driverPlan.skillActions`（本次行动计划）只选择其绑定、尝试时刻、顺序、目标及明确命中／未命中预设。6A仅一个即时或有限延时步骤；引用、阶段、过程及命中时点不符在运行前拒绝，输入事实数组必须为空。
+
+只有真实开始帧提交后才发布接受与使用身份；开始监听条件沿已有先冻结再执行链路，自身治疗不进入过程完成尾部重治。实际过程成功完成后，在同一转移同步尾部派生命中事实并经过原命中、防御、法术护盾与吸血链，不以提前编造的命中事实替代成功施放。不需要普攻分类目录来触发纯技能的成功使用事件。
+
+`summary.skillActions`（完整指令累计）与 `summary.skillUses`（完整使用累计）独立于有限记录；直接治疗及吸血分别计入生命账。新增行动、使用、治疗明细各有独立记录预算，显式0及采样关闭不改变结算。纯技能返回公共执行完整性；开始提交前预算失败不造使用，提交后失败保留已提交事实。观察结束可保留仍在途的过程，不提前完成或命中。
+
+原生定向验证入口为 `go test -count=1 ./internal/runtime -run SingleSkill`，包含释放边界、未命中、真实法术护盾、冻结治疗阈值与溢出、必要消费拒绝、冷却边界、死亡未到达、接受前后预算失败、独立截断及同会话重跑。三项管理对象、最终工作线程和页面证据由阶段6A验收记录分别证明，不以这些独立构造代替真实对象。
+
+本轮原生产物1,241,773字节，SHA256 `2ac117eb91141d81e4eb5dcc209ec7f270d57dcb1c5fff4e9dbe33231fead7b5`，固定256MiB。全量Go、原生基准、最终产物冒烟及Node通用样例基准通过；前端源码和生产副本摘要相同，真实对象以规划真源《阶段6A单次主动施放与首批真实技能验收-2026-10-05》所列最后请求与分层证据为准。
+
+## 阶段6B有限混合行动
+
+`driverPlan.skillActions`（显式技能计划）支持1～64条首次尝试及可选连续普攻，同一攻击方的绑定仍最多16份。按请求时刻、完整同刻顺序及稳定指令键排序；冷却未好、行动忙或同来源过程仍在途时只拒绝一次，不自动延期。初始化、过程及已有周期／到期／弹药事件先提交，同刻显式技能先于自然普攻。
+
+计划的即时或单段延时步骤必须明确 `occupiesAction`（行动占用）；管理缺声明不能成为运行默认值。许可由真实活动过程的当前步骤和版本决定，进入／退出与过程计时、唯一普攻等待共同预检和提交；已有下一刀仅改期，不重复入队。普通冷却、真实占用及弹药恢复取最大期限，初始空弹的恢复起点不被施法锁推迟。新增首刀许可和每刀后续许可的可靠空值字段，关闭记录也保留完整统计。
+
+成功使用、释放、命中及直接治疗沿实际使用引用关联到原指令；多条交错完成不串到最后一次施放。技能急速只消费作者表达式与明确原生取整声明，普攻继续走自己的攻速冷却。死亡一经帧提交不因失败治疗尾部恢复新行动。仍不开放多步骤、取消／重施或蓄力控制。
+
+定向入口为 `go test -count=1 ./internal/runtime -run MixedAction`，覆盖占用释放、唯一下一刀、初始空弹重叠、同刻顺序／死亡、非零急速冷却边界、动态攻速与已有冷却改期、共同队列预检、完整使用身份、失败后治疗、命令预算、独立记录及同会话重复。当前产物1,254,720字节、SHA256 `9c5268698a4f7d20de40b21b1257179fe4751a375b0d67f497ceef583c266b14`；最终真实对象与页面证明由规划验收记录单列，不将本节独立构造当真实数据验收。
+
+## 阶段6C有限复杂过程
+
+在同一原生计划内开放关联已接受首次使用的蓄力释放、单次重施和主动取消。后续控制消费真实阶段能力，仅转移提交后接受，不重复首次使用、成本或成功开始事件；非法父引用在运行前拒绝，父普通拒绝、过早或窗口失效在实际时刻记录普通拒绝。最大自动释放必须明确，禁止自动释放或未重施到期以失败结束，不派生成功命中。
+
+有限多段与引导按真实步骤进入时冻结次数和时序，在事件堆内逐段提交；每段有独立命中身份，但属于原使用。复杂过程命中只开放唯一末尾复杂步骤的实际执行，不能在完成时追加第N＋1次命中。步骤累计和有限事实分开，完整快照保存分段进度与行动占用历史；提前释放或取消实际唤醒唯一下一刀，连续占用无中间行动窗口。恢复检查已提交段不得来自未来、占用历史不能缺少已进入步骤。
+
+引导的 `CUSTOM_WINDOW`（指定首末执行窗口）只接受成对的 `firstExecutionOffsetMs`、`lastExecutionOffsetMs`（首末执行偏移表达式），与完整时长、次数一起在实际进入时冻结。末段结束后仍占用至完整时长，不提前成功完成；单段与1毫秒两段沿共享设计第7.1节的独立范围约束。原即时／间隔后首段仍按完整时长的原公式绝对舍入，15毫秒4段即时首段保持0、4、8、11，不用舍入后的首末偏移重新插值。
+
+`repeat`（冻结分段快照）的两项偏移均为JSON整数，Go使用 `int64` 保留Wasm中的完整安全毫秒范围；固定多段保存0及最后间隔偏移，旧引导保存真实首末整数偏移，仅作为恢复证明。恢复核对实际步骤口径、冻结次数／范围、已提交最后时刻、下一段及完整占用期限，不重读后来变化的作者参数。定向入口为 `go test -count=1 ./internal/model ./internal/compile ./internal/runtime -run 'ProcessChannelWindow|ComplexSkillChannelWindow'`，构造证据不代表真实管理技能已经录入或完成浏览器联调。
+
+`use.charge_duration_ms`（原使用充能毫秒）只在真实蓄力执行或其关联命中上下文供值，普通命中不能补零。蔚Q的0／1250／6000毫秒暂定口径属于经负责人确认的作者配置，不放入原生英雄分支。具体字段与组成边界唯一来源为规划真源阶段6设计第7.1节。
+
+定向验证入口为 `go test -count=1 ./internal/runtime -run ComplexSkill`，窗口扩展前20项测试覆盖分段时刻、父控制、原冷却、观察截断、取消／死亡、占用、共同队列预算、旧计时、严格恢复、指定自然命中来源和重复运行。真实提交进度另以执行序号、最后执行及完成时刻保存；预算中断同刻恢复不重复付款、开始或旧执行，不宣称完整续接未完成命中尾部。通用机制与最终产物证明不等于蔚Q或女枪R的真实管理数据联调；业务对象尚需真实录入、只读回查及页面验收。窗口扩展前产物1,289,935字节，SHA256 `07f48a12d5e8a999769c9cb25c6038127b3bf224bde140a59f15a67a919c93a3`，256MiB固定内存不变。
+
+本次窗口扩展新增20项原生测试，受影响检查、全量Go、原生基准、最终TinyGo构建、Node冒烟及通用基准10次／预热2次通过；同一最终Wasm的23项构造专项及20次同会话重复通过。最终产物位于忽略目录 `target/6c-channel-window/tinygo_engine_v2.wasm`，1,296,076字节，SHA256 `2673db53f6b21d4ac6b95c77f45859e76b479cdc465e142c5c62c0b99652bc6c`，内存仍为256MiB。精确输入、摘要、命令、结果与26项原脏改保护核对见该目录《证据记录.md》；未同步Web产物，不包含真实管理对象或浏览器验收。
+
 ## Review 顺序
 
 | 阶段 | 阅读目标 | 关键文件 |
@@ -22,7 +285,7 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 | 4. 编译层 | `CompileGeneric` → `CompiledSession`，collect-all | `internal/compile/generic.go`、`generic_validate.go` |
 | 5. 运行主循环 | `RunGeneric`、gate、provider、execution、scheduler | `internal/runtime/generic_run.go`、`generic_execution.go`、`generic_gate.go`、`generic_provider*.go` |
 | 6. 公式 / 类型集 / pipeline | 只读编译结果的消费边界 | `internal/formula/generic*.go`、`internal/typeset/generic.go`、`internal/pipeline/**` |
-| 7. 验证契约 | canonical fixture + Node/Go bench | `internal/testkit/fixtures/generic_p0_basic_damage.json`、`scripts/smoke-node.mjs`、`cmd/bench` |
+| 7. 验证契约 | 显式作者输入 + Node/Go基准 | `scripts/formula-phase4-input.mjs`、`internal/testkit/fixtures/formula_phase4_explicit_basic_damage.json`、`scripts/smoke-node.mjs`、`cmd/bench`；旧输入单列拒绝 |
 
 历史说明：旧 `engine_init` / `engine_begin_run` / `engine_step` 与 `dps_*.go` 单攻 DPS 曾作为 compat lane；现已从本模块源码与导出中移除。当前唯一业务 ABI 是 compile/run/release。
 
@@ -67,7 +330,7 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 
 ### 阶段2无装备连续普攻
 
-运行请求的 `driverPlan.basicAttack`（原生连续普攻计划）由 `internal/model/generic_basic_attack.go`定义，通过同一编译／会话／运行／释放入口使用；`driverPlan.entries`必须是空数组，不能同时传入外部使用、开始、命中或过程控制事实。该入口只接受从0毫秒开始、A所选一份静态共享普攻、B无挂载、双方当前生命为正的场景，不开放装备、动态攻速、费用、其他监听、前摇或弹道。完整字段、预算及退出口径的唯一详细来源是规划工作树《阶段2无装备连续普攻详细设计》，实际最终产物与浏览器证据见《阶段2无装备连续普攻验收-2026-10-02》。
+运行请求的 `driverPlan.basicAttack`（原生连续普攻计划）由 `internal/model/generic_basic_attack.go`定义，通过同一编译／会话／运行／释放入口使用；`driverPlan.entries`必须是空数组，不能同时传入外部使用、开始、命中或过程控制事实。基础阶段2从0毫秒开始、A所选一份静态共享普攻、双方当前生命为正；4A接入核定固定装备与静态攻速派生，4B接入下述封闭的常驻初始化与静态光环。仍不开放动态攻速、费用、触发被动、其它监听、前摇或弹道。基础字段、预算及退出口径的唯一详细来源是规划工作树《阶段2无装备连续普攻详细设计》，既有最终产物与浏览器证据见《阶段2无装备连续普攻验收-2026-10-02》。
 
 - `generic_basic_attack.go`（连续攻击组织）每刀生成新使用身份，执行真实开始、首次即时过程、命中与全部原结果，只排下一刀；攻击间隔只读取实际首次过程控制能力下已提交的绝对冷却就绪时刻。`roundPositiveMs`（正值冷却毫秒转换）先校验原式有限且为正，再取整且最低1毫秒，不重新求值或另等一次间隔。
 - `generic_basic_attack_admission.go`（初始场景准入）核对原始快照与本次编译的属性、资源、挂载一致；未知挂载、临时状态或不支持的原技能结构整体拒绝，不能先归一化后静默丢弃。攻速上界来自属性目录或显式场景输入，仅是准入范围，不是游戏封顶。
@@ -76,6 +339,59 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 - `generic_sampling_cursor.go`（只读采样游标）在同刻战斗提交后观察，不进入事件堆、不消费执行预算；`sampling.disabled`关闭时返回空序列和采样说明。记录预算为0、截断或改变采样均不改变战斗。
 
 既有单次入口保留原生事实限制；阶段2不是宿主循环提交单次请求。`generic_p0_basic_damage.json`基准输入未改动，采样专项构造用例只调整观察结束口径。原生检查之外，最终Wasm已由Node往返和实际浏览器工作线程验证，真实页面共享普攻连续击杀证据不推广为任意普攻或后续阶段支持。
+
+### 阶段4A固定装备与攻速派生
+
+共享契约见规划真源《阶段4装备接入与机制验收详细设计》第4～6节。宿主按拥有方选择装备，一件装备的固定属性仅挂载一个 `kind:item`（装备供值器）；基础值保留角色固有值或显式补填值，装备贡献通过无条件属性加算求得总值。真实零基础值不再回退到当前值；求值失败明确终止，不丢弃修正后继续成功。
+
+`rules.attributeDerivations`（属性派生规则）每侧最多一条、合计最多两条，本轮目标仅限 `attack_speed`（攻速）。每条包含 `combatantKey`（拥有方）、`attributeKey`（目标属性）和 `value`（既有通用数值表达式），读取的属性必须存在，派生目标仅能读冻结基础值，不允许读取其总值、运行事件、资源或供值器状态。额外攻速派生保留已有自然成长，不把固有额外比例再次叠加；收益系数缺失、非正或非有限明确拒绝。先完成双方普通属性，再求派生，最后施加目标攻速修正，不新增公式执行器。
+
+连续入口按实际完整能力引用定位普攻，不再依赖挂载数组首项。双方装备挂载集合严格等于编译输入，每侧最多六份固定装备，全部单层、持久、拥有方与来源方一致且没有旧运行状态；固定属性来源仍不允许夹带能力、监听、生命周期或非平加贡献，4B初始化及4C首批触发来源分别核对。单次与连续均由原生核对含装备生命上限，当前生命只能保持在合法范围内，不自动满血。等待安排唯一使用原普攻过程同冷却键；4A／4B静态范围不变，动态改期见4C首批。
+
+定向检查：`go test -count=1 ./internal/model ./internal/compile ./internal/pipeline ./internal/runtime -run 'AttributeDerivation|AttributeResolver|Equipment|ContinuousAttack'`。功能收尾继续全量Go测试、原生基准、最终Wasm构建、Node编译／运行／释放及实际浏览器验证；构造测试不替代真实管理配置证据。
+
+### 阶段4B常驻初始化与静态光环
+
+共享契约见规划真源《阶段4装备接入与机制验收详细设计》第5～6节。宿主只开放振奋盔甲完整受到治疗／收到普通护盾修正与冰霜之心静态总攻速光环；内核按通用事件及修正结构执行，不按装备名或固定百分比结算。
+
+- 编译类型目录声明 `event/source_initialized`（来源对象初始化完成）时，原生在0毫秒为双方各发一次自身初始化事件；事件来源与当前目标均是自己。初始化及其同步尾部优先于首刀，不由宿主伪造开始事件触发；初始化共享命令与事件预算，未全部完成不得开始攻击。
+- 连续准入只接受单层永久装备初始化、仅匹配自身初始化且每条触发一次的监听及静态结果；其 `stableId`（稳定来源标识）必须对应同方唯一固定装备，初始化挂载不重复占固定装备槽。拒绝无父来源、重复初始化、全局未选修正、动态状态和其它触发。
+- 收到普通护盾修正采用 `shield/normal_shield/received`（普通护盾接收链）及独立比例加算组，只改变新护盾施加量。现有护盾剩余量、到期时间和法术护盾不受影响；受到治疗复用既有接收链。
+- 光环由拥有方常驻来源对 `opponent.attr.attack_speed`（对手总攻速）施加常量倍率，位于固有与装备额外攻速派生之后；每受量方只准入一份光环。宿主必须事先验证明确的范围假设并编译目标投影；`runtimeOptions.equipmentAssumptions` 只冻结审计输入，不由内核解释为动态范围事件。
+
+定向入口为 `go test -count=1 ./internal/runtime -run 'SourceInitialized|PermanentEquipment|PermanentAura|ReceivedShield|ContinuousAttackRejects'`。构造中100单位治疗／普通护盾变为125，旧护盾与到期保持；真实完整作者树、最终二进制、工作线程重复运行与释放另见规划真源《阶段4B常驻装备与静态光环验收-2026-10-03》。构造盾能力不是完整触发装备实装，4C首批另见下一节。
+
+### 阶段4C首批命中附伤与动态等待
+
+共享契约见规划真源《阶段4装备接入与机制验收详细设计》第7～9节；当前只准入拥有方固定装备下的真实命中监听、即时对手伤害、来源范围数值状态及自身额外攻速修正。宿主首批真实装备只开放完整反曲之弓；鬼索、周期、延迟再次命中、受击反应及目标范围动态状态仍未开放。
+
+`generic_basic_attack_wait.go`保存原生同冷却键的进度，不增加第二只等待时钟。执行帧在提交前求新周期、消费改期命令、核对队列容量，再共同发布属性、冷却和等待；堆内唯一节点原地改期并保留本运行代号守卫。来源范围状态在连续路径安排精确到期，旧期限不能清除刷新状态，到期清理与派生重算沿同帧提交。整数邻域精度及原始／最终就绪口径以共享设计为准。
+
+同步普攻波的附伤关联实际当前刀，非同步事件不挂到最近一刀，刀额只累计A到B；受量总计独立于可靠明细截断。停止后清空最后有效下一刀，原始 `readyAtMs`不被变速覆写，新增 `finalReadyAtMs`保存调整后就绪。
+
+定向入口为 `go test -count=1 ./internal/runtime -run 'ContinuousEquipment|ContinuousWaiting|ContinuousTimed|SourceStateExpiry'`。通用400毫秒到期例实际三刀0、600、1200，并经最终浏览器工作线程证明；它不是鬼索实装。真实反曲、吸血例外和全部分层证据见规划真源《阶段4C首批附伤与动态等待验收-2026-10-03》，4C整体保持部分完成。
+
+### 阶段4C后续计数、内部冷却与持久周期
+
+共享契约见规划真源《阶段4装备接入与机制验收详细设计》第8.1及9.2节。已选固定装备下的持久来源可有一项非锚定 `kind=tick`（周期能力），也可与既有拥有方命中监听共存；仍拒绝临时周期来源、额外主动能力、过程、费用、目标状态及自由事件。来源计数与内部冷却复用既有状态、期限及单个操作条件，不把附伤或周期当作新一次普攻命中。
+
+`generic_periodic_equipment_admission.go`完整校验上述范围；`generic_provider_tick.go`按拥有方和挂载标识稳定播种，以真实挂载引用和唯一对手执行。连续周期采用严格读取以保留作者默认状态，起始及下一跳时间先检查剩余观察范围再相加，避免溢出；下一跳与状态到期、数值共同预检提交，状态刷新不重新播种。0或省略延迟沿现行首个完整间隔定义，负数编译拒绝。观察终点包含，死亡后不继续排程。
+
+可靠伤害记录新增实际来源生命前后，逐笔冻结本笔伤害及其吸血，不在整帧提交时借最终生命；来源没有生命属性时明确为空。连续汇总保存双方实际自身吸血入账，不随记录或调试证据截断；本期无其他生命修改，因此双方起末收支保持可严格核对。周期伤害保持无刀号，两方周期致死与最后一刀后的生命变化沿真实提交时刻解释。
+
+定向入口为 `go test -count=1 ./internal/runtime -run 'ContinuousEquipment(Counter|Cooldown)|ContinuousPeriodicEquipment'`。最终产物、全量原生检查、7项新增通用构造、真实反曲回归和浏览器证据见同一4C验收记录的2026-10-04补充；它们不代表真实鬼索、荆棘或日炎整件已开放。
+
+### 阶段4C配置驱动的接收反应与有期周期
+
+共享契约见规划真源《阶段4装备接入与机制验收详细设计》8.2。新增 `event/basic_attack_received`（真实普攻结果前接收）及 `event/damage_taken`（逐笔伤害、吸血提交后通知），原攻击者、接收者和使用身份保持冻结；`event/target_owner` 仅允许真实接收方匹配。合法零伤和普通盾吸收仍有成功事实，结构失败不发成功通知。联动沿原使用身份，不再产生普攻开始／命中；是否响应由配置决定。
+
+连续门禁按已选装备的实际拥有方、稳定来源与完整节点开放条件、同次额度、来源状态、命中联动、单源收到治疗取强及有期伤害周期，不按装备名求值。临时周期保持真实实例引用，另输出来源定义和首次激活时点；刷新只改期限、保留唯一下一跳，执行读取当前期限、到期刻不跳。首次播种、续跳、死亡与队列预检同口径，修复初始或旧期限剪裁造成的刷新断链。
+
+定向入口：`go test -count=1 ./internal/runtime -run 'ContinuousReceived|ContinuousDamageTaken|ReceivedEquipment|ContinuousConfiguredHitLink|ContinuousTemporary'`。全量原生、基准、最终Wasm与真实浏览器证据见4C验收记录2026-10-04第9节；鬼索／荆棘／日炎时序是用户授权的项目默认版，不是固定游戏版本已全部核实。
+
+组合补验只扩充已选装备下完整普通移动减速状态的连续准入：单个按来源与承受者的有期单层实例，必须投向真实对手，不得混合能力、修正或生命周期周期。沿既有状态快照、取强、重施及到期执行，不改变攻速、不模拟移动。当前生命附伤、近远属性条件、计数与内部冷却沿已有通用公式和状态操作，不按破败、智慧末刃标识增加算法。共享契约见阶段4详细设计8.3，定向入口为 `go test -count=1 ./internal/runtime -run 'ContinuousMovementEquipment'`；真实组合证据见4C验收记录第10节。
+
+同一会话重复运行的内存回收契约见阶段4详细设计8.4。宿主复制输出并解除输入引用后，`engine_outbox_clear`先清空输出长度，再进行标准垃圾回收；编译会话仍存活，固定256MiB、TinyGo版本及原回收方式不变，不在战斗执行帧中回收。该安排避免大量短命对象积累到堆满，晚回收后仍因连续空闲块太小而无法编码输出。`node scripts/session-reuse-smoke-node.mjs`显式使用第四阶段独立作者基准，验证同会话重复、错误后恢复、释放重编及记录截断；`--fixture <文件>`可读相同结构的真实请求和可选 `runVariants`（不同观察请求），不是另一个业务宿主。内存诊断导出只存在于忽略目录的诊断构建，不进入正式接口；回收固定耗时和最终真实压力证据见4C验收记录第11节。
 
 ### 现行数据的结果公式与单次攻击入口
 
@@ -104,7 +420,7 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 | 命中供值与法术护盾 | 已接入 | `resolve_skill_hit` 单次 driver、`skillUses`/`skillHitFacts`、四档阻挡与 `event/spell_shield_blocked` |
 | 同次使用、固定时间窗与普攻原生事件 | 已接入 | `listener.condition` 冻结、`oncePerUse` 专用账本、`start_on_first_write`、`operation.outputRef`、`event/basic_attack_*` |
 | 主动过程与阶段时点 | 已接入 | 顺序即时/延时、末尾蓄力或单次重施、原子成本、取消/中断、实际成本退款、可恢复实例 |
-| Canonical fixture | 已接入 | `generic_p0_basic_damage.json`（targetFinalHp=900） |
+| 显式作者基准 | 已接入 | `formula_phase4_explicit_basic_damage.json`（目标生命900）；旧固定输入缺公式明确拒绝 |
 | Node smoke | 已接入 | 真实 compile/run/release round-trip |
 | Node / Go bench | 已接入 | `--mode generic-run` / `go run ./cmd/bench` 默认 generic |
 
@@ -177,7 +493,7 @@ engine_outbox_clear()
 - `targets/wasm-256m.json` 固定 256 MiB initial/max memory。
 - 构建默认 `-scheduler=none -no-debug -opt=z`。
 - 网络、缓存、版本协商、文件加载留在 JS/Worker；TinyGo 只接收准备好的 frame payload。
-- 勿修改或复制 canonical fixture；smoke/bench 直接复用。
+- 勿修改或复制原固定样例；当前smoke与基准显式选择独立作者输入，旧档案用 `--legacy-fixture` 复核。通用加载器不补公式或缺失属性值。
 
 ## Generic runtime 精度契约（事件快照 / 抗性 / expected crit）
 
@@ -347,7 +663,7 @@ node .\scripts\p6-smoke-node.mjs
 
 ### 有期限的普通护盾
 
-方案唯一来源为规划工作树的《管理页面与共性机制迭代计划》第6项必要增量 `authoring-p6-shield-r2`。本模块只补通用 `shield` 操作的可选期限；不实现普通护盾重施、衰减、伤害类型筛选或受到护盾修正。
+方案唯一来源为规划工作树的《管理页面与共性机制迭代计划》第6项必要增量 `authoring-p6-shield-r2`。该项只补通用 `shield` 操作的可选期限，不实现普通护盾重施、衰减或伤害类型筛选；后续4B增加的普通护盾接收链见本文件阶段4B小节。
 
 - `operation.shieldDurationMs` 仅 `shield` 允许；其它操作携带时编译拒绝。省略字段仍表示无期限（`expireAt=0`）。
 - 编译对可折叠常量拒绝非有限、非整数、非正数及 `>=2^63` 的值。运行在施加帧严格读取，转换为 `int64` 前做相同校验，再拒绝 `nowMs+duration` 溢出或到期时刻不晚于当前时刻。缺失输入不能补零。

@@ -2,7 +2,9 @@ package runtime
 
 import (
 	"math"
+	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -68,6 +70,8 @@ func pscgConstCostAmount(amount float64) model.GenericFormulaExpr {
 }
 
 func pscgEnsureTypes(req *model.CompileRequest) {
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "state_scope/provider", Domain: "state_scope"},
 		{Key: "damage/true", Domain: "damage"},
@@ -415,20 +419,14 @@ func TestGenericProviderStateCostGateMalformedProviderRefFailClosed(t *testing.T
 	}
 	runReq.StopPolicy.DurationMs = 50
 	done, err := RunGeneric(result.Session, runReq)
-	if err != nil {
-		t.Fatal(err)
+	if err == nil || err.Code != model.GenericErrFormulaTypeError || err.Ref != broken || !strings.Contains(err.Path, "cost.amount") {
+		t.Fatalf("missing provider context must retain its formula failure: %+v", err)
 	}
-	if done.Summary.AbilityCastCount != 0 {
-		t.Fatalf("castCount=%d want 0 (fail-closed)", done.Summary.AbilityCastCount)
+	if done.Summary.AbilityCastCount != 0 || pscgDamageCount(done) != 0 {
+		t.Fatal("failed preflight cast or dealt damage")
 	}
-	if pscgSkipCount(done, model.AttemptSkipResourceInsufficient) != 1 {
-		t.Fatal("want resource_insufficient from MaxFloat64 cost on missing provider context")
-	}
-	if math.Abs(pscgSourceMana(t, done.FinalSnapshot)-500) > pscgTol {
-		t.Fatalf("mana=%v want 500 (no charge)", pscgSourceMana(t, done.FinalSnapshot))
-	}
-	if pscgDamageCount(done) != 0 {
-		t.Fatal("no damage on fail-closed skip")
+	if runReq.InitialSnapshot.Combatants[0].Resources["mana"].Current != 500 {
+		t.Fatal("failed preflight changed caller resource")
 	}
 }
 
@@ -451,8 +449,8 @@ func TestGenericProviderStateCostGateNoListenerOrEventDependency(t *testing.T) {
 	}
 	runReq.StopPolicy.DurationMs = 50
 	done := pscgRun(t, compileReq, runReq)
-	if n := done.Evidence.CountsByKind[string(model.EvidenceKindEmittedEvent)]; n != 0 {
-		t.Fatalf("emitted events=%d want 0", n)
+	if n := done.Evidence.CountsByKind[string(model.EvidenceKindEmittedEvent)]; n != 1 || countEmittedEvents(done, eventTypeDamageDealt) != 1 {
+		t.Fatalf("emitted events=%d want one declared generic damage aggregate", n)
 	}
 	if n := done.Evidence.CountsByKind[string(model.EvidenceKindListenerSkipped)]; n != 0 {
 		t.Fatalf("listener skips=%d want 0", n)

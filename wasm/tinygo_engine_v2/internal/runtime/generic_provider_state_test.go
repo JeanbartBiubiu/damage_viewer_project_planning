@@ -6,12 +6,15 @@ import (
 	"math"
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
 func ensureDamageTrueType(req *model.CompileRequest) {
+	formuladefinition.SetDamageFormula(req, "damage/true", formuladefinition.ConstantDefense("1"))
+
 	for _, t := range req.TypeCatalog.Types {
 		if t.Key == "damage/true" {
 			return

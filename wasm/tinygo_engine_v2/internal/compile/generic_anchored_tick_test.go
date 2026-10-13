@@ -4,11 +4,14 @@ import (
 	"testing"
 
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
 func anchoredTickBaseRequest(t *testing.T) model.CompileRequest {
 	t.Helper()
 	req := minimalValidCompileRequest()
+	formuladefinition.SetDamageFormula(&req, "damage/true", formuladefinition.ConstantDefense("1"))
 	req.TypeCatalog.Types = append(req.TypeCatalog.Types,
 		model.TypeCatalogEntry{Key: "ability/tick", Domain: "ability"},
 		model.TypeCatalogEntry{Key: "state_scope/provider_target", Domain: "state_scope"},
@@ -50,7 +53,7 @@ func TestCompileGenericAnchoredTickSpecSuccess(t *testing.T) {
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
-	var tick *CompiledAbility
+	var tick *plan.CompiledAbility
 	for i := range result.Session.Abilities {
 		if result.Session.Abilities[i].AbilityKey == "venom_tick" {
 			tick = &result.Session.Abilities[i]

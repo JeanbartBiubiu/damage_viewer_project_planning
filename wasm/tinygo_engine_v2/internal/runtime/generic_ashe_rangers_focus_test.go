@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -259,7 +260,7 @@ func asheAAOps() []model.OperationDefinition {
 	nextFlurry := asheAnd2(asheGteState(asheFlurryActiveKey, 1), asheEqState(asheFlurryFirstKey, 0))
 
 	ops := []model.OperationDefinition{
-		{
+		{CritChance: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_chance.resolved"}, CritMultiplier: &model.GenericFormulaExpr{Op: "read", Path: "source.attr.crit_damage.resolved"}, CritMultiplierMin: model.Float64Ptr(1),
 			Operation:    "damage",
 			Target:       "target",
 			DamageType:   "damage/physical",
@@ -356,6 +357,9 @@ func asheProbeAbility() model.AbilityDefinition {
 }
 
 func ensureAsheTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
 	need := []model.TypeCatalogEntry{
 		{Key: "ability/basic_attack", Domain: "ability"},
 		{Key: "damage/physical", Domain: "damage"},
@@ -928,6 +932,9 @@ func TestAsheFrostShotExpectedBasicAttackPhaseA(t *testing.T) {
 					t.Fatalf("must not mount crit pipeline modifiers: %+v", m)
 				}
 			}
+			if countEmittedEvents(done, eventTypeDamageDealt) != 1 {
+				t.Fatal("positive root damage must emit one generic aggregate", done.Evidence)
+			}
 			for _, item := range done.Evidence.Items {
 				switch item.Kind {
 				case model.EvidenceKindDamage, model.EvidenceKindEmittedEvent, model.EvidenceKindExecute:
@@ -943,7 +950,7 @@ func TestAsheFrostShotExpectedBasicAttackPhaseA(t *testing.T) {
 					}
 				}
 				if item.Kind == model.EvidenceKindEmittedEvent &&
-					item.Ref != asheHitEvent {
+					item.Ref != asheHitEvent && item.Ref != eventTypeDamageDealt {
 					t.Fatalf("unexpected emitted event %q", item.Ref)
 				}
 			}

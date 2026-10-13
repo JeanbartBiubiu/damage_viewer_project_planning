@@ -13,7 +13,8 @@
 - 当前目标是 1 对 1、单线程、确定性计算。热路径禁止 goroutine、channel、lock、反射和以 panic/recover 控制流程；优先使用编译后短标识、索引、定长结构和位集合。
 - 数值变化经过 operation 与 pipeline（数值管道）；监听器产出操作，不直接写运行时状态。已进入评审门槛的公共 DTO 不随手改变字段语义。
 - Wasm 初始和最大内存当前固定为 `256 MiB`，低配置设备不是当前目标。改变该基线或 TinyGo 主线必须提供同口径包体、性能和宿主延迟证据。
-- `internal/testkit/fixtures/generic_p0_basic_damage.json` 是通用基准样例，只复用，不修改或复制来迁就实现。
+- `internal/testkit/fixtures/generic_p0_basic_damage.json` 是保留的旧协议基准，字节不变，不修改或复制来迁就实现。当前协议明确拒绝其缺失伤害类型作者公式；旧900结果用 `target/formula-phase4-baseline` 档案复核。
+- 当前基准由 `scripts/formula-phase4-input.mjs` 从零构造，Go显式读取独立的 `formula_phase4_explicit_basic_damage.json`，Node显式调用构造器。其他场景在作者输入处明确声明原键与完整共同定义；文件加载器只读取，不扫描伤害类型补默认值。
 
 ## 验证
 

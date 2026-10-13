@@ -38,7 +38,7 @@ func processJSONShape(data []byte, name, allowed, required string) error {
 		}
 	}
 	// Nullable fields are still part of the frozen new object shape.
-	if name == "ProcessDefinition" || name == "ProcessMomentDefinition" || name == "ProcessInstanceSnapshot" {
+	if name == "ProcessDefinition" || name == "ProcessMomentDefinition" || name == "ProcessInstanceSnapshot" || name == "ProcessRepeatSnapshot" || name == "ProcessActionOccupancy" {
 		for _, k := range strings.Fields(allowed) {
 			if _, present := fields[k]; !present {
 				return errors.New(name + "." + k + " is required (null is allowed where declared)")
@@ -68,11 +68,21 @@ func processJSONShape(data []byte, name, allowed, required string) error {
 		if err := json.Unmarshal(fields["stepType"], &kind); err != nil {
 			return err
 		}
-		for _, key := range []string{"delayMs", "minimumChargeMs", "maximumChargeMs", "releaseAtMaximum", "windowMs"} {
+		var firstExecution string
+		if raw, present := fields["firstExecution"]; present {
+			if err := json.Unmarshal(raw, &firstExecution); err != nil {
+				return err
+			}
+		}
+		customWindow := kind == "CHANNEL" && firstExecution == "CUSTOM_WINDOW"
+		for _, key := range []string{"delayMs", "minimumChargeMs", "maximumChargeMs", "releaseAtMaximum", "windowMs", "repeatCount", "intervalMs", "durationMs", "executionCount", "firstExecution", "firstExecutionOffsetMs", "lastExecutionOffsetMs"} {
 			if _, present := fields[key]; !present {
+				if customWindow && (key == "firstExecutionOffsetMs" || key == "lastExecutionOffsetMs") {
+					return errors.New(name + "." + key + " is required")
+				}
 				continue
 			}
-			allowed := kind == "DELAY" && key == "delayMs" || kind == "RECAST" && key == "windowMs" || kind == "CHARGE" && (key == "minimumChargeMs" || key == "maximumChargeMs" || key == "releaseAtMaximum")
+			allowed := kind == "DELAY" && key == "delayMs" || kind == "RECAST" && key == "windowMs" || kind == "CHARGE" && (key == "minimumChargeMs" || key == "maximumChargeMs" || key == "releaseAtMaximum") || kind == "MULTI_HIT" && (key == "repeatCount" || key == "intervalMs") || kind == "CHANNEL" && (key == "durationMs" || key == "executionCount" || key == "firstExecution") || customWindow && (key == "firstExecutionOffsetMs" || key == "lastExecutionOffsetMs")
 			if !allowed || string(fields[key]) == "null" {
 				return errors.New(name + "." + key + " does not belong to this step type")
 			}
@@ -105,7 +115,7 @@ func (v *ProcessControlDefinition) UnmarshalJSON(data []byte) error {
 	return nil
 }
 func (v *ProcessStepDefinition) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "ProcessStepDefinition", "stepKey stepType delayMs minimumChargeMs maximumChargeMs releaseAtMaximum windowMs", "stepKey stepType"); err != nil {
+	if err := processJSONShape(data, "ProcessStepDefinition", "stepKey stepType occupiesAction delayMs minimumChargeMs maximumChargeMs releaseAtMaximum windowMs repeatCount intervalMs durationMs executionCount firstExecution firstExecutionOffsetMs lastExecutionOffsetMs", "stepKey stepType"); err != nil {
 		return err
 	}
 	type plain ProcessStepDefinition
@@ -177,7 +187,7 @@ func (v *ProcessCommandFact) UnmarshalJSON(data []byte) error {
 	return nil
 }
 func (v *ProcessInstanceSnapshot) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "ProcessInstanceSnapshot", "owner providerRef processKey skillKey useKey target stepKey stepVersion startedAtMs stepStartedAtMs advanceAtMs expiresAtMs actualCosts cooldownStarted status failureReason finishedAtMs", "owner providerRef processKey skillKey useKey target stepKey stepVersion startedAtMs stepStartedAtMs advanceAtMs actualCosts cooldownStarted status"); err != nil {
+	if err := processJSONShape(data, "ProcessInstanceSnapshot", "owner providerRef processKey skillKey useKey target stepKey stepVersion stepExecutionIndex lastExecutionAtMs stepCompletedAtMs startedAtMs stepStartedAtMs advanceAtMs expiresAtMs actualCosts cooldownStarted status failureReason finishedAtMs repeat actionOccupancies", "owner providerRef processKey skillKey useKey target stepKey stepVersion stepExecutionIndex startedAtMs stepStartedAtMs advanceAtMs actualCosts cooldownStarted status actionOccupancies"); err != nil {
 		return err
 	}
 	type plain ProcessInstanceSnapshot
@@ -186,5 +196,32 @@ func (v *ProcessInstanceSnapshot) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*v = ProcessInstanceSnapshot(value)
+	return nil
+}
+
+func (value *ProcessRepeatSnapshot) UnmarshalJSON(data []byte) error {
+	if err := processJSONShape(data, "ProcessRepeatSnapshot", "executionCount executionIndex intervalMs firstExecutionOffsetMs lastExecutionOffsetMs nextExecutionAtMs", "executionCount executionIndex intervalMs firstExecutionOffsetMs lastExecutionOffsetMs"); err != nil {
+		return err
+	}
+	type plain ProcessRepeatSnapshot
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	*value = ProcessRepeatSnapshot(decoded)
+	return nil
+}
+
+func (value *ProcessActionOccupancy) UnmarshalJSON(data []byte) error {
+	const fields = "stepKey stepVersion startedAtMs expectedEndAtMs finishedAtMs"
+	if err := processJSONShape(data, "ProcessActionOccupancy", fields, "stepKey stepVersion startedAtMs expectedEndAtMs"); err != nil {
+		return err
+	}
+	type plain ProcessActionOccupancy
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	*value = ProcessActionOccupancy(decoded)
 	return nil
 }

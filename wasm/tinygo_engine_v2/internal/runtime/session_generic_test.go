@@ -132,7 +132,7 @@ func loadGenericFixtureCompileRequest(t *testing.T, name string) model.CompileRe
 func compileGenericSession(t *testing.T, session *Session) model.CompileResult {
 	t.Helper()
 	session.ClearOutbox()
-	req := loadGenericFixtureCompileRequest(t, "generic_p0_basic_damage.json")
+	req := loadGenericFixtureCompileRequest(t, "formula_phase4_explicit_basic_damage.json")
 	if code := session.CompileFrame(encodeGenericFrame(model.FrameKindGenericCompile, req)); code != 0 {
 		t.Fatalf("compile failed with code %d", code)
 	}
@@ -266,7 +266,7 @@ func TestGenericRunMatchingReturnsDone(t *testing.T) {
 		t.Fatalf("compile failed: %+v", compiled)
 	}
 
-	fixture := loadGenericFixtureRunRequest(t, "generic_p0_basic_damage.json")
+	fixture := loadGenericFixtureRunRequest(t, "formula_phase4_explicit_basic_damage.json")
 	runReq := fixture
 	runReq.SessionID = compiled.SessionID
 	runReq.ExpectedRulesHash = compiled.RulesHash

@@ -4,8 +4,8 @@ package pipeline
 import (
 	"sort"
 
-	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
+	planbundle "tinygo_engine_v2/internal/plan"
 )
 
 // MountedDamageModifier is a provider/rules pipeline damage modifier mounted on a combatant.
@@ -35,19 +35,19 @@ type DamageModifierResolver struct {
 	mounts []MountedDamageModifier
 }
 
-// Clone deep-copies resolver state.
+// Clone shares the immutable mount plan; mount changes publish a new plan.
 func (r DamageModifierResolver) Clone() DamageModifierResolver {
-	out := DamageModifierResolver{mounts: make([]MountedDamageModifier, len(r.mounts))}
-	copy(out.mounts, r.mounts)
-	return out
+	return r
 }
 
 // MountCompiledModifierOwned mounts a kind=pipeline damage modifier with owner provenance.
-func (r *DamageModifierResolver) MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod compilebundle.CompiledModifier) {
+func (r *DamageModifierResolver) MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier) {
 	if mod.Kind != "pipeline" {
 		return
 	}
-	r.mounts = append(r.mounts, MountedDamageModifier{
+	mounts := make([]MountedDamageModifier, len(r.mounts), len(r.mounts)+1)
+	copy(mounts, r.mounts)
+	r.mounts = append(mounts, MountedDamageModifier{
 		OwnerCombatantKey:        ownerCombatantKey,
 		ProviderRef:              providerRef,
 		ModifierKey:              mod.ModifierKey,
@@ -73,7 +73,16 @@ func (r *DamageModifierResolver) UnmountProviderOwned(ownerCombatantKey, provide
 	if len(r.mounts) == 0 {
 		return
 	}
-	out := r.mounts[:0]
+	count := 0
+	for _, m := range r.mounts {
+		if m.ProviderRef == providerRef && m.OwnerCombatantKey == ownerCombatantKey {
+			count++
+		}
+	}
+	if count == 0 {
+		return
+	}
+	out := make([]MountedDamageModifier, 0, len(r.mounts)-count)
 	for _, m := range r.mounts {
 		if m.ProviderRef == providerRef && m.OwnerCombatantKey == ownerCombatantKey {
 			continue
@@ -93,6 +102,17 @@ func (r DamageModifierResolver) CollectForStage(channel, stage string) []Mounted
 type CollectedDamageModifier struct {
 	Modifier        MountedDamageModifier
 	MatchedChannels []string
+}
+
+// 只读筛掉没有该命令阶段的计划，避免先构造频道列表及收集容器。
+func (r DamageModifierResolver) HasCommandStage(command, stage string) bool {
+	for index := range r.mounts {
+		mod := &r.mounts[index]
+		if mod.Command == command && mod.Stage == stage {
+			return true
+		}
+	}
+	return false
 }
 
 // CollectForChannels returns the de-duplicated union of mounts matching any of the given
@@ -116,6 +136,9 @@ func (r DamageModifierResolver) CollectForChannelsWithMatches(channels []string,
 func (r DamageModifierResolver) CollectForCommandChannelsWithMatches(command string, channels []string, stage string) []CollectedDamageModifier {
 	if len(channels) == 0 || command == "" {
 		return nil
+	}
+	if len(r.mounts) == 0 {
+		return []CollectedDamageModifier{}
 	}
 	wanted := make(map[string]struct{}, len(channels))
 	for _, ch := range channels {
@@ -178,6 +201,9 @@ func (r DamageModifierResolver) CollectForCommandChannelsWithMatches(command str
 			matched = append(matched, extras...)
 		}
 		out = append(out, CollectedDamageModifier{Modifier: a.mod, MatchedChannels: matched})
+	}
+	if len(out) < 2 {
+		return out
 	}
 	sort.SliceStable(out, func(i, j int) bool {
 		a, b := out[i].Modifier, out[j].Modifier

@@ -3,6 +3,7 @@ package formula
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/attribute"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -61,9 +62,9 @@ func TestGenericEvalReadAttr(t *testing.T) {
 		Path: "target.attr.hp.current",
 	})
 	got, err := reg.Eval(0, GenericEvalContext{
-		TargetAttrs: map[string]model.AttributeSlotDef{
+		TargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{
 			"hp": {Current: 900, Max: 1000},
-		},
+		}),
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -201,12 +202,12 @@ func TestGenericEvalEventSnapshotReads(t *testing.T) {
 	regRes := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.source.resource.mana.max"})
 	ctx := GenericEvalContext{
 		HasEventContext: true,
-		EventEntryTargetAttrs: map[string]model.AttributeSlotDef{
+		EventEntryTargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{
 			"hp": {Current: 1000, Max: 1000, Resolved: 1000},
-		},
-		EventTargetAttrs: map[string]model.AttributeSlotDef{
+		}),
+		EventTargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{
 			"hp": {Current: 900, Max: 1000, Resolved: 900},
-		},
+		}),
 		EventSourceResources: map[string]model.ResourceSlotDef{
 			"mana": {Current: 10, Max: 80},
 		},

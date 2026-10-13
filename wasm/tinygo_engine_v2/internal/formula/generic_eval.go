@@ -5,23 +5,39 @@ import (
 	"math"
 	"strings"
 
+	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/expression"
+	"tinygo_engine_v2/internal/inputbinding"
 	"tinygo_engine_v2/internal/model"
 )
 
 // GenericEvalContext 是 generic formula 运行时只读视图。
 type GenericEvalContext struct {
-	DamageStages          [5]float64
-	DamageStageCount      int
-	HasEventLink          bool
-	LinkIndex             int
-	LinkCount             int
-	ProcessActualCosts    map[string]float64
-	HasProcessActualCosts bool
-	SourceAttrs           map[string]model.AttributeSlotDef
-	TargetAttrs           map[string]model.AttributeSlotDef
-	SourceResources       map[string]model.ResourceSlotDef
-	TargetResources       map[string]model.ResourceSlotDef
-	AbilityParams         map[string]float64
+	// 只有明确作者派生使用点设置。内部用途读取仍使用SourceAttrs/TargetAttrs。
+	HasAuthoredActorContext bool
+	AuthoredSourceAttrs     attribute.Table
+	AuthoredTargetAttrs     attribute.Table
+	AuthoredCombatantKey    string
+	RuntimeSkillKey         string
+	RuntimeParameters       map[string]float64
+	HasUseChargeDuration    bool
+	UseChargeDurationMs     int64
+	HasUseAmmoBefore        bool
+	UseAmmoBefore           float64
+	HasStatusContext        bool
+	SourceStatuses          map[string]bool
+	TargetStatuses          map[string]bool
+	ReadInput               expression.ReadInput
+	HasEventLink            bool
+	LinkIndex               int
+	LinkCount               int
+	ProcessActualCosts      map[string]float64
+	HasProcessActualCosts   bool
+	SourceAttrs             attribute.Table
+	TargetAttrs             attribute.Table
+	SourceResources         map[string]model.ResourceSlotDef
+	TargetResources         map[string]model.ResourceSlotDef
+	AbilityParams           map[string]float64
 	// StrictReads 用于需要区分缺值与真实零值的吸血效率和治疗修正。
 	StrictReads bool
 
@@ -34,12 +50,12 @@ type GenericEvalContext struct {
 	// Event snapshot reads require an emit_event listener / child-ability context.
 	// Participants are the original emitted event source/target (not owner-remapped).
 	HasEventContext           bool
-	EventEntrySourceAttrs     map[string]model.AttributeSlotDef
-	EventEntryTargetAttrs     map[string]model.AttributeSlotDef
+	EventEntrySourceAttrs     attribute.Table
+	EventEntryTargetAttrs     attribute.Table
 	EventEntrySourceResources map[string]model.ResourceSlotDef
 	EventEntryTargetResources map[string]model.ResourceSlotDef
-	EventSourceAttrs          map[string]model.AttributeSlotDef
-	EventTargetAttrs          map[string]model.AttributeSlotDef
+	EventSourceAttrs          attribute.Table
+	EventTargetAttrs          attribute.Table
 	EventSourceResources      map[string]model.ResourceSlotDef
 	EventTargetResources      map[string]model.ResourceSlotDef
 
@@ -99,16 +115,95 @@ type EventDamageSnapshot struct {
 
 // Eval 执行 generic formula 程序，非有限数返回 error。
 func (r GenericRegistry) Eval(id GenericProgramID, ctx GenericEvalContext) (float64, error) {
-	return r.eval(id, ctx, false)
+	return r.eval(id, &ctx, false, 1, new(int))
+}
+
+// EvalContext 同步借用只读上下文，避免再次复制完整视图；不会保存指针。
+// 调用方及自定义读取回调在求值期间不得修改上下文字段。
+func (r GenericRegistry) EvalContext(id GenericProgramID, ctx *GenericEvalContext) (float64, error) {
+	if ctx == nil {
+		return 0, errors.New("formula evaluation context is required")
+	}
+	return r.eval(id, ctx, false, 1, new(int))
 }
 
 var errConstFormulaRead = errors.New("formula requires runtime read")
 
-func (r GenericRegistry) eval(id GenericProgramID, ctx GenericEvalContext, constOnly bool) (float64, error) {
-	if int(id) >= len(r.Programs) {
-		return 0, errors.New("formula id out of range")
+// AuthoredEvaluationError保留共同错误码和原表达式JSON字段定位。
+type AuthoredEvaluationError struct {
+	CombatantKey               string
+	Issue                      expression.ContractIssue
+	ProgramKey, DefinitionPath string
+}
+
+func (e *AuthoredEvaluationError) Error() string { return e.Issue.Code + " at " + e.Issue.Path }
+
+func (r GenericRegistry) programForEvaluation(id GenericProgramID, depth int, spent *int) (*GenericProgram, error) {
+	if depth > 32 {
+		return nil, &AuthoredEvaluationError{Issue: expression.ContractIssue{Code: "FORMULA_LIMIT"}}
 	}
-	instrs := r.Programs[id].Instr
+	if int(id) >= len(r.Programs) {
+		return nil, errors.New("formula id out of range")
+	}
+	program := &r.Programs[id]
+	charge := len(program.Instr)
+	if program.Authored != nil {
+		charge = program.Authored.Stats().Instructions
+	}
+	if charge > MaxGenericTotalInstructions-*spent {
+		return nil, &AuthoredEvaluationError{Issue: expression.ContractIssue{Code: "FORMULA_LIMIT"}, ProgramKey: program.Key}
+	}
+	*spent += charge
+	return program, nil
+}
+
+// EvalBound直接执行已注册作者程序的同步数值绑定，复用通用指令计费。
+// 它不创建供值闭包，也不保存values；具名程序仍走各自的作者绑定。
+func (r GenericRegistry) EvalBound(id GenericProgramID, binding *inputbinding.Plan, values []inputbinding.Value) (float64, error) {
+	var spent int
+	program, err := r.programForEvaluation(id, 1, &spent)
+	if err != nil {
+		return 0, err
+	}
+	if program.Authored == nil || program.NamedBinding != nil || len(program.Instr) != 0 {
+		return 0, &AuthoredEvaluationError{Issue: expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}}
+	}
+	result, issue := binding.Evaluate(program.Authored, values)
+	if issue != nil {
+		return 0, &AuthoredEvaluationError{Issue: *issue, ProgramKey: program.Key}
+	}
+	return result.Value, nil
+}
+
+func (r GenericRegistry) eval(id GenericProgramID, ctx *GenericEvalContext, constOnly bool, depth int, spent *int) (float64, error) {
+	program, err := r.programForEvaluation(id, depth, spent)
+	if err != nil {
+		return 0, err
+	}
+	if program.Authored != nil {
+		if len(program.Instr) != 0 {
+			return 0, &AuthoredEvaluationError{Issue: expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}}
+		}
+		if constOnly && program.NamedBinding == nil && program.Authored.Stats().Inputs != 0 {
+			return 0, errConstFormulaRead
+		}
+		var result expression.Evaluation
+		var issue *expression.ContractIssue
+		if program.NamedBinding != nil {
+			result, issue = program.NamedBinding.evaluate(program.Authored, ctx, constOnly)
+		} else {
+			result, issue = program.Authored.Evaluate(ctx.ReadInput)
+		}
+		if issue != nil {
+			path := ""
+			if program.NamedBinding != nil {
+				path = program.NamedBinding.path
+			}
+			return 0, &AuthoredEvaluationError{Issue: *issue, ProgramKey: program.Key, DefinitionPath: path, CombatantKey: ctx.AuthoredCombatantKey}
+		}
+		return result.Value, nil
+	}
+	instrs := program.Instr
 	stack := make([]float64, 0, 16)
 	for pc := 0; pc < len(instrs); {
 		instr := instrs[pc]
@@ -116,11 +211,17 @@ func (r GenericRegistry) eval(id GenericProgramID, ctx GenericEvalContext, const
 		switch instr.Op {
 		case GenericOpConst:
 			stack = append(stack, instr.Value)
+		case GenericOpRef:
+			value, err := r.eval(GenericProgramID(instr.RefIndex), ctx, constOnly, depth+1, spent)
+			if err != nil {
+				return 0, err
+			}
+			stack = append(stack, value)
 		case GenericOpRead:
 			if constOnly {
 				return 0, errConstFormulaRead
 			}
-			value, err := evalRead(instr.ReadKind, instr.ReadKey, ctx)
+			value, err := evalInstructionRead(instr, ctx)
 			if err != nil {
 				return 0, err
 			}
@@ -130,90 +231,31 @@ func (r GenericRegistry) eval(id GenericProgramID, ctx GenericEvalContext, const
 			if len(stack) < 2 {
 				return 0, errors.New("formula stack underflow")
 			}
-			right := stack[len(stack)-1]
-			left := stack[len(stack)-2]
+			value, issue := expression.Arithmetic(genericArithmeticName(instr.Op), stack[len(stack)-2:], 0)
+			if issue != nil {
+				return 0, genericArithmeticError(issue)
+			}
 			stack = stack[:len(stack)-2]
-			var value float64
-			switch instr.Op {
-			case GenericOpAdd:
-				value = left + right
-			case GenericOpSub:
-				value = left - right
-			case GenericOpMul:
-				value = left * right
-			case GenericOpDiv:
-				if right == 0 {
-					return 0, errors.New("division by zero")
-				}
-				value = left / right
-			case GenericOpMin:
-				value = math.Min(left, right)
-			case GenericOpMax:
-				value = math.Max(left, right)
-			case GenericOpEq:
-				value = bool01(left == right)
-			case GenericOpNe:
-				value = bool01(left != right)
-			case GenericOpLt:
-				value = bool01(left < right)
-			case GenericOpLte:
-				value = bool01(left <= right)
-			case GenericOpGt:
-				value = bool01(left > right)
-			case GenericOpGte:
-				value = bool01(left >= right)
-			}
-			if !finite(value) {
-				return 0, errors.New("non-finite formula result")
-			}
 			stack = append(stack, value)
 		case GenericOpClamp:
 			if len(stack) < 3 {
 				return 0, errors.New("formula stack underflow")
 			}
-			maxV := stack[len(stack)-1]
-			minV := stack[len(stack)-2]
-			value := stack[len(stack)-3]
+			value, issue := expression.Arithmetic("clamp", stack[len(stack)-3:], 0)
+			if issue != nil {
+				return 0, genericArithmeticError(issue)
+			}
 			stack = stack[:len(stack)-3]
-			stack = append(stack, math.Max(minV, math.Min(maxV, value)))
+			stack = append(stack, value)
 		case GenericOpRound, GenericOpFloor, GenericOpCeil, GenericOpTrunc:
 			if len(stack) < 1 {
 				return 0, errors.New("formula stack underflow")
 			}
-			value := stack[len(stack)-1]
+			value, issue := expression.Arithmetic(genericArithmeticName(instr.Op), stack[len(stack)-1:], instr.Decimals)
+			if issue != nil {
+				return 0, genericArithmeticError(issue)
+			}
 			stack = stack[:len(stack)-1]
-			decimals := instr.Decimals
-			if decimals > 0 {
-				scale := math.Pow(10, float64(decimals))
-				switch instr.Op {
-				case GenericOpRound:
-					value = math.Round(value*scale) / scale
-				case GenericOpFloor:
-					value = math.Floor(value*scale) / scale
-				case GenericOpCeil:
-					value = math.Ceil(value*scale) / scale
-				case GenericOpTrunc:
-					if value < 0 {
-						value = math.Ceil(value*scale) / scale
-					} else {
-						value = math.Floor(value*scale) / scale
-					}
-				}
-			} else {
-				switch instr.Op {
-				case GenericOpRound:
-					value = math.Round(value)
-				case GenericOpFloor:
-					value = math.Floor(value)
-				case GenericOpCeil:
-					value = math.Ceil(value)
-				case GenericOpTrunc:
-					value = math.Trunc(value)
-				}
-			}
-			if !finite(value) {
-				return 0, errors.New("non-finite formula result")
-			}
 			stack = append(stack, value)
 		case GenericOpJumpIfZero:
 			if len(stack) < 1 {
@@ -256,7 +298,79 @@ func bool01(ok bool) float64 {
 	return 0
 }
 
-func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64, error) {
+func genericArithmeticError(issue *expression.ContractIssue) error {
+	if issue.Code == "FORMULA_DIVISION_BY_ZERO" {
+		return errors.New("division by zero")
+	}
+	if issue.Code == "FORMULA_NON_FINITE" {
+		return errors.New("non-finite formula result")
+	}
+	return errors.New("unsupported formula opcode")
+}
+
+func genericArithmeticName(op GenericOp) string {
+	switch op {
+	case GenericOpAdd:
+		return "add"
+	case GenericOpSub:
+		return "sub"
+	case GenericOpMul:
+		return "mul"
+	case GenericOpDiv:
+		return "div"
+	case GenericOpMin:
+		return "min"
+	case GenericOpMax:
+		return "max"
+	case GenericOpEq:
+		return "eq"
+	case GenericOpNe:
+		return "ne"
+	case GenericOpLt:
+		return "lt"
+	case GenericOpLte:
+		return "lte"
+	case GenericOpGt:
+		return "gt"
+	case GenericOpGte:
+		return "gte"
+	case GenericOpRound:
+		return "round"
+	case GenericOpFloor:
+		return "floor"
+	case GenericOpCeil:
+		return "ceil"
+	case GenericOpTrunc:
+		return "trunc"
+	default:
+		return ""
+	}
+}
+
+func evalRead(kind GenericReadKind, key string, ctx *GenericEvalContext) (float64, error) {
+	if kind == ReadUseAmmoBefore {
+		if !ctx.HasUseAmmoBefore {
+			return 0, errors.New("use.ammo.before requires the original owning use's committed ammo capture")
+		}
+		return ctx.UseAmmoBefore, nil
+	}
+	if kind == ReadSourceStatusPresent || kind == ReadTargetStatusPresent {
+		if !ctx.HasStatusContext {
+			return 0, errors.New("status presence requires a combatant status context")
+		}
+		statuses := ctx.SourceStatuses
+		if kind == ReadTargetStatusPresent {
+			statuses = ctx.TargetStatuses
+		}
+		present, declared := statuses[key]
+		if !declared {
+			return 0, errors.New("unknown status presence key: " + key)
+		}
+		if present {
+			return 1, nil
+		}
+		return 0, nil
+	}
 	switch kind {
 	case ReadSourceAttr:
 		return readAttrValueChecked(ctx.SourceAttrs, key, ctx.StrictReads)
@@ -356,7 +470,7 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 		if !ctx.HasDamageContext {
 			return 0, errors.New("damage.type requires damage context")
 		}
-		if CanonicalDamageTypeKey(ctx.DamageTypeKey) == CanonicalDamageTypeKey(key) {
+		if ctx.DamageTypeKey == key {
 			return 1, nil
 		}
 		return 0, nil
@@ -399,12 +513,6 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 		}
 	case ReadOperationOutput:
 		return readOperationOutput(key, ctx)
-	case ReadDamageStage:
-		index, ok := model.DamageStageIndex(key)
-		if !ok || index >= ctx.DamageStageCount {
-			return 0, errors.New("damage.stage." + key + " requires an earlier defense stage")
-		}
-		return ctx.DamageStages[index], nil
 	case ReadEventLink:
 		if !ctx.HasEventContext || !ctx.HasEventLink || ctx.LinkIndex < 1 || ctx.LinkIndex > ctx.LinkCount {
 			return 0, errors.New("event.link." + key + " requires a real link application")
@@ -413,6 +521,11 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 			return float64(ctx.LinkIndex), nil
 		}
 		return float64(ctx.LinkCount), nil
+	case ReadUseChargeDuration:
+		if !ctx.HasUseChargeDuration || ctx.UseChargeDurationMs < 0 {
+			return 0, errors.New("use.charge_duration_ms requires a real charge execution or associated release hit")
+		}
+		return float64(ctx.UseChargeDurationMs), nil
 	case ReadProcessActualCost:
 		if !ctx.HasProcessActualCosts {
 			return 0, errors.New("process.actual_cost." + key + " requires process completion or failure context")
@@ -435,7 +548,7 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 	}
 }
 
-func readOperationOutput(key string, ctx GenericEvalContext) (float64, error) {
+func readOperationOutput(key string, ctx *GenericEvalContext) (float64, error) {
 	path := "operation.output." + key
 	if !ctx.HasOperationOutputs {
 		return 0, errors.New(path + " is not available")
@@ -493,21 +606,18 @@ func readEventDamageField(snap EventDamageSnapshot, key string) (float64, error)
 	}
 }
 
-func requireEventContext(ctx GenericEvalContext) error {
+func requireEventContext(ctx *GenericEvalContext) error {
 	if !ctx.HasEventContext {
 		return errors.New("event.* requires event context")
 	}
 	return nil
 }
 
-func readAttrValue(attrs map[string]model.AttributeSlotDef, key string) float64 {
-	if attrs == nil {
-		return 0
-	}
+func readAttrValue(attrs attribute.Table, key string) float64 {
 	if idx := strings.LastIndex(key, "."); idx > 0 {
 		suffix := key[idx+1:]
 		attrKey := key[:idx]
-		slot, ok := attrs[attrKey]
+		slot, ok := attrs.Lookup(attrKey)
 		if !ok {
 			return 0
 		}
@@ -525,7 +635,7 @@ func readAttrValue(attrs map[string]model.AttributeSlotDef, key string) float64 
 			return slot.Max
 		}
 	}
-	slot, ok := attrs[key]
+	slot, ok := attrs.Lookup(key)
 	if !ok {
 		return 0
 	}

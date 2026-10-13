@@ -6,6 +6,8 @@ import (
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
+	"tinygo_engine_v2/internal/typeset"
 )
 
 func (ctx *genericCompileContext) beginOutputUnit() {
@@ -73,20 +75,19 @@ func validateOncePerUseOperations(operations []model.OperationDefinition, path s
 	}
 }
 
-func compileListenerCondition(listener model.ListenerDefinition, path string, compiled *CompiledListener, ctx *genericCompileContext) {
+func compileListenerCondition(listener model.ListenerDefinition, path string, compiled *plan.CompiledListener, ctx *genericCompileContext) {
 	if listener.Condition == nil {
 		return
 	}
 	instr := formula.CompileGenericFormula(*listener.Condition, path+".condition", ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-	if formulaReadsKind(instr, formula.ReadEventSkillHit) && formulaSkillHitReadsFirstContact(instr) {
+	if formulaReadsKind(ctx.session.Formulas.InstructionDependencies(instr, nil), formula.ReadEventSkillHit) && formulaSkillHitReadsFirstContact(ctx.session.Formulas.InstructionDependencies(instr, nil)) {
 		ctx.collector.addError(model.GenericErrFormulaTypeError, path+".condition", "listener.condition cannot encode firstContact", listener.ListenerKey)
 	}
-	if formulaReadsKind(instr, formula.ReadOperationOutput) {
+	if formulaReadsKind(ctx.session.Formulas.InstructionDependencies(instr, nil), formula.ReadOperationOutput) {
 		ctx.collector.addError(model.GenericErrFormulaTypeError, path+".condition", "listener.condition cannot read operation.output", listener.ListenerKey)
 	}
 	if len(instr) > 0 {
-		compiled.ConditionProgram = ctx.registerFormula(path+".condition", instr)
-		compiled.HasCondition = true
+		compiled.ConditionProgram, compiled.HasCondition = ctx.registerFormula(path+".condition", instr)
 	}
 }
 
@@ -99,7 +100,7 @@ func formulaSkillHitReadsFirstContact(instr []formula.GenericInstr) bool {
 	return false
 }
 
-func compileOncePerUse(listener model.ListenerDefinition, compiled *CompiledListener) {
+func compileOncePerUse(listener model.ListenerDefinition, compiled *plan.CompiledListener) {
 	if listener.OncePerUse == nil {
 		return
 	}
@@ -133,8 +134,9 @@ func validateOutputRef(op model.OperationDefinition, path string, ctx *genericCo
 }
 
 func validateOperationOutputReads(instr []formula.GenericInstr, path string, ctx *genericCompileContext) {
+	instr = ctx.session.Formulas.InstructionDependencies(instr, nil)
 	if ctx.outputUnitRefs == nil {
-		if formulaReadsKind(instr, formula.ReadOperationOutput) {
+		if formulaReadsKind(ctx.session.Formulas.InstructionDependencies(instr, nil), formula.ReadOperationOutput) {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, path, "operation.output reads require a same-frame damage outputRef", "")
 		}
 		return
@@ -167,12 +169,12 @@ func abilityIsBasicAttack(ability model.AbilityDefinition, ctx *genericCompileCo
 	if ctx == nil || ctx.session == nil {
 		return false
 	}
-	id, ok := ctx.session.Types.Registry.Lookup(model.AbilityTypeBasicAttack)
+	id, ok := ctx.session.Types.Registry.LookupDomain("ability", model.AbilityTypeBasicAttack)
 	if !ok {
 		return false
 	}
 	for _, key := range ability.Types {
-		if typeID, found := ctx.session.Types.Registry.Lookup(key); found && typeID == id {
+		if typeID, found := ctx.session.Types.LookupForEntity(key, typeset.EntityAbility); found && typeID == id {
 			return true
 		}
 	}

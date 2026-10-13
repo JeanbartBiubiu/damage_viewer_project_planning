@@ -48,6 +48,12 @@ const (
 
 // DoneResult 是 generic run 成功时的 outbox payload。
 type DoneResult struct {
+	// 仅summary时输出；省略表示完整明细，保持默认响应字节形态。
+	OutputMode             RunOutputMode            `json:"outputMode,omitempty"`
+	SkillActionRecords     []SkillActionRecord      `json:"skillActionRecords"`
+	SkillUseRecords        []SkillUseRecord         `json:"skillUseRecords"`
+	HealingRecords         []DirectHealingRecord    `json:"healingRecords"`
+	MechanicRecords        []MechanicRecord         `json:"mechanicRecords"`
 	OK                     bool                     `json:"ok"`
 	Summary                RunSummary               `json:"summary"`
 	AttackRecords          []BasicAttackRecord      `json:"attackRecords"`
@@ -62,10 +68,16 @@ type DoneResult struct {
 
 // RunSummary 是 chart-ready 汇总行。
 type RunSummary struct {
+	SkillActions        *SkillActionSummary  `json:"skillActions,omitempty"`
+	SkillUses           *SkillUseSummary     `json:"skillUses,omitempty"`
+	SourceDirectHealing *float64             `json:"sourceDirectHealing,omitempty"`
+	TargetDirectHealing *float64             `json:"targetDirectHealing,omitempty"`
 	BasicAttack         *BasicAttackSummary  `json:"basicAttack,omitempty"`
 	Execution           *RunExecutionSummary `json:"execution,omitempty"`
 	SourceHpLoss        float64              `json:"sourceHpLoss"`
 	TargetHpLoss        float64              `json:"targetHpLoss"`
+	SourceVampHealing   *float64             `json:"sourceVampHealing,omitempty"`
+	TargetVampHealing   *float64             `json:"targetVampHealing,omitempty"`
 	DamageBreakdown     []DamageBreakdown    `json:"damageBreakdown"`
 	DurationMs          int64                `json:"durationMs"`
 	StopReason          StopReason           `json:"stopReason"`
