@@ -10,6 +10,7 @@ public final class SkillTriggerEventCapabilities {
 
     private static final Set<SkillTriggerEventType> EVENT_SOURCE_EVENTS = EnumSet.of(
         SkillTriggerEventType.SOURCE_INITIALIZED,
+        SkillTriggerEventType.BASIC_ATTACK_RECEIVED,
         SkillTriggerEventType.DAMAGE_PENDING,
         SkillTriggerEventType.DAMAGE_TAKEN,
         SkillTriggerEventType.STATUS_CHANGED,
@@ -21,6 +22,7 @@ public final class SkillTriggerEventCapabilities {
         SkillTriggerEventType.SOURCE_INITIALIZED,
         SkillTriggerEventType.BASIC_ATTACK_START,
         SkillTriggerEventType.BASIC_ATTACK_HIT,
+        SkillTriggerEventType.BASIC_ATTACK_RECEIVED,
         SkillTriggerEventType.CONTROL_RECEIVED,
         SkillTriggerEventType.KILL,
         SkillTriggerEventType.TAKEDOWN
@@ -97,7 +99,8 @@ public final class SkillTriggerEventCapabilities {
             case BASIC_ATTACK_HIT -> valueKey == SkillTriggerEventValueKey.HIT_INDEX;
             case SKILL_HIT -> valueKey == SkillTriggerEventValueKey.HIT_INDEX
                 || valueKey == SkillTriggerEventValueKey.SKILL_HIT_FIRST_CONTACT
-                || valueKey == SkillTriggerEventValueKey.SKILL_HIT_SPELL_SHIELD_BLOCKED;
+                || valueKey == SkillTriggerEventValueKey.SKILL_HIT_SPELL_SHIELD_BLOCKED
+                || valueKey == SkillTriggerEventValueKey.CHARGE_DURATION_MS && stepType == SkillProcessStepType.CHARGE;
             case PROCESS_MOMENT -> processMomentValueAllowed(valueKey, momentType, stepType);
             case LIFECYCLE_MOMENT -> false;
             case HEALTH_THRESHOLD_CROSSED -> valueKey == SkillTriggerEventValueKey.ATTRIBUTE_BEFORE
@@ -157,6 +160,7 @@ public final class SkillTriggerEventCapabilities {
             Map.entry(SkillTriggerEventType.SKILL_USED, "该次技能使用的显式目标；没有时为来源对象"),
             Map.entry(SkillTriggerEventType.BASIC_ATTACK_START, "本次普通攻击目标"),
             Map.entry(SkillTriggerEventType.BASIC_ATTACK_HIT, "本次普通攻击命中的对象"),
+            Map.entry(SkillTriggerEventType.BASIC_ATTACK_RECEIVED, "本次普通攻击的接收对象；事件来源对象为原攻击者"),
             Map.entry(SkillTriggerEventType.SKILL_HIT, "本次技能命中的对象"),
             Map.entry(SkillTriggerEventType.PROCESS_MOMENT, "目标过程实例的目标；没有时为来源对象"),
             Map.entry(SkillTriggerEventType.RESULT_AVAILABLE, "目标效果执行上下文的目标；没有时为来源对象"),

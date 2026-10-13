@@ -1,11 +1,12 @@
 package xyz.game.datamanage.service.skillformula;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import xyz.game.datamanage.support.formula.SkillFormulaBindings;
+
 import jakarta.validation.Valid;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -24,16 +25,9 @@ import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skillformula.SkillFormulaMapper;
 import xyz.game.datamanage.model.attribute.AttributeStatus;
-import xyz.game.datamanage.model.skillformula.SkillFormulaAttributeNode;
-import xyz.game.datamanage.model.skillformula.SkillFormulaAttributeRef;
 import xyz.game.datamanage.model.skillformula.SkillFormulaAttributeStatusRow;
 import xyz.game.datamanage.model.skillformula.SkillFormulaCreateRequest;
 import xyz.game.datamanage.model.skillformula.SkillFormulaDetailResponse;
-import xyz.game.datamanage.model.skillformula.SkillFormulaExpressionNode;
-import xyz.game.datamanage.model.skillformula.SkillFormulaNodeType;
-import xyz.game.datamanage.model.skillformula.SkillFormulaOperation;
-import xyz.game.datamanage.model.skillformula.SkillFormulaOperationNode;
-import xyz.game.datamanage.model.skillformula.SkillFormulaParameterNode;
 import xyz.game.datamanage.model.skillformula.SkillFormulaRow;
 import xyz.game.datamanage.model.skillformula.SkillFormulaSummaryResponse;
 import xyz.game.datamanage.model.skillformula.SkillFormulaUpdateRequest;
@@ -49,9 +43,6 @@ public class SkillFormulaService {
 
     private static final Logger log = LoggerFactory.getLogger(SkillFormulaService.class);
 
-    private static final int ROOT_DEPTH = 1;
-    private static final int MAX_DEPTH = 32;
-    private static final int MAX_NODES = 256;
     private static final String PRIMARY_KEY_CONSTRAINT = "pk_skill_formulas";
 
     private final GamesMapper gamesMapper;
@@ -115,7 +106,7 @@ public class SkillFormulaService {
         configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedFormula values = validateCreate(request);
-        CollectedRefs refs = validateAndCollectExpression(values.expression());
+        CollectedRefs refs = validateAndCollectExpression(skillKey, values.expression());
 
         if (skillMapper.findByIdForUpdate(gameId, skillKey) == null) {
             throw skillNotFound(skillKey);
@@ -125,7 +116,7 @@ public class SkillFormulaService {
         }
 
         validateReferences(gameId, skillKey, refs);
-        validateAttributeEnabled(gameId, refs, Set.of());
+        validateAttributeEnabled(gameId, refs);
 
         try {
             formulaMapper.insert(
@@ -153,7 +144,7 @@ public class SkillFormulaService {
         configurationWrites.begin(gameId);
         requireGame(gameId);
         ValidatedFormula values = validateUpdate(request, formulaKey);
-        CollectedRefs refs = validateAndCollectExpression(values.expression());
+        CollectedRefs refs = validateAndCollectExpression(skillKey, values.expression());
 
         if (skillMapper.findByIdForUpdate(gameId, skillKey) == null) {
             throw skillNotFound(skillKey);
@@ -162,11 +153,9 @@ public class SkillFormulaService {
             throw formulaNotFound(formulaKey);
         }
 
-        Set<SkillFormulaAttributeRef> existingRefs = new HashSet<>(
-            nullToEmpty(formulaMapper.listAttributeRefs(gameId, skillKey, formulaKey))
-        );
+
         validateReferences(gameId, skillKey, refs);
-        validateAttributeEnabled(gameId, refs, existingRefs);
+        validateAttributeEnabled(gameId, refs);
 
         try {
             if (formulaMapper.update(
@@ -215,9 +204,9 @@ public class SkillFormulaService {
         String gameId, String skillKey, SkillFormulaCreateRequest request, Set<String> candidateParameterKeys
     ) {
         ValidatedFormula values = validateCreate(request);
-        CollectedRefs refs = validateAndCollectExpression(values.expression());
+        CollectedRefs refs = validateAndCollectExpression(skillKey, values.expression());
         validateReferences(gameId, skillKey, refs, candidateParameterKeys);
-        validateAttributeEnabled(gameId, refs, Set.of());
+        validateAttributeEnabled(gameId, refs);
     }
 
     public void validateConfigurationUpdate(
@@ -225,21 +214,20 @@ public class SkillFormulaService {
         SkillFormulaUpdateRequest request, Set<String> candidateParameterKeys
     ) {
         ValidatedFormula values = validateUpdate(request, formulaKey);
-        CollectedRefs refs = validateAndCollectExpression(values.expression());
-        Set<SkillFormulaAttributeRef> existingRefs = new HashSet<>(
-            nullToEmpty(formulaMapper.listAttributeRefs(gameId, skillKey, formulaKey)));
+        CollectedRefs refs = validateAndCollectExpression(skillKey, values.expression());
+
         validateReferences(gameId, skillKey, refs, candidateParameterKeys);
-        validateAttributeEnabled(gameId, refs, existingRefs);
+        validateAttributeEnabled(gameId, refs);
     }
 
     /** Existing formulas also participate when a submitted parameter is removed. */
     public void validateFinalParameterReferences(
         String gameId, String skillKey,
-        Map<String, SkillFormulaExpressionNode> finalExpressions,
+        Map<String, JsonNode> finalExpressions,
         Set<String> candidateParameterKeys
     ) {
-        for (Map.Entry<String, SkillFormulaExpressionNode> formula : finalExpressions.entrySet()) {
-            CollectedRefs refs = validateAndCollectExpression(formula.getValue());
+        for (Map.Entry<String, JsonNode> formula : finalExpressions.entrySet()) {
+            CollectedRefs refs = validateAndCollectExpression(skillKey, formula.getValue());
             List<Map<String, String>> issues = new ArrayList<>();
             for (PathRef ref : refs.parameterRefs) {
                 if (!candidateParameterKeys.contains(ref.value())) {
@@ -254,14 +242,10 @@ public class SkillFormulaService {
         }
     }
 
-    public boolean referencesAnyParameter(
-        SkillFormulaExpressionNode expression, Set<String> parameterKeys
-    ) {
+    public boolean referencesAnyParameter(JsonNode expression, Set<String> parameterKeys) {
         if (parameterKeys.isEmpty()) return false;
-        CollectedRefs refs = validateAndCollectExpression(expression);
-        return refs.parameterKeys.stream().anyMatch(parameterKeys::contains);
+        return SkillFormulaBindings.reachableParameterKeys(expression).stream().anyMatch(parameterKeys::contains);
     }
-
     @Transactional(propagation = Propagation.MANDATORY)
     public void createWithinConfiguration(
         String gameId, String skillKey, SkillFormulaCreateRequest request, Set<String> candidateParameterKeys
@@ -318,8 +302,8 @@ public class SkillFormulaService {
             throw formulaNotFound(formulaKey);
         }
         try {
-            SkillFormulaExpressionNode expression = AggregateJson.read(row.expression(), SkillFormulaExpressionNode.class);
-            validateAndCollectExpression(expression);
+            JsonNode expression = SkillFormulaParser.readStored(skillKey, row.expression());
+            SkillFormulaParser.validateBeforeCatalog(skillKey, expression);
             return toDetail(row, expression);
         } catch (IllegalStateException | ApiException ex) {
             throw corrupt(gameId, skillKey, formulaKey, "公式表达式形状不合法");
@@ -369,233 +353,57 @@ public class SkillFormulaService {
         );
     }
 
-    private CollectedRefs validateAndCollectExpression(SkillFormulaExpressionNode root) {
-        List<Map<String, String>> issues = new ArrayList<>();
+    private CollectedRefs validateAndCollectExpression(String skillKey, JsonNode definition) {
+        SkillFormulaParser.validateBeforeCatalog(skillKey, definition);
         CollectedRefs refs = new CollectedRefs();
-        IntCounter nodeCount = new IntCounter();
-        walkValidate(root, "expression", ROOT_DEPTH, nodeCount, refs, issues);
-        throwIfInvalid(issues);
+        for (int i = 0; i < definition.path("inputs").size(); i++) {
+            JsonNode binding = definition.path("inputs").get(i).path("binding");
+            String path = "/expression/inputs/" + i + "/binding";
+            if ("parameter".equals(binding.path("kind").asText())) {
+                String key = binding.path("parameterKey").textValue();
+                refs.parameterKeys.add(key);
+                refs.parameterRefs.add(new PathRef(path + "/parameterKey", key));
+            } else {
+                String key = binding.path("attributeKey").textValue();
+                refs.attributeKeys.add(key);
+                refs.attributeRefs.add(new PathRef(path + "/attributeKey", key));
+            }
+        }
         return refs;
     }
 
-    private void walkValidate(
-        SkillFormulaExpressionNode node,
-        String path,
-        int depth,
-        IntCounter nodeCount,
-        CollectedRefs refs,
-        List<Map<String, String>> issues
-    ) {
-        if (node == null) {
-            issues.add(fieldIssue(path, "REQUIRED", "公式节点不能为空"));
-            return;
-        }
-        nodeCount.value++;
-        if (nodeCount.value > MAX_NODES) {
-            issues.add(fieldIssue(path, "NODE_LIMIT", "公式节点总数不能超过" + MAX_NODES));
-            return;
-        }
-        if (depth > MAX_DEPTH) {
-            issues.add(fieldIssue(path, "DEPTH_LIMIT", "公式节点深度不能超过" + MAX_DEPTH));
-            return;
-        }
-
-        validateForeignFields(node, path, issues);
-
-        switch (node) {
-            case SkillFormulaOperationNode operationNode ->
-                validateOperation(operationNode, path, depth, nodeCount, refs, issues);
-            case SkillFormulaParameterNode parameterNode ->
-                validateParameter(parameterNode, path, refs, issues);
-            case SkillFormulaAttributeNode attributeNode ->
-                validateAttribute(attributeNode, path, refs, issues);
-        }
-    }
-
-    private void validateForeignFields(
-        SkillFormulaExpressionNode node,
-        String path,
-        List<Map<String, String>> issues
-    ) {
-        Set<String> foreignFields = node.foreignFields();
-        if (foreignFields == null || foreignFields.isEmpty()) {
-            return;
-        }
-        for (String field : foreignFields) {
-            issues.add(fieldIssue(path + "." + field, "FIELD_MUTEX", "节点字段互斥"));
-        }
-    }
-
-    private void validateOperation(
-        SkillFormulaOperationNode node,
-        String path,
-        int depth,
-        IntCounter nodeCount,
-        CollectedRefs refs,
-        List<Map<String, String>> issues
-    ) {
-        if (node.nodeType() != null && node.nodeType() != SkillFormulaNodeType.OPERATION) {
-            issues.add(fieldIssue(path + ".nodeType", "TYPE_MISMATCH", "运算节点类型必须为 OPERATION"));
-        }
-        if (node.operation() == null) {
-            issues.add(fieldIssue(path + ".operation", "REQUIRED", "运算类型不能为空或不受支持"));
-        } else if (!isSupportedOperation(node.operation())) {
-            issues.add(fieldIssue(path + ".operation", "ENUM_INVALID", "运算类型不受支持"));
-        }
-        List<SkillFormulaExpressionNode> operands = node.operands();
-        if (operands == null) {
-            issues.add(fieldIssue(path + ".operands", "REQUIRED", "运算节点必须提供两个有序操作数"));
-            return;
-        }
-        if (operands.size() != 2) {
-            issues.add(fieldIssue(path + ".operands", "OPERAND_COUNT", "运算节点必须恰好有两个有序操作数"));
-            return;
-        }
-        walkValidate(operands.get(0), path + ".operands[0]", depth + 1, nodeCount, refs, issues);
-        walkValidate(operands.get(1), path + ".operands[1]", depth + 1, nodeCount, refs, issues);
-    }
-
-    private void validateParameter(
-        SkillFormulaParameterNode node,
-        String path,
-        CollectedRefs refs,
-        List<Map<String, String>> issues
-    ) {
-        if (node.nodeType() != null && node.nodeType() != SkillFormulaNodeType.PARAMETER) {
-            issues.add(fieldIssue(path + ".nodeType", "TYPE_MISMATCH", "参数节点类型必须为 PARAMETER"));
-        }
-        String parameterKey = node.parameterKey();
-        if (parameterKey == null || parameterKey.isBlank()) {
-            issues.add(fieldIssue(path + ".parameterKey", "REQUIRED", "参数引用不能为空"));
-            return;
-        }
-        refs.parameterRefs.add(new PathRef(path + ".parameterKey", parameterKey));
-        refs.parameterKeys.add(parameterKey);
-    }
-
-    private void validateAttribute(
-        SkillFormulaAttributeNode node,
-        String path,
-        CollectedRefs refs,
-        List<Map<String, String>> issues
-    ) {
-        if (node.nodeType() != null && node.nodeType() != SkillFormulaNodeType.ATTRIBUTE) {
-            issues.add(fieldIssue(path + ".nodeType", "TYPE_MISMATCH", "属性节点类型必须为 ATTRIBUTE"));
-        }
-        if (node.attributeOwner() == null) {
-            issues.add(fieldIssue(path + ".attributeOwner", "REQUIRED", "属性对象范围不能为空或不受支持"));
-        }
-        if (node.attributeValueKind() == null) {
-            issues.add(fieldIssue(
-                path + ".attributeValueKind",
-                "REQUIRED",
-                "属性取值方式不能为空或不受支持"
-            ));
-        }
-        String attributeKey = node.attributeKey();
-        if (attributeKey == null || attributeKey.isBlank()) {
-            issues.add(fieldIssue(path + ".attributeKey", "REQUIRED", "属性键不能为空"));
-            return;
-        }
-        if (node.attributeOwner() == null || node.attributeValueKind() == null) {
-            return;
-        }
-        SkillFormulaAttributeRef ref = new SkillFormulaAttributeRef(
-            node.attributeOwner(),
-            attributeKey,
-            node.attributeValueKind()
-        );
-        refs.attributeRefs.add(new AttributePathRef(path + ".attributeKey", ref));
-        refs.attributeKeys.add(attributeKey);
-    }
-
     private void validateReferences(String gameId, String skillKey, CollectedRefs refs) {
-        validateReferences(gameId, skillKey, refs, null);
+        Set<String> parameters = refs.parameterKeys.isEmpty() ? Set.of()
+            : new HashSet<>(nullToEmpty(formulaMapper.findExistingParameterKeys(gameId, skillKey, refs.parameterKeys)));
+        validateReferences(gameId, skillKey, refs, parameters);
     }
 
-    private void validateReferences(
-        String gameId, String skillKey, CollectedRefs refs, Set<String> candidateParameterKeys
-    ) {
-        Set<String> existingParameters = new HashSet<>();
-        if (candidateParameterKeys != null) {
-            existingParameters.addAll(candidateParameterKeys);
-        } else if (!refs.parameterKeys.isEmpty()) {
-            existingParameters.addAll(nullToEmpty(
-                formulaMapper.findExistingParameterKeys(gameId, skillKey, refs.parameterKeys)
-            ));
+    private void validateReferences(String gameId, String skillKey, CollectedRefs refs, Set<String> candidateParameterKeys) {
+        List<Map<String, String>> issues = new ArrayList<>();
+        for (PathRef ref : refs.parameterRefs) if (!candidateParameterKeys.contains(ref.value())) {
+            issues.add(fieldIssue(ref.path(), "UNKNOWN_SKILL_PARAMETER", "技能参数不存在或不属于当前技能"));
         }
-        Map<String, String> attributeStatusByKey = new LinkedHashMap<>();
         if (!refs.attributeKeys.isEmpty()) {
-            for (SkillFormulaAttributeStatusRow row : nullToEmpty(
-                formulaMapper.findAttributesByKeys(gameId, refs.attributeKeys)
-            )) {
-                attributeStatusByKey.put(row.attributeKey(), row.status());
+            for (SkillFormulaAttributeStatusRow row : nullToEmpty(formulaMapper.findAttributesByKeys(gameId, refs.attributeKeys))) {
+                refs.attributeStatusByKey.put(row.attributeKey(), row.status());
+            }
+            for (PathRef ref : refs.attributeRefs) if (!refs.attributeStatusByKey.containsKey(ref.value())) {
+                issues.add(fieldIssue(ref.path(), "UNKNOWN_ATTRIBUTE", "属性不存在或不属于当前游戏"));
             }
         }
-
-        List<Map<String, String>> issues = new ArrayList<>();
-        for (PathRef ref : refs.parameterRefs) {
-            if (!existingParameters.contains(ref.value())) {
-                issues.add(fieldIssue(
-                    ref.path(),
-                    "UNKNOWN_SKILL_PARAMETER",
-                    "技能参数不存在或不属于当前技能"
-                ));
-            }
-        }
-        for (AttributePathRef ref : refs.attributeRefs) {
-            if (!attributeStatusByKey.containsKey(ref.ref().attributeKey())) {
-                issues.add(fieldIssue(
-                    ref.path(),
-                    "UNKNOWN_ATTRIBUTE",
-                    "属性不存在或不属于当前游戏"
-                ));
-            }
-        }
-        if (!issues.isEmpty()) {
-            issues.sort(Comparator.comparing(issue -> issue.get("field")));
-            throw new ApiException(
-                HttpStatus.BAD_REQUEST,
-                "400.INVALID_FORMULA_REFERENCE",
-                "公式引用不合法",
-                Map.of("fieldIssues", List.copyOf(issues))
-            );
-        }
-        refs.attributeStatusByKey.putAll(attributeStatusByKey);
+        throwIfInvalid(issues);
     }
 
-    private void validateAttributeEnabled(
-        String gameId,
-        CollectedRefs refs,
-        Set<SkillFormulaAttributeRef> existingRefs
-    ) {
+    private void validateAttributeEnabled(String gameId, CollectedRefs refs) {
         List<Map<String, String>> issues = new ArrayList<>();
-        Set<SkillFormulaAttributeRef> reported = new HashSet<>();
-        for (AttributePathRef pathRef : refs.attributeRefs) {
-            SkillFormulaAttributeRef ref = pathRef.ref();
-            if (existingRefs.contains(ref) || !reported.add(ref)) {
-                continue;
-            }
-            String status = refs.attributeStatusByKey.get(ref.attributeKey());
-            if (!AttributeStatus.ENABLED.name().equals(status)) {
-                issues.add(fieldIssue(
-                    pathRef.path(),
-                    "FORMULA_ATTRIBUTE_DISABLED",
-                    "不能新增停用属性引用"
-                ));
+        for (PathRef ref : refs.attributeRefs) {
+            if (!AttributeStatus.ENABLED.name().equals(refs.attributeStatusByKey.get(ref.value()))) {
+                issues.add(fieldIssue(ref.path(), "FORMULA_ATTRIBUTE_DISABLED", "保存的技能共同公式必须引用启用属性"));
             }
         }
-        if (!issues.isEmpty()) {
-            issues.sort(Comparator.comparing(issue -> issue.get("field")));
-            throw new ApiException(
-                HttpStatus.CONFLICT,
-                "409.FORMULA_ATTRIBUTE_DISABLED",
-                "不能新增停用属性引用",
-                Map.of("fieldIssues", List.copyOf(issues), "gameId", gameId)
-            );
-        }
+        if (!issues.isEmpty()) throw new ApiException(HttpStatus.CONFLICT, "409.FORMULA_ATTRIBUTE_DISABLED",
+            "保存的技能共同公式必须引用启用属性", Map.of("fieldIssues", List.copyOf(issues), "gameId", gameId));
     }
-
     private void requireGame(String gameId) {
         Long count = gamesMapper.countGames(gameId);
         if (count == null || count <= 0) {
@@ -624,7 +432,7 @@ public class SkillFormulaService {
 
     private static SkillFormulaDetailResponse toDetail(
         SkillFormulaRow row,
-        SkillFormulaExpressionNode expression
+        JsonNode expression
     ) {
         return new SkillFormulaDetailResponse(
             row.gameId(),
@@ -637,15 +445,6 @@ public class SkillFormulaService {
             row.createdAt(),
             row.updatedAt()
         );
-    }
-
-    private static boolean isSupportedOperation(SkillFormulaOperation operation) {
-        return operation == SkillFormulaOperation.ADD
-            || operation == SkillFormulaOperation.SUBTRACT
-            || operation == SkillFormulaOperation.MULTIPLY
-            || operation == SkillFormulaOperation.DIVIDE
-            || operation == SkillFormulaOperation.MIN
-            || operation == SkillFormulaOperation.MAX;
     }
 
     private static void throwIfInvalid(List<Map<String, String>> issues) {
@@ -756,13 +555,13 @@ public class SkillFormulaService {
         String name,
         String description,
         Integer sortOrder,
-        SkillFormulaExpressionNode expression
+        JsonNode expression
     ) {
     }
 
     private static final class CollectedRefs {
         private final List<PathRef> parameterRefs = new ArrayList<>();
-        private final List<AttributePathRef> attributeRefs = new ArrayList<>();
+        private final List<PathRef> attributeRefs = new ArrayList<>();
         private final LinkedHashSet<String> parameterKeys = new LinkedHashSet<>();
         private final LinkedHashSet<String> attributeKeys = new LinkedHashSet<>();
         private final Map<String, String> attributeStatusByKey = new HashMap<>();
@@ -771,10 +570,5 @@ public class SkillFormulaService {
     private record PathRef(String path, String value) {
     }
 
-    private record AttributePathRef(String path, SkillFormulaAttributeRef ref) {
-    }
 
-    private static final class IntCounter {
-        private int value;
-    }
 }

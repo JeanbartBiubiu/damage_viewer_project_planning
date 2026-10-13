@@ -16,7 +16,7 @@ import xyz.game.datamanage.support.error.ApiException;
 public final class SkillObjectReferences {
     private SkillObjectReferences() {}
 
-    public enum SourceType { FORMULA, EFFECT, STATE, PROCESS, TRIGGER }
+    public enum SourceType { FORMULA, EFFECT, STATE, PROCESS, TRIGGER, DAMAGE_TYPE }
     public enum TargetType {
         ATTRIBUTE, PARAMETER, FORMULA, SKILL, CATEGORY, DAMAGE_TYPE, MODIFIER_ZONE, STATUS,
         EFFECT, RESULT, LIFECYCLE, STATE, OPTION, PROCESS, STEP, ACTION
@@ -69,6 +69,7 @@ public final class SkillObjectReferences {
             case STATE, OPTION -> aggregate.type() == SourceType.STATE;
             case PROCESS, STEP -> aggregate.type() == SourceType.PROCESS;
             case ACTION -> aggregate.type() == SourceType.TRIGGER;
+            case DAMAGE_TYPE -> aggregate.type() == SourceType.DAMAGE_TYPE;
             default -> false;
         };
     }
@@ -89,7 +90,7 @@ public final class SkillObjectReferences {
             JsonNode data = aggregate.data();
             if (data == null || !data.isObject()) continue;
             switch (target.type()) {
-                case FORMULA, EFFECT, STATE, PROCESS -> targets.add(target);
+                case FORMULA, EFFECT, STATE, PROCESS, DAMAGE_TYPE -> targets.add(target);
                 case LIFECYCLE -> { if (present(data.get("lifecycle"))) targets.add(target); }
                 case RESULT -> indexReferencedChild(target, data.path("results"), "resultKey", targets);
                 case STEP -> indexReferencedChild(target, data.path("steps"), "stepKey", targets);
@@ -133,6 +134,7 @@ public final class SkillObjectReferences {
         String key = aggregate.key();
         JsonNode data = aggregate.data();
         switch (aggregate.type()) {
+            case DAMAGE_TYPE -> targets.add(new Target(TargetType.DAMAGE_TYPE, "", key, ""));
             case FORMULA -> targets.add(new Target(TargetType.FORMULA, skill, key, ""));
             case EFFECT -> {
                 targets.add(new Target(TargetType.EFFECT, skill, key, ""));
@@ -177,7 +179,8 @@ public final class SkillObjectReferences {
 
         private void collect() {
             switch (source.type()) {
-                case FORMULA -> formula(source.data().path("expression"), "expression", 1);
+                case DAMAGE_TYPE -> damageType();
+                case FORMULA -> formula();
                 case EFFECT -> effect();
                 case STATE -> state();
                 case PROCESS -> process();
@@ -185,20 +188,33 @@ public final class SkillObjectReferences {
             }
         }
 
-        private void formula(JsonNode node, String path, int depth) {
-            if (depth > 32) throw shape(path, "公式表达式超过 32 层");
-            switch (required(node, "nodeType", path)) {
-                case "PARAMETER" -> local(node, path, "parameterKey", TargetType.PARAMETER);
-                case "ATTRIBUTE" -> dictionary(node, path, "attributeKey", TargetType.ATTRIBUTE);
-                case "OPERATION" -> {
-                    JsonNode operands = array(node, "operands");
-                    if (operands.size() != 2) throw shape(path, "运算节点必须有两个子节点");
-                    for (int i = 0; i < operands.size(); i++) formula(operands.get(i), path + ".operands[" + i + "]", depth + 1);
-                }
-                default -> throw shape(path, "未知公式节点类型");
+        private void damageType() {
+            if (!source.skillKey().isEmpty()) throw shape("sourceSkillKey", "伤害类型来源不能归属技能");
+            JsonNode definition = source.data().get("formula");
+            if (!present(definition)) return;
+            xyz.game.datamanage.service.damagetype.DamageTypeFormulaParser.readStored(AggregateJson.write(definition));
+            JsonNode inputs = definition.path("inputs");
+            for (int i = 0; i < inputs.size(); i++) {
+                String key = inputs.get(i).path("binding").path("attributeKey").textValue();
+                add("inputs/" + i + "/binding/attributeKey", TargetType.ATTRIBUTE, "", key, "");
             }
         }
 
+        private void formula() {
+            JsonNode definition = source.data().path("expression");
+            var issue = xyz.game.datamanage.service.skillformula.SkillFormulaParser.structuralIssue(source.skillKey(), definition);
+            if (issue != null) throw shape("/expression" + issue.path(), issue.code());
+            JsonNode inputs = definition.path("inputs");
+            for (int i = 0; i < inputs.size(); i++) {
+                JsonNode binding = inputs.get(i).path("binding");
+                String path = "expression/inputs/" + i + "/binding/";
+                if ("parameter".equals(binding.path("kind").asText())) {
+                    add(path + "parameterKey", TargetType.PARAMETER, binding.path("skillKey").textValue(), binding.path("parameterKey").textValue(), "");
+                } else {
+                    add(path + "attributeKey", TargetType.ATTRIBUTE, "", binding.path("attributeKey").textValue(), "");
+                }
+            }
+        }
         private void effect() {
             JsonNode data = source.data();
             String shieldEndKey = text(data.path("lifecycle"), "endWhenShieldEndsResultKey");
@@ -265,7 +281,7 @@ public final class SkillObjectReferences {
         private void state() {
             JsonNode detail = source.data().path("detail");
             switch (required(source.data(), "stateType", "stateType")) {
-                case "COUNTER" -> formulas(detail, "detail", "initialValue", "maxValue");
+                case "COUNTER" -> formulas(detail, "detail", "initialValue", "maxValue", "durationValue");
                 case "AMMO" -> formulas(detail, "detail", "initialValue", "maxValue", "recoveryIntervalValue");
                 case "INTERNAL_COOLDOWN" -> formulas(detail, "detail", "durationValue");
                 case "MODE", "FLAG" -> { }
@@ -284,7 +300,8 @@ public final class SkillObjectReferences {
                 switch (required(step, "stepType", path)) {
                     case "DELAY" -> formulas(detail, dp, "delayValue");
                     case "MULTI_HIT", "PERIODIC" -> formulas(detail, dp, "repeatCountValue", "intervalValue");
-                    case "CHANNEL" -> formulas(detail, dp, "durationValue", "executionCountValue");
+                    case "CHANNEL" -> formulas(detail, dp, "durationValue", "executionCountValue",
+                        "firstExecutionOffsetValue", "lastExecutionOffsetValue");
                     case "CHARGE" -> formulas(detail, dp, "minimumChargeValue", "maximumChargeValue");
                     case "RECAST" -> formulas(detail, dp, "windowValue", "maximumRecastCountValue");
                     case "EMPOWERED_BASIC_ATTACK" -> formulas(detail, dp, "windowValue");
@@ -358,7 +375,8 @@ public final class SkillObjectReferences {
                 }
                 case "INTERNAL_STATE_CHANGED" -> qualified(detail, path, "stateSkillKey", "stateKey", TargetType.STATE);
                 case "SPELL_SHIELD_BLOCKED" -> local(detail, path, "shieldEffectKey", TargetType.EFFECT);
-                case "SOURCE_INITIALIZED", "BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "CONTROL_RECEIVED", "ENTITY_DIED", "ENTITY_UNTARGETABLE", "KILL", "TAKEDOWN" -> { }
+                case "SOURCE_INITIALIZED", "BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "BASIC_ATTACK_RECEIVED",
+                    "CONTROL_RECEIVED", "ENTITY_DIED", "ENTITY_UNTARGETABLE", "KILL", "TAKEDOWN" -> { }
                 default -> throw shape("eventSource", "未知触发事件类型");
             }
         }

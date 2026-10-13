@@ -2,7 +2,71 @@
 
 `server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片、属性、角色、装备、构筑系统、技能、状态，以及技能公式、伤害类型结算公式、效果、内部状态、过程和触发规则的录入管理。
 
-当前实现保存、校验和回读配置，并为所选场景提供一致的只读配置快照；不执行公式、过程或事件，不组装 Wasm 请求。旧 `/combat-data/**`、当前版本查询和 `versions:publish` 发布链路已删除。
+当前实现保存、校验和回读配置，并为所选场景提供一致的只读配置快照；只对静态管理位置作精确数值证明，不执行战斗公式、过程或事件，不组装 Wasm 请求。旧 `/combat-data/**`、当前版本查询和 `versions:publish` 发布链路已删除。
+
+阶段4B沿4A快照读取所选完整装备作者树，不新增战斗计算接口或数据库结构。管理页聚合配置保存使用 `PATCH`（部分更新请求方法），`WebCorsConfig` 已允许其跨域预检；鉴权过滤器、令牌校验和写事务约束不变。预检通过不等于管理写入免鉴权。
+
+## 共同公式定义与校验第一阶段
+
+`support/formula/FormulaContractValidator` 提供原始JSON定义及调用者授权绑定目录到首个 `{code,path}` 问题的纯校验入口，成功返回空值。结构读取规划真源生成的规范，校验全部声明与分支的结构、预算、十进制范围、唯一标识、授权绑定、引用和依赖环；保留常量原字符串，不执行算术，也不访问数据库或网络。字段路径使用JSON Pointer（JSON字段定位路径），根为空串。
+
+共享含义以规划真源[共同公式定义与校验详细设计](../../../damage_viewer_project_planning/文档记录/详细设计/项目/共同公式定义与校验详细设计.md)为准。定向检查为 `mvn "-Dtest=FormulaContractValidatorTest" test`，收尾运行 `mvn test`。同源样例来自生成资源，生成文件不得手改；本阶段尚未切换现行管理保存、快照或正式计算入口，不需要数据库迁移。
+
+## 游戏属性、技能分类与施法成本用途绑定
+
+`GET /api/admin/games/{gameId}/calculation-rules` 返回 `{gameId,baseDigest,configuration}`；没有保存配置时 `configuration` 明确为 `null`，空状态同样有摘要。`PUT` 接受 `{baseDigest,configuration}`，候选必须完整非空，七项字段为 `criticalChanceAttributeKey`（可空概率属性）、`criticalMultiplierMin`（可空有限非负倍率下限）、`attackSpeedAttributeKey`（可空连续速度属性）、`attributeDerivations`（完整派生数组，最多4项）、`basicAttackCategoryKey`（可空普通攻击分类）、`equipmentPassiveCategoryKey`（可空装备被动分类）和 `ignorableCastCostAttributeKeys`（0～32个可明确忽略的施法成本属性）。空值和0保持不同，不补旧目录名或默认公式。
+
+两个分类用途均绑定时不能使用同一分类；非空绑定必须属于本游戏启用目录。费用数组只接受唯一的本游戏启用数值属性原键，保留输入顺序，可以包含生命核心槽，但不增加资源扣费或自动忽略行为。普攻所选技能与来源闭包读取本次真实普通攻击用途，不再按固定分类键判断；所选普攻未绑定时返回 `CATEGORY_BINDING_MISSING`，定位 `catalogs.calculationRules.configuration.basicAttackCategoryKey`，不匹配时沿 `BASIC_ATTACK_CATEGORY_REQUIRED` 定位所选技能。纯主动或纯属性场景允许未使用的用途为空；装备被动的实际装配准入与逐项成本确认由前端消费完整快照。新增共享含义见规划真源[技能分类与施法成本用途绑定详细设计](../../../damage_viewer_project_planning/文档记录/详细设计/项目/技能分类与施法成本用途绑定详细设计.md)。
+
+派生项只接受 `{ruleKey,attributeKey,valuePolicy,activationAttributeKeys,formula}`。规则标识与输出分别唯一，策略必须明确为 `set`（修正前替换）或 `multiply`（修正后乘算），激活集合非空且无重复。用途、输出、激活和全部共同公式输入都来自当前游戏启用的数值目录，生命核心槽 `hp` 不能作为普通派生输出或激活项；普通属性激活不开放伤害、治疗或生命资源变化，拒绝问题定位到 `activationAttributeKeys` 的实际数组项。共同公式只授权拥有者 `source` 的 `current_frame`（当前帧）属性 `BASE/BONUS/TOTAL`（基础／加成／最终）；同批全部输出只允许读冻结基础值，不授权技能参数、上下文或事件视图。
+
+写入沿同游戏锁先读基线、比较摘要、校验完整候选、同事务写入及读回。摘要冲突返回 `409.GAME_CALCULATION_RULES_CHANGED`，`details.baseDigest` 给出当前摘要；候选问题返回 `400.VALIDATION_FAILED`，`details.fieldIssues` 保留 `/configuration/...` 字段路径和共同公式错误码。成功后由客户端独立 `GET` 核对。绑定分类停用或删除、属性停用、删除或数值类型变更由游戏写入守卫按事务内最终配置独立复核，失败返回 `409.GAME_CALCULATION_RULES_INVALID` 并回滚；分类依赖与属性依赖分别追踪，不扩充技能引用索引。两类合法数值类型之间变化、分类名称与说明变化经最终检查后允许，解除用途后可沿原删除流程处理目录。
+
+快照先读取本次真实规则，再判断所选普攻和来源闭包。`catalogs.calculationRules` 运输完整响应并进入场景摘要；全部引用分类、费用属性、用途、输出、激活和声明输入进入实际目录授权，未消费的非空用途也检查本游戏归属及启用状态。费用名单只运输元数据，不要求角色补填供值、不生成技能引用；不根据固定攻速或概率名称追加属性。缺配置、损坏或停用依赖沿 `409.SIMULATION_SNAPSHOT_INVALID` 定位。后端仅保存和运输作者定义，仍由原生执行实际暴击、派生和连续时钟；管理草稿允许可空倍率，实际编译需要完整声明。原属性语义见规划真源[暴击与攻速作者绑定和属性派生详细设计](../../../damage_viewer_project_planning/文档记录/详细设计/项目/暴击与攻速作者绑定和属性派生详细设计.md)。
+
+新库使用当前 `schema.sql` 的完整七字段结构。初次建表迁移 [game_calculation_rules.sql](../../db/game_manage/migrations/game_calculation_rules.sql) 保留原字节，已有表不要重跑。已有四字段配置使用本批 [分类与费用用途增量](../../db/game_manage/migrations/game_calculation_classification_cost_bindings.sql)，在同一事务内锁表，只对缺字段补 `null`、`null`、`[]`；已有新字段、原四字段和 `updated_at`（更新时间）保持原值，再更换根字段类型与费用容量检查，不填写业务目录或删除数据。迁移执行、原数据独立读回和正式页面保存由主负责人完成，后端隔离测试只提供结构与事务语义证据。定向检查：`mvn "-Dtest=GameCalculationRuleSemanticsTest,GameCalculationRuleServiceTest,GameCalculationRuleAdminControllerTest,GameCalculationRuleSchemaSqlTest,GameConfigurationWriteGuardTest,SimulationSnapshot*Test,LegacyCombatDataCleanupDbContractSqlTest,BuildSchemaSqlTest" test`；收尾运行 `mvn test` 和 `mvn -DskipTests package`。静态SQL与隔离测试不代替真实数据库、HTTP或页面证据。
+
+## 阶段5B计数保持与属性乘算
+
+阶段5B计数明细可提供 `durationValue`（保持期限），空值／未声明或0不计时，显式值须为非负整数毫秒；引用及数值检查沿现有作者校验，快照不执行计数。仅含目标方本场不驱动攻击根的合法自然来源保留 `NO_AUTONOMOUS_ATTACK`（本场不自主攻击），不能隐藏真实初始化或接收根。
+
+属性乘区新增 `RATIO_MULTIPLY`（比例乘算），仅 `ATTRIBUTE`（属性）＋ `ATTRIBUTE_PERCENT`（属性百分比）合法。现有 `RATIO_ADD`（比例加算）含义不改；阶段5B迁移为 `db/game_manage/migrations/modifier_zone_ratio_multiply.sql`，同事务扩充两项检查，不创建表或删除数据。当前目标库2026-10-05已执行并独立回读检查有效；运行数值仍由Wasm负责，不由后端按英雄名称转换。
+
+## 阶段5C弹药条件与配置回读
+
+内部状态条件新增 `ATTACK_START_VALUE`（本次攻击开始值），仅允许当前技能自己的弹药状态，由本技能命中事件读取；普通计数、其它事件／技能及计算时输入绑定拒绝。开始值由Wasm沿本次真实使用身份冻结，后端不执行库存采样、消费或装填。弹药管理沿现有五项明确配置，首批运行范围以规划真源阶段5设计第6.4节为准。
+
+状态存在／不存在检查不要求效果来源，不参与持续状态数值结果的反向形状检查；只有层数和剩余时间读取复核其持续来源。技能命中回读不再返回无意义的空使用种类或施放阶段，使用事件仍保存真实使用种类及阶段；避免统一配置保存后的只读核对误判冲突。这些修正仅涉及服务校验与现行JSON契约，不需要数据库结构迁移。
+
+## 阶段6B步骤行动声明
+
+过程步骤新增可空 `occupiesAction`（是否占用行动），与 `stepType`（步骤种类）同级，保存在已有 `steps`（步骤数组）JSON中，不增加表或数据库迁移。只接受明确的布尔值或空值；未声明和显式空值均保留为空，字符串、数值、数组和对象拒绝，不把延时步骤统一默认为占用。
+
+单对象过程接口、技能统一配置保存／读取与场景快照均保留此字段，完整作者内容参与技能和场景摘要。是否要求明确声明仅由选定混合计划的原生准入核对；后端不为全部旧过程增加必填限制，不批改数据，也不因声明占用就证明过程可运行。即时步骤不留下跨时刻占用，完整运行含义以规划真源[阶段6设计第6.2节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段6主动技能接入与混合时间线详细设计.md)为准。
+
+定向检查：`mvn "-Dtest=SkillProcessStepRequestTest,SkillProcessServiceTest,SkillProcessAdminControllerTest,SkillConfigurationServiceTest,SimulationSnapshotPlannedSkillsTest" test`；收尾运行 `mvn test` 和 `mvn -DskipTests package`。测试使用隔离替身；真实数据只读核验不替代管理页面更新或最终Wasm／工作线程验收。现有 `plannedSkills`（计划技能）已支持多个完整来源，本次不修改其接口。
+
+## 阶段6C控制阶段与充能输入
+
+场景选择的 `phaseKinds`（阶段集合）接受 `INITIAL`（首次使用）、`RECAST`（重施）、`CHARGE_RELEASE`（蓄力释放）及 `CANCEL`（主动取消），不可重复且至少包含首次。原有16份来源上限、真实角色归属、已学等级和开关约束不变；阶段集合规范化参与摘要，不把指令时刻放入快照。每份计划来源最多一个可执行过程；有控制阶段时必须由首次实际启动同一主动过程，重施／释放用已有推进动作指向该过程的对应步骤。缺根、错来源、错过程或多过程均明确拒绝，不任意选择。
+
+取消入口只认同过程的 `PROCESS_CANCEL_REQUESTED`（过程取消请求）规则，末尾唯一 `FAIL_PROCESS`（终结过程）须指向该过程，原因为 `ACTIVE_CANCELLED`（主动取消）。不新增取消动作或使用阶段，不以其它失败原因或过程定义充当取消根。条件、前序动作、必要引用、真实失败分支及目录完整进入闭包；后端不裁掉Web或Wasm尚不支持的组成，也不证明它们已经能执行。
+
+已有 `EVENT_VALUE`（事件值）／`CHARGE_DURATION_MS`（充能毫秒）只在本技能具有唯一实际主动充能过程、首次启动，以及合法蓄力释放推进或明确布尔值 `releaseAtMaximum: true`（最大时长自动释放）时，开放给明确同技能的命中条件与动作绑定。快照中的必要命中读取必须由所选闭包的实际释放根或明确自动释放声明证明；自动释放允许仅选首次，不添加释放根或指令。false、空值、未声明或非布尔值不能证明自动释放，普通技能及外来／未明确来源仍拒绝。充能步骤实际执行时点及原有完成／超时时点的读取规则保留。统一保存及提交前复核检查最终组成，删除首次／释放或修改充能步骤不能使未修改的命中绑定悬空；不增加表或枚举。管理校验只读已有步骤JSON中的实际声明，不补写默认值。
+
+后端仅保存、校验和回读，不冻结实际时长、不执行时间／伤害、不补零或满蓄力默认值。实际释放与原使用上下文由原生执行和Web绑定核验；共享含义以规划真源[阶段6设计第4.1、7、10节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段6主动技能接入与混合时间线详细设计.md)为准。真实数据只读核验不替代负责人通过管理页补录。
+
+真实查询将过程类型、步骤、效果挂接等分别返回；充能命中能力判定按过程标识合并这些行，不因步骤行没有过程类型而丢掉充能步骤。同次统一保存先落地全部过程和规则，再按事务内最终组成检查充能时长上下文，命中规则提交顺序不影响结果。首次启动、手动释放或明确最大自动释放仍须由完整最终配置证明，缺根继续拒绝；不得要求拆成两次保存规避校验。
+
+定向检查：`mvn "-Dtest=SimulationSnapshotPhasesTest,SimulationSnapshotPlannedSkillsTest,SimulationSnapshotAdminControllerTest,SkillTriggerChargeDurationServiceTest,SkillTriggerChargeDurationMapperTest,SkillChargeDurationSemanticsTest,SkillNumericSemanticsTest,GameConfigurationWriteGuardTest,SkillTriggerCastingPhaseServiceTest" test`；收尾运行 `mvn test` 和 `mvn -DskipTests package`。测试使用隔离替身，不是实库写入、Web或最终Wasm验收。
+
+### 通用引导首末执行窗口
+
+引导步骤的 `firstExecution`（首次执行口径）增加 `CUSTOM_WINDOW`（指定首末执行窗口），必须成对保存 `firstExecutionOffsetValue`、`lastExecutionOffsetValue`（相对进入步骤的首末毫秒取值）。两项复用现有固定数值／参数／公式对象与步骤JSON，引用收集、统一聚合保存、删除保护和事务最终数值复核均识别，不增加表或按英雄分支。其它引导口径不接受这对字段，包括显式空值；周期步骤不接受指定窗口口径。
+
+可静态核对的引导值要求完整时长为正安全整数、次数为1至64，两端为非负安全整数且首段不晚于末段、末段不超完整时长。多段跨度至少为次数减一，单段两端相等；指定窗口允许1毫秒时长的0与1毫秒两段，既有等分口径仍要求时长不小于次数。参数按相同等级对齐、独立等级组合分别核对，可静态求值的公式参与检查；动态取值保留原绑定要求，实际求值、冻结、执行和恢复由原生负责。共享定义唯一来源为规划真源[阶段6设计第7.1节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段6主动技能接入与混合时间线详细设计.md)。
+
+定向检查：`mvn "-Dtest=SkillChannelWindowSemanticsTest,SkillProcessStepRequestTest,SkillProcessServiceTest,SkillProcessAdminControllerTest,SkillConfigurationServiceTest,SkillObjectReferencesTest,SkillNumericSemanticsTest,GameConfigurationWriteGuardTest" test`。负责人使用8080录入时，验证用同目录临时构建配置只将构建目录改为 `target/phase6c-channel`，分别执行定向检查、全量测试和打包；不替换原服务的类文件或JAR，不切换、停止或重启服务。替身与静态检查不代表真实管理录入或最终Wasm验收。
 
 ## 开发范围与入口
 
@@ -21,7 +85,7 @@
 
 ## 当前存储结构
 
-[当前建表脚本](../../db/game_manage/schema.sql) 定义 **29 张 public 逻辑表**。这个数量包含 `images` 分区父表，不包含图片子分区和其他模式下的表。
+[当前建表脚本](../../db/game_manage/schema.sql) 定义 **30 张 public 逻辑表**。这个数量包含 `images` 分区父表，不包含图片子分区和其他模式下的表。
 
 | 用途 | 表 |
 | --- | --- |
@@ -81,6 +145,12 @@
 
 初始化规则复用执行效果或启动过程动作，以及现有引用与循环校验，不增加表或循环豁免。无条件被动可通过 `EXECUTE_EFFECT`、`targetContext=EVENT_SOURCE` 施加自身效果；例如按当前角色等级读取的无限期生命偷取效果，无需另建等级变化事件。本模块只保存、校验和回读此事件契约，不产生战斗初始化事件或执行被动。
 
+### 普通攻击命中接收与原使用限制
+
+`BASIC_ATTACK_RECEIVED`（普通攻击命中接收（结果前））在真实命中判定完成、逐个结果及吸血结算前通知承受方；附伤、命中联动、反伤和周期不再次产生它。明细严格为 `{}`，不提供事件数值；`EVENT_SOURCE` 为原攻击者，`CURRENT_TARGET` 为接收者，`TARGET_CATEGORY_CHECK` 固定读取原攻击者类别。复用现有启动过程、执行效果及生命周期条件校验；反伤动作仍必须作用于事件来源对象，此入口不要求不存在的伤害筛选明细。
+
+`oncePerUse`（同次使用仅触发一次）在既有技能命中、普通攻击命中和普通攻击开始之外，允许普通攻击命中接收、`DAMAGE_TAKEN`（本笔受到伤害）及 `HIT_LINK_APPLIED`（命中联动）；技能使用和过程事件继续拒绝。仅保存显式共享限制键与范围，默认关闭；本笔受伤事件或命中联动需有真实原使用身份，独立周期不得生成默认使用身份。已有库需同步触发规则事件类型约束，再启用新服务。此处只定义管理保存契约，不执行运行时、不按装备标识分支，也不迁移或写入业务配置；完整时点以规划真源《阶段4装备接入与机制验收详细设计》第8.2节为准。
+
 ### 直接生命周期条件
 
 效果的结果数组仍为必填；合法生命周期可以配合空数组保存，仅记录生命周期实例。缺失或为空值的结果数组、无生命周期且无结果、无周期结果却配置周期均被拒绝。真实结果读取保持零条；触发规则内部形状读取保留效果及生命周期元数据，用于生命周期事件、动态输入和循环校验，不生成结果标识、数值输出或伤害依赖。移除被引用结果与生命周期仍受原引用保护，不需要数据库迁移。共享定义见规划真源《系统精简实施说明》的“仅记录生命周期的效果增量”。
@@ -109,7 +179,7 @@
 
 ### 事件对方类别条件
 
-`TARGET_CATEGORY_CHECK` 的明细只含非空、无重复的 `categories` 数组，类别限定为英雄 `CHAMPION`、史诗野怪 `EPIC_MONSTER`、小兵 `MINION`、非史诗野怪 `NON_EPIC_MONSTER`、建筑 `STRUCTURE`。仅供 `SKILL_HIT`、`BASIC_ATTACK_HIT`、`KILL`、`DAMAGE_PENDING`、`DAMAGE_DEALT`、`DAMAGE_TAKEN` 使用，主体固定为事件对方：技能命中和普攻命中读取实际命中对象，来源对象完成击杀读取本次被击杀对象，造成伤害读取本次伤害承受对象，伤害待结算和受到伤害读取本次伤害来源对象；不保存主体字段、属性或执行引用，也不作为循环保护。
+`TARGET_CATEGORY_CHECK` 的明细只含非空、无重复的 `categories` 数组，类别限定为英雄 `CHAMPION`、史诗野怪 `EPIC_MONSTER`、小兵 `MINION`、非史诗野怪 `NON_EPIC_MONSTER`、建筑 `STRUCTURE`。仅供 `SKILL_HIT`、`BASIC_ATTACK_HIT`、`BASIC_ATTACK_RECEIVED`、`KILL`、`TAKEDOWN`、`DAMAGE_PENDING`、`DAMAGE_DEALT`、`DAMAGE_TAKEN` 使用，主体固定为事件对方：技能命中和普攻命中读取实际命中对象，普通攻击命中接收读取原攻击者，来源对象完成击杀或参与击杀读取本次死亡对象，造成伤害读取本次伤害承受对象，伤害待结算和受到伤害读取本次伤害来源对象；不保存主体字段、属性或执行引用，也不作为循环保护。
 
 保存和事务提交前均检查类别形状及事件适配。每次对应事件必须为事件对方明确提供唯一类别，条件中的多个类别表示任一匹配；缺失类别及尚未建模对方不能默认归为英雄。当前模块只保存、校验和回读条件配置，不产生上述事件的对方类别上下文。
 
@@ -147,7 +217,7 @@
 
 按顺序执行：
 
-1. [schema.sql](../../db/game_manage/schema.sql)：创建当前 29 张逻辑表及约束。
+1. [schema.sql](../../db/game_manage/schema.sql)：创建当前 30 张逻辑表及约束。
 2. [triggers.sql](../../db/game_manage/triggers.sql)：安装图片分区函数与游戏新增触发器。
 
 随后录入游戏及业务数据。当前没有新库必跑的业务种子；`migrations/**` 不属于新库初始化步骤，应用启动也不会自动执行迁移。
@@ -224,7 +294,7 @@
 | `/build-systems/{systemKey}/definition` | 同一可重复读事务返回系统、分组、可选项和技能授予；非法已存定义返回 500，不返回部分数据 |
 | `/build-systems/{systemKey}/groups`、`/build-systems/{systemKey}/options` | 分组完整位置布局和可选项；按点投入时同一可选项在整个布局最多出现一次 |
 | `/skills` | 技能基本资料；`skillKey` 在同游戏唯一且不可改，名称可重复，`maxLevel >= 1` |
-| `/simulation-snapshot` | 一次读取首批 A/B、A 已挂载的共享普攻及完整依赖；不保存场景或执行计算 |
+| `/simulation-snapshot` | POST结构化选择；同一只读事务返回双方角色／装备／构筑实际来源、完整作者配置与启用闭包；不保存场景或执行计算 |
 | `/skills/{skillKey}/parameters` | 参数四种取值方式：FIXED、SKILL_LEVEL、CHARACTER_LEVEL、RUNTIME_INPUT |
 | `/skills/{skillKey}/formulas` | 表达式节点 OPERATION、PARAMETER、ATTRIBUTE；深度最多 32、节点最多 256，不执行公式 |
 | `/skills/{skillKey}/effects` | 效果及完整结果、可选生命周期；已有结果的 `resultType` 不可改 |
@@ -263,23 +333,15 @@
 
 ### 伤害类型结算公式
 
-`damage_types.calculation_formula` 是可空 JSONB。NULL 表示未配置；非空只要求根 JSON 对象，五阶段语义由服务校验。不另建公式表、公式键、默认公式或 JSONB 搜索索引，也不按物理、法术、真实等名称生成公式。
+`damage_types.calculation_formula` 是可空 JSONB。NULL 表示未配置；当前非空配置只使用完整共同定义 `inputs/stages/outputStageKey`，十进制常量原字符串保存。结构、运算、预算和错误顺序由共同公式规范与 `FormulaContractValidator` 唯一定义；技能公式第三B同样保存完整共同定义，详见下节。
 
-基础资料的列表、详情、创建和更新响应增加只读 `formulaConfigured`，值为该列非空。创建和基础资料更新不接受这个字段；基础更新只写名称、说明、状态、排序和 `updated_at`，不覆盖公式。
+基础资料响应保留只读 `formulaConfigured`，基础更新仍只修改名称、说明、状态、排序和 `updated_at`。公式子资源为 `/api/admin/games/{gameId}/damage-types/{damageTypeKey}/formula`，GET 返回 `gameId/damageTypeKey/formula/updatedAt`，PUT 请求外层仍为 `{formula}`，DELETE 清空定义。缺公式返回 `404.DAMAGE_TYPE_FORMULA_NOT_FOUND`，游戏和类型缺失分别沿既有404错误。
 
-公式子资源为 `/api/admin/games/{gameId}/damage-types/{damageTypeKey}/formula`：
+保存从当前游戏的真实启用属性目录建立权限，仅授权来源／目标、本帧、BASE／BONUS／TOTAL。参数、上下文、拥有者、事件视图和其他属性口径不在本使用点开放。所有新保存都要求启用绑定；管理读取可以展示停用属性配置以供修复。共同校验返回 `400.VALIDATION_FAILED` 的首个 `fieldIssues`，保留共同错误码和从 `/formula` 开始的JSON字段定位路径；请求外层绑定失败仍为 `400.INVALID_BODY`。后端不求值，不替代动态除零与倍率范围检查。
 
-- GET 返回 `gameId`、`damageTypeKey`、`formula`、`updatedAt`。未配置返回 `404.DAMAGE_TYPE_FORMULA_NOT_FOUND`。
-- PUT 请求体只有 `formula`，新建或完整替换，成功 200，并在同一事务回读。
-- DELETE 只把公式设为 NULL，成功 204。未配置同样返回 `404.DAMAGE_TYPE_FORMULA_NOT_FOUND`。
+保存定义、替换来源引用和提交前检查在游戏行锁事务内完成。`skill_object_references` 的伤害类型来源使用 `DAMAGE_TYPE`、空 `source_skill_key` 与类型原键 `source_key`；两个按来源种类生成的可空所属列分别保留技能和伤害类型外键，原组合主键与目标索引不变。属性引用路径为 `inputs/i/binding/attributeKey`。启用类型不能保留停用依赖；停用类型可保留定义和引用，属性删除仍受保护；再次启用类型或依赖它的技能会按最终目录复核。清空或删除来源只替换本次来源索引，失败则定义与索引一起回滚。
 
-PUT 和 DELETE 先调用 `GameConfigurationWriteGuard.begin(gameId)`，确认游戏和伤害类型，锁定目标行，更新 `updated_at`。游戏或伤害类型不存在仍返回 `404.GAME_NOT_FOUND`、`404.DAMAGE_TYPE_NOT_FOUND`。
-
-`formula` 必须且只能有 `resistanceBeforePenetration`、`penetrationPercent`、`penetrationFlat`、`effectiveResistance`、`resistanceFactor` 五个阶段。每个阶段是一棵表达式树，节点只允许 OPERATION、FIXED、ATTRIBUTE、STAGE_RESULT。运算只允许 ADD、SUBTRACT、MULTIPLY、DIVIDE、MIN、MAX，且恰好两个有序操作数。属性对象沿用 SOURCE、TARGET，取值沿用 BASE、BONUS、TOTAL、CURRENT、MISSING、CURRENT_RATIO、MISSING_RATIO。不接受技能 PARAMETER 节点。每个阶段深度最多 32，节点最多 256。固定值必须是明确的有限数值。
-
-阶段结果只能引用更早的阶段：第一阶段不能引用阶段结果，其后每个阶段只能引用自己之前的阶段。同阶段、后序、未知阶段和回指都拒绝。属性必须属于当前游戏。创建公式只能引用 ENABLED 属性；替换时，已有 DISABLED 引用可以按 `(attributeOwner, attributeKey, attributeValueKind)` 原样保留，改变任一项都算新引用，不能新增停用属性。属性当前没有删除接口，这些游戏级引用不写入 `skill_object_references`。
-
-请求无法绑定的 JSON、字段类型或枚举返回 `400.INVALID_BODY`。阶段、节点、字段互斥、深度、节点数和固定值形状错误返回 `400.VALIDATION_FAILED`。未知属性、跨游戏属性或非法阶段引用返回 `400.INVALID_DAMAGE_TYPE_FORMULA_REFERENCE`。新增停用属性返回 `409.FORMULA_ATTRIBUTE_DISABLED`。同一次检查返回全部可定位 `fieldIssues`，路径形如 `formula.effectiveResistance.operands[1].stageKey`。本模块不执行公式，也不静态检查除零、结果范围或最终倍率。
+本批结构增量为 [damage_type_common_formula_references.sql](../../db/game_manage/migrations/damage_type_common_formula_references.sql)。已有库必须先用 [一次性转换工具](../../tools/authoring/ApplyDamageTypeCommonFormula.java) 只读准备完整前值档案，独立复核后在同事务执行本次DDL、三条旧公式转换和新来源引用插入；不重放初始化，不重建原9900条引用。工具提供明确的 `preview/apply/readback`（预览／应用／独立读回），命令与防重放规则见 [工具说明](../../tools/authoring/README.md)。单测和SQL源文件不表示实库已执行。
 
 ### 技能挂载与代表图片
 
@@ -298,6 +360,12 @@ PUT 和 DELETE 先调用 `GameConfigurationWriteGuard.begin(gameId)`，确认游
 公开同步接口为 `/api/games/{gameId}/images`，可按 `updatedAfter` 增量读取；停用项只返回标识、状态和更新时间。
 
 ## 本地开发与配置
+
+### 普通攻击接收事件约束增量
+
+管理事件 `BASIC_ATTACK_RECEIVED`（普通攻击命中接收、结果前）使用空明细；当前目标为接收者、事件来源为原攻击者，事件对方类别条件读取攻击者。同次使用限制增加该事件、逐笔受到伤害及命中联动，但没有真实原使用身份时运行不能猜造额度。后端只保存和校验这些配置，不产生战斗事件。
+
+现有库约束入口为 [basic_attack_received.sql](../../db/game_manage/migrations/basic_attack_received.sql)，由调用方核对实际旧约束并在事务内执行；脚本不连接数据库或自行提交。本轮实际 `test0221` 已执行并独立读回，只扩大触发事件白名单，没有新表或业务数据删除。鬼索、荆棘和日炎的项目默认作者数据及运行证明见规划真源阶段4C验收记录第9节，不将HTTP保存当作战斗成功。
 
 前置要求为 JDK 21、Maven 3.9+、PostgreSQL 和 Redis。默认端口为 8080，以下命令在 `server/data_manage` 执行：
 
@@ -326,19 +394,29 @@ CORS 当前覆盖 `/api/**`，并暴露 `ETag` 响应头。启动成功但首次
 
 ## 验证入口与证据边界
 
-### 所选场景只读快照
+### 场景配置只读快照（阶段6A～6C）
 
-`GET /api/admin/games/{gameId}/simulation-snapshot` 沿用现有管理鉴权，六个查询参数均须明确提供：`sourceCharacterKey`、`sourceLevel`、`targetCharacterKey`、`targetLevel`、`basicAttackSkillKey`、`basicAttackLevel`。首批技能只接受 `shared_basic_attack`（共享普通攻击），且 A 必须真实挂载它；双方角色等级依当前游戏范围检查，技能等级依原技能最高等级检查。B 不产生自主动作，本入口不读取装备、构筑选择或未选技能配置。
+使用 `POST /api/admin/games/{gameId}/simulation-snapshot`；旧 GET 已删除，不保留旧查询参数读取或格式兼容。请求保留双方角色／等级、所选普通攻击／等级、双方装备键八个字段，并要求明确提供 `sourceBuildConfigurations`、`targetBuildConfigurations`、`sourceSkillSettings`、`targetSkillSettings`、`plannedSkills` 五个数组。空构筑数组表示未选择系统，空设置数组表示不覆盖默认来源，空计划数组表示不选择主动入口；未知字段、缺字段、重复身份、字符串布尔值、非整数和超出每侧6件的装备选择返回现有400字段问题形状。
 
-响应的 `selection` 保存原场景选择；`source`、`target` 分别包含 `character`（角色原资料）、`attributes`（完整等级属性图）、`selectedLevelValues`（原所选等级数值）及 `attachedSkills`（真实挂载列表）。`skillConfigurations` 保存所选技能完整管理响应，保留全部参数、公式、效果及并列结果、过程、内部状态和规则。`catalogs` 包含等级配置、实际依赖属性和分类、伤害类型及完整五阶段公式、乘区、状态与游戏吸血规则。数据接入的唯一共享契约仍见规划真源[单攻击方计算六阶段推进方案第4.1、4.2节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/单攻击方计算六阶段推进方案.md#41-所选对象的一致性快照)。
+`basicAttackSkillKey`（普通攻击标识）与 `basicAttackLevel`（普通攻击等级）仍必须明确提供，但允许配对为空，表示没有背景普攻；仅一项为空拒绝。`plannedSkills`（计划技能）最多16份不同完整来源，每项为 `origin`（来源身份）、`skillKey`（技能标识）、`skillLevel`（技能等级）及 `phaseKinds`（阶段集合）。本期身份仅允许A的 `CHARACTER`（角色）及其真实角色标识，阶段按本文件“阶段6C控制阶段与充能输入”核对实际根。计划不能授予技能或供给默认等级，必须与 `sourceSkillSettings` 核定的已启用、已学最终来源等级一致；与默认自然来源使用同一挂载实例。装备、构筑与B主动计划不开放。
 
-整个读取处于同一可重复读只读事务，不取写锁、不写业务数据或引用索引。`references` 从本次完整配置的真实业务字段重新提取，同技能根对象和子项立即核对，目录按所需稳定键读取，不依赖历史引用索引的完整性。首批跨技能引用明确拒绝。`snapshotDigest`（场景摘要）由本次全部返回内容统一计算，包含双方资料、属性、挂载及依赖；不以单技能 `baseDigest` 替代，且排除追溯用的 `readAt`（读回时间）。相同内容读回摘要保持一致。
+关闭背景普攻后不独立播种普攻开始、命中和接收根；双方初始化、本次计划的首次成功使用、合法技能命中、真实过程订阅及显式结果可产生的伤害／接收／联动尾部仍展开完整引用。未计划主动作者原样保留，与未激活理由分开。所选使用入口缺少或具有未知 `castPhase`（施放阶段）时拒绝，不默认首次；没有所选阶段的实际根也拒绝。时刻、同刻顺序和命中预设不接受为场景选择字段，不能以本次未命中裁剪命中作者。场景摘要覆盖规范化计划与完整作者内容，不包含读取时刻；唯一增量契约为规划真源[阶段6设计第4.1节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段6主动技能接入与混合时间线详细设计.md)。
 
-角色已经录入的固有属性必须具有完整合法的等级图，所选等级缺行、缺数值或管理读取丢弃其值时拒绝。公式引用但角色从未录入的附加属性只返回其真实目录定义，角色数值保持缺失；由 Web 提供显式场景补充值，未填时在装配阶段报告具体路径，不补零、不覆盖固有值。伤害配置使用 `SOURCE_CRIT_CHANCE`（按来源暴击率）时，额外读取 `critical_strike_chance`（暴击率）属性定义；禁止暴击或强制暴击不因此增加该目录依赖。计算时传入参数同样保持无默认值。
+双方角色响应新增 `selectedBuilds`（完整构筑定义与本次选择）和 `skillSources`（逐实例技能来源）。默认收集角色全部真实绑定、所选装备技能、完整合法构筑实际授予；开关与等级设置只能覆盖该侧真实来源的完整身份。角色、装备、构筑可选项三种身份分别携带真实角色键、装备键及系统／角色／分组／位置／可选项键，不按技能键跨实例合并。构筑规则、完整值和共享字段的唯一来源为规划真源[阶段5设计第3节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段5英雄被动接入与组合验收详细设计.md)及其引用的构筑设计第6节。
 
-已有场景配置不完整返回 `409.SIMULATION_SNAPSHOT_INVALID`，`fieldIssues`（字段问题）分别使用 `REFERENCE_MISSING`（缺依赖）、`REFERENCE_DISABLED`（停用目录）、`FORMULA_MISSING`（缺完整五阶段公式）、`NUMBER_MISSING`（缺固有数值）、`LEVEL_VALUES_INCOMPLETE`（固有等级图不完整）与 `CROSS_SKILL_NOT_SUPPORTED`（首批不支持跨技能）定位；字段带技能集合、对象稳定键及原配置路径。失败不返回部分成功快照。游戏或角色不存在仍沿用现有 404；管理权限沿用 401 / 403；缺查询参数或类型错误在入口返回 400。
+构筑读取复用现有完整定义校验，随后检查分组角色、互异、允许位置、候选归属、选择与位置数量、前置、互斥和累计逐级成本。空分组角色规则不自动生成兼容角色；固定预算不得重复提交，场景预算必须显式提供。实际授予按激活投入等级与固定／随投入两种技能等级规则产生；同选项在不同合法位置保留不同实例。关闭授予不减少成本、不撤销构筑选择，也不能绕过整套选择校验。
 
-定向检查为 `mvn "-Dtest=SimulationSnapshotServiceTest,SimulationSnapshotAdminControllerTest,SkillObjectReferencesTest" test`，覆盖附加属性缺值、真实零、全部并列结果、依赖缺失和停用、固有等级图缺口、摘要与鉴权。单测不代表实库 HTTP 已读回，也不代表 Web 装配、Wasm 编译或战斗运行通过；最终本地服务的真实快照与独立数据核对由集成验收记录。
+来源开关默认开启，但不猜角色技能等级。所选 A 普攻等级只来自 `basicAttackLevel`；其它角色等级仅按明确覆盖供值，0保留为未学，缺少必要等级保留为空并回显 `LEVEL_REQUIRED`（仍须供等级）。自然程序未配置为 `CONFIGURATION_INCOMPLETE`（配置尚缺），未计划的完整纯主动入口为 `ACTIVE_DEFERRED`（主动暂缓）；这些来源仍可读取、供值或关闭。B 普攻及非所选角色普攻没有其它可达自然根时为 `NO_AUTONOMOUS_ATTACK`（非自主攻击主体），不能隐藏真实初始化或接收根，不增加 B 自主攻击。全局禁用、本场关闭和未学分别回显 `GLOBAL_DISABLED`、`SCENE_DISABLED`、`UNLEARNED`；除此之外原因可为空，本场开关不能重新启用全局禁用技能。装备沿真实单级定义，构筑等级不能由来源设置覆盖。关闭技能不删除原关系或装备固定属性。
+
+全部读取位于同一可重复读的只读事务，不持久化场景、记录业务编辑日志、写关系或执行战斗。完整配置按技能键去重，保留主体、参数、公式、效果全部并列结果、过程、内部状态、规则与 `baseDigest`（技能配置摘要）；包含必要只读定义在内最多32份。真实所选普攻按角色关系与普通攻击分类核对，不按特定技能标识收窄；特殊主体能否运行仍由适配与运行层判断，后端读取成功不单独证明5C运行。命中根的来源技能过滤未声明或为空时保留当前主体的实际命中语义，不因空字段漏掉必要条件分支。
+
+完整作者读取与自然执行闭包分开：`enabledRuleKeys` 回显该实例的有效自然根；闭包继续反查实际可产生的过程、结果、内部状态、生命周期订阅并展开其完整引用，直到稳定。关闭、未学、缺等级和独立主动兄弟不被当作必须执行的依赖。只读定义不自动授予来源或注册订阅；必要运行组成须有同侧实际开启的对应来源，不能以另一实例冒充。响应中的 `references`（引用）反映启用闭包，完整作者内容仍由 `skillConfigurations` 保留。
+
+目录包含真实角色／装备固定属性、开启闭包及伤害类型完整共同公式的依赖。英雄常驻额外攻速同样读取攻速及收益系数目录，不因未选装备而遗漏；角色从未录入的附加数值保持缺失，不补零。固有等级图、原装备属性和必要目录损坏仍拒绝。场景摘要覆盖规范化选择、双方资料、构筑定义／实例、来源设置、等级、自然根、排除原因和完整作者／依赖，全文排除 `readAt`（读取时间）；只改开关或被排除作者内容也会改变摘要。
+
+真实来源、构筑合法性、等级与必要依赖错误沿 `409.SIMULATION_SNAPSHOT_INVALID` 返回具体字段问题，不返回部分成功快照；请求数组错误保留原输入下标，成功回显采用稳定顺序。游戏、角色或所选装备不存在沿原404，管理鉴权沿401／403。快照读取成功与原因为空均不证明 Wasm 准入或战斗通过；阶段5A新增运行支持、5B／5C机制和真实构筑数据闭环不由本模块补造。
+
+定向检查：`mvn "-Dtest=SimulationSnapshotServiceTest,SimulationSnapshotAdminControllerTest,SimulationSnapshotSourcesTest,SimulationSnapshotBuildTest,SimulationSnapshotClosureTest,SimulationSnapshotPlannedSkillsTest,SkillObjectReferencesTest" test`。功能收尾运行 `mvn test`，需要最终服务产物时运行 `mvn -DskipTests package`。这些测试使用隔离替身，不访问实库；单测和打包不能替代真实数据库、HTTP、页面或最终 Wasm 运行验收。阶段6A后端不补写真实技能阶段，不执行运行指令；库奇Q、盖伦R缺少的首次阶段须由负责人通过管理页面核定。
 
 ### 技能统一配置与角色录入检查
 
@@ -385,3 +463,15 @@ mvn "-Dtest=LegacyCombatDataCleanupDbContractSqlTest,SkillParameterFormulaManage
 状态种类增加击飞（`AIRBORNE`），复用现有无强度状态施加和移除；创建后种类不可改，引用保护及事件关系仍按状态标识处理。具体生命周期以来源为准，不为整个种类额外限定持续生效或有限期限。唯一共享含义见规划真源《系统精简实施说明》的“击飞状态增量”。
 
 已有 test0221 库使用 [约束增量](../../db/game_manage/migrations/add_airborne_status_kind.sql) 与 [单次执行器](../../tools/authoring/ApplyAirborneStatusKind.java)。执行器核对独立批准的文件散列、完整只读基线和固定目标，先建尝试记录再执行；已有记录或提交结果不明时先独立核对，不能重放。仅追加约束与注释，不创建状态条目。首次新增击飞目录与科加斯Q返回须经真实页面；隔离模拟页面不代替该项验收。
+
+## 技能共同公式第三B
+
+技能公式保留 `expression`（表达式）字段，保存完整 `inputs/stages/outputStageKey` 共同定义；旧三类树只留在一次性转换工具，正式接口不双读。技能公式授权本游戏启用属性、来源与目标、本帧、八种口径及本技能最终参数集合。管理读取保留停用属性供修复，新保存及启用技能的依赖重新检查全部声明；参数删除、属性删除和引用替换继续在游戏锁同一事务内完成。
+
+引用索引覆盖全部输入声明。动作供值、等级需要和静态／动态分类只看输出可达 `read`，包括条件两分支并集；未使用声明及未用结果不增加供值。静态管理位置沿原等级组合和精确分数复核生命比例、单层护盾、计数／弹药上限等，并消费全部共同运算与局部结果；后端不替代最终原生64位浮点执行。
+
+快照返回完整定义、参数目录和声明引用，真实目录权限独立复核；属性目录包括全部运输公式的声明，未激活公式同样有真实目录身份。执行引用与运行供值仍按原开启闭包及输出实际读取，不为这些额外目录补等级值或运行值。角色录入检查消费共同结构。检查定位使用输入／结果稳定 `key`，操作数 `args` 的位置0～2，并保留完整公式快照防止重新读取后错位。
+
+转换工具 `tools/authoring/ApplySkillCommonFormula.java` 提供只读预览与独立回查；受保护应用要求准确数据库、档案与工具摘要、独占尝试记录、全部前值核对和涉及表锁，借正式提交守卫替换仅FORMULA来源索引，失败全批回滚。本批不需要DDL；命令和档案边界见工具README。第三A伤害类型定义及来源引用保持。
+
+定向检查：`mvn "-Dtest=SkillFormulaServiceTest,SkillFormulaAdminControllerTest,SkillCommonNumericSemanticsTest,SkillConfigurationServiceTest,SkillObjectReferencesTest,GameConfigurationWriteGuardTest,SimulationSnapshotServiceTest,CharacterAuthoringCheckServiceTest,AuthoringCheckLocationResolverTest" test`；收尾 `mvn test`、`mvn -DskipTests package`。移除旧模型后首次使用 `mvn clean test` 清理陈旧编译类。静态、单测、实库转换、真实HTTP、页面与Wasm证据分别记录。

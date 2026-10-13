@@ -36,8 +36,6 @@ import xyz.game.datamanage.model.character.CharacterResponse;
 import xyz.game.datamanage.model.character.LevelConfigResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
 import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
-import xyz.game.datamanage.model.skillformula.SkillFormulaNodeType;
-import xyz.game.datamanage.model.skillformula.SkillFormulaOperation;
 import xyz.game.datamanage.model.skillformula.AttributeOwner;
 import xyz.game.datamanage.model.skillformula.AttributeValueKind;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
@@ -380,32 +378,11 @@ public class CharacterAuthoringCheckService {
         return result;
     }
 
-    /** 只检查保存树的节点形状，不计算公式或追踪参数依赖。 */
+    /** 共同定义全结构检查；目录授权和数值证明由保存事务负责。 */
     private static void checkExpression(JsonNode value, ObjectRow row, String path, List<Issue> issues) {
-        requireObject(value, row, path, false, issues);
-        if (value == null || !value.isObject()) return;
-        String type = requiredEnum(value, "nodeType", SkillFormulaNodeType.class, row, path + ".nodeType", issues);
-        if (type == null) return;
-        switch (type) {
-            case "PARAMETER" -> requiredText(value, "parameterKey", row, path + ".parameterKey", issues);
-            case "ATTRIBUTE" -> {
-                requiredText(value, "attributeKey", row, path + ".attributeKey", issues);
-                requiredEnum(value, "attributeOwner", AttributeOwner.class, row, path + ".attributeOwner", issues);
-                requiredEnum(value, "attributeValueKind", AttributeValueKind.class, row, path + ".attributeValueKind", issues);
-            }
-            case "OPERATION" -> {
-                requiredEnum(value, "operation", SkillFormulaOperation.class, row, path + ".operation", issues);
-                JsonNode operands = value.get("operands");
-                if (operands == null || !operands.isArray() || operands.isEmpty()) {
-                    objectIssue(issues, row, path + ".operands", "运算节点必须包含非空的子节点数组");
-                    return;
-                }
-                for (int i = 0; i < operands.size(); i++) checkExpression(operands.get(i), row, path + ".operands[" + i + "]", issues);
-            }
-            default -> throw new IllegalStateException("未支持的公式节点");
-        }
+        var issue = xyz.game.datamanage.service.skillformula.SkillFormulaParser.structuralIssue(row.skillKey(), value);
+        if (issue != null) objectIssue(issues, row, path + issue.path(), "共同公式结构不合法：" + issue.code());
     }
-
     private static void requireObject(JsonNode value, ObjectRow row, String path, boolean nullable, List<Issue> issues) {
         if (value == null || !value.isObject() && !(nullable && value.isNull())) objectIssue(issues, row, path, "字段缺失或结构不合法");
     }

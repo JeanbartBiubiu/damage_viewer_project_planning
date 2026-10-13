@@ -1,5 +1,7 @@
 package xyz.game.datamanage.model.skillformula;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -19,7 +21,7 @@ public record SkillFormulaCreateRequest(
     @PositiveOrZero(message = "排序不能小于0")
     Integer sortOrder,
     @NotNull(message = "公式表达式不能为空")
-    SkillFormulaExpressionNode expression
+    JsonNode expression
 ) {
     public SkillFormulaCreateRequest {
         formulaKey = normalizeRequired(formulaKey);

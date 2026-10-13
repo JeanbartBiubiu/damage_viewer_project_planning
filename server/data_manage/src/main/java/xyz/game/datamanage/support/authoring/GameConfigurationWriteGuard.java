@@ -62,6 +62,7 @@ public class GameConfigurationWriteGuard {
         }
         pending.games.add(gameId);
         pending.before.put(gameId, snapshot(gameId));
+        pending.beforeCalculations.put(gameId, GameCalculationRuleSemantics.read(jdbc, gameId));
     }
 
     /** 保留各管理接口已有的删除错误码；提交前仍会根据最终配置再次检查。 */
@@ -88,13 +89,17 @@ public class GameConfigurationWriteGuard {
         }
     }
 
-    private void validateAndReplace(String gameId, Snapshot before) {
+    private void validateAndReplace(String gameId, Snapshot before, com.fasterxml.jackson.databind.JsonNode calculationBefore) {
         Snapshot after = snapshot(gameId);
+        validateCalculationRules(gameId, before, after, calculationBefore);
         ConfigurationChangeScope.Changes changes = ConfigurationChangeScope.compare(before, after);
         List<Aggregate> sources = after.aggregates().stream()
             .filter(a -> changes.changed().contains(Source.of(a))).toList();
         List<Aggregate> affected = after.aggregates().stream()
             .filter(a -> changes.affected().contains(Source.of(a))).toList();
+        validateDamageTypes(affected, after);
+        List<Aggregate> skillAffected = affected.stream().filter(a -> a.type() != SourceType.DAMAGE_TYPE).toList();
+        List<Aggregate> skillContext = after.aggregates().stream().filter(a -> a.type() != SourceType.DAMAGE_TYPE).toList();
         Set<Target> catalog = new LinkedHashSet<>();
         for (Map<String, Object> row : jdbc.queryForList(CATALOG_SQL, gameId)) {
             catalog.add(new Target(TargetType.valueOf((String) row.get("target_type")),
@@ -102,19 +107,25 @@ public class GameConfigurationWriteGuard {
         }
         List<Reference> references = SkillObjectReferences.extractAndValidate(gameId, sources, after.aggregates(), catalog);
         SkillObjectReferences.validateExistingTargets(changes.existingToCheck(), after.aggregates(), catalog);
-        SkillLifecycleConditionSemantics.validate(affected, after.aggregates());
-        SkillQualifiedReferenceSemantics.validate(affected, after.aggregates());
-        ShieldEndLifecycleSemantics.validate(affected);
-        SkillTargetCategoryConditionSemantics.validate(affected);
-        SkillExplicitTargetIsSourceConditionSemantics.validate(affected);
-        SkillHitTargetIsEnemyConditionSemantics.validate(affected);
-        SkillCastingPhaseSemantics.validate(affected, after.aggregates());
-        SkillTriggerOncePerUseSemantics.validate(affected);
-        if (!affected.isEmpty() || changes.vampRulesChanged())
-            vampSemantics.validate(gameId, affected, after.aggregates(), changes.vampRulesChanged());
-        if (!affected.isEmpty()) {
-            healingRatioMaxSemantics.validate(gameId, affected);
-            numericSemantics.validate(gameId, affected, after.aggregates());
+        validateSkillFormulas(affected, sources, after, catalog);
+        validateDamageTypeConsumers(affected, changes.changed(), references, after);
+        SkillLifecycleConditionSemantics.validate(skillAffected, skillContext);
+        SkillQualifiedReferenceSemantics.validate(skillAffected, skillContext);
+        ShieldEndLifecycleSemantics.validate(skillAffected);
+        SkillTargetCategoryConditionSemantics.validate(skillAffected);
+        SkillExplicitTargetIsSourceConditionSemantics.validate(skillAffected);
+        SkillHitTargetIsEnemyConditionSemantics.validate(skillAffected);
+        SkillCastingPhaseSemantics.validate(skillAffected, skillContext);
+        Set<String> changedSkills = changes.changed().stream().filter(s -> s.type() != SourceType.DAMAGE_TYPE)
+            .map(Source::skill).collect(java.util.stream.Collectors.toSet());
+        SkillChargeDurationSemantics.validate(skillContext.stream().filter(aggregate -> changedSkills.contains(aggregate.skillKey())).toList(),
+            skillContext);
+        SkillTriggerOncePerUseSemantics.validate(skillAffected);
+        if (!skillAffected.isEmpty() || changes.vampRulesChanged())
+            vampSemantics.validate(gameId, skillAffected, skillContext, changes.vampRulesChanged());
+        if (!skillAffected.isEmpty()) {
+            healingRatioMaxSemantics.validate(gameId, skillAffected);
+            numericSemantics.validate(gameId, skillAffected, skillContext);
         }
         for (Source source : changes.changed()) {
             jdbc.update(DELETE_SOURCE_SQL, gameId, source.skill(), source.type().name(), source.key());
@@ -125,6 +136,107 @@ public class GameConfigurationWriteGuard {
                 ref.target().type().name(), ref.target().skillKey(), ref.target().key(), ref.target().subKey()
             }).toList();
             jdbc.batchUpdate(INSERT_SQL, rows);
+        }
+    }
+
+    /** 一次性受保护转换在提交前读回索引；仍复用正常提交守卫，不能绕过游戏锁或事务。 */
+    public void validatePending() {
+        Pending pending = (Pending) TransactionSynchronizationManager.getResource(this);
+        if (!TransactionSynchronizationManager.isActualTransactionActive()
+            || TransactionSynchronizationManager.isCurrentTransactionReadOnly() || pending == null) {
+            throw new IllegalStateException("最终配置校验必须位于已锁游戏的可写事务中");
+        }
+        for (String game : pending.games) validateAndReplace(game, pending.before.get(game), pending.beforeCalculations.get(game));
+    }
+
+    private void validateCalculationRules(String gameId, Snapshot before, Snapshot after,
+                                         com.fasterxml.jackson.databind.JsonNode calculationBefore) {
+        var calculationAfter = GameCalculationRuleSemantics.read(jdbc, gameId);
+        if (calculationAfter == null) return;
+        boolean changed = !java.util.Objects.equals(calculationBefore, calculationAfter);
+        for (String dependency : GameCalculationRuleSemantics.dependencies(calculationAfter).keySet()) {
+            var id = new ConfigurationChangeScope.Row("ATTRIBUTE", "", dependency);
+            changed |= !java.util.Objects.equals(before.rows().get(id), after.rows().get(id));
+        }
+        for (String dependency : GameCalculationRuleSemantics.categoryDependencies(calculationAfter).keySet()) {
+            var id = new ConfigurationChangeScope.Row("CATEGORY", "", dependency);
+            changed |= !java.util.Objects.equals(before.rows().get(id), after.rows().get(id));
+        }
+        if (!changed) return;
+        Map<String, GameCalculationRuleSemantics.Attribute> attributes = new LinkedHashMap<>();
+        Map<String, GameCalculationRuleSemantics.Category> categories = new LinkedHashMap<>();
+        after.rows().forEach((id, row) -> {
+            if (id.type().equals("ATTRIBUTE")) attributes.put(id.key(), new GameCalculationRuleSemantics.Attribute(
+                row.path("value_type").textValue(), row.path("status").textValue()));
+            if (id.type().equals("CATEGORY")) categories.put(id.key(), new GameCalculationRuleSemantics.Category(row.path("status").textValue()));
+        });
+        var issue = GameCalculationRuleSemantics.validate(calculationAfter, attributes, categories);
+        if (issue != null) throw new ApiException(HttpStatus.CONFLICT, "409.GAME_CALCULATION_RULES_INVALID",
+            "最终目录与游戏计算配置不一致", Map.of("fieldIssues", List.of(issue.details())));
+    }
+
+    private static void validateDamageTypes(List<Aggregate> affected, Snapshot after) {
+        Set<String> enabled = after.rows().entrySet().stream()
+            .filter(entry -> entry.getKey().type().equals("ATTRIBUTE")
+                && "ENABLED".equals(entry.getValue().path("status").asText()))
+            .map(entry -> entry.getKey().key()).collect(java.util.stream.Collectors.toSet());
+        for (Aggregate source : affected) {
+            if (source.type() != SourceType.DAMAGE_TYPE || !"ENABLED".equals(source.data().path("status").asText())) continue;
+            var formula = source.data().get("formula");
+            if (formula == null || formula.isNull()) continue;
+            var issue = xyz.game.datamanage.support.formula.FormulaContractValidator.validate(formula,
+                xyz.game.datamanage.support.formula.DamageTypeFormulaBindings.allowed(enabled));
+            if (issue != null) throw new ApiException(HttpStatus.CONFLICT, "409.DAMAGE_TYPE_FORMULA_INVALID",
+                "启用伤害类型的共同公式或属性依赖不合法", Map.of("fieldIssues", List.of(Map.of(
+                    "field", issue.path(), "code", issue.code(), "sourceType", "DAMAGE_TYPE",
+                    "sourceSkillKey", "", "sourceKey", source.key()))));
+        }
+    }
+
+    private static void validateSkillFormulas(List<Aggregate> affected, List<Aggregate> changed, Snapshot after, Set<Target> catalog) {
+        Set<String> enabled = new LinkedHashSet<>(), enabledSkills = new LinkedHashSet<>();
+        Map<String, Set<String>> parameters = new LinkedHashMap<>();
+        after.rows().forEach((id, row) -> {
+            if (id.type().equals("ATTRIBUTE") && "ENABLED".equals(row.path("status").asText())) enabled.add(id.key());
+            if (id.type().equals("SKILL") && "ENABLED".equals(row.path("status").asText())) enabledSkills.add(id.key());
+
+        });
+        for (Target target : catalog) if (target.type() == TargetType.PARAMETER) parameters.computeIfAbsent(target.skillKey(), ignored -> new LinkedHashSet<>()).add(target.key());
+        Set<Source> changedSources = changed.stream().map(Source::of).collect(java.util.stream.Collectors.toSet());
+        for (Aggregate source : affected) {
+            if (source.type() != SourceType.FORMULA) continue;
+            if (!enabledSkills.contains(source.skillKey()) && !changedSources.contains(Source.of(source))) continue;
+            var issue = xyz.game.datamanage.support.formula.FormulaContractValidator.validate(source.data().path("expression"),
+                xyz.game.datamanage.support.formula.SkillFormulaBindings.allowed(source.skillKey(), enabled,
+                    parameters.getOrDefault(source.skillKey(), Set.of())));
+            if (issue != null) throw new ApiException(HttpStatus.CONFLICT, "409.SKILL_FORMULA_INVALID",
+                "技能共同公式或启用属性及最终参数依赖不合法", Map.of("fieldIssues", List.of(Map.of(
+                    "field", "/expression" + issue.path(), "code", issue.code(), "sourceType", "FORMULA",
+                    "sourceSkillKey", source.skillKey(), "sourceKey", source.key()))));
+        }
+    }
+    private static void validateDamageTypeConsumers(List<Aggregate> affected, Set<Source> changedSources,
+                                                    List<Reference> changedReferences, Snapshot after) {
+        Map<String, String> typeStatus = new LinkedHashMap<>();
+        Set<String> enabledSkills = new LinkedHashSet<>();
+        after.rows().forEach((id, value) -> {
+            if (id.type().equals("DAMAGE_TYPE")) typeStatus.put(id.key(), value.path("status").asText());
+            if (id.type().equals("SKILL") && "ENABLED".equals(value.path("status").asText())) enabledSkills.add(id.key());
+        });
+        Set<Source> affectedSources = affected.stream().map(Source::of).collect(java.util.stream.Collectors.toSet());
+        // 改写来源已严格提取；未改写来源沿现有索引核对真实伤害类型，避免重新施加无关结构约束。
+        List<Reference> consumerReferences = new ArrayList<>(changedReferences);
+        consumerReferences.addAll(after.references().stream()
+            .filter(reference -> !changedSources.contains(Source.of(reference))).toList());
+        for (Reference reference : consumerReferences) {
+            if (!affectedSources.contains(Source.of(reference)) || !enabledSkills.contains(reference.sourceSkillKey())) continue;
+            if (reference.target().type() == TargetType.DAMAGE_TYPE
+                && !"ENABLED".equals(typeStatus.get(reference.target().key()))) {
+                throw new ApiException(HttpStatus.CONFLICT, "409.DAMAGE_TYPE_IN_USE", "启用技能依赖的伤害类型不能停用或删除",
+                    Map.of("fieldIssues", List.of(Map.of("field", reference.fieldPath(), "code", "REFERENCE_DISABLED",
+                        "sourceType", reference.sourceType().name(), "sourceSkillKey", reference.sourceSkillKey(),
+                        "sourceKey", reference.sourceKey(), "targetKey", reference.target().key()))));
+            }
         }
     }
 
@@ -149,12 +261,13 @@ public class GameConfigurationWriteGuard {
     private final class Pending implements TransactionSynchronization {
         private final Set<String> games = new LinkedHashSet<>();
         private final Map<String, Snapshot> before = new LinkedHashMap<>();
+        private final Map<String, com.fasterxml.jackson.databind.JsonNode> beforeCalculations = new LinkedHashMap<>();
 
         @Override public int getOrder() { return Ordered.LOWEST_PRECEDENCE; }
 
         @Override public void beforeCommit(boolean readOnly) {
             if (readOnly) throw new IllegalStateException("游戏配置写入不能提交为只读事务");
-            for (String gameId : games) validateAndReplace(gameId, before.get(gameId));
+            for (String gameId : games) validateAndReplace(gameId, before.get(gameId), beforeCalculations.get(gameId));
         }
 
         @Override public void suspend() {
@@ -209,6 +322,9 @@ public class GameConfigurationWriteGuard {
                jsonb_build_object('eventSource', event_source, 'conditionGroups', condition_groups,
                    'actions', actions, 'limits', limits)::text
           FROM public.skill_trigger_rules JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'DAMAGE_TYPE', '', damage_type_key,
+               jsonb_build_object('formula', calculation_formula, 'status', status)::text
+          FROM public.damage_types JOIN selected_game USING (game_id)
         ORDER BY source_type, skill_key, source_key
         """;
 

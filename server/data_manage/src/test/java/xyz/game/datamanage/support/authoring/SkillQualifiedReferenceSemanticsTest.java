@@ -72,6 +72,32 @@ class SkillQualifiedReferenceSemanticsTest {
         assertTrue(refs.stream().anyMatch(ref -> ref.fieldPath().endsWith("detail.windowValue.parameterKey")));
     }
 
+    @Test
+    void attackStartAmmoConditionSurvivesTheFinalReferenceGuardButInvalidOwnersAndBindingsDoNot() {
+        Aggregate ammo = object(SourceType.STATE, "attack", "ammo", "{\"stateType\":\"AMMO\",\"detail\":{}}");
+        Aggregate rule = object(SourceType.TRIGGER, "attack", "last_round", """
+            {"eventSource":{"eventType":"SKILL_HIT","detail":{"sourceSkillKey":null}},
+             "conditionGroups":[{"conditions":[{"conditionType":"INTERNAL_STATE_CHECK","detail":{
+              "stateSkillKey":"attack","stateKey":"ammo","valueKind":"ATTACK_START_VALUE"}}]}]}
+            """);
+        assertDoesNotThrow(() -> SkillQualifiedReferenceSemantics.validate(List.of(rule), List.of(ammo)));
+        Aggregate counter = object(SourceType.STATE, "attack", "ammo", "{\"stateType\":\"COUNTER\",\"detail\":{}}");
+        assertThrows(ApiException.class, () -> SkillQualifiedReferenceSemantics.validate(List.of(rule), List.of(counter)));
+        for (String changed : List.of(
+            AggregateJson.write(rule.data()).replace("SKILL_HIT", "BASIC_ATTACK_HIT"),
+            AggregateJson.write(rule.data()).replace("\"sourceSkillKey\":null", "\"sourceSkillKey\":\"other_skill\""))) {
+            Aggregate invalid = object(SourceType.TRIGGER, "attack", "last_round", changed);
+            assertThrows(ApiException.class, () -> SkillQualifiedReferenceSemantics.validate(List.of(invalid), List.of(ammo)));
+        }
+        Aggregate foreign = object(SourceType.TRIGGER, "other_skill", "last_round", AggregateJson.write(rule.data()));
+        assertThrows(ApiException.class, () -> SkillQualifiedReferenceSemantics.validate(List.of(foreign), List.of(ammo)));
+        Aggregate binding = object(SourceType.TRIGGER, "attack", "bad_binding", """
+            {"eventSource":{"eventType":"SKILL_HIT","detail":{}},"actions":[{"runtimeInputBindings":[{
+             "sourceType":"INTERNAL_STATE","detail":{"stateSkillKey":"attack","stateKey":"ammo", "valueKind":"ATTACK_START_VALUE"}}]}]}
+            """);
+        assertThrows(ApiException.class, () -> SkillQualifiedReferenceSemantics.validate(List.of(binding), List.of(ammo)));
+    }
+
     private static Aggregate object(SourceType type, String skill, String key, String json) {
         return new Aggregate(type, skill, key, AggregateJson.tree(json));
     }

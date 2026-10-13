@@ -212,51 +212,24 @@ class AuthoringCheckLocationResolverTest {
     }
 
     @Test
-    void formulaKeepsStructuralSlotsAndFullSnapshot() throws Exception {
+    void formulaKeepsStableInputAndStageKeysAndCompleteSnapshot() throws Exception {
         JsonNode expression = JSON.readTree("""
-            {"nodeType":"OPERATION","operation":"ADD","operands":[
-              {"nodeType":"PARAMETER","parameterKey":"left"},
-              {"nodeType":"PARAMETER","parameterKey":"right"}
-            ]}
+            {"inputs":[{"key":"left","binding":{"kind":"parameter","skillKey":"skill","parameterKey":"p"}}],
+             "stages":[{"key":"output","name":"输出","expression":{"op":"if","args":[{"op":"const","value":"0"},{"op":"const","value":"1"},{"op":"read","inputKey":"left"}]}}],"outputStageKey":"output"}
             """);
         JsonNode raw = JSON.createObjectNode().set("expression", expression);
-        AuthoringCheckLocation location = resolve("FORMULA", "total", "expression.operands[1].parameterKey", raw);
-        assertField(location);
-        assertEquals("FORMULA", location.editor());
-        assertEquals(expression, location.formulaSnapshot());
-        assertEquals(List.of(
-            new Field("expression"),
-            new ExpectValue("nodeType", "OPERATION"),
-            new ExpectValue("operation", "ADD"),
-            new FormulaOperand(1),
-            new ExpectValue("nodeType", "PARAMETER"),
-            new Field("parameterKey")
-        ), location.segments());
-
-        JsonNode repeated = JSON.readTree("""
-            {"expression":{"nodeType":"OPERATION","operation":"ADD","operands":[
-              {"nodeType":"PARAMETER","parameterKey":"left"},
-              {"nodeType":"PARAMETER","parameterKey":"left"}
-            ]}}
-            """);
-        AuthoringCheckLocation sameContent = resolve("FORMULA", "total", "expression.operands[1].parameterKey", repeated);
-        assertEquals(1, ((FormulaOperand) sameContent.segments().get(3)).operand());
-        assertEquals(repeated.get("expression"), sameContent.formulaSnapshot());
-
-        AuthoringCheckLocation illegal = resolve("FORMULA", "total", "expression.operands[2].parameterKey",
-            JSON.readTree("{\"expression\":{\"nodeType\":\"OPERATION\",\"operation\":\"ADD\",\"operands\":[{\"nodeType\":\"PARAMETER\"},{\"nodeType\":\"PARAMETER\"},{\"nodeType\":\"PARAMETER\"}]}}"));
-        assertEquals("TYPE_CHANGED", illegal.degradeReason());
-        assertTrue(illegal.segments().stream().noneMatch(segment -> segment instanceof FormulaOperand));
-        assertEquals(illegal.formulaSnapshot(), JSON.readTree(
-            "{\"nodeType\":\"OPERATION\",\"operation\":\"ADD\",\"operands\":[{\"nodeType\":\"PARAMETER\"},{\"nodeType\":\"PARAMETER\"},{\"nodeType\":\"PARAMETER\"}]}"));
-
-        AuthoringCheckLocation name = resolve("FORMULA", "total", "name",
-            JSON.readTree("{\"name\":\"总伤\",\"sortOrder\":3,\"expression\":{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"x\"}}"));
-        assertNull(name.formulaSnapshot());
-        assertEquals(List.of(new Field("name")), name.segments());
+        AuthoringCheckLocation location = resolve("FORMULA", "total", "/expression/stages/0/expression/args/2/inputKey", raw);
+        assertField(location);assertEquals(expression, location.formulaSnapshot());
+        assertTrue(location.segments().contains(new KeyedChild("stages", "key", "output")));
+        assertTrue(location.segments().contains(new FormulaOperand(2)));
+        AuthoringCheckLocation input = resolve("FORMULA", "total", "expression/inputs/0/binding/parameterKey", raw);
+        assertField(input);assertTrue(input.segments().contains(new KeyedChild("inputs", "key", "left")));
+        assertEquals(expression,input.formulaSnapshot());
+        AuthoringCheckLocation invalid = resolve("FORMULA", "total", "/expression/stages/0/expression/args/3/inputKey", raw);
+        assertEquals("TYPE_CHANGED", invalid.degradeReason());
+        assertEquals(List.of(new Field("name")),resolve("FORMULA","total","name",JSON.readTree("{\"name\":\"总伤\"}")).segments());
         assertStrictJson(location, HTTP);
     }
-
     @Test
     void characterAndBasicObjectEntriesMapExistingEditors() throws Exception {
         AuthoringCheckLocation character = AuthoringCheckLocationResolver.resolve(null, "CHARACTER", "hero", "name",
@@ -404,7 +377,7 @@ class AuthoringCheckLocationResolverTest {
                 case "FORMULA_OPERAND" -> {
                     assertEquals(Set.of("kind", "operand"), keySet(segment));
                     int operand = segment.get("operand").intValue();
-                    assertTrue(operand == 0 || operand == 1);
+                    assertTrue(operand >= 0 && operand <= 2);
                     hasOperand = true;
                 }
                 case "EXPECT_VALUE" -> {

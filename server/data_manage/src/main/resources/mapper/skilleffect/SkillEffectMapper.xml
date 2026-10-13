@@ -233,18 +233,18 @@
     </select>
 
     <select id="listRuntimeInputFormulaKeys" resultType="string">
-        SELECT DISTINCT f.formula_key
-        FROM public.skill_formulas f
-        CROSS JOIN LATERAL jsonb_path_query(f.expression, '$.**.parameterKey') n(parameter_key)
+        SELECT DISTINCT n.formula_key
+        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.formulaReadInputs"/>) n
         JOIN public.skill_parameters p
-          ON p.game_id = f.game_id AND p.skill_key = f.skill_key AND p.parameter_key = n.parameter_key #>> '{}'
-        WHERE f.game_id = #{gameId} AND f.skill_key = #{skillKey}
-          AND f.formula_key IN
+          ON p.game_id = n.game_id AND p.skill_key = n.parameter_skill_key AND p.parameter_key = n.parameter_key
+        WHERE n.game_id = #{gameId} AND n.skill_key = #{skillKey}
+          AND n.node_type = 'PARAMETER'
+          AND n.formula_key IN
         <foreach collection="keys" item="key" open="(" separator="," close=")">
             #{key}
         </foreach>
           AND p.value_mode = 'RUNTIME_INPUT'
-        ORDER BY f.formula_key
+        ORDER BY n.formula_key
     </select>
 
     <select id="countLifecycleOperationReferences" resultType="long">

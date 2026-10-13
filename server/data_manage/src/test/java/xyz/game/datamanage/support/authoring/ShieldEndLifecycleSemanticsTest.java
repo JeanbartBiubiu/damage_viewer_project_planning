@@ -57,16 +57,14 @@ class ShieldEndLifecycleSemanticsTest {
         ((ObjectNode) effect.data().path("lifecycle")).set("applicationStacksValue",
             AggregateJson.tree("{\"kind\":\"FORMULA\",\"formulaKey\":\"one\"}"));
         Aggregate formula = new Aggregate(SourceType.FORMULA, "skill", "one", AggregateJson.tree("""
-            {"expression":{"nodeType":"OPERATION","operation":"DIVIDE","operands":[
-              {"nodeType":"PARAMETER","parameterKey":"numerator"},
-              {"nodeType":"PARAMETER","parameterKey":"denominator"}]}}
+            {"expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"skill","parameterKey":"numerator"}},{"key":"input_1","binding":{"kind":"parameter","skillKey":"skill","parameterKey":"denominator"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"div","args":[{"op":"read","inputKey":"input_0"},{"op":"read","inputKey":"input_1"}]}}],"outputStageKey":"output"}}
             """));
         Parameter numerator = new Parameter("skill", "numerator", "INTEGER", "FIXED", BigDecimal.TEN, null);
         Parameter denominator = new Parameter("skill", "denominator", "INTEGER", "FIXED", BigDecimal.TEN, null);
         assertDoesNotThrow(() -> SkillNumericSemantics.validate(List.of(effect, formula), List.of(numerator, denominator)));
         ApiException failure = assertThrows(ApiException.class, () -> SkillNumericSemantics.validate(List.of(effect, formula),
             List.of(numerator, new Parameter("skill", "denominator", "INTEGER", "FIXED", BigDecimal.ZERO, null))));
-        assertTrue(failure.getDetails().toString().contains("STATIC_ONE_REQUIRED"));
+        assertTrue(failure.getDetails().toString().contains("FORMULA_NOT_STATIC"));
     }
 
     @Test

@@ -29,12 +29,41 @@ import xyz.game.datamanage.support.error.ApiException;
 
 class SkillObjectReferencesTest {
     @Test
+    void damageTypeSourceKeepsEmptySkillScopeAndPreciseInputAttributePath() {
+        var formula = xyz.game.datamanage.support.formula.DamageTypeFormulaFixtures.definition("1", "armor");
+        var data = new com.fasterxml.jackson.databind.ObjectMapper().createObjectNode().set("formula", formula);
+        var source = new Aggregate(SourceType.DAMAGE_TYPE, "", "heat", data);
+        var references = SkillObjectReferences.extractAndValidate("lol", List.of(source), Set.of(new Target(TargetType.ATTRIBUTE, "", "armor", "")));
+        assertEquals(List.of(new Reference("lol", "", SourceType.DAMAGE_TYPE, "heat", "inputs/0/binding/attributeKey",
+            new Target(TargetType.ATTRIBUTE, "", "armor", ""))), references);
+        assertTrue(SkillObjectReferences.belongsTo(new Target(TargetType.DAMAGE_TYPE, "", "heat", ""), source));
+        assertFalse(SkillObjectReferences.belongsTo(new Target(TargetType.DAMAGE_TYPE, "skill", "heat", ""), source));
+    }
+    @Test
+    void channelWindowCollectsParameterAndFormulaTargetsAtPreciseAuthorPaths() {
+        Aggregate source = aggregate(SourceType.PROCESS, "s1", "cast", """
+            {"steps":[{"stepKey":"channel","stepType":"CHANNEL","detail":{"firstExecution":"CUSTOM_WINDOW",
+             "durationValue":{"kind":"FIXED","value":20},"executionCountValue":{"kind":"FIXED","value":4},
+             "firstExecutionOffsetValue":{"kind":"PARAMETER","parameterKey":"first"},
+             "lastExecutionOffsetValue":{"kind":"FORMULA","formulaKey":"last"}}}],"cooldown":null,"effectBindings":[],"stateOperations":[]}
+            """);
+        Set<Target> targets = Set.of(new Target(TargetType.PARAMETER, "s1", "first", ""), new Target(TargetType.FORMULA, "s1", "last", ""));
+        List<Reference> references = SkillObjectReferences.extractAndValidate("lol", List.of(source), targets);
+        assertEquals(Set.of("steps[0].detail.firstExecutionOffsetValue.parameterKey", "steps[0].detail.lastExecutionOffsetValue.formulaKey"),
+            references.stream().map(Reference::fieldPath).collect(Collectors.toSet()));
+        assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", List.of(source),
+            Set.of(new Target(TargetType.PARAMETER, "s1", "first", ""))));
+        assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", List.of(source),
+            Set.of(new Target(TargetType.FORMULA, "s1", "last", ""))));
+    }
+
+    @Test
     void readExtractionUsesTheSameBusinessFieldsWithoutPretendingTargetsExist() {
         List<Aggregate> sources = fixture();
         assertEquals(SkillObjectReferences.extractAndValidate("lol", sources, catalog()),
             SkillObjectReferences.extract("lol", sources));
         Aggregate missing = aggregate(SourceType.FORMULA, "s1", "formula",
-            "{\"expression\":{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"missing\"}}");
+            "{\"expression\":{\"inputs\":[{\"key\":\"input_0\",\"binding\":{\"kind\":\"parameter\",\"skillKey\":\"s1\",\"parameterKey\":\"missing\"}}],\"stages\":[{\"key\":\"output\",\"name\":\"原技能公式输出\",\"expression\":{\"op\":\"read\",\"inputKey\":\"input_0\"}}],\"outputStageKey\":\"output\"}}");
         assertEquals("missing", SkillObjectReferences.extract("lol", List.of(missing)).getFirst().target().key());
         assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", List.of(missing), Set.of()));
     }
@@ -183,7 +212,8 @@ class SkillObjectReferencesTest {
                 case HEALTH_THRESHOLD_CROSSED -> "attributeKey thresholdValue.formulaKey";
                 case INTERNAL_STATE_CHANGED -> "stateKey";
                 case SPELL_SHIELD_BLOCKED -> "shieldEffectKey";
-                case SOURCE_INITIALIZED, BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, ENTITY_DIED, ENTITY_UNTARGETABLE, KILL, TAKEDOWN -> "";
+                case SOURCE_INITIALIZED, BASIC_ATTACK_START, BASIC_ATTACK_HIT, BASIC_ATTACK_RECEIVED,
+                    CONTROL_RECEIVED, ENTITY_DIED, ENTITY_UNTARGETABLE, KILL, TAKEDOWN -> "";
             };
             Set<String> expected = fields.isBlank() ? Set.of() : Arrays.stream(fields.split(" "))
                 .map(field -> "eventSource.detail." + field).collect(Collectors.toSet());
@@ -197,8 +227,9 @@ class SkillObjectReferencesTest {
         List<Aggregate> aggregates = fixture();
         List<Reference> refs = SkillObjectReferences.extractAndValidate("lol", aggregates, catalog());
         assertEquals(Set.of(TargetType.values()), refs.stream().map(ref -> ref.target().type()).collect(Collectors.toSet()));
-        assertEquals(Set.of(SourceType.values()), refs.stream().map(Reference::sourceType).collect(Collectors.toSet()));
-        assertReference(refs, SourceType.FORMULA, "f", "expression.operands[0].parameterKey", TargetType.PARAMETER, "s1", "p", "");
+        assertEquals(Set.of(SourceType.FORMULA, SourceType.EFFECT, SourceType.STATE, SourceType.PROCESS, SourceType.TRIGGER),
+            refs.stream().map(Reference::sourceType).collect(Collectors.toSet()));
+        assertReference(refs, SourceType.FORMULA, "f", "expression/inputs/0/binding/parameterKey", TargetType.PARAMETER, "s1", "p", "");
         assertReference(refs, SourceType.EFFECT, "effects", "results[0].detail.critical.multiplierValue.formulaKey", TargetType.FORMULA, "s1", "f", "");
         assertReference(refs, SourceType.EFFECT, "effects", "results[0].detail.vampOverrides[0].efficiencyValue.formulaKey", TargetType.FORMULA, "s1", "f", "");
         assertReference(refs, SourceType.EFFECT, "effects", "results[6].detail.affectedSkillScope.skillKeys[1]", TargetType.SKILL, "", "s2", "");
@@ -228,8 +259,8 @@ class SkillObjectReferencesTest {
 
     @Test
     void identicalKeysInDifferentSkillsNeverSatisfyEachOthersReferences() {
-        Aggregate first = aggregate(SourceType.FORMULA, "s1", "same", "{\"expression\":{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"same\"}}");
-        Aggregate second = aggregate(SourceType.FORMULA, "s2", "same", "{\"expression\":{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"same\"}}");
+        Aggregate first = aggregate(SourceType.FORMULA, "s1", "same", "{\"expression\":{\"inputs\":[{\"key\":\"input_0\",\"binding\":{\"kind\":\"parameter\",\"skillKey\":\"s1\",\"parameterKey\":\"same\"}}],\"stages\":[{\"key\":\"output\",\"name\":\"原技能公式输出\",\"expression\":{\"op\":\"read\",\"inputKey\":\"input_0\"}}],\"outputStageKey\":\"output\"}}");
+        Aggregate second = aggregate(SourceType.FORMULA, "s2", "same", "{\"expression\":{\"inputs\":[{\"key\":\"input_0\",\"binding\":{\"kind\":\"parameter\",\"skillKey\":\"s2\",\"parameterKey\":\"same\"}}],\"stages\":[{\"key\":\"output\",\"name\":\"原技能公式输出\",\"expression\":{\"op\":\"read\",\"inputKey\":\"input_0\"}}],\"outputStageKey\":\"output\"}}");
         Set<Target> targets = new HashSet<>(Set.of(new Target(TargetType.PARAMETER, "s1", "same", "")));
         assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", List.of(first, second), targets));
         targets.add(new Target(TargetType.PARAMETER, "s2", "same", ""));
@@ -327,9 +358,7 @@ class SkillObjectReferencesTest {
     private static List<Aggregate> fixture() {
         List<Aggregate> result = new ArrayList<>();
         result.add(aggregate(SourceType.FORMULA, "s1", "f", """
-            {"expression":{"nodeType":"OPERATION","operation":"ADD","operands":[
-                {"nodeType":"PARAMETER","parameterKey":"p"},
-                {"nodeType":"ATTRIBUTE","attributeOwner":"SOURCE","attributeKey":"hp","attributeValueKind":"TOTAL"}]}}
+            {"expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"s1","parameterKey":"p"}},{"key":"input_1","binding":{"kind":"attribute","object":"source","attributeKey":"hp","valueKind":"TOTAL","view":"current_frame"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"add","args":[{"op":"read","inputKey":"input_0"},{"op":"read","inputKey":"input_1"}]}}],"outputStageKey":"output"}}
             """));
         result.add(aggregate(SourceType.EFFECT, "s1", "effects", """
             {"lifecycle":{"durationValue":{"kind":"FORMULA","formulaKey":"f"},"maxStacksValue":{"kind":"FORMULA","formulaKey":"f"},"applicationStacksValue":{"kind":"FORMULA","formulaKey":"f"},"periodicIntervalValue":{"kind":"FORMULA","formulaKey":"f"}},

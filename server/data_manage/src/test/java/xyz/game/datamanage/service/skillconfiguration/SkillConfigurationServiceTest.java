@@ -9,6 +9,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
@@ -28,6 +29,9 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -52,7 +56,7 @@ import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
 import xyz.game.datamanage.model.skillformula.SkillFormulaDetailResponse;
 import xyz.game.datamanage.model.skillformula.SkillFormulaCreateRequest;
 import xyz.game.datamanage.model.skillformula.SkillFormulaUpdateRequest;
-import xyz.game.datamanage.model.skillformula.SkillFormulaParameterNode;
+
 import xyz.game.datamanage.model.skillformula.SkillFormulaSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
@@ -62,6 +66,17 @@ import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateScope;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateSummaryResponse;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessCreateRequest;
+import xyz.game.datamanage.model.skillprocess.SkillProcessActivationType;
+import xyz.game.datamanage.model.skillprocess.SkillProcessCooldown;
+import xyz.game.datamanage.model.skillprocess.SkillProcessDetailResponse;
+import xyz.game.datamanage.model.skillprocess.SkillProcessImmediateStepDetail;
+import xyz.game.datamanage.model.skillprocess.SkillProcessMoment;
+import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
+import xyz.game.datamanage.model.skillprocess.SkillProcessStepResponse;
+import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
+import xyz.game.datamanage.model.skillprocess.SkillProcessSummaryResponse;
+import xyz.game.datamanage.model.skillprocess.SkillProcessUpdateRequest;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleCreateRequest;
 import xyz.game.datamanage.service.skill.SkillService;
 import xyz.game.datamanage.service.skillparameter.SkillParameterService;
@@ -125,6 +140,76 @@ class SkillConfigurationServiceTest {
         assertEquals(reordered.baseDigest(), service.get(GAME, SKILL).baseDigest());
     }
 
+    @ParameterizedTest
+    @NullSource
+    @ValueSource(booleans = {true, false})
+    void completeConfigurationPreservesOccupationOnCreateUpdateReadAndDigest(Boolean occupiesAction) throws Exception {
+        var prepared = mock(SkillProcessService.Prepared.class);
+        var summary = new SkillProcessSummaryResponse(GAME, SKILL, "cast", "施放",
+            SkillProcessActivationType.ACTIVE, null, 0, 1, 0, 0, TIME, TIME);
+        when(processService.prepareConfigurationCreate(any(SkillProcessCreateRequest.class)))
+            .thenAnswer(invocation -> {
+                SkillProcessCreateRequest request = invocation.getArgument(0);
+                assertEquals(occupiesAction, request.steps().getFirst().occupiesAction());
+                return prepared;
+            });
+        doAnswer(invocation -> {
+            when(processService.list(GAME, SKILL)).thenReturn(List.of(summary));
+            when(processService.get(GAME, SKILL, "cast")).thenReturn(process(occupiesAction));
+            return null;
+        }).when(processService).writePreparedWithinConfiguration(GAME, SKILL, prepared);
+        JsonNode value = json.readTree("""
+            {"processKey":"cast","name":"施放","activationType":"ACTIVE","description":null,
+             "sortOrder":0,"cooldown":{"durationValue":{"kind":"FIXED","value":1000},
+               "startMoment":{"momentType":"PROCESS_START"}},
+             "steps":[{"stepKey":"cast","name":"立即","stepType":"IMMEDIATE","sortOrder":0,
+               "occupiesAction":%s,"detail":{}}],"effectBindings":[],"stateOperations":[]}
+            """.formatted(occupiesAction));
+        var created = service.create(GAME, SKILL, new SkillConfigurationSaveRequest(null,
+            skillValue(5), List.of(new SkillConfigurationChange("PROCESS", "CREATE", "cast", value))));
+        assertEquals(occupiesAction, created.processes().getFirst().steps().getFirst().occupiesAction());
+        assertEquals(created.baseDigest(), service.get(GAME, SKILL).baseDigest());
+
+        Boolean updatedOccupation = occupiesAction == null ? Boolean.TRUE : null;
+        when(processService.prepareConfigurationUpdate(eq("cast"), any(SkillProcessUpdateRequest.class),
+            any(SkillProcessDetailResponse.class))).thenAnswer(invocation -> {
+                SkillProcessUpdateRequest request = invocation.getArgument(1);
+                assertEquals(updatedOccupation, request.steps().getFirst().occupiesAction());
+                return prepared;
+            });
+        doAnswer(invocation -> {
+            when(processService.get(GAME, SKILL, "cast")).thenReturn(process(updatedOccupation));
+            return null;
+        }).when(processService).writePreparedWithinConfiguration(GAME, SKILL, prepared);
+        ((com.fasterxml.jackson.databind.node.ObjectNode) value).remove("processKey");
+        ((com.fasterxml.jackson.databind.node.ObjectNode) value.path("steps").get(0))
+            .set("occupiesAction", json.valueToTree(updatedOccupation));
+        var updated = service.update(GAME, SKILL, new SkillConfigurationSaveRequest(created.baseDigest(),
+            null, List.of(new SkillConfigurationChange("PROCESS", "UPDATE", "cast", value))));
+        assertEquals(updatedOccupation, updated.processes().getFirst().steps().getFirst().occupiesAction());
+        assertNotEquals(created.baseDigest(), updated.baseDigest());
+        assertEquals(updated.baseDigest(), service.get(GAME, SKILL).baseDigest());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"\"true\"", "\"false\"", "0", "1", "[]", "{}"})
+    void completeConfigurationRejectsNonBooleanOccupationBeforeAnyWrite(String authorValue) throws Exception {
+        JsonNode value = json.readTree("""
+            {"processKey":"cast","name":"施放","activationType":"ACTIVE","description":null,
+             "sortOrder":0,"cooldown":{"durationValue":{"kind":"FIXED","value":1000},
+               "startMoment":{"momentType":"PROCESS_START"}},
+             "steps":[{"stepKey":"cast","name":"立即","stepType":"IMMEDIATE","sortOrder":0,
+               "occupiesAction":%s,"detail":{}}],"effectBindings":[],"stateOperations":[]}
+            """.formatted(authorValue));
+        ApiException error = assertThrows(ApiException.class, () -> service.create(GAME, SKILL,
+            new SkillConfigurationSaveRequest(null, skillValue(5),
+                List.of(new SkillConfigurationChange("PROCESS", "CREATE", "cast", value)))));
+        assertEquals("400.VALIDATION_FAILED", error.getCode());
+        verify(processService, never()).prepareConfigurationCreate(any());
+        verify(processService, never()).writePreparedWithinConfiguration(any(), any(), any());
+        verify(skillService, never()).createWithinConfiguration(any(), any(), any());
+    }
+
     @Test
     void staleDigestConflictsAfterLockBeforeAnyWrite() {
         String oldDigest = service.get(GAME, SKILL).baseDigest();
@@ -164,7 +249,7 @@ class SkillConfigurationServiceTest {
         SkillConfigurationChange formula = new SkillConfigurationChange("FORMULA", "CREATE", "damage",
             json.readTree("""
                 {"formulaKey":"damage","name":"伤害","description":null,"sortOrder":1,
-                 "expression":{"nodeType":"PARAMETER","parameterKey":"base"}}
+                 "expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"ezreal_q","parameterKey":"base"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}}
                 """));
         SkillConfigurationChange parameter = new SkillConfigurationChange("PARAMETER", "CREATE", "base",
             json.readTree("""
@@ -208,7 +293,7 @@ class SkillConfigurationServiceTest {
         SkillConfigurationChange formula = new SkillConfigurationChange("FORMULA", "CREATE", "duration",
             json.readTree("""
                 {"formulaKey":"duration","name":"恢复间隔","description":null,"sortOrder":1,
-                 "expression":{"nodeType":"PARAMETER","parameterKey":"base"}}
+                 "expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"ezreal_q","parameterKey":"base"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}}
                 """));
         SkillConfigurationChange parameter = new SkillConfigurationChange("PARAMETER", "CREATE", "base",
             json.readTree("""
@@ -337,7 +422,7 @@ class SkillConfigurationServiceTest {
     void deletingParameterAfterRewritingFormulaUsesFinalCandidate() throws Exception {
         when(parameterService.list(GAME, SKILL)).thenReturn(List.of(parameter("old", null), parameter("new", null)));
         var oldFormula = new SkillFormulaDetailResponse(GAME, SKILL, "damage", "伤害", null, 1,
-            new SkillFormulaParameterNode("old"), TIME, TIME);
+            xyz.game.datamanage.support.formula.SkillFormulaFixtures.parameter(SKILL, "old"), TIME, TIME);
         when(formulaService.list(GAME, SKILL)).thenReturn(List.of(new SkillFormulaSummaryResponse(
             GAME, SKILL, "damage", "伤害", null, 1, TIME, TIME)));
         when(formulaService.get(GAME, SKILL, "damage")).thenReturn(oldFormula);
@@ -346,11 +431,11 @@ class SkillConfigurationServiceTest {
         SkillConfigurationChange rewrite = new SkillConfigurationChange("FORMULA", "UPDATE", "damage",
             json.readTree("""
                 {"name":"伤害","description":null,"sortOrder":1,
-                 "expression":{"nodeType":"PARAMETER","parameterKey":"new"}}
+                 "expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"ezreal_q","parameterKey":"new"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}}
                 """));
         service.update(GAME, SKILL, new SkillConfigurationSaveRequest(digest, null, List.of(delete, rewrite)));
         verify(formulaService).validateFinalParameterReferences(eq(GAME), eq(SKILL),
-            eq(Map.of("damage", new SkillFormulaParameterNode("new"))), eq(Set.of("new")));
+            eq(Map.of("damage", xyz.game.datamanage.support.formula.SkillFormulaFixtures.parameter(SKILL, "new"))), eq(Set.of("new")));
         InOrder order = inOrder(formulaService, parameterService);
         order.verify(formulaService).updateWithinConfiguration(eq(GAME), eq(SKILL), eq("damage"),
             any(SkillFormulaUpdateRequest.class), eq(Set.of("new")));
@@ -363,7 +448,7 @@ class SkillConfigurationServiceTest {
         String digest = service.get(GAME, SKILL).baseDigest();
         JsonNode incomplete = json.readTree("""
             {"formulaKey":"damage","name":"伤害","sortOrder":1,
-             "expression":{"nodeType":"PARAMETER","parameterKey":"base"}}
+             "expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"ezreal_q","parameterKey":"base"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}}
             """);
         ApiException error = assertThrows(ApiException.class, () -> service.update(GAME, SKILL,
             new SkillConfigurationSaveRequest(digest, null,
@@ -499,6 +584,15 @@ class SkillConfigurationServiceTest {
             {"name":"秘术射击","description":null,"maxLevel":%d,"status":"ENABLED",
              "sortOrder":10,"skillCategoryKeys":["active"]}
             """.formatted(maxLevel));
+    }
+
+    private static SkillProcessDetailResponse process(Boolean occupiesAction) {
+        return new SkillProcessDetailResponse(GAME, SKILL, "cast", "施放", SkillProcessActivationType.ACTIVE,
+            null, 0, new SkillProcessCooldown(SkillNumericValue.fixed(new BigDecimal("1000")),
+                new SkillProcessMoment(SkillProcessMomentType.PROCESS_START, null)),
+            List.of(new SkillProcessStepResponse("cast", "立即", SkillProcessStepType.IMMEDIATE,
+                null, 0, occupiesAction, new SkillProcessImmediateStepDetail())),
+            List.of(), List.of(), TIME, TIME);
     }
 
     private static SkillResponse skill(int maxLevel) {

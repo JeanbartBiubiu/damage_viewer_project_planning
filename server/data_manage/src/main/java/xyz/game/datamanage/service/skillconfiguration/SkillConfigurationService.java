@@ -1,8 +1,9 @@
 package xyz.game.datamanage.service.skillconfiguration;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -39,7 +40,6 @@ import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
 import xyz.game.datamanage.model.skillformula.SkillFormulaDetailResponse;
 import xyz.game.datamanage.model.skillformula.SkillFormulaCreateRequest;
 import xyz.game.datamanage.model.skillformula.SkillFormulaUpdateRequest;
-import xyz.game.datamanage.model.skillformula.SkillFormulaExpressionNode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
@@ -241,7 +241,7 @@ public class SkillConfigurationService {
         for (SkillParameterResponse parameter : currentParameters) {
             currentParametersByKey.put(parameter.parameterKey(), parameter);
         }
-        Map<String, SkillFormulaExpressionNode> finalFormulas = new HashMap<>();
+        Map<String, JsonNode> finalFormulas = new HashMap<>();
         for (SkillFormulaDetailResponse formula : currentFormulas) {
             finalFormulas.put(formula.formulaKey(), formula.expression());
         }

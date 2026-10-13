@@ -64,7 +64,8 @@ class SkillTriggerOncePerUseServiceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT", "BASIC_ATTACK_START"})
+    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT", "BASIC_ATTACK_START",
+        "BASIC_ATTACK_RECEIVED", "DAMAGE_TAKEN", "HIT_LINK_APPLIED"})
     void createReadUpdateNullAndDisableRoundTrip(String eventName) {
         SkillTriggerEventType eventType = SkillTriggerEventType.valueOf(eventName);
         SkillTriggerPerTargetCooldown cooldown = new SkillTriggerPerTargetCooldown(
@@ -82,6 +83,8 @@ class SkillTriggerOncePerUseServiceTest {
         assertEquals("SKILL", stored.path("oncePerUse").path("scope").asText());
         assertEquals("FORMULA", stored.path("perTargetCooldown").path("durationValue").path("kind").asText());
         assertTrue(stored.get("maxTriggersPerProcess").isNull());
+        assertEquals(2, stored.path("oncePerUse").size());
+        assertTrue(stored.path("oncePerUse").path("useRef").isMissingNode());
 
         SkillTriggerRuleCreateRequest updated = oncePerUseRule("eclipse_proc", eventType, null, cooldown, null);
         SkillTriggerRuleDetailResponse after = service.update(GAME_ID, SKILL_KEY, "eclipse_proc", updateFromCreate(updated));
@@ -121,6 +124,26 @@ class SkillTriggerOncePerUseServiceTest {
             SkillTriggerOncePerUseScope.SKILL,
             service.get(GAME_ID, SKILL_KEY, "first").oncePerUse().scope()
         );
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"BASIC_ATTACK_RECEIVED", "DAMAGE_TAKEN", "HIT_LINK_APPLIED"})
+    void receivedAndLinkEventsDoNotCreateDefaultUseLimit(String eventName) {
+        var eventType = SkillTriggerEventType.valueOf(eventName);
+        var created = service.create(GAME_ID, SKILL_KEY, oncePerUseRule("without_limit", eventType, null));
+        assertNull(created.oncePerUse());
+        assertNull(service.get(GAME_ID, SKILL_KEY, "without_limit").oncePerUse());
+        var limits = AggregateJson.tree(mapper.findRule(GAME_ID, SKILL_KEY, "without_limit").limitsJson());
+        assertTrue(limits.path("oncePerUse").isNull());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"SKILL_USED", "PROCESS_MOMENT", "ATTACK_LINK_APPLIED", "DAMAGE_DEALT"})
+    void unrelatedEventsStillRejectUseLimits(String eventName) {
+        var eventType = SkillTriggerEventType.valueOf(eventName);
+        assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY,
+            oncePerUseRule("invalid_limit", eventType, oncePerUse("received", SkillTriggerOncePerUseScope.SKILL)))),
+            "oncePerUse", "ONCE_PER_USE_EVENT_INVALID");
     }
 
     @Test

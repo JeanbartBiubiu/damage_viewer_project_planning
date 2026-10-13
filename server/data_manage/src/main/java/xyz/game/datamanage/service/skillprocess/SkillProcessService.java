@@ -1,6 +1,7 @@
 package xyz.game.datamanage.service.skillprocess;
 
 import xyz.game.datamanage.model.value.SkillNumericValue;
+import xyz.game.datamanage.model.skillprocess.SkillProcessFirstExecution;
 
 import jakarta.validation.Valid;
 import java.util.ArrayList;
@@ -370,7 +371,8 @@ public class SkillProcessService {
                 process.gameId(), process.skillKey(), process.processKey(), process.name(), process.activationType(),
                 process.description(), process.sortOrder(), cooldown,
                 steps.stream().map(step -> new SkillProcessStepResponse(
-                    step.stepKey(), step.name(), step.stepType(), step.description(), step.sortOrder(), step.detail()
+                    step.stepKey(), step.name(), step.stepType(), step.description(), step.sortOrder(),
+                    step.occupiesAction(), step.detail()
                 )).toList(),
                 bindings.stream().map(binding -> new SkillProcessEffectBindingResponse(
                     binding.bindingKey(), binding.effectKey(), binding.moment(), binding.sortOrder()
@@ -585,6 +587,8 @@ public class SkillProcessService {
                     addFormula(refs, issues, stepPath(index, "detail.intervalValue"), periodic.intervalValue());
                     if (periodic.firstExecution() == null) {
                         issues.add(fieldIssue(stepPath(index, "detail.firstExecution"), "REQUIRED", "首次执行方式不能为空"));
+                    } else if (periodic.firstExecution() == SkillProcessFirstExecution.CUSTOM_WINDOW) {
+                        issues.add(fieldIssue(stepPath(index, "detail.firstExecution"), "TYPE_MISMATCH", "周期步骤不支持指定首末执行窗口"));
                     }
                 } else {
                     issues.add(fieldIssue(stepPath(index, "detail"), "TYPE_MISMATCH", "周期步骤明细形状不合法"));
@@ -596,6 +600,17 @@ public class SkillProcessService {
                     addFormula(refs, issues, stepPath(index, "detail.executionCountValue"), channel.executionCountValue());
                     if (channel.firstExecution() == null) {
                         issues.add(fieldIssue(stepPath(index, "detail.firstExecution"), "REQUIRED", "首次执行方式不能为空"));
+                    }
+                    if (channel.firstExecution() == SkillProcessFirstExecution.CUSTOM_WINDOW) {
+                        addFormula(refs, issues, stepPath(index, "detail.firstExecutionOffsetValue"), channel.firstExecutionOffsetValue());
+                        addFormula(refs, issues, stepPath(index, "detail.lastExecutionOffsetValue"), channel.lastExecutionOffsetValue());
+                    } else {
+                        if (channel.firstExecutionOffsetValue() != null) {
+                            bodyIssues.add(fieldIssue(stepPath(index, "detail.firstExecutionOffsetValue"), "FIELD_NOT_ALLOWED", "只有指定窗口引导允许首段偏移"));
+                        }
+                        if (channel.lastExecutionOffsetValue() != null) {
+                            bodyIssues.add(fieldIssue(stepPath(index, "detail.lastExecutionOffsetValue"), "FIELD_NOT_ALLOWED", "只有指定窗口引导允许末段偏移"));
+                        }
                     }
                 } else {
                     issues.add(fieldIssue(stepPath(index, "detail"), "TYPE_MISMATCH", "引导步骤明细形状不合法"));

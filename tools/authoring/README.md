@@ -1,5 +1,33 @@
 # 受保护管理数据批次
 
+## 伤害类型共同公式一次性转换
+
+`ApplyDamageTypeCommonFormula.java` 只把已预检的 `test0221` 库、lol 的 magic／physics／real 三条既有公式转换为共同定义。连接凭据在内存解析应用配置和环境覆盖，异常只输出稳定种类或SQL状态。它不按伤害类型补模板，不被正式管理接口调用，不重建或清理原9900条引用。
+
+`preview`（预览）使用只读可重复读事务，档案只可新建在工作树忽略的 `output/formula-phase3` 目录。它保存三条完整前值含更新时间、全部伤害类型、属性目录、相关引用、全部9900条旧引用及确定性整行摘要、原约束／列／索引、SQL／工具／校验类摘要与唯一转换结果。旧五字段变为五个普通具名结果，属性三元组去重为输入，原十进制按原值转字符串，原阶段结果转共同引用。未知节点、非授权口径、停用依赖或损坏结构停止。
+
+独立旧树和共同树解释器核对全部五个结果：精确十进制比较另列，double64（64位浮点数）比较保留最大差异；样本覆盖0、正负抗性与比例／固定穿透边界。这是转换工具的离线数值证据，不是最终Wasm运行证明。
+
+先在后端模块运行 `mvn compile dependency:build-classpath "-Dmdep.outputFile=target/codex-runtime-classpath.txt"`。以下命令在后端工作树根运行：
+
+```powershell
+$taskRoot = (Get-Location).Path
+$taskClasspath = (Join-Path $taskRoot 'server/data_manage/target/classes') + [IO.Path]::PathSeparator + (Get-Content -Raw server/data_manage/target/codex-runtime-classpath.txt).Trim()
+$taskArchive = Join-Path $taskRoot 'output/formula-phase3/preview-20261008.json'
+java --class-path $taskClasspath tools/authoring/ApplyDamageTypeCommonFormula.java $taskRoot preview --archive $taskArchive
+```
+
+`apply`（应用）必须明确给出精确数据库名、前值档案摘要、迁移SQL摘要和工具摘要。独立复核后赋值 `$taskArchiveSha`、`$taskSqlSha`、`$taskToolSha`，再执行：
+
+```powershell
+java --class-path $taskClasspath tools/authoring/ApplyDamageTypeCommonFormula.java $taskRoot apply --archive $taskArchive --archive-sha256 $taskArchiveSha --sql-sha256 $taskSqlSha --tool-sha256 $taskToolSha --database test0221
+java --class-path $taskClasspath tools/authoring/ApplyDamageTypeCommonFormula.java $taskRoot readback --archive $taskArchive --archive-sha256 $taskArchiveSha
+```
+
+应用前独占建立档案旁的 `.attempt.jsonl` 尝试记录，锁定lol游戏行及本批涉及表，重新逐项核对完整前值含三条更新时间和全部旧引用摘要，随后同事务执行本次DDL、三条转换和新来源索引。任一步失败回滚；旧引用前后逐行不变，原主键／目标索引和其他伤害类型字段都保留。提交后记录完整回读收据；另外一次 `readback`（独立读回）只读核对原状态未变或转换状态一致，不写业务数据或本地档案。已有尝试记录、超时或提交结果不明时先独立读回，不删除记录重放。档案生成后改SQL、工具或共同校验类必须重新准备并复核。
+
+离线检查：`mvn "-Dtest=DamageTypeCommonFormulaTransitionTest" test`。该检查只编译工具和验证构造表达式、十进制精度、三元组去重、算术边界及DDL结构，不连接数据库。
+
 ## 通用吸血规则一次性迁移
 
 迁移后，`verify-game-vamp-rules.mjs` 仅将已审查的两项游戏规则和共享普攻、安妮Q、安妮W三个代表结果落地。先运行 `node tools/authoring/verify-game-vamp-rules.mjs --prepare` 冻结实时前值和完整请求，审查生成的计划及摘要后运行 `--apply <计划摘要>`，再由另次执行运行 `--check <同一计划摘要>`。回查比较规则、技能前值和完整效果，仅放宽合法更新时间；其余伤害不在此工具核定范围。写入尝试使用独占流水，结果不明先只读核对，禁止重放。
@@ -67,3 +95,34 @@ v3 必须由独立执行者运行 `node tools/authoring/update-reviewed-descript
 魅惑目录首次页面录入使用 `reviewed-status-ui-v3.mjs`，仅扩充已支持种类为魅惑；仍只有准备、写前核对与独立回读三种只读模式，实际保存由页面完成。v2及更早工具原字节保持冻结。
 
 公式名称与说明更正使用 `update-reviewed-formula-labels.mjs`。每项计划严格包含 `skillKey / formulaKey / route / updates`，只接受既有公式详情；更新仅允许 `name` 与 `description`，至少一项实际变化。名称须去首尾空白且非空、最多100字符；说明可为null，非空时须去首尾空白且最多2000字符。完整复制原表达式和排序，公式标识、参数与属性引用均不改。公式列表按详情去掉expression核对；实际改名可移动本行，其他行字段和相对顺序保持，单改说明不得重排。沿用冻结批准、防重放、即时及独立回读四阶段；离线保护检查：`node --test tools/authoring/update-reviewed-formula-labels.test.mjs`。
+
+## 技能共同公式第三B一次性转换
+
+`ApplySkillCommonFormula.java`（技能共同公式转换工具）是旧三类技能树的唯一入口。它不修改数据库结构，固定目标 `test0221/lol`，预览要求原公式1705行、FORMULA来源引用5875行、总引用9907行与第三A四种伤害定义／七条来源引用。未知旧字段、节点、运算、参数模式、缺目录、停用属性或预算超限立即停止。
+
+先在后端模块完成编译及离线测试并生成依赖路径；清除旧模型后不能保留陈旧编译类。所有正式后端类及实际映射SQL资源摘要参与档案冻结，预览后任一摘要变化须重建新档案并独立审查。配置文件不进入摘要档案。以下在后端工作树根运行：
+
+```powershell
+$taskRoot = (Get-Location).Path
+$taskClasspath = (Join-Path $taskRoot 'server/data_manage/target/classes') + [IO.Path]::PathSeparator + (Get-Content -Raw server/data_manage/target/codex-runtime-classpath.txt).Trim()
+java --class-path $taskClasspath tools/authoring/ApplySkillCommonFormula.java $taskRoot selftest
+java --class-path $taskClasspath tools/authoring/ApplySkillCommonFormula.java $taskRoot preview --archive "$taskRoot/output/formula-phase3b/preview.json"
+```
+
+`selftest`（离线检查）不连接数据库；`preview`（预览）用一致只读事务，保存涉及17张表的整行与时间戳、参数和属性目录、完整FORMULA引用、所有其它来源整行摘要、第三A原定义与引用、旧树盘点、转换树、完整新依赖集合及工具／后端校验类摘要。旧／新表达式分别按精确分数和64位浮点求值，覆盖真实技能／角色等级组合及显式构造的0、正负与逐输入边界；构造的计算时值只用于离线比较，不能成为数据库默认值。
+
+独立审查后将返回值分别赋给 `$taskArchive`、`$taskArchiveSha` 和 `$taskToolSha`：
+
+```powershell
+java --class-path $taskClasspath tools/authoring/ApplySkillCommonFormula.java $taskRoot apply --archive $taskArchive --archive-sha256 $taskArchiveSha --tool-sha256 $taskToolSha --database test0221
+java --class-path $taskClasspath tools/authoring/ApplySkillCommonFormula.java $taskRoot readback --archive $taskArchive --archive-sha256 $taskArchiveSha
+```
+
+`apply`（应用）先独占记录尝试，再用同一游戏锁及涉及表锁核对完整前值；1705表达式、仅FORMULA来源索引及正式引用／传递闭包／数值守卫在同一事务，失败全部回滚。其它来源与第三A精确不变。存在任何尝试记录、未知提交结果或档案／工具／类摘要变化时不得重放，先另启 `readback`（只读回查）。只读回查确认原值完整未改或转换后完整表达式、字段及精确引用集合，并与已提交回执一致。异常仅报告白名单代码和位置或SQL状态，不输出凭据与SQL正文。
+需要在正式提交前验证存量依赖闭包时，独立批准同一档案与代码后可运行 `verify-candidate`（候选事务验证）：它执行准确前值核对、表锁、完整转换和正常守卫，随后强制整批回滚，再用另一只读连接确认全部前值仍一致。该模式也有独占 `candidate-attempt`（候选尝试）记录；失败后不能删除记录盲重放，先确认当前库。此验证包含未提交的真实数据库写语句，不能称为只读预览；正常 `preview` 不触发它。
+
+```powershell
+java --class-path $taskClasspath tools/authoring/ApplySkillCommonFormula.java $taskRoot verify-candidate --archive $taskArchive --archive-sha256 $taskArchiveSha --tool-sha256 $taskToolSha --database test0221
+```
+
+`VerifySkillFormulaReadSql.java`（公式输出读取SQL核验）在明确的 `test0221` 只读事务内执行正式效果映射的输出可达查询，样例仅由查询内值构造，不建表或改数据。核对未使用计算时输入被排除、实际读取被包括、条件两分支依赖都被包括；连接配置只在进程内解析。沿用上述依赖路径，运行 `java --class-path $taskClasspath tools/authoring/VerifySkillFormulaReadSql.java $taskRoot`。

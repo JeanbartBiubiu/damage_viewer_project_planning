@@ -50,10 +50,9 @@ class SourceCastResourceCostSemanticsTest {
         var formulaEffect = new Aggregate(SourceType.EFFECT, "skill", "refund", AggregateJson.tree(
             "{\"results\":[{\"resultKey\":\"heal\",\"resultType\":\"DIRECT_HEAL\",\"valueRule\":{\"value\":{\"kind\":\"FORMULA\",\"formulaKey\":\"refund_value\"}}}]}"));
         var formula = new Aggregate(SourceType.FORMULA, "skill", "refund_value", AggregateJson.tree(
-            "{\"expression\":{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"cost\"}}"));
+            "{\"expression\":{\"inputs\":[{\"key\":\"input_0\",\"binding\":{\"kind\":\"parameter\",\"skillKey\":\"skill\",\"parameterKey\":\"cost\"}}],\"stages\":[{\"key\":\"output\",\"name\":\"原技能公式输出\",\"expression\":{\"op\":\"read\",\"inputKey\":\"input_0\"}}],\"outputStageKey\":\"output\"}}"));
         assertDoesNotThrow(() -> SkillNumericSemantics.validate(List.of(formulaEffect, formula, objects.get(1)), List.of(INPUT)));
-        var changed = new Aggregate(SourceType.FORMULA, "skill", "refund_value", AggregateJson.tree(
-            "{\"expression\":{\"nodeType\":\"CONSTANT\",\"value\":0}}"));
+        var changed = new Aggregate(SourceType.FORMULA, "skill", "refund_value", new com.fasterxml.jackson.databind.ObjectMapper().createObjectNode().set("expression", xyz.game.datamanage.support.formula.SkillFormulaFixtures.constant("0")));
         ApiException error = assertThrows(ApiException.class,
             () -> SkillNumericSemantics.validate(List.of(formulaEffect, changed, objects.get(1)), List.of(INPUT)));
         assertTrue(error.getDetails().toString().contains("BINDING_EXTRA"));

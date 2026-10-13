@@ -248,7 +248,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     void schemaDefinesExactlyTheCurrentParentTables() {
         List<String> created = extractCreateTableNames(schemaSql);
         assertEquals(currentParentTables(), created);
-        assertEquals(29, created.size());
+        assertEquals(30, created.size());
         for (String table : DROP_PARENTS) {
             assertFalse(created.contains(table), () -> "旧计算或发布表不能回到当前结构: " + table);
         }
@@ -412,7 +412,7 @@ class LegacyCombatDataCleanupDbContractSqlTest {
     }
 
     private static List<String> currentParentTables() {
-        return List.of("games", "attributes", "game_vamp_rules", "game_level_configs", "characters", "character_attributes",
+        return List.of("games", "attributes", "game_vamp_rules", "game_calculation_rules", "game_level_configs", "characters", "character_attributes",
             "equipment", "equipment_attributes", "skill_categories", "skills", "skill_category_relations",
             "skill_parameters", "skill_formulas", "damage_types", "modifier_zones", "statuses", "skill_effects",
             "skill_internal_states", "skill_processes", "skill_trigger_rules", "images", "character_skill_relations",
@@ -465,7 +465,8 @@ class LegacyCombatDataCleanupDbContractSqlTest {
             assertTrue(migration.contains("add constraint " + check + " check ("), check);
         }
         assertEquals(12, checks.size());
-        assertTrue(schemaNormalized.contains("foreign key (game_id, source_skill_key) references public.skills (game_id, skill_key) on delete cascade"));
+        assertTrue(schemaNormalized.contains("foreign key (game_id, source_owner_skill_key) references public.skills (game_id, skill_key) on delete cascade"));
+        assertTrue(schemaNormalized.contains("foreign key (game_id, source_owner_damage_type_key) references public.damage_types (game_id, damage_type_key) on delete cascade"));
         assertTrue(schemaNormalized.contains("create index ix_skill_object_references_target on public.skill_object_references (game_id, target_type, target_skill_key, target_key, target_sub_key)"));
     }
 

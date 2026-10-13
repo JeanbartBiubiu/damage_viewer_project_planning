@@ -21,7 +21,7 @@ public final class AuthoringCheckLocationResolver {
     private static final Pattern TOKEN = Pattern.compile("^([A-Za-z][A-Za-z0-9_]*|\\d+)(?:\\[(\\d+)\\])?$");
     private static final List<String> TYPE_FIELDS = List.of(
         "stateType", "resultType", "stepType", "conditionType", "actionType",
-        "sourceType", "nodeType", "eventType", "operation", "mode"
+        "sourceType", "op", "kind", "eventType", "operation", "mode"
     );
     private static final List<String> PARENT_FIELDS = List.of("effectKey", "stateKey", "processKey", "sourceSkillKey");
     private static final Set<String> CHILD_REF_FIELDS = Set.of("resultKey", "optionKey", "stepKey", "moment");
@@ -112,6 +112,16 @@ public final class AuthoringCheckLocationResolver {
 
     private static List<PathToken> parsePath(String fieldPath) {
         if (fieldPath.isEmpty()) return List.of();
+        if (fieldPath.contains("/")) {
+            StringBuilder normalized = new StringBuilder();
+            String[] pointers = fieldPath.replaceFirst("^/", "").split("/", -1);
+            for (String pointer : pointers) {
+                pointer = pointer.replace("~1", "/").replace("~0", "~");
+                if (pointer.matches("[0-9]+")) normalized.append('[').append(pointer).append(']');
+                else { if (!normalized.isEmpty()) normalized.append('.'); normalized.append(pointer); }
+            }
+            fieldPath = normalized.toString();
+        }
         String[] parts = fieldPath.split("\\.", -1);
         List<PathToken> tokens = new ArrayList<>();
         for (String part : parts) {
@@ -185,7 +195,7 @@ public final class AuthoringCheckLocationResolver {
             if (reason != null) return;
             segments.add(new Field(name));
             JsonNode next = current.get(name);
-            if ("expression".equals(name) && "FORMULA".equals(editor) && next != null && next.isObject()) {
+            if (formulaSnapshot == null && "expression".equals(name) && "FORMULA".equals(editor) && next != null && next.isObject()) {
                 formulaSnapshot = next.deepCopy();
             }
             current = next;
@@ -199,7 +209,7 @@ public final class AuthoringCheckLocationResolver {
                 reason = "UNKNOWN_FIELD";
                 return;
             }
-            if ("operands".equals(name)) {
+            if ("args".equals(name)) {
                 enterOperand(index);
                 return;
             }
@@ -215,12 +225,11 @@ public final class AuthoringCheckLocationResolver {
         }
 
         private void enterOperand(int index) {
-            emitBefore("operands", true);
+            emitBefore("args", true);
             if (reason != null) return;
-            JsonNode operands = current.get("operands");
-            if (!"OPERATION".equals(text(current.get("nodeType")))
-                || operands == null || !operands.isArray() || operands.size() != 2
-                || index != 0 && index != 1) {
+            JsonNode operands = current.get("args");
+            if (operands == null || !operands.isArray() || operands.size() < 1 || operands.size() > 3
+                || index < 0 || index >= operands.size()) {
                 reason = "TYPE_CHANGED";
                 return;
             }

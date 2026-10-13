@@ -33,10 +33,10 @@ class SkillFormulaMapperXmlParseContractTest {
     }
 
     @Test
-    void writesOneJsonbExpressionAndReadsTypedAttributeNodesRecursively() throws Exception {
+    void writesOneJsonbExpressionAndReadsAllDeclaredAttributes() throws Exception {
         Configuration configuration = parseMapper();
         Map<String, Object> parameters = Map.of("gameId", "lol", "skillKey", "ez_q", "formulaKey", "damage",
-            "name", "伤害", "sortOrder", 1, "expression", "{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"base_damage\"}");
+            "name", "伤害", "sortOrder", 1, "expression", "{\"inputs\":[{\"key\":\"input_0\",\"binding\":{\"kind\":\"parameter\",\"skillKey\":\"skill\",\"parameterKey\":\"base_damage\"}}],\"stages\":[{\"key\":\"output\",\"name\":\"原技能公式输出\",\"expression\":{\"op\":\"read\",\"inputKey\":\"input_0\"}}],\"outputStageKey\":\"output\"}");
         for (String operation : new String[] {"insert", "update"}) {
             BoundSql sql = configuration.getMappedStatement(NAMESPACE + "." + operation).getBoundSql(parameters);
             assertTrue(sql.getSql().contains("CAST(? AS jsonb)"));
@@ -46,9 +46,9 @@ class SkillFormulaMapperXmlParseContractTest {
         }
         String refsSql = configuration.getMappedStatement(NAMESPACE + ".listAttributeRefs")
             .getBoundSql(parameters).getSql();
-        assertTrue(refsSql.contains("WITH RECURSIVE"));
-        assertTrue(refsSql.contains("parent.node->'operands'"));
-        assertTrue(refsSql.contains("node->>'nodeType' = 'ATTRIBUTE'"));
+        assertFalse(refsSql.contains("WITH RECURSIVE"));
+        assertTrue(refsSql.contains("f.expression->'inputs'"));
+        assertTrue(refsSql.contains("i->'binding'->>'kind'='attribute'"));
     }
 
     private static Configuration parseMapper() throws Exception {

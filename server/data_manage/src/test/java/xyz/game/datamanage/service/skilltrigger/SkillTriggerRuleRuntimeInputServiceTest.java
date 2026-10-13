@@ -80,6 +80,15 @@ class SkillTriggerRuleRuntimeInputServiceTest {
 
     private SkillTriggerRuleService service;
 
+    @Test
+    void attackStartAmmoCaptureIsNotAnArbitraryRuntimeInputBinding() {
+        SkillTriggerRuntimeInputBinding binding = new SkillTriggerRuntimeInputBinding(
+            "from_attack_start", "ratio", SkillTriggerRuntimeInputSourceType.INTERNAL_STATE,
+            new SkillTriggerInternalStateBindingDetail(SKILL_KEY, "stacks", SkillTriggerInternalStateValueKind.ATTACK_START_VALUE, null));
+        ApiException error = thrown(() -> service.create(GAME_ID, SKILL_KEY, bound("invalid_capture_binding", List.of(binding))));
+        assertField(error, "actions[0].runtimeInputBindings[0].detail.valueKind", "FORBIDDEN");
+    }
+
     @BeforeEach
     void setUp() {
         stubParentAndCatalogs(gamesMapper, skillMapper, mapper);

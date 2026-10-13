@@ -23,6 +23,7 @@ public record SkillProcessStepRequest(
     @NotNull(message = "排序不能为空")
     @PositiveOrZero(message = "排序不能小于0")
     Integer sortOrder,
+    Boolean occupiesAction,
     @NotNull(message = "步骤明细不能为空")
     @Valid
     SkillProcessStepDetail detail

@@ -1,4 +1,4 @@
--- 当前管理数据：29 张业务逻辑表；结构化内容由服务聚合校验。
+-- 当前管理数据：30 张业务逻辑表；结构化内容由服务聚合校验。
 
 CREATE TABLE public.games (
     game_id varchar(64) PRIMARY KEY,
@@ -71,6 +71,31 @@ CREATE TABLE public.game_vamp_rules (
 COMMENT ON TABLE public.game_vamp_rules IS '游戏通用吸血规则；集合去重、分类引用和比例属性类型由同游戏事务最终校验';
 COMMENT ON COLUMN public.game_vamp_rules.default_efficiency IS '非负有限倍率，1表示100%；不代替来源对象的实时吸血比例';
 COMMENT ON COLUMN public.game_vamp_rules.skill_category_keys IS '同游戏适用技能分类，集合内任一匹配，与产生方式、来源性质同时满足';
+
+CREATE TABLE public.game_calculation_rules (
+    game_id varchar(64) NOT NULL,
+    configuration jsonb NOT NULL,
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_game_calculation_rules PRIMARY KEY (game_id),
+    CONSTRAINT fk_game_calculation_rules_game FOREIGN KEY (game_id) REFERENCES public.games (game_id),
+    CONSTRAINT ck_game_calculation_rules_configuration CHECK (
+        jsonb_typeof(configuration) = 'object'
+        AND configuration ?& ARRAY['criticalChanceAttributeKey', 'criticalMultiplierMin', 'attackSpeedAttributeKey', 'attributeDerivations',
+            'basicAttackCategoryKey', 'equipmentPassiveCategoryKey', 'ignorableCastCostAttributeKeys']
+        AND jsonb_typeof(configuration->'criticalChanceAttributeKey') IN ('string', 'null')
+        AND jsonb_typeof(configuration->'criticalMultiplierMin') IN ('number', 'null')
+        AND jsonb_typeof(configuration->'attackSpeedAttributeKey') IN ('string', 'null')
+        AND jsonb_typeof(configuration->'basicAttackCategoryKey') IN ('string', 'null')
+        AND jsonb_typeof(configuration->'equipmentPassiveCategoryKey') IN ('string', 'null')
+        AND CASE WHEN jsonb_typeof(configuration->'ignorableCastCostAttributeKeys') = 'array'
+            THEN jsonb_array_length(configuration->'ignorableCastCostAttributeKeys') <= 32 ELSE false END
+        AND CASE WHEN jsonb_typeof(configuration->'attributeDerivations') = 'array'
+            THEN jsonb_array_length(configuration->'attributeDerivations') <= 4 ELSE false END
+    )
+);
+
+COMMENT ON TABLE public.game_calculation_rules IS '游戏属性与技能分类用途绑定、可明确忽略的施法成本属性及完整共同属性派生；无默认业务配置';
+COMMENT ON COLUMN public.game_calculation_rules.configuration IS '完整作者JSON；严格字段、启用目录、非生命输出与共同公式授权由游戏锁内的最终态校验维护，不写入技能引用索引';
 
 CREATE TABLE public.game_level_configs (
     game_id varchar(64) NOT NULL,
@@ -356,7 +381,7 @@ CREATE UNIQUE INDEX uq_damage_types_name
     ON public.damage_types (game_id, lower(btrim(name)));
 
 COMMENT ON TABLE public.damage_types IS '伤害类型';
-COMMENT ON COLUMN public.damage_types.calculation_formula IS '伤害类型结算公式；NULL 表示未配置，非空仅要求 JSON 对象，阶段语义由服务层校验';
+COMMENT ON COLUMN public.damage_types.calculation_formula IS '伤害类型共同结算公式；NULL 表示未配置，非空仅要求 JSON 对象，共同结构及授权绑定由服务层校验';
 
 CREATE TABLE public.modifier_zones (
     game_id varchar(64) NOT NULL,
@@ -380,7 +405,7 @@ CREATE TABLE public.modifier_zones (
     CONSTRAINT ck_modifier_zones_domain
         CHECK (domain IN ('ATTRIBUTE', 'DAMAGE', 'HEALING', 'SHIELD')),
     CONSTRAINT ck_modifier_zones_calculation_mode
-        CHECK (calculation_mode IN ('FLAT_ADD', 'RATIO_ADD', 'RATIO_MAX')),
+        CHECK (calculation_mode IN ('FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_MAX')),
     CONSTRAINT ck_modifier_zones_application_stage
         CHECK (application_stage IN (
             'ATTRIBUTE_FLAT', 'ATTRIBUTE_PERCENT',
@@ -390,7 +415,7 @@ CREATE TABLE public.modifier_zones (
         CHECK (
             (domain = 'ATTRIBUTE' AND calculation_mode = 'FLAT_ADD'
                 AND application_stage = 'ATTRIBUTE_FLAT')
-            OR (domain = 'ATTRIBUTE' AND calculation_mode = 'RATIO_ADD'
+            OR (domain = 'ATTRIBUTE' AND calculation_mode IN ('RATIO_ADD', 'RATIO_MULTIPLY')
                 AND application_stage = 'ATTRIBUTE_PERCENT')
             OR (domain = 'DAMAGE' AND calculation_mode = 'RATIO_ADD'
                 AND application_stage IN ('DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'))
@@ -565,7 +590,7 @@ CREATE TABLE public.skill_trigger_rules (
         CHECK (sort_order >= 0 AND sort_order <= 999999),
     CONSTRAINT ck_skill_trigger_rules_event_type
         CHECK (event_type IN (
-            'SOURCE_INITIALIZED', 'SKILL_USED', 'BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'SKILL_HIT',
+            'SOURCE_INITIALIZED', 'SKILL_USED', 'BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'BASIC_ATTACK_RECEIVED', 'SKILL_HIT',
             'PROCESS_MOMENT', 'RESULT_AVAILABLE', 'LIFECYCLE_MOMENT',
             'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN', 'STATUS_CHANGED',
             'HEALTH_THRESHOLD_CROSSED', 'INTERNAL_STATE_CHANGED',
@@ -684,12 +709,16 @@ ALTER TABLE public.skill_trigger_rules ADD CONSTRAINT ck_skill_trigger_rules_con
 ALTER TABLE public.skill_trigger_rules ADD CONSTRAINT ck_skill_trigger_rules_actions_array CHECK (jsonb_typeof(actions) = 'array');
 ALTER TABLE public.skill_trigger_rules ADD CONSTRAINT ck_skill_trigger_rules_limits_object CHECK (jsonb_typeof(limits) = 'object');
 
--- 系统派生的引用明细，没有独立业务编辑入口；由游戏配置写事务整体重建。
+-- 系统派生的引用明细，没有独立业务编辑入口；由游戏配置写事务按实际变更来源替换。
 CREATE TABLE public.skill_object_references (
     game_id varchar(64) NOT NULL,
     source_skill_key varchar(64) NOT NULL,
     source_type varchar(16) NOT NULL,
     source_key varchar(64) NOT NULL,
+    source_owner_skill_key varchar(64) GENERATED ALWAYS AS
+        (CASE WHEN source_type <> 'DAMAGE_TYPE' THEN source_skill_key END) STORED,
+    source_owner_damage_type_key varchar(64) GENERATED ALWAYS AS
+        (CASE WHEN source_type = 'DAMAGE_TYPE' THEN source_key END) STORED,
     field_path text NOT NULL,
     target_type varchar(16) NOT NULL,
     target_skill_key varchar(64) NOT NULL,
@@ -701,10 +730,16 @@ CREATE TABLE public.skill_object_references (
     ),
     CONSTRAINT fk_skill_object_references_game FOREIGN KEY (game_id)
         REFERENCES public.games (game_id) ON DELETE CASCADE,
-    CONSTRAINT fk_skill_object_references_skill FOREIGN KEY (game_id, source_skill_key)
+    CONSTRAINT fk_skill_object_references_skill FOREIGN KEY (game_id, source_owner_skill_key)
         REFERENCES public.skills (game_id, skill_key) ON DELETE CASCADE,
+    CONSTRAINT fk_skill_object_references_damage_type FOREIGN KEY (game_id, source_owner_damage_type_key)
+        REFERENCES public.damage_types (game_id, damage_type_key) ON DELETE CASCADE,
     CONSTRAINT ck_skill_object_references_source_type CHECK (
-        source_type IN ('FORMULA', 'EFFECT', 'STATE', 'PROCESS', 'TRIGGER')
+        source_type IN ('FORMULA', 'EFFECT', 'STATE', 'PROCESS', 'TRIGGER', 'DAMAGE_TYPE')
+    ),
+    CONSTRAINT ck_skill_object_references_source_shape CHECK (
+        (source_type = 'DAMAGE_TYPE' AND source_skill_key = '' AND btrim(source_key) <> '')
+        OR (source_type <> 'DAMAGE_TYPE' AND btrim(source_skill_key) <> '' AND btrim(source_key) <> '')
     ),
     CONSTRAINT ck_skill_object_references_target_type CHECK (
         target_type IN ('ATTRIBUTE', 'PARAMETER', 'FORMULA', 'SKILL', 'CATEGORY', 'DAMAGE_TYPE',
@@ -718,7 +753,7 @@ CREATE TABLE public.skill_object_references (
 CREATE INDEX ix_skill_object_references_target ON public.skill_object_references
     (game_id, target_type, target_skill_key, target_key, target_sub_key);
 
-COMMENT ON TABLE public.skill_object_references IS '从技能组成提取的系统引用明细';
+COMMENT ON TABLE public.skill_object_references IS '从技能组成及伤害类型共同公式提取的系统引用明细';
 
 CREATE TABLE public.build_systems (
     game_id varchar(64) NOT NULL,

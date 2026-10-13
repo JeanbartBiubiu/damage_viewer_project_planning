@@ -26,6 +26,10 @@ class SkillEffectAggregateStorageTest {
     @Test
     void buildsRootJsonWriteMappingsWithAllParametersAndNoUnmappedInterfaceMethods() throws Exception {
         Configuration configuration = new Configuration();
+        String readModel = "mapper/authoring/AuthoringReadModel.xml";
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream(readModel)) {
+            new XMLMapperBuilder(input, configuration, readModel, configuration.getSqlFragments()).parse();
+        }
         try (InputStream input = getClass().getClassLoader().getResourceAsStream(RESOURCE)) {
             new XMLMapperBuilder(input, configuration, RESOURCE, configuration.getSqlFragments()).parse();
         }

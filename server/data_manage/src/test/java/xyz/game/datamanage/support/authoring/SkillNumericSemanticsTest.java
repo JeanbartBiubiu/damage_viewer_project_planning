@@ -40,6 +40,20 @@ class SkillNumericSemanticsTest {
         assertIssue(code, path, List.of(object), List.of());
     }
 
+    @Test
+    void counterHoldDurationIsOptionalAndMustBeNonNegativeInteger() {
+        for (String duration : List.of("0", "4000")) {
+            assertDoesNotThrow(() -> SkillNumericSemantics.validate(List.of(state("COUNTER",
+                "{\"initialValue\":" + fixed("0") + ",\"maxValue\":" + fixed("3")
+                    + ",\"durationValue\":" + fixed(duration) + "}")), List.of()));
+        }
+        for (String duration : List.of("-1", "1.5")) {
+            assertThrows(ApiException.class, () -> SkillNumericSemantics.validate(List.of(state("COUNTER",
+                "{\"initialValue\":" + fixed("0") + ",\"maxValue\":" + fixed("3")
+                    + ",\"durationValue\":" + fixed(duration) + "}")), List.of()));
+        }
+    }
+
     static Stream<Arguments> invalidStaticBounds() {
         return Stream.of(
             Arguments.of(process("PERIODIC", "{\"repeatCountValue\":" + fixed("1") + ",\"intervalValue\":" + fixed("0") + "}"),
@@ -605,11 +619,14 @@ class SkillNumericSemanticsTest {
     }
 
     private static Aggregate formula(String parameter) {
-        return object(SourceType.FORMULA, "formula", "{\"expression\":{\"nodeType\":\"OPERATION\",\"operation\":\"ADD\",\"operands\":["
-            + "{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"" + parameter + "\"},"
-            + "{\"nodeType\":\"ATTRIBUTE\",\"attributeOwner\":\"SOURCE\",\"attributeKey\":\"hp\",\"attributeValueKind\":\"TOTAL\"}]}}");
+        var definition = xyz.game.datamanage.support.formula.SkillFormulaFixtures.parameter(SKILL, parameter);
+        definition.withArray("inputs").addObject().put("key", "attribute").putObject("binding")
+            .put("kind", "attribute").put("object", "source").put("attributeKey", "hp").put("valueKind", "TOTAL").put("view", "current_frame");
+        ((com.fasterxml.jackson.databind.node.ObjectNode) definition.path("stages").get(0)).set("expression", AggregateJson.tree("""
+            {"op":"add","args":[{"op":"read","inputKey":"input_0"},{"op":"read","inputKey":"attribute"}]}
+            """));
+        return new Aggregate(SourceType.FORMULA, SKILL, "formula", new com.fasterxml.jackson.databind.ObjectMapper().createObjectNode().set("expression", definition));
     }
-
     private static Aggregate rule(String type, String target, boolean bind, String eventValue) {
         String targetField = "EXECUTE_EFFECT".equals(type) ? "effectKey" : "processKey";
         String eventType = "RAW_DAMAGE".equals(eventValue) ? "DAMAGE_DEALT" : "SKILL_HIT";

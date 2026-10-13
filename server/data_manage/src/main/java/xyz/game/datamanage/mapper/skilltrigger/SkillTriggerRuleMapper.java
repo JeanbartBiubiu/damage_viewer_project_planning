@@ -294,6 +294,13 @@ public interface SkillTriggerRuleMapper {
         @Param("stepKey") String stepKey
     );
 
+    Boolean findChargeReleaseAtMaximum(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("processKey") String processKey,
+        @Param("stepKey") String stepKey
+    );
+
     long countStatusApplyPersistent(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey,

@@ -38,13 +38,14 @@ public final class SkillTargetCategoryConditionSemantics {
     public static List<Map<String, String>> eventIssues(SkillTriggerEventType eventType, String path) {
         if (eventType == SkillTriggerEventType.SKILL_HIT
             || eventType == SkillTriggerEventType.BASIC_ATTACK_HIT
+            || eventType == SkillTriggerEventType.BASIC_ATTACK_RECEIVED
             || eventType == SkillTriggerEventType.KILL
             || eventType == SkillTriggerEventType.TAKEDOWN
             || eventType == SkillTriggerEventType.DAMAGE_PENDING
             || eventType == SkillTriggerEventType.DAMAGE_DEALT
             || eventType == SkillTriggerEventType.DAMAGE_TAKEN) return List.of();
         return List.of(issue(path + ".categories", "EVENT_VALUE_NOT_AVAILABLE",
-            "事件对方类别只适用于技能命中、普攻命中、来源对象完成击杀、伤害待结算、造成伤害或受到伤害事件"));
+            "事件对方类别只适用于技能命中、普攻命中、普通攻击命中接收、来源对象完成击杀、来源对象参与击杀、伤害待结算、造成伤害或受到伤害事件"));
     }
 
     public static void validate(List<Aggregate> aggregates) {

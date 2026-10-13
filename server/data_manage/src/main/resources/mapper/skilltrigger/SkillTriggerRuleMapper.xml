@@ -1091,10 +1091,10 @@
 
     <select id="listRuntimeInputParameters" resultMap="parameterRefRow">
         SELECT DISTINCT p.parameter_key, p.value_type, p.value_mode
-        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.formulaNodes"/>) n
+        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.formulaReadInputs"/>) n
         JOIN public.skill_parameters p
           ON p.game_id = n.game_id
-         AND p.skill_key = n.skill_key
+         AND p.skill_key = n.parameter_skill_key
          AND p.parameter_key = n.parameter_key
         WHERE n.game_id = #{gameId}
           AND n.skill_key = #{skillKey}
@@ -1142,10 +1142,10 @@
 
     <select id="countRuntimeInputNodes" resultType="long">
         SELECT COUNT(1)
-        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.formulaNodes"/>) n
+        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.formulaReadInputs"/>) n
         JOIN public.skill_parameters p
           ON p.game_id = n.game_id
-         AND p.skill_key = n.skill_key
+         AND p.skill_key = n.parameter_skill_key
          AND p.parameter_key = n.parameter_key
         WHERE n.game_id = #{gameId}
           AND n.skill_key = #{skillKey}
@@ -1289,6 +1289,18 @@
           AND skill_key = #{skillKey}
           AND process_key = #{processKey}
           AND step_key = #{stepKey}
+    </select>
+
+    <select id="findChargeReleaseAtMaximum" resultType="java.lang.Boolean">
+        SELECT CASE WHEN jsonb_typeof(step->'detail'->'releaseAtMaximum') = 'boolean'
+                    THEN (step->'detail'->>'releaseAtMaximum')::boolean END
+        FROM public.skill_processes process
+        CROSS JOIN LATERAL jsonb_array_elements(process.steps) step
+        WHERE process.game_id = #{gameId}
+          AND process.skill_key = #{skillKey}
+          AND process.process_key = #{processKey}
+          AND step->>'stepKey' = #{stepKey}
+          AND step->>'stepType' = 'CHARGE'
     </select>
 
     <select id="countStatusApplyPersistent" resultType="long">

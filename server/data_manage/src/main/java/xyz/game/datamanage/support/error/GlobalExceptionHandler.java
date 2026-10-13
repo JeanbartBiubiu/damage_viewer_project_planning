@@ -20,6 +20,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.method.ParameterErrors;
 import org.springframework.validation.method.ParameterValidationResult;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -116,6 +117,12 @@ public class GlobalExceptionHandler {
                 "Resource not found",
                 Map.of("path", path, "reason", ex.getClass().getSimpleName())
             ));
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorResponse> handleUnsupportedMethod(HttpRequestMethodNotSupportedException ex) {
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
+            .body(ErrorResponse.of("405.METHOD_NOT_ALLOWED", "请求方法不受支持", Map.of("method", ex.getMethod())));
     }
 
     @ExceptionHandler(Exception.class)

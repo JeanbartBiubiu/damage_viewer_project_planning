@@ -98,6 +98,12 @@ public final class SkillQualifiedReferenceSemantics {
         String kind = detail.path(kindField).asText();
         boolean valid = switch (kind) {
             case "VALUE", "VALUE_CHANGED" -> Set.of("COUNTER", "AMMO").contains(type);
+            case "ATTACK_START_VALUE" -> "AMMO".equals(type)
+                && source.skillKey().equals(owner(source, detail, "stateSkillKey"))
+                && path.startsWith("conditionGroups[")
+                && "SKILL_HIT".equals(source.data().path("eventSource").path("eventType").asText())
+                && (!source.data().path("eventSource").path("detail").hasNonNull("sourceSkillKey")
+                    || source.skillKey().equals(source.data().path("eventSource").path("detail").path("sourceSkillKey").asText()));
             case "OPTION_SELECTED" -> "MODE".equals(type);
             case "ENABLED", "FLAG_CHANGED" -> "FLAG".equals(type);
             case "REMAINING_MS", "COOLDOWN_READY" -> "INTERNAL_COOLDOWN".equals(type);

@@ -22,7 +22,7 @@ class ModifierZoneManagementDbContractSqlTest {
 
         assertTrue(zones.contains("primary key (game_id, modifier_zone_key)"));
         assertTrue(zones.contains("domain in ('attribute', 'damage', 'healing', 'shield')"));
-        assertTrue(zones.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_max')"));
+        assertTrue(zones.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_multiply', 'ratio_max')"));
         assertTrue(zones.contains("varchar(16) not null"));
         assertTrue(zones.contains("and calculation_mode = 'ratio_max'"));
         assertTrue(zones.contains("and application_stage = 'healing_result'"));
@@ -116,7 +116,7 @@ class ModifierZoneManagementDbContractSqlTest {
         assertTrue(sql.contains("EXCEPT ALL"));
         assertEquals(2, count(executable, "DROP CONSTRAINT"));
         String schema = normalized(read("db/game_manage/schema.sql"));
-        assertTrue(schema.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_max')"));
+        assertTrue(schema.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_multiply', 'ratio_max')"));
         assertTrue(schema.contains("domain = 'healing' and calculation_mode = 'ratio_max'"));
     }
 

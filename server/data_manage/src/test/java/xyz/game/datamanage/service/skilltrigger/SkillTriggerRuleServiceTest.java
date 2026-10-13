@@ -358,6 +358,43 @@ class SkillTriggerRuleServiceTest {
 
         assertEquals("400.TRIGGER_RULE_CYCLE_UNGUARDED", exception.getCode());
         assertField(exception, "results[0].detail.originKind", "REFLECT_LOOP_UNGUARDED");
+
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.ruleRow(ruleKey, "结果前反伤过程", SkillTriggerEventType.BASIC_ATTACK_RECEIVED)
+        ));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow(GAME_ID, SKILL_KEY, ruleKey, actionKey,
+                "结果前反伤过程", SkillTriggerActionType.START_PROCESS, 10, SkillTriggerTargetContext.EVENT_SOURCE)
+        ));
+        when(mapper.listDamageEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of());
+        service.assertEffectUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY, null, null,
+            List.of(new SkillEffectResultRequest("reflected_damage", "反伤", SkillEffectResultType.DAMAGE,
+                SkillEffectTarget.TARGET, null, 0, null, reflected)), List.of());
+    }
+
+    @Test
+    void receivedEventReflectionUsesOriginalAttackerWithoutDamageFiltersOrCooldown() {
+        var reflected = new SkillTriggerEffectShapeRow(EFFECT_KEY, RESULT_KEY, SkillEffectResultType.DAMAGE,
+            SkillEffectTarget.TARGET, true, SkillNumericValue.fixed(BigDecimal.ONE), null, null, null, null, null, null, null,
+            false, null, null, null, null, null, "magic", SkillEffectDamageDeliveryKind.SKILL,
+            SkillEffectDamageOriginKind.REFLECTED, null);
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(reflected));
+        when(mapper.listProcessShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.bindingProcess(PROCESS_KEY, EFFECT_KEY)));
+        var event = new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_RECEIVED, new SkillTriggerEmptyEventDetail());
+        for (var original : List.of(executeAction("execute", EFFECT_KEY), startProcessAction("start", PROCESS_KEY))) {
+            var action = new SkillTriggerAction(original.actionKey(), original.name(), original.actionType(),
+                original.sortOrder(), SkillTriggerTargetContext.EVENT_SOURCE, original.detail(),
+                original.runtimeInputBindings(), original.resultModifiers());
+            String ruleKey = "received_reflect_" + original.actionKey();
+            var saved = service.create(GAME_ID, SKILL_KEY,
+                SkillTriggerRuleTestSupport.rule(ruleKey, event, List.of(action)));
+            assertEquals(saved, service.get(GAME_ID, SKILL_KEY, ruleKey));
+            assertEquals(SkillTriggerTargetContext.EVENT_SOURCE, saved.actions().getFirst().targetContext());
+            assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY,
+                SkillTriggerRuleTestSupport.rule("wrong_" + original.actionKey(), event, List.of(original)))),
+                "actions[0].targetContext", "REFLECT_LOOP_UNGUARDED");
+        }
     }
 
     @Test
@@ -732,8 +769,16 @@ class SkillTriggerRuleServiceTest {
 
     @Test
     void capabilitiesTableCoversAllEventsAndRejectsValueReached() {
-        assertEquals(23, SkillTriggerEventType.values().length);
-        assertEquals(23, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
+        assertEquals(24, SkillTriggerEventType.values().length);
+        assertEquals(24, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
+        assertTrue(SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.BASIC_ATTACK_RECEIVED));
+        assertTrue(SkillTriggerEventCapabilities.requiresEmptyDetail(SkillTriggerEventType.BASIC_ATTACK_RECEIVED));
+        assertEquals("本次普通攻击的接收对象；事件来源对象为原攻击者",
+            SkillTriggerEventCapabilities.currentTargetBindings().get(SkillTriggerEventType.BASIC_ATTACK_RECEIVED));
+        for (var valueKey : xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey.values()) {
+            assertFalse(SkillTriggerEventCapabilities.eventValueAllowed(
+                SkillTriggerEventType.BASIC_ATTACK_RECEIVED, valueKey, null, null));
+        }
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.SOURCE_INITIALIZED));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.requiresEmptyDetail(SkillTriggerEventType.SOURCE_INITIALIZED));
         assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.requiresEmptyDetail(SkillTriggerEventType.TAKEDOWN));
@@ -781,6 +826,7 @@ class SkillTriggerRuleServiceTest {
         for (SkillTriggerEventType type : SkillTriggerEventType.values()) {
             if (type != SkillTriggerEventType.DAMAGE_PENDING
                 && type != SkillTriggerEventType.SOURCE_INITIALIZED
+                && type != SkillTriggerEventType.BASIC_ATTACK_RECEIVED
                 && type != SkillTriggerEventType.DAMAGE_TAKEN
                 && type != SkillTriggerEventType.STATUS_CHANGED
                 && type != SkillTriggerEventType.CONTROL_RECEIVED

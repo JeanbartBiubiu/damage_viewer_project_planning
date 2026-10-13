@@ -2,5 +2,6 @@ package xyz.game.datamanage.model.skillprocess;
 
 public enum SkillProcessFirstExecution {
     IMMEDIATE,
-    AFTER_INTERVAL
+    AFTER_INTERVAL,
+    CUSTOM_WINDOW
 }
