@@ -59,7 +59,7 @@ function testResolve() {
 
 function testChinesePathInScope() {
   assert.equal(isUnderAllowedPath("文档记录/详细设计/a.md", ["文档记录"]), true);
-  assert.equal(isUnderAllowedPath("文档记录/详细设计/Cursor协同开发流程说明.md", ["文档记录"]), true);
+  assert.equal(isUnderAllowedPath("文档记录/详细设计/开发与独立评审流程说明.md", ["文档记录"]), true);
 
   const entries = parseGitStatusShort("?? 文档记录/新文件.md\n");
   assert.equal(entries[0].relativePath, "文档记录/新文件.md");

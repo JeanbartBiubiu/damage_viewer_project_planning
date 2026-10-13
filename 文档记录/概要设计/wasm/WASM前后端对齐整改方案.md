@@ -41,7 +41,7 @@ W0 不做以下事情：
 4. 不新增前端页面交互详细设计。
 5. 不把旧 `EngineBundleV2`、`ActionTemplateV2`、`single_attacker_dps` 继续包装成新通用引擎主线。
 
-W0 的产物是跨模块共识和后续开发门禁；具体代码任务应拆到后端详细设计、前端详细设计或 Cursor prompt。
+W0 的产物是跨模块共识和后续开发门禁；具体代码任务应拆到后端详细设计、前端详细设计或开发任务说明。
 
 ## 3. 模块分工
 
@@ -159,7 +159,7 @@ W0 通过条件：
 
 1. 三方边界明确：后端 catalog，前端 scenario materialize + Worker，Wasm compile/run。
 2. B1 前不得让后端或前端自行定义 `CompileRequest` 方言。
-3. 禁用旧口径清单进入后续 Cursor prompt。
+3. 禁用旧口径清单进入后续开发任务说明。
 4. 共享 fixture 真源位置明确。
 
 验证：
@@ -242,8 +242,8 @@ B1 开始后，后端/前端必须按 fixture 对齐，不再自由解释字段�
 
 进入 B1 前：
 
-1. Cursor prompt 必须引用本 W0 文档和 `WASM详细设计.md` 的旧口径黑名单。
-2. Cursor prompt 必须明确：后端/前端不在 B1 写入范围。
+1. 开发任务说明必须引用本 W0 文档和 `WASM详细设计.md` 的旧口径黑名单。
+2. 开发任务说明必须明确：后端/前端不在 B1 写入范围。
 3. B1 必须产出 fixture，供后端/前端后续 contract test 使用。
 
 进入后端整改前：

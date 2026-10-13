@@ -71,7 +71,7 @@ scripts
 | `attack speed cap` | 通用 engine 硬编码 LoL 规则。 | 数据规则或 provider/ability 定义。 |
 | `setHpRaw` / raw HP set | 快捷改 HP。 | `damage` / `heal` / `shield` / `pipeline_guard`。 |
 
-Cursor worker 如果发现现有代码仍使用这些旧词，处理规则如下：
+实现者如果发现现有代码仍使用这些旧词，处理规则如下：
 
 1. 可以在 compat wrapper、legacy fixture 或旧测试中保留旧词。
 2. 新 canonical DTO、compile/run ABI、fixture 和新测试不得新增这些旧词。
@@ -111,7 +111,7 @@ Cursor worker 如果发现现有代码仍使用这些旧词，处理规则如下
 1. 如果某个 slice 只需要新增 DTO，不要同时改 runtime。
 2. 如果某个 slice 只需要 runtime，不要顺手改 Web adapter。
 3. 不要重新引入已删除的 legacy 导出或 DPS lane，除非另开显式任务并同步 Web adapter。
-4. 如果必须跨表中多个区域，Cursor prompt 必须显式列出跨区原因。
+4. 如果必须跨表中多个区域，开发任务说明必须显式列出跨区原因。
 
 ## 2. ABI 契约（已实现）
 
@@ -562,7 +562,7 @@ target.provider[item:thornmail].ability[reflect]
 
 ### 5.4 字段命名与 JSON 规则
 
-为了降低 Cursor worker 误用旧 DTO 的风险，canonical JSON 字段遵守以下规则：
+为了降低实现者误用旧 DTO 的风险，canonical JSON 字段遵守以下规则：
 
 | 区域 | 必须使用 | 禁止使用 |
 | --- | --- | --- |
@@ -795,7 +795,7 @@ P0 operation 字段要求：
 | `onTick` | array | 是 | tick 时执行的 operations 或 tick ability ref。 |
 | `startDelayMs` | number | 否 | 缺省等于 `intervalMs`。 |
 
-字段表没有列出的旧字段不得由 Cursor worker 自行“兼容补上”。如果实现中确实需要新增字段，必须先更新本详细设计并说明默认值、compile 校验和 runtime 读写边界。
+字段表没有列出的旧字段不得由实现者自行“兼容补上”。如果实现中确实需要新增字段，必须先更新本详细设计并说明默认值、compile 校验和 runtime 读写边界。
 
 ## 6. Snapshot 与 Runtime State
 
@@ -1918,19 +1918,19 @@ internal/testkit
 1. done/result 不依赖前端从日志二次拼时间线。
 2. both_dead 与 budget_exceeded 有确定 stopReason。
 
-## 19. Cursor 执行协议
+## 19. 开发与独立评审协议
 
-本节用于驱动模型编写 Cursor prompt。Cursor 固定使用 `grok-4.5`，只负责受限编码；驱动模型必须先收敛范围、再发 prompt、最后亲自 review diff 与验证结果。
+本节用于主负责人组织后续开发。主负责人先收敛范围，可直接实现或交给内置执行代理；运行时协议及重要业务语义按根规则做实施前独立评审，完成后独立检查关键改动，最终复核差异与验证结果。
 
 ### 19.0 当前落地状态与后续切片
 
 Slice A–F 的核心路径**已落地**：generic frame/outbox kind、session registry、`CompileGeneric`/`CompiledSession`、`RunGeneric`（含 damage/gate/provider/output）、canonical fixture，以及 Node/Go smoke/bench。下文 Slice 细化章节保留为历史边界说明与增量改动参考，不再当作“尚未开始”的迁移清单。
 
-后续增量仍按小步发 Cursor：一次只改一个机制竖切或一个宿主表面。Web/Worker 全面切到 generic profile、以及仍依赖 legacy 页面的清理，需另开任务。若一小步需要跨两个 slice，驱动模型必须显式写出主写入范围和允许的最小接口改动。
+后续增量按一个可独立验收的机制或宿主改动推进。Web/Worker 全面切到 generic profile、以及仍依赖 legacy 页面的清理，需另开任务。若改动需要跨两个分片任务，主负责人必须显式写出主写入范围和允许的最小接口改动。
 
 ### 19.0.1 每轮交接产物
 
-每轮 Cursor 产物必须留下：
+每轮实现产物必须留下：
 
 1. 代码 diff。
 2. 新增或更新的 fixture 名称。
@@ -1939,14 +1939,14 @@ Slice A–F 的核心路径**已落地**：generic frame/outbox kind、session r
 5. 未完成项。
 6. 是否偏离本详细设计。
 
-驱动模型 review 后应补充：
+主负责人复核后应补充：
 
 1. diff 是否在允许范围内。
 2. 旧口径关键词是否进入新 canonical 路径。
 3. 失败命令是否是环境问题、设计冲突还是实现缺陷。
-4. 下一轮 Cursor prompt 应该继续哪个小步。
+4. 后续应继续的目标与范围。
 
-### 19.1 通用 Cursor Prompt 模板
+### 19.1 通用开发任务说明模板
 
 ```text
 目标：
@@ -1992,7 +1992,7 @@ Slice A–F 的核心路径**已落地**：generic frame/outbox kind、session r
 5. any deviation from this design
 ```
 
-### 19.2 Cursor 通用禁止项
+### 19.2 实现通用禁止项
 
 以下禁止项适用于所有 slice：
 
@@ -2280,7 +2280,7 @@ node .\scripts\smoke-node.mjs
 
 ### 19.9 驱动模型 Review Checklist
 
-每轮 Cursor 返回后，驱动模型必须亲自检查：
+每轮实现完成后，主负责人必须亲自检查：
 
 1. `git diff --stat` 是否只落在允许范围。
 2. diff 是否引入旧 DTO 命名到新 canonical model。
@@ -2293,11 +2293,11 @@ node .\scripts\smoke-node.mjs
 9. 测试是否覆盖本 slice 的负例。
 10. README/AGENTS/scripts 是否因 ABI 改动需要同步。
 
-如果 Cursor 报告与 diff 冲突，以 diff 和测试结果为准，不以 Cursor 自述为准。
+如果实现报告与差异冲突，以实际差异和测试结果为准，不以执行者自述为准。
 
 ## 20. Fixture 目录与命名
 
-建议在 `internal/testkit` 下建立稳定 fixture 命名，避免每个 Cursor worker 自创样例：
+建议在 `internal/testkit` 下建立稳定 fixture 命名，避免每个实现者自创样例：
 
 ```text
 internal/testkit/fixtures/

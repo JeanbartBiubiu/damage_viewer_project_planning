@@ -37,4 +37,4 @@ node tools/task-governance/cli.mjs check
 node tools/agent-governance/cli.mjs check
 ```
 
-开发流程见根 `AGENTS.md` §2。Cursor 为可选工具，仅实际调用时读取 `.agents/skills/cursor-local-agent/SKILL.md`；工具说明见 `文档记录/详细设计/Cursor协同开发流程说明.md`。
+开发流程见根 `AGENTS.md` §2 和[开发与独立评审流程说明](文档记录/详细设计/开发与独立评审流程说明.md)。默认由 Codex 主负责人及内置代理完成实现与独立评审，按风险保留方案评审、关键改动检查和模块验收。
