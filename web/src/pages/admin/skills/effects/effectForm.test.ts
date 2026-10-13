@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../../../../../tests/fixtures/skillFormulaDefinition';
 import { fixedValue, formulaValue, parameterValue } from '../../../../types/numericValue';
 import type { SkillParameter } from '../../../../types/skillParameter';
 import { describe, expect, it } from 'vitest';
@@ -342,6 +343,17 @@ describe('skill effect form defaults and conversion', () => {
     expect(RESOURCE_CHANGE_OPERATION_LABELS.REFUND).toBe('返还');
     expect(COOLDOWN_CHANGE_OPERATION_LABELS.RESET).toBe('重置为可用');
     expect(STATUS_OPERATION_LABELS.REMOVE).toBe('移除');
+  });
+
+  it('持续覆盖首次选择时提供唯一合法共享方式，不留下禁用且空白的字段', () => {
+    const attribute = applyResultTypeChange(createEmptyResultDraft(), 'ATTRIBUTE_CHANGE');
+    const persistent = applyLifecycleMomentChange({ ...attribute, attributeOperation: 'SET' }, 'PERSISTENT');
+    expect(persistent.lifecycleBehavior.valueReadMode).toBe('APPLICATION_SNAPSHOT');
+    expect(persistent.lifecycleBehavior.stackValueMode).toBe('SHARED');
+    const invalid = clearHiddenLifecycleBehaviorFields({ ...persistent, lifecycleBehavior: {
+      ...persistent.lifecycleBehavior, stackValueMode: 'PER_STACK'
+    } });
+    expect(invalid.lifecycleBehavior.stackValueMode).toBe('PER_STACK');
   });
 
   it('converts an effect detail into drafts and keeps original catalog refs', () => {
@@ -1455,14 +1467,14 @@ describe('skill effect lifecycle drafts', () => {
       ...thresholdParameter('SKILL_LEVEL', null, { '1': 1, '2': 2 }),
       parameterKey: 'shield_stacks', valueType: 'INTEGER'
     }] });
-    expect(leveledStacks.ok).toBe(false);
+    expect(leveledStacks.ok).toBe(true); // 参数依赖提示通过；全部等级恒1由后端精确证明
     if (!leveledStacks.ok) expect(leveledStacks.fieldErrors.maxStacksValue).toContain('恒为 1');
     const dynamicStacks = validateSkillEffectDraft({
       ...draft, lifecycle: { ...draft.lifecycle, maxStacksValue: formulaValue('dynamic_stacks') }
     }, { includeEffectKey: true, catalog: { ...CATALOG, formulas: [...CATALOG.formulas, {
       formulaKey: 'dynamic_stacks',
-      expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE',
-        attributeKey: 'hp', attributeValueKind: 'TOTAL' }
+      expression: skillFormulaDefinition('ezreal_q', { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE',
+        attributeKey: 'hp', attributeValueKind: 'TOTAL' })
     }] } });
     expect(dynamicStacks.ok).toBe(false);
     if (!dynamicStacks.ok) expect(dynamicStacks.fieldErrors.maxStacksValue).toContain('不能读取属性');

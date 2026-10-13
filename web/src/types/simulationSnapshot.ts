@@ -6,16 +6,71 @@ import type { GameVampRulesResponse } from './gameVamp';
 import type { ModifierZone } from './modifierZone';
 import type { SkillCategory } from './skillCategory';
 import type { SkillConfiguration } from './skillConfiguration';
-import type { CharacterSkillRelation } from './skillRelation';
+import type { CharacterSkillRelation, EquipmentSkillRelation } from './skillRelation';
+import type { Equipment, EquipmentAttributes } from './equipment';
 import type { GameStatus } from './status';
+import type { BuildConfiguration, BuildDefinition } from './build';
+import type { SkillStatus } from './skill';
+
+export type { BuildConfiguration, BuildDefinition } from './build';
+
+export type SimulationSkillOrigin =
+  | { kind: 'CHARACTER'; characterKey: string }
+  | { kind: 'EQUIPMENT'; equipmentKey: string }
+  | { kind: 'BUILD_OPTION'; systemKey: string; roleKey: string; groupKey: string; slotKey: string; optionKey: string };
+
+export type SimulationSkillSetting = {
+  origin: SimulationSkillOrigin;
+  skillKey: string;
+  enabled: boolean;
+  skillLevel?: number;
+};
+
+export type SimulationSkillInactiveReason = 'GLOBAL_DISABLED' | 'SCENE_DISABLED' | 'UNLEARNED'
+  | 'NO_AUTONOMOUS_ATTACK' | 'ACTIVE_DEFERRED' | 'CONFIGURATION_INCOMPLETE' | 'LEVEL_REQUIRED';
+
+export type SimulationSkillSource = {
+  origin: SimulationSkillOrigin;
+  skillKey: string;
+  skillName: string;
+  skillStatus: SkillStatus;
+  enabled: boolean;
+  skillLevel: number | null;
+  enabledRuleKeys: string[];
+  inactiveReason: SimulationSkillInactiveReason | null;
+};
+
+export type SimulationSelectedBuild = { definition: BuildDefinition; configuration: BuildConfiguration };
+
+export type SimulationSkillPhase = 'INITIAL' | 'CHARGE_RELEASE' | 'RECAST' | 'CANCEL';
+
+export type SimulationPlannedSkill = {
+  origin: Extract<SimulationSkillOrigin, { kind: 'CHARACTER' }>;
+  skillKey: string;
+  skillLevel: number;
+  phaseKinds: SimulationSkillPhase[];
+};
 
 export type SimulationSelection = {
   sourceCharacterKey: string;
   sourceLevel: number;
   targetCharacterKey: string;
   targetLevel: number;
-  basicAttackSkillKey: string;
-  basicAttackLevel: number;
+  basicAttackSkillKey: string | null;
+  basicAttackLevel: number | null;
+  plannedSkills: SimulationPlannedSkill[];
+  sourceEquipmentKeys: string[];
+  targetEquipmentKeys: string[];
+  sourceBuildConfigurations: BuildConfiguration[];
+  targetBuildConfigurations: BuildConfiguration[];
+  sourceSkillSettings: SimulationSkillSetting[];
+  targetSkillSettings: SimulationSkillSetting[];
+};
+
+export type SimulationSelectedEquipment = {
+  equipment: Equipment;
+  attributes: EquipmentAttributes;
+  attachedSkills: EquipmentSkillRelation[];
 };
 
 export type SimulationCombatant = {
@@ -23,6 +78,9 @@ export type SimulationCombatant = {
   attributes: CharacterAttributes;
   selectedLevelValues: Record<string, number>;
   attachedSkills: CharacterSkillRelation[];
+  selectedEquipment: SimulationSelectedEquipment[];
+  selectedBuilds: SimulationSelectedBuild[];
+  skillSources: SimulationSkillSource[];
 };
 
 export type SimulationReference = {
@@ -50,6 +108,7 @@ export type SimulationSnapshot = {
     modifierZones: ModifierZone[];
     statuses: GameStatus[];
     vampRules: GameVampRulesResponse;
+    calculationRules: import('./gameCalculationRules').GameCalculationRulesResponse;
   };
   references: SimulationReference[];
   snapshotDigest: string;
@@ -63,3 +122,11 @@ export type SimulationAttributeInputs = {
 };
 
 export type SimulationInitialHealth = { source: number; target: number };
+
+export type SimulationMechanicStateInput = {
+  side: 'source' | 'target'; origin: SimulationSkillOrigin; skillKey: string; stateKey: string; value: number;
+};
+
+export type SimulationEquipmentAssumption = {
+  owner: 'source' | 'target'; equipmentKey: string; target: 'source' | 'target'; inRange: boolean;
+};

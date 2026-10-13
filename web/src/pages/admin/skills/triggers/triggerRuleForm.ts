@@ -1,15 +1,100 @@
+import { SKILL_TRIGGER_SUBJECTS, SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_KINDS, SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_LABELS } from '../../../../types/skillSystemEnums.generated';
+import type { SkillTriggerRecentDamageOutputKind } from '../../../../types/skillSystemEnums.generated';
+import {
+  SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS,
+  SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS,
+  SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_LABELS,
+  SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_DOMAINS,
+  SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS,
+  SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS,
+  SKILL_TRIGGER_EVENT_TYPES,
+  SKILL_TRIGGER_CONDITION_TYPES,
+  SKILL_TRIGGER_ACTION_TYPES,
+  SKILL_TRIGGER_SOURCE_TYPES,
+  SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENTS,
+  SKILL_TRIGGER_EVENT_VALUE_KEYS,
+  SKILL_TRIGGER_COMPARATORS,
+  SKILL_TRIGGER_EVENT_TYPE_LABELS,
+  SKILL_TRIGGER_EVENT_VALUE_LABELS,
+  SKILL_TRIGGER_EVENT_VALUE_DOMAINS,
+  SKILL_TRIGGER_CONDITION_TYPE_LABELS,
+  SKILL_TRIGGER_ACTION_TYPE_LABELS,
+  SKILL_TRIGGER_SOURCE_TYPE_LABELS,
+  SKILL_TRIGGER_SUBJECT_LABELS,
+  SKILL_TRIGGER_TARGET_CONTEXT_LABELS,
+  SKILL_TRIGGER_USE_KIND_LABELS,
+  SKILL_TRIGGER_CAST_PHASES,
+  SKILL_TRIGGER_CAST_PHASE_LABELS,
+  SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENT_LABELS,
+  SKILL_TRIGGER_STATUS_CHANGE_LABELS,
+  SKILL_TRIGGER_HEALTH_DIRECTION_LABELS,
+  SKILL_TRIGGER_INTERNAL_STATE_CHANGE_LABELS,
+  SKILL_TRIGGER_COMPARATOR_LABELS,
+  SKILL_TRIGGER_STATUS_CHECK_LABELS,
+  SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS,
+  SKILL_TRIGGER_COMBAT_STATUS_VALUE_LABELS,
+  SKILL_TRIGGER_VALUE_TYPE_LABELS
+} from '../../../../types/skillSystemEnums.generated';
+export {
+  SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS,
+  SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS,
+  SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_LABELS,
+  SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_DOMAINS,
+  SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS,
+  SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS,
+  SKILL_TRIGGER_EVENT_TYPES,
+  SKILL_TRIGGER_CONDITION_TYPES,
+  SKILL_TRIGGER_ACTION_TYPES,
+  SKILL_TRIGGER_SOURCE_TYPES,
+  SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENTS,
+  SKILL_TRIGGER_EVENT_VALUE_KEYS,
+  SKILL_TRIGGER_COMPARATORS,
+  SKILL_TRIGGER_EVENT_TYPE_LABELS,
+  SKILL_TRIGGER_EVENT_VALUE_LABELS,
+  SKILL_TRIGGER_EVENT_VALUE_DOMAINS,
+  SKILL_TRIGGER_CONDITION_TYPE_LABELS,
+  SKILL_TRIGGER_ACTION_TYPE_LABELS,
+  SKILL_TRIGGER_SOURCE_TYPE_LABELS,
+  SKILL_TRIGGER_SUBJECT_LABELS,
+  SKILL_TRIGGER_TARGET_CONTEXT_LABELS,
+  SKILL_TRIGGER_USE_KIND_LABELS,
+  SKILL_TRIGGER_CAST_PHASES,
+  SKILL_TRIGGER_CAST_PHASE_LABELS,
+  SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENT_LABELS,
+  SKILL_TRIGGER_STATUS_CHANGE_LABELS,
+  SKILL_TRIGGER_HEALTH_DIRECTION_LABELS,
+  SKILL_TRIGGER_INTERNAL_STATE_CHANGE_LABELS,
+  SKILL_TRIGGER_COMPARATOR_LABELS,
+  SKILL_TRIGGER_STATUS_CHECK_LABELS,
+  SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS,
+  SKILL_TRIGGER_COMBAT_STATUS_VALUE_LABELS,
+  SKILL_TRIGGER_VALUE_TYPE_LABELS
+};
+import { skillFormulaParameterKeys } from '../../../../services/skillFormulaContract';
 import { lifecycleConditionError, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
 import { allowsExplicitTargetIsSource, explicitTargetIsSourceError } from './explicitTargetCondition';
 import { allowsSkillHitEnemy, skillHitEnemyError } from './skillHitEnemyCondition';
-import { allowsSourceCastResourceCost, sourceCastResourceCostError, type SourceCastResourceCostProcess } from './sourceCastResourceCost';
-import { allowsTargetCategoryCheck, targetCategoryConditionError, TARGET_CATEGORY_LABELS } from './targetCategoryCondition';
+import {
+  allowsSourceCastResourceCost,
+  sourceCastResourceCostError,
+  type SourceCastResourceCostProcess
+} from './sourceCastResourceCost';
+import {
+  allowsTargetCategoryCheck,
+  targetCategoryConditionError,
+  TARGET_CATEGORY_LABELS
+} from './targetCategoryCondition';
 import type { Attribute } from '../../../../types/attribute';
 import { fixedValue, numericFormulaKey, numericParameterKey } from '../../../../types/numericValue';
 import { numericValueError, numericValueSummary, numericValuesIn } from '../numericValueForm';
 import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { DamageType } from '../../../../types/damageType';
-import type { FormulaAttributeValueKind, FormulaExpressionNode, SkillFormula } from '../../../../types/skillFormula';
+import type {
+  FormulaAttributeValueKind,
+  FormulaExpressionNode,
+  SkillFormula
+} from '../../../../types/skillFormula';
 import type { SkillInternalState, SkillInternalStateType } from '../../../../types/skillInternalState';
 import type { SkillParameter, SkillParameterValueType } from '../../../../types/skillParameter';
 import type {
@@ -36,7 +121,6 @@ import type {
   SkillTriggerCombatStatusValueKind,
   SkillTriggerCombatElapsedTimeBinding,
   SkillTriggerRecentDamageSumBinding,
-  SkillTriggerComparator,
   SkillTriggerCondition,
   SkillTriggerConditionGroup,
   SkillTriggerConditionType,
@@ -46,12 +130,10 @@ import type {
   SkillTriggerEventSource,
   SkillTriggerEventType,
   SkillTriggerEmptyDetail,
-  SkillTriggerEventUseKind,
   SkillTriggerEventValueBinding,
   SkillTriggerEventValueBindingDetail,
   SkillTriggerEventValueCompareDetail,
   SkillTriggerEventValueKey,
-  SkillTriggerHealthDirection,
   SkillTriggerInternalStateBinding,
   SkillTriggerInternalStateBindingDetail,
   SkillTriggerInternalStateChangeKind,
@@ -61,7 +143,6 @@ import type {
   SkillTriggerInternalStateRemainingDetail,
   SkillTriggerInternalStateValueDetail,
   SkillTriggerInternalStateValueKind,
-  SkillTriggerLifecycleEventMoment,
   SkillTriggerPriorResultBinding,
   SkillTriggerPriorResultBindingDetail,
   SkillTriggerPriorResultOutputKind,
@@ -71,7 +152,6 @@ import type {
   SkillTriggerRuntimeInputBinding,
   SkillTriggerRuntimeInputSourceType,
   SkillTriggerSourceCastResourceCostBinding,
-  SkillTriggerStatusChangeKind,
   SkillTriggerStatusCheckDetail,
   SkillTriggerStatusCheckKind,
   SkillTriggerStatusCompareDetail,
@@ -91,6 +171,7 @@ import {
   SKILL_PROCESS_MOMENT_TYPE_LABELS
 } from '../processes/processForm';
 import { SKILL_INTERNAL_STATE_TYPE_LABELS } from '../processes/internalStateForm';
+import { allowsChargeHitValue, type ChargeHitContext } from './chargeHitContext';
 
 export const SKILL_TRIGGER_KEY_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
 
@@ -110,6 +191,8 @@ export const SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT =
   '空值表示任意技能；选择具体技能只缩小事件匹配范围。';
 export const SKILL_TRIGGER_SOURCE_INITIALIZED_HINT =
   '来源对象的基础属性、挂载技能与装备、初始内部状态准备完毕后触发一次；复活、装备变化或等级变化不会再次触发。该事件不提供事件数值。';
+export const SKILL_TRIGGER_BASIC_ATTACK_RECEIVED_HINT =
+  '真实普通攻击命中判定完成后、逐个结果及吸血结算前通知接收者；事件来源对象为原攻击者。附伤、命中联动、反伤和周期不会再次产生此事件，不提供事件数值。';
 export const SKILL_TRIGGER_TAKEDOWN_HINT =
   '来源对象被正式记为本次死亡的击杀者或助攻参与者时触发，每次死亡至多一次；不能用最近造成过伤害代替。当前目标为死亡对象，不提供事件来源对象或事件数值。同一收益使用一个入口，避免与本人击杀规则重复。';
 export const SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT = '否 = 0，是 = 1';
@@ -136,63 +219,23 @@ export const RESULT_MODIFIER_ORDER_HINT = '应用在效果基础修正之后';
 export const MAX_TRIGGERS_SCOPE_HINT = '只保存次数取值，不执行计数。';
 export const SKILL_TRIGGER_ONCE_PER_USE_LABEL = '同次使用仅触发一次';
 export const SKILL_TRIGGER_ONCE_PER_USE_HINT =
-  '同一共享限制键的规则共用一次额度；同技能同键的范围必须一致。';
+  '同一共享限制键的规则共用一次额度；同技能同键的范围必须一致。普通攻击命中接收、本笔受伤事件或命中联动需有真实原使用身份；独立周期不生成默认使用身份。';
 export const SKILL_TRIGGER_ONCE_PER_USE_EVENT_MESSAGE =
-  '同次使用限制只允许用于技能命中、普通攻击命中或普通攻击开始。';
+  '同次使用限制只允许用于技能命中、普通攻击命中、普通攻击开始、普通攻击命中接收、受到伤害或命中联动。';
 export const SKILL_TRIGGER_ONCE_PER_USE_CLEAR_MESSAGE =
-  '同次使用限制只允许用于技能命中、普通攻击命中或普通攻击开始，将关闭该限制。';
+  '同次使用限制只允许用于技能命中、普通攻击命中、普通攻击开始、普通攻击命中接收、受到伤害或命中联动，将关闭该限制。';
 export const SKILL_TRIGGER_ONCE_PER_USE_EVENTS = [
   'SKILL_HIT',
   'BASIC_ATTACK_HIT',
-  'BASIC_ATTACK_START'
+  'BASIC_ATTACK_START',
+  'BASIC_ATTACK_RECEIVED',
+  'DAMAGE_TAKEN',
+  'HIT_LINK_APPLIED'
 ] as const satisfies readonly SkillTriggerEventType[];
-export const SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS = {
-  SKILL: '整个技能使用',
-  TARGET: '每个目标'
-} as const satisfies { [K in SkillTriggerOncePerUseScope]: string };
 
 export function allowsOncePerUse(eventType: SkillTriggerEventType): boolean {
   return (SKILL_TRIGGER_ONCE_PER_USE_EVENTS as readonly SkillTriggerEventType[]).includes(eventType);
 }
-
-export const SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS = [
-  'CONFIGURED_VALUE',
-  'RAW_DAMAGE',
-  'POST_DEFENSE_DAMAGE',
-  'SHIELD_ABSORBED',
-  'ACTUAL_HP_LOSS',
-  'ACTUAL_HEALING',
-  'BLOCKED',
-  'IMMUNE',
-  'STATUS_APPLIED',
-  'KILLED'
-] as const satisfies readonly SkillTriggerPriorResultOutputKind[];
-
-export const SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_LABELS = {
-  CONFIGURED_VALUE: '基础配置值',
-  RAW_DAMAGE: '原始伤害',
-  POST_DEFENSE_DAMAGE: '防御后伤害',
-  SHIELD_ABSORBED: '护盾吸收',
-  ACTUAL_HP_LOSS: '实际扣血',
-  ACTUAL_HEALING: '实际治疗',
-  BLOCKED: '是否被法术护盾阻挡（0/1）',
-  IMMUNE: '是否被伤害免疫（0/1）',
-  STATUS_APPLIED: '是否成功施加状态（0/1）',
-  KILLED: '是否形成击杀（0/1）'
-} as const satisfies { [K in SkillTriggerPriorResultOutputKind]: string };
-
-export const SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_DOMAINS = {
-  CONFIGURED_VALUE: 'DECIMAL',
-  RAW_DAMAGE: 'DECIMAL',
-  POST_DEFENSE_DAMAGE: 'DECIMAL',
-  SHIELD_ABSORBED: 'DECIMAL',
-  ACTUAL_HP_LOSS: 'DECIMAL',
-  ACTUAL_HEALING: 'DECIMAL',
-  BLOCKED: 'INTEGER',
-  IMMUNE: 'INTEGER',
-  STATUS_APPLIED: 'INTEGER',
-  KILLED: 'INTEGER'
-} as const satisfies { [K in SkillTriggerPriorResultOutputKind]: SkillTriggerValueDomain };
 
 export const SKILL_TRIGGER_BOOLEAN_PRIOR_RESULT_OUTPUT_KINDS = [
   'BLOCKED',
@@ -220,117 +263,6 @@ export const FORBIDDEN_PRIOR_RESULT_OUTPUT_KINDS = [
   'ZONE_ADDEND'
 ] as const;
 
-export const SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS = {
-  ANY: '任意',
-  SKILL: '技能',
-  BASIC_ATTACK: '普通攻击'
-} as const satisfies { [K in SkillTriggerDamageDeliveryKind]: string };
-
-export const SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS = {
-  ANY: '任意',
-  DIRECT: '直接伤害',
-  REFLECTED: '反伤'
-} as const satisfies { [K in SkillTriggerDamageOriginKind]: string };
-
-export const SKILL_TRIGGER_EVENT_TYPES = [
-  'SOURCE_INITIALIZED',
-  'SKILL_USED',
-  'BASIC_ATTACK_START',
-  'BASIC_ATTACK_HIT',
-  'SKILL_HIT',
-  'PROCESS_MOMENT',
-  'RESULT_AVAILABLE',
-  'LIFECYCLE_MOMENT',
-  'DAMAGE_PENDING',
-  'DAMAGE_DEALT',
-  'DAMAGE_TAKEN',
-  'STATUS_CHANGED',
-  'HEALTH_THRESHOLD_CROSSED',
-  'INTERNAL_STATE_CHANGED',
-  'CONTROL_RECEIVED',
-  'ENTITY_DIED',
-  'ENTITY_UNTARGETABLE',
-  'KILL',
-  'TAKEDOWN',
-  'PROCESS_CANCEL_REQUESTED',
-  'SPELL_SHIELD_BLOCKED',
-  'HIT_LINK_APPLIED',
-  'ATTACK_LINK_APPLIED'
-] as const satisfies readonly SkillTriggerEventType[];
-
-export const SKILL_TRIGGER_CONDITION_TYPES = [
-  'ATTRIBUTE_COMPARE',
-  'STATUS_CHECK',
-  'LIFECYCLE_CHECK',
-  'TARGET_CATEGORY_CHECK',
-  'EXPLICIT_TARGET_IS_SOURCE',
-  'SKILL_HIT_TARGET_IS_ENEMY',
-  'INTERNAL_STATE_CHECK',
-  'EVENT_VALUE_COMPARE'
-] as const satisfies readonly SkillTriggerConditionType[];
-
-export const SKILL_TRIGGER_ACTION_TYPES = [
-  'EXECUTE_EFFECT',
-  'START_PROCESS',
-  'FAIL_PROCESS',
-  'ADVANCE_PROCESS'
-] as const satisfies readonly SkillTriggerActionType[];
-
-export const SKILL_TRIGGER_SOURCE_TYPES = [
-  'INTERNAL_STATE',
-  'COMBAT_STATUS',
-  'EVENT_VALUE',
-  'SOURCE_CAST_RESOURCE_COST',
-  'PRIOR_ACTION_RESULT',
-  'COMBAT_ELAPSED_TIME',
-  'RECENT_DAMAGE_SUM'
-] as const satisfies readonly SkillTriggerRuntimeInputSourceType[];
-
-export const SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENTS = [
-  'APPLICATION',
-  'FULL_STACKS',
-  'PERIODIC',
-  'NATURAL_END',
-  'EARLY_REMOVE'
-] as const satisfies readonly SkillTriggerLifecycleEventMoment[];
-
-export const SKILL_TRIGGER_EVENT_VALUE_KEYS = [
-  'STEP_EXECUTION_INDEX',
-  'CHARGE_DURATION_MS',
-  'RECAST_COUNT',
-  'HIT_INDEX',
-  'SKILL_HIT_FIRST_CONTACT',
-  'SKILL_HIT_SPELL_SHIELD_BLOCKED',
-  'LIFECYCLE_STACKS',
-  'PERIOD_INDEX',
-  'REMAINING_MS',
-  'STATE_BEFORE',
-  'STATE_AFTER',
-  'ATTRIBUTE_BEFORE',
-  'ATTRIBUTE_AFTER',
-  'THRESHOLD_VALUE',
-  'RAW_DAMAGE',
-  'POST_DEFENSE_DAMAGE',
-  'HEALTH_BEFORE',
-  'PROJECTED_HEALTH_AFTER',
-  'SHIELD_ABSORBED',
-  'ACTUAL_HP_LOSS',
-  'BLOCKED',
-  'IMMUNE',
-  'KILLED',
-  'LINK_INDEX',
-  'LINK_COUNT'
-] as const satisfies readonly SkillTriggerEventValueKey[];
-
-export const SKILL_TRIGGER_COMPARATORS = [
-  'LT',
-  'LTE',
-  'EQ',
-  'NE',
-  'GTE',
-  'GT'
-] as const satisfies readonly SkillTriggerComparator[];
-
 export type SkillTriggerCatalogKind =
   | 'skills'
   | 'attributes'
@@ -357,32 +289,6 @@ export type SkillTriggerEventCapability = {
   requiredCatalogs: readonly SkillTriggerCatalogNeed[];
   detailFields: readonly string[];
 };
-
-export const SKILL_TRIGGER_EVENT_TYPE_LABELS = {
-  SOURCE_INITIALIZED: '来源对象初始化完成',
-  SKILL_USED: '技能被主动或消耗使用',
-  BASIC_ATTACK_START: '普通攻击发起',
-  BASIC_ATTACK_HIT: '普通攻击命中',
-  SKILL_HIT: '技能命中',
-  PROCESS_MOMENT: '当前技能过程到达固定时点',
-  RESULT_AVAILABLE: '当前技能某个无生命周期基础结果到达可用时点',
-  LIFECYCLE_MOMENT: '当前技能生命周期到达离散时点',
-  DAMAGE_PENDING: '即将受到伤害',
-  DAMAGE_DEALT: '来源对象造成伤害',
-  DAMAGE_TAKEN: '来源对象受到伤害',
-  STATUS_CHANGED: '指定对象的战斗状态施加或移除',
-  HEALTH_THRESHOLD_CROSSED: '指定对象生命属性越过阈值',
-  INTERNAL_STATE_CHANGED: '当前技能内部状态发生固定变化',
-  CONTROL_RECEIVED: '来源对象受到控制',
-  ENTITY_DIED: '指定对象死亡',
-  ENTITY_UNTARGETABLE: '指定对象变为不可选取',
-  KILL: '来源对象完成击杀',
-  TAKEDOWN: '来源对象参与击杀',
-  PROCESS_CANCEL_REQUESTED: '指定过程收到主动取消请求',
-  SPELL_SHIELD_BLOCKED: '法术护盾成功阻挡',
-  HIT_LINK_APPLIED: '应用命中联动',
-  ATTACK_LINK_APPLIED: '触发攻击联动'
-} as const satisfies { [K in SkillTriggerEventType]: string };
 
 export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
   [K in SkillTriggerEventType]: SkillTriggerEventCapability
@@ -416,6 +322,14 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
     label: SKILL_TRIGGER_EVENT_TYPE_LABELS.BASIC_ATTACK_HIT,
     currentTargetBinding: '本次普通攻击命中的对象。',
     hasEventSource: false,
+    requiredCatalogs: [],
+    detailFields: []
+  },
+  BASIC_ATTACK_RECEIVED: {
+    eventType: 'BASIC_ATTACK_RECEIVED',
+    label: SKILL_TRIGGER_EVENT_TYPE_LABELS.BASIC_ATTACK_RECEIVED,
+    currentTargetBinding: '本次普通攻击的接收对象（承受方）；事件来源对象为原攻击者。',
+    hasEventSource: true,
     requiredCatalogs: [],
     detailFields: []
   },
@@ -573,119 +487,6 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
   }
 };
 
-export const SKILL_TRIGGER_EVENT_VALUE_LABELS = {
-  STEP_EXECUTION_INDEX: '当前步骤第几次执行',
-  CHARGE_DURATION_MS: '实际蓄力毫秒数',
-  RECAST_COUNT: '当前过程已重施次数',
-  HIT_INDEX: '当前命中序号',
-  SKILL_HIT_FIRST_CONTACT: '本次使用首次目标接触',
-  SKILL_HIT_SPELL_SHIELD_BLOCKED: '技能命中被法术护盾阻挡',
-  LIFECYCLE_STACKS: '当前生命周期层数',
-  PERIOD_INDEX: '当前周期序号',
-  REMAINING_MS: '当前生命周期剩余毫秒数',
-  STATE_BEFORE: '数值内部状态变化前值',
-  STATE_AFTER: '数值内部状态变化后值',
-  ATTRIBUTE_BEFORE: '生命属性越阈值前值',
-  ATTRIBUTE_AFTER: '生命属性越阈值后值',
-  THRESHOLD_VALUE: '本次阈值取值值',
-  RAW_DAMAGE: '原始伤害',
-  POST_DEFENSE_DAMAGE: '防御后伤害',
-  HEALTH_BEFORE: '受伤前生命',
-  PROJECTED_HEALTH_AFTER: '预计受伤后生命',
-  SHIELD_ABSORBED: '护盾吸收',
-  ACTUAL_HP_LOSS: '实际扣血',
-  BLOCKED: '是否被法术护盾阻挡（0/1）',
-  IMMUNE: '是否被伤害免疫（0/1）',
-  KILLED: '是否形成击杀（0/1）',
-  LINK_INDEX: '本次序号（从 1 开始）',
-  LINK_COUNT: '总次数（从 1 开始）'
-} as const satisfies { [K in SkillTriggerEventValueKey]: string };
-
-export const SKILL_TRIGGER_EVENT_VALUE_DOMAINS = {
-  STEP_EXECUTION_INDEX: 'INTEGER',
-  CHARGE_DURATION_MS: 'DECIMAL',
-  RECAST_COUNT: 'INTEGER',
-  HIT_INDEX: 'INTEGER',
-  SKILL_HIT_FIRST_CONTACT: 'INTEGER',
-  SKILL_HIT_SPELL_SHIELD_BLOCKED: 'INTEGER',
-  LIFECYCLE_STACKS: 'INTEGER',
-  PERIOD_INDEX: 'INTEGER',
-  REMAINING_MS: 'DECIMAL',
-  STATE_BEFORE: 'INTEGER',
-  STATE_AFTER: 'INTEGER',
-  ATTRIBUTE_BEFORE: 'DECIMAL',
-  ATTRIBUTE_AFTER: 'DECIMAL',
-  THRESHOLD_VALUE: 'DECIMAL',
-  RAW_DAMAGE: 'DECIMAL',
-  POST_DEFENSE_DAMAGE: 'DECIMAL',
-  HEALTH_BEFORE: 'DECIMAL',
-  PROJECTED_HEALTH_AFTER: 'DECIMAL',
-  SHIELD_ABSORBED: 'DECIMAL',
-  ACTUAL_HP_LOSS: 'DECIMAL',
-  BLOCKED: 'INTEGER',
-  IMMUNE: 'INTEGER',
-  KILLED: 'INTEGER',
-  LINK_INDEX: 'INTEGER',
-  LINK_COUNT: 'INTEGER'
-} as const satisfies { [K in SkillTriggerEventValueKey]: SkillTriggerValueDomain };
-
-export const SKILL_TRIGGER_CONDITION_TYPE_LABELS = {
-  ATTRIBUTE_COMPARE: '属性比较',
-  STATUS_CHECK: '战斗状态检查',
-  LIFECYCLE_CHECK: '生命周期检查',
-  TARGET_CATEGORY_CHECK: '事件对方类别',
-  EXPLICIT_TARGET_IS_SOURCE: '显式目标为来源对象',
-  SKILL_HIT_TARGET_IS_ENEMY: '技能命中敌方对象',
-  INTERNAL_STATE_CHECK: '技能内部状态检查',
-  EVENT_VALUE_COMPARE: '事件值比较'
-} as const satisfies { [K in SkillTriggerConditionType]: string };
-
-export const SKILL_TRIGGER_ACTION_TYPE_LABELS = {
-  EXECUTE_EFFECT: '执行效果',
-  START_PROCESS: '启动过程',
-  FAIL_PROCESS: '令过程失败',
-  ADVANCE_PROCESS: '推进当前过程'
-} as const satisfies { [K in SkillTriggerActionType]: string };
-
-export const SKILL_TRIGGER_SOURCE_TYPE_LABELS = {
-  INTERNAL_STATE: '技能内部状态',
-  COMBAT_STATUS: '战斗状态',
-  EVENT_VALUE: '当前事件值',
-  SOURCE_CAST_RESOURCE_COST: '来源施放资源消耗',
-  PRIOR_ACTION_RESULT: '更早动作结果',
-  COMBAT_ELAPSED_TIME: '本次入战后时长',
-  RECENT_DAMAGE_SUM: '近期受伤累计'
-} as const satisfies { [K in SkillTriggerRuntimeInputSourceType]: string };
-
-export const SKILL_TRIGGER_SUBJECT_LABELS = {
-  SOURCE: '来源对象',
-  CURRENT_TARGET: '当前目标',
-  EVENT_SOURCE: '事件来源对象'
-} as const satisfies { [K in SkillTriggerSubject]: string };
-
-export const SKILL_TRIGGER_TARGET_CONTEXT_LABELS = {
-  CURRENT_TARGET: '当前目标',
-  EVENT_SOURCE: '事件来源对象'
-} as const satisfies { [K in SkillTriggerTargetContext]: string };
-
-export const SKILL_TRIGGER_USE_KIND_LABELS = {
-  ACTIVE: '主动',
-  CONSUMABLE: '消耗',
-  ANY: '任意'
-} as const satisfies { [K in SkillTriggerEventUseKind]: string };
-
-export const SKILL_TRIGGER_CAST_PHASES = [
-  'INITIAL',
-  'RECAST',
-  'CHARGE_RELEASE'
-] as const satisfies readonly SkillTriggerCastPhase[];
-
-export const SKILL_TRIGGER_CAST_PHASE_LABELS = {
-  INITIAL: '首次施放',
-  RECAST: '再次施放',
-  CHARGE_RELEASE: '蓄力释放'
-} as const satisfies { [K in SkillTriggerCastPhase]: string };
-
 export const SKILL_TRIGGER_CAST_PHASE_PENDING_LABEL = '使用阶段待核定';
 export const SKILL_TRIGGER_CAST_PHASE_REQUIRED_MESSAGE = '请选择使用阶段。';
 export const SKILL_TRIGGER_START_PROCESS_PHASE_MESSAGE = '已核定的技能使用事件只有首次阶段可以启动过程。';
@@ -693,66 +494,7 @@ export const SKILL_TRIGGER_ADVANCE_PROCESS_EVENT_MESSAGE = '推进当前过程�
 export const SKILL_TRIGGER_ADVANCE_PROCESS_STEP_MESSAGE = '请选择与使用阶段匹配的非被动过程步骤。';
 export const SKILL_TRIGGER_SOURCE_CAST_RESOURCE_COST_CLEAR_MESSAGE = '当前事件不是已明确来源技能的技能命中，也不是当前技能非被动过程的完成或失败时点，将清除来源施放资源消耗绑定。';
 
-export const SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENT_LABELS = {
-  APPLICATION: '施加',
-  FULL_STACKS: '满层',
-  PERIODIC: '周期',
-  NATURAL_END: '自然结束',
-  EARLY_REMOVE: '提前移除'
-} as const satisfies { [K in SkillTriggerLifecycleEventMoment]: string };
-
-export const SKILL_TRIGGER_STATUS_CHANGE_LABELS = {
-  APPLY: '施加',
-  REMOVE: '移除'
-} as const satisfies { [K in SkillTriggerStatusChangeKind]: string };
-
-export const SKILL_TRIGGER_HEALTH_DIRECTION_LABELS = {
-  UPWARD: '向上',
-  DOWNWARD: '向下'
-} as const satisfies { [K in SkillTriggerHealthDirection]: string };
-
-export const SKILL_TRIGGER_INTERNAL_STATE_CHANGE_LABELS = {
-  VALUE_CHANGED: '数值变化',
-  OPTION_SELECTED: '模式选项变化',
-  FLAG_CHANGED: '准备标记变化',
-  COOLDOWN_READY: '内部冷却就绪'
-} as const satisfies { [K in SkillTriggerInternalStateChangeKind]: string };
-
-export const SKILL_TRIGGER_COMPARATOR_LABELS = {
-  LT: '小于',
-  LTE: '小于等于',
-  EQ: '等于',
-  NE: '不等于',
-  GTE: '大于等于',
-  GT: '大于'
-} as const satisfies { [K in SkillTriggerComparator]: string };
-
-export const SKILL_TRIGGER_STATUS_CHECK_LABELS = {
-  PRESENT: '存在',
-  ABSENT: '不存在',
-  STACKS_COMPARE: '层数比较',
-  REMAINING_MS_COMPARE: '剩余时间比较'
-} as const satisfies { [K in SkillTriggerStatusCheckKind]: string };
-
-export const SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS = {
-  VALUE: '数值',
-  OPTION_SELECTED: '模式是否选中',
-  ENABLED: '准备标记是否启用',
-  REMAINING_MS: '剩余毫秒'
-} as const satisfies { [K in SkillTriggerInternalStateValueKind]: string };
-
-export const SKILL_TRIGGER_COMBAT_STATUS_VALUE_LABELS = {
-  PRESENT: '存在',
-  STACKS: '层数',
-  REMAINING_MS: '剩余时间'
-} as const satisfies { [K in SkillTriggerCombatStatusValueKind]: string };
-
 export const SKILL_TRIGGER_FAILURE_REASON_LABELS = PROCESS_FAILURE_REASON_LABELS;
-
-export const SKILL_TRIGGER_VALUE_TYPE_LABELS = {
-  INTEGER: '整数',
-  DECIMAL: '小数'
-} as const satisfies { [K in SkillParameterValueType]: string };
 
 type ConditionDraftBase = {
   conditionKey: string;
@@ -1043,6 +785,7 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
     case 'BASIC_ATTACK_START':
       return { eventType, detail: emptyEventDetail() };
     case 'BASIC_ATTACK_HIT':
+    case 'BASIC_ATTACK_RECEIVED':
       return { eventType, detail: emptyEventDetail() };
     case 'DAMAGE_PENDING':
     case 'DAMAGE_DEALT':
@@ -1152,7 +895,7 @@ export function createEmptyBindingDetail(
 ): { subject: SkillTriggerSubject };
 export function createEmptyBindingDetail(
   sourceType: 'RECENT_DAMAGE_SUM'
-): { subject: SkillTriggerSubject; windowValue: NumericValue; outputKind: 'POST_DEFENSE_DAMAGE' | 'ACTUAL_HP_LOSS';
+): { subject: SkillTriggerSubject; windowValue: NumericValue; outputKind: SkillTriggerRecentDamageOutputKind;
   sourceSkillKey: string | null; damageTypeKey: string | null;
   deliveryKind: SkillTriggerDamageDeliveryKind; originKind: SkillTriggerDamageOriginKind };
 export function createEmptyBindingDetail(
@@ -1463,6 +1206,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
   SKILL_USED: [],
   BASIC_ATTACK_START: [],
   BASIC_ATTACK_HIT: ['HIT_INDEX'],
+  BASIC_ATTACK_RECEIVED: [],
   SKILL_HIT: ['HIT_INDEX', 'SKILL_HIT_FIRST_CONTACT', 'SKILL_HIT_SPELL_SHIELD_BLOCKED'],
   PROCESS_MOMENT: [],
   RESULT_AVAILABLE: [],
@@ -1502,9 +1246,13 @@ export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
 
 export function allowedEventValuesFor(
   eventSource: SkillTriggerEventSource,
-  stepType: SkillProcessStepType | null = null
+  stepType: SkillProcessStepType | null = null,
+  chargeHitContext?: ChargeHitContext
 ): SkillTriggerEventValueKey[] {
   switch (eventSource.eventType) {
+    case 'SKILL_HIT':
+      return [...SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES.SKILL_HIT,
+        ...(allowsChargeHitValue(eventSource, chargeHitContext) ? ['CHARGE_DURATION_MS' as const] : [])];
     case 'PROCESS_MOMENT': {
       const momentType = eventSource.detail.moment.momentType;
       const values: SkillTriggerEventValueKey[] = [];
@@ -1670,7 +1418,7 @@ export function rebuildStatusCheckDetail(
 
 export function rebuildInternalStateCheckDetail(
   current: SkillTriggerInternalStateCheckDetail,
-  valueKind: 'VALUE'
+  valueKind: 'VALUE' | 'ATTACK_START_VALUE'
 ): SkillTriggerInternalStateValueDetail;
 export function rebuildInternalStateCheckDetail(
   current: SkillTriggerInternalStateCheckDetail,
@@ -1692,17 +1440,17 @@ export function rebuildInternalStateCheckDetail(
   current: SkillTriggerInternalStateCheckDetail,
   valueKind: SkillTriggerInternalStateValueKind
 ): SkillTriggerInternalStateCheckDetail {
-  if (valueKind === 'VALUE') {
+  if (valueKind === 'VALUE' || valueKind === 'ATTACK_START_VALUE') {
     return {
       stateSkillKey: current.stateSkillKey,
       stateKey: current.stateKey,
       valueKind,
       optionKey: null,
       expectedBoolean: null,
-      comparator: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
+      comparator: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparator
         : 'GTE',
-      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
+      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparisonValue
         : fixedValue(Number.NaN)
     };
@@ -1714,10 +1462,10 @@ export function rebuildInternalStateCheckDetail(
       valueKind,
       optionKey: null,
       expectedBoolean: null,
-      comparator: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
+      comparator: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparator
         : 'GTE',
-      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
+      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparisonValue
         : fixedValue(Number.NaN)
     };
@@ -1867,7 +1615,7 @@ export function patchInternalStateCompareFields(
     'comparator' | 'comparisonValue'
   >>
 ): SkillTriggerInternalStateCheckConditionDraft {
-  if (current.detail.valueKind !== 'VALUE' && current.detail.valueKind !== 'REMAINING_MS') {
+  if (current.detail.valueKind !== 'VALUE' && current.detail.valueKind !== 'ATTACK_START_VALUE' && current.detail.valueKind !== 'REMAINING_MS') {
     return current;
   }
   return { ...current, detail: { ...current.detail, ...patch } };
@@ -2161,7 +1909,6 @@ export function fromDetail(detail: SkillTriggerRuleDetail, ownerSkillKey?: strin
       normalized.eventSource.detail.sourceSkillKey ??= null;
     }
     for (const group of normalized.conditionGroups) for (const condition of group.conditions) {
-      if (condition.conditionType === 'INTERNAL_STATE_CHECK') condition.detail.stateSkillKey ||= ownerSkillKey;
       if (condition.conditionType === 'LIFECYCLE_CHECK') condition.detail.effectSkillKey ||= ownerSkillKey;
       if (condition.conditionType === 'STATUS_CHECK') {
         if (condition.detail.checkKind === 'PRESENT' || condition.detail.checkKind === 'ABSENT') {
@@ -2466,9 +2213,10 @@ export function analyzeEventSwitchImpact(
   draft: SkillTriggerRuleDraft,
   nextSource: SkillTriggerEventSource,
   stepType: SkillProcessStepType | null = null,
-  processes?: ReadonlyArray<SourceCastResourceCostProcess>
+  processes?: ReadonlyArray<SourceCastResourceCostProcess>,
+  chargeHitContext?: ChargeHitContext
 ): EventSwitchImpact {
-  const allowed = new Set(allowedEventValuesFor(nextSource, stepType));
+  const allowed = new Set(allowedEventValuesFor(nextSource, stepType, chargeHitContext));
   const staleValues = SKILL_TRIGGER_EVENT_VALUE_KEYS.filter((key) => (
     usesEventValueKey(draft, key) && !allowed.has(key)
   ));
@@ -2611,10 +2359,11 @@ export function applyEventSwitchCleanup(
   draft: SkillTriggerRuleDraft,
   nextSource: SkillTriggerEventSource,
   stepType: SkillProcessStepType | null = null,
-  processes?: ReadonlyArray<SourceCastResourceCostProcess>
+  processes?: ReadonlyArray<SourceCastResourceCostProcess>,
+  chargeHitContext?: ChargeHitContext
 ): SkillTriggerRuleDraft {
   const hasEventSource = eventHasEventSource(nextSource.eventType);
-  const allowed = allowedEventValuesFor(nextSource, stepType);
+  const allowed = allowedEventValuesFor(nextSource, stepType, chargeHitContext);
   const nextGroups = draft.conditionGroups.map((group) => {
     const conditions: SkillTriggerConditionDraft[] = [];
     for (const condition of group.conditions) {
@@ -2763,7 +2512,7 @@ export function conditionSummary(condition: SkillTriggerConditionDraft): string 
         SKILL_TRIGGER_CONDITION_TYPE_LABELS.INTERNAL_STATE_CHECK,
         condition.detail.stateKey,
         SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS[condition.detail.valueKind],
-        ...(condition.detail.valueKind === 'VALUE' || condition.detail.valueKind === 'REMAINING_MS'
+        ...(condition.detail.valueKind === 'VALUE' || condition.detail.valueKind === 'ATTACK_START_VALUE' || condition.detail.valueKind === 'REMAINING_MS'
           ? [SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator], numericValueSummary(condition.detail.comparisonValue)]
           : [])
       ].join(' / ');
@@ -2822,7 +2571,7 @@ export function bindingSummary(binding: SkillTriggerRuntimeInputBinding): string
     case 'COMBAT_ELAPSED_TIME':
       return `${SKILL_TRIGGER_SOURCE_TYPE_LABELS.COMBAT_ELAPSED_TIME} / ${SKILL_TRIGGER_SUBJECT_LABELS[binding.detail.subject]}`;
     case 'RECENT_DAMAGE_SUM':
-      return `${SKILL_TRIGGER_SOURCE_TYPE_LABELS.RECENT_DAMAGE_SUM} / ${SKILL_TRIGGER_SUBJECT_LABELS[binding.detail.subject]} / ${numericValueSummary(binding.detail.windowValue)} 毫秒 / ${binding.detail.outputKind === 'ACTUAL_HP_LOSS' ? '实际扣血' : '防御后伤害'}`;
+      return `${SKILL_TRIGGER_SOURCE_TYPE_LABELS.RECENT_DAMAGE_SUM} / ${SKILL_TRIGGER_SUBJECT_LABELS[binding.detail.subject]} / ${numericValueSummary(binding.detail.windowValue)} 毫秒 / ${SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_LABELS[binding.detail.outputKind]}`;
     case 'EVENT_VALUE':
       return [
         SKILL_TRIGGER_SOURCE_TYPE_LABELS.EVENT_VALUE,
@@ -2840,16 +2589,7 @@ export function bindingSummary(binding: SkillTriggerRuntimeInputBinding): string
   }
 }
 
-export function collectFormulaParameterKeys(expression: FormulaExpressionNode): string[] {
-  if (expression.nodeType === 'PARAMETER') return [expression.parameterKey];
-  if (expression.nodeType === 'OPERATION') {
-    return [
-      ...collectFormulaParameterKeys(expression.operands[0]),
-      ...collectFormulaParameterKeys(expression.operands[1])
-    ];
-  }
-  return [];
-}
+export function collectFormulaParameterKeys(expression: FormulaExpressionNode): string[] { return skillFormulaParameterKeys(expression); }
 
 export function formulaHasRuntimeInput(
   formula: SkillFormula | undefined,
@@ -3320,7 +3060,7 @@ export function isTriggerRuleNotFound(error: unknown): boolean {
 
 export function subjectOptionsForEvent(eventType: SkillTriggerEventType): SkillTriggerSubject[] {
   return eventHasEventSource(eventType)
-    ? ['SOURCE', 'CURRENT_TARGET', 'EVENT_SOURCE']
+    ? [...SKILL_TRIGGER_SUBJECTS]
     : ['SOURCE', 'CURRENT_TARGET'];
 }
 
@@ -3349,12 +3089,14 @@ export function changeKindsForInternalState(
 }
 
 export function valueKindsForInternalState(
-  stateType: SkillInternalStateType | null
+  stateType: SkillInternalStateType | null,
+  includeAttackStart = false
 ): SkillTriggerInternalStateValueKind[] {
   switch (stateType) {
     case 'COUNTER':
-    case 'AMMO':
       return ['VALUE'];
+    case 'AMMO':
+      return includeAttackStart ? ['VALUE', 'ATTACK_START_VALUE'] : ['VALUE'];
     case 'MODE':
       return ['OPTION_SELECTED'];
     case 'FLAG':
@@ -3414,6 +3156,7 @@ export function validateSkillTriggerDraft(
     effectsByKey?: ReadonlyMap<string, SkillEffect>;
     damageTypesByKey?: ReadonlyMap<string, DamageType>;
     processesByKey?: ReadonlyMap<string, SkillProcess>;
+    triggerRules?: readonly SkillTriggerRuleDetail[];
     statesByKey?: ReadonlyMap<string, SkillInternalState>;
     stepType?: SkillProcessStepType | null;
   }
@@ -3435,12 +3178,15 @@ export function validateSkillTriggerDraft(
     fieldErrors.eventSource = INCOMPLETE_CATALOG_MESSAGE;
   }
 
-  const allowedValues = allowedEventValuesFor(draft.eventSource, options.stepType ?? null);
+  const chargeHitContext = options.skillKey && options.processesByKey && options.triggerRules
+    ? { skillKey: options.skillKey, processes: [...options.processesByKey.values()], rules: options.triggerRules } : undefined;
+  const allowedValues = allowedEventValuesFor(draft.eventSource, options.stepType ?? null, chargeHitContext);
   const hasEventSource = eventHasEventSource(draft.eventSource.eventType);
-  if (draft.eventSource.eventType === 'SOURCE_INITIALIZED') {
+  if (draft.eventSource.eventType === 'SOURCE_INITIALIZED'
+    || draft.eventSource.eventType === 'BASIC_ATTACK_RECEIVED') {
     const detail = draft.eventSource.detail;
     if (typeof detail !== 'object' || detail === null || Array.isArray(detail) || Object.keys(detail).length !== 0) {
-      pushError(nestedErrors, 'eventSource.detail', '来源对象初始化完成事件的详情必须为空对象。');
+      pushError(nestedErrors, 'eventSource.detail', `${SKILL_TRIGGER_EVENT_TYPE_LABELS[draft.eventSource.eventType]}事件的详情必须为空对象。`);
     }
   }
   if (draft.eventSource.eventType === 'SKILL_USED') {
@@ -3690,7 +3436,7 @@ export function validateSkillTriggerDraft(
           { parameters: options.parameters, formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined },
           { min: 0, exclusiveMin: true, allowRuntimeInput: false });
         if (windowError) pushError(nestedErrors, `${bindingPath}.windowValue`, windowError);
-        if (!['POST_DEFENSE_DAMAGE', 'ACTUAL_HP_LOSS'].includes(binding.detail.outputKind)) {
+        if (!(SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_KINDS as readonly string[]).includes(binding.detail.outputKind)) {
           pushError(nestedErrors, `${bindingPath}.outputKind`, '请选择累计伤害口径。');
         }
         if (binding.detail.sourceSkillKey && !SKILL_TRIGGER_KEY_PATTERN.test(binding.detail.sourceSkillKey)) {
@@ -3787,8 +3533,9 @@ export function validateSkillTriggerDraft(
       if (
         draft.eventSource.eventType !== 'DAMAGE_PENDING'
         && draft.eventSource.eventType !== 'DAMAGE_TAKEN'
+        && draft.eventSource.eventType !== 'BASIC_ATTACK_RECEIVED'
       ) {
-        pushError(nestedErrors, 'eventSource.eventType', '反伤效果只能由即将受到伤害或受到伤害事件触发。');
+        pushError(nestedErrors, 'eventSource.eventType', '反伤效果只能由普通攻击命中接收、即将受到伤害或受到伤害事件触发。');
       }
       if (action.targetContext !== 'EVENT_SOURCE') {
         pushError(
@@ -3797,7 +3544,7 @@ export function validateSkillTriggerDraft(
           '反伤效果必须作用于事件来源对象。'
         );
       }
-      const directOnly = (
+      const directOnly = draft.eventSource.eventType === 'BASIC_ATTACK_RECEIVED' || (
         draft.eventSource.eventType === 'DAMAGE_PENDING'
         || draft.eventSource.eventType === 'DAMAGE_TAKEN'
       )

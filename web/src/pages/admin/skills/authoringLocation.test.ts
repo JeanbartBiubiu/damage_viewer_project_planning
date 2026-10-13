@@ -127,28 +127,30 @@ describe('authoring location resolution against fresh saved details', () => {
 });
 
 describe('formula structural slots', () => {
-  const left = { nodeType: 'PARAMETER', parameterKey: 'left' };
-  const right = { nodeType: 'PARAMETER', parameterKey: 'right' };
-  const expression = { nodeType: 'OPERATION', operation: 'ADD', operands: [left, right] };
+  const left = { op: 'read', inputKey: 'left' };
+  const right = { op: 'read', inputKey: 'right' };
+  const expression = { inputs: [{ key: 'left', binding: { kind: 'parameter', skillKey: 'q', parameterKey: 'left' } },
+    { key: 'right', binding: { kind: 'parameter', skillKey: 'q', parameterKey: 'right' } }],
+    stages: [{ key: 'out', name: '结果', expression: { op: 'add', args: [left, right] } }], outputStageKey: 'out' };
   const focus = location([
-    { kind: 'FIELD', field: 'expression' }, { kind: 'EXPECT_VALUE', field: 'nodeType', value: 'OPERATION' },
-    { kind: 'FORMULA_OPERAND', operand: 1 }, { kind: 'EXPECT_VALUE', field: 'nodeType', value: 'PARAMETER' },
-    { kind: 'FIELD', field: 'parameterKey' }
+    { kind: 'FIELD', field: 'expression' }, { kind: 'KEYED_CHILD', collection: 'stages', keyField: 'key', key: 'out' },
+    { kind: 'FIELD', field: 'expression' }, { kind: 'EXPECT_VALUE', field: 'op', value: 'add' },
+    { kind: 'FORMULA_OPERAND', operand: 1 }, { kind: 'EXPECT_VALUE', field: 'op', value: 'read' },
+    { kind: 'FIELD', field: 'inputKey' }
   ], { editor: 'FORMULA', objectType: 'FORMULA', formulaSnapshot: expression });
-
   it('uses the exact structural slot after comparing the whole expression, ignoring object key order', () => {
-    const reorderedProperties = { operands: [{ parameterKey: 'left', nodeType: 'PARAMETER' }, right], operation: 'ADD', nodeType: 'OPERATION' };
+    const reorderedProperties = { outputStageKey: 'out', stages: [{ name: '结果', key: 'out', expression: { args: [{ inputKey: 'left', op: 'read' }, right], op: 'add' } }], inputs: expression.inputs };
     expect(resolveAuthoringLocation(focus, { expression: reorderedProperties }))
-      .toMatchObject({ precision: 'FIELD', path: ['expression', 'operands', 1, 'parameterKey'] });
+      .toMatchObject({ precision: 'FIELD', path: ['expression', 'stages', 0, 'expression', 'args', 1, 'inputKey'] });
   });
   it('rejects same-type node swaps rather than finding a matching parameter elsewhere', () => {
-    expect(resolveAuthoringLocation(focus, { expression: { ...expression, operands: [right, left] } }))
-      .toMatchObject({ precision: 'OBJECT', reason: 'TYPE_CHANGED', reportChanged: true, path: [] });
+    const changed = { ...expression, stages: [{ ...expression.stages[0], expression: { op: 'add', args: [right, left] } }] };
+    expect(resolveAuthoringLocation(focus, { expression: changed })).toMatchObject({ precision: 'OBJECT', reason: 'TYPE_CHANGED', reportChanged: true });
   });
   it('keeps repeated equal nodes at their requested slot', () => {
-    const repeated = { ...expression, operands: [left, left] };
+    const repeated = { ...expression, stages: [{ ...expression.stages[0], expression: { op: 'add', args: [left, left] } }] };
     expect(resolveAuthoringLocation({ ...focus, formulaSnapshot: repeated }, { expression: repeated }).path)
-      .toEqual(['expression', 'operands', 1, 'parameterKey']);
+      .toEqual(['expression', 'stages', 0, 'expression', 'args', 1, 'inputKey']);
   });
   it('distinguishes arrays, absent fields and scalar types when comparing snapshots', () => {
     expect(sameAuthoringJson({ value: 0 }, { value: '0' })).toBe(false);

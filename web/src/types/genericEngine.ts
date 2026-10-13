@@ -42,6 +42,7 @@ export type CompileResultMetadata = {
   abilityCount: number;
   typeCount: number;
   formulaCount: number;
+  approvedStaticValues?: Record<string, number>;
 };
 
 export type TypeCatalog = {
@@ -90,10 +91,17 @@ export type GenericFormulaExpr = {
   expr?: GenericFormulaExpr;
 };
 
-export type NamedFormula = {
+type NamedFormulaBase = {
   key: string;
-  expression: GenericFormulaExpr;
+  expression: import('./formulaContract.generated').FormulaDefinition;
 };
+export type NamedFormula = NamedFormulaBase & ({ scope: 'game'; skillKey?: never; parameters: [] } | {
+  scope: 'skill'; skillKey: string;
+  parameters: Array<{ parameterKey: string; valueMode: import('./skillParameter').SkillParameter['valueMode'];
+    valueType: 'DECIMAL' | 'INTEGER'; value?: number;
+    runtimeSource?: { kind: 'use_charge_duration' } | { kind: 'process_actual_cost'; resourceKey: string } }>;
+});
+export type StaticNumericValue = number | { op: 'ref'; ref: string };
 
 export type TypeMatcher = { any?: string[]; all?: string[]; none?: string[] };
 export type GenericVampType = 'LIFE_STEAL' | 'OMNIVAMP' | 'PHYSICAL_VAMP' | 'SPELL_VAMP';
@@ -137,6 +145,7 @@ export type OperationDefinition = {
   /** 当前结果自己的期望暴击概率与倍率；必须成对，不改写全局属性。 */
   critChance?: GenericFormulaExpr;
   critMultiplier?: GenericFormulaExpr;
+  critMultiplierMin?: number;
   repeatScope?: string;
   repeatCount?: number;
   repeatTag?: string;
@@ -294,10 +303,12 @@ export type AbilityDefinition = {
 /** Structured provider initialStateSchema field (Guinsoo H+K / Gate H1). */
 export type ProviderStateFieldSchema = {
   valueType: string;
-  defaultValue: number;
-  maxValue?: number;
-  durationMs?: number;
+  defaultValue: StaticNumericValue;
+  maxValue?: StaticNumericValue;
+  durationMs?: StaticNumericValue;
   refreshPolicy?: string;
+  stateKind?: 'ammo';
+  ammoRecovery?: { intervalMs: GenericFormulaExpr; mode: 'all_at_once'; startCondition: 'when_empty' };
 };
 
 export type ProviderInstanceScope = 'source_target';
@@ -312,6 +323,7 @@ export type StatusContributionDefinition = {
 
 export type ProviderDefinition = {
   providerKey: string;
+  skillKey?: string;
   kind: string;
   stableId: string;
   types?: string[];
@@ -321,9 +333,9 @@ export type ProviderDefinition = {
   listeners?: ListenerDefinition[];
   lifecycle?: {
     durationMs?: GenericFormulaExpr;
-    maxStacks?: number;
+    maxStacks?: StaticNumericValue;
     refreshPolicy?: string;
-    tickIntervalMs?: number;
+    tickIntervalMs?: StaticNumericValue;
     instanceScope?: ProviderInstanceScope;
   };
   statusContributions?: StatusContributionDefinition[];
@@ -334,20 +346,26 @@ export type ProviderDefinition = {
 };
 
 export type GenericRules = {
+  skillActionBindings?: SkillActionBinding[];
   operations?: OperationDefinition[];
   modifiers?: ModifierDefinition[];
   listeners?: ListenerDefinition[];
   triggerRules?: unknown[];
   vampRules?: GenericVampRule[];
   damageTypeFormulas?: GenericDamageTypeFormula[];
+  attributeDerivations?: Array<{
+    combatantKey: 'source' | 'target';
+    skillKey?: string;
+    attributeKey: string;
+    value: GenericFormulaExpr;
+    valuePolicy: 'set' | 'multiply';
+    valueType: 'DECIMAL' | 'INTEGER';
+  }>;
 };
 
 export type GenericDamageTypeFormula = {
   damageType: string;
-  formula: Record<
-    'resistanceBeforePenetration' | 'penetrationPercent' | 'penetrationFlat' | 'effectiveResistance' | 'resistanceFactor',
-    GenericFormulaExpr
-  >;
+  formula: import('./formulaContract.generated').FormulaDefinition;
 };
 
 export type CompileSettings = {
@@ -468,6 +486,19 @@ export type DriverPlan = {
   entries: DriverEntry[];
   conditionRecheckIntervalMs: number;
   basicAttack?: BasicAttackPlan;
+  skillActions?: SkillActionPlan[];
+};
+
+export type SkillActionBinding = {
+  bindingKey: string; source: 'source'; providerRef: string; providerDefinitionRef: string; skillKey: string;
+  controls: Array<{ action: SkillActionPhase; processKey: string; abilityRef: string }>;
+  hitBindings: Array<{ hitBindingKey: string; processKey: string; moment: ProcessMomentDefinition; hitAbilityRef: string }>;
+};
+
+export type SkillActionPlan = {
+  instructionKey: string; firstAtMs: number; sortOrder: number; source: 'source'; target: 'source' | 'target';
+  skillKey: string; bindingKey: string; action: SkillActionPhase; abilityRef: string; parentInstructionKey?: string | null;
+  hitBindings: Array<{ hitBindingKey: string; preset: 'TARGET_HIT' | 'MISS' }>;
 };
 
 export type BasicAttackPlan = {
@@ -504,9 +535,11 @@ export type SafetyBudget = {
   maxBasicAttacks?: number;
 };
 
-export type RecordBudget = { maxAttackRecords?: number; maxDamageRecords?: number };
+export type RecordBudget = { maxAttackRecords?: number; maxDamageRecords?: number; maxMechanicRecords?: number;
+  maxSkillActionRecords?: number; maxSkillUseRecords?: number; maxHealingRecords?: number };
 
 export type ProcessControlAction = 'INITIAL' | 'RECAST' | 'CHARGE_RELEASE' | 'CANCEL' | 'INTERRUPT';
+export type SkillActionPhase = Exclude<ProcessControlAction, 'INTERRUPT'>;
 
 export type ProcessFailureReason =
   | 'CONTROLLED'
@@ -524,7 +557,7 @@ export type ProcessControlDefinition = {
   useRefFromEvent?: boolean;
 };
 
-export type ProcessStepType = 'IMMEDIATE' | 'DELAY' | 'CHARGE' | 'RECAST';
+export type ProcessStepType = 'IMMEDIATE' | 'DELAY' | 'CHARGE' | 'RECAST' | 'MULTI_HIT' | 'CHANNEL';
 
 export type ProcessMomentType =
   | 'PROCESS_START'
@@ -543,6 +576,14 @@ export type ProcessMomentDefinition = {
 
 export type ProcessStepDefinition = {
   stepKey: string;
+  occupiesAction?: boolean | null;
+  repeatCount?: GenericFormulaExpr;
+  intervalMs?: GenericFormulaExpr | null;
+  durationMs?: GenericFormulaExpr;
+  executionCount?: GenericFormulaExpr;
+  firstExecution?: 'IMMEDIATE' | 'AFTER_INTERVAL' | 'CUSTOM_WINDOW';
+  firstExecutionOffsetMs?: GenericFormulaExpr;
+  lastExecutionOffsetMs?: GenericFormulaExpr;
   stepType: ProcessStepType;
   delayMs?: GenericFormulaExpr;
   minimumChargeMs?: GenericFormulaExpr;
@@ -578,6 +619,23 @@ export type ProcessDefinition = {
 
 export type ProcessInstanceStatus = 'active' | 'complete' | 'failed';
 
+export type ProcessRepeatSnapshot = {
+  executionCount: number;
+  executionIndex: number;
+  intervalMs: number;
+  firstExecutionOffsetMs: number;
+  lastExecutionOffsetMs: number;
+  nextExecutionAtMs: number | null;
+};
+
+export type ProcessActionOccupancy = {
+  stepKey: string;
+  stepVersion: number;
+  startedAtMs: number;
+  expectedEndAtMs: number;
+  finishedAtMs: number | null;
+};
+
 export type ProcessInstanceSnapshot = {
   owner: 'source' | 'target';
   providerRef: string;
@@ -587,6 +645,9 @@ export type ProcessInstanceSnapshot = {
   target: 'source' | 'target';
   stepKey: string;
   stepVersion: number;
+  stepExecutionIndex: number;
+  lastExecutionAtMs: number | null;
+  stepCompletedAtMs: number | null;
   startedAtMs: number;
   stepStartedAtMs: number;
   advanceAtMs: number;
@@ -596,6 +657,8 @@ export type ProcessInstanceSnapshot = {
   status: ProcessInstanceStatus;
   failureReason: ProcessFailureReason | null;
   finishedAtMs: number | null;
+  repeat: ProcessRepeatSnapshot | null;
+  actionOccupancies: ProcessActionOccupancy[];
 };
 
 export type ProcessCommandFact = {
@@ -609,6 +672,15 @@ export type AttackStartFact = {
 };
 
 export type RunRequest = {
+  /** 省略返回完整明细；summary仅省略记录，采样仍独立控制。 */
+  outputMode?: 'detailed' | 'summary';
+  runtimeOptions?: {
+    equipmentAssumptions: import('./simulationSnapshot').SimulationEquipmentAssumption[];
+    skillOrigins?: Array<import('./simulationSnapshot').SimulationSkillSource & {
+      side: 'source' | 'target'; providerRef?: string; definitionRef?: string;
+    }>;
+    mechanicStateInputs?: import('./simulationSnapshot').SimulationMechanicStateInput[];
+  };
   sessionId: string;
   expectedRulesHash: string;
   schemaVersion: string;
@@ -643,9 +715,15 @@ export type RunSummary = {
   evidenceTruncated: boolean;
   seriesDownsampled: boolean;
   basicAttack?: BasicAttackSummary;
+  skillActions?: SkillActionSummary;
+  skillUses?: SkillUseSummary;
   execution?: ExecutionSummary;
   sourceHpLoss?: number;
   targetHpLoss?: number;
+  sourceVampHealing?: number;
+  targetVampHealing?: number;
+  sourceDirectHealing?: number;
+  targetDirectHealing?: number;
   damageBreakdown?: DamageBreakdown[];
   abilityStats: Array<{
     abilityRef: string;
@@ -657,7 +735,30 @@ export type RunSummary = {
   }>;
 };
 
-export type BasicAttackSummary = { planKey: string; startedCount: number; hitCount: number; completedCount: number };
+export type BasicAttackSummary = { planKey: string; startedCount: number; hitCount: number; completedCount: number;
+  initialMechanicReadyAtMs?: number | null; initialActionReadyAtMs: number | null };
+export type SkillActionSummary = { plannedCount: number; reachedCount: number; acceptedCount: number; rejectedCount: number;
+  abortedBeforeAcceptCount: number; unreachedCount: number };
+export type SkillUseSummary = { startedCount: number; releasedCount: number; hitCount: number; completedCount: number;
+  failedCount: number; inFlightCount: number; stepEnteredCount: number; stepExecutedCount: number; stepCompletedCount: number };
+export type SkillActionRecord = {
+  instructionKey: string; requestedAtMs: number; actualAtMs: number; action: SkillActionPhase; source: string; target: string;
+  parentInstructionKey: string | null;
+  skillKey: string; bindingKey: string; providerRef: string; providerDefinitionRef: string;
+  outcome: 'ACCEPTED' | 'REJECTED' | 'ABORTED_BEFORE_ACCEPT'; reason: string | null; useRef: string | null;
+};
+export type SkillUseRecordKind = 'STARTED' | 'RELEASED' | 'HIT' | 'COMPLETED' | 'FAILED' | 'STEP_ENTERED' | 'STEP_EXECUTED' | 'STEP_COMPLETED';
+export type SkillUseRecord = {
+  instructionKey: string; timeMs: number; kind: SkillUseRecordKind;
+  source: string; target: string; skillKey: string; providerRef: string; processKey: string; useRef: string;
+  hitRef: string | null; reason: string | null;
+  stepKey: string; stepVersion: number; executionIndex: number;
+};
+export type HealingRecord = {
+  timeMs: number; source: string; target: string; abilityRef: string; operationRef: string; useRef: string | null;
+  instructionKey: string | null; rawAmount: number; healingAfterDone: number; healingAfterModifiers: number;
+  actualHealing: number; overheal: number; hpBefore: number; hpAfter: number;
+};
 export type BudgetCause = 'max_events' | 'max_commands_per_event' | 'max_chain_depth' | 'max_queue_events'
   | 'max_process_instances' | 'max_skill_hits' | 'max_basic_attacks' | 'max_use_trigger_ledger';
 export type ExecutionSummary = {
@@ -670,26 +771,41 @@ export type ExecutionSummary = {
 };
 export type AttackRecord = {
   planKey: string; attackIndex: number; useRef: string; source: string; target: string; skillKey: string;
-  startAtMs: number; hitAtMs: number | null; readyAtMs: number | null; nextStartAtMs: number | null;
+  startAtMs: number; hitAtMs: number | null; readyAtMs: number | null; finalReadyAtMs: number | null; nextStartAtMs: number | null;
+  mechanicReadyAtMs: number | null;
+  actionReadyAtMs: number | null;
   attackSpeed: number; postDefenseDamage: number; actualHpLoss: number;
   sourceHpAfter: number; targetHpAfter: number; completed: boolean;
 };
 export type DamageBreakdown = {
+  providerDefinitionRef?: string;
   owner: string; source: string; target: string; abilityRef: string; operationRef: string; damageType: string;
   damageCount: number; postDefenseDamage: number; shieldAbsorbed: number; actualHpLoss: number; overkillDamage: number;
 };
 export type DamageRecord = Omit<DamageBreakdown, 'damageCount'> & {
-  damageId: number; attackIndex: number; useRef: string; timeMs: number; castInstanceId: number; operationPath: string;
+  providerActivatedAtMs?: number;
+  damageId: number; attackIndex: number | null; useRef: string; instructionKey?: string | null; hitRef?: string | null;
+  timeMs: number; castInstanceId: number; operationPath: string;
   rawAmount: number; hpBefore: number; hpAfter: number;
+  sourceHpBefore: number | null; sourceHpAfter: number | null;
   eligible?: boolean; policy?: string; baseRawAmount?: number; originalCritChance?: number;
   effectiveCritChance?: number; multiplier?: number; normalPart?: number; critPart?: number;
   critAdjustedRawAmount?: number; normalPartPostResistance?: number; critPartPostResistance?: number;
-  resistanceBeforePenetration?: number; penetrationPercent?: number; penetrationFlat?: number;
-  effectiveResistance?: number; resistanceFactor?: number; modifiers?: Record<string, unknown>[];
+  resistanceFactor?: number; modifiers?: Record<string, unknown>[];
 };
 export type RecordingSummary = {
+  skillActionRecordCount?: number; returnedSkillActionRecords?: number; droppedSkillActionRecords?: number; skillActionRecordsTruncated?: boolean;
+  skillUseRecordCount?: number; returnedSkillUseRecords?: number; droppedSkillUseRecords?: number; skillUseRecordsTruncated?: boolean;
+  healingRecordCount?: number; returnedHealingRecords?: number; droppedHealingRecords?: number; healingRecordsTruncated?: boolean;
   attackRecordCount: number; returnedAttackRecords: number; droppedAttackRecords: number; attackRecordsTruncated: boolean;
   damageRecordCount: number; returnedDamageRecords: number; droppedDamageRecords: number; damageRecordsTruncated: boolean;
+  mechanicRecordCount: number; returnedMechanicRecords: number; droppedMechanicRecords: number; mechanicRecordsTruncated: boolean;
+};
+
+export type MechanicRecord = {
+  timeMs: number; kind: 'STATE_CHANGED' | 'WAIT_STARTED' | 'WAIT_ENDED'; owner: 'source' | 'target';
+  providerRef: string; providerDefinitionRef: string; skillKey: string; stateKey: string;
+  beforeValue: number; afterValue: number; operationRef: string; useRef: string | null; readyAtMs: number | null;
 };
 
 export type SeriesPoint = {
@@ -731,6 +847,8 @@ export type SeriesSamplingEvidence = {
 };
 
 export type DoneResult = {
+  /** summary表示未请求明细；预算丢弃量仍按原记录预算核对。 */
+  outputMode?: 'summary';
   ok: boolean;
   summary: RunSummary;
   finalSnapshot: InitialSnapshot;
@@ -740,6 +858,10 @@ export type DoneResult = {
   seriesSamplingEvidence: SeriesSamplingEvidence;
   attackRecords?: AttackRecord[];
   damageRecords?: DamageRecord[];
+  mechanicRecords?: MechanicRecord[];
+  skillActionRecords?: SkillActionRecord[];
+  skillUseRecords?: SkillUseRecord[];
+  healingRecords?: HealingRecord[];
   recording?: RecordingSummary;
 };
 

@@ -17,14 +17,14 @@ export const AUTHORING_COLLECTION_KEYS = {
   results: 'resultKey', steps: 'stepKey', effectBindings: 'bindingKey',
   stateOperations: 'operationKey', options: 'optionKey', conditionGroups: 'groupKey',
   conditions: 'conditionKey', actions: 'actionKey', runtimeInputBindings: 'bindingKey',
-  vampOverrides: 'vampType', resultModifiers: 'resultKey'
+  vampOverrides: 'vampType', resultModifiers: 'resultKey', inputs: 'key', stages: 'key'
 } as const;
 
 export type AuthoringLocationSegment =
   | { kind: 'FIELD'; field: string }
   | { kind: 'KEYED_CHILD'; collection: string; keyField: string; key: string }
   | { kind: 'VALUE_CHILD'; collection: 'skillKeys' | 'skillCategoryKeys'; value: string }
-  | { kind: 'FORMULA_OPERAND'; operand: 0 | 1 }
+  | { kind: 'FORMULA_OPERAND'; operand: 0 | 1 | 2 }
   | { kind: 'EXPECT_VALUE'; field: string; value: AuthoringScalar };
 
 export type AuthoringLocationIdentity = {

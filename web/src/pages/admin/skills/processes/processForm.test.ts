@@ -1,4 +1,4 @@
-import { formulaValue } from '../../../../types/numericValue';
+import { fixedValue, formulaValue, parameterValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { SkillProcess } from '../../../../types/skillProcess';
@@ -119,6 +119,51 @@ function expectValid(draft: SkillProcessDraft, includeProcessKey = true) {
   return result.normalized;
 }
 
+describe('引导指定首末窗口草稿', () => {
+  const windowStep = (overrides: Partial<SkillProcessStepDraft> = {}): SkillProcessStepDraft => ({
+    ...createEmptyStepDraft('CHANNEL'), stepKey: 'hit', name: '指定窗口', occupiesAction: true,
+    durationValue: fixedValue(20), executionCountValue: fixedValue(4), firstExecution: 'CUSTOM_WINDOW',
+    firstExecutionOffsetValue: fixedValue(2), lastExecutionOffsetValue: fixedValue(13), ...overrides
+  });
+  it('完整成对提交、回读保持窗口，切换旧口径清除隐藏值', () => {
+    const normalized = expectValid(validProcessDraft({ steps: [windowStep()] }));
+    expect(normalized.steps[0]).toMatchObject({ stepType: 'CHANNEL', occupiesAction: true, detail: {
+      firstExecution: 'CUSTOM_WINDOW', firstExecutionOffsetValue: fixedValue(2), lastExecutionOffsetValue: fixedValue(13) } });
+    const draft = skillProcessToDraft({ ...normalized, gameId: 'demo', skillKey: 'window', createdAt: '', updatedAt: '' });
+    expect(draft.steps[0]!.firstExecutionOffsetValue).toEqual(fixedValue(2));
+    expect(draft.steps[0]!.lastExecutionOffsetValue).toEqual(fixedValue(13));
+    const legacy = clearHiddenStepFields({ ...draft.steps[0]!, firstExecution: 'IMMEDIATE' });
+    expect(legacy.firstExecutionOffsetValue).toBeNull();
+    expect(legacy.lastExecutionOffsetValue).toBeNull();
+    expect(expectValid(validProcessDraft({ steps: [legacy] })).steps[0]!.detail).not.toHaveProperty('firstExecutionOffsetValue');
+    expect(applyStepTypeChange(windowStep(), 'PERIODIC').firstExecution).toBe('AFTER_INTERVAL');
+  });
+  it('1毫秒两段和单段相同端点可保存', () => {
+    expectValid(validProcessDraft({ steps: [windowStep({ durationValue: fixedValue(1), executionCountValue: fixedValue(2),
+      firstExecutionOffsetValue: fixedValue(0), lastExecutionOffsetValue: fixedValue(1) })] }));
+    expectValid(validProcessDraft({ steps: [windowStep({ executionCountValue: fixedValue(1), lastExecutionOffsetValue: fixedValue(2) })] }));
+  });
+  it.each([
+    { firstExecutionOffsetValue: null }, { lastExecutionOffsetValue: null }, { firstExecutionOffsetValue: fixedValue(-1) },
+    { lastExecutionOffsetValue: fixedValue(21) }, { lastExecutionOffsetValue: fixedValue(4) },
+    { executionCountValue: fixedValue(1) }, { durationValue: fixedValue(0) }, { durationValue: fixedValue(20.5) },
+    { executionCountValue: fixedValue(65) }
+  ])('拒绝不完整或非法窗口%j', overrides => {
+    expect(validateSkillProcessDraft(validProcessDraft({ steps: [windowStep(overrides)] }), { includeProcessKey: true, catalog: CATALOG }).ok).toBe(false);
+  });
+  it('参数和公式目录按同次草稿使用，端点字段问题可以定位', () => {
+    const draft = validProcessDraft({ steps: [windowStep({ firstExecutionOffsetValue: parameterValue('first'), lastExecutionOffsetValue: formulaValue('last') })] });
+    const result = validateSkillProcessDraft(draft, { includeProcessKey: true, catalog: { ...CATALOG, formulas: [...CATALOG.formulas, { formulaKey: 'last', name: '末段' }] },
+      parameters: [{ gameId: 'demo', skillKey: 'window', parameterKey: 'first', name: '首段', valueType: 'INTEGER', valueMode: 'FIXED',
+        fixedValue: 2, levelValues: null, description: null, sortOrder: 0, createdAt: '', updatedAt: '' }] });
+    expect(result.ok).toBe(true);
+    const errors = mapSkillProcessFieldIssues(new ApiRequestError('非法窗口', 400, '400.INVALID_SKILL_NUMERIC_VALUE', {
+      fieldIssues: [{ field: 'steps[0].detail.lastExecutionOffsetValue.parameterKey', code: 'CHANNEL_WINDOW_INVALID', message: '末段超过完整时长。' }]
+    }));
+    expect(errors.stepErrors).toEqual([{ index: 0, fieldErrors: { lastExecutionOffsetValue: '末段超过完整时长。' } }]);
+  });
+});
+
 const SAVED_PROCESS: SkillProcess = {
   gameId: 'lol',
   skillKey: 'ezreal_q',
@@ -151,6 +196,15 @@ const SAVED_PROCESS: SkillProcess = {
 };
 
 describe('skill process form defaults and conversion', () => {
+  it.each([null, true, false])('步骤行动占用%j原样回读与保存，不为DELAY补默认', occupiesAction => {
+    const saved = structuredClone(SAVED_PROCESS);
+    saved.steps[0]!.occupiesAction = occupiesAction;
+    const converted = skillProcessToDraft(saved);
+    expect(converted.steps[0]!.occupiesAction).toBe(occupiesAction);
+    const normalized = expectValid(validProcessDraft({ steps: [immediateStep({ occupiesAction })] }));
+    expect(normalized.steps[0]!.occupiesAction).toBe(occupiesAction);
+    expect(createEmptyStepDraft('DELAY').occupiesAction).toBeNull();
+  });
   it('starts a new process with one immediate step and empty behaviors', () => {
     const empty = createEmptyProcessDraft();
     expect(empty.steps).toHaveLength(1);

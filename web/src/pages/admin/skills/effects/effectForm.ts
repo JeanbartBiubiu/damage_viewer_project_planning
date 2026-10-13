@@ -1365,7 +1365,7 @@ export function clearHiddenLifecycleBehaviorFields(
       && draft.attributeOperation !== ''
       && draft.attributeOperation !== 'SET'
     );
-  const lifecycleBehavior = draft.resultType === 'SKILL_HASTE_MODIFIER'
+  const lifecycleBehavior: SkillEffectResultLifecycleBehaviorDraft = draft.resultType === 'SKILL_HASTE_MODIFIER'
     ? {
         moment: 'PERSISTENT' as const,
         valueReadMode: 'APPLICATION_SNAPSHOT' as const,
@@ -1376,7 +1376,7 @@ export function clearHiddenLifecycleBehaviorFields(
     : {
         moment,
         valueReadMode,
-        stackValueMode: showStackValue ? behavior.stackValueMode : '',
+        stackValueMode: showStackValue ? behavior.stackValueMode || (isSharedOnlyPersistentResult(draft) ? 'SHARED' as const : '') : '',
         reapplicationValueMode: showReapplicationValue ? behavior.reapplicationValueMode : '',
         periodicExecutionMode: showPeriodicExecution ? behavior.periodicExecutionMode : ''
       };

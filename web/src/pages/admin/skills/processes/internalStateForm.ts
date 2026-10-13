@@ -236,6 +236,7 @@ export function skillInternalStateToDraft(state: SkillInternalState): SkillInter
     case 'COUNTER':
       draft.initialValue = state.detail.initialValue;
       draft.maxValue = state.detail.maxValue;
+      draft.durationValue = state.detail.durationValue ?? null;
       break;
     case 'AMMO':
       draft.initialValue = state.detail.initialValue;
@@ -314,7 +315,7 @@ export function clearHiddenInternalStateFields(draft: SkillInternalStateDraft): 
     recoveryStartCondition: isAmmo ? draft.recoveryStartCondition : '',
     options: isMode ? draft.options : [],
     initialEnabled: isFlag ? draft.initialEnabled : false,
-    durationValue: isCooldown ? draft.durationValue : null
+    durationValue: isCooldown || isCounter ? draft.durationValue : null
   };
 }
 
@@ -480,6 +481,7 @@ function validateTypeSpecificFields(
       requireNonEmpty(draft.maxValue, fieldErrors, 'maxValue', '请选择上限取值。');
       validateFormulaRef(options, draft.initialValue, fieldErrors, 'initialValue');
       validateFormulaRef(options, draft.maxValue, fieldErrors, 'maxValue');
+      if (draft.durationValue !== null) validateFormulaRef(options, draft.durationValue, fieldErrors, 'durationValue', false, true);
       break;
     case 'AMMO':
       requireNonEmpty(draft.initialValue, fieldErrors, 'initialValue', '请选择初始值取值。');
@@ -564,11 +566,11 @@ function validateModeOptions(
   }
 }
 
-function validateFormulaRef(options: SkillInternalStateFormValidationOptions, value: NumericValue | null, fieldErrors: SkillInternalStateDraftErrors, field: SkillInternalStateDraftField, ammo = false): void {
+function validateFormulaRef(options: SkillInternalStateFormValidationOptions, value: NumericValue | null, fieldErrors: SkillInternalStateDraftErrors, field: SkillInternalStateDraftField, ammo = false, counterDuration = false): void {
   if (fieldErrors[field]) return;
   const quantity = field === 'initialValue' || field === 'maxValue';
   const error = numericValueError(value, { ...options.catalog, parameters: options.parameters }, {
-    integer: quantity, min: ammo && field === 'maxValue' ? 1 : 0, exclusiveMin: field === 'recoveryIntervalValue',
+    integer: quantity || counterDuration, min: ammo && field === 'maxValue' ? 1 : 0, exclusiveMin: field === 'recoveryIntervalValue',
     formulasState: options.catalogLoadState?.formulas, parametersState: options.parametersLoadState
   });
   if (error) fieldErrors[field] = error;
@@ -595,7 +597,8 @@ function buildNormalizedRequest(
         stateType: 'COUNTER',
         detail: {
           initialValue: draft.initialValue!,
-          maxValue: draft.maxValue!
+          maxValue: draft.maxValue!,
+          ...(draft.durationValue !== null ? { durationValue: draft.durationValue } : {})
         }
       };
     case 'AMMO':

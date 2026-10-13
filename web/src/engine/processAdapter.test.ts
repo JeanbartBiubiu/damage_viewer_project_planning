@@ -1,3 +1,5 @@
+import { approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import type { CompileRequest } from '../types/genericEngine';
 import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
@@ -6,10 +8,8 @@ import type { SkillFormula } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
 import type { SkillProcess, SkillProcessMoment, SkillProcessStep } from '../types/skillProcess';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
-import type { AuthoredTriggerProgram } from './triggerAdapter';
-import { withTriggerProgram } from './triggerAdapter';
 import {
-  adaptProcessProgram, explicitProcessInterrupt, processCommandFact, withProcessProgram,
+  adaptProcessProgram as raw_adaptProcessProgram, explicitProcessInterrupt, processCommandFact, withProcessProgram,
   type AuthoredProcessProgram
 } from './processAdapter';
 
@@ -189,20 +189,23 @@ describe('processAdapter', () => {
     authored.parameters!.push(parameter({ parameterKey: 'base_heal', levelValues: { '1': 100 }, sortOrder: 40 }));
     authored.parameters!.push(parameter({ parameterKey: 'ap_ratio', valueType: 'DECIMAL', levelValues: { '1': 1 }, sortOrder: 50 }));
     authored.formulas = [{ gameId: 'lol', skillKey: 'cast_skill', formulaKey: 'total_heal', name: '治疗公式',
-      description: null, sortOrder: 10, createdAt: '', updatedAt: '', expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [
+      description: null, sortOrder: 10, createdAt: '', updatedAt: '', expression: skillFormulaDefinition('cast_skill', { nodeType: 'OPERATION', operation: 'ADD', operands: [
         { nodeType: 'PARAMETER', parameterKey: 'base_heal' },
         { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
           { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'ap', attributeValueKind: 'TOTAL' },
           { nodeType: 'PARAMETER', parameterKey: 'ap_ratio' }
         ] }
-      ] } }];
+      ] }) }];
     authored.effects[1]!.results[0]!.valueRule!.value = formulaValue('total_heal');
     const adapted = adaptProcessProgram(authored);
     expect(adapted.requiredAttributes).toEqual(expect.arrayContaining(['hp', 'ap']));
     expect(adapted.provider.abilities[1]!.listenerSpec!.operations![0]!.amount).toEqual({
-      op: 'max', args: [{ op: 'add', args: [{ op: 'const', value: 100 }, { op: 'mul', args: [
-        { op: 'read', path: 'source.attr.ap.resolved' }, { op: 'const', value: 1 }
-      ] }] }, { op: 'const', value: 0 }]
+      op: 'max', args: [{ op: 'ref', ref: 'process/cast_skill/levels/1/1/total_heal' }, { op: 'const', value: 0 }]
+    });
+    expect(adapted.formulas.find(row => row.key.endsWith('/total_heal'))).toMatchObject({
+      skillKey: 'cast_skill', expression: authored.formulas[0]!.expression, parameters: [
+        { parameterKey: 'base_heal', value: 100 }, { parameterKey: 'ap_ratio', value: 1 }
+      ]
     });
   });
 
@@ -276,7 +279,7 @@ describe('processAdapter', () => {
       { resourceKey: 'mana', amount: { op: 'const', value: 20 } }
     ]);
     const amounts = adapted.provider.processes![0]!.momentOperations[0]!.operations.map((operation) => operation.amount);
-    expect(amounts).toEqual([{ op: 'const', value: 5 }, { op: 'const', value: 5 }]);
+    expect(amounts).toEqual([{ op: 'const', value: 5 }, { op: 'const', value: -20 }, { op: 'const', value: -40 }, { op: 'const', value: 5 }]);
   });
 
   it('不同失败筛选穿插时仍保留绑定A、绑定B、规则C的作者顺序', () => {
@@ -303,6 +306,31 @@ describe('processAdapter', () => {
     ]);
   });
 
+  it.each(['PROCESS_START', 'PROCESS_COMPLETE'] as const)('忽略成本只命中特定挂接，同效果在%s的必要消费保留', momentType => {
+    const authored = program({ ignoreCastCosts: true, effects: [effect([resource('CONSUME', fixedValue(50))])] });
+    const moment = { momentType, stepKey: null, failureReason: null };
+    authored.process.effectBindings.push({ bindingKey: 'necessary_spend', effectKey: 'mana_cost', moment, sortOrder: 20 });
+    const adapted = adaptProcessProgram(authored).provider.processes[0]!;
+    expect(adapted.costs).toEqual([]);
+    expect(adapted.momentOperations).toEqual([{ moment, operations: [
+      { operation: 'resource_change', target: 'source', resourceKey: 'mana', amount: { op: 'const', value: -50 } }
+    ] }]);
+  });
+
+  it('忽略过程开始成本不删除时点规则再次执行同效果的必要消费', () => {
+    const authored = program({ ignoreCastCosts: true, effects: [effect([resource('CONSUME', fixedValue(50))])] });
+    authored.rules.push(rule({ ruleKey: 'necessary_spend', eventSource: { eventType: 'PROCESS_MOMENT',
+      detail: { processKey: 'cast', moment: complete() } }, actions: [{
+        actionKey: 'consume', name: '必要消费', actionType: 'EXECUTE_EFFECT', sortOrder: 10, targetContext: 'CURRENT_TARGET',
+        detail: { effectKey: 'mana_cost' }, runtimeInputBindings: [], resultModifiers: []
+      }] }));
+    const adapted = adaptProcessProgram(authored).provider.processes[0]!;
+    expect(adapted.costs).toEqual([]);
+    expect(adapted.momentOperations).toEqual([{ moment: complete(), operations: [
+      { operation: 'resource_change', target: 'source', resourceKey: 'mana', amount: { op: 'const', value: -50 } }
+    ] }]);
+  });
+
   it('负成本不能被同资源正成本抵消，动态成本也保留逐笔表达式', () => {
     const first = resource('CONSUME', fixedValue(60), 'first');
     const second = resource('CONSUME', fixedValue(-10), 'second');
@@ -319,11 +347,11 @@ describe('processAdapter', () => {
     ]);
     authored.formulas = [{ gameId: 'lol', skillKey: 'cast_skill', formulaKey: 'dynamic', name: '动态', description: null,
       sortOrder: 10, createdAt: '', updatedAt: '',
-      expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'power', attributeValueKind: 'CURRENT' } }];
+      expression: skillFormulaDefinition('cast_skill', { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'power', attributeValueKind: 'CURRENT' }) }];
     second.valueRule = { value: formulaValue('dynamic'), fixedMultiplier: -1, fixedMinValue: null, fixedMaxValue: null };
     const costs = adaptProcessProgram(authored).provider.processes[0]!.costs;
     expect(costs).toHaveLength(2);
-    expect(costs[1]!.amount).toEqual({ op: 'mul', args: [{ op: 'ref', ref: 'process/cast_skill/dynamic' }, { op: 'const', value: -1 }] });
+    expect(costs[1]!.amount).toEqual({ op: 'mul', args: [{ op: 'ref', ref: 'process/cast_skill/levels/1/1/dynamic' }, { op: 'const', value: -1 }] });
     expect(JSON.stringify(costs)).not.toContain('"op":"max"');
     authored.castCosts = [...authored.castCosts, authored.castCosts[0]!];
     expect(() => adaptProcessProgram(authored)).toThrow(/castCosts\[2\].*重复/);
@@ -347,16 +375,18 @@ describe('processAdapter', () => {
       parameters: [parameter({ parameterKey: 'paid', valueMode: 'RUNTIME_INPUT', valueType: 'DECIMAL', fixedValue: null, levelValues: null }),
         parameter({ parameterKey: 'half', valueMode: 'FIXED', valueType: 'DECIMAL', fixedValue: 0.5, levelValues: null })],
       formulas: [{ gameId: 'lol', skillKey: 'cast_skill', formulaKey: 'half_paid', name: '一半', description: null, sortOrder: 10, createdAt: '', updatedAt: '',
-        expression: { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [{ nodeType: 'PARAMETER', parameterKey: 'paid' }, { nodeType: 'PARAMETER', parameterKey: 'half' }] } }],
+        expression: skillFormulaDefinition('cast_skill', { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [{ nodeType: 'PARAMETER', parameterKey: 'paid' }, { nodeType: 'PARAMETER', parameterKey: 'half' }] }) }],
       castCosts: [{ bindingKey: 'pay', effectKey: 'mana_cost', resultKey: 'consume_mana' }, { bindingKey: 'pay', effectKey: 'mana_cost', resultKey: 'consume_energy' }],
       rules: [initialRule(), rule({ ruleKey: 'refund', eventSource: { eventType: 'PROCESS_MOMENT', detail: { processKey: 'cast', moment: complete() } }, actions })]
     });
     const adapted = adaptProcessProgram(authored);
     const amounts = adapted.provider.processes[0]!.momentOperations.flatMap((group) => group.operations.map((operation) => operation.amount));
     expect(amounts).toHaveLength(2);
-    const refunds = amounts.map((amount) => adapted.formulas.find((formula) => formula.key === amount?.ref)?.expression);
-    expect(refunds[0]).toEqual({ op: 'mul', args: [{ op: 'read', path: 'process.actual_cost.mana' }, { op: 'read', path: 'ability.param.half' }] });
-    expect(refunds[1]).toEqual({ op: 'mul', args: [{ op: 'read', path: 'process.actual_cost.energy' }, { op: 'read', path: 'ability.param.half' }] });
+    const refunds = amounts.map((amount) => adapted.formulas.find((formula) => formula.key === amount?.ref)!);
+    expect(refunds[0]!.expression).toEqual(authored.formulas![0]!.expression);
+    expect(refunds[1]!.expression).toEqual(authored.formulas![0]!.expression);
+    expect(refunds.map(row => row.parameters.find(parameter => parameter.parameterKey === 'paid')?.runtimeSource)).toEqual([{ kind: 'process_actual_cost', resourceKey: 'mana' }, { kind: 'process_actual_cost', resourceKey: 'energy' }]);
+    expect(refunds.every(row => row.parameters.find(parameter => parameter.parameterKey === 'half')?.value === .5)).toBe(true);
     actions[1]!.runtimeInputBindings = [];
     expect(() => adaptProcessProgram(authored)).toThrow(/计算时输入/);
   });
@@ -378,10 +408,10 @@ describe('processAdapter', () => {
     expect(() => adaptProcessProgram(authored)).toThrow(/effects\.mana_cost\.unknownBehavior/);
     delete (authored.effects[0]! as { unknownBehavior?: unknown }).unknownBehavior;
     authored.formulas = [{ gameId: 'lol', skillKey: 'cast_skill', formulaKey: 'bad', name: '公式', description: null, sortOrder: 10, createdAt: '', updatedAt: '',
-      expression: { nodeType: 'PARAMETER', parameterKey: 'mana_cost' } }];
+      expression: skillFormulaDefinition('cast_skill', { nodeType: 'PARAMETER', parameterKey: 'mana_cost' }) }];
     Object.assign(authored.formulas[0]!.expression, { operands: [] });
     authored.process.steps = [step('DELAY', 'wait', { delayValue: formulaValue('bad') })];
-    expect(() => adaptProcessProgram(authored)).toThrow(/formulas\.bad\.expression\.operands/);
+    expect(() => adaptProcessProgram(authored)).toThrow(/formulas\.bad\.expression\/operands/);
     delete (authored.formulas[0]!.expression as { operands?: unknown }).operands;
     expect(() => adaptProcessProgram(authored)).not.toThrow();
   });
@@ -440,8 +470,9 @@ describe('processAdapter', () => {
     ];
     const adapted = adaptProcessProgram(recast);
     expect(adapted.provider.processes![0]!.steps[0]).toMatchObject({ stepType: 'DELAY', delayMs: { op: 'const', value: 50 } });
-    expect(adapted.provider.processes![0]!.steps[1]).toEqual({ stepKey: 'again', stepType: 'RECAST', windowMs: { op: 'const', value: 1000 } });
+    expect(adapted.provider.processes![0]!.steps[1]).toEqual({ stepKey: 'again', stepType: 'RECAST', windowMs: { op: 'const', value: 1000 }, occupiesAction: null });
     expect(adapted.controls.map((control) => control.action)).toEqual(['INITIAL', 'RECAST']);
+    expect(adapted.provider.abilities![0]).toMatchObject({ skillKey: 'cast_skill', processControl: { action: 'INITIAL' } });
     expect(adapted.provider.abilities![1]).toMatchObject({ kind: 'active', processControl: { action: 'RECAST', stepKey: 'again' } });
 
     const charge = program();
@@ -525,7 +556,7 @@ describe('processAdapter', () => {
       expect(() => adaptProcessProgram(authored)).toThrow(pattern);
     };
     reject((authored) => { authored.process.activationType = 'PASSIVE'; }, /ACTIVE/);
-    reject((authored) => { authored.process.steps = [step('CHANNEL', 'bad', { durationValue: fixedValue(1), executionCountValue: fixedValue(1), firstExecution: 'IMMEDIATE' })]; }, /IMMEDIATE|DELAY|CHARGE|RECAST/);
+    reject((authored) => { authored.process.steps = [step('CHANNEL', 'bad', { durationValue: fixedValue(1), executionCountValue: fixedValue(0), firstExecution: 'IMMEDIATE' })]; }, /1～64/);
     reject((authored) => {
       authored.process.steps = [step('RECAST', 'again', { windowValue: fixedValue(1000), maximumRecastCountValue: fixedValue(2) }, 20), step('IMMEDIATE', 'start', {}, 10)];
     }, /末尾|重施次数必须为 1/);
@@ -594,35 +625,11 @@ describe('processAdapter', () => {
     expect(input.rulesHash).toBe('before-p4');
   });
 
-  it('初次能力可绑定待击启动，推进能力不能当成首次施法', () => {
-    const recast = program();
-    recast.process.steps.push(step('RECAST', 'again', { windowValue: fixedValue(1000), maximumRecastCountValue: fixedValue(1) }, 20));
-    recast.rules.push(rule({
-      ruleKey: 'recast', sortOrder: 20,
-      eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'cast_skill', useKind: 'ACTIVE', castPhase: 'RECAST' } },
-      actions: [{
-        actionKey: 'cast_recast', name: 'recast', actionType: 'ADVANCE_PROCESS', sortOrder: 10, targetContext: null,
-        detail: { processKey: 'cast', stepKey: 'again' }, runtimeInputBindings: [], resultModifiers: []
-      }]
-    }));
-    const bound = withProcessProgram(request(), { processProviderKey: 'q', authored: recast }, { rulesHash: 'with-process' });
-    const trigger = spellblade();
-    const marked = withTriggerProgram(bound, {
-      triggerProviderKey: 'blade', authored: trigger, initialCastAbilities: [{ providerRef: 'q', abilityKey: 'cast_initial' }]
-    }, { rulesHash: 'with-trigger' });
-    const ability = marked.sharedProviders!.find((provider) => provider.providerKey === 'trigger-bound:source:q')!.abilities!.find((row) => row.abilityKey === 'cast_initial')!;
-    expect(ability.types?.some((type) => type.includes('initial_cast'))).toBe(true);
-    expect(ability.skillKey).toBe('cast_skill');
-    expect(() => withTriggerProgram(bound, {
-      triggerProviderKey: 'blade', authored: trigger, initialCastAbilities: [{ providerRef: 'q', abilityKey: 'cast_recast' }]
-    }, { rulesHash: 'reject-recast' })).toThrow(/主动|首次/);
-  });
-
   it('属性公式成本保持读取，不存在的成本动态绑定不补零', () => {
     const formula: SkillFormula = {
       gameId: 'lol', skillKey: 'cast_skill', formulaKey: 'from_power', name: '力量', description: null, sortOrder: 10,
       createdAt: '', updatedAt: '',
-      expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'power', attributeValueKind: 'CURRENT' }
+      expression: skillFormulaDefinition('cast_skill', { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'power', attributeValueKind: 'CURRENT' })
     };
     const cost = resource('CONSUME', formulaValue('from_power'));
     if (cost.resultType !== 'RESOURCE_CHANGE') throw new Error('fixture');
@@ -633,8 +640,8 @@ describe('processAdapter', () => {
       parameters: [parameter({ parameterKey: 'paid', valueMode: 'RUNTIME_INPUT', valueType: 'DECIMAL', fixedValue: null, levelValues: null })]
     });
     const adapted = adaptProcessProgram(authored);
-    expect(adapted.provider.processes![0]!.costs[0]!.amount).toEqual({ op: 'ref', ref: 'process/cast_skill/from_power' });
-    expect(adapted.formulas).toEqual([{ key: 'process/cast_skill/from_power', expression: { op: 'read', path: 'source.attr.power.current' } }]);
+    expect(adapted.provider.processes![0]!.costs[0]!.amount).toEqual({ op: 'ref', ref: 'process/cast_skill/levels/1/1/from_power' });
+    expect(adapted.formulas).toEqual([{ scope: 'skill',  key: 'process/cast_skill/levels/1/1/from_power', skillKey: 'cast_skill', expression: formula.expression, parameters: [] }]);
     authored.rules.push(rule({
       ruleKey: 'settle', sortOrder: 20,
       eventSource: { eventType: 'PROCESS_MOMENT', detail: { processKey: 'cast', moment: complete() } },
@@ -648,53 +655,4 @@ describe('processAdapter', () => {
   });
 });
 
-function spellblade(): AuthoredTriggerProgram {
-  const skillKey = 'blade';
-  const moment = (momentType: SkillProcessMoment['momentType'], stepKey: string | null = null): SkillProcessMoment => ({
-    momentType, stepKey, failureReason: null
-  });
-  return {
-    gameId: 'lol', skillKey, skillLevel: 1, characterLevel: 1, owner: 'source',
-    identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
-    statuses: [],
-    internalStates: [
-      { gameId: 'lol', skillKey, stateKey: 'ready', name: 'ready', scope: 'SKILL', description: null, sortOrder: 10, stateType: 'FLAG', detail: { initialEnabled: false }, createdAt: '', updatedAt: '' },
-      { gameId: 'lol', skillKey, stateKey: 'icd', name: 'icd', scope: 'SKILL', description: null, sortOrder: 20, stateType: 'INTERNAL_COOLDOWN', detail: { durationValue: fixedValue(1500) }, createdAt: '', updatedAt: '' }
-    ],
-    processes: [{
-      gameId: 'lol', skillKey, processKey: 'spellblade', name: 'spellblade', activationType: 'ACTIVE', description: null, sortOrder: 10, cooldown: null,
-      steps: [{ stepKey: 'aa', name: 'aa', description: null, sortOrder: 10, stepType: 'EMPOWERED_BASIC_ATTACK', detail: { windowValue: fixedValue(10000), consumeMoment: 'ATTACK_HIT' } }],
-      effectBindings: [{ bindingKey: 'do_bonus', effectKey: 'bonus', moment: moment('STEP_EXECUTION', 'aa'), sortOrder: 10 }],
-      stateOperations: [
-        { operationKey: 'arm', name: 'arm', stateKey: 'ready', moment: moment('PROCESS_START'), sortOrder: 10, operation: 'ENABLE', value: null, optionKey: null },
-        { operationKey: 'disarm', name: 'disarm', stateKey: 'ready', moment: moment('STEP_EXECUTION', 'aa'), sortOrder: 20, operation: 'DISABLE', value: null, optionKey: null },
-        { operationKey: 'start_icd', name: 'start_icd', stateKey: 'icd', moment: moment('STEP_EXECUTION', 'aa'), sortOrder: 30, operation: 'START', value: null, optionKey: null },
-        { operationKey: 'timeout', name: 'timeout', stateKey: 'ready', moment: moment('STEP_TIMEOUT', 'aa'), sortOrder: 40, operation: 'DISABLE', value: null, optionKey: null }
-      ],
-      createdAt: '', updatedAt: ''
-    }],
-    effects: [(() => {
-      const bonus = effect([{
-        resultKey: 'mana', name: 'mana', resultType: 'RESOURCE_CHANGE', target: 'SOURCE', description: null, sortOrder: 10,
-        lifecycleBehavior: null, spellShieldBlockScope: null,
-        valueRule: { value: fixedValue(1), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
-        detail: { attributeKey: 'mana', operation: 'RESTORE' }
-      }], 'bonus');
-      bonus.skillKey = skillKey;
-      return bonus;
-    })()],
-    rules: [
-      rule({
-        ruleKey: 'arm', sortOrder: 10,
-        eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
-        conditionGroups: [{
-          groupKey: 'cooldown_ready', name: '冷却就绪', sortOrder: 10,
-          conditions: [
-            { conditionKey: 'icd_ready', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 20, detail: { stateKey: 'icd', valueKind: 'REMAINING_MS', optionKey: null, expectedBoolean: null, comparator: 'EQ', comparisonValue: fixedValue(0) } }
-          ]
-        }],
-        actions: [{ actionKey: 'start', name: 'start', actionType: 'START_PROCESS', sortOrder: 10, targetContext: 'CURRENT_TARGET', detail: { processKey: 'spellblade' }, runtimeInputBindings: [], resultModifiers: [] }]
-      })
-    ]
-  };
-}
+const adaptProcessProgram = (...args: Parameters<typeof raw_adaptProcessProgram>): ReturnType<typeof raw_adaptProcessProgram> => { approveAuthoredFixture(args[0]); return raw_adaptProcessProgram(...args); };

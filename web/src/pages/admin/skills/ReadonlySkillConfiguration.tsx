@@ -36,7 +36,7 @@ const FIELD_LABELS: Record<string, string> = {
   conditionGroups: '条件组', conditions: '条件', actions: '动作', actionKey: '动作标识',
   actionType: '动作种类', perTargetCooldown: '单目标冷却', maxTriggersPerProcess: '过程触发上限',
   oncePerUse: '同次使用限制', groupKey: '共享限制键', moment: '执行时点',
-  nodeType: '节点种类', operands: '运算子项', parameterKey: '参数标识', formulaKeyRef: '公式标识',
+  inputs: '输入声明', stages: '具名结果', outputStageKey: '最终输出', binding: '绑定', op: '运算', args: '运算子项', inputKey: '输入标识', stageKey: '结果标识', object: '对象', valueKind: '取值口径', view: '读取视图', decimals: '小数位数', parameterKey: '参数标识', formulaKeyRef: '公式标识',
   kind: '取值来源', valueMode: '取值方式', valueType: '数值类型', levelValues: '等级数值',
   fixedValue: '固定值', sourceType: '来源类型', eventType: '事件种类',
   targetContext: '目标上下文', runtimeInputBindings: '运行输入供值', resultModifiers: '结果修正'
@@ -172,7 +172,8 @@ export function ReadonlyStates({ states, notice, actions }: { states: SkillInter
           初始值：{numeric(state.detail.initialValue)}；最大值：{numeric(state.detail.maxValue)}
           {state.stateType === 'AMMO'
             ? `；恢复间隔：${numeric(state.detail.recoveryIntervalValue)} 毫秒；启动条件：${state.detail.recoveryStartCondition
-              ? AMMO_RECOVERY_START_CONDITION_LABELS[state.detail.recoveryStartCondition] : '待确认'}` : ''}
+              ? AMMO_RECOVERY_START_CONDITION_LABELS[state.detail.recoveryStartCondition] : '待确认'}`
+            : `；保持期限：${state.detail.durationValue ? numeric(state.detail.durationValue) + ' 毫秒' : '不计时'}`}
         </Typography.Text> : null}
         {state.stateType === 'INTERNAL_COOLDOWN' ? <Typography.Text>时长：{numeric(state.detail.durationValue)} 毫秒</Typography.Text> : null}
         {state.stateType === 'FLAG' ? <Typography.Text>初始启用：{state.detail.initialEnabled ? '是' : '否'}</Typography.Text> : null}

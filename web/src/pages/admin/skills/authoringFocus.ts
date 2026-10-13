@@ -121,8 +121,9 @@ const SUPPORTED_FIELDS: Record<AuthoringEditor, ReadonlySet<string>> = {
     'parameterKey', 'name', 'description', 'valueType', 'valueMode', 'fixedValue', 'levelValues', 'sortOrder'
   ]),
   FORMULA: new Set([
-    'formulaKey', 'name', 'description', 'sortOrder', 'expression', 'nodeType', 'operation', 'operands',
-    'parameterKey', 'attributeKey', 'attributeOwner', 'attributeValueKind'
+    'formulaKey', 'name', 'description', 'sortOrder', 'expression', 'inputs', 'stages', 'outputStageKey',
+    'key', 'binding', 'kind', 'op', 'args', 'value', 'inputKey', 'stageKey', 'decimals',
+    'skillKey', 'parameterKey', 'attributeKey', 'object', 'valueKind', 'view'
   ]),
   EFFECT: new Set([
     'effectKey', 'name', 'description', 'sortOrder', 'lifecycle', 'results', 'resultKey', 'resultType', 'target',

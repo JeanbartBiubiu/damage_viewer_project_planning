@@ -1,4 +1,5 @@
 import { formulaValue } from '../types/numericValue';
+import { SKILL_TRIGGER_SUBJECTS } from '../types/skillSystemEnums.generated';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ApiRequestError } from './apiClient';
 import {
@@ -787,5 +788,84 @@ describe('oncePerUse response contract', () => {
     { groupKey: 'eclipse', scope: 'SKILL', quota: 1 }
   ])('rejects illegal oncePerUse %j', (oncePerUse) => {
     expect(() => parseSkillTriggerRuleDetail({ ...detail, oncePerUse })).toThrow(/detail\.oncePerUse/);
+  });
+});
+
+describe('系统枚举响应缺口', () => {
+  const received: SkillTriggerRuleDetail = { ...detail, eventSource: { eventType: 'BASIC_ATTACK_RECEIVED', detail: {} } };
+  const withBinding = (sourceType: string, bindingDetail: unknown, extra: Record<string, unknown> = {}) => ({
+    ...structuredClone(received),
+    actions: [{ ...structuredClone(detail.actions[0]), runtimeInputBindings: [{
+      bindingKey: 'observed_value', parameterKey: 'runtime_value', sourceType, detail: bindingDetail, ...extra
+    }] }]
+  });
+  const recent = {
+    subject: 'CURRENT_TARGET', windowValue: { kind: 'FIXED', value: 1000 }, outputKind: 'ACTUAL_HP_LOSS',
+    sourceSkillKey: null, damageTypeKey: null, deliveryKind: 'ANY', originKind: 'DIRECT'
+  };
+
+  it('受到普攻列表与明细通过真实客户端读取，保留空事件明细', async () => {
+    const requests: string[] = [];
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
+      requests.push(String(input));
+      return jsonResponse(200, String(input).endsWith('/trigger-rules')
+        ? [{ ...summary, eventType: 'BASIC_ATTACK_RECEIVED' }] : received);
+    }));
+    try {
+      const listed = await listSkillTriggerRules('http://localhost:8080', 'demo', 'reactive', 'fixture');
+      const loaded = await getSkillTriggerRule('http://localhost:8080', 'demo', 'reactive', received.ruleKey, 'fixture');
+      expect(listed.data[0].eventType).toBe('BASIC_ATTACK_RECEIVED');
+      expect(loaded.data.eventSource).toEqual({ eventType: 'BASIC_ATTACK_RECEIVED', detail: {} });
+      expect(requests).toHaveLength(2);
+    } finally { vi.unstubAllGlobals(); }
+  });
+
+  it.each([undefined, null, [], { sourceSkillKey: null }, { castPhase: 'INITIAL' }])('受到普攻拒绝非法空明细 %j', (eventDetail) => {
+    expect(() => parseSkillTriggerRuleDetail({ ...received, eventSource: { eventType: 'BASIC_ATTACK_RECEIVED', detail: eventDetail } }))
+      .toThrow(/detail\.eventSource\.detail/);
+  });
+
+  it.each(SKILL_TRIGGER_SUBJECTS)('入战时长保留合法对象 %s', subject => {
+    const input = withBinding('COMBAT_ELAPSED_TIME', { subject });
+    expect(parseSkillTriggerRuleDetail(input).actions[0].runtimeInputBindings[0]).toEqual(input.actions[0].runtimeInputBindings[0]);
+  });
+
+  it.each([{}, { subject: 'OWNER' }, { subject: null }, { subject: 'SOURCE', windowValue: { kind: 'FIXED', value: 1000 } }])(
+    '入战时长拒绝缺失、错误对象或外来字段 %j', bindingDetail => {
+      expect(() => parseSkillTriggerRuleDetail(withBinding('COMBAT_ELAPSED_TIME', bindingDetail)))
+        .toThrow(/runtimeInputBindings\[0\]\.detail/);
+    }
+  );
+
+  it.each([
+    { ...recent },
+    { ...recent, subject: 'SOURCE', windowValue: { kind: 'PARAMETER', parameterKey: 'window_ms' }, outputKind: 'POST_DEFENSE_DAMAGE',
+      sourceSkillKey: 'source_spell', damageTypeKey: 'heat', deliveryKind: 'SKILL', originKind: 'REFLECTED' },
+    { ...recent, subject: 'EVENT_SOURCE', windowValue: formulaValue('window_formula'), deliveryKind: 'BASIC_ATTACK', originKind: 'ANY' }
+  ])('近期受伤累计保留完整筛选及数值联合 %j', bindingDetail => {
+    const input = withBinding('RECENT_DAMAGE_SUM', bindingDetail);
+    expect(parseSkillTriggerRuleDetail(input).actions[0].runtimeInputBindings[0]).toEqual(input.actions[0].runtimeInputBindings[0]);
+  });
+
+  it.each([
+    ['subject', 'OWNER'], ['windowValue', null], ['windowValue', { kind: 'RUNTIME_INPUT', value: 10 }],
+    ['windowValue', { kind: 'FIXED', value: Number.NaN }], ['windowValue', { kind: 'FIXED', value: 10, parameterKey: 'foreign' }],
+    ['windowValue', { kind: 'PARAMETER', parameterKey: 'invalid-key' }], ['windowValue', { kind: 'FORMULA' }],
+    ['outputKind', 'RAW_DAMAGE'], ['sourceSkillKey', undefined], ['sourceSkillKey', 2],
+    ['damageTypeKey', undefined], ['damageTypeKey', 3], ['deliveryKind', 'HIT'], ['originKind', 'OTHER']
+  ])('近期受伤累计拒绝错误字段 %s=%j', (field, invalid) => {
+    expect(() => parseSkillTriggerRuleDetail(withBinding('RECENT_DAMAGE_SUM', { ...recent, [String(field)]: invalid })))
+      .toThrow(/runtimeInputBindings\[0\]\.detail/);
+  });
+
+  it('新供值来源拒绝外来明细、外来绑定字段和无效固定标识', () => {
+    expect(() => parseSkillTriggerRuleDetail(withBinding('RECENT_DAMAGE_SUM', { ...recent, resultKey: 'foreign' })))
+      .toThrow(/runtimeInputBindings\[0\]\.detail/);
+    for (const sourceType of ['COMBAT_ELAPSED_TIME', 'RECENT_DAMAGE_SUM']) {
+      const body = sourceType === 'COMBAT_ELAPSED_TIME' ? { subject: 'SOURCE' } : recent;
+      expect(() => parseSkillTriggerRuleDetail(withBinding(sourceType, body, { amount: 1 }))).toThrow(/runtimeInputBindings\[0\]/);
+      expect(() => parseSkillTriggerRuleDetail(withBinding(sourceType, body, { bindingKey: '' }))).toThrow(/bindingKey/);
+      expect(() => parseSkillTriggerRuleDetail(withBinding(sourceType, body, { parameterKey: 'invalid-key' }))).toThrow(/parameterKey/);
+    }
   });
 });

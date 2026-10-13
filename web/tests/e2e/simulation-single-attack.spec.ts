@@ -3,9 +3,11 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { test, expect, type Page, type TestInfo } from '@playwright/test';
 import { simulationSample } from '../fixtures/simulationSnapshot';
+import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { confirmSimulationConfiguration, isolateCharacterSourcesOnPage, readIsolatedSimulationSnapshot, simulationComparisonSelection, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
 
 test.beforeEach(async ({ page }) => {
   const wasm = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
@@ -24,6 +26,24 @@ function sampleWithDamage(damage = 100, armor = 100) {
   snapshot.target.attributes.levelValues['1']!.armor = armor;
   return snapshot;
 }
+function sampleWithStaticProof() {
+  const snapshot = sampleWithDamage();
+  const configuration = snapshot.skillConfigurations[0]!;
+  configuration.formulas.push({ ...configuration.formulas[0]!, formulaKey: 'static_factor',
+    expression: skillFormulaDefinition(configuration.skill.skillKey, { nodeType: 'PARAMETER', parameterKey: 'base_multiplier' }) });
+  return snapshot;
+}
+async function formulaProofState(page: Page, snapshot: SimulationSnapshot) {
+  return page.evaluate(async snapshot => {
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { snapshotFormulaProofIdentity, skillFormulaPreflightRequest } = await import(preflightPath);
+    const { matchesFormulaProofScope, registerFormulaForApprovedReads, approvedFormulaValue, collectedCommonFormulaDefinitions } = await import(proofPath);
+    const active = matchesFormulaProofScope(snapshotFormulaProofIdentity(snapshot));
+    const program = active ? skillFormulaPreflightRequest(snapshot).formulas.find((row: { key: string }) => row.key.endsWith('/static_factor')) : undefined;
+    if (active && program) registerFormulaForApprovedReads(program);
+    return { active, value: active && program ? approvedFormulaValue(program.key) : null, declarations: collectedCommonFormulaDefinitions().length };
+  }, snapshot);
+}
 
 async function runSnapshot(page: Page, snapshot: SimulationSnapshot, testInfo: TestInfo,
   input: { source?: Record<string, number>; target?: Record<string, number>; sourceHp?: number; targetHp?: number } = {},
@@ -35,6 +55,11 @@ async function runSnapshot(page: Page, snapshot: SimulationSnapshot, testInfo: T
     const { inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } = await import(adapterPath);
     const { GenericEngineClient } = await import(clientPath);
     const { assessSingleAttackResult } = await import(resultPath);
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { preflightSkillFormulas } = await import(preflightPath);
+    const { validateConsumedFormulaValues, validateApprovedFormulaValues } = await import(proofPath);
+    const client = new GenericEngineClient();
+    const formulaPreflight = await preflightSkillFormulas(snapshot, client);
     const inputs: { source: Record<string, number>; target: Record<string, number> } = { source: {}, target: {} };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) {
       if (row.storedValue === undefined) inputs[row.side as 'source' | 'target'][row.attribute.attributeKey] = 0;
@@ -45,12 +70,13 @@ async function runSnapshot(page: Page, snapshot: SimulationSnapshot, testInfo: T
       source: input.sourceHp ?? snapshot.source.selectedLevelValues.hp,
       target: input.targetHp ?? snapshot.target.selectedLevelValues.hp
     });
-    const client = new GenericEngineClient();
     let compileResult, runRequest, done, assessment, error;
     let releaseResult;
     try {
       compileResult = await client.compile(prepared.compileRequest);
       if (!compileResult.ok || !compileResult.sessionId) throw new Error(JSON.stringify(compileResult.errors));
+      validateConsumedFormulaValues(prepared.approvedFormulaValues, prepared.compileRequest.formulas ?? [], compileResult.metadata?.approvedStaticValues ?? {});
+      validateApprovedFormulaValues(prepared.compileRequest.formulas ?? [], compileResult.metadata?.approvedStaticValues ?? {});
       runRequest = singleAttackRequest(prepared.compileRequest, compileResult.sessionId);
       done = await client.run(runRequest);
       assessment = assessSingleAttackResult(prepared.compileRequest, runRequest, done);
@@ -62,7 +88,7 @@ async function runSnapshot(page: Page, snapshot: SimulationSnapshot, testInfo: T
       }
       client.terminate();
     }
-    return { prepared, compileResult, runRequest, done, assessment, error, releaseResult, liveWorker: client.hasLiveWorker };
+    return { prepared, formulaPreflight, compileResult, runRequest, done, assessment, error, releaseResult, liveWorker: client.hasLiveWorker };
   }, { snapshot, input });
   const archivePath = testInfo.outputPath(archiveName);
   mkdirSync(dirname(archivePath), { recursive: true });
@@ -94,24 +120,19 @@ for (const row of [
   });
 }
 
-test('五阶段穿甲保持作者公式：100护甲乘80%再减20，最终60护甲', async ({ page }, testInfo) => {
+test('共同穿甲公式保持作者表达式：100护甲乘80%再减20，最终60护甲', async ({ page }, testInfo) => {
   const snapshot = sampleWithDamage();
-  snapshot.catalogs.damageTypes[0]!.formula!.formula.effectiveResistance = {
-    nodeType: 'OPERATION', operation: 'SUBTRACT', operands: [
-      { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
-        { nodeType: 'STAGE_RESULT', stageKey: 'RESISTANCE_BEFORE_PENETRATION' },
-        { nodeType: 'OPERATION', operation: 'SUBTRACT', operands: [
-          { nodeType: 'FIXED', value: 1 }, { nodeType: 'STAGE_RESULT', stageKey: 'PENETRATION_PERCENT' }
-        ] }
-      ] },
-      { nodeType: 'STAGE_RESULT', stageKey: 'PENETRATION_FLAT' }
+  snapshot.catalogs.damageTypes[0]!.formula.formula.stages.find(stage => stage.key === 'effective')!.expression = {
+    op: 'sub', args: [
+      { op: 'mul', args: [{ op: 'ref', stageKey: 'resistance' }, { op: 'sub', args: [
+        { op: 'const', value: '1' }, { op: 'ref', stageKey: 'percent_pen' }
+      ] }] }, { op: 'ref', stageKey: 'flat_pen' }
     ]
   };
   const result = await runSnapshot(page, snapshot, testInfo, { source: { armor_pen_percent: 0.2, armor_pen_flat: 20 } });
   expect(result.assessment.damageDealt).toBe(62.5);
   const damage = result.done.evidence.items.find((item: { kind: string }) => item.kind === 'damage');
-  expect(damage.data).toMatchObject({ resistanceBeforePenetration: 100, penetrationPercent: 0.2,
-    penetrationFlat: 20, effectiveResistance: 60, resistanceFactor: 0.625 });
+  expect(damage.data).toMatchObject({ damageType: 'physics', resistanceFactor: 0.625 });
 });
 
 test('联动原生次数不是固定1，并保留同次使用和成功过程', async ({ page }, testInfo) => {
@@ -146,7 +167,12 @@ test('独立重新编译与运行结果确定，不复用上一刀最终快照',
 });
 
 async function preparePage(page: Page, snapshot = sampleWithDamage(), fillInputs = true) {
-  await page.route('**/api/admin/games/demo/simulation-snapshot?**', route => route.fulfill({ json: snapshot }));
+  let loaded: SimulationSnapshot | undefined;
+  await page.route('**/api/admin/games/demo/simulation-snapshot', route => {
+    expect(route.request().method()).toBe('POST');
+    loaded = simulationSnapshotWithSelection(snapshot, route.request().postDataJSON());
+    return route.fulfill({ json: loaded });
+  });
   await chooseSimulationEntity(page, '攻击方角色', 'actor_a');
   await chooseSimulationLevel(page, '攻击方等级', 1);
   await chooseSimulationEntity(page, '目标角色', 'actor_b');
@@ -154,10 +180,13 @@ async function preparePage(page: Page, snapshot = sampleWithDamage(), fillInputs
   await chooseSimulationEntity(page, '普攻技能', 'sample_basic_attack');
   await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
+  await confirmSimulationConfiguration(page);
   if (fillInputs) {
     await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
     await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
   }
+  if (!loaded) throw new Error('页面没有实际读取快照。');
+  return loaded;
 }
 
 async function typeHealthWithoutRefocusing(page: Page, label: string, value: string) {
@@ -174,7 +203,7 @@ async function typeHealthWithoutRefocusing(page: Page, label: string, value: str
 for (const row of [{ label: '攻击方初始当前生命', value: '420' }, { label: '目标初始当前生命', value: '230' }]) {
   test(`${row.label}逐字符输入、退格和清空不会因读取提示消失而丢焦点`, async ({ page }) => {
     await preparePage(page, sampleWithDamage(), false);
-    await expect(page.getByText('场景快照已读取，请核对已录属性并明确填写必要的场景补充值。', { exact: true })).toBeVisible();
+    await expect(page.getByText('已明确确认本次完整技能配置摘要；执行前仍重新读取并逐项核对。', { exact: true })).toBeVisible();
     await typeHealthWithoutRefocusing(page, row.label, row.value);
     const input = page.getByLabel(row.label, { exact: true });
     await page.keyboard.press('Backspace');
@@ -237,7 +266,7 @@ test('零生命仅拒绝阶段1运行，保留输入且现有编译验证仍可�
     await expect(page.getByLabel(`${label}初始当前生命`, { exact: true })).toHaveValue('0');
     await expect(page.getByRole('region', { name: '单次普攻结果', exact: true })).toHaveCount(0);
   }
-  expect(workers).toHaveLength(0);
+  expect(workers).toHaveLength(1); // 读取快照已完成真实公式预检；零生命没有新增运行线程。
   await page.getByRole('button', { name: '编译验证', exact: true }).click();
   await expect(page.getByText('仅编译验证通过，不代表单次/连续计算通过。', { exact: true })).toBeVisible();
 });
@@ -252,6 +281,7 @@ async function instrumentWorker(page: Page, mode: WorkerMode) {
     const state = { created: 0, terminated: 0, messages: [] as string[] };
     (window as unknown as { singleAttackWorkers: WorkerDiagnostics }).singleAttackWorkers = state;
     window.Worker = class extends NativeWorker {
+      private hasRun = false;
       constructor(url: string | URL, options?: WorkerOptions) {
         super(url, options);
         state.created += 1;
@@ -268,6 +298,7 @@ async function instrumentWorker(page: Page, mode: WorkerMode) {
       }
       postMessage(message: { type: string; id?: string; sessionId?: string }) {
         state.messages.push(message.type);
+        if (message.type === 'run') this.hasRun = true;
         if (message.type === 'run' && ['stall', 'crash', 'run_error'].includes(mode)) {
           if (mode === 'crash') queueMicrotask(() => this.onerror?.call(this, new ErrorEvent('error', { message: '专项线程崩溃' })));
           if (mode === 'run_error') queueMicrotask(() => this.onmessage?.call(this, new MessageEvent('message', {
@@ -275,7 +306,7 @@ async function instrumentWorker(page: Page, mode: WorkerMode) {
           })));
           return;
         }
-        if (message.type === 'release' && mode === 'release_fail') {
+        if (message.type === 'release' && mode === 'release_fail' && this.hasRun) {
           queueMicrotask(() => this.onmessage?.call(this, new MessageEvent('message', { data: {
             type: 'releaseResult', id: message.id, frames: [{ schemaVersion: 1, kind: 214, flags: 0,
               payload: Array.from(new TextEncoder().encode(JSON.stringify({ ok: false, released: false, sessionId: message.sessionId }))) }]
@@ -296,7 +327,7 @@ for (const mode of ['crash', 'stall', 'run_error', 'release_fail', 'missing_warn
   test(`${mode}故障：页面不误报通过，不重建空线程释放旧会话`, async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
-    await preparePage(page);
+    const snapshot = await preparePage(page);
     await instrumentWorker(page, mode);
     if (mode === 'stall') await page.clock.install();
     await page.getByRole('button', { name: '执行一次普攻', exact: true }).click();
@@ -321,10 +352,11 @@ for (const mode of ['crash', 'stall', 'run_error', 'release_fail', 'missing_warn
       await expect(page.getByTestId('single-attack-damage-dealt')).toHaveCount(0);
     }
     const state = await workerDiagnostics(page);
-    expect(state.created).toBe(1);
-    expect(state.terminated).toBe(1);
+    expect(state.created).toBe(2); // 真实预检和正式运行各一线程。
+    expect(state.terminated).toBe(2);
     expect(state.messages.filter(item => item === 'run')).toHaveLength(1);
-    expect(state.messages.filter(item => item === 'release')).toHaveLength(['crash', 'stall'].includes(mode) ? 0 : 1);
+    expect(state.messages.filter(item => item === 'release')).toHaveLength(['crash', 'stall'].includes(mode) ? 1 : 2);
+    expect(await formulaProofState(page, snapshot)).toMatchObject({ active: false, value: null, declarations: 0 });
     expect(errors).toEqual([]);
   });
 }
@@ -346,31 +378,36 @@ async function holdFirstRunResponse(page: Page) {
 }
 
 test('取消后可重跑，重复点击只有一项运行，旧结果迟到不覆盖新结果', async ({ page }) => {
-  await preparePage(page);
+  const snapshot = await preparePage(page, sampleWithStaticProof());
   await instrumentWorker(page, 'record');
   await holdFirstRunResponse(page);
   await page.getByRole('button', { name: '执行一次普攻', exact: true }).evaluate((node: HTMLButtonElement) => { node.click(); node.click(); });
   await expect.poll(() => page.evaluate(() => typeof (window as unknown as { resumeOldRun: () => void }).resumeOldRun)).toBe('function');
-  expect((await workerDiagnostics(page)).created).toBe(1);
+  expect((await workerDiagnostics(page)).created).toBe(2);
+  const originalProof = await formulaProofState(page, snapshot);
+  expect(originalProof.active).toBe(true);
+  expect(originalProof.value).not.toBeNull();
   await expect(page.getByLabel('目标初始当前生命', { exact: true })).toBeDisabled();
   await page.getByRole('button', { name: '取消当前请求', exact: true }).click();
   await expect(page.getByText('当前任务已取消，未完成单次运行验证。', { exact: true })).toBeVisible();
   await expect(page.getByLabel('目标初始当前生命', { exact: true })).toHaveValue('590');
+  expect(await formulaProofState(page, snapshot)).toMatchObject({ active: false, value: null, declarations: 0 });
   await page.getByLabel('目标初始当前生命', { exact: true }).fill('500');
   await page.getByRole('button', { name: '执行一次普攻', exact: true }).click();
   await expect(page.getByTestId('single-attack-target-final-hp')).toHaveText('450');
   await page.evaluate(() => (window as unknown as { resumeOldRun: () => void }).resumeOldRun());
   await expect(page.getByTestId('single-attack-target-final-hp')).toHaveText('450');
   await expect(page.getByText('单次普攻运行通过，不代表连续攻击通过。', { exact: true })).toBeVisible();
+  expect(await formulaProofState(page, snapshot)).toMatchObject({ active: true, value: originalProof.value });
   const state = await workerDiagnostics(page);
-  expect(state.created).toBe(2);
-  expect(state.terminated).toBe(2);
+  expect(state.created).toBe(4);
+  expect(state.terminated).toBe(4);
   expect(state.messages.filter(item => item === 'run')).toHaveLength(2);
-  expect(state.messages.filter(item => item === 'release')).toHaveLength(1);
+  expect(state.messages.filter(item => item === 'release')).toHaveLength(3);
 });
 
 test('运行中拒绝离开保留任务，确认切模式后终止线程且旧结果不会回流', async ({ page }) => {
-  await preparePage(page);
+  const snapshot = await preparePage(page);
   await instrumentWorker(page, 'record');
   await holdFirstRunResponse(page);
   await page.getByRole('button', { name: '执行一次普攻', exact: true }).click();
@@ -378,30 +415,92 @@ test('运行中拒绝离开保留任务，确认切模式后终止线程且旧�
   page.once('dialog', dialog => dialog.dismiss());
   await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
   await expect(page).toHaveURL(/#\/simulation\/basic-attack$/);
-  expect((await workerDiagnostics(page)).terminated).toBe(0);
+  expect((await workerDiagnostics(page)).terminated).toBe(1);
   page.once('dialog', dialog => dialog.accept());
   await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
   await expect(page).toHaveURL(/#\/attributes$/);
-  await expect.poll(async () => (await workerDiagnostics(page)).terminated).toBe(1);
+  await expect.poll(async () => (await workerDiagnostics(page)).terminated).toBe(2);
   await page.evaluate(() => (window as unknown as { resumeOldRun: () => void }).resumeOldRun());
   await expect(page.getByRole('region', { name: '单次普攻结果', exact: true })).toHaveCount(0);
-  expect((await workerDiagnostics(page)).messages.filter(item => item === 'release')).toHaveLength(0);
+  expect((await workerDiagnostics(page)).messages.filter(item => item === 'release')).toHaveLength(1);
+  expect(await formulaProofState(page, snapshot)).toMatchObject({ active: false, declarations: 0 });
+});
+
+test('最终原生编译失败清除成功预检缓存，保留输入并在重试时重新核定', async ({ page }, info) => {
+  const snapshot = await preparePage(page, sampleWithStaticProof());
+  const initialProof = await formulaProofState(page, snapshot);
+  expect(initialProof.active).toBe(true);
+  expect(initialProof.value).not.toBeNull();
+  await page.evaluate(async () => {
+    const clientPath = '/src/engine/genericEngineClient.ts';
+    const { GenericEngineClient } = await import(clientPath);
+    const original = GenericEngineClient.prototype.compile;
+    const trace = { preflights: [] as unknown[], finals: [] as unknown[] };
+    (window as unknown as { formulaCleanupTrace: typeof trace }).formulaCleanupTrace = trace;
+    let failFinal = true;
+    GenericEngineClient.prototype.compile = async function(request: import('../../src/types/genericEngine').CompileRequest) {
+      const isPreflight = request.rulesHash === 'skill-formula-preflight';
+      let input = request;
+      if (!isPreflight && failFinal) {
+        failFinal = false;
+        input = structuredClone(request);
+        input.formulas![0]!.expression.outputStageKey = 'deliberate_missing_stage';
+      }
+      const result = await original.call(this, input);
+      (isPreflight ? trace.preflights : trace.finals).push(result);
+      return result;
+    };
+  });
+  await page.getByRole('button', { name: '执行一次普攻', exact: true }).click();
+  await expect(page.getByText(/^\/formulas\/0\/expression\/outputStageKey: FORMULA_UNKNOWN_STAGE/)).toBeVisible();
+  await expect(page.getByRole('button', { name: '执行一次普攻', exact: true })).toBeEnabled();
+  expect(await formulaProofState(page, snapshot)).toMatchObject({ active: false, value: null, declarations: 0 });
+  await expect(page.getByLabel('目标初始当前生命', { exact: true })).toHaveValue('590');
+  await expect(page.getByLabel('攻击方补充属性 critical_strike_chance', { exact: true })).toHaveValue('0');
+  await page.getByRole('button', { name: '执行一次普攻', exact: true }).click();
+  await expect(page.getByText('单次普攻运行通过，不代表连续攻击通过。', { exact: true })).toBeVisible();
+  expect(await formulaProofState(page, snapshot)).toMatchObject({ active: true, value: initialProof.value });
+  await expect(page.getByTestId('single-attack-target-final-hp')).toHaveText('540');
+  const trace = await page.evaluate(() => (window as unknown as { formulaCleanupTrace: { preflights: Array<{ ok: boolean }>; finals: Array<{ ok: boolean }> } }).formulaCleanupTrace);
+  expect(trace.preflights).toHaveLength(2);
+  expect(trace.preflights.every(row => row.ok)).toBe(true);
+  expect(trace.finals.map(row => row.ok)).toEqual([false, true]);
+  await info.attach('失败清理与真实原生重新预检.json', { body: JSON.stringify({ initialProof, trace, wasm: WASM_IDENTITY }), contentType: 'application/json' });
+});
+
+test('成功预检的空闲场景在选择变更、卸载及连接切换时清空所属缓存', async ({ page }) => {
+  const fixture = sampleWithStaticProof();
+  let snapshot = await preparePage(page, fixture);
+  expect((await formulaProofState(page, snapshot)).value).not.toBeNull();
+  await chooseSimulationEntity(page, '攻击方角色', 'actor_b');
+  expect(await formulaProofState(page, snapshot)).toMatchObject({ active: false, declarations: 0 });
+  snapshot = await preparePage(page, fixture, false);
+  expect((await formulaProofState(page, snapshot)).value).not.toBeNull();
+  await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
+  await expect(page).toHaveURL(/#\/attributes$/);
+  expect(await formulaProofState(page, snapshot)).toMatchObject({ active: false, declarations: 0 });
+  await page.goto('/#/simulation/basic-attack');
+  snapshot = await preparePage(page, fixture, false);
+  expect((await formulaProofState(page, snapshot)).value).not.toBeNull();
+  await page.locator('.app-toolbar-field--api input').fill('http://127.0.0.1:19199');
+  await page.getByRole('button', { name: '应用', exact: true }).click();
+  expect(await formulaProofState(page, snapshot)).toMatchObject({ active: false, declarations: 0 });
 });
 
 test('重新读场景失败或取消保留既有补充值和初始生命', async ({ page }) => {
   await preparePage(page);
   await page.getByLabel('攻击方补充属性 critical_strike_chance', { exact: true }).fill('0.25');
   await page.getByLabel('目标初始当前生命', { exact: true }).fill('500');
-  await page.route('**/api/admin/games/demo/simulation-snapshot?**', route => route.fulfill({ status: 500, json: { error: { code: 'READ_FAILED', message: '本次场景读取失败' } } }));
+  await page.route('**/api/admin/games/demo/simulation-snapshot', route => route.fulfill({ status: 500, json: { error: { code: 'READ_FAILED', message: '本次场景读取失败' } } }));
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   await expect(page.getByText(/本次场景读取失败/)).toBeVisible();
   await expect(page.getByLabel('攻击方补充属性 critical_strike_chance', { exact: true })).toHaveValue('0.25');
   await expect(page.getByLabel('目标初始当前生命', { exact: true })).toHaveValue('500');
   let finish!: () => void;
   const gate = new Promise<void>(resolve => { finish = resolve; });
-  await page.route('**/api/admin/games/demo/simulation-snapshot?**', async route => {
+  await page.route('**/api/admin/games/demo/simulation-snapshot', async route => {
     await gate;
-    await route.fulfill({ json: sampleWithDamage() }).catch(() => undefined);
+    await route.fulfill({ json: simulationSnapshotWithSelection(sampleWithDamage(), route.request().postDataJSON()) }).catch(() => undefined);
   });
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   await expect(page.getByText('正在读取场景快照', { exact: true })).toBeVisible();
@@ -417,22 +516,17 @@ test('真实只读接口亚托克斯对阿狸的完整共享普攻进入最终Wa
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '真实服务专项需显式启用，跳过不是运行通过证据');
   const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
   const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN;
-  const path = '/api/admin/games/lol/simulation-snapshot?' + new URLSearchParams({
-    sourceCharacterKey: 'champion_aatrox', sourceLevel: '1', targetCharacterKey: 'champion_ahri', targetLevel: '1',
-    basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: '1'
-  });
-  const response = await request.get(apiBase + path, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
-  expect(response.status()).toBe(200);
-  const snapshot = await response.json() as SimulationSnapshot;
-  expect(snapshot.skillConfigurations[0]!.effects).toHaveLength(2);
-  expect(snapshot.skillConfigurations[0]!.triggerRules).toHaveLength(2);
+  const { snapshot } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection(), token);
+  const basicAttack = snapshot.skillConfigurations.find(configuration => configuration.skill.skillKey === snapshot.selection.basicAttackSkillKey)!;
+  expect(basicAttack.effects).toHaveLength(2);
+  expect(basicAttack.triggerRules).toHaveLength(2);
   const result = await runSnapshot(page, snapshot, testInfo);
   const expectedDamage = snapshot.source.selectedLevelValues.attack_damage! * 100 / (100 + snapshot.target.selectedLevelValues.armor!);
   expect(result.assessment.damageDealt).toBeCloseTo(expectedDamage, 8);
   expect(result.assessment.hpLoss).toBeCloseTo(expectedDamage, 8);
   expect(result.assessment.sourceFinalHp).toBe(snapshot.source.selectedLevelValues.hp);
   expect(result.assessment.targetFinalHp).toBeCloseTo(snapshot.target.selectedLevelValues.hp! - expectedDamage, 8);
-  const multiplier = snapshot.skillConfigurations[0]!.parameters.find(row => row.parameterKey === 'base_critical_multiplier');
+  const multiplier = basicAttack.parameters.find(row => row.parameterKey === 'base_critical_multiplier');
   expect(multiplier?.valueMode).toBe('FIXED');
   expect(typeof multiplier?.fixedValue).toBe('number');
   const crit = await runSnapshot(page, snapshot, testInfo, { source: { critical_strike_chance: 0.25 } }, 'actual-25pct-crit-archive.json');
@@ -443,9 +537,10 @@ test('真实只读接口亚托克斯对阿狸的完整共享普攻进入最终Wa
     localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
     localStorage.setItem('damage-viewer.web.admin-token', token || 'local-readonly-check');
   }, { apiBase, token });
-  const methods: string[] = [];
+  const methods: { path: string; method: string }[] = [];
   page.on('request', request => {
-    if (new URL(request.url()).origin === apiBase && request.method() !== 'OPTIONS') methods.push(request.method());
+    const url = new URL(request.url());
+    if (url.origin === apiBase && request.method() !== 'OPTIONS') methods.push({ path: url.pathname, method: request.method() });
   });
   await page.reload();
   await chooseSimulationEntity(page, '攻击方角色', 'champion_aatrox');
@@ -455,6 +550,7 @@ test('真实只读接口亚托克斯对阿狸的完整共享普攻进入最终Wa
   await chooseSimulationEntity(page, '普攻技能', 'shared_basic_attack');
   await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
+  await isolateCharacterSourcesOnPage(page, snapshot);
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
   await page.getByRole('button', { name: '执行一次普攻', exact: true }).click();
@@ -471,5 +567,5 @@ test('真实只读接口亚托克斯对阿狸的完整共享普攻进入最终Wa
   writeFileSync(archivePath, JSON.stringify(archive, null, 2));
   await testInfo.attach('正式页面运行档案.json', { path: archivePath, contentType: 'application/json' });
   expect(methods.length).toBeGreaterThan(0);
-  expect(methods.every(method => method === 'GET')).toBe(true);
+  expect(methods.every(row => row.method === (row.path.endsWith('/simulation-snapshot') ? 'POST' : 'GET'))).toBe(true);
 });

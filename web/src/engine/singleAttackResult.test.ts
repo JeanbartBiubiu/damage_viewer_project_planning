@@ -1,6 +1,7 @@
+import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { describe, expect, it } from 'vitest';
 import type { DoneResult, EvidenceItem, ProcessInstanceSnapshot } from '../types/genericEngine';
-import { assembleSimulation, inspectSimulationSnapshot, singleAttackRequest } from './simulationAdapter';
+import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot, singleAttackRequest } from './simulationAdapter';
 import { assessSingleAttackResult } from './singleAttackResult';
 import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
 
@@ -35,7 +36,7 @@ function sample(options: { damage?: number; hp?: number; hitCount?: number; atta
   source.cooldowns[controlRef] = { readyAtMs: 1500, remainingMs: 1500 };
   const instance: ProcessInstanceSnapshot = { ...processIdentity, owner: 'source', target: 'target', startedAtMs: 0,
     stepStartedAtMs: 0, advanceAtMs: 0, expiresAtMs: null, actualCosts: {}, cooldownStarted: true,
-    status: 'complete', finishedAtMs: 0 };
+    status: 'complete', finishedAtMs: 0, repeat: null, actionOccupancies: [], stepExecutionIndex: 1, lastExecutionAtMs: 0, stepCompletedAtMs: 0 };
   finalSnapshot.processInstances = [instance];
   const evidence: EvidenceItem[] = [
     { timeMs: 0, kind: 'emitted_event', ref: 'event/basic_attack_start', data: { ...identity, eventType: 'event/basic_attack_start', castInstanceId: 1 } },
@@ -44,11 +45,10 @@ function sample(options: { damage?: number; hp?: number; hitCount?: number; atta
     { timeMs: 0, kind: 'skill_hit', ref: hitAbility, path: 'driverPlan.entries[first_attack_hit]', data: { ...identity, occurrenceId: 1, blocked: 0, reused: false } },
     { timeMs: 0, kind: 'emitted_event', ref: 'event/basic_attack_hit', data: { ...identity, eventType: 'event/basic_attack_hit', occurrenceId: 1, blocked: 0, reused: false } },
     { timeMs: 0, kind: 'damage', ref: hitAbility, data: {
-      phase: 'original', phantom: false, source: 'source', target: 'target', damageType: 'damage/physics',
+      phase: 'original', phantom: false, source: 'source', target: 'target', damageType: 'physics',
       abilityRef: hitAbility, operationRef: 'skills.sample_basic_attack.effects.hit.results.damage', castInstanceId: 3, damageId: 1,
       rawAmount: damage * 2, mitigatedAmount: damage, postDefenseDamage: damage, shieldAbsorbed: 0,
       actualHpLoss, overkillDamage: damage - actualHpLoss,
-      resistanceBeforePenetration: 100, penetrationPercent: 0, penetrationFlat: 0, effectiveResistance: 100,
       resistanceFactor: 0.5, normalPartPostResistance: damage, critPartPostResistance: 0,
       eligible: true, policy: 'expected', baseRawAmount: damage * 2, originalCritChance: 0, effectiveCritChance: 0,
       multiplier: 2, normalPart: damage * 2, critPart: 0, critAdjustedRawAmount: damage * 2
@@ -87,6 +87,20 @@ function recount(done: DoneResult) {
 function assess(input: ReturnType<typeof sample>) {
   return assessSingleAttackResult(input.compileRequest, input.runRequest, input.done);
 }
+
+describe('5C单次条件主体完整分支核对', () => {
+  it('只接受唯一真实分支的完整并列伤害与联动，不要求未选分支也执行', () => {
+    const input = sample();
+    const candidates = input.compileRequest.sharedProviders![0]!.abilities![2]!.operations![0]!.skillHit!.candidates;
+    for (const candidate of candidates) candidate.participationCondition = { op: 'const', value: 1 };
+    candidates.push(...structuredClone(candidates).map(candidate => ({ ...candidate, candidateKey: `other:${candidate.candidateKey}`,
+      effectOccurrenceKey: 'other', participationCondition: { op: 'const', value: 0 }, operations: candidate.operations.map(operation => ({ ...operation, ref: `${operation.ref}_other` })) })));
+    expect(assess(input).issues).toEqual([]);
+    input.done.evidence.items = input.done.evidence.items.filter(row => row.kind !== 'damage');
+    recount(input.done);
+    expect(assess(input).complete).toBe(false);
+  });
+});
 function damage(input: ReturnType<typeof sample>) {
   return input.done.evidence.items.find(row => row.kind === 'damage')!;
 }
@@ -286,3 +300,6 @@ describe('单次普攻结果解释', () => {
     expect(() => assess(badWarning)).toThrow(/runResult\.warnings/);
   });
 });
+
+const assembleSimulation = (...args: Parameters<typeof raw_assembleSimulation>): ReturnType<typeof raw_assembleSimulation> => { approveSnapshotFixture(args[0]); return raw_assembleSimulation(...args); };
+const inspectSimulationSnapshot = (...args: Parameters<typeof raw_inspectSimulationSnapshot>): ReturnType<typeof raw_inspectSimulationSnapshot> => { approveSnapshotFixture(args[0]); return raw_inspectSimulationSnapshot(...args); };

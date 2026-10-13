@@ -21,11 +21,16 @@ export async function chooseSimulationLevel(page: Page, label: string, level: nu
 }
 
 /** 只替换目录只读接口，场景读取与真实 Wasm 仍由各专项单独验证。 */
-export async function installSimulationSelectionApi(page: Page, api: string, gameId: string) {
-  const sample = simulationSample();
-  const sourceKey = gameId === 'demo' ? sample.selection.sourceCharacterKey : 'source_sample';
-  const targetKey = gameId === 'demo' ? sample.selection.targetCharacterKey : 'target_sample';
-  const skillKey = gameId === 'demo' ? sample.selection.basicAttackSkillKey : 'shared_basic_attack';
+export async function installSimulationSelectionApi(page: Page, api: string, gameId: string, selectionSample?: ReturnType<typeof simulationSample>) {
+  const sample = selectionSample ?? simulationSample();
+  const sourceKey = selectionSample || gameId === 'demo' ? sample.selection.sourceCharacterKey : 'source_sample';
+  const targetKey = selectionSample || gameId === 'demo' ? sample.selection.targetCharacterKey : 'target_sample';
+  const skillKey = selectionSample || gameId === 'demo' ? sample.selection.basicAttackSkillKey : 'shared_basic_attack';
+  await page.route(`${api}/api/admin/games/${gameId}/calculation-rules`, route => route.fulfill({ json: {
+    ...sample.catalogs.calculationRules, gameId
+  } }));
+  const categories = sample.catalogs.skillCategories.map(row => ({ ...row, gameId }));
+  await page.route(`${api}/api/admin/games/${gameId}/skill-categories`, route => route.fulfill({ json: { items: categories, total: categories.length } }));
   await page.route(`${api}/api/admin/games/${gameId}/level-config`, route => route.fulfill({ json: {
     ...sample.catalogs.levelConfig, gameId
   } }));
@@ -33,6 +38,8 @@ export async function installSimulationSelectionApi(page: Page, api: string, gam
     gameId, characterKey, name: index ? '目标角色' : '攻击方角色', description: null, createdAt: '', updatedAt: ''
   }));
   await page.route(`${api}/api/admin/games/${gameId}/characters`, route => route.fulfill({ json: { items: characters, total: 2 } }));
+  await page.route(`${api}/api/admin/games/${gameId}/equipment`, route => route.fulfill({ json: { items: [], total: 0 } }));
+  await page.route(`${api}/api/admin/games/${gameId}/build-systems`, route => route.fulfill({ json: { items: [], total: 0 } }));
   await page.route(`${api}/api/admin/games/${gameId}/character-skill-relations?**`, route => route.fulfill({ json: {
     items: [{ gameId, characterKey: sourceKey, characterName: '攻击方角色', skillKey, skillName: '普通攻击·共享', skillStatus: 'ENABLED', sortOrder: 0 }], total: 1
   } }));

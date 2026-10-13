@@ -1,5 +1,5 @@
-import { Alert, Button, Card, Modal, Space, Typography } from '@arco-design/web-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, Button, Card, Input, Modal, Radio, Select, Space, Typography } from '@arco-design/web-react';
+import { useEffect, useRef, useState } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
 import { listAttributes } from '../../../services/attributeClient';
 import {
@@ -17,16 +17,16 @@ import {
   FORMULA_SAVE_PENDING_MESSAGE,
   applyFormulaReadbackResult,
   canSubmitDamageTypeFormula,
-  formulaStageViews,
+  createDamageTypeFormulaInputDraft,
   isSameFormulaContext,
   mapDamageTypeFormulaFieldIssues,
   partitionFormulaNodeIssues,
-  previewDamageTypeFormulaChain,
   previewDamageTypeFormulaStage,
   resolveFormulaCloseAttempt,
   resolveFormulaLoad,
   restoreScrollTop,
-  retainedDisabledAttributeTriples,
+  selectableAttributeOptions,
+  damageTypeFormulaValueKindLabel,
   updateFormulaDraftAtPath,
   validateDamageTypeFormulaDraft,
   type DamageTypeFormulaDraft,
@@ -81,7 +81,6 @@ export function DamageTypeFormulaEditorModal({
   const [loadError, setLoadError] = useState<string | null>(null);
   const [draft, setDraft] = useState<DamageTypeFormulaDraft | null>(null);
   const [baseline, setBaseline] = useState<DamageTypeFormulaDraft | null>(null);
-  const [originDraft, setOriginDraft] = useState<DamageTypeFormulaDraft | null>(null);
   const [persisted, setPersisted] = useState(false);
   const [blank, setBlank] = useState(false);
   const [attributes, setAttributes] = useState<Attribute[]>([]);
@@ -108,10 +107,6 @@ export function DamageTypeFormulaEditorModal({
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollRestore = useRef<number | null>(null);
 
-  const retainedDisabled = useMemo(
-    () => originDraft && catalogReady ? retainedDisabledAttributeTriples(originDraft, attributes) : [],
-    [attributes, catalogReady, originDraft]
-  );
   const dirty = !readOnly
     && draft !== null
     && baseline !== null
@@ -176,7 +171,6 @@ export function DamageTypeFormulaEditorModal({
     setConfirming(false);
     replaceDraft(null);
     setBaseline(null);
-    setOriginDraft(null);
     setPersisted(false);
     setBlank(false);
 
@@ -212,12 +206,10 @@ export function DamageTypeFormulaEditorModal({
         setLoadError(resolved.message);
         replaceDraft(null);
         setBaseline(null);
-        setOriginDraft(null);
         return;
       }
       replaceDraft(resolved.draft);
       setBaseline(resolved.draft);
-      setOriginDraft(resolved.draft);
       setPersisted(resolved.persisted);
       setBlank(!resolved.persisted);
       setPhase('ready');
@@ -357,7 +349,7 @@ export function DamageTypeFormulaEditorModal({
   const save = async () => {
     const currentDraft = draftRef.current;
     if (!currentDraft || savingRef.current || deletingRef.current || pendingRef.current || !canSave) return;
-    const validation = validateDamageTypeFormulaDraft(currentDraft, attributes, retainedDisabled);
+    const validation = validateDamageTypeFormulaDraft(currentDraft, attributes);
     if (!validation.ok) {
       rememberScroll();
       setNodeIssues(validation.nodeIssues);
@@ -452,11 +444,17 @@ export function DamageTypeFormulaEditorModal({
     setSaveError(null);
   };
 
-  const stageViews = draft ? formulaStageViews(draft) : [];
-  const chainPreview = draft
-    ? previewDamageTypeFormulaChain(draft, attributes, retainedDisabled)
-    : [];
-
+  const changeDraft = (update: (current: DamageTypeFormulaDraft) => DamageTypeFormulaDraft) => {
+    if (readOnly || savingRef.current || deletingRef.current || pendingRef.current || confirming) return;
+    const current = draftRef.current;
+    if (!current) return;
+    replaceDraft(update(current));
+    setNodeIssues([]);
+    setSaveError(null);
+  };
+  const locked = readOnly || saving || deleting || confirming || pending;
+  const inputIssues = (index: number) => nodeIssues.filter(issue => issue.path.startsWith(`/formula/inputs/${index}`));
+  const stageIssues = (index: number) => nodeIssues.filter(issue => issue.path === `/formula/stages/${index}/key` || issue.path === `/formula/stages/${index}/name`);
   return (
     <Modal
       title={`结算公式 - ${damageType.name}`}
@@ -523,72 +521,82 @@ export function DamageTypeFormulaEditorModal({
         {ready && draft ? (
           <div ref={scrollRef} style={{ maxHeight: '68vh', overflow: 'auto', paddingRight: 4 }}>
             <Space direction="vertical" size="medium" style={{ width: '100%' }}>
-              <Card size="small">
-                <div role="region" aria-label="五阶段关系预览">
-                  <Typography.Title heading={6} style={{ marginTop: 0, marginBottom: 8 }}>
-                    五阶段关系预览
-                  </Typography.Title>
-                  <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 8 }}>
-                    R、P、F、E、M 分别代表穿透前抗性、百分比穿透、固定穿透、有效抗性和抗性系数。
-                  </Typography.Text>
-                  {chainPreview.map((stage) => (
-                    <Typography.Paragraph key={stage.stageKey} style={{ marginBottom: 6 }}>
-                      <Typography.Text bold>{stage.symbol}（{stage.label}） = </Typography.Text>
-                      {stage.segments.map((segment, index) => (
-                        <Typography.Text
-                          key={`${stage.stageKey}-chain-${index}-${segment.text}`}
-                          type={segment.error ? 'error' : undefined}
-                        >
-                          {segment.text}
-                        </Typography.Text>
-                      ))}
-                    </Typography.Paragraph>
+              <Typography.Paragraph type="secondary">
+                输入只读取来源或目标在当前帧的属性。结果展示顺序不限制引用顺序；全部结果均须完整且无循环。最终输出作为防御倍率。
+              </Typography.Paragraph>
+              <Card title="属性输入" size="small">
+                <Space direction="vertical" style={{ width: '100%' }}>
+                  {draft.inputs.map((input, index) => (
+                    <Card key={index} size="small" title={`输入${index + 1}`}>
+                      <Space direction="vertical" style={{ width: '100%' }}>
+                        {inputIssues(index).map((issue, issueIndex) => <Alert key={issueIndex} type="error" content={issue.message} />)}
+                        <Typography.Text type="secondary">输入标识</Typography.Text>
+                        <Input aria-label={`输入${index + 1}标识`} placeholder="输入标识" value={input.key} disabled={locked}
+                          onChange={key => changeDraft(current => ({ ...current, inputs: current.inputs.map((row, i) => i === index ? { ...row, key } : row) }))} />
+                        <Typography.Text type="secondary">属性对象</Typography.Text>
+                        <Radio.Group aria-label={`输入${index + 1}属性对象`} value={input.binding.object || undefined} disabled={locked}
+                          onChange={object => changeDraft(current => ({ ...current, inputs: current.inputs.map((row, i) => i === index
+                            ? { ...row, binding: { ...row.binding, object } } : row) }))}>
+                          <Radio value="source">来源</Radio><Radio value="target">目标</Radio>
+                        </Radio.Group>
+                        <Typography.Text type="secondary">属性</Typography.Text>
+                        <Select aria-label={`输入${index + 1}属性`} placeholder="选择启用属性" value={input.binding.attributeKey || undefined}
+                          options={selectableAttributeOptions(attributes, input.binding.attributeKey)} disabled={locked} style={{ width: '100%' }}
+                          onChange={attributeKey => changeDraft(current => ({ ...current, inputs: current.inputs.map((row, i) => i === index
+                            ? { ...row, binding: { ...row.binding, attributeKey } } : row) }))} />
+                        <Typography.Text type="secondary">属性取值方式</Typography.Text>
+                        <Select aria-label={`输入${index + 1}属性取值方式`} placeholder="选择取值方式" value={input.binding.valueKind || undefined}
+                          options={(['BASE', 'BONUS', 'TOTAL'] as const).map(valueKind => ({ value: valueKind, label: damageTypeFormulaValueKindLabel(valueKind) }))}
+                          disabled={locked} style={{ width: '100%' }}
+                          onChange={valueKind => changeDraft(current => ({ ...current, inputs: current.inputs.map((row, i) => i === index
+                            ? { ...row, binding: { ...row.binding, valueKind } } : row) }))} />
+                        <Typography.Text type="secondary">读取视图：当前帧</Typography.Text>
+                        {!readOnly ? <Button status="danger" disabled={locked} aria-label={`删除输入${index + 1}`}
+                          onClick={() => changeDraft(current => ({ ...current, inputs: current.inputs.filter((_, i) => i !== index) }))}>删除输入</Button> : null}
+                      </Space>
+                    </Card>
                   ))}
-                </div>
+                  {!readOnly ? <Button disabled={locked || draft.inputs.length >= 64}
+                    onClick={() => changeDraft(current => ({ ...current, inputs: [...current.inputs, createDamageTypeFormulaInputDraft()] }))}>添加输入</Button> : null}
+                </Space>
               </Card>
-              {stageViews.map((stage) => {
-                const preview = previewDamageTypeFormulaStage(
-                  stage.node,
-                  stage.stageKey,
-                  attributes,
-                  retainedDisabled
-                );
-                return (
-                  <div key={stage.stageKey}>
-                    <Typography.Title heading={6} style={{ marginTop: 0 }}>{stage.label}</Typography.Title>
-                    <DamageTypeFormulaExpressionEditor
-                      stageKey={stage.stageKey}
-                      stageRoot={stage.node}
-                      path={stage.path}
-                      node={stage.node}
-                      readOnly={readOnly}
-                      disabled={saving || deleting || confirming || pending}
-                      attributes={attributes}
-                      retainedDisabled={retainedDisabled}
-                      nodeIssues={nodeIssues}
-                      onChange={updateAtPath}
-                      onRejectExpand={(issue) => {
-                        rememberScroll();
-                        setNodeIssues((current) => [
-                          ...current.filter((item) => item.path !== issue.path),
-                          issue
-                        ]);
-                      }}
-                    />
-                    <Typography.Text type="secondary" style={{ display: 'block', marginTop: 8 }}>本阶段预览</Typography.Text>
-                    <Typography.Paragraph style={{ marginBottom: 0 }}>
-                      {preview.map((segment, index) => (
-                        <Typography.Text
-                          key={`${stage.stageKey}-${index}-${segment.text}`}
-                          type={segment.error ? 'error' : undefined}
-                        >
-                          {segment.text}
-                        </Typography.Text>
-                      ))}
-                    </Typography.Paragraph>
-                  </div>
-                );
-              })}
+              <Card title="具名结果" size="small">
+                <Space direction="vertical" style={{ width: '100%' }}>
+                  {draft.stages.map((stage, index) => (
+                    <Card key={index} size="small" title={`结果${index + 1}`}>
+                      <Space direction="vertical" style={{ width: '100%' }}>
+                        {stageIssues(index).map((issue, issueIndex) => <Alert key={issueIndex} type="error" content={issue.message} />)}
+                        <Typography.Text type="secondary">结果标识</Typography.Text>
+                        <Input aria-label={`结果${index + 1}标识`} placeholder="结果标识" value={stage.key} disabled={locked}
+                          onChange={key => changeDraft(current => ({ ...current, stages: current.stages.map((row, i) => i === index ? { ...row, key } : row) }))} />
+                        <Typography.Text type="secondary">结果名称</Typography.Text>
+                        <Input aria-label={`结果${index + 1}名称`} placeholder="结果名称" value={stage.name} disabled={locked}
+                          onChange={name => changeDraft(current => ({ ...current, stages: current.stages.map((row, i) => i === index ? { ...row, name } : row) }))} />
+                        <DamageTypeFormulaExpressionEditor draft={draft} path={`/formula/stages/${index}/expression`} label={`结果${index + 1}表达式`}
+                          node={stage.expression} readOnly={readOnly} disabled={locked} nodeIssues={nodeIssues} onChange={updateAtPath}
+                          onRejectExpand={issue => { rememberScroll(); setNodeIssues(current => [...current.filter(row => row.path !== issue.path), issue]); }} />
+                        <Typography.Text type="secondary">表达式预览：{previewDamageTypeFormulaStage(stage.expression, draft)}</Typography.Text>
+                        {!readOnly ? <Space>
+                          <Button disabled={locked || index === 0} aria-label={`上移结果${index + 1}`} onClick={() => changeDraft(current => {
+                            const stages = [...current.stages]; [stages[index - 1], stages[index]] = [stages[index]!, stages[index - 1]!]; return { ...current, stages };
+                          })}>上移</Button>
+                          <Button disabled={locked || index === draft.stages.length - 1} aria-label={`下移结果${index + 1}`} onClick={() => changeDraft(current => {
+                            const stages = [...current.stages]; [stages[index + 1], stages[index]] = [stages[index]!, stages[index + 1]!]; return { ...current, stages };
+                          })}>下移</Button>
+                          <Button status="danger" disabled={locked} aria-label={`删除结果${index + 1}`}
+                            onClick={() => changeDraft(current => ({ ...current, stages: current.stages.filter((_, i) => i !== index) }))}>删除结果</Button>
+                        </Space> : null}
+                      </Space>
+                    </Card>
+                  ))}
+                  {!readOnly ? <Button disabled={locked || draft.stages.length >= 64}
+                    onClick={() => changeDraft(current => ({ ...current, stages: [...current.stages, { key: '', name: '', expression: { op: 'empty' } }] }))}>添加结果</Button> : null}
+                </Space>
+              </Card>
+              <Typography.Text>最终输出</Typography.Text>
+              <Select aria-label="最终输出结果" placeholder="选择防御倍率结果" value={draft.outputStageKey || undefined} disabled={locked}
+                options={draft.stages.filter(stage => stage.key).map(stage => ({ value: stage.key, label: `${stage.name || '未命名结果'}（${stage.key}）` }))}
+                onChange={outputStageKey => changeDraft(current => ({ ...current, outputStageKey }))} style={{ width: '100%' }} />
             </Space>
           </div>
         ) : null}

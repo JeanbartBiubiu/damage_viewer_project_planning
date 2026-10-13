@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../../../../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it, vi } from 'vitest';
 import { fixedValue, formulaValue } from '../../../../types/numericValue';
 import type { FormulaExpressionNode } from '../../../../types/skillFormula';
@@ -17,14 +18,14 @@ function parameter(key: string, mode: SkillParameter['valueMode'], fixed: number
   };
 }
 
-const ref = (parameterKey: string): FormulaExpressionNode => ({ nodeType: 'PARAMETER', parameterKey });
+const ref = (parameterKey: string): FormulaExpressionNode => (skillFormulaDefinition('rune_8014_passive', { nodeType: 'PARAMETER', parameterKey }));
 const operation = (name: 'ADD' | 'MULTIPLY' | 'DIVIDE', left: FormulaExpressionNode,
-  right: FormulaExpressionNode): FormulaExpressionNode => ({
+  right: FormulaExpressionNode): FormulaExpressionNode => (skillFormulaDefinition('rune_8014_passive', {
   nodeType: 'OPERATION', operation: name, operands: [left, right]
-});
+}));
 
 describe('逐笔生命门槛公式保存前核对', () => {
-  it('evaluates static parameter formula for matching skill and character levels', () => {
+  it('checks static parameter dependencies without evaluating level combinations', () => {
     const expression = operation('MULTIPLY', ref('skill_ratio'), ref('character_ratio'));
     const params = [
       parameter('skill_ratio', 'SKILL_LEVEL', null, { '1': 0.4, '2': 0.5 }),
@@ -32,13 +33,13 @@ describe('逐笔生命门槛公式保存前核对', () => {
     ];
     expect(staticDamageModifierConditionFormulaIssue(expression, params)).toBeNull();
     const over = [...params.slice(0, 1), parameter('character_ratio', 'CHARACTER_LEVEL', null, { '1': 1, '2': 2.1 })];
-    expect(staticDamageModifierConditionFormulaIssue(expression, over)).toContain('全部等级');
+    expect(staticDamageModifierConditionFormulaIssue(expression, over)).toBeNull(); // 数值范围由后端与原生核定
   });
 
   it('rejects attribute, runtime input, missing values and division by zero', () => {
-    const attribute: FormulaExpressionNode = {
+    const attribute: FormulaExpressionNode = skillFormulaDefinition('rune_8014_passive', {
       nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'CURRENT_RATIO'
-    };
+    });
     expect(staticDamageModifierConditionFormulaIssue(attribute, [])).toContain('不能读取属性');
     expect(staticDamageModifierConditionFormulaIssue(ref('runtime'), [
       parameter('runtime', 'RUNTIME_INPUT', null)
@@ -46,17 +47,17 @@ describe('逐笔生命门槛公式保存前核对', () => {
     expect(staticDamageModifierConditionFormulaIssue(ref('missing'), [])).toContain('不存在');
     expect(staticDamageModifierConditionFormulaIssue(operation('DIVIDE', ref('threshold'), ref('zero')), [
       parameter('threshold', 'FIXED', 0.4), parameter('zero', 'FIXED', 0)
-    ])).toContain('除零');
+    ])).toBeNull();
   });
 
-  it('uses decimal rational arithmetic for the exact zero-to-one boundary', () => {
+  it('does not implement a second decimal arithmetic evaluator', () => {
     const expression = operation('ADD', ref('a'), ref('b'));
     expect(staticDamageModifierConditionFormulaIssue(expression, [
       parameter('a', 'FIXED', 0.7), parameter('b', 'FIXED', 0.3)
     ])).toBeNull();
     expect(staticDamageModifierConditionFormulaIssue(expression, [
       parameter('a', 'FIXED', 0.7), parameter('b', 'FIXED', 0.3000001)
-    ])).toContain('全部等级');
+    ])).toBeNull();
   });
 
   it('fetches only selected formula details and returns a field error before POST', async () => {

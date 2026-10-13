@@ -23,6 +23,7 @@ import { getSkillInternalState, listSkillInternalStates } from '../../../../serv
 import { listSkillParameters } from '../../../../services/skillParameterClient';
 import { getSkillProcess, listSkillProcesses } from '../../../../services/skillProcessClient';
 import { listSkills } from '../../../../services/skillClient';
+import { getSkillConfiguration } from '../../../../services/skillConfigurationClient';
 import { listStatuses } from '../../../../services/statusClient';
 import {
   createSkillTriggerRule,
@@ -80,6 +81,7 @@ import {
   SkillTriggerConditionEditorModal,
   type SkillTriggerConditionEditorMode
 } from './SkillTriggerConditionEditorModal';
+import type { ChargeHitContext } from './chargeHitContext';
 import {
   DISABLED_CATALOG_LABEL,
   INCOMPLETE_CATALOG_MESSAGE,
@@ -94,6 +96,7 @@ import {
   SKILL_TRIGGER_CYCLE_MESSAGE,
   SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT,
   SKILL_TRIGGER_SOURCE_INITIALIZED_HINT,
+  SKILL_TRIGGER_BASIC_ATTACK_RECEIVED_HINT,
   SKILL_TRIGGER_TAKEDOWN_HINT,
   SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT,
   SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS,
@@ -342,6 +345,22 @@ export function SkillTriggerRuleEditorModal({
   const catalogSerial = useRef(0);
   const spellShieldSerial = useRef(0);
   const workspaceSnapshot = useRef(workspaceDraft).current;
+  const [storedChargeHitContext, setStoredChargeHitContext] = useState<ChargeHitContext>();
+  const chargeHitContext = workspaceSnapshot
+    ? { skillKey: skill.skillKey, processes: workspaceSnapshot.processes, rules: workspaceSnapshot.rules }
+    : storedChargeHitContext;
+  const chargeHitSkillKey = draft.eventSource.eventType === 'SKILL_HIT' ? draft.eventSource.detail.sourceSkillKey : null;
+  useEffect(() => {
+    if (workspaceSnapshot || !visible || chargeHitSkillKey !== skill.skillKey || !adminToken.trim()) return;
+    let current = true;
+    setStoredChargeHitContext(undefined);
+    void getSkillConfiguration(apiBaseUrl, selectedGameId, skill.skillKey, adminToken.trim()).then(result => {
+      if (current) setStoredChargeHitContext({ skillKey: skill.skillKey, processes: result.data.processes, rules: result.data.triggerRules });
+    }).catch(() => {
+      if (current) setStoredChargeHitContext(undefined);
+    });
+    return () => { current = false; };
+  }, [workspaceSnapshot, visible, chargeHitSkillKey, skill.skillKey, adminToken, apiBaseUrl, selectedGameId]);
   effectByKeyRef.current = effectByKey;
   processByKeyRef.current = processByKey;
   stateByKeyRef.current = stateByKey;
@@ -879,6 +898,11 @@ export function SkillTriggerRuleEditorModal({
 
   const ensureFormula = useCallback(async (formulaKey: string): Promise<SkillFormula | null> => {
     if (!formulaKey.trim()) return null;
+    if (workspaceSnapshot) {
+      const formula = workspaceSnapshot.formulas.find(item => item.formulaKey === formulaKey);
+      if (!formula) setReferenceError(`当前技能草稿缺少公式「${formulaKey}」。`);
+      return formula ?? null;
+    }
     const cached = formulaCacheRef.current.get(selectedGameId, skill.skillKey, formulaKey);
     if (cached) return cached;
     const token = adminToken.trim();
@@ -894,7 +918,7 @@ export function SkillTriggerRuleEditorModal({
       setReferenceError(getErrorMessage(error));
       return null;
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey]);
+  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, workspaceSnapshot]);
 
   const reloadReferences = useCallback(async () => {
     setReferenceError(null);
@@ -1065,13 +1089,13 @@ export function SkillTriggerRuleEditorModal({
       : null;
     const stepType = eventStepType(next, process);
     const processCatalog = [...processByKey.values()];
-    const impact = analyzeEventSwitchImpact(draft, next, stepType, processCatalog);
+    const impact = analyzeEventSwitchImpact(draft, next, stepType, processCatalog, chargeHitContext);
     if (impact.summary) {
       Modal.confirm({
         content: impact.summary,
         okText: '确定',
         cancelText: '取消',
-        onOk: () => patchDraft(applyEventSwitchCleanup(draft, next, stepType, processCatalog))
+        onOk: () => patchDraft(applyEventSwitchCleanup(draft, next, stepType, processCatalog, chargeHitContext))
       });
       return;
     }
@@ -1253,7 +1277,8 @@ export function SkillTriggerRuleEditorModal({
         parameters,
         effectsByKey: effectByKeyRef.current,
         damageTypesByKey: new Map(damageTypes.map((item) => [item.damageTypeKey, item])),
-        processesByKey: processByKeyRef.current,
+        processesByKey: new Map([...(chargeHitContext?.processes ?? []), ...processByKeyRef.current.values()].map(process => [process.processKey, process])),
+        triggerRules: chargeHitContext?.rules,
         statesByKey: stateByKeyRef.current,
         stepType: currentStepType
       });
@@ -1543,6 +1568,9 @@ export function SkillTriggerRuleEditorModal({
             </Form.Item>
             {draft.eventSource.eventType === 'SOURCE_INITIALIZED' ? (
               <Alert type="info" content={`${SKILL_TRIGGER_SOURCE_INITIALIZED_HINT} ${SKILL_TRIGGER_EVENT_CAPABILITIES.SOURCE_INITIALIZED.currentTargetBinding}`} />
+            ) : null}
+            {draft.eventSource.eventType === 'BASIC_ATTACK_RECEIVED' ? (
+              <Alert type="info" content={`${SKILL_TRIGGER_BASIC_ATTACK_RECEIVED_HINT} ${SKILL_TRIGGER_EVENT_CAPABILITIES.BASIC_ATTACK_RECEIVED.currentTargetBinding}`} />
             ) : null}
             {draft.eventSource.eventType === 'TAKEDOWN' ? (
               <Alert type="info" content={SKILL_TRIGGER_TAKEDOWN_HINT} />
@@ -1924,6 +1952,8 @@ export function SkillTriggerRuleEditorModal({
             : []
         }
         eventSource={draft.eventSource}
+        chargeHitContext={chargeHitContext}
+        stepType={currentStepType}
         attributes={attributes}
         statuses={statuses}
         formulas={formulas}
@@ -1963,6 +1993,8 @@ export function SkillTriggerRuleEditorModal({
         draft={actionEditor?.draft ?? null}
         existingKeys={draft.actions.map((item) => item.actionKey)}
         eventSource={draft.eventSource}
+        chargeHitContext={chargeHitContext}
+        stepType={currentStepType}
         actions={sortedActions}
         currentActionIndex={actionEditor?.index ?? sortedActions.length}
         effects={effects}

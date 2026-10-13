@@ -1,3 +1,4 @@
+import { registerFormulaForApprovedReads } from './approvedFormulaValues';
 import {
   OUTBOX_GENERIC_COMPILE_RESULT,
   OUTBOX_GENERIC_DONE,
@@ -138,7 +139,9 @@ export class GenericEngineClient {
 
   async compile(request: CompileRequest): Promise<CompileResult> {
     const frames = await this.send('compile', { request }, false);
-    return parseCompileResult(frames);
+    const result = parseCompileResult(frames);
+    if (result.ok) for (const formula of request.formulas ?? []) registerFormulaForApprovedReads(formula);
+    return result;
   }
 
   async run(request: RunRequest): Promise<DoneResult> {

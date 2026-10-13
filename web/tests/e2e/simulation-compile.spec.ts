@@ -6,6 +6,7 @@ import { simulationSample } from '../fixtures/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { confirmSimulationConfiguration, readIsolatedSimulationSnapshot, simulationComparisonSelection, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
 
 const expectedWasm = WASM_IDENTITY;
 
@@ -24,6 +25,11 @@ async function compileSnapshot(page: Page, snapshot: SimulationSnapshot, testInf
     const clientPath = '/src/engine/genericEngineClient.ts';
     const { inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } = await import(adapterPath);
     const { GenericEngineClient } = await import(clientPath);
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { preflightSkillFormulas } = await import(preflightPath);
+    const { validateConsumedFormulaValues, validateApprovedFormulaValues } = await import(proofPath);
+    const client = new GenericEngineClient();
+    const formulaPreflight = await preflightSkillFormulas(snapshot, client);
     const inspection = inspectSimulationSnapshot(snapshot);
     const inputs: { source: Record<string, number>; target: Record<string, number> } = { source: {}, target: {} };
     for (const row of inspection.requirements) {
@@ -33,18 +39,19 @@ async function compileSnapshot(page: Page, snapshot: SimulationSnapshot, testInf
     if ('critical_strike_chance' in inputs.source) inputs.source.critical_strike_chance = 0.25;
     const initialHealth = { source: snapshot.source.selectedLevelValues.hp, target: snapshot.target.selectedLevelValues.hp };
     const prepared = await prepareSimulation(snapshot, inputs, initialHealth);
-    const client = new GenericEngineClient();
     let compileResult;
     let released = false;
     let secondReleaseRejected = false;
     try {
       compileResult = await client.compile(prepared.compileRequest);
       if (!compileResult.ok || !compileResult.sessionId) return { prepared, compileResult, released };
+      validateConsumedFormulaValues(prepared.approvedFormulaValues, prepared.compileRequest.formulas ?? [], compileResult.metadata?.approvedStaticValues ?? {});
+      validateApprovedFormulaValues(prepared.compileRequest.formulas ?? [], compileResult.metadata?.approvedStaticValues ?? {});
       const singleRequest = singleAttackRequest(prepared.compileRequest, compileResult.sessionId);
       released = (await client.release(compileResult.sessionId, prepared.compileRequest.rulesHash)).released;
       try { await client.release(compileResult.sessionId, prepared.compileRequest.rulesHash); }
       catch { secondReleaseRejected = true; }
-      return { prepared, compileResult, singleRequest, released, secondReleaseRejected };
+      return { prepared, formulaPreflight, compileResult, singleRequest, released, secondReleaseRejected };
     } finally {
       if (!released && compileResult?.sessionId) {
         await client.release(compileResult.sessionId, prepared.compileRequest.rulesHash).catch(() => undefined);
@@ -71,37 +78,54 @@ test('完整独立作者配置进入实际Worker与最终Wasm，编译、释放�
   expect(result.singleRequest.attackStartFacts[0].useRef).toBe(result.singleRequest.skillHitFacts[0].useRef);
 });
 
-test('未知暴击字段与前序阶段声明不被Wasm静默忽略', async ({ page }) => {
+test('未知暴击字段与共同循环引用不被Wasm静默忽略，合法前向引用可编译', async ({ page }) => {
   const result = await page.evaluate(async (snapshot) => {
     const adapterPath = '/src/engine/simulationAdapter.ts'; const clientPath = '/src/engine/genericEngineClient.ts';
     const { prepareSimulation, inspectSimulationSnapshot } = await import(adapterPath);
     const { GenericEngineClient } = await import(clientPath);
+    const preflightPath = '/src/engine/skillFormulaPreflight.ts', proofPath = '/src/engine/approvedFormulaValues.ts';
+    const { preflightSkillFormulas } = await import(preflightPath);
+    const { validateConsumedFormulaValues, validateApprovedFormulaValues } = await import(proofPath);
+    const client = new GenericEngineClient();
+    await preflightSkillFormulas(snapshot, client);
     const inputs: { source: Record<string, number>; target: Record<string, number> } = { source: {}, target: {} };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) {
       if (row.storedValue === undefined) inputs[row.side as 'source' | 'target'][row.attribute.attributeKey] = 0;
     }
     const prepared = await prepareSimulation(snapshot, inputs, { source: 650, target: 590 });
-    const client = new GenericEngineClient();
     try {
       const request = structuredClone(prepared.compileRequest);
       const damage = request.sharedProviders[0].abilities[2].operations[0].skillHit.candidates[0].operations[0];
       delete damage.critMultiplier;
       const missingPair = await client.compile(request);
       const forward = structuredClone(prepared.compileRequest);
-      forward.rules.damageTypeFormulas[0].formula.resistanceBeforePenetration = { op: 'read', path: 'damage.stage.RESISTANCE_FACTOR' };
+      const definition = forward.rules.damageTypeFormulas[0].formula;
+      definition.stages.reverse();
       const forwardResult = await client.compile(forward);
-      return { missingPair, forwardResult };
+      if (forwardResult.ok) {
+        validateConsumedFormulaValues(prepared.approvedFormulaValues, forward.formulas ?? [], forwardResult.metadata?.approvedStaticValues ?? {});
+        validateApprovedFormulaValues(forward.formulas ?? [], forwardResult.metadata?.approvedStaticValues ?? {});
+        await client.release(forwardResult.sessionId, forward.rulesHash);
+      }
+      const cycle = structuredClone(prepared.compileRequest);
+      cycle.rules.damageTypeFormulas[0].formula.stages[0].expression = { op: 'ref', stageKey: 'factor' };
+      const cycleResult = await client.compile(cycle);
+      return { missingPair, forwardResult, cycleResult };
     } finally { client.terminate(); }
   }, simulationSample());
   expect(result.missingPair.ok).toBe(false);
   expect(JSON.stringify(result.missingPair.errors)).toMatch(/critChance|critMultiplier/);
-  expect(result.forwardResult.ok).toBe(false);
-  expect(JSON.stringify(result.forwardResult.errors)).toMatch(/resistanceBeforePenetration/);
+  expect(result.forwardResult.ok, JSON.stringify(result.forwardResult.errors)).toBe(true);
+  expect(result.cycleResult.ok).toBe(false);
+  expect(JSON.stringify(result.cycleResult.errors)).toMatch(/FORMULA_CYCLE/);
 });
 
 test('编译检查仍独立释放，不自动运行单次或连续普攻且不提供图表', async ({ page }) => {
   const snapshot = simulationSample();
-  await page.route('**/api/admin/games/demo/simulation-snapshot?**', route => route.fulfill({ json: snapshot }));
+  await page.route('**/api/admin/games/demo/simulation-snapshot', route => {
+    expect(route.request().method()).toBe('POST');
+    return route.fulfill({ json: simulationSnapshotWithSelection(snapshot, route.request().postDataJSON()) });
+  });
   await chooseSimulationEntity(page, '攻击方角色', 'actor_a');
   await chooseSimulationLevel(page, '攻击方等级', 1);
   await chooseSimulationEntity(page, '目标角色', 'actor_b');
@@ -109,6 +133,7 @@ test('编译检查仍独立释放，不自动运行单次或连续普攻且不�
   await chooseSimulationEntity(page, '普攻技能', 'sample_basic_attack');
   await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
+  await confirmSimulationConfiguration(page);
   await expect(page.getByRole('button', { name: '将缺失属性填写为0', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
@@ -126,20 +151,15 @@ test('真实接口A/B等级属性及完整共享普攻，经同一快照进入�
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '真实服务专项需显式启用；跳过不是通过证据');
   const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
   const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN;
-  const path = '/api/admin/games/lol/simulation-snapshot?' + new URLSearchParams({
-    sourceCharacterKey: 'champion_aatrox', sourceLevel: '1', targetCharacterKey: 'champion_ahri', targetLevel: '1',
-    basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: '1'
-  });
-  const response = await request.get(apiBase + path, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
-  expect(response.status()).toBe(200);
-  const snapshot = await response.json() as SimulationSnapshot;
+  const { snapshot } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection(), token);
   const result = await compileSnapshot(page, snapshot, testInfo);
-  expect(snapshot.skillConfigurations[0]!.triggerRules).toHaveLength(2);
-  expect(snapshot.skillConfigurations[0]!.effects).toHaveLength(2);
+  const basicAttack = snapshot.skillConfigurations.find(configuration => configuration.skill.skillKey === snapshot.selection.basicAttackSkillKey)!;
+  expect(basicAttack.triggerRules).toHaveLength(2);
+  expect(basicAttack.effects).toHaveLength(2);
   expect(result.compileResult.ok, JSON.stringify(result.compileResult.errors)).toBe(true);
   expect(result.released).toBe(true);
   expect(result.secondReleaseRejected).toBe(true);
   expect(result.prepared.compileRequest.combatants[0].attributes.hp.max).toBe(650);
   expect(result.prepared.compileRequest.combatants[1].attributes.hp.max).toBe(590);
-  expect(result.prepared.coverage.some((row: { authorPath: string }) => row.authorPath.endsWith('resistanceFactor'))).toBe(true);
+  expect(result.prepared.coverage.some((row: { authorPath: string }) => row.authorPath === 'damageTypes.physics.formula')).toBe(true);
 });

@@ -75,9 +75,9 @@ export function resolveAuthoringLocation(location: AuthoringLocation, detail: un
         break;
       }
       case 'FORMULA_OPERAND': {
-        if (current.nodeType !== 'OPERATION' || !Array.isArray(current.operands) || current.operands.length !== 2) return result('OBJECT', 'TYPE_CHANGED');
-        current = current.operands[segment.operand];
-        path.push('operands', segment.operand);
+        if (typeof current.op !== 'string' || !Array.isArray(current.args) || segment.operand >= current.args.length) return result('OBJECT', 'TYPE_CHANGED');
+        current = current.args[segment.operand];
+        path.push('args', segment.operand);
         break;
       }
     }

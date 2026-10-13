@@ -1,6 +1,7 @@
 import { expect, test, type Locator, type Page, type Route } from '@playwright/test';
 import { simulationSample } from '../fixtures/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
+import { confirmSimulationConfiguration } from '../fixtures/simulationSnapshotRequests';
 
 // 操作真实管理组件，只替换 HTTP；本专项不作为实库或计算运行证据。
 const API = 'http://127.0.0.1:19096';
@@ -63,6 +64,10 @@ async function installApi(page: Page) {
     if (match) {
       authenticatedReads.push(request.headers().authorization === `Bearer ${TOKEN}`);
       const [, gameId, resource] = match;
+      if (resource === 'calculation-rules') {
+        await respond(route, { gameId, baseDigest: 'c'.repeat(64), configuration: null });
+        return;
+      }
       if (resource === 'level-config') {
         await respond(route, { gameId, minLevel: 1, maxLevel: 18 });
         return;
@@ -323,7 +328,7 @@ test('场景读取中拒绝离开保留输入，确认离开后迟到错误不�
   const responseGate = new Promise<void>(resolve => { allowResponse = resolve; });
   const settledResponse = new Promise<void>(resolve => { responseFinished = resolve; });
   let reads = 0;
-  await page.route('**/simulation-snapshot?**', async route => {
+  await page.route('**/simulation-snapshot', async route => {
     reads += 1;
     await responseGate;
     try {
@@ -365,7 +370,7 @@ test('取消读取后可重新请求，旧请求结束不会清除新请求忙�
   await installSimulationSelectionApi(page, API, GAME_ID);
   const gates: Array<() => void> = [];
   const settled: Array<Promise<void>> = [];
-  await page.route('**/simulation-snapshot?**', async route => {
+  await page.route('**/simulation-snapshot', async route => {
     const index = gates.length;
     let finish!: () => void;
     settled.push(new Promise<void>(resolve => { finish = resolve; }));
@@ -411,7 +416,10 @@ test('初始当前生命保持未填写与0区别，明确点击才使用快照�
   await page.route(`${API}/api/games`, route => respond(route, [
     { gameId: snapshot.gameId, gameName: '明确生命输入测试', representativeImageKey: null }
   ]));
-  await page.route('**/simulation-snapshot?**', route => respond(route, snapshot));
+  await page.route('**/simulation-snapshot', route => {
+    expect(route.request().method()).toBe('POST');
+    return respond(route, snapshot);
+  });
   await page.goto('/#/simulation/basic-attack');
   await waitForGame(page, snapshot.gameId);
   await chooseSimulationEntity(page, '攻击方角色', snapshot.selection.sourceCharacterKey);
@@ -422,6 +430,7 @@ test('初始当前生命保持未填写与0区别，明确点击才使用快照�
   await chooseSimulationLevel(page, '普攻技能等级', snapshot.selection.basicAttackLevel);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   const sourceHealth = page.getByRole('spinbutton', { name: '攻击方初始当前生命', exact: true });
+  await confirmSimulationConfiguration(page);
   const targetHealth = page.getByRole('spinbutton', { name: '目标初始当前生命', exact: true });
   const compile = page.getByRole('button', { name: '编译验证', exact: true });
   await expect(sourceHealth).toHaveValue('');

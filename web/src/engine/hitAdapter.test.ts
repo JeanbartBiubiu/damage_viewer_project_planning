@@ -1,6 +1,8 @@
+import { approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
-import { adaptHitProgram, provenSkillUseFact, skillHitFact, unknownSkillUseFact, withHitProgram, type AuthoredHitProgram } from './hitAdapter';
-import { adaptPersistentResult } from './persistentResultAdapter';
+import { adaptHitProgram as raw_adaptHitProgram, provenSkillUseFact, skillHitFact, unknownSkillUseFact, withHitProgram, type AuthoredHitProgram } from './hitAdapter';
+import { adaptPersistentResult as raw_adaptPersistentResult } from './persistentResultAdapter';
 import type { CompileRequest } from '../types/genericEngine';
 import { fixedValue, parameterValue } from '../types/numericValue';
 import type { SkillEffect, SkillEffectResult } from '../types/skillEffect';
@@ -126,7 +128,7 @@ function request(): CompileRequest {
   const slot = { base: 100, current: 100, max: 200, resolved: 100 };
   return {
     schemaVersion: 'generic-p0', schemaHash: 'schema.p5', rulesHash: 'before',
-    typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }], relations: [] }, rules: {},
+    typeCatalog: { types: [{ key: 'physics', domain: 'damage' }], relations: [] }, rules: {},
     combatants: (['source', 'target'] as const).map((key) => ({
       key, resources: {}, providers: [{ providerRef: 'champion', definitionRef: 'champion' }],
       attributes: { hp: { ...slot }, attack_damage: { ...slot }, armor: { base: 0, current: 0, max: 0, resolved: 0 }, omnivamp_percent: { base: 0.2, current: 0.2, max: 1, resolved: 0.2 } }
@@ -139,7 +141,7 @@ function request(): CompileRequest {
 }
 
 describe('有界命中适配', () => {
-  it.each([['physics', 'damage/physical'], ['magic', 'damage/magic'], ['real', 'damage/true']])('管理伤害键%s转换为原生%s且不改作者对象', (key, runtimeType) => {
+  it.each([['physics', 'physics'], ['magic', 'magic'], ['real', 'real'], ['heat', 'heat']])('管理伤害原键%s原样进入%s且不改作者对象', (key, runtimeType) => {
     const authored = program();
     for (const effect of authored.effects) for (const result of effect.results) {
       if (result.resultType === 'DAMAGE') result.detail.damageTypeKey = key;
@@ -149,14 +151,6 @@ describe('有界命中适配', () => {
     expect(adapted.typeEntries).toContainEqual({ key: runtimeType, domain: 'damage' });
     expect(adapted.skillHit.candidates[0]?.operations[0]).toMatchObject({ damageType: runtimeType });
     expect(authored).toEqual(before);
-  });
-
-  it('未知管理伤害键在原字段路径拒绝，不透传给原生引擎', () => {
-    const authored = program();
-    for (const effect of authored.effects) for (const result of effect.results) {
-      if (result.resultType === 'DAMAGE') result.detail.damageTypeKey = 'heat';
-    }
-    expect(() => adaptHitProgram(authored)).toThrow(/damageTypeKey/);
   });
 
   it('候选按规则/动作/结果 sortOrder 稳定排列，各规则只保留自己的命中条件', () => {
@@ -179,7 +173,7 @@ describe('有界命中适配', () => {
     });
     expect(adapted.skillHit.candidates[0]?.operations[0]?.vampQualification).toBe('RESOLVED');
     expect(adapted.vampRules).toHaveLength(1);
-    expect(adapted.abilityTypes).toEqual(['ability/common']);
+    expect(adapted.abilityTypes).toEqual(['ability/skill_category/common']);
   });
 
   it('OR组提取公共命中值，剩余条件编成组内min组间max，全为1时可省略', () => {
@@ -276,7 +270,7 @@ describe('有界命中适配', () => {
     const adapted = withHitProgram(input, binding, { rulesHash: 'after' });
     expect(input).toEqual(before);
     expect(adapted.rules.vampRules?.[0]?.sourceAttributeKey).toBe('omnivamp_percent');
-    expect(adapted.sharedProviders![0]!.abilities![0]!.types).toEqual(['ability/common']);
+    expect(adapted.sharedProviders![0]!.abilities![0]!.types).toEqual(['ability/skill_category/common']);
     expect(adapted.combatants.every((actor) => actor.types?.includes('combatant/champion'))).toBe(true);
     delete input.combatants[0]!.attributes.omnivamp_percent;
     expect(() => withHitProgram(input, binding, { rulesHash: 'after' })).toThrow('不能自动补零');
@@ -333,7 +327,7 @@ describe('有界命中适配', () => {
       gameId: 'lol', skillKey: 'sivir_e', skillLevel: 1, characterLevel: 1,
       identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
       statuses: [], modifierZones: [], parameters: [shieldDuration],
-      formulas: [{ gameId: 'lol', skillKey: 'sivir_e', formulaKey: 'heal_formula', name: '治疗', description: null, sortOrder: 0, createdAt: '', updatedAt: '', expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [{ nodeType: 'PARAMETER', parameterKey: 'shield_duration_ms' }, { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'ability_power', attributeValueKind: 'TOTAL' }] } }],
+      formulas: [{ gameId: 'lol', skillKey: 'sivir_e', formulaKey: 'heal_formula', name: '治疗', description: null, sortOrder: 0, createdAt: '', updatedAt: '', expression: skillFormulaDefinition('sivir_e', { nodeType: 'OPERATION', operation: 'ADD', operands: [{ nodeType: 'PARAMETER', parameterKey: 'shield_duration_ms' }, { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'ability_power', attributeValueKind: 'TOTAL' }] }) }],
       effects: [
         effect('spell_shield', [{
           resultKey: 'shield', name: '盾', resultType: 'SPELL_SHIELD', target: 'SOURCE', description: null, sortOrder: 10,
@@ -369,8 +363,10 @@ describe('有界命中适配', () => {
       providerKey: 'shield:sivir_e:spell_shield', types: ['provider/spell_shield'],
       lifecycle: { durationMs: { op: 'const', value: 1500 }, maxStacks: 1, refreshPolicy: 'replace' }
     });
+    const healingFormula = adapted.formulas.find(row => row.expression.inputs.some(input => input.binding.kind === 'attribute' && input.binding.attributeKey === 'ability_power'))!;
+    expect(healingFormula.expression).toEqual(authored.formulas![0]!.expression);
     expect(adapted.providers[0]?.listeners?.[0]?.operations).toEqual([
-      { operation: 'heal', target: 'self', amount: { op: 'max', args: [{ op: 'add', args: [{ op: 'const', value: 1500 }, { op: 'read', path: 'source.attr.ability_power.resolved' }] }, { op: 'const', value: 0 }] } },
+      { operation: 'heal', target: 'self', amount: { op: 'max', args: [{ op: 'ref', ref: healingFormula.key }, { op: 'const', value: 0 }] } },
       { operation: 'expire_provider', target: 'self', providerRefFromEvent: true }
     ]);
     expect(() => adaptHitProgram({
@@ -516,3 +512,6 @@ describe('有界命中适配', () => {
     expect(adapted.providers[0]).not.toEqual(adapted.providers[1]);
   });
 });
+
+const adaptHitProgram = (...args: Parameters<typeof raw_adaptHitProgram>): ReturnType<typeof raw_adaptHitProgram> => { approveAuthoredFixture(args[0]); return raw_adaptHitProgram(...args); };
+const adaptPersistentResult = (...args: Parameters<typeof raw_adaptPersistentResult>): ReturnType<typeof raw_adaptPersistentResult> => { approveAuthoredFixture(args[0]); return raw_adaptPersistentResult(...args); };

@@ -17,7 +17,7 @@ export type SingleAttackAssessment = {
 
 type Row = Record<string, unknown>;
 type Evidence = { row: Row; data: Row; path: string };
-type ExpectedOperation = { operation: OperationDefinition; path: string; abilityRef: string; providerRef: string };
+type ExpectedOperation = { operation: OperationDefinition; path: string; abilityRef: string; providerRef: string; optional?: boolean };
 
 function invalid(path: string, message: string): never {
   throw new Error(`${path}：${message}`);
@@ -72,17 +72,17 @@ function health(actor: Row, path: string): number {
   return current;
 }
 function ability(input: CompileRequest, ref: string) {
-  const match = /^source\.provider\[([^\]]+)\]\.ability\[([^\]]+)\]$/.exec(ref);
+  const match = /^(source|target)\.provider\[([^\]]+)\]\.ability\[([^\]]+)\]$/.exec(ref);
   if (!match) return undefined;
-  const mounts = input.combatants.find(row => row.key === 'source')?.providers.filter(row => row.providerRef === match[1]);
+  const mounts = input.combatants.find(row => row.key === match[1])?.providers.filter(row => row.providerRef === match[2]);
   if (mounts?.length !== 1) return undefined;
   const providers = input.sharedProviders?.map((provider, index) => ({ provider, index })).filter(row => row.provider.providerKey === mounts[0]!.definitionRef);
   if (providers?.length !== 1) return undefined;
   const { provider, index: providerIndex } = providers[0]!;
-  const abilities = provider.abilities?.map((item, index) => ({ item, index })).filter(row => row.item.abilityKey === match[2]);
+  const abilities = provider.abilities?.map((item, index) => ({ item, index })).filter(row => row.item.abilityKey === match[3]);
   if (abilities?.length !== 1) return undefined;
   const { item, index: abilityIndex } = abilities[0]!;
-  return { definition: item, provider, providerRef: match[1]!, path: `sharedProviders[${providerIndex}].abilities[${abilityIndex}]`, providerIndex };
+  return { definition: item, provider, providerRef: match[2]!, path: `sharedProviders[${providerIndex}].abilities[${abilityIndex}]`, providerIndex };
 }
 
 /** 只解释本次单次请求的原生事实；不重算伤害、暴击、防御或联动公式。 */
@@ -138,7 +138,7 @@ export function assessSingleAttackResult(compileRequest: CompileRequest, runRequ
   check(['no_events', 'duration_reached', 'target_dead'].includes(stopReason), 'runResult.summary.stopReason', `停止原因 ${stopReason} 不允许判为完整完成`);
   check(sourceFinalHp > 0, 'runResult.summary.sourceFinalHp', '来源已死亡');
   check(stopReason !== 'target_dead' || targetFinalHp === 0, 'runResult.summary.stopReason', '目标死亡停止与最终生命不一致');
-  check(summary.targetDamageDealt === 0 && summary.sourceDamageTaken === 0, 'runResult.summary.targetDamageDealt', '目标在本阶段不能造成伤害');
+  check(close(summary.targetDamageDealt as number, summary.sourceDamageTaken as number), 'runResult.summary.targetDamageDealt', '反向伤害与攻击方承受伤害不一致');
   check(close(damageDealt, summary.targetDamageTaken as number), 'runResult.summary.targetDamageTaken', '与来源造成伤害不一致');
 
   array(result.series, 'runResult.series').forEach((value, index) => {
@@ -252,16 +252,46 @@ export function assessSingleAttackResult(compileRequest: CompileRequest, runRequ
     for (const plan of plans) {
       const operationIndex = hitAbility.definition.operations!.indexOf(plan);
       check(plan.skillHit!.skillKey === use?.skillKey, 'compileRequest.sharedProviders', '命中计划技能身份不一致');
+      const conditionalRules = new Set(plan.skillHit!.candidates.filter(candidate => candidate.participationCondition != null)
+        .map(candidate => candidate.candidateKey.split(':')[0]!));
+      const observedRules = new Set<string>();
+      for (const [index, candidate] of plan.skillHit!.candidates.entries()) {
+        const prefix = `${hitAbility.path}.operations[${operationIndex}].skillHit.candidates[${index}].operations`;
+        if (candidate.operations.some((operation, operationIndexInCandidate) => evidence.some(item =>
+          operation.operation === 'damage' ? item.row.kind === 'damage' && item.data.abilityRef === hit!.abilityRef && item.data.operationRef === operation.ref
+            : item.row.kind === 'link_application' && item.row.path === `${prefix}[${operationIndexInCandidate}]`))) {
+          observedRules.add(candidate.candidateKey.split(':')[0]!);
+        }
+      }
+      if (conditionalRules.size) check([...observedRules].filter(rule => conditionalRules.has(rule)).length === 1,
+        'runResult.evidence.items', '互斥主体必须有唯一真实命中分支，不能以汇总代替分支证明');
       plan.skillHit!.candidates.forEach((candidate, index) => {
-        check(candidate.spellShieldBlockScope === null && candidate.participationCondition == null && !candidate.eventValueConditions?.length,
-          `${hitAbility.path}.operations[${operationIndex}].skillHit.candidates[${index}]`, '所选结果超出首批无条件命中边界');
+        check(candidate.spellShieldBlockScope === null && !candidate.eventValueConditions?.length,
+          `${hitAbility.path}.operations[${operationIndex}].skillHit.candidates[${index}]`, '所选结果包含未支持的阻挡或事件数值条件');
+        if (candidate.participationCondition != null && !observedRules.has(candidate.candidateKey.split(':')[0]!)) return;
         candidate.operations.forEach((operation, operationIndexInCandidate) => expected.push({ operation,
           path: `${hitAbility.path}.operations[${operationIndex}].skillHit.candidates[${index}].operations[${operationIndexInCandidate}]`,
           abilityRef: hit!.abilityRef, providerRef: hitAbility.providerRef }));
       });
     }
   }
-  for (const item of expected) check(['damage', 'apply_hit_link', 'apply_attack_link'].includes(item.operation.operation), item.path, '所选结果尚未支持完整性核对');
+  for (const actor of compileRequest.combatants) for (const mount of actor.providers) {
+    const providerIndex = compileRequest.sharedProviders?.findIndex(provider => provider.providerKey === mount.definitionRef) ?? -1;
+    const definition = compileRequest.sharedProviders?.[providerIndex];
+    definition?.abilities?.forEach((passive, abilityIndex) => {
+      const spec = passive.listenerSpec;
+      const hitListener = actor.key === 'source' && spec?.eventMatcher.all?.includes('event/basic_attack_hit') && spec.eventMatcher.all.includes('event/source_owner');
+      const linkedListener = actor.key === 'source' && spec?.eventMatcher.all?.includes('event/hit_link_applied') && spec.eventMatcher.all.includes('event/source_owner');
+      const reaction = actor.key === 'target' && spec?.eventMatcher.all?.includes('event/target_owner')
+        && (spec.eventMatcher.all.includes('event/basic_attack_received') || spec.eventMatcher.all.includes('event/damage_taken'));
+      if (passive.kind !== 'passive_listener' || !spec || !hitListener && !linkedListener && !reaction) return;
+      for (const [operationIndex, operation] of (spec.operations ?? []).entries()) expected.push({ operation,
+        path: `sharedProviders[${providerIndex}].abilities[${abilityIndex}].listenerSpec.operations[${operationIndex}]`,
+        abilityRef: `${actor.key}.provider[${mount.providerRef}].ability[${passive.abilityKey}]`, providerRef: mount.providerRef,
+        optional: !!operation.condition || !!spec.condition || !!spec.oncePerUse || !!linkedListener });
+    });
+  }
+  for (const item of expected) check(['damage', 'apply_hit_link', 'apply_attack_link', 'state_change', 'apply_provider'].includes(item.operation.operation), item.path, '所选结果尚未支持完整性核对');
   const processes = final.processInstances === undefined ? [] : array(final.processInstances, 'runResult.finalSnapshot.processInstances');
   check(processes.length === 1, 'runResult.finalSnapshot.processInstances', '需要唯一的最终攻击过程实例');
   processes.forEach((value, index) => {
@@ -316,7 +346,7 @@ export function assessSingleAttackResult(compileRequest: CompileRequest, runRequ
   }
   for (const expectedLink of expectedLinks) {
     const applications = linkApplications.filter(item => item.row.path === expectedLink.path && item.row.ref === expectedLink.operation.ref);
-    check(applications.length === 1, expectedLink.path, '需要唯一的联动应用证据，零次也须保留');
+    check(expectedLink.optional ? applications.length <= 1 : applications.length === 1, expectedLink.path, '需要唯一的联动应用证据，零次也须保留');
     const eventType = expectedLink.operation.operation === 'apply_hit_link' ? 'event/hit_link_applied' : 'event/attack_link_applied';
     const events = linkEvents.filter(item => item.row.path === expectedLink.path);
     for (const application of applications) {
@@ -340,6 +370,7 @@ export function assessSingleAttackResult(compileRequest: CompileRequest, runRequ
   check(remaining.length > 0, 'compileRequest.sharedProviders', '本阶段需要所选普攻伤害结果');
   let actualHpLoss = 0;
   let postDefenseDamage = 0;
+  let reverseDamage = 0;
   const damageIds = new Set<number>();
   const castIds = new Map<string, number>();
   for (const item of damageRows) {
@@ -352,11 +383,13 @@ export function assessSingleAttackResult(compileRequest: CompileRequest, runRequ
       check(data.providerRef === providerRef, `${path}.data.providerRef`, '与实际来源能力引用中的挂载不一致');
     }
     for (const key of ['rawAmount', 'mitigatedAmount', 'postDefenseDamage', 'shieldAbsorbed', 'actualHpLoss', 'overkillDamage']) nonnegative(data[key], `${path}.data.${key}`);
-    for (const key of ['resistanceBeforePenetration', 'penetrationPercent', 'penetrationFlat', 'effectiveResistance', 'resistanceFactor', 'normalPartPostResistance', 'critPartPostResistance']) finite(data[key], `${path}.data.${key}`);
+    for (const key of ['resistanceFactor', 'normalPartPostResistance', 'critPartPostResistance']) finite(data[key], `${path}.data.${key}`);
     const damageId = integer(data.damageId, `${path}.data.damageId`);
     const castId = integer(data.castInstanceId, `${path}.data.castInstanceId`);
     const phantom = boolean(data.phantom, `${path}.data.phantom`);
-    check(data.source === 'source' && data.target === 'target' && !phantom && data.phase === 'original', path, '伤害不属于本次来源对目标的直接伤害');
+    const forward = data.source === 'source' && data.target === 'target';
+    const reverse = data.source === 'target' && data.target === 'source';
+    check((forward || reverse) && !phantom && data.phase === 'original', path, '伤害不属于本次配置的实际双方');
     check(damageId > 0 && !damageIds.has(damageId), `${path}.data.damageId`, '伤害标识缺失或重复');
     damageIds.add(damageId);
     check(castId > 0 && (!castIds.has(data.abilityRef as string) || castIds.get(data.abilityRef as string) === castId), `${path}.data.castInstanceId`, '同一能力含多个或无效施放实例');
@@ -374,12 +407,15 @@ export function assessSingleAttackResult(compileRequest: CompileRequest, runRequ
     }
     check(close(data.mitigatedAmount as number, data.postDefenseDamage as number), path, '防御后金额字段不一致');
     check(close(data.postDefenseDamage as number, (data.shieldAbsorbed as number) + (data.actualHpLoss as number) + (data.overkillDamage as number)), path, '护盾、实际扣血与过量伤害不能还原防御后金额');
-    if (data.source === 'source' && data.target === 'target') {
-      actualHpLoss += data.actualHpLoss as number;
-      postDefenseDamage += data.postDefenseDamage as number;
+    if (forward || reverse) {
+      if (forward) {
+        actualHpLoss += data.actualHpLoss as number;
+        postDefenseDamage += data.postDefenseDamage as number;
+      } else reverseDamage += data.postDefenseDamage as number;
     }
   }
-  for (const missing of remaining) check(false, missing.path, '缺少所选伤害结果的完整结算证据');
+  for (const missing of remaining) if (!missing.optional) check(false, missing.path, '缺少所选伤害结果的完整结算证据');
+  check(close(reverseDamage, summary.targetDamageDealt as number), 'runResult.summary.targetDamageDealt', '与配置受击反应的累计金额不一致');
   check(close(postDefenseDamage, damageDealt), 'runResult.summary.sourceDamageDealt', '与所选伤害证据的防御后累计金额不一致');
   check(close(actualHpLoss, hpLoss), 'runResult.summary.targetFinalHp', '实际扣血累计与目标生命差值不一致');
 

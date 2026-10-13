@@ -19,13 +19,14 @@ export function listEquipment(
   apiBaseUrl: string,
   gameId: string,
   token: string,
-  query: EquipmentListQuery = {}
+  query: EquipmentListQuery = {},
+  signal?: AbortSignal
 ): Promise<ApiResult<EquipmentListResponse>> {
   const keyword = query.keyword?.trim();
   const path = keyword
     ? `${equipmentPath(gameId)}?${new URLSearchParams({ keyword }).toString()}`
     : equipmentPath(gameId);
-  return requestJson<EquipmentListResponse>(apiBaseUrl, path, { token });
+  return requestJson<EquipmentListResponse>(apiBaseUrl, path, { token, signal });
 }
 
 export function getEquipment(

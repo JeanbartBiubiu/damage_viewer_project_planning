@@ -1,3 +1,6 @@
+import { formulasUsedByInternalValue } from './approvedFormulaValues';
+import { sameFormulaPayload } from '../services/skillFormulaContract';
+import { validateStoredSkillFormula } from '../services/skillFormulaContract';
 import type { NumericValue } from '../types/numericValue';
 import type {
   SkillEffect, SkillEffectResult, SkillEffectValueRule
@@ -17,7 +20,7 @@ import type {
 } from '../types/genericEngine';
 import {
   compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
-  NumericAdaptationError, tryFoldConstant, type NumericCompileState, wrapValueRuleExpression
+  NumericAdaptationError, tryFoldConstant, hasNamedFormulaReference, type NumericCompileState, wrapValueRuleExpression
 } from './numericAdapter';
 
 export class ProcessAdaptationError extends NumericAdaptationError {
@@ -56,6 +59,8 @@ export type AuthoredProcessProgram = {
   formulas?: readonly SkillFormula[];
   owner?: 'source' | 'target';
   castCosts: readonly CastCostRef[];
+  ignoreCastCosts?: boolean;
+  roundPositiveCooldownMs?: boolean;
 };
 
 export type AdaptedProcessControl = {
@@ -68,6 +73,7 @@ export type AdaptedProcessControl = {
 export type AdaptedProcessProgram = {
   provider: {
     providerKey: string;
+    skillKey?: string;
     kind: string;
     stableId: string;
     abilities: AbilityDefinition[];
@@ -130,7 +136,7 @@ function numericState(authored: AuthoredProcessProgram): NumericCompileState {
   for (const formula of authored.formulas ?? []) {
     const path = planPath(authored.skillKey, `formulas.${formula.formulaKey}`);
     exactKeys(formula, ['gameId', 'skillKey', 'formulaKey', 'name', 'description', 'sortOrder', 'createdAt', 'updatedAt', 'expression'], path);
-    assertFormulaShape(formula.expression, `${path}.expression`);
+    assertFormulaShape(formula.expression, `${path}.expression`, authored.skillKey);
   }
   return createNumericCompileState({
     gameId: authored.gameId, skillKey: authored.skillKey, skillLevel: authored.skillLevel,
@@ -149,19 +155,9 @@ function scratchState(state: NumericCompileState, message: string, allowAttribut
   });
 }
 
-function assertFormulaShape(node: unknown, path: string, depth = 0): void {
-  if (depth > 32) fail(path, '公式深度超过限制');
-  if (!isRecord(node)) fail(path, '公式节点必须是对象');
-  if (node.nodeType === 'PARAMETER') {
-    exactKeys(node, ['nodeType', 'parameterKey'], path);
-    catalogKey(node.parameterKey, `${path}.parameterKey`);
-  } else if (node.nodeType === 'ATTRIBUTE') {
-    exactKeys(node, ['nodeType', 'attributeOwner', 'attributeKey', 'attributeValueKind'], path);
-  } else if (node.nodeType === 'OPERATION') {
-    exactKeys(node, ['nodeType', 'operation', 'operands'], path);
-    if (!Array.isArray(node.operands) || node.operands.length !== 2) fail(`${path}.operands`, '公式运算必须有两个操作数');
-    node.operands.forEach((operand, index) => assertFormulaShape(operand, `${path}.operands[${index}]`, depth + 1));
-  } else fail(`${path}.nodeType`, '不支持的公式节点');
+function assertFormulaShape(node: unknown, path: string, skillKey: string): void {
+  const problem = validateStoredSkillFormula(node, skillKey);
+  if (problem) fail(path + problem.path, problem.code);
 }
 
 function assertNumericShape(value: NumericValue, path: string): void {
@@ -180,6 +176,7 @@ function assertNumericShape(value: NumericValue, path: string): void {
 
 function compileFoldable(value: NumericValue, path: string, state: NumericCompileState, message: string): GenericFormulaExpr {
   assertNumericShape(value, path);
+  if (value.kind === 'FORMULA') return compileNumericValue(value, path, state, fail);
   const folded = tryFoldConstant(compileNumericValue(value, path, scratchState(state, message, true), fail));
   if (folded !== null) return constExpr(finiteNumber(folded, path, fail));
   return compileNumericValue(value, path, state, fail);
@@ -213,14 +210,14 @@ function compileTime(value: NumericValue, path: string, state: NumericCompileSta
   const folded = tryFoldConstant(expr);
   if (folded !== null) {
     assertTime(folded, path, mode);
-    return constExpr(folded);
+    return hasNamedFormulaReference(expr) ? expr : constExpr(folded);
   }
   return expr;
 }
 
 function negate(amount: GenericFormulaExpr): GenericFormulaExpr {
   const signed: GenericFormulaExpr = { op: 'mul', args: [amount, constExpr(-1)] };
-  const folded = tryFoldConstant(signed);
+  const folded = hasNamedFormulaReference(signed) ? null : tryFoldConstant(signed);
   return folded === null ? signed : constExpr(folded);
 }
 
@@ -245,7 +242,7 @@ function readMoment(value: SkillProcessMoment, path: string): ProcessMomentDefin
 }
 
 function stepAllows(step: SkillProcessStep, momentType: ProcessMomentType): boolean {
-  if (step.stepType === 'IMMEDIATE' || step.stepType === 'DELAY') {
+  if (['IMMEDIATE', 'DELAY', 'MULTI_HIT', 'CHANNEL'].includes(step.stepType)) {
     return momentType === 'STEP_START' || momentType === 'STEP_EXECUTION' || momentType === 'STEP_COMPLETE';
   }
   if (step.stepType === 'CHARGE' || step.stepType === 'RECAST') {
@@ -264,7 +261,7 @@ function assertMomentFits(moment: ProcessMomentDefinition, steps: readonly Skill
 function compileSteps(process: SkillProcess, state: NumericCompileState): ProcessStepDefinition[] {
   const root = planPath(process.skillKey, `processes.${process.processKey}.steps`);
   if (!Array.isArray(process.steps)) fail(root, '步骤必须是数组');
-  if (!process.steps.length) fail(root, '过程缺少步骤');
+  if (!process.steps.length || process.steps.length > 64) fail(root, '过程需要1～64个明确步骤');
   const ordered = stableSorted(process.steps, (step) => {
     if (typeof step.sortOrder !== 'number' || !Number.isFinite(step.sortOrder)) fail(`${root}.sortOrder`, '步骤排序必须是有限数值');
     return step.sortOrder;
@@ -274,18 +271,58 @@ function compileSteps(process: SkillProcess, state: NumericCompileState): Proces
   const steps: ProcessStepDefinition[] = [];
   for (const step of ordered) {
     const path = `${root}.${step.stepKey || 'missing'}`;
-    exactKeys(step, ['stepKey', 'name', 'description', 'sortOrder', 'stepType', 'detail'], path);
+    exactKeys(step, ['stepKey', 'name', 'description', 'sortOrder', 'stepType', 'detail', 'occupiesAction'], path);
+    if (step.occupiesAction != null && typeof step.occupiesAction !== 'boolean') fail(`${path}.occupiesAction`, '行动占用必须是明确布尔或空值');
     const stepKey = catalogKey(step.stepKey, `${path}.stepKey`);
     if (seen.has(stepKey)) fail(`${path}.stepKey`, '步骤标识重复');
     seen.add(stepKey);
     if (!isRecord(step.detail)) fail(`${path}.detail`, '步骤明细必须是对象');
-    if (terminal) fail(path, '蓄力或重施只能位于末尾');
+    if (terminal) fail(path, '复杂步骤只能位于末尾且至多一个');
     if (step.stepType === 'IMMEDIATE') {
       exactKeys(step.detail, [], `${path}.detail`);
       steps.push({ stepKey, stepType: 'IMMEDIATE' });
     } else if (step.stepType === 'DELAY') {
       exactKeys(step.detail, ['delayValue'], `${path}.detail`);
       steps.push({ stepKey, stepType: 'DELAY', delayMs: compileTime(step.detail.delayValue, `${path}.detail.delayValue`, state, 'positive') });
+    } else if (step.stepType === 'MULTI_HIT') {
+      exactKeys(step.detail, ['repeatCountValue', 'intervalValue'], `${path}.detail`);
+      const repeatCount = compileExecutionCount(step.detail.repeatCountValue, `${path}.detail.repeatCountValue`, state);
+      if (step.detail.intervalValue === null && tryFoldConstant(repeatCount) !== 1) {
+        fail(`${path}.detail.intervalValue`, '只有明确单段可不填间隔，多段必须声明正整数间隔');
+      }
+      terminal = true;
+      steps.push({ stepKey, stepType: 'MULTI_HIT', repeatCount, intervalMs: step.detail.intervalValue === null ? null
+        : compileTime(step.detail.intervalValue, `${path}.detail.intervalValue`, state, 'positive') });
+    } else if (step.stepType === 'CHANNEL') {
+      const customWindow = step.detail.firstExecution === 'CUSTOM_WINDOW';
+      exactKeys(step.detail, ['durationValue', 'executionCountValue', 'firstExecution',
+        ...(customWindow ? ['firstExecutionOffsetValue', 'lastExecutionOffsetValue'] : [])], `${path}.detail`);
+      if (!['IMMEDIATE', 'AFTER_INTERVAL', 'CUSTOM_WINDOW'].includes(step.detail.firstExecution)) fail(`${path}.detail.firstExecution`, '必须明确首段口径');
+      const durationMs = compileTime(step.detail.durationValue, `${path}.detail.durationValue`, state, 'positive');
+      const executionCount = compileExecutionCount(step.detail.executionCountValue, `${path}.detail.executionCountValue`, state);
+      const duration = tryFoldConstant(durationMs);
+      const count = tryFoldConstant(executionCount);
+      const firstExecutionOffsetMs = customWindow
+        ? compileTime(step.detail.firstExecutionOffsetValue!, `${path}.detail.firstExecutionOffsetValue`, state, 'nonNegative') : undefined;
+      const lastExecutionOffsetMs = customWindow
+        ? compileTime(step.detail.lastExecutionOffsetValue!, `${path}.detail.lastExecutionOffsetValue`, state, 'nonNegative') : undefined;
+      if (customWindow) {
+        const first = tryFoldConstant(firstExecutionOffsetMs!);
+        const last = tryFoldConstant(lastExecutionOffsetMs!);
+        if (first !== null && last !== null) {
+          if (first > last) fail(`${path}.detail.lastExecutionOffsetValue`, '末段偏移不能小于首段偏移');
+          if (count !== null && (count === 1 ? first !== last : last - first < count - 1)) {
+            fail(`${path}.detail.lastExecutionOffsetValue`, '单段首末偏移必须相等，多段窗口须容纳不同整数时点');
+          }
+        }
+        if (duration !== null && last !== null && last > duration) fail(`${path}.detail.lastExecutionOffsetValue`, '末段偏移不能超过完整引导时长');
+        if (duration !== null && first !== null && first > duration) fail(`${path}.detail.firstExecutionOffsetValue`, '首段偏移不能超过完整引导时长');
+      } else if (duration !== null && count !== null && duration < count) {
+        fail(`${path}.detail.durationValue`, '引导时长不得小于次数，须保留不同整数段时点');
+      }
+      terminal = true;
+      steps.push({ stepKey, stepType: 'CHANNEL', durationMs, executionCount, firstExecution: step.detail.firstExecution,
+        ...(customWindow ? { firstExecutionOffsetMs, lastExecutionOffsetMs } : {}) });
     } else if (step.stepType === 'CHARGE') {
       exactKeys(step.detail, ['minimumChargeValue', 'maximumChargeValue', 'releaseAtMaximum'], `${path}.detail`);
       if (typeof step.detail.releaseAtMaximum !== 'boolean') fail(`${path}.detail.releaseAtMaximum`, '释放到最大值必须明确');
@@ -305,9 +342,16 @@ function compileSteps(process: SkillProcess, state: NumericCompileState): Proces
       if (count !== 1) fail(`${path}.detail.maximumRecastCountValue`, '重施次数必须为 1');
       terminal = true;
       steps.push({ stepKey, stepType: 'RECAST', windowMs: compileTime(step.detail.windowValue, `${path}.detail.windowValue`, state, 'positive') });
-    } else fail(`${path}.stepType`, '本期只接受 IMMEDIATE、DELAY，以及末尾至多一个 CHARGE 或单次 RECAST');
+    } else fail(`${path}.stepType`, '本期只接受即时、延时及末尾唯一有限多段、引导、蓄力或单次重施');
   }
-  return steps;
+  return steps.map(step => ({ ...step, occupiesAction: ordered.find(author => author.stepKey === step.stepKey)!.occupiesAction ?? null }));
+}
+
+function compileExecutionCount(value: NumericValue, path: string, state: NumericCompileState): GenericFormulaExpr {
+  const expression = compileFoldable(value, path, state, '段数不能使用未供值的计算时输入');
+  const count = tryFoldConstant(expression);
+  if (count !== null && (!Number.isSafeInteger(count) || count < 1 || count > 64)) fail(path, '实际段数必须为1～64整数');
+  return expression;
 }
 
 function lookupEffect(authored: AuthoredProcessProgram, effectKey: string, path: string): SkillEffect {
@@ -410,7 +454,7 @@ function compileEffectResults(
 type CostPlan = {
   costs: ProcessCostDefinition[];
   resources: Set<string>;
-  skipByEffect: Map<string, Set<string>>;
+  skipByBinding: Map<string, Set<string>>;
 };
 
 function compileCosts(authored: AuthoredProcessProgram, process: SkillProcess, state: NumericCompileState): CostPlan {
@@ -419,7 +463,7 @@ function compileCosts(authored: AuthoredProcessProgram, process: SkillProcess, s
   const costs: ProcessCostDefinition[] = [];
   const resources = new Set<string>();
   const seen = new Set<string>();
-  const skipByEffect = new Map<string, Set<string>>();
+  const skipByBinding = new Map<string, Set<string>>();
   authored.castCosts.forEach((ref, index) => {
     const path = `${root}[${index}]`;
     if (!isRecord(ref)) fail(path, '成本引用必须是对象');
@@ -453,16 +497,19 @@ function compileCosts(authored: AuthoredProcessProgram, process: SkillProcess, s
     const folded = tryFoldConstant(amount);
     if (folded !== null && (!Number.isFinite(folded) || folded < 0)) fail(`${resultPath}.valueRule`, '施放成本必须是有限非负数值');
     // 原生逐笔验证后再按资源汇总，不能让正负成本在宿主提前抵消。
-    costs.push({ resourceKey, amount });
-    resources.add(resourceKey);
-    const skipped = skipByEffect.get(effectKey) ?? new Set<string>();
+    if (!authored.ignoreCastCosts) {
+      costs.push({ resourceKey, amount });
+      resources.add(resourceKey);
+    }
+    const bindingIdentity = `${bindingKey}\0${effectKey}`;
+    const skipped = skipByBinding.get(bindingIdentity) ?? new Set<string>();
     skipped.add(resultKey);
-    skipByEffect.set(effectKey, skipped);
+    skipByBinding.set(bindingIdentity, skipped);
   });
   return {
     costs,
     resources,
-    skipByEffect
+    skipByBinding
   };
 }
 
@@ -742,7 +789,8 @@ function momentOperationsFor(
     const moment = readMoment(binding.moment, `${path}.moment`);
     assertMomentFits(moment, process.steps, `${path}.moment`);
     const effect = lookupEffect(authored, binding.effectKey, `${path}.effectKey`);
-    add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey, costs.skipByEffect.get(effect.effectKey) ?? new Set()));
+    add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey,
+      costs.skipByBinding.get(`${binding.bindingKey}\0${effect.effectKey}`) ?? new Set()));
   }
   for (const rule of controls.momentRules) {
     const path = planPath(authored.skillKey, `rules.${rule.ruleKey}`);
@@ -781,7 +829,7 @@ function momentOperationsFor(
       state.runtimeInputReads = Object.keys(reads).length ? reads : undefined;
       state.formulaNamespace = `${previousNamespace}/rules/${rule.ruleKey}/actions/${action.actionKey}`;
       try {
-        add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey, costs.skipByEffect.get(effect.effectKey) ?? new Set()));
+        add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey, new Set()));
       } finally {
         state.runtimeInputReads = previous;
         state.formulaNamespace = previousNamespace;
@@ -810,9 +858,11 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (!isRecord(authored)) fail('adapter.processPlan', '过程程序必须是对象');
   exactKeys(authored, [
     'gameId', 'skillKey', 'skillLevel', 'characterLevel', 'process', 'rules', 'effects',
-    'parameters', 'formulas', 'owner', 'castCosts'
+    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs'
   ], 'adapter.processPlan');
   const gameId = catalogKey(authored.gameId, 'gameId');
+  if (authored.ignoreCastCosts !== undefined && typeof authored.ignoreCastCosts !== 'boolean') fail('ignoreCastCosts', '忽略施法成本必须明确声明');
+  if (authored.roundPositiveCooldownMs !== undefined && typeof authored.roundPositiveCooldownMs !== 'boolean') fail('roundPositiveCooldownMs', '正冷却离散化必须明确声明');
   const skillKey = catalogKey(authored.skillKey, 'skillKey');
   if (!Number.isInteger(authored.skillLevel) || authored.skillLevel < 1) fail('skillLevel', '本次等级必须明确且有效');
   if (!Number.isInteger(authored.characterLevel) || authored.characterLevel < 1) fail('characterLevel', '本次等级必须明确且有效');
@@ -842,10 +892,14 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     exactKeys(process.cooldown, ['durationValue', 'startMoment'], cooldownPath);
     const startMoment = readMoment(process.cooldown.startMoment, `${cooldownPath}.startMoment`);
     assertMomentFits(startMoment, process.steps, `${cooldownPath}.startMoment`);
-    cooldown = {
-      durationMs: compileTime(process.cooldown.durationValue, `${cooldownPath}.durationValue`, state, 'nonNegative'),
-      startMoment
-    };
+    const durationMs = authored.roundPositiveCooldownMs
+      ? compileFoldable(process.cooldown.durationValue, `${cooldownPath}.durationValue`, state, '时间不能使用未供值的计算时输入')
+      : compileTime(process.cooldown.durationValue, `${cooldownPath}.durationValue`, state, 'nonNegative');
+    const duration = tryFoldConstant(durationMs);
+    if (authored.roundPositiveCooldownMs && duration !== null && (!Number.isFinite(duration) || duration <= 0 || duration > Number.MAX_SAFE_INTEGER)) {
+      fail(`${cooldownPath}.durationValue`, '原冷却必须是有限正值，不能将0或非法值舍入成1');
+    }
+    cooldown = { durationMs, startMoment, ...(authored.roundPositiveCooldownMs ? { roundPositiveMs: true } : {}) };
   }
   const controlRows: AdaptedProcessControl[] = [
     controls.initial, ...controls.advances, ...(controls.cancel ? [controls.cancel] : [])
@@ -874,13 +928,14 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     ...controlAbility(control, process.processKey, skillKey, params),
     ...(firstEffects.length && control.action === 'INITIAL' ? { types: [INITIAL_CAST_TYPE] } : {})
   })).concat(firstEffects);
+  for (const ability of abilities) ability.skillKey = skillKey;
   const providerKey = `process_${skillKey}`;
   return {
     provider: {
-      providerKey, kind: 'champion', stableId: providerKey, abilities,
+      providerKey, skillKey: authored.skillKey, kind: 'champion', stableId: providerKey, abilities,
       processes: [{ processKey: process.processKey, skillKey, steps, costs: costs.costs, cooldown, momentOperations }]
     },
-    params, formulas: [...state.namedFormulas.values()], requiredAttributes: [...state.requiredAttributes],
+    params, formulas: formulasUsedByInternalValue([abilities, momentOperations, steps, costs.costs, cooldown], [...state.namedFormulas.values()]), requiredAttributes: [...state.requiredAttributes],
     initialAbilityKey: controls.initial.abilityKey, controls: controlRows
   };
 }
@@ -926,8 +981,7 @@ export function withProcessProgram(
       ['ability/basic_attack', 'ability'], ['event/ability_started', 'event'],
       ['event/source_owner', 'event'], [boundType, 'ability']
     ]) {
-      const existingType = request.typeCatalog.types.find((item) => item.key === key);
-      if (existingType && existingType.domain !== domain) fail(`typeCatalog.types.${key}`, '已有类型目录与过程监听冲突');
+      const existingType = request.typeCatalog.types.find((item) => item.key === key && item.domain === domain);
       if (!existingType) request.typeCatalog.types.push({ key, domain });
     }
   }
@@ -979,7 +1033,7 @@ export function withProcessProgram(
   }
   for (const formula of adapted.formulas) {
     const old = request.formulas.find((row) => row.key === formula.key);
-    if (old && JSON.stringify(old.expression) !== JSON.stringify(formula.expression)) fail('formulas', '具名公式与现有输入冲突');
+    if (old && !sameFormulaPayload(old, formula)) fail('formulas', '具名公式与现有输入冲突');
     if (!old) request.formulas.push(formula);
   }
   for (const combatant of request.combatants) {

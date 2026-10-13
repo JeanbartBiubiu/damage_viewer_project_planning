@@ -247,6 +247,15 @@ export function SkillProcessStepEditorModal({
             </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
+            label="行动占用"
+            help="未核定保存为空；计划技能运行前必须明确是否占用。延时不自动代表占用。"
+          >
+            <Select aria-label="步骤行动占用" value={draft.occupiesAction === null ? 'unknown' : draft.occupiesAction ? 'yes' : 'no'}
+              disabled={readOnly} options={[{ value: 'unknown', label: '未核定（空值）' },
+                { value: 'yes', label: '占用行动' }, { value: 'no', label: '不占用行动' }]}
+              onChange={value => patchDraft({ ...draft, occupiesAction: value === 'unknown' ? null : value === 'yes' })} />
+          </Form.Item>
+          <Form.Item
             label="排序"
             required
             validateStatus={errors.sortOrder ? 'error' : undefined}
@@ -390,12 +399,34 @@ export function SkillProcessStepEditorModal({
                 aria-label="首次执行时机"
                 value={draft.firstExecution}
                 disabled={readOnly}
-                onChange={(value) => patchDraft({ ...draft, firstExecution: value as SkillProcessFirstExecution })}
+                onChange={(value) => patchDraft({ ...draft, firstExecution: value as SkillProcessFirstExecution | 'CUSTOM_WINDOW' })}
               >
                 <Radio value="IMMEDIATE">{FIRST_EXECUTION_LABELS.IMMEDIATE}</Radio>
                 <Radio value="AFTER_INTERVAL">{FIRST_EXECUTION_LABELS.AFTER_INTERVAL}</Radio>
+                {draft.stepType === 'CHANNEL' ? <Radio value="CUSTOM_WINDOW">{FIRST_EXECUTION_LABELS.CUSTOM_WINDOW}</Radio> : null}
               </Radio.Group>
             </Form.Item>
+          ) : null}
+
+          {draft.stepType === 'CHANNEL' && draft.firstExecution === 'CUSTOM_WINDOW' ? (
+            <>
+              <Form.Item label="首段执行偏移取值" required extra="相对进入步骤的非负整数毫秒。"
+                validateStatus={errors.firstExecutionOffsetValue ? 'error' : undefined} help={errors.firstExecutionOffsetValue}>
+                <AuthoringFieldAnchor field="firstExecutionOffsetValue" active={focusField === 'firstExecutionOffsetValue'}>
+                <NumericValueField aria-label="首段执行偏移取值" value={draft.firstExecutionOffsetValue}
+                  onChange={(value) => patchDraft({ ...draft, firstExecutionOffsetValue: value })}
+                  parameters={parameters} formulas={formulas} disabled={readOnly} />
+                </AuthoringFieldAnchor>
+              </Form.Item>
+              <Form.Item label="末段执行偏移取值" required extra="不得晚于完整时长；单段两端相等，多段跨度至少为次数减一。"
+                validateStatus={errors.lastExecutionOffsetValue ? 'error' : undefined} help={errors.lastExecutionOffsetValue}>
+                <AuthoringFieldAnchor field="lastExecutionOffsetValue" active={focusField === 'lastExecutionOffsetValue'}>
+                <NumericValueField aria-label="末段执行偏移取值" value={draft.lastExecutionOffsetValue}
+                  onChange={(value) => patchDraft({ ...draft, lastExecutionOffsetValue: value })}
+                  parameters={parameters} formulas={formulas} disabled={readOnly} />
+                </AuthoringFieldAnchor>
+              </Form.Item>
+            </>
           ) : null}
 
           {draft.stepType === 'CHARGE' ? (

@@ -45,12 +45,12 @@ describe('authoring location response contract', () => {
   });
   it('allows structural formula slots only with their full expression snapshot', () => {
     const formula = { ...location, editor: 'FORMULA', objectType: 'FORMULA',
-      formulaSnapshot: { nodeType: 'PARAMETER', parameterKey: 'value' },
+      formulaSnapshot: { inputs: [], stages: [{ key: 'out', name: '结果', expression: { op: 'const', value: '1' } }], outputStageKey: 'out' },
       segments: [{ kind: 'FORMULA_OPERAND', operand: 0 }] };
     expect(parseAuthoringLocation(formula, formula).segments).toEqual(formula.segments);
     for (const patch of [
       { formulaSnapshot: null }, { formulaSnapshot: [] }, { editor: 'EFFECT' },
-      { segments: [{ kind: 'FORMULA_OPERAND', operand: 2 }] }
+      { segments: [{ kind: 'FORMULA_OPERAND', operand: 3 }] }
     ]) expect(() => parseAuthoringLocation({ ...formula, ...patch }, formula)).toThrow('定位信息不完整');
   });
 });

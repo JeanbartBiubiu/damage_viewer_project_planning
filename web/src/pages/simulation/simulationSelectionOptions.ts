@@ -4,11 +4,15 @@ import { getImage } from '../../services/imageClient';
 import { getRepresentativeImage } from '../../services/imageRelationClient';
 import { getSkill } from '../../services/skillClient';
 import { listCharacterSkillRelations } from '../../services/skillRelationClient';
+import { listEquipment } from '../../services/equipmentClient';
+import { getGameCalculationRules, parseGameCalculationRules } from '../../services/gameCalculationRulesClient';
+import { listSkillCategories } from '../../services/skillCategoryClient';
 
 export type SelectionContext = { apiBaseUrl: string; gameId: string; token: string };
 export type SimulationEntityOption = { key: string; name: string } &
-  ({ kind: 'character' } | { kind: 'skill'; maxLevel: number });
+  ({ kind: 'character' } | { kind: 'equipment' } | { kind: 'skill'; maxLevel: number });
 export type SimulationImageLoader = (option: SimulationEntityOption) => Promise<string | null>;
+export type SimulationCharacterSkillOption = SimulationEntityOption & { kind: 'skill'; basicAttack: boolean };
 
 function checkActive(signal: AbortSignal) {
   if (signal.aborted) throw new DOMException('请求已取消', 'AbortError');
@@ -35,13 +39,37 @@ export async function loadCharacterOptions(context: SelectionContext, signal: Ab
   return data.items.map(row => ({ key: row.characterKey, name: row.name, kind: 'character' }));
 }
 
-export async function loadBasicAttackOptions(
-  context: SelectionContext, characterKey: string, signal: AbortSignal
-): Promise<SimulationEntityOption[]> {
-  const { data } = await listCharacterSkillRelations(context.apiBaseUrl, context.gameId, context.token, { characterKey }, signal);
+export async function loadEquipmentOptions(context: SelectionContext, signal: AbortSignal): Promise<SimulationEntityOption[]> {
+  const { data } = await listEquipment(context.apiBaseUrl, context.gameId, context.token, {}, signal);
   checkActive(signal);
+  if (!Array.isArray(data.items) || data.total !== data.items.length
+    || data.items.some(row => row.gameId !== context.gameId || !/^[a-z][a-z0-9_]{0,63}$/.test(row.equipmentKey) || !row.name?.trim())
+    || new Set(data.items.map(row => row.equipmentKey)).size !== data.items.length) {
+    throw new Error('装备列表响应不完整或不属于当前游戏，请重试。');
+  }
+  return data.items.map(row => ({ key: row.equipmentKey, name: row.name, kind: 'equipment' }));
+}
+
+export async function loadCharacterSkillOptions(
+  context: SelectionContext, characterKey: string, signal: AbortSignal
+): Promise<{ items: SimulationCharacterSkillOption[]; notice: string | null }> {
+  checkActive(signal);
+  const [relationsResponse, rulesResponse, categoryResponse] = await Promise.all([
+    listCharacterSkillRelations(context.apiBaseUrl, context.gameId, context.token, { characterKey }, signal),
+    getGameCalculationRules(context.apiBaseUrl, context.gameId, context.token, signal),
+    listSkillCategories(context.apiBaseUrl, context.gameId, context.token, {}, signal)
+  ]);
+  checkActive(signal);
+  const catalog = categoryResponse.data;
+  if (!Array.isArray(catalog.items) || catalog.total !== catalog.items.length
+    || new Set(catalog.items.map(row => row.skillCategoryKey)).size !== catalog.items.length) {
+    throw new Error('技能分类目录不完整或标识重复，请重试。');
+  }
+  const rules = parseGameCalculationRules(rulesResponse.data, context.gameId, undefined, catalog.items);
+  const basicAttackCategoryKey = rules.configuration?.basicAttackCategoryKey ?? null;
+  const data = relationsResponse.data;
   const relations = data.items.filter(row => row.skillStatus === 'ENABLED');
-  const options: SimulationEntityOption[] = [];
+  const options: SimulationCharacterSkillOption[] = [];
   // 只读攻击方挂载的技能；详情请求每批最多四个，不读取全游戏技能。
   for (let index = 0; index < relations.length; index += 4) {
     checkActive(signal);
@@ -57,12 +85,18 @@ export async function loadBasicAttackOptions(
     }));
     checkActive(signal);
     for (const skill of skills) {
-      if (skill.status === 'ENABLED' && skill.skillCategoryKeys.includes('basic_attack')) {
-        options.push({ key: skill.skillKey, name: skill.name, kind: 'skill', maxLevel: skill.maxLevel });
+      if (skill.status === 'ENABLED') {
+        options.push({ key: skill.skillKey, name: skill.name, kind: 'skill', maxLevel: skill.maxLevel,
+          basicAttack: basicAttackCategoryKey !== null && skill.skillCategoryKeys.includes(basicAttackCategoryKey) });
       }
     }
   }
-  return options;
+  return { items: options, notice: basicAttackCategoryKey === null ? '尚未配置普通攻击分类用途绑定。' : null };
+}
+
+export async function loadBasicAttackOptions(context: SelectionContext, characterKey: string, signal: AbortSignal): Promise<SimulationEntityOption[]> {
+  return (await loadCharacterSkillOptions(context, characterKey, signal)).items.filter(option => option.basicAttack)
+    .map(({ basicAttack: _basicAttack, ...option }) => option);
 }
 
 export function createSimulationImageLoader(context: SelectionContext, signal: AbortSignal): SimulationImageLoader {

@@ -1,286 +1,45 @@
 import { describe, expect, it } from 'vitest';
-import type { FormulaExpressionNode } from '../../../types/skillFormula';
-import {
-  MAX_FORMULA_DEPTH,
-  MAX_FORMULA_NODES,
-  canExpandOperationChild,
-  countFormulaNodes,
-  createEmptyNodeDraft,
-  expressionToDraft,
-  mapFormulaFieldIssues,
-  measureFormulaDepth,
-  normalizeFormulaNodePath,
-  previewFormulaExpression,
-  switchNodeType,
-  validateFormulaDraft
-} from './formulaExpression';
-
-const catalog = {
-  parameters: [
-    { parameterKey: 'missing_health_ratio', name: '已损失生命值系数', valueMode: 'FIXED' as const },
-    { parameterKey: 'current_stacks', name: '当前层数', valueMode: 'RUNTIME_INPUT' as const }
-  ],
-  attributes: [
-    { attributeKey: 'hp', name: '生命值' },
-    { attributeKey: 'attack_damage', name: '攻击力' }
-  ]
-};
-
-function deepOperationTree(depth: number): ReturnType<typeof createEmptyNodeDraft> {
-  let node = switchNodeType(createEmptyNodeDraft(), 'PARAMETER');
-  if (node.nodeType === 'PARAMETER') {
-    node = { ...node, parameterKey: 'current_stacks' };
-  }
-  for (let current = 2; current <= depth; current += 1) {
-    node = {
-      nodeType: 'OPERATION',
-      operation: 'ADD',
-      left: node,
-      right: {
-        nodeType: 'PARAMETER',
-        parameterKey: 'current_stacks'
-      }
-    };
-  }
-  return node;
-}
-
-describe('formulaExpression structure', () => {
-  it('supports three node kinds, six operations and seven attribute kinds in conversion', () => {
-    const expression: FormulaExpressionNode = {
-      nodeType: 'OPERATION',
-      operation: 'MIN',
-      operands: [
-        {
-          nodeType: 'OPERATION',
-          operation: 'MAX',
-          operands: [
-            {
-              nodeType: 'ATTRIBUTE',
-              attributeOwner: 'SOURCE',
-              attributeKey: 'attack_damage',
-              attributeValueKind: 'TOTAL'
-            },
-            {
-              nodeType: 'ATTRIBUTE',
-              attributeOwner: 'TARGET',
-              attributeKey: 'hp',
-              attributeValueKind: 'MISSING'
-            }
-          ]
-        },
-        {
-          nodeType: 'PARAMETER',
-          parameterKey: 'missing_health_ratio'
-        }
-      ]
-    };
-    const draft = expressionToDraft(expression);
-    const validated = validateFormulaDraft(
-      {
-        formulaKey: 'cap',
-        name: '上限',
-        description: '',
-        sortOrder: '1',
-        expression: draft
-      },
-      true,
-      catalog
-    );
+import { skillFormulaDefinition } from '../../../../tests/fixtures/skillFormulaDefinition';
+import { createEmptyFormulaDraft, expressionToDraft, formulaToDraft, mapFormulaFieldIssues, normalizeFormulaNodePath, previewFormulaExpression, validateFormulaDraft, updateNodeAtPath } from './formulaExpression';
+import { COMMON_FORMULA_OPERATIONS, commonFormulaNode } from '../common-formula/commonFormulaForm';
+const catalog = { skillKey: 'q', parameters: [{ skillKey: 'q', parameterKey: 'ratio', name: '系数', valueMode: 'FIXED' as const }],
+  attributes: [{ attributeKey: 'hp', name: '生命值', status: 'ENABLED' }] };
+const expression = skillFormulaDefinition('q', { nodeType: 'PARAMETER', parameterKey: 'ratio' });
+const draft = () => ({ ...createEmptyFormulaDraft(), formulaKey: 'amount', name: '伤害', expression: expressionToDraft(expression) });
+describe('技能共同公式编辑', () => {
+  it('完整深复制并保留顺序、任意结果名、十进制原文与所有共同运算', () => {
+    const value = { inputs: expression.inputs, stages: [{ key: 'final', name: '最终', expression: { op: 'const' as const, value: '0.3000' } },
+      { key: 'unused', name: '未使用', expression: { op: 'read' as const, inputKey: 'input_0' } }], outputStageKey: 'final' };
+    const form = formulaToDraft({ formulaKey: 'a', name: '公式', description: null, sortOrder: 0, expression: value });
+    expect(form.expression).toEqual(value); expect(form.expression).not.toBe(value);
+    expect(COMMON_FORMULA_OPERATIONS).toHaveLength(18);
+    expect(commonFormulaNode('if')).toEqual({ op: 'if', args: [{ op: 'empty' }, { op: 'empty' }, { op: 'empty' }] });
+    const validated = validateFormulaDraft(form, true, catalog);
     expect(validated.ok).toBe(true);
-    if (validated.ok) {
-      expect(validated.normalized.expression).toEqual(expression);
-    }
+    if (validated.ok) expect(validated.normalized.expression.stages[0]!.expression).toEqual({ op: 'const', value: '0.3000' });
   });
-
-  it('clears old fields when switching node types', () => {
-    const parameter = switchNodeType(createEmptyNodeDraft(), 'PARAMETER');
-    expect(parameter).toEqual({ nodeType: 'PARAMETER', parameterKey: '' });
-    const operation = switchNodeType(parameter, 'OPERATION');
-    expect(operation).toEqual({
-      nodeType: 'OPERATION',
-      operation: '',
-      left: { nodeType: 'empty' },
-      right: { nodeType: 'empty' }
-    });
-    const attribute = switchNodeType(operation, 'ATTRIBUTE');
-    expect(attribute).toEqual({
-      nodeType: 'ATTRIBUTE',
-      attributeOwner: '',
-      attributeKey: '',
-      attributeValueKind: ''
-    });
+  it('参数授权取最终候选且不接受外国同名技能，停用属性不能保存', () => {
+    expect(validateFormulaDraft(draft(), true, catalog).ok).toBe(true);
+    expect(validateFormulaDraft(draft(), true, { ...catalog, parameters: [] }).ok).toBe(false);
+    const foreign = draft(); foreign.expression.inputs[0]!.binding = { kind: 'parameter', skillKey: 'w', parameterKey: 'ratio' };
+    expect(validateFormulaDraft(foreign, true, catalog).ok).toBe(false);
+    const attribute = draft(); attribute.expression = expressionToDraft(skillFormulaDefinition('q', { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'MAX' }));
+    expect(validateFormulaDraft(attribute, true, catalog).ok).toBe(true);
+    expect(validateFormulaDraft(attribute, true, { ...catalog, attributes: [{ ...catalog.attributes[0]!, status: 'DISABLED' }] }).ok).toBe(false);
   });
-
-  it('enforces depth 32 and node count 256 including root', () => {
-    const depth32 = deepOperationTree(MAX_FORMULA_DEPTH);
-    expect(measureFormulaDepth(depth32)).toBe(MAX_FORMULA_DEPTH);
-    let deepestPath = 'expression';
-    let cursor = depth32;
-    while (cursor.nodeType === 'OPERATION') {
-      deepestPath = `${deepestPath}.operands[0]`;
-      cursor = cursor.left;
-    }
-    expect(canExpandOperationChild(depth32, deepestPath).ok).toBe(false);
-
-    let wide = switchNodeType(createEmptyNodeDraft(), 'PARAMETER');
-    if (wide.nodeType === 'PARAMETER') {
-      wide = { ...wide, parameterKey: 'current_stacks' };
-    }
-    while (countFormulaNodes(wide) + 2 <= MAX_FORMULA_NODES) {
-      wide = {
-        nodeType: 'OPERATION',
-        operation: 'ADD',
-        left: wide,
-        right: { nodeType: 'PARAMETER', parameterKey: 'current_stacks' }
-      };
-    }
-    expect(countFormulaNodes(wide)).toBeLessThanOrEqual(MAX_FORMULA_NODES);
-    expect(countFormulaNodes(wide) + 2).toBeGreaterThan(MAX_FORMULA_NODES);
-    expect(canExpandOperationChild(wide, 'expression').ok).toBe(false);
+  it('全定义包含未使用输入的授权；未知引用和循环按共同校验拒绝', () => {
+    const value = draft(); value.expression.inputs.push({ key: 'unread', binding: { kind: 'parameter', skillKey: 'q', parameterKey: 'removed' } });
+    expect(validateFormulaDraft(value, true, catalog).ok).toBe(false);
+    const cycle = draft(); cycle.expression.stages[0]!.expression = { op: 'ref', stageKey: 'output' };
+    expect(validateFormulaDraft(cycle, true, catalog).ok).toBe(false);
   });
-
-  it('maps nested field paths and validates incomplete nodes', () => {
-    const draft = {
-      formulaKey: 'damage',
-      name: '伤害',
-      description: '',
-      sortOrder: '0',
-      expression: {
-        nodeType: 'OPERATION' as const,
-        operation: 'MULTIPLY' as const,
-        left: {
-          nodeType: 'ATTRIBUTE' as const,
-          attributeOwner: 'TARGET' as const,
-          attributeKey: 'hp',
-          attributeValueKind: '' as const
-        },
-        right: { nodeType: 'empty' as const }
-      }
-    };
-    const result = validateFormulaDraft(draft, true, catalog);
-    expect(result.ok).toBe(false);
-    if (!result.ok) {
-      expect(result.nodeIssues.some((item) => item.path === 'expression.operands[0]')).toBe(true);
-      expect(result.nodeIssues.some((item) => item.path === 'expression.operands[1]')).toBe(true);
-    }
-  });
-});
-
-describe('formulaExpression preview', () => {
-  it('renders owner.attribute.kind, preserves left/right order and marks missing refs', () => {
-    const draft = expressionToDraft({
-      nodeType: 'OPERATION',
-      operation: 'MULTIPLY',
-      operands: [
-        {
-          nodeType: 'ATTRIBUTE',
-          attributeOwner: 'TARGET',
-          attributeKey: 'hp',
-          attributeValueKind: 'MISSING'
-        },
-        {
-          nodeType: 'PARAMETER',
-          parameterKey: 'missing_health_ratio'
-        }
-      ]
-    });
-    const text = previewFormulaExpression(draft, catalog).map((item) => item.text).join('');
-    expect(text).toBe('目标.生命值.已损失值 × 已损失生命值系数');
-
-    const nested = expressionToDraft({
-      nodeType: 'OPERATION',
-      operation: 'DIVIDE',
-      operands: [
-        {
-          nodeType: 'OPERATION',
-          operation: 'SUBTRACT',
-          operands: [
-            {
-              nodeType: 'ATTRIBUTE',
-              attributeOwner: 'SOURCE',
-              attributeKey: 'attack_damage',
-              attributeValueKind: 'TOTAL'
-            },
-            {
-              nodeType: 'PARAMETER',
-              parameterKey: 'current_stacks'
-            }
-          ]
-        },
-        {
-          nodeType: 'PARAMETER',
-          parameterKey: 'missing_health_ratio'
-        }
-      ]
-    });
-    const nestedText = previewFormulaExpression(nested, catalog).map((item) => item.text).join('');
-    expect(nestedText).toBe('(施法者.攻击力.最终值 − 当前层数) ÷ 已损失生命值系数');
-
-    const minMax = expressionToDraft({
-      nodeType: 'OPERATION',
-      operation: 'MIN',
-      operands: [
-        { nodeType: 'PARAMETER', parameterKey: 'current_stacks' },
-        { nodeType: 'PARAMETER', parameterKey: 'missing_health_ratio' }
-      ]
-    });
-    expect(previewFormulaExpression(minMax, catalog).map((item) => item.text).join('')).toBe(
-      '取较小值(当前层数, 已损失生命值系数)'
-    );
-
-    const missing = expressionToDraft({
-      nodeType: 'PARAMETER',
-      parameterKey: 'gone'
-    });
-    const missingPreview = previewFormulaExpression(missing, catalog);
-    expect(missingPreview).toEqual([{ text: 'gone', error: true }]);
-  });
-});
-
-describe('mapFormulaFieldIssues path normalization', () => {
-  it('normalizes node field paths to owning node paths', () => {
-    expect(normalizeFormulaNodePath('expression.operands')).toBe('expression');
-    expect(normalizeFormulaNodePath('expression.operands[0].parameterKey')).toBe(
-      'expression.operands[0]'
-    );
-    expect(normalizeFormulaNodePath('expression.operands[1].attributeKey')).toBe(
-      'expression.operands[1]'
-    );
-    expect(normalizeFormulaNodePath('expression.operands[0].attributeOwner')).toBe(
-      'expression.operands[0]'
-    );
-    expect(normalizeFormulaNodePath('expression.operands[0].attributeValueKind')).toBe(
-      'expression.operands[0]'
-    );
-    expect(normalizeFormulaNodePath('expression.operation')).toBe('expression');
-    expect(normalizeFormulaNodePath('expression.operands[0].operands')).toBe(
-      'expression.operands[0]'
-    );
-    expect(normalizeFormulaNodePath('expression.operands[0]')).toBe('expression.operands[0]');
-    expect(normalizeFormulaNodePath('expression.operands[0].operands[1]')).toBe(
-      'expression.operands[0].operands[1]'
-    );
-  });
-
-  it('maps nested field issues to node paths and keeps unmapped messages', () => {
-    const mapped = mapFormulaFieldIssues({
-      details: {
-        fieldIssues: [
-          { field: 'expression.operands[0].parameterKey', message: '参数无效' },
-          { field: 'expression.operands[1].attributeKey', message: '属性无效' },
-          { field: 'expression.operands', message: '运算数不合法' },
-          { field: 'name', message: '名称过长' },
-          { field: 'unknownField', message: '未知字段' }
-        ]
-      }
-    });
-    expect(mapped.fieldErrors.name).toBe('名称过长');
-    expect(mapped.nodeIssues).toEqual([
-      { path: 'expression.operands[0]', message: '参数无效' },
-      { path: 'expression.operands[1]', message: '属性无效' },
-      { path: 'expression', message: '运算数不合法' }
-    ]);
-    expect(mapped.unmappedMessages).toEqual(['未知字段']);
+  it('编辑第三条分支，位置由共同路径决定，预览不求值', () => {
+    const value = draft(); value.expression.stages[0]!.expression = commonFormulaNode('if');
+    const updated = updateNodeAtPath(value.expression, '/expression/stages/0/expression/args/2', { op: 'const', value: '0.0007' });
+    expect(updated.stages[0]!.expression).toMatchObject({ args: [{ op: 'empty' }, { op: 'empty' }, { op: 'const', value: '0.0007' }] });
+    expect(previewFormulaExpression(updated, catalog).map(row => row.text).join('')).toContain('0.0007');
+    expect(normalizeFormulaNodePath('expression.stages[0].expression.args[2].value')).toBe('/expression/stages/0/expression/args/2');
+    expect(mapFormulaFieldIssues({ fieldIssues: [{ field: '/expression/inputs/0/binding/parameterKey', message: '参数删除保护' }] }).nodeIssues)
+      .toEqual([{ path: '/expression/inputs/0/binding/parameterKey', message: '参数删除保护' }]);
   });
 });

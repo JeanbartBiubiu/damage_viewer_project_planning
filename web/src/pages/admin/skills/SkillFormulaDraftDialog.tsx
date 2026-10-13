@@ -12,7 +12,7 @@ import {
   shouldDegradeUnsupportedAnchor
 } from './authoringFocus';
 import { resolveAuthoringLocation } from './authoringLocation';
-import { FormulaExpressionEditor } from './FormulaExpressionEditor';
+import { CommonFormulaDefinitionEditor } from '../common-formula/CommonFormulaDefinitionEditor';
 import {
   collectReferencedAttributeKeys,
   previewFormulaExpression,
@@ -78,11 +78,22 @@ export function SkillFormulaDraftDialog({
     setApplyError(null);
     reportDirty(next);
   };
-  const close = () => {
-    if (JSON.stringify(draft) !== JSON.stringify(initial)
-      && !window.confirm('当前公式修改尚未确认，确定放弃吗？')) return;
+  const actuallyClose = () => {
     onDirtyChange(false);
     onClose();
+  };
+  const close = () => {
+    if (JSON.stringify(draft) !== JSON.stringify(initial)) {
+      Modal.confirm({
+        title: '放弃公式修改',
+        content: '当前公式修改尚未确认，确定放弃吗？',
+        okText: '放弃',
+        cancelText: '继续编辑',
+        onOk: actuallyClose
+      });
+      return;
+    }
+    actuallyClose();
   };
   const apply = () => {
     if (!attributesReady) {
@@ -138,7 +149,7 @@ export function SkillFormulaDraftDialog({
         </AuthoringFieldAnchor>
         <AuthoringFieldAnchor field="expression" active={field === 'expression' && !focusPath}>
           <Form.Item label="公式结构" validateStatus={errors.expression ? 'error' : undefined} help={errors.expression}>
-            <FormulaExpressionEditor root={draft.expression} path="expression" node={draft.expression}
+            <CommonFormulaDefinitionEditor skillKey={original?.skillKey ?? parameters[0]?.skillKey} root={draft.expression} path="expression" node={draft.expression}
               readOnly={false} disabled={!attributesReady} parameters={parameters} attributes={attributes}
               retainedDisabledAttributeKeys={retainedDisabledAttributeKeys}
               nodeIssues={nodeIssues} focusPath={focusPath}

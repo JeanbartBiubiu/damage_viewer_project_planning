@@ -10,14 +10,14 @@ export type BasicAttackSimulationPageProps = {
 
 export function BasicAttackSimulationPage({ apiBaseUrl, selectedGameId, adminToken, onDirtyChange }: BasicAttackSimulationPageProps) {
   return (
-    <section className="panel-shell" aria-labelledby="basic-attack-simulation-title">
+    <section className="panel-shell" style={{ minWidth: 0 }} aria-labelledby="basic-attack-simulation-title">
       <Typography.Title heading={3} id="basic-attack-simulation-title" className="panel-title">
         普攻模拟
       </Typography.Title>
       <Typography.Paragraph>
         当前游戏：{selectedGameId ?? '未选择'}
       </Typography.Paragraph>
-      <Alert type="info" content="读取真实配置后可执行一次普攻，查看伤害和生命变化；连续攻击与图表尚未接入。" style={{ marginBottom: 16 }} />
+      <Alert type="info" content="保留单次／连续普攻；指定技能计划支持1～64条明确指令和可选背景普攻，共用原生时钟。有限多段、引导及关联释放／重施／取消沿完整作者配置，计划步骤须明确行动占用。完整累计、有限记录和观察终点分别展示。" style={{ marginBottom: 16 }} />
       <BasicAttackCompilePanel apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
         adminToken={adminToken} onDirtyChange={onDirtyChange} />
     </section>

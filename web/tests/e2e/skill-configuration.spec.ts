@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { expect, test, type Page, type Route } from '@playwright/test';
 import { configurationMatchesRequest } from '../../src/pages/admin/skills/skillConfigurationDraft';
 import type { SkillConfiguration, SkillConfigurationChange } from '../../src/types/skillConfiguration';
@@ -28,7 +29,7 @@ function configuration(): Json {
   return {
     skill: skill(), parameters: [parameter()],
     formulas: [{ gameId: GAME_ID, skillKey: 'sample_q', formulaKey: 'total', name: '总伤害',
-      description: null, sortOrder: 0, expression: { nodeType: 'PARAMETER', parameterKey: 'damage' },
+      description: null, sortOrder: 0, expression: skillFormulaDefinition('sample_q', { nodeType: 'PARAMETER', parameterKey: 'damage' }),
       createdAt: NOW, updatedAt: NOW }],
     effects: [], processes: [], internalStates: [], triggerRules: [], baseDigest: 'digest-1'
   };
@@ -47,7 +48,7 @@ class ConfigurationApi {
   current = configuration();
   writes: Array<{ method: string; body: Json }> = [];
   reads = 0;
-  failFirstConfigurationRead = false;
+  failConfigurationReads = false;
   ambiguousWrite = false;
   failNextWrite = false;
   failNextReadback = false;
@@ -92,7 +93,7 @@ class ConfigurationApi {
         await respond(route, { items: [this.current.skill], total: 1 });
       } else if (path.endsWith('/configuration') && request.method() === 'GET') {
         this.reads += 1;
-        if (this.failFirstConfigurationRead && this.reads === 1) await respond(route, { error: { code: 'READ_FAILED', message: '模拟读取失败' } }, 500);
+        if (this.failConfigurationReads) await respond(route, { error: { code: 'READ_FAILED', message: '模拟读取失败' } }, 500);
         else if (this.failNextReadback && this.writes.length) {
           this.failNextReadback = false;
           await respond(route, { error: { code: 'READBACK_FAILED', message: '模拟回读失败' } }, 500);
@@ -162,21 +163,25 @@ async function openExistingSkill(page: Page, key: string, module = '配置总览
 
 test('完整读取失败不开放空表单；主体与参数共同保存并回读', async ({ page }) => {
   const api = new ConfigurationApi();
-  api.failFirstConfigurationRead = true;
   await api.install(page);
   await openSkills(page);
+  api.failConfigurationReads = true;
   await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '编辑配置', exact: true }).click();
   const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
   await expect(workspace.getByText('模拟读取失败')).toBeVisible();
   await expect(workspace.getByLabel('技能名称')).toHaveCount(0);
   await expect(workspace.getByRole('button', { name: '保存更改' })).toBeDisabled();
+  const failedReads = api.reads;
+  expect(failedReads).toBeGreaterThan(0);
+  api.failConfigurationReads = false;
   await workspace.getByRole('button', { name: '重试读取' }).click();
   await workspace.getByRole('navigation', { name: '技能配置模块' })
     .getByRole('button', { name: '主体与分类', exact: true }).click();
   await expect(workspace.getByLabel('技能名称')).toHaveValue('样例技能');
+  expect(api.reads).toBeGreaterThan(failedReads);
   await workspace.getByLabel('技能名称').fill('修改后的技能');
   await workspace.getByRole('navigation', { name: '技能配置模块' }).getByRole('button', { name: '参数与公式' }).click();
-  await expect(workspace.getByText('中文预览：伤害').first()).toBeVisible();
+  await expect(workspace.getByText('中文预览：用例输出（output）=伤害〔最终输出〕；').first()).toBeVisible();
   await workspace.getByRole('button', { name: '编辑', exact: true }).first().click();
   const dialog = page.getByRole('dialog', { name: /编辑参数/ });
   await dialog.getByRole('spinbutton', { name: '固定值', exact: true }).fill('90');
@@ -267,6 +272,84 @@ test('冲突保留草稿，成功后回读失败保留冻结内容并可只读�
   expect(api.writes).toHaveLength(2);
 });
 
+test('公式关闭确认：未修改或恢复原值后直接关闭', async ({ page }) => {
+  const api = new ConfigurationApi();
+  await api.install(page);
+  const nativeDialogs: string[] = [];
+  page.on('dialog', async (dialog) => {
+    nativeDialogs.push(dialog.message());
+    await dialog.dismiss();
+  });
+  await openSkills(page);
+  const workspace = await openExistingSkill(page, 'sample_q', '参数与公式');
+  const editFormula = workspace.getByRole('button', { name: '编辑', exact: true }).last();
+  const formulaDialog = page.getByRole('dialog', { name: '编辑公式 · 总伤害', exact: true });
+
+  await editFormula.click();
+  await formulaDialog.getByRole('button', { name: '取消', exact: true }).click();
+  await expect(formulaDialog).toBeHidden();
+  await expect(page.getByRole('dialog', { name: '放弃公式修改', exact: true })).toBeHidden();
+
+  await editFormula.click();
+  await formulaDialog.getByRole('textbox', { name: '公式名称', exact: true }).fill('临时公式名');
+  await formulaDialog.getByRole('textbox', { name: '公式名称', exact: true }).fill('总伤害');
+  await formulaDialog.getByRole('button', { name: '取消', exact: true }).click();
+  await expect(formulaDialog).toBeHidden();
+  await expect(page.getByRole('dialog', { name: '放弃公式修改', exact: true })).toBeHidden();
+  await expect(workspace.getByText('已读取', { exact: true })).toBeVisible();
+  expect(nativeDialogs).toEqual([]);
+  expect(api.writes).toHaveLength(0);
+  expect(api.unexpected).toEqual([]);
+});
+
+for (const closeMethod of ['取消按钮', '关闭按钮', '遮罩'] as const) {
+  test(`公式关闭确认：${closeMethod}保留继续编辑并明确放弃`, async ({ page }) => {
+    const api = new ConfigurationApi();
+    await api.install(page);
+    const nativeDialogs: string[] = [];
+    page.on('dialog', async (dialog) => {
+      nativeDialogs.push(dialog.message());
+      await dialog.dismiss();
+    });
+    await openSkills(page);
+    const workspace = await openExistingSkill(page, 'sample_q', '参数与公式');
+    const editFormula = workspace.getByRole('button', { name: '编辑', exact: true }).last();
+    await editFormula.click();
+    const formulaDialog = page.getByRole('dialog', { name: '编辑公式 · 总伤害', exact: true });
+    await formulaDialog.getByRole('textbox', { name: '公式名称', exact: true }).fill('未确认的公式名');
+    const closeFormula = async () => {
+      if (closeMethod === '取消按钮') {
+        await formulaDialog.getByRole('button', { name: '取消', exact: true }).click();
+      } else if (closeMethod === '关闭按钮') {
+        await formulaDialog.locator('.arco-modal-close-icon').click();
+      } else {
+        await page.locator('.arco-modal-wrapper:visible').click({ position: { x: 5, y: 5 } });
+      }
+    };
+    const confirmation = page.getByRole('dialog', { name: '放弃公式修改', exact: true });
+
+    await closeFormula();
+    await expect(confirmation).toBeVisible();
+    await expect(confirmation.getByText('当前公式修改尚未确认，确定放弃吗？')).toBeVisible();
+    await confirmation.getByRole('button', { name: '继续编辑', exact: true }).click();
+    await expect(confirmation).toBeHidden();
+    await expect(formulaDialog).toBeVisible();
+    await expect(formulaDialog.getByRole('textbox', { name: '公式名称', exact: true })).toHaveValue('未确认的公式名');
+    await expect(workspace.getByText('未保存', { exact: true })).toBeVisible();
+
+    await closeFormula();
+    await confirmation.getByRole('button', { name: '放弃', exact: true }).click();
+    await expect(confirmation).toBeHidden();
+    await expect(formulaDialog).toBeHidden();
+    await expect(workspace.getByText('已读取', { exact: true })).toBeVisible();
+    await editFormula.click();
+    await expect(formulaDialog.getByRole('textbox', { name: '公式名称', exact: true })).toHaveValue('总伤害');
+    expect(nativeDialogs).toEqual([]);
+    expect(api.writes).toHaveLength(0);
+    expect(api.unexpected).toEqual([]);
+  });
+}
+
 test('未保存参数可被同次新建公式选择，两项共同保存并重开', async ({ page }) => {
   const api = new ConfigurationApi();
   await api.install(page);
@@ -283,9 +366,14 @@ test('未保存参数可被同次新建公式选择，两项共同保存并重�
   const formulaDialog = page.getByRole('dialog', { name: '新增公式' });
   await formulaDialog.getByRole('textbox', { name: '公式稳定标识' }).fill('bonus_formula');
   await formulaDialog.getByRole('textbox', { name: '公式名称' }).fill('加成公式');
-  await formulaDialog.getByLabel('expression节点类型').getByText('技能参数').click();
-  await formulaDialog.getByLabel('expression技能参数').click();
-  await page.getByRole('option', { name: /新增加成/ }).click();
+  await formulaDialog.getByRole('button', { name: '添加公式输入', exact: true }).click();
+  await formulaDialog.getByLabel('公式输入1标识').fill('input_0');
+  await formulaDialog.getByLabel('公式输入1技能参数').click(); await page.getByRole('option', { name: /新增加成/ }).click();
+  await formulaDialog.getByRole('button', { name: '添加公式结果', exact: true }).click();
+  await formulaDialog.getByLabel('公式结果1标识').fill('output'); await formulaDialog.getByLabel('公式结果1名称').fill('用例输出');
+  await formulaDialog.getByLabel('公式结果1节点类型').click(); await page.getByRole('option', { name: '输入值', exact: true }).last().click();
+  await formulaDialog.getByLabel('公式结果1输入值').click(); await page.getByRole('option', { name: 'input_0', exact: true }).click();
+  await formulaDialog.getByLabel('公式最终输出').click(); await page.getByRole('option', { name: '用例输出（output）', exact: true }).click();
   await formulaDialog.getByRole('button', { name: '确认到技能草稿' }).click();
   expect(api.writes).toHaveLength(0);
   await workspace.getByRole('button', { name: '保存更改' }).click();
@@ -294,7 +382,7 @@ test('未保存参数可被同次新建公式选择，两项共同保存并重�
   expect(api.writes[0]!.body.changes).toMatchObject([
     { objectType: 'PARAMETER', operation: 'CREATE', key: 'bonus', value: { fixedValue: 0 } },
     { objectType: 'FORMULA', operation: 'CREATE', key: 'bonus_formula', value: {
-      expression: { nodeType: 'PARAMETER', parameterKey: 'bonus' }
+      expression: skillFormulaDefinition('sample_q', { nodeType: 'PARAMETER', parameterKey: 'bonus' })
     } }
   ]);
   await workspace.getByRole('button', { name: '返回' }).click();
@@ -616,9 +704,14 @@ test('隔离服务真接口：页面同次创建参数与引用公式，重开�
   const formulaDialog = page.getByRole('dialog', { name: '新增公式' });
   await formulaDialog.getByRole('textbox', { name: '公式稳定标识' }).fill('output');
   await formulaDialog.getByRole('textbox', { name: '公式名称' }).fill('计算结果');
-  await formulaDialog.getByLabel('expression节点类型').getByText('技能参数').click();
-  await formulaDialog.getByLabel('expression技能参数').click();
-  await page.getByRole('option', { name: /基础值/ }).click();
+  await formulaDialog.getByRole('button', { name: '添加公式输入', exact: true }).click();
+  await formulaDialog.getByLabel('公式输入1标识').fill('input_0');
+  await formulaDialog.getByLabel('公式输入1技能参数').click(); await page.getByRole('option', { name: /基础值/ }).click();
+  await formulaDialog.getByRole('button', { name: '添加公式结果', exact: true }).click();
+  await formulaDialog.getByLabel('公式结果1标识').fill('output'); await formulaDialog.getByLabel('公式结果1名称').fill('用例输出');
+  await formulaDialog.getByLabel('公式结果1节点类型').click(); await page.getByRole('option', { name: '输入值', exact: true }).last().click();
+  await formulaDialog.getByLabel('公式结果1输入值').click(); await page.getByRole('option', { name: 'input_0', exact: true }).click();
+  await formulaDialog.getByLabel('公式最终输出').click(); await page.getByRole('option', { name: '用例输出（output）', exact: true }).click();
   await formulaDialog.getByRole('button', { name: '确认到技能草稿' }).click();
   expect(writes).toEqual([]);
   await workspace.getByRole('button', { name: '保存更改' }).click();
@@ -633,7 +726,7 @@ test('隔离服务真接口：页面同次创建参数与引用公式，重开�
   const current = await persisted.json() as Json;
   expect(current).toMatchObject({
     parameters: [{ parameterKey: 'basis', fixedValue: 0 }],
-    formulas: [{ formulaKey: 'output', expression: { nodeType: 'PARAMETER', parameterKey: 'basis' } }],
+    formulas: [{ formulaKey: 'output', expression: skillFormulaDefinition(key, { nodeType: 'PARAMETER', parameterKey: 'basis' }) }],
     effects: [], internalStates: [], processes: [], triggerRules: []
   });
 });

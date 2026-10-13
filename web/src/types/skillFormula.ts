@@ -1,44 +1,8 @@
+import type { Binding, FormulaDefinition } from './formulaContract.generated';
 export type FormulaAttributeOwner = 'SOURCE' | 'TARGET';
-
-export type FormulaAttributeValueKind =
-  | 'BASE'
-  | 'BONUS'
-  | 'TOTAL'
-  | 'CURRENT'
-  | 'MISSING'
-  | 'CURRENT_RATIO'
-  | 'MISSING_RATIO';
-
-export type FormulaOperation =
-  | 'ADD'
-  | 'SUBTRACT'
-  | 'MULTIPLY'
-  | 'DIVIDE'
-  | 'MIN'
-  | 'MAX';
-
-export type FormulaOperationNode = {
-  nodeType: 'OPERATION';
-  operation: FormulaOperation;
-  operands: [FormulaExpressionNode, FormulaExpressionNode];
-};
-
-export type FormulaParameterNode = {
-  nodeType: 'PARAMETER';
-  parameterKey: string;
-};
-
-export type FormulaAttributeNode = {
-  nodeType: 'ATTRIBUTE';
-  attributeOwner: FormulaAttributeOwner;
-  attributeKey: string;
-  attributeValueKind: FormulaAttributeValueKind;
-};
-
-export type FormulaExpressionNode =
-  | FormulaOperationNode
-  | FormulaParameterNode
-  | FormulaAttributeNode;
+export type FormulaAttributeValueKind = Extract<Binding, { kind: 'attribute' }>['valueKind'];
+/** 技能作者表达式只有完整共同定义。 */
+export type FormulaExpressionNode = FormulaDefinition;
 
 export type SkillFormulaSummary = {
   gameId: string;

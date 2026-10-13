@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../../../../../tests/fixtures/skillFormulaDefinition';
 import { fixedValue, formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import { ApiRequestError } from '../../../../services/apiClient';
@@ -61,7 +62,7 @@ function formula(formulaKey: string, parameterKey: string): SkillFormula {
     name: formulaKey,
     description: null,
     sortOrder: 10,
-    expression: { nodeType: 'PARAMETER', parameterKey }
+    expression: skillFormulaDefinition('ashe_q', { nodeType: 'PARAMETER', parameterKey })
   };
 }
 

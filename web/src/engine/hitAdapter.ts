@@ -1,3 +1,7 @@
+import { formulasUsedByInternalValue } from './approvedFormulaValues';
+import { sameFormulaPayload } from '../services/skillFormulaContract';
+import { TypeCatalogEntries } from './typeCatalogEntries';
+import { SKILL_CATEGORY_TYPE_PREFIX } from './skillCategoryType';
 import type { GameVampRule } from '../types/gameVamp';
 import type {
   SkillEffect, SkillEffectResult, SkillEffectSpellShieldBlockScope, SkillEffectStatusOperationResult,
@@ -5,6 +9,7 @@ import type {
 } from '../types/skillEffect';
 import type { SkillFormula } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
+import type { SkillProcess } from '../types/skillProcess';
 import type { GameStatus, StatusKind } from '../types/status';
 import type { ModifierZone } from '../types/modifierZone';
 import type { SkillTriggerCondition, SkillTriggerEventValueCompareCondition, SkillTriggerRuleDetail } from '../types/skillTriggerRule';
@@ -16,11 +21,10 @@ import type {
 } from '../types/genericEngine';
 import {
   compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
-  NumericAdaptationError, type NumericCompileState, wrapValueRuleExpression
+  NumericAdaptationError, tryFoldConstant, type NumericCompileState, wrapValueRuleExpression
 } from './numericAdapter';
 import { compilePersistentResult, type AuthoredPersistentResult } from './persistentResultAdapter';
 import { adaptDamageVamp, type AdaptedVampDamage, type AuthoredVampDamage } from './vampAdapter';
-import { runtimeDamageType } from './damageTypeAdapter';
 
 export class HitAdaptationError extends NumericAdaptationError {
   constructor(path: string, message: string) {
@@ -51,6 +55,7 @@ export type AuthoredHitProgram = {
   identity: { source: CombatantIdentityFact; target: CombatantIdentityFact };
   skillCategoryKeys?: readonly string[];
   vampRules?: readonly GameVampRule[];
+  chargeReleaseContext?: { process: SkillProcess; rules: readonly SkillTriggerRuleDetail[] };
 };
 
 export type HitResolveKind = 'skill' | 'basic_attack';
@@ -149,10 +154,11 @@ function compileLifecycleNumber(value: AuthoredPersistentResult['lifecycle']['ma
     formulaNamespace: `hit/${authored.skillKey}/lifecycle`, bindParameters: false, allowAttributeReads: false,
     runtimeInputMessage: '未知动态：未供值的计算时输入不能运行'
   }), fail);
-  if (expr.op !== 'const' || typeof expr.value !== 'number' || !Number.isInteger(expr.value) || expr.value <= 0) {
+  const approved = tryFoldConstant(expr);
+  if (approved === null || !Number.isInteger(approved) || approved <= 0) {
     return fail(path, `${label}必须是正整数`);
   }
-  return expr.value;
+  return approved;
 }
 
 function compileDuration(effect: SkillEffect, authored: AuthoredHitProgram, path: string, state: NumericCompileState): GenericFormulaExpr {
@@ -326,7 +332,7 @@ function compileDamage(
   result: Extract<SkillEffectResult, { resultType: 'DAMAGE' }>,
   path: string,
   state: NumericCompileState,
-  typeEntries: Map<string, string>,
+  typeEntries: TypeCatalogEntries,
   resolveKind: HitResolveKind
 ): { operation: OperationDefinition; vamp: AdaptedVampDamage } {
   if (result.target !== 'TARGET') return fail(`${path}.target`, '本期伤害只支持作用对象 TARGET');
@@ -342,7 +348,8 @@ function compileDamage(
   }
   if (result.detail.originKind !== 'DIRECT') return fail(`${path}.detail.originKind`, '未支持的来源性质');
   if (result.detail.critical.mode !== 'DISALLOWED') return fail(`${path}.detail.critical`, '未支持的暴击策略');
-  const damageType = runtimeDamageType(result.detail.damageTypeKey, `${path}.detail.damageTypeKey`, fail);
+  const damageType = result.detail.damageTypeKey;
+  if (typeof damageType !== 'string' || !damageType) return fail(`${path}.detail.damageTypeKey`, '需要明确的伤害类型原键');
   typeEntries.set(damageType, 'damage');
   const amount = compileValue(result.valueRule, `${path}.valueRule`, state);
   if (result.detail.vampQualification === 'UNRESOLVED') {
@@ -390,7 +397,7 @@ function compileSlow(
   }
   for (const formula of adapted.formulas) {
     const old = state.namedFormulas.get(formula.key);
-    if (old && JSON.stringify(old.expression) !== JSON.stringify(formula.expression)) fail(`${path}.formulas`, '具名公式与现有输入冲突');
+    if (old && !sameFormulaPayload(old, formula)) fail(`${path}.formulas`, '具名公式与现有输入冲突');
     if (!old) state.namedFormulas.set(formula.key, formula);
   }
   for (const key of adapted.requiredAttributes) state.requiredAttributes.add(key);
@@ -406,7 +413,7 @@ function compileClosedControl(
   path: string,
   state: NumericCompileState,
   providers: Map<string, ProviderDefinition>,
-  typeEntries: Map<string, string>
+  typeEntries: TypeCatalogEntries
 ): OperationDefinition {
   if (result.detail.operation !== 'APPLY') return fail(`${path}.detail.operation`, '本期只支持 APPLY');
   if (result.target !== 'TARGET') return fail(`${path}.target`, '本期控制只支持作用对象 TARGET');
@@ -418,7 +425,7 @@ function compileClosedControl(
   const typeKey = CLOSED_PROVIDER_TYPE[kind];
   typeEntries.set(typeKey, 'provider');
   const provider: ProviderDefinition = {
-    providerKey, kind: 'status', stableId: providerKey, types: [typeKey],
+    providerKey, skillKey: authored.skillKey, kind: 'status', stableId: providerKey, types: [typeKey],
     lifecycle: {
       durationMs: compileDuration(effect, authored, `${planPath(authored.skillKey, `effects.${effect.effectKey}`)}.lifecycle.durationValue`, state),
       maxStacks: 1, refreshPolicy: 'replace'
@@ -455,7 +462,7 @@ function compileResultOperations(
   path: string,
   state: NumericCompileState,
   providers: Map<string, ProviderDefinition>,
-  typeEntries: Map<string, string>,
+  typeEntries: TypeCatalogEntries,
   resolveKind: HitResolveKind
 ): { semantic: SkillHitSemantic; operations: OperationDefinition[]; vamp?: AdaptedVampDamage } {
   if (result.resultType === 'DAMAGE') {
@@ -504,7 +511,7 @@ function compileShieldProvider(
   result: Extract<SkillEffectResult, { resultType: 'SPELL_SHIELD' }>,
   path: string,
   state: NumericCompileState,
-  typeEntries: Map<string, string>
+  typeEntries: TypeCatalogEntries
 ): ProviderDefinition {
   if (result.target !== 'SOURCE') return fail(`${path}.target`, '只有 SOURCE 范围且全部 self 时可证明原身份等价');
   if (result.spellShieldBlockScope !== null) return fail(`${path}.spellShieldBlockScope`, 'SPELL_SHIELD 必须使用 null 粒度');
@@ -516,7 +523,7 @@ function compileShieldProvider(
   typeEntries.set('provider/spell_shield', 'provider');
   typeEntries.set('event/spell_shield_blocked', 'event');
   return {
-    providerKey: spellShieldProviderKey(authored.skillKey, effect.effectKey), kind: 'status', stableId: spellShieldProviderKey(authored.skillKey, effect.effectKey),
+    providerKey: spellShieldProviderKey(authored.skillKey, effect.effectKey), skillKey: authored.skillKey, kind: 'status', stableId: spellShieldProviderKey(authored.skillKey, effect.effectKey),
     types: ['provider/spell_shield'],
     lifecycle: {
       durationMs: compileDuration(effect, authored, `${planPath(authored.skillKey, `effects.${effect.effectKey}`)}.lifecycle.durationValue`, state),
@@ -590,13 +597,45 @@ function assertHitRule(rule: SkillTriggerRuleDetail, authored: AuthoredHitProgra
   }
   for (const action of rule.actions) {
     if (action.actionType !== 'EXECUTE_EFFECT') return fail(`${root}.actions.${action.actionKey}.actionType`, '未支持的过程或动作依赖，按共享契约整体拒绝');
-    if (action.runtimeInputBindings.length || action.resultModifiers.length) {
+    if (action.resultModifiers.length) {
       return fail(`${root}.actions.${action.actionKey}.runtimeInputBindings`, '未支持的动作依赖、来源或目标，按共享契约整体拒绝');
     }
     if (action.targetContext !== 'CURRENT_TARGET') {
       return fail(`${root}.actions.${action.actionKey}.targetContext`, '未支持的目标上下文');
     }
   }
+}
+
+function hitActionState(authored: AuthoredHitProgram, action: SkillTriggerRuleDetail['actions'][number], state: NumericCompileState): NumericCompileState {
+  const reads: Record<string, GenericFormulaExpr> = {};
+  const keys = new Set<string>();
+  const context = authored.chargeReleaseContext;
+  const process = context?.process;
+  const orderedSteps = process && [...process.steps].sort((left, right) => left.sortOrder - right.sortOrder);
+  const terminal = orderedSteps?.[orderedSteps.length - 1];
+  const chargeRelease = process?.gameId === authored.gameId && process.skillKey === authored.skillKey && terminal?.stepType === 'CHARGE'
+    && context!.rules.some(rule => rule.eventSource.eventType === 'SKILL_USED' && rule.eventSource.detail.sourceSkillKey === authored.skillKey
+      && rule.eventSource.detail.useKind === 'ACTIVE' && rule.eventSource.detail.castPhase === 'INITIAL'
+      && rule.actions.length === 1 && rule.actions[0]!.actionType === 'START_PROCESS' && rule.actions[0]!.detail.processKey === process.processKey)
+    && (terminal.detail.releaseAtMaximum === true || context!.rules.some(rule => rule.eventSource.eventType === 'SKILL_USED' && rule.eventSource.detail.sourceSkillKey === authored.skillKey
+      && rule.eventSource.detail.useKind === 'ACTIVE' && rule.eventSource.detail.castPhase === 'CHARGE_RELEASE'
+      && !rule.conditionGroups.length && !rule.perTargetCooldown && !rule.maxTriggersPerProcess && !rule.oncePerUse
+      && rule.actions.length === 1 && rule.actions[0]!.actionType === 'ADVANCE_PROCESS'
+      && rule.actions[0]!.targetContext === null && !rule.actions[0]!.runtimeInputBindings.length && !rule.actions[0]!.resultModifiers.length
+      && rule.actions[0]!.detail.processKey === process.processKey && rule.actions[0]!.detail.stepKey === terminal.stepKey));
+  for (const binding of action.runtimeInputBindings) {
+    const path = planPath(authored.skillKey, `actions.${action.actionKey}.runtimeInputBindings.${binding.bindingKey}`);
+    const parameter = authored.parameters?.filter(parameter => parameter.parameterKey === binding.parameterKey);
+    if (!chargeRelease || binding.sourceType !== 'EVENT_VALUE' || binding.detail.eventValueKey !== 'CHARGE_DURATION_MS'
+      || keys.has(binding.bindingKey) || binding.parameterKey in reads || parameter?.length !== 1
+      || parameter[0]!.gameId !== authored.gameId || parameter[0]!.skillKey !== authored.skillKey || parameter[0]!.valueMode !== 'RUNTIME_INPUT') {
+      fail(path, '仅真实同源蓄力释放的命中动作允许绑定实际蓄力毫秒；其它动态输入或重复绑定仍拒绝');
+    }
+    catalogKey(binding.bindingKey, `${path}.bindingKey`);
+    keys.add(binding.bindingKey);
+    reads[binding.parameterKey] = { op: 'read', path: 'use.charge_duration_ms' };
+  }
+  return { ...state, runtimeInputReads: reads };
 }
 
 export function provenSkillUseFact(input: {
@@ -644,7 +683,7 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
     return fail(planPath(authored.skillKey, `rules.${consumeRules[0]!.ruleKey}.eventSource`), '普攻命中入口不接办法术护盾消费');
   }
   const resolveKind: HitResolveKind = basicHitRules.length ? 'basic_attack' : 'skill';
-  const typeEntries = new Map<string, string>(resolveKind === 'basic_attack'
+  const typeEntries = new TypeCatalogEntries(resolveKind === 'basic_attack'
     ? [['event/basic_attack_hit', 'event'], ['ability/basic_attack', 'ability']]
     : [['event/skill_hit', 'event']]);
   const candidates: SkillHitCandidate[] = [];
@@ -662,11 +701,12 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
     const converted = convertRuleConditions(rule, authored, state, resolveKind);
     for (const action of stableSorted(rule.actions, (item) => item.sortOrder)) {
       if (action.actionType !== 'EXECUTE_EFFECT') continue;
+      const actionState = hitActionState(authored, action, state);
       const effect = lookupEffect(authored, action.detail.effectKey, planPath(authored.skillKey, `rules.${rule.ruleKey}.actions.${action.actionKey}.detail.effectKey`));
       const occurrence = `${rule.ruleKey}:${action.actionKey}`;
       for (const result of stableSorted(effect.results, (item) => item.sortOrder)) {
         const path = planPath(authored.skillKey, `effects.${effect.effectKey}.results.${result.resultKey}`);
-        const compiled = compileResultOperations(authored, effect, result, path, state, providers, typeEntries, resolveKind);
+        const compiled = compileResultOperations(authored, effect, result, path, actionState, providers, typeEntries, resolveKind);
         if (compiled.vamp) {
           if (vampRules && !sameJson(vampRules, compiled.vamp.rules)) fail(path, '同一命中计划的游戏吸血规则不一致');
           vampRules = compiled.vamp.rules;
@@ -714,7 +754,7 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
     resolveKind,
     providers: [...providers.values()],
     params: state.params,
-    formulas: [...state.namedFormulas.values()],
+    formulas: formulasUsedByInternalValue([...providers.values()], [...state.namedFormulas.values()]),
     requiredAttributes: [...state.requiredAttributes],
     typeEntries: [...typeEntries].map(([key, domain]) => ({ key, domain })),
     vampRules,
@@ -722,9 +762,8 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
   };
 }
 
-function addType(request: CompileRequest, key: string, domain: string, path: string): void {
-  const old = request.typeCatalog.types.find((row) => row.key === key);
-  if (old && old.domain !== domain) fail(path, `类型域冲突：${key}`);
+function addType(request: CompileRequest, key: string, domain: string, _path: string): void {
+  const old = request.typeCatalog.types.find((row) => row.key === key && row.domain === domain);
   if (!old) request.typeCatalog.types.push({ key, domain });
 }
 
@@ -762,7 +801,7 @@ export function withHitProgram(
       return fail('rules.vampRules', '已有游戏吸血规则与命中计划冲突');
     }
     request.rules.vampRules = adapted.vampRules;
-    ability.types = [...new Set([...(ability.types ?? []).filter((key) => !key.startsWith('ability/')), ...adapted.abilityTypes])];
+    ability.types = [...new Set([...(ability.types ?? []).filter((key) => !key.startsWith(SKILL_CATEGORY_TYPE_PREFIX)), ...adapted.abilityTypes])];
     for (const actor of request.combatants) actor.types = [...new Set([...(actor.types ?? []), 'combatant/champion'])];
   }
   if (adapted.resolveKind === 'basic_attack') {
@@ -779,6 +818,10 @@ export function withHitProgram(
       skillHit: adapted.skillHit
     }];
   }
+  if (provider?.skillKey && provider.skillKey !== binding.authored.skillKey) fail('provider.skillKey', '供值器归属与技能不一致');
+  if (!provider) fail('provider', '技能来源供值器不存在');
+  provider!.skillKey = binding.authored.skillKey;
+  ability.skillKey = binding.authored.skillKey;
   ability.params ??= {};
   for (const [key, value] of Object.entries(adapted.params)) {
     if (key in ability.params && ability.params[key] !== value) fail(`ability.params.${key}`, '参数与现有运行输入冲突');
@@ -786,7 +829,7 @@ export function withHitProgram(
   }
   for (const formula of adapted.formulas) {
     const old = request.formulas.find((row) => row.key === formula.key);
-    if (old && JSON.stringify(old.expression) !== JSON.stringify(formula.expression)) fail('formulas', '具名公式与现有输入冲突');
+    if (old && !sameFormulaPayload(old, formula)) fail('formulas', '具名公式与现有输入冲突');
     if (!old) request.formulas.push(formula);
   }
   for (const actor of request.combatants) {

@@ -1,5 +1,7 @@
+import { approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
-import { adaptPersistentResult, compilePersistentResult, withPersistentResults, type AuthoredPersistentResult } from './persistentResultAdapter';
+import { adaptPersistentResult as raw_adaptPersistentResult, compilePersistentResult, withPersistentResults, type AuthoredPersistentResult } from './persistentResultAdapter';
 import type { CompileRequest } from '../types/genericEngine';
 import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
 import type { SkillEffectLifecycle, SkillEffectResult } from '../types/skillEffect';
@@ -45,6 +47,34 @@ function authored(kind: 'slow' | 'wound' = 'slow', patch: Partial<AuthoredPersis
   };
 }
 
+describe('5B按真实来源与承受者的持续属性', () => {
+  it('护甲比例削减沿已有修正及施加时等级，不转成来源自身永久属性', () => {
+    const result: SkillEffectResult = { ...slowResult(), resultType: 'ATTRIBUTE_CHANGE', resultKey: 'armor',
+      detail: { attributeKey: 'armor', operation: 'DECREASE', modifierZoneKey: 'author_attribute_percent' },
+      valueRule: { value: fixedValue(.2), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null } };
+    const value = authored('slow', { result, modifierZones: [{ modifierZoneKey: 'author_attribute_percent',
+      domain: 'ATTRIBUTE', calculationMode: 'RATIO_ADD', status: 'ENABLED' }] });
+    const compiled = compilePersistentResult(value, 'owned_armor_modifier');
+    expect(compiled.operation).toEqual({ operation: 'apply_provider', target: 'target', providerDefinitionRef: 'owned_armor_modifier' });
+    expect(compiled.provider).toMatchObject({ kind: 'status', lifecycle: { instanceScope: 'source_target',
+      durationMs: { op: 'const', value: 1000 }, maxStacks: 1, refreshPolicy: 'replace' }, modifiers: [{
+      kind: 'attribute', target: 'self.attr.armor', valuePolicy: 'add_percent', value: { op: 'const', value: -.2 }
+    }] });
+    expect(compiled.requiredAttributes).toContain('armor');
+    const multiplicative = compilePersistentResult({ ...value, modifierZones: [{ ...value.modifierZones[0]!, calculationMode: 'RATIO_MULTIPLY' }] }, 'owned_total_armor');
+    expect(multiplicative.provider.modifiers![0]).toMatchObject({ valuePolicy: 'multiply', value: { op: 'const', value: .8 } });
+    const before = structuredClone(value);
+    expect(compilePersistentResult(value, 'owned_armor_modifier')).toEqual(compiled);
+    expect(value).toEqual(before);
+    for (const patch of [
+      { result: { ...result, detail: { ...result.detail, attributeKey: 'hp' } } as SkillEffectResult },
+      { result: { ...result, valueRule: { ...result.valueRule!, value: fixedValue(1.1) } } },
+      { modifierZones: [{ modifierZoneKey: 'author_attribute_percent', domain: 'ATTRIBUTE' as const,
+        calculationMode: 'RATIO_ADD' as const, status: 'DISABLED' as const }] }
+    ]) expect(() => compilePersistentResult({ ...value, ...patch }, 'owned_armor_modifier')).toThrow();
+  });
+});
+
 function request(): CompileRequest {
   const slot = { base: 100, current: 100, max: 100, resolved: 100 };
   return {
@@ -71,7 +101,7 @@ describe('有界持续结果适配', () => {
     const formula: SkillFormula = {
       gameId: 'lol', skillKey: 'urgot_q', formulaKey: 'slow_formula', name: '减速', description: null,
       sortOrder: 0, createdAt: '', updatedAt: '',
-      expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'move_speed', attributeValueKind: 'CURRENT' }
+      expression: skillFormulaDefinition('urgot_q', { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'move_speed', attributeValueKind: 'CURRENT' })
     };
     const row = authored('slow', {
       formulas: [formula],
@@ -87,11 +117,11 @@ describe('有界持续结果适配', () => {
     expect(adapted.provider.statusContributions?.[0]?.strength).toEqual({
       op: 'min',
       args: [
-        { op: 'max', args: [{ op: 'mul', args: [{ op: 'ref', ref: 'status/urgot_q/slow_formula' }, { op: 'const', value: 0.01 }] }, { op: 'const', value: 0 }] },
+        { op: 'max', args: [{ op: 'mul', args: [{ op: 'ref', ref: 'status/urgot_q/levels/1/1/slow_formula' }, { op: 'const', value: 0.01 }] }, { op: 'const', value: 0 }] },
         { op: 'const', value: 1 }
       ]
     });
-    expect(adapted.formulas[0]?.expression).toEqual({ op: 'read', path: 'target.attr.move_speed.current' });
+    expect(adapted.formulas[0]?.expression).toEqual(formula.expression);
     expect(adapted.requiredAttributes).toEqual(['move_speed']);
     expect(adapted.operation).toEqual({ operation: 'apply_provider', target: 'target', providerDefinitionRef: 'status:slow' });
   });
@@ -170,7 +200,7 @@ describe('有界持续结果适配', () => {
     const formula: SkillFormula = {
       gameId: 'lol', skillKey: 'morellonomicon', formulaKey: 'hp', name: '生命', description: null,
       sortOrder: 0, createdAt: '', updatedAt: '',
-      expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'CURRENT' }
+      expression: skillFormulaDefinition('morellonomicon', { nodeType: 'ATTRIBUTE', attributeOwner: 'TARGET', attributeKey: 'hp', attributeValueKind: 'CURRENT' })
     };
     expect(() => adaptPersistentResult(authored('wound', {
       formulas: [formula],
@@ -220,3 +250,5 @@ describe('有界持续结果适配', () => {
     expect(merged.sharedProviders![0]!.abilities![0]!.operations?.[1]).toMatchObject({ operation: 'apply_provider' });
   });
 });
+
+const adaptPersistentResult = (...args: Parameters<typeof raw_adaptPersistentResult>): ReturnType<typeof raw_adaptPersistentResult> => { approveAuthoredFixture(args[0]); return raw_adaptPersistentResult(...args); };

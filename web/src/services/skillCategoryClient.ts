@@ -28,12 +28,13 @@ export function listSkillCategories(
   apiBaseUrl: string,
   gameId: string,
   token: string,
-  query: SkillCategoryListQuery = {}
+  query: SkillCategoryListQuery = {},
+  signal?: AbortSignal
 ): Promise<ApiResult<SkillCategoryListResponse>> {
   return requestJson<SkillCategoryListResponse>(
     apiBaseUrl,
     withQuery(skillCategoriesPath(gameId), query),
-    { token }
+    { token, signal }
   );
 }
 

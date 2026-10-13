@@ -27,7 +27,7 @@ describe('authoring focus helpers', () => {
   });
 
   it('maps formula slots onto the existing tree editor path', () => {
-    expect(formulaNodePathFromResolved(['expression', 'operands', 1, 'parameterKey'])).toBe('expression.operands[1]');
+    expect(formulaNodePathFromResolved(['expression', 'stages', 0, 'expression', 'args', 2, 'inputKey'])).toBe('/expression/stages/0/expression/args/2');
   });
 
   it('keeps unknown controls as an explicit degrade instead of pretending they were focused', () => {

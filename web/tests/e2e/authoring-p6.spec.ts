@@ -1,4 +1,8 @@
 import { expect, test, type Locator, type Page, type Route } from '@playwright/test';
+import { mkdirSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { simulationComplexSample } from '../fixtures/simulationComplexSkills';
+import { SKILL_TRIGGER_EVENT_TYPE_LABELS, SKILL_TRIGGER_SOURCE_TYPE_LABELS } from '../../src/types/skillSystemEnums.generated';
 
 const API = 'http://127.0.0.1:19085';
 const GAME_ID = 'authoring_p6';
@@ -79,7 +83,7 @@ class AuthoringP6Api {
   rules: Json[] = [ruleDetail()];
   digest = 1;
 
-  configuration() {
+  configuration(): Json {
     return {
       skill: skillRow(), parameters: [], formulas: [], internalStates: [], processes: [],
       effects: [{
@@ -325,6 +329,22 @@ class AuthoringP6Api {
   }
 }
 
+class ChargeHitAuthoringApi extends AuthoringP6Api {
+  private authored = JSON.parse(JSON.stringify(simulationComplexSample('CHARGE').skillConfigurations[1])
+    .replaceAll('demo', GAME_ID).replaceAll('sample_active', SKILL_KEY)) as ReturnType<typeof simulationComplexSample>['skillConfigurations'][number];
+
+  constructor(qualified: boolean) {
+    super();
+    this.rules = this.authored.triggerRules.map(rule => ({ ...rule })) as Json[];
+    if (!qualified) this.rules = this.rules.filter(rule => rule.ruleKey !== 'release_cast');
+  }
+
+  configuration() {
+    return { ...super.configuration(), parameters: this.authored.parameters, formulas: this.authored.formulas,
+      effects: this.authored.effects, processes: this.authored.processes };
+  }
+}
+
 async function prepare(page: Page, api: AuthoringP6Api, hash = '/#/skills') {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -508,6 +528,123 @@ test('录入检查把 limits.oncePerUse.scope 定位到平铺范围锚点', asyn
   await expect(editor.locator('[data-authoring-field="scope"].authoring-field-active')).toBeVisible();
   await expect(editor.getByRole('radio', { name: '每个目标', exact: true })).toBeChecked();
   await editor.getByRole('button', { name: '取消', exact: true }).click();
+  expect(api.writes).toHaveLength(0);
+  assertClean();
+});
+
+for (const qualified of [true, false]) test(`6C独立管理表单：${qualified ? '真实同源蓄力命中绑定可确认到草稿' : '缺实际释放声明不得提供充能值'}`, async ({ page }) => {
+  const api = new ChargeHitAuthoringApi(qualified);
+  const assertClean = await prepare(page, api);
+  const shell = await openTriggers(page);
+  const key = api.rules.find(rule => (rule.eventSource as Json).eventType === 'SKILL_HIT')!.ruleKey as string;
+  await ruleCard(shell, key).getByRole('button', { name: '编辑', exact: true }).click();
+  const editor = modal(page, '编辑规则');
+  await editor.getByRole('button', { name: '编辑', exact: true }).first().click();
+  const action = modal(page, '编辑动作');
+  await action.getByRole('button', { name: '编辑', exact: true }).click();
+  const binding = modal(page, '编辑绑定');
+  await binding.getByLabel('绑定事件值', { exact: true }).click();
+  const option = page.getByRole('option', { name: /实际蓄力毫秒数/ });
+  if (qualified) {
+    await expect(option).toBeVisible();
+    await option.click();
+    await binding.getByRole('button', { name: '确定', exact: true }).click();
+    await expect(binding).toBeHidden();
+    await action.getByRole('button', { name: '确定', exact: true }).click();
+    await expect(action).toBeHidden();
+    await editor.getByLabel('规则名称', { exact: true }).fill('独立同源蓄力命中草稿');
+    await editor.getByRole('button', { name: '确认到技能草稿', exact: true }).click();
+    await expect(editor).toBeHidden();
+    await expect(ruleCard(shell, key)).toContainText('独立同源蓄力命中草稿');
+    mkdirSync(resolve('output/phase6c'), { recursive: true });
+    await page.screenshot({ path: resolve('output/phase6c/construct-charge-hit-authoring.png'), fullPage: true });
+  } else {
+    await expect(option).toHaveCount(0);
+    await binding.getByLabel('绑定事件值', { exact: true }).click();
+    await binding.getByRole('button', { name: '取消', exact: true }).click();
+    await action.getByRole('button', { name: '取消', exact: true }).click();
+    await editor.getByRole('button', { name: '确认到技能草稿', exact: true }).click();
+    await expect(editor.getByText('当前事件不提供该事件值。', { exact: true })).toBeVisible();
+  }
+  expect(api.writes).toHaveLength(0);
+  assertClean();
+});
+
+class SystemEnumsAuthoringApi extends AuthoringP6Api {
+  constructor() {
+    super();
+    this.rules = [ruleDetail({
+      ruleKey: 'received', name: '受到普攻供值样例', oncePerUse: null,
+      eventSource: { eventType: 'BASIC_ATTACK_RECEIVED', detail: {} },
+      actions: [{ ...executeAction(), runtimeInputBindings: [
+        { bindingKey: 'elapsed', parameterKey: 'elapsed_ms', sourceType: 'COMBAT_ELAPSED_TIME', detail: { subject: 'SOURCE' } },
+        { bindingKey: 'recent', parameterKey: 'recent_damage', sourceType: 'RECENT_DAMAGE_SUM', detail: {
+          subject: 'CURRENT_TARGET', windowValue: { kind: 'FIXED', value: 1000 }, outputKind: 'ACTUAL_HP_LOSS',
+          sourceSkillKey: null, damageTypeKey: null, deliveryKind: 'ANY', originKind: 'DIRECT'
+        } }
+      ] }]
+    })];
+  }
+
+  configuration(): Json {
+    const base = super.configuration();
+    const effects = structuredClone(base.effects) as Json[];
+    ((effects[0].results as Json[])[0].valueRule as Json).value = { kind: 'FORMULA', formulaKey: 'observed_damage' };
+    return { ...base, effects,
+      parameters: ['elapsed_ms', 'recent_damage'].map(parameterKey => ({ gameId: GAME_ID, skillKey: SKILL_KEY, parameterKey,
+        name: parameterKey, valueType: 'DECIMAL', valueMode: 'RUNTIME_INPUT', fixedValue: null, levelValues: null,
+        description: null, sortOrder: 0, createdAt: NOW, updatedAt: NOW })),
+      formulas: [{ gameId: GAME_ID, skillKey: SKILL_KEY, formulaKey: 'observed_damage', name: '明确供值样例', description: null,
+        sortOrder: 0, createdAt: NOW, updatedAt: NOW, expression: {
+          inputs: ['elapsed_ms', 'recent_damage'].map(parameterKey => ({ key: parameterKey, binding: { kind: 'parameter', skillKey: SKILL_KEY, parameterKey } })),
+          stages: [{ key: 'observed', name: '明确参数总和', expression: { op: 'add', args: [
+            { op: 'read', inputKey: 'elapsed_ms' }, { op: 'read', inputKey: 'recent_damage' }
+          ] } }], outputStageKey: 'observed'
+        } }]
+    };
+  }
+}
+
+test('系统枚举专项：受到普攻列表明细、固定事件选择和两种供值编辑读取', async ({ page }, info) => {
+  const api = new SystemEnumsAuthoringApi();
+  const assertClean = await prepare(page, api);
+  const shell = await openTriggers(page);
+  await expect(ruleCard(shell, 'received')).toContainText(SKILL_TRIGGER_EVENT_TYPE_LABELS.BASIC_ATTACK_RECEIVED);
+  const readback = await page.evaluate(async ({ base, gameId, skillKey }) => {
+    const { listSkillTriggerRules, getSkillTriggerRule } = await import(/* @vite-ignore */ '/src/services/skillTriggerRuleClient.ts');
+    const listed = await listSkillTriggerRules(base, gameId, skillKey, 'authoring-p6-example');
+    const loaded = await getSkillTriggerRule(base, gameId, skillKey, 'received', 'authoring-p6-example');
+    return { summaries: listed.data, detail: loaded.data };
+  }, { base: API, gameId: GAME_ID, skillKey: SKILL_KEY });
+  expect(readback.summaries[0].eventType).toBe('BASIC_ATTACK_RECEIVED');
+  expect(readback.detail.actions[0].runtimeInputBindings.map(binding => binding.sourceType)).toEqual(['COMBAT_ELAPSED_TIME', 'RECENT_DAMAGE_SUM']);
+  await ruleCard(shell, 'received').getByRole('button', { name: '编辑', exact: true }).click();
+  const editor = modal(page, '编辑规则');
+  await editor.getByLabel('事件类型', { exact: true }).click();
+  await expect(page.getByRole('option', { name: SKILL_TRIGGER_EVENT_TYPE_LABELS.SOURCE_INITIALIZED, exact: true })).toBeVisible();
+  await expect(page.getByRole('option', { name: SKILL_TRIGGER_EVENT_TYPE_LABELS.BASIC_ATTACK_START, exact: true })).toBeVisible();
+  await expect(page.getByRole('option', { name: SKILL_TRIGGER_EVENT_TYPE_LABELS.BASIC_ATTACK_HIT, exact: true })).toBeVisible();
+  await expect(page.getByRole('option', { name: SKILL_TRIGGER_EVENT_TYPE_LABELS.BASIC_ATTACK_RECEIVED, exact: true })).toBeVisible();
+  await page.getByRole('option', { name: SKILL_TRIGGER_EVENT_TYPE_LABELS.BASIC_ATTACK_RECEIVED, exact: true }).click();
+  await editor.getByRole('button', { name: '编辑', exact: true }).first().click();
+  const action = modal(page, '编辑动作');
+  await expect(action).toContainText(SKILL_TRIGGER_SOURCE_TYPE_LABELS.COMBAT_ELAPSED_TIME);
+  await expect(action).toContainText(SKILL_TRIGGER_SOURCE_TYPE_LABELS.RECENT_DAMAGE_SUM);
+  await action.getByRole('button', { name: '编辑', exact: true }).first().click();
+  const elapsed = modal(page, '编辑绑定');
+  await expect(elapsed.getByLabel('入战对象', { exact: true })).toContainText('来源对象');
+  await elapsed.getByRole('button', { name: '取消', exact: true }).click();
+  await action.getByRole('button', { name: '编辑', exact: true }).nth(1).click();
+  const recent = modal(page, '编辑绑定');
+  await expect(recent.getByLabel('受伤对象', { exact: true })).toContainText('当前目标');
+  await expect(recent.getByLabel('受伤累计口径', { exact: true })).toContainText('实际扣血');
+  await recent.getByLabel('受伤产生方式', { exact: true }).click();
+  await expect(page.getByRole('option', { name: '普通攻击', exact: true })).toBeVisible();
+  await page.getByRole('option', { name: '任意', exact: true }).click();
+  await recent.getByRole('button', { name: '取消', exact: true }).click();
+  await action.getByRole('button', { name: '取消', exact: true }).click();
+  await editor.getByRole('button', { name: '取消', exact: true }).click();
+  await info.attach('完整读取与固定枚举页面证据', { contentType: 'application/json', body: Buffer.from(JSON.stringify(readback, null, 2)) });
   expect(api.writes).toHaveLength(0);
   assertClean();
 });

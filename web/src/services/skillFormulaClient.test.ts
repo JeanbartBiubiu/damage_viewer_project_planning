@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   createSkillFormula,
@@ -15,7 +16,7 @@ function jsonResponse(status: number, body: unknown): Response {
   });
 }
 
-const expression: FormulaExpressionNode = {
+const expression: FormulaExpressionNode = skillFormulaDefinition('varus_w', {
   nodeType: 'OPERATION',
   operation: 'MULTIPLY',
   operands: [
@@ -30,7 +31,7 @@ const expression: FormulaExpressionNode = {
       parameterKey: 'missing_health_ratio'
     }
   ]
-};
+});
 
 describe('skillFormulaClient', () => {
   afterEach(() => {
@@ -49,7 +50,7 @@ describe('skillFormulaClient', () => {
       createdAt: '2026-08-26T00:00:00Z',
       updatedAt: '2026-08-26T00:00:00Z'
     };
-    const detail: SkillFormula = { ...summary, expression };
+    const detail: SkillFormula = { ...summary, formulaKey: 'missing/health', expression };
 
     const listMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       expect(String(input)).toBe(
@@ -87,7 +88,7 @@ describe('skillFormulaClient', () => {
         method,
         body: init?.body ? JSON.parse(String(init.body)) : null
       });
-      return jsonResponse(method === 'POST' ? 201 : method === 'DELETE' ? 204 : 200, {});
+      return jsonResponse(method === 'POST' ? 201 : method === 'DELETE' ? 204 : 200, { gameId: 'demo', skillKey: 'varus_w', formulaKey: 'missing_health_damage', ...JSON.parse(String(init?.body ?? '{}')) });
     });
     vi.stubGlobal('fetch', fetchMock);
 

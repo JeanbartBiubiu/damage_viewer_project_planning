@@ -773,6 +773,10 @@ export function SkillProcessEditorModal({
       render: (_value, row: { item: SkillProcessStepDraft }) => stepSummary(row.item)
     },
     {
+      title: '行动占用',
+      render: (_value, row: { item: SkillProcessStepDraft }) => row.item.occupiesAction === null ? '未核定' : row.item.occupiesAction ? '占用行动' : '不占用行动'
+    },
+    {
       title: '排序',
       render: (_value, row: { item: SkillProcessStepDraft }) => row.item.sortOrder
     },

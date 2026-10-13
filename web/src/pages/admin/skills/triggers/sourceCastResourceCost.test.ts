@@ -1,3 +1,4 @@
+import { skillFormulaDefinition } from '../../../../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type { SkillFormula } from '../../../../types/skillFormula';
@@ -92,7 +93,7 @@ describe('来源施放资源消耗绑定', () => {
   });
 
   it('经当前技能公式可达的十进制动态参数也可绑定', () => {
-    const formula: SkillFormula = { gameId: 'lol', skillKey: 'w', formulaKey: 'refund_total', name: '退款', description: null, sortOrder: 0, expression: { nodeType: 'PARAMETER', parameterKey: 'source_cost' }, createdAt: '', updatedAt: '' };
+    const formula: SkillFormula = { gameId: 'lol', skillKey: 'w', formulaKey: 'refund_total', name: '退款', description: null, sortOrder: 0, expression: skillFormulaDefinition('w', { nodeType: 'PARAMETER', parameterKey: 'source_cost' }), createdAt: '', updatedAt: '' };
     const viaFormula = { ...effect, lifecycle: { ...effect.lifecycle!, durationValue: formulaValue('refund_total') } };
     expect(validateSkillTriggerDraft(draft(), { ...options, effectsByKey: new Map([['refund', viaFormula]]), formulasByKey: new Map([['refund_total', formula]]) }).ok).toBe(true);
   });

@@ -5,6 +5,8 @@ import { allowsTargetCategoryCheck, targetCategoryConditionError, targetCategory
 import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerTargetCategory } from '../../../../types/skillTriggerRule';
 import { numericValueError } from '../numericValueForm';
 import type { SkillParameter } from '../../../../types/skillParameter';
+import type { SkillProcessStepType } from '../../../../types/skillProcess';
+import type { ChargeHitContext } from './chargeHitContext';
 import { NumericValueField } from '../NumericValueField';
 import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
 import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
@@ -87,6 +89,8 @@ type SkillTriggerConditionEditorModalProps = {
   effectsLoadState?: 'idle' | 'loading' | 'ready' | 'error';
   onRetryLifecycleEffects: () => Promise<void>;
   eventSource: SkillTriggerEventSource;
+  chargeHitContext?: ChargeHitContext;
+  stepType?: SkillProcessStepType | null;
   attributes: readonly Attribute[];
   statuses: readonly GameStatus[];
   parameters: readonly SkillParameter[];
@@ -124,6 +128,8 @@ export function SkillTriggerConditionEditorModal({
   effectsLoadState,
   onRetryLifecycleEffects,
   eventSource,
+  chargeHitContext,
+  stepType,
   attributes,
   statuses,
   parameters,
@@ -143,7 +149,7 @@ export function SkillTriggerConditionEditorModal({
   );
   const [localError, setLocalError] = useState<string | null>(null);
   const [reloadingEffects, setReloadingEffects] = useState(false);
-  const allowedValues = allowedEventValuesFor(eventSource);
+  const allowedValues = allowedEventValuesFor(eventSource, stepType, chargeHitContext);
   const subjectOptions = subjectOptionsForEvent(eventSource.eventType);
   const conditionTypes = SKILL_TRIGGER_CONDITION_TYPES.filter(
     (value) => value !== 'EVENT_VALUE_COMPARE' || allowedValues.length > 0
@@ -222,7 +228,7 @@ export function SkillTriggerConditionEditorModal({
       setLocalError(stateReference.error || '外部内部状态详情尚未读取。'); return;
     }
     if (current.conditionType === 'INTERNAL_STATE_CHECK' && selectedState
-      && !valueKindsForInternalState(selectedState.stateType).includes(current.detail.valueKind)) {
+      && !valueKindsForInternalState(selectedState.stateType, eventSource.eventType === 'SKILL_HIT').includes(current.detail.valueKind)) {
       setLocalError('该内部状态不支持当前取值方式。'); return;
     }
     if (current.conditionType === 'INTERNAL_STATE_CHECK' && current.detail.valueKind === 'OPTION_SELECTED'
@@ -626,7 +632,7 @@ export function SkillTriggerConditionEditorModal({
           {current.conditionType === 'INTERNAL_STATE_CHECK' ? (
             <>
               <Form.Item label="内部状态所属技能" required>
-                <Input aria-label="条件状态所属技能" value={current.detail.stateSkillKey || skillKey}
+                <Input aria-label="条件状态所属技能" value={current.detail.stateSkillKey ?? ''} placeholder="请明确填写所属技能，不为已存空值补默认"
                   disabled={disabled} onChange={(value) => setCurrent({ ...current,
                     detail: { ...current.detail, stateSkillKey: value.trim(), stateKey: '' } })} />
               </Form.Item>
@@ -645,7 +651,7 @@ export function SkillTriggerConditionEditorModal({
                   options={stateOptions}
                   onChange={(value) => {
                     const nextState = internalStates.find((item) => item.stateKey === value);
-                    const kinds = valueKindsForInternalState(nextState?.stateType ?? null);
+                    const kinds = valueKindsForInternalState(nextState?.stateType ?? null, eventSource.eventType === 'SKILL_HIT');
                     const next = patchInternalStateCheckStateKey(
                       current,
                       String(value ?? ''),
@@ -662,7 +668,7 @@ export function SkillTriggerConditionEditorModal({
                   aria-label="内部状态取值方式"
                   value={current.detail.valueKind}
                   disabled={disabled}
-                  options={valueKindsForInternalState(selectedState?.stateType ?? null).map((value) => ({
+                  options={valueKindsForInternalState(selectedState?.stateType ?? null, eventSource.eventType === 'SKILL_HIT').map((value) => ({
                     value,
                     label: SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS[value]
                   }))}
@@ -698,7 +704,7 @@ export function SkillTriggerConditionEditorModal({
                   />
                 </Form.Item>
               ) : null}
-              {current.detail.valueKind === 'VALUE' || current.detail.valueKind === 'REMAINING_MS' ? (
+              {current.detail.valueKind === 'VALUE' || current.detail.valueKind === 'ATTACK_START_VALUE' || current.detail.valueKind === 'REMAINING_MS' ? (
                 <>
                   <Form.Item label="比较符" required>
                     <Select

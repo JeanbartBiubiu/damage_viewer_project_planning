@@ -14,7 +14,7 @@ import type {
 } from '../types/modifierZone';
 
 const DOMAINS = new Set<ModifierZoneDomain>(['ATTRIBUTE', 'DAMAGE', 'HEALING', 'SHIELD']);
-const CALCULATION_MODES = new Set<ModifierZoneCalculationMode>(['FLAT_ADD', 'RATIO_ADD', 'RATIO_MAX']);
+const CALCULATION_MODES = new Set<ModifierZoneCalculationMode>(['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_MAX']);
 const APPLICATION_STAGES = new Set<ModifierZoneApplicationStage>([
   'ATTRIBUTE_FLAT', 'ATTRIBUTE_PERCENT', 'DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE', 'HEALING_RESULT', 'SHIELD_RESULT'
 ]);

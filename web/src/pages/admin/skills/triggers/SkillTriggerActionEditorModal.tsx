@@ -20,7 +20,8 @@ import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type { SkillEffect, SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
 import type { SkillParameter } from '../../../../types/skillParameter';
-import type { SkillProcess, SkillProcessSummary } from '../../../../types/skillProcess';
+import type { SkillProcess, SkillProcessStepType, SkillProcessSummary } from '../../../../types/skillProcess';
+import type { ChargeHitContext } from './chargeHitContext';
 import type { GameStatus } from '../../../../types/status';
 import type {
   SkillTriggerActionType,
@@ -83,6 +84,8 @@ type SkillTriggerActionEditorModalProps = {
   attributesLoadState?: CatalogLoadState;
   onRetryAttributes: () => Promise<void>;
   eventSource: SkillTriggerEventSource;
+  chargeHitContext?: ChargeHitContext;
+  stepType?: SkillProcessStepType | null;
   actions: readonly SkillTriggerActionDraft[];
   currentActionIndex: number;
   effects: readonly SkillEffectSummary[];
@@ -127,6 +130,8 @@ export function SkillTriggerActionEditorModal({
   attributesLoadState,
   onRetryAttributes,
   eventSource,
+  chargeHitContext,
+  stepType,
   actions,
   currentActionIndex,
   effects,
@@ -700,6 +705,8 @@ export function SkillTriggerActionEditorModal({
         reachableParameters={reachableParameters}
         currentBindings={current.runtimeInputBindings}
         eventSource={eventSource}
+        chargeHitContext={chargeHitContext}
+        stepType={stepType}
         actions={actions}
         currentActionIndex={currentActionIndex}
         internalStates={internalStates}

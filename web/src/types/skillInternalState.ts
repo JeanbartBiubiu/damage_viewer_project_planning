@@ -21,6 +21,7 @@ export type SkillInternalStateModeOption = {
 export type SkillInternalStateCounterDetail = {
   initialValue: NumericValue;
   maxValue: NumericValue;
+  durationValue?: NumericValue | null;
 };
 
 export type SkillInternalStateAmmoDetail = {

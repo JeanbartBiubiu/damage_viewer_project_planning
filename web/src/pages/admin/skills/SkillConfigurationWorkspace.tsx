@@ -315,7 +315,7 @@ function overviewFormulas(draft: SkillConfigurationDraft, baseline: SkillConfigu
 function workspaceFormulas(draft: SkillConfigurationDraft, baseline: SkillConfiguration | null,
   parameters: SkillParameter[], attributes: Attribute[]): SkillFormula[] {
   const saved = new Map(baseline?.formulas.map((item) => [item.formulaKey, item]) ?? []);
-  const options = draft.parameters.map((entry) => ({ parameterKey: entry.draft.parameterKey.trim(),
+  const options = draft.parameters.map((entry) => ({ skillKey: baseline?.skill.skillKey ?? draft.skill.skillKey.trim(), parameterKey: entry.draft.parameterKey.trim(),
     name: entry.draft.name, valueMode: entry.draft.valueMode }));
   return draft.formulas.flatMap((entry): SkillFormula[] => {
     const key = entry.draft.formulaKey.trim();
