@@ -100,6 +100,7 @@ describe('genericEngineClient frame parsing', () => {
 type PostedMessage = { type: string; id?: string; [key: string]: unknown };
 
 class FakeWorker {
+  static automaticReady = true;
   onmessage: ((event: MessageEvent) => void) | null = null;
   onerror: ((event: ErrorEvent) => void) | null = null;
   readonly messages: PostedMessage[] = [];
@@ -107,7 +108,7 @@ class FakeWorker {
 
   postMessage(message: PostedMessage) {
     this.messages.push(message);
-    if (message.type === 'init') {
+    if (message.type === 'init' && FakeWorker.automaticReady) {
       queueMicrotask(() => this.emit({ type: 'ready', id: message.id }));
     }
   }
@@ -116,11 +117,12 @@ class FakeWorker {
     this.onmessage?.({ data: message } as MessageEvent);
   }
 
-  respond(type: 'compile' | 'run' | 'release', kind: number, payload: unknown) {
+  respond(type: 'compile' | 'run' | 'release', kind: number, payload: unknown,
+    id = this.messages.filter((message) => message.type === type).at(-1)?.id) {
     const responseFrame = frame(kind, payload);
     this.emit(structuredClone({
       type: `${type}Result`,
-      id: this.messages.find((message) => message.type === type)?.id,
+      id,
       frames: [{ ...responseFrame, payload: responseFrame.payload.buffer }]
     }, { transfer: [responseFrame.payload.buffer] }));
   }
@@ -183,6 +185,7 @@ describe('genericEngineClient worker lifecycle', () => {
 
   beforeEach(() => {
     vi.useFakeTimers();
+    FakeWorker.automaticReady = true;
     workers = [];
     vi.stubGlobal(
       'Worker',
@@ -206,7 +209,7 @@ describe('genericEngineClient worker lifecycle', () => {
   async function compileSession(): Promise<FakeWorker> {
     const compiled = client.compile(compileRequest);
     await vi.advanceTimersByTimeAsync(0);
-    const worker = workers[0];
+    const worker = workers.at(-1)!;
     worker.respond('compile', OUTBOX_GENERIC_COMPILE_RESULT, { ok: true, sessionId: 'session-1' });
     await expect(compiled).resolves.toEqual({ ok: true, sessionId: 'session-1' });
     return worker;
@@ -372,6 +375,161 @@ describe('genericEngineClient worker lifecycle', () => {
     expect(failure.frames?.[0].payload.buffer).toBe(message.frames[0].payload);
     expect(failure.frames?.[1].payload.buffer).toBe(message.frames[1].payload);
     expect(client.hasLiveWorker).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it('recompiles and releases every session while retaining the same worker', async () => {
+    const worker = await compileSession();
+    const firstRelease = client.release('session-1', 'r');
+    await vi.advanceTimersByTimeAsync(0);
+    worker.respond('release', OUTBOX_GENERIC_RELEASE_RESULT, { ok: true, sessionId: 'session-1', released: true });
+    await firstRelease;
+
+    const secondCompile = client.compile(compileRequest);
+    await vi.advanceTimersByTimeAsync(0);
+    worker.respond('compile', OUTBOX_GENERIC_COMPILE_RESULT, { ok: true, sessionId: 'session-2' });
+    await expect(secondCompile).resolves.toEqual({ ok: true, sessionId: 'session-2' });
+    const secondRelease = client.release('session-2', 'r');
+    await vi.advanceTimersByTimeAsync(0);
+    worker.respond('release', OUTBOX_GENERIC_RELEASE_RESULT, { ok: true, sessionId: 'session-2', released: true });
+    await secondRelease;
+
+    expect(workers).toHaveLength(1);
+    expect(worker.messages.map((item) => item.type)).toEqual(['init', 'compile', 'release', 'compile', 'release']);
+    expect(worker.terminated).toBe(false);
+    expect(client.hasLiveWorker).toBe(true);
+  });
+
+  it('waits for the same initialization before dispatching concurrent requests', async () => {
+    FakeWorker.automaticReady = false;
+    const first = client.compile(compileRequest);
+    const second = client.compile(compileRequest);
+    await vi.advanceTimersByTimeAsync(0);
+    expect(workers).toHaveLength(1);
+    const worker = workers[0];
+    expect(worker.messages.map((item) => item.type)).toEqual(['init']);
+
+    worker.emit({ type: 'ready', id: worker.messages[0].id });
+    await vi.advanceTimersByTimeAsync(0);
+    expect(worker.messages.map((item) => item.type)).toEqual(['init', 'compile', 'compile']);
+    const requests = worker.messages.filter((item) => item.type === 'compile');
+    worker.respond('compile', OUTBOX_GENERIC_COMPILE_RESULT, { ok: true, sessionId: 'first' }, requests[0].id);
+    worker.respond('compile', OUTBOX_GENERIC_COMPILE_RESULT, { ok: true, sessionId: 'second' }, requests[1].id);
+    await expect(Promise.all([first, second])).resolves.toEqual([
+      { ok: true, sessionId: 'first' }, { ok: true, sessionId: 'second' }
+    ]);
+  });
+
+  it('does not dispatch or resurrect a request cancelled during initialization', async () => {
+    FakeWorker.automaticReady = false;
+    const compile = client.compile(compileRequest);
+    const rejected = expect(compile).rejects.toThrow('工作线程已终止');
+    const old = workers[0];
+    const lateReady = old.onmessage!;
+    client.terminate();
+    lateReady({ data: { type: 'ready', id: old.messages[0].id } } as MessageEvent);
+    await rejected;
+    expect(old.messages.some((item) => item.type === 'compile')).toBe(false);
+    expect(client.hasLiveWorker).toBe(false);
+
+    FakeWorker.automaticReady = true;
+    await compileSession();
+    expect(workers).toHaveLength(2);
+    expect(workers[1].terminated).toBe(false);
+  });
+
+  it('ignores old worker responses and error callbacks after a new worker starts', async () => {
+    const old = await compileSession();
+    const staleMessage = old.onmessage!;
+    const staleError = old.onerror!;
+    client.terminate();
+    const compile = client.compile(compileRequest);
+    const resolved = vi.fn();
+    void compile.then(resolved);
+    await vi.advanceTimersByTimeAsync(0);
+    const current = workers[1];
+    const id = current.messages.filter((item) => item.type === 'compile').at(-1)!.id;
+    const fake = frame(OUTBOX_GENERIC_COMPILE_RESULT, { ok: true, sessionId: 'stale' });
+    staleMessage({ data: { type: 'compileResult', id, frames: [{ ...fake, payload: fake.payload.buffer }] } } as MessageEvent);
+    staleError({ message: 'old crash' } as ErrorEvent);
+    await vi.advanceTimersByTimeAsync(0);
+    expect(resolved).not.toHaveBeenCalled();
+    expect(client.hasLiveWorker).toBe(true);
+    expect(current.terminated).toBe(false);
+    current.respond('compile', OUTBOX_GENERIC_COMPILE_RESULT, { ok: true, sessionId: 'fresh' });
+    await expect(compile).resolves.toEqual({ ok: true, sessionId: 'fresh' });
+  });
+
+  it('a run timeout rejects every pending request before rebuilding', async () => {
+    const worker = await compileSession();
+    const run = client.run(runRequest);
+    const compile = client.compile(compileRequest);
+    const runRejected = expect(run).rejects.toThrow('运行超时（30 秒）');
+    const compileRejected = expect(compile).rejects.toThrow('运行超时（30 秒）');
+    await vi.advanceTimersByTimeAsync(RUN_TIMEOUT_MS);
+    await Promise.all([runRejected, compileRejected]);
+    expect(worker.terminated).toBe(true);
+    expect(client.hasLiveWorker).toBe(false);
+    expect(vi.getTimerCount()).toBe(0);
+    await compileSession();
+    expect(workers).toHaveLength(2);
+  });
+
+  it('instance-invalid errors reject every pending request', async () => {
+    const worker = await compileSession();
+    const run = client.run(runRequest);
+    const compile = client.compile(compileRequest);
+    const runRejected = expect(run).rejects.toThrow('Wasm trap');
+    const compileRejected = expect(compile).rejects.toThrow('Wasm trap');
+    await vi.advanceTimersByTimeAsync(0);
+    worker.emit({ type: 'error', id: worker.messages.find((item) => item.type === 'run')?.id,
+      message: 'Wasm trap', recreate: true });
+    await Promise.all([runRejected, compileRejected]);
+    expect(worker.terminated).toBe(true);
+    expect(client.hasLiveWorker).toBe(false);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it('a release failure invalidates the worker and rejects other pending requests', async () => {
+    const worker = await compileSession();
+    const release = client.release('session-1', 'r');
+    const run = client.run(runRequest);
+    const releaseRejected = expect(release).rejects.toThrow('释放返回 ok=false');
+    const runRejected = expect(run).rejects.toThrow('释放返回 ok=false');
+    await vi.advanceTimersByTimeAsync(0);
+    worker.respond('release', OUTBOX_GENERIC_RELEASE_RESULT, { ok: false, sessionId: 'session-1', released: false });
+    await Promise.all([releaseRejected, runRejected]);
+    expect(worker.terminated).toBe(true);
+    expect(client.hasLiveWorker).toBe(false);
+    expect(vi.getTimerCount()).toBe(0);
+    await compileSession();
+    expect(workers).toHaveLength(2);
+  });
+
+  it('rejects a mismatched release identity and invalidates that worker', async () => {
+    const worker = await compileSession();
+    const release = client.release('session-1', 'r');
+    const rejected = expect(release).rejects.toThrow('释放响应不属于请求会话。');
+    await vi.advanceTimersByTimeAsync(0);
+    worker.respond('release', OUTBOX_GENERIC_RELEASE_RESULT, { ok: true, sessionId: 'different-session', released: true });
+    await rejected;
+    expect(worker.terminated).toBe(true);
+    expect(client.hasLiveWorker).toBe(false);
+    await compileSession();
+    expect(workers).toHaveLength(2);
+  });
+
+  it('malformed worker replies reject the matching and all other pending requests', async () => {
+    const worker = await compileSession();
+    const run = client.run(runRequest);
+    const compile = client.compile(compileRequest);
+    const runRejected = expect(run).rejects.toBeInstanceOf(Error);
+    const compileRejected = expect(compile).rejects.toBeInstanceOf(Error);
+    await vi.advanceTimersByTimeAsync(0);
+    worker.emit({ type: 'runResult', id: worker.messages.find((item) => item.type === 'run')?.id, frames: null });
+    await Promise.all([runRejected, compileRejected]);
+    expect(worker.terminated).toBe(true);
+    expect(client.hasLiveWorker).toBe(false);
     expect(vi.getTimerCount()).toBe(0);
   });
 });

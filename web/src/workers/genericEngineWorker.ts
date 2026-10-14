@@ -36,6 +36,11 @@ function serializeFrames(frames: TinyGoV2Frame[]): SerializedFrame[] {
   }));
 }
 
+function requireFrames(frames: TinyGoV2Frame[]): TinyGoV2Frame[] {
+  if (frames.length === 0) throw new Error('worker bridge returned an empty outbox');
+  return frames;
+}
+
 function postResponse(response: WorkerResponseMessage) {
   if ('frames' in response && response.frames) {
     const transfer = [...new Set(response.frames.map((frame) => frame.payload))];
@@ -46,6 +51,7 @@ function postResponse(response: WorkerResponseMessage) {
 }
 
 function postError(id: string | undefined, message: string, recreate = false, frames?: TinyGoV2Frame[]) {
+  if (recreate) bridge = null;
   const response: WorkerResponseMessage = {
     type: 'error',
     id,
@@ -86,13 +92,13 @@ async function handleMessage(message: WorkerRequestMessage) {
     }
 
     if (!bridge) {
-      postError(message.id, 'worker bridge not initialized');
+      postError(message.id, 'worker bridge not initialized', true);
       return;
     }
 
     if (message.type === 'compile') {
       try {
-        const frames = bridge.compile(message.request);
+        const frames = requireFrames(bridge.compile(message.request));
         const response: WorkerResponseMessage = {
           type: 'compileResult',
           id: message.id,
@@ -101,7 +107,7 @@ async function handleMessage(message: WorkerRequestMessage) {
         postResponse(response);
       } catch (error) {
         const invocationError = error as { frames?: TinyGoV2Frame[]; message?: string };
-        if (invocationError.frames?.length) {
+        if (invocationError.frames?.length && !(error instanceof WebAssembly.RuntimeError)) {
           const response: WorkerResponseMessage = {
             type: 'compileResult',
             id: message.id,
@@ -110,7 +116,7 @@ async function handleMessage(message: WorkerRequestMessage) {
           postResponse(response);
           return;
         }
-        postError(message.id, invocationError.message ?? 'compile failed');
+        postError(message.id, invocationError.message ?? 'compile failed', true);
       }
       return;
     }
@@ -119,7 +125,7 @@ async function handleMessage(message: WorkerRequestMessage) {
       // Run timeout is owned by the main-thread GenericEngineClient (30s).
       // Do not duplicate a Worker-side timer that can drift under sync Wasm.
       try {
-        const frames = bridge.run(message.request);
+        const frames = requireFrames(bridge.run(message.request));
         const response: WorkerResponseMessage = {
           type: 'runResult',
           id: message.id,
@@ -128,7 +134,7 @@ async function handleMessage(message: WorkerRequestMessage) {
         postResponse(response);
       } catch (error) {
         const invocationError = error as { frames?: TinyGoV2Frame[]; message?: string };
-        if (invocationError.frames?.length) {
+        if (invocationError.frames?.length && !(error instanceof WebAssembly.RuntimeError)) {
           const response: WorkerResponseMessage = {
             type: 'runResult',
             id: message.id,
@@ -137,14 +143,14 @@ async function handleMessage(message: WorkerRequestMessage) {
           postResponse(response);
           return;
         }
-        postError(message.id, invocationError.message ?? 'run failed');
+        postError(message.id, invocationError.message ?? 'run failed', true);
       }
       return;
     }
 
     if (message.type === 'release') {
       try {
-        const frames = bridge.releaseSession(message.sessionId, message.expectedRulesHash);
+        const frames = requireFrames(bridge.releaseSession(message.sessionId, message.expectedRulesHash));
         const response: WorkerResponseMessage = {
           type: 'releaseResult',
           id: message.id,
@@ -153,7 +159,7 @@ async function handleMessage(message: WorkerRequestMessage) {
         postResponse(response);
       } catch (error) {
         const invocationError = error as { frames?: TinyGoV2Frame[]; message?: string };
-        if (invocationError.frames?.length) {
+        if (invocationError.frames?.length && !(error instanceof WebAssembly.RuntimeError)) {
           const response: WorkerResponseMessage = {
             type: 'releaseResult',
             id: message.id,
@@ -162,7 +168,7 @@ async function handleMessage(message: WorkerRequestMessage) {
           postResponse(response);
           return;
         }
-        postError(message.id, invocationError.message ?? 'release failed');
+        postError(message.id, invocationError.message ?? 'release failed', true);
       }
     }
   } catch (error) {

@@ -337,6 +337,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const active = useRef(true);
   const formulaProofIdentityRef = useRef<string | null>(null);
   const taskRef = useRef<Task | null>(null);
+  const computationClientRef = useRef<GenericEngineClient | null>(null);
   const token = adminToken.trim();
   const busy = phase !== 'idle';
   const candidateUnconfirmed = snapshot !== null && (confirmationRequired || !sameSkillDigests(snapshot, confirmedDigests));
@@ -385,6 +386,16 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     formulaProofIdentityRef.current = task.formulaProofIdentity;
   };
 
+  const discardClient = (client: GenericEngineClient | null) => {
+    if (!client) return;
+    if (computationClientRef.current === client) computationClientRef.current = null;
+    client.terminate();
+  };
+  const computationClient = () => {
+    if (!computationClientRef.current) computationClientRef.current = new GenericEngineClient();
+    return computationClientRef.current;
+  };
+
   useEffect(() => {
     active.current = true;
     setSelection(emptySelection());
@@ -420,9 +431,10 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       if (task) {
         task.cancelled = true;
         task.controller.abort();
-        task.client?.terminate();
+        discardClient(task.client);
         clearOwnedFormulaProof(task.formulaProofIdentity);
       }
+      discardClient(computationClientRef.current);
       clearOwnedFormulaProof(formulaProofIdentityRef.current);
       onDirtyChange(false);
     };
@@ -458,7 +470,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     if (!task) return;
     task.cancelled = true;
     task.controller.abort();
-    task.client?.terminate();
+    discardClient(task.client);
+    discardClient(computationClientRef.current);
     clearOwnedFormulaProof(task.formulaProofIdentity ?? formulaProofIdentityRef.current);
     task.cleanup = task.client ? 'worker_destroyed' : 'not_needed';
     taskRef.current = null;
@@ -557,8 +570,15 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
 
   const acceptSnapshot = async (next: SimulationSnapshot, task: NonNullable<typeof taskRef.current>) => {
     trackFormulaProof(task, next);
-    task.client = new GenericEngineClient();
-    const evidence = await preflightSkillFormulas(next, task.client, () => isCurrent(task));
+    const client = new GenericEngineClient();
+    task.client = client;
+    let evidence: Awaited<ReturnType<typeof preflightSkillFormulas>>;
+    try {
+      evidence = await preflightSkillFormulas(next, client, () => isCurrent(task));
+    } finally {
+      client.terminate();
+      if (task.client === client) task.client = null;
+    }
     if (!isCurrent(task)) return false;
     task.formulaPreflight = evidence;
     setFormulaPreflight(evidence);
@@ -772,7 +792,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       }
       task.snapshot = structuredClone(latest.data);
       trackFormulaProof(task, task.snapshot);
-      task.client = new GenericEngineClient();
+      task.client = computationClient();
       const preflight = await preflightSkillFormulas(task.snapshot, task.client, () => isCurrent(task));
       if (!isCurrent(task)) return;
       task.formulaPreflight = preflight;
@@ -862,12 +882,13 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
           }
         } catch (cause) {
           task.cleanup = 'release_failed';
+          discardClient(task.client);
           if (isCurrent(task)) {
             task.failurePhase ??= 'releasing';
             failure = `${failure ? `${failure}\n` : ''}会话释放失败：${taskError(cause)}`;
           }
         } finally {
-          task.client.terminate();
+          if (task.cancelled || !task.client.hasLiveWorker) discardClient(task.client);
         }
       }
       if (isCurrent(task)) {

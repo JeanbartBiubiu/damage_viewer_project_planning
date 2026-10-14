@@ -119,16 +119,52 @@ describe('genericEngineWorker buffer transfer', () => {
     expect(JSON.parse(new TextDecoder().decode(response.frames?.[1].payload))).toEqual({ shared: '正文' });
   });
 
-  it('retains ordinary error messages and allows the next invocation', async () => {
+  it('invalidates an unframed bridge failure and requires a new initialization', async () => {
     await initialize();
     mocks.run.mockImplementationOnce(() => { throw new Error('ordinary failure'); });
     const failed = await dispatch({ type: 'run', id: 'failed', request: {} });
-    expect(failed).toEqual({ type: 'error', id: 'failed', message: 'ordinary failure', recreate: false });
+    expect(failed).toEqual({ type: 'error', id: 'failed', message: 'ordinary failure', recreate: true });
     expect(transferLists.at(-1)).toEqual([]);
 
+    await initialize();
+    expect(mocks.create).toHaveBeenCalledTimes(2);
     mocks.run.mockReturnValue([frame(211, { ok: true })]);
     const recovered = await dispatch({ type: 'run', id: 'recovered', request: {} });
     expect(recovered.type).toBe('runResult');
     expect(JSON.parse(new TextDecoder().decode(recovered.frames?.[0].payload))).toEqual({ ok: true });
+  });
+
+  it.each(['compile', 'run', 'release'] as const)('invalidates the bridge after a %s RuntimeError trap', async (type) => {
+    await initialize();
+    method(type).mockImplementationOnce(() => { throw new WebAssembly.RuntimeError('unreachable'); });
+    const failed = await dispatch({ type, id: 'trapped', request: {}, sessionId: 'session' });
+    expect(failed).toEqual({ type: 'error', id: 'trapped', message: 'unreachable', recreate: true });
+    const next = await dispatch({ type: 'run', id: 'unsafe', request: {} });
+    expect(next).toEqual({ type: 'error', id: 'unsafe', message: 'worker bridge not initialized', recreate: true });
+    expect(mocks.run).toHaveBeenCalledTimes(type === 'run' ? 1 : 0);
+  });
+
+  it.each(['compile', 'run', 'release'] as const)('invalidates an unframed %s TypeError', async (type) => {
+    await initialize();
+    method(type).mockImplementationOnce(() => { throw new TypeError('outbox invalid'); });
+    const failed = await dispatch({ type, id: 'invalid', request: {}, sessionId: 'session' });
+    expect(failed).toEqual({ type: 'error', id: 'invalid', message: 'outbox invalid', recreate: true });
+  });
+
+  it.each(['compile', 'run', 'release'] as const)('invalidates an empty %s outbox', async (type) => {
+    await initialize();
+    method(type).mockReturnValue([]);
+    const failed = await dispatch({ type, id: 'empty', request: {}, sessionId: 'session' });
+    expect(failed).toEqual({ type: 'error', id: 'empty', message: 'worker bridge returned an empty outbox', recreate: true });
+  });
+
+  it('invalidates a RuntimeError even if a custom error also includes frames', async () => {
+    await initialize();
+    mocks.run.mockImplementationOnce(() => {
+      throw Object.assign(new WebAssembly.RuntimeError('unreachable'), { frames: [frame(212, { ok: false })] });
+    });
+    const failed = await dispatch({ type: 'run', id: 'trap-with-frames', request: {} });
+    expect(failed).toEqual({ type: 'error', id: 'trap-with-frames', message: 'unreachable', recreate: true });
+    expect(transferLists.at(-1)).toEqual([]);
   });
 });
