@@ -299,7 +299,7 @@ async function fault(page: Page, mode: 'record' | 'stall' | 'crash' | 'release_f
         }
         if (message.type === 'release' && mode === 'release_fail' && this.hasRun) {
           queueMicrotask(() => this.onmessage?.call(this, new MessageEvent('message', { data: { type: 'releaseResult', id: message.id,
-            frames: [{ kind: 214, schemaVersion: 1, flags: 0, payload: Array.from(new TextEncoder().encode(JSON.stringify({ ok: false, released: false, sessionId: message.sessionId }))) }] } })));
+            frames: [{ kind: 214, schemaVersion: 1, flags: 0, payload: new TextEncoder().encode(JSON.stringify({ ok: false, released: false, sessionId: message.sessionId })).buffer }] } })));
           return;
         }
         super.postMessage(message);

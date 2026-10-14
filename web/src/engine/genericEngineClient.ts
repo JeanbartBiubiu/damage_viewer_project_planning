@@ -23,7 +23,7 @@ type SerializedFrame = {
   schemaVersion: number;
   kind: number;
   flags: number;
-  payload: number[];
+  payload: ArrayBuffer;
 };
 
 type WorkerInboundMessage =

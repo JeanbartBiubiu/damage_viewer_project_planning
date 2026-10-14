@@ -293,7 +293,7 @@ async function instrumentWorker(page: Page, mode: WorkerMode) {
           if (mode === 'missing_warnings') delete done.warnings;
           if (mode === 'truncated') { done.summary.evidenceTruncated = true; done.evidence.truncated = true; }
           if (mode === 'budget') done.summary.stopReason = 'budget_exceeded';
-          frame.payload = Array.from(new TextEncoder().encode(JSON.stringify(done)));
+          frame.payload = new TextEncoder().encode(JSON.stringify(done)).buffer;
         });
       }
       postMessage(message: { type: string; id?: string; sessionId?: string }) {
@@ -309,7 +309,7 @@ async function instrumentWorker(page: Page, mode: WorkerMode) {
         if (message.type === 'release' && mode === 'release_fail' && this.hasRun) {
           queueMicrotask(() => this.onmessage?.call(this, new MessageEvent('message', { data: {
             type: 'releaseResult', id: message.id, frames: [{ schemaVersion: 1, kind: 214, flags: 0,
-              payload: Array.from(new TextEncoder().encode(JSON.stringify({ ok: false, released: false, sessionId: message.sessionId }))) }]
+              payload: new TextEncoder().encode(JSON.stringify({ ok: false, released: false, sessionId: message.sessionId })).buffer }]
           } })));
           return;
         }

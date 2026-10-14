@@ -21,7 +21,7 @@ type SerializedFrame = {
   schemaVersion: number;
   kind: number;
   flags: number;
-  payload: number[];
+  payload: ArrayBuffer;
 };
 
 let bridge: TinyGoV2Bridge | null = null;
@@ -31,8 +31,18 @@ function serializeFrames(frames: TinyGoV2Frame[]): SerializedFrame[] {
     schemaVersion: frame.schemaVersion,
     kind: frame.kind,
     flags: frame.flags,
-    payload: Array.from(frame.payload)
+    // readOutbox copies before clear/GC; decodeFrames slices an owned buffer per payload.
+    payload: frame.payload.buffer as ArrayBuffer
   }));
+}
+
+function postResponse(response: WorkerResponseMessage) {
+  if ('frames' in response && response.frames) {
+    const transfer = [...new Set(response.frames.map((frame) => frame.payload))];
+    self.postMessage(response, { transfer });
+    return;
+  }
+  self.postMessage(response);
 }
 
 function postError(id: string | undefined, message: string, recreate = false, frames?: TinyGoV2Frame[]) {
@@ -45,7 +55,7 @@ function postError(id: string | undefined, message: string, recreate = false, fr
   if (frames) {
     response.frames = serializeFrames(frames);
   }
-  self.postMessage(response);
+  postResponse(response);
 }
 
 async function ensureBridge(wasmUrl: string): Promise<TinyGoV2Bridge> {
@@ -71,7 +81,7 @@ async function handleMessage(message: WorkerRequestMessage) {
     if (message.type === 'init') {
       await ensureBridge(message.wasmUrl);
       const response: WorkerResponseMessage = { type: 'ready', id: message.id };
-      self.postMessage(response);
+      postResponse(response);
       return;
     }
 
@@ -88,7 +98,7 @@ async function handleMessage(message: WorkerRequestMessage) {
           id: message.id,
           frames: serializeFrames(frames)
         };
-        self.postMessage(response);
+        postResponse(response);
       } catch (error) {
         const invocationError = error as { frames?: TinyGoV2Frame[]; message?: string };
         if (invocationError.frames?.length) {
@@ -97,7 +107,7 @@ async function handleMessage(message: WorkerRequestMessage) {
             id: message.id,
             frames: serializeFrames(invocationError.frames)
           };
-          self.postMessage(response);
+          postResponse(response);
           return;
         }
         postError(message.id, invocationError.message ?? 'compile failed');
@@ -115,7 +125,7 @@ async function handleMessage(message: WorkerRequestMessage) {
           id: message.id,
           frames: serializeFrames(frames)
         };
-        self.postMessage(response);
+        postResponse(response);
       } catch (error) {
         const invocationError = error as { frames?: TinyGoV2Frame[]; message?: string };
         if (invocationError.frames?.length) {
@@ -124,7 +134,7 @@ async function handleMessage(message: WorkerRequestMessage) {
             id: message.id,
             frames: serializeFrames(invocationError.frames)
           };
-          self.postMessage(response);
+          postResponse(response);
           return;
         }
         postError(message.id, invocationError.message ?? 'run failed');
@@ -140,7 +150,7 @@ async function handleMessage(message: WorkerRequestMessage) {
           id: message.id,
           frames: serializeFrames(frames)
         };
-        self.postMessage(response);
+        postResponse(response);
       } catch (error) {
         const invocationError = error as { frames?: TinyGoV2Frame[]; message?: string };
         if (invocationError.frames?.length) {
@@ -149,7 +159,7 @@ async function handleMessage(message: WorkerRequestMessage) {
             id: message.id,
             frames: serializeFrames(invocationError.frames)
           };
-          self.postMessage(response);
+          postResponse(response);
           return;
         }
         postError(message.id, invocationError.message ?? 'release failed');

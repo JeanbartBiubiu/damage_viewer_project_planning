@@ -118,11 +118,11 @@ class FakeWorker {
 
   respond(type: 'compile' | 'run' | 'release', kind: number, payload: unknown) {
     const responseFrame = frame(kind, payload);
-    this.emit({
+    this.emit(structuredClone({
       type: `${type}Result`,
       id: this.messages.find((message) => message.type === type)?.id,
-      frames: [{ ...responseFrame, payload: Array.from(responseFrame.payload) }]
-    });
+      frames: [{ ...responseFrame, payload: responseFrame.payload.buffer }]
+    }, { transfer: [responseFrame.payload.buffer] }));
   }
 
   terminate() {
@@ -346,5 +346,32 @@ describe('genericEngineClient worker lifecycle', () => {
     await expect(release).resolves.toMatchObject({ released: true });
     expect(workers).toHaveLength(1);
     expect(client.hasLiveWorker).toBe(true);
+  });
+
+  it('decodes transferred fatal-error frames as views and retains all frames and bytes', async () => {
+    const worker = await compileSession();
+    const run = client.run(runRequest);
+    const rejected = run.catch((error: GenericEngineClientError) => error);
+    await vi.advanceTimersByTimeAsync(0);
+    const frames = [frame(200, { note: '中文\u0000🙂' }), frame(OUTBOX_GENERIC_ERROR, {
+      ok: false, phase: 'run', code: 'TEST', message: '错误🙂', severity: 'fatal', recoverable: false
+    })];
+    const expected = frames.map((item) => [...item.payload]);
+    const message = structuredClone({
+      type: 'runResult', id: worker.messages.find((item) => item.type === 'run')?.id,
+      frames: frames.map((item) => ({ ...item, payload: item.payload.buffer }))
+    }, { transfer: frames.map((item) => item.payload.buffer) });
+    expect(frames.map((item) => item.payload.byteLength)).toEqual([0, 0]);
+    worker.emit(message);
+
+    const error = await rejected;
+    expect(error).toBeInstanceOf(GenericEngineClientError);
+    const failure = error as GenericEngineClientError;
+    expect(failure.engineError).toMatchObject({ code: 'TEST', message: '错误🙂' });
+    expect(failure.frames?.map((item) => [...item.payload])).toEqual(expected);
+    expect(failure.frames?.[0].payload.buffer).toBe(message.frames[0].payload);
+    expect(failure.frames?.[1].payload.buffer).toBe(message.frames[1].payload);
+    expect(client.hasLiveWorker).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
   });
 });
