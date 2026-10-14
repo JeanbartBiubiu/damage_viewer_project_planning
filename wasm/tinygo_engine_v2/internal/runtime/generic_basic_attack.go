@@ -157,7 +157,7 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		}
 	}
 	as, ok := source.attributes.Lookup(p.AttackSpeedAttributeKey)
-	_, initializes := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeSourceInitialized)
+	_, initializes := s.compiled.RuntimeTypes.SourceInitialized.Lookup()
 	if !ok || math.IsNaN(as.Resolved) || math.IsInf(as.Resolved, 0) || as.Resolved <= 0 || math.IsNaN(p.AttackSpeedInputMax) || math.IsInf(p.AttackSpeedInputMax, 0) || p.AttackSpeedInputMax <= 0 || (!initializes && as.Resolved > p.AttackSpeedInputMax) {
 		return s.basicAttackErr("attack speed must be positive and within the explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
 	}
@@ -249,7 +249,7 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		return s.basicAttackErr("pre-hit listener must only start the actual selected process", "driverPlan.basicAttack.initialControlAbilityRef")
 	}
 	set := start.TypeSet
-	if id, ok := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackStart); ok {
+	if id, ok := s.compiled.RuntimeTypes.BasicAttackStart.Lookup(); ok {
 		set.Add(id)
 	}
 	if start.CastOrigin != "" {

@@ -25,6 +25,7 @@ type CompiledSession struct {
 	SchemaHash           string
 	RulesHash            string
 	Types                typeset.CatalogResult
+	RuntimeTypes         RuntimeTypeBindings
 	Combatants           []CompiledCombatant
 	Providers            []CompiledProvider
 	Abilities            []CompiledAbility

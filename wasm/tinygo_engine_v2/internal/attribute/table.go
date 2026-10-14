@@ -13,6 +13,7 @@ const PageSize = 8
 type Layout struct {
 	keys  []string
 	index map[string]int
+	hp    int
 }
 
 func NewLayout(keys []string) *Layout {
@@ -33,13 +34,16 @@ func (l *Layout) Extend(keys []string) *Layout {
 		return l
 	}
 	sort.Strings(added)
-	out := &Layout{keys: make([]string, l.Len()+len(added)), index: make(map[string]int, l.Len()+len(added))}
+	out := &Layout{keys: make([]string, l.Len()+len(added)), index: make(map[string]int, l.Len()+len(added)), hp: -1}
 	if l != nil {
 		copy(out.keys, l.keys)
 	}
 	copy(out.keys[l.Len():], added)
 	for index, key := range out.keys {
 		out.index[key] = index
+		if key == "hp" {
+			out.hp = index
+		}
 	}
 	return out
 }
@@ -67,6 +71,14 @@ func (l *Layout) Len() int {
 		return 0
 	}
 	return len(l.keys)
+}
+
+// HPIndex 保存目录中生命槽的真实编号；缺失为 -1，扩充目录仍保留旧编号。
+func (l *Layout) HPIndex() int {
+	if l == nil {
+		return -1
+	}
+	return l.hp
 }
 
 type slotPage struct {
@@ -253,6 +265,23 @@ func (t Table) Range(visit func(string, model.AttributeSlotDef) bool) {
 		}
 		for offset := 0; offset < PageSize; offset++ {
 			if page.present&(1<<uint(offset)) != 0 && !visit(t.data.layout.Key(pageIndex*PageSize+offset), page.slots[offset]) {
+				return
+			}
+		}
+	}
+}
+
+// RangeIndex 与 Range 使用同一存在位和顺序，避免已编号的读取重新按名查找。
+func (t Table) RangeIndex(visit func(int, model.AttributeSlotDef) bool) {
+	if t.data == nil {
+		return
+	}
+	for pageIndex, page := range t.data.pages {
+		if page == nil {
+			continue
+		}
+		for offset := 0; offset < PageSize; offset++ {
+			if page.present&(1<<uint(offset)) != 0 && !visit(pageIndex*PageSize+offset, page.slots[offset]) {
 				return
 			}
 		}

@@ -8,16 +8,17 @@ import (
 
 func (s *genericRunState) validateEquipmentHitListener(listener planbundle.CompiledListener) *model.EngineError {
 	qualified := false
-	for _, event := range []struct{ kind, relation string }{
-		{model.EventTypeBasicAttackStart, eventSourceOwner}, {model.EventTypeBasicAttackHit, eventSourceOwner},
-		{model.EventTypeSkillHit, eventSourceOwner},
-		{model.EventTypeAttackLinkApplied, eventSourceOwner}, {model.EventTypeHitLinkApplied, eventSourceOwner},
-		{model.EventTypeBasicAttackReceived, eventTargetOwner}, {model.EventTypeDamageTaken, eventTargetOwner},
-		{eventTypeDamageInstance, eventSourceOwner},
-		{eventTypeAbilityStarted, eventSourceOwner},
+	types := s.compiled.RuntimeTypes
+	for _, event := range []struct{ kind, relation planbundle.DeclaredType }{
+		{types.BasicAttackStart, types.SourceOwner}, {types.BasicAttackHit, types.SourceOwner},
+		{types.SkillHit, types.SourceOwner},
+		{types.AttackLinkApplied, types.SourceOwner}, {types.HitLinkApplied, types.SourceOwner},
+		{types.BasicAttackReceived, types.TargetOwner}, {types.DamageTaken, types.TargetOwner},
+		{types.DamageInstance, types.SourceOwner},
+		{types.AbilityStarted, types.SourceOwner},
 	} {
-		kind, kindDeclared := s.compiled.Types.Registry.LookupDomain("event", event.kind)
-		relation, relationDeclared := s.compiled.Types.Registry.LookupDomain("event", event.relation)
+		kind, kindDeclared := event.kind.Lookup()
+		relation, relationDeclared := event.relation.Lookup()
 		qualified = qualified || kindDeclared && relationDeclared && listener.EventMatcher.RequiresAllType(kind) && listener.EventMatcher.RequiresAllType(relation)
 	}
 	if !qualified || listener.OwnerCombatantKey == "" || listener.OwnerProviderRef == "" || listener.HasAbilityRef || listener.PerCastThrottleMs != 0 || listener.OperationCount == 0 || listener.MaxTriggersPerEvent != 1 {
@@ -35,11 +36,11 @@ func (s *genericRunState) validateEquipmentHitListener(listener planbundle.Compi
 			continue
 		}
 		if (operation.Operation == model.OperationKindApplyHitLink || operation.Operation == model.OperationKindApplyAttackLink) && operation.Target == "target" && operation.HasAmount {
-			eventType := model.EventTypeHitLinkApplied
+			link := types.HitLinkApplied
 			if operation.Operation == model.OperationKindApplyAttackLink {
-				eventType = model.EventTypeAttackLinkApplied
+				link = types.AttackLinkApplied
 			}
-			linkType, declared := s.compiled.Types.Registry.LookupDomain("event", eventType)
+			linkType, declared := link.Lookup()
 			if declared && listener.EventMatcher.RequiresAllType(linkType) {
 				return s.basicAttackErr("a link listener cannot recursively apply the same link", operation.Path)
 			}

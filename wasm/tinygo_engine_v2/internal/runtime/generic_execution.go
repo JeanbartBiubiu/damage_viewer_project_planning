@@ -1488,7 +1488,7 @@ func projectCritPartsAfterOutgoing(preOutgoingMerged, normalPart, critPart, post
 }
 
 func (f *executionFrame) matchesBasicDamageChannel(ability planbundle.CompiledAbility) bool {
-	basicAttackID, ok := f.run.compiled.Types.Registry.LookupDomain("ability", abilityTypeBasicAttack)
+	basicAttackID, ok := f.run.compiled.RuntimeTypes.BasicAttack.Lookup()
 	if !ok {
 		return false
 	}
@@ -2353,7 +2353,7 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 	if f.copyableCollector != nil && f.copyableCollector.phantomDepth > 0 {
 		return
 	}
-	if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", eventTypeDamageInstance); !ok {
+	if _, ok := f.run.compiled.RuntimeTypes.DamageInstance.Lookup(); !ok {
 		return
 	}
 	traits := append([]string(nil), op.Types...)
@@ -2425,11 +2425,11 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability planbundle.Com
 			}
 		}
 	}
-	basicAttackID, ok := f.run.compiled.Types.Registry.LookupDomain("ability", abilityTypeBasicAttack)
+	basicAttackID, ok := f.run.compiled.RuntimeTypes.BasicAttack.Lookup()
 	if ability.IsBasicAttack || (ok && ability.TypeSet.Contains(basicAttackID)) {
 		return nil
 	}
-	if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", eventTypeAbilityStarted); !ok {
+	if _, ok := f.run.compiled.RuntimeTypes.AbilityStarted.Lookup(); !ok {
 		// Event type absent from catalog: cannot participate in type-set matching; do not invent it.
 		return nil
 	}
@@ -2489,7 +2489,7 @@ func (f *executionFrame) maybeDispatchBasicAttackHit(ability planbundle.Compiled
 	if _, isStart := f.run.attackStartFacts[f.driverEntryKey]; isStart {
 		return nil
 	}
-	if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackHit); !ok {
+	if _, ok := f.run.compiled.RuntimeTypes.BasicAttackHit.Lookup(); !ok {
 		return nil
 	}
 	eventTypes := []string{model.EventTypeBasicAttackHit}
@@ -2546,7 +2546,7 @@ func (f *executionFrame) maybeDispatchBasicAttackStart(ability planbundle.Compil
 	if !ability.IsBasicAttack || ability.HasSkillHit || ability.OperationCount != 0 {
 		return f.run.skillHitErr(model.GenericErrUnknownRef, "attack start driver must be an empty-operations basic_attack ability", "attackStartFacts", f.driverEntryKey)
 	}
-	if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackStart); !ok {
+	if _, ok := f.run.compiled.RuntimeTypes.BasicAttackStart.Lookup(); !ok {
 		return f.run.skillHitErr(model.GenericErrUnknownTypeKey, "attack start requires event/basic_attack_start in typeCatalog", "attackStartFacts", f.driverEntryKey)
 	}
 	use, found := f.run.skillUses[fact.UseRef]
@@ -2767,7 +2767,7 @@ func (s *genericRunState) listenerMatchesEvent(listener planbundle.CompiledListe
 	if listener.OwnerCombatantKey != "" {
 		eventTypes = s.augmentOwnerRelativeEventTypes(baseEventTypes, ev.sourceKey, listener.OwnerCombatantKey)
 		if ev.targetKey == listener.OwnerCombatantKey {
-			if identity, declared := s.compiled.Types.Registry.LookupDomain("event", eventTargetOwner); declared {
+			if identity, declared := s.compiled.RuntimeTypes.TargetOwner.Lookup(); declared {
 				eventTypes.Add(identity)
 			}
 		}
@@ -2778,11 +2778,11 @@ func (s *genericRunState) listenerMatchesEvent(listener planbundle.CompiledListe
 // augmentOwnerRelativeEventTypes adds a catalog-backed owner-relative relation key for provider listeners.
 func (s *genericRunState) augmentOwnerRelativeEventTypes(base typeset.TypeSet, eventSourceKey, ownerKey string) typeset.TypeSet {
 	out := base
-	relKey := eventSourceOpponent
+	relation := s.compiled.RuntimeTypes.SourceOpponent
 	if eventSourceKey == ownerKey {
-		relKey = eventSourceOwner
+		relation = s.compiled.RuntimeTypes.SourceOwner
 	}
-	if id, ok := s.compiled.Types.Registry.LookupDomain("event", relKey); ok {
+	if id, ok := relation.Lookup(); ok {
 		out.Add(id)
 	}
 	return out

@@ -65,7 +65,7 @@ type damageRecord struct {
 
 type genericRunState struct {
 	abilityTypeKeyCache        map[typeset.TypeSet][]string
-	attributeMemos             map[attributeMemoKey]*attributeMemo
+	attributeMemos             [2][3]*attributeMemo
 	providerDefinitionFields   []map[string]providerStateFieldDef
 	skillAction                *skillActionRuntime
 	skillActions               []skillActionRuntime
@@ -712,7 +712,7 @@ func (s *genericRunState) combatantHp(key string) float64 {
 	if !ok {
 		return 0
 	}
-	if slot, ok := c.attributes.Lookup("hp"); ok {
+	if slot, ok := c.attributes.LookupIndex(c.attributes.Layout().HPIndex()); ok {
 		return slot.Current
 	}
 	return 0
@@ -723,7 +723,7 @@ func (s *genericRunState) combatantHasHp(key string) bool {
 	if !ok {
 		return false
 	}
-	_, ok = c.attributes.Lookup("hp")
+	_, ok = c.attributes.LookupIndex(c.attributes.Layout().HPIndex())
 	return ok
 }
 

@@ -121,8 +121,8 @@ func (s *genericRunState) validateIdleBasicAttackProvider(provider planbundle.Co
 	if initialRef == "" || starts != 1 || hits != 1 {
 		return fail()
 	}
-	startType, declared := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackStart)
-	ownerType, ownerDeclared := s.compiled.Types.Registry.LookupDomain("event", eventSourceOwner)
+	startType, declared := s.compiled.RuntimeTypes.BasicAttackStart.Lookup()
+	ownerType, ownerDeclared := s.compiled.RuntimeTypes.SourceOwner.Lookup()
 	start.TypeSet.Add(startType)
 	listeners := 0
 	for _, listener := range s.compiled.Listeners {

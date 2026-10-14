@@ -27,7 +27,7 @@ func (f *executionFrame) recordDamageContribution(cmd command.Command, result co
 	if f.chainDepth != 0 || result.Amount <= 0 {
 		return nil
 	}
-	if _, declared := f.run.compiled.Types.Registry.LookupDomain("event", eventTypeDamageDealt); !declared {
+	if _, declared := f.run.compiled.RuntimeTypes.DamageDealt.Lookup(); !declared {
 		return nil
 	}
 	aggregation := &f.damageAggregation
@@ -69,15 +69,15 @@ func (f *executionFrame) maybeQueueDamageDealtEvent(ability planbundle.CompiledA
 	if f.chainDepth != 0 || aggregation.mitigatedAmount <= 0 {
 		return
 	}
-	if _, declared := f.run.compiled.Types.Registry.LookupDomain("event", eventTypeDamageDealt); !declared {
+	if _, declared := f.run.compiled.RuntimeTypes.DamageDealt.Lookup(); !declared {
 		return
 	}
 	eventTypes := []string{eventTypeDamageDealt}
 	for _, contribution := range aggregation.byType {
 		eventTypes = append(eventTypes, contribution.damageType)
 	}
-	if id, declared := f.run.compiled.Types.Registry.LookupDomain("ability", abilityTypeBasicAttack); declared && ability.TypeSet.Contains(id) {
-		if _, declared := f.run.compiled.Types.Registry.LookupDomain("event", eventTypeDamageDealtBasicAttack); declared {
+	if id, declared := f.run.compiled.RuntimeTypes.BasicAttack.Lookup(); declared && ability.TypeSet.Contains(id) {
+		if _, declared := f.run.compiled.RuntimeTypes.DamageDealtBasicAttack.Lookup(); declared {
 			eventTypes = append(eventTypes, eventTypeDamageDealtBasicAttack)
 		}
 	}

@@ -103,7 +103,7 @@ func (s *genericRunState) validateAttackStartFacts() *model.EngineError {
 		if use.skillKey != ability.SkillKey {
 			return s.skillHitErr(model.GenericErrUnknownRef, "attack start skillKey must equal skillUses.skillKey", path+".useRef", fact.UseRef)
 		}
-		if _, ok := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackStart); !ok {
+		if _, ok := s.compiled.RuntimeTypes.BasicAttackStart.Lookup(); !ok {
 			return s.skillHitErr(model.GenericErrUnknownTypeKey, "attack start requires event/basic_attack_start in typeCatalog", path, model.EventTypeBasicAttackStart)
 		}
 		s.attackStartFacts[fact.DriverEntryKey] = fact

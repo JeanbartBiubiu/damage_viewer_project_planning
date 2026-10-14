@@ -68,6 +68,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		SchemaHash:      req.SchemaHash,
 		RulesHash:       req.RulesHash,
 		Types:           catalog,
+		RuntimeTypes:    BindRuntimeTypes(catalog.Registry),
 		AbilityRefIndex: make(map[string]plan.CompiledAbilityRef),
 		Settings:        normalizeGenericSettings(req.Settings, collector),
 		Formulas: formula.GenericRegistry{
