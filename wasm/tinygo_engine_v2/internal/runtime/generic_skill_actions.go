@@ -10,6 +10,8 @@ import (
 )
 
 type skillActionRuntime struct {
+	automaticRule       *automaticSkillRuleRuntime
+	automaticFinished   bool
 	plan                model.SkillActionPlan
 	binding             planbundle.CompiledSkillActionBinding
 	summary             model.SkillActionSummary
@@ -24,7 +26,11 @@ type skillActionRuntime struct {
 }
 
 func (state *genericRunState) automatedRun() bool {
-	return state.basicAttack != nil || len(state.skillActions) > 0
+	return state.basicAttack != nil || state.hasSkillPlan()
+}
+
+func (state *genericRunState) hasSkillPlan() bool {
+	return len(state.skillActions) > 0 || state.automaticSkills != nil
 }
 
 func (state *genericRunState) initSkillAction() *model.EngineError {
@@ -204,11 +210,15 @@ func (state *genericRunState) publishSkillActionStart(process *processRuntime) {
 	action.uses.StartedCount++
 	state.skillUses[process.UseKey] = &skillUseRuntime{useKey: process.UseKey, source: process.Owner, skillKey: process.SkillKey, historyState: model.SkillHitHistoryComplete}
 	state.recordSkillUse(process, "STARTED", nil, nil)
+	state.publishAutomaticSkillStart(action)
 }
 
 func (state *genericRunState) recordSkillUse(process *processRuntime, kind string, hit, reason *string) {
 	action := state.skillActionByUse[process.UseKey]
 	if action == nil || !action.accepted || process.UseKey != action.useRef {
+		return
+	}
+	if action.automaticRule != nil {
 		return
 	}
 	state.skillUseRecordCount++
@@ -222,6 +232,9 @@ func (state *genericRunState) publishSkillActionFinish(process *processRuntime) 
 	if action == nil || !action.accepted || process.UseKey != action.useRef {
 		return
 	}
+	if action.automaticRule != nil && action.automaticFinished {
+		return
+	}
 	if process.Status == "complete" {
 		action.uses.CompletedCount++
 		state.recordSkillUse(process, "COMPLETED", nil, nil)
@@ -229,6 +242,7 @@ func (state *genericRunState) publishSkillActionFinish(process *processRuntime) 
 		action.uses.FailedCount++
 		state.recordSkillUse(process, "FAILED", nil, process.FailureReason)
 	}
+	state.publishAutomaticSkillFinish(action, process)
 }
 
 func (state *genericRunState) publishSkillActionControl(process *processRuntime, abilityRef string) {

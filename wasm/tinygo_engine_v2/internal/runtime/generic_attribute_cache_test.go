@@ -98,7 +98,7 @@ func TestAttributeMemoReadPresenceAndLegacyZeroFallback(t *testing.T) {
 	definition := formuladefinition.FromExpr("hp_total", "buff", model.GenericFormulaExpr{Op: "read", Path: "source.attr.hp.resolved"}, nil)
 	formula.CompileDeclaredNamedFormulas([]model.NamedFormula{definition}, []string{"hp"}, &registry, func(code model.GenericErrCode, path, message, ref string) { t.Fatal(code, path, message) })
 	state.formulas = registry
-	state.attributeMemos = nil
+	state.attributeMemos = [2][3]*attributeMemo{}
 	if _, err := state.resolveOrdinaryAttributes("source", attrs, resolver, formula.GenericEvalContext{SourceAttrs: attrs, StrictReads: true}, nil); err != nil {
 		t.Fatal(err)
 	}

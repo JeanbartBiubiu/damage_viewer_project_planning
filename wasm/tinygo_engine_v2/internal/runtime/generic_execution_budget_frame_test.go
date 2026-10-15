@@ -38,7 +38,7 @@ func TestExecutionBudgetLinkIllegalValueAndLegalExhaustionDiffer(t *testing.T) {
 			if tc.cause == "" && err.Code != model.GenericErrFormulaTypeError {
 				t.Fatalf("invalid link count is a formula error: %+v", err)
 			}
-			if len(s.processInstances) != 0 || len(s.combatants["source"].cooldowns) != 0 {
+			if len(s.processInstances) != 0 || len(s.combatants["source"].cooldowns.entries) != 0 {
 				t.Fatalf("failed link application committed process state: %+v", s.processInstances)
 			}
 			for _, item := range s.evidence {
@@ -60,7 +60,7 @@ func TestExecutionBudgetNativeProcessKeepsCallerDepth(t *testing.T) {
 		t.Fatalf("process reset synchronous listener depth: %+v", err)
 	}
 	// 过程开始帧先提交，再派发联动；联动尾部超限保留已提交的过程和冷却。
-	if len(s.processInstances) != 1 || !s.processInstances[0].CooldownStarted || s.combatants["source"].cooldowns[authoringRef("initial")] != 1429 {
+	if len(s.processInstances) != 1 || !s.processInstances[0].CooldownStarted || s.combatants["source"].cooldowns.abilityReadyAt("source", authoringRef("initial")) != 1429 {
 		t.Fatalf("committed start lost on deeper tail failure: %+v", s.processInstances)
 	}
 }

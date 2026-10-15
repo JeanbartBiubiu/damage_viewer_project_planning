@@ -42,7 +42,7 @@ func TestContinuousWaitingPreservesFractionAndUniqueEvent(t *testing.T) {
 	}{{2, 700}, {.5, 1600}} {
 		state := waitingTestState(t)
 		frame := changeWaitingSpeed(t, state, 400, scenario.speed)
-		if frame.fatal || state.basicAttack.wait.ready != scenario.ready || state.heap.Len() != 1 || state.basicAttack.wait.remaining != .6 || state.combatants["source"].cooldowns[state.basicAttack.plan.InitialControlAbilityRef] != scenario.ready {
+		if frame.fatal || state.basicAttackReadyAt() != scenario.ready || state.heap.Len() != 1 || state.basicAttack.wait.remaining != .6 || state.combatants["source"].cooldowns.abilityReadyAt("source", state.basicAttack.plan.InitialControlAbilityRef) != scenario.ready {
 			t.Fatal(scenario, frame.fatalErr, state.basicAttack.wait, state.heap.Len())
 		}
 		attack := state.attackRecords[0]
@@ -65,7 +65,7 @@ func TestContinuousWaitingBudgetFailureDoesNotPublishSpeedOrClock(t *testing.T) 
 	state := waitingTestState(t)
 	state.budget.MaxCommandsPerEvent = 0
 	frame := changeWaitingSpeed(t, state, 400, 2)
-	if !frame.fatal || frame.fatalErr.BudgetCause != model.BudgetCauseMaxCommandsPerEvent || state.combatants["source"].attributes.At("attack_speed").Resolved != 1 || state.basicAttack.wait.ready != 1000 || state.heap.Len() != 1 {
+	if !frame.fatal || frame.fatalErr.BudgetCause != model.BudgetCauseMaxCommandsPerEvent || state.combatants["source"].attributes.At("attack_speed").Resolved != 1 || state.basicAttackReadyAt() != 1000 || state.heap.Len() != 1 {
 		t.Fatal(frame.fatalErr, state.basicAttack.wait)
 	}
 }

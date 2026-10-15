@@ -23,6 +23,7 @@ type expireCleanupPayload struct {
 	targetKey        string // provider_target_state: active target combatant
 	stateKey         string // provider_target_state: state field key
 	expectedExpireAt int64  // provider_target_state: stale-event guard
+	cooldownVersion  uint64
 }
 
 func (s *genericRunState) nextProviderRef(definitionRef string) string {
@@ -273,6 +274,8 @@ func (s *genericRunState) removeProviderInstance(targetKey, providerRef string, 
 		return
 	}
 	s.unbindProviderInstanceListeners(targetKey, providerRef)
+	c.cooldowns = c.cooldowns.clone()
+	c.cooldowns.removeProvider(targetKey, providerRef, s.nowMs)
 	c.providers = status.RemoveByRef(c.writableProviders(), providerRef)
 	delete(c.writableProviderStates(), providerRef)
 	s.combatants[targetKey] = c
@@ -302,6 +305,8 @@ func (s *genericRunState) handleExpireCleanup(ev scheduler.GenericEvent) {
 	}
 	payload := s.expireCleanupPayloads[ev.DriverEntryIndex]
 	switch payload.kind {
+	case "provider_cooldown":
+		s.applyInternalCooldownExpiry(payload)
 	case "provider":
 		if payload.providerRef != "" {
 			if c, ok := s.combatants[payload.combatantKey]; ok {
@@ -312,11 +317,11 @@ func (s *genericRunState) handleExpireCleanup(ev scheduler.GenericEvent) {
 				}
 			}
 			evalCtx := s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
-			if s.basicAttack == nil {
+			if !s.automatedRun() {
 				s.removeProviderInstance(payload.combatantKey, payload.providerRef, evalCtx, model.EvidenceKindProviderExpire)
 			} else {
 				var frameStorage executionFrame
-				s.initExecutionFrame(&frameStorage, s.basicAttack.plan.Source, s.basicAttack.plan.Target, "provider_expiry:"+payload.providerRef)
+				s.initExecutionFrame(&frameStorage, model.SelectorSource, model.SelectorTarget, "provider_expiry:"+payload.providerRef)
 				frame := &frameStorage
 				if err := frame.consumeCommands(1); err != nil {
 					s.processFailure = err
@@ -482,6 +487,7 @@ func (s *genericRunState) seedExpireCleanups() {
 			}
 		}
 	}
+	s.seedInternalCooldownExpiries()
 }
 
 func (s *genericRunState) enqueueProviderTickAt(atMs int64, combatantKey, providerRef string, intervalMs, expireAt, activatedAt int64) {
@@ -618,7 +624,7 @@ func (s *genericRunState) providerFormulaContextFunc(combatantKey, castTargetKey
 		activeTarget := providerTargetActiveKey(combatantKey, ownerCombatantKey, castTargetKey)
 		bag := readSharedProviderStateBag(&c.providerState, &c.providerStateShared, providerRef, false,
 			s.resolveProviderStateFieldDefs(bagOwnerKey, providerRef, c.providers), s.nowMs,
-			providerStateReadOptions{expireTarget: true, defaults: true, targetView: activeTarget != "", targetKey: activeTarget})
+			providerStateReadOptions{expireTarget: true, defaults: true, targetView: activeTarget != "", targetKey: activeTarget, cooldowns: c.cooldowns, ownerKey: bagOwnerKey})
 		if bag == nil {
 			return providerFormulaContextFromBag(nil, providerTargetActiveKey(combatantKey, ownerCombatantKey, castTargetKey))
 		}

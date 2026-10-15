@@ -37,12 +37,13 @@ func ReadAttr(attrs Table, key string) float64 {
 // 必须走 "hp.current"：ReadAttr("hp") 默认优先非零 Resolved，而 damage/heal 的 SetHP
 // 只改 Current；属性 refresh 还会把 Resolved 重置为 Base，导致跨 hit 读到陈旧满血。
 func ReadHP(attrs Table) float64 {
-	return ReadAttr(attrs, "hp.current")
+	slot, _ := attrs.LookupIndex(attrs.Layout().HPIndex())
+	return slot.Current
 }
 
 // ReadHPMax 读取 hp.max，缺省 current。
 func ReadHPMax(attrs Table) float64 {
-	slot, ok := attrs.Lookup("hp")
+	slot, ok := attrs.LookupIndex(attrs.Layout().HPIndex())
 	if !ok {
 		return 0
 	}
@@ -54,7 +55,8 @@ func ReadHPMax(attrs Table) float64 {
 
 // SetHP 设置 hp.current 并 clamp 到 [0, max]。
 func SetHP(attrs Table, value float64) Table {
-	slot := attrs.At("hp")
+	index := attrs.Layout().HPIndex()
+	slot := attrs.AtIndex(index)
 	maxHP := slot.Max
 	if maxHP <= 0 {
 		maxHP = slot.Current
@@ -71,6 +73,9 @@ func SetHP(attrs Table, value float64) Table {
 	slot.Current = value
 	if slot.Max <= 0 {
 		slot.Max = maxHP
+	}
+	if index >= 0 {
+		return attrs.WithIndex(index, slot)
 	}
 	return attrs.With("hp", slot)
 }

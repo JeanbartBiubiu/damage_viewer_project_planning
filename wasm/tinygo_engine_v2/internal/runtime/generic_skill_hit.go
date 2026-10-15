@@ -418,10 +418,10 @@ func (f *executionFrame) resolveSkillHit(op planbundle.CompiledOperation, abilit
 	eventType := model.EventTypeSkillHit
 	if ability.IsBasicAttack {
 		eventType = model.EventTypeBasicAttackHit
-		if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", eventType); !ok {
+		if _, ok := f.run.compiled.RuntimeTypes.BasicAttackHit.Lookup(); !ok {
 			return f.run.skillHitErr(model.GenericErrUnknownTypeKey, "basic attack resolve requires event/basic_attack_hit in typeCatalog", f.abilityRef, "")
 		}
-	} else if _, ok := f.run.compiled.Types.Registry.LookupDomain("event", model.EventTypeSkillHit); !ok {
+	} else if _, ok := f.run.compiled.RuntimeTypes.SkillHit.Lookup(); !ok {
 		return f.run.skillHitErr(model.GenericErrUnknownTypeKey, "resolve_skill_hit requires event/skill_hit in typeCatalog", f.abilityRef, "")
 	}
 	snap := f.captureEmitSnapshot(eventType, f.sourceKey, f.targetKey)
@@ -739,7 +739,7 @@ func (f *executionFrame) activeSpellShields(ownerKey string) []status.ProviderIn
 	if !ok {
 		return nil
 	}
-	id, found := f.run.compiled.Types.Registry.LookupDomain("provider", model.ProviderTypeSpellShield)
+	id, found := f.run.compiled.RuntimeTypes.SpellShield.Lookup()
 	if !found {
 		return nil
 	}

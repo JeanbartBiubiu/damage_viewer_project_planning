@@ -10,27 +10,47 @@ import (
 	"tinygo_engine_v2/internal/pipeline"
 )
 
-type attributeMemoKey struct {
-	actor   string
-	derived bool
-	batch   bool
-	context [2]string
+type attributeMemoField uint8
+
+const (
+	memoFieldUnknown attributeMemoField = iota
+	memoFieldBase
+	memoFieldCurrent
+	memoFieldMax
+	memoFieldResolved
+	memoFieldPresence
+)
+
+func memoReadField(field string) attributeMemoField {
+	switch field {
+	case "base":
+		return memoFieldBase
+	case "current":
+		return memoFieldCurrent
+	case "max":
+		return memoFieldMax
+	case "resolved":
+		return memoFieldResolved
+	case "presence":
+		return memoFieldPresence
+	}
+	return memoFieldUnknown
 }
+
 type attributeMemoRead struct {
-	kind                        formula.GenericReadKind
-	key, field, owner, provider string
-	authoredTarget              bool
-	attributeIndex              int
-	attributeIndexBound         bool
-	providerIndex               int
+	kind                 formula.GenericReadKind
+	key, owner, provider string
+	field                attributeMemoField
+	authoredTarget       bool
+	attributeIndex       int
+	attributeIndexBound  bool
+	providerIndex        int
 }
 type attributeMemoValue struct {
-	key            string
 	index          int
 	base, resolved uint64
 	inputResolved  uint64
 	presence       uint8
-	derivedOutput  bool
 	multiplyInput  bool
 }
 type attributeMemoStamp struct {
@@ -45,6 +65,9 @@ type attributeMemo struct {
 	cacheable, valid, strict bool
 	derived                  bool
 	derivedInputs            map[string]bool
+	derivedSlots             []uint8
+	derivedLayout            *attribute.Layout
+	hpIndex                  int
 	shape, input, output     attribute.Table
 	pages                    []attributeMemoPage
 	providers                []attributeMemoProvider
@@ -88,14 +111,31 @@ func attributePresence(slot model.AttributeSlotDef) uint8 {
 }
 
 func (s *genericRunState) attributeMemo(actor string, derived bool, batch bool, context [2]string, resolver pipeline.AttributeResolver, attrs attribute.Table) *attributeMemo {
-	if s.attributeMemos == nil {
-		s.attributeMemos = make(map[attributeMemoKey]*attributeMemo)
+	// 编号对应实际双方身份，与编译输入的排列无关。批量缓存仅供正向双方结算。
+	var cached **attributeMemo
+	actorIndex := -1
+	switch actor {
+	case model.SelectorSource:
+		actorIndex = 0
+	case model.SelectorTarget:
+		actorIndex = 1
 	}
-	key := attributeMemoKey{actor, derived, batch, context}
-	if memo := s.attributeMemos[key]; memo != nil && memo.resolver.SameMounts(resolver) && memo.sameKeys(attrs) {
+	if actorIndex >= 0 {
+		if !batch && context == [2]string{} {
+			mode := 0
+			if derived {
+				mode = 1
+			}
+			cached = &s.attributeMemos[actorIndex][mode]
+		} else if derived && batch && context == [2]string{model.SelectorSource, model.SelectorTarget} {
+			cached = &s.attributeMemos[actorIndex][2]
+		}
+	}
+	if cached != nil && *cached != nil && (*cached).resolver.SameMounts(resolver) && (*cached).sameKeys(attrs) {
+		memo := *cached
 		return memo
 	}
-	memo := &attributeMemo{resolver: resolver, cacheable: true, derived: derived && !batch, shape: attrs}
+	memo := &attributeMemo{resolver: resolver, cacheable: true, derived: derived && !batch, shape: attrs, hpIndex: attrs.Layout().HPIndex()}
 	if memo.derived {
 		memo.derivedInputs = make(map[string]bool)
 		for _, derivation := range s.compiled.AttributeDerivations {
@@ -117,15 +157,17 @@ func (s *genericRunState) attributeMemo(actor string, derived bool, batch bool, 
 				item.providerIndex = index
 			}
 			if read.ReadKind == formula.ReadSourceAttr || read.ReadKind == formula.ReadTargetAttr {
-				item.key, item.field, _ = strings.Cut(read.ReadKey, ".")
-				if item.field == "" {
-					item.field = "resolved"
+				var field string
+				item.key, field, _ = strings.Cut(read.ReadKey, ".")
+				if field == "" {
+					field = "resolved"
 				}
-				if item.field != "base" && item.field != "current" && item.field != "max" && item.field != "resolved" && item.field != "presence" {
+				item.field = memoReadField(field)
+				if item.field == memoFieldUnknown {
 					memo.cacheable = false
 				}
 				item.attributeIndex = read.AttrIndex
-				item.attributeIndexBound = read.AttrIndexBound && read.AttrKey == item.key && read.AttrField == item.field
+				item.attributeIndexBound = read.AttrIndexBound && read.AttrKey == item.key && read.AttrField == field
 			}
 			memo.reads = append(memo.reads, item)
 		}
@@ -159,7 +201,9 @@ func (s *genericRunState) attributeMemo(actor string, derived bool, batch bool, 
 	memo.stamps = make([]attributeMemoStamp, len(memo.reads))
 	memo.scratch = make([]attributeMemoStamp, len(memo.reads))
 	memo.providerValues = make([]attributeMemoProviderValues, len(memo.providers))
-	s.attributeMemos[key] = memo
+	if cached != nil {
+		*cached = memo
+	}
 	return memo
 }
 
@@ -221,13 +265,13 @@ func (m *attributeMemo) probe(attrs attribute.Table, ctx *formula.GenericEvalCon
 				stamp.presence = 16 | attributePresence(slot)
 			}
 			switch read.field {
-			case "base":
+			case memoFieldBase:
 				stamp.value = math.Float64bits(slot.Base)
-			case "current":
+			case memoFieldCurrent:
 				stamp.value = math.Float64bits(slot.Current)
-			case "max":
+			case memoFieldMax:
 				stamp.value = math.Float64bits(slot.Max)
-			case "resolved":
+			case memoFieldResolved:
 				stamp.value = math.Float64bits(slot.Resolved)
 				if !ctx.StrictReads && slot.Resolved == 0 {
 					stamp.fallback = math.Float64bits(slot.Current)
@@ -300,7 +344,7 @@ func (m *attributeMemo) outputsMatch(attrs attribute.Table) bool {
 			continue
 		}
 		for _, cached := range m.values[page.first:page.last] {
-			if cached.key != "hp" && math.Float64bits(attrs.AtIndex(cached.index).Resolved) != cached.resolved {
+			if cached.index != m.hpIndex && math.Float64bits(attrs.AtIndex(cached.index).Resolved) != cached.resolved {
 				return false
 			}
 		}
@@ -314,25 +358,45 @@ func (m *attributeMemo) remember(input, result attribute.Table, strict bool) {
 	}
 	m.values = m.values[:0]
 	m.pages = m.pages[:0]
-	rememberSlot := func(key string, slot model.AttributeSlotDef) {
-		original := input.At(key)
-		multiply, output := m.derivedInputs[key]
-		index := result.Index(key)
+	m.hpIndex = result.Layout().HPIndex()
+	if m.derived && result.Layout() != m.derivedLayout {
+		m.derivedLayout = result.Layout()
+		m.derivedSlots = make([]uint8, result.Layout().Len())
+		for key, multiply := range m.derivedInputs {
+			if index, exists := result.Layout().Lookup(key); exists {
+				m.derivedSlots[index] = 1
+				if multiply {
+					m.derivedSlots[index] |= 2
+				}
+			}
+		}
+	}
+	sameLayout := input.Layout() == result.Layout()
+	result.RangeIndex(func(index int, slot model.AttributeSlotDef) bool {
+		var flags uint8
+		if m.derived {
+			flags = m.derivedSlots[index]
+			if flags&1 == 0 {
+				return true
+			}
+		}
+		var original model.AttributeSlotDef
+		var exists bool
+		if sameLayout || input.Layout().Key(index) == result.Layout().Key(index) {
+			original, exists = input.LookupIndex(index)
+		} else {
+			original, exists = input.Lookup(result.Layout().Key(index))
+		}
 		page := index / attribute.PageSize
 		if len(m.pages) == 0 || m.pages[len(m.pages)-1].page != page {
 			m.pages = append(m.pages, attributeMemoPage{page: page, first: len(m.values), last: len(m.values), allInputsPresent: true})
 		}
-		if _, exists := input.Lookup(key); !exists {
+		if !exists {
 			m.pages[len(m.pages)-1].allInputsPresent = false
 		}
-		m.values = append(m.values, attributeMemoValue{key: key, index: index, base: math.Float64bits(original.Base), resolved: math.Float64bits(slot.Resolved), inputResolved: math.Float64bits(original.Resolved), presence: attributePresence(original), derivedOutput: output, multiplyInput: multiply})
+		m.values = append(m.values, attributeMemoValue{index: index, base: math.Float64bits(original.Base), resolved: math.Float64bits(slot.Resolved), inputResolved: math.Float64bits(original.Resolved), presence: attributePresence(original), multiplyInput: flags&2 != 0})
 		m.pages[len(m.pages)-1].resolvedMask |= 1 << uint(index%attribute.PageSize)
 		m.pages[len(m.pages)-1].last = len(m.values)
-	}
-	result.Range(func(key string, slot model.AttributeSlotDef) bool {
-		if _, output := m.derivedInputs[key]; !m.derived || output {
-			rememberSlot(key, slot)
-		}
 		return true
 	})
 	m.input, m.output = input, result

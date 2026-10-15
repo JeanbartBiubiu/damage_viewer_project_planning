@@ -48,6 +48,9 @@ const (
 
 // DoneResult 是 generic run 成功时的 outbox payload。
 type DoneResult struct {
+	AutomaticSkillSummary   *AutomaticSkillSummary   `json:"automaticSkillSummary,omitempty"`
+	AutomaticSkillRecords   []AutomaticSkillRecord   `json:"automaticSkillRecords,omitempty"`
+	AutomaticSkillRecording *AutomaticSkillRecording `json:"automaticSkillRecording,omitempty"`
 	// 仅summary时输出；省略表示完整明细，保持默认响应字节形态。
 	OutputMode             RunOutputMode            `json:"outputMode,omitempty"`
 	SkillActionRecords     []SkillActionRecord      `json:"skillActionRecords"`

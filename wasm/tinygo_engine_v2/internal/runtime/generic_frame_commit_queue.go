@@ -119,6 +119,11 @@ func (f *executionFrame) commitKeysAndPreflight(keyBuffer []string) ([]string, *
 	}
 	keys := sortedFrameCombatantKeys(f.staged, keyBuffer)
 	count := len(f.pendingStateExpiry) + len(f.pendingAnchoredTicks) + waitEvents
+	cooldownEvents, cooldownError := f.prepareCooldownWakeups()
+	if cooldownError != nil {
+		return nil, cooldownError
+	}
+	count += cooldownEvents
 	if f.pendingAmmoWait != nil && f.pendingAmmoWait.active && f.continuousCombatantsLive() {
 		count++
 	}
@@ -279,6 +284,7 @@ func (f *executionFrame) preflightProviderMutation(providers []status.ProviderIn
 func (f *executionFrame) commitFrameQueues() {
 	f.commitAmmoWait()
 	f.commitBasicAttackWait()
+	f.commitCooldownWakeups()
 	for _, pending := range f.pendingStateExpiry {
 		f.run.enqueueExpireCleanup(pending.at, pending.payload)
 	}

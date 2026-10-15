@@ -68,6 +68,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		SchemaHash:      req.SchemaHash,
 		RulesHash:       req.RulesHash,
 		Types:           catalog,
+		RuntimeTypes:    BindRuntimeTypes(catalog.Registry),
 		AbilityRefIndex: make(map[string]plan.CompiledAbilityRef),
 		Settings:        normalizeGenericSettings(req.Settings, collector),
 		Formulas: formula.GenericRegistry{
@@ -307,8 +308,9 @@ func compileProviderDefinition(provider model.ProviderDefinition, path string, c
 	}
 	compiled.StatusContributions = compileStatusContributions(provider.StatusContributions, path+".statusContributions", ctx)
 	validateProviderStatusLifecycle(provider, compiled, path, collector)
-	compiled.StateFields = compileInitialStateSchema(ctx.freezeStateSchema(provider.InitialStateSchema, path+".initialStateSchema"), path+".initialStateSchema", collector)
-	compileAmmoStateFields(provider.InitialStateSchema, compiled.StateFields, path+".initialStateSchema", ctx)
+	stateSchema := ctx.freezeStateSchema(provider.InitialStateSchema, path+".initialStateSchema")
+	compiled.StateFields = compileInitialStateSchema(stateSchema, path+".initialStateSchema", collector)
+	compileProviderStateKinds(stateSchema, compiled.StateFields, path+".initialStateSchema", ctx)
 	session.Providers = append(session.Providers, compiled)
 }
 

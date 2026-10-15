@@ -23,7 +23,6 @@ type basicAttackRuntime struct {
 	windowSettled        bool
 	initialAbility       planbundle.CompiledAbility
 	wait                 *basicAttackWait
-	waitGeneration       uint64
 	cooldownDependencies []formula.GenericInstr
 }
 
@@ -157,7 +156,7 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		}
 	}
 	as, ok := source.attributes.Lookup(p.AttackSpeedAttributeKey)
-	_, initializes := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeSourceInitialized)
+	_, initializes := s.compiled.RuntimeTypes.SourceInitialized.Lookup()
 	if !ok || math.IsNaN(as.Resolved) || math.IsInf(as.Resolved, 0) || as.Resolved <= 0 || math.IsNaN(p.AttackSpeedInputMax) || math.IsInf(p.AttackSpeedInputMax, 0) || p.AttackSpeedInputMax <= 0 || (!initializes && as.Resolved > p.AttackSpeedInputMax) {
 		return s.basicAttackErr("attack speed must be positive and within the explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
 	}
@@ -249,7 +248,7 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		return s.basicAttackErr("pre-hit listener must only start the actual selected process", "driverPlan.basicAttack.initialControlAbilityRef")
 	}
 	set := start.TypeSet
-	if id, ok := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackStart); ok {
+	if id, ok := s.compiled.RuntimeTypes.BasicAttackStart.Lookup(); ok {
 		set.Add(id)
 	}
 	if start.CastOrigin != "" {
@@ -379,11 +378,11 @@ func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
 	if !found {
 		return s.basicAttackErr("native start did not complete its actual attack process", b.plan.InitialControlAbilityRef)
 	}
-	ready, ok := s.combatants[b.plan.Source].cooldowns[b.plan.InitialControlAbilityRef]
-	if !ok || ready <= s.nowMs || ready > maxJSONSafeInteger {
+	ready := s.combatants[b.plan.Source].cooldowns.abilityReadyAt(b.plan.Source, b.plan.InitialControlAbilityRef)
+	if ready <= s.nowMs || ready > maxJSONSafeInteger {
 		return s.basicAttackErr("committed attack cooldown is missing or invalid", b.plan.InitialControlAbilityRef)
 	}
-	if b.wait == nil || b.wait.ready != ready || b.current.ReadyAtMs == nil {
+	if b.wait == nil || s.basicAttackReadyAt() != ready || b.current.ReadyAtMs == nil {
 		return s.basicAttackErr("attack process did not commit its unique waiting node", b.plan.InitialControlAbilityRef)
 	}
 	if s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0 {

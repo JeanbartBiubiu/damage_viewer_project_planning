@@ -37,6 +37,7 @@ const (
 	GenericEventAmmoRecovery
 	GenericEventSkillAction
 	GenericEventAmmoAdmission
+	GenericEventAutomaticSkill
 )
 
 // ProviderInstanceRef 定位 combatant 上的 provider instance。
@@ -47,6 +48,8 @@ type ProviderInstanceRef struct {
 
 // GenericEvent 是 generic runtime 调度事件。
 type GenericEvent struct {
+	AutomaticGeneration   uint64
+	CooldownWaitVersion   uint64
 	SkillActionIndex      int
 	AmmoGeneration        uint64
 	BasicAttackGeneration uint64
@@ -150,6 +153,58 @@ func (h *GenericHeap) RescheduleBasicAttack(at int64, generation uint64) bool {
 			h.up(index)
 		} else {
 			h.down(index)
+		}
+		return true
+	}
+	return false
+}
+
+func (h *GenericHeap) HasAutomaticSkill() bool {
+	for _, ev := range h.items {
+		if ev.Kind == GenericEventAutomaticSkill {
+			return true
+		}
+	}
+	return false
+}
+
+func (h *GenericHeap) RescheduleAutomaticSkill(at int64, generation uint64) bool {
+	for i := range h.items {
+		if h.items[i].Kind != GenericEventAutomaticSkill {
+			continue
+		}
+		previous := h.items[i].TimeMs
+		h.items[i].TimeMs, h.items[i].AutomaticGeneration = at, generation
+		if at < previous {
+			h.up(i)
+		} else {
+			h.down(i)
+		}
+		return true
+	}
+	return false
+}
+
+func (h *GenericHeap) HasCooldownAttempt(entry int) bool {
+	for _, ev := range h.items {
+		if ev.Kind == GenericEventAbilityAttempt && ev.DriverEntryIndex == entry && ev.CooldownWaitVersion != 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func (h *GenericHeap) RescheduleCooldownAttempt(entry int, at int64, version uint64) bool {
+	for i := range h.items {
+		if h.items[i].Kind != GenericEventAbilityAttempt || h.items[i].DriverEntryIndex != entry || h.items[i].CooldownWaitVersion == 0 {
+			continue
+		}
+		previous := h.items[i].TimeMs
+		h.items[i].TimeMs, h.items[i].CooldownWaitVersion = at, version
+		if at < previous {
+			h.up(i)
+		} else {
+			h.down(i)
 		}
 		return true
 	}

@@ -350,7 +350,7 @@ func TestCalculationRenamedSpeedKeepsWaitingProgressAndUniqueNode(t *testing.T) 
 	slot.Base, slot.Resolved = 2, 2
 	staged.attributes = staged.attributes.With("tempo", slot)
 	frame.commit()
-	if frame.fatal || state.basicAttack.wait.ready != 700 || state.basicAttack.wait.remaining != .6 || state.heap.Len() != 1 {
+	if frame.fatal || state.basicAttackReadyAt() != 700 || state.basicAttack.wait.remaining != .6 || state.heap.Len() != 1 {
 		t.Fatal(frame.fatalErr, state.basicAttack.wait, state.heap.Len())
 	}
 	if err := state.runLoop(); err != nil {

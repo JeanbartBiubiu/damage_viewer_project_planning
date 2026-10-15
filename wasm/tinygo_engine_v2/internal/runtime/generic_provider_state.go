@@ -14,6 +14,7 @@ const (
 
 // providerStateFieldDef is the runtime copy of compiled provider-scope field metadata (Gate H1).
 type providerStateFieldDef struct {
+	stateKind     string
 	valueType     string
 	defaultValue  float64
 	maxValue      float64
@@ -46,10 +47,14 @@ type providerStateBag struct {
 	anchoredTickGenerationShared bool
 	fieldDefs                    map[string]providerStateFieldDef
 	// 字段定义与默认值绑定后只读，暂存副本共享这份元数据。
-	fieldDefaults  map[string]float64
-	targetKey      string
-	targetValues   map[string]float64
-	targetExpireAt map[string]int64
+	fieldDefaults map[string]float64
+	// CD的数值只是公式只读投影；实际期限与版本全部属于共同账本。
+	cooldownProjectionVersion uint64
+	cooldownProjectionAt      int64
+	cooldownProjectionBound   bool
+	targetKey                 string
+	targetValues              map[string]float64
+	targetExpireAt            map[string]int64
 	// anchoredTickGeneration 按 anchorStateKey 记录当前调度世代；target 切换时清空。
 	anchoredTickGeneration map[string]uint64
 	// inclusiveAtExpiry*：仅在锚定 tick 帧内、now==expireAt 时抑制该 key 的惰性过期。
@@ -284,6 +289,8 @@ func writableProviderStateBag(bags map[string]*providerStateBag, providerRef str
 }
 
 type providerStateReadOptions struct {
+	cooldowns    *genericCooldownLedger
+	ownerKey     string
 	expireTarget bool
 	defaults     bool
 	targetView   bool
@@ -303,6 +310,7 @@ func readProviderStateBag(bags map[string]*providerStateBag, providerRef string,
 		return nil
 	}
 	bag.bindFieldDefs(fields)
+	bag.projectInternalCooldowns(options.cooldowns, options.ownerKey, providerRef, nowMs)
 	bag.lazyExpireProviderState(nowMs)
 	if options.expireTarget {
 		bag.lazyExpireProviderTargetState(nowMs)
@@ -319,6 +327,13 @@ func readProviderStateBag(bags map[string]*providerStateBag, providerRef string,
 func (b *providerStateBag) needsReadPreparation(fields map[string]providerStateFieldDef, nowMs int64, options providerStateReadOptions) bool {
 	bind := len(fields) > 0
 	if bind && len(b.fieldDefs) == 0 {
+		return true
+	}
+	boundFields := fields
+	if len(boundFields) == 0 {
+		boundFields = b.fieldDefs
+	}
+	if options.cooldowns != nil && hasInternalCooldownFields(boundFields) && (!b.cooldownProjectionBound || b.cooldownProjectionVersion != options.cooldowns.revision || b.cooldownProjectionAt != nowMs) {
 		return true
 	}
 	if options.defaults && len(b.fieldDefs) > 0 && b.fieldDefaults == nil {
@@ -340,7 +355,7 @@ func (b *providerStateBag) needsReadPreparation(fields map[string]providerStateF
 				return true
 			}
 		}
-		if def.durationMs <= 0 {
+		if def.stateKind == model.ProviderStateKindCooldown || def.durationMs <= 0 {
 			continue
 		}
 		if expires := b.expireAt[key]; expires > 0 && nowMs >= expires {
@@ -364,7 +379,7 @@ func (b *providerStateBag) needsLazyExpiration(nowMs int64) bool {
 		return true
 	}
 	for key, def := range b.fieldDefs {
-		if def.durationMs <= 0 {
+		if def.stateKind == model.ProviderStateKindCooldown || def.durationMs <= 0 {
 			continue
 		}
 		if expires := b.expireAt[key]; expires > 0 && nowMs >= expires {
@@ -481,7 +496,7 @@ func materializeProviderState(raw map[string]interface{}) map[string]*providerSt
 	return out
 }
 
-func providerStateToSnapshot(bags map[string]*providerStateBag) map[string]interface{} {
+func providerStateToSnapshot(bags map[string]*providerStateBag, cooldowns *genericCooldownLedger, owner string, now int64) map[string]interface{} {
 	out := map[string]interface{}{}
 	if len(bags) == 0 {
 		return out
@@ -494,12 +509,18 @@ func providerStateToSnapshot(bags map[string]*providerStateBag) map[string]inter
 		for k, v := range bag.state {
 			stateObj[k] = v
 		}
+		for key, def := range bag.fieldDefs {
+			if def.stateKind == model.ProviderStateKindCooldown {
+				stateObj[key] = internalCooldownValue(cooldowns, genericStateCooldownIdentity(owner, providerRef, key, stateScopeProvider, ""), now)
+			}
+		}
 		expireObj := map[string]interface{}{}
 		for k, v := range bag.expireAt {
-			if v > 0 {
+			if v > 0 && bag.fieldDefs[k].stateKind != model.ProviderStateKindCooldown {
 				expireObj[k] = float64(v)
 			}
 		}
+		projectInternalCooldownExpiries(expireObj, cooldowns, owner, providerRef, "", stateScopeProvider, now)
 		entry := map[string]interface{}{
 			"state":    stateObj,
 			"expireAt": expireObj,
@@ -509,12 +530,20 @@ func providerStateToSnapshot(bags map[string]*providerStateBag) map[string]inter
 			for k, v := range bag.targetValues {
 				valuesObj[k] = v
 			}
+			if cooldowns != nil {
+				for id := range cooldowns.entries {
+					if id.owner == owner && id.providerRef == providerRef && id.scope == stateScopeProviderTarget && id.target == bag.targetKey {
+						valuesObj[id.stateKey] = internalCooldownValue(cooldowns, id, now)
+					}
+				}
+			}
 			targetExpire := map[string]interface{}{}
 			for k, v := range bag.targetExpireAt {
-				if v > 0 {
+				if v > 0 && bag.fieldDefs[k].stateKind != model.ProviderStateKindCooldown {
 					targetExpire[k] = float64(v)
 				}
 			}
+			projectInternalCooldownExpiries(targetExpire, cooldowns, owner, providerRef, bag.targetKey, stateScopeProviderTarget, now)
 			entry["targetState"] = map[string]interface{}{
 				"target":   bag.targetKey,
 				"values":   valuesObj,
@@ -583,6 +612,7 @@ func compiledStateFieldsToRuntime(fields map[string]planbundle.CompiledProviderS
 	out := make(map[string]providerStateFieldDef, len(fields))
 	for k, f := range fields {
 		out[k] = providerStateFieldDef{
+			stateKind:     f.StateKind,
 			valueType:     f.ValueType,
 			defaultValue:  f.DefaultValue,
 			maxValue:      f.MaxValue,
@@ -693,7 +723,7 @@ func (b *providerStateBag) lazyExpireProviderState(nowMs int64) {
 	}
 	b.ensure()
 	for key, def := range b.fieldDefs {
-		if def.durationMs <= 0 {
+		if def.stateKind == model.ProviderStateKindCooldown || def.durationMs <= 0 {
 			continue
 		}
 		exp, ok := b.expireAt[key]
@@ -716,7 +746,7 @@ func (b *providerStateBag) lazyExpireProviderTargetState(nowMs int64) {
 	}
 	b.ensure()
 	for key, def := range b.fieldDefs {
-		if def.durationMs <= 0 {
+		if def.stateKind == model.ProviderStateKindCooldown || def.durationMs <= 0 {
 			continue
 		}
 		exp, ok := b.targetExpireAt[key]
@@ -844,6 +874,9 @@ func (b *providerStateBag) refreshExpireAtOnWrite(key string, nowMs int64) bool 
 		return true
 	}
 	def, ok := b.fieldDefs[key]
+	if def.stateKind == model.ProviderStateKindCooldown {
+		return false
+	}
 	if !ok || def.durationMs <= 0 {
 		return true
 	}
@@ -872,6 +905,9 @@ func (b *providerStateBag) refreshTargetExpireAtOnWrite(key string, nowMs int64)
 		return 0, true
 	}
 	def, ok := b.fieldDefs[key]
+	if def.stateKind == model.ProviderStateKindCooldown {
+		return 0, false
+	}
 	if !ok || def.durationMs <= 0 {
 		return 0, true
 	}
@@ -934,7 +970,7 @@ func (b *providerStateBag) applyStartOnFirstWrite(key string, nowMs int64, next 
 //	expired — whether the new expiry reached nowMs (caller must restore defaultValue)
 //	newExp  — resulting expireAt (0 when expired or inactive)
 func (b *providerStateBag) subtractProviderExpireAt(key string, nowMs, deltaMs int64) (applied, expired bool, newExp int64) {
-	if b == nil || key == "" || deltaMs < 0 {
+	if b == nil || key == "" || deltaMs < 0 || b.fieldDefs[key].stateKind == model.ProviderStateKindCooldown {
 		return false, false, 0
 	}
 	b.ensure()
@@ -956,7 +992,7 @@ func (b *providerStateBag) subtractProviderExpireAt(key string, nowMs, deltaMs i
 
 // subtractTargetExpireAt is the provider_target counterpart of subtractProviderExpireAt.
 func (b *providerStateBag) subtractTargetExpireAt(key string, nowMs, deltaMs int64) (applied, expired bool, newExp int64) {
-	if b == nil || key == "" || deltaMs < 0 {
+	if b == nil || key == "" || deltaMs < 0 || b.fieldDefs[key].stateKind == model.ProviderStateKindCooldown {
 		return false, false, 0
 	}
 	b.ensure()
@@ -1003,6 +1039,10 @@ func (s *genericRunState) restoreProviderStateTimers(snapshot model.Snapshot) *m
 			if err := restoreBagTimers(bag, snapshot.TimeMs, combatantKeys, path, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID); err != nil {
 				return err
 			}
+			if rt.cooldowns == nil {
+				rt.cooldowns = newGenericCooldownLedger()
+			}
+			migrateInternalCooldownTimers(bag, rt.cooldowns, snap.Key, providerRef, snapshot.TimeMs)
 		}
 		s.combatants[snap.Key] = rt
 	}

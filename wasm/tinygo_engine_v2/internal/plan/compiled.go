@@ -25,6 +25,7 @@ type CompiledSession struct {
 	SchemaHash           string
 	RulesHash            string
 	Types                typeset.CatalogResult
+	RuntimeTypes         RuntimeTypeBindings
 	Combatants           []CompiledCombatant
 	Providers            []CompiledProvider
 	Abilities            []CompiledAbility
@@ -389,8 +390,11 @@ type CompiledProcessControl struct {
 
 type CompiledSkillActionBinding struct {
 	model.SkillActionBinding
-	InitialAbilityIndex   uint16
-	ControlAbilityIndices map[string]uint16
+	InitialAbilityIndex       uint16
+	ControlAbilityIndices     map[string]uint16
+	AutomaticEligible         bool
+	AutomaticIneligiblePath   string
+	AutomaticIneligibleReason string
 }
 
 type CompiledVampRule struct {

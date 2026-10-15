@@ -29,7 +29,7 @@ type combatantRuntime struct {
 	key                 string
 	attributes          attribute.Table
 	resources           map[string]model.ResourceSlotDef
-	cooldowns           map[string]int64
+	cooldowns           *genericCooldownLedger
 	providers           []status.ProviderInstance
 	shields             []shieldpkg.Instance
 	resolver            pipeline.AttributeResolver
@@ -65,9 +65,10 @@ type damageRecord struct {
 
 type genericRunState struct {
 	abilityTypeKeyCache        map[typeset.TypeSet][]string
-	attributeMemos             map[attributeMemoKey]*attributeMemo
+	attributeMemos             [2][3]*attributeMemo
 	providerDefinitionFields   []map[string]providerStateFieldDef
 	skillAction                *skillActionRuntime
+	automaticSkills            *automaticSkillRuntime
 	skillActions               []skillActionRuntime
 	skillActionByUse           map[string]*skillActionRuntime
 	skillTargetKilledAt        *int64
@@ -199,7 +200,7 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 	if req.OutputMode != "" && req.OutputMode != model.RunOutputDetailed && req.OutputMode != model.RunOutputSummary {
 		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "outputMode must be detailed or summary", "outputMode", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 	}
-	if (req.DriverPlan.BasicAttack != nil || len(req.DriverPlan.SkillActions) > 0) && len(compiled.RuleModifiers) != 0 {
+	if (req.DriverPlan.BasicAttack != nil || len(req.DriverPlan.SkillActions) > 0 || req.DriverPlan.AutomaticSkills != nil) && len(compiled.RuleModifiers) != 0 {
 		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "continuous basic attack does not admit unselected global modifiers", "rules.modifiers", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 	}
 	recheck := normalizeConditionRecheckInterval(req.DriverPlan.ConditionRecheckIntervalMs)
@@ -242,7 +243,7 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 		if sb.MaxBasicAttacks > 0 {
 			budget.MaxBasicAttacks = sb.MaxBasicAttacks
 		}
-		if (req.DriverPlan.BasicAttack != nil || len(req.DriverPlan.SkillActions) > 0) && ((sb.MaxEvents > compiled.Settings.MaxEvents && compiled.Settings.MaxEvents > 0) || (sb.MaxCommandsPerEvent > compiled.Settings.MaxCommandsPerEvent && compiled.Settings.MaxCommandsPerEvent > 0) || (sb.MaxChainDepth > compiled.Settings.MaxChainDepth && compiled.Settings.MaxChainDepth > 0)) {
+		if (req.DriverPlan.BasicAttack != nil || len(req.DriverPlan.SkillActions) > 0 || req.DriverPlan.AutomaticSkills != nil) && ((sb.MaxEvents > compiled.Settings.MaxEvents && compiled.Settings.MaxEvents > 0) || (sb.MaxCommandsPerEvent > compiled.Settings.MaxCommandsPerEvent && compiled.Settings.MaxCommandsPerEvent > 0) || (sb.MaxChainDepth > compiled.Settings.MaxChainDepth && compiled.Settings.MaxChainDepth > 0)) {
 			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "run safety budget exceeds compiled limits", "safetyBudget", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 		}
 		if sb.MaxProcessInstances > 0 {
@@ -349,6 +350,9 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 	if err := state.initSkillAction(); err != nil {
 		return nil, err
 	}
+	if err := state.initAutomaticSkills(); err != nil {
+		return nil, err
+	}
 	if err := state.initBasicAttack(); err != nil {
 		return nil, err
 	}
@@ -357,10 +361,11 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 	}
 	state.seedDriverAttempts()
 	state.seedSkillAction()
+	state.queueAutomaticSkills(state.startMs)
 	state.seedExpireCleanups()
 	state.seedProviderTicks()
 	if state.basicAttack != nil {
-		if state.basicAttack.ammo != nil && len(state.skillActions) > 0 {
+		if state.basicAttack.ammo != nil && state.hasSkillPlan() {
 			state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.startMs, Category: scheduler.GenericCategoryAmmoRecovery, Kind: scheduler.GenericEventAmmoAdmission, DriverEntryIndex: -1})
 		}
 		state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.startMs, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1})
@@ -512,7 +517,7 @@ func materializeCombatants(snapshot model.Snapshot, compiled planbundle.Compiled
 			key:           c.Key,
 			attributes:    attribute.FromMap(attrs, layout),
 			resources:     cloneResourceMap(resources),
-			cooldowns:     materializeCooldowns(c.Cooldowns),
+			cooldowns:     materializeCooldowns(c.Cooldowns, c.Key),
 			providers:     providers,
 			shields:       shields,
 			resolver:      resolver,
@@ -712,7 +717,7 @@ func (s *genericRunState) combatantHp(key string) float64 {
 	if !ok {
 		return 0
 	}
-	if slot, ok := c.attributes.Lookup("hp"); ok {
+	if slot, ok := c.attributes.LookupIndex(c.attributes.Layout().HPIndex()); ok {
 		return slot.Current
 	}
 	return 0
@@ -723,7 +728,7 @@ func (s *genericRunState) combatantHasHp(key string) bool {
 	if !ok {
 		return false
 	}
-	_, ok = c.attributes.Lookup("hp")
+	_, ok = c.attributes.LookupIndex(c.attributes.Layout().HPIndex())
 	return ok
 }
 
@@ -793,7 +798,7 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			break
 		}
 		next, hasNext := s.heap.PeekTime()
-		if len(s.skillActions) > 0 && (s.actionDeaths[model.SelectorSource] || s.actionDeaths[model.SelectorTarget] || s.combatantHp(model.SelectorSource) <= 0 || s.combatantHp(model.SelectorTarget) <= 0) {
+		if s.hasSkillPlan() && (s.actionDeaths[model.SelectorSource] || s.actionDeaths[model.SelectorTarget] || s.combatantHp(model.SelectorSource) <= 0 || s.combatantHp(model.SelectorTarget) <= 0) {
 			s.finalizeStopReason()
 			break
 		}
@@ -837,7 +842,7 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		s.flushSamplesBefore(ev.TimeMs)
 		s.nowMs = ev.TimeMs
 		s.processedEvents++
-		if len(s.skillActions) > 0 {
+		if s.hasSkillPlan() {
 			s.currentEventCommands = 0
 		}
 		var err *model.EngineError
@@ -856,6 +861,8 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			err = s.handleAbilityAttempt(ev)
 		case scheduler.GenericEventSkillAction:
 			err = s.handleSkillAction(ev.SkillActionIndex)
+		case scheduler.GenericEventAutomaticSkill:
+			err = s.handleAutomaticSkills(ev)
 		case scheduler.GenericEventTriggeredContinuation:
 			err = s.handleTriggeredContinuation(ev)
 		case scheduler.GenericEventBasicAttack:
@@ -972,6 +979,22 @@ func (s *genericRunState) statFor(abilityRef string) *abilityStatAcc {
 
 func (s *genericRunState) handleAbilityAttempt(ev scheduler.GenericEvent) *model.EngineError {
 	entry := s.req.DriverPlan.Entries[ev.DriverEntryIndex]
+	waitOwner, _ := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
+	waitTarget, _ := s.resolveDriverCombatantKey(entry.Target, waitOwner)
+	waitOwner = genericAbilityCooldownOwner(waitOwner, normalizeAbilityRef(entry.AbilityRef, waitOwner, waitTarget))
+	waitKey := whileReadyCooldownWaitKey(waitOwner, entry.EntryKey)
+	if ev.CooldownWaitVersion != 0 {
+		c := s.combatants[waitOwner]
+		if !c.cooldowns.waitCurrent(waitKey, ev.TimeMs, ev.CooldownWaitVersion) {
+			return nil
+		}
+	}
+	if s.isWhileReady(entry) {
+		c := s.combatants[waitOwner]
+		c.cooldowns = c.cooldowns.clone()
+		c.cooldowns.cancelWait(waitKey)
+		s.combatants[waitOwner] = c
+	}
 	if !isNativeHitFollowUp(entry.EntryKey) {
 		s.abilityAttemptCount++
 		s.entryAttemptCounts[ev.DriverEntryIndex]++
@@ -999,7 +1022,11 @@ func (s *genericRunState) handleAbilityAttempt(ev scheduler.GenericEvent) *model
 		if s.isWhileReady(entry) {
 			nextAt := s.nextWhileReadyTime(entry, gate)
 			if nextAt > s.nowMs {
-				s.enqueueAttempt(nextAt, ev.DriverEntryIndex, ev.AttemptIndex+1)
+				if gate.reason == model.AttemptSkipCooldownNotReady {
+					s.enqueueCooldownAttempt(nextAt, ev.DriverEntryIndex, ev.AttemptIndex+1, genericAbilityCooldownOwner(sourceKey, statRef), statRef)
+				} else {
+					s.enqueueAttempt(nextAt, ev.DriverEntryIndex, ev.AttemptIndex+1)
+				}
 			}
 			// whileReady owns reschedule; do not also schedule dynamic interval.
 			return nil
@@ -1221,6 +1248,10 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 		actions, uses := s.skillSummaries()
 		actionSummary, useSummary = &actions, &uses
 	}
+	automaticSummary, automaticRecords, automaticRecording, automaticUses := s.automaticSkillResults()
+	if automaticUses != nil {
+		useSummary = automaticUses
+	}
 	if s.automatedRun() {
 		sourceDirectHealing, targetDirectHealing = &s.sourceDirectHealing, &s.targetDirectHealing
 		sourceVampHealing, targetVampHealing = &s.sourceVampHealing, &s.targetVampHealing
@@ -1245,15 +1276,18 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 	warnings, warningCount := s.buildWarnings(downsampled, droppedSeriesPoints)
 
 	return model.DoneResult{
-		OutputMode:         s.resultOutputMode(),
-		SkillActionRecords: s.skillActionRecords,
-		SkillUseRecords:    s.skillUseRecords,
-		HealingRecords:     s.healingRecords,
-		OK:                 true,
-		AttackRecords:      s.attackRecords,
-		DamageRecords:      s.damageRecords,
-		MechanicRecords:    s.mechanicRecords,
-		Recording:          s.skillRecordingSummary(s.recordingSummary()),
+		AutomaticSkillSummary:   automaticSummary,
+		AutomaticSkillRecords:   automaticRecords,
+		AutomaticSkillRecording: automaticRecording,
+		OutputMode:              s.resultOutputMode(),
+		SkillActionRecords:      s.skillActionRecords,
+		SkillUseRecords:         s.skillUseRecords,
+		HealingRecords:          s.healingRecords,
+		OK:                      true,
+		AttackRecords:           s.attackRecords,
+		DamageRecords:           s.damageRecords,
+		MechanicRecords:         s.mechanicRecords,
+		Recording:               s.skillRecordingSummary(s.recordingSummary()),
 		Summary: model.RunSummary{
 			SkillActions:        actionSummary,
 			SkillUses:           useSummary,
@@ -1320,7 +1354,7 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 		snapshot.Combatants[i].Cooldowns = cooldownsToSnapshot(rt.cooldowns, s.nowMs)
 		snapshot.Combatants[i].Providers = providersToSnapshot(rt.providers)
 		snapshot.Combatants[i].Shields = shieldsToSnapshot(rt.shields)
-		snapshot.Combatants[i].ProviderState = providerStateToSnapshot(rt.providerState)
+		snapshot.Combatants[i].ProviderState = providerStateToSnapshot(rt.providerState, rt.cooldowns, rt.key, s.nowMs)
 		snapshot.Combatants[i].EffectiveStatuses = s.buildEffectiveStatuses(rt.providers)
 		if snapshot.Combatants[i].EffectiveStatuses == nil {
 			snapshot.Combatants[i].EffectiveStatuses = []model.EffectiveStatusSnapshot{}
@@ -1343,7 +1377,7 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 		if !ok {
 			continue
 		}
-		snapshot.Combatants[i].ProviderState = providerStateToSnapshot(rt.providerState)
+		snapshot.Combatants[i].ProviderState = providerStateToSnapshot(rt.providerState, rt.cooldowns, rt.key, s.nowMs)
 	}
 	snapshot.UseTriggerLedger = s.snapshotUseTriggerLedger()
 	snapshot.ProcessInstances = s.snapshotProcesses()
@@ -1469,22 +1503,8 @@ func (s *genericRunState) buildWarnings(seriesDownsampled bool, droppedSeriesPoi
 	return warnings, totalProduced
 }
 
-func cooldownsToSnapshot(cooldowns map[string]int64, nowMs int64) map[string]interface{} {
-	if len(cooldowns) == 0 {
-		return map[string]interface{}{}
-	}
-	out := make(map[string]interface{}, len(cooldowns))
-	for key, readyAt := range cooldowns {
-		remaining := readyAt - nowMs
-		if remaining < 0 {
-			remaining = 0
-		}
-		out[key] = map[string]interface{}{
-			"readyAtMs":   readyAt,
-			"remainingMs": remaining,
-		}
-	}
-	return out
+func cooldownsToSnapshot(cooldowns *genericCooldownLedger, nowMs int64) map[string]interface{} {
+	return cooldowns.snapshot(nowMs)
 }
 
 func cloneSnapshot(src model.Snapshot) model.Snapshot {

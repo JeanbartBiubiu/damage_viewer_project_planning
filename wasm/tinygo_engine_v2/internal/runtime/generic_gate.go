@@ -3,6 +3,7 @@ package runtime
 import (
 	"encoding/json"
 	"math"
+	"sort"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -88,16 +89,14 @@ func (s *genericRunState) checkAttemptGate(entry model.DriverEntry, entryIndex i
 }
 
 func (s *genericRunState) cooldownGate(sourceKey, abilityRef string) (readyAtMs int64, blocked bool) {
+	sourceKey = genericAbilityCooldownOwner(sourceKey, abilityRef)
 	c, ok := s.combatants[sourceKey]
 	if !ok {
 		return 0, false
 	}
-	readyAt, exists := c.cooldowns[abilityRef]
-	if !exists || readyAt <= 0 {
-		return 0, false
-	}
-	if s.nowMs < readyAt {
-		return readyAt, true
+	id := genericAbilityCooldownIdentity(sourceKey, abilityRef)
+	if c.cooldowns.remaining(id, s.nowMs) > 0 {
+		return c.cooldowns.readyAt(id), true
 	}
 	return 0, false
 }
@@ -147,7 +146,7 @@ func (s *genericRunState) resourceGate(sourceKey, targetKey string, ability plan
 		if owner, ok := s.combatants[ownerKey]; ok && providerRef != "" {
 			if bag := readSharedProviderStateBag(&owner.providerState, &owner.providerStateShared, providerRef, false,
 				s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers), s.nowMs,
-				providerStateReadOptions{targetView: true, targetKey: targetKey}); bag != nil {
+				providerStateReadOptions{cooldowns: owner.cooldowns, ownerKey: ownerKey, targetView: true, targetKey: targetKey}); bag != nil {
 				ctx.ProviderState = bag.state
 				if bag.targetKey == targetKey {
 					ctx.ProviderTargetState = bag.targetStateForFormula()
@@ -253,9 +252,12 @@ func (s *genericRunState) castConditionBlocked(sourceKey, targetKey string, abil
 			owner.providerState = map[string]*providerStateBag{}
 		}
 		bag := readSharedProviderStateBag(&owner.providerState, &owner.providerStateShared, providerRef, true,
-			s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers), s.nowMs, providerStateReadOptions{})
+			s.resolveProviderStateFieldDefs(ownerKey, providerRef, owner.providers), s.nowMs, providerStateReadOptions{cooldowns: owner.cooldowns, ownerKey: ownerKey, targetView: true, targetKey: targetKey})
 		s.combatants[ownerKey] = owner
 		ctx.ProviderState = bag.state
+		if bag.targetKey == targetKey {
+			ctx.ProviderTargetState = bag.targetStateForFormula()
+		}
 	}
 	value, err := s.formulas.EvalContext(ability.CastConditionProgram, &ctx)
 	if err != nil {
@@ -290,14 +292,17 @@ func (s *genericRunState) nextWhileReadyTime(entry model.DriverEntry, result gat
 	return nextAt
 }
 
-func materializeCooldowns(raw map[string]interface{}) map[string]int64 {
-	if len(raw) == 0 {
-		return map[string]int64{}
+func materializeCooldowns(raw map[string]interface{}, owner string) *genericCooldownLedger {
+	out := newGenericCooldownLedger()
+	keys := make([]string, 0, len(raw))
+	for key := range raw {
+		keys = append(keys, key)
 	}
-	out := make(map[string]int64, len(raw))
-	for key, value := range raw {
+	sort.Strings(keys)
+	for _, key := range keys {
+		value := raw[key]
 		if readyAt := parseCooldownReadyAtMs(value); readyAt > 0 {
-			out[key] = readyAt
+			out.set(genericAbilityCooldownIdentity(owner, key), readyAt, 0)
 		}
 	}
 	return out
@@ -322,17 +327,6 @@ func parseCooldownReadyAtMs(value interface{}) int64 {
 		}
 	}
 	return 0
-}
-
-func cloneCooldownMap(src map[string]int64) map[string]int64 {
-	if len(src) == 0 {
-		return map[string]int64{}
-	}
-	dst := make(map[string]int64, len(src))
-	for k, v := range src {
-		dst[k] = v
-	}
-	return dst
 }
 
 // normalizeAbilityRef 将 self/opponent abilityRef 归一为 source/target concrete ref。

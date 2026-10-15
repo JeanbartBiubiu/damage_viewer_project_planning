@@ -189,7 +189,7 @@ func TestSingleSkillCooldownGateDoesNotPublishRejectedUse(test *testing.T) {
 			test.Fatal(err)
 		}
 		state.nowMs = now
-		state.combatants["source"].cooldowns[run.DriverPlan.SkillActions[0].AbilityRef] = 1000
+		state.combatants["source"].cooldowns.set(genericAbilityCooldownIdentity("source", run.DriverPlan.SkillActions[0].AbilityRef), 1000, now)
 		if err := state.handleSkillAction(0); err != nil {
 			test.Fatal(err)
 		}

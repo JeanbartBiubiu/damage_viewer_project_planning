@@ -24,8 +24,8 @@ func (s *genericRunState) validateStaticInitializer(provider planbundle.Compiled
 }
 
 func (s *genericRunState) validateStaticInitializationListener(listener planbundle.CompiledListener) *model.EngineError {
-	initializationType, declared := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeSourceInitialized)
-	ownerType, ownerDeclared := s.compiled.Types.Registry.LookupDomain("event", "event/source_owner")
+	initializationType, declared := s.compiled.RuntimeTypes.SourceInitialized.Lookup()
+	ownerType, ownerDeclared := s.compiled.RuntimeTypes.SourceOwner.Lookup()
 	var eventTypes typeset.TypeSet
 	eventTypes.Add(initializationType)
 	if !declared || !ownerDeclared || listener.OwnerCombatantKey == "" || listener.OwnerProviderRef == "" || listener.HasAbilityRef || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 || listener.OperationCount == 0 || listener.MaxTriggersPerEvent != 1 || !listener.EventMatcher.RequiresAllType(initializationType) || !listener.EventMatcher.RequiresAllType(ownerType) || !s.listenerMatchesEvent(listener, emittedEvent{eventType: model.EventTypeSourceInitialized, sourceKey: listener.OwnerCombatantKey, targetKey: listener.OwnerCombatantKey}, eventTypes) {

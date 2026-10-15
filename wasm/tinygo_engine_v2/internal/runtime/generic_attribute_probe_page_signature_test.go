@@ -21,12 +21,12 @@ func TestAttributeProbePageSignaturesMatchFreshReads(t *testing.T) {
 	dep, hp := source.Index("dep"), source.Index("hp")
 	reads := []attributeMemoRead{}
 	for _, field := range []string{"base", "current", "max", "resolved", "presence"} {
-		reads = append(reads, attributeMemoRead{kind: formula.ReadSourceAttr, key: "dep", field: field, attributeIndex: dep, attributeIndexBound: true})
+		reads = append(reads, attributeMemoRead{kind: formula.ReadSourceAttr, key: "dep", field: memoReadField(field), attributeIndex: dep, attributeIndexBound: true})
 	}
 	reads = append(reads,
-		attributeMemoRead{kind: formula.ReadTargetAttr, key: "dep", field: "resolved", attributeIndex: dep, attributeIndexBound: true},
-		attributeMemoRead{kind: formula.ReadTargetAttr, key: "dep", field: "current", attributeIndex: dep, attributeIndexBound: true, authoredTarget: true},
-		attributeMemoRead{kind: formula.ReadSourceAttr, key: "hp", field: "current", attributeIndex: hp, attributeIndexBound: true},
+		attributeMemoRead{kind: formula.ReadTargetAttr, key: "dep", field: memoFieldResolved, attributeIndex: dep, attributeIndexBound: true},
+		attributeMemoRead{kind: formula.ReadTargetAttr, key: "dep", field: memoFieldCurrent, attributeIndex: dep, attributeIndexBound: true, authoredTarget: true},
+		attributeMemoRead{kind: formula.ReadSourceAttr, key: "hp", field: memoFieldCurrent, attributeIndex: hp, attributeIndexBound: true},
 		attributeMemoRead{kind: formula.ReadProviderState, key: "count", providerIndex: 0},
 	)
 	memo := attributeMemo{cacheable: true, reads: reads, stamps: make([]attributeMemoStamp, len(reads)), scratch: make([]attributeMemoStamp, len(reads)), providers: []attributeMemoProvider{{"source", "buff"}}, providerValues: make([]attributeMemoProviderValues, 1)}

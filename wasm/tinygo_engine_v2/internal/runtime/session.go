@@ -122,7 +122,7 @@ func (s *Session) RunJSON(payload []byte) int32 {
 		s.outbox.WriteJSON(model.FrameKindGenericError, *runErr)
 		return -1
 	}
-	if code := s.outbox.WriteJSON(model.FrameKindGenericDone, done); code != model.ErrOK {
+	if code := s.outbox.WriteJSON(model.FrameKindGenericDone, done.JSONValue()); code != model.ErrOK {
 		s.writeGenericError(model.GenericPhaseABI, model.GenericErrRuntimeInvariantFailed, "done frame write failed", entry.schemaHash, entry.rulesHash, req.SessionID)
 		return -1
 	}

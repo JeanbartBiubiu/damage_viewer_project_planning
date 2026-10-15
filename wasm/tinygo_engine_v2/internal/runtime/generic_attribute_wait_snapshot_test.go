@@ -45,7 +45,7 @@ func TestUpdatedWaitingSnapshotSurvivesFurtherStagedWrites(t *testing.T) {
 		t.Fatal(err)
 	}
 	frozen := frame.pendingBasicAttackWait
-	if frozen == nil || frozen.ready != 700 {
+	if frozen == nil || basicAttackProgressDeadline(frozen) != 700 {
 		t.Fatal("expected adjusted wait", frozen)
 	}
 	before := independentAttributeTable(frozen.sourceAttributes)
@@ -54,7 +54,7 @@ func TestUpdatedWaitingSnapshotSurvivesFurtherStagedWrites(t *testing.T) {
 	if !reflect.DeepEqual(frozen.sourceAttributes, before) {
 		t.Fatal("updated wait input changed after capture")
 	}
-	if state.basicAttack.wait.ready != 1000 {
+	if state.basicAttackReadyAt() != 1000 {
 		t.Fatal("uncommitted wait escaped to live")
 	}
 }

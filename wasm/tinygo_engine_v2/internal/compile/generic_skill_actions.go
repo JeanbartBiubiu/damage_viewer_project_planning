@@ -1,7 +1,9 @@
 package compile
 
 import (
+	"math"
 	"strings"
+	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/plan"
 )
@@ -37,6 +39,10 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 		ability := ctx.session.Abilities[ref.AbilityIndex]
 		if provider.ProviderKey != binding.ProviderDefinitionRef || ability.Kind != "active" || ability.IsBasicAttack || ability.SkillKey != binding.SkillKey || ability.ProcessControl == nil || ability.ProcessControl.Action != "INITIAL" || ability.ProcessControl.ProcessKey != control.ProcessKey || ability.ProcessControl.UseRefFromEvent {
 			fail("binding must match a non-basic INITIAL process and definition")
+			continue
+		}
+		if ability.ProcessControl.ProcessIndex < 0 || ability.ProcessControl.ProcessIndex >= len(provider.Processes) {
+			fail("binding control requires its declared compiled process")
 			continue
 		}
 		process := provider.Processes[ability.ProcessControl.ProcessIndex]
@@ -105,7 +111,58 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 			}
 		}
 		if !invalid {
-			ctx.session.SkillActionBindings = append(ctx.session.SkillActionBindings, plan.CompiledSkillActionBinding{SkillActionBinding: binding, InitialAbilityIndex: ref.AbilityIndex, ControlAbilityIndices: controls})
+			compiled := plan.CompiledSkillActionBinding{SkillActionBinding: binding, InitialAbilityIndex: ref.AbilityIndex, ControlAbilityIndices: controls}
+			compiled.AutomaticIneligiblePath, compiled.AutomaticIneligibleReason = automaticSkillAdmission(binding, process, ability, path, ctx)
+			compiled.AutomaticEligible = compiled.AutomaticIneligibleReason == ""
+			ctx.session.SkillActionBindings = append(ctx.session.SkillActionBindings, compiled)
 		}
 	}
+}
+
+// 同一绑定可用于有限手动计划；自动准入单独保存，避免拒绝合法手动控制。
+func automaticSkillAdmission(binding model.SkillActionBinding, process plan.CompiledProcess, ability plan.CompiledAbility, path string, ctx *genericCompileContext) (string, string) {
+	if len(binding.Controls) != 1 || binding.Controls[0].Action != "INITIAL" {
+		return path + ".controls", "automatic skills admit only the initial control"
+	}
+	if len(process.Steps) != 1 {
+		return process.Path + ".steps", "automatic skills require one immediate or finite delay first-release step"
+	}
+	for _, step := range process.Steps {
+		if step.StepType != "IMMEDIATE" && step.StepType != "DELAY" {
+			return step.Path + ".stepType", "automatic skills admit only immediate or finite delay steps"
+		}
+	}
+	if process.Cooldown == nil || !process.Cooldown.HasDuration || int(process.Cooldown.DurationProgram) >= len(ctx.session.Formulas.Programs) {
+		return process.Path + ".cooldown", "automatic skills require an authored positive process cooldown"
+	}
+	cd := process.Cooldown
+	if cd.StartMoment.MomentType == "PROCESS_FAILURE" {
+		return cd.Path + ".startMoment", "automatic skills require cooldown on a successful process path"
+	}
+	program := ctx.session.Formulas.Programs[cd.DurationProgram]
+	if value, constant := ctx.session.Formulas.FoldInstructions(program.Instr); constant {
+		if cd.RoundPositiveMs && value > 0 {
+			value = math.Max(1, math.Round(value))
+		}
+		if !formula.ValidPositiveInt64DurationMs(value) || value > 9007199254740991 {
+			return cd.Path + ".durationMs", "automatic skills require a positive safe integer cooldown"
+		}
+	}
+	// 实际开始条件只读取本次稳定状态；事件或同次使用字段没有自动候选上下文。
+	if ability.HasCastCondition {
+		conditionPath := path + ".controls[0].abilityRef"
+		if int(ability.CastConditionProgram) < len(ctx.session.Formulas.Programs) {
+			conditionPath = ctx.session.Formulas.Programs[ability.CastConditionProgram].Key
+		}
+		for _, instruction := range ctx.session.Formulas.ReadDependencies(ability.CastConditionProgram) {
+			switch instruction.ReadKind {
+			case formula.ReadSourceAttr, formula.ReadTargetAttr, formula.ReadSourceResource, formula.ReadTargetResource,
+				formula.ReadAbilityParam, formula.ReadProviderState, formula.ReadProviderTargetState,
+				formula.ReadSourceStatusPresent, formula.ReadTargetStatusPresent:
+			default:
+				return conditionPath, "automatic cast conditions require a stable candidate context"
+			}
+		}
+	}
+	return "", ""
 }

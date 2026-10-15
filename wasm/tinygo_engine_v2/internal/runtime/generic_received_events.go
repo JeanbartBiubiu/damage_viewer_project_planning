@@ -8,7 +8,7 @@ import (
 )
 
 func (s *genericRunState) dispatchBasicAttackReceived(original emittedEvent, depth int) *model.EngineError {
-	if _, declared := s.compiled.Types.Registry.LookupDomain("event", model.EventTypeBasicAttackReceived); !declared {
+	if _, declared := s.compiled.RuntimeTypes.BasicAttackReceived.Lookup(); !declared {
 		return nil
 	}
 	received := original
@@ -29,7 +29,7 @@ func (s *genericRunState) dispatchBasicAttackReceived(original emittedEvent, dep
 
 func (f *executionFrame) queueDamageTaken(cmd command.Command, operation planbundle.CompiledOperation,
 	ability planbundle.CompiledAbility, critical frozenCritEvidence, base, raw float64, outcome pipeline.DamageOutcome) {
-	if _, declared := f.run.compiled.Types.Registry.LookupDomain("event", model.EventTypeDamageTaken); !declared {
+	if _, declared := f.run.compiled.RuntimeTypes.DamageTaken.Lookup(); !declared {
 		return
 	}
 	event := emittedEvent{eventType: model.EventTypeDamageTaken, ref: operation.Ref, sourceKey: cmd.Source, targetKey: cmd.Target,

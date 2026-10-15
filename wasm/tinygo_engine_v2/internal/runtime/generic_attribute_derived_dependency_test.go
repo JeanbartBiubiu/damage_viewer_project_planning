@@ -68,7 +68,7 @@ func assertDerivedDependencyMatchesUncached(t *testing.T, state *genericRunState
 func assertDerivedDependencyWarmHit(t *testing.T, state *genericRunState, resolver pipeline.AttributeResolver, attrs, target attribute.Table, provider pipeline.ProviderFormulaContextFunc) {
 	t.Helper()
 	memo := state.attributeMemo("source", true, false, [2]string{}, resolver, attrs)
-	if len(memo.values) != 1 || memo.values[0].key != "speed" || !memo.values[0].derivedOutput {
+	if len(memo.values) != 1 || memo.output.Layout().Key(memo.values[0].index) != "speed" {
 		t.Fatalf("derived-only memo retained unrelated values: attrs=%d values=%+v", attrs.Len(), memo.values)
 	}
 	ctx := formula.GenericEvalContext{StrictReads: true, SourceAttrs: attrs, TargetAttrs: target}
