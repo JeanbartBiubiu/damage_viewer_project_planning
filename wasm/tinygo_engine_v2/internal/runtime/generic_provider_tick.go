@@ -128,6 +128,21 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 		}
 	}
 	abilityRef := fmt.Sprintf("%s.provider[%s].ability[%s]", ref.CombatantKey, ref.ProviderRef, tickAbility.AbilityKey)
+	// 周期只提供新的真实尝试；CD内跳过的周期不缓存，也不在CD到期补放。
+	if _, blocked := s.cooldownGate(ref.CombatantKey, abilityRef); blocked {
+		s.continueProviderTick(ev, inst)
+		return nil
+	}
+	if tickAbility.HasCastCondition {
+		blocked, err := s.castConditionBlocked(sourceKey, targetKey, *tickAbility, abilityRef)
+		if err != nil {
+			return err
+		}
+		if blocked {
+			s.continueProviderTick(ev, inst)
+			return nil
+		}
+	}
 
 	ts := tickAbility.TickSpec
 	start := ts.OnTickStart
@@ -154,6 +169,9 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 	// Independent TickSpec re-entry always mints a new cast instance.
 	frame.castInstanceID = s.mintCastInstanceID()
 	frame.castOrigin = tickAbility.CastOrigin
+	if err := frame.stageLifecycleCostCooldown(*tickAbility, ref.CombatantKey); err != nil {
+		return err
+	}
 	if err := frame.executeOperations(*tickAbility, ops); err != nil {
 		return err
 	}
@@ -198,4 +216,16 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 	nextAt := s.nowMs + intervalMs
 	s.enqueueProviderTickAt(nextAt, ref.CombatantKey, ref.ProviderRef, intervalMs, inst.ExpireAt, ev.ProviderTickActivatedAtMs)
 	return nil
+}
+
+func (s *genericRunState) continueProviderTick(event scheduler.GenericEvent, instance status.ProviderInstance) {
+	if s.basicAttack != nil && (s.combatantHp(s.basicAttack.plan.Source) <= 0 || s.combatantHp(s.basicAttack.plan.Target) <= 0) {
+		return
+	}
+	interval, _, exists := s.providerTickSchedule(instance.DefinitionIndex)
+	if !exists || interval > s.startMs+s.durationMs-s.nowMs {
+		return
+	}
+	s.enqueueProviderTickAt(s.nowMs+interval, event.ProviderInstanceRef.CombatantKey, event.ProviderInstanceRef.ProviderRef,
+		interval, instance.ExpireAt, event.ProviderTickActivatedAtMs)
 }

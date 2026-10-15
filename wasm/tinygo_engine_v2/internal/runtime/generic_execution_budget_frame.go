@@ -11,7 +11,7 @@ func parseFrameAbilityOwner(ref string) (string, bool) {
 }
 
 func (f *executionFrame) commandsSpent() int {
-	if f.run.basicAttackEventActive || f.run.initializationEventActive || len(f.run.skillActions) > 0 {
+	if f.run.basicAttackEventActive || f.run.initializationEventActive || f.run.hasSkillPlan() {
 		return f.run.currentEventCommands
 	}
 	if f.copyableCollector != nil {
@@ -22,7 +22,7 @@ func (f *executionFrame) commandsSpent() int {
 
 // 整批联动在分配事件前消费额度；失败帧也不退回已经消费的额度。
 func (f *executionFrame) consumeCommands(count int) *model.EngineError {
-	if f.run.basicAttackEventActive || f.run.initializationEventActive || len(f.run.skillActions) > 0 {
+	if f.run.basicAttackEventActive || f.run.initializationEventActive || f.run.hasSkillPlan() {
 		return f.run.consumeEventCommands(count)
 	}
 	remaining := f.run.budget.MaxCommandsPerEvent - f.commandsSpent()

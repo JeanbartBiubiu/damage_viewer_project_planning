@@ -30,6 +30,9 @@ func (s *genericRunState) validateRawProviderState(raw map[string]interface{}, a
 					return fail(at+"."+key, "state value must be a finite number")
 				}
 				field := fields[key]
+				if field.stateKind == model.ProviderStateKindCooldown && number != 0 && number != 1 {
+					return fail(at+"."+key, "internal cooldown activity must be zero or one")
+				}
 				if field.valueType == model.ProviderStateValueInteger && (!validStateInteger(number) || number < 0 || (field.hasCap && number > field.maxValue)) {
 					return fail(at+"."+key, "integer state value must be a non-negative safe integer within maxValue")
 				}

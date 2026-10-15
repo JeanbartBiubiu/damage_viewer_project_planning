@@ -177,7 +177,7 @@ func TestTriggeredSkillSourceSameTimeStartAndHitKeepUniqueWait(test *testing.T) 
 	if err := state.handleBasicAttack(); err != nil {
 		test.Fatal(err)
 	}
-	if state.heap.Len() != 1 || state.basicAttack.wait.ready != 333 || *state.basicAttack.current.ReadyAtMs != 1000 || len(state.processInstances) != 1 {
+	if state.heap.Len() != 1 || state.basicAttackReadyAt() != 333 || *state.basicAttack.current.ReadyAtMs != 1000 || len(state.processInstances) != 1 {
 		test.Fatal(state.basicAttack.wait, state.heap.Len(), state.processInstances)
 	}
 	first := input.Combatants[0].Providers[0]
@@ -190,7 +190,7 @@ func TestTriggeredSkillSourceSameTimeStartAndHitKeepUniqueWait(test *testing.T) 
 	if err := state.handleBasicAttack(); err != nil {
 		test.Fatal(err)
 	}
-	if state.heap.Len() != 1 || state.basicAttack.wait.ready != 333 || *state.basicAttack.current.ReadyAtMs != 500 || len(state.processInstances) != 1 {
+	if state.heap.Len() != 1 || state.basicAttackReadyAt() != 333 || *state.basicAttack.current.ReadyAtMs != 500 || len(state.processInstances) != 1 {
 		test.Fatal("cooldown baseline did not capture the actual pre-process attribute value", state.basicAttack.wait, state.basicAttack.current)
 	}
 }
@@ -266,7 +266,7 @@ func TestTriggeredSkillSourceExpiryBudgetFailureKeepsCommittedStateAndWait(test 
 	}
 	snapshot := state.buildFinalSnapshot()
 	bag := snapshot.Combatants[0].ProviderState[ref].(map[string]interface{})
-	if state.budgetCause != model.BudgetCauseMaxCommandsPerEvent || state.basicAttack.wait.ready != 4000 || snapshot.Combatants[0].Attributes["attack_speed"].Resolved != .25 || bag["state"].(map[string]interface{})["layers"] != float64(1) {
+	if state.budgetCause != model.BudgetCauseMaxCommandsPerEvent || state.basicAttackReadyAt() != 4000 || snapshot.Combatants[0].Attributes["attack_speed"].Resolved != .25 || bag["state"].(map[string]interface{})["layers"] != float64(1) {
 		test.Fatal("failed expiry partially published state or waiting attributes", state.budgetCause, state.basicAttack.wait, snapshot)
 	}
 }
@@ -343,7 +343,7 @@ func TestTriggeredSkillSourceInitialWaitQueueFailureIsAtomic(test *testing.T) {
 	state.heap.Pop()
 	state.heap.Push(scheduler.GenericEvent{TimeMs: 10, Kind: scheduler.GenericEventExpireCleanup})
 	err = state.handleBasicAttack()
-	if err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents || state.basicAttack.wait != nil || len(state.processInstances) != 0 || len(state.combatants["source"].cooldowns) != 0 || state.heap.Len() != 1 {
+	if err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents || state.basicAttack.wait != nil || len(state.processInstances) != 0 || len(state.combatants["source"].cooldowns.entries) != 0 || state.heap.Len() != 1 {
 		test.Fatal(err, state.basicAttack.wait, state.processInstances, state.combatants["source"].cooldowns)
 	}
 }
@@ -521,7 +521,7 @@ func TestTriggeredSkillSourceRejectsUnsafeInitialWaitWithoutPartialCommit(test *
 	}
 	state.heap.Pop()
 	err = state.handleBasicAttack()
-	if err == nil || state.basicAttack.wait != nil || len(state.combatants["source"].cooldowns) != 0 || len(state.processInstances) != 0 || state.heap.Len() != 0 {
+	if err == nil || state.basicAttack.wait != nil || len(state.combatants["source"].cooldowns.entries) != 0 || len(state.processInstances) != 0 || state.heap.Len() != 0 {
 		test.Fatal(err, state.basicAttack.wait, state.processInstances, state.heap.Len())
 	}
 }
@@ -662,7 +662,7 @@ func TestTriggeredSkillSourceDynamicAttributeBudgetFailureIsAtomic(test *testing
 			}
 		}
 		frame.commit()
-		if !frame.fatal || frame.fatalErr.BudgetCause != cause || state.basicAttack.wait.ready != 1000 || state.combatants["source"].attributes.At("attack_speed").Resolved != 1 || state.heap.Len() != queued {
+		if !frame.fatal || frame.fatalErr.BudgetCause != cause || state.basicAttackReadyAt() != 1000 || state.combatants["source"].attributes.At("attack_speed").Resolved != 1 || state.heap.Len() != queued {
 			test.Fatal(cause, frame.fatalErr, state.basicAttack.wait, state.heap.Len())
 		}
 		for _, provider := range state.combatants["source"].providers {

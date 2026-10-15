@@ -23,7 +23,6 @@ type basicAttackRuntime struct {
 	windowSettled        bool
 	initialAbility       planbundle.CompiledAbility
 	wait                 *basicAttackWait
-	waitGeneration       uint64
 	cooldownDependencies []formula.GenericInstr
 }
 
@@ -379,11 +378,11 @@ func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
 	if !found {
 		return s.basicAttackErr("native start did not complete its actual attack process", b.plan.InitialControlAbilityRef)
 	}
-	ready, ok := s.combatants[b.plan.Source].cooldowns[b.plan.InitialControlAbilityRef]
-	if !ok || ready <= s.nowMs || ready > maxJSONSafeInteger {
+	ready := s.combatants[b.plan.Source].cooldowns.abilityReadyAt(b.plan.Source, b.plan.InitialControlAbilityRef)
+	if ready <= s.nowMs || ready > maxJSONSafeInteger {
 		return s.basicAttackErr("committed attack cooldown is missing or invalid", b.plan.InitialControlAbilityRef)
 	}
-	if b.wait == nil || b.wait.ready != ready || b.current.ReadyAtMs == nil {
+	if b.wait == nil || s.basicAttackReadyAt() != ready || b.current.ReadyAtMs == nil {
 		return s.basicAttackErr("attack process did not commit its unique waiting node", b.plan.InitialControlAbilityRef)
 	}
 	if s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0 {

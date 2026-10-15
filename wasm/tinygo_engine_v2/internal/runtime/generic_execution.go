@@ -46,7 +46,7 @@ type stagedCombatant struct {
 	cooldownsShared     bool
 	attributes          attribute.Table
 	resources           map[string]model.ResourceSlotDef
-	cooldowns           map[string]int64
+	cooldowns           *genericCooldownLedger
 	shields             []pipeline.ShieldInstance
 	providers           []status.ProviderInstance
 	resolver            pipeline.AttributeResolver
@@ -89,26 +89,28 @@ type eventFormulaSnapshot struct {
 }
 
 type executionFrame struct {
-	pendingAmmoWait        *ammoRecoveryWait
-	pendingAmmoCapture     *ammoUseCapture
-	pendingMechanicRecords []model.MechanicRecord
-	pendingBasicAttackWait *basicAttackWait
-	pendingActionWait      bool
-	processUseKey          string
-	processUseSkillKey     string
-	processUseSource       string
-	damageDefenseContext   *formula.GenericEvalContext
-	processActualCosts     map[string]float64
-	processCostReadable    bool
-	processMomentKind      string
-	run                    *genericRunState
-	frameID                uint64
-	sourceKey              string
-	targetKey              string
-	abilityRef             string
-	ownerCombatantKey      string // mounted provider owner; distinct from event/op sourceKey
-	ownerProviderRef       string
-	strictReads            bool
+	pendingAutomaticWake    bool
+	pendingCooldownAttempts []pendingCooldownAttempt
+	pendingAmmoWait         *ammoRecoveryWait
+	pendingAmmoCapture      *ammoUseCapture
+	pendingMechanicRecords  []model.MechanicRecord
+	pendingBasicAttackWait  *basicAttackWait
+	pendingActionWait       bool
+	processUseKey           string
+	processUseSkillKey      string
+	processUseSource        string
+	damageDefenseContext    *formula.GenericEvalContext
+	processActualCosts      map[string]float64
+	processCostReadable     bool
+	processMomentKind       string
+	run                     *genericRunState
+	frameID                 uint64
+	sourceKey               string
+	targetKey               string
+	abilityRef              string
+	ownerCombatantKey       string // mounted provider owner; distinct from event/op sourceKey
+	ownerProviderRef        string
+	strictReads             bool
 
 	// castInstanceID / castOrigin：同一次施放的身份与来源；多 op / delayed / listener ops 继承。
 	castInstanceID uint64
@@ -376,7 +378,7 @@ func (f *executionFrame) stageFor(key string) *stagedCombatant {
 		sc := &stagedCombatant{
 			attributes:    attribute.Table{},
 			resources:     map[string]model.ResourceSlotDef{},
-			cooldowns:     map[string]int64{},
+			cooldowns:     newGenericCooldownLedger(),
 			providerState: map[string]*providerStateBag{},
 		}
 		f.staged.Set(key, sc)
@@ -417,17 +419,17 @@ func (s *stagedCombatant) readonlyResources() map[string]model.ResourceSlotDef {
 	return s.resources
 }
 
-func (s *stagedCombatant) writableCooldowns() map[string]int64 {
+func (s *stagedCombatant) writableCooldowns() *genericCooldownLedger {
 	if s.cooldownsShared {
-		s.cooldowns = cloneCooldownMap(s.cooldowns)
+		s.cooldowns = s.cooldowns.clone()
 		s.cooldownsShared = false
 	} else if s.cooldowns == nil {
-		s.cooldowns = map[string]int64{}
+		s.cooldowns = newGenericCooldownLedger()
 	}
 	return s.cooldowns
 }
 
-func (s *stagedCombatant) readonlyCooldowns() map[string]int64 {
+func (s *stagedCombatant) readonlyCooldowns() *genericCooldownLedger {
 	s.cooldownsShared = true
 	return s.cooldowns
 }
@@ -546,6 +548,8 @@ func (f *executionFrame) providerStateBagForRead(combatantKey, providerRef strin
 		return nil
 	}
 	sc := f.stageFor(combatantKey)
+	options.cooldowns = sc.readonlyCooldowns()
+	options.ownerKey = combatantKey
 	if sc.providerState == nil {
 		sc.providerState = map[string]*providerStateBag{}
 	}
@@ -682,7 +686,7 @@ func (f *executionFrame) executeOperations(ability planbundle.CompiledAbility, o
 }
 
 func (f *executionFrame) bumpCommandBudget() *model.EngineError {
-	if f.run.basicAttackEventActive || f.run.initializationEventActive || len(f.run.skillActions) > 0 {
+	if f.run.basicAttackEventActive || f.run.initializationEventActive || f.run.hasSkillPlan() {
 		return f.run.consumeEventCommands(1)
 	}
 	if f.copyableCollector != nil {
@@ -848,7 +852,7 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 		}
 		existing := f.run.nowMs
 		sc := f.stageFor(ownerKey)
-		if readyAt, exists := sc.cooldowns[cooldownKey]; exists {
+		if readyAt := sc.cooldowns.abilityReadyAt(ownerKey, cooldownKey); readyAt > 0 {
 			existing = readyAt
 		}
 		readyAt := f.run.nowMs
@@ -1053,6 +1057,9 @@ func (f *executionFrame) applyStateChange(op planbundle.CompiledOperation, abili
 	ownerKey := f.providerOwnerKey()
 	bag := f.providerStateBag(ownerKey, f.ownerProviderRef, true)
 	bag.ensure()
+	if field, exists := bag.fieldDefs[op.Ref]; exists && field.stateKind == model.ProviderStateKindCooldown {
+		return f.applyInternalCooldownStateChange(op, ability, amount)
+	}
 	switch scope {
 	case stateScopeProvider:
 		bag.lazyExpireProviderState(f.run.nowMs)
@@ -1071,7 +1078,7 @@ func (f *executionFrame) applyStateChange(op planbundle.CompiledOperation, abili
 		if !bag.refreshExpireAtOnWrite(op.Ref, f.run.nowMs) {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "provider state duration overflow", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
-		if expires := bag.expireAt[op.Ref]; expires > 0 && f.run.basicAttack != nil {
+		if expires := bag.expireAt[op.Ref]; expires > 0 && f.run.automatedRun() {
 			f.pendingStateExpiry = append(f.pendingStateExpiry, pendingFrameStateExpiry{at: expires, payload: expireCleanupPayload{
 				kind: "provider_source_state", combatantKey: ownerKey, providerRef: f.ownerProviderRef, stateKey: op.Ref, expectedExpireAt: expires,
 			}})
@@ -1091,7 +1098,7 @@ func (f *executionFrame) applyStateChange(op planbundle.CompiledOperation, abili
 	case stateScopeProviderTarget:
 		// Order: lazy-expire -> activate -> seed this key's default -> policy -> cap -> refresh.
 		bag.lazyExpireProviderTargetState(f.run.nowMs)
-		bag.activateProviderTarget(f.targetKey)
+		f.activateProviderTarget(bag, ownerKey, f.ownerProviderRef, f.targetKey)
 		bag.seedTargetValueIfAbsent(op.Ref)
 		current := bag.readTargetValue(op.Ref)
 		next, message := bag.nextStateValue(op.Ref, current, amount, op.ValuePolicy)
@@ -1153,6 +1160,9 @@ func (f *executionFrame) applyStateDurationChange(op planbundle.CompiledOperatio
 	bag := f.providerStateBag(ownerKey, f.ownerProviderRef, true)
 	bag.ensure()
 	nowMs := f.run.nowMs
+	if field, exists := bag.fieldDefs[op.Ref]; exists && field.stateKind == model.ProviderStateKindCooldown {
+		return f.applyInternalCooldownDurationChange(op, ability)
+	}
 	switch scope {
 	case stateScopeProvider:
 		bag.lazyExpireProviderState(nowMs)
@@ -1902,8 +1912,11 @@ func (f *executionFrame) applyCooldownChange(targetKey, abilityRef string, ready
 	if abilityRef == "" {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "cooldown_change requires abilityRef", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
+	if ref, valid := planbundle.ParseAbilityRef(abilityRef); valid && f.run.combatantExists(ref.Combatant) {
+		targetKey = ref.Combatant
+	}
 	sc := f.stageFor(targetKey)
-	sc.writableCooldowns()[abilityRef] = readyAt
+	sc.writableCooldowns().set(genericAbilityCooldownIdentity(targetKey, abilityRef), readyAt, f.run.nowMs)
 	return nil
 }
 
@@ -1999,7 +2012,7 @@ func (f *executionFrame) commit() {
 		staged := f.staged.Get(key)
 		c, ok := f.run.combatants[key]
 		if !ok {
-			c = combatantRuntime{key: key, cooldowns: map[string]int64{}, providerState: map[string]*providerStateBag{}}
+			c = combatantRuntime{key: key, cooldowns: newGenericCooldownLedger(), providerState: map[string]*providerStateBag{}}
 		}
 		c.attributes = staged.attributes
 		c.resources = staged.resources
@@ -2184,6 +2197,9 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown abilityRef", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
 	ability := s.compiled.Abilities[ref.AbilityIndex]
+	if _, blocked := s.cooldownGate(sourceKey, resolvedRef); blocked {
+		return nil
+	}
 	if ability.ProcessControl != nil {
 		if ability.ProcessControl.UseRefFromEvent {
 			return s.startProcessFromEvent(sourceKey, targetKey, resolvedRef, ability, chainDepth, eventCtx, driverEntryKey, collector)
@@ -2221,7 +2237,7 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	}
 	// Mint after successful gate (driver) / lifecycle staging; Listener AbilityRef always new ID.
 	frame.castInstanceID = s.mintCastInstanceID()
-	if len(s.skillActions) > 0 {
+	if s.hasSkillPlan() {
 		if fact, exists := s.skillHitFacts[driverEntryKey]; exists && fact.UseRef != nil && s.skillActionByUse[*fact.UseRef] != nil {
 			for _, process := range s.processInstances {
 				if process.UseKey == *fact.UseRef {
@@ -2731,15 +2747,22 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 				triggered = true
 			}
 			if hasAbilityRef {
+				resolvedChildRef := normalizeAbilityRef(listener.AbilityRef, sourceKey, targetKey)
+				if _, blocked := s.cooldownGate(sourceKey, resolvedChildRef); blocked {
+					continue
+				}
+				beforeCasts := s.abilityCastCount
 				if err := s.castAbilityAt(sourceKey, targetKey, listener.AbilityRef, chainDepth, &eventCtx, collector, ""); err != nil {
 					s.releaseUncommittedUseReservation(collector.reservation)
 					return err
 				}
-				triggered = true
+				triggered = triggered || s.abilityCastCount > beforeCasts
 			}
 		}
-		if reserved {
+		if reserved && triggered {
 			s.commitOncePerUse(listener, ev)
+		} else if reserved {
+			s.releaseUncommittedUseReservation(collector.reservation)
 		}
 		collector.reservation = nil
 		if triggered && listener.PerCastThrottleMs > 0 {
@@ -3203,7 +3226,7 @@ func (s *genericRunState) repeatTriggerMet(req deferredRepeatRequest) bool {
 		return false
 	}
 	bag := readSharedProviderStateBag(&c.providerState, &c.providerStateShared, req.ownerProviderRef, false,
-		s.resolveProviderStateFieldDefs(req.ownerCombatantKey, req.ownerProviderRef, c.providers), s.nowMs, providerStateReadOptions{})
+		s.resolveProviderStateFieldDefs(req.ownerCombatantKey, req.ownerProviderRef, c.providers), s.nowMs, providerStateReadOptions{cooldowns: c.cooldowns, ownerKey: req.ownerCombatantKey})
 	if bag == nil {
 		return false
 	}

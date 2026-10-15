@@ -1847,7 +1847,7 @@ func TestGenericRunCooldownChangeReduceAndReset(t *testing.T) {
 		t.Fatal(err)
 	}
 	source := state.combatants[model.SelectorSource]
-	if readyAt := source.cooldowns[fireballRef]; readyAt != state.nowMs {
+	if readyAt := source.cooldowns.abilityReadyAt("source", fireballRef); readyAt != state.nowMs {
 		t.Fatalf("after reset readyAt=%d want nowMs=%d", readyAt, state.nowMs)
 	}
 	// Re-run only through reduce to verify intermediate state.
@@ -1889,7 +1889,7 @@ func TestGenericRunCooldownChangeReduceAndReset(t *testing.T) {
 		t.Fatal(err)
 	}
 	source2 := state2.combatants[model.SelectorSource]
-	if readyAt := source2.cooldowns[fireballRef]; readyAt != 600 {
+	if readyAt := source2.cooldowns.abilityReadyAt("source", fireballRef); readyAt != 600 {
 		t.Fatalf("after reduce readyAt=%d want 600 (1000-400)", readyAt)
 	}
 }

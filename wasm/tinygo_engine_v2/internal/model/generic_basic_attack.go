@@ -45,7 +45,7 @@ func (v *BasicAttackPlan) UnmarshalJSON(data []byte) error {
 	return nil
 }
 func (v *DriverPlan) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "DriverPlan", "entries conditionRecheckIntervalMs basicAttack skillActions", ""); err != nil {
+	if err := processJSONShape(data, "DriverPlan", "entries conditionRecheckIntervalMs basicAttack skillActions automaticSkills", ""); err != nil {
 		return err
 	}
 	type plain DriverPlan
@@ -56,22 +56,40 @@ func (v *DriverPlan) UnmarshalJSON(data []byte) error {
 	if (result.BasicAttack != nil || len(result.SkillActions) > 0) && result.Entries == nil {
 		return errors.New("continuous driverPlan.entries must be an empty array")
 	}
+	fields, err := strictJSONObject(data, "driverPlan")
+	if err != nil {
+		return err
+	}
+	if raw, present := fields["automaticSkills"]; present {
+		if string(raw) == "null" || result.AutomaticSkills == nil {
+			return errors.New("driverPlan.automaticSkills must be an object")
+		}
+		for _, key := range []string{"entries", "skillActions"} {
+			if err := requireEmptyJSONArray(fields, key, "driverPlan"); err != nil {
+				return err
+			}
+		}
+		if raw, present := fields["basicAttack"]; present && string(raw) == "null" {
+			return errors.New("driverPlan.basicAttack must be omitted or a complete plan in automatic mode")
+		}
+	}
 	*v = DriverPlan(result)
 	return nil
 }
 
 // Pointer budgets distinguish an explicit zero (no retained records) from omission.
 type RecordBudget struct {
-	MaxSkillActionRecords *int `json:"maxSkillActionRecords,omitempty"`
-	MaxSkillUseRecords    *int `json:"maxSkillUseRecords,omitempty"`
-	MaxHealingRecords     *int `json:"maxHealingRecords,omitempty"`
-	MaxMechanicRecords    *int `json:"maxMechanicRecords,omitempty"`
-	MaxAttackRecords      *int `json:"maxAttackRecords,omitempty"`
-	MaxDamageRecords      *int `json:"maxDamageRecords,omitempty"`
+	MaxAutomaticSkillRecords *int `json:"maxAutomaticSkillRecords,omitempty"`
+	MaxSkillActionRecords    *int `json:"maxSkillActionRecords,omitempty"`
+	MaxSkillUseRecords       *int `json:"maxSkillUseRecords,omitempty"`
+	MaxHealingRecords        *int `json:"maxHealingRecords,omitempty"`
+	MaxMechanicRecords       *int `json:"maxMechanicRecords,omitempty"`
+	MaxAttackRecords         *int `json:"maxAttackRecords,omitempty"`
+	MaxDamageRecords         *int `json:"maxDamageRecords,omitempty"`
 }
 
 func (v *RecordBudget) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "RecordBudget", "maxAttackRecords maxDamageRecords maxMechanicRecords maxSkillActionRecords maxSkillUseRecords maxHealingRecords", ""); err != nil {
+	if err := processJSONShape(data, "RecordBudget", "maxAttackRecords maxDamageRecords maxMechanicRecords maxSkillActionRecords maxSkillUseRecords maxHealingRecords maxAutomaticSkillRecords", ""); err != nil {
 		return err
 	}
 	type plain RecordBudget
@@ -94,6 +112,9 @@ func (v *RecordBudget) UnmarshalJSON(data []byte) error {
 	}
 	if raw, present := fields["maxMechanicRecords"]; present && string(raw) == "null" {
 		return errors.New("recordBudget.maxMechanicRecords must be an integer in [0,10000]")
+	}
+	if raw, present := fields["maxAutomaticSkillRecords"]; present && (string(raw) == "null" || result.MaxAutomaticSkillRecords == nil || *result.MaxAutomaticSkillRecords < 0 || *result.MaxAutomaticSkillRecords > 4096) {
+		return errors.New("recordBudget.maxAutomaticSkillRecords must be an integer in [0,4096]")
 	}
 	for key, budget := range map[string]*int{"maxSkillActionRecords": result.MaxSkillActionRecords, "maxSkillUseRecords": result.MaxSkillUseRecords, "maxHealingRecords": result.MaxHealingRecords} {
 		limit := 10000

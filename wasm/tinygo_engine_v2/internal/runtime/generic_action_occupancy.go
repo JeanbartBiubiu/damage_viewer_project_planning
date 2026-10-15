@@ -129,7 +129,7 @@ func (frame *executionFrame) validatePlannedProcessDeadline() *model.EngineError
 	if process.Repeat != nil && process.Repeat.NextExecutionAtMs != nil && *process.Repeat.NextExecutionAtMs > maxJSONSafeInteger {
 		return frame.run.basicAttackErr("planned segment requires a safe real execution deadline", "processInstances.repeat.nextExecutionAtMs")
 	}
-	if staged := frame.staged.Get(process.Owner); staged != nil && staged.cooldowns[process.abilityRef] > maxJSONSafeInteger {
+	if staged := frame.staged.Get(process.Owner); staged != nil && staged.cooldowns.abilityReadyAt(process.Owner, process.abilityRef) > maxJSONSafeInteger {
 		return frame.run.basicAttackErr("planned cooldown requires a safe actual deadline", "processInstances.cooldown")
 	}
 	return nil
@@ -150,7 +150,7 @@ func (state *genericRunState) freezeActionDeaths() {
 }
 
 func (state *genericRunState) plannedSkillProvider(owner, provider string) bool {
-	for _, action := range state.skillActions {
+	for _, action := range state.plannedSkillSources() {
 		if action.binding.Source == owner && action.binding.ProviderRef == provider {
 			return true
 		}
@@ -163,7 +163,7 @@ func (state *genericRunState) plannedSkillOperation(providerIndex int) bool {
 		return false
 	}
 	definition := state.compiled.Providers[providerIndex].ProviderKey
-	for _, action := range state.skillActions {
+	for _, action := range state.plannedSkillSources() {
 		if action.binding.ProviderDefinitionRef == definition {
 			return true
 		}
@@ -179,7 +179,7 @@ func (state *genericRunState) validatePlannedSkillProvider(owner, providerRef st
 	for _, ability := range state.compiled.Abilities[int(provider.AbilityStart) : int(provider.AbilityStart)+int(provider.AbilityCount)] {
 		ref := owner + ".provider[" + providerRef + "].ability[" + ability.AbilityKey + "]"
 		matched := false
-		for _, action := range state.skillActions {
+		for _, action := range state.plannedSkillSources() {
 			if action.binding.ProviderRef == providerRef && action.binding.Source == owner {
 				for _, control := range action.binding.Controls {
 					matched = matched || ref == control.AbilityRef
@@ -222,7 +222,7 @@ func (state *genericRunState) validatePlannedSkillProvider(owner, providerRef st
 				return state.basicAttackErr("planned attribute change requires an ordinary explicit additive process or instant hit result", operation.Path)
 			}
 			matched := false
-			for _, action := range state.skillActions {
+			for _, action := range state.plannedSkillSources() {
 				if action.binding.Source != owner || action.binding.ProviderRef != providerRef {
 					continue
 				}
@@ -244,6 +244,18 @@ func (state *genericRunState) validatePlannedSkillProvider(owner, providerRef st
 		}
 	}
 	return nil
+}
+
+// 两种输入模式在准入时都校验实际选择来源；运行中的自动使用不伪装成手动指令列表。
+func (state *genericRunState) plannedSkillSources() []skillActionRuntime {
+	if state.automaticSkills == nil {
+		return state.skillActions
+	}
+	out := make([]skillActionRuntime, 0, len(state.automaticSkills.rules))
+	for _, rule := range state.automaticSkills.rules {
+		out = append(out, skillActionRuntime{binding: rule.binding, plan: model.SkillActionPlan{Source: rule.binding.Source, Target: rule.plan.Target}})
+	}
+	return out
 }
 
 // 只开放现有过程时点和即时属性命中，不借此扩大监听器操作集合。

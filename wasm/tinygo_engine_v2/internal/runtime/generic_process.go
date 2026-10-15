@@ -106,7 +106,7 @@ func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryInd
 		if s.combatantHasHp(source) && s.combatantHp(source) <= 0 {
 			return s.rejectProcess(entry, "source_dead")
 		}
-		if len(s.skillActions) > 0 && s.actionOccupied(source) {
+		if s.hasSkillPlan() && s.actionOccupied(source) {
 			return s.rejectProcess(entry, "action_occupied")
 		}
 		if _, blocked := s.cooldownGate(source, resolvedRef); blocked {
@@ -356,6 +356,9 @@ func (s *genericRunState) applyProcessMoment(p *processRuntime, f *executionFram
 				return f.formulaError(cd.DurationProgram, "process cooldown must be finite and positive before rounding")
 			}
 			value = math.Max(1, math.Round(value))
+		}
+		if action := s.skillActionByUse[p.UseKey]; action != nil && action.automaticRule != nil && (math.IsNaN(value) || math.IsInf(value, 0) || value <= 0) {
+			return f.formulaError(cd.DurationProgram, "automatic cooldown must be finite and strictly positive")
 		}
 		ready, ok := processTimeAfter(s.nowMs, value, !cd.RoundPositiveMs)
 		if !ok {

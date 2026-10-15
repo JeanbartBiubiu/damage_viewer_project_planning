@@ -177,7 +177,19 @@ func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.E
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "anchored tick onTick range out of bounds", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
 	ops := s.compiled.Operations[start:end]
-	abilityRef := fmt.Sprintf("%s.provider[%s].ability[%s]", payload.ownerKey, inst.DefinitionRef, tickAbility.AbilityKey)
+	abilityRef := fmt.Sprintf("%s.provider[%s].ability[%s]", payload.ownerKey, inst.ProviderRef, tickAbility.AbilityKey)
+	if _, blocked := s.cooldownGate(payload.ownerKey, abilityRef); blocked {
+		return nil
+	}
+	if tickAbility.HasCastCondition {
+		blocked, err := s.castConditionBlocked(sourceKey, payload.targetKey, *tickAbility, abilityRef)
+		if err != nil {
+			return err
+		}
+		if blocked {
+			return nil
+		}
+	}
 
 	var frameStorage executionFrame
 	s.initExecutionFrame(&frameStorage, sourceKey, payload.targetKey, abilityRef)
@@ -186,6 +198,9 @@ func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.E
 	frame.ownerProviderRef = payload.providerRef
 	frame.castInstanceID = s.mintCastInstanceID()
 	frame.castOrigin = tickAbility.CastOrigin
+	if err := frame.stageLifecycleCostCooldown(*tickAbility, payload.ownerKey); err != nil {
+		return err
+	}
 	if err := frame.executeOperations(*tickAbility, ops); err != nil {
 		return err
 	}

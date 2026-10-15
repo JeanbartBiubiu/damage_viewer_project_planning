@@ -105,9 +105,10 @@ type AmmoRecoverySchema struct {
 }
 
 const (
-	ProviderStateKindAmmo = "ammo"
-	AmmoRecoveryAllAtOnce = "all_at_once"
-	AmmoRecoveryWhenEmpty = "when_empty"
+	ProviderStateKindAmmo     = "ammo"
+	ProviderStateKindCooldown = "cooldown"
+	AmmoRecoveryAllAtOnce     = "all_at_once"
+	AmmoRecoveryWhenEmpty     = "when_empty"
 )
 
 // ProviderStateRefreshOnWrite 是每次写入续期的既有 refreshPolicy。
@@ -352,10 +353,11 @@ type GenericCompileSettings struct {
 
 // DriverPlan 是 run 期 ability attempt 调度计划（compile 阶段仅校验 DTO 形态）。
 type DriverPlan struct {
-	SkillActions               []SkillActionPlan `json:"skillActions,omitempty"`
-	BasicAttack                *BasicAttackPlan  `json:"basicAttack,omitempty"`
-	Entries                    []DriverEntry     `json:"entries"`
-	ConditionRecheckIntervalMs int64             `json:"conditionRecheckIntervalMs,omitempty"`
+	AutomaticSkills            *AutomaticSkillPlan `json:"automaticSkills,omitempty"`
+	SkillActions               []SkillActionPlan   `json:"skillActions,omitempty"`
+	BasicAttack                *BasicAttackPlan    `json:"basicAttack,omitempty"`
+	Entries                    []DriverEntry       `json:"entries"`
+	ConditionRecheckIntervalMs int64               `json:"conditionRecheckIntervalMs,omitempty"`
 }
 
 // DriverEntry 是 driver plan 单条 entry。

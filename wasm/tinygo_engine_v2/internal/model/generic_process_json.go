@@ -9,12 +9,9 @@ import (
 
 // 新过程对象拒绝未知字段与必需字段缺失，不影响未声明过程的旧通用请求。
 func processJSONShape(data []byte, name, allowed, required string) error {
-	var fields map[string]json.RawMessage
-	if err := json.Unmarshal(data, &fields); err != nil {
+	fields, err := strictJSONObject(data, name)
+	if err != nil {
 		return err
-	}
-	if fields == nil {
-		return errors.New(name + " must be an object")
 	}
 	keys := make([]string, 0, len(fields))
 	for k := range fields {

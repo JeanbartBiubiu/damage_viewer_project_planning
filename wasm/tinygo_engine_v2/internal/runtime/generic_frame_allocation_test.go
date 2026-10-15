@@ -16,6 +16,13 @@ func (s *genericRunState) newExecutionFrame(sourceKey, targetKey, abilityRef str
 	return frame
 }
 
+func testCooldownEntries(ledger *genericCooldownLedger) map[genericCooldownIdentity]genericCooldownEntry {
+	if ledger == nil {
+		return nil
+	}
+	return maps.Clone(ledger.entries)
+}
+
 func TestFrameAllocationCooldownNilAndZeroKeepPresence(t *testing.T) {
 	for _, initial := range []struct {
 		name   string
@@ -28,18 +35,22 @@ func TestFrameAllocationCooldownNilAndZeroKeepPresence(t *testing.T) {
 		t.Run(initial.name, func(t *testing.T) {
 			state := attributeOwnershipState(t, 1000)
 			live := state.combatants["source"]
-			live.cooldowns = maps.Clone(initial.values)
+			live.cooldowns = nil
+			if initial.values != nil {
+				live.cooldowns = genericCooldownLedgerFromDeadlines("source", initial.values)
+			}
+			initialEntries := testCooldownEntries(live.cooldowns)
 			state.combatants["source"] = live
 			frame := state.newExecutionFrame("source", "target", "")
 			frozen := frame.stageFor("source").readonlyCooldowns()
-			before := maps.Clone(frozen)
+			before := testCooldownEntries(frozen)
 			if err := frame.applyCooldownChange("source", "inserted", 0); err != nil {
 				t.Fatal(err)
 			}
-			if value, exists := frame.stageFor("source").cooldowns["inserted"]; !exists || value != 0 {
+			if value, exists := frame.stageFor("source").cooldowns.entries[genericAbilityCooldownIdentity("source", "inserted")]; !exists || value.readyAt != 0 {
 				t.Fatal("zero cooldown lost its explicit key")
 			}
-			if !reflect.DeepEqual(frozen, before) || !reflect.DeepEqual(state.combatants["source"].cooldowns, initial.values) {
+			if !reflect.DeepEqual(testCooldownEntries(frozen), before) || !reflect.DeepEqual(testCooldownEntries(state.combatants["source"].cooldowns), initialEntries) {
 				t.Fatal("cooldown write changed a prior or live view")
 			}
 			frame.commit()
@@ -47,26 +58,26 @@ func TestFrameAllocationCooldownNilAndZeroKeepPresence(t *testing.T) {
 				t.Fatal(frame.fatalErr)
 			}
 			published := state.combatants["source"].cooldowns
-			if value, exists := published["inserted"]; !exists || value != 0 {
+			if value, exists := published.entries[genericAbilityCooldownIdentity("source", "inserted")]; !exists || value.readyAt != 0 {
 				t.Fatal("commit dropped the explicit zero cooldown")
 			}
 			if _, existed := initial.values["existing"]; existed {
-				if value, exists := published["existing"]; !exists || value != 0 {
+				if value, exists := published.entries[genericAbilityCooldownIdentity("source", "existing")]; !exists || value.readyAt != 0 {
 					t.Fatal("commit dropped the original zero cooldown")
 				}
 			}
 			if err := frame.applyCooldownChange("source", "inserted", 500); err != nil {
 				t.Fatal(err)
 			}
-			if published["inserted"] != 0 || !reflect.DeepEqual(frozen, before) {
+			if published.abilityReadyAt("source", "inserted") != 0 || !reflect.DeepEqual(testCooldownEntries(frozen), before) {
 				t.Fatal("post-commit frame write changed a published cooldown view")
 			}
 		})
 	}
 	// 未借出过只读视图的空暂存对象也必须允许首次写入。
 	var staged stagedCombatant
-	staged.writableCooldowns()["first"] = 0
-	if value, exists := staged.cooldowns["first"]; !exists || value != 0 {
+	staged.writableCooldowns().set(genericAbilityCooldownIdentity("", "first"), 0, 0)
+	if value, exists := staged.cooldowns.entries[genericAbilityCooldownIdentity("", "first")]; !exists || value.readyAt != 0 {
 		t.Fatal("first write to an unshared nil cooldown table failed")
 	}
 }
@@ -74,23 +85,25 @@ func TestFrameAllocationCooldownNilAndZeroKeepPresence(t *testing.T) {
 func TestFrameAllocationCooldownChildCommitAndFailedParentKeepViews(t *testing.T) {
 	state := attributeOwnershipState(t, 1000)
 	live := state.combatants["source"]
-	live.cooldowns = map[string]int64{"control": 1000, "zero": 0}
+	live.cooldowns = genericCooldownLedgerFromDeadlines("source", map[string]int64{"control": 1000, "zero": 0})
 	state.combatants["source"] = live
 	parent := state.newExecutionFrame("source", "target", "parent")
 	parentView := parent.stageFor("source").readonlyCooldowns()
+	parentEntries := testCooldownEntries(parentView)
 	child := state.newExecutionFrame("target", "source", "child")
 	if err := child.applyCooldownChange("source", "control", 700); err != nil {
 		t.Fatal(err)
 	}
 	child.commit()
-	if child.fatal || !child.committed || state.combatants["source"].cooldowns["control"] != 700 || parentView["control"] != 1000 {
+	if child.fatal || !child.committed || state.combatants["source"].cooldowns.abilityReadyAt("source", "control") != 700 || parentView.abilityReadyAt("source", "control") != 1000 {
 		t.Fatal("child commit changed the older parent view", child.fatalErr)
 	}
 	published := state.combatants["source"].cooldowns
+	publishedEntries := testCooldownEntries(published)
 	if err := parent.applyCooldownChange("source", "control", 800); err != nil {
 		t.Fatal(err)
 	}
-	if published["control"] != 700 || parentView["control"] != 1000 {
+	if published.abilityReadyAt("source", "control") != 700 || parentView.abilityReadyAt("source", "control") != 1000 {
 		t.Fatal("parent write changed a committed child or older readonly view")
 	}
 	state.heap = scheduler.NewGenericHeap(1)
@@ -103,14 +116,14 @@ func TestFrameAllocationCooldownChildCommitAndFailedParentKeepViews(t *testing.T
 	if !parent.fatal || parent.fatalErr == nil || parent.fatalErr.BudgetCause != model.BudgetCauseMaxQueueEvents || parent.committed {
 		t.Fatal("parent did not fail at queue preflight", parent.fatalErr)
 	}
-	if !reflect.DeepEqual(published, map[string]int64{"control": 700, "zero": 0}) || !reflect.DeepEqual(parentView, map[string]int64{"control": 1000, "zero": 0}) {
+	if !reflect.DeepEqual(testCooldownEntries(published), publishedEntries) || !reflect.DeepEqual(testCooldownEntries(parentView), parentEntries) {
 		t.Fatal("failed parent published its cooldown writes")
 	}
 	if err := child.applyCooldownChange("source", "control", 900); err != nil {
 		t.Fatal(err)
 	}
 	child.commit()
-	if published["control"] != 700 || state.combatants["source"].cooldowns["control"] != 700 {
+	if published.abilityReadyAt("source", "control") != 700 || state.combatants["source"].cooldowns.abilityReadyAt("source", "control") != 700 {
 		t.Fatal("an already committed frame rewrote live cooldowns")
 	}
 }
@@ -152,10 +165,10 @@ func TestFrameAllocationWaitContextResetsAndKeepsAttackDirection(t *testing.T) {
 			if err := context.applyCooldownChange("target", "zero", 0); err != nil {
 				t.Fatal(err)
 			}
-			if _, exists := frame.staged.Get("target").cooldowns["zero"]; !exists {
+			if _, exists := frame.staged.Get("target").cooldowns.entries[genericAbilityCooldownIdentity("target", "zero")]; !exists {
 				t.Fatal("waiting context lost the ordinary shared staging write")
 			}
-			if _, exists := state.combatants["target"].cooldowns["zero"]; exists {
+			if _, exists := state.combatants["target"].cooldowns.entries[genericAbilityCooldownIdentity("target", "zero")]; exists {
 				t.Fatal("waiting context published before parent commit")
 			}
 		})
@@ -205,27 +218,27 @@ func TestFrameAllocationWaitProviderPreviewAndCooldownWritesStayIndependent(t *t
 	if err := preview.applyCooldownChange("source", "auxiliary", 50); err != nil {
 		t.Fatal(err)
 	}
-	if source.cooldowns["auxiliary"] != 0 || parentVersion["auxiliary"] != 0 {
+	if source.cooldowns.abilityReadyAt("source", "auxiliary") != 0 || parentVersion.abilityReadyAt("source", "auxiliary") != 0 {
 		t.Fatal("preview cooldown write changed the parent's view")
 	}
 	if err := frame.applyCooldownChange("source", "auxiliary", 60); err != nil {
 		t.Fatal(err)
 	}
-	if previewSource.cooldowns["auxiliary"] != 50 || parentVersion["auxiliary"] != 0 {
+	if previewSource.cooldowns.abilityReadyAt("source", "auxiliary") != 50 || parentVersion.abilityReadyAt("source", "auxiliary") != 0 {
 		t.Fatal("parent cooldown write changed a preview or prior view")
 	}
 	if _, err := frame.prepareBasicAttackWait(); err != nil {
 		t.Fatal(err)
 	}
 	wait := frame.pendingBasicAttackWait
-	if wait == nil || wait.ready != 700 || wait.sourceAttributes.At("attack_speed").Resolved != 2 || source.cooldowns[control] != 700 || state.basicAttack.wait.ready != 1000 || state.combatants["source"].cooldowns[control] != 1000 {
+	if wait == nil || basicAttackProgressDeadline(wait) != 700 || wait.sourceAttributes.At("attack_speed").Resolved != 2 || source.cooldowns.abilityReadyAt("source", control) != 700 || state.basicAttackReadyAt() != 1000 || state.combatants["source"].cooldowns.abilityReadyAt("source", control) != 1000 {
 		t.Fatal("waiting preflight did not stage the provider-adjusted cooldown", wait)
 	}
-	if parentVersion[control] != 1000 || previewSource.cooldowns[control] != 1000 {
+	if parentVersion.abilityReadyAt("source", control) != 1000 || previewSource.cooldowns.abilityReadyAt("source", control) != 1000 {
 		t.Fatal("waiting preflight changed a prior readonly cooldown view")
 	}
 	frame.commit()
-	if frame.fatal || !frame.committed || state.basicAttack.wait.ready != 700 || state.combatants["source"].cooldowns[control] != 700 || state.combatants["source"].attributes.At("attack_speed").Resolved != 2 {
+	if frame.fatal || !frame.committed || state.basicAttackReadyAt() != 700 || state.combatants["source"].cooldowns.abilityReadyAt("source", control) != 700 || state.combatants["source"].attributes.At("attack_speed").Resolved != 2 {
 		t.Fatal("provider and adjusted waiting clock did not commit together", frame.fatalErr)
 	}
 	providerRef := ""
@@ -243,11 +256,11 @@ func TestFrameAllocationWaitProviderPreviewAndCooldownWritesStayIndependent(t *t
 	if _, err := remove.prepareBasicAttackWait(); err != nil {
 		t.Fatal(err)
 	}
-	if remove.pendingBasicAttackWait == nil || remove.pendingBasicAttackWait.ready != 900 || remove.stageFor("source").attributes.At("attack_speed").Resolved != 2 || state.basicAttack.wait.ready != 700 || wait.sourceAttributes.At("attack_speed").Resolved != 2 {
+	if remove.pendingBasicAttackWait == nil || basicAttackProgressDeadline(remove.pendingBasicAttackWait) != 900 || remove.stageFor("source").attributes.At("attack_speed").Resolved != 2 || state.basicAttackReadyAt() != 700 || wait.sourceAttributes.At("attack_speed").Resolved != 2 {
 		t.Fatal("provider removal preview changed an older frame or waiting snapshot")
 	}
 	remove.commit()
-	if remove.fatal || state.basicAttack.wait.ready != 900 || state.combatants["source"].attributes.At("attack_speed").Resolved != 1 || wait.ready != 700 || wait.sourceAttributes.At("attack_speed").Resolved != 2 {
+	if remove.fatal || state.basicAttackReadyAt() != 900 || state.combatants["source"].attributes.At("attack_speed").Resolved != 1 || basicAttackProgressDeadline(wait) != 700 || wait.sourceAttributes.At("attack_speed").Resolved != 2 {
 		t.Fatal("provider removal changed an earlier waiting snapshot", remove.fatalErr)
 	}
 }
@@ -256,14 +269,14 @@ func TestFrameAllocationFailedWaitProviderPreviewDoesNotPublish(t *testing.T) {
 	state := waitingTestState(t)
 	frame := state.newExecutionFrame("source", "target", "bad-provider")
 	control := state.basicAttack.plan.InitialControlAbilityRef
-	before := maps.Clone(state.combatants["source"].cooldowns)
+	before := testCooldownEntries(state.combatants["source"].cooldowns)
 	wait := state.basicAttack.wait
 	if err := frame.applyCooldownChange("source", control, 800); err != nil {
 		t.Fatal(err)
 	}
 	frame.stageFor("source").providerOps = []stagedProviderMutation{{kind: "apply", definitionRef: "missing", sourceKey: "source", targetKey: "source"}}
 	frame.commit()
-	if !frame.fatal || frame.fatalErr == nil || frame.committed || state.basicAttack.wait != wait || !reflect.DeepEqual(state.combatants["source"].cooldowns, before) {
+	if !frame.fatal || frame.fatalErr == nil || frame.committed || state.basicAttack.wait != wait || !reflect.DeepEqual(testCooldownEntries(state.combatants["source"].cooldowns), before) {
 		t.Fatal("failed provider preview published cooldown or waiting changes", frame.fatalErr)
 	}
 }
@@ -360,7 +373,7 @@ func TestFrameAllocationCallerOwnedInitializationResetsAndKeepsEarlierViews(t *t
 	frame.ownerCombatantKey, frame.ownerProviderRef, frame.processUseKey = "source", "stale", "stale"
 	frame.commandCount, frame.chainDepth = 3, 2
 	frame.eventCtx = &snapshot
-	frame.pendingBasicAttackWait = &basicAttackWait{ready: 900}
+	frame.pendingBasicAttackWait = &basicAttackWait{anchor: 900}
 	frame.pendingEvents = []emittedEvent{{eventType: "stale"}}
 	frame.processActualCosts = map[string]float64{"mana": 10}
 	state.initExecutionFrame(&frame, "target", "target", "second")
@@ -378,10 +391,10 @@ func TestFrameAllocationCallerOwnedInitializationResetsAndKeepsEarlierViews(t *t
 	}
 	frame.fatal = true
 	frame.commit()
-	if _, exists := state.combatants["target"].cooldowns["second"]; exists {
+	if _, exists := state.combatants["target"].cooldowns.entries[genericAbilityCooldownIdentity("target", "second")]; exists {
 		t.Fatal("failed reinitialized frame published its cooldown")
 	}
-	if firstStage.cooldowns["control"] != 700 || state.combatants["source"].cooldowns["control"] != 700 || !reflect.DeepEqual(snapshot.sourceAttrs, wantSource) {
+	if firstStage.cooldowns.abilityReadyAt("source", "control") != 700 || state.combatants["source"].cooldowns.abilityReadyAt("source", "control") != 700 || !reflect.DeepEqual(snapshot.sourceAttrs, wantSource) {
 		t.Fatal("reinitialized local storage changed an earlier staged or event view")
 	}
 }

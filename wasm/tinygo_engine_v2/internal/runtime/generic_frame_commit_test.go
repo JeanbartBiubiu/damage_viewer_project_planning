@@ -174,7 +174,7 @@ func TestFrameCommitProcessStartAndCooldownRollBackTogether(t *testing.T) {
 	if err == nil || err.BudgetCause != model.BudgetCauseMaxCommandsPerEvent {
 		t.Fatalf("process budget error: %+v", err)
 	}
-	if len(s.processInstances) != 0 || len(s.combatants["source"].cooldowns) != 0 || s.combatants["source"].resources["mana"].Current != 200 || s.sourceDamageDealt != 0 || len(s.damageHistory) != 0 || s.abilityCastCount != 0 {
+	if len(s.processInstances) != 0 || len(s.combatants["source"].cooldowns.entries) != 0 || s.combatants["source"].resources["mana"].Current != 200 || s.sourceDamageDealt != 0 || len(s.damageHistory) != 0 || s.abilityCastCount != 0 {
 		t.Fatalf("uncommitted process leaked: instances=%+v source=%+v damage=%v casts=%d", s.processInstances, s.combatants["source"], s.sourceDamageDealt, s.abilityCastCount)
 	}
 	for _, item := range s.evidence {
@@ -197,7 +197,7 @@ func TestFrameCommitProcessFailureKeepsPreviousStepAndCooldown(t *testing.T) {
 	s.basicAttackEventActive = true
 	s.budget.MaxCommandsPerEvent = 1
 	err := s.finishProcess(instance, "failed", "ACTIVE_CANCELLED")
-	if err == nil || err.BudgetCause != model.BudgetCauseMaxCommandsPerEvent || instance.Status != "active" || instance.FailureReason != nil || instance.FinishedAtMs != nil || instance.CooldownStarted || len(s.combatants["source"].cooldowns) != 0 || s.sourceDamageDealt != 0 {
+	if err == nil || err.BudgetCause != model.BudgetCauseMaxCommandsPerEvent || instance.Status != "active" || instance.FailureReason != nil || instance.FinishedAtMs != nil || instance.CooldownStarted || len(s.combatants["source"].cooldowns.entries) != 0 || s.sourceDamageDealt != 0 {
 		t.Fatalf("failed terminal frame changed its committed instance: err=%+v instance=%+v source=%+v", err, instance, s.combatants["source"])
 	}
 }
@@ -236,10 +236,10 @@ func TestFrameCommitProcessCooldownRuntimeBoundary(t *testing.T) {
 			}
 			err := s.handleAbilityAttempt(scheduler.GenericEvent{DriverEntryIndex: 0})
 			if tc.fail {
-				if err == nil || err.BudgetCause != "" || len(s.processInstances) != 0 || len(s.combatants["source"].cooldowns) != 0 {
+				if err == nil || err.BudgetCause != "" || len(s.processInstances) != 0 || len(s.combatants["source"].cooldowns.entries) != 0 {
 					t.Fatalf("invalid cooldown not rejected atomically: err=%+v instances=%+v", err, s.processInstances)
 				}
-			} else if err != nil || len(s.processInstances) != 1 || !s.processInstances[0].CooldownStarted || s.combatants["source"].cooldowns[timedShieldRef("start")] != tc.want {
+			} else if err != nil || len(s.processInstances) != 1 || !s.processInstances[0].CooldownStarted || s.combatants["source"].cooldowns.abilityReadyAt("source", timedShieldRef("start")) != tc.want {
 				t.Fatalf("valid cooldown: err=%+v source=%+v instances=%+v", err, s.combatants["source"], s.processInstances)
 			}
 		})
@@ -341,7 +341,7 @@ func TestFrameCommitProcessCooldownEvaluatesOriginalOnce(t *testing.T) {
 	if err := s.handleAbilityAttempt(scheduler.GenericEvent{DriverEntryIndex: 0}); err != nil {
 		t.Fatalf("cooldown re-evaluated after source attribute changed: %+v", err)
 	}
-	if len(s.processInstances) != 1 || s.processInstances[0].Status != "complete" || s.combatants["source"].cooldowns[timedShieldRef("start")] != 1000 || s.combatants["source"].attributes.At("attack_speed").Resolved != 0.5 {
+	if len(s.processInstances) != 1 || s.processInstances[0].Status != "complete" || s.combatants["source"].cooldowns.abilityReadyAt("source", timedShieldRef("start")) != 1000 || s.combatants["source"].attributes.At("attack_speed").Resolved != 0.5 {
 		t.Fatalf("frozen cooldown: source=%+v process=%+v", s.combatants["source"], s.processInstances)
 	}
 }

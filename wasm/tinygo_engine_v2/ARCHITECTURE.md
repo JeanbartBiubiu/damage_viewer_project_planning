@@ -16,6 +16,10 @@ graph TD
     Run["runtime.RunGeneric"]
     Exec["generic_execution / gate / provider"]
     Scheduler["scheduler.GenericHeap"]
+    Automatic["自动技能候选与一次资格链"]
+    Cooldown["实际拥有者的共同冷却账本"]
+    Attack["普攻进度等待"]
+    Passive["被动事件门禁与内部冷却投影"]
     Formula["formula generic"]
     Pure["expression 纯公式与数学原语"]
     Binding["inputbinding 独立输入绑定"]
@@ -39,6 +43,14 @@ graph TD
     Session --> Run
     Run --> Exec
     Run --> Scheduler
+    Run --> Automatic
+    Run --> Attack
+    Automatic --> Cooldown
+    Automatic --> Scheduler
+    Attack --> Cooldown
+    Exec --> Cooldown
+    Exec --> Passive
+    Passive --> Cooldown
     Run --> Formula
     Run --> Typeset
     Run --> Pipeline
