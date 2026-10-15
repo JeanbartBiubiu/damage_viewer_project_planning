@@ -4,8 +4,7 @@
     "execution_model": "multi-model"
   },
   "exclude": [
-    "文档记录/模板/开发任务文档模板.md",
-    "文档记录/详细设计/SQLite任务文档治理方案.md"
+    "文档记录/模板/开发任务文档模板.md"
   ],
   "tasks": [
     {
@@ -18,7 +17,6 @@
       "owner_model": "主负责人运行实现与集成，执行代理分端实现，独立复核",
       "docs": [
         "文档记录/详细设计/项目/主动技能自动调度与连招约束详细设计.md",
-        "文档记录/测试记录/项目/主动技能自动调度方案审查-2026-10-13.md",
         "文档记录/测试记录/项目/主动技能自动调度开发验收-2026-10-14.md"
       ]
     },
@@ -109,8 +107,7 @@
       "priority": 3,
       "docs": [
         "文档记录/需求澄清/项目/背景说明.md",
-        "文档记录/需求澄清/项目/游戏机制与工程术语对照表.md",
-        "文档记录/概要设计/项目/项目简介.md"
+        "文档记录/需求澄清/项目/游戏机制与工程术语对照表.md"
       ]
     },
     {
@@ -120,10 +117,8 @@
       "feature": "system_evaluation",
       "status": "完成",
       "priority": 3,
-      "docs": [
-        "文档记录/概要设计/项目/系统设计评估报告.md",
-        "文档记录/概要设计/项目/项目完善建议.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "planning-data-entry-roadmap",
@@ -132,9 +127,8 @@
       "feature": "data_entry_roadmap",
       "status": "进行中",
       "priority": 2,
-      "docs": [
-        "文档记录/概要设计/项目/数据录入目标推进.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "planning-platform-roadmap",
@@ -143,9 +137,8 @@
       "feature": "platform_roadmap",
       "status": "进行中",
       "priority": 2,
-      "docs": [
-        "文档记录/概要设计/项目/平台推进计划-Wasm与核心编辑后台.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "planning-attribute-resource-management",
@@ -877,9 +870,8 @@
       "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5 + Cursor grok-4.6",
-      "docs": [
-        "文档记录/详细设计/项目/旧战斗数据链路清理详细设计.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "server-legacy-combat-data-cleanup",
@@ -889,9 +881,8 @@
       "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5 + Cursor grok-4.6",
-      "docs": [
-        "文档记录/详细设计/server/game_manage/旧战斗数据链路清理后端详细设计.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "web-legacy-combat-data-cleanup",
@@ -901,9 +892,8 @@
       "status": "完成",
       "priority": 1,
       "owner_model": "GPT-5 + Cursor grok-4.6",
-      "docs": [
-        "文档记录/详细设计/web/旧战斗数据链路清理前端详细设计.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "planning-validation-milestones",
@@ -920,11 +910,9 @@
         "文档记录/详细设计/项目/阶段4装备接入与机制验收详细设计.md",
         "文档记录/详细设计/项目/阶段5英雄被动接入与组合验收详细设计.md",
         "文档记录/详细设计/项目/阶段6主动技能接入与混合时间线详细设计.md",
-        "文档记录/测试记录/项目/阶段5方案调查与评审-2026-10-04.md",
         "文档记录/测试记录/项目/阶段5A默认技能来源与常驻初始化验收-2026-10-04.md",
         "文档记录/测试记录/项目/阶段5B开始命中通用链路与首批组合验收-2026-10-05.md",
         "文档记录/测试记录/项目/阶段5C特殊普攻与弹药恢复组合验收-2026-10-05.md",
-        "文档记录/测试记录/项目/阶段6方案调查与评审-2026-10-05.md",
         "文档记录/测试记录/项目/阶段6A单次主动施放与首批真实技能验收-2026-10-05.md",
         "文档记录/测试记录/项目/阶段6B有限技能计划与混合时间线验收-2026-10-05.md",
         "文档记录/测试记录/项目/阶段6C复杂过程通用链路验证-2026-10-06.md",
@@ -934,42 +922,7 @@
         "文档记录/测试记录/项目/阶段3图表与交互首版验收-2026-10-02.md",
         "文档记录/测试记录/项目/阶段2无装备连续普攻验收-2026-10-02.md",
         "文档记录/测试记录/项目/阶段1真实单次普攻验收-2026-10-02.md",
-        "文档记录/测试记录/项目/双模式工作台与Wasm数据接入前置验收-2026-10-01.md",
-        "文档记录/概要设计/验证里程碑.md",
-        "文档记录/概要设计/验证里程碑V2.md",
-        "文档记录/详细设计/最小验证/V2-单攻击方DPS协议与开发计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchF-Canonical回归硬化计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchG-ADC被动覆盖审计与录入计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchG-ADC被动覆盖清单.md",
-        "文档记录/详细设计/最小验证/V2-BatchH-状态型普攻被动Runtime扩展计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchI-普攻Skill化与挂载改造计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchI-skill_mounts自然键接口一步到位改造方案.md",
-        "文档记录/详细设计/最小验证/V2-BatchJ-状态资源迁移与1v1伤害闭环计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchK-单攻击方DPS收口与鬼索幻影命中计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchL-单攻击方DPS咒刃下一次普攻状态计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchM-Wasm属性读取语义与三相基础AD修正计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchN-单攻击方DPS普攻充能阈值触发计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchO-单攻击方DPS事件化联动机制计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchP-单攻击方DPS真实装备联动闭环计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchQ-DPS联动配置编辑与校验成熟度计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchQ-2-DPS联动结构化编辑器计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchR-DPS乘区与属性修饰平台计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchS-0-DPS装备技能引用契约与Preflight硬化计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchT-DPS通用数值边界与暴击上下文计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchT-1-DPS被动内置冷却与ProcCooldown计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchU-0-DPS装备引用契约与Preflight硬化计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchU-1-兰顿暴击减伤真实装备闭环计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchU-2-DPS斩杀阈值execute-threshold计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchU-3-Published契约检查与发布前Preflight计划.md",
-        "文档记录/详细设计/最小验证/V2-BatchV-DPS装备被动模板与录入辅助计划.md",
-        "文档记录/详细设计/最小验证/V2-DPS装备全量录入覆盖矩阵-2026-06-15.md",
-        "文档记录/详细设计/最小验证/V2-BatchV-剩余ADC坦克装备分组与运行能力方案-2026-06-20.md",
-        "文档记录/详细设计/最小验证/V2-BatchW-DPS装备可选验证标签与页面筛选开关计划.md",
-        "文档记录/详细设计/最小验证/V2-ADC随机组合机制头脑风暴与缺口分析.md",
-        "文档记录/详细设计/验证计划编写说明.md",
-        "文档记录/详细设计/最小验证/M4-机制扩展分批Goal提示词.md",
-        "文档记录/详细设计/最小验证/M4-Batch2-3-4-技能录入清单.md",
-        "文档记录/详细设计/集成测试报告与OCR基线方案.md"
+        "文档记录/测试记录/项目/双模式工作台与Wasm数据接入前置验收-2026-10-01.md"
       ]
     },
     {
@@ -979,9 +932,8 @@
       "feature": "interface_page_index",
       "status": "进行中",
       "priority": 2,
-      "docs": [
-        "文档记录/详细设计/接口与页面索引.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "planning-agent-dev-workflow",
@@ -1025,11 +977,9 @@
       "feature": "core_editor_refactor",
       "status": "完成",
       "priority": 1,
-      "completion_note": "应用壳层、独立版本发布页和核心资源页 CRUD 架构已在 web 工作台落地。",
+      "completion_note": "应用壳层、独立版本发布页和核心资源页 CRUD 架构已在 web 工作台落地。 2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。",
       "completed_at": "2026-04-16",
-      "docs": [
-        "文档记录/详细设计/web/前端开发方案-核心编辑后台重构.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "web-console-non-wasm-iteration",
@@ -1038,11 +988,8 @@
       "feature": "non_wasm_iteration",
       "status": "完成",
       "priority": 1,
-      "docs": [
-        "文档记录/详细设计/web/前端开发任务清单-非Wasm优先.md",
-        "文档记录/测试记录/web/非Wasm最小回归清单.md",
-        "文档记录/测试记录/web/非Wasm全页面验收记录-2026-07-18.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "web-remaining-table-pages",
@@ -1051,11 +998,9 @@
       "feature": "remaining_table_pages",
       "status": "完成",
       "priority": 2,
-      "completion_note": "heroes、skills、items、attribute-definitions、types、type-relations 页面已补齐并接入现有管理链路。",
+      "completion_note": "heroes、skills、items、attribute-definitions、types、type-relations 页面已补齐并接入现有管理链路。 2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。",
       "completed_at": "2026-04-16",
-      "docs": [
-        "文档记录/详细设计/web/前端开发方案-剩余管理页面扩展.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "web-bundle-compilation",
@@ -1064,9 +1009,8 @@
       "feature": "bundle_compilation",
       "status": "进行中",
       "priority": 2,
-      "docs": [
-        "文档记录/详细设计/web/Bundle编译层实施方案.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "web-wasm-catalog-integration",
@@ -1077,11 +1021,9 @@
       "status": "完成",
       "priority": 1,
       "owner_model": "multi-model",
-      "completion_note": "通用 Wasm Catalog 前端接入、真实 Catalog 发布快照和 Compile/Run/Release 浏览器闭环已完成；前端 Wasm 产物已同步至支持 generic release_result(214) 的版本。",
+      "completion_note": "通用 Wasm Catalog 前端接入、真实 Catalog 发布快照和 Compile/Run/Release 浏览器闭环已完成；前端 Wasm 产物已同步至支持 generic release_result(214) 的版本。 2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。",
       "completed_at": "2026-07-11",
-      "docs": [
-        "文档记录/详细设计/web/通用WasmCatalog前端接入方案.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "web-generic-1v1-combat-data-switch",
@@ -1090,12 +1032,9 @@
       "feature": "generic_1v1_combat_data_switch",
       "status": "完成",
       "priority": 1,
-      "completion_note": "通用1v1 combat-data 前端切换方案与验证记录已归档；按文档证据记为完成。",
+      "completion_note": "通用1v1 combat-data 前端切换方案与验证记录已归档；按文档证据记为完成。 2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。",
       "completed_at": "2026-07-12",
-      "docs": [
-        "文档记录/详细设计/web/通用1v1-combat-data前端切换方案.md",
-        "文档记录/测试记录/web/通用1v1-combat-data前端切换验证记录-2026-07-12.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "web-ui-i18n-cleanup",
@@ -1200,11 +1139,8 @@
       "feature": "wasm_db_gap",
       "status": "进行中",
       "priority": 1,
-      "docs": [
-        "文档记录/需求澄清/server/wasm-db-design-gap-todo.md",
-        "文档记录/详细设计/server/game_manage/WasmCanonicalCatalog后端详细设计.md",
-        "文档记录/详细设计/server/game_manage/WasmLegacyAdcBootstrapAdapter详细设计.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "server-generic-combat-data-model",
@@ -1215,13 +1151,9 @@
       "status": "已完成",
       "priority": 1,
       "owner_model": "cursor-grok-4.5-plus-codex-review",
-      "completion_note": "通用 combat-data DDL/API/publish 已落地；旧 Bundle/Catalog 与 hero/item/skill/status 数据面已删除；test0221 迁移与 mvn 53 测通过。",
+      "completion_note": "通用 combat-data DDL/API/publish 已落地；旧 Bundle/Catalog 与 hero/item/skill/status 数据面已删除；test0221 迁移与 mvn 53 测通过。 2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。",
       "completed_at": "2026-07-12",
-      "docs": [
-        "文档记录/概要设计/server/通用1v1战斗数据模型替换方案.md",
-        "文档记录/详细设计/server/game_manage/通用1v1战斗数据模型DDL与接口详细设计.md",
-        "文档记录/测试记录/server/game_manage/通用1v1战斗数据模型验证记录-2026-07-12.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "server-lol-generic-combat-bootstrap",
@@ -1232,12 +1164,9 @@
       "status": "已完成",
       "priority": 1,
       "owner_model": "cursor-grok-4.5-plus-codex-review",
-      "completion_note": "Vayne + 战士假人 + 通用普攻已迁入 generic combat-data；revision 归一、发布日志、Web 装配与 TinyGo V2 compile/run/release 实跑通过。",
+      "completion_note": "Vayne + 战士假人 + 通用普攻已迁入 generic combat-data；revision 归一、发布日志、Web 装配与 TinyGo V2 compile/run/release 实跑通过。 2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。",
       "completed_at": "2026-07-12",
-      "docs": [
-        "文档记录/详细设计/server/game_manage/LoL通用战斗数据首批迁移设计.md",
-        "文档记录/测试记录/server/game_manage/LoL通用战斗数据首批迁移验证记录-2026-07-12.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "server-lol-batch-b-adc-entities",
@@ -1248,12 +1177,9 @@
       "status": "已完成",
       "priority": 1,
       "owner_model": "cursor-grok-4.5-plus-codex-review",
-      "completion_note": "6 ADC + 3 dummy、等级属性与 6 套通用普攻已迁入；test0221 幂等 seed、publish r7、Web→TinyGo generic 闭环通过。",
+      "completion_note": "6 ADC + 3 dummy、等级属性与 6 套通用普攻已迁入；test0221 幂等 seed、publish r7、Web→TinyGo generic 闭环通过。 2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。",
       "completed_at": "2026-07-12",
-      "docs": [
-        "文档记录/详细设计/server/game_manage/LoL-Batch-B-ADC实体与等级属性迁移设计.md",
-        "文档记录/测试记录/server/game_manage/LoL-Batch-B-ADC实体与等级属性迁移验证记录-2026-07-12.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "server-game-manage-api",
@@ -1273,11 +1199,9 @@
       "feature": "game_progression_hero_entry",
       "status": "完成",
       "priority": 2,
-      "completion_note": "DB、后端 progression-schema API、GET /api/games progressionSchema 输出和前端英雄矩阵消费链路已落地；本轮文档清理仅同步治理状态。",
+      "completion_note": "DB、后端 progression-schema API、GET /api/games progressionSchema 输出和前端英雄矩阵消费链路已落地；本轮文档清理仅同步治理状态。 2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。",
       "completed_at": "2026-05-10",
-      "docs": [
-        "文档记录/详细设计/server/P2-game-progression-hero-entry-iteration.md"
-      ]
+      "docs": []
     },
     {
       "task_key": "server-user-manage-api",
@@ -1297,9 +1221,8 @@
       "feature": "katarina_import_runbook",
       "status": "未开始",
       "priority": 3,
-      "docs": [
-        "文档记录/详细设计/server/katarina-mvp-import-runbook.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "server-controller-db-it",
@@ -1308,9 +1231,8 @@
       "feature": "controller_db_it",
       "status": "未开始",
       "priority": 3,
-      "docs": [
-        "文档记录/详细设计/server/p1-controller-db-it-runbook.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "server-attribute-resource-management",
@@ -2719,12 +2641,8 @@
       "feature": "min_validation_data_spec",
       "status": "进行中",
       "priority": 2,
-      "docs": [
-        "文档记录/详细设计/最小验证/数据/lol_mvp_type_taxonomy说明.md",
-        "文档记录/详细设计/最小验证/数据/LoL竞技场静态文本快照说明.md",
-        "文档记录/详细设计/最小验证/数据/技能配置固定选项.md",
-        "文档记录/详细设计/最小验证/数据/技能配置说明.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "wasm-lol-entity-coverage-audit",
@@ -2752,10 +2670,7 @@
         "文档记录/概要设计/wasm/WASM前后端对齐整改方案.md",
         "文档记录/概要设计/wasm/WASM-TypeList与状态动作控制概要设计.md",
         "文档记录/详细设计/wasm/WASM详细设计.md",
-        "文档记录/详细设计/wasm/WASM-TypeList与状态动作控制详细设计.md",
-        "文档记录/临时review存档/cursor-slice-fix-abc-prompt.md",
-        "文档记录/临时review存档/WASM通用引擎P0实现Review-契约核对.md",
-        "文档记录/临时review存档/WASM通用引擎P0实现Review-二轮契约核对-2026-07-09.md"
+        "文档记录/详细设计/wasm/WASM-TypeList与状态动作控制详细设计.md"
       ]
     },
     {
@@ -2765,9 +2680,8 @@
       "feature": "validation_m2_action_panel",
       "status": "进行中",
       "priority": 1,
-      "docs": [
-        "文档记录/详细设计/最小验证/M2-Action面板值对齐-验证计划.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "wasm-validation-m3-single-skill-dummy",
@@ -2776,9 +2690,8 @@
       "feature": "validation_m3_single_skill_dummy",
       "status": "进行中",
       "priority": 1,
-      "docs": [
-        "文档记录/详细设计/最小验证/M3-单技能1v假人-验证计划.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     },
     {
       "task_key": "m4-closure-validation-page",
@@ -2789,9 +2702,8 @@
       "status": "进行中",
       "priority": 1,
       "owner_model": "goal",
-      "docs": [
-        "文档记录/详细设计/最小验证/M4-闭环验证页开发计划.md"
-      ]
+      "docs": [],
+      "completion_note": "2026-10-15清理过期文档，原映射与正文见Git历史；任务状态沿用原记录，当前实施从README.md进入。"
     }
   ]
 }

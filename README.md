@@ -1,40 +1,43 @@
-# Damage Viewer — repository router
+# Damage Viewer
 
-Monorepo planning root and cross-worktree collaboration hub. Module commands live in each module README — do not duplicate them here.
+面向游戏玩家与攻略作者的数值分析工具：在管理页面维护角色、装备和技能配置，由浏览器内的 Wasm 计算引擎运行场景并展示结果。
 
-## Worktrees / modules
+## 先看这些
 
-| Area | Worktree (typical) | Start here |
-|------|--------------------|------------|
-| Planning / governance | `C:\project\damage_viewer_project_planning` (`master`) | `AGENTS.md`, `项目设计说明书/README.md` |
-| Backend | `C:\project\damage_backend_dev` | `server/data_manage/README.md`, `server/data_manage/AGENTS.md` |
-| Web | `C:\project\damage_web_dev` | `web/README.md`, `web/AGENTS.md` |
-| Wasm / TinyGo V2 | `C:\project\damage_wasm_dev` | `wasm/tinygo_engine_v2/README.md`, `wasm/tinygo_engine_v2/AGENTS.md` |
+| 想了解什么 | 当前入口 |
+| --- | --- |
+| 计算功能做到哪里、还有哪些缺口 | [单攻击方计算六阶段推进方案](文档记录/详细设计/项目/单攻击方计算六阶段推进方案.md) |
+| 主动技能优先级、连招与共同冷却 | [主动技能自动调度与连招约束](文档记录/详细设计/项目/主动技能自动调度与连招约束详细设计.md) |
+| 英雄、装备、符文的录入范围与问题 | [英雄装备符文全量实录](文档记录/详细设计/项目/英雄装备符文全量实录.md)；逐对象状态查[阶段进度](数据参考/全量录入-2026-09/阶段进度.json) |
+| 录入问题如何修复、如何返回原对象 | [管理页面与共性机制迭代计划](文档记录/详细设计/项目/管理页面与共性机制迭代计划.md) |
+| 当前管理模型与录入方法 | [系统精简设计](文档记录/概要设计/项目/实录驱动的系统精简设计.md)、[实施说明](文档记录/详细设计/项目/系统精简实施说明.md)、[录入流程](文档记录/详细设计/项目/角色技能数据录入标准流程.md) |
+| 计算引擎拆分与共同公式 | [子系统拆分与公式数据驱动方案](文档记录/概要设计/项目/通用计算引擎子系统拆分与公式数据驱动重构方案.md) |
+| 最新关键验收与性能结论 | [主动技能开发验收](文档记录/测试记录/项目/主动技能自动调度开发验收-2026-10-14.md)、[单次性能专项收尾](outputs/wasm-performance-plan-2026-10-14/单次性能专项收尾验收-2026-10-15.md) |
 
-先按工作树根目录路由，再参考分支前缀。细则见根 `AGENTS.md` §4。
+普攻、装备、英雄被动与有限主动技能已有各自选定范围的验收；阶段3独立评审等未完成项由六阶段方案说明。管理保存、配置核对、真实计算和浏览器验收分别记录，不能相互代替。单次性能专项已暂停，后续网格计算目标见[后续网格优化](wasm/tinygo_engine_v2/后续网格优化.md)。
 
-**共享真源：** planning/`master` 保存根 `AGENTS.md`、`.agents/skills/**`、治理工具和 `task_rules.json`。共享变更在该分支验证、提交并推送；模块分支自行 `fetch` 后按既定策略合入，不跨工作树手工复制。
+## 按模块继续阅读
 
-## Rule precedence
+| 工作范围 | 工作树根目录 | 入口 |
+| --- | --- | --- |
+| 规划与共享治理 | `C:\project\damage_viewer_project_planning`，`master` | 本页、[根协作规则](AGENTS.md) |
+| 后端 | `C:\project\damage_backend_dev` | [后端说明](server/data_manage/README.md)、[后端规则](server/data_manage/AGENTS.md) |
+| 前端 | `C:\project\damage_web_dev` | [前端说明](web/README.md)、[前端规则](web/AGENTS.md) |
+| 计算引擎 | `C:\project\damage_wasm_dev` | [引擎说明](wasm/tinygo_engine_v2/README.md)、[引擎规则](wasm/tinygo_engine_v2/AGENTS.md) |
+| 数据库 | 随后端维护 | [数据库导览](db/README.md)、[建表脚本](db/game_manage/schema.sql) |
 
-These layers answer different questions; do not treat root README as overriding `AGENTS.md`:
+模块命令、文件位置和实现事实由对应说明与源码维护；功能契约保留在 `文档记录/`。任务状态和文档归属只由[任务规则](db/task_doc_governance/task_rules.json)维护，本页只提供阅读入口。开发及独立评审责任见[流程说明](文档记录/详细设计/开发与独立评审流程说明.md)。
 
-1. **Nearest `AGENTS.md`** overrides broader/parent `AGENTS.md` for module-local process rules.
-2. **Module README / code / tests** describe current technical facts and commands for that module.
-3. **根 `AGENTS.md`** 定义跨工作树协作流程、按风险评审和代理职责。
-4. **`db/task_doc_governance/task_rules.json`** owns task↔doc mapping and task status.
+## 文档维护
 
-Implementation narrative lives under `文档记录/**`. Obsidian / Codex Memory are secondary memory only — never a competing task map.
+2026-10-15清理了旧发布链、旧DPS推进批次、退役架构说明和重复过程稿。当前方案、仍有独立价值的机制契约、最终验收、原始数据及核验脚本依赖继续保留；不再维护另一套旧设计说明书。
 
-当前单攻击方计算入口为[六阶段推进方案](文档记录/详细设计/项目/单攻击方计算六阶段推进方案.md)。普攻、装备、英雄被动和有限主动技能计划已有各自选定范围的分层验收，阶段3独立评审等未完成项仍由该入口明确说明。[主动技能自动调度与连招约束](文档记录/详细设计/项目/主动技能自动调度与连招约束详细设计.md)及普攻、主动与被动共同冷却等待已实现，最终产物、页面与真实混合样本见[开发验收](文档记录/测试记录/项目/主动技能自动调度开发验收-2026-10-14.md)。后续性能实验及当前产物见[顺序验证记录](outputs/wasm-performance-plan-2026-10-14/后续实验验证-2026-10-15.md)。旧DPS批次与旧发布链文档用于历史追溯。
+需要复查已删除的过程文档时，使用 `git log --all -- <原路径>` 查历史，再用 `git show <提交>:<原路径>` 读取。数据参考中的旧路径和摘要属于当时证据，不代表当前实施要求。
 
-## 治理检查
-
-任务状态、文档映射或文档头变化时运行第一项；共享规则发布前可运行第二项查看其他分支尚未合入的漂移。两项命令都不复制共享文件。
+文档映射变化后运行只读检查：
 
 ```powershell
 node tools/task-governance/cli.mjs check
-node tools/agent-governance/cli.mjs check
 ```
 
-开发流程见根 `AGENTS.md` §2 和[开发与独立评审流程说明](文档记录/详细设计/开发与独立评审流程说明.md)。默认由 Codex 主负责人及内置代理完成实现与独立评审，按风险保留方案评审、关键改动检查和模块验收。
+共享规则的真源和跨工作树更新方式见根协作规则第4节。
