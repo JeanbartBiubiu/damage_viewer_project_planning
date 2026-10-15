@@ -1,5 +1,5 @@
 {
-  "description": "系统固定语义枚举。作者只能选择已有值；枚举存在不代表所有运行场景已支持。",
+  "description": "系统固定语义枚举。作者选择已声明的作者选项，运行值由原生返回；枚举存在不代表所有运行场景已支持。",
   "groups": [
     {
       "name": "SkillTriggerActionType",
@@ -1202,6 +1202,163 @@
         {
           "value": "EMPOWERED_BASIC_ATTACK",
           "label": "强化下一次普通攻击"
+        }
+      ]
+    },
+    {
+      "name": "AutomaticSkillWaitReason",
+      "title": "自动技能等待原因",
+      "web": {
+        "typeName": "AutomaticSkillWaitReason",
+        "values": "AUTOMATIC_SKILL_WAIT_REASONS",
+        "labels": "AUTOMATIC_SKILL_WAIT_REASON_LABELS"
+      },
+      "members": [
+        {
+          "value": "OWN_COOLDOWN",
+          "label": "自身冷却",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticWaitOwnCooldown",
+            "value": "OWN_COOLDOWN"
+          }
+        },
+        {
+          "value": "RELATED_COOLDOWN",
+          "label": "关联冷却",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticWaitRelatedCooldown",
+            "value": "RELATED_COOLDOWN"
+          }
+        },
+        {
+          "value": "RELEASE_QUALIFICATION",
+          "label": "缺释放资格",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticWaitReleaseQualification",
+            "value": "RELEASE_QUALIFICATION"
+          }
+        },
+        {
+          "value": "ACTION_OCCUPIED",
+          "label": "行动占用",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticWaitActionOccupied",
+            "value": "ACTION_OCCUPIED"
+          }
+        },
+        {
+          "value": "PROCESS_ACTIVE",
+          "label": "同来源已有过程",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticWaitProcessActive",
+            "value": "PROCESS_ACTIVE"
+          }
+        },
+        {
+          "value": "MECHANIC_RESOURCE",
+          "label": "机制资源不足",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticWaitMechanicResource",
+            "value": "MECHANIC_RESOURCE"
+          }
+        },
+        {
+          "value": "AUTHOR_CONDITION",
+          "label": "作者条件不成立",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticWaitAuthorCondition",
+            "value": "AUTHOR_CONDITION"
+          }
+        }
+      ]
+    },
+    {
+      "name": "AutomaticSkillRecordKind",
+      "title": "自动技能记录类别",
+      "web": {
+        "typeName": "AutomaticSkillRecordKind",
+        "values": "AUTOMATIC_SKILL_RECORD_KINDS",
+        "labels": "AUTOMATIC_SKILL_RECORD_KIND_LABELS"
+      },
+      "members": [
+        {
+          "value": "ATTEMPT_REJECTED",
+          "label": "尝试拒绝",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticRecordAttemptRejected",
+            "value": "ATTEMPT_REJECTED"
+          }
+        },
+        {
+          "value": "ABORTED_BEFORE_START",
+          "label": "开始前中止",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticRecordAbortedBeforeStart",
+            "value": "ABORTED_BEFORE_START"
+          }
+        },
+        {
+          "value": "STARTED",
+          "label": "成功开始",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticRecordStarted",
+            "value": "STARTED"
+          }
+        },
+        {
+          "value": "COMPLETED",
+          "label": "成功终结",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticRecordCompleted",
+            "value": "COMPLETED"
+          }
+        },
+        {
+          "value": "FAILED",
+          "label": "失败终结",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticRecordFailed",
+            "value": "FAILED"
+          }
+        },
+        {
+          "value": "QUALIFICATION_GRANTED",
+          "label": "资格授予",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticRecordQualificationGranted",
+            "value": "QUALIFICATION_GRANTED"
+          }
+        },
+        {
+          "value": "QUALIFICATION_CONSUMED",
+          "label": "资格消费",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticRecordQualificationConsumed",
+            "value": "QUALIFICATION_CONSUMED"
+          }
+        },
+        {
+          "value": "WAIT_CHANGED",
+          "label": "等待变化",
+          "native": {
+            "file": "internal/model/generic_automatic_skills.go",
+            "constant": "AutomaticRecordWaitChanged",
+            "value": "WAIT_CHANGED"
+          }
         }
       ]
     }

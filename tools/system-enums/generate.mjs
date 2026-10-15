@@ -36,8 +36,9 @@ for (const group of contract.groups) {
   assert(validIdentifier(group.name) && !groupNames.has(group.name), `重复枚举族：${group.name}`);
   groupNames.add(group.name);
   assert(typeof group.title === 'string' && group.title.trim(), '枚举族必须有中文用途');
-  assert(/^(skilltrigger|skillprocess)\/[A-Za-z]+\.java$/.test(group.backend), '非法后端枚举路径');
+  assert(group.backend === undefined || /^(skilltrigger|skillprocess)\/[A-Za-z]+\.java$/.test(group.backend), '非法后端枚举路径');
   assert(group.web && Array.isArray(group.members) && group.members.length, `空枚举族：${group.name}`);
+  assert(group.backend || group.members.every(member => member.native), `运行枚举必须完整绑定原生常量：${group.name}`);
   const members = group.members.map(member => member.value);
   assert(new Set(members).size === members.length && members.every(validIdentifier), `重复或非法成员：${group.name}`);
   assert(group.members.every(member => typeof member.label === 'string' && member.label.trim()), `中文标签缺失：${group.name}`);
@@ -90,6 +91,7 @@ if (args['backend-root']) {
   const root = resolve(args['backend-root']);
   await readFile(resolve(root, 'server/data_manage/pom.xml'));
   for (const group of contract.groups) {
+    if (!group.backend) continue;
     const path = containedPath(root, `server/data_manage/src/main/java/xyz/game/datamanage/model/${group.backend}`);
     const source = await readFile(path, 'utf8');
     const match = new RegExp(`public enum ${group.name}\\s*\\{([^;}]+)`).exec(source);
@@ -107,7 +109,8 @@ if (args['wasm-root']) {
   for (const group of contract.groups) for (const member of group.members) if (member.native) {
     const binding = member.native;
     assert(validIdentifier(binding.constant) && /^internal\/(model|runtime)\/[a-z0-9_]+\.go$/.test(binding.file)
-      && /^event\/[a-z0-9_]+$/.test(binding.value), '非法原生常量绑定');
+      && (/^event\/[a-z0-9_]+$/.test(binding.value)
+        || (!group.backend && binding.value === member.value && /^[A-Z][A-Z0-9_]*$/.test(binding.value))), '非法原生常量绑定');
     const path = containedPath(root, `wasm/tinygo_engine_v2/${binding.file}`);
     const source = await readFile(path, 'utf8');
     const match = new RegExp(`\\b${binding.constant}\\s*=\\s*"([^"]+)"`).exec(source);

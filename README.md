@@ -26,7 +26,7 @@ These layers answer different questions; do not treat root README as overriding 
 
 Implementation narrative lives under `文档记录/**`. Obsidian / Codex Memory are secondary memory only — never a competing task map.
 
-当前单攻击方计算入口为[六阶段推进方案](文档记录/详细设计/项目/单攻击方计算六阶段推进方案.md)。双模式工作台、首批数据接入、阶段1真实单次普攻和阶段2无装备连续普攻已验收并集成；阶段3～6仍待推进。旧DPS批次与旧发布链文档用于历史追溯。
+当前单攻击方计算入口为[六阶段推进方案](文档记录/详细设计/项目/单攻击方计算六阶段推进方案.md)。普攻、装备、英雄被动和有限主动技能计划已有各自选定范围的分层验收，阶段3独立评审等未完成项仍由该入口明确说明。[主动技能自动调度与连招约束](文档记录/详细设计/项目/主动技能自动调度与连招约束详细设计.md)及普攻、主动与被动共同冷却等待已实现，最终产物、页面与真实混合样本见[开发验收](文档记录/测试记录/项目/主动技能自动调度开发验收-2026-10-14.md)。后续性能实验及当前产物见[顺序验证记录](outputs/wasm-performance-plan-2026-10-14/后续实验验证-2026-10-15.md)。旧DPS批次与旧发布链文档用于历史追溯。
 
 ## 治理检查
 
