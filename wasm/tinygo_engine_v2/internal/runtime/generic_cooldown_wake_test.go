@@ -111,7 +111,7 @@ func TestCommonCooldownWhileReadyFrameReplansOneAttemptAndStopsAfterSuccess(t *t
 					t.Fatal("whileReady did not succeed exactly once", state.abilityAttemptCount, state.attemptSkippedCount, state.abilityCastCount)
 				}
 				if _, registered := owner.cooldowns.wait(key); registered || state.heap.Len() != 0 || owner.cooldowns.abilityReadyAt("source", cooldownWakeAbilityRef) != change.wantAt+500 {
-					t.Fatal("successful finite driver remained registered or automatically looped", owner.cooldowns.waits[key], state.heap.Len())
+					t.Fatal("successful finite driver remained registered or automatically looped", owner.cooldowns.waitValue(key), state.heap.Len())
 				}
 				if err := state.handleAbilityAttempt(updated); err != nil {
 					t.Fatal(err)

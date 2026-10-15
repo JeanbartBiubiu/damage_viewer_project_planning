@@ -10,15 +10,6 @@ import (
 	"tinygo_engine_v2/internal/status"
 )
 
-func hasInternalCooldownFields(fields map[string]providerStateFieldDef) bool {
-	for _, def := range fields {
-		if def.stateKind == model.ProviderStateKindCooldown {
-			return true
-		}
-	}
-	return false
-}
-
 func internalCooldownValue(ledger *genericCooldownLedger, id genericCooldownIdentity, now int64) float64 {
 	if ledger.remaining(id, now) > 0 {
 		return 1
@@ -28,7 +19,7 @@ func internalCooldownValue(ledger *genericCooldownLedger, id genericCooldownIden
 
 // 投影不保留账本指针；读取者必须传入自己冻结或当次帧的实际版本。
 func (b *providerStateBag) projectInternalCooldowns(ledger *genericCooldownLedger, owner, provider string, now int64) {
-	if b == nil || ledger == nil || !hasInternalCooldownFields(b.fieldDefs) {
+	if b == nil || ledger == nil || !b.hasInternalCooldowns {
 		return
 	}
 	if b.cooldownProjectionBound && b.cooldownProjectionVersion == ledger.revision && b.cooldownProjectionAt == now {
@@ -43,7 +34,8 @@ func (b *providerStateBag) projectInternalCooldowns(ledger *genericCooldownLedge
 	b.state, b.stateShared = values, true
 	if b.targetKey != "" {
 		target := cloneFloatMap(b.targetValues)
-		for id := range ledger.entries {
+		for _, slot := range ledger.entries {
+			id := slot.id
 			if id.owner == owner && id.providerRef == provider && id.scope == stateScopeProviderTarget && id.target == b.targetKey && b.fieldDefs[id.stateKey].stateKind == model.ProviderStateKindCooldown {
 				target[id.stateKey] = internalCooldownValue(ledger, id, now)
 			}
@@ -62,7 +54,8 @@ func projectInternalCooldownExpiries(out map[string]interface{}, ledger *generic
 	if ledger == nil {
 		return
 	}
-	for id, entry := range ledger.entries {
+	for _, slot := range ledger.entries {
+		id, entry := slot.id, slot.value
 		if id.owner == owner && id.providerRef == provider && id.scope == scope && id.target == target && entry.active && entry.readyAt > now {
 			out[id.stateKey] = float64(entry.readyAt)
 		}
@@ -71,7 +64,7 @@ func projectInternalCooldownExpiries(out map[string]interface{}, ledger *generic
 
 // 初始快照的现有状态形状只在恢复边界读取；随后移除CD的旧数值期限。
 func migrateInternalCooldownTimers(bag *providerStateBag, ledger *genericCooldownLedger, owner, provider string, now int64) {
-	if bag == nil || !hasInternalCooldownFields(bag.fieldDefs) {
+	if bag == nil || !bag.hasInternalCooldowns {
 		return
 	}
 	keys := make([]string, 0)
@@ -235,7 +228,8 @@ func (s *genericRunState) seedInternalCooldownExpiries() {
 			continue
 		}
 		keys := make([]genericCooldownIdentity, 0)
-		for id := range actor.cooldowns.entries {
+		for _, slot := range actor.cooldowns.entries {
+			id := slot.id
 			if id.stateKey != "" && actor.cooldowns.remaining(id, s.nowMs) > 0 {
 				keys = append(keys, id)
 			}

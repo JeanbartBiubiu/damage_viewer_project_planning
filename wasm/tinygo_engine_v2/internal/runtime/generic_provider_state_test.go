@@ -1211,7 +1211,7 @@ func TestProviderTargetStateBagCapDurationRefreshAndClear(t *testing.T) {
 func TestProviderTargetStateNonZeroDefaultFirstAddAndExpire(t *testing.T) {
 	const def = 2.0
 	bag := &providerStateBag{}
-	bag.bindFieldDefs(map[string]providerStateFieldDef{
+	bag.bindFieldDefs(newProviderStateFieldMetadata(map[string]providerStateFieldDef{
 		"hits": {
 			defaultValue:  def,
 			maxValue:      10,
@@ -1219,7 +1219,7 @@ func TestProviderTargetStateNonZeroDefaultFirstAddAndExpire(t *testing.T) {
 			durationMs:    1000,
 			refreshPolicy: model.ProviderStateRefreshOnWrite,
 		},
-	})
+	}))
 	bag.activateProviderTarget("target")
 	if got := bag.readTargetValue("hits"); got != def {
 		t.Fatalf("after activate hits=%v want default %v", got, def)
@@ -1265,7 +1265,7 @@ func TestProviderTargetStateMixedScopeFormulaOverlayNoLeak(t *testing.T) {
 		targetKeyDef    = 3.0
 	)
 	bag := &providerStateBag{}
-	bag.bindFieldDefs(map[string]providerStateFieldDef{
+	bag.bindFieldDefs(newProviderStateFieldMetadata(map[string]providerStateFieldDef{
 		"provider_only": {
 			defaultValue: providerOnlyDef,
 		},
@@ -1276,7 +1276,7 @@ func TestProviderTargetStateMixedScopeFormulaOverlayNoLeak(t *testing.T) {
 			durationMs:    1000,
 			refreshPolicy: model.ProviderStateRefreshOnWrite,
 		},
-	})
+	}))
 	if bag.state["provider_only"] != providerOnlyDef {
 		t.Fatalf("provider_only seeded in state=%v want %v", bag.state["provider_only"], providerOnlyDef)
 	}

@@ -157,7 +157,7 @@ func TestProviderStateOwnershipDefaultsSeedOnlyTheirWritableVersion(t *testing.T
 	original.fieldDefs = nil
 	initial := providerStateOwnershipSnapshot(original)
 	clone := cloneProviderStateMap(map[string]*providerStateBag{"item": original})["item"]
-	clone.bindFieldDefs(map[string]providerStateFieldDef{"stacks": {defaultValue: 0}, "new": {defaultValue: 4}})
+	clone.bindFieldDefs(newProviderStateFieldMetadata(map[string]providerStateFieldDef{"stacks": {defaultValue: 0}, "new": {defaultValue: 4}}))
 	clone.seedTargetValueIfAbsent("new")
 	if clone.state["new"] != 4 || clone.targetValues["new"] != 4 || clone.state["stacks"] != 2 || len(original.fieldDefs) != 0 {
 		t.Fatal("binding or seeding defaults changed the wrong bag")
@@ -174,9 +174,10 @@ func TestProviderStateOwnershipReadOnlyAccessDoesNotCopyMaps(t *testing.T) {
 	original.defaultsForFormula()
 	clone := cloneProviderStateMap(map[string]*providerStateBag{"item": original})["item"]
 	initial := providerStateOwnershipSnapshot(clone)
+	fields := newProviderStateFieldMetadata(clone.fieldDefs)
 	allocations := testing.AllocsPerRun(50, func() {
 		clone.ensure()
-		clone.bindFieldDefs(clone.fieldDefs)
+		clone.bindFieldDefs(fields)
 		clone.seedTargetValueIfAbsent("hits")
 		clone.lazyExpireProviderState(99)
 		clone.lazyExpireProviderTargetState(99)

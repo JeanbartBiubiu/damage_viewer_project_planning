@@ -23,6 +23,30 @@ type providerStateFieldDef struct {
 	refreshPolicy string
 }
 
+// 字段表建立后只读，冷却标记与该份定义一起传递。
+type providerStateFieldMetadata struct {
+	fields               map[string]providerStateFieldDef
+	hasInternalCooldowns bool
+}
+
+func newProviderStateFieldMetadata(fields map[string]providerStateFieldDef) *providerStateFieldMetadata {
+	metadata := &providerStateFieldMetadata{fields: fields}
+	for _, field := range fields {
+		if field.stateKind == model.ProviderStateKindCooldown {
+			metadata.hasInternalCooldowns = true
+			break
+		}
+	}
+	return metadata
+}
+
+func (m *providerStateFieldMetadata) definitions() map[string]providerStateFieldDef {
+	if m == nil {
+		return nil
+	}
+	return m.fields
+}
+
 // providerStateBag holds numeric provider state for one mounted providerRef.
 // Snapshot JSON shape (stable):
 //
@@ -46,6 +70,7 @@ type providerStateBag struct {
 	targetExpireAtShared         bool
 	anchoredTickGenerationShared bool
 	fieldDefs                    map[string]providerStateFieldDef
+	hasInternalCooldowns         bool
 	// 字段定义与默认值绑定后只读，暂存副本共享这份元数据。
 	fieldDefaults map[string]float64
 	// CD的数值只是公式只读投影；实际期限与版本全部属于共同账本。
@@ -241,7 +266,7 @@ func (c *combatantRuntime) writableProviderStates() map[string]*providerStateBag
 	return writableProviderStateMap(&c.providerState, &c.providerStateShared)
 }
 
-func readSharedProviderStateBag(bags *map[string]*providerStateBag, shared *bool, providerRef string, create bool, fields map[string]providerStateFieldDef, nowMs int64, options providerStateReadOptions) *providerStateBag {
+func readSharedProviderStateBag(bags *map[string]*providerStateBag, shared *bool, providerRef string, create bool, fields *providerStateFieldMetadata, nowMs int64, options providerStateReadOptions) *providerStateBag {
 	bag := (*bags)[providerRef]
 	if bag != nil && bag.headerShared && !bag.needsReadPreparation(fields, nowMs, options) {
 		return bag
@@ -300,7 +325,7 @@ type providerStateReadOptions struct {
 // readProviderStateBag 仅供公式借用；准备已完成的共享头不复制，真正需要准备时才取得独占头。
 // 返回的包及数值表只读，不能用于state_change、期限写入、目标切换或锚定周期写入。
 // bags必须由调用方独占；create=true时须先初始化外层字典。
-func readProviderStateBag(bags map[string]*providerStateBag, providerRef string, create bool, fields map[string]providerStateFieldDef, nowMs int64, options providerStateReadOptions) *providerStateBag {
+func readProviderStateBag(bags map[string]*providerStateBag, providerRef string, create bool, fields *providerStateFieldMetadata, nowMs int64, options providerStateReadOptions) *providerStateBag {
 	bag := bags[providerRef]
 	if bag != nil && bag.headerShared && !bag.needsReadPreparation(fields, nowMs, options) {
 		return bag
@@ -324,16 +349,16 @@ func readProviderStateBag(bags map[string]*providerStateBag, providerRef string,
 	return bag
 }
 
-func (b *providerStateBag) needsReadPreparation(fields map[string]providerStateFieldDef, nowMs int64, options providerStateReadOptions) bool {
-	bind := len(fields) > 0
+func (b *providerStateBag) needsReadPreparation(fields *providerStateFieldMetadata, nowMs int64, options providerStateReadOptions) bool {
+	bind := len(fields.definitions()) > 0
 	if bind && len(b.fieldDefs) == 0 {
 		return true
 	}
-	boundFields := fields
-	if len(boundFields) == 0 {
-		boundFields = b.fieldDefs
+	hasCooldowns := b.hasInternalCooldowns
+	if bind {
+		hasCooldowns = fields.hasInternalCooldowns
 	}
-	if options.cooldowns != nil && hasInternalCooldownFields(boundFields) && (!b.cooldownProjectionBound || b.cooldownProjectionVersion != options.cooldowns.revision || b.cooldownProjectionAt != nowMs) {
+	if options.cooldowns != nil && hasCooldowns && (!b.cooldownProjectionBound || b.cooldownProjectionVersion != options.cooldowns.revision || b.cooldownProjectionAt != nowMs) {
 		return true
 	}
 	if options.defaults && len(b.fieldDefs) > 0 && b.fieldDefaults == nil {
@@ -531,7 +556,8 @@ func providerStateToSnapshot(bags map[string]*providerStateBag, cooldowns *gener
 				valuesObj[k] = v
 			}
 			if cooldowns != nil {
-				for id := range cooldowns.entries {
+				for _, slot := range cooldowns.entries {
+					id := slot.id
 					if id.owner == owner && id.providerRef == providerRef && id.scope == stateScopeProviderTarget && id.target == bag.targetKey {
 						valuesObj[id.stateKey] = internalCooldownValue(cooldowns, id, now)
 					}
@@ -605,13 +631,10 @@ func finiteState(v float64) bool {
 	return !math.IsNaN(v) && !math.IsInf(v, 0)
 }
 
-func compiledStateFieldsToRuntime(fields map[string]planbundle.CompiledProviderStateField) map[string]providerStateFieldDef {
-	if len(fields) == 0 {
-		return map[string]providerStateFieldDef{}
-	}
-	out := make(map[string]providerStateFieldDef, len(fields))
+func compiledStateFieldsToRuntime(fields map[string]planbundle.CompiledProviderStateField) *providerStateFieldMetadata {
+	metadata := &providerStateFieldMetadata{fields: make(map[string]providerStateFieldDef, len(fields))}
 	for k, f := range fields {
-		out[k] = providerStateFieldDef{
+		metadata.fields[k] = providerStateFieldDef{
 			stateKind:     f.StateKind,
 			valueType:     f.ValueType,
 			defaultValue:  f.DefaultValue,
@@ -620,20 +643,24 @@ func compiledStateFieldsToRuntime(fields map[string]planbundle.CompiledProviderS
 			durationMs:    f.DurationMs,
 			refreshPolicy: f.RefreshPolicy,
 		}
+		if f.StateKind == model.ProviderStateKindCooldown {
+			metadata.hasInternalCooldowns = true
+		}
 	}
-	return out
+	return metadata
 }
 
 // bindFieldDefs attaches compiled field definitions once and seeds missing provider-scope
 // keys with defaultValue. provider_target keys are seeded lazily on activate/write/read of
 // that specific key so provider-scope fields do not leak into targetState snapshots.
-func (b *providerStateBag) bindFieldDefs(fields map[string]providerStateFieldDef) {
-	if b == nil || len(fields) == 0 {
+func (b *providerStateBag) bindFieldDefs(fields *providerStateFieldMetadata) {
+	if b == nil || len(fields.definitions()) == 0 {
 		return
 	}
 	b.ensure()
 	if len(b.fieldDefs) == 0 {
-		b.fieldDefs = cloneFieldDefMap(fields)
+		b.fieldDefs = cloneFieldDefMap(fields.fields)
+		b.hasInternalCooldowns = fields.hasInternalCooldowns
 		b.fieldDefaults = nil
 	}
 	for k, def := range b.fieldDefs {

@@ -17,6 +17,11 @@ type genericCooldownEntry struct {
 	version uint64
 }
 
+type genericCooldownSlot struct {
+	id    genericCooldownIdentity
+	value genericCooldownEntry
+}
+
 type genericCooldownWaitKey struct {
 	kind, owner, key string
 }
@@ -33,13 +38,17 @@ type genericCooldownWait struct {
 // genericCooldownLedger 是每个拥有者唯一可写的冷却与等待账本。
 // 帧首次修改时复制它，已发布的账本及其公式投影随后只读。
 type genericCooldownLedger struct {
-	entries  map[genericCooldownIdentity]genericCooldownEntry
-	waits    map[genericCooldownWaitKey]genericCooldownWait
-	revision uint64
+	entries []genericCooldownSlot
+	waits   []genericCooldownWait
+	// 插入编号稳定；小表直接扫描，大表只在对应挂载的候选槽中核对完整身份。
+	// 索引发布后只读，clone共享；新建槽位时复制索引及被追加的候选切片。
+	entrySlots map[string][]int
+	waitSlots  map[string][]int
+	revision   uint64
 }
 
 func newGenericCooldownLedger() *genericCooldownLedger {
-	return &genericCooldownLedger{entries: make(map[genericCooldownIdentity]genericCooldownEntry), waits: make(map[genericCooldownWaitKey]genericCooldownWait)}
+	return &genericCooldownLedger{}
 }
 
 func genericAbilityCooldownIdentity(owner, abilityRef string) genericCooldownIdentity {
@@ -68,23 +77,131 @@ func (l *genericCooldownLedger) clone() *genericCooldownLedger {
 	if l == nil {
 		return newGenericCooldownLedger()
 	}
-	out := newGenericCooldownLedger()
-	out.revision = l.revision
-	for key, entry := range l.entries {
-		out.entries[key] = entry
+	return &genericCooldownLedger{
+		entries:    append([]genericCooldownSlot(nil), l.entries...),
+		waits:      append([]genericCooldownWait(nil), l.waits...),
+		entrySlots: l.entrySlots, waitSlots: l.waitSlots, revision: l.revision,
 	}
-	for key, wait := range l.waits {
-		// 等待依赖建立时冻结，之后只替换整条登记，可以共享只读切片。
-		out.waits[key] = wait
+}
+
+const genericCooldownLinearSlots = 16
+
+func cooldownEntryBucket(id genericCooldownIdentity) string {
+	if id.providerRef != "" {
+		return id.providerRef
 	}
+	return id.abilityRef
+}
+
+func (l *genericCooldownLedger) entryIndex(id genericCooldownIdentity) int {
+	if l == nil {
+		return -1
+	}
+	if l.entrySlots != nil {
+		for _, index := range l.entrySlots[cooldownEntryBucket(id)] {
+			if l.entries[index].id == id {
+				return index
+			}
+		}
+		return -1
+	}
+	for index := range l.entries {
+		if l.entries[index].id == id {
+			return index
+		}
+	}
+	return -1
+}
+
+func (l *genericCooldownLedger) entry(id genericCooldownIdentity) (genericCooldownEntry, bool) {
+	if index := l.entryIndex(id); index >= 0 {
+		return l.entries[index].value, true
+	}
+	return genericCooldownEntry{}, false
+}
+
+func (l *genericCooldownLedger) entryValue(id genericCooldownIdentity) genericCooldownEntry {
+	value, _ := l.entry(id)
+	return value
+}
+
+func (l *genericCooldownLedger) appendEntry(id genericCooldownIdentity, value genericCooldownEntry) {
+	l.entries = append(l.entries, genericCooldownSlot{id: id, value: value})
+	if l.entrySlots == nil {
+		if len(l.entries) <= genericCooldownLinearSlots {
+			return
+		}
+		l.entrySlots = make(map[string][]int)
+		for index, slot := range l.entries {
+			bucket := cooldownEntryBucket(slot.id)
+			l.entrySlots[bucket] = append(l.entrySlots[bucket], index)
+		}
+		return
+	}
+	bucket := cooldownEntryBucket(id)
+	l.entrySlots = appendCooldownSlotIndex(l.entrySlots, bucket, len(l.entries)-1)
+}
+
+// 不能只复制外层表：未修改的候选切片仍可能属于已冻结账本。
+func appendCooldownSlotIndex(before map[string][]int, key string, index int) map[string][]int {
+	out := make(map[string][]int, len(before)+1)
+	for key, slots := range before {
+		out[key] = slots
+	}
+	slots := make([]int, len(before[key])+1)
+	copy(slots, before[key])
+	slots[len(slots)-1] = index
+	out[key] = slots
 	return out
+}
+
+func (l *genericCooldownLedger) waitIndex(key genericCooldownWaitKey) int {
+	if l == nil {
+		return -1
+	}
+	if l.waitSlots != nil {
+		for _, index := range l.waitSlots[key.key] {
+			if l.waits[index].key == key {
+				return index
+			}
+		}
+		return -1
+	}
+	for index := range l.waits {
+		if l.waits[index].key == key {
+			return index
+		}
+	}
+	return -1
+}
+
+func (l *genericCooldownLedger) waitValue(key genericCooldownWaitKey) genericCooldownWait {
+	if index := l.waitIndex(key); index >= 0 {
+		return l.waits[index]
+	}
+	return genericCooldownWait{}
+}
+
+func (l *genericCooldownLedger) appendWait(wait genericCooldownWait) {
+	l.waits = append(l.waits, wait)
+	if l.waitSlots == nil {
+		if len(l.waits) <= genericCooldownLinearSlots {
+			return
+		}
+		l.waitSlots = make(map[string][]int)
+		for index, wait := range l.waits {
+			l.waitSlots[wait.key.key] = append(l.waitSlots[wait.key.key], index)
+		}
+		return
+	}
+	l.waitSlots = appendCooldownSlotIndex(l.waitSlots, wait.key.key, len(l.waits)-1)
 }
 
 func (l *genericCooldownLedger) readyAt(id genericCooldownIdentity) int64 {
 	if l == nil {
 		return 0
 	}
-	return l.entries[id].readyAt
+	return l.entryValue(id).readyAt
 }
 
 func (l *genericCooldownLedger) abilityReadyAt(owner, abilityRef string) int64 {
@@ -109,14 +226,14 @@ func (l *genericCooldownLedger) version(id genericCooldownIdentity) uint64 {
 	if l == nil {
 		return 0
 	}
-	return l.entries[id].version
+	return l.entryValue(id).version
 }
 
 func (l *genericCooldownLedger) remaining(id genericCooldownIdentity, now int64) int64 {
 	if l == nil {
 		return 0
 	}
-	entry := l.entries[id]
+	entry := l.entryValue(id)
 	if !entry.active || now >= entry.readyAt {
 		return 0
 	}
@@ -132,23 +249,25 @@ func (l *genericCooldownLedger) set(id genericCooldownIdentity, readyAt, now int
 	if l == nil {
 		return false
 	}
-	if l.entries == nil {
-		l.entries = make(map[genericCooldownIdentity]genericCooldownEntry)
-	}
-	previous, exists := l.entries[id]
+	index := l.entryIndex(id)
 	active := readyAt > now
-	if exists && previous.readyAt == readyAt && previous.active == active {
+	if index >= 0 && l.entries[index].value.readyAt == readyAt && l.entries[index].value.active == active {
 		return false
 	}
 	l.revision++
-	l.entries[id] = genericCooldownEntry{readyAt: readyAt, active: active, version: l.revision}
-	for key, wait := range l.waits {
+	value := genericCooldownEntry{readyAt: readyAt, active: active, version: l.revision}
+	if index >= 0 {
+		l.entries[index].value = value
+	} else {
+		l.appendEntry(id, value)
+	}
+	for index, wait := range l.waits {
 		if !wait.active || !cooldownWaitContains(wait, id) {
 			continue
 		}
 		wait.readyAt = l.waitDeadline(wait, now)
 		wait.version = l.revision
-		l.waits[key] = wait
+		l.waits[index] = wait
 	}
 	return true
 }
@@ -185,7 +304,8 @@ func (l *genericCooldownLedger) removeProvider(owner, provider string, now int64
 		return
 	}
 	keys := make([]genericCooldownIdentity, 0)
-	for id := range l.entries {
+	for _, slot := range l.entries {
+		id := slot.id
 		if id.owner == owner && id.providerRef == provider {
 			keys = append(keys, id)
 		}
@@ -202,7 +322,8 @@ func (l *genericCooldownLedger) removeTarget(owner, provider, target string, now
 		return
 	}
 	keys := make([]genericCooldownIdentity, 0)
-	for id := range l.entries {
+	for _, slot := range l.entries {
+		id := slot.id
 		if id.owner == owner && id.providerRef == provider && id.scope == stateScopeProviderTarget && id.target == target {
 			keys = append(keys, id)
 		}
@@ -218,14 +339,19 @@ func (l *genericCooldownLedger) invalidate(id genericCooldownIdentity, now int64
 		return
 	}
 	l.revision++
-	l.entries[id] = genericCooldownEntry{version: l.revision}
-	for key, wait := range l.waits {
+	value := genericCooldownEntry{version: l.revision}
+	if index := l.entryIndex(id); index >= 0 {
+		l.entries[index].value = value
+	} else {
+		l.appendEntry(id, value)
+	}
+	for index, wait := range l.waits {
 		if wait.active && cooldownWaitContains(wait, id) {
 			wait.readyAt, wait.version = l.waitDeadline(wait, now), l.revision
-			if key.kind == "provider_cooldown" {
+			if wait.key.kind == "provider_cooldown" {
 				wait.active = false
 			}
-			l.waits[key] = wait
+			l.waits[index] = wait
 		}
 	}
 }
@@ -270,41 +396,42 @@ func (l *genericCooldownLedger) registerWait(key genericCooldownWaitKey, depende
 	if l == nil {
 		return genericCooldownWait{}
 	}
-	if l.waits == nil {
-		l.waits = make(map[genericCooldownWaitKey]genericCooldownWait)
-	}
 	wait := genericCooldownWait{key: key, dependencies: dependencies, notBefore: notBefore, active: true}
 	wait.readyAt = l.waitDeadline(wait, now)
-	old, exists := l.waits[key]
-	if exists && old.active && old.notBefore == notBefore && old.readyAt == wait.readyAt && sameCooldownDependencies(old.dependencies, dependencies) {
-		return old
+	index := l.waitIndex(key)
+	if index >= 0 {
+		old := l.waits[index]
+		if old.active && old.notBefore == notBefore && old.readyAt == wait.readyAt && sameCooldownDependencies(old.dependencies, dependencies) {
+			return old
+		}
 	}
 	l.revision++
 	wait.version = l.revision
 	wait.dependencies = append([]genericCooldownIdentity(nil), dependencies...)
-	l.waits[key] = wait
+	if index >= 0 {
+		l.waits[index] = wait
+	} else {
+		l.appendWait(wait)
+	}
 	return wait
 }
 
 func (l *genericCooldownLedger) cancelWait(key genericCooldownWaitKey) {
-	if l == nil {
-		return
-	}
-	wait, exists := l.waits[key]
-	if !exists || !wait.active {
+	index := l.waitIndex(key)
+	if index < 0 || !l.waits[index].active {
 		return
 	}
 	l.revision++
-	wait.active, wait.version = false, l.revision
-	l.waits[key] = wait
+	l.waits[index].active, l.waits[index].version = false, l.revision
 }
 
 func (l *genericCooldownLedger) wait(key genericCooldownWaitKey) (genericCooldownWait, bool) {
-	if l == nil {
+	index := l.waitIndex(key)
+	if index < 0 {
 		return genericCooldownWait{}, false
 	}
-	wait, exists := l.waits[key]
-	return wait, exists && wait.active
+	wait := l.waits[index]
+	return wait, wait.active
 }
 
 func (l *genericCooldownLedger) waitCurrent(key genericCooldownWaitKey, at int64, version uint64) bool {
@@ -317,9 +444,17 @@ func (l *genericCooldownLedger) changedKeys(before *genericCooldownLedger) []gen
 		return nil
 	}
 	keys := make([]genericCooldownIdentity, 0)
-	for id, entry := range l.entries {
-		if before == nil || before.entries[id] != entry {
-			keys = append(keys, id)
+	for index, slot := range l.entries {
+		previous := genericCooldownEntry{}
+		if before != nil {
+			if index < len(before.entries) && before.entries[index].id == slot.id {
+				previous = before.entries[index].value
+			} else {
+				previous = before.entryValue(slot.id)
+			}
+		}
+		if before == nil || previous != slot.value {
+			keys = append(keys, slot.id)
 		}
 	}
 	sortCooldownIdentities(keys)
@@ -331,11 +466,19 @@ func (l *genericCooldownLedger) changedWaits(before *genericCooldownLedger) []ge
 		return nil
 	}
 	waits := make([]genericCooldownWait, 0)
-	for key, wait := range l.waits {
+	for index, wait := range l.waits {
 		if !wait.active {
 			continue
 		}
-		if before == nil || before.waits[key].version != wait.version {
+		previous := genericCooldownWait{}
+		if before != nil {
+			if index < len(before.waits) && before.waits[index].key == wait.key {
+				previous = before.waits[index]
+			} else {
+				previous = before.waitValue(wait.key)
+			}
+		}
+		if before == nil || previous.version != wait.version {
 			waits = append(waits, wait)
 		}
 	}
@@ -378,7 +521,8 @@ func sortCooldownIdentities(keys []genericCooldownIdentity) {
 func (l *genericCooldownLedger) abilityDeadlines() map[string]int64 {
 	out := make(map[string]int64)
 	if l != nil {
-		for id, entry := range l.entries {
+		for _, slot := range l.entries {
+			id, entry := slot.id, slot.value
 			if id.abilityRef != "" {
 				out[id.abilityRef] = entry.readyAt
 			}
@@ -390,7 +534,8 @@ func (l *genericCooldownLedger) abilityDeadlines() map[string]int64 {
 func (l *genericCooldownLedger) snapshot(now int64) map[string]interface{} {
 	out := make(map[string]interface{})
 	if l != nil {
-		for id, entry := range l.entries {
+		for _, slot := range l.entries {
+			id, entry := slot.id, slot.value
 			if id.abilityRef != "" {
 				out[id.abilityRef] = map[string]interface{}{"readyAtMs": entry.readyAt, "remainingMs": l.remaining(id, now)}
 			}

@@ -228,7 +228,7 @@ func TestProviderStateHeaderFormulaPreparationKeepsTheOtherBranch(t *testing.T) 
 	shared := shareProviderStateMap(source)
 	initial := providerStateOwnershipSnapshot(original)
 	bag := writableProviderStateBag(shared, "item", false)
-	bag.bindFieldDefs(map[string]providerStateFieldDef{"new": {defaultValue: 4}})
+	bag.bindFieldDefs(newProviderStateFieldMetadata(map[string]providerStateFieldDef{"new": {defaultValue: 4}}))
 	defaults := bag.defaultsForFormula()
 	if bag.state["new"] != 4 || defaults["new"] != 4 {
 		t.Fatal("first formula use failed to bind its state defaults")
@@ -276,8 +276,9 @@ func TestProviderStateHeaderReadBorrowsPreparedSharedBagWithoutAllocation(t *tes
 	shared := shareProviderStateMap(source)
 	initial := providerStateOwnershipSnapshot(original)
 	options := providerStateReadOptions{expireTarget: true, defaults: true, targetView: true, targetKey: "target"}
+	fields := newProviderStateFieldMetadata(original.fieldDefs)
 	if allocations := testing.AllocsPerRun(50, func() {
-		bag := readProviderStateBag(shared, "item", false, original.fieldDefs, 99, options)
+		bag := readProviderStateBag(shared, "item", false, fields, 99, options)
 		if bag != original || !bag.headerShared {
 			t.Fatal("a prepared read copied its shared bag head")
 		}
@@ -298,19 +299,20 @@ func TestProviderStateHeaderReadBorrowsPreparedSharedBagWithoutAllocation(t *tes
 
 func TestProviderStateHeaderReadCachesDefaultsOnlyWhenRequested(t *testing.T) {
 	original := providerStateOwnershipBag()
+	fields := newProviderStateFieldMetadata(original.fieldDefs)
 	source := map[string]*providerStateBag{"item": original}
 	shared := shareProviderStateMap(source)
-	bag := readProviderStateBag(shared, "item", false, original.fieldDefs, 99, providerStateReadOptions{})
+	bag := readProviderStateBag(shared, "item", false, fields, 99, providerStateReadOptions{})
 	if bag != original || bag.fieldDefaults != nil || original.fieldDefaults != nil {
 		t.Fatal("a read without defaults changed cache preparation timing")
 	}
-	bag = readProviderStateBag(shared, "item", false, original.fieldDefs, 99, providerStateReadOptions{defaults: true})
+	bag = readProviderStateBag(shared, "item", false, fields, 99, providerStateReadOptions{defaults: true})
 	if bag == original || bag.fieldDefaults == nil || original.fieldDefaults != nil || len(bag.fieldDefaults) != len(original.fieldDefs) {
 		t.Fatal("a defaults read failed to prepare its own cache")
 	}
 	child := shareProviderStateMap(shared)
 	if allocations := testing.AllocsPerRun(50, func() {
-		if readProviderStateBag(child, "item", false, original.fieldDefs, 99, providerStateReadOptions{defaults: true}) != bag {
+		if readProviderStateBag(child, "item", false, fields, 99, providerStateReadOptions{defaults: true}) != bag {
 			t.Fatal("cached defaults caused another bag-head copy")
 		}
 	}); allocations != 0 {
@@ -361,7 +363,7 @@ func TestProviderStateHeaderReadBindsOnlyDeclaredMissingValues(t *testing.T) {
 	}
 	// 已有字段定义不被调用方另一组定义覆盖；仍只补已有定义中的缺值。
 	fields := map[string]providerStateFieldDef{"new": {defaultValue: 4}}
-	bag := readProviderStateBag(shared, "item", false, fields, 99, providerStateReadOptions{})
+	bag := readProviderStateBag(shared, "item", false, newProviderStateFieldMetadata(fields), 99, providerStateReadOptions{})
 	if bag == original || math.Float64bits(bag.state["stacks"]) != math.Float64bits(negativeZero) || math.Float64bits(bag.state["unknown"]) != math.Float64bits(negativeZero) || bag.fieldDefaults != nil {
 		t.Fatal("binding changed zero bits, unknown stored values, or defaults cache timing")
 	}
@@ -377,7 +379,7 @@ func TestProviderStateHeaderReadBindsOnlyDeclaredMissingValues(t *testing.T) {
 	unbound.fieldDefs = nil
 	unboundSource := map[string]*providerStateBag{"item": unbound}
 	unboundShared := shareProviderStateMap(unboundSource)
-	bound := readProviderStateBag(unboundShared, "item", false, fields, 99, providerStateReadOptions{})
+	bound := readProviderStateBag(unboundShared, "item", false, newProviderStateFieldMetadata(fields), 99, providerStateReadOptions{})
 	if bound == unbound || bound.fieldDefs["new"].defaultValue != 4 || bound.state["new"] != 4 || bound.fieldDefaults != nil || unbound.fieldDefs != nil {
 		t.Fatal("first field binding did not preserve branch and cache isolation")
 	}
@@ -389,7 +391,7 @@ func TestProviderStateHeaderReadInitializesMissingTablesInItsOwnBranch(t *testin
 	source := map[string]*providerStateBag{"item": original}
 	shared := shareProviderStateMap(source)
 	initial := providerStateOwnershipSnapshot(original)
-	bag := readProviderStateBag(shared, "item", false, original.fieldDefs, 99, providerStateReadOptions{})
+	bag := readProviderStateBag(shared, "item", false, newProviderStateFieldMetadata(original.fieldDefs), 99, providerStateReadOptions{})
 	if bag == original || bag.state == nil || bag.expireAt == nil || bag.targetValues == nil || bag.targetExpireAt == nil || bag.anchoredTickGeneration == nil || bag.fieldDefaults != nil {
 		t.Fatal("missing-table preparation was shared or populated unrequested defaults")
 	}
@@ -408,15 +410,15 @@ func TestProviderStateHeaderReadExpiryRespectsScopeAndInclusiveHold(t *testing.T
 	shared := shareProviderStateMap(source)
 	initial := providerStateOwnershipSnapshot(original)
 	options := providerStateReadOptions{expireTarget: true, defaults: true, targetView: true, targetKey: "target"}
-	if readProviderStateBag(shared, "item", false, original.fieldDefs, 100, options) != original {
+	if readProviderStateBag(shared, "item", false, newProviderStateFieldMetadata(original.fieldDefs), 100, options) != original {
 		t.Fatal("the exact inclusive expiry boundary copied a held bag")
 	}
 	options.expireTarget = false
-	if readProviderStateBag(shared, "item", false, original.fieldDefs, 101, options) != original || original.targetValues["hits"] != 3 {
+	if readProviderStateBag(shared, "item", false, newProviderStateFieldMetadata(original.fieldDefs), 101, options) != original || original.targetValues["hits"] != 3 {
 		t.Fatal("a source-only read expired target state")
 	}
 	options.expireTarget = true
-	bag := readProviderStateBag(shared, "item", false, original.fieldDefs, 101, options)
+	bag := readProviderStateBag(shared, "item", false, newProviderStateFieldMetadata(original.fieldDefs), 101, options)
 	if bag == original || bag.targetValues["hits"] != 0 || bag.targetExpireAt["hits"] != 0 || bag.state["stacks"] != 2 {
 		t.Fatal("a real target expiry failed to prepare its own branch")
 	}
@@ -428,7 +430,7 @@ func TestProviderStateHeaderReadExpiryRespectsScopeAndInclusiveHold(t *testing.T
 	providerSource := map[string]*providerStateBag{"item": provider}
 	providerShared := shareProviderStateMap(providerSource)
 	providerInitial := providerStateOwnershipSnapshot(provider)
-	prepared := readProviderStateBag(providerShared, "item", false, provider.fieldDefs, 100, providerStateReadOptions{})
+	prepared := readProviderStateBag(providerShared, "item", false, newProviderStateFieldMetadata(provider.fieldDefs), 100, providerStateReadOptions{})
 	if prepared == provider || math.Float64bits(prepared.state["stacks"]) != math.Float64bits(negativeZero) || prepared.expireAt["stacks"] != 0 || prepared.targetValues["hits"] != 3 || prepared.targetExpireAt["hits"] != 100 {
 		t.Fatal("source expiry lost default bits or expired the unrequested target scope")
 	}

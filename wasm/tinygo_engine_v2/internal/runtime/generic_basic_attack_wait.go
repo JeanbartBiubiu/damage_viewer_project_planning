@@ -353,7 +353,7 @@ func (f *executionFrame) commitBasicAttackWait() {
 	}
 	f.recordEvidenceLazy("basic_attack_wait_adjusted", func() model.EvidenceItem {
 		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "basic_attack_wait_adjusted", Ref: f.run.basicAttack.plan.InitialControlAbilityRef,
-			Data: map[string]interface{}{"periodMs": wait.period, "remainingRatio": wait.remaining, "readyAtMs": f.run.basicAttackReadyAt(), "generation": f.run.combatants[attack.plan.Source].cooldowns.waits[basicAttackCooldownWaitKey(attack)].version}}
+			Data: map[string]interface{}{"periodMs": wait.period, "remainingRatio": wait.remaining, "readyAtMs": f.run.basicAttackReadyAt(), "generation": f.run.combatants[attack.plan.Source].cooldowns.waitValue(basicAttackCooldownWaitKey(attack)).version}}
 	})
 }
 

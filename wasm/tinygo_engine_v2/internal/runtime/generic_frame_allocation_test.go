@@ -20,7 +20,11 @@ func testCooldownEntries(ledger *genericCooldownLedger) map[genericCooldownIdent
 	if ledger == nil {
 		return nil
 	}
-	return maps.Clone(ledger.entries)
+	out := make(map[genericCooldownIdentity]genericCooldownEntry, len(ledger.entries))
+	for _, slot := range ledger.entries {
+		out[slot.id] = slot.value
+	}
+	return out
 }
 
 func TestFrameAllocationCooldownNilAndZeroKeepPresence(t *testing.T) {
@@ -47,7 +51,7 @@ func TestFrameAllocationCooldownNilAndZeroKeepPresence(t *testing.T) {
 			if err := frame.applyCooldownChange("source", "inserted", 0); err != nil {
 				t.Fatal(err)
 			}
-			if value, exists := frame.stageFor("source").cooldowns.entries[genericAbilityCooldownIdentity("source", "inserted")]; !exists || value.readyAt != 0 {
+			if value, exists := frame.stageFor("source").cooldowns.entry(genericAbilityCooldownIdentity("source", "inserted")); !exists || value.readyAt != 0 {
 				t.Fatal("zero cooldown lost its explicit key")
 			}
 			if !reflect.DeepEqual(testCooldownEntries(frozen), before) || !reflect.DeepEqual(testCooldownEntries(state.combatants["source"].cooldowns), initialEntries) {
@@ -58,11 +62,11 @@ func TestFrameAllocationCooldownNilAndZeroKeepPresence(t *testing.T) {
 				t.Fatal(frame.fatalErr)
 			}
 			published := state.combatants["source"].cooldowns
-			if value, exists := published.entries[genericAbilityCooldownIdentity("source", "inserted")]; !exists || value.readyAt != 0 {
+			if value, exists := published.entry(genericAbilityCooldownIdentity("source", "inserted")); !exists || value.readyAt != 0 {
 				t.Fatal("commit dropped the explicit zero cooldown")
 			}
 			if _, existed := initial.values["existing"]; existed {
-				if value, exists := published.entries[genericAbilityCooldownIdentity("source", "existing")]; !exists || value.readyAt != 0 {
+				if value, exists := published.entry(genericAbilityCooldownIdentity("source", "existing")); !exists || value.readyAt != 0 {
 					t.Fatal("commit dropped the original zero cooldown")
 				}
 			}
@@ -77,7 +81,7 @@ func TestFrameAllocationCooldownNilAndZeroKeepPresence(t *testing.T) {
 	// 未借出过只读视图的空暂存对象也必须允许首次写入。
 	var staged stagedCombatant
 	staged.writableCooldowns().set(genericAbilityCooldownIdentity("", "first"), 0, 0)
-	if value, exists := staged.cooldowns.entries[genericAbilityCooldownIdentity("", "first")]; !exists || value.readyAt != 0 {
+	if value, exists := staged.cooldowns.entry(genericAbilityCooldownIdentity("", "first")); !exists || value.readyAt != 0 {
 		t.Fatal("first write to an unshared nil cooldown table failed")
 	}
 }
@@ -165,10 +169,10 @@ func TestFrameAllocationWaitContextResetsAndKeepsAttackDirection(t *testing.T) {
 			if err := context.applyCooldownChange("target", "zero", 0); err != nil {
 				t.Fatal(err)
 			}
-			if _, exists := frame.staged.Get("target").cooldowns.entries[genericAbilityCooldownIdentity("target", "zero")]; !exists {
+			if _, exists := frame.staged.Get("target").cooldowns.entry(genericAbilityCooldownIdentity("target", "zero")); !exists {
 				t.Fatal("waiting context lost the ordinary shared staging write")
 			}
-			if _, exists := state.combatants["target"].cooldowns.entries[genericAbilityCooldownIdentity("target", "zero")]; exists {
+			if _, exists := state.combatants["target"].cooldowns.entry(genericAbilityCooldownIdentity("target", "zero")); exists {
 				t.Fatal("waiting context published before parent commit")
 			}
 		})
@@ -391,7 +395,7 @@ func TestFrameAllocationCallerOwnedInitializationResetsAndKeepsEarlierViews(t *t
 	}
 	frame.fatal = true
 	frame.commit()
-	if _, exists := state.combatants["target"].cooldowns.entries[genericAbilityCooldownIdentity("target", "second")]; exists {
+	if _, exists := state.combatants["target"].cooldowns.entry(genericAbilityCooldownIdentity("target", "second")); exists {
 		t.Fatal("failed reinitialized frame published its cooldown")
 	}
 	if firstStage.cooldowns.abilityReadyAt("source", "control") != 700 || state.combatants["source"].cooldowns.abilityReadyAt("source", "control") != 700 || !reflect.DeepEqual(snapshot.sourceAttrs, wantSource) {

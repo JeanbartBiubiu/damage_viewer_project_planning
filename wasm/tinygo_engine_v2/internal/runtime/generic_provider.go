@@ -549,7 +549,7 @@ func providerTargetActiveKey(hostCombatantKey, ownerCombatantKey, castTargetKey 
 	return castTargetKey
 }
 
-func (s *genericRunState) resolveProviderStateFieldDefs(combatantKey, providerRef string, providers []status.ProviderInstance) map[string]providerStateFieldDef {
+func (s *genericRunState) resolveProviderStateFieldDefs(combatantKey, providerRef string, providers []status.ProviderInstance) *providerStateFieldMetadata {
 	if s == nil || providerRef == "" {
 		return nil
 	}
@@ -558,7 +558,7 @@ func (s *genericRunState) resolveProviderStateFieldDefs(combatantKey, providerRe
 		return nil
 	}
 	if s.providerDefinitionFields == nil {
-		s.providerDefinitionFields = make([]map[string]providerStateFieldDef, len(s.compiled.Providers))
+		s.providerDefinitionFields = make([]*providerStateFieldMetadata, len(s.compiled.Providers))
 	}
 	if s.providerDefinitionFields[index] == nil {
 		s.providerDefinitionFields[index] = compiledStateFieldsToRuntime(s.compiled.Providers[index].StateFields)
@@ -570,7 +570,7 @@ func compiledStateFieldsForProvider(
 	compiled planbundle.CompiledSession,
 	combatantKey, providerRef string,
 	providers []status.ProviderInstance,
-) map[string]providerStateFieldDef {
+) *providerStateFieldMetadata {
 	index := compiledStateDefinitionIndex(compiled, combatantKey, providerRef, providers)
 	if index < 0 {
 		return nil
