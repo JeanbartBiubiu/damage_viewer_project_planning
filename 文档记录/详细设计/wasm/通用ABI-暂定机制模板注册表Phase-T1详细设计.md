@@ -3,7 +3,7 @@ DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: done
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-07-26
+LAST_TRACKED_AT: 2026-10-15
 
 # 通用 ABI - 暂定机制模板注册表 Phase-T1 详细设计
 
@@ -58,35 +58,6 @@ CLI：默认写入；只读 `--check`（语义 JSON 比对 **仅忽略** `metada
 | 生成器 | `986adf20f300f536de68871c2332a297c35088634f9df92d7483a67ce0e8c96a` | 65139 |
 | JSON | `0eb359812b731ca2a4d8ec196dba9bacfb607cf64c68498aded2c47b5f11898e` | 604038 |
 | CSV | `9d908f92b8de469c1b8ca4067270afe3b7e65aaf89c6955a87c9f32f9b525526` | 404572 |
-
-## 3. 目标集与当前计数
-
-八状态穷尽划分；目标过滤：`partial_actionable` / `ready_to_implement` / `blocked_runtime` / `blocked_data`；排除：`completed` / `out_of_scope` / `regression_only` / `stale_or_duplicate`；目标与排除 **不相交** 且合计 **254**。
-
-当前 Unified / 模板快照（与真实 Unified 一致；**非**机制完成宣称）：
-
-| 维度 | 计数 |
-| --- | ---: |
-| Unified completed | 102 |
-| partial_actionable | 0 |
-| ready_to_implement | 0 |
-| blocked_runtime | 71 |
-| blocked_data | 3 |
-| out_of_scope | 72 |
-| regression_only | 5 |
-| stale_or_duplicate | 1 |
-| sourceCount | 12 |
-| actionableKeyCount | 0 |
-| templates（目标集） | **74** |
-| hero_skill / item_passive | 72 / 2 |
-| runtime_contract_placeholder / data_contract_placeholder | 71 / 3 |
-
-报告口径：
-
-- 严格 verified completion：**102/254 = 40.2%**
-- completed + provisional implementation-description coverage：**176/254 = 69.3%**（`(102+74)/254`）
-
-每张目标卡仍为 `templateState=provisional_unverified`；均有机械填充、source-linked draft；**无一**晋升 completed/full/ready/migrated；`completedBoundary=null`；八个 verification gate 均为 `pending`；恰好 **七** 条显式 nonclaims（含 `no_mechanical_draft_as_verified_phase_a_claim`）。
 
 ## 4. 源解析语义
 
@@ -149,34 +120,6 @@ CSV 列序相对 Phase-T1/T2 行身份列保持兼容；`draftContractJson` / `v
 - 本注册表 **在** Unified ACTIVE / GENERATOR source allowlist / `currentInputHashes` **之外**
 - `sourceCount` 保持 **12**；本 Phase **无** production runtime / Backend / Web / G8 / Unified / Wiki registry / Batch-G / live migration / publish / push 变更
 - 当前真源快照：Unified254/source12 completed102 / partial0 / ready0 / blocked_runtime71 / blocked_data3 / OOS72 / regression5 / stale1；`actionableKeyCount=0`；template74；tasks116
-
-## 8. 审查与实现史（诚实记录）
-
-### 8.1 Phase-T1 / T2（保留）
-
-| 阶段 | Run / Commit | 裁决 | 说明 |
-| --- | --- | --- | --- |
-| Valid v1 review | `run-8a3fdb13-f309-4f36-8462-bbc6d6cc8849` | **REVISE** | 吸收进 Phase-T1 v2：Unified tags / registry ordinal / hero·item provenance / 冻结 schemas / hash-bound pins |
-| 首次 v2 | `run-d0066442-17c0-45ae-99d1-de95678eaa35` | READY 但 **无效门控** | 缺 completed event；**不得**称为 valid gate |
-| Valid fresh v2 READY（Phase-T1） | `run-311a86b9-d5c6-4f1a-93ff-578ffa349c33` | **接受门控** | 1510/1510；54/54；runDelta0 |
-| Cursor Phase-T1 实现 | `run-e4e135bc-18cf-49d8-a52d-19e29e335bfc` | 成功 | 恰好三白名单文件；未 commit |
-| Phase-T1 已提交 | `59ddcc0e7c174bf4f07e5af94ba1eea402ca0817` | 接受 | 生成器 + JSON + CSV |
-| Valid Phase-T2 DESIGN_READY | `run-9431ac75-f0dc-486e-9b9d-45fe092fea82` | **接受门控** | 1128/1128；29/29；runDelta0 |
-| Cursor Phase-T2 实现 | `run-2f635aa4-5cca-41a0-8fea-0896c1f07876` | 成功 | 生成器 + JSON；CSV 字节相同 |
-| Phase-T2 已提交 | `8965d18df042e7d54d91d9aaa6475d906afbe2c8` | 接受 | schema v2 / 连续刷新 |
-
-### 8.2 Phase-T3 / v4 bulk mechanical draft fill（当前）
-
-| 阶段 | Run / Commit | 裁决 | 说明 |
-| --- | --- | --- | --- |
-| v1 design review | `run-5f37c2fa-3a0b-4b4a-973c-0336b1dc4afd` | **REVISE** | runDelta0。接受：item lookup 形状；拆分 local/canonical item hashes；`metadata.inputs` 保持两输入；七 nonclaims；恰好四文档治理范围 / 复用既有 task |
-| v2 design review | `run-14459b5f-fa7b-49fa-9fae-b60ca4b31469` | **REVISE** | runDelta0。接受：hero `fields.*` + `fieldPresence`；读 item manifest + normalized；完整冻结嵌套 schema |
-| v3 design review | `run-8e65d20b-3d90-498a-82de-eb33b76f7494` | **READY** | runDelta0；2585/2585 parseable；50/50 complete tool groups；无 mutation |
-| 首次实现尝试 | （agent 创建前瞬时网络失败） | 失败 | 零 events / 零 run delta；无 worktree mutation |
-| Retry 实现 | `run-043b48e0-1e32-4697-87f8-eaec6a304a13` | 成功 | 恰好三实现文件；runDelta3/outside0；1221 parseable；51/51 complete tool groups；checks passed |
-| Post-impl v4 amendment review | `run-691568c9-bf77-4b88-a436-f9ddcbc94f58` | **READY** | runDelta0；1110 parseable；27/27 complete tool groups。冻结：目标作用域 item 唯一性；权威 hero `fieldPresence` 语义 |
-| Repair 实现 | `run-5163661c-b63e-4c01-b99a-f98deede7b87` | 成功 | 同一实现 allowlist；runDelta2/outside0；967 parseable；19/19 complete tool groups；生成器+JSON 变更；CSV 内容无需 plan-only rewrite |
-| 已接受实现 commit | `77c89e8b5a2f83e24655fbcc26cd69889254a075` | 接受 | `feat(audit): prefill provisional mechanism drafts` |
 
 ## 9. 完成语义
 
