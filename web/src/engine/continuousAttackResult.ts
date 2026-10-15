@@ -178,7 +178,7 @@ export function assessContinuousAttackResult(
   check(close(sourceFinalHp, summary.sourceFinalHp as number) && close(targetFinalHp, summary.targetFinalHp as number), 'runResult.summary', '双方生命与最终快照不一致');
   check(close(summary.targetDamageDealt as number, summary.sourceDamageTaken as number), 'runResult.summary', '反向造成伤害与来源承受伤害不一致');
   check(close(summary.sourceDamageDealt as number, summary.targetDamageTaken as number), 'runResult.summary', '造成伤害与目标承受伤害不一致');
-  const mixed = !!request.driverPlan.skillActions?.length;
+  const mixed = !!request.driverPlan.skillActions?.length || !!request.driverPlan.automaticSkills;
   const directHealing = { source: mixed ? nonnegative(summary.sourceDirectHealing, 'summary.sourceDirectHealing') : 0,
     target: mixed ? nonnegative(summary.targetDirectHealing, 'summary.targetDirectHealing') : 0 };
   check(close(sourceInitialHp - (summary.sourceHpLoss as number) + (summary.sourceVampHealing as number) + directHealing.source, sourceFinalHp)

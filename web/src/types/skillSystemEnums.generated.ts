@@ -415,3 +415,30 @@ export const SKILL_PROCESS_STEP_TYPE_LABELS = {
   RECAST: "重施",
   EMPOWERED_BASIC_ATTACK: "强化下一次普通攻击",
 } as const satisfies Record<SkillProcessStepType, string>;
+
+// 自动技能等待原因
+export const AUTOMATIC_SKILL_WAIT_REASONS = ["OWN_COOLDOWN","RELATED_COOLDOWN","RELEASE_QUALIFICATION","ACTION_OCCUPIED","PROCESS_ACTIVE","MECHANIC_RESOURCE","AUTHOR_CONDITION"] as const;
+export type AutomaticSkillWaitReason = (typeof AUTOMATIC_SKILL_WAIT_REASONS)[number];
+export const AUTOMATIC_SKILL_WAIT_REASON_LABELS = {
+  OWN_COOLDOWN: "自身冷却",
+  RELATED_COOLDOWN: "关联冷却",
+  RELEASE_QUALIFICATION: "缺释放资格",
+  ACTION_OCCUPIED: "行动占用",
+  PROCESS_ACTIVE: "同来源已有过程",
+  MECHANIC_RESOURCE: "机制资源不足",
+  AUTHOR_CONDITION: "作者条件不成立",
+} as const satisfies Record<AutomaticSkillWaitReason, string>;
+
+// 自动技能记录类别
+export const AUTOMATIC_SKILL_RECORD_KINDS = ["ATTEMPT_REJECTED","ABORTED_BEFORE_START","STARTED","COMPLETED","FAILED","QUALIFICATION_GRANTED","QUALIFICATION_CONSUMED","WAIT_CHANGED"] as const;
+export type AutomaticSkillRecordKind = (typeof AUTOMATIC_SKILL_RECORD_KINDS)[number];
+export const AUTOMATIC_SKILL_RECORD_KIND_LABELS = {
+  ATTEMPT_REJECTED: "尝试拒绝",
+  ABORTED_BEFORE_START: "开始前中止",
+  STARTED: "成功开始",
+  COMPLETED: "成功终结",
+  FAILED: "失败终结",
+  QUALIFICATION_GRANTED: "资格授予",
+  QUALIFICATION_CONSUMED: "资格消费",
+  WAIT_CHANGED: "等待变化",
+} as const satisfies Record<AutomaticSkillRecordKind, string>;

@@ -416,7 +416,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               ...(durationMs > 0 ? { refreshPolicy: 'refresh_on_write' } : {}) };
           } else if (state.stateType === 'INTERNAL_COOLDOWN') {
             exact(state.detail, ['durationValue'], `${statePath}.detail`);
-            schema[stateKey(state)] = { valueType: 'number', defaultValue: 0, maxValue: 1,
+            constant(state.detail.durationValue, `${statePath}.detail.durationValue`, true, 1);
+            schema[stateKey(state)] = { valueType: 'number', defaultValue: 0, maxValue: 1, stateKind: 'cooldown',
               durationMs: staticField(state.detail.durationValue, `${statePath}.detail.durationValue`, numeric, fail), refreshPolicy: 'start_on_first_write' };
           } else if (state.stateType === 'FLAG') {
             exact(state.detail, ['initialEnabled'], `${statePath}.detail`);

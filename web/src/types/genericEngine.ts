@@ -307,7 +307,7 @@ export type ProviderStateFieldSchema = {
   maxValue?: StaticNumericValue;
   durationMs?: StaticNumericValue;
   refreshPolicy?: string;
-  stateKind?: 'ammo';
+  stateKind?: 'ammo' | 'cooldown';
   ammoRecovery?: { intervalMs: GenericFormulaExpr; mode: 'all_at_once'; startCondition: 'when_empty' };
 };
 
@@ -487,6 +487,39 @@ export type DriverPlan = {
   conditionRecheckIntervalMs: number;
   basicAttack?: BasicAttackPlan;
   skillActions?: SkillActionPlan[];
+  automaticSkills?: AutomaticSkillPlan;
+};
+
+export type AutomaticSkillRule = {
+  ruleKey: string; bindingKey: string; sortOrder: number; target: 'source' | 'target';
+  hitBindings: Array<{ hitBindingKey: string; preset: 'TARGET_HIT' | 'MISS' }>;
+  waitForCooldowns: string[]; releaseAfterRuleKey: string | null;
+};
+export type AutomaticSkillPlan = { rules: AutomaticSkillRule[] };
+export type AutomaticSkillWaitingReason = import('./skillSystemEnums.generated').AutomaticSkillWaitReason;
+export type AutomaticSkillRecordKind = import('./skillSystemEnums.generated').AutomaticSkillRecordKind;
+export type AutomaticSkillWaiting = {
+  reason: AutomaticSkillWaitingReason; relatedRuleKeys: string[]; nextCheckAtMs: number | null;
+};
+export type AutomaticSkillCounts = {
+  attemptCount: number; startedCount: number; rejectedCount: number; abortedBeforeStartCount: number;
+  completedCount: number; failedCount: number; inFlightCount: number;
+};
+export type AutomaticSkillSummary = AutomaticSkillCounts & {
+  ruleCount: number;
+  rules: Array<AutomaticSkillCounts & { ruleKey: string; waiting: AutomaticSkillWaiting | null }>;
+  qualifications: Array<{
+    grantorRuleKey: string; consumerRuleKey: string; grantedCount: number; consumedCount: number; remainingCount: number;
+    lastGrantUseRef: string | null; lastConsumeUseRef: string | null;
+  }>;
+};
+export type AutomaticSkillRecord = {
+  sequence: number; timeMs: number; kind: AutomaticSkillRecordKind; ruleKey: string;
+  useRef: string | null; relatedRuleKey: string | null; relatedUseRef: string | null;
+  reason: string | null; nextCheckAtMs: number | null;
+};
+export type AutomaticSkillRecording = {
+  totalCount: number; returnedCount: number; omittedCount: number; droppedCount: number; truncated: boolean;
 };
 
 export type SkillActionBinding = {
@@ -536,7 +569,7 @@ export type SafetyBudget = {
 };
 
 export type RecordBudget = { maxAttackRecords?: number; maxDamageRecords?: number; maxMechanicRecords?: number;
-  maxSkillActionRecords?: number; maxSkillUseRecords?: number; maxHealingRecords?: number };
+  maxSkillActionRecords?: number; maxSkillUseRecords?: number; maxHealingRecords?: number; maxAutomaticSkillRecords?: number };
 
 export type ProcessControlAction = 'INITIAL' | 'RECAST' | 'CHARGE_RELEASE' | 'CANCEL' | 'INTERRUPT';
 export type SkillActionPhase = Exclude<ProcessControlAction, 'INTERRUPT'>;
@@ -863,6 +896,9 @@ export type DoneResult = {
   skillUseRecords?: SkillUseRecord[];
   healingRecords?: HealingRecord[];
   recording?: RecordingSummary;
+  automaticSkillSummary?: AutomaticSkillSummary;
+  automaticSkillRecords?: AutomaticSkillRecord[];
+  automaticSkillRecording?: AutomaticSkillRecording;
 };
 
 export type GenericReleaseDonePayload = {
