@@ -121,15 +121,15 @@ describe('共同公式预检缓存清理，核定值来自真实Wasm编译', () 
     return skillFormulaPreflightRequest(snapshot).formulas!.find(row => row.key.endsWith('/static_factor'))!;
   }
 
-  it('空公式不编译也结束客户端，取消空请求仍走完整清理', async () => {
+  it('空公式和取消空请求不销毁借用客户端，仍清理所属预检缓存', async () => {
     const snapshot = sample(); snapshot.skillConfigurations[0]!.formulas = [];
     const native = nativeClient();
     expect(await preflightSkillFormulas(snapshot, native.client)).toEqual({ compileCount: 0, formulaCount: 0, released: true });
     expect(native.compile).not.toHaveBeenCalled();
-    expect(native.terminate).toHaveBeenCalledOnce();
+    expect(native.terminate).not.toHaveBeenCalled();
     expect(matchesFormulaProofScope(snapshotFormulaProofIdentity(snapshot))).toBe(false);
     await expect(preflightSkillFormulas(snapshot, native.client, () => false)).rejects.toThrow(/取消/);
-    expect(native.terminate).toHaveBeenCalledTimes(2);
+    expect(native.terminate).not.toHaveBeenCalled();
     expect(collectedCommonFormulaDefinitions()).toEqual([]);
   });
 
@@ -144,7 +144,7 @@ describe('共同公式预检缓存清理，核定值来自真实Wasm编译', () 
     snapshot.source.skillSources.push({ ...snapshot.source.skillSources[0]!, skillKey: 'missing_skill' });
     await expect(preflightSkillFormulas(snapshot, native.client)).rejects.toThrow(/缺少真实来源/);
     expect(native.compile).toHaveBeenCalledOnce();
-    expect(native.terminate).toHaveBeenCalledTimes(2);
+    expect(native.terminate).not.toHaveBeenCalled();
     expect(collectedCommonFormulaDefinitions()).toEqual([]);
     expect(consumedApprovedFormulaValues()).toEqual([]);
     expect(approvedFormulaValue(original.key)).toBeNull();
@@ -187,7 +187,26 @@ describe('共同公式预检缓存清理，核定值来自真实Wasm编译', () 
     expect(matchesFormulaProofScope(snapshotFormulaProofIdentity(snapshot))).toBe(true);
     expect(approvedFormulaValue(original.key)).toBe(expected);
     expect(old.release).toHaveBeenCalledOnce();
-    expect(old.client.hasLiveWorker).toBe(false);
-    expect(retry.client.hasLiveWorker).toBe(false);
+    expect(old.client.hasLiveWorker).toBe(true);
+    expect(retry.client.hasLiveWorker).toBe(true);
+    expect(old.terminate).not.toHaveBeenCalled();
+    expect(retry.terminate).not.toHaveBeenCalled();
+  });
+
+  it('共同公式预检只释放自己新编译的会话，借用者的其它会话仍有效', async () => {
+    const snapshot = sample(), native = nativeClient();
+    const borrowed = await native.client.compile(skillFormulaPreflightRequest(snapshot));
+    expect(borrowed.ok).toBe(true);
+    await preflightSkillFormulas(snapshot, native.client);
+    expect(native.compile).toHaveBeenCalledTimes(2);
+    expect(native.release).toHaveBeenCalledOnce();
+    const ownSession = native.results[1]!.sessionId;
+    expect(ownSession).not.toBe(borrowed.sessionId);
+    expect(native.release.mock.calls[0][0]).toBe(ownSession);
+    expect(native.terminate).not.toHaveBeenCalled();
+    expect(native.client.hasLiveWorker).toBe(true);
+    await expect(native.client.release(borrowed.sessionId!, 'skill-formula-preflight')).resolves.toMatchObject({
+      ok: true, released: true, sessionId: borrowed.sessionId
+    });
   });
 });

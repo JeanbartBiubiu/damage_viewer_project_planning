@@ -44,6 +44,7 @@ export function inspectSimulationProcessFacts(compile: CompileRequest, request: 
   const useRefs = new Set<string>();
   const bindings = compile.rules.skillActionBindings ?? [];
   const actions = request.driverPlan.skillActions ?? [];
+  const automaticRules = request.driverPlan.automaticSkills?.rules;
   if (!Array.isArray(done.finalSnapshot.processInstances)) {
     return { issues: ['finalSnapshot.processInstances: 缺少完整过程快照'], occupancies, processes };
   }
@@ -58,7 +59,8 @@ export function inspectSimulationProcessFacts(compile: CompileRequest, request: 
     const beforeFirstStep = process.stepKey === '' && process.stepVersion === 0;
     const initial = actions.filter(action => action.action === 'INITIAL' && action.bindingKey === binding.bindingKey
       && action.source === process.owner && action.target === process.target && action.firstAtMs === process.startedAtMs);
-    check(!!definition && process.skillKey === binding.skillKey && initial.length > 0 && typeof process.useKey === 'string'
+    const automatic = automaticRules?.find(rule => rule.bindingKey === binding.bindingKey && process.owner === binding.source && process.target === rule.target);
+    check(!!definition && process.skillKey === binding.skillKey && (automatic !== undefined || initial.length > 0) && typeof process.useKey === 'string'
       && !!process.useKey && !useRefs.has(process.useKey), path, '过程必须属于真实来源、原首次、唯一使用和原定义');
     check(time(process.startedAtMs) && time(process.stepStartedAtMs) && process.startedAtMs <= process.stepStartedAtMs
       && process.stepStartedAtMs <= done.summary.durationMs
@@ -78,7 +80,10 @@ export function inspectSimulationProcessFacts(compile: CompileRequest, request: 
     if (process.status === 'complete') check(currentIndex === (definition?.steps.length ?? 0) - 1
       && process.stepCompletedAtMs === process.finishedAtMs && process.stepCompletedAtMs !== null,
     path, '完整过程必须有末尾步骤真实完成标记，不以终结状态猜完成');
-    if (!done.recording?.skillActionRecordsTruncated) {
+    if (automaticRules) {
+      if (done.outputMode !== 'summary' && done.automaticSkillRecording?.truncated === false) check(done.automaticSkillRecords?.some(row => row.kind === 'STARTED'
+        && row.ruleKey === automatic?.ruleKey && row.useRef === process.useKey && row.timeMs === process.startedAtMs) === true, path, '过程没有对应真实自动开始');
+    } else if (!done.recording?.skillActionRecordsTruncated) {
       check(done.skillActionRecords?.some(row => row.outcome === 'ACCEPTED' && row.useRef === process.useKey
         && initial.some(action => action.instructionKey === row.instructionKey)) === true, path, '过程没有对应已接受首次');
     }

@@ -37,6 +37,13 @@ export function buildSkillActionArchive(input: unknown, timeRangeMs: [number, nu
     displayDefinitionVersion: 1, view: { timeRangeMs: [...timeRangeMs] } };
 }
 
+export function buildAutomaticSkillArchive(input: unknown, timeRangeMs: [number, number]) {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('缺少冻结自动运行档案。');
+  const source = input as Record<string, unknown>;
+  return { ...Object.fromEntries(archiveFields.map(key => [key, safeBusiness(source[key], key === 'error')])),
+    displayDefinitionVersion: 1, view: { timeRangeMs: [...timeRangeMs] } };
+}
+
 export type SkillActionCsvKind = 'skillAction' | 'skillUse' | 'healing' | 'damage' | 'attack' | 'mechanic';
 export function buildSkillActionCsv(kind: SkillActionCsvKind, rows: ReadonlyArray<object>, inputHash: string | null,
   timeRangeMs: [number, number], recording: unknown) {

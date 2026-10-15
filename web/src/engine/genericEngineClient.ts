@@ -23,7 +23,7 @@ type SerializedFrame = {
   schemaVersion: number;
   kind: number;
   flags: number;
-  payload: number[];
+  payload: ArrayBuffer;
 };
 
 type WorkerInboundMessage =
@@ -150,43 +150,48 @@ export class GenericEngineClient {
   }
 
   async release(sessionId: string, expectedRulesHash?: string): Promise<GenericReleaseDonePayload> {
-    const frames = await this.send('release', { sessionId, expectedRulesHash }, false);
-    return parseReleaseResult(frames);
+    const worker = await this.ensureWorker();
+    try {
+      const frames = await this.send('release', { sessionId, expectedRulesHash }, false, worker);
+      const result = parseReleaseResult(frames);
+      if (result.sessionId !== sessionId) throw new GenericEngineClientError('释放响应不属于请求会话。', undefined, frames);
+      return result;
+    } catch (error) {
+      this.discardWorker(error instanceof Error ? error : new GenericEngineClientError('会话释放失败'), worker);
+      throw error;
+    }
   }
 
   terminate(): void {
-    for (const pending of this.pending.values()) {
-      if (pending.timer) {
-        clearTimeout(pending.timer);
-      }
-      pending.reject(new GenericEngineClientError('工作线程已终止'));
-    }
-    this.pending.clear();
-    if (this.worker) {
-      this.worker.postMessage({ type: 'terminate' });
-      this.worker.terminate();
-      this.worker = null;
-    }
-    this.initPromise = null;
+    this.discardWorker(new GenericEngineClientError('工作线程已终止'));
   }
 
   private async ensureWorker(): Promise<Worker> {
-    if (this.worker) {
-      return this.worker;
+    let worker = this.worker;
+    if (!worker) {
+      worker = new Worker(new URL('../workers/genericEngineWorker.ts', import.meta.url), {
+        type: 'module'
+      });
+      const ownedWorker = worker;
+      worker.onmessage = (event: MessageEvent<WorkerInboundMessage>) => {
+        if (this.worker !== ownedWorker) return;
+        try {
+          this.handleWorkerMessage(event.data);
+        } catch (error) {
+          this.discardWorker(error instanceof Error ? error : new GenericEngineClientError('工作线程响应无效'), ownedWorker);
+        }
+      };
+      worker.onerror = (event) => {
+        this.discardWorker(new GenericEngineClientError(event.message || '工作线程崩溃'), ownedWorker);
+      };
+      this.worker = worker;
+      this.initPromise = this.initializeWorker(worker).catch((error) => {
+        this.discardWorker(error instanceof Error ? error : new GenericEngineClientError('工作线程初始化失败'), ownedWorker);
+        throw error;
+      });
     }
-    const worker = new Worker(new URL('../workers/genericEngineWorker.ts', import.meta.url), {
-      type: 'module'
-    });
-    worker.onmessage = (event: MessageEvent<WorkerInboundMessage>) => {
-      this.handleWorkerMessage(event.data);
-    };
-    worker.onerror = (event) => {
-      this.failAllPending(new GenericEngineClientError(event.message || '工作线程崩溃', undefined));
-      this.recreateWorker();
-    };
-    this.worker = worker;
-    this.initPromise = this.initializeWorker(worker);
     await this.initPromise;
+    if (this.worker !== worker) throw new GenericEngineClientError('工作线程已终止');
     return worker;
   }
 
@@ -202,12 +207,17 @@ export class GenericEngineClient {
     );
   }
 
-  private recreateWorker(): void {
-    if (this.worker) {
-      this.worker.terminate();
-      this.worker = null;
-    }
+  private discardWorker(error: Error, expectedWorker?: Worker): void {
+    if (expectedWorker && this.worker !== expectedWorker) return;
+    const worker = this.worker;
+    this.worker = null;
     this.initPromise = null;
+    this.failAllPending(error);
+    if (!worker) return;
+    worker.onmessage = null;
+    worker.onerror = null;
+    try { worker.postMessage({ type: 'terminate' }); } catch { /* Broken workers can reject a final message. */ }
+    worker.terminate();
   }
 
   private createRequestId(): string {
@@ -218,9 +228,10 @@ export class GenericEngineClient {
   private async send(
     type: 'compile' | 'run' | 'release',
     payload: { request?: RunRequest | CompileRequest; sessionId?: string; expectedRulesHash?: string },
-    withRunTimeout: boolean
+    withRunTimeout: boolean,
+    readyWorker?: Worker
   ): Promise<TinyGoV2Frame[]> {
-    const worker = await this.ensureWorker();
+    const worker = readyWorker ?? await this.ensureWorker();
     const id = this.createRequestId();
     const message =
       type === 'compile'
@@ -237,18 +248,21 @@ export class GenericEngineClient {
   }
 
   private postAndWait(worker: Worker, message: Record<string, unknown>, withRunTimeout: boolean): Promise<TinyGoV2Frame[]> {
+    if (this.worker !== worker) return Promise.reject(new GenericEngineClientError('工作线程已终止'));
     const id = String(message.id);
     return new Promise<TinyGoV2Frame[]>((resolve, reject) => {
       const pending: PendingRequest = { resolve, reject };
       if (withRunTimeout) {
         pending.timer = setTimeout(() => {
-          this.pending.delete(id);
-          this.recreateWorker();
-          reject(new GenericEngineClientError('运行超时（30 秒）'));
+          this.discardWorker(new GenericEngineClientError('运行超时（30 秒）'), worker);
         }, RUN_TIMEOUT_MS);
       }
       this.pending.set(id, pending);
-      worker.postMessage(message);
+      try {
+        worker.postMessage(message);
+      } catch (error) {
+        this.discardWorker(error instanceof Error ? error : new GenericEngineClientError('工作线程发送失败'), worker);
+      }
     });
   }
 
@@ -257,15 +271,16 @@ export class GenericEngineClient {
       const pending = message.id ? this.pending.get(message.id) : undefined;
       const frames = message.frames ? deserializeFrames(message.frames) : undefined;
       const error = new GenericEngineClientError(message.message, parseEngineError(frames ?? []), frames);
+      if (message.recreate) {
+        this.discardWorker(error);
+        return;
+      }
       if (pending) {
         if (pending.timer) {
           clearTimeout(pending.timer);
         }
         this.pending.delete(message.id!);
         pending.reject(error);
-      }
-      if (message.recreate) {
-        this.recreateWorker();
       }
       return;
     }
@@ -274,17 +289,13 @@ export class GenericEngineClient {
     if (!pending) {
       return;
     }
+    const frames = message.type === 'ready' ? [] : deserializeFrames(message.frames);
     if (pending.timer) {
       clearTimeout(pending.timer);
     }
     this.pending.delete(message.id);
 
-    if (message.type === 'ready') {
-      pending.resolve([]);
-      return;
-    }
-
-    pending.resolve(deserializeFrames(message.frames));
+    pending.resolve(frames);
   }
 
   private failAllPending(error: Error) {

@@ -738,7 +738,9 @@ describe('配置驱动装备通用节点编译', () => {
     const root = rootProvider(assembleTriggeredEquipment(snapshot));
     expect(root.initialStateSchema!.hits).toEqual({ valueType: 'integer', defaultValue: 0, maxValue: 3,
       durationMs: 4000, refreshPolicy: 'refresh_on_write' });
-    expect(root.initialStateSchema!.gate).toMatchObject({ durationMs: 1001, refreshPolicy: 'start_on_first_write' });
+    expect(root.initialStateSchema!.gate).toMatchObject({ stateKind: 'cooldown', defaultValue: 0, maxValue: 1,
+      durationMs: 1001, refreshPolicy: 'start_on_first_write' });
+    expect(root.initialStateSchema!.hits.stateKind).toBeUndefined();
     const operations = root.abilities!.find(row => row.abilityKey === 'on_hit')!.listenerSpec!.operations!;
     for (const operation of operations.filter(row => row.ref === 'hits' || row.ref === 'gate')) {
       expect(operation.types).toEqual([scope === 'TARGET' ? 'state_scope/provider_target' : 'state_scope/provider']);

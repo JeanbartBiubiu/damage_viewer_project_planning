@@ -299,7 +299,7 @@ async function fault(page: Page, mode: 'record' | 'stall' | 'crash' | 'release_f
         }
         if (message.type === 'release' && mode === 'release_fail' && this.hasRun) {
           queueMicrotask(() => this.onmessage?.call(this, new MessageEvent('message', { data: { type: 'releaseResult', id: message.id,
-            frames: [{ kind: 214, schemaVersion: 1, flags: 0, payload: Array.from(new TextEncoder().encode(JSON.stringify({ ok: false, released: false, sessionId: message.sessionId }))) }] } })));
+            frames: [{ kind: 214, schemaVersion: 1, flags: 0, payload: new TextEncoder().encode(JSON.stringify({ ok: false, released: false, sessionId: message.sessionId })).buffer }] } })));
           return;
         }
         super.postMessage(message);
@@ -321,8 +321,8 @@ for (const mode of ['stall', 'crash', 'release_fail'] as const) test(`连续${mo
     await expect(page.getByTestId('continuous-attack-completed-count')).toHaveText('6');
     await expect(page.getByRole('region', { name: '连续普攻结果', exact: true })).toContainText('会话释放失败');
   } else await expect(page.getByRole('region', { name: '连续普攻结果', exact: true })).toContainText('线程已销毁');
-  expect((await diagnostics(page)).created).toBe(2);
-  expect((await diagnostics(page)).terminated).toBe(2);
+  expect((await diagnostics(page)).created).toBe(1);
+  expect((await diagnostics(page)).terminated).toBe(1);
   expect((await diagnostics(page)).messages.filter(row => row === 'release')).toHaveLength(mode === 'release_fail' ? 2 : 1);
   expect(await hasFormulaProof(page, snapshot)).toBe(false);
 });
@@ -347,13 +347,14 @@ test('同步双击互斥、输入冻结、取消重跑及迟到结果守卫', as
   await expect(page.getByLabel('攻速输入上界', { exact: true })).toBeDisabled();
   await expect(page.getByRole('button', { name: '执行一次普攻', exact: true })).toBeDisabled();
   await expect(page.getByRole('button', { name: '编译验证', exact: true })).toBeDisabled();
-  expect((await diagnostics(page)).created).toBe(2);
+  expect((await diagnostics(page)).created).toBe(1);
   await page.getByRole('button', { name: '取消当前请求', exact: true }).click();
   await page.getByLabel('观察时长（毫秒）', { exact: true }).fill('999'); await runButton(page).click();
   await expect(page.getByTestId('continuous-attack-completed-count')).toHaveText('1');
   await page.evaluate(() => (window as unknown as { resumeContinuous: () => void }).resumeContinuous());
   await expect(page.getByTestId('continuous-attack-completed-count')).toHaveText('1');
-  expect((await diagnostics(page)).created).toBe(4);
+  expect((await diagnostics(page)).created).toBe(2);
+  expect((await diagnostics(page)).terminated).toBe(1);
   expect((await diagnostics(page)).messages.filter(row => row === 'release')).toHaveLength(3);
 });
 
@@ -363,11 +364,11 @@ test('连续运行拒绝离开保留任务，确认离开销毁工作线程', as
   await expect.poll(() => page.evaluate(() => typeof (window as unknown as { resumeContinuous: () => void }).resumeContinuous)).toBe('function');
   page.once('dialog', dialog => dialog.dismiss());
   await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
-  expect((await diagnostics(page)).terminated).toBe(1);
+  expect((await diagnostics(page)).terminated).toBe(0);
   page.once('dialog', dialog => dialog.accept());
   await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
   await expect(page).toHaveURL(/#\/attributes$/);
-  await expect.poll(async () => (await diagnostics(page)).terminated).toBe(2);
+  await expect.poll(async () => (await diagnostics(page)).terminated).toBe(1);
   await page.evaluate(() => (window as unknown as { resumeContinuous: () => void }).resumeContinuous());
   await expect(page.getByRole('region', { name: '连续普攻结果', exact: true })).toHaveCount(0);
 });
@@ -379,10 +380,10 @@ test('连接变更确认后旧连续任务与输入失效，迟到结果不能�
   await page.locator('.app-toolbar-field--api input').fill('http://127.0.0.1:19199');
   page.once('dialog', dialog => dialog.dismiss());
   await page.getByRole('button', { name: '应用', exact: true }).click();
-  expect((await diagnostics(page)).terminated).toBe(1);
+  expect((await diagnostics(page)).terminated).toBe(0);
   page.once('dialog', dialog => dialog.accept());
   await page.getByRole('button', { name: '应用', exact: true }).click();
-  await expect.poll(async () => (await diagnostics(page)).terminated).toBe(2);
+  await expect.poll(async () => (await diagnostics(page)).terminated).toBe(1);
   await page.evaluate(() => (window as unknown as { resumeContinuous: () => void }).resumeContinuous());
   await expect(page.getByRole('region', { name: '连续普攻结果', exact: true })).toHaveCount(0);
   await expect(page.getByLabel('攻速输入上界', { exact: true })).toHaveCount(0);

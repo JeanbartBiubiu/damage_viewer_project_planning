@@ -271,14 +271,14 @@ test('零生命仅拒绝阶段1运行，保留输入且现有编译验证仍可�
   await expect(page.getByText('仅编译验证通过，不代表单次/连续计算通过。', { exact: true })).toBeVisible();
 });
 
-type WorkerMode = 'record' | 'stall' | 'crash' | 'run_error' | 'release_fail' | 'missing_warnings' | 'truncated' | 'budget';
-type WorkerDiagnostics = { created: number; terminated: number; messages: string[] };
+type WorkerMode = 'record' | 'stall' | 'crash' | 'run_error' | 'release_fail' | 'release_fail_once' | 'missing_warnings' | 'truncated' | 'budget';
+type WorkerDiagnostics = { created: number; terminated: number; messages: string[]; sessions: string[]; releasedSessions: string[] };
 
 /** 错误注入只用于页面收尾验证；初始化与编译仍由真正Worker/Wasm完成。 */
 async function instrumentWorker(page: Page, mode: WorkerMode) {
   await page.evaluate(mode => {
     const NativeWorker = window.Worker;
-    const state = { created: 0, terminated: 0, messages: [] as string[] };
+    const state = { created: 0, terminated: 0, messages: [] as string[], sessions: [] as string[], releasedSessions: [] as string[], releaseFaults: 0 };
     (window as unknown as { singleAttackWorkers: WorkerDiagnostics }).singleAttackWorkers = state;
     window.Worker = class extends NativeWorker {
       private hasRun = false;
@@ -286,6 +286,13 @@ async function instrumentWorker(page: Page, mode: WorkerMode) {
         super(url, options);
         state.created += 1;
         this.addEventListener('message', event => {
+          if (event.data.type === 'compileResult') {
+            const resultFrame = event.data.frames.find((row: { kind: number }) => row.kind === 210);
+            if (resultFrame) {
+              const result = JSON.parse(new TextDecoder().decode(new Uint8Array(resultFrame.payload)));
+              if (result.ok && result.sessionId) state.sessions.push(result.sessionId);
+            }
+          }
           if (event.data.type !== 'runResult') return;
           const frame = event.data.frames.find((row: { kind: number }) => row.kind === 211);
           if (!frame || !['missing_warnings', 'truncated', 'budget'].includes(mode)) return;
@@ -293,11 +300,12 @@ async function instrumentWorker(page: Page, mode: WorkerMode) {
           if (mode === 'missing_warnings') delete done.warnings;
           if (mode === 'truncated') { done.summary.evidenceTruncated = true; done.evidence.truncated = true; }
           if (mode === 'budget') done.summary.stopReason = 'budget_exceeded';
-          frame.payload = Array.from(new TextEncoder().encode(JSON.stringify(done)));
+          frame.payload = new TextEncoder().encode(JSON.stringify(done)).buffer;
         });
       }
       postMessage(message: { type: string; id?: string; sessionId?: string }) {
         state.messages.push(message.type);
+        if (message.type === 'release' && message.sessionId) state.releasedSessions.push(message.sessionId);
         if (message.type === 'run') this.hasRun = true;
         if (message.type === 'run' && ['stall', 'crash', 'run_error'].includes(mode)) {
           if (mode === 'crash') queueMicrotask(() => this.onerror?.call(this, new ErrorEvent('error', { message: '专项线程崩溃' })));
@@ -306,10 +314,12 @@ async function instrumentWorker(page: Page, mode: WorkerMode) {
           })));
           return;
         }
-        if (message.type === 'release' && mode === 'release_fail' && this.hasRun) {
+        if (message.type === 'release' && ['release_fail', 'release_fail_once'].includes(mode) && this.hasRun
+          && (mode === 'release_fail' || state.releaseFaults === 0)) {
+          state.releaseFaults++;
           queueMicrotask(() => this.onmessage?.call(this, new MessageEvent('message', { data: {
             type: 'releaseResult', id: message.id, frames: [{ schemaVersion: 1, kind: 214, flags: 0,
-              payload: Array.from(new TextEncoder().encode(JSON.stringify({ ok: false, released: false, sessionId: message.sessionId }))) }]
+              payload: new TextEncoder().encode(JSON.stringify({ ok: false, released: false, sessionId: message.sessionId })).buffer }]
           } })));
           return;
         }
@@ -352,8 +362,8 @@ for (const mode of ['crash', 'stall', 'run_error', 'release_fail', 'missing_warn
       await expect(page.getByTestId('single-attack-damage-dealt')).toHaveCount(0);
     }
     const state = await workerDiagnostics(page);
-    expect(state.created).toBe(2); // 真实预检和正式运行各一线程。
-    expect(state.terminated).toBe(2);
+    expect(state.created).toBe(1); // 真实预检和正式运行借用同一线程，各自重新编译释放。
+    expect(state.terminated).toBe(['crash', 'stall', 'release_fail'].includes(mode) ? 1 : 0);
     expect(state.messages.filter(item => item === 'run')).toHaveLength(1);
     expect(state.messages.filter(item => item === 'release')).toHaveLength(['crash', 'stall'].includes(mode) ? 1 : 2);
     expect(await formulaProofState(page, snapshot)).toMatchObject({ active: false, value: null, declarations: 0 });
@@ -383,7 +393,7 @@ test('取消后可重跑，重复点击只有一项运行，旧结果迟到不�
   await holdFirstRunResponse(page);
   await page.getByRole('button', { name: '执行一次普攻', exact: true }).evaluate((node: HTMLButtonElement) => { node.click(); node.click(); });
   await expect.poll(() => page.evaluate(() => typeof (window as unknown as { resumeOldRun: () => void }).resumeOldRun)).toBe('function');
-  expect((await workerDiagnostics(page)).created).toBe(2);
+  expect((await workerDiagnostics(page)).created).toBe(1);
   const originalProof = await formulaProofState(page, snapshot);
   expect(originalProof.active).toBe(true);
   expect(originalProof.value).not.toBeNull();
@@ -400,8 +410,8 @@ test('取消后可重跑，重复点击只有一项运行，旧结果迟到不�
   await expect(page.getByText('单次普攻运行通过，不代表连续攻击通过。', { exact: true })).toBeVisible();
   expect(await formulaProofState(page, snapshot)).toMatchObject({ active: true, value: originalProof.value });
   const state = await workerDiagnostics(page);
-  expect(state.created).toBe(4);
-  expect(state.terminated).toBe(4);
+  expect(state.created).toBe(2);
+  expect(state.terminated).toBe(1);
   expect(state.messages.filter(item => item === 'run')).toHaveLength(2);
   expect(state.messages.filter(item => item === 'release')).toHaveLength(3);
 });
@@ -415,15 +425,95 @@ test('运行中拒绝离开保留任务，确认切模式后终止线程且旧�
   page.once('dialog', dialog => dialog.dismiss());
   await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
   await expect(page).toHaveURL(/#\/simulation\/basic-attack$/);
-  expect((await workerDiagnostics(page)).terminated).toBe(1);
+  expect((await workerDiagnostics(page)).terminated).toBe(0);
   page.once('dialog', dialog => dialog.accept());
   await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
   await expect(page).toHaveURL(/#\/attributes$/);
-  await expect.poll(async () => (await workerDiagnostics(page)).terminated).toBe(2);
+  await expect.poll(async () => (await workerDiagnostics(page)).terminated).toBe(1);
   await page.evaluate(() => (window as unknown as { resumeOldRun: () => void }).resumeOldRun());
   await expect(page.getByRole('region', { name: '单次普攻结果', exact: true })).toHaveCount(0);
   expect((await workerDiagnostics(page)).messages.filter(item => item === 'release')).toHaveLength(1);
   expect(await formulaProofState(page, snapshot)).toMatchObject({ active: false, declarations: 0 });
+});
+
+test('正常跨任务只保留一个工作线程，每轮重新编译释放，空闲离开仍销毁', async ({ page }) => {
+  await preparePage(page, sampleWithStaticProof());
+  await instrumentWorker(page, 'record');
+  const run = page.getByRole('button', { name: '执行一次普攻', exact: true });
+  for (let iteration = 0; iteration < 2; iteration++) {
+    await run.click();
+    await expect(page.getByText('单次普攻运行通过，不代表连续攻击通过。', { exact: true })).toBeVisible();
+    await expect(run).toBeEnabled();
+    await expect(page.getByTestId('single-attack-target-final-hp')).toHaveText('540');
+  }
+  const state = await workerDiagnostics(page);
+  expect(state.created).toBe(1);
+  expect(state.terminated).toBe(0);
+  expect(state.messages.filter(item => item === 'init')).toHaveLength(1);
+  expect(state.messages.filter(item => item === 'compile')).toHaveLength(4);
+  expect(state.messages.filter(item => item === 'run')).toHaveLength(2);
+  expect(state.messages.filter(item => item === 'release')).toHaveLength(4);
+  expect(state.sessions).toHaveLength(4);
+  expect(new Set(state.sessions).size).toBe(4);
+  expect(state.releasedSessions).toEqual(state.sessions);
+  await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
+  await expect(page).toHaveURL(/#\/attributes$/);
+  await expect.poll(async () => (await workerDiagnostics(page)).terminated).toBe(1);
+});
+
+test('连接身份变化清理已完成任务留下的空闲工作线程', async ({ page }) => {
+  const snapshot = await preparePage(page, sampleWithStaticProof());
+  await instrumentWorker(page, 'record');
+  await page.getByRole('button', { name: '执行一次普攻', exact: true }).click();
+  await expect(page.getByText('单次普攻运行通过，不代表连续攻击通过。', { exact: true })).toBeVisible();
+  expect((await workerDiagnostics(page)).terminated).toBe(0);
+  await page.locator('.app-toolbar-field--api input').fill('http://127.0.0.1:19199');
+  await page.getByRole('button', { name: '应用', exact: true }).click();
+  await expect.poll(async () => (await workerDiagnostics(page)).terminated).toBe(1);
+  expect(await formulaProofState(page, snapshot)).toMatchObject({ active: false, declarations: 0 });
+});
+
+test('释放失败废弃旧计算线程，下一项任务重新建线程并正常完成', async ({ page }, info) => {
+  await preparePage(page, sampleWithStaticProof());
+  await instrumentWorker(page, 'release_fail_once');
+  const run = page.getByRole('button', { name: '执行一次普攻', exact: true });
+  await run.click();
+  await expect(run).toBeEnabled();
+  await expect(page.getByRole('region', { name: '单次普攻结果', exact: true })).toContainText('会话释放失败');
+  expect(await workerDiagnostics(page)).toMatchObject({ created: 1, terminated: 1 });
+  await run.click();
+  await expect(page.getByText('单次普攻运行通过，不代表连续攻击通过。', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('single-attack-target-final-hp')).toHaveText('540');
+  const state = await workerDiagnostics(page);
+  expect(state).toMatchObject({ created: 2, terminated: 1 });
+  expect(state.messages.filter(item => item === 'release')).toHaveLength(4);
+  await info.attach('释放失败后新实例恢复.json', { body: JSON.stringify(state), contentType: 'application/json' });
+});
+
+test('桥接异常陷阱废弃实例，下一项任务可重新编译运行释放', async ({ page }, info) => {
+  await preparePage(page, sampleWithStaticProof());
+  await instrumentWorker(page, 'record');
+  let inject = true;
+  await page.route('**/src/workers/genericEngineWorker.ts*', async route => {
+    const response = await route.fetch();
+    if (!inject) { await route.fulfill({ response }); return; }
+    inject = false;
+    const fault = '\nTinyGoV2Bridge.prototype.run = function() { throw new WebAssembly.RuntimeError("专项Wasm异常陷阱"); };\n';
+    await route.fulfill({ response, body: await response.text() + fault });
+  });
+  const run = page.getByRole('button', { name: '执行一次普攻', exact: true });
+  await run.click();
+  await expect(run).toBeEnabled();
+  await expect(page.getByText(/专项Wasm异常陷阱/).first()).toBeVisible();
+  await expect(page.getByRole('region', { name: '单次普攻结果', exact: true })).toContainText('线程已销毁');
+  expect(await workerDiagnostics(page)).toMatchObject({ created: 1, terminated: 1 });
+  await run.click();
+  await expect(page.getByText('单次普攻运行通过，不代表连续攻击通过。', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('single-attack-target-final-hp')).toHaveText('540');
+  const state = await workerDiagnostics(page);
+  expect(state).toMatchObject({ created: 2, terminated: 1 });
+  expect(state.messages.filter(item => item === 'release')).toHaveLength(3);
+  await info.attach('桥接陷阱后新实例恢复.json', { body: JSON.stringify(state), contentType: 'application/json' });
 });
 
 test('最终原生编译失败清除成功预检缓存，保留输入并在重试时重新核定', async ({ page }, info) => {

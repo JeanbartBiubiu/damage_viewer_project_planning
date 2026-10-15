@@ -54,7 +54,6 @@ export async function preflightSkillFormulas(snapshot: SimulationSnapshot, clien
     return { compileCount: 1, released: true, formulaCount: request.formulas.length };
   } finally {
     if (!confirmed && identity !== undefined) clearFormulaProofScope(identity, revision);
-    if (sessionId && client.hasLiveWorker) { try { await client.release(sessionId, request?.rulesHash); } finally { client.terminate(); } }
-    else client.terminate();
+    if (sessionId && client.hasLiveWorker) await client.release(sessionId, request?.rulesHash);
   }
 }
