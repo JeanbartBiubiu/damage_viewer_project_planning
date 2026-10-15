@@ -54,7 +54,7 @@ func TestGenericInternalCooldownHasOnlyLedgerDeadlineWithoutBackgroundAttack(t *
 			owner := state.combatants["source"]
 			id := genericStateCooldownIdentity("source", sdcProviderRef, key, scope, target)
 			if owner.cooldowns.readyAt(id) != 6000 || !owner.cooldowns.isReady(id, state.nowMs) {
-				t.Fatal("START renewed an active cooldown or its expiry did not execute", owner.cooldowns.entries[id], state.nowMs)
+				t.Fatal("START renewed an active cooldown or its expiry did not execute", owner.cooldowns.entryValue(id), state.nowMs)
 			}
 			bag := owner.providerState[sdcProviderRef]
 			if _, exists := bag.expireAt[key]; exists {
@@ -80,7 +80,7 @@ func TestGenericInternalCooldownAllowsReductionListenerInsideCooldown(t *testing
 	state := internalCooldownRunState(t, input, request)
 	id := genericStateCooldownIdentity("source", sdcProviderRef, sdcTimedKey, stateScopeProvider, "")
 	if state.combatants["source"].cooldowns.readyAt(id) != 4000 || !state.combatants["source"].cooldowns.isReady(id, 4000) {
-		t.Fatal("CD gating swallowed its legal reduction listener", state.combatants["source"].cooldowns.entries[id])
+		t.Fatal("CD gating swallowed its legal reduction listener", state.combatants["source"].cooldowns.entryValue(id))
 	}
 }
 
@@ -151,13 +151,13 @@ func TestInternalCooldownFrozenFormulaViewDoesNotFollowReset(t *testing.T) {
 	ledger.start(id, 1000, 0)
 	fields := map[string]providerStateFieldDef{"cd": {stateKind: model.ProviderStateKindCooldown, defaultValue: 0, maxValue: 1, hasCap: true, durationMs: 1000, refreshPolicy: model.ProviderStateRefreshStartOnFirstWrite}}
 	bags := map[string]*providerStateBag{}
-	first := readProviderStateBag(bags, "mounted", true, fields, 100, providerStateReadOptions{cooldowns: ledger, ownerKey: "source"})
+	first := readProviderStateBag(bags, "mounted", true, newProviderStateFieldMetadata(fields), 100, providerStateReadOptions{cooldowns: ledger, ownerKey: "source"})
 	frozenValues := first.state
 	bags = freezeProviderStateView(bags)
 	shared := true
 	changed := ledger.clone()
 	changed.reset(id, 100)
-	second := readSharedProviderStateBag(&bags, &shared, "mounted", true, fields, 100, providerStateReadOptions{cooldowns: changed, ownerKey: "source"})
+	second := readSharedProviderStateBag(&bags, &shared, "mounted", true, newProviderStateFieldMetadata(fields), 100, providerStateReadOptions{cooldowns: changed, ownerKey: "source"})
 	if frozenValues["cd"] != 1 || second.state["cd"] != 0 || first.state["cd"] != 1 {
 		t.Fatal("frozen provider state followed a later CD reset")
 	}
@@ -165,11 +165,11 @@ func TestInternalCooldownFrozenFormulaViewDoesNotFollowReset(t *testing.T) {
 
 func TestInternalCooldownDoesNotGuessOrdinaryTTLFromName(t *testing.T) {
 	bag := &providerStateBag{}
-	bag.bindFieldDefs(map[string]providerStateFieldDef{
+	bag.bindFieldDefs(newProviderStateFieldMetadata(map[string]providerStateFieldDef{
 		"cooldown": {defaultValue: 0, maxValue: 1, hasCap: true, durationMs: 1000, refreshPolicy: model.ProviderStateRefreshOnWrite},
 		"marked":   {stateKind: model.ProviderStateKindCooldown, defaultValue: 0, maxValue: 1, hasCap: true, durationMs: 1000, refreshPolicy: model.ProviderStateRefreshStartOnFirstWrite},
 		"ammo":     {stateKind: model.ProviderStateKindAmmo, defaultValue: 5, maxValue: 5, hasCap: true},
-	})
+	}))
 	bag.writableState()["cooldown"] = 1
 	if !bag.refreshExpireAtOnWrite("cooldown", 100) || bag.expireAt["cooldown"] != 1100 || bag.refreshExpireAtOnWrite("marked", 100) {
 		t.Fatal("unmarked ordinary TTL or marked CD used the wrong writer")

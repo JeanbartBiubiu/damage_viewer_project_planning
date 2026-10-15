@@ -18,7 +18,7 @@ func TestCommonCooldownLedgerMultipleWaitersReplanAndClone(t *testing.T) {
 	ledger.set(id, 600, 400)
 	for _, key := range []genericCooldownWaitKey{attackKey, autoKey} {
 		wait, exists := ledger.wait(key)
-		if !exists || wait.readyAt != 600 || ledger.waitCurrent(key, 1000, frozen.waits[key].version) {
+		if !exists || wait.readyAt != 600 || ledger.waitCurrent(key, 1000, frozen.waitValue(key).version) {
 			t.Fatal("shortened CD did not replan every waiter", key, wait)
 		}
 	}
@@ -27,11 +27,11 @@ func TestCommonCooldownLedgerMultipleWaitersReplanAndClone(t *testing.T) {
 	}
 	before := ledger.clone()
 	ledger.set(id, 2000, 400)
-	if len(ledger.changedKeys(before)) != 1 || len(ledger.changedWaits(before)) != 2 || ledger.waits[autoKey].readyAt != 2000 {
+	if len(ledger.changedKeys(before)) != 1 || len(ledger.changedWaits(before)) != 2 || ledger.waitValue(autoKey).readyAt != 2000 {
 		t.Fatal("extended CD did not publish the actual common deadline")
 	}
 	ledger.reset(id, 500)
-	if !ledger.isReady(id, 500) || ledger.remaining(id, 500) != 0 || ledger.waits[attackKey].readyAt != 500 || ledger.waits[autoKey].readyAt != 500 {
+	if !ledger.isReady(id, 500) || ledger.remaining(id, 500) != 0 || ledger.waitValue(attackKey).readyAt != 500 || ledger.waitValue(autoKey).readyAt != 500 {
 		t.Fatal("RESET did not make all waiters ready")
 	}
 }
@@ -88,13 +88,13 @@ func TestCommonCooldownCompositeWaitUsesActualDeadlines(t *testing.T) {
 		t.Fatal(wait)
 	}
 	ledger.reset(two, 100)
-	if ledger.waits[key].readyAt != 500 {
-		t.Fatal(ledger.waits[key])
+	if ledger.waitValue(key).readyAt != 500 {
+		t.Fatal(ledger.waitValue(key))
 	}
 	wait = ledger.registerWait(key, []genericCooldownIdentity{one}, 700, 100)
 	ledger.reset(one, 200)
-	if ledger.waits[key].readyAt != 700 {
-		t.Fatal("action allowance was overwritten by a CD reset", ledger.waits[key])
+	if ledger.waitValue(key).readyAt != 700 {
+		t.Fatal("action allowance was overwritten by a CD reset", ledger.waitValue(key))
 	}
 	ledger.cancelWait(key)
 	if ledger.waitCurrent(key, 700, wait.version) {

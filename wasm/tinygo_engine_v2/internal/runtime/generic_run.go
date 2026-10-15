@@ -66,7 +66,7 @@ type damageRecord struct {
 type genericRunState struct {
 	abilityTypeKeyCache        map[typeset.TypeSet][]string
 	attributeMemos             [2][3]*attributeMemo
-	providerDefinitionFields   []map[string]providerStateFieldDef
+	providerDefinitionFields   []*providerStateFieldMetadata
 	skillAction                *skillActionRuntime
 	automaticSkills            *automaticSkillRuntime
 	skillActions               []skillActionRuntime

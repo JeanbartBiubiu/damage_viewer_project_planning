@@ -16,6 +16,39 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 上一批全量Go测试通过，重新构建的 `target/unused-residue-cleanup/tinygo_engine_v2.wasm` 与当时Web源产物的字节完全相等：1,385,770字节，SHA256 `0967cb717dfa16c64f7b3e397400b73a7f7fdcc15a86ee59850fbaf784e297a2`。
 
+## 2026-10-15单次性能专项收尾
+
+本轮收尾后暂停单次纯计算1毫秒专项，转回功能开发。性能工作等双属性网格功能时重启，目标为真实100×100个不同点在30秒内完成；优先只返回击杀时长的结果、批量协议、计划与运行内存复用，以及减少每个点各做一次整堆回收。本轮256MiB、每次出箱清理后的GC、公开协议与计算语义保持。
+
+采用冷却账本稳定槽和内部冷却字段标记缓存。16槽以内线性查找，超过后用普通字符串索引找到该挂载的整数候选槽，仍比较完整身份；原排序、版本墓碑及输出零值保留。真实长战斗256次动态挂载留下512个冷却槽和256个等待槽，旧实现计数相同，不能声称总条目有界。该用例每个挂载的候选桶最多2项、等待桶最多1项，常规帧差异比较沿稳定槽一次扫描。
+
+本机Windows、Intel Core Ultra 5 245K、Node20.11、Chromium；每块预热10次、250次计时，按A/B/A、B/A/B、A/B/A三轮，控制1250／候选1000个样本。分配另以20次真实Wasm统计，窗口为包含解析与编码的`engine_run`，排除输入分配及出口清理。
+
+| 单项对照 | 场景 | 事件循环均值(ms) | 纯计算均值(ms) | 每次engine_run分配调用 |
+| --- | --- | ---: | ---: | ---: |
+| 冷却账本 | 无装备汇总 | 1.276→0.917 | 1.402→1.040 | 22843.4→18577.1 |
+| 冷却账本 | 装备汇总 | 10.443→9.308 | 10.734→9.590 | 156564.8→143264.0 |
+| 字段标记缓存 | 无装备汇总 | 0.898→0.890 | 1.017→1.013 | 18577.1→18578.4 |
+| 字段标记缓存 | 装备汇总 | 9.318→8.877 | 9.601→9.161 | 143264.0→143272.0 |
+
+缓存在无装备场景没有明显收益；装备首次P99曾10.5→10.8ms，追加各1500样本复核均值9.607→9.088ms、P99 11.0→10.1ms，支持采用。缓存增加少量定义元数据分配，收益来自省掉热路径遍历，不能称为进一步降低分配。
+
+当前正式Wasm为2,408,577字节，SHA256 `ea6b63e6494efd0b5868e679e7a751beaed35f3e6363ff6b018c22e9e68ba75c`，生产输入摘要`126bd40374dd0ed5c372e8371e81b416e363abe0d098de0a3d460a3d741c4eee`，由`build-wasm.ps1`构建。下文各日期的既有产物与耗时保留为对应历史。
+
+### 剖析与分配复现入口
+
+在本模块目录运行；将`input-1.json`换成`input-0.json`即为无装备场景。正式采样报告的往返包含宿主和GC，不能当纯计算。
+
+```powershell
+node --cpu-prof --cpu-prof-interval=100 --cpu-prof-dir=target --cpu-prof-name=gear.cpuprofile scripts/profile-run-node.mjs --wasm dist/tinygo_engine_v2.wasm --input C:/project/damage_web_dev/web/output/kill-latency-2026-10-11/input-1.json --mode summary --warmup 10 --iterations 200 --output target/gear-run.json
+node scripts/profile-run-node.mjs --profile target/gear.cpuprofile --output target/gear-cpu.json
+node scripts/allocation-run-node.mjs --wasm target/perf-next-2026-10-14/closeout-metadata/allocation.wasm --input C:/project/damage_web_dev/web/output/kill-latency-2026-10-11/input-1.json --mode summary --warmup 5 --iterations 20 --output target/gear-allocation.json
+```
+
+CPU报告仅筛选实际栈中含`runLoop`的样本，按叶函数汇总自身耗时。本机正式优化基线71050样本命中0，没有保留可命中的`runLoop`，明确无法归因；不能改用`RunGeneric`或全部Wasm样本冒充循环样本。本轮采用依据是浏览器阶段计时与真实Wasm分配对照。
+
+分配入口需要独立诊断产物的`engine_memory_read`与`engine_profile_memory`；正式产物没有诊断导出。沿用`target/perf-next-2026-10-14/`本地诊断工具，`prepare-stage.mjs`冻结源、`configure-closeout.mjs`接入当前输出编码锚点、`build-closeout.mjs`按正式参数构建正式／时标／分配三份Wasm，使用独立`closeout-...`阶段名，拒绝覆盖既有档案。分配副本在`RunGeneric`前后及宿主指定窗口读取TinyGo内存统计，`ReadMemStats`会扫描元数据，不作计时或单独证明存活内存。当前基线、账本及缓存档案为`closeout-base/`、`closeout-ledger-final/`、`closeout-metadata/`；新检出若没有本地档案，先恢复诊断工具及冻结输入，不能将缺失导出当零分配。完整证据与提交边界见[专项收尾验收](C:/project/damage_viewer_project_planning/outputs/wasm-performance-plan-2026-10-14/单次性能专项收尾验收-2026-10-15.md)。
+
 ## 2026-10-15顺序实验与输出内存修复
 
 当前工作区产物 `target/perf-next-2026-10-14/outbox-stream/formal.wasm` 为2,404,042字节，SHA256 `3b1d8b5d6dd4f19ed20ea1ba252326b2f01b3fc430f0c2d726098dd3634647c0`；模块dist、Web源、身份字段与生产构建一致。成功结果先选择原有输出结构，再交给原编码器，减少一份完整JSON中间副本；自动与手动输出、汇总与详细记录的原始帧字节保持。
@@ -64,7 +97,7 @@ ReleaseSessionRequest -> engine_release_session -> release_result
 
 最终全量Go、原生通用基准、Node协议和装备输出模式20轮通过，同会话Node详细/汇总交替1000次通过；实际浏览器两组各同一Worker详细/汇总交替200轮，共800次。完整JSON与最初逐字节相同，汇总数值、最终快照、警告、证据计数及预算保持；零预算、非法输入后恢复、时长变化后恢复、释放重编通过。Web类型检查与生产构建通过，正式产物与Web源、生产包和实际Worker身份一致。最终证据在Web工作树 `web/output/kill-single-context-2026-10-12/单次计算优化复测.md`，前六项检查点和历史报告保留。
 
-当前继续以单次纯击杀计算1毫秒以内为优化目标，日志和展示分开计时。两个属性各100点、1万个击杀时长在30秒内完成的需求，以及批量变量、时长专用结果和线程池方向，单独记录在 [后续网格优化](后续网格优化.md)，留待后续实施。原吞吐和回收实验报告在Web工作树 `web/output/kill-grid-2026-10-12/性能与网格方向评估.md`；前序报告 `web/output/kill-continuous-2026-10-12/性能复测.md` 保留。
+单次纯击杀计算1毫秒专项已在2026-10-15收尾后暂停，回到功能开发；日志和展示继续分开计时。性能工作等网格功能时重启，以两个属性各100点、1万个不同点在30秒内完成为目标，优先时长专用结果、批量协议及减少每点整堆回收，详见[后续网格优化](后续网格优化.md)。原吞吐和回收实验报告在Web工作树 `web/output/kill-grid-2026-10-12/性能与网格方向评估.md`；前序报告 `web/output/kill-continuous-2026-10-12/性能复测.md` 保留。
 
 上一版状态按需准备历史产物 `target/lazy-state-headers/tinygo_engine_v2.wasm` 为1,459,544字节，SHA256 `7cf7c7ecaf5bc6296da53bbc85a3e298f1e6ecd61d4b74fbe61cdc7a5145f762`；装备纯计算17.412毫秒、完整往返67.949毫秒，证据保留在 `web/output/kill-state-lazy-2026-10-12/`。
 

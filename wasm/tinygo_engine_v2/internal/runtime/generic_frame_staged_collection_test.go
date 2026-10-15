@@ -31,7 +31,7 @@ func TestFrameStagedCollectionNilEmptyAndReplacement(t *testing.T) {
 	if staged.Get("source") != replacement || staged.Get("") != first || staged.Len() != 2 || staged.extra != nil {
 		t.Fatal("replacing an inline entry changed its identity or count")
 	}
-	if value, exists := staged.Get("").cooldowns.entries[genericAbilityCooldownIdentity("", "zero")]; !exists || value.readyAt != 0 {
+	if value, exists := staged.Get("").cooldowns.entry(genericAbilityCooldownIdentity("", "zero")); !exists || value.readyAt != 0 {
 		t.Fatal("explicit zero cooldown was lost")
 	}
 	staged.Set("extra", first)
@@ -117,10 +117,10 @@ func TestFrameStagedCollectionWaitingShareAndReinitializedFrameStayIndependent(t
 	if err := frame.applyCooldownChange("target", "zero", 100); err != nil {
 		t.Fatal(err)
 	}
-	if value, exists := target.cooldowns.entries[genericAbilityCooldownIdentity("target", "zero")]; !exists || value.readyAt != 0 || oldCollection.Len() != 3 || context.staged != oldCollection {
+	if value, exists := target.cooldowns.entry(genericAbilityCooldownIdentity("target", "zero")); !exists || value.readyAt != 0 || oldCollection.Len() != 3 || context.staged != oldCollection {
 		t.Fatal("fresh frame changed an earlier waiting collection or explicit zero")
 	}
-	if _, exists := state.combatants["target"].cooldowns.entries[genericAbilityCooldownIdentity("target", "zero")]; exists {
+	if _, exists := state.combatants["target"].cooldowns.entry(genericAbilityCooldownIdentity("target", "zero")); exists {
 		t.Fatal("collection writes published before commit")
 	}
 }

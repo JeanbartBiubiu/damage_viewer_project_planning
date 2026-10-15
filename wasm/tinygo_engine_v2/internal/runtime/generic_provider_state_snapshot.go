@@ -42,7 +42,7 @@ func (s *genericRunState) validateRawProviderState(raw map[string]interface{}, a
 	}
 	for ref, rawBag := range raw {
 		at := path + "[" + ref + "]"
-		fields := s.resolveProviderStateFieldDefs(actor.key, ref, actor.providers)
+		fields := s.resolveProviderStateFieldDefs(actor.key, ref, actor.providers).definitions()
 		mounted := false
 		for _, provider := range actor.providers {
 			if provider.ProviderRef == ref {

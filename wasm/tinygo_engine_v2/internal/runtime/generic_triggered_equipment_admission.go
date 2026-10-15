@@ -29,7 +29,7 @@ func (s *genericRunState) validateEquipmentHitListener(listener planbundle.Compi
 			continue
 		}
 		if operation.Operation == "state_change" && (operation.StateScope == stateScopeProvider || operation.StateScope == stateScopeProviderTarget) && (operation.Target == "self" || operation.Target == "source") && operation.HasAmount {
-			fields := s.resolveProviderStateFieldDefs(listener.OwnerCombatantKey, listener.OwnerProviderRef, s.combatants[listener.OwnerCombatantKey].providers)
+			fields := s.resolveProviderStateFieldDefs(listener.OwnerCombatantKey, listener.OwnerProviderRef, s.combatants[listener.OwnerCombatantKey].providers).definitions()
 			if _, declared := fields[operation.Ref]; !declared {
 				return s.basicAttackErr("source state operation requires its complete declared field", operation.Path)
 			}

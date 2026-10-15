@@ -557,7 +557,7 @@ func (f *executionFrame) providerStateBagForRead(combatantKey, providerRef strin
 		f.resolveProviderStateFieldDefs(combatantKey, providerRef), f.run.nowMs, options)
 }
 
-func (f *executionFrame) resolveProviderStateFieldDefs(combatantKey, providerRef string) map[string]providerStateFieldDef {
+func (f *executionFrame) resolveProviderStateFieldDefs(combatantKey, providerRef string) *providerStateFieldMetadata {
 	if f.run == nil {
 		return nil
 	}
