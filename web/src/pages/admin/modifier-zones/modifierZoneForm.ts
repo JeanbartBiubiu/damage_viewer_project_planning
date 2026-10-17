@@ -1,4 +1,5 @@
 import { ApiRequestError } from '../../../services/apiClient';
+import { MODIFIER_ZONE_CALCULATION_MODE_LABELS } from '../../../types/skillSystemEnums.generated';
 import {
   allowedModifierZoneApplicationStages,
   allowedModifierZoneCalculationModes,
@@ -27,12 +28,7 @@ export const DOMAIN_LABELS: Record<ModifierZoneDomain, string> = {
   SHIELD: '护盾'
 };
 
-export const CALCULATION_MODE_LABELS: Record<ModifierZoneCalculationMode, string> = {
-  FLAT_ADD: '固定值加算',
-  RATIO_ADD: '比例加算',
-  RATIO_MULTIPLY: '比例乘算',
-  RATIO_MAX: '比例减少取强'
-};
+export const CALCULATION_MODE_LABELS: Record<ModifierZoneCalculationMode, string> = MODIFIER_ZONE_CALCULATION_MODE_LABELS;
 
 export const APPLICATION_STAGE_LABELS: Record<ModifierZoneApplicationStage, string> = {
   ATTRIBUTE_FLAT: '属性固定值',

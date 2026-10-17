@@ -20,9 +20,11 @@
 
 新页面专项也纳入上述配置，`simulation-automatic-results.spec.ts`通过实际控件配置和运行，仅隔离HTTP，使用正式Worker；可用目录中的通过项是明确独立构造的测试资料，不能作为真实英雄完成证据。真实服务专项单独执行`node node_modules/@playwright/test/cli.js test --config tests/fixtures/liveCombatAnalysis.config.ts --output output/combat-analysis/availability-gate/playwright --reporter=line`，显式设置`SIMULATION_LIVE_API=1`、`SIMULATION_API_BASE`及`SIMULATION_EXPECTED_WASM_SHA256`，复用运行中的前端服务（地址可由`SIMULATION_WEB_BASE`指定）。
 
-安装正式证明后，再设置`SIMULATION_EXPECTED_VERIFICATION_FILE`指向后端已安装的`simulation-verification/lol/combat-analysis.json`源资源文件；相对路径按`web/`解析。专项读取文件并保存其SHA256，核对正式Wasm实际字节与身份、适配器、游戏、场景、范围及共享摘要，再精确比较文件中`PASSED`装备集合与真实目录`READY`集合，以及逐对象配置摘要、外部依赖、完整覆盖、匹配状态和证据引用。未设置该变量时仍按无证明基线执行，要求真实英雄与装备均无`READY`，不会自动接受服务中新出现的通过项。测试不安装、生成或替换证明，不写业务数据。
+安装正式证明后，再设置`SIMULATION_EXPECTED_VERIFICATION_FILE`指向后端已安装的`simulation-verification/lol/combat-analysis.json`源资源文件；相对路径按`web/`解析。专项读取文件并保存其SHA256，核对正式Wasm实际字节与身份、适配器、游戏、场景、范围及共享摘要，再精确比较文件中`PASSED`英雄及装备集合与真实目录`READY`集合，以及逐对象配置摘要、外部依赖、完整覆盖、匹配状态和证据引用。未设置该变量时仍按无证明基线执行，要求真实英雄与装备均无`READY`，不会自动接受服务中新出现的通过项。测试不安装、生成或替换证明，不写业务数据。
 
-真实目录还直接经过生产准入函数，正反核对有证明装备被接纳、其余装备带原因禁选；这项函数验证与浏览器可操作性分开记录。当前没有整英雄正式证明，页面仍须禁止选择英雄、双方装备和准备计算，保持零快照、零计算Worker。本入口不伪造HTTP，也不关闭未完成兄弟技能来绕过门禁，不构成新的战斗运行证明。旧安妮Q/W局部场景结果保留为历史机制证据，不能解释为整英雄可用。证据写入`output/combat-analysis/availability-gate/`。未启用真实服务导致的跳过不计作验收。
+真实目录还直接经过生产准入函数，精确接纳当前正式证明集合，其余对象带原因禁选；这项函数验证与浏览器可操作性分开记录。当前正式资源包含安妮在约定单向1V1范围内的完整来源及19件纯属性装备。实际页面专项分别验证未就绪英雄保持禁选，以及通过英雄可直接选择、调整技能等级、准备并运行到结果与会话释放。不伪造HTTP，也不关闭必需兄弟技能绕过门禁。证据写入`output/combat-analysis/availability-gate/`；未启用真实服务导致的跳过不计作验收。
+
+本轮完整来源采集入口为`node scripts/first-hero-availability.mjs --execute --mode all`，须明确设置`SIMULATION_EXPECTED_WASM_SHA256`；默认无请求，`--read-plan --mode all`仅用真实GET生成计划，不请求快照或建立计算Worker。执行时读取真实目录与快照，通过正式宿主和工作线程，复用页面绑定与规则顺序，覆盖双方等级、技能等级、背景普攻及同会话重复，另含默认及反序的30秒观察。机制专项用`node scripts/first-hero-mechanisms.mjs --base <已通过矩阵原始包.json.gz>`，同样明确指定正式摘要；它是受控协议附加证据，不代替保留普攻的矩阵。最终为74场／248次矩阵、25场／50次机制、19件装备含基准1404次、原失败档案6次严格Worker回放及3项真实页面验收，均通过。独立复核、当前数据与正式产物的具体身份见`output/first-hero-2026-10-17/independent-web-review-bb20/`；独立召唤物、友军和完整控制行动限制后置，目标死亡后结束，不纳入击杀后补偿。
 
 ## 功能与验证入口
 

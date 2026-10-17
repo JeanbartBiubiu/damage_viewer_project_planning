@@ -101,6 +101,11 @@ export function permanentModifier(context: PermanentResultContext, result: Skill
     if (attributeKey === 'hp') fail(path, '尚未接入常驻生命上限修正，不能丢弃该结果');
     if (zone.domain !== 'ATTRIBUTE' || !['INCREASE', 'DECREASE'].includes(result.detail.operation)) fail(path, '属性修正声明不完整');
     const decrease = result.detail.operation === 'DECREASE';
+    if (String(zone.calculationMode) === 'RATIO_COMPLEMENT_MULTIPLY') {
+      if (opponentAttribute || zone.applicationStage !== 'ATTRIBUTE_PERCENT' || decrease || value < 0 || value > 1) fail(path, '剩余比例连乘只接入自身属性百分比增加，比例须在0与1之间');
+      return { modifierKey: result.resultKey, kind: 'attribute', target: `self.attr.${attributeKey}`, stage: 'total',
+        valuePolicy: 'complement_multiply', value: constExpr(value), bucket: zone.modifierZoneKey };
+    }
     if (zone.calculationMode === 'RATIO_MULTIPLY') {
       if (zone.applicationStage !== 'ATTRIBUTE_PERCENT' || value < 0 || decrease && value > 1) {
         fail(path, '静态比例乘算必须为属性百分比阶段、非负比例，减少不超过1');

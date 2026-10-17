@@ -13,7 +13,11 @@ import { gzipSync } from 'node:zlib';
 import { chromium } from '@playwright/test';
 
 const webRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const outputRoot = resolve(webRoot, 'output/availability-audit-2026-10-17/pure-equipment');
+const outputIndex = process.argv.indexOf('--output');
+const outputRoot = resolve(webRoot, outputIndex < 0
+  ? `output/pure-equipment-${new Date().toISOString().replace(/[:.]/g, '-')}` : process.argv[outputIndex + 1]);
+assert(outputRoot.startsWith(resolve(webRoot, 'output') + '/') || outputRoot.startsWith(resolve(webRoot, 'output') + '\\'), '证据必须位于Web输出目录');
+assert(!existsSync(outputRoot), '不覆盖已有证据目录');
 const scopePath = resolve(webRoot, '../../damage_backend_dev/server/data_manage/src/main/resources/simulation-scope/lol/combat-analysis.json');
 const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL ?? 'http://127.0.0.1:8080';
 const webBase = process.env.SIMULATION_WEB_BASE_URL ?? 'http://127.0.0.1:5173';
@@ -21,6 +25,9 @@ const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN ?? '';
 const modeIndex = process.argv.indexOf('--mode');
 const mode = modeIndex < 0 ? 'pilot' : process.argv[modeIndex + 1];
 assert(['pilot', 'all'].includes(mode), '--mode 只接受 pilot 或 all');
+const workersIndex = process.argv.indexOf('--workers');
+const workerCount = workersIndex < 0 ? mode === 'all' ? 2 : 1 : Number(process.argv[workersIndex + 1]);
+assert(Number.isSafeInteger(workerCount) && workerCount >= 1 && workerCount <= 4, '--workers需要1到4个独立页面');
 const pilots = ['item_1036', 'item_1028', 'item_1042'];
 const hash = value => createHash('sha256').update(typeof value === 'string' || Buffer.isBuffer(value) ? value : JSON.stringify(value)).digest('hex');
 const canonical = value => Array.isArray(value) ? value.map(canonical) : value && typeof value === 'object'
@@ -199,7 +206,12 @@ assert.equal(scope.gameId, 'lol'); assert.equal(scope.profile, 'combat-analysis-
 const eligible = scope.equipment.filter(row => row.requiresSkillBindings === false && row.attributesOnlyEvidence?.reason?.trim()
   && row.attributesOnlyEvidence?.evidenceRefs?.length);
 assert.equal(eligible.length, 47, '当前明确纯属性来源的范围数量变化，需重新核对范围');
-const selected = mode === 'pilot' ? pilots.map(key => eligible.find(row => row.key === key)) : eligible;
+const keysIndex = process.argv.indexOf('--equipment-keys');
+const requestedKeys = keysIndex < 0 ? null : process.argv[keysIndex + 1]?.split(',');
+assert(requestedKeys === null || requestedKeys.length > 0 && requestedKeys.every(key => /^[a-z][a-z0-9_]{0,63}$/.test(key))
+  && new Set(requestedKeys).size === requestedKeys.length, '装备键必须明确且不重复');
+const selected = requestedKeys ? requestedKeys.map(key => eligible.find(row => row.key === key))
+  : mode === 'pilot' ? pilots.map(key => eligible.find(row => row.key === key)) : eligible;
 assert(selected.every(Boolean));
 const browser = await chromium.launch({ headless: true });
 const pages = [];
@@ -328,7 +340,7 @@ try {
     json(resolve(outputRoot, `progress-${mode}.json`), { runId, identity, results, requests });
   }
   const workers = [page];
-  if (mode === 'all') {
+  while (workers.length < workerCount) {
     const second = await createPageClient();
     assert(equivalent(second.identity, identity), '两个独立页面的引擎身份不一致');
     workers.push(second.page);
@@ -358,7 +370,7 @@ try {
 } finally {
   for (const ownedPage of pages) if (!ownedPage.isClosed()) await ownedPage.evaluate(() => { window.__pureEquipmentClient?.terminate(); }).catch(() => undefined);
   await browser.close();
-  json(resolve(outputRoot, `summary-${mode}.json`), { runId, mode, scriptSha256, identity, candidateGenerated: Boolean(candidate),
+  json(resolve(outputRoot, `summary-${mode}.json`), { runId, mode, scriptSha256, workerCount, identity, candidateGenerated: Boolean(candidate),
     selected: selected.map(row => row.key), passed: results.filter(row => row.passed).length, failed: results.filter(row => !row.passed).length,
     readyEvidenceComplete: results.filter(row => row.passed && row.readyEvidenceComplete).length,
     stateOnlyUnverified: results.filter(row => row.passed && !row.readyEvidenceComplete).length, independentPages: pages.length,

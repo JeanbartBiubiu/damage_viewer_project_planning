@@ -27,6 +27,7 @@ export function validateStoredSkillFormula(value: unknown, skillKey: string) {
     if (binding?.kind === 'parameter' && binding.skillKey === skillKey) return [binding];
     if (binding?.kind === 'attribute' && ['source', 'target'].includes(binding.object)
       && binding.view === 'current_frame' && SKILL_FORMULA_VALUE_KINDS.includes(binding.valueKind)) return [binding];
+    if (binding?.kind === 'context' && binding.contextKey === 'effect_elapsed_ms') return [binding];
     return [];
   }) : [];
   return validateFormulaDefinition(value, declared);

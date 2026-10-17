@@ -216,23 +216,23 @@ function eventValueFingerprint(
 function identityCategoryPredicate(
   condition: Extract<SkillTriggerCondition, { conditionType: 'TARGET_CATEGORY_CHECK' }>,
   path: string,
-  authored: AuthoredHitProgram
+  authored: Pick<AuthoredHitProgram, 'identity'>
 ): GenericFormulaExpr {
   const category = authored.identity.target.category;
   if (!category) return fail(path, '目录身份及真实类别需显式事实，未知不补英雄默认');
   return constExpr(condition.detail.categories.includes(category) ? 1 : 0);
 }
 
-function identityEnemyPredicate(path: string, authored: AuthoredHitProgram): GenericFormulaExpr {
+function identityEnemyPredicate(path: string, authored: Pick<AuthoredHitProgram, 'identity'>): GenericFormulaExpr {
   const hostility = authored.identity.target.hostility;
   if (!hostility) return fail(path, '目录身份及真实敌我需显式事实，未知不补敌方默认');
   return constExpr(hostility === 'ENEMY' ? 1 : 0);
 }
 
-function remainingPredicate(
+export function compileHitIdentityCondition(
   condition: SkillTriggerCondition,
   path: string,
-  authored: AuthoredHitProgram
+  authored: Pick<AuthoredHitProgram, 'identity'>
 ): GenericFormulaExpr {
   if (condition.conditionType === 'TARGET_CATEGORY_CHECK') return identityCategoryPredicate(condition, path, authored);
   if (condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY') return identityEnemyPredicate(path, authored);
@@ -266,7 +266,7 @@ function convertRuleConditions(
         fingerprints.push(compiled.fingerprint);
         continue;
       }
-      remaining.push(remainingPredicate(condition, path, authored));
+      remaining.push(compileHitIdentityCondition(condition, path, authored));
     }
     extracted.push({ event, remaining: combine('min', remaining), fingerprints: fingerprints.slice().sort() });
   }
@@ -433,6 +433,43 @@ function compileClosedControl(
   };
   mergeProvider(providers, provider, `${path}.provider`);
   return { operation: 'apply_provider', target: 'target', providerDefinitionRef: providerKey };
+}
+
+/** 自然技能声明的控制借用原命中单元，数值与数据来源仍属于该自然技能。 */
+export function compilePassiveHitControl(authored: AuthoredHitProgram, effect: SkillEffect, context: {
+  providerRef: string; parentDefinitionRef: string; occurrenceKey: string; participationCondition?: GenericFormulaExpr;
+}) {
+  catalogKey(context.providerRef, 'participationProviderRef');
+  const state = numericState(authored);
+  state.bindParameters = false;
+  state.allowAttributeReads = false;
+  const providers = new Map<string, ProviderDefinition>();
+  const types = new TypeCatalogEntries();
+  if (!effect.results.length || effect.gameId !== authored.gameId || effect.skillKey !== authored.skillKey) fail(planPath(authored.skillKey, `effects.${effect.effectKey}`), '被动控制必须引用同技能完整效果');
+  const candidates: SkillHitCandidate[] = stableSorted(effect.results, result => result.sortOrder).map(result => {
+    const path = planPath(authored.skillKey, `effects.${effect.effectKey}.results.${result.resultKey}`);
+    if (result.resultType !== 'STATUS_OPERATION') return fail(path, '被动命中候选本期只接入闭合控制，不能混入其它结果');
+    const kind = lookupStatus(authored, result.detail.statusKey, `${path}.detail.statusKey`);
+    if (kind === 'movement_slow' || result.target !== 'TARGET' || result.detail.operation !== 'APPLY'
+      || momentOf(result) !== 'PERSISTENT' || !result.lifecycleBehavior
+      || result.lifecycleBehavior.valueReadMode !== null || result.lifecycleBehavior.stackValueMode !== null
+      || result.lifecycleBehavior.reapplicationValueMode !== null || result.lifecycleBehavior.periodicExecutionMode !== null
+      || result.valueRule !== null || result.spellShieldBlockScope !== 'RESULT') return fail(path, '被动控制必须是完整有期、无数值的目标施加，沿原技能覆盖单元');
+    const providerKey = `status:${context.parentDefinitionRef}:${authored.skillKey}:${effect.effectKey}:${result.resultKey}`;
+    const operation = compileClosedControl(authored, effect, result, kind, providerKey, path, state, providers, types);
+    const provider = providers.get(providerKey)!;
+    const duration = tryFoldConstant(provider.lifecycle!.durationMs!);
+    if (duration === null || !Number.isSafeInteger(duration) || duration <= 0) return fail(path, '被动控制时长必须由自身等级核定，不能读施放技能参数');
+    provider.lifecycle!.durationMs = constExpr(duration);
+    return { candidateKey: `${context.occurrenceKey}:${result.resultKey}`, effectOccurrenceKey: context.occurrenceKey,
+      effectKey: effect.effectKey, resultKey: result.resultKey,
+      semantic: { resultType: 'STATUS_OPERATION', target: 'TARGET', moment: 'PERSISTENT', statusOperation: 'APPLY', statusKey: result.detail.statusKey, statusKind: kind },
+      spellShieldBlockScope: 'RESULT', participationProviderRef: context.providerRef,
+      ...(context.participationCondition ? { participationCondition: context.participationCondition } : {}),
+      operations: [{ ...operation, ref: `skills.${authored.skillKey}.effects.${effect.effectKey}.results.${result.resultKey}` }]
+    };
+  });
+  return { candidates, providers: [...providers.values()], formulas: [...state.namedFormulas.values()], types: [...types].map(([key, domain]) => ({ key, domain })) };
 }
 
 function compileAttributeChange(

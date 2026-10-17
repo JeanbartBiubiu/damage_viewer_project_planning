@@ -178,6 +178,11 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
         protocolError(`${path}.detail`);
       }
       break;
+    case 'PROCESS_RESOLVED':
+      if (Object.keys(detail).length !== 2 || Object.keys(detail).some(key => !['sourceSkillKey', 'processKey'].includes(key))
+        || typeof detail.sourceSkillKey !== 'string' || !TRIGGER_KEY_PATTERN.test(detail.sourceSkillKey)
+        || typeof detail.processKey !== 'string' || !TRIGGER_KEY_PATTERN.test(detail.processKey)) protocolError(`${path}.detail`);
+      break;
     case 'PROCESS_MOMENT':
       if (typeof detail.processKey !== 'string' || !isRecord(detail.moment)) {
         protocolError(`${path}.detail`);
@@ -288,7 +293,9 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
       break;
     case 'LIFECYCLE_CHECK': {
       const allowed = ['effectKey', 'subject', 'checkKind', 'comparator', 'comparisonValue'];
-      if (Object.keys(detail).length !== allowed.length || Object.keys(detail).some((key) => !allowed.includes(key))) protocolError(`${path}.detail`);
+      if (allowed.some(key => !(key in detail)) || Object.keys(detail).some((key) => !allowed.includes(key) && key !== 'effectSkillKey')) protocolError(`${path}.detail`);
+      if (detail.effectSkillKey !== undefined && detail.effectSkillKey !== null
+        && (typeof detail.effectSkillKey !== 'string' || !TRIGGER_KEY_PATTERN.test(detail.effectSkillKey))) protocolError(`${path}.detail.effectSkillKey`);
       if (typeof detail.effectKey !== 'string' || !/^[a-z][a-z0-9_]{0,63}$/.test(detail.effectKey)) protocolError(`${path}.detail.effectKey`);
       if (detail.subject !== null && (typeof detail.subject !== 'string' || !SUBJECTS.has(detail.subject))) protocolError(`${path}.detail.subject`);
       if (detail.checkKind === 'STACKS_COMPARE') {

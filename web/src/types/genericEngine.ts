@@ -132,6 +132,8 @@ export type OperationDefinition = {
   abilityRef?: string;
   shieldRef?: string;
   shieldDurationMs?: GenericFormulaExpr;
+  /** 普通盾的显式生命周期关联；shieldRef 在此作为静态盾定义身份。 */
+  shieldLifecycleProviderDefinitionRef?: string;
   providerDefinitionRef?: string;
   providerRef?: string;
   eventType?: string;
@@ -220,6 +222,8 @@ export type SkillHitCandidate = {
   semantic: SkillHitSemantic;
   spellShieldBlockScope: SpellShieldBlockScope | null;
   participationCondition?: GenericFormulaExpr | null;
+  /** 候选条件的同拥有者静态供值器挂载，仅切换条件状态读取上下文。 */
+  participationProviderRef?: string;
   eventValueConditions?: SkillHitEventValueCondition[];
   operations: OperationDefinition[];
 };
@@ -326,6 +330,8 @@ export type ProviderDefinition = {
   skillKey?: string;
   kind: string;
   stableId: string;
+  /** 关联动态效果明确声明的静态盾定义，查询声明本身不施加盾。 */
+  linkedShieldDefinitionRef?: string;
   types?: string[];
   tags?: string[];
   abilities?: AbilityDefinition[];
@@ -413,6 +419,8 @@ export type CombatantProviderSnapshot = {
   stacks: number;
   expireAt: number | null;
   state: Record<string, unknown>;
+  /** 仅依赖实例时间的有期供值器必须提供；0 是合法施加时间。 */
+  appliedAtMs?: number | null;
   statusContributions?: ProviderStatusContributionSnapshot[];
 };
 
@@ -588,6 +596,8 @@ export type ProcessControlDefinition = {
   failureReason?: ProcessFailureReason;
   /** 仅普攻开始监听器的首次过程控制可复用原生使用身份。 */
   useRefFromEvent?: boolean;
+  /** 仅首次入口；要求原始目标明确指向真实来源，空目标不能回退满足。 */
+  requireExplicitSelfTarget?: true;
 };
 
 export type ProcessStepType = 'IMMEDIATE' | 'DELAY' | 'CHARGE' | 'RECAST' | 'MULTI_HIT' | 'CHANNEL';

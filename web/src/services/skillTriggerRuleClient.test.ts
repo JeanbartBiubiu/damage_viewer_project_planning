@@ -565,6 +565,7 @@ describe('生命周期条件响应分支', () => {
   const presence = { effectKey: 'mark', subject: 'CURRENT_TARGET', checkKind: 'PRESENT', comparator: null, comparisonValue: null };
   it.each([
     presence,
+    { ...presence, effectSkillKey: 'configured_guard' },
     { ...presence, subject: null, checkKind: 'ABSENT' },
     { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'GTE', comparisonValue: { kind: 'FIXED', value: 0 } },
     { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'EQ', comparisonValue: { kind: 'PARAMETER', parameterKey: 'stacks' } },
@@ -574,6 +575,7 @@ describe('生命周期条件响应分支', () => {
   });
   it.each([
     { ...presence, scope: 'SOURCE_TARGET' }, { ...presence, subject: undefined }, { ...presence, subject: 'OTHER' },
+    { ...presence, effectSkillKey: 'bad/key' }, { ...presence, effectSkillKey: 4 },
     { ...presence, subject: ['CURRENT_TARGET'] },
     { ...presence, effectKey: '' }, { ...presence, checkKind: 'UNKNOWN' }, { ...presence, comparator: 'EQ' },
     { ...presence, comparisonValue: { kind: 'FIXED', value: 0 } },
@@ -584,6 +586,17 @@ describe('生命周期条件响应分支', () => {
     { ...presence, checkKind: 'STACKS_COMPARE', comparator: 'GTE', comparisonValue: 'stacks' }
   ])('拒绝字段串用、缺失与非法层数 %j', (conditionDetail) => {
     expect(() => parseSkillTriggerRuleDetail(withCondition(conditionDetail))).toThrow(SkillTriggerRuleProtocolError);
+  });
+});
+
+describe('原生过程结算完成明细', () => {
+  it('只接收明确来源技能和过程，不丢弃未知字段', () => {
+    const source = { eventType: 'PROCESS_RESOLVED', detail: { sourceSkillKey: 'configured_spell', processKey: 'cast' } };
+    expect(parseSkillTriggerRuleDetail({ ...detail, eventSource: source }).eventSource).toEqual(source);
+    for (const invalid of [ {}, { sourceSkillKey: null, processKey: 'cast' }, { sourceSkillKey: 'configured_spell', processKey: '' },
+      { ...source.detail, moment: {} }, { ...source.detail, sourceSkillKey: 'bad/key' } ]) {
+      expect(() => parseSkillTriggerRuleDetail({ ...detail, eventSource: { eventType: 'PROCESS_RESOLVED', detail: invalid } })).toThrow(SkillTriggerRuleProtocolError);
+    }
   });
 });
 

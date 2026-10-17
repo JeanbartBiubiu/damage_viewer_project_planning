@@ -7,7 +7,7 @@ import { damageTypeFormulaAllowedBindings } from '../types/damageTypeFormula';
 import { parseDamageTypeFormulaDefinition } from '../services/damageTypeClient';
 import type {
   CompileRequest, GenericDamageTypeFormula, GenericFormulaExpr, GenericRules, NamedFormula,
-  AbilityDefinition, ModifierDefinition, OperationDefinition, ProviderDefinition, ProviderStateFieldSchema
+  AbilityDefinition, ModifierDefinition, OperationDefinition, ProviderDefinition, ProviderStateFieldSchema, SkillHitCandidate
 } from '../types/genericEngine';
 import type { NumericValue } from '../types/numericValue';
 import type { SkillConfiguration } from '../types/skillConfiguration';
@@ -28,6 +28,8 @@ import { adaptDamageVamp } from './vampAdapter';
 import { compilePersistentResult } from './persistentResultAdapter';
 import { permanentModifier, validatePermanentEffect } from './simulationPermanentResults';
 import { compileSimulationStatusCondition } from './simulationPrimaryAttack';
+import { compileLinkedShieldEffect } from './shieldEffectAdapter';
+import { compileHitIdentityCondition, compilePassiveHitControl } from './hitAdapter';
 
 
 type Side = 'source' | 'target';
@@ -43,6 +45,7 @@ export type TriggeredEquipmentAssembly = {
   selectedSkills: Set<string>;
   changedAttributes: ReturnType<typeof changedAttributes>;
   compiledSources: Array<{ side: Side; providerRef: string; definitionRef: string; skillKey: string }>;
+  passiveHitContributions?: Array<{ sourceSkillKey: string; authorSkillKey: string; candidate: SkillHitCandidate }>;
 };
 
 const METADATA = ['name', 'description', 'sortOrder', 'createdAt', 'updatedAt'];
@@ -179,7 +182,7 @@ function validateLifecycle(lifecycle: SkillEffectLifecycle, path: string) {
     'reapplicationDurationMode', 'expiryMode', 'periodicIntervalValue', 'firstPeriodicExecution']) {
     if (!Object.prototype.hasOwnProperty.call(lifecycle, key)) fail(`${path}.${key}`, '缺少完整生命周期字段');
   }
-  if (lifecycle.endWhenShieldEndsResultKey != null) fail(`${path}.endWhenShieldEndsResultKey`, '未接入护盾关联生命周期');
+  if (lifecycle.endWhenShieldEndsResultKey != null) stableKey(lifecycle.endWhenShieldEndsResultKey, `${path}.endWhenShieldEndsResultKey`);
 }
 function validateValueRule(rule: SkillEffectValueRule, path: string) {
   exact(rule, ['value', 'fixedMultiplier', 'fixedMinValue', 'fixedMaxValue'], path);
@@ -279,6 +282,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
   const selectedSkills = new Set<string>();
   const changed = changedAttributes();
   const compiledSources: TriggeredEquipmentAssembly['compiledSources'] = [];
+  const passiveHitContributions: NonNullable<TriggeredEquipmentAssembly['passiveHitContributions']> = [];
   const cover = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const addFormula = (formula: NamedFormula, path: string) => {
     const existing = formulas.get(formula.key);
@@ -339,6 +343,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const usedFormulas = new Set<string>();
         const usedEffects = new Set<string>();
         const appliedEffects = new Set<string>();
+        const queriedShieldEffects = new Set<string>();
         const usedProcesses = new Set<string>();
         const usedStates = new Set<string>();
         const usedRules = new Set<string>();
@@ -601,7 +606,24 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             const detail = authored.detail;
             exact(detail, ['effectSkillKey', 'effectKey', 'subject', 'checkKind', 'comparator', 'comparisonValue'], detailPath);
             if (detail.effectSkillKey !== skillKey || detail.subject !== null) fail(detailPath, 'SOURCE生命周期条件由当前来源保存，subject必须为空');
-            const stack = ensureStack(effect(detail.effectKey, detailPath));
+            const authoredEffect = effect(detail.effectKey, detailPath);
+            if (authoredEffect.lifecycle?.endWhenShieldEndsResultKey != null) {
+              if (detail.comparator !== null || detail.comparisonValue !== null || !['PRESENT', 'ABSENT'].includes(detail.checkKind)) fail(detailPath, '关联盾生命周期只接入存在或不存在检查');
+              if (authoredEffect.lifecycle.instanceScope !== 'SOURCE') fail(detailPath, '关联盾存在检查本期只接入来源自身，不能猜测目标身份');
+              const compiled = compileLinkedShieldEffect(authoredEffect, numeric, snapshot.catalogs.modifierZones, definitionRef);
+              const existing = providers.find(row => row.providerKey === compiled.provider.providerKey);
+              if (existing && JSON.stringify(existing) !== JSON.stringify(compiled.provider)) fail(detailPath, '关联盾定义不一致');
+              if (!existing) providers.push(compiled.provider);
+              for (const row of authoredEffect.results) if (row.valueRule) noteNumeric(row.valueRule.value);
+              if (authoredEffect.lifecycle.durationValue) noteNumeric(authoredEffect.lifecycle.durationValue);
+              noteNumeric(authoredEffect.lifecycle.maxStacksValue); noteNumeric(authoredEffect.lifecycle.applicationStacksValue);
+              queriedShieldEffects.add(authoredEffect.effectKey);
+              collectAttributes(compiled.provider, side, required);
+              const read: GenericFormulaExpr = { op: 'read', path: `provider.linked_shield[${compiled.operation.shieldRef}].present` };
+              cover(`${root}.effects.${authoredEffect.effectKey}.lifecycle`, `sharedProviders.${compiled.provider.providerKey}.lifecycle`);
+              return comparator(detail.checkKind === 'PRESENT' ? 'GT' : 'EQ', read, constExpr(0), detailPath);
+            }
+            const stack = ensureStack(authoredEffect);
             const read: GenericFormulaExpr = { op: 'read', path: `provider.state.${stack.key}` };
             if (detail.checkKind === 'STACKS_COMPARE' && detail.comparator && detail.comparisonValue) return comparator(detail.comparator, read, value(detail.comparisonValue, detailPath), detailPath);
             if (detail.comparator !== null || detail.comparisonValue !== null || !['PRESENT', 'ABSENT'].includes(detail.checkKind)) fail(detailPath, '生命周期存在检查字段不完整');
@@ -621,11 +643,22 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             return comparator(detail.comparator, detail.subject === 'EVENT_SOURCE' && event !== 'PROCESS_MOMENT'
               ? eventRead(expression) : expression, value(detail.comparisonValue, detailPath), detailPath);
           }
-          if (authored.conditionType === 'TARGET_CATEGORY_CHECK') {
-            exact(authored.detail, ['categories'], detailPath);
-            const categories = array(authored.detail.categories, `${detailPath}.categories`);
-            if (!categories.length || new Set(categories).size !== categories.length
-              || categories.some(key => !SKILL_TRIGGER_TARGET_CATEGORIES.includes(key))) fail(detailPath, '目标类别集合不完整或未知');
+          if (authored.conditionType === 'TARGET_CATEGORY_CHECK' || authored.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY') {
+            if (authored.conditionType === 'TARGET_CATEGORY_CHECK') {
+              exact(authored.detail, ['categories'], detailPath);
+              const categories = array(authored.detail.categories, `${detailPath}.categories`);
+              if (!categories.length || new Set(categories).size !== categories.length
+                || categories.some(key => !SKILL_TRIGGER_TARGET_CATEGORIES.includes(key))) fail(detailPath, '目标类别集合不完整或未知');
+            } else {
+              exact(authored.detail, [], detailPath);
+              // 两方宿主的命中计划只接入来源到明确对手；自身目标在请求入口拒绝。
+              if (event !== 'SKILL_HIT' || side !== 'source') fail(detailPath, '敌方命中检查必须来自实际驱动来源的真实对手命中');
+              const owner = record(snapshot[side].character, `${side}.character`);
+              if (owner.gameId !== snapshot.gameId || owner.characterKey !== snapshot.selection[`${side}CharacterKey`]) {
+                fail(`${side}.character.characterKey`, '英雄选择与真实来源快照归属不一致，不能推断敌我');
+              }
+              cover(`${side}.character.characterKey`, `combatants[${side === 'source' ? 0 : 1}].types`);
+            }
             const character = record(snapshot[opponent].character, `${opponent}.character`);
             const characterKey = stableKey(character.characterKey, `${opponent}.character.characterKey`);
             if (character.gameId !== snapshot.gameId || characterKey !== snapshot.selection[`${opponent}CharacterKey`]) {
@@ -634,10 +667,17 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             const identityPath = `combatants[${opponent === 'source' ? 0 : 1}].types`;
             cover(`${opponent}.character.characterKey`, identityPath);
             cover(`selection.${opponent}CharacterKey`, identityPath);
-            return constExpr(categories.includes('CHAMPION') ? 1 : 0);
+            return compileHitIdentityCondition(authored, detailPath, {
+              identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } }
+            });
           }
           if (authored.conditionType === 'EVENT_VALUE_COMPARE') {
             exact(authored.detail, ['eventValueKey', 'comparator', 'comparisonValue'], detailPath);
+            if (String(authored.detail.eventValueKey) === 'SKILL_USE_CONTACT_COUNT') {
+              if (event !== 'PROCESS_RESOLVED') fail(detailPath, '接触计数仅由真实过程终结命中后事实提供');
+              constant(authored.detail.comparisonValue, `${detailPath}.comparisonValue`, true);
+              return comparator(authored.detail.comparator, { op: 'read', path: 'event.skill_use.contactCount' }, value(authored.detail.comparisonValue, detailPath), detailPath);
+            }
             const link = ({ LINK_INDEX: 'event.link.index', LINK_COUNT: 'event.link.count' } as Record<string, string>)[authored.detail.eventValueKey];
             if (!link || !['HIT_LINK_APPLIED', 'ATTACK_LINK_APPLIED'].includes(event)) fail(detailPath, '事件数值没有已接入的真实冻结字段');
             return comparator(authored.detail.comparator, { op: 'read', path: link }, value(authored.detail.comparisonValue, detailPath), detailPath);
@@ -846,7 +886,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (action.targetContext === 'CURRENT_TARGET') return event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED' || event === 'SOURCE_INITIALIZED' ? 'self' : 'target';
           if (action.targetContext === 'EVENT_SOURCE') {
             if (event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED') return 'target';
-            if (['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'ATTACK_LINK_APPLIED', 'HIT_LINK_APPLIED', 'SKILL_USED', 'SKILL_HIT', 'PROCESS_MOMENT', 'DAMAGE_DEALT', 'SOURCE_INITIALIZED'].includes(event)) return 'self';
+            if (['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'ATTACK_LINK_APPLIED', 'HIT_LINK_APPLIED', 'SKILL_USED', 'SKILL_HIT', 'PROCESS_MOMENT', 'PROCESS_RESOLVED', 'DAMAGE_DEALT', 'SOURCE_INITIALIZED'].includes(event)) return 'self';
           }
           return fail(actionPath, '动作目标缺少真实事件来源到当前对手的完整映射');
         };
@@ -935,7 +975,40 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             const operationPath = `${outputRoot}[${output.length}]`;
             if (action.actionType === 'EXECUTE_EFFECT') {
               exact(action.detail, ['effectKey'], `${actionPath}.detail`);
-              executeEffect(effect(action.detail.effectKey, actionPath), output, outputRoot, abilityRef, event, actionPath, context);
+              const authoredEffect = effect(action.detail.effectKey, actionPath);
+              const control = event === 'SKILL_HIT' && authoredEffect.results.some(result => result.resultType === 'STATUS_OPERATION'
+                && snapshot.catalogs.statuses.some(status => status.statusKey === result.detail.statusKey && status.statusKind !== 'MOVEMENT_SLOW'));
+              if (control) {
+                if (side !== 'source' || context !== 'target' || rule.eventSource.eventType !== 'SKILL_HIT'
+                  || rule.eventSource.detail.sourceSkillKey == null || rule.eventSource.detail.sourceSkillKey === skillKey) fail(actionPath, '自然控制候选必须明确同拥有者实际驱动的兄弟技能');
+                const freezeParams = (expression: GenericFormulaExpr): GenericFormulaExpr => {
+                  if (expression.op === 'read' && expression.path?.startsWith('ability.param.')) {
+                    const key = expression.path.slice('ability.param.'.length);
+                    const parameter = numeric.params[key];
+                    if (parameter === undefined) fail(actionPath, '被动候选条件参数必须由其自身核定');
+                    return constExpr(parameter);
+                  }
+                  return { ...expression, ...(expression.args ? { args: expression.args.map(freezeParams) } : {}) };
+                };
+                const predicate = conditions(rule, event);
+                const compiled = compilePassiveHitControl({ gameId: snapshot.gameId, skillKey, skillLevel,
+                  characterLevel: snapshot.selection[`${side}Level`], effects: configuration.effects, rules: [], parameters: configuration.parameters,
+                  formulas: configuration.formulas, statuses: snapshot.catalogs.statuses, modifierZones: snapshot.catalogs.modifierZones,
+                  identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } } }, authoredEffect,
+                { providerRef, parentDefinitionRef: definitionRef, occurrenceKey: `passive/${skillKey}/${rule.ruleKey}:${action.actionKey}`,
+                  ...(predicate ? { participationCondition: freezeParams(predicate) } : {}) });
+                for (const definition of compiled.providers) {
+                  const previous = providers.find(row => row.providerKey === definition.providerKey);
+                  if (previous && JSON.stringify(previous) !== JSON.stringify(definition)) fail(actionPath, '被动控制定义冲突');
+                  if (!previous) providers.push(definition);
+                }
+                for (const formula of compiled.formulas) addFormula(formula, actionPath);
+                for (const type of compiled.types) types.set(type.key, type.domain);
+                for (const candidate of compiled.candidates) passiveHitContributions.push({ sourceSkillKey: rule.eventSource.detail.sourceSkillKey, authorSkillKey: skillKey, candidate });
+                appliedEffects.add(authoredEffect.effectKey);
+                if (authoredEffect.lifecycle?.durationValue) noteNumeric(authoredEffect.lifecycle.durationValue);
+                cover(actionPath, 'runtimeOptions.skillOrigins');
+              } else executeEffect(authoredEffect, output, outputRoot, abilityRef, event, actionPath, context);
             } else if (action.actionType === 'START_PROCESS') {
               exact(action.detail, ['processKey'], `${actionPath}.detail`);
               if (context !== 'target' && event !== 'SOURCE_INITIALIZED') fail(actionPath, '静态被动过程必须保持同一真实对手目标');
@@ -1137,6 +1210,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             BASIC_ATTACK_HIT: 'event/basic_attack_hit', HIT_LINK_APPLIED: 'event/hit_link_applied',
             DAMAGE_TAKEN: 'event/damage_taken', BASIC_ATTACK_RECEIVED: 'event/basic_attack_received', DAMAGE_DEALT: 'event/damage_instance',
             SOURCE_INITIALIZED: 'event/source_initialized' };
+          eventTypes.PROCESS_RESOLVED = 'event/process_resolved';
           const eventType = eventTypes[event];
           if (!eventType) fail(`${rulePath}.eventSource.eventType`, '未接入的事件节点，整件装备拒绝');
           const receiver = event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED';
@@ -1156,6 +1230,16 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               if (!snapshot.skillConfigurations.some(row => row.skill.skillKey === key && row.skill.status === 'ENABLED')) fail(rulePath, '伤害来源技能缺少真实已启用配置');
               const identity = `ability/skill/${key}`;
               types.set(identity, 'ability'); matcher.all.push(identity);
+            }
+          } else if (event === 'PROCESS_RESOLVED') {
+            if (rule.eventSource.eventType !== 'PROCESS_RESOLVED') fail(rulePath, '过程终结事实类型不一致');
+            const detail = rule.eventSource.detail;
+            exact(detail, ['sourceSkillKey', 'processKey'], `${rulePath}.eventSource.detail`);
+            const selected = snapshot.selection.plannedSkills.find(plan => plan.skillKey === detail.sourceSkillKey && plan.phaseKinds.includes('INITIAL'));
+            const sourceConfiguration = snapshot.skillConfigurations.find(row => row.skill.skillKey === detail.sourceSkillKey && row.skill.status === 'ENABLED');
+            if (side !== 'source' || !selected || !sourceConfiguration?.processes.some(process => process.processKey === detail.processKey)) fail(rulePath, '终结事实必须引用同实际来源已计划技能的真实过程');
+            for (const [key, domain] of [[`ability/${detail.sourceSkillKey}`, 'ability'], [`event/process_resolved/${detail.sourceSkillKey}/${detail.processKey}`, 'event']] as const) {
+              matcher.all.push(key); types.set(key, domain);
             }
           } else if (event === 'SKILL_USED' || event === 'SKILL_HIT') {
             exact(rule.eventSource.detail, event === 'SKILL_USED' ? ['sourceSkillKey', 'useKind', 'castPhase'] : ['sourceSkillKey'], `${rulePath}.eventSource.detail`);
@@ -1239,7 +1323,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           cover(`${rulePath}.eventSource`, `${abilityRoot}.listenerSpec.eventMatcher`);
           if (predicate) cover(`${rulePath}.conditionGroups`, `${abilityRoot}.listenerSpec.condition`);
         }
-        for (const authored of configuration.effects) if (!usedEffects.has(authored.effectKey) || !appliedEffects.has(authored.effectKey)) fail(`${root}.effects.${authored.effectKey}`, '存在未接入的作者效果，不能丢弃后成功');
+        for (const authored of configuration.effects) if (!usedEffects.has(authored.effectKey) || !appliedEffects.has(authored.effectKey) && !queriedShieldEffects.has(authored.effectKey)) fail(`${root}.effects.${authored.effectKey}`, '存在未接入的作者效果，不能丢弃后成功');
         for (const authored of configuration.processes) if (!usedProcesses.has(authored.processKey)) fail(`${root}.processes.${authored.processKey}`, '存在未接入的作者过程');
         for (const authored of configuration.internalStates) if (!usedStates.has(authored.stateKey)) fail(`${root}.internalStates.${authored.stateKey}`, '存在未接入的内部状态');
         for (const authored of configuration.triggerRules) if (!usedRules.has(authored.ruleKey)) fail(`${root}.triggerRules.${authored.ruleKey}`, '存在未接入的作者规则或时点');
@@ -1294,5 +1378,6 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
     if (entries.length !== 1 || entries[0]!.gameId !== snapshot.gameId || entries[0]!.status !== 'ENABLED') fail(`catalogs.attributes.${key}`, '依赖属性缺少唯一已启用的真实目录');
   }
   return { providers, mounts, types: [...types].map(([key, domain]) => ({ key, domain })), formulas: [...formulas.values()],
-    rules, operationOrigins, coverage, required, selectedSkills, changedAttributes: changed, compiledSources };
+    rules, operationOrigins, coverage, required, selectedSkills, changedAttributes: changed, compiledSources,
+    ...(passiveHitContributions.length ? { passiveHitContributions } : {}) };
 }

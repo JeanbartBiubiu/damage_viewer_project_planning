@@ -7,6 +7,11 @@ import type {
 } from '../types/skillEffect';
 import type { SkillFormula } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
+import type { SkillInternalState } from '../types/skillInternalState';
+import type { ModifierZone } from '../types/modifierZone';
+import { compileProcessStates } from './processStateAdapter';
+import { compileLinkedShieldEffect } from './shieldEffectAdapter';
+import { compileTimedAttributeEffect } from './timedAttributeEffectAdapter';
 import type {
   SkillProcess, SkillProcessFailureReason, SkillProcessMoment, SkillProcessStep
 } from '../types/skillProcess';
@@ -16,7 +21,7 @@ import type {
 import type {
   AbilityDefinition, CompileRequest, GenericFormulaExpr, ListenerDefinition, NamedFormula, OperationDefinition,
   ProcessCommandFact, ProcessControlAction, ProcessCostDefinition, ProcessDefinition,
-  ProcessFailureReason, ProcessMomentDefinition, ProcessMomentType, ProcessStepDefinition
+  ProcessFailureReason, ProcessMomentDefinition, ProcessMomentType, ProcessStepDefinition, ProviderDefinition
 } from '../types/genericEngine';
 import {
   compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
@@ -61,6 +66,10 @@ export type AuthoredProcessProgram = {
   castCosts: readonly CastCostRef[];
   ignoreCastCosts?: boolean;
   roundPositiveCooldownMs?: boolean;
+  internalStates?: readonly SkillInternalState[];
+  modifierZones?: readonly ModifierZone[];
+  /** 宿主绑定的真实父定义身份，使主动与自然同源，双方不同来源互不碰撞。 */
+  providerDefinitionRef?: string;
 };
 
 export type AdaptedProcessControl = {
@@ -68,6 +77,7 @@ export type AdaptedProcessControl = {
   action: ProcessControlAction;
   stepKey?: string;
   failureReason?: ProcessFailureReason;
+  requireExplicitSelfTarget?: true;
 };
 
 export type AdaptedProcessProgram = {
@@ -78,7 +88,10 @@ export type AdaptedProcessProgram = {
     stableId: string;
     abilities: AbilityDefinition[];
     processes: ProcessDefinition[];
+    initialStateSchema?: ProviderDefinition['initialStateSchema'];
   };
+  providers: ProviderDefinition[];
+  typeEntries: CompileRequest['typeCatalog']['types'];
   params: Record<string, number>;
   formulas: NamedFormula[];
   requiredAttributes: string[];
@@ -438,9 +451,26 @@ function compileEffectResults(
   moment: ProcessMomentDefinition,
   state: NumericCompileState,
   initialAbilityKey: string,
-  skip: ReadonlySet<string>
+  skip: ReadonlySet<string>,
+  context: { authored: AuthoredProcessProgram; providers: Map<string, ProviderDefinition> }
 ): OperationDefinition[] {
   const path = planPath(effect.skillKey, `effects.${effect.effectKey}`);
+  if (effect.lifecycle?.endWhenShieldEndsResultKey != null) {
+    if (skip.size) fail(path, '关联盾不能复用为施放成本');
+    const compiled = compileLinkedShieldEffect(effect, state, context.authored.modifierZones, context.authored.providerDefinitionRef);
+    const previous = context.providers.get(compiled.provider.providerKey);
+    if (previous && !sameJson(previous, compiled.provider)) fail(path, '关联盾定义冲突');
+    context.providers.set(compiled.provider.providerKey, compiled.provider);
+    return [compiled.operation];
+  }
+  if (effect.lifecycle && effect.results.some(result => result.resultType === 'ATTRIBUTE_CHANGE' && result.lifecycleBehavior?.valueReadMode === 'MOMENT_EVALUATION')) {
+    if (skip.size) fail(path, '有限持续属性不能复用为施放成本');
+    const compiled = compileTimedAttributeEffect(effect, state, context.authored.modifierZones ?? [], context.authored.providerDefinitionRef);
+    const previous = context.providers.get(compiled.provider.providerKey);
+    if (previous && !sameJson(previous, compiled.provider)) fail(path, '有限持续属性定义冲突');
+    context.providers.set(compiled.provider.providerKey, compiled.provider);
+    return [compiled.operation];
+  }
   if (effect.lifecycle !== null) fail(`${path}.lifecycle`, '本期过程不能丢弃效果生命周期');
   if (!effect.results.length) fail(`${path}.results`, '效果没有可执行结果');
   const operations: OperationDefinition[] = [];
@@ -705,7 +735,22 @@ function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDef
       fail(`${actionPath}.detail.failureReason`, '来源死亡由原生在停机前终结');
     }
     if (eventType === 'SKILL_USED' && action.actionType === 'START_PROCESS') {
-      assertNoConditions(rule, path);
+      let requireExplicitSelfTarget: true | undefined;
+      if (rule.conditionGroups.length) {
+        if (rule.conditionGroups.length !== 1 || rule.conditionGroups[0]!.conditions.length !== 1) fail(`${path}.conditionGroups`, '首次过程只接入唯一明确自施条件');
+        const group = rule.conditionGroups[0]!;
+        exactKeys(group, ['groupKey', 'name', 'sortOrder', 'conditions'], `${path}.conditionGroups.${group.groupKey}`);
+        catalogKey(group.groupKey, `${path}.conditionGroups.groupKey`);
+        finiteNumber(group.sortOrder, `${path}.conditionGroups.sortOrder`, fail);
+        const condition = group.conditions[0]!;
+        const conditionPath = `${path}.conditionGroups.${group.groupKey}.conditions.${condition.conditionKey}`;
+        exactKeys(condition, ['conditionKey', 'conditionType', 'sortOrder', 'detail'], conditionPath);
+        catalogKey(condition.conditionKey, `${conditionPath}.conditionKey`);
+        finiteNumber(condition.sortOrder, `${conditionPath}.sortOrder`, fail);
+        if (condition.conditionType !== 'EXPLICIT_TARGET_IS_SOURCE') fail(`${conditionPath}.conditionType`, '首次过程只接入明确自施条件');
+        exactKeys(condition.detail, [], `${conditionPath}.detail`);
+        requireExplicitSelfTarget = true;
+      }
       if (skillUsedPhase(rule, `${path}.eventSource`, authored.skillKey) !== 'INITIAL') {
         fail(`${path}.eventSource.detail.castPhase`, '首次施放只接受 INITIAL');
       }
@@ -713,7 +758,7 @@ function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDef
       if (action.detail.processKey !== authored.process.processKey) fail(`${actionPath}.detail.processKey`, '跨过程');
       if (action.targetContext !== 'CURRENT_TARGET') fail(`${actionPath}.targetContext`, '首次施放必须明确当前目标');
       if (initial) fail(path, '重复首次入口');
-      initial = { abilityKey: action.actionKey, action: 'INITIAL' };
+      initial = { abilityKey: action.actionKey, action: 'INITIAL', ...(requireExplicitSelfTarget ? { requireExplicitSelfTarget } : {}) };
       continue;
     }
     if (eventType === 'SKILL_USED' && action.actionType === 'EXECUTE_EFFECT') {
@@ -774,7 +819,9 @@ function momentOperationsFor(
   process: SkillProcess,
   costs: CostPlan,
   controls: ControlPlan,
-  state: NumericCompileState
+  state: NumericCompileState,
+  statePlan: ReturnType<typeof compileProcessStates>,
+  providers: Map<string, ProviderDefinition>
 ): ProcessDefinition['momentOperations'] {
   const groups: ProcessDefinition['momentOperations'] = [];
   const add = (moment: ProcessMomentDefinition, operations: OperationDefinition[]) => {
@@ -783,14 +830,37 @@ function momentOperationsFor(
     if (existing && momentKey(existing.moment) === momentKey(moment)) existing.operations.push(...operations);
     else groups.push({ moment, operations: [...operations] });
   };
-  for (const binding of stableSorted(process.effectBindings, (item) => item.sortOrder)) {
+  const entries = [
+    ...process.effectBindings.map(binding => ({ sortOrder: binding.sortOrder, key: `effectBindings.${binding.bindingKey}`, binding })),
+    ...process.stateOperations.map(operation => ({ sortOrder: operation.sortOrder, key: `stateOperations.${operation.operationKey}`, operation }))
+  ].sort((left, right) => left.sortOrder - right.sortOrder);
+  const operationKeys = new Set<string>();
+  for (const [entryIndex, entry] of entries.entries()) {
+    const entryPath = planPath(authored.skillKey, `processes.${process.processKey}.${entry.key}`);
+    finiteNumber(entry.sortOrder, `${entryPath}.sortOrder`, fail);
+    const previous = entries[entryIndex - 1];
+    if (previous && previous.sortOrder === entry.sortOrder && ('operation' in previous) !== ('operation' in entry)) {
+      const before = 'operation' in previous ? previous.operation.moment : previous.binding.moment;
+      const current = 'operation' in entry ? entry.operation.moment : entry.binding.moment;
+      if (momentKey(readMoment(before, `${entryPath}.moment`)) === momentKey(readMoment(current, `${entryPath}.moment`))) fail(`${entryPath}.sortOrder`, '同一时点的效果与内部状态操作需要明确不同顺序');
+    }
+    if ('operation' in entry) {
+      if (operationKeys.has(entry.operation.operationKey)) fail(entryPath, '内部状态操作标识重复');
+      operationKeys.add(entry.operation.operationKey);
+      catalogKey(entry.operation.operationKey, `${entryPath}.operationKey`);
+      const moment = readMoment(entry.operation.moment, `${entryPath}.moment`);
+      assertMomentFits(moment, process.steps, `${entryPath}.moment`);
+      add(moment, [statePlan.operation(entry.operation, entryPath)]);
+      continue;
+    }
+    const binding = entry.binding;
     const path = planPath(authored.skillKey, `processes.${process.processKey}.effectBindings.${binding.bindingKey}`);
     exactKeys(binding, ['bindingKey', 'effectKey', 'moment', 'sortOrder'], path);
     const moment = readMoment(binding.moment, `${path}.moment`);
     assertMomentFits(moment, process.steps, `${path}.moment`);
     const effect = lookupEffect(authored, binding.effectKey, `${path}.effectKey`);
     add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey,
-      costs.skipByBinding.get(`${binding.bindingKey}\0${effect.effectKey}`) ?? new Set()));
+      costs.skipByBinding.get(`${binding.bindingKey}\0${effect.effectKey}`) ?? new Set(), { authored, providers }));
   }
   for (const rule of controls.momentRules) {
     const path = planPath(authored.skillKey, `rules.${rule.ruleKey}`);
@@ -829,7 +899,7 @@ function momentOperationsFor(
       state.runtimeInputReads = Object.keys(reads).length ? reads : undefined;
       state.formulaNamespace = `${previousNamespace}/rules/${rule.ruleKey}/actions/${action.actionKey}`;
       try {
-        add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey, new Set()));
+        add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey, new Set(), { authored, providers }));
       } finally {
         state.runtimeInputReads = previous;
         state.formulaNamespace = previousNamespace;
@@ -848,7 +918,8 @@ function controlAbility(control: AdaptedProcessControl, processKey: string, skil
       processKey,
       action: control.action,
       ...(control.stepKey ? { stepKey: control.stepKey } : {}),
-      ...(control.failureReason ? { failureReason: control.failureReason } : {})
+      ...(control.failureReason ? { failureReason: control.failureReason } : {}),
+      ...(control.requireExplicitSelfTarget ? { requireExplicitSelfTarget: true } : {})
     },
     ...(Object.keys(params).length ? { params: { ...params } } : {})
   };
@@ -858,7 +929,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (!isRecord(authored)) fail('adapter.processPlan', '过程程序必须是对象');
   exactKeys(authored, [
     'gameId', 'skillKey', 'skillLevel', 'characterLevel', 'process', 'rules', 'effects',
-    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs'
+    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'providerDefinitionRef'
   ], 'adapter.processPlan');
   const gameId = catalogKey(authored.gameId, 'gameId');
   if (authored.ignoreCastCosts !== undefined && typeof authored.ignoreCastCosts !== 'boolean') fail('ignoreCastCosts', '忽略施法成本必须明确声明');
@@ -879,9 +950,11 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   catalogKey(process.processKey, `${processPath}.processKey`);
   if (process.activationType !== 'ACTIVE') fail(`${processPath}.activationType`, '本期只接受单个 ACTIVE 过程');
   if (!Array.isArray(process.stateOperations)) fail(`${processPath}.stateOperations`, '内部状态操作必须是数组');
-  if (process.stateOperations.length) fail(`${processPath}.stateOperations`, '本期不编译内部状态操作');
   if (!Array.isArray(process.effectBindings)) fail(`${processPath}.effectBindings`, '效果挂接必须是数组');
   const state = numericState(authored);
+  if (authored.internalStates !== undefined && !Array.isArray(authored.internalStates)) fail(planPath(skillKey, 'internalStates'), '内部状态必须是数组');
+  const statePlan = compileProcessStates(authored.internalStates ?? [], state, planPath(skillKey, 'internalStates'));
+  const providers = new Map<string, ProviderDefinition>();
   const steps = compileSteps(process, state);
   const controls = compileControls(authored, steps);
   const costs = compileCosts(authored, process, state);
@@ -909,7 +982,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     if (seenAbilities.has(control.abilityKey)) fail(planPath(skillKey, `abilities.${control.abilityKey}`), '控制能力标识重复');
     seenAbilities.add(control.abilityKey);
   }
-  const momentOperations = momentOperationsFor(authored, process, costs, controls, state);
+  const momentOperations = momentOperationsFor(authored, process, costs, controls, state, statePlan, providers);
   const firstEffects = controls.firstEffectRules.map((rule): AbilityDefinition => {
     const abilityKey = `listen_${rule.ruleKey}`;
     if (seenAbilities.has(abilityKey)) fail(planPath(skillKey, `rules.${rule.ruleKey}.ruleKey`), '监听能力与控制能力标识重复');
@@ -933,9 +1006,11 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   return {
     provider: {
       providerKey, skillKey: authored.skillKey, kind: 'champion', stableId: providerKey, abilities,
-      processes: [{ processKey: process.processKey, skillKey, steps, costs: costs.costs, cooldown, momentOperations }]
+      processes: [{ processKey: process.processKey, skillKey, steps, costs: costs.costs, cooldown, momentOperations }],
+      ...(Object.keys(statePlan.schema).length ? { initialStateSchema: statePlan.schema } : {})
     },
-    params, formulas: formulasUsedByInternalValue([abilities, momentOperations, steps, costs.costs, cooldown], [...state.namedFormulas.values()]), requiredAttributes: [...state.requiredAttributes],
+    providers: [...providers.values()], typeEntries: [...statePlan.scopes].map(key => ({ key, domain: 'state_scope' })),
+    params, formulas: formulasUsedByInternalValue([abilities, momentOperations, steps, costs.costs, cooldown, statePlan.schema, [...providers.values()]], [...state.namedFormulas.values()]), requiredAttributes: [...state.requiredAttributes],
     initialAbilityKey: controls.initial.abilityKey, controls: controlRows
   };
 }
@@ -960,12 +1035,12 @@ export function withProcessProgram(
   if (!options.rulesHash.trim() || options.rulesHash === input.rulesHash) fail('rulesHash', '接入规则后必须提供新的配置摘要');
   const owner = binding.authored.owner ?? 'source';
   const providerRef = catalogKey(binding.processProviderKey, 'processProviderKey');
-  const adapted = adaptProcessProgram(binding.authored);
+  const definitionKey = `process_${owner}_${providerRef}`;
+  const adapted = adaptProcessProgram({ ...binding.authored, providerDefinitionRef: definitionKey });
   const request = structuredClone(input);
   request.rulesHash = options.rulesHash;
   request.sharedProviders ??= [];
   request.formulas ??= [];
-  const definitionKey = `process_${owner}_${providerRef}`;
   const provider = structuredClone(adapted.provider);
   provider.providerKey = definitionKey;
   provider.stableId = definitionKey;
@@ -989,6 +1064,12 @@ export function withProcessProgram(
   const existing = request.sharedProviders.find((row) => row.providerKey === definitionKey);
   if (existing && !sameJson(existing, provider)) fail(`sharedProviders.${definitionKey}`, 'provider 与现有定义冲突');
   if (!existing) request.sharedProviders.push(provider);
+  for (const dynamic of adapted.providers) {
+    const previous = request.sharedProviders.find(row => row.providerKey === dynamic.providerKey);
+    if (previous && !sameJson(previous, dynamic)) fail(`sharedProviders.${dynamic.providerKey}`, '关联效果定义冲突');
+    if (!previous) request.sharedProviders.push(structuredClone(dynamic));
+  }
+  for (const type of adapted.typeEntries) if (!request.typeCatalog.types.some(row => row.key === type.key && row.domain === type.domain)) request.typeCatalog.types.push(type);
   const actor = request.combatants.find((row) => row.key === owner);
   if (!actor) fail(`combatants.${owner}`, '过程拥有者必须是实际对象');
   const ownedMounts = actor.providers.filter((row) => row.providerRef === providerRef);

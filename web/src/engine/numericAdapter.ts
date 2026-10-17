@@ -29,6 +29,8 @@ export type NumericCompileState = {
    * 固定值和等级参数不读取此表。
    */
   runtimeInputReads?: Readonly<Record<string, GenericFormulaExpr>>;
+  /** 仅有界持续属性入口授权；存储形状合法不代表任意使用点可以读取。 */
+  allowedContextKeys?: ReadonlySet<'effect_elapsed_ms'>;
   params: Record<string, number>;
   namedFormulas: Map<string, NamedFormula>;
   requiredAttributes: Set<string>;
@@ -196,6 +198,8 @@ export function compileNumericValue(
       const binding = input.binding;
       const parameter = payload.parameters.find(parameter => parameter.parameterKey === binding.parameterKey)!;
       if (parameter.valueMode === 'RUNTIME_INPUT' && !parameter.runtimeSource) return fail(path, state.runtimeInputMessage);
+    } else if (input.binding.kind === 'context') {
+      if (input.binding.contextKey !== 'effect_elapsed_ms' || !state.allowedContextKeys?.has('effect_elapsed_ms')) return fail(path, '效果已过时间只允许有限持续属性的当前时点求值');
     }
   }
   const key = payload.key;
