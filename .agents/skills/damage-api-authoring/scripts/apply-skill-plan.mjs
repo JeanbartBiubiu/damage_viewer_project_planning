@@ -8,6 +8,8 @@ const KEY = /^[a-z][a-z0-9_]{0,63}$/;
 const SHA256 = /^[0-9a-f]{64}$/i;
 const COLLECTIONS = { parameters: 'parameterKey', formulas: 'formulaKey', effects: 'effectKey',
   processes: 'processKey', internalStates: 'stateKey', triggerRules: 'ruleKey' };
+const CHANGE_COLLECTIONS = { PARAMETER: 'parameters', FORMULA: 'formulas', EFFECT: 'effects',
+  PROCESS: 'processes', INTERNAL_STATE: 'internalStates', TRIGGER_RULE: 'triggerRules' };
 const TIMES = ['createdAt', 'updatedAt'];
 const RULE_FIELDS = ['name', 'description', 'sortOrder', 'eventSource', 'conditionGroups', 'actions',
   'perTargetCooldown', 'maxTriggersPerProcess', 'oncePerUse'];
@@ -158,23 +160,37 @@ export function validatePlan(plan) {
     const changes = array(item.request.changes, `${where}.request.changes`);
     if (!changes.length) fail(`${where}.request.changes`, '没有变更');
     const projected = clone(item.before);
-    const rules = new Set();
+    const changedObjects = new Set();
     for (const [changeIndex, change] of changes.entries()) {
       const changePath = `${where}.request.changes[${changeIndex}]`;
       object(change, ['objectType', 'operation', 'key', 'value'], changePath);
-      if (change.objectType !== 'TRIGGER_RULE' || change.operation !== 'UPDATE') fail(changePath, '仅允许现有TRIGGER_RULE的UPDATE');
+      const collection = own(CHANGE_COLLECTIONS, change.objectType) ? CHANGE_COLLECTIONS[change.objectType] : null;
+      if (!collection || !['CREATE', 'UPDATE'].includes(change.operation)) fail(changePath, '仅允许六种技能组成的CREATE或UPDATE，不执行删除');
       stableKey(change.key, `${changePath}.key`);
-      if (rules.has(change.key)) fail(changePath, '同一规则重复');
-      rules.add(change.key);
-      rule(change.value, `${changePath}.value`, false);
-      const position = projected.triggerRules.findIndex(row => row.ruleKey === change.key);
-      if (position < 0) fail(`${changePath}.key`, '原规则不存在');
-      const currentRule = projected.triggerRules[position];
-      const replacement = { ruleKey: change.key, ...clone(change.value),
-        ...Object.fromEntries(TIMES.filter(time => own(currentRule, time)).map(time => [time, currentRule[time]])) };
-      if (canonicalText(currentRule) === canonicalText(replacement)) fail(changePath, '未改变业务字段');
-      projected.triggerRules[position] = replacement;
+      const identity = `${change.objectType}/${change.key}`;
+      if (changedObjects.has(identity)) fail(changePath, '同一对象重复');
+      changedObjects.add(identity);
+      const keyField = COLLECTIONS[collection];
+      const creating = change.operation === 'CREATE';
+      const writeFields = ROW_FIELDS[collection].filter(field => !['gameId', 'skillKey'].includes(field)
+        && (creating || field !== keyField));
+      object(change.value, writeFields, `${changePath}.value`);
+      if (creating && change.value[keyField] !== change.key) fail(`${changePath}.value.${keyField}`, '新增值标识必须等于变更键');
+      if (collection === 'triggerRules') rule(change.value, `${changePath}.value`, creating);
+      const position = projected[collection].findIndex(row => row[keyField] === change.key);
+      if (creating && position >= 0) fail(`${changePath}.key`, '新增对象已经存在');
+      if (!creating && position < 0) fail(`${changePath}.key`, '原对象不存在');
+      const currentRow = creating ? {} : projected[collection][position];
+      const replacement = { ...(collection === 'triggerRules' ? {} : { gameId: plan.gameId, skillKey: item.skillKey }),
+        [keyField]: change.key, ...clone(change.value),
+        ...Object.fromEntries(TIMES.filter(time => own(currentRow, time)).map(time => [time, currentRow[time]])) };
+      if (canonicalText(currentRow) === canonicalText(replacement)) fail(changePath, '未改变业务字段');
+      if (creating) projected[collection].push(replacement);
+      else projected[collection][position] = replacement;
     }
+    // 管理聚合按组成稳定键排序回读；只整理六个根集合，嵌套业务顺序保持。
+    for (const [collection, key] of Object.entries(COLLECTIONS)) projected[collection].sort((a, b) =>
+      a[key] < b[key] ? -1 : a[key] > b[key] ? 1 : 0);
     if (!sameConfiguration(projected, item.expected)) fail(`${where}.expected`, '与PATCH投影不一致，包含未声明修改或丢失字段');
     if (!array(item.sourceEvidence, `${where}.sourceEvidence`).length) fail(`${where}.sourceEvidence`, '缺少冻结来源');
     for (const [sourceIndex, source] of item.sourceEvidence.entries()) {

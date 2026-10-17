@@ -269,6 +269,11 @@
           "label": "当前技能过程到达固定时点"
         },
         {
+          "value": "PROCESS_RESOLVED",
+          "label": "技能完成且绑定命中已结算",
+          "native": { "file": "internal/model/generic_process.go", "constant": "EventTypeProcessResolved", "value": "event/process_resolved" }
+        },
+        {
           "value": "RESULT_AVAILABLE",
           "label": "当前技能某个无生命周期基础结果到达可用时点"
         },
@@ -411,6 +416,11 @@
         {
           "value": "SKILL_HIT_FIRST_CONTACT",
           "label": "本次使用首次目标接触",
+          "domain": "INTEGER"
+        },
+        {
+          "value": "SKILL_USE_CONTACT_COUNT",
+          "label": "本次使用已结算接触数",
           "domain": "INTEGER"
         },
         {
@@ -1360,6 +1370,19 @@
             "value": "WAIT_CHANGED"
           }
         }
+      ]
+    }
+    ,{
+      "name": "ModifierZoneCalculationMode",
+      "title": "修正区域计算方式",
+      "backend": "modifierzone/ModifierZoneCalculationMode.java",
+      "web": { "typeName": "ModifierZoneCalculationMode", "values": "MODIFIER_ZONE_CALCULATION_MODES", "labels": "MODIFIER_ZONE_CALCULATION_MODE_LABELS" },
+      "members": [
+        { "value": "FLAT_ADD", "label": "固定值加算" },
+        { "value": "RATIO_ADD", "label": "比例加算" },
+        { "value": "RATIO_MULTIPLY", "label": "比例乘算" },
+        { "value": "RATIO_MAX", "label": "比例减少取强" },
+        { "value": "RATIO_COMPLEMENT_MULTIPLY", "label": "剩余比例连乘" }
       ]
     }
   ]

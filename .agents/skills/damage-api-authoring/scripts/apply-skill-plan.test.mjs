@@ -11,6 +11,9 @@ const TOKEN = 'independent-local-credential-not-for-evidence';
 const ENV = { DAMAGE_AUTHORING_TOKEN: TOKEN };
 const sha = data => createHash('sha256').update(data).digest('hex');
 const copy = value => JSON.parse(JSON.stringify(value));
+const TYPES = { PARAMETER: ['parameters', 'parameterKey'], FORMULA: ['formulas', 'formulaKey'],
+  EFFECT: ['effects', 'effectKey'], PROCESS: ['processes', 'processKey'],
+  INTERNAL_STATE: ['internalStates', 'stateKey'], TRIGGER_RULE: ['triggerRules', 'ruleKey'] };
 
 function configuration(skillKey = 'sample_q') {
   const common = { gameId: 'demo', skillKey, name: '独立规则样例', description: null, sortOrder: 0,
@@ -57,9 +60,15 @@ async function fixture(t, { count = 1, patch, get } = {}) {
   const commit = (skillKey, body) => {
     const state = current.get(skillKey);
     for (const change of body.changes) {
-      const index = state.triggerRules.findIndex(rule => rule.ruleKey === change.key);
-      state.triggerRules[index] = { ruleKey: change.key, ...copy(change.value) };
+      const [collection, key] = TYPES[change.objectType];
+      const index = state[collection].findIndex(row => row[key] === change.key);
+      const row = { ...(collection === 'triggerRules' ? {} : { gameId: 'demo', skillKey }),
+        [key]: change.key, ...copy(change.value) };
+      if (change.operation === 'CREATE') state[collection].push(row);
+      else state[collection][index] = row;
     }
+    for (const [collection, key] of Object.values(TYPES)) state[collection].sort((a, b) =>
+      a[key] < b[key] ? -1 : a[key] > b[key] ? 1 : 0);
     state.baseDigest = 'b'.repeat(64);
     state.skill.updatedAt = '2026-10-17T01:00:00Z';
     state.parameters[0].updatedAt = '2026-10-17T01:00:00Z';
@@ -144,6 +153,63 @@ test('成功只PATCH一次，独立GET确认整个expected，不变字段和原A
   assert.equal(f.requests.length, 1);
 });
 const own = (value, key) => Object.prototype.hasOwnProperty.call(value, key);
+
+function allObjectChanges(item) {
+  item.request.changes = [];
+  item.expected = copy(item.before);
+  for (const [type, [collection, key]] of Object.entries(TYPES)) {
+    const original = item.before[collection][0];
+    const { gameId: _game, skillKey: _skill, createdAt: _created, updatedAt: _updated, ...created } = copy(original);
+    created[key] = 'aaa_new_entry';
+    const { [key]: _key, ...updated } = copy(created);
+    updated.name = '原对象明确修改';
+    item.request.changes.push({ objectType: type, operation: 'UPDATE', key: original[key], value: updated });
+    item.request.changes.push({ objectType: type, operation: 'CREATE', key: created[key], value: created });
+    item.expected[collection] = [{ ...original, ...copy(updated) },
+      { ...(collection === 'triggerRules' ? {} : { gameId: item.before.skill.gameId, skillKey: item.skillKey }), ...copy(created) }];
+    item.expected[collection].sort((a, b) => a[key] < b[key] ? -1 : a[key] > b[key] ? 1 : 0);
+  }
+}
+
+test('六种组成的新增与修改同一摘要保护PATCH，完整独立回读并可跳过重跑', async t => {
+  const f = await fixture(t);
+  allObjectChanges(f.plan.items[0]);
+  const summary = await f.run({ apply: true });
+  assert.equal(summary.passed, true, JSON.stringify(summary.error));
+  assert.equal(summary.patchCount, 1);
+  assert.deepEqual(f.calls, ['GET:sample_q', 'PATCH:sample_q', 'GET:sample_q']);
+  assert.equal(f.requests[0].body.changes.length, 12);
+  assert.equal(sameConfiguration(f.current.get('sample_q'), f.plan.items[0].expected), true);
+  const rerun = await f.run({ apply: true });
+  assert.equal(rerun.passed, true);
+  assert.equal(rerun.patchCount, 0);
+  assert.equal(f.requests.length, 1);
+});
+
+test('新组成保存结果不明也只回读，不重放CREATE', async t => {
+  const f = await fixture(t, { patch({ skillKey, body, commit, res }) { commit(skillKey, body); res.destroy(); } });
+  allObjectChanges(f.plan.items[0]);
+  const summary = await f.run({ apply: true });
+  assert.equal(summary.passed, true);
+  assert.equal(summary.items[0].status, 'applied-confirmed-after-uncertain');
+  assert.equal(f.requests.length, 1);
+});
+
+for (const [name, mutate] of [
+  ['CREATE已存在', item => { item.request.changes[1].key = item.before.parameters[0].parameterKey; }],
+  ['CREATE值键不匹配', item => { item.request.changes[1].value.parameterKey = 'different_key'; }],
+  ['UPDATE不存在', item => { item.request.changes[0].key = 'missing_key'; }],
+  ['只读字段夹带', item => { item.request.changes[3].value.gameId = 'other'; }],
+  ['缺完整组成字段', item => { delete item.request.changes[4].value.lifecycle; }]
+]) test(`${name}在首次传输前拒绝`, async t => {
+  const f = await fixture(t);
+  allObjectChanges(f.plan.items[0]);
+  mutate(f.plan.items[0]);
+  const summary = await f.run({ apply: true });
+  assert.equal(summary.passed, false);
+  assert.equal(summary.patchCount, 0);
+  assert.deepEqual(f.calls, []);
+});
 
 test('基线摘要漂移即停止，0PATCH且保留实际GET', async t => {
   const f = await fixture(t);

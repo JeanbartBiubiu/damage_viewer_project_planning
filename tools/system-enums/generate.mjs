@@ -36,7 +36,7 @@ for (const group of contract.groups) {
   assert(validIdentifier(group.name) && !groupNames.has(group.name), `重复枚举族：${group.name}`);
   groupNames.add(group.name);
   assert(typeof group.title === 'string' && group.title.trim(), '枚举族必须有中文用途');
-  assert(group.backend === undefined || /^(skilltrigger|skillprocess)\/[A-Za-z]+\.java$/.test(group.backend), '非法后端枚举路径');
+  assert(group.backend === undefined || /^(skilltrigger|skillprocess|modifierzone)\/[A-Za-z]+\.java$/.test(group.backend), '非法后端枚举路径');
   assert(group.web && Array.isArray(group.members) && group.members.length, `空枚举族：${group.name}`);
   assert(group.backend || group.members.every(member => member.native), `运行枚举必须完整绑定原生常量：${group.name}`);
   const members = group.members.map(member => member.value);

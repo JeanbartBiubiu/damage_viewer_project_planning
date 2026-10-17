@@ -10,9 +10,18 @@
 | 构筑系统与选项 | `src/services/buildClient.ts`及`src/types/build.ts` | `controller/adminapi/build/`与实际服务；按当前映射定位 |
 | 计算可用目录 | `src/services/simulationAvailabilityClient.ts`及`src/types/simulationAvailability.ts` | `controller/adminapi/simulation/SimulationAvailabilityAdminController.java`、`service/simulation/availability/` |
 
-读取技能聚合使用`GET /api/admin/games/{gameId}/skills/{skillKey}/configuration`。修改已有技能使用同一路径的`PATCH`，顶层为`baseDigest`、可选的`skill`、`changes`；每项变化为`objectType / operation / key / value`。当前采用批次只更新触发规则：`objectType=TRIGGER_RULE`、`operation=UPDATE`，`value`须符合更新请求类型，不带规则标识、所属对象和时间戳等只读字段。完整规则的未变动作、条件、保护配置仍保留。
+读取技能聚合使用`GET /api/admin/games/{gameId}/skills/{skillKey}/configuration`。修改已有技能使用同一路径的`PATCH`，顶层为`baseDigest`、可选的`skill`、`changes`；每项变化为`objectType / operation / key / value`。配套脚本只接受`baseDigest / changes`，支持六种组成的`CREATE / UPDATE`；`value`使用完整请求类型，不带所属对象和时间戳。`CREATE`带与`key`一致的组成标识，`UPDATE`不带标识。完整规则的未变动作、条件、保护配置仍保留。
 
-新建技能的同路由`POST`要求完整主体且不允许基线摘要，不能将更新请求改方法后直接复用。当前配套脚本不执行新建或删除。角色、属性、关系及构筑各有自己的保护与返回形状，先读对应客户端与后端，不能套用技能的摘要协议。
+| objectType | 组成标识 | 完整读取集合 |
+| --- | --- | --- |
+| `PARAMETER` | `parameterKey` | `parameters` |
+| `FORMULA` | `formulaKey` | `formulas` |
+| `EFFECT` | `effectKey` | `effects` |
+| `PROCESS` | `processKey` | `processes` |
+| `INTERNAL_STATE` | `stateKey` | `internalStates` |
+| `TRIGGER_RULE` | `ruleKey` | `triggerRules` |
+
+新建技能的同路由`POST`要求完整主体且不允许基线摘要，不能将更新请求改方法后直接复用。配套脚本不执行技能新建、主体修改或任何删除。角色、属性、关系及构筑各有自己的保护与返回形状，先读对应客户端与后端，不能套用技能的摘要协议。
 
 以下入口均以`/api/admin/games/{gameId}`为前缀，当前请求不接受`baseDigest`。更新前比较完整基线，更新后独立读取；这些入口不能使用触发规则脚本。
 
