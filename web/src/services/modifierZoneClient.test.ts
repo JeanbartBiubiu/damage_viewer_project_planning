@@ -64,6 +64,9 @@ describe('modifierZoneClient', () => {
       calculationMode: 'RATIO_MAX', applicationStage: 'HEALING_RESULT'
     };
     expect(parseModifierZone(ratioMax).calculationMode).toBe('RATIO_MAX');
+    expect(parseModifierZone({ ...zone, domain: 'ATTRIBUTE', calculationMode: 'RATIO_COMPLEMENT_MULTIPLY', applicationStage: 'ATTRIBUTE_PERCENT' })
+      .calculationMode).toBe('RATIO_COMPLEMENT_MULTIPLY');
+    expect(() => parseModifierZone({ ...ratioMax, calculationMode: 'RATIO_COMPLEMENT_MULTIPLY' })).toThrow('组合不合法');
     expect(parseModifierZone({ ...zone, domain: 'ATTRIBUTE', calculationMode: 'RATIO_MULTIPLY', applicationStage: 'ATTRIBUTE_PERCENT' })
       .calculationMode).toBe('RATIO_MULTIPLY');
     expect(() => parseModifierZone({ ...zone, calculationMode: 'RATIO_MULTIPLY' })).toThrow('组合不合法');

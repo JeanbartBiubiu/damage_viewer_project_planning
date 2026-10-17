@@ -2197,6 +2197,19 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
             />
           </Form.Item>
       );
+    case 'PROCESS_RESOLVED':
+      return <>
+        <Form.Item label="来源技能" required>
+          <Select aria-label="结算完成来源技能" showSearch filterOption={matchesSelectOptionSearch}
+            value={eventSource.detail.sourceSkillKey || undefined} disabled={disabled}
+            options={props.skills(eventSource.detail.sourceSkillKey)}
+            onChange={value => onChange({ eventType: 'PROCESS_RESOLVED', detail: { sourceSkillKey: String(value ?? ''), processKey: '' } })} />
+        </Form.Item>
+        <Form.Item label="来源技能过程标识" required help="必须属于所选来源技能；保存时核对真实过程引用。">
+          <Input aria-label="结算完成过程标识" value={eventSource.detail.processKey} disabled={disabled}
+            onChange={value => onChange({ eventType: 'PROCESS_RESOLVED', detail: { ...eventSource.detail, processKey: value } })} />
+        </Form.Item>
+      </>;
     case 'PROCESS_MOMENT':
       return (
         <>

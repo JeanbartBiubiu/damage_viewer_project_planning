@@ -22,7 +22,7 @@ describe('modifierZoneForm', () => {
   });
 
   it('only exposes percentage multiplication for attributes and keeps existing modes', () => {
-    expect(allowedCalculationModes('ATTRIBUTE')).toEqual(['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY']);
+    expect(allowedCalculationModes('ATTRIBUTE')).toEqual(['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY']);
     expect(allowedApplicationStages('ATTRIBUTE', 'RATIO_MULTIPLY')).toEqual(['ATTRIBUTE_PERCENT']);
     expect(validateModifierZoneDraft({ modifierZoneKey: 'attribute_multiply', name: '属性比例乘算', domain: 'ATTRIBUTE',
       calculationMode: 'RATIO_MULTIPLY', applicationStage: 'ATTRIBUTE_PERCENT', description: '', sortOrder: '0' }, true)).toEqual({});

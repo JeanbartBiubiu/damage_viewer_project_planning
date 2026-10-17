@@ -42,7 +42,6 @@ export function describeCombatSkill(configuration: SkillConfiguration, basicAtta
       issues.push('作者尚未明确步骤是否占用行动');
     }
     if (starts.some(action => action.targetContext !== 'CURRENT_TARGET')) issues.push('首次过程目标上下文不明确，请在高级设置核对');
-    if (closure.internalStates.length) issues.push('首次闭包含当前自动循环未支持的内部状态');
     const results = closure.effects.flatMap(effect => effect.results);
     if (ownHitRules.length) {
       if (hasSelfTargetCondition(initialRules) || !results.some(result => result.target === 'TARGET')

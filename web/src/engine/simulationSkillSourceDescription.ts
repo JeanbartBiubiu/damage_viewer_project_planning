@@ -31,6 +31,7 @@ export type TriggeredSkillSourceDescription = {
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 
 const OWN_ATTACK_EVENTS = new Set(['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'HIT_LINK_APPLIED', 'ATTACK_LINK_APPLIED']);
+const DEFERRED_SKILL_EVENTS = new Set(['SKILL_USED', 'SKILL_HIT', 'PROCESS_RESOLVED']);
 
 export function plannedSkillRuleKeys(configuration: SkillConfiguration, phases: readonly SimulationSkillPhase[] = ['INITIAL']) {
   const processes = new Set(configuration.triggerRules.filter(rule => rule.eventSource.eventType === 'SKILL_USED'
@@ -66,6 +67,10 @@ function activeReachableRoots(snapshot: SimulationSnapshot) {
           && snapshot.selection.plannedSkills.some(plan => plan.phaseKinds.includes(event.detail.castPhase!)
             && (event.detail.sourceSkillKey === null || event.detail.sourceSkillKey === plan.skillKey)))
         && (event.detail.sourceSkillKey === null || snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey))) selected.add(rule.ruleKey);
+      if (event.eventType === 'PROCESS_RESOLVED' && entry.side === 'source'
+        && snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey)
+        && snapshot.skillConfigurations.some(configuration => configuration.skill.skillKey === event.detail.sourceSkillKey
+          && configuration.processes.some(process => process.processKey === event.detail.processKey))) selected.add(rule.ruleKey);
     }
     roots.set(identity(entry.side, entry.source), selected);
   }
@@ -114,6 +119,10 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
     if (!rule.actions.length) return false;
     const event = rule.eventSource;
     if (allSides.has(event.eventType)) return true;
+    if (event.eventType === 'PROCESS_RESOLVED') return side === 'source'
+      && snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey)
+      && snapshot.skillConfigurations.some(configuration => configuration.skill.skillKey === event.detail.sourceSkillKey
+        && configuration.processes.some(process => process.processKey === event.detail.processKey));
     if (OWN_ATTACK_EVENTS.has(event.eventType)) {
       if (side !== 'source') return false;
       return true;
@@ -134,7 +143,7 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
 
 function onlyUndrivenAttackRoots(configuration: SkillConfiguration, basicAttackCategoryKey: string | null, allowDeferredSkills = false) {
   const roots = configuration.triggerRules.filter(rule => (OWN_ATTACK_EVENTS.has(rule.eventSource.eventType)
-    || allowDeferredSkills && ['SKILL_USED', 'SKILL_HIT'].includes(rule.eventSource.eventType)
+    || allowDeferredSkills && DEFERRED_SKILL_EVENTS.has(rule.eventSource.eventType)
     || basicAttackCategoryKey !== null && configuration.skill.skillCategoryKeys.includes(basicAttackCategoryKey) && rule.eventSource.eventType === 'SKILL_HIT'
       && (rule.eventSource.detail.sourceSkillKey === null || rule.eventSource.detail.sourceSkillKey === configuration.skill.skillKey))
     && rule.actions.length > 0).map(rule => rule.ruleKey);
@@ -232,7 +241,7 @@ export function validateSimulationSkillSourceManifest(snapshot: SimulationSnapsh
           }
         }
         if (source.inactiveReason === 'ACTIVE_DEFERRED' && (roots.length
-          || !configuration.triggerRules.some(rule => ['SKILL_USED', 'SKILL_HIT'].includes(rule.eventSource.eventType))
+          || !configuration.triggerRules.some(rule => DEFERRED_SKILL_EVENTS.has(rule.eventSource.eventType))
           || !onlyUndrivenAttackRoots(configuration, basicAttackCategoryKey, true))) {
           fail(`${side}.skillSources.${source.skillKey}`, '主动后置原因不能隐藏真实自然入口');
         }

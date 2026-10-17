@@ -78,6 +78,7 @@ export type SkillTriggerProcessMomentEventDetail = {
   processKey: string;
   moment: SkillProcessMoment;
 };
+export type SkillTriggerProcessResolvedEventDetail = { sourceSkillKey: string; processKey: string };
 
 export type SkillTriggerResultAvailableEventDetail = {
   effectKey: string;
@@ -161,6 +162,7 @@ export type SkillTriggerProcessMomentEventSource = {
   eventType: 'PROCESS_MOMENT';
   detail: SkillTriggerProcessMomentEventDetail;
 };
+export type SkillTriggerProcessResolvedEventSource = { eventType: 'PROCESS_RESOLVED'; detail: SkillTriggerProcessResolvedEventDetail };
 
 export type SkillTriggerResultAvailableEventSource = {
   eventType: 'RESULT_AVAILABLE';
@@ -255,6 +257,7 @@ export type SkillTriggerEventSource =
   | SkillTriggerBasicAttackReceivedEventSource
   | SkillTriggerSkillHitEventSource
   | SkillTriggerProcessMomentEventSource
+  | SkillTriggerProcessResolvedEventSource
   | SkillTriggerResultAvailableEventSource
   | SkillTriggerLifecycleMomentEventSource
   | SkillTriggerDamagePendingEventSource

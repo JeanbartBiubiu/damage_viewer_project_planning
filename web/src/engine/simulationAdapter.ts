@@ -28,7 +28,7 @@ import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
 
-export const SIMULATION_ADAPTER_VERSION = 'v15-classification-cost-bindings';
+export const SIMULATION_ADAPTER_VERSION = 'v16-complete-source-effects';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -530,6 +530,24 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
 
 function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[]): Program {
   const active = assembleActiveSkills(snapshot, ignoredCosts);
+  for (const contribution of base.natural.triggered.passiveHitContributions ?? []) {
+    const binding = active.bindings.find(row => row.skillKey === contribution.sourceSkillKey);
+    const provider = active.providers.find(row => row.providerKey === binding?.providerDefinitionRef);
+    const hitBinding = binding?.hitBindings[0];
+    const ability = provider?.abilities?.find(row => row.abilityKey === hitBinding?.hitAbilityRef.match(/\.ability\[([^\]]+)\]$/)?.[1]);
+    const operation = ability?.operations?.find(row => row.operation === 'resolve_skill_hit');
+    if (!binding || !provider || !hitBinding || !ability || !operation?.skillHit || binding.hitBindings.length !== 1) fail(`skills.${contribution.authorSkillKey}`, '被动控制必须进入已存在的唯一原技能命中计划，不能另发命中');
+    const candidate = structuredClone(contribution.candidate);
+    if (operation.skillHit.candidates.some(row => row.candidateKey === candidate.candidateKey)) fail('skillHit.candidates', '被动控制候选身份重复');
+    const candidateIndex = operation.skillHit.candidates.length;
+    operation.skillHit.candidates.push(candidate);
+    const compiledPath = `sharedProviders[${provider.providerKey}].abilities[${provider.abilities!.indexOf(ability)}].operations[${ability.operations!.indexOf(operation)}].skillHit.candidates[${candidateIndex}]`;
+    const authorPath = `skills.${contribution.authorSkillKey}.effects.${candidate.effectKey}.results.${candidate.resultKey}`;
+    active.coverage.push({ authorPath, compiledPath });
+    active.operationOrigins.push({ abilityRef: hitBinding.hitAbilityRef, operationRef: authorPath, skillKey: contribution.authorSkillKey,
+      effectKey: candidate.effectKey, resultKey: candidate.resultKey, providerDefinitionRef: provider.providerKey,
+      compiledPaths: candidate.operations.map((_row, index) => `${compiledPath}.operations[${index}]`) });
+  }
   const existingDerivations = base.rules.attributeDerivations ?? [];
   const extraGame = assembleGameAttributeDerivations(snapshot, active.changedAttributes, existingDerivations);
   if (extraGame.derivations.length) {
@@ -551,9 +569,21 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
       }
       existing.abilities = [...(existing.abilities ?? []), ...(provider.abilities ?? [])];
       existing.processes = [...(existing.processes ?? []), ...(provider.processes ?? [])];
+      for (const [key, field] of Object.entries(provider.initialStateSchema ?? {})) {
+        const previous = existing.initialStateSchema?.[key];
+        if (previous !== undefined && JSON.stringify(previous) !== JSON.stringify(field)) fail(`sharedProviders.${provider.providerKey}.initialStateSchema.${key}`, '主动与自然来源状态定义冲突');
+        (existing.initialStateSchema ??= {})[key] = field;
+      }
       active.providers = active.providers.filter(row => row !== provider);
     } else base.natural.mounts.push({ side: 'source', providerRef: binding.providerRef, definitionRef: binding.providerDefinitionRef });
   }
+  active.providers = active.providers.filter(provider => {
+    const existing = [...base.equipment.providers, ...base.triggered.providers, ...base.natural.providers]
+      .find(row => row.providerKey === provider.providerKey);
+    if (!existing) return true;
+    if (JSON.stringify(existing) !== JSON.stringify(provider)) fail(`sharedProviders.${provider.providerKey}`, '主动与自然来源的关联效果定义冲突');
+    return false;
+  });
   base.rules.skillActionBindings = active.bindings;
   for (const formula of active.rules.damageTypeFormulas) {
     const previous = base.rules.damageTypeFormulas!.find(row => row.damageType === formula.damageType);

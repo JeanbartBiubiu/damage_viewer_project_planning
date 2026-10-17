@@ -10,6 +10,23 @@ import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkill
 afterEach(() => vi.unstubAllGlobals());
 
 describe('场景只读快照接口', () => {
+  it.each(['selected', 'disabled'] as const)('完整%s来源保留未挂接的已知实例时间公式，未知上下文仍拒绝', variant => {
+    const snapshot = variant === 'selected' ? simulationSample() : simulationDefaultSourcesSample();
+    const configuration = variant === 'selected' ? snapshot.skillConfigurations[0]!
+      : snapshot.skillConfigurations.find(configuration => configuration.skill.skillKey === 'sample_disabled')!;
+    const formula = { gameId: snapshot.gameId, skillKey: configuration.skill.skillKey, formulaKey: 'unconsumed_elapsed', name: '保留的有限实例公式',
+      description: null, sortOrder: 0, createdAt: '', updatedAt: '', expression: {
+        inputs: [{ key: 'elapsed', binding: { kind: 'context' as const, contextKey: 'effect_elapsed_ms' } }],
+        stages: [{ key: 'output', name: '已过时间', expression: { op: 'read' as const, inputKey: 'elapsed' } }], outputStageKey: 'output'
+      } };
+    configuration.formulas.push(formula);
+    const before = structuredClone(snapshot);
+    expect(validateSimulationSnapshot(snapshot, snapshot.gameId, snapshot.selection)).toBe(snapshot);
+    expect(snapshot).toEqual(before);
+    formula.expression.inputs[0]!.binding.contextKey = 'arbitrary_clock';
+    expect(() => validateSimulationSnapshot(snapshot, snapshot.gameId, snapshot.selection)).toThrow(/技能公式详情不完整/);
+  });
+
   it('阶段对照读取保留全局停用来源，默认本场标记不使其重新激活', async () => {
     const candidate = simulationDefaultSourcesSample();
     vi.stubGlobal('fetch', vi.fn(async (_url: unknown, options: RequestInit) => {

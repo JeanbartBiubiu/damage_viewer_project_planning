@@ -62,6 +62,7 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
   const types = new TypeCatalogEntries();
   const defenses = new Map<string, ReturnType<typeof compileSimulationDamageFormula>>();
   let vampRules: ReturnType<typeof adaptHitProgram>['vampRules'];
+  const allProviderDefinitions = assemblies.flatMap(assembly => assembly.providers);
   const changed = changedAttributes();
   const collectChanged = (value: unknown): void => {
     if (Array.isArray(value)) { value.forEach(collectChanged); return; }
@@ -70,6 +71,13 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
     if (row.operation === 'attribute_change' && typeof row.attributeKey === 'string') {
       if (row.target !== 'source' && row.target !== 'target' && row.target !== 'self') fail('active.attribute_change.target', '计划属性操作缺少明确双方映射');
       changed[row.target === 'target' ? 'target' : 'source'].add(row.attributeKey);
+    }
+    if (row.operation === 'shield' || row.operation === 'apply_provider') {
+      const definition = allProviderDefinitions.find(provider => provider.providerKey === (row.shieldLifecycleProviderDefinitionRef ?? row.providerDefinitionRef));
+      for (const modifier of definition?.modifiers ?? []) if (modifier.kind === 'attribute') {
+        const attribute = /^self\.attr\.([a-z][a-z0-9_]*)$/.exec(modifier.target ?? '');
+        if (attribute) changed[row.target === 'target' ? 'target' : 'source'].add(attribute[1]!);
+      }
     }
     Object.values(row).forEach(collectChanged);
   };
@@ -116,8 +124,13 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   }
   const roots = plannedSkillRuleKeys(complete, plan.phaseKinds);
   const { configuration, excludedRuleKeys } = selectSimulationSkillSourceClosure(complete, roots);
-  if (configuration.processes.length !== 1 || configuration.internalStates.length) fail(root, '只开放唯一有限施放过程，无未支持的必要状态消费');
-  const process = configuration.processes[0]!;
+  const firstProcessKeys = new Set(configuration.triggerRules.flatMap(rule => rule.eventSource.eventType === 'SKILL_USED'
+    && rule.eventSource.detail.sourceSkillKey === plan.skillKey && rule.eventSource.detail.useKind === 'ACTIVE'
+    && rule.eventSource.detail.castPhase === 'INITIAL'
+    ? rule.actions.flatMap(action => action.actionType === 'START_PROCESS' ? [action.detail.processKey] : []) : []));
+  const firstProcesses = configuration.processes.filter(process => firstProcessKeys.has(process.processKey) && process.activationType === 'ACTIVE');
+  if (firstProcessKeys.size !== 1 || firstProcesses.length !== 1) fail(`${root}.processes`, '首次入口必须明确引用唯一有限主动过程，不能从完整过程数组猜选');
+  const process = firstProcesses[0]!;
   for (const step of process.steps) if (typeof step.occupiesAction !== 'boolean') {
     fail(`${root}.processes.${process.processKey}.steps.${step.stepKey}.occupiesAction`, '计划步骤必须由作者明确是否占用行动，不为延时猜默认值');
   }
@@ -131,18 +144,6 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   if (ignoredCosts.some(cost => !candidates.some(candidate => costIdentity(candidate) === costIdentity(cost)))) {
     fail('ignoredCastCosts', '只允许逐项声明自身即时普通施法成本；弹药、充能、计数等必要消费不忽略');
   }
-  const adapted = adaptProcessProgram({ gameId: snapshot.gameId, skillKey: plan.skillKey, skillLevel: plan.skillLevel,
-    characterLevel: snapshot.selection.sourceLevel, process, rules: processRules, effects: configuration.effects,
-    parameters: configuration.parameters, formulas: configuration.formulas, owner: 'source',
-    castCosts: ignoredCosts.map(({ skillKey: _skillKey, ...cost }) => cost), ignoreCastCosts: true, roundPositiveCooldownMs: true });
-  if (adapted.controls.length !== plan.phaseKinds.length || plan.phaseKinds.some(phase => adapted.controls.filter(control => control.action === phase).length !== 1)) {
-    fail(`${root}.triggerRules`, '每个选定阶段必须有唯一真实同源控制，取消必须沿过程取消请求与主动取消失败动作');
-  }
-  const providers: ProviderDefinition[] = [];
-  const formulas: NamedFormula[] = [...adapted.formulas];
-  const types = new TypeCatalogEntries([['combatant/champion', 'combatant'], ['event/ability_started', 'event'], ['event/source_owner', 'event']]);
-  const coverage: SimulationCoverage[] = [];
-  const operationOrigins: OperationOrigin[] = [];
   const sourceIndex = [...snapshot.source.skillSources].sort((left, right) => {
     const identity = (source: typeof left) => simulationSkillSourceIdentity(source.origin, source.skillKey);
     return identity(left) < identity(right) ? -1 : identity(left) > identity(right) ? 1 : 0;
@@ -150,6 +151,20 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   if (sourceIndex < 0) fail('selection.plannedSkills.origin', '计划技能没有真实拥有者来源');
   const providerRef = `source_natural_skill_${sourceIndex}`;
   const definitionRef = `${providerRef}_definition`;
+  const adapted = adaptProcessProgram({ gameId: snapshot.gameId, skillKey: plan.skillKey, skillLevel: plan.skillLevel,
+    characterLevel: snapshot.selection.sourceLevel, process, rules: processRules, effects: configuration.effects,
+    parameters: configuration.parameters, formulas: configuration.formulas, owner: 'source',
+    internalStates: configuration.internalStates, modifierZones: snapshot.catalogs.modifierZones, providerDefinitionRef: definitionRef,
+    castCosts: ignoredCosts.map(({ skillKey: _skillKey, ...cost }) => cost), ignoreCastCosts: true, roundPositiveCooldownMs: true });
+  if (adapted.controls.length !== plan.phaseKinds.length || plan.phaseKinds.some(phase => adapted.controls.filter(control => control.action === phase).length !== 1)) {
+    fail(`${root}.triggerRules`, '每个选定阶段必须有唯一真实同源控制，取消必须沿过程取消请求与主动取消失败动作');
+  }
+  const providers: ProviderDefinition[] = [...adapted.providers];
+  const formulas: NamedFormula[] = [...adapted.formulas];
+  const types = new TypeCatalogEntries([['combatant/champion', 'combatant'], ['event/ability_started', 'event'], ['event/source_owner', 'event']]);
+  for (const type of adapted.typeEntries) types.set(type.key, type.domain);
+  const coverage: SimulationCoverage[] = [];
+  const operationOrigins: OperationOrigin[] = [];
   const provider = adapted.provider;
   provider.kind = 'character';
   provider.providerKey = provider.stableId = definitionRef;
@@ -186,9 +201,18 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
       });
     }
   }
-  for (const group of provider.processes[0]!.momentOperations) for (const operation of group.operations) {
+  for (const [groupIndex, group] of provider.processes[0]!.momentOperations.entries()) for (const [operationIndex, operation] of group.operations.entries()) {
     if (operation.abilityRef) operation.abilityRef = operation.abilityRef.replace('self.provider[@mount]', `self.provider[${providerRef}]`);
     if (operation.operation === 'resource_change') fail(`${root}.processes.${process.processKey}`, '未明确声明为施法成本的资源改变仍是必要结果，6A不支持时严格拒绝');
+    if (operation.operation === 'shield') {
+      const effect = configuration.effects.find(effect => effect.results.some(result => operation.ref === `${root}.effects.${effect.effectKey}.results.${result.resultKey}`));
+      const result = effect?.results.find(result => operation.ref === `${root}.effects.${effect!.effectKey}.results.${result.resultKey}`);
+      if (!effect || !result || result.resultType !== 'NORMAL_SHIELD') fail(`${root}.processes.${process.processKey}`, '护盾操作必须对应真实作者普通盾');
+      const compiledPath = `sharedProviders[${definitionRef}].processes[0].momentOperations[${groupIndex}].operations[${operationIndex}]`;
+      coverage.push({ authorPath: operation.ref!, compiledPath }, { authorPath: `${root}.effects.${effect.effectKey}.lifecycle`, compiledPath: `sharedProviders[${operation.shieldLifecycleProviderDefinitionRef}].lifecycle` });
+      operationOrigins.push({ abilityRef: `source.provider[${providerRef}].ability[${adapted.initialAbilityKey}]`, operationRef: operation.ref!,
+        skillKey: plan.skillKey, effectKey: effect.effectKey, resultKey: result.resultKey, compiledPaths: [compiledPath], providerDefinitionRef: definitionRef });
+    }
   }
   const binding: SkillActionBinding = { bindingKey: `planned_${providerRef}`, source: 'source', providerRef,
     providerDefinitionRef: definitionRef, skillKey: plan.skillKey,

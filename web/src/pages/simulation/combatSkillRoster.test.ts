@@ -76,7 +76,7 @@ describe('混合战斗真实绑定技能描述', () => {
     expect(describeCombatSkill(redirected, false).issue).toContain('高级设置核对');
   });
 
-  it.each(['self_cooldown', 'empty_process'] as const)('现有适配器支持的%s保留自身默认目标并通过真实准备，不由展示猜测拦截', async kind => {
+  it.each(['self_cooldown', 'own_counter', 'empty_process'] as const)('现有适配器支持的%s保留自身默认目标并通过真实准备，不由展示猜测拦截', async kind => {
     const snapshot = simulationActiveSample(true);
     const configuration = snapshot.skillConfigurations[1]!;
     if (kind === 'self_cooldown') {
@@ -88,6 +88,13 @@ describe('混合战斗真实绑定技能描述', () => {
       }] });
       configuration.processes[0]!.effectBindings.push({ bindingKey: 'self_cooldown', effectKey: 'self_cooldown', sortOrder: 0,
         moment: { momentType: 'PROCESS_COMPLETE', stepKey: null, failureReason: null } });
+    } else if (kind === 'own_counter') {
+      configuration.internalStates.push({ gameId: configuration.skill.gameId, skillKey: configuration.skill.skillKey,
+        stateKey: 'quota', name: '本技能额度', description: null, sortOrder: 0, createdAt: '', updatedAt: '',
+        stateType: 'COUNTER', scope: 'TARGET', detail: { initialValue: fixedValue(0), maxValue: fixedValue(1), durationValue: null } });
+      configuration.processes[0]!.stateOperations.push({ operationKey: 'reset_quota', name: '成功使用重置',
+        stateSkillKey: configuration.skill.skillKey, stateKey: 'quota', operation: 'SET', value: fixedValue(0), optionKey: null,
+        moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null }, sortOrder: 0 });
     } else {
       configuration.effects = [];
       configuration.triggerRules = configuration.triggerRules.filter(rule => rule.actions.some(action => action.actionType === 'START_PROCESS'));

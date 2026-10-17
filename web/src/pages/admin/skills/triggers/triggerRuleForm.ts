@@ -349,6 +349,14 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
     requiredCatalogs: ['processes', 'steps'],
     detailFields: ['processKey', 'moment']
   },
+  PROCESS_RESOLVED: {
+    eventType: 'PROCESS_RESOLVED',
+    label: SKILL_TRIGGER_EVENT_TYPE_LABELS.PROCESS_RESOLVED,
+    currentTargetBinding: '真实成功过程的目标；完成绑定命中结算后提供本次接触数。',
+    hasEventSource: false,
+    requiredCatalogs: ['skills', 'processes'],
+    detailFields: ['sourceSkillKey', 'processKey']
+  },
   RESULT_AVAILABLE: {
     eventType: 'RESULT_AVAILABLE',
     label: SKILL_TRIGGER_EVENT_TYPE_LABELS.RESULT_AVAILABLE,
@@ -747,6 +755,8 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
       return { eventType, detail: { sourceSkillKey: null, useKind: 'ANY', castPhase: null } };
     case 'SKILL_HIT':
       return { eventType, detail: { sourceSkillKey: null } };
+    case 'PROCESS_RESOLVED':
+      return { eventType, detail: { sourceSkillKey: '', processKey: '' } };
     case 'HIT_LINK_APPLIED':
       return { eventType, detail: { sourceSkillKey: null } };
     case 'ATTACK_LINK_APPLIED':
@@ -1209,6 +1219,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
   BASIC_ATTACK_RECEIVED: [],
   SKILL_HIT: ['HIT_INDEX', 'SKILL_HIT_FIRST_CONTACT', 'SKILL_HIT_SPELL_SHIELD_BLOCKED'],
   PROCESS_MOMENT: [],
+  PROCESS_RESOLVED: ['SKILL_USE_CONTACT_COUNT'],
   RESULT_AVAILABLE: [],
   LIFECYCLE_MOMENT: ['LIFECYCLE_STACKS', 'REMAINING_MS'],
   DAMAGE_PENDING: ['RAW_DAMAGE', 'POST_DEFENSE_DAMAGE', 'HEALTH_BEFORE', 'PROJECTED_HEALTH_AFTER'],
@@ -3197,6 +3208,12 @@ export function validateSkillTriggerDraft(
   }
   if (draft.eventSource.eventType === 'PROCESS_MOMENT' && !draft.eventSource.detail.processKey.trim()) {
     pushError(nestedErrors, 'eventSource.detail.processKey', '过程不能为空。');
+  }
+  if (draft.eventSource.eventType === 'PROCESS_RESOLVED') {
+    for (const [field, label] of [['sourceSkillKey', '来源技能'], ['processKey', '过程']] as const) {
+      const error = validateKey(draft.eventSource.detail[field], label);
+      if (error) pushError(nestedErrors, `eventSource.detail.${field}`, error);
+    }
   }
   if (draft.eventSource.eventType === 'INTERNAL_STATE_CHANGED'
     && !draft.eventSource.detail.stateSkillKey?.trim()) {

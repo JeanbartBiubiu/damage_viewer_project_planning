@@ -80,6 +80,34 @@ function compiledOperation(input: CompileRequest, path: string): OperationDefini
   }
   return cursor as OperationDefinition | undefined;
 }
+function passiveControlAuthorMatches(input: CompileRequest, origin: OperationOrigin, ability: AbilityDefinition,
+  abilityPath: string, owner: string | undefined): boolean {
+  const bindings = input.rules.skillActionBindings?.filter(binding => binding.source === owner && binding.skillKey === ability.skillKey
+    && binding.hitBindings.some(hit => hit.hitAbilityRef === origin.abilityRef)) ?? [];
+  if (bindings.length !== 1 || bindings[0]!.providerDefinitionRef !== origin.providerDefinitionRef
+    || !origin.abilityRef.startsWith(`${owner}.provider[${bindings[0]!.providerRef}].ability[`)) return false;
+  const actor = input.combatants.find(row => row.key === owner);
+  return !!actor && origin.compiledPaths.every(path => {
+    if (!path.startsWith(`${abilityPath}.`)) return false;
+    const match = /^\.operations\[(\d+)\]\.skillHit\.candidates\[(\d+)\]\.operations\[(\d+)\]$/.exec(path.slice(abilityPath.length));
+    if (!match) return false;
+    const resolver = ability.operations?.[Number(match[1])];
+    const candidate = resolver?.skillHit?.candidates[Number(match[2])];
+    const operation = candidate?.operations[Number(match[3])];
+    const mounts = actor.providers.filter(mount => mount.providerRef === candidate?.participationProviderRef);
+    const participant = input.sharedProviders?.filter(provider => provider.providerKey === mounts[0]?.definitionRef) ?? [];
+    const control = input.sharedProviders?.filter(provider => provider.providerKey === operation?.providerDefinitionRef) ?? [];
+    return resolver?.operation === 'resolve_skill_hit' && !!candidate?.participationProviderRef && mounts.length === 1
+      && participant.length === 1 && participant[0]!.skillKey === origin.skillKey
+      && candidate.effectKey === origin.effectKey && candidate.resultKey === origin.resultKey
+      && candidate.semantic.resultType === 'STATUS_OPERATION' && candidate.semantic.target === 'TARGET'
+      && candidate.semantic.moment === 'PERSISTENT' && candidate.semantic.statusOperation === 'APPLY'
+      && candidate.spellShieldBlockScope === 'RESULT' && candidate.operations.length === 1
+      && operation?.operation === 'apply_provider' && operation.target === 'target'
+      && operation.ref === origin.operationRef && control.length === 1 && control[0]!.kind === 'status' && control[0]!.skillKey === origin.skillKey
+      && control[0]!.types?.includes(`provider/status_${candidate.semantic.statusKind}`) === true;
+  });
+}
 function damageContract(ability: AbilityDefinition, suffix: string, origin: OperationOrigin, operation: OperationDefinition,
   hitAbilityRef: string, activeHit = false): DamageContract | undefined {
   const gated = !!operation.condition || !!ability.castCondition || !!ability.cooldown || !!ability.cost;
@@ -248,7 +276,7 @@ export function assessContinuousAttackResult(
     const ability = definition?.abilities?.[abilityIndex];
     const abilityPath = `sharedProviders[${providerIndex}].abilities[${abilityIndex}]`;
     check(!mapping.has(key)
-      && !!ability && ability.skillKey === origin.skillKey
+      && !!ability && (ability.skillKey === origin.skillKey || passiveControlAuthorMatches(input, origin, ability, abilityPath, match?.[1]))
       && (!origin.providerDefinitionRef || mount?.definitionRef === origin.providerDefinitionRef
         || !mount && definition?.kind === 'status' && definition.lifecycle?.instanceScope === 'source_target'
         && !!input.combatants.find(actor => actor.key === match?.[1])?.providers.some(row => {

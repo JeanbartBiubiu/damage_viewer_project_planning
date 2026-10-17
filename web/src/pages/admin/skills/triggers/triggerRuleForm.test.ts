@@ -131,6 +131,14 @@ const EVENT_CAPABILITY_ROWS = [
     detailFields: ['processKey', 'moment']
   },
   {
+    eventType: 'PROCESS_RESOLVED',
+    label: '技能完成且绑定命中已结算',
+    currentTargetBinding: '真实成功过程的目标；完成绑定命中结算后提供本次接触数。',
+    hasEventSource: false,
+    requiredCatalogs: ['skills', 'processes'],
+    detailFields: ['sourceSkillKey', 'processKey']
+  },
+  {
     eventType: 'RESULT_AVAILABLE',
     label: '当前技能某个无生命周期基础结果到达可用时点',
     currentTargetBinding: '目标效果执行上下文的目标；没有时为来源对象。',
@@ -434,8 +442,8 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
 };
 
 describe('trigger event member set and capability table', () => {
-  it('exposes exactly 24 frozen events with labels, current-target, event-source and catalogs', () => {
-    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(24);
+  it('exposes exactly 25 frozen events with labels, current-target, event-source and catalogs', () => {
+    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(25);
     expect([...SKILL_TRIGGER_EVENT_TYPES]).toEqual(EVENT_CAPABILITY_ROWS.map((row) => row.eventType));
     expect(Object.keys(SKILL_TRIGGER_EVENT_CAPABILITIES)).toEqual([...SKILL_TRIGGER_EVENT_TYPES]);
 
@@ -514,6 +522,7 @@ describe('trigger event member set and capability table', () => {
       'RECAST_COUNT',
       'HIT_INDEX',
       'SKILL_HIT_FIRST_CONTACT',
+      'SKILL_USE_CONTACT_COUNT',
       'SKILL_HIT_SPELL_SHIELD_BLOCKED',
       'LIFECYCLE_STACKS',
       'PERIOD_INDEX',

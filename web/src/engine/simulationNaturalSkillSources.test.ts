@@ -3,6 +3,7 @@ import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof'
 import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
 import { simulationBuildSample, simulationSample } from '../../tests/fixtures/simulationSnapshot';
+import { simulationActiveSample } from '../../tests/fixtures/simulationActiveSkill';
 import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkillSources';
 import { permanentEquipmentSimulationSample } from '../../tests/fixtures/simulationPermanentEquipment';
 import type { SkillConfiguration } from '../types/skillConfiguration';
@@ -13,7 +14,7 @@ import { recurveBowConfiguration, triggeredEquipmentSimulationSample } from '../
 import type { SkillEffect, SkillEffectLifecycle } from '../types/skillEffect';
 import type { SkillProcess } from '../types/skillProcess';
 import type { SkillTriggerAction, SkillTriggerRuleDetail } from '../types/skillTriggerRule';
-import { naturalRuleKeys } from './simulationSkillSourceDescription';
+import { naturalRuleKeys, validateSimulationSkillSourceManifest } from './simulationSkillSourceDescription';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
 
 function syncNaturalSources(snapshot: SimulationSnapshot) {
@@ -186,6 +187,87 @@ function scene(snapshot: SimulationSnapshot) {
   for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) inputs[row.side][row.attribute.attributeKey] = 0;
   return assembleSimulation(snapshot, inputs, { source: 650, target: 590 });
 }
+
+function deferredResolutionSample(skillKey: string, processKey: string, resolvedOnly = false, basicAttack = false) {
+  const snapshot = naturalSample(simulationActiveSample());
+  const configuration = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'sample_natural')!;
+  const active = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'sample_active')!;
+  active.processes[0]!.processKey = processKey;
+  active.triggerRules[0]!.actions[0]!.detail = { processKey };
+  if (basicAttack) {
+    snapshot.selection.basicAttackSkillKey = snapshot.skillConfigurations[0]!.skill.skillKey;
+    snapshot.selection.basicAttackLevel = 1;
+  }
+  configuration.skill.skillKey = skillKey;
+  for (const row of configuration.parameters) row.skillKey = skillKey;
+  for (const row of configuration.effects) row.skillKey = skillKey;
+  const initial = configuration.triggerRules[0]!;
+  configuration.triggerRules = [
+    ...resolvedOnly ? [] : [
+      { ...structuredClone(initial), ruleKey: 'use', eventSource: { eventType: 'SKILL_USED' as const,
+        detail: { sourceSkillKey: active.skill.skillKey, useKind: 'ACTIVE' as const, castPhase: 'INITIAL' as const } } },
+      { ...structuredClone(initial), ruleKey: 'contact', eventSource: { eventType: 'SKILL_HIT' as const,
+        detail: { sourceSkillKey: active.skill.skillKey } } }
+    ],
+    { ...structuredClone(initial), ruleKey: 'resolved', eventSource: { eventType: 'PROCESS_RESOLVED',
+      detail: { sourceSkillKey: active.skill.skillKey, processKey } } }
+  ];
+  for (const side of ['source', 'target'] as const) {
+    snapshot[side].attachedSkills.find(row => row.skillKey === 'sample_natural')!.skillKey = skillKey;
+    snapshot.selection[`${side}SkillSettings`].find(row => row.skillKey === 'sample_natural')!.skillKey = skillKey;
+    const source = snapshot[side].skillSources.find(row => row.skillKey === 'sample_natural')!;
+    source.skillKey = skillKey;
+    source.enabledRuleKeys = naturalRuleKeys(snapshot, configuration, side);
+    source.inactiveReason = side === 'source' ? null : 'ACTIVE_DEFERRED';
+  }
+  if (basicAttack) {
+    const source = snapshot.source.skillSources[0]!;
+    source.inactiveReason = null;
+    source.enabledRuleKeys = naturalRuleKeys(snapshot, snapshot.skillConfigurations[0]!, 'source');
+  }
+  return { snapshot, configuration };
+}
+
+describe('无施放计划的跨技能自然入口', () => {
+  it.each([
+    ['deferred_alpha', 'finish_alpha', false],
+    ['deferred_beta', 'finish_beta', true]
+  ] as const)('目标保留%s完整开启配置，使用、接触和终结入口均不可达时允许主动后置', (skillKey, processKey, basicAttack) => {
+    const { snapshot, configuration } = deferredResolutionSample(skillKey, processKey, false, basicAttack);
+    const before = structuredClone(snapshot);
+    expect(naturalRuleKeys(snapshot, configuration, 'source')).toEqual(['contact', 'resolved', 'use']);
+    expect(naturalRuleKeys(snapshot, configuration, 'target')).toEqual([]);
+    expect(snapshot.target.skillSources.find(row => row.skillKey === skillKey))
+      .toMatchObject({ enabled: true, inactiveReason: 'ACTIVE_DEFERRED', enabledRuleKeys: [] });
+    expect(() => validateSimulationSkillSourceManifest(snapshot)).not.toThrow();
+    expect(snapshot).toEqual(before);
+  });
+
+  it('只有真实过程终结订阅也能证明主动后置，不要求伪造使用或命中入口', () => {
+    const { snapshot } = deferredResolutionSample('terminal_only', 'terminal_process', true);
+    expect(() => validateSimulationSkillSourceManifest(snapshot)).not.toThrow();
+  });
+
+  it.each([
+    { eventType: 'SOURCE_INITIALIZED' as const, detail: {} },
+    { eventType: 'DAMAGE_TAKEN' as const, detail: { sourceSkillKey: null, damageTypeKey: null,
+      deliveryKind: 'ANY' as const, originKind: 'ANY' as const } }
+  ])('主动后置仍不能隐藏目标实际$eventType入口', eventSource => {
+    const { snapshot, configuration } = deferredResolutionSample('deferred_guard', 'finish_guard');
+    configuration.triggerRules.push({ ...structuredClone(configuration.triggerRules[0]!), ruleKey: 'real_natural', eventSource });
+    snapshot.source.skillSources.find(row => row.skillKey === configuration.skill.skillKey)!.enabledRuleKeys =
+      naturalRuleKeys(snapshot, configuration, 'source');
+    expect(() => validateSimulationSkillSourceManifest(snapshot)).toThrow(/主动后置原因不能隐藏真实自然入口/);
+  });
+
+  it('真实施放来源的过程终结入口不能用主动后置隐藏', () => {
+    const { snapshot, configuration } = deferredResolutionSample('driven_guard', 'finish_guard', true);
+    const source = snapshot.source.skillSources.find(row => row.skillKey === configuration.skill.skillKey)!;
+    source.inactiveReason = 'ACTIVE_DEFERRED';
+    source.enabledRuleKeys = [];
+    expect(() => validateSimulationSkillSourceManifest(snapshot)).toThrow(/主动后置原因不能隐藏真实自然入口/);
+  });
+});
 
 describe('5A完整默认来源', () => {
   it('无装备也启用自身攻速派生，双方等级、实例独立且只保留一个普攻主体', async () => {

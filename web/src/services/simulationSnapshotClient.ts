@@ -446,6 +446,8 @@ export function validateSimulationSnapshot(
     const skill = configuration.skill as { skillKey: string; status: string };
     const parameters = configuration.parameters as import('../types/skillParameter').SkillParameter[];
     const allowed = skillFormulaAllowedBindings(skill.skillKey, parameters, attributes.map(row => ({ attributeKey: String(row.attributeKey), status: String(row.status) })));
+    // 快照保留完整只读声明；真正消费时仍由数值适配器约束实例时间的授权范围。
+    allowed.push({ kind: 'context', contextKey: 'effect_elapsed_ms' });
     for (const [formulaIndex, formula] of (configuration.formulas as import('../types/skillFormula').SkillFormula[]).entries()) {
       const problem = validateFormulaDefinition(formula.expression, allowed);
       if (problem) bad('skillConfigurations[' + index + '].formulas[' + formulaIndex + '].expression' + problem.path);

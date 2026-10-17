@@ -77,7 +77,6 @@ function readExpectedVerification(): ExpectedVerification {
     scopeDigest: proof.scopeDigest, sharedDigest: proof.sharedDigest,
     characters: entries.filter(row => row.kind === 'CHARACTER').map(row => row.entry),
     equipment: entries.filter(row => row.kind === 'EQUIPMENT').map(row => row.entry) }, 'lol');
-  expect(directory.characters.filter(entry => entry.status === 'READY'), '本轮没有整英雄证明；新增英雄证明需要独立验收').toEqual([]);
   return { mode: 'installed-verification-file', file, sha256: createHash('sha256').update(bytes).digest('hex'), directory };
 }
 
@@ -87,7 +86,6 @@ function assertDirectoryMatchesVerification(response: SimulationAvailabilityResp
   expect(response.gameId).toBe('lol');
   expect(response.profile).toBe('combat-analysis-v1');
   expect(response.digestVersion).toBe('simulation-availability-v1');
-  expect(response.characters.filter(entry => entry.status === 'READY'), '当前真实英雄尚无完整核验，不用局部技能证明替代').toEqual([]);
   if (expected.directory) {
     expect(response.scopeDigest, '正式证明的范围摘要必须仍与服务一致').toBe(expected.directory.scopeDigest);
     expect(response.sharedDigest, '正式证明的共享配置摘要必须仍与服务一致').toBe(expected.directory.sharedDigest);
@@ -122,14 +120,17 @@ function assertDirectoryMatchesVerification(response: SimulationAvailabilityResp
   const acceptedEquipment = filtered.filter(option => option.kind === 'equipment' && !option.disabled).map(option => option.key).sort();
   const expectedEquipment = (expected.directory?.equipment ?? []).filter(entry => entry.status === 'READY').map(entry => entry.key).sort();
   expect(acceptedEquipment, '生产装备准入函数接受且只接受当前正式PASSED集合').toEqual(expectedEquipment);
-  expect(filtered.filter(option => option.kind === 'character').every(option => option.disabled), '所有真实英雄仍禁选').toBe(true);
+  const acceptedCharacters = filtered.filter(option => option.kind === 'character' && !option.disabled).map(option => option.key).sort();
+  const expectedCharacters = (expected.directory?.characters ?? []).filter(entry => entry.status === 'READY').map(entry => entry.key).sort();
+  expect(acceptedCharacters, '生产英雄准入只接受正式PASSED集合').toEqual(expectedCharacters);
+  expect(filtered.filter(option => option.kind === 'character' && option.disabled).every(option => !!option.unavailableReason)).toBe(true);
   const rejectedEquipment = filtered.filter(option => option.kind === 'equipment' && option.disabled);
   expect(rejectedEquipment.length, '必须保留未证明装备的反向验证').toBeGreaterThan(0);
   expect(rejectedEquipment.every(option => !!option.unavailableReason), '未证明装备保留禁选原因').toBe(true);
-  return { acceptedEquipment, rejectedEquipment: rejectedEquipment.map(option => option.key).sort() };
+  return { acceptedCharacters, acceptedEquipment, rejectedEquipment: rejectedEquipment.map(option => option.key).sort() };
 }
 
-test('真实计算可用目录：精确接受正式装备证明，未证明对象均不放行', async ({ request }, testInfo) => {
+test('真实计算可用目录：精确接受正式英雄与装备证明，未证明对象均不放行', async ({ request }, testInfo) => {
   const expected = readExpectedVerification();
   const response = await request.get(api + simulationAvailabilityPath('lol'), { headers: { Authorization: 'Bearer ' + token } });
   expect(response.status(), '读取真实目录，不替换HTTP或后端证明').toBe(200);
@@ -176,13 +177,15 @@ test('真实新页面：未就绪英雄禁选，装备与准备保持阻断且�
   expect(response.status()).toBe(200);
   const directory = parseSimulationAvailabilityResponse(await response.json(), 'lol');
   const admission = assertDirectoryMatchesVerification(directory, expected);
-  await expect(page.getByRole('alert').filter({ hasText: '当前还没有完成整英雄计算验证的角色' })).toBeVisible();
-  const annie = directory.characters.find(entry => entry.key === 'champion_annie');
-  expect(annie, '真实目录保留安妮及其具体缺口').toBeDefined();
+  if (!admission.acceptedCharacters.length) {
+    await expect(page.getByRole('alert').filter({ hasText: '当前还没有完成整英雄计算验证的角色' })).toBeVisible();
+  }
+  const blocked = directory.characters.find(entry => entry.status !== 'READY');
+  expect(blocked, '真实目录必须保留未通过对象的反向验证').toBeDefined();
   for (const label of ['攻击方角色', '目标角色']) {
-    const option = await searchCharacter(page, label, annie!.key);
+    const option = await searchCharacter(page, label, blocked!.key);
     await expect(option).toHaveClass(/arco-select-option-disabled/);
-    if (annie!.issues[0]) expect(await option.locator('.simulation-entity-option').getAttribute('title')).toContain(annie!.issues[0].message);
+    if (blocked!.issues[0]) expect(await option.locator('.simulation-entity-option').getAttribute('title')).toContain(blocked!.issues[0].message);
     await option.click();
     await expect(page.locator('.simulation-level-select[aria-label="' + (label === '攻击方角色' ? '攻击方等级' : '目标等级') + '"]')).toHaveClass(/arco-select-disabled/);
     await page.keyboard.press('Escape');
@@ -195,9 +198,81 @@ test('真实新页面：未就绪英雄禁选，装备与准备保持阻断且�
   expect(workers).toEqual([]);
   expect(errors).toEqual([]);
   const evidence = { layer: 'live-page-gate', counts: statusCounts(directory), expectedVerification: expected,
-    identity: SIMULATION_AVAILABILITY_IDENTITY, productionOptionAdmission: admission, annie, requests, workers,
+    identity: SIMULATION_AVAILABILITY_IDENTITY, productionOptionAdmission: admission, blocked, requests, workers,
     snapshotReads: 0, calculationExecuted: false, wholeHeroRuntimeVerified: false, errors };
   writeFileSync(resolve(output, 'live-page-blocked.json'), JSON.stringify(evidence, null, 2));
   await testInfo.attach('真实页面禁选证据', { body: JSON.stringify(evidence), contentType: 'application/json' });
   await page.screenshot({ path: resolve(output, 'live-page-blocked.png'), fullPage: true });
+});
+
+test('真实新页面：正式通过英雄直接配置全技能并运行，显示结果且释放会话', async ({ page, request }, testInfo) => {
+  const expected = readExpectedVerification();
+  const ready = expected.directory?.characters.find(entry => entry.status === 'READY');
+  test.skip(!ready, '当前正式资源没有已独立核验英雄；不能借局部技能或构造目录绕过门禁');
+  const errors: string[] = [], workers: string[] = [], writes: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('worker', worker => workers.push(worker.url()));
+  page.on('request', row => {
+    const url = new URL(row.url());
+    if (url.origin === api && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(row.method())
+      && !url.pathname.endsWith('/simulation-snapshot')) writes.push(row.method() + ' ' + url.pathname);
+  });
+  await page.addInitScript(({ api, token }) => {
+    localStorage.setItem('damage-viewer.web.api-base-url', api);
+    localStorage.setItem('damage-viewer.web.admin-token', token);
+  }, { api, token });
+  await page.goto('/?combat-availability-live=ready#/simulation/combat-analysis');
+  const snapshotResponses: unknown[] = [];
+  page.on('response', response => {
+    if (new URL(response.url()).pathname.endsWith('/simulation-snapshot') && response.status() === 200) {
+      void response.json().then(value => snapshotResponses.push(value));
+    }
+  });
+  for (const [characterLabel, levelLabel] of [['攻击方角色', '攻击方等级'], ['目标角色', '目标等级']]) {
+    const option = await searchCharacter(page, characterLabel!, ready!.key);
+    await expect(option).not.toHaveClass(/arco-select-option-disabled/);
+    await option.click();
+    const level = page.locator('.simulation-level-select[aria-label="' + levelLabel + '"]');
+    await level.click();
+    const popup = page.locator('#' + await level.getAttribute('aria-controls'));
+    await popup.getByRole('option', { name: '18', exact: true }).click();
+  }
+  await expect(page.getByRole('combobox', { name: '普攻技能', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('combobox', { name: '攻击方主动技能候选', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeEnabled();
+  await page.getByRole('button', { name: '准备计算', exact: true }).click();
+  const costs = page.locator('label.arco-checkbox').filter({ has: page.getByRole('checkbox', { name: /^声明施法成本 / }) });
+  await expect(costs.first()).toBeVisible({ timeout: 60_000 });
+  for (const checkbox of await costs.all()) await checkbox.click();
+  await expect(page.getByLabel('攻击方初始当前生命', { exact: true })).toBeVisible();
+  const attributesResponse = await request.get(`${api}/api/admin/games/lol/characters/${ready!.key}/attributes`,
+    { headers: { Authorization: 'Bearer ' + token } });
+  expect(attributesResponse.status()).toBe(200);
+  const attributes = await attributesResponse.json();
+  const health = attributes.levelValues['18'].hp;
+  expect(Number.isFinite(health) && health > 0).toBe(true);
+  for (const label of ['攻击方初始当前生命', '目标初始当前生命']) {
+    const input = page.getByLabel(label, { exact: true });
+    await input.fill(String(health)); await input.press('Tab');
+  }
+  await page.getByLabel('攻速输入上界', { exact: true }).fill('5');
+  await page.getByLabel('攻速输入上界', { exact: true }).press('Tab');
+  await page.getByRole('button', { name: '确认最新技能配置', exact: true }).click();
+  await expect(page.getByRole('button', { name: '开始计算', exact: true })).toBeEnabled();
+  await page.getByRole('button', { name: '开始计算', exact: true }).click();
+  const archiveButton = page.getByRole('button', { name: '下载自动冻结档案', exact: true });
+  await expect(archiveButton).toBeVisible({ timeout: 60_000 });
+  const archiveDownload = page.waitForEvent('download');
+  await archiveButton.click();
+  await (await archiveDownload).saveAs(resolve(output, 'live-page-run-archive.json'));
+  await expect(page.getByRole('alert').filter({ hasText: '自动循环观察完成，会话已释放' })).toBeVisible({ timeout: 60_000 });
+  expect(snapshotResponses.length).toBeGreaterThan(0);
+  expect(workers.length).toBeGreaterThan(0);
+  expect(errors).toEqual([]); expect(writes).toEqual([]);
+  const evidence = { layer: 'live-page-ready-run', expectedVerification: expected, characterKey: ready!.key,
+    identity: SIMULATION_AVAILABILITY_IDENTITY, snapshotResponses, workers, errors, businessWrites: writes,
+    actualUiCalculationCompletedAndReleased: true };
+  writeFileSync(resolve(output, 'live-page-ready-run.json'), JSON.stringify(evidence, null, 2));
+  await testInfo.attach('真实英雄页面运行', { body: JSON.stringify(evidence), contentType: 'application/json' });
+  await page.screenshot({ path: resolve(output, 'live-page-ready-run.png'), fullPage: true });
 });

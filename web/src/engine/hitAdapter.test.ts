@@ -1,7 +1,7 @@
 import { approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
-import { adaptHitProgram as raw_adaptHitProgram, provenSkillUseFact, skillHitFact, unknownSkillUseFact, withHitProgram, type AuthoredHitProgram } from './hitAdapter';
+import { adaptHitProgram as raw_adaptHitProgram, compileHitIdentityCondition, provenSkillUseFact, skillHitFact, unknownSkillUseFact, withHitProgram, type AuthoredHitProgram } from './hitAdapter';
 import { adaptPersistentResult as raw_adaptPersistentResult } from './persistentResultAdapter';
 import type { CompileRequest } from '../types/genericEngine';
 import { fixedValue, parameterValue } from '../types/numericValue';
@@ -141,6 +141,12 @@ function request(): CompileRequest {
 }
 
 describe('有界命中适配', () => {
+  it.each([['SELF', 0], ['ALLY', 0], ['ENEMY', 1]] as const)('共享敌我检查保留%s真实关系', (hostility, expected) => {
+    expect(compileHitIdentityCondition({ conditionKey: 'enemy', conditionType: 'SKILL_HIT_TARGET_IS_ENEMY', sortOrder: 0, detail: {} },
+      'enemy', { identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility } } }))
+      .toEqual({ op: 'const', value: expected });
+  });
+
   it.each([['physics', 'physics'], ['magic', 'magic'], ['real', 'real'], ['heat', 'heat']])('管理伤害原键%s原样进入%s且不改作者对象', (key, runtimeType) => {
     const authored = program();
     for (const effect of authored.effects) for (const result of effect.results) {
