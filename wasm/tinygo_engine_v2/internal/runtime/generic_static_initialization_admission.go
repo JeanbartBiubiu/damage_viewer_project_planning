@@ -74,8 +74,11 @@ func (s *genericRunState) validateStaticInitializationListener(listener planbund
 			if _, exists := owner.attributes.Lookup(attributeKey); !exists {
 				return s.basicAttackErr("permanent skill attribute slot is missing", operation.Path)
 			}
-			if modifier.ValuePolicy != "add" && modifier.ValuePolicy != "percent_add" && modifier.ValuePolicy != "multiply" {
+			if !admissibleOwnedAttributePolicy(modifier) {
 				return s.basicAttackErr("permanent skill attribute requires an explicit supported calculation", operation.Path)
+			}
+			if modifier.ValuePolicy == "complement_multiply" && (value < 0 || value > 1) {
+				return s.basicAttackErr("permanent complement ratio must be in [0,1]", operation.Path)
 			}
 			continue
 		}

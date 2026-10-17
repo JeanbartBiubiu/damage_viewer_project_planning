@@ -115,6 +115,9 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 			continue
 		}
 		var allowed []any
+		if def.Scope == "skill" {
+			allowed = append(allowed, map[string]any{"kind": "context", "contextKey": "effect_elapsed_ms"})
+		}
 		for _, key := range attributes {
 			for _, object := range []string{"source", "target"} {
 				if def.Scope == "game" && object != "source" {
@@ -185,6 +188,8 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 				for _, field := range fields {
 					binding.dependencies = append(binding.dependencies, GenericInstr{Op: GenericOpRead, ReadKind: kind, ReadKey: b.AttributeKey + "." + field, AuthoredRead: true})
 				}
+			} else if b.Kind == "context" && b.ContextKey == "effect_elapsed_ms" {
+				binding.dependencies = append(binding.dependencies, GenericInstr{Op: GenericOpRead, ReadKind: ReadProviderElapsedMs})
 			} else {
 				param := params[paramIndex[b.ParameterKey]]
 				if param.ValueMode != "RUNTIME_INPUT" {
@@ -204,7 +209,7 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 		bytes := bindingPlan.ChargedBytes() + uint64(unsafe.Sizeof(NamedBinding{})) + uint64(len(binding.scope)+len(binding.skillKey)+len(binding.path)) + uint64(cap(ordered))*uint64(unsafe.Sizeof(expression.Input{})) + uint64(cap(params))*uint64(unsafe.Sizeof(model.FormulaParameter{})) + uint64(cap(binding.dependencies))*uint64(unsafe.Sizeof(GenericInstr{})) + uint64(cap(binding.attributeInputs))*uint64(unsafe.Sizeof(namedAttributeBinding{}))
 		for _, input := range ordered {
 			b := input.Binding
-			bytes += uint64(len(b.Kind) + len(b.Object) + len(b.AttributeKey) + len(b.ValueKind) + len(b.View) + len(b.SkillKey) + len(b.ParameterKey))
+			bytes += uint64(len(b.Kind) + len(b.Object) + len(b.AttributeKey) + len(b.ValueKind) + len(b.View) + len(b.SkillKey) + len(b.ParameterKey) + len(b.ContextKey))
 		}
 		for _, param := range params {
 			bytes += uint64(len(param.ParameterKey) + len(param.ValueMode) + len(param.ValueType))
@@ -241,6 +246,12 @@ func (b *NamedBinding) evaluate(program *expression.Program, ctx *GenericEvalCon
 	}
 	for i, input := range b.inputs {
 		binding := input.Binding
+		if binding.Kind == "context" && binding.ContextKey == "effect_elapsed_ms" {
+			if !static && ctx.HasProviderElapsed && ctx.ProviderElapsedMs >= 0 {
+				values[i].Number = inputbinding.Scalar{Value: float64(ctx.ProviderElapsedMs), Present: true}
+			}
+			continue
+		}
 		if binding.Kind == "attribute" {
 			if static {
 				continue

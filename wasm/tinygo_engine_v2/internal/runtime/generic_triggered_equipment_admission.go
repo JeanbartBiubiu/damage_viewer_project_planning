@@ -12,6 +12,7 @@ func (s *genericRunState) validateEquipmentHitListener(listener planbundle.Compi
 	for _, event := range []struct{ kind, relation planbundle.DeclaredType }{
 		{types.BasicAttackStart, types.SourceOwner}, {types.BasicAttackHit, types.SourceOwner},
 		{types.SkillHit, types.SourceOwner},
+		{types.ProcessResolved, types.SourceOwner},
 		{types.AttackLinkApplied, types.SourceOwner}, {types.HitLinkApplied, types.SourceOwner},
 		{types.BasicAttackReceived, types.TargetOwner}, {types.DamageTaken, types.TargetOwner},
 		{types.DamageInstance, types.SourceOwner},
@@ -102,7 +103,7 @@ func (s *genericRunState) validateEquipmentDynamicDefinition(owner, providerRef,
 				recipient = opponentCombatantKey(owner)
 			}
 			_, exists := s.combatants[recipient].attributes.Lookup(attributeKey)
-			if !exists || attributeKey == "hp" || pipeline.ModifierTargetCombatantSelector(modifier.Target) != model.SelectorSelf || modifier.HasCondition || !modifier.HasValue || (modifier.ValuePolicy != "add" && modifier.ValuePolicy != "percent_add" && modifier.ValuePolicy != "multiply") || definition.Lifecycle.TickIntervalMs != 0 {
+			if !exists || attributeKey == "hp" || pipeline.ModifierTargetCombatantSelector(modifier.Target) != model.SelectorSelf || modifier.HasCondition || !modifier.HasValue || !admissibleOwnedAttributePolicy(modifier) || definition.Lifecycle.TickIntervalMs != 0 {
 				return s.basicAttackErr("dynamic attribute result requires an explicit non-HP modifier on its actual recipient", reference)
 			}
 			continue
@@ -126,7 +127,7 @@ func (s *genericRunState) validateEquipmentHitProvider(provider planbundle.Compi
 	for _, modifier := range provider.Modifiers {
 		attributeKey := pipeline.AttributeKeyFromModifierTarget(modifier.Target)
 		_, exists := s.combatants[owner].attributes.Lookup(attributeKey)
-		if modifier.Kind != "attribute" || pipeline.ModifierTargetCombatantSelector(modifier.Target) != model.SelectorSelf || attributeKey == "hp" || !exists || modifier.HasCondition || !modifier.HasValue || (modifier.ValuePolicy != "add" && modifier.ValuePolicy != "percent_add" && modifier.ValuePolicy != "multiply") {
+		if modifier.Kind != "attribute" || pipeline.ModifierTargetCombatantSelector(modifier.Target) != model.SelectorSelf || attributeKey == "hp" || !exists || modifier.HasCondition || !modifier.HasValue || !admissibleOwnedAttributePolicy(modifier) {
 			return s.basicAttackErr("source modifiers require complete owned non-HP attributes", "initialSnapshot.combatants.providers")
 		}
 	}

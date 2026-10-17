@@ -11,13 +11,15 @@ import (
 
 // ShieldInstance 是 pipeline 可见的护盾视图（兼容 D1 测试）。
 type ShieldInstance struct {
-	Remaining float64
-	ExpireAt  int64
-	Priority  int16
-	ShieldRef string
-	Source    string
-	Owner     string
-	State     map[string]interface{}
+	Remaining            float64
+	ExpireAt             int64
+	Priority             int16
+	ShieldRef            string
+	DefinitionRef        string
+	LifecycleProviderRef string
+	Source               string
+	Owner                string
+	State                map[string]interface{}
 }
 
 // CombatantView 是 pipeline 可见的 combatant 属性/护盾视图。
@@ -153,13 +155,15 @@ func shieldInstancesFromView(viewShields []ShieldInstance, nowMs int64) []shield
 	out := make([]shieldpkg.Instance, 0, len(viewShields))
 	for _, s := range viewShields {
 		inst := shieldpkg.Instance{
-			ShieldRef: s.ShieldRef,
-			Source:    s.Source,
-			Owner:     s.Owner,
-			Remaining: s.Remaining,
-			Priority:  s.Priority,
-			ExpireAt:  s.ExpireAt,
-			State:     s.State,
+			ShieldRef:            s.ShieldRef,
+			DefinitionRef:        s.DefinitionRef,
+			LifecycleProviderRef: s.LifecycleProviderRef,
+			Source:               s.Source,
+			Owner:                s.Owner,
+			Remaining:            s.Remaining,
+			Priority:             s.Priority,
+			ExpireAt:             s.ExpireAt,
+			State:                s.State,
 		}
 		if inst.Remaining <= 0 || inst.Expired(nowMs) {
 			continue
@@ -176,13 +180,15 @@ func shieldsToView(instances []shieldpkg.Instance) []ShieldInstance {
 	out := make([]ShieldInstance, 0, len(instances))
 	for _, inst := range instances {
 		out = append(out, ShieldInstance{
-			ShieldRef: inst.ShieldRef,
-			Source:    inst.Source,
-			Owner:     inst.Owner,
-			Remaining: inst.Remaining,
-			Priority:  inst.Priority,
-			ExpireAt:  inst.ExpireAt,
-			State:     inst.State,
+			ShieldRef:            inst.ShieldRef,
+			DefinitionRef:        inst.DefinitionRef,
+			LifecycleProviderRef: inst.LifecycleProviderRef,
+			Source:               inst.Source,
+			Owner:                inst.Owner,
+			Remaining:            inst.Remaining,
+			Priority:             inst.Priority,
+			ExpireAt:             inst.ExpireAt,
+			State:                inst.State,
 		})
 	}
 	return out
@@ -215,13 +221,15 @@ func RuntimeShieldsFromView(viewShields []ShieldInstance, owner, source string) 
 			state = map[string]interface{}{}
 		}
 		out = append(out, shieldpkg.Instance{
-			ShieldRef: s.ShieldRef,
-			Source:    src,
-			Owner:     own,
-			Remaining: s.Remaining,
-			Priority:  s.Priority,
-			ExpireAt:  s.ExpireAt,
-			State:     state,
+			ShieldRef:            s.ShieldRef,
+			DefinitionRef:        s.DefinitionRef,
+			LifecycleProviderRef: s.LifecycleProviderRef,
+			Source:               src,
+			Owner:                own,
+			Remaining:            s.Remaining,
+			Priority:             s.Priority,
+			ExpireAt:             s.ExpireAt,
+			State:                state,
 		})
 	}
 	return out

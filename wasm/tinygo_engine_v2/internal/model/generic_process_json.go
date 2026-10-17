@@ -100,7 +100,7 @@ func (v *ProcessDefinition) UnmarshalJSON(data []byte) error {
 	return nil
 }
 func (v *ProcessControlDefinition) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "ProcessControlDefinition", "processKey action stepKey failureReason useRefFromEvent", "processKey action"); err != nil {
+	if err := processJSONShape(data, "ProcessControlDefinition", "processKey action stepKey failureReason useRefFromEvent requireExplicitSelfTarget", "processKey action"); err != nil {
 		return err
 	}
 	type plain ProcessControlDefinition

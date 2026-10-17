@@ -277,14 +277,21 @@ func (f *executionFrame) basicAttackWaitContext(context *executionFrame) *model.
 	for _, owner := range []string{attack.plan.Source, attack.plan.Target} {
 		staged := context.stageFor(owner)
 		for index, mutation := range staged.providerOps {
-			if mutation.kind == "apply" {
-				definitionIndex, exists := f.run.findProviderDefinitionIndex(mutation.definitionRef)
+			if mutation.kind == "apply" || mutation.kind == "shield_apply" {
+				definitionIndex, exists := mutation.definitionIndex, mutation.kind == "shield_apply"
+				if !exists {
+					definitionIndex, exists = f.run.findProviderDefinitionIndex(mutation.definitionRef)
+				}
 				if !exists {
 					return f.run.basicAttackErr("missing dynamic result definition", mutation.definitionRef)
 				}
 				definition := f.run.compiled.Providers[definitionIndex]
-				if definition.Lifecycle != nil && definition.Lifecycle.AllowsSourceTargetReuse() {
-					if _, _, reused := findSourceTargetProvider(staged.providers, mutation.definitionRef, mutation.sourceKey, owner, f.run.nowMs); reused {
+				if mutation.kind != "shield_apply" && definition.Lifecycle != nil && definition.Lifecycle.AllowsSourceTargetReuse() {
+					if current, currentIndex, reused := findSourceTargetProvider(staged.providers, mutation.definitionRef, mutation.sourceKey, owner, f.run.nowMs); reused {
+						if definition.NeedsElapsedTime {
+							current.AppliedAtMs, current.HasAppliedAt, current.ExpireAt = f.run.nowMs, true, mutation.expireAt
+							staged.providers[currentIndex] = current
+						}
 						continue
 					}
 					for _, instance := range staged.providers {
@@ -295,6 +302,12 @@ func (f *executionFrame) basicAttackWaitContext(context *executionFrame) *model.
 				}
 				instance := status.ProviderInstance{ProviderRef: mutation.definitionRef + "@pending:" + itoa(uint32(index)),
 					DefinitionRef: mutation.definitionRef, DefinitionIndex: definitionIndex, Source: mutation.sourceKey, Owner: owner, Stacks: 1, ExpireAt: mutation.expireAt}
+				if mutation.kind == "shield_apply" {
+					instance.ProviderRef = mutation.providerRef
+				}
+				if definition.NeedsElapsedTime {
+					instance.AppliedAtMs, instance.HasAppliedAt = f.run.nowMs, true
+				}
 				staged.providers = append(staged.providers, instance)
 				for _, modifier := range definition.Modifiers {
 					if modifier.Kind == "attribute" || modifier.Kind == "" {

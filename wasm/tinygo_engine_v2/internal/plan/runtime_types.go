@@ -14,6 +14,7 @@ func (t DeclaredType) Lookup() (typeset.TypeID, bool) { return t.ID, t.Declared 
 type RuntimeTypeBindings struct {
 	BasicAttack, SpellShield                            DeclaredType
 	SourceInitialized, AbilityStarted                   DeclaredType
+	ProcessResolved                                     DeclaredType
 	BasicAttackStart, BasicAttackHit, SkillHit          DeclaredType
 	DamageInstance, DamageDealt, DamageDealtBasicAttack DeclaredType
 	BasicAttackReceived, DamageTaken                    DeclaredType

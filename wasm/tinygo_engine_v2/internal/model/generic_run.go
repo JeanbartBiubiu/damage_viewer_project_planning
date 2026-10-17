@@ -115,6 +115,7 @@ type CombatantProviderSnapshot struct {
 	Owner               string                               `json:"owner"`
 	Stacks              int                                  `json:"stacks"`
 	ExpireAt            *int64                               `json:"expireAt"` // nil / JSON null = persistent
+	AppliedAtMs         *int64                               `json:"appliedAtMs,omitempty"`
 	State               map[string]interface{}               `json:"state"`
 	StatusContributions []ProviderStatusContributionSnapshot `json:"statusContributions,omitempty"`
 }
@@ -147,13 +148,15 @@ type EffectiveStatusContribution struct {
 // CombatantShieldSnapshot 是 combatant 上护盾运行态。
 // finalSnapshot 要求 source/owner/remaining/priority/expireAt/state 稳定输出；expireAt 为 null 表示 persistent。
 type CombatantShieldSnapshot struct {
-	ShieldRef string                 `json:"shieldRef"`
-	Source    string                 `json:"source"`
-	Owner     string                 `json:"owner"`
-	Remaining float64                `json:"remaining"`
-	Priority  int16                  `json:"priority"`
-	ExpireAt  *int64                 `json:"expireAt"` // nil / JSON null = persistent
-	State     map[string]interface{} `json:"state"`
+	ShieldRef            string                 `json:"shieldRef"`
+	DefinitionRef        string                 `json:"definitionRef,omitempty"`
+	LifecycleProviderRef string                 `json:"lifecycleProviderRef,omitempty"`
+	Source               string                 `json:"source"`
+	Owner                string                 `json:"owner"`
+	Remaining            float64                `json:"remaining"`
+	Priority             int16                  `json:"priority"`
+	ExpireAt             *int64                 `json:"expireAt"` // nil / JSON null = persistent
+	State                map[string]interface{} `json:"state"`
 }
 
 // StopPolicy 控制 run 停止条件。

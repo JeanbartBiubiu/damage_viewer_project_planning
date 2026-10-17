@@ -26,6 +26,9 @@ func (r GenericRegistry) AttributeCacheDependencies(id GenericProgramID) ([]Gene
 			}
 			for _, input := range b.inputs {
 				binding := input.Binding
+				if binding.Kind == "context" {
+					return false
+				}
 				if binding.Kind != "attribute" {
 					continue
 				}

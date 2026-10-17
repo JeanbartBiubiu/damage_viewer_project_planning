@@ -64,6 +64,7 @@ var ValidOperationOutputKind = map[string]struct{}{
 func EngineProducedEventTypes() map[string]struct{} {
 	return map[string]struct{}{
 		EventTypeSourceInitialized:   {},
+		EventTypeProcessResolved:     {},
 		EventTypeSkillHit:            {},
 		EventTypeSpellShieldBlocked:  {},
 		EventTypeBasicAttackHit:      {},

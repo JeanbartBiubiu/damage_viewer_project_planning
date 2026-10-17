@@ -74,7 +74,10 @@ func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryInd
 	control := controlAbility.ProcessControl
 	fact := s.processFacts[entry.EntryKey]
 	source, _ := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
-	target, _ := s.resolveDriverCombatantKey(entry.Target, source)
+	target, targetAvailable := s.resolveDriverCombatantKey(entry.Target, source)
+	if control.RequireExplicitSelfTarget != nil && *control.RequireExplicitSelfTarget && (entry.Target == "" || !targetAvailable || target != source) {
+		return s.rejectProcess(entry, "explicit_self_target_required")
+	}
 	parsed, _ := planbundle.ParseAbilityRef(resolvedRef)
 	p := &s.compiled.Providers[controlAbility.ProviderIndex].Processes[control.ProcessIndex]
 	var instance *processRuntime
@@ -568,7 +571,13 @@ func (s *genericRunState) finishProcessWithCast(p *processRuntime, status, reaso
 	if err != nil {
 		return err
 	}
-	return s.resolveSkillActionMoment(p, kind)
+	if err := s.resolveSkillActionMoment(p, kind); err != nil {
+		return err
+	}
+	if status == "complete" {
+		return s.publishProcessResolved(p)
+	}
+	return nil
 }
 
 func (s *genericRunState) enqueueProcessTimer(p *processRuntime) *model.EngineError {

@@ -576,7 +576,25 @@ func (f *executionFrame) selectSkillHitCandidates(plan *planbundle.CompiledSkill
 	for i := range plan.Candidates {
 		cand := plan.Candidates[i]
 		if cand.HasParticipation {
-			value, err := f.evalAmount(cand.ParticipationProgram, ability)
+			conditionFrame := f
+			var rebound executionFrame
+			if cand.ParticipationProviderRef != "" {
+				slot := 0
+				if f.sourceKey == model.SelectorTarget {
+					slot = 1
+				}
+				provider := cand.ParticipationProviderRefs[slot]
+				if provider == "" {
+					return nil, f.run.skillHitErr(model.GenericErrUnknownRef, "participation provider is not mounted on the actual source", cand.Path+".participationProviderRef", cand.ParticipationProviderRef)
+				}
+				if !f.run.processMounted(f.sourceKey, provider, cand.ParticipationProviderDefinitions[slot]) {
+					continue
+				}
+				rebound = *f
+				rebound.ownerCombatantKey, rebound.ownerProviderRef = f.sourceKey, provider
+				conditionFrame = &rebound
+			}
+			value, err := conditionFrame.evalAmount(cand.ParticipationProgram, ability)
 			if err != nil {
 				if err.Path == "" {
 					err.Path = cand.Path + ".participationCondition"

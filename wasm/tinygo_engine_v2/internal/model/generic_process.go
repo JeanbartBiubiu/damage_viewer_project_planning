@@ -1,5 +1,7 @@
 package model
 
+const EventTypeProcessResolved = "event/process_resolved"
+
 // 第4项 casting-runtime-r2：主动过程、明确控制事实与可恢复实例。
 type ProcessControlDefinition struct {
 	ProcessKey    string `json:"processKey"`
@@ -8,6 +10,8 @@ type ProcessControlDefinition struct {
 	FailureReason string `json:"failureReason,omitempty"`
 	// UseRefFromEvent 仅 INITIAL 普攻控制从原生开始事件复用真实使用归属。
 	UseRefFromEvent bool `json:"useRefFromEvent,omitempty"`
+	// RequireExplicitSelfTarget is an authored INITIAL gate, before any process writes.
+	RequireExplicitSelfTarget *bool `json:"requireExplicitSelfTarget,omitempty"`
 }
 
 type ProcessStepDefinition struct {

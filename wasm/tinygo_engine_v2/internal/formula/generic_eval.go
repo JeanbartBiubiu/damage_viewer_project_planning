@@ -13,6 +13,7 @@ import (
 
 // GenericEvalContext 是 generic formula 运行时只读视图。
 type GenericEvalContext struct {
+	LinkedShieldReader LinkedShieldReader
 	// 只有明确作者派生使用点设置。内部用途读取仍使用SourceAttrs/TargetAttrs。
 	HasAuthoredActorContext bool
 	AuthoredSourceAttrs     attribute.Table
@@ -43,6 +44,8 @@ type GenericEvalContext struct {
 
 	// Provider state reads require a concrete provider context.
 	HasProviderContext    bool
+	HasProviderElapsed bool
+	ProviderElapsedMs int64
 	ProviderState         map[string]float64
 	ProviderTargetState   map[string]float64
 	ProviderStateDefaults map[string]float64
@@ -84,10 +87,17 @@ type GenericEvalContext struct {
 	SkillHitFirstContact    float64
 	HasSkillHitBlocked      bool
 	SkillHitBlocked         float64
+	HasSkillUseContactCount bool
+	SkillUseContactCount    int
 
 	// Operation output reads require the current execution frame after a real damage settlement.
 	HasOperationOutputs bool
 	OperationOutputs    map[string]OperationOutputValues
+}
+
+// LinkedShieldReader resolves one compile-bound definition in a concrete provider frame.
+type LinkedShieldReader interface {
+	LinkedShieldPresent(providerDefinitionIndex uint16) (float64, error)
 }
 
 // OperationOutputValues 保存一次真实伤害管道的封闭口径。
@@ -392,6 +402,9 @@ func evalRead(kind GenericReadKind, key string, ctx *GenericEvalContext) (float6
 			return 0, nil
 		}
 		return ctx.AbilityParams[key], nil
+	case ReadProviderElapsedMs:
+		if !ctx.HasProviderContext || !ctx.HasProviderElapsed || ctx.ProviderElapsedMs < 0 { return 0, errors.New("provider.elapsed_ms requires a finite-lifecycle modifier with actual application time") }
+		return float64(ctx.ProviderElapsedMs), nil
 	case ReadProviderState:
 		if !ctx.HasProviderContext {
 			return 0, errors.New("provider.state requires provider context")
@@ -493,6 +506,11 @@ func evalRead(kind GenericReadKind, key string, ctx *GenericEvalContext) (float6
 			}
 		}
 		return 0, nil
+	case ReadEventSkillUseContactCount:
+		if !ctx.HasSkillUseContactCount || ctx.SkillUseContactCount < 0 {
+			return 0, errors.New("event.skill_use.contactCount requires a completed native skill-use history")
+		}
+		return float64(ctx.SkillUseContactCount), nil
 	case ReadEventSkillHit:
 		if !ctx.HasEventSkillHit {
 			return 0, errors.New("event.skill_hit." + key + " requires skill hit context")

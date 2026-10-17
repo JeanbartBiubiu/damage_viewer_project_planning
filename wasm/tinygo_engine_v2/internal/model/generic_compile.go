@@ -71,19 +71,21 @@ type CombatantProviderMount struct {
 
 // ProviderDefinition 是可复用 capability provider 定义。
 type ProviderDefinition struct {
-	SkillKey            string                         `json:"skillKey,omitempty"`
-	Processes           []ProcessDefinition            `json:"processes,omitempty"`
-	ProviderKey         string                         `json:"providerKey"`
-	Kind                string                         `json:"kind"`
-	StableID            string                         `json:"stableId"`
-	Types               []string                       `json:"types,omitempty"`
-	Tags                []string                       `json:"tags,omitempty"`
-	Abilities           []AbilityDefinition            `json:"abilities,omitempty"`
-	Modifiers           []ModifierDefinition           `json:"modifiers,omitempty"`
-	Listeners           []ListenerDefinition           `json:"listeners,omitempty"`
-	Lifecycle           *ProviderLifecycle             `json:"lifecycle,omitempty"`
-	StatusContributions []StatusContributionDefinition `json:"statusContributions,omitempty"`
-	InitialStateSchema  map[string]interface{}         `json:"initialStateSchema,omitempty"`
+	// LinkedShieldDefinitionRef declares the sole numeric shield owning this dynamic definition.
+	LinkedShieldDefinitionRef string                         `json:"linkedShieldDefinitionRef,omitempty"`
+	SkillKey                  string                         `json:"skillKey,omitempty"`
+	Processes                 []ProcessDefinition            `json:"processes,omitempty"`
+	ProviderKey               string                         `json:"providerKey"`
+	Kind                      string                         `json:"kind"`
+	StableID                  string                         `json:"stableId"`
+	Types                     []string                       `json:"types,omitempty"`
+	Tags                      []string                       `json:"tags,omitempty"`
+	Abilities                 []AbilityDefinition            `json:"abilities,omitempty"`
+	Modifiers                 []ModifierDefinition           `json:"modifiers,omitempty"`
+	Listeners                 []ListenerDefinition           `json:"listeners,omitempty"`
+	Lifecycle                 *ProviderLifecycle             `json:"lifecycle,omitempty"`
+	StatusContributions       []StatusContributionDefinition `json:"statusContributions,omitempty"`
+	InitialStateSchema        map[string]interface{}         `json:"initialStateSchema,omitempty"`
 }
 
 // ProviderStateFieldSchema 是 initialStateSchema 的结构化字段形态（Gate H1）。
@@ -213,25 +215,28 @@ const (
 
 // OperationDefinition 是 ability 成功执行后的 operation。
 type OperationDefinition struct {
-	Operation             string                 `json:"operation"`
-	Target                string                 `json:"target"`
-	Amount                *GenericFormulaExpr    `json:"amount,omitempty"`
-	ValuePolicy           string                 `json:"valuePolicy,omitempty"`
-	DamageType            string                 `json:"damageType,omitempty"`
-	ResourceKey           string                 `json:"resourceKey,omitempty"`
-	AttributeKey          string                 `json:"attributeKey,omitempty"`
-	AbilityRef            string                 `json:"abilityRef,omitempty"`
-	ShieldRef             string                 `json:"shieldRef,omitempty"`
-	ProviderDefinitionRef string                 `json:"providerDefinitionRef,omitempty"`
-	ProviderRef           string                 `json:"providerRef,omitempty"`
-	EventType             string                 `json:"eventType,omitempty"`
-	Payload               map[string]interface{} `json:"payload,omitempty"`
-	Types                 []string               `json:"types,omitempty"`
-	Tags                  []string               `json:"tags,omitempty"`
-	Ref                   string                 `json:"ref,omitempty"`
-	Condition             *GenericFormulaExpr    `json:"condition,omitempty"`
-	CopyableOnHit         bool                   `json:"copyableOnHit,omitempty"`
-	CritEligible          bool                   `json:"critEligible,omitempty"`
+	Operation    string              `json:"operation"`
+	Target       string              `json:"target"`
+	Amount       *GenericFormulaExpr `json:"amount,omitempty"`
+	ValuePolicy  string              `json:"valuePolicy,omitempty"`
+	DamageType   string              `json:"damageType,omitempty"`
+	ResourceKey  string              `json:"resourceKey,omitempty"`
+	AttributeKey string              `json:"attributeKey,omitempty"`
+	AbilityRef   string              `json:"abilityRef,omitempty"`
+	ShieldRef    string              `json:"shieldRef,omitempty"`
+	// ShieldLifecycleProviderDefinitionRef binds a fresh dynamic provider to this actual shield.
+	// Only shield operations with an explicit static shieldRef may declare it.
+	ShieldLifecycleProviderDefinitionRef string                 `json:"shieldLifecycleProviderDefinitionRef,omitempty"`
+	ProviderDefinitionRef                string                 `json:"providerDefinitionRef,omitempty"`
+	ProviderRef                          string                 `json:"providerRef,omitempty"`
+	EventType                            string                 `json:"eventType,omitempty"`
+	Payload                              map[string]interface{} `json:"payload,omitempty"`
+	Types                                []string               `json:"types,omitempty"`
+	Tags                                 []string               `json:"tags,omitempty"`
+	Ref                                  string                 `json:"ref,omitempty"`
+	Condition                            *GenericFormulaExpr    `json:"condition,omitempty"`
+	CopyableOnHit                        bool                   `json:"copyableOnHit,omitempty"`
+	CritEligible                         bool                   `json:"critEligible,omitempty"`
 	// CritChance / CritMultiplier 成对声明当前结果的期望暴击供值，不覆盖来源全局属性。
 	CritChance        *GenericFormulaExpr      `json:"critChance,omitempty"`
 	CritMultiplier    *GenericFormulaExpr      `json:"critMultiplier,omitempty"`

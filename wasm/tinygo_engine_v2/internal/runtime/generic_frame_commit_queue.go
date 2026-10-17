@@ -190,13 +190,16 @@ func (f *executionFrame) preflightProviderMutation(providers []status.ProviderIn
 	badRef := func(message, ref string) (int, []status.ProviderInstance, *model.EngineError) {
 		return 0, providers, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, message, "providers", ref, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
-	if mutation.kind == "apply" {
-		defIndex, exists := s.findProviderDefinitionIndex(mutation.definitionRef)
+	if mutation.kind == "apply" || mutation.kind == "shield_apply" {
+		defIndex, exists := mutation.definitionIndex, mutation.kind == "shield_apply"
+		if !exists {
+			defIndex, exists = s.findProviderDefinitionIndex(mutation.definitionRef)
+		}
 		if !exists {
 			return badRef("unknown provider definition", mutation.definitionRef)
 		}
 		definition := s.compiled.Providers[defIndex]
-		if definition.Lifecycle != nil && definition.Lifecycle.AllowsSourceTargetReuse() {
+		if mutation.kind != "shield_apply" && definition.Lifecycle != nil && definition.Lifecycle.AllowsSourceTargetReuse() {
 			for i, inst := range providers {
 				if inst.DefinitionRef == mutation.definitionRef && inst.Source == mutation.sourceKey && inst.Owner == mutation.targetKey && inst.Expired(s.nowMs) {
 					providers = append(providers[:i], providers[i+1:]...)
@@ -233,7 +236,7 @@ func (f *executionFrame) preflightProviderMutation(providers []status.ProviderIn
 				}
 			}
 		}
-		providers = append(providers, status.ProviderInstance{DefinitionRef: mutation.definitionRef, DefinitionIndex: defIndex,
+		providers = append(providers, status.ProviderInstance{ProviderRef: mutation.providerRef, DefinitionRef: mutation.definitionRef, DefinitionIndex: defIndex,
 			Source: mutation.sourceKey, Owner: mutation.targetKey, Stacks: 1, ExpireAt: expires})
 		return added, providers, nil
 	}
@@ -254,6 +257,9 @@ func (f *executionFrame) preflightProviderMutation(providers []status.ProviderIn
 		return badRef("unknown providerRef", mutation.providerRef)
 	}
 	definition := s.compiled.Providers[inst.DefinitionIndex]
+	if definition.ShieldDefinitionRef != "" {
+		return badRef("linked shield provider must be refreshed by applying its shield", mutation.providerRef)
+	}
 	policy := model.RefreshPolicyReplace
 	if definition.Lifecycle != nil && definition.Lifecycle.RefreshPolicy != "" {
 		policy = definition.Lifecycle.RefreshPolicy
