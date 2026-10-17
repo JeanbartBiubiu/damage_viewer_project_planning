@@ -6,6 +6,24 @@
 
 阶段4B沿4A快照读取所选完整装备作者树，不新增战斗计算接口或数据库结构。管理页聚合配置保存使用 `PATCH`（部分更新请求方法），`WebCorsConfig` 已允许其跨域预检；鉴权过滤器、令牌校验和写事务约束不变。预检通过不等于管理写入免鉴权。
 
+## 混合战斗的完整对象可用目录
+
+`GET /api/admin/games/{gameId}/simulation-availability?wasmSha256=...&adapterVersion=...`只读返回英雄、装备的当前配置缺口和计算核验状态。它用只读一致事务一次批量读取原始业务行，不执行伤害、不写数据库，也不以管理结构检查代替完整运行。只有与范围、完整对象内容、共享及外部依赖、正式Wasm和适配器版本全部匹配的通过证明才返回可选状态；缺证明或证明失效均不可选。
+
+优先范围资源`simulation-scope/lol/combat-analysis.json`从规划工作树的原始阶段进度机械生成，目前为五批49名英雄、245个技能槽和198件装备。响应中的`excludedSkillSources`只运输当前实际绑定且已有明确范围排除依据的来源及原因。完整排除依据仍进入范围摘要，未绑定的排除槽不会要求额外场景设置。正式证明资源为`simulation-verification/{gameId}/combat-analysis.json`，当前包含独立复核通过的19件纯属性装备，没有整英雄通过证明；不能因存在参数、触发规则或纯属性依据就手工标为通过。
+
+这19件来自47件明确纯属性装备的双方1～18级单件场景；含无装备基准共3420次正式Wasm运行。另28件只核对了运行属性，尚未证明其对战斗行为的影响，不进入通过资源。单件证明不代表任意六件组合，原始记录及独立复核位于前端工作树`web/output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/`和`final-independent-review/`；证明资源与已审查候选逐字节一致。
+
+在模块目录运行：
+
+```powershell
+node tools/authoring/generate-simulation-priority-scope.mjs --ledger C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/阶段进度.json
+node --test tools/authoring/generate-simulation-priority-scope.test.mjs
+mvn "-Dtest=SimulationAvailability*Test" test
+```
+
+范围或证明变化后重新生成资源并打包；业务数据变化会即时使旧证明失效。完整共享口径及当前补录缺口见规划工作树`outputs/simulation-availability-2026-10-17/`。目录不会新增表、迁移或业务数据写入；数据补录按规划真源`.agents/skills/damage-api-authoring/SKILL.md`执行保护保存和独立回读，与只读目录分开记录。
+
 ## 共同公式定义与校验第一阶段
 
 `support/formula/FormulaContractValidator` 提供原始JSON定义及调用者授权绑定目录到首个 `{code,path}` 问题的纯校验入口，成功返回空值。结构读取规划真源生成的规范，校验全部声明与分支的结构、预算、十进制范围、唯一标识、授权绑定、引用和依赖环；保留常量原字符串，不执行算术，也不访问数据库或网络。字段路径使用JSON Pointer（JSON字段定位路径），根为空串。
