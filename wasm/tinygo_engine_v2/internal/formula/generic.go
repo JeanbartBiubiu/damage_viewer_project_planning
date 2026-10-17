@@ -52,6 +52,9 @@ const (
 	ReadTargetStatusPresent
 	ReadUseChargeDuration
 	ReadAuthoredRuntimeParameter
+	ReadLinkedShieldPresent
+	ReadEventSkillUseContactCount
+	ReadProviderElapsedMs
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -90,14 +93,15 @@ type GenericInstr struct {
 	AttrKey        string
 	AttrField      string
 	// AuthoredRead只标识共同读取依赖；内部指令不借此改变战斗侧语义。
-	AuthoredRead bool
-	Op           GenericOp
-	Value        float64
-	ReadKind     GenericReadKind
-	ReadKey      string
-	RefIndex     uint16
-	Decimals     int
-	JumpTarget   int // 指令下标；仅前跳，可指向程序末尾。
+	AuthoredRead   bool
+	Op             GenericOp
+	Value          float64
+	ReadKind       GenericReadKind
+	ReadKey        string
+	RefIndex       uint16
+	ReferenceBound bool
+	Decimals       int
+	JumpTarget     int // 指令下标；仅前跳，可指向程序末尾。
 }
 
 // GenericProgram 是已编译的 generic formula 程序。
@@ -361,6 +365,7 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 	if path == "" {
 		return 0, "", false
 	}
+	if path == "provider.elapsed_ms" { return ReadProviderElapsedMs, "elapsed_ms", true }
 	if strings.HasPrefix(path, "operation.output.") {
 		return parseOperationOutputPath(path)
 	}
@@ -382,6 +387,10 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 			return 0, "", false
 		}
 		return ReadProviderState, key, true
+	}
+	if strings.HasPrefix(path, "provider.linked_shield[") && strings.HasSuffix(path, "].present") {
+		key := strings.TrimSuffix(strings.TrimPrefix(path, "provider.linked_shield["), "].present")
+		return ReadLinkedShieldPresent, key, key != "" && !strings.ContainsAny(key, "[]\r\n")
 	}
 	if strings.HasPrefix(path, "provider.target_state.") {
 		key := strings.TrimPrefix(path, "provider.target_state.")
@@ -479,6 +488,9 @@ func parseOperationOutputPath(path string) (GenericReadKind, string, bool) {
 }
 
 func parseEventReadPath(path string) (GenericReadKind, string, bool) {
+	if path == "event.skill_use.contactCount" {
+		return ReadEventSkillUseContactCount, "contactCount", true
+	}
 	if path == "event.link.index" || path == "event.link.count" {
 		return ReadEventLink, strings.TrimPrefix(path, "event.link."), true
 	}

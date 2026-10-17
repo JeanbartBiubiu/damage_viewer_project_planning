@@ -87,15 +87,16 @@ type SkillHitDefinition struct {
 
 // SkillHitCandidate 是一次命中内按作者顺序排列的结果候选。
 type SkillHitCandidate struct {
-	CandidateKey           string                        `json:"candidateKey"`
-	EffectOccurrenceKey    string                        `json:"effectOccurrenceKey"`
-	EffectKey              string                        `json:"effectKey"`
-	ResultKey              string                        `json:"resultKey"`
-	Semantic               SkillHitSemantic              `json:"semantic"`
-	SpellShieldBlockScope  *string                       `json:"spellShieldBlockScope"`
-	ParticipationCondition *GenericFormulaExpr           `json:"participationCondition"`
-	EventValueConditions   []SkillHitEventValueCondition `json:"eventValueConditions,omitempty"`
-	Operations             []OperationDefinition         `json:"operations"`
+	CandidateKey             string                        `json:"candidateKey"`
+	EffectOccurrenceKey      string                        `json:"effectOccurrenceKey"`
+	EffectKey                string                        `json:"effectKey"`
+	ResultKey                string                        `json:"resultKey"`
+	Semantic                 SkillHitSemantic              `json:"semantic"`
+	SpellShieldBlockScope    *string                       `json:"spellShieldBlockScope"`
+	ParticipationCondition   *GenericFormulaExpr           `json:"participationCondition"`
+	ParticipationProviderRef string                        `json:"participationProviderRef,omitempty"`
+	EventValueConditions     []SkillHitEventValueCondition `json:"eventValueConditions,omitempty"`
+	Operations               []OperationDefinition         `json:"operations"`
 }
 
 // SkillHitSemantic 声明候选的真实结果身份，必须与 operations 对应。

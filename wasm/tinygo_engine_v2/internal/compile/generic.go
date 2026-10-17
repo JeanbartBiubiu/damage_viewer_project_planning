@@ -164,6 +164,9 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	compileSkillActionBindings(req.Rules.SkillActionBindings, ctx)
 	validateProcessAbilityRefs(req, ctx)
 	validateAllAbilityRefs(req, ctx)
+	finalizeShieldLifecycleBindings(req, ctx)
+	finalizeParticipationProviderBindings(ctx)
+	validateProviderElapsedReads(ctx)
 	finalizeListenerIndex(ctx)
 	compileAmmoBindings(ctx)
 	validateMechanicFormulaContexts(ctx)
@@ -292,11 +295,12 @@ func compileProviderDefinition(provider model.ProviderDefinition, path string, c
 	idx := uint16(len(session.Providers))
 	ctx.providerKeyIndex[provider.ProviderKey] = idx
 	compiled := plan.CompiledProvider{
-		SkillKey:     provider.SkillKey,
-		ProviderKey:  provider.ProviderKey,
-		Kind:         provider.Kind,
-		StableID:     provider.StableID,
-		AbilityStart: uint16(len(session.Abilities)),
+		ShieldDefinitionRef: provider.LinkedShieldDefinitionRef,
+		SkillKey:            provider.SkillKey,
+		ProviderKey:         provider.ProviderKey,
+		Kind:                provider.Kind,
+		StableID:            provider.StableID,
+		AbilityStart:        uint16(len(session.Abilities)),
 	}
 	compiled.TypeSet = typeset.ValidateTypeKeys(provider.Types, typeset.EntityProvider, session.Types, path+".types", collector.addError)
 	typeset.ValidateTypeKeys(provider.Tags, typeset.EntityProvider, session.Types, path+".tags", collector.addError)
@@ -606,12 +610,20 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 	if mod.ValuePolicy == "" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".valuePolicy", "valuePolicy is required", mod.ModifierKey)
 	}
+	if mod.ValuePolicy == "complement_multiply" && (mod.Kind != "attribute" || mod.Stage != "total") {
+		collector.addError(model.GenericErrUnknownRef, path+".valuePolicy", "complement multiplication requires an attribute modifier at total stage", mod.ModifierKey)
+	}
 	instr := formula.CompileGenericFormula(mod.Value, path+".value", ctx.namedFormulas, map[string]bool{}, collector.addError)
 	validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(instr, nil), path+".value", ctx.catalog, collector.addError)
 	validateDamageParticipantReadContext(ctx.session.Formulas.InstructionDependencies(instr, nil), mod, path+".value", collector)
 	if len(instr) > 0 {
 		key := path + ".value"
 		compiled.ValueProgram, compiled.HasValue = ctx.registerFormula(key, instr)
+	}
+	if mod.ValuePolicy == "complement_multiply" && compiled.HasValue {
+		if value, static := ctx.session.Formulas.FoldStatic(compiled.ValueProgram); static && (value < 0 || value > 1) {
+			collector.addError(model.GenericErrFormulaTypeError, path+".value", "complement ratio must be in [0,1]", mod.ModifierKey)
+		}
 	}
 	if mod.Condition != nil {
 		condInstr := formula.CompileGenericFormula(*mod.Condition, path+".condition", ctx.namedFormulas, map[string]bool{}, collector.addError)
@@ -839,6 +851,7 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 	}
 	validateProcessActualCostReads(deps, key, ctx)
 	validateOperationOutputReads(deps, key, ctx)
+	validateResolvedContactReads(deps, key, ctx)
 	hasRef := false
 	for _, in := range instr {
 		if in.Op == formula.GenericOpRef {
@@ -870,6 +883,9 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	collector := ctx.collector
 	session := ctx.session
 	catalog := ctx.catalog
+	if op.ValuePolicy == "complement_multiply" {
+		collector.addError(model.GenericErrUnknownRef, path+".valuePolicy", "complement multiplication is only supported on total attribute modifiers", op.Operation)
+	}
 	if op.Operation == "" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".operation", "operation is required", "")
 		return
@@ -1002,6 +1018,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		Threshold:             op.Threshold,
 		ProviderRefFromEvent:  op.ProviderRefFromEvent,
 	}
+	compileShieldLifecycleBinding(op, path, ownerProviderIndex, &compiled, ctx)
 	if op.Operation == "damage" {
 		compiled.Types = normalizeDamageTraitTypes(op.Types, catalog)
 	}

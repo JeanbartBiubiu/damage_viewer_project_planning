@@ -5,13 +5,15 @@ import "sort"
 
 // Instance 是 combatant 上的护盾运行态。
 type Instance struct {
-	ShieldRef string
-	Source    string
-	Owner     string
-	Remaining float64
-	Priority  int16
-	ExpireAt  int64
-	State     map[string]interface{}
+	ShieldRef            string
+	DefinitionRef        string
+	LifecycleProviderRef string
+	Source               string
+	Owner                string
+	Remaining            float64
+	Priority             int16
+	ExpireAt             int64
+	State                map[string]interface{}
 }
 
 // Expired 判断护盾是否已到过期时刻（ExpireAt<=0 表示永不过期）。

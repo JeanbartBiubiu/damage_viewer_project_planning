@@ -34,6 +34,9 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 	if op.ShieldDurationMs != nil {
 		collector.addError(model.GenericErrMissingRequiredField, opPath+".shieldDurationMs", "shieldDurationMs is only supported on shield operations", op.Operation)
 	}
+	if op.ShieldLifecycleProviderDefinitionRef != "" {
+		ctx.collector.addError(model.GenericErrUnknownRef, path+".shieldLifecycleProviderDefinitionRef", "resolve_skill_hit entry cannot declare a shield lifecycle binding", op.ShieldLifecycleProviderDefinitionRef)
+	}
 	if op.SkillHit == nil {
 		collector.addError(model.GenericErrMissingRequiredField, opPath+".skillHit", "resolve_skill_hit requires skillHit", ability.AbilityKey)
 		session.Operations = append(session.Operations, planbundle.CompiledOperation{Operation: model.OperationKindResolveSkillHit, Target: op.Target})
@@ -83,22 +86,24 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 		}
 	}
 	session.Operations = append(session.Operations, planbundle.CompiledOperation{
-		Operation: model.OperationKindResolveSkillHit,
-		Target:    op.Target,
-		Ref:       op.Ref,
-		SkillHit:  plan,
+		Operation:          model.OperationKindResolveSkillHit,
+		OwnerProviderIndex: ownerProviderIndex,
+		Target:             op.Target,
+		Ref:                op.Ref,
+		SkillHit:           plan,
 	})
 }
 
 func compileSkillHitCandidate(cand model.SkillHitCandidate, path string, ownerProviderIndex int, ctx *genericCompileContext) planbundle.CompiledSkillHitCandidate {
 	collector := ctx.collector
 	out := planbundle.CompiledSkillHitCandidate{
-		CandidateKey:        cand.CandidateKey,
-		EffectOccurrenceKey: cand.EffectOccurrenceKey,
-		EffectKey:           cand.EffectKey,
-		ResultKey:           cand.ResultKey,
-		Semantic:            cand.Semantic,
-		Path:                path,
+		CandidateKey:             cand.CandidateKey,
+		EffectOccurrenceKey:      cand.EffectOccurrenceKey,
+		EffectKey:                cand.EffectKey,
+		ResultKey:                cand.ResultKey,
+		Semantic:                 cand.Semantic,
+		Path:                     path,
+		ParticipationProviderRef: cand.ParticipationProviderRef,
 	}
 	if strings.TrimSpace(cand.CandidateKey) == "" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".candidateKey", "candidateKey is required", "")
@@ -135,6 +140,9 @@ func compileSkillHitCandidate(cand model.SkillHitCandidate, path string, ownerPr
 		if len(instr) > 0 {
 			out.ParticipationProgram, out.HasParticipation = ctx.registerFormula(path+".participationCondition", instr)
 		}
+	}
+	if cand.ParticipationProviderRef != "" && cand.ParticipationCondition == nil {
+		collector.addError(model.GenericErrMissingRequiredField, path+".participationCondition", "participation provider requires an explicit candidate condition", cand.CandidateKey)
 	}
 	for j, cond := range cand.EventValueConditions {
 		cpath := path + ".eventValueConditions[" + itoa(j) + "]"

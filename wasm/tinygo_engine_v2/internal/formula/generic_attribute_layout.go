@@ -80,6 +80,12 @@ func lookupAttributeSlot(attrs attribute.Table, key string, index int, bound boo
 }
 
 func evalInstructionRead(in GenericInstr, ctx *GenericEvalContext) (float64, error) {
+	if in.ReadKind == ReadLinkedShieldPresent {
+		if !in.ReferenceBound || !ctx.HasProviderContext || ctx.LinkedShieldReader == nil {
+			return 0, errors.New("linked shield presence requires a bound definition and actual provider context")
+		}
+		return ctx.LinkedShieldReader.LinkedShieldPresent(in.RefIndex)
+	}
 	if !in.AttrIndexBound || (in.AttrField != "resolved" && in.AttrField != "base" && in.AttrField != "current" && in.AttrField != "max") {
 		return evalRead(in.ReadKind, in.ReadKey, ctx)
 	}

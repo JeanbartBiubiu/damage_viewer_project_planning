@@ -222,6 +222,9 @@ func (r *AttributeResolver) setMounts(mounts []MountedAttributeModifier) {
 
 // ProviderFormulaContext 只携带供值状态覆盖项，避免复制无关的完整公式上下文。
 type ProviderFormulaContext struct {
+	SkipExpiredAttributeModifier                              bool
+	HasProviderElapsed                                        bool
+	ProviderElapsedMs                                         int64
 	HasProviderContext                                        bool
 	ProviderState, ProviderTargetState, ProviderStateDefaults map[string]float64
 }
@@ -280,6 +283,7 @@ func (r AttributeResolver) ResolveDerivedAttribute(attributeKey string, slot mod
 
 func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float64, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (float64, error) {
 	resolved := base
+	complementProduct, hasComplement := 1.0, false
 	for _, mod := range r.byAttribute[attributeKey] {
 		if !mod.HasValue {
 			continue
@@ -287,10 +291,15 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 		modCtx := evalCtx
 		if providerContext != nil {
 			pctx := providerContext(mod.OwnerCombatantKey, mod.ProviderRef)
+			if pctx.SkipExpiredAttributeModifier {
+				continue
+			}
 			modCtx.HasProviderContext = pctx.HasProviderContext
 			modCtx.ProviderState = pctx.ProviderState
 			modCtx.ProviderTargetState = pctx.ProviderTargetState
 			modCtx.ProviderStateDefaults = pctx.ProviderStateDefaults
+			modCtx.HasProviderElapsed = pctx.HasProviderElapsed
+			modCtx.ProviderElapsedMs = pctx.ProviderElapsedMs
 		}
 		value, err := formulas.EvalContext(mod.ValueProgram, &modCtx)
 		if err != nil {
@@ -299,10 +308,24 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 		if math.IsNaN(value) || math.IsInf(value, 0) {
 			return 0, fmt.Errorf("attribute %s modifier %s: invalid value: %v", attributeKey, mod.ModifierKey, err)
 		}
+		if mod.ValuePolicy == "complement_multiply" {
+			if value < 0 || value > 1 {
+				return 0, fmt.Errorf("attribute %s modifier %s: complement ratio must be in [0,1]", attributeKey, mod.ModifierKey)
+			}
+			complementProduct *= 1 - value
+			hasComplement = true
+			continue
+		}
 		resolved = applyValuePolicy(resolved, base, mod.ValuePolicy, value)
 		if math.IsNaN(resolved) || math.IsInf(resolved, 0) {
 			return 0, fmt.Errorf("attribute %s modifier %s: non-finite resolved value", attributeKey, mod.ModifierKey)
 		}
+	}
+	if hasComplement {
+		if math.IsNaN(resolved) || math.IsInf(resolved, 0) || resolved < 0 || resolved > 1 {
+			return 0, fmt.Errorf("attribute %s: complement input must be in [0,1]", attributeKey)
+		}
+		resolved = 1 - (1-resolved)*complementProduct
 	}
 	return resolved, nil
 }

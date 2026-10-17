@@ -16,6 +16,7 @@ func BindRuntimeTypes(registry typeset.Registry) plan.RuntimeTypeBindings {
 		BasicAttack:            bind("ability", "ability/basic_attack"),
 		SpellShield:            bind("provider", model.ProviderTypeSpellShield),
 		SourceInitialized:      bind("event", model.EventTypeSourceInitialized),
+		ProcessResolved:        bind("event", model.EventTypeProcessResolved),
 		AbilityStarted:         bind("event", "event/ability_started"),
 		BasicAttackStart:       bind("event", model.EventTypeBasicAttackStart),
 		BasicAttackHit:         bind("event", model.EventTypeBasicAttackHit),

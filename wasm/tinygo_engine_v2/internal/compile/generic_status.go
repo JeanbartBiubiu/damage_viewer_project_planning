@@ -70,9 +70,8 @@ func validateProviderStatusLifecycle(def model.ProviderDefinition, compiled plan
 	if lc == nil || lc.RefreshPolicy != model.RefreshPolicyReplace {
 		collector.addError(model.GenericErrUnknownRef, path+".lifecycle.refreshPolicy", "source_target requires explicit refreshPolicy=replace", def.ProviderKey)
 	}
-	if compiled.Lifecycle == nil || !compiled.Lifecycle.HasDuration {
-		collector.addError(model.GenericErrMissingRequiredField, path+".lifecycle.durationMs", "source_target requires a positive duration formula", def.ProviderKey)
-	}
+	// Duration is checked after numeric-shield associations have been bound. A linked
+	// provider inherits its actual shield's deadline, including an explicit permanent shield.
 }
 
 func normalizeHealGroupMode(mode string) string {

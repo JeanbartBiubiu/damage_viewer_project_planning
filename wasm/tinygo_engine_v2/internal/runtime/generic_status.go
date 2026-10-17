@@ -62,6 +62,9 @@ func (f *executionFrame) prepareProviderMutation(definitionRef, providerRef, sou
 
 func (f *executionFrame) prepareProviderLifecycle(provider planbundle.CompiledProvider, evalCtx formula.GenericEvalContext) (*preparedProviderLifecycle, *model.EngineError) {
 	out := &preparedProviderLifecycle{}
+	if provider.NeedsElapsedTime && (f.run.nowMs < 0 || f.run.nowMs > maxJSONSafeInteger) {
+		return nil, f.providerLifecycleError(model.GenericErrRuntimeInvariantFailed, "appliedAtMs", "elapsed-time provider requires a non-negative safe application timestamp", provider.ProviderKey)
+	}
 	if provider.Lifecycle != nil && provider.Lifecycle.HasDuration {
 		expireAt, err := f.evalPreparedDuration(provider, evalCtx)
 		if err != nil {
@@ -91,6 +94,7 @@ func (f *executionFrame) prepareProviderLifecycle(provider planbundle.CompiledPr
 
 func (f *executionFrame) evalPreparedDuration(provider planbundle.CompiledProvider, evalCtx formula.GenericEvalContext) (int64, *model.EngineError) {
 	lc := provider.Lifecycle
+	strictDuration := lc.AllowsSourceTargetReuse() || provider.NeedsElapsedTime
 	path := lc.DurationPath
 	if path == "" {
 		path = "provider[" + provider.ProviderKey + "].lifecycle.durationMs"
@@ -102,15 +106,15 @@ func (f *executionFrame) evalPreparedDuration(provider planbundle.CompiledProvid
 	if math.IsNaN(value) || math.IsInf(value, 0) {
 		return 0, f.providerLifecycleError(model.GenericErrFormulaTypeError, path, "non-finite duration", provider.ProviderKey)
 	}
-	if lc.AllowsSourceTargetReuse() && (value <= 0 || math.Trunc(value) != value || value >= 9223372036854775808.0) {
+	if strictDuration && (value <= 0 || math.Trunc(value) != value || value >= 9223372036854775808.0) {
 		return 0, f.providerLifecycleError(model.GenericErrFormulaTypeError, path, "source_target duration must be a positive integer within the timestamp range", provider.ProviderKey)
 	}
 	delta := int64(value)
-	if lc.AllowsSourceTargetReuse() && delta <= 0 {
+	if strictDuration && delta <= 0 {
 		return 0, f.providerLifecycleError(model.GenericErrFormulaTypeError, path, "source_target duration must be positive", provider.ProviderKey)
 	}
 	expireAt := f.run.nowMs + delta
-	if lc.AllowsSourceTargetReuse() && (expireAt <= f.run.nowMs || expireAt <= 0) {
+	if strictDuration && (expireAt <= f.run.nowMs || expireAt <= 0) {
 		return 0, f.providerLifecycleError(model.GenericErrFormulaTypeError, path, "source_target expiry overflows the timestamp range", provider.ProviderKey)
 	}
 	return expireAt, nil

@@ -17,27 +17,30 @@ type CompiledAbilityRef struct {
 
 // CompiledSession 是 generic compile 输出的只读 session 快照。
 type CompiledSession struct {
-	AttributeLayout      *attribute.Layout
-	SkillActionBindings  []CompiledSkillActionBinding
-	HasMechanicReads     bool
-	StatusKeys           []string
-	SchemaVersion        string
-	SchemaHash           string
-	RulesHash            string
-	Types                typeset.CatalogResult
-	RuntimeTypes         RuntimeTypeBindings
-	Combatants           []CompiledCombatant
-	Providers            []CompiledProvider
-	Abilities            []CompiledAbility
-	Operations           []CompiledOperation
-	Formulas             formula.GenericRegistry
-	Settings             model.GenericCompileSettings
-	AbilityRefIndex      map[string]CompiledAbilityRef
-	RuleModifiers        []CompiledModifier
-	Listeners            []CompiledListener
-	VampRules            []CompiledVampRule
-	DamageTypeFormulas   map[string]CompiledDamageTypeFormula
-	AttributeDerivations []CompiledAttributeDerivation
+	AttributeLayout         *attribute.Layout
+	SkillActionBindings     []CompiledSkillActionBinding
+	HasMechanicReads        bool
+	HasShieldLifecycle      bool
+	HasLinkedShieldReads    bool
+	HasProviderElapsedReads bool
+	StatusKeys              []string
+	SchemaVersion           string
+	SchemaHash              string
+	RulesHash               string
+	Types                   typeset.CatalogResult
+	RuntimeTypes            RuntimeTypeBindings
+	Combatants              []CompiledCombatant
+	Providers               []CompiledProvider
+	Abilities               []CompiledAbility
+	Operations              []CompiledOperation
+	Formulas                formula.GenericRegistry
+	Settings                model.GenericCompileSettings
+	AbilityRefIndex         map[string]CompiledAbilityRef
+	RuleModifiers           []CompiledModifier
+	Listeners               []CompiledListener
+	VampRules               []CompiledVampRule
+	DamageTypeFormulas      map[string]CompiledDamageTypeFormula
+	AttributeDerivations    []CompiledAttributeDerivation
 }
 
 type CompiledAttributeDerivation struct {
@@ -151,6 +154,9 @@ type CompiledProviderStateField struct {
 
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
+	// ShieldDefinitionRef is set only for a provider owned by an actual numeric shield.
+	ShieldDefinitionRef string
+	NeedsElapsedTime    bool
 	SkillKey            string
 	AmmoBinding         *CompiledAmmoBinding
 	Processes           []CompiledProcess
@@ -223,48 +229,50 @@ type CompiledAbility struct {
 
 // CompiledOperation 是 compile 后的 operation 定义。
 type CompiledOperation struct {
-	OwnerProviderIndex    int
-	Operation             string
-	Target                string
-	DamageType            string
-	AmountProgram         formula.GenericProgramID
-	HasAmount             bool
-	ResourceKey           string
-	AttributeKey          string
-	ValuePolicy           string
-	ProviderDefinitionRef string
-	ProviderRef           string
-	ShieldRef             string
-	AbilityRef            CompiledAbilityRef
-	HasAbilityRef         bool
-	AbilityRefStr         string
-	EventType             string
-	Ref                   string
-	ConditionProgram      formula.GenericProgramID
-	HasCondition          bool
-	StateScope            string // state_scope/provider | state_scope/provider_target for state_change
-	Types                 []string
-	CopyableOnHit         bool
-	CritEligible          bool
-	HasCritFormula        bool
-	CritChanceProgram     formula.GenericProgramID
-	CritMultiplierProgram formula.GenericProgramID
-	HasCritMultiplierMin  bool
-	CritMultiplierMin     float64
-	Path                  string
-	VampQualification     string
-	VampOverrides         []CompiledVampOverride
-	RepeatScope           string
-	RepeatCount           int
-	RepeatTag             string
-	RepeatDelayMs         int
-	TriggerStateKey       string
-	Threshold             float64
-	ProviderRefFromEvent  bool
-	SkillHit              *CompiledSkillHit
-	OutputRef             string
-	HasShieldDuration     bool
-	ShieldDurationProgram formula.GenericProgramID
+	OwnerProviderIndex           int
+	Operation                    string
+	Target                       string
+	DamageType                   string
+	AmountProgram                formula.GenericProgramID
+	HasAmount                    bool
+	ResourceKey                  string
+	AttributeKey                 string
+	ValuePolicy                  string
+	ProviderDefinitionRef        string
+	ProviderRef                  string
+	ShieldRef                    string
+	HasShieldLifecycleProvider   bool
+	ShieldLifecycleProviderIndex uint16
+	AbilityRef                   CompiledAbilityRef
+	HasAbilityRef                bool
+	AbilityRefStr                string
+	EventType                    string
+	Ref                          string
+	ConditionProgram             formula.GenericProgramID
+	HasCondition                 bool
+	StateScope                   string // state_scope/provider | state_scope/provider_target for state_change
+	Types                        []string
+	CopyableOnHit                bool
+	CritEligible                 bool
+	HasCritFormula               bool
+	CritChanceProgram            formula.GenericProgramID
+	CritMultiplierProgram        formula.GenericProgramID
+	HasCritMultiplierMin         bool
+	CritMultiplierMin            float64
+	Path                         string
+	VampQualification            string
+	VampOverrides                []CompiledVampOverride
+	RepeatScope                  string
+	RepeatCount                  int
+	RepeatTag                    string
+	RepeatDelayMs                int
+	TriggerStateKey              string
+	Threshold                    float64
+	ProviderRefFromEvent         bool
+	SkillHit                     *CompiledSkillHit
+	OutputRef                    string
+	HasShieldDuration            bool
+	ShieldDurationProgram        formula.GenericProgramID
 }
 
 // CompiledSkillHit 是 resolve_skill_hit 的编译计划。
@@ -275,20 +283,23 @@ type CompiledSkillHit struct {
 
 // CompiledSkillHitCandidate 保存资格、条件程序与候选操作区间。
 type CompiledSkillHitCandidate struct {
-	CandidateKey         string
-	EffectOccurrenceKey  string
-	EffectKey            string
-	ResultKey            string
-	Semantic             model.SkillHitSemantic
-	BlockScope           string // empty = null
-	HasBlockScope        bool
-	InboundBlockEligible bool
-	ParticipationProgram formula.GenericProgramID
-	HasParticipation     bool
-	EventValueConds      []CompiledSkillHitValueCond
-	OperationStart       uint16
-	OperationCount       uint16
-	Path                 string
+	CandidateKey                     string
+	EffectOccurrenceKey              string
+	EffectKey                        string
+	ResultKey                        string
+	Semantic                         model.SkillHitSemantic
+	BlockScope                       string // empty = null
+	HasBlockScope                    bool
+	InboundBlockEligible             bool
+	ParticipationProgram             formula.GenericProgramID
+	HasParticipation                 bool
+	ParticipationProviderRef         string
+	ParticipationProviderRefs        [2]string // source/target; compile-bound original mounts only
+	ParticipationProviderDefinitions [2]uint16
+	EventValueConds                  []CompiledSkillHitValueCond
+	OperationStart                   uint16
+	OperationCount                   uint16
+	Path                             string
 }
 
 // CompiledSkillHitValueCond 是编译后的 first_contact/blocked 比较。

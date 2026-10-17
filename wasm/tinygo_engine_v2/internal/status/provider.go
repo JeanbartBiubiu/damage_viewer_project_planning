@@ -10,6 +10,8 @@ type ProviderInstance struct {
 	Owner               string
 	Stacks              int
 	ExpireAt            int64
+	AppliedAtMs         int64
+	HasAppliedAt        bool
 	State               map[string]interface{}
 	DefinitionIndex     uint16
 	StatusContributions []StatusContribution

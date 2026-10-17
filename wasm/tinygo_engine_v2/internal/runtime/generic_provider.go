@@ -109,6 +109,9 @@ func (s *genericRunState) applyProviderInstance(targetKey, sourceKey, definition
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown provider definition: "+definitionRef, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
 	provider := s.compiled.Providers[defIdx]
+	if provider.ShieldDefinitionRef != "" {
+		return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "shield lifecycle provider can only be created by its shield", "providerDefinitionRef", definitionRef, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+	}
 	if provider.Lifecycle != nil && provider.Lifecycle.AllowsSourceTargetReuse() {
 		c := s.combatants[targetKey]
 		for _, expired := range c.providers {
@@ -123,20 +126,28 @@ func (s *genericRunState) applyProviderInstance(targetKey, sourceKey, definition
 		}
 	}
 	providerRef := s.nextProviderRef(definitionRef)
-	stacks := 1
 	if !hasExpireAt {
 		expireAt = 0
 	}
+	s.mountFreshProviderInstance(targetKey, sourceKey, defIdx, providerRef, expireAt, contributions)
+	return nil
+}
+
+func (s *genericRunState) mountFreshProviderInstance(targetKey, sourceKey string, defIdx uint16, providerRef string, expireAt int64, contributions []status.StatusContribution) {
+	definitionRef := s.compiled.Providers[defIdx].ProviderKey
 	inst := status.ProviderInstance{
 		ProviderRef:         providerRef,
 		DefinitionRef:       definitionRef,
 		Source:              sourceKey,
 		Owner:               targetKey,
-		Stacks:              stacks,
+		Stacks:              1,
 		ExpireAt:            expireAt,
 		State:               map[string]interface{}{},
 		DefinitionIndex:     defIdx,
 		StatusContributions: cloneStatusContributions(contributions),
+	}
+	if s.compiled.Providers[defIdx].NeedsElapsedTime {
+		inst.AppliedAtMs, inst.HasAppliedAt = s.nowMs, true
 	}
 	c := s.combatants[targetKey]
 	c.providers = append(c.writableProviders(), inst)
@@ -153,10 +164,12 @@ func (s *genericRunState) applyProviderInstance(targetKey, sourceKey, definition
 	s.scheduleInitialProviderTick(targetKey, providerRef, defIdx, expireAt, inst.Source)
 	s.recordProviderLifecycleEvidence(model.EvidenceKindProviderApply, inst)
 	s.bindProviderInstanceListeners(inst)
-	return nil
 }
 
 func (s *genericRunState) replaceProviderInstance(targetKey string, idx int, inst status.ProviderInstance, expireAt int64, hasExpireAt bool, contributions []status.StatusContribution, kind model.EvidenceKind) *model.EngineError {
+	if s.compiled.Providers[inst.DefinitionIndex].NeedsElapsedTime {
+		inst.AppliedAtMs, inst.HasAppliedAt = s.nowMs, true
+	}
 	if hasExpireAt {
 		inst.ExpireAt = expireAt
 		if expireAt > 0 {
@@ -188,6 +201,12 @@ func (s *genericRunState) refreshProviderInstance(targetKey, providerRef string,
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown providerRef: "+providerRef, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
 	provider := s.compiled.Providers[inst.DefinitionIndex]
+	if provider.ShieldDefinitionRef != "" {
+		return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "linked shield provider must be refreshed by applying its shield", "providerRef", providerRef, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+	}
+	if provider.NeedsElapsedTime {
+		return s.replaceProviderInstance(targetKey, idx, inst, expireAt, hasExpireAt, contributions, model.EvidenceKindProviderRefresh)
+	}
 	if provider.Lifecycle != nil && provider.Lifecycle.AllowsSourceTargetReuse() {
 		return s.replaceProviderInstance(targetKey, idx, inst, expireAt, hasExpireAt, contributions, model.EvidenceKindProviderRefresh)
 	}
@@ -269,6 +288,11 @@ func (s *genericRunState) removeProviderInstance(targetKey, providerRef string, 
 	if !ok {
 		return
 	}
+	// Remove the reverse edge before unmounting. Repeated removal is harmless and
+	// never follows a static definition or a textual reference prefix.
+	if s.compiled.HasShieldLifecycle {
+		c.shields = removeShieldsForProvider(c.shields, providerRef)
+	}
 	inst, _, ok := status.FindByRef(c.providers, providerRef)
 	if !ok {
 		return
@@ -348,6 +372,10 @@ func (s *genericRunState) handleExpireCleanup(ev scheduler.GenericEvent) {
 }
 
 func (s *genericRunState) sweepExpiredInstances() {
+	if s.compiled.HasShieldLifecycle {
+		s.sweepExpiredLinkedInstances()
+		return
+	}
 	evalCtx := s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
 	for key, c := range s.combatants {
 		changed := false
@@ -397,6 +425,15 @@ func (s *genericRunState) sweepExpiredInstances() {
 func (s *genericRunState) removeExpiredShieldInstance(combatantKey, shieldRef string) {
 	c, ok := s.combatants[combatantKey]
 	if !ok {
+		return
+	}
+	if s.compiled.HasShieldLifecycle {
+		for _, sh := range c.shields {
+			if sh.ShieldRef == shieldRef && sh.Expired(s.nowMs) {
+				s.removeShieldInstance(combatantKey, shieldRef, model.EvidenceKindProviderExpire)
+				return
+			}
+		}
 		return
 	}
 	out := c.shields[:0]
@@ -626,10 +663,18 @@ func (s *genericRunState) providerFormulaContextFunc(combatantKey, castTargetKey
 			s.resolveProviderStateFieldDefs(bagOwnerKey, providerRef, c.providers), s.nowMs,
 			providerStateReadOptions{expireTarget: true, defaults: true, targetView: activeTarget != "", targetKey: activeTarget, cooldowns: c.cooldowns, ownerKey: bagOwnerKey})
 		if bag == nil {
-			return providerFormulaContextFromBag(nil, providerTargetActiveKey(combatantKey, ownerCombatantKey, castTargetKey))
+			ctx := providerFormulaContextFromBag(nil, activeTarget)
+			if s.compiled.HasProviderElapsedReads {
+				ctx = withProviderElapsed(ctx, c.providers, providerRef, s.nowMs, s.compiled.Providers)
+			}
+			return ctx
 		}
 		s.combatants[bagOwnerKey] = c
-		return providerFormulaContextFromBag(bag, activeTarget)
+		ctx := providerFormulaContextFromBag(bag, activeTarget)
+		if s.compiled.HasProviderElapsedReads {
+			ctx = withProviderElapsed(ctx, c.providers, providerRef, s.nowMs, s.compiled.Providers)
+		}
+		return ctx
 	}
 }
 
@@ -700,7 +745,7 @@ func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantK
 			continue
 		}
 		provider := compiled.Providers[defIdx]
-		strictIdentity := provider.Lifecycle != nil && provider.Lifecycle.AllowsSourceTargetReuse()
+		strictIdentity := (provider.Lifecycle != nil && provider.Lifecycle.AllowsSourceTargetReuse()) || provider.NeedsElapsedTime
 		if strictIdentity {
 			invalid := func(field, message string) *model.EngineError {
 				return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, message, p+"."+field, snap.ProviderRef, schemaHash, rulesHash, sessionID)
@@ -717,7 +762,7 @@ func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantK
 			if snap.Stacks != 1 {
 				return nil, resolver, invalid("stacks", "source_target snapshot must have exactly one stack")
 			}
-			if snap.ExpireAt == nil || *snap.ExpireAt <= 0 {
+			if provider.ShieldDefinitionRef == "" && (snap.ExpireAt == nil || *snap.ExpireAt <= 0) {
 				return nil, resolver, invalid("expireAt", "source_target snapshot requires a positive expiry timestamp")
 			}
 			identity := snap.DefinitionRef + "\x00" + snap.Source + "\x00" + snap.Owner
@@ -763,6 +808,9 @@ func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantK
 			State:               state,
 			DefinitionIndex:     defIdx,
 			StatusContributions: contribs,
+		}
+		if snap.AppliedAtMs != nil {
+			inst.AppliedAtMs, inst.HasAppliedAt = *snap.AppliedAtMs, true
 		}
 		if inst.Stacks <= 0 {
 			inst.Stacks = 1
@@ -815,13 +863,15 @@ func materializeShields(snapshot []model.CombatantShieldSnapshot, combatantKey s
 		}
 		if snap.Remaining > 0 {
 			out = append(out, shieldpkg.Instance{
-				ShieldRef: ref,
-				Source:    source,
-				Owner:     owner,
-				Remaining: snap.Remaining,
-				Priority:  snap.Priority,
-				ExpireAt:  expireAt,
-				State:     state,
+				ShieldRef:            ref,
+				DefinitionRef:        snap.DefinitionRef,
+				LifecycleProviderRef: snap.LifecycleProviderRef,
+				Source:               source,
+				Owner:                owner,
+				Remaining:            snap.Remaining,
+				Priority:             snap.Priority,
+				ExpireAt:             expireAt,
+				State:                state,
 			})
 		}
 	}
@@ -860,6 +910,7 @@ func providersToSnapshot(instances []status.ProviderInstance) []model.CombatantP
 			ExpireAt:            expireAtPtr(inst.ExpireAt),
 			State:               state,
 			StatusContributions: contributionsToSnapshot(inst.StatusContributions),
+			AppliedAtMs:         providerAppliedAtPtr(inst),
 		}
 		out = append(out, snap)
 	}
@@ -881,13 +932,15 @@ func shieldsToSnapshot(instances []shieldpkg.Instance) []model.CombatantShieldSn
 			source = sh.Owner
 		}
 		out = append(out, model.CombatantShieldSnapshot{
-			ShieldRef: sh.ShieldRef,
-			Source:    source,
-			Owner:     sh.Owner,
-			Remaining: sh.Remaining,
-			Priority:  sh.Priority,
-			ExpireAt:  expireAtPtr(sh.ExpireAt),
-			State:     state,
+			ShieldRef:            sh.ShieldRef,
+			DefinitionRef:        sh.DefinitionRef,
+			LifecycleProviderRef: sh.LifecycleProviderRef,
+			Source:               source,
+			Owner:                sh.Owner,
+			Remaining:            sh.Remaining,
+			Priority:             sh.Priority,
+			ExpireAt:             expireAtPtr(sh.ExpireAt),
+			State:                state,
 		})
 	}
 	return out

@@ -391,6 +391,9 @@ func validateProcessControl(ability model.AbilityDefinition, path string, provid
 	if def.UseRefFromEvent && def.Action != "INITIAL" {
 		ctx.collector.addError(model.GenericErrUnknownRef, cp+".useRefFromEvent", "event-bound process control only supports INITIAL", def.Action)
 	}
+	if def.RequireExplicitSelfTarget != nil && (!*def.RequireExplicitSelfTarget || def.Action != "INITIAL") {
+		ctx.collector.addError(model.GenericErrUnknownRef, cp+".requireExplicitSelfTarget", "explicit self-target gate must be true and only supports INITIAL", def.Action)
+	}
 	for _, field := range []struct {
 		name    string
 		present bool

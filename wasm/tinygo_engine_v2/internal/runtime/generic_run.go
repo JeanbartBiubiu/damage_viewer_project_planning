@@ -193,6 +193,14 @@ func RunGeneric(compiled planbundle.CompiledSession, req model.RunRequest) (mode
 	if runErr := state.runLoop(); runErr != nil {
 		return model.DoneResult{}, runErr
 	}
+	// A quiet observation endpoint may be later than the last combat event. Read
+	// finite time-dependent modifiers once at that actual endpoint for the final view.
+	if compiled.HasProviderElapsedReads && state.budgetCause == "" {
+		state.refreshProviderAwareAttributes(model.SelectorSource, model.SelectorTarget)
+		if state.processFailure != nil {
+			return model.DoneResult{}, state.processFailure
+		}
+	}
 	return state.buildDoneResult(), nil
 }
 
@@ -484,6 +492,12 @@ func normalizeConditionRecheckInterval(raw int64) int64 {
 }
 
 func materializeCombatants(snapshot model.Snapshot, compiled planbundle.CompiledSession, formulas formula.GenericRegistry, sessionID string) (map[string]combatantRuntime, *model.EngineError) {
+	if err := validateShieldLifecycleSnapshot(snapshot, compiled, sessionID); err != nil {
+		return nil, err
+	}
+	if err := validateProviderElapsedSnapshot(snapshot, compiled, sessionID); err != nil {
+		return nil, err
+	}
 	out := make(map[string]combatantRuntime, len(snapshot.Combatants))
 	layout := compiled.AttributeLayout
 	var additional []string
@@ -556,7 +570,11 @@ func materializeCombatants(snapshot model.Snapshot, compiled planbundle.Compiled
 				if bag != nil {
 					bag.bindFieldDefs(compiledStateFieldsForProvider(compiled, bagOwner, providerRef, owner.providers))
 				}
-				return providerFormulaContextFromBag(bag, providerTargetActiveKey(key, ownerKey, ""))
+				ctx := providerFormulaContextFromBag(bag, providerTargetActiveKey(key, ownerKey, ""))
+				if compiled.HasProviderElapsedReads {
+					ctx = withProviderElapsed(ctx, owner.providers, providerRef, snapshot.TimeMs, compiled.Providers)
+				}
+				return ctx
 			},
 		)
 		if resolveErr != nil {
@@ -596,7 +614,11 @@ func materializeCombatants(snapshot model.Snapshot, compiled planbundle.Compiled
 				if bag != nil {
 					bag.bindFieldDefs(compiledStateFieldsForProvider(compiled, bagOwner, providerRef, owner.providers))
 				}
-				return providerFormulaContextFromBag(bag, providerTargetActiveKey(key, ownerKey, castProxy))
+				ctx := providerFormulaContextFromBag(bag, providerTargetActiveKey(key, ownerKey, castProxy))
+				if compiled.HasProviderElapsedReads {
+					ctx = withProviderElapsed(ctx, owner.providers, providerRef, snapshot.TimeMs, compiled.Providers)
+				}
+				return ctx
 			},
 		)
 		if resolveErr != nil {

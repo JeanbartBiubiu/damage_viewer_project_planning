@@ -19,19 +19,20 @@ import (
 )
 
 type stagedProviderMutation struct {
-	evidenceKind   model.EvidenceKind
-	kind           string
-	providerRef    string
-	definitionRef  string
-	targetKey      string
-	sourceKey      string
-	shieldAmount   float64
-	shieldRef      string
-	shieldPriority int16
-	expireAt       int64
-	hasExpireAt    bool
-	strict         bool
-	contributions  []status.StatusContribution
+	definitionIndex uint16 // shield_apply is already bound by the compiler
+	evidenceKind    model.EvidenceKind
+	kind            string
+	providerRef     string
+	definitionRef   string
+	targetKey       string
+	sourceKey       string
+	shieldAmount    float64
+	shieldRef       string
+	shieldPriority  int16
+	expireAt        int64
+	hasExpireAt     bool
+	strict          bool
+	contributions   []status.StatusContribution
 }
 
 type pendingShieldExpire struct {
@@ -64,6 +65,8 @@ type eventFormulaSnapshot struct {
 	useKey               string
 	useSource            string
 	useSkillKey          string
+	hasUseContactCount   bool
+	useContactCount      int
 	hasLink              bool
 	linkIndex            int
 	linkCount            int
@@ -343,6 +346,8 @@ func cloneEventSnapshot(src *eventFormulaSnapshot) *eventFormulaSnapshot {
 		useKey:               src.useKey,
 		useSource:            src.useSource,
 		useSkillKey:          src.useSkillKey,
+		hasUseContactCount:   src.hasUseContactCount,
+		useContactCount:      src.useContactCount,
 		hasLink:              src.hasLink,
 		linkIndex:            src.linkIndex,
 		linkCount:            src.linkCount,
@@ -447,6 +452,9 @@ func (f *executionFrame) evalContext(ability planbundle.CompiledAbility) formula
 		AbilityParams:         ability.Params,
 		StrictReads:           f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit),
 	}
+	if f.run.compiled.HasLinkedShieldReads {
+		ctx.LinkedShieldReader = f
+	}
 	if ctx.RuntimeSkillKey == "" {
 		ctx.RuntimeSkillKey = f.processUseSkillKey
 	}
@@ -484,6 +492,8 @@ func (f *executionFrame) evalContext(ability planbundle.CompiledAbility) formula
 	}
 	if f.eventCtx != nil {
 		ctx.HasEventContext = true
+		ctx.HasSkillUseContactCount = f.eventCtx.eventType == model.EventTypeProcessResolved && f.eventCtx.hasUseContactCount
+		ctx.SkillUseContactCount = f.eventCtx.useContactCount
 		ctx.HasEventLink = f.eventCtx.hasLink
 		ctx.LinkIndex = f.eventCtx.linkIndex
 		ctx.LinkCount = f.eventCtx.linkCount
@@ -583,7 +593,9 @@ func (f *executionFrame) providerFormulaContextForTarget(combatantKey, targetKey
 		activeTarget := providerTargetActiveKey(combatantKey, ownerCombatantKey, targetKey)
 		bag := f.providerStateBagForRead(bagOwner, providerRef, strict,
 			providerStateReadOptions{expireTarget: true, defaults: true, targetView: activeTarget != "", targetKey: activeTarget})
-		return providerFormulaContextFromBag(bag, activeTarget)
+		ctx := providerFormulaContextFromBag(bag, activeTarget)
+		if f.run.compiled.HasProviderElapsedReads { ctx = withProviderElapsed(ctx, f.stageFor(bagOwner).providers, providerRef, f.run.nowMs, f.run.compiled.Providers) }
+		return ctx
 	}
 }
 
@@ -750,6 +762,9 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 			amount, err = f.applyReceivedShieldModifiers(targetKey, amount, ability)
 			if err != nil {
 				return err
+			}
+			if op.HasShieldLifecycleProvider {
+				return f.stageLifecycleShield(*op, ability, targetKey, amount)
 			}
 			sc := f.stageFor(targetKey)
 			ref := op.ShieldRef
@@ -2002,6 +2017,9 @@ func (f *executionFrame) commit() {
 	if f.fatal || f.committed {
 		return
 	}
+	if f.run.compiled.HasShieldLifecycle {
+		f.prepareShieldLifecycleRemovals()
+	}
 	var keyBuffer [2]string
 	keys, err := f.commitKeysAndPreflight(keyBuffer[:0])
 	if err != nil {
@@ -2034,6 +2052,8 @@ func (f *executionFrame) commit() {
 		staged := f.staged.Get(key)
 		for _, mut := range staged.providerOps {
 			switch mut.kind {
+			case "shield_apply":
+				f.run.mountFreshProviderInstance(mut.targetKey, mut.sourceKey, mut.definitionIndex, mut.providerRef, mut.expireAt, mut.contributions)
 			case "apply":
 				if err := f.run.applyProviderInstance(mut.targetKey, mut.sourceKey, mut.definitionRef, mut.expireAt, mut.hasExpireAt, mut.contributions); err != nil {
 					f.fatal = true
