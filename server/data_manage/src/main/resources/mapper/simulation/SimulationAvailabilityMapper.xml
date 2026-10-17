@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.simulation.SimulationAvailabilityMapper">
+    <resultMap id="row" type="xyz.game.datamanage.mapper.simulation.SimulationAvailabilityMapper$Row">
+        <constructor>
+            <arg column="kind" javaType="java.lang.String"/>
+            <arg column="owner_key" javaType="java.lang.String"/>
+            <arg column="object_key" javaType="java.lang.String"/>
+            <arg column="data" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <!-- 一次读取当前游戏原始业务行；不进入写入守卫、不加行锁，不循环加载聚合。 -->
+    <select id="readGameRows" resultMap="row">
+        WITH selected_game AS (SELECT #{gameId}::varchar AS game_id)
+        SELECT * FROM (
+        SELECT 'CHARACTER'::text AS kind, ''::text AS owner_key, character_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.characters t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'CHARACTER_ATTRIBUTES'::text AS kind, character_key::text AS owner_key, ''::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.character_attributes t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'CHARACTER_BINDING'::text AS kind, character_key::text AS owner_key, skill_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.character_skill_relations t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'EQUIPMENT'::text AS kind, ''::text AS owner_key, equipment_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.equipment t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'EQUIPMENT_ATTRIBUTES'::text AS kind, equipment_key::text AS owner_key, ''::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.equipment_attributes t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'EQUIPMENT_BINDING'::text AS kind, equipment_key::text AS owner_key, skill_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.equipment_skill_relations t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'SKILL'::text AS kind, ''::text AS owner_key, skill_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.skills t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'PARAMETER'::text AS kind, skill_key::text AS owner_key, parameter_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.skill_parameters t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'FORMULA'::text AS kind, skill_key::text AS owner_key, formula_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.skill_formulas t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'EFFECT'::text AS kind, skill_key::text AS owner_key, effect_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.skill_effects t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'STATE'::text AS kind, skill_key::text AS owner_key, state_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.skill_internal_states t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'PROCESS'::text AS kind, skill_key::text AS owner_key, process_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.skill_processes t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'TRIGGER'::text AS kind, skill_key::text AS owner_key, rule_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.skill_trigger_rules t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'SKILL_CATEGORY'::text AS kind, skill_key::text AS owner_key, skill_category_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.skill_category_relations t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'REFERENCE'::text AS kind, source_skill_key::text AS owner_key, concat_ws('|', source_type, source_key, field_path, target_type, target_skill_key, target_key, target_sub_key)::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.skill_object_references t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'ATTRIBUTE'::text AS kind, ''::text AS owner_key, attribute_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.attributes t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'CATEGORY'::text AS kind, ''::text AS owner_key, skill_category_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.skill_categories t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'DAMAGE_TYPE'::text AS kind, ''::text AS owner_key, damage_type_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.damage_types t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'MODIFIER_ZONE'::text AS kind, ''::text AS owner_key, modifier_zone_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.modifier_zones t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'STATUS'::text AS kind, ''::text AS owner_key, status_key::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.statuses t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'VAMP_RULE'::text AS kind, ''::text AS owner_key, vamp_type::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.game_vamp_rules t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'LEVEL_CONFIG'::text AS kind, ''::text AS owner_key, ''::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.game_level_configs t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'CALCULATION_RULES'::text AS kind, ''::text AS owner_key, ''::text AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.game_calculation_rules t JOIN selected_game USING (game_id)
+        ) AS availability_rows
+        ORDER BY kind, owner_key, object_key, data
+    </select>
+</mapper>

@@ -1,0 +1,3928 @@
+{
+  "schemaVersion": "simulation-priority-scope-v1",
+  "gameId": "lol",
+  "profile": "combat-analysis-v1",
+  "source": {
+    "ledger": "数据参考/全量录入-2026-09/阶段进度.json",
+    "characters": "heroes.priorityScope.batches",
+    "conclusions": "inventoryConclusions",
+    "equipment": "inventoryConclusions.equipment.currentEquipmentKey"
+  },
+  "characters": [
+    {
+      "key": "champion_garen",
+      "name": "盖伦",
+      "batchOrder": 1,
+      "sourceChampionId": "Garen",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "garen_p",
+          "name": "盖伦·坚韧",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "garen_q",
+          "name": "盖伦·致命打击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "garen_w",
+          "name": "盖伦·勇气",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "garen_e",
+          "name": "盖伦·审判",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "garen_r",
+          "name": "盖伦·德玛西亚正义",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_corki",
+      "name": "库奇",
+      "batchOrder": 1,
+      "sourceChampionId": "Corki",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "corki_p",
+          "name": "库奇·海克斯科技军备",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "corki_q",
+          "name": "库奇·磷光炸弹",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "corki_w",
+          "name": "库奇·瓦尔基里俯冲",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "corki_e",
+          "name": "库奇·格林机枪",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "corki_r",
+          "name": "库奇·火箭轰击",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_twistedfate",
+      "name": "崔斯特",
+      "batchOrder": 1,
+      "sourceChampionId": "TwistedFate",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "twistedfate_p",
+          "name": "崔斯特·灌铅骰子",
+          "excluded": true,
+          "exclusion": {
+            "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：纯经济收益，不属于本批战斗数值范围。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory"
+            ],
+            "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023"
+          }
+        },
+        {
+          "slot": "Q",
+          "key": "twistedfate_q",
+          "name": "崔斯特·万能牌",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "twistedfate_w",
+          "name": "崔斯特·选牌",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "twistedfate_e",
+          "name": "崔斯特·卡牌骗术",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "twistedfate_r",
+          "name": "崔斯特·命运",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_nasus",
+      "name": "内瑟斯",
+      "batchOrder": 1,
+      "sourceChampionId": "Nasus",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "nasus_p",
+          "name": "内瑟斯·吞噬灵魂",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "nasus_q",
+          "name": "内瑟斯·汲魂痛击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "nasus_w",
+          "name": "内瑟斯·枯萎",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "nasus_e",
+          "name": "内瑟斯·灵魂烈焰",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "nasus_r",
+          "name": "内瑟斯·死神降临",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_olaf",
+      "name": "奥拉夫",
+      "batchOrder": 1,
+      "sourceChampionId": "Olaf",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "olaf_p",
+          "name": "奥拉夫·狂战之怒",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "olaf_q",
+          "name": "奥拉夫·逆流投掷",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "olaf_w",
+          "name": "奥拉夫·挺过去",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "olaf_e",
+          "name": "奥拉夫·鲁莽挥击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "olaf_r",
+          "name": "奥拉夫·诸神黄昏",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_soraka",
+      "name": "索拉卡",
+      "batchOrder": 1,
+      "sourceChampionId": "Soraka",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "soraka_p",
+          "name": "索拉卡·拯救",
+          "excluded": true,
+          "exclusion": {
+            "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：明确依赖另一名友方英雄，本轮1v1不录自益效果。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory"
+            ],
+            "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e"
+          }
+        },
+        {
+          "slot": "Q",
+          "key": "soraka_q",
+          "name": "索拉卡·流星坠落",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "soraka_w",
+          "name": "索拉卡·星之灌注",
+          "excluded": true,
+          "exclusion": {
+            "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：W正文明确another ally，本轮没有友方目标，不录外部治疗结果。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory"
+            ],
+            "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e"
+          }
+        },
+        {
+          "slot": "E",
+          "key": "soraka_e",
+          "name": "索拉卡·星体结界",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "soraka_r",
+          "name": "索拉卡·祈愿",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_tristana",
+      "name": "崔丝塔娜",
+      "batchOrder": 1,
+      "sourceChampionId": "Tristana",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "tristana_p",
+          "name": "崔丝塔娜·瞄准",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "tristana_q",
+          "name": "崔丝塔娜·急速射击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "tristana_w",
+          "name": "崔丝塔娜·火箭跳跃",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "tristana_e",
+          "name": "崔丝塔娜·爆炸火花",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "tristana_r",
+          "name": "崔丝塔娜·毁灭射击",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_malphite",
+      "name": "墨菲特",
+      "batchOrder": 1,
+      "sourceChampionId": "Malphite",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "malphite_p",
+          "name": "墨菲特·花岗岩护盾",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "malphite_q",
+          "name": "墨菲特·地震碎片",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "malphite_w",
+          "name": "墨菲特·雷霆拍击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "malphite_e",
+          "name": "墨菲特·大地震颤",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "malphite_r",
+          "name": "墨菲特·势不可挡",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_lux",
+      "name": "拉克丝",
+      "batchOrder": 1,
+      "sourceChampionId": "Lux",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "lux_p",
+          "name": "拉克丝·光芒四射",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "lux_q",
+          "name": "拉克丝·光之束缚",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "lux_w",
+          "name": "拉克丝·曲光屏障",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "lux_e",
+          "name": "拉克丝·透光奇点",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "lux_r",
+          "name": "拉克丝·终极闪光",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "ez",
+      "name": "伊泽瑞尔",
+      "batchOrder": 2,
+      "sourceChampionId": "Ezreal",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "ez_p",
+          "name": "咒能高涨",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "ez_q",
+          "name": "秘术射击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "ez_w",
+          "name": "精华跃动",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "ez_e",
+          "name": "奥术跃迁",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "ez_r",
+          "name": "精准弹幕",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_annie",
+      "name": "安妮",
+      "batchOrder": 2,
+      "sourceChampionId": "Annie",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "annie_p",
+          "name": "安妮·嗜火",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "annie_q",
+          "name": "安妮·碎裂之火",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "annie_w",
+          "name": "安妮·焚烧",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "annie_e",
+          "name": "安妮·熔岩护盾",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "annie_r",
+          "name": "安妮·提伯斯之怒",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_brand",
+      "name": "布兰德",
+      "batchOrder": 2,
+      "sourceChampionId": "Brand",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "brand_p",
+          "name": "布兰德·炽热之焰",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "brand_q",
+          "name": "布兰德·火焰烙印",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "brand_w",
+          "name": "布兰德·烈焰之柱",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "brand_e",
+          "name": "布兰德·烈火燃烧",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "brand_r",
+          "name": "布兰德·烈焰风暴",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_ahri",
+      "name": "阿狸",
+      "batchOrder": 2,
+      "sourceChampionId": "Ahri",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "ahri_p",
+          "name": "阿狸·摄魂夺魄",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "ahri_q",
+          "name": "阿狸·欺诈宝珠",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "ahri_w",
+          "name": "阿狸·妖异狐火",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "ahri_e",
+          "name": "阿狸·魅惑妖术",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "ahri_r",
+          "name": "阿狸·灵魄突袭",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_morgana",
+      "name": "莫甘娜",
+      "batchOrder": 2,
+      "sourceChampionId": "Morgana",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "morgana_p",
+          "name": "莫甘娜·灵魂吸取",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "morgana_q",
+          "name": "莫甘娜·暗之禁锢",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "morgana_w",
+          "name": "莫甘娜·折磨之影",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "morgana_e",
+          "name": "莫甘娜·黑暗之盾",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "morgana_r",
+          "name": "莫甘娜·灵魂镣铐",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_neeko",
+      "name": "妮蔻",
+      "batchOrder": 2,
+      "sourceChampionId": "Neeko",
+      "scopeBoundary": "仅本人对单一敌方目标的1V1相关组成；不模拟群体、多目标穿透或分身独立对象行为，既有P等排除依据保留。",
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "neeko_p",
+          "name": "妮蔻·天生幻魅",
+          "excluded": true,
+          "exclusion": {
+            "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：自主完整变形范围跳过。；主负责人确认未消费，不录候选参数。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory"
+            ],
+            "candidateSha256": "0b029b59ead40cd28f3757265fdd7d557f00d347159f02b22d7753f264d7f91c"
+          }
+        },
+        {
+          "slot": "Q",
+          "key": "neeko_q",
+          "name": "妮蔻·盛开花种",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "neeko_w",
+          "name": "妮蔻·两生花影",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "neeko_e",
+          "name": "妮蔻·缠结倒刺",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "neeko_r",
+          "name": "妮蔻·怒放",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_lissandra",
+      "name": "丽桑卓",
+      "batchOrder": 2,
+      "sourceChampionId": "Lissandra",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "lissandra_p",
+          "name": "丽桑卓·冰脉驱役",
+          "excluded": true,
+          "exclusion": {
+            "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：ice_servant_slow_ratio：独立冰奴减速专用值属于范围外；仅留原始DataValues证据。；ice_servant_explosion_delay_ms：独立冰奴爆炸等待专用值属于范围外；仅留原始DataValues证据。；ice_servant_base_damage：独立冰奴爆炸基础伤害和等级曲线属于范围外；未知等级算法不展开。",
+            "evidenceRefs": [
+              "skillSecondStageCurrentReadback",
+              "heroSourceInventory"
+            ],
+            "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc"
+          }
+        },
+        {
+          "slot": "Q",
+          "key": "lissandra_q",
+          "name": "丽桑卓·寒冰碎片",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "lissandra_w",
+          "name": "丽桑卓·冰霜之环",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "lissandra_e",
+          "name": "丽桑卓·冰川之径",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "lissandra_r",
+          "name": "丽桑卓·冰封陵墓",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_chogath",
+      "name": "科加斯",
+      "batchOrder": 2,
+      "sourceChampionId": "Chogath",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "chogath_p",
+          "name": "科加斯·肉食者",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "chogath_q",
+          "name": "科加斯·破裂",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "chogath_w",
+          "name": "科加斯·野性尖叫",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "chogath_e",
+          "name": "科加斯·恐惧之刺",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "chogath_r",
+          "name": "科加斯·盛宴",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_amumu",
+      "name": "阿木木",
+      "batchOrder": 2,
+      "sourceChampionId": "Amumu",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "amumu_p",
+          "name": "阿木木·诅咒之触",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "amumu_q",
+          "name": "阿木木·绷带牵引",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "amumu_w",
+          "name": "阿木木·绝望光环",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "amumu_e",
+          "name": "阿木木·阿木木的愤怒",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "amumu_r",
+          "name": "阿木木·木乃伊之咒",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_varus",
+      "name": "韦鲁斯",
+      "batchOrder": 2,
+      "sourceChampionId": "Varus",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "varus_p",
+          "name": "韦鲁斯·复仇之欲",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "varus_q",
+          "name": "韦鲁斯·穿刺之箭",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "varus_w",
+          "name": "韦鲁斯·枯萎箭袋",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "varus_e",
+          "name": "韦鲁斯·恶灵箭雨",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "varus_r",
+          "name": "韦鲁斯·腐败锁链",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_ashe",
+      "name": "艾希",
+      "batchOrder": 3,
+      "sourceChampionId": "Ashe",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "ashe_p",
+          "name": "艾希·冰霜射击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "ashe_q",
+          "name": "艾希·射手的专注",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "ashe_w",
+          "name": "艾希·万箭齐发",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "ashe_e",
+          "name": "艾希·鹰击长空",
+          "excluded": true,
+          "exclusion": {
+            "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：纯地图视野与侦查、鹰单位、5秒视野、两充能和充能时间整槽排除；本轮无待接新增组成。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory"
+            ],
+            "candidateSha256": "0ce76bd47383a74900ed3c2b6e3a7a070c3608c741c30016595ecad0b56b5dba"
+          }
+        },
+        {
+          "slot": "R",
+          "key": "ashe_r",
+          "name": "艾希·魔法水晶箭",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_jax",
+      "name": "贾克斯",
+      "batchOrder": 3,
+      "sourceChampionId": "Jax",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "jax_p",
+          "name": "贾克斯·无情连打",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "jax_q",
+          "name": "贾克斯·跳斩",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "jax_w",
+          "name": "贾克斯·蓄力一击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "jax_e",
+          "name": "贾克斯·反击风暴",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "jax_r",
+          "name": "贾克斯·武器大师",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_masteryi",
+      "name": "易大师",
+      "batchOrder": 3,
+      "sourceChampionId": "MasterYi",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "masteryi_p",
+          "name": "易·双重打击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "masteryi_q",
+          "name": "易·阿尔法突袭",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "masteryi_w",
+          "name": "易·冥想",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "masteryi_e",
+          "name": "易·无极剑道",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "masteryi_r",
+          "name": "易·高原血统",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_talon",
+      "name": "泰隆",
+      "batchOrder": 3,
+      "sourceChampionId": "Talon",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "talon_p",
+          "name": "泰隆·刀锋之末",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "talon_q",
+          "name": "泰隆·诺克萨斯式外交",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "talon_w",
+          "name": "泰隆·斩草除根",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "talon_e",
+          "name": "泰隆·刺客之道",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "talon_r",
+          "name": "泰隆·暗影突袭",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_renekton",
+      "name": "雷克顿",
+      "batchOrder": 3,
+      "sourceChampionId": "Renekton",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "renekton_p",
+          "name": "雷克顿·怒之领域",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "renekton_q",
+          "name": "雷克顿·巨鳄狂袭",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "renekton_w",
+          "name": "雷克顿·冷酷捕猎",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "renekton_e",
+          "name": "雷克顿·横冲直撞",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "renekton_r",
+          "name": "雷克顿·终极统治",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_sett",
+      "name": "瑟提",
+      "batchOrder": 3,
+      "sourceChampionId": "Sett",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "sett_p",
+          "name": "瑟提·沙场豪情",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "sett_q",
+          "name": "瑟提·屈人之威",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "sett_w",
+          "name": "瑟提·蓄意轰拳",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "sett_e",
+          "name": "瑟提·强手裂颅",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "sett_r",
+          "name": "瑟提·叹为观止",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_vi",
+      "name": "蔚",
+      "batchOrder": 3,
+      "sourceChampionId": "Vi",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "vi_p",
+          "name": "蔚·爆裂护盾",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "vi_q",
+          "name": "蔚·强能冲拳",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "vi_w",
+          "name": "蔚·爆弹重拳",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "vi_e",
+          "name": "蔚·透体之劲",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "vi_r",
+          "name": "蔚·天霸横空烈轰",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_akali",
+      "name": "阿卡丽",
+      "batchOrder": 3,
+      "sourceChampionId": "Akali",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "akali_p",
+          "name": "阿卡丽·我流忍法！潜龙印",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "akali_q",
+          "name": "阿卡丽·我流奥义！寒影",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "akali_w",
+          "name": "阿卡丽·我流奥义！霞阵",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "akali_e",
+          "name": "阿卡丽·我流奥义！隼舞",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "akali_r",
+          "name": "阿卡丽·我流秘奥义！表里杀缭乱",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_rumble",
+      "name": "兰博",
+      "batchOrder": 3,
+      "sourceChampionId": "Rumble",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "rumble_p",
+          "name": "兰博·机械重组",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "rumble_q",
+          "name": "兰博·纵火盛宴",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "rumble_w",
+          "name": "兰博·破碎护盾",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "rumble_e",
+          "name": "兰博·电子鱼叉",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "rumble_r",
+          "name": "兰博·恒温灼烧",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_vladimir",
+      "name": "弗拉基米尔",
+      "batchOrder": 3,
+      "sourceChampionId": "Vladimir",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "vladimir_p",
+          "name": "弗拉基米尔·血色契约",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "vladimir_q",
+          "name": "弗拉基米尔·鲜血转换",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "vladimir_w",
+          "name": "弗拉基米尔·血红之池",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "vladimir_e",
+          "name": "弗拉基米尔·血之潮汐",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "vladimir_r",
+          "name": "弗拉基米尔·血之瘟疫",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_kassadin",
+      "name": "卡萨丁",
+      "batchOrder": 4,
+      "sourceChampionId": "Kassadin",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "kassadin_p",
+          "name": "卡萨丁·虚空之石",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "kassadin_q",
+          "name": "卡萨丁·虚无法球",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "kassadin_w",
+          "name": "卡萨丁·虚空之刃",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "kassadin_e",
+          "name": "卡萨丁·能量脉冲",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "kassadin_r",
+          "name": "卡萨丁·虚空行走",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_kogmaw",
+      "name": "克格莫",
+      "batchOrder": 4,
+      "sourceChampionId": "KogMaw",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "kogmaw_p",
+          "name": "克格莫·来自艾卡西亚的惊喜",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "kogmaw_q",
+          "name": "克格莫·腐蚀唾液",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "kogmaw_w",
+          "name": "克格莫·生化弹幕",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "kogmaw_e",
+          "name": "克格莫·虚空淤泥",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "kogmaw_r",
+          "name": "克格莫·活体大炮",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_missfortune",
+      "name": "厄运小姐",
+      "batchOrder": 4,
+      "sourceChampionId": "MissFortune",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "missfortune_p",
+          "name": "厄运小姐·厄运的眷顾",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "missfortune_q",
+          "name": "厄运小姐·一箭双雕",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "missfortune_w",
+          "name": "厄运小姐·大步流星",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "missfortune_e",
+          "name": "厄运小姐·枪林弹雨",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "missfortune_r",
+          "name": "厄运小姐·弹幕时间",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_sivir",
+      "name": "希维尔",
+      "batchOrder": 4,
+      "sourceChampionId": "Sivir",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "sivir_p",
+          "name": "希维尔·敏锐疾行",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "sivir_q",
+          "name": "希维尔·回旋之刃",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "sivir_w",
+          "name": "希维尔·弹射",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "sivir_e",
+          "name": "希维尔·法术护盾",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "sivir_r",
+          "name": "希维尔·狩猎",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_sona",
+      "name": "娑娜",
+      "batchOrder": 4,
+      "sourceChampionId": "Sona",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "sona_p",
+          "name": "娑娜·能量和弦",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "sona_q",
+          "name": "娑娜·英勇赞美诗",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "sona_w",
+          "name": "娑娜·坚毅咏叹调",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "sona_e",
+          "name": "娑娜·迅捷奏鸣曲",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "sona_r",
+          "name": "娑娜·狂舞终乐章",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_zilean",
+      "name": "基兰",
+      "batchOrder": 4,
+      "sourceChampionId": "Zilean",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "zilean_p",
+          "name": "基兰·瓶中时光",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "zilean_q",
+          "name": "基兰·定时炸弹",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "zilean_w",
+          "name": "基兰·穿梭未来",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "zilean_e",
+          "name": "基兰·时光发条",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "zilean_r",
+          "name": "基兰·时光倒流",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_lulu",
+      "name": "璐璐",
+      "batchOrder": 4,
+      "sourceChampionId": "Lulu",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "lulu_p",
+          "name": "璐璐·皮克斯，仙灵伙伴",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "lulu_q",
+          "name": "璐璐·闪耀长枪",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "lulu_w",
+          "name": "璐璐·奇思妙想",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "lulu_e",
+          "name": "璐璐·帮忙，皮克斯！",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "lulu_r",
+          "name": "璐璐·狂野生长",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_janna",
+      "name": "迦娜",
+      "batchOrder": 4,
+      "sourceChampionId": "Janna",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "janna_p",
+          "name": "迦娜·顺风而行",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "janna_q",
+          "name": "迦娜·飓风呼啸",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "janna_w",
+          "name": "迦娜·和风守护",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "janna_e",
+          "name": "迦娜·风暴之眼",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "janna_r",
+          "name": "迦娜·复苏季风",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_seraphine",
+      "name": "萨勒芬妮",
+      "batchOrder": 4,
+      "sourceChampionId": "Seraphine",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "seraphine_p",
+          "name": "萨勒芬妮·星光漫射",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "seraphine_q",
+          "name": "萨勒芬妮·清籁穿云",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "seraphine_w",
+          "name": "萨勒芬妮·聚和心声",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "seraphine_e",
+          "name": "萨勒芬妮·增幅节拍",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "seraphine_r",
+          "name": "萨勒芬妮·炫音返场",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_veigar",
+      "name": "维迦",
+      "batchOrder": 4,
+      "sourceChampionId": "Veigar",
+      "scopeBoundary": null,
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "veigar_p",
+          "name": "维迦·超凡邪力",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "veigar_q",
+          "name": "维迦·黑暗祭祀",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "veigar_w",
+          "name": "维迦·黑暗物质",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "veigar_e",
+          "name": "维迦·扭曲空间",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "veigar_r",
+          "name": "维迦·能量爆裂",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_tryndamere",
+      "name": "泰达米尔",
+      "batchOrder": 5,
+      "sourceChampionId": "Tryndamere",
+      "scopeBoundary": "保留怒气与治疗等1V1相关组成；不把无法死亡当成完全免伤。",
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "tryndamere_p",
+          "name": "泰达米尔·战斗狂怒",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "tryndamere_q",
+          "name": "泰达米尔·嗜血杀戮",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "tryndamere_w",
+          "name": "泰达米尔·蔑视",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "tryndamere_e",
+          "name": "泰达米尔·旋风斩",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "tryndamere_r",
+          "name": "泰达米尔·无尽怒火",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_kayle",
+      "name": "凯尔",
+      "batchOrder": 5,
+      "sourceChampionId": "Kayle",
+      "scopeBoundary": "沿原自身收益及目标资格边界处理，不据友军描述自动认定允许自施。",
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "kayle_p",
+          "name": "凯尔·登神长阶",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "kayle_q",
+          "name": "凯尔·耀焰冲击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "kayle_w",
+          "name": "凯尔·星界恩典",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "kayle_e",
+          "name": "凯尔·星火符刃",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "kayle_r",
+          "name": "凯尔·圣裁之刻",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_pyke",
+      "name": "派克",
+      "batchOrder": 5,
+      "sourceChampionId": "Pyke",
+      "scopeBoundary": "R金币奖励沿原范围排除，战斗斩杀与再施放关系保留。",
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "pyke_p",
+          "name": "派克·溺水之幸",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "pyke_q",
+          "name": "派克·透骨尖钉",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "pyke_w",
+          "name": "派克·幽潭潜行",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "pyke_e",
+          "name": "派克·魅影浪洄",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "pyke_r",
+          "name": "派克·涌泉之恨",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_malzahar",
+      "name": "玛尔扎哈",
+      "batchOrder": 5,
+      "sourceChampionId": "Malzahar",
+      "scopeBoundary": "独立虚灵链沿原范围后置；持续伤害、控制与本体联动保留。",
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "malzahar_p",
+          "name": "玛尔扎哈·虚空穿越",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "malzahar_q",
+          "name": "玛尔扎哈·虚空召唤",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "malzahar_w",
+          "name": "玛尔扎哈·虚空虫群",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "malzahar_e",
+          "name": "玛尔扎哈·煞星幻象",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "malzahar_r",
+          "name": "玛尔扎哈·冥府之握",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_teemo",
+      "name": "提莫",
+      "batchOrder": 5,
+      "sourceChampionId": "Teemo",
+      "scopeBoundary": "独立陷阱及视野执行沿原边界，不为补致盲扩大场景模拟。",
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "teemo_p",
+          "name": "提莫·游击队军备",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "teemo_q",
+          "name": "提莫·致盲吹箭",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "teemo_w",
+          "name": "提莫·小莫快跑",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "teemo_e",
+          "name": "提莫·毒性射击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "teemo_r",
+          "name": "提莫·种蘑菇",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_fiora",
+      "name": "菲奥娜",
+      "batchOrder": 5,
+      "sourceChampionId": "Fiora",
+      "scopeBoundary": "保存准确破绽、招架与反击资格；方位和位移的实际执行继续后置。",
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "fiora_p",
+          "name": "菲奥娜·决斗之舞",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "fiora_q",
+          "name": "菲奥娜·破空斩",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "fiora_w",
+          "name": "菲奥娜·劳伦特心眼刀",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "fiora_e",
+          "name": "菲奥娜·夺命连刺",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "fiora_r",
+          "name": "菲奥娜·无双挑战",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_rengar",
+      "name": "雷恩加尔",
+      "batchOrder": 5,
+      "sourceChampionId": "Rengar",
+      "scopeBoundary": "净化种类、取样时点和残暴消费按来源核定，不概括成任意控制均可移除。",
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "rengar_p",
+          "name": "雷恩加尔·无形掠食者",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "rengar_q",
+          "name": "雷恩加尔·残忍无情",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "rengar_w",
+          "name": "雷恩加尔·战争咆哮",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "rengar_e",
+          "name": "雷恩加尔·套索打击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "rengar_r",
+          "name": "雷恩加尔·狩猎律动",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_jhin",
+      "name": "烬",
+      "batchOrder": 5,
+      "sourceChampionId": "Jhin",
+      "scopeBoundary": "只处理1V1相关射击与标记；陷阱沿原边界。原文的斩杀伤害措辞不能直接等同派克的处决。",
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "jhin_p",
+          "name": "烬·低语",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "jhin_q",
+          "name": "烬·曼舞手雷",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "jhin_w",
+          "name": "烬·致命华彩",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "jhin_e",
+          "name": "烬·万众倾倒",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "jhin_r",
+          "name": "烬·完美谢幕",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_braum",
+      "name": "布隆",
+      "batchOrder": 5,
+      "sourceChampionId": "Braum",
+      "scopeBoundary": "先表达防护方向与结果资格，实际弹道拦截执行不加入本轮宿主开发。",
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "braum_p",
+          "name": "布隆·震荡猛击",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "braum_q",
+          "name": "布隆·寒冬之咬",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "braum_w",
+          "name": "布隆·挺身而出",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "braum_e",
+          "name": "布隆·坚不可摧",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "braum_r",
+          "name": "布隆·冰川裂隙",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    },
+    {
+      "key": "champion_trundle",
+      "name": "特朗德尔",
+      "batchOrder": 5,
+      "sourceChampionId": "Trundle",
+      "scopeBoundary": "自身与目标的战斗属性保留，冰柱地形实际执行仍后置。",
+      "expectedSkills": [
+        {
+          "slot": "P",
+          "key": "trundle_p",
+          "name": "特朗德尔·国王的贡品",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "Q",
+          "key": "trundle_q",
+          "name": "特朗德尔·利齿撕咬",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "W",
+          "key": "trundle_w",
+          "name": "特朗德尔·冰封领域",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "E",
+          "key": "trundle_e",
+          "name": "特朗德尔·寒冰之柱",
+          "excluded": false,
+          "exclusion": null
+        },
+        {
+          "slot": "R",
+          "key": "trundle_r",
+          "name": "特朗德尔·强权至上",
+          "excluded": false,
+          "exclusion": null
+        }
+      ]
+    }
+  ],
+  "equipment": [
+    {
+      "key": "item_1001",
+      "name": "鞋子",
+      "sourceItemId": "1001",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1004",
+      "name": "仙女护符",
+      "sourceItemId": "1004",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1006",
+      "name": "治疗宝珠",
+      "sourceItemId": "1006",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1011",
+      "name": "巨人腰带",
+      "sourceItemId": "1011",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1018",
+      "name": "灵巧披风",
+      "sourceItemId": "1018",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1026",
+      "name": "爆裂魔杖",
+      "sourceItemId": "1026",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1027",
+      "name": "蓝水晶",
+      "sourceItemId": "1027",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1028",
+      "name": "红水晶",
+      "sourceItemId": "1028",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1029",
+      "name": "布甲",
+      "sourceItemId": "1029",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1031",
+      "name": "锁子甲",
+      "sourceItemId": "1031",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1033",
+      "name": "抗魔斗篷",
+      "sourceItemId": "1033",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1036",
+      "name": "长剑",
+      "sourceItemId": "1036",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1037",
+      "name": "十字镐",
+      "sourceItemId": "1037",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1038",
+      "name": "暴风之剑",
+      "sourceItemId": "1038",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1042",
+      "name": "短剑",
+      "sourceItemId": "1042",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1043",
+      "name": "反曲之弓",
+      "sourceItemId": "1043",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_1052",
+      "name": "增幅典籍",
+      "sourceItemId": "1052",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1053",
+      "name": "吸血鬼节杖",
+      "sourceItemId": "1053",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1054",
+      "name": "多兰之盾",
+      "sourceItemId": "1054",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "duolan_jian",
+      "name": "多兰之刃",
+      "sourceItemId": "1055",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "duolanjie",
+      "name": "多兰之戒",
+      "sourceItemId": "1056",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_1057",
+      "name": "负极斗篷",
+      "sourceItemId": "1057",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1058",
+      "name": "无用大棒",
+      "sourceItemId": "1058",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1082",
+      "name": "黑暗封印",
+      "sourceItemId": "1082",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_1083",
+      "name": "萃取",
+      "sourceItemId": "1083",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_1086",
+      "name": "多兰之弓",
+      "sourceItemId": "1086",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_1120",
+      "name": "多兰之盔",
+      "sourceItemId": "1120",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2010",
+      "name": "永续意志夹心饼干",
+      "sourceItemId": "2010",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2019",
+      "name": "钢铁印章",
+      "sourceItemId": "2019",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_2020",
+      "name": "残暴之力",
+      "sourceItemId": "2020",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_2021",
+      "name": "掘道钻头",
+      "sourceItemId": "2021",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_2022",
+      "name": "荧尘",
+      "sourceItemId": "2022",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_2065",
+      "name": "舒瑞娅的战歌",
+      "sourceItemId": "2065",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2150",
+      "name": "技能合剂",
+      "sourceItemId": "2150",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2152",
+      "name": "原力合剂",
+      "sourceItemId": "2152",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2420",
+      "name": "探索者的护臂",
+      "sourceItemId": "2420",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2421",
+      "name": "碎裂的护臂",
+      "sourceItemId": "2421",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2422",
+      "name": "有点神奇之鞋",
+      "sourceItemId": "2422",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2501",
+      "name": "霸王血铠",
+      "sourceItemId": "2501",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2502",
+      "name": "无终恨意",
+      "sourceItemId": "2502",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2503",
+      "name": "黯炎火炬",
+      "sourceItemId": "2503",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2504",
+      "name": "败魔",
+      "sourceItemId": "2504",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2508",
+      "name": "命定灰烬",
+      "sourceItemId": "2508",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2510",
+      "name": "黄昏与黎明",
+      "sourceItemId": "2510",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2512",
+      "name": "猎魔人弩箭",
+      "sourceItemId": "2512",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2517",
+      "name": "无穷饥渴",
+      "sourceItemId": "2517",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2520",
+      "name": "破垒者",
+      "sourceItemId": "2520",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2522",
+      "name": "实现器",
+      "sourceItemId": "2522",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2523",
+      "name": "海克斯镜片 C44",
+      "sourceItemId": "2523",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2524",
+      "name": "班德尔音管",
+      "sourceItemId": "2524",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2525",
+      "name": "原生质护带",
+      "sourceItemId": "2525",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2526",
+      "name": "耳语头环",
+      "sourceItemId": "2526",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_2530",
+      "name": "歌之权冠",
+      "sourceItemId": "2530",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3003",
+      "name": "大天使之杖",
+      "sourceItemId": "3003",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3004",
+      "name": "魔宗",
+      "sourceItemId": "3004",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3006",
+      "name": "狂战士胫甲",
+      "sourceItemId": "3006",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3008",
+      "name": "暴食胫甲",
+      "sourceItemId": "3008",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3009",
+      "name": "轻灵之靴",
+      "sourceItemId": "3009",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3020",
+      "name": "法师之靴",
+      "sourceItemId": "3020",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3024",
+      "name": "冰川圆盾",
+      "sourceItemId": "3024",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3026",
+      "name": "守护天使",
+      "sourceItemId": "3026",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3031",
+      "name": "无尽之刃",
+      "sourceItemId": "3031",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3032",
+      "name": "育恩塔尔荒野箭",
+      "sourceItemId": "3032",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3033",
+      "name": "凡性的提醒",
+      "sourceItemId": "3033",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3035",
+      "name": "最后的轻语",
+      "sourceItemId": "3035",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3036",
+      "name": "多米尼克领主的致意",
+      "sourceItemId": "3036",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3040",
+      "name": "炽天使之拥",
+      "sourceItemId": "3040",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3041",
+      "name": "梅贾的窃魂卷",
+      "sourceItemId": "3041",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3042",
+      "name": "魔切",
+      "sourceItemId": "3042",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3044",
+      "name": "净蚀",
+      "sourceItemId": "3044",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3046",
+      "name": "幻影之舞",
+      "sourceItemId": "3046",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3047",
+      "name": "铁板靴",
+      "sourceItemId": "3047",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3050",
+      "name": "基克的聚合",
+      "sourceItemId": "3050",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3051",
+      "name": "缚炉之斧",
+      "sourceItemId": "3051",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3053",
+      "name": "斯特拉克的挑战护手",
+      "sourceItemId": "3053",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3057",
+      "name": "耀光",
+      "sourceItemId": "3057",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3065",
+      "name": "振奋盔甲",
+      "sourceItemId": "3065",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3066",
+      "name": "带翼的月板甲",
+      "sourceItemId": "3066",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3067",
+      "name": "燃烧宝石",
+      "sourceItemId": "3067",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3068",
+      "name": "日炎圣盾",
+      "sourceItemId": "3068",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3070",
+      "name": "女神之泪",
+      "sourceItemId": "3070",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3071",
+      "name": "黑色切割者",
+      "sourceItemId": "3071",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3072",
+      "name": "饮血剑",
+      "sourceItemId": "3072",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3073",
+      "name": "海克斯注力刚壁",
+      "sourceItemId": "3073",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3074",
+      "name": "贪欲九头蛇",
+      "sourceItemId": "3074",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3075",
+      "name": "荆棘之甲",
+      "sourceItemId": "3075",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3076",
+      "name": "棘刺背心",
+      "sourceItemId": "3076",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3077",
+      "name": "提亚马特",
+      "sourceItemId": "3077",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3078",
+      "name": "三相之力",
+      "sourceItemId": "3078",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3082",
+      "name": "守望者铠甲",
+      "sourceItemId": "3082",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3083",
+      "name": "狂徒铠甲",
+      "sourceItemId": "3083",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3084",
+      "name": "心之钢",
+      "sourceItemId": "3084",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3085",
+      "name": "卢安娜的飓风",
+      "sourceItemId": "3085",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3086",
+      "name": "狂热",
+      "sourceItemId": "3086",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3087",
+      "name": "斯塔缇克电刃",
+      "sourceItemId": "3087",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3089",
+      "name": "灭世者的死亡之帽",
+      "sourceItemId": "3089",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3091",
+      "name": "智慧末刃",
+      "sourceItemId": "3091",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3094",
+      "name": "疾射火炮",
+      "sourceItemId": "3094",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3095",
+      "name": "岚切",
+      "sourceItemId": "3095",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3100",
+      "name": "巫妖之祸",
+      "sourceItemId": "3100",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3102",
+      "name": "女妖面纱",
+      "sourceItemId": "3102",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3107",
+      "name": "救赎",
+      "sourceItemId": "3107",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3108",
+      "name": "恶魔法典",
+      "sourceItemId": "3108",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3109",
+      "name": "骑士之誓",
+      "sourceItemId": "3109",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3110",
+      "name": "冰霜之心",
+      "sourceItemId": "3110",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3111",
+      "name": "水银之靴",
+      "sourceItemId": "3111",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3113",
+      "name": "以太精魂",
+      "sourceItemId": "3113",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3114",
+      "name": "禁忌雕像",
+      "sourceItemId": "3114",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3115",
+      "name": "纳什之牙",
+      "sourceItemId": "3115",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3116",
+      "name": "瑞莱的冰晶节杖",
+      "sourceItemId": "3116",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3118",
+      "name": "残疫",
+      "sourceItemId": "3118",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3119",
+      "name": "凛冬之临",
+      "sourceItemId": "3119",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3121",
+      "name": "末日寒冬",
+      "sourceItemId": "3121",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3123",
+      "name": "死刑宣告",
+      "sourceItemId": "3123",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3124",
+      "name": "鬼索的狂暴之刃",
+      "sourceItemId": "3124",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3133",
+      "name": "考尔菲德的战锤",
+      "sourceItemId": "3133",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3134",
+      "name": "锯齿短匕",
+      "sourceItemId": "3134",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3135",
+      "name": "虚空之杖",
+      "sourceItemId": "3135",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3137",
+      "name": "蜕生",
+      "sourceItemId": "3137",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3139",
+      "name": "水银弯刀",
+      "sourceItemId": "3139",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3140",
+      "name": "水银饰带",
+      "sourceItemId": "3140",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3142",
+      "name": "幽梦之灵",
+      "sourceItemId": "3142",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3143",
+      "name": "兰顿之兆",
+      "sourceItemId": "3143",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3144",
+      "name": "斥候弹弓",
+      "sourceItemId": "3144",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3145",
+      "name": "海克斯科技发电机",
+      "sourceItemId": "3145",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3146",
+      "name": "海克斯科技枪刃",
+      "sourceItemId": "3146",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3147",
+      "name": "幽魂面具",
+      "sourceItemId": "3147",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3152",
+      "name": "海克斯科技火箭腰带",
+      "sourceItemId": "3152",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3153",
+      "name": "破败王者之刃",
+      "sourceItemId": "3153",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3155",
+      "name": "海克斯饮魔刀",
+      "sourceItemId": "3155",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3156",
+      "name": "玛莫提乌斯之噬",
+      "sourceItemId": "3156",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3157",
+      "name": "中娅沙漏",
+      "sourceItemId": "3157",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3158",
+      "name": "明朗之靴",
+      "sourceItemId": "3158",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3161",
+      "name": "朔极之矛",
+      "sourceItemId": "3161",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3165",
+      "name": "莫雷洛秘典",
+      "sourceItemId": "3165",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3168",
+      "name": "不朽之路",
+      "sourceItemId": "3168",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3170",
+      "name": "迅速进军",
+      "sourceItemId": "3170",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3171",
+      "name": "猩红明朗",
+      "sourceItemId": "3171",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3172",
+      "name": "炮铜胫甲",
+      "sourceItemId": "3172",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3173",
+      "name": "带链碾碎者",
+      "sourceItemId": "3173",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3174",
+      "name": "装甲战靴",
+      "sourceItemId": "3174",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3175",
+      "name": "灵能使之靴",
+      "sourceItemId": "3175",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3176",
+      "name": "永远前进",
+      "sourceItemId": "3176",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3179",
+      "name": "黯影阔剑",
+      "sourceItemId": "3179",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3181",
+      "name": "破舰者",
+      "sourceItemId": "3181",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3190",
+      "name": "钢铁烈阳之匣",
+      "sourceItemId": "3190",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3211",
+      "name": "幽魂斗篷",
+      "sourceItemId": "3211",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3222",
+      "name": "米凯尔的祝福",
+      "sourceItemId": "3222",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3302",
+      "name": "界弓",
+      "sourceItemId": "3302",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3504",
+      "name": "炽热香炉",
+      "sourceItemId": "3504",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3508",
+      "name": "夺萃之镰",
+      "sourceItemId": "3508",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3742",
+      "name": "亡者的板甲",
+      "sourceItemId": "3742",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3748",
+      "name": "巨型九头蛇",
+      "sourceItemId": "3748",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3801",
+      "name": "晶体护腕",
+      "sourceItemId": "3801",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_3802",
+      "name": "遗失的章节",
+      "sourceItemId": "3802",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3803",
+      "name": "万世催化石",
+      "sourceItemId": "3803",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3814",
+      "name": "夜之锋刃",
+      "sourceItemId": "3814",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_3916",
+      "name": "湮灭宝珠",
+      "sourceItemId": "3916",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_4005",
+      "name": "帝国指令",
+      "sourceItemId": "4005",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_4401",
+      "name": "自然之力",
+      "sourceItemId": "4401",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_4628",
+      "name": "视界专注",
+      "sourceItemId": "4628",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_4629",
+      "name": "星界驱驰",
+      "sourceItemId": "4629",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_4630",
+      "name": "枯萎珠宝",
+      "sourceItemId": "4630",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_4632",
+      "name": "翠绿屏障",
+      "sourceItemId": "4632",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_4633",
+      "name": "裂隙制造者",
+      "sourceItemId": "4633",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_4642",
+      "name": "班德尔玻璃镜",
+      "sourceItemId": "4642",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_4645",
+      "name": "影焰",
+      "sourceItemId": "4645",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_4646",
+      "name": "风暴狂涌",
+      "sourceItemId": "4646",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6333",
+      "name": "死亡之舞",
+      "sourceItemId": "6333",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6609",
+      "name": "炼金朋克链锯剑",
+      "sourceItemId": "6609",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6610",
+      "name": "焚天",
+      "sourceItemId": "6610",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6616",
+      "name": "流水法杖",
+      "sourceItemId": "6616",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6617",
+      "name": "月石再生器",
+      "sourceItemId": "6617",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6620",
+      "name": "海力亚的回响",
+      "sourceItemId": "6620",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6621",
+      "name": "黎明核心",
+      "sourceItemId": "6621",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6631",
+      "name": "挺进破坏者",
+      "sourceItemId": "6631",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6653",
+      "name": "兰德里的折磨",
+      "sourceItemId": "6653",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6655",
+      "name": "卢登的回声",
+      "sourceItemId": "6655",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6657",
+      "name": "时光之杖",
+      "sourceItemId": "6657",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6660",
+      "name": "斑比的熔渣",
+      "sourceItemId": "6660",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6662",
+      "name": "冰脉护手",
+      "sourceItemId": "6662",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6664",
+      "name": "璀璨回响",
+      "sourceItemId": "6664",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6665",
+      "name": "千变者贾修",
+      "sourceItemId": "6665",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6670",
+      "name": "正午箭袋",
+      "sourceItemId": "6670",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_6672",
+      "name": "海妖杀手",
+      "sourceItemId": "6672",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6673",
+      "name": "不朽盾弓",
+      "sourceItemId": "6673",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6675",
+      "name": "纳沃利烁刃",
+      "sourceItemId": "6675",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6676",
+      "name": "收集者",
+      "sourceItemId": "6676",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6690",
+      "name": "剑翎",
+      "sourceItemId": "6690",
+      "requiresSkillBindings": false,
+      "attributesOnlyEvidence": {
+        "reason": "固定来源确认只有直接属性；当前主体、全部属性、零技能挂载和启用代表图一致。",
+        "evidenceRefs": [
+          "equipmentCurrentReadback",
+          "equipmentSourceInventory",
+          "equipmentEffectReview"
+        ]
+      }
+    },
+    {
+      "key": "item_6692",
+      "name": "星蚀",
+      "sourceItemId": "6692",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6694",
+      "name": "赛瑞尔达的怨恨",
+      "sourceItemId": "6694",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6695",
+      "name": "巨蛇之牙",
+      "sourceItemId": "6695",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6696",
+      "name": "公理圆弧",
+      "sourceItemId": "6696",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6697",
+      "name": "狂妄",
+      "sourceItemId": "6697",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6698",
+      "name": "亵渎九头蛇",
+      "sourceItemId": "6698",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_6699",
+      "name": "电震涡流剑",
+      "sourceItemId": "6699",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_8010",
+      "name": "放血者的诅咒",
+      "sourceItemId": "8010",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    },
+    {
+      "key": "item_8020",
+      "name": "深渊面具",
+      "sourceItemId": "8020",
+      "requiresSkillBindings": true,
+      "attributesOnlyEvidence": null
+    }
+  ]
+}
