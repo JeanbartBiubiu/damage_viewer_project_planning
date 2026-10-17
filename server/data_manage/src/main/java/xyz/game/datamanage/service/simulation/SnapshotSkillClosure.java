@@ -207,7 +207,8 @@ final class SnapshotSkillClosure {
                     levelsChanged = true;
                     continue;
                 }
-                if (NATURAL_EVENTS.contains(rule.data().path("eventSource").path("eventType").asText())) source.ruleKeys.add(rule.key());
+                String eventType = rule.data().path("eventSource").path("eventType").asText();
+                if (NATURAL_EVENTS.contains(eventType) || eventType.equals("PROCESS_RESOLVED")) source.ruleKeys.add(rule.key());
                 enqueue(source, rule, true);
             }
         }
@@ -222,6 +223,9 @@ final class SnapshotSkillClosure {
         boolean local = subscriber == producer.owner() && subscriber.skillKey.equals(object.skillKey());
         return switch (event.path("eventType").asText()) {
             case "PROCESS_MOMENT" -> local && object.type() == SourceType.PROCESS && detail.path("processKey").asText().equals(object.key());
+            case "PROCESS_RESOLVED" -> object.type() == SourceType.PROCESS
+                && detail.path("sourceSkillKey").asText().equals(object.skillKey())
+                && detail.path("processKey").asText().equals(object.key());
             case "RESULT_AVAILABLE" -> local && object.type() == SourceType.EFFECT && detail.path("effectKey").asText().equals(object.key())
                 && object.data().path("results").findValuesAsText("resultKey").contains(detail.path("resultKey").asText());
             case "LIFECYCLE_MOMENT" -> local && object.type() == SourceType.EFFECT && object.data().hasNonNull("lifecycle")
@@ -332,7 +336,9 @@ final class SnapshotSkillClosure {
 
     private Aggregate plannedProcess(Source source) {
         List<Aggregate> processes = visited.stream().filter(invocation -> invocation.owner() == source && invocation.executes()
-            && invocation.object().type() == SourceType.PROCESS).map(Invocation::object).distinct().toList();
+            && invocation.object().type() == SourceType.PROCESS
+            && invocation.object().data().path("activationType").asText().equals("ACTIVE"))
+            .map(Invocation::object).distinct().toList();
         if (processes.size() > 1) {
             throw SnapshotIssues.invalid(source.plannedPath + ".phaseKinds", "PHASE_PROCESS_AMBIGUOUS", "计划来源只能包含一个可执行过程，不能任意选择多过程");
         }

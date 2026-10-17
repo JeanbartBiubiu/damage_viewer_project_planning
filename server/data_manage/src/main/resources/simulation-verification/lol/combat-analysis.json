@@ -4,14 +4,116 @@
   "profile": "combat-analysis-v1",
   "digestVersion": "simulation-availability-v1",
   "scopeDigest": "3bc0d466dac98b2093645e8ac396e6224f6d9f2c65f583057afa44980041e1eb",
-  "sharedDigest": "2b58eb9d4ca07de3423f71daa4481f714aabb48efe8640e6ff3a9a537d8a4b95",
-  "wasmSha256": "ea6b63e6494efd0b5868e679e7a751beaed35f3e6363ff6b018c22e9e68ba75c",
-  "adapterVersion": "v15-classification-cost-bindings",
+  "sharedDigest": "3cceda5a6c6affb0f895b9edc787559432fa57d273a574b0886407d1754b6057",
+  "wasmSha256": "bb20f4fae2168cdd7c24c2f0f17a59d5491334ccafb222a408a19af6d85f5e50",
+  "adapterVersion": "v16-complete-source-effects",
   "entries": [
+    {
+      "kind": "CHARACTER",
+      "key": "champion_annie",
+      "contentDigest": "6e61a6462c842c4677fb08e98e66a989c73308a3a79756700de2ee45fd942d18",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "annie_e",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "annie_p",
+            "levels": [
+              1
+            ]
+          },
+          {
+            "skillKey": "annie_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "annie_r",
+            "levels": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "skillKey": "annie_w",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "evidenceRefs": [
+        "output/first-hero-2026-10-17/all-bb20/coverage-evidence-candidate.json",
+        "output/first-hero-2026-10-17/all-bb20/raw-manifest.json",
+        "output/first-hero-2026-10-17/mechanisms-2026-10-17T17-02-58-499Z/mechanism-evidence-candidate.json",
+        "output/first-hero-2026-10-17/mechanisms-2026-10-17T17-02-58-499Z/raw-manifest.json",
+        "output/first-hero-2026-10-17/independent-web-review-bb20/final-proof-audit.json",
+        "output/first-hero-2026-10-17/strict-worker-replay-bb20/summary.json",
+        "output/first-hero-2026-10-17/independent-web-review-bb20/supplemental-audit.json",
+        "output/first-hero-2026-10-17/independent-web-review-bb20/最终证明候选独立复核.md"
+      ],
+      "issues": []
+    },
     {
       "kind": "EQUIPMENT",
       "key": "duolan_jian",
-      "contentDigest": "c7a6000c1e4866059f850408731b88974617139b02345f352d2ef614178e67e2",
+      "contentDigest": "13218d311213dcabaf6c1438146db7b3a708caae179baacba1938b8a0e04fb72",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -48,14 +150,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/duolan_jian/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/duolan_jian/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1011",
-      "contentDigest": "ccca982ea1997c634463d687c6bdb7a50d0f77af6662e0cc4fd74b272359702f",
+      "contentDigest": "fc81486268b7899bf59860db6861a0cc65f15f37d5adfe021fa659ec4a0dd673",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -92,14 +194,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_1011/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_1011/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1018",
-      "contentDigest": "81b5f9314d1cb1d7b911337897a40f1a979a8d209cd3c8930e147a3494482c90",
+      "contentDigest": "2cb4795fac4df981d07e936f7f301ee4d0bf2a618487b70cec2eea51e4ca8c06",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -136,14 +238,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_1018/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_1018/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1028",
-      "contentDigest": "d4f14334ae040f3a55733145663a7d55430de0195fdf03d121264d8d613aced3",
+      "contentDigest": "70e284e8c04a46fe4f29bdad23fed144cac13eb9b9be01b1952c619cd40b9241",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -180,14 +282,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_1028/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_1028/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1029",
-      "contentDigest": "1d989a445415858aecf7383cc068c5207d19b719cc3e14d38ff2d94ca060992f",
+      "contentDigest": "d843767e68abbc513bb8141398ef09e57a92e306ca47a28f116c8f935aea48d9",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -224,14 +326,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_1029/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_1029/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1031",
-      "contentDigest": "e6040de6df970ec04bc70a678b825a2fe00e9d738067f828c47990a3639920cb",
+      "contentDigest": "a80ffe0ea3d618a78ea65bd67526855cf2a381e8cf1ad366c09f2ca9bc659f8f",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -268,14 +370,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_1031/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_1031/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1036",
-      "contentDigest": "595c1f416a033ae57e97d5be71b26acf541afa1337a304449fa92088240eaf46",
+      "contentDigest": "8ffedd1319c6e02fad34d779765e17c86b9c0e64a9c81bedffaf7fdc166a0174",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -312,14 +414,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_1036/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_1036/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1037",
-      "contentDigest": "f7593a45ca3b90b5f85366e2b2690927ff34027470a79e57a0d04dbe97c22647",
+      "contentDigest": "4b94b20a0e69dbacfca99a1034eddcce238a03f022bd442f8290c56c33d69f57",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -356,14 +458,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_1037/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_1037/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1038",
-      "contentDigest": "7158ce9eac9a5fbcfc8339e42a9a18a1bf9795df56a22a500aa8797412c15674",
+      "contentDigest": "78bf5b4626f8bf13c6d6ae4b8188d7a730e210572a92ed4b9cc41c19788d8dca",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -400,14 +502,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_1038/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_1038/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1042",
-      "contentDigest": "58fea7ced3dd27d8e646c346947783090b62060a5ed1ede1f86be4971ea22874",
+      "contentDigest": "51035ea260da3168362ba04056ff7580e967e0b109b40c27cd5af69c79937573",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -444,14 +546,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_1042/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_1042/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1053",
-      "contentDigest": "b3b2b8dfa29161779a0b319fe55f581e973caad0d08346f9799258937044a73a",
+      "contentDigest": "8bc4464e71249264fa33c7a8514211816e8008918c8ab6dabba63afffc6682bb",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -488,14 +590,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_1053/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_1053/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1086",
-      "contentDigest": "704d3e0f36c44169b5de5fdd5211db18b7eb0daeb40d6b634631104e13ff3835",
+      "contentDigest": "21b7ab6c2b6970375a5de6ea34816fa90a1fb82f37bb46b72452fb14ddec81ce",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -532,14 +634,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_1086/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_1086/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_2019",
-      "contentDigest": "efb3dccaade24ee95e9229af08932271d4cf3ef7bb32bd401f89c82f3391d89b",
+      "contentDigest": "d933669951aab2b7217ae2761227b76487e07e45eee8e17f86d5f59ca57c0ffa",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -576,14 +678,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_2019/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_2019/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_2021",
-      "contentDigest": "79ea1181886f0bafbac2fa7adc26fb8f8a7ceaccba757dc8d468906981e43d8d",
+      "contentDigest": "219a6d0217cd3ea2403e3a965777b54260758fb51b32b839b031163628908edf",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -620,14 +722,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_2021/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_2021/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_3031",
-      "contentDigest": "3bc25eaa59acbe47f38da2dbbde9d687b526ab064c5a83faf6bf07d2d35c1c36",
+      "contentDigest": "c6b7239c523ca8a03525979a1193a822fe474fc9306df3463492d408dc4fabf2",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -664,14 +766,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_3031/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_3031/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_3035",
-      "contentDigest": "080494041c52625d25f5f494ff20dd293418dbccd03208c7d2e8bfac71de23a5",
+      "contentDigest": "e88ddf26dfbf5c5a3c84b465569658955e22a0940b88d77aa4399e58fcf3b8e1",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -708,14 +810,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_3035/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_3035/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_3051",
-      "contentDigest": "0454867e8b7c2a73ba2bbe62f362f14f35865aac9b0e803225955902d826ac0d",
+      "contentDigest": "fae4553a4575422c898c84dc55e1c08a958963df418b14f95f5c8423171f3151",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -752,14 +854,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_3051/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_3051/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_3134",
-      "contentDigest": "387fa745cb9409f97e7d905cc7349ff2c273103ded01fd05fafb0a60ab468aad",
+      "contentDigest": "3a88a2184e78d88766bb78012e387a592e41723c00e2b547f5944760cd3701a3",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -796,14 +898,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_3134/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_3134/verification.json"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_6670",
-      "contentDigest": "6d9348564474576ecc8d45682f8c2a573cfb6495a24b38cf97e72f9379f909d1",
+      "contentDigest": "628202f348f2d1308996b901b27e308677f0d56dd8304d3b412d8cc50d115028",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -840,7 +942,7 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/item_6670/verification.json"
+        "output/first-hero-2026-10-17/equipment-bb20/item_6670/verification.json"
       ],
       "issues": []
     }

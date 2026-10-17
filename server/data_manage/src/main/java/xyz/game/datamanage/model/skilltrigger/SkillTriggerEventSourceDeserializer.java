@@ -20,6 +20,7 @@ public final class SkillTriggerEventSourceDeserializer extends JsonDeserializer<
         if (detailNode != null && !detailNode.isNull() && eventType != null) {
             Class<? extends SkillTriggerEventDetail> detailClass = switch (eventType) {
                 case PROCESS_MOMENT -> SkillTriggerProcessEventDetail.class;
+                case PROCESS_RESOLVED -> SkillTriggerProcessResolvedEventDetail.class;
                 case PROCESS_CANCEL_REQUESTED -> SkillTriggerCancelProcessEventDetail.class;
                 case SKILL_USED, SKILL_HIT -> SkillTriggerSkillEventDetail.class;
                 case RESULT_AVAILABLE -> SkillTriggerResultEventDetail.class;

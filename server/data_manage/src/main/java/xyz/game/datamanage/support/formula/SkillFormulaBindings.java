@@ -26,6 +26,8 @@ public final class SkillFormulaBindings {
             allowed.add(JsonNodeFactory.instance.objectNode().put("kind", "parameter")
                 .put("skillKey", skillKey).put("parameterKey", key));
         }
+        // 声明只开放这一固定上下文；真正的使用点由 SkillNumericSemantics 继续收窄。
+        allowed.add(JsonNodeFactory.instance.objectNode().put("kind", "context").put("contextKey", "effect_elapsed_ms"));
         return List.copyOf(allowed);
     }
 

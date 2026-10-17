@@ -114,6 +114,33 @@ class SkillTriggerRuleEventShapeServiceTest {
     }
 
     @Test
+    void processResolvedRequiresAnExplicitRealSiblingProcessAndStrictDetail() throws Exception {
+        ObjectMapper json = new ObjectMapper();
+        String sibling = "sibling_spell";
+        when(mapper.lockProcesses(eq(GAME_ID), eq(sibling), any())).thenReturn(List.of("terminal"));
+        var event = json.readValue("{\"eventType\":\"PROCESS_RESOLVED\",\"detail\":{\"sourceSkillKey\":\"sibling_spell\",\"processKey\":\"terminal\"}}", SkillTriggerEventSource.class);
+        var saved = service.create(GAME_ID, SKILL_KEY, rule("after_terminal", event, List.of(executeAction("apply", EFFECT_KEY))));
+        assertEquals(event, saved.eventSource());
+        assertEquals(event, service.get(GAME_ID, SKILL_KEY, "after_terminal").eventSource());
+        for (String detail : List.of("{}", "{\"sourceSkillKey\":\"sibling_spell\"}",
+            "{\"processKey\":\"terminal\"}",
+            "{\"sourceSkillKey\":\"sibling_spell\",\"processKey\":\"terminal\",\"moment\":null}",
+            "{\"sourceSkillKey\":\"sibling_spell\",\"processKey\":\"terminal\",\"useKind\":\"ANY\"}",
+            "{\"sourceSkillKey\":\"sibling_spell\",\"processKey\":\"terminal\",\"free\":0}")) {
+            var invalid = json.readValue("{\"eventType\":\"PROCESS_RESOLVED\",\"detail\":" + detail + "}", SkillTriggerEventSource.class);
+            thrown(() -> service.create(GAME_ID, SKILL_KEY, rule("invalid_terminal", invalid, List.of(executeAction("apply", EFFECT_KEY)))));
+        }
+        when(mapper.lockProcesses(eq(GAME_ID), eq(sibling), any())).thenReturn(List.of());
+        assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY,
+            rule("missing_terminal", event, List.of(executeAction("apply", EFFECT_KEY))))),
+            "eventSource.detail.processKey", "UNKNOWN_PROCESS");
+        when(mapper.lockSkills(eq(GAME_ID), any())).thenReturn(List.of());
+        assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY,
+            rule("foreign_terminal", event, List.of(executeAction("apply", EFFECT_KEY))))),
+            "eventSource.detail.sourceSkillKey", "UNKNOWN_SKILL");
+    }
+
+    @Test
     void emptyDetailEventsAcceptEmptyObjectAndRejectTypedDetail() {
         for (SkillTriggerEventType type : List.of(
             SkillTriggerEventType.SOURCE_INITIALIZED,

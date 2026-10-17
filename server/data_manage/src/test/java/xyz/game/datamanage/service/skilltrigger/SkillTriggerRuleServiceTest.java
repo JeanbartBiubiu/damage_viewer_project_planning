@@ -769,8 +769,8 @@ class SkillTriggerRuleServiceTest {
 
     @Test
     void capabilitiesTableCoversAllEventsAndRejectsValueReached() {
-        assertEquals(24, SkillTriggerEventType.values().length);
-        assertEquals(24, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
+        assertEquals(25, SkillTriggerEventType.values().length);
+        assertEquals(25, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities.currentTargetBindings().size());
         assertTrue(SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.BASIC_ATTACK_RECEIVED));
         assertTrue(SkillTriggerEventCapabilities.requiresEmptyDetail(SkillTriggerEventType.BASIC_ATTACK_RECEIVED));
         assertEquals("本次普通攻击的接收对象；事件来源对象为原攻击者",
@@ -848,7 +848,7 @@ class SkillTriggerRuleServiceTest {
 
     @Test
     void stage765EventValueMatrixIsSharedByConditionsAndBindings() {
-        assertEquals(25, SkillTriggerEventValueKey.values().length);
+        assertEquals(26, SkillTriggerEventValueKey.values().length);
         Set<SkillTriggerEventValueKey> integerKeys = EnumSet.of(
             SkillTriggerEventValueKey.BLOCKED,
             SkillTriggerEventValueKey.IMMUNE,
@@ -883,6 +883,7 @@ class SkillTriggerRuleServiceTest {
             ),
             SkillTriggerEventType.SPELL_SHIELD_BLOCKED, EnumSet.noneOf(SkillTriggerEventValueKey.class),
             SkillTriggerEventType.BASIC_ATTACK_HIT, EnumSet.of(SkillTriggerEventValueKey.HIT_INDEX),
+            SkillTriggerEventType.PROCESS_RESOLVED, EnumSet.of(SkillTriggerEventValueKey.SKILL_USE_CONTACT_COUNT),
             SkillTriggerEventType.SKILL_HIT, EnumSet.of(SkillTriggerEventValueKey.HIT_INDEX, SkillTriggerEventValueKey.SKILL_HIT_SPELL_SHIELD_BLOCKED, SkillTriggerEventValueKey.SKILL_HIT_FIRST_CONTACT)
         );
         for (SkillTriggerEventType eventType : SkillTriggerEventType.values()) {

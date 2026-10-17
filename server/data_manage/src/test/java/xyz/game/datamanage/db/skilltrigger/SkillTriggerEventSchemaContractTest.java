@@ -19,7 +19,7 @@ class SkillTriggerEventSchemaContractTest {
         Set<String> events = Arrays.stream(SkillTriggerEventType.values())
                 .map(Enum::name).collect(Collectors.toSet());
         Set<String> takedownEvents = events.stream()
-                .filter(event -> !event.equals("BASIC_ATTACK_RECEIVED"))
+                .filter(event -> !Set.of("BASIC_ATTACK_RECEIVED", "PROCESS_RESOLVED").contains(event))
                 .collect(Collectors.toSet());
         Path db = Path.of("../../db/game_manage");
         assertAcceptedEvents(
@@ -37,6 +37,7 @@ class SkillTriggerEventSchemaContractTest {
                 "migrations/source_initialized_event.sql"
         );
         assertAcceptedEvents(Files.readString(db.resolve("schema.sql")), events, "schema.sql");
+        assertAcceptedEvents(Files.readString(db.resolve("migrations/process_resolved_event.sql")), events, "migrations/process_resolved_event.sql");
     }
 
     private static void assertAcceptedEvents(String sql, Set<String> expected, String file) {

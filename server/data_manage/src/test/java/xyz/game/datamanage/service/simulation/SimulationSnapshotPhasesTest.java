@@ -142,6 +142,24 @@ class SimulationSnapshotPhasesTest {
     }
 
     @Test
+    void passiveReactionProcessDoesNotBecomeAnotherPlannedActiveProcess() throws Exception {
+        author.withArray("processes").add(fixture.json.readTree("""
+            {"processKey":"reaction","activationType":"PASSIVE","cooldown":null,
+             "steps":[{"stepKey":"now","stepType":"IMMEDIATE","occupiesAction":false,"detail":{}}],
+             "effectBindings":[{"bindingKey":"respond","effectKey":"tail","moment":{"momentType":"PROCESS_START"},"sortOrder":0}],"stateOperations":[]}
+            """));
+        author.withArray("triggerRules").add(fixture.json.readTree("""
+            {"ruleKey":"initialize_reaction","eventSource":{"eventType":"SOURCE_INITIALIZED","detail":{}},
+             "conditionGroups":[],"actions":[{"actionKey":"react","actionType":"START_PROCESS","detail":{"processKey":"reaction"},"runtimeInputBindings":[],"resultModifiers":[]}]}
+            """));
+        var result = snapshot("INITIAL", "CANCEL");
+        var config = result.skillConfigurations().stream().filter(row -> row.skill().skillKey().equals(SPELL)).findFirst().orElseThrow();
+        assertTrue(config.processes().stream().anyMatch(row -> row.processKey().equals("reaction")));
+        assertTrue(config.processes().stream().anyMatch(row -> row.processKey().equals("cast")));
+        assertTrue(result.source().skillSources().getFirst().enabledRuleKeys().contains("initialize_reaction"));
+    }
+
+    @Test
     void chargeHitInputRequiresTheActualReleaseRootInsideTheSelectedClosure() throws Exception {
         author.withArray("triggerRules").add(fixture.json.readTree("""
             {"ruleKey":"charged_hit","eventSource":{"eventType":"SKILL_HIT","detail":{"sourceSkillKey":"selected_spell"}},

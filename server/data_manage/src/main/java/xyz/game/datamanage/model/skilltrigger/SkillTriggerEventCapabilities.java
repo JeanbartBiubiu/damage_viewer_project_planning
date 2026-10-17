@@ -63,7 +63,7 @@ public final class SkillTriggerEventCapabilities {
             return null;
         }
         return switch (valueKey) {
-            case STEP_EXECUTION_INDEX, RECAST_COUNT, HIT_INDEX, SKILL_HIT_FIRST_CONTACT, LIFECYCLE_STACKS,
+            case STEP_EXECUTION_INDEX, RECAST_COUNT, HIT_INDEX, SKILL_HIT_FIRST_CONTACT, SKILL_USE_CONTACT_COUNT, LIFECYCLE_STACKS,
                 PERIOD_INDEX, STATE_BEFORE, STATE_AFTER,
                 BLOCKED, IMMUNE, KILLED, LINK_INDEX, LINK_COUNT, SKILL_HIT_SPELL_SHIELD_BLOCKED -> SkillTriggerValueDomain.INTEGER;
             case CHARGE_DURATION_MS, REMAINING_MS, ATTRIBUTE_BEFORE, ATTRIBUTE_AFTER,
@@ -102,6 +102,7 @@ public final class SkillTriggerEventCapabilities {
                 || valueKey == SkillTriggerEventValueKey.SKILL_HIT_SPELL_SHIELD_BLOCKED
                 || valueKey == SkillTriggerEventValueKey.CHARGE_DURATION_MS && stepType == SkillProcessStepType.CHARGE;
             case PROCESS_MOMENT -> processMomentValueAllowed(valueKey, momentType, stepType);
+            case PROCESS_RESOLVED -> valueKey == SkillTriggerEventValueKey.SKILL_USE_CONTACT_COUNT;
             case LIFECYCLE_MOMENT -> false;
             case HEALTH_THRESHOLD_CROSSED -> valueKey == SkillTriggerEventValueKey.ATTRIBUTE_BEFORE
                 || valueKey == SkillTriggerEventValueKey.ATTRIBUTE_AFTER
@@ -163,6 +164,7 @@ public final class SkillTriggerEventCapabilities {
             Map.entry(SkillTriggerEventType.BASIC_ATTACK_RECEIVED, "本次普通攻击的接收对象；事件来源对象为原攻击者"),
             Map.entry(SkillTriggerEventType.SKILL_HIT, "本次技能命中的对象"),
             Map.entry(SkillTriggerEventType.PROCESS_MOMENT, "目标过程实例的目标；没有时为来源对象"),
+            Map.entry(SkillTriggerEventType.PROCESS_RESOLVED, "已结算过程实例的目标；没有时为来源对象"),
             Map.entry(SkillTriggerEventType.RESULT_AVAILABLE, "目标效果执行上下文的目标；没有时为来源对象"),
             Map.entry(SkillTriggerEventType.LIFECYCLE_MOMENT, "目标生命周期实例的承受对象"),
             Map.entry(SkillTriggerEventType.DAMAGE_PENDING, "来源对象自身"),
