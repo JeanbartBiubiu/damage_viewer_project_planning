@@ -9,6 +9,7 @@ public enum SkillTriggerEventValueKey {
     RECAST_COUNT,
     HIT_INDEX,
     SKILL_HIT_FIRST_CONTACT,
+    SKILL_USE_CONTACT_COUNT,
     LIFECYCLE_STACKS,
     PERIOD_INDEX,
     REMAINING_MS,

@@ -739,7 +739,7 @@
                         ELSE r.event_source->'detail'->>'sourceSkillKey' END AS target_skill_key
             FROM public.skill_trigger_rules r
             WHERE r.game_id = #{gameId}
-              AND r.event_type IN ('INTERNAL_STATE_CHANGED','DAMAGE_PENDING','DAMAGE_DEALT','DAMAGE_TAKEN')
+              AND r.event_type IN ('INTERNAL_STATE_CHANGED','PROCESS_RESOLVED','DAMAGE_PENDING','DAMAGE_DEALT','DAMAGE_TAKEN')
             UNION ALL
             SELECT p.skill_key AS source_skill_key,
                    o->>'stateSkillKey' AS target_skill_key

@@ -363,7 +363,7 @@ public class SkillFormulaService {
                 String key = binding.path("parameterKey").textValue();
                 refs.parameterKeys.add(key);
                 refs.parameterRefs.add(new PathRef(path + "/parameterKey", key));
-            } else {
+            } else if ("attribute".equals(binding.path("kind").asText())) {
                 String key = binding.path("attributeKey").textValue();
                 refs.attributeKeys.add(key);
                 refs.attributeRefs.add(new PathRef(path + "/attributeKey", key));

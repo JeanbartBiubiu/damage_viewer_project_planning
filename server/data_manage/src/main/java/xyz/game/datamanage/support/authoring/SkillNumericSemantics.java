@@ -174,6 +174,18 @@ public final class SkillNumericSemantics {
                         Use valueUse = use(a, r.path("valueRule"), path + ".valueRule", "value",
                             valueBound,
                             current);
+                        if ("RATIO_COMPLEMENT_MULTIPLY".equals(zoneModes.get(text(r.path("detail"), "modifierZoneKey")))) {
+                            List<Map<String, String>> issues = new ArrayList<>();
+                            AttributeComplementMultiplySemantics.addReferenceIssues(
+                                xyz.game.datamanage.model.modifierzone.ModifierZoneCalculationMode.RATIO_COMPLEMENT_MULTIPLY,
+                                text(r, "resultType"), text(r.path("detail"), "operation"),
+                                path + ".detail.modifierZoneKey", path + ".detail.operation", issues);
+                            if (!issues.isEmpty()) {
+                                Map<String, String> issue = issues.getFirst();
+                                throw invalid(a, issue.get("field"), issue.get("code"), issue.get("message"));
+                            }
+                            validateComplementRatio(a, valueUse, r.path("valueRule"), null, path + ".valueRule.value");
+                        }
                         if (extendDuration) {
                             validateExtendedDuration(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
                         }
@@ -379,6 +391,7 @@ public final class SkillNumericSemantics {
             catch (IllegalArgumentException ex) { throw invalid(a, prefix + "." + field, "VALUE_SHAPE_INVALID", ex.getMessage()); }
             uses.computeIfAbsent(id(a), ignored -> new ArrayList<>()).add(use);
             Set<String> runtime = runtime(use);
+            validateEffectElapsedUse(use);
             if (forbidRuntime && !runtime.isEmpty()) throw invalid(a, use.path(), "RUNTIME_INPUT_FORBIDDEN", "该位置不能使用计算时传入参数");
             if (use.value().kind() == SkillNumericValue.Kind.PARAMETER) {
                 Parameter p = parameter(use);
@@ -403,6 +416,38 @@ public final class SkillNumericSemantics {
             Parameter p = parameters.get(use.source().skillKey() + "/" + use.value().parameterKey());
             if (p == null) throw invalid(use.source(), use.path(), "UNKNOWN_PARAMETER", "参数不存在或不属于当前技能");
             return p;
+        }
+
+        /** 生命周期已过时间只属于当前有效的单层属性供值器，不属于整场时间或施加快照。 */
+        private void validateEffectElapsedUse(Use use) {
+            if (use.value().kind() != SkillNumericValue.Kind.FORMULA) return;
+            Aggregate formula = objects.get(new Id(use.source().skillKey(), SourceType.FORMULA, use.value().formulaKey()));
+            if (formula == null) return;
+            boolean elapsed = formula.data().path("expression").path("inputs").valueStream()
+                .map(input -> input.path("binding"))
+                .anyMatch(binding -> "context".equals(text(binding, "kind"))
+                    && "effect_elapsed_ms".equals(text(binding, "contextKey")));
+            if (!elapsed) return;
+            var match = java.util.regex.Pattern.compile("results\\[(\\d+)]\\.valueRule\\.value").matcher(use.path());
+            JsonNode life = use.source().data().path("lifecycle");
+            JsonNode result = match.matches() ? use.source().data().path("results").path(Integer.parseInt(match.group(1))) : null;
+            boolean valid = use.source().type() == SourceType.EFFECT && result != null
+                && "ATTRIBUTE_CHANGE".equals(text(result, "resultType"))
+                && "PERSISTENT".equals(text(result.path("lifecycleBehavior"), "moment"))
+                && "MOMENT_EVALUATION".equals(text(result.path("lifecycleBehavior"), "valueReadMode"))
+                && result.path("lifecycleBehavior").path("reapplicationValueMode").isNull()
+                && life.hasNonNull("durationValue") && "ALL_AT_ONCE".equals(text(life, "expiryMode"))
+                && "KEEP".equals(text(life, "reapplicationStackMode"))
+                && "REFRESH_ALL".equals(text(life, "reapplicationDurationMode"));
+            if (!valid) throw invalid(use.source(), use.path(), "CONTEXT_NOT_AVAILABLE",
+                "效果已过时间只允许有限单层、保留层数并刷新全部的持续属性当前时点求值");
+            requireStaticOne(use.source(), life, "maxStacksValue");
+            requireStaticOne(use.source(), life, "applicationStacksValue");
+            Use duration = use(use.source(), life, "lifecycle", "durationValue", Bound.NON_NEGATIVE_FINITE, false);
+            Map<Levels, Fraction> known = optionalStaticValues(duration);
+            if (known != null && known.values().stream().anyMatch(value -> value.numerator().signum() <= 0)) {
+                throw invalid(use.source(), "lifecycle.durationValue", "VALUE_RANGE_INVALID", "效果已过时间要求有限且大于零的生命周期");
+            }
         }
 
         private void compareCharge(Use minimum, Use maximum) {
@@ -494,7 +539,7 @@ public final class SkillNumericSemantics {
             catch (ApiException ex) {
                 Object raw = ex.getDetails().get("fieldIssues");
                 if (raw instanceof List<?> issues && issues.stream().anyMatch(issue -> issue instanceof Map<?, ?> fields
-                    && "ATTRIBUTE_FORBIDDEN".equals(fields.get("code")))) return null;
+                    && Set.of("ATTRIBUTE_FORBIDDEN", "CONTEXT_FORBIDDEN").contains(fields.get("code")))) return null;
                 throw ex;
             }
         }
@@ -530,6 +575,7 @@ public final class SkillNumericSemantics {
             List<JsonNode> bindings = xyz.game.datamanage.support.formula.SkillFormulaBindings.reachableBindings(definition);
             for (JsonNode binding : bindings) {
                 if ("attribute".equals(text(binding, "kind"))) throw invalid(use.source(), use.path(), "ATTRIBUTE_FORBIDDEN", "静态数值公式不能读取属性");
+                if ("context".equals(text(binding, "kind"))) throw invalid(use.source(), use.path(), "CONTEXT_FORBIDDEN", "静态数值公式不能读取生命周期上下文");
             }
             List<FormulaValues> combinations = List.of(new FormulaValues(new Levels("", ""), Map.of()));
             for (JsonNode input : definition.path("inputs")) {
@@ -752,6 +798,12 @@ public final class SkillNumericSemantics {
                         "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]"
                     );
                 }
+                if (result != null && "RATIO_COMPLEMENT_MULTIPLY".equals(
+                    zoneModes.get(text(result.path("detail"), "modifierZoneKey")))) {
+                    validateComplementRatio(rule, findUse(effect, "results[" + resultIndex + "].valueRule.value"),
+                        result.path("valueRule"), modifier,
+                        "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]");
+                }
                 modifierIndex++;
             }
         }
@@ -772,6 +824,20 @@ public final class SkillNumericSemantics {
                 return false;
             }
             return "RATIO_MAX".equals(zoneModes.get(text(detail, "modifierZoneKey")));
+        }
+
+        private void validateComplementRatio(Aggregate source, Use valueUse, JsonNode valueRule, JsonNode modifier,
+                                             String errorPath) {
+            Map<Levels, Fraction> known = valueUse == null ? null : optionalStaticValues(valueUse);
+            if (known == null) return;
+            for (Fraction value : known.values()) {
+                Fraction effective = applyFixedRule(value, valueRule);
+                if (modifier != null) effective = applyFixedRule(effective, modifier);
+                if (!finite(effective) || effective.compareTo(Fraction.of(BigDecimal.ZERO)) < 0
+                    || effective.compareTo(Fraction.of(BigDecimal.ONE)) > 0) {
+                    throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "剩余比例连乘的有效增加比例必须有限且位于0到1之间");
+                }
+            }
         }
 
         private void validateHealingRatioMaxDecrease(
@@ -907,6 +973,10 @@ public final class SkillNumericSemantics {
 
         private void validateSkillHitEventValue(Aggregate rule, JsonNode detail, String path) {
             String valueKey = text(detail, "eventValueKey");
+            if ("SKILL_USE_CONTACT_COUNT".equals(valueKey)
+                && !"PROCESS_RESOLVED".equals(text(rule.data().path("eventSource"), "eventType"))) {
+                throw invalid(rule, path + ".eventValueKey", "EVENT_VALUE_NOT_AVAILABLE", "本次使用接触次数只适用于过程已结算事件");
+            }
             if ("CHARGE_DURATION_MS".equals(valueKey) && !SkillChargeDurationSemantics.valueAvailable(rule, objects.values())) {
                 throw invalid(rule, path + ".eventValueKey", "EVENT_VALUE_NOT_AVAILABLE", "充能时长必须来自本技能实际充能释放组成或合法充能过程时点");
             }

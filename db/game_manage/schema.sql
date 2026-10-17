@@ -388,7 +388,7 @@ CREATE TABLE public.modifier_zones (
     modifier_zone_key varchar(64) NOT NULL,
     name varchar(100) NOT NULL,
     domain varchar(16) NOT NULL,
-    calculation_mode varchar(16) NOT NULL,
+    calculation_mode varchar(32) NOT NULL,
     application_stage varchar(32) NOT NULL,
     description text,
     status varchar(16) NOT NULL DEFAULT 'ENABLED',
@@ -405,7 +405,7 @@ CREATE TABLE public.modifier_zones (
     CONSTRAINT ck_modifier_zones_domain
         CHECK (domain IN ('ATTRIBUTE', 'DAMAGE', 'HEALING', 'SHIELD')),
     CONSTRAINT ck_modifier_zones_calculation_mode
-        CHECK (calculation_mode IN ('FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_MAX')),
+        CHECK (calculation_mode IN ('FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY', 'RATIO_MAX')),
     CONSTRAINT ck_modifier_zones_application_stage
         CHECK (application_stage IN (
             'ATTRIBUTE_FLAT', 'ATTRIBUTE_PERCENT',
@@ -415,7 +415,7 @@ CREATE TABLE public.modifier_zones (
         CHECK (
             (domain = 'ATTRIBUTE' AND calculation_mode = 'FLAT_ADD'
                 AND application_stage = 'ATTRIBUTE_FLAT')
-            OR (domain = 'ATTRIBUTE' AND calculation_mode IN ('RATIO_ADD', 'RATIO_MULTIPLY')
+            OR (domain = 'ATTRIBUTE' AND calculation_mode IN ('RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY')
                 AND application_stage = 'ATTRIBUTE_PERCENT')
             OR (domain = 'DAMAGE' AND calculation_mode = 'RATIO_ADD'
                 AND application_stage IN ('DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'))
@@ -591,7 +591,7 @@ CREATE TABLE public.skill_trigger_rules (
     CONSTRAINT ck_skill_trigger_rules_event_type
         CHECK (event_type IN (
             'SOURCE_INITIALIZED', 'SKILL_USED', 'BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'BASIC_ATTACK_RECEIVED', 'SKILL_HIT',
-            'PROCESS_MOMENT', 'RESULT_AVAILABLE', 'LIFECYCLE_MOMENT',
+            'PROCESS_MOMENT', 'PROCESS_RESOLVED', 'RESULT_AVAILABLE', 'LIFECYCLE_MOMENT',
             'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN', 'STATUS_CHANGED',
             'HEALTH_THRESHOLD_CROSSED', 'INTERNAL_STATE_CHANGED',
             'CONTROL_RECEIVED', 'ENTITY_DIED', 'ENTITY_UNTARGETABLE',

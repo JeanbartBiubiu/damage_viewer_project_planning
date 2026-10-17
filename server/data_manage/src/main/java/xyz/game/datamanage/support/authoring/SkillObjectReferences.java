@@ -210,7 +210,7 @@ public final class SkillObjectReferences {
                 String path = "expression/inputs/" + i + "/binding/";
                 if ("parameter".equals(binding.path("kind").asText())) {
                     add(path + "parameterKey", TargetType.PARAMETER, binding.path("skillKey").textValue(), binding.path("parameterKey").textValue(), "");
-                } else {
+                } else if ("attribute".equals(binding.path("kind").asText())) {
                     add(path + "attributeKey", TargetType.ATTRIBUTE, "", binding.path("attributeKey").textValue(), "");
                 }
             }
@@ -357,6 +357,10 @@ public final class SkillObjectReferences {
                 case "PROCESS_MOMENT" -> {
                     local(detail, path, "processKey", TargetType.PROCESS);
                     moment(detail.path("moment"), path + ".moment", text(detail, "processKey"));
+                }
+                case "PROCESS_RESOLVED" -> {
+                    dictionary(detail, path, "sourceSkillKey", TargetType.SKILL);
+                    qualified(detail, path, "sourceSkillKey", "processKey", TargetType.PROCESS);
                 }
                 case "PROCESS_CANCEL_REQUESTED" -> local(detail, path, "processKey", TargetType.PROCESS);
                 case "RESULT_AVAILABLE" -> {

@@ -204,6 +204,7 @@ class SkillObjectReferencesTest {
             String fields = switch (type) {
                 case SKILL_USED, SKILL_HIT, HIT_LINK_APPLIED, ATTACK_LINK_APPLIED -> "sourceSkillKey";
                 case PROCESS_MOMENT -> "processKey moment.stepKey";
+                case PROCESS_RESOLVED -> "sourceSkillKey processKey";
                 case PROCESS_CANCEL_REQUESTED -> "processKey";
                 case RESULT_AVAILABLE -> "effectKey resultKey";
                 case LIFECYCLE_MOMENT -> "effectKey";
@@ -428,6 +429,7 @@ class SkillObjectReferencesTest {
             Map.entry("SKILL_USED", "{\"sourceSkillKey\":\"s2\"}"), Map.entry("SKILL_HIT", "{\"sourceSkillKey\":\"s2\"}"),
             Map.entry("HIT_LINK_APPLIED", "{\"sourceSkillKey\":\"s2\"}"), Map.entry("ATTACK_LINK_APPLIED", "{\"sourceSkillKey\":\"s2\"}"),
             Map.entry("PROCESS_MOMENT", "{\"processKey\":\"process\",\"moment\":{\"stepKey\":\"step0\"}}"),
+            Map.entry("PROCESS_RESOLVED", "{\"sourceSkillKey\":\"s1\",\"processKey\":\"process\"}"),
             Map.entry("PROCESS_CANCEL_REQUESTED", "{\"processKey\":\"process\"}"),
             Map.entry("RESULT_AVAILABLE", "{\"effectKey\":\"effects\",\"resultKey\":\"damage\"}"),
             Map.entry("LIFECYCLE_MOMENT", "{\"effectKey\":\"effects\"}"),

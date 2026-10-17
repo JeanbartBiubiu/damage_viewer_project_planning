@@ -50,6 +50,23 @@ class SkillTriggerAdvanceCycleServiceTest {
     }
 
     @Test
+    void resolvedCompletionStillParticipatesInUnguardedProcessCycles() {
+        var base = ruleRow("resolved", "结算后重启", SkillTriggerEventType.PROCESS_RESOLVED);
+        var rule = new xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleRow(
+            base.gameId(), base.skillKey(), base.ruleKey(), base.name(), base.description(), base.sortOrder(), base.eventType(),
+            base.createdAt(), base.updatedAt(),
+            "{\"eventType\":\"PROCESS_RESOLVED\",\"detail\":{\"sourceSkillKey\":\"" + SKILL_KEY + "\",\"processKey\":\"" + PROCESS_KEY + "\"}}",
+            base.conditionGroupsJson(), base.actionsJson(), base.limitsJson());
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(rule));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerActionRow(GAME_ID, SKILL_KEY, "resolved", "restart", "重启", SkillTriggerActionType.START_PROCESS, 10, null)));
+        when(mapper.listProcessActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerProcessActionRow(GAME_ID, SKILL_KEY, "resolved", "restart", SkillTriggerActionType.START_PROCESS, PROCESS_KEY, null, null)));
+        assertCode("400.TRIGGER_RULE_CYCLE_UNGUARDED", () ->
+            new SkillTriggerCycleValidator(mapper).validateCurrentSkill(GAME_ID, SKILL_KEY));
+    }
+
+    @Test
     void advanceToProcessCompleteIsACycleAndFailureReasonDoesNotExemptIt() {
         when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             ruleRow("complete", "complete", SkillTriggerEventType.PROCESS_MOMENT)

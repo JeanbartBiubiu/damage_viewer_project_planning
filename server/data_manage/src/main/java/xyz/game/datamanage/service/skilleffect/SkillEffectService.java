@@ -7,6 +7,7 @@ import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.support.authoring.ShieldEndLifecycleSemantics;
 import xyz.game.datamanage.support.authoring.DamageModifierConditionSemantics;
 import xyz.game.datamanage.support.authoring.HealingRatioMaxSemantics;
+import xyz.game.datamanage.support.authoring.AttributeComplementMultiplySemantics;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -2441,6 +2442,8 @@ public class SkillEffectService {
                     ref.resultPrefix() + ".detail.operation",
                     issues
                 );
+                AttributeComplementMultiplySemantics.addReferenceIssues(zone.calculationMode(), ref.resultType(),
+                    ref.operation(), ref.path(), ref.resultPrefix() + ".detail.operation", issues);
             }
         }
     }

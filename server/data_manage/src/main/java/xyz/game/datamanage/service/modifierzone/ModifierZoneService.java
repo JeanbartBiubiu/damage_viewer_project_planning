@@ -287,6 +287,7 @@ public class ModifierZoneService {
         if (domain != null && calculationMode != null && applicationStage != null
             && !ModifierZoneCombinations.isLegal(domain, calculationMode, applicationStage)) {
             String field = calculationMode == ModifierZoneCalculationMode.RATIO_MAX
+                || calculationMode == ModifierZoneCalculationMode.RATIO_COMPLEMENT_MULTIPLY
                 ? "calculationMode"
                 : "applicationStage";
             issues.add(fieldIssue(field, "COMBINATION_INVALID", "作用域、计算方式和应用阶段组合不合法"));

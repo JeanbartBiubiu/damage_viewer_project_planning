@@ -10,9 +10,11 @@
 
 `GET /api/admin/games/{gameId}/simulation-availability?wasmSha256=...&adapterVersion=...`只读返回英雄、装备的当前配置缺口和计算核验状态。它用只读一致事务一次批量读取原始业务行，不执行伤害、不写数据库，也不以管理结构检查代替完整运行。只有与范围、完整对象内容、共享及外部依赖、正式Wasm和适配器版本全部匹配的通过证明才返回可选状态；缺证明或证明失效均不可选。
 
-优先范围资源`simulation-scope/lol/combat-analysis.json`从规划工作树的原始阶段进度机械生成，目前为五批49名英雄、245个技能槽和198件装备。响应中的`excludedSkillSources`只运输当前实际绑定且已有明确范围排除依据的来源及原因。完整排除依据仍进入范围摘要，未绑定的排除槽不会要求额外场景设置。正式证明资源为`simulation-verification/{gameId}/combat-analysis.json`，当前包含独立复核通过的19件纯属性装备，没有整英雄通过证明；不能因存在参数、触发规则或纯属性依据就手工标为通过。
+优先范围资源`simulation-scope/lol/combat-analysis.json`从规划工作树的原始阶段进度机械生成，目前为五批49名英雄、245个技能槽和198件装备。响应中的`excludedSkillSources`只运输当前实际绑定且已有明确范围排除依据的来源及原因。完整排除依据仍进入范围摘要，未绑定的排除槽不会要求额外场景设置。正式证明资源为`simulation-verification/{gameId}/combat-analysis.json`，当前包含安妮在约定单向1V1范围内的完整来源证明，以及19件纯属性装备证明；不能因存在参数、触发规则或纯属性依据就手工标为通过。
 
-这19件来自47件明确纯属性装备的双方1～18级单件场景；含无装备基准共3420次正式Wasm运行。另28件只核对了运行属性，尚未证明其对战斗行为的影响，不进入通过资源。单件证明不代表任意六件组合，原始记录及独立复核位于前端工作树`web/output/availability-audit-2026-10-17/pure-equipment/all-reviewed-v1/`和`final-independent-review/`；证明资源与已审查候选逐字节一致。
+原19件来自47件明确纯属性装备的双方1～18级单件场景，历史含无装备基准共3420次正式Wasm运行；其中另28件未证明战斗行为影响，不进入通过资源。本轮最终在正式Wasm `bb20f4fae2168cdd7c24c2f0f17a59d5491334ccafb222a408a19af6d85f5e50`及适配器`v16-complete-source-effects`下重新采集19件，共684场、含基准1404次真实运行，所有属性行为证据完整。当前记录位于前端工作树`web/output/first-hero-2026-10-17/equipment-bb20/`；单件证明不代表任意六件组合。
+
+安妮最终证明包含双方1～18级、六个必需来源及声明技能等级的74场／248次完整运行，以及25场／50次机制专项。矩阵复用页面默认技能顺序，另含默认及反序的30秒观察；原页面到期顺序失败档案另经同Worker六次严格回放，1999ms完整输出与旧产物一致，2000ms及完整请求通过。原始数据、来源开关、数值、正式产物和摘要由独立复核核对；最终真实页面三项验收全部通过。范围保留P/Q/W/E/R与普攻的真实来源，独立提伯斯、友军和完整控制行动限制仍后置。目标死亡即结束，不开发击杀后的退款、冷却返还或继续战斗。完整证据与边界见规划工作树`outputs/first-hero-2026-10-17/1V1范围与验收记录.md`及前端`web/output/first-hero-2026-10-17/independent-web-review-bb20/最终证明候选独立复核.md`；后端仍只读取证明并核对当前身份，不计算战斗。
 
 在模块目录运行：
 
@@ -23,6 +25,18 @@ mvn "-Dtest=SimulationAvailability*Test" test
 ```
 
 范围或证明变化后重新生成资源并打包；业务数据变化会即时使旧证明失效。完整共享口径及当前补录缺口见规划工作树`outputs/simulation-availability-2026-10-17/`。目录不会新增表、迁移或业务数据写入；数据补录按规划真源`.agents/skills/damage-api-authoring/SKILL.md`执行保护保存和独立回读，与只读目录分开记录。
+
+## 过程结算后事实、生命周期时间与剩余比例连乘
+
+管理触发事件新增 `PROCESS_RESOLVED`（过程已结算），独立明细只接受明确的 `{sourceSkillKey,processKey}`。引用须是同游戏真实技能及其真实过程，允许当前拥有者已选来源中的兄弟技能；引用索引、聚合保存最终态、删除保护及快照依赖闭包仍生效。它只表示成功终结的绑定命中全部结算后事实，不改变旧 `PROCESS_MOMENT` 的完成顺序。事件值 `SKILL_USE_CONTACT_COUNT`（本次使用接触次数）仅在该事件可用，域为非负整数；被法术护盾阻挡的接触仍计入，不等于造成伤害次数。后端保存契约，不产生运行事实。
+
+技能共同公式只追加固定上下文 `{kind:"context",contextKey:"effect_elapsed_ms"}`（本效果实例施加后毫秒数）。使用点仅授权明确有限、单层、保留层数、刷新全部、重新取值覆盖的持续 `ATTRIBUTE_CHANGE`，且须当前时点求值；无期限、多层、初始化、施加快照、普通伤害和持续时间自身均拒绝。共同定义仍无任意上下文授权，静态管理证明不把运行时间当成参数或默认零。最终提交守卫会复核公式和生命周期变更影响到的使用点。
+
+乘区计算方式新增 `RATIO_COMPLEMENT_MULTIPLY`（剩余比例连乘），只允许属性作用域与属性百分比阶段，效果只接受 `ATTRIBUTE_CHANGE`＋`INCREASE`。固定、等级或可静态求值的最终有效比例（含倍率及边界）须在 `[0,1]`；动态值由计算端继续检查。组合含义为 `1-(1-基础比例)×∏(1-增加比例)`，例如 40% 与 10% 得到 46%；后端不执行战斗聚合。已引用乘区禁止改计算含义的规则不变。
+
+已有库分别执行 [过程事件增量](../../db/game_manage/migrations/process_resolved_event.sql) 和 [剩余比例乘区增量](../../db/game_manage/migrations/modifier_zone_ratio_complement_multiply.sql)。后者为容纳实际25字符枚举，将现 `calculation_mode` 从 `varchar(16)` 扩到 `varchar(32)`，并扩大现有两项检查。先用 [只读预检](../../db/game_manage/checks/process_resolved_and_complement_preflight.sql) 核对目标、约束和行数；两个迁移独立事务、严格检查完整旧约束、防止重放并双向核对完整原业务行。无新增业务表、默认数据或技能触发器；本节源码及隔离单测不表示实库已应用。新库直接使用当前建表脚本。
+
+定向验证：`mvn "-Dtest=SkillTriggerRule*Test,SkillTriggerAdvanceCycleServiceTest,SkillTriggerEventSchemaContractTest,SkillObjectReferencesTest,SimulationSnapshotClosureTest,SkillEffectElapsedSemanticsTest,AttributeComplementMultiplySemanticsTest,ModifierZone*Test,SkillFormula*Test,SkillConfigurationServiceTest,GameConfigurationWriteGuardTest" test`。功能收尾运行 `mvn test`，最终产物运行 `mvn -DskipTests package`；已有8080服务不得为测试自行中断。共享枚举由规划真源 `tools/system-enums/generate.mjs` 生成，后端不能手改前端生成文件。
 
 ## 共同公式定义与校验第一阶段
 

@@ -3,6 +3,7 @@ package xyz.game.datamanage.service.skilltrigger;
 import xyz.game.datamanage.model.value.SkillNumericValue;
 
 import java.util.ArrayList;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 import java.util.ArrayDeque;
 import java.util.Comparator;
 import java.util.EnumSet;
@@ -178,6 +179,7 @@ public class SkillTriggerCycleValidator {
     private static boolean crossSkillMatch(ProducedCandidate source, RuleNode target) {
         if (source.skillKey().equals(target.skillKey())) return true;
         if (source.event().eventType() == SkillTriggerEventType.INTERNAL_STATE_CHANGED) return true;
+        if (source.event().eventType() == SkillTriggerEventType.PROCESS_RESOLVED) return true;
         return source.event().eventType() == SkillTriggerEventType.DAMAGE_PENDING
             || source.event().eventType() == SkillTriggerEventType.DAMAGE_DEALT
             || source.event().eventType() == SkillTriggerEventType.DAMAGE_TAKEN;
@@ -200,6 +202,10 @@ public class SkillTriggerCycleValidator {
         SkillTriggerLinkEventRow linkEvent
     ) {
         return switch (rule.eventType()) {
+            case PROCESS_RESOLVED -> {
+                var detail = AggregateJson.tree(rule.eventSourceJson()).path("detail");
+                yield EventFilter.processResolved(detail.path("sourceSkillKey").asText(), detail.path("processKey").asText());
+            }
             case PROCESS_MOMENT -> processEvent == null
                 ? EventFilter.none(rule.eventType())
                 : EventFilter.processMoment(
@@ -314,6 +320,7 @@ public class SkillTriggerCycleValidator {
     ) {
         List<ProducedEvent> produced = new ArrayList<>();
         if (processesByKey.isEmpty()) {
+            produced.add(ProducedEvent.processResolved(skillKey, null));
             produced.add(ProducedEvent.processMoment(null, SkillProcessMomentType.PROCESS_COMPLETE, null));
             produced.add(ProducedEvent.processMoment(null, SkillProcessMomentType.PROCESS_FAILURE, null));
             return produced;
@@ -336,6 +343,7 @@ public class SkillTriggerCycleValidator {
         Set<String> seenSteps = new LinkedHashSet<>();
         for (SkillTriggerProcessShapeRow row : processesByKey.getOrDefault(processKey, List.of())) {
             if (seenSteps.add(processKey)) {
+                produced.add(ProducedEvent.processResolved(skillKey, processKey));
                 if (includeStart) {
                     produced.add(ProducedEvent.processMoment(processKey, SkillProcessMomentType.PROCESS_START, null));
                 }
@@ -364,6 +372,7 @@ public class SkillTriggerCycleValidator {
             produced.addAll(produceStateOperation(row, skillKey));
         }
         if (!includeStart && produced.isEmpty()) {
+            produced.add(ProducedEvent.processResolved(skillKey, processKey));
             produced.add(ProducedEvent.processMoment(processKey, SkillProcessMomentType.PROCESS_COMPLETE, null));
             produced.add(ProducedEvent.processMoment(processKey, SkillProcessMomentType.PROCESS_FAILURE, null));
         }
@@ -562,6 +571,8 @@ public class SkillTriggerCycleValidator {
             return false;
         }
         return switch (produced.eventType()) {
+            case PROCESS_RESOLVED -> Objects.equals(produced.processKey(), filter.processKey())
+                && Objects.equals(produced.sourceSkillKey(), filter.sourceSkillKey());
             case RESULT_AVAILABLE -> Objects.equals(produced.effectKey(), filter.effectKey())
                 && Objects.equals(produced.resultKey(), filter.resultKey());
             case LIFECYCLE_MOMENT -> Objects.equals(produced.effectKey(), filter.effectKey())
@@ -986,6 +997,11 @@ public class SkillTriggerCycleValidator {
             return processMoment(processKey, momentType, stepKey, null);
         }
 
+        static ProducedEvent processResolved(String skillKey, String processKey) {
+            return new ProducedEvent(SkillTriggerEventType.PROCESS_RESOLVED,
+                processKey, null, null, null, null, null, null, null, null, null, null, null, null, null, skillKey, null);
+        }
+
         static ProducedEvent processMoment(
             String processKey,
             SkillProcessMomentType momentType,
@@ -1112,6 +1128,11 @@ public class SkillTriggerCycleValidator {
                 momentType == SkillProcessMomentType.PROCESS_FAILURE && failureReason != null
                     ? SkillTriggerProcessFailureReason.valueOf(failureReason) : null
             );
+        }
+
+        static EventFilter processResolved(String skillKey, String processKey) {
+            return new EventFilter(SkillTriggerEventType.PROCESS_RESOLVED,
+                processKey, null, null, null, null, null, null, null, null, null, null, null, null, null, skillKey, true, null);
         }
 
         static EventFilter resultAvailable(String effectKey, String resultKey) {

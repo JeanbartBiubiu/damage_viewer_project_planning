@@ -22,7 +22,7 @@ class ModifierZoneManagementDbContractSqlTest {
 
         assertTrue(zones.contains("primary key (game_id, modifier_zone_key)"));
         assertTrue(zones.contains("domain in ('attribute', 'damage', 'healing', 'shield')"));
-        assertTrue(zones.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_multiply', 'ratio_max')"));
+        assertTrue(zones.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_multiply', 'ratio_complement_multiply', 'ratio_max')"));
         assertTrue(zones.contains("varchar(16) not null"));
         assertTrue(zones.contains("and calculation_mode = 'ratio_max'"));
         assertTrue(zones.contains("and application_stage = 'healing_result'"));
@@ -47,6 +47,22 @@ class ModifierZoneManagementDbContractSqlTest {
         assertTrue(readModel.contains("j->'detail'->>'modifierZoneKey'"));
         assertTrue(effectMapper.contains("calculation_mode"));
         assertTrue(effectMapper.contains("SkillEffectModifierZoneLockRow"));
+    }
+
+    @Test
+    void complementMigrationWidensTheExistingColumnAndExactlyTwoChecksWithoutBusinessWrites() throws IOException {
+        String sql = read("db/game_manage/migrations/modifier_zone_ratio_complement_multiply.sql");
+        String executable = sql.replaceAll("(?m)--[^\\n]*", "");
+        assertTrue(executable.contains("ALTER COLUMN calculation_mode TYPE varchar(32)"));
+        assertTrue(executable.contains("character_maximum_length = 16"));
+        assertTrue(executable.contains("character_maximum_length = 32"));
+        assertTrue(executable.contains("pg_get_constraintdef(actual.oid) = pg_get_constraintdef(expected.oid)"));
+        assertEquals(2, count(executable, "DROP CONSTRAINT"));
+        assertTrue(executable.contains("EXCEPT ALL"));
+        assertTrue(executable.contains("convalidated"));
+        assertFalse(executable.matches("(?is).*\\b(INSERT|UPDATE|DELETE|TRUNCATE)\\b.*"));
+        assertFalse(executable.contains("CREATE TABLE public."));
+        assertTrue(normalized(read("db/game_manage/schema.sql")).contains("calculation_mode varchar(32) not null"));
     }
 
     @Test
@@ -116,7 +132,7 @@ class ModifierZoneManagementDbContractSqlTest {
         assertTrue(sql.contains("EXCEPT ALL"));
         assertEquals(2, count(executable, "DROP CONSTRAINT"));
         String schema = normalized(read("db/game_manage/schema.sql"));
-        assertTrue(schema.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_multiply', 'ratio_max')"));
+        assertTrue(schema.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_multiply', 'ratio_complement_multiply', 'ratio_max')"));
         assertTrue(schema.contains("domain = 'healing' and calculation_mode = 'ratio_max'"));
     }
 

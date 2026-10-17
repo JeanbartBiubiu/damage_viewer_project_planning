@@ -92,6 +92,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputs;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRecentDamageSumBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessResolvedEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessLimit;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessShapeRow;
@@ -1222,6 +1223,18 @@ public class SkillTriggerRuleService {
         SkillTriggerEventType eventType = eventSource.eventType();
         Object detail = eventSource.detail();
         switch (eventType) {
+            case PROCESS_RESOLVED -> {
+                if (!(detail instanceof SkillTriggerProcessResolvedEventDetail process)) {
+                    issues.add(fieldIssue("eventSource.detail", "TYPE_MISMATCH", "过程已结算事件明细形状不合法"));
+                    return;
+                }
+                if (process.sourceSkillKey() == null) {
+                    issues.add(fieldIssue("eventSource.detail.sourceSkillKey", "REQUIRED", "来源技能标识不能为空"));
+                }
+                if (process.processKey() == null) {
+                    issues.add(fieldIssue("eventSource.detail.processKey", "REQUIRED", "过程标识不能为空"));
+                }
+            }
             case PROCESS_MOMENT -> {
                 if (!(detail instanceof SkillTriggerProcessEventDetail process)) {
                     issues.add(fieldIssue("eventSource.detail", "TYPE_MISMATCH", "过程时点事件明细形状不合法"));
@@ -1923,6 +1936,12 @@ public class SkillTriggerRuleService {
         for (CatalogRef ref : refs.processes) {
             if (!processes.contains(ref.key())) {
                 referenceIssues.add(fieldIssue(ref.field(), "UNKNOWN_PROCESS", "技能过程不存在或不属于当前技能"));
+            }
+        }
+        for (OwnedRef ref : refs.readProcesses.stream().distinct()
+            .sorted(Comparator.comparing(OwnedRef::skillKey).thenComparing(OwnedRef::key)).toList()) {
+            if (nullToEmpty(mapper.lockProcesses(gameId, ref.skillKey(), List.of(ref.key()))).isEmpty()) {
+                referenceIssues.add(fieldIssue(ref.field(), "UNKNOWN_PROCESS", "过程不存在或不属于指定的同游戏技能"));
             }
         }
         for (OwnedRef ref : refs.states) {
@@ -2664,6 +2683,11 @@ public class SkillTriggerRuleService {
         List<Map<String, String>> referenceIssues
     ) {
         switch (eventSource.eventType()) {
+            case PROCESS_RESOLVED -> {
+                SkillTriggerProcessResolvedEventDetail detail = (SkillTriggerProcessResolvedEventDetail) eventSource.detail();
+                refs.addSkill(new CatalogRef("eventSource.detail.sourceSkillKey", detail.sourceSkillKey()));
+                refs.readProcesses.add(new OwnedRef("eventSource.detail.processKey", detail.sourceSkillKey(), detail.processKey()));
+            }
             case PROCESS_MOMENT -> {
                 SkillTriggerProcessEventDetail detail = (SkillTriggerProcessEventDetail) eventSource.detail();
                 refs.addProcess(new CatalogRef("eventSource.detail.processKey", detail.processKey()));
@@ -3633,6 +3657,7 @@ public class SkillTriggerRuleService {
         private final List<CatalogRef> processes = new ArrayList<>();
         private final List<OwnedRef> states = new ArrayList<>();
         private final List<OwnedRef> readEffects = new ArrayList<>();
+        private final List<OwnedRef> readProcesses = new ArrayList<>();
         private final List<CatalogRef> skills = new ArrayList<>();
         private final List<CatalogRef> parameters = new ArrayList<>();
         private final Set<String> attributeKeys = new LinkedHashSet<>();

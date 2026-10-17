@@ -18,6 +18,33 @@ class SimulationSnapshotClosureTest {
     }
 
     @Test
+    void resolvedSubscriptionsUseTheRealSameSideProcessAndRemainInactiveWhenTheSourceIsClosed() throws Exception {
+        fixture.attach("hero_a", ATTACK, "producer", "subscriber");
+        fixture.configuration("producer", 1, """
+            {"processes":[{"processKey":"terminal","activationType":"PASSIVE",
+              "steps":[{"stepKey":"instant","stepType":"IMMEDIATE","detail":{}}],"effectBindings":[],"stateOperations":[]}],
+             "triggerRules":[{"ruleKey":"initialize","eventSource":{"eventType":"SOURCE_INITIALIZED","detail":{}},
+              "conditionGroups":[],"actions":[{"actionKey":"start","actionType":"START_PROCESS","detail":{"processKey":"terminal"},
+                "runtimeInputBindings":[],"resultModifiers":[]}]}]}
+            """);
+        fixture.configuration("subscriber", 1, """
+            {"effects":[%s],"triggerRules":[%s]}
+            """.formatted(heal("tail", "{\"kind\":\"FIXED\",\"value\":1}"), subscription("after_terminal", "PROCESS_RESOLVED",
+                "{\"sourceSkillKey\":\"producer\",\"processKey\":\"terminal\"}", "tail")));
+        Selection base = fixture.choice();
+        var opened = fixture.service.get(GAME, base);
+        assertNull(source(opened.source(), "subscriber").inactiveReason());
+        assertEquals(List.of("after_terminal"), source(opened.source(), "subscriber").enabledRuleKeys());
+        assertTrue(opened.references().stream().anyMatch(ref -> ref.sourceSkillKey().equals("subscriber")
+            && ref.targetType().equals("PROCESS") && ref.targetSkillKey().equals("producer") && ref.targetKey().equals("terminal")));
+        var closed = fixture.service.get(GAME, new Selection(base.sourceCharacterKey(), base.sourceLevel(), base.targetCharacterKey(), base.targetLevel(),
+            base.basicAttackSkillKey(), base.basicAttackLevel(), List.of(), List.of(), List.of(), List.of(),
+            List.of(new SkillSetting(Origin.character("hero_a"), "producer", false, null)), List.of(), List.of()));
+        assertTrue(source(closed.source(), "subscriber").enabledRuleKeys().isEmpty());
+        assertFalse(closed.references().stream().anyMatch(ref -> ref.sourceSkillKey().equals("subscriber")));
+    }
+
+    @Test
     void processResultAndLifecycleSubscriptionsReachAllNecessaryResultsToAFixedPoint() throws Exception {
         fixture.attach("hero_a", ATTACK, "natural");
         String base = heal("base", "{\"kind\":\"FIXED\",\"value\":1}");
