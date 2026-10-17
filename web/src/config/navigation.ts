@@ -11,7 +11,7 @@ export type StaticRouteId =
   | 'statuses'
   | 'game-settings';
 
-export type SimulationRouteId = 'simulation/basic-attack';
+export type SimulationRouteId = 'simulation/basic-attack' | 'simulation/combat-analysis';
 
 export type RouteId = StaticRouteId | SimulationRouteId;
 export type WorkspaceMode = 'management' | 'simulation';
@@ -35,6 +35,7 @@ export type NavigationGroup = {
 
 export const DEFAULT_ROUTE: StaticRouteId = 'attributes';
 export const DEFAULT_SIMULATION_ROUTE: SimulationRouteId = 'simulation/basic-attack';
+export const COMBAT_ANALYSIS_ROUTE: SimulationRouteId = 'simulation/combat-analysis';
 
 const dataManagementNavigationItems: NavigationItem[] = [
   {
@@ -121,7 +122,13 @@ export const navigationGroups: NavigationGroup[] = [
         id: DEFAULT_SIMULATION_ROUTE,
         hashSegment: DEFAULT_SIMULATION_ROUTE,
         label: '普攻模拟',
-        summary: '普攻计算入口，计算功能尚未接入。'
+        summary: '单次／连续普攻与固定时刻技能计划。'
+      },
+      {
+        id: COMBAT_ANALYSIS_ROUTE,
+        hashSegment: COMBAT_ANALYSIS_ROUTE,
+        label: '混合战斗分析',
+        summary: '自动连招、背景普攻与曲线及结算分析。'
       }
     ]
   }

@@ -609,6 +609,11 @@ class MockApi {
       return;
     }
 
+    if (method === 'GET' && path === `/api/admin/games/${GAME_ID}/calculation-rules`) {
+      await this.json(route, 200, { gameId: GAME_ID, baseDigest: 'c'.repeat(64), configuration: null });
+      return;
+    }
+
     if (path === `/api/admin/games/${GAME_ID}/level-config`) {
       if (method === 'GET') {
         await this.json(route, 200, {
@@ -3651,6 +3656,10 @@ async function installSecondSafetyGame(page: Page, mock: MockApi) {
     route => route.fulfill({ json: { image: null } }));
   await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/vamp-rules`,
     route => route.fulfill({ json: { rules: [] } }));
+  await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/calculation-rules`, route => {
+    if (route.request().method() !== 'GET') return route.fallback();
+    return route.fulfill({ json: { gameId, baseDigest: 'd'.repeat(64), configuration: null } });
+  });
   await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/attributes`,
     route => route.fulfill({ json: { items: [], total: 0 } }));
   await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/skill-categories`,
@@ -4085,6 +4094,7 @@ test.describe('character management without Wasm', () => {
     const diagnostics = await prepare(page, mock);
 
     await openGameSettings(page);
+    await expect(page.getByText('尚未配置游戏计算规则。', { exact: true })).toBeVisible();
     await expect(page.getByLabel('最小等级', { exact: true })).toHaveValue('1');
     await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('2');
     await page.getByLabel('最大等级', { exact: true }).fill('3');

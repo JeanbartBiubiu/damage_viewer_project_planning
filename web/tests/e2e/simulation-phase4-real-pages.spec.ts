@@ -3,7 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { test, expect, type APIResponse, type Page } from '@playwright/test';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
-import type { SkillActionArchive } from '../../src/pages/simulation/BasicAttackCompilePanel';
+import type { SkillActionArchive } from '../../src/pages/simulation/SimulationScenarioPanel';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 import { simulationSkillSourceIdentity } from '../../src/services/simulationSkillSourceIdentity';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';

@@ -23,6 +23,7 @@ import { StatusManagementPage } from './pages/admin/statuses/StatusManagementPag
 import { ImageManagementPage } from './pages/admin/images/ImageManagementPage';
 import { BuildManagementPage } from './pages/admin/builds/BuildManagementPage';
 import { BasicAttackSimulationPage } from './pages/simulation/BasicAttackSimulationPage';
+import { CombatAnalysisPage } from './pages/simulation/CombatAnalysisPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import type { GameSummary, LoadState } from './types/api';
 
@@ -378,6 +379,15 @@ export default function App() {
   if (route === 'simulation/basic-attack') {
     pageContent = (
       <BasicAttackSimulationPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onDirtyChange={handleSimulationDirtyChange}
+      />
+    );
+  } else if (route === 'simulation/combat-analysis') {
+    pageContent = (
+      <CombatAnalysisPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}

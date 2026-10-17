@@ -1,7 +1,7 @@
 import { Alert, Button, InputNumber, Select, Space, Table, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
 import type { AttackRecord, DamageBreakdown, DamageRecord, SeriesPoint, WarningItem } from '../../types/genericEngine';
-import type { ContinuousAttackArchive } from './BasicAttackCompilePanel';
+import type { ContinuousAttackArchive } from './SimulationScenarioPanel';
 import { JsonBlock } from '../../components/JsonBlock';
 import { buildContinuousCsv, type ContinuousCsvKind } from '../../engine/continuousAttackArchive';
 import { amountLabels, amountMetrics, continuousBreakdownKey, continuousContributions, continuousCurves, continuousSourceKey,
