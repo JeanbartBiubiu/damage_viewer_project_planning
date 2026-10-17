@@ -327,11 +327,20 @@ test('5A独立页面结构：来源调整使快照失效，但生命及属性草
   diagnostics.assertClean();
 });
 
-test('5A独立页面结构：执行前重读摘要变化须明确确认最新，不创建工作线程', async ({ page }) => {
+test('5A独立页面结构：执行前重读摘要变化仅做公式预检，须确认后再提交场景', async ({ page }) => {
   const sample = simulationSample();
   const diagnostics = await installSnapshotStructureApi(page, sample);
-  const workers: string[] = [];
-  page.on('worker', worker => workers.push(worker.url()));
+  await page.addInitScript(() => {
+    const scope = window as typeof window & { reconfirmPreflightMessages: Array<{ type: string; rulesHash: string | null }> };
+    scope.reconfirmPreflightMessages = [];
+    const original = Worker.prototype.postMessage;
+    Worker.prototype.postMessage = function(message, ...options) {
+      if (message && typeof message === 'object' && ['compile', 'run', 'release'].includes(message.type)) {
+        scope.reconfirmPreflightMessages.push({ type: message.type, rulesHash: message.request?.rulesHash ?? message.expectedRulesHash ?? null });
+      }
+      return Reflect.apply(original, this, [message, ...options]);
+    };
+  });
   await selectStructureScene(page);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
@@ -344,15 +353,23 @@ test('5A独立页面结构：执行前重读摘要变化须明确确认最新，
   changed.skillConfigurations[0]!.parameters[0]!.fixedValue = 3;
   diagnostics.changeCandidate(changed);
   await page.getByRole('button', { name: '编译验证', exact: true }).click();
-  await expect(page.getByText(/本次没有提交编译或运行/)).toBeVisible();
+  await expect(page.getByText(/最新配置已完成共同公式预检，请核对并明确确认后重新执行本次场景/)).toBeVisible();
   await expect(page.getByRole('button', { name: '编译验证', exact: true })).toBeDisabled();
   await expect(page.getByRole('spinbutton', { name: '攻击方初始当前生命', exact: true })).toHaveValue('650');
   await expect(page.getByRole('spinbutton', { name: '攻击方补充属性 critical_strike_chance', exact: true })).toHaveValue('0');
   expect(diagnostics.requests).toHaveLength(3);
-  expect(workers).toEqual([]);
+  const preflightMessages = await page.evaluate(() => (window as typeof window & {
+    reconfirmPreflightMessages: Array<{ type: string; rulesHash: string | null }>
+  }).reconfirmPreflightMessages);
+  expect(preflightMessages, '只有已释放的公式预检，没有最终场景编译或运行').toEqual([
+    { type: 'compile', rulesHash: 'skill-formula-preflight' }, { type: 'release', rulesHash: 'skill-formula-preflight' },
+    { type: 'compile', rulesHash: 'skill-formula-preflight' }, { type: 'release', rulesHash: 'skill-formula-preflight' }
+  ]);
   await page.getByRole('button', { name: '确认最新技能配置', exact: true }).click();
   await expect(page.getByRole('button', { name: '编译验证', exact: true })).toBeEnabled();
-  expect(workers).toEqual([]);
+  expect(await page.evaluate(() => (window as typeof window & {
+    reconfirmPreflightMessages: Array<{ type: string; rulesHash: string | null }>
+  }).reconfirmPreflightMessages)).toEqual(preflightMessages);
   diagnostics.assertClean();
 });
 

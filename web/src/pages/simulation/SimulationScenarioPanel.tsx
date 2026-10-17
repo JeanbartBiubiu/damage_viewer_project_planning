@@ -1,7 +1,7 @@
 import { preflightSkillFormulas, snapshotFormulaProofIdentity } from '../../engine/skillFormulaPreflight';
 import { clearFormulaProofScope, validateConsumedFormulaValues, validateApprovedFormulaValues } from '../../engine/approvedFormulaValues';
 import { Alert, Button, Checkbox, Form, InputNumber, Select, Space, Table, Typography } from '@arco-design/web-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { JsonBlock } from '../../components/JsonBlock';
 import { GenericEngineClient, GenericEngineClientError } from '../../engine/genericEngineClient';
 import { WASM_IDENTITY } from '../../engine/wasmIdentity';
@@ -24,6 +24,7 @@ import type { BuildConfiguration, BuildDefinition, SimulationAttributeInputs, Si
 import { SimulationEntitySelect } from './SimulationEntitySelect';
 import { SimulationEquipmentSelect } from './SimulationEquipmentSelect';
 import { useSimulationSelectionOptions } from './useSimulationSelectionOptions';
+import { selectedSimulationAvailabilityIssues, simulationExcludedSkillSources } from './simulationSelectionOptions';
 import { assessSingleAttackResult, type SingleAttackAssessment } from '../../engine/singleAttackResult';
 import { continuousAttackRequest, CONTINUOUS_DURATION_INITIAL_MS, type PreparedContinuousAttack } from '../../engine/continuousAttackRequest';
 import { assessContinuousAttackResult, type ContinuousAttackAssessment } from '../../engine/continuousAttackResult';
@@ -42,11 +43,14 @@ import { simulationCastCostCandidates, type SimulationCastCostRef } from '../../
 import { plannedSkillsFromActions, removeSkillActionDraft, skillActionParentCandidates, skillActionPhases } from './simulationSkillActionDrafts';
 import { automaticSkillRequest, plannedSkillsFromAutomaticRules, type AutomaticSkillInput, type AutomaticSkillInputs, type PreparedAutomaticSkill } from '../../engine/automaticSkillRequest';
 import { assessAutomaticSkillResult, type AutomaticSkillAssessment } from '../../engine/automaticSkillResult';
-import { automaticSkillDraftIssues, moveAutomaticSkillRule, removeAutomaticSkillRule } from './simulationAutomaticSkillDrafts';
+import { moveAutomaticSkillRule } from './simulationAutomaticSkillDrafts';
 import { AutomaticSkillPlan } from './AutomaticSkillPlan';
 import { AutomaticSkillResult } from './AutomaticSkillResult';
+import { reconcileCombatRules } from './combatSkillRoster';
+import { CombatScenarioSetup, type CombatantSetup } from './CombatScenarioSetup';
 
-export type BasicAttackCompilePanelProps = {
+export type SimulationScenarioPanelProps = {
+  mode: 'basic' | 'automatic';
   apiBaseUrl: string;
   selectedGameId: string | null;
   adminToken: string;
@@ -148,6 +152,10 @@ const stopLabels: Record<string, string> = {
 };
 const sideLabels = { source: '攻击方', target: '目标' };
 const stableKeyPattern = /^[a-z][a-z0-9_]{0,63}$/;
+
+function ScenarioDetails({ collapsed, title, children }: { collapsed: boolean; title: string; children: ReactNode }) {
+  return collapsed ? <details className="combat-advanced-settings"><summary>{title}</summary>{children}</details> : <>{children}</>;
+}
 
 function emptySelection(): SelectionDraft {
   return {
@@ -315,7 +323,8 @@ function downloadJson(name: string, value: unknown) {
   window.setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
-export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken, onDirtyChange }: BasicAttackCompilePanelProps) {
+export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, adminToken, onDirtyChange }: SimulationScenarioPanelProps) {
+  const automaticMode = mode === 'automatic';
   const [selection, setSelection] = useState(emptySelection);
   const [formulaPreflight, setFormulaPreflight] = useState<{ compileCount: number; released: boolean; formulaCount: number } | null>(null);
   const [snapshot, setSnapshot] = useState<SimulationSnapshot | null>(null);
@@ -335,12 +344,10 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const [prepared, setPrepared] = useState<PreparedSimulation | null>(null);
   const [archive, setArchive] = useState<SimulationArchive | null>(null);
   const [recordTimeSeries, setRecordTimeSeries] = useState(true);
-  const [skillMode, setSkillMode] = useState(false);
-  const [automaticMode, setAutomaticMode] = useState(false);
-  const [backgroundAttack, setBackgroundAttack] = useState(false);
+  const [skillMode, setSkillMode] = useState(automaticMode);
+  const [backgroundAttack, setBackgroundAttack] = useState(automaticMode);
   const [activeSkillKey, setActiveSkillKey] = useState('');
   const nextInstruction = useRef(1);
-  const nextAutomaticRule = useRef(1);
   const [ignoredCastCosts, setIgnoredCastCosts] = useState<SimulationCastCostRef[]>([]);
   const [skillInputs, setSkillInputs] = useState<Omit<SkillActionInputs, 'durationMs' | 'recordTimeSeries'>>({
     actions: [],
@@ -360,20 +367,41 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const token = adminToken.trim();
   const busy = phase !== 'idle';
   const candidateUnconfirmed = snapshot !== null && (confirmationRequired || !sameSkillDigests(snapshot, confirmedDigests));
-  const { characters, skills, activeSkills, equipment, levels, imageLoader } = useSimulationSelectionOptions(apiBaseUrl, selectedGameId, token, selection.sourceCharacterKey);
+  const { characters, skills, activeSkills, boundSkills, targetBoundSkills, equipment, levels, imageLoader, availability } = useSimulationSelectionOptions(
+    apiBaseUrl, selectedGameId, token, selection.sourceCharacterKey, automaticMode, selection.targetCharacterKey);
+  const combatRoster = useMemo(() => reconcileCombatRules(boundSkills.items, selection.sourceCharacterKey,
+    automaticInputs.rules, selection.sourceSkillSettings, clearedSkillLevels),
+  [boundSkills.items, selection.sourceCharacterKey, automaticInputs.rules, selection.sourceSkillSettings, clearedSkillLevels]);
+  const enabledAutomaticRules = automaticMode ? combatRoster.enabledRules : automaticInputs.rules;
   const selectedSkill = skills.items.find(row => row.key === selection.basicAttackSkillKey);
-  const automaticIssues = skillMode && automaticMode ? automaticSkillDraftIssues(automaticInputs.rules, selection.sourceCharacterKey,
-    activeSkills.items, selection.sourceSkillSettings, clearedSkillLevels) : [];
+  const boundLevelIssues = automaticMode ? (['source', 'target'] as const).flatMap(side =>
+    (side === 'source' ? boundSkills.items : targetBoundSkills.items).flatMap(option => {
+      if (simulationExcludedSkillSources(availability.response, selection[`${side}CharacterKey`]).some(source => source.skillKey === option.key)) return [];
+      const origin = { kind: 'CHARACTER' as const, characterKey: selection[`${side}CharacterKey`] };
+      const identity = simulationSkillSourceIdentity(origin, option.key);
+      const setting = selection[`${side}SkillSettings`].find(item => simulationSkillSourceIdentity(item.origin, item.skillKey) === identity);
+      return (side === 'source' && option.basicAttack ? backgroundAttack : setting?.enabled !== false)
+        && clearedSkillLevels[`${side}:${identity}`] ? [`${sideLabels[side]}「${option.name}」的等级已清空，请选择等级或关闭技能。`] : [];
+    })) : [];
+  const automaticIssues = skillMode && automaticMode ? [...new Set([
+    ...combatRoster.issues,
+    ...boundLevelIssues,
+    ...(backgroundAttack && selection.sourceCharacterKey && boundSkills.scope && !boundSkills.loading && !boundSkills.error && combatRoster.basicAttackIssue ? [combatRoster.basicAttackIssue] : []),
+    ...(!enabledAutomaticRules.length && !backgroundAttack ? ['请至少启用普通攻击或一项主动技能。'] : [])
+  ])] : [];
   const skillLevels = useMemo(() => selectedSkill?.kind === 'skill'
     ? Array.from({ length: selectedSkill.maxLevel }, (_, index) => index + 1) : [], [selectedSkill]);
   const levelsSelected = levels.items.includes(selection.sourceLevel!) && levels.items.includes(selection.targetLevel!)
     && (!skillMode || backgroundAttack ? skillLevels.includes(selection.basicAttackLevel!) : true)
-    && (!skillMode || selection.plannedSkills.length > 0);
-  const objectsSelected = characters.items.some(row => row.key === selection.sourceCharacterKey)
-    && characters.items.some(row => row.key === selection.targetCharacterKey)
+    && (!skillMode || automaticMode && backgroundAttack || selection.plannedSkills.length > 0);
+  const availabilityIssues = automaticMode && availability.response ? selectedSimulationAvailabilityIssues(availability.response, selection) : [];
+  const availabilityBlocked = automaticMode && (availability.loading || Boolean(availability.error) || !availability.response || availabilityIssues.length > 0);
+  const objectsSelected = characters.items.some(row => row.key === selection.sourceCharacterKey && (!automaticMode || !row.disabled))
+    && characters.items.some(row => row.key === selection.targetCharacterKey && (!automaticMode || !row.disabled))
     && (!skillMode || selection.plannedSkills.every(plan => activeSkills.items.some(row => row.key === plan.skillKey)))
     && (skillMode && !backgroundAttack || skills.items.some(row => row.key === selection.basicAttackSkillKey))
-    && [...selection.sourceEquipmentKeys, ...selection.targetEquipmentKeys].every(key => equipment.items.some(row => row.key === key));
+    && [...selection.sourceEquipmentKeys, ...selection.targetEquipmentKeys].every(key => equipment.items.some(row => row.key === key && (!automaticMode || !row.disabled)));
+  const combatSkillsLoading = automaticMode && (boundSkills.loading || targetBoundSkills.loading);
   const requirements = inspection?.requirements ?? [];
   const missing = requirements.filter(row => row.storedValue === undefined);
   const unfilled = missing.filter(row => attributeDrafts[row.side][row.attribute.attributeKey] === undefined);
@@ -527,10 +555,73 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
 
   const patchSelection = <K extends keyof SelectionDraft>(key: K, value: SelectionDraft[K]) => {
     if (taskRef.current) return;
-    if (key === 'sourceCharacterKey') { setSkillInputs(current => ({ ...current, actions: [] })); setActiveSkillKey(''); }
+    if (key === 'sourceCharacterKey') {
+      setSkillInputs(current => ({ ...current, actions: [] })); setActiveSkillKey('');
+      if (automaticMode) setAutomaticInputs(current => ({ ...current, rules: [] }));
+    }
     setSelection(current => retainSourceSettings({ ...current, [key]: value,
-      ...(key === 'sourceCharacterKey' ? { basicAttackSkillKey: '', basicAttackLevel: undefined, plannedSkills: automaticMode ? current.plannedSkills : [] }
+      ...(key === 'sourceCharacterKey' ? { basicAttackSkillKey: '', basicAttackLevel: undefined, plannedSkills: [] }
         : key === 'basicAttackSkillKey' ? { basicAttackLevel: undefined } : {}) }));
+    clearArtifacts();
+  };
+
+  useEffect(() => {
+    if (!automaticMode || busy || selection.sourceCharacterKey && (!boundSkills.scope || boundSkills.loading || boundSkills.error)) return;
+    setAutomaticInputs(current => JSON.stringify(current.rules) === JSON.stringify(combatRoster.drafts)
+      ? current : { ...current, rules: combatRoster.drafts });
+    setSelection(current => {
+      const next = { ...current };
+      for (const side of ['source', 'target'] as const) {
+        const options = side === 'source' ? boundSkills.items : targetBoundSkills.items;
+        const settings = [...current[`${side}SkillSettings`]];
+        const origin = { kind: 'CHARACTER' as const, characterKey: current[`${side}CharacterKey`] };
+        for (const option of options) {
+          if (side === 'source' && option.basicAttack) continue;
+          const identity = simulationSkillSourceIdentity(origin, option.key);
+          const excluded = simulationExcludedSkillSources(availability.response, origin.characterKey).some(source => source.skillKey === option.key);
+          const existing = settings.findIndex(item => simulationSkillSourceIdentity(item.origin, item.skillKey) === identity);
+          if (existing >= 0) {
+            if (excluded && settings[existing]!.enabled) settings[existing] = { ...settings[existing]!, enabled: false };
+            continue;
+          }
+          settings.push({ origin, skillKey: option.key, enabled: !excluded,
+            ...(clearedSkillLevels[`${side}:${identity}`] ? {} : { skillLevel: option.maxLevel }) });
+        }
+        next[`${side}SkillSettings`] = settings;
+      }
+      if (!boundSkills.loading && !boundSkills.error && current.sourceCharacterKey) {
+        const basic = combatRoster.basicAttack;
+        if (basic?.key !== current.basicAttackSkillKey) {
+          next.basicAttackSkillKey = basic?.key ?? '';
+          next.basicAttackLevel = basic?.maxLevel;
+        }
+      }
+      try { next.plannedSkills = plannedSkillsFromAutomaticRules(combatRoster.enabledRules); }
+      catch { /* 等级清空时保留上次闭包，草稿校验禁止读取和执行。 */ }
+      return JSON.stringify(next) === JSON.stringify(current) ? current : next;
+    });
+  }, [automaticMode, busy, boundSkills.scope, boundSkills.items, boundSkills.loading, boundSkills.error, targetBoundSkills.items, combatRoster, clearedSkillLevels, selection.sourceCharacterKey, availability.response]);
+
+  const patchBoundSkill = (side: 'source' | 'target', skillKey: string, patch: { enabled?: boolean; skillLevel?: number }) => {
+    if (taskRef.current) return;
+    if (simulationExcludedSkillSources(availability.response, selection[`${side}CharacterKey`]).some(source => source.skillKey === skillKey)) return;
+    const option = (side === 'source' ? boundSkills.items : targetBoundSkills.items).find(row => row.key === skillKey);
+    if (!option) return;
+    const origin = { kind: 'CHARACTER' as const, characterKey: selection[`${side}CharacterKey`] };
+    const identity = simulationSkillSourceIdentity(origin, skillKey);
+    if (side === 'source' && option.basicAttack) {
+      if ('enabled' in patch) setBackgroundAttack(patch.enabled === true);
+      if ('skillLevel' in patch) setSelection(current => ({ ...current, basicAttackLevel: patch.skillLevel }));
+    } else {
+      setSelection(current => {
+        const settings = current[`${side}SkillSettings`];
+        const previous = settings.find(item => simulationSkillSourceIdentity(item.origin, item.skillKey) === identity);
+        const setting: SimulationSkillSetting = { origin, skillKey, enabled: true, skillLevel: option.maxLevel, ...previous, ...patch };
+        if (setting.skillLevel === undefined) delete setting.skillLevel;
+        return { ...current, [`${side}SkillSettings`]: [...settings.filter(item => simulationSkillSourceIdentity(item.origin, item.skillKey) !== identity), setting] };
+      });
+    }
+    if ('skillLevel' in patch) setClearedSkillLevels(current => ({ ...current, [`${side}:${identity}`]: patch.skillLevel === undefined }));
     clearArtifacts();
   };
 
@@ -568,6 +659,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
 
   const patchSkillSource = (side: 'source' | 'target', source: SimulationSkillSource, patch: { enabled?: boolean; skillLevel?: number }) => {
     if (taskRef.current || source.skillStatus === 'DISABLED') return;
+    if (automaticMode && source.origin.kind === 'CHARACTER'
+      && simulationExcludedSkillSources(availability.response, source.origin.characterKey).some(excluded => excluded.skillKey === source.skillKey)) return;
     const identity = simulationSkillSourceIdentity(source.origin, source.skillKey);
     if (side === 'source') setSkillInputs(current => ({ ...current, actions: current.actions.flatMap(action => {
       if (simulationSkillSourceIdentity(action.origin, action.skillKey) !== identity) return [action];
@@ -642,7 +735,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     let requested: SimulationSelection;
     try {
       if (automaticIssues.length) throw new Error(automaticIssues.join('；'));
-      requested = selectionFromDraft(selection, levels.items, skillLevels, skillMode, backgroundAttack);
+      requested = selectionFromDraft(selection, levels.items, skillLevels,
+        skillMode && (!automaticMode || enabledAutomaticRules.length > 0), backgroundAttack);
     }
     catch (cause) { setError(taskError(cause)); return; }
     const task = beginTask('reading');
@@ -650,6 +744,12 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     setPrepared(null);
     invalidateRunResult(true);
     try {
+      if (automaticMode) {
+        const currentAvailability = await availability.refresh();
+        if (!isCurrent(task)) return;
+        const issues = selectedSimulationAvailabilityIssues(currentAvailability, requested);
+        if (issues.length) throw new Error(issues.join('；'));
+      }
       let result = await getSimulationSnapshot(apiBaseUrl, selectedGameId, requested, token, task.controller.signal);
       if (!isCurrent(task)) return;
       const defaults = fillSimulationSkillLevelDefaults(result.data.selection, result.data, clearedSkillLevels);
@@ -664,7 +764,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       }
       task.snapshot = result.data;
       const admitted = await acceptSnapshot(result.data, task);
-      setNotice(admitted ? '场景快照已读取，未设置的角色来源技能默认最高等级；请核对技能配置及必要的场景补充值。'
+      setNotice(admitted ? automaticMode ? '配置已读取。请确认配置、设置初始生命，并补全下方缺失输入。' : '场景快照已读取，未设置的角色来源技能默认最高等级；请核对技能配置及必要的场景补充值。'
         : '原始默认来源与完整关系已保留；准入失败不妨碍关闭来源、供等级或修改构筑。');
     } catch (cause) {
       if (isCurrent(task)) {
@@ -792,18 +892,6 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     invalidateRunResult(true); setError(null); setNotice(null);
   };
 
-  const changeSkillPlanMode = (nextMode: boolean) => {
-    if (taskRef.current) return;
-    let plans: SimulationSelection['plannedSkills'] = [];
-    let issue: string | null = null;
-    try { plans = nextMode ? plannedSkillsFromAutomaticRules(automaticInputs.rules) : plannedSkillsFromActions(skillInputs.actions); }
-    catch (cause) { issue = taskError(cause); }
-    setAutomaticMode(nextMode);
-    setSelection(current => ({ ...current, plannedSkills: plans }));
-    setIgnoredCastCosts([]); clearArtifacts();
-    if (issue) setError(`${issue}；已保留原草稿，请修正后重新读取`);
-  };
-
   const changeSkillMode = (enabled: boolean) => {
     if (taskRef.current) return;
     let plans: SimulationSelection['plannedSkills'] = [];
@@ -819,45 +907,16 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   };
 
   const updateAutomaticRules = (rules: AutomaticSkillInput[]) => {
-    setAutomaticInputs(current => ({ ...current, rules }));
-    let plans: SimulationSelection['plannedSkills'];
-    try { plans = plannedSkillsFromAutomaticRules(rules); }
-    catch (cause) { clearArtifacts(); setError(taskError(cause)); return; }
-    setSelection(current => ({ ...current, plannedSkills: plans }));
-    if (JSON.stringify(plans) !== JSON.stringify(selection.plannedSkills)) { setIgnoredCastCosts([]); clearArtifacts(); }
-    else { invalidateRunResult(true); setError(null); setNotice(null); }
-  };
-
-  const selectAutomaticSkill = (skillKey: string, replaceRuleKey?: string) => {
     if (taskRef.current) return;
-    const option = activeSkills.items.find(row => row.key === skillKey);
-    if (option?.kind !== 'skill') return;
-    const origin = { kind: 'CHARACTER' as const, characterKey: selection.sourceCharacterKey };
-    const identity = simulationSkillSourceIdentity(origin, skillKey);
-    const setting = selection.sourceSkillSettings.find(row => simulationSkillSourceIdentity(row.origin, row.skillKey) === identity);
-    if (setting?.enabled === false || setting?.skillLevel === 0 || clearedSkillLevels[`source:${identity}`]) {
-      setError('automaticSkills: 来源关闭、0级未学或等级清空，请先明确修改来源；原草稿已保留'); return;
-    }
-    if (!replaceRuleKey && automaticInputs.rules.length >= 16) { setError('automaticSkills.rules: 本次最多16项自动技能'); return; }
-    if (automaticInputs.rules.some(rule => rule.ruleKey !== replaceRuleKey && simulationSkillSourceIdentity(rule.origin, rule.skillKey) === identity)) {
-      setError('automaticSkills.rules: 每份真实来源只能配置一项规则'); return;
-    }
-    const previous = automaticInputs.rules.find(rule => rule.ruleKey === replaceRuleKey);
-    const skillLevel = setting?.skillLevel ?? option.maxLevel;
-    const rule: AutomaticSkillInput = { origin, skillKey, skillLevel, ruleKey: previous?.ruleKey ?? `auto_rule_${nextAutomaticRule.current++}`,
-      sortOrder: previous?.sortOrder ?? automaticInputs.rules.length, targetSide: previous?.targetSide ?? 'target', hitPreset: null,
-      waitForCooldowns: previous?.waitForCooldowns ?? [], releaseAfterRuleKey: previous?.releaseAfterRuleKey ?? null };
-    updateAutomaticRules(previous ? automaticInputs.rules.map(row => row.ruleKey === previous.ruleKey ? rule : row) : [...automaticInputs.rules, rule]);
-    setActiveSkillKey(skillKey);
-    setSelection(current => ({ ...current, sourceSkillSettings: [...current.sourceSkillSettings.filter(row => simulationSkillSourceIdentity(row.origin, row.skillKey) !== identity),
-      { origin, skillKey, enabled: true, skillLevel }] }));
+    setAutomaticInputs(current => ({ ...current, rules }));
+    invalidateRunResult(true); setError(null); setNotice(null);
   };
 
   const editAutomaticSkill = (ruleKey: string, patch: Partial<AutomaticSkillInput>) => {
     if (taskRef.current) return;
-    const previous = automaticInputs.rules.find(rule => rule.ruleKey === ruleKey);
+    const previous = combatRoster.drafts.find(rule => rule.ruleKey === ruleKey);
     if (!previous) return;
-    updateAutomaticRules(automaticInputs.rules.map(rule => rule.ruleKey === ruleKey ? { ...rule, ...patch } : rule));
+    updateAutomaticRules(combatRoster.drafts.map(rule => rule.ruleKey === ruleKey ? { ...rule, ...patch } : rule));
     if ('skillLevel' in patch) {
       const identity = simulationSkillSourceIdentity(previous.origin, previous.skillKey);
       const valid = Number.isSafeInteger(patch.skillLevel) && patch.skillLevel! > 0;
@@ -869,12 +928,6 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         return { ...current, sourceSkillSettings: [...current.sourceSkillSettings.filter(row => simulationSkillSourceIdentity(row.origin, row.skillKey) !== identity), setting] };
       });
     }
-  };
-
-  const removeAutomaticSkill = (ruleKey: string) => {
-    if (taskRef.current) return;
-    try { updateAutomaticRules(removeAutomaticSkillRule(automaticInputs.rules, ruleKey)); }
-    catch (cause) { setError(taskError(cause)); }
   };
 
   const editAutomaticOptions = <Key extends keyof typeof automaticInputs>(key: Key, value: typeof automaticInputs[Key]) => {
@@ -905,6 +958,12 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     invalidateRunResult();
     let failure: string | null = null;
     try {
+      if (automaticMode) {
+        const currentAvailability = await availability.refresh();
+        if (!isCurrent(task)) return;
+        const issues = selectedSimulationAvailabilityIssues(currentAvailability, snapshot.selection);
+        if (issues.length) throw new Error(issues.join('；'));
+      }
       const latest = await getSimulationSnapshot(apiBaseUrl, selectedGameId, snapshot.selection, token, task.controller.signal);
       if (!isCurrent(task)) return;
       if (!sameSkillDigests(latest.data, confirmedDigests) || latest.data.snapshotDigest !== snapshot.snapshotDigest) {
@@ -948,7 +1007,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       }
       if (kind === 'automatic_skill') {
         task.automaticPrepared = await automaticSkillRequest(task.prepared, task.snapshot,
-          { ...automaticInputs, durationMs: durationMs as number, recordTimeSeries, attackSpeedInputMax });
+          { ...automaticInputs, rules: enabledAutomaticRules, durationMs: durationMs as number, recordTimeSeries, attackSpeedInputMax });
         if (!isCurrent(task)) return;
       }
       setPrepared(task.prepared);
@@ -1046,10 +1105,47 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     }
   };
 
+  const combatantSetup = (side: 'source' | 'target'): CombatantSetup => {
+    const options = side === 'source' ? boundSkills : targetBoundSkills;
+    const characterKey = selection[`${side}CharacterKey`];
+    return {
+      characterKey, level: selection[`${side}Level`], equipmentKeys: selection[`${side}EquipmentKeys`],
+      skillsLoading: options.loading,
+      ...(side === 'source' && characterKey && boundSkills.scope && !boundSkills.loading && !boundSkills.error && !combatRoster.basicAttack
+        ? { basicAttackFallback: { enabled: backgroundAttack, onChange: (enabled: boolean) => { setBackgroundAttack(enabled); clearArtifacts(); } } } : {}),
+      skills: options.items.map(option => {
+        const excluded = simulationExcludedSkillSources(availability.response, characterKey).find(source => source.skillKey === option.key);
+        const identity = simulationSkillSourceIdentity({ kind: 'CHARACTER', characterKey }, option.key);
+        const setting = selection[`${side}SkillSettings`].find(item => simulationSkillSourceIdentity(item.origin, item.skillKey) === identity);
+        const basic = side === 'source' && option.basicAttack;
+        return { key: option.key, name: option.name, maxLevel: option.maxLevel, kind: option.combat?.kind ?? 'passive',
+          level: basic ? selection.basicAttackLevel : clearedSkillLevels[`${side}:${identity}`] ? undefined : setting?.skillLevel ?? option.maxLevel,
+          enabled: excluded ? false : basic ? backgroundAttack : setting?.enabled ?? true,
+          disabled: Boolean(excluded) || basic && combatRoster.basicAttack === null,
+          hint: excluded ? `本场范围不启用：${excluded.reason}` : basic ? '按攻速持续攻击' : option.combat?.issue ?? undefined };
+      }),
+      onCharacter: value => patchSelection(side === 'source' ? 'sourceCharacterKey' : 'targetCharacterKey', value),
+      onLevel: value => patchSelection(side === 'source' ? 'sourceLevel' : 'targetLevel', value),
+      onEquipment: values => patchEquipment(side, values),
+      onSkill: (key, patch) => patchBoundSkill(side, key, patch),
+      extra: <>
+        <SimulationBuildConfigurationEditor apiBaseUrl={apiBaseUrl} gameId={selectedGameId} token={token} side={side} disabled={busy}
+          selectedBuilds={sourcesSnapshot?.[side].selectedBuilds} onEdit={keys => editBuilds(side, keys)}
+          onConfirm={(configurations, definitions) => confirmBuilds(side, configurations, definitions)} />
+        {sourcesSnapshot ? <SimulationSkillSources side={side} snapshot={sourcesSnapshot}
+          sources={sourcesSnapshot[side].skillSources.filter(source => source.origin.kind !== 'CHARACTER'
+            && selectedOrigin(source.origin, selection, side)
+            && (source.origin.kind !== 'BUILD_OPTION' || buildSourceIdentities[side].includes(simulationSkillSourceIdentity(source.origin, source.skillKey))))}
+          settings={selection[`${side}SkillSettings`]} basicAttackSkillKey="" basicAttackLevel={undefined}
+          stale={!snapshot} clearedLevels={clearedSkillLevels} disabled={busy} onChange={(source, patch) => patchSkillSource(side, source, patch)} /> : null}
+      </>
+    };
+  };
+
   // Space 会过滤空子节点；固定区域标识，避免提示增减时重挂载输入框。
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      {formulaPreflight ? <Typography.Text type="secondary">共同公式原生预检：编译{formulaPreflight.compileCount}次，完整程序{formulaPreflight.formulaCount}份，预检会话已释放。最终场景编译仍独立校验。</Typography.Text> : null}
+      {formulaPreflight && !automaticMode ? <Typography.Text type="secondary">共同公式原生预检：编译{formulaPreflight.compileCount}次，完整程序{formulaPreflight.formulaCount}份，预检会话已释放。最终场景编译仍独立校验。</Typography.Text> : null}
       {!selectedGameId ? <Alert key="missing-game" type="warning" content="请先在顶部选择游戏。" /> : null}
       {selectedGameId && !token ? <Alert key="missing-token" type="warning" content="请先在顶部配置 Admin Token。" /> : null}
       {notice ? <Alert key="task-notice" type={archive?.outcome === 'passed' ? 'success' : 'info'} content={notice} /> : null}
@@ -1060,22 +1156,33 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       {skills.error ? <Alert key="skill-options-error" type="error" content={`普攻列表读取失败：${skills.error}`}
         action={<Button disabled={busy} onClick={skills.retry}>重试普攻列表</Button>} /> : null}
       {skills.notice ? <Alert key="skill-options-notice" type="warning" content={skills.notice} /> : null}
-      {skillMode && activeSkills.error ? <Alert key="active-options-error" type="error" content={`角色技能候选读取失败：${activeSkills.error}`}
+      {skillMode && !automaticMode && activeSkills.error ? <Alert key="active-options-error" type="error" content={`角色技能候选读取失败：${activeSkills.error}`}
         action={<Button disabled={busy} onClick={activeSkills.retry}>重试角色技能候选</Button>} /> : null}
+      {automaticMode && targetBoundSkills.error ? <Alert key="target-skill-options-error" type="error" content={`目标技能读取失败：${targetBoundSkills.error}`}
+        action={<Button disabled={busy} onClick={targetBoundSkills.retry}>重试目标技能</Button>} /> : null}
       {levels.error ? <Alert key="level-options-error" type="error" content={`角色等级范围读取失败：${levels.error}`}
         action={<Button disabled={busy} onClick={levels.retry}>重试等级范围</Button>} /> : null}
+      {automaticMode && availability.error ? <Alert key="availability-error" type="error" content={`计算可用目录读取失败：${availability.error}`}
+        action={<Button disabled={busy} onClick={availability.retry}>重试计算可用目录</Button>} /> : null}
+      {automaticMode && availability.response && !characters.items.some(row => !row.disabled) ? <Alert key="no-ready-character" type="warning"
+        content="当前还没有完成整英雄计算验证的角色。未就绪角色保留在列表中，具体缺口显示在选项下方；补齐并验证后开放。" /> : null}
       {equipment.error ? <Alert key="equipment-options-error" type="error" content={`装备列表读取失败：${equipment.error}`}
         action={<Button disabled={busy} onClick={equipment.retry}>重试装备列表</Button>} /> : null}
       {healthIssues.length ? <Alert key="health-limit-error" type="error" content={healthIssues.join('\n')} /> : null}
       {archive && resultStale && archive.taskKind !== 'continuous_attack' ? <Alert key="previous-result-stale" type="warning"
         content="输入已改变；上一份冻结结果已过期，不代表当前场景。" /> : null}
 
-      <Form key="scene-selection" layout="vertical" aria-label="普攻场景选择">
+      {automaticMode ? <CombatScenarioSetup key="combat-scene-selection" source={combatantSetup('source')} target={combatantSetup('target')}
+        characters={characters.items} charactersLoading={characters.loading} equipment={equipment.items} equipmentLoading={equipment.loading}
+        levels={levels.items} levelsLoading={levels.loading} imageLoader={imageLoader} disabled={busy}
+        unavailable={!selectedGameId || !token || Boolean(characters.error) || Boolean(levels.error) || Boolean(equipment.error)}
+        issues={[...availabilityIssues, ...automaticIssues]} prepareDisabled={!objectsSelected || !levelsSelected || combatSkillsLoading || Boolean(boundSkills.error)
+          || Boolean(targetBoundSkills.error) || automaticIssues.length > 0 || availabilityIssues.length > 0
+          || availability.loading || Boolean(availability.error) || !availability.response || !buildsReady.source || !buildsReady.target}
+        onPrepare={() => void readSnapshot()} preparing={phase === 'reading'} onCancel={cancelTask} />
+      : <Form key="scene-selection" layout="vertical" aria-label="普攻场景选择">
         <Form.Item label="执行范围">
-          <Checkbox aria-label="指定技能行动计划" checked={skillMode} disabled={busy} onChange={changeSkillMode}>主动技能计划（固定时刻或自动循环；关闭后保留原普攻模式）</Checkbox>
-          {skillMode ? <Select aria-label="主动技能计划模式" value={automaticMode ? 'automatic' : 'fixed'} disabled={busy}
-            style={{ width: 240, margin: '0 12px' }} onChange={value => changeSkillPlanMode(value === 'automatic')}
-            options={[{ value: 'fixed', label: '固定时刻计划' }, { value: 'automatic', label: '自动循环' }]} /> : null}
+          <Checkbox aria-label="指定技能行动计划" checked={skillMode} disabled={busy} onChange={changeSkillMode}>固定时刻技能计划（关闭后使用普攻模式）</Checkbox>
           {skillMode ? <Checkbox aria-label="开启背景普攻" checked={backgroundAttack} disabled={busy} onChange={checked => {
             setBackgroundAttack(checked); clearArtifacts();
           }}>明确开启背景持续普攻（共用原生时钟和唯一下一刀）</Checkbox> : null}
@@ -1088,9 +1195,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
                 <SimulationEntitySelect label="攻击方主动技能候选" value={activeSkillKey}
                   options={activeSkills.items} loading={activeSkills.loading} disabled={busy || activeSkills.loading || Boolean(activeSkills.error)}
                   loadImage={imageLoader} onChange={setActiveSkillKey} placeholder="选择攻击方真实绑定技能，完整主动程序另行准入" />
-                {automaticMode ? <Button disabled={busy || !activeSkillKey || automaticInputs.rules.length >= 16}
-                  onClick={() => selectAutomaticSkill(activeSkillKey)}>添加自动技能</Button> : <Button disabled={busy || !activeSkillKey || skillInputs.actions.length >= 64}
-                  onClick={() => selectActiveSkill(activeSkillKey)}>添加首次尝试</Button>}
+                <Button disabled={busy || !activeSkillKey || skillInputs.actions.length >= 64}
+                  onClick={() => selectActiveSkill(activeSkillKey)}>添加首次尝试</Button>
               </Form.Item>
               <Typography.Paragraph type="secondary">{automaticMode ? `自动技能${automaticInputs.rules.length}／16，无需逐次填写毫秒时刻；各项来自当前攻击方真实绑定。`
                 : `不同来源${selection.plannedSkills.length}／16，明确指令${skillInputs.actions.length}／64。`}
@@ -1179,13 +1285,15 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
           </Button>
           {busy ? <Button status="danger" onClick={cancelTask}>取消当前请求</Button> : null}
         </Space>
-      </Form>
+      </Form>}
 
-      {skillMode && automaticMode ? <AutomaticSkillPlan key="automatic-skill-plan" inputs={automaticInputs} options={activeSkills.items} disabled={busy}
-        backgroundAttack={backgroundAttack} onSelectSkill={selectAutomaticSkill} onEdit={editAutomaticSkill}
-        onMove={(key, direction) => !busy && updateAutomaticRules(moveAutomaticSkillRule(automaticInputs.rules, key, direction))}
-        onRemove={removeAutomaticSkill} onOptions={editAutomaticOptions} /> : null}
-      {automaticIssues.length ? <Alert key="automatic-draft-errors" type="error" content={automaticIssues.join('；')} /> : null}
+      {skillMode && automaticMode ? <details key="automatic-skill-plan" className="combat-advanced-settings">
+        <summary>高级施放设置</summary>
+        <AutomaticSkillPlan inputs={{ ...automaticInputs, rules: enabledAutomaticRules }} options={activeSkills.items} disabled={busy}
+          backgroundAttack={backgroundAttack} onEdit={editAutomaticSkill}
+          onMove={(key, direction) => !busy && updateAutomaticRules(moveAutomaticSkillRule(combatRoster.drafts, key, direction))}
+          onOptions={editAutomaticOptions} />
+      </details> : null}
       {skillMode && !automaticMode ? <section key="skill-action-plan" aria-label="指定技能计划">
         <Typography.Title heading={5}>指定技能计划：1～64条明确技能指令</Typography.Title>
         <Typography.Paragraph>背景普攻{backgroundAttack ? '明确开启' : '关闭'}，指定技能不自动延期、重试或补放。按时刻、同刻顺序、稳定指令标识执行；重复同技能不重复挂载。释放、重施或取消必须明确填写时刻并关联排序更早的同来源、同目标、同技能和同等级首次，不默认满蓄力。阶段来自真实作者控制；变更阶段集合须重新读取确认，编辑时刻、顺序仅令结果过期。</Typography.Paragraph>
@@ -1248,18 +1356,21 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       {error ? <Alert key="task-error" type="error" content={<span style={{ whiteSpace: 'pre-wrap' }}>{error}</span>} /> : null}
 
       {snapshot ? <section key="configuration-confirmation" aria-label="技能配置确认">
-        <Typography.Title heading={5}>技能配置确认</Typography.Title>
-        <Typography.Paragraph>逐项保存完整作者配置摘要；同一入口下动作或数值变化也须重新确认，不因场景快照更新而自动执行。</Typography.Paragraph>
+        <Typography.Title heading={5}>{automaticMode ? '确认本次配置' : '技能配置确认'}</Typography.Title>
+        {!automaticMode ? <Typography.Paragraph>逐项保存完整作者配置摘要；同一入口下动作或数值变化也须重新确认，不因场景快照更新而自动执行。</Typography.Paragraph> : null}
+        <ScenarioDetails collapsed={automaticMode} title="查看配置版本">
         {snapshot.skillConfigurations.map(configuration => <Typography.Paragraph key={configuration.skill.skillKey} style={{ overflowWrap: 'anywhere' }}>
           {configuration.skill.name}（{configuration.skill.skillKey}）：<Typography.Text code>{configuration.baseDigest}</Typography.Text>
           {confirmedDigests?.[configuration.skill.skillKey] === configuration.baseDigest ? ' · 已核对' : ' · 尚未确认此配置'}
         </Typography.Paragraph>)}
+        </ScenarioDetails>
         {candidateUnconfirmed ? <Alert type="warning" content="当前候选与前次确认缺失或不一致。请核对最新来源、构筑与技能配置；生命和属性草稿不会丢失。" /> : null}
         <Button disabled={busy || !candidateUnconfirmed} onClick={confirmLatestConfiguration}>确认最新技能配置</Button>
       </section> : null}
 
       {snapshot ? (
-        <section key="scene-snapshot" aria-label="场景快照">
+        <ScenarioDetails key="scene-snapshot" collapsed={automaticMode} title="场景与装备明细">
+        <section aria-label="场景快照">
           {rangeRequirements.map(({ owner, equipmentKey, equipmentName }) => (
             <Checkbox key={`${owner}:${equipmentKey}`} aria-label={`${sideLabels[owner]}${equipmentName}全程在范围内`} checked={auraConfirmed[`${owner}:${equipmentKey}`] === true} disabled={busy}
               onChange={checked => {
@@ -1284,14 +1395,17 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
             { title: '独立来源标识', dataIndex: 'providerRef' }
           ]} />
        </section>
+       </ScenarioDetails>
       ) : null}
 
       {inspection && snapshot ? (
         <section key="initial-health" aria-label="初始当前生命">
           <Typography.Title heading={5}>初始当前生命</Typography.Title>
           <Typography.Paragraph>
+            {automaticMode ? '设置双方开始战斗时的生命，也可使用下方按钮按本次真实上限填满。' : <>
             双方当前生命必须明确填写且不能超过固有生命加本次装备贡献的上限，未填写不会默认满生命。
             0可用于编译检查；单次和连续运行均要求双方当前生命大于0。
+            </>}
           </Typography.Paragraph>
           <Form layout="vertical">
             <div className="simulation-selection-grid">
@@ -1316,14 +1430,16 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
 
       {inspection ? (
         <section key="required-attributes" aria-label="必要属性">
-          <Typography.Title heading={5}>必要属性与场景补充值</Typography.Title>
+          <Typography.Title heading={5}>{automaticMode ? '计算条件' : '必要属性与场景补充值'}</Typography.Title>
           <Typography.Paragraph>
+            {automaticMode ? `还需填写${unfilled.length}项缺失属性，仅用于本次计算。` : <>
             已录固有属性直接使用且不可覆盖；空白表示未填写，明确的0与未填写不同。
             缺失项只补本次场景，不写入角色或数据库。还需填写{unfilled.length}项。
+            </>}
           </Typography.Paragraph>
-          <Table<SimulationAttributeRequirement>
+          {automaticMode && !missing.length ? <Typography.Paragraph type="secondary">本场所需属性已完整录入。</Typography.Paragraph> : <Table<SimulationAttributeRequirement>
             rowKey={row => `${row.side}.${row.attribute.attributeKey}`}
-            data={requirements} pagination={false} scroll={{ x: 900 }}
+            data={automaticMode ? missing : requirements} pagination={false} scroll={{ x: 900 }}
             columns={[
               { title: '对象', render: (_, row) => sideLabels[row.side] },
               { title: '属性', render: (_, row) => `${row.attribute.name}（${row.attribute.attributeKey}）` },
@@ -1337,8 +1453,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
                   onChange={value => updateAttribute(row, value)} placeholder="明确填写本次场景值" />
               ) : '直接使用已录值' }
             ]}
-          />
-          <Form layout="vertical" style={{ marginTop: 16 }} aria-label="连续普攻运行输入">
+          />}
+          <Form layout="vertical" style={{ marginTop: 16 }} aria-label={automaticMode ? '混合战斗运行输入' : '连续普攻运行输入'}>
             <div className="simulation-selection-grid">
               <Form.Item label="曲线记录">
                 <Checkbox aria-label="记录时间序列" checked={recordTimeSeries} disabled={busy} onChange={value => {
@@ -1364,9 +1480,9 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
             {!skillMode ? <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('continuous_attack')}>连续普攻</Button> : null}
             {skillMode && !automaticMode ? <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
               onClick={() => void execute('skill_action')}>执行指定技能计划</Button> : null}
-            {skillMode && automaticMode ? <Button type="primary" disabled={busy || candidateUnconfirmed || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
-              onClick={() => void execute('automatic_skill')}>执行主动技能自动循环</Button> : null}
-            <Button disabled={busy || candidateUnconfirmed || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('compile')}>编译验证</Button>
+            {skillMode && automaticMode ? <Button type="primary" disabled={busy || availabilityBlocked || candidateUnconfirmed || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
+              onClick={() => void execute(enabledAutomaticRules.length ? 'automatic_skill' : 'continuous_attack')}>开始计算</Button> : null}
+            {!automaticMode ? <Button disabled={busy || candidateUnconfirmed || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('compile')}>编译验证</Button> : null}
           </Space>
           {mechanicRequirements.length ? <Typography.Paragraph type="secondary">弹药主体使用连续普攻，由原生统一核对攻击许可、冻结开始库存及安排恢复；单次外部事件入口不支持此闭环。</Typography.Paragraph> : null}
           <Typography.Paragraph type="secondary" style={{ marginTop: 8 }}>
@@ -1384,6 +1500,9 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
 
       <details key="debug-details">
         <summary>调试详情：编译请求、原始结果与引用覆盖</summary>
+        {automaticMode && formulaPreflight ? <Typography.Paragraph>共同公式预检：编译{formulaPreflight.compileCount}次，程序{formulaPreflight.formulaCount}份，预检会话已释放。</Typography.Paragraph> : null}
+        {automaticMode && inspection ? <Button disabled={busy || availabilityBlocked || candidateUnconfirmed || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
+          onClick={() => void execute('compile')}>编译验证</Button> : null}
       {prepared ? (
         <section aria-label="编译请求与档案">
           <Typography.Paragraph style={{ overflowWrap: 'anywhere' }}>

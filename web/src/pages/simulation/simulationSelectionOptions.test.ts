@@ -4,12 +4,14 @@ import { getCachedImage, upsertManagedImage } from '../../services/imageCache';
 import { getImage } from '../../services/imageClient';
 import { getRepresentativeImage } from '../../services/imageRelationClient';
 import { getSkill } from '../../services/skillClient';
+import { getSkillConfiguration } from '../../services/skillConfigurationClient';
 import { listCharacterSkillRelations } from '../../services/skillRelationClient';
 import { listEquipment } from '../../services/equipmentClient';
 import { getGameCalculationRules } from '../../services/gameCalculationRulesClient';
 import { listSkillCategories } from '../../services/skillCategoryClient';
 import { authoredCalculationRules } from '../../../tests/fixtures/simulationCalculationRules';
 import { simulationSample } from '../../../tests/fixtures/simulationSnapshot';
+import { simulationActiveSample } from '../../../tests/fixtures/simulationActiveSkill';
 import { createSimulationImageLoader, loadBasicAttackOptions, loadCharacterSkillOptions, loadCharacterOptions, loadCharacterLevelOptions, loadEquipmentOptions } from './simulationSelectionOptions';
 
 vi.mock('../../services/characterClient');
@@ -17,6 +19,7 @@ vi.mock('../../services/imageCache');
 vi.mock('../../services/imageClient');
 vi.mock('../../services/imageRelationClient');
 vi.mock('../../services/skillClient');
+vi.mock('../../services/skillConfigurationClient');
 vi.mock('../../services/skillRelationClient');
 vi.mock('../../services/equipmentClient');
 vi.mock('../../services/gameCalculationRulesClient', async original => ({ ...await original<typeof import('../../services/gameCalculationRulesClient')>(), getGameCalculationRules: vi.fn() }));
@@ -119,6 +122,59 @@ describe('模拟选择目录与按需头像', () => {
     expect(getSkill).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', 'attack', context.token, signal);
     expect(getGameCalculationRules).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', context.token, signal);
     expect(listSkillCategories).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', context.token, {}, signal);
+    expect(getSkillConfiguration).not.toHaveBeenCalled();
+  });
+
+  it('混合页只读真实完整绑定配置，按作者入口描述主动与被动，不额外读技能详情', async () => {
+    const configurations = [simulationSample().skillConfigurations[0]!, simulationActiveSample().skillConfigurations[1]!,
+      simulationActiveSample(true).skillConfigurations[1]!];
+    const passive = structuredClone(configurations[1]!);
+    passive.skill.skillKey = 'actual_passive';
+    passive.triggerRules = [];
+    configurations[2] = passive;
+    const relations = configurations.map((configuration, index) => ({ gameId: 'demo', characterKey: 'hero', characterName: '英雄',
+      skillKey: configuration.skill.skillKey, skillName: configuration.skill.name, skillStatus: 'ENABLED' as const, sortOrder: index }));
+    vi.mocked(listCharacterSkillRelations).mockResolvedValue(result({ items: relations, total: relations.length }));
+    vi.mocked(getSkillConfiguration).mockImplementation(async (_, __, skillKey) => result(configurations.find(row => row.skill.skillKey === skillKey)!));
+    const read = await loadCharacterSkillOptions(context, 'hero', new AbortController().signal, true);
+    expect(read.items.map(row => row.combat?.kind)).toEqual(['basic', 'active', 'passive']);
+    expect(read.items[1]!.combat).toMatchObject({ targetSide: 'target', hitPreset: 'TARGET_HIT', issue: null });
+    expect(getSkillConfiguration).toHaveBeenCalledTimes(3);
+    expect(getSkill).not.toHaveBeenCalled();
+  });
+
+  it('完整配置每批最多4份，取消后迟到配置不接收且不再发下一批', async () => {
+    const base = simulationActiveSample().skillConfigurations[1]!;
+    const relations = Array.from({ length: 9 }, (_, index) => ({ gameId: 'demo', characterKey: 'hero', characterName: '英雄',
+      skillKey: `spell_${index}`, skillName: `技能${index}`, skillStatus: 'ENABLED' as const, sortOrder: index }));
+    vi.mocked(listCharacterSkillRelations).mockResolvedValue(result({ items: relations, total: 9 }));
+    const release: Array<() => void> = [];
+    let concurrent = 0; let peak = 0;
+    vi.mocked(getSkillConfiguration).mockImplementation((_, __, skillKey) => new Promise(resolve => {
+      concurrent += 1; peak = Math.max(peak, concurrent);
+      release.push(() => { concurrent -= 1; resolve(result({ ...base, skill: { ...base.skill, skillKey } })); });
+    }));
+    const controller = new AbortController();
+    const pending = loadCharacterSkillOptions(context, 'hero', controller.signal, true);
+    await vi.waitFor(() => expect(getSkillConfiguration).toHaveBeenCalledTimes(4));
+    expect(peak).toBe(4);
+    controller.abort();
+    release.forEach(deliver => deliver());
+    await expect(pending).rejects.toMatchObject({ name: 'AbortError' });
+    expect(getSkillConfiguration).toHaveBeenCalledTimes(4);
+    expect(getSkill).not.toHaveBeenCalled();
+  });
+
+  it('完整配置失败保持读取错误，不伪装为空技能；错角色关系拒绝读取配置', async () => {
+    const relation = { gameId: 'demo', characterKey: 'hero', characterName: '英雄', skillKey: 'spell', skillName: '技能',
+      skillStatus: 'ENABLED' as const, sortOrder: 0 };
+    vi.mocked(listCharacterSkillRelations).mockResolvedValue(result({ items: [relation], total: 1 }));
+    vi.mocked(getSkillConfiguration).mockRejectedValue(new Error('完整配置读取失败'));
+    await expect(loadCharacterSkillOptions(context, 'hero', new AbortController().signal, true)).rejects.toThrow('完整配置读取失败');
+    vi.mocked(getSkillConfiguration).mockClear();
+    vi.mocked(listCharacterSkillRelations).mockResolvedValue(result({ items: [{ ...relation, characterKey: 'previous_hero' }], total: 1 }));
+    await expect(loadCharacterSkillOptions(context, 'hero', new AbortController().signal, true)).rejects.toThrow('当前角色');
+    expect(getSkillConfiguration).not.toHaveBeenCalled();
   });
 
   const bindSkill = (categories: string[]) => {

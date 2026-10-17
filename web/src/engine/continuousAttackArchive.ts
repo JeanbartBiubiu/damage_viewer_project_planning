@@ -1,4 +1,5 @@
 import type { ContinuousAttackView } from './continuousAttackPresentation';
+import type { AutomaticSelection, AutomaticSkillView } from './automaticSkillPresentation';
 
 const archiveFields = ['taskKind', 'adapterVersion', 'snapshot', 'snapshotDigest', 'attributeInputs', 'initialHealth', 'equipmentAssumptions', 'mechanicStateInputs', 'ignoredCastCosts',
   'attackSpeedAdmission', 'compileRequest', 'runRequest', 'runInputHash', 'coverage', 'operationOrigins', 'equipmentOrigins', 'skillOrigins', 'wasm',
@@ -37,11 +38,23 @@ export function buildSkillActionArchive(input: unknown, timeRangeMs: [number, nu
     displayDefinitionVersion: 1, view: { timeRangeMs: [...timeRangeMs] } };
 }
 
-export function buildAutomaticSkillArchive(input: unknown, timeRangeMs: [number, number]) {
+function automaticSelectionView(value: AutomaticSelection | null): AutomaticSelection | null {
+  if (!value) return null;
+  switch (value.kind) {
+    case 'automatic': return { kind: 'automatic', sequence: value.sequence };
+    case 'use': return { kind: 'use', useRef: value.useRef };
+    case 'attack': return { kind: 'attack', planKey: value.planKey, attackIndex: value.attackIndex, useRef: value.useRef };
+    case 'damage': return { kind: 'damage', damageId: value.damageId };
+    case 'healing': return { kind: 'healing', recordIndex: value.recordIndex };
+  }
+}
+export function buildAutomaticSkillArchive(input: unknown, view: AutomaticSkillView) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('缺少冻结自动运行档案。');
   const source = input as Record<string, unknown>;
   return { ...Object.fromEntries(archiveFields.map(key => [key, safeBusiness(source[key], key === 'error')])),
-    displayDefinitionVersion: 1, view: { timeRangeMs: [...timeRangeMs] } };
+    displayDefinitionVersion: 2, view: { timeRangeMs: [...view.timeRangeMs], dpsMode: view.dpsMode,
+      visibleCurves: [...view.visibleCurves], breakdownMode: view.breakdownMode, amountMetric: view.amountMetric,
+      sourceKeys: [...view.sourceKeys], damageTypes: [...view.damageTypes], selection: automaticSelectionView(view.selection) } };
 }
 
 export type SkillActionCsvKind = 'skillAction' | 'skillUse' | 'healing' | 'damage' | 'attack' | 'mechanic';

@@ -4,6 +4,7 @@ import { preparedActiveSample } from '../../tests/fixtures/simulationActiveSkill
 import { automaticSkillRequest } from './automaticSkillRequest';
 import { assessAutomaticSkillResult } from './automaticSkillResult';
 import { buildAutomaticSkillArchive } from './continuousAttackArchive';
+import { initialAutomaticSkillView } from './automaticSkillPresentation';
 
 async function sample() {
   const { prepared, snapshot } = preparedActiveSample(true);
@@ -79,7 +80,7 @@ describe('自动模式完整累计与严格记录契约', () => {
   it('自动冻结导出保留真实计划与资格，过滤连接及鉴权信息', async () => {
     const { prepared, request, done } = await sample();
     const archive = buildAutomaticSkillArchive({ taskKind: 'automatic_skill', compileRequest: prepared.compileRequest, runRequest: request,
-      runResult: done, runInputHash: 'frozen', adminToken: 'private', error: 'Bearer private', cleanup: 'released' }, [0, 200]);
+      runResult: done, runInputHash: 'frozen', adminToken: 'private', error: 'Bearer private', cleanup: 'released' }, initialAutomaticSkillView(200));
     expect(JSON.stringify(archive)).not.toContain('private');
     expect(archive.runRequest).toMatchObject({ driverPlan: { skillActions: [], automaticSkills: { rules: [{ ruleKey: 'a' }] } } });
     expect(archive.runResult).toMatchObject({ automaticSkillSummary: { ruleCount: 1 }, automaticSkillRecords: done.automaticSkillRecords });

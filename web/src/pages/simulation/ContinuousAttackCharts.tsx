@@ -8,11 +8,14 @@ import { formatContinuousAmount, nearestContinuousPoint, type ContinuousAttackVi
 
 use([LineChart, ScatterChart, GridComponent, TooltipComponent, DataZoomComponent, MarkLineComponent, TitleComponent, AriaComponent, SVGRenderer]);
 
+export type ContinuousChartMarker = { key: string; timeMs: number; label: string; color: string; selected: boolean };
 type ChartProps = {
-  points: SeriesPoint[]; attacks: AttackRecord[]; view: ContinuousAttackView; durationMs: number;
+  points: SeriesPoint[]; attacks: AttackRecord[];
+  view: Pick<ContinuousAttackView, 'timeRangeMs' | 'dpsMode' | 'visibleCurves'> & { selectedAttack?: ContinuousAttackView['selectedAttack'] }; durationMs: number;
   killedAtMs: number | null; dpsWindowMs: number;
   onSelectAttack: (row: AttackRecord) => void; onRangeChange: (range: [number, number]) => void;
   onHover: (point: SeriesPoint) => void;
+  markers?: ContinuousChartMarker[]; onSelectMarker?: (key: string) => void;
 };
 const curveLabels: Record<string, string> = { sourceHp: 'A剩余生命', targetHp: 'B剩余生命',
   sourceDamageDealt: 'A累计造成伤害', targetDamageDealt: 'B累计造成伤害', sourceDps: 'A伤害率', targetDps: 'B伤害率' };
@@ -45,6 +48,15 @@ export function continuousAttackChartOption(props: ChartProps): EChartsCoreOptio
       } }
     });
   }
+  if (props.markers?.length) series.push({ id: 'combat-facts', name: '真实技能与结算事实', type: 'scatter', xAxisIndex: 0, yAxisIndex: 0,
+    symbol: 'diamond', symbolOffset: [0, -16], z: 5,
+    data: props.markers.map(marker => ({ value: [marker.timeMs, 0], markerKey: marker.key,
+      name: marker.label, symbolSize: marker.selected ? 16 : 8, itemStyle: { color: marker.color } })),
+    tooltip: { trigger: 'item', renderMode: 'richText', formatter: (event: unknown) => {
+      const data = (event as { data?: { name?: string; value?: number[] } }).data;
+      return data ? `${data.name}\n真实时刻：${data.value?.[0]}毫秒` : '';
+    } }
+  });
   if (killedAtMs !== null) {
     series.push({ id: 'target-killed', type: 'line', data: [], xAxisIndex: 0, yAxisIndex: 0,
       markLine: { silent: true, symbol: 'none', lineStyle: { color: '#F53F3F', type: 'dashed' },
@@ -88,7 +100,8 @@ export function ContinuousAttackCharts(props: ChartProps) {
     const instance = init(element, undefined, { renderer: 'svg' });
     chart.current = instance;
     instance.on('click', (event: unknown) => {
-      const data = (event as { data?: { planKey?: unknown; attackIndex?: unknown; useRef?: unknown } }).data;
+      const data = (event as { data?: { planKey?: unknown; attackIndex?: unknown; useRef?: unknown; markerKey?: string } }).data;
+      if (data?.markerKey) { current.current.onSelectMarker?.(data.markerKey); return; }
       const row = current.current.attacks.find(attack => attack.planKey === data?.planKey && attack.attackIndex === data.attackIndex && attack.useRef === data.useRef);
       if (row) current.current.onSelectAttack(row);
     });
@@ -112,7 +125,7 @@ export function ContinuousAttackCharts(props: ChartProps) {
     return () => { observer.disconnect(); instance.dispose(); chart.current = null; };
   }, []);
   useEffect(() => { chart.current?.setOption(continuousAttackChartOption(props), { notMerge: true }); },
-    [props.points, props.attacks, props.view, props.durationMs, props.killedAtMs, props.dpsWindowMs]);
+    [props.points, props.attacks, props.view, props.durationMs, props.killedAtMs, props.dpsWindowMs, props.markers]);
   return <div ref={container} data-testid="continuous-attack-charts" role="img" aria-label="生命、累计伤害和伤害率采样图"
     style={{ width: '100%', height: 610, minWidth: 320 }} />;
 }

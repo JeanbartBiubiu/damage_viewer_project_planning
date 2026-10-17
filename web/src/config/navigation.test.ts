@@ -11,7 +11,7 @@ import {
 } from './navigation';
 
 describe('product navigation', () => {
-  it('keeps management entries together and exposes only the delivered simulation entry', () => {
+  it('keeps management entries together and exposes the two simulation pages', () => {
     const dataGroup = navigationGroups.find((group) => group.id === 'data-management');
     const simulationGroup = navigationGroups.find((group) => group.id === 'simulation');
 
@@ -31,7 +31,10 @@ describe('product navigation', () => {
     ]);
     expect(simulationGroup).toMatchObject({
       mode: 'simulation',
-      items: [{ id: 'simulation/basic-attack', hashSegment: 'simulation/basic-attack', label: '普攻模拟' }]
+      items: [
+        { id: 'simulation/basic-attack', hashSegment: 'simulation/basic-attack', label: '普攻模拟' },
+        { id: 'simulation/combat-analysis', hashSegment: 'simulation/combat-analysis', label: '混合战斗分析' }
+      ]
     });
     expect(navigationGroupsForMode('management')).toEqual([dataGroup]);
     expect(navigationGroupsForMode('simulation')).toEqual([simulationGroup]);
@@ -47,7 +50,8 @@ describe('product navigation', () => {
       'statuses',
       'game-settings',
       'images',
-      'simulation/basic-attack'
+      'simulation/basic-attack',
+      'simulation/combat-analysis'
     ]);
     expect(dataGroup?.items.find((item) => item.id === 'attributes')).toMatchObject({
       hashSegment: 'attributes',
@@ -97,6 +101,9 @@ describe('product navigation', () => {
     expect(routeFromHash('#/attributes')).toBe('attributes');
     expect(routeFromHash('#/simulation/basic-attack')).toBe('simulation/basic-attack');
     expect(routeFromHash('#/simulation/basic-attack?source=direct')).toBe('simulation/basic-attack');
+    expect(routeFromHash('#/simulation/combat-analysis')).toBe('simulation/combat-analysis');
+    expect(routeFromHash('#/simulation/combat-analysis?source=direct')).toBe('simulation/combat-analysis');
+    expect(routeFromHash('#/simulation/combat-analysis/unexpected')).toBe('attributes');
     expect(routeFromHash('#/simulation/unknown')).toBe('attributes');
     expect(routeFromHash('#/attributes/unexpected')).toBe('attributes');
     expect(hashForRoute(routeFromHash('#/simulation/basic-attack?source=direct'))).toBe('#/simulation/basic-attack');
@@ -104,7 +111,9 @@ describe('product navigation', () => {
     expect(defaultRouteForMode('simulation')).toBe('simulation/basic-attack');
     expect(modeForRoute('attributes')).toBe('management');
     expect(modeForRoute('simulation/basic-attack')).toBe('simulation');
+    expect(modeForRoute('simulation/combat-analysis')).toBe('simulation');
     expect(navigationGroupIdForRoute('simulation/basic-attack')).toBe('simulation');
+    expect(navigationGroupIdForRoute('simulation/combat-analysis')).toBe('simulation');
   });
 
   it('does not expose old combat-data, publish or wasm-validation entries', () => {

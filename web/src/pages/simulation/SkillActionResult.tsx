@@ -1,7 +1,7 @@
 import { Alert, Button, InputNumber, Space, Table, Typography } from '@arco-design/web-react';
 import { useState } from 'react';
 import { buildContinuousAttackArchive, buildSkillActionArchive, buildSkillActionCsv, type SkillActionCsvKind } from '../../engine/continuousAttackArchive';
-import type { SkillActionArchive } from './BasicAttackCompilePanel';
+import type { SkillActionArchive } from './SimulationScenarioPanel';
 import { ContinuousAttackResult } from './ContinuousAttackResult';
 import { assessContinuousAttackResult } from '../../engine/continuousAttackResult';
 

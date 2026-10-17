@@ -165,6 +165,10 @@ class RelationApi {
       await this.json(route, { rules: [] });
       return;
     }
+    if (resource === 'calculation-rules' && tail.length === 1 && method === 'GET') {
+      await this.json(route, { gameId, baseDigest: 'c'.repeat(64), configuration: null });
+      return;
+    }
     if (resource === 'skills' && tail[2] === 'configuration' && tail.length === 3) {
       const skillKey = tail[1]!;
       if (method === 'GET') {

@@ -3,6 +3,7 @@ import { mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { simulationComplexSample } from '../fixtures/simulationComplexSkills';
 import { SKILL_TRIGGER_EVENT_TYPE_LABELS, SKILL_TRIGGER_SOURCE_TYPE_LABELS } from '../../src/types/skillSystemEnums.generated';
+import { parseSkillTriggerRuleDetail, parseSkillTriggerRuleSummary } from '../../src/services/skillTriggerRuleClient';
 
 const API = 'http://127.0.0.1:19085';
 const GAME_ID = 'authoring_p6';
@@ -610,12 +611,24 @@ test('系统枚举专项：受到普攻列表明细、固定事件选择和两�
   const assertClean = await prepare(page, api);
   const shell = await openTriggers(page);
   await expect(ruleCard(shell, 'received')).toContainText(SKILL_TRIGGER_EVENT_TYPE_LABELS.BASIC_ATTACK_RECEIVED);
-  const readback = await page.evaluate(async ({ base, gameId, skillKey }) => {
-    const { listSkillTriggerRules, getSkillTriggerRule } = await import(/* @vite-ignore */ '/src/services/skillTriggerRuleClient.ts');
-    const listed = await listSkillTriggerRules(base, gameId, skillKey, 'authoring-p6-example');
-    const loaded = await getSkillTriggerRule(base, gameId, skillKey, 'received', 'authoring-p6-example');
-    return { summaries: listed.data, detail: loaded.data };
+  // 浏览器保留真实HTTP读回，解析使用当前服务函数，避免依赖仅开发服务提供的源码地址。
+  // 后续界面断言仍经过正式构建的统一技能工作区；请求封装另由服务单测覆盖。
+  const wireReadback = await page.evaluate(async ({ base, gameId, skillKey }) => {
+    const path = `${base}/api/admin/games/${encodeURIComponent(gameId)}/skills/${encodeURIComponent(skillKey)}/trigger-rules`;
+    const headers = { Accept: 'application/json', Authorization: 'Bearer authoring-p6-example' };
+    const [listed, loaded] = await Promise.all([
+      fetch(path, { headers }), fetch(`${path}/received`, { headers })
+    ]);
+    if (!listed.ok || !loaded.ok) throw new Error(`规则读回失败：${listed.status}/${loaded.status}`);
+    const summaries: unknown = await listed.json();
+    if (!Array.isArray(summaries)) throw new Error('规则名单响应不是列表');
+    return { summaries, detail: await loaded.json(), statuses: [listed.status, loaded.status] };
   }, { base: API, gameId: GAME_ID, skillKey: SKILL_KEY });
+  expect(wireReadback.statuses).toEqual([200, 200]);
+  const readback = {
+    summaries: wireReadback.summaries.map(parseSkillTriggerRuleSummary),
+    detail: parseSkillTriggerRuleDetail(wireReadback.detail)
+  };
   expect(readback.summaries[0].eventType).toBe('BASIC_ATTACK_RECEIVED');
   expect(readback.detail.actions[0].runtimeInputBindings.map(binding => binding.sourceType)).toEqual(['COMBAT_ELAPSED_TIME', 'RECENT_DAMAGE_SUM']);
   await ruleCard(shell, 'received').getByRole('button', { name: '编辑', exact: true }).click();
