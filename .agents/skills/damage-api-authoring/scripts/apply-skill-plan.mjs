@@ -1,0 +1,361 @@
+#!/usr/bin/env node
+import { createHash, randomUUID } from 'node:crypto';
+import { mkdir, readFile, realpath, stat, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const KEY = /^[a-z][a-z0-9_]{0,63}$/;
+const SHA256 = /^[0-9a-f]{64}$/i;
+const COLLECTIONS = { parameters: 'parameterKey', formulas: 'formulaKey', effects: 'effectKey',
+  processes: 'processKey', internalStates: 'stateKey', triggerRules: 'ruleKey' };
+const TIMES = ['createdAt', 'updatedAt'];
+const RULE_FIELDS = ['name', 'description', 'sortOrder', 'eventSource', 'conditionGroups', 'actions',
+  'perTargetCooldown', 'maxTriggersPerProcess', 'oncePerUse'];
+const COMMON = ['gameId', 'skillKey', 'name', 'description', 'sortOrder'];
+const ROW_FIELDS = {
+  parameters: [...COMMON, 'parameterKey', 'valueType', 'valueMode', 'fixedValue', 'levelValues'],
+  formulas: [...COMMON, 'formulaKey', 'expression'],
+  effects: [...COMMON, 'effectKey', 'lifecycle', 'results'],
+  processes: [...COMMON, 'processKey', 'activationType', 'cooldown', 'steps', 'effectBindings', 'stateOperations'],
+  internalStates: [...COMMON, 'stateKey', 'stateType', 'scope', 'detail'],
+  triggerRules: ['ruleKey', ...RULE_FIELDS]
+};
+const hash = value => createHash('sha256').update(value).digest('hex');
+const clone = value => JSON.parse(JSON.stringify(value));
+const own = (value, key) => Object.prototype.hasOwnProperty.call(value, key);
+const fail = (where, reason) => { throw new Error(`${where}: ${reason}`); };
+const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+
+function object(value, required, where, optional = []) {
+  if (!isObject(value)) fail(where, '必须是完整对象');
+  for (const key of required) if (!own(value, key)) fail(`${where}.${key}`, '缺少字段');
+  for (const key of Object.keys(value)) if (!required.includes(key) && !optional.includes(key)) fail(`${where}.${key}`, '未知字段');
+  return value;
+}
+function string(value, where) {
+  if (typeof value !== 'string' || !value.trim()) fail(where, '必须是非空字符串');
+  return value;
+}
+function stableKey(value, where) {
+  if (typeof value !== 'string' || !KEY.test(value)) fail(where, '需要合法稳定标识');
+  return value;
+}
+function digest(value, where) {
+  if (typeof value !== 'string' || !SHA256.test(value)) fail(where, '需要64位SHA256');
+  return value;
+}
+function array(value, where) {
+  if (!Array.isArray(value)) fail(where, '必须是数组');
+  return value;
+}
+function json(value, where, depth = 0) {
+  if (depth > 128) fail(where, 'JSON嵌套过深');
+  if (value === null || typeof value === 'string' || typeof value === 'boolean') return;
+  if (typeof value === 'number' && Number.isFinite(value)) return;
+  if (Array.isArray(value)) { value.forEach((item, index) => json(item, `${where}[${index}]`, depth + 1)); return; }
+  if (!isObject(value) || Object.getPrototypeOf(value) !== Object.prototype) fail(where, '不是普通JSON值');
+  for (const [key, item] of Object.entries(value)) {
+    if (['__proto__', 'prototype', 'constructor'].includes(key)) fail(where, '包含不允许的对象属性');
+    json(item, `${where}.${key}`, depth + 1);
+  }
+}
+function namedRows(rows, key, where) {
+  const seen = new Set();
+  for (const [index, row] of array(rows, where).entries()) {
+    if (!isObject(row)) fail(`${where}[${index}]`, '必须是对象');
+    stableKey(row[key], `${where}[${index}].${key}`);
+    if (seen.has(row[key])) fail(where, `重复${key}`);
+    seen.add(row[key]);
+  }
+}
+function rule(value, where, includeKey) {
+  object(value, includeKey ? ['ruleKey', ...RULE_FIELDS] : RULE_FIELDS, where, includeKey ? TIMES : []);
+  if (includeKey) stableKey(value.ruleKey, `${where}.ruleKey`);
+  string(value.name, `${where}.name`);
+  if (value.description !== null && typeof value.description !== 'string') fail(`${where}.description`, '需要字符串或null');
+  if (!Number.isSafeInteger(value.sortOrder) || value.sortOrder < 0 || value.sortOrder > 999999) fail(`${where}.sortOrder`, '需要0～999999整数');
+  object(value.eventSource, ['eventType', 'detail'], `${where}.eventSource`);
+  string(value.eventSource.eventType, `${where}.eventSource.eventType`);
+  if (!isObject(value.eventSource.detail)) fail(`${where}.eventSource.detail`, '必须是对象');
+  namedRows(value.conditionGroups, 'groupKey', `${where}.conditionGroups`);
+  for (const [index, group] of value.conditionGroups.entries()) {
+    object(group, ['groupKey', 'name', 'sortOrder', 'conditions'], `${where}.conditionGroups[${index}]`);
+    namedRows(group.conditions, 'conditionKey', `${where}.conditionGroups[${index}].conditions`);
+  }
+  namedRows(value.actions, 'actionKey', `${where}.actions`);
+  if (!value.actions.length) fail(`${where}.actions`, '至少需要一个动作');
+  for (const [index, action] of value.actions.entries()) {
+    const actionPath = `${where}.actions[${index}]`;
+    object(action, ['actionKey', 'name', 'actionType', 'detail', 'sortOrder', 'targetContext', 'runtimeInputBindings', 'resultModifiers'], actionPath);
+    if (!isObject(action.detail)) fail(`${actionPath}.detail`, '必须是对象');
+    array(action.runtimeInputBindings, `${actionPath}.runtimeInputBindings`);
+    array(action.resultModifiers, `${actionPath}.resultModifiers`);
+  }
+  for (const field of ['perTargetCooldown', 'maxTriggersPerProcess', 'oncePerUse']) {
+    if (value[field] !== null && !isObject(value[field])) fail(`${where}.${field}`, '需要对象或null');
+  }
+}
+
+/** 只检查完整聚合读取的结构；业务细则仍由现行后端校验，不在脚本补默认值。 */
+export function validateConfiguration(value, gameId, skillKey, where = 'configuration') {
+  json(value, where);
+  object(value, ['skill', ...Object.keys(COLLECTIONS), 'baseDigest'], where);
+  digest(value.baseDigest, `${where}.baseDigest`);
+  object(value.skill, [...COMMON, 'maxLevel', 'status', 'skillCategoryKeys'], `${where}.skill`, TIMES);
+  if (value.skill.gameId !== gameId || value.skill.skillKey !== skillKey) fail(`${where}.skill`, '游戏或技能身份不符');
+  string(value.skill.name, `${where}.skill.name`);
+  if (!Number.isSafeInteger(value.skill.maxLevel) || value.skill.maxLevel < 1) fail(`${where}.skill.maxLevel`, '需要正整数');
+  if (!['ENABLED', 'DISABLED'].includes(value.skill.status)) fail(`${where}.skill.status`, '非法状态');
+  array(value.skill.skillCategoryKeys, `${where}.skill.skillCategoryKeys`).forEach(key => stableKey(key, `${where}.skill.skillCategoryKeys`));
+  for (const [collection, key] of Object.entries(COLLECTIONS)) {
+    namedRows(value[collection], key, `${where}.${collection}`);
+    for (const [index, row] of value[collection].entries()) {
+      const rowPath = `${where}.${collection}[${index}]`;
+      object(row, ROW_FIELDS[collection], rowPath, TIMES);
+      if (collection === 'triggerRules') { rule(row, rowPath, true); continue; }
+      if (row.gameId !== gameId || row.skillKey !== skillKey) fail(rowPath, '组成身份不符');
+      for (const field of ({ effects: ['results'], processes: ['steps', 'effectBindings', 'stateOperations'] }[collection] ?? [])) array(row[field], `${rowPath}.${field}`);
+      if (collection === 'formulas' && !isObject(row.expression)) fail(`${rowPath}.expression`, '必须是完整公式对象');
+    }
+  }
+  return value;
+}
+
+function canonical(value) {
+  if (Array.isArray(value)) return value.map(canonical);
+  return isObject(value) ? Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])])) : value;
+}
+const canonicalText = value => JSON.stringify(canonical(value));
+/** 仅忽略响应根摘要和直接实体行的服务时间；嵌套业务JSON同名字段保持比较。 */
+export function businessConfiguration(value) {
+  const result = clone(value);
+  delete result.baseDigest;
+  for (const time of TIMES) delete result.skill[time];
+  for (const collection of Object.keys(COLLECTIONS)) for (const row of result[collection]) for (const time of TIMES) delete row[time];
+  return result;
+}
+export function sameConfiguration(first, second) {
+  return canonicalText(businessConfiguration(first)) === canonicalText(businessConfiguration(second));
+}
+
+export function validatePlan(plan) {
+  json(plan, 'plan');
+  object(plan, ['schemaVersion', 'gameId', 'items'], 'plan');
+  if (plan.schemaVersion !== 'skill-configuration-plan-v1') fail('plan.schemaVersion', '不支持的计划版本');
+  stableKey(plan.gameId, 'plan.gameId');
+  if (!array(plan.items, 'plan.items').length) fail('plan.items', '至少一个技能');
+  const skills = new Set();
+  for (const [index, item] of plan.items.entries()) {
+    const where = `plan.items[${index}]`;
+    object(item, ['skillKey', 'before', 'expected', 'request', 'sourceEvidence'], where);
+    stableKey(item.skillKey, `${where}.skillKey`);
+    if (skills.has(item.skillKey)) fail(where, '技能重复');
+    skills.add(item.skillKey);
+    validateConfiguration(item.before, plan.gameId, item.skillKey, `${where}.before`);
+    validateConfiguration(item.expected, plan.gameId, item.skillKey, `${where}.expected`);
+    object(item.request, ['baseDigest', 'changes'], `${where}.request`);
+    if (item.request.baseDigest !== item.before.baseDigest) fail(`${where}.request.baseDigest`, '不等于冻结基线摘要');
+    const changes = array(item.request.changes, `${where}.request.changes`);
+    if (!changes.length) fail(`${where}.request.changes`, '没有变更');
+    const projected = clone(item.before);
+    const rules = new Set();
+    for (const [changeIndex, change] of changes.entries()) {
+      const changePath = `${where}.request.changes[${changeIndex}]`;
+      object(change, ['objectType', 'operation', 'key', 'value'], changePath);
+      if (change.objectType !== 'TRIGGER_RULE' || change.operation !== 'UPDATE') fail(changePath, '仅允许现有TRIGGER_RULE的UPDATE');
+      stableKey(change.key, `${changePath}.key`);
+      if (rules.has(change.key)) fail(changePath, '同一规则重复');
+      rules.add(change.key);
+      rule(change.value, `${changePath}.value`, false);
+      const position = projected.triggerRules.findIndex(row => row.ruleKey === change.key);
+      if (position < 0) fail(`${changePath}.key`, '原规则不存在');
+      const currentRule = projected.triggerRules[position];
+      const replacement = { ruleKey: change.key, ...clone(change.value),
+        ...Object.fromEntries(TIMES.filter(time => own(currentRule, time)).map(time => [time, currentRule[time]])) };
+      if (canonicalText(currentRule) === canonicalText(replacement)) fail(changePath, '未改变业务字段');
+      projected.triggerRules[position] = replacement;
+    }
+    if (!sameConfiguration(projected, item.expected)) fail(`${where}.expected`, '与PATCH投影不一致，包含未声明修改或丢失字段');
+    if (!array(item.sourceEvidence, `${where}.sourceEvidence`).length) fail(`${where}.sourceEvidence`, '缺少冻结来源');
+    for (const [sourceIndex, source] of item.sourceEvidence.entries()) {
+      const sourcePath = `${where}.sourceEvidence[${sourceIndex}]`;
+      object(source, ['path', 'sha256', 'note'], sourcePath);
+      string(source.path, `${sourcePath}.path`);
+      if (source.path.includes('\0') || /^[a-z][a-z0-9+.-]*:\/\//i.test(source.path)) fail(`${sourcePath}.path`, '必须是本地冻结来源文件');
+      digest(source.sha256, `${sourcePath}.sha256`);
+      string(source.note, `${sourcePath}.note`);
+    }
+  }
+  return plan;
+}
+
+function apiBase(value) {
+  if (typeof value !== 'string' || value.trim() !== value || /[\s\\]/.test(value)) fail('api-base', '非法地址');
+  let url;
+  try { url = new URL(value); } catch { fail('api-base', '非法地址'); }
+  if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || url.search || url.hash
+    || !/^\/(?:[a-zA-Z0-9_-]+\/?)*$/.test(url.pathname)) fail('api-base', '只允许无凭据和查询串的HTTP(S)基址');
+  return url.toString().replace(/\/$/, '');
+}
+function redact(value, token) {
+  if (typeof value === 'string') {
+    const hidden = token ? value.split(token).join('[已隐藏令牌]') : value;
+    return hidden.replace(/\bBearer\s+[^\s,;"']+/gi, '鉴权信息已隐藏');
+  }
+  if (Array.isArray(value)) return value.map(item => redact(item, token));
+  if (!isObject(value)) return value;
+  return Object.fromEntries(Object.entries(value).filter(([key]) =>
+    !/^(?:headers?|authorization|proxyAuthorization|set-cookie|cookies?|password|passwd|secret|apiKey|api_key|accessToken|refreshToken|bearerToken|adminToken|token)$/i.test(key))
+    .map(([key, item]) => [key, redact(item, token)]));
+}
+const safeError = (error, token) => redact(error instanceof Error ? error.message : String(error), token);
+
+const DEFAULT_TIMEOUT_MS = 60000;
+
+/** token仅从env取得；fetchImpl只供本地transport测试；timeoutMs覆盖响应头和完整响应体读取。 */
+export async function runSkillPlan({ apiBase: suppliedBase, planPath, outputDir, apply = false, env = process.env,
+  fetchImpl = globalThis.fetch, timeoutMs = DEFAULT_TIMEOUT_MS }) {
+  const token = env.DAMAGE_AUTHORING_TOKEN;
+  if (typeof token !== 'string' || !token || /\s/.test(token)) fail('DAMAGE_AUTHORING_TOKEN', '请通过环境变量提供无空白的令牌');
+  const base = apiBase(suppliedBase);
+  if (typeof planPath !== 'string' || !planPath || typeof outputDir !== 'string' || !outputDir) fail('paths', '必须明确提供plan和output-dir');
+  await mkdir(path.resolve(outputDir), { recursive: true });
+  const attemptDir = path.resolve(outputDir, `attempt-${new Date().toISOString().replace(/[:.]/g, '-')}-${randomUUID().slice(0, 8)}`);
+  await mkdir(attemptDir);
+  const save = (filename, value) => writeFile(path.resolve(attemptDir, filename), `${JSON.stringify(redact(value, token), null, 2)}\n`, { flag: 'wx' });
+  const summary = { schemaVersion: 'skill-configuration-attempt-v1', mode: apply ? 'apply' : 'dry-run', attemptDir,
+    startedAt: new Date().toISOString(), timeoutMs, passed: false, patchCount: 0, items: [], error: null };
+  async function exchange(method, url, body) {
+    try {
+      const response = await fetchImpl(url, { method, headers: { Authorization: `Bearer ${token}`,
+        ...(method === 'PATCH' ? { 'Content-Type': 'application/json' } : {}) },
+        ...(method === 'PATCH' ? { body: JSON.stringify(body) } : {}), redirect: 'error', signal: AbortSignal.timeout(timeoutMs) });
+      const text = await response.text();
+      let data;
+      let jsonError = false;
+      try { data = JSON.parse(text); } catch { jsonError = true; data = { unparsedText: text }; }
+      return { status: response.status, ok: response.ok, jsonError, body: data };
+    } catch (error) { return { status: null, ok: false, error: safeError(error, token) }; }
+  }
+  function checkedRead(reply, gameId, skillKey, label) {
+    if (!reply.ok || reply.jsonError) fail(label, `读取失败（HTTP ${reply.status ?? '结果不明'}）`);
+    return validateConfiguration(reply.body, gameId, skillKey, label);
+  }
+  try {
+    const raw = await readFile(path.resolve(planPath));
+    summary.planSHA256 = hash(raw);
+    const plan = validatePlan(JSON.parse(raw.toString('utf8').replace(/^\uFEFF/, '')));
+    summary.gameId = plan.gameId;
+    // 整批计划与来源先核对；任何静态问题都不能让前面对象先写入。
+    const sourceProofs = [];
+    for (const item of plan.items) for (const source of item.sourceEvidence) {
+      const resolved = path.resolve(path.dirname(path.resolve(planPath)), source.path);
+      const resolvedReal = await realpath(resolved);
+      const file = await stat(resolvedReal);
+      if (!file.isFile() || file.size === 0) fail('sourceEvidence', '冻结来源不是非空文件');
+      const actualSHA256 = hash(await readFile(resolvedReal));
+      if (actualSHA256 !== source.sha256.toLowerCase()) fail('sourceEvidence', '冻结来源摘要不符');
+      sourceProofs.push({ skillKey: item.skillKey, path: source.path, resolvedPath: resolvedReal, sha256: actualSHA256, note: source.note });
+    }
+    await save('plan.json', plan);
+    await save('sources.json', sourceProofs);
+    for (const [index, item] of plan.items.entries()) {
+      const subdirectory = `${String(index + 1).padStart(4, '0')}-${item.skillKey}`;
+      await mkdir(path.resolve(attemptDir, subdirectory));
+      await save(`${subdirectory}/planned-before.json`, item.before);
+      await save(`${subdirectory}/expected.json`, item.expected);
+      await save(`${subdirectory}/request.json`, item.request);
+      await save(`${subdirectory}/source-evidence.json`, sourceProofs.filter(source => source.skillKey === item.skillKey));
+      summary.items.push({ skillKey: item.skillKey, directory: subdirectory, status: 'not-attempted', patchCount: 0, landed: false });
+    }
+    for (const [index, item] of plan.items.entries()) {
+      const result = summary.items[index];
+      const subdirectory = result.directory;
+      result.status = 'reading';
+      try {
+        const url = `${base}/api/admin/games/${encodeURIComponent(plan.gameId)}/skills/${encodeURIComponent(item.skillKey)}/configuration`;
+        const beforeReply = await exchange('GET', url);
+        await save(`${subdirectory}/before-response.json`, beforeReply);
+        const current = checkedRead(beforeReply, plan.gameId, item.skillKey, 'before');
+        await save(`${subdirectory}/before.json`, current);
+        if (sameConfiguration(current, item.expected)) {
+          result.status = 'skipped-already-applied'; result.landed = true;
+          await save(`${subdirectory}/after.json`, current);
+          continue;
+        }
+        if (current.baseDigest !== item.before.baseDigest || !sameConfiguration(current, item.before)) {
+          result.status = 'blocked-drift'; fail(item.skillKey, '当前完整配置或摘要已漂移，停止本批');
+        }
+        if (!apply) { result.status = 'dry-run-ready'; continue; }
+        // 意图先落盘；PATCH只调用一次。后续任何结果都不换摘要、不重放。
+        await save(`${subdirectory}/patch-intent.json`, { method: 'PATCH', skillKey: item.skillKey, at: new Date().toISOString() });
+        summary.patchCount++; result.patchCount++;
+        const patchReply = await exchange('PATCH', url, item.request);
+        const afterReply = await exchange('GET', url);
+        await save(`${subdirectory}/patch-response.json`, patchReply);
+        await save(`${subdirectory}/after-response.json`, afterReply);
+        let after;
+        try { after = checkedRead(afterReply, plan.gameId, item.skillKey, 'after'); }
+        catch (error) { result.status = 'blocked-readback'; throw error; }
+        await save(`${subdirectory}/after.json`, after);
+        result.landed = sameConfiguration(after, item.expected);
+        if (patchReply.status >= 400 && patchReply.status < 500) {
+          result.status = 'blocked-http-rejection'; fail(item.skillKey, `PATCH明确拒绝（HTTP ${patchReply.status}），已回读并停止本批`);
+        }
+        if (!result.landed) {
+          result.status = 'blocked-unconfirmed'; fail(item.skillKey, '独立回读未等于完整expected；结果不明，停止本批且不重放');
+        }
+        if (patchReply.status === null || patchReply.status >= 500) result.status = 'applied-confirmed-after-uncertain';
+        else {
+          try {
+            const responseConfiguration = checkedRead(patchReply, plan.gameId, item.skillKey, 'patch-response');
+            if (!sameConfiguration(responseConfiguration, item.expected)) fail('patch-response', '完整配置不等于expected');
+          } catch (error) { result.status = 'blocked-response-contract'; throw error; }
+          result.status = 'applied';
+        }
+      } catch (error) {
+        if (result.status === 'reading') result.status = 'blocked-read';
+        result.error = safeError(error, token);
+        throw error;
+      } finally { await save(`${subdirectory}/status.json`, result); }
+    }
+    summary.passed = true;
+  } catch (error) { summary.error = safeError(error, token); }
+  for (const result of summary.items) if (result.status === 'not-attempted') await save(`${result.directory}/status.json`, result);
+  summary.finishedAt = new Date().toISOString();
+  await save('summary.json', summary);
+  return summary;
+}
+
+export function parseCli(argv) {
+  const options = { apply: false };
+  const flags = { '--api-base': 'apiBase', '--plan': 'planPath', '--output-dir': 'outputDir', '--timeout-ms': 'timeoutMs' };
+  for (let index = 0; index < argv.length; index++) {
+    const flag = argv[index];
+    if (flag === '--apply') { if (options.apply) fail('args', '重复--apply'); options.apply = true; continue; }
+    const key = flags[flag];
+    if (!key || own(options, key) || !argv[index + 1] || argv[index + 1].startsWith('--')) fail('args', '未知、重复或缺值的参数');
+    options[key] = argv[++index];
+  }
+  if (!options.apiBase || !options.planPath || !options.outputDir) fail('args', '需要--api-base --plan --output-dir [--timeout-ms <毫秒>] [--apply]');
+  if (own(options, 'timeoutMs')) {
+    const parsed = Number(options.timeoutMs);
+    if (!/^\d+$/.test(options.timeoutMs) || !Number.isSafeInteger(parsed) || parsed < 1000 || parsed > 300000) {
+      fail('args', '--timeout-ms必须是1000至300000之间的安全整数');
+    }
+    options.timeoutMs = parsed;
+  } else options.timeoutMs = DEFAULT_TIMEOUT_MS;
+  return options;
+}
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  if (process.argv.length === 3 && process.argv[2] === '--help') {
+    console.log('node apply-skill-plan.mjs --api-base http://127.0.0.1:8080 --plan <plan.json> --output-dir <evidence-directory> [--timeout-ms <1000..300000>] [--apply]\n令牌仅取DAMAGE_AUTHORING_TOKEN；默认只读，每次创建独立attempt目录。\n超时默认60000毫秒，包含完整响应体读取；写入结果不明时只独立回读，未确认完整expected即停批，不自动重发。');
+  } else {
+    try {
+      const summary = await runSkillPlan(parseCli(process.argv.slice(2)));
+      console.log(JSON.stringify(redact({ mode: summary.mode, passed: summary.passed, attemptDir: summary.attemptDir,
+        patchCount: summary.patchCount, items: summary.items.map(({ skillKey, status }) => ({ skillKey, status })), error: summary.error }, process.env.DAMAGE_AUTHORING_TOKEN)));
+      if (!summary.passed) process.exitCode = 1;
+    } catch (error) { console.error(safeError(error, process.env.DAMAGE_AUTHORING_TOKEN)); process.exitCode = 1; }
+  }
+}
