@@ -6,6 +6,7 @@ import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import type { OperationOrigin } from './simulationAdapter';
 import { committedSkillControl, inspectSimulationProcessFacts } from './simulationProcessFacts';
 import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, empoweredUseRecordIssue, requireEmpoweredBasicAttack } from './empoweredAttackContract';
+import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
 
 export type SkillActionAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
 const close = (first: number, second: number) => Math.abs(first - second) <= 1e-9 * Math.max(1, Math.abs(first), Math.abs(second));
@@ -95,7 +96,9 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     const useRecords = done.skillUseRecords;
     const healingRecords = done.healingRecords;
     const damageRecords = done.damageRecords;
-    if (!Array.isArray(actionRecords) || !Array.isArray(useRecords) || !Array.isArray(healingRecords) || !Array.isArray(damageRecords) || !done.recording) throw new Error('done: 缺少独立有限记录及保留统计');
+    const mechanicRecords = done.mechanicRecords;
+    if (!Array.isArray(actionRecords) || !Array.isArray(useRecords) || !Array.isArray(healingRecords) || !Array.isArray(damageRecords)
+      || !Array.isArray(mechanicRecords) || !done.recording) throw new Error('done: 缺少独立有限记录及保留统计');
     identityGaps.push(...empoweredAttackIdentityGaps(request, done));
     const recording = done.recording as unknown as Record<string, unknown>;
     if (done.recording.skillActionRecordsTruncated) identityGaps.push('行动记录已截断，无法逐项核实所有保留明细与已接受指令的使用身份关联');
@@ -105,7 +108,8 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       ['skillUse', useRecords, request.recordBudget?.maxSkillUseRecords ?? 2000, uses.startedCount + uses.releasedCount + uses.hitCount + uses.completedCount
         + uses.failedCount + uses.stepEnteredCount + uses.stepExecutedCount + uses.stepCompletedCount],
       ['healing', healingRecords, request.recordBudget?.maxHealingRecords ?? 2000, null],
-      ['damage', damageRecords, request.recordBudget?.maxDamageRecords ?? 2000, null]
+      ['damage', damageRecords, request.recordBudget?.maxDamageRecords ?? 2000, null],
+      ['mechanic', mechanicRecords, request.recordBudget?.maxMechanicRecords ?? 0, null]
     ] as const;
     for (const [kind, records, maximum, expected] of groups) {
       const capital = kind[0]!.toUpperCase() + kind.slice(1);
@@ -319,7 +323,8 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       const continuous = assessContinuousAttackResult(compile, request, done, origins);
       issues.push(...continuous.issues);
     } else {
-      issues.push(...inspectSimulationProcessFacts(compile, request, done).issues);
+      const processFacts = inspectSimulationProcessFacts(compile, request, done);
+      issues.push(...processFacts.issues, ...inspectActiveAmmoMechanics(compile, request, done, processFacts.processes));
       if (healingRecords.length || damageRecords.length) issues.push(...inspectSimulationHealthLedger(compile, request, done));
     }
     check(done.ok === true, 'done.ok', '原生执行未返回成功载荷');

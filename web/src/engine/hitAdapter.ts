@@ -9,6 +9,7 @@ import type {
 } from '../types/skillEffect';
 import type { SkillFormula } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
+import type { SkillInternalState } from '../types/skillInternalState';
 import type { SkillProcess } from '../types/skillProcess';
 import type { GameStatus, StatusKind } from '../types/status';
 import type { ModifierZone } from '../types/modifierZone';
@@ -50,6 +51,7 @@ export type AuthoredHitProgram = {
   effects: readonly SkillEffect[];
   parameters?: readonly SkillParameter[];
   formulas?: readonly SkillFormula[];
+  internalStates?: readonly SkillInternalState[];
   statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'statusKind' | 'status'>>;
   modifierZones?: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'calculationMode' | 'status'>
     & Partial<Pick<ModifierZone, 'gameId' | 'applicationStage'>>>;
@@ -269,7 +271,23 @@ function convertRuleConditions(
         fingerprints.push(compiled.fingerprint);
         continue;
       }
-      remaining.push(compileHitIdentityCondition(condition, path, authored));
+      if (condition.conditionType === 'INTERNAL_STATE_CHECK') {
+        const detail = condition.detail;
+        const definitions = authored.internalStates?.filter(row => row.stateKey === detail.stateKey) ?? [];
+        const definition = definitions[0];
+        if (definitions.length !== 1 || !definition || definition.gameId !== authored.gameId || definition.skillKey !== authored.skillKey
+          || detail.stateSkillKey !== authored.skillKey || definition.stateType !== 'COUNTER' || definition.scope !== 'SKILL'
+          || detail.valueKind !== 'VALUE' || detail.optionKey !== null || detail.expectedBoolean !== null
+          || !detail.comparator || !COMPARATORS[detail.comparator] || !detail.comparisonValue
+          || Object.keys(detail).some(key => !['stateSkillKey', 'stateKey', 'valueKind', 'optionKey', 'expectedBoolean', 'comparator', 'comparisonValue'].includes(key))) {
+          fail(path, '命中状态比较仅允许本技能自身整数计数当前值');
+        }
+        const right = compileNumericValue(detail.comparisonValue, `${path}.comparisonValue`,
+          { ...state, bindParameters: false, allowAttributeReads: false, runtimeInputReads: undefined, sceneParameterValues: undefined }, fail);
+        const threshold = tryFoldConstant(right);
+        if (threshold === null || !Number.isSafeInteger(threshold) || threshold < 0) fail(path, '命中状态门槛必须为明确非负整数');
+        remaining.push({ op: COMPARATORS[detail.comparator]!, args: [{ op: 'read', path: `provider.state.${detail.stateKey}` }, right] });
+      } else remaining.push(compileHitIdentityCondition(condition, path, authored));
     }
     extracted.push({ event, remaining: combine('min', remaining), fingerprints: fingerprints.slice().sort() });
   }

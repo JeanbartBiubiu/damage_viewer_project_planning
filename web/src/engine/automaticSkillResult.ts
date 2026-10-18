@@ -10,6 +10,7 @@ import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import { AUTOMATIC_SKILL_RECORD_KINDS, AUTOMATIC_SKILL_WAIT_REASONS } from '../types/skillSystemEnums.generated';
 import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 import { tryFoldConstant } from './numericAdapter';
+import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
 
 export type AutomaticSkillAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
 type Row = Record<string, unknown>;
@@ -375,6 +376,7 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       }
       if (!done.recording.damageRecordsTruncated && !done.recording.healingRecordsTruncated) issues.push(...inspectSimulationHealthLedger(compile, request, done));
       if (request.driverPlan.basicAttack) issues.push(...assessContinuousAttackResult(compile, request, done, origins).issues);
+      else issues.push(...inspectActiveAmmoMechanics(compile, request, done, processFacts.processes, mechanics));
     }
     if (request.driverPlan.basicAttack) {
       const basic = object(summary.basicAttack, 'summary.basicAttack');

@@ -3,11 +3,14 @@ import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { NumericValue } from '../types/numericValue';
 import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
-import { validateSimulationSkillSourceManifest } from './simulationSkillSourceDescription';
+import { naturalRuleKeys, plannedSkillRuleKeys, sourceIsPlanned, validateSimulationSkillSourceManifest } from './simulationSkillSourceDescription';
+import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
+import { validateStateInitialBinding } from './stateInitialParameterBinding';
 import { NumericAdaptationError } from './numericAdapter';
 
 type Side = 'source' | 'target';
-type Binding = { ruleKey: string; actionKey: string; bindingKey: string; effectKey: string };
+type Binding = { ruleKey?: string; actionKey?: string; bindingKey: string; effectKey?: string;
+  stateKey?: string; field?: 'initialValue' | 'initialRemainingValue' };
 export type SceneInitialParameterRequirement = {
   side: Side; origin: SimulationSkillOrigin; skillKey: string; parameterKey: string;
   skillName: string; parameterName: string; valueType: 'INTEGER' | 'DECIMAL';
@@ -41,14 +44,60 @@ const ownerKey = (side: Side, origin: SimulationSkillOrigin, skillKey: string, p
 /** 只收集真实启用来源的显式声明；缺值时不代填边界值运行预检。 */
 export function sceneInitialParameterRequirements(snapshot: SimulationSnapshot): SceneInitialParameterRequirement[] {
   if (!snapshot.skillConfigurations.some(configuration => configuration.triggerRules.some(rule =>
-    rule.actions.some(action => action.runtimeInputBindings.some(binding => binding.sourceType === 'SCENE_INITIAL_PARAMETER'))))) return [];
+    rule.actions.some(action => action.runtimeInputBindings.some(binding => binding.sourceType === 'SCENE_INITIAL_PARAMETER')))
+    || configuration.internalStates.some(row => (row.stateType === 'COUNTER' || row.stateType === 'AMMO')
+      && (row.detail.initialValueBinding !== undefined || row.stateType === 'AMMO' && row.detail.initialRemainingMsBinding !== undefined)))) return [];
   validateSimulationSkillSourceManifest(snapshot);
   const requirements = new Map<string, SceneInitialParameterRequirement>();
   for (const side of ['source', 'target'] as const) for (const source of snapshot[side].skillSources) {
     if (!source.enabled || source.skillStatus !== 'ENABLED' || source.skillLevel === 0 || source.skillLevel === null) continue;
     const rows = snapshot.skillConfigurations.filter(row => row.skill.skillKey === source.skillKey);
     if (rows.length !== 1) fail('sceneParameterInputs', '初始化来源缺少完整配置');
-    const configuration = rows[0]!;
+    const complete = rows[0]!;
+    const planned = sourceIsPlanned(snapshot, side, source);
+    const plan = planned ? snapshot.selection.plannedSkills.find(row => simulationSkillSourceIdentity(row.origin, row.skillKey)
+      === simulationSkillSourceIdentity(source.origin, source.skillKey)) : undefined;
+    const roots = [...new Set([...naturalRuleKeys(snapshot, complete, side), ...(plan ? plannedSkillRuleKeys(complete, plan.phaseKinds) : [])])];
+    if (!roots.length || source.inactiveReason === 'ACTIVE_DEFERRED' || source.inactiveReason === 'NO_AUTONOMOUS_ATTACK') continue;
+    const configuration = selectSimulationSkillSourceClosure(complete, roots).configuration;
+    const add = (binding: import('../types/skillTriggerRule').SkillTriggerSceneInitialParameterBinding, location: Binding, path: string,
+      integerOnly = false) => {
+      exact(binding, ['bindingKey', 'parameterKey', 'sourceType', 'detail'], path);
+      exact(binding.detail, ['minValue', 'maxValue'], `${path}.detail`);
+      const { minValue, maxValue } = binding.detail;
+      if (typeof minValue !== 'number' || typeof maxValue !== 'number' || !Number.isFinite(minValue) || !Number.isFinite(maxValue)
+        || minValue > maxValue) fail(path, '场景初值必须声明有限且有序的上下界');
+      const parameters = configuration.parameters.filter(row => row.parameterKey === binding.parameterKey);
+      const parameter = parameters[0];
+      if (parameters.length !== 1 || !parameter || parameter.gameId !== snapshot.gameId || parameter.skillKey !== source.skillKey
+        || parameter.valueMode !== 'RUNTIME_INPUT' || parameter.fixedValue !== null || parameter.levelValues !== null
+        || !['INTEGER', 'DECIMAL'].includes(parameter.valueType) || integerOnly && parameter.valueType !== 'INTEGER') fail(path, '初值必须绑定本技能无默认的计算时数值参数');
+      if (parameter.valueType === 'INTEGER' && (!Number.isSafeInteger(minValue) || !Number.isSafeInteger(maxValue))) fail(path, '整数初值边界必须为安全整数');
+      const key = ownerKey(side, source.origin, source.skillKey, parameter.parameterKey);
+      let requirement = requirements.get(key);
+      if (requirement && (requirement.minValue !== minValue || requirement.maxValue !== maxValue)) fail(path, '同一来源参数的初始化边界不一致');
+      if (!requirement) {
+        requirement = { side, origin: structuredClone(source.origin), skillKey: source.skillKey, parameterKey: parameter.parameterKey,
+          skillName: configuration.skill.name, parameterName: parameter.name, valueType: parameter.valueType,
+          minValue, maxValue, declarationIdentity: '', bindings: [] };
+        requirements.set(key, requirement);
+      }
+      if (requirement.bindings.some(row => JSON.stringify(row) === JSON.stringify(location)
+        || location.actionKey !== undefined && row.ruleKey === location.ruleKey && row.actionKey === location.actionKey)) fail(path, '初始化参数在同动作中重复绑定');
+      requirement.bindings.push(location);
+      requirement.declarationIdentity = JSON.stringify([snapshot.gameId, key, configuration.baseDigest, source.skillLevel,
+        snapshot.selection[`${side}Level`], parameter.valueType, minValue, maxValue, requirement.bindings]);
+    };
+    for (const row of configuration.internalStates) if (row.stateType === 'COUNTER' || row.stateType === 'AMMO') {
+      for (const field of ['initialValue', ...(row.stateType === 'AMMO' ? ['initialRemainingValue'] as const : [])] as const) {
+        const path = `skills.${source.skillKey}.internalStates.${row.stateKey}.detail.${field}`;
+        const binding = validateStateInitialBinding(row, field, configuration.parameters, snapshot.gameId, source.skillKey, path);
+        if (binding) {
+          if (side === 'source' && source.skillKey === snapshot.selection.basicAttackSkillKey) fail(path, '所选普通攻击继续使用既有机制初值路径，不接入此场景状态声明');
+          add(binding, { bindingKey: binding.bindingKey, stateKey: row.stateKey, field }, path, true);
+        }
+      }
+    }
     for (const rule of configuration.triggerRules) for (const action of rule.actions) for (const binding of action.runtimeInputBindings) {
       if (binding.sourceType !== 'SCENE_INITIAL_PARAMETER') continue;
       const path = `skills.${source.skillKey}.triggerRules.${rule.ruleKey}.actions.${action.actionKey}.runtimeInputBindings.${binding.bindingKey}`;
@@ -72,6 +121,7 @@ export function sceneInitialParameterRequirements(snapshot: SimulationSnapshot):
         || parameter.valueMode !== 'RUNTIME_INPUT' || parameter.fixedValue !== null || parameter.levelValues !== null
         || !['INTEGER', 'DECIMAL'].includes(parameter.valueType)) fail(path, '初值必须绑定本技能无默认的计算时数值参数');
       if (parameter.valueType === 'INTEGER' && (!Number.isSafeInteger(minValue) || !Number.isSafeInteger(maxValue))) fail(path, '整数初值边界必须为安全整数');
+      if (action.actionType !== 'EXECUTE_EFFECT') fail(path, '场景初值动作未接入');
       const effects = configuration.effects.filter(row => row.effectKey === action.detail.effectKey);
       const effect = effects[0];
       if (effects.length !== 1 || !effect || !effect.results.some(result => consumes(configuration, result.valueRule?.value, parameter.parameterKey))) {

@@ -10,6 +10,7 @@ import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import { inspectSimulationProcessFacts, simulationActionContribution } from './simulationProcessFacts';
 import { empoweredDamageProcess } from './empoweredAttackContract';
+import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
@@ -396,6 +397,9 @@ export function assessContinuousAttackResult(
   const primaryProvider = input.sharedProviders?.find(provider => provider.providerKey === primaryMount?.definitionRef);
   const ammoDeclarations = Object.entries(primaryProvider?.initialStateSchema ?? {}).filter(([, field]) =>
     typeof field === 'object' && field.stateKind === 'ammo') as Array<[string, ProviderStateFieldSchema]>;
+  const isPrimaryMechanic = (row: MechanicRecord) => row.owner === plan.source && row.providerRef === primaryRef
+    && row.providerDefinitionRef === primaryProvider?.providerKey && row.skillKey === plan.skillKey
+    && ammoDeclarations.some(([key]) => key === row.stateKey);
   const mechanics = array(result.mechanicRecords, 'runResult.mechanicRecords').map((value, index) => {
     const path = `mechanicRecords[${index}]`; const row = object(value, path);
     const at = integer(row.timeMs, `${path}.timeMs`);
@@ -406,6 +410,7 @@ export function assessContinuousAttackResult(
     const after = integer(row.afterValue, `${path}.afterValue`);
     const ready = nullableTime(row.readyAtMs, `${path}.readyAtMs`);
     if (row.useRef !== null) text(row.useRef, `${path}.useRef`);
+    if (!isPrimaryMechanic(row as MechanicRecord)) return row as MechanicRecord;
     check(at <= finalTime && row.owner === plan.source && row.providerRef === primaryRef && row.providerDefinitionRef === primaryProvider?.providerKey
       && row.skillKey === plan.skillKey && !!declaration && maximum !== null && before <= maximum && after <= maximum, path, '机制记录身份、时刻或库存与主体声明不一致');
     check(['STATE_CHANGED', 'WAIT_STARTED', 'WAIT_ENDED'].includes(row.kind as string), path, '未知机制记录种类');
@@ -415,12 +420,14 @@ export function assessContinuousAttackResult(
       path, '库存变化必须是实际消费1或合法一次补满');
     return row as MechanicRecord;
   });
+  const primaryMechanics = mechanics.filter(isPrimaryMechanic);
   mechanics.forEach((row, index) => check(index === 0 || mechanics[index - 1]!.timeMs <= row.timeMs, `mechanicRecords[${index}]`, '机制记录时刻逆序'));
   const initialAmmo = ammoDeclarations.length === 1 ? ammoDeclarations[0]![1].defaultValue : undefined;
   const initialMechanicReadyAt = nullableTime(basic.initialMechanicReadyAtMs ?? null, 'summary.basicAttack.initialMechanicReadyAtMs');
   const initialActionReadyAt = nullableTime(basic.initialActionReadyAtMs, 'summary.basicAttack.initialActionReadyAtMs');
   const processFacts = mixed ? inspectSimulationProcessFacts(input, request, done) : { issues: [], occupancies: [], processes: [], empoweredSuccessions: new Map() };
   issues.push(...processFacts.issues);
+  issues.push(...inspectActiveAmmoMechanics(input, request, done, processFacts.processes, mechanics.filter(row => !isPrimaryMechanic(row))));
   const actualAttackStarts = [...processUses.values()].map(process => process.startedAtMs as number).sort((first, second) => first - second);
   const firstActualStart = actualAttackStarts[0] ?? Infinity;
   const expectedActionContribution = (start: number, end: number) => simulationActionContribution(processFacts.occupancies, start, end);
@@ -560,17 +567,17 @@ export function assessContinuousAttackResult(
     check(count === returned + dropped && returned === rows.length && returned === Math.min(count, maximum) && truncated === (dropped > 0), 'recording', '记录预算、总数、返回数或截断说明矛盾');
   }
   check(recording.attackRecordCount === startedCount && recording.damageRecordCount === sum(breakdown, 'damageCount'), 'recording', '可靠总条数与攻击、分类汇总不一致');
-  for (const row of mechanics) if (row.useRef !== null) check(attacks.some(attack => attack.useRef === row.useRef && attack.startAtMs === row.timeMs)
+  for (const row of primaryMechanics) if (row.useRef !== null) check(attacks.some(attack => attack.useRef === row.useRef && attack.startAtMs === row.timeMs)
     || recording.attackRecordsTruncated === true, 'mechanicRecords.useRef', '机制使用身份必须来自同刻真实攻击');
   if (recording.mechanicRecordsTruncated === false) {
     if (initialMechanicReadyAt !== null) {
-      check(mechanics.some(row => row.kind === 'WAIT_STARTED' && row.timeMs === 0 && row.useRef === null
+      check(primaryMechanics.some(row => row.kind === 'WAIT_STARTED' && row.timeMs === 0 && row.useRef === null
         && row.readyAtMs === initialMechanicReadyAt), 'summary.basicAttack.initialMechanicReadyAtMs', '完整机制记录缺少初始等待安排');
-      if (initialMechanicReadyAt <= finalTime) check(mechanics.some(row => row.kind === 'WAIT_ENDED'
+      if (initialMechanicReadyAt <= finalTime) check(primaryMechanics.some(row => row.kind === 'WAIT_ENDED'
         && row.timeMs === initialMechanicReadyAt && row.useRef === null),
       'summary.basicAttack.initialMechanicReadyAtMs', '完整机制记录缺少初始恢复完成');
     }
-    for (const attack of attacks) if (attack.mechanicReadyAtMs !== null && attack.mechanicReadyAtMs > attack.startAtMs) check(mechanics.some(row => row.kind === 'WAIT_STARTED'
+    for (const attack of attacks) if (attack.mechanicReadyAtMs !== null && attack.mechanicReadyAtMs > attack.startAtMs) check(primaryMechanics.some(row => row.kind === 'WAIT_STARTED'
       && row.owner === plan.source && row.providerRef === primaryRef && row.skillKey === plan.skillKey
       && row.timeMs === attack.startAtMs && (row.useRef === null || row.useRef === attack.useRef) && row.readyAtMs === attack.mechanicReadyAtMs),
     'attackRecords.mechanicReadyAtMs', '机制等待必须有实际提交记录解释');

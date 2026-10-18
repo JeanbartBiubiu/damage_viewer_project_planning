@@ -11,6 +11,7 @@ import type { SkillInternalState } from '../types/skillInternalState';
 import type { ModifierZone } from '../types/modifierZone';
 import type { DamageType } from '../types/damageType';
 import { compileProcessStates } from './processStateAdapter';
+import { processCounterReads } from './processCounterInput';
 import { bindSceneAttributeParameters, type SceneAttributeParameterInput } from './sceneAttributeSnapshotInput';
 import { compileLinkedShieldEffect } from './shieldEffectAdapter';
 import { compileTimedAttributeEffect } from './timedAttributeEffectAdapter';
@@ -86,6 +87,7 @@ export type AuthoredProcessProgram = {
   /** 宿主绑定的真实父定义身份，使主动与自然同源，双方不同来源互不碰撞。 */
   providerDefinitionRef?: string;
   sceneAttributeInputs?: readonly SceneAttributeParameterInput[];
+  stateInitialValues?: Readonly<Record<string, number>>;
 };
 
 export type AdaptedProcessControl = {
@@ -721,7 +723,7 @@ function firstHealOperations(authored: AuthoredProcessProgram, rule: SkillTrigge
 
 function assertIdleAction(action: SkillTriggerAction, path: string, sceneAttributeStart = false): void {
   if (!Array.isArray(action.runtimeInputBindings) || action.runtimeInputBindings.some(binding =>
-    !sceneAttributeStart || binding.sourceType !== 'SCENE_ATTRIBUTE_SNAPSHOT')) {
+    !sceneAttributeStart || !['SCENE_ATTRIBUTE_SNAPSHOT', 'INTERNAL_STATE'].includes(binding.sourceType))) {
     fail(`${path}.runtimeInputBindings`, '该动作不能携带动态输入');
   }
   if (!Array.isArray(action.resultModifiers) || action.resultModifiers.length) fail(`${path}.resultModifiers`, '未支持的结果修正');
@@ -997,7 +999,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (!isRecord(authored)) fail('adapter.processPlan', '过程程序必须是对象');
   exactKeys(authored, [
     'gameId', 'skillKey', 'skillLevel', 'characterLevel', 'process', 'rules', 'effects',
-    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'damageTypes', 'basicAttackContext', 'hitContext', 'providerDefinitionRef', 'sceneAttributeInputs'
+    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'damageTypes', 'basicAttackContext', 'hitContext', 'providerDefinitionRef', 'sceneAttributeInputs', 'stateInitialValues'
   ], 'adapter.processPlan');
   const gameId = catalogKey(authored.gameId, 'gameId');
   if (authored.ignoreCastCosts !== undefined && typeof authored.ignoreCastCosts !== 'boolean') fail('ignoreCastCosts', '忽略施法成本必须明确声明');
@@ -1022,7 +1024,9 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   const state = numericState(authored);
   bindSceneAttributeParameters(authored, state);
   if (authored.internalStates !== undefined && !Array.isArray(authored.internalStates)) fail(planPath(skillKey, 'internalStates'), '内部状态必须是数组');
-  const statePlan = compileProcessStates(authored.internalStates ?? [], state, planPath(skillKey, 'internalStates'));
+  const counterReads = processCounterReads(process, authored.rules, authored.internalStates ?? [], state);
+  const statePlan = compileProcessStates(authored.internalStates ?? [], state, planPath(skillKey, 'internalStates'), authored.stateInitialValues,
+    { ...state, runtimeInputReads: counterReads });
   const providers = new Map<string, ProviderDefinition>();
   const steps = compileSteps(process, state);
   let empoweredPayload: AdaptedProcessProgram['empoweredPayload'];

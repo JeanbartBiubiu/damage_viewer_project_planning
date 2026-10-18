@@ -313,7 +313,7 @@ export type ProviderStateFieldSchema = {
   durationMs?: StaticNumericValue;
   refreshPolicy?: string;
   stateKind?: 'ammo' | 'cooldown';
-  ammoRecovery?: { intervalMs: GenericFormulaExpr; mode: 'all_at_once'; startCondition: 'when_empty' };
+  ammoRecovery?: { intervalMs: GenericFormulaExpr; mode: 'all_at_once' | 'one_by_one'; startCondition: 'when_empty' | 'after_consume'; initialRemainingMs?: StaticNumericValue };
 };
 
 export type ProviderInstanceScope = 'source_target';

@@ -772,7 +772,8 @@ describe('condition, action and runtime-source conversion with stale-field clean
       'EXECUTE_EFFECT',
       'START_PROCESS',
       'FAIL_PROCESS',
-      'ADVANCE_PROCESS'
+      'ADVANCE_PROCESS',
+      'MODIFY_INTERNAL_STATE'
     ]);
     expect([...SKILL_TRIGGER_SOURCE_TYPES]).toEqual([
       'INTERNAL_STATE',

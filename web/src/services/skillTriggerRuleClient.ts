@@ -427,6 +427,12 @@ function assertAction(value: unknown, path: string): SkillTriggerAction {
   if (actionType === 'START_PROCESS' && typeof value.detail.processKey !== 'string') {
     protocolError(`${path}.detail.processKey`);
   }
+  if (actionType === 'MODIFY_INTERNAL_STATE') {
+    if (value.targetContext !== 'EVENT_SOURCE' || value.resultModifiers.length !== 0 || value.runtimeInputBindings.length !== 0
+      || Object.keys(value.detail).length !== 4 || Object.keys(value.detail).some(key => !['stateSkillKey', 'stateKey', 'operation', 'value'].includes(key))
+      || typeof value.detail.stateSkillKey !== 'string' || typeof value.detail.stateKey !== 'string'
+      || value.detail.operation !== 'REDUCE_RECOVERY') protocolError(`${path}.detail`);
+  }
   if (
     actionType === 'FAIL_PROCESS'
     && (typeof value.detail.processKey !== 'string' || typeof value.detail.failureReason !== 'string')

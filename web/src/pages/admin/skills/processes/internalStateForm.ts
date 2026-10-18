@@ -1,4 +1,5 @@
 import type { SkillParameter } from '../../../../types/skillParameter';
+import type { SkillTriggerSceneInitialParameterBinding } from '../../../../types/skillTriggerRule';
 import { numericIssuePath, numericValueError } from '../numericValueForm';
 import { numericFormulaKey } from '../../../../types/numericValue';
 import { type NumericValue } from '../../../../types/numericValue';
@@ -67,6 +68,9 @@ export type SkillInternalStateDraft = {
   description: string;
   sortOrder: string;
   initialValue: NumericValue | null;
+  initialValueBinding?: SkillTriggerSceneInitialParameterBinding;
+  initialRemainingValue?: NumericValue;
+  initialRemainingMsBinding?: SkillTriggerSceneInitialParameterBinding;
   maxValue: NumericValue | null;
   recoveryIntervalValue: NumericValue | null;
   recoveryMode: SkillInternalStateAmmoRecoveryMode | '';
@@ -86,6 +90,9 @@ export type SkillInternalStateDraftField =
   | 'description'
   | 'sortOrder'
   | 'initialValue'
+  | 'initialValueBinding'
+  | 'initialRemainingValue'
+  | 'initialRemainingMsBinding'
   | 'maxValue'
   | 'recoveryIntervalValue'
   | 'recoveryMode'
@@ -159,6 +166,7 @@ const STATE_DRAFT_FIELDS = new Set<SkillInternalStateDraftField>([
   'description',
   'sortOrder',
   'initialValue',
+  'initialValueBinding', 'initialRemainingValue', 'initialRemainingMsBinding',
   'maxValue',
   'recoveryIntervalValue',
   'recoveryMode',
@@ -171,6 +179,9 @@ const STATE_DRAFT_FIELDS = new Set<SkillInternalStateDraftField>([
 
 const DETAIL_FIELD_BY_PATH: { [path: string]: SkillInternalStateDraftField } = {
   'detail.initialValue': 'initialValue',
+  'detail.initialValueBinding': 'initialValueBinding',
+  'detail.initialRemainingValue': 'initialRemainingValue',
+  'detail.initialRemainingMsBinding': 'initialRemainingMsBinding',
   'detail.maxValue': 'maxValue',
   'detail.recoveryIntervalValue': 'recoveryIntervalValue',
   'detail.recoveryMode': 'recoveryMode',
@@ -235,11 +246,15 @@ export function skillInternalStateToDraft(state: SkillInternalState): SkillInter
   switch (state.stateType) {
     case 'COUNTER':
       draft.initialValue = state.detail.initialValue;
+      if (state.detail.initialValueBinding !== undefined) draft.initialValueBinding = structuredClone(state.detail.initialValueBinding);
       draft.maxValue = state.detail.maxValue;
       draft.durationValue = state.detail.durationValue ?? null;
       break;
     case 'AMMO':
       draft.initialValue = state.detail.initialValue;
+      if (state.detail.initialValueBinding !== undefined) draft.initialValueBinding = structuredClone(state.detail.initialValueBinding);
+      if (state.detail.initialRemainingValue !== undefined) draft.initialRemainingValue = structuredClone(state.detail.initialRemainingValue);
+      if (state.detail.initialRemainingMsBinding !== undefined) draft.initialRemainingMsBinding = structuredClone(state.detail.initialRemainingMsBinding);
       draft.maxValue = state.detail.maxValue;
       draft.recoveryIntervalValue = state.detail.recoveryIntervalValue;
       draft.recoveryMode = state.detail.recoveryMode;
@@ -289,6 +304,7 @@ export function applyStateTypeChange(
     stateType: nextType,
     scope: allowsTargetScope(nextType) ? draft.scope : 'SKILL',
     initialValue: null,
+    initialValueBinding: undefined, initialRemainingValue: undefined, initialRemainingMsBinding: undefined,
     maxValue: null,
     recoveryIntervalValue: null,
     recoveryMode: nextType === 'AMMO' ? 'ONE_BY_ONE' : '',
@@ -309,6 +325,9 @@ export function clearHiddenInternalStateFields(draft: SkillInternalStateDraft): 
     ...draft,
     scope: allowsTargetScope(draft.stateType) ? draft.scope : 'SKILL',
     initialValue: isCounter || isAmmo ? draft.initialValue : null,
+    ...(draft.initialValueBinding !== undefined ? { initialValueBinding: isCounter || isAmmo ? draft.initialValueBinding : undefined } : {}),
+    ...(draft.initialRemainingValue !== undefined ? { initialRemainingValue: isAmmo ? draft.initialRemainingValue : undefined } : {}),
+    ...(draft.initialRemainingMsBinding !== undefined ? { initialRemainingMsBinding: isAmmo ? draft.initialRemainingMsBinding : undefined } : {}),
     maxValue: isCounter || isAmmo ? draft.maxValue : null,
     recoveryIntervalValue: isAmmo ? draft.recoveryIntervalValue : null,
     recoveryMode: isAmmo ? draft.recoveryMode || 'ONE_BY_ONE' : '',
@@ -511,6 +530,25 @@ function validateTypeSpecificFields(
       void unexpected;
     }
   }
+  for (const [field, binding, value] of [
+    ['initialValueBinding', draft.initialValueBinding, draft.initialValue],
+    ['initialRemainingMsBinding', draft.initialRemainingMsBinding, draft.initialRemainingValue]
+  ] as const) if (binding !== undefined) {
+    const parameter = options.parameters?.find(row => row.parameterKey === binding.parameterKey);
+    if (draft.scope !== 'SKILL' || binding.sourceType !== 'SCENE_INITIAL_PARAMETER'
+      || !SKILL_INTERNAL_STATE_KEY_PATTERN.test(binding.bindingKey) || !value || value.kind !== 'PARAMETER' || value.parameterKey !== binding.parameterKey
+      || !parameter || parameter.valueType !== 'INTEGER' || parameter.valueMode !== 'RUNTIME_INPUT'
+      || parameter.fixedValue !== null || parameter.levelValues !== null
+      || !Number.isSafeInteger(binding.detail.minValue) || !Number.isSafeInteger(binding.detail.maxValue)
+      || binding.detail.minValue < 0 || binding.detail.minValue > binding.detail.maxValue) {
+      fieldErrors[field] = '状态初值须直接绑定本技能无默认整数参数，并明确非负整数范围。';
+    }
+  }
+  if (draft.stateType === 'AMMO' && (draft.initialRemainingValue !== undefined || draft.initialRemainingMsBinding !== undefined)) {
+    if (draft.recoveryMode !== 'ONE_BY_ONE' || draft.recoveryStartCondition !== 'AFTER_CONSUME') fieldErrors.initialRemainingValue = '初充余时仅用于逐枚消耗后恢复。';
+    else if (!draft.initialRemainingValue) fieldErrors.initialRemainingValue = '余时声明必须有对应数值引用。';
+    else validateFormulaRef(options, draft.initialRemainingValue, fieldErrors, 'initialRemainingValue', false, true);
+  }
 }
 
 function validateModeOptions(
@@ -597,6 +635,7 @@ function buildNormalizedRequest(
         stateType: 'COUNTER',
         detail: {
           initialValue: draft.initialValue!,
+          ...(draft.initialValueBinding !== undefined ? { initialValueBinding: structuredClone(draft.initialValueBinding) } : {}),
           maxValue: draft.maxValue!,
           ...(draft.durationValue !== null ? { durationValue: draft.durationValue } : {})
         }
@@ -607,6 +646,9 @@ function buildNormalizedRequest(
         stateType: 'AMMO',
         detail: {
           initialValue: draft.initialValue!,
+          ...(draft.initialValueBinding !== undefined ? { initialValueBinding: structuredClone(draft.initialValueBinding) } : {}),
+          ...(draft.initialRemainingValue !== undefined ? { initialRemainingValue: structuredClone(draft.initialRemainingValue) } : {}),
+          ...(draft.initialRemainingMsBinding !== undefined ? { initialRemainingMsBinding: structuredClone(draft.initialRemainingMsBinding) } : {}),
           maxValue: draft.maxValue!,
           recoveryIntervalValue: draft.recoveryIntervalValue!,
           recoveryMode: draft.recoveryMode as SkillInternalStateAmmoRecoveryMode,

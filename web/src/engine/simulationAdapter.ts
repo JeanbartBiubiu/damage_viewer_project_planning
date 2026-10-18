@@ -29,7 +29,7 @@ import { validateSimulationAttributeDerivations } from './simulationAttributeCon
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
 import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
-export const SIMULATION_ADAPTER_VERSION = 'v22-root-hit-events-and-target-attributes';
+export const SIMULATION_ADAPTER_VERSION = 'v23-active-ammo-initial-state-and-recovery';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -110,7 +110,7 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   if (!basicAttackCategoryKey) fail('catalogs.calculationRules.configuration.basicAttackCategoryKey', '所选普通攻击需要明确配置分类用途绑定');
   if (!snapshot.selection.plannedSkills.length && ignoredCosts.length) fail('ignoredCastCosts', '没有计划技能不能声明施法成本');
   const natural = assembleNaturalSkillSources(snapshot, sceneInputs);
-  const triggered = assembleTriggeredEquipment(snapshot);
+  const triggered = assembleTriggeredEquipment(snapshot, sceneInputs);
   recordCompiledEquipmentSources(natural, triggered);
   const triggeredPrograms = [triggered, natural.triggered];
   const equipment = assembleEquipment(snapshot);
@@ -465,12 +465,12 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
       hitAbilityRef: `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`,
       initialControlAbilityRef: `source.provider[${MOUNT}].ability[${controlKey}]`, attackSpeedAttributeKey: speedAttributeKey }
   };
-  return snapshot.selection.plannedSkills.length ? mergeActiveProgram(assembled, snapshot, ignoredCosts) : mergeBasicAttackContributions(assembled);
+  return snapshot.selection.plannedSkills.length ? mergeActiveProgram(assembled, snapshot, ignoredCosts, sceneInputs) : mergeBasicAttackContributions(assembled);
 }
 
 function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[], sceneInputs: readonly SceneInitialParameterInput[] = []): Program {
   const natural = assembleNaturalSkillSources(snapshot, sceneInputs);
-  const triggered = assembleTriggeredEquipment(snapshot);
+  const triggered = assembleTriggeredEquipment(snapshot, sceneInputs);
   recordCompiledEquipmentSources(natural, triggered);
   const equipment = assembleEquipment(snapshot);
   const changed = changedAttributes();
@@ -526,7 +526,7 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
   return mergeActiveProgram({ provider: null, rules, formulas: [...game.formulas, ...assemblies.flatMap(assembly => assembly.formulas)],
     types: [...types].map(([key, domain]) => ({ key, domain })), required, equipment, triggered, natural,
     coverage: mergedCoverage,
-    operationOrigins: origins, basicAttackBinding: null }, snapshot, ignoredCosts);
+    operationOrigins: origins, basicAttackBinding: null }, snapshot, ignoredCosts, sceneInputs);
 }
 
 function mergeBasicAttackContributions(base: Program): Program {
@@ -560,12 +560,12 @@ function mergeBasicAttackContributions(base: Program): Program {
   return base;
 }
 
-function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[]): Program {
+function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[], sceneInputs: readonly SceneInitialParameterInput[] = []): Program {
   mergeBasicAttackContributions(base);
   const active = assembleActiveSkills(snapshot, ignoredCosts, base.basicAttackBinding && base.provider ? {
     binding: base.basicAttackBinding, provider: base.provider,
     mount: { providerRef: MOUNT, definitionRef: base.provider.providerKey }
-  } : undefined);
+  } : undefined, sceneInputs);
   for (const contribution of base.natural.triggered.passiveHitContributions ?? []) {
     const binding = active.bindings.find(row => row.skillKey === contribution.sourceSkillKey);
     const provider = active.providers.find(row => row.providerKey === binding?.providerDefinitionRef);

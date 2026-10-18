@@ -100,6 +100,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
         descriptions.push({ side, kind: source.origin.kind === 'CHARACTER' ? 'character' : 'build',
           stableId: definitionRef, providerRef, definitionRef, path: root, skills: [{
             skillKey: source.skillKey, skillLevel: source.skillLevel, path: root, configuration,
+            sceneInitialValues: sceneInitialValuesForSource(sceneRequirements, sceneParameters, side, source),
             allowedRootKeys: source.enabledRuleKeys, permanentModifier: (result, resultPath, onNumericConsumed) => {
               const effect = configuration.effects.find(row => row.results.includes(result))!;
               const context = { ...permanentContext, onNumericConsumed };

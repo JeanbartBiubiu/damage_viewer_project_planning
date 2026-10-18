@@ -12,6 +12,7 @@ import {
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useLayoutEffect, useEffect, useRef, useState } from 'react';
 import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import { NumericValueField } from '../NumericValueField';
 import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
 import type { Attribute } from '../../../../types/attribute';
 import type { DamageType } from '../../../../types/damageType';
@@ -98,6 +99,7 @@ type SkillTriggerActionEditorModalProps = {
   internalStates: readonly SkillInternalState[];
   statuses: readonly GameStatus[];
   reachableParameters: readonly SkillParameter[];
+  parameters?: readonly SkillParameter[];
   fieldErrors: readonly NestedFieldError[];
   disabled?: boolean;
   onClose: () => void;
@@ -144,6 +146,7 @@ export function SkillTriggerActionEditorModal({
   internalStates,
   statuses,
   reachableParameters,
+  parameters,
   fieldErrors,
   disabled,
   onClose,
@@ -161,14 +164,15 @@ export function SkillTriggerActionEditorModal({
   const [localError, setLocalError] = useState<string | null>(null);
   const [resolvingTarget, setResolvingTarget] = useState(false);
   const consumedBindingFocus = useRef<string | null>(null);
-  const targetOptions = targetContextOptionsForEvent(eventSource.eventType);
+  const targetOptions = current.actionType === 'MODIFY_INTERNAL_STATE' ? ['EVENT_SOURCE'] as const : targetContextOptionsForEvent(eventSource.eventType);
   const selectedEffect = current.actionType === 'EXECUTE_EFFECT'
     ? effectDetails.get(current.detail.effectKey) ?? null
     : null;
-  const selectedProcess = current.actionType !== 'EXECUTE_EFFECT'
-    ? processes.find((item) => item.processKey === current.detail.processKey) ?? null
+  const selectedProcessKey = 'processKey' in current.detail ? current.detail.processKey : null;
+  const selectedProcess = selectedProcessKey !== null
+    ? processes.find((item) => item.processKey === selectedProcessKey) ?? null
     : null;
-  const selectedProcessDetail = current.actionType !== 'EXECUTE_EFFECT'
+  const selectedProcessDetail = 'processKey' in current.detail
     ? processDetails?.get(current.detail.processKey) ?? null
     : null;
   const expectedAdvanceStepType = current.actionType === 'ADVANCE_PROCESS'
@@ -419,6 +423,23 @@ export function SkillTriggerActionEditorModal({
               </Form.Item>
             ) : null}
 
+            {current.actionType === 'MODIFY_INTERNAL_STATE' ? <>
+              <Form.Item label="弹药状态" required>
+                <Select aria-label="弹药状态" value={current.detail.stateKey || undefined} disabled={disabled}
+                  options={internalStates.filter(row => row.stateType === 'AMMO' && row.scope === 'SKILL' && row.skillKey === skillKey)
+                    .map(row => ({ value: row.stateKey, label: row.name }))}
+                  onChange={value => setCurrent({ ...current, detail: { ...current.detail, stateSkillKey: skillKey ?? '', stateKey: String(value ?? '') } })} />
+              </Form.Item>
+              <Form.Item label="减少下一枚回充毫秒" required>
+                <NumericValueField aria-label="减少下一枚回充毫秒" value={current.detail.value} parameters={parameters ?? reachableParameters}
+                  formulas={formulas ?? []} disabled={disabled} onChange={value => {
+                    if (!value) return;
+                    const next = { ...current, detail: { ...current.detail, value } };
+                    setCurrent(next); void resolveTarget(next);
+                  }} />
+              </Form.Item>
+            </> : null}
+
             {current.actionType === 'START_PROCESS' ? (
               <Form.Item
                 label="目标过程"
@@ -561,7 +582,7 @@ export function SkillTriggerActionEditorModal({
             ) : null}
           </Form>
 
-          {current.actionType !== 'FAIL_PROCESS' && current.actionType !== 'ADVANCE_PROCESS' ? (
+          {current.actionType !== 'FAIL_PROCESS' && current.actionType !== 'ADVANCE_PROCESS' && current.actionType !== 'MODIFY_INTERNAL_STATE' ? (
             <>
               <Space>
                 <span>动态输入来源绑定</span>

@@ -1,4 +1,5 @@
 import { type NumericValue } from './numericValue';
+import type { SkillTriggerSceneInitialParameterBinding } from './skillTriggerRule';
 export type SkillInternalStateType =
   | 'COUNTER'
   | 'AMMO'
@@ -20,12 +21,16 @@ export type SkillInternalStateModeOption = {
 
 export type SkillInternalStateCounterDetail = {
   initialValue: NumericValue;
+  initialValueBinding?: SkillTriggerSceneInitialParameterBinding;
   maxValue: NumericValue;
   durationValue?: NumericValue | null;
 };
 
 export type SkillInternalStateAmmoDetail = {
   initialValue: NumericValue;
+  initialValueBinding?: SkillTriggerSceneInitialParameterBinding;
+  initialRemainingValue?: NumericValue;
+  initialRemainingMsBinding?: SkillTriggerSceneInitialParameterBinding;
   maxValue: NumericValue;
   recoveryIntervalValue: NumericValue;
   recoveryMode: SkillInternalStateAmmoRecoveryMode;
