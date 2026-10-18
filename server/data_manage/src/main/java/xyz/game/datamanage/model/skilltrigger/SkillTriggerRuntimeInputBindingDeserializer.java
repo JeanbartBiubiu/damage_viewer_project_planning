@@ -41,6 +41,8 @@ public final class SkillTriggerRuntimeInputBindingDeserializer
                 case RECENT_DAMAGE_SUM -> SkillTriggerRecentDamageSumBindingDetail.class;
                 case EVENT_VALUE -> SkillTriggerEventValueBindingDetail.class;
                 case SOURCE_CAST_RESOURCE_COST -> SkillTriggerSourceCastResourceCostBindingDetail.class;
+                case SCENE_ATTRIBUTE_SNAPSHOT -> SkillTriggerSceneAttributeSnapshotBindingDetail.class;
+                case SCENE_INITIAL_PARAMETER -> SkillTriggerSceneInitialParameterBindingDetail.class;
                 case PRIOR_ACTION_RESULT -> SkillTriggerPriorResultBindingDetail.class;
             };
             detail = codec.treeToValue(detailNode, detailClass);

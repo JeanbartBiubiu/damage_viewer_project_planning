@@ -66,6 +66,19 @@ class ModifierZoneManagementDbContractSqlTest {
     }
 
     @Test
+    void damageMultiplyMigrationOnlyExpandsOneCheckAndPreservesExistingBusinessRows() throws IOException {
+        String sql = read("db/game_manage/migrations/damage_post_defense_ratio_multiply.sql");
+        String executable = sql.replaceAll("(?m)--[^\\n]*", "");
+        assertEquals(1, count(executable, "DROP CONSTRAINT"));
+        assertTrue(executable.contains("pg_get_constraintdef(actual.oid) = pg_get_constraintdef(expected.oid)"));
+        assertTrue(executable.contains("EXCEPT ALL"));
+        assertTrue(executable.contains("convalidated"));
+        assertFalse(executable.matches("(?is).*\\b(INSERT|UPDATE|DELETE|TRUNCATE)\\b.*"));
+        assertFalse(executable.contains("ADD COLUMN"));
+        assertFalse(executable.contains("CREATE TABLE public."));
+    }
+
+    @Test
     void migrationOnlyAllowsTheOwnerApprovedExistingMapping() throws IOException {
         String sql = normalized(read(
             "db/game_manage/migrations/compatibility/modifier_zone_management_migration.sql"

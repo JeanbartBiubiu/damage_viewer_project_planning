@@ -105,6 +105,10 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleSummaryResponse;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleUpdateRequest;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputBinding;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSceneAttributeSnapshotBindingDetail;
+import xyz.game.datamanage.support.authoring.SkillSceneAttributeSnapshotSemantics;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSceneInitialParameterBindingDetail;
+import xyz.game.datamanage.support.authoring.SkillSceneInitialParameterSemantics;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSourceCastResourceCostBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetCategoryConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuntimeInputSourceType;
@@ -1728,6 +1732,22 @@ public class SkillTriggerRuleService {
                     }
                 }
             }
+            case SCENE_ATTRIBUTE_SNAPSHOT -> {
+                if (!(binding.detail() instanceof SkillTriggerSceneAttributeSnapshotBindingDetail detail)) {
+                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "场景属性快照明细形状不合法"));
+                } else {
+                    issues.addAll(SkillSceneAttributeSnapshotSemantics.detailIssues(
+                        AggregateJson.tree(AggregateJson.write(detail)), prefix + ".detail"));
+                }
+            }
+            case SCENE_INITIAL_PARAMETER -> {
+                if (!(binding.detail() instanceof SkillTriggerSceneInitialParameterBindingDetail detail)) {
+                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "场景显式初值明细形状不合法"));
+                } else {
+                    issues.addAll(SkillSceneInitialParameterSemantics.detailIssues(
+                        AggregateJson.tree(AggregateJson.write(detail)), null, prefix + ".detail"));
+                }
+            }
             default -> { }
         }
     }
@@ -2004,6 +2024,7 @@ public class SkillTriggerRuleService {
                 effectShapes,
                 processShapes,
                 states,
+                attributes,
                 parameters,
                 bindingIssues,
                 referenceIssues
@@ -2248,6 +2269,7 @@ public class SkillTriggerRuleService {
         Map<String, List<SkillTriggerEffectShapeRow>> effectShapes,
         Map<String, List<SkillTriggerProcessShapeRow>> processShapes,
         Map<String, SkillTriggerInternalStateLockRow> states,
+        Map<String, SkillTriggerCatalogLockRow> attributes,
         Map<String, SkillTriggerParameterRefRow> lockedParameters,
         List<Map<String, String>> bindingIssues,
         List<Map<String, String>> referenceIssues
@@ -2292,6 +2314,7 @@ public class SkillTriggerRuleService {
                 effectShapes,
                 processShapes,
                 states,
+                attributes,
                 bindingIssues,
                 referenceIssues
             );
@@ -2358,6 +2381,7 @@ public class SkillTriggerRuleService {
         Map<String, List<SkillTriggerEffectShapeRow>> effectShapes,
         Map<String, List<SkillTriggerProcessShapeRow>> processShapes,
         Map<String, SkillTriggerInternalStateLockRow> states,
+        Map<String, SkillTriggerCatalogLockRow> attributes,
         List<Map<String, String>> bindingIssues,
         List<Map<String, String>> referenceIssues
     ) {
@@ -2496,6 +2520,48 @@ public class SkillTriggerRuleService {
                         "来源施放消耗仅适用于明确来源技能的技能命中，或当前技能非被动过程的完成与失败时点"));
                 }
                 sourceDomain = SkillTriggerValueDomain.DECIMAL;
+            }
+            case SCENE_ATTRIBUTE_SNAPSHOT -> {
+                if (!(binding.detail() instanceof SkillTriggerSceneAttributeSnapshotBindingDetail detail)) {
+                    bindingIssues.add(fieldIssue(bindingPath(actionIndex, bindingIndex, "detail"),
+                        "TYPE_MISMATCH", "场景属性快照明细形状不合法"));
+                    return;
+                }
+                SkillTriggerSkillEventDetail event = eventSource.detail() instanceof SkillTriggerSkillEventDetail skill ? skill : null;
+                String processKey = action.detail() instanceof SkillTriggerStartProcessActionDetail process ? process.processKey() : null;
+                SkillProcessActivationType activation = processActivation(processShapes.getOrDefault(processKey, List.of()));
+                if (!SkillSceneAttributeSnapshotSemantics.entryAllowed(skillKey, eventSource.eventType().name(),
+                        event == null ? null : event.sourceSkillKey(), event == null || event.useKind() == null ? null : event.useKind().name(),
+                        event == null || event.castPhase() == null ? null : event.castPhase().name(), action.actionType().name(),
+                        activation == null ? null : activation.name())) {
+                    referenceIssues.add(fieldIssue(bindingPath(actionIndex, bindingIndex, "sourceType"),
+                        "EVENT_VALUE_NOT_AVAILABLE", "场景属性快照只允许本技能明确首次主动使用启动真实主动过程"));
+                }
+                SkillTriggerCatalogLockRow attribute = attributes.get(detail.attributeKey());
+                // 引用存在性由统一目录检查报告；这里额外要求旧引用仍启用且为数字。
+                if (attribute != null) {
+                    referenceIssues.addAll(SkillSceneAttributeSnapshotSemantics.attributeIssues(
+                        new SkillSceneAttributeSnapshotSemantics.Attribute(attribute.status(), attribute.valueType()),
+                        bindingPath(actionIndex, bindingIndex, "detail.attributeKey")));
+                }
+                // 实际场景尚未选择；整数兼容性由宿主和原生对最终快照值严格核验。
+                return;
+            }
+            case SCENE_INITIAL_PARAMETER -> {
+                if (!(binding.detail() instanceof SkillTriggerSceneInitialParameterBindingDetail detail)) {
+                    bindingIssues.add(fieldIssue(bindingPath(actionIndex, bindingIndex, "detail"),
+                        "TYPE_MISMATCH", "场景显式初值明细形状不合法"));
+                    return;
+                }
+                bindingIssues.addAll(SkillSceneInitialParameterSemantics.detailIssues(
+                    AggregateJson.tree(AggregateJson.write(detail)), parameterType.name(),
+                    bindingPath(actionIndex, bindingIndex, "detail")));
+                if (!SkillSceneInitialParameterSemantics.entryAllowed(eventSource.eventType().name(), action.actionType().name(),
+                        action.targetContext() == null ? null : action.targetContext().name())) {
+                    referenceIssues.add(fieldIssue(bindingPath(actionIndex, bindingIndex, "sourceType"),
+                        "EVENT_VALUE_NOT_AVAILABLE", "场景显式初值只能由本技能初始化动作作用于来源自身"));
+                }
+                return;
             }
             case PRIOR_ACTION_RESULT -> {
                 if (!(binding.detail() instanceof SkillTriggerPriorResultBindingDetail detail)) {
@@ -2881,6 +2947,9 @@ public class SkillTriggerRuleService {
                 if (detail.attributeKey() != null) {
                     refs.addAttribute(new CatalogRef(bindingPathFromPrefix(prefix, b, "detail.attributeKey"), detail.attributeKey()));
                 }
+            } else if (binding.sourceType() == SkillTriggerRuntimeInputSourceType.SCENE_ATTRIBUTE_SNAPSHOT
+                && binding.detail() instanceof SkillTriggerSceneAttributeSnapshotBindingDetail detail) {
+                refs.addAttribute(new CatalogRef(bindingPathFromPrefix(prefix, b, "detail.attributeKey"), detail.attributeKey()));
             } else if (binding.sourceType() == SkillTriggerRuntimeInputSourceType.COMBAT_STATUS
                 && binding.detail() instanceof SkillTriggerCombatStatusBindingDetail detail) {
                 refs.addStatus(new CatalogRef(bindingPathFromPrefix(prefix, b, "detail.statusKey"), detail.statusKey()));

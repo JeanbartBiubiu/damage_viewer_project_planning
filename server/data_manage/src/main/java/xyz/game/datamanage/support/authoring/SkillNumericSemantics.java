@@ -184,7 +184,7 @@ public final class SkillNumericSemantics {
                                 Map<String, String> issue = issues.getFirst();
                                 throw invalid(a, issue.get("field"), issue.get("code"), issue.get("message"));
                             }
-                            validateComplementRatio(a, valueUse, r.path("valueRule"), null, path + ".valueRule.value");
+                            validateUnitRatio(a, valueUse, r.path("valueRule"), null, path + ".valueRule.value");
                         }
                         if (extendDuration) {
                             validateExtendedDuration(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
@@ -204,6 +204,19 @@ public final class SkillNumericSemantics {
                         }
                         if ("DAMAGE_MODIFIER".equals(text(r, "resultType"))) {
                             validateDamageModifierCondition(a, r, path);
+                            if (isDamageRatioMultiply(r)) {
+                                List<Map<String, String>> issues = new ArrayList<>();
+                                DamageRatioMultiplySemantics.addReferenceIssues(
+                                    xyz.game.datamanage.model.modifierzone.ModifierZoneDomain.DAMAGE,
+                                    xyz.game.datamanage.model.modifierzone.ModifierZoneCalculationMode.RATIO_MULTIPLY,
+                                    text(r, "resultType"), text(r.path("detail"), "direction"), text(r.path("detail"), "operation"),
+                                    path + ".detail.modifierZoneKey", path + ".detail.direction", path + ".detail.operation", issues);
+                                if (!issues.isEmpty()) {
+                                    Map<String, String> issue = issues.getFirst();
+                                    throw invalid(a, issue.get("field"), issue.get("code"), issue.get("message"));
+                                }
+                                validateUnitRatio(a, valueUse, r.path("valueRule"), null, path + ".valueRule.value");
+                            }
                         }
                         if ("DAMAGE".equals(text(r, "resultType"))) {
                             JsonNode detail = r.path("detail");
@@ -720,6 +733,29 @@ public final class SkillNumericSemantics {
                     if (!bound.add(key)) throw invalid(rule, path, "BINDING_DUPLICATE", "同一参数不能重复绑定");
                     if (p == null || !"RUNTIME_INPUT".equals(p.valueMode()) || !required.contains(key)) throw invalid(rule, path, "BINDING_EXTRA", "绑定参数不是该动作需要的计算时输入");
                     if ("EVENT_VALUE".equals(text(binding, "sourceType"))) validateSkillHitEventValue(rule, binding.path("detail"), path + ".detail");
+                    if ("SCENE_ATTRIBUTE_SNAPSHOT".equals(text(binding, "sourceType"))) {
+                        Aggregate process = objects.get(new Id(rule.skillKey(), SourceType.PROCESS, text(action.path("detail"), "processKey")));
+                        SkillSceneAttributeSnapshotSemantics.validateBinding(rule, action, process, binding, path);
+                        if (!Set.of("INTEGER", "DECIMAL").contains(p.valueType())) {
+                            throw invalid(rule, path + ".parameterKey", "REFERENCE_TYPE_MISMATCH", "场景属性快照只能绑定数值参数");
+                        }
+                    }
+                    if ("SCENE_INITIAL_PARAMETER".equals(text(binding, "sourceType"))) {
+                        SkillSceneInitialParameterSemantics.validateBinding(rule, action, binding, p.valueType(), path);
+                        Aggregate effect = objects.get(new Id(rule.skillKey(), SourceType.EFFECT, text(action.path("detail"), "effectKey")));
+                        if (effect != null) {
+                            collect(effect);
+                            for (Use use : uses.getOrDefault(id(effect), List.of())) {
+                                if (runtime(use).contains(key) && !use.path().matches("results\\[\\d+\\]\\.valueRule\\.value")) {
+                                    throw invalid(rule, path, "EVENT_VALUE_NOT_AVAILABLE", "场景显式初值只授权本初始化动作的结果数值，不能供给生命周期");
+                                }
+                            }
+                        }
+                        for (Use use : uses.getOrDefault(id(rule), List.of())) {
+                            if (runtime(use).contains(key)) throw invalid(rule, use.path(), "EVENT_VALUE_NOT_AVAILABLE",
+                                "初始化初值不能借给条件或规则时序");
+                        }
+                    }
                     if ("SOURCE_CAST_RESOURCE_COST".equals(text(binding, "sourceType"))) {
                         JsonNode detail = binding.path("detail");
                         if (!detail.isObject() || detail.size() != 1 || !detail.path("attributeKey").isTextual()
@@ -731,7 +767,8 @@ public final class SkillNumericSemantics {
                                 "来源施放消耗仅适用于明确来源技能的技能命中，或当前技能非被动过程的完成与失败时点");
                         }
                     }
-                    if ("INTEGER".equals(p.valueType()) && bindingDomain(binding) == SkillTriggerValueDomain.DECIMAL) throw invalid(rule, path, "REFERENCE_TYPE_MISMATCH", "小数来源不能绑定整数参数");
+                    if (!"SCENE_ATTRIBUTE_SNAPSHOT".equals(text(binding, "sourceType"))
+                        && "INTEGER".equals(p.valueType()) && bindingDomain(binding) == SkillTriggerValueDomain.DECIMAL) throw invalid(rule, path, "REFERENCE_TYPE_MISMATCH", "小数来源不能绑定整数参数");
                 }
                 if (!bound.containsAll(required)) throw invalid(rule, "actions[" + i + "].runtimeInputBindings", "BINDING_MISSING", "动作需要的计算时输入缺少绑定");
                 i++;
@@ -800,7 +837,12 @@ public final class SkillNumericSemantics {
                 }
                 if (result != null && "RATIO_COMPLEMENT_MULTIPLY".equals(
                     zoneModes.get(text(result.path("detail"), "modifierZoneKey")))) {
-                    validateComplementRatio(rule, findUse(effect, "results[" + resultIndex + "].valueRule.value"),
+                    validateUnitRatio(rule, findUse(effect, "results[" + resultIndex + "].valueRule.value"),
+                        result.path("valueRule"), modifier,
+                        "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]");
+                }
+                if (result != null && isDamageRatioMultiply(result)) {
+                    validateUnitRatio(rule, findUse(effect, "results[" + resultIndex + "].valueRule.value"),
                         result.path("valueRule"), modifier,
                         "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]");
                 }
@@ -826,7 +868,12 @@ public final class SkillNumericSemantics {
             return "RATIO_MAX".equals(zoneModes.get(text(detail, "modifierZoneKey")));
         }
 
-        private void validateComplementRatio(Aggregate source, Use valueUse, JsonNode valueRule, JsonNode modifier,
+        private boolean isDamageRatioMultiply(JsonNode result) {
+            return "DAMAGE_MODIFIER".equals(text(result, "resultType"))
+                && "RATIO_MULTIPLY".equals(zoneModes.get(text(result.path("detail"), "modifierZoneKey")));
+        }
+
+        private void validateUnitRatio(Aggregate source, Use valueUse, JsonNode valueRule, JsonNode modifier,
                                              String errorPath) {
             Map<Levels, Fraction> known = valueUse == null ? null : optionalStaticValues(valueUse);
             if (known == null) return;
@@ -835,7 +882,7 @@ public final class SkillNumericSemantics {
                 if (modifier != null) effective = applyFixedRule(effective, modifier);
                 if (!finite(effective) || effective.compareTo(Fraction.of(BigDecimal.ZERO)) < 0
                     || effective.compareTo(Fraction.of(BigDecimal.ONE)) > 0) {
-                    throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "剩余比例连乘的有效增加比例必须有限且位于0到1之间");
+                    throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "连乘的有效比例必须有限且位于0到1之间");
                 }
             }
         }

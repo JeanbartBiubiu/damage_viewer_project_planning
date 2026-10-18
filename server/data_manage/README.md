@@ -10,17 +10,19 @@
 
 `GET /api/admin/games/{gameId}/simulation-availability?wasmSha256=...&adapterVersion=...`只读返回英雄、装备的当前配置缺口和计算核验状态。它用只读一致事务一次批量读取原始业务行，不执行伤害、不写数据库，也不以管理结构检查代替完整运行。只有与范围、完整对象内容、共享及外部依赖、正式Wasm和适配器版本全部匹配的通过证明才返回可选状态；缺证明或证明失效均不可选。
 
-优先范围资源`simulation-scope/lol/combat-analysis.json`从规划工作树的原始阶段进度机械生成，目前为五批49名英雄、245个技能槽和198件装备。响应中的`excludedSkillSources`只运输当前实际绑定且已有明确范围排除依据的来源及原因。完整排除依据仍进入范围摘要，未绑定的排除槽不会要求额外场景设置。正式证明资源为`simulation-verification/{gameId}/combat-analysis.json`，当前包含安妮在约定单向1V1范围内的完整来源证明，以及19件纯属性装备证明；不能因存在参数、触发规则或纯属性依据就手工标为通过。
+优先范围资源`simulation-scope/lol/combat-analysis.json`从规划工作树的原始阶段进度机械生成，目前为五批49名英雄、245个技能槽和198件装备。响应中的`excludedSkillSources`只运输当前实际绑定且已有明确范围排除依据的来源及原因。完整排除依据仍进入范围摘要，未绑定的排除槽不会要求额外场景设置。盖伦P沿该通用资源排除本轮连续单向1V1，管理数据和关系保留；其它必需来源不因此关闭。正式证明资源为`simulation-verification/{gameId}/combat-analysis.json`，当前包含安妮、盖伦在约定单向1V1范围内的完整必要来源证明，以及原19件纯属性装备证明；不能因存在参数、触发规则或纯属性依据就手工标为通过。
 
-原19件来自47件明确纯属性装备的双方1～18级单件场景，历史含无装备基准共3420次正式Wasm运行；其中另28件未证明战斗行为影响，不进入通过资源。本轮最终在正式Wasm `bb20f4fae2168cdd7c24c2f0f17a59d5491334ccafb222a408a19af6d85f5e50`及适配器`v16-complete-source-effects`下重新采集19件，共684场、含基准1404次真实运行，所有属性行为证据完整。当前记录位于前端工作树`web/output/first-hero-2026-10-17/equipment-bb20/`；单件证明不代表任意六件组合。
+原19件来自47件明确纯属性装备的双方1～18级单件场景，其中另28件未证明战斗行为影响，不进入通过资源。本轮在正式Wasm `32bf88be215f9173da8bd377f24d9f1e3126b1cb3cc077bb1a2d96a0ae638395`及适配器`v22-root-hit-events-and-target-attributes`下重新验证19件，共684场、含18份无装备基准1404次真实运行，所有属性行为证据完整。当前记录位于前端工作树`web/output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/`；单件证明不代表任意六件组合。
 
-安妮最终证明包含双方1～18级、六个必需来源及声明技能等级的74场／248次完整运行，以及25场／50次机制专项。矩阵复用页面默认技能顺序，另含默认及反序的30秒观察；原页面到期顺序失败档案另经同Worker六次严格回放，1999ms完整输出与旧产物一致，2000ms及完整请求通过。原始数据、来源开关、数值、正式产物和摘要由独立复核核对；最终真实页面三项验收全部通过。范围保留P/Q/W/E/R与普攻的真实来源，独立提伯斯、友军和完整控制行动限制仍后置。目标死亡即结束，不开发击杀后的退款、冷却返还或继续战斗。完整证据与边界见规划工作树`outputs/first-hero-2026-10-17/1V1范围与验收记录.md`及前端`web/output/first-hero-2026-10-17/independent-web-review-bb20/最终证明候选独立复核.md`；后端仍只读取证明并核对当前身份，不计算战斗。
+安妮最终证明包含双方1～18级、六个必需来源及声明技能等级的74场／248次完整运行，以及25场／50次机制专项。矩阵复用页面默认技能顺序，另含默认及反序的30秒观察；原页面到期顺序失败档案另经同Worker六次严格回放，1999ms完整输出与旧产物一致，2000ms及完整请求通过。范围保留P/Q/W/E/R与普攻的真实来源，独立提伯斯、友军和完整控制行动限制仍后置。目标死亡即结束，不开发击杀后的退款、冷却返还或继续战斗。
+
+盖伦W战前永久双抗使用通用显式输入，已学双方分别填写0～150层，0级不要求、不默认满层；原主动W内容保持。完整矩阵86场482次，加8场边界32次与4场正吸血28次，共98场542次正式运行，已在本轮最终版本重新独立复核通过。目录精确接纳安妮、盖伦2名与19件装备；库奇P、用户简化E及全程命中W已取得局部技能结论，R尚未适配，整英雄仍禁选。本轮证明、数据和真实页面证据见规划工作树 `outputs/priority-adaptation-2026-10-18/库奇P与简化E适配验收记录.md`，W后续同产物验证见同目录 `库奇W全程命中适配验收记录.md`。后端只校验配置、快照和正式身份，不执行战斗。
 
 在模块目录运行：
 
 ```powershell
-node tools/authoring/generate-simulation-priority-scope.mjs --ledger C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/阶段进度.json
-node --test tools/authoring/generate-simulation-priority-scope.test.mjs
+node ../../tools/authoring/generate-simulation-priority-scope.mjs --ledger C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/阶段进度.json
+node --test ../../tools/authoring/generate-simulation-priority-scope.test.mjs
 mvn "-Dtest=SimulationAvailability*Test" test
 ```
 
@@ -37,6 +39,30 @@ mvn "-Dtest=SimulationAvailability*Test" test
 已有库分别执行 [过程事件增量](../../db/game_manage/migrations/process_resolved_event.sql) 和 [剩余比例乘区增量](../../db/game_manage/migrations/modifier_zone_ratio_complement_multiply.sql)。后者为容纳实际25字符枚举，将现 `calculation_mode` 从 `varchar(16)` 扩到 `varchar(32)`，并扩大现有两项检查。先用 [只读预检](../../db/game_manage/checks/process_resolved_and_complement_preflight.sql) 核对目标、约束和行数；两个迁移独立事务、严格检查完整旧约束、防止重放并双向核对完整原业务行。无新增业务表、默认数据或技能触发器；本节源码及隔离单测不表示实库已应用。新库直接使用当前建表脚本。
 
 定向验证：`mvn "-Dtest=SkillTriggerRule*Test,SkillTriggerAdvanceCycleServiceTest,SkillTriggerEventSchemaContractTest,SkillObjectReferencesTest,SimulationSnapshotClosureTest,SkillEffectElapsedSemanticsTest,AttributeComplementMultiplySemanticsTest,ModifierZone*Test,SkillFormula*Test,SkillConfigurationServiceTest,GameConfigurationWriteGuardTest" test`。功能收尾运行 `mvn test`，最终产物运行 `mvn -DskipTests package`；已有8080服务不得为测试自行中断。共享枚举由规划真源 `tools/system-enums/generate.mjs` 生成，后端不能手改前端生成文件。
+
+## 有限承伤比例连乘
+
+伤害乘区新增合法组合 `DAMAGE / RATIO_MULTIPLY / DAMAGE_POST_DEFENSE`，只接受 `DAMAGE_MODIFIER / TAKEN / DECREASE` 引用，最终有效比例须为有限的 `[0,1]`。完整规则含等级、倍率及边界参与检查；其它伤害加算和属性乘区保持原含义。计算宿主将比例降低为 `1-r`，伤害类型仍由作者显式过滤；保存成功不代表完整技能或英雄已可运行。
+
+已有 `test0221` 库使用[承伤比例连乘增量](../../db/game_manage/migrations/damage_post_defense_ratio_multiply.sql)，只扩大 `ck_modifier_zones_combination`。本轮已按摘要锁定执行，并另建连接核对原乘区、效果及引用的完整业务行未变。脚本拒绝重复执行及旧约束漂移；新库使用当前建表脚本。真实接口数据保存与运行证据见规划工作树 `outputs/priority-adaptation-2026-10-18/`，不与结构迁移混记。
+
+定向检查：`mvn "-Dtest=DamageRatioMultiplySemanticsTest,ModifierZoneCombinationsTest,ModifierZoneManagementDbContractSqlTest" test`；本轮完整 `mvn test` 为1836项、无失败或跳过。普通盾与独立韧性各自保留生命周期；韧性数值聚合不代表完整控制行动限制已接入。
+
+## 场景属性快照供值
+
+动作计算时输入新增 `SCENE_ATTRIBUTE_SNAPSHOT`（场景属性快照），明细严格为 `{subject,attributeKey,sources}`。`subject` 为场景固定攻击方 `SOURCE` 或目标方 `TARGET`；`sources` 是 `CHARACTER_LEVEL`（所选等级属性）、`EQUIPMENT_DIRECT`（装备直接属性）的非空、无重复显式子集，不代表临时、被动、构筑或光环。后端只保存声明，不采样场景属性、不写默认值。
+
+绑定仅允许本技能明确的 `SKILL_USED / ACTIVE / INITIAL` 事件启动真实 `ACTIVE` 过程；参数必须为同技能、被该动作实际消费的 `RUNTIME_INPUT` 数值参数，属性须真实、启用且为数值类型。管理阶段未知所选场景值，允许整数参数声明，实际值的有限性及安全整数由宿主和原生在准备与读取时检查。实际角色归属由场景快照及宿主核验，作者保存不猜测当前攻击方。
+
+沿用现有动作JSONB和统一配置请求／响应，不增加数据库表、列或迁移。属性进入真实引用索引，后续改属性类型／启停、参数、启动事件或过程时均按事务最终态复核；校验失败连同业务写入回滚。共享行为见规划真源 `outputs/priority-adaptation-2026-10-18/有限引导与场景属性快照现行契约.md` 第一节。
+
+定向检查：`mvn "-Dtest=SkillTriggerSceneAttributeSnapshotServiceTest,SkillTriggerSceneAttributeSnapshotAdminControllerTest,SkillSceneAttributeSnapshotSemanticsTest,SkillSceneAttributeSnapshotWriteGuardTest,SkillConfigurationServiceTest,SkillNumericSemanticsTest,SkillObjectReferencesTest,GameConfigurationWriteGuardTest" test`；收尾全测及隔离打包。替身测试不代表实库或真实HTTP验收。
+
+## 场景显式初值供值
+
+`SCENE_INITIAL_PARAMETER`（场景显式初值）明细为 `{minValue,maxValue}`，有限有序边界，整数参数另要求安全整数；不保存本场输入或默认值。仅本技能 `SOURCE_INITIALIZED / EXECUTE_EFFECT / EVENT_SOURCE` 动作可绑定同技能无默认的数值 `RUNTIME_INPUT`，且参数必须被本动作实际结果数值消费；生命周期、条件及主动兄弟不得借用该授权。
+
+沿现有动作JSONB、统一配置事务和引用索引保存，不增加表或迁移。后续修改参数、效果、触发规则或删除引用时，按事务最终组成复核，失败回滚。前端输入与原生冻结值的完整约束见规划真源 `outputs/priority-adaptation-2026-10-18/场景显式初值参数实施方案.md`。定向检查为 `mvn "-Dtest=SkillSceneInitialParameterSemanticsTest,SkillTriggerSceneInitialParameterServiceTest,SkillSceneInitialParameterWriteGuardTest" test`；本增量完整测试1919项通过，无失败或跳过，隔离测试与实际HTTP保存分别记录。
 
 ## 共同公式定义与校验第一阶段
 

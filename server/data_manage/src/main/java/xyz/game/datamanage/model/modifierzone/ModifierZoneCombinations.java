@@ -19,9 +19,11 @@ public final class ModifierZoneCombinations {
                 || ((mode == ModifierZoneCalculationMode.RATIO_ADD || mode == ModifierZoneCalculationMode.RATIO_MULTIPLY
                     || mode == ModifierZoneCalculationMode.RATIO_COMPLEMENT_MULTIPLY)
                     && stage == ModifierZoneApplicationStage.ATTRIBUTE_PERCENT);
-            case DAMAGE -> mode == ModifierZoneCalculationMode.RATIO_ADD
+            case DAMAGE -> (mode == ModifierZoneCalculationMode.RATIO_ADD
                 && (stage == ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE
-                    || stage == ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE);
+                    || stage == ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE))
+                || (mode == ModifierZoneCalculationMode.RATIO_MULTIPLY
+                    && stage == ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE);
             case HEALING -> (mode == ModifierZoneCalculationMode.RATIO_ADD
                     || mode == ModifierZoneCalculationMode.RATIO_MAX)
                 && stage == ModifierZoneApplicationStage.HEALING_RESULT;
