@@ -208,7 +208,7 @@ class SimulationAvailabilityServiceTest {
     }
 
     @Test
-    void currentScopeTransportsAllSixBoundRealExclusionsWithUnchangedReasonsAndNoOtherSkills() throws Exception {
+    void currentScopeTransportsAllBoundRealExclusionsWithUnchangedReasonsAndNoOtherSkills() throws Exception {
         JsonNode originalScope = new SimulationAvailabilityResources(json, new DefaultResourceLoader()).scope("lol").value();
         assertNotNull(originalScope);
         List<Row> boundExclusions = new ArrayList<>();
@@ -236,7 +236,9 @@ class SimulationAvailabilityServiceTest {
             assertEquals(expected, actual.excludedSkillSources());
             assertTrue(json.valueToTree(actual).path("excludedSkillSources").isArray());
         }
-        assertEquals(6, excludedCount);
+        assertEquals(7, excludedCount);
+        Entry garen = result.characters().stream().filter(item -> item.key().equals("champion_garen")).findFirst().orElseThrow();
+        assertEquals(List.of("garen_p"), garen.excludedSkillSources().stream().map(ExcludedSkillSource::skillKey).toList());
         assertTrue(result.equipment().stream().allMatch(item -> item.excludedSkillSources().isEmpty()));
     }
 

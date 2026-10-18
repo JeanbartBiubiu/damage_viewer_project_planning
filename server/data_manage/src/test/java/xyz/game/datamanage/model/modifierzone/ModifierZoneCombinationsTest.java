@@ -15,15 +15,17 @@ class ModifierZoneCombinationsTest {
         org.junit.jupiter.api.Assertions.assertEquals(25, ModifierZoneCalculationMode.RATIO_COMPLEMENT_MULTIPLY.name().length());
     }
     @Test
-    void multiplicationOnlyAcceptsAttributePercentageStage() {
+    void multiplicationOnlyAcceptsAttributePercentageOrPostDefenseDamageStage() {
         assertTrue(ModifierZoneCombinations.isLegal(ModifierZoneDomain.ATTRIBUTE,
             ModifierZoneCalculationMode.RATIO_MULTIPLY, ModifierZoneApplicationStage.ATTRIBUTE_PERCENT));
         assertFalse(ModifierZoneCombinations.isLegal(ModifierZoneDomain.ATTRIBUTE,
             ModifierZoneCalculationMode.RATIO_MULTIPLY, ModifierZoneApplicationStage.ATTRIBUTE_FLAT));
         assertFalse(ModifierZoneCombinations.isLegal(ModifierZoneDomain.HEALING,
             ModifierZoneCalculationMode.RATIO_MULTIPLY, ModifierZoneApplicationStage.HEALING_RESULT));
-        assertFalse(ModifierZoneCombinations.isLegal(ModifierZoneDomain.DAMAGE,
+        assertTrue(ModifierZoneCombinations.isLegal(ModifierZoneDomain.DAMAGE,
             ModifierZoneCalculationMode.RATIO_MULTIPLY, ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE));
+        assertFalse(ModifierZoneCombinations.isLegal(ModifierZoneDomain.DAMAGE,
+            ModifierZoneCalculationMode.RATIO_MULTIPLY, ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE));
         assertFalse(ModifierZoneCombinations.isLegal(ModifierZoneDomain.SHIELD,
             ModifierZoneCalculationMode.RATIO_MULTIPLY, ModifierZoneApplicationStage.SHIELD_RESULT));
     }

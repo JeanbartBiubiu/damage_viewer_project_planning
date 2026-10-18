@@ -3,15 +3,15 @@
   "gameId": "lol",
   "profile": "combat-analysis-v1",
   "digestVersion": "simulation-availability-v1",
-  "scopeDigest": "3bc0d466dac98b2093645e8ac396e6224f6d9f2c65f583057afa44980041e1eb",
-  "sharedDigest": "3cceda5a6c6affb0f895b9edc787559432fa57d273a574b0886407d1754b6057",
-  "wasmSha256": "bb20f4fae2168cdd7c24c2f0f17a59d5491334ccafb222a408a19af6d85f5e50",
-  "adapterVersion": "v16-complete-source-effects",
+  "scopeDigest": "a5094ae6a7401f4b9a8bd3638388dfd1e8ef9a70fbb50431c9d9cfd2711fa1f9",
+  "sharedDigest": "91a01f39579d516eeb68c2ffc69b2899ce05326185d2d6f2c38fbe4e966b6e58",
+  "wasmSha256": "32bf88be215f9173da8bd377f24d9f1e3126b1cb3cc077bb1a2d96a0ae638395",
+  "adapterVersion": "v22-root-hit-events-and-target-attributes",
   "entries": [
     {
       "kind": "CHARACTER",
       "key": "champion_annie",
-      "contentDigest": "6e61a6462c842c4677fb08e98e66a989c73308a3a79756700de2ee45fd942d18",
+      "contentDigest": "cb7de9adf2998a804f8decda4553d03032181b2ac72e12ee587f58d2a9e54433",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -99,21 +99,135 @@
         "equipmentMode": "none"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/all-bb20/coverage-evidence-candidate.json",
-        "output/first-hero-2026-10-17/all-bb20/raw-manifest.json",
-        "output/first-hero-2026-10-17/mechanisms-2026-10-17T17-02-58-499Z/mechanism-evidence-candidate.json",
-        "output/first-hero-2026-10-17/mechanisms-2026-10-17T17-02-58-499Z/raw-manifest.json",
-        "output/first-hero-2026-10-17/independent-web-review-bb20/final-proof-audit.json",
-        "output/first-hero-2026-10-17/strict-worker-replay-bb20/summary.json",
-        "output/first-hero-2026-10-17/independent-web-review-bb20/supplemental-audit.json",
-        "output/first-hero-2026-10-17/independent-web-review-bb20/最终证明候选独立复核.md"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/coverage-evidence-candidate.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/raw-manifest.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/mechanisms/mechanism-evidence-candidate.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/mechanisms/raw-manifest.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/summary.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "CHARACTER",
+      "key": "champion_garen",
+      "contentDigest": "a4a89b628990cec99d57f6ee04f9239445c181307f3b8932390eb20f8de357d2",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "garen_e",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "garen_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "garen_r",
+            "levels": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "skillKey": "garen_w",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "evidenceRefs": [
+        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-25-01-445Z/coverage-evidence-candidate.json",
+        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-25-01-445Z/raw-manifest.json",
+        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-25-01-445Z/production-source-before.json",
+        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-25-01-445Z/production-source-after.json",
+        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-25-01-445Z/input-change-recompile.json",
+        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-25-01-445Z/summary.json",
+        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-23-02-020Z/raw-manifest.json",
+        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-23-02-020Z/summary.json",
+        "output/first-hero-2026-10-17/garen-corki-v22-regression/positive-vamp/worker-positive-2026-10-18T15-25-01-469Z/raw-manifest.json",
+        "output/first-hero-2026-10-17/garen-corki-v22-regression/positive-vamp/worker-positive-2026-10-18T15-25-01-469Z/summary.json",
+        "output/first-hero-2026-10-17/garen-corki-v22-regression/positive-vamp/worker-positive-2026-10-18T15-25-01-469Z/positive-vamp-candidate.json",
+        "outputs/priority-adaptation-2026-10-18/garen-w-precombat-authoring/revision-02/plan.json",
+        "outputs/priority-adaptation-2026-10-18/garen-w-precombat-authoring/revision-02/expected.json",
+        "outputs/priority-adaptation-2026-10-18/garen-w-precombat-authoring/revision-02/saved-independent-readback.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/garen-v22-review/garen-32bf-v22-complete-independent-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/garen-v22-review/garen-32bf-v22-positive-vamp-independent-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/scene-initial-review/native-scene-parameter-independent-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/scene-initial-review/host-scene-parameter-independent-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/scene-initial-review/backend-scene-initial-parameter-final-review.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "duolan_jian",
-      "contentDigest": "13218d311213dcabaf6c1438146db7b3a708caae179baacba1938b8a0e04fb72",
+      "contentDigest": "693c077c063d1ba2ad2be7fd951aca6e937a91d47bb52d760ca29fb65af4aedf",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -150,14 +264,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/duolan_jian/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/duolan_jian/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1011",
-      "contentDigest": "fc81486268b7899bf59860db6861a0cc65f15f37d5adfe021fa659ec4a0dd673",
+      "contentDigest": "0451fb25ba10f32432311b6f080c3987d93fc58b1d335dda937950e890695173",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -194,14 +314,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_1011/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1011/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1018",
-      "contentDigest": "2cb4795fac4df981d07e936f7f301ee4d0bf2a618487b70cec2eea51e4ca8c06",
+      "contentDigest": "28534df3501ca60964f88f84f02d8e88489907e8131133047a5c9bec68fdc77e",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -238,14 +364,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_1018/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1018/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1028",
-      "contentDigest": "70e284e8c04a46fe4f29bdad23fed144cac13eb9b9be01b1952c619cd40b9241",
+      "contentDigest": "ea5e816a8f0f52ea39cdd0ef6007b699055cef6fa2fa89a707fd4ddb00a7e5d6",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -282,14 +414,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_1028/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1028/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1029",
-      "contentDigest": "d843767e68abbc513bb8141398ef09e57a92e306ca47a28f116c8f935aea48d9",
+      "contentDigest": "8ad8788b9552f60ec679947bc4be9ba588f646b21d626a3986a8dec97039ebe3",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -326,14 +464,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_1029/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1029/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1031",
-      "contentDigest": "a80ffe0ea3d618a78ea65bd67526855cf2a381e8cf1ad366c09f2ca9bc659f8f",
+      "contentDigest": "a52b68cb898e8d9e02e7d7e4160e135db2031b160687a8ce420af351c0080385",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -370,14 +514,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_1031/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1031/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1036",
-      "contentDigest": "8ffedd1319c6e02fad34d779765e17c86b9c0e64a9c81bedffaf7fdc166a0174",
+      "contentDigest": "77069db5f9f9628ef4547c45a1517cf957e29bdb3a864efcf7343677baba1767",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -414,14 +564,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_1036/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1036/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1037",
-      "contentDigest": "4b94b20a0e69dbacfca99a1034eddcce238a03f022bd442f8290c56c33d69f57",
+      "contentDigest": "c020d8366ce16d0c6907fdca7be61c575cfe272766ecfd32f20af75fcc4c4d99",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -458,14 +614,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_1037/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1037/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1038",
-      "contentDigest": "78bf5b4626f8bf13c6d6ae4b8188d7a730e210572a92ed4b9cc41c19788d8dca",
+      "contentDigest": "b184e7ef2e51322e4ba0a825c3590afdf4be6543f7b76130af1d69b9f1f01dc5",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -502,14 +664,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_1038/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1038/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1042",
-      "contentDigest": "51035ea260da3168362ba04056ff7580e967e0b109b40c27cd5af69c79937573",
+      "contentDigest": "fc944241e175a33baa2f2da42ab09190728f920c729c77afcb5c77899bba9c96",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -546,14 +714,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_1042/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1042/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1053",
-      "contentDigest": "8bc4464e71249264fa33c7a8514211816e8008918c8ab6dabba63afffc6682bb",
+      "contentDigest": "748540f408be53e603846c5fa4d3bafe594537f99ec74511baae647cd075d14c",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -590,14 +764,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_1053/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1053/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1086",
-      "contentDigest": "21b7ab6c2b6970375a5de6ea34816fa90a1fb82f37bb46b72452fb14ddec81ce",
+      "contentDigest": "5b4324dea0948a6560de7a541ddc46aa436232c6d6db5ea9c4204bcd7edddaeb",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -634,14 +814,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_1086/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1086/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_2019",
-      "contentDigest": "d933669951aab2b7217ae2761227b76487e07e45eee8e17f86d5f59ca57c0ffa",
+      "contentDigest": "f305e330df87a8c62c98db1834f1aa8531b6931cd085303f9876a2abd93b2de8",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -678,14 +864,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_2019/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_2019/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_2021",
-      "contentDigest": "219a6d0217cd3ea2403e3a965777b54260758fb51b32b839b031163628908edf",
+      "contentDigest": "52f90d6b0e16a36504f60b61ba5fa697e7b761ba8e5b2afba37612ff43825566",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -722,14 +914,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_2021/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_2021/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_3031",
-      "contentDigest": "c6b7239c523ca8a03525979a1193a822fe474fc9306df3463492d408dc4fabf2",
+      "contentDigest": "244b87757dc8b1c2653f351d0e10ec2fa0c77e32c151645be54502b84b07e564",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -766,14 +964,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_3031/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_3031/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_3035",
-      "contentDigest": "e88ddf26dfbf5c5a3c84b465569658955e22a0940b88d77aa4399e58fcf3b8e1",
+      "contentDigest": "6f75ecccea58834f0b593f2369aafd3142bed3d3be4faf8fd750c829655eda2a",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -810,14 +1014,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_3035/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_3035/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_3051",
-      "contentDigest": "fae4553a4575422c898c84dc55e1c08a958963df418b14f95f5c8423171f3151",
+      "contentDigest": "92a8fd4cf9ef39054e3099c5a1a47b371d2159c0dac076453b8a73016eaf71bf",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -854,14 +1064,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_3051/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_3051/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_3134",
-      "contentDigest": "3a88a2184e78d88766bb78012e387a592e41723c00e2b547f5944760cd3701a3",
+      "contentDigest": "8039597cf89370627d49176d732f6a72992456198a0256643b3ccc6b25577c85",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -898,14 +1114,20 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_3134/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_3134/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_6670",
-      "contentDigest": "628202f348f2d1308996b901b27e308677f0d56dd8304d3b412d8cc50d115028",
+      "contentDigest": "378a9381bd21aaac24af171fdc1bb752b82440b22cfa8fe434cb24245380db6d",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -942,7 +1164,13 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/equipment-bb20/item_6670/verification.json"
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_6670/verification.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
+        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
+        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
       ],
       "issues": []
     }

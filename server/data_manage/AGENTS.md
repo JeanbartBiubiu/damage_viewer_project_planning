@@ -2,7 +2,7 @@
 
 ## 范围与入口
 
-本文件适用于 `server/data_manage/**`。先读同目录 `README.md` 和 `src/main/resources/application.yml`，再读目标路径更近的 `AGENTS.md`；依赖、初始化顺序、接口清单和命令以 README、`pom.xml` 与当前源码为准。
+本文件适用于 `server/data_manage/**`。先读同目录 `README.md` 和目标路径更近的 `AGENTS.md`；依赖、初始化顺序、接口清单和命令以 README、`pom.xml` 与当前源码为准。仅在任务需要时读取 `src/main/resources/application.yml` 等本地配置，先使用 `secret-safe-local-file-processing` 技能过滤，只输出必要的非敏感结构；不得直接打印配置文件、环境变量或凭据值。业务数据录入与运行验证不要求读取连接凭据。
 
 默认只写后端模块及任务明确包含的 `db/**`、接口文档和后端文档或工具。`web/**` 与 `wasm/**` 默认只读；共享契约变化返回主负责人统一处理。
 

@@ -124,6 +124,12 @@ public class GameConfigurationWriteGuard {
         if (!skillAffected.isEmpty() || changes.vampRulesChanged())
             vampSemantics.validate(gameId, skillAffected, skillContext, changes.vampRulesChanged());
         if (!skillAffected.isEmpty()) {
+            Map<String, SkillSceneAttributeSnapshotSemantics.Attribute> sceneAttributes = new LinkedHashMap<>();
+            after.rows().forEach((id, row) -> {
+                if (id.type().equals("ATTRIBUTE")) sceneAttributes.put(id.key(), new SkillSceneAttributeSnapshotSemantics.Attribute(
+                    row.path("status").textValue(), row.path("value_type").textValue()));
+            });
+            SkillSceneAttributeSnapshotSemantics.validateAttributes(skillAffected, sceneAttributes);
             healingRatioMaxSemantics.validate(gameId, skillAffected);
             numericSemantics.validate(gameId, skillAffected, skillContext);
         }

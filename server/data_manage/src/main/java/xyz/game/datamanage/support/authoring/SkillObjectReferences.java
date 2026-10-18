@@ -442,13 +442,13 @@ public final class SkillObjectReferences {
                         qualifiedChild(bindingDetail, dp, "stateSkillKey", "optionKey", TargetType.OPTION, text(bindingDetail, "stateKey"));
                     }
                     case "COMBAT_STATUS" -> statusSource(bindingDetail, dp);
-                    case "COMBAT_ELAPSED_TIME" -> { }
+                    case "COMBAT_ELAPSED_TIME", "SCENE_INITIAL_PARAMETER" -> { }
                     case "RECENT_DAMAGE_SUM" -> {
                         formulas(bindingDetail, dp, "windowValue");
                         dictionary(bindingDetail, dp, "sourceSkillKey", TargetType.SKILL);
                         dictionary(bindingDetail, dp, "damageTypeKey", TargetType.DAMAGE_TYPE);
                     }
-                    case "SOURCE_CAST_RESOURCE_COST" -> dictionary(bindingDetail, dp, "attributeKey", TargetType.ATTRIBUTE);
+                    case "SOURCE_CAST_RESOURCE_COST", "SCENE_ATTRIBUTE_SNAPSHOT" -> dictionary(bindingDetail, dp, "attributeKey", TargetType.ATTRIBUTE);
                     case "PRIOR_ACTION_RESULT" -> {
                         child(bindingDetail, dp, "sourceActionKey", TargetType.ACTION, source.key());
                         JsonNode sourceAction = actionsByKey.get(text(bindingDetail, "sourceActionKey"));
