@@ -13,10 +13,12 @@
 
 # 冻结证据含原始响应和压缩文件，提交、检出均保持原始字节。
 /outputs/priority-adaptation-2026-10-18/** -text
+/web/output/first-hero-2026-10-17/** -text
 
 # 正式计算证明按源码原始字节记录摘要，不随 Windows 检出转换换行。
 /web/src/engine/** -text
 /web/src/pages/simulation/** -text
 /web/src/services/** -text
 /web/src/types/** -text
+/web/tests/fixtures/firstHeroWorker.ts -text
 /wasm/tinygo_engine_v2/**/*.go -text
