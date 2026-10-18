@@ -143,6 +143,7 @@ final class SimulationSnapshotFixture {
             SkillInternalStateDetail detail = switch (state.stateType()) {
                 case FLAG -> json.treeToValue(detailData, SkillInternalStateFlagDetail.class);
                 case COUNTER -> json.treeToValue(detailData, SkillInternalStateCounterDetail.class);
+                case AMMO -> json.treeToValue(detailData, SkillInternalStateAmmoDetail.class);
                 default -> throw new IllegalArgumentException("未声明的隔离测试状态");
             };
             states.add(new SkillInternalStateDetailResponse(GAME, key, state.stateKey(), state.name(), state.stateType(), state.scope(),

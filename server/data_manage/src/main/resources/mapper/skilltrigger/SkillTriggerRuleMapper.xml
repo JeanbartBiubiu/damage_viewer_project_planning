@@ -1115,17 +1115,19 @@
     </select>
 
     <select id="listInternalStateValues" resultType="string">
-        SELECT initial_value
-        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.internalStateCounterDetails"/>)
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+        SELECT detail->>'initialValue' AS initial_value
+        FROM public.skill_internal_states
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey} AND state_type = 'COUNTER'
+          AND (detail->'initialValueBinding' IS NULL OR detail->'initialValueBinding' = 'null'::jsonb)
         UNION
         SELECT max_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.internalStateCounterDetails"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
         UNION
-        SELECT initial_value
-        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.internalStateAmmoDetails"/>)
-        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey}
+        SELECT detail->>'initialValue' AS initial_value
+        FROM public.skill_internal_states
+        WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey} AND state_type = 'AMMO'
+          AND (detail->'initialValueBinding' IS NULL OR detail->'initialValueBinding' = 'null'::jsonb)
         UNION
         SELECT max_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.internalStateAmmoDetails"/>)
@@ -1474,6 +1476,10 @@
           + (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleInternalStateBindings"/>)
              WHERE game_id = #{gameId} AND COALESCE(state_skill_key, skill_key) = #{skillKey} AND state_key = #{stateKey})
+          + (SELECT COUNT(1)
+             FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.actions) a
+             WHERE r.game_id = #{gameId} AND a->>'actionType' = 'MODIFY_INTERNAL_STATE'
+               AND a->'detail'->>'stateSkillKey' = #{skillKey} AND a->'detail'->>'stateKey' = #{stateKey})
     </select>
 
     <select id="countOptionReferences" resultType="long">

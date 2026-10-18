@@ -64,6 +64,18 @@ mvn "-Dtest=SimulationAvailability*Test" test
 
 沿现有动作JSONB、统一配置事务和引用索引保存，不增加表或迁移。后续修改参数、效果、触发规则或删除引用时，按事务最终组成复核，失败回滚。前端输入与原生冻结值的完整约束见规划真源 `outputs/priority-adaptation-2026-10-18/场景显式初值参数实施方案.md`。定向检查为 `mvn "-Dtest=SkillSceneInitialParameterSemanticsTest,SkillTriggerSceneInitialParameterServiceTest,SkillSceneInitialParameterWriteGuardTest" test`；本增量完整测试1919项通过，无失败或跳过，隔离测试与实际HTTP保存分别记录。
 
+## 弹药初值、回充减时与发射计数
+
+计数和弹药明细支持可选 `initialValueBinding`（初值声明），弹药另支持 `initialRemainingValue`（初始回充余时，毫秒）与 `initialRemainingMsBinding`（余时声明）。声明复用场景显式初值绑定，只接受本技能无默认的整数运行参数、非负安全整数边界及对应字段对同一参数的直接引用，只用于技能自身范围。余时只适用于消费后逐枚恢复；状态初值声明不会变成每发动作的动态输入。旧对象没有新字段时，响应不补出这些字段。实际库存、容量和余时的本场组合由宿主和原生检查，后端不虚构初值。
+
+`MODIFY_INTERNAL_STATE / REDUCE_RECOVERY`（内部状态动作／减少下一枚回充）只允许本技能普通攻击命中，作用于来源自身的本技能弹药；值沿现有数值结构表示非负毫秒，不改变库存或单发冷却。动态输入绑定和结果修正必须为空，不能借此开放新的场景初值入口。只有这个动作的自身弹药目标可使用上述来源语义，旧事件对象目录、效果动作和其他事件的准入保持。减时本身不产生另一个通用触发事件。
+
+快照的本方普攻自然根与宿主口径一致：未给该技能安排主动计划时，动作全部为内部状态减时的非空规则不单独启用，避免未使用的弹药要求本场库存、余时。该技能有计划或规则混有其它动作时保留；另一个技能的计划不代替本技能计划。目标方仍不获得自主攻击，完整来源身份与计划绑定校验保持。
+
+真实首次启动过程可读取本技能整数计数器，给过程开始的自身计数 `SET`（赋值）供值；绑定必须为无默认整数参数。可达公式只接受这些已绑定状态参数及同技能固定、等级参数，不开放属性、上下文或其他状态操作。作者可按顺序冻结本发序号并推进下一发；后端保存与校验，不执行发射、命中或回充。
+
+沿现有状态、动作的 JSONB 结构及统一事务最终守卫实现，无数据库迁移。引用索引和删除保护覆盖状态初值声明、减时动作及其参数、公式；修改依赖时重新核对最终组成，失败回滚。本轮契约见规划真源 `outputs/priority-adaptation-2026-10-18/corki-next/r-implementation-2026-10-19/作者与宿主实施契约.md`。定向检查：`mvn "-Dtest=SkillAmmoAuthoring*Test,SkillTriggerAmmoRecovery*Test,SkillInternalStateServiceTest,SkillNumericSemanticsTest,SkillSceneInitialParameter*Test,SkillObjectReferencesTest,SkillConfigurationServiceTest,GameConfigurationWriteGuardTest" test`；收尾全测和隔离打包。替身及静态查询检查不代表实库、HTTP或战斗验证，亦不直接开放整英雄。
+
 ## 共同公式定义与校验第一阶段
 
 `support/formula/FormulaContractValidator` 提供原始JSON定义及调用者授权绑定目录到首个 `{code,path}` 问题的纯校验入口，成功返回空值。结构读取规划真源生成的规范，校验全部声明与分支的结构、预算、十进制范围、唯一标识、授权绑定、引用和依赖环；保留常量原字符串，不执行算术，也不访问数据库或网络。字段路径使用JSON Pointer（JSON字段定位路径），根为空串。

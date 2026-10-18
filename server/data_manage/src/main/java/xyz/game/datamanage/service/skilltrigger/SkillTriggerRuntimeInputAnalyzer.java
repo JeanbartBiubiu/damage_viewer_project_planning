@@ -103,6 +103,12 @@ public class SkillTriggerRuntimeInputAnalyzer {
                 new LinkedHashSet<>()
             );
         }
+        return reachableRuntimeParametersForValues(gameId, skillKey, values);
+    }
+
+    public Map<String, SkillParameterValueType> reachableRuntimeParametersForValues(
+        String gameId, String skillKey, Collection<SkillNumericValue> values
+    ) {
         if (values.isEmpty()) {
             return Map.of();
         }

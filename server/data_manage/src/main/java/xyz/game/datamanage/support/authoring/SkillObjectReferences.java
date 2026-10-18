@@ -281,8 +281,15 @@ public final class SkillObjectReferences {
         private void state() {
             JsonNode detail = source.data().path("detail");
             switch (required(source.data(), "stateType", "stateType")) {
-                case "COUNTER" -> formulas(detail, "detail", "initialValue", "maxValue", "durationValue");
-                case "AMMO" -> formulas(detail, "detail", "initialValue", "maxValue", "recoveryIntervalValue");
+                case "COUNTER" -> {
+                    formulas(detail, "detail", "initialValue", "maxValue", "durationValue");
+                    local(detail.path("initialValueBinding"), "detail.initialValueBinding", "parameterKey", TargetType.PARAMETER);
+                }
+                case "AMMO" -> {
+                    formulas(detail, "detail", "initialValue", "maxValue", "recoveryIntervalValue", "initialRemainingValue");
+                    local(detail.path("initialValueBinding"), "detail.initialValueBinding", "parameterKey", TargetType.PARAMETER);
+                    local(detail.path("initialRemainingMsBinding"), "detail.initialRemainingMsBinding", "parameterKey", TargetType.PARAMETER);
+                }
                 case "INTERNAL_COOLDOWN" -> formulas(detail, "detail", "durationValue");
                 case "MODE", "FLAG" -> { }
                 default -> throw shape("stateType", "未知内部状态类型");
@@ -426,6 +433,10 @@ public final class SkillObjectReferences {
                 case "ADVANCE_PROCESS" -> {
                     local(detail, path + ".detail", "processKey", TargetType.PROCESS);
                     child(detail, path + ".detail", "stepKey", TargetType.STEP, text(detail, "processKey"));
+                }
+                case "MODIFY_INTERNAL_STATE" -> {
+                    qualified(detail, path + ".detail", "stateSkillKey", "stateKey", TargetType.STATE);
+                    formulas(detail, path + ".detail", "value");
                 }
                 default -> throw shape(path, "未知触发动作类型");
             }

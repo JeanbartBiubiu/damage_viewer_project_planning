@@ -47,6 +47,8 @@ import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAction;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerModifyInternalStateActionDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateOperation;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAdvanceProcessActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAttributeConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCancelProcessEventDetail;
@@ -653,7 +655,7 @@ public class SkillTriggerRuleService {
                     SkillTriggerProcessActionRow row = processActions.get(compositeKey);
                     yield row == null ? null : row.processKey();
                 }
-                case FAIL_PROCESS, ADVANCE_PROCESS -> null;
+                case FAIL_PROCESS, ADVANCE_PROCESS, MODIFY_INTERNAL_STATE -> null;
             };
             if (targetKey == null) {
                 continue;
@@ -773,7 +775,7 @@ public class SkillTriggerRuleService {
                     yield detail != null && processShapes.getOrDefault(detail.processKey(), List.of()).stream()
                         .anyMatch(row -> Objects.equals(row.bindingEffectKey(), effectKey));
                 }
-                case FAIL_PROCESS -> false;
+                case FAIL_PROCESS, MODIFY_INTERNAL_STATE -> false;
             };
             if (!reachesCandidate) {
                 continue;
@@ -1549,6 +1551,25 @@ public class SkillTriggerRuleService {
             return;
         }
         switch (action.actionType()) {
+            case MODIFY_INTERNAL_STATE -> {
+                if (!(action.detail() instanceof SkillTriggerModifyInternalStateActionDetail detail)) {
+                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "内部状态动作明细形状不合法"));
+                    return;
+                }
+                require(detail.stateSkillKey(), prefix + ".detail.stateSkillKey", "状态所属技能不能为空", issues);
+                require(detail.stateKey(), prefix + ".detail.stateKey", "状态标识不能为空", issues);
+                require(detail.operation(), prefix + ".detail.operation", "状态操作不能为空", issues);
+                require(detail.value(), prefix + ".detail.value", "回充减时数值不能为空", issues);
+                if (eventSource == null || eventSource.eventType() != SkillTriggerEventType.BASIC_ATTACK_HIT
+                    || action.targetContext() != SkillTriggerTargetContext.EVENT_SOURCE) {
+                    issues.add(fieldIssue(prefix + ".actionType", "EVENT_VALUE_NOT_AVAILABLE", "回充减时只允许普攻命中作用于来源自身"));
+                }
+                if (!action.resultModifiers().isEmpty()) issues.add(fieldIssue(prefix + ".resultModifiers", "FORBIDDEN", "回充减时不接受结果修正"));
+                if (!action.runtimeInputBindings().isEmpty()) issues.add(fieldIssue(prefix + ".runtimeInputBindings", "FORBIDDEN", "本轮回充减时不能保存动态输入绑定"));
+                if (detail.value() != null && detail.value().kind() == SkillNumericValue.Kind.FIXED && detail.value().value().signum() < 0) {
+                    issues.add(fieldIssue(prefix + ".detail.value", "RANGE_INVALID", "回充减少毫秒数不能小于零"));
+                }
+            }
             case EXECUTE_EFFECT -> {
                 if (!(action.detail() instanceof SkillTriggerExecuteEffectActionDetail detail)) {
                     issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "执行效果动作明细形状不合法"));
@@ -2219,6 +2240,15 @@ public class SkillTriggerRuleService {
         Map<String, SkillTriggerInternalStateLockRow> states,
         List<Map<String, String>> issues
     ) {
+        if (action.actionType() == SkillTriggerActionType.MODIFY_INTERNAL_STATE
+            && action.detail() instanceof SkillTriggerModifyInternalStateActionDetail modify) {
+            SkillTriggerInternalStateLockRow state = states.get(modify.stateSkillKey() + "\0" + modify.stateKey());
+            if (!skillKey.equals(modify.stateSkillKey()) || state == null || state.stateType() != SkillInternalStateType.AMMO
+                || !"SKILL".equals(state.scope()) || modify.operation() != SkillTriggerInternalStateOperation.REDUCE_RECOVERY) {
+                issues.add(fieldIssue(prefix + ".detail.stateKey", "REFERENCE_TYPE_MISMATCH", "回充减时只能修改本技能自身范围的弹药"));
+            }
+            return;
+        }
         if (action.actionType() != SkillTriggerActionType.ADVANCE_PROCESS
             || !(action.detail() instanceof SkillTriggerAdvanceProcessActionDetail detail)) {
             return;
@@ -2275,9 +2305,10 @@ public class SkillTriggerRuleService {
         List<Map<String, String>> referenceIssues
     ) {
         String targetKey = actionTargetKey(action);
-        Map<String, SkillParameterValueType> reachable = analyzer.reachableRuntimeParameters(
-            gameId, skillKey, action.actionType(), targetKey, effectShapes, processShapes
-        );
+        Map<String, SkillParameterValueType> reachable = action.actionType() == SkillTriggerActionType.MODIFY_INTERNAL_STATE
+            && action.detail() instanceof SkillTriggerModifyInternalStateActionDetail modify
+            ? analyzer.reachableRuntimeParametersForValues(gameId, skillKey, List.of(modify.value()))
+            : analyzer.reachableRuntimeParameters(gameId, skillKey, action.actionType(), targetKey, effectShapes, processShapes);
         List<SkillTriggerRuntimeInputBinding> bindings =
             action.runtimeInputBindings() == null ? List.of() : action.runtimeInputBindings();
         Set<String> bound = new LinkedHashSet<>();
@@ -2320,7 +2351,8 @@ public class SkillTriggerRuleService {
             );
         }
         if (action.actionType() == SkillTriggerActionType.EXECUTE_EFFECT
-            || action.actionType() == SkillTriggerActionType.START_PROCESS) {
+            || action.actionType() == SkillTriggerActionType.START_PROCESS
+            || action.actionType() == SkillTriggerActionType.MODIFY_INTERNAL_STATE) {
             List<String> missing = new ArrayList<>();
             for (String parameterKey : reachable.keySet()) {
                 if (!bound.contains(parameterKey)) {
@@ -2911,6 +2943,15 @@ public class SkillTriggerRuleService {
         List<Map<String, String>> referenceIssues
     ) {
         switch (action.actionType()) {
+            case MODIFY_INTERNAL_STATE -> {
+                var detail = (SkillTriggerModifyInternalStateActionDetail) action.detail();
+                refs.addState(new OwnedRef(prefix + ".detail.stateKey", detail.stateSkillKey(), detail.stateKey()));
+                if (detail.value() != null && detail.value().kind() == SkillNumericValue.Kind.PARAMETER) {
+                    refs.addParameter(new CatalogRef(prefix + ".detail.value", detail.value().parameterKey()));
+                } else if (detail.value() != null && detail.value().kind() == SkillNumericValue.Kind.FORMULA) {
+                    refs.addFormula(new CatalogRef(prefix + ".detail.value", detail.value()));
+                }
+            }
             case EXECUTE_EFFECT -> {
                 SkillTriggerExecuteEffectActionDetail detail = (SkillTriggerExecuteEffectActionDetail) action.detail();
                 refs.addEffect(new CatalogRef(prefix + ".detail.effectKey", detail.effectKey()));
@@ -2928,12 +2969,11 @@ public class SkillTriggerRuleService {
                 refs.addProcess(new CatalogRef(prefix + ".detail.processKey", detail.processKey()));
             }
         }
-        rejectUnavailableTargetContext(
-            eventSource == null ? null : eventSource.eventType(),
-            action.targetContext(),
-            prefix + ".targetContext",
-            referenceIssues
-        );
+        // 此动作的来源自身由显式同技能状态身份核定，不扩大旧事件对象目录。
+        if (action.actionType() != SkillTriggerActionType.MODIFY_INTERNAL_STATE) {
+            rejectUnavailableTargetContext(eventSource == null ? null : eventSource.eventType(), action.targetContext(),
+                prefix + ".targetContext", referenceIssues);
+        }
         List<SkillTriggerRuntimeInputBinding> bindings =
             action.runtimeInputBindings() == null ? List.of() : action.runtimeInputBindings();
         for (int b = 0; b < bindings.size(); b++) {
@@ -3157,6 +3197,7 @@ public class SkillTriggerRuleService {
 
     private static String actionTargetKey(SkillTriggerAction action) {
         return switch (action.actionType()) {
+            case MODIFY_INTERNAL_STATE -> ((SkillTriggerModifyInternalStateActionDetail) action.detail()).stateKey();
             case EXECUTE_EFFECT -> ((SkillTriggerExecuteEffectActionDetail) action.detail()).effectKey();
             case START_PROCESS -> ((SkillTriggerStartProcessActionDetail) action.detail()).processKey();
             case FAIL_PROCESS -> ((SkillTriggerFailProcessActionDetail) action.detail()).processKey();
@@ -3256,7 +3297,7 @@ public class SkillTriggerRuleService {
                         .map(SkillTriggerProcessShapeRow::bindingEffectKey)
                         .filter(Objects::nonNull)
                         .anyMatch(effectKey -> effectContainsReflectedDamage(effectKey, effectShapes));
-                case FAIL_PROCESS -> false;
+                case FAIL_PROCESS, MODIFY_INTERNAL_STATE -> false;
             };
             if (!reflected) {
                 continue;

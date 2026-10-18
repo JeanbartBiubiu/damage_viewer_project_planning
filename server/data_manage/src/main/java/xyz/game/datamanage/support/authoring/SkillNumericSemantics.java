@@ -233,13 +233,25 @@ public final class SkillNumericSemantics {
                 }
                 case STATE -> {
                     JsonNode detail = d.path("detail");
+                    var stateIssues = SkillStateInitialParameterSemantics.detailIssues(text(d, "stateType"), text(d, "scope"), detail);
+                    if (!stateIssues.isEmpty()) {
+                        var issue = stateIssues.getFirst();
+                        throw invalid(a, issue.get("field"), issue.get("code"), issue.get("message"));
+                    }
                     switch (text(d, "stateType")) {
                         case "COUNTER", "AMMO" -> {
                             Use initial = use(a, detail, "detail", "initialValue", Bound.NON_NEGATIVE_INTEGER, false);
                             Use maximum = use(a, detail, "detail", "maxValue", "AMMO".equals(text(d, "stateType"))
                                 ? Bound.POSITIVE_INTEGER : Bound.NON_NEGATIVE_INTEGER, false);
                             compareInitialCapacity(initial, maximum);
-                            if ("AMMO".equals(text(d, "stateType"))) use(a, detail, "detail", "recoveryIntervalValue", Bound.POSITIVE, false);
+                            validateStateInitialBinding(a, "initialValueBinding");
+                            if ("AMMO".equals(text(d, "stateType"))) {
+                                use(a, detail, "detail", "recoveryIntervalValue", Bound.POSITIVE, false);
+                                Use remaining = use(a, detail, "detail", "initialRemainingValue", Bound.NON_NEGATIVE_INTEGER,
+                                    !detail.hasNonNull("initialRemainingMsBinding"));
+                                validateSafeInteger(remaining);
+                                validateStateInitialBinding(a, "initialRemainingMsBinding");
+                            }
                             if ("COUNTER".equals(text(d, "stateType")) && !detail.path("durationValue").isMissingNode()
                                 && !detail.path("durationValue").isNull()) {
                                 use(a, detail, "detail", "durationValue", Bound.NON_NEGATIVE_INTEGER, false);
@@ -309,6 +321,11 @@ public final class SkillNumericSemantics {
                     use(a, d.path("limits").path("maxTriggersPerProcess"), "maxTriggersPerProcess", "limitValue", Bound.POSITIVE_INTEGER, true);
                     int actionIndex = 0;
                     for (JsonNode action : d.path("actions")) {
+                        if ("MODIFY_INTERNAL_STATE".equals(text(action, "actionType"))) {
+                            Use value = use(a, action.path("detail"), "actions[" + actionIndex + "].detail", "value",
+                                Bound.NON_NEGATIVE_FINITE, true);
+                            if (value == null) throw invalid(a, "actions[" + actionIndex + "].detail.value", "REQUIRED", "回充减时必须配置数值");
+                        }
                         int bindingIndex = 0;
                         for (JsonNode binding : action.path("runtimeInputBindings")) {
                             if ("RECENT_DAMAGE_SUM".equals(text(binding, "sourceType"))) {
@@ -328,6 +345,39 @@ public final class SkillNumericSemantics {
                         actionIndex++;
                     }
                 }
+            }
+        }
+
+        private void validateStateInitialBinding(Aggregate state, String field) {
+            JsonNode detail = state.data().path("detail"), binding = detail.path(field);
+            if (binding.isMissingNode() || binding.isNull()) return;
+            String key = text(binding, "parameterKey");
+            Parameter parameter = parameters.get(state.skillKey() + "/" + key);
+            if (parameter == null || !"INTEGER".equals(parameter.valueType()) || !noDefaultRuntime(parameter)) {
+                throw invalid(state, "detail." + field + ".parameterKey", "REFERENCE_TYPE_MISMATCH",
+                    "状态初值必须绑定本技能无默认值的整数计算时参数");
+            }
+            for (String other : List.of("maxValue", "durationValue", "recoveryIntervalValue")) {
+                JsonNode raw = detail.get(other);
+                if (raw != null && !raw.isNull()) {
+                    Use use = new Use(state, "detail." + other, SkillNumericValue.fromJson(raw));
+                    if (runtime(use).contains(key)) throw invalid(state, use.path(), "EVENT_VALUE_NOT_AVAILABLE",
+                        "状态初值声明不能供给容量、时长或回充间隔");
+                }
+            }
+        }
+
+        private static boolean noDefaultRuntime(Parameter parameter) {
+            return "RUNTIME_INPUT".equals(parameter.valueMode()) && parameter.fixedValue() == null
+                && (parameter.levelValues() == null || parameter.levelValues().isNull() || parameter.levelValues().isMissingNode());
+        }
+
+        private void validateSafeInteger(Use use) {
+            Map<Levels, Fraction> known = use == null ? null : optionalStaticValues(use);
+            if (known == null) return;
+            Fraction maximum = Fraction.of(new BigDecimal("9007199254740991"));
+            for (Fraction value : known.values()) if (value.compareTo(maximum) > 0) {
+                throw invalid(use.source(), use.path(), "VALUE_RANGE_INVALID", "状态初始余时必须为非负安全整数毫秒");
             }
         }
 
@@ -692,6 +742,7 @@ public final class SkillNumericSemantics {
             if (a == null) return; // 引用存在性已由统一引用校验保护。
             collect(a);
             for (Use use : uses.getOrDefault(target, List.of())) {
+                if (declaredStateInitialUse(use)) continue;
                 Set<String> inputs = runtime(use);
                 if (!consumer.skillKey().equals(a.skillKey()) && !inputs.isEmpty()) {
                     throw invalid(consumer, "actions.runtimeInputBindings", "FOREIGN_RUNTIME_INPUT_UNSUPPORTED",
@@ -713,6 +764,13 @@ public final class SkillNumericSemantics {
             }
         }
 
+        private boolean declaredStateInitialUse(Use use) {
+            if (use.source().type() != SourceType.STATE) return false;
+            JsonNode detail = use.source().data().path("detail");
+            return "detail.initialValue".equals(use.path()) && detail.hasNonNull("initialValueBinding")
+                || "detail.initialRemainingValue".equals(use.path()) && detail.hasNonNull("initialRemainingMsBinding");
+        }
+
         private void bindings(Aggregate rule) {
             int i = 0;
             for (JsonNode action : rule.data().path("actions")) {
@@ -724,6 +782,9 @@ public final class SkillNumericSemantics {
                     validateResultModifiers(rule, action, i, effectKey);
                 }
                 if ("START_PROCESS".equals(type)) dependencies(rule, new Id(rule.skillKey(), SourceType.PROCESS, text(action.path("detail"), "processKey")), required, new LinkedHashSet<>());
+                if ("MODIFY_INTERNAL_STATE".equals(type)) {
+                    validateRecoveryAction(rule, action, i);
+                }
                 Set<String> bound = new LinkedHashSet<>();
                 int j = 0;
                 for (JsonNode binding : action.path("runtimeInputBindings")) {
@@ -732,6 +793,9 @@ public final class SkillNumericSemantics {
                     Parameter p = parameters.get(rule.skillKey() + "/" + key);
                     if (!bound.add(key)) throw invalid(rule, path, "BINDING_DUPLICATE", "同一参数不能重复绑定");
                     if (p == null || !"RUNTIME_INPUT".equals(p.valueMode()) || !required.contains(key)) throw invalid(rule, path, "BINDING_EXTRA", "绑定参数不是该动作需要的计算时输入");
+                    if ("START_PROCESS".equals(type)) {
+                        validateCounterStartBinding(rule, action, binding, p, path);
+                    }
                     if ("EVENT_VALUE".equals(text(binding, "sourceType"))) validateSkillHitEventValue(rule, binding.path("detail"), path + ".detail");
                     if ("SCENE_ATTRIBUTE_SNAPSHOT".equals(text(binding, "sourceType"))) {
                         Aggregate process = objects.get(new Id(rule.skillKey(), SourceType.PROCESS, text(action.path("detail"), "processKey")));
@@ -772,6 +836,59 @@ public final class SkillNumericSemantics {
                 }
                 if (!bound.containsAll(required)) throw invalid(rule, "actions[" + i + "].runtimeInputBindings", "BINDING_MISSING", "动作需要的计算时输入缺少绑定");
                 i++;
+            }
+        }
+
+        private void validateRecoveryAction(Aggregate rule, JsonNode action, int index) {
+            String path = "actions[" + index + "]";
+            JsonNode detail = action.path("detail"), event = rule.data().path("eventSource");
+            Aggregate state = objects.get(new Id(text(detail, "stateSkillKey"), SourceType.STATE, text(detail, "stateKey")));
+            if (!"BASIC_ATTACK_HIT".equals(text(event, "eventType")) || !"EVENT_SOURCE".equals(text(action, "targetContext"))
+                || !event.path("detail").isObject() || !event.path("detail").isEmpty()
+                || !rule.skillKey().equals(text(detail, "stateSkillKey")) || state == null
+                || !"AMMO".equals(text(state.data(), "stateType")) || !"SKILL".equals(text(state.data(), "scope"))
+                || !"REDUCE_RECOVERY".equals(text(detail, "operation")) || !action.path("resultModifiers").isEmpty()
+                || !action.path("runtimeInputBindings").isEmpty()) {
+                throw invalid(rule, path, "REFERENCE_TYPE_MISMATCH", "回充减时只允许本技能普攻命中作用于自身技能弹药，不接受结果修正");
+            }
+        }
+
+        private void validateCounterStartBinding(Aggregate rule, JsonNode action, JsonNode binding, Parameter parameter, String path) {
+            Aggregate process = objects.get(new Id(rule.skillKey(), SourceType.PROCESS, text(action.path("detail"), "processKey")));
+            if (process == null) return;
+            List<Use> affected = uses.getOrDefault(id(process), List.of()).stream()
+                .filter(use -> use.path().startsWith("stateOperations[") && runtime(use).contains(parameter.key())).toList();
+            if (affected.isEmpty()) return; // 原有非状态操作的绑定保持原校验。
+            JsonNode detail = binding.path("detail"), event = rule.data().path("eventSource");
+            Aggregate state = objects.get(new Id(text(detail, "stateSkillKey"), SourceType.STATE, text(detail, "stateKey")));
+            if (!"INTERNAL_STATE".equals(text(binding, "sourceType"))
+                || !"INTEGER".equals(parameter.valueType()) || !noDefaultRuntime(parameter)
+                || !rule.skillKey().equals(text(detail, "stateSkillKey")) || !"VALUE".equals(text(detail, "valueKind"))
+                || detail.hasNonNull("optionKey") || state == null || !"COUNTER".equals(text(state.data(), "stateType"))
+                || !"SKILL".equals(text(state.data(), "scope")) || !"SKILL_USED".equals(text(event, "eventType"))
+                || !"INITIAL".equals(text(event.path("detail"), "castPhase"))
+                || !rule.skillKey().equals(text(event.path("detail"), "sourceSkillKey"))
+                || "PASSIVE".equals(text(process.data(), "activationType"))) {
+                throw invalid(rule, path, "REFERENCE_TYPE_MISMATCH", "过程开始状态赋值只接受真实首次动作读取本技能整数计数器");
+            }
+            for (Use use : affected) {
+                int index = Integer.parseInt(use.path().substring("stateOperations[".length(), use.path().indexOf(']')));
+                JsonNode operation = process.data().path("stateOperations").path(index);
+                Aggregate target = objects.get(new Id(text(operation, "stateSkillKey"), SourceType.STATE, text(operation, "stateKey")));
+                if (!"SET".equals(text(operation, "operation")) || !"PROCESS_START".equals(text(operation.path("moment"), "momentType"))
+                    || !rule.skillKey().equals(text(operation, "stateSkillKey")) || target == null
+                    || !"COUNTER".equals(text(target.data(), "stateType")) || !"SKILL".equals(text(target.data(), "scope"))) {
+                    throw invalid(rule, path, "EVENT_VALUE_NOT_AVAILABLE", "动态计数赋值只允许同技能计数器的过程开始 SET");
+                }
+                if (use.value().kind() == SkillNumericValue.Kind.FORMULA) {
+                    Aggregate formula = objects.get(new Id(rule.skillKey(), SourceType.FORMULA, use.value().formulaKey()));
+                    if (formula != null) for (JsonNode input : xyz.game.datamanage.support.formula.SkillFormulaBindings
+                        .reachableBindings(formula.data().path("expression"))) {
+                        if (!"parameter".equals(text(input, "kind")) || !rule.skillKey().equals(text(input, "skillKey"))) {
+                            throw invalid(rule, path, "EVENT_VALUE_NOT_AVAILABLE", "动态计数公式只允许同技能已绑定整数状态参数及固定或等级参数");
+                        }
+                    }
+                }
             }
         }
 
