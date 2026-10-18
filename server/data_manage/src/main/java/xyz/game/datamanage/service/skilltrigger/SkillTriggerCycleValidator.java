@@ -259,6 +259,8 @@ public class SkillTriggerCycleValidator {
         String skillKey
     ) {
         return switch (action.actionType()) {
+            // 只改下一枚回充的期限，本动作不产生通用触发事件。
+            case MODIFY_INTERNAL_STATE -> List.of();
             case EXECUTE_EFFECT -> {
                 SkillTriggerEffectActionRow detail = effectActions.get(actionKey(action));
                 if (detail == null) {

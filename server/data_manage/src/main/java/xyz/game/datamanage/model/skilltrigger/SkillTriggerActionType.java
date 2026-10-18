@@ -4,5 +4,6 @@ public enum SkillTriggerActionType {
     EXECUTE_EFFECT,
     START_PROCESS,
     FAIL_PROCESS,
-    ADVANCE_PROCESS
+    ADVANCE_PROCESS,
+    MODIFY_INTERNAL_STATE
 }

@@ -308,7 +308,11 @@ final class SnapshotSkillClosure {
         if (attackKey == null) return type.equals("SOURCE_INITIALIZED");
         if (type.equals("BASIC_ATTACK_RECEIVED")) return source.side.equals("target");
         if (Set.of("BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "HIT_LINK_APPLIED", "ATTACK_LINK_APPLIED").contains(type)) {
-            return source.side.equals("source");
+            if (!source.side.equals("source")) return false;
+            JsonNode actions = rule.data().path("actions");
+            if (!actions.isEmpty() && actions.valueStream().allMatch(action -> "MODIFY_INTERNAL_STATE".equals(action.path("actionType").asText()))
+                && sources.stream().noneMatch(candidate -> candidate.planned != null && candidate.skillKey.equals(source.skillKey))) return false;
+            return true;
         }
         return true;
     }

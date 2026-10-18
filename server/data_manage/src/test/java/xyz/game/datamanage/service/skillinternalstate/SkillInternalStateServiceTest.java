@@ -101,6 +101,37 @@ class SkillInternalStateServiceTest {
     }
 
     @Test
+    void explicitAmmoAndCounterInitialDeclarationsRoundTripAndAbsentFieldsStayAbsent() {
+        String declaration = "{\"bindingKey\":\"stock\",\"parameterKey\":\"initial_stock\",\"sourceType\":\"SCENE_INITIAL_PARAMETER\",\"detail\":{\"minValue\":0,\"maxValue\":4}}";
+        String ammoJson = "{\"initialValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"initial_stock\"},\"maxValue\":{\"kind\":\"FIXED\",\"value\":4},\"recoveryIntervalValue\":{\"kind\":\"FIXED\",\"value\":20000},\"recoveryMode\":\"ONE_BY_ONE\",\"recoveryStartCondition\":\"AFTER_CONSUME\",\"initialValueBinding\":" + declaration + ",\"initialRemainingValue\":{\"kind\":\"FIXED\",\"value\":0}}";
+        var ammo = AggregateJson.read(ammoJson, SkillInternalStateAmmoDetail.class);
+        var saved = service.create(GAME_ID, SKILL_KEY, new SkillInternalStateCreateRequest("ammo", "弹药", SkillInternalStateType.AMMO,
+            SkillInternalStateScope.SKILL, null, 0, ammo));
+        assertEquals(AggregateJson.tree(ammoJson), AggregateJson.tree(AggregateJson.write(saved.detail())));
+        assertEquals(saved, service.get(GAME_ID, SKILL_KEY, "ammo"));
+        var counter = AggregateJson.read("{\"initialValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"initial_stock\"},\"maxValue\":{\"kind\":\"FIXED\",\"value\":4},\"initialValueBinding\":" + declaration + "}", SkillInternalStateCounterDetail.class);
+        assertEquals(counter, service.create(GAME_ID, SKILL_KEY, new SkillInternalStateCreateRequest("phase", "序号", SkillInternalStateType.COUNTER,
+            SkillInternalStateScope.SKILL, null, 1, counter)).detail());
+        var oldCounter = new SkillInternalStateCounterDetail(SkillNumericValue.fixed(java.math.BigDecimal.ZERO), SkillNumericValue.fixed(java.math.BigDecimal.ONE));
+        assertTrue(!AggregateJson.tree(AggregateJson.write(oldCounter)).has("initialValueBinding"));
+        var oldAmmo = new SkillInternalStateAmmoDetail(SkillNumericValue.fixed(java.math.BigDecimal.ZERO), SkillNumericValue.fixed(java.math.BigDecimal.ONE),
+            SkillNumericValue.fixed(java.math.BigDecimal.TEN), SkillInternalStateAmmoRecoveryMode.ALL_AT_ONCE, SkillInternalStateAmmoRecoveryStartCondition.WHEN_EMPTY);
+        var oldTree = AggregateJson.tree(AggregateJson.write(oldAmmo));
+        for (String field : List.of("initialValueBinding", "initialRemainingValue", "initialRemainingMsBinding")) assertTrue(!oldTree.has(field));
+    }
+
+    @Test
+    void explicitStateBindingCannotSilentlyDiscardNullDefaultOrForeignDetailFields() {
+        for (String field : List.of("value", "defaultValue", "subject", "stateKey")) {
+            var detail = AggregateJson.read("{\"initialValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"initial_stock\"},\"maxValue\":{\"kind\":\"FIXED\",\"value\":4},\"initialValueBinding\":{\"bindingKey\":\"stock\",\"parameterKey\":\"initial_stock\",\"sourceType\":\"SCENE_INITIAL_PARAMETER\",\"detail\":{\"minValue\":0,\"maxValue\":4,\"" + field + "\":null}}}", SkillInternalStateCounterDetail.class);
+            var failure = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillInternalStateCreateRequest("bad_binding", "初值", SkillInternalStateType.COUNTER, SkillInternalStateScope.SKILL, null, 0, detail)));
+            assertField(failure, "detail.initialValueBinding.detail." + field, "UNKNOWN_FIELD");
+        }
+        verify(mapper, never()).insertState(any(), any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
     void createsAndReadsFiveStateKinds() {
         List<SkillInternalStateDetail> details = List.of(
             new SkillInternalStateCounterDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_stacks")),
@@ -412,7 +443,7 @@ class SkillInternalStateServiceTest {
                     null,
                     0,
                     new SkillInternalStateCounterDetail(
-                        SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_stacks"), null, Set.of("initialEnabled"), Set.of()
+                        SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_stacks"), null, null, Set.of("initialEnabled"), Set.of()
                     )
                 )
             )

@@ -1,6 +1,7 @@
 package xyz.game.datamanage.service.skillinternalstate;
 
 import xyz.game.datamanage.model.value.SkillNumericValue;
+import xyz.game.datamanage.support.authoring.SkillStateInitialParameterSemantics;
 
 import jakarta.validation.Valid;
 import java.util.ArrayList;
@@ -415,6 +416,7 @@ public class SkillInternalStateService {
         List<Map<String, String>> issues = new ArrayList<>();
         List<FormulaRef> refs = new ArrayList<>();
         SkillInternalStateDetail detail = values.detail();
+        issues.addAll(SkillStateInitialParameterSemantics.detailIssues(values.stateType().name(), values.scope().name(), detail));
         switch (values.stateType()) {
             case COUNTER -> {
                 if (!(detail instanceof SkillInternalStateCounterDetail counter)) {
@@ -433,6 +435,7 @@ public class SkillInternalStateService {
                 addFormula(refs, issues, "detail.initialValue", ammo.initialValue());
                 addFormula(refs, issues, "detail.maxValue", ammo.maxValue());
                 addFormula(refs, issues, "detail.recoveryIntervalValue", ammo.recoveryIntervalValue());
+                if (ammo.initialRemainingValue() != null) addFormula(refs, issues, "detail.initialRemainingValue", ammo.initialRemainingValue());
                 if (ammo.recoveryMode() == null) {
                     issues.add(fieldIssue("detail.recoveryMode", "REQUIRED", "弹药恢复方式不能为空"));
                 }
