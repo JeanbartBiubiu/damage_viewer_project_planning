@@ -497,6 +497,24 @@ export type SkillTriggerSourceCastResourceCostBinding = {
   detail: { attributeKey: string };
 };
 
+export type SkillTriggerSceneAttributeSnapshotBinding = {
+  bindingKey: string;
+  parameterKey: string;
+  sourceType: 'SCENE_ATTRIBUTE_SNAPSHOT';
+  detail: {
+    subject: 'SOURCE' | 'TARGET';
+    attributeKey: string;
+    sources: Array<'CHARACTER_LEVEL' | 'EQUIPMENT_DIRECT'>;
+  };
+};
+
+export type SkillTriggerSceneInitialParameterBinding = {
+  bindingKey: string;
+  parameterKey: string;
+  sourceType: 'SCENE_INITIAL_PARAMETER';
+  detail: { minValue: number; maxValue: number };
+};
+
 export type SkillTriggerPriorResultBindingDetail = {
   sourceActionKey: string;
   sourceResultKey: string;
@@ -550,6 +568,8 @@ export type SkillTriggerRuntimeInputBinding =
   | SkillTriggerCombatStatusBinding
   | SkillTriggerEventValueBinding
   | SkillTriggerSourceCastResourceCostBinding
+  | SkillTriggerSceneAttributeSnapshotBinding
+  | SkillTriggerSceneInitialParameterBinding
   | SkillTriggerPriorResultBinding
   | SkillTriggerCombatElapsedTimeBinding
   | SkillTriggerRecentDamageSumBinding;

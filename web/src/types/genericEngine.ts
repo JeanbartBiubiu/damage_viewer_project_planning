@@ -99,7 +99,8 @@ export type NamedFormula = NamedFormulaBase & ({ scope: 'game'; skillKey?: never
   scope: 'skill'; skillKey: string;
   parameters: Array<{ parameterKey: string; valueMode: import('./skillParameter').SkillParameter['valueMode'];
     valueType: 'DECIMAL' | 'INTEGER'; value?: number;
-    runtimeSource?: { kind: 'use_charge_duration' } | { kind: 'process_actual_cost'; resourceKey: string } }>;
+    runtimeSource?: { kind: 'use_charge_duration' } | { kind: 'process_actual_cost'; resourceKey: string } | { kind: 'ability_parameter' }
+      | { kind: 'scene_parameter'; value: number } }>;
 });
 export type StaticNumericValue = number | { op: 'ref'; ref: string };
 
@@ -600,7 +601,7 @@ export type ProcessControlDefinition = {
   requireExplicitSelfTarget?: true;
 };
 
-export type ProcessStepType = 'IMMEDIATE' | 'DELAY' | 'CHARGE' | 'RECAST' | 'MULTI_HIT' | 'CHANNEL';
+export type ProcessStepType = 'IMMEDIATE' | 'DELAY' | 'CHARGE' | 'RECAST' | 'MULTI_HIT' | 'CHANNEL' | 'EMPOWERED_BASIC_ATTACK';
 
 export type ProcessMomentType =
   | 'PROCESS_START'
@@ -633,6 +634,7 @@ export type ProcessStepDefinition = {
   maximumChargeMs?: GenericFormulaExpr;
   releaseAtMaximum?: boolean;
   windowMs?: GenericFormulaExpr;
+  consumeMoment?: 'ATTACK_HIT';
 };
 
 export type ProcessCostDefinition = {
@@ -679,6 +681,8 @@ export type ProcessActionOccupancy = {
   finishedAtMs: number | null;
 };
 
+export type EmpoweredAttackConsumption = { useRef: string; hitRef: string; target: string };
+
 export type ProcessInstanceSnapshot = {
   owner: 'source' | 'target';
   providerRef: string;
@@ -702,6 +706,9 @@ export type ProcessInstanceSnapshot = {
   finishedAtMs: number | null;
   repeat: ProcessRepeatSnapshot | null;
   actionOccupancies: ProcessActionOccupancy[];
+  empoweredAttack?: EmpoweredAttackConsumption;
+  /** 自动资格成功消费的真实直接前项；只运输含强化消费的因果链。 */
+  empoweredPredecessorUseRef?: string;
 };
 
 export type ProcessCommandFact = {
@@ -793,6 +800,7 @@ export type SkillActionRecord = {
 export type SkillUseRecordKind = 'STARTED' | 'RELEASED' | 'HIT' | 'COMPLETED' | 'FAILED' | 'STEP_ENTERED' | 'STEP_EXECUTED' | 'STEP_COMPLETED';
 export type SkillUseRecord = {
   instructionKey: string; timeMs: number; kind: SkillUseRecordKind;
+  empoweredAttack?: EmpoweredAttackConsumption;
   source: string; target: string; skillKey: string; providerRef: string; processKey: string; useRef: string;
   hitRef: string | null; reason: string | null;
   stepKey: string; stepVersion: number; executionIndex: number;
@@ -826,6 +834,7 @@ export type DamageBreakdown = {
   damageCount: number; postDefenseDamage: number; shieldAbsorbed: number; actualHpLoss: number; overkillDamage: number;
 };
 export type DamageRecord = Omit<DamageBreakdown, 'damageCount'> & {
+  empoweredAttack?: EmpoweredAttackConsumption;
   providerActivatedAtMs?: number;
   damageId: number; attackIndex: number | null; useRef: string; instructionKey?: string | null; hitRef?: string | null;
   timeMs: number; castInstanceId: number; operationPath: string;

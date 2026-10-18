@@ -4,9 +4,10 @@ import { resolve } from 'node:path';
 import { expect, test, type Page, type TestInfo } from '@playwright/test';
 import type { GameCalculationConfiguration, GameCalculationRulesResponse } from '../../src/types/gameCalculationRules';
 import type { SimulationSelection, SimulationSnapshot } from '../../src/types/simulationSnapshot';
+import type { SkillActionArchive } from '../../src/pages/simulation/SimulationScenarioPanel';
 import { authoredCostRef, authoredAuraPairSample, classificationCostBindingsSample } from '../fixtures/classificationCostBindings';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
-import { confirmSimulationConfiguration } from '../fixtures/simulationSnapshotRequests';
+import { expectSimulationConfigurationReady } from '../fixtures/simulationSnapshotRequests';
 import { syncSimulationSkillSources } from '../fixtures/simulationSkillSources';
 
 const API = 'http://127.0.0.1:19611';
@@ -179,7 +180,7 @@ async function setupPlan(page: Page) {
   await page.getByLabel('技能尝试时刻 skill_instruction_1', { exact: true }).fill('50');
 }
 
-test('最终Worker：分类与费用全部改名，明确确认后的原完整计划同会话100次且未绑定消费者拒绝', async ({ page }, info) => {
+test('最终Worker：分类与费用全部改名，明确费用引用的完整计划同会话100次且未绑定消费者拒绝', async ({ page }, info) => {
   const state = await installApi(page);
   await page.goto('/?classification-worker=1');
   await verifyWasm(page);
@@ -263,7 +264,7 @@ test('最终Worker普通basic_attack作者分类不会变成普攻，真实SKILL
   await archive(info, data);
 });
 
-test('真实选择与计划页：早期目录不能替代快照绑定，费用不自动忽略，读取漂移保留草稿并拒绝本次运行', async ({ page }, info) => {
+test('真实选择与计划页：普通费用自动识别并入档案，快照绑定漂移保留草稿且拒绝本次运行', async ({ page }, info) => {
   const state = await installApi(page);
   state.directoryRules = structuredClone(state.rules);
   state.directoryRules.configuration!.basicAttackCategoryKey = 'earlier_strike';
@@ -273,11 +274,8 @@ test('真实选择与计划页：早期目录不能替代快照绑定，费用�
   await setupPlan(page);
   const read = page.getByRole('button', { name: '读取场景快照', exact: true });
   await read.click(); await expect(read).toBeEnabled();
-  const cost = page.getByRole('checkbox', { name: '声明施法成本 authored_cost.consume_fee', exact: true });
-  await expect(cost.locator('xpath=ancestor::label')).toBeVisible(); await expect(cost).not.toBeChecked();
-  await expect(page.getByText('快照已读取，但编译准入检查未通过', { exact: false })).toBeVisible();
-  await confirmSimulationConfiguration(page);
-  await cost.locator('xpath=ancestor::label').click();
+  await expectSimulationConfigurationReady(page);
+  await expect(page.getByText('快照已读取，但编译准入检查未通过', { exact: false })).toHaveCount(0);
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByLabel('攻击方初始当前生命', { exact: true }).fill('250');
   await page.getByLabel('目标初始当前生命', { exact: true }).fill('500');
@@ -287,6 +285,15 @@ test('真实选择与计划页：早期目录不能替代快照绑定，费用�
   const run = page.getByRole('button', { name: '执行指定技能计划', exact: true });
   await run.click();
   await expect(page.getByText('指定技能计划观察完成，会话已释放', { exact: false })).toBeVisible();
+  const downloading = page.waitForEvent('download');
+  await page.getByRole('button', { name: '下载主动冻结档案', exact: true }).click();
+  const archivePath = info.outputPath('automatic-cast-cost-run.json');
+  await (await downloading).saveAs(archivePath);
+  const frozen = JSON.parse(readFileSync(archivePath, 'utf8')) as SkillActionArchive;
+  expect(frozen.ignoredCastCosts).toEqual([authoredCostRef]);
+  expect(frozen.cleanup).toBe('released');
+  expect(frozen.runResult!.summary.skillActions!.acceptedCount).toBe(1);
+  expect(frozen.compileRequest.combatants.every(actor => !Object.hasOwn(actor.attributes, 'spell_fee'))).toBe(true);
   const runCount = () => page.evaluate(() => (window as typeof window & { bindingWorkerMessages: Array<{ type: string }> })
     .bindingWorkerMessages.filter(row => row.type === 'run').length);
   expect(await runCount()).toBe(1);
@@ -294,10 +301,10 @@ test('真实选择与计划页：早期目录不能替代快照绑定，费用�
   state.snapshotRules.configuration!.ignorableCastCostAttributeKeys = [];
   const driftedRules = structuredClone(state.snapshotRules);
   await run.click();
-  await expect(page.getByText('技能作者配置、来源或构筑已变化，草稿已保留', { exact: false })).toBeVisible();
+  await expect(page.getByText('技能作者配置、来源或构筑已变化，已更新配置并保留草稿。请补全新增输入后重新开始计算。', { exact: true })).toBeVisible();
   await expect(page.getByLabel('技能尝试时刻 skill_instruction_1', { exact: true })).toHaveValue('50');
   await expect(page.getByLabel('攻击方初始当前生命', { exact: true })).toHaveCount(0); // 准入失败时该输入暂不展示，草稿仍保留。
-  await expect(cost).toHaveCount(0);
+  await expect(page.getByRole('checkbox', { name: /^声明施法成本 / })).toHaveCount(0);
   await expect(run).toHaveCount(0);
   expect(await runCount()).toBe(1);
   state.snapshotRules = null;
@@ -307,7 +314,38 @@ test('真实选择与计划页：早期目录不能替代快照绑定，费用�
   await expect(page.getByLabel('技能尝试时刻 skill_instruction_1', { exact: true })).toHaveValue('50');
   expect(await runCount()).toBe(1);
   expect(state.errors).toEqual([]);
-  await archive(info, { directoryRules: state.directoryRules, driftedRules, reads: state.reads, workerRuns: await runCount(), restoredDraftHealth: { source: 250, target: 500 } });
+  await archive(info, { directoryRules: state.directoryRules, driftedRules, reads: state.reads, workerRuns: await runCount(),
+    ignoredCastCosts: frozen.ignoredCastCosts, archivePath, restoredDraftHealth: { source: 250, target: 500 } });
+});
+
+for (const kind of ['necessary_resource', 'wrong_binding', 'ambiguous_payment'] as const) test(`真实计划页自动费用不会吞掉${kind}`, async ({ page }) => {
+  const state = await installApi(page);
+  const skill = state.sample.skillConfigurations.find(row => row.skill.skillKey === authoredCostRef.skillKey)!;
+  if (kind === 'necessary_resource') {
+    const result = skill.effects.find(row => row.effectKey === authoredCostRef.effectKey)!.results[0]!;
+    if (result.resultType !== 'RESOURCE_CHANGE') throw new Error('费用反例必须保留真实资源消费');
+    result.detail.attributeKey = 'authored_ammo';
+    state.sample.catalogs.attributes.push({ ...state.sample.catalogs.attributes[0]!, attributeKey: 'authored_ammo', name: '必要弹药', valueType: 'INTEGER' });
+  } else if (kind === 'wrong_binding') {
+    skill.processes[0]!.effectBindings.find(row => row.bindingKey === authoredCostRef.bindingKey)!.moment = {
+      momentType: 'PROCESS_COMPLETE', stepKey: null, failureReason: null
+    };
+  } else {
+    const effect = skill.effects.find(row => row.effectKey === authoredCostRef.effectKey)!;
+    effect.results.push({ ...structuredClone(effect.results[0]!), resultKey: 'necessary_payment', name: '同一普通资源的第二笔必要消费' });
+  }
+  await page.goto('/#/simulation/basic-attack');
+  await setupPlan(page);
+  const read = page.getByRole('button', { name: '读取场景快照', exact: true });
+  await read.click(); await expect(read).toBeEnabled();
+  await expectSimulationConfigurationReady(page);
+  const rejected = page.getByRole('alert').filter({ hasText: '快照已读取，但编译准入检查未通过' });
+  if (kind === 'ambiguous_payment') await expect(rejected).toContainText('同一普通资源有多项过程开始消费，无法自动区分施法成本和必要消费');
+  else await expect(rejected).toContainText('资源改变');
+  await expect(page.getByRole('button', { name: '执行指定技能计划', exact: true })).toHaveCount(0);
+  expect(await page.evaluate(() => (window as typeof window & { bindingWorkerMessages: Array<{ type: string }> })
+    .bindingWorkerMessages.some(row => row.type === 'run'))).toBe(false);
+  expect(state.errors).toEqual([]);
 });
 
 for (const kind of ['unbound', 'read_failure'] as const) test(`选择页${kind}明确提示且不恢复旧分类候选`, async ({ page }) => {

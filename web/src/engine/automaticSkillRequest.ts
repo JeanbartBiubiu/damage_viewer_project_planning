@@ -6,6 +6,8 @@ import { simulationAbility } from './simulationAdapter';
 import { continuousAttackRequest, type AttackSpeedAdmission } from './continuousAttackRequest';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
+import { empoweredAttackBinding, requireEmpoweredBasicAttack } from './empoweredAttackContract';
+import { tryFoldConstant } from './numericAdapter';
 
 export type AutomaticSkillInput = Pick<SimulationPlannedSkill, 'origin' | 'skillKey' | 'skillLevel'> & {
   ruleKey: string; sortOrder: number; targetSide: 'source' | 'target'; hitPreset: 'TARGET_HIT' | 'MISS' | null;
@@ -110,14 +112,20 @@ export async function automaticSkillRequest(prepared: ReturnType<typeof assemble
       || selectedBindings.has(binding.bindingKey) || ability.mount.providerRef !== binding.providerRef || ability.mount.definitionRef !== binding.providerDefinitionRef
       || ability.ability.skillKey !== input.skillKey || ability.ability.processControl?.action !== 'INITIAL'
       || ability.ability.processControl.processKey !== control.processKey || !process || process.steps.length !== 1
-      || process.steps.some(step => !['IMMEDIATE', 'DELAY'].includes(step.stepType))) {
-      throw new Error(`${path}: 真实来源、等级、首次绑定或单步骤即时／有限延时过程不一致；多步骤、重施、蓄力、多段及引导请用固定时刻计划`);
+      || process.steps.some(step => !['IMMEDIATE', 'DELAY', 'EMPOWERED_BASIC_ATTACK', 'CHANNEL'].includes(step.stepType))) {
+      throw new Error(`${path}: 真实来源、等级、首次绑定或单步骤即时／有限延时／有限引导过程不一致；其它复杂过程请用固定时刻计划`);
+    }
+    const empowered = empoweredAttackBinding(compile, binding);
+    if (empowered) {
+      requireEmpoweredBasicAttack(compile, prepared.basicAttackBinding);
+      const cooldown = process.cooldown && tryFoldConstant(process.cooldown.durationMs);
+      if (typeof cooldown !== 'number' || !Number.isFinite(cooldown) || cooldown <= 0) throw new Error(`${path}: 自动强化待击需要真实可绑定的正数普通冷却`);
     }
     selectedBindings.add(binding.bindingKey);
-    if (binding.hitBindings.length ? input.targetSide !== 'target' || !['TARGET_HIT', 'MISS'].includes(input.hitPreset ?? '')
+    if (!empowered && binding.hitBindings.length ? input.targetSide !== 'target' || !['TARGET_HIT', 'MISS'].includes(input.hitPreset ?? '')
       : input.targetSide !== 'source' || input.hitPreset !== null) throw new Error(`${path}.hitPreset: 命中目标必须与完整作者绑定一致，自身治疗保持空预设`);
     return { ruleKey: input.ruleKey, bindingKey: binding.bindingKey, sortOrder: input.sortOrder, target: input.targetSide,
-      hitBindings: binding.hitBindings.map(hit => ({ hitBindingKey: hit.hitBindingKey, preset: input.hitPreset! })),
+      hitBindings: empowered ? [] : binding.hitBindings.map(hit => ({ hitBindingKey: hit.hitBindingKey, preset: input.hitPreset! })),
       waitForCooldowns: [...input.waitForCooldowns], releaseAfterRuleKey: input.releaseAfterRuleKey };
   }).sort((left, right) => left.sortOrder - right.sortOrder);
   const background = prepared.basicAttackBinding ? await continuousAttackRequest(prepared, snapshot, inputs, sessionId) : null;

@@ -7,7 +7,7 @@ import { applySimulationAvailability, type SimulationEntityOption } from '../../
 import { parseSimulationAvailabilityResponse, SIMULATION_AVAILABILITY_IDENTITY, simulationAvailabilityPath } from '../../src/services/simulationAvailabilityClient';
 import type { SimulationAvailabilityResponse } from '../../src/types/simulationAvailability';
 
-const output = resolve('output/combat-analysis/availability-gate');
+const output = resolve(process.env.SIMULATION_LIVE_OUTPUT_DIR || 'output/combat-analysis/availability-gate');
 const api = process.env.SIMULATION_API_BASE || 'http://127.0.0.1:8080';
 const token = 'local-readonly-check';
 
@@ -207,7 +207,10 @@ test('真实新页面：未就绪英雄禁选，装备与准备保持阻断且�
 
 test('真实新页面：正式通过英雄直接配置全技能并运行，显示结果且释放会话', async ({ page, request }, testInfo) => {
   const expected = readExpectedVerification();
-  const ready = expected.directory?.characters.find(entry => entry.status === 'READY');
+  const requestedCharacter = process.env.SIMULATION_LIVE_CHARACTER_KEY;
+  const ready = expected.directory?.characters.find(entry => entry.status === 'READY'
+    && (!requestedCharacter || entry.key === requestedCharacter));
+  if (requestedCharacter) expect(ready, '明确指定的英雄必须已有匹配的正式证明').toBeDefined();
   test.skip(!ready, '当前正式资源没有已独立核验英雄；不能借局部技能或构造目录绕过门禁');
   const errors: string[] = [], workers: string[] = [], writes: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -221,7 +224,14 @@ test('真实新页面：正式通过英雄直接配置全技能并运行，显�
     localStorage.setItem('damage-viewer.web.api-base-url', api);
     localStorage.setItem('damage-viewer.web.admin-token', token);
   }, { api, token });
+  const readyDirectoryResponse = page.waitForResponse(response => new URL(response.url()).pathname.endsWith('/simulation-availability')
+    && response.request().method() === 'GET');
   await page.goto('/?combat-availability-live=ready#/simulation/combat-analysis');
+  const directoryResponse = await readyDirectoryResponse;
+  expect(directoryResponse.status()).toBe(200);
+  const liveDirectory = parseSimulationAvailabilityResponse(await directoryResponse.json(), 'lol');
+  const admission = assertDirectoryMatchesVerification(liveDirectory, expected);
+  expect(admission.acceptedCharacters).toContain(ready!.key);
   const snapshotResponses: unknown[] = [];
   page.on('response', response => {
     if (new URL(response.url()).pathname.endsWith('/simulation-snapshot') && response.status() === 200) {
@@ -241,10 +251,39 @@ test('真实新页面：正式通过英雄直接配置全技能并运行，显�
   await expect(page.getByRole('combobox', { name: '攻击方主动技能候选', exact: true })).toHaveCount(0);
   await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: '准备计算', exact: true }).click();
-  const costs = page.locator('label.arco-checkbox').filter({ has: page.getByRole('checkbox', { name: /^声明施法成本 / }) });
-  await expect(costs.first()).toBeVisible({ timeout: 60_000 });
-  for (const checkbox of await costs.all()) await checkbox.click();
+  await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeEnabled({ timeout: 60_000 });
+  const sceneFields = page.locator('section[aria-label="战前机制初值"] input[aria-label]');
+  const sceneFieldCount = await sceneFields.count();
+  const explicitSceneValues: number[] = process.env.SIMULATION_LIVE_INITIAL_PARAMETER_VALUES
+    ? JSON.parse(process.env.SIMULATION_LIVE_INITIAL_PARAMETER_VALUES) : [];
+  expect(explicitSceneValues.length, '需要对本场初值显式提供验收输入，不在测试里代补0').toBe(sceneFieldCount);
+  if (sceneFieldCount) {
+    await expect(page.getByRole('button', { name: '开始计算', exact: true }), '初值未填时不生成可运行的准备结果').toHaveCount(0);
+    for (let index = 0; index < sceneFieldCount; index++) {
+      await expect(sceneFields.nth(index), '初始化参数首次必须留空').toHaveValue('');
+      expect(Number.isFinite(explicitSceneValues[index])).toBe(true);
+      await sceneFields.nth(index).fill(String(explicitSceneValues[index]));
+      await sceneFields.nth(index).press('Tab');
+    }
+    await page.getByRole('button', { name: '准备计算', exact: true }).click();
+    await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeEnabled({ timeout: 60_000 });
+    await expect(page.getByRole('heading', { name: '计算条件', exact: true })).toBeVisible();
+  }
+  await expect(page.getByRole('checkbox', { name: /^声明施法成本 / })).toHaveCount(0);
   await expect(page.getByLabel('攻击方初始当前生命', { exact: true })).toBeVisible();
+  const explicitAttributeInputs: Partial<Record<'source' | 'target', Record<string, number>>> =
+    JSON.parse(process.env.SIMULATION_LIVE_ATTRIBUTE_INPUTS || '{}');
+  expect(Object.keys(explicitAttributeInputs).every(side => side === 'source' || side === 'target')).toBe(true);
+  const attributeFields = page.locator('section[aria-label="必要属性"] input[aria-label*="补充属性 "]');
+  const attributeEntries = (['source', 'target'] as const).flatMap(side =>
+    Object.entries(explicitAttributeInputs[side] ?? {}).map(([key, value]) => ({ side, key, value })));
+  expect(attributeEntries.length, '场景缺失属性须明确提供验收输入，不在测试里补零').toBe(await attributeFields.count());
+  for (const { side, key, value } of attributeEntries) {
+    expect(Number.isFinite(value)).toBe(true);
+    const input = page.getByLabel(`${side === 'source' ? '攻击方' : '目标'}补充属性 ${key}`, { exact: true });
+    await expect(input).toHaveValue('');
+    await input.fill(String(value)); await input.press('Tab');
+  }
   const attributesResponse = await request.get(`${api}/api/admin/games/lol/characters/${ready!.key}/attributes`,
     { headers: { Authorization: 'Bearer ' + token } });
   expect(attributesResponse.status()).toBe(200);
@@ -257,20 +296,24 @@ test('真实新页面：正式通过英雄直接配置全技能并运行，显�
   }
   await page.getByLabel('攻速输入上界', { exact: true }).fill('5');
   await page.getByLabel('攻速输入上界', { exact: true }).press('Tab');
-  await page.getByRole('button', { name: '确认最新技能配置', exact: true }).click();
+  await expect(page.getByRole('button', { name: '确认最新技能配置', exact: true })).toHaveCount(0);
   await expect(page.getByRole('button', { name: '开始计算', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: '开始计算', exact: true }).click();
   const archiveButton = page.getByRole('button', { name: '下载自动冻结档案', exact: true });
   await expect(archiveButton).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByRole('alert').filter({ hasText: '自动循环观察完成，会话已释放' })).toBeVisible({ timeout: 60_000 });
   const archiveDownload = page.waitForEvent('download');
   await archiveButton.click();
   await (await archiveDownload).saveAs(resolve(output, 'live-page-run-archive.json'));
-  await expect(page.getByRole('alert').filter({ hasText: '自动循环观察完成，会话已释放' })).toBeVisible({ timeout: 60_000 });
+  const frozenArchive = JSON.parse(readFileSync(resolve(output, 'live-page-run-archive.json'), 'utf8'));
+  expect(frozenArchive.sceneParameterInputs.map((input: { value: number }) => input.value)).toEqual(explicitSceneValues);
+  for (const { side, key, value } of attributeEntries) expect(frozenArchive.attributeInputs[side][key]).toBe(value);
+  expect(frozenArchive.cleanup).toBe('released');
   expect(snapshotResponses.length).toBeGreaterThan(0);
   expect(workers.length).toBeGreaterThan(0);
   expect(errors).toEqual([]); expect(writes).toEqual([]);
   const evidence = { layer: 'live-page-ready-run', expectedVerification: expected, characterKey: ready!.key,
-    identity: SIMULATION_AVAILABILITY_IDENTITY, snapshotResponses, workers, errors, businessWrites: writes,
+    identity: SIMULATION_AVAILABILITY_IDENTITY, snapshotResponses, workers, errors, businessWrites: writes, explicitSceneValues, explicitAttributeInputs,
     actualUiCalculationCompletedAndReleased: true };
   writeFileSync(resolve(output, 'live-page-ready-run.json'), JSON.stringify(evidence, null, 2));
   await testInfo.attach('真实英雄页面运行', { body: JSON.stringify(evidence), contentType: 'application/json' });

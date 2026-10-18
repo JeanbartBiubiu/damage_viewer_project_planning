@@ -46,10 +46,11 @@ export function assertIsolatedCharacterSources(snapshot: SimulationSnapshot): vo
   }
 }
 
-export async function confirmSimulationConfiguration(page: Page): Promise<void> {
-  const confirm = page.getByRole('button', { name: '确认最新技能配置', exact: true });
-  await expect(confirm).toBeVisible();
-  if (await confirm.isEnabled()) await confirm.click();
+export async function expectSimulationConfigurationReady(page: Page): Promise<void> {
+  await expect(page.locator('section[aria-label="场景快照"]')).toHaveCount(1);
+  await expect(page.getByText('配置版本', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '确认最新技能配置', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('checkbox', { name: /^声明施法成本 / })).toHaveCount(0);
 }
 
 export async function isolateCharacterSourcesOnPage(page: Page, snapshot: SimulationSnapshot): Promise<void> {
@@ -61,5 +62,5 @@ export async function isolateCharacterSourcesOnPage(page: Page, snapshot: Simula
     }
   }
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
-  await confirmSimulationConfiguration(page);
+  await expectSimulationConfigurationReady(page);
 }

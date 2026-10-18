@@ -27,8 +27,9 @@ import { assembleNaturalSkillSources, type SimulationSkillOriginTrace } from './
 import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive, primaryMechanicRequirements, validateMechanicStateInputs } from './simulationPrimaryAttack';
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
+import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
-export const SIMULATION_ADAPTER_VERSION = 'v16-complete-source-effects';
+export const SIMULATION_ADAPTER_VERSION = 'v22-root-hit-events-and-target-attributes';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -101,14 +102,14 @@ function recordCompiledEquipmentSources(natural: ReturnType<typeof assembleNatur
 }
 
 /** 装配首批完整普攻形状，不依赖技能名称；不支持的启用入口整体拒绝。 */
-function program(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = []): Program {
+function program(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = [], sceneInputs: readonly SceneInitialParameterInput[] = []): Program {
   resetConsumedApprovedFormulaValues();
-  if (snapshot.selection.basicAttackSkillKey === null) return activeProgram(snapshot, ignoredCosts);
+  if (snapshot.selection.basicAttackSkillKey === null) return activeProgram(snapshot, ignoredCosts, sceneInputs);
   const calculation = calculationConfiguration(snapshot);
   const basicAttackCategoryKey = calculation?.basicAttackCategoryKey;
   if (!basicAttackCategoryKey) fail('catalogs.calculationRules.configuration.basicAttackCategoryKey', '所选普通攻击需要明确配置分类用途绑定');
   if (!snapshot.selection.plannedSkills.length && ignoredCosts.length) fail('ignoredCastCosts', '没有计划技能不能声明施法成本');
-  const natural = assembleNaturalSkillSources(snapshot);
+  const natural = assembleNaturalSkillSources(snapshot, sceneInputs);
   const triggered = assembleTriggeredEquipment(snapshot);
   recordCompiledEquipmentSources(natural, triggered);
   const triggeredPrograms = [triggered, natural.triggered];
@@ -464,11 +465,11 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
       hitAbilityRef: `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`,
       initialControlAbilityRef: `source.provider[${MOUNT}].ability[${controlKey}]`, attackSpeedAttributeKey: speedAttributeKey }
   };
-  return snapshot.selection.plannedSkills.length ? mergeActiveProgram(assembled, snapshot, ignoredCosts) : assembled;
+  return snapshot.selection.plannedSkills.length ? mergeActiveProgram(assembled, snapshot, ignoredCosts) : mergeBasicAttackContributions(assembled);
 }
 
-function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[]): Program {
-  const natural = assembleNaturalSkillSources(snapshot);
+function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[], sceneInputs: readonly SceneInitialParameterInput[] = []): Program {
+  const natural = assembleNaturalSkillSources(snapshot, sceneInputs);
   const triggered = assembleTriggeredEquipment(snapshot);
   recordCompiledEquipmentSources(natural, triggered);
   const equipment = assembleEquipment(snapshot);
@@ -528,8 +529,43 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
     operationOrigins: origins, basicAttackBinding: null }, snapshot, ignoredCosts);
 }
 
+function mergeBasicAttackContributions(base: Program): Program {
+  const attackContributions = base.natural.triggered.basicAttackContributions ?? [];
+  for (const contribution of attackContributions) {
+    if (!base.provider || !base.basicAttackBinding) fail(`skills.${contribution.authorSkillKey}`, '自然普攻组成需要本场真实选定的普通攻击');
+    const hitAbilityRef = base.basicAttackBinding.hitAbilityRef;
+    const abilityIndex = base.provider.abilities!.findIndex(row => hitAbilityRef.endsWith(`.ability[${row.abilityKey}]`));
+    const ability = base.provider.abilities![abilityIndex];
+    const operationIndex = ability?.operations?.findIndex(row => row.operation === 'resolve_skill_hit') ?? -1;
+    const resolver = ability?.operations?.[operationIndex];
+    if (!resolver?.skillHit || resolver.skillHit.skillKey !== base.provider.skillKey
+      || ability?.skillKey !== base.provider.skillKey) fail(`skills.${contribution.authorSkillKey}`, '普攻组成缺少唯一真实父命中计划');
+    const candidate = structuredClone(contribution.candidate);
+    if (resolver.skillHit.candidates.some(row => row.candidateKey === candidate.candidateKey)) fail('skillHit.candidates', '普攻组成候选身份重复');
+    const index = resolver.skillHit.candidates.length;
+    resolver.skillHit.candidates.push(candidate);
+    const compiledPath = `sharedProviders[0].abilities[${abilityIndex}].operations[${operationIndex}].skillHit.candidates[${index}].operations[0]`;
+    const authorPath = `skills.${contribution.authorSkillKey}.effects.${candidate.effectKey}.results.${candidate.resultKey}`;
+    const existingOrigin = base.operationOrigins.find(row => row.abilityRef === hitAbilityRef && row.operationRef === authorPath);
+    if (existingOrigin) existingOrigin.compiledPaths.push(compiledPath);
+    else base.operationOrigins.push({ abilityRef: hitAbilityRef, operationRef: authorPath, skillKey: contribution.authorSkillKey,
+      effectKey: candidate.effectKey, resultKey: candidate.resultKey, providerDefinitionRef: base.provider.providerKey, compiledPaths: [compiledPath] });
+    base.coverage.push({ authorPath, compiledPath, note: '自然来源的直接普攻组成，保留父使用／命中身份与原作者路径' });
+    for (const lowering of contribution.lowerings) for (const mapping of lowering.value.mappings) {
+      base.coverage.push({ authorPath: mapping.authorPath,
+        compiledPath: `${compiledPath}.${lowering.field}${mapping.privatePath.slice('expression'.length)}`,
+        note: '原作者定义参与预检；此处仅为已核静态参数和当前总属性的私有结构展开' });
+    }
+  }
+  return base;
+}
+
 function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[]): Program {
-  const active = assembleActiveSkills(snapshot, ignoredCosts);
+  mergeBasicAttackContributions(base);
+  const active = assembleActiveSkills(snapshot, ignoredCosts, base.basicAttackBinding && base.provider ? {
+    binding: base.basicAttackBinding, provider: base.provider,
+    mount: { providerRef: MOUNT, definitionRef: base.provider.providerKey }
+  } : undefined);
   for (const contribution of base.natural.triggered.passiveHitContributions ?? []) {
     const binding = active.bindings.find(row => row.skillKey === contribution.sourceSkillKey);
     const provider = active.providers.find(row => row.providerKey === binding?.providerDefinitionRef);
@@ -537,6 +573,10 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
     const ability = provider?.abilities?.find(row => row.abilityKey === hitBinding?.hitAbilityRef.match(/\.ability\[([^\]]+)\]$/)?.[1]);
     const operation = ability?.operations?.find(row => row.operation === 'resolve_skill_hit');
     if (!binding || !provider || !hitBinding || !ability || !operation?.skillHit || binding.hitBindings.length !== 1) fail(`skills.${contribution.authorSkillKey}`, '被动控制必须进入已存在的唯一原技能命中计划，不能另发命中');
+    if (provider.processes?.some(process => process.processKey === hitBinding.processKey
+      && process.steps.some(step => step.stepType === 'EMPOWERED_BASIC_ATTACK'))) {
+      fail(`skills.${contribution.authorSkillKey}`, '强化待击不发布独立技能命中，当前不能合并依赖该事件的被动控制贡献');
+    }
     const candidate = structuredClone(contribution.candidate);
     if (operation.skillHit.candidates.some(row => row.candidateKey === candidate.candidateKey)) fail('skillHit.candidates', '被动控制候选身份重复');
     const candidateIndex = operation.skillHit.candidates.length;
@@ -610,6 +650,13 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
     if (Array.isArray(value)) { value.forEach(collect); return; }
     if (!value || typeof value !== 'object') return;
     const row = value as Record<string, unknown>;
+    if (row.operation === 'apply_provider' && row.target === 'target' && typeof row.providerDefinitionRef === 'string') {
+      const index = indices.get(row.providerDefinitionRef);
+      for (const modifier of index === undefined ? [] : providers[index]!.modifiers ?? []) if (modifier.kind === 'attribute') {
+        const attribute = /^self\.attr\.([a-z][a-z0-9_]*)$/.exec(modifier.target ?? '');
+        if (attribute) base.required.get('target')!.add(attribute[1]!);
+      }
+    }
     const read = typeof row.path === 'string' ? /^(source|target)\.attr\.([a-z][a-z0-9_]*)\./.exec(row.path) : null;
     if (row.op === 'read' && read) base.required.get(read[1] as 'source' | 'target')!.add(read[2]!);
     if (row.kind === 'attribute' && (row.object === 'source' || row.object === 'target') && typeof row.attributeKey === 'string') base.required.get(row.object)!.add(row.attributeKey);
@@ -621,11 +668,13 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
     operationOrigins: [...base.operationOrigins, ...active.operationOrigins.map(origin => ({ ...origin, compiledPaths: origin.compiledPaths.map(rebase) }))] };
 }
 
-export function inspectSimulationSnapshot(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = []): {
+export function inspectSimulationSnapshot(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = [],
+  sceneInputs: readonly SceneInitialParameterInput[] = []): {
   requirements: SimulationAttributeRequirement[]; coverage: SimulationCoverage[]; equipmentOrigins: EquipmentOrigin[];
   mechanicRequirements: ReturnType<typeof primaryMechanicRequirements>
 } {
-  const compiled = program(snapshot, ignoredCosts);
+  const normalized = normalizeSceneInitialParameterInputs(snapshot, sceneInputs);
+  const compiled = program(snapshot, ignoredCosts, normalized);
   const requirements: SimulationAttributeRequirement[] = [];
   for (const side of ['source', 'target'] as const) {
     for (const key of [...compiled.required.get(side)!].sort()) {
@@ -641,12 +690,13 @@ export function inspectSimulationSnapshot(snapshot: SimulationSnapshot, ignoredC
 export function assembleSimulation(
   snapshot: SimulationSnapshot, attributeInputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
   assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = [],
-  ignoredCosts: readonly SimulationCastCostRef[] = []
+  ignoredCosts: readonly SimulationCastCostRef[] = [], sceneInputs: readonly SceneInitialParameterInput[] = []
 ): { compileRequest: CompileRequest; coverage: SimulationCoverage[]; operationOrigins: OperationOrigin[];
   equipmentOrigins: EquipmentOrigin[]; skillOrigins: SimulationSkillOriginTrace[]; basicAttackBinding: BasicAttackBinding | null; snapshotDigest: string;
   attributeInputs: SimulationAttributeInputs; initialHealth: SimulationInitialHealth; equipmentAssumptions: SimulationEquipmentAssumption[];
-  mechanicStateInputs: SimulationMechanicStateInput[]; ignoredCastCosts: SimulationCastCostRef[] } {
-  const compiled = program(snapshot, ignoredCosts);
+  mechanicStateInputs: SimulationMechanicStateInput[]; ignoredCastCosts: SimulationCastCostRef[]; sceneParameterInputs: SceneInitialParameterInput[] } {
+  const sceneParameterInputs = normalizeSceneInitialParameterInputs(snapshot, sceneInputs);
+  const compiled = program(snapshot, ignoredCosts, sceneParameterInputs);
   const equipmentAssumptions = validateEquipmentAssumptions(snapshot, assumptions);
   const mechanicStateInputs = validateMechanicStateInputs(compiled.provider ? primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema) : [], mechanicInputs);
   for (const input of mechanicStateInputs) {
@@ -654,7 +704,7 @@ export function assembleSimulation(
     if (!field || typeof field !== 'object' || field.stateKind !== 'ammo') fail('mechanicStateInputs', '机制初值缺少真实弹药编译声明');
     compiled.provider!.initialStateSchema![input.stateKey] = { ...field, defaultValue: input.value };
   }
-  const { requirements } = inspectSimulationSnapshot(snapshot, ignoredCosts);
+  const { requirements } = inspectSimulationSnapshot(snapshot, ignoredCosts, sceneParameterInputs);
   const actors = (['source', 'target'] as const).map(side => {
     const attributes: Record<string, AttributeSlot> = {};
     const combined = { ...snapshot[side].selectedLevelValues };
@@ -699,14 +749,15 @@ export function assembleSimulation(
     }, coverage: compiled.coverage, operationOrigins: compiled.operationOrigins, basicAttackBinding: compiled.basicAttackBinding,
     equipmentOrigins: compiled.equipment.origins, skillOrigins: compiled.natural.origins, snapshotDigest: snapshot.snapshotDigest,
     attributeInputs: structuredClone(attributeInputs), initialHealth: structuredClone(initialHealth), equipmentAssumptions, mechanicStateInputs,
-    ignoredCastCosts: compiled.active?.ignoredCastCosts ?? []
+    ignoredCastCosts: compiled.active?.ignoredCastCosts ?? [], sceneParameterInputs
   };
 }
 
 /** 摘要仅含业务输入和适配后的定义；不包含接口基址、令牌或读取时间。 */
 export async function prepareSimulation(snapshot: SimulationSnapshot, inputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
-  assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = [], ignoredCosts: readonly SimulationCastCostRef[] = []) {
-  const assembled = assembleSimulation(snapshot, inputs, initialHealth, assumptions, mechanicInputs, ignoredCosts);
+  assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = [], ignoredCosts: readonly SimulationCastCostRef[] = [],
+  sceneInputs: readonly SceneInitialParameterInput[] = []) {
+  const assembled = assembleSimulation(snapshot, inputs, initialHealth, assumptions, mechanicInputs, ignoredCosts, sceneInputs);
   const approvedFormulaValues = consumedApprovedFormulaValues();
   assembled.compileRequest.formulas ??= [];
   for (const row of approvedFormulaValues) {
@@ -716,7 +767,7 @@ export async function prepareSimulation(snapshot: SimulationSnapshot, inputs: Si
   }
   assembled.compileRequest.rulesHash = await simulationHash({ snapshotDigest: snapshot.snapshotDigest, adapter: SIMULATION_ADAPTER_VERSION,
     attributeInputs: inputs, initialHealth, equipmentAssumptions: assembled.equipmentAssumptions,
-    mechanicStateInputs: assembled.mechanicStateInputs, request: assembled.compileRequest });
+    mechanicStateInputs: assembled.mechanicStateInputs, sceneParameterInputs: assembled.sceneParameterInputs, request: assembled.compileRequest });
   return { ...assembled, approvedFormulaValues };
 }
 

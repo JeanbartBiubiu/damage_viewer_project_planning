@@ -29,6 +29,8 @@ export type NumericCompileState = {
    * 固定值和等级参数不读取此表。
    */
   runtimeInputReads?: Readonly<Record<string, GenericFormulaExpr>>;
+  /** 仅本初始化动作已核验的显式冻结值；不会传给生命周期、条件或主动兄弟。 */
+  sceneParameterValues?: Readonly<Record<string, number>>;
   /** 仅有界持续属性入口授权；存储形状合法不代表任意使用点可以读取。 */
   allowedContextKeys?: ReadonlySet<'effect_elapsed_ms'>;
   params: Record<string, number>;
@@ -102,6 +104,9 @@ export function compileParameter(
     if (!Number.isInteger(level) || level < 1) fail(path, '本次等级必须明确且有效');
     value = finiteNumber(row.levelValues?.[String(level)], `${path}.levelValues.${level}`, fail);
   } else if (row.valueMode === 'RUNTIME_INPUT') {
+    if (state.sceneParameterValues && Object.prototype.hasOwnProperty.call(state.sceneParameterValues, key)) {
+      return constExpr(finiteNumber(state.sceneParameterValues[key], path, fail));
+    }
     if (!state.runtimeInputReads || !Object.prototype.hasOwnProperty.call(state.runtimeInputReads, key)) {
       return fail(path, state.runtimeInputMessage);
     }
@@ -139,9 +144,14 @@ function parameterDirectory(state: NumericCompileState, path: string, fail: (pat
     if (row.gameId !== state.gameId || row.skillKey !== state.skillKey) return fail(path, '参数不属于当前游戏和技能');
     const base = { parameterKey: row.parameterKey, valueMode: row.valueMode, valueType: row.valueType };
     if (row.valueMode === 'RUNTIME_INPUT') {
+      if (state.sceneParameterValues && Object.prototype.hasOwnProperty.call(state.sceneParameterValues, row.parameterKey)) {
+        return { ...base, runtimeSource: { kind: 'scene_parameter' as const,
+          value: finiteNumber(state.sceneParameterValues[row.parameterKey], path, fail) } };
+      }
       const read = state.runtimeInputReads?.[row.parameterKey];
       if (!read) return base;
       if (read.op === 'read' && read.path === 'use.charge_duration_ms') return { ...base, runtimeSource: { kind: 'use_charge_duration' as const } };
+      if (read.op === 'read' && read.path === `ability.param.${row.parameterKey}`) return { ...base, runtimeSource: { kind: 'ability_parameter' as const } };
       const match = read.op === 'read' ? /^process\.actual_cost\.([a-z][a-z0-9_]{0,63})$/.exec(read.path ?? '') : null;
       if (match) return { ...base, runtimeSource: { kind: 'process_actual_cost' as const, resourceKey: match[1]! } };
       return fail(path, '共同公式本批不授权该计算时参数供值来源');

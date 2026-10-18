@@ -51,10 +51,13 @@ export type AuthoredHitProgram = {
   parameters?: readonly SkillParameter[];
   formulas?: readonly SkillFormula[];
   statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'statusKind' | 'status'>>;
-  modifierZones?: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'calculationMode' | 'status'>>;
+  modifierZones?: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'calculationMode' | 'status'>
+    & Partial<Pick<ModifierZone, 'gameId' | 'applicationStage'>>>;
   identity: { source: CombatantIdentityFact; target: CombatantIdentityFact };
   skillCategoryKeys?: readonly string[];
   vampRules?: readonly GameVampRule[];
+  /** 仅宿主提供当前场景真实游戏绑定；不会进入公开编译或运行协议。 */
+  criticalBinding?: (forced: boolean, path: string) => Pick<OperationDefinition, 'critChance' | 'critMultiplierMin'>;
   chargeReleaseContext?: { process: SkillProcess; rules: readonly SkillTriggerRuleDetail[] };
 };
 
@@ -347,7 +350,23 @@ function compileDamage(
     );
   }
   if (result.detail.originKind !== 'DIRECT') return fail(`${path}.detail.originKind`, '未支持的来源性质');
-  if (result.detail.critical.mode !== 'DISALLOWED') return fail(`${path}.detail.critical`, '未支持的暴击策略');
+  const critical = result.detail.critical;
+  const criticalOperation: Partial<OperationDefinition> = { critEligible: false };
+  if (critical.mode === 'DISALLOWED') {
+    if (critical.multiplierValue !== null) return fail(`${path}.detail.critical.multiplierValue`, '禁止暴击不得保留倍率');
+  } else if (critical.mode === 'SOURCE_CRIT_CHANCE' || critical.mode === 'FORCED') {
+    if (!critical.multiplierValue || !authored.criticalBinding) return fail(`${path}.detail.critical`, '暴击需要原作者倍率与真实场景游戏绑定');
+    Object.assign(criticalOperation, authored.criticalBinding(critical.mode === 'FORCED', `${path}.detail.critical.mode`));
+    criticalOperation.critEligible = true;
+    criticalOperation.critMultiplier = compileNumericValue(critical.multiplierValue, `${path}.detail.critical.multiplierValue`, state, fail);
+    const chance = criticalOperation.critChance;
+    if (!chance) return fail(`${path}.detail.critical`, '暴击缺少实际概率绑定');
+    if (chance?.op === 'read') {
+      const attribute = /^source\.attr\.([a-z][a-z0-9_]*)\.resolved$/.exec(chance.path ?? '');
+      if (!attribute) return fail(`${path}.detail.critical`, '来源暴击概率必须读取实际来源属性');
+      state.requiredAttributes.add(attribute[1]!);
+    }
+  } else return fail(`${path}.detail.critical.mode`, '未知暴击模式');
   const damageType = result.detail.damageTypeKey;
   if (typeof damageType !== 'string' || !damageType) return fail(`${path}.detail.damageTypeKey`, '需要明确的伤害类型原键');
   typeEntries.set(damageType, 'damage');
@@ -373,17 +392,17 @@ function compileDamage(
   for (const entry of adapted.typeEntries) typeEntries.set(entry.key, entry.domain);
   return {
     operation: {
-      operation: 'damage', target: 'target', damageType, amount, ref: result.resultKey, critEligible: false,
+      operation: 'damage', target: 'target', damageType, amount, ref: result.resultKey, ...criticalOperation,
       ...adapted.operation
     },
     vamp: adapted
   };
 }
 
-function compileSlow(
+function compilePersistentHitResult(
   authored: AuthoredHitProgram,
   effect: SkillEffect,
-  result: SkillEffectStatusOperationResult,
+  result: SkillEffectStatusOperationResult | Extract<SkillEffectResult, { resultType: 'ATTRIBUTE_CHANGE' }>,
   providerKey: string,
   path: string,
   state: NumericCompileState,
@@ -520,7 +539,7 @@ function compileResultOperations(
     if (kind === 'movement_slow') {
       return {
         semantic,
-        operations: [compileSlow(authored, effect, result, providerKey, path, state, providers)]
+        operations: [compilePersistentHitResult(authored, effect, result, providerKey, path, state, providers)]
       };
     }
     return {
@@ -529,6 +548,23 @@ function compileResultOperations(
     };
   }
   if (result.resultType === 'ATTRIBUTE_CHANGE') {
+    if (effect.lifecycle) {
+      const life = effect.lifecycle;
+      const zone = authored.modifierZones?.filter(row => row.modifierZoneKey === result.detail.modifierZoneKey) ?? [];
+      if (effect.results.length !== 1 || result.target !== 'TARGET' || result.detail.attributeKey === 'hp'
+        || life.endWhenShieldEndsResultKey != null || !life.durationValue || zone.length !== 1
+        || zone[0]!.gameId !== authored.gameId || zone[0]!.applicationStage !== 'ATTRIBUTE_FLAT'
+        || zone[0]!.domain !== 'ATTRIBUTE' || zone[0]!.status !== 'ENABLED' || zone[0]!.calculationMode !== 'FLAT_ADD') {
+        return fail(path, '持久命中属性只接完整单结果目标属性平加，不能混入其它生命周期或修正');
+      }
+      const duration = tryFoldConstant(compileNumericValue(life.durationValue, `${path}.lifecycle.durationValue`,
+        { ...state, bindParameters: false, allowAttributeReads: false, allowedContextKeys: undefined }, fail));
+      if (duration === null || !Number.isSafeInteger(duration) || duration < 1) return fail(path, '持久命中属性需要静态正整数期限');
+      return {
+        semantic: { resultType: 'ATTRIBUTE_CHANGE', target: 'TARGET', moment: 'PERSISTENT' },
+        operations: [compilePersistentHitResult(authored, effect, result, `attribute:${authored.skillKey}:${effect.effectKey}:${result.resultKey}`, path, state, providers)]
+      };
+    }
     return {
       semantic: { resultType: 'ATTRIBUTE_CHANGE', target: semanticTarget(result.target), moment: momentOf(result) },
       operations: [compileAttributeChange(result, path, state)]
@@ -797,6 +833,54 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
     vampRules,
     abilityTypes: [...abilityTypes]
   };
+}
+
+/** 从真实作者过程挂接编译负载；不制造作者规则，也不发布第二份命中事件。 */
+export function adaptEmpoweredProcessPayload(authored: Omit<AuthoredHitProgram, 'rules' | 'chargeReleaseContext'>, process: SkillProcess): AdaptedHitProgram {
+  const root = `skills.${authored.skillKey}.processes.${process.processKey}`;
+  const step = process.steps[0];
+  if (process.gameId !== authored.gameId || process.skillKey !== authored.skillKey || process.steps.length !== 1
+    || step?.stepType !== 'EMPOWERED_BASIC_ATTACK' || step.detail.consumeMoment !== 'ATTACK_HIT' || step.occupiesAction !== false) fail(root, '负载仅接真实单步骤命中消费强化过程');
+  const bindings = stableSorted(process.effectBindings.filter(binding => binding.moment.momentType === 'STEP_EXECUTION' && binding.moment.stepKey === step.stepKey), binding => binding.sortOrder);
+  if (!bindings.length) fail(`${root}.effectBindings`, '强化步骤缺少真实命中挂接');
+  const program: AuthoredHitProgram = { ...authored, rules: [] };
+  const state = numericState(program), providers = new Map<string, ProviderDefinition>(), typeEntries = new TypeCatalogEntries();
+  // resolve_skill_hit 的正式编译依赖；声明类型不创建作者监听或运行时命中事实。
+  typeEntries.set('event/skill_hit', 'event');
+  const candidates: SkillHitCandidate[] = [];
+  const keys = new Set<string>(), abilityTypes = new Set<string>();
+  let vampRules: GenericVampRule[] | undefined;
+  for (const binding of bindings) {
+    const bindingPath = `${root}.effectBindings.${binding.bindingKey}`;
+    catalogKey(binding.bindingKey, `${bindingPath}.bindingKey`);
+    if (keys.has(binding.bindingKey)) fail(bindingPath, '强化挂接身份重复');
+    keys.add(binding.bindingKey);
+    if (binding.moment.failureReason != null) fail(bindingPath, '强化步骤执行不能夹带失败原因');
+    const effect = lookupEffect(program, binding.effectKey, `${bindingPath}.effectKey`);
+    if (!effect.results.length) fail(bindingPath, '强化效果缺少完整结果');
+    const resultKeys = new Set<string>();
+    for (const result of stableSorted(effect.results, row => row.sortOrder)) {
+      const path = `skills.${authored.skillKey}.effects.${effect.effectKey}.results.${result.resultKey}`;
+      catalogKey(result.resultKey, `${path}.resultKey`);
+      if (resultKeys.has(result.resultKey)) fail(path, '强化结果身份重复');
+      resultKeys.add(result.resultKey);
+      if (result.target !== 'TARGET' || result.resultType !== 'DAMAGE'
+        && !(result.resultType === 'STATUS_OPERATION' && result.detail.operation === 'APPLY')) fail(path, '强化负载仅接实际命中目标的完整伤害或状态施加');
+      const compiled = compileResultOperations(program, effect, result, path, state, providers, typeEntries, 'skill');
+      if (compiled.vamp) {
+        if (vampRules && !sameJson(vampRules, compiled.vamp.rules)) fail(path, '强化负载吸血规则不一致');
+        vampRules = compiled.vamp.rules;
+        compiled.vamp.abilityTypes.forEach(key => abilityTypes.add(key));
+      }
+      for (const operation of compiled.operations) operation.ref = path;
+      candidates.push({ candidateKey: `${binding.bindingKey}:${result.resultKey}`, effectOccurrenceKey: binding.bindingKey,
+        effectKey: effect.effectKey, resultKey: result.resultKey, semantic: compiled.semantic,
+        spellShieldBlockScope: result.spellShieldBlockScope, operations: compiled.operations });
+    }
+  }
+  return { skillHit: { skillKey: authored.skillKey, candidates }, resolveKind: 'skill', providers: [...providers.values()], params: state.params,
+    formulas: formulasUsedByInternalValue([...providers.values(), candidates], [...state.namedFormulas.values()]), requiredAttributes: [...state.requiredAttributes],
+    typeEntries: [...typeEntries].map(([key, domain]) => ({ key, domain })), vampRules, abilityTypes: [...abilityTypes] };
 }
 
 function addType(request: CompileRequest, key: string, domain: string, _path: string): void {

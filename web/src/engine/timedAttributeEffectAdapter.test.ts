@@ -12,6 +12,7 @@ import { TinyGoV2Bridge } from './tinygoV2Bridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import type { CompileRequest } from '../types/genericEngine';
+import { approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
 
 function sample(skillKey = 'speed_alpha') {
   const formula: SkillFormula = { gameId: 'lol', skillKey, formulaKey: 'decay', name: '有限时间线性模型', description: null, sortOrder: 0, createdAt: '', updatedAt: '',
@@ -32,6 +33,38 @@ function sample(skillKey = 'speed_alpha') {
 }
 
 describe('有限持续属性的实例时间', () => {
+  it.each(['snapshot_alpha', 'snapshot_beta'])('%s 静态快照由已选等级核定，支持补集比例且不采样属性', skillKey => {
+    const { effect, zone, state, formula } = sample(skillKey);
+    formula.expression = { inputs: [{ key: 'ratio', binding: { kind: 'parameter', skillKey, parameterKey: 'ratio' } }],
+      stages: [{ key: 'out', name: '静态值', expression: { op: 'read', inputKey: 'ratio' } }], outputStageKey: 'out' };
+    state.skillLevel = 2;
+    state.parameters = [{ gameId: 'lol', skillKey, parameterKey: 'ratio', name: '真实等级值', valueMode: 'SKILL_LEVEL', valueType: 'DECIMAL',
+      fixedValue: null, levelValues: { '1': .4, '2': .6 }, description: null, sortOrder: 0, createdAt: '', updatedAt: '' }];
+    const result = effect.results[0]!;
+    result.lifecycleBehavior = { ...result.lifecycleBehavior!, valueReadMode: 'APPLICATION_SNAPSHOT', reapplicationValueMode: 'REPLACE' };
+    zone.calculationMode = 'RATIO_COMPLEMENT_MULTIPLY';
+    approveAuthoredFixture(state);
+    const compiled = compileTimedAttributeEffect(effect, state, [zone]);
+    expect(compiled.provider.modifiers![0]).toMatchObject({ kind: 'attribute', stage: 'total', valuePolicy: 'complement_multiply', value: { op: 'const', value: .6 } });
+    expect(compiled.operation.ref).toBe(`skills.${skillKey}.effects.speed.results.speed`);
+    expect([...state.namedFormulas.values()][0]!.expression).toEqual(formula.expression);
+  });
+
+  it.each(['attribute', 'elapsed', 'runtime', 'too_large', 'multi_result'] as const)('静态快照拒绝完整依赖中的 %s', variant => {
+    const { effect, zone, state, formula } = sample();
+    effect.results[0]!.lifecycleBehavior = { ...effect.results[0]!.lifecycleBehavior!, valueReadMode: 'APPLICATION_SNAPSHOT', reapplicationValueMode: 'REPLACE' };
+    if (variant === 'attribute') formula.expression.inputs[0]!.binding = { kind: 'attribute', object: 'source', attributeKey: 'hp', valueKind: 'total' };
+    if (variant === 'runtime') {
+      formula.expression.inputs[0]!.binding = { kind: 'parameter', skillKey: state.skillKey, parameterKey: 'unknown' };
+      state.parameters = [{ gameId: 'lol', skillKey: state.skillKey, parameterKey: 'unknown', name: '未知', valueMode: 'RUNTIME_INPUT', valueType: 'DECIMAL',
+        fixedValue: null, levelValues: null, description: null, sortOrder: 0, createdAt: '', updatedAt: '' }];
+      state.runtimeInputReads = { unknown: { op: 'read', path: 'use.charge_duration_ms' } };
+    }
+    if (variant === 'too_large') { effect.results[0]!.valueRule!.value = fixedValue(1.1); zone.calculationMode = 'RATIO_COMPLEMENT_MULTIPLY'; }
+    if (variant === 'multi_result') effect.results.push({ ...structuredClone(effect.results[0]!), resultKey: 'extra' });
+    expect(() => compileTimedAttributeEffect(effect, state, [zone])).toThrow();
+  });
+
   it.each(['speed_alpha', 'haste_beta'])('%s 只生成显式按自身刷新的供值器，原精度与作者公式完整保留', skillKey => {
     const { formula, effect, zone, state } = sample(skillKey);
     const before = structuredClone(effect);

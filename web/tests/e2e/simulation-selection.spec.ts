@@ -327,7 +327,7 @@ test('5A独立页面结构：来源调整使快照失效，但生命及属性草
   diagnostics.assertClean();
 });
 
-test('5A独立页面结构：执行前重读摘要变化仅做公式预检，须确认后再提交场景', async ({ page }) => {
+test('5A独立页面结构：摘要变化中止本次并预检，保留草稿后下次直接提交场景', async ({ page }) => {
   const sample = simulationSample();
   const diagnostics = await installSnapshotStructureApi(page, sample);
   await page.addInitScript(() => {
@@ -345,16 +345,15 @@ test('5A独立页面结构：执行前重读摘要变化仅做公式预检，须
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
-  await expect(page.getByRole('button', { name: '编译验证', exact: true })).toBeDisabled();
-  await page.getByRole('button', { name: '确认最新技能配置', exact: true }).click();
+  await expect(page.getByRole('button', { name: '确认最新技能配置', exact: true })).toHaveCount(0);
   await expect(page.getByRole('button', { name: '编译验证', exact: true })).toBeEnabled();
   const changed = structuredClone(sample);
   changed.skillConfigurations[0]!.baseDigest = 'independent_changed_same_rules';
   changed.skillConfigurations[0]!.parameters[0]!.fixedValue = 3;
   diagnostics.changeCandidate(changed);
   await page.getByRole('button', { name: '编译验证', exact: true }).click();
-  await expect(page.getByText(/最新配置已完成共同公式预检，请核对并明确确认后重新执行本次场景/)).toBeVisible();
-  await expect(page.getByRole('button', { name: '编译验证', exact: true })).toBeDisabled();
+  await expect(page.getByText('技能作者配置、来源或构筑已变化，已更新配置并保留草稿。请补全新增输入后重新开始计算。', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '编译验证', exact: true })).toBeEnabled();
   await expect(page.getByRole('spinbutton', { name: '攻击方初始当前生命', exact: true })).toHaveValue('650');
   await expect(page.getByRole('spinbutton', { name: '攻击方补充属性 critical_strike_chance', exact: true })).toHaveValue('0');
   expect(diagnostics.requests).toHaveLength(3);
@@ -365,11 +364,15 @@ test('5A独立页面结构：执行前重读摘要变化仅做公式预检，须
     { type: 'compile', rulesHash: 'skill-formula-preflight' }, { type: 'release', rulesHash: 'skill-formula-preflight' },
     { type: 'compile', rulesHash: 'skill-formula-preflight' }, { type: 'release', rulesHash: 'skill-formula-preflight' }
   ]);
-  await page.getByRole('button', { name: '确认最新技能配置', exact: true }).click();
-  await expect(page.getByRole('button', { name: '编译验证', exact: true })).toBeEnabled();
-  expect(await page.evaluate(() => (window as typeof window & {
+  await expect(page.getByRole('button', { name: '确认最新技能配置', exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: '编译验证', exact: true }).click();
+  await expect(page.getByText('仅编译验证通过，不代表单次/连续计算通过。', { exact: true })).toBeVisible();
+  const retriedMessages = await page.evaluate(() => (window as typeof window & {
     reconfirmPreflightMessages: Array<{ type: string; rulesHash: string | null }>
-  }).reconfirmPreflightMessages)).toEqual(preflightMessages);
+  }).reconfirmPreflightMessages);
+  expect(retriedMessages.filter(row => row.type === 'compile' && row.rulesHash !== 'skill-formula-preflight')).toHaveLength(1);
+  expect(retriedMessages.filter(row => row.type === 'run')).toHaveLength(0);
+  expect(diagnostics.requests).toHaveLength(4);
   diagnostics.assertClean();
 });
 

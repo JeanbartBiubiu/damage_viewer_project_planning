@@ -8,7 +8,7 @@ import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import type { RecordBudget, SafetyBudget, SamplingConfig } from '../../src/types/genericEngine';
 import type { NumericValue } from '../../src/types/numericValue';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
-import { confirmSimulationConfiguration, isolateCharacterSourcesOnPage, readIsolatedSimulationSnapshot, simulationComparisonSelection, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
+import { expectSimulationConfigurationReady, isolateCharacterSourcesOnPage, readIsolatedSimulationSnapshot, simulationComparisonSelection, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
 import { continuousExpectation } from '../fixtures/continuousExpectation';
 
 test.beforeEach(async ({ page }) => {
@@ -231,7 +231,7 @@ async function preparePage(page: Page, snapshot = sample()) {
   await chooseSimulationEntity(page, '目标角色', 'actor_b'); await chooseSimulationLevel(page, '目标等级', 1);
   await chooseSimulationEntity(page, '普攻技能', 'sample_basic_attack'); await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
-  await confirmSimulationConfiguration(page);
+  await expectSimulationConfigurationReady(page);
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
   if (!loaded) throw new Error('页面没有实际读取快照。');

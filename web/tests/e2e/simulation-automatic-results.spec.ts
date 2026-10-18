@@ -12,7 +12,7 @@ import {
 import { simulationAutomaticSample } from '../fixtures/simulationAutomaticSkills';
 import { simulationDefaultSourcesSample } from '../fixtures/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
-import { confirmSimulationConfiguration } from '../fixtures/simulationSnapshotRequests';
+import { expectSimulationConfigurationReady } from '../fixtures/simulationSnapshotRequests';
 
 // 独立作者构造，只隔离 HTTP。每份计算均由实际页面配置和正式 Wasm Worker 执行；不代表实库英雄验收。
 const resultRegion = (page: Page) => page.getByRole('region', { name: '自动技能结果', exact: true });
@@ -79,7 +79,7 @@ test('独立构造页面：自动最高等级后，等级0、关闭和清空在�
   expect(selection.sourceSkillSettings).toContainEqual({ origin: { kind: 'CHARACTER', characterKey: 'actor_a' }, skillKey: 'sample_active', enabled: true, skillLevel: 0 });
   expect(selection.sourceSkillSettings).toContainEqual({ origin: { kind: 'CHARACTER', characterKey: 'actor_a' }, skillKey: 'sample_second', enabled: false });
   await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeEnabled();
-  await confirmSimulationConfiguration(page);
+  await expectSimulationConfigurationReady(page);
   await expect(page.locator('.simulation-level-select[aria-label="攻击方技能 sample_active 等级"]')).toContainText('0（未学）');
   await expect(page.getByRole('switch', { name: '攻击方技能 sample_second 启用', exact: true })).not.toBeChecked();
   await expect(cleared).toContainText('等级');
@@ -98,7 +98,7 @@ test('独立构造页面：关闭全部主动后直接运行真实普攻，原�
   await setCombatAnalysisSkill(page, '攻击方', 'sample_active', false);
   await setCombatAnalysisSkill(page, '攻击方', 'sample_second', false);
   await page.getByRole('button', { name: '准备计算', exact: true }).click();
-  await confirmSimulationConfiguration(page);
+  await expectSimulationConfigurationReady(page);
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByLabel('攻击方初始当前生命', { exact: true }).fill('300');
   await page.getByLabel('目标初始当前生命', { exact: true }).fill('5000');
@@ -191,7 +191,7 @@ for (const basicBinding of ['missing', 'ambiguous'] as const) {
     await expect(fallback).not.toBeChecked();
     await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeEnabled();
     await page.getByRole('button', { name: '准备计算', exact: true }).click();
-    await confirmSimulationConfiguration(page);
+    await expectSimulationConfigurationReady(page);
     await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
     await page.getByLabel('攻击方初始当前生命', { exact: true }).fill('300');
     await page.getByLabel('目标初始当前生命', { exact: true }).fill('5000');

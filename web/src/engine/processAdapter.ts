@@ -9,9 +9,14 @@ import type { SkillFormula } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
 import type { SkillInternalState } from '../types/skillInternalState';
 import type { ModifierZone } from '../types/modifierZone';
+import type { DamageType } from '../types/damageType';
 import { compileProcessStates } from './processStateAdapter';
+import { bindSceneAttributeParameters, type SceneAttributeParameterInput } from './sceneAttributeSnapshotInput';
 import { compileLinkedShieldEffect } from './shieldEffectAdapter';
 import { compileTimedAttributeEffect } from './timedAttributeEffectAdapter';
+import { compileTimedDamageReduction } from './timedDamageReductionAdapter';
+import { adaptEmpoweredProcessPayload, type AuthoredHitProgram, type AdaptedHitProgram } from './hitAdapter';
+import { staticEffectValue } from './staticEffectValue';
 import type {
   SkillProcess, SkillProcessFailureReason, SkillProcessMoment, SkillProcessStep
 } from '../types/skillProcess';
@@ -19,7 +24,7 @@ import type {
   SkillTriggerAction, SkillTriggerCondition, SkillTriggerRuleDetail
 } from '../types/skillTriggerRule';
 import type {
-  AbilityDefinition, CompileRequest, GenericFormulaExpr, ListenerDefinition, NamedFormula, OperationDefinition,
+  AbilityDefinition, BasicAttackPlan, CombatantProviderMount, CompileRequest, GenericFormulaExpr, ListenerDefinition, NamedFormula, OperationDefinition,
   ProcessCommandFact, ProcessControlAction, ProcessCostDefinition, ProcessDefinition,
   ProcessFailureReason, ProcessMomentDefinition, ProcessMomentType, ProcessStepDefinition, ProviderDefinition
 } from '../types/genericEngine';
@@ -52,6 +57,13 @@ export type CastCostRef = {
   resultKey: string;
 };
 
+/** 仅宿主内传递已经编译的所选普攻；不进入公开运行协议。 */
+export type ProcessBasicAttackContext = {
+  binding: Pick<BasicAttackPlan, 'source' | 'target' | 'skillKey' | 'startAbilityRef' | 'hitAbilityRef' | 'initialControlAbilityRef'>;
+  mount: CombatantProviderMount;
+  provider: ProviderDefinition;
+};
+
 export type AuthoredProcessProgram = {
   gameId: string;
   skillKey: string;
@@ -68,8 +80,12 @@ export type AuthoredProcessProgram = {
   roundPositiveCooldownMs?: boolean;
   internalStates?: readonly SkillInternalState[];
   modifierZones?: readonly ModifierZone[];
+  damageTypes?: readonly DamageType[];
+  basicAttackContext?: ProcessBasicAttackContext;
+  hitContext?: Pick<AuthoredHitProgram, 'statuses' | 'identity' | 'skillCategoryKeys' | 'vampRules' | 'criticalBinding'>;
   /** 宿主绑定的真实父定义身份，使主动与自然同源，双方不同来源互不碰撞。 */
   providerDefinitionRef?: string;
+  sceneAttributeInputs?: readonly SceneAttributeParameterInput[];
 };
 
 export type AdaptedProcessControl = {
@@ -97,6 +113,7 @@ export type AdaptedProcessProgram = {
   requiredAttributes: string[];
   initialAbilityKey: string;
   controls: AdaptedProcessControl[];
+  empoweredPayload?: { stepKey: string; hit: AdaptedHitProgram };
 };
 
 export type ProcessProgramBinding = {
@@ -258,7 +275,7 @@ function stepAllows(step: SkillProcessStep, momentType: ProcessMomentType): bool
   if (['IMMEDIATE', 'DELAY', 'MULTI_HIT', 'CHANNEL'].includes(step.stepType)) {
     return momentType === 'STEP_START' || momentType === 'STEP_EXECUTION' || momentType === 'STEP_COMPLETE';
   }
-  if (step.stepType === 'CHARGE' || step.stepType === 'RECAST') {
+  if (step.stepType === 'CHARGE' || step.stepType === 'RECAST' || step.stepType === 'EMPOWERED_BASIC_ATTACK') {
     return momentType === 'STEP_START' || momentType === 'STEP_EXECUTION' || momentType === 'STEP_TIMEOUT' || momentType === 'STEP_COMPLETE';
   }
   return false;
@@ -355,6 +372,13 @@ function compileSteps(process: SkillProcess, state: NumericCompileState): Proces
       if (count !== 1) fail(`${path}.detail.maximumRecastCountValue`, '重施次数必须为 1');
       terminal = true;
       steps.push({ stepKey, stepType: 'RECAST', windowMs: compileTime(step.detail.windowValue, `${path}.detail.windowValue`, state, 'positive') });
+    } else if (step.stepType === 'EMPOWERED_BASIC_ATTACK') {
+      exactKeys(step.detail, ['windowValue', 'consumeMoment'], `${path}.detail`);
+      if (ordered.length !== 1 || step.detail.consumeMoment !== 'ATTACK_HIT' || step.occupiesAction !== false) fail(path, '强化仅接单步骤、真实命中消费且明确不占行动');
+      const window = staticEffectValue(step.detail.windowValue, `${path}.detail.windowValue`, state);
+      if (!Number.isSafeInteger(window) || window <= 0) fail(`${path}.detail.windowValue`, '强化窗口必须为明确正整数毫秒');
+      terminal = true;
+      steps.push({ stepKey, stepType: 'EMPOWERED_BASIC_ATTACK', windowMs: constExpr(window), consumeMoment: 'ATTACK_HIT' });
     } else fail(`${path}.stepType`, '本期只接受即时、延时及末尾唯一有限多段、引导、蓄力或单次重施');
   }
   return steps.map(step => ({ ...step, occupiesAction: ordered.find(author => author.stepKey === step.stepKey)!.occupiesAction ?? null }));
@@ -402,12 +426,42 @@ function compileResult(
   path: string,
   moment: ProcessMomentDefinition,
   state: NumericCompileState,
-  initialAbilityKey: string
+  initialAbilityKey: string,
+  authored: AuthoredProcessProgram
 ): OperationDefinition {
   if (result.spellShieldBlockScope !== null || result.resultType === 'SPELL_SHIELD') {
     fail(`${path}.spellShieldBlockScope`, '法术护盾资格不能绕过');
   }
   if (result.lifecycleBehavior !== null) fail(`${path}.lifecycleBehavior`, '本期过程不能丢弃结果生效时点');
+  if (result.resultType === 'ATTACK_TIMER_RESET') {
+    exactKeys(result.detail, [], `${path}.detail`);
+    if (result.target !== 'SOURCE' || result.valueRule !== null || moment.momentType !== 'PROCESS_START'
+      || moment.stepKey !== null || moment.failureReason !== null) fail(path, '普攻计时重置只接受自身无数值的真实过程开始');
+    const context = authored.basicAttackContext;
+    const owner = authored.owner ?? 'source';
+    if (!context || context.binding.source !== owner || context.mount.definitionRef !== context.provider.providerKey
+      || context.provider.skillKey !== context.binding.skillKey) fail(path, '普攻计时重置需要同拥有方完整的真实所选普攻绑定');
+    const keys = [context.binding.startAbilityRef, context.binding.hitAbilityRef, context.binding.initialControlAbilityRef].map(ref => {
+      const match = /^(source|target)\.provider\[([^\]]+)\]\.ability\[([^\]]+)\]$/.exec(ref);
+      if (!match || match[1] !== owner || match[2] !== context.mount.providerRef) fail(path, '普攻计时重置的引用必须属于真实拥有方和同一挂载');
+      return match[3]!;
+    });
+    if (new Set(keys).size !== 3) fail(path, '普攻开始、命中与首次控制必须是独立真实能力');
+    const abilities = keys.map(key => {
+      const matches = context.provider.abilities?.filter(row => row.abilityKey === key) ?? [];
+      if (matches.length !== 1 || matches[0]!.skillKey !== context.binding.skillKey) fail(path, '普攻能力不存在、重复或技能身份不一致');
+      return matches[0]!;
+    });
+    const initial = abilities[2]!, control = initial.processControl;
+    const processes = context.provider.processes?.filter(row => row.processKey === control?.processKey) ?? [];
+    if (initial.kind !== 'active' || control?.action !== 'INITIAL' || control.useRefFromEvent !== true || processes.length !== 1
+      || processes[0]!.skillKey !== context.binding.skillKey || !processes[0]!.cooldown
+      || abilities[0]!.processControl || !abilities[1]!.operations?.some(row => row.operation === 'resolve_skill_hit' && row.skillHit?.skillKey === context.binding.skillKey)) {
+      fail(path, '普攻计时重置只能引用真实完整普攻的INITIAL和原始使用身份');
+    }
+    return { operation: 'cooldown_change', target: 'self', valuePolicy: 'set_remaining', amount: constExpr(0),
+      abilityRef: context.binding.initialControlAbilityRef, ref: path.replace(/^adapter\.processPlan\./, '') };
+  }
   if (result.resultType === 'DAMAGE') {
     if (result.detail.vampQualification !== 'RESOLVED') fail(`${path}.detail.vampQualification`, '尚未核定的伤害不能绕过');
     fail(`${path}.resultType`, '本期过程不能编译伤害结果');
@@ -463,7 +517,18 @@ function compileEffectResults(
     context.providers.set(compiled.provider.providerKey, compiled.provider);
     return [compiled.operation];
   }
-  if (effect.lifecycle && effect.results.some(result => result.resultType === 'ATTRIBUTE_CHANGE' && result.lifecycleBehavior?.valueReadMode === 'MOMENT_EVALUATION')) {
+  if (effect.lifecycle && effect.results.some(result => result.resultType === 'DAMAGE_MODIFIER')) {
+    if (skip.size) fail(path, '有限减伤不能复用为施放成本');
+    const compiled = compileTimedDamageReduction(effect, state, context.authored.modifierZones ?? [], context.authored.damageTypes ?? [], context.authored.providerDefinitionRef);
+    for (const provider of compiled.providers) {
+      const previous = context.providers.get(provider.providerKey);
+      if (previous && !sameJson(previous, provider)) fail(path, '有限减伤定义冲突');
+      context.providers.set(provider.providerKey, provider);
+    }
+    return compiled.operations;
+  }
+  if (effect.lifecycle && effect.results.some(result => result.resultType === 'ATTRIBUTE_CHANGE'
+    && ['MOMENT_EVALUATION', 'APPLICATION_SNAPSHOT'].includes(result.lifecycleBehavior?.valueReadMode ?? ''))) {
     if (skip.size) fail(path, '有限持续属性不能复用为施放成本');
     const compiled = compileTimedAttributeEffect(effect, state, context.authored.modifierZones ?? [], context.authored.providerDefinitionRef);
     const previous = context.providers.get(compiled.provider.providerKey);
@@ -476,7 +541,7 @@ function compileEffectResults(
   const operations: OperationDefinition[] = [];
   for (const result of stableSorted(effect.results, (item) => item.sortOrder)) {
     if (skip.has(result.resultKey)) continue;
-    operations.push(compileResult(result, `${path}.results.${result.resultKey}`, moment, state, initialAbilityKey));
+    operations.push(compileResult(result, `${path}.results.${result.resultKey}`, moment, state, initialAbilityKey, context.authored));
   }
   return operations;
 }
@@ -586,7 +651,7 @@ function sourceAttribute(condition: SkillTriggerCondition, path: string, state: 
   const rightPath = `${path}.detail.comparisonValue`;
   assertNumericShape(condition.detail.comparisonValue, rightPath);
   const right = compileNumericValue(condition.detail.comparisonValue, rightPath,
-    scratchState(state, '条件比较不能使用未供值的计算时输入', false), fail);
+    { ...scratchState(state, '条件比较不能使用计算时输入', false), runtimeInputReads: undefined }, fail);
   state.requiredAttributes.add(attributeKey);
   return { op: comparator, args: [left, right] };
 }
@@ -647,14 +712,16 @@ function firstHealOperations(authored: AuthoredProcessProgram, rule: SkillTrigge
     if (result.spellShieldBlockScope !== null) fail(`${path}.spellShieldBlockScope`, '首次自身治疗不能有法术护盾资格');
     exactKeys(result.detail, [], `${path}.detail`);
     const inlineState = scratchState(state, '首次自身治疗不能使用未供值的计算时输入', true);
+    inlineState.runtimeInputReads = undefined;
     const amount = compileScaled(result.valueRule, `${path}.valueRule`, inlineState);
     for (const key of inlineState.requiredAttributes) state.requiredAttributes.add(key);
     return { operation: 'heal', target: 'self', amount };
   });
 }
 
-function assertIdleAction(action: SkillTriggerAction, path: string): void {
-  if (!Array.isArray(action.runtimeInputBindings) || action.runtimeInputBindings.length) {
+function assertIdleAction(action: SkillTriggerAction, path: string, sceneAttributeStart = false): void {
+  if (!Array.isArray(action.runtimeInputBindings) || action.runtimeInputBindings.some(binding =>
+    !sceneAttributeStart || binding.sourceType !== 'SCENE_ATTRIBUTE_SNAPSHOT')) {
     fail(`${path}.runtimeInputBindings`, '该动作不能携带动态输入');
   }
   if (!Array.isArray(action.resultModifiers) || action.resultModifiers.length) fail(`${path}.resultModifiers`, '未支持的结果修正');
@@ -730,7 +797,7 @@ function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDef
     const actionPath = `${path}.actions.${action.actionKey || 'missing'}`;
     catalogKey(action.actionKey, `${actionPath}.actionKey`);
     exactKeys(action, ['actionKey', 'name', 'actionType', 'sortOrder', 'targetContext', 'detail', 'runtimeInputBindings', 'resultModifiers'], actionPath);
-    assertIdleAction(action, actionPath);
+    assertIdleAction(action, actionPath, action.actionType === 'START_PROCESS');
     if (action.actionType === 'FAIL_PROCESS' && action.detail.failureReason === 'SOURCE_DIED') {
       fail(`${actionPath}.detail.failureReason`, '来源死亡由原生在停机前终结');
     }
@@ -859,6 +926,7 @@ function momentOperationsFor(
     const moment = readMoment(binding.moment, `${path}.moment`);
     assertMomentFits(moment, process.steps, `${path}.moment`);
     const effect = lookupEffect(authored, binding.effectKey, `${path}.effectKey`);
+    if (moment.momentType === 'STEP_EXECUTION' && process.steps.some(step => step.stepType === 'EMPOWERED_BASIC_ATTACK' && step.stepKey === moment.stepKey)) continue;
     add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey,
       costs.skipByBinding.get(`${binding.bindingKey}\0${effect.effectKey}`) ?? new Set(), { authored, providers }));
   }
@@ -929,7 +997,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (!isRecord(authored)) fail('adapter.processPlan', '过程程序必须是对象');
   exactKeys(authored, [
     'gameId', 'skillKey', 'skillLevel', 'characterLevel', 'process', 'rules', 'effects',
-    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'providerDefinitionRef'
+    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'damageTypes', 'basicAttackContext', 'hitContext', 'providerDefinitionRef', 'sceneAttributeInputs'
   ], 'adapter.processPlan');
   const gameId = catalogKey(authored.gameId, 'gameId');
   if (authored.ignoreCastCosts !== undefined && typeof authored.ignoreCastCosts !== 'boolean') fail('ignoreCastCosts', '忽略施法成本必须明确声明');
@@ -952,10 +1020,40 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (!Array.isArray(process.stateOperations)) fail(`${processPath}.stateOperations`, '内部状态操作必须是数组');
   if (!Array.isArray(process.effectBindings)) fail(`${processPath}.effectBindings`, '效果挂接必须是数组');
   const state = numericState(authored);
+  bindSceneAttributeParameters(authored, state);
   if (authored.internalStates !== undefined && !Array.isArray(authored.internalStates)) fail(planPath(skillKey, 'internalStates'), '内部状态必须是数组');
   const statePlan = compileProcessStates(authored.internalStates ?? [], state, planPath(skillKey, 'internalStates'));
   const providers = new Map<string, ProviderDefinition>();
   const steps = compileSteps(process, state);
+  let empoweredPayload: AdaptedProcessProgram['empoweredPayload'];
+  if (steps.some(step => step.stepType === 'EMPOWERED_BASIC_ATTACK')) {
+    const stepKey = steps[0]!.stepKey;
+    if (process.stateOperations.some(operation => operation.moment.momentType === 'STEP_EXECUTION' && operation.moment.stepKey === stepKey)
+      || authored.rules.some(rule => rule.eventSource.eventType === 'PROCESS_MOMENT'
+        && rule.eventSource.detail.moment.momentType === 'STEP_EXECUTION' && rule.eventSource.detail.moment.stepKey === stepKey)) {
+      fail(processPath, '强化步骤执行只接受完整效果挂接负载；额外状态操作或时点规则会改变作者执行顺序');
+    }
+    const context = authored.basicAttackContext;
+    const owner = authored.owner ?? 'source';
+    if (!context || context.binding.source !== owner || context.mount.definitionRef !== context.provider.providerKey
+      || context.provider.skillKey !== context.binding.skillKey) fail(processPath, '强化待击需要真实同拥有方的完整普攻绑定');
+    const refs = [context.binding.startAbilityRef, context.binding.hitAbilityRef, context.binding.initialControlAbilityRef].map(ref => {
+      const match = /^(source|target)\.provider\[([^\]]+)\]\.ability\[([^\]]+)\]$/.exec(ref);
+      const matches = context.provider.abilities?.filter(ability => ability.abilityKey === match?.[3]) ?? [];
+      if (!match || match[1] !== owner || match[2] !== context.mount.providerRef || matches.length !== 1
+        || matches[0]!.skillKey !== context.binding.skillKey) fail(processPath, '强化待击普攻能力、挂载或真实身份不一致');
+      return matches[0]!;
+    });
+    const control = refs[2]!.processControl;
+    if (new Set(refs).size !== 3 || refs[2]!.kind !== 'active' || control?.action !== 'INITIAL' || control.useRefFromEvent !== true
+      || context.provider.processes?.filter(definition => definition.processKey === control.processKey && definition.skillKey === context.binding.skillKey && definition.cooldown).length !== 1
+      || refs[0]!.processControl || !refs[1]!.operations?.some(operation => operation.operation === 'resolve_skill_hit' && operation.skillHit?.skillKey === context.binding.skillKey)) fail(processPath, '强化待击必须绑定真实普攻INITIAL与原始使用身份');
+    if (!authored.hitContext) fail(processPath, '强化待击缺少真实伤害、状态和吸血上下文');
+    const hit = adaptEmpoweredProcessPayload({ ...authored.hitContext, gameId, skillKey, skillLevel: authored.skillLevel,
+      characterLevel: authored.characterLevel, effects: authored.effects, parameters: authored.parameters, formulas: authored.formulas,
+      modifierZones: authored.modifierZones }, process);
+    empoweredPayload = { stepKey: steps[0]!.stepKey, hit };
+  }
   const controls = compileControls(authored, steps);
   const costs = compileCosts(authored, process, state);
   let cooldown: ProcessDefinition['cooldown'] = null;
@@ -1009,9 +1107,14 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
       processes: [{ processKey: process.processKey, skillKey, steps, costs: costs.costs, cooldown, momentOperations }],
       ...(Object.keys(statePlan.schema).length ? { initialStateSchema: statePlan.schema } : {})
     },
-    providers: [...providers.values()], typeEntries: [...statePlan.scopes].map(key => ({ key, domain: 'state_scope' })),
+    providers: [...providers.values()], typeEntries: [
+      ...[...statePlan.scopes].map(key => ({ key, domain: 'state_scope' })),
+      ...[...new Set([...providers.values()].flatMap(provider => (provider.modifiers ?? [])
+        .flatMap(modifier => modifier.condition?.op === 'read' && modifier.condition.path?.startsWith('damage.type.')
+          ? [modifier.condition.path.slice('damage.type.'.length)] : [])))].map(key => ({ key, domain: 'damage' }))
+    ],
     params, formulas: formulasUsedByInternalValue([abilities, momentOperations, steps, costs.costs, cooldown, statePlan.schema, [...providers.values()]], [...state.namedFormulas.values()]), requiredAttributes: [...state.requiredAttributes],
-    initialAbilityKey: controls.initial.abilityKey, controls: controlRows
+    initialAbilityKey: controls.initial.abilityKey, controls: controlRows, ...(empoweredPayload ? { empoweredPayload } : {})
   };
 }
 
@@ -1037,6 +1140,7 @@ export function withProcessProgram(
   const providerRef = catalogKey(binding.processProviderKey, 'processProviderKey');
   const definitionKey = `process_${owner}_${providerRef}`;
   const adapted = adaptProcessProgram({ ...binding.authored, providerDefinitionRef: definitionKey });
+  if (adapted.empoweredPayload) fail('processProgram', '强化待击必须通过真实普攻与技能计划共同装配，不能丢弃实际消费绑定');
   const request = structuredClone(input);
   request.rulesHash = options.rulesHash;
   request.sharedProviders ??= [];

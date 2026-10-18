@@ -21,19 +21,24 @@ describe('modifierZoneForm', () => {
     }, true)).toMatchObject({ applicationStage: expect.any(String) });
   });
 
-  it('only exposes percentage multiplication for attributes and keeps existing modes', () => {
+  it('仅为属性百分比和防御后伤害开放比例乘算，旧组合保持', () => {
     expect(allowedCalculationModes('ATTRIBUTE')).toEqual(['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY']);
     expect(allowedApplicationStages('ATTRIBUTE', 'RATIO_MULTIPLY')).toEqual(['ATTRIBUTE_PERCENT']);
     expect(validateModifierZoneDraft({ modifierZoneKey: 'attribute_multiply', name: '属性比例乘算', domain: 'ATTRIBUTE',
       calculationMode: 'RATIO_MULTIPLY', applicationStage: 'ATTRIBUTE_PERCENT', description: '', sortOrder: '0' }, true)).toEqual({});
-    for (const domain of ['DAMAGE', 'HEALING', 'SHIELD'] as const) {
+    expect(allowedApplicationStages('DAMAGE', 'RATIO_MULTIPLY')).toEqual(['DAMAGE_POST_DEFENSE']);
+    expect(validateModifierZoneDraft({ modifierZoneKey: 'incoming_multiply', name: '承受伤害比例乘算', domain: 'DAMAGE',
+      calculationMode: 'RATIO_MULTIPLY', applicationStage: 'DAMAGE_POST_DEFENSE', description: '', sortOrder: '0' }, true)).toEqual({});
+    expect(validateModifierZoneDraft({ modifierZoneKey: 'incoming_multiply', name: '错误阶段', domain: 'DAMAGE',
+      calculationMode: 'RATIO_MULTIPLY', applicationStage: 'DAMAGE_PRE_DEFENSE', description: '', sortOrder: '0' }, true).applicationStage).toContain('不合法');
+    for (const domain of ['HEALING', 'SHIELD'] as const) {
       expect(allowedCalculationModes(domain)).not.toContain('RATIO_MULTIPLY');
     }
   });
 
   it('allows HEALING RATIO_MAX with HEALING_RESULT and keeps RATIO_ADD', () => {
     expect(allowedCalculationModes('HEALING')).toEqual(['RATIO_ADD', 'RATIO_MAX']);
-    expect(allowedCalculationModes('DAMAGE')).toEqual(['RATIO_ADD']);
+    expect(allowedCalculationModes('DAMAGE')).toEqual(['RATIO_ADD', 'RATIO_MULTIPLY']);
     expect(allowedApplicationStages('HEALING', 'RATIO_MAX')).toEqual(['HEALING_RESULT']);
     expect(validateModifierZoneDraft({
       modifierZoneKey: 'grievous', name: '重伤', domain: 'HEALING',

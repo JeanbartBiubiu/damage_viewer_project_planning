@@ -13,6 +13,7 @@ import {
   Empty,
   Form,
   Input,
+  InputNumber,
   Modal,
   Select,
   Space,
@@ -61,6 +62,8 @@ import {
   SKILL_TRIGGER_SUBJECT_LABELS,
   SKILL_TRIGGER_VALUE_TYPE_LABELS,
   allowedEventValuesFor,
+  allowsSceneAttributeSnapshot,
+  allowsSceneInitialParameter,
   bindingSummary,
   createEmptyBinding,
   eventValueHint,
@@ -81,6 +84,8 @@ import {
   persistentStatusApplyResults,
   priorResultOutputDomain,
   priorResultOutputLabel,
+  sceneAttributeSnapshotError,
+  sceneInitialParameterError,
   subjectOptionsForEvent,
   switchBindingSourceType,
   valueKindsForInternalState,
@@ -263,6 +268,15 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   const sourceCostError = current.sourceType === 'SOURCE_CAST_RESOURCE_COST'
     ? sourceCastResourceCostError(current, eventSource, reachableParameters, attributes, attributesLoadState, processes, processesLoadState)
     : null;
+  const sceneSnapshotError = current.sourceType === 'SCENE_ATTRIBUTE_SNAPSHOT'
+    ? sceneAttributeSnapshotError(current, eventSource, skillKey, actions[currentActionIndex], reachableParameters,
+      attributes, attributesLoadState, processes, processesLoadState)
+    : null;
+  const currentAction = actions[currentActionIndex];
+  const sceneInitialError = current.sourceType === 'SCENE_INITIAL_PARAMETER'
+    ? sceneInitialParameterError(current, eventSource, skillKey, currentAction, reachableParameters,
+      currentAction?.actionType === 'EXECUTE_EFFECT' ? effectsByKey.get(currentAction.detail.effectKey) : undefined)
+    : null;
   const allowedValues = allowedEventValuesFor(eventSource, stepType, chargeHitContext);
   const subjectOptions = subjectOptionsForEvent(eventSource.eventType);
   const earlierActions = useMemo(
@@ -438,7 +452,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
       setLocalError('已有绑定不能更改来源种类；请删除后以新标识新增。');
       return;
     }
-    if (sourceCostError) return;
+    if (sourceCostError || sceneSnapshotError || sceneInitialError) return;
     if (current.sourceType === 'PRIOR_ACTION_RESULT') {
       const confirmed = confirmedPriorResultBinding(current, effectiveOutputKind);
       if (!confirmed) return;
@@ -509,7 +523,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
           <Button onClick={close}>取消</Button>
           <Button
             type="primary"
-            disabled={disabled || !priorResultConfirmReady || Boolean(sourceCostError)}
+            disabled={disabled || !priorResultConfirmReady || Boolean(sourceCostError) || Boolean(sceneSnapshotError) || Boolean(sceneInitialError)}
             onClick={confirmBinding}
           >
             确定
@@ -552,7 +566,9 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               disabled={disabled}
               options={reachableParameters.map((item) => ({
                 value: item.parameterKey,
-                disabled: current.sourceType === 'SOURCE_CAST_RESOURCE_COST' && (item.valueType !== 'DECIMAL' || item.valueMode !== 'RUNTIME_INPUT'),
+                disabled: current.sourceType === 'SOURCE_CAST_RESOURCE_COST' && (item.valueType !== 'DECIMAL' || item.valueMode !== 'RUNTIME_INPUT')
+                  || current.sourceType === 'SCENE_INITIAL_PARAMETER' && (item.skillKey !== skillKey || item.valueMode !== 'RUNTIME_INPUT'
+                    || (item.valueType !== 'INTEGER' && item.valueType !== 'DECIMAL')),
                 label: `${item.name}（${item.parameterKey} / ${SKILL_TRIGGER_VALUE_TYPE_LABELS[item.valueType]}）`
               }))}
               onChange={(value) => setCurrent({ ...current, parameterKey: String(value ?? '') })}
@@ -567,6 +583,10 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               disabled={disabled || Boolean(originalSourceType)}
               options={SKILL_TRIGGER_SOURCE_TYPES
                 .filter((value) => value !== 'SOURCE_CAST_RESOURCE_COST' || allowsSourceCastResourceCost(eventSource, processes) || originalSourceType === value)
+                .filter((value) => value !== 'SCENE_ATTRIBUTE_SNAPSHOT'
+                  || allowsSceneAttributeSnapshot(eventSource, skillKey, actions[currentActionIndex], processes) || originalSourceType === value)
+                .filter((value) => value !== 'SCENE_INITIAL_PARAMETER'
+                  || allowsSceneInitialParameter(eventSource, skillKey, currentAction) || originalSourceType === value)
                 .filter((value) => value !== 'EVENT_VALUE' || allowedValues.length > 0)
                 .filter((value) => value !== 'PRIOR_ACTION_RESULT' || earlierActions.length > 0)
                 .map((value) => ({ value, label: SKILL_TRIGGER_SOURCE_TYPE_LABELS[value] }))}
@@ -594,6 +614,59 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               </Form.Item>
               </AuthoringFieldAnchor>
               <Button disabled={disabled || attributesLoadState === 'loading'} loading={attributesLoadState === 'loading'} onClick={() => void onRetryAttributes()}>刷新属性目录</Button>
+            </>
+          ) : null}
+
+          {current.sourceType === 'SCENE_ATTRIBUTE_SNAPSHOT' ? (
+            <>
+              <Alert type="info" content="只读取本次场景所选等级属性与装备直接属性，不含临时增益、被动、构筑或光环。固定槽位不随技能自施目标改变；整数参数在准备计算时检查实际值，不补默认值。" />
+              {sceneSnapshotError ? <Alert type="warning" content={sceneSnapshotError} /> : null}
+              <AuthoringFieldAnchor field="subject" active={focusField === 'subject'}>
+              <Form.Item label="场景对象" required>
+                <Select aria-label="场景属性对象" value={current.detail.subject} disabled={disabled}
+                  options={[{ value: 'SOURCE', label: '场景攻击方' }, { value: 'TARGET', label: '场景目标方' }]}
+                  onChange={(value) => setCurrent({ ...current, detail: { ...current.detail, subject: value as 'SOURCE' | 'TARGET' } })} />
+              </Form.Item>
+              </AuthoringFieldAnchor>
+              <AuthoringFieldAnchor field="attributeKey" active={focusField === 'attributeKey'}>
+              <Form.Item label="场景属性" required>
+                <Select aria-label="场景属性" value={current.detail.attributeKey || undefined}
+                  disabled={disabled || attributesLoadState !== 'ready'}
+                  options={attributes.map((item) => ({ value: item.attributeKey,
+                    label: `${item.name}（${item.attributeKey}）${item.status === 'DISABLED' ? '（已停用）' : ''}`,
+                    disabled: item.status !== 'ENABLED' || (item.valueType !== 'INTEGER' && item.valueType !== 'DECIMAL') }))}
+                  onChange={(value) => setCurrent({ ...current, detail: { ...current.detail, attributeKey: String(value ?? '') } })} />
+              </Form.Item>
+              </AuthoringFieldAnchor>
+              <AuthoringFieldAnchor field="sources" active={focusField === 'sources'}>
+              <Form.Item label="属性来源" required extra="至少明确选择一种；可以仅选等级属性或仅选装备直接属性。">
+                <Select mode="multiple" aria-label="场景属性来源" value={current.detail.sources} disabled={disabled}
+                  options={[{ value: 'CHARACTER_LEVEL', label: '所选等级属性' }, { value: 'EQUIPMENT_DIRECT', label: '装备直接属性' }]}
+                  onChange={(value) => setCurrent({ ...current, detail: { ...current.detail,
+                    sources: value as Array<'CHARACTER_LEVEL' | 'EQUIPMENT_DIRECT'> } })} />
+              </Form.Item>
+              </AuthoringFieldAnchor>
+              <Button disabled={disabled || attributesLoadState === 'loading'} loading={attributesLoadState === 'loading'} onClick={() => void onRetryAttributes()}>刷新属性目录</Button>
+            </>
+          ) : null}
+
+          {current.sourceType === 'SCENE_INITIAL_PARAMETER' ? (
+            <>
+              <Alert type="info" content="声明本场机制初值的合法范围；本场取值在准备计算时明确填写。仅供来源初始化执行本技能效果，不保存默认值，也不向主动过程或生命周期供值。" />
+              {sceneInitialError ? <Alert type="warning" content={sceneInitialError} /> : null}
+              {(['minValue', 'maxValue'] as const).map((field) => (
+                <AuthoringFieldAnchor key={field} field={field} active={focusField === field}>
+                  <Form.Item label={field === 'minValue' ? '最小值' : '最大值'} required
+                    extra={selectedParameter?.valueType === 'INTEGER' ? '整数参数须明确填写安全整数边界。' : undefined}>
+                    <InputNumber aria-label={field === 'minValue' ? '场景初值最小值' : '场景初值最大值'}
+                      placeholder="请明确填写边界"
+                      value={Number.isFinite(current.detail[field]) ? current.detail[field] : undefined}
+                      disabled={disabled}
+                      onChange={(value) => setCurrent({ ...current, detail: { ...current.detail,
+                        [field]: typeof value === 'number' ? value : Number.NaN } })} />
+                  </Form.Item>
+                </AuthoringFieldAnchor>
+              ))}
             </>
           ) : null}
 

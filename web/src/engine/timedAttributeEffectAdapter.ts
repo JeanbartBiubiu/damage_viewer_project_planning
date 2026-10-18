@@ -2,11 +2,12 @@ import type { SkillEffect } from '../types/skillEffect';
 import type { ModifierZone } from '../types/modifierZone';
 import type { OperationDefinition, ProviderDefinition } from '../types/genericEngine';
 import { compileNumericValue, constExpr, finiteNumber, NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression, type NumericCompileState } from './numericAdapter';
+import { staticEffectAmount } from './staticEffectValue';
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 function exact(value: object, keys: string[], path: string) { for (const key of Object.keys(value)) if (!keys.includes(key)) fail(`${path}.${key}`, '未接入的有限持续属性字段'); }
 
-/** 明确的自身单层刷新；只为当前实例的持续属性读取已过时间。 */
+/** 明确的自身单层刷新；快照只接静态完整依赖，实时属性才可读本实例时间。 */
 export function compileTimedAttributeEffect(effect: SkillEffect, state: NumericCompileState, zones: readonly ModifierZone[], parentDefinition = `process_${state.skillKey}`) {
   const root = `skills.${state.skillKey}.effects.${effect.effectKey}`;
   const life = effect.lifecycle;
@@ -28,27 +29,35 @@ export function compileTimedAttributeEffect(effect: SkillEffect, state: NumericC
     seen.add(result.resultKey);
     exact(result, ['resultKey', 'name', 'resultType', 'target', 'description', 'sortOrder', 'lifecycleBehavior', 'spellShieldBlockScope', 'valueRule', 'detail'], path);
     const behavior = result.lifecycleBehavior;
+    const snapshot = behavior?.valueReadMode === 'APPLICATION_SNAPSHOT';
     if (result.resultType !== 'ATTRIBUTE_CHANGE' || result.target !== 'SOURCE' || result.spellShieldBlockScope !== null || !behavior
-      || behavior.moment !== 'PERSISTENT' || behavior.valueReadMode !== 'MOMENT_EVALUATION' || behavior.stackValueMode !== 'SHARED'
-      || behavior.reapplicationValueMode !== null || behavior.periodicExecutionMode !== null || !result.valueRule) fail(path, '只接入自身持续属性当前时点求值，不能把时间读取授权给其它结果');
+      || behavior.moment !== 'PERSISTENT' || !['MOMENT_EVALUATION', 'APPLICATION_SNAPSHOT'].includes(behavior.valueReadMode ?? '') || behavior.stackValueMode !== 'SHARED'
+      || behavior.reapplicationValueMode !== (snapshot ? 'REPLACE' : null) || behavior.periodicExecutionMode !== null || !result.valueRule
+      || snapshot && effect.results.length !== 1) fail(path, '只接入自身实时持续属性或单结果静态施加快照，不能把时间读取授权给快照');
     exact(behavior, ['moment', 'valueReadMode', 'stackValueMode', 'reapplicationValueMode', 'periodicExecutionMode'], `${path}.lifecycleBehavior`);
     exact(result.detail, ['attributeKey', 'operation', 'modifierZoneKey'], `${path}.detail`);
     const zone = zones.filter(row => row.modifierZoneKey === result.detail.modifierZoneKey);
     if (zone.length !== 1 || zone[0]!.gameId !== state.gameId || zone[0]!.status !== 'ENABLED' || zone[0]!.domain !== 'ATTRIBUTE'
       || !(zone[0]!.calculationMode === 'FLAT_ADD' && zone[0]!.applicationStage === 'ATTRIBUTE_FLAT'
-        || zone[0]!.calculationMode === 'RATIO_ADD' && zone[0]!.applicationStage === 'ATTRIBUTE_PERCENT')
+        || zone[0]!.calculationMode === 'RATIO_ADD' && zone[0]!.applicationStage === 'ATTRIBUTE_PERCENT'
+        || snapshot && zone[0]!.calculationMode === 'RATIO_COMPLEMENT_MULTIPLY' && zone[0]!.applicationStage === 'ATTRIBUTE_PERCENT')
       || result.detail.operation !== 'INCREASE' || result.detail.attributeKey === 'hp') fail(`${path}.detail`, '有限实时属性只接入真实启用的加算或比例增加区域');
     const rule = result.valueRule;
     exact(rule, ['value', 'fixedMultiplier', 'fixedMinValue', 'fixedMaxValue'], `${path}.valueRule`);
     finiteNumber(rule.fixedMultiplier, `${path}.valueRule.fixedMultiplier`, fail);
     for (const key of ['fixedMinValue', 'fixedMaxValue'] as const) if (rule[key] !== null) finiteNumber(rule[key], `${path}.valueRule.${key}`, fail);
     if (rule.fixedMinValue !== null && rule.fixedMaxValue !== null && rule.fixedMinValue > rule.fixedMaxValue) fail(path, '数值下界不能高于上界');
-    const value = wrapValueRuleExpression(compileNumericValue(rule.value, `${path}.valueRule.value`, { ...state, bindParameters: false,
+    const complement = zone[0]!.calculationMode === 'RATIO_COMPLEMENT_MULTIPLY';
+    const amount = snapshot ? staticEffectAmount(rule, `${path}.valueRule`, state) : null;
+    if (complement && (amount === null || amount < 0 || amount > 1)) fail(`${path}.valueRule`, '剩余比例连乘的静态比例必须在0与1之间');
+    const value = snapshot ? constExpr(amount!) : wrapValueRuleExpression(compileNumericValue(rule.value, `${path}.valueRule.value`, { ...state, bindParameters: false,
       allowedContextKeys: new Set(['effect_elapsed_ms'] as const) }, fail), rule);
     state.requiredAttributes.add(result.detail.attributeKey);
     provider.modifiers!.push({ modifierKey: result.resultKey, kind: 'attribute', target: `self.attr.${result.detail.attributeKey}`,
-      valuePolicy: zone[0]!.calculationMode === 'FLAT_ADD' ? 'add' : 'add_percent', bucket: zone[0]!.modifierZoneKey, value });
+      valuePolicy: complement ? 'complement_multiply' : zone[0]!.calculationMode === 'FLAT_ADD' ? 'add' : 'add_percent',
+      ...(complement ? { stage: 'total' } : {}), bucket: zone[0]!.modifierZoneKey, value });
   }
-  const operation: OperationDefinition = { operation: 'apply_provider', target: 'self', providerDefinitionRef: providerKey };
+  const operation: OperationDefinition = { operation: 'apply_provider', target: 'self', providerDefinitionRef: providerKey,
+    ...(effect.results.length === 1 ? { ref: `${root}.results.${effect.results[0]!.resultKey}` } : {}) };
   return { provider, operation };
 }

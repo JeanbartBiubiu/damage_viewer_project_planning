@@ -6,7 +6,7 @@ import { simulationSample } from '../fixtures/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
-import { confirmSimulationConfiguration, readIsolatedSimulationSnapshot, simulationComparisonSelection, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
+import { expectSimulationConfigurationReady, readIsolatedSimulationSnapshot, simulationComparisonSelection, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
 
 const expectedWasm = WASM_IDENTITY;
 
@@ -133,7 +133,7 @@ test('编译检查仍独立释放，不自动运行单次或连续普攻且不�
   await chooseSimulationEntity(page, '普攻技能', 'sample_basic_attack');
   await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
-  await confirmSimulationConfiguration(page);
+  await expectSimulationConfigurationReady(page);
   await expect(page.getByRole('button', { name: '将缺失属性填写为0', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();

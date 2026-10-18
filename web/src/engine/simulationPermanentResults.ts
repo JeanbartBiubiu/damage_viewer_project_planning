@@ -14,6 +14,7 @@ export type PermanentResultContext = {
   side: 'source' | 'target';
   formulaNamespace: string;
   onNumericConsumed?: PermanentNumericConsumer;
+  sceneParameterValues?: Readonly<Record<string, number>>;
 };
 export type PermanentNumericConsumer = (value: NumericValue, authorPath: string, expression: GenericFormulaExpr) => void;
 
@@ -23,12 +24,13 @@ function exact(value: object, fields: readonly string[], path: string) {
   if (unknown) fail(`${path}.${unknown}`, '未接入的常驻字段不能被静默忽略');
 }
 
-function staticState(context: PermanentResultContext) {
+function staticState(context: PermanentResultContext, bindSceneValues = false) {
   const { snapshot, configuration, source, side, formulaNamespace } = context;
   return createNumericCompileState({ gameId: snapshot.gameId, skillKey: source.skillKey, skillLevel: source.skillLevel!,
     characterLevel: snapshot.selection[`${side}Level`], parameters: configuration.parameters, formulas: configuration.formulas,
     formulaNamespace, bindParameters: false, allowAttributeReads: false,
-    runtimeInputMessage: '常驻需要明确的等级或静态参数，不猜计算时输入' });
+    runtimeInputMessage: '常驻需要明确的等级或静态参数，不猜计算时输入',
+    ...(bindSceneValues ? { sceneParameterValues: context.sceneParameterValues } : {}) });
 }
 
 export function validatePermanentEffect(effect: SkillConfiguration['effects'][number], path: string, context: PermanentResultContext) {
@@ -81,7 +83,10 @@ export function permanentModifier(context: PermanentResultContext, result: Skill
     && (result.detail.operation === 'SET' || behavior.valueReadMode === 'MOMENT_EVALUATION' && hasAttributeDependency)
     ? permanentAttributeConversion(snapshot, configuration, source, side, result, path) : undefined;
   if (conversion) return conversion;
-  const numeric = staticState(context);
+  if (context.sceneParameterValues && Object.keys(context.sceneParameterValues).length && behavior.valueReadMode !== 'APPLICATION_SNAPSHOT') {
+    fail(path, '场景初始化参数只允许明确的施加快照结果');
+  }
+  const numeric = staticState(context, true);
   const authorPath = `${path}.valueRule.value`;
   const expression = compileNumericValue(result.valueRule.value, authorPath, numeric, fail);
   const value = tryFoldConstant(wrapValueRuleExpression(expression, result.valueRule));

@@ -390,6 +390,33 @@ describe('5A完整默认来源', () => {
 });
 
 describe('5B真实默认来源复用通用触发核心', () => {
+  it.each(['damage_reduce_alpha', 'damage_reduce_beta'])('%s 的新增自然有限减伤和补集属性都拒绝，不能仅凭编译结果准入', skillKey => {
+    const snapshot = naturalSample();
+    const configuration = snapshot.skillConfigurations[1]!;
+    // 使用同一真实来源测试布局，仅改该布局作者标识与完整结果；不新增虚假事件。
+    const previousKey = configuration.skill.skillKey;
+    const renamed = JSON.parse(JSON.stringify(snapshot).replaceAll(previousKey, skillKey)) as SimulationSnapshot;
+    const authored = renamed.skillConfigurations[1]!;
+    const effect = authored.effects[0]!;
+    effect.lifecycle = { ...effect.lifecycle!, durationValue: { kind: 'FIXED', value: 4000 }, expiryMode: 'ALL_AT_ONCE', reapplicationDurationMode: 'REFRESH_ALL' };
+    effect.results = [{ ...effect.results[0]!, resultType: 'DAMAGE_MODIFIER', target: 'SOURCE', spellShieldBlockScope: null,
+      lifecycleBehavior: { moment: 'PERSISTENT', valueReadMode: 'MOMENT_EVALUATION', stackValueMode: 'SHARED', reapplicationValueMode: null, periodicExecutionMode: null },
+      valueRule: { value: { kind: 'FIXED', value: .25 }, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+      detail: { modifierZoneKey: 'incoming_product', direction: 'TAKEN', operation: 'DECREASE', damageTypeKey: renamed.catalogs.damageTypes[0]!.type.damageTypeKey,
+        deliveryKind: 'ANY', originKind: 'ANY', criticalFilter: 'ANY' } }];
+    authored.triggerRules[0]!.eventSource = { eventType: 'DAMAGE_TAKEN', detail: { sourceSkillKey: null, damageTypeKey: null, deliveryKind: 'ANY', originKind: 'ANY' } };
+    authored.triggerRules[0]!.actions[0]!.targetContext = 'CURRENT_TARGET';
+    renamed.catalogs.modifierZones.push({ ...renamed.catalogs.modifierZones[0]!, modifierZoneKey: 'incoming_product', name: '承受乘算', domain: 'DAMAGE',
+      calculationMode: 'RATIO_MULTIPLY', applicationStage: 'DAMAGE_POST_DEFENSE' });
+    syncNaturalSources(renamed);
+    expect(() => scene(renamed)).toThrow(/仅接真实过程施加/);
+    effect.results = [{ ...effect.results[0]!, resultType: 'ATTRIBUTE_CHANGE', target: 'SOURCE',
+      lifecycleBehavior: { moment: 'PERSISTENT', valueReadMode: 'APPLICATION_SNAPSHOT', stackValueMode: 'SHARED', reapplicationValueMode: 'REPLACE', periodicExecutionMode: null },
+      detail: { attributeKey: 'bonus_attack_speed_percent', operation: 'INCREASE', modifierZoneKey: 'incoming_product' } }];
+    renamed.catalogs.modifierZones.find(row => row.modifierZoneKey === 'incoming_product')!.calculationMode = 'RATIO_COMPLEMENT_MULTIPLY';
+    expect(() => scene(renamed)).toThrow(/仅接真实过程施加/);
+  });
+
   it('双方18级的异名PER_STACK有期SOURCE单一开始根只为A编译，B保留无自主攻击原因及空根', () => {
     const snapshot = undrivenTargetSample();
     const configuration = dynamicConfiguration(snapshot);

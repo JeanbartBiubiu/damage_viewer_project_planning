@@ -5,7 +5,7 @@ import { simulationActiveSample } from '../../tests/fixtures/simulationActiveSki
 import { equipmentSimulationSample } from '../../tests/fixtures/simulationEquipment';
 import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkillSources';
 import { assembleSimulation, inspectSimulationSnapshot } from './simulationAdapter';
-import { assembleActiveSkills, simulationCastCostCandidates } from './simulationActiveSkills';
+import { assembleActiveSkills, simulationAutomaticCastCosts, simulationCastCostCandidates } from './simulationActiveSkills';
 import { assembleTriggeredEquipment } from './simulationTriggeredEquipment';
 import { validateSimulationSkillSourceManifest } from './simulationSkillSourceDescription';
 import { validateSimulationSnapshot } from '../services/simulationSnapshotClient';
@@ -167,6 +167,37 @@ describe('本次快照分类和费用用途绑定', () => {
     if (variant === 'result_lifecycle') result.lifecycleBehavior = {} as never;
     if (variant === 'shield') result.spellShieldBlockScope = 'RESULT';
     expect(simulationCastCostCandidates(snapshot)).toEqual([]);
+  });
+
+  it('普通费用可以自动识别并保留档案引用，不依赖资源或效果名称', () => {
+    const snapshot = classificationCostBindingsSample();
+    approveSnapshotFixture(snapshot);
+    const before = structuredClone(snapshot);
+    const costs = simulationAutomaticCastCosts(snapshot);
+    expect(costs).toEqual([authoredCostRef]);
+    expect(assembleActiveSkills(snapshot, costs).ignoredCastCosts).toEqual(costs);
+    expect(snapshot).toEqual(before);
+    snapshot.catalogs.calculationRules.configuration!.ignorableCastCostAttributeKeys = [];
+    expect(simulationAutomaticCastCosts(snapshot)).toEqual([]);
+    expect(() => assembleActiveSkills(snapshot, simulationAutomaticCastCosts(snapshot))).toThrow('资源改变');
+  });
+
+  it.each(['extra_result', 'extra_binding'] as const)('自动识别拒绝同一普通资源的额外开始消费：%s', variant => {
+    const snapshot = classificationCostBindingsSample();
+    approveSnapshotFixture(snapshot);
+    const skill = snapshot.skillConfigurations.find(row => row.skill.skillKey === authoredCostRef.skillKey)!;
+    if (variant === 'extra_result') {
+      skill.effects.find(row => row.effectKey === authoredCostRef.effectKey)!.results.push({
+        ...structuredClone(costResult(snapshot)), resultKey: 'necessary_payment'
+      });
+    } else {
+      const binding = skill.processes[0]!.effectBindings.find(row => row.bindingKey === authoredCostRef.bindingKey)!;
+      skill.processes[0]!.effectBindings.push({ ...structuredClone(binding), bindingKey: 'necessary_spend', sortOrder: 1 });
+    }
+    const before = structuredClone(snapshot);
+    expect(simulationCastCostCandidates(snapshot)).toHaveLength(2);
+    expect(() => simulationAutomaticCastCosts(snapshot)).toThrow('无法自动区分施法成本和必要消费');
+    expect(snapshot).toEqual(before);
   });
 
   it('伪造或重复确认费用及未处理的必要费用均拒绝，不改变作者快照', () => {

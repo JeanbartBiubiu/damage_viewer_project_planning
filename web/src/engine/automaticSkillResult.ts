@@ -1,5 +1,5 @@
 import type { AutomaticSkillCounts, AutomaticSkillWaitingReason, BudgetCause, CompileRequest, DoneResult,
-  RunRequest } from '../types/genericEngine';
+  ProcessInstanceSnapshot, ProcessStepDefinition, RunRequest } from '../types/genericEngine';
 import { simulationAbility } from './simulationAdapter';
 import type { OperationOrigin } from './simulationAdapter';
 import { validateAutomaticSkillRelations } from './automaticSkillRequest';
@@ -8,6 +8,8 @@ import { assessContinuousAttackResult } from './continuousAttackResult';
 import { inspectSimulationProcessFacts } from './simulationProcessFacts';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import { AUTOMATIC_SKILL_RECORD_KINDS, AUTOMATIC_SKILL_WAIT_REASONS } from '../types/skillSystemEnums.generated';
+import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, requireEmpoweredBasicAttack } from './empoweredAttackContract';
+import { tryFoldConstant } from './numericAdapter';
 
 export type AutomaticSkillAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
 type Row = Record<string, unknown>;
@@ -19,6 +21,24 @@ const budgetCauses: BudgetCause[] = ['max_events', 'max_commands_per_event', 'ma
 const close = (first: number, second: number) => Math.abs(first - second) <= 1e-9 * Math.max(1, Math.abs(first), Math.abs(second));
 const edgeKey = (grantor: string, consumer: string) => `${grantor}/${consumer}`;
 const hasOwn = (value: object, key: string) => Object.prototype.hasOwnProperty.call(value, key);
+
+/** 从完整冻结进度核对已提交圈时点，不依赖可截断的伤害或自动明细。 */
+function committedChannelTimes(process: ProcessInstanceSnapshot, step: ProcessStepDefinition): number[] {
+  const repeat = process.repeat;
+  if (!repeat || !Number.isSafeInteger(repeat.executionCount) || repeat.executionCount < 1 || repeat.executionCount > 64
+    || !Number.isSafeInteger(repeat.executionIndex) || repeat.executionIndex < 0 || repeat.executionIndex > repeat.executionCount) return [];
+  return Array.from({ length: repeat.executionIndex }, (_, index) => {
+    let offset: number;
+    if (step.firstExecution === 'CUSTOM_WINDOW') {
+      const span = repeat.lastExecutionOffsetMs - repeat.firstExecutionOffsetMs;
+      const divisor = repeat.executionCount - 1;
+      offset = repeat.firstExecutionOffsetMs + (divisor === 0 ? 0 : Math.floor(span / divisor) * index
+        + Math.floor(((span % divisor) * index * 2 + divisor) / (divisor * 2)));
+    } else offset = Math.round((process.advanceAtMs - process.stepStartedAtMs)
+      * (index + (step.firstExecution === 'AFTER_INTERVAL' ? 1 : 0)) / repeat.executionCount);
+    return process.stepStartedAtMs + offset;
+  });
+}
 
 /** 自动运行独立核对真实规则、使用、资格与完整累计，不匹配手动指令及预先填写的时刻。 */
 export function assessAutomaticSkillResult(compile: CompileRequest, request: RunRequest, done: DoneResult, origins: OperationOrigin[] = []): AutomaticSkillAssessment {
@@ -73,12 +93,18 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
         || ability.mount.providerRef !== binding.providerRef || ability.mount.definitionRef !== binding.providerDefinitionRef
         || ability.ability.skillKey !== binding.skillKey || ability.ability.processControl?.action !== 'INITIAL'
         || ability.ability.processControl.processKey !== control.processKey || !process || process.steps.length !== 1
-        || process.steps.some(step => !['IMMEDIATE', 'DELAY'].includes(step.stepType))) {
-        throw new Error(`automaticSkills.rules.${rule.ruleKey}.bindingKey: 必须对应真实首次即时／有限延时过程`);
+        || process.steps.some(step => !['IMMEDIATE', 'DELAY', 'EMPOWERED_BASIC_ATTACK', 'CHANNEL'].includes(step.stepType))) {
+        throw new Error(`automaticSkills.rules.${rule.ruleKey}.bindingKey: 必须对应真实首次即时／有限延时／有限引导过程`);
       }
-      check(rule.hitBindings.length === binding.hitBindings.length && binding.hitBindings.every(hit => rule.hitBindings.filter(input => input.hitBindingKey === hit.hitBindingKey).length === 1)
+      const empowered = empoweredAttackBinding(compile, binding);
+      if (empowered) {
+        requireEmpoweredBasicAttack(compile, request.driverPlan.basicAttack);
+        const cooldown = process.cooldown && tryFoldConstant(process.cooldown.durationMs);
+        check(typeof cooldown === 'number' && Number.isFinite(cooldown) && cooldown > 0, 'automaticSkills.rules', '自动强化待击需要真实正数普通冷却');
+      }
+      check((empowered ? rule.hitBindings.length === 0 : rule.hitBindings.length === binding.hitBindings.length && binding.hitBindings.every(hit => rule.hitBindings.filter(input => input.hitBindingKey === hit.hitBindingKey).length === 1))
         && rule.hitBindings.every(hit => ['TARGET_HIT', 'MISS'].includes(hit.preset))
-        && rule.target === (binding.hitBindings.length ? 'target' : 'source'), `automaticSkills.rules.${rule.ruleKey}.hitBindings`, '命中绑定或实际目标与作者不一致');
+        && rule.target === (!empowered && binding.hitBindings.length ? 'target' : 'source'), `automaticSkills.rules.${rule.ruleKey}.hitBindings`, '命中绑定或实际目标与作者不一致');
       return [rule.ruleKey, { rule, binding, control, process }] as const;
     }));
     check(new Set(rules.map(rule => rule.bindingKey)).size === rules.length, 'automaticSkills.rules', '绑定不得重复');
@@ -137,6 +163,7 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       && uses.hitCount <= uses.releasedCount && uses.releasedCount <= uses.stepExecutedCount && uses.stepCompletedCount <= uses.stepEnteredCount, 'summary.skillUses', '通用使用与自动真实开始／终结累计不一致');
     const processFacts = inspectSimulationProcessFacts(compile, request, done);
     issues.push(...processFacts.issues);
+    identityGaps.push(...empoweredAttackIdentityGaps(request, done));
     const processByUse = new Map(processFacts.processes.map(process => [process.useKey, process]));
     const ruleForUse = (ref: string) => {
       const process = processByUse.get(ref);
@@ -151,6 +178,25 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
         && processes.filter(process => process.status === 'failed').length === row.failedCount && processes.filter(process => process.status === 'active').length === row.inFlightCount,
       `automaticSkillSummary.rules.${row.ruleKey}`, '逐规则真实过程与成功开始／完成／失败／在途累计不一致');
     }
+    let expectedReleases = 0, possibleHits = 0, requiredHits = 0;
+    for (const process of processFacts.processes) {
+      const ruleKey = ruleForUse(process.useKey);
+      const context = ruleKey && contexts.get(ruleKey);
+      if (!context) continue;
+      if (!context.binding.hitBindings.length && process.status === 'complete') expectedReleases++;
+      for (const hit of context.binding.hitBindings) {
+        const released = hit.moment.momentType === 'STEP_EXECUTION' && hit.moment.stepKey === process.stepKey
+          ? process.stepExecutionIndex : hit.moment.momentType === 'PROCESS_COMPLETE' && process.status === 'complete' ? 1 : 0;
+        expectedReleases += released;
+        if (context.rule.hitBindings.find(preset => preset.hitBindingKey === hit.hitBindingKey)?.preset === 'MISS') continue;
+        possibleHits += released;
+        const ability = simulationAbility(compile, hit.hitAbilityRef)?.ability;
+        // 失败、预算尾部或真实命中能力条件可能阻止尚未完成的命中，不能由释放数补造成功。
+        if (execution.complete && summary.attemptSkippedCount === 0 && process.status !== 'failed' && ability && !ability.castCondition) requiredHits += released;
+      }
+    }
+    check(uses.releasedCount === expectedReleases, 'summary.skillUses.releasedCount', '完整释放累计必须对应真实步骤或完成时点，不从有限明细重建');
+    check(uses.hitCount >= requiredHits && uses.hitCount <= possibleHits, 'summary.skillUses.hitCount', '完整命中累计必须符合实际释放、命中预设及真实失败边界');
     const qualifications = array(automatic.qualifications, 'automaticSkillSummary.qualifications');
     const expectedEdges = new Map(ordered.filter(rule => rule.releaseAfterRuleKey !== null).map(rule => [edgeKey(rule.releaseAfterRuleKey!, rule.ruleKey), rule]));
     check(qualifications.length === expectedEdges.size, 'automaticSkillSummary.qualifications', '资格账本必须完整对应配置边');
@@ -286,6 +332,8 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
         check(returned === rows.length && total === returned + dropped && returned === Math.min(total, maximum)
           && stats[`${kind}RecordsTruncated`] === (dropped > 0), `recording.${kind}`, '通用明细预算与实际丢弃不守恒');
       }
+      const hitIdentities = new Map<string, { useRef: string; timeMs: number }>();
+      const executionHits = new Map<string, string>();
       for (const row of damages) {
         const ability = simulationAbility(compile, row.abilityRef);
         check(!!ability && row.abilityRef.startsWith(`${row.owner}.provider[`) && row.timeMs >= 0 && row.timeMs <= duration, 'damageRecords', '伤害拥有者、引用或时刻不一致');
@@ -296,8 +344,26 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
         for (const field of ['postDefenseDamage', 'shieldAbsorbed', 'actualHpLoss', 'overkillDamage', 'hpBefore', 'hpAfter'] as const) number(row[field], `damageRecords.${field}`, false);
         check(close(row.postDefenseDamage, row.shieldAbsorbed + row.actualHpLoss + row.overkillDamage) && close(row.hpBefore - row.actualHpLoss, row.hpAfter), 'damageRecords', '实际伤害及扣血分解不守恒');
         const binding = compile.rules.skillActionBindings?.find(binding => binding.hitBindings.some(hit => hit.hitAbilityRef === row.abilityRef));
-        if (binding) check(row.attackIndex === null && typeof row.useRef === 'string' && processByUse.get(row.useRef)?.providerRef === binding.providerRef
+        if (binding) check((empoweredAttackBinding(compile, binding) ? !!empoweredDamageProcess(compile, done, row)
+          && Number.isSafeInteger(row.attackIndex) && row.attackIndex! > 0 : row.attackIndex === null) && typeof row.useRef === 'string' && processByUse.get(row.useRef)?.providerRef === binding.providerRef
           && typeof row.hitRef === 'string' && !!row.hitRef && typeof row.instructionKey === 'string' && !!row.instructionKey, 'damageRecords.useRef', '主动命中必须保留实际自动使用及命中身份');
+        if (binding && !empoweredAttackBinding(compile, binding)) {
+          const process = processByUse.get(row.useRef);
+          const contextKey = process && ruleForUse(process.useKey);
+          const context = contextKey ? contexts.get(contextKey) : undefined;
+          const hit = binding.hitBindings.find(hit => hit.hitAbilityRef === row.abilityRef);
+          const step = context?.process.steps[0];
+          const times = process && step?.stepType === 'CHANNEL' && hit?.moment.momentType === 'STEP_EXECUTION'
+            ? committedChannelTimes(process, step) : process?.lastExecutionAtMs === null || process?.lastExecutionAtMs === undefined ? [] : [process.lastExecutionAtMs];
+          check(!!process && !!context && context.binding === binding && row.source === process.owner && row.target === process.target
+            && times.includes(row.timeMs), 'damageRecords.timeMs', '主动伤害必须来自该次使用已提交的实际圈时点');
+          if (typeof row.hitRef === 'string' && row.hitRef) {
+            const prior = hitIdentities.get(row.hitRef), executionKey = `${row.useRef}/${row.timeMs}`;
+            check(!prior || prior.useRef === row.useRef && prior.timeMs === row.timeMs, 'damageRecords.hitRef', '同一命中身份不能跨使用或跨圈复用');
+            check(!executionHits.has(executionKey) || executionHits.get(executionKey) === row.hitRef, 'damageRecords.hitRef', '同一次真实圈执行不能伪造多个主动命中');
+            hitIdentities.set(row.hitRef, { useRef: row.useRef, timeMs: row.timeMs }); executionHits.set(executionKey, row.hitRef);
+          }
+        }
       }
       for (const row of healing) {
         const ability = simulationAbility(compile, row.abilityRef);
@@ -307,7 +373,7 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
         check(close(row.actualHealing + row.overheal, row.healingAfterModifiers) && close(row.hpBefore + row.actualHealing, row.hpAfter), 'healingRecords', '治疗及溢出与生命变化不守恒');
         if (row.instructionKey !== null) check(row.useRef !== null && processByUse.has(row.useRef), 'healingRecords.useRef', '自动治疗不得伪造实际使用身份');
       }
-      if (!done.recording.damageRecordsTruncated && !done.recording.healingRecordsTruncated) issues.push(...inspectSimulationHealthLedger(request, done));
+      if (!done.recording.damageRecordsTruncated && !done.recording.healingRecordsTruncated) issues.push(...inspectSimulationHealthLedger(compile, request, done));
       if (request.driverPlan.basicAttack) issues.push(...assessContinuousAttackResult(compile, request, done, origins).issues);
     }
     if (request.driverPlan.basicAttack) {

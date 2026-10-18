@@ -7,7 +7,7 @@ import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
 import { simulationMixedSample } from '../fixtures/simulationMixedSkills';
 import { syncSimulationSkillSources } from '../fixtures/simulationSkillSources';
-import { confirmSimulationConfiguration } from '../fixtures/simulationSnapshotRequests';
+import { expectSimulationConfigurationReady } from '../fixtures/simulationSnapshotRequests';
 import { simulationSkillSourceIdentity } from '../../src/services/simulationSkillSourceIdentity';
 
 const output = resolve('output/phase6b');
@@ -229,7 +229,7 @@ test('独立页面：稳定计划标识，编辑时刻不读快照且过期，�
   await preset.click();
   await page.getByRole('option', { name: '释放后对唯一目标尝试命中', exact: true }).click();
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
-  await confirmSimulationConfiguration(page);
+  await expectSimulationConfigurationReady(page);
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByLabel('攻击方初始当前生命', { exact: true }).fill('300');
   await page.getByLabel('目标初始当前生命', { exact: true }).fill('5000');
@@ -257,12 +257,17 @@ test('独立页面：稳定计划标识，编辑时刻不读快照且过期，�
   expect(beforeDrift.runs).toEqual([['skill_instruction_2'], ['skill_instruction_2']]);
   drift = true;
   await page.getByRole('button', { name: '执行指定技能计划', exact: true }).click();
-  await expect(page.getByText('技能作者配置、来源或构筑已变化，草稿已保留。最新配置已完成共同公式预检，请核对并明确确认后重新执行本次场景。', { exact: true })).toBeVisible();
+  await expect(page.getByText('技能作者配置、来源或构筑已变化，已更新配置并保留草稿。请补全新增输入后重新开始计算。', { exact: true })).toBeVisible();
   await expect(page.getByLabel('技能尝试时刻 skill_instruction_2', { exact: true })).toHaveValue('50');
-  await expect(page.getByRole('button', { name: '确认最新技能配置', exact: true })).toBeEnabled();
-  await expect(page.getByRole('button', { name: '执行指定技能计划', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: '确认最新技能配置', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '执行指定技能计划', exact: true })).toBeEnabled();
   const afterDrift = await workerCounts();
   expect(afterDrift).toEqual({ ...beforeDrift, preflightCompiles: beforeDrift.preflightCompiles + 1, releases: beforeDrift.releases + 1 });
+  await page.getByRole('button', { name: '执行指定技能计划', exact: true }).click();
+  await expect(page.getByText('指定技能计划观察完成，会话已释放', { exact: false })).toBeVisible();
+  const afterRetry = await workerCounts();
+  expect(afterRetry.formalCompiles).toBe(afterDrift.formalCompiles + 1);
+  expect(afterRetry.runs).toEqual([...afterDrift.runs, ['skill_instruction_2']]);
   expect(businessRequests.every(request => request.method === 'GET' || request.method === 'POST' && request.path.endsWith('/simulation-snapshot'))).toBe(true);
   expect(errors).toEqual([]);
   await page.screenshot({ path: resolve(output, 'independent-plan-page.png'), fullPage: true });
@@ -443,10 +448,7 @@ test('真实页面：安妮Q／W＋耀光完整选择、普通拒绝、真实结
     await page.getByRole('option', { name: '1', exact: true }).click();
   }
   await read.click(); await expect(read).toBeEnabled();
-  await confirmSimulationConfiguration(page);
-  for (const skillKey of ['annie_q', 'annie_w']) await page.getByRole('checkbox', {
-    name: `声明施法成本 mana_cost.consume_mana`, exact: true
-  }).nth(skillKey === 'annie_q' ? 0 : 1).locator('xpath=ancestor::label').click();
+  await expectSimulationConfigurationReady(page);
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByLabel('攻击方初始当前生命', { exact: true }).fill(String(selected.source.selectedLevelValues.hp! * .3));
   await page.getByLabel('目标初始当前生命', { exact: true }).fill(String(selected.target.selectedLevelValues.hp!));

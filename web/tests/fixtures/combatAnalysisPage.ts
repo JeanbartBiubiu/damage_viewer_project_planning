@@ -12,7 +12,7 @@ import { SIMULATION_ADAPTER_VERSION } from '../../src/engine/simulationAdapter';
 import { simulationAutomaticSample } from './simulationAutomaticSkills';
 import { simulationAvailabilitySample } from './simulationAvailability';
 import { chooseSimulationEntity, chooseSimulationLevel } from './simulationSelection';
-import { confirmSimulationConfiguration } from './simulationSnapshotRequests';
+import { expectSimulationConfigurationReady } from './simulationSnapshotRequests';
 import { syncSimulationSkillSources } from './simulationSkillSources';
 
 const API = 'http://127.0.0.1:19616';
@@ -203,7 +203,7 @@ export async function prepareCombatAnalysisPage(page: Page, backgroundAttack = t
   await chooseCombatAnalysisOption(page, '关联冷却 auto_rule_1', '独立单段主动');
   await chooseCombatAnalysisOption(page, '前置资格 auto_rule_2', '独立单段主动');
   await page.getByRole('button', { name: '准备计算', exact: true }).click();
-  await confirmSimulationConfiguration(page);
+  await expectSimulationConfigurationReady(page);
   await expect(page.getByLabel('攻击方初始当前生命', { exact: true })).toHaveValue('');
   await expect(page.getByLabel('目标初始当前生命', { exact: true })).toHaveValue('');
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
