@@ -24,7 +24,8 @@ node tools/system-enums/generate.mjs --target web --root C:/project/damage_web_d
 <!-- system-enums:members:start -->
 | 用途 | 类型 | 固定值与显示 |
 | --- | --- | --- |
-| 触发动作 | SkillTriggerActionType | `EXECUTE_EFFECT`（执行效果）、`START_PROCESS`（启动过程）、`FAIL_PROCESS`（令过程失败）、`ADVANCE_PROCESS`（推进当前过程） |
+| 触发动作 | SkillTriggerActionType | `EXECUTE_EFFECT`（执行效果）、`START_PROCESS`（启动过程）、`FAIL_PROCESS`（令过程失败）、`ADVANCE_PROCESS`（推进当前过程）、`MODIFY_INTERNAL_STATE`（修改内部状态） |
+| 内部状态修改操作 | SkillTriggerInternalStateOperation | `REDUCE_RECOVERY`（减少下一次回充余时） |
 | 施放阶段 | SkillTriggerCastPhase | `INITIAL`（首次施放）、`RECAST`（再次施放）、`CHARGE_RELEASE`（蓄力释放） |
 | 战斗状态读值 | SkillTriggerCombatStatusValueKind | `PRESENT`（存在）、`STACKS`（层数）、`REMAINING_MS`（剩余时间） |
 | 比较符 | SkillTriggerComparator | `LT`（小于）、`LTE`（小于等于）、`EQ`（等于）、`NE`（不等于）、`GTE`（大于等于）、`GT`（大于） |

@@ -4,6 +4,8 @@
 
 场景显式初值声明于2026-10-18追加，见文末当前约束；写入前仍核对实际服务已部署该类型。
 
+状态初值与普攻减少弹药回充于2026-10-19追加，见文末相应入口；源码修改不代表运行中的服务已更新。
+
 | 对象 | 前端契约真源，相对 `C:/project/damage_web_dev/web/` | 后端真源，相对 `C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/` |
 | --- | --- | --- |
 | 技能完整配置 | `src/services/skillConfigurationClient.ts`、`src/types/skillConfiguration.ts`；各组成的类型与表单转换 | `controller/adminapi/skill/SkillConfigurationAdminController.java`、`model/skillconfiguration/SkillConfigurationSaveRequest.java`、`service/skillconfiguration/SkillConfigurationService.java` |
@@ -12,7 +14,7 @@
 | 构筑系统与选项 | `src/services/buildClient.ts`及`src/types/build.ts` | `controller/adminapi/build/`与实际服务；按当前映射定位 |
 | 计算可用目录 | `src/services/simulationAvailabilityClient.ts`及`src/types/simulationAvailability.ts` | `controller/adminapi/simulation/SimulationAvailabilityAdminController.java`、`service/simulation/availability/` |
 
-读取技能聚合使用`GET /api/admin/games/{gameId}/skills/{skillKey}/configuration`。修改已有技能使用同一路径的`PATCH`，顶层为`baseDigest`、可选的`skill`、`changes`；每项变化为`objectType / operation / key / value`。配套脚本只接受`baseDigest / changes`，支持六种组成的`CREATE / UPDATE`；`value`使用完整请求类型，不带所属对象和时间戳。`CREATE`带与`key`一致的组成标识，`UPDATE`不带标识。完整规则的未变动作、条件、保护配置仍保留。
+读取技能聚合使用`GET /api/admin/games/{gameId}/skills/{skillKey}/configuration`。修改已有技能使用同一路径的`PATCH`，顶层为`baseDigest`、可选的`skill`、`changes`；配套脚本接受同一形状。`skill`提供完整`name / description / maxLevel / status / sortOrder / skillCategoryKeys`，不带`skillKey / gameId / createdAt / updatedAt`，未改字段按冻结基线保留。每项组成变化为`objectType / operation / key / value`，脚本支持六种组成的`CREATE / UPDATE`；`value`使用完整请求类型，不带所属对象和时间戳。`CREATE`带与`key`一致的组成标识，`UPDATE`不带标识。仅修改主体时`changes`可为空；未提供主体时至少有一项组成变更。完整规则的未变动作、条件、保护配置仍保留。
 
 | objectType | 组成标识 | 完整读取集合 |
 | --- | --- | --- |
@@ -23,7 +25,7 @@
 | `INTERNAL_STATE` | `stateKey` | `internalStates` |
 | `TRIGGER_RULE` | `ruleKey` | `triggerRules` |
 
-新建技能的同路由`POST`要求完整主体且不允许基线摘要，不能将更新请求改方法后直接复用。配套脚本不执行技能新建、主体修改或任何删除。角色、属性、关系及构筑各有自己的保护与返回形状，先读对应客户端与后端，不能套用技能的摘要协议。
+新建技能的同路由`POST`要求完整主体且不允许基线摘要，不能将更新请求改方法后直接复用。配套脚本不执行技能新建或任何删除。角色、属性、关系及构筑各有自己的保护与返回形状，先读对应客户端与后端，不能套用技能的摘要协议。
 
 过程的冷却起点、效果挂接与状态操作时点中，后端`SkillProcessMoment`会省略空`failureReason`，前端解析为`null`；保护脚本仅在这三处把缺失与空失败原因视为相同。明确失败原因及其它嵌套业务字段仍完整比较，不递归忽略空值。
 
@@ -58,3 +60,13 @@
 `SCENE_INITIAL_PARAMETER`（场景显式初值）的完整明细为 `{minValue, maxValue}`，上下界必须是有限数且有序；整数参数的边界必须为安全整数，通用负范围可以合法。它只在本技能 `SOURCE_INITIALIZED / EXECUTE_EFFECT / EVENT_SOURCE` 动作绑定无默认的数值 `RUNTIME_INPUT` 参数，且参数必须被本动作真实结果数值消费。生命周期、条件、过程和主动兄弟不得借用该授权。实际本场值不写进声明、参数固定值、角色属性或数据库；界面另行明确填写，缺值不默认为0。
 
 请求类型为后端 `SkillTriggerSceneInitialParameterBindingDetail.java`。同一初值可被两个实际初始化动作分别绑定、派生不同属性，边界须一致，来源和双方位置仍独立。保存、事务最终态及引用保护使用现有聚合接口和脚本，未知明细（含空的 `value / defaultValue`）也拒绝。运行与证据边界见[通用实施方案](../../../../outputs/priority-adaptation-2026-10-18/场景显式初值参数实施方案.md)。
+
+### 状态初值与逐枚回充
+
+`COUNTER / AMMO` 的 `detail.initialValueBinding`、以及 `AMMO` 的 `detail.initialRemainingMsBinding` 是状态字段自己的可选初值声明，不放入触发动作。两者均复用 `SCENE_INITIAL_PARAMETER` 绑定形状，对应的 `initialValue / initialRemainingValue` 必须直接引用相同的本技能无默认整数参数。范围限于 `SKILL` 状态及有序的非负安全整数边界；字段缺省时保持缺省，不自动补 `null`、0 或空声明。后端请求真源为 `SkillInternalStateCounterDetail.java / SkillInternalStateAmmoDetail.java`。
+
+`initialRemainingValue` 使用毫秒，只适用于 `ONE_BY_ONE / AFTER_CONSUME`；欠弹必须有明确余时，满弹仅允许不提供余时或明确0。每个实际场景的库存、余时和循环位置由使用者填写，不把学习时库存当成战斗初值，不改写参数默认值。管理保存还需核对容量、时长与声明引用，真正的场景值及单发冷却、回充执行由宿主和正式Wasm验证。
+
+`MODIFY_INTERNAL_STATE` 的明细为 `{stateSkillKey, stateKey, operation: 'REDUCE_RECOVERY', value}`，请求真源为 `SkillTriggerModifyInternalStateActionDetail.java`。它只允许本技能 `BASIC_ATTACK_HIT / EVENT_SOURCE` 修改自身 `SKILL / AMMO` 的下一枚回充余时；`runtimeInputBindings / resultModifiers` 均为空。金额使用现行数值引用，不增加库存、不改变单发冷却、不借用辅助过程。其它动作的事件来源和输入授权保持原约束。
+
+每发循环沿现有 `START_PROCESS` 的 `INTERNAL_STATE / VALUE` 绑定读取本技能整数计数器，仅在 `PROCESS_START / COUNTER / SET` 使用相应动态值及已核验公式。应先冻结本次序号再推进下一发，命中条件读取冻结状态；不新增过程算子或用一个效果假装扣弹。完整边界及验证真源见[作者与宿主实施契约](../../../../outputs/priority-adaptation-2026-10-18/corki-next/r-implementation-2026-10-19/作者与宿主实施契约.md)，执行前核对实际部署版本。

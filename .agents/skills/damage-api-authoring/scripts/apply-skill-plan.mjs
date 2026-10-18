@@ -14,6 +14,7 @@ const TIMES = ['createdAt', 'updatedAt'];
 const RULE_FIELDS = ['name', 'description', 'sortOrder', 'eventSource', 'conditionGroups', 'actions',
   'perTargetCooldown', 'maxTriggersPerProcess', 'oncePerUse'];
 const COMMON = ['gameId', 'skillKey', 'name', 'description', 'sortOrder'];
+const SKILL_WRITE_FIELDS = ['name', 'description', 'maxLevel', 'status', 'sortOrder', 'skillCategoryKeys'];
 const ROW_FIELDS = {
   parameters: [...COMMON, 'parameterKey', 'valueType', 'valueMode', 'fixedValue', 'levelValues'],
   formulas: [...COMMON, 'formulaKey', 'expression'],
@@ -162,11 +163,16 @@ export function validatePlan(plan) {
     skills.add(item.skillKey);
     validateConfiguration(item.before, plan.gameId, item.skillKey, `${where}.before`);
     validateConfiguration(item.expected, plan.gameId, item.skillKey, `${where}.expected`);
-    object(item.request, ['baseDigest', 'changes'], `${where}.request`);
+    object(item.request, ['baseDigest', 'changes'], `${where}.request`, ['skill']);
     if (item.request.baseDigest !== item.before.baseDigest) fail(`${where}.request.baseDigest`, '不等于冻结基线摘要');
     const changes = array(item.request.changes, `${where}.request.changes`);
-    if (!changes.length) fail(`${where}.request.changes`, '没有变更');
     const projected = clone(item.before);
+    if (own(item.request, 'skill')) {
+      object(item.request.skill, SKILL_WRITE_FIELDS, `${where}.request.skill`);
+      Object.assign(projected.skill, clone(item.request.skill));
+      validateConfiguration(projected, plan.gameId, item.skillKey, `${where}.request.skillProjection`);
+      if (canonicalText(projected.skill) === canonicalText(item.before.skill)) fail(`${where}.request.skill`, '未改变主体业务字段');
+    } else if (!changes.length) fail(`${where}.request.changes`, '没有变更');
     const changedObjects = new Set();
     for (const [changeIndex, change] of changes.entries()) {
       const changePath = `${where}.request.changes[${changeIndex}]`;

@@ -83,6 +83,7 @@ async function fixture(t, { count = 1, patch, get } = {}) {
   const getCount = new Map();
   const commit = (skillKey, body) => {
     const state = current.get(skillKey);
+    if (body.skill) Object.assign(state.skill, copy(body.skill));
     for (const change of body.changes) {
       const [collection, key] = TYPES[change.objectType];
       const index = state[collection].findIndex(row => row[key] === change.key);
@@ -129,6 +130,52 @@ async function fixture(t, { count = 1, patch, get } = {}) {
   const run = async (options = {}) => { await savePlan(); return runSkillPlan({ apiBase, planPath, outputDir, env: ENV, ...options }); };
   return { directory, plan, current, calls, requests, commit, run, savePlan, planPath, outputDir, source, apiBase };
 }
+
+function subjectUpdate(item, description) {
+  const fields = ['name', 'description', 'maxLevel', 'status', 'sortOrder', 'skillCategoryKeys'];
+  item.request.skill = Object.fromEntries(fields.map(key => [key, copy(item.before.skill[key])]));
+  item.request.skill.description = description;
+  item.expected.skill.description = description;
+}
+
+test('完整主体与组成同一次摘要保护PATCH，独立回读并保留未改字段', async t => {
+  const f = await fixture(t);
+  subjectUpdate(f.plan.items[0], '最多储存4枚，修正资料说明');
+  const summary = await f.run({ apply: true });
+  assert.equal(summary.passed, true);
+  assert.equal(summary.patchCount, 1);
+  assert.deepEqual(f.calls, ['GET:sample_q', 'PATCH:sample_q', 'GET:sample_q']);
+  assert.equal(f.current.get('sample_q').skill.description, '最多储存4枚，修正资料说明');
+  assert.equal(f.current.get('sample_q').parameters[0].fixedValue, 0.85000002);
+  assert.deepEqual(f.requests[0].body.skill, f.plan.items[0].request.skill);
+  assert.equal((await f.run({ apply: true })).patchCount, 0);
+});
+
+test('仅修正主体可使用空组成列表，完整未改组成仍逐项回读', async t => {
+  const f = await fixture(t);
+  f.plan.items[0].expected = copy(f.plan.items[0].before);
+  f.plan.items[0].request.changes = [];
+  subjectUpdate(f.plan.items[0], '明确修正主体资料');
+  const summary = await f.run({ apply: true });
+  assert.equal(summary.passed, true);
+  assert.equal(summary.patchCount, 1);
+  assert.deepEqual(f.current.get('sample_q').processes, f.plan.items[0].before.processes);
+});
+
+for (const [name, mutate] of [
+  ['主体身份只读', item => { item.request.skill.skillKey = item.skillKey; }],
+  ['主体服务时间只读', item => { item.request.skill.updatedAt = 'untrusted'; }],
+  ['主体缺分类字段', item => { delete item.request.skill.skillCategoryKeys; }],
+  ['主体预期夹带最大等级', item => { item.expected.skill.maxLevel = 6; }]
+]) test(`${name}在传输前拒绝，0读取0写入`, async t => {
+  const f = await fixture(t);
+  subjectUpdate(f.plan.items[0], '明确修正主体资料');
+  mutate(f.plan.items[0]);
+  const summary = await f.run({ apply: true });
+  assert.equal(summary.passed, false);
+  assert.equal(summary.patchCount, 0);
+  assert.deepEqual(f.calls, []);
+});
 
 async function evidenceContents(directory) {
   const pieces = [];
@@ -377,7 +424,8 @@ test('PATCH成功响应异常也要独立回读并停批，不能让异常契约
 });
 
 for (const [name, mutate] of [
-  ['未知写入根字段', plan => { plan.items[0].request.skill = { name: '夹带主体修改' }; }],
+  ['不完整主体修改', plan => { plan.items[0].request.skill = { name: '夹带主体修改' }; }],
+  ['未知写入根字段', plan => { plan.items[0].request.unexpected = {}; }],
   ['UPDATE值携带ruleKey', plan => { plan.items[0].request.changes[0].value.ruleKey = 'on_used'; }],
   ['DELETE不支持', plan => { plan.items[0].request.changes[0].operation = 'DELETE'; }],
   ['expected夹带参数改动', plan => { plan.items[0].expected.parameters[0].fixedValue = 0.85; }],

@@ -22,3 +22,16 @@
 /web/src/types/** -text
 /web/tests/fixtures/firstHeroWorker.ts -text
 /wasm/tinygo_engine_v2/**/*.go -text
+/wasm/tinygo_engine_v2/ARCHITECTURE.md -text
+
+# 本轮弹药作者字段、测试夹具及核验日志同样保留冻结字节。
+/web/output/r-ammo-web-2026-10-19/** -text
+/web/tests/fixtures/simulationActiveAmmo.ts -text
+/web/src/pages/admin/skills/processes/SkillInternalStateEditorModal.tsx -text
+/web/src/pages/admin/skills/processes/internalStateForm.ts -text
+/web/src/pages/admin/skills/processes/StateInitialBindingFields.tsx -text
+/web/src/pages/admin/skills/processes/internalStateAmmoInitial.test.ts -text
+/web/src/pages/admin/skills/triggers/SkillTriggerActionEditorModal.tsx -text
+/web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx -text
+/web/src/pages/admin/skills/triggers/triggerRuleForm.test.ts -text
+/web/src/pages/admin/skills/triggers/triggerRuleForm.ts -text

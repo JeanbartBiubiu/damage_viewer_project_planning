@@ -26,6 +26,26 @@
         {
           "value": "ADVANCE_PROCESS",
           "label": "推进当前过程"
+        },
+        {
+          "value": "MODIFY_INTERNAL_STATE",
+          "label": "修改内部状态"
+        }
+      ]
+    },
+    {
+      "name": "SkillTriggerInternalStateOperation",
+      "title": "内部状态修改操作",
+      "backend": "skilltrigger/SkillTriggerInternalStateOperation.java",
+      "web": {
+        "typeName": "SkillTriggerInternalStateOperation",
+        "values": "SKILL_TRIGGER_INTERNAL_STATE_OPERATIONS",
+        "labels": "SKILL_TRIGGER_INTERNAL_STATE_OPERATION_LABELS"
+      },
+      "members": [
+        {
+          "value": "REDUCE_RECOVERY",
+          "label": "减少下一次回充余时"
         }
       ]
     },
