@@ -24,7 +24,7 @@ type frameDamageAggregation struct {
 
 // recordDamageContribution 不重新结算，复制与监听子帧保持原边界。
 func (f *executionFrame) recordDamageContribution(cmd command.Command, result command.Result, operationRef, operationPath string) *model.EngineError {
-	if f.chainDepth != 0 || result.Amount <= 0 {
+	if (f.chainDepth != 0 && !f.rootSkillHitDamage) || result.Amount <= 0 {
 		return nil
 	}
 	if _, declared := f.run.compiled.RuntimeTypes.DamageDealt.Lookup(); !declared {
@@ -62,11 +62,11 @@ func (f *executionFrame) recordDamageContribution(cmd command.Command, result co
 	return nil
 }
 
-// maybeQueueDamageDealtEvent 仅由原有两处根帧提交调用，每帧最多合成一次。
+// maybeQueueDamageDealtEvent 由根帧及本次根命中的候选提交调用，每帧最多合成一次。
 // 聚合金额只写证据，不建立 event.damage 数值上下文。
 func (f *executionFrame) maybeQueueDamageDealtEvent(ability planbundle.CompiledAbility) {
 	aggregation := &f.damageAggregation
-	if f.chainDepth != 0 || aggregation.mitigatedAmount <= 0 {
+	if (f.chainDepth != 0 && !f.rootSkillHitDamage) || aggregation.mitigatedAmount <= 0 {
 		return
 	}
 	if _, declared := f.run.compiled.RuntimeTypes.DamageDealt.Lookup(); !declared {
@@ -102,6 +102,9 @@ func (f *executionFrame) maybeQueueDamageDealtEvent(ability planbundle.CompiledA
 			data["damageType"] = damageTypes[0]
 		}
 		attachCastProvenance(data, f.castInstanceID, f.castOrigin)
+		if f.rootSkillHitDamage && f.eventCtx != nil && f.eventCtx.hasUse {
+			data["useRef"], data["skillKey"] = f.eventCtx.useKey, f.eventCtx.useSkillKey
+		}
 		if len(aggregation.operationRefs) == 1 {
 			if aggregation.operationRefs[0] != "" {
 				data["operationRef"] = aggregation.operationRefs[0]
@@ -113,11 +116,16 @@ func (f *executionFrame) maybeQueueDamageDealtEvent(ability planbundle.CompiledA
 			TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: eventTypeDamageDealt, Data: data,
 		}
 	})
-	f.pendingEvents = append(f.pendingEvents, emittedEvent{
+	event := emittedEvent{
 		eventType: eventTypeDamageDealt, ref: eventTypeDamageDealt,
 		sourceKey: f.sourceKey, targetKey: f.targetKey,
 		types:          f.appendCastOriginEventType(eventTypes),
 		snapshot:       f.captureEmitSnapshot(eventTypeDamageDealt, f.sourceKey, f.targetKey),
 		castInstanceID: f.castInstanceID, castOrigin: f.castOrigin,
-	})
+	}
+	if f.rootSkillHitDamage && f.eventCtx != nil && f.eventCtx.hasUse {
+		event.hasUse = true
+		event.useKey, event.useSource, event.useSkillKey = f.eventCtx.useKey, f.eventCtx.useSource, f.eventCtx.useSkillKey
+	}
+	f.pendingEvents = append(f.pendingEvents, event)
 }

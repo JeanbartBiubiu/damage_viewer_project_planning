@@ -17,12 +17,14 @@ type processRuntime struct {
 	ability    planbundle.CompiledAbility
 	abilityRef string
 	// 过程身份在构造后不变；帧复制保留同一份不可变排序键。
-	mountKey   string
-	stableKey  string
-	stepIndex  int
-	castID     uint64
-	chainDepth int
-	collector  *eventCopyableCollector
+	mountKey              string
+	stableKey             string
+	stepIndex             int
+	castID                uint64
+	chainDepth            int
+	collector             *eventCopyableCollector
+	empoweredAbilityIndex uint16
+	hasEmpoweredAbility   bool
 }
 
 func (s *genericRunState) processErr(path, message, ref string) *model.EngineError {
@@ -95,6 +97,7 @@ func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryInd
 			return s.rejectProcess(entry, "use_already_started")
 		}
 		var mountKey string
+		var replaced *processRuntime
 		for _, current := range s.processInstances {
 			if current.Status != "active" {
 				continue
@@ -103,7 +106,11 @@ func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryInd
 				mountKey = processMountKey(source, parsed.ProviderRef, p.ProcessKey)
 			}
 			if processInstanceMountKey(current) == mountKey {
-				return s.rejectProcess(entry, "process_already_active")
+				if isEmpoweredProcess(p) && current.hasEmpoweredAbility && current.StepExecutionIndex == 0 {
+					replaced = current
+				} else {
+					return s.rejectProcess(entry, "process_already_active")
+				}
 			}
 		}
 		if s.combatantHasHp(source) && s.combatantHp(source) <= 0 {
@@ -114,6 +121,9 @@ func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryInd
 		}
 		if _, blocked := s.cooldownGate(source, resolvedRef); blocked {
 			return s.rejectProcess(entry, "cooldown_not_ready")
+		}
+		if isEmpoweredProcess(p) {
+			return s.startEmpoweredProcess(entry, entryIndex, source, target, parsed.ProviderRef, resolvedRef, controlAbility, p, fact.UseRef, replaced)
 		}
 		return s.startProcess(entry, entryIndex, source, target, parsed.ProviderRef, resolvedRef, controlAbility, p, fact.UseRef, 0, nil)
 	}
@@ -239,6 +249,10 @@ func (s *genericRunState) evalProcessCondition(entryIndex int, f *executionFrame
 }
 
 func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, depth int, collector *eventCopyableCollector) *model.EngineError {
+	return s.startProcessReplacing(entry, entryIndex, owner, target, provider, ref, ability, definition, use, depth, collector, nil)
+}
+
+func (s *genericRunState) startProcessReplacing(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, depth int, collector *eventCopyableCollector, replaced *processRuntime) *model.EngineError {
 	if len(s.processInstances) >= s.budget.MaxProcessInstances {
 		err := s.budgetError(model.BudgetCauseMaxProcessInstances, "process instance budget exceeded")
 		err.Path, err.Ref = "safetyBudget.maxProcessInstances", use
@@ -253,6 +267,15 @@ func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, 
 	s.initProcessFrame(&frameStorage, p)
 	f := &frameStorage
 	f.processIsNew, f.countCastOnCommit = true, true
+	if isEmpoweredProcess(definition) {
+		binding, found := s.empoweredBinding(owner, provider, definition.ProcessKey)
+		if !found {
+			return s.processErr(definition.Path, "empowered attack requires its actual compiled payload binding", use)
+		}
+		p.hasEmpoweredAbility, p.empoweredAbilityIndex = true, binding.EmpoweredAbilityIndex
+		f.pendingProcess.hasEmpoweredAbility, f.pendingProcess.empoweredAbilityIndex = true, binding.EmpoweredAbilityIndex
+		f.empowered = &empoweredFrame{}
+	}
 	allowed, err := s.evalProcessCondition(entryIndex, f, ability)
 	if err != nil {
 		return err
@@ -297,8 +320,20 @@ func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, 
 	}
 	f.pendingProcess.castID = s.mintCastInstanceID()
 	f.castInstanceID = f.pendingProcess.castID
+	if replaced != nil {
+		if err := s.stageEmpoweredFailure(f, replaced); err != nil {
+			return err
+		}
+	}
+	beforeDamage, beforeHealing := f.damageDealt, f.healingDone
 	if err := s.applyProcessMoment(p, f, "PROCESS_START", ""); err != nil {
 		return err
+	}
+	if f.empowered != nil {
+		if err := s.stageEmpoweredEntry(f); err != nil {
+			return err
+		}
+		f.empowered.stats = append(f.empowered.stats, empoweredStat{ref, f.damageDealt - beforeDamage, f.healingDone - beforeHealing})
 	}
 	if err := s.commitProcessFrame(p, f); err != nil {
 		return err
@@ -310,6 +345,9 @@ func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, 
 		return err
 	}
 	if p.Status != "active" {
+		return nil
+	}
+	if p.hasEmpoweredAbility {
 		return nil
 	}
 	return s.enterProcessStep(p, 0)
@@ -386,7 +424,7 @@ func (s *genericRunState) applyProcessMoment(p *processRuntime, f *executionFram
 			return s.processErr(p.definition.Path, "process operation range is invalid", p.ProcessKey)
 		}
 		for _, op := range s.compiled.Operations[start:end] {
-			if op.Operation == "cooldown_change" && op.ValuePolicy == "set_remaining" && normalizeAbilityRef(op.AbilityRefStr, p.Owner, p.Target) != p.abilityRef {
+			if op.Operation == "cooldown_change" && op.ValuePolicy == "set_remaining" && normalizeAbilityRef(op.AbilityRefStr, p.Owner, p.Target) != p.abilityRef && !s.isProcessBasicAttackReset(p, kind, op) {
 				return s.processErr(moment.Path+".operations.abilityRef", "process set_remaining must address its original mounted initial ability", op.AbilityRefStr)
 			}
 		}
@@ -394,7 +432,33 @@ func (s *genericRunState) applyProcessMoment(p *processRuntime, f *executionFram
 			return err
 		}
 	}
+	if f.empowered != nil {
+		f.empowered.moments = append(f.empowered.moments, empoweredMoment{process: *p, kind: kind})
+	}
 	return nil
+}
+
+// The only cross-process set_remaining admitted here is an authored initial
+// reset of this owner's actual selected native basic-attack clock.
+func (s *genericRunState) isProcessBasicAttackReset(p *processRuntime, kind string, op planbundle.CompiledOperation) bool {
+	attack := s.basicAttack
+	if kind != "PROCESS_START" || attack == nil || p.Owner != attack.plan.Source || (op.Target != model.SelectorSelf && op.Target != model.SelectorSource) || !op.HasAmount {
+		return false
+	}
+	ref := normalizeAbilityRef(op.AbilityRefStr, p.Owner, p.Target)
+	if ref != attack.plan.InitialControlAbilityRef {
+		return false
+	}
+	value, constant := s.formulas.FoldStatic(op.AmountProgram)
+	if !constant || value != 0 {
+		return false
+	}
+	bound, found := s.compiled.AbilityRefIndex[ref]
+	if !found || int(bound.AbilityIndex) >= len(s.compiled.Abilities) {
+		return false
+	}
+	ability := s.compiled.Abilities[bound.AbilityIndex]
+	return ability.IsBasicAttack && ability.SkillKey == attack.plan.SkillKey && ability.ProcessControl != nil && ability.ProcessControl.Action == "INITIAL" && ability.ProcessControl.UseRefFromEvent && ability.ProviderIndex == attack.initialAbility.ProviderIndex && ability.AbilityKey == attack.initialAbility.AbilityKey
 }
 
 func (s *genericRunState) commitProcessFrame(p *processRuntime, f *executionFrame) *model.EngineError {
@@ -636,6 +700,9 @@ func (s *genericRunState) handleProcessTimer(ev scheduler.GenericEvent) *model.E
 		return nil
 	}
 	if step.StepType == "RECAST" || (step.StepType == "CHARGE" && !step.ReleaseAtMaximum) {
+		return s.finishProcess(p, "failed", "EVENT_ABORTED")
+	}
+	if step.StepType == "EMPOWERED_BASIC_ATTACK" {
 		return s.finishProcess(p, "failed", "EVENT_ABORTED")
 	}
 	if step.StepType == "DELAY" || (step.StepType == "CHARGE" && step.ReleaseAtMaximum) {

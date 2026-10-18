@@ -55,6 +55,9 @@ const (
 	ReadLinkedShieldPresent
 	ReadEventSkillUseContactCount
 	ReadProviderElapsedMs
+	// ReadAuthoredAbilityParameter retains the declared runtime-input identity;
+	// it must not inherit the looser internal ability.param read permissions.
+	ReadAuthoredAbilityParameter
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -365,7 +368,9 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 	if path == "" {
 		return 0, "", false
 	}
-	if path == "provider.elapsed_ms" { return ReadProviderElapsedMs, "elapsed_ms", true }
+	if path == "provider.elapsed_ms" {
+		return ReadProviderElapsedMs, "elapsed_ms", true
+	}
 	if strings.HasPrefix(path, "operation.output.") {
 		return parseOperationOutputPath(path)
 	}

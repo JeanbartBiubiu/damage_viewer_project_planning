@@ -35,6 +35,9 @@ func (f *executionFrame) recordGenericExecuteEvidence(ev genericExecuteEvidence)
 }
 
 func (f *executionFrame) recordGenericDamageEvidence(ev genericDamageEvidence) {
+	if f.empoweredAttack != nil {
+		ev.empoweredAttack, ev.activationUseRef = f.empoweredAttack, f.processUseKey
+	}
 	if f.providerDefinitionRef != "" {
 		ev.providerDefinitionRef = f.providerDefinitionRef
 		ev.providerActivatedAtMs = f.providerActivatedAtMs
@@ -84,9 +87,12 @@ func (f *executionFrame) commitFrameFacts() {
 		if f.countCastOnCommit {
 			f.run.publishSkillActionControl(f.processOriginal, f.castStatRef)
 		}
-		if f.processMomentKind != "" {
+		if f.processMomentKind != "" && f.empowered == nil {
 			f.run.publishSkillActionMoment(f.processOriginal, f.processMomentKind)
 		}
+	}
+	if f.empowered != nil {
+		f.commitEmpoweredFacts()
 	}
 	for _, record := range f.pendingDirectHealing {
 		f.run.recordDirectHealing(record)

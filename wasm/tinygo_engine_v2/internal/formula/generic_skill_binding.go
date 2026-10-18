@@ -93,11 +93,24 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 					valid = false
 				}
 				if source := raw.RuntimeSource; source != nil {
-					if (source.Kind != "use_charge_duration" && source.Kind != "process_actual_cost") || (source.Kind == "use_charge_duration" && source.ResourceKey != "") || (source.Kind == "process_actual_cost" && strings.TrimSpace(source.ResourceKey) == "") {
+					validSource := false
+					switch source.Kind {
+					case "use_charge_duration", "ability_parameter":
+						validSource = source.ResourceKey == "" && source.Value == nil
+					case "process_actual_cost":
+						validSource = strings.TrimSpace(source.ResourceKey) != "" && source.Value == nil
+					case "scene_parameter":
+						validSource = source.ResourceKey == "" && source.Value != nil && !math.IsNaN(*source.Value) && !math.IsInf(*source.Value, 0) && (raw.ValueType != "INTEGER" || math.Trunc(*source.Value) == *source.Value && math.Abs(*source.Value) <= 9007199254740991)
+					}
+					if !validSource {
 						problem("FORMULA_INVALID_STRUCTURE", pp+"/runtimeSource")
 						valid = false
 					}
 					copySource := *source
+					if source.Value != nil {
+						value := *source.Value
+						copySource.Value = &value
+					}
 					raw.RuntimeSource = &copySource
 				}
 			} else {
@@ -197,10 +210,16 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 				}
 				kind, key := ReadAuthoredRuntimeParameter, b.ParameterKey
 				if param.RuntimeSource != nil {
-					if param.RuntimeSource.Kind == "use_charge_duration" {
+					switch param.RuntimeSource.Kind {
+					case "use_charge_duration":
 						kind = ReadUseChargeDuration
-					} else {
+					case "process_actual_cost":
 						kind, key = ReadProcessActualCost, param.RuntimeSource.ResourceKey
+					case "ability_parameter":
+						kind = ReadAuthoredAbilityParameter
+					case "scene_parameter":
+						// 场景显式值已在编译期冻结，不依赖运行上下文。
+						continue
 					}
 				}
 				binding.dependencies = append(binding.dependencies, GenericInstr{Op: GenericOpRead, ReadKind: kind, ReadKey: key})
@@ -218,6 +237,9 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 			}
 			if param.RuntimeSource != nil {
 				bytes += uint64(unsafe.Sizeof(model.FormulaRuntimeSource{})) + uint64(len(param.RuntimeSource.Kind)+len(param.RuntimeSource.ResourceKey))
+				if param.RuntimeSource.Value != nil {
+					bytes += 8
+				}
 			}
 		}
 		for _, dep := range binding.dependencies {
@@ -285,10 +307,18 @@ func (b *NamedBinding) evaluate(program *expression.Program, ctx *GenericEvalCon
 				values[i].Number = inputbinding.Scalar{Value: *param.Value, Present: true}
 				break
 			}
+			if source := param.RuntimeSource; source != nil && source.Kind == "scene_parameter" {
+				values[i].Number = inputbinding.Scalar{Value: *source.Value, Present: true, SafeInteger: param.ValueType == "INTEGER"}
+				break
+			}
 			if static || ctx.RuntimeSkillKey != b.skillKey {
 				break
 			}
 			if source := param.RuntimeSource; source != nil {
+				if source.Kind == "ability_parameter" {
+					value, present := ctx.AbilityParams[param.ParameterKey]
+					values[i].Number = inputbinding.Scalar{Value: value, Present: present, SafeInteger: param.ValueType == "INTEGER"}
+				}
 				if source.Kind == "use_charge_duration" && ctx.HasUseChargeDuration {
 					values[i].Number = inputbinding.Scalar{Value: float64(ctx.UseChargeDurationMs), Present: ctx.UseChargeDurationMs >= 0}
 				}

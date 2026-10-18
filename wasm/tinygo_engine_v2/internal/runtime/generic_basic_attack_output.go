@@ -106,6 +106,12 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 		row := s.basicAttack.current
 		data["useRef"], data["attackIndex"] = row.UseRef, row.AttackIndex
 	}
+	if ev.empoweredAttack != nil {
+		data["useRef"], data["hitRef"], data["empoweredAttack"] = ev.activationUseRef, ev.empoweredAttack.HitRef, ev.empoweredAttack
+		if action := s.skillActionByUse[ev.activationUseRef]; action != nil {
+			data["instructionKey"] = action.plan.InstructionKey
+		}
+	}
 	s.damageRecords = append(s.damageRecords, data)
 }
 

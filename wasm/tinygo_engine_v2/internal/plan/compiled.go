@@ -406,6 +406,8 @@ type CompiledSkillActionBinding struct {
 	AutomaticEligible         bool
 	AutomaticIneligiblePath   string
 	AutomaticIneligibleReason string
+	HasEmpoweredAttack        bool
+	EmpoweredAbilityIndex     uint16
 }
 
 type CompiledVampRule struct {

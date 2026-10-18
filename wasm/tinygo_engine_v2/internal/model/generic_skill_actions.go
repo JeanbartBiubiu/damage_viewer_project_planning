@@ -154,20 +154,21 @@ type SkillActionRecord struct {
 }
 
 type SkillUseRecord struct {
-	StepKey        string  `json:"stepKey"`
-	StepVersion    int     `json:"stepVersion"`
-	ExecutionIndex int     `json:"executionIndex"`
-	InstructionKey string  `json:"instructionKey"`
-	TimeMs         int64   `json:"timeMs"`
-	Kind           string  `json:"kind"`
-	Source         string  `json:"source"`
-	Target         string  `json:"target"`
-	SkillKey       string  `json:"skillKey"`
-	ProviderRef    string  `json:"providerRef"`
-	ProcessKey     string  `json:"processKey"`
-	UseRef         string  `json:"useRef"`
-	HitRef         *string `json:"hitRef"`
-	Reason         *string `json:"reason"`
+	EmpoweredAttack *ProcessEmpoweredAttack `json:"empoweredAttack,omitempty"`
+	StepKey         string                  `json:"stepKey"`
+	StepVersion     int                     `json:"stepVersion"`
+	ExecutionIndex  int                     `json:"executionIndex"`
+	InstructionKey  string                  `json:"instructionKey"`
+	TimeMs          int64                   `json:"timeMs"`
+	Kind            string                  `json:"kind"`
+	Source          string                  `json:"source"`
+	Target          string                  `json:"target"`
+	SkillKey        string                  `json:"skillKey"`
+	ProviderRef     string                  `json:"providerRef"`
+	ProcessKey      string                  `json:"processKey"`
+	UseRef          string                  `json:"useRef"`
+	HitRef          *string                 `json:"hitRef"`
+	Reason          *string                 `json:"reason"`
 }
 
 type DirectHealingRecord struct {

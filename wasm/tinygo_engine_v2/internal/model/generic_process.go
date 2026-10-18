@@ -23,6 +23,7 @@ type ProcessStepDefinition struct {
 	MaximumChargeMs        *GenericFormulaExpr `json:"maximumChargeMs,omitempty"`
 	ReleaseAtMaximum       *bool               `json:"releaseAtMaximum,omitempty"`
 	WindowMs               *GenericFormulaExpr `json:"windowMs,omitempty"`
+	ConsumeMoment          *string             `json:"consumeMoment,omitempty"`
 	RepeatCount            *GenericFormulaExpr `json:"repeatCount,omitempty"`
 	IntervalMs             *GenericFormulaExpr `json:"intervalMs,omitempty"`
 	DurationMs             *GenericFormulaExpr `json:"durationMs,omitempty"`
@@ -85,29 +86,39 @@ type ProcessActionOccupancy struct {
 	FinishedAtMs    *int64 `json:"finishedAtMs"`
 }
 
+// ProcessEmpoweredAttack links an activation use to the actual native attack.
+// The activation identity remains ProcessInstanceSnapshot.UseKey.
+type ProcessEmpoweredAttack struct {
+	UseRef string `json:"useRef"`
+	HitRef string `json:"hitRef"`
+	Target string `json:"target"`
+}
+
 type ProcessInstanceSnapshot struct {
-	Owner              string                   `json:"owner"`
-	ProviderRef        string                   `json:"providerRef"`
-	ProcessKey         string                   `json:"processKey"`
-	SkillKey           string                   `json:"skillKey"`
-	UseKey             string                   `json:"useKey"`
-	Target             string                   `json:"target"`
-	StepKey            string                   `json:"stepKey"`
-	StepVersion        int                      `json:"stepVersion"`
-	StepExecutionIndex int                      `json:"stepExecutionIndex"`
-	LastExecutionAtMs  *int64                   `json:"lastExecutionAtMs"`
-	StepCompletedAtMs  *int64                   `json:"stepCompletedAtMs"`
-	StartedAtMs        int64                    `json:"startedAtMs"`
-	StepStartedAtMs    int64                    `json:"stepStartedAtMs"`
-	AdvanceAtMs        int64                    `json:"advanceAtMs"`
-	ExpiresAtMs        *int64                   `json:"expiresAtMs"`
-	ActualCosts        map[string]float64       `json:"actualCosts"`
-	CooldownStarted    bool                     `json:"cooldownStarted"`
-	Status             string                   `json:"status"`
-	FailureReason      *string                  `json:"failureReason"`
-	FinishedAtMs       *int64                   `json:"finishedAtMs"`
-	Repeat             *ProcessRepeatSnapshot   `json:"repeat"`
-	ActionOccupancies  []ProcessActionOccupancy `json:"actionOccupancies"`
+	Owner                      string                   `json:"owner"`
+	ProviderRef                string                   `json:"providerRef"`
+	ProcessKey                 string                   `json:"processKey"`
+	SkillKey                   string                   `json:"skillKey"`
+	UseKey                     string                   `json:"useKey"`
+	Target                     string                   `json:"target"`
+	StepKey                    string                   `json:"stepKey"`
+	StepVersion                int                      `json:"stepVersion"`
+	StepExecutionIndex         int                      `json:"stepExecutionIndex"`
+	LastExecutionAtMs          *int64                   `json:"lastExecutionAtMs"`
+	StepCompletedAtMs          *int64                   `json:"stepCompletedAtMs"`
+	StartedAtMs                int64                    `json:"startedAtMs"`
+	StepStartedAtMs            int64                    `json:"stepStartedAtMs"`
+	AdvanceAtMs                int64                    `json:"advanceAtMs"`
+	ExpiresAtMs                *int64                   `json:"expiresAtMs"`
+	ActualCosts                map[string]float64       `json:"actualCosts"`
+	CooldownStarted            bool                     `json:"cooldownStarted"`
+	Status                     string                   `json:"status"`
+	FailureReason              *string                  `json:"failureReason"`
+	FinishedAtMs               *int64                   `json:"finishedAtMs"`
+	Repeat                     *ProcessRepeatSnapshot   `json:"repeat"`
+	ActionOccupancies          []ProcessActionOccupancy `json:"actionOccupancies"`
+	EmpoweredAttack            *ProcessEmpoweredAttack  `json:"empoweredAttack,omitempty"`
+	EmpoweredPredecessorUseRef *string                  `json:"empoweredPredecessorUseRef,omitempty"`
 }
 
 func ValidProcessFailureReason(reason string) bool {

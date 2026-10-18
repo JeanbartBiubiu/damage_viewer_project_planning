@@ -42,6 +42,9 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 		}
 		stepKeys := map[string]bool{}
 		for j, step := range def.Steps {
+			if step.StepType == "EMPOWERED_BASIC_ATTACK" && len(def.Steps) != 1 {
+				ctx.collector.addError(model.GenericErrUnknownRef, p+".steps", "empowered attack requires one complete waiting step", def.ProcessKey)
+			}
 			sp := p + ".steps[" + itoa(j) + "]"
 			if stepKeys[step.StepKey] {
 				ctx.collector.addError(model.GenericErrUnknownRef, sp+".stepKey", "duplicate process step key", step.StepKey)
@@ -154,7 +157,8 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 		{"minimumChargeMs", def.MinimumChargeMs != nil, def.StepType == "CHARGE"},
 		{"maximumChargeMs", def.MaximumChargeMs != nil, def.StepType == "CHARGE"},
 		{"releaseAtMaximum", def.ReleaseAtMaximum != nil, def.StepType == "CHARGE"},
-		{"windowMs", def.WindowMs != nil, def.StepType == "RECAST"},
+		{"windowMs", def.WindowMs != nil, def.StepType == "RECAST" || def.StepType == "EMPOWERED_BASIC_ATTACK"},
+		{"consumeMoment", def.ConsumeMoment != nil, def.StepType == "EMPOWERED_BASIC_ATTACK"},
 		{"repeatCount", def.RepeatCount != nil, def.StepType == "MULTI_HIT"},
 		{"durationMs", def.DurationMs != nil, def.StepType == "CHANNEL"},
 		{"executionCount", def.ExecutionCount != nil, def.StepType == "CHANNEL"},
@@ -189,6 +193,11 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 		}
 	case "RECAST":
 		compiled.WindowProgram, compiled.HasWindow = compileProcessFormula(def.WindowMs, path+".windowMs", true, true, ctx)
+	case "EMPOWERED_BASIC_ATTACK":
+		compiled.WindowProgram, compiled.HasWindow = compileProcessWindowFormula(def.WindowMs, path+".windowMs", true, ctx)
+		if !last || def.OccupiesAction == nil || *def.OccupiesAction || def.ConsumeMoment == nil || *def.ConsumeMoment != "ATTACK_HIT" {
+			ctx.collector.addError(model.GenericErrUnknownRef, path, "empowered attack requires a final non-occupying ATTACK_HIT step", def.StepKey)
+		}
 	case "MULTI_HIT":
 		compiled.RepeatCountProgram, _ = compileProcessFormula(def.RepeatCount, path+".repeatCount", true, true, ctx)
 		if def.IntervalMs != nil {
@@ -304,7 +313,7 @@ func validateProcessFormulaContext(instr []formula.GenericInstr, path string, al
 		}
 		switch item.ReadKind {
 		case formula.ReadSourceAttr, formula.ReadTargetAttr, formula.ReadSourceResource, formula.ReadTargetResource,
-			formula.ReadAbilityParam, formula.ReadProviderState, formula.ReadProviderTargetState, formula.ReadProcessActualCost:
+			formula.ReadAbilityParam, formula.ReadAuthoredAbilityParameter, formula.ReadProviderState, formula.ReadProviderTargetState, formula.ReadProcessActualCost:
 		case formula.ReadOperationOutput:
 			if !allowOutput {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path, "process timing and costs cannot read operation outputs", item.ReadKey)

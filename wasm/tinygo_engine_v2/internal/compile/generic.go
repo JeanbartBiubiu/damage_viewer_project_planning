@@ -166,6 +166,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	validateAllAbilityRefs(req, ctx)
 	finalizeShieldLifecycleBindings(req, ctx)
 	finalizeParticipationProviderBindings(ctx)
+	finalizeSkillHitPersistentAttributeProviders(ctx)
 	validateProviderElapsedReads(ctx)
 	finalizeListenerIndex(ctx)
 	compileAmmoBindings(ctx)
@@ -843,7 +844,7 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 	}
 	if strings.Contains(strings.ToLower(key), "condition") || strings.Contains(key, "eventValueConditions") {
 		for _, dependency := range deps {
-			if dependency.ReadKind == formula.ReadAuthoredRuntimeParameter || dependency.ReadKind == formula.ReadUseChargeDuration || dependency.ReadKind == formula.ReadProcessActualCost {
+			if dependency.ReadKind == formula.ReadAuthoredRuntimeParameter || dependency.ReadKind == formula.ReadAuthoredAbilityParameter || dependency.ReadKind == formula.ReadUseChargeDuration || dependency.ReadKind == formula.ReadProcessActualCost {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, key, "condition cannot use runtime formula parameters", dependency.ReadKey)
 				return 0, false
 			}

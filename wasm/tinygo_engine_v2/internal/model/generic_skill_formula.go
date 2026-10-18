@@ -15,8 +15,9 @@ type FormulaParameter struct {
 }
 
 type FormulaRuntimeSource struct {
-	Kind        string `json:"kind"`
-	ResourceKey string `json:"resourceKey,omitempty"`
+	Kind        string   `json:"kind"`
+	ResourceKey string   `json:"resourceKey,omitempty"`
+	Value       *float64 `json:"value,omitempty"`
 }
 
 func (v *NamedFormula) UnmarshalJSON(data []byte) error {
@@ -71,7 +72,7 @@ func (v *FormulaParameter) UnmarshalJSON(data []byte) error {
 }
 
 func (v *FormulaRuntimeSource) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "FormulaRuntimeSource", "kind resourceKey", "kind"); err != nil {
+	if err := processJSONShape(data, "FormulaRuntimeSource", "kind resourceKey value", "kind"); err != nil {
 		return err
 	}
 	type plain FormulaRuntimeSource
@@ -84,8 +85,16 @@ func (v *FormulaRuntimeSource) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	_, hasResource := shape["resourceKey"]
-	if decoded.Kind == "use_charge_duration" && hasResource {
-		return errors.New("use_charge_duration forbids resourceKey")
+	_, hasValue := shape["value"]
+	if decoded.Kind == "scene_parameter" {
+		if hasResource || !hasValue || decoded.Value == nil {
+			return errors.New("scene_parameter requires value and forbids resourceKey")
+		}
+	} else if hasValue {
+		return errors.New(decoded.Kind + " forbids value")
+	}
+	if (decoded.Kind == "use_charge_duration" || decoded.Kind == "ability_parameter") && hasResource {
+		return errors.New(decoded.Kind + " forbids resourceKey")
 	}
 	if decoded.Kind == "process_actual_cost" && (!hasResource || decoded.ResourceKey == "") {
 		return errors.New("process_actual_cost requires resourceKey")
