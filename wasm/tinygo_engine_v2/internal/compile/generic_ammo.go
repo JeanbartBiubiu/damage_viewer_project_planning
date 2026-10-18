@@ -2,6 +2,7 @@ package compile
 
 import (
 	"encoding/json"
+	"math"
 	"sort"
 	"strings"
 
@@ -62,7 +63,7 @@ func compileAmmoStateFields(schema map[string]interface{}, fields map[string]pla
 			}
 		}
 		for property := range shape {
-			if property != "intervalMs" && property != "mode" && property != "startCondition" {
+			if property != "intervalMs" && property != "mode" && property != "startCondition" && property != "initialRemainingMs" {
 				ctx.collector.addError(model.GenericErrUnknownRef, fieldPath+".ammoRecovery."+property, "unsupported ammo recovery field", key)
 			}
 		}
@@ -70,16 +71,31 @@ func compileAmmoStateFields(schema map[string]interface{}, fields map[string]pla
 			ctx.collector.addError(model.GenericErrFormulaTypeError, fieldPath+".ammoRecovery", "invalid ammo recovery declaration", key)
 			continue
 		}
-		if declaration.Mode != model.AmmoRecoveryAllAtOnce {
-			ctx.collector.addError(model.GenericErrUnknownRef, fieldPath+".ammoRecovery.mode", "only all_at_once recovery is supported", declaration.Mode)
+		oneByOne := declaration.Mode == model.AmmoRecoveryOneByOne && declaration.StartCondition == model.AmmoRecoveryAfterConsume
+		if !oneByOne && (declaration.Mode != model.AmmoRecoveryAllAtOnce || declaration.StartCondition != model.AmmoRecoveryWhenEmpty) {
+			ctx.collector.addError(model.GenericErrUnknownRef, fieldPath+".ammoRecovery.mode", "ammo recovery requires all_at_once/when_empty or one_by_one/after_consume", declaration.Mode)
 		}
-		if declaration.StartCondition != model.AmmoRecoveryWhenEmpty {
-			ctx.collector.addError(model.GenericErrUnknownRef, fieldPath+".ammoRecovery.startCondition", "only when_empty recovery is supported", declaration.StartCondition)
+		_, hasRemaining := shape["initialRemainingMs"]
+		remaining := float64(0)
+		if hasRemaining {
+			if !oneByOne || field.DefaultValue == field.MaxValue {
+				ctx.collector.addError(model.GenericErrUnknownRef, fieldPath+".ammoRecovery.initialRemainingMs", "initial remaining time is only admitted for an incomplete one-by-one inventory", key)
+			}
+			var valid bool
+			remaining, valid = ctx.freezeStatic(declaration.InitialRemainingMs, fieldPath+".ammoRecovery.initialRemainingMs", false)
+			if valid && (math.IsNaN(remaining) || math.IsInf(remaining, 0) || remaining < 0 || remaining > 9007199254740991 || math.Trunc(remaining) != remaining) {
+				ctx.collector.addError(model.GenericErrFormulaTypeError, fieldPath+".ammoRecovery.initialRemainingMs", "initial remaining time must be a non-negative safe integer in milliseconds", key)
+			}
+		} else if oneByOne && field.DefaultValue < field.MaxValue {
+			ctx.collector.addError(model.GenericErrMissingRequiredField, fieldPath+".ammoRecovery.initialRemainingMs", "an incomplete one-by-one inventory requires explicit initial remaining time", key)
 		}
 		formulaPath := fieldPath + ".ammoRecovery.intervalMs"
 		instructions := formula.CompileGenericFormula(declaration.IntervalMs, formulaPath, ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
 		if value, constant := ctx.session.Formulas.FoldInstructions(instructions); constant && (!formula.ValidPositiveInt64DurationMs(value) || value > 9007199254740991) {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, formulaPath, "ammo recovery interval must be a positive safe integer in milliseconds", key)
+		}
+		if value, constant := ctx.session.Formulas.FoldInstructions(instructions); constant && hasRemaining && remaining > value {
+			ctx.collector.addError(model.GenericErrFormulaTypeError, fieldPath+".ammoRecovery.initialRemainingMs", "initial remaining time cannot exceed the complete recovery interval", key)
 		}
 		for _, instruction := range ctx.session.Formulas.InstructionDependencies(instructions, nil) {
 			if instruction.Op == formula.GenericOpRead && instruction.ReadKind != formula.ReadSourceAttr && instruction.ReadKind != formula.ReadTargetAttr && instruction.ReadKind != formula.ReadAbilityParam && instruction.ReadKind != formula.ReadProviderState {
@@ -90,7 +106,8 @@ func compileAmmoStateFields(schema map[string]interface{}, fields map[string]pla
 			field.StateKind = model.ProviderStateKindAmmo
 			program, registered := ctx.registerFormula(formulaPath, instructions)
 			if registered {
-				field.AmmoRecovery = &plan.CompiledAmmoRecovery{IntervalProgram: program, Path: fieldPath + ".ammoRecovery"}
+				field.AmmoRecovery = &plan.CompiledAmmoRecovery{IntervalProgram: program, Path: fieldPath + ".ammoRecovery", OneByOne: oneByOne,
+					HasInitialRemaining: hasRemaining, InitialRemainingMs: int64(remaining)}
 			}
 			fields[key] = field
 		}
@@ -129,8 +146,10 @@ func compileAmmoBindings(ctx *genericCompileContext) {
 					if operation.HasAmount {
 						value, constant = ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[operation.AmountProgram].Instr)
 					}
-					if binding != nil || moment.Moment.MomentType != "PROCESS_START" || !initial.IsBasicAttack || initial.ProcessControl == nil || !initial.ProcessControl.UseRefFromEvent || operation.HasCondition || operation.StateScope != "state_scope/provider" || (operation.Target != model.SelectorSource && operation.Target != model.SelectorSelf) || operation.ValuePolicy != "add" || !constant || value != -1 {
-						ctx.collector.addError(model.GenericErrRuntimeInvariantFailed, operation.Path, "ammo consumption requires one unconditional native attack-start add(-1) operation", stateKey)
+					validInitial := initial.ProcessControl != nil && initial.ProcessControl.Action == "INITIAL" &&
+						(initial.IsBasicAttack && initial.ProcessControl.UseRefFromEvent || !initial.IsBasicAttack && initial.Kind == "active" && !initial.ProcessControl.UseRefFromEvent && hasAmmoSkillActionBinding(ctx, providerIndex, process.InitialAbilityIndex))
+					if binding != nil || moment.Moment.MomentType != "PROCESS_START" || !validInitial || operation.HasCondition || operation.StateScope != "state_scope/provider" || (operation.Target != model.SelectorSource && operation.Target != model.SelectorSelf) || operation.ValuePolicy != "add" || !constant || value != -1 {
+						ctx.collector.addError(model.GenericErrRuntimeInvariantFailed, operation.Path, "ammo consumption requires one unconditional bound initial PROCESS_START add(-1) operation", stateKey)
 						continue
 					}
 					binding = &plan.CompiledAmmoBinding{StateKey: stateKey, InitialAbilityIndex: process.InitialAbilityIndex, ProcessIndex: processIndex, ConsumptionPath: operation.Path}
@@ -143,10 +162,32 @@ func compileAmmoBindings(ctx *genericCompileContext) {
 		}
 		for _, operation := range ctx.session.Operations {
 			if operation.OwnerProviderIndex == providerIndex && operation.Ref == stateKey && (operation.Operation == "state_change" || operation.Operation == model.OperationKindStateDurationChange) && operation.Path != binding.ConsumptionPath {
+				if operation.Operation == model.OperationKindStateDurationChange && provider.StateFields[stateKey].AmmoRecovery != nil && provider.StateFields[stateKey].AmmoRecovery.OneByOne && operation.StateScope == "state_scope/provider" {
+					continue
+				}
 				ctx.collector.addError(model.GenericErrRuntimeInvariantFailed, operation.Path, "ammo may only be consumed by its unique native attack-start operation", stateKey)
 			}
 		}
 		provider.AmmoBinding = binding
+		if !ctx.session.Abilities[binding.InitialAbilityIndex].IsBasicAttack {
+			// Active ammo is driven only by its immutable real INITIAL binding, never a listener alias.
+			for _, listener := range ctx.session.Listeners {
+				if !listener.HasAbilityRef {
+					continue
+				}
+				parsed, valid := plan.ParseAbilityRef(listener.AbilityRef)
+				if valid && parsed.Combatant == "self" {
+					parsed.Combatant = listener.OwnerCombatantKey
+				}
+				if valid {
+					ref := parsed.Combatant + ".provider[" + parsed.ProviderRef + "].ability[" + parsed.AbilityKey + "]"
+					if indexed, found := ctx.session.AbilityRefIndex[ref]; found && int(indexed.ProviderIndex) == providerIndex && int(indexed.AbilityIndex) == binding.InitialAbilityIndex {
+						ctx.collector.addError(model.GenericErrRuntimeInvariantFailed, ref, "active ammo INITIAL must not be invoked by a listener", stateKey)
+					}
+				}
+			}
+			continue
+		}
 		for _, actor := range ctx.session.Combatants {
 			for _, mount := range actor.ProviderMounts {
 				if int(mount.DefinitionIndex) != providerIndex {
@@ -178,6 +219,15 @@ func compileAmmoBindings(ctx *genericCompileContext) {
 			}
 		}
 	}
+}
+
+func hasAmmoSkillActionBinding(ctx *genericCompileContext, providerIndex, initialIndex int) bool {
+	for _, binding := range ctx.session.SkillActionBindings {
+		if int(binding.InitialAbilityIndex) == initialIndex && binding.ProviderDefinitionRef == ctx.session.Providers[providerIndex].ProviderKey {
+			return true
+		}
+	}
+	return false
 }
 
 func validMechanicStatusKey(key string) bool {

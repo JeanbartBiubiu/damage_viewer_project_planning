@@ -34,7 +34,7 @@ func (f *executionFrame) prepareCooldownWakeups() (int, *model.EngineError) {
 		before := f.run.combatants[owner].cooldowns
 		for _, wait := range staged.cooldowns.changedWaits(before) {
 			if attack := f.run.basicAttack; attack != nil && wait.key == basicAttackCooldownWaitKey(attack) &&
-				f.pendingBasicAttackWait == nil && f.pendingAmmoWait == nil && !f.pendingActionWait && f.continuousCombatantsLive() {
+				f.pendingBasicAttackWait == nil && !f.hasPendingBasicAttackAmmo() && !f.pendingActionWait && f.continuousCombatantsLive() {
 				// A reset can invalidate a queued first attack before an attack period exists.
 				f.pendingBasicAttackCooldownWake = true
 				if !f.run.heap.HasBasicAttack() {

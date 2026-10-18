@@ -173,7 +173,7 @@ func (state *genericRunState) plannedSkillOperation(providerIndex int) bool {
 
 func (state *genericRunState) validatePlannedSkillProvider(owner, providerRef string, providerIndex uint16) *model.EngineError {
 	provider := state.compiled.Providers[providerIndex]
-	if provider.Kind != "character" || provider.StableID == "" || len(provider.Processes) != 1 || provider.Lifecycle != nil || provider.AmmoBinding != nil {
+	if provider.Kind != "character" || provider.StableID == "" || len(provider.Processes) != 1 || provider.Lifecycle != nil || provider.AmmoBinding != nil && !validBoundAmmoFields(provider) {
 		return state.basicAttackErr("planned source requires its complete single-process character binding", "initialSnapshot.combatants.providers")
 	}
 	for _, ability := range state.compiled.Abilities[int(provider.AbilityStart) : int(provider.AbilityStart)+int(provider.AbilityCount)] {
@@ -239,6 +239,11 @@ func (state *genericRunState) validatePlannedSkillProvider(owner, providerRef st
 				return state.basicAttackErr("planned attribute change requires its actual action binding", operation.Path)
 			}
 		case "damage", "heal", "shield", "state_change", "apply_provider", "expire_provider", "refresh_provider", "cooldown_change", "resource_change", model.OperationKindResolveSkillHit, model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
+		case model.OperationKindStateDurationChange:
+			field := provider.StateFields[operation.Ref]
+			if operation.StateScope != stateScopeProvider || field.StateKind != model.ProviderStateKindAmmo || field.AmmoRecovery == nil || !field.AmmoRecovery.OneByOne {
+				return state.basicAttackErr("planned duration change requires its own one-by-one ammo state", operation.Path)
+			}
 		default:
 			return state.basicAttackErr("planned source operation is outside the finite action subset", operation.Path)
 		}

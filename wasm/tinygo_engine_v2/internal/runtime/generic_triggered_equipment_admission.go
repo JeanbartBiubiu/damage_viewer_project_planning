@@ -36,6 +36,13 @@ func (s *genericRunState) validateEquipmentHitListener(listener planbundle.Compi
 			}
 			continue
 		}
+		if operation.Operation == model.OperationKindStateDurationChange && operation.StateScope == stateScopeProvider && (operation.Target == "self" || operation.Target == "source") && operation.ValuePolicy == "subtract" && operation.HasAmount {
+			provider := s.compiled.Providers[operation.OwnerProviderIndex]
+			field := provider.StateFields[operation.Ref]
+			if provider.AmmoBinding != nil && provider.AmmoBinding.StateKey == operation.Ref && field.AmmoRecovery != nil && field.AmmoRecovery.OneByOne && s.plannedSkillProvider(listener.OwnerCombatantKey, listener.OwnerProviderRef) {
+				continue
+			}
+		}
 		if (operation.Operation == model.OperationKindApplyHitLink || operation.Operation == model.OperationKindApplyAttackLink) && operation.Target == "target" && operation.HasAmount {
 			link := types.HitLinkApplied
 			if operation.Operation == model.OperationKindApplyAttackLink {

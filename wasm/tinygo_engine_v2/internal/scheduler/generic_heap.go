@@ -52,6 +52,7 @@ type GenericEvent struct {
 	CooldownWaitVersion   uint64
 	SkillActionIndex      int
 	AmmoGeneration        uint64
+	AmmoStateKey          string
 	BasicAttackGeneration uint64
 	ProcessIndex          int
 	ProcessStepVersion    int

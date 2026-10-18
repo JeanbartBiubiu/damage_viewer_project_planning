@@ -1141,7 +1141,11 @@ func validateStateDurationChangeOperation(op model.OperationDefinition, path str
 		collector.addError(model.GenericErrUnknownRef, path+".ref", "state_duration_change unknown state key", op.Ref)
 		return
 	}
-	if field.DurationMs <= 0 {
+	if field.StateKind == model.ProviderStateKindAmmo {
+		if field.AmmoRecovery == nil || !field.AmmoRecovery.OneByOne || scope != "state_scope/provider" {
+			collector.addError(model.GenericErrUnknownRef, path+".ref", "ammo duration subtract requires owned one-by-one provider state", op.Ref)
+		}
+	} else if field.DurationMs <= 0 {
 		collector.addError(model.GenericErrMissingRequiredField, path+".ref", "state_duration_change requires timed state with durationMs>0", op.Ref)
 	}
 }

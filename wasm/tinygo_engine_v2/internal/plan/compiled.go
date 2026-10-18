@@ -324,8 +324,11 @@ type CompiledDamageTypeFormula struct {
 type CompiledDamageAttributeRead struct{ Object, AttributeKey string }
 
 type CompiledAmmoRecovery struct {
-	IntervalProgram formula.GenericProgramID
-	Path            string
+	IntervalProgram     formula.GenericProgramID
+	Path                string
+	OneByOne            bool
+	HasInitialRemaining bool
+	InitialRemainingMs  int64
 }
 
 type CompiledAmmoBinding struct {

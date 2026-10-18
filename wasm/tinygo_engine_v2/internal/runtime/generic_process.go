@@ -283,6 +283,15 @@ func (s *genericRunState) startProcessReplacing(entry model.DriverEntry, entryIn
 	if !allowed {
 		return s.rejectProcessUse(entry, ref, use, "condition_false")
 	}
+	if !ability.IsBasicAttack && s.compiled.Providers[ability.ProviderIndex].AmmoBinding != nil {
+		ready, _, err := f.plannedAmmoReady(ability)
+		if err != nil {
+			return err
+		}
+		if !ready {
+			return s.rejectProcessUse(entry, ref, use, "ammo_empty")
+		}
+	}
 	// All expressions read the same pre-payment frame, and every row is checked before aggregation.
 	totals := map[string]float64{}
 	keys := []string{}

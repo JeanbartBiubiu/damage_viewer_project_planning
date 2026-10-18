@@ -124,8 +124,10 @@ func (f *executionFrame) commitKeysAndPreflight(keyBuffer []string) ([]string, *
 		return nil, cooldownError
 	}
 	count += cooldownEvents
-	if f.pendingAmmoWait != nil && f.pendingAmmoWait.active && f.continuousCombatantsLive() {
-		count++
+	for _, pending := range f.pendingAmmoWaits {
+		if pending.wait.active && f.ammoCombatantsLive(pending.ammo) {
+			count++
+		}
 	}
 	if f.providerTickCanContinue() {
 		count++

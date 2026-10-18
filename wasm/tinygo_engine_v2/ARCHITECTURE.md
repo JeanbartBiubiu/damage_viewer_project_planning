@@ -19,6 +19,7 @@ graph TD
     Automatic["自动技能候选与一次资格链"]
     Cooldown["实际拥有者的共同冷却账本"]
     Attack["普攻进度等待"]
+	Ammo["按实际来源隔离的库存与回充等待"]
     Passive["被动事件门禁与内部冷却投影"]
     Formula["formula generic"]
     Pure["expression 纯公式与数学原语"]
@@ -46,8 +47,11 @@ graph TD
     Run --> Automatic
     Run --> Attack
     Automatic --> Cooldown
+	Automatic --> Ammo
     Automatic --> Scheduler
     Attack --> Cooldown
+	Attack --> Ammo
+	Ammo --> Scheduler
     Exec --> Cooldown
     Exec --> Passive
     Passive --> Cooldown

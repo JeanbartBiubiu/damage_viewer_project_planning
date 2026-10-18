@@ -107,6 +107,7 @@ type genericRunState struct {
 	initializationPending     int
 	budgetCause               model.BudgetCause
 	basicAttack               *basicAttackRuntime
+	ammoInstances             []*basicAttackAmmo
 	attackRecords             []model.BasicAttackRecord
 	mechanicRecords           []model.MechanicRecord
 	mechanicRecordCount       int
@@ -365,6 +366,7 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 	if err := state.initBasicAttack(); err != nil {
 		return nil, err
 	}
+	state.initPlannedAmmo()
 	if err := state.seedSourceInitialization(); err != nil {
 		return nil, err
 	}
@@ -373,8 +375,11 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 	state.queueAutomaticSkills(state.startMs)
 	state.seedExpireCleanups()
 	state.seedProviderTicks()
+	if len(state.ammoInstances) > 0 {
+		state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.startMs, Category: scheduler.GenericCategoryAmmoRecovery, Kind: scheduler.GenericEventAmmoAdmission, DriverEntryIndex: -1})
+	}
 	if state.basicAttack != nil {
-		if state.basicAttack.ammo != nil && state.hasSkillPlan() {
+		if state.basicAttack.ammo != nil && state.hasSkillPlan() && len(state.ammoInstances) == 0 {
 			state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.startMs, Category: scheduler.GenericCategoryAmmoRecovery, Kind: scheduler.GenericEventAmmoAdmission, DriverEntryIndex: -1})
 		}
 		state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.startMs, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1})
@@ -895,7 +900,7 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		case scheduler.GenericEventAmmoRecovery:
 			err = s.handleAmmoRecovery(ev)
 		case scheduler.GenericEventAmmoAdmission:
-			_, err = s.basicAttackAmmoReady()
+			err = s.initializeDrivenAmmo()
 		}
 		if err == nil {
 			err = s.processFailure

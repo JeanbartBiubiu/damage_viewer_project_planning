@@ -202,8 +202,47 @@ func (s *genericRunState) automaticCandidate(r *automaticSkillRuleRuntime) (stri
 	if r.predecessor != nil && r.qualification.RemainingCount == 0 {
 		return model.AutomaticWaitReleaseQualification, []string{r.predecessor.plan.RuleKey}, 0, nil
 	}
+	ability := s.compiled.Abilities[r.controlIndex]
+	ammoAt := int64(0)
+	ammoReady := true
+	if s.compiled.Providers[ability.ProviderIndex].AmmoBinding != nil {
+		if !s.processMounted(model.SelectorSource, r.binding.ProviderRef, ability.ProviderIndex) {
+			return model.AutomaticWaitAuthorCondition, nil, 0, nil
+		}
+		var ammoFrame executionFrame
+		s.initExecutionFrame(&ammoFrame, model.SelectorSource, r.plan.Target, r.abilityRef)
+		ammoFrame.ownerCombatantKey, ammoFrame.ownerProviderRef = model.SelectorSource, r.binding.ProviderRef
+		var err *model.EngineError
+		ammoReady, ammoAt, err = ammoFrame.plannedAmmoReady(ability)
+		if err != nil {
+			return "", nil, 0, err
+		}
+	}
+	maxAmmo := func(at int64) int64 {
+		if !ammoReady && ammoAt > at {
+			at = ammoAt
+		}
+		if s.compiled.Providers[ability.ProviderIndex].AmmoBinding != nil {
+			for _, id := range r.dependencies {
+				if ready := ledger.readyAt(id); ready > at {
+					at = ready
+				}
+			}
+			if ready := s.actionReadyAt(model.SelectorSource); ready > at {
+				at = ready
+			}
+			for _, current := range s.processInstances {
+				if current.Owner == model.SelectorSource && current.ProviderRef == r.binding.ProviderRef && current.Status == "active" {
+					if ready := processActionDeadline(current); ready > at {
+						at = ready
+					}
+				}
+			}
+		}
+		return at
+	}
 	if !ledger.isReady(r.dependencies[0], s.nowMs) {
-		return model.AutomaticWaitOwnCooldown, nil, ledger.readyAt(r.dependencies[0]), nil
+		return model.AutomaticWaitOwnCooldown, nil, maxAmmo(ledger.readyAt(r.dependencies[0])), nil
 	}
 	deadline := int64(0)
 	keys := []string{}
@@ -221,20 +260,22 @@ func (s *genericRunState) automaticCandidate(r *automaticSkillRuleRuntime) (stri
 		}
 	}
 	if len(keys) != 0 {
-		return model.AutomaticWaitRelatedCooldown, keys, deadline, nil
+		return model.AutomaticWaitRelatedCooldown, keys, maxAmmo(deadline), nil
 	}
-	ability := s.compiled.Abilities[r.controlIndex]
 	definition := &s.compiled.Providers[ability.ProviderIndex].Processes[ability.ProcessControl.ProcessIndex]
 	if !s.processMounted(model.SelectorSource, r.binding.ProviderRef, ability.ProviderIndex) {
 		return model.AutomaticWaitAuthorCondition, nil, 0, nil
 	}
 	for _, current := range s.processInstances {
 		if current.Owner == model.SelectorSource && current.ProviderRef == r.binding.ProviderRef && current.ProcessKey == definition.ProcessKey && current.Status == "active" {
-			return model.AutomaticWaitProcessActive, nil, processActionDeadline(current), nil
+			return model.AutomaticWaitProcessActive, nil, maxAmmo(processActionDeadline(current)), nil
 		}
 	}
 	if s.actionOccupied(model.SelectorSource) {
-		return model.AutomaticWaitActionOccupied, nil, s.actionReadyAt(model.SelectorSource), nil
+		return model.AutomaticWaitActionOccupied, nil, maxAmmo(s.actionReadyAt(model.SelectorSource)), nil
+	}
+	if !ammoReady {
+		return model.AutomaticWaitMechanicResource, nil, maxAmmo(ammoAt), nil
 	}
 	// 候选求值只读同一真实入口快照；扣资源与开始仍由原过程帧原子提交。
 	s.refreshProviderAwareAttributes(model.SelectorSource, r.plan.Target)
@@ -299,6 +340,10 @@ func (s *genericRunState) handleAutomaticSkills(ev scheduler.GenericEvent) *mode
 		if at > s.nowMs {
 			notBefore := int64(0)
 			if reason == model.AutomaticWaitActionOccupied || reason == model.AutomaticWaitProcessActive {
+				notBefore = at
+			}
+			// 主动弹药候选已合并冷却、行动和库存期限；真实登记必须保留同一期限。
+			if s.compiled.Providers[s.compiled.Abilities[r.controlIndex].ProviderIndex].AmmoBinding != nil {
 				notBefore = at
 			}
 			wait := owner.cooldowns.registerWait(key, r.dependencies, notBefore, s.nowMs)

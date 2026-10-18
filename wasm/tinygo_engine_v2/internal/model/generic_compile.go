@@ -101,9 +101,10 @@ type ProviderStateFieldSchema struct {
 }
 
 type AmmoRecoverySchema struct {
-	IntervalMs     GenericFormulaExpr `json:"intervalMs"`
-	Mode           string             `json:"mode"`
-	StartCondition string             `json:"startCondition"`
+	IntervalMs         GenericFormulaExpr `json:"intervalMs"`
+	Mode               string             `json:"mode"`
+	StartCondition     string             `json:"startCondition"`
+	InitialRemainingMs any                `json:"initialRemainingMs,omitempty"`
 }
 
 const (
@@ -111,6 +112,8 @@ const (
 	ProviderStateKindCooldown = "cooldown"
 	AmmoRecoveryAllAtOnce     = "all_at_once"
 	AmmoRecoveryWhenEmpty     = "when_empty"
+	AmmoRecoveryOneByOne      = "one_by_one"
+	AmmoRecoveryAfterConsume  = "after_consume"
 )
 
 // ProviderStateRefreshOnWrite 是每次写入续期的既有 refreshPolicy。

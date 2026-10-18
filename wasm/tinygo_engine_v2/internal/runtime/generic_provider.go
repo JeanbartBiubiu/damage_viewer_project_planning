@@ -297,6 +297,22 @@ func (s *genericRunState) removeProviderInstance(targetKey, providerRef string, 
 	if !ok {
 		return
 	}
+	removedAttackAmmo := false
+	for _, ammo := range s.ammoInstances {
+		if ammo.owner == targetKey && ammo.providerRef == providerRef {
+			removedAttackAmmo = s.basicAttack != nil && s.basicAttack.ammo == ammo
+			ammo.wait.active = false
+			if ammo.wait.generation != ^uint64(0) {
+				ammo.wait.generation++
+			}
+		}
+	}
+	if !removedAttackAmmo && s.basicAttack != nil && s.basicAttack.ammo != nil && s.basicAttack.ammo.owner == targetKey && s.basicAttack.ammo.providerRef == providerRef {
+		s.basicAttack.ammo.wait.active = false
+		if s.basicAttack.ammo.wait.generation != ^uint64(0) {
+			s.basicAttack.ammo.wait.generation++
+		}
+	}
 	s.unbindProviderInstanceListeners(targetKey, providerRef)
 	c.cooldowns = c.cooldowns.clone()
 	c.cooldowns.removeProvider(targetKey, providerRef, s.nowMs)

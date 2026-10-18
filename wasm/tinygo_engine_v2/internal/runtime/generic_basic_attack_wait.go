@@ -116,7 +116,7 @@ func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 		return count, err
 	}
 	attack := f.run.basicAttack
-	if f.pendingBasicAttackWait == nil && f.pendingAmmoWait == nil && !f.pendingActionWait {
+	if f.pendingBasicAttackWait == nil && !f.hasPendingBasicAttackAmmo() && !f.pendingActionWait {
 		return count, nil
 	}
 	notBefore := f.run.nowMs
@@ -133,10 +133,14 @@ func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 	}
 	if ammo := attack.ammo; ammo != nil {
 		wait := ammo.wait
-		if f.pendingAmmoWait != nil {
-			wait = *f.pendingAmmoWait
+		if f.hasPendingBasicAttackAmmo() {
+			wait = f.ammoWait(ammo)
 		}
-		if wait.active && wait.readyAt > notBefore {
+		value, err := f.ammoInventory(ammo)
+		if err != nil {
+			return 0, err
+		}
+		if value == 0 && wait.active && wait.readyAt > notBefore {
 			notBefore = wait.readyAt
 		}
 	}
@@ -167,7 +171,7 @@ func (f *executionFrame) prepareBasicAttackProgress() (int, *model.EngineError) 
 		previous = f.pendingBasicAttackWait
 	}
 	if previous == nil {
-		if (f.pendingAmmoWait != nil || f.pendingActionWait) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
+		if (f.hasPendingBasicAttackAmmo() || f.pendingActionWait) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
 			return 1, nil
 		}
 		return 0, nil
@@ -193,7 +197,7 @@ func (f *executionFrame) prepareBasicAttackProgress() (int, *model.EngineError) 
 		previousReady = ready
 	}
 	if previousReady <= f.run.nowMs {
-		if (f.pendingBasicAttackWait != nil || f.pendingAmmoWait != nil || f.pendingActionWait) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
+		if (f.pendingBasicAttackWait != nil || f.hasPendingBasicAttackAmmo() || f.pendingActionWait) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
 			return 1, nil
 		}
 		return 0, nil
@@ -211,7 +215,7 @@ func (f *executionFrame) prepareBasicAttackProgress() (int, *model.EngineError) 
 	program := formula.GenericProgram{Instr: attack.cooldownDependencies}
 	evalContext := context.evalContext(attack.initialAbility)
 	if speed == previous.speed && !basicAttackWaitDependenciesChanged(program, previous, sourceAttributes, targetAttributes, evalContext) {
-		if (f.pendingBasicAttackWait != nil || f.pendingAmmoWait != nil || f.pendingActionWait) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
+		if (f.pendingBasicAttackWait != nil || f.hasPendingBasicAttackAmmo() || f.pendingActionWait) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
 			return 1, nil
 		}
 		return 0, nil
@@ -337,7 +341,7 @@ func (f *executionFrame) unmountWaitingProvider(owner, ref string) {
 }
 
 func (f *executionFrame) commitBasicAttackWait() {
-	if f.pendingBasicAttackWait == nil && f.pendingAmmoWait == nil && !f.pendingActionWait {
+	if f.run.basicAttack == nil || f.pendingBasicAttackWait == nil && !f.hasPendingBasicAttackAmmo() && !f.pendingActionWait {
 		return
 	}
 	attack := f.run.basicAttack
@@ -423,7 +427,13 @@ func (s *genericRunState) nextBasicAttackTime() int64 {
 		ready = cooldown
 	}
 	if ammo := s.basicAttack.ammo; ammo != nil && ammo.wait.active && ammo.wait.readyAt > ready {
-		ready = ammo.wait.readyAt
+		value := ammo.definition.StateFields[ammo.binding.StateKey].DefaultValue
+		if bag := s.combatants[ammo.owner].providerState[ammo.providerRef]; bag != nil {
+			value = bag.state[ammo.binding.StateKey]
+		}
+		if value == 0 {
+			ready = ammo.wait.readyAt
+		}
 	}
 	return ready
 }

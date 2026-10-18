@@ -25,6 +25,12 @@ TinyGo编译的浏览器内计算引擎。正式业务入口为 `engine_compile`
 
 根命中内的有序结果候选各自提交后，在实际声明伤害事件且该候选产生正伤害时，派发一笔 `event/damage_dealt`（已造成伤害事件）。候选保留原施放和使用身份，普通攻击仍只有一次父命中；资格仅由本次根 `resolve_skill_hit`（命中结算）建立，不由旧事件或法术护盾缓存恢复，不降低真实调用深度，也不扩到监听、复制、周期或强化待击尾部。各候选间派生事件按原同步顺序执行，多个结果不合并为原子伤害。
 
+弹药在原有整匣回充 `all_at_once/when_empty` 之外，支持逐枚回充 `one_by_one/after_consume`，可绑定真实主动 `INITIAL` 首次控制。库存大于零时可以继续施放，继续扣弹不会重置正在运行的充能。逐枚模式欠弹时须在 `ammoRecovery.initialRemainingMs` 明确提供首枚余时（数字或同技能严格静态引用，0有效）；满弹及整匣模式禁止提供。余时为非负安全整数，不超过初始化时完整间隔；不从库存或技能学习时库存推测。
+
+等待按拥有者、实际供值器引用和状态字段分别保存，目标方未被驱动的主动来源不启动回充。`state_duration_change/subtract` 可在同供值器的逐枚弹药上缩短下一枚等待；超出部分钳到当前时刻且丢弃，仍由独立到期事件补一枚，不改变单发冷却。无等待时不求减时金额。旧事件、重复事件、移除实例和队列预算失败均不能多补弹或留下部分写入；同供值器的普通整数状态继续使用既有过程时点操作，不扩大 `use.ammo.before` 的读取范围。仅支持时间零的新运行，不恢复运行中充能。
+
+原生定向入口：`go test -count=1 ./internal/runtime -run 'ActiveAmmo|AmmoAttack|AmmoCompilation|AmmoRecovery|AmmoCapture|AutomaticSkill'`。这些检查只证明通用原生机制；正式 Wasm、浏览器宿主和真实作者来源的验证由集成时另行完成，不能据此开放英雄目录。
+
 `ATTRIBUTE_CHANGE/PERSISTENT/TARGET`（目标有期属性变化）可以映射为一次严格纯属性实例施加：有限正期限、单层、覆盖刷新、明确来源与目标范围、无能力、监听、状态、过程、周期、护盾和状态贡献，仅自身非生命属性的有限静态平加。全部定义编译后再次检查真实完整定义，防止后置能力或监听绕过；执行候选前核对实际命中目标的全部对应属性槽，缺失报错且该候选不挂实例，明确的0值合法。实例、到期、属性失效及伤害继续使用原运行路径；即时属性及来源方持久属性范围不扩大。局部回归：`go test -count=1 ./internal/compile ./internal/runtime -run 'Test(CompileSkillHitFinite|SkillHitFiniteTarget|RootSkillHitCandidate|SkillHitOldContext)'`；正式产物与旧请求对照见 `target/corki-semantics-2026-10-18/slot-fix/`，真实作者和浏览器验证另行记录。
 
 ## 剖析与分配复现入口

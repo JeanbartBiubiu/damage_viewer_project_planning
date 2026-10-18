@@ -97,7 +97,7 @@ type executionFrame struct {
 	pendingAutomaticWake           bool
 	pendingBasicAttackCooldownWake bool
 	pendingCooldownAttempts        []pendingCooldownAttempt
-	pendingAmmoWait                *ammoRecoveryWait
+	pendingAmmoWaits               []pendingAmmoRecovery
 	pendingAmmoCapture             *ammoUseCapture
 	pendingMechanicRecords         []model.MechanicRecord
 	pendingBasicAttackWait         *basicAttackWait
@@ -1109,12 +1109,15 @@ func (f *executionFrame) applyStateChange(op planbundle.CompiledOperation, abili
 		sc := f.stageFor(ownerKey)
 		sc.attributes = f.resolveAttributesFor(ownerKey, sc.attributes, f.evalContext(ability))
 		f.reResolveStagedAttributesTwoPass(ability)
-		if ammoField && next == 0 {
+		if ammoField {
 			if f.fatal {
 				return f.fatalErr
 			}
-			if err := f.stageAmmoRecovery(ability); err != nil {
-				return err
+			ammo := f.run.findAmmo(ownerKey, f.ownerProviderRef, op.Ref)
+			if ammo != nil && (next == 0 || ammo.definition.StateFields[op.Ref].AmmoRecovery.OneByOne) {
+				if err := f.stageAmmoRecoveryFor(ammo, ability, -1); err != nil {
+					return err
+				}
 			}
 		}
 	case stateScopeProviderTarget:
@@ -1182,6 +1185,9 @@ func (f *executionFrame) applyStateDurationChange(op planbundle.CompiledOperatio
 	bag := f.providerStateBag(ownerKey, f.ownerProviderRef, true)
 	bag.ensure()
 	nowMs := f.run.nowMs
+	if op.OwnerProviderIndex >= 0 && op.OwnerProviderIndex < len(f.run.compiled.Providers) && f.run.compiled.Providers[op.OwnerProviderIndex].StateFields[op.Ref].StateKind == model.ProviderStateKindAmmo {
+		return f.applyAmmoDurationChange(op, ability)
+	}
 	if field, exists := bag.fieldDefs[op.Ref]; exists && field.stateKind == model.ProviderStateKindCooldown {
 		return f.applyInternalCooldownDurationChange(op, ability)
 	}
