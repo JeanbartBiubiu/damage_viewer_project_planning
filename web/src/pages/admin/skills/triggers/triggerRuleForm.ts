@@ -607,11 +607,18 @@ export type SkillTriggerAdvanceProcessActionDraft = ActionDraftBase & {
   };
 };
 
+export type SkillTriggerModifyInternalStateActionDraft = ActionDraftBase & {
+  actionType: 'MODIFY_INTERNAL_STATE';
+  targetContext: SkillTriggerTargetContext;
+  detail: { stateSkillKey: string; stateKey: string; operation: 'REDUCE_RECOVERY'; value: NumericValue };
+};
+
 export type SkillTriggerActionDraft =
   | SkillTriggerExecuteEffectActionDraft
   | SkillTriggerStartProcessActionDraft
   | SkillTriggerFailProcessActionDraft
-  | SkillTriggerAdvanceProcessActionDraft;
+  | SkillTriggerAdvanceProcessActionDraft
+  | SkillTriggerModifyInternalStateActionDraft;
 
 export type SkillTriggerRuleDraft = {
   ruleKey: string;
@@ -978,6 +985,7 @@ export function createEmptyActionDetail(
   if (actionType === 'EXECUTE_EFFECT') return { effectKey: '' };
   if (actionType === 'START_PROCESS') return { processKey: '' };
   if (actionType === 'ADVANCE_PROCESS') return { processKey: '', stepKey: '' };
+  if (actionType === 'MODIFY_INTERNAL_STATE') return { stateSkillKey: '', stateKey: '', operation: 'REDUCE_RECOVERY', value: fixedValue(Number.NaN) };
   return { processKey: '', failureReason: 'CONTROLLED' };
 }
 
@@ -1121,6 +1129,8 @@ export function createEmptyActionDraft(
       detail: createEmptyActionDetail('START_PROCESS')
     };
   }
+  if (actionType === 'MODIFY_INTERNAL_STATE') return { ...base, actionType, targetContext: 'EVENT_SOURCE',
+    detail: { stateSkillKey: '', stateKey: '', operation: 'REDUCE_RECOVERY', value: fixedValue(Number.NaN) } };
   return {
     ...base,
     actionType: 'EXECUTE_EFFECT',
@@ -1885,6 +1895,9 @@ function conditionFromDetail(condition: SkillTriggerCondition): SkillTriggerCond
 
 function actionFromDetail(action: SkillTriggerAction): SkillTriggerActionDraft {
   switch (action.actionType) {
+    case 'MODIFY_INTERNAL_STATE':
+      return { ...action, detail: structuredClone(action.detail), sortOrder: String(action.sortOrder),
+        runtimeInputBindings: structuredClone(action.runtimeInputBindings), resultModifiers: [] };
     case 'EXECUTE_EFFECT':
       return {
         actionKey: action.actionKey,
@@ -2095,6 +2108,8 @@ export function advanceProcessStepTypeForPhase(
 }
 
 function toAction(action: SkillTriggerActionDraft, sortOrder: number): SkillTriggerAction {
+  if (action.actionType === 'MODIFY_INTERNAL_STATE') return { ...action, actionKey: action.actionKey.trim(), name: action.name.trim(),
+    sortOrder, targetContext: 'EVENT_SOURCE', detail: structuredClone(action.detail), runtimeInputBindings: [], resultModifiers: [] };
   if (action.actionType === 'EXECUTE_EFFECT') {
     return {
       actionKey: action.actionKey.trim(),
@@ -2380,6 +2395,7 @@ function cleanupActionForEventSwitch(
   nextSource: SkillTriggerEventSource,
   processes?: ReadonlyArray<SourceCastResourceCostProcess>
 ): SkillTriggerActionDraft {
+  if (action.actionType === 'MODIFY_INTERNAL_STATE') return { ...action, targetContext: 'EVENT_SOURCE', runtimeInputBindings: [] };
   const runtimeInputBindings: SkillTriggerRuntimeInputBinding[] = [];
   for (const binding of action.runtimeInputBindings) {
     const next = cleanupBindingForEventSwitch(binding, hasEventSource, allowed, nextSource, processes);
@@ -2510,7 +2526,7 @@ export function removeBindingsByKeys(
     if (action.actionType === 'EXECUTE_EFFECT') {
       return { ...action, runtimeInputBindings };
     }
-    if (action.actionType === 'START_PROCESS') {
+    if (action.actionType === 'START_PROCESS' || action.actionType === 'MODIFY_INTERNAL_STATE') {
       return { ...action, runtimeInputBindings };
     }
     return { ...action, runtimeInputBindings: [] };
@@ -2576,7 +2592,8 @@ export function actionSummary(action: SkillTriggerActionDraft): string {
   const target = action.targetContext
     ? SKILL_TRIGGER_TARGET_CONTEXT_LABELS[action.targetContext]
     : '—';
-  const object = action.actionType === 'EXECUTE_EFFECT'
+  const object = action.actionType === 'MODIFY_INTERNAL_STATE' ? [action.detail.stateKey, '减少下一枚回充', numericValueSummary(action.detail.value)].join(' / ')
+    : action.actionType === 'EXECUTE_EFFECT'
     ? actionEffectKey(action.detail)
     : action.actionType === 'ADVANCE_PROCESS'
       ? [actionProcessKey(action.detail), actionStepKey(action.detail)].filter(Boolean).join(' / ')
@@ -3126,6 +3143,7 @@ type ReferencedCatalogs = {
 };
 
 export function collectActionValues(action: SkillTriggerActionDraft, catalogs: ReferencedCatalogs): NumericValue[] {
+  if (action.actionType === 'MODIFY_INTERNAL_STATE') return [action.detail.value];
   if (action.actionType === 'EXECUTE_EFFECT') {
     const effect = catalogs.effectsByKey?.get(action.detail.effectKey);
     return effect ? collectExecuteEffectValues(effect) : [];
@@ -3162,6 +3180,7 @@ export function requiredCatalogsForDraft(draft: SkillTriggerRuleDraft, catalogs:
     }
   }
   for (const action of draft.actions) {
+    if (action.actionType === 'MODIFY_INTERNAL_STATE') required.add('internalStates');
     if (action.runtimeInputBindings.some((item) => item.sourceType === 'SOURCE_CAST_RESOURCE_COST' || item.sourceType === 'SCENE_ATTRIBUTE_SNAPSHOT')) required.add('attributes');
     if (action.runtimeInputBindings.some((item) => item.sourceType === 'INTERNAL_STATE')) {
       required.add('internalStates');
@@ -3512,7 +3531,22 @@ export function validateSkillTriggerDraft(
     }
     actionKeys.add(action.actionKey.trim());
     if (!action.name.trim()) pushError(nestedErrors, `actions[${actionIndex}].name`, '动作名称不能为空。');
-    if (!isProcessShellAction(action.actionType) && action.targetContext === 'EVENT_SOURCE' && !hasEventSource) {
+    if (action.actionType === 'MODIFY_INTERNAL_STATE') {
+      const definition = options.statesByKey?.get(action.detail.stateKey);
+      if (draft.eventSource.eventType !== 'BASIC_ATTACK_HIT' || action.targetContext !== 'EVENT_SOURCE'
+        || action.detail.stateSkillKey !== options.skillKey || action.detail.operation !== 'REDUCE_RECOVERY'
+        || definition?.stateType !== 'AMMO' || definition.scope !== 'SKILL') {
+        pushError(nestedErrors, `actions[${actionIndex}].detail.stateKey`, '回充减时仅允许本技能普通攻击命中时修改自身弹药。');
+      }
+      const error = numericValueError(action.detail.value, { parameters: options.parameters,
+        formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined }, { min: 0 });
+      if (error) pushError(nestedErrors, `actions[${actionIndex}].detail.value`, error);
+      if (action.runtimeInputBindings.length) {
+        pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings`, '回充动作本轮不接受运行输入绑定。');
+      }
+    }
+    if (!isProcessShellAction(action.actionType) && action.targetContext === 'EVENT_SOURCE' && !hasEventSource
+      && !(action.actionType === 'MODIFY_INTERNAL_STATE' && draft.eventSource.eventType === 'BASIC_ATTACK_HIT')) {
       pushError(nestedErrors, `actions[${actionIndex}].targetContext`, '当前事件不提供事件来源对象。');
     }
     const shellTargetError = action.actionType === 'ADVANCE_PROCESS'
@@ -3617,7 +3651,8 @@ export function validateSkillTriggerDraft(
       if (binding.sourceType === 'SCENE_INITIAL_PARAMETER') {
         const effect = action.actionType === 'EXECUTE_EFFECT' ? options.effectsByKey?.get(action.detail.effectKey) : undefined;
         const formulas = options.formulasByKey ?? new Map();
-        const consumed = reachableRuntimeInputParameters(effect ? collectExecuteEffectValues({ ...effect, lifecycle: null }) : [], formulas, options.parameters ?? []);
+        const consumed = reachableRuntimeInputParameters(action.actionType === 'MODIFY_INTERNAL_STATE' ? [action.detail.value]
+          : effect ? collectExecuteEffectValues({ ...effect, lifecycle: null }) : [], formulas, options.parameters ?? []);
         const error = sceneInitialParameterError(binding, draft.eventSource, options.skillKey ?? '', action, consumed, effect);
         if (error) pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}]`, error);
         if (effect && reachableRuntimeInputParameters(numericValuesIn(effect.lifecycle), formulas, options.parameters ?? [])

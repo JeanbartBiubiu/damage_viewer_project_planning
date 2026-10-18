@@ -1,6 +1,7 @@
 import { usesNumericValueKind } from '../numericValueForm';
 import { useNumericParameters } from '../useNumericParameters';
 import { NumericValueField } from '../NumericValueField';
+import { StateInitialBindingFields } from './StateInitialBindingFields';
 import {
   Alert,
   Button,
@@ -717,6 +718,9 @@ export function SkillInternalStateEditorModal({
                   formulas={formulas}
                   disabled={readOnly || saving} />
               </Form.Item>
+              <StateInitialBindingFields label="初始值" binding={draft.initialValueBinding} numeric={draft.initialValue}
+                disabled={readOnly || saving} error={errors.initialValueBinding}
+                onChange={initialValueBinding => patchDraft({ ...draft, initialValueBinding })} />
               <Form.Item
                 label="上限取值"
                 required
@@ -736,6 +740,15 @@ export function SkillInternalStateEditorModal({
 
           {draft.stateType === 'AMMO' ? (
             <>
+              <Form.Item label="初充余时" extra="毫秒。欠弹须明确声明；满弹只能为零或不声明。"
+                validateStatus={errors.initialRemainingValue ? 'error' : undefined} help={errors.initialRemainingValue}>
+                <NumericValueField aria-label="初充余时" value={draft.initialRemainingValue ?? null}
+                  allowClear onChange={value => patchDraft({ ...draft, initialRemainingValue: value ?? undefined })}
+                  parameters={parameters} parametersLoadState={parametersLoadState} formulas={formulas} disabled={readOnly || saving} />
+              </Form.Item>
+              <StateInitialBindingFields label="初充余时" binding={draft.initialRemainingMsBinding} numeric={draft.initialRemainingValue}
+                disabled={readOnly || saving} error={errors.initialRemainingMsBinding}
+                onChange={initialRemainingMsBinding => patchDraft({ ...draft, initialRemainingMsBinding })} />
               <Form.Item
                 label="恢复间隔取值"
                 required

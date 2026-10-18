@@ -41,7 +41,10 @@ export function assertNumericUses(root: unknown, domain: 'effect' | 'process' | 
     if (root.stateType === 'COUNTER' || root.stateType === 'AMMO') {
       slot(root.detail, 'initialValue', 'detail'); slot(root.detail, 'maxValue', 'detail');
     }
-    if (root.stateType === 'AMMO') slot(root.detail, 'recoveryIntervalValue', 'detail');
+    if (root.stateType === 'AMMO') {
+      slot(root.detail, 'recoveryIntervalValue', 'detail');
+      if (object(root.detail) && 'initialRemainingValue' in root.detail) slot(root.detail, 'initialRemainingValue', 'detail');
+    }
     if (root.stateType === 'COUNTER' && object(root.detail) && 'durationValue' in root.detail) slot(root.detail, 'durationValue', 'detail', true);
     if (root.stateType === 'INTERNAL_COOLDOWN') slot(root.detail, 'durationValue', 'detail');
   } else if (domain === 'process') {
@@ -67,6 +70,9 @@ export function assertNumericUses(root: unknown, domain: 'effect' | 'process' | 
     }
   } else {
     const event = record(root.eventSource, 'eventSource');
+    for (const [index, action] of (root.actions === undefined ? [] : list(root.actions, 'actions')).entries()) {
+      if (action.actionType === 'MODIFY_INTERNAL_STATE') slot(action.detail, 'value', `actions[${index}].detail`);
+    }
     if (event.eventType === 'HEALTH_THRESHOLD_CROSSED') slot(event.detail, 'thresholdValue', 'eventSource.detail');
     for (const [gi, group] of list(root.conditionGroups, 'conditionGroups').entries()) {
       for (const [ci, condition] of list(group.conditions, `conditionGroups[${gi}].conditions`).entries()) {

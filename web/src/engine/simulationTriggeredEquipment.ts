@@ -34,6 +34,9 @@ import { lowerBasicAttackContributionValue, lowerBasicAttackContributionValueRul
   type BasicAttackContributionFormulaPurpose, type LoweredBasicAttackContributionFormula } from './basicAttackContributionFormula';
 import { basicAttackContributionKey, isBasicAttackContributionRule,
   type BasicAttackContribution } from './basicAttackContributionContract';
+import { compileStateFieldSchema } from './processStateAdapter';
+import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
+  type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
 
 type Side = 'source' | 'target';
@@ -197,7 +200,9 @@ function validateValueRule(rule: SkillEffectValueRule, path: string) {
   if (rule.fixedMinValue !== null && rule.fixedMaxValue !== null && rule.fixedMinValue > rule.fixedMaxValue) fail(path, '数值下界不能高于上界');
 }
 
-export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): TriggeredEquipmentAssembly {
+export function assembleTriggeredEquipment(snapshot: SimulationSnapshot, sceneInputs: readonly SceneInitialParameterInput[] = []): TriggeredEquipmentAssembly {
+  const normalized = normalizeSceneInitialParameterInputs(snapshot, sceneInputs);
+  const sceneRequirements = sceneInitialParameterRequirements(snapshot);
   validateSimulationSkillSourceManifest(snapshot);
   const descriptions: TriggeredSkillSourceDescription[] = [];
   const excludedCoverage: SimulationCoverage[] = [];
@@ -252,6 +257,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
           }
           return { skillKey: relation.skillKey, skillLevel: 1,
             path: `${path}.attachedSkills[${relations.indexOf(relation)}]`, configuration, allowedRootKeys: rootKeys,
+            sceneInitialValues: sceneInitialValuesForSource(sceneRequirements, normalized, side, source),
             permanentModifier: (result, resultPath, onNumericConsumed) => {
               const effect = configuration.effects.find(row => row.results.includes(result))!;
               const context = { snapshot, configuration, source, side, formulaNamespace: `${providerRef}/${relation.skillKey}/permanent`, onNumericConsumed };
@@ -439,7 +445,15 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           const statePath = `${root}.internalStates.${state.stateKey}`;
           exact(state, ['gameId', 'skillKey', 'stateKey', 'stateType', 'scope', 'detail', ...METADATA], statePath);
           if (state.gameId !== snapshot.gameId || state.skillKey !== skillKey || !['SKILL', 'TARGET'].includes(state.scope)) fail(statePath, '只接入真实来源或来源对手范围内部状态');
-          if (state.stateType === 'COUNTER') {
+          if (state.stateType === 'AMMO' || state.stateType === 'COUNTER' && state.detail.initialValueBinding !== undefined) {
+            if (skills.length !== 1) fail(statePath, '显式状态初值与弹药需要唯一真实来源，不能跨聚合来源共享');
+            schema[stateKey(state)] = compileStateFieldSchema(state, numeric, statePath, source.sceneInitialValues) as ProviderStateFieldSchema;
+            noteNumeric(state.detail.initialValue); noteNumeric(state.detail.maxValue);
+            if (state.stateType === 'AMMO') {
+              noteNumeric(state.detail.recoveryIntervalValue);
+              if (state.detail.initialRemainingValue) noteNumeric(state.detail.initialRemainingValue);
+            } else if (state.detail.durationValue) noteNumeric(state.detail.durationValue);
+          } else if (state.stateType === 'COUNTER') {
             exact(state.detail, ['initialValue', 'maxValue', 'durationValue'], `${statePath}.detail`);
             const initial = constant(state.detail.initialValue, `${statePath}.detail.initialValue`, true);
             const maximum = constant(state.detail.maxValue, `${statePath}.detail.maxValue`, true);
@@ -1060,6 +1074,19 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                 if (authoredEffect.lifecycle?.durationValue) noteNumeric(authoredEffect.lifecycle.durationValue);
                 cover(actionPath, 'runtimeOptions.skillOrigins');
               } else executeEffect(authoredEffect, output, outputRoot, abilityRef, event, actionPath, context);
+            } else if (action.actionType === 'MODIFY_INTERNAL_STATE') {
+              exact(action.detail, ['stateSkillKey', 'stateKey', 'operation', 'value'], `${actionPath}.detail`);
+              const definition = lookupState(action.detail.stateKey, action.detail.stateSkillKey, actionPath);
+              if (event !== 'BASIC_ATTACK_HIT' || context !== 'self' || action.targetContext !== 'EVENT_SOURCE'
+                || action.detail.operation !== 'REDUCE_RECOVERY' || definition.stateType !== 'AMMO' || definition.scope !== 'SKILL') {
+                fail(actionPath, '回充减时仅允许本技能真实普攻命中对自身弹药操作');
+              }
+              const expression = value(action.detail.value, `${actionPath}.detail.value`);
+              const folded = tryFoldConstant(expression);
+              if (folded !== null && (!Number.isFinite(folded) || folded < 0)) fail(actionPath, '回充减时必须为有限非负毫秒');
+              types.set('state_scope/provider', 'state_scope');
+              output.push({ operation: 'state_duration_change', target: 'self', ref: stateKey(definition),
+                valuePolicy: 'subtract', amount: expression, types: ['state_scope/provider'] });
             } else if (action.actionType === 'START_PROCESS') {
               exact(action.detail, ['processKey'], `${actionPath}.detail`);
               if (context !== 'target' && event !== 'SOURCE_INITIALIZED') fail(actionPath, '静态被动过程必须保持同一真实对手目标');

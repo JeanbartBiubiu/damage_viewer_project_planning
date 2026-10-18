@@ -13,6 +13,8 @@ import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosu
 import { compileSimulationDamageFormula, validateConfiguration } from './simulationTriggeredEquipment';
 import { calculationConfiguration, changedAttributes, simulationCriticalBinding } from './simulationCalculationRules';
 import { sceneAttributeParameterInputs } from './sceneAttributeSnapshotInput';
+import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
+  type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
 export type SimulationCastCostRef = CastCostRef & { skillKey: string };
 export function simulationCastCostCandidates(snapshot: SimulationSnapshot): SimulationCastCostRef[] {
@@ -66,7 +68,9 @@ export function simulationAutomaticCastCosts(snapshot: SimulationSnapshot): Simu
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 
-export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = [], basicAttackContext?: ProcessBasicAttackContext) {
+export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = [], basicAttackContext?: ProcessBasicAttackContext,
+  sceneInputs: readonly SceneInitialParameterInput[] = []) {
+  const normalized = normalizeSceneInitialParameterInputs(snapshot, sceneInputs);
   const plans = snapshot.selection.plannedSkills;
   if (!plans.length || plans.length > 16 || new Set(plans.map(plan => simulationSkillSourceIdentity(plan.origin, plan.skillKey))).size !== plans.length) {
     fail('selection.plannedSkills', '需要1～16份不同真实来源，每个来源只允许一个等级');
@@ -74,7 +78,7 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
   if (ignoredCosts.some(cost => !plans.some(plan => plan.skillKey === cost.skillKey))) fail('ignoredCastCosts', '费用引用必须属于本次计划技能');
   const assemblies = [...plans].sort((left, right) => simulationSkillSourceIdentity(left.origin, left.skillKey)
     .localeCompare(simulationSkillSourceIdentity(right.origin, right.skillKey), 'en')).map(plan =>
-    assembleActiveSkill(snapshot, plan, ignoredCosts.filter(cost => cost.skillKey === plan.skillKey), basicAttackContext));
+    assembleActiveSkill(snapshot, plan, ignoredCosts.filter(cost => cost.skillKey === plan.skillKey), basicAttackContext, normalized));
   const providers = new Map<string, ProviderDefinition>();
   const formulas = new Map<string, NamedFormula>();
   const types = new TypeCatalogEntries();
@@ -128,7 +132,8 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
     ignoredCastCosts: structuredClone([...ignoredCosts]), changedAttributes: changed };
 }
 
-function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlannedSkill, ignoredCosts: readonly SimulationCastCostRef[], basicAttackContext?: ProcessBasicAttackContext) {
+function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlannedSkill, ignoredCosts: readonly SimulationCastCostRef[], basicAttackContext?: ProcessBasicAttackContext,
+  sceneInputs: readonly SceneInitialParameterInput[] = []) {
   const root = `skills.${plan.skillKey}`;
   const complete = snapshot.skillConfigurations.find(row => row.skill.skillKey === plan.skillKey);
   if (!complete) fail(root, '缺少计划技能的完整作者配置');
@@ -174,7 +179,9 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     characterLevel: snapshot.selection.sourceLevel, process, rules: processRules, effects: configuration.effects,
     parameters: configuration.parameters, formulas: configuration.formulas, owner: 'source',
     internalStates: configuration.internalStates, modifierZones: snapshot.catalogs.modifierZones, damageTypes: snapshot.catalogs.damageTypes.map(row => row.type), providerDefinitionRef: definitionRef,
-    basicAttackContext, sceneAttributeInputs,
+    basicAttackContext, sceneAttributeInputs, stateInitialValues: sceneInitialValuesForSource(sceneInitialParameterRequirements(snapshot), sceneInputs,
+      'source', snapshot.source.skillSources.find(source => simulationSkillSourceIdentity(source.origin, source.skillKey)
+        === simulationSkillSourceIdentity(plan.origin, plan.skillKey))!),
     hitContext: { statuses: snapshot.catalogs.statuses, skillCategoryKeys: configuration.skill.skillCategoryKeys,
       vampRules: snapshot.catalogs.vampRules.rules, identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
       criticalBinding: (forced, path) => simulationCriticalBinding(snapshot, forced, path) },
@@ -233,6 +240,17 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     }
   }
   for (const [groupIndex, group] of provider.processes[0]!.momentOperations.entries()) for (const [operationIndex, operation] of group.operations.entries()) {
+    if (operation.operation === 'state_change') {
+      const writes = [...process.stateOperations].filter(row => row.moment.momentType === group.moment.momentType
+        && row.moment.stepKey === group.moment.stepKey && (row.moment.failureReason ?? null) === group.moment.failureReason).sort((left, right) => left.sortOrder - right.sortOrder);
+      const row = writes[group.operations.slice(0, operationIndex).filter(previous => previous.operation === 'state_change').length];
+      if (!row || row.stateSkillKey !== plan.skillKey || row.stateKey !== operation.ref) fail(`${root}.processes.${process.processKey}`, '付款帧状态操作与作者顺序不一致');
+      const authorPath = `${root}.processes.${process.processKey}.stateOperations.${row.operationKey}`;
+      const compiledPath = `sharedProviders[${definitionRef}].processes[0].momentOperations[${groupIndex}].operations[${operationIndex}]`;
+      coverage.push({ authorPath, compiledPath });
+      if (row.value?.kind === 'FORMULA') coverage.push({ authorPath: `${root}.formulas.${row.value.formulaKey}.expression`, compiledPath: `${compiledPath}.amount`,
+        note: '仅真实过程开始的自身整数计数设置，原作者公式保存在完整快照，帧状态读取有界展开为既有运算' });
+    }
     if (operation.abilityRef) operation.abilityRef = operation.abilityRef.replace('self.provider[@mount]', `self.provider[${providerRef}]`);
     if (operation.operation === 'resource_change') fail(`${root}.processes.${process.processKey}`, '未明确声明为施法成本的资源改变仍是必要结果，6A不支持时严格拒绝');
     if (operation.operation === 'cooldown_change' && operation.ref) {
@@ -283,7 +301,7 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     const stepExecution = ['CHARGE', 'RECAST', 'MULTI_HIT', 'CHANNEL', 'EMPOWERED_BASIC_ATTACK'].includes(terminal.stepType);
     const hit = adapted.empoweredPayload?.hit ?? adaptHitProgram({ gameId: snapshot.gameId, skillKey: plan.skillKey, skillLevel: plan.skillLevel,
       characterLevel: snapshot.selection.sourceLevel, rules: hitRules, effects: configuration.effects,
-      parameters: configuration.parameters, formulas: configuration.formulas, statuses: snapshot.catalogs.statuses,
+      parameters: configuration.parameters, formulas: configuration.formulas, internalStates: configuration.internalStates, statuses: snapshot.catalogs.statuses,
       modifierZones: snapshot.catalogs.modifierZones, skillCategoryKeys: configuration.skill.skillCategoryKeys,
       vampRules: snapshot.catalogs.vampRules.rules, identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
       criticalBinding: (forced, path) => simulationCriticalBinding(snapshot, forced, path),
@@ -322,6 +340,11 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     }
   }
   providers.unshift(provider);
+  for (const state of configuration.internalStates) {
+    const compiledPath = `sharedProviders[${definitionRef}].initialStateSchema.${state.stateKey}`;
+    if (provider.initialStateSchema?.[state.stateKey] === undefined) fail(`${root}.internalStates.${state.stateKey}`, '主动状态没有实际父供值器字段');
+    coverage.push({ authorPath: `${root}.internalStates.${state.stateKey}`, compiledPath });
+  }
   coverage.push({ authorPath: `${root}.processes.${process.processKey}`, compiledPath: `sharedProviders[${definitionRef}].processes[0]` });
   if (process.cooldown) coverage.push({ authorPath: `${root}.processes.${process.processKey}.cooldown.durationValue`,
     compiledPath: `sharedProviders[${definitionRef}].processes[0].cooldown`,

@@ -2,14 +2,22 @@
 // 固定值不表示所有运行位置都已支持；位置准入与作者目录保持独立。
 
 // 触发动作
-export const SKILL_TRIGGER_ACTION_TYPES = ["EXECUTE_EFFECT","START_PROCESS","FAIL_PROCESS","ADVANCE_PROCESS"] as const;
+export const SKILL_TRIGGER_ACTION_TYPES = ["EXECUTE_EFFECT","START_PROCESS","FAIL_PROCESS","ADVANCE_PROCESS","MODIFY_INTERNAL_STATE"] as const;
 export type SkillTriggerActionType = (typeof SKILL_TRIGGER_ACTION_TYPES)[number];
 export const SKILL_TRIGGER_ACTION_TYPE_LABELS = {
   EXECUTE_EFFECT: "执行效果",
   START_PROCESS: "启动过程",
   FAIL_PROCESS: "令过程失败",
   ADVANCE_PROCESS: "推进当前过程",
+  MODIFY_INTERNAL_STATE: "修改内部状态",
 } as const satisfies Record<SkillTriggerActionType, string>;
+
+// 内部状态修改操作
+export const SKILL_TRIGGER_INTERNAL_STATE_OPERATIONS = ["REDUCE_RECOVERY"] as const;
+export type SkillTriggerInternalStateOperation = (typeof SKILL_TRIGGER_INTERNAL_STATE_OPERATIONS)[number];
+export const SKILL_TRIGGER_INTERNAL_STATE_OPERATION_LABELS = {
+  REDUCE_RECOVERY: "减少下一次回充余时",
+} as const satisfies Record<SkillTriggerInternalStateOperation, string>;
 
 // 施放阶段
 export const SKILL_TRIGGER_CAST_PHASES = ["INITIAL","RECAST","CHARGE_RELEASE"] as const;

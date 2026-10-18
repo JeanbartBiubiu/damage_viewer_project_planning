@@ -1122,6 +1122,10 @@ export function SkillTriggerRuleEditorModal({
   };
 
   const collectActionNumericValues = async (action: SkillTriggerActionDraft): Promise<NumericValue[] | null> => {
+    if (action.actionType === 'MODIFY_INTERNAL_STATE') {
+      if (action.detail.stateKey) await ensureInternalState(action.detail.stateKey);
+      return [action.detail.value];
+    }
     if (action.actionType === 'EXECUTE_EFFECT') {
       const effect = await ensureEffect(action.detail.effectKey);
       return effect ? collectExecuteEffectValues(effect) : null;
@@ -2007,6 +2011,7 @@ export function SkillTriggerRuleEditorModal({
         internalStates={[...stateByKey.values()]}
         statuses={statuses}
         reachableParameters={reachableParameters}
+        parameters={parameters}
         fieldErrors={nestedErrors}
         disabled={saving}
         onTargetChange={(next) => refreshActionReferences(next)}

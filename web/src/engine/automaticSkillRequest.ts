@@ -8,6 +8,7 @@ import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
 import { empoweredAttackBinding, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 import { tryFoldConstant } from './numericAdapter';
+import { drivenActiveAmmo } from './simulationAmmoMechanics';
 
 export type AutomaticSkillInput = Pick<SimulationPlannedSkill, 'origin' | 'skillKey' | 'skillLevel'> & {
   ruleKey: string; sortOrder: number; targetSide: 'source' | 'target'; hitPreset: 'TARGET_HIT' | 'MISS' | null;
@@ -142,6 +143,7 @@ export async function automaticSkillRequest(prepared: ReturnType<typeof assemble
     recordBudget: { maxAttackRecords: background ? 1000 : 0, maxDamageRecords: 2000, maxMechanicRecords: background ? 2000 : 0,
       maxAutomaticSkillRecords: inputs.maxAutomaticSkillRecords, maxHealingRecords: inputs.maxHealingRecords }
   };
+  if (!background && inputs.outputMode === 'detailed' && drivenActiveAmmo(compile, runRequest.driverPlan).length) runRequest.recordBudget!.maxMechanicRecords = 2000;
   return { runRequest, attackSpeedAdmission: background?.attackSpeedAdmission ?? null,
     runInputHash: await simulationHash({ snapshotDigest: prepared.snapshotDigest, ignoredCastCosts: prepared.ignoredCastCosts,
       attackSpeedAdmission: background?.attackSpeedAdmission ?? null, runRequest: { ...runRequest, sessionId: '' } }) };

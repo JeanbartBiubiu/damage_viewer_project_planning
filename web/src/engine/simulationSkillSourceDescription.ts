@@ -23,6 +23,7 @@ export type TriggeredSkillSourceDescription = {
     path: string;
     configuration: SkillConfiguration;
     allowedRootKeys?: readonly string[];
+    sceneInitialValues?: Readonly<Record<string, number>>;
     permanentModifier?: (result: SkillConfiguration['effects'][number]['results'][number], path: string, onNumericConsumed?: PermanentNumericConsumer) =>
       NonNullable<ProviderDefinition['modifiers']>[number];
   }>;
@@ -125,6 +126,8 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
         && configuration.processes.some(process => process.processKey === event.detail.processKey));
     if (OWN_ATTACK_EVENTS.has(event.eventType)) {
       if (side !== 'source') return false;
+      if (rule.actions.every(action => action.actionType === 'MODIFY_INTERNAL_STATE')
+        && !snapshot.selection.plannedSkills.some(plan => plan.skillKey === configuration.skill.skillKey)) return false;
       return true;
     }
     if (event.eventType === 'BASIC_ATTACK_RECEIVED') return side === 'target' && snapshot.selection.basicAttackSkillKey !== null;

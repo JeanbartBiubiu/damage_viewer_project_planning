@@ -631,11 +631,23 @@ export type SkillTriggerAdvanceProcessAction = {
   resultModifiers: [];
 };
 
+export type SkillTriggerModifyInternalStateAction = {
+  actionKey: string;
+  name: string;
+  actionType: 'MODIFY_INTERNAL_STATE';
+  sortOrder: number;
+  targetContext: 'EVENT_SOURCE';
+  detail: { stateSkillKey: string; stateKey: string; operation: 'REDUCE_RECOVERY'; value: NumericValue };
+  runtimeInputBindings: [];
+  resultModifiers: [];
+};
+
 export type SkillTriggerAction =
   | SkillTriggerExecuteEffectAction
   | SkillTriggerStartProcessAction
   | SkillTriggerFailProcessAction
-  | SkillTriggerAdvanceProcessAction;
+  | SkillTriggerAdvanceProcessAction
+  | SkillTriggerModifyInternalStateAction;
 
 export type SkillTriggerPerTargetCooldown = {
   durationValue: NumericValue;

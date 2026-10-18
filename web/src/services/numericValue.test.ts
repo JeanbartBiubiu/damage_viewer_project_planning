@@ -61,7 +61,23 @@ describe('34处数值响应统一契约', () => {
     process.steps[0]!.detail.firstExecution = 'IMMEDIATE';
     expect(() => assertNumericUses(process, 'process', fail)).toThrow('firstExecutionOffsetValue');
   });
-  it('覆盖全部使用位置', () => expect(slots).toHaveLength(34));
+  it('覆盖既有34处使用位置', () => expect(slots).toHaveLength(34));
+  it('新增可选初充余时与必需减时金额严格解析，缺省余时不补零', () => {
+    const ammo = { stateType: 'AMMO', detail: { initialValue: v(), maxValue: v(), recoveryIntervalValue: v() } };
+    expect(() => assertNumericUses(ammo, 'state', fail)).not.toThrow();
+    const trigger = { eventSource: { eventType: 'BASIC_ATTACK_HIT', detail: {} }, conditionGroups: [], perTargetCooldown: null,
+      maxTriggersPerProcess: null, actions: [{ actionType: 'MODIFY_INTERNAL_STATE', detail: { value: v() } }] };
+    for (const value of [fixedValue(0), parameterValue('amount'), formulaValue('amount')]) {
+      expect(() => assertNumericUses({ ...ammo, detail: { ...ammo.detail, initialRemainingValue: value } }, 'state', fail)).not.toThrow();
+      trigger.actions[0]!.detail.value = value;
+      expect(() => assertNumericUses(trigger, 'trigger', fail)).not.toThrow();
+    }
+    for (const value of [null, 'legacy', {}, { kind: 'FIXED', value: 0, formulaKey: 'extra' }]) {
+      expect(() => assertNumericUses({ ...ammo, detail: { ...ammo.detail, initialRemainingValue: value } }, 'state', fail)).toThrow(/initialRemainingValue/);
+      expect(() => assertNumericUses({ ...trigger, actions: [{ actionType: 'MODIFY_INTERNAL_STATE', detail: { value } }] }, 'trigger', fail)).toThrow(/value/);
+    }
+    expect(() => assertNumericUses({ ...trigger, actions: [{ actionType: 'MODIFY_INTERNAL_STATE', detail: {} }] }, 'trigger', fail)).toThrow(/value/);
+  });
   it.each(slots)('$label 接收三种形状并拒绝旧字符串、混合与缺失字段', ({ root, domain, path }) => {
     const copy = structuredClone(root);
     let owner = copy;
