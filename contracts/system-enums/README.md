@@ -1,6 +1,6 @@
 # 系统固定枚举
 
-`authoring.json` 保存35组、200个固定成员及中文标签，是对应Web定义的唯一来源，包含触发、过程、修正区域计算方式及自动技能运行值。作者选择已有选项，原生返回实际运行值；目录标识、公式、数值、对象关系仍由作者填写。
+`authoring.json` 保存35组、202个固定成员及中文标签，是对应Web定义的唯一来源，包含触发、过程、修正区域计算方式及自动技能运行值。作者选择已有选项，原生返回实际运行值；目录标识、公式、数值、对象关系仍由作者填写。
 
 生成文件为 `web/src/types/skillSystemEnums.generated.ts`。后端33个Java枚举、原生9个明确事件常量及15个自动调度常量使用只读成员核对；自动运行枚举不声明后端Java绑定。完整作者目录边界见[系统固定枚举与作者目录边界清单](../../文档记录/详细设计/项目/系统固定枚举与作者目录边界清单.md)，自动运行语义见[主动技能自动调度与连招约束详细设计](../../文档记录/详细设计/项目/主动技能自动调度与连招约束详细设计.md)。
 
@@ -43,7 +43,7 @@ node tools/system-enums/generate.mjs --target web --root C:/project/damage_web_d
 | 前序结果读值 | SkillTriggerPriorResultOutputKind | `CONFIGURED_VALUE`（基础配置值）、`RAW_DAMAGE`（原始伤害）、`POST_DEFENSE_DAMAGE`（防御后伤害）、`SHIELD_ABSORBED`（护盾吸收）、`ACTUAL_HP_LOSS`（实际扣血）、`ACTUAL_HEALING`（实际治疗）、`BLOCKED`（是否被法术护盾阻挡（0/1））、`IMMUNE`（是否被伤害免疫（0/1））、`STATUS_APPLIED`（是否成功施加状态（0/1））、`KILLED`（是否形成击杀（0/1）） |
 | 过程失败原因 | SkillProcessFailureReason | `CONTROLLED`（受到控制）、`SOURCE_DIED`（来源对象死亡）、`TARGET_UNTARGETABLE`（当前目标不可选取）、`ACTIVE_CANCELLED`（主动取消）、`EVENT_ABORTED`（当前事件终止） |
 | 近期受伤读值 | SkillTriggerRecentDamageOutputKind | `POST_DEFENSE_DAMAGE`（防御后伤害）、`ACTUAL_HP_LOSS`（实际扣血） |
-| 运行输入来源 | SkillTriggerRuntimeInputSourceType | `INTERNAL_STATE`（技能内部状态）、`COMBAT_STATUS`（战斗状态）、`EVENT_VALUE`（当前事件值）、`SOURCE_CAST_RESOURCE_COST`（来源施放资源消耗）、`PRIOR_ACTION_RESULT`（更早动作结果）、`COMBAT_ELAPSED_TIME`（本次入战后时长）、`RECENT_DAMAGE_SUM`（近期受伤累计） |
+| 运行输入来源 | SkillTriggerRuntimeInputSourceType | `INTERNAL_STATE`（技能内部状态）、`COMBAT_STATUS`（战斗状态）、`EVENT_VALUE`（当前事件值）、`SOURCE_CAST_RESOURCE_COST`（来源施放资源消耗）、`SCENE_ATTRIBUTE_SNAPSHOT`（场景属性快照）、`SCENE_INITIAL_PARAMETER`（场景显式初值）、`PRIOR_ACTION_RESULT`（更早动作结果）、`COMBAT_ELAPSED_TIME`（本次入战后时长）、`RECENT_DAMAGE_SUM`（近期受伤累计） |
 | 战斗状态变化 | SkillTriggerStatusChangeKind | `APPLY`（施加）、`REMOVE`（移除） |
 | 战斗状态检查 | SkillTriggerStatusCheckKind | `PRESENT`（存在）、`ABSENT`（不存在）、`STACKS_COMPARE`（层数比较）、`REMAINING_MS_COMPARE`（剩余时间比较） |
 | 触发主体 | SkillTriggerSubject | `SOURCE`（来源对象）、`CURRENT_TARGET`（当前目标）、`EVENT_SOURCE`（事件来源对象） |

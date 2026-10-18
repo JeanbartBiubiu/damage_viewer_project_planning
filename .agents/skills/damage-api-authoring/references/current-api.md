@@ -2,6 +2,8 @@
 
 核对基准日期：2026-10-17。下列路径用于定位真源，不替代当前请求类型；工作树位置以根规则为准。
 
+场景显式初值声明于2026-10-18追加，见文末当前约束；写入前仍核对实际服务已部署该类型。
+
 | 对象 | 前端契约真源，相对 `C:/project/damage_web_dev/web/` | 后端真源，相对 `C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/` |
 | --- | --- | --- |
 | 技能完整配置 | `src/services/skillConfigurationClient.ts`、`src/types/skillConfiguration.ts`；各组成的类型与表单转换 | `controller/adminapi/skill/SkillConfigurationAdminController.java`、`model/skillconfiguration/SkillConfigurationSaveRequest.java`、`service/skillconfiguration/SkillConfigurationService.java` |
@@ -23,6 +25,8 @@
 
 新建技能的同路由`POST`要求完整主体且不允许基线摘要，不能将更新请求改方法后直接复用。配套脚本不执行技能新建、主体修改或任何删除。角色、属性、关系及构筑各有自己的保护与返回形状，先读对应客户端与后端，不能套用技能的摘要协议。
 
+过程的冷却起点、效果挂接与状态操作时点中，后端`SkillProcessMoment`会省略空`failureReason`，前端解析为`null`；保护脚本仅在这三处把缺失与空失败原因视为相同。明确失败原因及其它嵌套业务字段仍完整比较，不递归忽略空值。
+
 以下入口均以`/api/admin/games/{gameId}`为前缀，当前请求不接受`baseDigest`。更新前比较完整基线，更新后独立读取；这些入口不能使用触发规则脚本。
 
 | 对象 | 当前读取与写入 | 请求边界 |
@@ -35,8 +39,22 @@
 
 构筑完整读取为`GET /build-systems/{systemKey}/definition`；系统、分组、选项和技能授予分别沿当前控制器写入，完整读取不是整套保存入口。本技能不自动删除任何对象或关系；数据删除继续按任务授权与引用保护处理。
 
+### 场景属性快照绑定
+
+运行时输入新增 `SCENE_ATTRIBUTE_SNAPSHOT`（场景属性快照），字段与消费约束以[当前共享契约](../../../../outputs/priority-adaptation-2026-10-18/有限引导与场景属性快照现行契约.md)为准，写入类型由后端 `model/skilltrigger/SkillTriggerSceneAttributeSnapshotBindingDetail.java` 定义。它仍是动作的 `runtimeInputBindings`，不新增聚合顶层字段或保存接口，也不写角色或装备属性。
+
+录入前核对参数确为本技能无默认值的计算时输入、真实首次主动入口启动的过程确实消费它、属性引用存在且启用。来源须显式选择；仅装备来源不要求角色等级基值存在，合法0不能当作缺失。管理保存只证明作者绑定正确，实际等级和装备取值、整数约束以及圈数等结果仍须在正式Wasm验证。不要在录入时把本次采集数值改写成固定参数，也不通过填0绕过缺值。
+
+现有聚合脚本保留该嵌套结构并提交服务校验，保护摘要和独立回读步骤不变。准备保存前需确认8080服务已经运行含新增来源的构建；旧服务拒绝新枚举时先完成已授权服务集成，不换成其它来源蒙混保存。
+
 认证沿现有管理接口；不得修改鉴权或借用他人的令牌。当前本地开发文档允许任意非空测试值，仅在确认当前服务仍为该模式时使用；不得把这个约定带到其他环境。
 
 遇到字段、枚举、数组结构或协议变化时，依次核对控制器与请求类型、聚合准备和事务校验、前端保存转换、完整回读形状，以及运行适配中的实际消费者。更新本说明和脚本的输入校验，并至少复查正常保存、摘要漂移及结果不明回读三个场景。旧冻结请求是来源与历史证据，不能无条件直接重放。
 
 项目范围继续以`数据参考/全量录入-2026-09/阶段进度.json`为唯一账本；本次五批为49名英雄。计算可用目录中的证明资源只接收真实验证产物，数据补录脚本不得手工提升可用状态。
+
+### 场景显式初值绑定
+
+`SCENE_INITIAL_PARAMETER`（场景显式初值）的完整明细为 `{minValue, maxValue}`，上下界必须是有限数且有序；整数参数的边界必须为安全整数，通用负范围可以合法。它只在本技能 `SOURCE_INITIALIZED / EXECUTE_EFFECT / EVENT_SOURCE` 动作绑定无默认的数值 `RUNTIME_INPUT` 参数，且参数必须被本动作真实结果数值消费。生命周期、条件、过程和主动兄弟不得借用该授权。实际本场值不写进声明、参数固定值、角色属性或数据库；界面另行明确填写，缺值不默认为0。
+
+请求类型为后端 `SkillTriggerSceneInitialParameterBindingDetail.java`。同一初值可被两个实际初始化动作分别绑定、派生不同属性，边界须一致，来源和双方位置仍独立。保存、事务最终态及引用保护使用现有聚合接口和脚本，未知明细（含空的 `value / defaultValue`）也拒绝。运行与证据边界见[通用实施方案](../../../../outputs/priority-adaptation-2026-10-18/场景显式初值参数实施方案.md)。

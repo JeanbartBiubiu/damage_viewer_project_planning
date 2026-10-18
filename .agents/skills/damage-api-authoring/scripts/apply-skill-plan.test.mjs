@@ -15,6 +15,30 @@ const TYPES = { PARAMETER: ['parameters', 'parameterKey'], FORMULA: ['formulas',
   EFFECT: ['effects', 'effectKey'], PROCESS: ['processes', 'processKey'],
   INTERNAL_STATE: ['internalStates', 'stateKey'], TRIGGER_RULE: ['triggerRules', 'ruleKey'] };
 
+test('过程时点failureReason空值与服务端省略等价，其它业务空值与明确失败原因仍严格比较', () => {
+  const expected = configuration();
+  expected.processes[0].cooldown = { durationValue: { kind: 'FIXED', value: 1000 },
+    startMoment: { momentType: 'PROCESS_COMPLETE', stepKey: null, failureReason: null } };
+  expected.processes[0].effectBindings = [{ bindingKey: 'hit', effectKey: 'hit', sortOrder: 0,
+    moment: { momentType: 'STEP_EXECUTION', stepKey: 'actual', failureReason: null } }];
+  expected.processes[0].stateOperations = [{ operationKey: 'count', stateSkillKey: 'sample_q', stateKey: 'stack',
+    moment: { momentType: 'STEP_EXECUTION', stepKey: 'actual', failureReason: null } }];
+  const wire = copy(expected);
+  delete wire.processes[0].cooldown.startMoment.failureReason;
+  delete wire.processes[0].effectBindings[0].moment.failureReason;
+  delete wire.processes[0].stateOperations[0].moment.failureReason;
+  assert.equal(sameConfiguration(expected, wire), true);
+  const invalid = copy(wire);
+  invalid.processes[0].cooldown.startMoment.failureReason = 'ACTIVE_CANCELLED';
+  assert.equal(sameConfiguration(expected, invalid), false);
+  const missingBusiness = copy(wire);
+  delete missingBusiness.processes[0].cooldown.startMoment.stepKey;
+  assert.equal(sameConfiguration(expected, missingBusiness), false);
+  const nestedNull = copy(wire);
+  nestedNull.effects[0].results[0].detail.failureReason = null;
+  assert.equal(sameConfiguration(expected, nestedNull), false);
+});
+
 function configuration(skillKey = 'sample_q') {
   const common = { gameId: 'demo', skillKey, name: '独立规则样例', description: null, sortOrder: 0,
     createdAt: '2026-10-17T00:00:00Z', updatedAt: '2026-10-17T00:00:00Z' };
