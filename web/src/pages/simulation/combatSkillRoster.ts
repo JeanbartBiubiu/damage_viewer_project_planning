@@ -34,16 +34,24 @@ export function describeCombatSkill(configuration: SkillConfiguration, basicAtta
     const closure = selectSimulationSkillSourceClosure(configuration, roots).configuration;
     const starts = initialRules.flatMap(rule => rule.actions.filter(action => action.actionType === 'START_PROCESS'));
     const process = starts.length === 1 ? closure.processes.find(row => row.processKey === starts[0]!.detail.processKey) : undefined;
+    const empowered = process?.steps.length === 1 && process.steps[0]?.stepType === 'EMPOWERED_BASIC_ATTACK'
+      && process.steps[0].detail.consumeMoment === 'ATTACK_HIT' && process.steps[0].occupiesAction === false;
+    if (empowered) { description.targetSide = 'source'; description.hitPreset = null; }
     if (starts.length !== 1 || !process || closure.processes.length !== 1 || process.activationType !== 'ACTIVE') {
       issues.push('首次施放需要唯一的真实主动过程');
-    } else if (process.steps.length !== 1 || process.steps.some(step => !['IMMEDIATE', 'DELAY'].includes(step.stepType))) {
-      issues.push('自动循环仅支持单步骤即时或有限延时，当前过程请使用固定时刻计划');
+    } else if (process.steps.length !== 1 || process.steps.some(step => !['IMMEDIATE', 'DELAY', 'CHANNEL'].includes(step.stepType)) && !empowered) {
+      issues.push('自动循环支持单步骤即时、有限延时或有限引导，当前过程请使用固定时刻计划');
     } else if (process.steps.some(step => typeof step.occupiesAction !== 'boolean')) {
       issues.push('作者尚未明确步骤是否占用行动');
     }
     if (starts.some(action => action.targetContext !== 'CURRENT_TARGET')) issues.push('首次过程目标上下文不明确，请在高级设置核对');
     const results = closure.effects.flatMap(effect => effect.results);
-    if (ownHitRules.length) {
+    if (empowered) {
+      if (ownHitRules.length || !hasSelfTargetCondition(initialRules)
+        || !process?.effectBindings.some(binding => binding.moment.momentType === 'STEP_EXECUTION' && binding.moment.stepKey === process.steps[0]!.stepKey)) {
+        issues.push('强化下一次普通攻击需要明确自身激活及真实命中步骤挂接，不预设下一刀命中');
+      }
+    } else if (ownHitRules.length) {
       if (hasSelfTargetCondition(initialRules) || !results.some(result => result.target === 'TARGET')
         || ownHitRules.some(rule => rule.actions.some(action => action.targetContext !== 'CURRENT_TARGET'))) {
         issues.push('命中入口与自身目标或结果目标不明确，请在高级设置核对');

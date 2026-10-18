@@ -30,6 +30,10 @@ import { permanentModifier, validatePermanentEffect } from './simulationPermanen
 import { compileSimulationStatusCondition } from './simulationPrimaryAttack';
 import { compileLinkedShieldEffect } from './shieldEffectAdapter';
 import { compileHitIdentityCondition, compilePassiveHitControl } from './hitAdapter';
+import { lowerBasicAttackContributionValue, lowerBasicAttackContributionValueRule,
+  type BasicAttackContributionFormulaPurpose, type LoweredBasicAttackContributionFormula } from './basicAttackContributionFormula';
+import { basicAttackContributionKey, isBasicAttackContributionRule,
+  type BasicAttackContribution } from './basicAttackContributionContract';
 
 
 type Side = 'source' | 'target';
@@ -46,6 +50,7 @@ export type TriggeredEquipmentAssembly = {
   changedAttributes: ReturnType<typeof changedAttributes>;
   compiledSources: Array<{ side: Side; providerRef: string; definitionRef: string; skillKey: string }>;
   passiveHitContributions?: Array<{ sourceSkillKey: string; authorSkillKey: string; candidate: SkillHitCandidate }>;
+  basicAttackContributions?: BasicAttackContribution[];
 };
 
 const METADATA = ['name', 'description', 'sortOrder', 'createdAt', 'updatedAt'];
@@ -283,6 +288,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
   const changed = changedAttributes();
   const compiledSources: TriggeredEquipmentAssembly['compiledSources'] = [];
   const passiveHitContributions: NonNullable<TriggeredEquipmentAssembly['passiveHitContributions']> = [];
+  const basicAttackContributions: BasicAttackContribution[] = [];
   const cover = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const addFormula = (formula: NamedFormula, path: string) => {
     const existing = formulas.get(formula.key);
@@ -347,6 +353,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const usedProcesses = new Set<string>();
         const usedStates = new Set<string>();
         const usedRules = new Set<string>();
+        let contributesBasicAttack = false;
+        let contributionLowerings: BasicAttackContribution['lowerings'] = [];
         const abilities: AbilityDefinition[] = [];
         const stackEffects = new Map<string, { key: string; amount: number; policy: string }>();
         const periodicEffects = new Map<string, { definition: ProviderDefinition; dynamic: boolean }>();
@@ -364,9 +372,26 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             if (formula) skillFormulaParameterKeys(formula.expression, false).forEach(key => usedParameters.add(key));
           }
         };
-        const value = (authored: NumericValue, valuePath: string) => {
+        const lowerContribution = (lowered: LoweredBasicAttackContributionFormula, field: string) => {
+          contributionLowerings.push({ field, value: lowered });
+          for (const reader of ['source', 'target'] as const) for (const key of lowered.requiredAttributes[reader]) {
+            required[reader === 'source' ? side : opponent].add(key);
+          }
+          if (lowered.source.value.kind === 'FORMULA') {
+            const key = lowered.source.value.formulaKey;
+            const formula = configuration.formulas.find(row => row.formulaKey === key)!;
+            registerCommonFormula(formula, lowered.source.authorPath, numeric, fail);
+          }
+          return lowered.expression;
+        };
+        const contributionAuthor = () => ({ gameId: snapshot.gameId, skillKey, skillLevel,
+          characterLevel: snapshot.selection[`${side}Level`], parameters: configuration.parameters,
+          formulas: configuration.formulas, attributes: snapshot.catalogs.attributes });
+        const value = (authored: NumericValue, valuePath: string, purpose: BasicAttackContributionFormulaPurpose = 'amount') => {
           validateNumeric(authored, valuePath);
           noteNumeric(authored);
+          if (contributesBasicAttack) return lowerContribution(lowerBasicAttackContributionValue(authored,
+            contributionAuthor(), valuePath, purpose), purpose === 'criticalMultiplier' ? 'critMultiplier' : 'amount');
           return compileNumericValue(authored, valuePath, numeric, fail);
         };
         const constant = (authored: NumericValue, valuePath: string, integer = false, minimum = 0) => {
@@ -378,6 +403,11 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const amount = (result: SkillEffectResult, resultPath: string) => {
           if (!result.valueRule) fail(`${resultPath}.valueRule`, '结果数值规则缺失');
           validateValueRule(result.valueRule, `${resultPath}.valueRule`);
+          if (contributesBasicAttack) {
+            noteNumeric(result.valueRule.value);
+            return lowerContribution(lowerBasicAttackContributionValueRule(result.valueRule, contributionAuthor(),
+              `${resultPath}.valueRule`, 'amount'), 'amount');
+          }
           return wrapValueRuleExpression(value(result.valueRule.value, `${resultPath}.valueRule.value`), result.valueRule);
         };
         const foldAmount = (result: SkillEffectResult, resultPath: string) => {
@@ -494,6 +524,15 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (!rule.actions.length) fail(rulePath, '触发规则缺少完整动作');
         };
         configuration.triggerRules.forEach(ruleShape);
+        if (side === 'source' && description.kind !== 'item') {
+          const componentRules = configuration.triggerRules.filter(rule => isBasicAttackContributionRule(rule, configuration));
+          if (componentRules.length) {
+            if (skills.length !== 1 || configuration.processes.length || configuration.internalStates.length
+              || componentRules.length !== configuration.triggerRules.length) fail(root,
+              '直接普攻组成只接完整无状态静态来源，不能遗漏其它事件、过程或必要尾规则');
+            contributesBasicAttack = true;
+          }
+        }
         const origin = (result: SkillEffectResult, authored: SkillEffect, abilityRef: string, compiledPaths: string[], dynamicDefinition?: string) => {
           const resultPath = `${root}.effects.${authored.effectKey}.results.${result.resultKey}`;
           const existing = operationOrigins.find(row => row.abilityRef === abilityRef && row.operationRef === resultPath && row.providerDefinitionRef === dynamicDefinition);
@@ -710,7 +749,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             if (!critical.multiplierValue) fail(resultPath, '暴击必须保留原作者倍率');
             operation.critEligible = true;
             Object.assign(operation, simulationCriticalBinding(snapshot, critical.mode === 'FORCED', `${resultPath}.detail.critical.mode`));
-            operation.critMultiplier = value(critical.multiplierValue, `${resultPath}.detail.critical.multiplierValue`);
+            operation.critMultiplier = value(critical.multiplierValue, `${resultPath}.detail.critical.multiplierValue`, 'criticalMultiplier');
           } else fail(resultPath, '未知暴击模式');
           if (result.detail.vampQualification !== 'RESOLVED') fail(`${resultPath}.detail.vampQualification`, '吸血资格尚未核定，整件装备拒绝');
           for (const [index, override] of array(result.detail.vampOverrides, `${resultPath}.detail.vampOverrides`).entries()) {
@@ -731,10 +770,19 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (rules.vampRules && JSON.stringify(rules.vampRules) !== JSON.stringify(vamp.rules)) fail(resultPath, '游戏吸血规则冲突');
           rules.vampRules = vamp.rules;
           const names = new Map(vamp.formulas.map(formula => [formula.key, `${numeric.formulaNamespace}/${formula.key}`]));
-          Object.assign(operation, vamp.operation, { vampOverrides: vamp.operation.vampOverrides?.map(override => override.mode === 'OVERRIDE'
-            ? { ...override, efficiency: renameFormulaRefs(override.efficiency, names) } : override) });
-          Object.assign(numeric.params, vamp.params);
-          for (const formula of vamp.formulas) addFormula({ ...structuredClone(formula), key: names.get(formula.key)! }, resultPath);
+          Object.assign(operation, vamp.operation, { vampOverrides: vamp.operation.vampOverrides?.map((override, index) => {
+            if (override.mode !== 'OVERRIDE') return override;
+            if (!contributesBasicAttack) return { ...override, efficiency: renameFormulaRefs(override.efficiency, names) };
+            const authoredIndex = result.detail.vampOverrides.findIndex(row => row.vampType === override.vampType);
+            const authored = result.detail.vampOverrides[authoredIndex]!;
+            const efficiency = lowerBasicAttackContributionValue(authored.efficiencyValue!, contributionAuthor(),
+              `${resultPath}.detail.vampOverrides[${authoredIndex}].efficiencyValue`, 'vampEfficiency');
+            return { ...override, efficiency: lowerContribution(efficiency, `vampOverrides[${index}].efficiency`) };
+          }) });
+          if (!contributesBasicAttack) {
+            Object.assign(numeric.params, vamp.params);
+            for (const formula of vamp.formulas) addFormula({ ...structuredClone(formula), key: names.get(formula.key)! }, resultPath);
+          }
           for (const entry of vamp.typeEntries) {
             if (entry.domain === 'ability') {
               if (!entry.key.startsWith(SKILL_CATEGORY_TYPE_PREFIX)) fail(resultPath, '吸血作者分类类型需要明确的分类作用域');
@@ -902,6 +950,9 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (activeEffects.has(authored.effectKey)) fail(effectPath, '效果接线循环');
           activeEffects.add(authored.effectKey);
           try {
+            if (authored.lifecycle?.expiryMode === 'ALL_AT_ONCE' && authored.results.some(result => result.resultType === 'DAMAGE_MODIFIER'
+              || result.resultType === 'ATTRIBUTE_CHANGE' && snapshot.catalogs.modifierZones.some(zone => zone.modifierZoneKey === result.detail.modifierZoneKey
+                && zone.calculationMode === 'RATIO_COMPLEMENT_MULTIPLY'))) fail(effectPath, '新增有限减伤与补集属性目前仅接真实过程施加，不把自然触发编译成功当运行准入');
             if (authored.lifecycle?.periodicIntervalValue !== null && authored.lifecycle?.periodicIntervalValue !== undefined) {
               compilePeriodic(authored, output, outputRoot, event, actionPath);
             } else if (authored.lifecycle?.instanceScope === 'SOURCE' && authored.lifecycle.expiryMode === 'EXPLICIT_ONLY' && source.permanentModifier) {
@@ -1203,6 +1254,34 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
           if (event === 'PROCESS_MOMENT' || event === 'LIFECYCLE_MOMENT') continue;
           if (source.allowedRootKeys && !source.allowedRootKeys.includes(rule.ruleKey)) fail(rulePath, '必要闭包的事件尾规则尚未接入，不能编译自然根后忽略尾部');
+          if (contributesBasicAttack) {
+            for (const action of ordered(rule.actions, `${rulePath}.actions`)) {
+              const actionPath = `${rulePath}.actions.${action.actionKey}`;
+              actionShape(action, actionPath);
+              if (action.actionType !== 'EXECUTE_EFFECT') fail(actionPath, '普攻组成需要完整即时执行效果');
+              exact(action.detail, ['effectKey'], `${actionPath}.detail`);
+              const authored = effect(action.detail.effectKey, actionPath);
+              for (const result of ordered(authored.results, `${root}.effects.${authored.effectKey}.results`)) {
+                const resultPath = `${root}.effects.${authored.effectKey}.results.${result.resultKey}`;
+                resultShape(result, resultPath);
+                if (result.resultType !== 'DAMAGE') fail(resultPath, '普攻组成只接独立即时伤害');
+                contributionLowerings = [];
+                const operation = compileDamage(result, resultPath);
+                collectAttributes(operation, side, required);
+                basicAttackContributions.push({ authorSkillKey: skillKey, lowerings: contributionLowerings,
+                  candidate: { candidateKey: basicAttackContributionKey(providerRef, rule.ruleKey, action.actionKey, result.resultKey),
+                    effectOccurrenceKey: basicAttackContributionKey(providerRef, rule.ruleKey, action.actionKey),
+                    effectKey: authored.effectKey, resultKey: result.resultKey,
+                    semantic: { resultType: 'DAMAGE', target: 'TARGET', moment: 'INSTANT' }, spellShieldBlockScope: null,
+                    participationProviderRef: providerRef, participationCondition: constExpr(1), operations: [operation] } });
+              }
+              appliedEffects.add(authored.effectKey);
+              cover(actionPath, 'runtimeOptions.skillOrigins');
+            }
+            usedRules.add(rule.ruleKey);
+            cover(rulePath, 'runtimeOptions.skillOrigins');
+            continue;
+          }
           if (event === 'SOURCE_INITIALIZED' && rule.oncePerUse !== null) fail(rulePath, '初始化没有真实攻击使用身份，不能配置同次使用额度');
           const eventTypes: Record<string, string> = { BASIC_ATTACK_START: 'event/basic_attack_start', ATTACK_LINK_APPLIED: 'event/attack_link_applied',
             SKILL_USED: snapshot.selection.plannedSkills.length ? 'event/ability_started' : 'event/basic_attack_start',
@@ -1379,5 +1458,6 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
   }
   return { providers, mounts, types: [...types].map(([key, domain]) => ({ key, domain })), formulas: [...formulas.values()],
     rules, operationOrigins, coverage, required, selectedSkills, changedAttributes: changed, compiledSources,
-    ...(passiveHitContributions.length ? { passiveHitContributions } : {}) };
+    ...(passiveHitContributions.length ? { passiveHitContributions } : {}),
+    ...(basicAttackContributions.length ? { basicAttackContributions } : {}) };
 }

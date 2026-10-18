@@ -7,7 +7,7 @@ import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
-import { confirmSimulationConfiguration, isolateCharacterSourcesOnPage, readIsolatedSimulationSnapshot, simulationComparisonSelection, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
+import { expectSimulationConfigurationReady, isolateCharacterSourcesOnPage, readIsolatedSimulationSnapshot, simulationComparisonSelection, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
 
 test.beforeEach(async ({ page }) => {
   const wasm = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
@@ -180,7 +180,7 @@ async function preparePage(page: Page, snapshot = sampleWithDamage(), fillInputs
   await chooseSimulationEntity(page, '普攻技能', 'sample_basic_attack');
   await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
-  await confirmSimulationConfiguration(page);
+  await expectSimulationConfigurationReady(page);
   if (fillInputs) {
     await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
     await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();

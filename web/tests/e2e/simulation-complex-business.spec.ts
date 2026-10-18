@@ -13,7 +13,7 @@ import type { SimulationSnapshot, SimulationSkillPhase } from '../../src/types/s
 import { simulationSkillSourceIdentity } from '../../src/services/simulationSkillSourceIdentity';
 import { readMixedLiveSnapshot } from '../fixtures/simulationMixedLive';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
-import { confirmSimulationConfiguration } from '../fixtures/simulationSnapshotRequests';
+import { expectSimulationConfigurationReady } from '../fixtures/simulationSnapshotRequests';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 
 const api = process.env.SIMULATION_API_BASE || 'http://127.0.0.1:8080';
@@ -552,12 +552,7 @@ for (const skill of ['vi_q', 'missfortune_r'] as const) test(`${skill === 'vi_q'
   const pageSnapshot = await pageSnapshotResponse.json() as SimulationSnapshot;
   expect(pageSnapshot.selection.plannedSkills[0]!.skillLevel).toBe(1);
   expect(pageSnapshot.source.skillSources.find(source => source.skillKey === skill && source.origin.kind === 'CHARACTER')?.skillLevel).toBe(1);
-  await confirmSimulationConfiguration(page);
-  const costBoxes = page.getByRole('checkbox', { name: /^声明施法成本 / });
-  if (await costBoxes.count() && process.env.SIMULATION_BUSINESS_IGNORE_CAST_COSTS !== '1') throw new Error('真实页面成本排除未获明确批准');
-  for (const checkbox of await costBoxes.all()) {
-    if (!await checkbox.isChecked()) await checkbox.locator('xpath=ancestor::label').click();
-  }
+  await expectSimulationConfigurationReady(page);
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByLabel('攻击方初始当前生命', { exact: true }).fill(String(snapshot.source.selectedLevelValues.hp));
   await page.getByLabel('目标初始当前生命', { exact: true }).fill(String(snapshot.target.selectedLevelValues.hp));

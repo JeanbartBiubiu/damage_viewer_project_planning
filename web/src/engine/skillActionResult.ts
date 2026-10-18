@@ -5,6 +5,7 @@ import { assessContinuousAttackResult } from './continuousAttackResult';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import type { OperationOrigin } from './simulationAdapter';
 import { committedSkillControl, inspectSimulationProcessFacts } from './simulationProcessFacts';
+import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, empoweredUseRecordIssue, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 
 export type SkillActionAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
 const close = (first: number, second: number) => Math.abs(first - second) <= 1e-9 * Math.max(1, Math.abs(first), Math.abs(second));
@@ -33,7 +34,13 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
         || ability.ability.processControl?.processKey !== control.processKey || ability.ability.processControl.action !== instruction.action) {
         throw new Error('skillActionBindings: 指令引用不属于真实编译来源');
       }
-      return [instruction.instructionKey, { instruction, binding, control,
+      const empowered = empoweredAttackBinding(compile, binding);
+      if (empowered) {
+        requireEmpoweredBasicAttack(compile, request.driverPlan.basicAttack);
+        check(instruction.action === 'INITIAL' && instruction.target === instruction.source && instruction.hitBindings.length === 0,
+          'skillActionBindings', '待击激活不得预设命中或替换真实普攻目标');
+      }
+      return [instruction.instructionKey, { instruction, binding, control, empowered,
         initialKey: instruction.action === 'INITIAL' ? instruction.instructionKey : instruction.parentInstructionKey! }] as const;
     }));
     check(contexts.size === instructions.length, 'skillActions.instructionKey', '指令标识重复');
@@ -65,7 +72,7 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       && uses.releasedCount <= uses.stepExecutedCount
       && uses.stepCompletedCount <= uses.stepEnteredCount && uses.stepExecutedCount <= uses.stepEnteredCount * 64,
     'summary.skillUses', '原首次、步骤、完成、失败、在途或命中累计不一致');
-    if (instructions.every(instruction => instruction.hitBindings.every(row => row.preset === 'MISS'))) {
+    if (instructions.every(instruction => !contexts.get(instruction.instructionKey)?.empowered && instruction.hitBindings.every(row => row.preset === 'MISS'))) {
       check(uses.hitCount === 0, 'summary.skillUses.hitCount', '未命中或自身治疗不得产生真实命中');
     }
     check(execution.requestedDurationMs === request.stopPolicy.durationMs && typeof execution.complete === 'boolean'
@@ -89,6 +96,7 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     const healingRecords = done.healingRecords;
     const damageRecords = done.damageRecords;
     if (!Array.isArray(actionRecords) || !Array.isArray(useRecords) || !Array.isArray(healingRecords) || !Array.isArray(damageRecords) || !done.recording) throw new Error('done: 缺少独立有限记录及保留统计');
+    identityGaps.push(...empoweredAttackIdentityGaps(request, done));
     const recording = done.recording as unknown as Record<string, unknown>;
     if (done.recording.skillActionRecordsTruncated) identityGaps.push('行动记录已截断，无法逐项核实所有保留明细与已接受指令的使用身份关联');
     if (done.recording.skillUseRecordsTruncated) identityGaps.push('使用记录已截断，无法逐项核实所有保留主动伤害的真实命中关联');
@@ -158,7 +166,10 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       const instruction = contexts.get(initialKey)!.instruction;
       const process = compile.sharedProviders?.find(provider => provider.providerKey === binding.providerDefinitionRef)?.processes?.find(process => process.processKey === control.processKey);
       const stepIndex = process?.steps.findIndex(step => step.stepKey === row.stepKey) ?? -1;
-      check(row.source === instruction.source && row.target === instruction.target
+      const empoweredConsumed = context.empowered && ['STEP_EXECUTED', 'RELEASED', 'STEP_COMPLETED', 'HIT', 'COMPLETED'].includes(row.kind);
+      const associationIssue = empoweredUseRecordIssue(compile, done, row);
+      check(associationIssue === null, 'skillUseRecords.empoweredAttack', associationIssue ?? '强化关联不合法');
+      check(row.source === instruction.source && row.target === (empoweredConsumed ? row.empoweredAttack?.target : instruction.target)
         && row.skillKey === binding.skillKey && row.providerRef === binding.providerRef && row.processKey === control.processKey
         && Number.isSafeInteger(row.timeMs) && row.timeMs >= instruction.firstAtMs && row.timeMs <= duration && typeof row.useRef === 'string' && !!row.useRef,
       'skillUseRecords', '实际使用、过程、归属或观察时刻不一致');
@@ -168,7 +179,8 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
         : row.reason === null, 'skillUseRecords.reason', '失败必须保留原失败原因，其它事实不能伪造失败');
       const beforeFirstFailure = row.kind === 'FAILED' && done.finalSnapshot.processInstances?.some(process => process.useKey === row.useRef
         && process.stepKey === '' && process.stepVersion === 0 && process.status === 'failed' && process.finishedAtMs === row.timeMs) === true;
-      check(row.kind === 'STARTED' ? row.stepKey === '' && row.stepVersion === 0 && row.executionIndex === 0 && row.timeMs === instruction.firstAtMs
+      check(row.kind === 'STARTED' ? (context.empowered ? row.stepKey === context.empowered.step.stepKey && row.stepVersion === 1
+        : row.stepKey === '' && row.stepVersion === 0) && row.executionIndex === 0 && row.timeMs === instruction.firstAtMs
         : beforeFirstFailure ? row.stepKey === '' && row.stepVersion === 0 && row.executionIndex === 0
         : stepIndex >= 0 && row.stepVersion === stepIndex + 1 && Number.isSafeInteger(row.executionIndex) && row.executionIndex >= 0 && row.executionIndex <= 64,
       'skillUseRecords.stepKey', '真实步骤、版本和已提交段号不合法');
@@ -179,9 +191,10 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       check(!useInstructions.has(row.useRef) || useInstructions.get(row.useRef) === initialKey, 'skillUseRecords.useRef', '不同首次复用使用身份');
       useInstructions.set(row.useRef, initialKey);
       if (row.kind === 'HIT') {
-        check(binding.hitBindings.length > 0 && instruction.hitBindings.some(hit => hit.preset === 'TARGET_HIT')
-          && !hitRefs.has(row.hitRef!), 'skillUseRecords.hitRef', '自身治疗、未命中或重复身份不能产生命中');
-        hitRefs.set(row.hitRef!, { useRef: row.useRef, instructionKey: initialKey, timeMs: row.timeMs });
+        const identity = context.empowered ? `${row.useRef}/${row.hitRef}` : row.hitRef!;
+        check(binding.hitBindings.length > 0 && (context.empowered ? associationIssue === null : instruction.hitBindings.some(hit => hit.preset === 'TARGET_HIT'))
+          && !hitRefs.has(identity), 'skillUseRecords.hitRef', '自身治疗、未命中或重复身份不能产生命中');
+        hitRefs.set(identity, { useRef: row.useRef, instructionKey: initialKey, timeMs: row.timeMs });
       }
       useRefs.add(row.useRef);
     }
@@ -258,15 +271,17 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       const listener = ability?.ability.listenerSpec;
       const hitListener = listener?.eventMatcher.all?.includes('event/skill_hit') && listener.eventMatcher.all.includes('event/source_owner');
       if (hitBinding || hitListener) {
+        const empowered = hitBinding && empoweredAttackBinding(compile, hitBinding);
+        const consumption = empowered ? empoweredDamageProcess(compile, done, row) : null;
         const original = row.instructionKey ? contexts.get(row.instructionKey)?.binding : undefined;
         const skillType = original && `ability/skill/${original.skillKey}`;
-        check(row.attackIndex === null && !!row.instructionKey && !!original
+        check((empowered ? !!consumption && Number.isSafeInteger(row.attackIndex) && row.attackIndex! > 0 : row.attackIndex === null) && !!row.instructionKey && !!original
           && (hitBinding ? original === hitBinding : !!skillType && (listener!.eventMatcher.all?.includes(skillType)
             || listener!.eventMatcher.any?.includes(skillType)) === true)
           && actions.acceptedCount > 0 && uses.hitCount > 0 && !!row.useRef && !!row.hitRef,
         'damageRecords.useRef', '主动命中及其真实监听伤害必须保留原指令、使用与命中身份，不能借用普攻或另造命中');
         if (!done.recording.skillUseRecordsTruncated) {
-          const hit = hitRefs.get(row.hitRef!);
+          const hit = hitRefs.get(empowered ? `${row.useRef}/${row.hitRef}` : row.hitRef!);
           check(hit?.useRef === row.useRef && hit.instructionKey === row.instructionKey && hit.timeMs === row.timeMs,
             'damageRecords.hitRef', '伤害命中身份与真实使用事实不一致');
         }
@@ -305,7 +320,7 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       issues.push(...continuous.issues);
     } else {
       issues.push(...inspectSimulationProcessFacts(compile, request, done).issues);
-      if (healingRecords.length || damageRecords.length) issues.push(...inspectSimulationHealthLedger(request, done));
+      if (healingRecords.length || damageRecords.length) issues.push(...inspectSimulationHealthLedger(compile, request, done));
     }
     check(done.ok === true, 'done.ok', '原生执行未返回成功载荷');
   } catch (error) { issues.push(error instanceof Error ? error.message : String(error)); }

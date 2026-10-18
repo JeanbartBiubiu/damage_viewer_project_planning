@@ -6,7 +6,7 @@ import type { SimulationSkillPhase, SimulationSnapshot } from '../../src/types/s
 import { simulationComplexSample, type ComplexSampleKind } from '../fixtures/simulationComplexSkills';
 import { syncSimulationSkillSources } from '../fixtures/simulationSkillSources';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
-import { confirmSimulationConfiguration } from '../fixtures/simulationSnapshotRequests';
+import { expectSimulationConfigurationReady } from '../fixtures/simulationSnapshotRequests';
 import { readMixedLiveSnapshot } from '../fixtures/simulationMixedLive';
 
 const output = resolve('output/phase6c');
@@ -308,7 +308,7 @@ test('独立页面：真实控制选择、时刻留空、父关联、快照阶�
   await page.getByRole('option', { name: /skill_instruction_1/ }).click();
   await page.locator('.arco-select[aria-label="技能命中预设 skill_instruction_1"]').click();
   await page.getByRole('option', { name: '释放后对唯一目标尝试命中', exact: true }).click();
-  await read.click(); await expect(read).toBeEnabled(); await confirmSimulationConfiguration(page);
+  await read.click(); await expect(read).toBeEnabled(); await expectSimulationConfigurationReady(page);
   const before = reads;
   await page.getByLabel('技能尝试时刻 skill_instruction_2', { exact: true }).fill('450');
   expect(reads).toBe(before);

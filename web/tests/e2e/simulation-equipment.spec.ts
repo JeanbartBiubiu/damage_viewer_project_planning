@@ -7,7 +7,7 @@ import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 import { equipmentSimulationSample } from '../fixtures/simulationEquipment';
 import { permanentEquipmentSimulationSample } from '../fixtures/simulationPermanentEquipment';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
-import { confirmSimulationConfiguration } from '../fixtures/simulationSnapshotRequests';
+import { expectSimulationConfigurationReady } from '../fixtures/simulationSnapshotRequests';
 import { syncSimulationSkillSources } from '../fixtures/simulationSkillSources';
 
 const API = 'http://127.0.0.1:19114';
@@ -96,7 +96,7 @@ async function installFixture(page: Page, permanent = false) {
 async function readSnapshot(page: Page) {
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   await expect(page.locator('#simulation-snapshot-digest')).toBeVisible();
-  await confirmSimulationConfiguration(page);
+  await expectSimulationConfigurationReady(page);
 }
 
 async function runActual(page: Page, snapshot: SimulationSnapshot, inputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth, testInfo: TestInfo,

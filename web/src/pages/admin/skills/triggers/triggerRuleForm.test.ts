@@ -757,7 +757,7 @@ describe('forbidden VALUE_REACHED, PERSISTENT event and RESULT_AVAILABLE vs life
 });
 
 describe('condition, action and runtime-source conversion with stale-field cleanup', () => {
-  it('uses exactly eight conditions, four actions and five runtime sources', () => {
+  it('matches the current condition, action and runtime source catalogs', () => {
     expect([...SKILL_TRIGGER_CONDITION_TYPES]).toEqual([
       'ATTRIBUTE_COMPARE',
       'STATUS_CHECK',
@@ -779,6 +779,8 @@ describe('condition, action and runtime-source conversion with stale-field clean
       'COMBAT_STATUS',
       'EVENT_VALUE',
       'SOURCE_CAST_RESOURCE_COST',
+      'SCENE_ATTRIBUTE_SNAPSHOT',
+      'SCENE_INITIAL_PARAMETER',
       'PRIOR_ACTION_RESULT',
       'COMBAT_ELAPSED_TIME',
       'RECENT_DAMAGE_SUM'

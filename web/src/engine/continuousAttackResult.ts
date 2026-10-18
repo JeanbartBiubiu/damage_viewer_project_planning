@@ -1,13 +1,15 @@
 import { hasDynamicSpeedDependency } from './simulationCalculationRules';
 import { tryFoldConstant } from './numericAdapter';
+import { basicAttackContributionAuthorMatches } from './basicAttackContributionContract';
 import type {
-  AbilityDefinition, AttackRecord, BudgetCause, CompileRequest, DamageBreakdown, DamageRecord, DoneResult,
+  AbilityDefinition, AttackRecord, BudgetCause, CompileRequest, DamageBreakdown, DamageRecord, DoneResult, GenericFormulaExpr,
   ExecutionSummary, MechanicRecord, OperationDefinition, ProviderStateFieldSchema, RecordingSummary, RunRequest, StopReason, SeriesPoint, SeriesSamplingEvidence
 } from '../types/genericEngine';
 import type { OperationOrigin } from './simulationAdapter';
 import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import { inspectSimulationProcessFacts, simulationActionContribution } from './simulationProcessFacts';
+import { empoweredDamageProcess } from './empoweredAttackContract';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
@@ -20,6 +22,7 @@ export type ContinuousAttackAssessment = {
 };
 type Row = Record<string, unknown>;
 type DamageContract = { kind: 'attack' | 'periodic' | 'reaction' | 'linked' | 'active'; required: boolean; allowed: boolean; origin: OperationOrigin;
+  requiredContribution?: boolean;
   attackOnly?: boolean;
   tick?: { intervalMs: number; startDelayMs: number } };
 const budgetCauses: BudgetCause[] = ['max_events', 'max_commands_per_event', 'max_chain_depth', 'max_queue_events',
@@ -59,6 +62,19 @@ function integer(value: unknown, path: string): number {
   return number;
 }
 function nullableTime(value: unknown, path: string): number | null { return value === null ? null : integer(value, path); }
+
+/** 只在能排除其它普通冷却推迟来源时，断言完整观察里应当已有首刀。 */
+function hasUnprovenFirstAttackCooldownWrite(value: unknown, abilityRef: string): boolean {
+  if (!value || typeof value !== 'object') return false;
+  if (Array.isArray(value)) return value.some(row => hasUnprovenFirstAttackCooldownWrite(row, abilityRef));
+  const row = value as Record<string, unknown>;
+  if (row.operation === 'cooldown_change') {
+    const ref = typeof row.abilityRef === 'string' ? row.abilityRef.replace(/^self\./, 'source.') : null;
+    if ((ref === null || ref === abilityRef)
+      && !(row.valuePolicy === 'set_remaining' && row.amount && tryFoldConstant(row.amount as GenericFormulaExpr) === 0)) return true;
+  }
+  return Object.values(row).some(child => hasUnprovenFirstAttackCooldownWrite(child, abilityRef));
+}
 function health(snapshot: Row, side: string, path: string): number {
   const actors = array(snapshot.combatants, `${path}.combatants`).map((row, index) => object(row, `${path}.combatants[${index}]`));
   if (actors.length !== 2 || actors.filter(row => row.key === 'source').length !== 1 || actors.filter(row => row.key === 'target').length !== 1) {
@@ -109,7 +125,7 @@ function passiveControlAuthorMatches(input: CompileRequest, origin: OperationOri
   });
 }
 function damageContract(ability: AbilityDefinition, suffix: string, origin: OperationOrigin, operation: OperationDefinition,
-  hitAbilityRef: string, activeHit = false): DamageContract | undefined {
+  hitAbilityRef: string, activeHit = false, requiredContribution = false): DamageContract | undefined {
   const gated = !!operation.condition || !!ability.castCondition || !!ability.cooldown || !!ability.cost;
   if (origin.abilityRef === hitAbilityRef || activeHit) {
     const candidatePath = /^\.operations\[(\d+)\]\.skillHit\.candidates\[(\d+)\]\.operations\[\d+\]$/.exec(suffix);
@@ -118,7 +134,8 @@ function damageContract(ability: AbilityDefinition, suffix: string, origin: Oper
       const candidate = parent?.skillHit?.candidates[Number(candidatePath[2])];
       if (parent?.operation !== 'resolve_skill_hit' || !candidate) return undefined;
       return { kind: activeHit ? 'active' : 'attack', allowed: true, origin,
-        required: !activeHit && !gated && !parent.condition && candidate.participationCondition == null
+        requiredContribution,
+        required: !activeHit && !gated && !parent.condition && (candidate.participationCondition == null || requiredContribution)
           && !candidate.eventValueConditions?.length && candidate.spellShieldBlockScope === null };
     }
     if (/^\.operations\[\d+\]$/.test(suffix)) return { kind: activeHit ? 'active' : 'attack', allowed: true, required: !activeHit && !gated, origin };
@@ -181,6 +198,10 @@ export function assessContinuousAttackResult(
   const issues: string[] = [];
   const check = (condition: boolean, path: string, message: string) => { if (!condition) issues.push(`${path}：${message}`); };
   check(bool(result.ok, 'runResult.ok'), 'runResult.ok', '运行返回未成功');
+  for (const actor of request.initialSnapshot.combatants) {
+    const path = `initialSnapshot.combatants.${actor.key}.cooldowns`;
+    check(Object.keys(object(actor.cooldowns, path)).length === 0, path, '连续普攻必须使用空初态冷却，不能以已有冷却证明零刀合法');
+  }
   for (const key of ['schemaHash', 'rulesHash'] as const) {
     check(text(final[key], `runResult.finalSnapshot.${key}`) === input[key] && final[key] === request[key] && final[key] === initial[key], key, '编译、运行和最终快照摘要不一致');
   }
@@ -275,8 +296,11 @@ export function assessContinuousAttackResult(
     const abilityIndex = definition?.abilities?.findIndex(ability => ability.abilityKey === match?.[3]) ?? -1;
     const ability = definition?.abilities?.[abilityIndex];
     const abilityPath = `sharedProviders[${providerIndex}].abilities[${abilityIndex}]`;
+    const attackContribution = !!ability && basicAttackContributionAuthorMatches(input, origin, ability, abilityPath,
+      match?.[1], plan.hitAbilityRef);
     check(!mapping.has(key)
-      && !!ability && (ability.skillKey === origin.skillKey || passiveControlAuthorMatches(input, origin, ability, abilityPath, match?.[1]))
+      && !!ability && (ability.skillKey === origin.skillKey || attackContribution
+        || passiveControlAuthorMatches(input, origin, ability, abilityPath, match?.[1]))
       && (!origin.providerDefinitionRef || mount?.definitionRef === origin.providerDefinitionRef
         || !mount && definition?.kind === 'status' && definition.lifecycle?.instanceScope === 'source_target'
         && !!input.combatants.find(actor => actor.key === match?.[1])?.providers.some(row => {
@@ -301,7 +325,8 @@ export function assessContinuousAttackResult(
         && process.skillKey === plan.skillKey && moment.momentType === 'PROCESS_START' && moment.stepKey === null && moment.failureReason === null;
       const contract = ability && path.startsWith(`${abilityPath}.`)
         ? damageContract(ability, path.slice(abilityPath.length), origin, operation, plan.hitAbilityRef,
-          mixed && input.rules.skillActionBindings?.some(binding => binding.hitBindings.some(hit => hit.hitAbilityRef === origin.abilityRef)) === true)
+          mixed && input.rules.skillActionBindings?.some(binding => binding.hitBindings.some(hit => hit.hitAbilityRef === origin.abilityRef)) === true,
+          attackContribution)
         : processStart ? { kind: 'attack' as const, required: !operation.condition, allowed: true, origin } : undefined;
       check(!!contract && operation.target === 'target' && !operation.repeatScope && (operation.repeatCount === undefined || operation.repeatCount === 1)
         && !operation.repeatDelayMs && !damageContracts.has(path), 'operationOrigins', '伤害节点的执行入口、重复或攻击关联尚未核定');
@@ -342,6 +367,21 @@ export function assessContinuousAttackResult(
     return row as DamageBreakdown;
   });
   const sum = (rows: Row[], field: string) => rows.reduce((total, row) => total + (row[field] as number), 0);
+  // 分类汇总始终完整；明细截断时也核对每刀必需组成，重复动作不能因共用作者引用而少计。
+  const requiredContributions = new Map<string, { origin: OperationOrigin; damageType: string; count: number }>();
+  for (const [path, contract] of attackContracts) if (contract.required && contract.requiredContribution) {
+    const damageType = compiledOperation(input, path)!.damageType!;
+    const key = JSON.stringify([contract.origin.abilityRef, contract.origin.operationRef, damageType]);
+    const group = requiredContributions.get(key);
+    if (group) group.count++;
+    else requiredContributions.set(key, { origin: contract.origin, damageType, count: 1 });
+  }
+  for (const { origin, damageType, count } of requiredContributions.values()) {
+    const actual = sum(breakdown.filter(row => row.owner === plan.source && row.source === plan.source && row.target === plan.target
+      && row.abilityRef === origin.abilityRef && row.operationRef === origin.operationRef && row.damageType === damageType), 'damageCount');
+    check(actual >= completedCount * count && actual <= hitCount * count,
+      'summary.damageBreakdown', '完整分类汇总缺少每刀必需组成或重复结算');
+  }
   check(sum(breakdown.filter(row => row.abilityRef === plan.hitAbilityRef && row.source === plan.source
     && row.target === plan.target), 'damageCount') >= hitCount,
   'summary.damageBreakdown', '每次真实主体命中必须有已提交的主体伤害事实');
@@ -379,13 +419,21 @@ export function assessContinuousAttackResult(
   const initialAmmo = ammoDeclarations.length === 1 ? ammoDeclarations[0]![1].defaultValue : undefined;
   const initialMechanicReadyAt = nullableTime(basic.initialMechanicReadyAtMs ?? null, 'summary.basicAttack.initialMechanicReadyAtMs');
   const initialActionReadyAt = nullableTime(basic.initialActionReadyAtMs, 'summary.basicAttack.initialActionReadyAtMs');
-  const processFacts = mixed ? inspectSimulationProcessFacts(input, request, done) : { issues: [], occupancies: [] };
+  const processFacts = mixed ? inspectSimulationProcessFacts(input, request, done) : { issues: [], occupancies: [], processes: [], empoweredSuccessions: new Map() };
   issues.push(...processFacts.issues);
   const actualAttackStarts = [...processUses.values()].map(process => process.startedAtMs as number).sort((first, second) => first - second);
   const firstActualStart = actualAttackStarts[0] ?? Infinity;
   const expectedActionContribution = (start: number, end: number) => simulationActionContribution(processFacts.occupancies, start, end);
-  for (const start of actualAttackStarts) check(!processFacts.occupancies.some(occupancy => start >= occupancy.startedAtMs
-    && start < (occupancy.finishedAtMs ?? occupancy.expectedEndAtMs)), 'processInstances.actionReady', '真实普攻不能在完整已提交占用历史内开始');
+  for (const [useRef, process] of processUses) {
+    const start = process.startedAtMs as number;
+    check(!processFacts.occupancies.some(occupancy => {
+      if (start < occupancy.startedAtMs || start >= (occupancy.finishedAtMs ?? occupancy.expectedEndAtMs)) return false;
+      const successor = processFacts.empoweredSuccessions.get(occupancy.useRef);
+      const consumer = processFacts.processes.find(row => row.useKey === occupancy.useRef);
+      return !(successor && successor.attack.useRef === useRef && successor.timeMs === start && occupancy.stepVersion === 1
+        && occupancy.startedAtMs === start && consumer?.startedAtMs === start);
+    }), 'processInstances.actionReady', '真实普攻不能在既有占用内开始；同刻后项必须沿该刀真实消费因果证明');
+  }
   check(initialActionReadyAt === expectedActionContribution(0, firstActualStart),
     'summary.basicAttack.initialActionReadyAtMs', '首刀贡献必须完整对应首刀前真实占用实例，不能省略或伪造');
   check(initialActionReadyAt === null || mixed && initialActionReadyAt > 0,
@@ -398,6 +446,16 @@ export function assessContinuousAttackResult(
     check(completedCount > 0 || killed || sourceFinalHp === 0
       || Math.max(initialMechanicReadyAt ?? 0, initialActionReadyAt ?? 0) > finalTime,
     'summary.execution.complete', '无攻击的完整观察必须仍在实际初次机制等待或已死亡');
+  }
+  if (computationComplete && startedCount === 0 && sourceFinalHp > 0 && targetFinalHp > 0
+    && !hasUnprovenFirstAttackCooldownWrite(input, plan.initialControlAbilityRef)) {
+    let ready = initialMechanicReadyAt ?? 0;
+    const occupancies = [...processFacts.occupancies].sort((left, right) => left.startedAtMs - right.startedAtMs);
+    for (const occupancy of occupancies) {
+      if (occupancy.startedAtMs > ready) break;
+      ready = Math.max(ready, occupancy.finishedAtMs ?? occupancy.expectedEndAtMs);
+    }
+    check(ready > finalTime, 'summary.basicAttack.firstWait', '首刀实际就绪前的占用必须连续覆盖；不能用后来的占用掩盖中间可攻击空档');
   }
   const firstWaitExplained = (startAt: number) => startAt === Math.max(initialMechanicReadyAt ?? 0, initialActionReadyAt ?? 0);
   const dynamicSpeed = hasDynamicSpeedDependency(input, plan.source, plan.attackSpeedAttributeKey, request);
@@ -458,8 +516,11 @@ export function assessContinuousAttackResult(
       && (attackIndex === null ? !!row.useRef : attackIndex > 0 ? !!row.useRef : row.useRef === '')
       && !!origin?.compiledPaths.includes(row.operationPath as string), path, '伤害无法关联本刀或独立真实编译路径');
     const retainedAttack = attackIndex === null ? undefined : attacks[attackIndex - 1];
-    if (retainedAttack) check(retainedAttack.useRef === row.useRef && retainedAttack.hitAtMs === timeMs, path, '伤害与逐刀使用身份或命中时刻不一致');
-    if (attackIndex !== null && attackIndex > 0) checkProcess(row.useRef as string, timeMs, path);
+    const empowered = mixed ? empoweredDamageProcess(input, done, row as unknown as DamageRecord) : null;
+    if (retainedAttack) check(retainedAttack.useRef === (empowered ? empowered.empoweredAttack!.useRef : row.useRef)
+      && retainedAttack.hitAtMs === timeMs, path, '伤害与逐刀使用身份或命中时刻不一致');
+    if (attackIndex !== null && attackIndex > 0) checkProcess(empowered ? empowered.empoweredAttack!.useRef : row.useRef as string,
+      retainedAttack?.startAtMs ?? timeMs, path);
     nonnegative(row.rawAmount, `${path}.rawAmount`);
     const hpBefore = nonnegative(row.hpBefore, `${path}.hpBefore`);
     const hpAfter = nonnegative(row.hpAfter, `${path}.hpAfter`);
@@ -474,7 +535,7 @@ export function assessContinuousAttackResult(
     const contract = damageContracts.get(row.operationPath as string);
     check(operation?.operation === 'damage' && operation.ref === row.operationRef && operation.damageType === row.damageType
       && !!contract && contract.origin === origin && contract.allowed && (contract.kind === 'periodic' ? attackIndex === 0
-        : contract.kind === 'active' ? attackIndex === null : contract.kind === 'reaction' && !contract.attackOnly ? true
+        : contract.kind === 'active' ? empowered ? attackIndex !== null && attackIndex > 0 : attackIndex === null : contract.kind === 'reaction' && !contract.attackOnly ? true
           : contract.kind === 'linked' && attackIndex === null ? mixed && !!row.instructionKey : attackIndex !== null && attackIndex > 0),
     path, '伤害节点、类型或独立周期与攻击关联不一致');
     if (contract?.tick) {
@@ -585,7 +646,7 @@ export function assessContinuousAttackResult(
     }
   }
   const warnings = array(result.warnings, 'runResult.warnings');
-  if (mixed) issues.push(...inspectSimulationHealthLedger(request, done));
+  if (mixed) issues.push(...inspectSimulationHealthLedger(input, request, done));
   const evidence = object(result.evidence, 'runResult.evidence');
   bool(summary.evidenceTruncated, 'summary.evidenceTruncated');
 

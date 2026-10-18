@@ -38,7 +38,7 @@ describe('自动规则的真实首次闭包与独立运行装配', () => {
     if (kind === 'unlearned') snapshot.source.skillSources[1]!.skillLevel = 0;
     if (kind === 'wrong_level') input.rules[0]!.skillLevel = 2;
     if (kind === 'wrong_origin') input.rules[0]!.origin.characterKey = 'actor_b';
-    if (kind === 'complex_step') prepared.compileRequest.sharedProviders!.find(provider => provider.processes?.some(process => process.processKey === 'cast'))!.processes![0]!.steps[0]!.stepType = 'CHANNEL';
+    if (kind === 'complex_step') prepared.compileRequest.sharedProviders!.find(provider => provider.processes?.some(process => process.processKey === 'cast'))!.processes![0]!.steps[0]!.stepType = 'MULTI_HIT';
     if (kind === 'multiple_steps') {
       const process = prepared.compileRequest.sharedProviders!.find(provider => provider.processes?.some(process => process.processKey === 'cast'))!.processes![0]!;
       process.steps.push({ ...structuredClone(process.steps[0]!), stepKey: 'second_delay' });

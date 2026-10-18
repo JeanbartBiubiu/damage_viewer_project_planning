@@ -370,6 +370,27 @@ function assertBinding(value: unknown, path: string): SkillTriggerRuntimeInputBi
       protocolError(`${path}.detail`);
     }
   }
+  if (sourceType === 'SCENE_ATTRIBUTE_SNAPSHOT') {
+    if (Object.keys(value).length !== RUNTIME_BINDING_KEYS.size || Object.keys(value).some(key => !RUNTIME_BINDING_KEYS.has(key))) protocolError(path);
+    for (const key of ['bindingKey', 'parameterKey'] as const) {
+      if (typeof value[key] !== 'string' || !TRIGGER_KEY_PATTERN.test(value[key])) protocolError(`${path}.${key}`);
+    }
+    if (Object.keys(detail).length !== 3 || Object.keys(detail).some(key => !['subject', 'attributeKey', 'sources'].includes(key))
+      || !['SOURCE', 'TARGET'].includes(String(detail.subject)) || typeof detail.attributeKey !== 'string'
+      || !TRIGGER_KEY_PATTERN.test(detail.attributeKey) || !Array.isArray(detail.sources) || !detail.sources.length
+      || new Set(detail.sources).size !== detail.sources.length
+      || detail.sources.some(source => source !== 'CHARACTER_LEVEL' && source !== 'EQUIPMENT_DIRECT')) protocolError(`${path}.detail`);
+  }
+  if (sourceType === 'SCENE_INITIAL_PARAMETER') {
+    if (Object.keys(value).length !== RUNTIME_BINDING_KEYS.size || Object.keys(value).some(key => !RUNTIME_BINDING_KEYS.has(key))) protocolError(path);
+    for (const key of ['bindingKey', 'parameterKey'] as const) {
+      if (typeof value[key] !== 'string' || !TRIGGER_KEY_PATTERN.test(value[key])) protocolError(`${path}.${key}`);
+    }
+    if (Object.keys(detail).length !== 2 || Object.keys(detail).some(key => key !== 'minValue' && key !== 'maxValue')
+      || typeof detail.minValue !== 'number' || !Number.isFinite(detail.minValue)
+      || typeof detail.maxValue !== 'number' || !Number.isFinite(detail.maxValue)
+      || detail.minValue > detail.maxValue) protocolError(`${path}.detail`);
+  }
   if (sourceType === 'PRIOR_ACTION_RESULT') {
     if (
       typeof detail.sourceActionKey !== 'string'

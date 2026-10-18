@@ -39,7 +39,7 @@ import './SimulationSkillSources.css';
 import { skillActionRequest, type PreparedSkillAction, type SkillActionInputs, type SkillActionInput } from '../../engine/skillActionRequest';
 import { assessSkillActionResult, type SkillActionAssessment } from '../../engine/skillActionResult';
 import { SkillActionResult } from './SkillActionResult';
-import { simulationCastCostCandidates, type SimulationCastCostRef } from '../../engine/simulationActiveSkills';
+import { simulationAutomaticCastCosts, type SimulationCastCostRef } from '../../engine/simulationActiveSkills';
 import { plannedSkillsFromActions, removeSkillActionDraft, skillActionParentCandidates, skillActionPhases } from './simulationSkillActionDrafts';
 import { automaticSkillRequest, plannedSkillsFromAutomaticRules, type AutomaticSkillInput, type AutomaticSkillInputs, type PreparedAutomaticSkill } from '../../engine/automaticSkillRequest';
 import { assessAutomaticSkillResult, type AutomaticSkillAssessment } from '../../engine/automaticSkillResult';
@@ -48,6 +48,8 @@ import { AutomaticSkillPlan } from './AutomaticSkillPlan';
 import { AutomaticSkillResult } from './AutomaticSkillResult';
 import { reconcileCombatRules } from './combatSkillRoster';
 import { CombatScenarioSetup, type CombatantSetup } from './CombatScenarioSetup';
+import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, type SceneInitialParameterInput,
+  type SceneInitialParameterRequirement } from '../../engine/sceneInitialParameterInput';
 
 export type SimulationScenarioPanelProps = {
   mode: 'basic' | 'automatic';
@@ -106,6 +108,7 @@ type CompileArchive = {
   initialHealth: SimulationInitialHealth;
   equipmentAssumptions: SimulationEquipmentAssumption[];
   mechanicStateInputs: PreparedSimulation['mechanicStateInputs'];
+  sceneParameterInputs: SceneInitialParameterInput[];
   ignoredCastCosts: SimulationCastCostRef[];
   compileRequest: PreparedSimulation['compileRequest'];
   coverage: SimulationCoverage[];
@@ -225,8 +228,8 @@ function skillDigests(snapshot: SimulationSnapshot): Record<string, string> {
   return Object.fromEntries(snapshot.skillConfigurations.map(configuration => [configuration.skill.skillKey, configuration.baseDigest]).sort(([left], [right]) => left!.localeCompare(right!)));
 }
 
-function sameSkillDigests(snapshot: SimulationSnapshot, confirmed: Record<string, string> | null): boolean {
-  return confirmed !== null && JSON.stringify(skillDigests(snapshot)) === JSON.stringify(confirmed);
+function sameSkillConfigurations(left: SimulationSnapshot, right: SimulationSnapshot): boolean {
+  return JSON.stringify(skillDigests(left)) === JSON.stringify(skillDigests(right));
 }
 
 function taskError(error: unknown): string {
@@ -245,6 +248,7 @@ function archiveFor(task: Task, outcome: CompileArchive['outcome'], error: strin
     initialHealth: task.prepared.initialHealth,
     equipmentAssumptions: task.prepared.equipmentAssumptions,
     mechanicStateInputs: task.prepared.mechanicStateInputs,
+    sceneParameterInputs: task.prepared.sceneParameterInputs,
     ignoredCastCosts: task.prepared.ignoredCastCosts,
     compileRequest: task.prepared.compileRequest, coverage: task.prepared.coverage,
     operationOrigins: task.prepared.operationOrigins, equipmentOrigins: task.prepared.equipmentOrigins, skillOrigins: task.prepared.skillOrigins,
@@ -329,8 +333,6 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
   const [formulaPreflight, setFormulaPreflight] = useState<{ compileCount: number; released: boolean; formulaCount: number } | null>(null);
   const [snapshot, setSnapshot] = useState<SimulationSnapshot | null>(null);
   const [sourcesSnapshot, setSourcesSnapshot] = useState<SimulationSnapshot | null>(null);
-  const [confirmedDigests, setConfirmedDigests] = useState<Record<string, string> | null>(null);
-  const [confirmationRequired, setConfirmationRequired] = useState(false);
   const [buildsReady, setBuildsReady] = useState({ source: true, target: true });
   const [buildSourceIdentities, setBuildSourceIdentities] = useState<{ source: string[]; target: string[] }>({ source: [], target: [] });
   const [clearedSkillLevels, setClearedSkillLevels] = useState<Record<string, boolean>>({});
@@ -338,6 +340,8 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
   const [attributeDrafts, setAttributeDrafts] = useState(emptyAttributeDrafts);
   const [initialHealth, setInitialHealth] = useState(emptyInitialHealth);
   const [mechanicDrafts, setMechanicDrafts] = useState<SimulationMechanicDrafts>({});
+  const [sceneParameterRequirements, setSceneParameterRequirements] = useState<SceneInitialParameterRequirement[]>([]);
+  const [sceneParameterDrafts, setSceneParameterDrafts] = useState<Record<string, number | undefined>>({});
   const [auraConfirmed, setAuraConfirmed] = useState<Record<string, boolean>>({});
   const [durationMs, setDurationMs] = useState<number | undefined>(CONTINUOUS_DURATION_INITIAL_MS);
   const [attackSpeedInputMax, setAttackSpeedInputMax] = useState<number | undefined>();
@@ -348,7 +352,6 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
   const [backgroundAttack, setBackgroundAttack] = useState(automaticMode);
   const [activeSkillKey, setActiveSkillKey] = useState('');
   const nextInstruction = useRef(1);
-  const [ignoredCastCosts, setIgnoredCastCosts] = useState<SimulationCastCostRef[]>([]);
   const [skillInputs, setSkillInputs] = useState<Omit<SkillActionInputs, 'durationMs' | 'recordTimeSeries'>>({
     actions: [],
     maxSkillActionRecords: 32, maxSkillUseRecords: 128, maxHealingRecords: 256
@@ -366,7 +369,6 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
   const computationClientRef = useRef<GenericEngineClient | null>(null);
   const token = adminToken.trim();
   const busy = phase !== 'idle';
-  const candidateUnconfirmed = snapshot !== null && (confirmationRequired || !sameSkillDigests(snapshot, confirmedDigests));
   const { characters, skills, activeSkills, boundSkills, targetBoundSkills, equipment, levels, imageLoader, availability } = useSimulationSelectionOptions(
     apiBaseUrl, selectedGameId, token, selection.sourceCharacterKey, automaticMode, selection.targetCharacterKey);
   const combatRoster = useMemo(() => reconcileCombatRules(boundSkills.items, selection.sourceCharacterKey,
@@ -406,7 +408,8 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
   const missing = requirements.filter(row => row.storedValue === undefined);
   const unfilled = missing.filter(row => attributeDrafts[row.side][row.attribute.attributeKey] === undefined);
   const coverage = prepared?.coverage ?? inspection?.coverage ?? [];
-  const healthUnfilled = initialHealth.source === undefined || initialHealth.target === undefined;
+  const healthUnfilled = initialHealth.source === undefined || initialHealth.target === undefined
+    || sceneParameterRequirements.length > 0 && !inspection;
   const mechanicRequirements = inspection?.mechanicRequirements ?? [];
   const mechanicIssues = mechanicDraftIssues(mechanicRequirements, mechanicDrafts);
   const sourceHealthLimit = snapshot ? simulationHealthLimit(snapshot, 'source', attributeDrafts.source.hp) : undefined;
@@ -430,8 +433,12 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     clearFormulaProofScope(identity);
     if (formulaProofIdentityRef.current === identity) formulaProofIdentityRef.current = null;
   };
-  const trackFormulaProof = (task: Task, next: SimulationSnapshot) => {
-    task.formulaProofIdentity = snapshotFormulaProofIdentity(next);
+  const sceneInputsFromDrafts = (rows: readonly SceneInitialParameterRequirement[] = sceneParameterRequirements) => rows.map(row => ({
+    side: row.side, origin: row.origin, skillKey: row.skillKey, parameterKey: row.parameterKey,
+    declarationIdentity: row.declarationIdentity, value: sceneParameterDrafts[row.declarationIdentity]
+  })) as SceneInitialParameterInput[];
+  const trackFormulaProof = (task: Task, next: SimulationSnapshot, inputs: readonly SceneInitialParameterInput[] = []) => {
+    task.formulaProofIdentity = snapshotFormulaProofIdentity(next, inputs);
     formulaProofIdentityRef.current = task.formulaProofIdentity;
   };
 
@@ -451,12 +458,9 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     setSkillInputs(current => ({ ...current, actions: [] }));
     setAutomaticInputs(current => ({ ...current, rules: [] }));
     setActiveSkillKey('');
-    setIgnoredCastCosts([]);
     setSnapshot(null);
     setFormulaPreflight(null);
     setSourcesSnapshot(null);
-    setConfirmedDigests(null);
-    setConfirmationRequired(false);
     setBuildsReady({ source: true, target: true });
     setBuildSourceIdentities({ source: [], target: [] });
     setClearedSkillLevels({});
@@ -464,6 +468,8 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     setAttributeDrafts(emptyAttributeDrafts());
     setInitialHealth(emptyInitialHealth());
     setMechanicDrafts({});
+    setSceneParameterRequirements([]);
+    setSceneParameterDrafts({});
     setAuraConfirmed({});
     setDurationMs(CONTINUOUS_DURATION_INITIAL_MS);
     setRecordTimeSeries(true);
@@ -547,6 +553,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     setAuraConfirmed({});
     setSnapshot(null);
     setInspection(null);
+    setSceneParameterRequirements([]);
     setPrepared(null);
     invalidateRunResult(true);
     setError(null);
@@ -691,12 +698,26 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
   };
 
   const acceptSnapshot = async (next: SimulationSnapshot, task: NonNullable<typeof taskRef.current>) => {
-    trackFormulaProof(task, next);
+    setSnapshot(next);
+    setSourcesSnapshot(next);
+    setInspection(null);
+    let sceneInputs: SceneInitialParameterInput[];
+    try {
+      const declarations = sceneInitialParameterRequirements(next);
+      setSceneParameterRequirements(declarations);
+      sceneInputs = normalizeSceneInitialParameterInputs(next, sceneInputsFromDrafts(declarations));
+    } catch (cause) {
+      clearOwnedFormulaProof(task.formulaProofIdentity ?? formulaProofIdentityRef.current);
+      setFormulaPreflight(null);
+      setError(taskError(cause));
+      return false;
+    }
+    trackFormulaProof(task, next, sceneInputs);
     const client = new GenericEngineClient();
     task.client = client;
     let evidence: Awaited<ReturnType<typeof preflightSkillFormulas>>;
     try {
-      evidence = await preflightSkillFormulas(next, client, () => isCurrent(task));
+      evidence = await preflightSkillFormulas(next, client, () => isCurrent(task), sceneInputs);
     } finally {
       client.terminate();
       if (task.client === client) task.client = null;
@@ -712,22 +733,13 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     });
     setInspection(null);
     try {
-      setInspection(inspectSimulationSnapshot(next, ignoredCastCosts));
+      setInspection(inspectSimulationSnapshot(next, simulationAutomaticCastCosts(next), sceneInputs));
       return true;
     } catch (cause) {
       clearOwnedFormulaProof(task.formulaProofIdentity);
       setError(`快照已读取，但编译准入检查未通过：${taskError(cause)}。可在默认来源表关闭非必需来源后重新读取。`);
       return false;
     }
-  };
-
-  const confirmLatestConfiguration = () => {
-    if (taskRef.current || !snapshot) return;
-    setConfirmedDigests(skillDigests(snapshot));
-    setConfirmationRequired(false);
-    setPrepared(null);
-    invalidateRunResult(true);
-    setNotice('已明确确认本次完整技能配置摘要；执行前仍重新读取并逐项核对。');
   };
 
   const readSnapshot = async () => {
@@ -764,7 +776,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
       }
       task.snapshot = result.data;
       const admitted = await acceptSnapshot(result.data, task);
-      setNotice(admitted ? automaticMode ? '配置已读取。请确认配置、设置初始生命，并补全下方缺失输入。' : '场景快照已读取，未设置的角色来源技能默认最高等级；请核对技能配置及必要的场景补充值。'
+      setNotice(admitted ? automaticMode ? '配置已读取。设置初始生命并补全下方缺失输入后，即可开始计算。' : '场景快照已读取，未设置的角色来源技能默认最高等级；请补全必要的场景输入后开始计算。'
         : '原始默认来源与完整关系已保留；准入失败不妨碍关闭来源、供等级或修改构筑。');
     } catch (cause) {
       if (isCurrent(task)) {
@@ -861,7 +873,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     setSelection(current => ({ ...current, plannedSkills: plans,
       sourceSkillSettings: [...current.sourceSkillSettings.filter(row => simulationSkillSourceIdentity(row.origin, row.skillKey) !== identity),
         { origin, skillKey, enabled: true, skillLevel }] }));
-    if (JSON.stringify(plans) !== JSON.stringify(selection.plannedSkills)) { setIgnoredCastCosts([]); clearArtifacts(); }
+    if (JSON.stringify(plans) !== JSON.stringify(selection.plannedSkills)) clearArtifacts();
     else { invalidateRunResult(true); setError(null); setNotice(null); }
   };
 
@@ -872,7 +884,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     try { plans = plannedSkillsFromActions(actions); } catch (cause) { setError(taskError(cause)); return; }
     setSkillInputs(current => ({ ...current, actions }));
     setSelection(current => ({ ...current, plannedSkills: plans }));
-    if (JSON.stringify(plans) !== JSON.stringify(selection.plannedSkills)) { setIgnoredCastCosts([]); clearArtifacts(); }
+    if (JSON.stringify(plans) !== JSON.stringify(selection.plannedSkills)) clearArtifacts();
     else { invalidateRunResult(true); setError(null); setNotice(null); }
   };
 
@@ -882,7 +894,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     const plans = plannedSkillsFromActions(actions);
     setSkillInputs(current => ({ ...current, actions }));
     setSelection(current => ({ ...current, plannedSkills: plans }));
-    if (JSON.stringify(plans) !== JSON.stringify(selection.plannedSkills)) { setIgnoredCastCosts([]); clearArtifacts(); }
+    if (JSON.stringify(plans) !== JSON.stringify(selection.plannedSkills)) clearArtifacts();
     else { invalidateRunResult(true); setError(null); setNotice(null); }
   };
 
@@ -902,7 +914,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     }
     setSkillMode(enabled);
     setSelection(current => ({ ...current, plannedSkills: plans }));
-    setIgnoredCastCosts([]); clearArtifacts();
+    clearArtifacts();
     if (issue) setError(`${issue}；已保留原草稿，请修正后重新读取`);
   };
 
@@ -937,7 +949,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
   };
 
   const execute = async (kind: 'compile' | 'single_attack' | 'continuous_attack' | 'skill_action' | 'automatic_skill') => {
-    if (taskRef.current || !snapshot || !inspection || candidateUnconfirmed || !selectedGameId) return;
+    if (taskRef.current || !snapshot || !inspection || !selectedGameId) return;
     if (automaticIssues.length) { setError(automaticIssues.join('；')); return; }
     if (mechanicIssues.length) { setError(mechanicIssues.join('；')); return; }
     if (kind !== 'compile') {
@@ -966,17 +978,17 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
       }
       const latest = await getSimulationSnapshot(apiBaseUrl, selectedGameId, snapshot.selection, token, task.controller.signal);
       if (!isCurrent(task)) return;
-      if (!sameSkillDigests(latest.data, confirmedDigests) || latest.data.snapshotDigest !== snapshot.snapshotDigest) {
+      if (!sameSkillConfigurations(latest.data, snapshot) || latest.data.snapshotDigest !== snapshot.snapshotDigest) {
         await acceptSnapshot(latest.data, task);
-        setConfirmationRequired(true);
-        setNotice('技能作者配置、来源或构筑已变化，草稿已保留。最新配置已完成共同公式预检，请核对并明确确认后重新执行本次场景。');
+        setNotice('技能作者配置、来源或构筑已变化，已更新配置并保留草稿。请补全新增输入后重新开始计算。');
         finishTask(task);
         return;
       }
       task.snapshot = structuredClone(latest.data);
-      trackFormulaProof(task, task.snapshot);
+      const sceneInputs = normalizeSceneInitialParameterInputs(task.snapshot, sceneInputsFromDrafts());
+      trackFormulaProof(task, task.snapshot, sceneInputs);
       task.client = computationClient();
-      const preflight = await preflightSkillFormulas(task.snapshot, task.client, () => isCurrent(task));
+      const preflight = await preflightSkillFormulas(task.snapshot, task.client, () => isCurrent(task), sceneInputs);
       if (!isCurrent(task)) return;
       task.formulaPreflight = preflight;
       setFormulaPreflight(preflight);
@@ -994,7 +1006,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
       const assumptions: SimulationEquipmentAssumption[] = equipmentRangeRequirements(task.snapshot)
         .map(({ owner, equipmentKey }) => ({ owner, equipmentKey, target: owner === 'source' ? 'target' : 'source', inRange: auraConfirmed[`${owner}:${equipmentKey}`] === true }));
       task.prepared = await prepareSimulation(task.snapshot, inputs, { source: initialHealth.source, target: initialHealth.target }, assumptions,
-        mechanicInputsFromDrafts(mechanicRequirements, mechanicDrafts), ignoredCastCosts);
+        mechanicInputsFromDrafts(mechanicRequirements, mechanicDrafts), simulationAutomaticCastCosts(task.snapshot), sceneInputs);
       if (!isCurrent(task)) return;
       if (kind === 'continuous_attack') {
         task.continuousPrepared = await continuousAttackRequest(task.prepared, task.snapshot, continuousInputs);
@@ -1342,31 +1354,13 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
         </Form>
         <Typography.Paragraph type="secondary">记录上限可显式为0；各类预算独立，不改变完整累计或结算。</Typography.Paragraph>
       </section> : null}
-      {skillMode && snapshot ? <section key="skill-cast-costs" aria-label="施法成本声明">{simulationCastCostCandidates(snapshot).map(cost => <Checkbox key={JSON.stringify(cost)}
-          aria-label={`声明施法成本 ${cost.effectKey}.${cost.resultKey}`} disabled={busy}
-          checked={ignoredCastCosts.some(row => JSON.stringify(row) === JSON.stringify(cost))} onChange={checked => {
-            const next = ignoredCastCosts.filter(row => JSON.stringify(row) !== JSON.stringify(cost));
-            if (checked) next.push(cost);
-            setIgnoredCastCosts(next); setPrepared(null); invalidateRunResult(true);
-            try { setInspection(inspectSimulationSnapshot(snapshot, next)); setError(null); }
-            catch (cause) { setInspection(null); setError(taskError(cause)); }
-          }}>明确声明{cost.effectKey}.{cost.resultKey}（挂接{cost.bindingKey}）是施法成本，本期忽略门槛、扣除与退款；其它消费不忽略。</Checkbox>)}
-      </section> : null}
-
       {error ? <Alert key="task-error" type="error" content={<span style={{ whiteSpace: 'pre-wrap' }}>{error}</span>} /> : null}
 
-      {snapshot ? <section key="configuration-confirmation" aria-label="技能配置确认">
-        <Typography.Title heading={5}>{automaticMode ? '确认本次配置' : '技能配置确认'}</Typography.Title>
-        {!automaticMode ? <Typography.Paragraph>逐项保存完整作者配置摘要；同一入口下动作或数值变化也须重新确认，不因场景快照更新而自动执行。</Typography.Paragraph> : null}
-        <ScenarioDetails collapsed={automaticMode} title="查看配置版本">
+      {snapshot ? <ScenarioDetails key="configuration-version" collapsed title="配置版本">
         {snapshot.skillConfigurations.map(configuration => <Typography.Paragraph key={configuration.skill.skillKey} style={{ overflowWrap: 'anywhere' }}>
           {configuration.skill.name}（{configuration.skill.skillKey}）：<Typography.Text code>{configuration.baseDigest}</Typography.Text>
-          {confirmedDigests?.[configuration.skill.skillKey] === configuration.baseDigest ? ' · 已核对' : ' · 尚未确认此配置'}
         </Typography.Paragraph>)}
-        </ScenarioDetails>
-        {candidateUnconfirmed ? <Alert type="warning" content="当前候选与前次确认缺失或不一致。请核对最新来源、构筑与技能配置；生命和属性草稿不会丢失。" /> : null}
-        <Button disabled={busy || !candidateUnconfirmed} onClick={confirmLatestConfiguration}>确认最新技能配置</Button>
-      </section> : null}
+      </ScenarioDetails> : null}
 
       {snapshot ? (
         <ScenarioDetails key="scene-snapshot" collapsed={automaticMode} title="场景与装备明细">
@@ -1425,6 +1419,21 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
         </section>
       ) : null}
 
+      {sceneParameterRequirements.length ? <section aria-label="战前机制初值">
+        <Typography.Title heading={5}>战前机制初值</Typography.Title>
+        <Typography.Paragraph>明确填写本场开始前的数值，0也需要填写；修改后点击“准备计算”应用。</Typography.Paragraph>
+        <Form layout="vertical">{sceneParameterRequirements.map(row => <Form.Item key={row.declarationIdentity}
+          label={`${sideLabels[row.side]}／${row.skillName}／${row.parameterName}`} required>
+          <InputNumber aria-label={`${sideLabels[row.side]}／${row.skillName}／${row.parameterName}`}
+            value={sceneParameterDrafts[row.declarationIdentity]} disabled={busy} onChange={value => {
+              if (taskRef.current) return;
+              setSceneParameterDrafts(current => ({ ...current, [row.declarationIdentity]: value }));
+              clearOwnedFormulaProof(formulaProofIdentityRef.current);
+              setFormulaPreflight(null); setPrepared(null); setInspection(null); invalidateRunResult();
+            }} />
+          <Typography.Text type="secondary">{row.valueType === 'INTEGER' ? '整数' : '数值'} {row.minValue}～{row.maxValue}，不自动补初值。</Typography.Text>
+        </Form.Item>)}</Form>
+      </section> : null}
       {inspection ? <SimulationMechanicInputs requirements={mechanicRequirements} drafts={mechanicDrafts} disabled={busy} onChange={updateMechanic} /> : null}
       {mechanicIssues.length ? <Alert type="error" content={mechanicIssues.join('；')} /> : null}
 
@@ -1476,13 +1485,13 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
           </Form>
           <Space wrap style={{ marginTop: 16 }}>
             <Button disabled={busy || unfilled.length === 0} onClick={fillMissingWithZero}>将缺失属性填写为0</Button>
-            {!skillMode ? <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0 || mechanicRequirements.length > 0} onClick={() => void execute('single_attack')}>执行一次普攻</Button> : null}
-            {!skillMode ? <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('continuous_attack')}>连续普攻</Button> : null}
-            {skillMode && !automaticMode ? <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
+            {!skillMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0 || mechanicRequirements.length > 0} onClick={() => void execute('single_attack')}>执行一次普攻</Button> : null}
+            {!skillMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('continuous_attack')}>连续普攻</Button> : null}
+            {skillMode && !automaticMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
               onClick={() => void execute('skill_action')}>执行指定技能计划</Button> : null}
-            {skillMode && automaticMode ? <Button type="primary" disabled={busy || availabilityBlocked || candidateUnconfirmed || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
+            {skillMode && automaticMode ? <Button type="primary" disabled={busy || availabilityBlocked || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
               onClick={() => void execute(enabledAutomaticRules.length ? 'automatic_skill' : 'continuous_attack')}>开始计算</Button> : null}
-            {!automaticMode ? <Button disabled={busy || candidateUnconfirmed || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('compile')}>编译验证</Button> : null}
+            {!automaticMode ? <Button disabled={busy || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('compile')}>编译验证</Button> : null}
           </Space>
           {mechanicRequirements.length ? <Typography.Paragraph type="secondary">弹药主体使用连续普攻，由原生统一核对攻击许可、冻结开始库存及安排恢复；单次外部事件入口不支持此闭环。</Typography.Paragraph> : null}
           <Typography.Paragraph type="secondary" style={{ marginTop: 8 }}>
@@ -1501,7 +1510,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
       <details key="debug-details">
         <summary>调试详情：编译请求、原始结果与引用覆盖</summary>
         {automaticMode && formulaPreflight ? <Typography.Paragraph>共同公式预检：编译{formulaPreflight.compileCount}次，程序{formulaPreflight.formulaCount}份，预检会话已释放。</Typography.Paragraph> : null}
-        {automaticMode && inspection ? <Button disabled={busy || availabilityBlocked || candidateUnconfirmed || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
+        {automaticMode && inspection ? <Button disabled={busy || availabilityBlocked || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
           onClick={() => void execute('compile')}>编译验证</Button> : null}
       {prepared ? (
         <section aria-label="编译请求与档案">

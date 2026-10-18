@@ -13,6 +13,8 @@ import type { SimulationCoverage } from './simulationAdapter';
 import type { SimulationAttributeDerivation } from './simulationAttributeConversion';
 import { declaredFormulaForApprovedReads } from './approvedFormulaValues';
 import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
+import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
+  type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
 type Side = 'source' | 'target';
 export type SimulationSkillOriginTrace = SimulationSkillSource & {
@@ -21,8 +23,10 @@ export type SimulationSkillOriginTrace = SimulationSkillSource & {
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 
-export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
+export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneInputs: readonly SceneInitialParameterInput[] = []) {
   validateSimulationSkillSourceManifest(snapshot);
+  const sceneParameters = normalizeSceneInitialParameterInputs(snapshot, sceneInputs);
+  const sceneRequirements = sceneInitialParameterRequirements(snapshot);
   const providers: ProviderDefinition[] = [];
   const mounts: Array<{ side: Side; providerRef: string; definitionRef: string }> = [];
   const origins: SimulationSkillOriginTrace[] = [];
@@ -121,11 +125,13 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
         const operations = [];
         for (const action of [...rule.actions].sort((left, right) => left.sortOrder - right.sortOrder)) {
           if (action.actionType !== 'EXECUTE_EFFECT' || action.targetContext !== 'EVENT_SOURCE'
-            || action.resultModifiers.length || action.runtimeInputBindings.length) fail(`${rulePath}.actions.${action.actionKey}`, '初始化动作必须完整作用于事件来源自身');
+            || action.resultModifiers.length || action.runtimeInputBindings.some(binding => binding.sourceType !== 'SCENE_INITIAL_PARAMETER')) fail(`${rulePath}.actions.${action.actionKey}`, '初始化动作必须完整作用于事件来源自身');
           const effects = configuration.effects.filter(row => row.effectKey === action.detail.effectKey);
           if (effects.length !== 1) fail(rulePath, '初始化引用效果缺失或重复');
           const effect = effects[0]!;
           const effectPath = `skills.${source.skillKey}.effects.${effect.effectKey}`;
+          const actionContext = { ...permanentContext, sceneParameterValues: sceneInitialValuesForSource(sceneRequirements,
+            sceneParameters, side, source, { ruleKey: rule.ruleKey, actionKey: action.actionKey, effectKey: effect.effectKey }) };
           for (const subscriber of configuration.triggerRules) {
             const event = subscriber.eventSource;
             const resultTail = event.eventType === 'RESULT_AVAILABLE' && event.detail.effectKey === effect.effectKey
@@ -138,7 +144,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
           validatePermanentEffect(effect, effectPath, permanentContext);
           for (const result of [...effect.results].sort((left, right) => left.sortOrder - right.sortOrder)) {
             const resultPath = `${effectPath}.results.${result.resultKey}`;
-            const modifier = permanentModifier(permanentContext, result, resultPath);
+            const modifier = permanentModifier(actionContext, result, resultPath);
             if ('combatantKey' in modifier) {
               const index = derivations.length;
               derivations.push(modifier);

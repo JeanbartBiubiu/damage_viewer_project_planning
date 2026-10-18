@@ -50,7 +50,8 @@ export function allowedModifierZoneCalculationModes(
 ): ModifierZoneCalculationMode[] {
   if (domain === 'ATTRIBUTE') return ['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY'];
   if (domain === 'HEALING') return ['RATIO_ADD', 'RATIO_MAX'];
-  if (domain === 'DAMAGE' || domain === 'SHIELD') return ['RATIO_ADD'];
+  if (domain === 'DAMAGE') return ['RATIO_ADD', 'RATIO_MULTIPLY'];
+  if (domain === 'SHIELD') return ['RATIO_ADD'];
   return [];
 }
 
@@ -63,6 +64,7 @@ export function allowedModifierZoneApplicationStages(
   if (domain === 'DAMAGE' && mode === 'RATIO_ADD') {
     return ['DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'];
   }
+  if (domain === 'DAMAGE' && mode === 'RATIO_MULTIPLY') return ['DAMAGE_POST_DEFENSE'];
   if (domain === 'HEALING' && (mode === 'RATIO_ADD' || mode === 'RATIO_MAX')) return ['HEALING_RESULT'];
   if (domain === 'SHIELD' && mode === 'RATIO_ADD') return ['SHIELD_RESULT'];
   return [];

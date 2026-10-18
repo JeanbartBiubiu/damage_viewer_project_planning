@@ -1,6 +1,7 @@
 import type {
   AbilityDefinition, CompileRequest, DoneResult, OperationDefinition, ProcessDefinition, RunRequest, StopReason
 } from '../types/genericEngine';
+import { isAlwaysParticipatingContribution } from './basicAttackContributionContract';
 
 export type SingleAttackAssessment = {
   complete: boolean;
@@ -252,12 +253,13 @@ export function assessSingleAttackResult(compileRequest: CompileRequest, runRequ
     for (const plan of plans) {
       const operationIndex = hitAbility.definition.operations!.indexOf(plan);
       check(plan.skillHit!.skillKey === use?.skillKey, 'compileRequest.sharedProviders', '命中计划技能身份不一致');
-      const conditionalRules = new Set(plan.skillHit!.candidates.filter(candidate => candidate.participationCondition != null)
+      const conditionalRules = new Set(plan.skillHit!.candidates.filter(candidate => candidate.participationCondition != null
+        && !isAlwaysParticipatingContribution(candidate))
         .map(candidate => candidate.candidateKey.split(':')[0]!));
       const observedRules = new Set<string>();
       for (const [index, candidate] of plan.skillHit!.candidates.entries()) {
         const prefix = `${hitAbility.path}.operations[${operationIndex}].skillHit.candidates[${index}].operations`;
-        if (candidate.operations.some((operation, operationIndexInCandidate) => evidence.some(item =>
+        if (!isAlwaysParticipatingContribution(candidate) && candidate.operations.some((operation, operationIndexInCandidate) => evidence.some(item =>
           operation.operation === 'damage' ? item.row.kind === 'damage' && item.data.abilityRef === hit!.abilityRef && item.data.operationRef === operation.ref
             : item.row.kind === 'link_application' && item.row.path === `${prefix}[${operationIndexInCandidate}]`))) {
           observedRules.add(candidate.candidateKey.split(':')[0]!);
@@ -268,7 +270,8 @@ export function assessSingleAttackResult(compileRequest: CompileRequest, runRequ
       plan.skillHit!.candidates.forEach((candidate, index) => {
         check(candidate.spellShieldBlockScope === null && !candidate.eventValueConditions?.length,
           `${hitAbility.path}.operations[${operationIndex}].skillHit.candidates[${index}]`, '所选结果包含未支持的阻挡或事件数值条件');
-        if (candidate.participationCondition != null && !observedRules.has(candidate.candidateKey.split(':')[0]!)) return;
+        if (candidate.participationCondition != null && !isAlwaysParticipatingContribution(candidate)
+          && !observedRules.has(candidate.candidateKey.split(':')[0]!)) return;
         candidate.operations.forEach((operation, operationIndexInCandidate) => expected.push({ operation,
           path: `${hitAbility.path}.operations[${operationIndex}].skillHit.candidates[${index}].operations[${operationIndexInCandidate}]`,
           abilityRef: hit!.abilityRef, providerRef: hitAbility.providerRef }));

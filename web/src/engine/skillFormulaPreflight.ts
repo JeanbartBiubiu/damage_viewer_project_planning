@@ -4,10 +4,16 @@ import { GenericEngineClient } from './genericEngineClient';
 import { createNumericCompileState, registerCommonFormula } from './numericAdapter';
 import { rememberApprovedFormulaValues, selectFormulaProofScope, matchesFormulaProofScope, clearFormulaProofScope } from './approvedFormulaValues';
 import { calculationConfiguration, gameDerivationFormula } from './simulationCalculationRules';
+import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
+  type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
 /** 完整场景来源、等级及绑定共同组成预检身份，任何相关快照变更都重新编译。 */
-export function snapshotFormulaProofIdentity(snapshot: SimulationSnapshot) { return JSON.stringify(snapshot); }
-export function skillFormulaPreflightRequest(snapshot: SimulationSnapshot): CompileRequest {
+export function snapshotFormulaProofIdentity(snapshot: SimulationSnapshot, sceneInputs: readonly SceneInitialParameterInput[] = []) {
+  return JSON.stringify([snapshot, normalizeSceneInitialParameterInputs(snapshot, sceneInputs)]);
+}
+export function skillFormulaPreflightRequest(snapshot: SimulationSnapshot, sceneInputs: readonly SceneInitialParameterInput[] = []): CompileRequest {
+  const normalized = normalizeSceneInitialParameterInputs(snapshot, sceneInputs);
+  const requirements = sceneInitialParameterRequirements(snapshot);
   const formulas: NamedFormula[] = [];
   for (const side of ['source', 'target'] as const) for (const rule of calculationConfiguration(snapshot)?.attributeDerivations ?? []) {
     formulas.push(gameDerivationFormula(snapshot, rule, side));
@@ -19,7 +25,8 @@ export function skillFormulaPreflightRequest(snapshot: SimulationSnapshot): Comp
     const state = createNumericCompileState({ gameId: snapshot.gameId, skillKey: source.skillKey, skillLevel: source.skillLevel,
       characterLevel: snapshot.selection[`${side}Level`], parameters: config.parameters, formulas: config.formulas,
       formulaNamespace: 'preflight/' + side + '/' + sourceIndex + '/' + source.skillKey,
-      bindParameters: false, allowAttributeReads: true, runtimeInputMessage: '预检不运行技能或供给计算时输入' });
+      bindParameters: false, allowAttributeReads: true, runtimeInputMessage: '预检不运行技能或供给计算时输入',
+      sceneParameterValues: sceneInitialValuesForSource(requirements, normalized, side, source) });
     for (const formula of config.formulas) formulas.push(registerCommonFormula(formula, 'formulas.' + formula.formulaKey, state));
   }
   return { schemaVersion: 'generic-p0', schemaHash: 'generic-basic-attack-input-v4', rulesHash: 'skill-formula-preflight',
@@ -28,16 +35,16 @@ export function skillFormulaPreflightRequest(snapshot: SimulationSnapshot): Comp
     sharedProviders: [], rules: {}, formulas };
 }
 export async function preflightSkillFormulas(snapshot: SimulationSnapshot, client: GenericEngineClient,
-  isCurrent: () => boolean = () => true) {
+  isCurrent: () => boolean = () => true, sceneInputs: readonly SceneInitialParameterInput[] = []) {
   let identity: string | undefined;
   let revision: number | undefined;
   let request: CompileRequest | undefined;
   let sessionId: string | null = null;
   let confirmed = false;
   try {
-    identity = snapshotFormulaProofIdentity(snapshot);
+    identity = snapshotFormulaProofIdentity(snapshot, sceneInputs);
     revision = selectFormulaProofScope(identity, true);
-    request = skillFormulaPreflightRequest(snapshot);
+    request = skillFormulaPreflightRequest(snapshot, sceneInputs);
     if (!isCurrent() || !matchesFormulaProofScope(identity, revision)) throw new Error('公式预检已取消或场景已经改变。');
     if (!request.formulas?.length) return { compileCount: 0, released: true, formulaCount: 0 };
     const result = await client.compile(request);

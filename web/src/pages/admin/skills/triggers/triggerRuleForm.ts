@@ -121,6 +121,8 @@ import type {
   SkillTriggerCombatStatusValueKind,
   SkillTriggerCombatElapsedTimeBinding,
   SkillTriggerRecentDamageSumBinding,
+  SkillTriggerSceneAttributeSnapshotBinding,
+  SkillTriggerSceneInitialParameterBinding,
   SkillTriggerCondition,
   SkillTriggerConditionGroup,
   SkillTriggerConditionType,
@@ -898,6 +900,12 @@ export function createEmptyBindingDetail(
   sourceType: 'SOURCE_CAST_RESOURCE_COST'
 ): SkillTriggerSourceCastResourceCostBinding['detail'];
 export function createEmptyBindingDetail(
+  sourceType: 'SCENE_ATTRIBUTE_SNAPSHOT'
+): SkillTriggerSceneAttributeSnapshotBinding['detail'];
+export function createEmptyBindingDetail(
+  sourceType: 'SCENE_INITIAL_PARAMETER'
+): SkillTriggerSceneInitialParameterBinding['detail'];
+export function createEmptyBindingDetail(
   sourceType: 'PRIOR_ACTION_RESULT'
 ): SkillTriggerPriorResultBindingDetail;
 export function createEmptyBindingDetail(
@@ -930,6 +938,10 @@ export function createEmptyBindingDetail(
       return { eventValueKey: 'HIT_INDEX' };
     case 'SOURCE_CAST_RESOURCE_COST':
       return { attributeKey: '' };
+    case 'SCENE_ATTRIBUTE_SNAPSHOT':
+      return { subject: 'SOURCE', attributeKey: '', sources: [] };
+    case 'SCENE_INITIAL_PARAMETER':
+      return { minValue: Number.NaN, maxValue: Number.NaN };
     case 'PRIOR_ACTION_RESULT':
       return {
         sourceActionKey: '',
@@ -1135,6 +1147,14 @@ export function createEmptyBinding(
 ): SkillTriggerSourceCastResourceCostBinding;
 export function createEmptyBinding(
   existingKeys: readonly string[],
+  sourceType: 'SCENE_ATTRIBUTE_SNAPSHOT'
+): SkillTriggerSceneAttributeSnapshotBinding;
+export function createEmptyBinding(
+  existingKeys: readonly string[],
+  sourceType: 'SCENE_INITIAL_PARAMETER'
+): SkillTriggerSceneInitialParameterBinding;
+export function createEmptyBinding(
+  existingKeys: readonly string[],
   sourceType: 'PRIOR_ACTION_RESULT'
 ): SkillTriggerPriorResultBinding;
 export function createEmptyBinding(
@@ -1166,6 +1186,10 @@ export function createEmptyBinding(
       return { ...base, sourceType, detail: createEmptyBindingDetail('EVENT_VALUE') };
     case 'SOURCE_CAST_RESOURCE_COST':
       return { ...base, sourceType, detail: createEmptyBindingDetail('SOURCE_CAST_RESOURCE_COST') };
+    case 'SCENE_ATTRIBUTE_SNAPSHOT':
+      return { ...base, sourceType, detail: createEmptyBindingDetail('SCENE_ATTRIBUTE_SNAPSHOT') };
+    case 'SCENE_INITIAL_PARAMETER':
+      return { ...base, sourceType, detail: createEmptyBindingDetail('SCENE_INITIAL_PARAMETER') };
     case 'PRIOR_ACTION_RESULT':
       return { ...base, sourceType, detail: createEmptyBindingDetail('PRIOR_ACTION_RESULT') };
     case 'COMBAT_ELAPSED_TIME':
@@ -2324,6 +2348,11 @@ function cleanupBindingForEventSwitch(
   switch (binding.sourceType) {
     case 'SOURCE_CAST_RESOURCE_COST':
       return allowsSourceCastResourceCost(nextSource, processes) ? binding : null;
+    case 'SCENE_ATTRIBUTE_SNAPSHOT':
+      // 固定场景槽位不跟随事件对象变换；保留作者草稿，由保存校验明确拒绝失效入口。
+      return binding;
+    case 'SCENE_INITIAL_PARAMETER':
+      return binding; // 保留边界草稿，切换到非法入口时明确校验，不改成默认来源。
     case 'EVENT_VALUE': {
       if (!allowed.includes(binding.detail.eventValueKey)) return null;
       return binding;
@@ -2563,8 +2592,14 @@ export function actionSummary(action: SkillTriggerActionDraft): string {
 
 export function bindingSummary(binding: SkillTriggerRuntimeInputBinding): string {
   switch (binding.sourceType) {
+    case 'SCENE_INITIAL_PARAMETER':
+      return `${SKILL_TRIGGER_SOURCE_TYPE_LABELS.SCENE_INITIAL_PARAMETER} / 下界${Number.isFinite(binding.detail.minValue) ? binding.detail.minValue : '未填写'} / 上界${Number.isFinite(binding.detail.maxValue) ? binding.detail.maxValue : '未填写'} / 本场明确填写`;
     case 'SOURCE_CAST_RESOURCE_COST':
       return `${SKILL_TRIGGER_SOURCE_TYPE_LABELS.SOURCE_CAST_RESOURCE_COST} / ${binding.detail.attributeKey}`;
+    case 'SCENE_ATTRIBUTE_SNAPSHOT':
+      return [SKILL_TRIGGER_SOURCE_TYPE_LABELS.SCENE_ATTRIBUTE_SNAPSHOT,
+        binding.detail.subject === 'SOURCE' ? '场景攻击方' : '场景目标方', binding.detail.attributeKey,
+        binding.detail.sources.map((source) => source === 'CHARACTER_LEVEL' ? '所选等级属性' : '装备直接属性').join('＋')].join(' / ');
     case 'INTERNAL_STATE':
       return [
         SKILL_TRIGGER_SOURCE_TYPE_LABELS.INTERNAL_STATE,
@@ -2692,6 +2727,9 @@ export function sourceValueDomain(
   switch (binding.sourceType) {
     case 'SOURCE_CAST_RESOURCE_COST':
       return 'DECIMAL';
+    case 'SCENE_ATTRIBUTE_SNAPSHOT':
+    case 'SCENE_INITIAL_PARAMETER':
+      return null; // 作者保存时未知实际值；整数声明由宿主及原生核验实际快照。
     case 'COMBAT_ELAPSED_TIME':
     case 'RECENT_DAMAGE_SUM':
       return 'DECIMAL';
@@ -2706,6 +2744,93 @@ export function sourceValueDomain(
         ? priorResultOutputDomain(binding.detail.outputKind)
         : null;
   }
+}
+
+export function allowsSceneInitialParameter(
+  eventSource: SkillTriggerEventSource,
+  skillKey: string,
+  action: SkillTriggerActionDraft | undefined
+): boolean {
+  return Boolean(skillKey) && eventSource.eventType === 'SOURCE_INITIALIZED'
+    && action?.actionType === 'EXECUTE_EFFECT' && action.targetContext === 'EVENT_SOURCE';
+}
+
+export function sceneInitialParameterError(
+  binding: SkillTriggerSceneInitialParameterBinding,
+  eventSource: SkillTriggerEventSource,
+  skillKey: string,
+  action: SkillTriggerActionDraft | undefined,
+  consumedParameters: readonly SkillParameter[],
+  effect: Pick<SkillEffect, 'skillKey'> | undefined
+): string | null {
+  if (!allowsSceneInitialParameter(eventSource, skillKey, action)) {
+    return '场景显式初值仅用于来源初始化事件，以事件来源对象执行本技能效果。';
+  }
+  if (!effect || effect.skillKey !== skillKey) return '本技能效果详情尚未成功加载；当前草稿已保留。';
+  const parameter = consumedParameters.find((item) => item.parameterKey === binding.parameterKey);
+  if (!parameter || parameter.skillKey !== skillKey || parameter.valueMode !== 'RUNTIME_INPUT'
+    || (parameter.valueType !== 'INTEGER' && parameter.valueType !== 'DECIMAL')) {
+    return '请选择本技能效果结果实际消费的计算时输入数值参数。';
+  }
+  const detail = binding.detail;
+  if (!detail || Object.keys(detail).length !== 2 || Object.keys(detail).some((key) => key !== 'minValue' && key !== 'maxValue')) {
+    return '场景显式初值明细只能声明最小值与最大值，不接受默认值或本场取值。';
+  }
+  if (typeof detail.minValue !== 'number' || !Number.isFinite(detail.minValue)
+    || typeof detail.maxValue !== 'number' || !Number.isFinite(detail.maxValue)) {
+    return '请明确填写有限数值的最小值与最大值。';
+  }
+  if (detail.minValue > detail.maxValue) return '最小值不能大于最大值。';
+  if (parameter.valueType === 'INTEGER' && (!Number.isSafeInteger(detail.minValue) || !Number.isSafeInteger(detail.maxValue))) {
+    return '整数参数的最小值与最大值必须为安全整数。';
+  }
+  return null;
+}
+
+export function allowsSceneAttributeSnapshot(
+  eventSource: SkillTriggerEventSource,
+  skillKey: string,
+  action: SkillTriggerActionDraft | undefined,
+  processes?: ReadonlyArray<SourceCastResourceCostProcess>
+): boolean {
+  return Boolean(skillKey) && eventSource.eventType === 'SKILL_USED'
+    && eventSource.detail.sourceSkillKey === skillKey && eventSource.detail.useKind === 'ACTIVE'
+    && eventSource.detail.castPhase === 'INITIAL' && action?.actionType === 'START_PROCESS'
+    && processes?.some((process) => process.processKey === action.detail.processKey && process.activationType === 'ACTIVE') === true;
+}
+
+export function sceneAttributeSnapshotError(
+  binding: SkillTriggerSceneAttributeSnapshotBinding,
+  eventSource: SkillTriggerEventSource,
+  skillKey: string,
+  action: SkillTriggerActionDraft | undefined,
+  reachableParameters: readonly SkillParameter[],
+  attributes: readonly (Pick<Attribute, 'attributeKey'> & Partial<Pick<Attribute, 'status' | 'valueType'>>)[],
+  attributesLoadState: CatalogLoadState | undefined,
+  processes?: ReadonlyArray<SourceCastResourceCostProcess>,
+  processesLoadState?: CatalogLoadState
+): string | null {
+  if (processesLoadState !== 'ready') return '过程目录尚未成功加载；当前草稿已保留。';
+  if (!allowsSceneAttributeSnapshot(eventSource, skillKey, action, processes)) {
+    return '场景属性快照仅用于本技能明确的首次主动使用，启动当前技能真实主动过程。';
+  }
+  const parameter = reachableParameters.find((item) => item.parameterKey === binding.parameterKey);
+  if (!parameter || parameter.skillKey !== skillKey || parameter.valueMode !== 'RUNTIME_INPUT'
+    || (parameter.valueType !== 'INTEGER' && parameter.valueType !== 'DECIMAL')) {
+    return '请选择当前动作实际消费的计算时输入数值参数。';
+  }
+  if (binding.detail.subject !== 'SOURCE' && binding.detail.subject !== 'TARGET') return '请选择固定场景攻击方或目标方。';
+  if (!Array.isArray(binding.detail.sources) || binding.detail.sources.length === 0
+    || new Set(binding.detail.sources).size !== binding.detail.sources.length
+    || binding.detail.sources.some((source) => source !== 'CHARACTER_LEVEL' && source !== 'EQUIPMENT_DIRECT')) {
+    return '请选择非空、无重复的所选等级属性或装备直接属性来源。';
+  }
+  if (attributesLoadState !== 'ready') return '属性目录尚未成功加载；当前草稿已保留。';
+  const attribute = attributes.find((item) => item.attributeKey === binding.detail.attributeKey);
+  if (!attribute || attribute.status !== 'ENABLED' || (attribute.valueType !== 'INTEGER' && attribute.valueType !== 'DECIMAL')) {
+    return '请选择当前游戏真实启用的数值属性。';
+  }
+  return null;
 }
 
 export function isBindingTypeCompatible(
@@ -2731,7 +2856,9 @@ export function evaluateBindingCompleteness(
     const matched = byParameter.get(parameter.parameterKey) ?? [];
     const first = matched[0];
     const compatible = first
-      ? isBindingTypeCompatible(sourceValueDomain(first) ?? 'DECIMAL', parameter.valueType)
+      ? first.sourceType === 'SCENE_ATTRIBUTE_SNAPSHOT' || first.sourceType === 'SCENE_INITIAL_PARAMETER'
+        ? parameter.valueMode === 'RUNTIME_INPUT' && (parameter.valueType === 'INTEGER' || parameter.valueType === 'DECIMAL')
+        : isBindingTypeCompatible(sourceValueDomain(first) ?? 'DECIMAL', parameter.valueType)
       : null;
     return {
       parameterKey: parameter.parameterKey,
@@ -3035,7 +3162,7 @@ export function requiredCatalogsForDraft(draft: SkillTriggerRuleDraft, catalogs:
     }
   }
   for (const action of draft.actions) {
-    if (action.runtimeInputBindings.some((item) => item.sourceType === 'SOURCE_CAST_RESOURCE_COST')) required.add('attributes');
+    if (action.runtimeInputBindings.some((item) => item.sourceType === 'SOURCE_CAST_RESOURCE_COST' || item.sourceType === 'SCENE_ATTRIBUTE_SNAPSHOT')) required.add('attributes');
     if (action.runtimeInputBindings.some((item) => item.sourceType === 'INTERNAL_STATE')) {
       required.add('internalStates');
     }
@@ -3163,7 +3290,7 @@ export function validateSkillTriggerDraft(
     catalogStates?: Partial<Record<SkillTriggerCatalogKind, CatalogLoadState>>;
     formulasByKey?: ReadonlyMap<string, SkillFormula>;
     parameters?: readonly SkillParameter[];
-    attributes?: readonly Pick<Attribute, 'attributeKey'>[];
+    attributes?: readonly (Pick<Attribute, 'attributeKey'> & Partial<Pick<Attribute, 'status' | 'valueType'>>)[];
     effectsByKey?: ReadonlyMap<string, SkillEffect>;
     damageTypesByKey?: ReadonlyMap<string, DamageType>;
     processesByKey?: ReadonlyMap<string, SkillProcess>;
@@ -3479,6 +3606,24 @@ export function validateSkillTriggerDraft(
           options.catalogStates?.processes
         );
         if (error) pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}]`, error);
+      }
+      if (binding.sourceType === 'SCENE_ATTRIBUTE_SNAPSHOT') {
+        const reachable = reachableRuntimeInputParameters(collectActionValues(action, options), options.formulasByKey ?? new Map(), options.parameters ?? []);
+        const error = sceneAttributeSnapshotError(binding, draft.eventSource, options.skillKey ?? '', action, reachable,
+          options.attributes ?? [], options.catalogStates?.attributes,
+          options.processesByKey ? [...options.processesByKey.values()] : undefined, options.catalogStates?.processes);
+        if (error) pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}]`, error);
+      }
+      if (binding.sourceType === 'SCENE_INITIAL_PARAMETER') {
+        const effect = action.actionType === 'EXECUTE_EFFECT' ? options.effectsByKey?.get(action.detail.effectKey) : undefined;
+        const formulas = options.formulasByKey ?? new Map();
+        const consumed = reachableRuntimeInputParameters(effect ? collectExecuteEffectValues({ ...effect, lifecycle: null }) : [], formulas, options.parameters ?? []);
+        const error = sceneInitialParameterError(binding, draft.eventSource, options.skillKey ?? '', action, consumed, effect);
+        if (error) pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}]`, error);
+        if (effect && reachableRuntimeInputParameters(numericValuesIn(effect.lifecycle), formulas, options.parameters ?? [])
+          .some((parameter) => parameter.parameterKey === binding.parameterKey)) {
+          pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}]`, '场景显式初值不能为生命周期读取供值。');
+        }
       }
       if (binding.sourceType === 'EVENT_VALUE' && !allowedValues.includes(binding.detail.eventValueKey)) {
         pushError(

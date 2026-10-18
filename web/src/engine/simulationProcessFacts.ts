@@ -1,6 +1,7 @@
 import type { CompileRequest, DoneResult, ProcessActionOccupancy, ProcessInstanceSnapshot, RunRequest, SkillActionPlan } from '../types/genericEngine';
 import { tryFoldConstant } from './numericAdapter';
 import { simulationAbility } from './simulationAdapter';
+import { inspectEmpoweredPredecessors } from './empoweredAttackContract';
 
 function channelWindowExecutionOffset(first: number, last: number, count: number, ordinal: number): number {
   if (count === 1) return first;
@@ -36,7 +37,8 @@ export function committedSkillControl(compile: CompileRequest, request: RunReque
 }
 
 export function inspectSimulationProcessFacts(compile: CompileRequest, request: RunRequest, done: DoneResult) {
-  const issues: string[] = [];
+  const empowered = inspectEmpoweredPredecessors(compile, request, done);
+  const issues: string[] = empowered.issues;
   const occupancies: Array<ProcessActionOccupancy & { useRef: string }> = [];
   const processes: ProcessInstanceSnapshot[] = [];
   const check = (valid: boolean, path: string, message: string) => { if (!valid) issues.push(`${path}: ${message}`); };
@@ -46,7 +48,7 @@ export function inspectSimulationProcessFacts(compile: CompileRequest, request: 
   const actions = request.driverPlan.skillActions ?? [];
   const automaticRules = request.driverPlan.automaticSkills?.rules;
   if (!Array.isArray(done.finalSnapshot.processInstances)) {
-    return { issues: ['finalSnapshot.processInstances: 缺少完整过程快照'], occupancies, processes };
+    return { issues: ['finalSnapshot.processInstances: 缺少完整过程快照'], occupancies, processes, empoweredSuccessions: empowered.successions };
   }
   for (const process of done.finalSnapshot.processInstances) {
     const binding = bindings.find(binding => binding.providerRef === process.providerRef && binding.source === process.owner);
@@ -234,7 +236,7 @@ export function inspectSimulationProcessFacts(compile: CompileRequest, request: 
   }
   if (summary && done.summary.skillActions) check(done.summary.skillActions.acceptedCount === summary.startedCount + controls.size,
     'summary.skillActions.acceptedCount', '完整控制接受累计须对应原使用实际执行或主动取消，零明细不得绕过');
-  return { issues, occupancies, processes };
+  return { issues, occupancies, processes, empoweredSuccessions: empowered.successions };
 }
 
 export function simulationActionContribution(occupancies: readonly ProcessActionOccupancy[], start: number, end: number): number | null {

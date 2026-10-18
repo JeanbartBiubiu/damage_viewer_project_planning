@@ -3,6 +3,7 @@ import type { SimulationPlannedSkill, SimulationSkillPhase, SimulationSnapshot }
 import type { assembleSimulation } from './simulationAdapter';
 import { simulationAbility } from './simulationAdapter';
 import { simulationHash } from './simulationHash';
+import { empoweredAttackBinding, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import { continuousAttackRequest, type AttackSpeedAdmission } from './continuousAttackRequest';
@@ -63,16 +64,18 @@ export async function skillActionRequest(prepared: ReturnType<typeof assembleSim
       || ability.mount.providerRef !== binding.providerRef || ability.mount.definitionRef !== binding.providerDefinitionRef
       || ability.ability.skillKey !== input.skillKey || ability.ability.processControl?.processKey !== control.processKey
       || ability.ability.processControl.action !== input.phaseKind) throw new Error(`${path}: 编译绑定、真实来源、已学等级或实际阶段控制不一致`);
+    const empowered = empoweredAttackBinding(compile, binding);
+    if (empowered) requireEmpoweredBasicAttack(compile, prepared.basicAttackBinding);
     if (input.phaseKind !== 'INITIAL' && input.hitPreset !== null) throw new Error(`${path}.hitPreset: 控制继承原首次预设，不允许重新填写命中`);
-    if (input.phaseKind === 'INITIAL' && binding.hitBindings.length && (!['TARGET_HIT', 'MISS'].includes(input.hitPreset ?? '') || input.targetSide !== 'target')) {
+    if (input.phaseKind === 'INITIAL' && !empowered && binding.hitBindings.length && (!['TARGET_HIT', 'MISS'].includes(input.hitPreset ?? '') || input.targetSide !== 'target')) {
       throw new Error(`${path}.hitPreset: 伤害释放仅允许唯一目标B且必须明确命中或未命中`);
     }
-    if (input.phaseKind === 'INITIAL' && !binding.hitBindings.length && (input.hitPreset !== null || input.targetSide !== 'source')) {
+    if (input.phaseKind === 'INITIAL' && (empowered || !binding.hitBindings.length) && (input.hitPreset !== null || input.targetSide !== 'source')) {
       throw new Error(`${path}.hitPreset: 自身治疗不造命中，只允许自身目标`);
     }
     return { instructionKey: input.instructionKey, firstAtMs: input.atMs, sortOrder: input.sortOrder, source: 'source', target: input.targetSide,
       skillKey: binding.skillKey, bindingKey: binding.bindingKey, action: input.phaseKind, abilityRef: control.abilityRef, parentInstructionKey: input.parentInstructionKey,
-      hitBindings: input.phaseKind === 'INITIAL' ? binding.hitBindings.map(hit => ({ hitBindingKey: hit.hitBindingKey, preset: input.hitPreset! })) : [] };
+      hitBindings: input.phaseKind === 'INITIAL' && !empowered ? binding.hitBindings.map(hit => ({ hitBindingKey: hit.hitBindingKey, preset: input.hitPreset! })) : [] };
   });
   skillActions.sort((left, right) => left.firstAtMs - right.firstAtMs || left.sortOrder - right.sortOrder
     || (left.instructionKey < right.instructionKey ? -1 : left.instructionKey > right.instructionKey ? 1 : 0));

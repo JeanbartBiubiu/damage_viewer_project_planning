@@ -7,7 +7,7 @@ import type { SkillActionArchive } from '../../src/pages/simulation/SimulationSc
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 import { simulationSkillSourceIdentity } from '../../src/services/simulationSkillSourceIdentity';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
-import { confirmSimulationConfiguration } from '../fixtures/simulationSnapshotRequests';
+import { expectSimulationConfigurationReady } from '../fixtures/simulationSnapshotRequests';
 
 const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:18082';
 const proofDirectory = resolve('output/formula-phase4-real-pages');
@@ -70,8 +70,7 @@ for (const sample of [
   }
   await selectOption(page, `攻击方来源 ${simulationSkillSourceIdentity({ kind: 'CHARACTER', characterKey: sample.characterKey }, sample.skillKey)} 等级`, '1');
   const snapshot = await readSnapshot(page);
-  await confirmSimulationConfiguration(page);
-  if (sample.cost) await page.getByRole('checkbox', { name: `声明施法成本 ${sample.cost}`, exact: true }).locator('xpath=ancestor::label').click();
+  await expectSimulationConfigurationReady(page);
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   const sourceAp = page.getByRole('spinbutton', { name: '攻击方补充属性 ability_power', exact: true });
   if (await sourceAp.count()) await sourceAp.fill('100');

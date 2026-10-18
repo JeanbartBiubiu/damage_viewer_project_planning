@@ -1,7 +1,7 @@
 import { expect, test, type Locator, type Page, type Route } from '@playwright/test';
 import { simulationSample } from '../fixtures/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
-import { confirmSimulationConfiguration, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
+import { expectSimulationConfigurationReady, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
 import { simulationAvailabilityCatalog } from '../fixtures/simulationAvailability';
 
 // 操作真实管理组件，只替换 HTTP；本专项不作为实库或计算运行证据。
@@ -486,7 +486,7 @@ test('初始当前生命保持未填写与0区别，明确点击才使用快照�
   await chooseSimulationLevel(page, '普攻技能等级', snapshot.selection.basicAttackLevel!);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   const sourceHealth = page.getByRole('spinbutton', { name: '攻击方初始当前生命', exact: true });
-  await confirmSimulationConfiguration(page);
+  await expectSimulationConfigurationReady(page);
   const targetHealth = page.getByRole('spinbutton', { name: '目标初始当前生命', exact: true });
   const compile = page.getByRole('button', { name: '编译验证', exact: true });
   await expect(sourceHealth).toHaveValue('');

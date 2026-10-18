@@ -69,6 +69,21 @@ function assemble(snapshot: ReturnType<typeof scene>['snapshot']) {
 }
 
 describe('自然技能控制候选与原使用', () => {
+  it('强化待击没有独立技能命中事实，拒绝将该事件被动控制贡献偷渡到负载', () => {
+    const { snapshot } = scene('charged_window', 'stacks', 'lock_window', 4, true);
+    const active = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'sample_active')!;
+    active.triggerRules = active.triggerRules.filter(row => row.eventSource.eventType !== 'SKILL_HIT');
+    const process = active.processes[0]!;
+    process.steps = [{ stepKey: 'wait', stepType: 'EMPOWERED_BASIC_ATTACK', detail: { windowValue: fixedValue(1500), consumeMoment: 'ATTACK_HIT' },
+      occupiesAction: false, sortOrder: 0, name: '待击', description: null }];
+    process.effectBindings = [{ bindingKey: 'hit', effectKey: active.effects[0]!.effectKey, sortOrder: 0,
+      moment: { momentType: 'STEP_EXECUTION', stepKey: 'wait', failureReason: null } }];
+    syncSimulationSkillSources(snapshot);
+    const passive = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'charged_window')!;
+    const source = snapshot.source.skillSources.find(row => row.skillKey === passive.skill.skillKey)!;
+    source.enabledRuleKeys = naturalRuleKeys(snapshot, passive, 'source'); source.inactiveReason = null;
+    expect(() => assemble(snapshot)).toThrow(/强化待击不发布独立技能命中/);
+  });
   it.each([['charged_alpha', 'stacks', 'lock_alpha'], ['ready_beta', 'charges', 'lock_beta']] as const)('%s 只附加原命中候选，保留被动自身监听与状态', (skillKey, stateKey, statusKey) => {
     const { snapshot } = scene(skillKey, stateKey, statusKey);
     const original = structuredClone(snapshot);
