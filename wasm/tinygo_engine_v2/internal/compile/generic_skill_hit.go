@@ -1,6 +1,7 @@
 package compile
 
 import (
+	"math"
 	"strings"
 
 	"tinygo_engine_v2/internal/formula"
@@ -284,7 +285,9 @@ func operationsMatchSemantic(ops []model.OperationDefinition, sem model.SkillHit
 		}
 	case model.SkillHitResultAttributeChange:
 		if !allOpsAre(ops, "attribute_change", wantTarget) {
-			return "ATTRIBUTE_CHANGE requires attribute_change operations matching semantic.target"
+			if sem.Target != model.SkillHitTargetTARGET || sem.Moment != model.SkillHitMomentPersistent || len(ops) != 1 || !allOpsAre(ops, "apply_provider", wantTarget) {
+				return "ATTRIBUTE_CHANGE requires matching attribute_change operations or one pure PERSISTENT TARGET attribute provider"
+			}
 		}
 	case model.SkillHitResultResourceChange:
 		if !allOpsAre(ops, "resource_change", wantTarget) {
@@ -348,6 +351,61 @@ func operationsMatchSemantic(ops []model.OperationDefinition, sem model.SkillHit
 		}
 	}
 	return ""
+}
+
+// 在全部能力、监听与过程编译后检查真实定义，不能在候选编译时检查尚未填齐的供值器。
+func finalizeSkillHitPersistentAttributeProviders(ctx *genericCompileContext) {
+	for _, op := range ctx.session.Operations {
+		if op.SkillHit == nil {
+			continue
+		}
+		for _, candidate := range op.SkillHit.Candidates {
+			if candidate.Semantic.ResultType != model.SkillHitResultAttributeChange || candidate.Semantic.Moment != model.SkillHitMomentPersistent || candidate.Semantic.Target != model.SkillHitTargetTARGET {
+				continue
+			}
+			start, end := int(candidate.OperationStart), int(candidate.OperationStart)+int(candidate.OperationCount)
+			if start < 0 || end > len(ctx.session.Operations) || end-start != 1 {
+				continue // 直接属性操作沿原语义检查；非法范围由原编译错误负责。
+			}
+			operation := ctx.session.Operations[start]
+			if operation.Operation != "apply_provider" {
+				continue
+			}
+			if operation.Target != model.SelectorTarget || operation.HasAmount || operation.HasCondition || operation.ProviderRef != "" || operation.ProviderRefFromEvent || !pureFiniteTargetAttributeProvider(operation.ProviderDefinitionRef, ctx) {
+				ctx.collector.addError(model.GenericErrUnknownRef, candidate.Path+".operations", "PERSISTENT TARGET attribute result requires one complete pure finite source_target attribute provider", operation.ProviderDefinitionRef)
+			}
+		}
+	}
+}
+
+func pureFiniteTargetAttributeProvider(reference string, ctx *genericCompileContext) bool {
+	index, exists := ctx.providerKeyIndex[reference]
+	if !exists || int(index) >= len(ctx.session.Providers) {
+		return false
+	}
+	provider := ctx.session.Providers[index]
+	if provider.Kind != "status" || !provider.TypeSet.Empty() || provider.AbilityCount != 0 || len(provider.Listeners)+len(provider.StateFields)+len(provider.Processes)+len(provider.StatusContributions) != 0 || provider.ShieldDefinitionRef != "" || provider.AmmoBinding != nil || provider.NeedsElapsedTime || len(provider.Modifiers) == 0 {
+		return false
+	}
+	lifecycle := provider.Lifecycle
+	if lifecycle == nil || !lifecycle.HasDuration || lifecycle.MaxStacks != 1 || lifecycle.RefreshPolicy != model.RefreshPolicyReplace || lifecycle.InstanceScope != model.InstanceScopeSourceTarget || lifecycle.TickIntervalMs != 0 {
+		return false
+	}
+	duration, static := ctx.session.Formulas.FoldStatic(lifecycle.DurationProgram)
+	if !static || !formula.ValidPositiveInt64DurationMs(duration) {
+		return false
+	}
+	for _, modifier := range provider.Modifiers {
+		key, own := strings.CutPrefix(modifier.Target, "self.attr.")
+		if !own || key == "" || key == "hp" || strings.Contains(key, ".") || modifier.Kind != "attribute" || modifier.ValuePolicy != "add" || modifier.HasCondition || !modifier.HasValue || modifier.Stage != "" || modifier.Command != "" || modifier.Channel != "" || modifier.HealDirection != "" || modifier.HealCategory != "" || modifier.HealGroupKey != "" || modifier.HealGroupCalculationMode != "" {
+			return false
+		}
+		value, fixed := ctx.session.Formulas.FoldStatic(modifier.ValueProgram)
+		if !fixed || math.IsNaN(value) || math.IsInf(value, 0) {
+			return false
+		}
+	}
+	return true
 }
 
 func allOpsAre(ops []model.OperationDefinition, kind, target string) bool {

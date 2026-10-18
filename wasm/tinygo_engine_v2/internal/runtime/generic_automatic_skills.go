@@ -12,15 +12,16 @@ import (
 )
 
 type automaticSkillRuleRuntime struct {
-	inputIndex             int
-	plan                   model.AutomaticSkillRule
-	binding                planbundle.CompiledSkillActionBinding
-	abilityRef             string
-	controlIndex           uint16
-	predecessor, successor *automaticSkillRuleRuntime
-	dependencies           []genericCooldownIdentity
-	summary                model.AutomaticSkillRuleSummary
-	qualification          model.AutomaticSkillQualification
+	inputIndex                 int
+	plan                       model.AutomaticSkillRule
+	binding                    planbundle.CompiledSkillActionBinding
+	abilityRef                 string
+	controlIndex               uint16
+	predecessor, successor     *automaticSkillRuleRuntime
+	dependencies               []genericCooldownIdentity
+	summary                    model.AutomaticSkillRuleSummary
+	qualification              model.AutomaticSkillQualification
+	empoweredPredecessorUseRef *string
 }
 
 type automaticSkillRuntime struct {
@@ -76,7 +77,11 @@ func (s *genericRunState) initAutomaticSkills() *model.EngineError {
 			return s.basicAttackErr(binding.AutomaticIneligibleReason, binding.AutomaticIneligiblePath)
 		}
 		control, exists := binding.ControlAbilityIndices["INITIAL"]
-		if !exists || binding.Source != model.SelectorSource || len(rule.HitBindings) != len(binding.HitBindings) {
+		expectedHits := len(binding.HitBindings)
+		if binding.HasEmpoweredAttack {
+			expectedHits = 0
+		}
+		if !exists || binding.Source != model.SelectorSource || len(rule.HitBindings) != expectedHits || binding.HasEmpoweredAttack && (rule.Target != binding.Source || s.req.DriverPlan.BasicAttack == nil || s.req.DriverPlan.BasicAttack.Source != binding.Source) {
 			return s.basicAttackErr("automatic rule must match its actual initial binding and complete hit presets", path)
 		}
 		for _, preset := range rule.HitBindings {
@@ -359,7 +364,7 @@ func (s *genericRunState) recordAutomatic(record model.AutomaticSkillRecord) {
 	}
 }
 
-func (s *genericRunState) publishAutomaticSkillStart(action *skillActionRuntime) {
+func (s *genericRunState) publishAutomaticSkillStart(action *skillActionRuntime, process *processRuntime) {
 	r := action.automaticRule
 	if r == nil {
 		return
@@ -368,6 +373,10 @@ func (s *genericRunState) publishAutomaticSkillStart(action *skillActionRuntime)
 	s.automaticWait(r, "", nil, 0)
 	if r.predecessor != nil {
 		q := &r.qualification
+		// Both references point to an immutable grant-use string. Later grants
+		// replace the pointer rather than mutating earlier process provenance.
+		process.EmpoweredPredecessorUseRef = r.empoweredPredecessorUseRef
+		r.empoweredPredecessorUseRef = nil
 		q.RemainingCount--
 		q.ConsumedCount++
 		use := action.useRef
@@ -398,6 +407,10 @@ func (s *genericRunState) publishAutomaticSkillFinish(action *skillActionRuntime
 		q.GrantedCount++
 		q.RemainingCount = 1
 		q.LastGrantUseRef = &use
+		next.empoweredPredecessorUseRef = nil
+		if process.EmpoweredAttack != nil || process.EmpoweredPredecessorUseRef != nil {
+			next.empoweredPredecessorUseRef = q.LastGrantUseRef
+		}
 		consumer := next.plan.RuleKey
 		s.recordAutomatic(model.AutomaticSkillRecord{Kind: model.AutomaticRecordQualificationGranted, RuleKey: r.plan.RuleKey, UseRef: &use, RelatedRuleKey: &consumer})
 	}

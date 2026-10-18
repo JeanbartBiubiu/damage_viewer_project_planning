@@ -92,28 +92,31 @@ type eventFormulaSnapshot struct {
 }
 
 type executionFrame struct {
-	pendingAutomaticWake    bool
-	pendingCooldownAttempts []pendingCooldownAttempt
-	pendingAmmoWait         *ammoRecoveryWait
-	pendingAmmoCapture      *ammoUseCapture
-	pendingMechanicRecords  []model.MechanicRecord
-	pendingBasicAttackWait  *basicAttackWait
-	pendingActionWait       bool
-	processUseKey           string
-	processUseSkillKey      string
-	processUseSource        string
-	damageDefenseContext    *formula.GenericEvalContext
-	processActualCosts      map[string]float64
-	processCostReadable     bool
-	processMomentKind       string
-	run                     *genericRunState
-	frameID                 uint64
-	sourceKey               string
-	targetKey               string
-	abilityRef              string
-	ownerCombatantKey       string // mounted provider owner; distinct from event/op sourceKey
-	ownerProviderRef        string
-	strictReads             bool
+	empowered                      *empoweredFrame
+	empoweredAttack                *model.ProcessEmpoweredAttack
+	pendingAutomaticWake           bool
+	pendingBasicAttackCooldownWake bool
+	pendingCooldownAttempts        []pendingCooldownAttempt
+	pendingAmmoWait                *ammoRecoveryWait
+	pendingAmmoCapture             *ammoUseCapture
+	pendingMechanicRecords         []model.MechanicRecord
+	pendingBasicAttackWait         *basicAttackWait
+	pendingActionWait              bool
+	processUseKey                  string
+	processUseSkillKey             string
+	processUseSource               string
+	damageDefenseContext           *formula.GenericEvalContext
+	processActualCosts             map[string]float64
+	processCostReadable            bool
+	processMomentKind              string
+	run                            *genericRunState
+	frameID                        uint64
+	sourceKey                      string
+	targetKey                      string
+	abilityRef                     string
+	ownerCombatantKey              string // mounted provider owner; distinct from event/op sourceKey
+	ownerProviderRef               string
+	strictReads                    bool
 
 	// castInstanceID / castOrigin：同一次施放的身份与来源；多 op / delayed / listener ops 继承。
 	castInstanceID uint64
@@ -134,15 +137,17 @@ type executionFrame struct {
 	healingDone  float64
 	commandCount int
 	chainDepth   int
-	fatal        bool
-	fatalErr     *model.EngineError
+	// rootSkillHitDamage 仅由本次根 resolve_skill_hit 的候选继承，不能由监听或旧命中上下文推导。
+	rootSkillHitDamage bool
+	fatal              bool
+	fatalErr           *model.EngineError
 
 	pendingEvents []emittedEvent
 
 	// copyableCollector：单次 emitted event / dispatchListeners 局部上下文；禁止挂到 genericRunState。
 	copyableCollector *eventCopyableCollector
 
-	// damageAggregation 收集本根帧正数伤害，类型身份来自实际作者操作。
+	// damageAggregation 收集本根帧或合格根命中候选的正数伤害，类型身份来自实际作者操作。
 	damageAggregation frameDamageAggregation
 
 	// consumedFirstPerCast tracks first_per_cast pipeline modifiers already applied in this cast/frame.
@@ -594,7 +599,9 @@ func (f *executionFrame) providerFormulaContextForTarget(combatantKey, targetKey
 		bag := f.providerStateBagForRead(bagOwner, providerRef, strict,
 			providerStateReadOptions{expireTarget: true, defaults: true, targetView: activeTarget != "", targetKey: activeTarget})
 		ctx := providerFormulaContextFromBag(bag, activeTarget)
-		if f.run.compiled.HasProviderElapsedReads { ctx = withProviderElapsed(ctx, f.stageFor(bagOwner).providers, providerRef, f.run.nowMs, f.run.compiled.Providers) }
+		if f.run.compiled.HasProviderElapsedReads {
+			ctx = withProviderElapsed(ctx, f.stageFor(bagOwner).providers, providerRef, f.run.nowMs, f.run.compiled.Providers)
+		}
 		return ctx
 	}
 }
@@ -1645,6 +1652,8 @@ func (f *executionFrame) applyDamageResult(cmd command.Command, result command.R
 
 // genericDamageEvidence 是 damage evidence Data 的构造输入（不新增顶层 DTO）。
 type genericDamageEvidence struct {
+	empoweredAttack       *model.ProcessEmpoweredAttack
+	activationUseRef      string
 	providerDefinitionRef string
 	providerActivatedAtMs *int64
 	source                string
@@ -1697,6 +1706,9 @@ func genericDamageEvidenceItem(ev genericDamageEvidence, timeMs int64) model.Evi
 		"damageType":      ev.damageType,
 		"rawAmount":       ev.rawAmount,
 		"mitigatedAmount": ev.mitigatedAmount,
+	}
+	if ev.empoweredAttack != nil {
+		data["empoweredAttack"], data["useRef"] = ev.empoweredAttack, ev.activationUseRef
 	}
 	if ev.outcome != nil {
 		data["damageId"] = ev.damageID
@@ -2091,6 +2103,10 @@ func (f *executionFrame) commit() {
 		if f.processIsNew {
 			f.run.processInstances = append(f.run.processInstances, f.processOriginal)
 		}
+		f.run.updateEmpoweredWait(f.processOriginal)
+	}
+	if f.empowered != nil {
+		f.commitEmpoweredProcesses()
 	}
 	f.run.freezeActionDeaths()
 	f.commitFrameQueues()
@@ -2441,6 +2457,10 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 		snapshot:       snapshot,
 		castInstanceID: f.castInstanceID,
 		castOrigin:     f.castOrigin,
+		hasUse:         f.empoweredAttack != nil,
+		useKey:         f.processUseKey,
+		useSource:      f.processUseSource,
+		useSkillKey:    f.processUseSkillKey,
 	})
 }
 

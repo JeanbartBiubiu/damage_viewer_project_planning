@@ -14,6 +14,8 @@ const MaxCatalogEntries = 4096
 type Scalar struct {
 	Value   float64
 	Present bool
+	// SafeInteger constrains only an actual read; an unselected branch stays lazy.
+	SafeInteger bool
 }
 
 // Value 是调用者按目录顺序提供的当前帧或冻结事件只读数值。
@@ -114,7 +116,14 @@ func (p *Plan) readValue(values []Value, slot uint16) (float64, *expression.Cont
 		return s.Value, nil
 	}
 	if input.kind == "parameter" || input.kind == "context" {
-		return read(value.Number)
+		number, issue := read(value.Number)
+		if issue != nil {
+			return 0, issue
+		}
+		if value.Number.SafeInteger && (math.Trunc(number) != number || math.Abs(number) > 9007199254740991) {
+			return 0, &expression.ContractIssue{Code: "FORMULA_TYPE_ERROR"}
+		}
+		return number, nil
 	}
 	if input.kind != "attribute" {
 		return 0, &expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}

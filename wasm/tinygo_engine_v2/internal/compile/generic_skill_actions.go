@@ -52,12 +52,26 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 		}
 		invalid := false
 		complexStep := ""
+		empowered := len(process.Steps) == 1 && process.Steps[0].StepType == "EMPOWERED_BASIC_ATTACK"
+		var empoweredAbility uint16
+		if empowered && (len(binding.Controls) != 1 || len(binding.HitBindings) != 1) {
+			fail("empowered attack requires its initial control and one complete result binding")
+			invalid = true
+		}
+		if empowered {
+			for _, moment := range process.MomentOperations {
+				if moment.Moment.MomentType == "STEP_EXECUTION" && moment.OperationCount != 0 {
+					fail("empowered execution results must use their one ordered payload, not separate moment operations")
+					invalid = true
+				}
+			}
+		}
 		for stepIndex, step := range process.Steps {
 			if !step.HasActionOccupancy {
 				fail("every planned skill step requires an explicit occupiesAction boolean")
 				invalid = true
 			}
-			if step.StepType == "MULTI_HIT" || step.StepType == "CHANNEL" || step.StepType == "CHARGE" || step.StepType == "RECAST" {
+			if step.StepType == "MULTI_HIT" || step.StepType == "CHANNEL" || step.StepType == "CHARGE" || step.StepType == "RECAST" || step.StepType == "EMPOWERED_BASIC_ATTACK" {
 				if complexStep != "" || stepIndex != len(process.Steps)-1 {
 					fail("planned complex process admits only one final complex step")
 					invalid = true
@@ -109,9 +123,17 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 				invalid = true
 				continue
 			}
+			if empowered {
+				if hitAbility.HasCastCondition || hitAbility.TickSpec != nil || hitAbility.OperationCount != 1 || ctx.session.Operations[hitAbility.OperationStart].Operation != model.OperationKindResolveSkillHit {
+					fail("empowered result must contain only its complete own native hit plan")
+					invalid = true
+				}
+				empoweredAbility = hitRef.AbilityIndex
+			}
 		}
 		if !invalid {
 			compiled := plan.CompiledSkillActionBinding{SkillActionBinding: binding, InitialAbilityIndex: ref.AbilityIndex, ControlAbilityIndices: controls}
+			compiled.HasEmpoweredAttack, compiled.EmpoweredAbilityIndex = empowered, empoweredAbility
 			compiled.AutomaticIneligiblePath, compiled.AutomaticIneligibleReason = automaticSkillAdmission(binding, process, ability, path, ctx)
 			compiled.AutomaticEligible = compiled.AutomaticIneligibleReason == ""
 			ctx.session.SkillActionBindings = append(ctx.session.SkillActionBindings, compiled)
@@ -125,11 +147,11 @@ func automaticSkillAdmission(binding model.SkillActionBinding, process plan.Comp
 		return path + ".controls", "automatic skills admit only the initial control"
 	}
 	if len(process.Steps) != 1 {
-		return process.Path + ".steps", "automatic skills require one immediate or finite delay first-release step"
+		return process.Path + ".steps", "automatic skills require one immediate, finite delay, channel or empowered step"
 	}
 	for _, step := range process.Steps {
-		if step.StepType != "IMMEDIATE" && step.StepType != "DELAY" {
-			return step.Path + ".stepType", "automatic skills admit only immediate or finite delay steps"
+		if step.StepType != "IMMEDIATE" && step.StepType != "DELAY" && step.StepType != "CHANNEL" && step.StepType != "EMPOWERED_BASIC_ATTACK" {
+			return step.Path + ".stepType", "automatic skills admit only immediate, finite delay, channel or empowered steps"
 		}
 	}
 	if process.Cooldown == nil || !process.Cooldown.HasDuration || int(process.Cooldown.DurationProgram) >= len(ctx.session.Formulas.Programs) {

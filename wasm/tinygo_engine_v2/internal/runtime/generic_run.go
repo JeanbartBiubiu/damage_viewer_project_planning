@@ -85,6 +85,7 @@ type genericRunState struct {
 	sourceDirectHealing        float64
 	targetDirectHealing        float64
 	processInstances           []*processRuntime
+	empoweredWaits             []*processRuntime
 	processFacts               map[string]model.ProcessCommandFact
 	processFailure             *model.EngineError
 	settlingProcessDeaths      bool
@@ -411,7 +412,7 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 				continue
 			}
 			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
-				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadUseChargeDuration {
+				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadAuthoredAbilityParameter || in.ReadKind == formula.ReadUseChargeDuration {
 					addError(model.GenericErrFormulaTypeError, path, "runtime parameters unavailable in driver condition", in.ReadKey)
 				}
 				if in.ReadKind == formula.ReadProcessActualCost {
@@ -450,7 +451,7 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 				continue
 			}
 			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
-				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadUseChargeDuration {
+				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadAuthoredAbilityParameter || in.ReadKind == formula.ReadUseChargeDuration {
 					addError(model.GenericErrFormulaTypeError, path, "runtime parameters unavailable in driver repeat", in.ReadKey)
 				}
 				if in.ReadKind == formula.ReadProcessActualCost {

@@ -86,7 +86,11 @@ func (state *genericRunState) initSkillAction() *model.EngineError {
 				continue
 			}
 			controlIndex, hasControl := binding.ControlAbilityIndices[plan.Action]
-			if binding.SkillKey != plan.SkillKey || binding.Source != plan.Source || !hasControl || plan.AbilityRef != binding.Source+".provider["+binding.ProviderRef+"].ability["+state.compiled.Abilities[controlIndex].AbilityKey+"]" || (plan.Action == "INITIAL" && len(plan.HitBindings) != len(binding.HitBindings)) || (plan.Action != "INITIAL" && len(plan.HitBindings) != 0) {
+			expectedHits := len(binding.HitBindings)
+			if binding.HasEmpoweredAttack {
+				expectedHits = 0
+			}
+			if binding.SkillKey != plan.SkillKey || binding.Source != plan.Source || !hasControl || plan.AbilityRef != binding.Source+".provider["+binding.ProviderRef+"].ability["+state.compiled.Abilities[controlIndex].AbilityKey+"]" || (plan.Action == "INITIAL" && len(plan.HitBindings) != expectedHits) || (plan.Action != "INITIAL" && len(plan.HitBindings) != 0) || binding.HasEmpoweredAttack && (plan.Target != plan.Source || state.req.DriverPlan.BasicAttack == nil || state.req.DriverPlan.BasicAttack.Source != plan.Source) {
 				return state.basicAttackErr("instruction does not match its immutable compiled skill binding", path)
 			}
 			presetKeys := map[string]bool{}
@@ -210,7 +214,7 @@ func (state *genericRunState) publishSkillActionStart(process *processRuntime) {
 	action.uses.StartedCount++
 	state.skillUses[process.UseKey] = &skillUseRuntime{useKey: process.UseKey, source: process.Owner, skillKey: process.SkillKey, historyState: model.SkillHitHistoryComplete}
 	state.recordSkillUse(process, "STARTED", nil, nil)
-	state.publishAutomaticSkillStart(action)
+	state.publishAutomaticSkillStart(action, process)
 }
 
 func (state *genericRunState) recordSkillUse(process *processRuntime, kind string, hit, reason *string) {
@@ -223,7 +227,11 @@ func (state *genericRunState) recordSkillUse(process *processRuntime, kind strin
 	}
 	state.skillUseRecordCount++
 	if state.detailedOutput() && len(state.skillUseRecords) < state.maxSkillUseRecords {
-		state.skillUseRecords = append(state.skillUseRecords, model.SkillUseRecord{StepKey: process.StepKey, StepVersion: process.StepVersion, ExecutionIndex: process.StepExecutionIndex, InstructionKey: action.plan.InstructionKey, TimeMs: state.nowMs, Kind: kind, Source: process.Owner, Target: process.Target, SkillKey: process.SkillKey, ProviderRef: process.ProviderRef, ProcessKey: process.ProcessKey, UseRef: process.UseKey, HitRef: hit, Reason: reason})
+		target := process.Target
+		if process.EmpoweredAttack != nil {
+			target = process.EmpoweredAttack.Target
+		}
+		state.skillUseRecords = append(state.skillUseRecords, model.SkillUseRecord{EmpoweredAttack: process.EmpoweredAttack, StepKey: process.StepKey, StepVersion: process.StepVersion, ExecutionIndex: process.StepExecutionIndex, InstructionKey: action.plan.InstructionKey, TimeMs: state.nowMs, Kind: kind, Source: process.Owner, Target: target, SkillKey: process.SkillKey, ProviderRef: process.ProviderRef, ProcessKey: process.ProcessKey, UseRef: process.UseKey, HitRef: hit, Reason: reason})
 	}
 }
 
@@ -287,6 +295,9 @@ func (state *genericRunState) publishSkillActionMoment(process *processRuntime, 
 
 func (state *genericRunState) resolveSkillActionMoment(process *processRuntime, kind string) *model.EngineError {
 	action := state.skillActionByUse[process.UseKey]
+	if action != nil && action.binding.HasEmpoweredAttack {
+		return nil
+	}
 	if action == nil || !action.accepted || process.UseKey != action.useRef || process.Status == "failed" || process.Owner != action.plan.Source || process.ProviderRef != action.binding.ProviderRef || process.ProcessKey != action.binding.Controls[0].ProcessKey || state.actionDeaths[process.Owner] || state.actionDeaths[process.Target] || state.combatantHp(process.Owner) <= 0 || state.combatantHp(process.Target) <= 0 {
 		return nil
 	}

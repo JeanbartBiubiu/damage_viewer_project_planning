@@ -36,7 +36,7 @@ func compileBinding(t *testing.T, binding expression.Binding, lazy bool) *expres
 }
 
 func TestAttributeValueKindsAndLegalZero(t *testing.T) {
-	value := Value{Base: Scalar{0, true}, Total: Scalar{200, true}, Current: Scalar{50, true}, Max: Scalar{100, true}}
+	value := Value{Base: Scalar{Value: 0, Present: true}, Total: Scalar{Value: 200, Present: true}, Current: Scalar{Value: 50, Present: true}, Max: Scalar{Value: 100, Present: true}}
 	for kind, want := range map[string]float64{"BASE": 0, "BONUS": 200, "TOTAL": 200, "CURRENT": 50, "MAX": 100, "MISSING": 50, "CURRENT_RATIO": 0.5, "MISSING_RATIO": 0.5} {
 		t.Run(kind, func(t *testing.T) {
 			binding := expression.Binding{Kind: "attribute", Object: "target", AttributeKey: "heat_resistance", ValueKind: kind, View: "current_frame"}
@@ -65,8 +65,8 @@ func TestBindingMissingNonfiniteAndLazyBranches(t *testing.T) {
 		code  string
 	}{
 		{"missing", Value{}, "FORMULA_MISSING_INPUT"},
-		{"zero_max", Value{Current: Scalar{0, true}, Max: Scalar{0, true}}, "FORMULA_DIVISION_BY_ZERO"},
-		{"infinity", Value{Current: Scalar{math.Inf(1), true}, Max: Scalar{100, true}}, "FORMULA_NON_FINITE"},
+		{"zero_max", Value{Current: Scalar{Value: 0, Present: true}, Max: Scalar{Value: 0, Present: true}}, "FORMULA_DIVISION_BY_ZERO"},
+		{"infinity", Value{Current: Scalar{Value: math.Inf(1), Present: true}, Max: Scalar{Value: 100, Present: true}}, "FORMULA_NON_FINITE"},
 	} {
 		t.Run(sample.name, func(t *testing.T) {
 			for _, lazy := range []bool{false, true} {
@@ -104,7 +104,7 @@ func TestBindingObjectViewParameterIdentityAndFrozenReader(t *testing.T) {
 			t.Fatal(issue)
 		}
 		catalog[0].SkillKey = "changed"
-		values := []Value{{Number: Scalar{0, true}}}
+		values := []Value{{Number: Scalar{Value: 0, Present: true}}}
 		reader, issue := plan.Reader(values)
 		if issue != nil {
 			t.Fatal(issue)
@@ -141,7 +141,7 @@ func TestBindingActualCatalogIndexBoundary(t *testing.T) {
 		t.Fatal(issue)
 	}
 	values := make([]Value, MaxCatalogEntries)
-	values[MaxCatalogEntries-1].Number = Scalar{19, true}
+	values[MaxCatalogEntries-1].Number = Scalar{Value: 19, Present: true}
 	reader, issue := plan.Reader(values)
 	if issue != nil {
 		t.Fatal(issue)

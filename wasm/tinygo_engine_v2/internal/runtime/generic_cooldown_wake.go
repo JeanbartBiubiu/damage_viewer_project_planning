@@ -29,9 +29,19 @@ func (f *executionFrame) prepareCooldownWakeups() (int, *model.EngineError) {
 		}
 	}
 	f.pendingCooldownAttempts = nil
+	f.pendingBasicAttackCooldownWake = false
 	f.staged.Range(func(owner string, staged *stagedCombatant) {
 		before := f.run.combatants[owner].cooldowns
 		for _, wait := range staged.cooldowns.changedWaits(before) {
+			if attack := f.run.basicAttack; attack != nil && wait.key == basicAttackCooldownWaitKey(attack) &&
+				f.pendingBasicAttackWait == nil && f.pendingAmmoWait == nil && !f.pendingActionWait && f.continuousCombatantsLive() {
+				// A reset can invalidate a queued first attack before an attack period exists.
+				f.pendingBasicAttackCooldownWake = true
+				if !f.run.heap.HasBasicAttack() {
+					count++
+				}
+				continue
+			}
 			if wait.key.kind != "while_ready" {
 				continue
 			}
@@ -50,6 +60,15 @@ func (f *executionFrame) prepareCooldownWakeups() (int, *model.EngineError) {
 }
 
 func (f *executionFrame) commitCooldownWakeups() {
+	if f.pendingBasicAttackCooldownWake && f.continuousCombatantsLive() {
+		attack := f.run.basicAttack
+		if wait, exists := f.run.combatants[attack.plan.Source].cooldowns.wait(basicAttackCooldownWaitKey(attack)); exists {
+			if !f.run.heap.RescheduleBasicAttack(wait.readyAt, wait.version) {
+				f.run.pushCombatEvent(scheduler.GenericEvent{TimeMs: wait.readyAt, Category: scheduler.GenericCategoryAbilityAttempt,
+					Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1, BasicAttackGeneration: wait.version})
+			}
+		}
+	}
 	for _, pending := range f.pendingCooldownAttempts {
 		if f.run.heap.RescheduleCooldownAttempt(pending.entry, pending.wait.readyAt, pending.wait.version) {
 			continue

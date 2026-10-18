@@ -143,7 +143,7 @@ func TestAutomaticSkillQualificationIsSingleAndNeverBackfilled(t *testing.T) {
 		t.Fatal(b.qualification)
 	}
 	use := &skillActionRuntime{automaticRule: b, useRef: "b1"}
-	s.publishAutomaticSkillStart(use)
+	s.publishAutomaticSkillStart(use, &processRuntime{})
 	s.publishAutomaticSkillFinish(use, &processRuntime{ProcessInstanceSnapshot: model.ProcessInstanceSnapshot{Status: "failed"}})
 	if b.qualification.RemainingCount != 0 || b.qualification.ConsumedCount != 1 || b.qualification.GrantedCount != 1 {
 		t.Fatal(b.qualification)

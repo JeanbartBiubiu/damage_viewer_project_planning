@@ -23,6 +23,10 @@ TinyGo编译的浏览器内计算引擎。正式业务入口为 `engine_compile`
 
 同刻的其他到期事件可能先触发属性重算。此时只排除已经达到真实到期时间、且应用时间完整有效的实例时间修正；原清理事件继续负责实例移除、证据及预算。缺失、未来或非法应用时间仍报错，不借过期判断补0或隐藏错误。回归另覆盖0和非0时刻施加、双方同时到期的先后顺序及重施旧到期事件。
 
+根命中内的有序结果候选各自提交后，在实际声明伤害事件且该候选产生正伤害时，派发一笔 `event/damage_dealt`（已造成伤害事件）。候选保留原施放和使用身份，普通攻击仍只有一次父命中；资格仅由本次根 `resolve_skill_hit`（命中结算）建立，不由旧事件或法术护盾缓存恢复，不降低真实调用深度，也不扩到监听、复制、周期或强化待击尾部。各候选间派生事件按原同步顺序执行，多个结果不合并为原子伤害。
+
+`ATTRIBUTE_CHANGE/PERSISTENT/TARGET`（目标有期属性变化）可以映射为一次严格纯属性实例施加：有限正期限、单层、覆盖刷新、明确来源与目标范围、无能力、监听、状态、过程、周期、护盾和状态贡献，仅自身非生命属性的有限静态平加。全部定义编译后再次检查真实完整定义，防止后置能力或监听绕过；执行候选前核对实际命中目标的全部对应属性槽，缺失报错且该候选不挂实例，明确的0值合法。实例、到期、属性失效及伤害继续使用原运行路径；即时属性及来源方持久属性范围不扩大。局部回归：`go test -count=1 ./internal/compile ./internal/runtime -run 'Test(CompileSkillHitFinite|SkillHitFiniteTarget|RootSkillHitCandidate|SkillHitOldContext)'`；正式产物与旧请求对照见 `target/corki-semantics-2026-10-18/slot-fix/`，真实作者和浏览器验证另行记录。
+
 ## 剖析与分配复现入口
 
 在本模块目录运行；将`input-1.json`换成`input-0.json`即为无装备场景。正式采样报告的往返包含宿主和GC，不能当纯计算。
@@ -326,6 +330,8 @@ node .\scripts\p6-smoke-node.mjs
 
 方案唯一来源为规划工作树《管理页面与共性机制迭代计划》第4项 `casting-runtime-r2`。过程定义位于 `ProviderDefinition.processes`，能力继续使用 `kind=active`，由 `processControl.action` 声明首次施放、重施、蓄力释放、取消或中断。过程控制只接受单次驱动与明确 `processCommandFacts`，绑定已有真实 `skillUses`。
 
+普通攻击计时重置沿用 `cooldown_change / set_remaining`：仅过程开始时、同一实际拥有者、目标为自身、完整真实普攻首次控制引用、金额可静态折叠为0时，允许该项跨过程重置。原过程自身冷却及其它跨引用限制保留；不直接生成攻击，也不越过行动占用、弹药与版本校验。`go test -count=1 ./internal/runtime -run '^TestBasicAttackReset'` 覆盖两套异名身份、真实等待、同帧先后、失败原子性及负例；该原语不代表强化待击消费或整套英雄Q已经接入。正式构建及逐字节回归、分配对照记录在本模块 `target/priority-adaptation-2026-10-18/`，摘要收录于规划工作树同日期验收记录。
+
 - 首期支持顺序 `IMMEDIATE`（即时）、`DELAY`（延时），末尾一个 `CHARGE`（蓄力）或 `RECAST`（单次重施）。步骤时长在进入时严格求值并冻结，不接旧分步引擎，也不按英雄名判断。
 - 所有成本逐笔求值并检查有限非负，同资源聚合后统一检查、原子扣款。实例 `actualCosts` 记录扣前扣后差额；完成或失败时点可读取 `process.actual_cost.<资源键>`，属性后来变化不重算历史账。
 - 时点先启动至多一次普通冷却，再按原数组顺序执行匹配操作。`set_remaining`（设置剩余冷却）只接受有限非负整数毫秒及安全时间相加，在过程内锁定首次能力的真实完整引用；0 表示立即可用。
@@ -341,3 +347,25 @@ node .\scripts\p4-runtime-smoke.mjs
 ```
 
 真实浏览器 Worker 与原管理对象返回验证由宿主集成任务独立记录；Node 与原生测试不替代浏览器证据。
+
+### 开技能后强化下一次普通攻击
+
+新增单步 `EMPOWERED_BASIC_ATTACK`（强化下一次普通攻击）执行：明确正整数 `windowMs`（等待窗口毫秒）、`consumeMoment=ATTACK_HIT`（实际命中时消费）和 `occupiesAction=false`（不占行动）。只接受该单步骤；手动首次可在普通冷却与费用成立时刷新，自动首次仍等活动过程结束。本轮不接受任何强化过程快照恢复，包括活动和已结束历史；原恢复输入不足以核实历史命中身份，正常导出不变。
+
+`generic_empowered_attack.go` 维护仅含活动等待的列表。真实普攻命中入口冻结已有窗口，完成原普攻主体、原候选及其尾事件后，才将仍有效的全部强化负载作为同一暂存组预检和提交。失败保留此前已经成立的普攻，但不发布部分强化效果、消费、过程进度或后项资格。新窗口不能反向附着当前这一刀；到期同刻先过期。合法刷新建立新使用，旧使用失败终结；旧计时器不结束新实例。
+
+负载保留激活技能自己的身份与分类，通过可选 `empoweredAttack`（触发普攻关联）记录真实普攻 `useRef`、`hitRef` 与实际目标；不新增一次对外普通攻击或技能命中。作者步骤执行效果由同一有序负载完整装配，该时点的额外时点操作和依赖独立技能命中的被动组合明确拒绝，避免重排或伪命中。其它步骤、无等待的原普攻路径及原结果字节形状保持原规则。
+
+自动后项若实际消费强化因果链中的资格，完整过程另以可选 `empoweredPredecessorUseRef`（直接资格前项使用）保留每次真实前项；只有成功开始才提交，不依赖可截断日志或最后一次汇总。普通旧资格链省略该字段，任何携该新事实的快照恢复均拒绝。宿主可据完整链核对同刻发生的“普攻先命中，后项才开始占用”，不能仅因毫秒相同忽略行动占用。
+
+该机制不等于任意英雄完整技能可用。当前共享语义以规划工作树 `outputs/priority-adaptation-2026-10-18/强化下一次普攻运行现行契约.md` 为准；两套异名用例位于 `internal/runtime/generic_empowered_attack_test.go`，正式产物与浏览器证据另行验收。
+
+### 场景参数与有限引导
+
+具名技能公式的 `RUNTIME_INPUT` 参数可显式声明 `runtimeSource.kind=ability_parameter`（实际能力参数来源），沿原 `parameterKey` 读取同技能实际能力的 `params`。禁止声明 `resourceKey` 或默认 `value`；缺值、非有限数、整数声明的小数或超安全整数均在真正读取时拒绝，合法0及未选择分支保持原语义。无来源运行输入不借用同名能力参数，条件、静态位置和外技能供值器继续拒绝此来源。宿主负责采集已经验证的场景属性，不由原生猜测名称或补值。
+
+场景显式初值仍保留作者的 `valueMode=RUNTIME_INPUT`，由宿主提供 `runtimeSource: {kind: "scene_parameter", value: <明确有限数>}`。该来源只含 `kind/value`，不接受缺值、null、其它类型或 `resourceKey`；其它来源禁止携带 `value`，参数顶层仍禁止运行输入默认值。原生在编译时独立检查有限数，`INTEGER` 另需安全整数，0及负数合法；业务上下界由声明与宿主核验。编译时深拷贝来源和数值，静态折叠、元数据及实际读取使用同一冻结值，不依赖能力上下文、不增加状态或事件；原技能归属检查和其它来源限制保持原规则。专项原生入口为 `go test -count=1 ./internal/model ./internal/formula ./internal/compile ./internal/runtime -run SceneParameter`，正式Wasm与宿主验证由集成任务执行。
+
+自动技能额外接受单步骤有限 `CHANNEL`（引导），仍要求显式行动占用、正冷却及有限次数。时间和次数沿真实首次能力在进入时求值、冻结；每段均产生真实命中，末段提前结束也保持完整引导期限，完成后才按作者时点开始冷却及授予后项资格。恢复使用已有冻结进度，不重新读取次数或首末偏移。其它多步骤和手动重施、蓄力的自动准入保持关闭。共享语义以规划工作树 `outputs/priority-adaptation-2026-10-18/有限引导与场景属性快照现行契约.md` 为准；原生专项入口为 `go test -count=1 ./internal/model ./internal/inputbinding ./internal/formula ./internal/compile ./internal/runtime -run 'AbilityParameter|AutomaticFiniteChannel|SafeInteger'`，正式产物及浏览器证据由宿主集成另行验收。
+
+主动技能在首次普攻之前修改共同冷却时，已有等待版本变化也会进入通用唤醒准备和提交；没有攻速、弹药或行动占用路径负责时，更新唯一排程节点并保留序号，缺节点先检查队列预算。不会直接制造攻击或绕过存活检查。原生回归可运行 `go test -count=1 ./internal/runtime -run 'BasicAttack.*Reset|FirstBasicAttack'`；正式产物、旧版异名复现及整英雄验证见规划工作树 `outputs/priority-adaptation-2026-10-18/首次普攻等待唤醒修补.md`。

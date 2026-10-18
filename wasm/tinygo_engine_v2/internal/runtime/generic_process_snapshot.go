@@ -129,6 +129,9 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 	bad := func(field, message string) (*processRuntime, *model.EngineError) {
 		return nil, s.processErr(path+field, message, row.UseKey)
 	}
+	if row.EmpoweredPredecessorUseRef != nil {
+		return bad(".empoweredPredecessorUseRef", "empowered predecessor provenance cannot be restored in this stage")
+	}
 	if !s.combatantExists(row.Owner) || !s.combatantExists(row.Target) || strings.TrimSpace(row.UseKey) == "" || strings.TrimSpace(row.ProviderRef) == "" {
 		return bad("", "process identity requires explicit real owner, target, provider and use")
 	}
@@ -154,6 +157,12 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 	}
 	if def == nil || def.SkillKey != row.SkillKey || !s.processMounted(row.Owner, row.ProviderRef, providerIndex) {
 		return bad(".processKey", "process snapshot must match a real mounted definition and skill")
+	}
+	if isEmpoweredProcess(def) {
+		return bad(".status", "empowered attack process snapshots cannot be restored in this stage")
+	}
+	if row.EmpoweredAttack != nil && !isEmpoweredProcess(def) {
+		return bad(".empoweredAttack", "attack consumption belongs only to an empowered process")
 	}
 	if use, ok := s.skillUses[row.UseKey]; ok && (use.source != row.Owner || use.skillKey != row.SkillKey) {
 		return bad(".useKey", "historical use identity contradicts skillUses")
