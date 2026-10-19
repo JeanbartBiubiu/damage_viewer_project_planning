@@ -249,7 +249,7 @@ public final class SkillObjectReferences {
                         dictionary(detail, dp, "modifierZoneKey", TargetType.MODIFIER_ZONE);
                     }
                     case "RESOURCE_CHANGE", "HEALTH_FLOOR", "EXECUTE" -> dictionary(detail, dp, "attributeKey", TargetType.ATTRIBUTE);
-                    case "COOLDOWN_CHANGE", "SKILL_HASTE_MODIFIER" -> skillScope(detail.path("affectedSkillScope"), dp + ".affectedSkillScope");
+                    case "COOLDOWN_CHANGE", "SKILL_HASTE_MODIFIER", "COOLDOWN_DURATION_MODIFIER" -> skillScope(detail.path("affectedSkillScope"), dp + ".affectedSkillScope");
                     case "STATUS_OPERATION" -> dictionary(detail, dp, "statusKey", TargetType.STATUS);
                     case "LIFECYCLE_OPERATION" -> local(detail, dp, "targetEffectKey", TargetType.LIFECYCLE);
                     case "DAMAGE_MODIFIER" -> {

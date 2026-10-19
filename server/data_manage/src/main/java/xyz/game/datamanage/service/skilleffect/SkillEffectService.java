@@ -9,6 +9,7 @@ import xyz.game.datamanage.support.authoring.DamageModifierConditionSemantics;
 import xyz.game.datamanage.support.authoring.HealingRatioMaxSemantics;
 import xyz.game.datamanage.support.authoring.AttributeComplementMultiplySemantics;
 import xyz.game.datamanage.support.authoring.DamageRatioMultiplySemantics;
+import xyz.game.datamanage.support.authoring.SkillCooldownDurationSemantics;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -587,6 +588,7 @@ public class SkillEffectService {
         validateLifecycle(lifecycle, issues);
         xyz.game.datamanage.support.authoring.SkillAttackDamageRoleSemantics.validateEffectShape(
             lifecycle, results, issues);
+        SkillCooldownDurationSemantics.validateEffectShape(lifecycle, results, issues);
         Set<String> seenKeys = new HashSet<>();
         CollectedRefs refs = new CollectedRefs();
         refs.lifecycle = lifecycle;
@@ -687,6 +689,7 @@ public class SkillEffectService {
             case HIT_LINK_APPLICATION -> validateHitLinkApplication(result, index, refs, issues);
             case ATTACK_LINK_APPLICATION -> validateAttackLinkApplication(result, index, refs, issues);
             case SKILL_HASTE_MODIFIER -> validateHasteModifier(result, index, retained, pathSkillKey, refs, issues);
+            case COOLDOWN_DURATION_MODIFIER -> validateCooldownDurationModifier(result, index, retained, pathSkillKey, refs, issues);
         }
         validateSpellShieldBlockScope(result, index, issues);
     }
@@ -1336,6 +1339,18 @@ public class SkillEffectService {
         );
     }
 
+    private void validateCooldownDurationModifier(
+        SkillEffectResultRequest result, int index, Map<String, RetainedCatalog> retained,
+        String pathSkillKey, CollectedRefs refs, List<Map<String, String>> issues
+    ) {
+        requireValueRule(result, index, refs, issues);
+        if (!(result.detail() instanceof xyz.game.datamanage.model.skilleffect.SkillEffectCooldownDurationModifierDetail detail)) {
+            issues.add(fieldIssue(resultPath(index, "detail"), "TYPE_MISMATCH", "冷却时长修正明细形状不合法"));
+            return;
+        }
+        collectAffectedSkillScope(result, index, detail.affectedSkillScope(), retained, pathSkillKey, refs, issues);
+    }
+
     private void collectAffectedSkillScope(
         SkillEffectResultRequest result,
         int index,
@@ -1858,6 +1873,7 @@ public class SkillEffectService {
             || type == SkillEffectResultType.HEALTH_FLOOR
             || type == SkillEffectResultType.SPELL_SHIELD
             || type == SkillEffectResultType.SKILL_HASTE_MODIFIER
+            || type == SkillEffectResultType.COOLDOWN_DURATION_MODIFIER
             || statusApply;
         if (!allowed) {
             issues.add(fieldIssue(
@@ -1904,6 +1920,7 @@ public class SkillEffectService {
             && attributeDetail.operation() == SkillEffectAttributeChangeOperation.SET;
         boolean sharedOnly = attributeSet
             || type == SkillEffectResultType.HEALTH_FLOOR
+            || type == SkillEffectResultType.COOLDOWN_DURATION_MODIFIER
             || type == SkillEffectResultType.SKILL_HASTE_MODIFIER;
         if (sharedOnly && behavior.stackValueMode() != SkillEffectLifecycleStackValueMode.SHARED) {
             issues.add(fieldIssue(
@@ -1965,6 +1982,7 @@ public class SkillEffectService {
             || type == SkillEffectResultType.DAMAGE_IMMUNITY
             || type == SkillEffectResultType.HEALTH_FLOOR
             || type == SkillEffectResultType.SPELL_SHIELD
+            || type == SkillEffectResultType.COOLDOWN_DURATION_MODIFIER
             || type == SkillEffectResultType.SKILL_HASTE_MODIFIER;
         if (!special) {
             return;

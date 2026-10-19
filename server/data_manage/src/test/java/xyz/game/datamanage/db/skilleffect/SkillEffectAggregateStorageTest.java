@@ -68,6 +68,7 @@ class SkillEffectAggregateStorageTest {
         for (SkillEffectResultType type : SkillEffectResultType.values()) {
             // 新增类型直接写聚合JSON，历史拆表迁移没有该种明细，也不补兼容分支。
             if (type == SkillEffectResultType.SHIELD_RECEIVED_MODIFIER
+                || type == SkillEffectResultType.COOLDOWN_DURATION_MODIFIER
                 || type == SkillEffectResultType.ATTACK_TIMER_RESET) continue;
             assertTrue(migration.contains("WHEN '" + type.name() + "' THEN"), type.name());
         }

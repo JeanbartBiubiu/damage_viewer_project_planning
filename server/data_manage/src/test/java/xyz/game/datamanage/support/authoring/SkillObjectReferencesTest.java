@@ -171,6 +171,7 @@ class SkillObjectReferencesTest {
             results[9].detail.modifierZoneKey results[10].detail.damageTypeKey results[11].detail.attributeKey
             results[13].detail.attributeKey results[16].detail.affectedSkillScope.skillCategoryKeys[0]
             results[17].detail.modifierZoneKey
+            results[19].detail.affectedSkillScope.skillKeys[0]
             """);
         assertPaths(refs, "process", """
             steps[1].detail.delayValue.formulaKey steps[2].detail.repeatCountValue.formulaKey steps[2].detail.intervalValue.formulaKey
@@ -382,7 +383,8 @@ class SkillObjectReferencesTest {
                 {"resultKey":"attack_link","resultType":"ATTACK_LINK_APPLICATION","detail":{}},
                 {"resultKey":"haste","resultType":"SKILL_HASTE_MODIFIER","detail":{"affectedSkillScope":{"mode":"CATEGORIES","skillCategoryKeys":["magic"]}}},
                 {"resultKey":"shield_received_modifier","resultType":"SHIELD_RECEIVED_MODIFIER","detail":{"modifierZoneKey":"zone"}},
-                {"resultKey":"attack_timer_reset","resultType":"ATTACK_TIMER_RESET","valueRule":null,"detail":{}}
+                {"resultKey":"attack_timer_reset","resultType":"ATTACK_TIMER_RESET","valueRule":null,"detail":{}},
+                {"resultKey":"duration_modifier","resultType":"COOLDOWN_DURATION_MODIFIER","detail":{"affectedSkillScope":{"mode":"SKILLS","skillKeys":["s2"],"skillCategoryKeys":[]}}}
              ],"description":"example parameterKey missing is plain text","unrelatedKey":"missing"}
             """));
         result.add(aggregate(SourceType.STATE, "s1", "counter", "{\"stateType\":\"COUNTER\",\"detail\":{\"initialValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"},\"maxValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"}}}"));

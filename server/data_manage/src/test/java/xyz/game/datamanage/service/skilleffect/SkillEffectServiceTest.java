@@ -161,6 +161,56 @@ class SkillEffectServiceTest {
     private final Map<String, Object> fixture = new HashMap<>();
     private SkillEffectRow savedEffect;
 
+    @Test
+    void cooldownDurationModifierRoundTripsAsASeparatePersistentScopeWithoutHasteOperation() {
+        stubParentAndNewKey();
+        when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        var value = xyz.game.datamanage.support.authoring.CooldownDurationTestData.effect();
+        value.put("effectKey", EFFECT_KEY).put("name", "冷却时长倍率").put("sortOrder", 0);
+        var request = AggregateJson.read(value.toString(), SkillEffectCreateRequest.class);
+        var saved = service.create(GAME_ID, SKILL_KEY, request);
+        assertEquals(SkillEffectResultType.COOLDOWN_DURATION_MODIFIER, saved.results().getFirst().resultType());
+        assertEquals(List.of("target_skill"), ((xyz.game.datamanage.model.skilleffect.SkillEffectCooldownDurationModifierDetail)
+            saved.results().getFirst().detail()).affectedSkillScope().skillKeys());
+        assertEquals(AggregateJson.tree(savedEffect.results()).get(0).path("detail"),
+            AggregateJson.tree(AggregateJson.write(service.get(GAME_ID, SKILL_KEY, EFFECT_KEY).results().getFirst().detail())));
+        assertFalse(savedEffect.results().contains("operation"));
+        value.remove("effectKey");
+        ((ObjectNode) value.path("results").get(0).path("valueRule").path("value")).put("value", .75);
+        var changed = service.update(GAME_ID, SKILL_KEY, EFFECT_KEY, AggregateJson.read(value.toString(), SkillEffectUpdateRequest.class));
+        assertEquals(new BigDecimal("0.75"), changed.results().getFirst().valueRule().value().value());
+    }
+
+    @Test
+    void cooldownDurationModifierRejectsNullDetailAndInvalidLifecycleBeforeAnyWrite() {
+        stubParentAndNewKey();
+        for (String invalid : List.of("detail", "lifecycle", "lifecycleBehavior")) {
+            var value = xyz.game.datamanage.support.authoring.CooldownDurationTestData.effect();
+            value.put("effectKey", EFFECT_KEY).put("name", "非法时长倍率").put("sortOrder", 0);
+            if (invalid.equals("lifecycle")) value.putNull(invalid);
+            else ((ObjectNode) value.path("results").get(0)).putNull(invalid);
+            var request = AggregateJson.read(value.toString(), SkillEffectCreateRequest.class);
+            assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY, request));
+        }
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void cooldownDurationModifierScopeCannotIntroduceMissingOrDisabledSkills() {
+        stubParentAndNewKey();
+        var value = xyz.game.datamanage.support.authoring.CooldownDurationTestData.effect();
+        value.put("effectKey", EFFECT_KEY).put("name", "时长倍率").put("sortOrder", 0);
+        var request = AggregateJson.read(value.toString(), SkillEffectCreateRequest.class);
+        when(mapper.lockSkills(eq(GAME_ID), anyCollection())).thenReturn(List.of());
+        assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY, request));
+        when(mapper.lockSkills(eq(GAME_ID), anyCollection())).thenReturn(List.of(new SkillEffectCatalogLockRow("target_skill", "DISABLED")));
+        assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY, request));
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
     @BeforeEach
     void setUp() {
         service = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));

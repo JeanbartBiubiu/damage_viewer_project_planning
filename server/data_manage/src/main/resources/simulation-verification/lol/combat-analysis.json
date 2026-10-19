@@ -3,15 +3,15 @@
   "gameId": "lol",
   "profile": "combat-analysis-v1",
   "digestVersion": "simulation-availability-v1",
-  "scopeDigest": "ac6a72854157d656f960144be65556deff1741de929176421295ebd72aaa6978",
+  "scopeDigest": "aca6992710041fa65cee3d20cfe701f43991e4a1122903ccc6e59b753842a5f8",
   "sharedDigest": "91a01f39579d516eeb68c2ffc69b2899ce05326185d2d6f2c38fbe4e966b6e58",
-  "wasmSha256": "8eebbefbd2491490e2e8ded34a1f920ed8c6a79cdeab9eeadbda5fdd68309ffe",
-  "adapterVersion": "v24-primary-attack-replacement",
+  "wasmSha256": "1346f63b089edfda34335720864b3784196b350504ec47d75134524df1ba70d1",
+  "adapterVersion": "v25-process-state-resource-max-and-cooldown",
   "entries": [
     {
       "kind": "CHARACTER",
       "key": "champion_annie",
-      "contentDigest": "9cc28c2c7d8b6db967a0930155c63627bd186c7af4ca66ea7460617b55e2dbb1",
+      "contentDigest": "15e6b93e33b3ba0e19d396eb45c1b27c1c38fd882e8984b9bf67edbfb8f221f4",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -99,16 +99,17 @@
         "equipmentMode": "none"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "CHARACTER",
       "key": "champion_corki",
-      "contentDigest": "24e50fa2c5ba7cf7aed2e5e69e19f1bd22f51af1a7a38dc4a397e8a629fb81a0",
+      "contentDigest": "c188eed26fa8ebeb2172c0437eccfa590a1655ec5a4ca7c2f67ee127f55030df",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -196,16 +197,17 @@
         "equipmentMode": "none"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "CHARACTER",
       "key": "champion_garen",
-      "contentDigest": "67e21ad5fdfaa43154516d0a0cef2b10d9dc71b285bfc2b290ff9a0e8b1f1846",
+      "contentDigest": "667e6f58287a4fcde788da1f24aee9a390643f61b45c66cc7ed060b8e22753b5",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -287,16 +289,106 @@
         "equipmentMode": "none"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "CHARACTER",
+      "key": "champion_nasus",
+      "contentDigest": "179a72cc5338ae603c6e38b381f326bfc84afd93124909f1f47b5381388959ee",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "nasus_e",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "nasus_p",
+            "levels": [
+              1
+            ]
+          },
+          {
+            "skillKey": "nasus_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "nasus_r",
+            "levels": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "evidenceRefs": [
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/runtime-acceptance.json#sha256=985a53efaca208a72225b417fc97bd9106188eeee6f5d771c0666a45895afdbb",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "CHARACTER",
       "key": "champion_twistedfate",
-      "contentDigest": "85cfa86b2cf5193e0858e56df5c2010d5ab5676c785a3ea1992fdcbf5138efd4",
+      "contentDigest": "55b3217689b6d9327c462112abae9814f8f754a35b355e941111f16a8a3b0ea7",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -390,20 +482,17 @@
         "equipmentMode": "none"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/twistedfate-w-worker-2026-10-19/matrix-h5Ckyt/summary.json#sha256=8c2a4e3fac563dde5fefd7e6546085cb979de2ecc7bdd6f9b177e46b59f7a03e",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/twistedfate-w-worker-2026-10-19/matrix-K3s3uz/summary.json#sha256=4edde128954ff6b7c7523a61342f45dc3b407b4aaea137fa3ec86553e1c65057",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/twistedfate-w-worker-2026-10-19/matrix-g2Ex7l/summary.json#sha256=f12ca07f11e9c409a6ae0d3414207eaed1719c0c68e1e6e58f376a8eb60ee341",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/twistedfate-w-worker-2026-10-19/supplemental-shields-QSyP7x/summary.json#sha256=8e7aed4f3959c93b3c458ae78b98f24d31d1fb5b8d317562ab1aad6ad5d56a52"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "duolan_jian",
-      "contentDigest": "cb35df5ccbee47ed8d7e386acf29696d456cff1d24a78ddceae2b3dccf940b52",
+      "contentDigest": "8e569ecbf3e2e0a8ef97911ec9ad6fffe9cb233539f55f15551c2440aa9f172b",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -440,16 +529,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1011",
-      "contentDigest": "f3bd82c40c2e8efd9d22f5c7fe0ceea0f43017078038848e17481f5285c64332",
+      "contentDigest": "b9a5c432975742c21d2ed912d7c863c65cde40e369bec1608ddc873a94d64ac9",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -486,16 +576,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1018",
-      "contentDigest": "dee669ae215df02b518f985d4a94e407be527f1003ab4e86c7ad2349a77348d5",
+      "contentDigest": "06be01d9a107cb31f641d7d173281c5af8c810cd53d91802d617cc19ed10adeb",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -532,16 +623,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1028",
-      "contentDigest": "6b073409f340431f876a67766df4c7f0af52c1fec7f1417972275bc1dd611e5b",
+      "contentDigest": "b2153f9fef0a057fa61cb870dacde3a8c784f4105da7755ad4edf17b73a21fc8",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -578,16 +670,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1029",
-      "contentDigest": "0a821fa1a5de47664ac61992f7809a02074b124fe3682c790b19cb1ee02d4045",
+      "contentDigest": "5f1ca42ce077b3fc9f44882b87f4b165fabb714bb56c05abd7ed3b9c32a2d598",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -624,16 +717,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1031",
-      "contentDigest": "104c869c6d4a22b471c9733c85e4c0f190e421e3b14c4c7a0d02ed7a0c84856e",
+      "contentDigest": "d026c4b3814336e578edf3fe72ebbfe519086cd2897b7f8d7da9a3131a215bba",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -670,16 +764,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1036",
-      "contentDigest": "9adc66873a9ad9e3d88978507e71878fcbac9cfaa5837d66e5714a7dbb0dbd93",
+      "contentDigest": "1d7218771f1b25590bc9f4a2c1f7b189ec1e485f46428f79e96d33b78093698b",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -716,16 +811,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1037",
-      "contentDigest": "7d7b34bf9b6c0f74428a9a539e4f60f6c67e928081402a61b2684f8a52caf7ba",
+      "contentDigest": "1d0ace44cd97e262ea3c8d70cf4040ae85f10c886669fad32e753d5d04201039",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -762,16 +858,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1038",
-      "contentDigest": "3e89672cf4e273192425c2b02061ef7438e9a9389677d90d6d5304bb42d26ca3",
+      "contentDigest": "b850e237f5464c63c740c46a6f233cbc20b76f1475c2f016afe99fb32353ef53",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -808,16 +905,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1042",
-      "contentDigest": "38670a31725c50cff281206940442f89dd40f91abbad0eafda29f4e8379daca1",
+      "contentDigest": "c6410ea35414b9893c6998a85f4bfac48e1b8a09d86c476a6167996daaa641c2",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -854,16 +952,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1053",
-      "contentDigest": "a1125eb756dacbd4fd95b6136f4a4ec24af084bc3fa2f716d6f48d51df18bc64",
+      "contentDigest": "3361c41afd06af0622f74026b8fa676141f579bc51427981883383d4c9813cf8",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -900,16 +999,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_1086",
-      "contentDigest": "05adfb70b109d1e436126e735dfec3a57439e51c5e5279f279f509de5a882d65",
+      "contentDigest": "a4a4ad69bb19e3bb0506bbe3f490fe99935bd3f820bc7d041b9f0b5fb106bae0",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -946,16 +1046,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_2019",
-      "contentDigest": "1b0a3f71c5f82192df69ba26dadad75dabfb4646b51880f905de63dae61036ed",
+      "contentDigest": "c80e83c2a46bd5e392054f99599452345a9c3984e0f8e0828ff1e1216e5a31e1",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -992,16 +1093,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_2021",
-      "contentDigest": "1976ad5ea3470d021ab3afcb21ffc9da7159804d99580700d28469c881f14ce1",
+      "contentDigest": "7fef09d6e65e1de6bf6bb6e26eea23a1c248108eaa8d587b15297d9fb1760767",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1038,16 +1140,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_3031",
-      "contentDigest": "fc94c30b092ec6bad8100e1d4328d38dd079b963987a5c0031d52e2bef9e87e0",
+      "contentDigest": "f4c469db93ebdba42f03c427ea459efc4bd9a20feed61515bedf5414a64c09ce",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1084,16 +1187,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_3035",
-      "contentDigest": "75c946a32522258ed020518e4761aa612e298769a777c81da00e766954ac291a",
+      "contentDigest": "bc0d17358c6da4a40cfd6ff2977a2e8625f67dfe01c11384744a7373bdb462cf",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1130,16 +1234,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_3051",
-      "contentDigest": "bfe24c27fb58858195346e443f4b3768c076bdb4d9eded0e63d0b310485ca5af",
+      "contentDigest": "d0dbf5d94fbc83ed87b8a081abbc4ca0e5d7cc146be79f6fab7481d501bd9bb2",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1176,16 +1281,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_3134",
-      "contentDigest": "d3748e2c3c7416405403a8d8c685bced70fbf4ee4c5e98a6f2dac1e5985484db",
+      "contentDigest": "083d7c10ce40913dad349f887c7a8d80ee3a0817fed309eae37383f6001d41d6",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1222,16 +1328,17 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     },
     {
       "kind": "EQUIPMENT",
       "key": "item_6670",
-      "contentDigest": "657e4d4dc4aae111a651185c1f04597387d9f1902412bcc7ea42d4a835311577",
+      "contentDigest": "477a80c4768460045e5f5231b85fbf0d04be0b9fc4d4684c192626a37b271cf5",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1268,9 +1375,10 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/final-runtime-review/final-review.json#sha256=a73ee3451167d22fd6fda33f3abdad2db3aed19529f16e8330e498f4c34d2d80",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-receipt-02.json#sha256=4c0aba42279d394142ba255693d9255a31feea304e27c59d4b4cbfff68eab4d0",
-        "C:/project/damage_web_dev/web/output/first-hero-2026-10-17/v24-existing-regression/final-raw-manifest-02.json#sha256=be7dcb2af6d2039e556b9e6898a7fc6e78fa1ea72e6b32a698655c1d3bb18f5a"
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/legacy-regression-acceptance.json#sha256=233025afa3c6d6d18a7e23e8c6a0ae9314a00154c152ceea8225332f2648cbc6",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
+        "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
+        "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
       ],
       "issues": []
     }

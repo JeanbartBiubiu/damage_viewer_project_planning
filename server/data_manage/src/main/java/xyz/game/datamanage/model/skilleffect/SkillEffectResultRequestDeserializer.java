@@ -23,6 +23,10 @@ public final class SkillEffectResultRequestDeserializer extends JsonDeserializer
             throw JsonMappingException.from(parser, "spellShieldBlockScope 字段必须显式提供，可为 null");
         }
         SkillEffectResultType resultType = codec.treeToValue(node.get("resultType"), SkillEffectResultType.class);
+        if (resultType == SkillEffectResultType.COOLDOWN_DURATION_MODIFIER
+            && (!node.path("resultType").isTextual() || !node.path("target").isTextual())) {
+            throw JsonMappingException.from(parser, "冷却时长修正的种类与作用对象必须为明确字符串");
+        }
         SkillEffectResultDetail detail = null;
         JsonNode detailNode = node.get("detail");
         if (detailNode != null && !detailNode.isNull() && resultType != null) {
@@ -46,6 +50,7 @@ public final class SkillEffectResultRequestDeserializer extends JsonDeserializer
                 case HIT_LINK_APPLICATION -> SkillEffectHitLinkApplicationDetail.class;
                 case ATTACK_LINK_APPLICATION -> SkillEffectAttackLinkApplicationDetail.class;
                 case SKILL_HASTE_MODIFIER -> SkillEffectHasteModifierDetail.class;
+                case COOLDOWN_DURATION_MODIFIER -> SkillEffectCooldownDurationModifierDetail.class;
             };
             detail = codec.treeToValue(detailNode, detailClass);
         }

@@ -18,6 +18,24 @@ class SimulationSnapshotClosureTest {
     }
 
     @Test
+    void cooldownDurationSnapshotPreservesLifecycleScopeAndItsRealSkillDependency() throws Exception {
+        fixture.attach("hero_a", ATTACK, "duration_source", "target_skill");
+        fixture.configuration("target_skill", 1, "{}");
+        var effect = xyz.game.datamanage.support.authoring.CooldownDurationTestData.effect();
+        effect.put("effectKey", "buff").put("name", "有期冷却倍率").put("sortOrder", 0);
+        fixture.configuration("duration_source", 1, "{\"effects\":[" + effect + "],\"triggerRules\":[" + initialization("apply", "buff") + "]}");
+        var snapshot = fixture.service.get(GAME, fixture.choice());
+        var stored = snapshot.skillConfigurations().stream().filter(row -> row.skill().skillKey().equals("duration_source"))
+            .findFirst().orElseThrow().effects().getFirst();
+        assertEquals("COOLDOWN_DURATION_MODIFIER", stored.results().getFirst().resultType().name());
+        assertEquals("SOURCE", stored.lifecycle().instanceScope().name());
+        assertEquals(List.of("target_skill"), ((xyz.game.datamanage.model.skilleffect.SkillEffectCooldownDurationModifierDetail)
+            stored.results().getFirst().detail()).affectedSkillScope().skillKeys());
+        assertTrue(snapshot.references().stream().anyMatch(row -> row.sourceSkillKey().equals("duration_source")
+            && row.targetType().equals("SKILL") && row.targetKey().equals("target_skill")));
+    }
+
+    @Test
     void resolvedSubscriptionsUseTheRealSameSideProcessAndRemainInactiveWhenTheSourceIsClosed() throws Exception {
         fixture.attach("hero_a", ATTACK, "producer", "subscriber");
         fixture.configuration("producer", 1, """

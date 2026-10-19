@@ -10,9 +10,11 @@
 
 `GET /api/admin/games/{gameId}/simulation-availability?wasmSha256=...&adapterVersion=...`只读返回英雄、装备的当前配置缺口和计算核验状态。它用只读一致事务一次批量读取原始业务行，不执行伤害、不写数据库，也不以管理结构检查代替完整运行。只有与范围、完整对象内容、共享及外部依赖、正式Wasm和适配器版本全部匹配的通过证明才返回可选状态；缺证明或证明失效均不可选。
 
-优先范围资源`simulation-scope/lol/combat-analysis.json`从规划工作树的原始阶段进度机械生成，目前为五批49名英雄、245个技能槽和198件装备。响应中的`excludedSkillSources`只运输当前实际绑定且已有明确范围排除依据的来源及原因。完整排除依据仍进入范围摘要，未绑定的排除槽不会要求额外场景设置。盖伦P沿该通用资源排除本轮连续单向1V1，管理数据和关系保留；其它必需来源不因此关闭。正式证明资源为`simulation-verification/{gameId}/combat-analysis.json`，当前包含安妮、盖伦、库奇、崔斯特在约定单向1V1范围内的完整必要来源证明，以及原19件纯属性装备证明；不能因存在参数、触发规则或纯属性依据就手工标为通过。
+优先范围资源`simulation-scope/lol/combat-analysis.json`从规划工作树的原始阶段进度机械生成，目前为五批49名英雄、245个技能槽和198件装备。响应中的`excludedSkillSources`只运输当前实际绑定且已有明确范围排除依据的来源及原因。完整排除依据仍进入范围摘要，未绑定的排除槽不会要求额外场景设置。盖伦P和内瑟斯W沿该通用资源排除本轮连续单向1V1，管理数据和关系保留；其它必需来源不因此关闭。正式证明资源为`simulation-verification/{gameId}/combat-analysis.json`，当前包含安妮、盖伦、库奇、崔斯特、内瑟斯在约定单向1V1范围内的完整必要来源证明，以及原19件纯属性装备证明；不能因存在参数、触发规则或纯属性依据就手工标为通过。
 
-当前正式身份为 Wasm `8eebbefbd2491490e2e8ded34a1f920ed8c6a79cdeab9eeadbda5fdd68309ffe`、适配器 `v24-primary-attack-replacement`。崔斯特三张牌为三个普通独立技能，按不同开关场景验证各份完整来源，不增加互斥或页面定制。213场1376次真实运行、原三英雄及19件装备2980次重新计算通过独立复核；普通盾补充另有24次成功，动态法术盾的3次正式入口拒绝单列，相关装备仍未开放。证明资源已隔离构建和安装，726程序类、依赖及其余配置逐字节保持，仅证明资源改变；真实目录精确返回4名英雄与19件装备可用。证据见规划工作树 `outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/proof-installation/`，整英雄记录见同级专项的 `崔斯特W与整英雄适配验收记录.md`。以下 v23 数据为历史验收，保留原口径。
+当前正式身份为Wasm `1346f63b089edfda34335720864b3784196b350504ec47d75134524df1ba70d1`、适配器`v25-process-state-resource-max-and-cooldown`。内瑟斯86场614次主矩阵及关闭补充、已有对象3328次真实Worker回归通过独立复核；正式证明SHA为`fc9f2a0e5f9b3cee91558e4da4413901b09a7ff8ff05b8612d79cb77a5de5928`。最终代码与范围2117项全测、证明26项定向测试及隔离打包通过。安装时728个程序类、依赖、私有配置字节保持，仅范围与证明资源改变，未初始化数据库；真实HTTP精确返回5名英雄与19件装备。实际内瑟斯页面已完成击杀和会话释放。完整收尾见规划真源`outputs/priority-adaptation-2026-10-18/内瑟斯与通用资源冷却机制适配验收记录.md`及`nasus-next/proof-installation/`。
+
+此前v24正式身份为 Wasm `8eebbefbd2491490e2e8ded34a1f920ed8c6a79cdeab9eeadbda5fdd68309ffe`、适配器 `v24-primary-attack-replacement`。崔斯特三张牌为三个普通独立技能，按不同开关场景验证各份完整来源，不增加互斥或页面定制。213场1376次真实运行、原三英雄及19件装备2980次重新计算通过独立复核；普通盾补充另有24次成功，动态法术盾的3次正式入口拒绝单列，相关装备仍未开放。该次证明资源隔离构建和安装时，726程序类、依赖及其余配置逐字节保持，仅证明资源改变；当时真实目录精确返回4名英雄与19件装备可用。证据见规划工作树 `outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/proof-installation/`，整英雄记录见同级专项的 `崔斯特W与整英雄适配验收记录.md`。以下 v23 数据为历史验收，保留原口径。
 
 原19件来自47件明确纯属性装备的双方1～18级单件场景，其中另28件未证明战斗行为影响，不进入通过资源。本轮在正式Wasm `5a6fc2d45e1b4c1e9995c2456e46eb8fc1ead5680c106dca844d7842b4be04a3`及适配器`v23-active-ammo-initial-state-and-recovery`下核对19件，共684场、含18份无装备基准1404次覆盖运行；另58次读取时间缓存误判造成的诊断冗余单列，不计新增覆盖。当前记录位于前端工作树`web/output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/`；部分早期运行在最终校验器下只重评，不冒称重新计算。单件证明不代表任意六件组合。
 
@@ -29,6 +31,14 @@ mvn "-Dtest=SimulationAvailability*Test" test
 ```
 
 范围或证明变化后重新生成资源并打包；业务数据变化会即时使旧证明失效。完整共享口径及当前补录缺口见规划工作树`outputs/simulation-availability-2026-10-17/`。目录不会新增表、迁移或业务数据写入；数据补录按规划真源`.agents/skills/damage-api-authoring/SKILL.md`执行保护保存和独立回读，与只读目录分开记录。
+
+## 有期冷却时长倍率
+
+新增 `COOLDOWN_DURATION_MODIFIER`（冷却时长修正），与修改剩余冷却、技能急速分别保存。结果明细只允许 `affectedSkillScope`；当前范围必须为 `SKILLS`、非空无重复的真实同游戏技能列表，分类列表为空。显式空值、数字或未知明细字段拒绝，不提供 `operation`。沿现有 `results` JSONB 保存，统一配置保护 PATCH、独立 GET、摘要、引用与删除守卫、场景快照均保留完整字段；没有表结构迁移。
+
+结果只作用于 `SOURCE`，必须在有限自身单层生命周期内持续生效，固定施加快照、共享数值、重施覆盖、保持层数并刷新全部、同时到期，无周期或护盾关联。倍率及持续时间可以引用固定、等级参数或完整静态共同公式，全部等级的最终有效倍率须能表示为有限且大于零的数；1 与大于1均合法。生命周期时长为静态正安全整数毫秒，两项层数须在全部等级恒为1。运行输入、属性或事件上下文不得冒充静态供值；参数、公式、生命周期或动作结果修正的后续变化在同游戏事务最终态重新核对，非法时连业务写入一起回滚。
+
+后台允许合法孤立资料，不按英雄或技能名称决定能力。实际拥有者的真实 INITIAL 能力绑定、生效期内未来新提交的时长倍率、到期及同刻执行顺序由宿主和 Wasm 核对，保存不代表可运行；不会在后台追溯修改已有冷却。共享契约见规划工作树 `outputs/priority-adaptation-2026-10-18/nasus-next/内瑟斯通用机制共享实施方案.md`。定向入口：`mvn "-Dtest=SkillEffectCooldownDurationModifierTest,SkillCooldownDurationSemanticsTest,SkillEffectCooldownDurationStorageTest,SkillEffectServiceTest,SkillConfigurationServiceTest,SimulationSnapshotClosureTest,GameConfigurationWriteGuardTest,SkillNumericSemanticsTest,SkillObjectReferencesTest" test`；本轮在 `target/nasus-cooldown-2026-10-19` 隔离全测2117项通过（无失败、错误或跳过）并打包，私有配置原字节核对，不修改正在运行的8080服务或实库数据。隔离替身和HTTP控制器测试不等于实库写入、真实HTTP或完整战斗验收。
 
 ## 普攻主体与待击替换的伤害角色
 
