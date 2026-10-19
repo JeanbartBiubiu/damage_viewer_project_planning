@@ -102,6 +102,19 @@ export function reachableAttributeChanges(input: CompileRequest, request?: RunRe
       if (compiled) abilityReference(compiled.hitAbilityRef, context);
     }
   }
+  for (const rule of request?.driverPlan.automaticSkills?.rules ?? []) {
+    const bindings = input.rules.skillActionBindings?.filter(row => row.bindingKey === rule.bindingKey && row.source === 'source') ?? [];
+    if (bindings.length !== 1) continue;
+    const binding = bindings[0]!;
+    const initial = binding.controls.filter(row => row.action === 'INITIAL');
+    if (initial.length !== 1) continue;
+    const context: Context = { source: binding.source, target: rule.target, owner: binding.source };
+    abilityReference(initial[0]!.abilityRef, context);
+    for (const hit of rule.hitBindings) if (hit.preset !== 'MISS') {
+      const compiled = binding.hitBindings.filter(row => row.hitBindingKey === hit.hitBindingKey);
+      if (compiled.length === 1) abilityReference(compiled[0]!.hitAbilityRef, context);
+    }
+  }
   if (!request) for (const binding of input.rules.skillActionBindings ?? []) {
     const context: Context = { source: binding.source, target: binding.hitBindings.length ? 'target' : binding.source, owner: binding.source };
     for (const control of binding.controls) abilityReference(control.abilityRef, context);

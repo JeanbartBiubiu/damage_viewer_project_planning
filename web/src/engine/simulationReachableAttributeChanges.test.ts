@@ -29,7 +29,64 @@ function scene() {
   return { input, request, operation };
 }
 
+function automaticScene(momentType: 'PROCESS_START' | 'STEP_COMPLETE' = 'STEP_COMPLETE') {
+  const result = scene(), { input, request } = result;
+  request.driverPlan.skillActions = [];
+  request.driverPlan.automaticSkills = { rules: [{ ruleKey: 'automatic', bindingKey: 'planned', sortOrder: 0,
+    target: 'source', hitBindings: [], waitForCooldowns: [], releaseAfterRuleKey: null }] };
+  input.sharedProviders![0]!.processes![0]!.steps = [{ stepKey: 'start', stepType: 'IMMEDIATE', occupiesAction: false }];
+  input.sharedProviders![0]!.processes![0]!.momentOperations.push({ moment: { momentType,
+    stepKey: momentType === 'PROCESS_START' ? null : 'start', failureReason: null },
+    operations: [{ operation: 'apply_provider', target: 'self', providerDefinitionRef: 'temporary' }] });
+  input.sharedProviders!.push({ providerKey: 'temporary', stableId: 'temporary', kind: 'status',
+    lifecycle: { durationMs: { op: 'const', value: 5000 }, maxStacks: 1, refreshPolicy: 'replace' },
+    modifiers: [{ modifierKey: 'extra', kind: 'attribute', target: 'self.attr.saved_extra', bucket: 'bonus',
+      valuePolicy: 'add', value: { op: 'const', value: .2 } }] });
+  return result;
+}
+
 describe('实际可达操作决定速度变化', () => {
+  it.each(['PROCESS_START', 'STEP_COMPLETE'] as const)('自动首次过程在%s施加临时依赖，未初始挂载也按动态核对', moment => {
+    const { input, request } = automaticScene(moment);
+    expect(hasDynamicSpeedDependency(input, 'source', 'saved_tempo', request)).toBe(true);
+    request.driverPlan.automaticSkills!.rules = [];
+    expect(hasDynamicSpeedDependency(input, 'source', 'saved_tempo', request)).toBe(false);
+  });
+  it('自动规则必须有唯一实际来源绑定及首次控制，孤立、歧义或未挂载均保持静态', () => {
+    for (const mode of ['missing', 'duplicate', 'opponent', 'no_initial', 'duplicate_initial', 'unmounted', 'wrong_ref']) {
+      const { input, request } = automaticScene();
+      const binding = input.rules.skillActionBindings![0]!;
+      if (mode === 'missing') input.rules.skillActionBindings = [];
+      if (mode === 'duplicate') input.rules.skillActionBindings!.push(structuredClone(binding));
+      if (mode === 'opponent') binding.source = 'target';
+      if (mode === 'no_initial') binding.controls = [];
+      if (mode === 'duplicate_initial') binding.controls.push(structuredClone(binding.controls[0]!));
+      if (mode === 'unmounted') input.combatants[0]!.providers = [];
+      if (mode === 'wrong_ref') binding.controls[0]!.abilityRef = 'source.provider[unmounted].ability[initial]';
+      expect(hasDynamicSpeedDependency(input, 'source', 'saved_tempo', request), mode).toBe(false);
+    }
+  });
+  it('自动命中只沿当前规则的真实非MISS绑定，不能借用另一命中能力', () => {
+    const { input, request } = scene();
+    request.driverPlan.skillActions = [];
+    const rule = { ruleKey: 'automatic', bindingKey: 'planned', sortOrder: 0, target: 'target' as const,
+      hitBindings: [{ hitBindingKey: 'hit', preset: 'TARGET_HIT' as 'TARGET_HIT' | 'MISS' }], waitForCooldowns: [], releaseAfterRuleKey: null };
+    request.driverPlan.automaticSkills = { rules: [rule] };
+    expect(hasDynamicSpeedDependency(input, 'source', 'saved_tempo', request)).toBe(true);
+    rule.hitBindings[0]!.preset = 'MISS';
+    expect(hasDynamicSpeedDependency(input, 'source', 'saved_tempo', request)).toBe(false);
+    rule.hitBindings[0]!.preset = 'TARGET_HIT'; rule.hitBindings[0]!.hitBindingKey = 'other_hit';
+    expect(hasDynamicSpeedDependency(input, 'source', 'saved_tempo', request)).toBe(false);
+  });
+  it('自动过程的反向属性和BASE读取仍不放宽本方静态攻速', () => {
+    const { input, request } = automaticScene();
+    input.sharedProviders![0]!.processes![0]!.momentOperations[0]!.operations[0]!.target = 'opponent';
+    expect(hasDynamicSpeedDependency(input, 'source', 'saved_tempo', request)).toBe(false);
+    input.sharedProviders![0]!.processes![0]!.momentOperations[0]!.operations[0]!.target = 'self';
+    const binding = input.formulas![0]!.expression.inputs[0]!.binding;
+    if (binding.kind === 'attribute') binding.valueKind = 'BASE';
+    expect(hasDynamicSpeedDependency(input, 'source', 'saved_tempo', request)).toBe(false);
+  });
   it('主动命中自身或来源投送改变TOTAL依赖，目标反向和BASE读取保持静态', () => {
     const { input, request, operation } = scene();
     expect(hasDynamicSpeedDependency(input, 'source', 'saved_tempo', request)).toBe(true);
