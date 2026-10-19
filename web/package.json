@@ -8,8 +8,9 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "node scripts/lint-no-legacy.mjs",
-    "typecheck": "tsc -b --pretty false",
+    "typecheck": "tsc -b --pretty false && tsc -p tsconfig.mechanisms.json --pretty false",
     "test": "vitest run --config vitest.config.ts",
+    "test:mechanisms": "vitest run --config vitest.config.ts tests/mechanisms",
     "test:e2e:non-wasm": "playwright test --config playwright.non-wasm.config.ts"
   },
   "dependencies": {
