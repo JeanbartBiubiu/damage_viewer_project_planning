@@ -116,6 +116,7 @@ public class GameConfigurationWriteGuard {
         SkillExplicitTargetIsSourceConditionSemantics.validate(skillAffected);
         SkillHitTargetIsEnemyConditionSemantics.validate(skillAffected);
         SkillCastingPhaseSemantics.validate(skillAffected, skillContext);
+        SkillAttackDamageRoleSemantics.validate(skillAffected, skillContext);
         Set<String> changedSkills = changes.changed().stream().filter(s -> s.type() != SourceType.DAMAGE_TYPE)
             .map(Source::skill).collect(java.util.stream.Collectors.toSet());
         SkillChargeDurationSemantics.validate(skillContext.stream().filter(aggregate -> changedSkills.contains(aggregate.skillKey())).toList(),

@@ -1178,6 +1178,28 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void roleLocalShapeIsRejectedBeforeAnyWriteAndNonDamageCannotSmuggleTheField() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        var encoded = (ObjectNode) AggregateJson.tree(AggregateJson.write(damageResult("physical_hit")));
+        ((ObjectNode) encoded.path("detail")).put("attackDamageRole", "PRIMARY");
+        var marked = AggregateJson.read(encoded.toString(), SkillEffectResultRequest.class);
+        var invalid = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "主体伤害", null, 0, null, List.of(marked))));
+        assertField(invalid, "results[0].detail.attackDamageRole", "ATTACK_DAMAGE_ROLE_INVALID");
+
+        var heal = AggregateJson.read("""
+            {"resultKey":"heal","name":"治疗","resultType":"DIRECT_HEAL","target":"SOURCE","sortOrder":0,
+             "valueRule":{"value":{"kind":"FIXED","value":1},"fixedMultiplier":1},
+             "detail":{"attackDamageRole":"PRIMARY"},"lifecycleBehavior":null,"spellShieldBlockScope":null}
+            """, SkillEffectResultRequest.class);
+        var foreign = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "治疗", null, 0, null, List.of(heal))));
+        assertField(foreign, "results[0].detail.attackDamageRole", "UNKNOWN_FIELD");
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
     void rejectsInvalidCriticalShapeAndDuplicateVampTypeBeforeWrite() {
         stubParentAndNewKey();
         SkillEffectDamageDetail invalid = new SkillEffectDamageDetail(

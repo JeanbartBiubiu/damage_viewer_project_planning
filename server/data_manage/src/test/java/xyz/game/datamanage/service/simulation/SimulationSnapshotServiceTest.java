@@ -160,6 +160,32 @@ class SimulationSnapshotServiceTest {
     }
 
     @Test
+    void snapshotPreservesTheExplicitRoleAndParallelLinkWithoutInventingRolesForOldResults() {
+        var before = service.get("lol", CHOICE);
+        assertFalse(json.valueToTree(before).path("skillConfigurations").get(0).path("effects").get(0)
+            .path("results").get(0).path("detail").has("attackDamageRole"));
+        var source = skill.effects().getFirst();
+        var first = source.results().getFirst();
+        var damage = (SkillEffectDamageDetail) first.detail();
+        var marked = new SkillEffectDamageDetail(damage.damageTypeKey(), damage.deliveryKind(), damage.originKind(),
+            damage.critical(), damage.vampQualification(), damage.vampOverrides(), SkillEffectAttackDamageRole.PRIMARY);
+        var results = new java.util.ArrayList<>(source.results());
+        results.set(0, new SkillEffectResultResponse(first.resultKey(), first.name(), first.resultType(), first.target(),
+            first.description(), first.sortOrder(), first.valueRule(), marked, first.lifecycleBehavior(), first.spellShieldBlockScope()));
+        var effect = new SkillEffectDetailResponse(source.gameId(), source.skillKey(), source.effectKey(), source.name(), source.description(),
+            source.sortOrder(), source.lifecycle(), results, source.createdAt(), source.updatedAt());
+        configure(new SkillConfigurationResponse(skill.skill(), skill.parameters(), skill.formulas(), List.of(effect),
+            skill.processes(), skill.internalStates(), skill.triggerRules(), "role-digest"));
+        var result = service.get("lol", CHOICE);
+        assertEquals(SkillEffectAttackDamageRole.PRIMARY, ((SkillEffectDamageDetail) result.skillConfigurations().getFirst()
+            .effects().getFirst().results().getFirst().detail()).attackDamageRole());
+        assertEquals(2, result.skillConfigurations().getFirst().effects().getFirst().results().size());
+        assertFalse(json.valueToTree(result).path("skillConfigurations").get(0).path("effects").get(0)
+            .path("results").get(1).path("detail").has("attackDamageRole"));
+        assertNotEquals(before.snapshotDigest(), result.snapshotDigest());
+    }
+
+    @Test
     void doesNotSubstituteAFormulaWhenSelectedDamageTypeHasNone() {
         when(damageTypes.get("lol", "physical")).thenReturn(new DamageTypeResponse("lol", "physical",
             "物理", null, DamageTypeStatus.ENABLED, 0, null, null, false));

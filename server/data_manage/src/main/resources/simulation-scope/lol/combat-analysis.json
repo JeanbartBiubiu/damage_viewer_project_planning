@@ -139,6 +139,11 @@
           "key": "twistedfate_w",
           "name": "崔斯特·选牌",
           "excluded": false,
+          "currentSkillKeys": [
+            "twistedfate_w_blue",
+            "twistedfate_w_red",
+            "twistedfate_w_gold"
+          ],
           "exclusion": null
         },
         {
@@ -152,8 +157,17 @@
           "slot": "R",
           "key": "twistedfate_r",
           "name": "崔斯特·命运",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "原始R只有敌人视野与位置传送，没有战斗属性、伤害或治疗；按本轮只关心数值变化、不模拟空间与前摇的单向1V1范围整槽排除。保留原参数、效果和关系，不增加伪过程；不代表真实游戏R没有作用。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory",
+              "remainingUltimateCategoryBackfill",
+              "twistedFateNumericalScope20261019"
+            ],
+            "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023"
+          }
         }
       ]
     },

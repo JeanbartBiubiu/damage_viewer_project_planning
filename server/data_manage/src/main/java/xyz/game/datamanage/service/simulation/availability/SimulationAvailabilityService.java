@@ -84,8 +84,12 @@ public class SimulationAvailabilityService {
             List<ExcludedSkillSource> excludedSources = new ArrayList<>();
             if (definition != null && "CHARACTER".equals(kind)) {
                 for (JsonNode skill : definition.path("expectedSkills")) {
-                    if (skill.path("excluded").asBoolean(false) && directSkills.contains(skill.path("key").asText())) excludedSources.add(new ExcludedSkillSource(
-                        skill.path("key").asText(), skill.path("exclusion").path("reason").asText()));
+                    if (skill.path("excluded").asBoolean(false)) {
+                        for (String current : SimulationAvailabilityResources.currentSkillKeys(skill)) {
+                            if (directSkills.contains(current)) excludedSources.add(new ExcludedSkillSource(
+                                current, skill.path("exclusion").path("reason").asText()));
+                        }
+                    }
                 }
             }
             Set<String> closure = snapshot.skillClosure(directSkills);
@@ -271,7 +275,9 @@ public class SimulationAvailabilityService {
 
         private Set<String> excluded(JsonNode scope) {
             Set<String> result = new HashSet<>();
-            scope.path("expectedSkills").forEach(item -> { if (item.path("excluded").asBoolean(false)) result.add(item.path("key").asText()); });
+            scope.path("expectedSkills").forEach(item -> {
+                if (item.path("excluded").asBoolean(false)) result.addAll(SimulationAvailabilityResources.currentSkillKeys(item));
+            });
             return result;
         }
 
@@ -318,10 +324,12 @@ public class SimulationAvailabilityService {
                     }
                 }
                 for (JsonNode expected : scope.path("expectedSkills")) {
-                    if (!expected.path("excluded").asBoolean() && !direct.contains(expected.path("key").asText())) {
-                        String skill = expected.path("key").asText();
-                        issues.add(issue("EXPECTED_SKILL_BINDING_MISSING", skill, root + ".skillRelations." + skill,
-                            expected.path("name").asText(skill) + "尚未绑定，不能按关闭或未学处理"));
+                    if (!expected.path("excluded").asBoolean()) {
+                        for (String skill : SimulationAvailabilityResources.currentSkillKeys(expected)) {
+                            if (!direct.contains(skill)) issues.add(issue("EXPECTED_SKILL_BINDING_MISSING", skill,
+                                root + ".skillRelations." + skill, expected.path("name").asText(skill)
+                                    + "的当前技能" + skill + "尚未绑定，不能按关闭或未学处理"));
+                        }
                     }
                 }
                 String basicCategory = rules.path("basicAttackCategoryKey").asText("");
