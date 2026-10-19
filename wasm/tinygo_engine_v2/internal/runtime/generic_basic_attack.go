@@ -13,6 +13,10 @@ import (
 const maxJSONSafeInteger int64 = 9007199254740991
 
 type basicAttackRuntime struct {
+	primary              *model.BasicAttackPrimaryIdentity
+	primaryCandidate     int
+	primaryHitPlan       *planbundle.CompiledSkillHit
+	replacementSlots     []primaryReplacementSlot
 	ammo                 *basicAttackAmmo
 	plan                 model.BasicAttackPlan
 	summary              model.BasicAttackSummary
@@ -197,6 +201,9 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 	}
 	s.basicAttack = &basicAttackRuntime{plan: *p, summary: model.BasicAttackSummary{PlanKey: p.PlanKey}, currentRecordIndex: -1, initialAbility: initial,
 		cooldownDependencies: s.formulas.ReadDependencies(process.Cooldown.DurationProgram)}
+	if err := s.bindBasicAttackPrimary(hit, selectedRef.ProviderRef); err != nil {
+		return err
+	}
 	// Stage 2 accepts the same complete static subset emitted by the host adapter.
 	// Extra mechanisms fail closed instead of being filtered or implicitly executed.
 	if len(provider.Processes) != 1 || provider.AbilityCount != 3 || provider.Lifecycle != nil || len(provider.Modifiers)+len(provider.StatusContributions) != 0 || !validBasicAttackAmmoProvider(provider) {

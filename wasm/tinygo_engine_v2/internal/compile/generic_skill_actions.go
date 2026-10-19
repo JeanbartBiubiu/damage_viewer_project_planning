@@ -54,6 +54,7 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 		complexStep := ""
 		empowered := len(process.Steps) == 1 && process.Steps[0].StepType == "EMPOWERED_BASIC_ATTACK"
 		var empoweredAbility uint16
+		replacesPrimary := false
 		if empowered && (len(binding.Controls) != 1 || len(binding.HitBindings) != 1) {
 			fail("empowered attack requires its initial control and one complete result binding")
 			invalid = true
@@ -129,11 +130,16 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 					invalid = true
 				}
 				empoweredAbility = hitRef.AbilityIndex
+				if hitAbility.OperationCount == 1 {
+					hitPlan := ctx.session.Operations[hitAbility.OperationStart].SkillHit
+					replacesPrimary = hitPlan != nil && hitPlan.ReplacesPrimary
+				}
 			}
 		}
 		if !invalid {
-			compiled := plan.CompiledSkillActionBinding{SkillActionBinding: binding, InitialAbilityIndex: ref.AbilityIndex, ControlAbilityIndices: controls}
+			compiled := plan.CompiledSkillActionBinding{SkillActionBinding: binding, Slot: uint16(len(ctx.session.SkillActionBindings)), InitialAbilityIndex: ref.AbilityIndex, ControlAbilityIndices: controls}
 			compiled.HasEmpoweredAttack, compiled.EmpoweredAbilityIndex = empowered, empoweredAbility
+			compiled.ReplacesPrimary = replacesPrimary
 			compiled.AutomaticIneligiblePath, compiled.AutomaticIneligibleReason = automaticSkillAdmission(binding, process, ability, path, ctx)
 			compiled.AutomaticEligible = compiled.AutomaticIneligibleReason == ""
 			ctx.session.SkillActionBindings = append(ctx.session.SkillActionBindings, compiled)

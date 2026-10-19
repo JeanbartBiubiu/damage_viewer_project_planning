@@ -89,9 +89,24 @@ type ProcessActionOccupancy struct {
 // ProcessEmpoweredAttack links an activation use to the actual native attack.
 // The activation identity remains ProcessInstanceSnapshot.UseKey.
 type ProcessEmpoweredAttack struct {
-	UseRef string `json:"useRef"`
-	HitRef string `json:"hitRef"`
-	Target string `json:"target"`
+	UseRef          string                      `json:"useRef"`
+	HitRef          string                      `json:"hitRef"`
+	Target          string                      `json:"target"`
+	ReplacedPrimary *BasicAttackPrimaryIdentity `json:"replacedPrimary,omitempty"`
+}
+
+// BasicAttackPrimaryIdentity names the real native input binding, not an IR offset.
+type BasicAttackPrimaryIdentity struct {
+	Owner                    string `json:"owner"`
+	ProviderRef              string `json:"providerRef"`
+	DefinitionRef            string `json:"definitionRef"`
+	StartAbilityRef          string `json:"startAbilityRef"`
+	InitialControlAbilityRef string `json:"initialControlAbilityRef"`
+	HitAbilityRef            string `json:"hitAbilityRef"`
+	CandidateKey             string `json:"candidateKey"`
+	EffectOccurrenceKey      string `json:"effectOccurrenceKey"`
+	EffectKey                string `json:"effectKey"`
+	ResultKey                string `json:"resultKey"`
 }
 
 type ProcessInstanceSnapshot struct {

@@ -105,6 +105,9 @@ func (f *executionFrame) maybeQueueDamageDealtEvent(ability planbundle.CompiledA
 		if f.rootSkillHitDamage && f.eventCtx != nil && f.eventCtx.hasUse {
 			data["useRef"], data["skillKey"] = f.eventCtx.useKey, f.eventCtx.useSkillKey
 		}
+		if f.empoweredAttack != nil && f.empoweredAttack.ReplacedPrimary != nil {
+			data["empoweredAttack"] = f.empoweredAttack
+		}
 		if len(aggregation.operationRefs) == 1 {
 			if aggregation.operationRefs[0] != "" {
 				data["operationRef"] = aggregation.operationRefs[0]

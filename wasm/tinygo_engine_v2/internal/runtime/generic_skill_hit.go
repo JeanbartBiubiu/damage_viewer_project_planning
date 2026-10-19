@@ -294,6 +294,9 @@ func (f *executionFrame) resolveSkillHit(op planbundle.CompiledOperation, abilit
 	if op.SkillHit == nil {
 		return f.run.skillHitErr(model.GenericErrMissingRequiredField, "resolve_skill_hit missing compiled plan", f.abilityRef, "")
 	}
+	if op.SkillHit.ReplacesPrimary {
+		return f.run.skillHitErr(model.GenericErrRuntimeInvariantFailed, "primary replacement payload requires its actual empowered native attack consumption", f.abilityRef, op.SkillHit.SkillKey)
+	}
 	if f.driverEntryKey == "" {
 		return f.run.skillHitErr(model.GenericErrMissingRequiredField, "resolve_skill_hit requires a single driver fact", f.abilityRef, "")
 	}
@@ -809,6 +812,15 @@ func (s *genericRunState) dispatchSkillHitEvent(ev emittedEvent, chainDepth int)
 	}
 	for _, idx := range freeze.matchedIndexes {
 		cand := freeze.plan.Candidates[idx]
+		if cand.AttackDamageRole == planbundle.AttackDamageRolePrimary && len(freeze.empoweredWaits) != 0 {
+			replaced, err := s.executePrimaryReplacement(ev, freeze, idx, chainDepth)
+			if err != nil {
+				return err
+			}
+			if replaced {
+				continue
+			}
+		}
 		skipWrites := freeze.blocked == 1 && cand.HasBlockScope && model.ScopeCovers(freeze.unitScope, freeze.occurrenceID, freeze.effectOccurrenceKey, freeze.resultKey, freeze.candidateKey, freeze.useRef, cand.BlockScope, freeze.occurrenceID, cand.EffectOccurrenceKey, cand.ResultKey, cand.CandidateKey, freeze.useRef)
 		if err := s.executeSkillHitCandidate(ev, freeze, cand, skipWrites, chainDepth); err != nil {
 			return err

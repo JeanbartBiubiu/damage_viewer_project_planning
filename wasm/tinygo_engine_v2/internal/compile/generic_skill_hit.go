@@ -62,11 +62,26 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 	}
 
 	seenCandidate := map[string]int{}
-	plan := &planbundle.CompiledSkillHit{SkillKey: op.SkillHit.SkillKey}
+	plan := &planbundle.CompiledSkillHit{SkillKey: op.SkillHit.SkillKey, PrimaryCandidate: -1}
 	inboundNonNull := 0
 	for i, cand := range op.SkillHit.Candidates {
 		cpath := opPath + ".skillHit.candidates[" + itoa(i) + "]"
 		compiled := compileSkillHitCandidate(cand, cpath, ownerProviderIndex, ctx)
+		if compiled.AttackDamageRole == planbundle.AttackDamageRolePrimary {
+			if !ctx.compilingBasicAttack || plan.PrimaryCandidate >= 0 {
+				collector.addError(model.GenericErrUnknownRef, cpath+".attackDamageRole", "PRIMARY requires one unique native basic-attack candidate", cand.CandidateKey)
+			}
+			plan.PrimaryCandidate = i
+			if cand.SpellShieldBlockScope != nil {
+				collector.addError(model.GenericErrUnknownRef, cpath+".spellShieldBlockScope", "PRIMARY requires an explicit null spell-shield scope", cand.CandidateKey)
+			}
+		}
+		if compiled.AttackDamageRole == planbundle.AttackDamageRoleReplacePrimary {
+			if ctx.compilingBasicAttack || len(op.SkillHit.Candidates) != 1 {
+				collector.addError(model.GenericErrUnknownRef, cpath+".attackDamageRole", "REPLACE_PRIMARY requires one complete non-basic empowered payload", cand.CandidateKey)
+			}
+			plan.ReplacesPrimary = true
+		}
 		if cand.CandidateKey != "" {
 			if prev, ok := seenCandidate[cand.CandidateKey]; ok {
 				collector.addError(model.GenericErrUnknownRef, cpath+".candidateKey", "duplicate candidateKey", cand.CandidateKey)
@@ -79,6 +94,13 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 			inboundNonNull++
 		}
 		plan.Candidates = append(plan.Candidates, compiled)
+	}
+	if plan.PrimaryCandidate >= 0 {
+		for i, candidate := range op.SkillHit.Candidates {
+			if candidate.SpellShieldBlockScope != nil {
+				collector.addError(model.GenericErrUnknownRef, opPath+".skillHit.candidates["+itoa(i)+"].spellShieldBlockScope", "a PRIMARY hit requires null spell-shield scope on every parent candidate", candidate.CandidateKey)
+			}
+		}
 	}
 	_ = inboundNonNull
 	if op.Target != "" {
@@ -105,6 +127,22 @@ func compileSkillHitCandidate(cand model.SkillHitCandidate, path string, ownerPr
 		Semantic:                 cand.Semantic,
 		Path:                     path,
 		ParticipationProviderRef: cand.ParticipationProviderRef,
+	}
+	if cand.AttackDamageRole != "" {
+		switch cand.AttackDamageRole {
+		case model.AttackDamageRolePrimary:
+			out.AttackDamageRole = planbundle.AttackDamageRolePrimary
+		case model.AttackDamageRoleReplacePrimary:
+			out.AttackDamageRole = planbundle.AttackDamageRoleReplacePrimary
+		default:
+			collector.addError(model.GenericErrUnknownRef, path+".attackDamageRole", "unknown attack damage role", string(cand.AttackDamageRole))
+		}
+		if cand.Semantic.ResultType != model.SkillHitResultDamage || cand.Semantic.Target != model.SkillHitTargetTARGET || cand.Semantic.Moment != model.SkillHitMomentInstant || cand.ParticipationCondition != nil || cand.ParticipationProviderRef != "" || len(cand.EventValueConditions) != 0 || len(cand.Operations) != 1 || cand.Operations[0].Operation != "damage" || cand.Operations[0].Condition != nil {
+			collector.addError(model.GenericErrUnknownRef, path+".attackDamageRole", "attack damage role requires one unconditional instantaneous target damage", cand.CandidateKey)
+		}
+		if len(cand.Operations) == 1 && (cand.Operations[0].RepeatCount != 0 || cand.Operations[0].RepeatScope != "" || cand.Operations[0].RepeatDelayMs != 0 || cand.Operations[0].RepeatTag != "") {
+			collector.addError(model.GenericErrUnknownRef, path+".operations", "attack damage roles cannot carry repeat metadata", cand.CandidateKey)
+		}
 	}
 	if strings.TrimSpace(cand.CandidateKey) == "" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".candidateKey", "candidateKey is required", "")

@@ -276,13 +276,21 @@ type CompiledOperation struct {
 }
 
 // CompiledSkillHit 是 resolve_skill_hit 的编译计划。
+const (
+	AttackDamageRolePrimary        uint8 = 1
+	AttackDamageRoleReplacePrimary uint8 = 2
+)
+
 type CompiledSkillHit struct {
-	SkillKey   string
-	Candidates []CompiledSkillHitCandidate
+	SkillKey         string
+	Candidates       []CompiledSkillHitCandidate
+	PrimaryCandidate int // -1 unless an explicit validated PRIMARY exists.
+	ReplacesPrimary  bool
 }
 
 // CompiledSkillHitCandidate 保存资格、条件程序与候选操作区间。
 type CompiledSkillHitCandidate struct {
+	AttackDamageRole                 uint8
 	CandidateKey                     string
 	EffectOccurrenceKey              string
 	EffectKey                        string
@@ -404,6 +412,7 @@ type CompiledProcessControl struct {
 
 type CompiledSkillActionBinding struct {
 	model.SkillActionBinding
+	Slot                      uint16
 	InitialAbilityIndex       uint16
 	ControlAbilityIndices     map[string]uint16
 	AutomaticEligible         bool
@@ -411,6 +420,7 @@ type CompiledSkillActionBinding struct {
 	AutomaticIneligibleReason string
 	HasEmpoweredAttack        bool
 	EmpoweredAbilityIndex     uint16
+	ReplacesPrimary           bool
 }
 
 type CompiledVampRule struct {

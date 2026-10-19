@@ -3,6 +3,9 @@ package model
 // 第5项 authoring-p5-r2：命中供值与法术护盾的共享 DTO 与资格矩阵。
 
 const (
+	AttackDamageRolePrimary        = "PRIMARY"
+	AttackDamageRoleReplacePrimary = "REPLACE_PRIMARY"
+
 	OperationKindResolveSkillHit = "resolve_skill_hit"
 
 	EventTypeSkillHit           = "event/skill_hit"
@@ -87,6 +90,7 @@ type SkillHitDefinition struct {
 
 // SkillHitCandidate 是一次命中内按作者顺序排列的结果候选。
 type SkillHitCandidate struct {
+	AttackDamageRole         AttackDamageRole              `json:"attackDamageRole,omitempty"`
 	CandidateKey             string                        `json:"candidateKey"`
 	EffectOccurrenceKey      string                        `json:"effectOccurrenceKey"`
 	EffectKey                string                        `json:"effectKey"`
