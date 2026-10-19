@@ -50,9 +50,7 @@ test('最终正式Wasm通过真实Worker执行明确作者基准、同会话20�
 
 test('原固定样例保持原字节，最终Worker明确拒绝缺少作者公式', async ({ page }, testInfo) => {
   const bytes = readFileSync(resolve('../wasm/tinygo_engine_v2/internal/testkit/fixtures/generic_p0_basic_damage.json'));
-  // 本工作树原文件为CRLF，原生冻结档案为LF；只读核对两种摘要，不写回文件。
-  expect(createHash('sha256').update(bytes).digest('hex')).toBe('66f59f38db0108716e82a89b6098eac3ed55001fbc74badc34acdaf22b67b591');
-  expect(createHash('sha256').update(bytes.toString('utf8').replace(/\r\n/g, '\n')).digest('hex')).toBe('cf597916d5200bc4f5c4328fd15bb2dd0eb5c8c521a77fc815a4dfd4704fda05');
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe('cf597916d5200bc4f5c4328fd15bb2dd0eb5c8c521a77fc815a4dfd4704fda05');
   const compiled = await page.evaluate(async input => {
     const { GenericEngineClient } = await import(/* @vite-ignore */ '/src/engine/genericEngineClient.ts');
     const client = new GenericEngineClient();
