@@ -15,7 +15,7 @@ export type SkillActionInput = Pick<SimulationPlannedSkill, 'origin' | 'skillKey
 };
 export type SkillActionInputs = {
   actions: SkillActionInput[]; durationMs: number; recordTimeSeries: boolean; attackSpeedInputMax?: number;
-  maxSkillActionRecords: number; maxSkillUseRecords: number; maxHealingRecords: number;
+  maxSkillActionRecords: number; maxSkillUseRecords: number; maxHealingRecords: number; maxResourceChangeRecords?: number;
 };
 export type PreparedSkillAction = { runRequest: RunRequest; runInputHash: string; attackSpeedAdmission: AttackSpeedAdmission | null };
 
@@ -95,6 +95,7 @@ export async function skillActionRequest(prepared: ReturnType<typeof assembleSim
   integer(inputs.maxSkillActionRecords, 4096, 'maxSkillActionRecords');
   integer(inputs.maxSkillUseRecords, 10000, 'maxSkillUseRecords');
   integer(inputs.maxHealingRecords, 10000, 'maxHealingRecords');
+  if (Object.prototype.hasOwnProperty.call(inputs, 'maxResourceChangeRecords')) integer(inputs.maxResourceChangeRecords!, 10000, 'maxResourceChangeRecords');
   const runRequest: RunRequest = {
     sessionId, expectedRulesHash: compile.rulesHash, schemaVersion: compile.schemaVersion, schemaHash: compile.schemaHash, rulesHash: compile.rulesHash,
     initialSnapshot: simulationInitialSnapshot(compile),
@@ -105,7 +106,8 @@ export async function skillActionRequest(prepared: ReturnType<typeof assembleSim
     sampling: { sampleEveryMs: 100, dpsWindowMs: 1000, maxSeriesPoints: 5000, disabled: !inputs.recordTimeSeries },
     ...(background ? { safetyBudget: background.runRequest.safetyBudget } : {}),
     recordBudget: { maxAttackRecords: background ? 1000 : 0, maxDamageRecords: 2000, maxMechanicRecords: background ? 2000 : 0,
-      maxSkillActionRecords: inputs.maxSkillActionRecords, maxSkillUseRecords: inputs.maxSkillUseRecords, maxHealingRecords: inputs.maxHealingRecords }
+      maxSkillActionRecords: inputs.maxSkillActionRecords, maxSkillUseRecords: inputs.maxSkillUseRecords, maxHealingRecords: inputs.maxHealingRecords,
+      ...(Object.prototype.hasOwnProperty.call(inputs, 'maxResourceChangeRecords') ? { maxResourceChangeRecords: inputs.maxResourceChangeRecords } : {}) }
   };
   if (!background && drivenActiveAmmo(compile, runRequest.driverPlan).length) runRequest.recordBudget!.maxMechanicRecords = 2000;
   return { runRequest, attackSpeedAdmission: background?.attackSpeedAdmission ?? null,

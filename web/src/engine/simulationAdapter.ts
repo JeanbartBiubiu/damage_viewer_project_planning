@@ -29,7 +29,7 @@ import { validateSimulationAttributeDerivations } from './simulationAttributeCon
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
 import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
-export const SIMULATION_ADAPTER_VERSION = 'v24-primary-attack-replacement';
+export const SIMULATION_ADAPTER_VERSION = 'v25-process-state-resource-max-and-cooldown';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';

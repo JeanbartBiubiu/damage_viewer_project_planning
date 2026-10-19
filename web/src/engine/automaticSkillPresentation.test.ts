@@ -35,6 +35,17 @@ function result(): DoneResult {
 }
 
 describe('自动结果按冻结真实身份展示', () => {
+  it('资源事实独立筛选和定位，贡献仅按明确use关联，不变为治疗或伤害', () => {
+    const done = result();
+    done.resourceChangeRecords = [{ healthOrder: 7, timeMs: 100, target: 'source', resourceKey: 'hp', currentBefore: 400, currentAfter: 700, currentDelta: 300,
+      maxBefore: 650, maxAfter: 950, maxDelta: 300, contributors: [{ source: 'source', providerRef: 'opaque', definitionRef: 'finite', modifierKey: 'health', reason: 'apply', useRef: 'use_a' }] }];
+    const index = indexAutomaticPresentation(done), view = initialAutomaticSkillView(200);
+    expect(index.healing).toHaveLength(done.healingRecords!.length); expect(index.damage).toHaveLength(done.damageRecords!.length);
+    expect(index.byUse.get('use_a')!.resources).toEqual(done.resourceChangeRecords);
+    expect(index.byUse.get('use_b')!.resources).toEqual([]);
+    view.timeRangeMs = [150, 200]; expect(filterAutomaticPresentation(done, index, view).resources).toEqual([]);
+    expect(resolveAutomaticSelection(index, { kind: 'resource', healthOrder: 7 })).toMatchObject({ resource: done.resourceChangeRecords[0], useRef: null });
+  });
   it('同毫秒、同作者名称的不同使用不串联，无使用结算继续独立', () => {
     const done = result(); const index = indexAutomaticPresentation(done);
     const selected = resolveAutomaticSelection(index, { kind: 'automatic', sequence: 1 });

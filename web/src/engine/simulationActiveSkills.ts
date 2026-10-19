@@ -6,9 +6,10 @@ import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
 import { adaptProcessProgram, type CastCostRef, type ProcessBasicAttackContext } from './processAdapter';
 import { adaptHitProgram } from './hitAdapter';
+import { cooldownDurationProviderKey } from './cooldownDurationEffectAdapter';
 import { NumericAdaptationError } from './numericAdapter';
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
-import { plannedSkillRuleKeys } from './simulationSkillSourceDescription';
+import { naturalRuleKeys, plannedSkillRuleKeys, sourceIsPlanned, validateSimulationSkillSourceManifest } from './simulationSkillSourceDescription';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
 import { compileSimulationDamageFormula, validateConfiguration } from './simulationTriggeredEquipment';
 import { calculationConfiguration, changedAttributes, simulationCriticalBinding } from './simulationCalculationRules';
@@ -85,6 +86,36 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
   const defenses = new Map<string, ReturnType<typeof compileSimulationDamageFormula>>();
   let vampRules: ReturnType<typeof adaptHitProgram>['vampRules'];
   const allProviderDefinitions = assemblies.flatMap(assembly => assembly.providers);
+  if (assemblies.some(assembly => assembly.cooldownDurationScopes.length)) validateSimulationSkillSourceManifest(snapshot);
+  // 所有真实入口完成后才展开范围，不能从技能名字猜能力或依赖装配顺序。
+  for (const assembly of assemblies) for (const scope of assembly.cooldownDurationScopes) {
+    const provider = allProviderDefinitions.find(row => row.providerKey === scope.providerKey)!;
+    const refs: string[] = [];
+    for (const skillKey of scope.skillKeys) {
+      const sources = snapshot.source.skillSources.filter(row => row.skillKey === skillKey && row.origin.kind === 'CHARACTER'
+        && row.origin.characterKey === snapshot.selection.sourceCharacterKey);
+      const configuration = snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey);
+      if (sources.length !== 1 || !configuration || configuration.skill.gameId !== snapshot.gameId
+        || configuration.skill.skillCategoryKeys.some(key => key === calculationConfiguration(snapshot)?.basicAttackCategoryKey)) fail(scope.authorPath, '冷却时长范围必须引用同拥有者真实普通主动技能');
+      const source = sources[0]!;
+      if (!source.enabled || source.skillStatus !== 'ENABLED' || source.skillLevel === 0) continue;
+      if (!sourceIsPlanned(snapshot, 'source', source) && source.inactiveReason === 'ACTIVE_DEFERRED'
+        && source.enabledRuleKeys.length === 0 && naturalRuleKeys(snapshot, configuration, 'source').length === 0
+        && plannedSkillRuleKeys(configuration, ['INITIAL']).length > 0) continue;
+      const matches = assemblies.filter(row => row.binding.skillKey === skillKey);
+      const control = matches[0]?.binding.controls.filter(row => row.action === 'INITIAL');
+      const definition = matches[0]?.providers.find(row => row.providerKey === matches[0]!.binding.providerDefinitionRef);
+      const process = definition?.processes?.find(row => row.processKey === control?.[0]?.processKey);
+      const ability = definition?.abilities?.find(row => control?.[0]?.abilityRef.endsWith(`.ability[${row.abilityKey}]`));
+      if (source.inactiveReason !== null || source.skillStatus !== 'ENABLED' || matches.length !== 1 || control?.length !== 1
+        || !process?.cooldown || ability?.kind !== 'active' || ability.processControl?.action !== 'INITIAL'
+        || ability.processControl.useRefFromEvent === true || process.skillKey !== skillKey) fail(scope.authorPath, '启用的冷却范围技能缺少真实已绑定且有普通冷却的首次入口');
+      refs.push(control[0]!.abilityRef);
+    }
+    provider.modifiers![0]!.affectedAbilityRefs = [...new Set(refs)].sort();
+    assembly.coverage.push({ authorPath: scope.authorPath, compiledPath: `sharedProviders[${provider.providerKey}].modifiers[0].affectedAbilityRefs`,
+      note: refs.length ? '按本场真实拥有者INITIAL绑定展开普通冷却引用' : '引用来源关闭、未学或主动未计划，本场范围零匹配；不启用来源' });
+  }
   const changed = changedAttributes();
   const collectChanged = (value: unknown): void => {
     if (Array.isArray(value)) { value.forEach(collectChanged); return; }
@@ -96,7 +127,7 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
     }
     if (row.operation === 'shield' || row.operation === 'apply_provider') {
       const definition = allProviderDefinitions.find(provider => provider.providerKey === (row.shieldLifecycleProviderDefinitionRef ?? row.providerDefinitionRef));
-      for (const modifier of definition?.modifiers ?? []) if (modifier.kind === 'attribute') {
+      for (const modifier of definition?.modifiers ?? []) if (modifier.kind === 'attribute' || modifier.kind === 'resource_max') {
         const attribute = /^self\.attr\.([a-z][a-z0-9_]*)$/.exec(modifier.target ?? '');
         if (attribute) changed[row.target === 'target' ? 'target' : 'source'].add(attribute[1]!);
       }
@@ -272,21 +303,26 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
         skillKey: plan.skillKey, effectKey: effect.effectKey, resultKey: result.resultKey, compiledPaths: [compiledPath], providerDefinitionRef: definitionRef });
     }
     if (operation.operation === 'apply_provider') {
-      const effect = configuration.effects.find(effect => effect.results.some(result => operation.ref === `${root}.effects.${effect.effectKey}.results.${result.resultKey}`));
-      const result = effect?.results.find(result => operation.ref === `${root}.effects.${effect!.effectKey}.results.${result.resultKey}`);
+      const effect = configuration.effects.find(effect => operation.ref === `${root}.effects.${effect.effectKey}`
+        || effect.results.some(result => operation.ref === `${root}.effects.${effect.effectKey}.results.${result.resultKey}`));
       const dynamic = providers.find(provider => provider.providerKey === operation.providerDefinitionRef);
-      if (!effect || !result || !dynamic || result.resultType !== 'ATTRIBUTE_CHANGE' && result.resultType !== 'DAMAGE_MODIFIER') fail(`${root}.processes.${process.processKey}`, '有限供值操作必须对应完整真实作者结果');
+      if (!effect || !dynamic) fail(`${root}.processes.${process.processKey}`, '有限供值操作必须对应完整真实作者结果');
       const compiledPath = `sharedProviders[${definitionRef}].processes[0].momentOperations[${groupIndex}].operations[${operationIndex}]`;
       coverage.push({ authorPath: operation.ref!, compiledPath }, { authorPath: `${root}.effects.${effect.effectKey}.lifecycle`, compiledPath: `sharedProviders[${dynamic.providerKey}].lifecycle` });
       for (const [index, modifier] of (dynamic.modifiers ?? []).entries()) {
+        const result = effect.results.find(row => row.resultKey === modifier.modifierKey);
+        if (!result || !['ATTRIBUTE_CHANGE', 'DAMAGE_MODIFIER', 'COOLDOWN_DURATION_MODIFIER'].includes(result.resultType)) fail(operation.ref!, '有限修正缺少同键真实作者结果');
+        const resultPath = `${root}.effects.${effect.effectKey}.results.${result.resultKey}`;
         const modifierPath = `sharedProviders[${dynamic.providerKey}].modifiers[${index}]`;
-        coverage.push({ authorPath: `${operation.ref}.valueRule`, compiledPath: `${modifierPath}.value` },
-          { authorPath: `catalogs.modifierZones.${String(result.detail.modifierZoneKey)}`, compiledPath: modifierPath });
+        coverage.push({ authorPath: resultPath, compiledPath }, { authorPath: `${resultPath}.valueRule`, compiledPath: `${modifierPath}.value` });
+        if (result.resultType === 'ATTRIBUTE_CHANGE' || result.resultType === 'DAMAGE_MODIFIER') coverage.push({ authorPath: `catalogs.modifierZones.${result.detail.modifierZoneKey}`, compiledPath: modifierPath });
         if (result.resultType === 'DAMAGE_MODIFIER') coverage.push({ authorPath: `catalogs.damageTypes.${result.detail.damageTypeKey}`, compiledPath: `${modifierPath}.condition` });
-        if (modifier.kind === 'attribute' && result.resultType !== 'ATTRIBUTE_CHANGE') fail(operation.ref!, '持续结果与修正种类不一致');
+        if ((modifier.kind === 'attribute' || modifier.kind === 'resource_max') && result.resultType !== 'ATTRIBUTE_CHANGE'
+          || modifier.kind === 'cooldown_duration' && result.resultType !== 'COOLDOWN_DURATION_MODIFIER') fail(operation.ref!, '持续结果与修正种类不一致');
+        if (modifier.kind === 'resource_max') coverage.push({ authorPath: resultPath, compiledPath: `${modifierPath}.currentValuePolicy`, note: '生命上限独立事实与可靠累计，不作为治疗' });
+        operationOrigins.push({ abilityRef: `source.provider[${providerRef}].ability[${adapted.initialAbilityKey}]`, operationRef: resultPath,
+          skillKey: plan.skillKey, effectKey: effect.effectKey, resultKey: result.resultKey, compiledPaths: [compiledPath], providerDefinitionRef: definitionRef });
       }
-      operationOrigins.push({ abilityRef: `source.provider[${providerRef}].ability[${adapted.initialAbilityKey}]`, operationRef: operation.ref!,
-        skillKey: plan.skillKey, effectKey: effect.effectKey, resultKey: result.resultKey, compiledPaths: [compiledPath], providerDefinitionRef: definitionRef });
     }
   }
   const binding: SkillActionBinding = { bindingKey: `planned_${providerRef}`, source: 'source', providerRef,
@@ -360,5 +396,9 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     compiledPath: `sharedProviders[${definitionRef}].processes[0].costs`, note: `本期忽略明确施法成本；原挂接${cost.bindingKey}保留在作者快照，不建立门槛、扣除或退款` });
   return { providers, formulas, types: [...types].map(([key, domain]) => ({ key, domain })), binding,
     rules: { damageTypeFormulas: [...defenses.values()], ...(vampRules ? { vampRules } : {}) }, coverage, operationOrigins,
+    cooldownDurationScopes: configuration.effects.flatMap(effect => effect.results.flatMap(result => result.resultType === 'COOLDOWN_DURATION_MODIFIER'
+      && providers.some(provider => provider.providerKey === cooldownDurationProviderKey(definitionRef, plan.skillKey, effect.effectKey))
+      ? [{ providerKey: cooldownDurationProviderKey(definitionRef, plan.skillKey, effect.effectKey), skillKeys: result.detail.affectedSkillScope.skillKeys,
+        authorPath: `${root}.effects.${effect.effectKey}.results.${result.resultKey}.detail.affectedSkillScope` }] : [])),
     ignoredCastCosts: structuredClone([...ignoredCosts]) };
 }

@@ -22,6 +22,64 @@ const GAME_ID = 'demo';
 const GAME_NAME = 'Demo Arena';
 const ADMIN_TOKEN = 'non-wasm-e2e-token';
 
+test('通用冷却时长倍率经真实表单进入技能草稿、保存并重开回读', async ({ page }) => {
+  const mock = new MockApi(); seedSkillEffectCatalog(mock);
+  mock.skillParameters.push({ gameId: GAME_ID, skillKey: 'varus_w', parameterKey: 'duration_ratio', name: '时长倍率', valueType: 'DECIMAL', valueMode: 'FIXED',
+    fixedValue: .5, levelValues: null, description: null, sortOrder: 9, createdAt: CREATED_AT, updatedAt: UPDATED_AT });
+  mock.skillFormulas.push({ gameId: GAME_ID, skillKey: 'varus_w', formulaKey: 'duration_ratio', name: '时长倍率0.5', description: null, sortOrder: 9,
+    expression: skillFormulaDefinition('varus_w', { nodeType: 'PARAMETER', parameterKey: 'duration_ratio' }), createdAt: CREATED_AT, updatedAt: UPDATED_AT });
+  const diagnostics = await prepare(page, mock); await openSkills(page);
+  const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+  await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+  const effect = visibleModal(page, '新增效果');
+  await effect.getByLabel('效果标识', { exact: true }).fill('duration_pack');
+  await effect.getByLabel('效果名称', { exact: true }).fill('冷却时长增益');
+  await effect.getByLabel('生命周期', { exact: true }).click();
+  await chooseSelectOption(page, effect, '持续时间取值', '持续时间');
+  await chooseSelectOption(page, effect, '最大层数取值', '一层');
+  await chooseSelectOption(page, effect, '每次施加层数取值', '一层');
+  await chooseSelectOption(page, effect, '实例范围', '按来源对象');
+  await chooseSelectOption(page, effect, '重复层数', '保留层数');
+  await chooseSelectOption(page, effect, '重复持续', '刷新全部时间');
+  await chooseSelectOption(page, effect, '到期方式', '一次全部到期');
+  await effect.getByRole('button', { name: '新增结果', exact: true }).click();
+  const result = visibleModal(page, '新增结果');
+  await result.getByLabel('结果标识', { exact: true }).fill('duration');
+  await result.getByLabel('结果名称', { exact: true }).fill('冷却时长倍率');
+  await chooseSelectOption(page, result, '结果种类', '冷却时长倍率');
+  await expect(result.getByLabel('技能范围', { exact: true })).toContainText('指定技能');
+  await expect(result.getByLabel('技能急速操作', { exact: true })).toHaveCount(0);
+  await expect(result.getByLabel('冷却变化操作', { exact: true })).toHaveCount(0);
+  await expect(result.getByLabel('乘区', { exact: true })).toHaveCount(0);
+  await expect(result.getByLabel('法术护盾阻挡粒度', { exact: true })).toHaveCount(0);
+  await result.getByRole('combobox', { name: '指定技能', exact: true }).click();
+  await page.getByRole('option', { name: '其他技能', exact: true }).click();
+  await result.getByLabel('结果名称', { exact: true }).click();
+  await fillValueRule(page, result, '时长倍率0.5', '冷却时长倍率（0.5为原时长一半）');
+  await saveOpenModal(result); await saveOpenModal(effect);
+  expect(mock.writes).toHaveLength(0);
+  await saveSkillConfiguration(page.locator('[aria-label="技能统一编辑工作区"]'));
+  expect(mock.writes).toHaveLength(1);
+  const saved = mock.skillEffects.find(row => row.effectKey === 'duration_pack')!;
+  expect(saved.results[0]).toMatchObject({ resultType: 'COOLDOWN_DURATION_MODIFIER', target: 'SOURCE', detail: { affectedSkillScope: { mode: 'SKILLS', skillKeys: ['other_skill'], skillCategoryKeys: [] } },
+    lifecycleBehavior: { moment: 'PERSISTENT', valueReadMode: 'APPLICATION_SNAPSHOT', stackValueMode: 'SHARED', reapplicationValueMode: 'REPLACE', periodicExecutionMode: null } });
+  expect(saved.results[0]!.detail).not.toHaveProperty('operation');
+  await configurationCard(shell, 'duration_pack').getByRole('button', { name: '编辑', exact: true }).click();
+  const reopened = visibleModal(page, '编辑效果');
+  await reopened.locator('tr', { hasText: 'duration' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const reread = visibleModal(page, '编辑结果');
+  await expect(reread.getByRole('combobox', { name: '指定技能', exact: true })).toContainText('其他技能');
+  await expect(reread.getByLabel('冷却时长倍率（0.5为原时长一半）技能公式', { exact: true })).toContainText('时长倍率0.5');
+  await reread.getByLabel('冷却时长倍率（0.5为原时长一半）取值来源', { exact: true }).getByText('固定数值', { exact: true }).click();
+  await reread.getByLabel('冷却时长倍率（0.5为原时长一半）固定数值', { exact: true }).fill('-2');
+  await reread.getByLabel('固定倍率', { exact: true }).fill('-0.25');
+  await saveOpenModal(reread); await saveOpenModal(reopened);
+  await saveSkillConfiguration(page.locator('[aria-label="技能统一编辑工作区"]'));
+  expect(mock.writes).toHaveLength(2);
+  expect(mock.skillEffects.find(row => row.effectKey === 'duration_pack')!.results[0]!.valueRule).toMatchObject({ value: fixedValue(-2), fixedMultiplier: -.25 });
+  diagnostics.assertClean('冷却时长倍率真实管理控件的草稿保存与重开');
+});
+
 for (const [role, label] of [['PRIMARY', '普通攻击主体'], ['REPLACE_PRIMARY', '待击替换主体']] as const) {
   test(`通用普攻伤害角色 ${role} 经真实控件进入统一草稿、保存并重开回读`, async ({ page }) => {
     const mock = new MockApi();

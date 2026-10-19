@@ -68,6 +68,34 @@ const detail: SkillEffect = {
 };
 
 describe('吸血资格新协议', () => {
+  it('冷却时长倍率精确读回独立范围和REPLACE静态行为，拒绝旧操作/分类/空值及永久形状', () => {
+    const source = { ...structuredClone(detail), lifecycle: { durationValue: fixedValue(15000), maxStacksValue: fixedValue(1), applicationStacksValue: fixedValue(1),
+      instanceScope: 'SOURCE', reapplicationStackMode: 'KEEP', reapplicationDurationMode: 'REFRESH_ALL', expiryMode: 'ALL_AT_ONCE',
+      periodicIntervalValue: null, firstPeriodicExecution: null, endWhenShieldEndsResultKey: null }, results: [{ resultKey: 'duration', name: '冷却时长', resultType: 'COOLDOWN_DURATION_MODIFIER',
+      target: 'SOURCE', description: null, sortOrder: 0, spellShieldBlockScope: null, lifecycleBehavior: { moment: 'PERSISTENT', valueReadMode: 'APPLICATION_SNAPSHOT', stackValueMode: 'SHARED', reapplicationValueMode: 'REPLACE', periodicExecutionMode: null },
+      valueRule: { value: fixedValue(.5), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null }, detail: { affectedSkillScope: { mode: 'SKILLS', skillKeys: ['ezreal_q'], skillCategoryKeys: [] } } }] };
+    expect(parseSkillEffect(source)).toEqual(source);
+    for (const rule of [
+      { value: fixedValue(0), fixedMultiplier: 1, fixedMinValue: .5, fixedMaxValue: null },
+      { value: fixedValue(-2), fixedMultiplier: -.25, fixedMinValue: null, fixedMaxValue: null }
+    ]) {
+      const complete = structuredClone(source); complete.results[0]!.valueRule = rule;
+      expect(parseSkillEffect(complete)).toEqual(complete);
+    }
+    for (const mode of ['operation', 'category', 'empty', 'permanent', 'null_value', 'zero', 'keep', 'shield', 'target']) {
+      const bad = structuredClone(source), result = bad.results[0]!;
+      if (mode === 'operation') Object.assign(result.detail, { operation: 'DECREASE' });
+      if (mode === 'category') result.detail.affectedSkillScope.mode = 'CATEGORIES';
+      if (mode === 'empty') result.detail.affectedSkillScope.skillKeys = [];
+      if (mode === 'permanent') Object.assign(bad, { lifecycle: null });
+      if (mode === 'null_value') Object.assign(result, { valueRule: null });
+      if (mode === 'zero') result.valueRule.value = fixedValue(0);
+      if (mode === 'keep') result.lifecycleBehavior.reapplicationValueMode = 'KEEP';
+      if (mode === 'shield') Object.assign(result, { spellShieldBlockScope: 'SKILL' });
+      if (mode === 'target') result.target = 'TARGET';
+      expect(() => parseSkillEffect(bad), mode).toThrow(SkillEffectProtocolError);
+    }
+  });
   it.each(['PRIMARY', 'REPLACE_PRIMARY'])('伤害角色%s精确读回且省略不补空字段', role => {
     const source = structuredClone(detail); Object.assign(source.results[0]!.detail, { attackDamageRole: role });
     expect(parseSkillEffect(source)).toEqual(source);

@@ -9,6 +9,14 @@ const base = { attacks: [], durationMs: 200, killedAtMs: null, dpsWindowMs: 1000
   onSelectAttack: () => {}, onRangeChange: () => {}, onHover: () => {} };
 
 describe('自动结果复用真实采样图', () => {
+  it('资源增益与到期后的生命曲线逐点复用原生当前生命，资源标记不伪造治疗', () => {
+    const points = [{ ...point(0), sourceHp: 500 }, { ...point(100), sourceHp: 800 }, { ...point(200), sourceHp: 650 }];
+    const option = continuousAttackChartOption({ ...base, points, view: initialAutomaticSkillView(200),
+      markers: [{ key: 'resource:1', timeMs: 77, label: '资源生命变化1', color: '#722ed1', selected: false }] });
+    const series = option.series as Array<{ id: string; data: unknown[] }>;
+    expect(series.find(row => row.id === 'sourceHp')!.data).toEqual([[0, 500], [100, 800], [200, 650]]);
+    expect(series.find(row => row.id === 'combat-facts')!.data).toMatchObject([{ markerKey: 'resource:1', value: [77, 0] }]);
+  });
   it('三个面板共用真实区间，事实标记不吸附采样网格，起点伤害率不补值', () => {
     const view = initialAutomaticSkillView(200); view.timeRangeMs = [50, 150];
     const option = continuousAttackChartOption({ ...base, points: [point(0), point(100), point(200)], view,

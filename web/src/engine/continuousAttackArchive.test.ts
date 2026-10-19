@@ -3,6 +3,16 @@ import { buildContinuousAttackArchive, buildContinuousCsv } from './continuousAt
 import { initialContinuousView } from './continuousAttackPresentation';
 
 describe('连续展示档案和安全表格导出', () => {
+  it('冻结独立资源累计、明细和生命顺序，不因时间筛选裁掉或改为治疗', () => {
+    const input = { runResult: { resourceChangeSummary: { changeCount: 1, source: { currentIncrease: 300, maxIncrease: 300, finalMax: 950 } },
+      resourceChangeRecords: [{ healthOrder: 1, timeMs: 0, currentDelta: 300, maxDelta: 300, contributors: [{ definitionRef: 'finite', modifierKey: 'health', reason: 'apply' }] }],
+      damageRecords: [{ healthOrder: 2, damageId: 1 }], healingRecords: [], recording: { resourceChangeRecordCount: 1 } } };
+    const view = initialContinuousView(1000); view.timeRangeMs = [500, 1000];
+    const archive = buildContinuousAttackArchive(input, view);
+    expect(archive.runResult).toEqual(input.runResult);
+    input.runResult.resourceChangeRecords[0]!.maxDelta = 999;
+    expect(archive.runResult).toMatchObject({ resourceChangeRecords: [{ maxDelta: 300 }], healingRecords: [] });
+  });
   it('冻结新来源生命字段和双方实际吸血汇总，不按视图筛选重算或裁剪', () => {
     const input = { runResult: { summary: { sourceVampHealing: 35, targetVampHealing: 12 },
       damageRecords: [{ damageId: 1, sourceHpBefore: 600, sourceHpAfter: 612 }, { damageId: 2, sourceHpBefore: null, sourceHpAfter: null }] } };

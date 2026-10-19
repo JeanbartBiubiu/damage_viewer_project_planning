@@ -16,7 +16,7 @@ export type AutomaticSkillInput = Pick<SimulationPlannedSkill, 'origin' | 'skill
 };
 export type AutomaticSkillInputs = {
   rules: AutomaticSkillInput[]; durationMs: number; recordTimeSeries: boolean; attackSpeedInputMax?: number;
-  maxAutomaticSkillRecords: number; maxHealingRecords: number; outputMode: 'detailed' | 'summary';
+  maxAutomaticSkillRecords: number; maxHealingRecords: number; maxResourceChangeRecords?: number; outputMode: 'detailed' | 'summary';
 };
 export type PreparedAutomaticSkill = { runRequest: RunRequest; runInputHash: string; attackSpeedAdmission: AttackSpeedAdmission | null };
 const keyPattern = /^[a-z][a-z0-9_]{0,63}$/;
@@ -91,6 +91,7 @@ export async function automaticSkillRequest(prepared: ReturnType<typeof assemble
   if (!['detailed', 'summary'].includes(inputs.outputMode)) throw new Error('outputMode: 必须明确选择详细或汇总模式');
   integer(inputs.maxAutomaticSkillRecords, 4096, 'maxAutomaticSkillRecords');
   integer(inputs.maxHealingRecords, 10000, 'maxHealingRecords');
+  if (Object.prototype.hasOwnProperty.call(inputs, 'maxResourceChangeRecords')) integer(inputs.maxResourceChangeRecords!, 10000, 'maxResourceChangeRecords');
   for (const side of ['source', 'target']) {
     const hp = compile.combatants.find(actor => actor.key === side)?.attributes.hp?.current;
     if (typeof hp !== 'number' || !Number.isFinite(hp) || hp <= 0) throw new Error(`initialHealth.${side}: 实际运行要求明确正生命`);
@@ -141,7 +142,8 @@ export async function automaticSkillRequest(prepared: ReturnType<typeof assemble
     sampling: { sampleEveryMs: 100, dpsWindowMs: 1000, maxSeriesPoints: 5000, disabled: !inputs.recordTimeSeries },
     ...(background ? { safetyBudget: background.runRequest.safetyBudget } : {}),
     recordBudget: { maxAttackRecords: background ? 1000 : 0, maxDamageRecords: 2000, maxMechanicRecords: background ? 2000 : 0,
-      maxAutomaticSkillRecords: inputs.maxAutomaticSkillRecords, maxHealingRecords: inputs.maxHealingRecords }
+      maxAutomaticSkillRecords: inputs.maxAutomaticSkillRecords, maxHealingRecords: inputs.maxHealingRecords,
+      ...(Object.prototype.hasOwnProperty.call(inputs, 'maxResourceChangeRecords') ? { maxResourceChangeRecords: inputs.maxResourceChangeRecords } : {}) }
   };
   if (!background && inputs.outputMode === 'detailed' && drivenActiveAmmo(compile, runRequest.driverPlan).length) runRequest.recordBudget!.maxMechanicRecords = 2000;
   return { runRequest, attackSpeedAdmission: background?.attackSpeedAdmission ?? null,

@@ -47,6 +47,23 @@ export function processCounterReads(process: SkillProcess, rules: readonly Skill
   return reads;
 }
 
+/** 从真实START输入及本过程唯一直接SET建立使用快照参数，普通命中入口不接受此表。 */
+export function processCounterSnapshots(process: SkillProcess, states: readonly SkillInternalState[], reads: Readonly<Record<string, GenericFormulaExpr>>,
+  numeric: NumericCompileState): Record<string, string> {
+  const snapshots: Record<string, string> = {};
+  for (const parameterKey of Object.keys(reads)) {
+    const writes = process.stateOperations.filter(row => row.operation === 'SET' && row.moment.momentType === 'PROCESS_START'
+      && row.moment.stepKey === null && row.moment.failureReason == null && row.value?.kind === 'PARAMETER' && row.value.parameterKey === parameterKey);
+    if (writes.length !== 1) fail(`skills.${numeric.skillKey}.processes.${process.processKey}`, '待击参数必须由本次过程开始的唯一直接计数SET生产');
+    const write = writes[0]!, definitions = states.filter(row => row.stateKey === write.stateKey);
+    const allWrites = process.stateOperations.filter(row => row.stateKey === write.stateKey && row.moment.momentType === 'PROCESS_START');
+    if (allWrites.length !== 1 || definitions.length !== 1 || definitions[0]!.scope !== 'SKILL' || definitions[0]!.stateType !== 'COUNTER'
+      || write.stateSkillKey !== numeric.skillKey) fail(`skills.${numeric.skillKey}.processes.${process.processKey}`, '使用快照只能捕获同技能自身计数且不能存在另一次开始写入');
+    snapshots[parameterKey] = write.stateKey;
+  }
+  return snapshots;
+}
+
 /** 有界降低仅用于付款帧计数 SET；其它共同公式仍走原生具名公式。 */
 export function compileProcessCounterValue(value: NumericValue, path: string, numeric: NumericCompileState): GenericFormulaExpr {
   const parameter = (key: string): GenericFormulaExpr => {

@@ -61,8 +61,9 @@ describe('5B按真实来源与承受者的持续属性', () => {
       kind: 'attribute', target: 'self.attr.armor', valuePolicy: 'add_percent', value: { op: 'const', value: -.2 }
     }] });
     expect(compiled.requiredAttributes).toContain('armor');
-    const multiplicative = compilePersistentResult({ ...value, modifierZones: [{ ...value.modifierZones[0]!, calculationMode: 'RATIO_MULTIPLY' }] }, 'owned_total_armor');
-    expect(multiplicative.provider.modifiers![0]).toMatchObject({ valuePolicy: 'multiply', value: { op: 'const', value: .8 } });
+    const multiplicative = compilePersistentResult({ ...value, modifierZones: [{ ...value.modifierZones[0]!, calculationMode: 'RATIO_MULTIPLY', applicationStage: 'ATTRIBUTE_PERCENT' }] }, 'owned_total_armor');
+    expect(multiplicative.provider.modifiers![0]).toMatchObject({ valuePolicy: 'multiply', stage: 'total', value: { op: 'const', value: .8 } });
+    expect(() => compilePersistentResult({ ...value, modifierZones: [{ ...value.modifierZones[0]!, calculationMode: 'RATIO_MULTIPLY', applicationStage: 'ATTRIBUTE_FLAT' }] }, 'bad_stage')).toThrow();
     const before = structuredClone(value);
     expect(compilePersistentResult(value, 'owned_armor_modifier')).toEqual(compiled);
     expect(value).toEqual(before);

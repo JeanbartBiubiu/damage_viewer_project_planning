@@ -75,7 +75,7 @@ export function SkillEffectAffectedSkillScopeFields({
             applyAffectedSkillScopeModeChange(draft, value as SkillEffectAffectedSkillScopeMode)
           )}
         >
-          {AFFECTED_SKILL_SCOPE_MODES.map((mode) => (
+          {AFFECTED_SKILL_SCOPE_MODES.filter(mode => draft.resultType !== 'COOLDOWN_DURATION_MODIFIER' || mode === 'SKILLS').map((mode) => (
             <Radio key={mode} value={mode}>{AFFECTED_SKILL_SCOPE_MODE_LABELS[mode]}</Radio>
           ))}
         </Radio.Group>

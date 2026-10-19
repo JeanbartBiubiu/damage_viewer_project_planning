@@ -6,6 +6,7 @@ export type SkillEffectResultType =
   | 'ATTRIBUTE_CHANGE'
   | 'RESOURCE_CHANGE'
   | 'COOLDOWN_CHANGE'
+  | 'COOLDOWN_DURATION_MODIFIER'
   | 'STATUS_OPERATION'
   | 'LIFECYCLE_OPERATION'
   | 'DAMAGE_MODIFIER'
@@ -212,6 +213,7 @@ export type SkillEffectSkillHasteModifierDetail = {
   operation: SkillEffectModifierOperation;
   affectedSkillScope: SkillEffectAffectedSkillScope;
 };
+export type SkillEffectCooldownDurationModifierDetail = { affectedSkillScope: SkillEffectAffectedSkillScope };
 
 export type SkillEffectStatusOperationDetail = {
   statusKey: string;
@@ -375,6 +377,8 @@ export type SkillEffectSkillHasteModifierResult = SkillEffectResultBase & {
   valueRule: SkillEffectValueRule;
   detail: SkillEffectSkillHasteModifierDetail;
 };
+export type SkillEffectCooldownDurationModifierResult = SkillEffectResultBase & { resultType: 'COOLDOWN_DURATION_MODIFIER';
+  valueRule: SkillEffectValueRule; detail: SkillEffectCooldownDurationModifierDetail };
 
 export type SkillEffectResult =
   | SkillEffectDamageResult
@@ -383,6 +387,7 @@ export type SkillEffectResult =
   | SkillEffectAttributeChangeResult
   | SkillEffectResourceChangeResult
   | SkillEffectCooldownChangeResult
+  | SkillEffectCooldownDurationModifierResult
   | SkillEffectStatusOperationResult
   | SkillEffectLifecycleOperationResult
   | SkillEffectDamageModifierResult

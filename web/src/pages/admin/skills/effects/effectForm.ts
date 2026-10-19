@@ -3,6 +3,7 @@ import type { GameVampRule } from '../../../../types/gameVamp';
 import { numericIssuePath, numericValueError, staticNumericValues } from '../numericValueForm';
 import { staticShieldStackValueIssue } from './damageModifierConditionFormula';
 import { isValidCooldownRemainingDuration } from '../../../../types/cooldownRemaining';
+import { isValidCooldownDurationValueRule } from '../../../../types/cooldownDuration';
 import { isValidCooldownReductionRatio } from '../../../../types/cooldownRatio';
 import { isValidHealingRatioMaxDecrease } from '../../../../types/healingRatioMax';
 import { isValidLifecycleExtensionDuration } from '../../../../types/lifecycleExtension';
@@ -78,6 +79,7 @@ export const SKILL_EFFECT_RESULT_TYPES = [
   'ATTRIBUTE_CHANGE',
   'RESOURCE_CHANGE',
   'COOLDOWN_CHANGE',
+  'COOLDOWN_DURATION_MODIFIER',
   'STATUS_OPERATION',
   'LIFECYCLE_OPERATION',
   'DAMAGE_MODIFIER',
@@ -100,6 +102,7 @@ export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
   ATTRIBUTE_CHANGE: '属性变化',
   RESOURCE_CHANGE: '资源变化',
   COOLDOWN_CHANGE: '冷却变化',
+  COOLDOWN_DURATION_MODIFIER: '冷却时长倍率',
   STATUS_OPERATION: '状态操作',
   LIFECYCLE_OPERATION: '生命周期操作',
   DAMAGE_MODIFIER: '伤害修正',
@@ -116,6 +119,7 @@ export const SKILL_EFFECT_RESULT_TYPE_LABELS = {
 } as const satisfies { [K in SkillEffectResultType]: string };
 
 export function valueFormulaLabelFor(resultType: SkillEffectResultType): string {
+  if (resultType === 'COOLDOWN_DURATION_MODIFIER') return '冷却时长倍率（0.5为原时长一半）';
   if (resultType === 'DAMAGE_MODIFIER' || resultType === 'HEALING_MODIFIER' || resultType === 'SHIELD_RECEIVED_MODIFIER') {
     return '修正比例公式';
   }
@@ -770,7 +774,7 @@ export function createEmptyResultDraft(
     resultKey: '',
     name: '',
     resultType,
-    target: 'TARGET',
+    target: resultType === 'COOLDOWN_DURATION_MODIFIER' ? 'SOURCE' : 'TARGET',
     description: '',
     sortOrder: '0',
     value: null,
@@ -804,7 +808,7 @@ export function createEmptyResultDraft(
     attributeKey: '',
     attributeOperation: resultType === 'ATTRIBUTE_CHANGE' ? 'INCREASE' : '',
     resourceOperation: resultType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
-    affectedSkillScope: createEmptyAffectedSkillScopeDraft(),
+    affectedSkillScope: resultType === 'COOLDOWN_DURATION_MODIFIER' ? { mode: 'SKILLS', skillKeys: [], skillCategoryKeys: [] } : createEmptyAffectedSkillScopeDraft(),
     cooldownOperation: defaultCooldownOperation(resultType),
     skillHasteOperation: defaultSkillHasteOperation(resultType),
     statusKey: '',
@@ -915,6 +919,11 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
     case 'SKILL_HASTE_MODIFIER':
       draft.affectedSkillScope = copyAffectedSkillScope(result.detail.affectedSkillScope);
       draft.skillHasteOperation = result.detail.operation;
+      draft.originalAffectedSkillKeys = [...result.detail.affectedSkillScope.skillKeys];
+      draft.originalSkillCategoryKeys = [...result.detail.affectedSkillScope.skillCategoryKeys];
+      break;
+    case 'COOLDOWN_DURATION_MODIFIER':
+      draft.affectedSkillScope = copyAffectedSkillScope(result.detail.affectedSkillScope);
       draft.originalAffectedSkillKeys = [...result.detail.affectedSkillScope.skillKeys];
       draft.originalSkillCategoryKeys = [...result.detail.affectedSkillScope.skillCategoryKeys];
       break;
@@ -1035,6 +1044,7 @@ export function requiresValueRule(
     || resultType === 'HIT_LINK_APPLICATION'
     || resultType === 'ATTACK_LINK_APPLICATION'
     || resultType === 'SKILL_HASTE_MODIFIER'
+    || resultType === 'COOLDOWN_DURATION_MODIFIER'
   );
 }
 
@@ -1080,6 +1090,7 @@ export function resolveResultStatusKind(
 }
 
 export function cooldownChangeAmountHint(draft: SkillEffectResultDraft): string | null {
+  if (draft.resultType === 'COOLDOWN_DURATION_MODIFIER') return '静态正倍率，只影响效果生效期间新提交的冷却；0.5为原时长一半，1保持原时长。';
   if (draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO') {
     return COOLDOWN_REMAINING_RATIO_HINT;
   }
@@ -1119,6 +1130,7 @@ export function applyResultTypeChange(
   return clearHiddenResultFields({
     ...draft,
     resultType: nextType,
+    target: nextType === 'COOLDOWN_DURATION_MODIFIER' ? 'SOURCE' : draft.target,
     value: nextNeeds && prevNeeds ? draft.value : null,
     fixedMultiplier: nextNeeds ? (prevNeeds && draft.fixedMultiplier.trim() ? draft.fixedMultiplier : '1') : '',
     fixedMinValue: nextNeeds && prevNeeds ? draft.fixedMinValue : '',
@@ -1150,7 +1162,7 @@ export function applyResultTypeChange(
     attributeKey: '',
     attributeOperation: nextType === 'ATTRIBUTE_CHANGE' ? 'INCREASE' : '',
     resourceOperation: nextType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
-    affectedSkillScope: createEmptyAffectedSkillScopeDraft(),
+    affectedSkillScope: nextType === 'COOLDOWN_DURATION_MODIFIER' ? { mode: 'SKILLS', skillKeys: [], skillCategoryKeys: [] } : createEmptyAffectedSkillScopeDraft(),
     cooldownOperation: nextCooldown,
     skillHasteOperation: defaultSkillHasteOperation(nextType),
     statusKey: '',
@@ -1372,12 +1384,12 @@ export function clearHiddenLifecycleBehaviorFields(
       && draft.attributeOperation !== ''
       && draft.attributeOperation !== 'SET'
     );
-  const lifecycleBehavior: SkillEffectResultLifecycleBehaviorDraft = draft.resultType === 'SKILL_HASTE_MODIFIER'
+  const lifecycleBehavior: SkillEffectResultLifecycleBehaviorDraft = isFixedPersistentSnapshotResult(draft)
     ? {
         moment: 'PERSISTENT' as const,
         valueReadMode: 'APPLICATION_SNAPSHOT' as const,
         stackValueMode: 'SHARED' as const,
-        reapplicationValueMode: 'KEEP' as const,
+        reapplicationValueMode: draft.resultType === 'COOLDOWN_DURATION_MODIFIER' ? 'REPLACE' as const : 'KEEP' as const,
         periodicExecutionMode: '' as const
       }
     : {
@@ -1557,7 +1569,7 @@ export function isPersistentNumericResult(draft: SkillEffectResultDraft): boolea
     || draft.resultType === 'HEALING_MODIFIER'
     || draft.resultType === 'SHIELD_RECEIVED_MODIFIER'
     || draft.resultType === 'HEALTH_FLOOR'
-    || draft.resultType === 'SKILL_HASTE_MODIFIER';
+    || draft.resultType === 'SKILL_HASTE_MODIFIER' || draft.resultType === 'COOLDOWN_DURATION_MODIFIER';
 }
 
 export function isPersistentOnlyResultType(resultType: SkillEffectResultType): boolean {
@@ -1567,15 +1579,15 @@ export function isPersistentOnlyResultType(resultType: SkillEffectResultType): b
     || resultType === 'DAMAGE_IMMUNITY'
     || resultType === 'HEALTH_FLOOR'
     || resultType === 'SPELL_SHIELD'
-    || resultType === 'SKILL_HASTE_MODIFIER';
+    || resultType === 'SKILL_HASTE_MODIFIER' || resultType === 'COOLDOWN_DURATION_MODIFIER';
 }
 
 export function usesAffectedSkillScope(resultType: SkillEffectResultType): boolean {
-  return resultType === 'COOLDOWN_CHANGE' || resultType === 'SKILL_HASTE_MODIFIER';
+  return resultType === 'COOLDOWN_CHANGE' || resultType === 'SKILL_HASTE_MODIFIER' || resultType === 'COOLDOWN_DURATION_MODIFIER';
 }
 
 export function isFixedPersistentSnapshotResult(draft: SkillEffectResultDraft): boolean {
-  return draft.resultType === 'SKILL_HASTE_MODIFIER';
+  return draft.resultType === 'SKILL_HASTE_MODIFIER' || draft.resultType === 'COOLDOWN_DURATION_MODIFIER';
 }
 
 export function affectedSkillScopeSummary(
@@ -2011,6 +2023,16 @@ export function validateSkillEffectDraft(
     : null;
   if (!prepared.lifecycleEnabled && !options.skipLifecycleShapeValidation) {
     validateDisabledLifecycle(prepared, fieldErrors);
+  }
+  if (prepared.results.some(result => result.resultType === 'COOLDOWN_DURATION_MODIFIER') && !options.skipLifecycleShapeValidation) {
+    if (prepared.results.length !== 1) fieldErrors.results = '冷却时长倍率必须为独立单结果效果。';
+    if (!lifecycle?.durationValue) fieldErrors.durationValue = '冷却时长倍率需要有限持续时间。';
+    if (lifecycle?.instanceScope !== 'SOURCE') fieldErrors.instanceScope = '冷却时长倍率只允许按来源对象。';
+    if (lifecycle && (lifecycle.reapplicationStackMode !== 'KEEP' || lifecycle.reapplicationDurationMode !== 'REFRESH_ALL'
+      || lifecycle.expiryMode !== 'ALL_AT_ONCE' || lifecycle.periodicIntervalValue !== null || lifecycle.endWhenShieldEndsResultKey !== null)) {
+      fieldErrors.results = '冷却时长倍率只允许单层刷新全部时间、一次到期且无周期或关联盾。';
+    }
+    for (const key of ['maxStacksValue', 'applicationStacksValue'] as const) if (lifecycle?.[key].kind === 'FIXED' && lifecycle[key].value !== 1) fieldErrors[key] = '冷却时长倍率只允许单层。';
   }
 
   const seenKeys = new Map<string, number>();
@@ -2684,6 +2706,8 @@ function validateAndBuildResult(
         valueRule: valueRule!,
         detail: {}
       };
+    case 'COOLDOWN_DURATION_MODIFIER':
+      return { ...base, resultType: 'COOLDOWN_DURATION_MODIFIER', valueRule: valueRule!, detail: { affectedSkillScope: buildAffectedSkillScope(draft) } };
     case 'SKILL_HASTE_MODIFIER':
       return {
         ...base,
@@ -2738,7 +2762,7 @@ function validateValueRule(
     fieldErrors.fixedMultiplier = '固定倍率不能为空。';
   } else {
     const parsed = Number(multiplierRaw);
-    if (!Number.isFinite(parsed) || parsed < 0) {
+    if (!Number.isFinite(parsed) || parsed < 0 && draft.resultType !== 'COOLDOWN_DURATION_MODIFIER') {
       fieldErrors.fixedMultiplier = '固定倍率必须大于等于 0。';
     } else {
       fixedMultiplier = parsed;
@@ -2762,6 +2786,10 @@ function validateValueRule(
   }
 
   if (fieldErrors.value || fieldErrors.fixedMultiplier || fieldErrors.fixedMinValue || fieldErrors.fixedMaxValue) {
+    return null;
+  }
+  if (draft.resultType === 'COOLDOWN_DURATION_MODIFIER' && !isValidCooldownDurationValueRule({ value: value!, fixedMultiplier: fixedMultiplier!, fixedMinValue, fixedMaxValue })) {
+    fieldErrors.valueRule = '冷却时长倍率经固定倍率和上下界处理后必须为有限正数。';
     return null;
   }
 
@@ -3010,6 +3038,13 @@ function validateTypeSpecificFields(
       if (draftRequiresValueRule(draft)) {
         validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       }
+      break;
+    case 'COOLDOWN_DURATION_MODIFIER':
+      validateAffectedSkillScope(draft, options, fieldErrors);
+      if (draft.target !== 'SOURCE') fieldErrors.target = '冷却时长倍率只作用于来源。';
+      if (draft.affectedSkillScope.mode !== 'SKILLS') fieldErrors.affectedSkillScopeMode = '冷却时长倍率必须指定技能。';
+      if (!context.lifecycleEnabled || !context.hasDuration) fieldErrors.lifecycleBehavior = '冷却时长倍率需要有限生命周期。';
+      validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       break;
     case 'SKILL_HASTE_MODIFIER':
       if (draft.skillHasteOperation !== 'INCREASE' && draft.skillHasteOperation !== 'DECREASE') {
@@ -3491,8 +3526,8 @@ function validateAndBuildLifecycleBehavior(
         fieldErrors.reapplicationValueMode = isAttributeSetPersistent(draft)
           ? '属性覆盖不能使用相加。'
           : '该结果不能使用相加。';
-      } else if (isFixedPersistentSnapshotResult(draft) && behavior.reapplicationValueMode !== 'KEEP') {
-        fieldErrors.reapplicationValueMode = '该结果只能保留重复值。';
+      } else if (isFixedPersistentSnapshotResult(draft) && behavior.reapplicationValueMode !== (draft.resultType === 'COOLDOWN_DURATION_MODIFIER' ? 'REPLACE' : 'KEEP')) {
+        fieldErrors.reapplicationValueMode = draft.resultType === 'COOLDOWN_DURATION_MODIFIER' ? '冷却时长倍率只能覆盖重复值。' : '该结果只能保留重复值。';
       }
     } else if (behavior.reapplicationValueMode) {
       fieldErrors.reapplicationValueMode = '每层分别贡献时不能选择重复值方式。';
@@ -3929,6 +3964,8 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
           affectedSkillScope: copyAffectedSkillScope(result.detail.affectedSkillScope)
         }
       };
+    case 'COOLDOWN_DURATION_MODIFIER':
+      return { ...result, lifecycleBehavior, valueRule: { ...result.valueRule }, detail: { affectedSkillScope: copyAffectedSkillScope(result.detail.affectedSkillScope) } };
     case 'SKILL_HASTE_MODIFIER':
       return {
         ...result,

@@ -302,6 +302,8 @@ export function buildResultReferenceSummary(
         : '—';
       return { target, segments: [operation, numeric()], scope: scopeFor(result, catalogs) };
     }
+    case 'COOLDOWN_DURATION_MODIFIER':
+      return { target, segments: ['冷却时长倍率', numeric()], scope: scopeFor(result, catalogs) };
     case 'STATUS_OPERATION': {
       const statusKind = resolvedStatusKind(result, catalogs);
       const slowApply = isMovementSlowApply({ ...result, statusKind });

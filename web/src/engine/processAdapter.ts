@@ -11,10 +11,11 @@ import type { SkillInternalState } from '../types/skillInternalState';
 import type { ModifierZone } from '../types/modifierZone';
 import type { DamageType } from '../types/damageType';
 import { compileProcessStates } from './processStateAdapter';
-import { processCounterReads } from './processCounterInput';
+import { processCounterReads, processCounterSnapshots } from './processCounterInput';
 import { bindSceneAttributeParameters, type SceneAttributeParameterInput } from './sceneAttributeSnapshotInput';
 import { compileLinkedShieldEffect } from './shieldEffectAdapter';
 import { compileTimedAttributeEffect } from './timedAttributeEffectAdapter';
+import { compileCooldownDurationEffect } from './cooldownDurationEffectAdapter';
 import { compileTimedDamageReduction } from './timedDamageReductionAdapter';
 import { adaptEmpoweredProcessPayload, type AuthoredHitProgram, type AdaptedHitProgram } from './hitAdapter';
 import { staticEffectValue } from './staticEffectValue';
@@ -528,6 +529,14 @@ function compileEffectResults(
       context.providers.set(provider.providerKey, provider);
     }
     return compiled.operations;
+  }
+  if (effect.results.some(result => result.resultType === 'COOLDOWN_DURATION_MODIFIER')) {
+    if (skip.size) fail(path, '冷却时长倍率不能复用为施法成本');
+    const compiled = compileCooldownDurationEffect(effect, state, context.authored.providerDefinitionRef ?? `process_${state.skillKey}`);
+    const previous = context.providers.get(compiled.provider.providerKey);
+    if (previous && !sameJson(previous, compiled.provider)) fail(path, '冷却时长供值定义冲突');
+    context.providers.set(compiled.provider.providerKey, compiled.provider);
+    return [compiled.operation];
   }
   if (effect.lifecycle && effect.results.some(result => result.resultType === 'ATTRIBUTE_CHANGE'
     && ['MOMENT_EVALUATION', 'APPLICATION_SNAPSHOT'].includes(result.lifecycleBehavior?.valueReadMode ?? ''))) {
@@ -1055,7 +1064,8 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     if (!authored.hitContext) fail(processPath, '强化待击缺少真实伤害、状态和吸血上下文');
     const hit = adaptEmpoweredProcessPayload({ ...authored.hitContext, gameId, skillKey, skillLevel: authored.skillLevel,
       characterLevel: authored.characterLevel, effects: authored.effects, parameters: authored.parameters, formulas: authored.formulas,
-      modifierZones: authored.modifierZones }, process);
+      modifierZones: authored.modifierZones }, process,
+      { processStartStateBindings: processCounterSnapshots(process, authored.internalStates ?? [], counterReads, state) });
     empoweredPayload = { stepKey: steps[0]!.stepKey, hit };
   }
   const controls = compileControls(authored, steps);

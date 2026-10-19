@@ -1533,7 +1533,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
         <section aria-label="引用覆盖清单">
           <Typography.Title heading={5}>引用覆盖清单</Typography.Title>
           <Typography.Paragraph>共{coverage.length}项作者引用对应编译节点；该清单不表示这些节点已经运行。</Typography.Paragraph>
-          <Table<SimulationCoverage> data={coverage} rowKey={row => `${row.authorPath}:${row.compiledPath}`}
+          <Table<SimulationCoverage & { recordIndex: number }> data={coverage.map((row, recordIndex) => ({ ...row, recordIndex }))} rowKey="recordIndex"
             pagination={false} scroll={{ x: 1000, y: 320 }} columns={[
               { title: '作者配置路径', dataIndex: 'authorPath' }, { title: '编译节点路径', dataIndex: 'compiledPath' }
             ]} />

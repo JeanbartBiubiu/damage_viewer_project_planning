@@ -2173,8 +2173,30 @@ describe('skill effect lifecycle drafts', () => {
 });
 
 describe('execute, hit-link and attack-link results', () => {
+  it('冷却时长倍率使用普通指定技能控件和自身静态覆盖；清除旧急速操作并能保存重开', () => {
+    const draft = applyResultTypeChange(validDamageDraft(), 'COOLDOWN_DURATION_MODIFIER');
+    expect(draft.target).toBe('SOURCE'); expect(draft.skillHasteOperation).toBe(''); expect(draft.cooldownOperation).toBe('');
+    expect(draft.affectedSkillScope.mode).toBe('SKILLS');
+    expect(draft.lifecycleBehavior).toEqual({ moment: 'PERSISTENT', valueReadMode: 'APPLICATION_SNAPSHOT', stackValueMode: 'SHARED', reapplicationValueMode: 'REPLACE', periodicExecutionMode: '' });
+    const source: SkillEffect = { ...EFFECT, lifecycle: { ...validLifecycle(), instanceScope: 'SOURCE' }, results: [{ resultKey: 'duration', name: '冷却时长倍率', resultType: 'COOLDOWN_DURATION_MODIFIER', target: 'SOURCE', description: null, sortOrder: 0,
+      lifecycleBehavior: { moment: 'PERSISTENT', valueReadMode: 'APPLICATION_SNAPSHOT', stackValueMode: 'SHARED', reapplicationValueMode: 'REPLACE', periodicExecutionMode: null }, spellShieldBlockScope: null,
+      valueRule: { value: fixedValue(.5), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null }, detail: { affectedSkillScope: { mode: 'SKILLS', skillKeys: ['ezreal_w'], skillCategoryKeys: [] } } }] };
+    const read = skillEffectToDraft(source), validation = validateSkillEffectDraft(read, { includeEffectKey: false, catalog: CATALOG });
+    expect(validation.ok, JSON.stringify(validation)).toBe(true);
+    const request = buildUpdateSkillEffectRequest(expectValid(read, false));
+    expect(request.results[0]).toMatchObject(source.results[0]!);
+    expect(request.results[0]!.detail).not.toHaveProperty('operation');
+    for (const rule of [
+      { value: fixedValue(0), fixedMultiplier: 1, fixedMinValue: .5, fixedMaxValue: null },
+      { value: fixedValue(-2), fixedMultiplier: -.25, fixedMinValue: null, fixedMaxValue: null }
+    ]) {
+      const complete = structuredClone(source); complete.results[0]!.valueRule = rule;
+      expect(buildUpdateSkillEffectRequest(expectValid(skillEffectToDraft(complete), false)).results[0]!.valueRule).toEqual(rule);
+    }
+  });
   it('exposes eighteen result types and chinese labels', () => {
-    expect(SKILL_EFFECT_RESULT_TYPES).toHaveLength(19);
+    expect(SKILL_EFFECT_RESULT_TYPES).toHaveLength(20);
+    expect(SKILL_EFFECT_RESULT_TYPE_LABELS.COOLDOWN_DURATION_MODIFIER).toBe('冷却时长倍率');
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.EXECUTE).toBe('斩杀');
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.HIT_LINK_APPLICATION).toBe('命中联动应用');
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.ATTACK_LINK_APPLICATION).toBe('攻击联动应用');

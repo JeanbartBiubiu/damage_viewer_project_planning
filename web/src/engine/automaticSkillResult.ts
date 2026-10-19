@@ -7,6 +7,7 @@ import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 import { assessContinuousAttackResult } from './continuousAttackResult';
 import { inspectSimulationProcessFacts } from './simulationProcessFacts';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
+import { inspectResourceChangeContract } from './resourceChangeContract';
 import { AUTOMATIC_SKILL_RECORD_KINDS, AUTOMATIC_SKILL_WAIT_REASONS } from '../types/skillSystemEnums.generated';
 import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 import { tryFoldConstant } from './numericAdapter';
@@ -302,7 +303,8 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       const vamp = number(summary[`${side}VampHealing`], `summary.${side}VampHealing`, false);
       const healing = number(summary[`${side}DirectHealing`], `summary.${side}DirectHealing`, false);
       const hp = number(summary[`${side}FinalHp`], `summary.${side}FinalHp`, false);
-      check(close(initial.current - loss + vamp + healing, hp) && close(final.current, hp) && hp <= final.max, `summary.${side}FinalHp`, '真实生命账及最终槽不守恒');
+      check(close(initial.current - loss + vamp + healing + (done.resourceChangeSummary?.[side].currentIncrease ?? 0)
+        - (done.resourceChangeSummary?.[side].currentDecrease ?? 0), hp) && close(final.current, hp) && hp <= final.max, `summary.${side}FinalHp`, '真实生命账及最终槽不守恒');
       number(summary[`${side}DamageDealt`], `summary.${side}DamageDealt`, false); number(summary[`${side}DamageTaken`], `summary.${side}DamageTaken`, false);
     }
     check(close(summary.sourceDamageDealt, summary.targetDamageTaken) && close(summary.targetDamageDealt, summary.sourceDamageTaken), 'summary', '双方造成与承受伤害方向不一致');
@@ -374,10 +376,12 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
         check(close(row.actualHealing + row.overheal, row.healingAfterModifiers) && close(row.hpBefore + row.actualHealing, row.hpAfter), 'healingRecords', '治疗及溢出与生命变化不守恒');
         if (row.instructionKey !== null) check(row.useRef !== null && processByUse.has(row.useRef), 'healingRecords.useRef', '自动治疗不得伪造实际使用身份');
       }
-      if (!done.recording.damageRecordsTruncated && !done.recording.healingRecordsTruncated) issues.push(...inspectSimulationHealthLedger(compile, request, done));
+      if (!done.resourceChangeSummary && !done.recording.damageRecordsTruncated && !done.recording.healingRecordsTruncated) issues.push(...inspectSimulationHealthLedger(compile, request, done));
       if (request.driverPlan.basicAttack) issues.push(...assessContinuousAttackResult(compile, request, done, origins).issues);
       else issues.push(...inspectActiveAmmoMechanics(compile, request, done, processFacts.processes, mechanics));
     }
+    issues.push(...inspectResourceChangeContract(compile, request, done));
+    if (done.resourceChangeSummary) issues.push(...inspectSimulationHealthLedger(compile, request, done));
     if (request.driverPlan.basicAttack) {
       const basic = object(summary.basicAttack, 'summary.basicAttack');
       const started = number(basic.startedCount, 'summary.basicAttack.startedCount');
