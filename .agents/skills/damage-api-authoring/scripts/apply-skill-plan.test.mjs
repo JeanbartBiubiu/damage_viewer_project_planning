@@ -5,7 +5,7 @@ import { createServer } from 'node:http';
 import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { parseCli, runSkillPlan, sameConfiguration, validatePlan } from './apply-skill-plan.mjs';
+import { parseCli, runSkillPlan, sameConfiguration, validatePlan, validateConfiguration } from './apply-skill-plan.mjs';
 
 const TOKEN = 'independent-local-credential-not-for-evidence';
 const ENV = { DAMAGE_AUTHORING_TOKEN: TOKEN };
@@ -137,6 +137,25 @@ function subjectUpdate(item, description) {
   item.request.skill.description = description;
   item.expected.skill.description = description;
 }
+
+test('普攻伤害角色保留真实字符串，普通伤害省略；空值、数字、未知和非伤害拒绝', () => {
+  const source = configuration();
+  const result = source.effects[0].results[0];
+  result.resultType = 'DAMAGE';
+  assert.doesNotThrow(() => validateConfiguration(source, 'demo', source.skill.skillKey));
+  for (const role of ['PRIMARY', 'REPLACE_PRIMARY']) {
+    result.detail.attackDamageRole = role;
+    assert.doesNotThrow(() => validateConfiguration(source, 'demo', source.skill.skillKey));
+    assert.equal(result.detail.attackDamageRole, role);
+  }
+  for (const role of [null, 0, 1, {}, [], true, 'primary', 'UNKNOWN']) {
+    result.detail.attackDamageRole = role;
+    assert.throws(() => validateConfiguration(source, 'demo', source.skill.skillKey), /attackDamageRole/);
+  }
+  result.detail.attackDamageRole = 'PRIMARY';
+  result.resultType = 'HEALING';
+  assert.throws(() => validateConfiguration(source, 'demo', source.skill.skillKey), /attackDamageRole/);
+});
 
 function withProcessTransportFields(configuration) {
   const process = configuration.processes[0];

@@ -118,6 +118,13 @@ export function validateConfiguration(value, gameId, skillKey, where = 'configur
       if (collection === 'triggerRules') { rule(row, rowPath, true); continue; }
       if (row.gameId !== gameId || row.skillKey !== skillKey) fail(rowPath, '组成身份不符');
       for (const field of ({ effects: ['results'], processes: ['steps', 'effectBindings', 'stateOperations'] }[collection] ?? [])) array(row[field], `${rowPath}.${field}`);
+      if (collection === 'effects') for (const [resultIndex, result] of row.results.entries()) {
+        if (!isObject(result?.detail) || !own(result.detail, 'attackDamageRole')) continue;
+        const rolePath = `${rowPath}.results[${resultIndex}].detail.attackDamageRole`;
+        if (result.resultType !== 'DAMAGE' || !['PRIMARY', 'REPLACE_PRIMARY'].includes(result.detail.attackDamageRole)) {
+          fail(rolePath, '普攻伤害角色仅允许伤害结果的PRIMARY或REPLACE_PRIMARY；普通伤害省略字段');
+        }
+      }
       if (collection === 'formulas' && !isObject(row.expression)) fail(`${rowPath}.expression`, '必须是完整公式对象');
     }
   }

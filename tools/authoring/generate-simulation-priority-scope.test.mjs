@@ -40,3 +40,19 @@ test('遗漏、重复和错配来源不能静默缩小范围', () => {
   duplicate.inventoryConclusions.equipment.push(duplicate.inventoryConclusions.equipment[0]);
   assert.throws(() => buildPriorityScope(duplicate), /重复/);
 });
+
+test('拆分技能保留五个逻辑槽并展开全部实际标识，不推导可计算状态', () => {
+  const ledger = fixture();
+  ledger.inventoryConclusions.skills[2].splitAuthoring = {
+    sourceArchiveSkillKey: 'hero_w', currentSkillKeys: ['hero_w_first', 'hero_w_second', 'hero_w_third'], runtimeReady: false,
+  };
+  const scope = buildPriorityScope(ledger);
+  assert.equal(scope.characters[0].expectedSkills.length, 5);
+  assert.deepEqual(scope.characters[0].expectedSkills[2].currentSkillKeys, ['hero_w_first', 'hero_w_second', 'hero_w_third']);
+  assert.equal(scope.characters[0].expectedSkills[2].key, 'hero_w');
+  assert.equal(scope.characters[0].expectedSkills[2].excluded, false);
+  for (const keys of [[], ['hero_w_first', 'hero_w_first'], ['hero_q'], ['BAD_KEY']]) {
+    ledger.inventoryConclusions.skills[2].splitAuthoring.currentSkillKeys = keys;
+    assert.throws(() => buildPriorityScope(ledger), /实际/);
+  }
+});

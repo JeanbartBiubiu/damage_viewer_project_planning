@@ -28,14 +28,24 @@ export function buildPriorityScope(ledger) {
         const matches = inventory.skills.filter(item => item.sourceChampionId === hero.sourceChampionId && item.slot === slot && item.skillKey === key);
         requireValue(keyPattern.test(key) && matches.length === 1, `${hero.characterKey}/${slot}没有唯一原始槽位结论`);
         const item = matches[0];
+        const currentSkillKeys = item.splitAuthoring?.currentSkillKeys;
+        if (currentSkillKeys !== undefined) {
+          requireValue(Array.isArray(currentSkillKeys) && currentSkillKeys.length > 0
+            && currentSkillKeys.every(currentKey => keyPattern.test(currentKey))
+            && new Set(currentSkillKeys).size === currentSkillKeys.length, `${key}实际拆分技能标识缺失或重复`);
+          requireValue(item.splitAuthoring.sourceArchiveSkillKey === key, `${key}拆分来源归档不一致`);
+        }
         const excluded = item.conclusion === '明确排除';
         if (excluded) requireValue(typeof item.reason === 'string' && item.reason.trim() && item.evidenceRefs?.length, `${key}缺少明确排除依据`);
         return {
           slot, key, name: item.name, excluded,
+          ...(currentSkillKeys === undefined ? {} : { currentSkillKeys: [...currentSkillKeys] }),
           exclusion: excluded ? { reason: item.reason, evidenceRefs: item.evidenceRefs, candidateSha256: item.candidateSha256 ?? null } : null,
         };
       });
       requireValue(new Set(expectedSkills.map(item => item.key)).size === slots.length, `${hero.characterKey}技能槽重复`);
+      const actualSkillKeys = expectedSkills.flatMap(item => item.currentSkillKeys ?? [item.key]);
+      requireValue(new Set(actualSkillKeys).size === actualSkillKeys.length, `${hero.characterKey}实际技能跨槽重复`);
       characters.push({ key: hero.characterKey, name: hero.name, batchOrder: batch.order, sourceChampionId: hero.sourceChampionId,
         scopeBoundary: hero.scopeBoundary ?? null, expectedSkills });
     }
