@@ -104,6 +104,10 @@ func (s *genericRunState) enqueueExpireCleanup(atMs int64, payload expireCleanup
 }
 
 func (s *genericRunState) applyProviderInstance(targetKey, sourceKey, definitionRef string, expireAt int64, hasExpireAt bool, contributions []status.StatusContribution) *model.EngineError {
+	return s.applyProviderInstanceWithRef(targetKey, sourceKey, definitionRef, "", expireAt, hasExpireAt, contributions)
+}
+
+func (s *genericRunState) applyProviderInstanceWithRef(targetKey, sourceKey, definitionRef, assignedRef string, expireAt int64, hasExpireAt bool, contributions []status.StatusContribution) *model.EngineError {
 	defIdx, ok := s.findProviderDefinitionIndex(definitionRef)
 	if !ok {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown provider definition: "+definitionRef, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
@@ -125,7 +129,10 @@ func (s *genericRunState) applyProviderInstance(targetKey, sourceKey, definition
 			return s.replaceProviderInstance(targetKey, idx, inst, expireAt, hasExpireAt, contributions, model.EvidenceKindProviderRefresh)
 		}
 	}
-	providerRef := s.nextProviderRef(definitionRef)
+	providerRef := assignedRef
+	if providerRef == "" {
+		providerRef = s.nextProviderRef(definitionRef)
+	}
 	if !hasExpireAt {
 		expireAt = 0
 	}
@@ -357,7 +364,7 @@ func (s *genericRunState) handleExpireCleanup(ev scheduler.GenericEvent) {
 				}
 			}
 			evalCtx := s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
-			if !s.automatedRun() {
+			if !s.automatedRun() && !s.compiled.HasResourceMax && !s.compiled.HasCooldownDuration {
 				s.removeProviderInstance(payload.combatantKey, payload.providerRef, evalCtx, model.EvidenceKindProviderExpire)
 			} else {
 				var frameStorage executionFrame
@@ -680,14 +687,14 @@ func (s *genericRunState) providerFormulaContextFunc(combatantKey, castTargetKey
 			providerStateReadOptions{expireTarget: true, defaults: true, targetView: activeTarget != "", targetKey: activeTarget, cooldowns: c.cooldowns, ownerKey: bagOwnerKey})
 		if bag == nil {
 			ctx := providerFormulaContextFromBag(nil, activeTarget)
-			if s.compiled.HasProviderElapsedReads {
+			if s.compiled.HasProviderElapsedReads || s.compiled.HasFiniteModifierExpiry {
 				ctx = withProviderElapsed(ctx, c.providers, providerRef, s.nowMs, s.compiled.Providers)
 			}
 			return ctx
 		}
 		s.combatants[bagOwnerKey] = c
 		ctx := providerFormulaContextFromBag(bag, activeTarget)
-		if s.compiled.HasProviderElapsedReads {
+		if s.compiled.HasProviderElapsedReads || s.compiled.HasFiniteModifierExpiry {
 			ctx = withProviderElapsed(ctx, c.providers, providerRef, s.nowMs, s.compiled.Providers)
 		}
 		return ctx
@@ -733,6 +740,9 @@ func (s *genericRunState) resolveAttributesFor(combatantKey string, attrs attrib
 // refreshProviderAwareAttributes lazy-expires provider timed state and re-resolves attributes
 // so the next run event reflects recovered resolved values without a state write.
 func (s *genericRunState) refreshProviderAwareAttributes(sourceKey, targetKey string) {
+	if s.compiled.HasResourceMax {
+		s.settleLiveResourceExpiry()
+	}
 	evalCtx := s.evalContextForCombatants(sourceKey, targetKey)
 	for key, c := range s.combatants {
 		resolved := s.resolveAttributesFor(key, c.attributes, evalCtx, targetKey)

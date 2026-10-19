@@ -99,8 +99,13 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 						validSource = source.ResourceKey == "" && source.Value == nil
 					case "process_actual_cost":
 						validSource = strings.TrimSpace(source.ResourceKey) != "" && source.Value == nil
+					case "process_start_state":
+						validSource = raw.ValueType == "INTEGER" && strings.TrimSpace(source.StateKey) != "" && !strings.ContainsAny(source.StateKey, ".[] \t\r\n") && source.ResourceKey == "" && source.Value == nil
 					case "scene_parameter":
 						validSource = source.ResourceKey == "" && source.Value != nil && !math.IsNaN(*source.Value) && !math.IsInf(*source.Value, 0) && (raw.ValueType != "INTEGER" || math.Trunc(*source.Value) == *source.Value && math.Abs(*source.Value) <= 9007199254740991)
+					}
+					if source.Kind != "process_start_state" && source.StateKey != "" {
+						validSource = false
 					}
 					if !validSource {
 						problem("FORMULA_INVALID_STRUCTURE", pp+"/runtimeSource")
@@ -215,6 +220,8 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 						kind = ReadUseChargeDuration
 					case "process_actual_cost":
 						kind, key = ReadProcessActualCost, param.RuntimeSource.ResourceKey
+					case "process_start_state":
+						kind, key = ReadProcessStartState, param.RuntimeSource.StateKey
 					case "ability_parameter":
 						kind = ReadAuthoredAbilityParameter
 					case "scene_parameter":
@@ -236,7 +243,7 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 				bytes += 8
 			}
 			if param.RuntimeSource != nil {
-				bytes += uint64(unsafe.Sizeof(model.FormulaRuntimeSource{})) + uint64(len(param.RuntimeSource.Kind)+len(param.RuntimeSource.ResourceKey))
+				bytes += uint64(unsafe.Sizeof(model.FormulaRuntimeSource{})) + uint64(len(param.RuntimeSource.Kind)+len(param.RuntimeSource.ResourceKey)+len(param.RuntimeSource.StateKey))
 				if param.RuntimeSource.Value != nil {
 					bytes += 8
 				}
@@ -325,6 +332,14 @@ func (b *NamedBinding) evaluate(program *expression.Program, ctx *GenericEvalCon
 				if source.Kind == "process_actual_cost" && ctx.HasProcessActualCosts {
 					value, present := ctx.ProcessActualCosts[source.ResourceKey]
 					values[i].Number = inputbinding.Scalar{Value: value, Present: present}
+				}
+				if source.Kind == "process_start_state" {
+					for _, capture := range ctx.ProcessStartStateValues {
+						if capture.StateKey == source.StateKey {
+							values[i].Number = inputbinding.Scalar{Value: capture.Value, Present: true, SafeInteger: true}
+							break
+						}
+					}
 				}
 			} else {
 				value, present := ctx.RuntimeParameters[param.ParameterKey]

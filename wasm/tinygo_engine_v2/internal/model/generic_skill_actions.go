@@ -172,6 +172,7 @@ type SkillUseRecord struct {
 }
 
 type DirectHealingRecord struct {
+	HealthOrder           *uint64 `json:"healthOrder,omitempty"`
 	TimeMs                int64   `json:"timeMs"`
 	Source                string  `json:"source"`
 	Target                string  `json:"target"`

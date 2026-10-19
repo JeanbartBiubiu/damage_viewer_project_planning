@@ -277,6 +277,10 @@ func (f *executionFrame) applyDirectHeal(cmd command.Command, ability planbundle
 		return err
 	}
 	record := model.DirectHealingRecord{TimeMs: f.run.nowMs, Source: cmd.Source, Target: cmd.Target, AbilityRef: f.abilityRef, OperationRef: cmd.Ref, RawAmount: heal.before, HealingAfterDone: heal.afterDone, HealingAfterModifiers: heal.after, ActualHealing: heal.actual, Overheal: heal.overheal, HpBefore: hpBefore, HpAfter: f.stageFor(cmd.Target).attributes.At("hp").Current}
+	if f.run.compiled.HasResourceMax {
+		order := f.run.reserveHealthOrder()
+		record.HealthOrder = &order
+	}
 	if use := f.skillActionUseRef(); use != "" {
 		record.UseRef = &use
 		if action := f.run.skillActionByUse[use]; action != nil {

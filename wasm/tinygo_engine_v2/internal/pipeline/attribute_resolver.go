@@ -284,6 +284,7 @@ func (r AttributeResolver) ResolveDerivedAttribute(attributeKey string, slot mod
 func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float64, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (float64, error) {
 	resolved := base
 	complementProduct, hasComplement := 1.0, false
+	totalProduct := 1.0
 	for _, mod := range r.byAttribute[attributeKey] {
 		if !mod.HasValue {
 			continue
@@ -316,10 +317,21 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 			hasComplement = true
 			continue
 		}
+		if mod.ValuePolicy == "multiply" && mod.Stage == "total" {
+			totalProduct *= value
+			if math.IsNaN(totalProduct) || math.IsInf(totalProduct, 0) {
+				return 0, fmt.Errorf("attribute %s modifier %s: non-finite total multiplier", attributeKey, mod.ModifierKey)
+			}
+			continue
+		}
 		resolved = applyValuePolicy(resolved, base, mod.ValuePolicy, value)
 		if math.IsNaN(resolved) || math.IsInf(resolved, 0) {
 			return 0, fmt.Errorf("attribute %s modifier %s: non-finite resolved value", attributeKey, mod.ModifierKey)
 		}
+	}
+	resolved *= totalProduct
+	if math.IsNaN(resolved) || math.IsInf(resolved, 0) {
+		return 0, fmt.Errorf("attribute %s: non-finite total value", attributeKey)
 	}
 	if hasComplement {
 		if math.IsNaN(resolved) || math.IsInf(resolved, 0) || resolved < 0 || resolved > 1 {

@@ -141,7 +141,7 @@ func (ctx *genericCompileContext) validateForeignProviderRuntime(definitionRef, 
 	}
 	for _, program := range programs {
 		for _, dep := range ctx.session.Formulas.ReadDependencies(program) {
-			if dep.ReadKind == formula.ReadAuthoredRuntimeParameter || dep.ReadKind == formula.ReadAuthoredAbilityParameter || dep.ReadKind == formula.ReadUseChargeDuration || dep.ReadKind == formula.ReadProcessActualCost {
+			if dep.ReadKind == formula.ReadAuthoredRuntimeParameter || dep.ReadKind == formula.ReadAuthoredAbilityParameter || dep.ReadKind == formula.ReadUseChargeDuration || dep.ReadKind == formula.ReadProcessActualCost || dep.ReadKind == formula.ReadProcessStartState {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path, "cross-skill definition runtime inputs cannot borrow the current skill", definitionRef)
 				return
 			}

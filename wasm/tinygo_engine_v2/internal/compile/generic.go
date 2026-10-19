@@ -163,6 +163,8 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	buildAbilityRefIndex(ctx)
 	compileSkillActionBindings(req.Rules.SkillActionBindings, ctx)
 	finalizeAttackDamageRoles(ctx)
+	finalizeProcessStartStateReads(ctx)
+	finalizeDynamicModifiers(ctx)
 	validateProcessAbilityRefs(req, ctx)
 	validateAllAbilityRefs(req, ctx)
 	finalizeShieldLifecycleBindings(req, ctx)
@@ -311,6 +313,13 @@ func compileProviderDefinition(provider model.ProviderDefinition, path string, c
 	}
 	if provider.Lifecycle != nil {
 		compiled.Lifecycle = compileProviderLifecycle(*provider.Lifecycle, path+".lifecycle", ctx)
+	}
+	if compiled.Lifecycle != nil && compiled.Lifecycle.HasDuration {
+		for _, mod := range compiled.Modifiers {
+			if mod.Kind == "attribute" && mod.Stage == "total" && mod.ValuePolicy == "multiply" {
+				compiled.NeedsModifierExpiry, session.HasFiniteModifierExpiry = true, true
+			}
+		}
 	}
 	compiled.StatusContributions = compileStatusContributions(provider.StatusContributions, path+".statusContributions", ctx)
 	validateProviderStatusLifecycle(provider, compiled, path, collector)
@@ -598,10 +607,21 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 		Stage:                    mod.Stage,
 		Priority:                 mod.Priority,
 		ValuePolicy:              mod.ValuePolicy,
+		CurrentValuePolicy:       mod.CurrentValuePolicy,
 		HealDirection:            mod.HealDirection,
 		HealCategory:             mod.HealCategory,
 		HealGroupKey:             mod.HealGroupKey,
 		HealGroupCalculationMode: mod.HealGroupCalculationMode,
+	}
+	if mod.AffectedAbilityRefs != nil {
+		compiled.HasAffectedAbilityRefs = true
+		compiled.AffectedAbilityRefs = append([]string{}, (*mod.AffectedAbilityRefs)...)
+	}
+	if mod.CurrentValuePolicy != "" && mod.Kind != "resource_max" {
+		collector.addError(model.GenericErrUnknownRef, path+".currentValuePolicy", "currentValuePolicy requires resource_max", mod.ModifierKey)
+	}
+	if mod.AffectedAbilityRefs != nil && mod.Kind != "cooldown_duration" {
+		collector.addError(model.GenericErrUnknownRef, path+".affectedAbilityRefs", "affectedAbilityRefs requires cooldown_duration", mod.ModifierKey)
 	}
 	if (compiled.Kind == "attribute" || compiled.Kind == "") && compiled.ValuePolicy == "add_percent" {
 		compiled.ValuePolicy = "percent_add"
@@ -837,6 +857,10 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 	}
 	deps := ctx.session.Formulas.InstructionDependencies(instr, nil)
 	for _, dependency := range deps {
+		if dependency.ReadKind == formula.ReadProcessStartState && !strings.Contains(key, ".skillHit.candidates[") {
+			ctx.collector.addError(model.GenericErrFormulaTypeError, key, "process start capture requires its actual empowered payload", dependency.ReadKey)
+			return 0, false
+		}
 		definitionRead := strings.Contains(key, ".lifecycle.") || strings.Contains(key, ".modifiers[") || strings.Contains(key, ".statusContributions[")
 		if dependency.ReadKind == formula.ReadUseChargeDuration && ctx.currentProcess == nil && !strings.Contains(key, ".skillHit.candidates[") && !definitionRead {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, key, "charge runtime input requires an actual charge process or associated hit result", dependency.ReadKey)
@@ -845,7 +869,7 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 	}
 	if strings.Contains(strings.ToLower(key), "condition") || strings.Contains(key, "eventValueConditions") {
 		for _, dependency := range deps {
-			if dependency.ReadKind == formula.ReadAuthoredRuntimeParameter || dependency.ReadKind == formula.ReadAuthoredAbilityParameter || dependency.ReadKind == formula.ReadUseChargeDuration || dependency.ReadKind == formula.ReadProcessActualCost {
+			if dependency.ReadKind == formula.ReadAuthoredRuntimeParameter || dependency.ReadKind == formula.ReadAuthoredAbilityParameter || dependency.ReadKind == formula.ReadUseChargeDuration || dependency.ReadKind == formula.ReadProcessActualCost || dependency.ReadKind == formula.ReadProcessStartState {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, key, "condition cannot use runtime formula parameters", dependency.ReadKey)
 				return 0, false
 			}

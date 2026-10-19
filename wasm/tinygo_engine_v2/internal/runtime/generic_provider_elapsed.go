@@ -9,7 +9,14 @@ import (
 
 func withProviderElapsed(ctx pipeline.ProviderFormulaContext, providers []status.ProviderInstance, providerRef string, nowMs int64, definitions []planbundle.CompiledProvider) pipeline.ProviderFormulaContext {
 	inst, _, found := status.FindByRef(providers, providerRef)
-	if !found || int(inst.DefinitionIndex) >= len(definitions) || !definitions[inst.DefinitionIndex].NeedsElapsedTime {
+	if !found || int(inst.DefinitionIndex) >= len(definitions) {
+		return ctx
+	}
+	if definitions[inst.DefinitionIndex].NeedsModifierExpiry && inst.Expired(nowMs) {
+		ctx.SkipExpiredAttributeModifier = true
+		return ctx
+	}
+	if !definitions[inst.DefinitionIndex].NeedsElapsedTime {
 		return ctx
 	}
 	if !inst.HasAppliedAt || inst.AppliedAtMs < 0 || inst.AppliedAtMs > nowMs || inst.AppliedAtMs > maxJSONSafeInteger || inst.ExpireAt <= inst.AppliedAtMs {

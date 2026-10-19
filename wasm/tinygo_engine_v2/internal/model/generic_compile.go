@@ -280,6 +280,8 @@ type ModifierDefinition struct {
 	ValuePolicy              string              `json:"valuePolicy"`
 	Value                    GenericFormulaExpr  `json:"value"`
 	Condition                *GenericFormulaExpr `json:"condition,omitempty"`
+	CurrentValuePolicy       string              `json:"currentValuePolicy,omitempty"`
+	AffectedAbilityRefs      *[]string           `json:"affectedAbilityRefs,omitempty"`
 }
 
 // ListenerDefinition 是 provider 级 listener。

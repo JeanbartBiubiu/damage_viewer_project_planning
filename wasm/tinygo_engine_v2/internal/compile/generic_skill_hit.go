@@ -435,11 +435,13 @@ func pureFiniteTargetAttributeProvider(reference string, ctx *genericCompileCont
 	}
 	for _, modifier := range provider.Modifiers {
 		key, own := strings.CutPrefix(modifier.Target, "self.attr.")
-		if !own || key == "" || key == "hp" || strings.Contains(key, ".") || modifier.Kind != "attribute" || modifier.ValuePolicy != "add" || modifier.HasCondition || !modifier.HasValue || modifier.Stage != "" || modifier.Command != "" || modifier.Channel != "" || modifier.HealDirection != "" || modifier.HealCategory != "" || modifier.HealGroupKey != "" || modifier.HealGroupCalculationMode != "" {
+		flat := modifier.ValuePolicy == "add" && modifier.Stage == ""
+		total := modifier.ValuePolicy == "multiply" && modifier.Stage == "total"
+		if !own || key == "" || key == "hp" || strings.Contains(key, ".") || modifier.Kind != "attribute" || (!flat && !total) || modifier.HasCondition || !modifier.HasValue || modifier.Command != "" || modifier.Channel != "" || modifier.HealDirection != "" || modifier.HealCategory != "" || modifier.HealGroupKey != "" || modifier.HealGroupCalculationMode != "" {
 			return false
 		}
 		value, fixed := ctx.session.Formulas.FoldStatic(modifier.ValueProgram)
-		if !fixed || math.IsNaN(value) || math.IsInf(value, 0) {
+		if !fixed || math.IsNaN(value) || math.IsInf(value, 0) || (total && (value < 0 || value > 1)) {
 			return false
 		}
 	}

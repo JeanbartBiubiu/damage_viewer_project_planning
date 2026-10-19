@@ -48,6 +48,8 @@ const (
 
 // DoneResult 是 generic run 成功时的 outbox payload。
 type DoneResult struct {
+	ResourceChangeRecords   *[]ResourceChangeRecord  `json:"resourceChangeRecords,omitempty"`
+	ResourceChangeSummary   *ResourceChangeSummary   `json:"resourceChangeSummary,omitempty"`
 	AutomaticSkillSummary   *AutomaticSkillSummary   `json:"automaticSkillSummary,omitempty"`
 	AutomaticSkillRecords   []AutomaticSkillRecord   `json:"automaticSkillRecords,omitempty"`
 	AutomaticSkillRecording *AutomaticSkillRecording `json:"automaticSkillRecording,omitempty"`
