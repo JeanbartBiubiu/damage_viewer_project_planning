@@ -5,8 +5,8 @@
   "digestVersion": "simulation-availability-v1",
   "scopeDigest": "a5094ae6a7401f4b9a8bd3638388dfd1e8ef9a70fbb50431c9d9cfd2711fa1f9",
   "sharedDigest": "91a01f39579d516eeb68c2ffc69b2899ce05326185d2d6f2c38fbe4e966b6e58",
-  "wasmSha256": "32bf88be215f9173da8bd377f24d9f1e3126b1cb3cc077bb1a2d96a0ae638395",
-  "adapterVersion": "v22-root-hit-events-and-target-attributes",
+  "wasmSha256": "5a6fc2d45e1b4c1e9995c2456e46eb8fc1ead5680c106dca844d7842b4be04a3",
+  "adapterVersion": "v23-active-ammo-initial-state-and-recovery",
   "entries": [
     {
       "kind": "CHARACTER",
@@ -99,18 +99,19 @@
         "equipmentMode": "none"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/coverage-evidence-candidate.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/raw-manifest.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/mechanisms/mechanism-evidence-candidate.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/mechanisms/raw-manifest.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/summary.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/annie/summary.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/annie/coverage-evidence-candidate.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/annie/raw-manifest.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/mechanisms/summary.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/mechanisms/raw-manifest.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/summary.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/manifest.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -199,28 +200,20 @@
         "equipmentMode": "none"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-25-01-445Z/coverage-evidence-candidate.json",
-        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-25-01-445Z/raw-manifest.json",
-        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-25-01-445Z/production-source-before.json",
-        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-25-01-445Z/production-source-after.json",
-        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-25-01-445Z/input-change-recompile.json",
-        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-25-01-445Z/summary.json",
-        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-23-02-020Z/raw-manifest.json",
-        "output/first-hero-2026-10-17/garen-corki-v22-regression/worker-2026-10-18T15-23-02-020Z/summary.json",
-        "output/first-hero-2026-10-17/garen-corki-v22-regression/positive-vamp/worker-positive-2026-10-18T15-25-01-469Z/raw-manifest.json",
-        "output/first-hero-2026-10-17/garen-corki-v22-regression/positive-vamp/worker-positive-2026-10-18T15-25-01-469Z/summary.json",
-        "output/first-hero-2026-10-17/garen-corki-v22-regression/positive-vamp/worker-positive-2026-10-18T15-25-01-469Z/positive-vamp-candidate.json",
-        "outputs/priority-adaptation-2026-10-18/garen-w-precombat-authoring/revision-02/plan.json",
-        "outputs/priority-adaptation-2026-10-18/garen-w-precombat-authoring/revision-02/expected.json",
-        "outputs/priority-adaptation-2026-10-18/garen-w-precombat-authoring/revision-02/saved-independent-readback.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/garen-v22-review/garen-32bf-v22-complete-independent-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/garen-v22-review/garen-32bf-v22-positive-vamp-independent-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/scene-initial-review/native-scene-parameter-independent-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/scene-initial-review/host-scene-parameter-independent-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/scene-initial-review/backend-scene-initial-parameter-final-review.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/garen/worker-2026-10-18T21-06-12-984Z/summary.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/garen/worker-2026-10-18T21-06-12-984Z/coverage-evidence-candidate.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/garen/worker-2026-10-18T21-06-12-984Z/raw-manifest.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/garen/worker-2026-10-18T21-08-50-849Z/summary.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/garen/worker-2026-10-18T21-08-50-849Z/coverage-evidence-candidate.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/garen/worker-2026-10-18T21-08-50-849Z/raw-manifest.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/garen/positive-vamp/worker-positive-2026-10-18T21-09-49-452Z/summary.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/garen/positive-vamp/worker-positive-2026-10-18T21-09-49-452Z/raw-manifest.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -264,13 +257,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/duolan_jian/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/equipment/duolan_jian/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -314,13 +308,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1011/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/equipment/item_1011/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -364,13 +359,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1018/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/equipment/item_1018/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -414,13 +410,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1028/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/equipment/item_1028/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -464,13 +461,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1029/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/equipment/item_1029/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -514,13 +512,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1031/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/equipment/item_1031/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -564,13 +563,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1036/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/equipment/item_1036/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -614,13 +614,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1037/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/equipment/item_1037/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -664,13 +665,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1038/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/equipment/item_1038/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -714,13 +716,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1042/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/item_1042/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -764,13 +767,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1053/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/item_1053/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -814,13 +818,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_1086/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/item_1086/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -864,13 +869,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_2019/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/item_2019/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -914,13 +920,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_2021/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/item_2021/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -964,13 +971,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_3031/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/item_3031/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -1014,13 +1022,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_3035/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/item_3035/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -1064,13 +1073,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_3051/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/item_3051/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -1114,13 +1124,14 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_3134/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/item_3134/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
       ],
       "issues": []
     },
@@ -1164,13 +1175,116 @@
         "equipmentMode": "single-item"
       },
       "evidenceRefs": [
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/item_6670/verification.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/equipment/snapshot-replay-evidence.json",
-        "output/first-hero-2026-10-17/corki-v22-existing-regression/annie/production-source-manifest.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/corki-v22-existing-regression-independent-audit-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/basic-attack-contribution-bridge-final-review-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/corki-next/final-v22-review/P与E共性机制最终独立复核-2026-10-18.json",
-        "outputs/priority-adaptation-2026-10-18/库奇P与简化E现行契约.md"
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/item_6670/verification.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/equipment-remaining/summary-all.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/final-runtime-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/inheritance-review-04.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-05-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/formal-freeze-04-receipt.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/production-source-04-before.json",
+        "output/first-hero-2026-10-17/corki-v23-existing-regression/stage04/execution-summary-04.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "CHARACTER",
+      "key": "champion_corki",
+      "contentDigest": "6c2c245f7feee7f43bae9c975a4fb09e0e46732c433fe4dd591ae1010d182782",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "corki_e",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "corki_p",
+            "levels": [
+              1
+            ]
+          },
+          {
+            "skillKey": "corki_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "corki_r",
+            "levels": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "skillKey": "corki_w",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "evidenceRefs": [
+        "outputs/priority-adaptation-2026-10-18/corki-next/r-implementation-2026-10-19/r-runtime-final-review/final-review.json",
+        "outputs/priority-adaptation-2026-10-18/corki-next/r-implementation-2026-10-19/作者与宿主实施契约.md",
+        "output/first-hero-2026-10-17/corki-r-worker-2026-10-19/matrix-2026-10-18T20-42-36-290Z/manifest.json",
+        "output/first-hero-2026-10-17/corki-r-worker-2026-10-19/matrix-2026-10-18T20-46-44-185Z/manifest.json",
+        "output/first-hero-2026-10-17/corki-r-worker-2026-10-19/matrix-2026-10-18T20-58-31-196Z/manifest.json",
+        "output/first-hero-2026-10-17/corki-r-worker-2026-10-19/matrix-2026-10-18T20-58-55-276Z/manifest.json",
+        "output/first-hero-2026-10-17/corki-r-worker-2026-10-19/fixed-cooldown-recheck-2026-10-19/receipt.json",
+        "output/r-ammo-web-2026-10-19/05/web-source-freeze.json"
       ],
       "issues": []
     }
