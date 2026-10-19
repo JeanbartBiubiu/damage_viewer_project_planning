@@ -29,6 +29,8 @@ export type NumericCompileState = {
    * 固定值和等级参数不读取此表。
    */
   runtimeInputReads?: Readonly<Record<string, GenericFormulaExpr>>;
+  /** 仅真实待击负载、同过程开始唯一SET证明后提供；不授权任意状态读取。 */
+  processStartStateBindings?: Readonly<Record<string, string>>;
   /** 仅本初始化动作已核验的显式冻结值；不会传给生命周期、条件或主动兄弟。 */
   sceneParameterValues?: Readonly<Record<string, number>>;
   /** 仅有界持续属性入口授权；存储形状合法不代表任意使用点可以读取。 */
@@ -144,6 +146,11 @@ function parameterDirectory(state: NumericCompileState, path: string, fail: (pat
     if (row.gameId !== state.gameId || row.skillKey !== state.skillKey) return fail(path, '参数不属于当前游戏和技能');
     const base = { parameterKey: row.parameterKey, valueMode: row.valueMode, valueType: row.valueType };
     if (row.valueMode === 'RUNTIME_INPUT') {
+      const snapshot = state.processStartStateBindings?.[row.parameterKey];
+      if (snapshot !== undefined) {
+        if (row.valueType !== 'INTEGER' || row.fixedValue !== null || row.levelValues !== null || !/^[a-z][a-z0-9_]{0,63}$/.test(snapshot)) return fail(path, '使用开始快照只接受无默认整数参数及真实计数槽');
+        return { ...base, runtimeSource: { kind: 'process_start_state' as const, stateKey: snapshot } };
+      }
       if (state.sceneParameterValues && Object.prototype.hasOwnProperty.call(state.sceneParameterValues, row.parameterKey)) {
         return { ...base, runtimeSource: { kind: 'scene_parameter' as const,
           value: finiteNumber(state.sceneParameterValues[row.parameterKey], path, fail) } };

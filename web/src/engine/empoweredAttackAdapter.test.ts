@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { simulationActiveSample } from '../../tests/fixtures/simulationActiveSkill';
 import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkillSources';
 import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
-import { fixedValue } from '../types/numericValue';
+import { fixedValue, parameterValue, formulaValue } from '../types/numericValue';
 import { assembleSimulation, inspectSimulationSnapshot } from './simulationAdapter';
 import { skillActionRequest } from './skillActionRequest';
 import { automaticSkillRequest } from './automaticSkillRequest';
@@ -10,6 +10,7 @@ import { empoweredAttackBinding, empoweredAttackIdentityGaps, inspectEmpoweredAt
 import { describeCombatSkill } from '../pages/simulation/combatSkillRoster';
 import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import type { DamageRecord, DoneResult, ProcessInstanceSnapshot } from '../types/genericEngine';
+import type { SkillFormula } from '../types/skillFormula';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import { basicAttackPrimaryBinding, inspectPrimaryReplacements, replacementPayloadBinding } from './primaryAttackReplacementContract';
 import { sameEmpoweredAttack } from './empoweredAttackContract';
@@ -38,6 +39,59 @@ function prepare(snapshot: ReturnType<typeof sample>) {
 }
 const input = (snapshot: ReturnType<typeof sample>) => ({ ...snapshot.selection.plannedSkills[0]!, instructionKey: 'activate', atMs: 100, sortOrder: 0,
   targetSide: 'source' as const, phaseKind: 'INITIAL' as const, parentInstructionKey: null, hitPreset: null });
+
+function counterPayload() {
+  const snapshot = sample('counter_alpha'), configuration = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'counter_alpha')!;
+  const meta = { gameId: snapshot.gameId, skillKey: configuration.skill.skillKey, description: null, sortOrder: 0, createdAt: '', updatedAt: '' };
+  configuration.parameters = [{ ...meta, parameterKey: 'read_stacks', name: '真实当前计数', valueType: 'INTEGER', valueMode: 'RUNTIME_INPUT', fixedValue: null, levelValues: null }];
+  configuration.internalStates = ['live_stacks', 'frozen_stacks'].map(stateKey => ({ ...meta, stateKey, name: stateKey, stateType: 'COUNTER', scope: 'SKILL',
+    detail: { initialValue: fixedValue(stateKey === 'live_stacks' ? 100 : 0), maxValue: fixedValue(Number.MAX_SAFE_INTEGER) } }));
+  const process = configuration.processes[0]!;
+  process.stateOperations = [{ operationKey: 'freeze', name: '本次使用冻结', stateSkillKey: configuration.skill.skillKey, stateKey: 'frozen_stacks', operation: 'SET', optionKey: null,
+    moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null }, value: parameterValue('read_stacks'), sortOrder: 0 }];
+  configuration.triggerRules[0]!.actions[0]!.runtimeInputBindings = [{ bindingKey: 'read_stacks', parameterKey: 'read_stacks', sourceType: 'INTERNAL_STATE',
+    detail: { stateSkillKey: configuration.skill.skillKey, stateKey: 'live_stacks', valueKind: 'VALUE', optionKey: null } }];
+  const formula: SkillFormula = { ...meta, formulaKey: 'bonus', name: '通用附加', expression: { inputs: [{ key: 'stacks', binding: { kind: 'parameter', skillKey: configuration.skill.skillKey, parameterKey: 'read_stacks' } }],
+    stages: [{ key: 'out', name: '基础附加与本次计数', expression: { op: 'add', args: [{ op: 'const', value: '10' }, { op: 'read', inputKey: 'stacks' }] } }], outputStageKey: 'out' } };
+  configuration.formulas = [formula];
+  const result = configuration.effects[0]!.results[0]!;
+  if (result.resultType !== 'DAMAGE') throw new Error('测试负载');
+  result.detail.deliveryKind = 'BASIC_ATTACK'; result.detail.critical = { mode: 'DISALLOWED', multiplierValue: null };
+  result.valueRule!.value = formulaValue('bonus');
+  return { snapshot, configuration, process, result };
+}
+
+describe('本次使用冻结整数参数与普通附加普攻伤害', () => {
+  it('仅真实待击负载授权BASIC_ATTACK，参数指向同次START的冻结槽而非活计数', () => {
+    const { snapshot } = counterPayload(), prepared = prepare(snapshot);
+    const formula = prepared.compileRequest.formulas!.find(row => row.skillKey === 'counter_alpha' && row.expression.inputs.some(input => input.key === 'stacks'))!;
+    expect(formula.parameters).toEqual([{ parameterKey: 'read_stacks', valueMode: 'RUNTIME_INPUT', valueType: 'INTEGER', runtimeSource: { kind: 'process_start_state', stateKey: 'frozen_stacks' } }]);
+    const provider = prepared.compileRequest.sharedProviders!.find(row => row.skillKey === 'counter_alpha' && row.processes?.length)!;
+    expect(provider.processes![0]!.momentOperations[0]!.operations[0]).toMatchObject({ operation: 'state_change', ref: 'frozen_stacks', valuePolicy: 'set', amount: { op: 'read', path: 'provider.state.live_stacks' } });
+    const payload = provider.abilities!.flatMap(row => row.operations ?? []).find(row => row.operation === 'resolve_skill_hit')!.skillHit!.candidates[0]!;
+    expect(payload).not.toHaveProperty('attackDamageRole'); expect(payload.operations).toHaveLength(1);
+    expect(payload.operations[0]).toMatchObject({ operation: 'damage', critEligible: false });
+    expect(payload.operations[0]!.types).toContain('damage_trait/delivery_basic_attack');
+  });
+  it.each(['no_set', 'duplicate_set', 'other_skill', 'target_counter', 'not_counter', 'default_parameter'])('不授权不完整冻结生产者%s', kind => {
+    const { snapshot, configuration, process } = counterPayload();
+    if (kind === 'no_set') process.stateOperations = [];
+    if (kind === 'duplicate_set') process.stateOperations.push({ ...process.stateOperations[0]!, operationKey: 'second' });
+    if (kind === 'other_skill') process.stateOperations[0]!.stateSkillKey = 'some_other_skill';
+    if (kind === 'target_counter') configuration.internalStates[1]!.scope = 'TARGET';
+    if (kind === 'not_counter') Object.assign(configuration.internalStates[1]!, { stateType: 'FLAG', detail: { initialEnabled: false } });
+    if (kind === 'default_parameter') configuration.parameters[0]!.fixedValue = 100;
+    expect(() => prepare(snapshot)).toThrow();
+  });
+  it('资源预算只有显式填写才进入运行请求；0保留且null拒绝', async () => {
+    const { snapshot } = counterPayload(), prepared = prepare(snapshot);
+    const options = { actions: [input(snapshot)], durationMs: 600, attackSpeedInputMax: 5, recordTimeSeries: false,
+      maxSkillActionRecords: 64, maxSkillUseRecords: 64, maxHealingRecords: 0 };
+    expect((await skillActionRequest(prepared, snapshot, options)).runRequest.recordBudget).not.toHaveProperty('maxResourceChangeRecords');
+    expect((await skillActionRequest(prepared, snapshot, { ...options, maxResourceChangeRecords: 0 })).runRequest.recordBudget!.maxResourceChangeRecords).toBe(0);
+    await expect(skillActionRequest(prepared, snapshot, { ...options, maxResourceChangeRecords: null } as unknown as Parameters<typeof skillActionRequest>[2])).rejects.toThrow(/maxResourceChangeRecords/);
+  });
+});
 
 async function consumptionFacts(replacement = false) {
   const snapshot = sample();

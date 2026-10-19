@@ -100,7 +100,7 @@ export type NamedFormula = NamedFormulaBase & ({ scope: 'game'; skillKey?: never
   parameters: Array<{ parameterKey: string; valueMode: import('./skillParameter').SkillParameter['valueMode'];
     valueType: 'DECIMAL' | 'INTEGER'; value?: number;
     runtimeSource?: { kind: 'use_charge_duration' } | { kind: 'process_actual_cost'; resourceKey: string } | { kind: 'ability_parameter' }
-      | { kind: 'scene_parameter'; value: number } }>;
+      | { kind: 'scene_parameter'; value: number } | { kind: 'process_start_state'; stateKey: string } }>;
 });
 export type StaticNumericValue = number | { op: 'ref'; ref: string };
 
@@ -238,6 +238,8 @@ export type SkillHitDefinition = {
 export type HealGroupCalculationMode = 'ratio_add' | 'ratio_max';
 
 export type ModifierDefinition = {
+  currentValuePolicy?: 'grant_positive_delta_clamp';
+  affectedAbilityRefs?: string[];
   modifierKey: string;
   kind: string;
   target?: string;
@@ -579,7 +581,7 @@ export type SafetyBudget = {
 };
 
 export type RecordBudget = { maxAttackRecords?: number; maxDamageRecords?: number; maxMechanicRecords?: number;
-  maxSkillActionRecords?: number; maxSkillUseRecords?: number; maxHealingRecords?: number; maxAutomaticSkillRecords?: number };
+  maxSkillActionRecords?: number; maxSkillUseRecords?: number; maxHealingRecords?: number; maxAutomaticSkillRecords?: number; maxResourceChangeRecords?: number };
 
 export type ProcessControlAction = 'INITIAL' | 'RECAST' | 'CHARGE_RELEASE' | 'CANCEL' | 'INTERRUPT';
 export type SkillActionPhase = Exclude<ProcessControlAction, 'INTERRUPT'>;
@@ -816,6 +818,7 @@ export type SkillUseRecord = {
   stepKey: string; stepVersion: number; executionIndex: number;
 };
 export type HealingRecord = {
+  healthOrder?: number;
   timeMs: number; source: string; target: string; abilityRef: string; operationRef: string; useRef: string | null;
   instructionKey: string | null; rawAmount: number; healingAfterDone: number; healingAfterModifiers: number;
   actualHealing: number; overheal: number; hpBefore: number; hpAfter: number;
@@ -844,6 +847,7 @@ export type DamageBreakdown = {
   damageCount: number; postDefenseDamage: number; shieldAbsorbed: number; actualHpLoss: number; overkillDamage: number;
 };
 export type DamageRecord = Omit<DamageBreakdown, 'damageCount'> & {
+  healthOrder?: number;
   empoweredAttack?: EmpoweredAttackConsumption;
   providerActivatedAtMs?: number;
   damageId: number; attackIndex: number | null; useRef: string; instructionKey?: string | null; hitRef?: string | null;
@@ -856,6 +860,7 @@ export type DamageRecord = Omit<DamageBreakdown, 'damageCount'> & {
   resistanceFactor?: number; modifiers?: Record<string, unknown>[];
 };
 export type RecordingSummary = {
+  resourceChangeRecordCount?: number; returnedResourceChangeRecords?: number; droppedResourceChangeRecords?: number; resourceChangeRecordsTruncated?: boolean;
   skillActionRecordCount?: number; returnedSkillActionRecords?: number; droppedSkillActionRecords?: number; skillActionRecordsTruncated?: boolean;
   skillUseRecordCount?: number; returnedSkillUseRecords?: number; droppedSkillUseRecords?: number; skillUseRecordsTruncated?: boolean;
   healingRecordCount?: number; returnedHealingRecords?: number; droppedHealingRecords?: number; healingRecordsTruncated?: boolean;
@@ -909,6 +914,8 @@ export type SeriesSamplingEvidence = {
 };
 
 export type DoneResult = {
+  resourceChangeRecords?: ResourceChangeRecord[];
+  resourceChangeSummary?: ResourceChangeSummary;
   /** summary表示未请求明细；预算丢弃量仍按原记录预算核对。 */
   outputMode?: 'summary';
   ok: boolean;
@@ -929,6 +936,14 @@ export type DoneResult = {
   automaticSkillRecords?: AutomaticSkillRecord[];
   automaticSkillRecording?: AutomaticSkillRecording;
 };
+
+export type ResourceChangeContributor = { source: 'source' | 'target'; providerRef: string; definitionRef: string; modifierKey: string;
+  reason: 'apply' | 'refresh' | 'remove' | 'expire'; useRef?: string };
+export type ResourceChangeRecord = { healthOrder: number; timeMs: number; target: 'source' | 'target'; resourceKey: 'hp';
+  currentBefore: number; currentAfter: number; currentDelta: number; maxBefore: number; maxAfter: number; maxDelta: number;
+  contributors: ResourceChangeContributor[] };
+export type ResourceChangeSideSummary = { currentIncrease: number; currentDecrease: number; maxIncrease: number; maxDecrease: number; finalMax: number };
+export type ResourceChangeSummary = { changeCount: number; source: ResourceChangeSideSummary; target: ResourceChangeSideSummary };
 
 export type GenericReleaseDonePayload = {
   ok: boolean;

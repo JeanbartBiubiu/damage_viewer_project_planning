@@ -354,7 +354,8 @@ function compileDamage(
   path: string,
   state: NumericCompileState,
   typeEntries: TypeCatalogEntries,
-  resolveKind: HitResolveKind
+  resolveKind: HitResolveKind,
+  empoweredPayload = false
 ): { operation: OperationDefinition; vamp: AdaptedVampDamage } {
   if (result.target !== 'TARGET') return fail(`${path}.target`, '本期伤害只支持作用对象 TARGET');
   if (momentOf(result) !== 'INSTANT') return fail(`${path}.lifecycleBehavior`, 'DAMAGE moment must be INSTANT');
@@ -362,7 +363,7 @@ function compileDamage(
   if ('attackDamageRole' in result.detail && role !== 'PRIMARY' && role !== 'REPLACE_PRIMARY') fail(`${path}.detail.attackDamageRole`, '未知普攻伤害角色');
   if (role === 'PRIMARY' && resolveKind !== 'basic_attack') fail(`${path}.detail.attackDamageRole`, '主体角色必须绑定真实普攻入口');
   const expectedDelivery = resolveKind === 'basic_attack' || role === 'REPLACE_PRIMARY' ? 'BASIC_ATTACK' : 'SKILL';
-  if (result.detail.deliveryKind !== expectedDelivery) {
+  if (result.detail.deliveryKind !== expectedDelivery && !(empoweredPayload && role === undefined && result.detail.deliveryKind === 'BASIC_ATTACK')) {
     return fail(
       `${path}.detail.deliveryKind`,
       resolveKind === 'basic_attack'
@@ -540,11 +541,12 @@ function compileResultOperations(
   state: NumericCompileState,
   providers: Map<string, ProviderDefinition>,
   typeEntries: TypeCatalogEntries,
-  resolveKind: HitResolveKind
+  resolveKind: HitResolveKind,
+  empoweredPayload = false
 ): { semantic: SkillHitSemantic; operations: OperationDefinition[]; vamp?: AdaptedVampDamage } {
   if (result.resultType !== 'DAMAGE' && 'attackDamageRole' in result.detail) fail(`${path}.detail.attackDamageRole`, '非伤害结果不能声明普攻伤害角色');
   if (result.resultType === 'DAMAGE') {
-    const compiled = compileDamage(authored, result, path, state, typeEntries, resolveKind);
+    const compiled = compileDamage(authored, result, path, state, typeEntries, resolveKind, empoweredPayload);
     return {
       semantic: { resultType: 'DAMAGE', target: 'TARGET', moment: 'INSTANT' },
       operations: [compiled.operation],
@@ -573,11 +575,14 @@ function compileResultOperations(
     if (effect.lifecycle) {
       const life = effect.lifecycle;
       const zone = authored.modifierZones?.filter(row => row.modifierZoneKey === result.detail.modifierZoneKey) ?? [];
+      const flat = zone[0]?.applicationStage === 'ATTRIBUTE_FLAT' && zone[0]?.calculationMode === 'FLAT_ADD';
+      const totalDecrease = zone[0]?.applicationStage === 'ATTRIBUTE_PERCENT' && zone[0]?.calculationMode === 'RATIO_MULTIPLY'
+        && result.detail.operation === 'DECREASE';
       if (effect.results.length !== 1 || result.target !== 'TARGET' || result.detail.attributeKey === 'hp'
         || life.endWhenShieldEndsResultKey != null || !life.durationValue || zone.length !== 1
-        || zone[0]!.gameId !== authored.gameId || zone[0]!.applicationStage !== 'ATTRIBUTE_FLAT'
-        || zone[0]!.domain !== 'ATTRIBUTE' || zone[0]!.status !== 'ENABLED' || zone[0]!.calculationMode !== 'FLAT_ADD') {
-        return fail(path, '持久命中属性只接完整单结果目标属性平加，不能混入其它生命周期或修正');
+        || zone[0]!.gameId !== authored.gameId || !flat && !totalDecrease
+        || zone[0]!.domain !== 'ATTRIBUTE' || zone[0]!.status !== 'ENABLED') {
+        return fail(path, '持久命中属性只接完整单结果目标属性平加或总属性比例减少，不能混入其它生命周期或修正');
       }
       const duration = tryFoldConstant(compileNumericValue(life.durationValue, `${path}.lifecycle.durationValue`,
         { ...state, bindParameters: false, allowAttributeReads: false, allowedContextKeys: undefined }, fail));
@@ -862,7 +867,8 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
 }
 
 /** 从真实作者过程挂接编译负载；不制造作者规则，也不发布第二份命中事件。 */
-export function adaptEmpoweredProcessPayload(authored: Omit<AuthoredHitProgram, 'rules' | 'chargeReleaseContext'>, process: SkillProcess): AdaptedHitProgram {
+export function adaptEmpoweredProcessPayload(authored: Omit<AuthoredHitProgram, 'rules' | 'chargeReleaseContext'>, process: SkillProcess,
+  context: { processStartStateBindings?: Readonly<Record<string, string>> } = {}): AdaptedHitProgram {
   const root = `skills.${authored.skillKey}.processes.${process.processKey}`;
   const step = process.steps[0];
   if (process.gameId !== authored.gameId || process.skillKey !== authored.skillKey || process.steps.length !== 1
@@ -871,6 +877,7 @@ export function adaptEmpoweredProcessPayload(authored: Omit<AuthoredHitProgram, 
   if (!bindings.length) fail(`${root}.effectBindings`, '强化步骤缺少真实命中挂接');
   const program: AuthoredHitProgram = { ...authored, rules: [] };
   const state = numericState(program), providers = new Map<string, ProviderDefinition>(), typeEntries = new TypeCatalogEntries();
+  state.processStartStateBindings = context.processStartStateBindings;
   // resolve_skill_hit 的正式编译依赖；声明类型不创建作者监听或运行时命中事实。
   typeEntries.set('event/skill_hit', 'event');
   const candidates: SkillHitCandidate[] = [];
@@ -892,7 +899,7 @@ export function adaptEmpoweredProcessPayload(authored: Omit<AuthoredHitProgram, 
       resultKeys.add(result.resultKey);
       if (result.target !== 'TARGET' || result.resultType !== 'DAMAGE'
         && !(result.resultType === 'STATUS_OPERATION' && result.detail.operation === 'APPLY')) fail(path, '强化负载仅接实际命中目标的完整伤害或状态施加');
-      const compiled = compileResultOperations(program, effect, result, path, state, providers, typeEntries, 'skill');
+      const compiled = compileResultOperations(program, effect, result, path, state, providers, typeEntries, 'skill', true);
       if (compiled.vamp) {
         if (vampRules && !sameJson(vampRules, compiled.vamp.rules)) fail(path, '强化负载吸血规则不一致');
         vampRules = compiled.vamp.rules;

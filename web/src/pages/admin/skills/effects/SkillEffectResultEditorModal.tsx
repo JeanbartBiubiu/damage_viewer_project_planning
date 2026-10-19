@@ -1386,7 +1386,7 @@ export function SkillEffectResultEditorModal({
                   aria-label="固定倍率"
                   value={draft.fixedMultiplier.trim() ? Number(draft.fixedMultiplier) : undefined}
                   disabled={readOnly}
-                  min={0}
+                  min={draft.resultType === 'COOLDOWN_DURATION_MODIFIER' ? undefined : 0}
                   style={{ width: '100%' }}
                   onChange={(value) => patchDraft({
                     ...draft,
@@ -2019,7 +2019,7 @@ export function SkillEffectResultEditorModal({
             </>
           ) : null}
 
-          {draft.resultType === 'COOLDOWN_CHANGE' ? (
+          {draft.resultType === 'COOLDOWN_CHANGE' || draft.resultType === 'COOLDOWN_DURATION_MODIFIER' ? (
             <>
               <SkillEffectAffectedSkillScopeFields
                 draft={draft}
@@ -2032,7 +2032,7 @@ export function SkillEffectResultEditorModal({
                 onChange={patchDraft}
                 onCreateCategory={workspaceMode ? undefined : () => setSkillCategoryEditorVisible(true)}
               />
-              <Form.Item
+              {draft.resultType === 'COOLDOWN_CHANGE' ? <Form.Item
                 label="操作"
                 required
                 validateStatus={errors.cooldownOperation ? 'error' : undefined}
@@ -2050,7 +2050,7 @@ export function SkillEffectResultEditorModal({
                     <Radio key={value} value={value}>{label}</Radio>
                   ))}
                 </Radio.Group>
-              </Form.Item>
+              </Form.Item> : null}
             </>
           ) : null}
 
@@ -2266,7 +2266,7 @@ export function SkillEffectResultEditorModal({
                     {Object.entries(SKILL_EFFECT_REAPPLICATION_VALUE_MODE_LABELS)
                       .filter(([value]) => !(
                         (isSharedOnlyPersistentResult(draft) && value === 'ADD')
-                        || (isFixedPersistentSnapshotResult(draft) && value !== 'KEEP')
+                        || (isFixedPersistentSnapshotResult(draft) && value !== (draft.resultType === 'COOLDOWN_DURATION_MODIFIER' ? 'REPLACE' : 'KEEP'))
                         || (slowApply && value !== 'REPLACE')
                       ))
                       .map(([value, label]) => (

@@ -4,6 +4,7 @@ import { buildContinuousAttackArchive, buildSkillActionArchive, buildSkillAction
 import type { SkillActionArchive } from './SimulationScenarioPanel';
 import { ContinuousAttackResult } from './ContinuousAttackResult';
 import { assessContinuousAttackResult } from '../../engine/continuousAttackResult';
+import { ResourceChangeFacts } from './ResourceChangeFacts';
 
 const fieldLabels: Record<string, string> = {
   instructionKey: '指令标识', requestedAtMs: '请求时刻', actualAtMs: '实际时刻', outcome: '尝试结果', reason: '原因', useRef: '使用身份',
@@ -60,6 +61,7 @@ export function SkillActionResult({ archive, stale }: { archive: SkillActionArch
     <Alert type={archive.assessment?.complete && archive.cleanup === 'released' ? 'success' : 'warning'} content={
       `观察${summary.execution?.complete ? '完整' : '不完整'}；${archive.cleanup === 'released' ? '会话已释放' : '会话未正常释放'}。
       ${summary.skillUses?.inFlightCount ? '观察已结束但技能仍在途，不代表施法完成。' : ''}${stale ? '输入已变化，当前显示冻结旧结果。' : ''}`} />
+    <ResourceChangeFacts done={done} range={range} />
     <Typography.Paragraph>计划{summary.skillActions?.plannedCount ?? '缺失'}；到达{summary.skillActions?.reachedCount ?? '缺失'}；接受{summary.skillActions?.acceptedCount ?? '缺失'}；
       拒绝{summary.skillActions?.rejectedCount ?? '缺失'}；接受前中止{summary.skillActions?.abortedBeforeAcceptCount ?? '缺失'}；未到达{summary.skillActions?.unreachedCount ?? '缺失'}。
       成功使用{summary.skillUses?.startedCount ?? '缺失'}，释放{summary.skillUses?.releasedCount ?? '缺失'}，真实命中{summary.skillUses?.hitCount ?? '缺失'}，

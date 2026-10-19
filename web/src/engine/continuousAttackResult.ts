@@ -12,6 +12,7 @@ import { inspectSimulationProcessFacts, simulationActionContribution } from './s
 import { empoweredDamageProcess } from './empoweredAttackContract';
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
 import { basicAttackPrimaryBinding, inspectPrimaryReplacements } from './primaryAttackReplacementContract';
+import { hasResourceMaxAuthorization, inspectResourceChangeContract } from './resourceChangeContract';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
@@ -198,6 +199,7 @@ export function assessContinuousAttackResult(
   const initial = object(request.initialSnapshot, 'runRequest.initialSnapshot');
   const final = object(result.finalSnapshot, 'runResult.finalSnapshot');
   const issues: string[] = [];
+  issues.push(...inspectResourceChangeContract(input, request, done));
   const check = (condition: boolean, path: string, message: string) => { if (!condition) issues.push(`${path}：${message}`); };
   check(bool(result.ok, 'runResult.ok'), 'runResult.ok', '运行返回未成功');
   for (const actor of request.initialSnapshot.combatants) {
@@ -225,6 +227,7 @@ export function assessContinuousAttackResult(
   const targetFinalHp = health(final, 'target', 'finalSnapshot');
   const hpMaximum = { source: request.initialSnapshot.combatants.find(actor => actor.key === 'source')!.attributes.hp!.max,
     target: request.initialSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp!.max };
+  for (const side of ['source', 'target'] as const) hpMaximum[side] += done.resourceChangeSummary?.[side].maxIncrease ?? 0;
   check(sourceInitialHp > 0 && targetInitialHp > 0, 'finalSnapshot.combatants', '不符合双方初始存活范围');
   check(close(sourceFinalHp, summary.sourceFinalHp as number) && close(targetFinalHp, summary.targetFinalHp as number), 'runResult.summary', '双方生命与最终快照不一致');
   check(close(summary.targetDamageDealt as number, summary.sourceDamageTaken as number), 'runResult.summary', '反向造成伤害与来源承受伤害不一致');
@@ -232,8 +235,10 @@ export function assessContinuousAttackResult(
   const mixed = !!request.driverPlan.skillActions?.length || !!request.driverPlan.automaticSkills;
   const directHealing = { source: mixed ? nonnegative(summary.sourceDirectHealing, 'summary.sourceDirectHealing') : 0,
     target: mixed ? nonnegative(summary.targetDirectHealing, 'summary.targetDirectHealing') : 0 };
-  check(close(sourceInitialHp - (summary.sourceHpLoss as number) + (summary.sourceVampHealing as number) + directHealing.source, sourceFinalHp)
-    && close(targetInitialHp - (summary.targetHpLoss as number) + (summary.targetVampHealing as number) + directHealing.target, targetFinalHp),
+  check(close(sourceInitialHp - (summary.sourceHpLoss as number) + (summary.sourceVampHealing as number) + directHealing.source
+    + (done.resourceChangeSummary?.source.currentIncrease ?? 0) - (done.resourceChangeSummary?.source.currentDecrease ?? 0), sourceFinalHp)
+    && close(targetInitialHp - (summary.targetHpLoss as number) + (summary.targetVampHealing as number) + directHealing.target
+      + (done.resourceChangeSummary?.target.currentIncrease ?? 0) - (done.resourceChangeSummary?.target.currentDecrease ?? 0), targetFinalHp),
   'runResult.summary', '双方初始生命、实际扣血、实际吸血入账与最终生命收支不一致');
 
   const startedCount = integer(basic.startedCount, 'summary.basicAttack.startedCount');
@@ -315,7 +320,10 @@ export function assessContinuousAttackResult(
     for (const path of origin.compiledPaths) {
       const operation = compiledOperation(input, path);
       check(operation?.ref === origin.operationRef || operation?.operation === 'state_change'
-        && operation.ref === `effect_${origin.effectKey}` && !!operation.types?.includes('state_scope/provider'),
+        && operation.ref === `effect_${origin.effectKey}` && !!operation.types?.includes('state_scope/provider')
+        || operation?.operation === 'apply_provider' && operation.ref === `skills.${origin.skillKey}.effects.${origin.effectKey}`
+        && input.sharedProviders?.some(provider => provider.providerKey === operation.providerDefinitionRef && provider.skillKey === origin.skillKey
+          && provider.modifiers?.some(modifier => modifier.modifierKey === origin.resultKey && ['attribute', 'resource_max'].includes(modifier.kind))) === true,
       'operationOrigins', '编译节点与作者路径不一致');
       if (operation?.operation !== 'damage') continue;
       const processPath = /^sharedProviders\[(\d+)\]\.processes\[(\d+)\]\.momentOperations\[(\d+)\]\.operations\[\d+\]$/.exec(path);
@@ -602,7 +610,7 @@ export function assessContinuousAttackResult(
   damages.forEach((row, index) => {
     const source = row.source as 'source' | 'target';
     const target = row.target as 'source' | 'target';
-    check(mixed || close(row.sourceHpBefore as number, hp[source]) && close(row.hpBefore, hp[target]),
+    check(mixed || !!done.resourceChangeSummary || close(row.sourceHpBefore as number, hp[source]) && close(row.hpBefore, hp[target]),
       'damageRecords', '来源受量或对手扣血缺少连续可靠生命链');
     check((row.attackIndex !== null || mixed && !!row.instructionKey) && row.timeMs >= time
       && (row.attackIndex === null || row.attackIndex === 0 || row.attackIndex >= attackIndex), 'damageRecords', '连续普攻伤害刀号或已提交顺序不一致');
@@ -611,7 +619,7 @@ export function assessContinuousAttackResult(
     hpLoss[target] += row.actualHpLoss;
     time = row.timeMs; if (row.attackIndex !== null && row.attackIndex > 0) attackIndex = row.attackIndex;
     const attack = row.attackIndex === null ? undefined : attacks[row.attackIndex - 1];
-    if (!mixed && !recording.damageRecordsTruncated && attack && row.attackIndex !== null && lastDamageByAttack.get(row.attackIndex) === index) {
+    if (!mixed && !done.resourceChangeSummary && !recording.damageRecordsTruncated && attack && row.attackIndex !== null && lastDamageByAttack.get(row.attackIndex) === index) {
       check(close(attack.sourceHpAfter, hp.source) && close(attack.targetHpAfter, hp.target), 'attackRecords',
         '同步尾部检查点与逐笔来源受量、对手扣血不一致');
     }
@@ -622,7 +630,7 @@ export function assessContinuousAttackResult(
     'damageRecords', '已保留逐笔吸血或扣血超过完整汇总');
   }
   if (!recording.damageRecordsTruncated) {
-    check(mixed || close(hp.source, sourceFinalHp) && close(hp.target, targetFinalHp), 'finalSnapshot', '完整逐笔生命链与最终快照不一致');
+    check(mixed || !!done.resourceChangeSummary || close(hp.source, sourceFinalHp) && close(hp.target, targetFinalHp), 'finalSnapshot', '完整逐笔生命链与最终快照不一致');
     check(close(vampHealing.source, summary.sourceVampHealing as number) && close(vampHealing.target, summary.targetVampHealing as number),
       'runResult.summary', '完整逐笔来源吸血增量与实际吸血汇总不一致');
     const lethal = damages.find(row => row.target === plan.target && row.hpBefore > 0 && row.hpAfter === 0);
@@ -665,7 +673,7 @@ export function assessContinuousAttackResult(
     }
   }
   const warnings = array(result.warnings, 'runResult.warnings');
-  if (mixed) issues.push(...inspectSimulationHealthLedger(input, request, done));
+  if (mixed || hasResourceMaxAuthorization(input)) issues.push(...inspectSimulationHealthLedger(input, request, done));
   const evidence = object(result.evidence, 'runResult.evidence');
   bool(summary.evidenceTruncated, 'summary.evidenceTruncated');
 

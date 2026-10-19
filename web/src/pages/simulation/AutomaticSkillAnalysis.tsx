@@ -9,6 +9,7 @@ import { automaticAttackKey, automaticOrigin, filterAutomaticPresentation, index
 import { AUTOMATIC_SKILL_RECORD_KIND_LABELS, AUTOMATIC_SKILL_WAIT_REASON_LABELS } from '../../types/skillSystemEnums.generated';
 import { ContinuousAttackCharts, type ContinuousChartMarker } from './ContinuousAttackCharts';
 import { AutomaticSkillDetails } from './AutomaticSkillDetails';
+import { ResourceChangeFacts } from './ResourceChangeFacts';
 
 const curves: Record<string, string> = { sourceHp: 'A剩余生命', targetHp: 'B剩余生命', sourceDamageDealt: 'A累计造成伤害',
   targetDamageDealt: 'B累计造成伤害', sourceDps: 'A伤害率', targetDps: 'B伤害率' };
@@ -53,8 +54,10 @@ export function AutomaticSkillAnalysis({ archive, view, onChange, ruleName, chil
     ...filtered.damage.map(row => ({ key: `damage:${row.damageId}`, timeMs: row.timeMs, label: `伤害编号${row.damageId}：${typeLabel(row.damageType)}`,
       color: '#f53f3f', selected: selected.damage === row, lane: 2, selection: { kind: 'damage', damageId: row.damageId } as AutomaticSelection })),
     ...filtered.healing.map(({ row, recordIndex }) => ({ key: `healing:${recordIndex}`, timeMs: row.timeMs, label: `直接治疗${recordIndex + 1}`,
-      color: '#00b42a', selected: selected.healing?.recordIndex === recordIndex, lane: 3, selection: { kind: 'healing', recordIndex } as AutomaticSelection }))
-  ], [filtered, ruleName, selected.automatic, selected.attack, selected.damage, selected.healing, typeLabel]);
+      color: '#00b42a', selected: selected.healing?.recordIndex === recordIndex, lane: 3, selection: { kind: 'healing', recordIndex } as AutomaticSelection })),
+    ...filtered.resources.map(row => ({ key: `resource:${row.healthOrder}`, timeMs: row.timeMs, label: `资源生命变化${row.healthOrder}`,
+      color: '#722ed1', selected: selected.resource === row, lane: 4, selection: { kind: 'resource', healthOrder: row.healthOrder } as AutomaticSelection }))
+  ], [filtered, ruleName, selected.automatic, selected.attack, selected.damage, selected.healing, selected.resource, typeLabel]);
   const chartView = useMemo(() => ({ ...view, selectedAttack: selected.attack ?? null }), [view, selected.attack]);
   const chartMarkers = useMemo(() => markers.filter(marker => marker.lane !== 1), [markers]);
   const automaticStats = done.automaticSkillRecording;
@@ -137,8 +140,8 @@ export function AutomaticSkillAnalysis({ archive, view, onChange, ruleName, chil
       {retention.map(row => <Alert key={row.label} type={row.truncated ? 'warning' : 'info'} content={done.outputMode === 'summary'
         ? `汇总模式未请求${row.label}明细；空数组不表示未发生。`
         : `${row.label}记录返回${row.returned ?? '未输出'}／总计${row.total ?? '未输出'}，预算丢弃${row.dropped ?? '未输出'}；${row.budget === 0 ? '本类记录预算为0；' : ''}${row.truncated ? '本类明细不完整。' : '本类记录按预算保留。'}完整累计独立保留。`} />)}
-      {done.outputMode !== 'summary' ? <svg role="img" aria-label="实际混合战斗时间轴" viewBox="0 0 1000 180" className="automatic-analysis-timeline">
-        {['自动技能事实', '背景普攻开始', '逐笔伤害结算', '直接治疗结算'].map((label, lane) => <g key={label}>
+      {done.outputMode !== 'summary' ? <svg role="img" aria-label="实际混合战斗时间轴" viewBox={done.resourceChangeSummary ? '0 0 1000 220' : '0 0 1000 180'} className="automatic-analysis-timeline">
+        {['自动技能事实', '背景普攻开始', '逐笔伤害结算', '直接治疗结算', ...(done.resourceChangeSummary ? ['资源生命变化'] : [])].map((label, lane) => <g key={label}>
           <text x="5" y={46 + lane * 35} fontSize="12">{label}</text><line x1="125" x2="965" y1={42 + lane * 35} y2={42 + lane * 35} stroke="currentColor" opacity=".25" /></g>)}
         {markers.map(marker => <circle key={marker.key} cx={125 + 840 * (marker.timeMs - view.timeRangeMs[0]) / Math.max(1, view.timeRangeMs[1] - view.timeRangeMs[0])}
           cy={42 + marker.lane * 35} r={marker.selected ? 8 : 5} fill={marker.color} role="button" tabIndex={0} aria-label={`${marker.label}，${marker.timeMs}毫秒`}
@@ -146,7 +149,8 @@ export function AutomaticSkillAnalysis({ archive, view, onChange, ruleName, chil
           <title>{marker.label} · {marker.timeMs}毫秒</title></circle>)}
         <text x="125" y="18" fontSize="12">{view.timeRangeMs[0]}毫秒</text><text x="965" y="18" fontSize="12" textAnchor="end">{view.timeRangeMs[1]}毫秒</text>
       </svg> : null}
-      <Typography.Paragraph type="secondary">各类记录保留各自原序；同刻事实不推断跨类先后。历史等待只携带首个相关规则，完整等待集合以规则最后状态为准。</Typography.Paragraph>
+      <Typography.Paragraph type="secondary">各类记录保留各自原序；{done.resourceChangeSummary ? '伤害、直接治疗和资源变化由生命事实顺序连接。' : '同刻事实不推断跨类先后。'}历史等待只携带首个相关规则，完整等待集合以规则最后状态为准。</Typography.Paragraph>
+      <ResourceChangeFacts done={done} range={view.timeRangeMs} onSelect={row => select({ kind: 'resource', healthOrder: row.healthOrder })} />
       <Typography.Title heading={6}>自动技能事实（当前返回{filtered.automatic.length}条）</Typography.Title>
       <Table<AutomaticSkillRecord> data={filtered.automatic} rowKey="sequence" pagination={{ pageSize: 10 }} scroll={{ x: 1200 }} columns={[
         { title: '自动内部序号', dataIndex: 'sequence' }, { title: '实际时刻', dataIndex: 'timeMs' }, { title: '技能', render: (_, row) => ruleName(row.ruleKey) },

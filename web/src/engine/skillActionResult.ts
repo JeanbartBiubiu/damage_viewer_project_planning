@@ -3,6 +3,7 @@ import { simulationAbility } from './simulationAdapter';
 import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 import { assessContinuousAttackResult } from './continuousAttackResult';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
+import { inspectResourceChangeContract } from './resourceChangeContract';
 import type { OperationOrigin } from './simulationAdapter';
 import { committedSkillControl, inspectSimulationProcessFacts } from './simulationProcessFacts';
 import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, empoweredUseRecordIssue, requireEmpoweredBasicAttack } from './empoweredAttackContract';
@@ -89,7 +90,8 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       const vamp = amount(summary[`${side}VampHealing`], `summary.${side}VampHealing`);
       const direct = amount(summary[`${side}DirectHealing`], `summary.${side}DirectHealing`);
       const finalHp = amount(summary[`${side}FinalHp`], `summary.${side}FinalHp`);
-      check(close(initialHp - hpLoss + vamp + direct, finalHp), `summary.${side}FinalHp`, '生命账不等于初态减实际扣血加有效吸血与直接治疗');
+      check(close(initialHp - hpLoss + vamp + direct + (done.resourceChangeSummary?.[side].currentIncrease ?? 0)
+        - (done.resourceChangeSummary?.[side].currentDecrease ?? 0), finalHp), `summary.${side}FinalHp`, '生命账不等于初态减实际扣血加有效吸血、直接治疗与资源净变化');
       check(!!finalSlot && close(finalSlot.current, finalHp) && finalHp <= finalSlot.max, `finalSnapshot.${side}.hp`, '生命槽、汇总或真实上限不一致');
     }
     const actionRecords = done.skillActionRecords;
@@ -318,14 +320,14 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     }
     check(close(summary.sourceDamageDealt, summary.targetDamageTaken) && close(summary.targetDamageDealt, summary.sourceDamageTaken),
       'summary', '真实双方造成与承受伤害方向不一致');
-    issues.push(...inspectContinuousAttackSeries(request, done).seriesIssues);
+    issues.push(...inspectResourceChangeContract(compile, request, done), ...inspectContinuousAttackSeries(request, done).seriesIssues);
     if (request.driverPlan.basicAttack) {
       const continuous = assessContinuousAttackResult(compile, request, done, origins);
       issues.push(...continuous.issues);
     } else {
       const processFacts = inspectSimulationProcessFacts(compile, request, done);
       issues.push(...processFacts.issues, ...inspectActiveAmmoMechanics(compile, request, done, processFacts.processes));
-      if (healingRecords.length || damageRecords.length) issues.push(...inspectSimulationHealthLedger(compile, request, done));
+      if (done.resourceChangeSummary || healingRecords.length || damageRecords.length) issues.push(...inspectSimulationHealthLedger(compile, request, done));
     }
     check(done.ok === true, 'done.ok', '原生执行未返回成功载荷');
   } catch (error) { issues.push(error instanceof Error ? error.message : String(error)); }

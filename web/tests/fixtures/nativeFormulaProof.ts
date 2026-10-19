@@ -8,6 +8,7 @@ import { skillFormulaPreflightRequest, snapshotFormulaProofIdentity } from '../.
 import { validateStoredSkillFormula } from '../../src/services/skillFormulaContract';
 import type { CompileRequest } from '../../src/types/genericEngine';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
+import type { SceneInitialParameterInput } from '../../src/engine/sceneInitialParameterInput';
 import type { SkillFormula } from '../../src/types/skillFormula';
 import type { SkillParameter } from '../../src/types/skillParameter';
 
@@ -29,9 +30,9 @@ function approve(request: CompileRequest) {
     rememberApprovedFormulaValues(request.formulas, result.metadata?.approvedStaticValues ?? {});
   } finally { if (result.sessionId) parseReleaseResult(bridge.releaseSession(result.sessionId, request.rulesHash)); }
 }
-export function approveSnapshotFixture(snapshot: SimulationSnapshot) {
-  selectFormulaProofScope(snapshotFormulaProofIdentity(snapshot));
-  const request = skillFormulaPreflightRequest(snapshot);
+export function approveSnapshotFixture(snapshot: SimulationSnapshot, sceneInputs: readonly SceneInitialParameterInput[] = []) {
+  selectFormulaProofScope(snapshotFormulaProofIdentity(snapshot, sceneInputs));
+  const request = skillFormulaPreflightRequest(snapshot, sceneInputs);
   approve(request);
 }
 export function approveAuthoredFixture(authored: { gameId: string; skillKey: string; skillLevel: number; characterLevel: number;

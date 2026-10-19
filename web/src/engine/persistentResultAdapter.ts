@@ -33,7 +33,7 @@ export type AuthoredPersistentResult = {
   parameters?: readonly SkillParameter[];
   formulas?: readonly SkillFormula[];
   statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'statusKind' | 'status'>>;
-  modifierZones: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'calculationMode' | 'status'>>;
+  modifierZones: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'calculationMode' | 'status'> & Partial<Pick<ModifierZone, 'applicationStage'>>>;
   source: 'source' | 'target';
   target: 'source' | 'target';
 };
@@ -284,9 +284,13 @@ function adaptTargetAttribute(authored: AuthoredPersistentResult, providerKey: s
   const numeric = numericState(authored, true, true);
   const duration = compileDuration(authored, `${root}.lifecycle.durationValue`, numeric);
   const multiplier = zone.calculationMode === 'RATIO_MULTIPLY';
+  if (multiplier && (zone.applicationStage !== 'ATTRIBUTE_PERCENT' || detail.operation !== 'DECREASE' || value > 1)) {
+    return fail(resultPath, '目标整体比例只接受真实属性比例乘区的静态减少，范围0至1');
+  }
   const signedValue = detail.operation === 'DECREASE' ? -value : value;
   const modifier: ModifierDefinition = { modifierKey: result.resultKey, kind: 'attribute', target: `self.attr.${attributeKey}`,
     valuePolicy: multiplier ? 'multiply' : zone.calculationMode === 'FLAT_ADD' ? 'add' : 'add_percent', bucket: zone.modifierZoneKey,
+    ...(multiplier ? { stage: 'total' } : {}),
     value: constExpr(multiplier ? 1 + signedValue : signedValue) };
   return { provider: { providerKey, stableId: providerKey, skillKey: authored.skillKey, kind: 'status',
     lifecycle: { durationMs: duration, maxStacks: staticNumericField(authored.lifecycle.maxStacksValue, root + '.lifecycle.maxStacksValue', numericState(authored, false, false), fail), refreshPolicy: 'replace', instanceScope: 'source_target' }, modifiers: [modifier] },

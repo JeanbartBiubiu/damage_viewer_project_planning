@@ -1,12 +1,12 @@
 import type { AbilityDefinition, AttackRecord, AutomaticSkillRecord, AutomaticSkillRule, CompileRequest, DamageBreakdown, DamageRecord,
-  DoneResult, HealingRecord, ProcessDefinition, ProcessInstanceSnapshot, RunRequest, SkillActionBinding } from '../types/genericEngine';
+  DoneResult, HealingRecord, ResourceChangeRecord, ProcessDefinition, ProcessInstanceSnapshot, RunRequest, SkillActionBinding } from '../types/genericEngine';
 import type { OperationOrigin } from './simulationAdapter';
 import { simulationAbility } from './simulationAdapter';
 import { continuousCurves, continuousSourceKey, type AmountMetric, type AttackSelection } from './continuousAttackPresentation';
 
 /** 身份只在当前冻结档案内解释；治疗数组位置不是跨表身份。 */
 export type AutomaticSelection = { kind: 'automatic'; sequence: number } | { kind: 'use'; useRef: string }
-  | ({ kind: 'attack' } & AttackSelection) | { kind: 'damage'; damageId: number } | { kind: 'healing'; recordIndex: number };
+  | ({ kind: 'attack' } & AttackSelection) | { kind: 'damage'; damageId: number } | { kind: 'healing'; recordIndex: number } | { kind: 'resource'; healthOrder: number };
 export type AutomaticSkillView = {
   timeRangeMs: [number, number]; dpsMode: 'cumulative' | 'window'; visibleCurves: string[];
   breakdownMode: 'source' | 'type'; amountMetric: AmountMetric; sourceKeys: string[]; damageTypes: string[];
@@ -19,10 +19,10 @@ export function initialAutomaticSkillView(durationMs: number): AutomaticSkillVie
 export type IndexedHealing = { recordIndex: number; row: HealingRecord };
 export type AutomaticUseContext = {
   automatic: AutomaticSkillRecord[]; attacks: AttackRecord[]; damage: DamageRecord[];
-  healing: IndexedHealing[]; processes: ProcessInstanceSnapshot[];
+  healing: IndexedHealing[]; resources: ResourceChangeRecord[]; processes: ProcessInstanceSnapshot[];
 };
 export type AutomaticPresentationIndex = {
-  automatic: AutomaticSkillRecord[]; attacks: AttackRecord[]; damage: DamageRecord[]; healing: IndexedHealing[];
+  automatic: AutomaticSkillRecord[]; attacks: AttackRecord[]; damage: DamageRecord[]; healing: IndexedHealing[]; resources: ResourceChangeRecord[];
   byUse: Map<string, AutomaticUseContext>; automaticBySequence: Map<number, AutomaticSkillRecord>;
   damageById: Map<number, DamageRecord>; attackByIdentity: Map<string, AttackRecord>;
 };
@@ -33,19 +33,21 @@ export function automaticAttackKey(row: AttackSelection) {
 export function indexAutomaticPresentation(done: DoneResult): AutomaticPresentationIndex {
   const automatic = done.automaticSkillRecords ?? []; const attacks = done.attackRecords ?? []; const damage = done.damageRecords ?? [];
   const healing = (done.healingRecords ?? []).map((row, recordIndex) => ({ recordIndex, row }));
+  const resources = done.resourceChangeRecords ?? [];
   const byUse = new Map<string, AutomaticUseContext>();
   const context = (useRef: string | null) => {
     if (!useRef) return null;
     let found = byUse.get(useRef);
-    if (!found) { found = { automatic: [], attacks: [], damage: [], healing: [], processes: [] }; byUse.set(useRef, found); }
+    if (!found) { found = { automatic: [], attacks: [], damage: [], healing: [], resources: [], processes: [] }; byUse.set(useRef, found); }
     return found;
   };
   for (const row of automatic) context(row.useRef)?.automatic.push(row);
   for (const row of attacks) context(row.useRef)?.attacks.push(row);
   for (const row of damage) context(row.useRef)?.damage.push(row);
   for (const row of healing) context(row.row.useRef)?.healing.push(row);
+  for (const row of resources) for (const useRef of new Set(row.contributors.map(contributor => contributor.useRef).filter((value): value is string => !!value))) context(useRef)?.resources.push(row);
   for (const row of done.finalSnapshot.processInstances ?? []) context(row.useKey)?.processes.push(row);
-  return { automatic, attacks, damage, healing, byUse,
+  return { automatic, attacks, damage, healing, resources, byUse,
     automaticBySequence: new Map(automatic.map(row => [row.sequence, row])), damageById: new Map(damage.map(row => [row.damageId, row])),
     attackByIdentity: new Map(attacks.map(row => [automaticAttackKey(row), row])) };
 }
@@ -61,8 +63,9 @@ export function filterAutomaticPresentation(done: DoneResult, index: AutomaticPr
   const attacks = index.attacks.filter(row => automaticWithinRange(row.startAtMs, view));
   const damage = index.damage.filter(row => automaticWithinRange(row.timeMs, view) && automaticDamageMatches(row, view));
   const healing = index.healing.filter(({ row }) => automaticWithinRange(row.timeMs, view));
+  const resources = index.resources.filter(row => automaticWithinRange(row.timeMs, view));
   const breakdown = (done.summary.damageBreakdown ?? []).filter(row => automaticDamageMatches(row, view));
-  return { automatic, attacks, damage, healing, breakdown,
+  return { automatic, attacks, damage, healing, resources, breakdown,
     breakdownSubtotal: breakdown.reduce((sum, row) => sum + row[view.amountMetric], 0),
     damageSubtotal: damage.reduce((sum, row) => sum + row[view.amountMetric], 0) };
 }
@@ -71,8 +74,9 @@ export function resolveAutomaticSelection(index: AutomaticPresentationIndex, sel
   const attack = selection?.kind === 'attack' ? index.attackByIdentity.get(automaticAttackKey(selection)) : undefined;
   const damage = selection?.kind === 'damage' ? index.damageById.get(selection.damageId) : undefined;
   const healing = selection?.kind === 'healing' ? index.healing.find(row => row.recordIndex === selection.recordIndex) : undefined;
+  const resource = selection?.kind === 'resource' ? index.resources.find(row => row.healthOrder === selection.healthOrder) : undefined;
   const useRef = selection?.kind === 'use' ? selection.useRef : automatic?.useRef ?? attack?.useRef ?? damage?.useRef ?? healing?.row.useRef ?? null;
-  return { automatic, attack, damage, healing, useRef: useRef || null, context: useRef ? index.byUse.get(useRef) ?? null : null };
+  return { automatic, attack, damage, healing, resource, useRef: useRef || null, context: useRef ? index.byUse.get(useRef) ?? null : null };
 }
 type OriginReference = Pick<HealingRecord, 'abilityRef' | 'operationRef' | 'source'>
   & { owner?: string; providerDefinitionRef?: string; operationPath?: string };

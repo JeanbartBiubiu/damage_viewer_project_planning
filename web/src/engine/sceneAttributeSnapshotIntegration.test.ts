@@ -20,8 +20,8 @@ import { parseCompileResult, parseDoneResult, parseReleaseResult } from './gener
 let bridge: TinyGoV2Bridge;
 beforeAll(async () => {
   const bytes = readFileSync(process.env.PHASE3B_WASM_PATH || new URL('./wasm/tinygo_engine_v2.wasm', import.meta.url));
-  expect(bytes.length).toBe(2662897);
-  expect(createHash('sha256').update(bytes).digest('hex')).toBe('8eebbefbd2491490e2e8ded34a1f920ed8c6a79cdeab9eeadbda5fdd68309ffe');
+  expect(bytes.length).toBe(2750409);
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe('1346f63b089edfda34335720864b3784196b350504ec47d75134524df1ba70d1');
   bridge = await TinyGoV2Bridge.create({ wasmUrl: 'data:application/wasm;base64,' + bytes.toString('base64') });
 });
 

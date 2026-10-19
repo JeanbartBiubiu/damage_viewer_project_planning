@@ -2,6 +2,7 @@ import type {
   AbilityDefinition, CompileRequest, DoneResult, OperationDefinition, ProcessDefinition, RunRequest, StopReason
 } from '../types/genericEngine';
 import { isAlwaysParticipatingContribution } from './basicAttackContributionContract';
+import { inspectResourceChangeContract } from './resourceChangeContract';
 
 export type SingleAttackAssessment = {
   complete: boolean;
@@ -121,8 +122,8 @@ export function assessSingleAttackResult(compileRequest: CompileRequest, runRequ
   const sourceFinalHp = summary.sourceFinalHp as number;
   const targetFinalHp = summary.targetFinalHp as number;
   const damageDealt = summary.sourceDamageDealt as number;
-  const hpLoss = targetInitialHp - targetFinalHp;
-  const issues: string[] = [];
+  const hpLoss = done.resourceChangeSummary ? nonnegative(summary.targetHpLoss, 'runResult.summary.targetHpLoss') : targetInitialHp - targetFinalHp;
+  const issues: string[] = inspectResourceChangeContract(compileRequest, runRequest, done);
   const check = (condition: boolean, path: string, message: string) => {
     if (!condition) issues.push(`${path}：${message}`);
   };

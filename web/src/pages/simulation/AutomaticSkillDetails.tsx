@@ -76,6 +76,10 @@ export function AutomaticSkillDetails({ archive, index, view, onSelect }: {
         ['生命之前', selected.healing.row.hpBefore], ['生命之后', selected.healing.row.hpAfter]
       ]} /><JsonBlock value={selected.healing.row} />
     </section> : null}
+    {selected.resource ? <section aria-label="自动资源生命详情"><Typography.Title heading={6}>资源生命变化{selected.resource.healthOrder}</Typography.Title>
+      <Typography.Paragraph>这是一批实际可见的上限与当前生命变化，不计入治疗。各贡献保留自身来源及已知使用归属。</Typography.Paragraph>
+      <JsonBlock value={selected.resource} />
+    </section> : null}
     {context ? <section aria-label="自动同次使用上下文">
       <Typography.Title heading={6}>同次使用上下文的已返回结算</Typography.Title>
       <Typography.Paragraph>自动事实{context.automatic.length}条，背景普攻{context.attacks.length}条，伤害{context.damage.length}笔，直接治疗{context.healing.length}笔。

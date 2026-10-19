@@ -2,6 +2,7 @@ import { assertNumericUses } from './numericValue';
 import { isNumericValue } from '../types/numericValue';
 import { isValidCooldownReductionRatio } from '../types/cooldownRatio';
 import { isValidCooldownRemainingDuration } from '../types/cooldownRemaining';
+import { isValidCooldownDurationValueRule } from '../types/cooldownDuration';
 import { isValidLifecycleExtensionDuration } from '../types/lifecycleExtension';
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
@@ -23,6 +24,7 @@ const RESULT_TYPES = new Set<SkillEffectResultType>([
   'ATTRIBUTE_CHANGE',
   'RESOURCE_CHANGE',
   'COOLDOWN_CHANGE',
+  'COOLDOWN_DURATION_MODIFIER',
   'STATUS_OPERATION',
   'LIFECYCLE_OPERATION',
   'DAMAGE_MODIFIER',
@@ -315,6 +317,22 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     }
     return value as SkillEffectResult;
   }
+  if (resultType === 'COOLDOWN_DURATION_MODIFIER') {
+    assertExactDetailKeys(detail, ['affectedSkillScope'], path);
+    assertAffectedSkillScope(detail.affectedSkillScope, `${path}.detail.affectedSkillScope`);
+    const scope = detail.affectedSkillScope as Record<string, unknown>;
+    if (scope.mode !== 'SKILLS' || !Array.isArray(scope.skillKeys) || !scope.skillKeys.length || new Set(scope.skillKeys).size !== scope.skillKeys.length
+      || !Array.isArray(scope.skillCategoryKeys) || scope.skillCategoryKeys.length) protocolError(`${path}.detail.affectedSkillScope`);
+    if (value.target !== 'SOURCE' || value.spellShieldBlockScope !== null || !isRecord(value.lifecycleBehavior)) protocolError(`${path}.lifecycleBehavior`);
+    const behavior = value.lifecycleBehavior;
+    assertExactKeys(behavior, ['moment', 'valueReadMode', 'stackValueMode', 'reapplicationValueMode', 'periodicExecutionMode'], `${path}.lifecycleBehavior`);
+    if (behavior.moment !== 'PERSISTENT' || behavior.valueReadMode !== 'APPLICATION_SNAPSHOT' || behavior.stackValueMode !== 'SHARED'
+      || behavior.reapplicationValueMode !== 'REPLACE' || behavior.periodicExecutionMode !== null) protocolError(`${path}.lifecycleBehavior`);
+    assertValueRule(value.valueRule, `${path}.valueRule`);
+    const rule = value.valueRule as SkillEffectValueRule;
+    if (!isValidCooldownDurationValueRule(rule)) protocolError(`${path}.valueRule`);
+    return value as SkillEffectResult;
+  }
   if (resultType === 'SKILL_HASTE_MODIFIER') {
     if (value.spellShieldBlockScope !== null) protocolError(`${path}.spellShieldBlockScope`);
     if (!isRecord(value.lifecycleBehavior)) protocolError(`${path}.lifecycleBehavior`);
@@ -525,12 +543,25 @@ export function parseSkillEffect(value: unknown): SkillEffect {
   if (
     value.results.some((item) => (
       isRecord(item)
-      && (item.resultType === 'SPELL_SHIELD' || item.resultType === 'SKILL_HASTE_MODIFIER'
+      && (item.resultType === 'SPELL_SHIELD' || item.resultType === 'SKILL_HASTE_MODIFIER' || item.resultType === 'COOLDOWN_DURATION_MODIFIER'
         || item.resultType === 'SHIELD_RECEIVED_MODIFIER')
     ))
     && value.lifecycle === null
   ) {
     protocolError('effect.lifecycle');
+  }
+  if (value.results.some(item => isRecord(item) && item.resultType === 'COOLDOWN_DURATION_MODIFIER')
+  ) {
+    const life = value.lifecycle;
+    if (!isRecord(life) || !isNumericValue(life.durationValue)) protocolError('effect.lifecycle.durationValue');
+    if (value.results.length !== 1 || life.instanceScope !== 'SOURCE' || life.expiryMode !== 'ALL_AT_ONCE'
+      || life.reapplicationStackMode !== 'KEEP' || life.reapplicationDurationMode !== 'REFRESH_ALL'
+      || life.periodicIntervalValue !== null || life.firstPeriodicExecution !== null || life.endWhenShieldEndsResultKey !== null) protocolError('effect.lifecycle');
+    for (const key of ['maxStacksValue', 'applicationStacksValue']) {
+      const count = life[key];
+      if (!isNumericValue(count) || count.kind === 'FIXED' && count.value !== 1) protocolError(`effect.lifecycle.${key}`);
+    }
+    if (life.durationValue.kind === 'FIXED' && (!Number.isSafeInteger(life.durationValue.value) || life.durationValue.value <= 0)) protocolError('effect.lifecycle.durationValue');
   }
   assertString(value.createdAt, 'effect.createdAt');
   assertString(value.updatedAt, 'effect.updatedAt');
