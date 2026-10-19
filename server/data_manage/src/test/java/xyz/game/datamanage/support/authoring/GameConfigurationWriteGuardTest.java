@@ -121,6 +121,32 @@ class GameConfigurationWriteGuardTest {
     }
 
     @Test
+    void changingOnlyAProcessCannotInvalidateAnUnchangedReplacementRoleAtCommit() throws Exception {
+        Connection connection = connection();
+        var effect = SkillAttackDamageRoleSemanticsTest.effect("REPLACE_PRIMARY");
+        var original = SkillAttackDamageRoleSemanticsTest.process();
+        var changed = SkillAttackDamageRoleSemanticsTest.process();
+        ((com.fasterxml.jackson.databind.node.ObjectNode) changed.data().path("steps").get(0)).put("stepType", "DELAY");
+        var effectRow = Map.<String, Object>of("source_type", "EFFECT", "skill_key", effect.skillKey(), "source_key", effect.key(), "data", effect.data().toString());
+        var originalRow = Map.<String, Object>of("source_type", "PROCESS", "skill_key", original.skillKey(), "source_key", original.key(), "data", original.data().toString());
+        var changedRow = Map.<String, Object>of("source_type", "PROCESS", "skill_key", changed.skillKey(), "source_key", changed.key(), "data", changed.data().toString());
+        var before = List.of(effectRow, originalRow);
+        var after = List.of(effectRow, changedRow);
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(before, after);
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(snapshotRows(before), snapshotRows(after));
+        ApiException failure = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            jdbc.update("UPDATE replacement process for test");
+            return null;
+        }));
+        assertEquals("409.SKILL_OBJECT_REFERENCE_INVALID", failure.getCode());
+        assertTrue(failure.getDetails().toString().contains("ATTACK_DAMAGE_ROLE_INVALID"));
+        verify(connection).rollback();
+        verify(connection, never()).commit();
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
+    }
+
+    @Test
     void repeatedBeginRegistersOneCommitCheckAndReplacesOnlyAfterValidation() throws Exception {
         Connection connection = connection();
         TransactionTemplate tx = transaction(connection);

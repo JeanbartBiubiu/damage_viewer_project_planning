@@ -87,6 +87,42 @@ class SimulationAvailabilityResourcesTest {
         return new SimulationAvailabilityResources(json, loader).verification("lol");
     }
 
+    @Test
+    void logicalSlotsMayDeclareGenericCurrentSkillIdentitiesButCannotOverlap() throws Exception {
+        ObjectNode scope = currentScope();
+        ObjectNode slot = (ObjectNode) scope.path("characters").get(0).path("expectedSkills").get(2);
+        slot.putArray("currentSkillKeys").add("choice_blue").add("choice_red").add("choice_gold");
+        assertTrue(readScope(scope).valid());
+        assertEquals(5, scope.path("characters").get(0).path("expectedSkills").size());
+        slot.withArray("currentSkillKeys").add("choice_blue");
+        assertEquals("SCOPE_INVALID", readScope(scope).issueCode());
+        slot.putArray("currentSkillKeys").add(scope.path("characters").get(0).path("expectedSkills").get(0).path("key").textValue());
+        assertEquals("SCOPE_INVALID", readScope(scope).issueCode());
+    }
+
+    @Test
+    void currentSkillIdentityListIsStrictAndDoesNotReplaceFiveSlotValidation() throws Exception {
+        for (String invalid : java.util.List.of("null", "[]", "\"choice\"", "[null]", "[1]", "[\"Bad\"]", "[\"\"]", "[\"valid\",\"valid\"]")) {
+            ObjectNode scope = currentScope();
+            ObjectNode slot = (ObjectNode) scope.path("characters").get(0).path("expectedSkills").get(2);
+            slot.set("currentSkillKeys", json.readTree(invalid));
+            assertEquals("SCOPE_INVALID", readScope(scope).issueCode(), invalid);
+        }
+        ObjectNode scope = currentScope();
+        ((com.fasterxml.jackson.databind.node.ArrayNode) scope.path("characters").get(0).path("expectedSkills")).remove(4);
+        assertEquals("SCOPE_INVALID", readScope(scope).issueCode());
+    }
+
+    private ObjectNode currentScope() {
+        return new SimulationAvailabilityResources(json, new DefaultResourceLoader()).scope("lol").value().deepCopy();
+    }
+
+    private SimulationAvailabilityResources.Document readScope(ObjectNode root) throws Exception {
+        ResourceLoader loader = mock(ResourceLoader.class);
+        when(loader.getResource(anyString())).thenReturn(bytes(json.writeValueAsString(root)));
+        return new SimulationAvailabilityResources(json, loader).scope("lol");
+    }
+
     private ObjectNode proof() {
         ObjectNode root = json.createObjectNode().put("schemaVersion", "simulation-verification-v1").put("gameId", "lol")
             .put("profile", "combat-analysis-v1").put("digestVersion", "simulation-availability-v1")

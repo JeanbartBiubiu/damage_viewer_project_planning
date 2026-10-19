@@ -60,6 +60,12 @@ import xyz.game.datamanage.model.skillformula.SkillFormulaUpdateRequest;
 import xyz.game.datamanage.model.skillformula.SkillFormulaSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCreateRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultRequest;
+import xyz.game.datamanage.model.skilleffect.SkillEffectResultResponse;
+import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
+import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleResponse;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateDetailResponse;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateFlagDetail;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateScope;
@@ -222,6 +228,57 @@ class SkillConfigurationServiceTest {
         order.verify(guard).begin(GAME);
         order.verify(skillService).get(GAME, SKILL);
         verify(skillService, never()).updateWithinConfiguration(any(), any(), any());
+    }
+
+    @Test
+    void guardedAggregatePatchPreservesRoleDuringProjectionWriteReadbackAndDigest() throws Exception {
+        var original = service.get(GAME, SKILL);
+        var effectValue = json.readTree("""
+            {"effectKey":"hit","name":"主伤害","description":null,"sortOrder":0,"lifecycle":null,
+             "results":[{"resultKey":"damage","name":"伤害","resultType":"DAMAGE","target":"TARGET","description":null,"sortOrder":0,
+             "valueRule":{"value":{"kind":"FIXED","value":0},"fixedMultiplier":1,"fixedMinValue":null,"fixedMaxValue":null},
+             "detail":{"damageTypeKey":"magic","deliveryKind":"BASIC_ATTACK","originKind":"DIRECT","attackDamageRole":"REPLACE_PRIMARY",
+             "critical":{"mode":"DISALLOWED","multiplierValue":null},"vampQualification":"RESOLVED","vampOverrides":[]},
+             "lifecycleBehavior":null,"spellShieldBlockScope":null}]}
+            """);
+        var summary = new SkillEffectSummaryResponse(GAME, SKILL, "hit", "主伤害", null, 0, 1, TIME, TIME);
+        doAnswer(invocation -> {
+            SkillEffectCreateRequest request = invocation.getArgument(2);
+            assertEquals("REPLACE_PRIMARY", ((SkillEffectDamageDetail) request.results().getFirst().detail()).attackDamageRole().name());
+            when(effectService.list(GAME, SKILL)).thenReturn(List.of(summary));
+            when(effectService.get(GAME, SKILL, "hit")).thenReturn(roleEffect(request.results().getFirst()));
+            return null;
+        }).when(effectService).createWithinConfiguration(eq(GAME), eq(SKILL), any(), any(), any(), any());
+        var created = service.update(GAME, SKILL, new SkillConfigurationSaveRequest(original.baseDigest(), null,
+            List.of(new SkillConfigurationChange("EFFECT", "CREATE", "hit", effectValue))));
+        assertNotEquals(original.baseDigest(), created.baseDigest());
+        assertEquals("REPLACE_PRIMARY", ((SkillEffectDamageDetail) created.effects().getFirst().results().getFirst().detail()).attackDamageRole().name());
+        assertEquals(created.baseDigest(), service.get(GAME, SKILL).baseDigest());
+
+        ((com.fasterxml.jackson.databind.node.ObjectNode) effectValue.path("results").get(0).path("detail")).put("attackDamageRole", "PRIMARY");
+        ((com.fasterxml.jackson.databind.node.ObjectNode) effectValue).remove("effectKey");
+        doAnswer(invocation -> {
+            SkillEffectUpdateRequest request = invocation.getArgument(3);
+            assertEquals("PRIMARY", ((SkillEffectDamageDetail) request.results().getFirst().detail()).attackDamageRole().name());
+            when(effectService.get(GAME, SKILL, "hit")).thenReturn(roleEffect(request.results().getFirst()));
+            return null;
+        }).when(effectService).updateWithinConfiguration(eq(GAME), eq(SKILL), eq("hit"), any(), any(), any(), any(), any(Boolean.class));
+        var updated = service.update(GAME, SKILL, new SkillConfigurationSaveRequest(created.baseDigest(), null,
+            List.of(new SkillConfigurationChange("EFFECT", "UPDATE", "hit", effectValue))));
+        assertEquals("PRIMARY", ((SkillEffectDamageDetail) updated.effects().getFirst().results().getFirst().detail()).attackDamageRole().name());
+        assertNotEquals(created.baseDigest(), updated.baseDigest());
+        assertEquals(updated.baseDigest(), service.get(GAME, SKILL).baseDigest());
+        var error = assertThrows(ApiException.class, () -> service.update(GAME, SKILL,
+            new SkillConfigurationSaveRequest(created.baseDigest(), null, List.of())));
+        assertEquals("409.SKILL_CONFIGURATION_CHANGED", error.getCode());
+    }
+
+    private SkillEffectDetailResponse roleEffect(SkillEffectResultRequest request) {
+        var rule = request.valueRule();
+        var result = new SkillEffectResultResponse(request.resultKey(), request.name(), request.resultType(), request.target(),
+            request.description(), request.sortOrder(), new SkillEffectValueRuleResponse(rule.value(), rule.fixedMultiplier(),
+            rule.fixedMinValue(), rule.fixedMaxValue()), request.detail(), null, request.spellShieldBlockScope());
+        return new SkillEffectDetailResponse(GAME, SKILL, "hit", "主伤害", null, 0, List.of(result), TIME, TIME);
     }
 
     @Test

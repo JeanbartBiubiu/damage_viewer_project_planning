@@ -585,6 +585,8 @@ public class SkillEffectService {
             issues.add(fieldIssue("lifecycle.instanceScope", "IMMUTABLE", "实例范围不能修改"));
         }
         validateLifecycle(lifecycle, issues);
+        xyz.game.datamanage.support.authoring.SkillAttackDamageRoleSemantics.validateEffectShape(
+            lifecycle, results, issues);
         Set<String> seenKeys = new HashSet<>();
         CollectedRefs refs = new CollectedRefs();
         refs.lifecycle = lifecycle;

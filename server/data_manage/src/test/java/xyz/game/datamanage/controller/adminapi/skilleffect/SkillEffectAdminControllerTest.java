@@ -603,6 +603,41 @@ class SkillEffectAdminControllerTest {
         verify(service, never()).update(any(), any(), any(), any());
     }
 
+    @Test
+    void damageRolesReachTheServiceAndRoundTripInThePublicDetailShape() throws Exception {
+        for (String role : List.of("PRIMARY", "REPLACE_PRIMARY")) {
+            var stored = detail();
+            var first = stored.results().getFirst();
+            var damage = (SkillEffectDamageDetail) first.detail();
+            var marked = new SkillEffectDamageDetail(damage.damageTypeKey(), damage.deliveryKind(), damage.originKind(),
+                damage.critical(), damage.vampQualification(), damage.vampOverrides(),
+                xyz.game.datamanage.model.skilleffect.SkillEffectAttackDamageRole.valueOf(role));
+            var result = new SkillEffectResultResponse(first.resultKey(), first.name(), first.resultType(), first.target(),
+                first.description(), first.sortOrder(), first.valueRule(), marked, first.lifecycleBehavior(), first.spellShieldBlockScope());
+            var response = new SkillEffectDetailResponse(stored.gameId(), stored.skillKey(), stored.effectKey(), stored.name(),
+                stored.description(), stored.sortOrder(), stored.lifecycle(), List.of(result), stored.createdAt(), stored.updatedAt());
+            when(service.create(eq("lol"), eq("ezreal_q"), any())).thenReturn(response);
+            mockMvc.perform(post(BASE_PATH).contentType(MediaType.APPLICATION_JSON).content(createJson()
+                    .replace("\"damageTypeKey\":\"physical\"", "\"attackDamageRole\":\"" + role + "\",\"damageTypeKey\":\"physical\"")))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.results[0].detail.attackDamageRole").value(role));
+        }
+        var requests = ArgumentCaptor.forClass(SkillEffectCreateRequest.class);
+        verify(service, Mockito.times(2)).create(eq("lol"), eq("ezreal_q"), requests.capture());
+        assertEquals(List.of("PRIMARY", "REPLACE_PRIMARY"), requests.getAllValues().stream()
+            .map(value -> ((SkillEffectDamageDetail) value.results().getFirst().detail()).attackDamageRole().name()).toList());
+    }
+
+    @Test
+    void damageRoleRejectsExplicitNullNumbersAndUnknownStringsBeforeCallingService() throws Exception {
+        for (String value : List.of("null", "0", "1", "1.0", "true", "{}", "[]", "\"primary\"", "\"UNKNOWN\"")) {
+            mockMvc.perform(post(BASE_PATH).contentType(MediaType.APPLICATION_JSON).content(createJson()
+                    .replace("\"damageTypeKey\":\"physical\"", "\"attackDamageRole\":" + value + ",\"damageTypeKey\":\"physical\"")))
+                .andExpect(status().isBadRequest());
+        }
+        verify(service, never()).create(any(), any(), any());
+    }
+
     private static String createJson() {
         return """
             {

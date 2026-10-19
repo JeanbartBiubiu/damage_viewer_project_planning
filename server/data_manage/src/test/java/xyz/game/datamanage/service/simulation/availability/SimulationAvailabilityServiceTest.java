@@ -236,7 +236,7 @@ class SimulationAvailabilityServiceTest {
             assertEquals(expected, actual.excludedSkillSources());
             assertTrue(json.valueToTree(actual).path("excludedSkillSources").isArray());
         }
-        assertEquals(7, excludedCount);
+        assertEquals(8, excludedCount);
         Entry garen = result.characters().stream().filter(item -> item.key().equals("champion_garen")).findFirst().orElseThrow();
         assertEquals(List.of("garen_p"), garen.excludedSkillSources().stream().map(ExcludedSkillSource::skillKey).toList());
         assertTrue(result.equipment().stream().allMatch(item -> item.excludedSkillSources().isEmpty()));
@@ -295,6 +295,52 @@ class SimulationAvailabilityServiceTest {
     }
 
     private SimulationAvailabilityResponse get() { return service.get("arena", WASM, ADAPTER); }
+
+    @Test
+    void splitLogicalSlotRequiresEveryCurrentBindingButNeverItsArchivedKey() throws Exception {
+        splitCurrentSlot();
+        Entry before = hero(get());
+        assertEquals(Status.UNVERIFIED, before.status());
+        assertTrue(before.issues().stream().noneMatch(issue -> issue.code().equals("EXPECTED_SKILL_BINDING_MISSING")));
+        List<String> coverage = new ArrayList<>();
+        before.verification().requiredCoverage().path("skills").forEach(value -> coverage.add(value.path("skillKey").asText()));
+        assertTrue(coverage.containsAll(List.of("choice_blue", "choice_red", "choice_gold")));
+        assertFalse(coverage.contains("hero_w"));
+        installProof();
+        assertEquals(Status.READY, hero(get()).status());
+        rows.removeIf(row -> row.kind().equals("CHARACTER_BINDING") && row.objectKey().equals("choice_red"));
+        Entry missing = hero(get());
+        assertEquals(Status.CONFIGURATION_INCOMPLETE, missing.status());
+        assertTrue(missing.issues().stream().anyMatch(issue -> issue.code().equals("EXPECTED_SKILL_BINDING_MISSING") && "choice_red".equals(issue.skillKey())));
+        assertTrue(missing.issues().stream().noneMatch(issue -> "hero_w".equals(issue.skillKey())));
+    }
+
+    @Test
+    void splitExclusionExpandsOnlyToBoundCurrentSourcesAndOmitsThemFromCoverage() throws Exception {
+        ObjectNode slot = splitCurrentSlot();
+        slot.put("excluded", true).putObject("exclusion").put("reason", "本次范围明确排除的拆分技能");
+        rows.removeIf(row -> row.kind().equals("CHARACTER_BINDING") && row.objectKey().equals("choice_red"));
+        rows.removeIf(row -> row.kind().equals("TRIGGER") && row.ownerKey().startsWith("choice_"));
+        Entry entry = hero(get());
+        assertEquals(Status.UNVERIFIED, entry.status());
+        assertEquals(List.of("choice_blue", "choice_gold"), entry.excludedSkillSources().stream().map(ExcludedSkillSource::skillKey).toList());
+        assertTrue(entry.excludedSkillSources().stream().allMatch(value -> value.reason().equals("本次范围明确排除的拆分技能")));
+        assertFalse(entry.verification().requiredCoverage().path("skills").toString().contains("choice_"));
+        assertTrue(entry.issues().stream().noneMatch(issue -> issue.code().equals("EXPECTED_SKILL_BINDING_MISSING") || issue.code().equals("SKILL_PROGRAM_MISSING")));
+        installProof();
+        assertEquals(Status.READY, hero(get()).status());
+    }
+
+    private ObjectNode splitCurrentSlot() throws Exception {
+        ObjectNode slot = (ObjectNode) scope.path("characters").get(0).path("expectedSkills").get(2);
+        slot.putArray("currentSkillKeys").add("choice_blue").add("choice_red").add("choice_gold");
+        rows.removeIf(row -> row.kind().equals("CHARACTER_BINDING") && row.objectKey().equals("hero_w"));
+        for (String key : List.of("choice_blue", "choice_red", "choice_gold")) {
+            skill(key, "拆分后的普通技能", 2);
+            add("CHARACTER_BINDING", "hero", key, Map.of("character_key", "hero", "skill_key", key));
+        }
+        return slot;
+    }
     private Entry hero(SimulationAvailabilityResponse response) { return response.characters().stream().filter(entry -> entry.key().equals("hero")).findFirst().orElseThrow(); }
     private Entry item(SimulationAvailabilityResponse response) { return response.equipment().getFirst(); }
 

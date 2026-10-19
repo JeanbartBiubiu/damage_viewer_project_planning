@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -94,10 +96,16 @@ public class SimulationAvailabilityResources {
                 || !character.path("expectedSkills").isArray() || character.path("expectedSkills").size() != 5) return false;
             Set<String> slots = new HashSet<>();
             Set<String> skills = new HashSet<>();
+            Set<String> currentSkills = new HashSet<>();
             for (JsonNode skill : character.path("expectedSkills")) {
                 String slot = skill.path("slot").asText();
                 if (!Set.of("P", "Q", "W", "E", "R").contains(slot) || !slots.add(slot) || !key(skill.path("key"))
                     || !skills.add(skill.path("key").asText()) || !skill.path("excluded").isBoolean()) return false;
+                if (skill.has("currentSkillKeys")) {
+                    JsonNode current = skill.get("currentSkillKeys");
+                    if (!current.isArray() || current.isEmpty()) return false;
+                    for (JsonNode value : current) if (!key(value) || !currentSkills.add(value.textValue())) return false;
+                } else if (!currentSkills.add(skill.path("key").asText())) return false;
                 if (skill.path("excluded").booleanValue() && (!text(skill.path("exclusion").path("reason"))
                     || !strings(skill.path("exclusion").path("evidenceRefs"), true))) return false;
             }
@@ -110,6 +118,14 @@ public class SimulationAvailabilityResources {
                 || !strings(item.path("attributesOnlyEvidence").path("evidenceRefs"), true))) return false;
         }
         return true;
+    }
+
+    /** 逻辑槽保留归档标识；声明拆分后只核对当前真实挂载身份。 */
+    static List<String> currentSkillKeys(JsonNode expected) {
+        if (!expected.has("currentSkillKeys")) return List.of(expected.path("key").asText());
+        List<String> result = new ArrayList<>();
+        expected.path("currentSkillKeys").forEach(value -> result.add(value.textValue()));
+        return List.copyOf(result);
     }
 
     private static Document invalid(String code) { return new Document(null, code); }
