@@ -65,6 +65,9 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 		return
 	}
 	data := genericDamageEvidenceItem(ev, s.nowMs).Data
+	if ev.healthOrder != 0 {
+		data["healthOrder"] = ev.healthOrder
+	}
 	data["owner"] = ev.owner
 	if ev.providerDefinitionRef != "" {
 		data["providerDefinitionRef"] = ev.providerDefinitionRef

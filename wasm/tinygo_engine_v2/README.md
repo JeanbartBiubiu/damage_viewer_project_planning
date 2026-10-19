@@ -31,7 +31,7 @@ TinyGo编译的浏览器内计算引擎。正式业务入口为 `engine_compile`
 
 原生定向入口：`go test -count=1 ./internal/runtime -run 'ActiveAmmo|AmmoAttack|AmmoCompilation|AmmoRecovery|AmmoCapture|AutomaticSkill'`。这些检查只证明通用原生机制；正式 Wasm、浏览器宿主和真实作者来源的验证由集成时另行完成，不能据此开放英雄目录。
 
-`ATTRIBUTE_CHANGE/PERSISTENT/TARGET`（目标有期属性变化）可以映射为一次严格纯属性实例施加：有限正期限、单层、覆盖刷新、明确来源与目标范围、无能力、监听、状态、过程、周期、护盾和状态贡献，仅自身非生命属性的有限静态平加。全部定义编译后再次检查真实完整定义，防止后置能力或监听绕过；执行候选前核对实际命中目标的全部对应属性槽，缺失报错且该候选不挂实例，明确的0值合法。实例、到期、属性失效及伤害继续使用原运行路径；即时属性及来源方持久属性范围不扩大。局部回归：`go test -count=1 ./internal/compile ./internal/runtime -run 'Test(CompileSkillHitFinite|SkillHitFiniteTarget|RootSkillHitCandidate|SkillHitOldContext)'`；正式产物与旧请求对照见 `target/corki-semantics-2026-10-18/slot-fix/`，真实作者和浏览器验证另行记录。
+`ATTRIBUTE_CHANGE/PERSISTENT/TARGET`（目标有期属性变化）可以映射为一次严格纯属性实例施加：有限正期限、单层、覆盖刷新、明确来源与目标范围、无能力、监听、状态、过程、周期、护盾和状态贡献，仅自身非生命属性的有限静态平加或[0,1]整体乘数。全部定义编译后再次检查真实完整定义，防止后置能力或监听绕过；执行候选前核对实际命中目标的全部对应属性槽，缺失报错且该候选不挂实例，明确的0值合法。实例、到期、属性失效及伤害继续使用原运行路径；即时属性及来源方持久属性范围不扩大。局部回归：`go test -count=1 ./internal/compile ./internal/runtime -run 'Test(CompileSkillHitFinite|SkillHitFiniteTarget|RootSkillHitCandidate|SkillHitOldContext)'`；正式产物与旧请求对照见 `target/corki-semantics-2026-10-18/slot-fix/`，真实作者和浏览器验证另行记录。
 
 ## 普攻主体替换
 
@@ -42,6 +42,18 @@ TinyGo编译的浏览器内计算引擎。正式业务入口为 `engine_compile`
 定向验证为 `go test -count=1 ./internal/runtime -run TestPrimaryReplacement`，覆盖顺序、旧附加、盾与错误回滚、精确期限、来源变化、同刻冲突、两种挂载身份、记录模式、致死、会话重复及普通入口绕过。该测试是通用原生机制证据，真实三牌作者与浏览器工作线程另外验收。过程快照恢复仍明确拒绝强化待击，超时仍按现行 `EVENT_ABORTED` 失败，不改变公开恢复及冷却时点语义。
 
 ## 剖析与分配复现入口
+
+强化待击的共同参数可声明 `runtimeSource.kind=process_start_state` 和 `stateKey`。宿主先核对作者的技能范围整数计数和真实 START 唯一 SET；Native 按现行降阶后的自身 INTEGER、非弹药/冷却、同过程无条件唯一 SET 及实际待击负载核对。协议未编码作者的 COUNTER 枚举，不声称 Native 能另行区分它。START 成功后从暂存状态捕获每次使用的只读 float64 切片；后续写同名状态不会改旧快照，累计值不转32位整数，命中读取其它属性仍按实际帧。
+
+有限目标属性支持静态 `multiply + stage=total`，范围[0,1]；整体比例在固定/百分比和派生输入之后、剩余比例规则之前结算，不靠乘区名称排序。新有期整体修正的到期状态参与缓存命中检查，精确到期后不复用旧值。
+
+`resource_max` 仅授权有限、单层、覆盖、自身 hp 的静态非负加算，策略必须为 `grant_positive_delta_clamp`。锚点为场景已含等级与静态装备的 hp.max；连续供值器变更段按最终净差结算，首次数值读取、伤害、治疗或提交前使结果可见。上限增加仅给存活且正生命对象相同净增量，上限下降只夹取；同值刷新不回血。一个供值器刷新没有可见移除中态，多个可见段仍在同帧预检/回滚内。提交直接发布已经校验的纯供值器最终列表和属性，逐项保留真实生命周期证据和到期队列，不再重放移除中态的数值重算。同帧混有尚未接入暂存投影的非纯供值器生命周期操作时，在提交前明确拒绝并回滚；该首版边界不改变旧无授权路径，也不禁止分开的独立事务。新初态拒绝已有本类实例，不增加战斗存档恢复协议。
+
+只有编译会话包含 `resource_max` 时，结果返回 `resourceChangeRecords`、`resourceChangeSummary` 和对应 recording 四字段，伤害/直接治疗记录共用 `healthOrder`；无授权旧场景全部省略。资源变化独立于治疗/吸血，累计不受明细预算影响。预算 `maxResourceChangeRecords` 缺省1000、范围0—10000；仅汇总返回空数组和 returned=0，预算内虚拟保留不算 dropped，truncated 只表示预算溢出，沿既有记录口径。完整明细可按 healthOrder 合并核对当前值与上限两条守恒；失败帧不发布事实，顺序允许空号。
+
+`cooldown_duration` 只接有限自身正倍率和明确 `affectedAbilityRefs`（空数组是无匹配），引用编译为实际 INITIAL 拥有者、挂载及能力编号。倍率只在新的过程冷却提交时乘原公式结果，再统一取整；旧 readyAt 不追溯修改，有效期严格为施加时刻至到期时刻之前。
+
+本轮定向检查：`go test -count=1 ./internal/model ./internal/formula ./internal/compile ./internal/pipeline ./internal/runtime -run 'ProcessStartState|ResourceMax|CooldownDuration|DynamicModifier|TotalAttribute|AttributeTotal'`。原生通用能力通过不等于真实英雄开放；正式 Wasm、工作线程、真实作者和目录证明由集成验收另行给出。单次1ms专项继续暂停，不改变256MiB内存、出口回收或计算精度。
 
 在本模块目录运行；将`input-1.json`换成`input-0.json`即为无装备场景。正式采样报告的往返包含宿主和GC，不能当纯计算。
 

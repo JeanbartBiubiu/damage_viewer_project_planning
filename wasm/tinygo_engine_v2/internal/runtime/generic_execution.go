@@ -19,6 +19,8 @@ import (
 )
 
 type stagedProviderMutation struct {
+	projected       bool
+	useRef          string
 	definitionIndex uint16 // shield_apply is already bound by the compiler
 	evidenceKind    model.EvidenceKind
 	kind            string
@@ -42,6 +44,10 @@ type pendingShieldExpire struct {
 }
 
 type stagedCombatant struct {
+	projectedProviders        bool
+	baseProviders             []status.ProviderInstance
+	resourceContributions     []resourceMaxContribution
+	resourceBatchContributors []model.ResourceChangeContributor
 	// 属性视图可供入口、事件和live读取；真正写入前才取得独占副本。
 	resourcesShared     bool
 	cooldownsShared     bool
@@ -92,6 +98,11 @@ type eventFormulaSnapshot struct {
 }
 
 type executionFrame struct {
+	projectedLifecycles            []projectedProviderLifecycle
+	flushingDynamicProviders       bool
+	dynamicProviderDirty           bool
+	dynamicExpiryChecked           bool
+	pendingResourceChanges         []model.ResourceChangeRecord
 	empowered                      *empoweredFrame
 	empoweredAttack                *model.ProcessEmpoweredAttack
 	pendingAutomaticWake           bool
@@ -400,17 +411,18 @@ func (f *executionFrame) stageFor(key string) *stagedCombatant {
 	base.providerStateShared = true
 	f.run.combatants[key] = base
 	sc := &stagedCombatant{
-		attributes:          base.attributes,
-		resources:           base.resources,
-		resourcesShared:     true,
-		cooldowns:           base.cooldowns,
-		cooldownsShared:     true,
-		shields:             pipeline.ShieldsFromRuntime(base.shields, f.run.nowMs),
-		providers:           base.providers,
-		resolver:            base.resolver.Clone(),
-		damageResolver:      base.damageResolver.Clone(),
-		providerState:       stateView,
-		providerStateShared: true,
+		resourceContributions: base.resourceContributions,
+		attributes:            base.attributes,
+		resources:             base.resources,
+		resourcesShared:       true,
+		cooldowns:             base.cooldowns,
+		cooldownsShared:       true,
+		shields:               pipeline.ShieldsFromRuntime(base.shields, f.run.nowMs),
+		providers:             base.providers,
+		resolver:              base.resolver.Clone(),
+		damageResolver:        base.damageResolver.Clone(),
+		providerState:         stateView,
+		providerStateShared:   true,
 	}
 	f.staged.Set(key, sc)
 	return sc
@@ -445,6 +457,9 @@ func (s *stagedCombatant) readonlyCooldowns() *genericCooldownLedger {
 }
 
 func (f *executionFrame) evalContext(ability planbundle.CompiledAbility) formula.GenericEvalContext {
+	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration {
+		f.flushDynamicProviders()
+	}
 	source, target := f.stageFor(f.sourceKey), f.stageFor(f.targetKey)
 	ctx := formula.GenericEvalContext{
 		RuntimeSkillKey:       ability.SkillKey,
@@ -462,6 +477,9 @@ func (f *executionFrame) evalContext(ability planbundle.CompiledAbility) formula
 	}
 	if ctx.RuntimeSkillKey == "" {
 		ctx.RuntimeSkillKey = f.processUseSkillKey
+	}
+	if p := f.pendingProcess; p != nil && p.hasEmpoweredAbility && f.processMomentKind == "STEP_EXECUTION" && f.processUseKey == p.UseKey && f.ownerProviderRef == p.ProviderRef && f.providerOwnerKey() == p.Owner && ctx.RuntimeSkillKey == p.SkillKey {
+		ctx.ProcessStartStateValues = p.startStateValues
 	}
 	if ctx.RuntimeSkillKey == "" && f.ownerProviderRef != "" {
 		if owner, ok := f.run.combatants[f.providerOwnerKey()]; ok {
@@ -599,7 +617,7 @@ func (f *executionFrame) providerFormulaContextForTarget(combatantKey, targetKey
 		bag := f.providerStateBagForRead(bagOwner, providerRef, strict,
 			providerStateReadOptions{expireTarget: true, defaults: true, targetView: activeTarget != "", targetKey: activeTarget})
 		ctx := providerFormulaContextFromBag(bag, activeTarget)
-		if f.run.compiled.HasProviderElapsedReads {
+		if f.run.compiled.HasProviderElapsedReads || f.run.compiled.HasFiniteModifierExpiry {
 			ctx = withProviderElapsed(ctx, f.stageFor(bagOwner).providers, providerRef, f.run.nowMs, f.run.compiled.Providers)
 		}
 		return ctx
@@ -725,6 +743,12 @@ func (f *executionFrame) bumpCommandBudget() *model.EngineError {
 func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op *planbundle.CompiledOperation) *model.EngineError {
 	if err := f.bumpCommandBudget(); err != nil {
 		return err
+	}
+	if (f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration) && op.Operation != "apply_provider" && op.Operation != "refresh_provider" && op.Operation != "expire_provider" {
+		f.flushDynamicProviders()
+		if f.fatal {
+			return f.fatalErr
+		}
 	}
 
 	if f.skipBlockedWrites && isSkillHitBlockedWrite(op.Operation) {
@@ -945,6 +969,7 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 		sc := f.stageFor(targetKey)
 		sc.providerOps = append(sc.providerOps, stagedProviderMutation{
 			kind:          "apply",
+			useRef:        f.skillActionUseRef(),
 			definitionRef: op.ProviderDefinitionRef,
 			targetKey:     targetKey,
 			sourceKey:     f.sourceKey,
@@ -952,6 +977,7 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 			hasExpireAt:   prepared.hasExpireAt,
 			contributions: cloneStatusContributions(prepared.contributions),
 		})
+		f.dynamicProviderDirty = true
 		sc.dirty = true
 		return nil
 	case "refresh_provider":
@@ -965,6 +991,7 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 		sc := f.stageFor(targetKey)
 		sc.providerOps = append(sc.providerOps, stagedProviderMutation{
 			kind:          "refresh",
+			useRef:        f.skillActionUseRef(),
 			providerRef:   op.ProviderRef,
 			targetKey:     targetKey,
 			sourceKey:     f.sourceKey,
@@ -972,6 +999,7 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 			hasExpireAt:   prepared.hasExpireAt,
 			contributions: cloneStatusContributions(prepared.contributions),
 		})
+		f.dynamicProviderDirty = true
 		sc.dirty = true
 		return nil
 	case "expire_provider":
@@ -988,6 +1016,7 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 			targetKey:   targetKey,
 			sourceKey:   f.sourceKey,
 		})
+		f.dynamicProviderDirty = true
 		sc.dirty = true
 		return nil
 	case "emit_event":
@@ -1658,6 +1687,7 @@ func (f *executionFrame) applyDamageResult(cmd command.Command, result command.R
 
 // genericDamageEvidence 是 damage evidence Data 的构造输入（不新增顶层 DTO）。
 type genericDamageEvidence struct {
+	healthOrder           uint64
 	empoweredAttack       *model.ProcessEmpoweredAttack
 	activationUseRef      string
 	providerDefinitionRef string
@@ -2035,6 +2065,12 @@ func (f *executionFrame) commit() {
 	if f.fatal || f.committed {
 		return
 	}
+	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration {
+		f.flushDynamicProviders()
+		if f.fatal {
+			return
+		}
+	}
 	if f.run.compiled.HasShieldLifecycle {
 		f.prepareShieldLifecycleRemovals()
 	}
@@ -2057,6 +2093,7 @@ func (f *executionFrame) commit() {
 		staged.cooldownsShared = true
 		c.shields = pipeline.RuntimeShieldsFromView(staged.shields, key, f.sourceKey)
 		c.providers = staged.providers
+		c.resourceContributions = staged.resourceContributions
 		c.providersShared = true
 		c.resolver = staged.resolver.Clone()
 		c.damageResolver = staged.damageResolver.Clone()
@@ -2069,11 +2106,14 @@ func (f *executionFrame) commit() {
 	for _, key := range keys {
 		staged := f.staged.Get(key)
 		for _, mut := range staged.providerOps {
+			if mut.projected {
+				continue
+			}
 			switch mut.kind {
 			case "shield_apply":
 				f.run.mountFreshProviderInstance(mut.targetKey, mut.sourceKey, mut.definitionIndex, mut.providerRef, mut.expireAt, mut.contributions)
 			case "apply":
-				if err := f.run.applyProviderInstance(mut.targetKey, mut.sourceKey, mut.definitionRef, mut.expireAt, mut.hasExpireAt, mut.contributions); err != nil {
+				if err := f.run.applyProviderInstanceWithRef(mut.targetKey, mut.sourceKey, mut.definitionRef, mut.providerRef, mut.expireAt, mut.hasExpireAt, mut.contributions); err != nil {
 					f.fatal = true
 					f.fatalErr = err
 					return
@@ -2099,6 +2139,14 @@ func (f *executionFrame) commit() {
 				}
 				f.run.removeProviderInstance(mut.targetKey, mut.providerRef, evalCtx, kind)
 			}
+		}
+	}
+	f.commitProjectedProviderLifecycles()
+	if f.run.compiled.HasResourceMax {
+		for _, key := range keys {
+			c := f.run.combatants[key]
+			c.attributes = syncHPResolved(c.attributes)
+			f.run.combatants[key] = c
 		}
 	}
 	if f.fatal {

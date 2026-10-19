@@ -43,7 +43,11 @@ func (f *executionFrame) prepareProviderMutation(definitionRef, providerRef, sou
 		if !ok {
 			return nil, engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown combatant: "+targetKey, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
-		inst, _, found := status.FindByRef(c.providers, providerRef)
+		providers := c.providers
+		if sc := f.staged.Get(targetKey); sc != nil {
+			providers = sc.providers
+		}
+		inst, _, found := status.FindByRef(providers, providerRef)
 		if !found {
 			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown providerRef: "+providerRef, "providerRef", providerRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
@@ -54,6 +58,16 @@ func (f *executionFrame) prepareProviderMutation(definitionRef, providerRef, sou
 		if sourceKey == "" {
 			sourceKey = inst.Source
 		}
+	}
+	if provider.AtomicDynamic && (f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration) {
+		if (provider.HasResourceMax || provider.HasCooldownDuration) && sourceKey != targetKey {
+			return nil, f.providerLifecycleError(model.GenericErrRuntimeInvariantFailed, "target", "dynamic modifier requires actual self application", provider.ProviderKey)
+		}
+		expires, valid := processTimeAfter(f.run.nowMs, float64(provider.StaticDurationMs), false)
+		if !valid || expires > maxJSONSafeInteger {
+			return nil, f.providerLifecycleError(model.GenericErrRuntimeInvariantFailed, "lifecycle.durationMs", "dynamic modifier expiry overflows", provider.ProviderKey)
+		}
+		return &preparedProviderLifecycle{expireAt: expires, hasExpireAt: true}, nil
 	}
 	evalCtx := f.evalContextForProviderApply(ability, sourceKey, targetKey)
 	evalCtx.StrictReads = true

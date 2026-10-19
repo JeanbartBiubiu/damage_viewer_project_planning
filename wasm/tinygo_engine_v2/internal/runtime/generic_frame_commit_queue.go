@@ -118,6 +118,15 @@ func (f *executionFrame) commitKeysAndPreflight(keyBuffer []string) ([]string, *
 		return nil, waitError
 	}
 	keys := sortedFrameCombatantKeys(f.staged, keyBuffer)
+	if len(f.projectedLifecycles) > 0 {
+		for _, key := range keys {
+			for _, mut := range f.staged.Get(key).providerOps {
+				if !mut.projected {
+					return nil, f.run.processErr("providers", "atomic dynamic provider batch cannot mix unsupported non-pure provider lifecycle operations", mut.providerRef)
+				}
+			}
+		}
+	}
 	count := len(f.pendingStateExpiry) + len(f.pendingAnchoredTicks) + waitEvents
 	cooldownEvents, cooldownError := f.prepareCooldownWakeups()
 	if cooldownError != nil {
@@ -155,7 +164,11 @@ func (f *executionFrame) commitKeysAndPreflight(keyBuffer []string) ([]string, *
 		if len(staged.providerOps) == 0 {
 			continue
 		}
-		providers := append([]status.ProviderInstance(nil), staged.providers...)
+		base := staged.providers
+		if staged.projectedProviders {
+			base = staged.baseProviders
+		}
+		providers := append([]status.ProviderInstance(nil), base...)
 		for _, mutation := range staged.providerOps {
 			added, next, err := f.preflightProviderMutation(providers, mutation)
 			if err != nil {

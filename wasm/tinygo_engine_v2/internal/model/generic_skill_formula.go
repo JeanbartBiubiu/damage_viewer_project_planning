@@ -17,6 +17,7 @@ type FormulaParameter struct {
 type FormulaRuntimeSource struct {
 	Kind        string   `json:"kind"`
 	ResourceKey string   `json:"resourceKey,omitempty"`
+	StateKey    string   `json:"stateKey,omitempty"`
 	Value       *float64 `json:"value,omitempty"`
 }
 
@@ -72,7 +73,7 @@ func (v *FormulaParameter) UnmarshalJSON(data []byte) error {
 }
 
 func (v *FormulaRuntimeSource) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "FormulaRuntimeSource", "kind resourceKey value", "kind"); err != nil {
+	if err := processJSONShape(data, "FormulaRuntimeSource", "kind resourceKey stateKey value", "kind"); err != nil {
 		return err
 	}
 	type plain FormulaRuntimeSource
@@ -86,6 +87,14 @@ func (v *FormulaRuntimeSource) UnmarshalJSON(data []byte) error {
 	}
 	_, hasResource := shape["resourceKey"]
 	_, hasValue := shape["value"]
+	_, hasState := shape["stateKey"]
+	if decoded.Kind == "process_start_state" {
+		if !hasState || decoded.StateKey == "" || hasResource || hasValue {
+			return errors.New("process_start_state requires stateKey and forbids resourceKey/value")
+		}
+	} else if hasState {
+		return errors.New(decoded.Kind + " forbids stateKey")
+	}
 	if decoded.Kind == "scene_parameter" {
 		if hasResource || !hasValue || decoded.Value == nil {
 			return errors.New("scene_parameter requires value and forbids resourceKey")

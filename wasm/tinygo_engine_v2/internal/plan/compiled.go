@@ -23,6 +23,9 @@ type CompiledSession struct {
 	HasShieldLifecycle      bool
 	HasLinkedShieldReads    bool
 	HasProviderElapsedReads bool
+	HasFiniteModifierExpiry bool
+	HasResourceMax          bool
+	HasCooldownDuration     bool
 	StatusKeys              []string
 	SchemaVersion           string
 	SchemaHash              string
@@ -73,6 +76,11 @@ type CompiledProviderMount struct {
 // CompiledModifier 是 compile 后的 provider / rule modifier。
 // CompiledModifier 是 compile 后的 provider / rule modifier。
 type CompiledModifier struct {
+	CurrentValuePolicy       string
+	AffectedAbilityRefs      []string
+	HasAffectedAbilityRefs   bool
+	StaticValue              float64
+	CooldownTargets          []CompiledCooldownDurationTarget
 	ModifierKey              string
 	Kind                     string
 	Target                   string
@@ -90,6 +98,13 @@ type CompiledModifier struct {
 	HasValue                 bool
 	HasCondition             bool
 	ConditionProg            formula.GenericProgramID
+}
+
+type CompiledCooldownDurationTarget struct {
+	CombatantKey  string
+	ProviderRef   string
+	ProviderIndex uint16
+	AbilityIndex  uint16
 }
 
 // CompiledListener 是 compile 后的 listener（provider / rules / inline listenerSpec）。
@@ -157,6 +172,11 @@ type CompiledProvider struct {
 	// ShieldDefinitionRef is set only for a provider owned by an actual numeric shield.
 	ShieldDefinitionRef string
 	NeedsElapsedTime    bool
+	NeedsModifierExpiry bool
+	HasResourceMax      bool
+	HasCooldownDuration bool
+	StaticDurationMs    int64
+	AtomicDynamic       bool
 	SkillKey            string
 	AmmoBinding         *CompiledAmmoBinding
 	Processes           []CompiledProcess
@@ -348,6 +368,7 @@ type CompiledAmmoBinding struct {
 
 // CompiledProcess 保存有序步骤和作者顺序的时点操作，不持有运行实例。
 type CompiledProcess struct {
+	StartStateKeys      []string
 	ProcessKey          string
 	SkillKey            string
 	Steps               []CompiledProcessStep

@@ -87,6 +87,8 @@ type attributeMemoProvider struct{ owner, ref string }
 type attributeMemoProviderValues struct {
 	state, target, defaults map[string]float64
 	present                 bool
+	expired                 bool
+	probedExpired           bool
 }
 
 func (m *attributeMemo) sameKeys(attrs attribute.Table) bool {
@@ -221,7 +223,10 @@ func (m *attributeMemo) probe(attrs attribute.Table, ctx *formula.GenericEvalCon
 	if providerContext != nil {
 		for index, provider := range m.providers {
 			pctx := providerContext(provider.owner, provider.ref)
-			m.providerValues[index] = attributeMemoProviderValues{pctx.ProviderState, pctx.ProviderTargetState, pctx.ProviderStateDefaults, pctx.HasProviderContext}
+			if pctx.SkipExpiredAttributeModifier != m.providerValues[index].expired {
+				matched = false
+			}
+			m.providerValues[index] = attributeMemoProviderValues{state: pctx.ProviderState, target: pctx.ProviderTargetState, defaults: pctx.ProviderStateDefaults, present: pctx.HasProviderContext, expired: m.providerValues[index].expired, probedExpired: pctx.SkipExpiredAttributeModifier}
 		}
 	}
 	if matched {
@@ -401,6 +406,9 @@ func (m *attributeMemo) remember(input, result attribute.Table, strict bool) {
 	})
 	m.input, m.output = input, result
 	copy(m.stamps, m.scratch)
+	for i := range m.providerValues {
+		m.providerValues[i].expired = m.providerValues[i].probedExpired
+	}
 	m.strict, m.valid = strict, true
 }
 

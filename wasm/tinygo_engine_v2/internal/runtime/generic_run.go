@@ -25,17 +25,19 @@ const (
 )
 
 type combatantRuntime struct {
-	providersShared     bool
-	key                 string
-	attributes          attribute.Table
-	resources           map[string]model.ResourceSlotDef
-	cooldowns           *genericCooldownLedger
-	providers           []status.ProviderInstance
-	shields             []shieldpkg.Instance
-	resolver            pipeline.AttributeResolver
-	damageResolver      pipeline.DamageModifierResolver
-	providerState       map[string]*providerStateBag
-	providerStateShared bool
+	hpMaxAnchor           float64
+	resourceContributions []resourceMaxContribution
+	providersShared       bool
+	key                   string
+	attributes            attribute.Table
+	resources             map[string]model.ResourceSlotDef
+	cooldowns             *genericCooldownLedger
+	providers             []status.ProviderInstance
+	shields               []shieldpkg.Instance
+	resolver              pipeline.AttributeResolver
+	damageResolver        pipeline.DamageModifierResolver
+	providerState         map[string]*providerStateBag
+	providerStateShared   bool
 }
 
 // 实例列表可供帧读取；State与StatusContributions在列表内始终只读。
@@ -64,6 +66,10 @@ type damageRecord struct {
 }
 
 type genericRunState struct {
+	nextHealthOrder            uint64
+	resourceChangeRecords      []model.ResourceChangeRecord
+	resourceChangeSummary      *model.ResourceChangeSummary
+	maxResourceChangeRecords   int
 	abilityTypeKeyCache        map[typeset.TypeSet][]string
 	attributeMemos             [2][3]*attributeMemo
 	providerDefinitionFields   []*providerStateFieldMetadata
@@ -317,6 +323,9 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 		perCastThrottleCapacity:    perCastThrottleCapacity(budget.MaxEvents),
 		continuations:              make(map[uint64]*triggeredContinuationPayload),
 	}
+	if err := state.initResourceMaxState(); err != nil {
+		return nil, err
+	}
 
 	state.heap.SetLimit(compiled.Settings.MaxQueueEvents)
 	state.maxAttackRecords, state.maxDamageRecords = 1000, 2000
@@ -370,6 +379,15 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 	if err := state.seedSourceInitialization(); err != nil {
 		return nil, err
 	}
+	// Fresh-scene admission above still compares the authored equipped maximum
+	// with Resolved. Only after all admission checks may runtime HP reads switch
+	// to Current; half-health scenes must pass the same untouched input checks.
+	if compiled.HasResourceMax {
+		for key, c := range state.combatants {
+			c.attributes = syncHPResolved(c.attributes)
+			state.combatants[key] = c
+		}
+	}
 	state.seedDriverAttempts()
 	state.seedSkillAction()
 	state.queueAutomaticSkills(state.startMs)
@@ -417,7 +435,7 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 				continue
 			}
 			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
-				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadAuthoredAbilityParameter || in.ReadKind == formula.ReadUseChargeDuration {
+				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadAuthoredAbilityParameter || in.ReadKind == formula.ReadUseChargeDuration || in.ReadKind == formula.ReadProcessStartState {
 					addError(model.GenericErrFormulaTypeError, path, "runtime parameters unavailable in driver condition", in.ReadKey)
 				}
 				if in.ReadKind == formula.ReadProcessActualCost {
@@ -456,7 +474,7 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 				continue
 			}
 			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
-				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadAuthoredAbilityParameter || in.ReadKind == formula.ReadUseChargeDuration {
+				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadAuthoredAbilityParameter || in.ReadKind == formula.ReadUseChargeDuration || in.ReadKind == formula.ReadProcessStartState {
 					addError(model.GenericErrFormulaTypeError, path, "runtime parameters unavailable in driver repeat", in.ReadKey)
 				}
 				if in.ReadKind == formula.ReadProcessActualCost {
@@ -924,6 +942,12 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			break
 		}
 	}
+	if s.compiled.HasResourceMax {
+		s.settleLiveResourceExpiry()
+		if s.processFailure != nil && s.processFailure.BudgetCause == "" {
+			return s.processFailure
+		}
+	}
 	s.finalizeStopReason()
 	s.publishBasicAttackWait()
 	if s.stopReason == model.StopReasonBudgetExceeded && s.budgetCause == "" {
@@ -1177,6 +1201,9 @@ func (s *genericRunState) handleSample() {
 }
 
 func (s *genericRunState) buildSeriesPoint(timeMs int64) model.SeriesPoint {
+	if s.compiled.HasResourceMax && timeMs == s.nowMs {
+		s.settleLiveResourceExpiry()
+	}
 	windowMs := int64(s.sampling.DpsWindowMs)
 	sourceHp := s.combatantHp(model.SelectorSource)
 	targetHp := s.combatantHp(model.SelectorTarget)
@@ -1304,6 +1331,8 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 	warnings, warningCount := s.buildWarnings(downsampled, droppedSeriesPoints)
 
 	return model.DoneResult{
+		ResourceChangeRecords:   s.resourceRecordsOutput(),
+		ResourceChangeSummary:   s.resourceSummaryOutput(),
 		AutomaticSkillSummary:   automaticSummary,
 		AutomaticSkillRecords:   automaticRecords,
 		AutomaticSkillRecording: automaticRecording,
@@ -1315,7 +1344,7 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 		AttackRecords:           s.attackRecords,
 		DamageRecords:           s.damageRecords,
 		MechanicRecords:         s.mechanicRecords,
-		Recording:               s.skillRecordingSummary(s.recordingSummary()),
+		Recording:               s.resourceRecordingSummary(s.skillRecordingSummary(s.recordingSummary())),
 		Summary: model.RunSummary{
 			SkillActions:        actionSummary,
 			SkillUses:           useSummary,

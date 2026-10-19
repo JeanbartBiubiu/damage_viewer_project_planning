@@ -35,6 +35,9 @@ func (f *executionFrame) recordGenericExecuteEvidence(ev genericExecuteEvidence)
 }
 
 func (f *executionFrame) recordGenericDamageEvidence(ev genericDamageEvidence) {
+	if f.run.compiled.HasResourceMax {
+		ev.healthOrder = f.run.reserveHealthOrder()
+	}
 	if f.empoweredAttack != nil {
 		ev.empoweredAttack, ev.activationUseRef = f.empoweredAttack, f.processUseKey
 	}
@@ -96,6 +99,9 @@ func (f *executionFrame) commitFrameFacts() {
 	}
 	for _, record := range f.pendingDirectHealing {
 		f.run.recordDirectHealing(record)
+	}
+	for _, record := range f.pendingResourceChanges {
+		f.run.commitResourceChange(record)
 	}
 	if capture := f.pendingAmmoCapture; capture != nil {
 		f.run.skillUses[capture.useRef].ammoBefore = capture

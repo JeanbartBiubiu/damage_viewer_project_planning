@@ -58,6 +58,7 @@ const (
 	// ReadAuthoredAbilityParameter retains the declared runtime-input identity;
 	// it must not inherit the looser internal ability.param read permissions.
 	ReadAuthoredAbilityParameter
+	ReadProcessStartState
 )
 
 // GenericOp 是 generic formula bytecode 操作码。

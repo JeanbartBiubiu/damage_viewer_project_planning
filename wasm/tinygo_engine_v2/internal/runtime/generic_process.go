@@ -13,9 +13,10 @@ import (
 
 type processRuntime struct {
 	model.ProcessInstanceSnapshot
-	definition *planbundle.CompiledProcess
-	ability    planbundle.CompiledAbility
-	abilityRef string
+	startStateValues []formula.ProcessStartStateValue
+	definition       *planbundle.CompiledProcess
+	ability          planbundle.CompiledAbility
+	abilityRef       string
 	// 过程身份在构造后不变；帧复制保留同一份不可变排序键。
 	mountKey                  string
 	stableKey                 string
@@ -342,6 +343,9 @@ func (s *genericRunState) startProcessReplacing(entry model.DriverEntry, entryIn
 	if err := s.applyProcessMoment(p, f, "PROCESS_START", ""); err != nil {
 		return err
 	}
+	if err := f.captureProcessStartState(); err != nil {
+		return err
+	}
 	if f.empowered != nil {
 		if err := s.stageEmpoweredEntry(f); err != nil {
 			return err
@@ -405,7 +409,15 @@ func (s *genericRunState) applyProcessMoment(p *processRuntime, f *executionFram
 		if err != nil {
 			return err
 		}
-		if cd.RoundPositiveMs {
+		factor, factorError := f.cooldownDurationFactor(p)
+		if factorError != nil {
+			return factorError
+		}
+		if math.IsNaN(factor) || math.IsInf(factor, 0) || factor <= 0 {
+			return s.processErr(cd.Path+".durationMs", "cooldown duration factor must remain finite and positive", p.UseKey)
+		}
+		value *= factor
+		if cd.RoundPositiveMs || factor != 1 {
 			if math.IsNaN(value) || math.IsInf(value, 0) || value <= 0 {
 				return f.formulaError(cd.DurationProgram, "process cooldown must be finite and positive before rounding")
 			}

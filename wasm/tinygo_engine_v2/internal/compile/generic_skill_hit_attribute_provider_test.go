@@ -44,6 +44,22 @@ func TestCompileSkillHitFiniteTargetAttributeProvider(t *testing.T) {
 	}
 }
 
+func TestCompileSkillHitFiniteTargetTotalRatio(t *testing.T) {
+	for _, value := range []float64{0, .7, 1, -.1, 1.1} {
+		req := minimalValidCompileRequest()
+		skillHitTypes(&req)
+		p := finiteHitAttributeProvider("whole_ratio")
+		p.Modifiers[0].ValuePolicy = "multiply"
+		p.Modifiers[0].Stage = "total"
+		p.Modifiers[0].Value = constN(value)
+		req.SharedProviders[0].Abilities = []model.AbilityDefinition{hitAbility(finiteHitAttributeCandidate(p.ProviderKey))}
+		req.SharedProviders = append(req.SharedProviders, p)
+		if result := CompileGeneric(req); result.OK != (value >= 0 && value <= 1) {
+			t.Fatal(value, result.Result.Errors)
+		}
+	}
+}
+
 func TestCompileSkillHitFiniteTargetAttributeProviderRejectsMixedDefinitions(t *testing.T) {
 	mutations := map[string]func(*model.ProviderDefinition, *model.SkillHitCandidate){
 		"ability": func(p *model.ProviderDefinition, _ *model.SkillHitCandidate) {

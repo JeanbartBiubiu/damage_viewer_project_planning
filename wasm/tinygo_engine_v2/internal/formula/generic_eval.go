@@ -34,6 +34,7 @@ type GenericEvalContext struct {
 	LinkCount               int
 	ProcessActualCosts      map[string]float64
 	HasProcessActualCosts   bool
+	ProcessStartStateValues []ProcessStartStateValue
 	SourceAttrs             attribute.Table
 	TargetAttrs             attribute.Table
 	SourceResources         map[string]model.ResourceSlotDef
@@ -44,8 +45,8 @@ type GenericEvalContext struct {
 
 	// Provider state reads require a concrete provider context.
 	HasProviderContext    bool
-	HasProviderElapsed bool
-	ProviderElapsedMs int64
+	HasProviderElapsed    bool
+	ProviderElapsedMs     int64
 	ProviderState         map[string]float64
 	ProviderTargetState   map[string]float64
 	ProviderStateDefaults map[string]float64
@@ -93,6 +94,13 @@ type GenericEvalContext struct {
 	// Operation output reads require the current execution frame after a real damage settlement.
 	HasOperationOutputs bool
 	OperationOutputs    map[string]OperationOutputValues
+}
+
+// ProcessStartStateValue is an immutable per-use capture. Small ordered slices
+// preserve the compiled field identity without a runtime composite map key.
+type ProcessStartStateValue struct {
+	StateKey string
+	Value    float64
 }
 
 // LinkedShieldReader resolves one compile-bound definition in a concrete provider frame.
@@ -403,7 +411,9 @@ func evalRead(kind GenericReadKind, key string, ctx *GenericEvalContext) (float6
 		}
 		return ctx.AbilityParams[key], nil
 	case ReadProviderElapsedMs:
-		if !ctx.HasProviderContext || !ctx.HasProviderElapsed || ctx.ProviderElapsedMs < 0 { return 0, errors.New("provider.elapsed_ms requires a finite-lifecycle modifier with actual application time") }
+		if !ctx.HasProviderContext || !ctx.HasProviderElapsed || ctx.ProviderElapsedMs < 0 {
+			return 0, errors.New("provider.elapsed_ms requires a finite-lifecycle modifier with actual application time")
+		}
 		return float64(ctx.ProviderElapsedMs), nil
 	case ReadProviderState:
 		if !ctx.HasProviderContext {

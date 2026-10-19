@@ -4,6 +4,7 @@ package status
 // ProviderInstance 是 combatant 上已挂载的 dynamic provider 运行态。
 // ProviderInstance 是 combatant 上已挂载的 dynamic provider 运行态。
 type ProviderInstance struct {
+	ActivationUseRef    string
 	ProviderRef         string
 	DefinitionRef       string
 	Source              string
