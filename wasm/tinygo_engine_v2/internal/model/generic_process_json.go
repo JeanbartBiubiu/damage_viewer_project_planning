@@ -209,7 +209,7 @@ func (v *ProcessInstanceSnapshot) UnmarshalJSON(data []byte) error {
 
 func (v *ProcessEmpoweredAttack) UnmarshalJSON(data []byte) error {
 	const fields = "useRef hitRef target"
-	if err := processJSONShape(data, "ProcessEmpoweredAttack", fields, fields); err != nil {
+	if err := processJSONShape(data, "ProcessEmpoweredAttack", fields+" replacedPrimary", fields); err != nil {
 		return err
 	}
 	type plain ProcessEmpoweredAttack
@@ -218,6 +218,20 @@ func (v *ProcessEmpoweredAttack) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*v = ProcessEmpoweredAttack(value)
+	return nil
+}
+
+func (v *BasicAttackPrimaryIdentity) UnmarshalJSON(data []byte) error {
+	const fields = "owner providerRef definitionRef startAbilityRef initialControlAbilityRef hitAbilityRef candidateKey effectOccurrenceKey effectKey resultKey"
+	if err := processJSONShape(data, "BasicAttackPrimaryIdentity", fields, fields); err != nil {
+		return err
+	}
+	type plain BasicAttackPrimaryIdentity
+	var value plain
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*v = BasicAttackPrimaryIdentity(value)
 	return nil
 }
 

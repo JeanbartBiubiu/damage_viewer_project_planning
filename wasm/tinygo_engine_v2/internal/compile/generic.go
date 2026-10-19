@@ -162,6 +162,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	compileAttributeDerivations(req.Rules.AttributeDerivations, ctx)
 	buildAbilityRefIndex(ctx)
 	compileSkillActionBindings(req.Rules.SkillActionBindings, ctx)
+	finalizeAttackDamageRoles(ctx)
 	validateProcessAbilityRefs(req, ctx)
 	validateAllAbilityRefs(req, ctx)
 	finalizeShieldLifecycleBindings(req, ctx)

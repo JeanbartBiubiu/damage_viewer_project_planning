@@ -35,12 +35,15 @@ type empoweredShieldClaim struct{ owner, provider string }
 // Only the new attached-result group uses these bounded journals. Old frames
 // retain their existing process, listener and commit boundaries.
 type empoweredFrame struct {
-	mutations []empoweredProcessMutation
-	moments   []empoweredMoment
-	finished  []*processRuntime
-	contacts  []empoweredContact
-	stats     []empoweredStat
-	shields   []empoweredShieldClaim
+	mutations                 []empoweredProcessMutation
+	moments                   []empoweredMoment
+	finished                  []*processRuntime
+	contacts                  []empoweredContact
+	stats                     []empoweredStat
+	shields                   []empoweredShieldClaim
+	primaryReplacement        *model.BasicAttackPrimaryReplacement
+	primaryReplacementBinding uint16
+	primaryBlocked            bool
 }
 
 func isEmpoweredProcess(definition *planbundle.CompiledProcess) bool {
@@ -177,6 +180,9 @@ func (f *executionFrame) commitEmpoweredProcesses() {
 
 func (f *executionFrame) commitEmpoweredFacts() {
 	s := f.run
+	if replacement := f.empowered.primaryReplacement; replacement != nil {
+		s.commitPrimaryReplacement(*replacement, f.empowered.primaryReplacementBinding)
+	}
 	for _, moment := range f.empowered.moments {
 		p := moment.process
 		s.publishSkillActionMoment(&p, moment.kind)
@@ -271,6 +277,9 @@ func (s *genericRunState) executeEmpoweredGroup(ev emittedEvent, waits []empower
 	f.chainDepth = depth
 	f.strictReads = true
 	for _, wait := range waits {
+		if wait.instance.replacesPrimary {
+			continue
+		}
 		if !s.empoweredWaitCurrent(wait, ev.sourceKey) {
 			continue
 		}
@@ -378,12 +387,21 @@ func (f *executionFrame) executeEmpoweredPayload(parent emittedEvent, p *process
 		candidate := plan.Candidates[index]
 		f.skillHitCandidateKey = candidate.CandidateKey
 		f.skipBlockedWrites = freeze.blocked == 1 && candidate.HasBlockScope && model.ScopeCovers(freeze.unitScope, freeze.occurrenceID, freeze.effectOccurrenceKey, freeze.resultKey, freeze.candidateKey, freeze.useRef, candidate.BlockScope, freeze.occurrenceID, candidate.EffectOccurrenceKey, candidate.ResultKey, candidate.CandidateKey, freeze.useRef)
-		if err := f.executeOperations(ability, f.run.compiled.Operations[int(candidate.OperationStart):int(candidate.OperationStart)+int(candidate.OperationCount)]); err != nil {
+		savedRoot := f.rootSkillHitDamage
+		if p.replacesPrimary {
+			f.rootSkillHitDamage = parent.skillHit.rootDamageEvent
+		}
+		err := f.executeOperations(ability, f.run.compiled.Operations[int(candidate.OperationStart):int(candidate.OperationStart)+int(candidate.OperationCount)])
+		f.rootSkillHitDamage = savedRoot
+		if err != nil {
 			return err
 		}
 	}
 	f.skipBlockedWrites = false
 	if freeze.blocked == 1 {
+		if p.replacesPrimary {
+			f.empowered.primaryBlocked = true
+		}
 		return f.stageEmpoweredSpellShield(parent, freeze)
 	}
 	return nil

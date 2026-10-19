@@ -151,12 +151,34 @@ func (v *SamplingConfig) UnmarshalJSON(data []byte) error {
 }
 
 type BasicAttackSummary struct {
-	PlanKey                  string `json:"planKey"`
-	StartedCount             int    `json:"startedCount"`
-	HitCount                 int    `json:"hitCount"`
-	CompletedCount           int    `json:"completedCount"`
-	InitialMechanicReadyAtMs *int64 `json:"initialMechanicReadyAtMs"`
-	InitialActionReadyAtMs   *int64 `json:"initialActionReadyAtMs"`
+	PlanKey                  string                          `json:"planKey"`
+	StartedCount             int                             `json:"startedCount"`
+	HitCount                 int                             `json:"hitCount"`
+	CompletedCount           int                             `json:"completedCount"`
+	InitialMechanicReadyAtMs *int64                          `json:"initialMechanicReadyAtMs"`
+	InitialActionReadyAtMs   *int64                          `json:"initialActionReadyAtMs"`
+	PrimaryReplacements      []BasicAttackPrimaryReplacement `json:"primaryReplacements,omitempty"`
+}
+
+type BasicAttackReplacementIdentity struct {
+	Owner         string `json:"owner"`
+	ProviderRef   string `json:"providerRef"`
+	DefinitionRef string `json:"definitionRef"`
+	SkillKey      string `json:"skillKey"`
+	ProcessKey    string `json:"processKey"`
+	HitAbilityRef string `json:"hitAbilityRef"`
+}
+
+// Committed counters are independent of record retention and output mode.
+type BasicAttackPrimaryReplacement struct {
+	Primary           BasicAttackPrimaryIdentity     `json:"primary"`
+	Replacement       BasicAttackReplacementIdentity `json:"replacement"`
+	Target            string                         `json:"target"`
+	Count             int                            `json:"count"`
+	BlockedCount      int                            `json:"blockedCount"`
+	PostDefenseDamage float64                        `json:"postDefenseDamage"`
+	ShieldAbsorbed    float64                        `json:"shieldAbsorbed"`
+	ActualHpLoss      float64                        `json:"actualHpLoss"`
 }
 type RunExecutionSummary struct {
 	RequestedDurationMs int64        `json:"requestedDurationMs"`

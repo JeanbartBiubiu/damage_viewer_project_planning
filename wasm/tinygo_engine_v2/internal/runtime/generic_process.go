@@ -17,14 +17,16 @@ type processRuntime struct {
 	ability    planbundle.CompiledAbility
 	abilityRef string
 	// 过程身份在构造后不变；帧复制保留同一份不可变排序键。
-	mountKey              string
-	stableKey             string
-	stepIndex             int
-	castID                uint64
-	chainDepth            int
-	collector             *eventCopyableCollector
-	empoweredAbilityIndex uint16
-	hasEmpoweredAbility   bool
+	mountKey                  string
+	stableKey                 string
+	stepIndex                 int
+	castID                    uint64
+	chainDepth                int
+	collector                 *eventCopyableCollector
+	empoweredAbilityIndex     uint16
+	hasEmpoweredAbility       bool
+	replacesPrimary           bool
+	primaryReplacementBinding uint16
 }
 
 func (s *genericRunState) processErr(path, message, ref string) *model.EngineError {
@@ -274,6 +276,8 @@ func (s *genericRunState) startProcessReplacing(entry model.DriverEntry, entryIn
 		}
 		p.hasEmpoweredAbility, p.empoweredAbilityIndex = true, binding.EmpoweredAbilityIndex
 		f.pendingProcess.hasEmpoweredAbility, f.pendingProcess.empoweredAbilityIndex = true, binding.EmpoweredAbilityIndex
+		p.replacesPrimary, f.pendingProcess.replacesPrimary = binding.ReplacesPrimary, binding.ReplacesPrimary
+		p.primaryReplacementBinding, f.pendingProcess.primaryReplacementBinding = binding.Slot, binding.Slot
 		f.empowered = &empoweredFrame{}
 	}
 	allowed, err := s.evalProcessCondition(entryIndex, f, ability)
