@@ -1,5 +1,6 @@
 import type { BasicAttackPlan, CompileRequest, DamageRecord, DoneResult, EmpoweredAttackConsumption, ProcessInstanceSnapshot, RunRequest, SkillActionBinding, SkillUseRecord } from '../types/genericEngine';
 import { tryFoldConstant } from './numericAdapter';
+import { basicAttackPrimaryBinding, inspectPrimaryReplacements, replacementPayloadBinding, samePrimaryIdentity, validPrimaryIdentity } from './primaryAttackReplacementContract';
 
 /** 从真实编译定义识别待击绑定；普通技能保持原有路径。 */
 export function empoweredAttackBinding(compile: CompileRequest, binding: SkillActionBinding) {
@@ -29,7 +30,8 @@ export function empoweredAttackBinding(compile: CompileRequest, binding: SkillAc
     || payload.operations[0].skillHit?.skillKey !== binding.skillKey || !payload.operations[0].skillHit.candidates.length) {
     throw new Error(`skillActionBindings.${binding.bindingKey}: 强化待击必须保留真实同来源首次、单步骤和完整负载绑定`);
   }
-  return { process, step, windowMs, hit, payload };
+  const replacement = replacementPayloadBinding(compile, binding);
+  return { process, step, windowMs, hit, payload, replacement };
 }
 
 /** 只接受本次实际普攻驱动引用的完整同拥有者 INITIAL。 */
@@ -52,14 +54,20 @@ export function requireEmpoweredBasicAttack(compile: CompileRequest, plan: Pick<
     || new Set([plan.startAbilityRef, plan.hitAbilityRef, plan.initialControlAbilityRef]).size !== 3) {
     throw new Error('empoweredAttack.basicAttack: 强化待击需要本次同拥有者真实完整普通攻击驱动，不能猜测或省略');
   }
+  const primary = basicAttackPrimaryBinding(compile, plan);
+  if (compile.rules.skillActionBindings?.some(binding => replacementPayloadBinding(compile, binding)) && !primary) {
+    throw new Error('empoweredAttack.basicAttack.primary: 主体替换需要本次真实普攻显式声明唯一主体');
+  }
   return plan;
 }
 
 export function sameEmpoweredAttack(left: unknown, right: unknown): left is EmpoweredAttackConsumption {
   const valid = (value: unknown): value is EmpoweredAttackConsumption => !!value && typeof value === 'object'
-    && !Array.isArray(value) && Object.keys(value).sort().join(',') === 'hitRef,target,useRef'
+    && !Array.isArray(value) && ['hitRef,target,useRef', 'hitRef,replacedPrimary,target,useRef'].includes(Object.keys(value).sort().join(','))
+    && (!('replacedPrimary' in value) || validPrimaryIdentity((value as EmpoweredAttackConsumption).replacedPrimary))
     && ['useRef', 'hitRef', 'target'].every(key => typeof (value as Record<string, unknown>)[key] === 'string' && !!(value as Record<string, unknown>)[key]);
-  return valid(left) && valid(right) && left.useRef === right.useRef && left.hitRef === right.hitRef && left.target === right.target;
+  return valid(left) && valid(right) && left.useRef === right.useRef && left.hitRef === right.hitRef && left.target === right.target
+    && (left.replacedPrimary === undefined && right.replacedPrimary === undefined || samePrimaryIdentity(left.replacedPrimary, right.replacedPrimary));
 }
 
 /** 对零明细也可核对的完整快照约束；保留的普攻明细另作交叉核对。 */
@@ -77,6 +85,9 @@ export function empoweredConsumptionIssue(compile: CompileRequest, request: RunR
     || process.status !== 'complete' || process.lastExecutionAtMs === null || process.lastExecutionAtMs < process.stepStartedAtMs
     || process.lastExecutionAtMs >= process.expiresAtMs || process.stepCompletedAtMs !== process.lastExecutionAtMs
     || process.finishedAtMs !== process.lastExecutionAtMs) return '消费必须关联窗口内真实下一刀且只执行并完成一次';
+  const expectedPrimary = contract.replacement ? basicAttackPrimaryBinding(compile, plan) : null;
+  if (contract.replacement ? !expectedPrimary || !samePrimaryIdentity(process.empoweredAttack.replacedPrimary, expectedPrimary.identity)
+    : process.empoweredAttack.replacedPrimary !== undefined) return '消费主体角色与本次真实绑定不符';
   return null;
 }
 
@@ -111,15 +122,20 @@ export function empoweredAttackIdentityGaps(request: RunRequest, done: DoneResul
   if (!plan) return [];
   return (done.finalSnapshot.processInstances ?? []).filter(process => process.empoweredAttack !== undefined).flatMap(process => {
     const association = process.empoweredAttack;
-    const retained = sameEmpoweredAttack(association, association) && done.damageRecords?.some(row => row.useRef === association.useRef
+    const replaced = association && (done.finalSnapshot.processInstances ?? []).find(row => row.empoweredAttack?.replacedPrimary
+      && row.empoweredAttack.useRef === association.useRef && row.empoweredAttack.hitRef === association.hitRef);
+    const retained = sameEmpoweredAttack(association, association) && done.damageRecords?.some(row => row.useRef === (replaced ? replaced.useKey : association.useRef)
       && row.hitRef === association.hitRef && row.timeMs === process.lastExecutionAtMs && row.target === association.target
-      && row.source === process.owner && row.abilityRef === plan.hitAbilityRef && row.empoweredAttack === undefined);
+      && row.source === process.owner && (replaced ? sameEmpoweredAttack(row.empoweredAttack, replaced.empoweredAttack)
+        : row.abilityRef === plan.hitAbilityRef && row.empoweredAttack === undefined));
+    if (!retained && replaced && done.summary.basicAttack?.primaryReplacements?.some(row =>
+      samePrimaryIdentity(row.primary, replaced.empoweredAttack?.replacedPrimary) && row.replacement.providerRef === replaced.providerRef && row.blockedCount > 0)) return [];
     return retained ? [] : [`强化使用 ${process.useKey} 未保留关联原普攻的伤害明细，无法独立核实命中标识；完整过程与累计仍单独核对`];
   });
 }
 
 export function inspectEmpoweredAttackFacts(compile: CompileRequest, request: RunRequest, done: DoneResult): string[] {
-  const issues: string[] = [], consumed = new Set<string>(), active = new Set<string>();
+  const issues: string[] = inspectPrimaryReplacements(compile, request, done), consumed = new Set<string>(), active = new Set<string>();
   const processes = done.finalSnapshot.processInstances ?? [];
   const summaryOnly = request.outputMode === 'summary' && done.outputMode === 'summary';
   for (const process of processes) {
@@ -150,7 +166,9 @@ export function inspectEmpoweredAttackFacts(compile: CompileRequest, request: Ru
       || attack.hitAtMs !== process.lastExecutionAtMs || !attack.completed : !summaryOnly && done.recording?.attackRecordsTruncated === false) {
       issues.push(`processInstances.${process.useKey}.empoweredAttack: 关联与真实普攻明细不符`);
     }
-    if (!summaryOnly && done.recording?.damageRecordsTruncated === false && !done.damageRecords?.some(row => row.useRef === association.useRef
+    const replaced = processes.some(row => row.empoweredAttack?.replacedPrimary && row.empoweredAttack.useRef === association.useRef
+      && row.empoweredAttack.hitRef === association.hitRef && row.lastExecutionAtMs === process.lastExecutionAtMs);
+    if (!replaced && !summaryOnly && done.recording?.damageRecordsTruncated === false && !done.damageRecords?.some(row => row.useRef === association.useRef
       && row.abilityRef === plan.hitAbilityRef && row.hitRef === association.hitRef && row.timeMs === process.lastExecutionAtMs
       && row.source === plan.source && row.target === association.target && row.empoweredAttack === undefined)) {
       issues.push(`processInstances.${process.useKey}.empoweredAttack: 关联命中身份没有原普攻伤害事实`);

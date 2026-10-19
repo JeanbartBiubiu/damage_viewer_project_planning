@@ -68,6 +68,19 @@ const detail: SkillEffect = {
 };
 
 describe('吸血资格新协议', () => {
+  it.each(['PRIMARY', 'REPLACE_PRIMARY'])('伤害角色%s精确读回且省略不补空字段', role => {
+    const source = structuredClone(detail); Object.assign(source.results[0]!.detail, { attackDamageRole: role });
+    expect(parseSkillEffect(source)).toEqual(source);
+    expect(parseSkillEffect(detail).results[0]!.detail).not.toHaveProperty('attackDamageRole');
+  });
+  it.each([null, 0, true, {}, [], '', 'primary', 'UNKNOWN'])('拒绝空值、非字符串或未知伤害角色%s', role => {
+    const source = structuredClone(detail); Object.assign(source.results[0]!.detail, { attackDamageRole: role });
+    expect(() => parseSkillEffect(source)).toThrow(SkillEffectProtocolError);
+  });
+  it('非伤害结果不能借用伤害角色', () => {
+    const source = structuredClone(detail); Object.assign(source.results[0]!, { resultType: 'HIT_LINK_APPLICATION', detail: { attackDamageRole: 'PRIMARY' } });
+    expect(() => parseSkillEffect(source)).toThrow(/attackDamageRole/);
+  });
   it('接收明确未核定、继承、禁止和覆盖；拒绝旧字段及混合形状', () => {
     const make = (patch: Record<string, unknown>) => ({ ...detail, results: [{ ...damageResult, detail: { ...damageResult.detail, ...patch } }] });
     expect(() => parseSkillEffect(make({ vampQualification: 'RESOLVED', vampOverrides: [] }))).not.toThrow();

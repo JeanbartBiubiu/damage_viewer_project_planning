@@ -22,6 +22,37 @@ const GAME_ID = 'demo';
 const GAME_NAME = 'Demo Arena';
 const ADMIN_TOKEN = 'non-wasm-e2e-token';
 
+for (const [role, label] of [['PRIMARY', '普通攻击主体'], ['REPLACE_PRIMARY', '待击替换主体']] as const) {
+  test(`通用普攻伤害角色 ${role} 经真实控件进入统一草稿、保存并重开回读`, async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillProcessCatalog(mock);
+    const diagnostics = await prepare(page, mock);
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    const card = configurationCard(shell, 'on_hit_results');
+    await card.getByRole('button', { name: '编辑', exact: true }).click();
+    const effect = visibleModal(page, '编辑效果');
+    await effect.locator('tr', { hasText: 'damage' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const result = visibleModal(page, '编辑结果');
+    await expect(result.getByLabel('普攻伤害角色', { exact: true })).toContainText('普通伤害');
+    await chooseSelectOption(page, result, '普攻伤害角色', label);
+    await result.getByLabel('伤害产生方式', { exact: true }).getByText('普通攻击', { exact: true }).click();
+    await saveOpenModal(result);
+    await saveOpenModal(effect);
+    expect(mock.writes).toHaveLength(0);
+    await saveSkillConfiguration(page.locator('[aria-label="技能统一编辑工作区"]'));
+    expect(mock.writes).toHaveLength(1);
+    expect(mock.writes[0]).toMatchObject({ method: 'PATCH', body: { changes: [{ objectType: 'EFFECT', operation: 'UPDATE', key: 'on_hit_results' }] } });
+    const saved = mock.skillEffects.find(item => item.effectKey === 'on_hit_results')!.results[0]!;
+    expect(saved.detail).toMatchObject({ attackDamageRole: role, deliveryKind: 'BASIC_ATTACK', originKind: 'DIRECT' });
+    await card.getByRole('button', { name: '编辑', exact: true }).click();
+    await effect.locator('tr', { hasText: 'damage' }).getByRole('button', { name: '编辑', exact: true }).click();
+    await expect(result.getByLabel('普攻伤害角色', { exact: true })).toContainText(label);
+    await expect(result.getByLabel('伤害产生方式', { exact: true }).getByRole('radio', { name: '普通攻击', exact: true })).toBeChecked();
+    diagnostics.assertClean(`通用伤害角色 ${role} 管理表单`);
+  });
+}
+
 for (const sample of [
   { label: '角色', mode: 'CHARACTER_LEVEL', type: 'DECIMAL', values: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2] },
   { label: '技能', mode: 'SKILL_LEVEL', type: 'INTEGER', values: [60, 100, 140, 180, 220] }

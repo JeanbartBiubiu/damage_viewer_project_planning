@@ -1432,6 +1432,12 @@ export function SkillEffectResultEditorModal({
 
           {draft.resultType === 'DAMAGE' ? (
             <>
+              <Form.Item label="普攻伤害角色" validateStatus={errors.attackDamageRole ? 'error' : undefined} help={errors.attackDamageRole}>
+                <Select aria-label="普攻伤害角色" value={draft.attackDamageRole} disabled={readOnly}
+                  options={[{ value: '', label: '普通伤害' }, { value: 'PRIMARY', label: '普通攻击主体' },
+                    { value: 'REPLACE_PRIMARY', label: '待击替换主体' }]}
+                  onChange={value => patchDraft({ ...draft, attackDamageRole: value as typeof draft.attackDamageRole })} />
+              </Form.Item>
               <Form.Item
                 label="伤害类型"
                 required

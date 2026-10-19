@@ -132,6 +132,7 @@ export type SkillEffectResultLifecycleBehavior = {
 };
 
 export type SkillEffectDamageDetail = {
+  attackDamageRole?: 'PRIMARY' | 'REPLACE_PRIMARY';
   damageTypeKey: string;
   deliveryKind: SkillEffectDamageDeliveryKind;
   originKind: SkillEffectDamageOriginKind;

@@ -29,7 +29,7 @@ import { validateSimulationAttributeDerivations } from './simulationAttributeCon
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
 import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
-export const SIMULATION_ADAPTER_VERSION = 'v23-active-ammo-initial-state-and-recovery';
+export const SIMULATION_ADAPTER_VERSION = 'v24-primary-attack-replacement';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -203,7 +203,9 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
     }
     if (result.resultType !== 'DAMAGE') fail(`${path}.resultType`, '该并列结果尚未接入，不能丢弃后继续');
     const detail = result.detail;
-    exact(detail, ['damageTypeKey', 'deliveryKind', 'originKind', 'critical', 'vampQualification', 'vampOverrides'], `${path}.detail`);
+    exact(detail, ['damageTypeKey', 'deliveryKind', 'originKind', 'critical', 'vampQualification', 'vampOverrides',
+      ...('attackDamageRole' in detail ? ['attackDamageRole'] : [])], `${path}.detail`);
+    if ('attackDamageRole' in detail && detail.attackDamageRole !== 'PRIMARY') fail(`${path}.detail.attackDamageRole`, '真实普攻只接受显式主体角色');
     if (detail.deliveryKind !== 'BASIC_ATTACK' || detail.originKind !== 'DIRECT') fail(`${path}.detail`, '首批只接受普通攻击直接伤害');
     const damageKey = stableKey(detail.damageTypeKey, `${path}.detail.damageTypeKey`);
     const damageType = damageKey;
@@ -369,7 +371,10 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
         `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`);
       const results = ordered(authored.results, `${rulePath}.results`);
       for (const [index, result] of results.entries()) {
+        const role = result.resultType === 'DAMAGE' ? result.detail.attackDamageRole : undefined;
+        if (role && participationCondition) fail(`${rulePath}.conditionGroups`, '显式普攻主体不能有参与条件');
         candidates.push({
+          ...(role ? { attackDamageRole: role } : {}),
           candidateKey: `${rule.ruleKey}:${action.actionKey}:${result.resultKey}`,
           effectOccurrenceKey: `${rule.ruleKey}:${action.actionKey}`, effectKey: authored.effectKey, resultKey: result.resultKey,
           semantic: { resultType: result.resultType as SkillHitCandidate['semantic']['resultType'], target: 'TARGET', moment: 'INSTANT' },
@@ -384,6 +389,7 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   if (starts !== 1 || hits < 1 || !candidates.length || hits > 1 && candidates.some(candidate => !candidate.participationCondition)) {
     fail(`${skillPath}.triggerRules`, '需要唯一攻击开始与完整命中入口；多个主体命中分支必须保留互斥条件');
   }
+  if (candidates.filter(candidate => candidate.attackDamageRole === 'PRIMARY').length > 1) fail(`${skillPath}.triggerRules`, '本次真实普攻只能有一个显式主体');
   for (const [index, condition] of hitConditions.entries()) for (const other of hitConditions.slice(index + 1)) {
     if (!condition || !other || !primaryConditionsExclusive(condition, other, state)) fail(`${skillPath}.triggerRules`, '多个主体命中规则未能证明条件互斥，不能重复执行本体或联动');
   }

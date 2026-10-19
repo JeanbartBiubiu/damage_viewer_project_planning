@@ -358,7 +358,10 @@ function compileDamage(
 ): { operation: OperationDefinition; vamp: AdaptedVampDamage } {
   if (result.target !== 'TARGET') return fail(`${path}.target`, '本期伤害只支持作用对象 TARGET');
   if (momentOf(result) !== 'INSTANT') return fail(`${path}.lifecycleBehavior`, 'DAMAGE moment must be INSTANT');
-  const expectedDelivery = resolveKind === 'basic_attack' ? 'BASIC_ATTACK' : 'SKILL';
+  const role = result.detail.attackDamageRole;
+  if ('attackDamageRole' in result.detail && role !== 'PRIMARY' && role !== 'REPLACE_PRIMARY') fail(`${path}.detail.attackDamageRole`, '未知普攻伤害角色');
+  if (role === 'PRIMARY' && resolveKind !== 'basic_attack') fail(`${path}.detail.attackDamageRole`, '主体角色必须绑定真实普攻入口');
+  const expectedDelivery = resolveKind === 'basic_attack' || role === 'REPLACE_PRIMARY' ? 'BASIC_ATTACK' : 'SKILL';
   if (result.detail.deliveryKind !== expectedDelivery) {
     return fail(
       `${path}.detail.deliveryKind`,
@@ -539,6 +542,7 @@ function compileResultOperations(
   typeEntries: TypeCatalogEntries,
   resolveKind: HitResolveKind
 ): { semantic: SkillHitSemantic; operations: OperationDefinition[]; vamp?: AdaptedVampDamage } {
+  if (result.resultType !== 'DAMAGE' && 'attackDamageRole' in result.detail) fail(`${path}.detail.attackDamageRole`, '非伤害结果不能声明普攻伤害角色');
   if (result.resultType === 'DAMAGE') {
     const compiled = compileDamage(authored, result, path, state, typeEntries, resolveKind);
     return {
@@ -798,12 +802,16 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
       for (const result of stableSorted(effect.results, (item) => item.sortOrder)) {
         const path = planPath(authored.skillKey, `effects.${effect.effectKey}.results.${result.resultKey}`);
         const compiled = compileResultOperations(authored, effect, result, path, actionState, providers, typeEntries, resolveKind);
+        const role = result.resultType === 'DAMAGE' ? result.detail.attackDamageRole : undefined;
+        if (role === 'REPLACE_PRIMARY') fail(`${path}.detail.attackDamageRole`, '替换主体必须由自身首次单步骤强化待击消费');
+        if (role && (converted.participation || converted.eventValueConditions.length)) fail(path, '主体角色不能附带参与或事件值条件');
         if (compiled.vamp) {
           if (vampRules && !sameJson(vampRules, compiled.vamp.rules)) fail(path, '同一命中计划的游戏吸血规则不一致');
           vampRules = compiled.vamp.rules;
           for (const key of compiled.vamp.abilityTypes) abilityTypes.add(key);
         }
         candidates.push({
+          ...(role ? { attackDamageRole: role } : {}),
           candidateKey: `${occurrence}:${result.resultKey}`,
           effectOccurrenceKey: occurrence,
           effectKey: effect.effectKey,
@@ -892,9 +900,16 @@ export function adaptEmpoweredProcessPayload(authored: Omit<AuthoredHitProgram, 
       }
       for (const operation of compiled.operations) operation.ref = path;
       candidates.push({ candidateKey: `${binding.bindingKey}:${result.resultKey}`, effectOccurrenceKey: binding.bindingKey,
+        ...(result.resultType === 'DAMAGE' && result.detail.attackDamageRole ? { attackDamageRole: result.detail.attackDamageRole } : {}),
         effectKey: effect.effectKey, resultKey: result.resultKey, semantic: compiled.semantic,
         spellShieldBlockScope: result.spellShieldBlockScope, operations: compiled.operations });
     }
+  }
+  if (candidates.some(candidate => candidate.attackDamageRole !== undefined)
+    && (candidates.length !== 1 || candidates[0]?.attackDamageRole !== 'REPLACE_PRIMARY'
+      || candidates[0].semantic.resultType !== 'DAMAGE' || candidates[0].semantic.moment !== 'INSTANT'
+      || candidates[0].operations.length !== 1 || candidates[0].operations[0]?.operation !== 'damage')) {
+    fail(`${root}.effectBindings`, '替换主体负载必须为唯一无条件即时目标伤害');
   }
   return { skillHit: { skillKey: authored.skillKey, candidates }, resolveKind: 'skill', providers: [...providers.values()], params: state.params,
     formulas: formulasUsedByInternalValue([...providers.values(), candidates], [...state.namedFormulas.values()]), requiredAttributes: [...state.requiredAttributes],

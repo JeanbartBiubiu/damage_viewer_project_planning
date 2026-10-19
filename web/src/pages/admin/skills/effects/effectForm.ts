@@ -412,6 +412,7 @@ export type SkillEffectResultDraft = {
   fixedMaxValue: string;
   damageTypeKey: string;
   damageDeliveryKind: SkillEffectDamageDeliveryKind | '';
+  attackDamageRole: '' | 'PRIMARY' | 'REPLACE_PRIMARY';
   damageOriginKind: SkillEffectDamageOriginKind | '';
   criticalMode: SkillEffectCriticalMode | '';
   criticalMultiplierValue: NumericValue | null;
@@ -496,6 +497,7 @@ export type SkillEffectResultDraftField =
   | 'valueRule'
   | 'damageTypeKey'
   | 'damageDeliveryKind'
+  | 'attackDamageRole'
   | 'damageOriginKind'
   | 'criticalMode'
   | 'criticalMultiplierValue'
@@ -678,6 +680,7 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   detail: 'detail',
   'detail.damageTypeKey': 'damageTypeKey',
   'detail.deliveryKind': 'damageDeliveryKind',
+  'detail.attackDamageRole': 'attackDamageRole',
   'detail.originKind': 'damageOriginKind',
   'detail.critical': 'criticalMode',
   'detail.critical.mode': 'criticalMode',
@@ -776,6 +779,7 @@ export function createEmptyResultDraft(
     fixedMaxValue: '',
     damageTypeKey: '',
     damageDeliveryKind: resultType === 'DAMAGE' ? 'SKILL' : '',
+    attackDamageRole: '',
     damageOriginKind: resultType === 'DAMAGE' ? 'DIRECT' : '',
     criticalMode: resultType === 'DAMAGE' ? 'DISALLOWED' : '',
     criticalMultiplierValue: null,
@@ -882,6 +886,7 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
     case 'DAMAGE':
       draft.damageTypeKey = result.detail.damageTypeKey;
       draft.damageDeliveryKind = result.detail.deliveryKind;
+      draft.attackDamageRole = result.detail.attackDamageRole ?? '';
       draft.damageOriginKind = result.detail.originKind;
       draft.criticalMode = result.detail.critical.mode;
       draft.criticalMultiplierValue = result.detail.critical.multiplierValue ?? null;
@@ -1120,6 +1125,7 @@ export function applyResultTypeChange(
     fixedMaxValue: nextNeeds && prevNeeds ? draft.fixedMaxValue : '',
     damageTypeKey: '',
     damageDeliveryKind: nextType === 'DAMAGE' ? 'SKILL' : '',
+    attackDamageRole: '',
     damageOriginKind: nextType === 'DAMAGE' ? 'DIRECT' : '',
     criticalMode: nextType === 'DAMAGE' ? 'DISALLOWED' : '',
     criticalMultiplierValue: null,
@@ -1259,6 +1265,7 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
         : '',
     damageDeliveryKind:
       draft.resultType === 'DAMAGE' ? draft.damageDeliveryKind || 'SKILL' : '',
+    attackDamageRole: draft.resultType === 'DAMAGE' ? draft.attackDamageRole : '',
     damageOriginKind:
       draft.resultType === 'DAMAGE' ? draft.damageOriginKind || 'DIRECT' : '',
     criticalMode:
@@ -2463,6 +2470,7 @@ function validateAndBuildResult(
         valueRule: valueRule!,
         detail: {
           damageTypeKey: draft.damageTypeKey.trim(),
+          ...(draft.attackDamageRole ? { attackDamageRole: draft.attackDamageRole } : {}),
           deliveryKind: draft.damageDeliveryKind as SkillEffectDamageDeliveryKind,
           originKind: draft.damageOriginKind as SkillEffectDamageOriginKind,
           critical: {
@@ -2823,6 +2831,12 @@ function validateTypeSpecificFields(
       validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       if (draft.damageDeliveryKind !== 'SKILL' && draft.damageDeliveryKind !== 'BASIC_ATTACK') {
         fieldErrors.damageDeliveryKind = '请选择伤害产生方式。';
+      }
+      if (draft.attackDamageRole && !['PRIMARY', 'REPLACE_PRIMARY'].includes(draft.attackDamageRole)) {
+        fieldErrors.attackDamageRole = '请选择有效的普攻伤害角色。';
+      } else if (draft.attackDamageRole && (draft.damageDeliveryKind !== 'BASIC_ATTACK' || draft.damageOriginKind !== 'DIRECT'
+        || draft.target !== 'TARGET' || context.lifecycleEnabled)) {
+        fieldErrors.attackDamageRole = '普攻伤害角色只支持即时目标的普通攻击直接伤害。';
       }
       if (draft.damageOriginKind !== 'DIRECT' && draft.damageOriginKind !== 'REFLECTED') {
         fieldErrors.damageOriginKind = '请选择伤害来源性质。';

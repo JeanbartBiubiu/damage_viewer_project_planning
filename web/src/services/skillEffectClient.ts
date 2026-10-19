@@ -195,6 +195,7 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
   }
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
   const detail = value.detail;
+  if (resultType !== 'DAMAGE' && 'attackDamageRole' in detail) protocolError(`${path}.detail.attackDamageRole`);
   const persistent = isRecord(value.lifecycleBehavior)
     && value.lifecycleBehavior.moment === 'PERSISTENT';
   const persistentStatusApplyBlockScope = value.target === 'TARGET'
@@ -364,7 +365,9 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
   assertValueRule(value.valueRule, `${path}.valueRule`);
   switch (resultType) {
     case 'DAMAGE': {
-      assertExactDetailKeys(detail, ['damageTypeKey', 'deliveryKind', 'originKind', 'critical', 'vampQualification', 'vampOverrides'], path);
+      assertExactDetailKeys(detail, ['damageTypeKey', 'deliveryKind', 'originKind', 'critical', 'vampQualification', 'vampOverrides',
+        ...('attackDamageRole' in detail ? ['attackDamageRole'] : [])], path);
+      if ('attackDamageRole' in detail) assertEnum(detail.attackDamageRole, new Set(['PRIMARY', 'REPLACE_PRIMARY']), `${path}.detail.attackDamageRole`);
       assertString(detail.damageTypeKey, `${path}.detail.damageTypeKey`);
       assertEnum(detail.deliveryKind, DAMAGE_DELIVERY_KINDS, `${path}.detail.deliveryKind`);
       assertEnum(detail.originKind, DAMAGE_ORIGIN_KINDS, `${path}.detail.originKind`);

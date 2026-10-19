@@ -216,6 +216,7 @@ export type SkillHitSemantic = {
 };
 
 export type SkillHitCandidate = {
+  attackDamageRole?: 'PRIMARY' | 'REPLACE_PRIMARY';
   candidateKey: string;
   effectOccurrenceKey: string;
   effectKey: string;
@@ -681,7 +682,16 @@ export type ProcessActionOccupancy = {
   finishedAtMs: number | null;
 };
 
-export type EmpoweredAttackConsumption = { useRef: string; hitRef: string; target: string };
+export type BasicAttackPrimaryIdentity = {
+  owner: string; providerRef: string; definitionRef: string; startAbilityRef: string; initialControlAbilityRef: string;
+  hitAbilityRef: string; candidateKey: string; effectOccurrenceKey: string; effectKey: string; resultKey: string;
+};
+export type BasicAttackPrimaryReplacement = {
+  primary: BasicAttackPrimaryIdentity;
+  replacement: { owner: string; providerRef: string; definitionRef: string; skillKey: string; processKey: string; hitAbilityRef: string };
+  target: string; count: number; blockedCount: number; postDefenseDamage: number; shieldAbsorbed: number; actualHpLoss: number;
+};
+export type EmpoweredAttackConsumption = { useRef: string; hitRef: string; target: string; replacedPrimary?: BasicAttackPrimaryIdentity };
 
 export type ProcessInstanceSnapshot = {
   owner: 'source' | 'target';
@@ -786,7 +796,7 @@ export type RunSummary = {
 };
 
 export type BasicAttackSummary = { planKey: string; startedCount: number; hitCount: number; completedCount: number;
-  initialMechanicReadyAtMs?: number | null; initialActionReadyAtMs: number | null };
+  initialMechanicReadyAtMs?: number | null; initialActionReadyAtMs: number | null; primaryReplacements?: BasicAttackPrimaryReplacement[] };
 export type SkillActionSummary = { plannedCount: number; reachedCount: number; acceptedCount: number; rejectedCount: number;
   abortedBeforeAcceptCount: number; unreachedCount: number };
 export type SkillUseSummary = { startedCount: number; releasedCount: number; hitCount: number; completedCount: number;

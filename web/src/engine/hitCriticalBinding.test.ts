@@ -17,7 +17,7 @@ import { parseCompileResult, parseDoneResult, parseReleaseResult } from './gener
 let bridge: TinyGoV2Bridge;
 beforeAll(async () => {
   const bytes = readFileSync(process.env.PHASE3B_WASM_PATH || new URL('./wasm/tinygo_engine_v2.wasm', import.meta.url));
-  expect(createHash('sha256').update(bytes).digest('hex')).toBe('5a6fc2d45e1b4c1e9995c2456e46eb8fc1ead5680c106dca844d7842b4be04a3');
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe('8eebbefbd2491490e2e8ded34a1f920ed8c6a79cdeab9eeadbda5fdd68309ffe');
   bridge = await TinyGoV2Bridge.create({ wasmUrl: 'data:application/wasm;base64,' + bytes.toString('base64') });
 });
 
