@@ -31,6 +31,8 @@
 
 步骤的`processes[].steps[].occupiesAction`也仅在缺省与显式`null`间视为同义：后端`SkillProcessStepRequestDeserializer`把两者均读为可空布尔值，`SkillProcessStepResponse`回读为`null`。保护脚本在完整业务比较中仅规范该路径的空值，明确`false / true`仍有业务含义，不作为默认值删除；同名字段出现在步骤明细、效果、动作或其它未知路径时继续严格比较。实际PATCH正文保留冻结计划，不改成补空字段的请求。
 
+过程的三个嵌套集合在`SkillProcessService.writeSteps / writeBindings / writeOperations`中按`sortOrder`、再按各自`stepKey / bindingKey / operationKey`稳定排序存储。生成本次过程写入的请求及完整预期时，显式使用这一存储顺序；保护脚本仍严格比较实际数组顺序，不全局重排来隐藏业务变化。保存后只有顺序不同也先独立回读、核对源码与全部字段；确认已落地后用有来源证据的新候选跳过该对象，不重放PATCH。未修改的嵌套数组按原完整基线保留。
+
 上述限定比较由同一`businessConfiguration / sameConfiguration`入口用于计划的PATCH投影、写前基线守护、已落地跳过及独立回读。完整当前业务内容同义于候选时，即使摘要已变化，也只记录已落地而不再次PATCH；不能全局递归删空值、忽略明确失败原因或屏蔽其它未知字段。候选与业务数据不符合这些已核实的DTO路径时仍按原规则阻断。
 
 以下入口均以`/api/admin/games/{gameId}`为前缀，当前请求不接受`baseDigest`。更新前比较完整基线，更新后独立读取；这些入口不能使用触发规则脚本。
@@ -78,3 +80,9 @@
 `MODIFY_INTERNAL_STATE` 的明细为 `{stateSkillKey, stateKey, operation: 'REDUCE_RECOVERY', value}`，请求真源为 `SkillTriggerModifyInternalStateActionDetail.java`。它只允许本技能 `BASIC_ATTACK_HIT / EVENT_SOURCE` 修改自身 `SKILL / AMMO` 的下一枚回充余时；`runtimeInputBindings / resultModifiers` 均为空。金额使用现行数值引用，不增加库存、不改变单发冷却、不借用辅助过程。其它动作的事件来源和输入授权保持原约束。
 
 每发循环沿现有 `START_PROCESS` 的 `INTERNAL_STATE / VALUE` 绑定读取本技能整数计数器，仅在 `PROCESS_START / COUNTER / SET` 使用相应动态值及已核验公式。应先冻结本次序号再推进下一发，命中条件读取冻结状态；不新增过程算子或用一个效果假装扣弹。完整边界及验证真源见[作者与宿主实施契约](../../../../outputs/priority-adaptation-2026-10-18/corki-next/r-implementation-2026-10-19/作者与宿主实施契约.md)，执行前核对实际部署版本。
+
+### 有期指定技能冷却时长倍率
+
+`COOLDOWN_DURATION_MODIFIER`（冷却时长修正）的`detail`只接受`{affectedSkillScope:{mode:'SKILLS',skillKeys:[...],skillCategoryKeys:[]}}`，指定技能非空、合法、无重复且属于同游戏；不接受其它范围、`operation`、未知字段、类型转换或显式空明细。请求真源为`SkillEffectCooldownDurationModifierDetail.java`及其严格反序列化分派。效果须为有限SOURCE单层、保持层数并刷新全部、同时到期、无周期/盾关联，结果为PERSISTENT/APPLICATION_SNAPSHOT/SHARED/REPLACE且不消费法术盾。完整数值规则在各声明等级最终都须静态、有限且严格大于0；0.5表示时长一半，1合法。参数、公式、生命周期与范围引用后续修改仍需通过事务最终态守卫。
+
+该结果沿现有`results`数组完整保护保存和独立回读；不写数据库新列、不冒充技能急速或剩余冷却操作。管理层可保存合法资料；实际本场INITIAL能力、关闭/未学/未计划的零匹配，以及只作用未来新提交冷却，仍由宿主和正式Wasm证明。见[共享实施方案及接线澄清](../../../../outputs/priority-adaptation-2026-10-18/nasus-next/内瑟斯通用机制共享实施方案.md)。执行前核对真实服务已安装支持该类型的版本；接口保存成功不能直接开放英雄。
