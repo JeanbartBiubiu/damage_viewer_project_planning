@@ -273,6 +273,55 @@ class SkillConfigurationServiceTest {
         assertEquals("409.SKILL_CONFIGURATION_CHANGED", error.getCode());
     }
 
+    @Test
+    void protectedPatchPreservesCooldownDurationScopeLifecycleAndIndependentReadDigest() throws Exception {
+        var baseline = service.get(GAME, SKILL);
+        var effectValue = xyz.game.datamanage.support.authoring.CooldownDurationTestData.effect();
+        effectValue.put("effectKey", "duration_buff").put("name", "有期冷却时长倍率").put("sortOrder", 0);
+        effectValue.putNull("description");
+        var summary = new SkillEffectSummaryResponse(GAME, SKILL, "duration_buff", "有期冷却时长倍率", null, 0, 1, TIME, TIME);
+        doAnswer(invocation -> {
+            SkillEffectCreateRequest request = invocation.getArgument(2);
+            assertEquals("COOLDOWN_DURATION_MODIFIER", request.results().getFirst().resultType().name());
+            when(effectService.list(GAME, SKILL)).thenReturn(List.of(summary));
+            when(effectService.get(GAME, SKILL, "duration_buff")).thenReturn(durationEffect(request.lifecycle(), request.results().getFirst()));
+            return null;
+        }).when(effectService).createWithinConfiguration(eq(GAME), eq(SKILL), any(), any(), any(), any());
+        var created = service.update(GAME, SKILL, new SkillConfigurationSaveRequest(baseline.baseDigest(), null,
+            List.of(new SkillConfigurationChange("EFFECT", "CREATE", "duration_buff", effectValue))));
+        assertNotEquals(baseline.baseDigest(), created.baseDigest());
+        assertEquals(created.baseDigest(), service.get(GAME, SKILL).baseDigest());
+        assertEquals(List.of("target_skill"), ((xyz.game.datamanage.model.skilleffect.SkillEffectCooldownDurationModifierDetail)
+            created.effects().getFirst().results().getFirst().detail()).affectedSkillScope().skillKeys());
+        effectValue.remove("effectKey");
+        ((com.fasterxml.jackson.databind.node.ObjectNode) effectValue.path("results").get(0).path("valueRule").path("value")).put("value", .75);
+        doAnswer(invocation -> {
+            SkillEffectUpdateRequest request = invocation.getArgument(3);
+            when(effectService.get(GAME, SKILL, "duration_buff")).thenReturn(durationEffect(request.lifecycle(), request.results().getFirst()));
+            return null;
+        }).when(effectService).updateWithinConfiguration(eq(GAME), eq(SKILL), eq("duration_buff"), any(), any(), any(), any(), any(Boolean.class));
+        var updated = service.update(GAME, SKILL, new SkillConfigurationSaveRequest(created.baseDigest(), null,
+            List.of(new SkillConfigurationChange("EFFECT", "UPDATE", "duration_buff", effectValue))));
+        assertNotEquals(created.baseDigest(), updated.baseDigest());
+        assertEquals(updated.baseDigest(), service.get(GAME, SKILL).baseDigest());
+        assertEquals(new BigDecimal("0.75"), updated.effects().getFirst().results().getFirst().valueRule().value().value());
+        assertEquals("SOURCE", updated.effects().getFirst().lifecycle().instanceScope().name());
+        var stale = assertThrows(ApiException.class, () -> service.update(GAME, SKILL,
+            new SkillConfigurationSaveRequest(created.baseDigest(), null, List.of())));
+        assertEquals("409.SKILL_CONFIGURATION_CHANGED", stale.getCode());
+    }
+
+    private SkillEffectDetailResponse durationEffect(xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRequest lifecycle,
+                                                     SkillEffectResultRequest request) throws Exception {
+        var requestValue = request.valueRule();
+        var behavior = request.lifecycleBehavior();
+        var result = new SkillEffectResultResponse(request.resultKey(), request.name(), request.resultType(), request.target(), request.description(), request.sortOrder(),
+            new SkillEffectValueRuleResponse(requestValue.value(), requestValue.fixedMultiplier(), requestValue.fixedMinValue(), requestValue.fixedMaxValue()), request.detail(),
+            new xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorResponse(behavior.moment(), behavior.valueReadMode(), behavior.stackValueMode(), behavior.reapplicationValueMode(), behavior.periodicExecutionMode()), null);
+        var life = json.treeToValue(json.valueToTree(lifecycle), xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleResponse.class);
+        return new SkillEffectDetailResponse(GAME, SKILL, "duration_buff", "有期冷却时长倍率", null, 0, life, List.of(result), TIME, TIME);
+    }
+
     private SkillEffectDetailResponse roleEffect(SkillEffectResultRequest request) {
         var rule = request.valueRule();
         var result = new SkillEffectResultResponse(request.resultKey(), request.name(), request.resultType(), request.target(),

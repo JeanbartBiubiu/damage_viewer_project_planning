@@ -196,8 +196,17 @@
           "slot": "W",
           "key": "nasus_w",
           "name": "内瑟斯·枯萎",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "W只降低目标移动和攻击速度；本场目标不自主攻击、不施法，也不模拟位置，因而整槽不参与当前数值分析。保留原始参数、过程、效果及挂载关系，不以删除配置绕过缺口，不表示真实游戏W没有价值。",
+            "evidenceRefs": [
+              "skillThirdStageCurrentReadback",
+              "heroSourceInventory",
+              "threeHeroCastProcessEntryBackfillFifth",
+              "nasusNumericalScope20261019"
+            ],
+            "candidateSha256": null
+          }
         },
         {
           "slot": "E",

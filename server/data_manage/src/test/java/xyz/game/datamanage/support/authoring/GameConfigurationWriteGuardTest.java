@@ -75,6 +75,75 @@ class GameConfigurationWriteGuardTest {
     }
 
     @Test
+    void changingOnlyMultiplierParameterRevalidatesTheUnchangedEffectBeforeCommit() throws Exception {
+        Connection connection = connection();
+        var effect = CooldownDurationTestData.effect();
+        ((com.fasterxml.jackson.databind.node.ObjectNode) effect.path("results").get(0).path("valueRule"))
+            .set("value", AggregateJson.tree("{\"kind\":\"PARAMETER\",\"parameterKey\":\"factor\"}"));
+        Map<String, Object> object = Map.of("source_type", "EFFECT", "skill_key", "caster_skill", "source_key", "buff", "data", effect.toString());
+        var before = new java.util.ArrayList<>(snapshotRows(List.of(object)));
+        var after = new java.util.ArrayList<>(snapshotRows(List.of(object)));
+        before.add(Map.of("object_type", "PARAMETER", "skill_key", "caster_skill", "object_key", "factor", "data", "{\"fixedValue\":0.5}"));
+        after.add(Map.of("object_type", "PARAMETER", "skill_key", "caster_skill", "object_key", "factor", "data", "{\"fixedValue\":0}"));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(before, after);
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(object));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.REFERENCES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "source_skill_key", "caster_skill", "source_type", "EFFECT", "source_key", "buff", "field_path", "results[0].valueRule.value.parameterKey",
+            "target_type", "PARAMETER", "target_skill_key", "caster_skill", "target_key", "factor", "target_sub_key", "")));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of(
+            Map.of("target_type", "PARAMETER", "skill_key", "caster_skill", "object_key", "factor"),
+            Map.of("target_type", "SKILL", "skill_key", "", "object_key", "target_skill")));
+        when(jdbc.queryForList(SkillNumericSemantics.PARAMETERS_SQL, "lol")).thenReturn(List.of(Map.of(
+            "skill_key", "caster_skill", "parameter_key", "factor", "value_type", "DECIMAL", "value_mode", "FIXED", "fixed_value", 0)));
+        var error = assertThrows(ApiException.class, () -> transaction(connection).execute(tx -> {
+            guard.begin("lol"); jdbc.update("isolated multiplier change"); return null;
+        }));
+        assertEquals("400.INVALID_SKILL_NUMERIC_VALUE", error.getCode());
+        assertTrue(error.getDetails().toString().contains("VALUE_RANGE_INVALID"));
+        verify(connection).rollback(); verify(connection, never()).commit();
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"scope", "duration", "moment"})
+    void finalEffectMutationsCannotBypassTheDurationModifierPositionContract(String scenario) throws Exception {
+        Connection connection = connection();
+        var beforeEffect = CooldownDurationTestData.effect();
+        var afterEffect = beforeEffect.deepCopy();
+        if (scenario.equals("scope")) ((com.fasterxml.jackson.databind.node.ObjectNode) afterEffect.path("lifecycle")).put("instanceScope", "TARGET");
+        if (scenario.equals("duration")) ((com.fasterxml.jackson.databind.node.ObjectNode) afterEffect.path("lifecycle")).set("durationValue", CooldownDurationTestData.fixed("0"));
+        if (scenario.equals("moment")) ((com.fasterxml.jackson.databind.node.ObjectNode) afterEffect.path("results").get(0).path("lifecycleBehavior")).put("moment", "APPLICATION");
+        Map<String, Object> before = Map.of("source_type", "EFFECT", "skill_key", "caster_skill", "source_key", "buff", "data", beforeEffect.toString());
+        Map<String, Object> after = Map.of("source_type", "EFFECT", "skill_key", "caster_skill", "source_key", "buff", "data", afterEffect.toString());
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(before), List.of(after));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(snapshotRows(List.of(before)), snapshotRows(List.of(after)));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of(Map.of("target_type", "SKILL", "skill_key", "", "object_key", "target_skill")));
+        assertThrows(ApiException.class, () -> transaction(connection).execute(tx -> {
+            guard.begin("lol"); jdbc.update("isolated duration shape change"); return null;
+        }));
+        verify(connection).rollback(); verify(connection, never()).commit();
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
+    }
+
+    @Test
+    void deletingASkillReferencedByDurationScopeRollsBackTheWholeTransaction() throws Exception {
+        Connection connection = connection();
+        Map<String, Object> effect = Map.of("source_type", "EFFECT", "skill_key", "caster_skill", "source_key", "buff", "data", CooldownDurationTestData.effect().toString());
+        var before = new java.util.ArrayList<>(snapshotRows(List.of(effect)));
+        before.add(Map.of("object_type", "SKILL", "skill_key", "", "object_key", "target_skill", "data", "{\"status\":\"ENABLED\"}"));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(effect));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(before, snapshotRows(List.of(effect)));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.REFERENCES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "source_skill_key", "caster_skill", "source_type", "EFFECT", "source_key", "buff", "field_path", "results[0].detail.affectedSkillScope.skillKeys[0]",
+            "target_type", "SKILL", "target_skill_key", "", "target_key", "target_skill", "target_sub_key", "")));
+        var error = assertThrows(ApiException.class, () -> transaction(connection).execute(tx -> {
+            guard.begin("lol"); jdbc.update("isolated target skill deletion"); return null;
+        }));
+        assertTrue(error.getDetails().toString().contains("target_skill"));
+        verify(connection).rollback(); verify(connection, never()).commit();
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
+    }
+
+    @Test
     void finalChannelEndpointChangeRollsBackBeforeReferenceReplacement() throws Exception {
         Connection connection = connection();
         when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of(

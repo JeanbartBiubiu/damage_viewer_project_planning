@@ -174,6 +174,20 @@ public final class SkillNumericSemantics {
                         Use valueUse = use(a, r.path("valueRule"), path + ".valueRule", "value",
                             valueBound,
                             current);
+                        if ("COOLDOWN_DURATION_MODIFIER".equals(text(r, "resultType"))) {
+                            List<Map<String, String>> issues = SkillCooldownDurationSemantics.issues(life, r, path);
+                            if (!issues.isEmpty()) {
+                                Map<String, String> issue = issues.getFirst();
+                                throw invalid(a, issue.get("field"), issue.get("code"), issue.get("message"));
+                            }
+                            validateCooldownDuration(a, valueUse, r.path("valueRule"), null, path + ".valueRule.value");
+                            requireCooldownStatic(a, use(a, life, "lifecycle", "durationValue", Bound.POSITIVE_INTEGER, true),
+                                false, "lifecycle.durationValue");
+                            for (String field : List.of("maxStacksValue", "applicationStacksValue")) {
+                                requireCooldownStatic(a, use(a, life, "lifecycle", field, Bound.POSITIVE_INTEGER, true),
+                                    true, "lifecycle." + field);
+                            }
+                        }
                         if ("RATIO_COMPLEMENT_MULTIPLY".equals(zoneModes.get(text(r.path("detail"), "modifierZoneKey")))) {
                             List<Map<String, String>> issues = new ArrayList<>();
                             AttributeComplementMultiplySemantics.addReferenceIssues(
@@ -921,6 +935,11 @@ public final class SkillNumericSemantics {
                         "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]"
                     );
                 }
+                if (result != null && "COOLDOWN_DURATION_MODIFIER".equals(text(result, "resultType"))) {
+                    validateCooldownDuration(rule, findUse(effect, "results[" + resultIndex + "].valueRule.value"),
+                        result.path("valueRule"), modifier,
+                        "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]");
+                }
                 if (result != null
                     && "LIFECYCLE_OPERATION".equals(text(result, "resultType"))
                     && "EXTEND_DURATION".equals(text(result.path("detail"), "operation"))) {
@@ -972,6 +991,32 @@ public final class SkillNumericSemantics {
                 if (use.path().equals(path)) return use;
             }
             return null;
+        }
+
+        private void requireCooldownStatic(Aggregate source, Use value, boolean one, String path) {
+            if (value == null) throw invalid(source, path, "REQUIRED", "冷却时长修正需要明确的有限单层生命周期");
+            for (Fraction result : staticConditionValues(value).values()) {
+                if (!finite(result) || !result.denominator().equals(BigInteger.ONE)
+                    || result.numerator().signum() <= 0
+                    || result.compareTo(Fraction.of(new BigDecimal("9007199254740991"))) > 0
+                    || one && result.compareTo(Fraction.of(BigDecimal.ONE)) != 0) {
+                    throw invalid(source, path, "VALUE_RANGE_INVALID", one
+                        ? "冷却时长修正的全部等级层数必须静态恒为1" : "冷却时长修正的持续时间必须是静态正安全整数毫秒");
+                }
+            }
+        }
+
+        private void validateCooldownDuration(Aggregate source, Use value, JsonNode rule, JsonNode modifier, String path) {
+            if (value == null) throw invalid(source, path, "REQUIRED", "冷却时长修正必须提供静态正倍率");
+            for (Fraction raw : staticConditionValues(value).values()) {
+                Fraction effective = applyFixedRule(raw, rule);
+                if (modifier != null) effective = applyFixedRule(effective, modifier);
+                double number = new BigDecimal(effective.numerator())
+                    .divide(new BigDecimal(effective.denominator()), java.math.MathContext.DECIMAL128).doubleValue();
+                if (!Double.isFinite(number) || number <= 0) {
+                    throw invalid(source, path, "VALUE_RANGE_INVALID", "冷却时长修正的全部等级有效倍率必须静态、有限且大于零");
+                }
+            }
         }
 
         private boolean isHealingRatioMaxDecrease(JsonNode result) {

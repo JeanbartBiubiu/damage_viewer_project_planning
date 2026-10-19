@@ -86,6 +86,39 @@ class SkillEffectAdminControllerTest {
     }
 
     @Test
+    void cooldownDurationJsonAcceptedAndIndependentGetKeepsOnlyItsScope() throws Exception {
+        var body = xyz.game.datamanage.support.authoring.CooldownDurationTestData.effect();
+        body.put("effectKey", "duration_buff").put("name", "有期时长倍率").put("sortOrder", 0).putNull("description");
+        var request = xyz.game.datamanage.support.authoring.AggregateJson.read(body.toString(), SkillEffectCreateRequest.class);
+        var row = request.results().getFirst();
+        var rule = row.valueRule(); var behavior = row.lifecycleBehavior(); var life = request.lifecycle();
+        var response = new SkillEffectDetailResponse("lol", "ezreal_q", "duration_buff", "有期时长倍率", null, 0,
+            new xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleResponse(life.durationValue(), life.maxStacksValue(), life.applicationStacksValue(),
+                life.instanceScope(), life.reapplicationStackMode(), life.reapplicationDurationMode(), life.expiryMode(), life.periodicIntervalValue(), life.firstPeriodicExecution(), null),
+            List.of(new SkillEffectResultResponse(row.resultKey(), row.name(), row.resultType(), row.target(), row.description(), row.sortOrder(),
+                new SkillEffectValueRuleResponse(rule.value(), rule.fixedMultiplier(), rule.fixedMinValue(), rule.fixedMaxValue()), row.detail(),
+                new xyz.game.datamanage.model.skilleffect.SkillEffectResultLifecycleBehaviorResponse(behavior.moment(), behavior.valueReadMode(), behavior.stackValueMode(), behavior.reapplicationValueMode(), behavior.periodicExecutionMode()), null)), TS, TS);
+        when(service.create(eq("lol"), eq("ezreal_q"), any(SkillEffectCreateRequest.class))).thenReturn(response);
+        when(service.get("lol", "ezreal_q", "duration_buff")).thenReturn(response);
+        mockMvc.perform(post(BASE_PATH).contentType(MediaType.APPLICATION_JSON).content(body.toString()))
+            .andExpect(status().isCreated()).andExpect(jsonPath("$.results[0].resultType").value("COOLDOWN_DURATION_MODIFIER"));
+        mockMvc.perform(get(BASE_PATH + "/duration_buff")).andExpect(status().isOk())
+            .andExpect(jsonPath("$.results[0].detail.affectedSkillScope.skillKeys[0]").value("target_skill"))
+            .andExpect(jsonPath("$.results[0].detail.operation").doesNotExist())
+            .andExpect(jsonPath("$.results[0].lifecycleBehavior.reapplicationValueMode").value("REPLACE"));
+    }
+
+    @Test
+    void cooldownDurationJsonRejectsExtraNullOperationBeforeServiceWrite() throws Exception {
+        var body = xyz.game.datamanage.support.authoring.CooldownDurationTestData.effect();
+        body.put("effectKey", "duration_buff").put("name", "时长倍率").put("sortOrder", 0);
+        ((com.fasterxml.jackson.databind.node.ObjectNode) body.path("results").get(0).path("detail")).putNull("operation");
+        mockMvc.perform(post(BASE_PATH).contentType(MediaType.APPLICATION_JSON).content(body.toString()))
+            .andExpect(status().isBadRequest());
+        verify(service, never()).create(any(), any(), any());
+    }
+
+    @Test
     void listsGetsCreatesUpdatesAndDeletesWithStatusesAndEditLogs() throws Exception {
         SkillEffectSummaryResponse summary = summary();
         SkillEffectDetailResponse detail = detail();
