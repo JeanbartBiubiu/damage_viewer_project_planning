@@ -1,22 +1,8 @@
-git -C C:\project\damage_backend_dev push origin backend/dev
-
-git -C C:\project\damage_wasm_dev push origin wasm/dev
-
-git -C C:\project\damage_web_dev push origin web/dev
-
-git -C C:\project\damage_viewer_project_planning checkout master
-git -C C:\project\damage_viewer_project_planning merge --no-edit backend/dev
-git -C C:\project\damage_viewer_project_planning merge --no-edit wasm/dev
-git -C C:\project\damage_viewer_project_planning merge --no-edit web/dev
-git -C C:\project\damage_viewer_project_planning push origin master
-
-git -C C:\project\damage_backend_dev checkout backend/dev
-git -C C:\project\damage_backend_dev merge --no-edit master
-
-git -C C:\project\damage_wasm_dev checkout wasm/dev
-git -C C:\project\damage_wasm_dev merge --no-edit master
-
-git -C C:\project\damage_web_dev checkout web/dev
-git -C C:\project\damage_web_dev merge --no-edit master
-
+# 主干加短期分支：在仓库根目录执行，<branch> 换成本次任务分支。
+# 分支落后于 master 时先执行：git rebase master <branch>
+git switch master
+git pull --ff-only origin master
+git merge --ff-only <branch>
+git push origin master
 git push github master
+git branch -d <branch>

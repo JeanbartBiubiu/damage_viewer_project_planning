@@ -46,7 +46,7 @@ node .agents\skills\cursor-local-agent\scripts\cursor_local_agent_run.mjs --help
 真实任务优先使用现有 runner（执行脚本）：
 
 ```powershell
-$repo = "C:\project\damage_viewer_project_planning"
+$repo = git rev-parse --show-toplevel
 $runner = Join-Path $repo ".agents\skills\cursor-local-agent\scripts\cursor_local_agent_run.mjs"
 node $runner `
   --cwd $repo `

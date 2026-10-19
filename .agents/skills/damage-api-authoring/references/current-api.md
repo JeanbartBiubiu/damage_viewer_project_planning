@@ -1,12 +1,12 @@
 # 现行入口与变更核对
 
-核对基准日期：2026-10-17。下列路径用于定位真源，不替代当前请求类型；工作树位置以根规则为准。
+核对基准日期：2026-10-17。下列路径用于定位真源，不替代当前请求类型；均相对仓库根目录。
 
 场景显式初值声明于2026-10-18追加，见文末当前约束；写入前仍核对实际服务已部署该类型。
 
 状态初值与普攻减少弹药回充于2026-10-19追加，见文末相应入口；源码修改不代表运行中的服务已更新。
 
-| 对象 | 前端契约真源，相对 `C:/project/damage_web_dev/web/` | 后端真源，相对 `C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/` |
+| 对象 | 前端契约真源，相对 `web/` | 后端真源，相对 `server/data_manage/src/main/java/xyz/game/datamanage/` |
 | --- | --- | --- |
 | 技能完整配置 | `src/services/skillConfigurationClient.ts`、`src/types/skillConfiguration.ts`；各组成的类型与表单转换 | `controller/adminapi/skill/SkillConfigurationAdminController.java`、`model/skillconfiguration/SkillConfigurationSaveRequest.java`、`service/skillconfiguration/SkillConfigurationService.java` |
 | 角色、等级属性与技能关系 | `src/services/characterClient.ts`、`skillRelationClient.ts`及对应类型 | `controller/adminapi/character/`、`controller/adminapi/skillrelation/CharacterSkillRelationAdminController.java`及`model/character/` |

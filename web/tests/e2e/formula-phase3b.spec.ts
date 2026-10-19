@@ -11,7 +11,7 @@ import type { SkillConfiguration } from '../../src/types/skillConfiguration';
 const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:18081';
 const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN || '';
 const headers = token ? { Authorization: `Bearer ${token}` } : {};
-const builderUrl = pathToFileURL('C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/scripts/formula-phase3b-input.mjs').href;
+const builderUrl = pathToFileURL('../wasm/tinygo_engine_v2/scripts/formula-phase3b-input.mjs').href;
 
 test.beforeEach(async ({ page }) => {
   expect(process.env.SIMULATION_LIVE_API, '本专项必须启用真实服务').toBe('1');

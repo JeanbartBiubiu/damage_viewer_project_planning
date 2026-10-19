@@ -58,14 +58,14 @@ TinyGo编译的浏览器内计算引擎。正式业务入口为 `engine_compile`
 在本模块目录运行；将`input-1.json`换成`input-0.json`即为无装备场景。正式采样报告的往返包含宿主和GC，不能当纯计算。
 
 ```powershell
-node --cpu-prof --cpu-prof-interval=100 --cpu-prof-dir=target --cpu-prof-name=gear.cpuprofile scripts/profile-run-node.mjs --wasm dist/tinygo_engine_v2.wasm --input C:/project/damage_web_dev/web/output/kill-latency-2026-10-11/input-1.json --mode summary --warmup 10 --iterations 200 --output target/gear-run.json
+node --cpu-prof --cpu-prof-interval=100 --cpu-prof-dir=target --cpu-prof-name=gear.cpuprofile scripts/profile-run-node.mjs --wasm dist/tinygo_engine_v2.wasm --input ../../web/output/kill-latency-2026-10-11/input-1.json --mode summary --warmup 10 --iterations 200 --output target/gear-run.json
 node scripts/profile-run-node.mjs --profile target/gear.cpuprofile --output target/gear-cpu.json
-node scripts/allocation-run-node.mjs --wasm target/perf-next-2026-10-14/closeout-metadata/allocation.wasm --input C:/project/damage_web_dev/web/output/kill-latency-2026-10-11/input-1.json --mode summary --warmup 5 --iterations 20 --output target/gear-allocation.json
+node scripts/allocation-run-node.mjs --wasm target/perf-next-2026-10-14/closeout-metadata/allocation.wasm --input ../../web/output/kill-latency-2026-10-11/input-1.json --mode summary --warmup 5 --iterations 20 --output target/gear-allocation.json
 ```
 
 CPU报告仅筛选实际栈中含`runLoop`的样本，按叶函数汇总自身耗时。本机正式优化基线71050样本命中0，没有保留可命中的`runLoop`，明确无法归因；不能改用`RunGeneric`或全部Wasm样本冒充循环样本。本轮采用依据是浏览器阶段计时与真实Wasm分配对照。
 
-分配入口需要独立诊断产物的`engine_memory_read`与`engine_profile_memory`；正式产物没有诊断导出。沿用`target/perf-next-2026-10-14/`本地诊断工具，`prepare-stage.mjs`冻结源、`configure-closeout.mjs`接入当前输出编码锚点、`build-closeout.mjs`按正式参数构建正式／时标／分配三份Wasm，使用独立`closeout-...`阶段名，拒绝覆盖既有档案。分配副本在`RunGeneric`前后及宿主指定窗口读取TinyGo内存统计，`ReadMemStats`会扫描元数据，不作计时或单独证明存活内存。当前基线、账本及缓存档案为`closeout-base/`、`closeout-ledger-final/`、`closeout-metadata/`；新检出若没有本地档案，先恢复诊断工具及冻结输入，不能将缺失导出当零分配。完整证据与提交边界见[专项收尾验收](C:/project/damage_viewer_project_planning/outputs/wasm-performance-plan-2026-10-14/单次性能专项收尾验收-2026-10-15.md)。
+分配入口需要独立诊断产物的`engine_memory_read`与`engine_profile_memory`；正式产物没有诊断导出。沿用`target/perf-next-2026-10-14/`本地诊断工具，`prepare-stage.mjs`冻结源、`configure-closeout.mjs`接入当前输出编码锚点、`build-closeout.mjs`按正式参数构建正式／时标／分配三份Wasm，使用独立`closeout-...`阶段名，拒绝覆盖既有档案。分配副本在`RunGeneric`前后及宿主指定窗口读取TinyGo内存统计，`ReadMemStats`会扫描元数据，不作计时或单独证明存活内存。当前基线、账本及缓存档案为`closeout-base/`、`closeout-ledger-final/`、`closeout-metadata/`；新检出若没有本地档案，先恢复诊断工具及冻结输入，不能将缺失导出当零分配。完整证据与提交边界见[专项收尾验收](../../outputs/wasm-performance-plan-2026-10-14/单次性能专项收尾验收-2026-10-15.md)。
 
 ## 模块职责
 
@@ -121,32 +121,27 @@ node .\scripts\bench-node.mjs --mode generic-run --iterations 10 --warmup 2
 TinyGo 不在 `PATH` 时：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "C:\path\to\tinygo.exe"
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "<tinygo.exe 路径>"
 ```
 
 ### TinyGo 工具链定位
 
-`Get-Command tinygo` 或 `where.exe tinygo` 未命中只表示当前终端的 `PATH` 没有 TinyGo，不代表机器上未安装。当前项目级 TinyGo 0.40.1 位于：
+`Get-Command tinygo` 或 `where.exe tinygo` 未命中只表示当前终端的 `PATH` 没有 TinyGo，不代表机器上未安装。构建脚本未命中 `PATH` 时，依次查找仓库根目录下被忽略的 `.tools/` 和仓库根目录的上一级目录：
 
 ```text
-C:\project\tinygo0.40.1\tinygo\bin\tinygo.exe
-C:\project\tinygo0.40.1\tinygo\targets\wasm_exec.js
+.tools/tinygo0.40.1/tinygo/bin/tinygo(.exe)        ../tinygo0.40.1/tinygo/bin/tinygo(.exe)
+.tools/binaryen-version_129/bin/wasm-opt(.exe)     ../binaryen-version_129/bin/wasm-opt(.exe)
 ```
 
-可直接复核版本：
-
-```powershell
-& 'C:\project\tinygo0.40.1\tinygo\bin\tinygo.exe' version
-```
-
-`build-wasm.ps1` 会先解析传入值或 `PATH` 中的 `tinygo`；默认值未命中时，再依次查找仓库级 `.tools\tinygo0.40.1\tinygo\bin\tinygo.exe` 和项目级 `C:\project\tinygo0.40.1\tinygo\bin\tinygo.exe`。因此在当前项目布局中无需修改全局 `PATH`，直接运行默认构建命令即可。工具移动到其它位置时再显式传入 `-TinyGo`。
+工具放在其它位置时显式指定：PowerShell 用 `-TinyGo`，bash 用 `TINYGO=<路径>`，`wasm-opt` 用环境变量 `WASMOPT`。正式产物使用 TinyGo 0.40.1 与 binaryen 129，换用 binaryen 124 产物字节会变。
 
 Node 宿主必须加载与编译器同版本的 `wasm_exec.js`；仓库脚本同样会查找上述工具目录，也可用 `TINYGO_WASM_EXEC` 显式指定。
 
 ## 构建
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1   # Windows
+bash scripts/build-wasm.sh                                         # macOS / Linux
 ```
 
 等价于：

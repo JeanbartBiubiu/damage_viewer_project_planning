@@ -20,7 +20,7 @@ const api = process.env.SIMULATION_API_BASE || 'http://127.0.0.1:8080';
 const output = resolve('output/phase6c/business');
 const wasmPath = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
 const expectedHash = WASM_IDENTITY.sha256;
-const nativeHost = process.env.SIMULATION_GENERIC_HOST || 'C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/scripts/generic-abi-host.mjs';
+const nativeHost = process.env.SIMULATION_GENERIC_HOST || '../wasm/tinygo_engine_v2/scripts/generic-abi-host.mjs';
 
 type BusinessCase = {
   name: string; skill: 'vi_q' | 'missfortune_r'; kind: 'damage' | 'failure' | 'counter' | 'third' | 'equipment' | 'channel';

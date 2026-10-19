@@ -9,7 +9,7 @@ description: "读取或变更 Damage Viewer 后端 PostgreSQL 实库、核对结
 
 ## 范围
 
-- repo root: `c:\project\damage_backend_dev`
+- repo root: 当前仓库根目录（`git rev-parse --show-toplevel`）
 - backend module: `server\data_manage`
 - SQL root: `db\game_manage`
 - default datasource config: `server\data_manage\src\main\resources\application.yml`

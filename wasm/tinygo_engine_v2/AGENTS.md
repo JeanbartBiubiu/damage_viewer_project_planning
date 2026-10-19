@@ -27,7 +27,7 @@
 | 运行时、调度、公式、资源或数值管道 | 上述测试，加 `go run ./cmd/bench` |
 | 新增或修改每个事件都会执行的查找结构、缓存或分配 | 附正式 Wasm 剖析或真实 Wasm 每次分配调用数的同口径对照 |
 | ABI、frame、outbox 或会话生命周期 | 构建最终 Wasm 后运行 `node .\scripts\smoke-node.mjs` |
-| 构建脚本、target 或导出 | 运行 `powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1` |
+| 构建脚本、target 或导出 | 运行 `powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1`（macOS/Linux 用 `bash scripts/build-wasm.sh`） |
 | Node 验证或性能脚本 | 运行对应语法、单测、smoke 或 `generic-run` benchmark |
 | 前端宿主 | 按 `web/AGENTS.md` 检查并验证受影响浏览器路径 |
 

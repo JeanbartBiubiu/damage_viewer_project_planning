@@ -8,7 +8,7 @@ import { readIsolatedSimulationSnapshot, simulationComparisonSelection } from '.
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 
 const api = process.env.SIMULATION_API_BASE || 'http://127.0.0.1:18084';
-const builder = pathToFileURL('C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/scripts/calculation-rules-input.mjs').href;
+const builder = pathToFileURL('../wasm/tinygo_engine_v2/scripts/calculation-rules-input.mjs').href;
 
 async function archive(info: TestInfo, value: unknown) {
   const path = info.outputPath('final-worker.json');

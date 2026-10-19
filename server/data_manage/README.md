@@ -25,7 +25,7 @@
 在模块目录运行：
 
 ```powershell
-node ../../tools/authoring/generate-simulation-priority-scope.mjs --ledger C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/阶段进度.json
+node ../../tools/authoring/generate-simulation-priority-scope.mjs --ledger ../../数据参考/全量录入-2026-09/阶段进度.json
 node --test ../../tools/authoring/generate-simulation-priority-scope.test.mjs
 mvn "-Dtest=SimulationAvailability*Test" test
 ```

@@ -8,7 +8,7 @@ import type { Expression, FormulaDefinition } from '../../src/types/formulaContr
 
 const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
 const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN || '';
-const builderUrl = pathToFileURL('C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/scripts/formula-phase3-input.mjs').href;
+const builderUrl = pathToFileURL('../wasm/tinygo_engine_v2/scripts/formula-phase3-input.mjs').href;
 
 test.beforeEach(async ({ page }) => {
   expect(process.env.SIMULATION_LIVE_API, '本专项必须启用真实后端；不以跳过代替验收').toBe('1');

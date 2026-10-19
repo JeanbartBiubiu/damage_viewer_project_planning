@@ -4,7 +4,7 @@
 
 ## 约束
 
-- `build-wasm.ps1` 与 `targets/wasm-256m.json` 共同决定构建；`wasm_exec.js` 必须来自同一 TinyGo 版本。
+- `build-wasm.ps1`（Windows）、`build-wasm.sh`（macOS/Linux）与 `targets/wasm-256m.json` 共同决定构建，两份脚本的入口、参数和工具查找顺序保持一致；`wasm_exec.js` 必须来自同一 TinyGo 版本。
 - `smoke-node.mjs` 验证 compile/run/release 往返，`bench-node.mjs` 负责实例化和 `generic-run` 性能，`generic-abi-host.mjs` 提供共享宿主接线。专项 `vamp-smoke-node.mjs`、`status-merge-smoke-node.mjs`、`skill-hit-smoke-node.mjs`、`p6-smoke-node.mjs` 使用各自独立 fixture，不修改或复制基准样例。
 - 当前smoke与benchmark显式选择 `formula-phase4-input.mjs` 的独立作者输入。`generic-abi-host.mjs` 的旧样例加载器维持纯读取；原固定样例只用于新协议拒绝及旧档案复核，不修改、复制或加载后补公式。
 - `smoke-node.mjs --legacy-fixture --wasm target/formula-phase4-baseline/tinygo_engine_v2.wasm` 复核旧协议900；第四阶段正式验证使用 `target/formula-phase4/tinygo_engine_v2.wasm`，专项为 `formula-phase4-smoke-node.mjs`。第三A／B专项在当前产物上分别证明原输入拒绝、新独立基准900及既有共同公式能力。

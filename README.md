@@ -21,12 +21,12 @@
 
 ## 按模块继续阅读
 
-| 工作范围 | 工作树根目录 | 入口 |
+| 工作范围 | 目录 | 入口 |
 | --- | --- | --- |
-| 规划与共享治理 | `C:\project\damage_viewer_project_planning`，`master` | 本页、[根协作规则](AGENTS.md) |
-| 后端 | `C:\project\damage_backend_dev` | [后端说明](server/data_manage/README.md)、[后端规则](server/data_manage/AGENTS.md) |
-| 前端 | `C:\project\damage_web_dev` | [前端说明](web/README.md)、[前端规则](web/AGENTS.md) |
-| 计算引擎 | `C:\project\damage_wasm_dev` | [引擎说明](wasm/tinygo_engine_v2/README.md)、[引擎规则](wasm/tinygo_engine_v2/AGENTS.md) |
+| 规划与共享治理 | 仓库根目录 | 本页、[根协作规则](AGENTS.md) |
+| 后端 | `server/data_manage/` | [后端说明](server/data_manage/README.md)、[后端规则](server/data_manage/AGENTS.md) |
+| 前端 | `web/` | [前端说明](web/README.md)、[前端规则](web/AGENTS.md) |
+| 计算引擎 | `wasm/tinygo_engine_v2/` | [引擎说明](wasm/tinygo_engine_v2/README.md)、[引擎规则](wasm/tinygo_engine_v2/AGENTS.md) |
 | 数据库 | 随后端维护 | [数据库导览](db/README.md)、[建表脚本](db/game_manage/schema.sql) |
 
 模块命令、文件位置和实现事实由对应说明与源码维护；功能契约保留在 `文档记录/`。任务状态和文档归属只由[任务规则](db/task_doc_governance/task_rules.json)维护，本页只提供阅读入口。开发及独立评审责任见[流程说明](文档记录/详细设计/开发与独立评审流程说明.md)。
@@ -45,4 +45,4 @@
 node tools/task-governance/cli.mjs check
 ```
 
-共享规则的真源和跨工作树更新方式见根协作规则第4节。
+所有模块在 `master` 主干上用短期分支协作，持续集成见 `.github/workflows/ci.yml`，约定见根协作规则第4节。引擎回归用[机制回归用例](web/tests/mechanisms/README.md)；移出跟踪的历史证据见[外置归档索引](数据参考/外置归档索引.md)。
