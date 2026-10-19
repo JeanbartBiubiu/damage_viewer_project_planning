@@ -21,3 +21,13 @@
 /web/.playwright-cli/
 /server/data_manage/output/
 /.agents/artifacts/
+
+# 本机 IDE 与临时文件
+/.vs/
+/.idea/
+*.iml
+/tmp_*
+
+# 运行日志与原始证据只留在本机或外部归档，见 数据参考/外置归档索引.md
+*.log
+/数据参考/全量录入-2026-09/交叉试录/
