@@ -11,6 +11,7 @@ import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import { inspectSimulationProcessFacts, simulationActionContribution } from './simulationProcessFacts';
 import { empoweredDamageProcess } from './empoweredAttackContract';
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
+import { basicAttackPrimaryBinding, inspectPrimaryReplacements } from './primaryAttackReplacementContract';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
@@ -383,9 +384,16 @@ export function assessContinuousAttackResult(
     check(actual >= completedCount * count && actual <= hitCount * count,
       'summary.damageBreakdown', '完整分类汇总缺少每刀必需组成或重复结算');
   }
-  check(sum(breakdown.filter(row => row.abilityRef === plan.hitAbilityRef && row.source === plan.source
-    && row.target === plan.target), 'damageCount') >= hitCount,
-  'summary.damageBreakdown', '每次真实主体命中必须有已提交的主体伤害事实');
+  const primary = basicAttackPrimaryBinding(input, plan);
+  const replacementIssues = inspectPrimaryReplacements(input, request, done);
+  check(replacementIssues.length === 0, 'summary.basicAttack.primaryReplacements', replacementIssues.join('；'));
+  const replacementCount = (done.summary.basicAttack?.primaryReplacements ?? []).reduce((count, row) => count + row.count, 0);
+  const orderedPrimaryProcesses = [...processUses.entries()].sort((left, right) => (left[1].startedAtMs as number) - (right[1].startedAtMs as number));
+  const primaryUseIndices = new Map(orderedPrimaryProcesses.map(([use], index) => [use, index + 1]));
+  const primaryCount = sum(breakdown.filter(row => row.abilityRef === plan.hitAbilityRef && row.source === plan.source
+    && row.target === plan.target && (!primary || row.operationRef === primary.operation.ref)), 'damageCount');
+  check(primary ? primaryCount + replacementCount >= completedCount && primaryCount + replacementCount <= hitCount
+    : primaryCount >= hitCount, 'summary.damageBreakdown', '每次真实主体命中只能提交原主体或合法替换之一');
   check(new Set(breakdown.map(breakdownKey)).size === breakdown.length, 'summary.damageBreakdown', '分类汇总键重复');
   for (const side of ['source', 'target'] as const) {
     check(close(sum(breakdown.filter(row => row.source === side), 'postDefenseDamage'), summary[`${side}DamageDealt`] as number)
@@ -509,6 +517,8 @@ export function assessContinuousAttackResult(
     if (index > 0) check(attacks[index - 1]!.nextStartAtMs === attack.startAtMs, `attackRecords[${index}]`, '未沿上刀已安排的冷却就绪时刻开始');
   });
   const damageIds = new Set<number>();
+  if (replacementCount) check(attacks.every(attack => primaryUseIndices.get(attack.useRef) === attack.attackIndex),
+    'attackRecords', '真实普攻刀号必须与完整过程顺序一致');
   const damages = array(result.damageRecords, 'runResult.damageRecords').map((value, index) => {
     const path = `damageRecords[${index}]`; const row = object(value, path);
     const origin = identity(row, path); amounts(row, path);
@@ -636,7 +646,9 @@ export function assessContinuousAttackResult(
     for (let index = 1; index <= Math.min(hitCount, 4096); index++) {
       for (const [path, contract] of attackContracts) {
         const count = damages.filter(row => row.attackIndex === index && row.operationPath === path && row.abilityRef === contract.origin.abilityRef).length;
-        check(contract.required && index <= completedCount ? count === 1 : count <= 1,
+        const replaced = primary?.operationPath === path && (done.finalSnapshot.processInstances ?? []).some(process =>
+          process.empoweredAttack?.replacedPrimary && primaryUseIndices.get(process.empoweredAttack.useRef) === index);
+        check(replaced ? count === 0 : contract.required && index <= completedCount ? count === 1 : count <= 1,
           'damageRecords', `第${index}刀缺少完整作者伤害结果或重复结算`);
       }
     }

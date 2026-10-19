@@ -11,6 +11,8 @@ import { describeCombatSkill } from '../pages/simulation/combatSkillRoster';
 import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import type { DamageRecord, DoneResult, ProcessInstanceSnapshot } from '../types/genericEngine';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
+import { basicAttackPrimaryBinding, inspectPrimaryReplacements, replacementPayloadBinding } from './primaryAttackReplacementContract';
+import { sameEmpoweredAttack } from './empoweredAttackContract';
 
 function sample(skillKey = 'empower_alpha', basicAttack = true) {
   const snapshot = simulationActiveSample();
@@ -37,8 +39,15 @@ function prepare(snapshot: ReturnType<typeof sample>) {
 const input = (snapshot: ReturnType<typeof sample>) => ({ ...snapshot.selection.plannedSkills[0]!, instructionKey: 'activate', atMs: 100, sortOrder: 0,
   targetSide: 'source' as const, phaseKind: 'INITIAL' as const, parentInstructionKey: null, hitPreset: null });
 
-async function consumptionFacts() {
-  const snapshot = sample(), prepared = prepare(snapshot);
+async function consumptionFacts(replacement = false) {
+  const snapshot = sample();
+  if (replacement) {
+    const primary = snapshot.skillConfigurations[0]!.effects.flatMap(effect => effect.results).find(result => result.resultType === 'DAMAGE')!;
+    if (primary.resultType === 'DAMAGE') primary.detail.attackDamageRole = 'PRIMARY';
+    const payload = snapshot.skillConfigurations[1]!.effects[0]!.results[0]!;
+    if (payload.resultType === 'DAMAGE') { payload.detail.attackDamageRole = 'REPLACE_PRIMARY'; payload.detail.deliveryKind = 'BASIC_ATTACK'; }
+  }
+  const prepared = prepare(snapshot);
   const request = (await skillActionRequest(prepared, snapshot, { actions: [input(snapshot)], durationMs: 600, attackSpeedInputMax: 5,
     recordTimeSeries: false, maxSkillActionRecords: 64, maxSkillUseRecords: 64, maxHealingRecords: 0 })).runRequest;
   const binding = prepared.compileRequest.rules.skillActionBindings![0]!, plan = request.driverPlan.basicAttack!;
@@ -78,6 +87,145 @@ async function healthLedgerFacts() {
   done.recording!.healingRecordsTruncated = false;
   return result;
 }
+
+async function primaryReplacementFacts(blocked = false, amount = 100) {
+  const result = await consumptionFacts(true), { prepared, request, done, process } = result;
+  const primary = basicAttackPrimaryBinding(prepared.compileRequest, request.driverPlan.basicAttack!)!;
+  const binding = prepared.compileRequest.rules.skillActionBindings![0]!;
+  const payload = replacementPayloadBinding(prepared.compileRequest, binding)!;
+  if (blocked) payload.candidate.spellShieldBlockScope = 'SKILL';
+  const association = { ...process.empoweredAttack!, replacedPrimary: primary.identity };
+  process.empoweredAttack = association;
+  done.skillUseRecords!.forEach(row => { if (row.empoweredAttack) row.empoweredAttack = structuredClone(association); });
+  const damage = { ...done.damageRecords![1]!, owner: 'source', operationPath: payload.operationPath,
+    operationRef: payload.operation.ref!, damageType: payload.operation.damageType!, empoweredAttack: structuredClone(association),
+    postDefenseDamage: amount, shieldAbsorbed: 0, actualHpLoss: amount, overkillDamage: 0 };
+  done.damageRecords = blocked ? [] : [damage];
+  done.summary = { durationMs: 600, basicAttack: { planKey: request.driverPlan.basicAttack!.planKey, startedCount: 1, hitCount: 1,
+    completedCount: 1, initialActionReadyAtMs: null, primaryReplacements: [{ primary: primary.identity, replacement: payload.identity,
+      target: 'target', count: 1, blockedCount: blocked ? 1 : 0, postDefenseDamage: blocked ? 0 : amount,
+      shieldAbsorbed: 0, actualHpLoss: blocked ? 0 : amount }] }, damageBreakdown: blocked ? [] : [{ owner: 'source', source: 'source', target: 'target',
+    abilityRef: binding.hitBindings[0]!.hitAbilityRef, operationRef: payload.operation.ref!, damageType: payload.operation.damageType!,
+    damageCount: 1, postDefenseDamage: amount, shieldAbsorbed: 0, actualHpLoss: amount, overkillDamage: 0 }] } as DoneResult['summary'];
+  return { ...result, primary, payload };
+}
+
+describe('通用普攻主体替换宿主契约', () => {
+  it('显式作者角色落到各自候选，真实普攻其它联动保持原序', async () => {
+    const { prepared, request, primary, payload } = await primaryReplacementFacts();
+    expect(primary.identity).toEqual({ owner: 'source', providerRef: 'selected_basic_attack', definitionRef: prepared.compileRequest.sharedProviders![0]!.providerKey,
+      startAbilityRef: request.driverPlan.basicAttack!.startAbilityRef, initialControlAbilityRef: request.driverPlan.basicAttack!.initialControlAbilityRef,
+      hitAbilityRef: request.driverPlan.basicAttack!.hitAbilityRef, candidateKey: primary.candidate.candidateKey,
+      effectOccurrenceKey: primary.candidate.effectOccurrenceKey, effectKey: primary.candidate.effectKey, resultKey: primary.candidate.resultKey });
+    expect(primary.candidate.attackDamageRole).toBe('PRIMARY'); expect(payload.candidate.attackDamageRole).toBe('REPLACE_PRIMARY');
+    expect(prepared.compileRequest.sharedProviders![0]!.abilities![2]!.operations![0]!.skillHit!.candidates.map(row => row.semantic.resultType))
+      .toEqual(['DAMAGE', 'HIT_LINK_APPLICATION']);
+  });
+
+  it.each([['detailed', false, 100], ['summary', false, 100], ['detailed', false, 0], ['summary', true, 0]] as const)(
+    '%s 保留完整可靠替换累计，阻挡=%s、伤害=%s', async (mode, blocked, amount) => {
+      const { prepared, request, done } = await primaryReplacementFacts(blocked, amount);
+      if (mode === 'summary') { request.outputMode = done.outputMode = 'summary'; done.damageRecords = []; done.attackRecords = []; done.skillUseRecords = []; }
+      expect(inspectEmpoweredAttackFacts(prepared.compileRequest, request, done)).toEqual([]);
+    });
+
+  it('零明细和截断仍校验累计及完整过程，不要求被替换的物理主伤', async () => {
+    const { prepared, request, done } = await primaryReplacementFacts();
+    done.damageRecords = []; done.attackRecords = []; done.skillUseRecords = [];
+    done.recording!.damageRecordsTruncated = done.recording!.attackRecordsTruncated = true;
+    expect(inspectEmpoweredAttackFacts(prepared.compileRequest, request, done)).toEqual([]);
+    done.summary.basicAttack!.primaryReplacements![0]!.count = 2;
+    expect(inspectEmpoweredAttackFacts(prepared.compileRequest, request, done).length).toBeGreaterThan(0);
+  });
+
+  it('精确关联包含完整十字段，额外键、空值或任何字段漂移均拒绝', async () => {
+    const { process } = await primaryReplacementFacts();
+    expect(sameEmpoweredAttack(process.empoweredAttack, structuredClone(process.empoweredAttack))).toBe(true);
+    for (const key of Object.keys(process.empoweredAttack!.replacedPrimary!)) {
+      const bad = structuredClone(process.empoweredAttack!);
+      (bad.replacedPrimary as unknown as Record<string, unknown>)[key] = 'forged';
+      expect(sameEmpoweredAttack(process.empoweredAttack, bad)).toBe(false);
+    }
+    for (const patch of [{ replacedPrimary: null }, { extra: 'forged' }, { replacedPrimary: { ...process.empoweredAttack!.replacedPrimary, extra: true } }]) {
+      expect(sameEmpoweredAttack(process.empoweredAttack, { ...process.empoweredAttack, ...patch })).toBe(false);
+    }
+  });
+
+  it.each(['missing', 'extra', 'duplicate', 'empty', 'null', 'primary_owner', 'primary_definition', 'primary_control', 'primary_candidate',
+    'replacement_provider', 'replacement_definition', 'replacement_skill', 'replacement_process', 'replacement_hit', 'target', 'count',
+    'fractional', 'blocked', 'negative', 'infinite', 'amount', 'unconsumed', 'double_primary'] as const)(
+    '汇总或零日志拒绝篡改 %s', async variant => {
+      const { prepared, request, done, process, primary } = await primaryReplacementFacts();
+      const rows = done.summary.basicAttack!.primaryReplacements!, row = rows[0]!;
+      if (variant === 'missing') delete done.summary.basicAttack!.primaryReplacements;
+      if (variant === 'extra') Object.assign(row, { extra: true });
+      if (variant === 'duplicate') rows.push(structuredClone(row));
+      if (variant === 'empty') rows.splice(0);
+      if (variant === 'null') Object.assign(done.summary.basicAttack!, { primaryReplacements: null });
+      if (variant === 'primary_owner') row.primary = { ...row.primary, owner: 'target' };
+      if (variant === 'primary_definition') row.primary = { ...row.primary, definitionRef: 'another' };
+      if (variant === 'primary_control') row.primary = { ...row.primary, initialControlAbilityRef: row.primary.startAbilityRef };
+      if (variant === 'primary_candidate') row.primary = { ...row.primary, candidateKey: 'another' };
+      if (variant === 'replacement_provider') row.replacement.providerRef = 'another';
+      if (variant === 'replacement_definition') row.replacement.definitionRef = 'another';
+      if (variant === 'replacement_skill') row.replacement.skillKey = 'another';
+      if (variant === 'replacement_process') row.replacement.processKey = 'another';
+      if (variant === 'replacement_hit') row.replacement.hitAbilityRef = request.driverPlan.basicAttack!.hitAbilityRef;
+      if (variant === 'target') row.target = 'source';
+      if (variant === 'count') row.count = 2;
+      if (variant === 'fractional') row.count = 1.5;
+      if (variant === 'blocked') row.blockedCount = 2;
+      if (variant === 'negative') row.postDefenseDamage = -1;
+      if (variant === 'infinite') row.actualHpLoss = Infinity;
+      if (variant === 'amount') row.actualHpLoss++;
+      if (variant === 'unconsumed') process.status = 'active';
+      if (variant === 'double_primary') done.damageRecords!.push({ ...done.damageRecords![0]!, useRef: process.empoweredAttack!.useRef,
+        operationPath: primary.operationPath, operationRef: primary.operation.ref!, abilityRef: request.driverPlan.basicAttack!.hitAbilityRef,
+        empoweredAttack: undefined });
+      expect(inspectPrimaryReplacements(prepared.compileRequest, request, done).length, variant).toBeGreaterThan(0);
+    });
+
+  it.each(['scope', 'sibling_scope', 'condition', 'participation', 'repeat', 'double_primary', 'hit_identity'] as const)(
+    '真实普攻主体拒绝 %s 的编译绑定', async variant => {
+      const { prepared, request, primary } = await primaryReplacementFacts();
+      if (variant === 'scope') primary.candidate.spellShieldBlockScope = 'SKILL';
+      if (variant === 'sibling_scope') prepared.compileRequest.sharedProviders![0]!.abilities![2]!.operations![0]!.skillHit!.candidates[1]!.spellShieldBlockScope = 'RESULT';
+      if (variant === 'condition') primary.operation.condition = { op: 'const', value: 1 };
+      if (variant === 'participation') primary.candidate.participationCondition = { op: 'const', value: 1 };
+      if (variant === 'repeat') primary.operation.repeatCount = 2;
+      if (variant === 'double_primary') prepared.compileRequest.sharedProviders![0]!.abilities![2]!.operations![0]!.skillHit!.candidates.push(structuredClone(primary.candidate));
+      if (variant === 'hit_identity') request.driverPlan.basicAttack!.startAbilityRef = request.driverPlan.basicAttack!.hitAbilityRef;
+      expect(() => basicAttackPrimaryBinding(prepared.compileRequest, request.driverPlan.basicAttack!)).toThrow(/主体/);
+    });
+
+  it.each(['participation', 'event_value', 'condition', 'repeat', 'second_result', 'wrong_role'] as const)(
+    '替换负载不能筛空或重复：%s', async variant => {
+      const { prepared, payload } = await primaryReplacementFacts(), binding = prepared.compileRequest.rules.skillActionBindings![0]!;
+      if (variant === 'participation') payload.candidate.participationCondition = { op: 'const', value: 0 };
+      if (variant === 'event_value') payload.candidate.eventValueConditions = [{ key: 'first_contact', comparator: 'eq', value: { op: 'const', value: 0 } }];
+      if (variant === 'condition') payload.operation.condition = { op: 'const', value: 0 };
+      if (variant === 'repeat') payload.operation.repeatCount = 2;
+      if (variant === 'second_result') payload.candidate.operations.push(structuredClone(payload.operation));
+      if (variant === 'wrong_role') payload.candidate.attackDamageRole = 'PRIMARY';
+      expect(() => replacementPayloadBinding(prepared.compileRequest, binding)).toThrow(/替换/);
+    });
+
+  it('普通附加强化可与替换同刀共存，不要求旧主体作为关联证据', async () => {
+    const { prepared, request, done, process } = await primaryReplacementFacts();
+    const original = prepared.compileRequest.rules.skillActionBindings![0]!;
+    const definition = prepared.compileRequest.sharedProviders!.find(row => row.providerKey === original.providerDefinitionRef)!;
+    const copy = JSON.parse(JSON.stringify({ definition, binding: original }).replaceAll(original.providerRef, 'independent_additive')
+      .replaceAll(original.providerDefinitionRef, 'independent_additive_definition')) as { definition: typeof definition; binding: typeof original };
+    copy.definition.providerKey = 'independent_additive_definition'; copy.binding.providerDefinitionRef = copy.definition.providerKey;
+    copy.definition.abilities!.forEach(ability => ability.operations?.forEach(operation => operation.skillHit?.candidates.forEach(candidate => delete candidate.attackDamageRole)));
+    prepared.compileRequest.sharedProviders!.push(copy.definition); prepared.compileRequest.rules.skillActionBindings!.push(copy.binding);
+    prepared.compileRequest.combatants[0]!.providers.push({ providerRef: copy.binding.providerRef, definitionRef: copy.definition.providerKey });
+    const additive: ProcessInstanceSnapshot = { ...structuredClone(process), providerRef: copy.binding.providerRef, useKey: 'additive_activation',
+      empoweredAttack: { useRef: process.empoweredAttack!.useRef, hitRef: process.empoweredAttack!.hitRef, target: 'target' } };
+    done.finalSnapshot.processInstances!.push(additive);
+    expect(inspectEmpoweredAttackFacts(prepared.compileRequest, request, done)).toEqual([]);
+  });
+});
 async function successorFacts(chain = false) {
   const result = await consumptionFacts(), { prepared, request, done, process: root } = result;
   request.driverPlan.skillActions = [];

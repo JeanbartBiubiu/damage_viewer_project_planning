@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { fixedValue, formulaValue } from '../../../../types/numericValue';
 import type { GameVampRule } from '../../../../types/gameVamp';
-import { createEmptyEffectDraft, createEmptyResultDraft, mapSkillEffectFieldIssues, validateSkillEffectDraft, type SkillEffectResultDraft } from './effectForm';
+import { applyResultTypeChange, buildCreateSkillEffectRequest, createEmptyEffectDraft, createEmptyResultDraft, mapSkillEffectFieldIssues, skillEffectToDraft, validateSkillEffectDraft, type SkillEffectResultDraft } from './effectForm';
 
 const rule: GameVampRule = { vampType: 'OMNIVAMP', sourceAttributeKey: 'omnivamp_percent', basisOutputKind: 'POST_DEFENSE_DAMAGE',
   defaultEfficiency: 1, deliveryKinds: ['SKILL'], originKinds: ['DIRECT'], skillCategoryKeys: ['common'] };
@@ -11,6 +11,23 @@ const damage = (patch: Partial<SkillEffectResultDraft> = {}): SkillEffectResultD
 const effect = (result: SkillEffectResultDraft) => ({ ...createEmptyEffectDraft(), effectKey: 'hit', name: '伤害效果', results: [result] });
 
 describe('伤害吸血资格与例外', () => {
+  it.each(['PRIMARY', 'REPLACE_PRIMARY'] as const)('管理表单精确保存并回读普通通用伤害角色%s', attackDamageRole => {
+    const draft = effect(damage({ attackDamageRole, damageDeliveryKind: 'BASIC_ATTACK' }));
+    const result = validateSkillEffectDraft(draft, options);
+    expect(result.ok).toBe(true);
+    if (!result.ok) throw new Error(JSON.stringify(result));
+    const request = buildCreateSkillEffectRequest(result.normalized);
+    expect(request.results[0]!.detail).toHaveProperty('attackDamageRole', attackDamageRole);
+    const read = skillEffectToDraft({ ...request, gameId: 'lol', skillKey: 'ordinary_skill', createdAt: '', updatedAt: '' });
+    expect(read.results[0]!.attackDamageRole).toBe(attackDamageRole);
+    expect(applyResultTypeChange(read.results[0]!, 'DIRECT_HEAL').attackDamageRole).toBe('');
+  });
+  it('角色形状不合法时保留草稿并定位通用字段', () => {
+    const draft = effect(damage({ attackDamageRole: 'PRIMARY', damageDeliveryKind: 'SKILL' }));
+    const result = validateSkillEffectDraft(draft, options);
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.resultErrors[0]!.fieldErrors.attackDamageRole).toMatch(/即时目标/);
+  });
   it('新建未核定可保存，已核定空例外保留继承且不复制游戏字段', () => {
     const unresolved = validateSkillEffectDraft(effect(damage()), options);
     expect(unresolved.ok && unresolved.normalized.results[0].detail).toMatchObject({ vampQualification: 'UNRESOLVED', vampOverrides: [] });
