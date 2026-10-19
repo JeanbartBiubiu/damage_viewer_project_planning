@@ -129,14 +129,17 @@ function canonical(value) {
   return isObject(value) ? Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])])) : value;
 }
 const canonicalText = value => JSON.stringify(canonical(value));
-/** 响应摘要、直接实体服务时间及过程时点的空失败原因按现行响应契约比较。 */
+/** 响应摘要、实体服务时间及两类明确可空过程字段按现行读写契约比较。 */
 export function businessConfiguration(value) {
   const result = clone(value);
   delete result.baseDigest;
   for (const time of TIMES) delete result.skill[time];
   for (const collection of Object.keys(COLLECTIONS)) for (const row of result[collection]) for (const time of TIMES) delete row[time];
-  // SkillProcessMoment 对 null 失败原因使用 NON_NULL；不对任意业务 JSON 省略空字段。
+  // 只在真实 DTO 路径规范空值；不对任意业务 JSON 省略空字段。
   for (const processRow of result.processes) {
+    // SkillProcessStepRequestDeserializer 将省略与 null 都读成 Boolean null，响应保留 null。
+    for (const step of processRow.steps ?? []) if (isObject(step) && step.occupiesAction === null) delete step.occupiesAction;
+    // SkillProcessMoment 对 null 失败原因使用 NON_NULL。
     const moments = [processRow.cooldown?.startMoment,
       ...(processRow.effectBindings ?? []).map(binding => binding.moment),
       ...(processRow.stateOperations ?? []).map(operation => operation.moment)];

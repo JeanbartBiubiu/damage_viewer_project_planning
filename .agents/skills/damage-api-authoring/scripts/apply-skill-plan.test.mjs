@@ -138,6 +138,128 @@ function subjectUpdate(item, description) {
   item.expected.skill.description = description;
 }
 
+function withProcessTransportFields(configuration) {
+  const process = configuration.processes[0];
+  process.steps = ['first', 'second'].map((stepKey, sortOrder) => ({ stepKey, name: stepKey, description: null,
+    sortOrder, stepType: 'IMMEDIATE', detail: {} }));
+  process.effectBindings = ['first', 'second'].map((stepKey, sortOrder) => ({ bindingKey: stepKey, effectKey: 'hit', sortOrder,
+    moment: { momentType: 'STEP_EXECUTION', stepKey, failureReason: null } }));
+  process.stateOperations = [{ operationKey: 'count', name: '计数', stateSkillKey: configuration.skill.skillKey,
+    stateKey: 'stack', operation: 'SET', value: { kind: 'FIXED', value: 0 }, optionKey: null, sortOrder: 0,
+    moment: { momentType: 'PROCESS_COMPLETE', stepKey: null, failureReason: null } }];
+  return configuration;
+}
+function processTransportRead(configuration) {
+  const wire = copy(configuration);
+  for (const process of wire.processes) {
+    for (const step of process.steps) if (!own(step, 'occupiesAction')) step.occupiesAction = null;
+    for (const row of [...process.effectBindings, ...process.stateOperations]) if (row.moment.failureReason === null) delete row.moment.failureReason;
+  }
+  return wire;
+}
+
+test('传输形状组合：两处步骤占用省略转null和三处失败原因null转省略须同义', () => {
+  const expected = withProcessTransportFields(configuration());
+  const wire = processTransportRead(expected);
+  const original = copy(expected);
+  assert.equal(sameConfiguration(expected, wire), true);
+  assert.equal(sameConfiguration(wire, expected), true);
+  assert.deepEqual(expected, original);
+});
+
+test('传输形状投影：同义空值expected必须通过完整PATCH投影校验', async t => {
+  const f = await fixture(t);
+  const item = f.plan.items[0];
+  withProcessTransportFields(item.before);
+  item.expected = processTransportRead(withProcessTransportFields(item.expected));
+  assert.doesNotThrow(() => validatePlan(f.plan));
+});
+
+test('传输形状已落地：新摘要的同义完整回读只跳过，不能重放PATCH', async t => {
+  const f = await fixture(t);
+  const item = f.plan.items[0];
+  withProcessTransportFields(item.before); withProcessTransportFields(item.expected);
+  const landed = processTransportRead(item.expected); landed.baseDigest = 'c'.repeat(64);
+  f.current.set(item.skillKey, landed);
+  const result = await f.run({ apply: true });
+  assert.equal(result.passed, true);
+  assert.equal(result.items[0].status, 'skipped-already-applied');
+  assert.equal(result.items[0].landed, true);
+  assert.equal(result.patchCount, 0);
+  assert.deepEqual(f.calls, ['GET:sample_q']);
+  assert.equal(f.requests.length, 0);
+});
+
+test('同义before守护保留原请求和顺序，默认只读不会因步骤空值误报漂移', async t => {
+  const f = await fixture(t);
+  const item = f.plan.items[0];
+  withProcessTransportFields(item.before); withProcessTransportFields(item.expected);
+  f.current.set(item.skillKey, processTransportRead(item.before));
+  const original = copy(f.plan);
+  const result = await f.run();
+  assert.equal(result.passed, true);
+  assert.equal(result.items[0].status, 'dry-run-ready');
+  assert.equal(result.patchCount, 0);
+  assert.deepEqual(f.calls, ['GET:sample_q']);
+  assert.deepEqual(f.plan, original);
+});
+
+test('过程UPDATE写入投影与expected复用同义比较，冻结请求不被补字段', async t => {
+  const f = await fixture(t);
+  const item = f.plan.items[0];
+  withProcessTransportFields(item.before);
+  item.expected = copy(item.before); item.expected.processes[0].name = '明确修订';
+  const wire = processTransportRead(item.expected).processes[0];
+  const value = Object.fromEntries(Object.entries(wire).filter(([key]) => !['gameId', 'skillKey', 'processKey', 'createdAt', 'updatedAt'].includes(key)));
+  item.request.changes = [{ objectType: 'PROCESS', operation: 'UPDATE', key: wire.processKey, value }];
+  const original = copy(f.plan);
+  assert.doesNotThrow(() => validatePlan(f.plan));
+  assert.deepEqual(f.plan, original);
+});
+
+test('明确占用布尔、非空失败原因、其它业务差异和未知字段不能被空值规范隐藏', () => {
+  const expected = withProcessTransportFields(configuration());
+  const cases = [
+    ['占用false', value => { value.processes[0].steps[0].occupiesAction = false; }],
+    ['占用true', value => { value.processes[0].steps[0].occupiesAction = true; }],
+    ['占用非空错误类型', value => { value.processes[0].steps[0].occupiesAction = 0; }],
+    ['效果失败原因', value => { value.processes[0].effectBindings[0].moment.failureReason = 'ACTIVE_CANCELLED'; }],
+    ['状态失败原因', value => { value.processes[0].stateOperations[0].moment.failureReason = 'CONTROLLED'; }],
+    ['其它业务数值', value => { value.parameters[0].fixedValue = 0.85; }],
+    ['未知步骤字段', value => { value.processes[0].steps[0].unexpected = null; }],
+    ['明细同名占用字段', value => { value.processes[0].steps[0].detail.occupiesAction = null; }],
+    ['明细同名失败字段', value => { value.processes[0].steps[0].detail.failureReason = null; }],
+    ['时点未知字段', value => { value.processes[0].stateOperations[0].moment.unexpected = null; }],
+    ['步骤排序', value => { value.processes[0].steps.reverse(); }]
+  ];
+  for (const [label, mutate] of cases) {
+    const wire = processTransportRead(expected); mutate(wire);
+    assert.equal(sameConfiguration(expected, wire), false, label);
+  }
+  const explicitFalse = processTransportRead(expected); explicitFalse.processes[0].steps[0].occupiesAction = false;
+  const explicitTrue = copy(explicitFalse); explicitTrue.processes[0].steps[0].occupiesAction = true;
+  assert.equal(sameConfiguration(explicitFalse, explicitTrue), false);
+});
+
+test('投影与同义before守护仍拒绝明确业务和未知嵌套差异，不能写入', async t => {
+  for (const mutate of [value => { value.processes[0].steps[0].occupiesAction = false; },
+    value => { value.processes[0].effectBindings[0].moment.failureReason = 'ACTIVE_CANCELLED'; },
+    value => { value.processes[0].steps[0].unexpected = null; }]) {
+    const f = await fixture(t);
+    const item = f.plan.items[0];
+    withProcessTransportFields(item.before); withProcessTransportFields(item.expected);
+    const invalidPlan = copy(f.plan); mutate(invalidPlan.items[0].expected);
+    assert.throws(() => validatePlan(invalidPlan), /PATCH投影不一致/);
+    const drifted = processTransportRead(item.before); mutate(drifted); f.current.set(item.skillKey, drifted);
+    const result = await f.run();
+    assert.equal(result.passed, false);
+    assert.equal(result.items[0].status, 'blocked-drift');
+    assert.equal(result.patchCount, 0);
+    assert.deepEqual(f.calls, ['GET:sample_q']);
+    assert.equal(f.requests.length, 0);
+  }
+});
+
 test('完整主体与组成同一次摘要保护PATCH，独立回读并保留未改字段', async t => {
   const f = await fixture(t);
   subjectUpdate(f.plan.items[0], '最多储存4枚，修正资料说明');

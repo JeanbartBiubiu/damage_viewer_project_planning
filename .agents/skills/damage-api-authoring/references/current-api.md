@@ -29,6 +29,10 @@
 
 过程的冷却起点、效果挂接与状态操作时点中，后端`SkillProcessMoment`会省略空`failureReason`，前端解析为`null`；保护脚本仅在这三处把缺失与空失败原因视为相同。明确失败原因及其它嵌套业务字段仍完整比较，不递归忽略空值。
 
+步骤的`processes[].steps[].occupiesAction`也仅在缺省与显式`null`间视为同义：后端`SkillProcessStepRequestDeserializer`把两者均读为可空布尔值，`SkillProcessStepResponse`回读为`null`。保护脚本在完整业务比较中仅规范该路径的空值，明确`false / true`仍有业务含义，不作为默认值删除；同名字段出现在步骤明细、效果、动作或其它未知路径时继续严格比较。实际PATCH正文保留冻结计划，不改成补空字段的请求。
+
+上述限定比较由同一`businessConfiguration / sameConfiguration`入口用于计划的PATCH投影、写前基线守护、已落地跳过及独立回读。完整当前业务内容同义于候选时，即使摘要已变化，也只记录已落地而不再次PATCH；不能全局递归删空值、忽略明确失败原因或屏蔽其它未知字段。候选与业务数据不符合这些已核实的DTO路径时仍按原规则阻断。
+
 以下入口均以`/api/admin/games/{gameId}`为前缀，当前请求不接受`baseDigest`。更新前比较完整基线，更新后独立读取；这些入口不能使用触发规则脚本。
 
 | 对象 | 当前读取与写入 | 请求边界 |
