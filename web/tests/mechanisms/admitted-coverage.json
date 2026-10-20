@@ -445,6 +445,45 @@
           "healing.life_steal"
         ],
         "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "CHARACTER:champion_olaf": {
+        "contentDigest": "b38975d39edd2a94d77069588ac70fe703f99b38f2ffca8bac818dfc5bd4e6b0",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "attribute.self_total_multiply",
+          "attribute.total_armor_reduction",
+          "basic_attack.cadence",
+          "basic_attack.interval_rounding",
+          "basic_attack.timer_reset",
+          "combat.kill_stop",
+          "combat.overkill_clamp",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "damage.true",
+          "damage.type_formula",
+          "effect.duration_linked_shield_batch",
+          "effect.ensure_remaining",
+          "effect.finite_expiry",
+          "healing.life_steal",
+          "healing.omnivamp",
+          "healing.per_result_qualification",
+          "passive.owner_health_flat_bonus",
+          "passive.owner_health_live_read",
+          "passive.source_initialized",
+          "resource.ordinary_cost_ignored",
+          "shield.absorption",
+          "shield.depletion",
+          "shield.reapplication_refresh",
+          "skill.action_occupancy",
+          "skill.automatic_cooldown",
+          "skill.basic_attack_cooldown_reduction",
+          "skill.delay_hit",
+          "skill.formula_attribute_ratio",
+          "skill.wait_for_cooldown"
+        ],
+        "rationale": "奥拉夫单向1V1配置依赖：实时自身生命驱动攻速和吸血、四秒整体削甲、独立盾与攻速及普攻重置、真实伤害和普攻减普通冷却、动态总攻击力及保留剩余时长。首次完整对象证明另经真实矩阵及独立复核，覆盖声明本身不签发通过。"
       }
     }
   }
