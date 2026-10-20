@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_caitlyn Q Piltover Peacemaker / 和平使者 — Phase-A v1 Wasm exact verification
 // slice (FROZEN_PLAN_REV: caitlyn-q-piltover-peacemaker-first-enemy-hit-phase-a-v1).
 //
@@ -38,8 +36,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql
 //	Local raw materialization caveat: 1838 bytes / SHA256
 //	  93da300971429a629f11a721c3993784db6a99d3559b1286eae9500176560b9a.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_caitlyn_q_piltover_peacemaker_first_enemy_hit
@@ -68,24 +65,6 @@ import (
 // immediate_impact_scaffold (no total-AD ordered tag).
 
 const (
-	caitlynPPCandidateKey  = "hero_skill|hero_caitlyn|Q|和平使者"
-	caitlynPPTaskKey       = "wasm-generic-caitlyn-piltover-peacemaker-first-enemy-hit"
-	caitlynPPPlanRev       = "caitlyn-q-piltover-peacemaker-first-enemy-hit-phase-a-v1"
-	caitlynPPRequestTitle  = "Template:Data Caitlyn/Q"
-	caitlynPPResolvedTitle = "Template:Data Caitlyn/Piltover Peacemaker"
-	caitlynPPWikiPageID    = 1306911
-	caitlynPPRevisionID    = 4007583
-	caitlynPPTimestamp     = "2026-04-12T06:47:12Z"
-	caitlynPPRawBytes      = 1841
-	caitlynPPLocalRawBytes = 1838
-	caitlynPPContentSHA    = "6c40deba7b6e60ab9c06bc014a214a8be4319c4ddf22c550237b659f19307caf"
-	caitlynPPLocalRawSHA   = "93da300971429a629f11a721c3993784db6a99d3559b1286eae9500176560b9a"
-	caitlynPPBoundary      = "rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; " +
-		"physical_210_plus_2_05_total_ad; " +
-		"no_cast_timing_attack_timer_reset_direction_range_width_" +
-		"line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_" +
-		"full_damage_projectile_spell_shield_other_ranks_or_full_fidelity"
-
 	caitlynPPProviderRef = "provider_hero_caitlyn_q_piltover_peacemaker_first_enemy_hit"
 	caitlynPPStableID    = "hero_caitlyn_q_piltover_peacemaker_first_enemy_hit"
 	caitlynPPAbilityID   = "ability_hero_caitlyn_q_piltover_peacemaker_first_enemy_hit"
@@ -113,14 +92,6 @@ const (
 
 	caitlynPPTol = 1e-9
 )
-
-func caitlynPPOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"immediate_impact_scaffold",
-	}
-}
 
 func caitlynPPExpectedRawFromTotalAD(resolvedAD float64) float64 {
 	return caitlynPPBaseDamage + caitlynPPADRatio*resolvedAD
@@ -563,24 +534,6 @@ func findCaitlynPPAbilityStat(t *testing.T, done model.DoneResult) model.Ability
 	return model.AbilityStat{}
 }
 
-func caitlynPPRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func caitlynPPSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func caitlynPPSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(caitlynPPSHA256Hex(b))
-}
-
 func caitlynPPAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -617,123 +570,8 @@ func caitlynPPAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantM
 	}
 }
 
-// TestCaitlynPiltoverPeacemakerFirstEnemyHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestCaitlynPiltoverPeacemakerFirstEnemyHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Leveling         string
-			Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(caitlynPPRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "caitlyn-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != caitlynPPCandidateKey || doc.RequestTitle != caitlynPPRequestTitle ||
-		doc.ResolvedTitle != caitlynPPResolvedTitle || doc.WikiPageID != caitlynPPWikiPageID ||
-		doc.RevisionID != caitlynPPRevisionID || doc.RevisionTimestamp != caitlynPPTimestamp ||
-		doc.ContentSHA256 != caitlynPPContentSHA || doc.RawByteSize != caitlynPPRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "和平使者" || doc.OwnerID != "hero_caitlyn" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|55 to 75}}\n" || doc.Fields.Costtype != "mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|10 to 6}}\n" {
-		t.Fatalf("cooldown=%q want rank table ending in 6s", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|50 to 210}}") ||
-		!strings.Contains(doc.Fields.Leveling, "205") ||
-		!strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description, "first enemy") ||
-		!strings.Contains(doc.Fields.Description, "60%") {
-		t.Fatal("wiki prose must retain excluded first-enemy / post-first 60% surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description2, "Yordle Snap Trap") ||
-		!strings.Contains(doc.Fields.Description2, "full damage") {
-		t.Fatal("wiki prose must retain excluded trap / full-damage surfaces")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Effect at cast time start") {
-		t.Fatalf("notes missing Effect at cast time start (excluded): %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "attack timer") {
-		t.Fatalf("notes missing attack timer reset (excluded): %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "spell shield") {
-		t.Fatalf("notes missing spell shield (excluded): %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(caitlynPPRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "caitlyn-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "和平使者" || pages.OwnerID != "hero_caitlyn" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(caitlynPPRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "caitlyn-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != caitlynPPLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), caitlynPPLocalRawBytes)
-	}
-	localSHA := caitlynPPSHA256Hex(rawBytes)
-	if localSHA != caitlynPPLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, caitlynPPLocalRawSHA)
-	}
-	if localSHA == caitlynPPContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if len(rawBytes) == caitlynPPRawBytes {
-		t.Fatal("local raw byte length must differ from canonical 1841 (materialization caveat)")
-	}
-	if caitlynPPPlanRev != "caitlyn-q-piltover-peacemaker-first-enemy-hit-phase-a-v1" || caitlynPPBoundary !=
-		"rank5_primary_champion_first_enemy_full_physical_hit; immediate_impact_scaffold; "+
-			"physical_210_plus_2_05_total_ad; "+
-			"no_cast_timing_attack_timer_reset_direction_range_width_"+
-			"line_geometry_multitarget_post_first_enemy_60_percent_trap_reveal_"+
-			"full_damage_projectile_spell_shield_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestCaitlynPiltoverPeacemakerFirstEnemyHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestCaitlynPiltoverPeacemakerFirstEnemyHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadCaitlynPPFixture(t, caitlynPPFixtureOpts{
 		resolvedAD: caitlynPPADResolvedDefault, armor: caitlynPPTargetArmor, mana: caitlynPPFixtureManaCD,
 	})

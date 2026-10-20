@@ -1,10 +1,8 @@
 package runtime
 
 import (
-	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"strings"
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -12,6 +10,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_varus W Blighted Quiver / 枯萎箭袋 — Phase-A v2 Wasm exact verification slice.
 //
 // Frozen boundary:
@@ -49,14 +48,6 @@ import (
 // monster caps, live publish. No production runtime/model/ABI edits.
 
 const (
-	varusBQCandidateKey = "hero_skill|hero_varus|W|枯萎箭袋"
-	varusBQWikiPageID   = 1309980
-	varusBQRevisionID   = 4026472
-	varusBQContentSHA   = "16307174c4039d8ce71e639396328b2473f4a7e16247a7b2f8a183599b0901d2"
-	varusBQBoundary     = "fixed_max_charge_primary_target; q_carrier_ordering_scaffold_only; " +
-		"q_physical_then_w_active_post_q_pre_blight_then_blight_detonation; " +
-		"rank5; no_equipment_interop"
-
 	varusBQProviderRef   = "provider_hero_varus_w_blighted_quiver_phase_a"
 	varusBQStableID      = "provider_hero_varus_w_blighted_quiver_phase_a"
 	varusBQListenerKey   = "listener_hero_varus_w_blighted_quiver_basic_attack_hit"
@@ -143,10 +134,6 @@ func varusBQStateSchema() map[string]interface{} {
 		varusBQBlightKey: varusBQTimedSlot(0, varusBQMaxBlight, varusBQBlightDurMs),
 		varusBQActiveKey: varusBQTimedSlot(0, 1, varusBQActiveDurMs),
 	}
-}
-
-func varusBQConst(v float64) *model.GenericFormulaExpr {
-	return &model.GenericFormulaExpr{Op: "const", Value: &v}
 }
 
 func varusBQOnHitAmount() *model.GenericFormulaExpr {
@@ -668,115 +655,6 @@ func varusBQDamageTimeline(done model.DoneResult) []string {
 		out = append(out, evidenceDataString(item.Data, "operationRef"))
 	}
 	return out
-}
-
-func varusBQWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "varus-w.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func varusBQWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "varus-w.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type varusBQWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	Fields            struct {
-		Leveling   string `json:"leveling"`
-		Leveling2  string `json:"leveling2"`
-		Leveling3  string `json:"leveling3"`
-		Cooldown   string `json:"cooldown"`
-		Damagetype string `json:"damagetype"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-func varusBQLoadWikiSidecar(t *testing.T) varusBQWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(varusBQWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc varusBQWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-// TestVarusBlightedQuiverWikiSidecarIdentityAndRank5Fragments locks repository sidecar
-// identity plus exact rank-5 variable fragments from archived wikitext.
-func TestVarusBlightedQuiverWikiSidecarIdentityAndRank5Fragments(t *testing.T) {
-	doc := varusBQLoadWikiSidecar(t)
-	if doc.CandidateKey != varusBQCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, varusBQCandidateKey)
-	}
-	if doc.WikiPageID != varusBQWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, varusBQWikiPageID)
-	}
-	if doc.RevisionID != varusBQRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, varusBQRevisionID)
-	}
-	if !strings.HasPrefix(doc.RevisionTimestamp, "2026-06-09") {
-		t.Fatalf("revisionTimestamp=%q want 2026-06-09…", doc.RevisionTimestamp)
-	}
-	if doc.ContentSHA256 != varusBQContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, varusBQContentSHA)
-	}
-	if doc.SkillKey != "W" || doc.ZhDisplayName != "枯萎箭袋" || doc.OwnerID != "hero_varus" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want W/枯萎箭袋/hero_varus",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	for _, key := range []string{"leveling", "leveling2", "leveling3", "cooldown", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.FieldPresence["cost"] || doc.FieldPresence["costtype"] {
-		t.Fatal("fieldPresence cost/costtype must be false (wiki has no cost rows)")
-	}
-
-	raw, err := os.ReadFile(varusBQWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	text := string(raw)
-	rank5Frags := []string{
-		"{{#vardefine:o5|40}}",
-		"{{#vardefine:obad|15}}",
-		"{{#vardefine:oap|25}}",
-		"{{#vardefine:b5|5}}",
-		"{{#vardefine:ap|1.3}}",
-		"{{#vardefine:a2|14}}",
-	}
-	for _, frag := range rank5Frags {
-		if !strings.Contains(text, frag) {
-			t.Fatalf("raw wikitext missing rank5 fragment %q", frag)
-		}
-	}
-	if !strings.Contains(varusBQBoundary, "q_carrier_ordering_scaffold_only") {
-		t.Fatal("frozen boundary constant drifted")
-	}
-	_ = varusBQActiveAbilityID
-	_ = varusBQCarrierAbilityID
 }
 
 // TestVarusBlightedQuiverCompileShapeStableIDsAndNoCostCD asserts compile shape,

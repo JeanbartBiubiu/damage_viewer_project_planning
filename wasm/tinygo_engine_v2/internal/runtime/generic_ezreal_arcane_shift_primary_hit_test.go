@@ -1,42 +1,23 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
-	"strings"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_ezreal E Arcane Shift / 奥术跃迁 — Phase-A v3 Wasm exact verification slice
 // (FROZEN_PLAN_REV: ezreal-e-arcane-shift-primary-hit-phase-a-v3).
 
 const (
-	ezrealArcaneShiftCandidateKey  = "hero_skill|hero_ezreal|E|奥术跃迁"
-	ezrealArcaneShiftTaskKey       = "wasm-generic-ezreal-arcane-shift-primary-hit"
-	ezrealArcaneShiftPlanRev       = "ezreal-e-arcane-shift-primary-hit-phase-a-v3"
-	ezrealArcaneShiftRequestTitle  = "Template:Data Ezreal/E"
-	ezrealArcaneShiftResolvedTitle = "Template:Data Ezreal/Arcane Shift"
-	ezrealArcaneShiftWikiPageID    = 1307111
-	ezrealArcaneShiftRevisionID    = 3989862
-	ezrealArcaneShiftTimestamp     = "2026-02-03T23:19:20Z"
-	ezrealArcaneShiftRawBytes      = 1661
-	ezrealArcaneShiftLocalRawBytes = 1661
-	ezrealArcaneShiftContentSHA    = "7ac83f7eaa237641c478f2e3ffa1a2714f7da0644c8a488ab6a6f47b67e27347"
-	ezrealArcaneShiftLocalRawSHA   = "f48a32706234b0c1ef1abab4b7f90e4ee88944623827fb22a41e23bdfac01792"
-	ezrealArcaneShiftBoundary      = "rank5_primary_champion_single_hit; immediate_impact_scaffold; " +
-		"magic_280_plus_0_60_bonus_ad_plus_0_75_ap; preserve_rising_spell_force_one_stack_on_successful_hit; " +
-		"no_blink_homing_target_selection_visibility_essence_flux_priority_projectile_travel_reveal_or_other_ranks"
-
 	ezrealArcaneShiftProviderRef = "provider_hero_ezreal_e_arcane_shift_primary_hit"
 	ezrealArcaneShiftStableID    = "hero_ezreal_e_arcane_shift_primary_hit"
-	ezrealArcaneShiftAbilityID   = "ability_hero_ezreal_e_arcane_shift_primary_hit"
+
 	ezrealArcaneShiftAbilityKey  = "arcane_shift_primary_hit"
 	ezrealArcaneShiftDamageOpRef = "op:ezreal_arcane_shift_primary_hit_damage"
 	ezrealArcaneShiftBonusADMod  = "fixture_ezreal_arcane_shift_primary_hit_bonus_ad"
@@ -62,16 +43,6 @@ const (
 
 	ezrealArcaneShiftRSFProviderAlias = "provider_hero_ezreal_rising_spell_force"
 )
-
-func ezrealArcaneShiftOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_magic_damage",
-		"bonus_ad_ratio",
-		"ap_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func ezrealArcaneShiftExpectedRawFromStats(resolvedAD, baseAD, resolvedAP float64) float64 {
 	return ezrealArcaneShiftBaseDamage +
@@ -483,106 +454,8 @@ func assertEzrealArcaneShiftProviderShape(t *testing.T, compileReq model.Compile
 	}
 }
 
-func ezrealArcaneShiftRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing %s: %v", path, err)
-	}
-	return path
-}
-
-func ezrealArcaneShiftSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-// TestEzrealArcaneShiftWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestEzrealArcaneShiftWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Description2, Description3 string
-			Cooldown, Cost, Costtype, Damagetype, Notes       string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(ezrealArcaneShiftRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "ezreal-e.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != ezrealArcaneShiftCandidateKey || doc.RequestTitle != ezrealArcaneShiftRequestTitle ||
-		doc.ResolvedTitle != ezrealArcaneShiftResolvedTitle || doc.WikiPageID != ezrealArcaneShiftWikiPageID ||
-		doc.RevisionID != ezrealArcaneShiftRevisionID || doc.RevisionTimestamp != ezrealArcaneShiftTimestamp ||
-		doc.ContentSHA256 != ezrealArcaneShiftContentSHA || doc.RawByteSize != ezrealArcaneShiftRawBytes ||
-		doc.SkillKey != "E" || doc.ZhDisplayName != "奥术跃迁" || doc.OwnerID != "hero_ezreal" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{"description", "leveling", "description2", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "70\n" || doc.Fields.Costtype != "Mana\n" || doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|80 to 280}}") ||
-		!strings.Contains(doc.Fields.Leveling, "60% '''bonus''' AD") ||
-		!strings.Contains(doc.Fields.Leveling, "75% AP") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "blinks") ||
-		!strings.Contains(doc.Fields.Description, "homing") ||
-		!strings.Contains(doc.Fields.Description2, "Essence Flux") {
-		t.Fatal("wiki prose must retain excluded blink/homing/Essence Flux surfaces")
-	}
-	pagesRaw, err := os.ReadFile(ezrealArcaneShiftRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "ezreal-e.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, ContentSHA256 string
-		PageID, RevisionID          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-	rawBytes, err := os.ReadFile(ezrealArcaneShiftRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "ezreal-e.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != ezrealArcaneShiftLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), ezrealArcaneShiftLocalRawBytes)
-	}
-	localSHA := ezrealArcaneShiftSHA256Hex(rawBytes)
-	if localSHA != ezrealArcaneShiftLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, ezrealArcaneShiftLocalRawSHA)
-	}
-	if localSHA == ezrealArcaneShiftContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if ezrealArcaneShiftPlanRev != "ezreal-e-arcane-shift-primary-hit-phase-a-v3" ||
-		ezrealArcaneShiftBoundary != "rank5_primary_champion_single_hit; immediate_impact_scaffold; "+
-			"magic_280_plus_0_60_bonus_ad_plus_0_75_ap; preserve_rising_spell_force_one_stack_on_successful_hit; "+
-			"no_blink_homing_target_selection_visibility_essence_flux_priority_projectile_travel_reveal_or_other_ranks" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestEzrealArcaneShiftConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestEzrealArcaneShiftConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadEzrealArcaneShiftFixture(t, ezrealArcaneShiftFixtureOpts{
 		resolvedAD: ezrealArcaneShiftADResolvedDefault,
 		resolvedAP: ezrealArcaneShiftFixtureAP,

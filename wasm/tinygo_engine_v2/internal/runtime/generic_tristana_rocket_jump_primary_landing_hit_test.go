@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_tristana W Rocket Jump / 火箭跳跃 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: tristana-w-rocket-jump-primary-landing-hit-phase-a-v2).
 //
@@ -38,8 +36,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_tristana_rocket_jump_primary_landing_hit_seed.sql
 //	Local raw materialization caveat: 2443 bytes / SHA256
 //	  7283b2eb2020c20c6e48098e647ba4782b6dc134705c7c668d7e7279da1cabd9.
-//	Serialization caveat only; assert sidecar/pages canonical identity + caveat;
-//	do not claim local-raw equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_tristana_w_rocket_jump_primary_landing_hit
@@ -73,24 +70,6 @@ import (
 // ap_ratio, immediate_impact_scaffold.
 
 const (
-	tristanaRJCandidateKey  = "hero_skill|hero_tristana|W|火箭跳跃"
-	tristanaRJTaskKey       = "wasm-generic-tristana-rocket-jump-primary-landing-hit"
-	tristanaRJPlanRev       = "tristana-w-rocket-jump-primary-landing-hit-phase-a-v2"
-	tristanaRJRequestTitle  = "Template:Data Tristana/W"
-	tristanaRJResolvedTitle = "Template:Data Tristana/Rocket Jump"
-	tristanaRJWikiPageID    = 1308523
-	tristanaRJRevisionID    = 4007758
-	tristanaRJTimestamp     = "2026-04-12T14:13:05Z"
-	tristanaRJRawBytes      = 2444
-	tristanaRJLocalRawBytes = 2443
-	tristanaRJContentSHA    = "cf0e3ae91310ab5e7cc04408941671520e3464f75bc61da683b100ea82e56eec"
-	tristanaRJLocalRawSHA   = "7283b2eb2020c20c6e48098e647ba4782b6dc134705c7c668d7e7279da1cabd9"
-	tristanaRJBoundary      = "rank5_selected_primary_champion_single_magic_landing_hit; immediate_impact_scaffold; " +
-		"magic_210_plus_1_00_bonus_ad_plus_0_50_ap; " +
-		"no_dash_cast_time_air_time_landing_delay_movement_geometry_speed_terrain_" +
-		"collision_knockdown_grounded_slow_aoe_secondary_takedown_reset_explosive_" +
-		"charge_reset_cast_during_dash_other_ranks_or_full_fidelity"
-
 	tristanaRJProviderRef = "provider_hero_tristana_w_rocket_jump_primary_landing_hit"
 	tristanaRJStableID    = "hero_tristana_w_rocket_jump_primary_landing_hit"
 	tristanaRJAbilityID   = "ability_hero_tristana_w_rocket_jump_primary_landing_hit"
@@ -120,16 +99,6 @@ const (
 
 	tristanaRJTol = 1e-9
 )
-
-func tristanaRJOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_magic_damage",
-		"bonus_ad_ratio",
-		"ap_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func tristanaRJExpectedRawFromStats(resolvedAD, baseAD, resolvedAP float64) float64 {
 	return tristanaRJBaseDamage +
@@ -705,24 +674,6 @@ func findTristanaRJAbilityStat(t *testing.T, done model.DoneResult) model.Abilit
 	return model.AbilityStat{}
 }
 
-func tristanaRJRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func tristanaRJSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func tristanaRJSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(tristanaRJSHA256Hex(b))
-}
-
 func tristanaRJAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -759,149 +710,8 @@ func tristanaRJAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, want
 	}
 }
 
-// TestTristanaRocketJumpPrimaryLandingHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestTristanaRocketJumpPrimaryLandingHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Cooldown, Cost, Costtype, Damagetype, Notes string
-			Description2, Description3                                         string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(tristanaRJRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "tristana-w.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != tristanaRJCandidateKey || doc.RequestTitle != tristanaRJRequestTitle ||
-		doc.ResolvedTitle != tristanaRJResolvedTitle || doc.WikiPageID != tristanaRJWikiPageID ||
-		doc.RevisionID != tristanaRJRevisionID || doc.RevisionTimestamp != tristanaRJTimestamp ||
-		doc.ContentSHA256 != tristanaRJContentSHA || doc.RawByteSize != tristanaRJRawBytes ||
-		doc.SkillKey != "W" || doc.ZhDisplayName != "火箭跳跃" || doc.OwnerID != "hero_tristana" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "cooldown", "cost", "costtype", "damagetype", "notes",
-		"description2", "description3",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|30 to 50}}\n" || doc.Fields.Costtype != "mana\n" ||
-		doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|22 to 14}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|22 to 14}} (rank-5 = 14s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|70 to 210}}") ||
-		!strings.Contains(doc.Fields.Leveling, "100% '''bonus''' AD") ||
-		!strings.Contains(doc.Fields.Leveling, "50% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "Magic Damage") {
-		t.Fatalf("leveling=%q want rank5 magic 210 +100%% bonus AD +50%% AP", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|magic damage}}") ||
-		!strings.Contains(doc.Fields.Description, "{{tip|dash|jumps}}") {
-		t.Fatal("wiki prose must retain magic damage / dash jump wording")
-	}
-	// Explicit exclusion framing (present in wiki; not modeled by Phase-A scaffold).
-	if !strings.Contains(doc.Fields.Description, "{{tip|slows}}") ||
-		!strings.Contains(doc.Fields.Description, "40%") {
-		t.Fatal("wiki prose must retain excluded slow surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description2, "takedown") ||
-		!strings.Contains(doc.Fields.Description2, "Explosive Charge") ||
-		!strings.Contains(doc.Fields.Description2, "reset") {
-		t.Fatal("wiki description2 must retain excluded takedown/Explosive Charge reset surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description3, "during the dash") {
-		t.Fatal("wiki description3 must retain excluded cast-during-dash surface")
-	}
-	if !strings.Contains(doc.Fields.Notes, "dash speed") ||
-		!strings.Contains(doc.Fields.Notes, "Explosive Charge") ||
-		!strings.Contains(doc.Fields.Notes, "clone") {
-		t.Fatalf("notes missing excluded dash-speed/Explosive Charge/clone surfaces: %q",
-			doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(tristanaRJRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "tristana-w.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "W" || pages.ZhDisplayName != "火箭跳跃" || pages.OwnerID != "hero_tristana" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(tristanaRJRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "tristana-w.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != tristanaRJLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), tristanaRJLocalRawBytes)
-	}
-	if tristanaRJLocalRawBytes == tristanaRJRawBytes {
-		t.Fatal("local raw and canonical sizes must differ (serialization caveat; not equivalence)")
-	}
-	localSHA := tristanaRJSHA256Hex(rawBytes)
-	if localSHA != tristanaRJLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, tristanaRJLocalRawSHA)
-	}
-	if localSHA == tristanaRJContentSHA {
-		t.Fatal("local raw hash must differ from canonical (serialization caveat; not equivalence/contradiction)")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|70 to 210}}",
-		"100% '''bonus''' AD",
-		"50% AP",
-		"|cost         = {{ap|30 to 50}}",
-		"|cooldown     = {{ap|22 to 14}}",
-		"|damagetype   = Magic",
-		"{{tip|dash|jumps}}",
-		"{{tip|slows}}",
-		"40%",
-		"Explosive Charge",
-		"during the dash",
-		"dash speed",
-		"clone",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if tristanaRJPlanRev != "tristana-w-rocket-jump-primary-landing-hit-phase-a-v2" || tristanaRJBoundary !=
-		"rank5_selected_primary_champion_single_magic_landing_hit; immediate_impact_scaffold; "+
-			"magic_210_plus_1_00_bonus_ad_plus_0_50_ap; "+
-			"no_dash_cast_time_air_time_landing_delay_movement_geometry_speed_terrain_"+
-			"collision_knockdown_grounded_slow_aoe_secondary_takedown_reset_explosive_"+
-			"charge_reset_cast_during_dash_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestTristanaRocketJumpPrimaryLandingHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestTristanaRocketJumpPrimaryLandingHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadTristanaRJFixture(t, tristanaRJFixtureOpts{
 		baseAD: tristanaRJADBaseDefault, resolvedAD: tristanaRJADResolvedDefault,
 		resolvedAP: tristanaRJFixtureAPDefault, mr: tristanaRJTargetMR, mana: tristanaRJFixtureManaCD,

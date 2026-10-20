@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"strings"
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -14,6 +11,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_xayah R Featherstorm / 暴风羽刃 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: xayah-r-featherstorm-primary-hit-phase-a-v2).
 //
@@ -24,27 +22,9 @@ import (
 // operations or same-target feather cardinality.
 
 const (
-	xayahFSCandidateKey  = "hero_skill|hero_xayah|R|暴风羽刃"
-	xayahFSTaskKey       = "wasm-generic-xayah-featherstorm-primary-hit"
-	xayahFSPlanRev       = "xayah-r-featherstorm-primary-hit-phase-a-v2"
-	xayahFSRequestTitle  = "Template:Data Xayah/R"
-	xayahFSResolvedTitle = "Template:Data Xayah/Featherstorm"
-	xayahFSWikiPageID    = 1324544
-	xayahFSRevisionID    = 4008617
-	xayahFSTimestamp     = "2026-04-15T00:26:44Z"
-	xayahFSRawBytes      = 1761
-	xayahFSLocalRawBytes = 1761
-	xayahFSContentSHA    = "cb5c8ba5486a55027e7c2252589fa8e5d821d346cc44afa99243de71ce5b3077"
-	xayahFSLocalRawSHA   = "debf23b0213a4d9669a29f6c415a6f67d582b7093d25059b7765745bed43ace1"
-	xayahFSBoundary      = "rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; " +
-		"quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; " +
-		"no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; " +
-		"no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_" +
-		"direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity"
-
 	xayahFSProviderRef = "provider_hero_xayah_r_featherstorm_primary_hit"
 	xayahFSStableID    = "hero_xayah_r_featherstorm_primary_hit"
-	xayahFSAbilityID   = "ability_hero_xayah_r_featherstorm_primary_hit"
+
 	xayahFSAbilityKey  = "featherstorm_primary_hit"
 	xayahFSDamageOpRef = "op:xayah_featherstorm_primary_hit_damage"
 	xayahFSBonusADMod  = "fixture_xayah_featherstorm_primary_hit_bonus_ad"
@@ -65,15 +45,6 @@ const (
 	xayahFSHPAfter2          = 550.0 // 1000 - 225 - 225
 	xayahFSTol               = 1e-9
 )
-
-func xayahFSOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"bonus_ad_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func xayahFSExpectedRawFromStats(resolvedAD, baseAD float64) float64 {
 	return xayahFSBaseDamage + xayahFSBonusADRatio*(resolvedAD-baseAD)
@@ -501,109 +472,8 @@ func assertXayahFSProviderShape(t *testing.T, compileReq model.CompileRequest, e
 	}
 }
 
-func xayahFSRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing %s: %v", path, err)
-	}
-	return path
-}
-
-func xayahFSSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-// TestXayahFeatherstormWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestXayahFeatherstormWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Description2, Description3 string
-			Cooldown, Cost, Costtype, Damagetype, Notes       string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(xayahFSRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "xayah-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != xayahFSCandidateKey || doc.RequestTitle != xayahFSRequestTitle ||
-		doc.ResolvedTitle != xayahFSResolvedTitle || doc.WikiPageID != xayahFSWikiPageID ||
-		doc.RevisionID != xayahFSRevisionID || doc.RevisionTimestamp != xayahFSTimestamp ||
-		doc.ContentSHA256 != xayahFSContentSHA || doc.RawByteSize != xayahFSRawBytes ||
-		doc.SkillKey != "R" || doc.ZhDisplayName != "暴风羽刃" || doc.OwnerID != "hero_xayah" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{"description", "leveling", "description2", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "100\n" || doc.Fields.Costtype != "Mana\n" || doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|200 to 400}}") ||
-		!strings.Contains(doc.Fields.Leveling, "100% '''bonus''' AD") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "ghosted") ||
-		!strings.Contains(doc.Fields.Description, "untargetable") ||
-		!strings.Contains(doc.Fields.Description, "5") ||
-		!strings.Contains(doc.Fields.Description, "cone") ||
-		!strings.Contains(doc.Fields.Description2, "unable to basic attack") {
-		t.Fatal("wiki prose must retain excluded leap/ghosted/untargetable/five-feather/cone/lockout surfaces")
-	}
-	pagesRaw, err := os.ReadFile(xayahFSRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "xayah-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, ContentSHA256 string
-		PageID, RevisionID          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-	rawBytes, err := os.ReadFile(xayahFSRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "xayah-r.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != xayahFSLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), xayahFSLocalRawBytes)
-	}
-	localSHA := xayahFSSHA256Hex(rawBytes)
-	if localSHA != xayahFSLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, xayahFSLocalRawSHA)
-	}
-	if localSHA == xayahFSContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if xayahFSPlanRev != "xayah-r-featherstorm-primary-hit-phase-a-v2" ||
-		xayahFSBoundary != "rank3_primary_champion_one_physical_damage_quantum; immediate_impact_scaffold; "+
-			"quantum_amount_400_plus_1_00_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation_and_double_daggers_isolation; "+
-			"no_claim_of_whole_r_single_total_hit_or_wiki_proven_once_only; "+
-			"no_multi_feather_same_target_stacking_leap_ghosted_untargetable_one_second_delay_attack_or_cast_lockout_"+
-			"direction_cone_range_projectile_multitarget_feather_generation_ground_state_e_dependency_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestXayahFeatherstormConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestXayahFeatherstormConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadXayahFSFixture(t, xayahFSFixtureOpts{
 		resolvedAD: xayahFSADResolvedDefault,
 		armor:      xayahFSTargetArmor,

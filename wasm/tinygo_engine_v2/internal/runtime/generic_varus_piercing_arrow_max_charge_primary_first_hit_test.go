@@ -1,8 +1,6 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
 	"os"
@@ -15,6 +13,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_varus Q Piercing Arrow / 穿刺之箭 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: varus-q-piercing-arrow-max-charge-primary-first-hit-phase-a-v1).
 //
@@ -44,8 +43,7 @@ import (
 //	  lol_generic_varus_piercing_arrow_max_charge_primary_first_hit_seed.sql
 //	Local raw materialization caveat: 3888 bytes / SHA256
 //	  5a350cecb53d37bd2640f7de3398c1be0a798a75f88c42eb327933920d487962.
-//	Assert sidecar/pages canonical identity + local/canonical caveat; do not claim
-//	local-raw equivalence or source contradiction (同 size 不等于等价).
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_varus_q_piercing_arrow_max_charge_primary_first_hit
@@ -85,27 +83,6 @@ import (
 // modify the W test.
 
 const (
-	varusPAPCandidateKey    = "hero_skill|hero_varus|Q|穿刺之箭"
-	varusPAPTaskKey         = "wasm-generic-varus-piercing-arrow-max-charge-primary-first-hit"
-	varusPAPPlanRev         = "varus-q-piercing-arrow-max-charge-primary-first-hit-phase-a-v1"
-	varusPAPRequestTitle    = "Template:Data Varus/Q"
-	varusPAPResolvedTitle   = "Template:Data Varus/Piercing Arrow"
-	varusPAPWikiPageID      = 1309981
-	varusPAPRevisionID      = 4026469
-	varusPAPTimestamp       = "2026-06-09T22:00:25Z"
-	varusPAPRawBytes        = 3888
-	varusPAPLocalRawBytes   = 3888
-	varusPAPNormalizedBytes = 4131
-	varusPAPPagesBytes      = 689
-	varusPAPContentSHA      = "bdbbe064008b969e153800f7d5cdb305f84eca1ef043d8e6f8ce41c5db2659dd"
-	varusPAPLocalRawSHA     = "5a350cecb53d37bd2640f7de3398c1be0a798a75f88c42eb327933920d487962"
-	varusPAPNormalizedSHA   = "bb5af7baaf053d1266a3702664c2df09e89f67c6125e8cf6da15f28f5b0c1f8e"
-	varusPAPPagesSHA        = "85975963850f79395fbeec142049176aa945a3728bcecc55ca01a7863d849f61"
-	varusPAPBoundary        = "rank5_max_charge_max_range_selected_primary_first_enemy_physical_hit; immediate_impact_scaffold; " +
-		"physical_360_plus_1_20_bonus_ad; mana70_listed_cooldown12000ms_scaffold; " +
-		"no_real_charge_channel_post_effect_cooldown_start_charge_duration_cooldown_reduction_pierce_" +
-		"falloff_projectile_geometry_blight_or_full_fidelity"
-
 	varusPAPProviderRef = "provider_hero_varus_q_piercing_arrow_max_charge_primary_first_hit"
 	varusPAPStableID    = "hero_varus_q_piercing_arrow_max_charge_primary_first_hit"
 	varusPAPAbilityID   = "ability_hero_varus_q_piercing_arrow_max_charge_primary_first_hit"
@@ -136,15 +113,6 @@ const (
 
 	varusPAPTol = 1e-9
 )
-
-func varusPAPOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"bonus_ad_ratio",
-		"max_charge_max_range_selected_primary_first_hit_scaffold",
-	}
-}
 
 func varusPAPExpectedRawFromAD(resolvedAD, baseAD float64) float64 {
 	return varusPAPBaseDamage + varusPAPBonusADRatio*(resolvedAD-baseAD)
@@ -664,20 +632,6 @@ func findVarusPAPAbilityStat(t *testing.T, done model.DoneResult) model.AbilityS
 	return model.AbilityStat{}
 }
 
-func varusPAPWasmRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing wasm path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func varusPAPSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
 func varusPAPAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -711,140 +665,8 @@ func varusPAPAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMi
 	}
 }
 
-// TestVarusPiercingArrowMaxChargePrimaryFirstHitWikiSourceAndConstructedFixtureShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestVarusPiercingArrowMaxChargePrimaryFirstHitWikiSourceAndConstructedFixtureShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Description3, Leveling3 string
-			Cooldown, Cost, Costtype, Damagetype, Notes        string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(varusPAPWasmRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "varus-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != varusPAPNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), varusPAPNormalizedBytes)
-	}
-	if got := varusPAPSHA256Hex(sidecarRaw); got != varusPAPNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, varusPAPNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != varusPAPCandidateKey || doc.RequestTitle != varusPAPRequestTitle ||
-		doc.ResolvedTitle != varusPAPResolvedTitle || doc.WikiPageID != varusPAPWikiPageID ||
-		doc.RevisionID != varusPAPRevisionID || doc.RevisionTimestamp != varusPAPTimestamp ||
-		doc.ContentSHA256 != varusPAPContentSHA || doc.RawByteSize != varusPAPRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "穿刺之箭" || doc.OwnerID != "hero_varus" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "description2", "description3", "leveling3",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|50 to 70}}\n" || doc.Fields.Costtype != "mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if !strings.Contains(doc.Fields.Cooldown, "{{ap|16 to 12}}") {
-		t.Fatalf("cooldown=%q want rank table ending in 12s", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Description3, "{{as|physical damage}}") {
-		t.Fatal("wiki prose must retain physical damage wording")
-	}
-	if !strings.Contains(doc.Fields.Leveling3, "Maximum Physical Damage") ||
-		!strings.Contains(doc.Fields.Leveling3, "{{ap|80 to 360}}") ||
-		!strings.Contains(doc.Fields.Leveling3, "120% '''bonus''' AD") {
-		t.Fatalf("leveling3=%q", doc.Fields.Leveling3)
-	}
-	joined := doc.Fields.Description + doc.Fields.Description2 + doc.Fields.Description3 + doc.Fields.Notes
-	for _, excl := range []string{
-		"charges", "slowed", "recast", "refund", "Blight", "reduced by",
-		"channel", "missile",
-	} {
-		if !strings.Contains(joined, excl) {
-			t.Fatalf("wiki must retain excluded surface %q for bounded-exclusion disclosure", excl)
-		}
-	}
-
-	pagesRaw, err := os.ReadFile(varusPAPWasmRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "varus-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != varusPAPPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), varusPAPPagesBytes)
-	}
-	if got := varusPAPSHA256Hex(pagesRaw); got != varusPAPPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, varusPAPPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "穿刺之箭" || pages.OwnerID != "hero_varus" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(varusPAPWasmRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "varus-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != varusPAPLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), varusPAPLocalRawBytes)
-	}
-	localSHA := varusPAPSHA256Hex(rawBytes)
-	if localSHA != varusPAPLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, varusPAPLocalRawSHA)
-	}
-	if localSHA == varusPAPContentSHA {
-		t.Fatal("local raw hash must differ from canonical (local/canonical caveat; not equivalence/contradiction)")
-	}
-
-	if varusPAPPlanRev != "varus-q-piercing-arrow-max-charge-primary-first-hit-phase-a-v1" ||
-		varusPAPBoundary !=
-			"rank5_max_charge_max_range_selected_primary_first_enemy_physical_hit; immediate_impact_scaffold; "+
-				"physical_360_plus_1_20_bonus_ad; mana70_listed_cooldown12000ms_scaffold; "+
-				"no_real_charge_channel_post_effect_cooldown_start_charge_duration_cooldown_reduction_pierce_"+
-				"falloff_projectile_geometry_blight_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-	tags := varusPAPOrderedTags()
-	if len(tags) != 4 ||
-		tags[0] != "ability_cost_cooldown" ||
-		tags[1] != "active_physical_damage" ||
-		tags[2] != "bonus_ad_ratio" ||
-		tags[3] != "max_charge_max_range_selected_primary_first_hit_scaffold" {
-		t.Fatalf("ordered governed tags drifted: %+v", tags)
-	}
-	for _, tag := range tags {
-		if tag == "immediate_impact_scaffold" {
-			t.Fatal("must not substitute immediate_impact_scaffold as a governed tag")
-		}
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestVarusPiercingArrowMaxChargePrimaryFirstHitConstructedFixtureShape 验证固定构造的公式与机制边界。
+func TestVarusPiercingArrowMaxChargePrimaryFirstHitConstructedFixtureShape(t *testing.T) {
 	compileReq, _ := loadVarusPAPFixture(t, varusPAPFixtureOpts{
 		baseAD: varusPAPADBaseDefault, resolvedAD: varusPAPADResolvedDefault,
 		armor: varusPAPTargetArmor, mana: varusPAPFixtureManaCD,
@@ -1285,11 +1107,8 @@ func TestVarusPiercingArrowMaxChargePrimaryFirstHitDeterminismAndLifecycle(t *te
 	})
 }
 
-// TestVarusPiercingArrowMaxChargePrimaryFirstHitGovernanceExclusionsAndNonclaims:
-// prove hero-named `_test.go` status, production generic source scan, no hero
-// switch, and explicit exclusions/nonclaims remain locked.
-func TestVarusPiercingArrowMaxChargePrimaryFirstHitGovernanceExclusionsAndNonclaims(t *testing.T) {
-	// 保留生产源码扫描；工作树独占限制属于历史执行现场。
+// TestVarusPiercingArrowMaxChargePrimaryFirstHitProductionBoundary 拒绝生产源码按样例身份硬编码。
+func TestVarusPiercingArrowMaxChargePrimaryFirstHitProductionBoundary(t *testing.T) {
 	err := filepath.Walk(filepath.Join(".."), func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -1330,56 +1149,5 @@ func TestVarusPiercingArrowMaxChargePrimaryFirstHitGovernanceExclusionsAndNoncla
 	})
 	if err != nil {
 		t.Fatal(err)
-	}
-
-	self := "generic_varus_piercing_arrow_max_charge_primary_first_hit_test.go"
-	info, err := os.Stat(self)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !strings.HasSuffix(info.Name(), "_test.go") {
-		t.Fatal("evidence file must remain *_test.go")
-	}
-	raw, err := os.ReadFile(self)
-	if err != nil {
-		t.Fatal(err)
-	}
-	sum := sha256.Sum256(raw)
-	if hex.EncodeToString(sum[:]) == "" {
-		t.Fatal("empty sha")
-	}
-	body := string(raw)
-	if !strings.Contains(body, "FROZEN_PLAN_REV: varus-q-piercing-arrow-max-charge-primary-first-hit-phase-a-v1") {
-		t.Fatal("evidence file missing frozen plan marker")
-	}
-	if !strings.Contains(body, varusPAPTaskKey) {
-		t.Fatal("evidence file missing task key")
-	}
-	if !strings.Contains(body, "hero-named `_test.go` is regression/governance evidence") {
-		t.Fatal("evidence file must declare hero-named _test.go governance status")
-	}
-	if !strings.Contains(body, "Production runtime remains generic") {
-		t.Fatal("evidence file must declare production runtime remains generic")
-	}
-	for _, claim := range []string{
-		"local/canonical caveat",
-		"no explicit event op",
-		"do not substitute immediate_impact_scaffold as a governed tag",
-		"max_charge_max_range_selected_primary_first_hit_scaffold",
-		"blighted_quiver_q_max_charge_carrier",
-		"provider_hero_varus_w_blighted_quiver_phase_a",
-	} {
-		if !strings.Contains(body, claim) {
-			t.Fatalf("evidence file missing exclusion/nonclaim framing %q", claim)
-		}
-	}
-	if !strings.Contains(body, "Explicit exclusions") {
-		t.Fatal("evidence file missing Explicit exclusions section")
-	}
-	if strings.Count(body, "immediate_impact_scaffold") < 1 {
-		t.Fatal("boundary may retain immediate_impact_scaffold phrasing")
-	}
-	if !strings.Contains(body, "One max-charge max-range selected-primary first-enemy physical hit") {
-		t.Fatal("evidence must keep bounded quantum nonclaim")
 	}
 }

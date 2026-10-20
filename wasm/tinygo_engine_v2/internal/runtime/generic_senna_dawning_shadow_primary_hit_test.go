@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_senna R Dawning Shadow / 暗影燎原 — Phase-A v3 Wasm exact verification slice
 // (FROZEN_PLAN_REV: senna-r-dawning-shadow-primary-hit-phase-a-v3).
 //
@@ -43,8 +41,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_senna_dawning_shadow_primary_hit_seed.sql
 //	Local raw materialization caveat: 2353 bytes / SHA256
 //	  1b448ff48b9fe906a13056f2f510e38ff96fcad410462972a93dbd3bb93195dc.
-//	Serialization caveat only; assert sidecar/pages canonical identity + caveat;
-//	do not claim local-raw equivalence or source contradiction.
+
 //
 // Rank-3 Phase-A contract:
 //   - Independent provider provider_hero_senna_r_dawning_shadow_primary_hit
@@ -81,29 +78,6 @@ import (
 // ap_ratio, immediate_impact_scaffold.
 
 const (
-	sennaDSCandidateKey    = "hero_skill|hero_senna|R|暗影燎原"
-	sennaDSTaskKey         = "wasm-generic-senna-dawning-shadow-primary-hit"
-	sennaDSPlanRev         = "senna-r-dawning-shadow-primary-hit-phase-a-v3"
-	sennaDSRequestTitle    = "Template:Data Senna/R"
-	sennaDSResolvedTitle   = "Template:Data Senna/Dawning Shadow"
-	sennaDSWikiPageID      = 1409580
-	sennaDSRevisionID      = 4008033
-	sennaDSTimestamp       = "2026-04-13T04:08:13Z"
-	sennaDSRawBytes        = 2356
-	sennaDSLocalRawBytes   = 2353
-	sennaDSNormalizedBytes = 2597
-	sennaDSPagesBytes      = 689
-	sennaDSContentSHA      = "4de188cce3d04f172d37f07db4e7c8e240388c5346f56838c82a3e6205c9de36"
-	sennaDSLocalRawSHA     = "1b448ff48b9fe906a13056f2f510e38ff96fcad410462972a93dbd3bb93195dc"
-	sennaDSNormalizedSHA   = "79ced482a8489f211cacba8cedd4fe0f02a87f0360c5bf95d824c1d735f66307"
-	sennaDSPagesSHA        = "9b7fcb0a8e28dbbe38b6e890966421a6857772c2029315225e59bd041f9e704e"
-	sennaDSBoundary        = "rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; " +
-		"physical_550_plus_1_15_bonus_ad_plus_0_70_ap; " +
-		"no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_" +
-		"geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_" +
-		"reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_" +
-		"other_ranks_or_full_fidelity"
-
 	sennaDSProviderRef = "provider_hero_senna_r_dawning_shadow_primary_hit"
 	sennaDSStableID    = "hero_senna_r_dawning_shadow_primary_hit"
 	sennaDSAbilityID   = "ability_hero_senna_r_dawning_shadow_primary_hit"
@@ -133,16 +107,6 @@ const (
 
 	sennaDSTol = 1e-9
 )
-
-func sennaDSOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"bonus_ad_ratio",
-		"ap_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func sennaDSExpectedRawFromStats(resolvedAD, baseAD, resolvedAP float64) float64 {
 	return sennaDSBaseDamage +
@@ -690,24 +654,6 @@ func findSennaDSAbilityStat(t *testing.T, done model.DoneResult) model.AbilitySt
 	return model.AbilityStat{}
 }
 
-func sennaDSRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func sennaDSSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func sennaDSSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(sennaDSSHA256Hex(b))
-}
-
 func sennaDSAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -744,175 +690,8 @@ func sennaDSAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit
 	}
 }
 
-// TestSennaDawningShadowPrimaryHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestSennaDawningShadowPrimaryHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Leveling2, Description3, Leveling3 string
-			Cooldown, Cost, Costtype, Damagetype, Notes                   string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(sennaDSRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "senna-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != sennaDSNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), sennaDSNormalizedBytes)
-	}
-	if got := sennaDSSHA256Hex(sidecarRaw); got != sennaDSNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, sennaDSNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != sennaDSCandidateKey || doc.RequestTitle != sennaDSRequestTitle ||
-		doc.ResolvedTitle != sennaDSResolvedTitle || doc.WikiPageID != sennaDSWikiPageID ||
-		doc.RevisionID != sennaDSRevisionID || doc.RevisionTimestamp != sennaDSTimestamp ||
-		doc.ContentSHA256 != sennaDSContentSHA || doc.RawByteSize != sennaDSRawBytes ||
-		doc.SkillKey != "R" || doc.ZhDisplayName != "暗影燎原" || doc.OwnerID != "hero_senna" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "description2", "leveling2", "description3", "leveling3",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|100}}\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|140 to 100}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|140 to 100}} (rank-3 = 100s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling2, "{{ap|250 to 550}}") ||
-		!strings.Contains(doc.Fields.Leveling2, "115% '''bonus''' AD") ||
-		!strings.Contains(doc.Fields.Leveling2, "70% AP") ||
-		!strings.Contains(doc.Fields.Leveling2, "Physical Damage") {
-		t.Fatalf("leveling2=%q want rank3 physical 550 +115%% bonus AD +70%% AP", doc.Fields.Leveling2)
-	}
-	if !strings.Contains(doc.Fields.Description2, "{{as|physical damage}}") {
-		t.Fatal("wiki prose must retain physical damage wording")
-	}
-	// Explicit exclusion framing (present in wiki; not modeled by Phase-A scaffold).
-	if !strings.Contains(doc.Fields.Description2, "reveals") ||
-		!strings.Contains(doc.Fields.Description2, "Mist Wraiths") {
-		t.Fatal("wiki description2 must retain excluded reveal / Mist Wraith surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description3, "shield") ||
-		!strings.Contains(doc.Fields.Description3, "sight") {
-		t.Fatal("wiki description3 must retain excluded shield / path sight surfaces")
-	}
-	if !strings.Contains(doc.Fields.Leveling3, "Shield Strength") ||
-		!strings.Contains(doc.Fields.Leveling3, "Mist") {
-		t.Fatal("wiki leveling3 must retain excluded shield / Mist scaling surfaces")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Effect at cast time start") ||
-		!strings.Contains(doc.Fields.Notes, "reveals herself") ||
-		!strings.Contains(doc.Fields.Notes, "projectile") {
-		t.Fatalf("notes missing excluded cast-time/self-reveal/projectile surfaces: %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Description, "broad wave") ||
-		!strings.Contains(doc.Fields.Description, "narrow wave") {
-		t.Fatal("wiki description must retain excluded broad/narrow wave geometry surfaces")
-	}
-
-	pagesRaw, err := os.ReadFile(sennaDSRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "senna-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != sennaDSPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), sennaDSPagesBytes)
-	}
-	if got := sennaDSSHA256Hex(pagesRaw); got != sennaDSPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, sennaDSPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "R" || pages.ZhDisplayName != "暗影燎原" || pages.OwnerID != "hero_senna" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(sennaDSRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "senna-r.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != sennaDSLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), sennaDSLocalRawBytes)
-	}
-	if sennaDSLocalRawBytes == sennaDSRawBytes {
-		t.Fatal("local raw and canonical sizes must differ (serialization caveat; not equivalence)")
-	}
-	localSHA := sennaDSSHA256Hex(rawBytes)
-	if localSHA != sennaDSLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, sennaDSLocalRawSHA)
-	}
-	if localSHA == sennaDSContentSHA {
-		t.Fatal("local raw hash must differ from canonical (serialization caveat; not equivalence/contradiction)")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|250 to 550}}",
-		"115% '''bonus''' AD",
-		"70% AP",
-		"|cost         = {{ap|100}}",
-		"|cooldown     = {{ap|140 to 100}}",
-		"|damagetype   = physical",
-		"{{as|physical damage}}",
-		"reveals",
-		"Mist Wraiths",
-		"shield",
-		"sight",
-		"Effect at cast time start",
-		"reveals herself",
-		"|cast time    =",
-		"|queue time   =",
-		"|target range = Global",
-		"|targeting    = Direction",
-		"|width        =",
-		"|speed        =",
-		"|spellshield  = true",
-		"|projectile   = true",
-		"|spelleffects = aoe",
-		"broad wave",
-		"narrow wave",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if sennaDSPlanRev != "senna-r-dawning-shadow-primary-hit-phase-a-v3" || sennaDSBoundary !=
-		"rank3_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; "+
-			"physical_550_plus_1_15_bonus_ad_plus_0_70_ap; "+
-			"no_cast_time_effect_at_cast_time_start_queue_time_global_direction_broad_or_narrow_wave_"+
-			"geometry_width_projectile_travel_speed_destruction_aoe_multitarget_enemy_reveal_self_"+
-			"reveal_allied_or_self_shield_mist_scaling_mist_wraith_hits_path_sight_spellshield_"+
-			"other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestSennaDawningShadowPrimaryHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestSennaDawningShadowPrimaryHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadSennaDSFixture(t, sennaDSFixtureOpts{
 		baseAD: sennaDSADBaseDefault, resolvedAD: sennaDSADResolvedDefault,
 		resolvedAP: sennaDSFixtureAPDefault, armor: sennaDSTargetArmorDefault, mana: sennaDSFixtureManaCD,

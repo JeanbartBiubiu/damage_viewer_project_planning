@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_jhin W Deadly Flourish / 致命华彩 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: jhin-w-deadly-flourish-primary-hit-phase-a-v1).
 //
@@ -39,8 +37,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_jhin_deadly_flourish_primary_hit_seed.sql
 //	Local raw materialization caveat: 2940 bytes / SHA256
 //	  76790ba522dc101bb1f1c24ae620f80e8db6d10e890515cbc7da85005a67f78b.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_jhin_w_deadly_flourish_primary_hit
@@ -68,25 +65,6 @@ import (
 // immediate_impact_scaffold.
 
 const (
-	jhinDFCandidateKey  = "hero_skill|hero_jhin|W|致命华彩"
-	jhinDFTaskKey       = "wasm-generic-jhin-deadly-flourish-primary-hit"
-	jhinDFPlanRev       = "jhin-w-deadly-flourish-primary-hit-phase-a-v1"
-	jhinDFRequestTitle  = "Template:Data Jhin/W"
-	jhinDFResolvedTitle = "Template:Data Jhin/Deadly Flourish"
-	jhinDFWikiPageID    = 1307581
-	jhinDFRevisionID    = 4021795
-	jhinDFTimestamp     = "2026-05-21T13:25:33Z"
-	jhinDFRawBytes      = 2942
-	jhinDFLocalRawBytes = 2940
-	jhinDFContentSHA    = "14790ca09f6f320fc2fadc81c2fa7e783c7b81d48d792b7760494f2e8d788c65"
-	jhinDFLocalRawSHA   = "76790ba522dc101bb1f1c24ae620f80e8db6d10e890515cbc7da85005a67f78b"
-	jhinDFBoundary      = "rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; " +
-		"physical_210_plus_0_50_total_ad; " +
-		"no_cast_timing_direction_range_width_line_geometry_multitarget_" +
-		"champion_collision_projectile_interception_spell_shield_mark_" +
-		"creation_mark_detection_root_bonus_movement_speed_minion_" +
-		"reduction_other_ranks_or_full_fidelity"
-
 	jhinDFProviderRef = "provider_hero_jhin_w_deadly_flourish_primary_hit"
 	jhinDFStableID    = "hero_jhin_w_deadly_flourish_primary_hit"
 	jhinDFAbilityID   = "ability_hero_jhin_w_deadly_flourish_primary_hit"
@@ -114,14 +92,6 @@ const (
 
 	jhinDFTol = 1e-9
 )
-
-func jhinDFOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"immediate_impact_scaffold",
-	}
-}
 
 func jhinDFExpectedRawFromTotalAD(resolvedAD float64) float64 {
 	return jhinDFBaseDamage + jhinDFADRatio*resolvedAD
@@ -551,24 +521,6 @@ func findJhinDFAbilityStat(t *testing.T, done model.DoneResult) model.AbilitySta
 	return model.AbilityStat{}
 }
 
-func jhinDFRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func jhinDFSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func jhinDFSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(jhinDFSHA256Hex(b))
-}
-
 func jhinDFAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -602,126 +554,8 @@ func jhinDFAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit 
 	}
 }
 
-// TestJhinDeadlyFlourishWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestJhinDeadlyFlourishWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Description3     string
-			Leveling2, Leveling3                        string
-			Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(jhinDFRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "jhin-w.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != jhinDFCandidateKey || doc.RequestTitle != jhinDFRequestTitle ||
-		doc.ResolvedTitle != jhinDFResolvedTitle || doc.WikiPageID != jhinDFWikiPageID ||
-		doc.RevisionID != jhinDFRevisionID || doc.RevisionTimestamp != jhinDFTimestamp ||
-		doc.ContentSHA256 != jhinDFContentSHA || doc.RawByteSize != jhinDFRawBytes ||
-		doc.SkillKey != "W" || doc.ZhDisplayName != "致命华彩" || doc.OwnerID != "hero_jhin" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "description2", "leveling2", "description3", "leveling3",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|50 to 70}}\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "12\n" {
-		t.Fatalf("cooldown=%q want 12s (rank-5 / fixed)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling2, "{{ap|70 to 210}}") ||
-		!strings.Contains(doc.Fields.Leveling2, "50% AD") ||
-		!strings.Contains(doc.Fields.Leveling2, "Physical Damage") {
-		t.Fatalf("leveling2=%q", doc.Fields.Leveling2)
-	}
-	if !strings.Contains(doc.Fields.Description2, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description2, "line") ||
-		!strings.Contains(doc.Fields.Description2, "colliding") ||
-		!strings.Contains(doc.Fields.Description2, "minions") {
-		t.Fatal("wiki prose must retain excluded line/collision/minion surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description3, "marked") ||
-		!strings.Contains(doc.Fields.Description3, "root") ||
-		!strings.Contains(strings.ToLower(doc.Fields.Description3), "bonus") ||
-		!strings.Contains(doc.Fields.Description3, "movement speed") {
-		t.Fatal("wiki prose must retain excluded mark/root/bonus movement-speed surfaces")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Effect at cast time start") {
-		t.Fatalf("notes missing Effect at cast time start (excluded): %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "projectile") ||
-		!strings.Contains(doc.Fields.Notes, "intercepted") {
-		t.Fatalf("notes missing projectile interception (excluded): %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(jhinDFRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "jhin-w.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "W" || pages.ZhDisplayName != "致命华彩" || pages.OwnerID != "hero_jhin" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(jhinDFRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "jhin-w.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != jhinDFLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), jhinDFLocalRawBytes)
-	}
-	localSHA := jhinDFSHA256Hex(rawBytes)
-	if localSHA != jhinDFLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, jhinDFLocalRawSHA)
-	}
-	if localSHA == jhinDFContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if len(rawBytes) == jhinDFRawBytes {
-		t.Fatal("local raw byte length must differ from canonical 2942 (materialization caveat)")
-	}
-	if jhinDFPlanRev != "jhin-w-deadly-flourish-primary-hit-phase-a-v1" || jhinDFBoundary !=
-		"rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; "+
-			"physical_210_plus_0_50_total_ad; "+
-			"no_cast_timing_direction_range_width_line_geometry_multitarget_"+
-			"champion_collision_projectile_interception_spell_shield_mark_"+
-			"creation_mark_detection_root_bonus_movement_speed_minion_"+
-			"reduction_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestJhinDeadlyFlourishConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestJhinDeadlyFlourishConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadJhinDFFixture(t, jhinDFFixtureOpts{
 		resolvedAD: jhinDFADResolvedDefault, armor: jhinDFTargetArmor, mana: jhinDFFixtureManaCD,
 	})

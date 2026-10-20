@@ -1,10 +1,8 @@
 package runtime
 
 import (
-	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"strings"
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -12,6 +10,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_graves W Smoke Screen / 烟幕弹 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: graves-w-smoke-screen-primary-hit-phase-a-v2).
 //
@@ -29,8 +28,7 @@ import (
 //	数据参考/lol-wiki-current-champions/normalized/generic/graves-w.json
 //	pages/raw siblings: pages/graves-w.json, raw/graves-w.wikitext
 //	Caveat: local raw is also 2441 bytes but SHA256 fa0bf661… (CRLF0) due same-length
-//	materialization; assert sidecar canonical identity and raw/pages existence plus
-//	positive field substrings — do not require local raw hash equality.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_graves_w_smoke_screen_primary_hit
@@ -56,17 +54,6 @@ import (
 //   resistance coupling, live publish, or full fidelity.
 
 const (
-	gravesSmokeScreenPrimaryHitCandidateKey  = "hero_skill|hero_graves|W|烟幕弹"
-	gravesSmokeScreenPrimaryHitRequestTitle  = "Template:Data Graves/W"
-	gravesSmokeScreenPrimaryHitResolvedTitle = "Template:Data Graves/Smoke Screen"
-	gravesSmokeScreenPrimaryHitWikiPageID    = 1307368
-	gravesSmokeScreenPrimaryHitRevisionID    = 3956197
-	gravesSmokeScreenPrimaryHitTimestamp     = "2025-09-26T13:12:00Z"
-	gravesSmokeScreenPrimaryHitRawBytes      = 2441
-	gravesSmokeScreenPrimaryHitContentSHA    = "20348473fe3441eb32ab656423f577a62a415fadf33fbdc6fcf576bc8b1d210d"
-	gravesSmokeScreenPrimaryHitBoundary      = "rank5_primary_target_single_hit; immediate_impact_scaffold; " +
-		"magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction"
-
 	gravesSmokeScreenPrimaryHitProviderRef = "provider_hero_graves_w_smoke_screen_primary_hit"
 	gravesSmokeScreenPrimaryHitStableID    = "hero_graves_w_smoke_screen_primary_hit"
 	gravesSmokeScreenPrimaryHitAbilityID   = "ability_hero_graves_w_smoke_screen_primary_hit"
@@ -406,199 +393,6 @@ func findGravesSmokeScreenPrimaryHitAbilityStat(t *testing.T, done model.DoneRes
 	}
 	t.Fatalf("AbilityStats missing ref %q (got %+v)", wantRef, done.Summary.AbilityStats)
 	return model.AbilityStat{}
-}
-
-func gravesSmokeScreenPrimaryHitWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "graves-w.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func gravesSmokeScreenPrimaryHitWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "graves-w.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func gravesSmokeScreenPrimaryHitWikiPagesPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "pages", "graves-w.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki pages sibling missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type gravesSmokeScreenPrimaryHitWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	Fields            struct {
-		Description  string `json:"description"`
-		Leveling     string `json:"leveling"`
-		Description2 string `json:"description2"`
-		Cooldown     string `json:"cooldown"`
-		Cost         string `json:"cost"`
-		Costtype     string `json:"costtype"`
-		Damagetype   string `json:"damagetype"`
-		Notes        string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-func gravesSmokeScreenPrimaryHitLoadWikiSidecar(t *testing.T) gravesSmokeScreenPrimaryHitWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(gravesSmokeScreenPrimaryHitWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc gravesSmokeScreenPrimaryHitWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-// TestGravesSmokeScreenPrimaryHitWikiSidecarIdentityAndBoundary locks repository sidecar
-// identity plus the frozen Phase-A completed-boundary constant. Positively asserts
-// same-revision magic/formula/cost/CD and excluded cast/projectile/AOE/slow/cloud/
-// nearsight facts in governed strings; compile/runtime prove those branches are
-// absent from the immediate scaffold (not modeled).
-func TestGravesSmokeScreenPrimaryHitWikiSidecarIdentityAndBoundary(t *testing.T) {
-	doc := gravesSmokeScreenPrimaryHitLoadWikiSidecar(t)
-	if doc.CandidateKey != gravesSmokeScreenPrimaryHitCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, gravesSmokeScreenPrimaryHitCandidateKey)
-	}
-	if doc.RequestTitle != gravesSmokeScreenPrimaryHitRequestTitle {
-		t.Fatalf("requestTitle=%q want %q", doc.RequestTitle, gravesSmokeScreenPrimaryHitRequestTitle)
-	}
-	if doc.ResolvedTitle != gravesSmokeScreenPrimaryHitResolvedTitle {
-		t.Fatalf("resolvedTitle=%q want %q", doc.ResolvedTitle, gravesSmokeScreenPrimaryHitResolvedTitle)
-	}
-	if doc.WikiPageID != gravesSmokeScreenPrimaryHitWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, gravesSmokeScreenPrimaryHitWikiPageID)
-	}
-	if doc.RevisionID != gravesSmokeScreenPrimaryHitRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, gravesSmokeScreenPrimaryHitRevisionID)
-	}
-	if doc.RevisionTimestamp != gravesSmokeScreenPrimaryHitTimestamp {
-		t.Fatalf("revisionTimestamp=%q want %q", doc.RevisionTimestamp, gravesSmokeScreenPrimaryHitTimestamp)
-	}
-	if doc.ContentSHA256 != gravesSmokeScreenPrimaryHitContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, gravesSmokeScreenPrimaryHitContentSHA)
-	}
-	if doc.RawByteSize != gravesSmokeScreenPrimaryHitRawBytes {
-		t.Fatalf("rawByteSize=%d want %d", doc.RawByteSize, gravesSmokeScreenPrimaryHitRawBytes)
-	}
-	if doc.SkillKey != "W" || doc.ZhDisplayName != "烟幕弹" || doc.OwnerID != "hero_graves" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want W/烟幕弹/hero_graves",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	for _, key := range []string{"description", "leveling", "description2", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|70 to 90}}\n" {
-		t.Fatalf("fields.cost=%q want %q", doc.Fields.Cost, "{{ap|70 to 90}}\n")
-	}
-	if doc.Fields.Cooldown != "{{ap|26 to 18}}\n" {
-		t.Fatalf("fields.cooldown=%q want %q", doc.Fields.Cooldown, "{{ap|26 to 18}}\n")
-	}
-	if doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("fields.damagetype=%q want Magic", doc.Fields.Damagetype)
-	}
-	if doc.Fields.Costtype != "Mana\n" {
-		t.Fatalf("fields.costtype=%q want Mana", doc.Fields.Costtype)
-	}
-	if doc.Fields.Description == "" {
-		t.Fatal("description empty (fail closed; expect magic / canister / slow wording)")
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|magic damage}}") {
-		t.Fatalf("description missing magic damage wording: %q", doc.Fields.Description)
-	}
-	if !strings.Contains(doc.Fields.Description, "smoke canister") {
-		t.Fatalf("description missing smoke canister wording (source evidence; excluded from scaffold): %q",
-			doc.Fields.Description)
-	}
-	if !strings.Contains(doc.Fields.Description, "target location") {
-		t.Fatalf("description missing target-location wording (excluded from scaffold): %q",
-			doc.Fields.Description)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{tip|slow|slows}}") {
-		t.Fatalf("description missing slow wording (excluded from scaffold): %q", doc.Fields.Description)
-	}
-	if doc.Fields.Leveling == "" {
-		t.Fatal("leveling empty (fail closed; expect Magic Damage rank formula)")
-	}
-	if !strings.Contains(doc.Fields.Leveling, "Magic Damage") {
-		t.Fatalf("leveling missing Magic Damage label: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|60 to 260}}") {
-		t.Fatalf("leveling missing rank formula {{ap|60 to 260}}: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "60% AP") {
-		t.Fatalf("leveling missing 60%% AP ratio: %q", doc.Fields.Leveling)
-	}
-	if doc.Fields.Description2 == "" {
-		t.Fatal("description2 empty (fail closed; expect smoke cloud / nearsight / sight)")
-	}
-	if !strings.Contains(doc.Fields.Description2, "cloud of smoke") {
-		t.Fatalf("description2 missing cloud of smoke wording (excluded from scaffold): %q",
-			doc.Fields.Description2)
-	}
-	if !strings.Contains(doc.Fields.Description2, "{{tip|nearsight}}") {
-		t.Fatalf("description2 missing nearsight wording (excluded from scaffold): %q",
-			doc.Fields.Description2)
-	}
-	if !strings.Contains(doc.Fields.Description2, "{{tip|sight}}") {
-		t.Fatalf("description2 missing sight-radius wording (excluded from scaffold): %q",
-			doc.Fields.Description2)
-	}
-	if doc.Fields.Notes == "" {
-		t.Fatal("notes empty (fail closed; expect Effect at cast time end / spellshield)")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Effect at cast time end") {
-		t.Fatalf("notes missing Effect at cast time end (excluded from immediate scaffold): %q",
-			doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "Spell shield") && !strings.Contains(doc.Fields.Notes, "spell shield") &&
-		!strings.Contains(doc.Fields.Notes, "{{tip|Spell shield|Spell shields}}") {
-		t.Fatalf("notes missing spellshield wording (excluded from scaffold): %q", doc.Fields.Notes)
-	}
-
-	_ = gravesSmokeScreenPrimaryHitWikiPagesPath(t)
-
-	raw, err := os.ReadFile(gravesSmokeScreenPrimaryHitWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	if len(raw) == 0 {
-		t.Fatal("wiki raw empty (fail closed)")
-	}
-	// Do not assert local raw len/hash equals sidecar canonical metadata
-	// (same-length materialization caveat: local SHA fa0bf661… vs sidecar 20348473…).
-	if gravesSmokeScreenPrimaryHitBoundary != "rank5_primary_target_single_hit; immediate_impact_scaffold; "+
-		"magic_260_plus_0_60_ap; no_cast_delay_projectile_geometry_aoe_slow_smoke_cloud_nearsight_or_sight_reduction" {
-		t.Fatal("frozen boundary constant drifted")
-	}
 }
 
 // TestGravesSmokeScreenPrimaryHitRank5DamageFormulaCrossCheck: independent numeric

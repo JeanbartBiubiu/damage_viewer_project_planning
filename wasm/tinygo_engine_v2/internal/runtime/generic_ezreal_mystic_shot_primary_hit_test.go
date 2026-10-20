@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"strings"
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -14,6 +11,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_ezreal Q Mystic Shot / 秘术射击 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: ezreal-q-mystic-shot-primary-hit-phase-a-v2).
 //
@@ -47,8 +45,7 @@ import (
 //	  17025b1541d9775c5133f38f82bd8e0d87d36a126112349197dfc4cbf550dc3e
 //	Local raw materialization caveat: 2052 bytes / SHA256
 //	  d8348b3b9eb4a076af5a87b714dd4de109643252f6b18fd2873f5a5bf7b05dbd.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_ezreal_q_mystic_shot_primary_hit
@@ -83,28 +80,6 @@ import (
 // in formula/boundary/reason only).
 
 const (
-	ezrealMSCandidateKey    = "hero_skill|hero_ezreal|Q|秘术射击"
-	ezrealMSTaskKey         = "wasm-generic-ezreal-mystic-shot-primary-hit"
-	ezrealMSPlanRev         = "ezreal-q-mystic-shot-primary-hit-phase-a-v2"
-	ezrealMSRequestTitle    = "Template:Data Ezreal/Q"
-	ezrealMSResolvedTitle   = "Template:Data Ezreal/Mystic Shot"
-	ezrealMSWikiPageID      = 1307107
-	ezrealMSRevisionID      = 4013233
-	ezrealMSTimestamp       = "2026-04-28T21:19:30Z"
-	ezrealMSRawBytes        = 2054
-	ezrealMSLocalRawBytes   = 2052
-	ezrealMSNormalizedBytes = 2527
-	ezrealMSPagesBytes      = 692
-	ezrealMSContentSHA      = "be5a24861dc53970c19378fe8bea17b242b5b406a588cebb32b0d59a4af4b533"
-	ezrealMSLocalRawSHA     = "d8348b3b9eb4a076af5a87b714dd4de109643252f6b18fd2873f5a5bf7b05dbd"
-	ezrealMSNormalizedSHA   = "b7e8639d6fd82df4c66c4f883078b54274b4a1708fdca6bf2703d70a0518ab47"
-	ezrealMSPagesSHA        = "f5f133eef00f3dd4cdc95c0513d3371851b71d890a61b9e8de93716ccd107060"
-	ezrealMSBoundary        = "rank5_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; " +
-		"physical_120_plus_1_30_total_ad_plus_0_40_ap; preserve_rising_spell_force_one_stack_on_successful_hit; " +
-		"no_direction_range_projectile_travel_collision_first_enemy_acquisition_on_hit_on_attack_" +
-		"cooldown_reduction_basic_damage_spell_damage_dual_tag_lifesteal_vamp_spellshield_buffering_" +
-		"other_ranks_or_full_fidelity"
-
 	ezrealMSProviderRef = "provider_hero_ezreal_q_mystic_shot_primary_hit"
 	ezrealMSStableID    = "hero_ezreal_q_mystic_shot_primary_hit"
 	ezrealMSAbilityID   = "ability_hero_ezreal_q_mystic_shot_primary_hit"
@@ -136,15 +111,6 @@ const (
 
 	ezrealMSTol = 1e-9
 )
-
-func ezrealMSOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"ap_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func ezrealMSExpectedRawFromStats(resolvedAD, resolvedAP float64) float64 {
 	return ezrealMSBaseDamage + ezrealMSADRatio*resolvedAD + ezrealMSAPRatio*resolvedAP
@@ -706,24 +672,6 @@ func findEzrealMSAbilityStat(t *testing.T, done model.DoneResult) model.AbilityS
 	return model.AbilityStat{}
 }
 
-func ezrealMSRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func ezrealMSSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func ezrealMSSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(ezrealMSSHA256Hex(b))
-}
-
 func ezrealMSAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -760,167 +708,8 @@ func ezrealMSAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMi
 	}
 }
 
-// TestEzrealMysticShotPrimaryHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestEzrealMysticShotPrimaryHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Leveling         string
-			Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(ezrealMSRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "ezreal-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != ezrealMSNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), ezrealMSNormalizedBytes)
-	}
-	if got := ezrealMSSHA256Hex(sidecarRaw); got != ezrealMSNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, ezrealMSNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != ezrealMSCandidateKey || doc.RequestTitle != ezrealMSRequestTitle ||
-		doc.ResolvedTitle != ezrealMSResolvedTitle || doc.WikiPageID != ezrealMSWikiPageID ||
-		doc.RevisionID != ezrealMSRevisionID || doc.RevisionTimestamp != ezrealMSTimestamp ||
-		doc.ContentSHA256 != ezrealMSContentSHA || doc.RawByteSize != ezrealMSRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "秘术射击" || doc.OwnerID != "hero_ezreal" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|28 to 40}}\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|5.5 to 4.5}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|5.5 to 4.5}} (rank-5 = 4.5s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|20 to 120}}") ||
-		!strings.Contains(doc.Fields.Leveling, "130% AD") ||
-		!strings.Contains(doc.Fields.Leveling, "40% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling=%q want rank5 physical 120 +130%% AD +40%% AP", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description, "first enemy hit") ||
-		!strings.Contains(doc.Fields.Description, "on-hit") ||
-		!strings.Contains(doc.Fields.Description, "on-attack") {
-		t.Fatal("wiki prose must retain physical / first-enemy / on-hit / on-attack wording")
-	}
-	if !strings.Contains(doc.Fields.Description2, "1.5") ||
-		!strings.Contains(doc.Fields.Description2, "cooldowns") {
-		t.Fatal("wiki description2 must retain excluded 1.5s cooldown-reduction surface")
-	}
-	if !strings.Contains(doc.Fields.Notes, "basic damage") ||
-		!strings.Contains(doc.Fields.Notes, "spell damage") ||
-		!strings.Contains(doc.Fields.Notes, "life steal") ||
-		!strings.Contains(doc.Fields.Notes, "omnivamp") ||
-		!strings.Contains(doc.Fields.Notes, "physical vamp") ||
-		!strings.Contains(doc.Fields.Notes, "spell shield") ||
-		!strings.Contains(doc.Fields.Notes, "buffered") {
-		t.Fatalf("notes missing excluded dual-tag/vamp/spellshield/buffering surfaces: %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(ezrealMSRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "ezreal-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != ezrealMSPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), ezrealMSPagesBytes)
-	}
-	if got := ezrealMSSHA256Hex(pagesRaw); got != ezrealMSPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, ezrealMSPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "秘术射击" || pages.OwnerID != "hero_ezreal" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(ezrealMSRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "ezreal-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != ezrealMSLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), ezrealMSLocalRawBytes)
-	}
-	if ezrealMSLocalRawBytes == ezrealMSRawBytes {
-		t.Fatal("local raw and canonical sizes must differ (serialization caveat; not equivalence)")
-	}
-	localSHA := ezrealMSSHA256Hex(rawBytes)
-	if localSHA != ezrealMSLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, ezrealMSLocalRawSHA)
-	}
-	if localSHA == ezrealMSContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|20 to 120}}",
-		"130% AD",
-		"40% AP",
-		"|cost         = {{ap|28 to 40}}",
-		"|cooldown     = {{ap|5.5 to 4.5}}",
-		"|damagetype   = Physical",
-		"{{as|physical damage}}",
-		"first enemy hit",
-		"on-hit",
-		"on-attack",
-		"1.5",
-		"life steal",
-		"omnivamp",
-		"physical vamp",
-		"spell shield",
-		"buffered",
-		"|target range =",
-		"|speed        =",
-		"|width        =",
-		"|projectile   = True",
-		"|onhiteffects = True",
-		"|spellshield  = special",
-		"|spelleffects = special",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if ezrealMSPlanRev != "ezreal-q-mystic-shot-primary-hit-phase-a-v2" || ezrealMSBoundary !=
-		"rank5_selected_primary_enemy_champion_single_physical_hit; immediate_impact_scaffold; "+
-			"physical_120_plus_1_30_total_ad_plus_0_40_ap; preserve_rising_spell_force_one_stack_on_successful_hit; "+
-			"no_direction_range_projectile_travel_collision_first_enemy_acquisition_on_hit_on_attack_"+
-			"cooldown_reduction_basic_damage_spell_damage_dual_tag_lifesteal_vamp_spellshield_buffering_"+
-			"other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestEzrealMysticShotPrimaryHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestEzrealMysticShotPrimaryHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadEzrealMSFixture(t, ezrealMSFixtureOpts{
 		baseAD: ezrealMSADBaseDefault, resolvedAD: ezrealMSADResolvedDefault,
 		resolvedAP: ezrealMSFixtureAPDefault, armor: ezrealMSTargetArmorDefault,

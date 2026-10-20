@@ -1,16 +1,15 @@
 package runtime
 
 import (
-	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_malzahar E Malefic Visions / 恶咒降临 — generic ABI Phase-A evidence
 // (FROZEN_PLAN_REV: malzahar-e-anchored-dot-phase-a-v2).
 //
@@ -41,10 +40,6 @@ const (
 	malzaharMVEAbilityKey     = "malefic_visions"
 	malzaharMVETickAbilityKey = "malefic_visions_tick"
 	malzaharMVETickOpRef      = "op:malefic_visions_tick"
-
-	malzaharMVECandidateKey = "hero_skill|hero_malzahar|E|恶咒降临"
-	malzaharMVERevisionID   = 4015185
-	malzaharMVEContentSHA   = "9098ee2fbe7dfb33d1ca375bbce0c68788fd60378780aa4ddab8afc46736ba84"
 
 	malzaharMVETickFlat   = 13.75
 	malzaharMVEAPRatio    = 0.05
@@ -381,84 +376,6 @@ func malzaharMVEFindProvider(compileReq model.CompileRequest) *model.ProviderDef
 	return nil
 }
 
-func malzaharMVEWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	// runtime → internal → tinygo_engine_v2 → wasm → repo root
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-extra-mechanisms", "normalized", "generic", "malzahar-e.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type malzaharMVEWikiSidecar struct {
-	CandidateKey  string `json:"candidateKey"`
-	RevisionID    int    `json:"revisionId"`
-	ContentSHA256 string `json:"contentSha256"`
-	SkillKey      string `json:"skillKey"`
-	ZhDisplayName string `json:"zhDisplayName"`
-	Fields        struct {
-		Description  string `json:"description"`
-		Description2 string `json:"description2"`
-		Leveling     string `json:"leveling"`
-		Cooldown     string `json:"cooldown"`
-		Cost         string `json:"cost"`
-		Costtype     string `json:"costtype"`
-		Damagetype   string `json:"damagetype"`
-		Notes        string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-func malzaharMVELoadWikiSidecar(t *testing.T) malzaharMVEWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(malzaharMVEWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc malzaharMVEWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-func malzaharMVEAssertWikiSidecar(t *testing.T) {
-	t.Helper()
-	doc := malzaharMVELoadWikiSidecar(t)
-	if doc.CandidateKey != malzaharMVECandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, malzaharMVECandidateKey)
-	}
-	if doc.RevisionID != malzaharMVERevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, malzaharMVERevisionID)
-	}
-	if doc.ContentSHA256 != malzaharMVEContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, malzaharMVEContentSHA)
-	}
-	if doc.SkillKey != "E" || doc.ZhDisplayName != "恶咒降临" {
-		t.Fatalf("skill/zh=%q/%q want E/恶咒降临", doc.SkillKey, doc.ZhDisplayName)
-	}
-	tracked := []string{
-		"description", "description2", "leveling", "cooldown",
-		"cost", "costtype", "damagetype", "notes",
-	}
-	for _, key := range tracked {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true (fail closed)", key)
-		}
-	}
-	if doc.Fields.Leveling == "" || doc.Fields.Cooldown == "" || doc.Fields.Cost == "" {
-		t.Fatal("leveling/cooldown/cost empty (fail closed on tracked numeric-bearing fields)")
-	}
-	if doc.Fields.Costtype == "" || doc.Fields.Damagetype == "" {
-		t.Fatal("costtype/damagetype empty (fail closed)")
-	}
-	if doc.Fields.Description == "" || doc.Fields.Notes == "" {
-		t.Fatal("description/notes empty (fail closed)")
-	}
-}
-
 func malzaharMVEAssertCompileShape(t *testing.T, compileReq model.CompileRequest) {
 	t.Helper()
 	found := malzaharMVEFindProvider(compileReq)
@@ -583,12 +500,8 @@ func malzaharMVEAssertCompileShape(t *testing.T, compileReq model.CompileRequest
 // Evidence tests
 // ---------------------------------------------------------------------------
 
-func TestGenericMalzaharMaleficVisionsWikiSidecarIdentity(t *testing.T) {
-	malzaharMVEAssertWikiSidecar(t)
-}
-
 func TestGenericMalzaharMaleficVisionsCompileShape(t *testing.T) {
-	malzaharMVEAssertWikiSidecar(t)
+
 	compileReq, runReq := malzaharMVELoadFixture(t, malzaharMVEFixtureOpts{})
 	malzaharMVEAssertCompileShape(t, compileReq)
 	done := malzaharMVERun(t, compileReq, runReq)
@@ -621,7 +534,7 @@ func TestGenericMalzaharMaleficVisionsNoCastNoTicks(t *testing.T) {
 }
 
 func TestGenericMalzaharMaleficVisionsAP0Resist0SixteenTicks(t *testing.T) {
-	malzaharMVEAssertWikiSidecar(t)
+
 	compileReq, runReq := malzaharMVELoadFixture(t, malzaharMVEFixtureOpts{ap: 0, mr: 0})
 	malzaharMVEAssertCompileShape(t, compileReq)
 	malzaharMVESetCasts(&runReq, []int64{0})

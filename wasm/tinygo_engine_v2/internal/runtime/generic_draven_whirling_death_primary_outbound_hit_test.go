@@ -1,12 +1,8 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
-	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"strings"
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -14,6 +10,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_draven R Whirling Death / 冷血追命 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: draven-r-whirling-death-primary-outbound-hit-phase-a-v2).
 //
@@ -61,24 +58,6 @@ import (
 //   Exactly one selected-target first-outbound-pass physical hit, not full R.
 
 const (
-	dravenWDPOHCandidateKey  = "hero_skill|hero_draven|R|冷血追命"
-	dravenWDPOHPlanRev       = "draven-r-whirling-death-primary-outbound-hit-phase-a-v2"
-	dravenWDPOHRequestTitle  = "Template:Data Draven/R"
-	dravenWDPOHResolvedTitle = "Template:Data Draven/Whirling Death"
-	dravenWDPOHWikiPageID    = 1307072
-	dravenWDPOHRevisionID    = 4040576
-	dravenWDPOHTimestamp     = "2026-07-06T14:27:37Z"
-	dravenWDPOHRawBytes      = 3079
-	dravenWDPOHLocalRawBytes = 3079
-	dravenWDPOHContentSHA    = "e38551b6eeefa0306cd40a3e15473c8983075f88edbe007915e3d9213a08adce"
-	dravenWDPOHLocalRawSHA   = "1110179b1771c03c8ff67b428d6fa7a5b0ba42caf19e241ce512a199ef812059"
-	dravenWDPOHNormBytes     = 3361
-	dravenWDPOHNormSHA       = "74e8f95ca03c86a5c809255d6309e4639e949337f4f36ee4fcfd4e8403416754"
-	dravenWDPOHBoundary      = "rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; " +
-		"physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_" +
-		"recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_" +
-		"falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity"
-
 	dravenWDPOHProviderRef = "provider_hero_draven_r_whirling_death_primary_outbound_hit"
 	dravenWDPOHStableID    = "hero_draven_r_whirling_death_primary_outbound_hit"
 	dravenWDPOHAbilityID   = "ability_hero_draven_r_whirling_death_primary_outbound_hit"
@@ -552,20 +531,6 @@ func findDravenWDPOHAbilityStat(t *testing.T, done model.DoneResult) model.Abili
 	return model.AbilityStat{}
 }
 
-func dravenWDPOHRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func dravenWDPOHSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
 func dravenWDPOHAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -599,172 +564,6 @@ func dravenWDPOHAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wan
 	}
 	if evidenceDataBool(item.Data, "copyableOnHit") || evidenceDataBool(item.Data, "copyable") {
 		t.Fatalf("damage must not be copyable: %+v", item.Data)
-	}
-}
-
-// TestDravenWhirlingDeathPrimaryOutboundHitWikiSidecarIdentityAndBoundary locks
-// repository sidecar/pages/raw identity, rank-3 markup semantics, fieldPresence,
-// exclusion evidence, and the frozen completed-boundary constant.
-func TestDravenWhirlingDeathPrimaryOutboundHitWikiSidecarIdentityAndBoundary(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Description3, Description4, Description5 string
-			Leveling, Leveling4, Cooldown, Cost, Costtype, Damagetype, Notes    string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(dravenWDPOHRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "draven-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != dravenWDPOHNormBytes {
-		t.Fatalf("local normalized len=%d want %d", len(sidecarRaw), dravenWDPOHNormBytes)
-	}
-	if got := dravenWDPOHSHA256Hex(sidecarRaw); got != dravenWDPOHNormSHA {
-		t.Fatalf("local normalized sha=%q want %q", got, dravenWDPOHNormSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != dravenWDPOHCandidateKey || doc.RequestTitle != dravenWDPOHRequestTitle ||
-		doc.ResolvedTitle != dravenWDPOHResolvedTitle || doc.WikiPageID != dravenWDPOHWikiPageID ||
-		doc.RevisionID != dravenWDPOHRevisionID || doc.RevisionTimestamp != dravenWDPOHTimestamp ||
-		doc.ContentSHA256 != dravenWDPOHContentSHA || doc.RawByteSize != dravenWDPOHRawBytes ||
-		doc.SkillKey != "R" || doc.ZhDisplayName != "冷血追命" || doc.OwnerID != "hero_draven" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "description2", "leveling", "description3", "description4",
-		"leveling4", "description5", "cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Cost != "100\n" {
-		t.Fatalf("fields.cost=%q want %q", doc.Fields.Cost, "100\n")
-	}
-	if doc.Fields.Costtype != "mana\n" {
-		t.Fatalf("fields.costtype=%q want %q", doc.Fields.Costtype, "mana\n")
-	}
-	if doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("fields.damagetype=%q want Physical", doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|100 to 80}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|100 to 80}} (rank-3 = 80s → 80000ms)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|200 to 400}}") ||
-		!strings.Contains(doc.Fields.Leveling, "{{ap|110 to 150}}% '''bonus''' AD") ||
-		!strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling=%q want rank3 physical 400 +150%% bonus AD", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") {
-		t.Fatalf("description missing physical damage wording: %q", doc.Fields.Description)
-	}
-	// Explicit exclusion framing (present in wiki; not modeled by Phase-A scaffold).
-	if !strings.Contains(doc.Fields.Description, "{{tip|sight}}") ||
-		!strings.Contains(doc.Fields.Description, "{{tip|execute|executed}}") ||
-		!strings.Contains(doc.Fields.Description, "Adoration") {
-		t.Fatal("wiki description must retain excluded sight / execute / Adoration surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description2, "recast") ||
-		!strings.Contains(doc.Fields.Description2, "traveling") ||
-		!strings.Contains(doc.Fields.Description2, "map") {
-		t.Fatal("wiki description2 must retain excluded recast / travel / map-edge surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description3, "Recast") ||
-		!strings.Contains(doc.Fields.Description3, "reverse") ||
-		!strings.Contains(doc.Fields.Description3, "homing") {
-		t.Fatal("wiki description3 must retain excluded recast / reverse / homing / return surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description4, "enemies hit") ||
-		!strings.Contains(doc.Fields.Description4, "resetting") {
-		t.Fatal("wiki description4 must retain excluded multitarget damage-falloff / reset surfaces")
-	}
-	if !strings.Contains(doc.Fields.Leveling, "Total Physical Damage") {
-		t.Fatal("wiki leveling must retain excluded total/second-pass damage surface")
-	}
-	if !strings.Contains(doc.Fields.Leveling4, "Minimum Physical Damage") {
-		t.Fatal("wiki leveling4 must retain excluded minimum/falloff damage surface")
-	}
-	if !strings.Contains(doc.Fields.Description5, "once per pass") {
-		t.Fatal("wiki description5 must retain excluded once-per-pass surface")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Spell shield") ||
-		!strings.Contains(doc.Fields.Notes, "Effect at cast time end") {
-		t.Fatalf("notes missing excluded spellshield/cast-time surfaces: %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(dravenWDPOHRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "draven-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "R" || pages.ZhDisplayName != "冷血追命" || pages.OwnerID != "hero_draven" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(dravenWDPOHRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "draven-r.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != dravenWDPOHLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), dravenWDPOHLocalRawBytes)
-	}
-	if dravenWDPOHLocalRawBytes != dravenWDPOHRawBytes {
-		t.Fatal("local raw and canonical sizes must match for this caveat (same size / different hash)")
-	}
-	localSHA := dravenWDPOHSHA256Hex(rawBytes)
-	if localSHA != dravenWDPOHLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, dravenWDPOHLocalRawSHA)
-	}
-	if localSHA == dravenWDPOHContentSHA {
-		t.Fatal("local raw hash must differ from canonical (same-size materialization caveat; not equivalence)")
-	}
-	// Do not claim contradiction: both identities are pinned serialization facts.
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|200 to 400}}",
-		"{{ap|110 to 150}}% '''bonus''' AD",
-		"|cost         = 100",
-		"|cooldown     = {{ap|100 to 80}}",
-		"|damagetype   = Physical",
-		"|cast time    = {{fd|0.5}}",
-		"|projectile   = true",
-		"recast",
-		"homing",
-		"once per pass",
-		"Adoration",
-		"Effect at cast time end",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if dravenWDPOHPlanRev != "draven-r-whirling-death-primary-outbound-hit-phase-a-v2" ||
-		dravenWDPOHBoundary != "rank3_selected_primary_champion_single_first_outbound_pass_hit; immediate_impact_scaffold; "+
-			"physical_400_plus_1_50_bonus_ad; no_cast_time_direction_projectile_travel_collision_sight_"+
-			"recast_reversal_return_homing_second_pass_execute_adoration_threshold_multitarget_damage_"+
-			"falloff_reset_map_edge_once_per_pass_geometry_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
 	}
 }
 

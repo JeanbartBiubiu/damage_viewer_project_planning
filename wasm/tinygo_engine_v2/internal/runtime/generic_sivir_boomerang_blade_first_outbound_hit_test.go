@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -16,6 +13,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_sivir Q Boomerang Blade / 回旋之刃 — Phase-A v3 Wasm exact verification slice
 // (FROZEN_PLAN_REV: sivir-q-boomerang-blade-first-outbound-hit-phase-a-v3).
 //
@@ -48,8 +46,7 @@ import (
 //	  2f3368a98b132065be78b184230c3afa0b48c7f0d3db387061ab909b631e467a
 //	Local raw materialization caveat: 2745 bytes / SHA256
 //	  b8d46412519f211b27f2575684693f407806cbbca337a80e775a1baf4c2396a4.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction (同 size 不等于等价).
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_sivir_q_boomerang_blade_first_outbound_hit
@@ -92,27 +89,6 @@ import (
 // remains generic (no if hero_sivir production behavior).
 
 const (
-	sivirBBFOHCandidateKey    = "hero_skill|hero_sivir|Q|回旋之刃"
-	sivirBBFOHTaskKey         = "wasm-generic-sivir-boomerang-blade-first-outbound-hit"
-	sivirBBFOHPlanRev         = "sivir-q-boomerang-blade-first-outbound-hit-phase-a-v3"
-	sivirBBFOHRequestTitle    = "Template:Data Sivir/Q"
-	sivirBBFOHResolvedTitle   = "Template:Data Sivir/Boomerang Blade"
-	sivirBBFOHWikiPageID      = 1308837
-	sivirBBFOHRevisionID      = 4016378
-	sivirBBFOHTimestamp       = "2026-05-11T05:05:57Z"
-	sivirBBFOHRawBytes        = 2745
-	sivirBBFOHLocalRawBytes   = 2745
-	sivirBBFOHNormalizedBytes = 3018
-	sivirBBFOHPagesBytes      = 691
-	sivirBBFOHContentSHA      = "0adcf3916b63e8b0ae6c2c7ad74d1796e3362a3a22682c58ef92aaccfae43e5e"
-	sivirBBFOHLocalRawSHA     = "b8d46412519f211b27f2575684693f407806cbbca337a80e775a1baf4c2396a4"
-	sivirBBFOHNormalizedSHA   = "2320f7ada83cceee979c52cd314395c6b41e2f50c50e3114e9bca0d39386ff02"
-	sivirBBFOHPagesSHA        = "adeab85889a4208b52f0b6cd3bcc3aef022a986dcad5168e1c817e3ab3323fa9"
-	sivirBBFOHBoundary        = "rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; " +
-		"physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; " +
-		"no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_" +
-		"return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity"
-
 	sivirBBFOHProviderRef = "provider_hero_sivir_q_boomerang_blade_first_outbound_hit"
 	sivirBBFOHStableID    = "hero_sivir_q_boomerang_blade_first_outbound_hit"
 	sivirBBFOHAbilityID   = "ability_hero_sivir_q_boomerang_blade_first_outbound_hit"
@@ -148,17 +124,6 @@ const (
 
 	sivirBBFOHTol = 1e-9
 )
-
-func sivirBBFOHOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"bonus_ad_ratio",
-		"ap_ratio",
-		"crit_scaling",
-		"immediate_impact_scaffold",
-	}
-}
 
 func sivirBBFOHClamp01(v float64) float64 {
 	if v < 0 {
@@ -784,24 +749,6 @@ func findSivirBBFOHAbilityStat(t *testing.T, done model.DoneResult) model.Abilit
 	return model.AbilityStat{}
 }
 
-func sivirBBFOHRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func sivirBBFOHSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func sivirBBFOHSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(sivirBBFOHSHA256Hex(b))
-}
-
 func sivirBBFOHAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -847,159 +794,8 @@ func sivirBBFOHHasErrorCode(errors []model.EngineError, code model.GenericErrCod
 	return false
 }
 
-// TestSivirBoomerangBladeFirstOutboundHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestSivirBoomerangBladeFirstOutboundHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Description2, Leveling2, Description3 string
-			Cooldown, Cost, Costtype, Damagetype, Notes                  string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(sivirBBFOHRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "sivir-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != sivirBBFOHNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), sivirBBFOHNormalizedBytes)
-	}
-	if got := sivirBBFOHSHA256Hex(sidecarRaw); got != sivirBBFOHNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, sivirBBFOHNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != sivirBBFOHCandidateKey || doc.RequestTitle != sivirBBFOHRequestTitle ||
-		doc.ResolvedTitle != sivirBBFOHResolvedTitle || doc.WikiPageID != sivirBBFOHWikiPageID ||
-		doc.RevisionID != sivirBBFOHRevisionID || doc.RevisionTimestamp != sivirBBFOHTimestamp ||
-		doc.ContentSHA256 != sivirBBFOHContentSHA || doc.RawByteSize != sivirBBFOHRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "回旋之刃" || doc.OwnerID != "hero_sivir" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2", "leveling2", "description3",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|55 to 75}}\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|10 to 8}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|10 to 8}} (rank-5 = 8s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|60 to 160}}") ||
-		!strings.Contains(doc.Fields.Leveling, "70% '''bonus''' AD") ||
-		!strings.Contains(doc.Fields.Leveling, "60% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling=%q want rank5 physical 160 +70%% bonus AD +60%% AP", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description, "crossblade") ||
-		!strings.Contains(doc.Fields.Description, "critScaling=true") {
-		t.Fatal("wiki prose must retain physical damage / crossblade / critScaling=true wording")
-	}
-	if !strings.Contains(doc.Fields.Description2, "non-champions") ||
-		!strings.Contains(doc.Fields.Description2, "returns") {
-		t.Fatal("wiki description2 must retain excluded non-champion / return surfaces")
-	}
-	if !strings.Contains(doc.Fields.Leveling2, "Total Maximum Champion Damage") {
-		t.Fatal("wiki leveling2 must retain excluded total-damage surface")
-	}
-	if !strings.Contains(doc.Fields.Description3, "once per pass") {
-		t.Fatal("wiki description3 must retain excluded once-per-pass surface")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Spell shield") ||
-		!strings.Contains(doc.Fields.Notes, "Effect at cast time end") ||
-		!strings.Contains(doc.Fields.Notes, "attack speed") {
-		t.Fatalf("notes missing excluded spellshield/cast-time/bonus-attack-speed surfaces: %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(sivirBBFOHRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "sivir-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != sivirBBFOHPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), sivirBBFOHPagesBytes)
-	}
-	if got := sivirBBFOHSHA256Hex(pagesRaw); got != sivirBBFOHPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, sivirBBFOHPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "回旋之刃" || pages.OwnerID != "hero_sivir" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(sivirBBFOHRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "sivir-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != sivirBBFOHLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), sivirBBFOHLocalRawBytes)
-	}
-	localSHA := sivirBBFOHSHA256Hex(rawBytes)
-	if localSHA != sivirBBFOHLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, sivirBBFOHLocalRawSHA)
-	}
-	if localSHA == sivirBBFOHContentSHA {
-		t.Fatal("local raw hash must differ from canonical (same-size materialization caveat; not equivalence/contradiction)")
-	}
-	if sivirBBFOHLocalRawBytes != sivirBBFOHRawBytes {
-		t.Fatal("Sivir Q local raw and canonical sizes differ; constants drifted")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|60 to 160}}",
-		"70% '''bonus''' AD",
-		"60% AP",
-		"|cost         = {{ap|55 to 75}}",
-		"|cooldown     = {{ap|10 to 8}}",
-		"|damagetype   = Physical",
-		"crossblade",
-		"critScaling=true",
-		"non-champions",
-		"returns",
-		"Total Maximum Champion Damage",
-		"once per pass",
-		"Spell shield",
-		"Effect at cast time end",
-		"attack speed",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if sivirBBFOHPlanRev != "sivir-q-boomerang-blade-first-outbound-hit-phase-a-v3" || sivirBBFOHBoundary !=
-		"rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; "+
-			"physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance; "+
-			"no_cast_time_bonus_attack_speed_direction_range_width_geometry_projectile_travel_speed_nonchampion_hit_reduction_"+
-			"return_pass_damage_modifier_reset_once_per_pass_spellshield_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestSivirBoomerangBladeFirstOutboundHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestSivirBoomerangBladeFirstOutboundHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadSivirBBFOHFixture(t, sivirBBFOHFixtureOpts{
 		baseAD: sivirBBFOHADBaseDefault, resolvedAD: sivirBBFOHADResolvedDefault,
 		resolvedAP: sivirBBFOHFixtureAPDefault, critChance: sivirBBFOHFixtureCritDefault,

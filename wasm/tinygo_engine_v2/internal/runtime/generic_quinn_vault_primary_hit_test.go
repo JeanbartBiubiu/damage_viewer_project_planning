@@ -1,19 +1,16 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
-	"strings"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_quinn E Vault / 旋翔掠杀 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: quinn-e-vault-phase-a-v1).
 //
@@ -62,23 +59,6 @@ import (
 // immediate_impact_scaffold.
 
 const (
-	quinnVaultCandidateKey  = "hero_skill|hero_quinn|E|旋翔掠杀"
-	quinnVaultTaskKey       = "wasm-generic-quinn-vault-primary-hit"
-	quinnVaultPlanRev       = "quinn-e-vault-phase-a-v1"
-	quinnVaultRequestTitle  = "Template:Data Quinn/E"
-	quinnVaultResolvedTitle = "Template:Data Quinn/Vault"
-	quinnVaultWikiPageID    = 1308957
-	quinnVaultRevisionID    = 4024768
-	quinnVaultTimestamp     = "2026-06-03T00:51:11Z"
-	quinnVaultRawBytes      = 2649
-	quinnVaultLocalRawBytes = 2649
-	quinnVaultContentSHA    = "9f6baba1d062b473d41586cd8323f31bd7c1c4d865db134a783c19ae998e7714"
-	quinnVaultLocalRawSHA   = "317ac3ccf31e53ba17255dbb15c856ba5499d9257fbe0c9faa91b43f8438e24b"
-	quinnVaultBoundary      = "rank5_primary_champion_single_hit; immediate_impact_scaffold; " +
-		"physical_140_plus_0_20_bonus_ad; " +
-		"no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_" +
-		"basic_attack_reset_auto_attack_or_other_ranks"
-
 	quinnVaultProviderRef = "provider_hero_quinn_e_vault_primary_hit"
 	quinnVaultStableID    = "hero_quinn_e_vault_primary_hit"
 	quinnVaultAbilityID   = "ability_hero_quinn_e_vault_primary_hit"
@@ -107,15 +87,6 @@ const (
 
 	quinnVaultTol = 1e-9
 )
-
-func quinnVaultOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"bonus_ad_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func quinnVaultExpectedRawFromStats(resolvedAD, baseAD float64) float64 {
 	return quinnVaultBaseDamage + quinnVaultBonusADRatio*(resolvedAD-baseAD)
@@ -587,106 +558,6 @@ func findQuinnVaultAbilityStat(t *testing.T, done model.DoneResult) model.Abilit
 	return model.AbilityStat{}
 }
 
-func quinnVaultWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "quinn-e.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func quinnVaultWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "quinn-e.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func quinnVaultWikiPagesPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "pages", "quinn-e.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki pages sibling missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type quinnVaultWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	Fields            struct {
-		Description  string `json:"description"`
-		Leveling     string `json:"leveling"`
-		Description2 string `json:"description2"`
-		Cooldown     string `json:"cooldown"`
-		Cost         string `json:"cost"`
-		Costtype     string `json:"costtype"`
-		Damagetype   string `json:"damagetype"`
-		Notes        string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-type quinnVaultWikiPages struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	PageID            int    `json:"pageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-}
-
-func quinnVaultLoadWikiSidecar(t *testing.T) quinnVaultWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(quinnVaultWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc quinnVaultWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-func quinnVaultLoadWikiPages(t *testing.T) quinnVaultWikiPages {
-	t.Helper()
-	raw, err := os.ReadFile(quinnVaultWikiPagesPath(t))
-	if err != nil {
-		t.Fatalf("read wiki pages: %v", err)
-	}
-	var doc quinnVaultWikiPages
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki pages: %v", err)
-	}
-	return doc
-}
-
-func quinnVaultSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
 func quinnVaultAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -708,111 +579,6 @@ func quinnVaultAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, want
 	}
 	if _, ok := item.Data["eligible"]; ok {
 		t.Fatalf("must not carry crit evidence fields: %+v", item.Data)
-	}
-}
-
-// TestGenericQuinnVaultWikiSidecarIdentityAndBoundary locks sidecar/pages
-// canonical identity plus local-raw materialization caveat (same length, different SHA).
-func TestGenericQuinnVaultWikiSidecarIdentityAndBoundary(t *testing.T) {
-	doc := quinnVaultLoadWikiSidecar(t)
-	if doc.CandidateKey != quinnVaultCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, quinnVaultCandidateKey)
-	}
-	if doc.RequestTitle != quinnVaultRequestTitle {
-		t.Fatalf("requestTitle=%q want %q", doc.RequestTitle, quinnVaultRequestTitle)
-	}
-	if doc.ResolvedTitle != quinnVaultResolvedTitle {
-		t.Fatalf("resolvedTitle=%q want %q", doc.ResolvedTitle, quinnVaultResolvedTitle)
-	}
-	if doc.WikiPageID != quinnVaultWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, quinnVaultWikiPageID)
-	}
-	if doc.RevisionID != quinnVaultRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, quinnVaultRevisionID)
-	}
-	if doc.RevisionTimestamp != quinnVaultTimestamp {
-		t.Fatalf("revisionTimestamp=%q want %q", doc.RevisionTimestamp, quinnVaultTimestamp)
-	}
-	if doc.ContentSHA256 != quinnVaultContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, quinnVaultContentSHA)
-	}
-	if doc.RawByteSize != quinnVaultRawBytes {
-		t.Fatalf("rawByteSize=%d want %d", doc.RawByteSize, quinnVaultRawBytes)
-	}
-	if doc.SkillKey != "E" || doc.ZhDisplayName != "旋翔掠杀" || doc.OwnerID != "hero_quinn" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want E/旋翔掠杀/hero_quinn",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	for _, key := range []string{"description", "leveling", "description2", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Cost != "50\n" {
-		t.Fatalf("fields.cost=%q want %q", doc.Fields.Cost, "50\n")
-	}
-	if doc.Fields.Cooldown != "{{ap|12 to 8}}\n" {
-		t.Fatalf("fields.cooldown=%q want %q", doc.Fields.Cooldown, "{{ap|12 to 8}}\n")
-	}
-	if doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("fields.damagetype=%q want Physical", doc.Fields.Damagetype)
-	}
-	if doc.Fields.Costtype != "Mana\n" {
-		t.Fatalf("fields.costtype=%q want Mana", doc.Fields.Costtype)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|40 to 140}}") {
-		t.Fatalf("leveling missing rank formula {{ap|40 to 140}}: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "20% '''bonus''' AD") {
-		t.Fatalf("leveling missing 20%% bonus AD: %q", doc.Fields.Leveling)
-	}
-	// Excluded full-fidelity surfaces remain present in wiki prose.
-	if !strings.Contains(doc.Fields.Description, "dashes") ||
-		!strings.Contains(doc.Fields.Description, "Harrier") ||
-		!strings.Contains(doc.Fields.Description, "knocking them back") ||
-		!strings.Contains(doc.Fields.Description, "slow") {
-		t.Fatalf("description missing dash/Harrier/knockback/slow (excluded from scaffold): %q",
-			doc.Fields.Description)
-	}
-	if !strings.Contains(doc.Fields.Description2, "basic attack reset") {
-		t.Fatalf("description2 missing basic attack reset (excluded): %q", doc.Fields.Description2)
-	}
-
-	pages := quinnVaultLoadWikiPages(t)
-	if pages.CandidateKey != quinnVaultCandidateKey ||
-		pages.RequestTitle != quinnVaultRequestTitle ||
-		pages.ResolvedTitle != quinnVaultResolvedTitle ||
-		pages.PageID != quinnVaultWikiPageID ||
-		pages.RevisionID != quinnVaultRevisionID ||
-		pages.RevisionTimestamp != quinnVaultTimestamp ||
-		pages.ContentSHA256 != quinnVaultContentSHA ||
-		pages.RawByteSize != quinnVaultRawBytes ||
-		pages.SkillKey != "E" || pages.ZhDisplayName != "旋翔掠杀" || pages.OwnerID != "hero_quinn" {
-		t.Fatalf("pages identity must agree with sidecar canonical fields; got %+v", pages)
-	}
-
-	raw, err := os.ReadFile(quinnVaultWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	if len(raw) != quinnVaultLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d (known materialization)", len(raw), quinnVaultLocalRawBytes)
-	}
-	localSHA := quinnVaultSHA256Hex(raw)
-	if localSHA != quinnVaultLocalRawSHA {
-		t.Fatalf("local raw sha=%q want known materialization %q", localSHA, quinnVaultLocalRawSHA)
-	}
-	if localSHA == quinnVaultContentSHA {
-		t.Fatal("local raw hash must not equal canonical contentSha256 (materialization caveat; not source contradiction)")
-	}
-	if quinnVaultBoundary != "rank5_primary_champion_single_hit; immediate_impact_scaffold; "+
-		"physical_140_plus_0_20_bonus_ad; "+
-		"no_dash_tracking_bounce_geometry_knockback_slow_harrier_mark_"+
-		"basic_attack_reset_auto_attack_or_other_ranks" {
-		t.Fatal("frozen boundary constant drifted")
-	}
-	if quinnVaultPlanRev != "quinn-e-vault-phase-a-v1" {
-		t.Fatal("frozen plan-rev constant drifted")
 	}
 }
 

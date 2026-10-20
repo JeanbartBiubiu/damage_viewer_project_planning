@@ -1,16 +1,15 @@
 package runtime
 
 import (
-	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_vayne E Condemn / 恶魔审判 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: vayne-e-condemn-primary-hit-phase-a-v1).
 //
@@ -53,17 +52,6 @@ import (
 //   damage projection.
 
 const (
-	vayneCondemnPrimaryHitCandidateKey  = "hero_skill|hero_vayne|E|恶魔审判"
-	vayneCondemnPrimaryHitRequestTitle  = "Template:Data Vayne/E"
-	vayneCondemnPrimaryHitResolvedTitle = "Template:Data Vayne/Condemn"
-	vayneCondemnPrimaryHitWikiPageID    = 1309990
-	vayneCondemnPrimaryHitRevisionID    = 4008541
-	vayneCondemnPrimaryHitTimestamp     = "2026-04-14T23:45:40Z"
-	vayneCondemnPrimaryHitRawBytes      = 2380
-	vayneCondemnPrimaryHitContentSHA    = "f2b2ba17b90ff5096a9a154f8d1fd4cc43ed3e1be4ebb502cb644acf17712c37"
-	vayneCondemnPrimaryHitBoundary      = "rank5_primary_target_single_hit; immediate_impact_scaffold; " +
-		"physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile"
-
 	vayneCondemnPrimaryHitProviderRef = "provider_hero_vayne_e_condemn_primary_hit"
 	vayneCondemnPrimaryHitStableID    = "hero_vayne_e_condemn_primary_hit"
 	vayneCondemnPrimaryHitAbilityID   = "ability_hero_vayne_e_condemn_primary_hit"
@@ -408,140 +396,6 @@ func findVayneCondemnPrimaryHitAbilityStat(t *testing.T, done model.DoneResult) 
 	}
 	t.Fatalf("AbilityStats missing ref %q (got %+v)", wantRef, done.Summary.AbilityStats)
 	return model.AbilityStat{}
-}
-
-func vayneCondemnPrimaryHitWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "vayne-e.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func vayneCondemnPrimaryHitWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "vayne-e.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func vayneCondemnPrimaryHitWikiPagesPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "pages", "vayne-e.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki pages sibling missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type vayneCondemnPrimaryHitWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	Fields            struct {
-		Leveling   string `json:"leveling"`
-		Cooldown   string `json:"cooldown"`
-		Cost       string `json:"cost"`
-		Costtype   string `json:"costtype"`
-		Damagetype string `json:"damagetype"`
-		Notes      string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-func vayneCondemnPrimaryHitLoadWikiSidecar(t *testing.T) vayneCondemnPrimaryHitWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(vayneCondemnPrimaryHitWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc vayneCondemnPrimaryHitWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-// TestVayneCondemnPrimaryHitWikiSidecarIdentityAndBoundary locks repository sidecar
-// identity plus the frozen Phase-A completed-boundary constant.
-func TestVayneCondemnPrimaryHitWikiSidecarIdentityAndBoundary(t *testing.T) {
-	doc := vayneCondemnPrimaryHitLoadWikiSidecar(t)
-	if doc.CandidateKey != vayneCondemnPrimaryHitCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, vayneCondemnPrimaryHitCandidateKey)
-	}
-	if doc.RequestTitle != vayneCondemnPrimaryHitRequestTitle {
-		t.Fatalf("requestTitle=%q want %q", doc.RequestTitle, vayneCondemnPrimaryHitRequestTitle)
-	}
-	if doc.ResolvedTitle != vayneCondemnPrimaryHitResolvedTitle {
-		t.Fatalf("resolvedTitle=%q want %q", doc.ResolvedTitle, vayneCondemnPrimaryHitResolvedTitle)
-	}
-	if doc.WikiPageID != vayneCondemnPrimaryHitWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, vayneCondemnPrimaryHitWikiPageID)
-	}
-	if doc.RevisionID != vayneCondemnPrimaryHitRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, vayneCondemnPrimaryHitRevisionID)
-	}
-	if doc.RevisionTimestamp != vayneCondemnPrimaryHitTimestamp {
-		t.Fatalf("revisionTimestamp=%q want %q", doc.RevisionTimestamp, vayneCondemnPrimaryHitTimestamp)
-	}
-	if doc.ContentSHA256 != vayneCondemnPrimaryHitContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, vayneCondemnPrimaryHitContentSHA)
-	}
-	if doc.RawByteSize != vayneCondemnPrimaryHitRawBytes {
-		t.Fatalf("rawByteSize=%d want %d", doc.RawByteSize, vayneCondemnPrimaryHitRawBytes)
-	}
-	if doc.SkillKey != "E" || doc.ZhDisplayName != "恶魔审判" || doc.OwnerID != "hero_vayne" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want E/恶魔审判/hero_vayne",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	for _, key := range []string{"leveling", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Cost != "90\n" {
-		t.Fatalf("fields.cost=%q want %q", doc.Fields.Cost, "90\n")
-	}
-	if doc.Fields.Cooldown != "{{ap|20 to 12}}\n" {
-		t.Fatalf("fields.cooldown=%q want %q", doc.Fields.Cooldown, "{{ap|20 to 12}}\n")
-	}
-	if doc.Fields.Damagetype != "physical\n" {
-		t.Fatalf("fields.damagetype=%q want physical", doc.Fields.Damagetype)
-	}
-	if doc.Fields.Costtype != "Mana\n" {
-		t.Fatalf("fields.costtype=%q want Mana", doc.Fields.Costtype)
-	}
-	if doc.Fields.Leveling == "" {
-		t.Fatal("leveling empty (fail closed)")
-	}
-
-	_ = vayneCondemnPrimaryHitWikiPagesPath(t)
-
-	raw, err := os.ReadFile(vayneCondemnPrimaryHitWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	if len(raw) == 0 {
-		t.Fatal("wiki raw empty (fail closed)")
-	}
-	if vayneCondemnPrimaryHitBoundary != "rank5_primary_target_single_hit; immediate_impact_scaffold; "+
-		"physical_190_plus_0_50_bonus_ad; no_knockback_terrain_stun_wall_bonus_cast_or_projectile" {
-		t.Fatal("frozen boundary constant drifted")
-	}
 }
 
 // TestVayneCondemnPrimaryHitRank5DamageFormulaCrossCheck: independent numeric

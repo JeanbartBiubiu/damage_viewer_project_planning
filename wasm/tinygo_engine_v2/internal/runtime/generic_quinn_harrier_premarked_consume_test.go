@@ -5,14 +5,13 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
-	"strings"
+
 	"testing"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_quinn P Harrier / 侵扰 — Phase-A v2 Wasm exact pre-marked consume slice
 // (FROZEN_PLAN_REV: quinn-p-harrier-premarked-consume-phase-a-v2).
 //
@@ -57,22 +56,6 @@ import (
 // provider_target_state_consume.
 
 const (
-	quinnHarrierCandidateKey  = "hero_skill|hero_quinn|P|侵扰"
-	quinnHarrierTaskKey       = "wasm-generic-quinn-harrier-premarked-consume"
-	quinnHarrierPlanRev       = "quinn-p-harrier-premarked-consume-phase-a-v2"
-	quinnHarrierRequestTitle  = "Template:Data Quinn/I"
-	quinnHarrierResolvedTitle = "Template:Data Quinn/Harrier"
-	quinnHarrierWikiPageID    = 1308953
-	quinnHarrierRevisionID    = 4024765
-	quinnHarrierTimestamp     = "2026-06-03T00:49:03Z"
-	quinnHarrierRawBytes      = 2390
-	quinnHarrierLocalRawBytes = 2390
-	quinnHarrierContentSHA    = "740debfb3b72dd7f926337f7eb4adbe3a65c88caec227ca16e00dff6634f798c"
-	quinnHarrierLocalRawSHA   = "08853c2c25ada7769e25908123dbb56f7b14dc0c1479a8a5842693874849a731"
-	quinnHarrierBoundary      = "level18_preexisting_harrier_target_single_basic_attack_consume; " +
-		"bonus_physical_120_plus_0_40_bonus_ad; preserve_heightened_senses_arm; " +
-		"no_mark_generation_ability_application_duration_reveal_valor_targeting_" +
-		"monster_bonus_r_disable_parry_or_other_levels"
 	quinnHarrierExclusions = "mark production from Q/E/Skystrike/Valor; 4s mark duration/reveal/overwrite; " +
 		"1s cooldown; targeting/visibility/AI; monster75; R disable; parry/negation; " +
 		"levels1-17; multiple targets; loadout/crit/Runaan/Guinsoo/phantom replication; " +
@@ -84,7 +67,6 @@ const (
 	quinnHarrierAAOpRef     = "op:aa"
 
 	quinnHarrierHeightenedSensesProviderAlias = "provider_hero_quinn_heightened_senses"
-	quinnHarrierBasicAttackAlias              = "provider_hero_quinn_basic_attack"
 
 	quinnHarrierBaseDamage   = 120.0
 	quinnHarrierBonusADRatio = 0.40
@@ -500,99 +482,6 @@ func assertQuinnHarrierCompileShape(t *testing.T, compileReq model.CompileReques
 	}
 }
 
-func quinnHarrierWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "quinn-p.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func quinnHarrierWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "quinn-p.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func quinnHarrierWikiPagesPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "pages", "quinn-p.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki pages sibling missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type quinnHarrierWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	Fields            struct {
-		Description  string `json:"description"`
-		Description2 string `json:"description2"`
-		Description3 string `json:"description3"`
-		Description4 string `json:"description4"`
-		Damagetype   string `json:"damagetype"`
-		Notes        string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-type quinnHarrierWikiPages struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	PageID            int    `json:"pageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-}
-
-func quinnHarrierLoadWikiSidecar(t *testing.T) quinnHarrierWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(quinnHarrierWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc quinnHarrierWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-func quinnHarrierLoadWikiPages(t *testing.T) quinnHarrierWikiPages {
-	t.Helper()
-	raw, err := os.ReadFile(quinnHarrierWikiPagesPath(t))
-	if err != nil {
-		t.Fatalf("read wiki pages: %v", err)
-	}
-	var doc quinnHarrierWikiPages
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki pages: %v", err)
-	}
-	return doc
-}
-
 func quinnHarrierSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -606,92 +495,8 @@ func quinnHarrierEvidenceFingerprint(done model.DoneResult) string {
 	return quinnHarrierSHA256Hex(raw)
 }
 
-// TestGenericQuinnHarrierWikiAndConstructedFixtureIdentityContract 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestGenericQuinnHarrierWikiAndConstructedFixtureIdentityContract(t *testing.T) {
-	doc := quinnHarrierLoadWikiSidecar(t)
-	if doc.CandidateKey != quinnHarrierCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, quinnHarrierCandidateKey)
-	}
-	if doc.RequestTitle != quinnHarrierRequestTitle {
-		t.Fatalf("requestTitle=%q want %q", doc.RequestTitle, quinnHarrierRequestTitle)
-	}
-	if doc.ResolvedTitle != quinnHarrierResolvedTitle {
-		t.Fatalf("resolvedTitle=%q want %q", doc.ResolvedTitle, quinnHarrierResolvedTitle)
-	}
-	if doc.WikiPageID != quinnHarrierWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, quinnHarrierWikiPageID)
-	}
-	if doc.RevisionID != quinnHarrierRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, quinnHarrierRevisionID)
-	}
-	if doc.RevisionTimestamp != quinnHarrierTimestamp {
-		t.Fatalf("revisionTimestamp=%q want %q", doc.RevisionTimestamp, quinnHarrierTimestamp)
-	}
-	if doc.ContentSHA256 != quinnHarrierContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, quinnHarrierContentSHA)
-	}
-	if doc.RawByteSize != quinnHarrierRawBytes {
-		t.Fatalf("rawByteSize=%d want %d", doc.RawByteSize, quinnHarrierRawBytes)
-	}
-	if doc.SkillKey != "P" || doc.ZhDisplayName != "侵扰" || doc.OwnerID != "hero_quinn" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want P/侵扰/hero_quinn",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	for _, key := range []string{"description", "description2", "description3", "description4", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("fields.damagetype=%q want Physical", doc.Fields.Damagetype)
-	}
-	if !strings.Contains(doc.Fields.Description2, "40% '''bonus''' AD") &&
-		!strings.Contains(doc.Fields.Description2, "40% bonus AD") {
-		t.Fatalf("description2 missing 40%% bonus AD: %q", doc.Fields.Description2)
-	}
-	if !strings.Contains(doc.Fields.Description2, "basic attacks") &&
-		!strings.Contains(doc.Fields.Description2, "on-hit") {
-		t.Fatalf("description2 missing basic-attack on-hit consume prose: %q", doc.Fields.Description2)
-	}
-
-	pages := quinnHarrierLoadWikiPages(t)
-	if pages.CandidateKey != quinnHarrierCandidateKey ||
-		pages.RequestTitle != quinnHarrierRequestTitle ||
-		pages.ResolvedTitle != quinnHarrierResolvedTitle ||
-		pages.PageID != quinnHarrierWikiPageID ||
-		pages.RevisionID != quinnHarrierRevisionID ||
-		pages.RevisionTimestamp != quinnHarrierTimestamp ||
-		pages.ContentSHA256 != quinnHarrierContentSHA ||
-		pages.RawByteSize != quinnHarrierRawBytes ||
-		pages.SkillKey != "P" || pages.ZhDisplayName != "侵扰" || pages.OwnerID != "hero_quinn" {
-		t.Fatalf("pages identity must agree with sidecar canonical fields; got %+v", pages)
-	}
-
-	raw, err := os.ReadFile(quinnHarrierWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	if len(raw) != quinnHarrierLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d (known materialization)", len(raw), quinnHarrierLocalRawBytes)
-	}
-	localSHA := quinnHarrierSHA256Hex(raw)
-	if localSHA != quinnHarrierLocalRawSHA {
-		t.Fatalf("local raw sha=%q want known materialization %q", localSHA, quinnHarrierLocalRawSHA)
-	}
-	if localSHA == quinnHarrierContentSHA {
-		t.Fatal("local raw hash must not equal canonical contentSha256 (materialization caveat; not source contradiction)")
-	}
-	if quinnHarrierBoundary != "level18_preexisting_harrier_target_single_basic_attack_consume; "+
-		"bonus_physical_120_plus_0_40_bonus_ad; preserve_heightened_senses_arm; "+
-		"no_mark_generation_ability_application_duration_reveal_valor_targeting_"+
-		"monster_bonus_r_disable_parry_or_other_levels" {
-		t.Fatal("frozen boundary constant drifted")
-	}
-	if quinnHarrierPlanRev != "quinn-p-harrier-premarked-consume-phase-a-v2" {
-		t.Fatal("frozen plan-rev constant drifted")
-	}
-
-	// 历史种子身份已移出；以现有通用构造核对独立被动及额外攻击力公式。
+// TestGenericQuinnHarrierConstructedFixtureIdentityContract 验证固定构造的公式与机制边界。
+func TestGenericQuinnHarrierConstructedFixtureIdentityContract(t *testing.T) {
 	compileReq, _ := loadQuinnHarrierFixture(t, quinnHarrierFixtureOpts{
 		resolvedAD: quinnHarrierADResolvedDefault, vulnerable: 1,
 	})
@@ -990,12 +795,4 @@ func TestGenericQuinnHarrierIsolationDeterminismCompileShapeTags(t *testing.T) {
 		t.Fatal("frame path must return sessionID/rulesHash")
 	}
 
-	// Excluded full-fidelity surfaces remain present in wiki prose only.
-	doc := quinnHarrierLoadWikiSidecar(t)
-	if !strings.Contains(doc.Fields.Description, "Valor") ||
-		!strings.Contains(doc.Fields.Description3, "75") ||
-		!strings.Contains(doc.Fields.Description4, "Behind Enemy Lines") ||
-		!strings.Contains(doc.Fields.Notes, "parried") {
-		t.Fatalf("wiki must retain excluded Valor/monster75/R-disable/parry prose: %+v", doc.Fields)
-	}
 }

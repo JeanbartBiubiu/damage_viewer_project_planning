@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_lucian R The Culling / 圣枪洗礼 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: lucian-r-the-culling-single-shot-quantum-phase-a-v2).
 //
@@ -39,8 +37,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_lucian_the_culling_single_shot_quantum_seed.sql
 //	Local raw materialization caveat: also 4477 bytes / SHA256
 //	  b63612287a8a965e7655829a2054aec7b019705225fd7e7b4736303a172bc74d.
-//	Same-size caveat; assert sidecar/pages canonical identity + caveat; do not claim
-//	local-raw equivalence or source contradiction.
+
 //
 // Rank-3 Phase-A contract:
 //   - Independent provider provider_hero_lucian_r_the_culling_single_shot_quantum
@@ -75,24 +72,6 @@ import (
 // remains exact in formula/boundary/reason only).
 
 const (
-	lucianTCCandidateKey  = "hero_skill|hero_lucian|R|圣枪洗礼"
-	lucianTCTaskKey       = "wasm-generic-lucian-the-culling-single-shot-quantum"
-	lucianTCPlanRev       = "lucian-r-the-culling-single-shot-quantum-phase-a-v2"
-	lucianTCRequestTitle  = "Template:Data Lucian/R"
-	lucianTCResolvedTitle = "Template:Data Lucian/The Culling"
-	lucianTCWikiPageID    = 1308182
-	lucianTCRevisionID    = 4007670
-	lucianTCTimestamp     = "2026-04-12T10:40:21Z"
-	lucianTCRawBytes      = 4477
-	lucianTCLocalRawBytes = 4477
-	lucianTCContentSHA    = "7a4679542eebdebf25da391a1222f08df2f416c641f48473d528e62296b9a2f7"
-	lucianTCLocalRawSHA   = "b63612287a8a965e7655829a2054aec7b019705225fd7e7b4736303a172bc74d"
-	lucianTCBoundary      = "rank3_primary_champion_first_enemy_single_physical_shot_quantum; immediate_impact_scaffold; " +
-		"physical_45_plus_0_25_total_ad_plus_0_15_ap; " +
-		"no_channel_duration_recast_shot_count_crit_scaling_fire_rate_direction_range_width_" +
-		"missile_offset_alternating_guns_travel_collision_multitarget_minion_double_move_" +
-		"ghost_facing_spell_shield_interrupts_ability_lockout_other_ranks_or_full_fidelity"
-
 	lucianTCProviderRef = "provider_hero_lucian_r_the_culling_single_shot_quantum"
 	lucianTCStableID    = "hero_lucian_r_the_culling_single_shot_quantum"
 	lucianTCAbilityID   = "ability_hero_lucian_r_the_culling_single_shot_quantum"
@@ -121,15 +100,6 @@ const (
 
 	lucianTCTol = 1e-9
 )
-
-func lucianTCOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"ap_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func lucianTCExpectedRawFromStats(resolvedAD, resolvedAP float64) float64 {
 	return lucianTCBaseDamage + lucianTCADRatio*resolvedAD + lucianTCAPRatio*resolvedAP
@@ -651,24 +621,6 @@ func findLucianTCAbilityStat(t *testing.T, done model.DoneResult) model.AbilityS
 	return model.AbilityStat{}
 }
 
-func lucianTCRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func lucianTCSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func lucianTCSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(lucianTCSHA256Hex(b))
-}
-
 func lucianTCAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -705,152 +657,8 @@ func lucianTCAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMi
 	}
 }
 
-// TestLucianTheCullingSingleShotQuantumWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestLucianTheCullingSingleShotQuantumWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Description3, Leveling string
-			Cooldown, Cost, Costtype, Damagetype, Notes       string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(lucianTCRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "lucian-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != lucianTCCandidateKey || doc.RequestTitle != lucianTCRequestTitle ||
-		doc.ResolvedTitle != lucianTCResolvedTitle || doc.WikiPageID != lucianTCWikiPageID ||
-		doc.RevisionID != lucianTCRevisionID || doc.RevisionTimestamp != lucianTCTimestamp ||
-		doc.ContentSHA256 != lucianTCContentSHA || doc.RawByteSize != lucianTCRawBytes ||
-		doc.SkillKey != "R" || doc.ZhDisplayName != "圣枪洗礼" || doc.OwnerID != "hero_lucian" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2", "description3",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "100\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|110 to 90}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|110 to 90}} (rank-3 = 90s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "Physical Damage Per Shot") ||
-		!strings.Contains(doc.Fields.Leveling, "{{#var:r_d1}}") ||
-		!strings.Contains(doc.Fields.Leveling, "{{#var:r_d3}}") ||
-		!strings.Contains(doc.Fields.Leveling, "{{#var:r_ad}}% AD") ||
-		!strings.Contains(doc.Fields.Leveling, "{{#var:r_ap}}% AP") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") {
-		t.Fatal("wiki prose must retain physical damage wording")
-	}
-	// Explicit exclusion framing (present in wiki; not modeled by Phase-A scaffold).
-	if !strings.Contains(doc.Fields.Description, "channels") ||
-		!strings.Contains(doc.Fields.Description, "3 seconds") ||
-		!strings.Contains(doc.Fields.Description, "22") ||
-		!strings.Contains(doc.Fields.Description, "crit") ||
-		!strings.Contains(doc.Fields.Description, "0.75") {
-		t.Fatal("wiki prose must retain excluded channel/22+crit/recast surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description2, "ghosted") {
-		t.Fatal("wiki prose must retain excluded ghosted movement surface")
-	}
-	if !strings.Contains(doc.Fields.Description3, "Recast") {
-		t.Fatal("wiki prose must retain excluded Recast surface")
-	}
-	if !strings.Contains(doc.Fields.Notes, "offset") ||
-		!strings.Contains(doc.Fields.Notes, "alternating") ||
-		!strings.Contains(doc.Fields.Notes, "Spell shield") ||
-		!strings.Contains(doc.Fields.Notes, "channel") {
-		t.Fatalf("notes missing excluded offset/alternating/spell-shield/channel surfaces: %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "Piercing Light") ||
-		!strings.Contains(doc.Fields.Notes, "Ardent Blaze") {
-		t.Fatal("notes must retain Q-W lockout exclusion framing")
-	}
-
-	pagesRaw, err := os.ReadFile(lucianTCRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "lucian-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "R" || pages.ZhDisplayName != "圣枪洗礼" || pages.OwnerID != "hero_lucian" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(lucianTCRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "lucian-r.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != lucianTCLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), lucianTCLocalRawBytes)
-	}
-	if lucianTCLocalRawBytes != lucianTCRawBytes {
-		t.Fatal("local raw and canonical sizes must both be 4477 (same-size caveat)")
-	}
-	localSHA := lucianTCSHA256Hex(rawBytes)
-	if localSHA != lucianTCLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, lucianTCLocalRawSHA)
-	}
-	if localSHA == lucianTCContentSHA {
-		t.Fatal("local raw hash must differ from canonical (same-size caveat; not equivalence/contradiction)")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{#vardefine:r_d1|15}}",
-		"{{#vardefine:r_d3|45}}",
-		"{{#vardefine:r_ad|25}}",
-		"{{#vardefine:r_ap|15}}",
-		"|cost         = 100",
-		"|cooldown     = {{ap|110 to 90}}",
-		"|damagetype   = Physical",
-		"|projectile   = True",
-		"channels",
-		"22",
-		"crit",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if lucianTCPlanRev != "lucian-r-the-culling-single-shot-quantum-phase-a-v2" || lucianTCBoundary !=
-		"rank3_primary_champion_first_enemy_single_physical_shot_quantum; immediate_impact_scaffold; "+
-			"physical_45_plus_0_25_total_ad_plus_0_15_ap; "+
-			"no_channel_duration_recast_shot_count_crit_scaling_fire_rate_direction_range_width_"+
-			"missile_offset_alternating_guns_travel_collision_multitarget_minion_double_move_"+
-			"ghost_facing_spell_shield_interrupts_ability_lockout_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestLucianTheCullingSingleShotQuantumConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestLucianTheCullingSingleShotQuantumConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadLucianTCFixture(t, lucianTCFixtureOpts{
 		baseAD: lucianTCADBaseDefault, resolvedAD: lucianTCADResolvedDefault,
 		resolvedAP: lucianTCFixtureAPDefault, armor: lucianTCTargetArmorDefault,

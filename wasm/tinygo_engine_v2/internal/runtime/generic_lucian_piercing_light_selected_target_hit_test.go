@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_lucian Q Piercing Light / 透体圣光 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: lucian-q-piercing-light-selected-target-hit-phase-a-v1).
 //
@@ -38,8 +36,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_lucian_piercing_light_selected_target_hit_seed.sql
 //	Local raw materialization caveat: also 1608 bytes / SHA256
 //	  cd65b80f0580f0e4833028791bba2331a321366307b8c35f7fc28fe06c1f06c1.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_lucian_q_piercing_light_selected_target_hit
@@ -67,24 +64,6 @@ import (
 // immediate_impact_scaffold.
 
 const (
-	lucianPLCandidateKey  = "hero_skill|hero_lucian|Q|透体圣光"
-	lucianPLTaskKey       = "wasm-generic-lucian-piercing-light-selected-target-hit"
-	lucianPLPlanRev       = "lucian-q-piercing-light-selected-target-hit-phase-a-v1"
-	lucianPLRequestTitle  = "Template:Data Lucian/Q"
-	lucianPLResolvedTitle = "Template:Data Lucian/Piercing Light"
-	lucianPLWikiPageID    = 1308176
-	lucianPLRevisionID    = 3982579
-	lucianPLTimestamp     = "2026-01-09T09:22:29Z"
-	lucianPLRawBytes      = 1608
-	lucianPLLocalRawBytes = 1608
-	lucianPLContentSHA    = "d7b03d15af48312a0ea5a06fa147b43c46d2a7ee6e1491dd121d796a2e452981"
-	lucianPLLocalRawSHA   = "cd65b80f0580f0e4833028791bba2331a321366307b8c35f7fc28fe06c1f06c1"
-	lucianPLBoundary      = "rank5_primary_champion_selected_target_single_physical_hit; immediate_impact_scaffold; " +
-		"physical_220_plus_1_00_bonus_ad; " +
-		"no_cast_timing_target_lead_or_dodge_direction_target_range_range_width_" +
-		"line_geometry_multitarget_aoe_spell_shield_buffered_w_or_r_e_lockout_" +
-		"initial_target_death_early_end_other_ranks_or_full_fidelity"
-
 	lucianPLProviderRef = "provider_hero_lucian_q_piercing_light_selected_target_hit"
 	lucianPLStableID    = "hero_lucian_q_piercing_light_selected_target_hit"
 	lucianPLAbilityID   = "ability_hero_lucian_q_piercing_light_selected_target_hit"
@@ -112,15 +91,6 @@ const (
 
 	lucianPLTol = 1e-9
 )
-
-func lucianPLOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"bonus_ad_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func lucianPLExpectedRawFromAD(resolvedAD, baseAD float64) float64 {
 	return lucianPLBaseDamage + lucianPLBonusADRatio*(resolvedAD-baseAD)
@@ -565,24 +535,6 @@ func findLucianPLAbilityStat(t *testing.T, done model.DoneResult) model.AbilityS
 	return model.AbilityStat{}
 }
 
-func lucianPLRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func lucianPLSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func lucianPLSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(lucianPLSHA256Hex(b))
-}
-
 func lucianPLAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -619,117 +571,8 @@ func lucianPLAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMi
 	}
 }
 
-// TestLucianPiercingLightSelectedTargetHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestLucianPiercingLightSelectedTargetHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling                       string
-			Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(lucianPLRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "lucian-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != lucianPLCandidateKey || doc.RequestTitle != lucianPLRequestTitle ||
-		doc.ResolvedTitle != lucianPLResolvedTitle || doc.WikiPageID != lucianPLWikiPageID ||
-		doc.RevisionID != lucianPLRevisionID || doc.RevisionTimestamp != lucianPLTimestamp ||
-		doc.ContentSHA256 != lucianPLContentSHA || doc.RawByteSize != lucianPLRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "透体圣光" || doc.OwnerID != "hero_lucian" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|48 to 80}}\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|9 to 5}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|9 to 5}} (rank-5 = 5s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|80 to 220}}") ||
-		!strings.Contains(doc.Fields.Leveling, "100% '''bonus''' AD") ||
-		!strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") {
-		t.Fatal("wiki prose must retain physical damage wording")
-	}
-	if !strings.Contains(doc.Fields.Notes, "lead the target") {
-		t.Fatalf("notes missing target lead (excluded): %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "buffer") ||
-		(!strings.Contains(doc.Fields.Notes, "{{ai|W|Lucian}}") && !strings.Contains(doc.Fields.Notes, "W")) {
-		t.Fatalf("notes missing buffered W/R surface (excluded): %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "locked out") {
-		t.Fatalf("notes missing E lockout (excluded): %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "initial target dies") {
-		t.Fatalf("notes missing initial target death early end (excluded): %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(lucianPLRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "lucian-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "透体圣光" || pages.OwnerID != "hero_lucian" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(lucianPLRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "lucian-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != lucianPLLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), lucianPLLocalRawBytes)
-	}
-	localSHA := lucianPLSHA256Hex(rawBytes)
-	if localSHA != lucianPLLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, lucianPLLocalRawSHA)
-	}
-	if localSHA == lucianPLContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if lucianPLPlanRev != "lucian-q-piercing-light-selected-target-hit-phase-a-v1" || lucianPLBoundary !=
-		"rank5_primary_champion_selected_target_single_physical_hit; immediate_impact_scaffold; "+
-			"physical_220_plus_1_00_bonus_ad; "+
-			"no_cast_timing_target_lead_or_dodge_direction_target_range_range_width_"+
-			"line_geometry_multitarget_aoe_spell_shield_buffered_w_or_r_e_lockout_"+
-			"initial_target_death_early_end_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestLucianPiercingLightSelectedTargetHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestLucianPiercingLightSelectedTargetHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadLucianPLFixture(t, lucianPLFixtureOpts{
 		resolvedAD: lucianPLADResolvedDefault, armor: lucianPLTargetArmor, mana: lucianPLFixtureManaCD,
 	})

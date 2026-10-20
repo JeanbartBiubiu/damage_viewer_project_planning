@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_tristana R Buster Shot / 毁灭射击 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: tristana-r-buster-shot-primary-hit-phase-a-v1).
 //
@@ -38,8 +36,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_tristana_buster_shot_primary_hit_seed.sql
 //	Local raw materialization caveat: 2382 bytes / SHA256
 //	  42e07f07f3188aada86d18d782c05d291f031dbbf92171e4a1120e828ebf8c7b.
-//	Serialization caveat only; assert sidecar/pages canonical identity + caveat;
-//	do not claim local-raw equivalence or source contradiction.
+
 //
 // Rank-3 Phase-A contract:
 //   - Independent provider provider_hero_tristana_r_buster_shot_primary_hit
@@ -71,24 +68,6 @@ import (
 // ap_ratio, immediate_impact_scaffold.
 
 const (
-	tristanaBSCandidateKey  = "hero_skill|hero_tristana|R|毁灭射击"
-	tristanaBSTaskKey       = "wasm-generic-tristana-buster-shot-primary-hit"
-	tristanaBSPlanRev       = "tristana-r-buster-shot-primary-hit-phase-a-v1"
-	tristanaBSRequestTitle  = "Template:Data Tristana/R"
-	tristanaBSResolvedTitle = "Template:Data Tristana/Buster Shot"
-	tristanaBSWikiPageID    = 1308525
-	tristanaBSRevisionID    = 4008205
-	tristanaBSTimestamp     = "2026-04-14T05:37:16Z"
-	tristanaBSRawBytes      = 2385
-	tristanaBSLocalRawBytes = 2382
-	tristanaBSContentSHA    = "2dff322949f442acc00a7074458fd5ed9bc542d6fd143b818a9a7151e117c058"
-	tristanaBSLocalRawSHA   = "42e07f07f3188aada86d18d782c05d291f031dbbf92171e4a1120e828ebf8c7b"
-	tristanaBSBoundary      = "rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; " +
-		"magic_325_plus_0_70_bonus_ad_plus_1_00_ap; " +
-		"no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_" +
-		"displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_" +
-		"other_ranks_or_full_fidelity"
-
 	tristanaBSProviderRef = "provider_hero_tristana_r_buster_shot_primary_hit"
 	tristanaBSStableID    = "hero_tristana_r_buster_shot_primary_hit"
 	tristanaBSAbilityID   = "ability_hero_tristana_r_buster_shot_primary_hit"
@@ -118,16 +97,6 @@ const (
 
 	tristanaBSTol = 1e-9
 )
-
-func tristanaBSOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_magic_damage",
-		"bonus_ad_ratio",
-		"ap_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func tristanaBSExpectedRawFromStats(resolvedAD, baseAD, resolvedAP float64) float64 {
 	return tristanaBSBaseDamage +
@@ -660,24 +629,6 @@ func findTristanaBSAbilityStat(t *testing.T, done model.DoneResult) model.Abilit
 	return model.AbilityStat{}
 }
 
-func tristanaBSRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func tristanaBSSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func tristanaBSSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(tristanaBSSHA256Hex(b))
-}
-
 func tristanaBSAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -714,147 +665,8 @@ func tristanaBSAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, want
 	}
 }
 
-// TestTristanaBusterShotPrimaryHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestTristanaBusterShotPrimaryHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(tristanaBSRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "tristana-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != tristanaBSCandidateKey || doc.RequestTitle != tristanaBSRequestTitle ||
-		doc.ResolvedTitle != tristanaBSResolvedTitle || doc.WikiPageID != tristanaBSWikiPageID ||
-		doc.RevisionID != tristanaBSRevisionID || doc.RevisionTimestamp != tristanaBSTimestamp ||
-		doc.ContentSHA256 != tristanaBSContentSHA || doc.RawByteSize != tristanaBSRawBytes ||
-		doc.SkillKey != "R" || doc.ZhDisplayName != "毁灭射击" || doc.OwnerID != "hero_tristana" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "100\n" || doc.Fields.Costtype != "mana\n" ||
-		doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "100\n" {
-		t.Fatalf("cooldown=%q want 100 (rank-3 = 100s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|225 to 325}}") ||
-		!strings.Contains(doc.Fields.Leveling, "70% '''bonus''' AD") ||
-		!strings.Contains(doc.Fields.Leveling, "100% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "Magic Damage") {
-		t.Fatalf("leveling=%q want rank3 magic 325 +70%% bonus AD +100%% AP", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|magic damage}}") {
-		t.Fatal("wiki prose must retain magic damage wording")
-	}
-	// Explicit exclusion framing (present in wiki; not modeled by Phase-A scaffold).
-	if !strings.Contains(doc.Fields.Description, "knocked back") ||
-		!strings.Contains(doc.Fields.Description, "stunned") ||
-		!strings.Contains(doc.Fields.Description, "revealed") {
-		t.Fatal("wiki prose must retain excluded knockback/stun/reveal surfaces")
-	}
-	if !strings.Contains(doc.Fields.Notes, "secondary") ||
-		!strings.Contains(doc.Fields.Notes, "turret") ||
-		!strings.Contains(doc.Fields.Notes, "Explosive Charge") ||
-		!strings.Contains(doc.Fields.Notes, "basic attack") ||
-		!strings.Contains(doc.Fields.Notes, "displacement") ||
-		!strings.Contains(doc.Fields.Notes, "Unit-targeted cancel") {
-		t.Fatalf("notes missing excluded secondary/turret/Explosive Charge/basic-attack/displacement/cancel surfaces: %q",
-			doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "Knock Back Distance") ||
-		!strings.Contains(doc.Fields.Leveling, "Stun Duration") {
-		t.Fatal("wiki leveling must retain excluded knockback/stun leveling surfaces")
-	}
-
-	pagesRaw, err := os.ReadFile(tristanaBSRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "tristana-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "R" || pages.ZhDisplayName != "毁灭射击" || pages.OwnerID != "hero_tristana" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(tristanaBSRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "tristana-r.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != tristanaBSLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), tristanaBSLocalRawBytes)
-	}
-	if tristanaBSLocalRawBytes == tristanaBSRawBytes {
-		t.Fatal("local raw and canonical sizes must differ (serialization caveat; not equivalence)")
-	}
-	localSHA := tristanaBSSHA256Hex(rawBytes)
-	if localSHA != tristanaBSLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, tristanaBSLocalRawSHA)
-	}
-	if localSHA == tristanaBSContentSHA {
-		t.Fatal("local raw hash must differ from canonical (serialization caveat; not equivalence/contradiction)")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|225 to 325}}",
-		"70% '''bonus''' AD",
-		"100% AP",
-		"|cost         = 100",
-		"|cooldown     = 100",
-		"|damagetype   = Magic",
-		"knocked back",
-		"stunned",
-		"revealed",
-		"secondary",
-		"Explosive Charge",
-		"basic attack",
-		"displacement",
-		"Unit-targeted cancel",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if tristanaBSPlanRev != "tristana-r-buster-shot-primary-hit-phase-a-v1" || tristanaBSBoundary !=
-		"rank3_selected_primary_champion_single_magic_hit; immediate_impact_scaffold; "+
-			"magic_325_plus_0_70_bonus_ad_plus_1_00_ap; "+
-			"no_cast_time_knockback_stun_reveal_secondary_zero_damage_terrain_geometry_"+
-			"displacement_immunity_unit_target_cancel_post_basic_attack_explosive_charge_"+
-			"other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestTristanaBusterShotPrimaryHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestTristanaBusterShotPrimaryHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadTristanaBSFixture(t, tristanaBSFixtureOpts{
 		baseAD: tristanaBSADBaseDefault, resolvedAD: tristanaBSADResolvedDefault,
 		resolvedAP: tristanaBSFixtureAPDefault, mr: tristanaBSTargetMR, mana: tristanaBSFixtureManaCD,

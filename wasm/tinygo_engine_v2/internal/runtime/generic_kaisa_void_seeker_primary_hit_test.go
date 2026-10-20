@@ -1,17 +1,15 @@
 package runtime
 
 import (
-	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
-	"strings"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_kaisa W Void Seeker / 虚空索敌 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: kaisa-w-void-seeker-primary-hit-phase-a-v2).
 //
@@ -29,7 +27,7 @@ import (
 //	数据参考/lol-wiki-current-champions/normalized/generic/kaisa-w.json
 //	pages/raw siblings: pages/kaisa-w.json, raw/kaisa-w.wikitext
 //	Caveat: local raw may be 1842 bytes / SHA496936a8… due newline materialization;
-//	assert sidecar canonical metadata only — do not require local raw len/hash == sidecar.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_kaisa_w_void_seeker_primary_hit
@@ -58,17 +56,6 @@ import (
 //   or full fidelity.
 
 const (
-	kaisaVoidSeekerPrimaryHitCandidateKey  = "hero_skill|hero_kaisa|W|虚空索敌"
-	kaisaVoidSeekerPrimaryHitRequestTitle  = "Template:Data Kai'Sa/W"
-	kaisaVoidSeekerPrimaryHitResolvedTitle = "Template:Data Kai'Sa/Void Seeker"
-	kaisaVoidSeekerPrimaryHitWikiPageID    = 1353553
-	kaisaVoidSeekerPrimaryHitRevisionID    = 4034696
-	kaisaVoidSeekerPrimaryHitTimestamp     = "2026-06-23T21:14:14Z"
-	kaisaVoidSeekerPrimaryHitRawBytes      = 1843
-	kaisaVoidSeekerPrimaryHitContentSHA    = "aa4ba76c6fa345c711651fa56d9b914d4ea8b7eb3ddfae79d7feb25470d7e3d1"
-	kaisaVoidSeekerPrimaryHitBoundary      = "rank5_primary_target_single_hit; immediate_impact_scaffold; " +
-		"magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund"
-
 	kaisaVoidSeekerPrimaryHitProviderRef = "provider_hero_kaisa_w_void_seeker_primary_hit"
 	kaisaVoidSeekerPrimaryHitStableID    = "hero_kaisa_w_void_seeker_primary_hit"
 	kaisaVoidSeekerPrimaryHitAbilityID   = "ability_hero_kaisa_w_void_seeker_primary_hit"
@@ -467,190 +454,6 @@ func findKaisaVoidSeekerPrimaryHitAbilityStat(t *testing.T, done model.DoneResul
 	}
 	t.Fatalf("AbilityStats missing ref %q (got %+v)", wantRef, done.Summary.AbilityStats)
 	return model.AbilityStat{}
-}
-
-func kaisaVoidSeekerPrimaryHitWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "kaisa-w.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func kaisaVoidSeekerPrimaryHitWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "kaisa-w.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func kaisaVoidSeekerPrimaryHitWikiPagesPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "pages", "kaisa-w.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki pages sibling missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type kaisaVoidSeekerPrimaryHitWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	Fields            struct {
-		Description  string `json:"description"`
-		Leveling     string `json:"leveling"`
-		Description2 string `json:"description2"`
-		Cooldown     string `json:"cooldown"`
-		Cost         string `json:"cost"`
-		Costtype     string `json:"costtype"`
-		Damagetype   string `json:"damagetype"`
-		Notes        string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-func kaisaVoidSeekerPrimaryHitLoadWikiSidecar(t *testing.T) kaisaVoidSeekerPrimaryHitWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(kaisaVoidSeekerPrimaryHitWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc kaisaVoidSeekerPrimaryHitWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-// TestKaisaVoidSeekerPrimaryHitWikiSidecarIdentityAndBoundary locks repository sidecar
-// identity plus the frozen Phase-A completed-boundary constant. Positively asserts
-// magic/first-enemy, rank formula, cost/CD, and evolution text while compile/runtime
-// tests prove those excluded branches are absent from the immediate scaffold.
-func TestKaisaVoidSeekerPrimaryHitWikiSidecarIdentityAndBoundary(t *testing.T) {
-	doc := kaisaVoidSeekerPrimaryHitLoadWikiSidecar(t)
-	if doc.CandidateKey != kaisaVoidSeekerPrimaryHitCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, kaisaVoidSeekerPrimaryHitCandidateKey)
-	}
-	if doc.RequestTitle != kaisaVoidSeekerPrimaryHitRequestTitle {
-		t.Fatalf("requestTitle=%q want %q", doc.RequestTitle, kaisaVoidSeekerPrimaryHitRequestTitle)
-	}
-	if doc.ResolvedTitle != kaisaVoidSeekerPrimaryHitResolvedTitle {
-		t.Fatalf("resolvedTitle=%q want %q", doc.ResolvedTitle, kaisaVoidSeekerPrimaryHitResolvedTitle)
-	}
-	if doc.WikiPageID != kaisaVoidSeekerPrimaryHitWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, kaisaVoidSeekerPrimaryHitWikiPageID)
-	}
-	if doc.RevisionID != kaisaVoidSeekerPrimaryHitRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, kaisaVoidSeekerPrimaryHitRevisionID)
-	}
-	if doc.RevisionTimestamp != kaisaVoidSeekerPrimaryHitTimestamp {
-		t.Fatalf("revisionTimestamp=%q want %q", doc.RevisionTimestamp, kaisaVoidSeekerPrimaryHitTimestamp)
-	}
-	if doc.ContentSHA256 != kaisaVoidSeekerPrimaryHitContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, kaisaVoidSeekerPrimaryHitContentSHA)
-	}
-	if doc.RawByteSize != kaisaVoidSeekerPrimaryHitRawBytes {
-		t.Fatalf("rawByteSize=%d want %d", doc.RawByteSize, kaisaVoidSeekerPrimaryHitRawBytes)
-	}
-	if doc.SkillKey != "W" || doc.ZhDisplayName != "虚空索敌" || doc.OwnerID != "hero_kaisa" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want W/虚空索敌/hero_kaisa",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	for _, key := range []string{"description", "leveling", "description2", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|55 to 75}}\n" {
-		t.Fatalf("fields.cost=%q want %q", doc.Fields.Cost, "{{ap|55 to 75}}\n")
-	}
-	if doc.Fields.Cooldown != "{{ap|20 to 14}}\n" {
-		t.Fatalf("fields.cooldown=%q want %q", doc.Fields.Cooldown, "{{ap|20 to 14}}\n")
-	}
-	if doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("fields.damagetype=%q want Magic", doc.Fields.Damagetype)
-	}
-	if doc.Fields.Costtype != "Mana\n" {
-		t.Fatalf("fields.costtype=%q want Mana", doc.Fields.Costtype)
-	}
-	if doc.Fields.Description == "" {
-		t.Fatal("description empty (fail closed; expect magic / first-enemy wording)")
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|magic damage}}") {
-		t.Fatalf("description missing magic damage wording: %q", doc.Fields.Description)
-	}
-	if !strings.Contains(doc.Fields.Description, "first enemy") {
-		t.Fatalf("description missing first-enemy wording: %q", doc.Fields.Description)
-	}
-	if !strings.Contains(doc.Fields.Description, "2 Plasma") {
-		t.Fatalf("description missing normal 2 Plasma wording (source evidence; excluded from scaffold): %q",
-			doc.Fields.Description)
-	}
-	if doc.Fields.Leveling == "" {
-		t.Fatal("leveling empty (fail closed; expect Magic Damage rank formula)")
-	}
-	if !strings.Contains(doc.Fields.Leveling, "Magic Damage") {
-		t.Fatalf("leveling missing Magic Damage label: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|30 to 130}}") {
-		t.Fatalf("leveling missing rank formula {{ap|30 to 130}}: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "130% AD") {
-		t.Fatalf("leveling missing 130%% AD ratio: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "45% AP") {
-		t.Fatalf("leveling missing 45%% AP ratio: %q", doc.Fields.Leveling)
-	}
-	if doc.Fields.Description2 == "" {
-		t.Fatal("description2 empty (fail closed; expect Evolution / 3 Plasma / 75% refund)")
-	}
-	if !strings.Contains(doc.Fields.Description2, "Evolution") {
-		t.Fatalf("description2 missing Evolution wording: %q", doc.Fields.Description2)
-	}
-	if !strings.Contains(doc.Fields.Description2, "3 Plasma") {
-		t.Fatalf("description2 missing evolved 3 Plasma wording: %q", doc.Fields.Description2)
-	}
-	if !strings.Contains(doc.Fields.Description2, "75%") || !strings.Contains(doc.Fields.Description2, "cooldown") {
-		t.Fatalf("description2 missing 75%% cooldown refund wording: %q", doc.Fields.Description2)
-	}
-	if doc.Fields.Notes == "" {
-		t.Fatal("notes empty (fail closed; expect Effect at cast time end)")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Effect at cast time end") {
-		t.Fatalf("notes missing Effect at cast time end (excluded from immediate scaffold): %q",
-			doc.Fields.Notes)
-	}
-
-	_ = kaisaVoidSeekerPrimaryHitWikiPagesPath(t)
-
-	raw, err := os.ReadFile(kaisaVoidSeekerPrimaryHitWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	if len(raw) == 0 {
-		t.Fatal("wiki raw empty (fail closed)")
-	}
-	// Do not assert local raw len/hash equals sidecar canonical metadata
-	// (local may be 1842 bytes / SHA496936a8… due repository newline materialization).
-	if kaisaVoidSeekerPrimaryHitBoundary != "rank5_primary_target_single_hit; immediate_impact_scaffold; "+
-		"magic_130_plus_1_30_total_ad_plus_0_45_ap; no_cast_delay_projectile_geometry_sight_reveal_plasma_evolution_or_cooldown_refund" {
-		t.Fatal("frozen boundary constant drifted")
-	}
 }
 
 // TestKaisaVoidSeekerPrimaryHitRank5DamageFormulaCrossCheck: independent numeric

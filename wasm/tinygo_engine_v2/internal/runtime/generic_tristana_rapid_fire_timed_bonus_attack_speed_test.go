@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"strings"
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -14,6 +11,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_tristana Q Rapid Fire / 急速射击 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: tristana-q-rapid-fire-timed-bonus-attack-speed-phase-a-v1).
 //
@@ -42,8 +40,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql
 //	Local raw materialization caveat: 866 bytes / SHA256
 //	  db084b4142559f0775af841fe163e1b80880e2661b26b6d82fb26261e1f5d170.
-//	Serialization caveat only; assert sidecar/pages canonical identity + caveat;
-//	do not claim local-raw equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract (Xayah W ability-type listener isolation + timed AS;
 // Kai'Sa E / Vayne R timed modifier lifecycle; same-package Buster Shot for Q/R):
@@ -75,19 +72,7 @@ import (
 // CompileFrame → RunFrame → ReleaseSessionFrame (determinism/release).
 
 const (
-	tristanaRFCandidateKey  = "hero_skill|hero_tristana|Q|急速射击"
-	tristanaRFTaskKey       = "wasm-generic-tristana-rapid-fire-timed-bonus-attack-speed"
-	tristanaRFPlanRev       = "tristana-q-rapid-fire-timed-bonus-attack-speed-phase-a-v1"
-	tristanaRFRequestTitle  = "Template:Data Tristana/Q"
-	tristanaRFResolvedTitle = "Template:Data Tristana/Rapid Fire"
-	tristanaRFWikiPageID    = 1308522
-	tristanaRFRevisionID    = 4026462
-	tristanaRFTimestamp     = "2026-06-09T21:59:03Z"
-	tristanaRFRawBytes      = 872
-	tristanaRFLocalRawBytes = 866
-	tristanaRFContentSHA    = "f6465863035c4634510ecc96e9ee04f4a998d150871d88e498e6636e27a9d4da"
-	tristanaRFLocalRawSHA   = "db084b4142559f0775af841fe163e1b80880e2661b26b6d82fb26261e1f5d170"
-	tristanaRFBoundary      = "rank5_self_timed_bonus_attack_speed; duration_7000ms; " +
+	tristanaRFBoundary = "rank5_self_timed_bonus_attack_speed; duration_7000ms; " +
 		"bonus_attack_speed_120_percent; cooldown_16000ms_prevents_recast_before_expiry; " +
 		"ability_type_listener_isolation_from_buster_shot; " +
 		"no_rank_up_update_attack_animation_windup_basic_attack_count_rotation_" +
@@ -119,10 +104,10 @@ const (
 
 	tristanaRFFixtureManaCD    = 105.0
 	tristanaRFFixtureManaShort = 34.0
-	tristanaRFManaAfter1       = 70.0 // 105 - 35
-	tristanaRFManaAfter2       = 35.0 // 105 - 35 - 35
-	tristanaRFFixtureManaCast  = 70.0 // simple cast schedules
-	tristanaRFManaAfterCast1   = 35.0 // 70 - 35
+	// 105 - 35
+	tristanaRFManaAfter2      = 35.0 // 105 - 35 - 35
+	tristanaRFFixtureManaCast = 70.0 // simple cast schedules
+	tristanaRFManaAfterCast1  = 35.0 // 70 - 35
 
 	tristanaRFTol = 1e-9
 )
@@ -742,138 +727,8 @@ func assertTristanaRFProviderShape(t *testing.T, compileReq model.CompileRequest
 	}
 }
 
-func tristanaRFRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func tristanaRFSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-// TestGenericTristanaRapidFireWikiSourceAndConstructedFixtureIdentity 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestGenericTristanaRapidFireWikiSourceAndConstructedFixtureIdentity(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(tristanaRFRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "tristana-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != tristanaRFCandidateKey || doc.RequestTitle != tristanaRFRequestTitle ||
-		doc.ResolvedTitle != tristanaRFResolvedTitle || doc.WikiPageID != tristanaRFWikiPageID ||
-		doc.RevisionID != tristanaRFRevisionID || doc.RevisionTimestamp != tristanaRFTimestamp ||
-		doc.ContentSHA256 != tristanaRFContentSHA || doc.RawByteSize != tristanaRFRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "急速射击" || doc.OwnerID != "hero_tristana" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|15 to 35}}\n" {
-		t.Fatalf("fields.cost=%q want rank band 15→35", doc.Fields.Cost)
-	}
-	if doc.Fields.Cooldown != "{{ap|20 to 16}}\n" {
-		t.Fatalf("fields.cooldown=%q want rank band 20→16s", doc.Fields.Cooldown)
-	}
-	if doc.Fields.Costtype != "Mana\n" {
-		t.Fatalf("costtype=%q want Mana", doc.Fields.Costtype)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|60 to 120}}%") {
-		t.Fatalf("leveling missing +60→120%% AS band: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "7 seconds") {
-		t.Fatalf("description missing 7s duration: %q", doc.Fields.Description)
-	}
-	if !strings.Contains(doc.Fields.Notes, "non-refreshing") ||
-		!strings.Contains(doc.Fields.Notes, "rank-up") {
-		t.Fatalf("notes missing non-refreshing / rank-up framing: %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(tristanaRFRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "tristana-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "急速射击" || pages.OwnerID != "hero_tristana" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(tristanaRFRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "tristana-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != tristanaRFLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), tristanaRFLocalRawBytes)
-	}
-	if tristanaRFLocalRawBytes == tristanaRFRawBytes {
-		t.Fatal("local raw and canonical sizes must differ (serialization caveat; not equivalence)")
-	}
-	localSHA := tristanaRFSHA256Hex(rawBytes)
-	if localSHA != tristanaRFLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, tristanaRFLocalRawSHA)
-	}
-	if localSHA == tristanaRFContentSHA {
-		t.Fatal("local raw hash must differ from canonical (serialization caveat; not equivalence/contradiction)")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|60 to 120}}%",
-		"{{ap|15 to 35}}",
-		"{{ap|20 to 16}}",
-		"|costtype     = Mana",
-		"7 seconds",
-		"non-refreshing",
-		"rank-up",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field framing %q", want)
-		}
-	}
-	if tristanaRFPlanRev != "tristana-q-rapid-fire-timed-bonus-attack-speed-phase-a-v1" ||
-		tristanaRFBoundary != "rank5_self_timed_bonus_attack_speed; duration_7000ms; "+
-			"bonus_attack_speed_120_percent; cooldown_16000ms_prevents_recast_before_expiry; "+
-			"ability_type_listener_isolation_from_buster_shot; "+
-			"no_rank_up_update_attack_animation_windup_basic_attack_count_rotation_"+
-			"cooldown_bypass_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestGenericTristanaRapidFireConstructedFixtureIdentity 验证固定构造的公式与机制边界。
+func TestGenericTristanaRapidFireConstructedFixtureIdentity(t *testing.T) {
 	compileReq, _ := loadTristanaRFFixture(t, tristanaRFFixtureManaCast)
 	assertTristanaRFProviderShape(t, compileReq, 1)
 	wantAS := tristanaRFBaseAS * (1 + tristanaRFASBonus)

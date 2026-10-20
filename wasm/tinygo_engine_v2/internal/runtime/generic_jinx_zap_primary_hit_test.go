@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_jinx W Zap! / 震荡电磁波！ — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: jinx-w-zap-primary-hit-phase-a-v1).
 //
@@ -36,8 +34,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_jinx_zap_primary_hit_seed.sql
 //	Local raw materialization caveat: 1319 bytes / SHA256
 //	  c373cc258c5c8c612930a32c5e851bd4b68dbbcb3c0d7f71ce1d25020ba12624.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_jinx_w_zap_primary_hit (standalone;
@@ -63,23 +60,6 @@ import (
 // immediate_impact_scaffold.
 
 const (
-	jinxZapCandidateKey  = "hero_skill|hero_jinx|W|震荡电磁波！"
-	jinxZapTaskKey       = "wasm-generic-jinx-zap-primary-hit"
-	jinxZapPlanRev       = "jinx-w-zap-primary-hit-phase-a-v1"
-	jinxZapRequestTitle  = "Template:Data Jinx/W"
-	jinxZapResolvedTitle = "Template:Data Jinx/Zap!"
-	jinxZapWikiPageID    = 1307598
-	jinxZapRevisionID    = 3907092
-	jinxZapTimestamp     = "2025-06-06T17:47:18Z"
-	jinxZapRawBytes      = 1321
-	jinxZapLocalRawBytes = 1319
-	jinxZapContentSHA    = "8aa6ac3943076256fe6afea15f1dd6eebf892656be45784e2522abb6243f4d1f"
-	jinxZapLocalRawSHA   = "c373cc258c5c8c612930a32c5e851bd4b68dbbcb3c0d7f71ce1d25020ba12624"
-	jinxZapBoundary      = "rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; " +
-		"physical_210_plus_1_40_total_ad; " +
-		"no_cast_timing_direction_range_width_projectile_travel_collision_" +
-		"first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity"
-
 	jinxZapProviderRef = "provider_hero_jinx_w_zap_primary_hit"
 	jinxZapStableID    = "hero_jinx_w_zap_primary_hit"
 	jinxZapAbilityID   = "ability_hero_jinx_w_zap_primary_hit"
@@ -107,14 +87,6 @@ const (
 
 	jinxZapTol = 1e-9
 )
-
-func jinxZapOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"immediate_impact_scaffold",
-	}
-}
 
 func jinxZapExpectedRawFromTotalAD(resolvedAD float64) float64 {
 	return jinxZapBaseDamage + jinxZapADRatio*resolvedAD
@@ -544,20 +516,6 @@ func findJinxZapAbilityStat(t *testing.T, done model.DoneResult) model.AbilitySt
 	return model.AbilityStat{}
 }
 
-func jinxZapRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func jinxZapSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
 func jinxZapAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -591,109 +549,8 @@ func jinxZapAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit
 	}
 }
 
-// TestJinxZapWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestJinxZapWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(jinxZapRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "jinx-w.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != jinxZapCandidateKey || doc.RequestTitle != jinxZapRequestTitle ||
-		doc.ResolvedTitle != jinxZapResolvedTitle || doc.WikiPageID != jinxZapWikiPageID ||
-		doc.RevisionID != jinxZapRevisionID || doc.RevisionTimestamp != jinxZapTimestamp ||
-		doc.ContentSHA256 != jinxZapContentSHA || doc.RawByteSize != jinxZapRawBytes ||
-		doc.SkillKey != "W" || doc.ZhDisplayName != "震荡电磁波！" || doc.OwnerID != "hero_jinx" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{"description", "leveling", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|40 to 60}}\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|8|7|6|5|4}}\n" {
-		t.Fatalf("cooldown=%q want rank table ending in 4s", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|10 to 210}}") ||
-		!strings.Contains(doc.Fields.Leveling, "140% AD") ||
-		!strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description, "first enemy") ||
-		!strings.Contains(doc.Fields.Description, "reveals") ||
-		!strings.Contains(doc.Fields.Description, "slows") {
-		t.Fatal("wiki prose must retain excluded first-enemy/reveal/slow surfaces")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Effect at cast time start") {
-		t.Fatalf("notes missing Effect at cast time start (excluded): %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(jinxZapRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "jinx-w.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "W" || pages.ZhDisplayName != "震荡电磁波！" || pages.OwnerID != "hero_jinx" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(jinxZapRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "jinx-w.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != jinxZapLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), jinxZapLocalRawBytes)
-	}
-	localSHA := jinxZapSHA256Hex(rawBytes)
-	if localSHA != jinxZapLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, jinxZapLocalRawSHA)
-	}
-	if localSHA == jinxZapContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if len(rawBytes) == jinxZapRawBytes {
-		t.Fatal("local raw byte length must differ from canonical 1321 (materialization caveat)")
-	}
-	if jinxZapPlanRev != "jinx-w-zap-primary-hit-phase-a-v1" || jinxZapBoundary !=
-		"rank5_primary_champion_single_physical_hit; immediate_impact_scaffold; "+
-			"physical_210_plus_1_40_total_ad; "+
-			"no_cast_timing_direction_range_width_projectile_travel_collision_"+
-			"first_enemy_acquisition_sight_reveal_slow_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestJinxZapConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestJinxZapConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadJinxZapFixture(t, jinxZapFixtureOpts{
 		resolvedAD: jinxZapADResolvedDefault, armor: jinxZapTargetArmor, mana: jinxZapFixtureManaCD,
 	})

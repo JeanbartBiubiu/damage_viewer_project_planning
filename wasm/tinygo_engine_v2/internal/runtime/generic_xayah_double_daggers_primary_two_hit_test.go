@@ -1,49 +1,27 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
-	"strings"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_xayah Q Double Daggers / 双刃 — Phase-A v3 Wasm exact verification slice
 // (FROZEN_PLAN_REV: xayah-q-double-daggers-primary-two-hit-phase-a-v3).
 
 const (
-	xayahDDCandidateKey       = "hero_skill|hero_xayah|Q|双刃"
-	xayahDDTaskKey            = "wasm-generic-xayah-double-daggers-primary-two-hit"
-	xayahDDPlanRev            = "xayah-q-double-daggers-primary-two-hit-phase-a-v3"
-	xayahDDRequestTitle       = "Template:Data Xayah/Q"
-	xayahDDResolvedTitle      = "Template:Data Xayah/Double Daggers"
-	xayahDDWikiPageID         = 1324541
-	xayahDDRevisionID         = 4008615
-	xayahDDTimestamp          = "2026-04-15T00:26:21Z"
-	xayahDDRawBytes           = 2615
-	xayahDDLocalRawBytes      = 2615
-	xayahDDContentSHA         = "8010e567d2366730c5eb6cd0a31baec09c7f5137018ab2ca15fd84f167d990fd"
-	xayahDDLocalRawSHA        = "6a1fde0a18de0b6f28e55be7df27e58f99c91d49310e79ae81a9e95384f974de"
-	xayahDDLiveRedirectPageID = 1324536
-	xayahDDLiveRedirectRevID  = 2864045
-	xayahDDBoundary           = "rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; " +
-		"two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; " +
-		"no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_" +
-		"secondary_target_reduction_feather_generation_ground_state_or_other_ranks"
-
 	xayahDDProviderRef = "provider_hero_xayah_q_double_daggers_primary_two_hit"
 	xayahDDStableID    = "hero_xayah_q_double_daggers_primary_two_hit"
-	xayahDDAbilityID   = "ability_hero_xayah_q_double_daggers_primary_two_hit"
-	xayahDDAbilityKey  = "double_daggers_primary_two_hit"
-	xayahDDLeftOpRef   = "op:xayah_double_daggers_primary_two_hit_left"
-	xayahDDRightOpRef  = "op:xayah_double_daggers_primary_two_hit_right"
-	xayahDDBonusADMod  = "fixture_xayah_double_daggers_primary_two_hit_bonus_ad"
+
+	xayahDDAbilityKey = "double_daggers_primary_two_hit"
+	xayahDDLeftOpRef  = "op:xayah_double_daggers_primary_two_hit_left"
+	xayahDDRightOpRef = "op:xayah_double_daggers_primary_two_hit_right"
+	xayahDDBonusADMod = "fixture_xayah_double_daggers_primary_two_hit_bonus_ad"
 
 	xayahDDBaseDamage   = 105.0
 	xayahDDBonusADRatio = 0.50
@@ -61,15 +39,6 @@ const (
 	xayahDDHPAfter2          = 740.0 // 1000 - 130 - 130
 	xayahDDTol               = 1e-9
 )
-
-func xayahDDOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"bonus_ad_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func xayahDDExpectedRawFromStats(resolvedAD, baseAD float64) float64 {
 	return xayahDDBaseDamage + xayahDDBonusADRatio*(resolvedAD-baseAD)
@@ -495,106 +464,8 @@ func assertXayahDDProviderShape(t *testing.T, compileReq model.CompileRequest, e
 	}
 }
 
-func xayahDDRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing %s: %v", path, err)
-	}
-	return path
-}
-
-func xayahDDSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-// TestXayahDoubleDaggersWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestXayahDoubleDaggersWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Description2, Description3 string
-			Cooldown, Cost, Costtype, Damagetype, Notes       string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(xayahDDRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "xayah-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != xayahDDCandidateKey || doc.RequestTitle != xayahDDRequestTitle ||
-		doc.ResolvedTitle != xayahDDResolvedTitle || doc.WikiPageID != xayahDDWikiPageID ||
-		doc.RevisionID != xayahDDRevisionID || doc.RevisionTimestamp != xayahDDTimestamp ||
-		doc.ContentSHA256 != xayahDDContentSHA || doc.RawByteSize != xayahDDRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "双刃" || doc.OwnerID != "hero_xayah" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{"description", "leveling", "description2", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "35\n" || doc.Fields.Costtype != "Mana\n" || doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|45 to 105}}") ||
-		!strings.Contains(doc.Fields.Leveling, "50% '''bonus''' AD") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description2, "50% reduced") ||
-		!strings.Contains(doc.Fields.Notes, "left and right") ||
-		!strings.Contains(doc.Fields.Notes, "Spell shield") {
-		t.Fatal("wiki prose must retain excluded secondary-reduction/geometry/spellshield surfaces")
-	}
-	pagesRaw, err := os.ReadFile(xayahDDRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "xayah-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, ContentSHA256 string
-		PageID, RevisionID          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-	rawBytes, err := os.ReadFile(xayahDDRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "xayah-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != xayahDDLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), xayahDDLocalRawBytes)
-	}
-	localSHA := xayahDDSHA256Hex(rawBytes)
-	if localSHA != xayahDDLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, xayahDDLocalRawSHA)
-	}
-	if localSHA == xayahDDContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if xayahDDPlanRev != "xayah-q-double-daggers-primary-two-hit-phase-a-v3" ||
-		xayahDDBoundary != "rank5_primary_champion_two_feather_hits; immediate_impact_scaffold; "+
-			"two_physical_hits_each_105_plus_0_50_bonus_ad; preserve_deadly_plumage_ability_type_listener_isolation; "+
-			"no_cast_time_attack_lockout_direction_range_width_projectile_travel_interception_spellshield_"+
-			"secondary_target_reduction_feather_generation_ground_state_or_other_ranks" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestXayahDoubleDaggersConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestXayahDoubleDaggersConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadXayahDDFixture(t, xayahDDFixtureOpts{
 		resolvedAD: xayahDDADResolvedDefault,
 		armor:      xayahDDTargetArmor,

@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_caitlyn R Ace in the Hole / 让子弹飞 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: caitlyn-r-ace-in-the-hole-single-bullet-quantum-phase-a-v1).
 //
@@ -39,8 +37,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_caitlyn_ace_in_the_hole_single_bullet_quantum_seed.sql
 //	Local raw materialization caveat: also 3119 bytes / SHA256
 //	  015c1dbe8f02dd5ac354e6a6da6def878f1acccf788b1f599ee4bfd589e05003.
-//	Same-size caveat; assert sidecar/pages canonical identity + caveat; do not claim
-//	local-raw equivalence or source contradiction.
+
 //
 // Rank-3 Phase-A contract:
 //   - Independent provider provider_hero_caitlyn_r_ace_in_the_hole_single_bullet_quantum
@@ -75,24 +72,6 @@ import (
 // immediate_impact_scaffold (explicitly no crit-ratio governed tag).
 
 const (
-	caitlynAHCandidateKey  = "hero_skill|hero_caitlyn|R|让子弹飞"
-	caitlynAHTaskKey       = "wasm-generic-caitlyn-ace-in-the-hole-single-bullet-quantum"
-	caitlynAHPlanRev       = "caitlyn-r-ace-in-the-hole-single-bullet-quantum-phase-a-v1"
-	caitlynAHRequestTitle  = "Template:Data Caitlyn/R"
-	caitlynAHResolvedTitle = "Template:Data Caitlyn/Ace in the Hole"
-	caitlynAHWikiPageID    = 1306918
-	caitlynAHRevisionID    = 3982561
-	caitlynAHTimestamp     = "2026-01-09T09:02:59Z"
-	caitlynAHRawBytes      = 3119
-	caitlynAHLocalRawBytes = 3119
-	caitlynAHContentSHA    = "08b488c97fc694d9a3de711ffd4ea0b95fc1746c3a11b9c44b878844e586e8a8"
-	caitlynAHLocalRawSHA   = "015c1dbe8f02dd5ac354e6a6da6def878f1acccf788b1f599ee4bfd589e05003"
-	caitlynAHBoundary      = "rank3_selected_primary_champion_single_physical_bullet_quantum; immediate_impact_scaffold; " +
-		"physical_650_plus_1_00_bonus_ad; " +
-		"no_channel_lock_reveal_self_reveal_cancel_refund_short_cooldown_homing_projectile_travel_" +
-		"interception_first_enemy_geometry_crit_scaling_untargetable_resurrection_target_death_" +
-		"corpse_hit_sight_radius_unit_target_cancel_conditions_ability_lockout_other_ranks_or_full_fidelity"
-
 	caitlynAHProviderRef = "provider_hero_caitlyn_r_ace_in_the_hole_single_bullet_quantum"
 	caitlynAHStableID    = "hero_caitlyn_r_ace_in_the_hole_single_bullet_quantum"
 	caitlynAHAbilityID   = "ability_hero_caitlyn_r_ace_in_the_hole_single_bullet_quantum"
@@ -119,15 +98,6 @@ const (
 
 	caitlynAHTol = 1e-9
 )
-
-func caitlynAHOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"bonus_ad_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func caitlynAHExpectedRawFromStats(resolvedAD, baseAD float64) float64 {
 	return caitlynAHBaseDamage + caitlynAHBonusADRatio*(resolvedAD-baseAD)
@@ -631,24 +601,6 @@ func findCaitlynAHAbilityStat(t *testing.T, done model.DoneResult) model.Ability
 	return model.AbilityStat{}
 }
 
-func caitlynAHRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func caitlynAHSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func caitlynAHSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(caitlynAHSHA256Hex(b))
-}
-
 func caitlynAHAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -685,153 +637,8 @@ func caitlynAHAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantM
 	}
 }
 
-// TestCaitlynAceInTheHoleSingleBulletQuantumWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestCaitlynAceInTheHoleSingleBulletQuantumWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Description3, Leveling3 string
-			Cooldown, Cost, Costtype, Damagetype, Notes        string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(caitlynAHRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "caitlyn-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != caitlynAHCandidateKey || doc.RequestTitle != caitlynAHRequestTitle ||
-		doc.ResolvedTitle != caitlynAHResolvedTitle || doc.WikiPageID != caitlynAHWikiPageID ||
-		doc.RevisionID != caitlynAHRevisionID || doc.RevisionTimestamp != caitlynAHTimestamp ||
-		doc.ContentSHA256 != caitlynAHContentSHA || doc.RawByteSize != caitlynAHRawBytes ||
-		doc.SkillKey != "R" || doc.ZhDisplayName != "让子弹飞" || doc.OwnerID != "hero_caitlyn" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "description2", "description3", "leveling3",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "100\n" || doc.Fields.Costtype != "mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "90\n" {
-		t.Fatalf("cooldown=%q want 90 (rank-3 = 90s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling3, "{{ap|300 to 650}}") ||
-		!strings.Contains(doc.Fields.Leveling3, "100%") ||
-		!strings.Contains(doc.Fields.Leveling3, "bonus") ||
-		!strings.Contains(doc.Fields.Leveling3, "AD") {
-		t.Fatalf("leveling3=%q want rank3 650 + 100%% bonus AD", doc.Fields.Leveling3)
-	}
-	if !strings.Contains(doc.Fields.Description3, "{{as|physical damage}}") {
-		t.Fatal("wiki prose must retain physical damage wording")
-	}
-	// Explicit exclusion framing (present in wiki; not modeled by Phase-A scaffold).
-	if !strings.Contains(doc.Fields.Description, "channel") ||
-		!strings.Contains(doc.Fields.Description, "revealing") {
-		t.Fatal("wiki prose must retain excluded channel/reveal surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description2, "canceled") ||
-		!strings.Contains(doc.Fields.Description2, "5-second") {
-		t.Fatal("wiki prose must retain excluded cancel/short-cooldown surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description3, "homing") ||
-		!strings.Contains(doc.Fields.Description3, "critical damage") ||
-		!strings.Contains(doc.Fields.Description3, "critScaling") {
-		t.Fatal("wiki prose must retain excluded homing/crit scaling surfaces")
-	}
-	if !strings.Contains(doc.Fields.Notes, "untargetable") ||
-		!strings.Contains(doc.Fields.Notes, "resurrection") ||
-		!strings.Contains(doc.Fields.Notes, "corpse") ||
-		!strings.Contains(doc.Fields.Notes, "1500") ||
-		!strings.Contains(doc.Fields.Notes, "cancel") ||
-		!strings.Contains(doc.Fields.Notes, "not compensated") {
-		t.Fatalf("notes missing excluded cancel/refund/untargetable/resurrection/corpse/sight surfaces: %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(caitlynAHRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "caitlyn-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "R" || pages.ZhDisplayName != "让子弹飞" || pages.OwnerID != "hero_caitlyn" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(caitlynAHRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "caitlyn-r.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != caitlynAHLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), caitlynAHLocalRawBytes)
-	}
-	if caitlynAHLocalRawBytes != caitlynAHRawBytes {
-		t.Fatal("local raw and canonical sizes must both be 3119 (same-size caveat)")
-	}
-	localSHA := caitlynAHSHA256Hex(rawBytes)
-	if localSHA != caitlynAHLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, caitlynAHLocalRawSHA)
-	}
-	if localSHA == caitlynAHContentSHA {
-		t.Fatal("local raw hash must differ from canonical (same-size caveat; not equivalence/contradiction)")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|300 to 650}}",
-		"100% '''bonus''' AD",
-		"|cost         = 100",
-		"|cooldown     = 90",
-		"|damagetype   = Physical",
-		"|projectile   = True",
-		"channel",
-		"revealing",
-		"canceled",
-		"homing",
-		"critScaling",
-		"untargetable",
-		"resurrection",
-		"corpse",
-		"1500",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if caitlynAHPlanRev != "caitlyn-r-ace-in-the-hole-single-bullet-quantum-phase-a-v1" || caitlynAHBoundary !=
-		"rank3_selected_primary_champion_single_physical_bullet_quantum; immediate_impact_scaffold; "+
-			"physical_650_plus_1_00_bonus_ad; "+
-			"no_channel_lock_reveal_self_reveal_cancel_refund_short_cooldown_homing_projectile_travel_"+
-			"interception_first_enemy_geometry_crit_scaling_untargetable_resurrection_target_death_"+
-			"corpse_hit_sight_radius_unit_target_cancel_conditions_ability_lockout_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestCaitlynAceInTheHoleSingleBulletQuantumConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestCaitlynAceInTheHoleSingleBulletQuantumConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadCaitlynAHFixture(t, caitlynAHFixtureOpts{
 		baseAD: caitlynAHADBaseDefault, resolvedAD: caitlynAHADResolvedDefault,
 		armor: caitlynAHTargetArmorDefault, mana: caitlynAHFixtureManaCD,

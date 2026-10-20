@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_kalista Q Pierce / 穿刺 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: kalista-q-pierce-primary-hit-phase-a-v1).
 //
@@ -38,8 +36,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_kalista_pierce_primary_hit_seed.sql
 //	Local raw materialization caveat: 1623 bytes / SHA256
 //	  0b8dd9cf9b40aae52fb6180ecabae7e459970f2f7c4d05711463df25fdbd1c94.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_kalista_q_pierce_primary_hit
@@ -68,25 +65,6 @@ import (
 // immediate_impact_scaffold (no total-AD ordered tag).
 
 const (
-	kalistaPierceCandidateKey  = "hero_skill|hero_kalista|Q|穿刺"
-	kalistaPierceTaskKey       = "wasm-generic-kalista-pierce-primary-hit"
-	kalistaPiercePlanRev       = "kalista-q-pierce-primary-hit-phase-a-v1"
-	kalistaPierceRequestTitle  = "Template:Data Kalista/Q"
-	kalistaPierceResolvedTitle = "Template:Data Kalista/Pierce"
-	kalistaPierceWikiPageID    = 1307666
-	kalistaPierceRevisionID    = 3997075
-	kalistaPierceTimestamp     = "2026-03-06T15:53:18Z"
-	kalistaPierceRawBytes      = 1625
-	kalistaPierceLocalRawBytes = 1623
-	kalistaPierceContentSHA    = "90c490d921da436134c318249fa7d0038ceaa97dfb76e5bdaa0b330a43676a67"
-	kalistaPierceLocalRawSHA   = "0b8dd9cf9b40aae52fb6180ecabae7e459970f2f7c4d05711463df25fdbd1c94"
-	kalistaPierceBoundary      = "rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; " +
-		"physical_270_plus_1_05_total_ad; " +
-		"no_cast_timing_martial_poise_dash_cancel_direction_range_width_" +
-		"line_geometry_multitarget_first_enemy_collision_projectile_" +
-		"interception_spell_shield_kill_continuation_rend_stack_transfer_" +
-		"other_ranks_or_full_fidelity"
-
 	kalistaPierceProviderRef = "provider_hero_kalista_q_pierce_primary_hit"
 	kalistaPierceStableID    = "hero_kalista_q_pierce_primary_hit"
 	kalistaPierceAbilityID   = "ability_hero_kalista_q_pierce_primary_hit"
@@ -114,14 +92,6 @@ const (
 
 	kalistaPierceTol = 1e-9
 )
-
-func kalistaPierceOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"immediate_impact_scaffold",
-	}
-}
 
 func kalistaPierceExpectedRawFromTotalAD(resolvedAD float64) float64 {
 	return kalistaPierceBaseDamage + kalistaPierceADRatio*resolvedAD
@@ -563,24 +533,6 @@ func findKalistaPierceAbilityStat(t *testing.T, done model.DoneResult) model.Abi
 	return model.AbilityStat{}
 }
 
-func kalistaPierceRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func kalistaPierceSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func kalistaPierceSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(kalistaPierceSHA256Hex(b))
-}
-
 func kalistaPierceAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -617,120 +569,8 @@ func kalistaPierceAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, w
 	}
 }
 
-// TestKalistaPiercePrimaryHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestKalistaPiercePrimaryHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Leveling         string
-			Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(kalistaPierceRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "kalista-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != kalistaPierceCandidateKey || doc.RequestTitle != kalistaPierceRequestTitle ||
-		doc.ResolvedTitle != kalistaPierceResolvedTitle || doc.WikiPageID != kalistaPierceWikiPageID ||
-		doc.RevisionID != kalistaPierceRevisionID || doc.RevisionTimestamp != kalistaPierceTimestamp ||
-		doc.ContentSHA256 != kalistaPierceContentSHA || doc.RawByteSize != kalistaPierceRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "穿刺" || doc.OwnerID != "hero_kalista" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|60 to 80}}\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "9\n" {
-		t.Fatalf("cooldown=%q want 9s (rank-5 / fixed)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|10 to 270}}") ||
-		!strings.Contains(doc.Fields.Leveling, "105% AD") ||
-		!strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description, "first enemy") {
-		t.Fatal("wiki prose must retain excluded first-enemy physical hit surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description2, "Rend") ||
-		!strings.Contains(doc.Fields.Description2, "kills") {
-		t.Fatal("wiki prose must retain excluded kill continuation / Rend transfer surfaces")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Effect at cast time end") {
-		t.Fatalf("notes missing Effect at cast time end (excluded): %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "Martial Poise") {
-		t.Fatalf("notes missing Martial Poise (excluded): %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(kalistaPierceRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "kalista-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "穿刺" || pages.OwnerID != "hero_kalista" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(kalistaPierceRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "kalista-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != kalistaPierceLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), kalistaPierceLocalRawBytes)
-	}
-	localSHA := kalistaPierceSHA256Hex(rawBytes)
-	if localSHA != kalistaPierceLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, kalistaPierceLocalRawSHA)
-	}
-	if localSHA == kalistaPierceContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if len(rawBytes) == kalistaPierceRawBytes {
-		t.Fatal("local raw byte length must differ from canonical 1625 (materialization caveat)")
-	}
-	if kalistaPiercePlanRev != "kalista-q-pierce-primary-hit-phase-a-v1" || kalistaPierceBoundary !=
-		"rank5_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; "+
-			"physical_270_plus_1_05_total_ad; "+
-			"no_cast_timing_martial_poise_dash_cancel_direction_range_width_"+
-			"line_geometry_multitarget_first_enemy_collision_projectile_"+
-			"interception_spell_shield_kill_continuation_rend_stack_transfer_"+
-			"other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestKalistaPiercePrimaryHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestKalistaPiercePrimaryHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadKalistaPierceFixture(t, kalistaPierceFixtureOpts{
 		resolvedAD: kalistaPierceADResolvedDefault, armor: kalistaPierceTargetArmor, mana: kalistaPierceFixtureManaCD,
 	})

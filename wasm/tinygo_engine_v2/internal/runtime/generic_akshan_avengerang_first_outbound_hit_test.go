@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"strings"
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -14,6 +11,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_akshan Q Avengerang / 去而复还 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: akshan-q-avengerang-first-outbound-hit-phase-a-v2).
 //
@@ -46,8 +44,7 @@ import (
 //	  2f64e5c0bd960c8767d2b85847b342948de266bd4e13a1e92743f376d7cac296
 //	Local raw materialization caveat (same length, different SHA): 2570 bytes /
 //	  SHA256 407e4671cc05e87edcd0038a9efe614ad98f65cd57ce339c2c9d69afe5b8c973.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction (同 size 不等于等价).
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_akshan_q_avengerang_first_outbound_hit
@@ -80,35 +77,12 @@ import (
 // immediate_impact_scaffold.
 
 const (
-	akshanAFOHCandidateKey    = "hero_skill|hero_akshan|Q|去而复还"
-	akshanAFOHTaskKey         = "wasm-generic-akshan-avengerang-first-outbound-hit"
-	akshanAFOHPlanRev         = "akshan-q-avengerang-first-outbound-hit-phase-a-v2"
-	akshanAFOHRequestTitle    = "Template:Data Akshan/Q"
-	akshanAFOHResolvedTitle   = "Template:Data Akshan/Avengerang"
-	akshanAFOHWikiPageID      = 1502462
-	akshanAFOHRevisionID      = 4007510
-	akshanAFOHTimestamp       = "2026-04-11T22:35:01Z"
-	akshanAFOHRawBytes        = 2570
-	akshanAFOHLocalRawBytes   = 2570
-	akshanAFOHNormalizedBytes = 2948
-	akshanAFOHPagesBytes      = 688
-	akshanAFOHContentSHA      = "1cbf7dda955849d05ad2d7e578ed9507f8f61fc7525c5ed006a25185915b5f5b"
-	akshanAFOHLocalRawSHA     = "407e4671cc05e87edcd0038a9efe614ad98f65cd57ce339c2c9d69afe5b8c973"
-	akshanAFOHNormalizedSHA   = "f6b0dd492d80c49a2259d366230f7d8f4c6d43a70688b42d0d0780e4866d9a1a"
-	akshanAFOHPagesSHA        = "11d2da87557737fed487fb106a9ffb7b4a6d7f1d32391ce3a5c142f9128509e0"
-	akshanAFOHBoundary        = "rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; " +
-		"physical_165_plus_0_70_bonus_ad; " +
-		"no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_" +
-		"sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity"
-
 	akshanAFOHProviderRef = "provider_hero_akshan_q_avengerang_first_outbound_hit"
 	akshanAFOHStableID    = "hero_akshan_q_avengerang_first_outbound_hit"
 	akshanAFOHAbilityID   = "ability_hero_akshan_q_avengerang_first_outbound_hit"
 	akshanAFOHAbilityKey  = "avengerang_first_outbound_hit"
 	akshanAFOHDamageOpRef = "op:akshan_avengerang_first_outbound_hit_damage"
 	akshanAFOHBonusADMod  = "fixture_akshan_avengerang_first_outbound_hit_bonus_ad"
-
-	akshanAFOHBasicAttackProviderAlias = "provider_hero_akshan_basic_attack"
 
 	akshanAFOHBaseDamage   = 165.0
 	akshanAFOHBonusADRatio = 0.70
@@ -130,15 +104,6 @@ const (
 
 	akshanAFOHTol = 1e-9
 )
-
-func akshanAFOHOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"bonus_ad_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func akshanAFOHExpectedRawFromAD(resolvedAD, baseAD float64) float64 {
 	return akshanAFOHBaseDamage + akshanAFOHBonusADRatio*(resolvedAD-baseAD)
@@ -663,24 +628,6 @@ func findAkshanAFOHAbilityStat(t *testing.T, done model.DoneResult) model.Abilit
 	return model.AbilityStat{}
 }
 
-func akshanAFOHRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func akshanAFOHSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func akshanAFOHSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(akshanAFOHSHA256Hex(b))
-}
-
 func akshanAFOHAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -717,158 +664,8 @@ func akshanAFOHAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, want
 	}
 }
 
-// TestAkshanAvengerangFirstOutboundHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestAkshanAvengerangFirstOutboundHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Cooldown, Cost, Costtype, Damagetype, Notes string
-			Description2, Description3, Leveling2, Leveling3, Description4     string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(akshanAFOHRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "akshan-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != akshanAFOHNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), akshanAFOHNormalizedBytes)
-	}
-	if got := akshanAFOHSHA256Hex(sidecarRaw); got != akshanAFOHNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, akshanAFOHNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != akshanAFOHCandidateKey || doc.RequestTitle != akshanAFOHRequestTitle ||
-		doc.ResolvedTitle != akshanAFOHResolvedTitle || doc.WikiPageID != akshanAFOHWikiPageID ||
-		doc.RevisionID != akshanAFOHRevisionID || doc.RevisionTimestamp != akshanAFOHTimestamp ||
-		doc.ContentSHA256 != akshanAFOHContentSHA || doc.RawByteSize != akshanAFOHRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "去而复还" || doc.OwnerID != "hero_akshan" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2", "leveling2", "description3",
-		"leveling3", "description4", "cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|60 to 80}}\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if !strings.Contains(doc.Fields.Cooldown, "{{ap|9 to 5}}") ||
-		!strings.Contains(doc.Fields.Cooldown, "Starts after the boomerang returns") {
-		t.Fatalf("cooldown=%q want {{ap|9 to 5}} + Starts after the boomerang returns (rank-5 = 5s; after-return excluded)",
-			doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|45 to 165}}") ||
-		!strings.Contains(doc.Fields.Leveling, "70% '''bonus''' AD") ||
-		!strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling=%q want rank5 physical 165 +70%% bonus AD", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description, "boomerang") {
-		t.Fatal("wiki prose must retain physical damage / boomerang wording")
-	}
-	// Explicit exclusion framing (present in wiki; not modeled by Phase-A scaffold).
-	if !strings.Contains(doc.Fields.Description2, "homes back") {
-		t.Fatal("wiki description2 must retain excluded return/homing surface")
-	}
-	if !strings.Contains(doc.Fields.Leveling2, "Total Physical Damage") {
-		t.Fatal("wiki leveling2 must retain excluded total-damage surface")
-	}
-	if !strings.Contains(doc.Fields.Description3, "non-champions") {
-		t.Fatal("wiki description3 must retain excluded non-champion damage surface")
-	}
-	if !strings.Contains(doc.Fields.Description4, "once per pass") {
-		t.Fatal("wiki description4 must retain excluded once-per-pass surface")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Spell shield") ||
-		!strings.Contains(doc.Fields.Notes, "Effect at cast time end") {
-		t.Fatalf("notes missing excluded spellshield/cast-time surfaces: %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(akshanAFOHRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "akshan-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != akshanAFOHPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), akshanAFOHPagesBytes)
-	}
-	if got := akshanAFOHSHA256Hex(pagesRaw); got != akshanAFOHPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, akshanAFOHPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "去而复还" || pages.OwnerID != "hero_akshan" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(akshanAFOHRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "akshan-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != akshanAFOHLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), akshanAFOHLocalRawBytes)
-	}
-	localSHA := akshanAFOHSHA256Hex(rawBytes)
-	if localSHA != akshanAFOHLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, akshanAFOHLocalRawSHA)
-	}
-	if localSHA == akshanAFOHContentSHA {
-		t.Fatal("local raw hash must differ from canonical (same-size materialization caveat; not equivalence/contradiction)")
-	}
-	if akshanAFOHLocalRawBytes != akshanAFOHRawBytes {
-		t.Fatal("Akshan Q local raw and canonical sizes are equal (same-size caveat); constants drifted")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|45 to 165}}",
-		"70% '''bonus''' AD",
-		"|cost         = {{ap|60 to 80}}",
-		"|cooldown     = {{tt|{{ap|9 to 5}}|Starts after the boomerang returns}}",
-		"|damagetype   = Physical",
-		"boomerang",
-		"homes back",
-		"non-champions",
-		"once per pass",
-		"Spell shield",
-		"Effect at cast time end",
-		"Starts after the boomerang returns",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if akshanAFOHPlanRev != "akshan-q-avengerang-first-outbound-hit-phase-a-v2" || akshanAFOHBoundary !=
-		"rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_and_cooldown_scaffold; "+
-			"physical_165_plus_0_70_bonus_ad; "+
-			"no_direction_range_extension_return_pass_homing_projectile_travel_cooldown_start_after_return_"+
-			"sight_reveal_movement_speed_nonchampion_damage_spellshield_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestAkshanAvengerangFirstOutboundHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestAkshanAvengerangFirstOutboundHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadAkshanAFOHFixture(t, akshanAFOHFixtureOpts{
 		baseAD: akshanAFOHADBaseDefault, resolvedAD: akshanAFOHADResolvedDefault,
 		armor: akshanAFOHTargetArmorDefault, mana: akshanAFOHFixtureManaCD,

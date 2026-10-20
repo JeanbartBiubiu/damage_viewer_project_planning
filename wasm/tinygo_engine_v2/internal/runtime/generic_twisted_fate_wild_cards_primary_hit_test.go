@@ -1,17 +1,15 @@
 package runtime
 
 import (
-	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
-	"strings"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_twistedfate Q Wild Cards / 万能牌 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: twisted-fate-q-wild-cards-primary-hit-phase-a-v2).
 //
@@ -29,7 +27,7 @@ import (
 //	数据参考/lol-wiki-current-champions/normalized/generic/twistedfate-q.json
 //	pages/raw siblings: pages/twistedfate-q.json, raw/twistedfate-q.wikitext
 //	Caveat: local raw may be 1235 bytes / SHAdd26f599… due newline materialization;
-//	assert sidecar canonical metadata only — do not require local raw len/hash == sidecar.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_twistedfate_q_wild_cards_primary_hit
@@ -58,17 +56,6 @@ import (
 //   Stacked Deck / on-hit coupling, live publish, or full fidelity.
 
 const (
-	tfWildCardsPrimaryHitCandidateKey  = "hero_skill|hero_twistedfate|Q|万能牌"
-	tfWildCardsPrimaryHitRequestTitle  = "Template:Data Twisted Fate/Q"
-	tfWildCardsPrimaryHitResolvedTitle = "Template:Data Twisted Fate/Wild Cards"
-	tfWildCardsPrimaryHitWikiPageID    = 1309741
-	tfWildCardsPrimaryHitRevisionID    = 3950864
-	tfWildCardsPrimaryHitTimestamp     = "2025-08-31T01:31:17Z"
-	tfWildCardsPrimaryHitRawBytes      = 1237
-	tfWildCardsPrimaryHitContentSHA    = "9cdd62cc18d41a4bbe1e42ac8202b40a776f7da51c67c6f2fea37f9ed1f0d597"
-	tfWildCardsPrimaryHitBoundary      = "rank5_primary_target_single_hit; immediate_impact_scaffold; " +
-		"magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget"
-
 	tfWildCardsPrimaryHitProviderRef = "provider_hero_twistedfate_q_wild_cards_primary_hit"
 	tfWildCardsPrimaryHitStableID    = "hero_twistedfate_q_wild_cards_primary_hit"
 	tfWildCardsPrimaryHitAbilityID   = "ability_hero_twistedfate_q_wild_cards_primary_hit"
@@ -489,187 +476,6 @@ func findTFWildCardsPrimaryHitAbilityStat(t *testing.T, done model.DoneResult) m
 	}
 	t.Fatalf("AbilityStats missing ref %q (got %+v)", wantRef, done.Summary.AbilityStats)
 	return model.AbilityStat{}
-}
-
-func tfWildCardsPrimaryHitWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "twistedfate-q.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func tfWildCardsPrimaryHitWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "twistedfate-q.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func tfWildCardsPrimaryHitWikiPagesPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "pages", "twistedfate-q.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki pages sibling missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type tfWildCardsPrimaryHitWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	Fields            struct {
-		Description  string `json:"description"`
-		Leveling     string `json:"leveling"`
-		Description2 string `json:"description2"`
-		Cooldown     string `json:"cooldown"`
-		Cost         string `json:"cost"`
-		Costtype     string `json:"costtype"`
-		Damagetype   string `json:"damagetype"`
-		Notes        string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-func tfWildCardsPrimaryHitLoadWikiSidecar(t *testing.T) tfWildCardsPrimaryHitWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(tfWildCardsPrimaryHitWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc tfWildCardsPrimaryHitWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-// TestTwistedFateWildCardsPrimaryHitWikiSidecarIdentityAndBoundary locks repository sidecar
-// identity plus the frozen Phase-A completed-boundary constant. Positively asserts
-// magic/formula/cost/CD/once-per-pass and excluded fan/three-card/cone/projectile/
-// cast-time wording while compile/runtime tests prove those excluded branches are
-// absent from the immediate scaffold.
-func TestTwistedFateWildCardsPrimaryHitWikiSidecarIdentityAndBoundary(t *testing.T) {
-	doc := tfWildCardsPrimaryHitLoadWikiSidecar(t)
-	if doc.CandidateKey != tfWildCardsPrimaryHitCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, tfWildCardsPrimaryHitCandidateKey)
-	}
-	if doc.RequestTitle != tfWildCardsPrimaryHitRequestTitle {
-		t.Fatalf("requestTitle=%q want %q", doc.RequestTitle, tfWildCardsPrimaryHitRequestTitle)
-	}
-	if doc.ResolvedTitle != tfWildCardsPrimaryHitResolvedTitle {
-		t.Fatalf("resolvedTitle=%q want %q", doc.ResolvedTitle, tfWildCardsPrimaryHitResolvedTitle)
-	}
-	if doc.WikiPageID != tfWildCardsPrimaryHitWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, tfWildCardsPrimaryHitWikiPageID)
-	}
-	if doc.RevisionID != tfWildCardsPrimaryHitRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, tfWildCardsPrimaryHitRevisionID)
-	}
-	if doc.RevisionTimestamp != tfWildCardsPrimaryHitTimestamp {
-		t.Fatalf("revisionTimestamp=%q want %q", doc.RevisionTimestamp, tfWildCardsPrimaryHitTimestamp)
-	}
-	if doc.ContentSHA256 != tfWildCardsPrimaryHitContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, tfWildCardsPrimaryHitContentSHA)
-	}
-	if doc.RawByteSize != tfWildCardsPrimaryHitRawBytes {
-		t.Fatalf("rawByteSize=%d want %d", doc.RawByteSize, tfWildCardsPrimaryHitRawBytes)
-	}
-	if doc.SkillKey != "Q" || doc.ZhDisplayName != "万能牌" || doc.OwnerID != "hero_twistedfate" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want Q/万能牌/hero_twistedfate",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	for _, key := range []string{"description", "leveling", "description2", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|60|70|80|90|100}}\n" {
-		t.Fatalf("fields.cost=%q want %q", doc.Fields.Cost, "{{ap|60|70|80|90|100}}\n")
-	}
-	if doc.Fields.Cooldown != "{{ap|6 to 5}}\n" {
-		t.Fatalf("fields.cooldown=%q want %q", doc.Fields.Cooldown, "{{ap|6 to 5}}\n")
-	}
-	if doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("fields.damagetype=%q want Magic", doc.Fields.Damagetype)
-	}
-	if doc.Fields.Costtype != "Mana\n" {
-		t.Fatalf("fields.costtype=%q want Mana", doc.Fields.Costtype)
-	}
-	if doc.Fields.Description == "" {
-		t.Fatal("description empty (fail closed; expect magic / fan / cone wording)")
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|magic damage}}") {
-		t.Fatalf("description missing magic damage wording: %q", doc.Fields.Description)
-	}
-	if !strings.Contains(doc.Fields.Description, "fan of three cards") {
-		t.Fatalf("description missing fan of three cards wording (source evidence; excluded from scaffold): %q",
-			doc.Fields.Description)
-	}
-	if !strings.Contains(doc.Fields.Description, "cone") {
-		t.Fatalf("description missing cone wording (source evidence; excluded from scaffold): %q",
-			doc.Fields.Description)
-	}
-	if doc.Fields.Leveling == "" {
-		t.Fatal("leveling empty (fail closed; expect Magic Damage rank formula)")
-	}
-	if !strings.Contains(doc.Fields.Leveling, "Magic Damage") {
-		t.Fatalf("leveling missing Magic Damage label: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|60 to 240}}") {
-		t.Fatalf("leveling missing rank formula {{ap|60 to 240}}: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "50% '''bonus''' AD") {
-		t.Fatalf("leveling missing 50%% bonus AD ratio: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "85% AP") {
-		t.Fatalf("leveling missing 85%% AP ratio: %q", doc.Fields.Leveling)
-	}
-	if doc.Fields.Description2 == "" {
-		t.Fatal("description2 empty (fail closed; expect once-per-pass wording)")
-	}
-	if !strings.Contains(doc.Fields.Description2, "once per pass") {
-		t.Fatalf("description2 missing once-per-pass wording (justifies single direct hit; not runtime pass fidelity): %q",
-			doc.Fields.Description2)
-	}
-	if doc.Fields.Notes == "" {
-		t.Fatal("notes empty (fail closed; expect Effect at cast time end)")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Effect at cast time end") {
-		t.Fatalf("notes missing Effect at cast time end (excluded from immediate scaffold): %q",
-			doc.Fields.Notes)
-	}
-
-	_ = tfWildCardsPrimaryHitWikiPagesPath(t)
-
-	raw, err := os.ReadFile(tfWildCardsPrimaryHitWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	if len(raw) == 0 {
-		t.Fatal("wiki raw empty (fail closed)")
-	}
-	// Do not assert local raw len/hash equals sidecar canonical metadata
-	// (local may be 1235 bytes / SHAdd26f599… due repository newline materialization).
-	if tfWildCardsPrimaryHitBoundary != "rank5_primary_target_single_hit; immediate_impact_scaffold; "+
-		"magic_240_plus_0_50_bonus_ad_plus_0_85_ap; no_cast_delay_fan_three_card_cone_projectile_geometry_collision_or_multitarget" {
-		t.Fatal("frozen boundary constant drifted")
-	}
 }
 
 // TestTwistedFateWildCardsPrimaryHitRank5DamageFormulaCrossCheck: independent numeric

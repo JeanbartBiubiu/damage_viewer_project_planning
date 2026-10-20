@@ -1,16 +1,15 @@
 package runtime
 
 import (
-	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_kogmaw E Void Ooze / 虚空淤泥 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: kogmaw-e-void-ooze-primary-hit-phase-a-v1).
 //
@@ -27,8 +26,7 @@ import (
 //	sidecar rawByteSize 1356 / SHA256 1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b
 //	数据参考/lol-wiki-current-champions/normalized/generic/kogmaw-e.json
 //	pages/raw siblings: pages/kogmaw-e.json, raw/kogmaw-e.wikitext
-//	Caveat: local raw may be 1357 bytes due newline materialization; assert sidecar
-//	canonical metadata only — do not require local raw len/hash == sidecar.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_kogmaw_e_void_ooze_primary_hit
@@ -54,17 +52,6 @@ import (
 //   on-hit / equipment / loadout coupling, live publish, or full fidelity.
 
 const (
-	kogmawVoidOozePrimaryHitCandidateKey  = "hero_skill|hero_kogmaw|E|虚空淤泥"
-	kogmawVoidOozePrimaryHitRequestTitle  = "Template:Data Kog'Maw/E"
-	kogmawVoidOozePrimaryHitResolvedTitle = "Template:Data Kog'Maw/Void Ooze"
-	kogmawVoidOozePrimaryHitWikiPageID    = 1307961
-	kogmawVoidOozePrimaryHitRevisionID    = 3965135
-	kogmawVoidOozePrimaryHitTimestamp     = "2025-11-11T17:05:55Z"
-	kogmawVoidOozePrimaryHitRawBytes      = 1356
-	kogmawVoidOozePrimaryHitContentSHA    = "1dd448ea1985237f002dec43e2bf93d860eb976f7c98e75883254cb3cf70794b"
-	kogmawVoidOozePrimaryHitBoundary      = "rank5_primary_target_single_hit; immediate_impact_scaffold; " +
-		"magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration"
-
 	kogmawVoidOozePrimaryHitProviderRef = "provider_hero_kogmaw_e_void_ooze_primary_hit"
 	kogmawVoidOozePrimaryHitStableID    = "hero_kogmaw_e_void_ooze_primary_hit"
 	kogmawVoidOozePrimaryHitAbilityID   = "ability_hero_kogmaw_e_void_ooze_primary_hit"
@@ -395,145 +382,6 @@ func findKogmawVoidOozePrimaryHitAbilityStat(t *testing.T, done model.DoneResult
 	}
 	t.Fatalf("AbilityStats missing ref %q (got %+v)", wantRef, done.Summary.AbilityStats)
 	return model.AbilityStat{}
-}
-
-func kogmawVoidOozePrimaryHitWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "kogmaw-e.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func kogmawVoidOozePrimaryHitWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "kogmaw-e.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func kogmawVoidOozePrimaryHitWikiPagesPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "pages", "kogmaw-e.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki pages sibling missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type kogmawVoidOozePrimaryHitWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	Fields            struct {
-		Leveling   string `json:"leveling"`
-		Cooldown   string `json:"cooldown"`
-		Cost       string `json:"cost"`
-		Costtype   string `json:"costtype"`
-		Damagetype string `json:"damagetype"`
-		Notes      string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-func kogmawVoidOozePrimaryHitLoadWikiSidecar(t *testing.T) kogmawVoidOozePrimaryHitWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(kogmawVoidOozePrimaryHitWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc kogmawVoidOozePrimaryHitWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-// TestKogmawVoidOozePrimaryHitWikiSidecarIdentityAndBoundary locks repository sidecar
-// identity plus the frozen Phase-A completed-boundary constant.
-func TestKogmawVoidOozePrimaryHitWikiSidecarIdentityAndBoundary(t *testing.T) {
-	doc := kogmawVoidOozePrimaryHitLoadWikiSidecar(t)
-	if doc.CandidateKey != kogmawVoidOozePrimaryHitCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, kogmawVoidOozePrimaryHitCandidateKey)
-	}
-	if doc.RequestTitle != kogmawVoidOozePrimaryHitRequestTitle {
-		t.Fatalf("requestTitle=%q want %q", doc.RequestTitle, kogmawVoidOozePrimaryHitRequestTitle)
-	}
-	if doc.ResolvedTitle != kogmawVoidOozePrimaryHitResolvedTitle {
-		t.Fatalf("resolvedTitle=%q want %q", doc.ResolvedTitle, kogmawVoidOozePrimaryHitResolvedTitle)
-	}
-	if doc.WikiPageID != kogmawVoidOozePrimaryHitWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, kogmawVoidOozePrimaryHitWikiPageID)
-	}
-	if doc.RevisionID != kogmawVoidOozePrimaryHitRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, kogmawVoidOozePrimaryHitRevisionID)
-	}
-	if doc.RevisionTimestamp != kogmawVoidOozePrimaryHitTimestamp {
-		t.Fatalf("revisionTimestamp=%q want %q", doc.RevisionTimestamp, kogmawVoidOozePrimaryHitTimestamp)
-	}
-	if doc.ContentSHA256 != kogmawVoidOozePrimaryHitContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, kogmawVoidOozePrimaryHitContentSHA)
-	}
-	if doc.RawByteSize != kogmawVoidOozePrimaryHitRawBytes {
-		t.Fatalf("rawByteSize=%d want %d", doc.RawByteSize, kogmawVoidOozePrimaryHitRawBytes)
-	}
-	if doc.SkillKey != "E" || doc.ZhDisplayName != "虚空淤泥" || doc.OwnerID != "hero_kogmaw" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want E/虚空淤泥/hero_kogmaw",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	for _, key := range []string{"leveling", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|40 to 100}}\n" {
-		t.Fatalf("fields.cost=%q want %q", doc.Fields.Cost, "{{ap|40 to 100}}\n")
-	}
-	if doc.Fields.Cooldown != "12\n" {
-		t.Fatalf("fields.cooldown=%q want %q", doc.Fields.Cooldown, "12\n")
-	}
-	if doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("fields.damagetype=%q want Magic", doc.Fields.Damagetype)
-	}
-	if doc.Fields.Costtype != "Mana\n" {
-		t.Fatalf("fields.costtype=%q want Mana", doc.Fields.Costtype)
-	}
-	if doc.Fields.Leveling == "" {
-		t.Fatal("leveling empty (fail closed)")
-	}
-	if doc.Fields.Notes == "" {
-		t.Fatal("notes empty (fail closed; expect Effect at cast time start)")
-	}
-
-	_ = kogmawVoidOozePrimaryHitWikiPagesPath(t)
-
-	raw, err := os.ReadFile(kogmawVoidOozePrimaryHitWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	if len(raw) == 0 {
-		t.Fatal("wiki raw empty (fail closed)")
-	}
-	// Do not assert local raw len/hash equals sidecar canonical metadata
-	// (local may be 1357 bytes due repository newline materialization).
-	if kogmawVoidOozePrimaryHitBoundary != "rank5_primary_target_single_hit; immediate_impact_scaffold; "+
-		"magic_230_plus_0_65_ap; no_projectile_geometry_multitarget_slow_field_or_duration" {
-		t.Fatal("frozen boundary constant drifted")
-	}
 }
 
 // TestKogmawVoidOozePrimaryHitRank5DamageFormulaCrossCheck: independent numeric

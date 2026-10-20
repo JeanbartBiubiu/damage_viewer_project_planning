@@ -1,8 +1,6 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
 	"os"
@@ -15,6 +13,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_azir Q Conquering Sands / 狂沙猛攻 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: azir-q-conquering-sands-one-soldier-selected-primary-hit-phase-a-v1).
 //
@@ -53,10 +52,7 @@ import (
 //	  9409b991ea37f69d63c10f7811ee6e33f941fd9ce6eff554fb08d8f6d126e4fb
 //	Local raw materialization caveat: 2510 bytes / SHA256
 //	  6885ead987cae40fa37992d170337007629e3f12ebfc494eb3a1f54b5fb110e4.
-//	Assert sidecar/pages canonical identity + local/canonical caveat; do not claim
-//	local-raw equivalence or source contradiction (同 size 不等于等价).
-//	Seed is non-self-contained/check-only (no live execution); this test bundle is
-//	self-contained test data, not a live materializer.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_azir_q_conquering_sands_one_soldier_primary_hit
@@ -92,26 +88,6 @@ import (
 //   one_existing_soldier_selected_primary_hit_scaffold
 
 const (
-	azirCSCandidateKey    = "hero_skill|hero_azir|Q|狂沙猛攻"
-	azirCSTaskKey         = "wasm-generic-azir-conquering-sands-one-soldier-selected-primary-hit"
-	azirCSPlanRev         = "azir-q-conquering-sands-one-soldier-selected-primary-hit-phase-a-v1"
-	azirCSRequestTitle    = "Template:Data Azir/Q"
-	azirCSResolvedTitle   = "Template:Data Azir/Conquering Sands"
-	azirCSWikiPageID      = 1306850
-	azirCSRevisionID      = 4024967
-	azirCSTimestamp       = "2026-06-04T07:26:59Z"
-	azirCSRawBytes        = 2512
-	azirCSLocalRawBytes   = 2510
-	azirCSNormalizedBytes = 3119
-	azirCSPagesBytes      = 684
-	azirCSContentSHA      = "168e2568c6795859e68831eb23b59b62d249aceb07cf3740403b1616516b51f2"
-	azirCSLocalRawSHA     = "6885ead987cae40fa37992d170337007629e3f12ebfc494eb3a1f54b5fb110e4"
-	azirCSNormalizedSHA   = "9e2cfc28ced422699bbb40722ba46d82167c79f34bbd696f2fc4080e52120fb7"
-	azirCSPagesSHA        = "a15a3c54079cd8a75584c9725bb792441103ff27cafa31fa136d076791fa71f4"
-	azirCSBoundary        = "rank5_assume_one_existing_sand_soldier_selected_primary_single_magic_hit; immediate_impact_scaffold; " +
-		"magic_140_plus_0_55_ap; mana110_listed_cooldown6000ms_scaffold; " +
-		"no_soldier_entity_spawn_count_formation_command_path_target_location_dash_collision_geometry_multitarget_slow_or_full_fidelity"
-
 	azirCSProviderRef = "provider_hero_azir_q_conquering_sands_one_soldier_primary_hit"
 	azirCSStableID    = "hero_azir_q_conquering_sands_one_soldier_primary_hit"
 	azirCSAbilityID   = "ability_hero_azir_q_conquering_sands_one_soldier_primary_hit"
@@ -129,11 +105,9 @@ const (
 	azirCSTargetMR         = 100.0
 	azirCSTargetHP         = 1000.0
 	azirCSFixtureADProbe   = 200.0
-	azirCSFixtureCritProbe = 0.5
-	azirCSFixtureCritDmg   = 2.3
 
-	azirCSExpectedRawAP0   = 140.0 // 140 + 0.55*0
-	azirCSExpectedMitAP0   = 140.0 // MR0
+	azirCSExpectedRawAP0 = 140.0 // 140 + 0.55*0
+	// MR0
 	azirCSExpectedRawAP100 = 195.0 // 140 + 0.55*100
 	azirCSExpectedMitAP100 = 97.5  // MR100
 	azirCSManaAfter2       = 110.0 // 330 - 110 - 110
@@ -141,15 +115,6 @@ const (
 
 	azirCSTol = 1e-9
 )
-
-func azirCSOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_magic_damage",
-		"ap_ratio",
-		"one_existing_soldier_selected_primary_hit_scaffold",
-	}
-}
 
 func azirCSExpectedRawFromAP(resolvedAP float64) float64 {
 	return azirCSBaseDamage + azirCSAPRatio*resolvedAP
@@ -625,20 +590,6 @@ func findAzirCSAbilityStat(t *testing.T, done model.DoneResult) model.AbilitySta
 	return model.AbilityStat{}
 }
 
-func azirCSWasmRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing wasm path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func azirCSSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
 func azirCSAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -675,155 +626,8 @@ func azirCSAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit 
 	}
 }
 
-// TestAzirConqueringSandsOneSoldierPrimaryHitWikiSourceAndConstructedFixtureShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestAzirConqueringSandsOneSoldierPrimaryHitWikiSourceAndConstructedFixtureShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Description3, Leveling string
-			Cooldown, Cost, Costtype, Damagetype, Notes       string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(azirCSWasmRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "azir-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != azirCSNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), azirCSNormalizedBytes)
-	}
-	if got := azirCSSHA256Hex(sidecarRaw); got != azirCSNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, azirCSNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != azirCSCandidateKey || doc.RequestTitle != azirCSRequestTitle ||
-		doc.ResolvedTitle != azirCSResolvedTitle || doc.WikiPageID != azirCSWikiPageID ||
-		doc.RevisionID != azirCSRevisionID || doc.RevisionTimestamp != azirCSTimestamp ||
-		doc.ContentSHA256 != azirCSContentSHA || doc.RawByteSize != azirCSRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "狂沙猛攻" || doc.OwnerID != "hero_azir" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "description2", "description3", "leveling",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|70 to 110}}\n" || doc.Fields.Costtype != "mana\n" ||
-		doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|14 to 6}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|14 to 6}} (rank-5 = 6s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|60 to 140}}") ||
-		!strings.Contains(doc.Fields.Leveling, "{{ap|35 to 55}}% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "Magic Damage") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|magic damage}}") {
-		t.Fatal("wiki prose must retain magic damage wording")
-	}
-	// Explicit exclusion framing (present in wiki; not modeled by Phase-A scaffold).
-	if !strings.Contains(doc.Fields.Description, "Sand Soldiers") ||
-		!strings.Contains(doc.Fields.Description, "dash") ||
-		!strings.Contains(doc.Fields.Description, "target location") ||
-		!strings.Contains(doc.Fields.Description, "slowing") {
-		t.Fatal("wiki prose must retain excluded soldier/dash/location/slow surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description2, "subsequent soldiers") {
-		t.Fatal("wiki prose must retain subsequent-soldiers exclusion surface")
-	}
-	if !strings.Contains(doc.Fields.Description3, "Sand Soldier") ||
-		!strings.Contains(doc.Fields.Description3, "required to cast") {
-		t.Fatal("wiki prose must retain soldier-required cast note (assumption only; not modeled gate)")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Wind Wall") ||
-		!strings.Contains(doc.Fields.Notes, "Rebuttal") ||
-		!strings.Contains(doc.Fields.Notes, "formation") {
-		t.Fatalf("notes missing Wind Wall/Rebuttal/formation (excluded): %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(azirCSWasmRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "azir-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != azirCSPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), azirCSPagesBytes)
-	}
-	if got := azirCSSHA256Hex(pagesRaw); got != azirCSPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, azirCSPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "狂沙猛攻" || pages.OwnerID != "hero_azir" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(azirCSWasmRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "azir-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != azirCSLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), azirCSLocalRawBytes)
-	}
-	localSHA := azirCSSHA256Hex(rawBytes)
-	if localSHA != azirCSLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, azirCSLocalRawSHA)
-	}
-	if localSHA == azirCSContentSHA {
-		t.Fatal("local raw hash must differ from canonical (local/canonical caveat; not equivalence/contradiction)")
-	}
-	if azirCSLocalRawBytes == azirCSRawBytes {
-		t.Fatal("local raw size must differ from canonical (2510 vs 2512 materialization caveat)")
-	}
-
-	if azirCSPlanRev != "azir-q-conquering-sands-one-soldier-selected-primary-hit-phase-a-v1" ||
-		azirCSBoundary !=
-			"rank5_assume_one_existing_sand_soldier_selected_primary_single_magic_hit; immediate_impact_scaffold; "+
-				"magic_140_plus_0_55_ap; mana110_listed_cooldown6000ms_scaffold; "+
-				"no_soldier_entity_spawn_count_formation_command_path_target_location_dash_collision_geometry_multitarget_slow_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-	if azirCSTaskKey != "wasm-generic-azir-conquering-sands-one-soldier-selected-primary-hit" {
-		t.Fatal("task key drifted")
-	}
-	tags := azirCSOrderedTags()
-	if len(tags) != 4 ||
-		tags[0] != "ability_cost_cooldown" ||
-		tags[1] != "active_magic_damage" ||
-		tags[2] != "ap_ratio" ||
-		tags[3] != "one_existing_soldier_selected_primary_hit_scaffold" {
-		t.Fatalf("ordered governed tags drifted: %+v", tags)
-	}
-	for _, tag := range tags {
-		if tag == "immediate_impact_scaffold" || tag == "meta_or_non_target_dps" {
-			t.Fatalf("must not put %q into governed tags", tag)
-		}
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestAzirConqueringSandsOneSoldierPrimaryHitConstructedFixtureShape 验证固定构造的公式与机制边界。
+func TestAzirConqueringSandsOneSoldierPrimaryHitConstructedFixtureShape(t *testing.T) {
 	compileReq, _ := loadAzirCSFixture(t, azirCSFixtureOpts{
 		resolvedAP: azirCSFixtureAPDefault, mr: azirCSTargetMR, mana: azirCSFixtureManaCD,
 	})
@@ -1313,12 +1117,8 @@ func TestAzirConqueringSandsOneSoldierPrimaryHitDeterminismAndLifecycle(t *testi
 	})
 }
 
-// TestAzirConqueringSandsOneSoldierPrimaryHitGovernanceExclusionsAndNonclaims:
-// prove hero-named `_test.go` status, one-soldier assumption is not a modeled gate,
-// production generic source scan, no hero switch, and full-Q/soldier/geometry/
-// slow/live fidelity is not claimed.
-func TestAzirConqueringSandsOneSoldierPrimaryHitGovernanceExclusionsAndNonclaims(t *testing.T) {
-	// 保留生产源码扫描；工作树独占限制属于历史执行现场。
+// TestAzirConqueringSandsOneSoldierPrimaryHitProductionBoundary 拒绝生产源码按样例身份硬编码。
+func TestAzirConqueringSandsOneSoldierPrimaryHitProductionBoundary(t *testing.T) {
 	err := filepath.Walk(filepath.Join(".."), func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -1359,66 +1159,5 @@ func TestAzirConqueringSandsOneSoldierPrimaryHitGovernanceExclusionsAndNonclaims
 	})
 	if err != nil {
 		t.Fatal(err)
-	}
-
-	self := "generic_azir_conquering_sands_one_soldier_primary_hit_test.go"
-	info, err := os.Stat(self)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !strings.HasSuffix(info.Name(), "_test.go") {
-		t.Fatal("evidence file must remain *_test.go")
-	}
-	raw, err := os.ReadFile(self)
-	if err != nil {
-		t.Fatal(err)
-	}
-	sum := sha256.Sum256(raw)
-	if hex.EncodeToString(sum[:]) == "" {
-		t.Fatal("empty sha")
-	}
-	body := string(raw)
-	if !strings.Contains(body, "FROZEN_PLAN_REV: azir-q-conquering-sands-one-soldier-selected-primary-hit-phase-a-v1") {
-		t.Fatal("evidence file missing frozen plan marker")
-	}
-	if !strings.Contains(body, azirCSTaskKey) {
-		t.Fatal("evidence file missing task key")
-	}
-	if !strings.Contains(body, "hero-named `_test.go` is regression/governance evidence") {
-		t.Fatal("evidence file must declare hero-named _test.go governance status")
-	}
-	if !strings.Contains(body, "excluded from production Wasm builds") {
-		t.Fatal("evidence file must declare exclusion from production build")
-	}
-	if !strings.Contains(body, "Production runtime remains generic") {
-		t.Fatal("evidence file must declare production runtime remains generic")
-	}
-	for _, claim := range []string{
-		"caller/scenario assumption",
-		"must not create/model/enforce a soldier entity/state/gate",
-		"one_existing_soldier_selected_primary_hit_scaffold",
-		"do not substitute immediate_impact_scaffold as a governed tag",
-		"meta_or_non_target_dps",
-		"legacy provenance",
-		"no explicit event op",
-		"self-contained test data, not a live materializer",
-		"no live execution",
-		"local/canonical caveat",
-	} {
-		if !strings.Contains(body, claim) {
-			t.Fatalf("evidence file missing exclusion/nonclaim framing %q", claim)
-		}
-	}
-	if !strings.Contains(body, "Explicit exclusions") {
-		t.Fatal("evidence file missing Explicit exclusions section")
-	}
-	if !strings.Contains(body, "One assume-one-existing-soldier selected-primary") {
-		t.Fatal("evidence must keep bounded quantum nonclaim")
-	}
-	if !strings.Contains(body, "full-Q fidelity") && !strings.Contains(body, "full-Q") {
-		t.Fatal("evidence must deny full-Q fidelity claim")
-	}
-	if strings.Count(body, "immediate_impact_scaffold") < 1 {
-		t.Fatal("boundary may retain immediate_impact_scaffold phrasing")
 	}
 }

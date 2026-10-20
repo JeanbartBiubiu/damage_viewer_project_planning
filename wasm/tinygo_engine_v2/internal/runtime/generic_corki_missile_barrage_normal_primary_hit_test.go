@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"strings"
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -14,6 +11,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_corki R Missile Barrage / 火箭轰击 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: corki-r-missile-barrage-normal-primary-hit-phase-a-v1).
 //
@@ -42,9 +40,7 @@ import (
 //	  raw/corki-r.wikitext
 //	Local raw materialization caveat: 3063 bytes / SHA256
 //	  3764aafcecd5ef76f619472e443869c2ef43fd5b062894f6e111172f9a5cf91a.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction. This Wasm slice does not depend on
-//	Backend seed file creation or hash.
+
 //
 // Rank-3 Phase-A contract:
 //   - Independent provider provider_hero_corki_r_missile_barrage_normal_primary_hit
@@ -74,29 +70,6 @@ import (
 // immediate_impact_scaffold.
 
 const (
-	corkiMBCandidateKey    = "hero_skill|hero_corki|R|火箭轰击"
-	corkiMBTaskKey         = "wasm-generic-corki-missile-barrage-normal-primary-hit"
-	corkiMBPlanRev         = "corki-r-missile-barrage-normal-primary-hit-phase-a-v1"
-	corkiMBRequestTitle    = "Template:Data Corki/R"
-	corkiMBResolvedTitle   = "Template:Data Corki/Missile Barrage"
-	corkiMBWikiPageID      = 1306946
-	corkiMBRevisionID      = 4042863
-	corkiMBTimestamp       = "2026-07-14T19:35:26Z"
-	corkiMBRawBytes        = 3065
-	corkiMBLocalRawBytes   = 3063
-	corkiMBNormalizedBytes = 3265
-	corkiMBPagesBytes      = 691
-	corkiMBContentSHA      = "1c2da7a1ea6bd4904c498eeb823e75dbf0f1e354cf5fe22f72dee2bb09ac4845"
-	corkiMBLocalRawSHA     = "3764aafcecd5ef76f619472e443869c2ef43fd5b062894f6e111172f9a5cf91a"
-	corkiMBNormalizedSHA   = "dcaa1352eba2fa1d6c2acfc1aba9320bccb200b5b9d00dba559373e0981adbe0"
-	corkiMBPagesSHA        = "694cda4c4d4ee4e9606ac1ca82a7085f89b7898884b23653bf718e86bfcd5bc7"
-	corkiMBBoundary        = "rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; " +
-		"physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; " +
-		"initial_ammo_two_max_four; cooldown2000ms; " +
-		"no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_" +
-		"double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_" +
-		"recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity"
-
 	corkiMBProviderRef = "provider_hero_corki_r_missile_barrage_normal_primary_hit"
 	corkiMBStableID    = "hero_corki_r_missile_barrage_normal_primary_hit"
 	corkiMBAbilityID   = "ability_hero_corki_r_missile_barrage_normal_primary_hit"
@@ -128,15 +101,6 @@ const (
 
 	corkiMBTol = 1e-9
 )
-
-func corkiMBOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"bonus_ad_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func corkiMBExpectedRawFromStats(resolvedAD, baseAD float64) float64 {
 	return corkiMBBaseDamage + corkiMBBonusADRatio*(resolvedAD-baseAD)
@@ -717,20 +681,6 @@ func findCorkiMBAbilityStat(t *testing.T, done model.DoneResult) model.AbilitySt
 	return model.AbilityStat{}
 }
 
-func corkiMBRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func corkiMBSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
 func corkiMBAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -767,174 +717,8 @@ func corkiMBAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit
 	}
 }
 
-// TestCorkiMissileBarrageNormalPrimaryHitWikiIdentityAndCompileShape locks wiki/
-// sidecar/pages/local-raw caveat, frozen boundary/ordered tags, and R provider/
-// two-resource / two-op compile shape (no Backend seed hash dependency).
-func TestCorkiMissileBarrageNormalPrimaryHitWikiIdentityAndCompileShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Leveling2, Description3, Description4, Leveling4 string
-			Cooldown, Cost, Costtype, Damagetype, Notes                                 string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(corkiMBRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "corki-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != corkiMBNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), corkiMBNormalizedBytes)
-	}
-	if got := corkiMBSHA256Hex(sidecarRaw); got != corkiMBNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, corkiMBNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != corkiMBCandidateKey || doc.RequestTitle != corkiMBRequestTitle ||
-		doc.ResolvedTitle != corkiMBResolvedTitle || doc.WikiPageID != corkiMBWikiPageID ||
-		doc.RevisionID != corkiMBRevisionID || doc.RevisionTimestamp != corkiMBTimestamp ||
-		doc.ContentSHA256 != corkiMBContentSHA || doc.RawByteSize != corkiMBRawBytes ||
-		doc.SkillKey != "R" || doc.ZhDisplayName != "火箭轰击" || doc.OwnerID != "hero_corki" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "description2", "leveling2", "description3", "description4", "leveling4",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "35\n" || doc.Fields.Costtype != "mana + 1 Ammo\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "2\n" {
-		t.Fatalf("cooldown=%q want 2 (rank CD = 2s → 2000ms)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling2, "{{ap|90 to 250}}") ||
-		!strings.Contains(doc.Fields.Leveling2, "85% '''bonus''' AD") ||
-		!strings.Contains(doc.Fields.Leveling2, "Physical Damage") {
-		t.Fatalf("leveling2=%q want rank3 physical 250 +85%% bonus AD", doc.Fields.Leveling2)
-	}
-	if !strings.Contains(doc.Fields.Description2, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description2, "first enemy hit") {
-		t.Fatal("wiki description2 must retain physical damage / first-enemy-hit wording")
-	}
-	if !strings.Contains(doc.Fields.Description3, "maximum of 4") ||
-		!strings.Contains(doc.Fields.Description3, "gains 2 charges") {
-		t.Fatal("wiki description3 must retain initial2/max4 stock wording")
-	}
-	if !strings.Contains(doc.Fields.Description4, "Big One") ||
-		!strings.Contains(doc.Fields.Description4, "Every third missile") {
-		t.Fatal("wiki description4 must retain excluded Big One / third-shot framing")
-	}
-	if !strings.Contains(doc.Fields.Description, "on-hit") ||
-		!strings.Contains(doc.Fields.Description, "recharge") {
-		t.Fatal("wiki passive description must retain excluded on-hit recharge wording")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Malignance") ||
-		!strings.Contains(doc.Fields.Notes, "Eclipse") {
-		t.Fatalf("notes missing excluded Malignance/Eclipse surface: %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(corkiMBRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "corki-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != corkiMBPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), corkiMBPagesBytes)
-	}
-	if got := corkiMBSHA256Hex(pagesRaw); got != corkiMBPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, corkiMBPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "R" || pages.ZhDisplayName != "火箭轰击" || pages.OwnerID != "hero_corki" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(corkiMBRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "corki-r.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != corkiMBLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), corkiMBLocalRawBytes)
-	}
-	localSHA := corkiMBSHA256Hex(rawBytes)
-	if localSHA != corkiMBLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, corkiMBLocalRawSHA)
-	}
-	if localSHA == corkiMBContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if len(rawBytes) == corkiMBRawBytes {
-		t.Fatal("local raw byte length must differ from canonical 3065 (materialization caveat)")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|90 to 250}}",
-		"85% '''bonus''' AD",
-		"|cost         = 35",
-		"|cooldown     = 2",
-		"|costtype     = mana + 1 Ammo",
-		"|damagetype   = Physical",
-		"{{as|physical damage}}",
-		"first enemy hit",
-		"maximum of 4",
-		"gains 2 charges",
-		"Big One",
-		"Every third missile",
-		"Malignance",
-		"Eclipse",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if corkiMBPlanRev != "corki-r-missile-barrage-normal-primary-hit-phase-a-v1" || corkiMBBoundary !=
-		"rank3_normal_missile_selected_primary_champion_first_enemy_hit; immediate_impact_scaffold; "+
-			"physical_250_plus_0_85_bonus_ad; mana35_plus_one_missile_barrage_ammo_atomic_gate_and_spend; "+
-			"initial_ammo_two_max_four; cooldown2000ms; "+
-			"no_direction_projectile_travel_collision_explosion_aoe_multitarget_big_one_third_shot_cycle_"+
-			"double_damage_range_radius_periodic_stock_recharge_respawn_refill_basic_attack_on_hit_"+
-			"recharge_reduction_crit_scaling_malignance_eclipse_interaction_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-	if corkiMBTaskKey != "wasm-generic-corki-missile-barrage-normal-primary-hit" {
-		t.Fatal("task key drifted")
-	}
-	tags := corkiMBOrderedTags()
-	wantTags := []string{
-		"ability_cost_cooldown", "active_physical_damage", "bonus_ad_ratio", "immediate_impact_scaffold",
-	}
-	if len(tags) != len(wantTags) {
-		t.Fatalf("ordered tags=%v want %v", tags, wantTags)
-	}
-	for i := range wantTags {
-		if tags[i] != wantTags[i] {
-			t.Fatalf("ordered tags[%d]=%q want %q", i, tags[i], wantTags[i])
-		}
-	}
-
+// TestCorkiMissileBarrageNormalPrimaryHitConstructedFixtureCompileShape 验证固定构造的公式与机制边界。
+func TestCorkiMissileBarrageNormalPrimaryHitConstructedFixtureCompileShape(t *testing.T) {
 	compileReq, _ := loadCorkiMBFixture(t, corkiMBFixtureOpts{
 		baseAD: corkiMBADBaseDefault, resolvedAD: corkiMBADResolvedDefault,
 		armor: corkiMBTargetArmor, mana: corkiMBFixtureManaCD,

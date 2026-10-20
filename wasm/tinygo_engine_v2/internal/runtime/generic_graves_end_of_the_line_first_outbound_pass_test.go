@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_graves Q End of the Line / 穷途末路 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: graves-q-end-of-the-line-first-outbound-pass-phase-a-v2).
 //
@@ -39,8 +37,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql
 //	Local raw materialization caveat: 2265 bytes / SHA256
 //	  cd2744fb1f28e54bd3b5e25b96cb1d21babc0583bfd8e854d55c15ed83df0377.
-//	Serialization caveat only; assert sidecar/pages canonical identity + caveat;
-//	do not claim local-raw equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_graves_q_end_of_the_line_first_outbound_pass
@@ -75,25 +72,6 @@ import (
 // immediate_impact_scaffold.
 
 const (
-	gravesEOLCandidateKey  = "hero_skill|hero_graves|Q|穷途末路"
-	gravesEOLTaskKey       = "wasm-generic-graves-end-of-the-line-first-outbound-pass"
-	gravesEOLPlanRev       = "graves-q-end-of-the-line-first-outbound-pass-phase-a-v2"
-	gravesEOLRequestTitle  = "Template:Data Graves/Q"
-	gravesEOLResolvedTitle = "Template:Data Graves/End of the Line"
-	gravesEOLWikiPageID    = 1307367
-	gravesEOLRevisionID    = 4007501
-	gravesEOLTimestamp     = "2026-04-11T22:23:57Z"
-	gravesEOLRawBytes      = 2266
-	gravesEOLLocalRawBytes = 2265
-	gravesEOLContentSHA    = "c18840004febd305484392c882680939efe9fc609d4f733f81824439741345c5"
-	gravesEOLLocalRawSHA   = "cd2744fb1f28e54bd3b5e25b96cb1d21babc0583bfd8e854d55c15ed83df0377"
-	gravesEOLBoundary      = "rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; " +
-		"physical_150_plus_0_65_bonus_ad; " +
-		"no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_" +
-		"multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_" +
-		"area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_" +
-		"terrain_interaction_other_ranks_or_full_fidelity"
-
 	gravesEOLProviderRef = "provider_hero_graves_q_end_of_the_line_first_outbound_pass"
 	gravesEOLStableID    = "hero_graves_q_end_of_the_line_first_outbound_pass"
 	gravesEOLAbilityID   = "ability_hero_graves_q_end_of_the_line_first_outbound_pass"
@@ -121,15 +99,6 @@ const (
 
 	gravesEOLTol = 1e-9
 )
-
-func gravesEOLOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"bonus_ad_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func gravesEOLExpectedRawFromAD(resolvedAD, baseAD float64) float64 {
 	return gravesEOLBaseDamage + gravesEOLBonusADRatio*(resolvedAD-baseAD)
@@ -671,24 +640,6 @@ func findGravesEOLAbilityStat(t *testing.T, done model.DoneResult) model.Ability
 	return model.AbilityStat{}
 }
 
-func gravesEOLRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func gravesEOLSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func gravesEOLSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(gravesEOLSHA256Hex(b))
-}
-
 func gravesEOLAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -725,151 +676,8 @@ func gravesEOLAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantM
 	}
 }
 
-// TestGravesEndOfTheLineFirstOutboundPassWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestGravesEndOfTheLineFirstOutboundPassWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Cooldown, Cost, Costtype, Damagetype, Notes string
-			Description2, Description3, Leveling2                              string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(gravesEOLRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "graves-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != gravesEOLCandidateKey || doc.RequestTitle != gravesEOLRequestTitle ||
-		doc.ResolvedTitle != gravesEOLResolvedTitle || doc.WikiPageID != gravesEOLWikiPageID ||
-		doc.RevisionID != gravesEOLRevisionID || doc.RevisionTimestamp != gravesEOLTimestamp ||
-		doc.ContentSHA256 != gravesEOLContentSHA || doc.RawByteSize != gravesEOLRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "穷途末路" || doc.OwnerID != "hero_graves" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2", "leveling2", "description3",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "80\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|13 to 6}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|13 to 6}} (rank-5 = 6s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|50 to 150}}") ||
-		!strings.Contains(doc.Fields.Leveling, "65% '''bonus''' AD") ||
-		!strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling=%q want rank5 physical 150 +65%% bonus AD", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description, "powder trail") {
-		t.Fatal("wiki prose must retain physical damage / powder trail wording")
-	}
-	// Explicit exclusion framing (present in wiki; not modeled by Phase-A scaffold).
-	if !strings.Contains(doc.Fields.Description2, "2 seconds") ||
-		!strings.Contains(doc.Fields.Description2, "detonates") ||
-		!strings.Contains(doc.Fields.Description2, "perpendicular") ||
-		!strings.Contains(doc.Fields.Description2, "reverse wave") {
-		t.Fatal("wiki description2 must retain excluded delayed detonation / reverse-wave surfaces")
-	}
-	if !strings.Contains(doc.Fields.Leveling2, "Total Physical Damage") {
-		t.Fatal("wiki leveling2 must retain excluded total-damage surface")
-	}
-	if !strings.Contains(doc.Fields.Description3, "once per pass") {
-		t.Fatal("wiki description3 must retain excluded once-per-pass surface")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Spell shield") ||
-		!strings.Contains(doc.Fields.Notes, "Wind Wall") ||
-		!strings.Contains(doc.Fields.Notes, "Unbreakable") ||
-		!strings.Contains(doc.Fields.Notes, "Effect at cast time end") {
-		t.Fatalf("notes missing excluded spellshield/Wind Wall/Braum/cast-time surfaces: %q",
-			doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(gravesEOLRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "graves-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "穷途末路" || pages.OwnerID != "hero_graves" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(gravesEOLRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "graves-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != gravesEOLLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), gravesEOLLocalRawBytes)
-	}
-	if gravesEOLLocalRawBytes == gravesEOLRawBytes {
-		t.Fatal("local raw and canonical sizes must differ (serialization caveat; not equivalence)")
-	}
-	localSHA := gravesEOLSHA256Hex(rawBytes)
-	if localSHA != gravesEOLLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, gravesEOLLocalRawSHA)
-	}
-	if localSHA == gravesEOLContentSHA {
-		t.Fatal("local raw hash must differ from canonical (serialization caveat; not equivalence/contradiction)")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|50 to 150}}",
-		"65% '''bonus''' AD",
-		"|cost         = 80",
-		"|cooldown     = {{ap|13 to 6}}",
-		"|damagetype   = Physical",
-		"powder trail",
-		"detonates",
-		"perpendicular",
-		"reverse wave",
-		"once per pass",
-		"Spell shield",
-		"Wind Wall",
-		"Unbreakable",
-		"Effect at cast time end",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if gravesEOLPlanRev != "graves-q-end-of-the-line-first-outbound-pass-phase-a-v2" || gravesEOLBoundary !=
-		"rank5_selected_primary_champion_first_outbound_pass_single_physical_hit; immediate_impact_scaffold; "+
-			"physical_150_plus_0_65_bonus_ad; "+
-			"no_cast_time_direction_range_width_line_geometry_projectile_travel_pass_through_"+
-			"multitarget_powder_trail_delayed_2s_or_terrain_0_2s_detonation_perpendicular_"+
-			"area_reverse_wave_second_pass_total_damage_once_per_pass_spellshield_windwall_"+
-			"terrain_interaction_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestGravesEndOfTheLineFirstOutboundPassConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestGravesEndOfTheLineFirstOutboundPassConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadGravesEOLFixture(t, gravesEOLFixtureOpts{
 		baseAD: gravesEOLADBaseDefault, resolvedAD: gravesEOLADResolvedDefault,
 		armor: gravesEOLTargetArmorDefault, mana: gravesEOLFixtureManaCD,

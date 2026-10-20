@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_samira Q Flair / 交火 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: samira-q-flair-max-distance-primary-hit-phase-a-v1).
 //
@@ -44,8 +42,7 @@ import (
 //	  lol_generic_samira_flair_max_distance_primary_hit_seed.sql
 //	Local raw materialization caveat: 3596 bytes / SHA256
 //	  fe7ba68ec41b06ea2592a9f0b751d5970b0d42914886c926b3d90509efca5f8d.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction (同 size 不等于等价).
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_samira_q_flair_max_distance_primary_hit
@@ -77,27 +74,6 @@ import (
 // runtime remains generic (no if hero_samira production behavior).
 
 const (
-	samiraFlairCandidateKey    = "hero_skill|hero_samira|Q|交火"
-	samiraFlairTaskKey         = "wasm-generic-samira-flair-max-distance-primary-hit"
-	samiraFlairPlanRev         = "samira-q-flair-max-distance-primary-hit-phase-a-v1"
-	samiraFlairRequestTitle    = "Template:Data Samira/Q"
-	samiraFlairResolvedTitle   = "Template:Data Samira/Flair"
-	samiraFlairWikiPageID      = 1459315
-	samiraFlairRevisionID      = 4008027
-	samiraFlairTimestamp       = "2026-04-13T03:58:01Z"
-	samiraFlairRawBytes        = 3596
-	samiraFlairLocalRawBytes   = 3596
-	samiraFlairNormalizedBytes = 3596
-	samiraFlairPagesBytes      = 666
-	samiraFlairContentSHA      = "7f65786ccae8186903166195be9151294adef3539fe97f067de4273e162cd203"
-	samiraFlairLocalRawSHA     = "fe7ba68ec41b06ea2592a9f0b751d5970b0d42914886c926b3d90509efca5f8d"
-	samiraFlairNormalizedSHA   = "9077cd57cd3f2713d4725a2b3264b987163feb57d97c892669bc35bbde8ecc0d"
-	samiraFlairPagesSHA        = "c572e9baffa2c4ec196fe5a410c3ca89ddfc717e63be43be6428626ef7e93976"
-	samiraFlairBoundary        = "rank5_max_distance_ranged_shot_selected_primary_physical_hit; immediate_impact_scaffold; " +
-		"physical_20_plus_1_10_total_ad; mana30_cooldown2000ms; exactly_one_immediate_damage_quantum; " +
-		"no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_" +
-		"expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity"
-
 	samiraFlairProviderRef = "provider_hero_samira_q_flair_max_distance_primary_hit"
 	samiraFlairStableID    = "hero_samira_q_flair_max_distance_primary_hit"
 	samiraFlairAbilityID   = "ability_hero_samira_q_flair_max_distance_primary_hit"
@@ -127,14 +103,6 @@ const (
 
 	samiraFlairTol = 1e-9
 )
-
-func samiraFlairOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"immediate_impact_scaffold",
-	}
-}
 
 func samiraFlairExpectedRawFromTotalAD(resolvedAD float64) float64 {
 	return samiraFlairBaseDamage + samiraFlairADRatio*resolvedAD
@@ -542,20 +510,6 @@ func findSamiraFlairAbilityStat(t *testing.T, done model.DoneResult) model.Abili
 	return model.AbilityStat{}
 }
 
-func samiraFlairWasmRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing wasm path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func samiraFlairSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
 func samiraFlairAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -589,128 +543,8 @@ func samiraFlairAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wan
 	}
 }
 
-// TestSamiraFlairWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestSamiraFlairWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Description2, Description3, Description4 string
-			Cooldown, Cost, Costtype, Damagetype, Notes                     string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(samiraFlairWasmRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "samira-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != samiraFlairNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), samiraFlairNormalizedBytes)
-	}
-	if got := samiraFlairSHA256Hex(sidecarRaw); got != samiraFlairNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, samiraFlairNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != samiraFlairCandidateKey || doc.RequestTitle != samiraFlairRequestTitle ||
-		doc.ResolvedTitle != samiraFlairResolvedTitle || doc.WikiPageID != samiraFlairWikiPageID ||
-		doc.RevisionID != samiraFlairRevisionID || doc.RevisionTimestamp != samiraFlairTimestamp ||
-		doc.ContentSHA256 != samiraFlairContentSHA || doc.RawByteSize != samiraFlairRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "交火" || doc.OwnerID != "hero_samira" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2", "description3", "description4",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "30\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|6 to 2}}\n" {
-		t.Fatalf("cooldown=%q want rank table ending in 2s", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|0 to 20}}") ||
-		!strings.Contains(doc.Fields.Leveling, "110") ||
-		!strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description, "fires a shot") {
-		t.Fatal("wiki prose must retain ranged-shot selected-primary surface")
-	}
-	if !strings.Contains(doc.Fields.Description2, "slash") ||
-		!strings.Contains(doc.Fields.Description3, "Wild Rush") ||
-		!strings.Contains(doc.Fields.Description4, "critically strike") ||
-		!strings.Contains(doc.Fields.Description4, "life steal") {
-		t.Fatal("wiki prose must retain excluded melee/Wild Rush/crit/lifesteal surfaces")
-	}
-
-	pagesRaw, err := os.ReadFile(samiraFlairWasmRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "samira-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != samiraFlairPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), samiraFlairPagesBytes)
-	}
-	if got := samiraFlairSHA256Hex(pagesRaw); got != samiraFlairPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, samiraFlairPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "交火" || pages.OwnerID != "hero_samira" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(samiraFlairWasmRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "samira-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != samiraFlairLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), samiraFlairLocalRawBytes)
-	}
-	localSHA := samiraFlairSHA256Hex(rawBytes)
-	if localSHA != samiraFlairLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, samiraFlairLocalRawSHA)
-	}
-	if localSHA == samiraFlairContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if len(rawBytes) == samiraFlairRawBytes && localSHA != samiraFlairContentSHA {
-		// Same size is not equivalence — materialization/serialization caveat only.
-	}
-
-	if samiraFlairPlanRev != "samira-q-flair-max-distance-primary-hit-phase-a-v1" ||
-		samiraFlairBoundary !=
-			"rank5_max_distance_ranged_shot_selected_primary_physical_hit; immediate_impact_scaffold; "+
-				"physical_20_plus_1_10_total_ad; mana30_cooldown2000ms; exactly_one_immediate_damage_quantum; "+
-				"no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_"+
-				"expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestSamiraFlairConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestSamiraFlairConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadSamiraFlairFixture(t, samiraFlairFixtureOpts{
 		baseAD: samiraFlairADBaseDefault, resolvedAD: samiraFlairADResolvedDefault,
 		armor: samiraFlairTargetArmor, mana: samiraFlairFixtureManaCD,

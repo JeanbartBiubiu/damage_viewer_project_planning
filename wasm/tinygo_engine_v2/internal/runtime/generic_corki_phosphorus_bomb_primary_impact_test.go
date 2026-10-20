@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_corki Q Phosphorus Bomb / 磷光炸弹 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: corki-q-phosphorus-bomb-primary-impact-phase-a-v1).
 //
@@ -43,8 +41,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql
 //	Local raw materialization caveat: 1529 bytes / SHA256
 //	  c39556a0d90226462e8a939ebe58888ec91325a9ca4d10be23e43dd77d948ba6.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_corki_q_phosphorus_bomb_primary_impact
@@ -78,29 +75,6 @@ import (
 // meta_or_non_target_dps tag).
 
 const (
-	corkiPBCandidateKey    = "hero_skill|hero_corki|Q|磷光炸弹"
-	corkiPBTaskKey         = "wasm-generic-corki-phosphorus-bomb-primary-impact"
-	corkiPBPlanRev         = "corki-q-phosphorus-bomb-primary-impact-phase-a-v1"
-	corkiPBRequestTitle    = "Template:Data Corki/Q"
-	corkiPBResolvedTitle   = "Template:Data Corki/Phosphorus Bomb"
-	corkiPBWikiPageID      = 1306953
-	corkiPBRevisionID      = 4007588
-	corkiPBTimestamp       = "2026-04-12T06:50:59Z"
-	corkiPBRawBytes        = 1531
-	corkiPBLocalRawBytes   = 1529
-	corkiPBNormalizedBytes = 2148
-	corkiPBPagesBytes      = 691
-	corkiPBContentSHA      = "e71a474ef6b4df1df4808b397c8bd0f42ce284234f3eb7603fab09cabd760365"
-	corkiPBLocalRawSHA     = "c39556a0d90226462e8a939ebe58888ec91325a9ca4d10be23e43dd77d948ba6"
-	corkiPBNormalizedSHA   = "3c4584b2e8442e7ff2ae1d2d4c4d8dff4613efa98bf7ba4cd3ab44ef05c8572d"
-	corkiPBPagesSHA        = "bff7e3533e2bba561c03e91da5d7c07ffc095e07a0669b321cc7fd480d18f42a"
-	corkiPBBoundary        = "rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; " +
-		"magic_240_plus_1_25_bonus_ad_plus_1_00_ap; " +
-		"no_cast_time_location_targeting_range_radius_geometry_projectile_travel_" +
-		"minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_" +
-		"impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_" +
-		"other_ranks_or_full_fidelity"
-
 	corkiPBProviderRef = "provider_hero_corki_q_phosphorus_bomb_primary_impact"
 	corkiPBStableID    = "hero_corki_q_phosphorus_bomb_primary_impact"
 	corkiPBAbilityID   = "ability_hero_corki_q_phosphorus_bomb_primary_impact"
@@ -130,16 +104,6 @@ const (
 
 	corkiPBTol = 1e-9
 )
-
-func corkiPBOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_magic_damage",
-		"bonus_ad_ratio",
-		"ap_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func corkiPBExpectedRawFromStats(resolvedAD, baseAD, resolvedAP float64) float64 {
 	return corkiPBBaseDamage +
@@ -681,24 +645,6 @@ func findCorkiPBAbilityStat(t *testing.T, done model.DoneResult) model.AbilitySt
 	return model.AbilityStat{}
 }
 
-func corkiPBRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func corkiPBSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func corkiPBSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(corkiPBSHA256Hex(b))
-}
-
 func corkiPBAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -735,150 +681,8 @@ func corkiPBAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit
 	}
 }
 
-// TestCorkiPhosphorusBombPrimaryImpactWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestCorkiPhosphorusBombPrimaryImpactWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Description2, Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(corkiPBRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "corki-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != corkiPBNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), corkiPBNormalizedBytes)
-	}
-	if got := corkiPBSHA256Hex(sidecarRaw); got != corkiPBNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, corkiPBNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != corkiPBCandidateKey || doc.RequestTitle != corkiPBRequestTitle ||
-		doc.ResolvedTitle != corkiPBResolvedTitle || doc.WikiPageID != corkiPBWikiPageID ||
-		doc.RevisionID != corkiPBRevisionID || doc.RevisionTimestamp != corkiPBTimestamp ||
-		doc.ContentSHA256 != corkiPBContentSHA || doc.RawByteSize != corkiPBRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "磷光炸弹" || doc.OwnerID != "hero_corki" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|60 to 80}}\n" || doc.Fields.Costtype != "mana\n" ||
-		doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|9 to 7}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|9 to 7}} (rank-5 = 7s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|60 to 240}}") ||
-		!strings.Contains(doc.Fields.Leveling, "125% '''bonus''' AD") ||
-		!strings.Contains(doc.Fields.Leveling, "100% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "Magic Damage") {
-		t.Fatalf("leveling=%q want rank5 magic 240 +125%% bonus AD +100%% AP", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|magic damage}}") ||
-		!strings.Contains(doc.Fields.Description, "explodes") ||
-		!strings.Contains(doc.Fields.Description, "{{tip|sight}}") {
-		t.Fatal("wiki prose must retain magic damage / explosion / travel-sight wording")
-	}
-	if !strings.Contains(doc.Fields.Description2, "6 seconds") ||
-		!strings.Contains(doc.Fields.Description2, "reveals") ||
-		!strings.Contains(doc.Fields.Description2, "{{tip|sight}}") {
-		t.Fatal("wiki description2 must retain excluded six-second sight/reveal surfaces")
-	}
-	if !strings.Contains(doc.Fields.Notes, "minimum travel time") {
-		t.Fatalf("notes missing excluded minimum travel time surface: %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(corkiPBRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "corki-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != corkiPBPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), corkiPBPagesBytes)
-	}
-	if got := corkiPBSHA256Hex(pagesRaw); got != corkiPBPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, corkiPBPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "磷光炸弹" || pages.OwnerID != "hero_corki" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(corkiPBRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "corki-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != corkiPBLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), corkiPBLocalRawBytes)
-	}
-	localSHA := corkiPBSHA256Hex(rawBytes)
-	if localSHA != corkiPBLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, corkiPBLocalRawSHA)
-	}
-	if localSHA == corkiPBContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if len(rawBytes) == corkiPBRawBytes {
-		t.Fatal("local raw byte length must differ from canonical 1531 (materialization caveat)")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|60 to 240}}",
-		"125% '''bonus''' AD",
-		"100% AP",
-		"|cost         = {{ap|60 to 80}}",
-		"|cooldown     = {{ap|9 to 7}}",
-		"|damagetype   = Magic",
-		"{{as|magic damage}}",
-		"explodes",
-		"{{tip|sight}}",
-		"reveals",
-		"6 seconds",
-		"minimum travel time",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if corkiPBPlanRev != "corki-q-phosphorus-bomb-primary-impact-phase-a-v1" || corkiPBBoundary !=
-		"rank5_selected_primary_champion_single_magic_impact_hit; immediate_impact_scaffold; "+
-			"magic_240_plus_1_25_bonus_ad_plus_1_00_ap; "+
-			"no_cast_time_location_targeting_range_radius_geometry_projectile_travel_"+
-			"minimum_travel_time_explosion_aoe_multitarget_surrounding_or_travel_sight_"+
-			"impact_area_sight_enemy_champion_reveal_six_second_duration_spellshield_"+
-			"other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestCorkiPhosphorusBombPrimaryImpactConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestCorkiPhosphorusBombPrimaryImpactConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadCorkiPBFixture(t, corkiPBFixtureOpts{
 		baseAD: corkiPBADBaseDefault, resolvedAD: corkiPBADResolvedCD,
 		resolvedAP: corkiPBFixtureAPDefault, mr: corkiPBTargetMR, mana: corkiPBFixtureManaCD,

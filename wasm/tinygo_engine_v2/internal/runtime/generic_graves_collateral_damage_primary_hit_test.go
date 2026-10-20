@@ -1,12 +1,8 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
-	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"strings"
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -14,6 +10,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_graves R Collateral Damage / 终极爆弹 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: graves-r-collateral-damage-primary-hit-phase-a-v2).
 //
@@ -59,18 +56,6 @@ import (
 //   live publish, or full fidelity.
 
 const (
-	gravesCollateralDamagePrimaryHitCandidateKey  = "hero_skill|hero_graves|R|终极爆弹"
-	gravesCollateralDamagePrimaryHitRequestTitle  = "Template:Data Graves/R"
-	gravesCollateralDamagePrimaryHitResolvedTitle = "Template:Data Graves/Collateral Damage"
-	gravesCollateralDamagePrimaryHitWikiPageID    = 1307373
-	gravesCollateralDamagePrimaryHitRevisionID    = 4007499
-	gravesCollateralDamagePrimaryHitTimestamp     = "2026-04-11T22:21:36Z"
-	gravesCollateralDamagePrimaryHitRawBytes      = 2722
-	gravesCollateralDamagePrimaryHitLocalRawBytes = 2723
-	gravesCollateralDamagePrimaryHitContentSHA    = "834843a7722fc9463e21e8d636b8adc644c220928b90f7bb4afedbaa08f85dd1"
-	gravesCollateralDamagePrimaryHitBoundary      = "rank3_primary_target_single_hit; immediate_impact_scaffold; " +
-		"physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage"
-
 	gravesCollateralDamagePrimaryHitProviderRef = "provider_hero_graves_r_collateral_damage_primary_hit"
 	gravesCollateralDamagePrimaryHitStableID    = "hero_graves_r_collateral_damage_primary_hit"
 	gravesCollateralDamagePrimaryHitAbilityID   = "ability_hero_graves_r_collateral_damage_primary_hit"
@@ -448,226 +433,6 @@ func findGravesCollateralDamagePrimaryHitAbilityStat(t *testing.T, done model.Do
 	}
 	t.Fatalf("AbilityStats missing ref %q (got %+v)", wantRef, done.Summary.AbilityStats)
 	return model.AbilityStat{}
-}
-
-func gravesCollateralDamagePrimaryHitWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "graves-r.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func gravesCollateralDamagePrimaryHitWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "graves-r.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func gravesCollateralDamagePrimaryHitWikiPagesPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "pages", "graves-r.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki pages sibling missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type gravesCollateralDamagePrimaryHitWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	Fields            struct {
-		Description  string `json:"description"`
-		Leveling     string `json:"leveling"`
-		Description2 string `json:"description2"`
-		Leveling2    string `json:"leveling2"`
-		Cooldown     string `json:"cooldown"`
-		Cost         string `json:"cost"`
-		Costtype     string `json:"costtype"`
-		Damagetype   string `json:"damagetype"`
-		Notes        string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-func gravesCollateralDamagePrimaryHitLoadWikiSidecar(t *testing.T) gravesCollateralDamagePrimaryHitWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(gravesCollateralDamagePrimaryHitWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc gravesCollateralDamagePrimaryHitWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-func gravesCollateralDamagePrimaryHitSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-// TestGravesCollateralDamagePrimaryHitWikiSidecarIdentityAndBoundary locks repository sidecar
-// identity plus the frozen Phase-A completed-boundary constant. Positively asserts
-// same-revision physical shell formula/cost/CD and excluded recoil/projectile/
-// explosion-cone/reduced-damage facts in governed strings; compile/runtime prove
-// those branches are absent from the immediate scaffold (not modeled).
-func TestGravesCollateralDamagePrimaryHitWikiSidecarIdentityAndBoundary(t *testing.T) {
-	doc := gravesCollateralDamagePrimaryHitLoadWikiSidecar(t)
-	if doc.CandidateKey != gravesCollateralDamagePrimaryHitCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, gravesCollateralDamagePrimaryHitCandidateKey)
-	}
-	if doc.RequestTitle != gravesCollateralDamagePrimaryHitRequestTitle {
-		t.Fatalf("requestTitle=%q want %q", doc.RequestTitle, gravesCollateralDamagePrimaryHitRequestTitle)
-	}
-	if doc.ResolvedTitle != gravesCollateralDamagePrimaryHitResolvedTitle {
-		t.Fatalf("resolvedTitle=%q want %q", doc.ResolvedTitle, gravesCollateralDamagePrimaryHitResolvedTitle)
-	}
-	if doc.WikiPageID != gravesCollateralDamagePrimaryHitWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, gravesCollateralDamagePrimaryHitWikiPageID)
-	}
-	if doc.RevisionID != gravesCollateralDamagePrimaryHitRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, gravesCollateralDamagePrimaryHitRevisionID)
-	}
-	if doc.RevisionTimestamp != gravesCollateralDamagePrimaryHitTimestamp {
-		t.Fatalf("revisionTimestamp=%q want %q", doc.RevisionTimestamp, gravesCollateralDamagePrimaryHitTimestamp)
-	}
-	if doc.ContentSHA256 != gravesCollateralDamagePrimaryHitContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, gravesCollateralDamagePrimaryHitContentSHA)
-	}
-	if doc.RawByteSize != gravesCollateralDamagePrimaryHitRawBytes {
-		t.Fatalf("rawByteSize=%d want %d", doc.RawByteSize, gravesCollateralDamagePrimaryHitRawBytes)
-	}
-	if doc.SkillKey != "R" || doc.ZhDisplayName != "终极爆弹" || doc.OwnerID != "hero_graves" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want R/终极爆弹/hero_graves",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2", "leveling2",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Cost != "100\n" {
-		t.Fatalf("fields.cost=%q want %q", doc.Fields.Cost, "100\n")
-	}
-	if doc.Fields.Cooldown != "{{ap|100 to 60}}\n" {
-		t.Fatalf("fields.cooldown=%q want %q", doc.Fields.Cooldown, "{{ap|100 to 60}}\n")
-	}
-	if doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("fields.damagetype=%q want Physical", doc.Fields.Damagetype)
-	}
-	if doc.Fields.Costtype != "Mana\n" {
-		t.Fatalf("fields.costtype=%q want Mana", doc.Fields.Costtype)
-	}
-	if doc.Fields.Description == "" {
-		t.Fatal("description empty (fail closed; expect physical / shell / recoil wording)")
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") {
-		t.Fatalf("description missing physical damage wording: %q", doc.Fields.Description)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{tip|dash|recoil}}") {
-		t.Fatalf("description missing recoil wording (source evidence; excluded from scaffold): %q",
-			doc.Fields.Description)
-	}
-	if doc.Fields.Leveling == "" {
-		t.Fatal("leveling empty (fail closed; expect Physical Damage rank formula)")
-	}
-	if !strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling missing Physical Damage label: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|275 to 575}}") {
-		t.Fatalf("leveling missing rank formula {{ap|275 to 575}}: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "150% '''bonus''' AD") {
-		t.Fatalf("leveling missing 150%% bonus AD ratio: %q", doc.Fields.Leveling)
-	}
-	// description2/leveling2 establish reduced cone damage to additional enemies
-	// as source evidence for exclusion only — not runtime behavior.
-	if doc.Fields.Description2 == "" {
-		t.Fatal("description2 empty (fail closed; expect explosion cone / additional enemies)")
-	}
-	if !strings.Contains(doc.Fields.Description2, "explodes in a cone") {
-		t.Fatalf("description2 missing explosion cone wording (excluded from scaffold): %q",
-			doc.Fields.Description2)
-	}
-	if !strings.Contains(doc.Fields.Description2, "reduced damage") {
-		t.Fatalf("description2 missing reduced damage wording (excluded from scaffold): %q",
-			doc.Fields.Description2)
-	}
-	if !strings.Contains(doc.Fields.Description2, "additional enemies") {
-		t.Fatalf("description2 missing additional enemies wording (excluded from scaffold): %q",
-			doc.Fields.Description2)
-	}
-	if doc.Fields.Leveling2 == "" {
-		t.Fatal("leveling2 empty (fail closed; expect Reduced Damage rank formula)")
-	}
-	if !strings.Contains(doc.Fields.Leveling2, "Reduced Damage") {
-		t.Fatalf("leveling2 missing Reduced Damage label: %q", doc.Fields.Leveling2)
-	}
-	if !strings.Contains(doc.Fields.Leveling2, "{{ap|200 to 440}}") {
-		t.Fatalf("leveling2 missing rank formula {{ap|200 to 440}}: %q", doc.Fields.Leveling2)
-	}
-	if !strings.Contains(doc.Fields.Leveling2, "120% '''bonus''' AD") {
-		t.Fatalf("leveling2 missing 120%% bonus AD ratio: %q", doc.Fields.Leveling2)
-	}
-	if doc.Fields.Notes == "" {
-		t.Fatal("notes empty (fail closed; expect Effect at cast time end / spellshield / cone)")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Effect at cast time end") {
-		t.Fatalf("notes missing Effect at cast time end (excluded from immediate scaffold): %q",
-			doc.Fields.Notes)
-	}
-
-	_ = gravesCollateralDamagePrimaryHitWikiPagesPath(t)
-
-	raw, err := os.ReadFile(gravesCollateralDamagePrimaryHitWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	if len(raw) != gravesCollateralDamagePrimaryHitLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d (terminal LF materialization)",
-			len(raw), gravesCollateralDamagePrimaryHitLocalRawBytes)
-	}
-	if raw[len(raw)-1] != '\n' {
-		t.Fatal("local raw must end with exactly one terminal LF")
-	}
-	untrimmedSHA := gravesCollateralDamagePrimaryHitSHA256Hex(raw)
-	if untrimmedSHA == gravesCollateralDamagePrimaryHitContentSHA {
-		t.Fatal("untrimmed local raw hash must not equal canonical contentSha256 (terminal LF present)")
-	}
-	trimmed := raw[:len(raw)-1]
-	if len(trimmed) != gravesCollateralDamagePrimaryHitRawBytes {
-		t.Fatalf("trimmed raw len=%d want %d", len(trimmed), gravesCollateralDamagePrimaryHitRawBytes)
-	}
-	trimmedSHA := gravesCollateralDamagePrimaryHitSHA256Hex(trimmed)
-	if trimmedSHA != gravesCollateralDamagePrimaryHitContentSHA {
-		t.Fatalf("trimmed raw sha=%q want canonical %q", trimmedSHA, gravesCollateralDamagePrimaryHitContentSHA)
-	}
-
-	if gravesCollateralDamagePrimaryHitBoundary != "rank3_primary_target_single_hit; immediate_impact_scaffold; "+
-		"physical_575_plus_1_50_bonus_ad; no_cast_delay_recoil_projectile_geometry_line_multitarget_explosion_cone_or_reduced_damage" {
-		t.Fatal("frozen boundary constant drifted")
-	}
 }
 
 // TestGravesCollateralDamagePrimaryHitRank3DamageFormulaCrossCheck: independent numeric

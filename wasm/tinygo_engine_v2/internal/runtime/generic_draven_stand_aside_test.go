@@ -1,16 +1,15 @@
 package runtime
 
 import (
-	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_draven E Stand Aside / 开道利斧 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: draven-e-stand-aside-phase-a-v2).
 //
@@ -43,14 +42,6 @@ import (
 //   line geometry / multi-target / ranks 1–4 / live publish.
 
 const (
-	dravenStandAsideCandidateKey = "hero_skill|hero_draven|E|开道利斧"
-	dravenStandAsideWikiPageID   = 1307070
-	dravenStandAsideRevisionID   = 4034694
-	dravenStandAsideTimestamp    = "2026-06-23T21:12:57Z"
-	dravenStandAsideContentSHA   = "7bb6ebdc19413ef908e78fea01576d1184a66bc62fd6148120845573c1468e8d"
-	dravenStandAsideBoundary     = "rank5_primary_target_single_hit; immediate_impact_scaffold; " +
-		"physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget"
-
 	dravenStandAsideProviderRef = "provider_hero_draven_e_stand_aside"
 	dravenStandAsideStableID    = "hero_draven_e_stand_aside"
 	dravenStandAsideAbilityKey  = "stand_aside"
@@ -382,114 +373,6 @@ func findDravenStandAsideAbilityStat(t *testing.T, done model.DoneResult) model.
 	}
 	t.Fatalf("AbilityStats missing ref %q (got %+v)", wantRef, done.Summary.AbilityStats)
 	return model.AbilityStat{}
-}
-
-func dravenStandAsideWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "draven-e.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func dravenStandAsideWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "draven-e.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type dravenStandAsideWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	Fields            struct {
-		Leveling   string `json:"leveling"`
-		Cooldown   string `json:"cooldown"`
-		Cost       string `json:"cost"`
-		Costtype   string `json:"costtype"`
-		Damagetype string `json:"damagetype"`
-		Notes      string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-func dravenStandAsideLoadWikiSidecar(t *testing.T) dravenStandAsideWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(dravenStandAsideWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc dravenStandAsideWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-// TestDravenStandAsideWikiSidecarIdentityAndBoundary locks repository sidecar
-// identity plus the frozen Phase-A completed-boundary constant.
-func TestDravenStandAsideWikiSidecarIdentityAndBoundary(t *testing.T) {
-	doc := dravenStandAsideLoadWikiSidecar(t)
-	if doc.CandidateKey != dravenStandAsideCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, dravenStandAsideCandidateKey)
-	}
-	if doc.WikiPageID != dravenStandAsideWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, dravenStandAsideWikiPageID)
-	}
-	if doc.RevisionID != dravenStandAsideRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, dravenStandAsideRevisionID)
-	}
-	if doc.RevisionTimestamp != dravenStandAsideTimestamp {
-		t.Fatalf("revisionTimestamp=%q want %q", doc.RevisionTimestamp, dravenStandAsideTimestamp)
-	}
-	if doc.ContentSHA256 != dravenStandAsideContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, dravenStandAsideContentSHA)
-	}
-	if doc.SkillKey != "E" || doc.ZhDisplayName != "开道利斧" || doc.OwnerID != "hero_draven" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want E/开道利斧/hero_draven",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	if doc.ResolvedTitle != "Template:Data Draven/Stand Aside" {
-		t.Fatalf("resolvedTitle=%q want Template:Data Draven/Stand Aside", doc.ResolvedTitle)
-	}
-	for _, key := range []string{"leveling", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Cost != "70\n" {
-		t.Fatalf("fields.cost=%q want %q", doc.Fields.Cost, "70\n")
-	}
-	if doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("fields.damagetype=%q want Physical", doc.Fields.Damagetype)
-	}
-	if doc.Fields.Leveling == "" || doc.Fields.Cooldown == "" {
-		t.Fatal("leveling/cooldown empty (fail closed)")
-	}
-
-	raw, err := os.ReadFile(dravenStandAsideWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	if len(raw) == 0 {
-		t.Fatal("wiki raw empty (fail closed)")
-	}
-	if dravenStandAsideBoundary != "rank5_primary_target_single_hit; immediate_impact_scaffold; "+
-		"physical_215_plus_0_50_bonus_ad; no_cast_time_control_geometry_or_multitarget" {
-		t.Fatal("frozen boundary constant drifted")
-	}
 }
 
 // TestDravenStandAsideRank5DamageFormulaCrossCheck: independent numeric

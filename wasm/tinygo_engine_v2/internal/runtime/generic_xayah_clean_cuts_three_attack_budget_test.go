@@ -1,8 +1,6 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
 	"os"
@@ -15,6 +13,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_xayah P Clean Cuts / 锐切 — Phase-A v2 Wasm exact three-attack budget slice
 // (FROZEN_PLAN_REV: xayah-p-clean-cuts-three-attack-budget-phase-a-v2).
 //
@@ -57,17 +56,11 @@ import (
 // production Wasm builds via Go `_test.go` convention.
 
 const (
-	xayahCCCandidateKey  = "hero_skill|hero_xayah|P|锐切"
-	xayahCCTaskKey       = "wasm-generic-xayah-clean-cuts-three-attack-budget"
-	xayahCCPlanRev       = "xayah-p-clean-cuts-three-attack-budget-phase-a-v2"
-	xayahCCRequestTitle  = "Template:Data Xayah/I"
-	xayahCCResolvedTitle = "Template:Data Xayah/Clean Cuts"
-	xayahCCWikiPageID    = 1324540
-	xayahCCRevisionID    = 3967343
-	xayahCCTimestamp     = "2025-11-18T20:49:46Z"
-	xayahCCRawBytes      = 4068
-	xayahCCContentSHA    = "5cfe6e5e30cdc8e6fde07791288f5a85e5ef01f543670ce2248323ccb6ead171"
-	xayahCCBoundary      = "attack_count_budget_only; direct_post_cast_arm_gives_3; " +
+	xayahCCCandidateKey = "hero_skill|hero_xayah|P|锐切"
+
+	xayahCCPlanRev = "xayah-p-clean-cuts-three-attack-budget-phase-a-v2"
+
+	xayahCCBoundary = "attack_count_budget_only; direct_post_cast_arm_gives_3; " +
 		"successful_source_ba_damage_instance_consumes_1; " +
 		"state_sequence_arm_plus_4ba_0_3_2_1_0_0; " +
 		"preserve_wqr_and_w_ability_type_listener_isolation; " +
@@ -1017,35 +1010,8 @@ func TestXayahCleanCutsDeterminismAndLifecycle(t *testing.T) {
 	})
 }
 
-// TestXayahCleanCutsWikiSidecarIdentity locks repository wiki sidecar identity
-// for the frozen Clean Cuts authority (no Backend mutation).
-func TestXayahCleanCutsWikiSidecarIdentity(t *testing.T) {
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "xayah-p.json")
-	raw, err := os.ReadFile(path)
-	if err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	var doc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-	}
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != xayahCCCandidateKey || doc.RequestTitle != xayahCCRequestTitle ||
-		doc.ResolvedTitle != xayahCCResolvedTitle || doc.WikiPageID != xayahCCWikiPageID ||
-		doc.RevisionID != xayahCCRevisionID || doc.RevisionTimestamp != xayahCCTimestamp ||
-		doc.ContentSHA256 != xayahCCContentSHA || doc.RawByteSize != xayahCCRawBytes ||
-		doc.SkillKey != "P" || doc.ZhDisplayName != "锐切" || doc.OwnerID != "hero_xayah" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-}
-
-// TestXayahCleanCutsStructuralGenericProductionBoundary 核对测试文件身份与生产源码的通用性边界。
-func TestXayahCleanCutsStructuralGenericProductionBoundary(t *testing.T) {
-	// 保留生产源码扫描；工作树独占限制属于历史执行现场。
+// TestXayahCleanCutsGenericProductionBoundary 拒绝生产源码按样例身份硬编码。
+func TestXayahCleanCutsGenericProductionBoundary(t *testing.T) {
 	prodRoots := []string{
 		filepath.Join(".."),              // internal/
 		filepath.Join("..", "..", "cmd"), // cmd/
@@ -1094,29 +1060,5 @@ func TestXayahCleanCutsStructuralGenericProductionBoundary(t *testing.T) {
 	})
 	if err != nil {
 		t.Fatal(err)
-	}
-
-	// Self-identity: this evidence file exists and is a _test.go (excluded from prod builds).
-	self := "generic_xayah_clean_cuts_three_attack_budget_test.go"
-	info, err := os.Stat(self)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !strings.HasSuffix(info.Name(), "_test.go") {
-		t.Fatal("evidence file must remain *_test.go")
-	}
-	raw, err := os.ReadFile(self)
-	if err != nil {
-		t.Fatal(err)
-	}
-	sum := sha256.Sum256(raw)
-	if hex.EncodeToString(sum[:]) == "" {
-		t.Fatal("empty sha")
-	}
-	if !strings.Contains(string(raw), "FROZEN_PLAN_REV: xayah-p-clean-cuts-three-attack-budget-phase-a-v2") {
-		t.Fatal("evidence file missing frozen plan marker")
-	}
-	if !strings.Contains(string(raw), xayahCCTaskKey) {
-		t.Fatal("evidence file missing task key")
 	}
 }

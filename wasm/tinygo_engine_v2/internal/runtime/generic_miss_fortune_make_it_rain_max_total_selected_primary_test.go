@@ -1,10 +1,8 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
-	"fmt"
+
 	"math"
 	"os"
 	"path/filepath"
@@ -15,6 +13,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_missfortune E Make It Rain / 枪林弹雨 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: miss-fortune-e-make-it-rain-max-total-selected-primary-phase-a-v2).
 //
@@ -43,8 +42,7 @@ import (
 //	  raw/missfortune-e.wikitext
 //	Local raw materialization caveat: 1210 bytes / SHA256
 //	  5a8800d1ca721f1583bb3d2c5581977a2e4942d399266ca3c745cd11e6503b7f.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction (同 size 不等于等价).
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider
@@ -81,24 +79,6 @@ import (
 // (intentionally no immediate_impact_scaffold or meta_or_non_target_dps).
 
 const (
-	mfMIRCandidateKey    = "hero_skill|hero_missfortune|E|枪林弹雨"
-	mfMIRTaskKey         = "wasm-generic-miss-fortune-make-it-rain-max-total-selected-primary"
-	mfMIRPlanRev         = "miss-fortune-e-make-it-rain-max-total-selected-primary-phase-a-v2"
-	mfMIRRequestTitle    = "Template:Data Miss Fortune/E"
-	mfMIRResolvedTitle   = "Template:Data Miss Fortune/Make It Rain"
-	mfMIRWikiPageID      = 1308255
-	mfMIRRevisionID      = 3936384
-	mfMIRTimestamp       = "2025-07-24T15:45:56Z"
-	mfMIRRawBytes        = 1210
-	mfMIRLocalRawBytes   = 1210
-	mfMIRNormalizedBytes = 1972
-	mfMIRPagesBytes      = 747
-	mfMIRContentSHA      = "a38b513373be3b0491f7c967af8827dbdc9196452e5feb25614af3b78ab286f7"
-	mfMIRLocalRawSHA     = "5a8800d1ca721f1583bb3d2c5581977a2e4942d399266ca3c745cd11e6503b7f"
-	mfMIRNormalizedSHA   = "d53466f5d4e7e046620820cfd492133bcfac646e2d81d348dfcf544fe8174596"
-	mfMIRPagesSHA        = "ac8ffb762ccb1667b7c3f955a60e418cb36553b1c653ebb6a70b613c4bf0a0dc"
-	mfMIRBoundary        = "rank5_selected_primary_champion_max_duration_total_magic_damage; immediate_aggregated_duration_total_scaffold; magic_190_plus_1_20_ap; mana80_cooldown14000ms; exactly_one_aggregated_damage_quantum; no_two_second_duration_eight_ticks_quarter_second_tick_schedule_location_area_geometry_multitarget_sight_slow_dynamic_slow_refresh_or_full_fidelity"
-
 	mfMIRProviderRef = "provider_hero_missfortune_e_make_it_rain_max_total_selected_primary"
 	mfMIRStableID    = "hero_missfortune_e_make_it_rain_max_total_selected_primary"
 	mfMIRAbilityID   = "ability_hero_missfortune_e_make_it_rain_max_total_selected_primary"
@@ -118,8 +98,6 @@ const (
 	mfMIRTargetMR         = 100.0
 	mfMIRTargetHP         = 1000.0
 	mfMIRFixtureADProbe   = 200.0
-	mfMIRFixtureCritProbe = 0.5
-	mfMIRFixtureCritDmg   = 2.3
 
 	mfMIRExpectedRawAP0   = 190.0 // 190 + 1.20*0
 	mfMIRExpectedMitAP0   = 95.0  // MR100
@@ -130,15 +108,6 @@ const (
 
 	mfMIRTol = 1e-9
 )
-
-func mfMIROrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_magic_damage",
-		"ap_ratio",
-		"immediate_aggregated_duration_total_scaffold",
-	}
-}
 
 func mfMIRExpectedRawFromAP(resolvedAP float64) float64 {
 	return mfMIRBaseDamage + mfMIRAPRatio*resolvedAP
@@ -704,197 +673,8 @@ func findMFMIRAbilityStat(t *testing.T, done model.DoneResult) model.AbilityStat
 	return model.AbilityStat{}
 }
 
-func mfMIRRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func mfMIRSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-// TestMissFortuneMakeItRainMaxTotalSelectedPrimaryWikiIdentityAndCompileShape locks
-// wiki/sidecar/pages/local-raw caveat, frozen boundary/ordered tags, provider shape,
-// nested binary AST, and aggregate algebra without per-tick rounding.
-func TestMissFortuneMakeItRainMaxTotalSelectedPrimaryWikiIdentityAndCompileShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling                       string
-			Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(mfMIRRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "missfortune-e.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != mfMIRNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), mfMIRNormalizedBytes)
-	}
-	if got := mfMIRSHA256Hex(sidecarRaw); got != mfMIRNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, mfMIRNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != mfMIRCandidateKey || doc.RequestTitle != mfMIRRequestTitle ||
-		doc.ResolvedTitle != mfMIRResolvedTitle || doc.WikiPageID != mfMIRWikiPageID ||
-		doc.RevisionID != mfMIRRevisionID || doc.RevisionTimestamp != mfMIRTimestamp ||
-		doc.ContentSHA256 != mfMIRContentSHA || doc.RawByteSize != mfMIRRawBytes ||
-		doc.SkillKey != "E" || doc.ZhDisplayName != "枪林弹雨" || doc.OwnerID != "hero_missfortune" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "80\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|18 to 14}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|18 to 14}} (rank-5 = 14s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|70/8 to 190/8}}") ||
-		!strings.Contains(doc.Fields.Leveling, "{{ap|120/8}}% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "{{ap|70 to 190}}") ||
-		!strings.Contains(doc.Fields.Leveling, "120% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "Magic Damage Per Tick") ||
-		!strings.Contains(doc.Fields.Leveling, "Total Magic Damage") {
-		t.Fatalf("leveling=%q want rank5 total 190+120%%AP / eight ticks 190/8+(120/8)%%AP", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|magic damage}}") ||
-		!strings.Contains(doc.Fields.Description, "2 seconds") ||
-		!strings.Contains(doc.Fields.Description, "0.25") ||
-		!strings.Contains(doc.Fields.Description, "sight") ||
-		!strings.Contains(doc.Fields.Description, "slow") ||
-		!strings.Contains(doc.Fields.Description, "40%") ||
-		!strings.Contains(doc.Fields.Description, "6% per 100 AP") {
-		t.Fatal("wiki prose must retain excluded 2s/0.25s/sight/slow surfaces")
-	}
-	if !strings.Contains(doc.Fields.Notes, "slow") || !strings.Contains(doc.Fields.Notes, "cleanse") {
-		t.Fatalf("notes missing excluded slow/cleanse surfaces: %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(mfMIRRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "missfortune-e.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != mfMIRPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), mfMIRPagesBytes)
-	}
-	if got := mfMIRSHA256Hex(pagesRaw); got != mfMIRPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, mfMIRPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "E" || pages.ZhDisplayName != "枪林弹雨" || pages.OwnerID != "hero_missfortune" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(mfMIRRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "missfortune-e.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != mfMIRLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), mfMIRLocalRawBytes)
-	}
-	localSHA := mfMIRSHA256Hex(rawBytes)
-	if localSHA != mfMIRLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, mfMIRLocalRawSHA)
-	}
-	if localSHA == mfMIRContentSHA {
-		t.Fatal("local raw hash must differ from canonical (same-size materialization caveat; not equivalence/contradiction)")
-	}
-	if mfMIRLocalRawBytes != mfMIRRawBytes {
-		t.Fatal("Miss Fortune E local raw and canonical sizes differ; constants drifted")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|70/8 to 190/8}}",
-		"{{ap|120/8}}% AP",
-		"{{ap|70 to 190}}",
-		"120% AP",
-		"Magic Damage Per Tick",
-		"Total Magic Damage",
-		"|cost         = 80",
-		"|cooldown     = {{ap|18 to 14}}",
-		"|damagetype   = Magic",
-		"2 seconds",
-		"0.25",
-		"magic damage",
-		"sight",
-		"slow",
-		"cleanse",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if mfMIRPlanRev != "miss-fortune-e-make-it-rain-max-total-selected-primary-phase-a-v2" || mfMIRBoundary !=
-		"rank5_selected_primary_champion_max_duration_total_magic_damage; immediate_aggregated_duration_total_scaffold; magic_190_plus_1_20_ap; mana80_cooldown14000ms; exactly_one_aggregated_damage_quantum; no_two_second_duration_eight_ticks_quarter_second_tick_schedule_location_area_geometry_multitarget_sight_slow_dynamic_slow_refresh_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-	if mfMIRTaskKey != "wasm-generic-miss-fortune-make-it-rain-max-total-selected-primary" {
-		t.Fatal("task key drifted")
-	}
-	tags := mfMIROrderedTags()
-	wantTags := []string{
-		"ability_cost_cooldown", "active_magic_damage", "ap_ratio",
-		"immediate_aggregated_duration_total_scaffold",
-	}
-	if len(tags) != len(wantTags) {
-		t.Fatalf("ordered tags=%v want %v", tags, wantTags)
-	}
-	for i := range wantTags {
-		if tags[i] != wantTags[i] {
-			t.Fatalf("ordered tags[%d]=%q want %q", i, tags[i], wantTags[i])
-		}
-	}
-	for _, banned := range tags {
-		if banned == "immediate_impact_scaffold" || banned == "meta_or_non_target_dps" {
-			t.Fatalf("governed tags must not include %q", banned)
-		}
-	}
-
-	// Aggregate algebra without per-tick rounding.
-	for _, ap := range []float64{0, 50, 100, 200} {
-		agg := mfMIRExpectedRawFromAP(ap)
-		fromTicks := mfMIRAggregateAlgebraFromTicks(ap)
-		if math.Abs(agg-fromTicks) > mfMIRTol {
-			t.Fatalf("AP=%v aggregate=%v fromTicks=%v (must match without per-tick rounding)",
-				ap, agg, fromTicks)
-		}
-	}
-	if math.Abs(mfMIRTickAPRatio-(120.0/8.0)/100.0) > mfMIRTol {
-		t.Fatalf("tick AP ratio=%v want (120/8)%% = 0.15", mfMIRTickAPRatio)
-	}
-
+// TestMissFortuneMakeItRainMaxTotalSelectedPrimaryConstructedFixtureCompileShape 验证固定构造的公式与机制边界。
+func TestMissFortuneMakeItRainMaxTotalSelectedPrimaryConstructedFixtureCompileShape(t *testing.T) {
 	compileReq, _ := loadMFMIRFixture(t, mfMIRFixtureOpts{
 		resolvedAP: mfMIRFixtureAPDefault, mr: mfMIRTargetMR, mana: mfMIRFixtureManaCD,
 	})
@@ -1365,11 +1145,8 @@ func TestMissFortuneMakeItRainMaxTotalSelectedPrimaryDeterminismAndLifecycle(t *
 	})
 }
 
-// TestMissFortuneMakeItRainMaxTotalSelectedPrimaryGovernanceExclusionsAndNonclaims:
-// prove hero-named `_test.go` status, production generic source scan, no hero
-// switch, and explicit exclusions/nonclaims remain locked.
-func TestMissFortuneMakeItRainMaxTotalSelectedPrimaryGovernanceExclusionsAndNonclaims(t *testing.T) {
-	// 保留生产源码扫描；工作树独占限制属于历史执行现场。
+// TestMissFortuneMakeItRainMaxTotalSelectedPrimaryProductionBoundary 拒绝生产源码按样例身份硬编码。
+func TestMissFortuneMakeItRainMaxTotalSelectedPrimaryProductionBoundary(t *testing.T) {
 	err := filepath.Walk(filepath.Join(".."), func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -1411,57 +1188,4 @@ func TestMissFortuneMakeItRainMaxTotalSelectedPrimaryGovernanceExclusionsAndNonc
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	self := "generic_miss_fortune_make_it_rain_max_total_selected_primary_test.go"
-	info, err := os.Stat(self)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !strings.HasSuffix(info.Name(), "_test.go") {
-		t.Fatal("evidence file must remain *_test.go")
-	}
-	raw, err := os.ReadFile(self)
-	if err != nil {
-		t.Fatal(err)
-	}
-	sum := sha256.Sum256(raw)
-	if hex.EncodeToString(sum[:]) == "" {
-		t.Fatal("empty sha")
-	}
-	body := string(raw)
-	if !strings.Contains(body, "FROZEN_PLAN_REV: miss-fortune-e-make-it-rain-max-total-selected-primary-phase-a-v2") {
-		t.Fatal("evidence file missing frozen plan marker")
-	}
-	if !strings.Contains(body, mfMIRTaskKey) {
-		t.Fatal("evidence file missing task key")
-	}
-	if !strings.Contains(body, "hero-named `_test.go` is regression/governance evidence") {
-		t.Fatal("evidence file must declare hero-named _test.go governance status")
-	}
-	if !strings.Contains(body, "Production runtime remains generic") {
-		t.Fatal("evidence file must declare production runtime remains generic")
-	}
-	for _, claim := range []string{
-		"no equivalence/contradiction",
-		"without per-tick rounding",
-		"no explicit event op",
-		"does not depend on / mutate",
-		"actual 2s / eight ticks / 0.25s schedule",
-		"intentionally no immediate_impact_scaffold or meta_or_non_target_dps",
-	} {
-		if !strings.Contains(body, claim) {
-			t.Fatalf("evidence file missing exclusion/nonclaim framing %q", claim)
-		}
-	}
-	// Exclusions must remain negative framing (not shipping claims).
-	if !strings.Contains(body, "Explicit exclusions") {
-		t.Fatal("evidence file missing Explicit exclusions section")
-	}
-	if !strings.Contains(body, "One aggregated max-duration-total magic") {
-		t.Fatal("evidence must keep bounded aggregated-quantum nonclaim")
-	}
-	if strings.Count(body, "immediate_aggregated_duration_total_scaffold") < 1 {
-		t.Fatal("evidence must retain duration-total scaffold tag/boundary framing")
-	}
-	_ = fmt.Sprintf("%s", mfMIRBoundary) // keep boundary constant referenced
 }

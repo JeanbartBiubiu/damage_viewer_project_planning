@@ -1,18 +1,16 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_kogmaw R Living Artillery / 活体大炮 — Phase-A v2 Wasm exact verification
 // (FROZEN_PLAN_REV: kogmaw-r-living-artillery-phase-a-v2).
 //
@@ -48,26 +46,9 @@ import (
 //   browser E2E/full-game fidelity.
 
 const (
-	kogmawLivingArtilleryCandidateKey   = "hero_skill|hero_kogmaw|R|活体大炮"
-	kogmawLivingArtilleryTaskKey        = "wasm-generic-kogmaw-living-artillery"
-	kogmawLivingArtilleryPlanRev        = "kogmaw-r-living-artillery-phase-a-v2"
-	kogmawLivingArtilleryRequestTitle   = "Template:Data Kog'Maw/R"
-	kogmawLivingArtilleryResolvedTitle  = "Template:Data Kog'Maw/Living Artillery"
-	kogmawLivingArtilleryWikiPageID     = 1307963
-	kogmawLivingArtilleryRevisionID     = 4007636
-	kogmawLivingArtilleryTimestamp      = "2026-04-12T08:34:32Z"
-	kogmawLivingArtilleryCanonicalBytes = 2453
-	kogmawLivingArtilleryContentSHA     = "32f8dd8d875aaf95cec2be9cfe4a5a5526881b956f2f23e06ab87dc331ca8641"
-	kogmawLivingArtilleryLocalRawBytes  = 2452
-	kogmawLivingArtilleryLocalRawSHA    = "11db6c16391dcbfa2c091e81399bff4b2a0abffcd468f71ea5e9d89759d5e447"
-	kogmawLivingArtilleryBoundary       = "rank3_primary_target_living_artillery; immediate_impact_scaffold; " +
-		"magic_180_plus_0_75_bonus_ad_plus_0_45_ap_with_missing_health_multiplier; " +
-		"escalating_mana_40_plus_40_per_stack_max9_for_8000ms; " +
-		"no_delay_location_geometry_multitarget_sight_reveal_or_stealth"
-
 	kogmawLivingArtilleryProviderRef = "provider_hero_kogmaw_r_living_artillery"
 	kogmawLivingArtilleryStableID    = "hero_kogmaw_r_living_artillery"
-	kogmawLivingArtilleryAbilityID   = "ability_hero_kogmaw_r_living_artillery"
+
 	kogmawLivingArtilleryAbilityKey  = "living_artillery"
 	kogmawLivingArtilleryStacksKey   = "living_artillery_stacks"
 	kogmawLivingArtilleryDamageOpRef = "op:kogmaw_living_artillery_damage"
@@ -96,17 +77,6 @@ const (
 
 	kogmawLivingArtilleryTol = 1e-9
 )
-
-func kogmawLivingArtilleryOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_magic_damage",
-		"bonus_ad_and_ap_ratio",
-		"missing_health_damage_multiplier",
-		"stack_escalating_mana_cost",
-		"timed_provider_state",
-	}
-}
 
 func kogmawLivingArtilleryExpectedBaseRaw(resolvedAD, baseAD, ap float64) float64 {
 	return kogmawLivingArtilleryBaseDamage +
@@ -697,68 +667,6 @@ func assertKogmawLivingArtilleryProviderShape(t *testing.T, compileReq model.Com
 	}
 }
 
-func kogmawLivingArtilleryWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "kogmaw-r.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v", path, err)
-	}
-	return path
-}
-
-func kogmawLivingArtilleryWikiPagesPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "pages", "kogmaw-r.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki pages missing at %s: %v", path, err)
-	}
-	return path
-}
-
-func kogmawLivingArtilleryWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "kogmaw-r.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v", path, err)
-	}
-	return path
-}
-
-type kogmawLivingArtilleryWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-}
-
-func kogmawLivingArtilleryLoadWikiSidecar(t *testing.T) kogmawLivingArtilleryWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(kogmawLivingArtilleryWikiSidecarPath(t))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc kogmawLivingArtilleryWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	return doc
-}
-
-func kogmawLivingArtillerySHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
 func kogmawLivingArtilleryAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -915,77 +823,6 @@ func TestGenericKogmawLivingArtilleryAlgebraCrossCheck(t *testing.T) {
 	}
 	if math.Abs(sum-2200) > kogmawLivingArtilleryTol {
 		t.Fatalf("ten-cast cost sum=%v want 2200", sum)
-	}
-}
-
-func TestGenericKogmawLivingArtilleryWikiSidecarIdentityAndBoundary(t *testing.T) {
-	doc := kogmawLivingArtilleryLoadWikiSidecar(t)
-	if doc.CandidateKey != kogmawLivingArtilleryCandidateKey {
-		t.Fatalf("candidateKey=%q", doc.CandidateKey)
-	}
-	if doc.RequestTitle != kogmawLivingArtilleryRequestTitle ||
-		doc.ResolvedTitle != kogmawLivingArtilleryResolvedTitle {
-		t.Fatalf("titles=%q/%q", doc.RequestTitle, doc.ResolvedTitle)
-	}
-	if doc.WikiPageID != kogmawLivingArtilleryWikiPageID ||
-		doc.RevisionID != kogmawLivingArtilleryRevisionID ||
-		doc.RevisionTimestamp != kogmawLivingArtilleryTimestamp ||
-		doc.ContentSHA256 != kogmawLivingArtilleryContentSHA ||
-		doc.RawByteSize != kogmawLivingArtilleryCanonicalBytes {
-		t.Fatalf("canonical identity drifted: %+v", doc)
-	}
-	if doc.SkillKey != "R" || doc.ZhDisplayName != "活体大炮" || doc.OwnerID != "hero_kogmaw" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q", doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-
-	pagesRaw, err := os.ReadFile(kogmawLivingArtilleryWikiPagesPath(t))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey      string `json:"candidateKey"`
-		RequestTitle      string `json:"requestTitle"`
-		ResolvedTitle     string `json:"resolvedTitle"`
-		PageID            int    `json:"pageId"`
-		RevisionID        int    `json:"revisionId"`
-		RevisionTimestamp string `json:"revisionTimestamp"`
-		ContentSHA256     string `json:"contentSha256"`
-		RawByteSize       int    `json:"rawByteSize"`
-		SkillKey          string `json:"skillKey"`
-		ZhDisplayName     string `json:"zhDisplayName"`
-		OwnerID           string `json:"ownerId"`
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey ||
-		pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle ||
-		pages.PageID != doc.WikiPageID ||
-		pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp ||
-		pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "R" || pages.ZhDisplayName != "活体大炮" || pages.OwnerID != "hero_kogmaw" {
-		t.Fatalf("pages/sidecar canonical diverge: pages=%+v sidecar=%+v", pages, doc)
-	}
-
-	raw, err := os.ReadFile(kogmawLivingArtilleryWikiRawPath(t))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(raw) != kogmawLivingArtilleryLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d (noncanonical materialization)", len(raw), kogmawLivingArtilleryLocalRawBytes)
-	}
-	localSHA := kogmawLivingArtillerySHA256Hex(raw)
-	if localSHA != kogmawLivingArtilleryLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, kogmawLivingArtilleryLocalRawSHA)
-	}
-	if localSHA == kogmawLivingArtilleryContentSHA {
-		t.Fatal("local raw must not equal canonical SHA (materialization caveat; not source contradiction)")
-	}
-	if kogmawLivingArtilleryBoundary == "" || kogmawLivingArtilleryPlanRev == "" {
-		t.Fatal("boundary/plan constants empty")
 	}
 }
 

@@ -1,17 +1,15 @@
 package runtime
 
 import (
-	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
-	"strings"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_varus E Hail of Arrows / 恶灵箭雨 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: varus-e-hail-of-arrows-primary-hit-phase-a-v1).
 //
@@ -29,7 +27,7 @@ import (
 //	数据参考/lol-wiki-current-champions/normalized/generic/varus-e.json
 //	pages/raw siblings: pages/varus-e.json, raw/varus-e.wikitext
 //	Caveat: local raw may be 1748 bytes / SHA42ebcd88… due newline materialization;
-//	assert sidecar canonical metadata only — do not require local raw len/hash == sidecar.
+
 //
 // Source contradiction (locked / disclosed; not runtime truth):
 //	Same-revision description + labeled leveling explicitly say physical
@@ -60,17 +58,6 @@ import (
 //   ranks 1–4, equipment/loadout, live publish, or full-skill fidelity.
 
 const (
-	varusHailOfArrowsPrimaryHitCandidateKey  = "hero_skill|hero_varus|E|恶灵箭雨"
-	varusHailOfArrowsPrimaryHitRequestTitle  = "Template:Data Varus/E"
-	varusHailOfArrowsPrimaryHitResolvedTitle = "Template:Data Varus/Hail of Arrows"
-	varusHailOfArrowsPrimaryHitWikiPageID    = 1309978
-	varusHailOfArrowsPrimaryHitRevisionID    = 3969402
-	varusHailOfArrowsPrimaryHitTimestamp     = "2025-11-24T16:03:58Z"
-	varusHailOfArrowsPrimaryHitRawBytes      = 1750
-	varusHailOfArrowsPrimaryHitContentSHA    = "7b4be71bcc26ba933dff0235882d272c14e406abbf505290018ba15a5ba658e9"
-	varusHailOfArrowsPrimaryHitBoundary      = "rank5_primary_target_single_hit; immediate_impact_scaffold; " +
-		"physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation"
-
 	varusHailOfArrowsPrimaryHitProviderRef = "provider_hero_varus_e_hail_of_arrows_primary_hit"
 	varusHailOfArrowsPrimaryHitStableID    = "hero_varus_e_hail_of_arrows_primary_hit"
 	varusHailOfArrowsPrimaryHitAbilityID   = "ability_hero_varus_e_hail_of_arrows_primary_hit"
@@ -410,165 +397,6 @@ func findVarusHailOfArrowsPrimaryHitAbilityStat(t *testing.T, done model.DoneRes
 	}
 	t.Fatalf("AbilityStats missing ref %q (got %+v)", wantRef, done.Summary.AbilityStats)
 	return model.AbilityStat{}
-}
-
-func varusHailOfArrowsPrimaryHitWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "varus-e.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func varusHailOfArrowsPrimaryHitWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "varus-e.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func varusHailOfArrowsPrimaryHitWikiPagesPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "pages", "varus-e.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki pages sibling missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type varusHailOfArrowsPrimaryHitWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	Fields            struct {
-		Description string `json:"description"`
-		Leveling    string `json:"leveling"`
-		Cooldown    string `json:"cooldown"`
-		Cost        string `json:"cost"`
-		Costtype    string `json:"costtype"`
-		Damagetype  string `json:"damagetype"`
-		Notes       string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-func varusHailOfArrowsPrimaryHitLoadWikiSidecar(t *testing.T) varusHailOfArrowsPrimaryHitWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(varusHailOfArrowsPrimaryHitWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc varusHailOfArrowsPrimaryHitWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-// TestVarusHailOfArrowsPrimaryHitWikiSidecarIdentityAndBoundary locks repository sidecar
-// identity plus the frozen Phase-A completed-boundary constant, and discloses the
-// damagetype=Magic contradiction without treating it as runtime truth.
-func TestVarusHailOfArrowsPrimaryHitWikiSidecarIdentityAndBoundary(t *testing.T) {
-	doc := varusHailOfArrowsPrimaryHitLoadWikiSidecar(t)
-	if doc.CandidateKey != varusHailOfArrowsPrimaryHitCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, varusHailOfArrowsPrimaryHitCandidateKey)
-	}
-	if doc.RequestTitle != varusHailOfArrowsPrimaryHitRequestTitle {
-		t.Fatalf("requestTitle=%q want %q", doc.RequestTitle, varusHailOfArrowsPrimaryHitRequestTitle)
-	}
-	if doc.ResolvedTitle != varusHailOfArrowsPrimaryHitResolvedTitle {
-		t.Fatalf("resolvedTitle=%q want %q", doc.ResolvedTitle, varusHailOfArrowsPrimaryHitResolvedTitle)
-	}
-	if doc.WikiPageID != varusHailOfArrowsPrimaryHitWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, varusHailOfArrowsPrimaryHitWikiPageID)
-	}
-	if doc.RevisionID != varusHailOfArrowsPrimaryHitRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, varusHailOfArrowsPrimaryHitRevisionID)
-	}
-	if doc.RevisionTimestamp != varusHailOfArrowsPrimaryHitTimestamp {
-		t.Fatalf("revisionTimestamp=%q want %q", doc.RevisionTimestamp, varusHailOfArrowsPrimaryHitTimestamp)
-	}
-	if doc.ContentSHA256 != varusHailOfArrowsPrimaryHitContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, varusHailOfArrowsPrimaryHitContentSHA)
-	}
-	if doc.RawByteSize != varusHailOfArrowsPrimaryHitRawBytes {
-		t.Fatalf("rawByteSize=%d want %d", doc.RawByteSize, varusHailOfArrowsPrimaryHitRawBytes)
-	}
-	if doc.SkillKey != "E" || doc.ZhDisplayName != "恶灵箭雨" || doc.OwnerID != "hero_varus" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want E/恶灵箭雨/hero_varus",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	for _, key := range []string{"description", "leveling", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Cost != "90\n" {
-		t.Fatalf("fields.cost=%q want %q", doc.Fields.Cost, "90\n")
-	}
-	if doc.Fields.Cooldown != "{{ap|18|16|14|12|10}}\n" {
-		t.Fatalf("fields.cooldown=%q want %q", doc.Fields.Cooldown, "{{ap|18|16|14|12|10}}\n")
-	}
-	if doc.Fields.Costtype != "mana\n" {
-		t.Fatalf("fields.costtype=%q want mana", doc.Fields.Costtype)
-	}
-	// Positive physical evidence from same-revision description + leveling (governs runtime).
-	if doc.Fields.Description == "" {
-		t.Fatal("description empty (fail closed; expect physical damage wording)")
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") {
-		t.Fatalf("description missing physical damage wording: %q", doc.Fields.Description)
-	}
-	if doc.Fields.Leveling == "" {
-		t.Fatal("leveling empty (fail closed; expect Physical Damage rank formula)")
-	}
-	if !strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling missing Physical Damage label: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|60 to 180}}") {
-		t.Fatalf("leveling missing rank formula {{ap|60 to 180}}: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "90% '''bonus''' AD") {
-		t.Fatalf("leveling missing 90%% bonus AD ratio: %q", doc.Fields.Leveling)
-	}
-	// Known contradiction: isolated damagetype=Magic is source metadata only — not runtime truth.
-	if doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("fields.damagetype=%q want %q (known contradiction; must remain disclosed)",
-			doc.Fields.Damagetype, "Magic\n")
-	}
-	if doc.Fields.Notes == "" {
-		t.Fatal("notes empty (fail closed)")
-	}
-
-	_ = varusHailOfArrowsPrimaryHitWikiPagesPath(t)
-
-	raw, err := os.ReadFile(varusHailOfArrowsPrimaryHitWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	if len(raw) == 0 {
-		t.Fatal("wiki raw empty (fail closed)")
-	}
-	// Do not assert local raw len/hash equals sidecar canonical metadata
-	// (local may be 1748 bytes / SHA42ebcd88… due repository newline materialization).
-	if varusHailOfArrowsPrimaryHitBoundary != "rank5_primary_target_single_hit; immediate_impact_scaffold; "+
-		"physical_180_plus_0_90_bonus_ad; no_landing_delay_geometry_multitarget_field_slow_grievous_wounds_or_blight_detonation" {
-		t.Fatal("frozen boundary constant drifted")
-	}
 }
 
 // TestVarusHailOfArrowsPrimaryHitRank5DamageFormulaCrossCheck: independent numeric

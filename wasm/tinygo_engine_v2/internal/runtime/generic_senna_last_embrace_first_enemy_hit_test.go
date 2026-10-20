@@ -1,20 +1,18 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
-	"strings"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_senna W Last Embrace / 无尽厮守 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: senna-w-last-embrace-first-enemy-hit-phase-a-v2).
 //
@@ -43,8 +41,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_senna_last_embrace_first_enemy_hit_seed.sql
 //	Local raw materialization caveat: 1651 bytes / SHA256
 //	  737cc69b6ea13da8d61437e3da37a799cc2779bd56516d166af5890dc6090d5e.
-//	Serialization caveat only; assert sidecar/pages canonical identity + caveat;
-//	do not claim local-raw equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_senna_w_last_embrace_first_enemy_hit
@@ -79,29 +76,6 @@ import (
 // immediate_impact_scaffold.
 
 const (
-	sennaLECandidateKey    = "hero_skill|hero_senna|W|无尽厮守"
-	sennaLETaskKey         = "wasm-generic-senna-last-embrace-first-enemy-hit"
-	sennaLEPlanRev         = "senna-w-last-embrace-first-enemy-hit-phase-a-v2"
-	sennaLERequestTitle    = "Template:Data Senna/W"
-	sennaLEResolvedTitle   = "Template:Data Senna/Last Embrace"
-	sennaLEWikiPageID      = 1409576
-	sennaLERevisionID      = 4009139
-	sennaLETimestamp       = "2026-04-15T21:34:10Z"
-	sennaLERawBytes        = 1656
-	sennaLELocalRawBytes   = 1651
-	sennaLENormalizedBytes = 2120
-	sennaLEPagesBytes      = 685
-	sennaLEContentSHA      = "48698aa2864b79564b1ea0ed624de8fc7123c3127c1e56deaa002d1aad3c8492"
-	sennaLELocalRawSHA     = "737cc69b6ea13da8d61437e3da37a799cc2779bd56516d166af5890dc6090d5e"
-	sennaLENormalizedSHA   = "c570469e807dcf9a0713af6bb0da3ab8d3be1bc61f192a307b59e7a10a5fdc8b"
-	sennaLEPagesSHA        = "7f9ffc935d079acb610a07925eccb865b2baf7ecabe16784960d34e2341f41f4"
-	sennaLEBoundary        = "rank5_selected_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; " +
-		"physical_230_plus_0_90_bonus_ad; " +
-		"no_cast_time_effect_at_cast_time_end_direction_range_width_line_geometry_projectile_" +
-		"travel_collision_first_enemy_acquisition_attachment_1s_target_death_early_spread_" +
-		"delayed_root_primary_or_surrounding_aoe_untargetable_interaction_spellshield_" +
-		"other_ranks_or_full_fidelity"
-
 	sennaLEProviderRef = "provider_hero_senna_w_last_embrace_first_enemy_hit"
 	sennaLEStableID    = "hero_senna_w_last_embrace_first_enemy_hit"
 	sennaLEAbilityID   = "ability_hero_senna_w_last_embrace_first_enemy_hit"
@@ -129,15 +103,6 @@ const (
 
 	sennaLETol = 1e-9
 )
-
-func sennaLEOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"bonus_ad_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func sennaLEExpectedRawFromAD(resolvedAD, baseAD float64) float64 {
 	return sennaLEBaseDamage + sennaLEBonusADRatio*(resolvedAD-baseAD)
@@ -625,24 +590,6 @@ func findSennaLEAbilityStat(t *testing.T, done model.DoneResult) model.AbilitySt
 	return model.AbilityStat{}
 }
 
-func sennaLERepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func sennaLESHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func sennaLESHA256HexUpper(b []byte) string {
-	return strings.ToUpper(sennaLESHA256Hex(b))
-}
-
 func sennaLEAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -679,161 +626,8 @@ func sennaLEAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit
 	}
 }
 
-// TestSennaLastEmbraceFirstEnemyHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestSennaLastEmbraceFirstEnemyHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Cooldown, Cost, Costtype, Damagetype, Notes string
-			Description2, Leveling2                                            string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(sennaLERepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "senna-w.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != sennaLENormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), sennaLENormalizedBytes)
-	}
-	if got := sennaLESHA256Hex(sidecarRaw); got != sennaLENormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, sennaLENormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != sennaLECandidateKey || doc.RequestTitle != sennaLERequestTitle ||
-		doc.ResolvedTitle != sennaLEResolvedTitle || doc.WikiPageID != sennaLEWikiPageID ||
-		doc.RevisionID != sennaLERevisionID || doc.RevisionTimestamp != sennaLETimestamp ||
-		doc.ContentSHA256 != sennaLEContentSHA || doc.RawByteSize != sennaLERawBytes ||
-		doc.SkillKey != "W" || doc.ZhDisplayName != "无尽厮守" || doc.OwnerID != "hero_senna" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2", "leveling2",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|50 to 70}}\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "11\n" {
-		t.Fatalf("cooldown=%q want 11 (rank-5 = 11s / 11000ms)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|70 to 230}}") ||
-		!strings.Contains(doc.Fields.Leveling, "90% '''bonus''' AD") ||
-		!strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling=%q want rank5 physical 230 +90%% bonus AD", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description, "first enemy hit") ||
-		!strings.Contains(doc.Fields.Description, "attaches to them for 1 second") {
-		t.Fatal("wiki prose must retain physical damage / first enemy / 1s attachment wording")
-	}
-	// Explicit exclusion framing (present in wiki; not modeled by Phase-A scaffold).
-	if !strings.Contains(doc.Fields.Description2, "rooting") ||
-		!strings.Contains(doc.Fields.Description2, "surrounding enemies") ||
-		!strings.Contains(doc.Fields.Description2, "target dies") {
-		t.Fatal("wiki description2 must retain excluded delayed root / surrounding AOE surfaces")
-	}
-	if !strings.Contains(doc.Fields.Leveling2, "Root Duration") {
-		t.Fatal("wiki leveling2 must retain excluded root-duration surface")
-	}
-	if !strings.Contains(doc.Fields.Notes, "untargetable") ||
-		!strings.Contains(doc.Fields.Notes, "Effect at cast time end") {
-		t.Fatalf("notes missing excluded untargetable/cast-time surfaces: %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(sennaLERepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "senna-w.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != sennaLEPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), sennaLEPagesBytes)
-	}
-	if got := sennaLESHA256Hex(pagesRaw); got != sennaLEPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, sennaLEPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "W" || pages.ZhDisplayName != "无尽厮守" || pages.OwnerID != "hero_senna" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(sennaLERepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "senna-w.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != sennaLELocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), sennaLELocalRawBytes)
-	}
-	if sennaLELocalRawBytes == sennaLERawBytes {
-		t.Fatal("local raw and canonical sizes must differ (serialization caveat; not equivalence)")
-	}
-	localSHA := sennaLESHA256Hex(rawBytes)
-	if localSHA != sennaLELocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, sennaLELocalRawSHA)
-	}
-	if localSHA == sennaLEContentSHA {
-		t.Fatal("local raw hash must differ from canonical (serialization caveat; not equivalence/contradiction)")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|70 to 230}}",
-		"90% '''bonus''' AD",
-		"|cost         = {{ap|50 to 70}}",
-		"|cooldown     = 11",
-		"|damagetype   = Physical",
-		"first enemy hit",
-		"attaches to them for 1 second",
-		"rooting",
-		"surrounding enemies",
-		"Root Duration",
-		"untargetable",
-		"Effect at cast time end",
-		"|cast time    =",
-		"|target range =",
-		"|width        =",
-		"|speed        =",
-		"|spellshield  = True",
-		"|projectile   = True",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if sennaLEPlanRev != "senna-w-last-embrace-first-enemy-hit-phase-a-v2" || sennaLEBoundary !=
-		"rank5_selected_primary_champion_first_enemy_single_physical_hit; immediate_impact_scaffold; "+
-			"physical_230_plus_0_90_bonus_ad; "+
-			"no_cast_time_effect_at_cast_time_end_direction_range_width_line_geometry_projectile_"+
-			"travel_collision_first_enemy_acquisition_attachment_1s_target_death_early_spread_"+
-			"delayed_root_primary_or_surrounding_aoe_untargetable_interaction_spellshield_"+
-			"other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestSennaLastEmbraceFirstEnemyHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestSennaLastEmbraceFirstEnemyHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadSennaLEFixture(t, sennaLEFixtureOpts{
 		baseAD: sennaLEADBaseDefault, resolvedAD: sennaLEADResolvedDefault,
 		armor: sennaLETargetArmorDefault, mana: sennaLEFixtureManaCD,

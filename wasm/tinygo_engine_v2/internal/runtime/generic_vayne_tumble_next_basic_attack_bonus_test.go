@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"strings"
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -14,6 +11,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_vayne Q Tumble / 闪避突袭 — Phase-A v2 Wasm exact next-basic-attack bonus slice
 // (FROZEN_PLAN_REV: vayne-q-tumble-next-basic-attack-bonus-phase-a-v2).
 //
@@ -36,8 +34,7 @@ import (
 //	  lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql
 //	Local raw materialization caveat: 1733 bytes / SHA256
 //	  5723bf5ffbc6449f756aa33a8387c40a20039886b3665eddcb11ac1cac5914ca.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract (enrich exact Spellblade-minimal tumble identity):
 //   - Provider provider_hero_vayne_tumble (kind passive / Backend 20120)
@@ -66,29 +63,9 @@ import (
 // runtime remains generic (no if hero_vayne production behavior).
 
 const (
-	vayneTumbleCandidateKey  = "hero_skill|hero_vayne|Q|闪避突袭"
-	vayneTumbleTaskKey       = "wasm-generic-vayne-tumble-next-basic-attack-bonus"
-	vayneTumblePlanRev       = "vayne-q-tumble-next-basic-attack-bonus-phase-a-v2"
-	vayneTumbleRequestTitle  = "Template:Data Vayne/Q"
-	vayneTumbleResolvedTitle = "Template:Data Vayne/Tumble"
-	vayneTumbleWikiPageID    = 1309988
-	vayneTumbleRevisionID    = 4015566
-	vayneTumbleTimestamp     = "2026-05-05T15:55:50Z"
-	vayneTumbleRawBytes      = 1735
-	vayneTumbleLocalRawBytes = 1733
-	vayneTumbleContentSHA    = "5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad"
-	vayneTumbleLocalRawSHA   = "5723bf5ffbc6449f756aa33a8387c40a20039886b3665eddcb11ac1cac5914ca"
-	vayneTumbleNormalizedSHA = "97b8b1f1e7f661787e5ef76428b37328748d6c1ecea7c6f4973d350680640041"
-	vayneTumblePagesSHA      = "453d060d4dc0d4c671335a4258cb4256d3cca6d283c1352472b12635c436371d"
-	vayneTumbleNormalizedLen = 2388
-	vayneTumblePagesLen      = 671
-	vayneTumbleBoundary      = "rank5_next_basic_attack_bonus; cast_arm_provider_state; " +
-		"physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; " +
-		"no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble"
-
 	vayneTumbleProviderRef = "provider_hero_vayne_tumble"
 	vayneTumbleStableID    = "provider_hero_vayne_tumble"
-	vayneTumbleAbilityID   = "ability_hero_vayne_tumble"
+
 	vayneTumbleAbilityKey  = "tumble"
 	vayneTumbleStateKey    = "tumble_empowered_attack_ready"
 	vayneTumbleListenerKey = "listener_hero_vayne_tumble_basic_attack_hit"
@@ -133,15 +110,6 @@ const (
 
 	vayneTumbleTol = 1e-9
 )
-
-func vayneTumbleOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"cast_triggered_next_ba_arm",
-		"basic_attack_hit_bonus_damage",
-		"provider_state_consume",
-	}
-}
 
 func vayneTumbleTimedSlot(defaultValue, maxValue, durationMs float64) map[string]interface{} {
 	return map[string]interface{}{
@@ -837,139 +805,12 @@ func assertVayneTumbleProviderShape(t *testing.T, compileReq model.CompileReques
 	}
 }
 
-func vayneTumbleWasmRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing wasm path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func vayneTumbleSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
 // ---------------------------------------------------------------------------
 // Evidence tests
 // ---------------------------------------------------------------------------
 
-// TestGenericVayneTumbleWikiSidecarAndConstructedFixtureContract 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestGenericVayneTumbleWikiSidecarAndConstructedFixtureContract(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Description2         string
-			Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(vayneTumbleWasmRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "vayne-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != vayneTumbleNormalizedLen {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), vayneTumbleNormalizedLen)
-	}
-	if got := vayneTumbleSHA256Hex(sidecarRaw); got != vayneTumbleNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, vayneTumbleNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != vayneTumbleCandidateKey || doc.RequestTitle != vayneTumbleRequestTitle ||
-		doc.ResolvedTitle != vayneTumbleResolvedTitle || doc.WikiPageID != vayneTumbleWikiPageID ||
-		doc.RevisionID != vayneTumbleRevisionID || doc.RevisionTimestamp != vayneTumbleTimestamp ||
-		doc.ContentSHA256 != vayneTumbleContentSHA || doc.RawByteSize != vayneTumbleRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "闪避突袭" || doc.OwnerID != "hero_vayne" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2", "cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "30\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|6 to 2}}\n" {
-		t.Fatalf("cooldown=%q want rank table ending in 2s", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|75 to 115}}% AD") ||
-		!strings.Contains(doc.Fields.Leveling, "50% AP") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "empowers her next") ||
-		!strings.Contains(doc.Fields.Description, "3 seconds") {
-		t.Fatal("wiki prose must retain next-BA within 3s empowerment")
-	}
-
-	pagesRaw, err := os.ReadFile(vayneTumbleWasmRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "vayne-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != vayneTumblePagesLen {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), vayneTumblePagesLen)
-	}
-	if got := vayneTumbleSHA256Hex(pagesRaw); got != vayneTumblePagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, vayneTumblePagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "闪避突袭" || pages.OwnerID != "hero_vayne" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(vayneTumbleWasmRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "vayne-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != vayneTumbleLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), vayneTumbleLocalRawBytes)
-	}
-	localSHA := vayneTumbleSHA256Hex(rawBytes)
-	if localSHA != vayneTumbleLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, vayneTumbleLocalRawSHA)
-	}
-	if localSHA == vayneTumbleContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-
-	if vayneTumblePlanRev != "vayne-q-tumble-next-basic-attack-bonus-phase-a-v2" ||
-		vayneTumbleBoundary != "rank5_next_basic_attack_bonus; cast_arm_provider_state; "+
-			"physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; "+
-			"no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-	tags := vayneTumbleOrderedTags()
-	if len(tags) != 4 || tags[0] != "ability_cost_cooldown" ||
-		tags[1] != "cast_triggered_next_ba_arm" ||
-		tags[2] != "basic_attack_hit_bonus_damage" ||
-		tags[3] != "provider_state_consume" {
-		t.Fatalf("ordered tags drifted: %v", tags)
-	}
-
-	// 下一次普攻、三秒窗口及公式由通用构造样例独立核对。
+// TestGenericVayneTumbleConstructedFixtureContract 验证固定构造的公式与机制边界。
+func TestGenericVayneTumbleConstructedFixtureContract(t *testing.T) {
 	compileReq, _ := loadVayneTumbleFixture(t)
 	assertVayneTumbleProviderShape(t, compileReq)
 

@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_jhin Q Dancing Grenade / 曼舞手雷 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: jhin-q-dancing-grenade-primary-first-hit-phase-a-v1).
 //
@@ -43,8 +41,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_jhin_dancing_grenade_primary_first_hit_seed.sql
 //	Local raw materialization caveat: 1911 bytes / SHA256
 //	  17deceae0abe42034f805a166ae5a16932ffcb19925654e6aa39625f026dd0cb.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_jhin_q_dancing_grenade_primary_first_hit
@@ -78,29 +75,6 @@ import (
 // remains exact in formula/boundary/reason only).
 
 const (
-	jhinDGCandidateKey    = "hero_skill|hero_jhin|Q|曼舞手雷"
-	jhinDGTaskKey         = "wasm-generic-jhin-dancing-grenade-primary-first-hit"
-	jhinDGPlanRev         = "jhin-q-dancing-grenade-primary-first-hit-phase-a-v1"
-	jhinDGRequestTitle    = "Template:Data Jhin/Q"
-	jhinDGResolvedTitle   = "Template:Data Jhin/Dancing Grenade"
-	jhinDGWikiPageID      = 1307579
-	jhinDGRevisionID      = 4007611
-	jhinDGTimestamp       = "2026-04-12T07:23:12Z"
-	jhinDGRawBytes        = 1913
-	jhinDGLocalRawBytes   = 1911
-	jhinDGNormalizedBytes = 2388
-	jhinDGPagesBytes      = 682
-	jhinDGContentSHA      = "522c4b918067b4b035b6744eb3dc83ce64ba5d47f677ed8517fcb246111685f1"
-	jhinDGLocalRawSHA     = "17deceae0abe42034f805a166ae5a16932ffcb19925654e6aa39625f026dd0cb"
-	jhinDGNormalizedSHA   = "6f5c6dcc9771140136705f8e6554cb999f7ec5a1272515d5cbd03b910bdd20b1"
-	jhinDGPagesSHA        = "642d7c88a064cd3107a4cf9f51a75be2ca91bb2e904afd6cfa8cf3ead92b7897"
-	jhinDGBoundary        = "rank5_selected_primary_champion_first_grenade_single_physical_hit; immediate_impact_scaffold; " +
-		"physical_144_plus_0_74_total_ad_plus_0_60_ap; " +
-		"no_cast_time_unit_targeted_cancel_conditions_projectile_travel_first_target_acquisition_" +
-		"bounce_to_up_to_three_additional_targets_nearest_unhit_priority_target_death_35_percent_" +
-		"damage_increase_later_bounce_scaling_maximum_final_bounce_spellshield_bounce_persistence_" +
-		"other_ranks_or_full_fidelity"
-
 	jhinDGProviderRef = "provider_hero_jhin_q_dancing_grenade_primary_first_hit"
 	jhinDGStableID    = "hero_jhin_q_dancing_grenade_primary_first_hit"
 	jhinDGAbilityID   = "ability_hero_jhin_q_dancing_grenade_primary_first_hit"
@@ -129,15 +103,6 @@ const (
 
 	jhinDGTol = 1e-9
 )
-
-func jhinDGOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"ap_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func jhinDGExpectedRawFromStats(resolvedAD, resolvedAP float64) float64 {
 	return jhinDGBaseDamage + jhinDGADRatio*resolvedAD + jhinDGAPRatio*resolvedAP
@@ -644,24 +609,6 @@ func findJhinDGAbilityStat(t *testing.T, done model.DoneResult) model.AbilitySta
 	return model.AbilityStat{}
 }
 
-func jhinDGRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func jhinDGSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func jhinDGSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(jhinDGSHA256Hex(b))
-}
-
 func jhinDGAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -695,136 +642,8 @@ func jhinDGAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit 
 	}
 }
 
-// TestJhinDancingGrenadePrimaryFirstHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestJhinDancingGrenadePrimaryFirstHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Leveling, Leveling2 string
-			Cooldown, Cost, Costtype, Damagetype, Notes    string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(jhinDGRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "jhin-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != jhinDGNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), jhinDGNormalizedBytes)
-	}
-	if got := jhinDGSHA256Hex(sidecarRaw); got != jhinDGNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, jhinDGNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != jhinDGCandidateKey || doc.RequestTitle != jhinDGRequestTitle ||
-		doc.ResolvedTitle != jhinDGResolvedTitle || doc.WikiPageID != jhinDGWikiPageID ||
-		doc.RevisionID != jhinDGRevisionID || doc.RevisionTimestamp != jhinDGTimestamp ||
-		doc.ContentSHA256 != jhinDGContentSHA || doc.RawByteSize != jhinDGRawBytes ||
-		doc.SkillKey != "Q" || doc.ZhDisplayName != "曼舞手雷" || doc.OwnerID != "hero_jhin" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2", "leveling2",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|40 to 60}}\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|7 to 5}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|7 to 5}} (rank-5 = 5s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|44 to 144}}") ||
-		!strings.Contains(doc.Fields.Leveling, "{{ap|44 to 74}}% AD") ||
-		!strings.Contains(doc.Fields.Leveling, "60% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "Physical Damage") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description, "bounce") ||
-		!strings.Contains(doc.Fields.Description, "prioritizing") {
-		t.Fatal("wiki prose must retain physical damage / bounce / nearest-unhit priority wording")
-	}
-	if !strings.Contains(doc.Fields.Description2, "35%") ||
-		!strings.Contains(doc.Fields.Description2, "dies") {
-		t.Fatal("wiki prose must retain excluded target-death +35% later-bounce surfaces")
-	}
-	if !strings.Contains(doc.Fields.Leveling2, "Maximum Final Bounce") ||
-		!strings.Contains(doc.Fields.Leveling2, "Bonus Damage per Target Death") {
-		t.Fatal("wiki leveling2 must retain excluded max-bounce / death-amp surfaces")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Spell shield") ||
-		!strings.Contains(doc.Fields.Notes, "Unit-targeted cancel conditions") {
-		t.Fatalf("notes missing excluded spellshield/cancel surfaces: %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(jhinDGRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "jhin-q.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != jhinDGPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), jhinDGPagesBytes)
-	}
-	if got := jhinDGSHA256Hex(pagesRaw); got != jhinDGPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, jhinDGPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "Q" || pages.ZhDisplayName != "曼舞手雷" || pages.OwnerID != "hero_jhin" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(jhinDGRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "jhin-q.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != jhinDGLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), jhinDGLocalRawBytes)
-	}
-	localSHA := jhinDGSHA256Hex(rawBytes)
-	if localSHA != jhinDGLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, jhinDGLocalRawSHA)
-	}
-	if localSHA == jhinDGContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if len(rawBytes) == jhinDGRawBytes {
-		t.Fatal("local raw byte length must differ from canonical 1913 (materialization caveat)")
-	}
-	if jhinDGPlanRev != "jhin-q-dancing-grenade-primary-first-hit-phase-a-v1" || jhinDGBoundary !=
-		"rank5_selected_primary_champion_first_grenade_single_physical_hit; immediate_impact_scaffold; "+
-			"physical_144_plus_0_74_total_ad_plus_0_60_ap; "+
-			"no_cast_time_unit_targeted_cancel_conditions_projectile_travel_first_target_acquisition_"+
-			"bounce_to_up_to_three_additional_targets_nearest_unhit_priority_target_death_35_percent_"+
-			"damage_increase_later_bounce_scaling_maximum_final_bounce_spellshield_bounce_persistence_"+
-			"other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestJhinDancingGrenadePrimaryFirstHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestJhinDancingGrenadePrimaryFirstHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadJhinDGFixture(t, jhinDGFixtureOpts{
 		baseAD: jhinDGADBaseDefault, resolvedAD: jhinDGADResolvedDefault,
 		resolvedAP: jhinDGFixtureAPDefault, armor: jhinDGTargetArmorDefault,

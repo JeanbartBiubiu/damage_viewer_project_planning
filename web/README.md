@@ -217,7 +217,8 @@ npm run dev
 | `npm run dev` | 启动 Vite |
 | `npm run lint` | 静态扫描：禁止已删除的旧 Bundle/Catalog/combat-data 页面与请求 |
 | `npm run typecheck` | TypeScript 工程检查 |
-| `npm run test` | Vitest 单元测试 |
+| `npm run test` | 单元测试、固定机制回归及证明脚本检查 |
+| `npm run test:mechanisms` | 合成场景经生产适配层和真实 Wasm，对照独立手算的期望 |
 | `npm run build` | `tsc -b + vite build` |
 | `npm run preview` | 预览生产构建 |
 | `npm run test:e2e:non-wasm` | 隔离的非 Wasm Playwright 验收：当前 11 类管理页；仅桌面版 Chrome，不覆盖移动端；无需 `E2E_*` |
@@ -225,6 +226,8 @@ npm run dev
 ## 常用验证
 
 开发中先运行受影响的类型或测试检查；以下完整检查在功能收尾执行。阶段提交前再执行非 Wasm 端到端测试。已有结果对应最终代码时，不因代理交接重复执行。
+
+单测与长期回归使用固定构造输入验证通用机制、装配和结果契约，不保存已录入英雄的真实配置快照作为回归用例。新角色的配置首次验收单独留证；复用已有机制不新增逐角色测试。机制用例与手算期望的编写规则见[机制回归说明](tests/mechanisms/README.md)。
 
 ```powershell
 cd web

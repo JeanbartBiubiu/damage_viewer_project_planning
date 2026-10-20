@@ -1,16 +1,15 @@
 package runtime
 
 import (
-	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_teemo Q Blinding Dart / 致盲吹箭 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: teemo-q-blinding-dart-phase-a-v1).
 //
@@ -45,17 +44,6 @@ import (
 //   not block a bounded direct-damage projection.
 
 const (
-	teemoBlindingDartCandidateKey  = "hero_skill|hero_teemo|Q|致盲吹箭"
-	teemoBlindingDartRequestTitle  = "Template:Data Teemo/Q"
-	teemoBlindingDartResolvedTitle = "Template:Data Teemo/Blinding Dart"
-	teemoBlindingDartWikiPageID    = 1308208
-	teemoBlindingDartRevisionID    = 3948425
-	teemoBlindingDartTimestamp     = "2025-08-19T15:37:23Z"
-	teemoBlindingDartRawBytes      = 1639
-	teemoBlindingDartContentSHA    = "4e3c475ed55ec865f6a9060c8ad0b2665e5379b3ae7e9e5cb644f83212b240a7"
-	teemoBlindingDartBoundary      = "rank5_primary_target_single_hit; immediate_impact_scaffold; " +
-		"magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry"
-
 	teemoBlindingDartProviderRef = "provider_hero_teemo_q_blinding_dart"
 	teemoBlindingDartStableID    = "hero_teemo_q_blinding_dart"
 	teemoBlindingDartAbilityKey  = "blinding_dart"
@@ -378,131 +366,6 @@ func findTeemoBlindingDartAbilityStat(t *testing.T, done model.DoneResult) model
 	}
 	t.Fatalf("AbilityStats missing ref %q (got %+v)", wantRef, done.Summary.AbilityStats)
 	return model.AbilityStat{}
-}
-
-func teemoBlindingDartWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "teemo-q.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func teemoBlindingDartWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "teemo-q.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type teemoBlindingDartWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	Fields            struct {
-		Leveling   string `json:"leveling"`
-		Cooldown   string `json:"cooldown"`
-		Cost       string `json:"cost"`
-		Costtype   string `json:"costtype"`
-		Damagetype string `json:"damagetype"`
-		Notes      string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-func teemoBlindingDartLoadWikiSidecar(t *testing.T) teemoBlindingDartWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(teemoBlindingDartWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc teemoBlindingDartWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-// TestTeemoBlindingDartWikiSidecarIdentityAndBoundary locks repository sidecar
-// identity plus the frozen Phase-A completed-boundary constant.
-func TestTeemoBlindingDartWikiSidecarIdentityAndBoundary(t *testing.T) {
-	doc := teemoBlindingDartLoadWikiSidecar(t)
-	if doc.CandidateKey != teemoBlindingDartCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, teemoBlindingDartCandidateKey)
-	}
-	if doc.RequestTitle != teemoBlindingDartRequestTitle {
-		t.Fatalf("requestTitle=%q want %q", doc.RequestTitle, teemoBlindingDartRequestTitle)
-	}
-	if doc.ResolvedTitle != teemoBlindingDartResolvedTitle {
-		t.Fatalf("resolvedTitle=%q want %q", doc.ResolvedTitle, teemoBlindingDartResolvedTitle)
-	}
-	if doc.WikiPageID != teemoBlindingDartWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, teemoBlindingDartWikiPageID)
-	}
-	if doc.RevisionID != teemoBlindingDartRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, teemoBlindingDartRevisionID)
-	}
-	if doc.RevisionTimestamp != teemoBlindingDartTimestamp {
-		t.Fatalf("revisionTimestamp=%q want %q", doc.RevisionTimestamp, teemoBlindingDartTimestamp)
-	}
-	if doc.ContentSHA256 != teemoBlindingDartContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, teemoBlindingDartContentSHA)
-	}
-	if doc.RawByteSize != teemoBlindingDartRawBytes {
-		t.Fatalf("rawByteSize=%d want %d", doc.RawByteSize, teemoBlindingDartRawBytes)
-	}
-	if doc.SkillKey != "Q" || doc.ZhDisplayName != "致盲吹箭" || doc.OwnerID != "hero_teemo" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want Q/致盲吹箭/hero_teemo",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	for _, key := range []string{"leveling", "cooldown", "cost", "costtype", "damagetype", "notes"} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Cost != "{{ap|70 to 90}}\n" {
-		t.Fatalf("fields.cost=%q want %q", doc.Fields.Cost, "{{ap|70 to 90}}\n")
-	}
-	if doc.Fields.Cooldown != "7\n" {
-		t.Fatalf("fields.cooldown=%q want %q", doc.Fields.Cooldown, "7\n")
-	}
-	if doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("fields.damagetype=%q want Magic", doc.Fields.Damagetype)
-	}
-	if doc.Fields.Costtype != "Mana\n" {
-		t.Fatalf("fields.costtype=%q want Mana", doc.Fields.Costtype)
-	}
-	if doc.Fields.Leveling == "" {
-		t.Fatal("leveling empty (fail closed)")
-	}
-
-	raw, err := os.ReadFile(teemoBlindingDartWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	if len(raw) == 0 {
-		t.Fatal("wiki raw empty (fail closed)")
-	}
-	if len(raw) != teemoBlindingDartRawBytes {
-		t.Fatalf("wiki raw bytes=%d want %d", len(raw), teemoBlindingDartRawBytes)
-	}
-	if teemoBlindingDartBoundary != "rank5_primary_target_single_hit; immediate_impact_scaffold; "+
-		"magic_260_plus_0_70_ap; no_blind_cast_time_projectile_or_geometry" {
-		t.Fatal("frozen boundary constant drifted")
-	}
 }
 
 // TestTeemoBlindingDartRank5DamageFormulaCrossCheck: independent numeric

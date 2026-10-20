@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_lucian W Ardent Blaze / 热诚烈弹 — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: lucian-w-ardent-blaze-primary-hit-phase-a-v1).
 //
@@ -39,8 +37,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_lucian_ardent_blaze_primary_hit_seed.sql
 //	Local raw materialization caveat: also 2542 bytes / SHA256
 //	  a57b0e49765ab5a9bdd30ad295d24e406a90015b083c8a0e817855c6bc152236.
-//	Same-size caveat; assert sidecar/pages canonical identity + caveat; do not claim
-//	local-raw equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_lucian_w_ardent_blaze_primary_hit
@@ -69,25 +66,6 @@ import (
 // immediate_impact_scaffold.
 
 const (
-	lucianABCandidateKey  = "hero_skill|hero_lucian|W|热诚烈弹"
-	lucianABTaskKey       = "wasm-generic-lucian-ardent-blaze-primary-hit"
-	lucianABPlanRev       = "lucian-w-ardent-blaze-primary-hit-phase-a-v1"
-	lucianABRequestTitle  = "Template:Data Lucian/W"
-	lucianABResolvedTitle = "Template:Data Lucian/Ardent Blaze"
-	lucianABWikiPageID    = 1308178
-	lucianABRevisionID    = 3594941
-	lucianABTimestamp     = "2023-09-12T19:08:23Z"
-	lucianABRawBytes      = 2542
-	lucianABLocalRawBytes = 2542
-	lucianABContentSHA    = "b1ea7bc7a2e48be9ab97acfa1fc5addb80b8dd236dc97bd3d57c5e90951418c5"
-	lucianABLocalRawSHA   = "a57b0e49765ab5a9bdd30ad295d24e406a90015b083c8a0e817855c6bc152236"
-	lucianABBoundary      = "rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; " +
-		"magic_215_plus_0_90_ap; " +
-		"no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_" +
-		"cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_" +
-		"allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_" +
-		"shield_exception_other_ranks_or_full_fidelity"
-
 	lucianABProviderRef = "provider_hero_lucian_w_ardent_blaze_primary_hit"
 	lucianABStableID    = "hero_lucian_w_ardent_blaze_primary_hit"
 	lucianABAbilityID   = "ability_hero_lucian_w_ardent_blaze_primary_hit"
@@ -112,15 +90,6 @@ const (
 
 	lucianABTol = 1e-9
 )
-
-func lucianABOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_magic_damage",
-		"ap_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func lucianABExpectedRawFromAP(resolvedAP float64) float64 {
 	return lucianABBaseDamage + lucianABAPRatio*resolvedAP
@@ -559,24 +528,6 @@ func findLucianABAbilityStat(t *testing.T, done model.DoneResult) model.AbilityS
 	return model.AbilityStat{}
 }
 
-func lucianABRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func lucianABSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func lucianABSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(lucianABSHA256Hex(b))
-}
-
 func lucianABAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -613,141 +564,8 @@ func lucianABAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMi
 	}
 }
 
-// TestLucianArdentBlazePrimaryHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestLucianArdentBlazePrimaryHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Description3, Leveling, Leveling3 string
-			Cooldown, Cost, Costtype, Damagetype, Notes                  string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(lucianABRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "lucian-w.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != lucianABCandidateKey || doc.RequestTitle != lucianABRequestTitle ||
-		doc.ResolvedTitle != lucianABResolvedTitle || doc.WikiPageID != lucianABWikiPageID ||
-		doc.RevisionID != lucianABRevisionID || doc.RevisionTimestamp != lucianABTimestamp ||
-		doc.ContentSHA256 != lucianABContentSHA || doc.RawByteSize != lucianABRawBytes ||
-		doc.SkillKey != "W" || doc.ZhDisplayName != "热诚烈弹" || doc.OwnerID != "hero_lucian" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2", "description3", "leveling3",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "60\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|14 to 10}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|14 to 10}} (rank-5 = 10s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|75 to 215}}") ||
-		!strings.Contains(doc.Fields.Leveling, "90% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "Magic Damage") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|magic damage}}") {
-		t.Fatal("wiki prose must retain magic damage wording")
-	}
-	// Explicit exclusion framing (present in wiki; not modeled by Phase-A scaffold).
-	if !strings.Contains(doc.Fields.Description, "missile") ||
-		!strings.Contains(doc.Fields.Description, "cross") ||
-		!strings.Contains(doc.Fields.Description, "sight") {
-		t.Fatal("wiki prose must retain excluded missile/cross/sight surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description2, "marked") {
-		t.Fatal("wiki prose must retain excluded six-second mark surface")
-	}
-	if !strings.Contains(doc.Fields.Description3, "movement speed") ||
-		!strings.Contains(doc.Fields.Description3, "Vigilance") {
-		t.Fatal("wiki prose must retain excluded movement-speed/Vigilance surfaces")
-	}
-	if !strings.Contains(doc.Fields.Leveling3, "Bonus Movement Speed") {
-		t.Fatal("wiki prose must retain excluded bonus movement-speed leveling")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Effect at cast time end") {
-		t.Fatalf("notes missing Effect at cast time end (excluded): %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "dodge") ||
-		!strings.Contains(doc.Fields.Notes, "block") ||
-		!strings.Contains(doc.Fields.Notes, "blind") {
-		t.Fatalf("notes missing dodge/block/blind (excluded): %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "persistent damage") &&
-		!strings.Contains(doc.Fields.Notes, "DoTs") {
-		t.Fatalf("notes missing persistent-damage/DoT (excluded): %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "Spell shield") &&
-		!strings.Contains(doc.Fields.Notes, "spell shield") {
-		t.Fatalf("notes missing spell-shield mark exception (excluded): %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(lucianABRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "lucian-w.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "W" || pages.ZhDisplayName != "热诚烈弹" || pages.OwnerID != "hero_lucian" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(lucianABRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "lucian-w.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != lucianABLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), lucianABLocalRawBytes)
-	}
-	if lucianABLocalRawBytes != lucianABRawBytes {
-		t.Fatal("local raw and canonical sizes must both be 2542 (same-size caveat)")
-	}
-	localSHA := lucianABSHA256Hex(rawBytes)
-	if localSHA != lucianABLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, lucianABLocalRawSHA)
-	}
-	if localSHA == lucianABContentSHA {
-		t.Fatal("local raw hash must differ from canonical (same-size caveat; not equivalence/contradiction)")
-	}
-	if lucianABPlanRev != "lucian-w-ardent-blaze-primary-hit-phase-a-v1" || lucianABBoundary !=
-		"rank5_primary_champion_single_magic_hit; immediate_impact_scaffold; "+
-			"magic_215_plus_0_90_ap; "+
-			"no_cast_timing_effect_at_cast_time_end_direction_range_missile_collision_"+
-			"cross_explosion_geometry_multitarget_aoe_sight_mark_movement_speed_"+
-			"allied_trigger_vigilance_dodge_block_blind_persistent_damage_spell_"+
-			"shield_exception_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestLucianArdentBlazePrimaryHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestLucianArdentBlazePrimaryHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadLucianABFixture(t, lucianABFixtureOpts{
 		resolvedAP: lucianABFixtureAPDefault, mr: lucianABTargetMR, mana: lucianABFixtureManaCD,
 	})

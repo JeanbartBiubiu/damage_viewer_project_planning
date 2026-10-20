@@ -1,13 +1,10 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"math"
-	"os"
-	"path/filepath"
+
 	"strings"
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_missfortune R Bullet Time / 弹幕时间 — Phase-A v3 Wasm exact verification slice
 // (FROZEN_PLAN_REV: miss-fortune-r-bullet-time-max-channel-expected-phase-a-v3).
 //
@@ -38,8 +36,7 @@ import (
 //	  raw/missfortune-r.wikitext
 //	Local raw materialization caveat: 3021 bytes / SHA256
 //	  19ba845fd99a0da526b34e55c833f9902c0ce9feb55ad486a1d18c12b55a1049.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction (同 size 不等于等价).
+
 //
 // Rank-3 Phase-A contract:
 //   - Independent provider provider_hero_missfortune_r_bullet_time_max_channel_expected
@@ -85,24 +82,6 @@ import (
 // remains generic (no if hero_missfortune production behavior).
 
 const (
-	mfBTCandidateKey    = "hero_skill|hero_missfortune|R|弹幕时间"
-	mfBTTaskKey         = "wasm-generic-miss-fortune-bullet-time-max-channel-expected"
-	mfBTPlanRev         = "miss-fortune-r-bullet-time-max-channel-expected-phase-a-v3"
-	mfBTRequestTitle    = "Template:Data Miss Fortune/R"
-	mfBTResolvedTitle   = "Template:Data Miss Fortune/Bullet Time"
-	mfBTWikiPageID      = 1308257
-	mfBTRevisionID      = 3987215
-	mfBTTimestamp       = "2026-01-25T03:47:11Z"
-	mfBTRawBytes        = 3021
-	mfBTLocalRawBytes   = 3021
-	mfBTNormalizedBytes = 3550
-	mfBTPagesBytes      = 743
-	mfBTContentSHA      = "354cac88f79defa26369f485743f697bf61b50a814b008a8aa6c308b7e394d8a"
-	mfBTLocalRawSHA     = "19ba845fd99a0da526b34e55c833f9902c0ce9feb55ad486a1d18c12b55a1049"
-	mfBTNormalizedSHA   = "b275bcc7fb13855cf3fb5a7a8ca0cddce4964ed5713dc521eceb573e69b78c49"
-	mfBTPagesSHA        = "43bb41feafeaa7a8416bd91b81f51f4be73d3bf30ff78ccb2190fc317f3084d6"
-	mfBTBoundary        = "rank3_max_full_channel_selected_primary_champion_expected_total_physical_damage; immediate_aggregated_channel_total_scaffold; eighteen_waves; per_wave_40_plus_0_60_total_ad_plus_0_25_ap; base_wave_crit_multiplier_1_30; expected_factor_one_plus_0_30_times_formula_clamped_crit_chance; mana100_cooldown100000ms; exactly_one_aggregated_damage_quantum; phase_a_excludes_wiki_ie_crit_ratio_30; no_channel_timing_tick_schedule_interruption_cancel_direction_cone_six_projectiles_per_wave_collision_geometry_multitarget_wave_by_wave_snapshot_dynamic_stats_sight_reveal_spellshield_rng_on_crit_basic_attack_other_ranks_or_full_fidelity"
-
 	mfBTProviderRef = "provider_hero_missfortune_r_bullet_time_max_channel_expected"
 	mfBTStableID    = "hero_missfortune_r_bullet_time_max_channel_expected"
 	mfBTAbilityID   = "ability_hero_missfortune_r_bullet_time_max_channel_expected"
@@ -138,16 +117,6 @@ const (
 
 	mfBTTol = 1e-9
 )
-
-func mfBTOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_physical_damage",
-		"ap_ratio",
-		"crit_scaling",
-		"immediate_aggregated_channel_total_scaffold",
-	}
-}
 
 func mfBTClamp01(v float64) float64 {
 	if v < 0 {
@@ -831,20 +800,6 @@ func findMFBTAbilityStat(t *testing.T, done model.DoneResult) model.AbilityStat 
 	return model.AbilityStat{}
 }
 
-func mfBTRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func mfBTSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
 func mfBTAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -879,167 +834,8 @@ func mfBTAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit fl
 	}
 }
 
-// TestMissFortuneBulletTimeMaxChannelExpectedWikiIdentityAndCompileShape locks wiki/
-// sidecar/pages/local-raw caveat, frozen boundary/ordered tags, and R provider/
-// nested totalAD+AP+base130 expected formula shape (no Backend seed hash dependency).
-func TestMissFortuneBulletTimeMaxChannelExpectedWikiIdentityAndCompileShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Description2         string
-			Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(mfBTRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "missfortune-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != mfBTNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), mfBTNormalizedBytes)
-	}
-	if got := mfBTSHA256Hex(sidecarRaw); got != mfBTNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, mfBTNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != mfBTCandidateKey || doc.RequestTitle != mfBTRequestTitle ||
-		doc.ResolvedTitle != mfBTResolvedTitle || doc.WikiPageID != mfBTWikiPageID ||
-		doc.RevisionID != mfBTRevisionID || doc.RevisionTimestamp != mfBTTimestamp ||
-		doc.ContentSHA256 != mfBTContentSHA || doc.RawByteSize != mfBTRawBytes ||
-		doc.SkillKey != "R" || doc.ZhDisplayName != "弹幕时间" || doc.OwnerID != "hero_missfortune" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "100\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Physical\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|120 to 100}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|120 to 100}} (rank-3 = 100s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|20 to 40}}") ||
-		!strings.Contains(doc.Fields.Leveling, "60% AD") ||
-		!strings.Contains(doc.Fields.Leveling, "25% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "Total Waves") ||
-		!strings.Contains(doc.Fields.Leveling, "{{ap|14 to 18}}") ||
-		!strings.Contains(doc.Fields.Leveling, "Maximum Total Physical Damage") {
-		t.Fatalf("leveling=%q want rank3 wave 40 +60%% AD +25%% AP / 18 waves / max-total noncrit", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|physical damage}}") ||
-		!strings.Contains(doc.Fields.Description, "channel") {
-		t.Fatal("wiki prose must retain physical damage / channel wording")
-	}
-	if !strings.Contains(doc.Fields.Description2, "{{critical damage|130|30}}") &&
-		!strings.Contains(doc.Fields.Description2, "critical damage|130|30") {
-		t.Fatal("wiki description2 must retain {{critical damage|130|30}} (base130 + IE ratio)")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Spell shield") && !strings.Contains(doc.Fields.Notes, "spellshield") &&
-		!strings.Contains(doc.Fields.Notes, "sight") && !strings.Contains(doc.Fields.Notes, "reveals") {
-		t.Fatalf("notes missing excluded sight/reveal/spellshield surfaces: %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(mfBTRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "missfortune-r.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != mfBTPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), mfBTPagesBytes)
-	}
-	if got := mfBTSHA256Hex(pagesRaw); got != mfBTPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, mfBTPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "R" || pages.ZhDisplayName != "弹幕时间" || pages.OwnerID != "hero_missfortune" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(mfBTRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "missfortune-r.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != mfBTLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), mfBTLocalRawBytes)
-	}
-	localSHA := mfBTSHA256Hex(rawBytes)
-	if localSHA != mfBTLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, mfBTLocalRawSHA)
-	}
-	if localSHA == mfBTContentSHA {
-		t.Fatal("local raw hash must differ from canonical (same-size materialization caveat; not equivalence/contradiction)")
-	}
-	if mfBTLocalRawBytes != mfBTRawBytes {
-		t.Fatal("Miss Fortune R local raw and canonical sizes differ; constants drifted")
-	}
-	rawText := string(rawBytes)
-	for _, want := range []string{
-		"{{ap|20 to 40}}",
-		"60% AD",
-		"25% AP",
-		"{{ap|14 to 18}}",
-		"Maximum Total Physical Damage",
-		"|cost         = 100",
-		"|cooldown     = {{ap|120 to 100}}",
-		"|damagetype   = Physical",
-		"{{critical damage|130|30}}",
-		"channel",
-		"physical damage",
-	} {
-		if !strings.Contains(rawText, want) {
-			t.Fatalf("local raw missing positive source-field/exclusion framing %q", want)
-		}
-	}
-	if mfBTPlanRev != "miss-fortune-r-bullet-time-max-channel-expected-phase-a-v3" || mfBTBoundary !=
-		"rank3_max_full_channel_selected_primary_champion_expected_total_physical_damage; immediate_aggregated_channel_total_scaffold; eighteen_waves; per_wave_40_plus_0_60_total_ad_plus_0_25_ap; base_wave_crit_multiplier_1_30; expected_factor_one_plus_0_30_times_formula_clamped_crit_chance; mana100_cooldown100000ms; exactly_one_aggregated_damage_quantum; phase_a_excludes_wiki_ie_crit_ratio_30; no_channel_timing_tick_schedule_interruption_cancel_direction_cone_six_projectiles_per_wave_collision_geometry_multitarget_wave_by_wave_snapshot_dynamic_stats_sight_reveal_spellshield_rng_on_crit_basic_attack_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-	if mfBTTaskKey != "wasm-generic-miss-fortune-bullet-time-max-channel-expected" {
-		t.Fatal("task key drifted")
-	}
-	tags := mfBTOrderedTags()
-	wantTags := []string{
-		"ability_cost_cooldown", "active_physical_damage", "ap_ratio", "crit_scaling",
-		"immediate_aggregated_channel_total_scaffold",
-	}
-	if len(tags) != len(wantTags) {
-		t.Fatalf("ordered tags=%v want %v", tags, wantTags)
-	}
-	for i := range wantTags {
-		if tags[i] != wantTags[i] {
-			t.Fatalf("ordered tags[%d]=%q want %q", i, tags[i], wantTags[i])
-		}
-	}
-	for _, banned := range tags {
-		if banned == "total_ad_ratio" {
-			t.Fatal("governed tags must not include total_ad_ratio")
-		}
-	}
-
+// TestMissFortuneBulletTimeMaxChannelExpectedConstructedFixtureCompileShape 验证固定构造的公式与机制边界。
+func TestMissFortuneBulletTimeMaxChannelExpectedConstructedFixtureCompileShape(t *testing.T) {
 	compileReq, _ := loadMFBTFixture(t, mfBTFixtureOpts{
 		baseAD: mfBTADBaseDefault, resolvedAD: mfBTADResolvedDefault,
 		resolvedAP: mfBTFixtureAPDefault, critChance: mfBTFixtureCritDefault,

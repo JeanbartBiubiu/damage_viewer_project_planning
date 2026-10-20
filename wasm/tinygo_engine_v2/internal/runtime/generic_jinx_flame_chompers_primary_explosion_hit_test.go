@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_jinx E Flame Chompers! / 嚼火者手雷！ — Phase-A v1 Wasm exact verification slice
 // (FROZEN_PLAN_REV: jinx-e-flame-chompers-primary-explosion-hit-phase-a-v1).
 //
@@ -46,11 +44,7 @@ import (
 //	  bytes46529 / SHA256 519c3e5ce2844d41bdc348441056352fb893633ca084bb261f63bffd0300d35a
 //	Local raw materialization caveat: 1784 bytes / SHA256
 //	  aabb099fd172522682e40f0826e4971797c3a047787ef3c5af902bc4b673a551.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction.
-//	README entry semantics only — do not lock aggregate README bytes/SHA as a
-//	continuing test invariant (historical integration identity
-//	bc71abfed04e04299a78bc8f17ae17ad619e779cb014d65bf8ed3912eb86b7be).
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_jinx_e_flame_chompers_primary_explosion_hit
@@ -80,29 +74,6 @@ import (
 // immediate_impact_scaffold.
 
 const (
-	jinxFCCandidateKey    = "hero_skill|hero_jinx|E|嚼火者手雷！"
-	jinxFCTaskKey         = "wasm-generic-jinx-flame-chompers-primary-explosion-hit"
-	jinxFCPlanRev         = "jinx-e-flame-chompers-primary-explosion-hit-phase-a-v1"
-	jinxFCRequestTitle    = "Template:Data Jinx/E"
-	jinxFCResolvedTitle   = "Template:Data Jinx/Flame Chompers!"
-	jinxFCWikiPageID      = 1307600
-	jinxFCRevisionID      = 3993368
-	jinxFCTimestamp       = "2026-02-21T15:35:19Z"
-	jinxFCRawBytes        = 1786
-	jinxFCLocalRawBytes   = 1784
-	jinxFCNormalizedBytes = 2228
-	jinxFCPagesBytes      = 694
-	jinxFCContentSHA      = "64562ed4adb34c932810970fd9b9c016b46329d6f956541d334c60d2bc9d83ee"
-	jinxFCLocalRawSHA     = "aabb099fd172522682e40f0826e4971797c3a047787ef3c5af902bc4b673a551"
-	jinxFCNormalizedSHA   = "de7922f66deb96c8652dd1a0509105b49cdcf22278d1fd591bc366060987183a"
-	jinxFCPagesSHA        = "f2822e5708dd024c582575a9298c12b6e6cd66b37e3365ea8749e8e1d49b360d"
-	jinxFCBoundary        = "rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; " +
-		"magic_290_plus_1_00_ap; " +
-		"no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_" +
-		"location_direction_range_geometry_area_multitarget_contact_acquisition_" +
-		"knockdown_root_one_chomper_per_champion_wind_wall_braum_spellshield_" +
-		"exception_vision_other_ranks_or_full_fidelity"
-
 	jinxFCProviderRef = "provider_hero_jinx_e_flame_chompers_primary_explosion_hit"
 	jinxFCStableID    = "hero_jinx_e_flame_chompers_primary_explosion_hit"
 	jinxFCAbilityID   = "ability_hero_jinx_e_flame_chompers_primary_explosion_hit"
@@ -130,15 +101,6 @@ const (
 
 	jinxFCTol = 1e-9
 )
-
-func jinxFCOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_magic_damage",
-		"ap_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func jinxFCExpectedRawFromAP(resolvedAP float64) float64 {
 	return jinxFCBaseDamage + jinxFCAPRatio*resolvedAP
@@ -582,24 +544,6 @@ func findJinxFCAbilityStat(t *testing.T, done model.DoneResult) model.AbilitySta
 	return model.AbilityStat{}
 }
 
-func jinxFCRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func jinxFCSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func jinxFCSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(jinxFCSHA256Hex(b))
-}
-
 func jinxFCAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -633,136 +577,8 @@ func jinxFCAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit 
 	}
 }
 
-// TestJinxFlameChompersPrimaryExplosionHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestJinxFlameChompersPrimaryExplosionHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Leveling, Description2, Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(jinxFCRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "jinx-e.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(sidecarRaw) != jinxFCNormalizedBytes {
-		t.Fatalf("normalized len=%d want %d", len(sidecarRaw), jinxFCNormalizedBytes)
-	}
-	if got := jinxFCSHA256Hex(sidecarRaw); got != jinxFCNormalizedSHA {
-		t.Fatalf("normalized sha=%q want %q", got, jinxFCNormalizedSHA)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != jinxFCCandidateKey || doc.RequestTitle != jinxFCRequestTitle ||
-		doc.ResolvedTitle != jinxFCResolvedTitle || doc.WikiPageID != jinxFCWikiPageID ||
-		doc.RevisionID != jinxFCRevisionID || doc.RevisionTimestamp != jinxFCTimestamp ||
-		doc.ContentSHA256 != jinxFCContentSHA || doc.RawByteSize != jinxFCRawBytes ||
-		doc.SkillKey != "E" || doc.ZhDisplayName != "嚼火者手雷！" || doc.OwnerID != "hero_jinx" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "90\n" || doc.Fields.Costtype != "Mana\n" ||
-		doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|24 to 10}}\n" {
-		t.Fatalf("cooldown=%q want rank table ending in 10s", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|90 to 290}}") ||
-		!strings.Contains(doc.Fields.Leveling, "100% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "Magic Damage") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|magic damage}}") ||
-		!strings.Contains(doc.Fields.Description, "3") ||
-		!strings.Contains(doc.Fields.Description, "Chompers") ||
-		!strings.Contains(doc.Fields.Description, "0.4") ||
-		!strings.Contains(doc.Fields.Description, "0.5") ||
-		!strings.Contains(doc.Fields.Description, "5 seconds") {
-		t.Fatal("wiki prose must retain excluded three-Chomper / landing / arming / lifetime surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description2, "knocking them down") ||
-		!strings.Contains(doc.Fields.Description2, "rooting") ||
-		!strings.Contains(doc.Fields.Description2, "only one") {
-		t.Fatal("wiki description2 must retain excluded knockdown/root/one-per-champion surfaces")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Wind Wall") ||
-		!strings.Contains(doc.Fields.Notes, "Braum") ||
-		!strings.Contains(doc.Fields.Notes, "Spell shield") ||
-		!strings.Contains(doc.Fields.Notes, "vision") {
-		t.Fatalf("notes missing Wind Wall/Braum/spell-shield/vision (excluded): %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(jinxFCRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "jinx-e.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(pagesRaw) != jinxFCPagesBytes {
-		t.Fatalf("pages len=%d want %d", len(pagesRaw), jinxFCPagesBytes)
-	}
-	if got := jinxFCSHA256Hex(pagesRaw); got != jinxFCPagesSHA {
-		t.Fatalf("pages sha=%q want %q", got, jinxFCPagesSHA)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "E" || pages.ZhDisplayName != "嚼火者手雷！" || pages.OwnerID != "hero_jinx" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(jinxFCRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "jinx-e.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != jinxFCLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), jinxFCLocalRawBytes)
-	}
-	localSHA := jinxFCSHA256Hex(rawBytes)
-	if localSHA != jinxFCLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, jinxFCLocalRawSHA)
-	}
-	if localSHA == jinxFCContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if len(rawBytes) == jinxFCRawBytes {
-		t.Fatal("local raw byte length must differ from canonical 1786 (materialization caveat)")
-	}
-	if jinxFCPlanRev != "jinx-e-flame-chompers-primary-explosion-hit-phase-a-v1" || jinxFCBoundary !=
-		"rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; "+
-			"magic_290_plus_1_00_ap; "+
-			"no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_"+
-			"location_direction_range_geometry_area_multitarget_contact_acquisition_"+
-			"knockdown_root_one_chomper_per_champion_wind_wall_braum_spellshield_"+
-			"exception_vision_other_ranks_or_full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestJinxFlameChompersPrimaryExplosionHitConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestJinxFlameChompersPrimaryExplosionHitConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadJinxFCFixture(t, jinxFCFixtureOpts{
 		resolvedAP: jinxFCFixtureAPDefault, mr: jinxFCTargetMR, mana: jinxFCFixtureManaCD,
 	})

@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"regexp"
 	"strings"
 	"testing"
@@ -15,6 +12,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_caitlyn E 90 Caliber Net / 90口径绳网 — Phase-A v3 Wasm exact verification slice
 // (FROZEN_PLAN_REV: caitlyn-e-90-caliber-net-primary-hit-phase-a-v3).
 //
@@ -38,8 +36,7 @@ import (
 //	已删除历史种子： db/game_manage/seeds/lol_generic_caitlyn_90_caliber_net_primary_hit_seed.sql
 //	Local raw materialization caveat: 2094 bytes / SHA256
 //	  3a5eba6df38ec34046440743d55de61490dc7b5a2488b8fc671851474d080073.
-//	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
-//	equivalence or source contradiction.
+
 //
 // Rank-5 Phase-A contract:
 //   - Independent provider provider_hero_caitlyn_e_90_caliber_net_primary_hit
@@ -68,25 +65,6 @@ import (
 // immediate_impact_scaffold.
 
 const (
-	caitlynCNCandidateKey  = "hero_skill|hero_caitlyn|E|90口径绳网"
-	caitlynCNTaskKey       = "wasm-generic-caitlyn-90-caliber-net-primary-hit"
-	caitlynCNPlanRev       = "caitlyn-e-90-caliber-net-primary-hit-phase-a-v3"
-	caitlynCNRequestTitle  = "Template:Data Caitlyn/E"
-	caitlynCNResolvedTitle = "Template:Data Caitlyn/90 Caliber Net"
-	caitlynCNWikiPageID    = 1306916
-	caitlynCNRevisionID    = 4007584
-	caitlynCNTimestamp     = "2026-04-12T06:47:56Z"
-	caitlynCNRawBytes      = 2095
-	caitlynCNLocalRawBytes = 2094
-	caitlynCNContentSHA    = "9357e7b28b05f738cd8049a2d10a115e4033a54123c0e71f55d1262a92884db2"
-	caitlynCNLocalRawSHA   = "3a5eba6df38ec34046440743d55de61490dc7b5a2488b8fc671851474d080073"
-	caitlynCNBoundary      = "rank5_primary_champion_first_enemy_single_magic_hit; immediate_impact_scaffold; " +
-		"magic_280_plus_0_80_ap; " +
-		"no_cast_timing_direction_range_width_line_geometry_multitarget_" +
-		"first_enemy_collision_projectile_suppression_spell_shield_recoil_" +
-		"dash_terrain_buffered_actions_slow_headshot_mark_other_ranks_or_" +
-		"full_fidelity"
-
 	caitlynCNProviderRef = "provider_hero_caitlyn_e_90_caliber_net_primary_hit"
 	caitlynCNStableID    = "hero_caitlyn_e_90_caliber_net_primary_hit"
 	caitlynCNAbilityID   = "ability_hero_caitlyn_e_90_caliber_net_primary_hit"
@@ -111,15 +89,6 @@ const (
 
 	caitlynCNTol = 1e-9
 )
-
-func caitlynCNOrderedTags() []string {
-	return []string{
-		"ability_cost_cooldown",
-		"active_magic_damage",
-		"ap_ratio",
-		"immediate_impact_scaffold",
-	}
-}
 
 func caitlynCNExpectedRawFromAP(resolvedAP float64) float64 {
 	return caitlynCNBaseDamage + caitlynCNAPRatio*resolvedAP
@@ -510,24 +479,6 @@ func findCaitlynCNAbilityStat(t *testing.T, done model.DoneResult) model.Ability
 	return model.AbilityStat{}
 }
 
-func caitlynCNRepoPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{"..", "..", "..", ".."}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func caitlynCNSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
-func caitlynCNSHA256HexUpper(b []byte) string {
-	return strings.ToUpper(caitlynCNSHA256Hex(b))
-}
-
 func caitlynCNAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit float64) {
 	t.Helper()
 	raw := evidenceDataFloat(item.Data, "rawAmount")
@@ -561,124 +512,8 @@ func caitlynCNAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantM
 	}
 }
 
-// TestCaitlyn90CaliberNetWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
-func TestCaitlyn90CaliberNetWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
-	type wikiDoc struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		WikiPageID, RevisionID, RawByteSize                      int
-		Fields                                                   struct {
-			Description, Description2, Leveling         string
-			Cooldown, Cost, Costtype, Damagetype, Notes string
-		}
-		FieldPresence map[string]bool
-	}
-	sidecarRaw, err := os.ReadFile(caitlynCNRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "caitlyn-e.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var doc wikiDoc
-	if err := json.Unmarshal(sidecarRaw, &doc); err != nil {
-		t.Fatal(err)
-	}
-	if doc.CandidateKey != caitlynCNCandidateKey || doc.RequestTitle != caitlynCNRequestTitle ||
-		doc.ResolvedTitle != caitlynCNResolvedTitle || doc.WikiPageID != caitlynCNWikiPageID ||
-		doc.RevisionID != caitlynCNRevisionID || doc.RevisionTimestamp != caitlynCNTimestamp ||
-		doc.ContentSHA256 != caitlynCNContentSHA || doc.RawByteSize != caitlynCNRawBytes ||
-		doc.SkillKey != "E" || doc.ZhDisplayName != "90口径绳网" || doc.OwnerID != "hero_caitlyn" {
-		t.Fatalf("sidecar identity drifted: %+v", doc)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2",
-		"cooldown", "cost", "costtype", "damagetype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false", key)
-		}
-	}
-	if doc.Fields.Cost != "75\n" || doc.Fields.Costtype != "mana\n" ||
-		doc.Fields.Damagetype != "Magic\n" {
-		t.Fatalf("cost/type/damage=%q/%q/%q", doc.Fields.Cost, doc.Fields.Costtype, doc.Fields.Damagetype)
-	}
-	if doc.Fields.Cooldown != "{{ap|16 to 8}}\n" {
-		t.Fatalf("cooldown=%q want {{ap|16 to 8}} (rank-5 → 8s)", doc.Fields.Cooldown)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|80 to 280}}") ||
-		!strings.Contains(doc.Fields.Leveling, "80% AP") ||
-		!strings.Contains(doc.Fields.Leveling, "Magic Damage") {
-		t.Fatalf("leveling=%q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Description, "{{as|magic damage}}") ||
-		!strings.Contains(doc.Fields.Description, "first enemy") ||
-		!strings.Contains(doc.Fields.Description, "slow") ||
-		!strings.Contains(doc.Fields.Description, "recoil") {
-		t.Fatal("wiki prose must retain excluded first-enemy/slow/recoil surfaces")
-	}
-	if !strings.Contains(doc.Fields.Description2, "recoil") ||
-		!strings.Contains(doc.Fields.Description2, "dash") {
-		t.Fatal("wiki prose must retain excluded recoil/dash surfaces")
-	}
-	if !strings.Contains(doc.Fields.Notes, "Effect at cast time end") {
-		t.Fatalf("notes missing Effect at cast time end (excluded): %q", doc.Fields.Notes)
-	}
-	if !strings.Contains(doc.Fields.Notes, "terrain") ||
-		!strings.Contains(doc.Fields.Notes, "suppression") ||
-		!strings.Contains(doc.Fields.Notes, "buffer") {
-		t.Fatalf("notes missing terrain/suppression/buffer (excluded): %q", doc.Fields.Notes)
-	}
-
-	pagesRaw, err := os.ReadFile(caitlynCNRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "pages", "caitlyn-e.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	var pages struct {
-		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
-		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
-		PageID, RevisionID, RawByteSize                          int
-	}
-	if err := json.Unmarshal(pagesRaw, &pages); err != nil {
-		t.Fatal(err)
-	}
-	if pages.CandidateKey != doc.CandidateKey || pages.RequestTitle != doc.RequestTitle ||
-		pages.ResolvedTitle != doc.ResolvedTitle || pages.ContentSHA256 != doc.ContentSHA256 ||
-		pages.PageID != doc.WikiPageID || pages.RevisionID != doc.RevisionID ||
-		pages.RevisionTimestamp != doc.RevisionTimestamp || pages.RawByteSize != doc.RawByteSize ||
-		pages.SkillKey != "E" || pages.ZhDisplayName != "90口径绳网" || pages.OwnerID != "hero_caitlyn" {
-		t.Fatalf("pages must agree with sidecar; got %+v", pages)
-	}
-
-	rawBytes, err := os.ReadFile(caitlynCNRepoPath(t,
-		"数据参考", "lol-wiki-current-champions", "raw", "caitlyn-e.wikitext"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(rawBytes) != caitlynCNLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d", len(rawBytes), caitlynCNLocalRawBytes)
-	}
-	localSHA := caitlynCNSHA256Hex(rawBytes)
-	if localSHA != caitlynCNLocalRawSHA {
-		t.Fatalf("local raw sha=%q want %q", localSHA, caitlynCNLocalRawSHA)
-	}
-	if localSHA == caitlynCNContentSHA {
-		t.Fatal("local raw hash must differ from canonical (caveat; not equivalence/contradiction)")
-	}
-	if len(rawBytes) == caitlynCNRawBytes {
-		t.Fatal("local raw byte length must differ from canonical 2095 (materialization caveat)")
-	}
-	if caitlynCNPlanRev != "caitlyn-e-90-caliber-net-primary-hit-phase-a-v3" || caitlynCNBoundary !=
-		"rank5_primary_champion_first_enemy_single_magic_hit; immediate_impact_scaffold; "+
-			"magic_280_plus_0_80_ap; "+
-			"no_cast_timing_direction_range_width_line_geometry_multitarget_"+
-			"first_enemy_collision_projectile_suppression_spell_shield_recoil_"+
-			"dash_terrain_buffered_actions_slow_headshot_mark_other_ranks_or_"+
-			"full_fidelity" {
-		t.Fatal("frozen plan/boundary drifted")
-	}
-
-	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
-
+// TestCaitlyn90CaliberNetConstructedFixtureFormulaShape 验证固定构造的公式与机制边界。
+func TestCaitlyn90CaliberNetConstructedFixtureFormulaShape(t *testing.T) {
 	compileReq, _ := loadCaitlynCNFixture(t, caitlynCNFixtureOpts{
 		resolvedAP: caitlynCNFixtureAPDefault, mr: caitlynCNTargetMR, mana: caitlynCNFixtureManaCD,
 	})

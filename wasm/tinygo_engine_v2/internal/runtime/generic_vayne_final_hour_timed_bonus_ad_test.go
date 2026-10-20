@@ -1,12 +1,9 @@
 package runtime
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"math"
-	"os"
-	"path/filepath"
+
 	"strings"
 	"testing"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -14,6 +11,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// 固定构造的通用机制样例；资料说明仅保留历史出处，不作为测试断言。
 // hero_vayne R Final Hour / 终极时刻 — Phase-A v2 Wasm exact verification slice
 // (FROZEN_PLAN_REV: vayne-r-final-hour-timed-bonus-ad-phase-a-v2).
 //
@@ -70,19 +68,10 @@ import (
 // CompileFrame → RunFrame → ReleaseSessionFrame (determinism/release).
 
 const (
-	// Authoritative and only stable mechanism key (Backend seed, sidecar, pages).
-	vayneFinalHourCandidateKey   = "hero_skill|hero_vayne|R|终极时刻"
-	vayneFinalHourRequestTitle   = "Template:Data Vayne/R"
-	vayneFinalHourResolvedTitle  = "Template:Data Vayne/Final Hour"
-	vayneFinalHourWikiPageID     = 1309991
-	vayneFinalHourRevisionID     = 3807995
-	vayneFinalHourTimestamp      = "2024-11-05T22:07:10Z"
-	vayneFinalHourCanonicalBytes = 2015
-	vayneFinalHourContentSHA     = "e417f1cfc5e8253fdfe8140c4659e8fe63441c38ca3aa1e37d69aa31e25d682d"
-	vayneFinalHourLocalRawBytes  = 2012
-	vayneFinalHourLocalRawSHA    = "343d19e30f0edf70359f122abb2c6c8e7d2d16d5e4c6db46416428d72e7c7642"
-	vayneFinalHourPlanRev        = "vayne-r-final-hour-timed-bonus-ad-phase-a-v2"
-	vayneFinalHourBoundary       = "rank3_timed_bonus_ad_self_buff; direct_provider_state_change; " +
+	// 样例的稳定机制标识。
+
+	vayneFinalHourPlanRev  = "vayne-r-final-hour-timed-bonus-ad-phase-a-v2"
+	vayneFinalHourBoundary = "rank3_timed_bonus_ad_self_buff; direct_provider_state_change; " +
 		"flat_ad_plus_65_for_12000ms; " +
 		"no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement"
 
@@ -694,214 +683,9 @@ func assertVayneFinalHourNoExcludedGraph(t *testing.T, p model.ProviderDefinitio
 	}
 }
 
-func vayneFinalHourWikiSidecarPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "normalized", "generic", "vayne-r.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki sidecar missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func vayneFinalHourWikiRawPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "raw", "vayne-r.wikitext")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki raw missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func vayneFinalHourWikiPagesPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"数据参考", "lol-wiki-current-champions", "pages", "vayne-r.json")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("wiki pages sibling missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-type vayneFinalHourWikiSidecar struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	WikiPageID        int    `json:"wikiPageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-	Fields            struct {
-		Description  string `json:"description"`
-		Leveling     string `json:"leveling"`
-		Description2 string `json:"description2"`
-		Leveling2    string `json:"leveling2"`
-		Description3 string `json:"description3"`
-		Cooldown     string `json:"cooldown"`
-		Cost         string `json:"cost"`
-		Costtype     string `json:"costtype"`
-		Notes        string `json:"notes"`
-	} `json:"fields"`
-	FieldPresence map[string]bool `json:"fieldPresence"`
-}
-
-type vayneFinalHourWikiPages struct {
-	CandidateKey      string `json:"candidateKey"`
-	RequestTitle      string `json:"requestTitle"`
-	ResolvedTitle     string `json:"resolvedTitle"`
-	PageID            int    `json:"pageId"`
-	RevisionID        int    `json:"revisionId"`
-	RevisionTimestamp string `json:"revisionTimestamp"`
-	ContentSHA256     string `json:"contentSha256"`
-	RawByteSize       int    `json:"rawByteSize"`
-	SkillKey          string `json:"skillKey"`
-	ZhDisplayName     string `json:"zhDisplayName"`
-	OwnerID           string `json:"ownerId"`
-}
-
-func vayneFinalHourLoadWikiSidecar(t *testing.T) vayneFinalHourWikiSidecar {
-	t.Helper()
-	raw, err := os.ReadFile(vayneFinalHourWikiSidecarPath(t))
-	if err != nil {
-		t.Fatalf("read wiki sidecar: %v", err)
-	}
-	var doc vayneFinalHourWikiSidecar
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki sidecar: %v", err)
-	}
-	return doc
-}
-
-func vayneFinalHourLoadWikiPages(t *testing.T) vayneFinalHourWikiPages {
-	t.Helper()
-	raw, err := os.ReadFile(vayneFinalHourWikiPagesPath(t))
-	if err != nil {
-		t.Fatalf("read wiki pages: %v", err)
-	}
-	var doc vayneFinalHourWikiPages
-	if err := json.Unmarshal(raw, &doc); err != nil {
-		t.Fatalf("parse wiki pages: %v", err)
-	}
-	return doc
-}
-
-func vayneFinalHourSHA256Hex(b []byte) string {
-	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
-}
-
 // ---------------------------------------------------------------------------
 // Evidence tests
 // ---------------------------------------------------------------------------
-
-// TestGenericVayneFinalHourWikiSidecarIdentityAndBoundary locks repository
-// sidecar/pages/raw identity plus frozen boundary / ordered-tag constants.
-// Local raw is asserted for known non-canonical materialization only.
-func TestGenericVayneFinalHourWikiSidecarIdentityAndBoundary(t *testing.T) {
-	doc := vayneFinalHourLoadWikiSidecar(t)
-	if doc.CandidateKey != vayneFinalHourCandidateKey {
-		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, vayneFinalHourCandidateKey)
-	}
-	if doc.RequestTitle != vayneFinalHourRequestTitle {
-		t.Fatalf("requestTitle=%q want %q", doc.RequestTitle, vayneFinalHourRequestTitle)
-	}
-	if doc.ResolvedTitle != vayneFinalHourResolvedTitle {
-		t.Fatalf("resolvedTitle=%q want %q", doc.ResolvedTitle, vayneFinalHourResolvedTitle)
-	}
-	if doc.WikiPageID != vayneFinalHourWikiPageID {
-		t.Fatalf("wikiPageId=%d want %d", doc.WikiPageID, vayneFinalHourWikiPageID)
-	}
-	if doc.RevisionID != vayneFinalHourRevisionID {
-		t.Fatalf("revisionId=%d want %d", doc.RevisionID, vayneFinalHourRevisionID)
-	}
-	if doc.RevisionTimestamp != vayneFinalHourTimestamp {
-		t.Fatalf("revisionTimestamp=%q want %q", doc.RevisionTimestamp, vayneFinalHourTimestamp)
-	}
-	if doc.ContentSHA256 != vayneFinalHourContentSHA {
-		t.Fatalf("contentSha256=%q want %q", doc.ContentSHA256, vayneFinalHourContentSHA)
-	}
-	if doc.RawByteSize != vayneFinalHourCanonicalBytes {
-		t.Fatalf("rawByteSize=%d want %d", doc.RawByteSize, vayneFinalHourCanonicalBytes)
-	}
-	if doc.SkillKey != "R" || doc.ZhDisplayName != "终极时刻" || doc.OwnerID != "hero_vayne" {
-		t.Fatalf("skill/zh/owner=%q/%q/%q want R/终极时刻/hero_vayne",
-			doc.SkillKey, doc.ZhDisplayName, doc.OwnerID)
-	}
-	for _, key := range []string{
-		"description", "leveling", "description2", "leveling2", "description3",
-		"cooldown", "cost", "costtype", "notes",
-	} {
-		if !doc.FieldPresence[key] {
-			t.Fatalf("fieldPresence[%s]=false want true", key)
-		}
-	}
-	if doc.Fields.Cost != "80\n" {
-		t.Fatalf("fields.cost=%q want %q", doc.Fields.Cost, "80\n")
-	}
-	if doc.Fields.Cooldown != "{{ap|100 to 70}}\n" {
-		t.Fatalf("fields.cooldown=%q want %q", doc.Fields.Cooldown, "{{ap|100 to 70}}\n")
-	}
-	if doc.Fields.Costtype != "Mana\n" {
-		t.Fatalf("fields.costtype=%q want Mana", doc.Fields.Costtype)
-	}
-	if doc.Fields.Leveling == "" || !strings.Contains(doc.Fields.Leveling, "{{ap|35 to 65 3}}") {
-		t.Fatalf("leveling missing rank-3 bonus AD band: %q", doc.Fields.Leveling)
-	}
-	if !strings.Contains(doc.Fields.Leveling, "{{ap|8 to 12}}") {
-		t.Fatalf("leveling missing duration band: %q", doc.Fields.Leveling)
-	}
-
-	pages := vayneFinalHourLoadWikiPages(t)
-	if pages.CandidateKey != vayneFinalHourCandidateKey {
-		t.Fatalf("pages.candidateKey=%q want %q", pages.CandidateKey, vayneFinalHourCandidateKey)
-	}
-	if doc.CandidateKey != pages.CandidateKey {
-		t.Fatalf("sidecar/pages candidateKey diverge: sidecar=%q pages=%q",
-			doc.CandidateKey, pages.CandidateKey)
-	}
-	if pages.RequestTitle != vayneFinalHourRequestTitle ||
-		pages.ResolvedTitle != vayneFinalHourResolvedTitle ||
-		pages.PageID != vayneFinalHourWikiPageID ||
-		pages.RevisionID != vayneFinalHourRevisionID ||
-		pages.RevisionTimestamp != vayneFinalHourTimestamp ||
-		pages.ContentSHA256 != vayneFinalHourContentSHA ||
-		pages.RawByteSize != vayneFinalHourCanonicalBytes ||
-		pages.SkillKey != "R" || pages.ZhDisplayName != "终极时刻" || pages.OwnerID != "hero_vayne" {
-		t.Fatalf("pages identity must agree with sidecar canonical fields; got %+v", pages)
-	}
-
-	raw, err := os.ReadFile(vayneFinalHourWikiRawPath(t))
-	if err != nil {
-		t.Fatalf("read wiki raw: %v", err)
-	}
-	if len(raw) != vayneFinalHourLocalRawBytes {
-		t.Fatalf("local raw len=%d want %d (known non-canonical materialization)",
-			len(raw), vayneFinalHourLocalRawBytes)
-	}
-	localSHA := vayneFinalHourSHA256Hex(raw)
-	if localSHA != vayneFinalHourLocalRawSHA {
-		t.Fatalf("local raw sha=%q want known materialization %q",
-			localSHA, vayneFinalHourLocalRawSHA)
-	}
-	if localSHA == vayneFinalHourContentSHA {
-		t.Fatal("local raw hash must not equal canonical contentSha256 (non-canonical materialization)")
-	}
-
-	if vayneFinalHourBoundary != "rank3_timed_bonus_ad_self_buff; direct_provider_state_change; "+
-		"flat_ad_plus_65_for_12000ms; "+
-		"no_night_hunter_move_speed_tumble_cooldown_invisibility_takedown_extension_stealth_or_movement" {
-		t.Fatal("frozen boundary constant drifted")
-	}
-	tags := vayneFinalHourOrderedTags()
-	if tags[0] != "ability_cost_cooldown" || tags[3] != "timed_provider_state" {
-		t.Fatalf("ordered tags drifted: %v", tags)
-	}
-}
 
 // TestGenericVayneFinalHourConstructedFixtureTimedBonusAndIdentity 核对历史数值边界在现有通用运行构造样例中的身份与公式。
 func TestGenericVayneFinalHourConstructedFixtureTimedBonusAndIdentity(t *testing.T) {
