@@ -281,6 +281,9 @@ func (f *executionFrame) basicAttackWaitContext(context *executionFrame) *model.
 	for _, owner := range []string{attack.plan.Source, attack.plan.Target} {
 		staged := context.stageFor(owner)
 		for index, mutation := range staged.providerOps {
+			if mutation.projected {
+				continue
+			}
 			if mutation.kind == "apply" || mutation.kind == "shield_apply" {
 				definitionIndex, exists := mutation.definitionIndex, mutation.kind == "shield_apply"
 				if !exists {

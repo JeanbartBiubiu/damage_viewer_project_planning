@@ -2075,6 +2075,13 @@ func (f *executionFrame) commit() {
 	}
 	if f.run.compiled.HasShieldLifecycle {
 		f.prepareShieldLifecycleRemovals()
+		if f.run.compiled.HasProviderDurationChange && !f.run.compiled.HasResourceMax && !f.run.compiled.HasCooldownDuration {
+			// Depletion can append a removal after the first projection pass.
+			f.flushDynamicProviders()
+			if f.fatal {
+				return
+			}
+		}
 	}
 	var keyBuffer [2]string
 	keys, err := f.commitKeysAndPreflight(keyBuffer[:0])

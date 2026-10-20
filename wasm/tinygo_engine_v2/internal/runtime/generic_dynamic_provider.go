@@ -65,6 +65,8 @@ func (f *executionFrame) flushDynamicProviders() {
 			oldIndex := -1
 			if mut.kind == "apply" {
 				index, exists = f.run.findProviderDefinitionIndex(mut.definitionRef)
+			} else if mut.kind == "shield_apply" {
+				index, exists = mut.definitionIndex, int(mut.definitionIndex) < len(f.run.compiled.Providers)
 			} else {
 				old, oldIndex, exists = status.FindByRef(sc.providers, mut.providerRef)
 				index = old.DefinitionIndex
@@ -85,6 +87,10 @@ func (f *executionFrame) flushDynamicProviders() {
 				continue
 			}
 			p := f.run.compiled.Providers[index]
+			if f.projectDurationLinkedShield(owner, sc, p, index, old, oldIndex, mut) {
+				changed, sc.dirty = true, true
+				continue
+			}
 			if !p.AtomicDynamic {
 				continue
 			}

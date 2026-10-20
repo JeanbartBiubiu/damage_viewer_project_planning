@@ -6,5 +6,6 @@
 /outputs/** -text
 /数据参考/** -text
 # Wiki 原文保留源站行尾空格和原始换行；生成元数据仍使用 LF。
-/数据参考/lol-wiki-champions-full/**/*.wikitext whitespace=-blank-at-eol,-blank-at-eof
+/数据参考/lol-wiki-champions-full/**/*.wikitext -whitespace
+/数据参考/lol-wiki-champions-full/dependencies/** -whitespace
 /文档记录/测试记录/wasm/artifacts/** -text

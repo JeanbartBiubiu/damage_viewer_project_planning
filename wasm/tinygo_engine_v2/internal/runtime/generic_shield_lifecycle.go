@@ -115,6 +115,7 @@ func (f *executionFrame) stageLifecycleShield(op planbundle.CompiledOperation, a
 	sc.providerOps = append(sc.providerOps, stagedProviderMutation{kind: "shield_apply", definitionIndex: op.ShieldLifecycleProviderIndex,
 		definitionRef: provider.ProviderKey, providerRef: providerRef, sourceKey: f.sourceKey, targetKey: target,
 		expireAt: expires, hasExpireAt: expires > 0, contributions: contributions})
+	f.dynamicProviderDirty = true
 	if expires > 0 {
 		f.pendingShieldExpires = append(f.pendingShieldExpires, pendingShieldExpire{combatantKey: target, shieldRef: shieldRef, expireAt: expires})
 	}
@@ -131,6 +132,7 @@ func (f *executionFrame) stageShieldProviderRemoval(sc *stagedCombatant, owner, 
 		}
 	}
 	sc.providerOps = append(sc.providerOps, stagedProviderMutation{kind: "expire", providerRef: ref, targetKey: owner})
+	f.dynamicProviderDirty = true
 }
 
 // Runs before queue/wait preflight. Only touched combatants and their small shield
