@@ -133,7 +133,9 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1 -TinyGo "<tiny
 .tools/binaryen-version_129/bin/wasm-opt(.exe)     ../binaryen-version_129/bin/wasm-opt(.exe)
 ```
 
-工具放在其它位置时显式指定：PowerShell 用 `-TinyGo`，bash 用 `TINYGO=<路径>`，`wasm-opt` 用环境变量 `WASMOPT`。正式产物使用 TinyGo 0.40.1 与 binaryen 129，换用 binaryen 124 产物字节会变。
+工具放在其它位置时显式指定：PowerShell 用 `-TinyGo`，bash 用 `TINYGO=<路径>`，`wasm-opt` 用环境变量 `WASMOPT`。正式构建固定使用Go 1.25.2、TinyGo 0.40.1与Wasm优化工具Binaryen 129，两份构建脚本实际检查版本，不再回退到124。版本不符直接退出，避免不同工具链生成的字节混入正式身份。
+
+前端目录运行`npm run check:wasm-build`会将当前源码和目标配置按正式参数重建到被忽略的`web/output/`，再与分发Wasm逐字节比较；成功后删除本次临时产物，失败保留排查。该入口不修改分发文件、身份常量或正式证明，完整证明刷新和持续集成均强制使用它。
 
 Node 宿主必须加载与编译器同版本的 `wasm_exec.js`；仓库脚本同样会查找上述工具目录，也可用 `TINYGO_WASM_EXEC` 显式指定。
 

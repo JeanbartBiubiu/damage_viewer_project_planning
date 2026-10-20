@@ -30,12 +30,26 @@ if ! command -v "$tinygo" >/dev/null 2>&1; then
 fi
 
 if [ -z "${WASMOPT:-}" ]; then
-  wasmopt="$(first_existing "$workspace/.tools/binaryen-version_129/bin/wasm-opt" "$workspace/.tools/binaryen-version_124/bin/wasm-opt" \
-    "$project/binaryen-version_129/bin/wasm-opt" "$project/binaryen-version_124/bin/wasm-opt")"
+  wasmopt="$(first_existing "$workspace/.tools/binaryen-version_129/bin/wasm-opt" \
+    "$project/binaryen-version_129/bin/wasm-opt")"
   if [ -n "$wasmopt" ]; then
     export WASMOPT="$wasmopt"
   fi
 fi
+
+export WASMOPT="${WASMOPT:-wasm-opt}"
+tinygo_version="$("$tinygo" version)"
+if [[ "$tinygo_version" != "tinygo version 0.40.1 "* || "$tinygo_version" != *"using go version go1.25.2 "* ]]; then
+  echo "Formal build requires TinyGo 0.40.1 using Go 1.25.2. Actual: $tinygo_version" >&2
+  exit 1
+fi
+wasmopt_version="$("$WASMOPT" --version)"
+if [[ ! "$wasmopt_version" =~ ^wasm-opt\ version\ 129([^0-9]|$) ]]; then
+  echo "Formal build requires Binaryen 129. Actual: $wasmopt_version" >&2
+  exit 1
+fi
+echo "$tinygo_version"
+echo "$wasmopt_version"
 
 cd "$root"
 mkdir -p "$(dirname "$out")"

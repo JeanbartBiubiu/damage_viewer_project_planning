@@ -4,6 +4,7 @@
 
 ```powershell
 npm run test:mechanisms   # 只跑机制回归；npm test 也会包含
+npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐字节比对
 ```
 
 ## 链路与比对
@@ -70,8 +71,10 @@ node scripts/refresh-verification-identity.mjs          # 只检查
 node scripts/refresh-verification-identity.mjs --write  # 条件全部满足后改写证明根
 ```
 
-脚本要求 Wasm 身份常量与产物一致、相关源码已提交（源码身份即提交号）、每个 `PASSED` 对象在 `admitted-coverage.json` 声明的内容/外部依赖摘要与正式证明一致、依赖机制都有用例，且机制回归全部通过；然后只改写证明根上的 `wasmSha256`、`adapterVersion` 和 `mechanismRegression`，各对象的内容摘要不变。检查范围包含整个前端执行链（包括脚本、配置和依赖锁）、引擎与共享契约；回归前后均检查源码洁净，并拒绝覆盖运行期间变化的正式证明。覆盖未声明、摘要过期或有缺口时脚本拒绝刷新，并列出缺少的机制。
+脚本要求 Wasm 身份常量与产物一致、相关源码已提交（源码身份即提交号）、每个 `PASSED` 对象在 `admitted-coverage.json` 声明的内容/外部依赖摘要与正式证明一致、依赖机制都有用例。完整刷新还必须先按正式参数构建当前Go源码和目标配置，重建字节与分发Wasm完全相同后才运行机制回归；缺构建工具、构建失败或产物不符均拒绝生成证明，没有跳过构建的参数。构建仅写入忽略目录，不覆盖正式产物；工具版本及安装位置见引擎README。
+
+全部通过后只改写证明根上的 `wasmSha256`、`adapterVersion` 和 `mechanismRegression`（含实际重建产物摘要），各对象的内容摘要不变。检查范围包含整个前端执行链（包括脚本、配置和依赖锁）、引擎与共享契约；构建及回归前后均检查源码洁净，并拒绝覆盖运行期间变化的正式证明。覆盖未声明、摘要过期或有缺口时脚本拒绝刷新，并列出缺少的机制。
 
 `admitted-coverage.json` 的对象键为`<kind>:<key>`，每项保存与正式证明相同的`contentDigest`、`externalDigest`、非空唯一`mechanisms`及中文核对依据`rationale`。当前清单对应5名英雄和19件纯属性装备的既有准入范围，不能用空泛标签宣称支持新对象。
 
-`npm run check:mechanism-coverage`只检查依赖，不运行回归、不写证明，用于持续集成；`npm test`包含机制回归及刷新门槛测试。新对象首次准入仍需按其真实配置单独验收；回归阶段只依赖这里的机制用例。
+`npm run check:mechanism-coverage`只检查依赖，不运行回归、不写证明，也不证明构建一致。持续集成在机制测试之前另行强制运行`check:wasm-build`；`npm test`包含机制回归、刷新及构建比较门槛测试。新对象首次准入仍需按其真实配置单独验收；回归阶段只依赖这里的机制用例。

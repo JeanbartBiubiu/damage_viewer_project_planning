@@ -15,6 +15,7 @@ import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { coverageGaps } from './lib/verificationRegression.mjs';
+import { checkWasmBuild } from './check-wasm-build.mjs';
 
 const WEB = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const ROOT = resolve(WEB, '..');
@@ -82,6 +83,8 @@ if (coverageOnly) {
   process.exit(0);
 }
 
+const wasmBuild = checkWasmBuild();
+checkSourceIdentity();
 const vitest = spawnSync(process.execPath, [resolve(WEB, 'node_modules/vitest/vitest.mjs'), 'run', '--config', 'vitest.config.ts', 'tests/mechanisms'],
   { cwd: WEB, stdio: 'inherit' });
 if (vitest.status !== 0) fail('机制回归未通过，不刷新证明');
@@ -94,7 +97,7 @@ const next = {
   wasmSha256: sha256(wasm),
   adapterVersion,
   mechanismRegression: { sourceCommit, caseCount, casesDigest: sha256(fileDigests.join('\n')),
-    coverageDigest: sha256(readFileSync(resolve(MECHANISMS, 'admitted-coverage.json'))) },
+    coverageDigest: sha256(readFileSync(resolve(MECHANISMS, 'admitted-coverage.json'))), wasmBuildSha256: wasmBuild.sha256 },
   entries
 };
 const summary = `wasm ${next.wasmSha256}，适配器 ${adapterVersion}，提交 ${sourceCommit}，用例 ${caseCount} 个`;

@@ -9,11 +9,12 @@
     "preview": "vite preview",
     "lint": "node scripts/lint-no-legacy.mjs",
     "typecheck": "tsc -b --pretty false && tsc -p tsconfig.mechanisms.json --pretty false",
-    "test": "node --test scripts/verificationRegression.test.mjs && vitest run --config vitest.config.ts",
+    "test": "node --test scripts/verificationRegression.test.mjs scripts/wasmBuild.test.mjs && vitest run --config vitest.config.ts",
     "test:mechanisms": "vitest run --config vitest.config.ts tests/mechanisms",
     "test:e2e:non-wasm": "playwright test --config playwright.non-wasm.config.ts",
-    "test:verification": "node --test scripts/verificationRegression.test.mjs",
-    "check:mechanism-coverage": "node scripts/refresh-verification-identity.mjs --check-coverage"
+    "test:verification": "node --test scripts/verificationRegression.test.mjs scripts/wasmBuild.test.mjs",
+    "check:mechanism-coverage": "node scripts/refresh-verification-identity.mjs --check-coverage",
+    "check:wasm-build": "node scripts/check-wasm-build.mjs"
   },
   "dependencies": {
     "@arco-design/web-react": "^2.66.0",

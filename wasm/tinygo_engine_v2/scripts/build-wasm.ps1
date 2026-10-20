@@ -43,14 +43,24 @@ if (-not (Get-Command $TinyGo -ErrorAction SilentlyContinue)) {
 if (-not $env:WASMOPT) {
     $resolvedWasmOpt = Resolve-LocalTool @(
         (Join-Path $workspaceRoot ".tools\binaryen-version_129\bin\wasm-opt.exe"),
-        (Join-Path $workspaceRoot ".tools\binaryen-version_124\bin\wasm-opt.exe"),
-        (Join-Path $projectRoot "binaryen-version_129\bin\wasm-opt.exe"),
-        (Join-Path $projectRoot "binaryen-version_124\bin\wasm-opt.exe")
+            (Join-Path $projectRoot "binaryen-version_129\bin\wasm-opt.exe")
     )
     if ($resolvedWasmOpt) {
         $env:WASMOPT = $resolvedWasmOpt
     }
 }
+
+if (-not $env:WASMOPT) { $env:WASMOPT = "wasm-opt" }
+$tinyGoVersion = & $TinyGo version
+if ($LASTEXITCODE -ne 0 -or $tinyGoVersion -notmatch '^tinygo version 0\.40\.1\b.*using go version go1\.25\.2\b') {
+    throw "Formal build requires TinyGo 0.40.1 using Go 1.25.2. Actual: $tinyGoVersion"
+}
+$wasmOptVersion = & $env:WASMOPT --version
+if ($LASTEXITCODE -ne 0 -or $wasmOptVersion -notmatch '^wasm-opt version 129\b') {
+    throw "Formal build requires Binaryen 129. Actual: $wasmOptVersion"
+}
+Write-Host $tinyGoVersion
+Write-Host $wasmOptVersion
 
 New-Item -ItemType Directory -Force $outDir | Out-Null
 

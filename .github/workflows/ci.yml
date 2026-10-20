@@ -35,9 +35,32 @@ jobs:
           node-version: '20'
           cache: npm
           cache-dependency-path: web/package-lock.json
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.2'
+          cache: false
+      - uses: actions/cache@v4
+        id: wasm-tools
+        with:
+          path: |
+            .tools/tinygo0.40.1
+            .tools/binaryen-version_129
+          key: wasm-build-linux-amd64-tinygo0.40.1-binaryen129-v1
+      - name: 安装固定版本的正式Wasm构建工具
+        if: steps.wasm-tools.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ../.tools/downloads ../.tools/tinygo0.40.1
+          curl --fail --location --retry 3 https://github.com/tinygo-org/tinygo/releases/download/v0.40.1/tinygo0.40.1.linux-amd64.tar.gz -o ../.tools/downloads/tinygo.tar.gz
+          echo '064fc0c07f4d71f7369b168c337caa88ef32a6b00b16449cea44790ccadfc2b4  ../.tools/downloads/tinygo.tar.gz' | sha256sum -c -
+          tar -xzf ../.tools/downloads/tinygo.tar.gz -C ../.tools/tinygo0.40.1
+          curl --fail --location --retry 3 https://github.com/WebAssembly/binaryen/releases/download/version_129/binaryen-version_129-x86_64-linux.tar.gz -o ../.tools/downloads/binaryen.tar.gz
+          echo '50b9fa62b9abea752da92ec57e0c555fee578760cd237c40107957715d2976ba  ../.tools/downloads/binaryen.tar.gz' | sha256sum -c -
+          tar -xzf ../.tools/downloads/binaryen.tar.gz -C ../.tools
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
+      - name: 当前源码正式构建与分发Wasm逐字节一致
+        run: npm run check:wasm-build
       - name: 单测与机制回归（tests/mechanisms，加载已提交的 Wasm）
         run: npm test
       - name: 正式对象的机制依赖完整性
