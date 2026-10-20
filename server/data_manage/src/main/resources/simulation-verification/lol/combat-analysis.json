@@ -5,14 +5,14 @@
   "digestVersion": "simulation-availability-v1",
   "scopeDigest": "aca6992710041fa65cee3d20cfe701f43991e4a1122903ccc6e59b753842a5f8",
   "sharedDigest": "91a01f39579d516eeb68c2ffc69b2899ce05326185d2d6f2c38fbe4e966b6e58",
-  "wasmSha256": "1346f63b089edfda34335720864b3784196b350504ec47d75134524df1ba70d1",
-  "adapterVersion": "v25-process-state-resource-max-and-cooldown",
+  "wasmSha256": "7912ddd4963d88488f4c28dd0bbc4fae38ad19523ac6f9a27919fd99024b0ba2",
+  "adapterVersion": "v26-owned-health-and-duration-maintenance",
   "mechanismRegression": {
-    "sourceCommit": "6049177baa5ba8127fe41758463a108d2d70704a",
-    "caseCount": 46,
-    "casesDigest": "749e9e66fd23f14ec0770fa5f6621ce3cec3fda67e452c0f97e82125111560a0",
-    "coverageDigest": "d66b6414943fb92fe0ffd2c4c0fc9e91ad4183682a2fdea35430cf48170a51c1",
-    "wasmBuildSha256": "1346f63b089edfda34335720864b3784196b350504ec47d75134524df1ba70d1"
+    "sourceCommit": "e8235dd1c120c5be184d996506b9d44f3847928a",
+    "caseCount": 50,
+    "casesDigest": "b0315f8c2d8c12a91c3bef841465eadede29cb6c015552b57ceacd81572d88ae",
+    "coverageDigest": "17fe86999ee51fcd2637527779c2bae7c174effdf623e19d34b488bb4f9aa4ed",
+    "wasmBuildSha256": "7912ddd4963d88488f4c28dd0bbc4fae38ad19523ac6f9a27919fd99024b0ba2"
   },
   "entries": [
     {
@@ -1386,6 +1386,101 @@
         "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
         "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
         "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "CHARACTER",
+      "key": "champion_olaf",
+      "contentDigest": "b38975d39edd2a94d77069588ac70fe703f99b38f2ffca8bac818dfc5bd4e6b0",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "olaf_e",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "olaf_p",
+            "levels": [
+              1
+            ]
+          },
+          {
+            "skillKey": "olaf_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "olaf_r",
+            "levels": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "skillKey": "olaf_w",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "evidenceRefs": [
+        "outputs/skill-adaptation-20261021/验收摘要.json#sha256=2a1694b6c05dd4f77587416f9b1dcbc9625cad07a0df41c87aea14c3a08c12a3"
       ],
       "issues": []
     }
