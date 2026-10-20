@@ -1,6 +1,451 @@
 {
   "schemaVersion": "mechanism-coverage-v1",
   "games": {
-    "lol": {}
+    "lol": {
+      "CHARACTER:champion_annie": {
+        "contentDigest": "15e6b93e33b3ba0e19d396eb45c1b27c1c38fd882e8984b9bf67edbfb8f221f4",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.complement_ratio_combination",
+          "attribute.instance_elapsed_decay",
+          "basic_attack.cadence",
+          "combat.kill_stop",
+          "combat.overkill_clamp",
+          "damage.critical_expectation",
+          "damage.magic_resist",
+          "damage.physical_armor",
+          "healing.life_steal",
+          "healing.omnivamp",
+          "healing.per_result_qualification",
+          "healing.reflected_qualification",
+          "passive.basic_attack_counter",
+          "passive.event_condition_snapshot",
+          "resource.ordinary_cost_ignored",
+          "shield.absorption",
+          "shield.break_no_retaliation",
+          "shield.depletion",
+          "shield.reapplication_refresh",
+          "shield.retaliation_quota",
+          "skill.action_occupancy",
+          "skill.automatic_cooldown",
+          "skill.delay_hit",
+          "skill.formula_attribute_ratio",
+          "skill.hit_miss",
+          "skill.manual_cast",
+          "skill.release_after",
+          "skill.wait_for_cooldown"
+        ],
+        "rationale": "依既有安妮完整来源验收：普通盾与按目标反伤额度、同事件被动计数、有限属性衰减、常驻剩余比例组合；独立召唤物及完整控制行动限制沿原范围排除。"
+      },
+      "CHARACTER:champion_corki": {
+        "contentDigest": "c188eed26fa8ebeb2172c0437eccfa590a1655ec5a4ca7c2f67ee127f55030df",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.flat_dual_resistance_reduction",
+          "basic_attack.cadence",
+          "basic_attack.empowered_bonus",
+          "combat.kill_stop",
+          "combat.overkill_clamp",
+          "damage.critical_expectation",
+          "damage.magic_resist",
+          "damage.periodic",
+          "damage.periodic_refresh",
+          "damage.physical_armor",
+          "damage.true",
+          "effect.finite_expiry",
+          "healing.life_steal",
+          "healing.omnivamp",
+          "healing.per_result_qualification",
+          "resource.ordinary_cost_ignored",
+          "skill.action_occupancy",
+          "skill.ammo_capacity_and_consumption",
+          "skill.ammo_miss_consumes",
+          "skill.ammo_one_by_one",
+          "skill.ammo_phase_counter",
+          "skill.ammo_reduce_recovery",
+          "skill.automatic_cooldown",
+          "skill.delay_hit",
+          "skill.formula_attribute_ratio",
+          "skill.manual_cast",
+          "skill.release_after",
+          "skill.wait_for_cooldown"
+        ],
+        "rationale": "依既有库奇完整来源验收：附加真实伤害、期限内双抗平减、周期伤害及刷新、逐枚库存恢复、每第三发、未命中扣弹与普攻缩短回充。"
+      },
+      "CHARACTER:champion_garen": {
+        "contentDigest": "667e6f58287a4fcde788da1f24aee9a390643f61b45c66cc7ed060b8e22753b5",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.total_armor_reduction",
+          "basic_attack.cadence",
+          "basic_attack.empowered_bonus",
+          "basic_attack.timer_reset",
+          "combat.kill_stop",
+          "combat.overkill_clamp",
+          "damage.critical_expectation",
+          "damage.magic_resist",
+          "damage.missing_health_scaling",
+          "damage.physical_armor",
+          "damage.timed_reduction",
+          "damage.true",
+          "effect.finite_expiry",
+          "healing.life_steal",
+          "healing.omnivamp",
+          "healing.per_result_qualification",
+          "passive.scene_initial_attribute",
+          "passive.source_initialized",
+          "resource.ordinary_cost_ignored",
+          "shield.absorption",
+          "shield.reapplication_refresh",
+          "skill.action_occupancy",
+          "skill.automatic_cooldown",
+          "skill.cooldown_on_complete",
+          "skill.delay_hit",
+          "skill.finite_channel",
+          "skill.formula_attribute_ratio",
+          "skill.manual_cast",
+          "skill.release_after",
+          "skill.wait_for_cooldown"
+        ],
+        "rationale": "依既有盖伦完整来源验收：下一刀强化与计时重置、有限引导及完成冷却、目标总护甲削减、有限护盾减伤、显式战前永久属性、损失生命求伤；P沿原范围排除。"
+      },
+      "CHARACTER:champion_nasus": {
+        "contentDigest": "179a72cc5338ae603c6e38b381f326bfc84afd93124909f1f47b5381388959ee",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.same_instance_group",
+          "attribute.total_armor_reduction",
+          "basic_attack.cadence",
+          "basic_attack.empowered_bonus",
+          "basic_attack.timer_reset",
+          "combat.kill_stop",
+          "combat.overkill_clamp",
+          "damage.critical_expectation",
+          "damage.magic_resist",
+          "damage.per_result_critical",
+          "damage.periodic",
+          "damage.physical_armor",
+          "effect.finite_expiry",
+          "healing.life_steal",
+          "healing.omnivamp",
+          "healing.per_result_qualification",
+          "passive.scene_initial_attribute",
+          "resource.max_health",
+          "resource.max_health_expiry",
+          "resource.max_health_refresh",
+          "resource.ordinary_cost_ignored",
+          "skill.action_occupancy",
+          "skill.automatic_cooldown",
+          "skill.cooldown_committed_snapshot",
+          "skill.cooldown_duration_modifier",
+          "skill.delay_hit",
+          "skill.formula_attribute_ratio",
+          "skill.manual_cast",
+          "skill.process_start_counter_snapshot",
+          "skill.release_after",
+          "skill.wait_for_cooldown"
+        ],
+        "rationale": "依既有内瑟斯完整来源验收：显式累计初值及过程开始冻结、待击附伤、期限内总护甲削减与周期、同实例生命上限/双抗、刷新净增量和到期夹取、未来提交冷却倍率；W沿原范围排除。"
+      },
+      "CHARACTER:champion_twistedfate": {
+        "contentDigest": "55b3217689b6d9327c462112abae9814f8f754a35b355e941111f16a8a3b0ea7",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "basic_attack.cadence",
+          "basic_attack.empowered_bonus",
+          "basic_attack.primary_replacement",
+          "basic_attack.replacement_with_bonus",
+          "combat.kill_stop",
+          "combat.overkill_clamp",
+          "damage.critical_expectation",
+          "damage.magic_resist",
+          "damage.per_result_critical",
+          "damage.physical_armor",
+          "healing.life_steal",
+          "healing.omnivamp",
+          "healing.per_result_qualification",
+          "passive.basic_attack_counter",
+          "passive.event_condition_snapshot",
+          "passive.initial_counter",
+          "resource.ordinary_cost_ignored",
+          "skill.action_occupancy",
+          "skill.automatic_cooldown",
+          "skill.delay_hit",
+          "skill.formula_attribute_ratio",
+          "skill.manual_cast",
+          "skill.process_start_counter_snapshot",
+          "skill.release_after",
+          "skill.wait_for_cooldown"
+        ],
+        "rationale": "依既有崔斯特完整来源验收：战前0至3计数及每四刀、事件条件冻结、攻速派生、下一刀主体替换及普通附伤共存；三种牌保留独立开关，P/R沿原范围排除。"
+      },
+      "EQUIPMENT:duolan_jian": {
+        "contentDigest": "8e569ecbf3e2e0a8ef97911ec9ad6fffe9cb233539f55f15551c2440aa9f172b",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_1011": {
+        "contentDigest": "b9a5c432975742c21d2ed912d7c863c65cde40e369bec1608ddc873a94d64ac9",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_1018": {
+        "contentDigest": "06be01d9a107cb31f641d7d173281c5af8c810cd53d91802d617cc19ed10adeb",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_1028": {
+        "contentDigest": "b2153f9fef0a057fa61cb870dacde3a8c784f4105da7755ad4edf17b73a21fc8",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_1029": {
+        "contentDigest": "5f1ca42ce077b3fc9f44882b87f4b165fabb714bb56c05abd7ed3b9c32a2d598",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_1031": {
+        "contentDigest": "d026c4b3814336e578edf3fe72ebbfe519086cd2897b7f8d7da9a3131a215bba",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_1036": {
+        "contentDigest": "1d7218771f1b25590bc9f4a2c1f7b189ec1e485f46428f79e96d33b78093698b",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_1037": {
+        "contentDigest": "1d0ace44cd97e262ea3c8d70cf4040ae85f10c886669fad32e753d5d04201039",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_1038": {
+        "contentDigest": "b850e237f5464c63c740c46a6f233cbc20b76f1475c2f016afe99fb32353ef53",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_1042": {
+        "contentDigest": "c6410ea35414b9893c6998a85f4bfac48e1b8a09d86c476a6167996daaa641c2",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_1053": {
+        "contentDigest": "3361c41afd06af0622f74026b8fa676141f579bc51427981883383d4c9813cf8",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_1086": {
+        "contentDigest": "a4a4ad69bb19e3bb0506bbe3f490fe99935bd3f820bc7d041b9f0b5fb106bae0",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_2019": {
+        "contentDigest": "c80e83c2a46bd5e392054f99599452345a9c3984e0f8e0828ff1e1216e5a31e1",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_2021": {
+        "contentDigest": "7fef09d6e65e1de6bf6bb6e26eea23a1c248108eaa8d587b15297d9fb1760767",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_3031": {
+        "contentDigest": "f4c469db93ebdba42f03c427ea459efc4bd9a20feed61515bedf5414a64c09ce",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_3035": {
+        "contentDigest": "bc0d17358c6da4a40cfd6ff2977a2e8625f67dfe01c11384744a7373bdb462cf",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_3051": {
+        "contentDigest": "d0dbf5d94fbc83ed87b8a081abbc4ca0e5d7cc146be79f6fab7481d501bd9bb2",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_3134": {
+        "contentDigest": "083d7c10ce40913dad349f887c7a8d80ee3a0817fed309eae37383f6001d41d6",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      },
+      "EQUIPMENT:item_6670": {
+        "contentDigest": "477a80c4768460045e5f5231b85fbf0d04be0b9fc4d4684c192626a37b271cf5",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "damage.critical_expectation",
+          "damage.physical_armor",
+          "damage.physical_penetration",
+          "equipment.health_and_combat_stats",
+          "equipment.static_attributes",
+          "healing.life_steal"
+        ],
+        "rationale": "既有单件装备证明的skills为空，仅依赖静态属性进入生命上限、攻速派生、暴击、穿透、护甲与吸血管道；这是机制回归依赖，不扩大到任意装备组合或触发型装备。"
+      }
+    }
   }
 }

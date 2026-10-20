@@ -15,7 +15,7 @@ import { assessSkillActionResult } from '../../src/engine/skillActionResult';
 import { continuousAttackRequest } from '../../src/engine/continuousAttackRequest';
 import { assessContinuousAttackResult } from '../../src/engine/continuousAttackResult';
 import { validateSimulationSnapshot } from '../../src/services/simulationSnapshotClient';
-import type { CompileRequest, CompileResult, DoneResult, GenericReleaseDonePayload, RunRequest } from '../../src/types/genericEngine';
+import type { CompileRequest, CompileResult, DamageRecord, DoneResult, GenericReleaseDonePayload, RunRequest } from '../../src/types/genericEngine';
 import type { MechanismCase, MechanismExpectation, MechanismProjection } from './mechanismCase';
 
 export const WASM_PATH = new URL('../../src/engine/wasm/tinygo_engine_v2.wasm', import.meta.url);
@@ -60,13 +60,13 @@ export async function runMechanismCase(definition: MechanismCase): Promise<Mecha
   validateSimulationSnapshot(snapshot, snapshot.gameId, snapshot.selection);
   const scenario = definition.scenario;
   const ignoredCosts = simulationAutomaticCastCosts(snapshot);
-  const inspection = inspectSimulationSnapshot(snapshot, ignoredCosts);
+  await preflightSkillFormulas(snapshot, client, () => true, scenario.sceneParameterInputs ?? []);
+  const inspection = inspectSimulationSnapshot(snapshot, ignoredCosts, scenario.sceneParameterInputs ?? []);
   const attributes = structuredClone(scenario.attributeInputs ?? { source: {}, target: {} });
   const absent = inspection.requirements.filter(row => row.storedValue === undefined && attributes[row.side][row.attribute.attributeKey] === undefined);
   if (absent.length) throw new Error('用例缺少必要属性，须在角色等级属性或 scenario.attributeInputs 中写明：'
     + absent.map(row => `${row.side}.${row.attribute.attributeKey}`).join(','));
-  await preflightSkillFormulas(snapshot, client);
-  const prepared = await prepareSimulation(snapshot, attributes, scenario.initialHealth, [], [], ignoredCosts);
+  const prepared = await prepareSimulation(snapshot, attributes, scenario.initialHealth, scenario.equipmentAssumptions ?? [], scenario.mechanicStateInputs ?? [], ignoredCosts, scenario.sceneParameterInputs ?? []);
   const compiled = await client.compile(prepared.compileRequest);
   if (!compiled.ok || !compiled.sessionId) throw new Error('编译未通过：' + JSON.stringify(compiled.errors ?? compiled));
   const sessionId = compiled.sessionId;
@@ -76,10 +76,10 @@ export async function runMechanismCase(definition: MechanismCase): Promise<Mecha
     const common = { durationMs: scenario.durationMs, recordTimeSeries: false, attackSpeedInputMax: scenario.attackSpeedInputMax ?? 10 };
     const built = scenario.mode === 'automatic_skill'
       ? await automaticSkillRequest(prepared, snapshot, { ...common, rules: scenario.automaticRules ?? [], outputMode: 'detailed',
-        maxAutomaticSkillRecords: 1000, maxHealingRecords: 1000 }, sessionId)
+        maxAutomaticSkillRecords: 1000, maxHealingRecords: 1000, maxResourceChangeRecords: 1000 }, sessionId)
       : scenario.mode === 'skill_action'
         ? await skillActionRequest(prepared, snapshot, { ...common, actions: scenario.actions ?? [],
-          maxSkillActionRecords: 1000, maxSkillUseRecords: 1000, maxHealingRecords: 1000 }, sessionId)
+          maxSkillActionRecords: 1000, maxSkillUseRecords: 1000, maxHealingRecords: 1000, maxResourceChangeRecords: 1000 }, sessionId)
         : await continuousAttackRequest(prepared, snapshot, common, sessionId);
     const runRequest: RunRequest = { ...built.runRequest, sessionId, runtimeOptions: { ...built.runRequest.runtimeOptions,
       equipmentAssumptions: prepared.equipmentAssumptions, skillOrigins: prepared.skillOrigins, mechanicStateInputs: prepared.mechanicStateInputs } };
@@ -95,7 +95,8 @@ export async function runMechanismCase(definition: MechanismCase): Promise<Mecha
     if (!isDeepStrictEqual(repeated, done)) throw new Error('同会话重复运行结果不一致');
     return { prepared, runRequest, done, projection: projectMechanismResult(prepared.operationOrigins, prepared.compileRequest, runRequest, done) };
   } finally {
-    await client.release(sessionId, prepared.compileRequest.rulesHash);
+    const released = await client.release(sessionId, prepared.compileRequest.rulesHash);
+    if (!released.released) throw new Error('引擎未释放实际会话');
   }
 }
 
@@ -109,8 +110,13 @@ function automaticRuleSkill(compileRequest: CompileRequest, runRequest: RunReque
 /** 只保留业务可手算的语义字段，避免内部引用、编号和记录形状变化影响回归。 */
 export function projectMechanismResult(origins: readonly OperationOrigin[], compileRequest: CompileRequest, runRequest: RunRequest,
   done: DoneResult): MechanismProjection {
-  const originOf = (abilityRef: string, operationRef: string) =>
-    origins.find(row => row.abilityRef === abilityRef && row.operationRef === operationRef) ?? null;
+  const originOf = (record: DamageRecord) => {
+    const matches = origins.filter(row => row.operationRef === record.operationRef && (row.abilityRef === record.abilityRef
+      || !!record.providerDefinitionRef && row.providerDefinitionRef === record.providerDefinitionRef
+        && row.abilityRef.startsWith(`${record.owner}.provider[`)));
+    if (matches.length !== 1) throw new Error(`伤害记录找不到唯一作者来源：${record.abilityRef}/${record.operationRef}`);
+    return matches[0]!;
+  };
   const summary = done.summary;
   return {
     summary: {
@@ -121,7 +127,7 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
       basicAttackStarted: summary.basicAttack?.startedCount ?? 0, basicAttackHits: summary.basicAttack?.hitCount ?? 0
     },
     damage: [...(done.damageRecords ?? [])].sort((a, b) => a.timeMs - b.timeMs || a.damageId - b.damageId).map(row => {
-      const origin = originOf(row.abilityRef, row.operationRef);
+      const origin = originOf(row);
       return { timeMs: row.timeMs, source: row.source, target: row.target, skillKey: origin?.skillKey ?? null,
         effectKey: origin?.effectKey ?? null, resultKey: origin?.resultKey ?? null, damageType: row.damageType,
         rawAmount: row.rawAmount, postDefenseDamage: row.postDefenseDamage, shieldAbsorbed: row.shieldAbsorbed, actualHpLoss: row.actualHpLoss };
@@ -132,7 +138,14 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
       ? done.automaticSkillRecords.filter(row => row.kind === 'STARTED')
         .map(row => ({ timeMs: row.timeMs, skillKey: automaticRuleSkill(compileRequest, runRequest, row.ruleKey) }))
       : (done.skillUseRecords ?? []).filter(row => row.kind === 'STARTED').map(row => ({ timeMs: row.timeMs, skillKey: row.skillKey })),
-    attackStarts: (done.attackRecords ?? []).map(row => row.startAtMs)
+    attackStarts: (done.attackRecords ?? []).map(row => row.startAtMs),
+    finalResources: done.finalSnapshot.combatants.flatMap(row => Object.entries({ hp: row.attributes.hp!, ...row.resources })
+      .sort(([a], [b]) => a.localeCompare(b)).map(([attributeKey, slot]) => ({ owner: row.key, attributeKey, current: slot.current, max: slot.max }))),
+    resourceChanges: (done.resourceChangeRecords ?? []).map(row => ({ timeMs: row.timeMs, target: row.target, resourceKey: row.resourceKey,
+      currentBefore: row.currentBefore, currentAfter: row.currentAfter, currentDelta: row.currentDelta,
+      maxBefore: row.maxBefore, maxAfter: row.maxAfter, maxDelta: row.maxDelta })),
+    finalAttributes: Object.fromEntries(done.finalSnapshot.combatants.flatMap(row => Object.entries(row.attributes)
+      .map(([key, slot]) => [`${row.key}.${key}`, slot.resolved])))
   };
 }
 
@@ -154,7 +167,8 @@ export function compareMechanismExpectation(actual: MechanismProjection, expecte
     }
   };
   if (expected.summary) fields('summary', actual.summary, expected.summary);
-  for (const list of ['damage', 'healing', 'skillStarts'] as const) {
+  if (expected.finalAttributes) fields('finalAttributes', actual.finalAttributes, expected.finalAttributes);
+  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges'] as const) {
     const wanted = expected[list];
     if (!wanted) continue;
     const rows = actual[list] as unknown as Record<string, unknown>[];

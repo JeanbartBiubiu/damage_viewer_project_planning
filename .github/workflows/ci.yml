@@ -40,6 +40,8 @@ jobs:
       - run: npm run typecheck
       - name: 单测与机制回归（tests/mechanisms，加载已提交的 Wasm）
         run: npm test
+      - name: 正式对象的机制依赖完整性
+        run: npm run check:mechanism-coverage
 
   engine:
     runs-on: ubuntu-latest

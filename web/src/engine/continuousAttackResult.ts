@@ -312,7 +312,10 @@ export function assessContinuousAttackResult(
         || !mount && definition?.kind === 'status' && definition.lifecycle?.instanceScope === 'source_target'
         && !!input.combatants.find(actor => actor.key === match?.[1])?.providers.some(row => {
           const parent = input.sharedProviders?.find(candidate => candidate.providerKey === row.definitionRef);
-          return parent?.kind === 'item' && parent.stableId === definition.stableId && !!parent.abilities?.length;
+          return !!parent && ['item', 'character', 'build'].includes(parent.kind) && parent.stableId === definition.stableId
+            && parent.abilities?.some(ability => ability.skillKey === origin.skillKey
+              && [...(ability.operations ?? []), ...(ability.listenerSpec?.operations ?? [])]
+                .some(operation => operation.operation === 'apply_provider' && operation.providerDefinitionRef === definition.providerKey)) === true;
         }))
       && origin.operationRef === `skills.${origin.skillKey}.effects.${origin.effectKey}.results.${origin.resultKey}`
       && origin.compiledPaths.length > 0 && new Set(origin.compiledPaths).size === origin.compiledPaths.length,

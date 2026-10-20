@@ -10,10 +10,10 @@ npm run test:mechanisms   # 只跑机制回归；npm test 也会包含
 
 `mechanisms.test.ts` 对每个用例走与战斗分析页相同的生产链路：快照校验、公式预检、适配层装配、编译、按模式生成运行请求、真实 Wasm（`src/engine/wasm/tinygo_engine_v2.wasm`）运行、结果完整性核对、同会话重放一致、释放会话。
 
-结果先投影成只含业务语义的字段（见 `mechanismRunner.ts` 的 `MechanismProjection`），再与 `expected` 比对：
+结果先投影成只含业务语义的字段（见 `mechanismCase.ts` 的 `MechanismProjection`），再与 `expected` 比对：
 
 - 对象只比较写出的字段，数值按相对误差 1e-9 比较。
-- `damage`、`healing`、`skillStarts` 列表按发生顺序比较，条数必须一致；`attackStarts` 整体相等。
+- `damage`、`healing`、`skillStarts`、`resourceChanges`、`finalResources` 列表按发生顺序比较，条数必须一致；`attackStarts` 整体相等；`finalAttributes` 逐项核对明确填写的双方属性。
 - 失败时实际投影写到被忽略的 `web/output/mechanisms/<caseKey>.actual.json`。
 
 ## 文件
@@ -21,42 +21,45 @@ npm run test:mechanisms   # 只跑机制回归；npm test 也会包含
 | 路径 | 内容 |
 | --- | --- |
 | `catalogs/mechanism_lab.json` | 合成游戏的共享规则：属性、物理/魔法/真实伤害公式（先百分比后固定穿透、最低为0，倍率 100/(100+有效抗性)）、暴击与攻速属性键、普攻生命偷取规则 |
+| `catalogs/mechanism_derived.json`、`catalogs/mechanism_vamp.json` | 分别显式声明攻速派生、正值技能与反伤吸血规则，不改变基础目录的既有规则 |
 | `cases/<caseKey>.json` | 单个用例，文件名必须等于 `caseKey` |
 | `admitted-coverage.json` | 正式准入对象依赖的机制标签，供证明刷新脚本核对覆盖 |
 
-用例字段：`schemaVersion`（固定 `mechanism-case-v1`）、`caseKey`、`title`、`mechanisms`（机制标签）、`derivation`（手算推导，逐步写清）、`catalog`、`snapshot`（与管理端 `SimulationSnapshot` 相同，去掉 `gameId`、`catalogs`、`snapshotDigest`、`readAt`）、`scenario`、`expected`。`scenario.mode` 为 `continuous_attack`、`skill_action` 或 `automatic_skill`，后两者分别需要 `actions` 和 `automaticRules`，形状见 `src/engine/skillActionRequest.ts`、`src/engine/automaticSkillRequest.ts`。
+用例字段：`schemaVersion`（固定 `mechanism-case-v1`）、`caseKey`、`title`、`mechanisms`（机制标签）、`derivation`（手算推导，逐步写清）、`catalog`、`snapshot`（与管理端 `SimulationSnapshot` 相同，去掉 `gameId`、`catalogs`、`snapshotDigest`、`readAt`）、`scenario`、`expected`。`scenario.mode` 为 `continuous_attack`、`skill_action` 或 `automatic_skill`，后两者分别需要 `actions` 和 `automaticRules`。场景可明确填写 `mechanicStateInputs`、`sceneParameterInputs`、`equipmentAssumptions`，均沿生产入口校验且不补默认值；形状见 `src/engine/skillActionRequest.ts`、`src/engine/automaticSkillRequest.ts`。
 
 ## 编写规则
 
-1. 期望值必须来自手算或游戏机制资料，推导写进 `derivation`。不得先跑引擎再把输出抄成期望；跑出来与手算不符时，先复核推导和机制语义，确认是产品缺陷就修产品代码。只有能证明原推导错误时才改期望，并在 `derivation` 说明。
+1. 期望值必须含有效数值断言（空对象、只写名称或空列表不能获得覆盖），并来自手算或游戏机制资料，推导写进 `derivation`。不得先跑引擎再把输出抄成期望；跑出来与手算不符时，先复核推导和机制语义，确认是产品缺陷就修产品代码。只有能证明原推导错误时才改期望，并在 `derivation` 说明。
 2. 一个用例只验证一个主机制，可以顺带已覆盖的基础机制。数值取整或便于手算，避开恰好落在观察时长边界的时刻，除非边界本身就是要验的机制。
 3. 从最接近的现有用例复制后修改，JSON 是唯一来源，不写生成器。属性值写进角色等级值，`scenario.attributeInputs` 只能填本次计算实际需要的属性。
 4. 共享目录只追加属性、伤害类型或规则，不改已有含义；追加后跑全量确认旧用例不变。需要不同规则时新建目录文件。
-5. 新增机制标签时同步更新下方词表。新机制进入引擎或适配层时，同一改动里带上对应用例。
+5. 新增机制标签时在用例说明其数值语义；用例内标签是唯一清单。新机制进入引擎或适配层时，同一改动里带上对应用例，并核对受影响对象的依赖声明。
 
 已知的适配约束：
 
 - 技能施放事件直接执行效果的规则必须带来源属性条件，可用恒真条件（当前生命比例 ≥ 0），见 `direct_heal_overheal`。
 - 持续普攻模式不返回治疗明细，生命偷取只比较汇总。
 
-## 机制标签
+## 已覆盖的数值机制
 
-| 标签 | 用例 |
+目前46个固定用例、70类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。
+
+| 范围 | 固定用例入口 |
 | --- | --- |
-| `basic_attack.cadence` | `basic_attack_armor_cadence` |
-| `basic_attack.interval_rounding` | `basic_attack_kill_rounding` |
-| `combat.kill_stop`、`combat.overkill_clamp` | `basic_attack_kill_rounding` |
-| `damage.physical_armor` | `basic_attack_armor_cadence` |
-| `damage.physical_penetration`、`damage.type_formula` | `physical_penetration_order` |
-| `damage.critical_expectation` | `basic_attack_critical_expectation` |
-| `damage.magic_resist`、`damage.magic_penetration` | `skill_magic_ratio_cast_delay` |
-| `damage.true` | `automatic_cooldown_true_damage` |
-| `skill.formula_attribute_ratio`、`skill.delay_hit`、`skill.manual_cast` | `skill_magic_ratio_cast_delay` |
-| `skill.automatic_cooldown` | `automatic_cooldown_true_damage` |
-| `healing.life_steal` | `basic_attack_life_steal` |
-| `healing.direct`、`healing.overheal_clamp` | `direct_heal_overheal` |
+| 普攻节奏、间隔取整、暴击、穿透、击杀与过量伤害 | `basic_attack_*`、`physical_penetration_order`、`skill_magic_ratio_cast_delay` |
+| 装备属性合并与攻速派生 | `equipment_*` |
+| 普通盾、耗尽、刷新、反伤按目标额度、破盾不反伤、限时减伤 | `defense_*` |
+| 期限内削减双抗、整体削甲、属性时间衰减、剩余比例组合、损失生命求伤 | `damage_*` |
+| 有限周期与到期、刷新保持原周期节奏 | `periodic_*` |
+| 逐枚弹药、第三发、未命中扣弹与普攻缩短回充 | `ammo_*` |
+| 有限引导、完成冷却、动作占用、后继资格与等待冷却 | `channel_*`、`schedule_successor_cooldown_wait` |
+| 强化附伤、下一刀主体替换、附伤共存、计时重置、开始计数快照、逐结果暴击 | `empowered_*` |
+| 战前0至3计数、每N次命中、同事件条件冻结、显式永久属性初值 | `passive_*` |
+| 生命偷取、直接治疗与过量、正值全能吸血、反伤与逐结果吸血资格 | `basic_attack_life_steal`、`direct_heal_overheal`、`healing_*` |
+| 有限生命上限、净增量授予、刷新与夹取、同实例双抗 | `resource_finite_*`、`resource_same_instance_*` |
+| 普通费用按产品口径忽略、未来提交冷却倍率 | `resource_ordinary_cost_ignored`、`schedule_future_cooldown_duration` |
 
-待补机制（括号内是可参考作者结构的现有单测）：护盾吸收（`src/engine/processShieldAdapter.test.ts`）、限时减伤（`timedDamageReductionAdapter.test.ts`）、限时属性增减（`timedAttributeEffectAdapter.test.ts`）、强化普攻（`empoweredAttackAdapter.test.ts`）、普攻计时重置（`attackTimerResetAdapter.test.ts`）、弹药与充能（`simulationAmmoMechanics.test.ts`、`activeAmmoAdapter.test.ts`）、资源消耗与上限（`finiteResourceMechanisms.test.ts`）、有限引导（`finiteChannelAutomatic.test.ts`）、命中与未命中、持续结果与周期伤害（`persistentResultAdapter.test.ts`）、被动触发与控制（`simulationPassiveControl.test.ts`）、触发型装备（`simulationTriggeredEquipment.test.ts`）、属性派生与转换（`simulationAttributeConversion.test.ts`）、场景初始属性（`sceneAttributeSnapshotIntegration.test.ts`）、自动规则的冷却等待与后继（`automaticSkillRequest.test.ts`）、每次使用一次与目标冷却、按生命比例的条件与斩杀。
+强化用例逐笔检查伤害时刻和组成，避免总额正确却在施放时提前伤害。没有把一般主动资源消耗、法力不足停放、独立斩杀结果或完整控制行动限制标为已覆盖；新增这些机制时再带固定用例。回归覆盖与首次对象准入、浏览器冒烟分别留证。
 
 ## 与准入证明的关系
 
@@ -67,12 +70,8 @@ node scripts/refresh-verification-identity.mjs          # 只检查
 node scripts/refresh-verification-identity.mjs --write  # 条件全部满足后改写证明根
 ```
 
-脚本要求 Wasm 身份常量与产物一致、相关源码已提交（源码身份即提交号）、每个 `PASSED` 对象在 `admitted-coverage.json` 声明的依赖机制都有用例，且机制回归全部通过；然后只改写证明根上的 `wasmSha256`、`adapterVersion` 和 `mechanismRegression`，各对象的内容摘要不变。覆盖未声明或有缺口时脚本拒绝刷新，并列出缺少的机制。
+脚本要求 Wasm 身份常量与产物一致、相关源码已提交（源码身份即提交号）、每个 `PASSED` 对象在 `admitted-coverage.json` 声明的内容/外部依赖摘要与正式证明一致、依赖机制都有用例，且机制回归全部通过；然后只改写证明根上的 `wasmSha256`、`adapterVersion` 和 `mechanismRegression`，各对象的内容摘要不变。检查范围包含整个前端执行链（包括脚本、配置和依赖锁）、引擎与共享契约；回归前后均检查源码洁净，并拒绝覆盖运行期间变化的正式证明。覆盖未声明、摘要过期或有缺口时脚本拒绝刷新，并列出缺少的机制。
 
-`admitted-coverage.json` 的对象键为 `<kind>:<key>`，例如：
+`admitted-coverage.json` 的对象键为`<kind>:<key>`，每项保存与正式证明相同的`contentDigest`、`externalDigest`、非空唯一`mechanisms`及中文核对依据`rationale`。当前清单对应5名英雄和19件纯属性装备的既有准入范围，不能用空泛标签宣称支持新对象。
 
-```json
-{ "schemaVersion": "mechanism-coverage-v1", "games": { "lol": { "CHARACTER:champion_annie": { "mechanisms": ["damage.magic_resist", "skill.delay_hit"] } } } }
-```
-
-新对象首次准入仍需按其真实配置单独验收；回归阶段只依赖这里的机制用例。
+`npm run check:mechanism-coverage`只检查依赖，不运行回归、不写证明，用于持续集成；`npm test`包含机制回归及刷新门槛测试。新对象首次准入仍需按其真实配置单独验收；回归阶段只依赖这里的机制用例。

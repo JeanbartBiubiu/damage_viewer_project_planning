@@ -11,8 +11,10 @@
         "criticalMultiplierMin": 1,
         "attackSpeedAttributeKey": "attack_speed",
         "basicAttackCategoryKey": "basic_attack",
-        "equipmentPassiveCategoryKey": null,
-        "ignorableCastCostAttributeKeys": [],
+        "equipmentPassiveCategoryKey": "passive",
+        "ignorableCastCostAttributeKeys": [
+          "mana"
+        ],
         "attributeDerivations": []
       }
     },
@@ -190,6 +192,19 @@
         "sortOrder": 0,
         "createdAt": "",
         "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": "",
+        "attributeKey": "mana",
+        "name": "法力",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null
       }
     ],
     "skillCategories": [
@@ -212,6 +227,16 @@
         "sortOrder": 1,
         "createdAt": "",
         "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": "",
+        "skillCategoryKey": "passive",
+        "name": "被动"
       }
     ],
     "damageTypes": [
@@ -498,7 +523,73 @@
         }
       }
     ],
-    "modifierZones": [],
+    "modifierZones": [
+      {
+        "gameId": "mechanism_lab",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": "",
+        "modifierZoneKey": "incoming_product",
+        "name": "受到伤害乘算",
+        "domain": "DAMAGE",
+        "calculationMode": "RATIO_MULTIPLY",
+        "applicationStage": "DAMAGE_POST_DEFENSE"
+      },
+      {
+        "gameId": "mechanism_lab",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": "",
+        "modifierZoneKey": "flat_attributes",
+        "name": "属性固定加算",
+        "domain": "ATTRIBUTE",
+        "calculationMode": "FLAT_ADD",
+        "applicationStage": "ATTRIBUTE_FLAT"
+      },
+      {
+        "gameId": "mechanism_lab",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": "",
+        "modifierZoneKey": "total_attribute_percent",
+        "name": "属性总值乘算",
+        "domain": "ATTRIBUTE",
+        "calculationMode": "RATIO_MULTIPLY",
+        "applicationStage": "ATTRIBUTE_PERCENT"
+      },
+      {
+        "gameId": "mechanism_lab",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": "",
+        "modifierZoneKey": "outgoing_ratio",
+        "name": "造成伤害比例加算",
+        "domain": "DAMAGE",
+        "calculationMode": "RATIO_ADD",
+        "applicationStage": "DAMAGE_PRE_DEFENSE"
+      },
+      {
+        "gameId": "mechanism_lab",
+        "modifierZoneKey": "complement_attribute_percent",
+        "name": "属性剩余比例乘算",
+        "domain": "ATTRIBUTE",
+        "calculationMode": "RATIO_COMPLEMENT_MULTIPLY",
+        "applicationStage": "ATTRIBUTE_PERCENT",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      }
+    ],
     "statuses": [],
     "vampRules": {
       "rules": [

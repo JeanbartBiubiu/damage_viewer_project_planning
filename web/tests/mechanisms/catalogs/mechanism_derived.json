@@ -1,0 +1,712 @@
+{
+  "schemaVersion": "mechanism-catalog-v1",
+  "catalogKey": "mechanism_derived",
+  "gameId": "mechanism_lab",
+  "catalogs": {
+    "calculationRules": {
+      "gameId": "mechanism_lab",
+      "baseDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "configuration": {
+        "criticalChanceAttributeKey": "critical_strike_chance",
+        "criticalMultiplierMin": 1,
+        "attackSpeedAttributeKey": "attack_speed",
+        "basicAttackCategoryKey": "basic_attack",
+        "equipmentPassiveCategoryKey": "passive",
+        "ignorableCastCostAttributeKeys": [
+          "mana"
+        ],
+        "attributeDerivations": [
+          {
+            "ruleKey": "lab_speed_yield",
+            "attributeKey": "attack_speed",
+            "valuePolicy": "set",
+            "activationAttributeKeys": [
+              "bonus_attack_speed_percent"
+            ],
+            "formula": {
+              "inputs": [
+                {
+                  "key": "base_speed",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_speed",
+                    "valueKind": "BASE",
+                    "view": "current_frame"
+                  }
+                },
+                {
+                  "key": "yield_ratio",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_speed_ratio",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                },
+                {
+                  "key": "bonus_speed",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "bonus_attack_speed_percent",
+                    "valueKind": "BONUS",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "基础速度加额外速度收益",
+                  "expression": {
+                    "op": "add",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "base_speed"
+                      },
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "op": "read",
+                            "inputKey": "yield_ratio"
+                          },
+                          {
+                            "op": "read",
+                            "inputKey": "bonus_speed"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            }
+          }
+        ]
+      }
+    },
+    "levelConfig": {
+      "gameId": "mechanism_lab",
+      "minLevel": 1,
+      "maxLevel": 1
+    },
+    "attributes": [
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "hp",
+        "name": "生命",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "attack_damage",
+        "name": "攻击力",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "ability_power",
+        "name": "法术强度",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "attack_speed",
+        "name": "攻击速度",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "armor",
+        "name": "护甲",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "magic_resist",
+        "name": "魔抗",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "critical_strike_chance",
+        "name": "暴击率",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": 1,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "critical_strike_damage_bonus_percent",
+        "name": "额外暴击伤害",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "armor_pen_percent",
+        "name": "百分比护甲穿透",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": 1,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "armor_pen_flat",
+        "name": "固定护甲穿透",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "magic_pen_percent",
+        "name": "百分比法术穿透",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": 1,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "magic_pen_flat",
+        "name": "固定法术穿透",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "life_steal_percent",
+        "name": "生命偷取",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": "",
+        "attributeKey": "mana",
+        "name": "法力",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "attack_speed_ratio",
+        "name": "attack_speed_ratio",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "attributeKey": "bonus_attack_speed_percent",
+        "name": "bonus_attack_speed_percent",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      }
+    ],
+    "skillCategories": [
+      {
+        "gameId": "mechanism_lab",
+        "skillCategoryKey": "basic_attack",
+        "name": "普攻",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "skillCategoryKey": "active",
+        "name": "主动",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 1,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_lab",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": "",
+        "skillCategoryKey": "passive",
+        "name": "被动"
+      }
+    ],
+    "damageTypes": [
+      {
+        "type": {
+          "gameId": "mechanism_lab",
+          "damageTypeKey": "physics",
+          "name": "物理",
+          "description": null,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "formulaConfigured": true,
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "formula": {
+          "gameId": "mechanism_lab",
+          "damageTypeKey": "physics",
+          "updatedAt": "",
+          "formula": {
+            "inputs": [
+              {
+                "key": "resistance",
+                "binding": {
+                  "kind": "attribute",
+                  "object": "target",
+                  "attributeKey": "armor",
+                  "valueKind": "TOTAL",
+                  "view": "current_frame"
+                }
+              },
+              {
+                "key": "percent_pen",
+                "binding": {
+                  "kind": "attribute",
+                  "object": "source",
+                  "attributeKey": "armor_pen_percent",
+                  "valueKind": "TOTAL",
+                  "view": "current_frame"
+                }
+              },
+              {
+                "key": "flat_pen",
+                "binding": {
+                  "kind": "attribute",
+                  "object": "source",
+                  "attributeKey": "armor_pen_flat",
+                  "valueKind": "TOTAL",
+                  "view": "current_frame"
+                }
+              }
+            ],
+            "stages": [
+              {
+                "key": "effective",
+                "name": "先百分比后固定穿透，最低为0",
+                "expression": {
+                  "op": "max",
+                  "args": [
+                    {
+                      "op": "const",
+                      "value": "0"
+                    },
+                    {
+                      "op": "sub",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "op": "read",
+                              "inputKey": "resistance"
+                            },
+                            {
+                              "op": "sub",
+                              "args": [
+                                {
+                                  "op": "const",
+                                  "value": "1"
+                                },
+                                {
+                                  "op": "read",
+                                  "inputKey": "percent_pen"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "op": "read",
+                          "inputKey": "flat_pen"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "key": "factor",
+                "name": "防御倍率 100/(100+有效抗性)",
+                "expression": {
+                  "op": "div",
+                  "args": [
+                    {
+                      "op": "const",
+                      "value": "100"
+                    },
+                    {
+                      "op": "add",
+                      "args": [
+                        {
+                          "op": "const",
+                          "value": "100"
+                        },
+                        {
+                          "op": "ref",
+                          "stageKey": "effective"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "outputStageKey": "factor"
+          }
+        }
+      },
+      {
+        "type": {
+          "gameId": "mechanism_lab",
+          "damageTypeKey": "magic",
+          "name": "魔法",
+          "description": null,
+          "status": "ENABLED",
+          "sortOrder": 1,
+          "formulaConfigured": true,
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "formula": {
+          "gameId": "mechanism_lab",
+          "damageTypeKey": "magic",
+          "updatedAt": "",
+          "formula": {
+            "inputs": [
+              {
+                "key": "resistance",
+                "binding": {
+                  "kind": "attribute",
+                  "object": "target",
+                  "attributeKey": "magic_resist",
+                  "valueKind": "TOTAL",
+                  "view": "current_frame"
+                }
+              },
+              {
+                "key": "percent_pen",
+                "binding": {
+                  "kind": "attribute",
+                  "object": "source",
+                  "attributeKey": "magic_pen_percent",
+                  "valueKind": "TOTAL",
+                  "view": "current_frame"
+                }
+              },
+              {
+                "key": "flat_pen",
+                "binding": {
+                  "kind": "attribute",
+                  "object": "source",
+                  "attributeKey": "magic_pen_flat",
+                  "valueKind": "TOTAL",
+                  "view": "current_frame"
+                }
+              }
+            ],
+            "stages": [
+              {
+                "key": "effective",
+                "name": "先百分比后固定穿透，最低为0",
+                "expression": {
+                  "op": "max",
+                  "args": [
+                    {
+                      "op": "const",
+                      "value": "0"
+                    },
+                    {
+                      "op": "sub",
+                      "args": [
+                        {
+                          "op": "mul",
+                          "args": [
+                            {
+                              "op": "read",
+                              "inputKey": "resistance"
+                            },
+                            {
+                              "op": "sub",
+                              "args": [
+                                {
+                                  "op": "const",
+                                  "value": "1"
+                                },
+                                {
+                                  "op": "read",
+                                  "inputKey": "percent_pen"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "op": "read",
+                          "inputKey": "flat_pen"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "key": "factor",
+                "name": "防御倍率 100/(100+有效抗性)",
+                "expression": {
+                  "op": "div",
+                  "args": [
+                    {
+                      "op": "const",
+                      "value": "100"
+                    },
+                    {
+                      "op": "add",
+                      "args": [
+                        {
+                          "op": "const",
+                          "value": "100"
+                        },
+                        {
+                          "op": "ref",
+                          "stageKey": "effective"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "outputStageKey": "factor"
+          }
+        }
+      },
+      {
+        "type": {
+          "gameId": "mechanism_lab",
+          "damageTypeKey": "true",
+          "name": "真实",
+          "description": null,
+          "status": "ENABLED",
+          "sortOrder": 2,
+          "formulaConfigured": true,
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "formula": {
+          "gameId": "mechanism_lab",
+          "damageTypeKey": "true",
+          "updatedAt": "",
+          "formula": {
+            "inputs": [],
+            "stages": [
+              {
+                "key": "factor",
+                "name": "不受抗性影响",
+                "expression": {
+                  "op": "const",
+                  "value": "1"
+                }
+              }
+            ],
+            "outputStageKey": "factor"
+          }
+        }
+      }
+    ],
+    "modifierZones": [
+      {
+        "gameId": "mechanism_lab",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": "",
+        "modifierZoneKey": "incoming_product",
+        "name": "受到伤害乘算",
+        "domain": "DAMAGE",
+        "calculationMode": "RATIO_MULTIPLY",
+        "applicationStage": "DAMAGE_POST_DEFENSE"
+      },
+      {
+        "gameId": "mechanism_lab",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": "",
+        "modifierZoneKey": "flat_attributes",
+        "name": "属性固定加算",
+        "domain": "ATTRIBUTE",
+        "calculationMode": "FLAT_ADD",
+        "applicationStage": "ATTRIBUTE_FLAT"
+      },
+      {
+        "gameId": "mechanism_lab",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": "",
+        "modifierZoneKey": "total_attribute_percent",
+        "name": "属性总值乘算",
+        "domain": "ATTRIBUTE",
+        "calculationMode": "RATIO_MULTIPLY",
+        "applicationStage": "ATTRIBUTE_PERCENT"
+      },
+      {
+        "gameId": "mechanism_lab",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": "",
+        "modifierZoneKey": "outgoing_ratio",
+        "name": "造成伤害比例加算",
+        "domain": "DAMAGE",
+        "calculationMode": "RATIO_ADD",
+        "applicationStage": "DAMAGE_PRE_DEFENSE"
+      },
+      {
+        "gameId": "mechanism_lab",
+        "modifierZoneKey": "complement_attribute_percent",
+        "name": "属性剩余比例乘算",
+        "domain": "ATTRIBUTE",
+        "calculationMode": "RATIO_COMPLEMENT_MULTIPLY",
+        "applicationStage": "ATTRIBUTE_PERCENT",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      }
+    ],
+    "statuses": [],
+    "vampRules": {
+      "rules": [
+        {
+          "vampType": "LIFE_STEAL",
+          "sourceAttributeKey": "life_steal_percent",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "defaultEfficiency": 1,
+          "deliveryKinds": [
+            "BASIC_ATTACK"
+          ],
+          "originKinds": [
+            "DIRECT"
+          ],
+          "skillCategoryKeys": [
+            "basic_attack"
+          ]
+        }
+      ]
+    }
+  }
+}

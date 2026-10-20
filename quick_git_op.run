@@ -1,8 +1,15 @@
-# 主干加短期分支：在仓库根目录执行，<branch> 换成本次任务分支。
-# 分支落后于 master 时先执行：git rebase master <branch>
+# 分步骤执行，不要将整份清单作为脚本运行；<branch> 替换为本次任务分支。
+# 先确认无未提交工作，再按受影响模块完成检查，核对当前提交的持续集成结果。
+git status --short
+
+# 已完成检查并获准合入主干后执行；发生冲突时停下处理，不继续推送。
+# 若需要更新远端主干，先在工作树干净且已有同步授权时执行 git fetch origin。
+# 分支落后于 master 时，核对改动后再执行 git rebase master <branch>。
 git switch master
-git pull --ff-only origin master
 git merge --ff-only <branch>
+
+# 只有用户授权推送时才执行，目标远端先用 git remote -v 核对。
 git push origin master
-git push github master
+
+# 确认合入、推送及任务收尾完成后，删除本次短期分支。
 git branch -d <branch>
