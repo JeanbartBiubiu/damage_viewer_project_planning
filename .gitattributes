@@ -5,4 +5,6 @@
 # 冻结的历史证据和外部资料按提交时的原始字节保存，其中记录的摘要以此为准。
 /outputs/** -text
 /数据参考/** -text
+# Wiki 原文保留源站行尾空格和原始换行；生成元数据仍使用 LF。
+/数据参考/lol-wiki-champions-full/**/*.wikitext whitespace=-blank-at-eol,-blank-at-eof
 /文档记录/测试记录/wasm/artifacts/** -text
