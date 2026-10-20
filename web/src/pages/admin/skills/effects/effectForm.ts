@@ -6,7 +6,7 @@ import { isValidCooldownRemainingDuration } from '../../../../types/cooldownRema
 import { isValidCooldownDurationValueRule } from '../../../../types/cooldownDuration';
 import { isValidCooldownReductionRatio } from '../../../../types/cooldownRatio';
 import { isValidHealingRatioMaxDecrease } from '../../../../types/healingRatioMax';
-import { isValidLifecycleExtensionDuration } from '../../../../types/lifecycleExtension';
+import { isValidLifecycleExtensionDuration, isLifecycleDurationOperation } from '../../../../types/lifecycleExtension';
 import { numericFormulaKey } from '../../../../types/numericValue';
 import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
@@ -334,11 +334,13 @@ export const SKILL_EFFECT_LIFECYCLE_OPERATION_LABELS = {
   SET: '覆盖层数',
   REFRESH: '刷新完整时长',
   EXTEND_DURATION: '延长剩余时长',
+  ENSURE_REMAINING: '至少保留剩余时长',
   CONSUME: '消耗层数',
   REMOVE: '移除实例'
 } as const satisfies { [K in SkillEffectLifecycleOperation]: string };
 
 export const LIFECYCLE_EXTENSION_HINT = '增加量按毫秒填写，只延长仍有效且全部层统一到期的目标实例；不刷新完整时长，不改变层数或周期。目标期限与到期方式在保存时核对。';
+export const LIFECYCLE_ENSURE_REMAINING_HINT = '将仍有效的自身单层属性效果补足到指定剩余毫秒；剩余更多时保持，已经结束时不重新施加。数值必须是静态非负安全整数毫秒。';
 
 export const COOLDOWN_CHANGE_AMOUNT_HINT = '变化量按毫秒解释';
 export const COOLDOWN_REMAINING_RATIO_HINT = '每个受影响技能按自己的当前剩余冷却减少。有效比例为 0 到 1，70% 填 0.7；不按总冷却计算。切换毫秒与比例操作会清除原数值。';
@@ -358,6 +360,7 @@ export const SKILL_EFFECT_LIFECYCLE_OPERATIONS = [
   'SET',
   'REFRESH',
   'EXTEND_DURATION',
+  'ENSURE_REMAINING',
   'CONSUME',
   'REMOVE'
 ] as const satisfies readonly SkillEffectLifecycleOperation[];
@@ -1028,6 +1031,7 @@ export function requiresValueRule(
       || lifecycleOperation === 'DECREASE'
       || lifecycleOperation === 'SET'
       || lifecycleOperation === 'EXTEND_DURATION'
+      || lifecycleOperation === 'ENSURE_REMAINING'
       || lifecycleOperation === 'CONSUME';
   }
   return (
@@ -1115,7 +1119,7 @@ export function applyResultTypeChange(
   const nextNeeds = requiresValueRule(nextType, nextCooldown, nextLifecycleOperation);
   const prevNeeds = draftRequiresValueRule(draft)
     && !(draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO')
-    && !(draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'EXTEND_DURATION');
+    && !(draft.resultType === 'LIFECYCLE_OPERATION' && isLifecycleDurationOperation(draft.lifecycleOperation));
   const persistentWithoutValueModes = nextType === 'DAMAGE_IMMUNITY' || nextType === 'SPELL_SHIELD';
   const lifecycleBehavior = isPersistentOnlyResultType(nextType)
     ? {
@@ -1222,7 +1226,7 @@ export function applyLifecycleOperationChange(
   nextOperation: SkillEffectLifecycleOperation
 ): SkillEffectResultDraft {
   const nextNeeds = requiresValueRule('LIFECYCLE_OPERATION', '', nextOperation);
-  const sameUnit = (draft.lifecycleOperation === 'EXTEND_DURATION') === (nextOperation === 'EXTEND_DURATION');
+  const sameUnit = isLifecycleDurationOperation(draft.lifecycleOperation) === isLifecycleDurationOperation(nextOperation);
   const prevNeeds = draftRequiresValueRule(draft) && sameUnit;
   return clearHiddenResultFields({
     ...draft,
@@ -2428,8 +2432,9 @@ function validateAndBuildResult(
   const lifecycleBehavior = validateAndBuildLifecycleBehavior(draft, fieldErrors, context, needsValueRule);
   if (needsValueRule && !fieldErrors.value) {
     const valueError = numericValueError(draft.value, { ...options.catalog, parameters: options.parameters }, {
-      integer: draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation !== 'EXTEND_DURATION',
-      allowRuntimeInput: draft.lifecycleBehavior.valueReadMode !== 'MOMENT_EVALUATION',
+      integer: draft.resultType === 'LIFECYCLE_OPERATION' && !isLifecycleDurationOperation(draft.lifecycleOperation),
+      allowRuntimeInput: draft.lifecycleBehavior.valueReadMode !== 'MOMENT_EVALUATION'
+        && !(draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'ENSURE_REMAINING'),
       parametersState: options.parametersLoadState, formulasState: options.catalogLoadState?.formulas
     });
     if (valueError) fieldErrors.value = valueError;
@@ -2449,11 +2454,11 @@ function validateAndBuildResult(
       fieldErrors.value = '有效剩余冷却必须是有限非负毫秒，可填写小数。';
     }
   }
-  if (draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'EXTEND_DURATION'
+  if (draft.resultType === 'LIFECYCLE_OPERATION' && isLifecycleDurationOperation(draft.lifecycleOperation)
     && valueRule && !fieldErrors.value) {
     const values = staticNumericValues(valueRule.value, options.parameters);
-    if (values?.some((value) => !isValidLifecycleExtensionDuration(value, valueRule))) {
-      fieldErrors.value = '有效延长时长必须是非负整数毫秒。';
+    if (values?.some((value) => !isValidLifecycleExtensionDuration(value, valueRule, draft.lifecycleOperation === 'ENSURE_REMAINING'))) {
+      fieldErrors.value = draft.lifecycleOperation === 'ENSURE_REMAINING' ? '有效剩余时长必须是非负安全整数毫秒。' : '有效延长时长必须是非负整数毫秒。';
     }
   }
   if (draft.resultType === 'HEALING_MODIFIER' && valueRule && !fieldErrors.value
@@ -2600,7 +2605,7 @@ function validateAndBuildResult(
         valueRule: valueRule!,
         detail: {
           targetEffectKey: draft.targetEffectKey.trim(),
-          operation: draft.lifecycleOperation as 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME' | 'EXTEND_DURATION'
+          operation: draft.lifecycleOperation as 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME' | 'EXTEND_DURATION' | 'ENSURE_REMAINING'
         }
       };
     case 'DAMAGE_MODIFIER':
@@ -2753,7 +2758,7 @@ function validateValueRule(
   }
 
   const valueError = numericValueError(value, {}, {
-    integer: draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation !== 'EXTEND_DURATION'
+    integer: draft.resultType === 'LIFECYCLE_OPERATION' && !isLifecycleDurationOperation(draft.lifecycleOperation)
   });
   if (valueError) fieldErrors.value = valueError;
 

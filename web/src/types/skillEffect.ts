@@ -108,6 +108,7 @@ export type SkillEffectLifecycleOperation =
   | 'SET'
   | 'REFRESH'
   | 'EXTEND_DURATION'
+  | 'ENSURE_REMAINING'
   | 'CONSUME'
   | 'REMOVE';
 
@@ -222,7 +223,7 @@ export type SkillEffectStatusOperationDetail = {
 
 export type SkillEffectLifecycleAdjustDetail = {
   targetEffectKey: string;
-  operation: 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME' | 'EXTEND_DURATION';
+  operation: 'INCREASE' | 'DECREASE' | 'SET' | 'CONSUME' | 'EXTEND_DURATION' | 'ENSURE_REMAINING';
 };
 
 export type SkillEffectLifecycleRefreshRemoveDetail = {

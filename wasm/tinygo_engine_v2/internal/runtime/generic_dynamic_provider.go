@@ -32,7 +32,7 @@ func (sc *stagedCombatant) projectProviderList() {
 }
 
 func (f *executionFrame) flushDynamicProviders() {
-	if f.fatal || f.committed || f.flushingDynamicProviders || (!f.run.compiled.HasResourceMax && !f.run.compiled.HasCooldownDuration) {
+	if f.fatal || f.committed || f.flushingDynamicProviders || (!f.run.compiled.HasResourceMax && !f.run.compiled.HasCooldownDuration && !f.run.compiled.HasProviderDurationChange) {
 		return
 	}
 	if f.dynamicExpiryChecked && !f.dynamicProviderDirty {
@@ -70,6 +70,10 @@ func (f *executionFrame) flushDynamicProviders() {
 				index = old.DefinitionIndex
 			}
 			if !exists || int(index) >= len(f.run.compiled.Providers) {
+				if !exists && mut.kind == "ensure_remaining" {
+					mut.projected = true
+					continue
+				}
 				if !exists && mut.kind == "expire" {
 					if mut.strict {
 						f.fatal = true
@@ -82,6 +86,23 @@ func (f *executionFrame) flushDynamicProviders() {
 			}
 			p := f.run.compiled.Providers[index]
 			if !p.AtomicDynamic {
+				continue
+			}
+			if mut.kind == "ensure_remaining" {
+				if old.Source != mut.sourceKey || old.Owner != owner || old.DefinitionRef != mut.definitionRef {
+					f.fatal = true
+					f.fatalErr = f.run.processErr("providers", "provider duration change has a foreign instance owner", old.ProviderRef)
+					return
+				}
+				mut.projected = true
+				if old.Expired(f.run.nowMs) || mut.expireAt <= old.ExpireAt {
+					continue
+				}
+				sc.projectProviderList()
+				old.ExpireAt = mut.expireAt
+				sc.providers[oldIndex] = old
+				f.projectedLifecycles = append(f.projectedLifecycles, projectedProviderLifecycle{instance: old, kind: model.EvidenceKindProviderDurationChange, enqueueExpiry: true})
+				changed, sc.dirty = true, true
 				continue
 			}
 			if mut.kind != "expire" {

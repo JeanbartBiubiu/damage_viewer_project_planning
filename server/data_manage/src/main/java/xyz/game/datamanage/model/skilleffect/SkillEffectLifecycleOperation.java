@@ -6,6 +6,7 @@ public enum SkillEffectLifecycleOperation {
     SET,
     REFRESH,
     EXTEND_DURATION,
+    ENSURE_REMAINING,
     CONSUME,
     REMOVE
 }

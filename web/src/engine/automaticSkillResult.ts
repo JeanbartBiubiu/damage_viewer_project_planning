@@ -377,8 +377,11 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
         if (row.instructionKey !== null) check(row.useRef !== null && processByUse.has(row.useRef), 'healingRecords.useRef', '自动治疗不得伪造实际使用身份');
       }
       if (!done.resourceChangeSummary && !done.recording.damageRecordsTruncated && !done.recording.healingRecordsTruncated) issues.push(...inspectSimulationHealthLedger(compile, request, done));
-      if (request.driverPlan.basicAttack) issues.push(...assessContinuousAttackResult(compile, request, done, origins).issues);
-      else issues.push(...inspectActiveAmmoMechanics(compile, request, done, processFacts.processes, mechanics));
+      if (request.driverPlan.basicAttack) {
+        const background = assessContinuousAttackResult(compile, request, done, origins);
+        issues.push(...background.issues);
+        identityGaps.push(...background.identityGaps);
+      } else issues.push(...inspectActiveAmmoMechanics(compile, request, done, processFacts.processes, mechanics));
     }
     issues.push(...inspectResourceChangeContract(compile, request, done));
     if (done.resourceChangeSummary) issues.push(...inspectSimulationHealthLedger(compile, request, done));

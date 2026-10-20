@@ -32,6 +32,12 @@ mvn "-Dtest=SimulationAvailability*Test" test
 
 范围或证明变化后重新生成资源并打包；业务数据变化会即时使旧证明失效。完整共享口径及当前补录缺口见规划工作树`outputs/simulation-availability-2026-10-17/`。目录不会新增表、迁移或业务数据写入；数据补录按规划真源`.agents/skills/damage-api-authoring/SKILL.md`执行保护保存和独立回读，与只读目录分开记录。
 
+## 至少保留效果剩余时长
+
+`LIFECYCLE_OPERATION / ENSURE_REMAINING`（至少保留剩余时长）沿现有结果JSON保存，明细仅含`targetEffectKey`和`operation`。即时自身结果引用同技能其它有限、单层、无周期的纯自身非生命属性组；目标属性值必须可静态核定，持续时间为正安全整数毫秒，保留金额为非负安全整数毫秒。参数、公式、效果及反向引用的后续变化均按最终事务状态重新检查，不新增表或迁移。
+
+运行时只调整仍活动的同来源实例：`到期时刻=max(原到期时刻,当前时刻+保留金额)`，保留实例身份、层数和施加时刻，已结束时不复活。真实拥有者、实际挂载、主动计划及事件由宿主和引擎继续核对。自身属性的`INCREASE + RATIO_MULTIPLY`填写增加比例，例如`.25`装配成总量乘`1.25`；不能把它作为乘`.25`。固定机制回归见仓库根目录`web/tests/mechanisms/cases/duration_ensure_remaining_own_attributes.json`。
+
 ## 有期冷却时长倍率
 
 新增 `COOLDOWN_DURATION_MODIFIER`（冷却时长修正），与修改剩余冷却、技能急速分别保存。结果明细只允许 `affectedSkillScope`；当前范围必须为 `SKILLS`、非空无重复的真实同游戏技能列表，分类列表为空。显式空值、数字或未知明细字段拒绝，不提供 `operation`。沿现有 `results` JSONB 保存，统一配置保护 PATCH、独立 GET、摘要、引用与删除守卫、场景快照均保留完整字段；没有表结构迁移。

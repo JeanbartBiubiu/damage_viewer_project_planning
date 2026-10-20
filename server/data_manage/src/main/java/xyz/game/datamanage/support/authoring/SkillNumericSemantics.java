@@ -163,8 +163,10 @@ public final class SkillNumericSemantics {
                         String lifecycleOperation = text(r.path("detail"), "operation");
                         boolean extendDuration = "LIFECYCLE_OPERATION".equals(text(r, "resultType"))
                             && "EXTEND_DURATION".equals(lifecycleOperation);
+                        boolean ensureRemaining = "LIFECYCLE_OPERATION".equals(text(r, "resultType"))
+                            && "ENSURE_REMAINING".equals(lifecycleOperation);
                         Bound valueBound = Bound.ANY;
-                        if ("LIFECYCLE_OPERATION".equals(text(r, "resultType")) && !extendDuration) {
+                        if ("LIFECYCLE_OPERATION".equals(text(r, "resultType")) && !extendDuration && !ensureRemaining) {
                             valueBound = Bound.INTEGER;
                         } else if ("COOLDOWN_CHANGE".equals(text(r, "resultType"))
                             && SkillEffectCooldownChangeOperation.SET_REMAINING.name()
@@ -202,6 +204,10 @@ public final class SkillNumericSemantics {
                         }
                         if (extendDuration) {
                             validateExtendedDuration(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
+                        }
+                        if (ensureRemaining) {
+                            requireSafeStaticMilliseconds(a, valueUse, r.path("valueRule"), false, path + ".valueRule.value");
+                            validateEnsureRemainingTarget(a, r, path);
                         }
                         if ("COOLDOWN_CHANGE".equals(text(r, "resultType"))
                             && SkillEffectCooldownChangeOperation.SET_REMAINING.name()
@@ -794,6 +800,12 @@ public final class SkillNumericSemantics {
                     String effectKey = text(action.path("detail"), "effectKey");
                     dependencies(rule, new Id(rule.skillKey(), SourceType.EFFECT, effectKey), required, new LinkedHashSet<>());
                     validateResultModifiers(rule, action, i, effectKey);
+                    Aggregate effect = objects.get(new Id(rule.skillKey(), SourceType.EFFECT, effectKey));
+                    if (effect != null && effect.data().path("results").valueStream().anyMatch(result ->
+                        "LIFECYCLE_OPERATION".equals(text(result, "resultType")) && "ENSURE_REMAINING".equals(text(result.path("detail"), "operation")))
+                        && (!action.path("runtimeInputBindings").isEmpty() || !action.path("resultModifiers").isEmpty())) {
+                        throw invalid(rule, "actions[" + i + "]", "COMBINATION_INVALID", "至少保留剩余时长必须使用静态完整结果，不能再绑定输入或修正数值");
+                    }
                 }
                 if ("START_PROCESS".equals(type)) dependencies(rule, new Id(rule.skillKey(), SourceType.PROCESS, text(action.path("detail"), "processKey")), required, new LinkedHashSet<>());
                 if ("MODIFY_INTERNAL_STATE".equals(type)) {
@@ -1136,6 +1148,68 @@ public final class SkillNumericSemantics {
             String errorPath
         ) {
             validateExtendedDuration(source, valueUse, valueRule, null, errorPath);
+        }
+
+        private void requireSafeStaticMilliseconds(Aggregate source, Use valueUse, JsonNode rule, boolean positive, String path) {
+            Map<Levels, Fraction> known = valueUse == null ? null : optionalStaticValues(valueUse);
+            if (known == null || known.isEmpty()) throw invalid(source, path, "STATIC_VALUE_REQUIRED", "剩余时长维护必须使用完整可核定的静态毫秒数");
+            Fraction maximum = Fraction.of(new BigDecimal("9007199254740991"));
+            for (Fraction value : known.values()) {
+                Fraction effective = applyFixedRule(value, rule);
+                if (!effective.denominator().equals(BigInteger.ONE)) throw invalid(source, path, "VALUE_TYPE_MISMATCH", "剩余时长维护必须使用安全整数毫秒");
+                if (effective.numerator().signum() < (positive ? 1 : 0) || effective.compareTo(maximum) > 0) {
+                    throw invalid(source, path, "VALUE_RANGE_INVALID", positive ? "目标持续时间必须是安全正整数毫秒" : "至少保留的剩余时长必须是非负安全整数毫秒");
+                }
+            }
+        }
+
+        private void validateEnsureRemainingTarget(Aggregate source, JsonNode result, String path) {
+            JsonNode detail = result.path("detail");
+            String targetKey = text(detail, "targetEffectKey");
+            Aggregate target = objects.get(new Id(source.skillKey(), SourceType.EFFECT, targetKey));
+            if (source.data().hasNonNull("lifecycle") || !"SOURCE".equals(text(result, "target"))
+                || result.hasNonNull("lifecycleBehavior") || result.hasNonNull("spellShieldBlockScope")
+                || target == null || targetKey.equals(source.key())) {
+                throw invalid(source, path + ".detail.targetEffectKey", "REFERENCE_TYPE_MISMATCH", "剩余时长维护只能由即时自身结果引用本技能的其它有期效果");
+            }
+            JsonNode life = target.data().path("lifecycle");
+            if (!life.isObject() || !"SOURCE".equals(text(life, "instanceScope"))
+                || !"ALL_AT_ONCE".equals(text(life, "expiryMode")) || !"KEEP".equals(text(life, "reapplicationStackMode"))
+                || !"REFRESH_ALL".equals(text(life, "reapplicationDurationMode")) || life.hasNonNull("periodicIntervalValue")
+                || life.hasNonNull("firstPeriodicExecution") || life.hasNonNull("endWhenShieldEndsResultKey")
+                || !life.hasNonNull("durationValue") || target.data().path("results").isEmpty()) {
+                throw invalid(source, path + ".detail.targetEffectKey", "REFERENCE_TYPE_MISMATCH", "续时目标必须是自身无周期单层、一次到期的有限属性效果");
+            }
+            requireStaticOne(target, life, "maxStacksValue");
+            requireStaticOne(target, life, "applicationStacksValue");
+            requireSafeStaticMilliseconds(target, use(target, life, "lifecycle", "durationValue", Bound.ANY, false), null, true, "lifecycle.durationValue");
+            int index = 0;
+            for (JsonNode row : target.data().path("results")) {
+                String rowPath = "results[" + index++ + "]";
+                JsonNode behavior = row.path("lifecycleBehavior"), attribute = row.path("detail");
+                String zoneKey = text(attribute, "modifierZoneKey"), mode = zoneModes.get(zoneKey);
+                if (!"ATTRIBUTE_CHANGE".equals(text(row, "resultType")) || !"SOURCE".equals(text(row, "target"))
+                    || "hp".equals(text(attribute, "attributeKey")) || text(attribute, "attributeKey").isBlank()
+                    || !"INCREASE".equals(text(attribute, "operation")) || row.hasNonNull("spellShieldBlockScope")
+                    || !"PERSISTENT".equals(text(behavior, "moment")) || !"APPLICATION_SNAPSHOT".equals(text(behavior, "valueReadMode"))
+                    || !"SHARED".equals(text(behavior, "stackValueMode")) || !"REPLACE".equals(text(behavior, "reapplicationValueMode"))
+                    || behavior.hasNonNull("periodicExecutionMode") || !row.hasNonNull("valueRule")
+                    || !"ATTRIBUTE".equals(zoneDomains.get(zoneKey)) || !("FLAT_ADD".equals(mode) && "ATTRIBUTE_FLAT".equals(zoneStages.get(zoneKey))
+                      || Set.of("RATIO_ADD", "RATIO_MULTIPLY", "RATIO_COMPLEMENT_MULTIPLY").contains(mode == null ? "" : mode)
+                        && "ATTRIBUTE_PERCENT".equals(zoneStages.get(zoneKey)))) {
+                    throw invalid(source, path + ".detail.targetEffectKey", "REFERENCE_TYPE_MISMATCH", "续时目标只接受完整静态的自身非生命属性组");
+                }
+                Use amount = use(target, row.path("valueRule"), rowPath + ".valueRule", "value", Bound.ANY, false);
+                Map<Levels, Fraction> known = amount == null ? null : optionalStaticValues(amount);
+                if (known == null || known.isEmpty()) throw invalid(target, rowPath + ".valueRule.value", "STATIC_VALUE_REQUIRED", "续时目标属性必须可静态核定");
+                for (Fraction value : known.values()) {
+                    Fraction effective = applyFixedRule(value, row.path("valueRule"));
+                    if (!finite(effective) || "RATIO_MULTIPLY".equals(mode) && effective.numerator().signum() < 0
+                        || "RATIO_COMPLEMENT_MULTIPLY".equals(mode) && (effective.numerator().signum() < 0 || effective.compareTo(Fraction.of(BigDecimal.ONE)) > 0)) {
+                        throw invalid(target, rowPath + ".valueRule.value", "VALUE_RANGE_INVALID", "续时目标属性值超出所属修正区的范围");
+                    }
+                }
+            }
         }
 
         private void validateExtendedDuration(

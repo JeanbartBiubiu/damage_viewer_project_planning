@@ -279,6 +279,16 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
     }
 
     @Test
+    void basicAttackHitCurrentTargetEffectActionIsAcceptedAndReadBack() {
+        var action = new SkillTriggerAction("maintain", "自身结果维护", SkillTriggerActionType.EXECUTE_EFFECT, 10,
+            SkillTriggerTargetContext.CURRENT_TARGET, new SkillTriggerExecuteEffectActionDetail(EFFECT_KEY), List.of(), List.of());
+        service.create(GAME_ID, SKILL_KEY, rule("maintain_on_attack",
+            new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT, new SkillTriggerEmptyEventDetail()), List.of(action)));
+        assertEquals(SkillTriggerTargetContext.CURRENT_TARGET,
+            service.get(GAME_ID, SKILL_KEY, "maintain_on_attack").actions().getFirst().targetContext());
+    }
+
+    @Test
     void attackStartAmmoValueIsSavedAndReadBackWithoutChangingItsMeaning() {
         when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of(
             SkillTriggerRuleTestSupport.state("ammo", SkillInternalStateType.AMMO)));

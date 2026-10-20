@@ -122,6 +122,7 @@ final class SimulationSnapshotFixture {
                     case ATTRIBUTE_CHANGE -> json.treeToValue(detailData, SkillEffectAttributeChangeDetail.class);
                     case RESOURCE_CHANGE -> json.treeToValue(detailData, SkillEffectResourceChangeDetail.class);
                     case COOLDOWN_CHANGE -> json.treeToValue(detailData, SkillEffectCooldownChangeDetail.class);
+                    case LIFECYCLE_OPERATION -> json.treeToValue(detailData, xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleOperationDetail.class);
                     case COOLDOWN_DURATION_MODIFIER -> json.treeToValue(detailData, xyz.game.datamanage.model.skilleffect.SkillEffectCooldownDurationModifierDetail.class);
                     case HIT_LINK_APPLICATION -> json.treeToValue(detailData, SkillEffectHitLinkApplicationDetail.class);
                     case ATTACK_LINK_APPLICATION -> json.treeToValue(detailData, SkillEffectAttackLinkApplicationDetail.class);

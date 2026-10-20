@@ -256,6 +256,20 @@ func (f *executionFrame) preflightProviderMutation(providers []status.ProviderIn
 		return added, providers, nil
 	}
 	inst, index, exists := status.FindByRef(providers, mutation.providerRef)
+	if mutation.kind == "ensure_remaining" {
+		if !exists || inst.Expired(s.nowMs) {
+			return 0, providers, nil
+		}
+		if inst.Owner != mutation.targetKey || inst.Source != mutation.sourceKey || inst.DefinitionRef != mutation.definitionRef {
+			return badRef("provider duration change has a foreign instance owner", mutation.providerRef)
+		}
+		if mutation.expireAt <= inst.ExpireAt {
+			return 0, providers, nil
+		}
+		inst.ExpireAt = mutation.expireAt
+		providers[index] = inst
+		return 1, providers, nil
+	}
 	if mutation.kind == "expire" {
 		if !exists {
 			if mutation.strict {

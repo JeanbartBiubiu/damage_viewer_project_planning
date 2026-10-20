@@ -35,6 +35,9 @@ import { lowerBasicAttackContributionValue, lowerBasicAttackContributionValueRul
 import { basicAttackContributionKey, isBasicAttackContributionRule,
   type BasicAttackContribution } from './basicAttackContributionContract';
 import { compileStateFieldSchema } from './processStateAdapter';
+import { isOwnCooldownReductionResult, type BasicAttackCooldownReduction } from './basicAttackCooldownReduction';
+import { staticEffectAmount } from './staticEffectValue';
+import { compileProviderDurationResult } from './providerDurationAdapter';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
   type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
@@ -54,6 +57,7 @@ export type TriggeredEquipmentAssembly = {
   compiledSources: Array<{ side: Side; providerRef: string; definitionRef: string; skillKey: string }>;
   passiveHitContributions?: Array<{ sourceSkillKey: string; authorSkillKey: string; candidate: SkillHitCandidate }>;
   basicAttackContributions?: BasicAttackContribution[];
+  basicAttackCooldownReductions?: BasicAttackCooldownReduction[];
 };
 
 const METADATA = ['name', 'description', 'sortOrder', 'createdAt', 'updatedAt'];
@@ -295,6 +299,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
   const compiledSources: TriggeredEquipmentAssembly['compiledSources'] = [];
   const passiveHitContributions: NonNullable<TriggeredEquipmentAssembly['passiveHitContributions']> = [];
   const basicAttackContributions: BasicAttackContribution[] = [];
+  const basicAttackCooldownReductions: BasicAttackCooldownReduction[] = [];
   const cover = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const addFormula = (formula: NamedFormula, path: string) => {
     const existing = formulas.get(formula.key);
@@ -356,6 +361,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const usedEffects = new Set<string>();
         const appliedEffects = new Set<string>();
         const queriedShieldEffects = new Set<string>();
+        const queriedDurationEffects = new Set<string>();
         const usedProcesses = new Set<string>();
         const usedStates = new Set<string>();
         const usedRules = new Set<string>();
@@ -811,13 +817,49 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           return operation;
         };
         const addResult = (result: SkillEffectResult, authored: SkillEffect, output: OperationDefinition[], outputRoot: string,
-          abilityRef: string, dynamicDefinition?: string) => {
+          abilityRef: string, dynamicDefinition?: string, cooldownContext?: { event: string; context: string }) => {
           const resultPath = `${root}.effects.${authored.effectKey}.results.${result.resultKey}`;
           resultShape(result, resultPath);
           const operationPath = `${outputRoot}[${output.length}]`;
           let operation: OperationDefinition;
           if (result.resultType === 'DAMAGE') {
             operation = compileDamage(result, resultPath);
+          } else if (result.resultType === 'LIFECYCLE_OPERATION' && result.detail.operation === 'ENSURE_REMAINING') {
+            if (side !== 'source' || cooldownContext?.context !== 'target'
+              || !['BASIC_ATTACK_HIT', 'SKILL_USED'].includes(cooldownContext.event)) {
+              fail(resultPath, '剩余时长维护只接入真实普攻命中或同拥有者首次技能使用入口');
+            }
+            if (!snapshot.selection.plannedSkills.some(plan => plan.skillKey === skillKey)) {
+              fail(resultPath, '混合规则的续时结果缺少本技能真实主动计划，不能静默丢弃');
+            }
+            const target = effect(result.detail.targetEffectKey, `${resultPath}.detail.targetEffectKey`);
+            const compiled = compileProviderDurationResult(authored, target, result.resultKey, numeric, snapshot.catalogs.modifierZones, definitionRef);
+            const previous = providers.find(row => row.providerKey === compiled.provider.providerKey);
+            if (previous && JSON.stringify(previous) !== JSON.stringify(compiled.provider)) fail(resultPath, '续时目标定义不一致');
+            if (!previous) providers.push(compiled.provider);
+            for (const row of target.results) if (row.valueRule) noteNumeric(row.valueRule.value);
+            for (const field of ['durationValue', 'maxStacksValue', 'applicationStacksValue'] as const) noteNumeric(target.lifecycle![field]!);
+            noteNumeric(result.valueRule!.value);
+            queriedDurationEffects.add(target.effectKey);
+            collectAttributes(compiled.provider, side, required);
+            for (const row of target.results) if (row.resultType === 'ATTRIBUTE_CHANGE') changed[side].add(row.detail.attributeKey);
+            operation = compiled.operation;
+            cover(`${root}.effects.${target.effectKey}.lifecycle`, `sharedProviders.${compiled.provider.providerKey}.lifecycle`);
+          } else if (result.resultType === 'COOLDOWN_CHANGE') {
+            exact(result.detail, ['affectedSkillScope', 'operation'], `${resultPath}.detail`);
+            exact(result.detail.affectedSkillScope, ['mode', 'skillKeys', 'skillCategoryKeys'], `${resultPath}.detail.affectedSkillScope`);
+            if (side !== 'source' || authored.lifecycle !== null || !isOwnCooldownReductionResult(result, skillKey)
+              || cooldownContext?.event !== 'BASIC_ATTACK_HIT' || cooldownContext.context !== 'target' || !result.valueRule) {
+              fail(resultPath, '剩余冷却减少仅接入真实普攻命中对自身本技能的即时结果');
+            }
+            if (!snapshot.selection.plannedSkills.some(plan => plan.skillKey === skillKey)) {
+              fail(resultPath, '混合规则的减冷却结果缺少本技能真实主动计划，不能静默丢弃');
+            }
+            noteNumeric(result.valueRule.value);
+            const milliseconds = staticEffectAmount(result.valueRule, `${resultPath}.valueRule`, numeric);
+            if (!Number.isSafeInteger(milliseconds) || milliseconds < 0) fail(resultPath, '剩余冷却减少必须为静态非负安全整数毫秒');
+            operation = { operation: 'cooldown_change', target: 'self', valuePolicy: 'reduce', amount: constExpr(milliseconds), ref: resultPath };
+            basicAttackCooldownReductions.push({ side, providerRef, definitionRef, skillKey, authorPath: resultPath, operation });
           } else if (result.resultType === 'HIT_LINK_APPLICATION' || result.resultType === 'ATTACK_LINK_APPLICATION') {
             exact(result.detail, [], `${resultPath}.detail`);
             if (result.target !== 'TARGET' || authored.lifecycle !== null || result.lifecycleBehavior !== null) fail(resultPath, '命中联动必须有完整即时对手次数');
@@ -1025,7 +1067,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                 if (authored.lifecycle !== null && !['ATTRIBUTE_CHANGE', 'HEALING_MODIFIER', 'STATUS_OPERATION'].includes(result.resultType)) fail(effectPath, '未接入的持续效果不能伪装成即时结果');
                 if (context === 'self' && result.target === 'TARGET') fail(actionPath, '当前节点未接入把对手结果改投到事件拥有方');
                 if (authored.lifecycle === null && result.lifecycleBehavior !== null) fail(effectPath, '即时效果不能夹带生命周期结果');
-                addResult(result, authored, output, outputRoot, abilityRef);
+                addResult(result, authored, output, outputRoot, abilityRef, undefined, { event, context });
               }
               cover(effectPath, outputRoot);
             }
@@ -1429,7 +1471,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           cover(`${rulePath}.eventSource`, `${abilityRoot}.listenerSpec.eventMatcher`);
           if (predicate) cover(`${rulePath}.conditionGroups`, `${abilityRoot}.listenerSpec.condition`);
         }
-        for (const authored of configuration.effects) if (!usedEffects.has(authored.effectKey) || !appliedEffects.has(authored.effectKey) && !queriedShieldEffects.has(authored.effectKey)) fail(`${root}.effects.${authored.effectKey}`, '存在未接入的作者效果，不能丢弃后成功');
+        for (const authored of configuration.effects) if (!usedEffects.has(authored.effectKey) || !appliedEffects.has(authored.effectKey) && !queriedShieldEffects.has(authored.effectKey) && !queriedDurationEffects.has(authored.effectKey)) fail(`${root}.effects.${authored.effectKey}`, '存在未接入的作者效果，不能丢弃后成功');
         for (const authored of configuration.processes) if (!usedProcesses.has(authored.processKey)) fail(`${root}.processes.${authored.processKey}`, '存在未接入的作者过程');
         for (const authored of configuration.internalStates) if (!usedStates.has(authored.stateKey)) fail(`${root}.internalStates.${authored.stateKey}`, '存在未接入的内部状态');
         for (const authored of configuration.triggerRules) if (!usedRules.has(authored.ruleKey)) fail(`${root}.triggerRules.${authored.ruleKey}`, '存在未接入的作者规则或时点');
@@ -1486,5 +1528,6 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
   return { providers, mounts, types: [...types].map(([key, domain]) => ({ key, domain })), formulas: [...formulas.values()],
     rules, operationOrigins, coverage, required, selectedSkills, changedAttributes: changed, compiledSources,
     ...(passiveHitContributions.length ? { passiveHitContributions } : {}),
-    ...(basicAttackContributions.length ? { basicAttackContributions } : {}) };
+    ...(basicAttackContributions.length ? { basicAttackContributions } : {}),
+    ...(basicAttackCooldownReductions.length ? { basicAttackCooldownReductions } : {}) };
 }

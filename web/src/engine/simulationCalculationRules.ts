@@ -69,12 +69,25 @@ export function hasDynamicSpeedDependency(input: CompileRequest, side: 'source' 
   };
   input.rules.attributeDerivations?.filter(row => row.combatantKey === side && row.attributeKey === speedKey).forEach(row => read(row.value, row.combatantKey));
   if (Array.from(reachableAttributeChanges(input, request)).some(key => dependencies.has(key))) return true;
-  return input.sharedProviders?.some(provider => (provider.initialStateSchema || provider.lifecycle)
-    && provider.modifiers?.some(modifier => {
+  const healthRead = (value: GenericFormulaExpr): boolean => {
+    if (value.op === 'ref') {
+      const formula = input.formulas?.find(row => row.key === value.ref);
+      return !!formula && formula.scope === 'skill' && skillFormulaReachableInputs(formula.expression).some(row => row.binding.kind === 'attribute'
+        && row.binding.object === 'source' && row.binding.attributeKey === 'hp' && ['CURRENT', 'MAX', 'MISSING', 'CURRENT_RATIO', 'MISSING_RATIO'].includes(row.binding.valueKind));
+    }
+    return (value.args ?? []).some(healthRead) || [value.min, value.max, value.expr].some(child => !!child && healthRead(child));
+  };
+  return input.sharedProviders?.some(provider => provider.modifiers?.some(modifier => {
       const match = /^(self|opponent)\.attr\.([a-z][a-z0-9_]*)$/.exec(modifier.target ?? '');
       if (modifier.kind !== 'attribute' || !match) return false;
+      const permanentHealth = !provider.lifecycle && !provider.initialStateSchema && modifier.valuePolicy === 'add' && healthRead(modifier.value);
+      if (!provider.initialStateSchema && !provider.lifecycle && !permanentHealth) return false;
       const owners = input.combatants.filter(actor => actor.providers.some(mount => mount.definitionRef === provider.providerKey
-        || input.sharedProviders?.some(root => root.providerKey === mount.definitionRef && root.stableId === provider.stableId)));
+        || input.sharedProviders?.some(root => root.providerKey === mount.definitionRef && (root.stableId === provider.stableId
+          || permanentHealth && root.listeners?.some(listener => !listener.condition
+            && listener.eventMatcher.all?.includes('event/source_initialized') && listener.eventMatcher.all?.includes('event/source_owner')
+            && listener.operations?.some(operation => operation.operation === 'apply_provider' && operation.target === 'self'
+              && !operation.condition && operation.providerDefinitionRef === provider.providerKey))))));
       return owners.some(owner => dependencies.has(`${match[1] === 'self' ? owner.key : owner.key === 'source' ? 'target' : 'source'}.${match[2]}`));
     })) ?? false;
 }

@@ -4,6 +4,8 @@ import type { SimulationSkillOrigin, SimulationSkillPhase, SimulationSkillSource
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import { NumericAdaptationError } from './numericAdapter';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
+import { isOwnCooldownMaintenanceAction } from './basicAttackCooldownReduction';
+import { isOwnProviderDurationMaintenanceAction } from './providerDurationAdapter';
 import type { PermanentNumericConsumer } from './simulationPermanentResults';
 import { calculationConfiguration } from './simulationCalculationRules';
 
@@ -63,6 +65,9 @@ function activeReachableRoots(snapshot: SimulationSnapshot) {
     for (const rule of entry.configuration?.triggerRules ?? []) {
       const event = rule.eventSource;
       if (!rule.actions.length) continue;
+      if (entry.side === 'source' && event.eventType === 'SKILL_USED'
+        && rule.actions.every(action => isOwnProviderDurationMaintenanceAction(entry.configuration!, action))
+        && !snapshot.selection.plannedSkills.some(plan => plan.skillKey === entry.source.skillKey)) continue;
       if (event.eventType === 'SOURCE_INITIALIZED' || entry.side === 'source'
         && (event.eventType === 'SKILL_HIT' || event.eventType === 'SKILL_USED' && event.detail.castPhase !== null
           && snapshot.selection.plannedSkills.some(plan => plan.phaseKinds.includes(event.detail.castPhase!)
@@ -119,6 +124,9 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
   return configuration.triggerRules.filter(rule => {
     if (!rule.actions.length) return false;
     const event = rule.eventSource;
+    if (side === 'source' && ['BASIC_ATTACK_HIT', 'SKILL_USED'].includes(event.eventType)
+      && rule.actions.every(action => isOwnProviderDurationMaintenanceAction(configuration, action))
+      && !snapshot.selection.plannedSkills.some(plan => plan.skillKey === configuration.skill.skillKey)) return false;
     if (allSides.has(event.eventType)) return true;
     if (event.eventType === 'PROCESS_RESOLVED') return side === 'source'
       && snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey)
@@ -126,7 +134,8 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
         && configuration.processes.some(process => process.processKey === event.detail.processKey));
     if (OWN_ATTACK_EVENTS.has(event.eventType)) {
       if (side !== 'source') return false;
-      if (rule.actions.every(action => action.actionType === 'MODIFY_INTERNAL_STATE')
+      if (rule.actions.every(action => action.actionType === 'MODIFY_INTERNAL_STATE'
+        || event.eventType === 'BASIC_ATTACK_HIT' && isOwnCooldownMaintenanceAction(configuration, action))
         && !snapshot.selection.plannedSkills.some(plan => plan.skillKey === configuration.skill.skillKey)) return false;
       return true;
     }

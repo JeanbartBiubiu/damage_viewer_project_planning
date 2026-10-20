@@ -17,33 +17,34 @@ type CompiledAbilityRef struct {
 
 // CompiledSession 是 generic compile 输出的只读 session 快照。
 type CompiledSession struct {
-	AttributeLayout         *attribute.Layout
-	SkillActionBindings     []CompiledSkillActionBinding
-	HasMechanicReads        bool
-	HasShieldLifecycle      bool
-	HasLinkedShieldReads    bool
-	HasProviderElapsedReads bool
-	HasFiniteModifierExpiry bool
-	HasResourceMax          bool
-	HasCooldownDuration     bool
-	StatusKeys              []string
-	SchemaVersion           string
-	SchemaHash              string
-	RulesHash               string
-	Types                   typeset.CatalogResult
-	RuntimeTypes            RuntimeTypeBindings
-	Combatants              []CompiledCombatant
-	Providers               []CompiledProvider
-	Abilities               []CompiledAbility
-	Operations              []CompiledOperation
-	Formulas                formula.GenericRegistry
-	Settings                model.GenericCompileSettings
-	AbilityRefIndex         map[string]CompiledAbilityRef
-	RuleModifiers           []CompiledModifier
-	Listeners               []CompiledListener
-	VampRules               []CompiledVampRule
-	DamageTypeFormulas      map[string]CompiledDamageTypeFormula
-	AttributeDerivations    []CompiledAttributeDerivation
+	AttributeLayout           *attribute.Layout
+	SkillActionBindings       []CompiledSkillActionBinding
+	HasMechanicReads          bool
+	HasShieldLifecycle        bool
+	HasLinkedShieldReads      bool
+	HasProviderElapsedReads   bool
+	HasFiniteModifierExpiry   bool
+	HasResourceMax            bool
+	HasCooldownDuration       bool
+	HasProviderDurationChange bool
+	StatusKeys                []string
+	SchemaVersion             string
+	SchemaHash                string
+	RulesHash                 string
+	Types                     typeset.CatalogResult
+	RuntimeTypes              RuntimeTypeBindings
+	Combatants                []CompiledCombatant
+	Providers                 []CompiledProvider
+	Abilities                 []CompiledAbility
+	Operations                []CompiledOperation
+	Formulas                  formula.GenericRegistry
+	Settings                  model.GenericCompileSettings
+	AbilityRefIndex           map[string]CompiledAbilityRef
+	RuleModifiers             []CompiledModifier
+	Listeners                 []CompiledListener
+	VampRules                 []CompiledVampRule
+	DamageTypeFormulas        map[string]CompiledDamageTypeFormula
+	AttributeDerivations      []CompiledAttributeDerivation
 }
 
 type CompiledAttributeDerivation struct {
@@ -76,6 +77,8 @@ type CompiledProviderMount struct {
 // CompiledModifier 是 compile 后的 provider / rule modifier。
 // CompiledModifier 是 compile 后的 provider / rule modifier。
 type CompiledModifier struct {
+	// OwnedHealthReads仅由同技能作者生命读取的动态自身加算推导，不是公开协议字段。
+	OwnedHealthReads         bool
 	CurrentValuePolicy       string
 	AffectedAbilityRefs      []string
 	HasAffectedAbilityRefs   bool

@@ -457,7 +457,7 @@ func (s *stagedCombatant) readonlyCooldowns() *genericCooldownLedger {
 }
 
 func (f *executionFrame) evalContext(ability planbundle.CompiledAbility) formula.GenericEvalContext {
-	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration {
+	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange {
 		f.flushDynamicProviders()
 	}
 	source, target := f.stageFor(f.sourceKey), f.stageFor(f.targetKey)
@@ -744,7 +744,7 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 	if err := f.bumpCommandBudget(); err != nil {
 		return err
 	}
-	if (f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration) && op.Operation != "apply_provider" && op.Operation != "refresh_provider" && op.Operation != "expire_provider" {
+	if (f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange) && op.Operation != "apply_provider" && op.Operation != "refresh_provider" && op.Operation != "expire_provider" {
 		f.flushDynamicProviders()
 		if f.fatal {
 			return f.fatalErr
@@ -980,6 +980,8 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 		f.dynamicProviderDirty = true
 		sc.dirty = true
 		return nil
+	case "provider_duration_change":
+		return f.applyProviderEnsureRemaining(*op)
 	case "refresh_provider":
 		if op.ProviderRef == "" {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "refresh_provider requires providerRef", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -1077,7 +1079,7 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 
 func isSkillHitBlockedWrite(op string) bool {
 	switch op {
-	case "damage", "apply_provider", "refresh_provider", "attribute_change", "resource_change", "cooldown_change", "heal", "shield", model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
+	case "damage", "apply_provider", "refresh_provider", "provider_duration_change", "attribute_change", "resource_change", "cooldown_change", "heal", "shield", model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
 		return true
 	default:
 		return false
@@ -2065,7 +2067,7 @@ func (f *executionFrame) commit() {
 	if f.fatal || f.committed {
 		return
 	}
-	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration {
+	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange {
 		f.flushDynamicProviders()
 		if f.fatal {
 			return

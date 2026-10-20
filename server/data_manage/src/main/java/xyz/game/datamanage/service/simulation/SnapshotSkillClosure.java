@@ -291,6 +291,10 @@ final class SnapshotSkillClosure {
     private boolean natural(Source source, Aggregate rule) {
         JsonNode event = rule.data().path("eventSource");
         String type = event.path("eventType").asText();
+        JsonNode rootActions = rule.data().path("actions");
+        if (source.side.equals("source") && Set.of("BASIC_ATTACK_HIT", "SKILL_USED").contains(type)
+            && !rootActions.isEmpty() && rootActions.valueStream().allMatch(action -> ownProviderDurationMaintenanceAction(source, action))
+            && sources.stream().noneMatch(candidate -> candidate.planned != null && candidate.skillKey.equals(source.skillKey))) return false;
         if (Set.of("SKILL_USED", "SKILL_HIT").contains(type)) {
             JsonNode detail = event.path("detail");
             if (!source.side.equals("source")) return false;
@@ -310,11 +314,45 @@ final class SnapshotSkillClosure {
         if (Set.of("BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "HIT_LINK_APPLIED", "ATTACK_LINK_APPLIED").contains(type)) {
             if (!source.side.equals("source")) return false;
             JsonNode actions = rule.data().path("actions");
-            if (!actions.isEmpty() && actions.valueStream().allMatch(action -> "MODIFY_INTERNAL_STATE".equals(action.path("actionType").asText()))
+            if (!actions.isEmpty() && actions.valueStream().allMatch(action -> "MODIFY_INTERNAL_STATE".equals(action.path("actionType").asText())
+                || type.equals("BASIC_ATTACK_HIT") && ownCooldownMaintenanceAction(source, action))
                 && sources.stream().noneMatch(candidate -> candidate.planned != null && candidate.skillKey.equals(source.skillKey))) return false;
             return true;
         }
         return true;
+    }
+
+    private boolean ownCooldownMaintenanceAction(Source source, JsonNode action) {
+        if (!action.path("actionType").asText().equals("EXECUTE_EFFECT") || !action.path("targetContext").asText().equals("CURRENT_TARGET")
+            || !action.path("runtimeInputBindings").isEmpty() || !action.path("resultModifiers").isEmpty()) return false;
+        Aggregate effect = objects.get(new ObjectKey(source.skillKey, SourceType.EFFECT, action.path("detail").path("effectKey").asText()));
+        if (effect == null || effect.data().hasNonNull("lifecycle")) return false;
+        JsonNode results = effect.data().path("results");
+        return !results.isEmpty() && results.valueStream().allMatch(result -> {
+            JsonNode detail = result.path("detail"), scope = detail.path("affectedSkillScope");
+            return result.path("resultType").asText().equals("COOLDOWN_CHANGE") && detail.path("operation").asText().equals("REDUCE")
+                && result.path("target").asText().equals("SOURCE") && !result.hasNonNull("lifecycleBehavior")
+                && !result.hasNonNull("spellShieldBlockScope") && scope.path("mode").asText().equals("SKILLS")
+                && scope.path("skillKeys").size() == 1 && scope.path("skillKeys").get(0).asText().equals(source.skillKey)
+                && scope.path("skillCategoryKeys").isArray() && scope.path("skillCategoryKeys").isEmpty();
+        });
+    }
+
+    private boolean ownProviderDurationMaintenanceAction(Source source, JsonNode action) {
+        if (!action.path("actionType").asText().equals("EXECUTE_EFFECT") || !action.path("targetContext").asText().equals("CURRENT_TARGET")
+            || !action.path("runtimeInputBindings").isEmpty() || !action.path("resultModifiers").isEmpty()) return false;
+        String effectKey = action.path("detail").path("effectKey").asText();
+        Aggregate effect = objects.get(new ObjectKey(source.skillKey, SourceType.EFFECT, effectKey));
+        if (effect == null || effect.data().hasNonNull("lifecycle")) return false;
+        JsonNode results = effect.data().path("results");
+        return !results.isEmpty() && results.valueStream().allMatch(result -> {
+            JsonNode detail = result.path("detail");
+            Aggregate target = objects.get(new ObjectKey(source.skillKey, SourceType.EFFECT, detail.path("targetEffectKey").asText()));
+            return result.path("resultType").asText().equals("LIFECYCLE_OPERATION") && detail.path("operation").asText().equals("ENSURE_REMAINING")
+                && result.path("target").asText().equals("SOURCE") && !result.hasNonNull("lifecycleBehavior")
+                && !result.hasNonNull("spellShieldBlockScope") && !detail.path("targetEffectKey").asText().equals(effectKey)
+                && target != null && target.data().path("lifecycle").hasNonNull("durationValue");
+        });
     }
 
     private void validatePlannedRoots(Source source) {

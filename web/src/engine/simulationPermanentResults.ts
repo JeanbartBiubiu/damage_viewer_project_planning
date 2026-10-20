@@ -6,6 +6,7 @@ import type { SimulationSkillSource, SimulationSnapshot } from '../types/simulat
 import { compileNumericValue, constExpr, createNumericCompileState, NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression } from './numericAdapter';
 import { permanentAttributeConversion, type SimulationAttributeDerivation } from './simulationAttributeConversion';
 import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
+import { dynamicPermanentAttribute } from './dynamicPermanentAttributeAdapter';
 
 export type PermanentResultContext = {
   snapshot: SimulationSnapshot;
@@ -73,6 +74,8 @@ export function permanentModifier(context: PermanentResultContext, result: Skill
     || behavior.periodicExecutionMode !== null) {
     fail(path, '只接入完整永久自身常驻或装备静态对手属性光环');
   }
+  const dynamicAddition = dynamicPermanentAttribute(context, result, path);
+  if (dynamicAddition) return dynamicAddition;
   const authoredValue = result.valueRule.value;
   const amountFormula = authoredValue.kind === 'FORMULA'
     ? configuration.formulas.find(row => row.formulaKey === authoredValue.formulaKey) : undefined;

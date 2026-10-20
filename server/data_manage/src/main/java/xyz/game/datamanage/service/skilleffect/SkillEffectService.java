@@ -1610,7 +1610,7 @@ public class SkillEffectService {
             resultPath(index, "detail.targetEffectKey"),
             targetEffectKey,
             operation == SkillEffectLifecycleOperation.REFRESH,
-            operation == SkillEffectLifecycleOperation.EXTEND_DURATION,
+            operation == SkillEffectLifecycleOperation.EXTEND_DURATION || operation == SkillEffectLifecycleOperation.ENSURE_REMAINING,
             currentEffectKey != null && currentEffectKey.equals(targetEffectKey)
         ));
         refs.targetEffectKeys.add(targetEffectKey);

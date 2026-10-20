@@ -80,6 +80,7 @@ import {
   SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS,
   SKILL_EFFECT_LIFECYCLE_OPERATION_LABELS,
   LIFECYCLE_EXTENSION_HINT,
+  LIFECYCLE_ENSURE_REMAINING_HINT,
   SKILL_EFFECT_MODIFIER_OPERATION_LABELS,
   SKILL_EFFECT_LIFECYCLE_OPERATIONS,
   SKILL_EFFECT_NORMAL_SHIELD_DECAY_MODE_LABELS,
@@ -1355,6 +1356,8 @@ export function SkillEffectResultEditorModal({
               {healingRatioMaxHint ? <Alert type="info" content={healingRatioMaxHint} /> : null}
               {draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'EXTEND_DURATION'
                 ? <Alert type="info" content={LIFECYCLE_EXTENSION_HINT} /> : null}
+              {draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'ENSURE_REMAINING'
+                ? <Alert type="info" content={LIFECYCLE_ENSURE_REMAINING_HINT} /> : null}
               {slowApply ? <Alert type="info" content="0.3 表示 30% 减速；百分数点参数使用固定倍率 0.01。上下界固定为 0 和 1。" /> : null}
               {draft.resultType === 'EXECUTE' ? (
                 <Alert type="info" content={EXECUTE_RESULT_HINT} />

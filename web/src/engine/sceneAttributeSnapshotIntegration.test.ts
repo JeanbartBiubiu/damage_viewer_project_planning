@@ -15,13 +15,14 @@ import { assembleSimulation, inspectSimulationSnapshot, simulationAbility } from
 import { automaticSkillRequest } from './automaticSkillRequest';
 import { assessAutomaticSkillResult } from './automaticSkillResult';
 import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { WASM_IDENTITY } from './wasmIdentity';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 
 let bridge: TinyGoV2Bridge;
 beforeAll(async () => {
   const bytes = readFileSync(process.env.PHASE3B_WASM_PATH || new URL('./wasm/tinygo_engine_v2.wasm', import.meta.url));
-  expect(bytes.length).toBe(2750409);
-  expect(createHash('sha256').update(bytes).digest('hex')).toBe('1346f63b089edfda34335720864b3784196b350504ec47d75134524df1ba70d1');
+  expect(bytes.length).toBe(WASM_IDENTITY.bytes);
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe(WASM_IDENTITY.sha256);
   bridge = await TinyGoV2Bridge.create({ wasmUrl: 'data:application/wasm;base64,' + bytes.toString('base64') });
 });
 

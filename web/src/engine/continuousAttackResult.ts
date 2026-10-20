@@ -3,7 +3,7 @@ import { tryFoldConstant } from './numericAdapter';
 import { basicAttackContributionAuthorMatches } from './basicAttackContributionContract';
 import type {
   AbilityDefinition, AttackRecord, BudgetCause, CompileRequest, DamageBreakdown, DamageRecord, DoneResult, GenericFormulaExpr,
-  ExecutionSummary, MechanicRecord, OperationDefinition, ProviderStateFieldSchema, RecordingSummary, RunRequest, StopReason, SeriesPoint, SeriesSamplingEvidence
+  ExecutionSummary, MechanicRecord, OperationDefinition, ProcessInstanceSnapshot, ProviderStateFieldSchema, RecordingSummary, RunRequest, StopReason, SeriesPoint, SeriesSamplingEvidence
 } from '../types/genericEngine';
 import type { OperationOrigin } from './simulationAdapter';
 import { inspectContinuousAttackSeries } from './continuousAttackSeries';
@@ -13,9 +13,11 @@ import { empoweredDamageProcess } from './empoweredAttackContract';
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
 import { basicAttackPrimaryBinding, inspectPrimaryReplacements } from './primaryAttackReplacementContract';
 import { hasResourceMaxAuthorization, inspectResourceChangeContract } from './resourceChangeContract';
+import { inspectBasicAttackCooldownWake } from './basicAttackCooldownWakeResultFacts';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
+  identityGaps: string[];
   factsValid: boolean; seriesIssues: string[]; series: SeriesPoint[];
   seriesSamplingEvidence: SeriesSamplingEvidence | null; damageBreakdown: DamageBreakdown[];
   startedCount: number; hitCount: number; completedCount: number;
@@ -199,6 +201,7 @@ export function assessContinuousAttackResult(
   const initial = object(request.initialSnapshot, 'runRequest.initialSnapshot');
   const final = object(result.finalSnapshot, 'runResult.finalSnapshot');
   const issues: string[] = [];
+  const identityGaps: string[] = [];
   issues.push(...inspectResourceChangeContract(input, request, done));
   const check = (condition: boolean, path: string, message: string) => { if (!condition) issues.push(`${path}：${message}`); };
   check(bool(result.ok, 'runResult.ok'), 'runResult.ok', '运行返回未成功');
@@ -456,6 +459,11 @@ export function assessContinuousAttackResult(
       if (start < occupancy.startedAtMs || start >= (occupancy.finishedAtMs ?? occupancy.expectedEndAtMs)) return false;
       const successor = processFacts.empoweredSuccessions.get(occupancy.useRef);
       const consumer = processFacts.processes.find(row => row.useKey === occupancy.useRef);
+      const wake = inspectBasicAttackCooldownWake(input, request, done, process as unknown as ProcessInstanceSnapshot, consumer, occupancy);
+      if (wake.valid) {
+        if (wake.identityGap) identityGaps.push(wake.identityGap);
+        return false;
+      }
       return !(successor && successor.attack.useRef === useRef && successor.timeMs === start && occupancy.stepVersion === 1
         && occupancy.startedAtMs === start && consumer?.startedAtMs === start);
     }), 'processInstances.actionReady', '真实普攻不能在既有占用内开始；同刻后项必须沿该刀真实消费因果证明');
@@ -693,7 +701,7 @@ export function assessContinuousAttackResult(
   const factsValid = issues.length === 0;
   const sampling = inspectContinuousAttackSeries(request, done);
   issues.push(...sampling.seriesIssues);
-  return { complete: computationComplete && issues.length === 0, issues, factsValid, ...sampling,
+  return { complete: computationComplete && issues.length === 0, issues, identityGaps, factsValid, ...sampling,
     damageBreakdown: breakdown, execution: execution as ExecutionSummary,
     startedCount, hitCount, completedCount, sourceInitialHp, targetInitialHp, sourceFinalHp, targetFinalHp,
     damageDealt: summary.sourceDamageDealt as number, hpLoss: summary.targetHpLoss as number, durationMs, stopReason,

@@ -100,3 +100,26 @@ describe('延长当前剩余生命周期时长', () => {
     expect(mapped.resultErrors[0].fieldErrors.targetEffectKey).toBe('延长目标必须有自然到期期限');
   });
 });
+
+describe('至少保留当前剩余生命周期时长', () => {
+  const ensure = (value = 2500) => ({ ...draft(value), lifecycleOperation: 'ENSURE_REMAINING' as const });
+  it.each([0, 2500, Number.MAX_SAFE_INTEGER])('静态安全整数%s可往返', value => {
+    const built = validate(ensure(value));
+    expect(built.ok).toBe(true);
+    if (!built.ok) return;
+    const response = { ...built.normalized, gameId: 'lol', skillKey: 'masteryi_r', createdAt: '', updatedAt: '' };
+    expect(parseSkillEffect(response)).toEqual(response);
+    expect(response.results[0]!.detail).toEqual({ operation: 'ENSURE_REMAINING', targetEffectKey: 'attack_speed' });
+  });
+  it.each([-1, .5, Number.MAX_SAFE_INTEGER + 1])('拒绝非法有效金额%s', value => {
+    const built = validate(ensure(value));
+    expect(built.ok).toBe(false);
+    if (!built.ok) expect(built.resultErrors[0].fieldErrors.value).toBe('有效剩余时长必须是非负安全整数毫秒。');
+  });
+  it('毫秒操作互换保留值、层数操作清值且拒绝运行输入', () => {
+    expect(applyLifecycleOperationChange(draft(2500), 'ENSURE_REMAINING').value).toEqual(fixedValue(2500));
+    expect(applyLifecycleOperationChange(ensure(), 'INCREASE').value).toBeNull();
+    expect(validate({ ...ensure(), value: parameterValue('duration') }, [parameter('RUNTIME_INPUT', [])]).ok).toBe(false);
+    expect(validate({ ...ensure(.5), fixedMultiplier: '1000' }).ok).toBe(true);
+  });
+});

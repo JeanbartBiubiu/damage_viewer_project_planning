@@ -17,6 +17,7 @@ import (
 // OwnerCombatantKey + ProviderRef 标识挂载身份：跨 combatant 时用拥有者 bag 求值，
 // 且两侧同名 providerRef 互不碰撞/误卸。
 type MountedAttributeModifier struct {
+	OwnedHealthReads  bool
 	OwnerCombatantKey string
 	ProviderRef       string
 	ModifierKey       string
@@ -128,6 +129,7 @@ func (r *AttributeResolver) MountCompiledModifierOwned(ownerCombatantKey, provid
 		return
 	}
 	mount := MountedAttributeModifier{
+		OwnedHealthReads:  mod.OwnedHealthReads,
 		OwnerCombatantKey: ownerCombatantKey,
 		ProviderRef:       providerRef,
 		ModifierKey:       mod.ModifierKey,
@@ -262,7 +264,7 @@ func (r AttributeResolver) ResolveAttributesWithProviderContext(
 		if !exists {
 			continue
 		}
-		value, err := r.resolveAttributeValue(key, slot.Base, evalCtx, formulas, providerContext)
+		value, err := r.resolveAttributeValue(key, slot.Base, attrs, evalCtx, formulas, providerContext)
 		if err != nil {
 			return attribute.Table{}, err
 		}
@@ -272,8 +274,8 @@ func (r AttributeResolver) ResolveAttributesWithProviderContext(
 	return out.Finish(), nil
 }
 
-func (r AttributeResolver) ResolveDerivedAttribute(attributeKey string, slot model.AttributeSlotDef, value float64, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (model.AttributeSlotDef, error) {
-	resolved, err := r.resolveAttributeValue(attributeKey, value, evalCtx, formulas, providerContext)
+func (r AttributeResolver) ResolveDerivedAttribute(attributeKey string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (model.AttributeSlotDef, error) {
+	resolved, err := r.resolveAttributeValue(attributeKey, value, attrs, evalCtx, formulas, providerContext)
 	if err != nil {
 		return model.AttributeSlotDef{}, err
 	}
@@ -281,7 +283,7 @@ func (r AttributeResolver) ResolveDerivedAttribute(attributeKey string, slot mod
 	return slot, nil
 }
 
-func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float64, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (float64, error) {
+func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (float64, error) {
 	resolved := base
 	complementProduct, hasComplement := 1.0, false
 	totalProduct := 1.0
@@ -302,12 +304,23 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 			modCtx.HasProviderElapsed = pctx.HasProviderElapsed
 			modCtx.ProviderElapsedMs = pctx.ProviderElapsedMs
 		}
+		if mod.OwnedHealthReads {
+			if mod.OwnerCombatantKey == "" {
+				return 0, fmt.Errorf("attribute %s modifier %s: missing health formula owner", attributeKey, mod.ModifierKey)
+			}
+			modCtx.HasAuthoredActorContext = true
+			modCtx.AuthoredSourceAttrs = attrs
+			modCtx.AuthoredCombatantKey = mod.OwnerCombatantKey
+		}
 		value, err := formulas.EvalContext(mod.ValueProgram, &modCtx)
 		if err != nil {
 			return 0, fmt.Errorf("attribute %s modifier %s: %w", attributeKey, mod.ModifierKey, err)
 		}
 		if math.IsNaN(value) || math.IsInf(value, 0) {
 			return 0, fmt.Errorf("attribute %s modifier %s: invalid value: %v", attributeKey, mod.ModifierKey, err)
+		}
+		if mod.OwnedHealthReads && value < 0 {
+			return 0, fmt.Errorf("attribute %s modifier %s: health-derived addition must be nonnegative", attributeKey, mod.ModifierKey)
 		}
 		if mod.ValuePolicy == "complement_multiply" {
 			if value < 0 || value > 1 {

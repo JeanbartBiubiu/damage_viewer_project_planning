@@ -322,7 +322,7 @@ export function buildResultReferenceSummary(
       if (result.lifecycleOperation === 'REFRESH' || result.lifecycleOperation === 'REMOVE' || !result.lifecycleOperation) {
         return { target, segments: [operation, result.lifecycleOperation ? NO_VALUE_TEXT : '—', effect] };
       }
-      const unit = result.lifecycleOperation === 'EXTEND_DURATION' ? MILLISECONDS_UNIT : STACKS_UNIT;
+      const unit = result.lifecycleOperation === 'EXTEND_DURATION' || result.lifecycleOperation === 'ENSURE_REMAINING' ? MILLISECONDS_UNIT : STACKS_UNIT;
       return { target, segments: [operation, numeric(unit), effect] };
     }
     case 'DAMAGE_MODIFIER': {

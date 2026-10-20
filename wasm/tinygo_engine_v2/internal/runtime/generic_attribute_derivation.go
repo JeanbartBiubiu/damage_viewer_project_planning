@@ -61,7 +61,7 @@ func resolveDerivedAttributes(compiled planbundle.CompiledSession, formulas form
 		} else {
 			ctx.TargetAttrs = out
 		}
-		resolvedSlot, resolveErr := resolver.ResolveDerivedAttribute(derivation.AttributeKey, slot, value, ctx, formulas, providerContext)
+		resolvedSlot, resolveErr := resolver.ResolveDerivedAttribute(derivation.AttributeKey, slot, value, attrs, ctx, formulas, providerContext)
 		if resolveErr != nil {
 			return attribute.Table{}, fmt.Errorf("%s: %w", derivation.Path, resolveErr)
 		}

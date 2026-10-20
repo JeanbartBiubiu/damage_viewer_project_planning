@@ -247,7 +247,7 @@ func TestAttributeResolverDerivedInitialValueAndSlotFields(t *testing.T) {
 		ModifierKey: "percent", Target: "attack", ValuePolicy: "percent_add", HasValue: true,
 	})
 	slot := model.AttributeSlotDef{Base: 10, Current: 20, Max: 30, Resolved: 40}
-	resolved, err := resolver.ResolveDerivedAttribute("attack", slot, 100, formula.GenericEvalContext{}, registry, nil)
+	resolved, err := resolver.ResolveDerivedAttribute("attack", slot, 100, attribute.Table{}, formula.GenericEvalContext{}, registry, nil)
 	if err != nil {
 		t.Fatal(err)
 	}

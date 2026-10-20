@@ -170,6 +170,8 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeShieldLifecycleBindings(req, ctx)
 	finalizeParticipationProviderBindings(ctx)
 	finalizeSkillHitPersistentAttributeProviders(ctx)
+	finalizeProviderDurationChanges(ctx)
+	finalizeOwnedHealthModifiers(ctx)
 	validateProviderElapsedReads(ctx)
 	finalizeListenerIndex(ctx)
 	compileAmmoBindings(ctx)
@@ -309,7 +311,11 @@ func compileProviderDefinition(provider model.ProviderDefinition, path string, c
 	compiled.TypeSet = typeset.ValidateTypeKeys(provider.Types, typeset.EntityProvider, session.Types, path+".types", collector.addError)
 	typeset.ValidateTypeKeys(provider.Tags, typeset.EntityProvider, session.Types, path+".tags", collector.addError)
 	for j, mod := range provider.Modifiers {
-		compiled.Modifiers = append(compiled.Modifiers, compileModifierDefinition(mod, path+".modifiers["+itoa(j)+"]", ctx))
+		modifier := compileModifierDefinition(mod, path+".modifiers["+itoa(j)+"]", ctx)
+		if provider.Kind == "status" && provider.Lifecycle == nil && len(provider.Abilities)+len(provider.Listeners)+len(provider.Processes)+len(provider.InitialStateSchema)+len(provider.StatusContributions) == 0 {
+			modifier.OwnedHealthReads = ownsAuthoredHealthReads(modifier, ctx)
+		}
+		compiled.Modifiers = append(compiled.Modifiers, modifier)
 	}
 	if provider.Lifecycle != nil {
 		compiled.Lifecycle = compileProviderLifecycle(*provider.Lifecycle, path+".lifecycle", ctx)
@@ -969,6 +975,8 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		if op.Amount == nil {
 			collector.addError(model.GenericErrMissingRequiredField, path+".amount", op.Operation+" requires amount", "")
 		}
+	case "provider_duration_change":
+		validateProviderDurationChangeOperation(op, path, ownerProviderIndex, ctx)
 	case "apply_provider":
 		ctx.validateForeignProviderRuntime(op.ProviderDefinitionRef, path)
 		if op.ProviderDefinitionRef == "" {

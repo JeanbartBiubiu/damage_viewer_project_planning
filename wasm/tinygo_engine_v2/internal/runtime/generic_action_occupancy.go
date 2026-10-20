@@ -238,7 +238,7 @@ func (state *genericRunState) validatePlannedSkillProvider(owner, providerRef st
 			if !matched {
 				return state.basicAttackErr("planned attribute change requires its actual action binding", operation.Path)
 			}
-		case "damage", "heal", "shield", "state_change", "apply_provider", "expire_provider", "refresh_provider", "cooldown_change", "resource_change", model.OperationKindResolveSkillHit, model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
+		case "damage", "heal", "shield", "state_change", "apply_provider", "expire_provider", "refresh_provider", "provider_duration_change", "cooldown_change", "resource_change", model.OperationKindResolveSkillHit, model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
 		case model.OperationKindStateDurationChange:
 			field := provider.StateFields[operation.Ref]
 			if operation.StateScope != stateScopeProvider || field.StateKind != model.ProviderStateKindAmmo || field.AmmoRecovery == nil || !field.AmmoRecovery.OneByOne {

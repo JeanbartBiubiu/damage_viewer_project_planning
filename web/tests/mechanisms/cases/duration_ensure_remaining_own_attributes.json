@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "mechanism-case-v1",
+  "caseKey": "duration_ensure_remaining_own_attributes",
+  "title": "同来源首次技能施放把活动属性剩余时长保留到指定下限",
+  "mechanisms": ["effect.ensure_remaining", "attribute.self_total_multiply"],
+  "derivation": [
+    "基础攻击力100。0毫秒主动施加同一3000毫秒自身属性实例：固定攻击力+10，整体攻击力增加25%，所以当前攻击力(100+10)×(1+0.25)=137.5。",
+    "兄弟技能在1000和2000毫秒真实首次施放。每次只把仍活动实例余时保留至少2500：max(3000,1000+2500)=3500，再max(3500,2000+2500)=4500；并非叠加成5500或8000。",
+    "背景普攻每1000毫秒一次，0、1000、2000、3000、4000毫秒各137.5，证明旧3000到期事件失效；4500准时到期，5000毫秒普攻100。兄弟技能5000再次施放不复活已到期实例。共787.5物理伤害，护甲0的10000生命剩9212.5，最终攻击力100。"
+  ],
+  "catalog": "mechanism_lab",
+  "snapshot": {
+    "selection": {
+      "sourceCharacterKey": "lab_attacker", "sourceLevel": 1,
+      "targetCharacterKey": "lab_dummy", "targetLevel": 1,
+      "basicAttackSkillKey": "lab_basic_attack", "basicAttackLevel": 1,
+      "plannedSkills": [{"origin":{"kind":"CHARACTER","characterKey":"lab_attacker"},"skillKey":"lab_true_strike","skillLevel":1,"phaseKinds":["INITIAL"]},{"origin":{"kind":"CHARACTER","characterKey":"lab_attacker"},"skillKey":"lab_pulse","skillLevel":1,"phaseKinds":["INITIAL"]}],
+      "sourceEquipmentKeys": [], "targetEquipmentKeys": [], "sourceBuildConfigurations": [], "targetBuildConfigurations": [], "targetSkillSettings": [],
+      "sourceSkillSettings": [{"origin":{"kind":"CHARACTER","characterKey":"lab_attacker"},"skillKey":"lab_true_strike","enabled":true,"skillLevel":1},{"origin":{"kind":"CHARACTER","characterKey":"lab_attacker"},"skillKey":"lab_pulse","enabled":true,"skillLevel":1}]
+    },
+    "source": {
+      "character": {"gameId":"mechanism_lab","characterKey":"lab_attacker","name":"机制攻击方","description":null,"createdAt":"","updatedAt":""},
+      "attributes": {"characterKey":"lab_attacker","minLevel":1,"maxLevel":1,"levelValues":{"1":{"hp":1000,"attack_damage":100,"attack_speed":1,"armor":0,"magic_resist":0,"critical_strike_chance":0,"critical_strike_damage_bonus_percent":0,"armor_pen_percent":0,"armor_pen_flat":0,"magic_pen_percent":0,"magic_pen_flat":0,"life_steal_percent":0,"ability_power":0}}},
+      "selectedLevelValues": {"hp":1000,"attack_damage":100,"attack_speed":1,"armor":0,"magic_resist":0,"critical_strike_chance":0,"critical_strike_damage_bonus_percent":0,"armor_pen_percent":0,"armor_pen_flat":0,"magic_pen_percent":0,"magic_pen_flat":0,"life_steal_percent":0,"ability_power":0},
+      "attachedSkills": [
+        {"gameId":"mechanism_lab","characterKey":"lab_attacker","characterName":"机制攻击方","skillKey":"lab_basic_attack","skillName":"机制普攻","skillStatus":"ENABLED","sortOrder":0},
+        {"gameId":"mechanism_lab","characterKey":"lab_attacker","characterName":"机制攻击方","skillKey":"lab_true_strike","skillName":"有限自身攻击力","skillStatus":"ENABLED","sortOrder":1},
+        {"gameId":"mechanism_lab","characterKey":"lab_attacker","characterName":"机制攻击方","skillKey":"lab_pulse","skillName":"兄弟技能首次施放","skillStatus":"ENABLED","sortOrder":2}
+      ],
+      "selectedEquipment": [], "selectedBuilds": [],
+      "skillSources": [
+        {"origin":{"kind":"CHARACTER","characterKey":"lab_attacker"},"skillKey":"lab_basic_attack","skillName":"机制普攻","skillStatus":"ENABLED","enabled":true,"skillLevel":1,"enabledRuleKeys":["begin_attack","hit_attack"],"inactiveReason":null},
+        {"origin":{"kind":"CHARACTER","characterKey":"lab_attacker"},"skillKey":"lab_true_strike","skillName":"有限自身攻击力","skillStatus":"ENABLED","enabled":true,"skillLevel":1,"enabledRuleKeys":["ensure_on_pulse","first_cast"],"inactiveReason":null},
+        {"origin":{"kind":"CHARACTER","characterKey":"lab_attacker"},"skillKey":"lab_pulse","skillName":"兄弟技能首次施放","skillStatus":"ENABLED","enabled":true,"skillLevel":1,"enabledRuleKeys":["first_cast"],"inactiveReason":null}
+      ]
+    },
+    "target": {
+      "character": {"gameId":"mechanism_lab","characterKey":"lab_dummy","name":"机制木桩","description":null,"createdAt":"","updatedAt":""},
+      "attributes": {"characterKey":"lab_dummy","minLevel":1,"maxLevel":1,"levelValues":{"1":{"hp":10000,"attack_damage":0,"attack_speed":1,"armor":0,"magic_resist":100,"critical_strike_chance":0,"critical_strike_damage_bonus_percent":0,"armor_pen_percent":0,"armor_pen_flat":0,"magic_pen_percent":0,"magic_pen_flat":0,"life_steal_percent":0,"ability_power":0}}},
+      "selectedLevelValues": {"hp":10000,"attack_damage":0,"attack_speed":1,"armor":0,"magic_resist":100,"critical_strike_chance":0,"critical_strike_damage_bonus_percent":0,"armor_pen_percent":0,"armor_pen_flat":0,"magic_pen_percent":0,"magic_pen_flat":0,"life_steal_percent":0,"ability_power":0},
+      "attachedSkills": [], "selectedEquipment": [], "selectedBuilds": [], "skillSources": []
+    },
+    "skillConfigurations": [
+      {
+        "skill": {"gameId":"mechanism_lab","skillKey":"lab_basic_attack","name":"机制普攻","description":null,"maxLevel":1,"status":"ENABLED","sortOrder":0,"skillCategoryKeys":["basic_attack"],"createdAt":"","updatedAt":""},
+        "parameters": [],
+        "formulas": [
+          {"gameId":"mechanism_lab","skillKey":"lab_basic_attack","formulaKey":"raw","name":"攻击力","expression":{"inputs":[{"key":"damage","binding":{"kind":"attribute","object":"source","attributeKey":"attack_damage","valueKind":"TOTAL","view":"current_frame"}}],"stages":[{"key":"output","name":"攻击力","expression":{"op":"read","inputKey":"damage"}}],"outputStageKey":"output"},"description":null,"sortOrder":0,"createdAt":"","updatedAt":""},
+          {"gameId":"mechanism_lab","skillKey":"lab_basic_attack","formulaKey":"interval","name":"攻击间隔","expression":{"inputs":[{"key":"speed","binding":{"kind":"attribute","object":"source","attributeKey":"attack_speed","valueKind":"TOTAL","view":"current_frame"}}],"stages":[{"key":"output","name":"攻击间隔","expression":{"op":"div","args":[{"op":"const","value":"1000"},{"op":"read","inputKey":"speed"}]}}],"outputStageKey":"output"},"description":null,"sortOrder":1,"createdAt":"","updatedAt":""}
+        ],
+        "effects": [
+          {"gameId":"mechanism_lab","skillKey":"lab_basic_attack","effectKey":"start","name":"发起","description":null,"sortOrder":0,"lifecycle":null,"results":[{"resultKey":"attack_link","name":"攻击联动","resultType":"ATTACK_LINK_APPLICATION","target":"TARGET","description":null,"sortOrder":0,"valueRule":{"value":{"kind":"FIXED","value":1},"fixedMultiplier":1,"fixedMinValue":null,"fixedMaxValue":null},"detail":{},"lifecycleBehavior":null,"spellShieldBlockScope":null}],"createdAt":"","updatedAt":""},
+          {"gameId":"mechanism_lab","skillKey":"lab_basic_attack","effectKey":"hit","name":"命中","description":null,"sortOrder":1,"lifecycle":null,"results":[
+            {"resultKey":"damage","name":"伤害","resultType":"DAMAGE","target":"TARGET","description":null,"sortOrder":10,"valueRule":{"value":{"kind":"FORMULA","formulaKey":"raw"},"fixedMultiplier":1,"fixedMinValue":null,"fixedMaxValue":null},"detail":{"damageTypeKey":"physics","deliveryKind":"BASIC_ATTACK","originKind":"DIRECT","critical":{"mode":"SOURCE_CRIT_CHANCE","multiplierValue":{"kind":"FIXED","value":1.75}},"vampQualification":"RESOLVED","vampOverrides":[]},"lifecycleBehavior":null,"spellShieldBlockScope":null},
+            {"resultKey":"hit_link","name":"命中联动","resultType":"HIT_LINK_APPLICATION","target":"TARGET","description":null,"sortOrder":20,"valueRule":{"value":{"kind":"FIXED","value":1},"fixedMultiplier":1,"fixedMinValue":null,"fixedMaxValue":null},"detail":{},"lifecycleBehavior":null,"spellShieldBlockScope":null}
+          ],"createdAt":"","updatedAt":""}
+        ],
+        "processes": [{"gameId":"mechanism_lab","skillKey":"lab_basic_attack","processKey":"attack","name":"普攻节奏","activationType":"ACTIVE","description":null,"sortOrder":0,"steps":[{"stepKey":"begin","name":"发起","description":null,"sortOrder":0,"stepType":"IMMEDIATE","detail":{}}],"cooldown":{"durationValue":{"kind":"FORMULA","formulaKey":"interval"},"startMoment":{"momentType":"PROCESS_START","stepKey":null,"failureReason":null}},"effectBindings":[{"bindingKey":"start_link","effectKey":"start","moment":{"momentType":"PROCESS_START","stepKey":null,"failureReason":null},"sortOrder":0}],"stateOperations":[],"createdAt":"","updatedAt":""}],
+        "internalStates": [],
+        "triggerRules": [
+          {"ruleKey":"begin_attack","name":"普攻开始","description":null,"sortOrder":0,"eventSource":{"eventType":"BASIC_ATTACK_START","detail":{}},"conditionGroups":[],"actions":[{"actionKey":"start_process","name":"普攻开始","sortOrder":0,"actionType":"START_PROCESS","detail":{"processKey":"attack"},"targetContext":"CURRENT_TARGET","runtimeInputBindings":[],"resultModifiers":[]}],"perTargetCooldown":null,"maxTriggersPerProcess":null,"oncePerUse":null},
+          {"ruleKey":"hit_attack","name":"普攻命中","description":null,"sortOrder":1,"eventSource":{"eventType":"BASIC_ATTACK_HIT","detail":{}},"conditionGroups":[],"actions":[{"actionKey":"execute_effect","name":"普攻命中","sortOrder":0,"actionType":"EXECUTE_EFFECT","detail":{"effectKey":"hit"},"targetContext":"CURRENT_TARGET","runtimeInputBindings":[],"resultModifiers":[]}],"perTargetCooldown":null,"maxTriggersPerProcess":null,"oncePerUse":null}
+        ],
+        "baseDigest": "mechanism_lab_basic_attack"
+      },
+      {
+        "skill": {"gameId":"mechanism_lab","skillKey":"lab_true_strike","name":"有限自身攻击力","description":null,"maxLevel":1,"status":"ENABLED","sortOrder":1,"skillCategoryKeys":["active"],"createdAt":"","updatedAt":""},
+        "parameters": [], "formulas": [],
+        "effects": [
+          {"gameId":"mechanism_lab","skillKey":"lab_true_strike","effectKey":"window","name":"同实例固定及整体攻击力","description":null,"sortOrder":0,
+           "lifecycle":{"durationValue":{"kind":"FIXED","value":3000},"maxStacksValue":{"kind":"FIXED","value":1},"applicationStacksValue":{"kind":"FIXED","value":1},"instanceScope":"SOURCE","reapplicationStackMode":"KEEP","reapplicationDurationMode":"REFRESH_ALL","expiryMode":"ALL_AT_ONCE","periodicIntervalValue":null,"firstPeriodicExecution":null,"endWhenShieldEndsResultKey":null},
+           "results":[
+            {"resultKey":"flat","name":"固定攻击力","resultType":"ATTRIBUTE_CHANGE","target":"SOURCE","description":null,"sortOrder":0,"valueRule":{"value":{"kind":"FIXED","value":10},"fixedMultiplier":1,"fixedMinValue":null,"fixedMaxValue":null},"detail":{"attributeKey":"attack_damage","operation":"INCREASE","modifierZoneKey":"flat_attributes"},"lifecycleBehavior":{"moment":"PERSISTENT","valueReadMode":"APPLICATION_SNAPSHOT","stackValueMode":"SHARED","reapplicationValueMode":"REPLACE","periodicExecutionMode":null},"spellShieldBlockScope":null},
+            {"resultKey":"total","name":"整体攻击力增加25%","resultType":"ATTRIBUTE_CHANGE","target":"SOURCE","description":null,"sortOrder":1,"valueRule":{"value":{"kind":"FIXED","value":0.25},"fixedMultiplier":1,"fixedMinValue":null,"fixedMaxValue":null},"detail":{"attributeKey":"attack_damage","operation":"INCREASE","modifierZoneKey":"total_attribute_percent"},"lifecycleBehavior":{"moment":"PERSISTENT","valueReadMode":"APPLICATION_SNAPSHOT","stackValueMode":"SHARED","reapplicationValueMode":"REPLACE","periodicExecutionMode":null},"spellShieldBlockScope":null}],"createdAt":"","updatedAt":""},
+          {"gameId":"mechanism_lab","skillKey":"lab_true_strike","effectKey":"ensure","name":"保持活动实例余时","description":null,"sortOrder":1,"lifecycle":null,"results":[{"resultKey":"remaining","name":"至少2500毫秒","resultType":"LIFECYCLE_OPERATION","target":"SOURCE","description":null,"sortOrder":0,"valueRule":{"value":{"kind":"FIXED","value":2500},"fixedMultiplier":1,"fixedMinValue":null,"fixedMaxValue":null},"detail":{"operation":"ENSURE_REMAINING","targetEffectKey":"window"},"lifecycleBehavior":null,"spellShieldBlockScope":null}],"createdAt":"","updatedAt":""}
+        ],
+        "processes": [{"gameId":"mechanism_lab","skillKey":"lab_true_strike","processKey":"cast","name":"即时施放","activationType":"ACTIVE","description":null,"sortOrder":0,"steps":[{"stepKey":"instant","name":"即时","description":null,"sortOrder":0,"occupiesAction":false,"stepType":"IMMEDIATE","detail":{}}],"cooldown":{"durationValue":{"kind":"FIXED","value":10000},"startMoment":{"momentType":"PROCESS_START","stepKey":null,"failureReason":null}},"effectBindings":[{"bindingKey":"window","effectKey":"window","moment":{"momentType":"PROCESS_START","stepKey":null,"failureReason":null},"sortOrder":0}],"stateOperations":[],"createdAt":"","updatedAt":""}],
+        "internalStates": [],
+        "triggerRules": [
+          {"ruleKey":"first_cast","name":"首次施放","description":null,"sortOrder":0,"eventSource":{"eventType":"SKILL_USED","detail":{"sourceSkillKey":"lab_true_strike","useKind":"ACTIVE","castPhase":"INITIAL"}},"conditionGroups":[],"actions":[{"actionKey":"start","name":"启动过程","sortOrder":0,"actionType":"START_PROCESS","detail":{"processKey":"cast"},"targetContext":"CURRENT_TARGET","runtimeInputBindings":[],"resultModifiers":[]}],"perTargetCooldown":null,"maxTriggersPerProcess":null,"oncePerUse":null},
+          {"ruleKey":"ensure_on_pulse","name":"兄弟首次施放保持余时","description":null,"sortOrder":2,"eventSource":{"eventType":"SKILL_USED","detail":{"sourceSkillKey":"lab_pulse","useKind":"ACTIVE","castPhase":"INITIAL"}},"conditionGroups":[],"actions":[{"actionKey":"ensure","name":"保持剩余时长","sortOrder":0,"actionType":"EXECUTE_EFFECT","detail":{"effectKey":"ensure"},"targetContext":"CURRENT_TARGET","runtimeInputBindings":[],"resultModifiers":[]}],"perTargetCooldown":null,"maxTriggersPerProcess":null,"oncePerUse":null}
+        ],
+        "baseDigest": "mechanism_lab_duration_window"
+      },
+      {
+        "skill":{"gameId":"mechanism_lab","skillKey":"lab_pulse","name":"兄弟首次施放","description":null,"maxLevel":1,"status":"ENABLED","sortOrder":2,"skillCategoryKeys":["active"],"createdAt":"","updatedAt":""},
+        "parameters":[],"formulas":[],"effects":[],"internalStates":[],
+        "processes":[{"gameId":"mechanism_lab","skillKey":"lab_pulse","processKey":"cast","name":"即时首次施放","activationType":"ACTIVE","description":null,"sortOrder":0,"steps":[{"stepKey":"instant","name":"即时","description":null,"sortOrder":0,"occupiesAction":false,"stepType":"IMMEDIATE","detail":{}}],"cooldown":{"durationValue":{"kind":"FIXED","value":500},"startMoment":{"momentType":"PROCESS_START","stepKey":null,"failureReason":null}},"effectBindings":[],"stateOperations":[],"createdAt":"","updatedAt":""}],
+        "triggerRules":[{"ruleKey":"first_cast","name":"首次施放","description":null,"sortOrder":0,"eventSource":{"eventType":"SKILL_USED","detail":{"sourceSkillKey":"lab_pulse","useKind":"ACTIVE","castPhase":"INITIAL"}},"conditionGroups":[],"actions":[{"actionKey":"start","name":"启动过程","sortOrder":0,"actionType":"START_PROCESS","detail":{"processKey":"cast"},"targetContext":"CURRENT_TARGET","runtimeInputBindings":[],"resultModifiers":[]}],"perTargetCooldown":null,"maxTriggersPerProcess":null,"oncePerUse":null}],
+        "baseDigest":"mechanism_lab_duration_pulse"
+      }
+    ],
+    "references": []
+  },
+  "scenario": {
+    "mode": "skill_action", "durationMs": 5500,
+    "initialHealth": {"source":1000,"target":10000},
+    "actions": [
+      {"origin":{"kind":"CHARACTER","characterKey":"lab_attacker"},"skillKey":"lab_true_strike","skillLevel":1,"instructionKey":"window","atMs":0,"sortOrder":0,"targetSide":"source","phaseKind":"INITIAL","parentInstructionKey":null,"hitPreset":null},
+      {"origin":{"kind":"CHARACTER","characterKey":"lab_attacker"},"skillKey":"lab_pulse","skillLevel":1,"instructionKey":"pulse_one","atMs":1000,"sortOrder":1,"targetSide":"source","phaseKind":"INITIAL","parentInstructionKey":null,"hitPreset":null},
+      {"origin":{"kind":"CHARACTER","characterKey":"lab_attacker"},"skillKey":"lab_pulse","skillLevel":1,"instructionKey":"pulse_two","atMs":2000,"sortOrder":2,"targetSide":"source","phaseKind":"INITIAL","parentInstructionKey":null,"hitPreset":null},
+      {"origin":{"kind":"CHARACTER","characterKey":"lab_attacker"},"skillKey":"lab_pulse","skillLevel":1,"instructionKey":"pulse_expired","atMs":5000,"sortOrder":3,"targetSide":"source","phaseKind":"INITIAL","parentInstructionKey":null,"hitPreset":null}]
+  },
+  "expected": {
+    "summary": {"stopReason":"duration_reached","targetFinalHp":9212.5,"sourceDamageDealt":787.5,"basicAttackStarted":6,"basicAttackHits":6},
+    "skillStarts": [{"timeMs":0,"skillKey":"lab_true_strike"},{"timeMs":1000,"skillKey":"lab_pulse"},{"timeMs":2000,"skillKey":"lab_pulse"},{"timeMs":5000,"skillKey":"lab_pulse"}],
+    "attackStarts": [0,1000,2000,3000,4000,5000],
+    "damage": [
+      {"timeMs":0,"skillKey":"lab_basic_attack","rawAmount":137.5,"postDefenseDamage":137.5},
+      {"timeMs":1000,"skillKey":"lab_basic_attack","rawAmount":137.5,"postDefenseDamage":137.5},
+      {"timeMs":2000,"skillKey":"lab_basic_attack","rawAmount":137.5,"postDefenseDamage":137.5},
+      {"timeMs":3000,"skillKey":"lab_basic_attack","rawAmount":137.5,"postDefenseDamage":137.5},
+      {"timeMs":4000,"skillKey":"lab_basic_attack","rawAmount":137.5,"postDefenseDamage":137.5},
+      {"timeMs":5000,"skillKey":"lab_basic_attack","rawAmount":100,"postDefenseDamage":100}
+    ],
+    "finalAttributes":{"source.attack_damage":100}
+  }
+}

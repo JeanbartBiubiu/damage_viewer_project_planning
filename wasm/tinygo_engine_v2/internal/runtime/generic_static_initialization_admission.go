@@ -48,6 +48,20 @@ func (s *genericRunState) validateStaticInitializationListener(listener planbund
 			return s.basicAttackErr("initialization modifier requires a finite constant", operation.Path)
 		}
 		value, static := s.formulas.FoldStatic(modifier.ValueProgram)
+		if modifier.OwnedHealthReads && modifier.Kind == "attribute" && modifier.ValuePolicy == "add" && modifier.Stage == "" && pipeline.ModifierTargetCombatantSelector(modifier.Target) == model.SelectorSelf {
+			attributeKey := pipeline.AttributeKeyFromModifierTarget(modifier.Target)
+			owner, exists := s.combatants[listener.OwnerCombatantKey]
+			if !exists || attributeKey == "hp" || attributeKey == "" {
+				return s.basicAttackErr("health-derived addition requires an owned non-HP attribute", operation.Path)
+			}
+			if _, declared := owner.attributes.Lookup(attributeKey); !declared {
+				return s.basicAttackErr("health-derived addition output slot is missing", operation.Path)
+			}
+			if _, declared := owner.attributes.Lookup("hp"); !declared {
+				return s.basicAttackErr("health-derived addition owner HP slot is missing", operation.Path)
+			}
+			continue
+		}
 		if !static || math.IsNaN(value) || math.IsInf(value, 0) {
 			return s.basicAttackErr("initialization modifier requires an application snapshot constant", operation.Path)
 		}

@@ -23,13 +23,14 @@ import { simulationHash } from './simulationHash';
 import { assembleEquipment, equipmentContribution, type EquipmentOrigin } from './simulationEquipment';
 import { validateEquipmentAssumptions } from './simulationEquipmentRange';
 import { assembleTriggeredEquipment, compileSimulationDamageFormula, validateConfiguration } from './simulationTriggeredEquipment';
+import { bindBasicAttackCooldownReductions } from './basicAttackCooldownReduction';
 import { assembleNaturalSkillSources, type SimulationSkillOriginTrace } from './simulationNaturalSkillSources';
 import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive, primaryMechanicRequirements, validateMechanicStateInputs } from './simulationPrimaryAttack';
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
 import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
-export const SIMULATION_ADAPTER_VERSION = 'v25-process-state-resource-max-and-cooldown';
+export const SIMULATION_ADAPTER_VERSION = 'v26-owned-health-and-duration-maintenance';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -572,6 +573,10 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
     binding: base.basicAttackBinding, provider: base.provider,
     mount: { providerRef: MOUNT, definitionRef: base.provider.providerKey }
   } : undefined, sceneInputs);
+  bindBasicAttackCooldownReductions([
+    ...(base.triggered.basicAttackCooldownReductions ?? []),
+    ...(base.natural.triggered.basicAttackCooldownReductions ?? [])
+  ], active.bindings, active.providers);
   for (const contribution of base.natural.triggered.passiveHitContributions ?? []) {
     const binding = active.bindings.find(row => row.skillKey === contribution.sourceSkillKey);
     const provider = active.providers.find(row => row.providerKey === binding?.providerDefinitionRef);

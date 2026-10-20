@@ -42,6 +42,7 @@ type attributeMemoRead struct {
 	key, owner, provider string
 	field                attributeMemoField
 	authoredTarget       bool
+	ownedHealthRead      bool
 	attributeIndex       int
 	attributeIndexBound  bool
 	providerIndex        int
@@ -73,6 +74,7 @@ type attributeMemo struct {
 	providers                []attributeMemoProvider
 	providerValues           []attributeMemoProviderValues
 	probeSource, probeTarget attribute.Table
+	probeOwner               attribute.Table
 	probeValid, probeStrict  bool
 }
 
@@ -147,14 +149,14 @@ func (s *genericRunState) attributeMemo(actor string, derived bool, batch bool, 
 		}
 	}
 	providerIndices := make(map[attributeMemoProvider]int)
-	add := func(program formula.GenericProgramID, owner, provider string, authoredTarget bool) {
+	add := func(program formula.GenericProgramID, owner, provider string, authoredTarget, ownedHealth bool) {
 		reads, supported := s.formulas.AttributeCacheDependencies(program)
 		if !supported {
 			memo.cacheable = false
 			return
 		}
 		for _, read := range reads {
-			item := attributeMemoRead{kind: read.ReadKind, key: read.ReadKey, owner: owner, provider: provider, authoredTarget: authoredTarget && read.AuthoredRead, providerIndex: -1}
+			item := attributeMemoRead{kind: read.ReadKind, key: read.ReadKey, owner: owner, provider: provider, authoredTarget: authoredTarget && read.AuthoredRead, ownedHealthRead: ownedHealth && read.AuthoredRead, providerIndex: -1}
 			if index, exists := providerIndices[attributeMemoProvider{owner, provider}]; exists {
 				item.providerIndex = index
 			}
@@ -190,13 +192,13 @@ func (s *genericRunState) attributeMemo(actor string, derived bool, batch bool, 
 				providerIndices[provider] = len(memo.providers)
 				memo.providers = append(memo.providers, provider)
 			}
-			add(mod.ValueProgram, mod.OwnerCombatantKey, mod.ProviderRef, false)
+			add(mod.ValueProgram, mod.OwnerCombatantKey, mod.ProviderRef, false, mod.OwnedHealthReads)
 		}
 	}
 	if derived {
 		for _, d := range s.compiled.AttributeDerivations {
 			if d.CombatantKey == actor {
-				add(d.ValueProgram, "", "", actor == "target")
+				add(d.ValueProgram, "", "", actor == "target", false)
 			}
 		}
 	}
@@ -254,6 +256,9 @@ func (m *attributeMemo) probe(attrs attribute.Table, ctx *formula.GenericEvalCon
 			values, previous := source, m.probeSource
 			if (read.kind == formula.ReadTargetAttr) != read.authoredTarget {
 				values, previous = target, m.probeTarget
+			}
+			if read.ownedHealthRead {
+				values, previous = attrs, m.probeOwner
 			}
 			var slot model.AttributeSlotDef
 			var exists bool
@@ -318,6 +323,7 @@ func (m *attributeMemo) probe(attrs attribute.Table, ctx *formula.GenericEvalCon
 	}
 	// 最近一次完整探测的签名独立于成功求值的stamps，失败也不会成为成功缓存。
 	m.probeSource, m.probeTarget = ctx.SourceAttrs, ctx.TargetAttrs
+	m.probeOwner = attrs
 	m.probeStrict, m.probeValid = ctx.StrictReads, true
 	return matched
 }

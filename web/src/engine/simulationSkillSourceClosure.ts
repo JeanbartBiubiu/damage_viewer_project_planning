@@ -66,6 +66,10 @@ export function selectSimulationSkillSourceClosure(configuration: SkillConfigura
       const detail = row.detail as Record<string, unknown> | undefined;
       if (typeof detail?.statusKey === 'string') producedStatuses.add(detail.statusKey);
     }
+    if (row.resultType === 'LIFECYCLE_OPERATION') {
+      const detail = row.detail as Record<string, unknown> | undefined;
+      if (detail?.operation === 'ENSURE_REMAINING') include('effects', detail.targetEffectKey, `${path}.detail.targetEffectKey`);
+    }
     Object.entries(row).forEach(([field, child]) => {
       if (field !== 'eventSource') visit(child, `${path}.${field}`);
     });

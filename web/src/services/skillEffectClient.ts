@@ -364,7 +364,7 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     assertString(detail.targetEffectKey, `${path}.detail.targetEffectKey`);
     const operation = assertEnum(
       detail.operation,
-      new Set(['INCREASE', 'DECREASE', 'SET', 'REFRESH', 'EXTEND_DURATION', 'CONSUME', 'REMOVE']),
+      new Set(['INCREASE', 'DECREASE', 'SET', 'REFRESH', 'EXTEND_DURATION', 'ENSURE_REMAINING', 'CONSUME', 'REMOVE']),
       `${path}.detail.operation`
     );
     if (operation === 'REFRESH' || operation === 'REMOVE') {
@@ -372,8 +372,8 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     } else {
       assertValueRule(value.valueRule, `${path}.valueRule`);
       const rule = value.valueRule as SkillEffectValueRule;
-      if (operation === 'EXTEND_DURATION' && rule.value.kind === 'FIXED'
-        && !isValidLifecycleExtensionDuration(rule.value.value, rule)) {
+      if ((operation === 'EXTEND_DURATION' || operation === 'ENSURE_REMAINING') && rule.value.kind === 'FIXED'
+        && !isValidLifecycleExtensionDuration(rule.value.value, rule, operation === 'ENSURE_REMAINING')) {
         protocolError(`${path}.valueRule`);
       }
     }

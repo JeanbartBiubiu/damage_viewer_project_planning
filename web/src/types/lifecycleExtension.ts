@@ -16,7 +16,7 @@ function compare(left: Decimal, right: Decimal): bigint {
 }
 
 /** 仅验证已知数值；目标实例期限与到期方式由后端最终核对。 */
-export function isValidLifecycleExtensionDuration(value: number, rule: SkillEffectValueRule): boolean {
+export function isValidLifecycleExtensionDuration(value: number, rule: SkillEffectValueRule, requireSafeInteger = false): boolean {
   if (!Number.isFinite(value) || !Number.isFinite(rule.fixedMultiplier) || rule.fixedMultiplier < 0) return false;
   if (rule.fixedMinValue !== null && !Number.isFinite(rule.fixedMinValue)) return false;
   if (rule.fixedMaxValue !== null && !Number.isFinite(rule.fixedMaxValue)) return false;
@@ -34,5 +34,10 @@ export function isValidLifecycleExtensionDuration(value: number, rule: SkillEffe
   }
   return duration.coefficient >= 0n
     && Number.isFinite(Number(`${duration.coefficient}e${-duration.scale}`))
+    && (!requireSafeInteger || Number.isSafeInteger(Number(`${duration.coefficient}e${-duration.scale}`)))
     && (duration.scale <= 0 || duration.coefficient % (10n ** BigInt(duration.scale)) === 0n);
+}
+
+export function isLifecycleDurationOperation(operation: string): boolean {
+  return operation === 'EXTEND_DURATION' || operation === 'ENSURE_REMAINING';
 }

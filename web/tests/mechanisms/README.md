@@ -43,7 +43,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 
 ## 已覆盖的数值机制
 
-目前46个固定用例、70类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。
+目前49个固定用例、75类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。
 
 | 范围 | 固定用例入口 |
 | --- | --- |
@@ -59,6 +59,8 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 | 生命偷取、直接治疗与过量、正值全能吸血、反伤与逐结果吸血资格 | `basic_attack_life_steal`、`direct_heal_overheal`、`healing_*` |
 | 有限生命上限、净增量授予、刷新与夹取、同实例双抗 | `resource_finite_*`、`resource_same_instance_*` |
 | 普通费用按产品口径忽略、未来提交冷却倍率 | `resource_ordinary_cost_ignored`、`schedule_future_cooldown_duration` |
+| 普攻命中缩短同来源主动剩余冷却，并唤醒真实自动施放 | `schedule_basic_attack_reduces_cooldown` |
+| 真实兄弟技能施放保留活动属性的最低余时、旧到期事件失效、到期不复活与自身整体增幅 | `duration_ensure_remaining_own_attributes` |
 
 强化用例逐笔检查伤害时刻和组成，避免总额正确却在施放时提前伤害。没有把一般主动资源消耗、法力不足停放、独立斩杀结果或完整控制行动限制标为已覆盖；新增这些机制时再带固定用例。回归覆盖与首次对象准入、浏览器冒烟分别留证。
 

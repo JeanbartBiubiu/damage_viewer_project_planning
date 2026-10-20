@@ -273,7 +273,7 @@
         WHERE e.game_id = #{gameId} AND e.skill_key = #{skillKey}
           AND r ->> 'resultType' = 'LIFECYCLE_OPERATION'
           AND r #>> '{detail,targetEffectKey}' = #{targetEffectKey}
-          AND r #>> '{detail,operation}' = 'EXTEND_DURATION'
+          AND r #>> '{detail,operation}' IN ('EXTEND_DURATION', 'ENSURE_REMAINING')
     </select>
 
     <select id="lockEffects" resultType="string">

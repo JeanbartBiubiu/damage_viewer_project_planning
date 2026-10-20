@@ -1,6 +1,8 @@
 package runtime
 
 import (
+	"math"
+
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -43,6 +45,12 @@ func (s *genericRunState) validateEquipmentHitListener(listener planbundle.Compi
 				continue
 			}
 		}
+		if operation.Operation == "cooldown_change" && s.isOwnedAttackCooldownReduction(listener, operation) {
+			continue
+		}
+		if operation.Operation == "provider_duration_change" && s.isOwnedProviderDurationListener(listener, operation) {
+			continue
+		}
 		if (operation.Operation == model.OperationKindApplyHitLink || operation.Operation == model.OperationKindApplyAttackLink) && operation.Target == "target" && operation.HasAmount {
 			link := types.HitLinkApplied
 			if operation.Operation == model.OperationKindApplyAttackLink {
@@ -63,6 +71,45 @@ func (s *genericRunState) validateEquipmentHitListener(listener planbundle.Compi
 		return s.basicAttackErr("source trigger requires complete opponent damage, owned state, links or a supported dynamic result", operation.Path)
 	}
 	return nil
+}
+
+func (s *genericRunState) isOwnedAttackCooldownReduction(listener planbundle.CompiledListener, operation planbundle.CompiledOperation) bool {
+	attack := s.req.DriverPlan.BasicAttack
+	hitType, hitDeclared := s.compiled.RuntimeTypes.BasicAttackHit.Lookup()
+	ownerType, ownerDeclared := s.compiled.RuntimeTypes.SourceOwner.Lookup()
+	if attack != nil && attack.Source != listener.OwnerCombatantKey || listener.OwnerCombatantKey != model.SelectorSource ||
+		!hitDeclared || !ownerDeclared || !listener.EventMatcher.RequiresAllType(hitType) || !listener.EventMatcher.RequiresAllType(ownerType) ||
+		operation.Target != model.SelectorSelf || operation.ValuePolicy != "reduce" || !operation.HasAmount || !operation.HasAbilityRef || operation.HasCondition {
+		return false
+	}
+	amount, static := s.formulas.FoldStatic(operation.AmountProgram)
+	if !static || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 || amount > float64(maxJSONSafeInteger) || math.Trunc(amount) != amount {
+		return false
+	}
+	ref := normalizeAbilityRef(operation.AbilityRefStr, listener.OwnerCombatantKey, opponentCombatantKey(listener.OwnerCombatantKey))
+	for _, action := range s.plannedSkillSources() {
+		binding := action.binding
+		if binding.Source != listener.OwnerCombatantKey || binding.ProviderRef != listener.OwnerProviderRef || binding.SkillKey == "" {
+			continue
+		}
+		index, exists := binding.ControlAbilityIndices["INITIAL"]
+		if !exists || int(index) >= len(s.compiled.Abilities) {
+			continue
+		}
+		ability := s.compiled.Abilities[index]
+		if ability.Kind != "active" || ability.IsBasicAttack || ability.SkillKey != binding.SkillKey || ability.ProcessControl == nil ||
+			ability.ProcessControl.Action != "INITIAL" || ability.ProcessControl.UseRefFromEvent || int(ability.ProviderIndex) != operation.OwnerProviderIndex ||
+			ref != binding.Source+".provider["+binding.ProviderRef+"].ability["+ability.AbilityKey+"]" {
+			continue
+		}
+		provider := s.compiled.Providers[ability.ProviderIndex]
+		processIndex := ability.ProcessControl.ProcessIndex
+		if provider.ProviderKey == binding.ProviderDefinitionRef && processIndex >= 0 && processIndex < len(provider.Processes) &&
+			provider.Processes[processIndex].SkillKey == binding.SkillKey && provider.Processes[processIndex].Cooldown != nil {
+			return true
+		}
+	}
+	return false
 }
 
 func (s *genericRunState) validateEquipmentDynamicDefinition(owner, providerRef, reference, target string) *model.EngineError {

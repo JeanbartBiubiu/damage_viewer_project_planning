@@ -47,6 +47,7 @@ export function compileTimedAttributeEffect(effect: SkillEffect, state: NumericC
     if (zone.length !== 1 || zone[0]!.gameId !== state.gameId || zone[0]!.status !== 'ENABLED' || zone[0]!.domain !== 'ATTRIBUTE'
       || !(zone[0]!.calculationMode === 'FLAT_ADD' && zone[0]!.applicationStage === 'ATTRIBUTE_FLAT'
         || zone[0]!.calculationMode === 'RATIO_ADD' && zone[0]!.applicationStage === 'ATTRIBUTE_PERCENT'
+        || snapshot && zone[0]!.calculationMode === 'RATIO_MULTIPLY' && zone[0]!.applicationStage === 'ATTRIBUTE_PERCENT'
         || snapshot && zone[0]!.calculationMode === 'RATIO_COMPLEMENT_MULTIPLY' && zone[0]!.applicationStage === 'ATTRIBUTE_PERCENT')
       || result.detail.operation !== 'INCREASE') fail(`${path}.detail`, '有限实时属性只接入真实启用的加算或比例增加区域');
     const resourceMax = result.detail.attributeKey === 'hp';
@@ -59,16 +60,18 @@ export function compileTimedAttributeEffect(effect: SkillEffect, state: NumericC
     for (const key of ['fixedMinValue', 'fixedMaxValue'] as const) if (rule[key] !== null) finiteNumber(rule[key], `${path}.valueRule.${key}`, fail);
     if (rule.fixedMinValue !== null && rule.fixedMaxValue !== null && rule.fixedMinValue > rule.fixedMaxValue) fail(path, '数值下界不能高于上界');
     const complement = zone[0]!.calculationMode === 'RATIO_COMPLEMENT_MULTIPLY';
+    const totalMultiply = zone[0]!.calculationMode === 'RATIO_MULTIPLY';
     const amount = snapshot ? staticEffectAmount(rule, `${path}.valueRule`, state) : null;
     if (resourceMax && (amount === null || !Number.isFinite(amount) || amount < 0)) fail(`${path}.valueRule`, '生命上限增量必须为静态有限非负数');
     if (complement && (amount === null || amount < 0 || amount > 1)) fail(`${path}.valueRule`, '剩余比例连乘的静态比例必须在0与1之间');
-    const value = snapshot ? constExpr(amount!) : wrapValueRuleExpression(compileNumericValue(rule.value, `${path}.valueRule.value`, { ...state, bindParameters: false,
+    if (totalMultiply && (resourceMax || amount === null || amount < 0)) fail(`${path}.valueRule`, '自身整体增幅必须为静态有限非负比例且不能修改生命上限');
+    const value = snapshot ? constExpr(totalMultiply ? 1 + amount! : amount!) : wrapValueRuleExpression(compileNumericValue(rule.value, `${path}.valueRule.value`, { ...state, bindParameters: false,
       allowedContextKeys: new Set(['effect_elapsed_ms'] as const) }, fail), rule);
     state.requiredAttributes.add(result.detail.attributeKey);
     provider.modifiers!.push({ modifierKey: result.resultKey, kind: resourceMax ? 'resource_max' : 'attribute', target: `self.attr.${result.detail.attributeKey}`,
       ...(resourceMax ? { currentValuePolicy: 'grant_positive_delta_clamp' as const } : {}),
-      valuePolicy: complement ? 'complement_multiply' : zone[0]!.calculationMode === 'FLAT_ADD' ? 'add' : 'add_percent',
-      ...(complement ? { stage: 'total' } : {}), ...(!resourceMax ? { bucket: zone[0]!.modifierZoneKey } : {}), value });
+      valuePolicy: complement ? 'complement_multiply' : totalMultiply ? 'multiply' : zone[0]!.calculationMode === 'FLAT_ADD' ? 'add' : 'add_percent',
+      ...(complement || totalMultiply ? { stage: 'total' } : {}), ...(!resourceMax ? { bucket: zone[0]!.modifierZoneKey } : {}), value });
   }
   const operation: OperationDefinition = { operation: 'apply_provider', target: 'self', providerDefinitionRef: providerKey,
     ref: effect.results.length === 1 ? `${root}.results.${effect.results[0]!.resultKey}` : root };
