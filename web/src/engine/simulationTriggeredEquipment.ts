@@ -26,6 +26,7 @@ import {
 import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
 import { adaptDamageVamp } from './vampAdapter';
 import { compilePersistentResult } from './persistentResultAdapter';
+import { compileNaturalRestoration } from './naturalRestoration';
 import { permanentModifier, validatePermanentEffect } from './simulationPermanentResults';
 import { compileSimulationStatusCondition } from './simulationPrimaryAttack';
 import { compileLinkedShieldEffect } from './shieldEffectAdapter';
@@ -765,6 +766,12 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           }
           if (authored.conditionType === 'EVENT_VALUE_COMPARE') {
             exact(authored.detail, ['eventValueKey', 'comparator', 'comparisonValue'], detailPath);
+            if (authored.detail.eventValueKey === 'KILLED' && ['DAMAGE_DEALT', 'DAMAGE_TAKEN'].includes(event)) {
+              const expected = constant(authored.detail.comparisonValue, `${detailPath}.comparisonValue`, true);
+              if (expected !== 0 && expected !== 1) fail(detailPath, '本笔击杀比较仅接明确0或1');
+              return comparator(authored.detail.comparator, { op: 'read', path: 'event.damage.killed' },
+                value(authored.detail.comparisonValue, detailPath), detailPath);
+            }
             if (authored.detail.eventValueKey === 'POST_DEFENSE_DAMAGE' && event === 'DAMAGE_TAKEN') {
               return comparator(authored.detail.comparator, { op: 'read', path: 'event.damage.mitigatedAmount' }, value(authored.detail.comparisonValue, detailPath), detailPath);
             }
@@ -868,7 +875,11 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           resultShape(result, resultPath);
           const operationPath = `${outputRoot}[${output.length}]`;
           let operation: OperationDefinition;
-          if (result.resultType === 'DAMAGE') {
+          const restoration = compileNaturalRestoration(authored, result, resultPath, () => amount(result, resultPath));
+          if (restoration) {
+            operation = restoration;
+            if (operation.resourceKey) required[side].add(operation.resourceKey);
+          } else if (result.resultType === 'DAMAGE') {
             operation = compileDamage(result, resultPath);
           } else if (result.resultType === 'LIFECYCLE_OPERATION' && result.detail.operation === 'ENSURE_REMAINING') {
             if (side !== 'source' || cooldownContext?.context !== 'target'

@@ -127,6 +127,7 @@ type executionFrame struct {
 	abilityRef                     string
 	ownerCombatantKey              string // mounted provider owner; distinct from event/op sourceKey
 	ownerProviderRef               string
+	mountedListener                bool
 	strictReads                    bool
 
 	// castInstanceID / castOrigin：同一次施放的身份与来源；多 op / delayed / listener ops 继承。
@@ -873,7 +874,7 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 		if err != nil {
 			return err
 		}
-		return f.applyResourceChange(targetKey, op.ResourceKey, amount, ability)
+		return f.applyResourceOperation(targetKey, amount, *op, ability)
 	case "attribute_change":
 		if !op.HasAmount {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "attribute_change requires amount", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -1435,7 +1436,7 @@ func (f *executionFrame) applyCommand(cmd command.Command, op planbundle.Compile
 		return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "damage command bypassed authored defense settlement", op.Path+".damageType", cmd.DamageType, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
 	if cmd.Kind == command.KindHeal {
-		return f.applyDirectHeal(cmd, ability)
+		return f.applyDirectHeal(cmd, op, ability)
 	}
 	sc := f.stageFor(cmd.Target)
 	view := pipeline.CombatantView{Attributes: sc.attributes, Shields: sc.shields}
@@ -1495,6 +1496,10 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op planbundle.C
 	mitigated := numbers.mitigatedAmount
 	targetHPBefore := attribute.ReadHP(view.Attributes)
 	outcome, next := pipeline.ApplyMitigatedDamage(rawForEvidence, mitigated, view, f.run.nowMs)
+	killed := float64(0)
+	if targetHPBefore > 0 && attribute.ReadHP(next.Attributes) <= 0 {
+		killed = 1
+	}
 	f.recordOperationOutput(op, outcome)
 	damageID := f.nextDamageID()
 	result := command.Result{
@@ -1541,11 +1546,11 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op planbundle.C
 		return err
 	}
 	f.pendingDamage[damageRecordIndex].sourceHpAfter = f.stageFor(cmd.Source).attributes.At("hp").Current
-	f.queueDamageTaken(cmd, op, ability, critEv, baseRawAmount, rawForEvidence, outcome)
+	f.queueDamageTaken(cmd, op, ability, critEv, baseRawAmount, rawForEvidence, outcome, killed)
 	if err := f.recordDamageContribution(cmd, result, operationRef, op.Path); err != nil {
 		return err
 	}
-	f.maybeQueueDamageInstanceEvent(cmd, op, ability, critEv, baseRawAmount, rawForEvidence, result.Amount)
+	f.maybeQueueDamageInstanceEvent(cmd, op, ability, critEv, baseRawAmount, rawForEvidence, result.Amount, killed)
 	return nil
 }
 
@@ -2429,7 +2434,7 @@ func buildDamageInstanceSnapshot(critEv frozenCritEvidence, baseRawAmount, preMi
 }
 
 func damageSnapshotEvidenceData(snap formula.EventDamageSnapshot) map[string]interface{} {
-	return map[string]interface{}{
+	data := map[string]interface{}{
 		"baseRawAmount":          snap.BaseRawAmount,
 		"preMitigationAmount":    snap.PreMitigationAmount,
 		"mitigatedAmount":        snap.MitigatedAmount,
@@ -2443,6 +2448,10 @@ func damageSnapshotEvidenceData(snap formula.EventDamageSnapshot) map[string]int
 		"critPart":               snap.CritPart,
 		"naturalBranchRawAmount": snap.NaturalBranchRawAmount,
 	}
+	if snap.HasKilled {
+		data["killed"] = snap.Killed
+	}
+	return data
 }
 
 func (f *executionFrame) abilityTypeKeys(ability planbundle.CompiledAbility) []string {
@@ -2473,7 +2482,7 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 	op planbundle.CompiledOperation,
 	ability planbundle.CompiledAbility,
 	critEv frozenCritEvidence,
-	baseRawAmount, preMitigationAmount, mitigatedAmount float64,
+	baseRawAmount, preMitigationAmount, mitigatedAmount, killed float64,
 ) {
 	if f.copyableCollector != nil && f.copyableCollector.phantomDepth > 0 {
 		return
@@ -2483,6 +2492,7 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 	}
 	traits := append([]string(nil), op.Types...)
 	snap := buildDamageInstanceSnapshot(critEv, baseRawAmount, preMitigationAmount, mitigatedAmount)
+	snap.HasKilled, snap.Killed = true, killed
 	eventTypes := []string{eventTypeDamageInstance}
 	if cmd.DamageType != "" {
 		if _, ok := f.run.compiled.Types.Registry.LookupDomain("damage", cmd.DamageType); ok {
@@ -2498,6 +2508,17 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 	snapshot.damageSnapshot = snap
 	snapshot.damageTraits = traits
 	snapshot.damageTypeKey = cmd.DamageType
+	event := emittedEvent{
+		eventType: eventTypeDamageInstance, ref: eventTypeDamageInstance,
+		sourceKey: cmd.Source, targetKey: cmd.Target, types: eventTypes, snapshot: snapshot,
+		castInstanceID: f.castInstanceID, castOrigin: f.castOrigin,
+		useKey: f.processUseKey, useSource: f.processUseSource, useSkillKey: f.processUseSkillKey,
+	}
+	if event.useKey == "" && f.eventCtx != nil && f.eventCtx.hasUse {
+		event.useKey, event.useSource, event.useSkillKey = f.eventCtx.useKey, f.eventCtx.useSource, f.eventCtx.useSkillKey
+	}
+	event.hasUse = event.useKey != ""
+	attachUseToSnapshot(&event)
 
 	f.recordEvidenceLazy(model.EvidenceKindEmittedEvent, func() model.EvidenceItem {
 		data := map[string]interface{}{
@@ -2510,6 +2531,9 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 			"traits":     traits,
 			"damage":     damageSnapshotEvidenceData(snap),
 		}
+		if event.hasUse {
+			data["useRef"], data["skillKey"] = event.useKey, event.useSkillKey
+		}
 		if op.Ref != "" {
 			data["operationRef"] = op.Ref
 		}
@@ -2521,20 +2545,7 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 			Data:   data,
 		}
 	})
-	f.pendingEvents = append(f.pendingEvents, emittedEvent{
-		eventType:      eventTypeDamageInstance,
-		ref:            eventTypeDamageInstance,
-		sourceKey:      cmd.Source,
-		targetKey:      cmd.Target,
-		types:          eventTypes,
-		snapshot:       snapshot,
-		castInstanceID: f.castInstanceID,
-		castOrigin:     f.castOrigin,
-		hasUse:         f.empoweredAttack != nil,
-		useKey:         f.processUseKey,
-		useSource:      f.processUseSource,
-		useSkillKey:    f.processUseSkillKey,
-	})
+	f.pendingEvents = append(f.pendingEvents, event)
 }
 
 // maybeDispatchAbilityStartedEvent 在顶层成功 cast 后自动合成 event/ability_started（reserved 20205）。
@@ -2967,6 +2978,7 @@ func (s *genericRunState) dispatchListenerOperations(listener planbundle.Compile
 	frame.chainDepth = chainDepth
 	frame.ownerCombatantKey = listener.OwnerCombatantKey
 	frame.ownerProviderRef = listener.OwnerProviderRef
+	frame.mountedListener = listener.OwnerCombatantKey != "" && listener.OwnerProviderRef != ""
 	frame.eventCtx = cloneEventSnapshot(eventCtx)
 	frame.copyableCollector = collector
 	// Listener Operations inherit triggering cast identity (do not mint).

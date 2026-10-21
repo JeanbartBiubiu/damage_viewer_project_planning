@@ -23,6 +23,7 @@ func TestCompileC1DamageTraitAndTypeReads(t *testing.T) {
 		{"event.damage.baseRawAmount", ReadEventDamage, "baseRawAmount"},
 		{"event.damage.naturalBranchRawAmount", ReadEventDamage, "naturalBranchRawAmount"},
 		{"event.damage.actualHpLoss", ReadEventDamage, "actualHpLoss"},
+		{"event.damage.killed", ReadEventDamage, "killed"},
 	}
 	for _, tc := range cases {
 		errors = nil
@@ -35,6 +36,26 @@ func TestCompileC1DamageTraitAndTypeReads(t *testing.T) {
 		}
 		if len(instr) != 1 || instr[0].ReadKind != tc.kind || instr[0].ReadKey != tc.key {
 			t.Fatalf("%s instr=%+v", tc.path, instr)
+		}
+	}
+}
+
+func TestEvalKilledRequiresRealSettlementAndPreservesZero(t *testing.T) {
+	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.damage.killed"})
+	for _, killed := range []float64{0, 1} {
+		value, err := reg.Eval(0, GenericEvalContext{HasEventContext: true, HasEventDamageSnapshot: true, EventDamage: EventDamageSnapshot{HasKilled: true, Killed: killed}})
+		if err != nil || value != killed {
+			t.Fatal("settled kill flag changed", killed, value, err)
+		}
+	}
+	for _, context := range []GenericEvalContext{
+		{}, {HasEventContext: true},
+		{HasEventContext: true, HasEventDamageSnapshot: true},
+		{HasEventContext: true, HasEventDamageSnapshot: true, EventDamage: EventDamageSnapshot{Killed: 1}},
+		{HasEventContext: true, HasEventDamageSnapshot: true, EventDamage: EventDamageSnapshot{HasKilled: true, Killed: .5}},
+	} {
+		if value, err := reg.Eval(0, context); err == nil {
+			t.Fatal("missing or invalid kill fact was accepted", context, value)
 		}
 	}
 }

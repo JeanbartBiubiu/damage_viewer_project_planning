@@ -17,6 +17,7 @@ import { assessContinuousAttackResult } from '../../src/engine/continuousAttackR
 import { validateSimulationSnapshot } from '../../src/services/simulationSnapshotClient';
 import type { CompileRequest, CompileResult, DamageRecord, DoneResult, GenericReleaseDonePayload, RunRequest } from '../../src/types/genericEngine';
 import type { MechanismCase, MechanismExpectation, MechanismProjection } from './mechanismCase';
+import { projectRestorations } from './restorationProjection';
 
 export const WASM_PATH = new URL('../../src/engine/wasm/tinygo_engine_v2.wasm', import.meta.url);
 
@@ -66,7 +67,7 @@ export async function runMechanismCase(definition: MechanismCase): Promise<Mecha
   const absent = inspection.requirements.filter(row => row.storedValue === undefined && attributes[row.side][row.attribute.attributeKey] === undefined);
   if (absent.length) throw new Error('用例缺少必要属性，须在角色等级属性或 scenario.attributeInputs 中写明：'
     + absent.map(row => `${row.side}.${row.attribute.attributeKey}`).join(','));
-  const prepared = await prepareSimulation(snapshot, attributes, scenario.initialHealth, scenario.equipmentAssumptions ?? [], scenario.mechanicStateInputs ?? [], ignoredCosts, scenario.sceneParameterInputs ?? []);
+  const prepared = await prepareSimulation(snapshot, attributes, scenario.initialHealth, scenario.equipmentAssumptions ?? [], scenario.mechanicStateInputs ?? [], ignoredCosts, scenario.sceneParameterInputs ?? [], scenario.initialResourceInputs ?? []);
   const compiled = await client.compile(prepared.compileRequest);
   if (!compiled.ok || !compiled.sessionId) throw new Error('编译未通过：' + JSON.stringify(compiled.errors ?? compiled));
   const sessionId = compiled.sessionId;
@@ -157,7 +158,8 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
       maxBefore: row.maxBefore, maxAfter: row.maxAfter, maxDelta: row.maxDelta })),
     finalAttributes: Object.fromEntries(done.finalSnapshot.combatants.flatMap(row => Object.entries(row.attributes)
       .map(([key, slot]) => [`${row.key}.${key}`, slot.resolved]))),
-    finalProviders
+    finalProviders,
+    restorations: projectRestorations(origins, compileRequest, runRequest, done)
   };
 }
 
@@ -180,7 +182,7 @@ export function compareMechanismExpectation(actual: MechanismProjection, expecte
   };
   if (expected.summary) fields('summary', actual.summary, expected.summary);
   if (expected.finalAttributes) fields('finalAttributes', actual.finalAttributes, expected.finalAttributes);
-  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges', 'finalProviders'] as const) {
+  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges', 'finalProviders', 'restorations'] as const) {
     const wanted = expected[list];
     if (!wanted) continue;
     const rows = actual[list] as unknown as Record<string, unknown>[];

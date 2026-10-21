@@ -468,6 +468,7 @@ var EventDamageSnapshotFields = map[string]struct{}{
 	"preMitigationAmount":    {},
 	"mitigatedAmount":        {},
 	"actualHpLoss":           {},
+	"killed":                 {},
 	"originalCritChance":     {},
 	"effectiveCritChance":    {},
 	"forcedCritWeight":       {},

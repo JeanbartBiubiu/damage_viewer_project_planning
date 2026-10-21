@@ -3,6 +3,12 @@ import { buildContinuousAttackArchive, buildContinuousCsv } from './continuousAt
 import { initialContinuousView } from './continuousAttackPresentation';
 
 describe('连续展示档案和安全表格导出', () => {
+  it('初始当前资源完整冻结，不补满额或混入属性容量', () => {
+    const input = { initialResourceInputs: [{ side: 'source', resourceKey: 'mana', current: 0 }] };
+    const archive = buildContinuousAttackArchive(input, initialContinuousView(1000));
+    input.initialResourceInputs[0]!.current = 50;
+    expect(archive.initialResourceInputs).toEqual([{ side: 'source', resourceKey: 'mana', current: 0 }]);
+  });
   it('冻结独立资源累计、明细和生命顺序，不因时间筛选裁掉或改为治疗', () => {
     const input = { runResult: { resourceChangeSummary: { changeCount: 1, source: { currentIncrease: 300, maxIncrease: 300, finalMax: 950 } },
       resourceChangeRecords: [{ healthOrder: 1, timeMs: 0, currentDelta: 300, maxDelta: 300, contributors: [{ definitionRef: 'finite', modifierKey: 'health', reason: 'apply' }] }],

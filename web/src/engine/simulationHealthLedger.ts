@@ -1,18 +1,20 @@
 import type { CompileRequest, DoneResult, RunRequest } from '../types/genericEngine';
 import { inspectEmpoweredAttackFacts } from './empoweredAttackContract';
 import { inspectResourceChangeContract } from './resourceChangeContract';
+import type { HealingEvidenceOrder } from './ordinaryHealingContract';
 
 const close = (first: number, second: number) => Math.abs(first - second) <= 1e-9 * Math.max(1, Math.abs(first), Math.abs(second));
 
-export function inspectSimulationHealthLedger(compile: CompileRequest, request: RunRequest, done: DoneResult): string[] {
+export function inspectSimulationHealthLedger(compile: CompileRequest, request: RunRequest, done: DoneResult, evidenceOrder?: HealingEvidenceOrder): string[] {
   const issues: string[] = [...inspectEmpoweredAttackFacts(compile, request, done), ...inspectResourceChangeContract(compile, request, done)];
   const hp = { source: request.initialSnapshot.combatants.find(actor => actor.key === 'source')!.attributes.hp!.current,
     target: request.initialSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp!.current };
   const damages = done.damageRecords ?? [];
   const healing = done.healingRecords ?? [];
   const check = (condition: boolean, message: string) => { if (!condition) issues.push(`生命账: ${message}`); };
+  if (request.outputMode === 'summary') return issues;
   if (done.resourceChangeSummary) {
-    if (issues.length || request.outputMode === 'summary') return issues;
+    if (issues.length) return issues;
     const maxima = { source: request.initialSnapshot.combatants.find(actor => actor.key === 'source')!.attributes.hp!.max,
       target: request.initialSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp!.max };
     const streams = [damages, healing, done.resourceChangeRecords!];
@@ -88,6 +90,7 @@ export function inspectSimulationHealthLedger(compile: CompileRequest, request: 
   let damageIndex = 0;
   let healingIndex = 0;
   let previousTime = 0;
+  let unknownSameTimeOrder = false;
   while (damageIndex < damages.length || healingIndex < healing.length) {
     if (damageIndex === damages.length && done.recording?.damageRecordsTruncated
       || healingIndex === healing.length && done.recording?.healingRecordsTruncated) break;
@@ -97,7 +100,17 @@ export function inspectSimulationHealthLedger(compile: CompileRequest, request: 
     const damageMatches = damage?.timeMs === time && knownSide(damage.source) && knownSide(damage.target)
       && typeof damage.sourceHpBefore === 'number' && close(damage.sourceHpBefore, hp[damage.source]) && close(damage.hpBefore, hp[damage.target]);
     const healMatches = heal?.timeMs === time && knownSide(heal.target) && close(heal.hpBefore, hp[heal.target]);
-    if (damageMatches && damage) {
+    let healFirst = false;
+    if (evidenceOrder && damageMatches && healMatches) {
+      const damageOrder = evidenceOrder.damage[damageIndex], healOrder = evidenceOrder.healing[healingIndex];
+      if (damageOrder === undefined || healOrder === undefined) {
+        if (evidenceOrder.truncated) unknownSameTimeOrder = true;
+        else check(false, '同刻零变化歧义缺少真实完整证据顺序');
+        break;
+      }
+      healFirst = healOrder < damageOrder;
+    }
+    if (damageMatches && damage && !healFirst) {
       const source = damage.source as keyof typeof hp;
       const target = damage.target as keyof typeof hp;
       if (typeof damage.sourceHpAfter !== 'number') { check(false, '缺少实际伤害后来源生命'); break; }
@@ -113,7 +126,7 @@ export function inspectSimulationHealthLedger(compile: CompileRequest, request: 
     check(time >= previousTime, '合并生命账时刻逆序');
     previousTime = time;
   }
-  if (!done.recording?.damageRecordsTruncated && !done.recording?.healingRecordsTruncated) {
+  if (!done.recording?.damageRecordsTruncated && !done.recording?.healingRecordsTruncated && !unknownSameTimeOrder) {
     check(damageIndex === damages.length && healingIndex === healing.length
       && close(hp.source, done.summary.sourceFinalHp) && close(hp.target, done.summary.targetFinalHp), '完整实际生命链与最终汇总不一致');
     for (const attack of done.attackRecords ?? []) {

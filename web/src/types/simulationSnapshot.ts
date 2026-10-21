@@ -122,6 +122,8 @@ export type SimulationAttributeInputs = {
 };
 
 export type SimulationInitialHealth = { source: number; target: number };
+/** 仅本场可达恢复资源的明确当前值；容量仍由真实角色等级属性与装备提供。 */
+export type SimulationInitialResourceInput = { side: 'source' | 'target'; resourceKey: string; current: number };
 
 export type SimulationMechanicStateInput = {
   side: 'source' | 'target'; origin: SimulationSkillOrigin; skillKey: string; stateKey: string; value: number;

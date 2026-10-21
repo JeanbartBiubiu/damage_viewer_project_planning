@@ -15,6 +15,7 @@ import { basicAttackPrimaryBinding, inspectPrimaryReplacements } from './primary
 import { hasResourceMaxAuthorization, inspectResourceChangeContract } from './resourceChangeContract';
 import { inspectBasicAttackCooldownWake } from './basicAttackCooldownWakeResultFacts';
 import { finiteTargetCounterExpiryOrigin } from './finiteTargetCounterResultContract';
+import { inspectOrdinaryHealing } from './ordinaryHealingContract';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
@@ -237,8 +238,11 @@ export function assessContinuousAttackResult(
   check(close(summary.targetDamageDealt as number, summary.sourceDamageTaken as number), 'runResult.summary', '反向造成伤害与来源承受伤害不一致');
   check(close(summary.sourceDamageDealt as number, summary.targetDamageTaken as number), 'runResult.summary', '造成伤害与目标承受伤害不一致');
   const mixed = !!request.driverPlan.skillActions?.length || !!request.driverPlan.automaticSkills;
-  const directHealing = { source: mixed ? nonnegative(summary.sourceDirectHealing, 'summary.sourceDirectHealing') : 0,
-    target: mixed ? nonnegative(summary.targetDirectHealing, 'summary.targetDirectHealing') : 0 };
+  const ordinaryHealing = mixed ? undefined : inspectOrdinaryHealing(input, request, done, origins);
+  if (ordinaryHealing) { issues.push(...ordinaryHealing.issues); identityGaps.push(...ordinaryHealing.identityGaps); }
+  const usesHealthLedger = mixed || ordinaryHealing?.authorized === true || !!done.resourceChangeSummary;
+  const directHealing = { source: nonnegative(summary.sourceDirectHealing, 'summary.sourceDirectHealing'),
+    target: nonnegative(summary.targetDirectHealing, 'summary.targetDirectHealing') };
   check(close(sourceInitialHp - (summary.sourceHpLoss as number) + (summary.sourceVampHealing as number) + directHealing.source
     + (done.resourceChangeSummary?.source.currentIncrease ?? 0) - (done.resourceChangeSummary?.source.currentDecrease ?? 0), sourceFinalHp)
     && close(targetInitialHp - (summary.targetHpLoss as number) + (summary.targetVampHealing as number) + directHealing.target
@@ -627,7 +631,7 @@ export function assessContinuousAttackResult(
   damages.forEach((row, index) => {
     const source = row.source as 'source' | 'target';
     const target = row.target as 'source' | 'target';
-    check(mixed || !!done.resourceChangeSummary || close(row.sourceHpBefore as number, hp[source]) && close(row.hpBefore, hp[target]),
+    check(usesHealthLedger || close(row.sourceHpBefore as number, hp[source]) && close(row.hpBefore, hp[target]),
       'damageRecords', '来源受量或对手扣血缺少连续可靠生命链');
     const independentWindow = damageContracts.get(row.operationPath)?.kind === 'target_window' && row.attackIndex === null
       && row.useRef === '' && !row.instructionKey && !row.hitRef;
@@ -638,7 +642,7 @@ export function assessContinuousAttackResult(
     hpLoss[target] += row.actualHpLoss;
     time = row.timeMs; if (row.attackIndex !== null && row.attackIndex > 0) attackIndex = row.attackIndex;
     const attack = row.attackIndex === null ? undefined : attacks[row.attackIndex - 1];
-    if (!mixed && !done.resourceChangeSummary && !recording.damageRecordsTruncated && attack && row.attackIndex !== null && lastDamageByAttack.get(row.attackIndex) === index) {
+    if (!usesHealthLedger && !recording.damageRecordsTruncated && attack && row.attackIndex !== null && lastDamageByAttack.get(row.attackIndex) === index) {
       check(close(attack.sourceHpAfter, hp.source) && close(attack.targetHpAfter, hp.target), 'attackRecords',
         '同步尾部检查点与逐笔来源受量、对手扣血不一致');
     }
@@ -649,7 +653,7 @@ export function assessContinuousAttackResult(
     'damageRecords', '已保留逐笔吸血或扣血超过完整汇总');
   }
   if (!recording.damageRecordsTruncated) {
-    check(mixed || !!done.resourceChangeSummary || close(hp.source, sourceFinalHp) && close(hp.target, targetFinalHp), 'finalSnapshot', '完整逐笔生命链与最终快照不一致');
+    check(usesHealthLedger || close(hp.source, sourceFinalHp) && close(hp.target, targetFinalHp), 'finalSnapshot', '完整逐笔生命链与最终快照不一致');
     check(close(vampHealing.source, summary.sourceVampHealing as number) && close(vampHealing.target, summary.targetVampHealing as number),
       'runResult.summary', '完整逐笔来源吸血增量与实际吸血汇总不一致');
     const lethal = damages.find(row => row.target === plan.target && row.hpBefore > 0 && row.hpAfter === 0);
@@ -687,7 +691,7 @@ export function assessContinuousAttackResult(
       check(close(sum(rows, 'postDefenseDamage'), attack.postDefenseDamage) && close(sum(rows, 'actualHpLoss'), attack.actualHpLoss), 'attackRecords', '逐刀金额与真实伤害记录不一致');
     }
   }
-  if (!mixed && !recording.damageRecordsTruncated && !recording.attackRecordsTruncated && attacks.length) {
+  if (!usesHealthLedger && !recording.damageRecordsTruncated && !recording.attackRecordsTruncated && attacks.length) {
     const last = attacks[attacks.length - 1]!;
     if (!lastDamageByAttack.has(last.attackIndex)) {
       check(last.startAtMs === finalTime && close(last.sourceHpAfter, hp.source) && close(last.targetHpAfter, hp.target),
@@ -695,7 +699,7 @@ export function assessContinuousAttackResult(
     }
   }
   const warnings = array(result.warnings, 'runResult.warnings');
-  if (mixed || hasResourceMaxAuthorization(input)) issues.push(...inspectSimulationHealthLedger(input, request, done));
+  if (usesHealthLedger || hasResourceMaxAuthorization(input)) issues.push(...inspectSimulationHealthLedger(input, request, done, ordinaryHealing?.order));
   const evidence = object(result.evidence, 'runResult.evidence');
   bool(summary.evidenceTruncated, 'summary.evidenceTruncated');
 

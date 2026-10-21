@@ -73,6 +73,7 @@ func EngineProducedEventTypes() map[string]struct{} {
 		EventTypeHitLinkApplied:      {},
 		EventTypeBasicAttackReceived: {},
 		EventTypeDamageTaken:         {},
+		"event/damage_instance":      {},
 	}
 }
 

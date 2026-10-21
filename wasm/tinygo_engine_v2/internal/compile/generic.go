@@ -23,22 +23,23 @@ type GenericCompileResult struct {
 }
 
 type genericCompileContext struct {
-	currentSkillKey      string
-	currentProcess       *plan.CompiledProcess
-	currentProcessMoment *model.ProcessMomentDefinition
-	collector            *genericCollector
-	session              *plan.CompiledSession
-	catalog              typeset.CatalogResult
-	namedFormulas        map[string]model.GenericFormulaExpr
-	providerKeyIndex     map[string]uint16
-	combatantByKey       map[string]uint8
-	providerMounts       map[string]map[string]uint16
-	providerAbilityIndex map[uint16]map[string]uint16
-	healGroupModes       map[string]healGroupModeSeen
-	currentListener      *model.ListenerDefinition
-	outputUnitRefs       map[string]int
-	outputUnitIndex      int
-	compilingBasicAttack bool
+	currentSkillKey            string
+	currentProcess             *plan.CompiledProcess
+	currentProcessMoment       *model.ProcessMomentDefinition
+	collector                  *genericCollector
+	session                    *plan.CompiledSession
+	catalog                    typeset.CatalogResult
+	namedFormulas              map[string]model.GenericFormulaExpr
+	providerKeyIndex           map[string]uint16
+	combatantByKey             map[string]uint8
+	providerMounts             map[string]map[string]uint16
+	providerAbilityIndex       map[uint16]map[string]uint16
+	healGroupModes             map[string]healGroupModeSeen
+	currentListener            *model.ListenerDefinition
+	compilingListenerCondition bool
+	outputUnitRefs             map[string]int
+	outputUnitIndex            int
+	compilingBasicAttack       bool
 }
 
 type healGroupModeSeen struct {
@@ -545,6 +546,9 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 		if spec.OncePerUse != nil && len(spec.Operations) == 0 {
 			validateOncePerUseOperations(ability.Operations, path+".operations", ctx)
 		}
+		if ability.Kind == "passive_listener" && len(spec.Operations) == 0 {
+			validateListenerRecoveryTargets(ability.Operations, path+".operations", int(providerIndex), ctx)
+		}
 		inline := compileListenerDefinition(spec, path+".listenerSpec", "", "", abilityIndex, int(providerIndex), ctx)
 		if ability.Kind == "passive_listener" && inline.OperationCount == 0 && compiled.OperationCount > 0 {
 			inline.OperationStart = compiled.OperationStart
@@ -830,6 +834,7 @@ func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCom
 	prevListener := ctx.currentListener
 	listenerCopy := listener
 	ctx.currentListener = &listenerCopy
+	validateListenerRecoveryTargets(listener.Operations, path+".operations", ownerProviderIndex, ctx)
 	validateOncePerUse(listener, path, ownerProviderIndex, ctx)
 	compileListenerCondition(listener, path, &compiled, ctx)
 	compileOncePerUse(listener, &compiled)
@@ -894,6 +899,7 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 	validateOperationOutputReads(deps, key, ctx)
 	validateResolvedContactReads(deps, key, ctx)
 	validateActualHPLossReads(deps, key, ctx)
+	validateKilledReads(deps, key, ctx)
 	hasRef := false
 	for _, in := range instr {
 		if in.Op == formula.GenericOpRef {

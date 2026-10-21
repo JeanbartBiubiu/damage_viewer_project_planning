@@ -270,7 +270,10 @@ func (f *executionFrame) applyHealingDirection(hostKey, direction, category stri
 	return amount, evidence, nil
 }
 
-func (f *executionFrame) applyDirectHeal(cmd command.Command, ability planbundle.CompiledAbility) *model.EngineError {
+func (f *executionFrame) applyDirectHeal(cmd command.Command, op planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {
+	if skip, err := f.checkListenerRecoveryRecipient(cmd.Target, op); err != nil || skip {
+		return err
+	}
 	hpBefore := f.stageFor(cmd.Target).attributes.At("hp").Current
 	heal, err := f.settleHealing(cmd.Source, cmd.Target, cmd.Amount, model.HealDirect, ability, f.evalContext(ability))
 	if err != nil {
@@ -289,11 +292,14 @@ func (f *executionFrame) applyDirectHeal(cmd command.Command, ability planbundle
 	}
 	f.pendingDirectHealing = append(f.pendingDirectHealing, record)
 	f.recordEvidenceLazy(model.EvidenceKindHeal, func() model.EvidenceItem {
-		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindHeal, Ref: f.abilityRef, Data: map[string]interface{}{
+		data := map[string]interface{}{
 			"source": cmd.Source, "target": cmd.Target, "category": model.HealDirect,
 			"healingBeforeModifiers": heal.before, "healingAfterDone": heal.afterDone, "healingAfterModifiers": heal.after,
 			"actualHealing": heal.actual, "overheal": heal.overheal, "modifiers": heal.modifiers,
-		}}
+			"hpBefore": hpBefore, "hpAfter": record.HpAfter,
+		}
+		f.attachRecoveryProvenance(data, op)
+		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindHeal, Ref: f.abilityRef, Data: data}
 	})
 	return nil
 }

@@ -1,7 +1,7 @@
 import type { ContinuousAttackView } from './continuousAttackPresentation';
 import type { AutomaticSelection, AutomaticSkillView } from './automaticSkillPresentation';
 
-const archiveFields = ['taskKind', 'adapterVersion', 'snapshot', 'snapshotDigest', 'attributeInputs', 'initialHealth', 'equipmentAssumptions', 'mechanicStateInputs', 'sceneParameterInputs', 'ignoredCastCosts',
+const archiveFields = ['taskKind', 'adapterVersion', 'snapshot', 'snapshotDigest', 'attributeInputs', 'initialHealth', 'initialResourceInputs', 'equipmentAssumptions', 'mechanicStateInputs', 'sceneParameterInputs', 'ignoredCastCosts',
   'attackSpeedAdmission', 'compileRequest', 'runRequest', 'runInputHash', 'coverage', 'operationOrigins', 'equipmentOrigins', 'skillOrigins', 'wasm',
   'formulaPreflight', 'compileResult', 'runResult', 'releaseResult', 'assessment', 'outcome', 'cleanup', 'failurePhase', 'error'] as const;
 const forbiddenField = /^(?:__proto__|prototype|constructor|headers?|requests?|responses?|connection|apiBaseUrl|baseUrl|adminToken|authorization|proxyAuthorization|cookies?|password|passwd|secret|apiKey|api_key|accessToken|refreshToken|bearerToken|token|controller|client|worker|localStorage|sessionStorage)$/i;

@@ -5,6 +5,8 @@ import type { AbilityDefinition, AttackRecord, DamageRecord, DoneResult, Generic
 import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot } from './simulationAdapter';
 import { continuousAttackRequest } from './continuousAttackRequest';
 import { assessContinuousAttackResult } from './continuousAttackResult';
+import { inspectOrdinaryHealing } from './ordinaryHealingContract';
+import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 
 async function sample() {
   const snapshot = simulationSample();
@@ -45,21 +47,154 @@ async function sample() {
   const done: DoneResult = { ok: true,
     summary: { durationMs: 2000, stopReason: 'target_dead', sourceFinalHp: 650, targetFinalHp: 0,
       sourceDamageDealt: 300, targetDamageTaken: 300, sourceDamageTaken: 0, targetDamageDealt: 0,
-      sourceHpLoss: 0, targetHpLoss: 250, sourceVampHealing: 0, targetVampHealing: 0, abilityAttemptCount: 6, abilityCastCount: 9, attemptSkippedCount: 0,
+      sourceHpLoss: 0, targetHpLoss: 250, sourceVampHealing: 0, targetVampHealing: 0, sourceDirectHealing: 0, targetDirectHealing: 0, abilityAttemptCount: 6, abilityCastCount: 9, attemptSkippedCount: 0,
       warningCount: 0, evidenceTruncated: false, seriesDownsampled: false, abilityStats: [],
       basicAttack: { planKey: plan.planKey, startedCount: 3, hitCount: 3, completedCount: 3, initialActionReadyAtMs: null },
       execution: { requestedDurationMs: 30000, complete: true, incompleteReason: null, budgetCause: null, targetKilled: true, targetKilledAtMs: 2000 },
       damageBreakdown: [{ owner: 'source', source: 'source', target: 'target', abilityRef: plan.hitAbilityRef,
         operationRef: origin.operationRef, damageType: 'physics', damageCount: 3, postDefenseDamage: 300, shieldAbsorbed: 0, actualHpLoss: 250, overkillDamage: 50 }] },
-    finalSnapshot, attackRecords, damageRecords, mechanicRecords: [],
+    finalSnapshot, attackRecords, damageRecords, mechanicRecords: [], healingRecords: [],
     recording: { attackRecordCount: 3, returnedAttackRecords: 3, droppedAttackRecords: 0, attackRecordsTruncated: false,
       damageRecordCount: 3, returnedDamageRecords: 3, droppedDamageRecords: 0, damageRecordsTruncated: false,
-      mechanicRecordCount: 0, returnedMechanicRecords: 0, droppedMechanicRecords: 0, mechanicRecordsTruncated: false },
+      mechanicRecordCount: 0, returnedMechanicRecords: 0, droppedMechanicRecords: 0, mechanicRecordsTruncated: false,
+      healingRecordCount: 0, returnedHealingRecords: 0, droppedHealingRecords: 0, healingRecordsTruncated: false },
     evidence: { items: [], truncated: false, truncatedEvidenceCount: 0, countsByKind: {} }, warnings: [], series: [],
     seriesSamplingEvidence: { requestedSampleEveryMs: 100, effectiveSampleEveryMs: 0, requestedPointCount: 0, finalPointCount: 0, maxSeriesPoints: 5000, downsampled: false, method: 'disabled' } };
   return { prepared, request, done };
 }
 const assess = (item: Awaited<ReturnType<typeof sample>>) => assessContinuousAttackResult(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins);
+
+async function ordinaryHealingSample() {
+  const item = await sample(), compile = item.prepared.compileRequest, providerIndex = compile.sharedProviders!.length;
+  const providerRef = 'ordinary_restore', definitionRef = 'ordinary_restore_definition', skillKey = 'generic_restore';
+  const abilityRef = `source.provider[${providerRef}].ability[on_hit]`, operationRef = `skills.${skillKey}.effects.restore.results.heal`;
+  const path = `sharedProviders[${providerIndex}].abilities[0].listenerSpec.operations[0]`;
+  compile.sharedProviders!.push({ providerKey: definitionRef, skillKey, stableId: definitionRef, kind: 'character', abilities: [
+    { abilityKey: 'on_hit', kind: 'passive_listener', skillKey, listenerSpec: { listenerKey: 'on_hit',
+      eventMatcher: { all: ['event/basic_attack_hit', 'event/source_owner'] }, maxTriggersPerEvent: 1,
+      operations: [{ operation: 'heal', target: 'self', ref: operationRef, amount: { op: 'const', value: 30 } }] } }
+  ] });
+  compile.combatants.find(row => row.key === 'source')!.providers.push({ providerRef, definitionRef });
+  item.request.initialSnapshot.combatants.find(row => row.key === 'source')!.providers.push({ providerRef, definitionRef, owner: 'source', source: 'source', stacks: 1, expireAt: null, state: {} });
+  item.prepared.operationOrigins.push({ abilityRef, operationRef, skillKey, effectKey: 'restore', resultKey: 'heal', compiledPaths: [path] });
+  item.request.initialSnapshot.combatants.find(row => row.key === 'source')!.attributes.hp!.current = 200;
+  item.done.summary.sourceDirectHealing = 90; item.done.summary.targetDirectHealing = 0; item.done.summary.sourceFinalHp = 290;
+  item.done.finalSnapshot.combatants.find(row => row.key === 'source')!.attributes.hp!.current = 290;
+  item.done.healingRecords = item.done.damageRecords!.map((damage, index) => {
+    damage.sourceHpBefore = 200 + 30 * index; damage.sourceHpAfter = damage.sourceHpBefore;
+    item.done.attackRecords![index]!.sourceHpAfter = 230 + 30 * index;
+    return { timeMs: damage.timeMs, source: 'source', target: 'source', abilityRef, operationRef, useRef: damage.useRef, instructionKey: null,
+      rawAmount: 30, healingAfterDone: 30, healingAfterModifiers: 30, actualHealing: 30, overheal: 0, hpBefore: 200 + 30 * index, hpAfter: 230 + 30 * index };
+  });
+  Object.assign(item.done.recording!, { healingRecordCount: 3, returnedHealingRecords: 3, droppedHealingRecords: 0, healingRecordsTruncated: false });
+  item.done.evidence.items = item.done.damageRecords!.flatMap((damage, index) => {
+    const heal = item.done.healingRecords![index]!;
+    return [{ timeMs: damage.timeMs, kind: 'damage', ref: damage.abilityRef, data: { damageId: damage.damageId,
+      source: damage.source, target: damage.target, abilityRef: damage.abilityRef, operationRef: damage.operationRef } },
+      { timeMs: heal.timeMs, kind: 'heal', ref: abilityRef, data: { owner: 'source', source: 'source', target: 'source', providerRef, providerDefinitionRef: definitionRef,
+        abilityRef, operationRef, operationPath: path, useRef: heal.useRef, hpBefore: heal.hpBefore, hpAfter: heal.hpAfter,
+        healingBeforeModifiers: 30, healingAfterDone: 30, healingAfterModifiers: 30, actualHealing: 30, overheal: 0 } }];
+  });
+  return item;
+}
+
+describe('纯连续普通自身治疗走真实记录和统一生命账', () => {
+  it('逐笔治疗连接伤害前后、原使用攻击尾及最终生命，纯连续不再硬置治疗0', async () => {
+    const item = await ordinaryHealingSample(), result = assess(item);
+    expect(result.complete, result.issues.join(';')).toBe(true);
+    expect(inspectOrdinaryHealing(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins).issues).toEqual([]);
+  });
+  it('没有真实编译恢复程序不能靠虚构累计过收支', async () => {
+    const item = await sample(); item.done.summary.sourceDirectHealing = 1;
+    expect(assess(item).issues.join(';')).toContain('没有实际普通治疗程序');
+  });
+  it.each(['sourceDirectHealing', 'targetDirectHealing'] as const)('无治疗程序的%s仍须真实有限非负，不能缺失或隐式补0', async field => {
+    for (const value of [undefined, null, NaN, Infinity, -1]) {
+      const item = await sample(); (item.done.summary as unknown as Record<string, unknown>)[field] = value;
+      expect(() => assess(item), `${field}=${String(value)}`).toThrow(field);
+    }
+    const item = await sample(); item.done.recording!.healingRecordCount = 1;
+    expect(assess(item).issues.join(';')).toContain('非零记录统计');
+  });
+  it('治疗记录和来源证据同时改成另一真实刀仍不能跨时刻借用use', async () => {
+    const item = await ordinaryHealingSample();
+    item.done.healingRecords![0]!.useRef = 'use_2'; item.done.evidence.items[1]!.data!.useRef = 'use_2';
+    const facts = inspectOrdinaryHealing(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins);
+    expect(facts.issues.join(';')).toContain('同刻同方真实结算事件');
+    expect(assess(item).factsValid).toBe(false);
+  });
+  it('受伤方普通治疗保留真实攻击者的use并按target owner核同刻事件', async () => {
+    const item = await ordinaryHealingSample();
+    const provider = item.prepared.compileRequest.sharedProviders!.at(-1)!;
+    provider.abilities![0]!.listenerSpec!.eventMatcher.all = ['event/damage_taken', 'event/target_owner'];
+    item.done.damageRecords!.forEach(row => { row.source = 'target'; row.target = 'source'; });
+    item.done.evidence.items.filter(row => row.kind === 'damage').forEach(row => { row.data!.source = 'target'; row.data!.target = 'source'; });
+    item.done.finalSnapshot.processInstances!.forEach(process => { process.owner = 'target'; process.target = 'source'; });
+    expect(inspectOrdinaryHealing(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins).issues).toEqual([]);
+    item.done.damageRecords![0]!.target = 'target';
+    expect(inspectOrdinaryHealing(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins).issues.join(';')).toContain('同刻同方真实结算事件');
+  });
+  it('同刻结算和完整治疗来源证据被截断时明确缺口，不从其它刀反推', async () => {
+    const item = await ordinaryHealingSample();
+    item.done.damageRecords = []; item.done.attackRecords = []; item.done.evidence.items = [];
+    item.done.evidence.truncated = true;
+    item.done.recording!.damageRecordsTruncated = true; item.done.recording!.attackRecordsTruncated = true;
+    const facts = inspectOrdinaryHealing(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins);
+    expect(facts.issues).toEqual([]); expect(facts.identityGaps).toHaveLength(6);
+    item.done.evidence.items = [{ timeMs: 0, kind: 'emitted_event', ref: 'event/basic_attack_hit', data: { useRef: 'use_1', source: 'source', target: 'target' } }];
+    expect(inspectOrdinaryHealing(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins).identityGaps).toHaveLength(5);
+  });
+  it.each(['time', 'ability', 'operation', 'source', 'target', 'duplicate'] as const)('伤害顺序证据%s冲突不能抢先决定零变化分支', async mutation => {
+    const item = await ordinaryHealingSample(), evidence = item.done.evidence.items[0]!;
+    if (mutation === 'time') evidence.timeMs++;
+    if (mutation === 'ability') evidence.data!.abilityRef = 'foreign';
+    if (mutation === 'operation') evidence.data!.operationRef = 'foreign';
+    if (mutation === 'source') evidence.data!.source = 'target';
+    if (mutation === 'target') evidence.data!.target = 'source';
+    if (mutation === 'duplicate') item.done.evidence.items.unshift(structuredClone(evidence));
+    expect(inspectOrdinaryHealing(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins).issues.join(';')).toContain('顺序证据');
+  });
+  it.each(['owner', 'path', 'use', 'amount', 'sum', 'budget'] as const)('拒绝%s伪造且不能以最终生命正确替代', async mutation => {
+    const item = await ordinaryHealingSample();
+    if (mutation === 'owner') item.done.evidence.items[1]!.data!.owner = 'target';
+    if (mutation === 'path') item.done.evidence.items[1]!.data!.operationPath = 'foreign';
+    if (mutation === 'use') item.done.healingRecords![0]!.useRef = 'foreign';
+    if (mutation === 'amount') item.done.healingRecords![0]!.actualHealing = 31;
+    if (mutation === 'sum') item.done.summary.sourceDirectHealing = 91;
+    if (mutation === 'budget') item.done.recording!.returnedHealingRecords = 2;
+    expect(assess(item).factsValid, mutation).toBe(false);
+  });
+  it('零明细只比较完整累计守恒，不用完整Evidence恢复丢失治疗记录', async () => {
+    const item = await ordinaryHealingSample();
+    Object.assign(item.request.recordBudget!, { maxDamageRecords: 0, maxHealingRecords: 0 });
+    item.done.damageRecords = []; item.done.healingRecords = [];
+    Object.assign(item.done.recording!, { returnedDamageRecords: 0, droppedDamageRecords: 3, damageRecordsTruncated: true,
+      returnedHealingRecords: 0, droppedHealingRecords: 3, healingRecordsTruncated: true });
+    expect(assess(item).complete, assess(item).issues.join(';')).toBe(true);
+    const facts = inspectOrdinaryHealing(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins);
+    expect(facts.order.healing).toEqual([]);
+    item.request.outputMode = 'summary';
+    expect(inspectSimulationHealthLedger(item.prepared.compileRequest, item.request, item.done, facts.order)).toEqual([]);
+  });
+  it('截断后只核共同已知前缀，同刻零恢复歧义必须有真实证据顺序', async () => {
+    const item = await ordinaryHealingSample();
+    item.done.healingRecords = item.done.healingRecords!.slice(0, 1);
+    Object.assign(item.done.recording!, { returnedHealingRecords: 1, droppedHealingRecords: 2, healingRecordsTruncated: true });
+    item.request.recordBudget!.maxHealingRecords = 1;
+    const facts = inspectOrdinaryHealing(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins);
+    expect(facts.issues).toEqual([]);
+    expect(inspectSimulationHealthLedger(item.prepared.compileRequest, item.request, item.done, facts.order)).toEqual([]);
+    const zero = await ordinaryHealingSample();
+    zero.done.healingRecords!.forEach(heal => { heal.hpBefore = 200; heal.hpAfter = 200; heal.actualHealing = 0; heal.overheal = 30; });
+    zero.done.damageRecords!.forEach(damage => { damage.sourceHpBefore = 200; damage.sourceHpAfter = 200; });
+    zero.done.attackRecords!.forEach(attack => { attack.sourceHpAfter = 200; });
+    zero.done.summary.sourceFinalHp = 200; zero.done.summary.sourceDirectHealing = 0;
+    const order = { healing: [1, 3, 5], damage: [0, 2, 4] };
+    expect(inspectSimulationHealthLedger(zero.prepared.compileRequest, zero.request, zero.done, order)).toEqual([]);
+    expect(inspectSimulationHealthLedger(zero.prepared.compileRequest, zero.request, zero.done, { ...order, damage: [] }).join(';')).toContain('歧义');
+    expect(inspectSimulationHealthLedger(zero.prepared.compileRequest, zero.request, zero.done, { ...order, damage: [], truncated: true })).toEqual([]);
+  });
+});
 
 describe('6B新增行动事实不放宽既有严格核对', () => {
   it('无贡献须显式null，字段缺失不被旧记录或默认值代替', async () => {
@@ -233,7 +368,8 @@ function refreshFacts(input: Sample, durationMs = 2000) {
   input.done.finalSnapshot.processInstances = input.done.finalSnapshot.processInstances!.slice(0, attackCount);
   input.done.recording = { attackRecordCount: attackCount, returnedAttackRecords: attackCount, droppedAttackRecords: 0, attackRecordsTruncated: false,
     damageRecordCount: rows.length, returnedDamageRecords: rows.length, droppedDamageRecords: 0, damageRecordsTruncated: false,
-    mechanicRecordCount: 0, returnedMechanicRecords: 0, droppedMechanicRecords: 0, mechanicRecordsTruncated: false };
+    mechanicRecordCount: 0, returnedMechanicRecords: 0, droppedMechanicRecords: 0, mechanicRecordsTruncated: false,
+    healingRecordCount: 0, returnedHealingRecords: 0, droppedHealingRecords: 0, healingRecordsTruncated: false };
 }
 function retainRecords(input: Sample, maxAttackRecords: number, maxDamageRecords: number) {
   input.request.recordBudget = { maxAttackRecords, maxDamageRecords };
@@ -723,7 +859,8 @@ describe('连续可靠结果解释', () => {
     input.done.attackRecords = []; input.done.damageRecords = [];
     input.done.recording = { attackRecordCount: 3, returnedAttackRecords: 0, droppedAttackRecords: 3, attackRecordsTruncated: true,
       damageRecordCount: 3, returnedDamageRecords: 0, droppedDamageRecords: 3, damageRecordsTruncated: true,
-      mechanicRecordCount: 0, returnedMechanicRecords: 0, droppedMechanicRecords: 0, mechanicRecordsTruncated: false };
+      mechanicRecordCount: 0, returnedMechanicRecords: 0, droppedMechanicRecords: 0, mechanicRecordsTruncated: false,
+      healingRecordCount: 0, returnedHealingRecords: 0, droppedHealingRecords: 0, healingRecordsTruncated: false };
     input.done.summary.evidenceTruncated = true;
     input.done.evidence.truncated = true; input.done.evidence.truncatedEvidenceCount = 1;
     input.done.warnings = [{ code: 'evidence_truncated', message: '截断', severity: 'warning' }]; input.done.summary.warningCount = 1;

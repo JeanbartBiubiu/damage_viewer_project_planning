@@ -11,7 +11,7 @@ import { assessContinuousAttackResult } from '../../src/engine/continuousAttackR
 import { skillActionRequest, type SkillActionInput } from '../../src/engine/skillActionRequest';
 import { assessSkillActionResult } from '../../src/engine/skillActionResult';
 import { validateSimulationSnapshot } from '../../src/services/simulationSnapshotClient';
-import type { SimulationAttributeInputs, SimulationSelection, SimulationSnapshot } from '../../src/types/simulationSnapshot';
+import type { SimulationAttributeInputs, SimulationInitialResourceInput, SimulationSelection, SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import type { DoneResult, RunRequest } from '../../src/types/genericEngine';
 import { describeCombatSkill, reconcileCombatRules } from '../../src/pages/simulation/combatSkillRoster';
 import type { SimulationCharacterSkillOption } from '../../src/pages/simulation/simulationSelectionOptions';
@@ -28,6 +28,7 @@ export type FirstHeroOptions = {
   ruleOrder?: 'ui' | 'reverse';
   attributeInputs?: SimulationAttributeInputs;
   sceneParameterInputs?: SceneInitialParameterInput[];
+  initialResourceInputs?: SimulationInitialResourceInput[];
   initialHealthRatios?: { source: number; target: number };
   expectedStartedSkillKeys?: string[];
   checkRecordVariants?: boolean;
@@ -96,9 +97,10 @@ export async function runFirstHeroCase(snapshot: SimulationSnapshot, selection: 
   }
   const ratios = options.initialHealthRatios ?? { source: .5, target: 1 };
   const initialHealth = { source: healthLimits.source * ratios.source, target: healthLimits.target * ratios.target };
-  const prepared = await prepareSimulation(snapshot, attributes, initialHealth, [], [], ignoredCosts, sceneParameterInputs);
+  const initialResourceInputs = options.initialResourceInputs ?? [];
+  const prepared = await prepareSimulation(snapshot, attributes, initialHealth, [], [], ignoredCosts, sceneParameterInputs, initialResourceInputs);
   const diagnostics: Record<string, unknown> = { snapshot, inspection, attributes, healthLimits, initialHealth,
-    formulaPreflight, ignoredCosts, sceneParameterInputs, prepared, options };
+    formulaPreflight, ignoredCosts, sceneParameterInputs, initialResourceInputs, prepared, options };
   let sessionId: string | null = null;
   const equal = (a: unknown, b: unknown, label: string) => {
     if (JSON.stringify(a) !== JSON.stringify(b)) throw new Error(label);
@@ -181,7 +183,7 @@ export async function runFirstHeroCase(snapshot: SimulationSnapshot, selection: 
     const release = await client.release(sessionId, prepared.compileRequest.rulesHash);
     if (!release.released || release.sessionId !== sessionId) throw new Error('会话释放未确认');
     sessionId = null;
-    return { snapshot, inspection, attributes, healthLimits, initialHealth, formulaPreflight, ignoredCosts, sceneParameterInputs,
+    return { snapshot, inspection, attributes, healthLimits, initialHealth, formulaPreflight, ignoredCosts, sceneParameterInputs, initialResourceInputs,
       prepared, compiled, automaticRules, runRequest: run.runRequest, runInputHash: run.runInputHash, done, repeated,
       assessment, release, iterations, variants, actualSkillExecutionFacts, hostRunElapsedMs,
       timingNotice: 'hostRunElapsedMs含Worker往返、编码及出口回收，不作为纯计算性能证据' };

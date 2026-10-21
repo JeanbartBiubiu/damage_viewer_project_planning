@@ -12,7 +12,7 @@ import type {
 import type { SkillEffect, SkillEffectResult } from '../types/skillEffect';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
-import type { SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth, SimulationMechanicStateInput, SimulationSnapshot } from '../types/simulationSnapshot';
+import type { SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth, SimulationInitialResourceInput, SimulationMechanicStateInput, SimulationSnapshot } from '../types/simulationSnapshot';
 import {
   compileNumericValue, createNumericCompileState, finiteNumber,
   NumericAdaptationError, wrapValueRuleExpression
@@ -30,8 +30,9 @@ import { validateSimulationAttributeDerivations } from './simulationAttributeCon
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
 import { bindFiniteTargetCounterSources } from './finiteTargetCounterBinding';
 import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
+import { initialResourceRequirements, normalizeInitialResourceInputs } from './initialResourceInputs';
 
-export const SIMULATION_ADAPTER_VERSION = 'v30-staged-hit-attack-start-counter';
+export const SIMULATION_ADAPTER_VERSION = 'v31-killed-self-restoration';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -92,6 +93,11 @@ type Program = {
   triggered: ReturnType<typeof assembleTriggeredEquipment>;
   natural: ReturnType<typeof assembleNaturalSkillSources>;
 };
+
+function programProviders(compiled: Program): ProviderDefinition[] {
+  return [...(compiled.provider ? [compiled.provider] : []), ...compiled.equipment.providers,
+    ...compiled.triggered.providers, ...compiled.natural.providers, ...(compiled.active?.providers ?? [])];
+}
 
 function recordCompiledEquipmentSources(natural: ReturnType<typeof assembleNaturalSkillSources>, triggered: ReturnType<typeof assembleTriggeredEquipment>) {
   for (const compiled of triggered.compiledSources) {
@@ -687,7 +693,7 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
 export function inspectSimulationSnapshot(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = [],
   sceneInputs: readonly SceneInitialParameterInput[] = []): {
   requirements: SimulationAttributeRequirement[]; coverage: SimulationCoverage[]; equipmentOrigins: EquipmentOrigin[];
-  mechanicRequirements: ReturnType<typeof primaryMechanicRequirements>
+  mechanicRequirements: ReturnType<typeof primaryMechanicRequirements>; resourceRequirements: ReturnType<typeof initialResourceRequirements>
 } {
   const normalized = normalizeSceneInitialParameterInputs(snapshot, sceneInputs);
   const compiled = program(snapshot, ignoredCosts, normalized);
@@ -700,19 +706,24 @@ export function inspectSimulationSnapshot(snapshot: SimulationSnapshot, ignoredC
     }
   }
   return { requirements, coverage: compiled.coverage, equipmentOrigins: compiled.equipment.origins,
+    resourceRequirements: initialResourceRequirements(snapshot, programProviders(compiled), [...compiled.triggered.mounts, ...compiled.natural.mounts]),
     mechanicRequirements: compiled.provider ? primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema) : [] };
 }
 
 export function assembleSimulation(
   snapshot: SimulationSnapshot, attributeInputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
   assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = [],
-  ignoredCosts: readonly SimulationCastCostRef[] = [], sceneInputs: readonly SceneInitialParameterInput[] = []
+  ignoredCosts: readonly SimulationCastCostRef[] = [], sceneInputs: readonly SceneInitialParameterInput[] = [], resourceInputs: readonly SimulationInitialResourceInput[] = []
 ): { compileRequest: CompileRequest; coverage: SimulationCoverage[]; operationOrigins: OperationOrigin[];
   equipmentOrigins: EquipmentOrigin[]; skillOrigins: SimulationSkillOriginTrace[]; basicAttackBinding: BasicAttackBinding | null; snapshotDigest: string;
   attributeInputs: SimulationAttributeInputs; initialHealth: SimulationInitialHealth; equipmentAssumptions: SimulationEquipmentAssumption[];
-  mechanicStateInputs: SimulationMechanicStateInput[]; ignoredCastCosts: SimulationCastCostRef[]; sceneParameterInputs: SceneInitialParameterInput[] } {
+  mechanicStateInputs: SimulationMechanicStateInput[]; ignoredCastCosts: SimulationCastCostRef[]; sceneParameterInputs: SceneInitialParameterInput[];
+  initialResourceInputs: SimulationInitialResourceInput[] } {
   const sceneParameterInputs = normalizeSceneInitialParameterInputs(snapshot, sceneInputs);
   const compiled = program(snapshot, ignoredCosts, sceneParameterInputs);
+  const resourceRequirements = initialResourceRequirements(snapshot, programProviders(compiled),
+    [...compiled.triggered.mounts, ...compiled.natural.mounts], attributeInputs);
+  const initialResourceInputs = normalizeInitialResourceInputs(resourceRequirements, resourceInputs);
   const equipmentAssumptions = validateEquipmentAssumptions(snapshot, assumptions);
   const mechanicStateInputs = validateMechanicStateInputs(compiled.provider ? primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema) : [], mechanicInputs);
   for (const input of mechanicStateInputs) {
@@ -749,7 +760,9 @@ export function assembleSimulation(
       attributes[key] = { base: amount, current: key === 'hp' ? currentHp : resolved, max: resolved, resolved };
     }
     return { key: side, displayName: snapshot[side].character.name, types: ['combatant/champion'], attributes,
-      resources: {}, providers: [
+      resources: Object.fromEntries(initialResourceInputs.filter(row => row.side === side).map(row => [row.resourceKey, {
+        current: row.current, max: resourceRequirements.find(requirement => requirement.side === side && requirement.resourceKey === row.resourceKey)!.maxValue!
+      }])), providers: [
         ...(side === 'source' && compiled.basicAttackBinding ? [{ providerRef: MOUNT, definitionRef: DEFINITION }] : []),
         ...compiled.equipment.origins.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
         ...compiled.triggered.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
@@ -760,20 +773,20 @@ export function assembleSimulation(
     compileRequest: {
       schemaVersion: 'generic-p0', schemaHash: SIMULATION_SCHEMA_HASH, rulesHash: 'pending',
       typeCatalog: { types: [...compiled.types, ...snapshot.catalogs.attributes.map(attribute => ({ key: attribute.attributeKey, domain: 'attribute' }))], relations: [] }, combatants: actors,
-      sharedProviders: [...(compiled.provider ? [compiled.provider] : []), ...compiled.equipment.providers, ...compiled.triggered.providers, ...compiled.natural.providers, ...(compiled.active?.providers ?? [])], formulas: [...new Map([...(compiled.formulas ?? []), ...collectedCommonFormulaDefinitions()].map(formula => [formula.key, formula])).values()], rules: compiled.rules,
+      sharedProviders: programProviders(compiled), formulas: [...new Map([...(compiled.formulas ?? []), ...collectedCommonFormulaDefinitions()].map(formula => [formula.key, formula])).values()], rules: compiled.rules,
       settings: { maxEvents: 10000, maxCommandsPerEvent: 256, maxQueueEvents: 10000, maxChainDepth: 32 }
     }, coverage: compiled.coverage, operationOrigins: compiled.operationOrigins, basicAttackBinding: compiled.basicAttackBinding,
     equipmentOrigins: compiled.equipment.origins, skillOrigins: compiled.natural.origins, snapshotDigest: snapshot.snapshotDigest,
     attributeInputs: structuredClone(attributeInputs), initialHealth: structuredClone(initialHealth), equipmentAssumptions, mechanicStateInputs,
-    ignoredCastCosts: compiled.active?.ignoredCastCosts ?? [], sceneParameterInputs
+    ignoredCastCosts: compiled.active?.ignoredCastCosts ?? [], sceneParameterInputs, initialResourceInputs
   };
 }
 
 /** 摘要仅含业务输入和适配后的定义；不包含接口基址、令牌或读取时间。 */
 export async function prepareSimulation(snapshot: SimulationSnapshot, inputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
   assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = [], ignoredCosts: readonly SimulationCastCostRef[] = [],
-  sceneInputs: readonly SceneInitialParameterInput[] = []) {
-  const assembled = assembleSimulation(snapshot, inputs, initialHealth, assumptions, mechanicInputs, ignoredCosts, sceneInputs);
+  sceneInputs: readonly SceneInitialParameterInput[] = [], resourceInputs: readonly SimulationInitialResourceInput[] = []) {
+  const assembled = assembleSimulation(snapshot, inputs, initialHealth, assumptions, mechanicInputs, ignoredCosts, sceneInputs, resourceInputs);
   const approvedFormulaValues = consumedApprovedFormulaValues();
   assembled.compileRequest.formulas ??= [];
   for (const row of approvedFormulaValues) {
@@ -783,7 +796,7 @@ export async function prepareSimulation(snapshot: SimulationSnapshot, inputs: Si
   }
   assembled.compileRequest.rulesHash = await simulationHash({ snapshotDigest: snapshot.snapshotDigest, adapter: SIMULATION_ADAPTER_VERSION,
     attributeInputs: inputs, initialHealth, equipmentAssumptions: assembled.equipmentAssumptions,
-    mechanicStateInputs: assembled.mechanicStateInputs, sceneParameterInputs: assembled.sceneParameterInputs, request: assembled.compileRequest });
+    mechanicStateInputs: assembled.mechanicStateInputs, sceneParameterInputs: assembled.sceneParameterInputs, initialResourceInputs: assembled.initialResourceInputs, request: assembled.compileRequest });
   return { ...assembled, approvedFormulaValues };
 }
 

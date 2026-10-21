@@ -120,6 +120,8 @@ type OperationOutputValues struct {
 type EventDamageSnapshot struct {
 	HasActualHPLoss        bool
 	ActualHPLoss           float64
+	HasKilled              bool
+	Killed                 float64
 	BaseRawAmount          float64
 	PreMitigationAmount    float64
 	MitigatedAmount        float64
@@ -627,6 +629,14 @@ func readEventDamageField(snap EventDamageSnapshot, key string) (float64, error)
 			return 0, errors.New("event.damage.actualHpLoss requires its actual received-damage settlement")
 		}
 		return snap.ActualHPLoss, nil
+	case "killed":
+		if !snap.HasKilled {
+			return 0, errors.New("event.damage.killed requires its actual per-instance damage settlement")
+		}
+		if snap.Killed != 0 && snap.Killed != 1 {
+			return 0, errors.New("event.damage.killed must be zero or one")
+		}
+		return snap.Killed, nil
 	case "originalCritChance":
 		return snap.OriginalCritChance, nil
 	case "effectiveCritChance":

@@ -87,7 +87,10 @@ func compileListenerCondition(listener model.ListenerDefinition, path string, co
 		ctx.collector.addError(model.GenericErrFormulaTypeError, path+".condition", "listener.condition cannot read operation.output", listener.ListenerKey)
 	}
 	if len(instr) > 0 {
+		previous := ctx.compilingListenerCondition
+		ctx.compilingListenerCondition = true
 		compiled.ConditionProgram, compiled.HasCondition = ctx.registerFormula(path+".condition", instr)
+		ctx.compilingListenerCondition = previous
 	}
 }
 

@@ -20,7 +20,7 @@ import { simulationHealthLimit } from '../../engine/simulationEquipment';
 import { equipmentRangeRequirements } from '../../engine/simulationEquipmentRange';
 import type { CompileResult, DoneResult, GenericReleaseDonePayload, RunRequest } from '../../types/genericEngine';
 import type { BuildConfiguration, BuildDefinition, SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth,
-  SimulationSelection, SimulationSkillOrigin, SimulationSkillSetting, SimulationSkillSource, SimulationSnapshot } from '../../types/simulationSnapshot';
+  SimulationSelection, SimulationSkillOrigin, SimulationSkillSetting, SimulationSkillSource, SimulationSnapshot, SimulationInitialResourceInput } from '../../types/simulationSnapshot';
 import { SimulationEntitySelect } from './SimulationEntitySelect';
 import { SimulationEquipmentSelect } from './SimulationEquipmentSelect';
 import { useSimulationSelectionOptions } from './useSimulationSelectionOptions';
@@ -50,6 +50,7 @@ import { reconcileCombatRules } from './combatSkillRoster';
 import { CombatScenarioSetup, type CombatantSetup } from './CombatScenarioSetup';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, type SceneInitialParameterInput,
   type SceneInitialParameterRequirement } from '../../engine/sceneInitialParameterInput';
+import { initialResourceCapacity, initialResourceKey } from '../../engine/initialResourceInputs';
 
 export type SimulationScenarioPanelProps = {
   mode: 'basic' | 'automatic';
@@ -106,6 +107,7 @@ type CompileArchive = {
   snapshotDigest: string;
   attributeInputs: SimulationAttributeInputs;
   initialHealth: SimulationInitialHealth;
+  initialResourceInputs: SimulationInitialResourceInput[];
   equipmentAssumptions: SimulationEquipmentAssumption[];
   mechanicStateInputs: PreparedSimulation['mechanicStateInputs'];
   sceneParameterInputs: SceneInitialParameterInput[];
@@ -246,6 +248,7 @@ function archiveFor(task: Task, outcome: CompileArchive['outcome'], error: strin
     outcome, adapterVersion: SIMULATION_ADAPTER_VERSION, wasm: WASM_IDENTITY, snapshot: task.snapshot,
     snapshotDigest: task.prepared.snapshotDigest, attributeInputs: task.prepared.attributeInputs,
     initialHealth: task.prepared.initialHealth,
+    initialResourceInputs: task.prepared.initialResourceInputs,
     equipmentAssumptions: task.prepared.equipmentAssumptions,
     mechanicStateInputs: task.prepared.mechanicStateInputs,
     sceneParameterInputs: task.prepared.sceneParameterInputs,
@@ -339,6 +342,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
   const [inspection, setInspection] = useState<Inspection | null>(null);
   const [attributeDrafts, setAttributeDrafts] = useState(emptyAttributeDrafts);
   const [initialHealth, setInitialHealth] = useState(emptyInitialHealth);
+  const [resourceDrafts, setResourceDrafts] = useState<Record<string, number | undefined>>({});
   const [mechanicDrafts, setMechanicDrafts] = useState<SimulationMechanicDrafts>({});
   const [sceneParameterRequirements, setSceneParameterRequirements] = useState<SceneInitialParameterRequirement[]>([]);
   const [sceneParameterDrafts, setSceneParameterDrafts] = useState<Record<string, number | undefined>>({});
@@ -412,6 +416,19 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     || sceneParameterRequirements.length > 0 && !inspection;
   const mechanicRequirements = inspection?.mechanicRequirements ?? [];
   const mechanicIssues = mechanicDraftIssues(mechanicRequirements, mechanicDrafts);
+  const resourceRequirements = (inspection?.resourceRequirements ?? []).map(row => {
+    try { return { ...row, maxValue: snapshot ? initialResourceCapacity(snapshot, row.side, row.resourceKey,
+      attributeDrafts[row.side][row.resourceKey]) : undefined }; }
+    catch { return { ...row, maxValue: undefined }; }
+  });
+  const resourceUnfilled = resourceRequirements.some(row => resourceDrafts[initialResourceKey(row.side, row.resourceKey)] === undefined);
+  const resourceIssues = resourceRequirements.flatMap(row => {
+    const current = resourceDrafts[initialResourceKey(row.side, row.resourceKey)];
+    return row.maxValue === undefined ? [`${sideLabels[row.side]}${row.resourceName}容量尚未补全或不是有限正数。`]
+      : current !== undefined && (!Number.isFinite(current) || current < 0 || current > row.maxValue)
+        ? [`${sideLabels[row.side]}初始当前${row.resourceName}须在0至${row.maxValue}之间，不会自动夹取。`] : [];
+  });
+  const resourcesBlocked = resourceUnfilled || resourceIssues.length > 0;
   const sourceHealthLimit = snapshot ? simulationHealthLimit(snapshot, 'source', attributeDrafts.source.hp) : undefined;
   const targetHealthLimit = snapshot ? simulationHealthLimit(snapshot, 'target', attributeDrafts.target.hp) : undefined;
   const healthIssues = (['source', 'target'] as const).flatMap(side => {
@@ -467,6 +484,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     setInspection(null);
     setAttributeDrafts(emptyAttributeDrafts());
     setInitialHealth(emptyInitialHealth());
+    setResourceDrafts({});
     setMechanicDrafts({});
     setSceneParameterRequirements([]);
     setSceneParameterDrafts({});
@@ -553,6 +571,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     setAuraConfirmed({});
     setSnapshot(null);
     setInspection(null);
+    setResourceDrafts({});
     setSceneParameterRequirements([]);
     setPrepared(null);
     invalidateRunResult(true);
@@ -952,6 +971,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     if (taskRef.current || !snapshot || !inspection || !selectedGameId) return;
     if (automaticIssues.length) { setError(automaticIssues.join('；')); return; }
     if (mechanicIssues.length) { setError(mechanicIssues.join('；')); return; }
+    if (resourcesBlocked) { setError(resourceIssues.length ? resourceIssues.join('；') : '请明确填写本场可恢复资源的初始当前值，0也需要填写。'); return; }
     if (kind !== 'compile') {
       for (const side of ['source', 'target'] as const) {
         const hp = initialHealth[side];
@@ -1005,8 +1025,13 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
       if (initialHealth.target === undefined) throw new Error('initialHealth.target: 请明确填写目标初始当前生命。');
       const assumptions: SimulationEquipmentAssumption[] = equipmentRangeRequirements(task.snapshot)
         .map(({ owner, equipmentKey }) => ({ owner, equipmentKey, target: owner === 'source' ? 'target' : 'source', inRange: auraConfirmed[`${owner}:${equipmentKey}`] === true }));
+      const resourceInputs: SimulationInitialResourceInput[] = resourceRequirements.map(row => {
+        const current = resourceDrafts[initialResourceKey(row.side, row.resourceKey)];
+        if (current === undefined) throw new Error('请明确填写初始当前资源，不默认满额。');
+        return { side: row.side, resourceKey: row.resourceKey, current };
+      });
       task.prepared = await prepareSimulation(task.snapshot, inputs, { source: initialHealth.source, target: initialHealth.target }, assumptions,
-        mechanicInputsFromDrafts(mechanicRequirements, mechanicDrafts), simulationAutomaticCastCosts(task.snapshot), sceneInputs);
+        mechanicInputsFromDrafts(mechanicRequirements, mechanicDrafts), simulationAutomaticCastCosts(task.snapshot), sceneInputs, resourceInputs);
       if (!isCurrent(task)) return;
       if (kind === 'continuous_attack') {
         task.continuousPrepared = await continuousAttackRequest(task.prepared, task.snapshot, continuousInputs);
@@ -1181,6 +1206,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
       {equipment.error ? <Alert key="equipment-options-error" type="error" content={`装备列表读取失败：${equipment.error}`}
         action={<Button disabled={busy} onClick={equipment.retry}>重试装备列表</Button>} /> : null}
       {healthIssues.length ? <Alert key="health-limit-error" type="error" content={healthIssues.join('\n')} /> : null}
+      {resourceIssues.length ? <Alert key="resource-limit-error" type="error" content={resourceIssues.join('\n')} /> : null}
       {archive && resultStale && archive.taskKind !== 'continuous_attack' ? <Alert key="previous-result-stale" type="warning"
         content="输入已改变；上一份冻结结果已过期，不代表当前场景。" /> : null}
 
@@ -1419,6 +1445,21 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
         </section>
       ) : null}
 
+      {resourceRequirements.length ? <section aria-label="初始当前资源">
+        <Typography.Title heading={5}>初始当前资源</Typography.Title>
+        <Typography.Paragraph>仅本场存在恢复结果的资源需要填写，0也必须明确填写，不默认满额。容量来自真实等级属性和所选装备。</Typography.Paragraph>
+        <Form layout="vertical">{resourceRequirements.map(row => <Form.Item key={initialResourceKey(row.side, row.resourceKey)}
+          label={`${sideLabels[row.side]}初始当前${row.resourceName}`} required>
+          <InputNumber aria-label={`${sideLabels[row.side]}初始当前${row.resourceName}`} disabled={busy}
+            value={resourceDrafts[initialResourceKey(row.side, row.resourceKey)]} onChange={value => {
+              if (taskRef.current) return;
+              setResourceDrafts(current => ({ ...current, [initialResourceKey(row.side, row.resourceKey)]: value }));
+              setPrepared(null); invalidateRunResult(); setError(null); setNotice(null);
+            }} />
+          <Typography.Text type="secondary">含装备容量：{row.maxValue ?? '请补全有限正容量'}</Typography.Text>
+        </Form.Item>)}</Form>
+      </section> : null}
+
       {sceneParameterRequirements.length ? <section aria-label="战前机制初值">
         <Typography.Title heading={5}>战前机制初值</Typography.Title>
         <Typography.Paragraph>明确填写本场开始前的数值，0也需要填写；修改后点击“准备计算”应用。</Typography.Paragraph>
@@ -1485,13 +1526,13 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
           </Form>
           <Space wrap style={{ marginTop: 16 }}>
             <Button disabled={busy || unfilled.length === 0} onClick={fillMissingWithZero}>将缺失属性填写为0</Button>
-            {!skillMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0 || mechanicRequirements.length > 0} onClick={() => void execute('single_attack')}>执行一次普攻</Button> : null}
-            {!skillMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('continuous_attack')}>连续普攻</Button> : null}
-            {skillMode && !automaticMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
+            {!skillMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0 || mechanicRequirements.length > 0} onClick={() => void execute('single_attack')}>执行一次普攻</Button> : null}
+            {!skillMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0} onClick={() => void execute('continuous_attack')}>连续普攻</Button> : null}
+            {skillMode && !automaticMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0}
               onClick={() => void execute('skill_action')}>执行指定技能计划</Button> : null}
-            {skillMode && automaticMode ? <Button type="primary" disabled={busy || availabilityBlocked || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
+            {skillMode && automaticMode ? <Button type="primary" disabled={busy || availabilityBlocked || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0}
               onClick={() => void execute(enabledAutomaticRules.length ? 'automatic_skill' : 'continuous_attack')}>开始计算</Button> : null}
-            {!automaticMode ? <Button disabled={busy || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('compile')}>编译验证</Button> : null}
+            {!automaticMode ? <Button disabled={busy || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0} onClick={() => void execute('compile')}>编译验证</Button> : null}
           </Space>
           {mechanicRequirements.length ? <Typography.Paragraph type="secondary">弹药主体使用连续普攻，由原生统一核对攻击许可、冻结开始库存及安排恢复；单次外部事件入口不支持此闭环。</Typography.Paragraph> : null}
           <Typography.Paragraph type="secondary" style={{ marginTop: 8 }}>
@@ -1510,7 +1551,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
       <details key="debug-details">
         <summary>调试详情：编译请求、原始结果与引用覆盖</summary>
         {automaticMode && formulaPreflight ? <Typography.Paragraph>共同公式预检：编译{formulaPreflight.compileCount}次，程序{formulaPreflight.formulaCount}份，预检会话已释放。</Typography.Paragraph> : null}
-        {automaticMode && inspection ? <Button disabled={busy || availabilityBlocked || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0}
+        {automaticMode && inspection ? <Button disabled={busy || availabilityBlocked || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0}
           onClick={() => void execute('compile')}>编译验证</Button> : null}
       {prepared ? (
         <section aria-label="编译请求与档案">

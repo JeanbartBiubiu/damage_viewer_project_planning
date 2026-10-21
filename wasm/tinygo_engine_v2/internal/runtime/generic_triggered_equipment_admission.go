@@ -3,6 +3,7 @@ package runtime
 import (
 	"math"
 
+	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -28,6 +29,9 @@ func (s *genericRunState) validateEquipmentHitListener(listener planbundle.Compi
 		return s.basicAttackErr("source requires a complete owner-start/hit/link or receiver-only engine event listener", "listeners."+listener.ListenerKey)
 	}
 	for _, operation := range s.compiled.Operations[int(listener.OperationStart) : int(listener.OperationStart)+int(listener.OperationCount)] {
+		if (operation.Operation == "heal" || operation.Operation == "resource_change") && s.isOwnedSettledSelfRecovery(listener, operation) {
+			continue
+		}
 		if operation.Operation == "damage" && operation.Target == "target" && operation.HasAmount {
 			continue
 		}
@@ -71,6 +75,76 @@ func (s *genericRunState) validateEquipmentHitListener(listener planbundle.Compi
 		return s.basicAttackErr("source trigger requires complete opponent damage, owned state, links or a supported dynamic result", operation.Path)
 	}
 	return nil
+}
+
+func (s *genericRunState) isOwnedSettledSelfRecovery(listener planbundle.CompiledListener, operation planbundle.CompiledOperation) bool {
+	if (operation.Target != model.SelectorSelf && operation.Target != model.SelectorSource) || !operation.HasAmount || int(operation.AmountProgram) >= len(s.formulas.Programs) || operation.OwnerProviderIndex < 0 || operation.OwnerProviderIndex >= len(s.compiled.Providers) {
+		return false
+	}
+	settled := false
+	for _, pair := range []struct{ kind, relation planbundle.DeclaredType }{
+		{s.compiled.RuntimeTypes.DamageInstance, s.compiled.RuntimeTypes.SourceOwner},
+		{s.compiled.RuntimeTypes.DamageTaken, s.compiled.RuntimeTypes.TargetOwner},
+	} {
+		kind, declared := pair.kind.Lookup()
+		relation, relationDeclared := pair.relation.Lookup()
+		settled = settled || declared && relationDeclared && listener.EventMatcher.RequiresAllType(kind) && listener.EventMatcher.RequiresAllType(relation)
+	}
+	if !settled {
+		return false
+	}
+	owned := false
+	for _, actor := range s.compiled.Combatants {
+		if actor.Key != listener.OwnerCombatantKey {
+			continue
+		}
+		for _, mount := range actor.ProviderMounts {
+			owned = owned || mount.ProviderRef == listener.OwnerProviderRef && int(mount.DefinitionIndex) == operation.OwnerProviderIndex
+		}
+	}
+	amount, static := s.foldOwnedRecoveryAmount(listener, operation)
+	owner, exists := s.combatants[listener.OwnerCombatantKey]
+	if !owned || !exists || !static || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
+		return false
+	}
+	health, hasHealth := owner.attributes.Lookup("hp")
+	if !hasHealth || !health.HasCurrent() || !health.HasMax() || math.IsNaN(health.Current) || math.IsInf(health.Current, 0) || math.IsNaN(health.Max) || math.IsInf(health.Max, 0) || health.Max <= 0 || health.Current < 0 || health.Current > health.Max {
+		return false
+	}
+	if operation.Operation == "heal" {
+		return true
+	}
+	if operation.ResourceKey == "" || operation.ResourceKey == "hp" {
+		return false
+	}
+	slot, present := owner.resources[operation.ResourceKey]
+	return present && !math.IsNaN(slot.Current) && !math.IsInf(slot.Current, 0) && !math.IsNaN(slot.Max) && !math.IsInf(slot.Max, 0) && slot.Max > 0 && slot.Current >= 0 && slot.Current <= slot.Max
+}
+
+func (s *genericRunState) foldOwnedRecoveryAmount(listener planbundle.CompiledListener, operation planbundle.CompiledOperation) (float64, bool) {
+	if value, static := s.formulas.FoldStatic(operation.AmountProgram); static {
+		return value, true
+	}
+	if listener.SourceAbilityIndex < 0 || listener.SourceAbilityIndex >= len(s.compiled.Abilities) {
+		return 0, false
+	}
+	ability := s.compiled.Abilities[listener.SourceAbilityIndex]
+	provider := s.compiled.Providers[operation.OwnerProviderIndex]
+	if ability.Kind != "passive_listener" || int(ability.ProviderIndex) != operation.OwnerProviderIndex || listener.SourceAbilityIndex < int(provider.AbilityStart) || listener.SourceAbilityIndex >= int(provider.AbilityStart)+int(provider.AbilityCount) {
+		return 0, false
+	}
+	reads := s.formulas.ReadDependencies(operation.AmountProgram)
+	if len(reads) == 0 {
+		return 0, false
+	}
+	for _, read := range reads {
+		value, present := ability.Params[read.ReadKey]
+		if read.ReadKind != formula.ReadAbilityParam || read.ReadKey == "" || !present || math.IsNaN(value) || math.IsInf(value, 0) {
+			return 0, false
+		}
+	}
+	value, err := s.formulas.Eval(operation.AmountProgram, formula.GenericEvalContext{StrictReads: true, AbilityParams: ability.Params})
+	return value, err == nil
 }
 
 func (s *genericRunState) isOwnedAttackCooldownReduction(listener planbundle.CompiledListener, operation planbundle.CompiledOperation) bool {

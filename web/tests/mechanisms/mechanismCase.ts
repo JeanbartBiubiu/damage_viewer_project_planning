@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import type { AutomaticSkillInput } from '../../src/engine/automaticSkillRequest';
 import type { SkillActionInput } from '../../src/engine/skillActionRequest';
 import type { SceneInitialParameterInput } from '../../src/engine/sceneInitialParameterInput';
-import type { SimulationAttributeInputs, SimulationInitialHealth, SimulationSnapshot, SimulationMechanicStateInput, SimulationEquipmentAssumption } from '../../src/types/simulationSnapshot';
+import type { SimulationAttributeInputs, SimulationInitialHealth, SimulationInitialResourceInput, SimulationSnapshot, SimulationMechanicStateInput, SimulationEquipmentAssumption } from '../../src/types/simulationSnapshot';
 
 export const MECHANISM_CASE_VERSION = 'mechanism-case-v1';
 export const MECHANISM_CATALOG_VERSION = 'mechanism-catalog-v1';
@@ -17,6 +17,7 @@ export type MechanismScenario = {
   mode: MechanismMode;
   durationMs: number;
   initialHealth: SimulationInitialHealth;
+  initialResourceInputs?: SimulationInitialResourceInput[];
   attributeInputs?: SimulationAttributeInputs;
   attackSpeedInputMax?: number;
   actions?: SkillActionInput[];
@@ -47,6 +48,12 @@ export type ProjectedSkillStart = { timeMs: number; skillKey: string };
 export type ProjectedResource = { owner: string; attributeKey: string; current: number; max: number };
 export type ProjectedResourceChange = { timeMs: number; target: string; resourceKey: string; currentBefore: number; currentAfter: number; currentDelta: number; maxBefore: number; maxAfter: number; maxDelta: number };
 export type ProjectedProvider = { owner: string; source: string; definitionRef: string; stacks: number; expireAt: number | null };
+export type ProjectedRestoration = {
+  timeMs: number; kind: 'heal' | 'resource_restore'; owner: 'source' | 'target'; source: 'source' | 'target'; target: 'source' | 'target';
+  providerRef: string; providerDefinitionRef: string; abilityRef: string; operationRef: string; operationPath: string;
+  useRef: string | null; resourceKey: string; requestedAmount: number; effectiveAmount: number;
+  currentBefore: number; currentAfter: number; actualDelta: number; overflow: number;
+};
 export type MechanismProjection = {
   summary: ProjectedSummary;
   damage: ProjectedDamage[];
@@ -57,6 +64,7 @@ export type MechanismProjection = {
   resourceChanges: ProjectedResourceChange[];
   finalAttributes: Record<string, number>;
   finalProviders: ProjectedProvider[];
+  restorations: ProjectedRestoration[];
 };
 
 /** 期望只写手算或游戏机制确定的值；列表按发生顺序完整列出，对象只比较写出的字段。 */
@@ -70,6 +78,7 @@ export type MechanismExpectation = {
   resourceChanges?: Partial<ProjectedResourceChange>[];
   finalAttributes?: Record<string, number>;
   finalProviders?: ProjectedProvider[];
+  restorations?: ProjectedRestoration[];
 };
 
 type CaseSnapshot = Omit<SimulationSnapshot, 'gameId' | 'catalogs' | 'snapshotDigest' | 'readAt'>;
@@ -127,7 +136,7 @@ export function parseMechanismCase(bytes: Buffer, file: string): MechanismCase {
   texts(raw.derivation, file, 'derivation');
   object(raw.snapshot, file, 'snapshot');
   const scenario = object(raw.scenario, file, 'scenario');
-  onlyKeys(scenario, ['mode', 'durationMs', 'initialHealth', 'attributeInputs', 'attackSpeedInputMax', 'actions', 'automaticRules', 'mechanicStateInputs', 'equipmentAssumptions', 'sceneParameterInputs'], file, 'scenario');
+  onlyKeys(scenario, ['mode', 'durationMs', 'initialHealth', 'initialResourceInputs', 'attributeInputs', 'attackSpeedInputMax', 'actions', 'automaticRules', 'mechanicStateInputs', 'equipmentAssumptions', 'sceneParameterInputs'], file, 'scenario');
   if (!MODES.includes(scenario.mode as MechanismMode)) fail(file, `scenario.mode 需要 ${MODES.join('|')}`);
   if (!Number.isSafeInteger(scenario.durationMs) || (scenario.durationMs as number) < 1) fail(file, 'scenario.durationMs 需要正整数毫秒');
   const health = object(scenario.initialHealth, file, 'scenario.initialHealth');
@@ -155,7 +164,9 @@ const EXPECTED_FIELDS: Record<string, readonly string[]> = {
   skillStarts: ['timeMs', 'skillKey'],
   finalResources: ['owner', 'attributeKey', 'current', 'max'],
   resourceChanges: ['timeMs', 'target', 'resourceKey', 'currentBefore', 'currentAfter', 'currentDelta', 'maxBefore', 'maxAfter', 'maxDelta'],
-  finalProviders: ['owner', 'source', 'definitionRef', 'stacks', 'expireAt']
+  finalProviders: ['owner', 'source', 'definitionRef', 'stacks', 'expireAt'],
+  restorations: ['timeMs', 'kind', 'owner', 'source', 'target', 'providerRef', 'providerDefinitionRef', 'abilityRef', 'operationRef',
+    'operationPath', 'useRef', 'resourceKey', 'requestedAmount', 'effectiveAmount', 'currentBefore', 'currentAfter', 'actualDelta', 'overflow']
 };
 
 /** 覆盖标签必须对应至少一个数值断言，空对象或只有名称不能获得回归覆盖。 */
@@ -191,6 +202,18 @@ function validateExpectation(expected: Record<string, unknown>, file: string) {
           || fields.expireAt !== null && (!Number.isSafeInteger(fields.expireAt) || (fields.expireAt as number) < 0)) {
           fail(file, `${path} 需要完整实例归属、定义、正整数层数和非负整数期限（常驻为null）`);
         }
+      }
+      if (section === 'restorations') {
+        const numeric = ['timeMs', 'requestedAmount', 'effectiveAmount', 'currentBefore', 'currentAfter', 'actualDelta', 'overflow'];
+        const identities = ['providerRef', 'providerDefinitionRef', 'abilityRef', 'operationRef', 'operationPath', 'resourceKey'];
+        if (Object.keys(fields).length !== EXPECTED_FIELDS.restorations!.length
+          || !['heal', 'resource_restore'].includes(String(fields.kind))
+          || ['owner', 'source', 'target'].some(key => !['source', 'target'].includes(String(fields[key])))
+          || identities.some(key => typeof fields[key] !== 'string' || !(fields[key] as string).trim())
+          || !Object.prototype.hasOwnProperty.call(fields, 'useRef')
+          || fields.useRef !== null && (typeof fields.useRef !== 'string' || !fields.useRef.trim())
+          || numeric.some(key => typeof fields[key] !== 'number' || !Number.isFinite(fields[key]) || (fields[key] as number) < 0)
+          || !Number.isSafeInteger(fields.timeMs)) fail(file, `${path} 需要完整恢复身份、显式使用身份和有限非负金额事实`);
       }
       for (const [key, item] of Object.entries(fields)) {
         if (typeof item === 'number') {

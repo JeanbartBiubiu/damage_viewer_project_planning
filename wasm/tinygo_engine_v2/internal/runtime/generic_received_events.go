@@ -28,7 +28,7 @@ func (s *genericRunState) dispatchBasicAttackReceived(original emittedEvent, dep
 }
 
 func (f *executionFrame) queueDamageTaken(cmd command.Command, operation planbundle.CompiledOperation,
-	ability planbundle.CompiledAbility, critical frozenCritEvidence, base, raw float64, outcome pipeline.DamageOutcome) {
+	ability planbundle.CompiledAbility, critical frozenCritEvidence, base, raw float64, outcome pipeline.DamageOutcome, killed float64) {
 	if _, declared := f.run.compiled.RuntimeTypes.DamageTaken.Lookup(); !declared {
 		return
 	}
@@ -42,6 +42,7 @@ func (f *executionFrame) queueDamageTaken(cmd command.Command, operation planbun
 	event.snapshot.damageSnapshot = buildDamageInstanceSnapshot(critical, base, raw, outcome.MitigatedAmount)
 	event.snapshot.damageSnapshot.HasActualHPLoss = true
 	event.snapshot.damageSnapshot.ActualHPLoss = outcome.HPDamage
+	event.snapshot.damageSnapshot.HasKilled, event.snapshot.damageSnapshot.Killed = true, killed
 	event.snapshot.damageTypeKey = cmd.DamageType
 	event.snapshot.damageTraits = append([]string(nil), operation.Types...)
 	event.useKey, event.useSource, event.useSkillKey = f.processUseKey, f.processUseSource, f.processUseSkillKey
@@ -55,6 +56,6 @@ func (f *executionFrame) queueDamageTaken(cmd command.Command, operation planbun
 		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: event.eventType,
 			Data: map[string]interface{}{"source": cmd.Source, "target": cmd.Target, "useRef": event.useKey,
 				"skillKey": event.useSkillKey, "operationRef": operation.Ref, "postDefenseDamage": outcome.MitigatedAmount,
-				"shieldAbsorbed": outcome.ShieldAbsorbed, "actualHpLoss": outcome.HPDamage}}
+				"shieldAbsorbed": outcome.ShieldAbsorbed, "actualHpLoss": outcome.HPDamage, "killed": killed}}
 	})
 }

@@ -867,7 +867,7 @@ describe('5B真实默认来源复用通用触发核心', () => {
     const unknownResult = dynamicNaturalSample();
     dynamicConfiguration(unknownResult).effects[0]!.results.push({ ...structuredClone(dynamicConfiguration(unknownResult).effects[0]!.results[0]!),
       resultKey: 'unsupported_parallel', resultType: 'DIRECT_HEAL' as never });
-    expect(() => scene(unknownResult)).toThrow(/unsupported_parallel.*未接入/);
+    expect(() => scene(unknownResult)).toThrow(/unsupported_parallel.*普通恢复仅接完整即时自身/);
     const missing = dynamicNaturalSample();
     dynamicConfiguration(missing).effects[0]!.results = [];
     expect(() => scene(missing)).toThrow(/缺少完整结果/);
