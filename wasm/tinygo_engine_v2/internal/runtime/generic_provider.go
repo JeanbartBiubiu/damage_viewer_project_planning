@@ -718,6 +718,9 @@ func (s *genericRunState) resolveAttributesFor(combatantKey string, attrs attrib
 		return attrs
 	}
 	if len(s.compiled.AttributeDerivations) == 0 {
+		if s.compiled.HasResourceMax {
+			resolved = syncHPResolved(resolved)
+		}
 		return resolved
 	}
 	ordinary := map[string]attribute.Table{}
@@ -734,6 +737,12 @@ func (s *genericRunState) resolveAttributesFor(combatantKey string, attrs attrib
 	if err != nil {
 		s.processFailure = preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
 		return attrs
+	}
+	// Resource capacity has already passed cold admission. Ordinary modifiers
+	// rebuild Resolved from Base; runtime HP continues to mean actual Current,
+	// including provider lifecycle refreshes and quiet observation endpoints.
+	if s.compiled.HasResourceMax {
+		resolved = syncHPResolved(resolved)
 	}
 	return resolved
 }

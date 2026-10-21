@@ -374,6 +374,10 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
       hitAbilityRef, ...(stage.requiresPriorHitBindingKey ? { requiresPriorHitBindingKey: stage.requiresPriorHitBindingKey } : {}) });
     for (const authorPath of stage.authorPaths) coverage.push({ authorPath,
       compiledPath: `rules.skillActionBindings[${binding.bindingKey}].hitBindings[${binding.hitBindings.length - 1}]` });
+    for (const [index, group] of (hit.skillHit.ruleGroups ?? []).entries()) coverage.push({
+      authorPath: `${root}.triggerRules.${group.ruleKey}.oncePerUse`,
+      compiledPath: `sharedProviders[${definitionRef}].abilities[${hitAbilityIndex}].operations[0].skillHit.ruleGroups[${index}].oncePerUse`
+    });
     providers.push(...hit.providers);
     formulas.push(...hit.formulas);
     for (const type of hit.typeEntries) types.set(type.key, type.domain);

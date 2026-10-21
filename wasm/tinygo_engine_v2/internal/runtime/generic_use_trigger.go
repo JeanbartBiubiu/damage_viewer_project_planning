@@ -185,8 +185,13 @@ func (s *genericRunState) restoreUseTriggerLedger(rows []model.UseTriggerLedgerE
 	return nil
 }
 
-func (s *genericRunState) mountedOncePerUseGroups() map[string]planbundle.CompiledListener {
-	out := map[string]planbundle.CompiledListener{}
+type mountedUseTriggerGroup struct {
+	listener  bool
+	skillKeys []string
+}
+
+func (s *genericRunState) mountedOncePerUseGroups() map[string]mountedUseTriggerGroup {
+	out := map[string]mountedUseTriggerGroup{}
 	for _, listener := range s.compiled.Listeners {
 		if !listener.HasOncePerUse || listener.OwnerCombatantKey == "" || listener.OwnerProviderRef == "" {
 			continue
@@ -195,12 +200,38 @@ func (s *genericRunState) mountedOncePerUseGroups() map[string]planbundle.Compil
 			continue
 		}
 		id := listener.OwnerCombatantKey + "\x00" + listener.OwnerProviderRef + "\x00" + listener.OncePerUseGroup + "\x00" + listener.OncePerUseScope
-		out[id] = listener
+		auth := out[id]
+		auth.listener = true
+		out[id] = auth
+	}
+	for _, actor := range s.compiled.Combatants {
+		for _, mount := range actor.ProviderMounts {
+			if !s.skillHitGroupMountLive(actor.Key, mount.ProviderRef, mount.DefinitionIndex) {
+				continue
+			}
+			provider := s.compiled.Providers[mount.DefinitionIndex]
+			for ai := provider.AbilityStart; ai < provider.AbilityStart+provider.AbilityCount; ai++ {
+				ability := s.compiled.Abilities[ai]
+				if !ability.HasSkillHit || ability.OperationCount != 1 {
+					continue
+				}
+				hit := s.compiled.Operations[ability.OperationStart].SkillHit
+				if hit == nil {
+					continue
+				}
+				for _, group := range hit.RuleGroups {
+					id := actor.Key + "\x00" + mount.ProviderRef + "\x00" + group.OncePerUseGroup + "\x00" + group.OncePerUseScope
+					auth := out[id]
+					auth.skillKeys = append(auth.skillKeys, hit.SkillKey)
+					out[id] = auth
+				}
+			}
+		}
 	}
 	return out
 }
 
-func (s *genericRunState) validateRestoredLedgerRow(row model.UseTriggerLedgerEntry, path string, mounted map[string]planbundle.CompiledListener) *model.EngineError {
+func (s *genericRunState) validateRestoredLedgerRow(row model.UseTriggerLedgerEntry, path string, mounted map[string]mountedUseTriggerGroup) *model.EngineError {
 	if strings.TrimSpace(row.Owner) == "" || strings.TrimSpace(row.ProviderRef) == "" || strings.TrimSpace(row.GroupKey) == "" ||
 		strings.TrimSpace(row.Scope) == "" || strings.TrimSpace(row.UseSource) == "" || strings.TrimSpace(row.UseSkillKey) == "" || strings.TrimSpace(row.UseKey) == "" {
 		return s.skillHitErr(model.GenericErrMissingRequiredField, "useTriggerLedger fields must be complete", path, row.UseKey)
@@ -221,8 +252,21 @@ func (s *genericRunState) validateRestoredLedgerRow(row model.UseTriggerLedgerEn
 		return s.skillHitErr(model.GenericErrUnknownRef, "provider-scope ledger rows cannot carry a target", path+".target", row.UseKey)
 	}
 	mountID := row.Owner + "\x00" + row.ProviderRef + "\x00" + row.GroupKey + "\x00" + row.Scope
-	if _, ok := mounted[mountID]; !ok {
-		return s.skillHitErr(model.GenericErrUnknownRef, "useTriggerLedger must match a currently mounted oncePerUse listener group", path, row.GroupKey)
+	auth, ok := mounted[mountID]
+	if !ok {
+		return s.skillHitErr(model.GenericErrUnknownRef, "useTriggerLedger must match a currently mounted oncePerUse listener or hit-rule group", path, row.GroupKey)
+	}
+	if !auth.listener {
+		valid := row.UseSource == row.Owner
+		matchesSkill := false
+		for _, skillKey := range auth.skillKeys {
+			if skillKey == row.UseSkillKey {
+				matchesSkill = true
+			}
+		}
+		if !valid || !matchesSkill {
+			return s.skillHitErr(model.GenericErrUnknownRef, "hit-rule ledger row must match its actual parent source and skill", path, row.UseKey)
+		}
 	}
 	if use, ok := s.skillUses[row.UseKey]; ok {
 		if use.source != row.UseSource || use.skillKey != row.UseSkillKey {

@@ -86,6 +86,15 @@ type SkillHitFact struct {
 type SkillHitDefinition struct {
 	SkillKey   string              `json:"skillKey"`
 	Candidates []SkillHitCandidate `json:"candidates"`
+	RuleGroups []SkillHitRuleGroup `json:"ruleGroups,omitempty"`
+}
+
+// SkillHitRuleGroup keeps one authored rule's direct results in one use quota.
+// Candidate keys are an ordered, contiguous subset of the complete hit plan.
+type SkillHitRuleGroup struct {
+	RuleKey       string           `json:"ruleKey"`
+	CandidateKeys []string         `json:"candidateKeys"`
+	OncePerUse    *OncePerUseLimit `json:"oncePerUse"`
 }
 
 // SkillHitCandidate 是一次命中内按作者顺序排列的结果候选。

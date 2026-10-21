@@ -28,12 +28,13 @@ import { assembleNaturalSkillSources, type SimulationSkillOriginTrace } from './
 import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive, primaryMechanicRequirements, validateMechanicStateInputs } from './simulationPrimaryAttack';
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
+import { validateProviderOncePerUseScopes } from './skillOncePerUse';
 import { bindFiniteTargetCounterSources } from './finiteTargetCounterBinding';
 import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
 import { initialResourceRequirements, normalizeInitialResourceInputs } from './initialResourceInputs';
 import { permanentHealthIncreases } from './permanentHealthInitialization';
 
-export const SIMULATION_ADAPTER_VERSION = 'v32-shared-initial-health-attacks';
+export const SIMULATION_ADAPTER_VERSION = 'v33-instance-timed-slow';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -96,8 +97,10 @@ type Program = {
 };
 
 function programProviders(compiled: Program): ProviderDefinition[] {
-  return [...(compiled.provider ? [compiled.provider] : []), ...compiled.equipment.providers,
+  const providers = [...(compiled.provider ? [compiled.provider] : []), ...compiled.equipment.providers,
     ...compiled.triggered.providers, ...compiled.natural.providers, ...(compiled.active?.providers ?? [])];
+  for (const provider of providers) validateProviderOncePerUseScopes(provider, `sharedProviders.${provider.providerKey}`, fail);
+  return providers;
 }
 
 function recordCompiledEquipmentSources(natural: ReturnType<typeof assembleNaturalSkillSources>, triggered: ReturnType<typeof assembleTriggeredEquipment>) {

@@ -233,6 +233,14 @@ export type SkillHitCandidate = {
 export type SkillHitDefinition = {
   skillKey: string;
   candidates: SkillHitCandidate[];
+  /** 同一作者规则的完整连续候选，共享一次真实使用额度和暂存提交。 */
+  ruleGroups?: SkillHitRuleGroup[];
+};
+
+export type SkillHitRuleGroup = {
+  ruleKey: string;
+  candidateKeys: string[];
+  oncePerUse: OncePerUseLimit;
 };
 
 export type HealGroupCalculationMode = 'ratio_add' | 'ratio_max';
@@ -329,6 +337,7 @@ export type StatusContributionDefinition = {
   statusKey: string;
   statusKind: MovementSlowStatusKind;
   strength: GenericFormulaExpr;
+  valueReadMode?: 'APPLICATION_SNAPSHOT' | 'MOMENT_EVALUATION';
 };
 
 export type ProviderDefinition = {

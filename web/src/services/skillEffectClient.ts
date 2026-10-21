@@ -1,4 +1,5 @@
 import { assertNumericUses } from './numericValue';
+import { momentSlowLifecycleIssue } from './momentSlowLifecycle';
 import { isNumericValue } from '../types/numericValue';
 import { isValidCooldownReductionRatio } from '../types/cooldownRatio';
 import { isValidCooldownRemainingDuration } from '../types/cooldownRemaining';
@@ -273,14 +274,15 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
       if (detail.operation !== 'APPLY') protocolError(`${path}.valueRule`);
       assertValueRule(value.valueRule, `${path}.valueRule`);
       const rule = value.valueRule as Record<string, unknown>;
-      if (rule.fixedMinValue !== 0) protocolError(`${path}.valueRule.fixedMinValue`);
-      if (rule.fixedMaxValue !== 1) protocolError(`${path}.valueRule.fixedMaxValue`);
       const behavior = value.lifecycleBehavior;
       if (!isRecord(behavior) || behavior.moment !== 'PERSISTENT'
-        || behavior.valueReadMode !== 'APPLICATION_SNAPSHOT' || behavior.stackValueMode !== 'SHARED'
-        || behavior.reapplicationValueMode !== 'REPLACE' || behavior.periodicExecutionMode !== null) {
+        || !['APPLICATION_SNAPSHOT', 'MOMENT_EVALUATION'].includes(String(behavior.valueReadMode)) || behavior.stackValueMode !== 'SHARED'
+        || behavior.reapplicationValueMode !== (behavior.valueReadMode === 'MOMENT_EVALUATION' ? null : 'REPLACE') || behavior.periodicExecutionMode !== null) {
         protocolError(`${path}.lifecycleBehavior`);
       }
+      if (rule.fixedMinValue !== (behavior.valueReadMode === 'MOMENT_EVALUATION' ? null : 0)) protocolError(`${path}.valueRule.fixedMinValue`);
+      if (rule.fixedMaxValue !== (behavior.valueReadMode === 'MOMENT_EVALUATION' ? null : 1)) protocolError(`${path}.valueRule.fixedMaxValue`);
+      if (behavior.valueReadMode === 'MOMENT_EVALUATION' && (rule.fixedMultiplier as number) < 0) protocolError(`${path}.valueRule.fixedMultiplier`);
     }
     return value as SkillEffectResult;
   }
@@ -549,6 +551,12 @@ export function parseSkillEffect(value: unknown): SkillEffect {
   if (value.results.some((item) => isRecord(item) && item.resultType === 'STATUS_OPERATION' && item.valueRule !== null)
     && (!isRecord(value.lifecycle) || !isNumericValue(value.lifecycle.durationValue))) {
     protocolError('effect.lifecycle.durationValue');
+  }
+  if (value.results.some(item => isRecord(item) && item.resultType === 'STATUS_OPERATION'
+    && isRecord(item.lifecycleBehavior) && item.lifecycleBehavior.valueReadMode === 'MOMENT_EVALUATION')) {
+    if (value.results.length !== 1) protocolError('effect.results');
+    const issue = momentSlowLifecycleIssue(value.lifecycle);
+    if (issue) protocolError(`effect.lifecycle.${issue}`);
   }
   if (
     value.results.some((item) => (

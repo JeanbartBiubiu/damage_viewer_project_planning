@@ -144,6 +144,11 @@ func (f *executionFrame) evalPreparedDuration(provider planbundle.CompiledProvid
 }
 
 func (f *executionFrame) evalPreparedStatusContributions(provider planbundle.CompiledProvider, evalCtx formula.GenericEvalContext) ([]status.StatusContribution, *model.EngineError) {
+	if provider.HasMomentStatus {
+		// This actual apply/refresh frame starts the new instance lifetime. Do
+		// not transport live attributes, ability parameters or event snapshots.
+		evalCtx = formula.GenericEvalContext{StrictReads: true, HasProviderContext: true, HasProviderElapsed: true}
+	}
 	out := make([]status.StatusContribution, 0, len(provider.StatusContributions))
 	for _, item := range provider.StatusContributions {
 		path := item.Path + ".strength"
@@ -242,7 +247,7 @@ func (s *genericRunState) recordProviderLifecycleEvidence(kind model.EvidenceKin
 	})
 }
 
-func (s *genericRunState) buildEffectiveStatuses(instances []status.ProviderInstance) []model.EffectiveStatusSnapshot {
+func (s *genericRunState) buildEffectiveStatuses(instances []model.CombatantProviderSnapshot) []model.EffectiveStatusSnapshot {
 	type acc struct {
 		strength      float64
 		contributions []model.EffectiveStatusContribution
@@ -250,7 +255,7 @@ func (s *genericRunState) buildEffectiveStatuses(instances []status.ProviderInst
 	byKind := map[string]*acc{}
 	order := make([]string, 0)
 	for _, inst := range instances {
-		if inst.Expired(s.nowMs) {
+		if inst.ExpireAt != nil && *inst.ExpireAt > 0 && *inst.ExpireAt <= s.nowMs {
 			continue
 		}
 		source := inst.Source
@@ -260,6 +265,11 @@ func (s *genericRunState) buildEffectiveStatuses(instances []status.ProviderInst
 		for _, item := range inst.StatusContributions {
 			if item.StatusKind != model.StatusKindMovementSlow {
 				continue
+			}
+			strength := *item.Strength // The owned output was built from validated actual contributions.
+			expires := int64(0)
+			if inst.ExpireAt != nil {
+				expires = *inst.ExpireAt
 			}
 			bucket, ok := byKind[item.StatusKind]
 			if !ok {
@@ -272,11 +282,11 @@ func (s *genericRunState) buildEffectiveStatuses(instances []status.ProviderInst
 				ResultRef:   item.ResultRef,
 				StatusKey:   item.StatusKey,
 				Source:      source,
-				ExpireAt:    inst.ExpireAt,
-				Strength:    item.Strength,
+				ExpireAt:    expires,
+				Strength:    strength,
 			})
-			if len(bucket.contributions) == 1 || item.Strength > bucket.strength {
-				bucket.strength = item.Strength
+			if len(bucket.contributions) == 1 || strength > bucket.strength {
+				bucket.strength = strength
 			}
 		}
 	}

@@ -17,7 +17,7 @@ import type { SkillTriggerCondition, SkillTriggerEventValueCompareCondition, Ski
 import type {
   CompileRequest, GenericFormulaExpr, GenericVampRule, NamedFormula, OperationDefinition, ProviderDefinition,
   SkillHitCandidate, SkillHitComparator, SkillHitDefinition, SkillHitEventValueCondition,
-  SkillHitFact, SkillHitSemantic, SkillHitSemanticTarget, SkillHitStatusKind, SkillHitValueKey,
+  SkillHitFact, SkillHitRuleGroup, SkillHitSemantic, SkillHitSemanticTarget, SkillHitStatusKind, SkillHitValueKey,
   SkillUseFact, SpellShieldBlockScope
 } from '../types/genericEngine';
 import {
@@ -27,6 +27,7 @@ import {
 import { compilePersistentResult, type AuthoredPersistentResult } from './persistentResultAdapter';
 import { compilePairedAttributeSnapshot } from './pairedAttributeSnapshotAdapter';
 import { adaptDamageVamp, type AdaptedVampDamage, type AuthoredVampDamage } from './vampAdapter';
+import { compileSkillOncePerUse, validateHitRuleGroups, validateProviderOncePerUseScopes } from './skillOncePerUse';
 
 export class HitAdaptationError extends NumericAdaptationError {
   constructor(path: string, message: string) {
@@ -252,7 +253,7 @@ function convertRuleConditions(
   resolveKind: HitResolveKind
 ): { eventValueConditions: SkillHitEventValueCondition[]; participation: GenericFormulaExpr | null } {
   const root = planPath(authored.skillKey, `rules.${rule.ruleKey}`);
-  if (rule.perTargetCooldown || rule.maxTriggersPerProcess || ('oncePerUse' in rule && rule.oncePerUse)) {
+  if (rule.perTargetCooldown != null || rule.maxTriggersPerProcess != null) {
     return fail(`${root}.limits`, '未支持的过程限制，按共享契约整体拒绝');
   }
   const groups = stableSorted(rule.conditionGroups, (group) => group.sortOrder);
@@ -565,6 +566,9 @@ function compileResultOperations(
       statusOperation: result.detail.operation, statusKey: result.detail.statusKey, statusKind: kind
     };
     if (kind === 'movement_slow') {
+      if (result.lifecycleBehavior?.valueReadMode === 'MOMENT_EVALUATION' && effect.results.length !== 1) {
+        return fail(path, '当前时点普通减速必须消费完整单结果父效果，不能拆成多个实例绕过边界');
+      }
       return {
         semantic,
         operations: [compilePersistentHitResult(authored, effect, result, providerKey, path, state, providers)]
@@ -794,6 +798,7 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
     ? [['event/basic_attack_hit', 'event'], ['ability/basic_attack', 'ability']]
     : [['event/skill_hit', 'event']]);
   const candidates: SkillHitCandidate[] = [];
+  const ruleGroups: SkillHitRuleGroup[] = [];
   let vampRules: GenericVampRule[] | undefined;
   const abilityTypes = new Set<string>();
   const hitRules = stableSorted(resolveKind === 'basic_attack' ? basicHitRules : skillHitRules, (rule) => rule.sortOrder);
@@ -805,6 +810,10 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
   }
   for (const rule of hitRules) {
     assertHitRule(rule, authored, resolveKind);
+    const limitPath = planPath(authored.skillKey, `rules.${rule.ruleKey}.oncePerUse`);
+    const oncePerUse = compileSkillOncePerUse(rule.oncePerUse, limitPath, fail);
+    if (oncePerUse && resolveKind !== 'skill') fail(limitPath, '同次使用命中组只支持实际技能命中');
+    const firstCandidate = candidates.length;
     const converted = convertRuleConditions(rule, authored, state, resolveKind);
     for (const action of stableSorted(rule.actions, (item) => item.sortOrder)) {
       if (action.actionType !== 'EXECUTE_EFFECT') continue;
@@ -847,12 +856,15 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
         });
       }
     }
+    if (oncePerUse) ruleGroups.push({ ruleKey: rule.ruleKey,
+      candidateKeys: candidates.slice(firstCandidate).map(candidate => candidate.candidateKey), oncePerUse });
   }
   const seenCandidate = new Set<string>();
   for (const candidate of candidates) {
     if (seenCandidate.has(candidate.candidateKey)) fail(planPath(authored.skillKey, `candidates.${candidate.candidateKey}`), 'candidateKey 重复');
     seenCandidate.add(candidate.candidateKey);
   }
+  validateHitRuleGroups(candidates, ruleGroups, planPath(authored.skillKey, 'ruleGroups'), fail);
   for (const rule of consumeRules) {
     if (rule.eventSource.eventType !== 'SPELL_SHIELD_BLOCKED') continue;
     const shieldEffectKey = rule.eventSource.detail.shieldEffectKey;
@@ -872,7 +884,7 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
     mergeProvider(providers, provider, shieldPath);
   }
   return {
-    skillHit: { skillKey: authored.skillKey, candidates },
+    skillHit: { skillKey: authored.skillKey, candidates, ...(ruleGroups.length ? { ruleGroups } : {}) },
     resolveKind,
     providers: [...providers.values()],
     params: state.params,
@@ -1024,6 +1036,7 @@ export function withHitProgram(
       }
     }
   }
+  for (const definition of request.sharedProviders) validateProviderOncePerUseScopes(definition, `sharedProviders.${definition.providerKey}`, fail);
   return request;
 }
 

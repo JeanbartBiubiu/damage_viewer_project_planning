@@ -174,6 +174,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeShieldLifecycleBindings(req, ctx)
 	finalizeStateOnExpire(ctx)
 	finalizeParticipationProviderBindings(ctx)
+	finalizeSkillHitRuleGroups(ctx)
 	finalizeSkillHitPersistentAttributeProviders(ctx)
 	finalizeProviderDurationChanges(ctx)
 	finalizeOwnedHealthModifiers(ctx)
@@ -1235,6 +1236,28 @@ func validateOncePerUseGroups(session *plan.CompiledSession, ctx *genericCompile
 			continue
 		}
 		seen[id] = listener.OncePerUseScope
+	}
+	for _, actor := range session.Combatants {
+		for _, mount := range actor.ProviderMounts {
+			provider := session.Providers[mount.DefinitionIndex]
+			for ai := provider.AbilityStart; ai < provider.AbilityStart+provider.AbilityCount; ai++ {
+				ability := session.Abilities[ai]
+				if !ability.HasSkillHit || ability.OperationCount != 1 {
+					continue
+				}
+				hit := session.Operations[ability.OperationStart].SkillHit
+				if hit == nil {
+					continue
+				}
+				for _, group := range hit.RuleGroups {
+					id := groupID{owner: actor.Key, pref: mount.ProviderRef, group: group.OncePerUseGroup}
+					if prev, ok := seen[id]; ok && prev != group.OncePerUseScope {
+						ctx.collector.addError(model.GenericErrUnknownRef, group.Path+".oncePerUse.scope", "same mounted oncePerUse groupKey must share one scope across listeners and hit rules", group.RuleKey)
+					}
+					seen[id] = group.OncePerUseScope
+				}
+			}
+		}
 	}
 }
 

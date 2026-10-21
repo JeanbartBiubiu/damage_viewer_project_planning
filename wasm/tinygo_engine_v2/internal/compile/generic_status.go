@@ -31,11 +31,15 @@ func compileStatusContributions(items []model.StatusContributionDefinition, path
 		if item.StatusKind != model.StatusKindMovementSlow {
 			add(model.GenericErrUnknownRef, p+".statusKind", "status contribution statusKind must be movement_slow", item.StatusKind)
 		}
+		if item.ValueReadMode != "" && item.ValueReadMode != model.StatusValueReadApplicationSnapshot && item.ValueReadMode != model.StatusValueReadMomentEvaluation {
+			add(model.GenericErrFormulaTypeError, p+".valueReadMode", "unsupported status contribution valueReadMode", item.ValueReadMode)
+		}
 		compiled := plan.CompiledStatusContribution{
-			ResultRef:  item.ResultRef,
-			StatusKey:  item.StatusKey,
-			StatusKind: item.StatusKind,
-			Path:       p,
+			ResultRef:        item.ResultRef,
+			StatusKey:        item.StatusKey,
+			StatusKind:       item.StatusKind,
+			Path:             p,
+			MomentEvaluation: item.ValueReadMode == model.StatusValueReadMomentEvaluation,
 		}
 		instr := formula.CompileGenericFormula(item.Strength, p+".strength", ctx.namedFormulas, map[string]bool{}, add)
 		if len(instr) > 0 {

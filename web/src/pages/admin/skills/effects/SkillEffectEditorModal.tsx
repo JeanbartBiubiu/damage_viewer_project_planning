@@ -851,6 +851,13 @@ export function SkillEffectEditorModal({
           if (formulaHasRuntimeInput(formula, parameters)) {
             setSaveError('当前时点取值不能引用计算时传入的技能参数。'); return;
           }
+          if (resultDraft.resultType === 'STATUS_OPERATION' && formula.expression.inputs.some(input => {
+            const binding = input.binding;
+            return binding.kind === 'attribute' || binding.kind === 'context' && binding.contextKey !== 'effect_elapsed_ms'
+              || binding.kind === 'parameter' && parameters.some(parameter => parameter.parameterKey === binding.parameterKey && parameter.valueMode === 'RUNTIME_INPUT');
+          })) {
+            setSaveError('当前时点普通减速只能读取本效果已过时间与冻结静态值。'); return;
+          }
         }
       }
       if (workspaceDraft) {

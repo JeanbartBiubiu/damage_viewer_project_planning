@@ -141,6 +141,20 @@ function request(): CompileRequest {
 }
 
 describe('有界命中适配', () => {
+  it('当前时点减速的真实完整父效果必须单结果，旧快照多结果不收紧', () => {
+    const authored = program(), slow = authored.effects.find(row => row.effectKey === 'corrosive_charge_slow')!;
+    const result = slow.results[0]!;
+    result.valueRule = { value: fixedValue(.6), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null };
+    result.lifecycleBehavior = { ...result.lifecycleBehavior!, valueReadMode: 'MOMENT_EVALUATION', reapplicationValueMode: null };
+    expect(adaptHitProgram(authored).skillHit.candidates).toHaveLength(2);
+    slow.results.push({ ...structuredClone(result), resultKey: 'other', name: '第二份当前时点减速' });
+    expect(() => adaptHitProgram(authored)).toThrow('完整单结果父效果');
+    for (const row of slow.results) {
+      row.lifecycleBehavior = { ...row.lifecycleBehavior!, valueReadMode: 'APPLICATION_SNAPSHOT', reapplicationValueMode: 'REPLACE' };
+      row.valueRule = { ...row.valueRule!, fixedMinValue: 0, fixedMaxValue: 1 };
+    }
+    expect(adaptHitProgram(authored).skillHit.candidates).toHaveLength(3);
+  });
   it('直接命中明确拒绝持续和周期伤害，不能丢弃期限后当作即时伤害', () => {
     const authored = program({ rules: [execute('actual_hit', 'primary_hit', 10, championEnemy())] });
     const primary = authored.effects.find(effect => effect.effectKey === 'primary_hit')!;
@@ -388,6 +402,9 @@ describe('有界命中适配', () => {
       { operation: 'heal', target: 'self', amount: { op: 'max', args: [{ op: 'ref', ref: healingFormula.key }, { op: 'const', value: 0 }] } },
       { operation: 'expire_provider', target: 'self', providerRefFromEvent: true }
     ]);
+    const limitedConsume = structuredClone(authored);
+    limitedConsume.rules[0]!.oncePerUse = { groupKey: 'cannot_borrow_hit_quota', scope: 'SKILL' };
+    expect(() => adaptHitProgram(limitedConsume)).toThrow(/limits.*消费监听器不支持触发限制/);
     expect(() => adaptHitProgram({
       ...authored,
       effects: [{ ...authored.effects[0]!, lifecycle: lifecycle('SOURCE_TARGET', 1500) }]
@@ -434,10 +451,64 @@ describe('有界命中适配', () => {
     }, 'status:slow')).toThrow('命中判定');
   });
 
-  it('第6项 oncePerUse 仍由命中入口整体拒绝，不放开布尔跳过', () => {
-    expect(() => adaptHitProgram(program({
+  it('同次使用限制保留完整作者规则组，普通无组线形不变', () => {
+    const grouped = adaptHitProgram(program({
       rules: [{ ...execute('actual_hit', 'primary_hit', 10, championEnemy()), oncePerUse: { groupKey: 'proc', scope: 'SKILL' } }]
-    }))).toThrow('过程限制');
+    }));
+    expect(grouped.skillHit.ruleGroups).toEqual([{ ruleKey: 'actual_hit', candidateKeys: ['actual_hit:do_primary_hit:damage'],
+      oncePerUse: { groupKey: 'proc', scope: 'provider' } }]);
+    expect(adaptHitProgram(program()).skillHit).not.toHaveProperty('ruleGroups');
+  });
+
+  it('同一控制规则的两动作完整排序入组，事件条件冻结一致且不将其放到每个候选', () => {
+    const rule = execute('control_rule', 'control', 20, championEnemy(true));
+    rule.oncePerUse = { groupKey: 'control_once', scope: 'TARGET' };
+    rule.actions.push({ ...rule.actions[0]!, actionKey: 'first_slow', detail: { effectKey: 'corrosive_charge_slow' }, sortOrder: 0 });
+    const adapted = adaptHitProgram(program({ rules: [rule] }));
+    expect(adapted.skillHit.ruleGroups).toEqual([{ ruleKey: 'control_rule',
+      candidateKeys: ['control_rule:first_slow:slow', 'control_rule:do_control:stun'],
+      oncePerUse: { groupKey: 'control_once', scope: 'provider_target' } }]);
+    expect(adapted.skillHit.candidates.map(row => row.eventValueConditions)).toEqual([
+      [{ key: 'blocked', comparator: 'eq', value: { op: 'const', value: 0 } }],
+      [{ key: 'blocked', comparator: 'eq', value: { op: 'const', value: 0 } }]
+    ]);
+    expect(adapted.skillHit.candidates.every(row => !('oncePerUse' in row))).toBe(true);
+  });
+
+  it('共享键保留跨规则竞争，范围冲突及空动作规则明确拒绝', () => {
+    const first = execute('first', 'primary_hit', 10), second = execute('second', 'primary_hit', 20);
+    first.oncePerUse = { groupKey: 'shared', scope: 'TARGET' };
+    second.oncePerUse = { groupKey: 'shared', scope: 'TARGET' };
+    expect(adaptHitProgram(program({ rules: [second, first] })).skillHit.ruleGroups?.map(row => row.ruleKey)).toEqual(['first', 'second']);
+    second.oncePerUse.scope = 'SKILL';
+    expect(() => adaptHitProgram(program({ rules: [first, second] }))).toThrow('范围冲突');
+    first.actions = [];
+    expect(() => adaptHitProgram(program({ rules: [first] }))).toThrow('不能丢弃全部动作');
+  });
+
+  it('新额度不开放首次接触、普攻、另两限制或法术盾消费限制', () => {
+    const rule = execute('actual_hit', 'primary_hit', 10, championEnemy(false, [{
+      conditionKey: 'first_contact', conditionType: 'EVENT_VALUE_COMPARE', sortOrder: 40,
+      detail: { eventValueKey: 'SKILL_HIT_FIRST_CONTACT', comparator: 'EQ', comparisonValue: fixedValue(1) }
+    }]));
+    rule.oncePerUse = { groupKey: 'once', scope: 'TARGET' };
+    expect(() => adaptHitProgram(program({ rules: [rule] }))).toThrow('首次接触');
+    rule.conditionGroups = [];
+    rule.eventSource = { eventType: 'BASIC_ATTACK_HIT', detail: {} };
+    expect(() => adaptHitProgram(program({ rules: [rule] }))).toThrow('只支持实际技能命中');
+    rule.eventSource = { eventType: 'SKILL_HIT', detail: { sourceSkillKey: null, useKind: null } };
+    rule.perTargetCooldown = { durationValue: fixedValue(100) } as never;
+    expect(() => adaptHitProgram(program({ rules: [rule] }))).toThrow('过程限制');
+    rule.perTargetCooldown = null;
+    rule.maxTriggersPerProcess = 1 as never;
+    expect(() => adaptHitProgram(program({ rules: [rule] }))).toThrow('过程限制');
+  });
+
+  it.each([{}, { groupKey: 'once', scope: 'BAD' }, { groupKey: 'Once', scope: 'TARGET' },
+    { groupKey: 'once', scope: 'TARGET', owner: 'target' }])('同次使用作者形状不补值：%j', value => {
+    const rule = execute('actual_hit', 'primary_hit', 10);
+    rule.oncePerUse = value as never;
+    expect(() => adaptHitProgram(program({ rules: [rule] }))).toThrow(/oncePerUse/);
   });
 
   it('普攻命中入口要求显式 basic_attack 身份与 BASIC_ATTACK 产生方式', () => {

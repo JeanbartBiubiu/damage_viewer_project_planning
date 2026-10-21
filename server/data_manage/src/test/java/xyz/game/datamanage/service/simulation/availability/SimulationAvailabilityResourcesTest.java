@@ -24,7 +24,15 @@ class SimulationAvailabilityResourcesTest {
         assertEquals(205, scope.value().path("characters").findValues("expectedSkills").stream().mapToInt(value -> value.size()).sum());
         assertFalse(scope.value().path("characters").toString().contains("champion_zyra"));
         assertEquals(198, scope.value().path("equipment").size());
-        assertEquals(47, scope.value().path("equipment").findValues("requiresSkillBindings").stream().filter(value -> !value.booleanValue()).count());
+        assertEquals(51, scope.value().path("equipment").findValues("requiresSkillBindings").stream().filter(value -> !value.booleanValue()).count());
+        for (String key : java.util.List.of("item_1120", "item_2421", "item_3172", "item_3175")) {
+            var item = java.util.stream.StreamSupport.stream(scope.value().path("equipment").spliterator(), false)
+                .filter(value -> key.equals(value.path("key").asText())).findFirst().orElseThrow();
+            assertFalse(item.path("requiresSkillBindings").asBoolean());
+            assertFalse(item.path("attributesOnlyEvidence").path("reason").asText().isBlank());
+            assertEquals("outputs/equipment-authoring-20261022-remaining-01a15ed4/范围核对.json",
+                item.path("attributesOnlyEvidence").path("evidenceRefs").get(0).asText());
+        }
         assertEquals("VERIFICATION_NOT_FOUND", resources.verification("another_game").issueCode());
         assertEquals("SCOPE_NOT_FOUND", resources.scope("another_game").issueCode());
     }

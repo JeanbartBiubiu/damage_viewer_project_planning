@@ -1460,7 +1460,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
 
       {sceneParameterRequirements.length ? <section aria-label="战前机制初值">
         <Typography.Title heading={5}>战前机制初值</Typography.Title>
-        <Typography.Paragraph>明确填写本场开始前的数值，0也需要填写；修改后点击“准备计算”应用。</Typography.Paragraph>
+        <Typography.Paragraph>明确填写本场开始前的数值，0也需要填写；修改后点击“{automaticMode ? '准备计算' : '读取场景快照'}”应用。</Typography.Paragraph>
         <Form layout="vertical">{sceneParameterRequirements.map(row => <Form.Item key={row.declarationIdentity}
           label={`${sideLabels[row.side]}／${row.skillName}／${row.parameterName}`} required>
           <InputNumber aria-label={`${sideLabels[row.side]}／${row.skillName}／${row.parameterName}`}

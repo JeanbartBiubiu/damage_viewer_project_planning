@@ -65,6 +65,12 @@
 
 伤害结果的 `detail.attackDamageRole` 可省略；显式提供时只能为 `PRIMARY`（普通攻击主体）或 `REPLACE_PRIMARY`（强化待击替换主体）。空值、数字、未知值和非伤害结果均拒绝，不给普通伤害补空字段。后端请求真源为 `SkillEffectDamageDetail.java`；保存与聚合回读必须保留该字段。角色效果可先保存为尚未挂接的资料，但真实消费点、完整事务最终态以及宿主所选普通攻击还需分别校验，不能由字段存在直接判定可计算。替换负载只含一个无条件、即时目标伤害；普通主体所在作者效果可以保留其它无角色结果。结构边界以[正式共享契约](../../../../outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/共享实施契约.md)为准。采用前核对运行服务确实含新字段，不能向旧服务盲目重试。
 
+### 当前时点普通减速
+
+普通减速可声明`PERSISTENT/MOMENT_EVALUATION/SHARED`，重施数值方式为空。只接独立单结果的`STATUS_OPERATION/APPLY`及真实`MOVEMENT_SLOW`目录，有限正安全整数期限、`SOURCE_TARGET`分组、单层`KEEP/REFRESH_ALL/ALL_AT_ONCE`，无周期、关联盾结束或独立法盾粒度。强度只读取本实例`effect_elapsed_ms`和冻结静态参数；公式全部声明及条件各分支均检查，不能夹带当前属性、外来上下文或运行输入。
+
+新模式`fixedMinValue`、`fixedMaxValue`必须为空；固定倍率须有限且非负、静态原值须有限，防止零乘法掩盖溢出，最终强度须在0至1之间。旧施加快照继续使用原0/1界限。原生状态贡献仅新模式显式输出`valueReadMode:MOMENT_EVALUATION`，旧快照继续省略；管理配置、原生运行及整对象准入分别验证。完整约束见[Q落地减速契约](../../../../outputs/skill-adaptation-20261021-chogath/Q落地减速实施契约.md)。
+
 ### 场景显式初值绑定
 
 `SCENE_INITIAL_PARAMETER`（场景显式初值）的必需明细为 `{minValue, maxValue}`，上下界必须是有限数且有序；整数参数的边界必须为安全整数，通用负范围可以合法。它在本技能 `SOURCE_INITIALIZED / EXECUTE_EFFECT / EVENT_SOURCE` 动作绑定无默认的数值 `RUNTIME_INPUT` 参数，且参数必须被本动作真实结果数值消费。另可由明确本技能 `SKILL_USED / ACTIVE / INITIAL → START_PROCESS` 绑定，但只授权唯一真实主动过程的步骤执行伤害负载金额；费用、冷却、时间、生命周期、条件和状态操作不能借用该授权。实际本场值不写进声明、参数固定值、角色属性或数据库；界面另行明确填写，缺值不默认为0。

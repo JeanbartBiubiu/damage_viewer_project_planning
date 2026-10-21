@@ -127,9 +127,11 @@ const (
 
 // Provider 实例范围与普通减速种类。
 const (
-	InstanceScopeSourceTarget = "source_target"
-	StatusKindMovementSlow    = "movement_slow"
-	RefreshPolicyReplace      = "replace"
+	InstanceScopeSourceTarget          = "source_target"
+	StatusKindMovementSlow             = "movement_slow"
+	RefreshPolicyReplace               = "replace"
+	StatusValueReadApplicationSnapshot = "APPLICATION_SNAPSHOT"
+	StatusValueReadMomentEvaluation    = "MOMENT_EVALUATION"
 )
 
 // ProviderLifecycle 描述 dynamic provider 生命周期。
@@ -141,12 +143,13 @@ type ProviderLifecycle struct {
 	InstanceScope  string              `json:"instanceScope,omitempty"`
 }
 
-// StatusContributionDefinition 是供值器在 apply/refresh 时快照的普通减速能力。
+// StatusContributionDefinition 描述普通减速；省略读取方式时仍在施加时保存快照。
 type StatusContributionDefinition struct {
-	ResultRef  string             `json:"resultRef"`
-	StatusKey  string             `json:"statusKey"`
-	StatusKind string             `json:"statusKind"`
-	Strength   GenericFormulaExpr `json:"strength"`
+	ResultRef     string             `json:"resultRef"`
+	StatusKey     string             `json:"statusKey"`
+	StatusKind    string             `json:"statusKind"`
+	Strength      GenericFormulaExpr `json:"strength"`
+	ValueReadMode string             `json:"valueReadMode,omitempty"`
 }
 
 // CastOrigin 枚举：能力施放来源（可选；非空时必须是下列之一）。

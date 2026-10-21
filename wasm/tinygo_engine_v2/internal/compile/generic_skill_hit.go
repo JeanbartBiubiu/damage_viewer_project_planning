@@ -62,7 +62,7 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 	}
 
 	seenCandidate := map[string]int{}
-	plan := &planbundle.CompiledSkillHit{SkillKey: op.SkillHit.SkillKey, PrimaryCandidate: -1}
+	plan := &planbundle.CompiledSkillHit{SkillKey: op.SkillHit.SkillKey, PrimaryCandidate: -1, OwnerProviderIndex: ownerProviderIndex}
 	inboundNonNull := 0
 	for i, cand := range op.SkillHit.Candidates {
 		cpath := opPath + ".skillHit.candidates[" + itoa(i) + "]"
@@ -95,6 +95,7 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 		}
 		plan.Candidates = append(plan.Candidates, compiled)
 	}
+	compileSkillHitRuleGroups(op.SkillHit.RuleGroups, op.SkillHit.Candidates, plan, opPath+".skillHit.ruleGroups", ownerProviderIndex, ctx)
 	if plan.PrimaryCandidate >= 0 {
 		for i, candidate := range op.SkillHit.Candidates {
 			if candidate.SpellShieldBlockScope != nil {
@@ -120,6 +121,7 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 func compileSkillHitCandidate(cand model.SkillHitCandidate, path string, ownerProviderIndex int, ctx *genericCompileContext) planbundle.CompiledSkillHitCandidate {
 	collector := ctx.collector
 	out := planbundle.CompiledSkillHitCandidate{
+		RuleGroupIndex:           -1,
 		CandidateKey:             cand.CandidateKey,
 		EffectOccurrenceKey:      cand.EffectOccurrenceKey,
 		EffectKey:                cand.EffectKey,

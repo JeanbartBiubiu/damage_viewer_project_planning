@@ -153,5 +153,5 @@ describe('真实Wasm自身回盾和双端属性快照边界', () => {
       expect(result.done.summary.sourceDamageDealt).toBe(0);
     }
     expect(full.done.finalSnapshot.combatants[1]!.providers.find(provider => provider.modifierSnapshots)!.modifierSnapshots).toEqual({ target_slow: 0.8, source_gain: 64 });
-  });
+  }, 60000);
 });

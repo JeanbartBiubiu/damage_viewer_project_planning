@@ -1,5 +1,6 @@
 import { formulasUsedByInternalValue } from './approvedFormulaValues';
 import { sameFormulaPayload } from '../services/skillFormulaContract';
+import { momentSlowLifecycleIssue } from '../services/momentSlowLifecycle';
 import type { SkillEffectLifecycle, SkillEffectResult, SkillEffectValueRule } from '../types/skillEffect';
 import type { SkillFormula } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
@@ -154,13 +155,14 @@ function assertNoUnsupportedBlock(authored: AuthoredPersistentResult, path: stri
 function assertPersistentBehavior(
   authored: AuthoredPersistentResult,
   path: string,
-  reapplication: ReadonlyArray<string>
+  reapplication: ReadonlyArray<string | null>,
+  valueReadMode: 'APPLICATION_SNAPSHOT' | 'MOMENT_EVALUATION' = 'APPLICATION_SNAPSHOT'
 ): void {
   const behavior = authored.result.lifecycleBehavior;
   if (!behavior || behavior.moment !== 'PERSISTENT') return fail(`${path}.lifecycleBehavior.moment`, '必须持续生效');
-  if (behavior.valueReadMode !== 'APPLICATION_SNAPSHOT') return fail(`${path}.lifecycleBehavior.valueReadMode`, '未支持读取模式');
+  if (behavior.valueReadMode !== valueReadMode) return fail(`${path}.lifecycleBehavior.valueReadMode`, '未支持读取模式');
   if (behavior.stackValueMode !== 'SHARED') return fail(`${path}.lifecycleBehavior.stackValueMode`, '本期只支持 shared');
-  if (!behavior.reapplicationValueMode || !reapplication.includes(behavior.reapplicationValueMode)) {
+  if (!reapplication.includes(behavior.reapplicationValueMode)) {
     return fail(`${path}.lifecycleBehavior.reapplicationValueMode`, '未支持的重施数值方式');
   }
   if (behavior.periodicExecutionMode !== null) return fail(`${path}.lifecycleBehavior.periodicExecutionMode`, '本期不支持周期');
@@ -189,11 +191,35 @@ function adaptMovementSlow(
   if (status.length !== 1) return fail(`${resultPath}.detail.statusKey`, '状态目录缺失或重复');
   if (status[0]!.statusKind !== 'MOVEMENT_SLOW') return fail(`${resultPath}.detail.statusKey`, '不是普通移动减速');
   if (detail.operation !== 'APPLY') return fail(`${resultPath}.detail.operation`, '本期只支持 APPLY');
-  assertPersistentBehavior(authored, resultPath, ['REPLACE']);
+  const moment = result.lifecycleBehavior?.valueReadMode === 'MOMENT_EVALUATION';
+  assertPersistentBehavior(authored, resultPath, moment ? [null] : ['REPLACE'], moment ? 'MOMENT_EVALUATION' : 'APPLICATION_SNAPSHOT');
+  if (moment) {
+    const issue = momentSlowLifecycleIssue(authored.lifecycle);
+    if (issue) return fail(`${root}.lifecycle.${issue}`, '当前时点减速需要有限单层、同来源与目标、保留层数并刷新全部期限');
+  }
   if (!result.valueRule) return fail(`${resultPath}.valueRule`, '减速强度缺失');
-  const bindState = numericState(authored, true, true);
+  const bindState = numericState(authored, !moment, !moment);
+  if (moment) bindState.allowedContextKeys = new Set(['effect_elapsed_ms']);
   const duration = compileDuration(authored, `${root}.lifecycle.durationValue`, bindState);
+  if (moment) {
+    const milliseconds = tryFoldConstant(duration);
+    if (milliseconds === null || !Number.isSafeInteger(milliseconds) || milliseconds <= 0) return fail(`${root}.lifecycle.durationValue`, '当前时点减速期限必须由冻结静态值核定为正安全整数毫秒');
+  }
+  if (moment) {
+    if (finite(result.valueRule.fixedMultiplier, `${resultPath}.valueRule.fixedMultiplier`) < 0) fail(`${resultPath}.valueRule.fixedMultiplier`, '当前时点减速的固定倍率必须非负');
+    for (const key of ['fixedMinValue', 'fixedMaxValue'] as const) if (result.valueRule[key] !== null) fail(`${resultPath}.valueRule.${key}`, '当前时点减速不能沿用快照上下界夹取，必须明确留空');
+  }
   const strength = compileValueRule(result.valueRule, `${resultPath}.valueRule`, bindState);
+  if (moment) {
+    for (const formula of bindState.namedFormulas.values()) {
+      for (const input of formula.expression.inputs) {
+        if (input.binding.kind === 'attribute' || input.binding.kind === 'context' && input.binding.contextKey !== 'effect_elapsed_ms') fail(`${resultPath}.valueRule.value`, '当前时点减速只可读取本实例已过时间与冻结静态值');
+      }
+      if (formula.parameters.some(parameter => parameter.valueMode === 'RUNTIME_INPUT')) fail(`${resultPath}.valueRule.value`, '当前时点减速不能读取自由运行输入');
+    }
+    const fixed = tryFoldConstant(strength);
+    if (fixed !== null && (!Number.isFinite(fixed) || fixed < 0 || fixed > 1)) fail(`${resultPath}.valueRule`, '当前时点减速强度必须有限且位于0到1之间');
+  }
   return {
     provider: {
       providerKey, skillKey: authored.skillKey, kind: 'status', stableId: providerKey,
@@ -202,7 +228,8 @@ function adaptMovementSlow(
       },
       statusContributions: [{
         resultRef: authored.result.resultKey, statusKey: detail.statusKey,
-        statusKind: 'movement_slow', strength
+        statusKind: 'movement_slow', strength,
+        ...(moment ? { valueReadMode: 'MOMENT_EVALUATION' as const } : {})
       }]
     },
     operation: { operation: 'apply_provider', target: 'target', providerDefinitionRef: providerKey },

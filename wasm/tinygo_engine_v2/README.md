@@ -31,11 +31,17 @@ TinyGo编译的浏览器内计算引擎。正式业务入口为 `engine_compile`
 
 属性比例的剩余量连乘使用 `valuePolicy=complement_multiply` 与 `stage=total`，不依赖属性名称。所有既有加算、乘算等修正先保持原序完成，再计算 `1-(1-原修正结果)×各项(1-比例)`；原修正结果及每项比例必须有限且在[0,1]。例如0.4与0.1合成为0.46，再加一项0.1为0.514。未使用该策略的属性继续按既有顺序计算。
 
-有限、单层、覆盖刷新且明确 `source_target` 实例范围的动态属性修正可读取 `provider.elapsed_ms`。真正依赖该值的实例快照保存可空 `appliedAtMs`（0合法），新施加及覆盖刷新重置时间；恢复拒绝缺失、负值和未来时间。该读取仅接入属性修正当前值，不开放普通伤害、初始挂载或持续时间自身。时间依赖使对应属性计划保守不复用缓存，不使其他计划失效，不新增中间计时事件。专项原生回归入口：`go test -count=1 ./internal/compile ./internal/runtime -run 'Test(Compile.*Shield|LinkedShield|CompileProviderElapsed|ProviderElapsed)'`；最终Wasm与宿主验证仍单独执行。
+有限、单层、覆盖刷新且明确 `source_target` 实例范围的动态属性修正，以及显式声明当前时点求值的普通减速，可读取 `provider.elapsed_ms`。真正依赖该值或明确声明该减速模式的实例快照保存可空 `appliedAtMs`（0合法），新施加及覆盖刷新重置时间；恢复拒绝缺失、负值和未来时间。不开放普通伤害、初始挂载或持续时间自身。时间依赖使对应属性计划保守不复用缓存，不使其他计划失效，不新增中间计时事件。专项原生回归入口：`go test -count=1 ./internal/compile ./internal/runtime -run 'Test(Compile.*Shield|LinkedShield|CompileProviderElapsed|ProviderElapsed|CompileMomentSlow|MomentSlow)'`；最终Wasm与宿主验证仍单独执行。
 
 同刻的其他到期事件可能先触发属性重算。此时只排除已经达到真实到期时间、且应用时间完整有效的实例时间修正；原清理事件继续负责实例移除、证据及预算。缺失、未来或非法应用时间仍报错，不借过期判断补0或隐藏错误。回归另覆盖0和非0时刻施加、双方同时到期的先后顺序及重施旧到期事件。
 
-根命中内的有序结果候选各自提交后，在实际声明伤害事件且该候选产生正伤害时，派发一笔 `event/damage_dealt`（已造成伤害事件）。候选保留原施放和使用身份，普通攻击仍只有一次父命中；资格仅由本次根 `resolve_skill_hit`（命中结算）建立，不由旧事件或法术护盾缓存恢复，不降低真实调用深度，也不扩到监听、复制、周期或强化待击尾部。各候选间派生事件按原同步顺序执行，多个结果不合并为原子伤害。
+普攻等待的生命周期预检独立保存操作投影标记，不能把私有预检中的移除标成父帧已经执行。资源上限与普通控制同场时，真实到期队列仍在精确期限移除实例并保留到期事实；重施后的旧期限、汇总模式和零明细预算不改变这一结果。定向回归：`go test -count=1 ./internal/runtime -run 'Test(BasicAttackWaitPreviewKeepsParentLifecycleMutations|ResourceMaxMomentQueued)'`。
+
+根命中内的有序结果候选各自提交后，在实际声明伤害事件且该候选产生正伤害时，派发一笔 `event/damage_dealt`（已造成伤害事件）。候选保留原施放和使用身份，普通攻击仍只有一次父命中；资格仅由本次根 `resolve_skill_hit`（命中结算）建立，不由旧事件或法术护盾缓存恢复，不降低真实调用深度，也不扩到监听、复制、周期或强化待击尾部。未声明规则组的候选保留原提交和同步派生顺序。
+
+可选 `ruleGroups`（命中规则组）将同一真实技能命中规则的连续候选绑定到已有同次使用额度；省略或空列表沿原逐候选路径。宿主从完整作者规则核定全部动作，原生只验证所给成员存在、稳定顺序、连续且不交叉，以及共同参与条件、事件条件和真实供值来源一致，不能重建未提供的作者动作。组仅支持实际 `SKILL_HIT`（技能命中）、原始静态父挂载和真实使用；不支持首次接触比较、普攻或强化普攻负载，操作沿已有额度直接执行门禁。规则共同谓词独立冻结，护盾消费保留候选不能充当规则匹配；匹配后即使全部写入被阻挡，成功提交仍占额，显式要求未阻挡而失败的规则不占额。
+
+同组候选在一个暂存帧中按原顺序执行，逐候选隔离 `operation.output`，各自保留伤害事件口径；全部操作及原队列预检通过后与额度一起提交，再派发暂存事件。提交前失败释放预留，保留此前已提交的其它组和父命中；提交后派生失败保留已提交额度。组与监听器共用同一拥有者、真实挂载、共享键、范围及真实使用账，编译统一拒绝同键范围冲突，恢复仍核真实挂载、来源、技能和旧预算。组完成后再进入普通命中监听分发，二者没有新增作者全序。原生入口：`go test -count=1 ./internal/compile ./internal/runtime -run 'Test(CompileSkillHitRuleGroup|SkillHitRuleGroup|CompileOncePerUse|ExecutionBudgetUseLedger)'`；正式Wasm、分配及浏览器由最终集成另行验证。
 
 弹药在原有整匣回充 `all_at_once/when_empty` 之外，支持逐枚回充 `one_by_one/after_consume`，可绑定真实主动 `INITIAL` 首次控制。库存大于零时可以继续施放，继续扣弹不会重置正在运行的充能。逐枚模式欠弹时须在 `ammoRecovery.initialRemainingMs` 明确提供首枚余时（数字或同技能严格静态引用，0有效）；满弹及整匣模式禁止提供。余时为非负安全整数，不超过初始化时完整间隔；不从库存或技能学习时库存推测。
 
@@ -62,6 +68,8 @@ TinyGo编译的浏览器内计算引擎。正式业务入口为 `engine_compile`
 有限 `resource_max`（资源上限修正）授权单层、覆盖、自身 hp 的静态非负加算，策略必须为 `grant_positive_delta_clamp`。锚点为场景已含等级与静态装备的 hp.max；连续供值器变更段按最终净差结算，首次数值读取、伤害、治疗或提交前使结果可见。上限增加仅给存活且正生命对象相同净增量，上限下降只夹取；同值刷新不回血。一个供值器刷新没有可见移除中态，多个可见段仍在同帧预检/回滚内。提交直接发布已经校验的纯供值器最终列表和属性，逐项保留真实生命周期证据和到期队列，不再重放移除中态的数值重算。同帧混有尚未接入暂存投影的非纯供值器生命周期操作时，在提交前明确拒绝并回滚；该首版边界不改变旧无授权路径，也不禁止分开的独立事务。新初态拒绝已有本类实例，不增加战斗存档恢复协议。
 
 永久生命初始化使用 `preserve_initial_current`（保留场景显式当前值），只接受实际已挂载自然角色的唯一来源初始化监听、自身静态非负生命平加、无期限单层效果。该角色父来源可保留同技能完整主动过程，永久效果不得被能力、过程时点或其它监听引用。原生先独立验证自然基础生命与所选装备静态生命，再核对真实永久贡献和输入上限，原子安装效果实例及贡献；当前生命保留且不加满、不夹取。原来源初始化只跳过已消费的精确操作，其它合法初始化照常执行。初始化证据 `resource_max_initialized` 保存容量锚点、永久贡献、上限、当前值和完整原挂载、监听、操作与新效果归属；永久贡献不计战斗增量记录和汇总。后续有限容量从真实永久实例重建，不能重复增加或丢失这部分容量。只接全新0毫秒状态，同会话重复运行各自初始化；既有实例和非零快照续跑仍拒绝。生命最大值减基础值沿现有 `MAX−BASE` 表达，不改变总值或额外值映射。
+
+资源上限会话通过冷初始化后，存活属性重建的普通与派生成功出口均保持 `hp.Resolved=hp.Current`（生命解析值等于当前生命）；状态施加、刷新、移除、到期及当前时点减速的安静终点观察也遵守同一不变量。它不改当前值、上限、天然基础、战斗增量或输入准入前的上限校验；无资源上限授权的旧会话保持原语义。回归入口：`go test -count=1 ./internal/runtime -run 'Test(ResourceMaxMoment|PermanentResourceMax|MomentSlow)'`。
 
 只有编译会话包含 `resource_max` 时，结果返回 `resourceChangeRecords`、`resourceChangeSummary` 和对应 recording 四字段，伤害/直接治疗记录共用 `healthOrder`；无授权旧场景全部省略。资源变化独立于治疗/吸血，累计不受明细预算影响。预算 `maxResourceChangeRecords` 缺省1000、范围0—10000；仅汇总返回空数组和 returned=0，预算内虚拟保留不算 dropped，truncated 只表示预算溢出，沿既有记录口径。完整明细可按 healthOrder 合并核对当前值与上限两条守恒；失败帧不发布事实，顺序允许空号。
 
@@ -296,6 +304,8 @@ node .\scripts\vamp-smoke-node.mjs
 
 - `ProviderLifecycle.instanceScope=source_target` 仅在显式 `maxStacks=1`、`refreshPolicy=replace` 且有正期限时进入按 `definitionRef+source+owner` 复用实例；未指定范围仍每次新建。
 - `statusContributions` 在 apply/refresh 当时用真实来源/目标、能力参数求值并保存快照；强度有限且在 `[0,1]`，JSON 0 与缺失分开；失败不挂实例。
+- `statusContributions[].valueReadMode`（数值读取方式）省略或为 `APPLICATION_SNAPSHOT` 时保留上述快照；显式 `MOMENT_EVALUATION` 才按当前时点重算。空值、空串、错误类型和未知枚举拒绝。新模式仅接受有限单层、`source_target/replace` 的纯 `status` 供值器，只有一个普通减速贡献，没有属性修正、能力、过程、监听、内部状态或周期跳动；常量公式也经过相同真实实例门禁。命名和条件全部分支的依赖只允许自身经过时间及冻结静态值，不向公式提供属性、事件、使用或能力实时上下文。
+- 当前时点模式在真实施加/刷新时以经过时间0求值，最终观察以实例真实 `appliedAtMs` 和有效期限求值；静默终点也重算。输出的供值器贡献及 `effectiveStatuses` 消费同一次当前值，运行中的施加快照不改写。求值错误、非有限和越界值通过正式运行错误返回；作者显式 `clamp`（夹取）运算仍按公式本义执行。没有落地事件、额外命中或逐时跳动。
 - 最终 `effectiveStatuses` 只读输出普通减速有效 max 及全部有效贡献；弱实例保留并独立到期。到期守卫使用实例 `ExpireAt>nowMs`，不使用 `expectedExpireAt`。
 - `healGroupCalculationMode=ratio_max` 对同组 received+`add_percent` 取最小带符号比例，组间仍按 `max(0,1+ratio)` 连乘；非法值报错不夹取。同组模式冲突 collect-all 列出双方路径。
 

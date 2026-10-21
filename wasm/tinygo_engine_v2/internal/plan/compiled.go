@@ -164,12 +164,13 @@ func (lc *CompiledProviderLifecycle) AllowsSourceTargetReuse() bool {
 
 // CompiledStatusContribution 是 compile 后的普通减速能力。
 type CompiledStatusContribution struct {
-	ResultRef       string
-	StatusKey       string
-	StatusKind      string
-	StrengthProgram formula.GenericProgramID
-	HasStrength     bool
-	Path            string
+	ResultRef        string
+	StatusKey        string
+	StatusKind       string
+	StrengthProgram  formula.GenericProgramID
+	HasStrength      bool
+	MomentEvaluation bool
+	Path             string
 }
 
 // CompiledProviderStateField 是 initialStateSchema 规范化后的 provider-scope 字段定义（Gate H1）。
@@ -195,6 +196,7 @@ type CompiledProvider struct {
 	// ShieldDefinitionRef is set only for a provider owned by an actual numeric shield.
 	ShieldDefinitionRef  string
 	NeedsElapsedTime     bool
+	HasMomentStatus      bool
 	NeedsModifierExpiry  bool
 	HasResourceMax       bool
 	PermanentResourceMax bool
@@ -327,14 +329,22 @@ const (
 )
 
 type CompiledSkillHit struct {
-	SkillKey         string
-	Candidates       []CompiledSkillHitCandidate
-	PrimaryCandidate int // -1 unless an explicit validated PRIMARY exists.
-	ReplacesPrimary  bool
+	SkillKey           string
+	Candidates         []CompiledSkillHitCandidate
+	RuleGroups         []CompiledSkillHitRuleGroup
+	OwnerProviderIndex int
+	PrimaryCandidate   int // -1 unless an explicit validated PRIMARY exists.
+	ReplacesPrimary    bool
+}
+
+type CompiledSkillHitRuleGroup struct {
+	RuleKey, OncePerUseGroup, OncePerUseScope, Path string
+	CandidateStart, CandidateCount                  int
 }
 
 // CompiledSkillHitCandidate 保存资格、条件程序与候选操作区间。
 type CompiledSkillHitCandidate struct {
+	RuleGroupIndex                   int // -1 for an ungrouped candidate.
 	AttackDamageRole                 uint8
 	CandidateKey                     string
 	EffectOccurrenceKey              string

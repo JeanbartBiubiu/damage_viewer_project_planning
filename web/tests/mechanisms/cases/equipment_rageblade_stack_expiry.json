@@ -1,0 +1,1451 @@
+{
+  "schemaVersion": "mechanism-case-v1",
+  "caseKey": "equipment_rageblade_stack_expiry",
+  "title": "装备攻速层数在两次慢速普攻间独立到期",
+  "mechanisms": [
+    "equipment.on_hit_stack_expiry"
+  ],
+  "derivation": [
+    "合成源基础攻速0.1、收益率0.5，装备25%额外攻速：空层总攻速0.1+0.5×0.25=0.225；一层再加0.5×0.08=0.04，总攻速0.265。",
+    "冻结v32源码generic_basic_attack_wait.go的prepareBasicAttackProgress先将新完整周期取正值四舍五入；basicAttackRemainingDelay将剩余比例乘新周期后向上取整（只对极近整数做浮点误差矫正），保留已经走过的进度。",
+    "命中时单层完整周期round(1000/0.265)=3774毫秒。3000毫秒层数到期变回空层，新完整周期round(1000/0.225)=4444；剩余比例1-3000/3774=0.20508744038155802，剩余等待ceil(4444×该比例)=ceil(911.4085850556438)=912，第二刀在3000+912=3912毫秒。",
+    "第二刀重新获得一层，6912毫秒再次到期，同法第三刀为3912+3912=7824。7400毫秒观察点在第二次到期与第三次启动之间，最终层数0、额外攻速0.25、总攻速0.225。",
+    "两刀各造成100物理主体/2+30魔法附伤/2=65，总130；每次新命中前旧层已经到期，始终未达四层，无额外联动。生命偷取10%为13，源500→513，目标2000→1870。",
+    "修正记录：第一版错误假设到期重置整个等待而写4444；第二版错误假设到期不重算等待而写3774。两版候选、原始完整输出和失败报告均保留history。最终3912由冻结源码的周期四舍五入、剩余进度保留和剩余等待向上取整独立推导，再交真实Worker验证。"
+  ],
+  "catalog": "mechanism_rageblade",
+  "snapshot": {
+    "selection": {
+      "sourceCharacterKey": "lab_attacker",
+      "sourceLevel": 1,
+      "targetCharacterKey": "lab_dummy",
+      "targetLevel": 1,
+      "basicAttackSkillKey": "lab_basic_attack",
+      "basicAttackLevel": 1,
+      "plannedSkills": [],
+      "sourceEquipmentKeys": [
+        "lab_onhit_item"
+      ],
+      "targetEquipmentKeys": [],
+      "sourceBuildConfigurations": [],
+      "targetBuildConfigurations": [],
+      "targetSkillSettings": [],
+      "sourceSkillSettings": []
+    },
+    "source": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_attacker",
+        "name": "机制攻击方",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_attacker",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 70,
+            "attack_speed": 0.1,
+            "armor": 0,
+            "magic_resist": 0,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0.1,
+            "ability_power": 0,
+            "attack_speed_ratio": 0.5,
+            "bonus_attack_speed_percent": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 70,
+        "attack_speed": 0.1,
+        "armor": 0,
+        "magic_resist": 0,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0.1,
+        "ability_power": 0,
+        "attack_speed_ratio": 0.5,
+        "bonus_attack_speed_percent": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "selectedEquipment": [
+        {
+          "equipment": {
+            "gameId": "mechanism_lab",
+            "equipmentKey": "lab_onhit_item",
+            "name": "合成叠层攻击特效装备",
+            "description": null,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          "attributes": {
+            "equipmentKey": "lab_onhit_item",
+            "attributeValues": {
+              "attack_damage": 30,
+              "ability_power": 30,
+              "bonus_attack_speed_percent": 0.25
+            }
+          },
+          "attachedSkills": [
+            {
+              "gameId": "mechanism_lab",
+              "equipmentKey": "lab_onhit_item",
+              "equipmentName": "合成攻击特效装备",
+              "skillKey": "lab_rageblade",
+              "skillName": "合成叠层攻击特效",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            }
+          ]
+        }
+      ],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "begin_attack",
+            "hit_attack"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "EQUIPMENT",
+            "equipmentKey": "lab_onhit_item"
+          },
+          "skillKey": "lab_rageblade",
+          "skillName": "合成叠层攻击特效",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "full_count",
+            "linked_damage_only",
+            "not_full_reset",
+            "resolve_rageblade_basic_attack"
+          ],
+          "inactiveReason": null
+        }
+      ]
+    },
+    "target": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_dummy",
+        "name": "机制木桩",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_dummy",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 2000,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 100,
+            "magic_resist": 100,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 2000,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 100,
+        "magic_resist": 100,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_dummy",
+          "characterName": "机制木桩",
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_dummy"
+          },
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": null,
+          "enabledRuleKeys": [],
+          "inactiveReason": "NO_AUTONOMOUS_ATTACK"
+        }
+      ]
+    },
+    "skillConfigurations": [
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_basic_attack",
+          "name": "机制普攻",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "basic_attack"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "parameterKey": "base_critical_multiplier",
+            "name": "基础暴击倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.75,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "parameterKey": "milliseconds_per_second",
+            "name": "每秒毫秒",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "formulas": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "raw",
+            "name": "攻击力",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "attack_damage",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_damage",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "攻击力",
+                  "expression": {
+                    "op": "read",
+                    "inputKey": "attack_damage"
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "interval",
+            "name": "攻击间隔",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "ms",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_basic_attack",
+                    "parameterKey": "milliseconds_per_second"
+                  }
+                },
+                {
+                  "key": "speed",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_speed",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "攻击间隔",
+                  "expression": {
+                    "op": "div",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "ms"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "speed"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "critical_multiplier",
+            "name": "暴击倍率",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "base",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_basic_attack",
+                    "parameterKey": "base_critical_multiplier"
+                  }
+                },
+                {
+                  "key": "bonus",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "critical_strike_damage_bonus_percent",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "暴击倍率",
+                  "expression": {
+                    "op": "add",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "base"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "bonus"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 2,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "effectKey": "start",
+            "name": "发起",
+            "description": null,
+            "sortOrder": 0,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "attack_link",
+                "name": "攻击联动",
+                "resultType": "ATTACK_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "effectKey": "hit",
+            "name": "命中",
+            "description": null,
+            "sortOrder": 1,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "raw"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "SOURCE_CRIT_CHANCE",
+                    "multiplierValue": {
+                      "kind": "FORMULA",
+                      "formulaKey": "critical_multiplier"
+                    }
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              },
+              {
+                "resultKey": "hit_link",
+                "name": "命中联动",
+                "resultType": "HIT_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 20,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "processKey": "attack",
+            "name": "普攻节奏",
+            "activationType": "ACTIVE",
+            "description": null,
+            "sortOrder": 0,
+            "steps": [
+              {
+                "stepKey": "begin",
+                "name": "发起",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FORMULA",
+                "formulaKey": "interval"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [
+              {
+                "bindingKey": "start_link",
+                "effectKey": "start",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                },
+                "sortOrder": 0
+              }
+            ],
+            "stateOperations": [],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "begin_attack",
+            "name": "普攻开始",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_START",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_process",
+                "name": "普攻开始",
+                "sortOrder": 0,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "attack"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "hit_attack",
+            "name": "普攻命中",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_HIT",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "execute_effect",
+                "name": "普攻命中",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_lab_basic_attack"
+      },
+      {
+        "baseDigest": "e0978a1fe7f4fc14424bb6e999108a839311a41511e3231ff149a81a1156ad0a",
+        "effects": [
+          {
+            "createdAt": "2026-09-07T17:56:58.640137Z",
+            "description": "每次普通攻击命中获得8%攻击速度，最多4层，持续3秒。",
+            "effectKey": "attack_speed_stack",
+            "gameId": "mechanism_lab",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_speed_stack_duration_ms"
+              },
+              "endWhenShieldEndsResultKey": null,
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE",
+              "maxStacksValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_speed_max_stacks"
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "INCREASE"
+            },
+            "name": "沸腾打击攻击速度层数",
+            "results": [
+              {
+                "description": "每层增加8%攻击速度。",
+                "detail": {
+                  "attributeKey": "bonus_attack_speed_percent",
+                  "modifierZoneKey": "flat_attributes",
+                  "operation": "INCREASE"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": null,
+                  "stackValueMode": "PER_STACK",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "沸腾打击攻击速度",
+                "resultKey": "attack_speed_stack",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "attack_speed_per_stack"
+                  }
+                }
+              }
+            ],
+            "skillKey": "lab_rageblade",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T18:19:56.580068Z"
+          },
+          {
+            "createdAt": "2026-09-07T17:56:58.228073Z",
+            "description": "项目暂定：30魔法命中附伤，生命偷取按防御后伤害效率1覆盖；全能吸血继承游戏规则。",
+            "effectKey": "on_hit_magic_damage",
+            "gameId": "mechanism_lab",
+            "lifecycle": null,
+            "name": "怨怒攻击附伤",
+            "results": [
+              {
+                "description": "每次普通攻击命中造成30点额外魔法伤害。",
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "vampOverrides": [
+                    {
+                      "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                      "efficiencyValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      },
+                      "mode": "OVERRIDE",
+                      "vampType": "LIFE_STEAL"
+                    }
+                  ],
+                  "vampQualification": "RESOLVED"
+                },
+                "lifecycleBehavior": null,
+                "name": "怨怒魔法伤害",
+                "resultKey": "on_hit_magic_damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "on_hit_magic_damage"
+                  }
+                }
+              }
+            ],
+            "skillKey": "lab_rageblade",
+            "sortOrder": 10,
+            "updatedAt": "2026-10-04T05:49:36.794676Z"
+          },
+          {
+            "createdAt": "2026-10-03T13:37:46.071564Z",
+            "description": "项目暂定即时额外命中一次；仅执行显式HIT_LINK_APPLIED规则，不叠层不计数、不合成新普攻。",
+            "effectKey": "phantom_extra_hit",
+            "gameId": "mechanism_lab",
+            "lifecycle": null,
+            "name": "沸腾打击额外命中联动",
+            "results": [
+              {
+                "description": "总2次减去原有1次的建模推导，仅补录组成，未建立触发规则；当前目标沿将来真实触发入口传入。",
+                "detail": {},
+                "lifecycleBehavior": null,
+                "name": "额外应用一次命中联动",
+                "resultKey": "phantom_extra_hit_link",
+                "resultType": "HIT_LINK_APPLICATION",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "phantom_extra_on_hit_count",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "lab_rageblade",
+            "sortOrder": 30,
+            "updatedAt": "2026-10-04T05:49:36.794676Z"
+          }
+        ],
+        "formulas": [
+          {
+            "createdAt": "2026-09-07T17:56:57.829943Z",
+            "description": "按客户端MaxAttackSpeedCalc计算每层8%乘以4层，满层为32%。",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "input_0",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_rageblade",
+                    "parameterKey": "attack_speed_per_stack"
+                  }
+                },
+                {
+                  "key": "input_1",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_rageblade",
+                    "parameterKey": "attack_speed_max_stacks"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "原技能公式输出",
+                  "expression": {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "input_0"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "input_1"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "formulaKey": "max_attack_speed_bonus",
+            "gameId": "mechanism_lab",
+            "name": "沸腾打击满层攻击速度",
+            "skillKey": "lab_rageblade",
+            "sortOrder": 10,
+            "updatedAt": "2026-10-08T18:16:38.52499Z"
+          },
+          {
+            "createdAt": "2026-10-04T05:49:36.794676Z",
+            "description": "总应用次数减去已执行的原始一次；不把总次数当额外次数。",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "input_0",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_rageblade",
+                    "parameterKey": "phantom_total_on_hit_count"
+                  }
+                },
+                {
+                  "key": "input_1",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_rageblade",
+                    "parameterKey": "normal_on_hit_count"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "原技能公式输出",
+                  "expression": {
+                    "op": "sub",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "input_0"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "input_1"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "formulaKey": "phantom_extra_on_hit_count",
+            "gameId": "mechanism_lab",
+            "name": "额外攻击特效应用次数",
+            "skillKey": "lab_rageblade",
+            "sortOrder": 20,
+            "updatedAt": "2026-10-08T18:16:38.52499Z"
+          }
+        ],
+        "internalStates": [
+          {
+            "createdAt": "2026-10-04T05:49:36.794676Z",
+            "description": "项目暂定满层后的下一次命中开始计数；失层后的首次命中先清零。",
+            "detail": {
+              "durationValue": null,
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "phantom_attack_interval"
+              }
+            },
+            "gameId": "mechanism_lab",
+            "name": "满层后普攻计数",
+            "scope": "SKILL",
+            "skillKey": "lab_rageblade",
+            "sortOrder": 10,
+            "stateKey": "phantom_hits",
+            "stateType": "COUNTER",
+            "updatedAt": "2026-10-04T05:49:36.794676Z"
+          }
+        ],
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T17:56:57.403053Z",
+            "description": "沸腾打击最多叠加4层。",
+            "fixedValue": 4,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "沸腾打击最大层数",
+            "parameterKey": "attack_speed_max_stacks",
+            "skillKey": "lab_rageblade",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T17:56:57.403053Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T17:56:56.660092Z",
+            "description": "每次攻击获得8%攻击速度，小数0.08表示8%。",
+            "fixedValue": 0.08,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "沸腾打击每层攻击速度",
+            "parameterKey": "attack_speed_per_stack",
+            "skillKey": "lab_rageblade",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T17:56:56.660092Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T17:56:56.99705Z",
+            "description": "攻速层数持续3秒，单位：毫秒。",
+            "fixedValue": 3000,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "沸腾打击层数持续时间",
+            "parameterKey": "attack_speed_stack_duration_ms",
+            "skillKey": "lab_rageblade",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T17:56:56.99705Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-10-04T05:49:36.794676Z",
+            "description": "项目默认原始应用1次；总次数减原始次数为额外联动次数。",
+            "fixedValue": 1,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "原始攻击特效应用次数",
+            "parameterKey": "normal_on_hit_count",
+            "skillKey": "lab_rageblade",
+            "sortOrder": 90,
+            "updatedAt": "2026-10-04T05:49:36.794676Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T17:56:56.270552Z",
+            "description": "攻击命中附带30点额外魔法伤害，单位：伤害点。",
+            "fixedValue": 30,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "怨怒额外魔法伤害",
+            "parameterKey": "on_hit_magic_damage",
+            "skillKey": "lab_rageblade",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T17:56:56.270552Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-10-03T13:37:46.071564Z",
+            "description": "固定16.17客户端绑定说明及16.17.1官方装备说明明确为满层后每第三次攻击。仅保存间隔次数，未据此猜测计数开始相位、丢层复位或追加联动参与计数。",
+            "fixedValue": 3,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "满层后重复攻击特效的攻击间隔次数",
+            "parameterKey": "phantom_attack_interval",
+            "skillKey": "lab_rageblade",
+            "sortOrder": 50,
+            "updatedAt": "2026-10-03T13:37:46.071564Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-10-03T13:37:46.071564Z",
+            "description": "固定版本说明为每第三次攻击应用2次攻击特效，2是含原有一次的总次数，不是额外2次，也不是新增两次完整普通攻击。完整计数与时序尚未接线。",
+            "fixedValue": 2,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "触发攻击的攻击特效总应用次数",
+            "parameterKey": "phantom_total_on_hit_count",
+            "skillKey": "lab_rageblade",
+            "sortOrder": 60,
+            "updatedAt": "2026-10-03T13:37:46.071564Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "processes": [
+          {
+            "activationType": "PASSIVE",
+            "cooldown": null,
+            "createdAt": "2026-10-04T05:49:36.794676Z",
+            "description": "项目暂定：完整即时被动过程，操作顺序显式保存。",
+            "effectBindings": [],
+            "gameId": "mechanism_lab",
+            "name": "满层后增加普攻计数",
+            "processKey": "count_hits",
+            "skillKey": "lab_rageblade",
+            "sortOrder": 10,
+            "stateOperations": [
+              {
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "name": "满层后增加普攻计数",
+                "operation": "INCREASE",
+                "operationKey": "increase_hits",
+                "optionKey": null,
+                "sortOrder": 10,
+                "stateKey": "phantom_hits",
+                "stateSkillKey": "lab_rageblade",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                }
+              }
+            ],
+            "steps": [
+              {
+                "description": null,
+                "detail": {},
+                "name": "即时处理",
+                "occupiesAction": null,
+                "sortOrder": 10,
+                "stepKey": "immediate",
+                "stepType": "IMMEDIATE"
+              }
+            ],
+            "updatedAt": "2026-10-04T05:49:36.794676Z"
+          },
+          {
+            "activationType": "PASSIVE",
+            "cooldown": null,
+            "createdAt": "2026-10-04T05:49:36.794676Z",
+            "description": "项目暂定：完整即时被动过程，操作顺序显式保存。",
+            "effectBindings": [],
+            "gameId": "mechanism_lab",
+            "name": "清零普攻计数",
+            "processKey": "reset_hits",
+            "skillKey": "lab_rageblade",
+            "sortOrder": 20,
+            "stateOperations": [
+              {
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "name": "清零普攻计数",
+                "operation": "SET",
+                "operationKey": "set_hits",
+                "optionKey": null,
+                "sortOrder": 10,
+                "stateKey": "phantom_hits",
+                "stateSkillKey": "lab_rageblade",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 0
+                }
+              }
+            ],
+            "steps": [
+              {
+                "description": null,
+                "detail": {},
+                "name": "即时处理",
+                "occupiesAction": null,
+                "sortOrder": 10,
+                "stepKey": "immediate",
+                "stepType": "IMMEDIATE"
+              }
+            ],
+            "updatedAt": "2026-10-04T05:49:36.794676Z"
+          }
+        ],
+        "skill": {
+          "createdAt": "2026-09-07T17:56:55.894474Z",
+          "description": "项目暂定可运行：30魔法附伤、每层8%攻速3秒最多4层；满层后下一次命中开始计数，每第三次即时额外一次攻击特效。额外只执行联动规则，不计数不叠层。失层后首次命中先清旧计数；附伤生命偷取效率1覆盖，均可后续改配置校准。 本轮补齐普通攻击命中对已有30魔法伤害结果的真实执行；额外联动入口与原计数、叠层、吸血资格均保留。",
+          "gameId": "mechanism_lab",
+          "maxLevel": 1,
+          "name": "鬼索的狂暴之刃·怨怒与沸腾打击",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "lab_rageblade",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-10-04T05:49:36.794676Z"
+        },
+        "triggerRules": [
+          {
+            "actions": [
+              {
+                "actionKey": "apply_phantom_link",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "phantom_extra_hit"
+                },
+                "name": "执行配置效果",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              },
+              {
+                "actionKey": "reset_after_reward",
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "reset_hits"
+                },
+                "name": "启动配置过程",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 20,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [
+              {
+                "conditions": [
+                  {
+                    "conditionKey": "threshold",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "detail": {
+                      "comparator": "GTE",
+                      "comparisonValue": {
+                        "kind": "PARAMETER",
+                        "parameterKey": "phantom_attack_interval"
+                      },
+                      "expectedBoolean": null,
+                      "optionKey": null,
+                      "stateKey": "phantom_hits",
+                      "stateSkillKey": "lab_rageblade",
+                      "valueKind": "VALUE"
+                    },
+                    "sortOrder": 10
+                  }
+                ],
+                "groupKey": "qualification",
+                "name": "配置资格",
+                "sortOrder": 10
+              }
+            ],
+            "description": "项目暂定口径，用户授权先运行；后续按游戏实测校准本配置，不按装备标识在引擎内分支。",
+            "eventSource": {
+              "detail": {
+                "moment": {
+                  "momentType": "PROCESS_COMPLETE",
+                  "stepKey": null
+                },
+                "processKey": "count_hits"
+              },
+              "eventType": "PROCESS_MOMENT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "第三次满层命中追加一次特效",
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "ruleKey": "counter_reward",
+            "sortOrder": 50
+          },
+          {
+            "actions": [
+              {
+                "actionKey": "start_count",
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "count_hits"
+                },
+                "name": "启动配置过程",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [
+              {
+                "conditions": [
+                  {
+                    "conditionKey": "stack_qualification",
+                    "conditionType": "LIFECYCLE_CHECK",
+                    "detail": {
+                      "checkKind": "STACKS_COMPARE",
+                      "comparator": "GTE",
+                      "comparisonValue": {
+                        "kind": "PARAMETER",
+                        "parameterKey": "attack_speed_max_stacks"
+                      },
+                      "effectKey": "attack_speed_stack",
+                      "effectSkillKey": "lab_rageblade",
+                      "subject": null
+                    },
+                    "sortOrder": 10
+                  }
+                ],
+                "groupKey": "qualification",
+                "name": "配置资格",
+                "sortOrder": 10
+              }
+            ],
+            "description": "项目暂定口径，用户授权先运行；后续按游戏实测校准本配置，不按装备标识在引擎内分支。",
+            "eventSource": {
+              "detail": {},
+              "eventType": "BASIC_ATTACK_HIT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "已满层的真实命中增加计数",
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "ruleKey": "full_count",
+            "sortOrder": 30
+          },
+          {
+            "actions": [
+              {
+                "actionKey": "apply_extra_damage",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "on_hit_magic_damage"
+                },
+                "name": "执行配置效果",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "每次实际应用命中联动执行一次怨怒附伤，包含普攻主体的原始联动和鬼索追加联动；普通命中规则只叠层、计数，不重复附伤。",
+            "eventSource": {
+              "detail": {
+                "sourceSkillKey": null
+              },
+              "eventType": "HIT_LINK_APPLIED"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "原始与额外命中统一执行怨怒附伤",
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "ruleKey": "linked_damage_only",
+            "sortOrder": 20
+          },
+          {
+            "actions": [
+              {
+                "actionKey": "reset_old_count",
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "reset_hits"
+                },
+                "name": "启动配置过程",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [
+              {
+                "conditions": [
+                  {
+                    "conditionKey": "stack_qualification",
+                    "conditionType": "LIFECYCLE_CHECK",
+                    "detail": {
+                      "checkKind": "STACKS_COMPARE",
+                      "comparator": "LT",
+                      "comparisonValue": {
+                        "kind": "PARAMETER",
+                        "parameterKey": "attack_speed_max_stacks"
+                      },
+                      "effectKey": "attack_speed_stack",
+                      "effectSkillKey": "lab_rageblade",
+                      "subject": null
+                    },
+                    "sortOrder": 10
+                  }
+                ],
+                "groupKey": "qualification",
+                "name": "配置资格",
+                "sortOrder": 10
+              }
+            ],
+            "description": "项目暂定口径，用户授权先运行；后续按游戏实测校准本配置，不按装备标识在引擎内分支。",
+            "eventSource": {
+              "detail": {},
+              "eventType": "BASIC_ATTACK_HIT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "未满层命中清除旧计数",
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "ruleKey": "not_full_reset",
+            "sortOrder": 40
+          },
+          {
+            "actions": [
+              {
+                "actionKey": "execute_normal_on_hit_magic",
+                "name": "结算普通命中的怨怒附伤",
+                "sortOrder": 10,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "on_hit_magic_damage"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              },
+              {
+                "actionKey": "execute_attack_speed_stack",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "attack_speed_stack"
+                },
+                "name": "执行沸腾打击层数",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 20,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "每次真实普通攻击命中先执行已有30点魔法攻击特效，再按已有规则叠加攻速；共享普攻的额外命中次数为0，不能仅依赖额外联动规则结算普通附伤。",
+            "eventSource": {
+              "detail": {},
+              "eventType": "BASIC_ATTACK_HIT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "普通攻击命中只增加沸腾打击层数",
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "ruleKey": "resolve_rageblade_basic_attack",
+            "sortOrder": 10
+          }
+        ]
+      }
+    ],
+    "references": []
+  },
+  "scenario": {
+    "mode": "continuous_attack",
+    "durationMs": 7400,
+    "initialHealth": {
+      "source": 500,
+      "target": 2000
+    }
+  },
+  "expected": {
+    "summary": {
+      "sourceDamageDealt": 130,
+      "targetHpLoss": 130,
+      "sourceVampHealing": 13,
+      "sourceDirectHealing": 0,
+      "sourceFinalHp": 513,
+      "targetFinalHp": 1870,
+      "basicAttackStarted": 2,
+      "basicAttackHits": 2
+    },
+    "attackStarts": [
+      0,
+      3912
+    ],
+    "damage": [
+      {
+        "timeMs": 0,
+        "source": "source",
+        "target": "target",
+        "skillKey": "lab_basic_attack",
+        "resultKey": "damage",
+        "damageType": "physics",
+        "rawAmount": 100,
+        "postDefenseDamage": 50,
+        "actualHpLoss": 50,
+        "shieldAbsorbed": 0
+      },
+      {
+        "timeMs": 0,
+        "source": "source",
+        "target": "target",
+        "skillKey": "lab_rageblade",
+        "resultKey": "on_hit_magic_damage",
+        "damageType": "magic",
+        "rawAmount": 30,
+        "postDefenseDamage": 15,
+        "actualHpLoss": 15,
+        "shieldAbsorbed": 0
+      },
+      {
+        "timeMs": 3912,
+        "source": "source",
+        "target": "target",
+        "skillKey": "lab_basic_attack",
+        "resultKey": "damage",
+        "damageType": "physics",
+        "rawAmount": 100,
+        "postDefenseDamage": 50,
+        "actualHpLoss": 50,
+        "shieldAbsorbed": 0
+      },
+      {
+        "timeMs": 3912,
+        "source": "source",
+        "target": "target",
+        "skillKey": "lab_rageblade",
+        "resultKey": "on_hit_magic_damage",
+        "damageType": "magic",
+        "rawAmount": 30,
+        "postDefenseDamage": 15,
+        "actualHpLoss": 15,
+        "shieldAbsorbed": 0
+      }
+    ],
+    "finalAttributes": {
+      "source.attack_damage": 100,
+      "source.ability_power": 30,
+      "source.attack_speed": 0.225,
+      "source.bonus_attack_speed_percent": 0.25,
+      "source.life_steal_percent": 0.1,
+      "target.armor": 100
+    }
+  }
+}

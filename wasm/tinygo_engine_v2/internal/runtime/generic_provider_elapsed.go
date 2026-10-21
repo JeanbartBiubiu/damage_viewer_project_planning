@@ -34,6 +34,15 @@ func withProviderElapsed(ctx pipeline.ProviderFormulaContext, providers []status
 	return ctx
 }
 
+// The caller already owns the actual instance; no provider lookup or clock default
+// can substitute for its recorded application and active finite deadline.
+func actualProviderElapsed(inst status.ProviderInstance, nowMs int64) (int64, bool) {
+	if !inst.HasAppliedAt || inst.AppliedAtMs < 0 || inst.AppliedAtMs > nowMs || inst.AppliedAtMs > maxJSONSafeInteger || nowMs > maxJSONSafeInteger || inst.ExpireAt <= nowMs || inst.ExpireAt <= inst.AppliedAtMs {
+		return 0, false
+	}
+	return nowMs - inst.AppliedAtMs, true
+}
+
 func providerAppliedAtPtr(inst status.ProviderInstance) *int64 {
 	if !inst.HasAppliedAt {
 		return nil

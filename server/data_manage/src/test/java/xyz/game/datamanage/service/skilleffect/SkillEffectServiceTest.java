@@ -1135,6 +1135,55 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void ordinarySlowRoundtripsExplicitCurrentModeAndRetainsOldSnapshotBounds() {
+        stubParentAndNewKey(); stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.lockStatuses(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilleffect.SkillEffectStatusLockRow("slow", "ENABLED", xyz.game.datamanage.model.status.StatusKind.MOVEMENT_SLOW)));
+        for (boolean current : List.of(false, true)) {
+            SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "普通减速", null, 10, singleSlowLifecycle(), List.of(slowStrength(current, false))));
+            assertEquals(current ? SkillEffectLifecycleValueReadMode.MOMENT_EVALUATION : SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                saved.results().getFirst().lifecycleBehavior().valueReadMode());
+            assertEquals(current ? null : BigDecimal.ONE, saved.results().getFirst().valueRule().fixedMaxValue());
+        }
+    }
+
+    @Test
+    void currentSlowRejectsOldClampAndOtherStatusCannotBorrowStrengthMode() {
+        stubParentAndNewKey(); stubEnabledCatalogs();
+        when(mapper.lockStatuses(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilleffect.SkillEffectStatusLockRow("slow", "ENABLED", xyz.game.datamanage.model.status.StatusKind.MOVEMENT_SLOW)));
+        ApiException clamp = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "普通减速", null, 10, singleSlowLifecycle(), List.of(slowStrength(true, true)))));
+        assertField(clamp, "results[0].valueRule", "VALUE_RANGE_INVALID");
+        when(mapper.lockStatuses(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilleffect.SkillEffectStatusLockRow("slow", "ENABLED", xyz.game.datamanage.model.status.StatusKind.STUN)));
+        ApiException other = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "其它状态", null, 10, singleSlowLifecycle(), List.of(slowStrength(true, false)))));
+        assertField(other, "results[0].valueRule", "FORBIDDEN");
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    private static SkillEffectLifecycleRequest singleSlowLifecycle() {
+        return new SkillEffectLifecycleRequest(SkillNumericValue.fixed(new BigDecimal("2500")),
+            SkillNumericValue.fixed(BigDecimal.ONE), SkillNumericValue.fixed(BigDecimal.ONE),
+            SkillEffectLifecycleInstanceScope.SOURCE_TARGET, SkillEffectLifecycleReapplicationStackMode.KEEP,
+            SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, null, null, null);
+    }
+
+    private static SkillEffectResultRequest slowStrength(boolean current, boolean oldClamp) {
+        return new SkillEffectResultRequest("slow", "减速强度", SkillEffectResultType.STATUS_OPERATION,
+            SkillEffectTarget.TARGET, null, 10,
+            new SkillEffectValueRuleRequest(SkillNumericValue.fixed(new BigDecimal("0.6")), BigDecimal.ONE,
+                !current || oldClamp ? BigDecimal.ZERO : null, !current || oldClamp ? BigDecimal.ONE : null),
+            new SkillEffectStatusOperationDetail("slow", SkillEffectStatusOperation.APPLY),
+            new SkillEffectResultLifecycleBehaviorRequest(SkillEffectLifecycleMoment.PERSISTENT,
+                current ? SkillEffectLifecycleValueReadMode.MOMENT_EVALUATION : SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT,
+                SkillEffectLifecycleStackValueMode.SHARED, current ? null : SkillEffectLifecycleReapplicationValueMode.REPLACE, null));
+    }
+
+    @Test
     void createsDamageCriticalAndVampOverridesAndReadsCanonicalShape() {
         stubParentAndNewKey();
         stubEnabledCatalogs();

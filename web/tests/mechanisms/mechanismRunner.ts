@@ -19,6 +19,8 @@ import type { CompileRequest, CompileResult, DamageRecord, DoneResult, GenericRe
 import type { MechanismCase, MechanismExpectation, MechanismProjection } from './mechanismCase';
 import { projectRestorations } from './restorationProjection';
 import { projectEmpoweredWindows, projectInitializations } from './initializationProjection';
+import { projectFinalStatuses } from './statusProjection';
+import { projectUseTriggerLedger } from './useTriggerProjection';
 
 export const WASM_PATH = new URL('../../src/engine/wasm/tinygo_engine_v2.wasm', import.meta.url);
 
@@ -165,6 +167,8 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
     finalAttributes: Object.fromEntries(done.finalSnapshot.combatants.flatMap(row => Object.entries(row.attributes)
       .map(([key, slot]) => [`${row.key}.${key}`, slot.resolved]))),
     finalProviders,
+    finalUseTriggerLedger: projectUseTriggerLedger(compileRequest, runRequest, done),
+    ...projectFinalStatuses(compileRequest, done),
     restorations: projectRestorations(origins, compileRequest, runRequest, done),
     initializations: projectInitializations(compileRequest, runRequest, done),
     ...projectEmpoweredWindows(compileRequest, runRequest, done),
@@ -197,7 +201,7 @@ export function compareMechanismExpectation(actual: MechanismProjection, expecte
   };
   if (expected.summary) fields('summary', actual.summary, expected.summary);
   if (expected.finalAttributes) fields('finalAttributes', actual.finalAttributes, expected.finalAttributes);
-  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges', 'finalProviders', 'restorations', 'initializations', 'empoweredWindows', 'empoweredConsumptions', 'finalCooldowns'] as const) {
+  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges', 'finalProviders', 'restorations', 'initializations', 'empoweredWindows', 'empoweredConsumptions', 'finalCooldowns', 'finalStatusContributions', 'finalEffectiveStatuses', 'finalUseTriggerLedger'] as const) {
     const wanted = expected[list];
     if (!wanted) continue;
     const rows = actual[list] as unknown as Record<string, unknown>[];

@@ -210,7 +210,11 @@ func RunGeneric(compiled planbundle.CompiledSession, req model.RunRequest) (mode
 			return model.DoneResult{}, state.processFailure
 		}
 	}
-	return state.buildDoneResult(), nil
+	done := state.buildDoneResult()
+	if state.processFailure != nil {
+		return model.DoneResult{}, state.processFailure
+	}
+	return done, nil
 }
 
 func newGenericRunState(compiled planbundle.CompiledSession, req model.RunRequest) (*genericRunState, *model.EngineError) {
@@ -1275,6 +1279,9 @@ func (s *genericRunState) damageInWindow(combatantKey string, asDealer bool, fro
 func (s *genericRunState) buildDoneResult() model.DoneResult {
 	s.refreshActionContributions()
 	finalSnapshot := s.buildFinalSnapshot()
+	if s.processFailure != nil {
+		return model.DoneResult{}
+	}
 
 	rawSeriesCount := len(s.series)
 	series, downsampled := s.finalizeSeries()
@@ -1430,9 +1437,13 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 		snapshot.Combatants[i].Resources = cloneResourceMap(rt.resources)
 		snapshot.Combatants[i].Cooldowns = cooldownsToSnapshot(rt.cooldowns, s.nowMs)
 		snapshot.Combatants[i].Providers = providersToSnapshot(rt.providers)
+		if err := s.observeMomentStatusContributions(rt.providers, snapshot.Combatants[i].Providers); err != nil {
+			s.processFailure = err
+			return model.Snapshot{}
+		}
 		snapshot.Combatants[i].Shields = shieldsToSnapshot(rt.shields)
 		snapshot.Combatants[i].ProviderState = providerStateToSnapshot(rt.providerState, rt.cooldowns, rt.key, s.nowMs)
-		snapshot.Combatants[i].EffectiveStatuses = s.buildEffectiveStatuses(rt.providers)
+		snapshot.Combatants[i].EffectiveStatuses = s.buildEffectiveStatuses(snapshot.Combatants[i].Providers)
 		if snapshot.Combatants[i].EffectiveStatuses == nil {
 			snapshot.Combatants[i].EffectiveStatuses = []model.EffectiveStatusSnapshot{}
 		}

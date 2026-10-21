@@ -132,7 +132,7 @@ graph LR
 | `CompiledCombatant` | combatant 模板与 provider mounts |
 | `CompiledProvider` / `CompiledAbility` | capability 与 ability 定义；含 `instanceScope`、`statusContributions` 与治疗组计算方式 |
 | `CompiledOperation` | 执行期 operation IR；`resolve_skill_hit` 携带编译后的命中计划；`outputRef` 导出同帧伤害口径 |
-| `CompiledSkillHit` | 命中候选、阻挡范围、供值条件与候选 operations 切片；显式普攻主体和待击替换角色编译为整数及固定候选位置 |
+| `CompiledSkillHit` | 命中候选、阻挡范围、供值条件与候选 operations 切片；可选规则组保存连续候选区间和已有额度身份；显式普攻主体和待击替换角色编译为整数及固定候选位置 |
 | `formula.GenericRegistry` | 内部用途指令与技能／伤害共同只读程序共享的有界注册表；外部调用只链接已声明具名程序 |
 | `formula.SkillBinding` | 私有作者归属、原定义定位、已选参数、实际运行来源及只读绑定；可达依赖覆盖条件两支 |
 | `CompiledAttributeDerivation` | 明确派生拥有方与可选作者技能；共同读取按拥有方解释，内部读取维持战斗侧语义 |

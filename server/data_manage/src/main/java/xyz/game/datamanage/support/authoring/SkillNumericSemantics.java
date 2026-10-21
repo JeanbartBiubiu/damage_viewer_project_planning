@@ -177,6 +177,9 @@ public final class SkillNumericSemantics {
                         Use valueUse = use(a, r.path("valueRule"), path + ".valueRule", "value",
                             valueBound,
                             current);
+                        if (current && "STATUS_OPERATION".equals(text(r, "resultType"))) {
+                            validateMomentSlow(a, r, valueUse, path);
+                        }
                         if ("ATTRIBUTE_CHANGE".equals(text(r, "resultType")) && r.path("detail").has("requiredShield")) {
                             requireStaticOne(a, life, "maxStacksValue");
                             requireStaticOne(a, life, "applicationStacksValue");
@@ -543,7 +546,7 @@ public final class SkillNumericSemantics {
             return p;
         }
 
-        /** 生命周期已过时间只属于当前有效的单层属性供值器，不属于整场时间或施加快照。 */
+        /** 生命周期已过时间只属于当前有效的单层属性或普通减速，不属于整场时间或施加快照。 */
         private void validateEffectElapsedUse(Use use) {
             if (use.value().kind() != SkillNumericValue.Kind.FORMULA) return;
             Aggregate formula = objects.get(new Id(use.source().skillKey(), SourceType.FORMULA, use.value().formulaKey()));
@@ -557,7 +560,9 @@ public final class SkillNumericSemantics {
             JsonNode life = use.source().data().path("lifecycle");
             JsonNode result = match.matches() ? use.source().data().path("results").path(Integer.parseInt(match.group(1))) : null;
             boolean valid = use.source().type() == SourceType.EFFECT && result != null
-                && "ATTRIBUTE_CHANGE".equals(text(result, "resultType"))
+                && ("ATTRIBUTE_CHANGE".equals(text(result, "resultType"))
+                    || "STATUS_OPERATION".equals(text(result, "resultType"))
+                        && "APPLY".equals(text(result.path("detail"), "operation")))
                 && "PERSISTENT".equals(text(result.path("lifecycleBehavior"), "moment"))
                 && "MOMENT_EVALUATION".equals(text(result.path("lifecycleBehavior"), "valueReadMode"))
                 && result.path("lifecycleBehavior").path("reapplicationValueMode").isNull()
@@ -565,13 +570,77 @@ public final class SkillNumericSemantics {
                 && "KEEP".equals(text(life, "reapplicationStackMode"))
                 && "REFRESH_ALL".equals(text(life, "reapplicationDurationMode"));
             if (!valid) throw invalid(use.source(), use.path(), "CONTEXT_NOT_AVAILABLE",
-                "效果已过时间只允许有限单层、保留层数并刷新全部的持续属性当前时点求值");
+                "效果已过时间只允许有限单层、保留层数并刷新全部的持续属性或普通减速当前时点求值");
             requireStaticOne(use.source(), life, "maxStacksValue");
             requireStaticOne(use.source(), life, "applicationStacksValue");
             Use duration = use(use.source(), life, "lifecycle", "durationValue", Bound.NON_NEGATIVE_FINITE, false);
             Map<Levels, Fraction> known = optionalStaticValues(duration);
             if (known != null && known.values().stream().anyMatch(value -> value.numerator().signum() <= 0)) {
                 throw invalid(use.source(), "lifecycle.durationValue", "VALUE_RANGE_INVALID", "效果已过时间要求有限且大于零的生命周期");
+            }
+        }
+
+        private void validateMomentSlow(Aggregate effect, JsonNode result, Use value, String path) {
+            JsonNode life = effect.data().path("lifecycle"), behavior = result.path("lifecycleBehavior");
+            if (!"APPLY".equals(text(result.path("detail"), "operation"))
+                || effect.data().path("results").size() != 1
+                || !"SOURCE_TARGET".equals(text(life, "instanceScope"))
+                || !"KEEP".equals(text(life, "reapplicationStackMode"))
+                || !"REFRESH_ALL".equals(text(life, "reapplicationDurationMode"))
+                || !"ALL_AT_ONCE".equals(text(life, "expiryMode"))
+                || life.hasNonNull("periodicIntervalValue") || life.hasNonNull("firstPeriodicExecution")
+                || life.hasNonNull("endWhenShieldEndsResultKey")
+                || !"SHARED".equals(text(behavior, "stackValueMode"))
+                || behavior.hasNonNull("reapplicationValueMode") || behavior.hasNonNull("periodicExecutionMode")
+                || result.hasNonNull("spellShieldBlockScope")) {
+                throw invalid(effect, path + ".lifecycleBehavior", "COMBINATION_INVALID",
+                    "当前时点普通减速只接独立单结果、来源与目标分组、有限单层保留并刷新全部；不能配置快照合并、周期或法盾粒度");
+            }
+            JsonNode rule = result.path("valueRule");
+            if (value == null || rule.hasNonNull("fixedMinValue") || rule.hasNonNull("fixedMaxValue")) {
+                throw invalid(effect, path + ".valueRule", "VALUE_RANGE_INVALID",
+                    "当前时点减速必须明确强度且上下界为空，由运行时校验倍率后强度在0至1之间");
+            }
+            BigDecimal multiplier = decimal(rule, "fixedMultiplier");
+            if (multiplier != null && (!finite(Fraction.of(multiplier)) || multiplier.signum() < 0)) {
+                throw invalid(effect, path + ".valueRule.fixedMultiplier", "VALUE_RANGE_INVALID", "当前时点减速倍率必须是有限非负数");
+            }
+            for (String field : List.of("maxStacksValue", "applicationStacksValue", "durationValue")) {
+                Use lifeValue = use(effect, life, "lifecycle", field, Bound.POSITIVE_INTEGER, true);
+                if (lifeValue == null) throw invalid(effect, "lifecycle." + field, "REQUIRED", "当前时点减速必须明确正整数期限和单层");
+                Map<Levels, Fraction> values = staticConditionValues(lifeValue);
+                for (Fraction number : values.values()) {
+                    if (!finite(number) || number.compareTo(Fraction.of(new BigDecimal("9007199254740991"))) > 0
+                        || !"durationValue".equals(field) && number.compareTo(Fraction.of(BigDecimal.ONE)) != 0) {
+                        throw invalid(effect, lifeValue.path(), "VALUE_RANGE_INVALID", "当前时点减速只接安全整数正期限及恒为1的层数");
+                    }
+                }
+            }
+            if (value.value().kind() == SkillNumericValue.Kind.FORMULA) {
+                Aggregate formula = objects.get(new Id(effect.skillKey(), SourceType.FORMULA, value.value().formulaKey()));
+                for (JsonNode input : formula.data().path("expression").path("inputs")) {
+                    JsonNode binding = input.path("binding");
+                    if ("context".equals(text(binding, "kind"))
+                        && "effect_elapsed_ms".equals(text(binding, "contextKey"))) continue;
+                    if ("parameter".equals(text(binding, "kind"))) {
+                        Parameter parameter = parameters.get(effect.skillKey() + "/" + text(binding, "parameterKey"));
+                        if (parameter == null) throw invalid(effect, value.path(), "UNKNOWN_PARAMETER", "当前时点减速参数不存在");
+                        for (Fraction number : staticParameterValues(value, parameter).values()) {
+                            if (!finite(number)) throw invalid(effect, value.path(), "VALUE_RANGE_INVALID", "当前时点减速参数必须为有限静态数");
+                        }
+                        continue;
+                    }
+                    throw invalid(effect, value.path(), "CONTEXT_NOT_AVAILABLE", "当前时点普通减速只允许本实例已过时间及冻结静态值");
+                }
+            }
+            Map<Levels, Fraction> known = optionalStaticValues(value);
+            if (known != null) for (Fraction number : known.values()) {
+                if (!finite(number)) throw invalid(effect, value.path(), "VALUE_RANGE_INVALID", "当前时点减速原始静态数值必须有限，不能用零倍率掩盖溢出");
+                Fraction strength = applyFixedRule(number, rule);
+                if (!finite(strength) || strength.compareTo(Fraction.of(BigDecimal.ZERO)) < 0
+                    || strength.compareTo(Fraction.of(BigDecimal.ONE)) > 0) {
+                    throw invalid(effect, value.path(), "VALUE_RANGE_INVALID", "当前时点普通减速的倍率后强度必须在0至1之间");
+                }
             }
         }
 

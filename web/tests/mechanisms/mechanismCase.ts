@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url';
 import type { AutomaticSkillInput } from '../../src/engine/automaticSkillRequest';
 import type { SkillActionInput } from '../../src/engine/skillActionRequest';
 import type { SceneInitialParameterInput } from '../../src/engine/sceneInitialParameterInput';
+import type { ProjectedStatusContribution, ProjectedEffectiveStatus } from './statusProjection';
+import type { ProjectedUseTrigger } from './useTriggerProjection';
 import type { SimulationAttributeInputs, SimulationInitialHealth, SimulationInitialResourceInput, SimulationSnapshot, SimulationMechanicStateInput, SimulationEquipmentAssumption } from '../../src/types/simulationSnapshot';
 
 export const MECHANISM_CASE_VERSION = 'mechanism-case-v1';
@@ -77,6 +79,9 @@ export type MechanismProjection = {
   empoweredWindows: ProjectedEmpoweredWindow[];
   empoweredConsumptions: ProjectedEmpoweredConsumption[];
   finalCooldowns: ProjectedCooldown[];
+  finalStatusContributions: ProjectedStatusContribution[];
+  finalEffectiveStatuses: ProjectedEffectiveStatus[];
+  finalUseTriggerLedger: ProjectedUseTrigger[];
 };
 
 /** 期望只写手算或游戏机制确定的值；列表按发生顺序完整列出，对象只比较写出的字段。 */
@@ -95,6 +100,9 @@ export type MechanismExpectation = {
   empoweredWindows?: Partial<ProjectedEmpoweredWindow>[];
   empoweredConsumptions?: Partial<ProjectedEmpoweredConsumption>[];
   finalCooldowns?: Partial<ProjectedCooldown>[];
+  finalStatusContributions?: ProjectedStatusContribution[];
+  finalEffectiveStatuses?: ProjectedEffectiveStatus[];
+  finalUseTriggerLedger?: ProjectedUseTrigger[];
 };
 
 type CaseSnapshot = Omit<SimulationSnapshot, 'gameId' | 'catalogs' | 'snapshotDigest' | 'readAt'>;
@@ -187,7 +195,10 @@ const EXPECTED_FIELDS: Record<string, readonly string[]> = {
     'listenerKey', 'opRef', 'opPath', 'abilityRef', 'useRef', 'providerRef', 'definitionRef', 'modifierKey', 'value'],
   empoweredWindows: ['owner', 'providerRef', 'skillKey', 'processKey', 'useRef', 'startedAtMs', 'expiresAtMs', 'finishedAtMs', 'status', 'maximumAttackCount', 'consumptionCount', 'pendingHitCount'],
   empoweredConsumptions: ['owner', 'skillKey', 'activationUseRef', 'consumptionIndex', 'useRef', 'target', 'startedAtMs', 'hitRef', 'hitSequence', 'resolvedAtMs'],
-  finalCooldowns: ['owner', 'abilityRef', 'readyAtMs', 'remainingMs']
+  finalCooldowns: ['owner', 'abilityRef', 'readyAtMs', 'remainingMs'],
+  finalStatusContributions: ['owner', 'source', 'definitionRef', 'resultRef', 'statusKey', 'statusKind', 'strength', 'appliedAtMs', 'expireAt'],
+  finalEffectiveStatuses: ['owner', 'statusKind', 'strength'],
+  finalUseTriggerLedger: ['owner', 'providerRef', 'groupKey', 'scope', 'useSource', 'useSkillKey', 'useKey', 'target']
 };
 
 /** 覆盖标签必须对应至少一个数值断言，空对象或只有名称不能获得回归覆盖。 */
@@ -215,6 +226,27 @@ function validateExpectation(expected: Record<string, unknown>, file: string) {
       const fields = object(row, file, path);
       if (!Object.keys(fields).length) fail(file, `${path} 不能是空期望对象`);
       onlyKeys(fields, EXPECTED_FIELDS[section]!, file, path);
+      if (section === 'finalUseTriggerLedger') {
+        if (Object.keys(fields).length !== EXPECTED_FIELDS.finalUseTriggerLedger!.length
+          || ['owner', 'useSource'].some(key => !['source', 'target'].includes(String(fields[key])))
+          || ['providerRef', 'groupKey', 'useSkillKey', 'useKey'].some(key => typeof fields[key] !== 'string' || !(fields[key] as string).trim())
+          || !['provider', 'provider_target'].includes(String(fields.scope))
+          || fields.scope === 'provider' && fields.target !== null
+          || fields.scope === 'provider_target' && !['source', 'target'].includes(String(fields.target))) {
+          fail(file, `${path} 需要完整额度挂载、共享键、范围、真实使用及明确目标`);
+        }
+      }
+      if (section === 'finalStatusContributions' || section === 'finalEffectiveStatuses') {
+        const complete = EXPECTED_FIELDS[section]!;
+        if (Object.keys(fields).length !== complete.length || !['source', 'target'].includes(String(fields.owner))
+          || fields.statusKind !== 'movement_slow' || typeof fields.strength !== 'number' || !Number.isFinite(fields.strength) || fields.strength < 0 || fields.strength > 1
+          || section === 'finalStatusContributions' && (!['source', 'target'].includes(String(fields.source))
+            || ['definitionRef', 'resultRef', 'statusKey'].some(key => typeof fields[key] !== 'string' || !(fields[key] as string).trim())
+            || !Number.isSafeInteger(fields.expireAt) || (fields.expireAt as number) < 0
+            || fields.appliedAtMs !== null && (!Number.isSafeInteger(fields.appliedAtMs) || (fields.appliedAtMs as number) < 0))) {
+          fail(file, `${path} 需要完整状态归属、期限、明确施加时间（旧式可null）和0至1强度`);
+        }
+      }
       if (['initializations', 'empoweredWindows', 'empoweredConsumptions', 'finalCooldowns'].includes(section)) {
         const nullable = section === 'initializations' ? ['abilityRef', 'useRef'] : section === 'empoweredWindows' ? ['finishedAtMs']
           : section === 'empoweredConsumptions' ? ['hitRef', 'hitSequence', 'resolvedAtMs'] : [];

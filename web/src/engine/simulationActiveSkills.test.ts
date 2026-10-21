@@ -18,6 +18,21 @@ const inputs: SkillActionInputs = { actions: [{ origin: { kind: 'CHARACTER', cha
   durationMs: 200, recordTimeSeries: true, maxSkillActionRecords: 32, maxSkillUseRecords: 128, maxHealingRecords: 256 };
 
 describe('6A完整单次主动装配', () => {
+  it('真实主动挂载保留完整同次使用规则组和作者覆盖，不改写使用或目标身份', () => {
+    const snapshot = simulationActiveSample();
+    const configuration = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'sample_active')!;
+    const rule = configuration.triggerRules.find(row => row.eventSource.eventType === 'SKILL_HIT')!;
+    rule.oncePerUse = { groupKey: 'actual_target', scope: 'TARGET' };
+    const original = structuredClone(snapshot), assembled = assembleActiveSkills(snapshot);
+    expect(snapshot).toEqual(original);
+    const parent = assembled.providers.find(row => row.kind === 'character')!;
+    const hit = parent.abilities!.flatMap(ability => ability.operations ?? []).find(operation => operation.operation === 'resolve_skill_hit')!.skillHit!;
+    expect(hit.ruleGroups).toEqual([{ ruleKey: rule.ruleKey, candidateKeys: hit.candidates.map(row => row.candidateKey),
+      oncePerUse: { groupKey: 'actual_target', scope: 'provider_target' } }]);
+    expect(assembled.coverage).toContainEqual({ authorPath: `skills.sample_active.triggerRules.${rule.ruleKey}.oncePerUse`,
+      compiledPath: expect.stringContaining('.skillHit.ruleGroups[0].oncePerUse') });
+    expect(JSON.stringify(hit.ruleGroups)).not.toContain('source');
+  });
   it('配对空普攻与真实角色计划经快照校验，空普攻不要求主体', () => {
     const snapshot = simulationActiveSample();
     expect(normalizeSimulationSelection(snapshot.selection).basicAttackSkillKey).toBeNull();

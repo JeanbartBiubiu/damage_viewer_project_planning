@@ -70,6 +70,7 @@ type frozenSkillHitContext struct {
 	shieldSource        string
 	reusedSkillUnit     bool
 	matchedIndexes      []int
+	matchedRuleGroups   []bool
 	ability             planbundle.CompiledAbility
 	plan                *planbundle.CompiledSkillHit
 	abilityRef          string
@@ -429,6 +430,11 @@ func (f *executionFrame) resolveSkillHit(op planbundle.CompiledOperation, abilit
 		return err
 	}
 	freeze.matchedIndexes = matched
+	if len(op.SkillHit.RuleGroups) != 0 {
+		if err := f.freezeSkillHitRuleGroups(set, freeze); err != nil {
+			return err
+		}
+	}
 
 	eventType := model.EventTypeSkillHit
 	if ability.IsBasicAttack {
@@ -818,6 +824,19 @@ func (s *genericRunState) dispatchSkillHitEvent(ev emittedEvent, chainDepth int)
 	}
 	for _, idx := range freeze.matchedIndexes {
 		cand := freeze.plan.Candidates[idx]
+		if len(freeze.plan.RuleGroups) != 0 && cand.RuleGroupIndex >= 0 {
+			if cand.RuleGroupIndex >= len(freeze.plan.RuleGroups) || cand.RuleGroupIndex >= len(freeze.matchedRuleGroups) {
+				return s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "rule group requires its frozen predicate", cand.Path, cand.CandidateKey)
+			}
+			group := freeze.plan.RuleGroups[cand.RuleGroupIndex]
+			if idx != group.CandidateStart || !freeze.matchedRuleGroups[cand.RuleGroupIndex] {
+				continue
+			}
+			if err := s.executeSkillHitRuleGroup(ev, freeze, group, chainDepth); err != nil {
+				return err
+			}
+			continue
+		}
 		if cand.AttackDamageRole == planbundle.AttackDamageRolePrimary && len(freeze.empoweredWaits) != 0 {
 			replaced, err := s.executePrimaryReplacement(ev, freeze, idx, chainDepth)
 			if err != nil {
@@ -853,48 +872,15 @@ func (s *genericRunState) dispatchSkillHitEvent(ev emittedEvent, chainDepth int)
 }
 
 func (s *genericRunState) executeSkillHitCandidate(ev emittedEvent, freeze *frozenSkillHitContext, cand planbundle.CompiledSkillHitCandidate, skipWrites bool, chainDepth int) *model.EngineError {
-	start := cand.OperationStart
-	end := start + cand.OperationCount
-	if int(end) > len(s.compiled.Operations) {
-		return s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "skill hit candidate operation range out of bounds", cand.Path, cand.CandidateKey)
-	}
-	ops := s.compiled.Operations[start:end]
-	if !skipWrites && cand.Semantic.ResultType == model.SkillHitResultAttributeChange && cand.Semantic.Moment == model.SkillHitMomentPersistent && cand.Semantic.Target == model.SkillHitTargetTARGET {
-		for _, operation := range ops {
-			if operation.Operation != "apply_provider" {
-				continue
-			}
-			index, exists := s.findProviderDefinitionIndex(operation.ProviderDefinitionRef)
-			if !exists {
-				return s.skillHitErr(model.GenericErrUnknownRef, "persistent target attribute result requires its complete definition", operation.Path, operation.ProviderDefinitionRef)
-			}
-			for _, modifier := range s.compiled.Providers[index].Modifiers {
-				key := pipeline.AttributeKeyFromModifierTarget(modifier.Target)
-				host := modifierMountCombatantKey(freeze.targetKey, modifier.Target)
-				if target, exists := s.combatants[host]; exists {
-					if _, exists := target.attributes.Lookup(key); exists {
-						continue
-					}
-				}
-				return s.skillHitErr(model.GenericErrMissingRequiredField, "persistent target attribute result requires an explicit attribute slot on the actual hit target", operation.Path, key)
-			}
-		}
+	ops, err := s.skillHitCandidateOperations(freeze, cand, skipWrites)
+	if err != nil {
+		return err
 	}
 	var frameStorage executionFrame
-	s.initExecutionFrame(&frameStorage, freeze.sourceKey, freeze.targetKey, freeze.abilityRef)
+	s.initSkillHitCandidateFrame(&frameStorage, ev, freeze, chainDepth)
 	frame := &frameStorage
-	frame.chainDepth = chainDepth
-	frame.rootSkillHitDamage = freeze.rootDamageEvent
-	frame.eventCtx = cloneEventSnapshot(&ev.snapshot)
-	if frame.eventCtx != nil && ev.eventType == model.EventTypeSkillHit {
-		frame.eventCtx.hasSkillHit = true
-		frame.eventCtx.skillHit = freeze
-	}
-	frame.castInstanceID = ev.castInstanceID
-	frame.castOrigin = ev.castOrigin
 	frame.skipBlockedWrites = skipWrites
 	frame.skillHitCandidateKey = cand.CandidateKey
-	frame.skillHitOccurrenceID = freeze.occurrenceID
 	if err := frame.executeOperations(freeze.ability, ops); err != nil {
 		return err
 	}
@@ -904,6 +890,51 @@ func (s *genericRunState) executeSkillHitCandidate(ev emittedEvent, freeze *froz
 	}
 	frame.maybeQueueDamageDealtEvent(freeze.ability)
 	return frame.dispatchPendingEvents()
+}
+
+func (s *genericRunState) skillHitCandidateOperations(freeze *frozenSkillHitContext, cand planbundle.CompiledSkillHitCandidate, skipWrites bool) ([]planbundle.CompiledOperation, *model.EngineError) {
+	start := cand.OperationStart
+	end := start + cand.OperationCount
+	if int(end) > len(s.compiled.Operations) {
+		return nil, s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "skill hit candidate operation range out of bounds", cand.Path, cand.CandidateKey)
+	}
+	ops := s.compiled.Operations[start:end]
+	if !skipWrites && cand.Semantic.ResultType == model.SkillHitResultAttributeChange && cand.Semantic.Moment == model.SkillHitMomentPersistent && cand.Semantic.Target == model.SkillHitTargetTARGET {
+		for _, operation := range ops {
+			if operation.Operation != "apply_provider" {
+				continue
+			}
+			index, exists := s.findProviderDefinitionIndex(operation.ProviderDefinitionRef)
+			if !exists {
+				return nil, s.skillHitErr(model.GenericErrUnknownRef, "persistent target attribute result requires its complete definition", operation.Path, operation.ProviderDefinitionRef)
+			}
+			for _, modifier := range s.compiled.Providers[index].Modifiers {
+				key := pipeline.AttributeKeyFromModifierTarget(modifier.Target)
+				host := modifierMountCombatantKey(freeze.targetKey, modifier.Target)
+				if target, exists := s.combatants[host]; exists {
+					if _, exists := target.attributes.Lookup(key); exists {
+						continue
+					}
+				}
+				return nil, s.skillHitErr(model.GenericErrMissingRequiredField, "persistent target attribute result requires an explicit attribute slot on the actual hit target", operation.Path, key)
+			}
+		}
+	}
+	return ops, nil
+}
+
+func (s *genericRunState) initSkillHitCandidateFrame(frame *executionFrame, ev emittedEvent, freeze *frozenSkillHitContext, chainDepth int) {
+	s.initExecutionFrame(frame, freeze.sourceKey, freeze.targetKey, freeze.abilityRef)
+	frame.chainDepth = chainDepth
+	frame.rootSkillHitDamage = freeze.rootDamageEvent
+	frame.eventCtx = cloneEventSnapshot(&ev.snapshot)
+	if frame.eventCtx != nil && ev.eventType == model.EventTypeSkillHit {
+		frame.eventCtx.hasSkillHit = true
+		frame.eventCtx.skillHit = freeze
+	}
+	frame.castInstanceID = ev.castInstanceID
+	frame.castOrigin = ev.castOrigin
+	frame.skillHitOccurrenceID = freeze.occurrenceID
 }
 
 func (s *genericRunState) dispatchSpellShieldBlocked(parent emittedEvent, freeze *frozenSkillHitContext, chainDepth int) *model.EngineError {

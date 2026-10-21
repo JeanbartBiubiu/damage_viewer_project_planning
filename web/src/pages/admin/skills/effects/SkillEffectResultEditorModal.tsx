@@ -121,6 +121,7 @@ import {
   isSpellShieldBlockScopeVisible,
   isStackValueModeVisible,
   isValueReadModeFixed,
+  applyValueReadModeChange,
   isValueReadModeVisible,
   isValueRuleVisible,
   listAffectedSkillCategoryOptions,
@@ -2203,19 +2204,16 @@ export function SkillEffectResultEditorModal({
                   label="数值读取"
                   required
                   validateStatus={errors.valueReadMode ? 'error' : undefined}
-                  help={errors.valueReadMode}
+                  help={errors.valueReadMode ?? (slowApply && draft.lifecycleBehavior.valueReadMode === 'MOMENT_EVALUATION'
+                    ? '只读取本效果已过时间和冻结静态值；不设置固定上下界，强度越出0至1会使计算失败。' : undefined)}
                 >
                   <Radio.Group
                     aria-label="数值读取"
                     value={draft.lifecycleBehavior.valueReadMode}
                     disabled={readOnly || isValueReadModeFixed(draft)}
-                    onChange={(value) => patchDraft({
-                      ...draft,
-                      lifecycleBehavior: {
-                        ...draft.lifecycleBehavior,
-                        valueReadMode: value as SkillEffectValueReadMode
-                      }
-                    })}
+                    onChange={(value) => patchDraftWithCleanupConfirmation(
+                      applyValueReadModeChange(draft, value as SkillEffectValueReadMode)
+                    )}
                   >
                     {Object.entries(SKILL_EFFECT_VALUE_READ_MODE_LABELS)
                       .filter(([value]) => !(

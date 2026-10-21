@@ -27,6 +27,7 @@ import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
 import { adaptDamageVamp } from './vampAdapter';
 import { compilePersistentResult } from './persistentResultAdapter';
 import { compileNaturalRestoration } from './naturalRestoration';
+import { compileSkillOncePerUse } from './skillOncePerUse';
 import { permanentModifier, validatePermanentEffect } from './simulationPermanentResults';
 import { compileSimulationStatusCondition } from './simulationPrimaryAttack';
 import { compileLinkedShieldEffect } from './shieldEffectAdapter';
@@ -1583,11 +1584,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           const listener: NonNullable<AbilityDefinition['listenerSpec']> = { listenerKey: namedKey(skillKey, rule.ruleKey), eventMatcher: matcher,
             maxTriggersPerEvent: 1, operations, ...(predicate ? { condition: predicate } : {}) };
           if (rule.oncePerUse !== null) {
-            exact(rule.oncePerUse, ['groupKey', 'scope'], `${rulePath}.oncePerUse`);
-            const groupKey = stableKey(rule.oncePerUse.groupKey, `${rulePath}.oncePerUse.groupKey`);
-            if (!['SKILL', 'TARGET'].includes(rule.oncePerUse.scope)) fail(rulePath, '未知同次使用范围');
-            listener.oncePerUse = { groupKey: stableKey(namedKey(skillKey, groupKey), `${rulePath}.oncePerUse.groupKey`),
-              scope: rule.oncePerUse.scope === 'SKILL' ? 'provider' : 'provider_target' };
+            listener.oncePerUse = compileSkillOncePerUse(rule.oncePerUse, `${rulePath}.oncePerUse`, fail,
+              groupKey => namedKey(skillKey, groupKey));
             cover(`${rulePath}.oncePerUse`, `${abilityRoot}.listenerSpec.oncePerUse`);
           }
           const ability: AbilityDefinition = { abilityKey, kind: 'passive_listener', skillKey, types: [...skillTypes, `ability/skill/${skillKey}`], listenerSpec: listener };

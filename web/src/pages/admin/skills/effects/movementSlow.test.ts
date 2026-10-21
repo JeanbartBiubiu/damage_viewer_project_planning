@@ -6,7 +6,8 @@ import {
   applyStatusSelection, buildCreateSkillEffectRequest, buildUpdateSkillEffectRequest,
   clearHiddenResultFields, createEmptyResultDraft, isValueRuleVisible,
   listSpellShieldBlockScopeOptions, resolveResultStatusKind, skillEffectToCopyDraft,
-  skillEffectToDraft, validateSkillEffectDraft, normalizeEffectDraftForDirtyComparison, type EffectFormCatalog
+  skillEffectToDraft, validateSkillEffectDraft, normalizeEffectDraftForDirtyComparison, type EffectFormCatalog,
+  applyValueReadModeChange, supportsMomentEvaluation, isValueReadModeFixed
 } from './effectForm';
 
 const catalog: EffectFormCatalog = {
@@ -51,6 +52,55 @@ const options = { includeEffectKey: false, catalog, parameters: [parameter],
   parametersLoadState: 'ready' as const, catalogLoadState: { statuses: 'ready' as const, formulas: 'ready' as const } };
 
 describe('普通移动减速往返与状态目录', () => {
+  it('完整父效果对当前时点减速拒绝多结果；既有快照多结果仍可保存', () => {
+    const draft = skillEffectToDraft(effect());
+    draft.results[0] = resolveResultStatusKind(draft.results[0], catalog.statuses);
+    draft.results[0] = applyValueReadModeChange(draft.results[0], 'MOMENT_EVALUATION');
+    expect(validateSkillEffectDraft(draft, options).ok).toBe(true);
+    draft.results.push({ ...structuredClone(draft.results[0]), resultKey: 'other', name: '第二份减速' });
+    const invalid = validateSkillEffectDraft(draft, options);
+    expect(invalid.ok).toBe(false);
+    if (!invalid.ok) expect(invalid.fieldErrors.results).toContain('单结果');
+    draft.results = draft.results.map(row => applyValueReadModeChange(row, 'APPLICATION_SNAPSHOT'));
+    expect(validateSkillEffectDraft(draft, options).ok).toBe(true);
+  });
+  it('明确切换当前时点减速清除旧快照上下界；重开与复制保留新模式，非法已读草稿仍报错', () => {
+    const source = effect(formulaValue('strength_formula'));
+    const draft = skillEffectToDraft(source);
+    draft.results[0] = resolveResultStatusKind(draft.results[0], catalog.statuses);
+    expect(supportsMomentEvaluation(draft.results[0])).toBe(true);
+    expect(isValueReadModeFixed(draft.results[0])).toBe(false);
+    draft.results[0] = applyValueReadModeChange(draft.results[0], 'MOMENT_EVALUATION');
+    expect(draft.results[0]).toMatchObject({ value: source.results[0]!.valueRule!.value, fixedMinValue: '', fixedMaxValue: '',
+      lifecycleBehavior: { valueReadMode: 'MOMENT_EVALUATION', reapplicationValueMode: '' } });
+    const validated = validateSkillEffectDraft(draft, options);
+    if (!validated.ok) throw new Error(JSON.stringify(validated));
+    const saved = buildUpdateSkillEffectRequest(validated.normalized);
+    expect(saved.results[0]!.valueRule).toMatchObject({ fixedMinValue: null, fixedMaxValue: null });
+    expect(saved.results[0]!.lifecycleBehavior).toMatchObject({ valueReadMode: 'MOMENT_EVALUATION', reapplicationValueMode: null });
+    const reopened = skillEffectToDraft({ ...source, ...saved });
+    reopened.results[0] = resolveResultStatusKind(reopened.results[0], catalog.statuses);
+    expect(validateSkillEffectDraft(reopened, options).ok).toBe(true);
+    const copied = skillEffectToCopyDraft({ ...source, ...saved }); copied.effectKey = 'copy_moment';
+    expect(validateSkillEffectDraft(copied, { ...options, includeEffectKey: true }).ok).toBe(true);
+    reopened.results[0].fixedMinValue = '0';
+    expect(clearHiddenResultFields(reopened.results[0]).fixedMinValue).toBe('0');
+    expect(validateSkillEffectDraft(reopened, options).ok).toBe(false);
+    reopened.results[0] = applyValueReadModeChange(reopened.results[0], 'APPLICATION_SNAPSHOT');
+    expect(reopened.results[0]).toMatchObject({ fixedMinValue: '0', fixedMaxValue: '1', lifecycleBehavior: { reapplicationValueMode: 'REPLACE' } });
+    expect(validateSkillEffectDraft(reopened, options).ok).toBe(true);
+  });
+  it.each(['scope', 'multi', 'duration', 'periodic', 'refresh'])('当前时点模式不能越过有限实例门 %s', kind => {
+    const draft = skillEffectToDraft(effect());
+    draft.results[0] = resolveResultStatusKind(draft.results[0], catalog.statuses);
+    draft.results[0] = applyValueReadModeChange(draft.results[0], 'MOMENT_EVALUATION');
+    if (kind === 'scope') draft.lifecycle.instanceScope = 'TARGET';
+    if (kind === 'multi') draft.lifecycle.maxStacksValue = fixedValue(2);
+    if (kind === 'duration') draft.lifecycle.durationValue = null;
+    if (kind === 'periodic') { draft.lifecycle.periodicIntervalValue = fixedValue(100); draft.results[0].lifecycleBehavior.periodicExecutionMode = 'ONCE_PER_INSTANCE'; }
+    if (kind === 'refresh') draft.lifecycle.reapplicationDurationMode = 'INDEPENDENT';
+    expect(validateSkillEffectDraft(draft, options).ok).toBe(false);
+  });
   it.each([
     [fixedValue(0), 1], [fixedValue(0.3), 1], [parameterValue('strength_percent'), 0.01],
     [formulaValue('strength_formula'), 1]

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { MECHANISM_ROOT, parseMechanismCase, loadMechanismCases } from './mechanismCase';
+import { MECHANISM_ROOT, parseMechanismCase, loadMechanismCases, type MechanismProjection } from './mechanismCase';
 import { compareMechanismExpectation, mechanismEngine, projectMechanismResult, runMechanismCase } from './mechanismRunner';
 import { assessContinuousAttackResult } from '../../src/engine/continuousAttackResult';
 
@@ -12,6 +12,49 @@ function parse(expected: unknown) {
 }
 
 describe('机制覆盖必须有有效的手算数值断言', () => {
+  it('新增额度列表实际参与期望比较，数量和每项身份变异都必须报差异', () => {
+    const row = { owner: 'source', providerRef: 'actual_parent', groupKey: 'once', scope: 'provider_target' as const,
+      useSource: 'source', useSkillKey: 'lab_active', useKey: 'skill:first', target: 'target' };
+    const actual = { finalUseTriggerLedger: [row] } as MechanismProjection;
+    expect(compareMechanismExpectation(actual, { finalUseTriggerLedger: [row] })).toEqual([]);
+    for (const [key, value] of Object.entries({ owner: 'target', providerRef: 'other_parent', groupKey: 'other_group',
+      scope: 'provider', useSource: 'target', useSkillKey: 'other_skill', useKey: 'skill:other', target: 'source' })) {
+      const wrong = { ...row, [key]: value };
+      expect(compareMechanismExpectation(actual, { finalUseTriggerLedger: [wrong] }).join(';'), key).toContain(`finalUseTriggerLedger[0].${key}`);
+    }
+    expect(compareMechanismExpectation(actual, { finalUseTriggerLedger: [] }).join(';')).toContain('实际 1 条，期望 0 条');
+    expect(compareMechanismExpectation({ finalUseTriggerLedger: [] } as unknown as MechanismProjection, { finalUseTriggerLedger: [row] }).join(';')).toContain('实际 0 条，期望 1 条');
+  });
+  it('完整同次使用额度期望必须保留挂载、范围、真实使用和明确目标，不补缺失身份', () => {
+    const row = { owner: 'source', providerRef: 'actual_parent', groupKey: 'once', scope: 'provider_target',
+      useSource: 'source', useSkillKey: 'lab_active', useKey: 'skill:first', target: 'target' };
+    const expected = { summary: { sourceDamageDealt: 100 }, finalUseTriggerLedger: [row] };
+    expect(() => parse(expected)).not.toThrow();
+    for (const key of Object.keys(row)) {
+      const missing = { ...row } as Record<string, unknown>; delete missing[key];
+      expect(() => parse({ ...expected, finalUseTriggerLedger: [missing] }), key).toThrow();
+    }
+    for (const changed of [{ ...row, scope: 'bad' }, { ...row, target: null }, { ...row, owner: 'foreign' },
+      { ...row, useKey: '' }, { ...row, extra: 'ignored' }, { ...row, scope: 'provider' }]) {
+      expect(() => parse({ ...expected, finalUseTriggerLedger: [changed] })).toThrow();
+    }
+    expect(() => parse({ ...expected, finalUseTriggerLedger: [{ ...row, scope: 'provider', target: null }] })).not.toThrow();
+  });
+  it('状态强度与有效取强期望均要求完整身份、明确0和真实期限，不接受缺值或越界', () => {
+    const contribution = { owner: 'target', source: 'source', definitionRef: 'slow_definition', resultRef: 'slow',
+      statusKey: 'lab_slow', statusKind: 'movement_slow', strength: 0, appliedAtMs: 1125, expireAt: 3625 };
+    const effective = { owner: 'target', statusKind: 'movement_slow', strength: 0 };
+    expect(() => parse({ finalStatusContributions: [contribution], finalEffectiveStatuses: [effective] })).not.toThrow();
+    for (const key of Object.keys(contribution)) {
+      const changed = { ...contribution } as Record<string, unknown>; delete changed[key];
+      expect(() => parse({ finalStatusContributions: [changed] }), key).toThrow();
+    }
+    for (const changed of [{ ...contribution, strength: -.1 }, { ...contribution, strength: 1.1 },
+      { ...contribution, appliedAtMs: -1 }, { ...contribution, expireAt: null }, { ...contribution, source: 'foreign' },
+      { ...contribution, extra: 0 }]) expect(() => parse({ finalStatusContributions: [changed] })).toThrow();
+    expect(() => parse({ finalEffectiveStatuses: [{ ...effective, strength: null }] })).toThrow();
+    expect(() => parse({ finalStatusContributions: [{ ...contribution, appliedAtMs: null }] })).not.toThrow();
+  });
   it('初始化、额度与冷却投影只接受明确合法字段，不以名称获得覆盖', () => {
     expect(() => parse({ initializations: [{ owner: 'source', max: 1200, current: 1000, value: 200, abilityRef: null, useRef: null }] })).not.toThrow();
     expect(() => parse({ empoweredWindows: [{ maximumAttackCount: 3, consumptionCount: 2, pendingHitCount: 1, finishedAtMs: null }] })).not.toThrow();

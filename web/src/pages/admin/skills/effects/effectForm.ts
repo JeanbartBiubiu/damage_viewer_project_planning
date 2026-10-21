@@ -1,4 +1,5 @@
 import type { SkillParameter } from '../../../../types/skillParameter';
+import { momentSlowLifecycleIssue } from '../../../../services/momentSlowLifecycle';
 import type { GameVampRule } from '../../../../types/gameVamp';
 import { numericIssuePath, numericValueError, staticNumericValues } from '../numericValueForm';
 import { staticShieldStackValueIssue } from './damageModifierConditionFormula';
@@ -1363,6 +1364,15 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
   });
 }
 
+/** 用户显式切换减速读取方式时，清除不适用的重施值与快照上下界。 */
+export function applyValueReadModeChange(draft: SkillEffectResultDraft, valueReadMode: SkillEffectValueReadMode): SkillEffectResultDraft {
+  const next = { ...draft, lifecycleBehavior: { ...draft.lifecycleBehavior, valueReadMode } };
+  if (!isMovementSlowApply(draft) || valueReadMode === draft.lifecycleBehavior.valueReadMode) return next;
+  return { ...next, fixedMinValue: valueReadMode === 'MOMENT_EVALUATION' ? '' : '0',
+    fixedMaxValue: valueReadMode === 'MOMENT_EVALUATION' ? '' : '1',
+    lifecycleBehavior: { ...next.lifecycleBehavior, reapplicationValueMode: valueReadMode === 'MOMENT_EVALUATION' ? '' : 'REPLACE' } };
+}
+
 export function clearHiddenLifecycleBehaviorFields(
   draft: SkillEffectResultDraft
 ): SkillEffectResultDraft {
@@ -1693,7 +1703,8 @@ export function isReapplicationValueModeVisible(draft: SkillEffectResultDraft): 
 }
 
 export function supportsMomentEvaluation(draft: SkillEffectResultDraft): boolean {
-  return draft.resultType === 'DAMAGE_MODIFIER'
+  return isMovementSlowApply(draft)
+    || draft.resultType === 'DAMAGE_MODIFIER'
     || draft.resultType === 'HEALING_MODIFIER'
     || draft.resultType === 'SHIELD_RECEIVED_MODIFIER'
     || (
@@ -2049,6 +2060,12 @@ export function validateSkillEffectDraft(
       fieldErrors.results = '冷却时长倍率只允许单层刷新全部时间、一次到期且无周期或关联盾。';
     }
     for (const key of ['maxStacksValue', 'applicationStacksValue'] as const) if (lifecycle?.[key].kind === 'FIXED' && lifecycle[key].value !== 1) fieldErrors[key] = '冷却时长倍率只允许单层。';
+  }
+  if (!options.skipLifecycleShapeValidation && prepared.results.some(result => isMovementSlowApply(result)
+    && result.lifecycleBehavior.valueReadMode === 'MOMENT_EVALUATION')) {
+    if (prepared.results.length !== 1) fieldErrors.results = '当前时点普通减速必须为独立单结果效果。';
+    const issue = momentSlowLifecycleIssue(lifecycle);
+    if (issue) fieldErrors[issue as keyof SkillEffectDraftErrors] = '当前时点减速需要有限单层、同来源与目标、保留层数并刷新全部期限，且无周期或关联盾。';
   }
 
   const seenKeys = new Map<string, number>();
@@ -2791,8 +2808,13 @@ function validateValueRule(
   const fixedMinValue = parseOptionalDecimal(minRaw, fieldErrors, 'fixedMinValue', '固定最小值');
   const fixedMaxValue = parseOptionalDecimal(maxRaw, fieldErrors, 'fixedMaxValue', '固定最大值');
   if (isMovementSlowApply(draft)) {
-    if (fixedMinValue !== 0) fieldErrors.fixedMinValue = '减速比例的固定最小值必须为 0。';
-    if (fixedMaxValue !== 1) fieldErrors.fixedMaxValue = '减速比例的固定最大值必须为 1。';
+    if (draft.lifecycleBehavior.valueReadMode === 'MOMENT_EVALUATION') {
+      if (fixedMinValue !== null) fieldErrors.fixedMinValue = '当前时点减速的固定最小值必须留空，越界按错误处理。';
+      if (fixedMaxValue !== null) fieldErrors.fixedMaxValue = '当前时点减速的固定最大值必须留空，越界按错误处理。';
+    } else {
+      if (fixedMinValue !== 0) fieldErrors.fixedMinValue = '减速比例的固定最小值必须为 0。';
+      if (fixedMaxValue !== 1) fieldErrors.fixedMaxValue = '减速比例的固定最大值必须为 1。';
+    }
   }
   if (
     fixedMinValue !== null
@@ -3097,9 +3119,9 @@ function validateTypeSpecificFields(
         }
         const behavior = draft.lifecycleBehavior;
         if (behavior.moment !== 'PERSISTENT') fieldErrors.moment = '普通移动减速只能持续生效。';
-        if (behavior.valueReadMode !== 'APPLICATION_SNAPSHOT') fieldErrors.valueReadMode = '普通移动减速必须使用施加时留存。';
+        if (!isValueReadMode(behavior.valueReadMode)) fieldErrors.valueReadMode = '请选择普通移动减速的数值读取方式。';
         if (behavior.stackValueMode !== 'SHARED') fieldErrors.stackValueMode = '普通移动减速必须整个实例共享数值。';
-        if (behavior.reapplicationValueMode !== 'REPLACE') fieldErrors.reapplicationValueMode = '普通移动减速的重复值必须覆盖。';
+        if (behavior.reapplicationValueMode !== (behavior.valueReadMode === 'MOMENT_EVALUATION' ? '' : 'REPLACE')) fieldErrors.reapplicationValueMode = '快照减速的重复值必须覆盖，当前时点减速必须留空。';
         if (behavior.periodicExecutionMode) fieldErrors.periodicExecutionMode = '普通移动减速不能周期执行。';
         validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       }

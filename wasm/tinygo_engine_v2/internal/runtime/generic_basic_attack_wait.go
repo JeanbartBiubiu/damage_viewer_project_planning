@@ -266,6 +266,8 @@ func (f *executionFrame) basicAttackWaitContext(context *executionFrame) *model.
 	context.staged = &frameStagedCollection{}
 	f.staged.Range(func(key string, staged *stagedCombatant) {
 		copy := *staged
+		// Dynamic projection marks mutations; the waiting preview cannot mark the parent's commands.
+		copy.providerOps = append([]stagedProviderMutation(nil), staged.providerOps...)
 		copy.attributes = staged.attributes
 		copy.resources = staged.readonlyResources()
 		copy.resourcesShared = true

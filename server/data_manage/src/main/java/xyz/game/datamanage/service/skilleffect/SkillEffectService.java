@@ -1548,8 +1548,16 @@ public class SkillEffectService {
                 return;
             }
             SkillEffectValueRuleRequest value = result.valueRule();
+            SkillEffectResultLifecycleBehaviorRequest behavior = result.lifecycleBehavior();
+            boolean current = behavior != null
+                && behavior.valueReadMode() == SkillEffectLifecycleValueReadMode.MOMENT_EVALUATION;
             if (value == null) {
                 issues.add(fieldIssue(resultPath(index, "valueRule"), "REQUIRED", "普通减速施加必须提供强度数值规则"));
+            } else if (current) {
+                if (value.fixedMinValue() != null || value.fixedMaxValue() != null) {
+                    issues.add(fieldIssue(resultPath(index, "valueRule"), "VALUE_RANGE_INVALID",
+                        "当前时点减速上下界必须为空，倍率后强度由运行时校验0至1范围"));
+                }
             } else {
                 if (value.fixedMinValue() == null || value.fixedMinValue().compareTo(BigDecimal.ZERO) != 0) {
                     issues.add(fieldIssue(resultPath(index, "valueRule.fixedMinValue"), "RANGE_INVALID", "减速比例下界必须为0"));
@@ -1561,7 +1569,6 @@ public class SkillEffectService {
             if (refs.lifecycle == null || refs.lifecycle.durationValue() == null) {
                 issues.add(fieldIssue("lifecycle.durationValue", "REQUIRED", "普通减速必须有期限生命周期"));
             }
-            SkillEffectResultLifecycleBehaviorRequest behavior = result.lifecycleBehavior();
             if (behavior == null) {
                 issues.add(fieldIssue(resultPath(index, "lifecycleBehavior"), "REQUIRED", "普通减速必须声明持续生效行为"));
                 return;
@@ -1569,13 +1576,13 @@ public class SkillEffectService {
             if (behavior.moment() != SkillEffectLifecycleMoment.PERSISTENT) {
                 issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.moment"), "COMBINATION_INVALID", "普通减速必须持续生效"));
             }
-            if (behavior.valueReadMode() != SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT) {
-                issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.valueReadMode"), "COMBINATION_INVALID", "普通减速必须在施加时读取强度快照"));
+            if (behavior.valueReadMode() != SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT && !current) {
+                issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.valueReadMode"), "COMBINATION_INVALID", "普通减速必须明确选择施加快照或当前时点读取"));
             }
             if (behavior.stackValueMode() != SkillEffectLifecycleStackValueMode.SHARED) {
                 issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.stackValueMode"), "COMBINATION_INVALID", "普通减速必须共享强度"));
             }
-            if (behavior.reapplicationValueMode() != SkillEffectLifecycleReapplicationValueMode.REPLACE) {
+            if (!current && behavior.reapplicationValueMode() != SkillEffectLifecycleReapplicationValueMode.REPLACE) {
                 issues.add(fieldIssue(resultPath(index, "lifecycleBehavior.reapplicationValueMode"), "COMBINATION_INVALID", "普通减速重施必须覆盖强度"));
             }
         });
@@ -1840,6 +1847,11 @@ public class SkillEffectService {
     }
 
     private static boolean supportsMomentEvaluation(SkillEffectResultRequest result) {
+        if (result.resultType() == SkillEffectResultType.STATUS_OPERATION
+            && result.detail() instanceof SkillEffectStatusOperationDetail statusDetail
+            && statusDetail.operation() == SkillEffectStatusOperation.APPLY && result.valueRule() != null) {
+            return true; // 实际状态种类仍由 validateStatusKinds 的目录校验收窄为普通减速。
+        }
         if (result.resultType() == SkillEffectResultType.DAMAGE_MODIFIER
             || result.resultType() == SkillEffectResultType.HEALING_MODIFIER
             || result.resultType() == SkillEffectResultType.SHIELD_RECEIVED_MODIFIER) {
