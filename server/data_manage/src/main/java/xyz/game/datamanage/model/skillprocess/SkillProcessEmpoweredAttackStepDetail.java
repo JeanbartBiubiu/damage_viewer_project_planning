@@ -3,6 +3,7 @@ package xyz.game.datamanage.model.skillprocess;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
@@ -14,6 +15,7 @@ public record SkillProcessEmpoweredAttackStepDetail(
     @Valid
     SkillNumericValue windowValue,
     SkillProcessEmpoweredConsumeMoment consumeMoment,
+    @Valid @JsonInclude(JsonInclude.Include.NON_NULL) SkillNumericValue maximumAttackCountValue,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillProcessStepDetail {
@@ -27,13 +29,19 @@ public record SkillProcessEmpoweredAttackStepDetail(
         SkillNumericValue windowValue,
         SkillProcessEmpoweredConsumeMoment consumeMoment
     ) {
-        this(windowValue, consumeMoment, Set.of(), Set.of());
+        this(windowValue, consumeMoment, null, Set.of(), Set.of());
+    }
+
+    public SkillProcessEmpoweredAttackStepDetail(SkillNumericValue windowValue,
+        SkillProcessEmpoweredConsumeMoment consumeMoment, SkillNumericValue maximumAttackCountValue) {
+        this(windowValue, consumeMoment, maximumAttackCountValue, Set.of(), Set.of());
     }
 
     @JsonCreator
     static SkillProcessEmpoweredAttackStepDetail fromJson(
         @JsonProperty("windowValue") SkillNumericValue windowValue,
         @JsonProperty("consumeMoment") SkillProcessEmpoweredConsumeMoment consumeMoment,
+        @JsonProperty("maximumAttackCountValue") JsonNode maximumAttackCountValue,
         @JsonProperty("delayValue") JsonNode delayValue,
         @JsonProperty("repeatCountValue") JsonNode repeatCountValue,
         @JsonProperty("intervalValue") JsonNode intervalValue,
@@ -49,6 +57,7 @@ public record SkillProcessEmpoweredAttackStepDetail(
         return new SkillProcessEmpoweredAttackStepDetail(
             windowValue,
             consumeMoment,
+            attackCount(maximumAttackCountValue),
             SkillProcessDetailFieldCapture.captureForeign(
                 "delayValue", delayValue,
                 "repeatCountValue", repeatCountValue,
@@ -63,5 +72,11 @@ public record SkillProcessEmpoweredAttackStepDetail(
             ),
             SkillProcessDetailFieldCapture.captureUnknown(unknown)
         );
+    }
+
+    private static SkillNumericValue attackCount(JsonNode value) {
+        if (value == null) return null;
+        if (value.isNull()) throw new IllegalArgumentException("最多消费次数不能显式为null");
+        return SkillNumericValue.fromJson(value);
     }
 }

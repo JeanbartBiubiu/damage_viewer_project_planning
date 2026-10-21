@@ -102,7 +102,11 @@ mvn "-Dtest=SimulationAvailability*Test" test
 
 ## 场景显式初值供值
 
-`SCENE_INITIAL_PARAMETER`（场景显式初值）明细为 `{minValue,maxValue}`，有限有序边界，整数参数另要求安全整数；不保存本场输入或默认值。仅本技能 `SOURCE_INITIALIZED / EXECUTE_EFFECT / EVENT_SOURCE` 动作可绑定同技能无默认的数值 `RUNTIME_INPUT`，且参数必须被本动作实际结果数值消费；生命周期、条件及主动兄弟不得借用该授权。
+`SCENE_INITIAL_PARAMETER`（场景显式初值）必需明细为 `{minValue,maxValue}`，有限有序边界，整数参数另要求安全整数；不保存本场输入或默认值。本技能 `SOURCE_INITIALIZED / EXECUTE_EFFECT / EVENT_SOURCE` 动作可绑定同技能无默认的数值 `RUNTIME_INPUT`，且参数必须被本动作实际结果数值消费。明细可选 `sharedInputKey`（共享输入标识），省略保留旧响应形状，空值和非法标识拒绝；实际同角色、同方、同游戏的成员分组与唯一场景值由宿主核验。
+
+明确本技能 `SKILL_USED / ACTIVE / INITIAL → START_PROCESS` 还可声明同一来源，仅供本技能唯一首次主动过程的真实步骤执行伤害负载。参数不能借给费用、冷却、步骤时间、生命周期、条件、状态操作或其它结果数值。最终态按发生变化的技能复核完整图，新增没有场景绑定的兄弟入口也不能绕过唯一过程约束。
+
+`EMPOWERED_BASIC_ATTACK`（强化普攻等待过程）的明细可选 `maximumAttackCountValue`（最多消费次数），限明确不占行动的单步骤主动过程、`ATTACK_START`（普攻发动消费）、可静态求值的1至64整数，以及正安全整数毫秒窗口。省略仍保留既有单次命中消费形状，显式空次数拒绝；公式纳入引用和最终态检查。两项都保存在现有JSON中，无数据库迁移。最终服务、管理回读及正式运行需分别留证，见[共享实施契约](../../outputs/skill-adaptation-20261021-chogath/E与R通用机制实施契约.md)。本轮后台收尾全测2268项通过；该结果不等于新通用运行能力已经验收。
 
 沿现有动作JSONB、统一配置事务和引用索引保存，不增加表或迁移。后续修改参数、效果、触发规则或删除引用时，按事务最终组成复核，失败回滚。前端输入与原生冻结值的完整约束见规划真源 `outputs/priority-adaptation-2026-10-18/场景显式初值参数实施方案.md`。定向检查为 `mvn "-Dtest=SkillSceneInitialParameterSemanticsTest,SkillTriggerSceneInitialParameterServiceTest,SkillSceneInitialParameterWriteGuardTest" test`；本增量完整测试1919项通过，无失败或跳过，隔离测试与实际HTTP保存分别记录。
 

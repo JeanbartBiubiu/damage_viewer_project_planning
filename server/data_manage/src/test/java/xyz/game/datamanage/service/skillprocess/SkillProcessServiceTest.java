@@ -122,6 +122,19 @@ class SkillProcessServiceTest {
     }
 
     @Test
+    void countedEmpoweredCollectsCountFormulaAndPreservesIndependentRead() {
+        var detail = new SkillProcessEmpoweredAttackStepDetail(SkillNumericValue.fixed(new java.math.BigDecimal("6000")),
+            SkillProcessEmpoweredConsumeMoment.ATTACK_START, SkillNumericValue.formula("maximum_attacks"));
+        var request = new SkillProcessCreateRequest(PROCESS_KEY, "次数强化", SkillProcessActivationType.ACTIVE, null, 0, null,
+            List.of(new SkillProcessStepRequest("empower", "次数窗口", SkillProcessStepType.EMPOWERED_BASIC_ATTACK, null, 0, false, detail)),
+            List.of(processStartBinding()), List.of());
+        var response = service.create(GAME_ID, SKILL_KEY, request);
+        verify(mapper).lockFormulas(GAME_ID, SKILL_KEY, List.of("maximum_attacks"));
+        assertEquals(detail, response.steps().getFirst().detail());
+        assertEquals(response, service.get(GAME_ID, SKILL_KEY, PROCESS_KEY));
+    }
+
+    @Test
     void channelWindowMissingEndpointAndPeriodicCustomWindowRejectBeforeWrites() {
         SkillProcessChannelStepDetail detail = new SkillProcessChannelStepDetail(
             SkillNumericValue.fixed(java.math.BigDecimal.TEN), SkillNumericValue.fixed(java.math.BigDecimal.ONE),

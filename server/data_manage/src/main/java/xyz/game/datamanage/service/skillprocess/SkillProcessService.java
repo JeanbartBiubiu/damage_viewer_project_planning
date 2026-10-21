@@ -638,6 +638,12 @@ public class SkillProcessService {
             case EMPOWERED_BASIC_ATTACK -> {
                 if (step.detail() instanceof SkillProcessEmpoweredAttackStepDetail empowered) {
                     addFormula(refs, issues, stepPath(index, "detail.windowValue"), empowered.windowValue());
+                    if (empowered.maximumAttackCountValue() != null) {
+                        addFormula(refs, issues, stepPath(index, "detail.maximumAttackCountValue"), empowered.maximumAttackCountValue());
+                        if (empowered.consumeMoment() != xyz.game.datamanage.model.skillprocess.SkillProcessEmpoweredConsumeMoment.ATTACK_START) {
+                            issues.add(fieldIssue(stepPath(index, "detail.consumeMoment"), "COMBINATION_INVALID", "多次强化必须在真实普攻发动时消费"));
+                        }
+                    }
                     if (empowered.consumeMoment() == null) {
                         issues.add(fieldIssue(stepPath(index, "detail.consumeMoment"), "REQUIRED", "消耗时点不能为空"));
                     }

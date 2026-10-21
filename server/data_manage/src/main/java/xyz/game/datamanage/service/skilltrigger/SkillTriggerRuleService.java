@@ -2613,10 +2613,17 @@ public class SkillTriggerRuleService {
                 bindingIssues.addAll(SkillSceneInitialParameterSemantics.detailIssues(
                     AggregateJson.tree(AggregateJson.write(detail)), parameterType.name(),
                     bindingPath(actionIndex, bindingIndex, "detail")));
+                SkillTriggerSkillEventDetail sceneEvent = eventSource.detail() instanceof SkillTriggerSkillEventDetail skill ? skill : null;
+                String sceneProcessKey = action.detail() instanceof SkillTriggerStartProcessActionDetail process ? process.processKey() : null;
+                SkillProcessActivationType sceneActivation = processActivation(processShapes.getOrDefault(sceneProcessKey, List.of()));
                 if (!SkillSceneInitialParameterSemantics.entryAllowed(eventSource.eventType().name(), action.actionType().name(),
-                        action.targetContext() == null ? null : action.targetContext().name())) {
+                        action.targetContext() == null ? null : action.targetContext().name())
+                    && !SkillSceneInitialParameterSemantics.startEntryAllowed(skillKey, eventSource.eventType().name(),
+                        sceneEvent == null ? null : sceneEvent.sourceSkillKey(), sceneEvent == null || sceneEvent.useKind() == null ? null : sceneEvent.useKind().name(),
+                        sceneEvent == null || sceneEvent.castPhase() == null ? null : sceneEvent.castPhase().name(), action.actionType().name(),
+                        sceneActivation == null ? null : sceneActivation.name())) {
                     referenceIssues.add(fieldIssue(bindingPath(actionIndex, bindingIndex, "sourceType"),
-                        "EVENT_VALUE_NOT_AVAILABLE", "场景显式初值只能由本技能初始化动作作用于来源自身"));
+                        "EVENT_VALUE_NOT_AVAILABLE", "场景显式初值只授权自身初始化或本技能明确首次主动过程负载"));
                 }
                 return;
             }

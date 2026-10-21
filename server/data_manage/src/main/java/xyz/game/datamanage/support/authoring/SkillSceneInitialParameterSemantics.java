@@ -19,9 +19,13 @@ public final class SkillSceneInitialParameterSemantics {
         if (detail == null || !detail.isObject()) return List.of(issue(path, "TYPE_MISMATCH", "场景显式初值明细必须是对象"));
         List<Map<String, String>> issues = new ArrayList<>();
         detail.fieldNames().forEachRemaining(field -> {
-            if (!Set.of("minValue", "maxValue").contains(field)) issues.add(issue(path + "." + field,
+            if (!Set.of("minValue", "maxValue", "sharedInputKey").contains(field)) issues.add(issue(path + "." + field,
                 "UNKNOWN_FIELD", "场景显式初值不接受默认值或其它明细"));
         });
+        if (detail.has("sharedInputKey") && (!detail.path("sharedInputKey").isTextual()
+            || !detail.path("sharedInputKey").textValue().matches("^[a-z][a-z0-9_]{0,63}$"))) {
+            issues.add(issue(path + ".sharedInputKey", "VALUE_SHAPE_INVALID", "共享输入标识必须是明确的合法标识"));
+        }
         for (String field : List.of("minValue", "maxValue")) {
             JsonNode node = detail.path(field);
             if (!node.isNumber() || !Double.isFinite(node.doubleValue())) {
@@ -43,15 +47,24 @@ public final class SkillSceneInitialParameterSemantics {
             && "EVENT_SOURCE".equals(targetContext);
     }
 
-    public static void validateBinding(Aggregate rule, JsonNode action, JsonNode binding, String valueType, String path) {
+    public static boolean startEntryAllowed(String skillKey, String eventType, String sourceSkillKey, String useKind,
+                                           String castPhase, String actionType, String activationType) {
+        return SkillSceneAttributeSnapshotSemantics.entryAllowed(skillKey, eventType, sourceSkillKey,
+            useKind, castPhase, actionType, activationType);
+    }
+
+    public static void validateBinding(Aggregate rule, JsonNode action, Aggregate process, JsonNode binding, String valueType, String path) {
         var issues = detailIssues(binding.path("detail"), valueType, path + ".detail");
         if (!issues.isEmpty()) throw invalid(rule, issues.getFirst());
         JsonNode event = rule.data().path("eventSource");
+        if (startEntryAllowed(rule.skillKey(), event.path("eventType").asText(), event.path("detail").path("sourceSkillKey").asText(),
+                event.path("detail").path("useKind").asText(), event.path("detail").path("castPhase").asText(),
+                action.path("actionType").asText(), process == null ? "" : process.data().path("activationType").asText())) return;
         if (!entryAllowed(event.path("eventType").asText(), action.path("actionType").asText(),
                 action.path("targetContext").asText()) || !event.path("detail").isObject()
                 || !event.path("detail").isEmpty()) {
             throw invalid(rule, issue(path + ".sourceType", "EVENT_VALUE_NOT_AVAILABLE",
-                "场景显式初值只能由本技能初始化动作作用于来源自身"));
+                "场景显式初值只授权自身初始化或本技能明确首次主动过程负载"));
         }
     }
 

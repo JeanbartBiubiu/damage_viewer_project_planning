@@ -70,6 +70,7 @@ public final class SkillNumericSemantics {
     static void validate(List<Aggregate> sources, List<Aggregate> objects, List<Parameter> parameters,
                          Map<String, String> zoneModes, Map<String, String> zoneDomains, Map<String, String> zoneStages) {
         Context context = new Context(objects, parameters, zoneModes, zoneDomains, zoneStages);
+        context.validateSceneStartProcessUniqueness(sources.stream().map(Aggregate::skillKey).collect(java.util.stream.Collectors.toSet()));
         for (Aggregate aggregate : sources) context.collect(aggregate);
         for (Aggregate aggregate : sources) if (aggregate.type() == SourceType.TRIGGER) context.bindings(aggregate);
     }
@@ -319,7 +320,7 @@ public final class SkillNumericSemantics {
                                 use(a, detail, path, "windowValue", Bound.NON_NEGATIVE, false);
                                 use(a, detail, path, "maximumRecastCountValue", Bound.POSITIVE_INTEGER, false);
                             }
-                            case "EMPOWERED_BASIC_ATTACK" -> use(a, detail, path, "windowValue", Bound.NON_NEGATIVE, false);
+                            case "EMPOWERED_BASIC_ATTACK" -> validateEmpowered(a, step, detail, path);
                             default -> { }
                         }
                     }
@@ -472,6 +473,31 @@ public final class SkillNumericSemantics {
                     && (count.compareTo(Fraction.of(BigDecimal.ONE)) == 0 ? span.compareTo(Fraction.of(BigDecimal.ZERO)) != 0
                         : span.compareTo(count.subtract(Fraction.of(BigDecimal.ONE))) < 0)) {
                     throw invalid(source, path + ".lastExecutionOffsetValue", "CHANNEL_WINDOW_INVALID", "首段不得晚于末段；单段两端相等，多段跨度至少为次数减一");
+                }
+            }
+        }
+
+        private void validateEmpowered(Aggregate source, JsonNode step, JsonNode detail, String path) {
+            if (!detail.has("maximumAttackCountValue")) {
+                use(source, detail, path, "windowValue", Bound.NON_NEGATIVE, false);
+                if ("ATTACK_START".equals(text(detail, "consumeMoment"))) {
+                    throw invalid(source, path, "REQUIRED", "发动消费必须明确最多消费次数");
+                }
+                return;
+            }
+            if (!"ATTACK_START".equals(text(detail, "consumeMoment"))
+                || source.data().path("steps").size() != 1 || !step.path("occupiesAction").isBoolean()
+                || step.path("occupiesAction").booleanValue() || !"ACTIVE".equals(text(source.data(), "activationType"))) {
+                throw invalid(source, path, "COMBINATION_INVALID", "多次强化只接主动单步骤、不占行动且发动消费");
+            }
+            for (String field : List.of("windowValue", "maximumAttackCountValue")) {
+                Use value = use(source, detail, path, field, Bound.POSITIVE_INTEGER, true);
+                if (value == null) throw invalid(source, path + "." + field, "REQUIRED", "多次强化必须明确窗口及消费次数");
+                Map<Levels, Fraction> values = optionalStaticValues(value);
+                if (values == null) throw invalid(source, value.path(), "RUNTIME_INPUT_FORBIDDEN", "窗口和消费次数须可静态求值");
+                Fraction maximum = Fraction.of(new BigDecimal("maximumAttackCountValue".equals(field) ? "64" : "9007199254740991"));
+                for (Fraction number : values.values()) if (!finite(number) || number.compareTo(maximum) > 0) {
+                    throw invalid(source, value.path(), "VALUE_RANGE_INVALID", "窗口须为正安全整数毫秒，消费次数为1至64");
                 }
             }
         }
@@ -847,7 +873,12 @@ public final class SkillNumericSemantics {
                         }
                     }
                     if ("SCENE_INITIAL_PARAMETER".equals(text(binding, "sourceType"))) {
-                        SkillSceneInitialParameterSemantics.validateBinding(rule, action, binding, p.valueType(), path);
+                        Aggregate sceneProcess = objects.get(new Id(rule.skillKey(), SourceType.PROCESS, text(action.path("detail"), "processKey")));
+                        SkillSceneInitialParameterSemantics.validateBinding(rule, action, sceneProcess, binding, p.valueType(), path);
+                        if (!Set.of("INTEGER", "DECIMAL").contains(p.valueType()) || !noDefaultRuntime(p)) {
+                            throw invalid(rule, path, "REFERENCE_TYPE_MISMATCH", "场景显式初值只能绑定无默认的数值运行输入");
+                        }
+                        if ("START_PROCESS".equals(type)) validateScenePayloadBinding(rule, sceneProcess, p, path);
                         Aggregate effect = objects.get(new Id(rule.skillKey(), SourceType.EFFECT, text(action.path("detail"), "effectKey")));
                         if (effect != null) {
                             collect(effect);
@@ -893,6 +924,58 @@ public final class SkillNumericSemantics {
                 || !action.path("runtimeInputBindings").isEmpty()) {
                 throw invalid(rule, path, "REFERENCE_TYPE_MISMATCH", "回充减时只允许本技能普攻命中作用于自身技能弹药，不接受结果修正");
             }
+        }
+
+        private void validateSceneStartProcessUniqueness(Set<String> changedSkills) {
+            for (Aggregate rule : objects.values()) {
+                if (rule.type() != SourceType.TRIGGER || !changedSkills.contains(rule.skillKey())) continue;
+                for (JsonNode action : rule.data().path("actions")) {
+                    if (!"START_PROCESS".equals(text(action, "actionType")) || !action.path("runtimeInputBindings").valueStream()
+                        .anyMatch(binding -> "SCENE_INITIAL_PARAMETER".equals(text(binding, "sourceType")))) continue;
+                    Set<String> processes = new LinkedHashSet<>();
+                    for (Aggregate candidate : objects.values()) {
+                        if (candidate.type() != SourceType.TRIGGER || !candidate.skillKey().equals(rule.skillKey())) continue;
+                        JsonNode event = candidate.data().path("eventSource"), detail = event.path("detail");
+                        if (!"SKILL_USED".equals(text(event, "eventType")) || !rule.skillKey().equals(text(detail, "sourceSkillKey"))
+                            || !"ACTIVE".equals(text(detail, "useKind")) || !"INITIAL".equals(text(detail, "castPhase"))) continue;
+                        for (JsonNode start : candidate.data().path("actions")) if ("START_PROCESS".equals(text(start, "actionType"))) {
+                            processes.add(text(start.path("detail"), "processKey"));
+                        }
+                    }
+                    if (processes.size() != 1 || !processes.contains(text(action.path("detail"), "processKey"))) {
+                        throw invalid(rule, "actions.runtimeInputBindings", "COMBINATION_INVALID", "场景负载初值需要本技能唯一真实首次主动过程");
+                    }
+                }
+            }
+        }
+
+        private void validateScenePayloadBinding(Aggregate rule, Aggregate process, Parameter parameter, String path) {
+            if (process == null) return; // 缺少引用由统一目录检查报告。
+            Set<Id> visited = new LinkedHashSet<>();
+            dependencies(rule, id(process), new LinkedHashSet<>(), visited);
+            Set<Id> payloads = new LinkedHashSet<>();
+            for (JsonNode binding : process.data().path("effectBindings")) {
+                Id effectId = new Id(process.skillKey(), SourceType.EFFECT, text(binding, "effectKey"));
+                boolean consumed = uses.getOrDefault(effectId, List.of()).stream().anyMatch(use -> runtime(use).contains(parameter.key()));
+                if (!consumed) continue;
+                if (!"STEP_EXECUTION".equals(text(binding.path("moment"), "momentType"))) {
+                    throw invalid(rule, path, "EVENT_VALUE_NOT_AVAILABLE", "场景初值只能供给真实步骤执行的命中负载金额");
+                }
+                payloads.add(effectId);
+            }
+            boolean consumed = false;
+            for (Id target : visited) for (Use use : uses.getOrDefault(target, List.of())) {
+                if (declaredStateInitialUse(use) || !runtime(use).contains(parameter.key())) continue;
+                boolean allowed = payloads.contains(target) && use.path().matches("results\\[\\d+\\]\\.valueRule\\.value");
+                if (allowed) {
+                    int index = Integer.parseInt(use.path().substring("results[".length(), use.path().indexOf(']')));
+                    allowed = "DAMAGE".equals(text(use.source().data().path("results").path(index), "resultType"));
+                }
+                if (!allowed) throw invalid(rule, path, "EVENT_VALUE_NOT_AVAILABLE",
+                    "场景初值只授权本过程真实伤害负载，不能供给费用、冷却、步骤、生命周期或状态");
+                consumed = true;
+            }
+            if (!consumed) throw invalid(rule, path, "BINDING_EXTRA", "场景初值未被本过程真实伤害负载消费");
         }
 
         private void validateCounterStartBinding(Aggregate rule, JsonNode action, JsonNode binding, Parameter parameter, String path) {

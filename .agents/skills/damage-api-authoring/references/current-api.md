@@ -67,9 +67,13 @@
 
 ### 场景显式初值绑定
 
-`SCENE_INITIAL_PARAMETER`（场景显式初值）的完整明细为 `{minValue, maxValue}`，上下界必须是有限数且有序；整数参数的边界必须为安全整数，通用负范围可以合法。它只在本技能 `SOURCE_INITIALIZED / EXECUTE_EFFECT / EVENT_SOURCE` 动作绑定无默认的数值 `RUNTIME_INPUT` 参数，且参数必须被本动作真实结果数值消费。生命周期、条件、过程和主动兄弟不得借用该授权。实际本场值不写进声明、参数固定值、角色属性或数据库；界面另行明确填写，缺值不默认为0。
+`SCENE_INITIAL_PARAMETER`（场景显式初值）的必需明细为 `{minValue, maxValue}`，上下界必须是有限数且有序；整数参数的边界必须为安全整数，通用负范围可以合法。它在本技能 `SOURCE_INITIALIZED / EXECUTE_EFFECT / EVENT_SOURCE` 动作绑定无默认的数值 `RUNTIME_INPUT` 参数，且参数必须被本动作真实结果数值消费。另可由明确本技能 `SKILL_USED / ACTIVE / INITIAL → START_PROCESS` 绑定，但只授权唯一真实主动过程的步骤执行伤害负载金额；费用、冷却、时间、生命周期、条件和状态操作不能借用该授权。实际本场值不写进声明、参数固定值、角色属性或数据库；界面另行明确填写，缺值不默认为0。
+
+明细可选 `sharedInputKey`（共享输入标识），省略仍保留旧形状，显式空值或非法标识拒绝。同场景只有同游戏、同方、同实际角色及同共享标识的真实启用成员可合并一个输入，各成员仍保留本技能参数与实际消费声明；类型与边界必须一致。后端保存声明，宿主核验真实角色、成员闭包和输入身份，不在数据库保存本场值。常驻生命及有限多次强化的当前边界见[科加斯E/R共享契约](../../../../outputs/skill-adaptation-20261021-chogath/E与R通用机制实施契约.md)。
 
 请求类型为后端 `SkillTriggerSceneInitialParameterBindingDetail.java`。同一初值可被两个实际初始化动作分别绑定、派生不同属性，边界须一致，来源和双方位置仍独立。保存、事务最终态及引用保护使用现有聚合接口和脚本，未知明细（含空的 `value / defaultValue`）也拒绝。运行与证据边界见[通用实施方案](../../../../outputs/priority-adaptation-2026-10-18/场景显式初值参数实施方案.md)。
+
+`EMPOWERED_BASIC_ATTACK` 步骤明细可选 `maximumAttackCountValue`（最多消费次数），只用于明确不占行动的单步骤主动过程及 `ATTACK_START`（普攻发动消费），次数须可静态求为1至64整数，窗口须为正安全整数毫秒。缺省保持原单次 `ATTACK_HIT`（命中消费）形状，显式空次数拒绝。该字段保留在现有过程明细JSON中，无新增枚举或表；引用公式继续纳入事务最终态与删除保护。写入成功不代替发动预留、延迟命中、窗口结束冷却及正式Wasm验证。
 
 ### 状态初值与逐枚回充
 

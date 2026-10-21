@@ -52,6 +52,33 @@ class SkillTriggerSceneInitialParameterServiceTest {
         assertEquals(saved, service.get(GAME_ID, SKILL_KEY, "initial_rule"));
     }
 
+    @Test void sharedInputKeySurvivesSaveAndIndependentRead() {
+        var input = request(new SkillTriggerSceneInitialParameterBindingDetail(BigDecimal.ZERO, new BigDecimal("150"), "feast_stacks"),
+            new SkillTriggerEventSource(SkillTriggerEventType.SOURCE_INITIALIZED, new SkillTriggerEmptyEventDetail()), SkillTriggerTargetContext.EVENT_SOURCE);
+        var saved = service.create(GAME_ID, SKILL_KEY, input);
+        var binding = saved.actions().getFirst().runtimeInputBindings().getFirst();
+        assertEquals("feast_stacks", ((SkillTriggerSceneInitialParameterBindingDetail) binding.detail()).sharedInputKey());
+        assertEquals(saved, service.get(GAME_ID, SKILL_KEY, "initial_rule"));
+    }
+
+    @Test void explicitInitialActiveProcessRetainsItsSharedPayloadDeclaration() {
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(AggregateJson.read("""
+            {"effectKey":"burst","resultKey":"spike","resultType":"DAMAGE","target":"TARGET",
+             "hasValueRule":true,"value":{"kind":"PARAMETER","parameterKey":"initial_count"},"hasLifecycle":false}
+            """, SkillTriggerEffectShapeRow.class)));
+        when(mapper.listProcessShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(AggregateJson.read(
+            "{\"processKey\":\"cast\",\"activationType\":\"ACTIVE\",\"bindingEffectKey\":\"burst\"}", SkillTriggerProcessShapeRow.class)));
+        var input = rule("shared_payload", new SkillTriggerEventSource(SkillTriggerEventType.SKILL_USED,
+            new SkillTriggerSkillEventDetail(SKILL_KEY, SkillTriggerEventUseKind.ACTIVE, SkillTriggerCastPhase.INITIAL)), List.of(
+                new SkillTriggerAction("start", "启动", SkillTriggerActionType.START_PROCESS, 0, SkillTriggerTargetContext.CURRENT_TARGET,
+                    new SkillTriggerStartProcessActionDetail(PROCESS_KEY), List.of(new SkillTriggerRuntimeInputBinding("initial", "initial_count",
+                        SkillTriggerRuntimeInputSourceType.SCENE_INITIAL_PARAMETER,
+                        new SkillTriggerSceneInitialParameterBindingDetail(BigDecimal.ZERO, new BigDecimal("150"), "feast_stacks"))), List.of())));
+        var saved = service.create(GAME_ID, SKILL_KEY, input);
+        assertEquals(input.actions().getFirst().runtimeInputBindings(), saved.actions().getFirst().runtimeInputBindings());
+        assertEquals(saved, service.get(GAME_ID, SKILL_KEY, "shared_payload"));
+    }
+
     @ParameterizedTest @ValueSource(strings = {"value", "defaultValue", "subject", "stateKey"})
     void extraFieldsAreRejectedEvenWhenNull(String field) {
         var detail = AggregateJson.read("{\"minValue\":0,\"maxValue\":150,\"" + field + "\":null}", SkillTriggerSceneInitialParameterBindingDetail.class);
