@@ -14,6 +14,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 结果先投影成只含业务语义的字段（见 `mechanismCase.ts` 的 `MechanismProjection`），再与 `expected` 比对：
 
 - 对象只比较写出的字段，数值按相对误差 1e-9 比较。
+- `restorations`完整比较普通生命及非生命资源恢复的请求值、实际增量、前后当前值、溢出、拥有者、实际挂载、操作路径和原使用；不以终值代替逐笔事实。
 - `damage`、`healing`、`skillStarts`、`resourceChanges`、`finalResources` 列表按发生顺序比较，条数必须一致；`attackStarts` 整体相等；`finalAttributes` 逐项核对明确填写的双方属性。
 - `finalProviders`（运行实例列表）完整比较双方所有实例的拥有者、来源、定义、层数和期限，稳定排序后核对条数与五个字段；缺少身份直接失败，不补造来源，不筛掉额外实例。
 - 失败时实际投影写到被忽略的 `web/output/mechanisms/<caseKey>.actual.json`。
@@ -44,7 +45,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 
 ## 已覆盖的数值机制
 
-目前85个固定用例、101类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。
+目前89个固定用例、105类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
 
 | 范围 | 固定用例入口 |
 | --- | --- |
@@ -58,6 +59,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 | 强化附伤、下一刀主体替换、附伤共存、计时重置、开始计数快照、逐结果暴击 | `empowered_*` |
 | 战前0至3计数、每N次命中、同事件条件冻结、显式永久属性初值 | `passive_*` |
 | 生命偷取、直接治疗与过量、正值全能吸血、反伤与逐结果吸血资格 | `basic_attack_life_steal`、`direct_heal_overheal`、`healing_*` |
+| 本笔击杀冻结、普通自身回复、完整恢复归属及生命/法力夹取 | `kill_restore_*` |
 | 有限生命上限、净增量授予、刷新与夹取、同实例双抗 | `resource_finite_*`、`resource_same_instance_*` |
 | 普通费用按产品口径忽略、未来提交冷却倍率 | `resource_ordinary_cost_ignored`、`schedule_future_cooldown_duration` |
 | 普攻命中缩短同来源主动剩余冷却，并唤醒真实自动施放 | `schedule_basic_attack_reduces_cooldown` |
