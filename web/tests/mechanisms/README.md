@@ -44,7 +44,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 
 ## 已覆盖的数值机制
 
-目前76个固定用例、97类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。
+目前85个固定用例、101类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。
 
 | 范围 | 固定用例入口 |
 | --- | --- |
@@ -65,6 +65,8 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 | 真实目标计数、实际命中开窗、后台普攻或兄弟命中叠层、满层与自然终点、旧回调失效及同刻先后 | `target_counter_*` |
 | 单目标总移速乘算、百分数换算与有限单层整体刷新 | `ordinary_target_move_speed_refresh` |
 | 有限禁锢与晕眩实例、旧期限前后的唯一实例、精确旧期限及最终到期、未命中不施加 | `finite_status_*` |
+| 普攻发动前计数、显式初值、发动消费与命中叠层、自身有限总移速乘算 | `attack_start_counter_*` |
+| 每次使用独立分阶段命中、首段未命中不授予后续资格、自由准备期兄弟动作与后续占用 | `staged_hit_*` |
 
 
 强化用例逐笔检查伤害时刻和组成，避免总额正确却在施放时提前伤害。没有把一般主动资源消耗、法力不足停放、独立斩杀结果或完整控制行动限制标为已覆盖；新增这些机制时再带固定用例。回归覆盖与首次对象准入、浏览器冒烟分别留证。
@@ -82,6 +84,6 @@ node scripts/refresh-verification-identity.mjs --write  # 条件全部满足后�
 
 全部通过后只改写证明根上的 `wasmSha256`、`adapterVersion` 和 `mechanismRegression`（含实际重建产物摘要），各对象的内容摘要不变。检查范围包含整个前端执行链（包括脚本、配置和依赖锁）、引擎与共享契约；构建及回归前后均检查源码洁净，并拒绝覆盖运行期间变化的正式证明。覆盖未声明、摘要过期或有缺口时脚本拒绝刷新，并列出缺少的机制。
 
-`admitted-coverage.json` 的对象键为`<kind>:<key>`，每项保存与正式证明相同的`contentDigest`、`externalDigest`、非空唯一`mechanisms`及中文核对依据`rationale`。当前清单对应8名英雄和19件纯属性装备的准入范围，不能用空泛标签宣称支持新对象。
+`admitted-coverage.json` 的对象键为`<kind>:<key>`，每项保存与正式证明相同的`contentDigest`、`externalDigest`、非空唯一`mechanisms`及中文核对依据`rationale`。当前清单对应9名英雄和19件纯属性装备的准入范围，不能用空泛标签宣称支持新对象。
 
 `npm run check:mechanism-coverage`只检查依赖，不运行回归、不写证明，也不证明构建一致。持续集成在机制测试之前另行强制运行`check:wasm-build`；`npm test`包含机制回归、刷新及构建比较门槛测试。新对象首次准入仍需按其真实配置单独验收；回归阶段只依赖这里的机制用例。

@@ -5,14 +5,14 @@
   "digestVersion": "simulation-availability-v1",
   "scopeDigest": "bb485ac4aade6bd1d51dbe7bb63ff70e2d657b8ef5c96408679933e81c75665f",
   "sharedDigest": "91a01f39579d516eeb68c2ffc69b2899ce05326185d2d6f2c38fbe4e966b6e58",
-  "wasmSha256": "613fcfe873d36b26b152d70b6698703b3b54e121b2e4030501b42bdc6a3e169d",
-  "adapterVersion": "v29-control-source-target-refresh",
+  "wasmSha256": "c415d70f2a11d2b4e4483e79f48a832204d76cd890cae4a6ac8321b8c7d3b22e",
+  "adapterVersion": "v30-staged-hit-attack-start-counter",
   "mechanismRegression": {
-    "sourceCommit": "d700babd1423c8fd0f2131458d5f57c26896c9a8",
-    "caseCount": 76,
-    "casesDigest": "786b3048873f8edca7d319db515499d6a4b81ca85f4f569a0b5cdec6819cc3e0",
+    "sourceCommit": "f93cd38fe2437b431b464c463a380d8a4c59c9bd",
+    "caseCount": 85,
+    "casesDigest": "e2e666dde56296065753714379c6880ef9deacb37216ff87018c791559e52387",
     "coverageDigest": "543ab34c380905ed53a47665832499cc03d8cde28e27505934766c34c26b1361",
-    "wasmBuildSha256": "613fcfe873d36b26b152d70b6698703b3b54e121b2e4030501b42bdc6a3e169d"
+    "wasmBuildSha256": "c415d70f2a11d2b4e4483e79f48a832204d76cd890cae4a6ac8321b8c7d3b22e"
   },
   "entries": [
     {
@@ -1657,6 +1657,96 @@
       "evidenceRefs": [
         "outputs/skill-adaptation-20261021-lissandra/验收摘要.json#sha256=815719c6145ff56c8c6fce0dfa8161602499989c90043b9aa51b622b5405ff12",
         "outputs/skill-adaptation-20261021-lissandra/独立复核.json#sha256=52caca27dff8fa55f9ecb9aca2ef273352ef34ac1df9c94f5d79e4ac8c93a3a2"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "CHARACTER",
+      "key": "champion_neeko",
+      "contentDigest": "52735f41ea00038238e97bbf18aa807f16a69547db29624639a6efef8045ff49",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "neeko_e",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "neeko_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "neeko_r",
+            "levels": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "skillKey": "neeko_w",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "evidenceRefs": [
+        "outputs/skill-adaptation-20261021-neeko/验收摘要.json#sha256=d1927423329e448d15e5400f824b3f4303241e1ed394219156f7648ebc1be698",
+        "outputs/skill-adaptation-20261021-neeko/独立复核.json#sha256=91a3da6329737cbeabbd09c963e0f30c47acadf2cad21a36352e6e7c715ce22b"
       ],
       "issues": []
     }
