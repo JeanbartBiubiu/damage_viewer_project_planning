@@ -8,10 +8,10 @@
   "wasmSha256": "c9b014bbd6334ec52075d8ba573c3d641cfa1966cd50027b01b776756335f184",
   "adapterVersion": "v33-instance-timed-slow",
   "mechanismRegression": {
-    "sourceCommit": "5a67d287fd3432007612224bb72972342db5161f",
-    "caseCount": 131,
-    "casesDigest": "1b382158e3f49d2e4fd70d15384ce7683a5326ea24d7bee9aea01df8d64ad618",
-    "coverageDigest": "9ec8c62e6c1df0dc6b987afe2b798f7b87d6c2ae6e8c1dbc4be39bb4090ef81b",
+    "sourceCommit": "a1bed63907ffd687ef7187248607c3423e828d24",
+    "caseCount": 134,
+    "casesDigest": "22f6f8de3d172931aaa48c43f40a66e943ad9ab6775264730cab74e89826e73f",
+    "coverageDigest": "0f150b58594c3481efcc2619e19a5d87c0149595b9e26ca61aa76642eb31bede",
     "wasmBuildSha256": "c9b014bbd6334ec52075d8ba573c3d641cfa1966cd50027b01b776756335f184"
   },
   "entries": [
@@ -3418,6 +3418,60 @@
         "outputs/skill-adaptation-20261021-chogath/Q与整英雄验收.md",
         "outputs/skill-adaptation-20261021-chogath/Q与整英雄验收摘要.json",
         "outputs/skill-adaptation-20261021-chogath/Q与整英雄独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_3153",
+      "contentDigest": "54710cdca303227a9cafbf5c0035f7e6205acabc7e1dbc81b624d341cbe232b7",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "item_3153_passive",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261022-botrk-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261022-botrk-01a15ed4/独立复核.json",
+        "outputs/equipment-authoring-20261022-botrk-01a15ed4/装备配置变更.json",
+        "outputs/equipment-authoring-20261022-botrk-01a15ed4/数据依据.json"
       ],
       "issues": []
     }
