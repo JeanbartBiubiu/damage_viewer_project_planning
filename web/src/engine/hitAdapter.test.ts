@@ -406,6 +406,9 @@ describe('有界命中适配', () => {
     expect(output.sharedProviders?.[0]?.abilities?.[0]?.operations?.[0]?.skillHit?.candidates[0]?.semantic).toMatchObject({
       resultType: 'STATUS_OPERATION', statusKind: 'stun', statusOperation: 'APPLY'
     });
+    expect(output.sharedProviders?.find(row => row.providerKey === 'status:urgot_q:control:stun')?.lifecycle).toEqual({
+      durationMs: { op: 'const', value: 1250 }, maxStacks: 1, refreshPolicy: 'replace', instanceScope: 'source_target'
+    });
     const mixed = request();
     mixed.sharedProviders![0]!.abilities![0]!.operations = [{ operation: 'damage', target: 'target', amount: { op: 'const', value: 1 } }];
     expect(() => withHitProgram(mixed, {

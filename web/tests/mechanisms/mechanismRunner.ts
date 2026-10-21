@@ -118,6 +118,17 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
     return matches[0]!;
   };
   const summary = done.summary;
+  const finalProviders = done.finalSnapshot.combatants.flatMap(row => row.providers.map(provider => {
+    if (provider.owner !== row.key || !['source', 'target'].includes(provider.source)
+      || typeof provider.definitionRef !== 'string' || !provider.definitionRef.trim()
+      || !Number.isSafeInteger(provider.stacks) || provider.stacks < 1
+      || provider.expireAt !== null && (!Number.isSafeInteger(provider.expireAt) || provider.expireAt < 0)) {
+      throw new Error('finalProviders: 实例归属、定义、层数或期限事实缺失或非法');
+    }
+    return { owner: provider.owner, source: provider.source, definitionRef: provider.definitionRef,
+      stacks: provider.stacks, expireAt: provider.expireAt };
+  })).sort((a, b) => a.owner.localeCompare(b.owner) || a.source.localeCompare(b.source)
+    || a.definitionRef.localeCompare(b.definitionRef) || (a.expireAt ?? -1) - (b.expireAt ?? -1) || a.stacks - b.stacks);
   return {
     summary: {
       stopReason: summary.stopReason, sourceFinalHp: summary.sourceFinalHp, targetFinalHp: summary.targetFinalHp,
@@ -145,7 +156,8 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
       currentBefore: row.currentBefore, currentAfter: row.currentAfter, currentDelta: row.currentDelta,
       maxBefore: row.maxBefore, maxAfter: row.maxAfter, maxDelta: row.maxDelta })),
     finalAttributes: Object.fromEntries(done.finalSnapshot.combatants.flatMap(row => Object.entries(row.attributes)
-      .map(([key, slot]) => [`${row.key}.${key}`, slot.resolved])))
+      .map(([key, slot]) => [`${row.key}.${key}`, slot.resolved]))),
+    finalProviders
   };
 }
 
@@ -168,7 +180,7 @@ export function compareMechanismExpectation(actual: MechanismProjection, expecte
   };
   if (expected.summary) fields('summary', actual.summary, expected.summary);
   if (expected.finalAttributes) fields('finalAttributes', actual.finalAttributes, expected.finalAttributes);
-  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges'] as const) {
+  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges', 'finalProviders'] as const) {
     const wanted = expected[list];
     if (!wanted) continue;
     const rows = actual[list] as unknown as Record<string, unknown>[];

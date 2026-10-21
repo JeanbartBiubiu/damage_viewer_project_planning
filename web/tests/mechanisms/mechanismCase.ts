@@ -46,6 +46,7 @@ export type ProjectedHealing = { timeMs: number; source: string; target: string;
 export type ProjectedSkillStart = { timeMs: number; skillKey: string };
 export type ProjectedResource = { owner: string; attributeKey: string; current: number; max: number };
 export type ProjectedResourceChange = { timeMs: number; target: string; resourceKey: string; currentBefore: number; currentAfter: number; currentDelta: number; maxBefore: number; maxAfter: number; maxDelta: number };
+export type ProjectedProvider = { owner: string; source: string; definitionRef: string; stacks: number; expireAt: number | null };
 export type MechanismProjection = {
   summary: ProjectedSummary;
   damage: ProjectedDamage[];
@@ -55,6 +56,7 @@ export type MechanismProjection = {
   finalResources: ProjectedResource[];
   resourceChanges: ProjectedResourceChange[];
   finalAttributes: Record<string, number>;
+  finalProviders: ProjectedProvider[];
 };
 
 /** 期望只写手算或游戏机制确定的值；列表按发生顺序完整列出，对象只比较写出的字段。 */
@@ -67,6 +69,7 @@ export type MechanismExpectation = {
   finalResources?: Partial<ProjectedResource>[];
   resourceChanges?: Partial<ProjectedResourceChange>[];
   finalAttributes?: Record<string, number>;
+  finalProviders?: ProjectedProvider[];
 };
 
 type CaseSnapshot = Omit<SimulationSnapshot, 'gameId' | 'catalogs' | 'snapshotDigest' | 'readAt'>;
@@ -151,7 +154,8 @@ const EXPECTED_FIELDS: Record<string, readonly string[]> = {
   healing: ['timeMs', 'source', 'target', 'rawAmount', 'actualHealing', 'overheal'],
   skillStarts: ['timeMs', 'skillKey'],
   finalResources: ['owner', 'attributeKey', 'current', 'max'],
-  resourceChanges: ['timeMs', 'target', 'resourceKey', 'currentBefore', 'currentAfter', 'currentDelta', 'maxBefore', 'maxAfter', 'maxDelta']
+  resourceChanges: ['timeMs', 'target', 'resourceKey', 'currentBefore', 'currentAfter', 'currentDelta', 'maxBefore', 'maxAfter', 'maxDelta'],
+  finalProviders: ['owner', 'source', 'definitionRef', 'stacks', 'expireAt']
 };
 
 /** 覆盖标签必须对应至少一个数值断言，空对象或只有名称不能获得回归覆盖。 */
@@ -179,6 +183,15 @@ function validateExpectation(expected: Record<string, unknown>, file: string) {
       const fields = object(row, file, path);
       if (!Object.keys(fields).length) fail(file, `${path} 不能是空期望对象`);
       onlyKeys(fields, EXPECTED_FIELDS[section]!, file, path);
+      if (section === 'finalProviders') {
+        if (Object.keys(fields).length !== EXPECTED_FIELDS.finalProviders!.length
+          || !['source', 'target'].includes(String(fields.owner)) || !['source', 'target'].includes(String(fields.source))
+          || typeof fields.definitionRef !== 'string' || !fields.definitionRef.trim()
+          || !Number.isSafeInteger(fields.stacks) || (fields.stacks as number) < 1
+          || fields.expireAt !== null && (!Number.isSafeInteger(fields.expireAt) || (fields.expireAt as number) < 0)) {
+          fail(file, `${path} 需要完整实例归属、定义、正整数层数和非负整数期限（常驻为null）`);
+        }
+      }
       for (const [key, item] of Object.entries(fields)) {
         if (typeof item === 'number') {
           if (!Number.isFinite(item)) fail(file, `${path}.${key} 需要有限数值`);

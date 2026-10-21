@@ -470,7 +470,7 @@ function compileClosedControl(
     providerKey, skillKey: authored.skillKey, kind: 'status', stableId: providerKey, types: [typeKey],
     lifecycle: {
       durationMs: compileDuration(effect, authored, `${planPath(authored.skillKey, `effects.${effect.effectKey}`)}.lifecycle.durationValue`, state),
-      maxStacks: 1, refreshPolicy: 'replace'
+      maxStacks: 1, refreshPolicy: 'replace', instanceScope: 'source_target'
     }
   };
   mergeProvider(providers, provider, `${path}.provider`);

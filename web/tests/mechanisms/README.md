@@ -15,6 +15,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 
 - 对象只比较写出的字段，数值按相对误差 1e-9 比较。
 - `damage`、`healing`、`skillStarts`、`resourceChanges`、`finalResources` 列表按发生顺序比较，条数必须一致；`attackStarts` 整体相等；`finalAttributes` 逐项核对明确填写的双方属性。
+- `finalProviders`（运行实例列表）完整比较双方所有实例的拥有者、来源、定义、层数和期限，稳定排序后核对条数与五个字段；缺少身份直接失败，不补造来源，不筛掉额外实例。
 - 失败时实际投影写到被忽略的 `web/output/mechanisms/<caseKey>.actual.json`。
 
 ## 文件
@@ -43,7 +44,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 
 ## 已覆盖的数值机制
 
-目前64个固定用例、83类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。
+目前76个固定用例、97类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。
 
 | 范围 | 固定用例入口 |
 | --- | --- |
@@ -62,6 +63,8 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 | 普攻命中缩短同来源主动剩余冷却，并唤醒真实自动施放 | `schedule_basic_attack_reduces_cooldown` |
 | 真实兄弟技能施放保留活动属性的最低余时、旧到期事件失效、到期不复活与自身整体增幅 | `duration_ensure_remaining_own_attributes` |
 | 真实目标计数、实际命中开窗、后台普攻或兄弟命中叠层、满层与自然终点、旧回调失效及同刻先后 | `target_counter_*` |
+| 单目标总移速乘算、百分数换算与有限单层整体刷新 | `ordinary_target_move_speed_refresh` |
+| 有限禁锢与晕眩实例、旧期限前后的唯一实例、精确旧期限及最终到期、未命中不施加 | `finite_status_*` |
 
 
 强化用例逐笔检查伤害时刻和组成，避免总额正确却在施放时提前伤害。没有把一般主动资源消耗、法力不足停放、独立斩杀结果或完整控制行动限制标为已覆盖；新增这些机制时再带固定用例。回归覆盖与首次对象准入、浏览器冒烟分别留证。

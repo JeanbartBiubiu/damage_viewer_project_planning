@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { MECHANISM_ROOT, parseMechanismCase, loadMechanismCases } from './mechanismCase';
-import { runMechanismCase } from './mechanismRunner';
+import { compareMechanismExpectation, mechanismEngine, projectMechanismResult, runMechanismCase } from './mechanismRunner';
 import { assessContinuousAttackResult } from '../../src/engine/continuousAttackResult';
 
 const file = resolve(MECHANISM_ROOT, 'cases/basic_attack_armor_cadence.json');
@@ -19,7 +19,73 @@ describe('机制覆盖必须有有效的手算数值断言', () => {
     expect(() => parse({ summary: { sourceDamageDealt: 0 } })).not.toThrow();
     expect(() => parse({ summary: { sourceDamage: 0 } })).toThrow(/未定义字段/);
   });
+  it('完整实例期望保留归属、层数和期限，缺字段与错误数值不能获得覆盖', () => {
+    const provider = { owner: 'target', source: 'source', definitionRef: 'status:lab:root', stacks: 1, expireAt: 1500 };
+    expect(() => parse({ finalProviders: [provider] })).not.toThrow();
+    expect(() => parse({ finalProviders: [{ ...provider, expireAt: null }] })).not.toThrow();
+    for (const key of Object.keys(provider)) {
+      const missing = { ...provider } as Record<string, unknown>;
+      delete missing[key];
+      expect(() => parse({ finalProviders: [missing] }), key).toThrow(/完整实例/);
+    }
+    for (const malformed of [{ ...provider, stacks: 0 }, { ...provider, expireAt: -1 }, { ...provider, expireAt: 1.5 },
+      { ...provider, owner: 'foreign' }, { ...provider, source: 'foreign' }, { ...provider, definitionRef: '' }, { ...provider, extra: 1 }]) {
+      expect(() => parse({ finalProviders: [malformed] })).toThrow(/完整实例|未定义字段/);
+    }
+  });
 });
+
+it('完整实例投影不补归属、不隐藏重复，所有数值和列表长度参与比较', async () => {
+  const definition = loadMechanismCases().find(row => row.caseKey === 'finite_status_single_active')!;
+  const { prepared, runRequest, done, projection } = await runMechanismCase(definition);
+  expect(compareMechanismExpectation(projection, definition.expected)).toEqual([]);
+  for (const field of ['owner', 'source', 'definitionRef', 'stacks', 'expireAt']) {
+    const changed = structuredClone(done);
+    const provider = changed.finalSnapshot.combatants.find(row => row.key === 'target')!.providers[0]!;
+    delete (provider as unknown as Record<string, unknown>)[field];
+    expect(() => projectMechanismResult(prepared.operationOrigins, prepared.compileRequest, runRequest, changed), field).toThrow('实例归属');
+  }
+  const duplicated = structuredClone(projection);
+  duplicated.finalProviders.push({ ...duplicated.finalProviders[duplicated.finalProviders.length - 1]! });
+  expect(compareMechanismExpectation(duplicated, definition.expected).join(';')).toContain('finalProviders:');
+  const wrongDeadline = structuredClone(projection);
+  wrongDeadline.finalProviders[wrongDeadline.finalProviders.length - 1]!.expireAt = 999;
+  expect(compareMechanismExpectation(wrongDeadline, definition.expected).join(';')).toContain('expireAt');
+}, 60000);
+
+it('独立Generic初始法盾在真实命中资格处阻止有限禁锢和眩晕，不声明作者法盾能力', async () => {
+  const definition = loadMechanismCases().find(row => row.caseKey === 'finite_status_single_active')!;
+  const { prepared, runRequest } = await runMechanismCase(definition);
+  const { client } = await mechanismEngine();
+  const input = structuredClone(prepared.compileRequest);
+  input.typeCatalog.types.push({ key: 'provider/spell_shield', domain: 'provider' });
+  input.sharedProviders!.push({ providerKey: 'infrastructure_spell_shield_definition', kind: 'character',
+    stableId: 'infrastructure_spell_shield', types: ['provider/spell_shield'] });
+  input.combatants.find(row => row.key === 'target')!.providers.push({
+    providerRef: 'infrastructure_spell_shield', definitionRef: 'infrastructure_spell_shield_definition'
+  });
+  const compiled = await client.compile(input);
+  if (!compiled.ok || !compiled.sessionId) throw new Error('独立法盾fresh compile失败：' + JSON.stringify(compiled.errors));
+  const sessionId = compiled.sessionId;
+  try {
+    const request = structuredClone(runRequest);
+    request.sessionId = sessionId;
+    request.initialSnapshot.combatants.find(row => row.key === 'target')!.providers.push({
+      providerRef: 'infrastructure_spell_shield', definitionRef: 'infrastructure_spell_shield_definition',
+      owner: 'target', source: 'target', stacks: 1, expireAt: null, state: {}
+    });
+    const done = await client.run(request);
+    expect(done.evidence.items).toEqual(expect.arrayContaining([expect.objectContaining({ kind: 'skill_hit',
+      data: expect.objectContaining({ skillKey: 'lab_transfer', blocked: 1, blockScope: 'SKILL' }) })]));
+    expect(done.finalSnapshot.combatants.find(row => row.key === 'target')!.providers.map(row => row.definitionRef))
+      .toEqual(['infrastructure_spell_shield_definition']);
+    expect(done.summary.basicAttack?.hitCount).toBe(1);
+    expect(done.summary.sourceDamageDealt).toBe(0);
+    expect(await client.run(request)).toEqual(done);
+  } finally {
+    expect((await client.release(sessionId, input.rulesHash)).released).toBe(true);
+  }
+}, 60000);
 
 it('角色自然周期必须绑定同拥有者、同技能且实际施加的父来源', async () => {
   const definition = loadMechanismCases().find(row => row.caseKey === 'periodic_finite_damage_expiry')!;

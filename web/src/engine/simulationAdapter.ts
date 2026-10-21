@@ -31,7 +31,7 @@ import { assembleActiveSkills, type SimulationCastCostRef } from './simulationAc
 import { bindFiniteTargetCounterSources } from './finiteTargetCounterBinding';
 import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
-export const SIMULATION_ADAPTER_VERSION = 'v28-shield-attribute-snapshot';
+export const SIMULATION_ADAPTER_VERSION = 'v29-control-source-target-refresh';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';

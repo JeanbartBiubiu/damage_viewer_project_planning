@@ -33,9 +33,13 @@
           "skill.hit_miss",
           "skill.manual_cast",
           "skill.release_after",
-          "skill.wait_for_cooldown"
+          "skill.wait_for_cooldown",
+          "status.finite_expiry",
+          "status.finite_target_instance",
+          "status.source_target_refresh",
+          "status.stale_expiry_rejected"
         ],
-        "rationale": "依既有安妮完整来源验收：普通盾与按目标反伤额度、同事件被动计数、有限属性衰减、常驻剩余比例组合；独立召唤物及完整控制行动限制沿原范围排除。"
+        "rationale": "依既有安妮完整来源验收：普通盾与按目标反伤额度、同事件被动计数、有限属性衰减、常驻剩余比例组合；独立召唤物及完整控制行动限制沿原范围排除。 当前真实作者图含有限控制标记，依赖按来源和目标单实例刷新、旧期限失效及最终到期；该声明不包含完整控制行动限制。"
       },
       "CHARACTER:champion_corki": {
         "contentDigest": "5c524888efc36d46a794d225ca14d01aa44b9dc3a823f144559d4ca6e4d95ec9",
@@ -105,9 +109,13 @@
           "skill.formula_attribute_ratio",
           "skill.manual_cast",
           "skill.release_after",
-          "skill.wait_for_cooldown"
+          "skill.wait_for_cooldown",
+          "status.finite_expiry",
+          "status.finite_target_instance",
+          "status.source_target_refresh",
+          "status.stale_expiry_rejected"
         ],
-        "rationale": "依既有盖伦完整来源验收：下一刀强化与计时重置、有限引导及完成冷却、目标总护甲削减、有限护盾减伤、显式战前永久属性、损失生命求伤；P沿原范围排除。"
+        "rationale": "依既有盖伦完整来源验收：下一刀强化与计时重置、有限引导及完成冷却、目标总护甲削减、有限护盾减伤、显式战前永久属性、损失生命求伤；P沿原范围排除。 当前真实作者图含有限控制标记，依赖按来源和目标单实例刷新、旧期限失效及最终到期；该声明不包含完整控制行动限制。"
       },
       "CHARACTER:champion_nasus": {
         "contentDigest": "509c083305202abbc3391cbc97e139aa160fc2e2fd100543d81e1ce44cbf611e",
@@ -517,9 +525,13 @@
           "state.finite_target_counter",
           "state.real_basic_attack_stack",
           "state.stale_callback_rejected",
-          "state.target_window_expiry"
+          "state.target_window_expiry",
+          "status.finite_expiry",
+          "status.finite_target_instance",
+          "status.source_target_refresh",
+          "status.stale_expiry_rejected"
         ],
-        "rationale": "完整P/Q/E/R与后台普攻真实77场256次及独立逐事件重算；自身等级射程、有限攻速和实际总攻速前摇、真实命中目标计数、满层与自然终点、同刻先后、旧回调失效及暴击增幅。W按Excel排除，位移、死亡溅射与完整控制行动限制沿本轮范围。"
+        "rationale": "完整P/Q/E/R与后台普攻真实77场256次及独立逐事件重算；自身等级射程、有限攻速和实际总攻速前摇、真实命中目标计数、满层与自然终点、同刻先后、旧回调失效及暴击增幅。W按Excel排除，位移、死亡溅射与完整控制行动限制沿本轮范围。 当前真实作者图含有限控制标记，依赖按来源和目标单实例刷新、旧期限失效及最终到期；该声明不包含完整控制行动限制。"
       }
     }
   }
