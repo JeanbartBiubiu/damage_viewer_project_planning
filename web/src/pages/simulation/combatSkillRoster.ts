@@ -37,7 +37,7 @@ export function describeCombatSkill(configuration: SkillConfiguration, basicAtta
     const empowered = process?.steps.length === 1 && process.steps[0]?.stepType === 'EMPOWERED_BASIC_ATTACK'
       && process.steps[0].detail.consumeMoment === 'ATTACK_HIT' && process.steps[0].occupiesAction === false;
     if (empowered) { description.targetSide = 'source'; description.hitPreset = null; }
-    if (starts.length !== 1 || !process || closure.processes.length !== 1 || process.activationType !== 'ACTIVE') {
+    if (starts.length !== 1 || !process || closure.processes.filter(row => row.activationType === 'ACTIVE').length !== 1 || process.activationType !== 'ACTIVE') {
       issues.push('首次施放需要唯一的真实主动过程');
     } else if (process.steps.length !== 1 || process.steps.some(step => !['IMMEDIATE', 'DELAY', 'CHANNEL'].includes(step.stepType)) && !empowered) {
       issues.push('自动循环支持单步骤即时、有限延时或有限引导，当前过程请使用固定时刻计划');
