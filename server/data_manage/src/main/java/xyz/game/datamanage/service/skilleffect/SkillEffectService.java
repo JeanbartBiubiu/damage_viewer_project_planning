@@ -622,6 +622,7 @@ public class SkillEffectService {
         }
         validateLifecyclePeriodicPair(lifecycle, hasPeriodic, hasNaturalEnd, issues);
         issues.addAll(ShieldEndLifecycleSemantics.issues(lifecycle, results));
+        issues.addAll(xyz.game.datamanage.support.authoring.ShieldAttributeDependencySemantics.issues(lifecycle, results));
         throwIfInvalidBody(bodyIssues);
         throwIfInvalid(issues);
         return refs;
@@ -742,8 +743,14 @@ public class SkillEffectService {
             && result.detail() instanceof SkillEffectStatusOperationDetail statusDetail
             && statusDetail.operation() == SkillEffectStatusOperation.APPLY
             && scope == SkillEffectSpellShieldBlockScope.RESULT;
+        boolean persistentAttributeResult = persistent
+            && result.target() == xyz.game.datamanage.model.skilleffect.SkillEffectTarget.TARGET
+            && result.resultType() == SkillEffectResultType.ATTRIBUTE_CHANGE
+            && result.detail() instanceof SkillEffectAttributeChangeDetail attribute
+            && attribute.operation() != SkillEffectAttributeChangeOperation.SET
+            && scope != SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE;
         if (result.target() != xyz.game.datamanage.model.skilleffect.SkillEffectTarget.TARGET
-            || (persistent && !persistentStatusApplyResult)
+            || (persistent && !persistentStatusApplyResult && !persistentAttributeResult)
             || !allowedType
             || (scope == SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
                 && result.resultType() != SkillEffectResultType.DAMAGE)) {

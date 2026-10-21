@@ -24,6 +24,9 @@ func (s *genericRunState) validateStaticInitializer(provider planbundle.Compiled
 }
 
 func (s *genericRunState) validateStaticInitializationListener(listener planbundle.CompiledListener) *model.EngineError {
+	if s.ownLinkedShieldInitialization(listener) {
+		return nil
+	}
 	initializationType, declared := s.compiled.RuntimeTypes.SourceInitialized.Lookup()
 	ownerType, ownerDeclared := s.compiled.RuntimeTypes.SourceOwner.Lookup()
 	var eventTypes typeset.TypeSet

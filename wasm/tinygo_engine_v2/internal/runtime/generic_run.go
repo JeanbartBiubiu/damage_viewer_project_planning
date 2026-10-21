@@ -355,6 +355,9 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 	if err := state.compileDriverConditions(); err != nil {
 		return nil, err
 	}
+	if err := state.initStateOnExpireSources(); err != nil {
+		return nil, err
+	}
 	if err := state.initSkillHitState(); err != nil {
 		return nil, err
 	}
@@ -886,6 +889,13 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			s.setStopReason(model.StopReasonDurationReached)
 			break
 		}
+		if s.compiled.HasStateOnExpire && s.currentStateOnExpire(ev) {
+			var selectionErr *model.EngineError
+			ev, selectionErr = s.selectCombatBeforeStateOnExpire(ev)
+			if selectionErr != nil {
+				return selectionErr
+			}
+		}
 		// Only terminal anchored callbacks settle before a same-time process
 		// timer. The selected event still uses this ordinary budget/stop path.
 		if ev.Kind == scheduler.GenericEventProcessTimer && len(s.anchoredTerminalAt) != 0 {
@@ -898,7 +908,7 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		s.flushSamplesBefore(ev.TimeMs)
 		s.nowMs = ev.TimeMs
 		s.processedEvents++
-		if s.hasSkillPlan() {
+		if s.hasSkillPlan() || s.currentStateOnExpire(ev) {
 			s.currentEventCommands = 0
 		}
 		var err *model.EngineError

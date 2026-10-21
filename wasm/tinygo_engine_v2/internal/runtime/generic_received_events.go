@@ -40,6 +40,8 @@ func (f *executionFrame) queueDamageTaken(cmd command.Command, operation planbun
 	event.types = f.appendCastOriginEventType(event.types)
 	event.snapshot.hasDamageSnapshot = true
 	event.snapshot.damageSnapshot = buildDamageInstanceSnapshot(critical, base, raw, outcome.MitigatedAmount)
+	event.snapshot.damageSnapshot.HasActualHPLoss = true
+	event.snapshot.damageSnapshot.ActualHPLoss = outcome.HPDamage
 	event.snapshot.damageTypeKey = cmd.DamageType
 	event.snapshot.damageTraits = append([]string(nil), operation.Types...)
 	event.useKey, event.useSource, event.useSkillKey = f.processUseKey, f.processUseSource, f.processUseSkillKey

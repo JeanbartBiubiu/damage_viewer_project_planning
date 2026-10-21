@@ -438,6 +438,7 @@ export type SkillEffectResultDraft = {
   modifierZoneKey: string;
   attributeKey: string;
   attributeOperation: AttributeChangeOperation | '';
+  requiredShield: { skillKey: string; effectKey: string; resultKey: string } | null;
   resourceOperation: ResourceChangeOperation | '';
   affectedSkillScope: AffectedSkillScopeDraft;
   cooldownOperation: CooldownChangeOperation | '';
@@ -526,6 +527,7 @@ export type SkillEffectResultDraftField =
   | 'modifierZoneKey'
   | 'attributeKey'
   | 'attributeOperation'
+  | 'requiredShield'
   | 'resourceOperation'
   | 'affectedSkillScope'
   | 'affectedSkillScopeMode'
@@ -706,6 +708,10 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   'detail.healingKind': 'healingKind',
   'detail.modifierZoneKey': 'modifierZoneKey',
   'detail.attributeKey': 'attributeKey',
+  'detail.requiredShield': 'requiredShield',
+  'detail.requiredShield.skillKey': 'requiredShield',
+  'detail.requiredShield.effectKey': 'requiredShield',
+  'detail.requiredShield.resultKey': 'requiredShield',
   'detail.affectedSkillScope': 'affectedSkillScope',
   'detail.affectedSkillScope.mode': 'affectedSkillScopeMode',
   'detail.affectedSkillScope.skillKeys': 'affectedSkillKeys',
@@ -810,6 +816,7 @@ export function createEmptyResultDraft(
     modifierZoneKey: '',
     attributeKey: '',
     attributeOperation: resultType === 'ATTRIBUTE_CHANGE' ? 'INCREASE' : '',
+    requiredShield: null,
     resourceOperation: resultType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
     affectedSkillScope: resultType === 'COOLDOWN_DURATION_MODIFIER' ? { mode: 'SKILLS', skillKeys: [], skillCategoryKeys: [] } : createEmptyAffectedSkillScopeDraft(),
     cooldownOperation: defaultCooldownOperation(resultType),
@@ -903,6 +910,7 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       break;
     case 'ATTRIBUTE_CHANGE':
       draft.attributeKey = result.detail.attributeKey;
+      draft.requiredShield = result.detail.requiredShield ? { ...result.detail.requiredShield } : null;
       draft.attributeOperation = result.detail.operation;
       draft.modifierZoneKey = result.detail.modifierZoneKey ?? '';
       draft.originalAttributeKey = result.detail.attributeKey;
@@ -1165,6 +1173,7 @@ export function applyResultTypeChange(
     healingKind: nextType === 'HEALING_MODIFIER' ? 'ANY' : '',
     attributeKey: '',
     attributeOperation: nextType === 'ATTRIBUTE_CHANGE' ? 'INCREASE' : '',
+    requiredShield: null,
     resourceOperation: nextType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
     affectedSkillScope: nextType === 'COOLDOWN_DURATION_MODIFIER' ? { mode: 'SKILLS', skillKeys: [], skillCategoryKeys: [] } : createEmptyAffectedSkillScopeDraft(),
     cooldownOperation: nextCooldown,
@@ -1332,6 +1341,8 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
         ? draft.attributeKey
         : '',
     attributeOperation: draft.resultType === 'ATTRIBUTE_CHANGE' ? draft.attributeOperation || 'INCREASE' : '',
+    requiredShield: draft.resultType === 'ATTRIBUTE_CHANGE' && draft.target === 'SOURCE'
+      && draft.lifecycleBehavior.moment === 'PERSISTENT' && draft.attributeOperation !== 'SET' ? draft.requiredShield : null,
     resourceOperation: draft.resultType === 'RESOURCE_CHANGE' ? draft.resourceOperation || 'RESTORE' : '',
     affectedSkillScope: usesAffectedSkillScope(draft.resultType)
       ? normalizeAffectedSkillScopeDraft(draft.affectedSkillScope)
@@ -1409,7 +1420,7 @@ export function clearHiddenLifecycleBehaviorFields(
       ? draft.modifierZoneKey
       : '',
     spellShieldBlockScope: isSpellShieldBlockScopeVisible({ ...draft, lifecycleBehavior })
-      && (moment !== 'PERSISTENT' || draft.spellShieldBlockScope === 'RESULT')
+      && (moment !== 'PERSISTENT' || draft.resultType === 'ATTRIBUTE_CHANGE' || draft.spellShieldBlockScope === 'RESULT')
       ? draft.spellShieldBlockScope : '',
     lifecycleBehavior
   };
@@ -1642,7 +1653,8 @@ export function isSpellShieldBlockScopeVisible(draft: SkillEffectResultDraft): b
     return false;
   }
   if (draft.lifecycleBehavior.moment === 'PERSISTENT') {
-    return draft.resultType === 'STATUS_OPERATION' && draft.statusOperation === 'APPLY';
+    return draft.resultType === 'ATTRIBUTE_CHANGE' && draft.attributeOperation !== 'SET'
+      || draft.resultType === 'STATUS_OPERATION' && draft.statusOperation === 'APPLY';
   }
   return isSpellShieldBlockScopeEligibleResultType(draft.resultType);
 }
@@ -1654,7 +1666,7 @@ export function listSpellShieldBlockScopeOptions(
     return [];
   }
   if (draft.lifecycleBehavior.moment === 'PERSISTENT') {
-    return ['RESULT'];
+    return draft.resultType === 'ATTRIBUTE_CHANGE' ? ['SKILL', 'EFFECT', 'RESULT'] : ['RESULT'];
   }
   return draft.resultType === 'DAMAGE'
     ? ['SKILL', 'EFFECT', 'DAMAGE_INSTANCE', 'RESULT']
@@ -2540,7 +2552,9 @@ function validateAndBuildResult(
         detail: {
           attributeKey: draft.attributeKey.trim(),
           operation: draft.attributeOperation as AttributeChangeOperation,
-          modifierZoneKey: isModifierZoneRequired(draft) ? draft.modifierZoneKey.trim() : null
+          modifierZoneKey: isModifierZoneRequired(draft) ? draft.modifierZoneKey.trim() : null,
+          ...(draft.requiredShield ? { requiredShield: { skillKey: draft.requiredShield.skillKey.trim(),
+            effectKey: draft.requiredShield.effectKey.trim(), resultKey: draft.requiredShield.resultKey.trim() } } : {})
         }
       };
     case 'RESOURCE_CHANGE':
@@ -3002,6 +3016,13 @@ function validateTypeSpecificFields(
       break;
     case 'ATTRIBUTE_CHANGE':
       requireNonEmpty(draft.attributeKey, fieldErrors, 'attributeKey', '请选择属性。');
+      if (draft.requiredShield && (draft.target !== 'SOURCE' || draft.attributeKey === 'hp'
+        || !['INCREASE', 'DECREASE'].includes(draft.attributeOperation) || draft.lifecycleBehavior.moment !== 'PERSISTENT'
+        || draft.lifecycleBehavior.valueReadMode !== 'MOMENT_EVALUATION' || draft.lifecycleBehavior.stackValueMode !== 'SHARED'
+        || draft.lifecycleBehavior.reapplicationValueMode !== '' || draft.lifecycleBehavior.periodicExecutionMode !== ''
+        || Object.values(draft.requiredShield).some(value => !/^[a-z][a-z0-9_]{0,63}$/.test(value.trim())))) {
+        fieldErrors.requiredShield = '依赖盾需要自身永久静态非生命属性、当前时点共享数值及完整的技能、效果和结果标识。';
+      }
       if (
         draft.attributeOperation !== 'INCREASE'
         && draft.attributeOperation !== 'DECREASE'

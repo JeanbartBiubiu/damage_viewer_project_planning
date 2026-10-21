@@ -109,6 +109,7 @@ type CombatantSnapshot struct {
 // CombatantProviderSnapshot 是 combatant 上已挂载 provider 的运行态。
 // finalSnapshot 要求 source/owner/stacks/expireAt/state 稳定输出；expireAt 为 null 表示 persistent。
 type CombatantProviderSnapshot struct {
+	ModifierSnapshots   ModifierSnapshotValues               `json:"modifierSnapshots,omitempty"`
 	ProviderRef         string                               `json:"providerRef"`
 	DefinitionRef       string                               `json:"definitionRef"`
 	Source              string                               `json:"source"`

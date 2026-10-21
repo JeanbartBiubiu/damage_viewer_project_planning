@@ -192,7 +192,9 @@ func (s *genericRunState) attributeMemo(actor string, derived bool, batch bool, 
 				providerIndices[provider] = len(memo.providers)
 				memo.providers = append(memo.providers, provider)
 			}
-			add(mod.ValueProgram, mod.OwnerCombatantKey, mod.ProviderRef, false, mod.OwnedHealthReads)
+			if !mod.HasSnapshot {
+				add(mod.ValueProgram, mod.OwnerCombatantKey, mod.ProviderRef, false, mod.OwnedHealthReads)
+			}
 		}
 	}
 	if derived {

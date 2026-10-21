@@ -17,6 +17,9 @@ type CompiledAbilityRef struct {
 
 // CompiledSession 是 generic compile 输出的只读 session 快照。
 type CompiledSession struct {
+	HasStateOnExpire          bool
+	HasStagedLinkedShield     bool
+	HasModifierSnapshots      bool
 	AttributeLayout           *attribute.Layout
 	SkillActionBindings       []CompiledSkillActionBinding
 	HasMechanicReads          bool
@@ -77,6 +80,7 @@ type CompiledProviderMount struct {
 // CompiledModifier 是 compile 后的 provider / rule modifier。
 // CompiledModifier 是 compile 后的 provider / rule modifier。
 type CompiledModifier struct {
+	ValueReadMode string
 	// OwnedHealthReads仅由同技能作者生命读取的动态自身加算推导，不是公开协议字段。
 	OwnedHealthReads         bool
 	CurrentValuePolicy       string
@@ -160,6 +164,8 @@ type CompiledStatusContribution struct {
 
 // CompiledProviderStateField 是 initialStateSchema 规范化后的 provider-scope 字段定义（Gate H1）。
 type CompiledProviderStateField struct {
+	OnExpireStart uint16
+	OnExpireCount uint16
 	StateKind     string
 	AmmoRecovery  *CompiledAmmoRecovery
 	ValueType     string
@@ -172,6 +178,9 @@ type CompiledProviderStateField struct {
 
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
+	HasStateOnExpire     bool
+	AtomicLinkedShield   bool
+	HasModifierSnapshots bool
 	// ShieldDefinitionRef is set only for a provider owned by an actual numeric shield.
 	ShieldDefinitionRef string
 	NeedsElapsedTime    bool

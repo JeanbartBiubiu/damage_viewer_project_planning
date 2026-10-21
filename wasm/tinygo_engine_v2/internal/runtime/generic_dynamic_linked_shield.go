@@ -9,6 +9,9 @@ import (
 // The duration-only session can combine a pure linked shield with projected
 // attributes. Resource maximum/cooldown-duration batches keep their old guard.
 func (f *executionFrame) canProjectDurationLinkedShield(p plan.CompiledProvider) bool {
+	if p.AtomicLinkedShield {
+		return true
+	}
 	return f.run.compiled.HasProviderDurationChange && !f.run.compiled.HasResourceMax && !f.run.compiled.HasCooldownDuration &&
 		p.ShieldDefinitionRef != "" && p.Kind == "status" && p.TypeSet.Empty() && p.AbilityCount == 0 &&
 		len(p.Modifiers)+len(p.Listeners)+len(p.StateFields)+len(p.Processes)+len(p.StatusContributions) == 0 &&
@@ -20,6 +23,9 @@ func (f *executionFrame) projectDurationLinkedShield(owner string, sc *stagedCom
 	old status.ProviderInstance, oldIndex int, mut *stagedProviderMutation) bool {
 	if !f.canProjectDurationLinkedShield(definition) || mut.targetKey != owner {
 		return false
+	}
+	if mut.kind == "shield_apply" && !f.validateStagedProviderAttributeSlots(owner, definition) {
+		return true
 	}
 	if mut.kind == "shield_apply" {
 		// The shield operation has already assigned both fresh identities and
@@ -36,6 +42,7 @@ func (f *executionFrame) projectDurationLinkedShield(owner string, sc *stagedCom
 		instance := status.ProviderInstance{ProviderRef: mut.providerRef, DefinitionRef: definition.ProviderKey, DefinitionIndex: index,
 			Source: mut.sourceKey, Owner: owner, Stacks: 1, ExpireAt: mut.expireAt, State: map[string]interface{}{}}
 		sc.providers = append(sc.providers, instance)
+		f.mountStagedProviderModifiers(instance, definition)
 		f.projectedLifecycles = append(f.projectedLifecycles, projectedProviderLifecycle{instance: instance,
 			kind: model.EvidenceKindProviderApply, enqueueExpiry: mut.hasExpireAt})
 	} else if mut.kind == "expire" {
@@ -44,6 +51,7 @@ func (f *executionFrame) projectDurationLinkedShield(owner string, sc *stagedCom
 		}
 		sc.projectProviderList()
 		sc.providers = append(sc.providers[:oldIndex], sc.providers[oldIndex+1:]...)
+		f.unmountStagedProviderModifiers(owner, old.ProviderRef)
 		delete(sc.writableProviderStates(), old.ProviderRef)
 		kept := sc.shields[:0]
 		for _, shield := range sc.shields {

@@ -80,6 +80,7 @@ export async function runFirstHeroCase(snapshot: SimulationSnapshot, selection: 
   validateSimulationSnapshot(snapshot, 'lol', selection);
   const client = retainedClient ??= new GenericEngineClient();
   const ignoredCosts = simulationCastCostCandidates(snapshot);
+  const formulaPreflight = await preflightSkillFormulas(snapshot, client);
   const inspection = inspectSimulationSnapshot(snapshot, ignoredCosts);
   const attributes = options.attributeInputs ?? { source: {}, target: {} };
   const absent = inspection.requirements.filter(row => row.storedValue === undefined
@@ -92,7 +93,6 @@ export async function runFirstHeroCase(snapshot: SimulationSnapshot, selection: 
   }
   const ratios = options.initialHealthRatios ?? { source: .5, target: 1 };
   const initialHealth = { source: healthLimits.source * ratios.source, target: healthLimits.target * ratios.target };
-  const formulaPreflight = await preflightSkillFormulas(snapshot, client);
   const prepared = await prepareSimulation(snapshot, attributes, initialHealth, [], [], ignoredCosts);
   const diagnostics: Record<string, unknown> = { snapshot, inspection, attributes, healthLimits, initialHealth,
     formulaPreflight, ignoredCosts, prepared, options };

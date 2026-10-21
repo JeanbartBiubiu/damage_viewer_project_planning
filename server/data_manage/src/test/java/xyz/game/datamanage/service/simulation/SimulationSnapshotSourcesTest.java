@@ -269,6 +269,56 @@ class SimulationSnapshotSourcesTest {
     }
 
     @Test
+    void shieldDependencyReadsDisabledUnlearnedAndNonAttackingDefinitionsWithoutActivatingThem() throws Exception {
+        fixture.attach("hero_a", ATTACK, "armor", "barrier");
+        fixture.attach("hero_b", ATTACK, "armor", "barrier");
+        fixture.configuration("barrier", 1, """
+            {"effects":[{"effectKey":"shield","results":[{"resultKey":"barrier","resultType":"NORMAL_SHIELD","target":"SOURCE",
+              "valueRule":{"value":{"kind":"FIXED","value":10},"fixedMultiplier":1},"detail":{"absorbedDamageTypeKey":null,"decayMode":"NONE"}}]}],
+             "triggerRules":[{"ruleKey":"attack","eventSource":{"eventType":"BASIC_ATTACK_HIT","detail":{}},"conditionGroups":[],
+              "actions":[{"actionKey":"apply","actionType":"EXECUTE_EFFECT","detail":{"effectKey":"shield"},"targetContext":"EVENT_SOURCE","runtimeInputBindings":[],"resultModifiers":[]}]}]}
+            """);
+        fixture.configuration("armor", 1, """
+            {"effects":[{"effectKey":"armor","results":[{"resultKey":"bonus","resultType":"ATTRIBUTE_CHANGE","target":"SOURCE",
+              "valueRule":{"value":{"kind":"FIXED","value":0.2},"fixedMultiplier":1},
+              "detail":{"attributeKey":"bonus_attack_speed_percent","operation":"INCREASE","modifierZoneKey":"bonus_zone",
+                "requiredShield":{"skillKey":"barrier","effectKey":"shield","resultKey":"barrier"}}}]}],
+             "triggerRules":[%s]}
+            """.formatted(initialization("initialize", "armor")));
+        for (var setting : List.of(new SkillSetting(Origin.character("hero_a"), "barrier", false, null),
+            new SkillSetting(Origin.character("hero_a"), "barrier", true, 0))) {
+            var result = fixture.service.get(GAME, settings(setting));
+            assertEquals(setting.enabled() ? InactiveReason.UNLEARNED : InactiveReason.SCENE_DISABLED,
+                row(result, "source", "barrier").inactiveReason());
+            assertTrue(row(result, "source", "barrier").enabledRuleKeys().isEmpty());
+            assertEquals(InactiveReason.NO_AUTONOMOUS_ATTACK, row(result, "target", "barrier").inactiveReason());
+            assertNull(row(result, "source", "armor").inactiveReason());
+            assertNull(row(result, "target", "armor").inactiveReason());
+            assertTrue(result.skillConfigurations().stream().anyMatch(configuration -> configuration.skill().skillKey().equals("barrier")));
+            assertTrue(result.references().stream().anyMatch(reference -> reference.fieldPath().endsWith("requiredShield.resultKey")));
+        }
+    }
+
+    @Test
+    void sameSkillShieldDefinitionDoesNotRequireAnUnusedApplicationLevel() throws Exception {
+        fixture.attach("hero_a", ATTACK, "fixed_armor");
+        fixture.configuration("fixed_armor", 5, """
+            {"parameters":[{"parameterKey":"amount","valueType":"DECIMAL","valueMode":"SKILL_LEVEL","levelValues":{"1":10,"2":20,"3":30,"4":40,"5":50}}],
+             "effects":[{"effectKey":"armor","results":[{"resultKey":"bonus","resultType":"ATTRIBUTE_CHANGE","target":"SOURCE",
+              "valueRule":{"value":{"kind":"FIXED","value":0.2},"fixedMultiplier":1},
+              "detail":{"attributeKey":"bonus_attack_speed_percent","operation":"INCREASE","modifierZoneKey":"bonus_zone",
+                "requiredShield":{"skillKey":"fixed_armor","effectKey":"unused_shield","resultKey":"barrier"}}}]},
+              {"effectKey":"unused_shield","results":[{"resultKey":"barrier","resultType":"NORMAL_SHIELD","target":"SOURCE",
+               "valueRule":{"value":{"kind":"PARAMETER","parameterKey":"amount"},"fixedMultiplier":1},"detail":{"absorbedDamageTypeKey":null,"decayMode":"NONE"}}]}],
+             "triggerRules":[%s]}
+            """.formatted(initialization("initialize", "armor")));
+        var result = fixture.service.get(GAME, fixture.choice());
+        assertNull(row(result, "source", "fixed_armor").skillLevel());
+        assertNull(row(result, "source", "fixed_armor").inactiveReason());
+        assertEquals(List.of("initialize"), row(result, "source", "fixed_armor").enabledRuleKeys());
+    }
+
+    @Test
     void constantHeroContributionDoesNotImplicitlyAddFixedRatioBindings() throws Exception {
         fixture.attach("hero_a", ATTACK, "speed");
         fixture.configuration("speed", 1, """

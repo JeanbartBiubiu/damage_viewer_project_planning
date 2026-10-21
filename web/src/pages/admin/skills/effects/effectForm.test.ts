@@ -716,13 +716,16 @@ describe('skill effect form validation', () => {
     for (const ineligible of [
       { ...status, target: 'SOURCE' as const },
       { ...status, statusOperation: 'REMOVE' as const },
-      { ...status, resultType: 'ATTRIBUTE_CHANGE' as const },
       { ...status, resultType: 'DAMAGE' as const }
     ]) {
       expect(isSpellShieldBlockScopeVisible(ineligible)).toBe(false);
       expect(listSpellShieldBlockScopeOptions(ineligible)).toEqual([]);
       expect(clearHiddenLifecycleBehaviorFields(ineligible).spellShieldBlockScope).toBe('');
     }
+    const attribute = { ...status, resultType: 'ATTRIBUTE_CHANGE' as const, spellShieldBlockScope: 'SKILL' as const };
+    expect(isSpellShieldBlockScopeVisible(attribute)).toBe(true);
+    expect(listSpellShieldBlockScopeOptions(attribute)).toEqual(['SKILL', 'EFFECT', 'RESULT']);
+    expect(clearHiddenLifecycleBehaviorFields(attribute).spellShieldBlockScope).toBe('SKILL');
   });
 
   it('lets a valid child result enter an unfinished parent draft while final parent save stays strict', () => {

@@ -157,7 +157,7 @@ final class SnapshotSkillClosure {
             SkillParameterResponse parameter = configuration.parameters().stream()
                 .filter(candidate -> candidate.parameterKey().equals(target.key())).findFirst().orElse(null);
             if (parameter == null) throw SnapshotIssues.invalid(path, "REFERENCE_MISSING", "必要参数不存在");
-            if (readsParameter(invocation.object(), target.key())) validateParameter(invocation.owner(), configuration, parameter);
+            if (!invocation.definitionOnly() && readsParameter(invocation.object(), target.key())) validateParameter(invocation.owner(), configuration, parameter);
             return;
         }
         ObjectKey key = objectKey(target);
@@ -165,9 +165,10 @@ final class SnapshotSkillClosure {
         Aggregate dependency = objects.get(key);
         if (dependency == null) throw SnapshotIssues.invalid(path, "REFERENCE_MISSING", "开启闭包中的必要组成不存在");
         Source owner = invocation.owner();
-        if (key.type() != SourceType.FORMULA && !key.skillKey().equals(owner.skillKey)) owner = ownerFor(owner, key.skillKey(), path);
-        boolean executes = invocation.executes() && executesDependency(invocation.object(), reference);
-        enqueue(owner, dependency, executes);
+        boolean definitionOnly = invocation.definitionOnly() || shieldDefinitionReference(invocation.object(), reference);
+        if (!definitionOnly && key.type() != SourceType.FORMULA && !key.skillKey().equals(owner.skillKey)) owner = ownerFor(owner, key.skillKey(), path);
+        boolean executes = !definitionOnly && invocation.executes() && executesDependency(invocation.object(), reference);
+        enqueue(owner, dependency, executes, definitionOnly);
     }
 
     private Source ownerFor(Source source, String skillKey, String path) {
@@ -194,6 +195,11 @@ final class SnapshotSkillClosure {
                 || (reference.target().type() == TargetType.PROCESS && "START_PROCESS".equals(action));
         }
         return object.type() == SourceType.PROCESS && (field.startsWith("effectBindings[") || field.startsWith("stateOperations["));
+    }
+
+    private static boolean shieldDefinitionReference(Aggregate object, Reference reference) {
+        return object.type() == SourceType.EFFECT && reference.target().type() == TargetType.RESULT
+            && reference.fieldPath().matches("results\\[\\d+\\]\\.detail\\.requiredShield\\.resultKey");
     }
 
     private void subscribe(Invocation producer) {
@@ -472,11 +478,12 @@ final class SnapshotSkillClosure {
             for (Reference reference : references(object)) {
                 Target target = reference.target();
                 if (!target.skillKey().equals(source.skillKey)) continue;
-                if (target.type() == TargetType.PARAMETER && readsParameter(object, target.key()) && source.configuration.parameters().stream()
+                boolean definitionOnly = invocation.definitionOnly() || shieldDefinitionReference(object, reference);
+                if (!definitionOnly && target.type() == TargetType.PARAMETER && readsParameter(object, target.key()) && source.configuration.parameters().stream()
                     .anyMatch(parameter -> parameter.parameterKey().equals(target.key()) && parameter.valueMode() == SkillParameterValueMode.SKILL_LEVEL)) return true;
                 ObjectKey key = objectKey(target);
                 if (key != null && objects.containsKey(key)) remaining.add(new Invocation(source, objects.get(key),
-                    invocation.executes() && executesDependency(object, reference)));
+                    !definitionOnly && invocation.executes() && executesDependency(object, reference), definitionOnly));
             }
             if (invocation.executes()) rules(source).stream().filter(rule -> matches(source, rule, invocation))
                 .forEach(rule -> remaining.add(new Invocation(source, rule, true)));
@@ -507,7 +514,11 @@ final class SnapshotSkillClosure {
     }
 
     private void enqueue(Source source, Aggregate object, boolean executes) {
-        Invocation invocation = new Invocation(source, object, executes);
+        enqueue(source, object, executes, false);
+    }
+
+    private void enqueue(Source source, Aggregate object, boolean executes, boolean definitionOnly) {
+        Invocation invocation = new Invocation(source, object, executes, definitionOnly);
         if (visited.add(invocation)) pending.add(invocation);
         if (executes) active.add(source);
     }
@@ -632,6 +643,8 @@ final class SnapshotSkillClosure {
     }
 
     private record ObjectKey(String skillKey, SourceType type, String key) { }
-    private record Invocation(Source owner, Aggregate object, boolean executes) { }
+    private record Invocation(Source owner, Aggregate object, boolean executes, boolean definitionOnly) {
+        private Invocation(Source owner, Aggregate object, boolean executes) { this(owner, object, executes, false); }
+    }
     record Result(List<SkillConfigurationResponse> configurations, List<Reference> references, List<Aggregate> objects) { }
 }

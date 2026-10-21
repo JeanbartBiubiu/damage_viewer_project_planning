@@ -140,7 +140,7 @@ func SpellShieldScopeAllowed(sem SkillHitSemantic) (allowed map[string]struct{},
 		allowed[SpellShieldScopeResult] = struct{}{}
 		return allowed, false, ""
 	case SkillHitResultAttributeChange, SkillHitResultResourceChange, SkillHitResultCooldownChange, SkillHitResultLifecycleOp, SkillHitResultAttackLink, SkillHitResultHitLink:
-		if sem.Moment == SkillHitMomentPersistent {
+		if sem.Moment == SkillHitMomentPersistent && sem.ResultType != SkillHitResultAttributeChange {
 			return allowed, true, ""
 		}
 		allowed[SpellShieldScopeSkill] = struct{}{}

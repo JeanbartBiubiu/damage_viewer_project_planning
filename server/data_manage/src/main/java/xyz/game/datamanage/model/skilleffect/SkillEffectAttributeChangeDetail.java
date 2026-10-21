@@ -3,6 +3,7 @@ package xyz.game.datamanage.model.skilleffect;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Map;
@@ -12,6 +13,7 @@ public record SkillEffectAttributeChangeDetail(
     String attributeKey,
     SkillEffectAttributeChangeOperation operation,
     String modifierZoneKey,
+    @JsonInclude(JsonInclude.Include.NON_NULL) JsonNode requiredShield,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillEffectResultDetail {
@@ -27,7 +29,7 @@ public record SkillEffectAttributeChangeDetail(
         String attributeKey,
         SkillEffectAttributeChangeOperation operation
     ) {
-        this(attributeKey, operation, null, Set.of(), Set.of());
+        this(attributeKey, operation, null, null, Set.of(), Set.of());
     }
 
     public SkillEffectAttributeChangeDetail(
@@ -35,7 +37,7 @@ public record SkillEffectAttributeChangeDetail(
         SkillEffectAttributeChangeOperation operation,
         String modifierZoneKey
     ) {
-        this(attributeKey, operation, modifierZoneKey, Set.of(), Set.of());
+        this(attributeKey, operation, modifierZoneKey, null, Set.of(), Set.of());
     }
 
     @JsonCreator
@@ -43,6 +45,7 @@ public record SkillEffectAttributeChangeDetail(
         @JsonProperty("attributeKey") String attributeKey,
         @JsonProperty("operation") SkillEffectAttributeChangeOperation operation,
         @JsonProperty("modifierZoneKey") String modifierZoneKey,
+        @JsonProperty("requiredShield") JsonNode requiredShield,
         @JsonProperty("damageTypeKey") JsonNode damageTypeKey,
         @JsonProperty("affectedSkillKey") JsonNode affectedSkillKey,
         @JsonProperty("statusKey") JsonNode statusKey,
@@ -53,6 +56,7 @@ public record SkillEffectAttributeChangeDetail(
             attributeKey,
             operation,
             modifierZoneKey,
+            requiredShield,
             SkillEffectDetailFieldCapture.captureForeign(
                 "damageTypeKey", damageTypeKey,
                 "affectedSkillKey", affectedSkillKey,

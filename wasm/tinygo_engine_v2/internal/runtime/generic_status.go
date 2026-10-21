@@ -59,6 +59,12 @@ func (f *executionFrame) prepareProviderMutation(definitionRef, providerRef, sou
 			sourceKey = inst.Source
 		}
 	}
+	if provider.HasStateOnExpire {
+		return nil, f.providerLifecycleError(model.GenericErrRuntimeInvariantFailed, "providers", "state expiry source requires its real initial owner mount", provider.ProviderKey)
+	}
+	if provider.HasModifierSnapshots && providerRef != "" {
+		return nil, f.providerLifecycleError(model.GenericErrRuntimeInvariantFailed, "providerRef", "snapshot attribute refresh requires its complete actual target hit application", providerRef)
+	}
 	if provider.AtomicDynamic && (f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange) {
 		if (provider.HasResourceMax || provider.HasCooldownDuration) && sourceKey != targetKey {
 			return nil, f.providerLifecycleError(model.GenericErrRuntimeInvariantFailed, "target", "dynamic modifier requires actual self application", provider.ProviderKey)

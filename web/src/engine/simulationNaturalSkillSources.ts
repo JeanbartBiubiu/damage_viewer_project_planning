@@ -13,6 +13,7 @@ import type { SimulationCoverage } from './simulationAdapter';
 import type { SimulationAttributeDerivation } from './simulationAttributeConversion';
 import { declaredFormulaForApprovedReads } from './approvedFormulaValues';
 import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
+import { bindShieldAttributeDependencies } from './shieldAttributeDependency';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
   type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
@@ -192,6 +193,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
   providers.push(...triggered.providers);
   mounts.push(...triggered.mounts);
   coverage.push(...triggered.coverage);
+  bindShieldAttributeDependencies(providers, origins, coverage, triggered.operationOrigins, mounts);
   for (const side of ['source', 'target'] as const) {
     for (const key of triggered.required[side]) required[side].add(key);
     for (const key of triggered.changedAttributes[side]) changed[side].add(key);

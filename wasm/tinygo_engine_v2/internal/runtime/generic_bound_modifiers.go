@@ -69,7 +69,11 @@ func mountProviderModifiersAcross(
 			if !ok {
 				continue
 			}
-			host.resolver.MountCompiledModifierOwned(ownerKey, inst.ProviderRef, mod)
+			if mod.ValueReadMode == "APPLICATION_SNAPSHOT" {
+				host.resolver.MountSnapshotModifierOwned(ownerKey, inst.ProviderRef, mod, inst.ModifierSnapshots[mod.ModifierKey])
+			} else {
+				host.resolver.MountCompiledModifierOwned(ownerKey, inst.ProviderRef, mod)
+			}
 			combatants[mountKey] = host
 		}
 	}

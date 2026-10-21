@@ -12,6 +12,14 @@ func (v *ModifierDefinition) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
+	if bytes.Contains(data, []byte(`"valueReadMode"`)) {
+		if value.ValueReadMode != "APPLICATION_SNAPSHOT" || value.Kind != "attribute" {
+			return errors.New("modifier valueReadMode requires explicit attribute APPLICATION_SNAPSHOT")
+		}
+		if err := processJSONShape(data, "ModifierDefinition", "modifierKey kind target command channel bucket stage priority healDirection healCategory healGroupKey healGroupCalculationMode valuePolicy value condition currentValuePolicy affectedAbilityRefs valueReadMode", "modifierKey kind target valuePolicy value valueReadMode"); err != nil {
+			return err
+		}
+	}
 	// Keep legacy decoding allocation unchanged except for the new capabilities.
 	if value.Kind == "resource_max" || value.Kind == "cooldown_duration" || bytes.Contains(data, []byte(`"currentValuePolicy"`)) || bytes.Contains(data, []byte(`"affectedAbilityRefs"`)) {
 		if err := processJSONShape(data, "ModifierDefinition", "modifierKey kind target command channel bucket stage priority healDirection healCategory healGroupKey healGroupCalculationMode valuePolicy value condition currentValuePolicy affectedAbilityRefs", "modifierKey kind target valuePolicy value"); err != nil {

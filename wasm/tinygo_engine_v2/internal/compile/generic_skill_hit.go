@@ -417,6 +417,9 @@ func finalizeSkillHitPersistentAttributeProviders(ctx *genericCompileContext) {
 }
 
 func pureFiniteTargetAttributeProvider(reference string, ctx *genericCompileContext) bool {
+	if pureSnapshotAttributeProvider(reference, ctx) {
+		return true
+	}
 	index, exists := ctx.providerKeyIndex[reference]
 	if !exists || int(index) >= len(ctx.session.Providers) {
 		return false

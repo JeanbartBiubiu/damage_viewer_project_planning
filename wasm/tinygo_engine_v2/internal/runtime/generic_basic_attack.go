@@ -119,6 +119,13 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 					}
 				}
 				permanentSourceKeys[gear.StableID] = true
+				if gear.HasStateOnExpire {
+					for _, field := range gear.StateFields {
+						for _, operation := range s.compiled.Operations[int(field.OnExpireStart) : int(field.OnExpireStart)+int(field.OnExpireCount)] {
+							periodicOperations[operation.Path] = true
+						}
+					}
+				}
 				continue
 			}
 			tickAbility, hasTick := findTickAbility(gear, s.compiled)

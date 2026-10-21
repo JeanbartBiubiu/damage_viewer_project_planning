@@ -112,6 +112,7 @@ public class GameConfigurationWriteGuard {
         SkillLifecycleConditionSemantics.validate(skillAffected, skillContext);
         SkillQualifiedReferenceSemantics.validate(skillAffected, skillContext);
         ShieldEndLifecycleSemantics.validate(skillAffected);
+        ShieldAttributeDependencySemantics.validate(skillAffected, skillContext);
         SkillTargetCategoryConditionSemantics.validate(skillAffected);
         SkillExplicitTargetIsSourceConditionSemantics.validate(skillAffected);
         SkillHitTargetIsEnemyConditionSemantics.validate(skillAffected);

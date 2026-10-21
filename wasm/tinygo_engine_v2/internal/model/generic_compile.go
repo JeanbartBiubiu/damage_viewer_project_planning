@@ -91,13 +91,14 @@ type ProviderDefinition struct {
 // ProviderStateFieldSchema 是 initialStateSchema 的结构化字段形态（Gate H1）。
 // 旧形态仍允许纯数字默认值；结构化对象携带封顶与定时元数据。
 type ProviderStateFieldSchema struct {
-	StateKind     string              `json:"stateKind,omitempty"`
-	AmmoRecovery  *AmmoRecoverySchema `json:"ammoRecovery,omitempty"`
-	ValueType     string              `json:"valueType,omitempty"`
-	DefaultValue  any                 `json:"defaultValue"`
-	MaxValue      any                 `json:"maxValue"`
-	DurationMs    any                 `json:"durationMs"`
-	RefreshPolicy string              `json:"refreshPolicy,omitempty"`
+	OnExpire      []OperationDefinition `json:"onExpire,omitempty"`
+	StateKind     string                `json:"stateKind,omitempty"`
+	AmmoRecovery  *AmmoRecoverySchema   `json:"ammoRecovery,omitempty"`
+	ValueType     string                `json:"valueType,omitempty"`
+	DefaultValue  any                   `json:"defaultValue"`
+	MaxValue      any                   `json:"maxValue"`
+	DurationMs    any                   `json:"durationMs"`
+	RefreshPolicy string                `json:"refreshPolicy,omitempty"`
 }
 
 type AmmoRecoverySchema struct {
@@ -265,6 +266,7 @@ type OperationDefinition struct {
 
 // ModifierDefinition 是 provider 级 modifier。
 type ModifierDefinition struct {
+	ValueReadMode            string              `json:"valueReadMode,omitempty"`
 	ModifierKey              string              `json:"modifierKey"`
 	Kind                     string              `json:"kind"`
 	Target                   string              `json:"target,omitempty"`

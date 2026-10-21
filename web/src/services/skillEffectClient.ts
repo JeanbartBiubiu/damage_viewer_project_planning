@@ -207,6 +207,7 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
   const blockScopeEligible = value.target === 'TARGET'
     && (
       persistentStatusApplyBlockScope
+      || persistent && resultType === 'ATTRIBUTE_CHANGE' && detail.operation !== 'SET'
       || (
         !persistent
         && (
@@ -419,8 +420,17 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
       assertEnum(detail.decayMode, SHIELD_DECAY_MODES, `${path}.detail.decayMode`);
       break;
     case 'ATTRIBUTE_CHANGE':
+      assertExactDetailKeys(detail, ['attributeKey', 'operation', 'modifierZoneKey', ...('requiredShield' in detail ? ['requiredShield'] : [])], path);
       assertString(detail.attributeKey, `${path}.detail.attributeKey`);
       assertEnum(detail.operation, new Set(['INCREASE', 'DECREASE', 'SET']), `${path}.detail.operation`);
+      if ('requiredShield' in detail) {
+        const dependency = detail.requiredShield;
+        const dependencyPath = `${path}.detail.requiredShield`;
+        if (!isRecord(dependency)) protocolError(dependencyPath);
+        assertExactKeys(dependency, ['skillKey', 'effectKey', 'resultKey'], dependencyPath);
+        for (const key of ['skillKey', 'effectKey', 'resultKey']) if (!/^[a-z][a-z0-9_]{0,63}$/.test(assertString(dependency[key], `${dependencyPath}.${key}`))) protocolError(`${dependencyPath}.${key}`);
+        if (value.target !== 'SOURCE' || !persistent || detail.operation === 'SET' || detail.attributeKey === 'hp') protocolError(dependencyPath);
+      }
       break;
     case 'RESOURCE_CHANGE':
       assertString(detail.attributeKey, `${path}.detail.attributeKey`);

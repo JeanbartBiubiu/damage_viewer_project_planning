@@ -238,6 +238,7 @@ export type SkillHitDefinition = {
 export type HealGroupCalculationMode = 'ratio_add' | 'ratio_max';
 
 export type ModifierDefinition = {
+  valueReadMode?: 'APPLICATION_SNAPSHOT';
   currentValuePolicy?: 'grant_positive_delta_clamp';
   affectedAbilityRefs?: string[];
   modifierKey: string;
@@ -310,6 +311,7 @@ export type AbilityDefinition = {
 
 /** Structured provider initialStateSchema field (Guinsoo H+K / Gate H1). */
 export type ProviderStateFieldSchema = {
+  onExpire?: OperationDefinition[];
   valueType: string;
   defaultValue: StaticNumericValue;
   maxValue?: StaticNumericValue;
@@ -416,6 +418,7 @@ export type ProviderStatusContributionSnapshot = {
 };
 
 export type CombatantProviderSnapshot = {
+  modifierSnapshots?: Record<string, number>;
   providerRef: string;
   definitionRef: string;
   source: 'source' | 'target';

@@ -1975,6 +1975,19 @@ export function SkillEffectResultEditorModal({
                 </Radio.Group>
               </Form.Item>
               {renderModifierZoneField()}
+              {draft.target === 'SOURCE' && draft.lifecycleBehavior.moment === 'PERSISTENT' && draft.attributeOperation !== 'SET' ? (
+                <Form.Item label="依赖关联盾" validateStatus={errors.requiredShield ? 'error' : undefined} help={errors.requiredShield}>
+                  <Switch aria-label="依赖关联盾" checked={draft.requiredShield !== null} disabled={readOnly}
+                    onChange={enabled => patchDraft({ ...draft, requiredShield: enabled ? { skillKey: '', effectKey: '', resultKey: '' } : null })} />
+                  {draft.requiredShield ? <Space direction="vertical">
+                    {(['skillKey', 'effectKey', 'resultKey'] as const).map((key, index) => <Input key={key}
+                      aria-label={['关联盾技能标识', '关联盾效果标识', '关联盾结果标识'][index]}
+                      placeholder={['关联盾技能标识', '关联盾效果标识', '关联盾结果标识'][index]}
+                      value={draft.requiredShield![key]} disabled={readOnly}
+                      onChange={value => patchDraft({ ...draft, requiredShield: { ...draft.requiredShield!, [key]: value } })} />)}
+                  </Space> : null}
+                </Form.Item>
+              ) : null}
             </>
           ) : null}
 

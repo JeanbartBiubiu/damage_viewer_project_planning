@@ -6,6 +6,10 @@ import (
 )
 
 func (s *genericRunState) applyProviderSourceStateExpiry(payload expireCleanupPayload) {
+	if payload.stateGeneration > 0 {
+		s.applyStateOnExpire(payload)
+		return
+	}
 	actor, exists := s.combatants[payload.combatantKey]
 	if !exists {
 		return

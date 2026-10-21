@@ -17,6 +17,8 @@ import (
 // OwnerCombatantKey + ProviderRef 标识挂载身份：跨 combatant 时用拥有者 bag 求值，
 // 且两侧同名 providerRef 互不碰撞/误卸。
 type MountedAttributeModifier struct {
+	HasSnapshot       bool
+	SnapshotValue     float64
 	OwnedHealthReads  bool
 	OwnerCombatantKey string
 	ProviderRef       string
@@ -115,6 +117,14 @@ func (r *AttributeResolver) MountCompiledModifier(providerRef string, mod planbu
 
 // MountCompiledModifierOwned 挂载单个 modifier，并记录 owner combatant provenance。
 func (r *AttributeResolver) MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier) {
+	r.mountCompiledModifierOwned(ownerCombatantKey, providerRef, mod, false, 0)
+}
+
+func (r *AttributeResolver) MountSnapshotModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier, value float64) {
+	r.mountCompiledModifierOwned(ownerCombatantKey, providerRef, mod, true, value)
+}
+
+func (r *AttributeResolver) mountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier, snapshot bool, value float64) {
 	if mod.Kind != "attribute" && mod.Kind != "" {
 		return
 	}
@@ -129,6 +139,7 @@ func (r *AttributeResolver) MountCompiledModifierOwned(ownerCombatantKey, provid
 		return
 	}
 	mount := MountedAttributeModifier{
+		HasSnapshot: snapshot, SnapshotValue: value,
 		OwnedHealthReads:  mod.OwnedHealthReads,
 		OwnerCombatantKey: ownerCombatantKey,
 		ProviderRef:       providerRef,
@@ -312,7 +323,10 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 			modCtx.AuthoredSourceAttrs = attrs
 			modCtx.AuthoredCombatantKey = mod.OwnerCombatantKey
 		}
-		value, err := formulas.EvalContext(mod.ValueProgram, &modCtx)
+		value, err := mod.SnapshotValue, error(nil)
+		if !mod.HasSnapshot {
+			value, err = formulas.EvalContext(mod.ValueProgram, &modCtx)
+		}
 		if err != nil {
 			return 0, fmt.Errorf("attribute %s modifier %s: %w", attributeKey, mod.ModifierKey, err)
 		}

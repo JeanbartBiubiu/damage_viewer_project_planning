@@ -16,6 +16,7 @@ import (
 )
 
 type expireCleanupPayload struct {
+	stateGeneration  uint64
 	combatantKey     string
 	providerRef      string
 	shieldRef        string
@@ -364,7 +365,7 @@ func (s *genericRunState) handleExpireCleanup(ev scheduler.GenericEvent) {
 				}
 			}
 			evalCtx := s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
-			if !s.automatedRun() && !s.compiled.HasResourceMax && !s.compiled.HasCooldownDuration && !s.compiled.HasProviderDurationChange {
+			if !s.automatedRun() && !s.compiled.HasResourceMax && !s.compiled.HasCooldownDuration && !s.compiled.HasProviderDurationChange && !s.compiled.HasStagedLinkedShield && !s.compiled.HasModifierSnapshots {
 				s.removeProviderInstance(payload.combatantKey, payload.providerRef, evalCtx, model.EvidenceKindProviderExpire)
 			} else {
 				var frameStorage executionFrame
@@ -765,7 +766,7 @@ func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantK
 		p := path + ".providers[" + itoa(uint32(i)) + "]"
 		defIdx, ok := findProviderDefIndex(compiled, snap.DefinitionRef)
 		if !ok {
-			if len(snap.StatusContributions) > 0 {
+			if len(snap.StatusContributions) > 0 || snap.ModifierSnapshots != nil {
 				return nil, resolver, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown provider definition with statusContributions", p+".definitionRef", snap.DefinitionRef, schemaHash, rulesHash, sessionID)
 			}
 			continue
@@ -824,7 +825,12 @@ func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantK
 		if err != nil {
 			return nil, resolver, err
 		}
+		snapshots, snapshotErr := restoreModifierSnapshots(snap, provider, p, schemaHash, rulesHash, sessionID)
+		if snapshotErr != nil {
+			return nil, resolver, snapshotErr
+		}
 		inst := status.ProviderInstance{
+			ModifierSnapshots:   snapshots,
 			ProviderRef:         snap.ProviderRef,
 			DefinitionRef:       snap.DefinitionRef,
 			Source:              source,
@@ -937,6 +943,9 @@ func providersToSnapshot(instances []status.ProviderInstance) []model.CombatantP
 			State:               state,
 			StatusContributions: contributionsToSnapshot(inst.StatusContributions),
 			AppliedAtMs:         providerAppliedAtPtr(inst),
+		}
+		if inst.ModifierSnapshots != nil {
+			snap.ModifierSnapshots = cloneFloatMap(inst.ModifierSnapshots)
 		}
 		out = append(out, snap)
 	}

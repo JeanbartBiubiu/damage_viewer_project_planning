@@ -457,7 +457,7 @@ func (s *stagedCombatant) readonlyCooldowns() *genericCooldownLedger {
 }
 
 func (f *executionFrame) evalContext(ability planbundle.CompiledAbility) formula.GenericEvalContext {
-	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange {
+	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange || f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasModifierSnapshots {
 		f.flushDynamicProviders()
 	}
 	source, target := f.stageFor(f.sourceKey), f.stageFor(f.targetKey)
@@ -744,7 +744,7 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 	if err := f.bumpCommandBudget(); err != nil {
 		return err
 	}
-	if (f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange) && op.Operation != "apply_provider" && op.Operation != "refresh_provider" && op.Operation != "expire_provider" {
+	if (f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange || f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasModifierSnapshots) && op.Operation != "apply_provider" && op.Operation != "refresh_provider" && op.Operation != "expire_provider" {
 		f.flushDynamicProviders()
 		if f.fatal {
 			return f.fatalErr
@@ -1131,9 +1131,13 @@ func (f *executionFrame) applyStateChange(op planbundle.CompiledOperation, abili
 		if !bag.refreshExpireAtOnWrite(op.Ref, f.run.nowMs) {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "provider state duration overflow", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
-		if expires := bag.expireAt[op.Ref]; expires > 0 && f.run.automatedRun() {
+		generation := uint64(0)
+		if bag.fieldDefs[op.Ref].hasOnExpire {
+			generation = bag.rearmSourceExpiry(op.Ref, bag.expireAt[op.Ref])
+		}
+		if expires := bag.expireAt[op.Ref]; expires > 0 && (f.run.automatedRun() || generation > 0) {
 			f.pendingStateExpiry = append(f.pendingStateExpiry, pendingFrameStateExpiry{at: expires, payload: expireCleanupPayload{
-				kind: "provider_source_state", combatantKey: ownerKey, providerRef: f.ownerProviderRef, stateKey: op.Ref, expectedExpireAt: expires,
+				kind: "provider_source_state", combatantKey: ownerKey, providerRef: f.ownerProviderRef, stateKey: op.Ref, expectedExpireAt: expires, stateGeneration: generation,
 			}})
 		}
 		// Provider-scope write must immediately re-resolve owner attributes with provider-aware context.
@@ -1501,6 +1505,9 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op planbundle.C
 	sc.attributes = next.Attributes
 	sc.shields = next.Shields
 	f.applyDamageResult(cmd, result, sc)
+	if err := f.settleDepletedShieldAttributes(); err != nil {
+		return err
+	}
 	f.reResolveStagedAttributesTwoPass(ability)
 	damageRecordIndex := len(f.pendingDamage)
 	f.recordGenericDamageEvidence(genericDamageEvidence{
@@ -2067,7 +2074,7 @@ func (f *executionFrame) commit() {
 	if f.fatal || f.committed {
 		return
 	}
-	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange {
+	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange || f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasModifierSnapshots {
 		f.flushDynamicProviders()
 		if f.fatal {
 			return
@@ -2075,7 +2082,7 @@ func (f *executionFrame) commit() {
 	}
 	if f.run.compiled.HasShieldLifecycle {
 		f.prepareShieldLifecycleRemovals()
-		if f.run.compiled.HasProviderDurationChange && !f.run.compiled.HasResourceMax && !f.run.compiled.HasCooldownDuration {
+		if f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasProviderDurationChange && !f.run.compiled.HasResourceMax && !f.run.compiled.HasCooldownDuration {
 			// Depletion can append a removal after the first projection pass.
 			f.flushDynamicProviders()
 			if f.fatal {
@@ -2296,6 +2303,9 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown abilityRef", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
 	ability := s.compiled.Abilities[ref.AbilityIndex]
+	if s.compiled.Providers[ability.ProviderIndex].HasStateOnExpire {
+		return s.basicAttackErr("state expiry source abilities require their actual initialization or received-damage listener", "abilityRef")
+	}
 	if _, blocked := s.cooldownGate(sourceKey, resolvedRef); blocked {
 		return nil
 	}
@@ -3405,6 +3415,9 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 	damageID := frame.nextDamageID()
 	targetStage.attributes = next.Attributes
 	targetStage.shields = next.Shields
+	if err := frame.settleDepletedShieldAttributes(); err != nil {
+		return err
+	}
 	frame.reResolveStagedAttributesTwoPass(dmg.ability)
 	frame.damageDealt += result.Amount
 	frame.recordDamage(dmg.sourceKey, dmg.targetKey, result.Amount)

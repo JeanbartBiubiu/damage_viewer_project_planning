@@ -176,6 +176,22 @@ public final class SkillNumericSemantics {
                         Use valueUse = use(a, r.path("valueRule"), path + ".valueRule", "value",
                             valueBound,
                             current);
+                        if ("ATTRIBUTE_CHANGE".equals(text(r, "resultType")) && r.path("detail").has("requiredShield")) {
+                            requireStaticOne(a, life, "maxStacksValue");
+                            requireStaticOne(a, life, "applicationStacksValue");
+                            if (valueUse == null) throw invalid(a, path + ".valueRule", "REQUIRED", "护盾依赖属性必须明确静态数值");
+                            Map<Levels, Fraction> values;
+                            try { values = staticConditionValues(valueUse); }
+                            catch (ApiException ex) { throw invalid(a, path + ".valueRule.value", "STATIC_SHIELD_ATTRIBUTE_REQUIRED", "护盾依赖属性须在全部声明等级静态求值"); }
+                            boolean ratioDecrease = "DECREASE".equals(text(r.path("detail"), "operation"))
+                                && !"FLAT_ADD".equals(zoneModes.get(text(r.path("detail"), "modifierZoneKey")));
+                            for (Fraction raw : values.values()) {
+                                Fraction value = applyFixedRule(raw, r.path("valueRule"));
+                                if (!finite(value) || value.numerator().signum() < 0
+                                    || ratioDecrease && value.compareTo(Fraction.of(BigDecimal.ONE)) > 0)
+                                    throw invalid(a, path + ".valueRule.value", "STATIC_SHIELD_ATTRIBUTE_REQUIRED", "护盾依赖属性金额须有限非负，比例减少不得超过1");
+                            }
+                        }
                         if ("COOLDOWN_DURATION_MODIFIER".equals(text(r, "resultType"))) {
                             List<Map<String, String>> issues = SkillCooldownDurationSemantics.issues(life, r, path);
                             if (!issues.isEmpty()) {

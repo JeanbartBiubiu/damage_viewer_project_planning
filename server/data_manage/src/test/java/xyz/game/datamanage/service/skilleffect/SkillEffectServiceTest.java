@@ -2455,6 +2455,38 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void persistentTargetAttributePreservesSharedSpellShieldScopesAndRejectsForeignShapes() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow("total_attribute", ModifierZoneDomain.ATTRIBUTE,
+                ModifierZoneCalculationMode.RATIO_MULTIPLY, ModifierZoneApplicationStage.ATTRIBUTE_PERCENT,
+                ModifierZoneStatus.ENABLED)));
+        for (var scope : List.of(SkillEffectSpellShieldBlockScope.RESULT,
+            SkillEffectSpellShieldBlockScope.EFFECT, SkillEffectSpellShieldBlockScope.SKILL)) {
+            var result = new SkillEffectResultRequest("slow", "削减总攻速", SkillEffectResultType.ATTRIBUTE_CHANGE,
+                SkillEffectTarget.TARGET, null, 0, valueRule(),
+                new SkillEffectAttributeChangeDetail("attack_speed", SkillEffectAttributeChangeOperation.DECREASE,
+                    "total_attribute"), persistentShared(), scope);
+            var created = service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "共享技能阻挡", null, 0, timedLifecycle(), List.of(result)));
+            assertEquals(scope, created.results().getFirst().spellShieldBlockScope());
+            assertEquals(scope.name(), AggregateJson.tree(savedEffect.results()).get(0).path("spellShieldBlockScope").textValue());
+        }
+        for (var target : List.of(SkillEffectTarget.SOURCE, SkillEffectTarget.TARGET)) {
+            var result = new SkillEffectResultRequest("slow", "非法阻挡", SkillEffectResultType.ATTRIBUTE_CHANGE,
+                target, null, 0, valueRule(),
+                new SkillEffectAttributeChangeDetail("attack_speed", SkillEffectAttributeChangeOperation.DECREASE,
+                    "total_attribute"), persistentShared(), target == SkillEffectTarget.SOURCE
+                    ? SkillEffectSpellShieldBlockScope.SKILL : SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE);
+            ApiException error = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "非法阻挡", null, 0, timedLifecycle(), List.of(result))));
+            assertField(error, "results[0].spellShieldBlockScope", "INVALID_SPELL_SHIELD_SCOPE");
+        }
+    }
+
+    @Test
     void createsAndReadsBackPersistentStatusApplyResultScope() {
         stubParentAndNewKey();
         stubEnabledCatalogs();

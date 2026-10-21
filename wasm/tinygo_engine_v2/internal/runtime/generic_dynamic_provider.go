@@ -32,7 +32,7 @@ func (sc *stagedCombatant) projectProviderList() {
 }
 
 func (f *executionFrame) flushDynamicProviders() {
-	if f.fatal || f.committed || f.flushingDynamicProviders || (!f.run.compiled.HasResourceMax && !f.run.compiled.HasCooldownDuration && !f.run.compiled.HasProviderDurationChange) {
+	if f.fatal || f.committed || f.flushingDynamicProviders || (!f.run.compiled.HasResourceMax && !f.run.compiled.HasCooldownDuration && !f.run.compiled.HasProviderDurationChange && !f.run.compiled.HasStagedLinkedShield && !f.run.compiled.HasModifierSnapshots) {
 		return
 	}
 	if f.dynamicExpiryChecked && !f.dynamicProviderDirty {
@@ -48,7 +48,7 @@ func (f *executionFrame) flushDynamicProviders() {
 			for _, inst := range sc.providers {
 				if inst.Expired(f.run.nowMs) {
 					p := f.run.compiled.Providers[inst.DefinitionIndex]
-					if p.HasResourceMax || p.HasCooldownDuration {
+					if p.HasResourceMax || p.HasCooldownDuration || p.HasModifierSnapshots || p.AtomicLinkedShield {
 						changed = true
 					}
 				}
@@ -88,6 +88,9 @@ func (f *executionFrame) flushDynamicProviders() {
 			}
 			p := f.run.compiled.Providers[index]
 			if f.projectDurationLinkedShield(owner, sc, p, index, old, oldIndex, mut) {
+				if f.fatal {
+					return
+				}
 				changed, sc.dirty = true, true
 				continue
 			}
@@ -111,17 +114,8 @@ func (f *executionFrame) flushDynamicProviders() {
 				changed, sc.dirty = true, true
 				continue
 			}
-			if mut.kind != "expire" {
-				for _, mod := range p.Modifiers {
-					if mod.Kind == "attribute" {
-						key := mod.Target[len("self.attr."):]
-						if _, found := sc.attributes.Lookup(key); !found {
-							f.fatal = true
-							f.fatalErr = f.providerLifecycleError(model.GenericErrMissingRequiredField, "combatants."+owner+".attributes."+key, "dynamic provider requires its actual attribute slot", key)
-							return
-						}
-					}
-				}
+			if mut.kind != "expire" && !f.validateStagedProviderAttributeSlots(owner, p) {
+				return
 			}
 			if mut.kind != "apply" && mut.kind != "refresh" && mut.kind != "expire" {
 				continue
@@ -132,6 +126,15 @@ func (f *executionFrame) flushDynamicProviders() {
 				return
 			}
 			sc.projectProviderList()
+			var snapshots map[string]float64
+			if p.HasModifierSnapshots && mut.kind != "expire" {
+				var snapshotErr *model.EngineError
+				snapshots, snapshotErr = f.freezeModifierSnapshots(p, mut.sourceKey, owner)
+				if snapshotErr != nil {
+					f.fatal, f.fatalErr = true, snapshotErr
+					return
+				}
+			}
 			reason := "apply"
 			if mut.kind == "apply" {
 				// One replacement has no observable removed intermediate instance.
@@ -139,7 +142,7 @@ func (f *executionFrame) flushDynamicProviders() {
 					if inst.DefinitionIndex == index && inst.Source == mut.sourceKey && inst.Owner == owner && inst.Expired(f.run.nowMs) {
 						f.projectedLifecycles = append(f.projectedLifecycles, projectedProviderLifecycle{instance: inst, kind: model.EvidenceKindProviderExpire})
 						sc.providers = append(sc.providers[:j], sc.providers[j+1:]...)
-						sc.resolver.UnmountProviderOwned(owner, inst.ProviderRef)
+						f.unmountStagedProviderModifiers(owner, inst.ProviderRef)
 						delete(sc.writableProviderStates(), inst.ProviderRef)
 						break
 					}
@@ -163,9 +166,13 @@ func (f *executionFrame) flushDynamicProviders() {
 			mut.projected = true
 			if mut.kind == "expire" {
 				sc.providers = append(sc.providers[:oldIndex], sc.providers[oldIndex+1:]...)
-				sc.resolver.UnmountProviderOwned(owner, old.ProviderRef)
+				f.unmountStagedProviderModifiers(owner, old.ProviderRef)
 				delete(sc.writableProviderStates(), old.ProviderRef)
 			} else {
+				if p.HasModifierSnapshots {
+					old.ModifierSnapshots = snapshots
+					f.unmountStagedProviderModifiers(owner, old.ProviderRef)
+				}
 				if mut.hasExpireAt {
 					old.ExpireAt = mut.expireAt
 				}
@@ -176,11 +183,9 @@ func (f *executionFrame) flushDynamicProviders() {
 					sc.providers[oldIndex] = old
 				} else {
 					sc.providers = append(sc.providers, old)
-					for _, mod := range p.Modifiers {
-						if mod.Kind == "attribute" {
-							sc.resolver.MountCompiledModifierOwned(owner, old.ProviderRef, mod)
-						}
-					}
+				}
+				if oldIndex < 0 || p.HasModifierSnapshots {
+					f.mountStagedProviderModifiers(old, p)
 				}
 			}
 			kind := model.EvidenceKindProviderApply

@@ -1,5 +1,6 @@
 import { registerFormulaForApprovedReads } from './approvedFormulaValues';
 import { assertResourceChangeOutputShape, assertResourceRecordBudget } from './resourceChangeContract';
+import { assertAttributeSnapshotOutputShape } from './attributeSnapshotContract';
 import {
   OUTBOX_GENERIC_COMPILE_RESULT,
   OUTBOX_GENERIC_DONE,
@@ -107,6 +108,7 @@ export function parseDoneResult(frames: TinyGoV2Frame[]): DoneResult {
     throw new GenericEngineClientError('运行返回 ok=false', undefined, frames);
   }
   assertResourceChangeOutputShape(result);
+  assertAttributeSnapshotOutputShape(result);
   return result;
 }
 

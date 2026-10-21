@@ -193,6 +193,7 @@ export type SkillEffectAttributeChangeDetail = {
   attributeKey: string;
   operation: AttributeChangeOperation;
   modifierZoneKey: string | null;
+  requiredShield?: { skillKey: string; effectKey: string; resultKey: string };
 };
 
 export type SkillEffectResourceChangeDetail = {

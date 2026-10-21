@@ -14,6 +14,7 @@ const (
 
 // providerStateFieldDef is the runtime copy of compiled provider-scope field metadata (Gate H1).
 type providerStateFieldDef struct {
+	hasOnExpire   bool
 	stateKind     string
 	valueType     string
 	defaultValue  float64
@@ -61,6 +62,8 @@ func (m *providerStateFieldMetadata) definitions() map[string]providerStateField
 // Field schema (defaultValue/maxValue/durationMs/refresh_on_write|start_on_first_write)
 // applies to both provider-scope and provider_target writes.
 type providerStateBag struct {
+	sourceExpiryFacts            map[string]sourceStateExpiryFact
+	sourceExpiryFactsShared      bool
 	headerShared                 bool
 	state                        map[string]float64
 	expireAt                     map[string]int64
@@ -194,6 +197,7 @@ func cloneProviderStateMap(src map[string]*providerStateBag) map[string]*provide
 		bag.targetValuesShared, bag.targetExpireAtShared = true, true
 		bag.anchoredTickGenerationShared = true
 		*copied = *bag
+		bag.sourceExpiryFactsShared, copied.sourceExpiryFactsShared = true, true
 		copied.headerShared = false
 		out[k] = copied
 	}
@@ -217,6 +221,7 @@ func shareProviderStateMap(src map[string]*providerStateBag) map[string]*provide
 			continue
 		}
 		bag.headerShared = true
+		bag.sourceExpiryFactsShared = true
 		bag.stateShared, bag.expireAtShared = true, true
 		bag.targetValuesShared, bag.targetExpireAtShared = true, true
 		bag.anchoredTickGenerationShared = true
@@ -235,6 +240,7 @@ func freezeProviderStateView(src map[string]*providerStateBag) map[string]*provi
 	}
 	for _, bag := range src {
 		bag.headerShared = true
+		bag.sourceExpiryFactsShared = true
 		bag.stateShared, bag.expireAtShared = true, true
 		bag.targetValuesShared, bag.targetExpireAtShared = true, true
 		bag.anchoredTickGenerationShared = true
@@ -307,6 +313,7 @@ func writableProviderStateBag(bags map[string]*providerStateBag, providerRef str
 		return bag
 	}
 	copied := *bag
+	bag.sourceExpiryFactsShared, copied.sourceExpiryFactsShared = true, true
 	copied.headerShared = false
 	copied.stateShared, copied.expireAtShared = true, true
 	copied.targetValuesShared, copied.targetExpireAtShared = true, true
@@ -386,7 +393,7 @@ func (b *providerStateBag) needsReadPreparation(fields *providerStateFieldMetada
 		if def.stateKind == model.ProviderStateKindCooldown || def.durationMs <= 0 {
 			continue
 		}
-		if expires := b.expireAt[key]; expires > 0 && nowMs >= expires {
+		if expires := b.expireAt[key]; expires > 0 && nowMs >= expires && !b.holdsSourceExpiryAt(key, def, nowMs, expires) {
 			return true
 		}
 		if options.expireTarget {
@@ -410,7 +417,7 @@ func (b *providerStateBag) needsLazyExpiration(nowMs int64) bool {
 		if def.stateKind == model.ProviderStateKindCooldown || def.durationMs <= 0 {
 			continue
 		}
-		if expires := b.expireAt[key]; expires > 0 && nowMs >= expires {
+		if expires := b.expireAt[key]; expires > 0 && nowMs >= expires && !b.holdsSourceExpiryAt(key, def, nowMs, expires) {
 			return true
 		}
 		if expires := b.targetExpireAt[key]; expires > 0 && nowMs >= expires && !b.holdsInclusiveAtExpiry(key, nowMs, expires) {
@@ -638,6 +645,7 @@ func compiledStateFieldsToRuntime(fields map[string]planbundle.CompiledProviderS
 	metadata := &providerStateFieldMetadata{fields: make(map[string]providerStateFieldDef, len(fields))}
 	for k, f := range fields {
 		metadata.fields[k] = providerStateFieldDef{
+			hasOnExpire:   f.OnExpireCount > 0,
 			stateKind:     f.StateKind,
 			valueType:     f.ValueType,
 			defaultValue:  f.DefaultValue,
@@ -761,6 +769,9 @@ func (b *providerStateBag) lazyExpireProviderState(nowMs int64) {
 			continue
 		}
 		if nowMs >= exp {
+			if b.holdsSourceExpiryAt(key, def, nowMs, exp) {
+				continue
+			}
 			b.writableState()[key] = def.defaultValue
 			b.writableExpireAt()[key] = 0
 		}

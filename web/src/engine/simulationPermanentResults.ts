@@ -7,6 +7,7 @@ import { compileNumericValue, constExpr, createNumericCompileState, NumericAdapt
 import { permanentAttributeConversion, type SimulationAttributeDerivation } from './simulationAttributeConversion';
 import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
 import { dynamicPermanentAttribute } from './dynamicPermanentAttributeAdapter';
+import { registerShieldAttributeDependency } from './shieldAttributeDependency';
 
 export type PermanentResultContext = {
   snapshot: SimulationSnapshot;
@@ -56,6 +57,14 @@ export function validatePermanentEffect(effect: SkillConfiguration['effects'][nu
 
 export function permanentModifier(context: PermanentResultContext, result: SkillEffectResult, path: string): ModifierDefinition | SimulationAttributeDerivation {
   const { snapshot, configuration, source, side } = context;
+  if (result.resultType === 'ATTRIBUTE_CHANGE' && Object.prototype.hasOwnProperty.call(result.detail, 'requiredShield')) {
+    exact(result.detail, ['attributeKey', 'operation', 'modifierZoneKey', 'requiredShield'], `${path}.detail`);
+    const { requiredShield: _dependency, ...detail } = result.detail;
+    const modifier = permanentModifier(context, { ...result, detail }, path);
+    if ('combatantKey' in modifier) fail(path, '依赖盾只接静态属性，不接属性转换');
+    registerShieldAttributeDependency(context, result, path, modifier);
+    return modifier;
+  }
   if (result.resultType !== 'ATTRIBUTE_CHANGE' && result.resultType !== 'HEALING_MODIFIER'
     && result.resultType !== 'SHIELD_RECEIVED_MODIFIER' || result.valueRule === null) {
     fail(path, '该完整常驻结果尚未接入，不能只执行其它结果');

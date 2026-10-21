@@ -131,6 +131,9 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
       for (const modifier of definition?.modifiers ?? []) if (modifier.kind === 'attribute' || modifier.kind === 'resource_max') {
         const attribute = /^self\.attr\.([a-z][a-z0-9_]*)$/.exec(modifier.target ?? '');
         if (attribute) changed[row.target === 'target' ? 'target' : 'source'].add(attribute[1]!);
+        const capturedOpponent = modifier.valueReadMode === 'APPLICATION_SNAPSHOT'
+          ? /^opponent\.attr\.([a-z][a-z0-9_]*)$/.exec(modifier.target ?? '') : null;
+        if (capturedOpponent) changed[row.target === 'target' ? 'source' : 'target'].add(capturedOpponent[1]!);
       }
     }
     Object.values(row).forEach(collectChanged);
@@ -359,6 +362,17 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     vampRules = hit.vampRules;
     for (const [candidateIndex, candidate] of hit.skillHit.candidates.entries()) {
       const authorPath = `${root}.effects.${candidate.effectKey}.results.${candidate.resultKey}`;
+      if (candidate.semantic.resultType === 'ATTRIBUTE_CHANGE' && candidate.operations.length === 1) {
+        const grouped = hit.providers.find(row => row.providerKey === candidate.operations[0]!.providerDefinitionRef);
+        if (grouped?.modifiers?.length === 2 && grouped.modifiers.every(row => row.valueReadMode === 'APPLICATION_SNAPSHOT')) {
+          const effect = configuration.effects.find(row => row.effectKey === candidate.effectKey)!;
+          for (const [index, modifier] of grouped.modifiers.entries()) {
+            if (!effect.results.some(result => result.resultKey === modifier.modifierKey)) fail(authorPath, '双端快照缺少真实完整作者结果');
+            coverage.push({ authorPath: `${root}.effects.${effect.effectKey}.results.${modifier.modifierKey}`,
+              compiledPath: `sharedProviders[${grouped.providerKey}].modifiers[${index}]`, note: '完整双端属性共用一次实际目标命中、实例与期限；来源不产生独立阻挡候选' });
+          }
+        }
+      }
       for (const operation of candidate.operations) operation.ref = authorPath;
       const compiledPath = `sharedProviders[${definitionRef}].abilities[${hitAbilityIndex}].operations[0].skillHit.candidates[${candidateIndex}]`;
       coverage.push({ authorPath, compiledPath });

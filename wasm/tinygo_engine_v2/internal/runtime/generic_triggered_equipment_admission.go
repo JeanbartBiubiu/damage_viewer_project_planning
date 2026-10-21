@@ -170,6 +170,9 @@ func (s *genericRunState) validateEquipmentDynamicDefinition(owner, providerRef,
 }
 
 func (s *genericRunState) validateEquipmentHitProvider(provider planbundle.CompiledProvider, owner, providerRef string) *model.EngineError {
+	if provider.HasStateOnExpire {
+		return s.validateStateOnExpireProvider(provider, owner, providerRef)
+	}
 	if (provider.Kind != "item" && provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || provider.Lifecycle != nil || len(provider.Processes)+len(provider.StatusContributions) != 0 {
 		return s.basicAttackErr("triggered skill must remain an owned permanent passive source", "initialSnapshot.combatants.providers")
 	}

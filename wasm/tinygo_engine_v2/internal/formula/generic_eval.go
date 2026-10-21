@@ -117,6 +117,8 @@ type OperationOutputValues struct {
 
 // EventDamageSnapshot is the immutable numeric freeze under event.damage.*.
 type EventDamageSnapshot struct {
+	HasActualHPLoss        bool
+	ActualHPLoss           float64
 	BaseRawAmount          float64
 	PreMitigationAmount    float64
 	MitigatedAmount        float64
@@ -611,6 +613,11 @@ func readEventDamageField(snap EventDamageSnapshot, key string) (float64, error)
 		return snap.PreMitigationAmount, nil
 	case "mitigatedAmount":
 		return snap.MitigatedAmount, nil
+	case "actualHpLoss":
+		if !snap.HasActualHPLoss {
+			return 0, errors.New("event.damage.actualHpLoss requires its actual received-damage settlement")
+		}
+		return snap.ActualHPLoss, nil
 	case "originalCritChance":
 		return snap.OriginalCritChance, nil
 	case "effectiveCritChance":

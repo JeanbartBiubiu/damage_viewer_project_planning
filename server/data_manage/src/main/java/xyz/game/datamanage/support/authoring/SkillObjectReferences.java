@@ -247,6 +247,14 @@ public final class SkillObjectReferences {
                     case "ATTRIBUTE_CHANGE" -> {
                         dictionary(detail, dp, "attributeKey", TargetType.ATTRIBUTE);
                         dictionary(detail, dp, "modifierZoneKey", TargetType.MODIFIER_ZONE);
+                        JsonNode shield = detail.get("requiredShield");
+                        if (shield != null) {
+                            if (!shield.isObject() || shield.size() != 3)
+                                throw shape(dp + ".requiredShield", "护盾依赖须明确完整身份");
+                            add(dp + ".requiredShield.resultKey", TargetType.RESULT,
+                                required(shield, "skillKey", dp), required(shield, "effectKey", dp),
+                                required(shield, "resultKey", dp));
+                        }
                     }
                     case "RESOURCE_CHANGE", "HEALTH_FLOOR", "EXECUTE" -> dictionary(detail, dp, "attributeKey", TargetType.ATTRIBUTE);
                     case "COOLDOWN_CHANGE", "SKILL_HASTE_MODIFIER", "COOLDOWN_DURATION_MODIFIER" -> skillScope(detail.path("affectedSkillScope"), dp + ".affectedSkillScope");

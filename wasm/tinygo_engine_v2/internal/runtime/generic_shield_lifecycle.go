@@ -135,6 +135,17 @@ func (f *executionFrame) stageShieldProviderRemoval(sc *stagedCombatant, owner, 
 	f.dynamicProviderDirty = true
 }
 
+// Attribute-bearing shields stop contributing before the next authored number
+// or emitted post-damage view is read, while all removals remain frame-local.
+func (f *executionFrame) settleDepletedShieldAttributes() *model.EngineError {
+	if !f.run.compiled.HasStagedLinkedShield {
+		return nil
+	}
+	f.prepareShieldLifecycleRemovals()
+	f.flushDynamicProviders()
+	return f.fatalErr
+}
+
 // Runs before queue/wait preflight. Only touched combatants and their small shield
 // lists are inspected; the common unbound-only session bypasses this altogether.
 func (f *executionFrame) prepareShieldLifecycleRemovals() {
@@ -200,6 +211,23 @@ func (s *genericRunState) removeShieldInstance(owner, shieldRef string, kind mod
 	for i, sh := range c.shields {
 		if sh.ShieldRef != shieldRef {
 			continue
+		}
+		if instance, _, exists := status.FindByRef(c.providers, sh.LifecycleProviderRef); exists && s.compiled.Providers[instance.DefinitionIndex].AtomicLinkedShield {
+			var storage executionFrame
+			s.initExecutionFrame(&storage, sh.Source, owner, "shield_expiry:"+shieldRef)
+			f := &storage
+			if err := f.consumeCommands(1); err != nil {
+				s.processFailure = err
+				return
+			}
+			staged := f.stageFor(owner)
+			staged.providerOps = append(staged.providerOps, stagedProviderMutation{kind: "expire", providerRef: sh.LifecycleProviderRef, targetKey: owner, evidenceKind: kind})
+			staged.dirty, f.dynamicProviderDirty = true, true
+			f.commit()
+			if f.fatal {
+				s.processFailure = f.fatalErr
+			}
+			return
 		}
 		out := append([]shieldpkg.Instance(nil), c.shields[:i]...)
 		out = append(out, c.shields[i+1:]...)

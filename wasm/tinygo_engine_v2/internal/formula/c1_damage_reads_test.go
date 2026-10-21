@@ -22,6 +22,7 @@ func TestCompileC1DamageTraitAndTypeReads(t *testing.T) {
 		{"damage.type.true", ReadDamageType, "true"},
 		{"event.damage.baseRawAmount", ReadEventDamage, "baseRawAmount"},
 		{"event.damage.naturalBranchRawAmount", ReadEventDamage, "naturalBranchRawAmount"},
+		{"event.damage.actualHpLoss", ReadEventDamage, "actualHpLoss"},
 	}
 	for _, tc := range cases {
 		errors = nil
@@ -34,6 +35,21 @@ func TestCompileC1DamageTraitAndTypeReads(t *testing.T) {
 		}
 		if len(instr) != 1 || instr[0].ReadKind != tc.kind || instr[0].ReadKey != tc.key {
 			t.Fatalf("%s instr=%+v", tc.path, instr)
+		}
+	}
+}
+
+func TestEvalActualHPLossRequiresTheReceivedDamageFactAndKeepsZero(t *testing.T) {
+	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.damage.actualHpLoss"})
+	for _, actual := range []float64{0, 12.5} {
+		value, err := reg.Eval(0, GenericEvalContext{HasEventContext: true, HasEventDamageSnapshot: true, EventDamage: EventDamageSnapshot{HasActualHPLoss: true, ActualHPLoss: actual, MitigatedAmount: 123}})
+		if err != nil || value != actual {
+			t.Fatal(actual, value, err)
+		}
+	}
+	for _, context := range []GenericEvalContext{{}, {HasEventContext: true}, {HasEventContext: true, HasEventDamageSnapshot: true, EventDamage: EventDamageSnapshot{MitigatedAmount: 123}}} {
+		if _, err := reg.Eval(0, context); err == nil {
+			t.Fatal("missing actual HP damage became a zero")
 		}
 	}
 }

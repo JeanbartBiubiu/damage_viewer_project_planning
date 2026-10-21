@@ -5,6 +5,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"tinygo_engine_v2/internal/pipeline"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -858,8 +859,9 @@ func (s *genericRunState) executeSkillHitCandidate(ev emittedEvent, freeze *froz
 				return s.skillHitErr(model.GenericErrUnknownRef, "persistent target attribute result requires its complete definition", operation.Path, operation.ProviderDefinitionRef)
 			}
 			for _, modifier := range s.compiled.Providers[index].Modifiers {
-				key := strings.TrimPrefix(modifier.Target, "self.attr.")
-				if target, exists := s.combatants[freeze.targetKey]; exists {
+				key := pipeline.AttributeKeyFromModifierTarget(modifier.Target)
+				host := modifierMountCombatantKey(freeze.targetKey, modifier.Target)
+				if target, exists := s.combatants[host]; exists {
 					if _, exists := target.attributes.Lookup(key); exists {
 						continue
 					}

@@ -101,6 +101,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	for i, provider := range req.SharedProviders {
 		compileProviderAbilities(provider, "sharedProviders["+itoa(i)+"]", ctx)
 	}
+	compileStateOnExpire(req, ctx)
 	for i, provider := range req.SharedProviders {
 		compileProviderProcesses(provider, "sharedProviders["+itoa(i)+"]", ctx)
 	}
@@ -165,9 +166,12 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeAttackDamageRoles(ctx)
 	finalizeProcessStartStateReads(ctx)
 	finalizeDynamicModifiers(ctx)
+	finalizeModifierSnapshots(ctx)
+	finalizeStagedLinkedShields(ctx)
 	validateProcessAbilityRefs(req, ctx)
 	validateAllAbilityRefs(req, ctx)
 	finalizeShieldLifecycleBindings(req, ctx)
+	finalizeStateOnExpire(ctx)
 	finalizeParticipationProviderBindings(ctx)
 	finalizeSkillHitPersistentAttributeProviders(ctx)
 	finalizeProviderDurationChanges(ctx)
@@ -604,6 +608,7 @@ func validateDamageParticipantReadContext(instr []formula.GenericInstr, mod mode
 func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *genericCompileContext) plan.CompiledModifier {
 	collector := ctx.collector
 	compiled := plan.CompiledModifier{
+		ValueReadMode:            mod.ValueReadMode,
 		ModifierKey:              mod.ModifierKey,
 		Kind:                     mod.Kind,
 		Target:                   mod.Target,
@@ -618,6 +623,9 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 		HealCategory:             mod.HealCategory,
 		HealGroupKey:             mod.HealGroupKey,
 		HealGroupCalculationMode: mod.HealGroupCalculationMode,
+	}
+	if mod.ValueReadMode != "" && mod.ValueReadMode != "APPLICATION_SNAPSHOT" {
+		collector.addError(model.GenericErrUnknownRef, path+".valueReadMode", "unsupported modifier value read mode", mod.ModifierKey)
 	}
 	if mod.AffectedAbilityRefs != nil {
 		compiled.HasAffectedAbilityRefs = true
@@ -884,6 +892,7 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 	validateProcessActualCostReads(deps, key, ctx)
 	validateOperationOutputReads(deps, key, ctx)
 	validateResolvedContactReads(deps, key, ctx)
+	validateActualHPLossReads(deps, key, ctx)
 	hasRef := false
 	for _, in := range instr {
 		if in.Op == formula.GenericOpRef {

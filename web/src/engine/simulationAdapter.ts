@@ -31,7 +31,7 @@ import { assembleActiveSkills, type SimulationCastCostRef } from './simulationAc
 import { bindFiniteTargetCounterSources } from './finiteTargetCounterBinding';
 import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
-export const SIMULATION_ADAPTER_VERSION = 'v27-finite-target-counter-window';
+export const SIMULATION_ADAPTER_VERSION = 'v28-shield-attribute-snapshot';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -668,6 +668,9 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
       for (const modifier of index === undefined ? [] : providers[index]!.modifiers ?? []) if (modifier.kind === 'attribute') {
         const attribute = /^self\.attr\.([a-z][a-z0-9_]*)$/.exec(modifier.target ?? '');
         if (attribute) base.required.get('target')!.add(attribute[1]!);
+        const capturedOpponent = modifier.valueReadMode === 'APPLICATION_SNAPSHOT'
+          ? /^opponent\.attr\.([a-z][a-z0-9_]*)$/.exec(modifier.target ?? '') : null;
+        if (capturedOpponent) base.required.get('source')!.add(capturedOpponent[1]!);
       }
     }
     const read = typeof row.path === 'string' ? /^(source|target)\.attr\.([a-z][a-z0-9_]*)\./.exec(row.path) : null;

@@ -4,6 +4,7 @@ import { GenericEngineClient } from './genericEngineClient';
 import { createNumericCompileState, registerCommonFormula } from './numericAdapter';
 import { rememberApprovedFormulaValues, selectFormulaProofScope, matchesFormulaProofScope, clearFormulaProofScope } from './approvedFormulaValues';
 import { calculationConfiguration, gameDerivationFormula } from './simulationCalculationRules';
+import { shieldAttributeProofLevels } from './shieldAttributeDependency';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
   type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
@@ -28,6 +29,17 @@ export function skillFormulaPreflightRequest(snapshot: SimulationSnapshot, scene
       bindParameters: false, allowAttributeReads: true, runtimeInputMessage: '预检不运行技能或供给计算时输入',
       sceneParameterValues: sceneInitialValuesForSource(requirements, normalized, side, source) });
     for (const formula of config.formulas) formulas.push(registerCommonFormula(formula, 'formulas.' + formula.formulaKey, state));
+    for (const effect of config.effects) for (const result of effect.results) {
+      if (result.resultType !== 'ATTRIBUTE_CHANGE' || !result.detail.requiredShield || result.valueRule?.value.kind !== 'FORMULA') continue;
+      const key = result.valueRule.value.formulaKey;
+      const formula = config.formulas.find(row => row.formulaKey === key);
+      if (!formula) throw new Error('依赖盾属性缺少完整静态公式。');
+      for (const levels of shieldAttributeProofLevels(snapshot, config, result, source.skillLevel, snapshot.selection[`${side}Level`])) {
+        const variant = createNumericCompileState({ ...state, ...levels,
+          formulaNamespace: `preflight/${side}/${sourceIndex}/${source.skillKey}/dependency-check` });
+        formulas.push(registerCommonFormula(formula, 'formulas.' + formula.formulaKey, variant));
+      }
+    }
   }
   return { schemaVersion: 'generic-p0', schemaHash: 'generic-basic-attack-input-v4', rulesHash: 'skill-formula-preflight',
     typeCatalog: { types: [{ key: 'combatant/champion', domain: 'combatant' }, ...snapshot.catalogs.attributes.map(row => ({ key: row.attributeKey, domain: 'attribute' }))], relations: [] },

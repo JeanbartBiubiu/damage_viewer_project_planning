@@ -25,6 +25,7 @@ import {
   NumericAdaptationError, tryFoldConstant, type NumericCompileState, wrapValueRuleExpression
 } from './numericAdapter';
 import { compilePersistentResult, type AuthoredPersistentResult } from './persistentResultAdapter';
+import { compilePairedAttributeSnapshot } from './pairedAttributeSnapshotAdapter';
 import { adaptDamageVamp, type AdaptedVampDamage, type AuthoredVampDamage } from './vampAdapter';
 
 export class HitAdaptationError extends NumericAdaptationError {
@@ -804,6 +805,17 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
       const actionState = hitActionState(authored, action, state);
       const effect = lookupEffect(authored, action.detail.effectKey, planPath(authored.skillKey, `rules.${rule.ruleKey}.actions.${action.actionKey}.detail.effectKey`));
       const occurrence = `${rule.ruleKey}:${action.actionKey}`;
+      const paired = effect.lifecycle ? compilePairedAttributeSnapshot(authored, effect, actionState) : null;
+      if (paired) {
+        if (resolveKind !== 'skill') fail(planPath(authored.skillKey, `effects.${effect.effectKey}`), '双端冻结属性必须来自实际技能命中');
+        mergeProvider(providers, paired.provider, planPath(authored.skillKey, `effects.${effect.effectKey}`));
+        candidates.push({ candidateKey: `${occurrence}:${paired.targetResult.resultKey}`, effectOccurrenceKey: occurrence,
+          effectKey: effect.effectKey, resultKey: paired.targetResult.resultKey,
+          semantic: { resultType: 'ATTRIBUTE_CHANGE', target: 'TARGET', moment: 'PERSISTENT' }, spellShieldBlockScope: 'SKILL',
+          ...(converted.participation ? { participationCondition: converted.participation } : {}),
+          ...(converted.eventValueConditions.length ? { eventValueConditions: converted.eventValueConditions } : {}), operations: [paired.operation] });
+        continue;
+      }
       for (const result of stableSorted(effect.results, (item) => item.sortOrder)) {
         const path = planPath(authored.skillKey, `effects.${effect.effectKey}.results.${result.resultKey}`);
         const compiled = compileResultOperations(authored, effect, result, path, actionState, providers, typeEntries, resolveKind);

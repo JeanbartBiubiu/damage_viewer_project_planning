@@ -40,6 +40,7 @@ import { staticEffectAmount } from './staticEffectValue';
 import { compileProviderDurationResult } from './providerDurationAdapter';
 import { finiteTargetCounterContract } from './finiteTargetCounterContract';
 import { lowerTargetCounterValueRule } from './targetCounterFormula';
+import { ownCounterShieldExpiry } from './ownCounterShieldExpiry';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
   type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
@@ -378,6 +379,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const activeEffects = new Set<string>();
         let rootEvent = '';
         const finiteCounter = finiteTargetCounterContract(snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey) ?? configuration);
+        const ownExpiry = ownCounterShieldExpiry(configuration);
         let boundCounterParameter: string | undefined;
         const skillTypes = configuration.skill.skillCategoryKeys.map(category);
         const noteNumeric = (value: NumericValue) => {
@@ -749,6 +751,12 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           }
           if (authored.conditionType === 'EVENT_VALUE_COMPARE') {
             exact(authored.detail, ['eventValueKey', 'comparator', 'comparisonValue'], detailPath);
+            if (authored.detail.eventValueKey === 'POST_DEFENSE_DAMAGE' && event === 'DAMAGE_TAKEN') {
+              return comparator(authored.detail.comparator, { op: 'read', path: 'event.damage.mitigatedAmount' }, value(authored.detail.comparisonValue, detailPath), detailPath);
+            }
+            if (authored.detail.eventValueKey === 'ACTUAL_HP_LOSS' && event === 'DAMAGE_TAKEN') {
+              return comparator(authored.detail.comparator, { op: 'read', path: 'event.damage.actualHpLoss' }, value(authored.detail.comparisonValue, detailPath), detailPath);
+            }
             if (authored.detail.eventValueKey === 'SKILL_HIT_SPELL_SHIELD_BLOCKED' && event === 'SKILL_HIT' && side === 'source') {
               return comparator(authored.detail.comparator, { op: 'read', path: 'event.skill_hit.blocked' }, value(authored.detail.comparisonValue, detailPath), detailPath);
             }
@@ -1011,7 +1019,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           }
         };
         const targetFor = (action: SkillTriggerAction, event: string, actionPath: string) => {
-          if (action.targetContext === 'CURRENT_TARGET') return event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED' || event === 'SOURCE_INITIALIZED' ? 'self' : 'target';
+          if (action.targetContext === 'CURRENT_TARGET') return event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED' || event === 'SOURCE_INITIALIZED'
+            || ownExpiry && event === 'INTERNAL_STATE_CHANGED' ? 'self' : 'target';
           if (action.targetContext === 'EVENT_SOURCE') {
             if (event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED') return 'target';
             if (['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'ATTACK_LINK_APPLIED', 'HIT_LINK_APPLIED', 'SKILL_USED', 'SKILL_HIT', 'PROCESS_MOMENT', 'PROCESS_RESOLVED', 'DAMAGE_DEALT', 'SOURCE_INITIALIZED'].includes(event)) return 'self';
@@ -1036,6 +1045,25 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (activeEffects.has(authored.effectKey)) fail(effectPath, '效果接线循环');
           activeEffects.add(authored.effectKey);
           try {
+            if (ownExpiry?.effectKey === authored.effectKey && ['SOURCE_INITIALIZED', 'INTERNAL_STATE_CHANGED'].includes(event)) {
+              if (context !== 'self' || description.kind === 'item' || skills.length !== 1) fail(actionPath, '初始化及到期回盾必须属于真实唯一自身角色或构筑来源');
+              const compiled = compileLinkedShieldEffect(authored, { ...numeric, bindParameters: false }, snapshot.catalogs.modifierZones, definitionRef);
+              const previous = providers.find(row => row.providerKey === compiled.provider.providerKey);
+              if (previous && JSON.stringify(previous) !== JSON.stringify(compiled.provider)) fail(effectPath, '自身关联盾定义冲突');
+              if (!previous) providers.push(compiled.provider);
+              const operationPath = `${outputRoot}[${output.length}]`;
+              output.push(compiled.operation);
+              for (const result of authored.results) {
+                noteNumeric(result.valueRule!.value);
+                // 到期是状态元数据回调，没有独立能力；保留真实编译覆盖，不伪造能力结果身份。
+                if (event !== 'INTERNAL_STATE_CHANGED') origin(result, authored, abilityRef, [operationPath]);
+                cover(`${effectPath}.results.${result.resultKey}`, operationPath);
+              }
+              noteNumeric(authored.lifecycle!.maxStacksValue); noteNumeric(authored.lifecycle!.applicationStacksValue);
+              if (authored.lifecycle!.durationValue) noteNumeric(authored.lifecycle!.durationValue);
+              cover(effectPath, `sharedProviders.${compiled.provider.providerKey}`);
+              return;
+            }
             if (authored.lifecycle?.expiryMode === 'ALL_AT_ONCE' && authored.results.some(result => result.resultType === 'DAMAGE_MODIFIER'
               || result.resultType === 'ATTRIBUTE_CHANGE' && snapshot.catalogs.modifierZones.some(zone => zone.modifierZoneKey === result.detail.modifierZoneKey
                 && zone.calculationMode === 'RATIO_COMPLEMENT_MULTIPLY'))) fail(effectPath, '新增有限减伤与补集属性目前仅接真实过程施加，不把自然触发编译成功当运行准入');
@@ -1169,7 +1197,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                 valuePolicy: 'subtract', amount: expression, types: ['state_scope/provider'] });
             } else if (action.actionType === 'START_PROCESS') {
               exact(action.detail, ['processKey'], `${actionPath}.detail`);
-              if (context !== 'target' && event !== 'SOURCE_INITIALIZED') fail(actionPath, '静态被动过程必须保持同一真实对手目标');
+              if (context !== 'target' && event !== 'SOURCE_INITIALIZED'
+                && !(ownExpiry && event === 'DAMAGE_TAKEN' && context === 'self')) fail(actionPath, '静态被动过程必须保持同一真实对手目标或已核定的自身受击回盾等待');
               const authored = process(action.detail.processKey, actionPath);
               if (authored.steps[0]!.stepType === 'EMPOWERED_BASIC_ATTACK') compileEmpoweredProcess(authored, output, outputRoot, event);
               else compileProcess(authored, output, outputRoot, abilityRef, event, context);
@@ -1363,6 +1392,19 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           rootEvent = event;
           const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
           if (event === 'PROCESS_MOMENT' || event === 'LIFECYCLE_MOMENT') continue;
+          if (ownExpiry && ownExpiry.ruleKey === rule.ruleKey) {
+            const state = lookupState(ownExpiry.stateKey, skillKey, rulePath);
+            if (state.stateType !== 'COUNTER' || !state.detail.durationValue) fail(rulePath, '自身回盾计数缺少到期时长');
+            constant(state.detail.durationValue, `${root}.internalStates.${state.stateKey}.detail.durationValue`, true, 1);
+            const operations: OperationDefinition[] = [];
+            const callbackRoot = `${compiledRoot}.initialStateSchema.${stateKey(state)}.onExpire`;
+            executeActions(rule, operations, callbackRoot, `${side}.provider[${providerRef}].state[${stateKey(state)}]`, event);
+            if (operations.length !== 1 || operations[0]!.operation !== 'shield') fail(rulePath, '自身到期回盾必须是一条完整关联盾操作');
+            schema[stateKey(state)]!.onExpire = operations;
+            usedRules.add(rule.ruleKey);
+            cover(rulePath, callbackRoot);
+            continue;
+          }
           if (finiteCounter && rule.ruleKey === finiteCounter.expiryRuleKey) {
             if (side !== 'source' || skills.length !== 1 || event !== 'INTERNAL_STATE_CHANGED') fail(rulePath, '有限目标终点只接实际自身唯一技能来源');
             const window = lookupState(finiteCounter.window.stateKey, skillKey, rulePath);
