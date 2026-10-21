@@ -490,6 +490,9 @@ func (s *genericRunState) evalListenerCondition(listener planbundle.CompiledList
 		}
 	}
 	ctx := frame.evalContext(ability)
+	if s.compiled.HasReceivedShieldReads {
+		ctx.ReceivedShieldReader = frame
+	}
 	ctx.StrictReads = true
 	value, err := s.formulas.EvalContext(listener.ConditionProgram, &ctx)
 	if err != nil {

@@ -60,6 +60,7 @@ const (
 	// it must not inherit the looser internal ability.param read permissions.
 	ReadAuthoredAbilityParameter
 	ReadProcessStartState
+	ReadReceivedLinkedShieldAbsorbed
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -501,6 +502,10 @@ func parseOperationOutputPath(path string) (GenericReadKind, string, bool) {
 }
 
 func parseEventReadPath(path string) (GenericReadKind, string, bool) {
+	if strings.HasPrefix(path, "event.damage.linked_shield[") && strings.HasSuffix(path, "].absorbed") {
+		key := strings.TrimSuffix(strings.TrimPrefix(path, "event.damage.linked_shield["), "].absorbed")
+		return ReadReceivedLinkedShieldAbsorbed, key, key != "" && !strings.ContainsAny(key, "[]\t\r\n ")
+	}
 	if path == "event.skill_use.contactCount" {
 		return ReadEventSkillUseContactCount, "contactCount", true
 	}

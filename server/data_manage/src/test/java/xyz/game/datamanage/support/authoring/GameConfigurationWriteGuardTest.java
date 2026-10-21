@@ -1035,6 +1035,89 @@ class GameConfigurationWriteGuardTest {
         verify(jdbc, never()).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), any(List.class));
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"result_type", "target", "scope", "no_lifecycle", "no_end", "layers", "second_shield", "delete_result", "delete_effect"})
+    void referencedShieldMutationsAndDeletionRollBackWithoutReplacingAnyIndex(String mutation) throws Exception {
+        Connection connection = connection();
+        var rule = ShieldAbsorptionTestData.rule("skill");
+        var shield = ShieldAbsorptionTestData.shield("skill");
+        var beforeObjects = List.of(shieldAbsorptionRow(shield), shieldAbsorptionRow(rule));
+        var life = (com.fasterxml.jackson.databind.node.ObjectNode) shield.data().path("lifecycle");
+        var result = (com.fasterxml.jackson.databind.node.ObjectNode) shield.data().path("results").get(0);
+        switch (mutation) {
+            case "result_type" -> result.put("resultType", "SPELL_SHIELD");
+            case "target" -> result.put("target", "TARGET");
+            case "scope" -> life.put("instanceScope", "TARGET");
+            case "no_lifecycle" -> ((com.fasterxml.jackson.databind.node.ObjectNode) shield.data()).putNull("lifecycle");
+            case "no_end" -> life.putNull("endWhenShieldEndsResultKey");
+            case "layers" -> ((com.fasterxml.jackson.databind.node.ObjectNode) life.path("maxStacksValue")).put("value", 2);
+            case "second_shield" -> ((com.fasterxml.jackson.databind.node.ArrayNode) shield.data().path("results")).add(result.deepCopy().put("resultKey", "second"));
+            case "delete_result" -> ((com.fasterxml.jackson.databind.node.ArrayNode) shield.data().path("results")).removeAll();
+        }
+        var afterObjects = mutation.equals("delete_effect") ? List.of(shieldAbsorptionRow(rule))
+            : List.of(shieldAbsorptionRow(shield), shieldAbsorptionRow(rule));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(beforeObjects, afterObjects);
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(snapshotRows(beforeObjects), snapshotRows(afterObjects));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.REFERENCES_SQL, "lol")).thenReturn(List.of(shieldAbsorptionReference()));
+        assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol"); jdbc.update("isolated shield change"); return null;
+        }));
+        verify(connection).rollback();
+        verify(connection, never()).commit();
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
+        verify(jdbc, never()).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), any(List.class));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2})
+    void newlyAddedSelectorProvesExistingShieldSingleLayerBeforeCommit(int layers) throws Exception {
+        Connection connection = connection();
+        var shield = ShieldAbsorptionTestData.shield("skill");
+        ((com.fasterxml.jackson.databind.node.ObjectNode) shield.data().path("lifecycle").path("maxStacksValue")).put("value", layers);
+        var before = List.of(shieldAbsorptionRow(shield));
+        var after = List.of(shieldAbsorptionRow(shield), shieldAbsorptionRow(ShieldAbsorptionTestData.rule("skill")));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(before, after);
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(snapshotRows(before), snapshotRows(after));
+        if (layers == 2) {
+            var error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> { guard.begin("lol"); return null; }));
+            assertEquals("400.INVALID_SKILL_NUMERIC_VALUE", error.getCode());
+            verify(connection).rollback();
+            verify(jdbc, never()).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), any(List.class));
+        } else {
+            transaction(connection).execute(status -> { guard.begin("lol"); return null; });
+            verify(connection).commit();
+            @SuppressWarnings("unchecked") ArgumentCaptor<List<Object[]>> rows = ArgumentCaptor.forClass(List.class);
+            verify(jdbc).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), rows.capture());
+            assertEquals(1, rows.getValue().size());
+            assertEquals(List.of("lol", "skill", "TRIGGER", "first_damage", "conditionGroups[0].conditions[0].detail.shieldResult.resultKey",
+                "RESULT", "skill", "barrier", "shield"), java.util.Arrays.asList(rows.getValue().getFirst()));
+        }
+    }
+
+    @Test
+    void deletingBothReadConditionAndShieldInSameTransactionLeavesNoDanglingReference() throws Exception {
+        Connection connection = connection();
+        var before = List.of(shieldAbsorptionRow(ShieldAbsorptionTestData.shield("skill")),
+            shieldAbsorptionRow(ShieldAbsorptionTestData.rule("skill")));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(before, List.of());
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(snapshotRows(before), List.of());
+        when(jdbc.queryForList(GameConfigurationWriteGuard.REFERENCES_SQL, "lol")).thenReturn(List.of(shieldAbsorptionReference()), List.of());
+        transaction(connection).execute(status -> { guard.begin("lol"); return null; });
+        verify(connection).commit();
+        verify(jdbc, never()).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), any(List.class));
+    }
+
+    private static Map<String, Object> shieldAbsorptionRow(SkillObjectReferences.Aggregate source) {
+        return Map.of("source_type", source.type().name(), "skill_key", source.skillKey(), "source_key", source.key(),
+            "data", source.data().toString());
+    }
+
+    private static Map<String, Object> shieldAbsorptionReference() {
+        return Map.of("source_skill_key", "skill", "source_type", "TRIGGER", "source_key", "first_damage",
+            "field_path", "conditionGroups[0].conditions[0].detail.shieldResult.resultKey", "target_type", "RESULT",
+            "target_skill_key", "skill", "target_key", "barrier", "target_sub_key", "shield");
+    }
+
     private static Map<String, Object> calculationAttribute(String key, String type, String status) {
         return Map.of("object_type", "ATTRIBUTE", "skill_key", "", "object_key", key,
             "data", "{\"value_type\":\"" + type + "\",\"status\":\"" + status + "\"}");

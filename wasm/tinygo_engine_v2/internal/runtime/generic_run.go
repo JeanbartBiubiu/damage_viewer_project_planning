@@ -218,6 +218,12 @@ func RunGeneric(compiled planbundle.CompiledSession, req model.RunRequest) (mode
 }
 
 func newGenericRunState(compiled planbundle.CompiledSession, req model.RunRequest) (*genericRunState, *model.EngineError) {
+	// TinyGo在函数入口为错误闭包捕获的参数分配；特性门须放在调用点。
+	if compiled.HasReceivedShieldReads {
+		if err := validateReceivedShieldInitialSnapshot(compiled, req); err != nil {
+			return nil, err
+		}
+	}
 	if req.OutputMode != "" && req.OutputMode != model.RunOutputDetailed && req.OutputMode != model.RunOutputSummary {
 		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "outputMode must be detailed or summary", "outputMode", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 	}
@@ -443,6 +449,9 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 				continue
 			}
 			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
+				if in.ReadKind == formula.ReadReceivedLinkedShieldAbsorbed {
+					addError(model.GenericErrFormulaTypeError, path, "linked shield absorption is unavailable in a driver condition", in.ReadKey)
+				}
 				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadAuthoredAbilityParameter || in.ReadKind == formula.ReadUseChargeDuration || in.ReadKind == formula.ReadProcessStartState {
 					addError(model.GenericErrFormulaTypeError, path, "runtime parameters unavailable in driver condition", in.ReadKey)
 				}
@@ -482,6 +491,9 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 				continue
 			}
 			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
+				if in.ReadKind == formula.ReadReceivedLinkedShieldAbsorbed {
+					addError(model.GenericErrFormulaTypeError, path, "linked shield absorption is unavailable in a driver repeat", in.ReadKey)
+				}
 				if in.ReadKind == formula.ReadAuthoredRuntimeParameter || in.ReadKind == formula.ReadAuthoredAbilityParameter || in.ReadKind == formula.ReadUseChargeDuration || in.ReadKind == formula.ReadProcessStartState {
 					addError(model.GenericErrFormulaTypeError, path, "runtime parameters unavailable in driver repeat", in.ReadKey)
 				}

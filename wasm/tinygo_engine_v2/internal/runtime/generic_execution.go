@@ -67,6 +67,7 @@ type stagedCombatant struct {
 // eventFormulaSnapshot 保存父 frame entry 快照与 emit 当点 staged 深拷贝。
 // event 参与者始终是原始 emittedEvent source/target，不随 listener owner-relative 重映射。
 type eventFormulaSnapshot struct {
+	shieldAbsorptions    *pipeline.ShieldAbsorptionSnapshot
 	hasUse               bool
 	useKey               string
 	useSource            string
@@ -359,6 +360,7 @@ func cloneEventSnapshot(src *eventFormulaSnapshot) *eventFormulaSnapshot {
 		return nil
 	}
 	cp := eventFormulaSnapshot{
+		shieldAbsorptions:    src.shieldAbsorptions,
 		hasUse:               src.hasUse,
 		useKey:               src.useKey,
 		useSource:            src.useSource,
@@ -1498,7 +1500,12 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op planbundle.C
 	}
 	mitigated := numbers.mitigatedAmount
 	targetHPBefore := attribute.ReadHP(view.Attributes)
-	outcome, next := pipeline.ApplyMitigatedDamage(rawForEvidence, mitigated, view, f.run.nowMs)
+	outcome, next := pipeline.ApplyMitigatedDamage(rawForEvidence, mitigated, view, f.run.nowMs, f.run.compiled.HasReceivedShieldReads)
+	if f.run.compiled.HasReceivedShieldReads {
+		if err := f.bindReceivedShieldAbsorptions(outcome.ShieldAbsorptions, cmd.Target, outcome.ShieldAbsorbed); err != nil {
+			return err
+		}
+	}
 	killed := float64(0)
 	if targetHPBefore > 0 && attribute.ReadHP(next.Attributes) <= 0 {
 		killed = 1
@@ -1549,7 +1556,7 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op planbundle.C
 		return err
 	}
 	f.pendingDamage[damageRecordIndex].sourceHpAfter = f.stageFor(cmd.Source).attributes.At("hp").Current
-	f.queueDamageTaken(cmd, op, ability, critEv, baseRawAmount, rawForEvidence, outcome, killed)
+	f.queueDamageTaken(cmd, op, ability, critEv, baseRawAmount, rawForEvidence, outcome, killed, damageID)
 	if err := f.recordDamageContribution(cmd, result, operationRef, op.Path); err != nil {
 		return err
 	}
@@ -3427,7 +3434,7 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 		return frame.fatalErr
 	}
 	targetHPBefore := attribute.ReadHP(view.Attributes)
-	outcome, next := pipeline.ApplyMitigatedDamage(numbers.rawAmount, numbers.mitigatedAmount, view, s.nowMs)
+	outcome, next := pipeline.ApplyMitigatedDamage(numbers.rawAmount, numbers.mitigatedAmount, view, s.nowMs, false)
 	sourceHealthBefore, sourceHasHealth := frame.stageFor(dmg.sourceKey).attributes.Lookup("hp")
 	result := command.Result{Kind: cmd.Kind, Applied: outcome.HPDamage > 0 || outcome.ShieldAbsorbed > 0, Amount: outcome.MitigatedAmount}
 	damageID := frame.nextDamageID()

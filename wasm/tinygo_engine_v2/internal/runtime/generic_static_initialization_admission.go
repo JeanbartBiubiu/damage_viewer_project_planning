@@ -6,6 +6,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
+	"tinygo_engine_v2/internal/status"
 	"tinygo_engine_v2/internal/typeset"
 )
 
@@ -33,6 +34,9 @@ func (s *genericRunState) validateStaticInitializationListener(listener planbund
 	eventTypes.Add(initializationType)
 	if !declared || !ownerDeclared || listener.OwnerCombatantKey == "" || listener.OwnerProviderRef == "" || listener.HasAbilityRef || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 || listener.OperationCount == 0 || listener.MaxTriggersPerEvent != 1 || !listener.EventMatcher.RequiresAllType(initializationType) || !listener.EventMatcher.RequiresAllType(ownerType) || !s.listenerMatchesEvent(listener, emittedEvent{eventType: model.EventTypeSourceInitialized, sourceKey: listener.OwnerCombatantKey, targetKey: listener.OwnerCombatantKey}, eventTypes) {
 		return s.basicAttackErr("this stage accepts only unconditional owner source initialization listeners", "listeners."+listener.ListenerKey)
+	}
+	if listener.OperationCount == 1 && s.compiled.Operations[listener.OperationStart].Operation == "shield" && s.pureOwnedLinkedShieldInitialization(listener) {
+		return nil
 	}
 	for _, operation := range s.compiled.Operations[int(listener.OperationStart) : int(listener.OperationStart)+int(listener.OperationCount)] {
 		if operation.Operation != "apply_provider" || operation.Target != "self" || operation.ProviderRef == "" || operation.HasCondition || operation.HasAmount || operation.ProviderRefFromEvent {
@@ -111,4 +115,78 @@ func (s *genericRunState) validateStaticInitializationListener(listener planbund
 		return s.basicAttackErr("unsupported permanent source modifier", operation.Path)
 	}
 	return nil
+}
+
+// 纯初始化盾独立核闭包；旧到期补盾仍由ownLinkedShieldInitialization及其完整门负责。
+func (s *genericRunState) pureOwnedLinkedShieldInitialization(listener planbundle.CompiledListener) bool {
+	op := s.compiled.Operations[listener.OperationStart]
+	if op.OwnerProviderIndex < 0 || op.OwnerProviderIndex >= len(s.compiled.Providers) || op.Target != model.SelectorSelf || !op.HasAmount || op.HasCondition || op.HasShieldDuration || !op.HasShieldLifecycleProvider || op.ShieldRef == "" || int(op.ShieldLifecycleProviderIndex) >= len(s.compiled.Providers) {
+		return false
+	}
+	parent := s.compiled.Providers[op.OwnerProviderIndex]
+	if (parent.Kind != "character" && parent.Kind != "build") || parent.StableID == "" || parent.SkillKey == "" || parent.Lifecycle != nil || parent.AmmoBinding != nil || parent.ShieldDefinitionRef != "" || len(parent.Processes)+len(parent.StateFields)+len(parent.Modifiers)+len(parent.StatusContributions) != 0 || len(parent.Listeners) != 1 {
+		return false
+	}
+	actualListener := parent.Listeners[0]
+	if actualListener.ListenerKey != listener.ListenerKey || actualListener.OperationStart != listener.OperationStart || actualListener.OperationCount != listener.OperationCount || actualListener.SourceAbilityIndex != listener.SourceAbilityIndex {
+		return false
+	}
+	if parent.AbilityCount == 0 {
+		if listener.SourceAbilityIndex >= 0 {
+			return false
+		}
+	} else {
+		if parent.AbilityCount != 1 || listener.SourceAbilityIndex != int(parent.AbilityStart) || listener.SourceAbilityIndex >= len(s.compiled.Abilities) {
+			return false
+		}
+		ability := s.compiled.Abilities[listener.SourceAbilityIndex]
+		if ability.Kind != "passive_listener" || int(ability.ProviderIndex) != op.OwnerProviderIndex || ability.SkillKey != parent.SkillKey || ability.ProcessControl != nil || ability.TickSpec != nil || ability.Cost != nil || ability.Cooldown != nil || ability.HasCastCondition || ability.HasSkillHit || ability.IsBasicAttack || ability.OperationCount != 0 && (ability.OperationStart != listener.OperationStart || ability.OperationCount != listener.OperationCount) {
+			return false
+		}
+	}
+	matched, mounts := false, 0
+	for _, actor := range s.compiled.Combatants {
+		if actor.Key != listener.OwnerCombatantKey {
+			continue
+		}
+		for _, mount := range actor.ProviderMounts {
+			if int(mount.DefinitionIndex) == op.OwnerProviderIndex {
+				mounts++
+				matched = matched || mount.ProviderRef == listener.OwnerProviderRef
+			}
+		}
+	}
+	instance, _, exists := status.FindByRef(s.combatants[listener.OwnerCombatantKey].providers, listener.OwnerProviderRef)
+	if mounts != 1 || !matched || !exists || int(instance.DefinitionIndex) != op.OwnerProviderIndex || instance.DefinitionRef != parent.ProviderKey || instance.Source != listener.OwnerCombatantKey || instance.Owner != listener.OwnerCombatantKey || instance.Stacks != 1 || instance.ExpireAt != 0 || len(instance.State) != 0 {
+		return false
+	}
+	amount, static := s.formulas.FoldStatic(op.AmountProgram)
+	if !static || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
+		return false
+	}
+	shield := s.compiled.Providers[op.ShieldLifecycleProviderIndex]
+	if shield.Kind != "status" || shield.SkillKey != parent.SkillKey || shield.ShieldDefinitionRef != op.ShieldRef || shield.AbilityCount != 0 || shield.AmmoBinding != nil || shield.NeedsElapsedTime || len(shield.Listeners)+len(shield.Processes)+len(shield.StateFields)+len(shield.StatusContributions) != 0 || !shield.TypeSet.Empty() || shield.Lifecycle != nil && (shield.Lifecycle.MaxStacks != 1 || shield.Lifecycle.RefreshPolicy != model.RefreshPolicyReplace || shield.Lifecycle.HasDuration || shield.Lifecycle.TickIntervalMs != 0 || shield.Lifecycle.InstanceScope != "") {
+		return false
+	}
+	if len(shield.Modifiers) > 0 {
+		// 编译层已有完整静态非HP关联修正证明，此处补真实接收者槽位。
+		if !shield.AtomicLinkedShield {
+			return false
+		}
+		for _, modifier := range shield.Modifiers {
+			key := pipeline.AttributeKeyFromModifierTarget(modifier.Target)
+			if _, exists := s.combatants[listener.OwnerCombatantKey].attributes.Lookup(key); !exists {
+				return false
+			}
+		}
+	}
+	for _, creator := range s.compiled.Operations {
+		if creator.ShieldRef != op.ShieldRef && !(creator.HasShieldLifecycleProvider && creator.ShieldLifecycleProviderIndex == op.ShieldLifecycleProviderIndex) {
+			continue
+		}
+		if creator.Operation != "shield" || creator.OwnerProviderIndex != op.OwnerProviderIndex || creator.Target != model.SelectorSelf || !creator.HasShieldLifecycleProvider || creator.ShieldLifecycleProviderIndex != op.ShieldLifecycleProviderIndex {
+			return false
+		}
+	}
+	return true
 }

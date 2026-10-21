@@ -561,5 +561,5 @@ func resolveAuthorDamage(t *testing.T, definition map[string]any, cmd command.Co
 	if !ok {
 		return DamageOutcome{}, view
 	}
-	return ApplyMitigatedDamage(cmd.Amount, mitigation.Amount, view, now)
+	return ApplyMitigatedDamage(cmd.Amount, mitigation.Amount, view, now, false)
 }

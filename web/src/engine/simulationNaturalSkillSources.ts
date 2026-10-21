@@ -93,7 +93,8 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
       trace.definitionRef = definitionRef;
       const permanentInitialization = source.enabledRuleKeys.every(key => {
         const rule = configuration.triggerRules.find(row => row.ruleKey === key)!;
-        return rule.actions.every(action => action.actionType === 'EXECUTE_EFFECT')
+        return rule.actions.every(action => action.actionType === 'EXECUTE_EFFECT'
+          && !configuration.effects.find(effect => effect.effectKey === action.detail.effectKey)?.lifecycle?.endWhenShieldEndsResultKey)
           && rule.eventSource.eventType === 'SOURCE_INITIALIZED' && rule.conditionGroups.length === 0
           && rule.oncePerUse === null && rule.perTargetCooldown === null && rule.maxTriggersPerProcess === null;
       }) && configuration.effects.length > 0 && configuration.effects.every(effect => effect.lifecycle?.expiryMode === 'EXPLICIT_ONLY');

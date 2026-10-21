@@ -330,7 +330,7 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
       break;
     case 'EVENT_VALUE_COMPARE':
       if (
-        Object.keys(detail).length !== 3
+        Object.keys(detail).some(key => !['eventValueKey', 'comparator', 'comparisonValue', 'shieldResult'].includes(key))
         || typeof detail.eventValueKey !== 'string'
         || !EVENT_VALUE_KEYS.has(detail.eventValueKey)
         || typeof detail.comparator !== 'string'
@@ -338,6 +338,14 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
         || !isNumericValue(detail.comparisonValue)
       ) {
         protocolError(`${path}.detail`);
+      }
+      if (Object.prototype.hasOwnProperty.call(detail, 'shieldResult')) {
+        const selected = detail.shieldResult;
+        if (detail.eventValueKey !== 'SHIELD_ABSORBED' || !isRecord(selected)
+          || Object.keys(selected).length !== 3
+          || Object.keys(selected).some(key => !['skillKey', 'effectKey', 'resultKey'].includes(key))
+          || ['skillKey', 'effectKey', 'resultKey'].some(key => typeof selected[key] !== 'string'
+            || !TRIGGER_KEY_PATTERN.test(selected[key] as string))) protocolError(`${path}.detail.shieldResult`);
       }
       break;
     default:
@@ -519,6 +527,10 @@ export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDet
   conditionGroups.forEach((group, groupIndex) => group.conditions.forEach((condition, conditionIndex) => {
     if (condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY' && eventSource.eventType !== 'SKILL_HIT') {
       protocolError(`detail.conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail`);
+    }
+    if (condition.conditionType === 'EVENT_VALUE_COMPARE' && condition.detail.shieldResult !== undefined
+      && eventSource.eventType !== 'DAMAGE_TAKEN') {
+      protocolError(`detail.conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.shieldResult`);
     }
   }));
   const actions = value.actions.map((item, index) => assertAction(item, `detail.actions[${index}]`));

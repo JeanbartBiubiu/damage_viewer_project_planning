@@ -4,6 +4,7 @@ import { allowsSkillHitEnemy, skillHitEnemyError, skillHitEnemyHelp } from './sk
 import { allowsTargetCategoryCheck, targetCategoryConditionError, targetCategoryConditionHelp, TARGET_CATEGORY_LABELS } from './targetCategoryCondition';
 import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerTargetCategory } from '../../../../types/skillTriggerRule';
 import { numericValueError } from '../numericValueForm';
+import { ownShieldAbsorptionResults, shieldAbsorptionConditionError } from './shieldAbsorptionCondition';
 import type { SkillParameter } from '../../../../types/skillParameter';
 import type { SkillProcessStepType } from '../../../../types/skillProcess';
 import type { ChargeHitContext } from './chargeHitContext';
@@ -150,6 +151,7 @@ export function SkillTriggerConditionEditorModal({
   const [localError, setLocalError] = useState<string | null>(null);
   const [reloadingEffects, setReloadingEffects] = useState(false);
   const allowedValues = allowedEventValuesFor(eventSource, stepType, chargeHitContext);
+  const ownShields = ownShieldAbsorptionResults(effects, skillKey, parameters);
   const subjectOptions = subjectOptionsForEvent(eventSource.eventType);
   const conditionTypes = SKILL_TRIGGER_CONDITION_TYPES.filter(
     (value) => value !== 'EVENT_VALUE_COMPARE' || allowedValues.length > 0
@@ -250,6 +252,13 @@ export function SkillTriggerConditionEditorModal({
     if (current.conditionType === 'EVENT_VALUE_COMPARE' && allowedValues.length === 0) {
       setLocalError('当前事件没有可比较的事件值。');
       return;
+    }
+    if (current.conditionType === 'EVENT_VALUE_COMPARE') {
+      if (current.detail.shieldResult && effectsLoadState && effectsLoadState !== 'ready') {
+        setLocalError('效果目录尚未读取成功，请重试后选择自身护盾。'); return;
+      }
+      const error = shieldAbsorptionConditionError(current.detail, eventSource.eventType, skillKey, effects, parameters);
+      if (error) { setLocalError(error); return; }
     }
     if (current.conditionType !== 'TARGET_CATEGORY_CHECK'
       && current.conditionType !== 'EXPLICIT_TARGET_IS_SOURCE'
@@ -758,6 +767,31 @@ export function SkillTriggerConditionEditorModal({
                     }))}
                   />
                 </Form.Item>
+                {current.detail.eventValueKey === 'SHIELD_ABSORBED' && eventSource.eventType === 'DAMAGE_TAKEN' ? <>
+                  <Form.Item label="吸收量来源" required>
+                    <Select aria-label="吸收量来源" value={current.detail.shieldResult ? 'own' : 'total'} disabled={disabled}
+                      options={[{ value: 'total', label: '全部护盾的总吸收量' }, { value: 'own', label: '指定本技能自身普通盾' }]}
+                      onChange={value => setCurrent(patchEventValueCompareDetail(current, { shieldResult: value === 'own'
+                        ? { skillKey, effectKey: '', resultKey: '' } : undefined }))} />
+                  </Form.Item>
+                  {current.detail.shieldResult ? <Form.Item label="自身护盾结果" required help={errorFor('detail.shieldResult')}
+                    extra={<Button size="mini" loading={reloadingEffects} disabled={disabled || reloadingEffects} onClick={async () => {
+                      setReloadingEffects(true);
+                      try { await onRetryLifecycleEffects(); } finally { setReloadingEffects(false); }
+                    }}>重新读取效果</Button>}>
+                    <Select aria-label="自身护盾结果" value={current.detail.shieldResult.effectKey || undefined}
+                      disabled={disabled || reloadingEffects || effectsLoadState === 'loading'}
+                      placeholder="选择自身普通盾结果"
+                      options={ownShields.map(row => ({ value: row.effect.effectKey,
+                        label: `${row.effect.name} / ${row.result.name || row.result.resultKey}` }))}
+                      onChange={effectKey => {
+                        const selected = ownShields.find(row => row.effect.effectKey === effectKey);
+                        if (selected) setCurrent(patchEventValueCompareDetail(current, { shieldResult: {
+                          skillKey, effectKey, resultKey: selected.result.resultKey
+                        } }));
+                      }} />
+                  </Form.Item> : null}
+                </> : null}
                 <Form.Item label="比较符" required>
                   <Select
                     aria-label="事件值比较符"

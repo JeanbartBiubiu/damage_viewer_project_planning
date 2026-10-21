@@ -64,6 +64,10 @@ export type ProjectedEmpoweredWindow = { owner: string; providerRef: string; ski
 export type ProjectedEmpoweredConsumption = { owner: string; skillKey: string; activationUseRef: string; consumptionIndex: number;
   useRef: string; target: string; startedAtMs: number; hitRef: string | null; hitSequence: number | null; resolvedAtMs: number | null };
 export type ProjectedCooldown = { owner: string; abilityRef: string; readyAtMs: number; remainingMs: number };
+export type ProjectedShieldAbsorption = { timeMs: number; damageId: number; damageSource: string; damageTarget: string;
+  shieldRef: string; definitionRef: string; lifecycleProviderRef: string; source: string; owner: string;
+  remainingBefore: number; remainingAfter: number; absorbed: number };
+export type ProjectedShieldWait = { owner: string; source: string; definitionRef: string; stateKey: string; value: number; expireAt: number | null };
 export type MechanismProjection = {
   summary: ProjectedSummary;
   damage: ProjectedDamage[];
@@ -82,6 +86,8 @@ export type MechanismProjection = {
   finalStatusContributions: ProjectedStatusContribution[];
   finalEffectiveStatuses: ProjectedEffectiveStatus[];
   finalUseTriggerLedger: ProjectedUseTrigger[];
+  shieldAbsorptions: ProjectedShieldAbsorption[];
+  finalShieldWaits: ProjectedShieldWait[];
 };
 
 /** 期望只写手算或游戏机制确定的值；列表按发生顺序完整列出，对象只比较写出的字段。 */
@@ -103,6 +109,8 @@ export type MechanismExpectation = {
   finalStatusContributions?: ProjectedStatusContribution[];
   finalEffectiveStatuses?: ProjectedEffectiveStatus[];
   finalUseTriggerLedger?: ProjectedUseTrigger[];
+  shieldAbsorptions?: Partial<ProjectedShieldAbsorption>[];
+  finalShieldWaits?: ProjectedShieldWait[];
 };
 
 type CaseSnapshot = Omit<SimulationSnapshot, 'gameId' | 'catalogs' | 'snapshotDigest' | 'readAt'>;
@@ -198,7 +206,10 @@ const EXPECTED_FIELDS: Record<string, readonly string[]> = {
   finalCooldowns: ['owner', 'abilityRef', 'readyAtMs', 'remainingMs'],
   finalStatusContributions: ['owner', 'source', 'definitionRef', 'resultRef', 'statusKey', 'statusKind', 'strength', 'appliedAtMs', 'expireAt'],
   finalEffectiveStatuses: ['owner', 'statusKind', 'strength'],
-  finalUseTriggerLedger: ['owner', 'providerRef', 'groupKey', 'scope', 'useSource', 'useSkillKey', 'useKey', 'target']
+  finalUseTriggerLedger: ['owner', 'providerRef', 'groupKey', 'scope', 'useSource', 'useSkillKey', 'useKey', 'target'],
+  shieldAbsorptions: ['timeMs', 'damageId', 'damageSource', 'damageTarget', 'shieldRef', 'definitionRef', 'lifecycleProviderRef',
+    'source', 'owner', 'remainingBefore', 'remainingAfter', 'absorbed'],
+  finalShieldWaits: ['owner', 'source', 'definitionRef', 'stateKey', 'value', 'expireAt']
 };
 
 /** 覆盖标签必须对应至少一个数值断言，空对象或只有名称不能获得回归覆盖。 */
@@ -226,6 +237,26 @@ function validateExpectation(expected: Record<string, unknown>, file: string) {
       const fields = object(row, file, path);
       if (!Object.keys(fields).length) fail(file, `${path} 不能是空期望对象`);
       onlyKeys(fields, EXPECTED_FIELDS[section]!, file, path);
+      if (section === 'finalShieldWaits') {
+        if (Object.keys(fields).length !== EXPECTED_FIELDS.finalShieldWaits!.length
+          || ['owner', 'source'].some(key => !['source', 'target'].includes(String(fields[key])))
+          || ['definitionRef', 'stateKey'].some(key => typeof fields[key] !== 'string' || !(fields[key] as string).trim())
+          || fields.value !== 0 && fields.value !== 1
+          || fields.expireAt !== null && (!Number.isSafeInteger(fields.expireAt) || Number(fields.expireAt) <= 0)
+          || (fields.value === 0) !== (fields.expireAt === null)) fail(file, `${path} 需要完整等待归属、明确状态值及活动期限`);
+      }
+      if (section === 'shieldAbsorptions') {
+        const required = ['timeMs', 'definitionRef', 'source', 'owner', 'remainingBefore', 'remainingAfter', 'absorbed'];
+        if (required.some(key => !Object.prototype.hasOwnProperty.call(fields, key))
+          || !Number.isSafeInteger(fields.timeMs) || Number(fields.timeMs) < 0
+          || ['source', 'owner'].some(key => !['source', 'target'].includes(String(fields[key])))
+          || typeof fields.definitionRef !== 'string'
+          || ['remainingBefore', 'remainingAfter', 'absorbed'].some(key => typeof fields[key] !== 'number' || !Number.isFinite(fields[key]) || Number(fields[key]) < 0)
+          || Number(fields.absorbed) <= 0
+          || Math.abs(Number(fields.remainingBefore) - Number(fields.remainingAfter) - Number(fields.absorbed)) > 1e-9 * Math.max(1, Number(fields.absorbed))) {
+          fail(file, `${path} 需要明确时刻、盾定义、双方归属和守恒的正吸收事实`);
+        }
+      }
       if (section === 'finalUseTriggerLedger') {
         if (Object.keys(fields).length !== EXPECTED_FIELDS.finalUseTriggerLedger!.length
           || ['owner', 'useSource'].some(key => !['source', 'target'].includes(String(fields[key])))

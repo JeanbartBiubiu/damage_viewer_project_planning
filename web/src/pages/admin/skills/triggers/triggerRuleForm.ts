@@ -1,4 +1,5 @@
 import { SKILL_TRIGGER_SUBJECTS, SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_KINDS, SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_LABELS } from '../../../../types/skillSystemEnums.generated';
+import { shieldAbsorptionConditionError } from './shieldAbsorptionCondition';
 import { validateProcessSceneParameterBinding, type ProcessSceneParameterConfiguration } from '../../../../engine/processSceneParameterInput';
 import type { SkillTriggerRecentDamageOutputKind } from '../../../../types/skillSystemEnums.generated';
 import {
@@ -1671,7 +1672,9 @@ export function patchEventValueCompareDetail(
   current: SkillTriggerEventValueCompareConditionDraft,
   patch: Partial<SkillTriggerEventValueCompareDetail>
 ): SkillTriggerEventValueCompareConditionDraft {
-  return { ...current, detail: { ...current.detail, ...patch } };
+  const detail = { ...current.detail, ...patch };
+  if (detail.eventValueKey !== 'SHIELD_ABSORBED' || detail.shieldResult === undefined) delete detail.shieldResult;
+  return { ...current, detail };
 }
 
 export function patchCombatStatusBinding(
@@ -2284,6 +2287,10 @@ export function analyzeEventSwitchImpact(
   if (!allowsSkillHitEnemy(nextSource.eventType) && draft.conditionGroups.some((group) => group.conditions.some((condition) => condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY'))) {
     parts.push('当前事件不是技能命中，将清除技能命中敌方对象条件；空条件组也会一并清除。');
   }
+  if (nextSource.eventType !== 'DAMAGE_TAKEN' && draft.conditionGroups.some(group => group.conditions.some(condition =>
+    condition.conditionType === 'EVENT_VALUE_COMPARE' && condition.detail.shieldResult !== undefined))) {
+    parts.push('当前事件不提供指定自身盾吸收事实，将清除该条件；空条件组也会一并清除。');
+  }
   if (!allowsSourceCastResourceCost(nextSource, processes) && draft.actions.some((action) => action.runtimeInputBindings.some((binding) => binding.sourceType === 'SOURCE_CAST_RESOURCE_COST'))) {
     parts.push(SKILL_TRIGGER_SOURCE_CAST_RESOURCE_COST_CLEAR_MESSAGE);
   }
@@ -2336,6 +2343,7 @@ function cleanupConditionForEventSwitch(
       return allowsTargetCategoryCheck(nextSource.eventType) ? condition : null;
     case 'EVENT_VALUE_COMPARE': {
       if (!allowed.includes(condition.detail.eventValueKey)) return null;
+      if (condition.detail.shieldResult !== undefined && nextSource.eventType !== 'DAMAGE_TAKEN') return null;
       return condition;
     }
     case 'ATTRIBUTE_COMPARE':
@@ -2577,6 +2585,7 @@ export function conditionSummary(condition: SkillTriggerConditionDraft): string 
       return [
         SKILL_TRIGGER_CONDITION_TYPE_LABELS.EVENT_VALUE_COMPARE,
         SKILL_TRIGGER_EVENT_VALUE_LABELS[condition.detail.eventValueKey],
+        ...(condition.detail.shieldResult ? [`自身盾 ${condition.detail.shieldResult.skillKey}/${condition.detail.shieldResult.effectKey}/${condition.detail.shieldResult.resultKey}`] : []),
         SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator],
         numericValueSummary(condition.detail.comparisonValue)
       ].join(' / ');
@@ -3514,6 +3523,10 @@ export function validateSkillTriggerDraft(
         if (error) pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail`, error);
       }
       if (condition.conditionType === 'EVENT_VALUE_COMPARE') {
+        const shieldError = shieldAbsorptionConditionError(condition.detail, draft.eventSource.eventType,
+          options.skillKey, [...(options.effectsByKey?.values() ?? [])], options.parameters);
+        if (shieldError) pushError(nestedErrors,
+          `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.shieldResult`, shieldError);
         if (!allowedValues.includes(condition.detail.eventValueKey)) {
           pushError(
             nestedErrors,

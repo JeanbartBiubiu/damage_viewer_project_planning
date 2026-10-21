@@ -17,6 +17,7 @@ type CompiledAbilityRef struct {
 
 // CompiledSession 是 generic compile 输出的只读 session 快照。
 type CompiledSession struct {
+	HasReceivedShieldReads    bool
 	HasAttackStartStateReads  bool
 	HasStateOnExpire          bool
 	HasStagedLinkedShield     bool
@@ -189,10 +190,12 @@ type CompiledProviderStateField struct {
 
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
-	AttackStartStateKeys []string
-	HasStateOnExpire     bool
-	AtomicLinkedShield   bool
-	HasModifierSnapshots bool
+	HasReceivedShieldBinding  bool
+	ReceivedShieldParentIndex uint16
+	AttackStartStateKeys      []string
+	HasStateOnExpire          bool
+	AtomicLinkedShield        bool
+	HasModifierSnapshots      bool
 	// ShieldDefinitionRef is set only for a provider owned by an actual numeric shield.
 	ShieldDefinitionRef  string
 	NeedsElapsedTime     bool

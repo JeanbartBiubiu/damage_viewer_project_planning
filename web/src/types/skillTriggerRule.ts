@@ -379,6 +379,7 @@ export type SkillTriggerEventValueCompareDetail = {
   eventValueKey: SkillTriggerEventValueKey;
   comparator: SkillTriggerComparator;
   comparisonValue: NumericValue;
+  shieldResult?: { skillKey: string; effectKey: string; resultKey: string };
 };
 
 export type SkillTriggerAttributeCompareCondition = {

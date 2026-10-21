@@ -366,6 +366,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const usedEffects = new Set<string>();
         const appliedEffects = new Set<string>();
         const queriedShieldEffects = new Set<string>();
+        const absorbedShieldEffects = new Set<string>();
         const queriedDurationEffects = new Set<string>();
         const usedProcesses = new Set<string>();
         const usedStates = new Set<string>();
@@ -766,7 +767,35 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             });
           }
           if (authored.conditionType === 'EVENT_VALUE_COMPARE') {
-            exact(authored.detail, ['eventValueKey', 'comparator', 'comparisonValue'], detailPath);
+            exact(authored.detail, ['eventValueKey', 'comparator', 'comparisonValue', 'shieldResult'], detailPath);
+            const selectsShield = Object.prototype.hasOwnProperty.call(authored.detail, 'shieldResult');
+            if (selectsShield && (authored.detail.eventValueKey !== 'SHIELD_ABSORBED' || event !== 'DAMAGE_TAKEN')) {
+              fail(`${detailPath}.shieldResult`, '指定自身盾吸收额只允许真实受伤事件的吸收量条件');
+            }
+            if (authored.detail.eventValueKey === 'SHIELD_ABSORBED') {
+              if (event !== 'DAMAGE_TAKEN' || !selectsShield) fail(detailPath, '吸收量条件需要明确指定本技能自身普通盾');
+              const selected = record(authored.detail.shieldResult, `${detailPath}.shieldResult`);
+              exact(selected, ['skillKey', 'effectKey', 'resultKey'], `${detailPath}.shieldResult`);
+              if (stableKey(selected.skillKey, `${detailPath}.shieldResult.skillKey`) !== skillKey) fail(`${detailPath}.shieldResult.skillKey`, '不能读取其它技能的护盾吸收');
+              const effectKey = stableKey(selected.effectKey, `${detailPath}.shieldResult.effectKey`);
+              const resultKey = stableKey(selected.resultKey, `${detailPath}.shieldResult.resultKey`);
+              const authoredEffect = effect(effectKey, detailPath);
+              if (authoredEffect.lifecycle?.instanceScope !== 'SOURCE'
+                || authoredEffect.lifecycle.endWhenShieldEndsResultKey !== resultKey) fail(`${detailPath}.shieldResult`, '必须选择本技能自身关联普通盾的唯一终止结果');
+              const compiled = compileLinkedShieldEffect(authoredEffect, { ...numeric, bindParameters: false }, snapshot.catalogs.modifierZones, definitionRef);
+              const existing = providers.find(row => row.providerKey === compiled.provider.providerKey);
+              if (existing && JSON.stringify(existing) !== JSON.stringify(compiled.provider)) fail(detailPath, '关联盾定义不一致');
+              if (!existing) providers.push(compiled.provider);
+              for (const row of authoredEffect.results) if (row.valueRule) noteNumeric(row.valueRule.value);
+              if (authoredEffect.lifecycle.durationValue) noteNumeric(authoredEffect.lifecycle.durationValue);
+              noteNumeric(authoredEffect.lifecycle.maxStacksValue); noteNumeric(authoredEffect.lifecycle.applicationStacksValue);
+              absorbedShieldEffects.add(effectKey); queriedShieldEffects.add(effectKey);
+              collectAttributes(compiled.provider, side, required);
+              const read: GenericFormulaExpr = { op: 'read', path: `event.damage.linked_shield[${compiled.operation.shieldRef}].absorbed` };
+              cover(`${detailPath}.shieldResult`, `${compiledRoot}.abilities.listenerSpec.condition`);
+              cover(`${root}.effects.${effectKey}.lifecycle`, `sharedProviders.${compiled.provider.providerKey}.lifecycle`);
+              return comparator(authored.detail.comparator, read, value(authored.detail.comparisonValue, detailPath), detailPath);
+            }
             if (authored.detail.eventValueKey === 'KILLED' && ['DAMAGE_DEALT', 'DAMAGE_TAKEN'].includes(event)) {
               const expected = constant(authored.detail.comparisonValue, `${detailPath}.comparisonValue`, true);
               if (expected !== 0 && expected !== 1) fail(detailPath, '本笔击杀比较仅接明确0或1');
@@ -1071,7 +1100,9 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (activeEffects.has(authored.effectKey)) fail(effectPath, '效果接线循环');
           activeEffects.add(authored.effectKey);
           try {
-            if (ownExpiry?.effectKey === authored.effectKey && ['SOURCE_INITIALIZED', 'INTERNAL_STATE_CHANGED'].includes(event)) {
+            if (ownExpiry?.effectKey === authored.effectKey && ['SOURCE_INITIALIZED', 'INTERNAL_STATE_CHANGED'].includes(event)
+              || event === 'SOURCE_INITIALIZED' && authored.lifecycle?.instanceScope === 'SOURCE'
+                && authored.lifecycle.endWhenShieldEndsResultKey != null) {
               if (context !== 'self' || description.kind === 'item' || skills.length !== 1) fail(actionPath, '初始化及到期回盾必须属于真实唯一自身角色或构筑来源');
               const compiled = compileLinkedShieldEffect(authored, { ...numeric, bindParameters: false }, snapshot.catalogs.modifierZones, definitionRef);
               const previous = providers.find(row => row.providerKey === compiled.provider.providerKey);
@@ -1596,6 +1627,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           cover(`${rulePath}.eventSource`, `${abilityRoot}.listenerSpec.eventMatcher`);
           if (predicate) cover(`${rulePath}.conditionGroups`, `${abilityRoot}.listenerSpec.condition`);
         }
+        for (const effectKey of absorbedShieldEffects) if (!appliedEffects.has(effectKey)) fail(`${root}.effects.${effectKey}`, '指定吸收事实的自身盾必须有本来源实际创建操作');
         for (const authored of configuration.effects) if (!usedEffects.has(authored.effectKey) || !appliedEffects.has(authored.effectKey) && !queriedShieldEffects.has(authored.effectKey) && !queriedDurationEffects.has(authored.effectKey)) fail(`${root}.effects.${authored.effectKey}`, '存在未接入的作者效果，不能丢弃后成功');
         for (const authored of configuration.processes) if (!usedProcesses.has(authored.processKey)) fail(`${root}.processes.${authored.processKey}`, '存在未接入的作者过程');
         for (const authored of configuration.internalStates) if (!usedStates.has(authored.stateKey)) fail(`${root}.internalStates.${authored.stateKey}`, '存在未接入的内部状态');

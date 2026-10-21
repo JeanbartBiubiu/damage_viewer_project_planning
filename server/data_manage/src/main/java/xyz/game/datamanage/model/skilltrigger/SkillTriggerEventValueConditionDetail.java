@@ -2,6 +2,7 @@ package xyz.game.datamanage.model.skilltrigger;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
 import java.util.LinkedHashSet;
@@ -13,6 +14,7 @@ public record SkillTriggerEventValueConditionDetail(
     SkillTriggerComparator comparator,
     @Valid
     SkillNumericValue comparisonValue,
+    @JsonInclude(JsonInclude.Include.NON_NULL) JsonNode shieldResult,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillTriggerConditionDetail {
@@ -27,7 +29,16 @@ public record SkillTriggerEventValueConditionDetail(
         SkillTriggerComparator comparator,
         SkillNumericValue comparisonValue
     ) {
-        this(eventValueKey, comparator, comparisonValue, Set.of(), Set.of());
+        this(eventValueKey, comparator, comparisonValue, null, Set.of(), Set.of());
+    }
+
+    public SkillTriggerEventValueConditionDetail(
+        SkillTriggerEventValueKey eventValueKey,
+        SkillTriggerComparator comparator,
+        SkillNumericValue comparisonValue,
+        JsonNode shieldResult
+    ) {
+        this(eventValueKey, comparator, comparisonValue, shieldResult, Set.of(), Set.of());
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
@@ -35,7 +46,7 @@ public record SkillTriggerEventValueConditionDetail(
         if (!node.isObject()) throw new IllegalArgumentException("事件值条件明细必须为对象");
         Set<String> unknown = new LinkedHashSet<>();
         node.fieldNames().forEachRemaining(field -> {
-            if (!Set.of("eventValueKey", "comparator", "comparisonValue", "stateKey").contains(field)) unknown.add(field);
+            if (!Set.of("eventValueKey", "comparator", "comparisonValue", "shieldResult", "stateKey").contains(field)) unknown.add(field);
         });
         JsonNode comparatorNode = node.get("comparator");
         SkillTriggerComparator comparator = null;
@@ -47,6 +58,7 @@ public record SkillTriggerEventValueConditionDetail(
             SkillTriggerEventValueKey.fromJson(node.get("eventValueKey")),
             comparator,
             SkillNumericValue.fromJson(node.get("comparisonValue")),
+            node.get("shieldResult"),
             SkillTriggerDetailFieldCapture.captureForeign("stateKey", node.get("stateKey")),
             unknown
         );

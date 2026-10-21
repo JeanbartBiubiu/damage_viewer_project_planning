@@ -80,6 +80,12 @@ func lookupAttributeSlot(attrs attribute.Table, key string, index int, bound boo
 }
 
 func evalInstructionRead(in GenericInstr, ctx *GenericEvalContext) (float64, error) {
+	if in.ReadKind == ReadReceivedLinkedShieldAbsorbed {
+		if !in.ReferenceBound || !ctx.HasProviderContext || !ctx.HasEventContext || !ctx.HasEventDamageSnapshot || ctx.ReceivedShieldReader == nil {
+			return 0, errors.New("linked shield absorption requires a bound native received-damage listener condition")
+		}
+		return ctx.ReceivedShieldReader.ReceivedLinkedShieldAbsorbed(in.RefIndex)
+	}
 	if in.ReadKind == ReadLinkedShieldPresent {
 		if !in.ReferenceBound || !ctx.HasProviderContext || ctx.LinkedShieldReader == nil {
 			return 0, errors.New("linked shield presence requires a bound definition and actual provider context")

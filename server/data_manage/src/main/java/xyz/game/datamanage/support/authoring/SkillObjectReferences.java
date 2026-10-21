@@ -434,7 +434,21 @@ public final class SkillObjectReferences {
                 case "TARGET_CATEGORY_CHECK" -> { /* 固定类别不生成引用。 */ }
                 case "EXPLICIT_TARGET_IS_SOURCE" -> { /* 显式目标身份检查不生成引用。 */ }
                 case "SKILL_HIT_TARGET_IS_ENEMY" -> { /* 命中对象敌我关系检查不生成引用。 */ }
-                case "EVENT_VALUE_COMPARE" -> formulas(detail, dp, "comparisonValue");
+                case "EVENT_VALUE_COMPARE" -> {
+                    formulas(detail, dp, "comparisonValue");
+                    if (detail.has("shieldResult")) {
+                        JsonNode shield = detail.get("shieldResult");
+                        var issues = SkillShieldAbsorptionConditionSemantics.shapeIssues(
+                            source.data().path("eventSource").path("eventType").textValue(),
+                            detail.path("eventValueKey").textValue(), shield, dp + ".shieldResult");
+                        if (!issues.isEmpty()) throw shape(issues.getFirst().get("field"), issues.getFirst().get("message"));
+                        if (!source.skillKey().equals(shield.path("skillKey").textValue()))
+                            throw shape(dp + ".shieldResult.skillKey", "只能读取当前技能自身的普通盾");
+                        add(dp + ".shieldResult.resultKey", TargetType.RESULT,
+                            shield.path("skillKey").textValue(), shield.path("effectKey").textValue(),
+                            shield.path("resultKey").textValue());
+                    }
+                }
                 default -> throw shape(path, "未知触发条件类型");
             }
         }

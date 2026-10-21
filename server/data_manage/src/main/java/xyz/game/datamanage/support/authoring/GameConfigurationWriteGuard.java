@@ -113,6 +113,7 @@ public class GameConfigurationWriteGuard {
         SkillQualifiedReferenceSemantics.validate(skillAffected, skillContext);
         ShieldEndLifecycleSemantics.validate(skillAffected);
         ShieldAttributeDependencySemantics.validate(skillAffected, skillContext);
+        List<Aggregate> shieldReadTargets = SkillShieldAbsorptionConditionSemantics.validate(skillAffected, skillContext);
         SkillTargetCategoryConditionSemantics.validate(skillAffected);
         SkillExplicitTargetIsSourceConditionSemantics.validate(skillAffected);
         SkillHitTargetIsEnemyConditionSemantics.validate(skillAffected);
@@ -136,7 +137,9 @@ public class GameConfigurationWriteGuard {
             });
             SkillSceneAttributeSnapshotSemantics.validateAttributes(skillAffected, sceneAttributes);
             healingRatioMaxSemantics.validate(gameId, skillAffected);
-            numericSemantics.validate(gameId, skillAffected, skillContext);
+            Set<Aggregate> numericAffected = new LinkedHashSet<>(skillAffected);
+            numericAffected.addAll(shieldReadTargets);
+            numericSemantics.validate(gameId, List.copyOf(numericAffected), skillContext);
         }
         for (Source source : changes.changed()) {
             jdbc.update(DELETE_SOURCE_SQL, gameId, source.skill(), source.type().name(), source.key());

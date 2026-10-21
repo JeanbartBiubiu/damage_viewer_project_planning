@@ -31,6 +31,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicy;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectDamageOriginKind;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleMoment;
+import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope;
+import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultRequest;
@@ -139,6 +141,7 @@ import xyz.game.datamanage.support.authoring.SkillTargetCategoryConditionSemanti
 import xyz.game.datamanage.support.authoring.SkillTriggerOncePerUseSemantics;
 import xyz.game.datamanage.support.authoring.SkillHitPhaseSemantics;
 import xyz.game.datamanage.support.authoring.SkillAttackStartValueSemantics;
+import xyz.game.datamanage.support.authoring.SkillShieldAbsorptionConditionSemantics;
 import xyz.game.datamanage.model.value.SkillNumericValue;
 
 @Service
@@ -322,6 +325,11 @@ public class SkillTriggerRuleService {
                             && state.optionKey() != null && nullToEmpty(mapper.lockOptions(gameId, skillKey,
                                 state.stateKey(), List.of(state.optionKey()))).isEmpty())
                             issues.add(fieldIssue(prefix + ".optionKey", "TRIGGER_RULE_SHAPE_IN_USE", "模式选项已不存在"));
+                    }
+                    if (condition.detail() instanceof SkillTriggerEventValueConditionDetail value
+                        && value.shieldResult() != null && skillKey.equals(sourceSkillKey)
+                        && effects.contains(value.shieldResult().path("effectKey").asText())) {
+                        validateShieldResultCatalog(gameId, sourceSkillKey, value, prefix, effectShapes, issues);
                     }
                 }
             }
@@ -1544,6 +1552,10 @@ public class SkillTriggerRuleService {
                     issues.add(fieldIssue(prefix + ".detail.comparator", "REQUIRED", "比较符不能为空"));
                 }
                 require(detail.comparisonValue(), prefix + ".detail.comparisonValue", "比较公式不能为空", issues);
+                issues.addAll(SkillShieldAbsorptionConditionSemantics.shapeIssues(
+                    eventSource == null || eventSource.eventType() == null ? null : eventSource.eventType().name(),
+                    detail.eventValueKey() == null ? null : detail.eventValueKey().name(), detail.shieldResult(),
+                    prefix + ".detail.shieldResult"));
             }
         }
     }
@@ -2252,6 +2264,35 @@ public class SkillTriggerRuleService {
                 "当前事件不提供该事件值"
             ));
         }
+        if (condition.conditionType() == SkillTriggerConditionType.EVENT_VALUE_COMPARE
+            && condition.detail() instanceof SkillTriggerEventValueConditionDetail detail
+            && detail.shieldResult() != null) {
+            validateShieldResultCatalog(gameId, skillKey, detail, prefix + ".detail", effectShapes, issues);
+        }
+    }
+
+    private void validateShieldResultCatalog(
+        String gameId, String skillKey, SkillTriggerEventValueConditionDetail detail, String detailPath,
+        Map<String, List<SkillTriggerEffectShapeRow>> effects, List<Map<String, String>> issues
+    ) {
+        var selector = detail.shieldResult();
+        if (!skillKey.equals(selector.path("skillKey").textValue())) {
+            issues.add(fieldIssue(detailPath + ".shieldResult.skillKey", "REFERENCE_TYPE_MISMATCH",
+                "只能读取当前技能自身的普通盾"));
+            return;
+        }
+        String effectKey = selector.path("effectKey").textValue();
+        SkillTriggerEffectShapeRow shield = findResult(effects, effectKey, selector.path("resultKey").textValue());
+        long shields = effects.getOrDefault(effectKey, List.of()).stream()
+            .filter(result -> result.resultType() == SkillEffectResultType.NORMAL_SHIELD).count();
+        if (shield == null || shields != 1 || shield.resultType() != SkillEffectResultType.NORMAL_SHIELD
+            || shield.target() != SkillEffectTarget.SOURCE || !shield.hasLifecycle()
+            || shield.resultMoment() != SkillEffectLifecycleMoment.PERSISTENT
+            || mapper.findLifecycleScope(gameId, skillKey, effectKey) != SkillEffectLifecycleInstanceScope.SOURCE) {
+            issues.add(fieldIssue(detailPath + ".shieldResult.resultKey", "REFERENCE_TYPE_MISMATCH",
+                "指定结果须为本技能自身唯一的持续普通盾"));
+        }
+        // 完整终止生命周期与全等级单层证明由游戏写事务的最终图守卫核对。
     }
 
     private void validateActionCatalog(
@@ -2965,6 +3006,9 @@ public class SkillTriggerRuleService {
                 SkillTriggerEventValueConditionDetail detail =
                     (SkillTriggerEventValueConditionDetail) condition.detail();
                 refs.addFormula(new CatalogRef(prefix + ".detail.comparisonValue", detail.comparisonValue()));
+                if (detail.shieldResult() != null)
+                    refs.addEffect(new CatalogRef(prefix + ".detail.shieldResult.effectKey",
+                        detail.shieldResult().path("effectKey").textValue()));
             }
         }
     }

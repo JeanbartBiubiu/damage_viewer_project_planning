@@ -17,6 +17,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 - `restorations`完整比较普通生命及非生命资源恢复的请求值、实际增量、前后当前值、溢出、拥有者、实际挂载、操作路径和原使用；不以终值代替逐笔事实。
 - `damage`、`healing`、`skillStarts`、`resourceChanges`、`finalResources` 列表按发生顺序比较，条数必须一致；`attackStarts` 整体相等；`finalAttributes` 逐项核对明确填写的双方属性。
 - `finalProviders`（运行实例列表）完整比较双方所有实例的拥有者、来源、定义、层数和期限，稳定排序后核对条数与五个字段；缺少身份直接失败，不补造来源，不筛掉额外实例。
+- `shieldAbsorptions`逐笔核对真实伤害身份、完整盾与关联实例、创建归属、余量连续性和吸收守恒；`finalShieldWaits`核对实际父挂载中的等待值及截止时刻，不从总额补造逐盾事实。无新读取的旧场景须保持原证据字段。
 - 失败时实际投影写到被忽略的 `web/output/mechanisms/<caseKey>.actual.json`。
 
 ## 文件
@@ -45,13 +46,14 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 
 ## 已覆盖的数值机制
 
-目前89个固定用例、105类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
+目前140个固定用例、143类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
 
 | 范围 | 固定用例入口 |
 | --- | --- |
 | 普攻节奏、间隔取整、暴击、穿透、击杀与过量伤害 | `basic_attack_*`、`physical_penetration_order`、`skill_magic_ratio_cast_delay` |
 | 装备属性合并与攻速派生 | `equipment_*` |
 | 普通盾、耗尽、刷新、反伤按目标额度、破盾不反伤、限时减伤 | `defense_*` |
+| 本笔逐盾吸收、首次自身损盾等待、等待中不重置、扣血重置、外盾与同刻到期 | `defense_linked_shield_*` |
 | 期限内削减双抗、整体削甲、属性时间衰减、剩余比例组合、损失生命求伤 | `damage_*` |
 | 有限周期与到期、刷新保持原周期节奏 | `periodic_*` |
 | 逐枚弹药、第三发、未命中扣弹与普攻缩短回充 | `ammo_*` |
@@ -86,6 +88,6 @@ node scripts/refresh-verification-identity.mjs --write  # 条件全部满足后�
 
 全部通过后只改写证明根上的 `wasmSha256`、`adapterVersion` 和 `mechanismRegression`（含实际重建产物摘要），各对象的内容摘要不变。检查范围包含整个前端执行链（包括脚本、配置和依赖锁）、引擎与共享契约；构建及回归前后均检查源码洁净，并拒绝覆盖运行期间变化的正式证明。覆盖未声明、摘要过期或有缺口时脚本拒绝刷新，并列出缺少的机制。
 
-`admitted-coverage.json` 的对象键为`<kind>:<key>`，每项保存与正式证明相同的`contentDigest`、`externalDigest`、非空唯一`mechanisms`及中文核对依据`rationale`。当前清单对应9名英雄和19件纯属性装备的准入范围，不能用空泛标签宣称支持新对象。
+`admitted-coverage.json` 的对象键为`<kind>:<key>`，每项保存与正式证明相同的`contentDigest`、`externalDigest`、非空唯一`mechanisms`及中文核对依据`rationale`。对象范围以当前JSON声明为准，不能用空泛标签宣称支持新对象。
 
 `npm run check:mechanism-coverage`只检查依赖，不运行回归、不写证明，也不证明构建一致。持续集成在机制测试之前另行强制运行`check:wasm-build`；`npm test`包含机制回归、刷新及构建比较门槛测试。新对象首次准入仍需按其真实配置单独验收；回归阶段只依赖这里的机制用例。

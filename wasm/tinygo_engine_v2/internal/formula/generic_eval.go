@@ -13,7 +13,8 @@ import (
 
 // GenericEvalContext 是 generic formula 运行时只读视图。
 type GenericEvalContext struct {
-	LinkedShieldReader LinkedShieldReader
+	ReceivedShieldReader ReceivedShieldReader
+	LinkedShieldReader   LinkedShieldReader
 	// 只有明确作者派生使用点设置。内部用途读取仍使用SourceAttrs/TargetAttrs。
 	HasAuthoredActorContext bool
 	AuthoredSourceAttrs     attribute.Table
@@ -107,6 +108,11 @@ type ProcessStartStateValue struct {
 // LinkedShieldReader resolves one compile-bound definition in a concrete provider frame.
 type LinkedShieldReader interface {
 	LinkedShieldPresent(providerDefinitionIndex uint16) (float64, error)
+}
+
+// Only a mounted native received-damage listener condition supplies this reader.
+type ReceivedShieldReader interface {
+	ReceivedLinkedShieldAbsorbed(providerDefinitionIndex uint16) (float64, error)
 }
 
 // OperationOutputValues 保存一次真实伤害管道的封闭口径。

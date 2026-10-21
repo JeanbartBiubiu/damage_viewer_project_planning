@@ -28,7 +28,7 @@ func (s *genericRunState) dispatchBasicAttackReceived(original emittedEvent, dep
 }
 
 func (f *executionFrame) queueDamageTaken(cmd command.Command, operation planbundle.CompiledOperation,
-	ability planbundle.CompiledAbility, critical frozenCritEvidence, base, raw float64, outcome pipeline.DamageOutcome, killed float64) {
+	ability planbundle.CompiledAbility, critical frozenCritEvidence, base, raw float64, outcome pipeline.DamageOutcome, killed float64, damageID uint64) {
 	if _, declared := f.run.compiled.RuntimeTypes.DamageTaken.Lookup(); !declared {
 		return
 	}
@@ -39,6 +39,7 @@ func (f *executionFrame) queueDamageTaken(cmd command.Command, operation planbun
 	event.types = append(event.types, f.abilityTypeKeys(ability)...)
 	event.types = f.appendCastOriginEventType(event.types)
 	event.snapshot.hasDamageSnapshot = true
+	event.snapshot.shieldAbsorptions = outcome.ShieldAbsorptions
 	event.snapshot.damageSnapshot = buildDamageInstanceSnapshot(critical, base, raw, outcome.MitigatedAmount)
 	event.snapshot.damageSnapshot.HasActualHPLoss = true
 	event.snapshot.damageSnapshot.ActualHPLoss = outcome.HPDamage
@@ -52,10 +53,29 @@ func (f *executionFrame) queueDamageTaken(cmd command.Command, operation planbun
 	event.hasUse = event.useKey != ""
 	attachUseToSnapshot(&event)
 	f.pendingEvents = append(f.pendingEvents, event)
+	if f.run.compiled.HasReceivedShieldReads {
+		f.recordReceivedShieldDamageTaken(cmd, operation, outcome, killed, damageID, event)
+		return
+	}
 	f.recordEvidenceLazy(model.EvidenceKindEmittedEvent, func() model.EvidenceItem {
 		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: event.eventType,
 			Data: map[string]interface{}{"source": cmd.Source, "target": cmd.Target, "useRef": event.useKey,
 				"skillKey": event.useSkillKey, "operationRef": operation.Ref, "postDefenseDamage": outcome.MitigatedAmount,
 				"shieldAbsorbed": outcome.ShieldAbsorbed, "actualHpLoss": outcome.HPDamage, "killed": killed}}
+	})
+}
+
+// 独立调用使新增身份只在有读取时被闭包捕获，避免旧事件入口参数装箱。
+func (f *executionFrame) recordReceivedShieldDamageTaken(cmd command.Command, operation planbundle.CompiledOperation,
+	outcome pipeline.DamageOutcome, killed float64, damageID uint64, event emittedEvent) {
+	f.recordEvidenceLazy(model.EvidenceKindEmittedEvent, func() model.EvidenceItem {
+		data := map[string]interface{}{"source": cmd.Source, "target": cmd.Target, "useRef": event.useKey,
+			"skillKey": event.useSkillKey, "operationRef": operation.Ref, "postDefenseDamage": outcome.MitigatedAmount,
+			"shieldAbsorbed": outcome.ShieldAbsorbed, "actualHpLoss": outcome.HPDamage, "killed": killed}
+		if outcome.ShieldAbsorptions != nil {
+			data["damageId"], data["shieldAbsorptions"] = damageID, outcome.ShieldAbsorptions.Rows
+		}
+		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: event.eventType,
+			Data: data}
 	})
 }

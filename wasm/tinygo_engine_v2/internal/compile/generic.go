@@ -184,6 +184,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeAttackStartStateReads(ctx)
 	compileAmmoBindings(ctx)
 	validateMechanicFormulaContexts(ctx)
+	finalizeReceivedShieldReads(ctx)
 	if len(session.Operations) > 65535 {
 		collector.addError(model.GenericErrRuntimeInvariantFailed, "operations", "compiled operations exceed supported index range", "")
 	}
@@ -902,6 +903,7 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 	validateResolvedContactReads(deps, key, ctx)
 	validateActualHPLossReads(deps, key, ctx)
 	validateKilledReads(deps, key, ctx)
+	validateReceivedShieldReadContext(deps, key, ctx)
 	hasRef := false
 	for _, in := range instr {
 		if in.Op == formula.GenericOpRef {

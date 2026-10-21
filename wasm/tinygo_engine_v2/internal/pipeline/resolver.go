@@ -31,11 +31,12 @@ type CombatantView struct {
 // DamageOutcome 记录 damage 经 pipeline 后的分解。
 // Amount 口径：MitigatedAmount = 抗性后、护盾前；HPDamage 经护盾与 HP clipping。
 type DamageOutcome struct {
-	RawAmount       float64
-	MitigatedAmount float64
-	TotalAmount     float64 // 兼容别名：等于 MitigatedAmount（summary / Result.Amount）
-	ShieldAbsorbed  float64
-	HPDamage        float64
+	ShieldAbsorptions *ShieldAbsorptionSnapshot
+	RawAmount         float64
+	MitigatedAmount   float64
+	TotalAmount       float64 // 兼容别名：等于 MitigatedAmount（summary / Result.Amount）
+	ShieldAbsorbed    float64
+	HPDamage          float64
 }
 
 // ExecuteOutcome 记录 execute_threshold 经 pipeline 后的非伤害结果。
@@ -84,9 +85,13 @@ func ResolveExecuteThreshold(cmd command.Command, view CombatantView) (ExecuteOu
 
 // ApplyMitigatedDamage applies shields then HP from a post-resistance amount.
 // RawAmount in the outcome is the pre-resistance raw; MitigatedAmount is the post-modifier mitigated value.
-func ApplyMitigatedDamage(raw, mitigated float64, view CombatantView, nowMs int64) (DamageOutcome, CombatantView) {
+func ApplyMitigatedDamage(raw, mitigated float64, view CombatantView, nowMs int64, captureShieldAbsorptions bool) (DamageOutcome, CombatantView) {
 	remaining := mitigated
 	var absorbed float64
+	var snapshot *ShieldAbsorptionSnapshot
+	if captureShieldAbsorptions {
+		snapshot = &ShieldAbsorptionSnapshot{Rows: []ShieldAbsorption{}}
+	}
 	shields := shieldInstancesFromView(view.Shields, nowMs)
 	shieldpkg.SortByPriority(shields)
 	for i := range shields {
@@ -100,7 +105,15 @@ func ApplyMitigatedDamage(raw, mitigated float64, view CombatantView, nowMs int6
 		if take > shields[i].Remaining {
 			take = shields[i].Remaining
 		}
+		before := shields[i].Remaining
 		shields[i].Remaining -= take
+		if snapshot != nil && take > 0 {
+			sh := shields[i]
+			snapshot.Rows = append(snapshot.Rows, ShieldAbsorption{ShieldRef: sh.ShieldRef,
+				DefinitionRef: sh.DefinitionRef, LifecycleProviderRef: sh.LifecycleProviderRef,
+				Source: sh.Source, Owner: sh.Owner, RemainingBefore: before,
+				RemainingAfter: sh.Remaining, Absorbed: take, ExpireAt: sh.ExpireAt})
+		}
 		absorbed += take
 		remaining -= take
 	}
@@ -112,11 +125,12 @@ func ApplyMitigatedDamage(raw, mitigated float64, view CombatantView, nowMs int6
 	}
 	view.Attributes = attribute.SetHP(view.Attributes, after)
 	return DamageOutcome{
-		RawAmount:       raw,
-		MitigatedAmount: mitigated,
-		TotalAmount:     mitigated,
-		ShieldAbsorbed:  absorbed,
-		HPDamage:        before - after,
+		ShieldAbsorptions: snapshot,
+		RawAmount:         raw,
+		MitigatedAmount:   mitigated,
+		TotalAmount:       mitigated,
+		ShieldAbsorbed:    absorbed,
+		HPDamage:          before - after,
 	}, view
 }
 
