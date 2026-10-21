@@ -484,6 +484,42 @@
           "skill.wait_for_cooldown"
         ],
         "rationale": "奥拉夫单向1V1配置依赖：实时自身生命驱动攻速和吸血、四秒整体削甲、独立盾与攻速及普攻重置、真实伤害和普攻减普通冷却、动态总攻击力及保留剩余时长。首次完整对象证明另经真实矩阵及独立复核，覆盖声明本身不签发通过。"
+      },
+      "CHARACTER:champion_tristana": {
+        "contentDigest": "51e42e644e34946ceeebed90da38b4f8643d64cbdca615bbe9e9822a7e74e6b2",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "basic_attack.cadence",
+          "basic_attack.interval_rounding",
+          "combat.kill_stop",
+          "combat.overkill_clamp",
+          "damage.critical_expectation",
+          "damage.magic_resist",
+          "damage.physical_armor",
+          "healing.life_steal",
+          "healing.omnivamp",
+          "healing.per_result_qualification",
+          "passive.event_condition_snapshot",
+          "passive.source_initialized",
+          "resource.ordinary_cost_ignored",
+          "schedule.terminal_window_before_process_timer",
+          "skill.action_occupancy",
+          "skill.automatic_cooldown",
+          "skill.delay_hit",
+          "skill.formula_attribute_ratio",
+          "skill.hit_miss",
+          "skill.manual_cast",
+          "skill.miss_does_not_apply_window",
+          "skill.release_after",
+          "skill.wait_for_cooldown",
+          "state.counter_threshold_settlement",
+          "state.finite_target_counter",
+          "state.real_basic_attack_stack",
+          "state.stale_callback_rejected",
+          "state.target_window_expiry"
+        ],
+        "rationale": "完整P/Q/E/R与后台普攻真实77场256次及独立逐事件重算；自身等级射程、有限攻速和实际总攻速前摇、真实命中目标计数、满层与自然终点、同刻先后、旧回调失效及暴击增幅。W按Excel排除，位移、死亡溅射与完整控制行动限制沿本轮范围。"
       }
     }
   }
