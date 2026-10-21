@@ -5,14 +5,14 @@
   "digestVersion": "simulation-availability-v1",
   "scopeDigest": "bb485ac4aade6bd1d51dbe7bb63ff70e2d657b8ef5c96408679933e81c75665f",
   "sharedDigest": "91a01f39579d516eeb68c2ffc69b2899ce05326185d2d6f2c38fbe4e966b6e58",
-  "wasmSha256": "58282af52d45a91da3a5939a8fd97b342b29e926788fcf90d143a0789220798f",
-  "adapterVersion": "v31-killed-self-restoration",
+  "wasmSha256": "b085663e74ebfd1f617b7878ba0249aa90605a5aae35346e2840f44f8fba6a50",
+  "adapterVersion": "v32-shared-initial-health-attacks",
   "mechanismRegression": {
-    "sourceCommit": "baaa2b7458b35ad0abb6649c2ee1df7f64a1ef63",
-    "caseCount": 89,
-    "casesDigest": "e0d749268b2f63dadf2b7dff037703e045e14bee8b0e06bee93786e70c722e9e",
-    "coverageDigest": "4e1fbd414735414dd063bc5fb9b72be99b15284db5aaf9fd7f8127c0e4a31e96",
-    "wasmBuildSha256": "58282af52d45a91da3a5939a8fd97b342b29e926788fcf90d143a0789220798f"
+    "sourceCommit": "98f2259ab457217ea81c0fcbcc58d7edce8fc5e8",
+    "caseCount": 100,
+    "casesDigest": "4da17769c12dd820aee04a8b16cf65d980d4b18ba7809c17cc6e5c8c69602e52",
+    "coverageDigest": "7f7958e2609906efd445d822a4ab586eab059591e86bc0c50575ce6f64cecfda",
+    "wasmBuildSha256": "b085663e74ebfd1f617b7878ba0249aa90605a5aae35346e2840f44f8fba6a50"
   },
   "entries": [
     {
@@ -1747,6 +1747,702 @@
       "evidenceRefs": [
         "outputs/skill-adaptation-20261021-neeko/验收摘要.json#sha256=d1927423329e448d15e5400f824b3f4303241e1ed394219156f7648ebc1be698",
         "outputs/skill-adaptation-20261021-neeko/独立复核.json#sha256=91a3da6329737cbeabbd09c963e0f30c47acadf2cad21a36352e6e7c715ce22b"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_1026",
+      "contentDigest": "da48f681118a4f75e8409d24d88d6cef31d839ab1e949d117146f4d6d8b064a5",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_1033",
+      "contentDigest": "8e975b7a3af39daf6d36ef1bba138d39e244a84e469e1969218926813b36ed13",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_1043",
+      "contentDigest": "860dd021534f415657c5a6518bcba2404a5b0d4f06ea2dd766b911ca9a79efde",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "item_1043_passive",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_1052",
+      "contentDigest": "58605885b53919670308ab611970962054d15f7cf71c9096ba9ef1e6e13b663b",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_1057",
+      "contentDigest": "11a66412eb725c3843b031ec480b8df540c7652ae553167beb4829728389e394",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_1058",
+      "contentDigest": "14df664402fa7170ce93e4356fdbea083967cda4eef686f16aa5cbda524f215b",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_2020",
+      "contentDigest": "45cd75a7df785625f0dce871398b908cdbf4b2fdc00152956a67ddc80ac2918c",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_2022",
+      "contentDigest": "368521d177bffac39bba74d9681e4663de0de97a1843d9ce04f8da828c912b9c",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_3067",
+      "contentDigest": "9e36ae83e4d480ea5434a3445903136a198f5cf5a88b6cf47f067dd3b4a02f69",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_3089",
+      "contentDigest": "f8b6a061e96ff15466f5f59af3a6f240e1e0edc5579075dd4a123c6ca5f160b3",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "item_3089_passive",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_3108",
+      "contentDigest": "6791735ab3e8992efb81995fdeaa43ce071705039b0a47c525924dc4494ec9ac",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_3115",
+      "contentDigest": "f07a220218dd0cde2743a6582970664d21bac474a0d4833417c53f82502ff164",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "item_3115_passive",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_3133",
+      "contentDigest": "670f408fe26afe4b4479f5d65e78c85ed9e205b34add4ca2860e0debd02e1122",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_3135",
+      "contentDigest": "d00367c77ee85d7327f88ffad0009ad8814e391c79002737cacf990c34a3c268",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_4630",
+      "contentDigest": "7a3ac61b4f17d2363b8b8402f45f995f7d48d24a13c08205b5a068cba7229fe7",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "evidenceRefs": [
+        "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
+        "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json"
       ],
       "issues": []
     }
