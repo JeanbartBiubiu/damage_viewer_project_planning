@@ -1,0 +1,2095 @@
+{
+  "schemaVersion": "mechanism-case-v1",
+  "caseKey": "equipment_botrk_extra_hit_fresh_cooldown",
+  "title": "额外命中先达三层后外层普通附伤重新核冷却",
+  "mechanisms": [
+    "equipment.basic_attack_on_hit",
+    "equipment.current_health_on_hit",
+    "equipment.on_hit_life_steal",
+    "equipment.extra_hit_link",
+    "equipment.on_hit_cooldown_guard",
+    "equipment.third_hit_slow"
+  ],
+  "derivation": [
+    "合成3153近战主计数默认0；首次真实BASIC_ATTACK_START启动即时种子过程，先SET主计数2再SET独立seeded_once计数1，后续START因seeded_once非0不重复播种。种子过程有真实状态写入；计数到期仍归0，未改schema默认值。",
+    "独立lab_aa_extra装备按真实宿主装备排序先监听普通命中，只发1次HIT_LINK_APPLICATION，且不监听HIT_LINK_APPLIED，不形成递归。其唯一作用就是实际额外命中，未加入空过程或0伤害占位。",
+    "本例故意把合成内部冷却缩为1000毫秒，保留6000毫秒计数窗口和1000毫秒减速，以在第二刀用标准业务投影暴露冻结资格；不是3153真实15秒冷却，真实对象冷却另由完整装备矩阵证明。",
+    "0毫秒主体100/2=50使目标1000→950；嵌套额外附伤950×9%/2=42.75使目标907.25；返回外层普通附伤907.25×9%/2=40.82625使目标866.42375。每刀主体仅一次，两次on-hit各一次。",
+    "嵌套额外附伤完成使初值2→3，在0毫秒先施30%减速至1000、再开短CD至1000并清零；外层附伤仍造成40.82625，其过程完成重新读当前CD而不再计数，200毫秒原始count=0/CD=1。",
+    "1000毫秒旧减速和短CD到期，第二刀主体使目标816.42375；额外附伤816.42375×9%/2=36.73906875；外层附伤779.68468125×9%/2=35.08581065625，终血744.59887059375。两次计数只到2，不触发新减速；1001标准finalProviders必须无减速。",
+    "旧冻结资格错误会在首刀外层残留count1，第二刀额外到2、外层到3并刷新减速至2000，因此会被标准业务投影直接发现。两刀总伤害255.40112940625，逐结果10%吸血25.540112940625，源525.540112940625。",
+    "原始count0/CD1的200毫秒中间检查与最终count2/CD0另存raw-expectations.json，不替代标准finalProviders的无减速断言，也不新增生产投影。",
+    "SOURCE_INITIALIZED只支持完整常驻或始终持久周期，不能执行SET2种子过程；本例使用现有合法BASIC_ATTACK_START与实际状态操作。seeded_once采用COUNTER记录次数，因为当前被动FLAG的ENABLED条件尚未接入，不为测试扩功能。"
+  ],
+  "catalog": "mechanism_botrk",
+  "snapshot": {
+    "selection": {
+      "sourceCharacterKey": "lab_attacker",
+      "sourceLevel": 1,
+      "targetCharacterKey": "lab_dummy",
+      "targetLevel": 1,
+      "basicAttackSkillKey": "lab_basic_attack",
+      "basicAttackLevel": 1,
+      "plannedSkills": [],
+      "sourceEquipmentKeys": [
+        "lab_aa_extra",
+        "lab_botrk_item"
+      ],
+      "targetEquipmentKeys": [],
+      "sourceBuildConfigurations": [],
+      "targetBuildConfigurations": [],
+      "targetSkillSettings": [],
+      "sourceSkillSettings": []
+    },
+    "source": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_attacker",
+        "name": "机制攻击方",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_attacker",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 100,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 100,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0,
+            "melee_attack": 1,
+            "move_speed": 400,
+            "attack_speed_ratio": 1,
+            "bonus_attack_speed_percent": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 100,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 100,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0,
+        "melee_attack": 1,
+        "move_speed": 400,
+        "attack_speed_ratio": 1,
+        "bonus_attack_speed_percent": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "selectedEquipment": [
+        {
+          "equipment": {
+            "gameId": "mechanism_lab",
+            "equipmentKey": "lab_aa_extra",
+            "name": "独立额外命中装备",
+            "description": null,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          "attributes": {
+            "equipmentKey": "lab_aa_extra",
+            "attributeValues": {}
+          },
+          "attachedSkills": [
+            {
+              "gameId": "mechanism_lab",
+              "equipmentKey": "lab_aa_extra",
+              "equipmentName": "独立额外命中装备",
+              "skillKey": "lab_extra_hit",
+              "skillName": "独立额外命中装备",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            }
+          ]
+        },
+        {
+          "equipment": {
+            "gameId": "mechanism_lab",
+            "equipmentKey": "lab_botrk_item",
+            "name": "合成当前生命攻击特效装备",
+            "description": null,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          "attributes": {
+            "equipmentKey": "lab_botrk_item",
+            "attributeValues": {
+              "life_steal_percent": 0.1
+            }
+          },
+          "attachedSkills": [
+            {
+              "gameId": "mechanism_lab",
+              "equipmentKey": "lab_botrk_item",
+              "equipmentName": "合成当前生命攻击特效装备",
+              "skillKey": "lab_botrk",
+              "skillName": "合成当前生命攻击特效装备",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            }
+          ]
+        }
+      ],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "begin_attack",
+            "hit_attack"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "EQUIPMENT",
+            "equipmentKey": "lab_aa_extra"
+          },
+          "skillKey": "lab_extra_hit",
+          "skillName": "独立额外命中装备",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "ordinary_hit"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "EQUIPMENT",
+            "equipmentKey": "lab_botrk_item"
+          },
+          "skillKey": "lab_botrk",
+          "skillName": "合成当前生命攻击特效装备",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "linked_melee_damage",
+            "linked_ranged_damage",
+            "resolve_melee_damage",
+            "resolve_ranged_damage",
+            "seed_before_attacks"
+          ],
+          "inactiveReason": null
+        }
+      ]
+    },
+    "target": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_dummy",
+        "name": "机制木桩",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_dummy",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 100,
+            "magic_resist": 100,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0,
+            "melee_attack": 1,
+            "move_speed": 400,
+            "attack_speed_ratio": 1,
+            "bonus_attack_speed_percent": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 100,
+        "magic_resist": 100,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0,
+        "melee_attack": 1,
+        "move_speed": 400,
+        "attack_speed_ratio": 1,
+        "bonus_attack_speed_percent": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_dummy",
+          "characterName": "机制木桩",
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_dummy"
+          },
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": null,
+          "enabledRuleKeys": [],
+          "inactiveReason": "NO_AUTONOMOUS_ATTACK"
+        }
+      ]
+    },
+    "skillConfigurations": [
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_basic_attack",
+          "name": "机制普攻",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "basic_attack"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "parameterKey": "base_critical_multiplier",
+            "name": "基础暴击倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.75,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "parameterKey": "milliseconds_per_second",
+            "name": "每秒毫秒",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "formulas": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "raw",
+            "name": "攻击力",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "attack_damage",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_damage",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "攻击力",
+                  "expression": {
+                    "op": "read",
+                    "inputKey": "attack_damage"
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "interval",
+            "name": "攻击间隔",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "ms",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_basic_attack",
+                    "parameterKey": "milliseconds_per_second"
+                  }
+                },
+                {
+                  "key": "speed",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_speed",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "攻击间隔",
+                  "expression": {
+                    "op": "div",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "ms"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "speed"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "critical_multiplier",
+            "name": "暴击倍率",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "base",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_basic_attack",
+                    "parameterKey": "base_critical_multiplier"
+                  }
+                },
+                {
+                  "key": "bonus",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "critical_strike_damage_bonus_percent",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "暴击倍率",
+                  "expression": {
+                    "op": "add",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "base"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "bonus"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 2,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "effectKey": "start",
+            "name": "发起",
+            "description": null,
+            "sortOrder": 0,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "attack_link",
+                "name": "攻击联动",
+                "resultType": "ATTACK_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "effectKey": "hit",
+            "name": "命中",
+            "description": null,
+            "sortOrder": 1,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "raw"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "SOURCE_CRIT_CHANCE",
+                    "multiplierValue": {
+                      "kind": "FORMULA",
+                      "formulaKey": "critical_multiplier"
+                    }
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              },
+              {
+                "resultKey": "hit_link",
+                "name": "命中联动",
+                "resultType": "HIT_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 20,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "processKey": "attack",
+            "name": "普攻节奏",
+            "activationType": "ACTIVE",
+            "description": null,
+            "sortOrder": 0,
+            "steps": [
+              {
+                "stepKey": "begin",
+                "name": "发起",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FORMULA",
+                "formulaKey": "interval"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [
+              {
+                "bindingKey": "start_link",
+                "effectKey": "start",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                },
+                "sortOrder": 0
+              }
+            ],
+            "stateOperations": [],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "begin_attack",
+            "name": "普攻开始",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_START",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_process",
+                "name": "普攻开始",
+                "sortOrder": 0,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "attack"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "hit_attack",
+            "name": "普攻命中",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_HIT",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "execute_effect",
+                "name": "普攻命中",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_lab_basic_attack"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_extra_hit",
+          "name": "独立额外命中发射器",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_extra_hit",
+            "effectKey": "extra_hit",
+            "name": "明确一次额外命中",
+            "description": null,
+            "sortOrder": 1,
+            "lifecycle": null,
+            "createdAt": "",
+            "updatedAt": "",
+            "results": [
+              {
+                "resultKey": "extra_hit",
+                "name": "一次额外命中联动",
+                "resultType": "HIT_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "ordinary_hit",
+            "name": "真实普通命中发出一次额外命中",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_HIT",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "extra_hit",
+                "name": "发出一次额外命中",
+                "sortOrder": 1,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "extra_hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_lab_one_independent_extra_hit_v1"
+      },
+      {
+        "baseDigest": "mechanism_lab_botrk_fixed_v3_2",
+        "effects": [
+          {
+            "createdAt": "",
+            "description": null,
+            "effectKey": "champion_slow",
+            "gameId": "mechanism_lab",
+            "lifecycle": {
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "slow_duration_ms"
+              },
+              "endWhenShieldEndsResultKey": null,
+              "expiryMode": "ALL_AT_ONCE",
+              "firstPeriodicExecution": null,
+              "instanceScope": "SOURCE_TARGET",
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "periodicIntervalValue": null,
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "reapplicationStackMode": "KEEP"
+            },
+            "name": "抓挠之影普通减速",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "operation": "APPLY",
+                  "statusKey": "movement_slow"
+                },
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "periodicExecutionMode": null,
+                  "reapplicationValueMode": "REPLACE",
+                  "stackValueMode": "SHARED",
+                  "valueReadMode": "APPLICATION_SNAPSHOT"
+                },
+                "name": "普通移动减速",
+                "resultKey": "slow",
+                "resultType": "STATUS_OPERATION",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": 1,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "slow_ratio"
+                  }
+                }
+              }
+            ],
+            "skillKey": "lab_botrk",
+            "sortOrder": 30,
+            "updatedAt": ""
+          },
+          {
+            "createdAt": "",
+            "description": null,
+            "effectKey": "on_hit_damage_melee",
+            "gameId": "mechanism_lab",
+            "lifecycle": null,
+            "name": "近战雾之锋伤害",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "vampOverrides": [
+                    {
+                      "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                      "efficiencyValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      },
+                      "mode": "OVERRIDE",
+                      "vampType": "LIFE_STEAL"
+                    }
+                  ],
+                  "vampQualification": "RESOLVED"
+                },
+                "lifecycleBehavior": null,
+                "name": "近战当前生命额外物理伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "on_hit_damage_melee",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "lab_botrk",
+            "sortOrder": 10,
+            "updatedAt": ""
+          },
+          {
+            "createdAt": "",
+            "description": null,
+            "effectKey": "on_hit_damage_ranged",
+            "gameId": "mechanism_lab",
+            "lifecycle": null,
+            "name": "远程雾之锋伤害",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "vampOverrides": [
+                    {
+                      "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                      "efficiencyValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      },
+                      "mode": "OVERRIDE",
+                      "vampType": "LIFE_STEAL"
+                    }
+                  ],
+                  "vampQualification": "RESOLVED"
+                },
+                "lifecycleBehavior": null,
+                "name": "远程当前生命额外物理伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "on_hit_damage_ranged",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "lab_botrk",
+            "sortOrder": 20,
+            "updatedAt": ""
+          }
+        ],
+        "formulas": [
+          {
+            "createdAt": "",
+            "description": null,
+            "expression": {
+              "inputs": [
+                {
+                  "key": "input_0",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_botrk",
+                    "parameterKey": "on_hit_damage_ratio_melee"
+                  }
+                },
+                {
+                  "key": "input_1",
+                  "binding": {
+                    "kind": "attribute",
+                    "view": "current_frame",
+                    "object": "target",
+                    "valueKind": "CURRENT",
+                    "attributeKey": "hp"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "原技能公式输出",
+                  "expression": {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "input_0"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "input_1"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "formulaKey": "on_hit_damage_melee",
+            "gameId": "mechanism_lab",
+            "name": "近战当前生命值额外伤害",
+            "skillKey": "lab_botrk",
+            "sortOrder": 10,
+            "updatedAt": ""
+          },
+          {
+            "createdAt": "",
+            "description": null,
+            "expression": {
+              "inputs": [
+                {
+                  "key": "input_0",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_botrk",
+                    "parameterKey": "on_hit_damage_ratio_ranged"
+                  }
+                },
+                {
+                  "key": "input_1",
+                  "binding": {
+                    "kind": "attribute",
+                    "view": "current_frame",
+                    "object": "target",
+                    "valueKind": "CURRENT",
+                    "attributeKey": "hp"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "原技能公式输出",
+                  "expression": {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "input_0"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "input_1"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "formulaKey": "on_hit_damage_ranged",
+            "gameId": "mechanism_lab",
+            "name": "远程当前生命值额外伤害",
+            "skillKey": "lab_botrk",
+            "sortOrder": 20,
+            "updatedAt": ""
+          }
+        ],
+        "internalStates": [
+          {
+            "createdAt": "",
+            "description": null,
+            "detail": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_counter_window_ms"
+              },
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "slow_attack_threshold"
+              }
+            },
+            "gameId": "mechanism_lab",
+            "name": "单对手英雄命中计数",
+            "scope": "SKILL",
+            "skillKey": "lab_botrk",
+            "sortOrder": 10,
+            "stateKey": "champion_hits",
+            "stateType": "COUNTER",
+            "updatedAt": ""
+          },
+          {
+            "createdAt": "",
+            "description": null,
+            "detail": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "slow_cooldown_ms"
+              }
+            },
+            "gameId": "mechanism_lab",
+            "name": "抓挠之影内部冷却",
+            "scope": "SKILL",
+            "skillKey": "lab_botrk",
+            "sortOrder": 20,
+            "stateKey": "slow_cooldown",
+            "stateType": "INTERNAL_COOLDOWN",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_botrk",
+            "stateKey": "seeded_once",
+            "name": "合成种子已执行次数",
+            "description": null,
+            "stateType": "COUNTER",
+            "scope": "SKILL",
+            "sortOrder": 30,
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": null
+            },
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "parameters": [
+          {
+            "createdAt": "",
+            "description": null,
+            "fixedValue": 6000,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "攻击计数原始窗口",
+            "parameterKey": "attack_counter_window_ms",
+            "skillKey": "lab_botrk",
+            "sortOrder": 40,
+            "updatedAt": "",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "",
+            "description": null,
+            "fixedValue": 0.09,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "近战当前生命伤害比例",
+            "parameterKey": "on_hit_damage_ratio_melee",
+            "skillKey": "lab_botrk",
+            "sortOrder": 10,
+            "updatedAt": "",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "",
+            "description": null,
+            "fixedValue": 0.06,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "远程当前生命伤害比例",
+            "parameterKey": "on_hit_damage_ratio_ranged",
+            "skillKey": "lab_botrk",
+            "sortOrder": 20,
+            "updatedAt": "",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "",
+            "description": null,
+            "fixedValue": 3,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "抓挠之影普攻阈值",
+            "parameterKey": "slow_attack_threshold",
+            "skillKey": "lab_botrk",
+            "sortOrder": 80,
+            "updatedAt": "",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "",
+            "description": null,
+            "fixedValue": 1000,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "抓挠之影冷却",
+            "parameterKey": "slow_cooldown_ms",
+            "skillKey": "lab_botrk",
+            "sortOrder": 70,
+            "updatedAt": "",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "",
+            "description": null,
+            "fixedValue": 1000,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "减速持续时间",
+            "parameterKey": "slow_duration_ms",
+            "skillKey": "lab_botrk",
+            "sortOrder": 60,
+            "updatedAt": "",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "",
+            "description": null,
+            "fixedValue": 0.3,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "三次攻击减速比例",
+            "parameterKey": "slow_ratio",
+            "skillKey": "lab_botrk",
+            "sortOrder": 50,
+            "updatedAt": "",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "processes": [
+          {
+            "activationType": "PASSIVE",
+            "cooldown": null,
+            "createdAt": "",
+            "description": null,
+            "effectBindings": [],
+            "gameId": "mechanism_lab",
+            "name": "开启冷却并清除三击计数",
+            "processKey": "consume_slow_trigger",
+            "skillKey": "lab_botrk",
+            "sortOrder": 20,
+            "stateOperations": [
+              {
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "name": "开启冷却并清除三击计数",
+                "operation": "START",
+                "operationKey": "state_operation_1",
+                "optionKey": null,
+                "sortOrder": 10,
+                "stateKey": "slow_cooldown",
+                "stateSkillKey": "lab_botrk",
+                "value": null
+              },
+              {
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "name": "开启冷却并清除三击计数",
+                "operation": "SET",
+                "operationKey": "state_operation_2",
+                "optionKey": null,
+                "sortOrder": 20,
+                "stateKey": "champion_hits",
+                "stateSkillKey": "lab_botrk",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 0
+                }
+              }
+            ],
+            "steps": [
+              {
+                "description": null,
+                "detail": {},
+                "name": "即时处理",
+                "occupiesAction": null,
+                "sortOrder": 10,
+                "stepKey": "immediate",
+                "stepType": "IMMEDIATE"
+              }
+            ],
+            "updatedAt": ""
+          },
+          {
+            "activationType": "PASSIVE",
+            "cooldown": null,
+            "createdAt": "",
+            "description": null,
+            "effectBindings": [],
+            "gameId": "mechanism_lab",
+            "name": "累计单对手英雄命中",
+            "processKey": "count_champion_hits",
+            "skillKey": "lab_botrk",
+            "sortOrder": 10,
+            "stateOperations": [
+              {
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "name": "累计单对手英雄命中",
+                "operation": "INCREASE",
+                "operationKey": "state_operation_1",
+                "optionKey": null,
+                "sortOrder": 10,
+                "stateKey": "champion_hits",
+                "stateSkillKey": "lab_botrk",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                }
+              }
+            ],
+            "steps": [
+              {
+                "description": null,
+                "detail": {},
+                "name": "即时处理",
+                "occupiesAction": null,
+                "sortOrder": 10,
+                "stepKey": "immediate",
+                "stepType": "IMMEDIATE"
+              }
+            ],
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_botrk",
+            "processKey": "resolve_melee_on_hit",
+            "name": "结算近战雾之锋并核计数资格",
+            "description": null,
+            "activationType": "PASSIVE",
+            "sortOrder": 30,
+            "cooldown": null,
+            "steps": [
+              {
+                "stepKey": "apply_on_hit",
+                "name": "结算已有当前生命附伤",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "occupiesAction": false,
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "apply_on_hit_damage",
+                "effectKey": "on_hit_damage_melee",
+                "moment": {
+                  "momentType": "STEP_EXECUTION",
+                  "stepKey": "apply_on_hit"
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_botrk",
+            "processKey": "resolve_ranged_on_hit",
+            "name": "结算远程雾之锋并核计数资格",
+            "description": null,
+            "activationType": "PASSIVE",
+            "sortOrder": 40,
+            "cooldown": null,
+            "steps": [
+              {
+                "stepKey": "apply_on_hit",
+                "name": "结算已有当前生命附伤",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "occupiesAction": false,
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "apply_on_hit_damage",
+                "effectKey": "on_hit_damage_ranged",
+                "moment": {
+                  "momentType": "STEP_EXECUTION",
+                  "stepKey": "apply_on_hit"
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_botrk",
+            "processKey": "seed_initial_hits",
+            "name": "首次攻击开始写入合成计数种子",
+            "description": null,
+            "activationType": "PASSIVE",
+            "sortOrder": 5,
+            "cooldown": null,
+            "steps": [
+              {
+                "stepKey": "seed",
+                "name": "实际写入两次已有命中",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "occupiesAction": false,
+                "detail": {}
+              }
+            ],
+            "effectBindings": [],
+            "stateOperations": [
+              {
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "operationKey": "seed_two",
+                "name": "写入合成已有计数2",
+                "sortOrder": 10,
+                "stateKey": "champion_hits",
+                "stateSkillKey": "lab_botrk",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 2
+                },
+                "optionKey": null
+              },
+              {
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "operationKey": "remember_seed",
+                "name": "记录实际种子次数",
+                "sortOrder": 20,
+                "stateKey": "seeded_once",
+                "stateSkillKey": "lab_botrk",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "optionKey": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "skill": {
+          "createdAt": "",
+          "description": null,
+          "gameId": "mechanism_lab",
+          "maxLevel": 1,
+          "name": "合成当前生命附伤与三击减速",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "lab_botrk",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": ""
+        },
+        "triggerRules": [
+          {
+            "actions": [
+              {
+                "actionKey": "start_count_champion_hits",
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "count_champion_hits"
+                },
+                "name": "启动配置过程",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [
+              {
+                "conditions": [
+                  {
+                    "conditionKey": "check_slow_cooldown",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "detail": {
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "expectedBoolean": null,
+                      "optionKey": null,
+                      "stateKey": "slow_cooldown",
+                      "stateSkillKey": "lab_botrk",
+                      "valueKind": "REMAINING_MS"
+                    },
+                    "sortOrder": 20
+                  }
+                ],
+                "groupKey": "qualification",
+                "name": "配置资格",
+                "sortOrder": 10
+              }
+            ],
+            "description": null,
+            "eventSource": {
+              "eventType": "PROCESS_MOMENT",
+              "detail": {
+                "processKey": "resolve_melee_on_hit",
+                "moment": {
+                  "momentType": "PROCESS_COMPLETE",
+                  "stepKey": null
+                }
+              }
+            },
+            "maxTriggersPerProcess": null,
+            "name": "近战附伤完成时核定英雄计数",
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "ruleKey": "count_ready_champion_hit",
+            "sortOrder": 50
+          },
+          {
+            "actions": [
+              {
+                "actionKey": "start_count_champion_hits",
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "count_champion_hits"
+                },
+                "name": "启动配置过程",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [
+              {
+                "conditions": [
+                  {
+                    "conditionKey": "check_slow_cooldown",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "detail": {
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "expectedBoolean": null,
+                      "optionKey": null,
+                      "stateKey": "slow_cooldown",
+                      "stateSkillKey": "lab_botrk",
+                      "valueKind": "REMAINING_MS"
+                    },
+                    "sortOrder": 20
+                  }
+                ],
+                "groupKey": "qualification",
+                "name": "配置资格",
+                "sortOrder": 10
+              }
+            ],
+            "description": null,
+            "eventSource": {
+              "eventType": "PROCESS_MOMENT",
+              "detail": {
+                "processKey": "resolve_ranged_on_hit",
+                "moment": {
+                  "momentType": "PROCESS_COMPLETE",
+                  "stepKey": null
+                }
+              }
+            },
+            "maxTriggersPerProcess": null,
+            "name": "远程附伤完成时核定英雄计数",
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "ruleKey": "count_ready_ranged_on_hit",
+            "sortOrder": 50
+          },
+          {
+            "actions": [
+              {
+                "actionKey": "start_melee_on_hit",
+                "name": "启动近战实际附伤过程",
+                "sortOrder": 10,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "resolve_melee_on_hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "conditionGroups": [
+              {
+                "conditions": [
+                  {
+                    "conditionKey": "attack_form",
+                    "conditionType": "ATTRIBUTE_COMPARE",
+                    "detail": {
+                      "attributeKey": "melee_attack",
+                      "attributeValueKind": "TOTAL",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      },
+                      "subject": "SOURCE"
+                    },
+                    "sortOrder": 10
+                  }
+                ],
+                "groupKey": "qualification",
+                "name": "配置资格",
+                "sortOrder": 10
+              }
+            ],
+            "description": null,
+            "eventSource": {
+              "detail": {
+                "sourceSkillKey": null
+              },
+              "eventType": "HIT_LINK_APPLIED"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "近战原始与额外命中当前生命伤害",
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "ruleKey": "linked_melee_damage",
+            "sortOrder": 30
+          },
+          {
+            "actions": [
+              {
+                "actionKey": "start_ranged_on_hit",
+                "name": "启动远程实际附伤过程",
+                "sortOrder": 10,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "resolve_ranged_on_hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "conditionGroups": [
+              {
+                "conditions": [
+                  {
+                    "conditionKey": "attack_form",
+                    "conditionType": "ATTRIBUTE_COMPARE",
+                    "detail": {
+                      "attributeKey": "melee_attack",
+                      "attributeValueKind": "TOTAL",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "subject": "SOURCE"
+                    },
+                    "sortOrder": 10
+                  }
+                ],
+                "groupKey": "qualification",
+                "name": "配置资格",
+                "sortOrder": 10
+              }
+            ],
+            "description": null,
+            "eventSource": {
+              "detail": {
+                "sourceSkillKey": null
+              },
+              "eventType": "HIT_LINK_APPLIED"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "远程原始与额外命中当前生命伤害",
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "ruleKey": "linked_ranged_damage",
+            "sortOrder": 40
+          },
+          {
+            "actions": [
+              {
+                "actionKey": "start_melee_on_hit",
+                "name": "启动近战实际附伤过程",
+                "sortOrder": 10,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "resolve_melee_on_hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "conditionGroups": [
+              {
+                "conditions": [
+                  {
+                    "conditionKey": "attack_form",
+                    "conditionType": "ATTRIBUTE_COMPARE",
+                    "detail": {
+                      "attributeKey": "melee_attack",
+                      "attributeValueKind": "TOTAL",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      },
+                      "subject": "SOURCE"
+                    },
+                    "sortOrder": 10
+                  },
+                  {
+                    "conditionKey": "champion",
+                    "conditionType": "TARGET_CATEGORY_CHECK",
+                    "detail": {
+                      "categories": [
+                        "CHAMPION"
+                      ]
+                    },
+                    "sortOrder": 20
+                  }
+                ],
+                "groupKey": "qualification",
+                "name": "配置资格",
+                "sortOrder": 10
+              }
+            ],
+            "description": null,
+            "eventSource": {
+              "detail": {},
+              "eventType": "BASIC_ATTACK_HIT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "近战普通命中当前生命附伤",
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "ruleKey": "resolve_melee_damage",
+            "sortOrder": 10
+          },
+          {
+            "actions": [
+              {
+                "actionKey": "start_ranged_on_hit",
+                "name": "启动远程实际附伤过程",
+                "sortOrder": 10,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "resolve_ranged_on_hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "conditionGroups": [
+              {
+                "conditions": [
+                  {
+                    "conditionKey": "attack_form",
+                    "conditionType": "ATTRIBUTE_COMPARE",
+                    "detail": {
+                      "attributeKey": "melee_attack",
+                      "attributeValueKind": "TOTAL",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "subject": "SOURCE"
+                    },
+                    "sortOrder": 10
+                  },
+                  {
+                    "conditionKey": "champion",
+                    "conditionType": "TARGET_CATEGORY_CHECK",
+                    "detail": {
+                      "categories": [
+                        "CHAMPION"
+                      ]
+                    },
+                    "sortOrder": 20
+                  }
+                ],
+                "groupKey": "qualification",
+                "name": "配置资格",
+                "sortOrder": 10
+              }
+            ],
+            "description": null,
+            "eventSource": {
+              "detail": {},
+              "eventType": "BASIC_ATTACK_HIT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "远程普通命中当前生命附伤",
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "ruleKey": "resolve_ranged_damage",
+            "sortOrder": 20
+          },
+          {
+            "actions": [
+              {
+                "actionKey": "execute_champion_slow",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "champion_slow"
+                },
+                "name": "执行配置效果",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              },
+              {
+                "actionKey": "start_consume_slow_trigger",
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "consume_slow_trigger"
+                },
+                "name": "启动配置过程",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 20,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [
+              {
+                "conditions": [
+                  {
+                    "conditionKey": "check_champion_hits",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "detail": {
+                      "comparator": "GTE",
+                      "comparisonValue": {
+                        "kind": "PARAMETER",
+                        "parameterKey": "slow_attack_threshold"
+                      },
+                      "expectedBoolean": null,
+                      "optionKey": null,
+                      "stateKey": "champion_hits",
+                      "stateSkillKey": "lab_botrk",
+                      "valueKind": "VALUE"
+                    },
+                    "sortOrder": 10
+                  }
+                ],
+                "groupKey": "qualification",
+                "name": "配置资格",
+                "sortOrder": 10
+              }
+            ],
+            "description": null,
+            "eventSource": {
+              "detail": {
+                "moment": {
+                  "momentType": "PROCESS_COMPLETE",
+                  "stepKey": null
+                },
+                "processKey": "count_champion_hits"
+              },
+              "eventType": "PROCESS_MOMENT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "三击施加减速并开始冷却",
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "ruleKey": "third_hit_slow",
+            "sortOrder": 60
+          },
+          {
+            "ruleKey": "seed_before_attacks",
+            "name": "首次攻击开始写入真实计数",
+            "description": null,
+            "sortOrder": 5,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_START",
+              "detail": {}
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "first_attack_only",
+                "name": "合成种子仅执行一次",
+                "sortOrder": 10,
+                "conditions": [
+                  {
+                    "conditionKey": "not_seeded",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 10,
+                    "detail": {
+                      "stateSkillKey": "lab_botrk",
+                      "stateKey": "seeded_once",
+                      "valueKind": "VALUE",
+                      "optionKey": null,
+                      "expectedBoolean": null,
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "seed_two",
+                "name": "启动真实计数种子过程",
+                "sortOrder": 10,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "seed_initial_hits"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ]
+      }
+    ],
+    "references": []
+  },
+  "scenario": {
+    "mode": "continuous_attack",
+    "durationMs": 1001,
+    "initialHealth": {
+      "source": 500,
+      "target": 1000
+    }
+  },
+  "expected": {
+    "summary": {
+      "sourceDamageDealt": 255.40112940625,
+      "targetHpLoss": 255.40112940625,
+      "sourceVampHealing": 25.540112940625,
+      "sourceDirectHealing": 0,
+      "sourceFinalHp": 525.540112940625,
+      "targetFinalHp": 744.59887059375,
+      "basicAttackStarted": 2,
+      "basicAttackHits": 2
+    },
+    "attackStarts": [
+      0,
+      1000
+    ],
+    "damage": [
+      {
+        "timeMs": 0,
+        "source": "source",
+        "target": "target",
+        "skillKey": "lab_basic_attack",
+        "effectKey": "hit",
+        "resultKey": "damage",
+        "damageType": "physics",
+        "rawAmount": 100,
+        "postDefenseDamage": 50,
+        "actualHpLoss": 50,
+        "shieldAbsorbed": 0
+      },
+      {
+        "timeMs": 0,
+        "source": "source",
+        "target": "target",
+        "skillKey": "lab_botrk",
+        "effectKey": "on_hit_damage_melee",
+        "resultKey": "damage",
+        "damageType": "physics",
+        "rawAmount": 85.5,
+        "postDefenseDamage": 42.75,
+        "actualHpLoss": 42.75,
+        "shieldAbsorbed": 0
+      },
+      {
+        "timeMs": 0,
+        "source": "source",
+        "target": "target",
+        "skillKey": "lab_botrk",
+        "effectKey": "on_hit_damage_melee",
+        "resultKey": "damage",
+        "damageType": "physics",
+        "rawAmount": 81.6525,
+        "postDefenseDamage": 40.82625,
+        "actualHpLoss": 40.82625,
+        "shieldAbsorbed": 0
+      },
+      {
+        "timeMs": 1000,
+        "source": "source",
+        "target": "target",
+        "skillKey": "lab_basic_attack",
+        "effectKey": "hit",
+        "resultKey": "damage",
+        "damageType": "physics",
+        "rawAmount": 100,
+        "postDefenseDamage": 50,
+        "actualHpLoss": 50,
+        "shieldAbsorbed": 0
+      },
+      {
+        "timeMs": 1000,
+        "source": "source",
+        "target": "target",
+        "skillKey": "lab_botrk",
+        "effectKey": "on_hit_damage_melee",
+        "resultKey": "damage",
+        "damageType": "physics",
+        "rawAmount": 73.4781375,
+        "postDefenseDamage": 36.73906875,
+        "actualHpLoss": 36.73906875,
+        "shieldAbsorbed": 0
+      },
+      {
+        "timeMs": 1000,
+        "source": "source",
+        "target": "target",
+        "skillKey": "lab_botrk",
+        "effectKey": "on_hit_damage_melee",
+        "resultKey": "damage",
+        "damageType": "physics",
+        "rawAmount": 70.1716213125,
+        "postDefenseDamage": 35.08581065625,
+        "actualHpLoss": 35.08581065625,
+        "shieldAbsorbed": 0
+      }
+    ],
+    "finalAttributes": {
+      "source.attack_damage": 100,
+      "source.attack_speed": 1,
+      "source.life_steal_percent": 0.1,
+      "target.armor": 100,
+      "target.move_speed": 400
+    },
+    "finalProviders": [
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "selected_basic_attack_definition",
+        "stacks": 1,
+        "expireAt": null
+      },
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "source_equipment_lab_aa_extra_definition",
+        "stacks": 1,
+        "expireAt": null
+      },
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "source_equipment_lab_botrk_item_definition",
+        "stacks": 1,
+        "expireAt": null
+      },
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "source_lab_aa_extra_passive_definition",
+        "stacks": 1,
+        "expireAt": null
+      },
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "source_lab_botrk_item_passive_definition",
+        "stacks": 1,
+        "expireAt": null
+      }
+    ]
+  }
+}

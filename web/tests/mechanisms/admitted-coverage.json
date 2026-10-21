@@ -1049,6 +1049,28 @@
         "rationale": "科加斯P/Q/W/E/R完整真实来源和背景普攻已按双方1至18级、各主动等级、明确当前生命与法力、共享盛宴战前层数、正吸血及零明细代表验收。P沿逐笔真实致死普通自身恢复；Q同次命中规则共享额度及实例当前时刻强度；W有限沉默；E三次发动额度与结束起冷却；R常驻生命上限与额外生命真实伤害。所有依赖映射到固定机制回归，永久生命与有限状态同时存在的安静期限清理另有4000毫秒正反例。仅当前单向1V1数值和控制状态，不声明空间、目标自主主动、完整行动限制或任意装备组合。",
         "contentDigest": "16153c6169eb7db901f7158b84e149d5a567ac28b2184e1f23a27ffc7b3cfcab",
         "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd"
+      },
+      "EQUIPMENT:item_3153": {
+        "contentDigest": "54710cdca303227a9cafbf5c0035f7e6205acabc7e1dbc81b624d341cbe232b7",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "basic_attack.cadence",
+          "damage.magic_resist",
+          "damage.physical_armor",
+          "equipment.basic_attack_on_hit",
+          "equipment.current_health_on_hit",
+          "equipment.extra_hit_link",
+          "equipment.on_hit_cooldown_guard",
+          "equipment.on_hit_counter_expiry",
+          "equipment.on_hit_counter_refresh",
+          "equipment.on_hit_life_steal",
+          "equipment.static_attributes",
+          "equipment.third_hit_slow",
+          "skill.action_occupancy",
+          "skill.formula_attribute_ratio"
+        ],
+        "rationale": "双方1至18级Q1混合背景普攻，18级Q2至Q5补充，盖伦1/18级近战；真实鬼索组合核15秒冷却和嵌套额外命中，另有6秒计数刷新/到期；全部使用真实保存配置、当前正式工作线程，三份完整响应逐一保留。三份固定机制候选的正式业务投影可捕获刷新、到期和冷却残余计数错误。"
       }
     }
   }
