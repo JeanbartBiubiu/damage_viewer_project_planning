@@ -13,6 +13,7 @@ import { empoweredDamageProcess } from './empoweredAttackContract';
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
 import { basicAttackPrimaryBinding, inspectPrimaryReplacements } from './primaryAttackReplacementContract';
 import { hasResourceMaxAuthorization, inspectResourceChangeContract } from './resourceChangeContract';
+import { inspectPermanentHealthInitialization } from './permanentHealthInitialization';
 import { inspectBasicAttackCooldownWake } from './basicAttackCooldownWakeResultFacts';
 import { finiteTargetCounterExpiryOrigin } from './finiteTargetCounterResultContract';
 import { inspectOrdinaryHealing } from './ordinaryHealingContract';
@@ -205,6 +206,8 @@ export function assessContinuousAttackResult(
   const issues: string[] = [];
   const identityGaps: string[] = [];
   issues.push(...inspectResourceChangeContract(input, request, done));
+  const initializedHealth = inspectPermanentHealthInitialization(input, request, done);
+  issues.push(...initializedHealth.issues); identityGaps.push(...initializedHealth.identityGaps);
   const check = (condition: boolean, path: string, message: string) => { if (!condition) issues.push(`${path}：${message}`); };
   check(bool(result.ok, 'runResult.ok'), 'runResult.ok', '运行返回未成功');
   for (const actor of request.initialSnapshot.combatants) {
@@ -564,9 +567,10 @@ export function assessContinuousAttackResult(
       && !!origin?.compiledPaths.includes(row.operationPath as string), path, '伤害无法关联本刀或独立真实编译路径');
     const retainedAttack = attackIndex === null ? undefined : attacks[attackIndex - 1];
     const empowered = mixed ? empoweredDamageProcess(input, done, row as unknown as DamageRecord) : null;
-    if (retainedAttack) check(retainedAttack.useRef === (empowered ? empowered.empoweredAttack!.useRef : row.useRef)
+    const originalUse = empowered ? (row as unknown as DamageRecord).empoweredAttack!.useRef : row.useRef as string;
+    if (retainedAttack) check(retainedAttack.useRef === originalUse
       && retainedAttack.hitAtMs === timeMs, path, '伤害与逐刀使用身份或命中时刻不一致');
-    if (attackIndex !== null && attackIndex > 0) checkProcess(empowered ? empowered.empoweredAttack!.useRef : row.useRef as string,
+    if (attackIndex !== null && attackIndex > 0) checkProcess(originalUse,
       retainedAttack?.startAtMs ?? timeMs, path);
     nonnegative(row.rawAmount, `${path}.rawAmount`);
     const hpBefore = nonnegative(row.hpBefore, `${path}.hpBefore`);

@@ -535,13 +535,21 @@ export function SkillProcessStepEditorModal({
                   disabled={readOnly}
                   onChange={(value) => patchDraft({
                     ...draft,
-                    consumeMoment: value as SkillProcessEmpoweredConsumeMoment
+                    consumeMoment: value as SkillProcessEmpoweredConsumeMoment,
+                    maximumAttackCountValue: value === 'ATTACK_START' ? draft.maximumAttackCountValue : null
                   })}
                 >
                   <Radio value="ATTACK_START">{EMPOWERED_CONSUME_MOMENT_LABELS.ATTACK_START}</Radio>
                   <Radio value="ATTACK_HIT">{EMPOWERED_CONSUME_MOMENT_LABELS.ATTACK_HIT}</Radio>
                 </Radio.Group>
               </Form.Item>
+              {draft.consumeMoment === 'ATTACK_START' && <Form.Item label="最多消费次数" required
+                extra="静态1～64整数，每次真实普攻发动消费一次，未命中不退还。"
+                validateStatus={errors.maximumAttackCountValue ? 'error' : undefined} help={errors.maximumAttackCountValue}>
+                <NumericValueField aria-label="最多消费次数" value={draft.maximumAttackCountValue}
+                  onChange={maximumAttackCountValue => patchDraft({ ...draft, maximumAttackCountValue: maximumAttackCountValue! })}
+                  parameters={parameters} formulas={formulas} disabled={readOnly} />
+              </Form.Item>}
             </>
           ) : null}
         </Form>

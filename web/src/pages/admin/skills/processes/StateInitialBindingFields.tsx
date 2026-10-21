@@ -25,6 +25,12 @@ export function StateInitialBindingFields({ label, binding, numeric, disabled, e
             value={Number.isFinite(binding.detail.maxValue) ? binding.detail.maxValue : undefined} placeholder="最大值"
             onChange={value => onChange({ ...binding, detail: { ...binding.detail, maxValue: value ?? Number.NaN } })} />
         </Space>
+        <Input aria-label={`${label}共享输入标识`} value={binding.detail.sharedInputKey ?? ''} disabled={disabled}
+          placeholder="可选：同角色侧共享输入标识"
+          onChange={sharedInputKey => {
+            const { sharedInputKey: _previous, ...detail } = binding.detail;
+            onChange({ ...binding, detail: sharedInputKey === '' ? detail : { ...detail, sharedInputKey } });
+          }} />
       </>}
     </Space>
   </Form.Item>;

@@ -31,8 +31,9 @@ import { assembleActiveSkills, type SimulationCastCostRef } from './simulationAc
 import { bindFiniteTargetCounterSources } from './finiteTargetCounterBinding';
 import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
 import { initialResourceRequirements, normalizeInitialResourceInputs } from './initialResourceInputs';
+import { permanentHealthIncreases } from './permanentHealthInitialization';
 
-export const SIMULATION_ADAPTER_VERSION = 'v31-killed-self-restoration';
+export const SIMULATION_ADAPTER_VERSION = 'v32-shared-initial-health-attacks';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -693,7 +694,8 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
 export function inspectSimulationSnapshot(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = [],
   sceneInputs: readonly SceneInitialParameterInput[] = []): {
   requirements: SimulationAttributeRequirement[]; coverage: SimulationCoverage[]; equipmentOrigins: EquipmentOrigin[];
-  mechanicRequirements: ReturnType<typeof primaryMechanicRequirements>; resourceRequirements: ReturnType<typeof initialResourceRequirements>
+  mechanicRequirements: ReturnType<typeof primaryMechanicRequirements>; resourceRequirements: ReturnType<typeof initialResourceRequirements>;
+  permanentHealthIncreases: Record<'source' | 'target', number>;
 } {
   const normalized = normalizeSceneInitialParameterInputs(snapshot, sceneInputs);
   const compiled = program(snapshot, ignoredCosts, normalized);
@@ -706,6 +708,7 @@ export function inspectSimulationSnapshot(snapshot: SimulationSnapshot, ignoredC
     }
   }
   return { requirements, coverage: compiled.coverage, equipmentOrigins: compiled.equipment.origins,
+    permanentHealthIncreases: permanentHealthIncreases(programProviders(compiled), compiled.natural.mounts),
     resourceRequirements: initialResourceRequirements(snapshot, programProviders(compiled), [...compiled.triggered.mounts, ...compiled.natural.mounts]),
     mechanicRequirements: compiled.provider ? primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema) : [] };
 }
@@ -731,7 +734,7 @@ export function assembleSimulation(
     if (!field || typeof field !== 'object' || field.stateKind !== 'ammo') fail('mechanicStateInputs', '机制初值缺少真实弹药编译声明');
     compiled.provider!.initialStateSchema![input.stateKey] = { ...field, defaultValue: input.value };
   }
-  const { requirements } = inspectSimulationSnapshot(snapshot, ignoredCosts, sceneParameterInputs);
+  const { requirements, permanentHealthIncreases: permanentHp } = inspectSimulationSnapshot(snapshot, ignoredCosts, sceneParameterInputs);
   const actors = (['source', 'target'] as const).map(side => {
     const attributes: Record<string, AttributeSlot> = {};
     const combined = { ...snapshot[side].selectedLevelValues };
@@ -750,13 +753,13 @@ export function assembleSimulation(
       if (!Number.isFinite(resolved) || (attribute.minValue !== null && resolved < attribute.minValue)
         || (attribute.maxValue !== null && resolved > attribute.maxValue)) fail(`combatants.${side}.attributes.${key}`, '装备平加后的属性违反真实范围');
     }
-    const hpLimit = combined.hp! + equipmentContribution(snapshot, side, 'hp');
+    const hpLimit = combined.hp! + equipmentContribution(snapshot, side, 'hp') + permanentHp[side];
     if (!Number.isFinite(hpLimit) || !(hpLimit > 0)) fail(`combatants.${side}.hp`, '初始生命上限必须是有限正数');
     const currentHp = finiteNumber(initialHealth?.[side], `initialHealth.${side}`, fail);
-    if (currentHp < 0 || currentHp > hpLimit) fail(`initialHealth.${side}`, '初始当前生命须在0与含装备生命上限之间，不自动填满或夹取');
+    if (currentHp < 0 || currentHp > hpLimit) fail(`initialHealth.${side}`, '初始当前生命须在0与含装备及永久收益的生命上限之间，不自动填满或夹取');
     for (const [key, raw] of Object.entries(combined)) {
       const amount = finiteNumber(raw, `combatants.${side}.attributes.${key}`, fail);
-      const resolved = amount + equipmentContribution(snapshot, side, key);
+      const resolved = key === 'hp' ? hpLimit : amount + equipmentContribution(snapshot, side, key);
       attributes[key] = { base: amount, current: key === 'hp' ? currentHp : resolved, max: resolved, resolved };
     }
     return { key: side, displayName: snapshot[side].character.name, types: ['combatant/champion'], attributes,

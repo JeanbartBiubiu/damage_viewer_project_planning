@@ -12,6 +12,7 @@ import type { ModifierZone } from '../types/modifierZone';
 import type { DamageType } from '../types/damageType';
 import { compileProcessStates } from './processStateAdapter';
 import { processCounterReads, processCounterSnapshots } from './processCounterInput';
+import { validateProcessSceneParameterBinding } from './processSceneParameterInput';
 import { bindSceneAttributeParameters, type SceneAttributeParameterInput } from './sceneAttributeSnapshotInput';
 import { compileLinkedShieldEffect } from './shieldEffectAdapter';
 import { compileTimedAttributeEffect } from './timedAttributeEffectAdapter';
@@ -89,6 +90,7 @@ export type AuthoredProcessProgram = {
   providerDefinitionRef?: string;
   sceneAttributeInputs?: readonly SceneAttributeParameterInput[];
   stateInitialValues?: Readonly<Record<string, number>>;
+  payloadSceneParameterValues?: Readonly<Record<string, number>>;
 };
 
 export type AdaptedProcessControl = {
@@ -376,12 +378,16 @@ function compileSteps(process: SkillProcess, state: NumericCompileState): Proces
       terminal = true;
       steps.push({ stepKey, stepType: 'RECAST', windowMs: compileTime(step.detail.windowValue, `${path}.detail.windowValue`, state, 'positive') });
     } else if (step.stepType === 'EMPOWERED_BASIC_ATTACK') {
-      exactKeys(step.detail, ['windowValue', 'consumeMoment'], `${path}.detail`);
-      if (ordered.length !== 1 || step.detail.consumeMoment !== 'ATTACK_HIT' || step.occupiesAction !== false) fail(path, '强化仅接单步骤、真实命中消费且明确不占行动');
+      exactKeys(step.detail, ['windowValue', 'consumeMoment', 'maximumAttackCountValue'], `${path}.detail`);
+      const quota = Object.prototype.hasOwnProperty.call(step.detail, 'maximumAttackCountValue');
+      if (ordered.length !== 1 || step.detail.consumeMoment !== (quota ? 'ATTACK_START' : 'ATTACK_HIT') || step.occupiesAction !== false) fail(path, '强化仅接单步骤、明确消费模式且不占行动；发动配额必须显式声明次数');
+      const maximumAttackCount = quota ? staticEffectValue(step.detail.maximumAttackCountValue!, `${path}.detail.maximumAttackCountValue`, state) : undefined;
+      if (quota && (!Number.isSafeInteger(maximumAttackCount) || maximumAttackCount! < 1 || maximumAttackCount! > 64)) fail(`${path}.detail.maximumAttackCountValue`, '发动配额必须为静态1～64整数');
       const window = staticEffectValue(step.detail.windowValue, `${path}.detail.windowValue`, state);
       if (!Number.isSafeInteger(window) || window <= 0) fail(`${path}.detail.windowValue`, '强化窗口必须为明确正整数毫秒');
       terminal = true;
-      steps.push({ stepKey, stepType: 'EMPOWERED_BASIC_ATTACK', windowMs: constExpr(window), consumeMoment: 'ATTACK_HIT' });
+      steps.push({ stepKey, stepType: 'EMPOWERED_BASIC_ATTACK', windowMs: constExpr(window), consumeMoment: step.detail.consumeMoment,
+        ...(quota ? { maximumAttackCount: constExpr(maximumAttackCount!) } : {}) });
     } else fail(`${path}.stepType`, '本期只接受即时、延时及末尾唯一有限多段、引导、蓄力或单次重施');
   }
   return steps.map(step => ({ ...step, occupiesAction: ordered.find(author => author.stepKey === step.stepKey)!.occupiesAction ?? null }));
@@ -732,7 +738,7 @@ function firstHealOperations(authored: AuthoredProcessProgram, rule: SkillTrigge
 
 function assertIdleAction(action: SkillTriggerAction, path: string, sceneAttributeStart = false): void {
   if (!Array.isArray(action.runtimeInputBindings) || action.runtimeInputBindings.some(binding =>
-    !sceneAttributeStart || !['SCENE_ATTRIBUTE_SNAPSHOT', 'INTERNAL_STATE'].includes(binding.sourceType))) {
+    !sceneAttributeStart || !['SCENE_ATTRIBUTE_SNAPSHOT', 'INTERNAL_STATE', 'SCENE_INITIAL_PARAMETER'].includes(binding.sourceType))) {
     fail(`${path}.runtimeInputBindings`, '该动作不能携带动态输入');
   }
   if (!Array.isArray(action.resultModifiers) || action.resultModifiers.length) fail(`${path}.resultModifiers`, '未支持的结果修正');
@@ -1008,7 +1014,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (!isRecord(authored)) fail('adapter.processPlan', '过程程序必须是对象');
   exactKeys(authored, [
     'gameId', 'skillKey', 'skillLevel', 'characterLevel', 'process', 'rules', 'effects',
-    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'damageTypes', 'basicAttackContext', 'hitContext', 'providerDefinitionRef', 'sceneAttributeInputs', 'stateInitialValues'
+    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'damageTypes', 'basicAttackContext', 'hitContext', 'providerDefinitionRef', 'sceneAttributeInputs', 'stateInitialValues', 'payloadSceneParameterValues'
   ], 'adapter.processPlan');
   const gameId = catalogKey(authored.gameId, 'gameId');
   if (authored.ignoreCastCosts !== undefined && typeof authored.ignoreCastCosts !== 'boolean') fail('ignoreCastCosts', '忽略施法成本必须明确声明');
@@ -1031,6 +1037,24 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (!Array.isArray(process.stateOperations)) fail(`${processPath}.stateOperations`, '内部状态操作必须是数组');
   if (!Array.isArray(process.effectBindings)) fail(`${processPath}.effectBindings`, '效果挂接必须是数组');
   const state = numericState(authored);
+  const payloadSceneValues: Record<string, number> = {};
+  for (const rule of authored.rules) for (const action of rule.actions) for (const binding of action.runtimeInputBindings) {
+    if (binding.sourceType !== 'SCENE_INITIAL_PARAMETER') continue;
+    const path = `skills.${skillKey}.triggerRules.${rule.ruleKey}.actions.${action.actionKey}.runtimeInputBindings.${binding.bindingKey}`;
+    validateProcessSceneParameterBinding({ skill: { gameId, skillKey }, processes: [process], effects: [...authored.effects],
+      parameters: [...(authored.parameters ?? [])], formulas: [...(authored.formulas ?? [])] }, rule, action, binding, path);
+    const value = authored.payloadSceneParameterValues?.[binding.parameterKey];
+    const parameter = authored.parameters!.find(row => row.parameterKey === binding.parameterKey)!;
+    if (!Object.prototype.hasOwnProperty.call(authored.payloadSceneParameterValues ?? {}, binding.parameterKey)
+      || typeof value !== 'number' || !Number.isFinite(value) || value < binding.detail.minValue || value > binding.detail.maxValue
+      || parameter.valueType === 'INTEGER' && !Number.isSafeInteger(value) || Object.prototype.hasOwnProperty.call(payloadSceneValues, binding.parameterKey)) {
+      fail(path, '负载场景初值缺失、重复或违反真实声明，不得补零');
+    }
+    payloadSceneValues[binding.parameterKey] = value;
+  }
+  if (Object.keys(authored.payloadSceneParameterValues ?? {}).some(key => !Object.prototype.hasOwnProperty.call(payloadSceneValues, key))) {
+    fail(processPath, '未声明场景值不能借给本过程负载');
+  }
   bindSceneAttributeParameters(authored, state);
   if (authored.internalStates !== undefined && !Array.isArray(authored.internalStates)) fail(planPath(skillKey, 'internalStates'), '内部状态必须是数组');
   const counterReads = processCounterReads(process, authored.rules, authored.internalStates ?? [], state);
@@ -1065,7 +1089,11 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     const hit = adaptEmpoweredProcessPayload({ ...authored.hitContext, gameId, skillKey, skillLevel: authored.skillLevel,
       characterLevel: authored.characterLevel, effects: authored.effects, parameters: authored.parameters, formulas: authored.formulas,
       modifierZones: authored.modifierZones }, process,
-      { processStartStateBindings: processCounterSnapshots(process, authored.internalStates ?? [], counterReads, state) });
+      { processStartStateBindings: processCounterSnapshots(process, authored.internalStates ?? [], counterReads, state),
+        sceneParameterValues: payloadSceneValues });
+    if (steps[0]!.maximumAttackCount !== undefined && hit.skillHit.candidates.some(candidate => candidate.attackDamageRole === 'REPLACE_PRIMARY')) {
+      fail(processPath, '发动配额只支持普通附加负载，不能替换普攻主体');
+    }
     empoweredPayload = { stepKey: steps[0]!.stepKey, hit };
   }
   const controls = compileControls(authored, steps);
@@ -1077,6 +1105,9 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     exactKeys(process.cooldown, ['durationValue', 'startMoment'], cooldownPath);
     const startMoment = readMoment(process.cooldown.startMoment, `${cooldownPath}.startMoment`);
     assertMomentFits(startMoment, process.steps, `${cooldownPath}.startMoment`);
+    if (steps[0]?.maximumAttackCount !== undefined && startMoment.momentType !== 'PROCESS_COMPLETE') {
+      fail(`${cooldownPath}.startMoment`, '发动配额的普通冷却仅从窗口真实完成开始');
+    }
     const durationMs = authored.roundPositiveCooldownMs
       ? compileFoldable(process.cooldown.durationValue, `${cooldownPath}.durationValue`, state, '时间不能使用未供值的计算时输入')
       : compileTime(process.cooldown.durationValue, `${cooldownPath}.durationValue`, state, 'nonNegative');

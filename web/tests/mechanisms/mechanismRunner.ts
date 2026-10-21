@@ -1,5 +1,5 @@
 import { isDeepStrictEqual } from 'node:util';
-import { readFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { TinyGoV2Bridge } from '../../src/engine/tinygoV2Bridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult, type GenericEngineClient } from '../../src/engine/genericEngineClient';
@@ -18,6 +18,7 @@ import { validateSimulationSnapshot } from '../../src/services/simulationSnapsho
 import type { CompileRequest, CompileResult, DamageRecord, DoneResult, GenericReleaseDonePayload, RunRequest } from '../../src/types/genericEngine';
 import type { MechanismCase, MechanismExpectation, MechanismProjection } from './mechanismCase';
 import { projectRestorations } from './restorationProjection';
+import { projectEmpoweredWindows, projectInitializations } from './initializationProjection';
 
 export const WASM_PATH = new URL('../../src/engine/wasm/tinygo_engine_v2.wasm', import.meta.url);
 
@@ -90,7 +91,12 @@ export async function runMechanismCase(definition: MechanismCase): Promise<Mecha
       : scenario.mode === 'skill_action'
         ? assessSkillActionResult(prepared.compileRequest, runRequest, done, prepared.operationOrigins)
         : assessContinuousAttackResult(prepared.compileRequest, runRequest, done, prepared.operationOrigins);
-    if (!assessment.complete || assessment.issues.length) throw new Error('结果完整性核对未通过：' + JSON.stringify(assessment.issues));
+    if (!assessment.complete || assessment.issues.length) {
+      const directory = new URL('../../output/mechanisms/', import.meta.url);
+      mkdirSync(directory, { recursive: true });
+      writeFileSync(new URL(`${definition.caseKey}.assessment-failure.json`, directory), JSON.stringify({ prepared, runRequest, done, assessment }, null, 2) + '\n');
+      throw new Error('结果完整性核对未通过：' + JSON.stringify(assessment.issues));
+    }
     if (done.summary.execution && done.summary.execution.budgetCause !== null) throw new Error('运行耗尽预算：' + done.summary.execution.budgetCause);
     const repeated = await client.run(runRequest);
     if (!isDeepStrictEqual(repeated, done)) throw new Error('同会话重复运行结果不一致');
@@ -159,7 +165,16 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
     finalAttributes: Object.fromEntries(done.finalSnapshot.combatants.flatMap(row => Object.entries(row.attributes)
       .map(([key, slot]) => [`${row.key}.${key}`, slot.resolved]))),
     finalProviders,
-    restorations: projectRestorations(origins, compileRequest, runRequest, done)
+    restorations: projectRestorations(origins, compileRequest, runRequest, done),
+    initializations: projectInitializations(compileRequest, runRequest, done),
+    ...projectEmpoweredWindows(compileRequest, runRequest, done),
+    finalCooldowns: done.finalSnapshot.combatants.flatMap(actor => Object.entries(actor.cooldowns).map(([abilityRef, value]) => {
+      if (!value || typeof value !== 'object' || !Number.isSafeInteger((value as Record<string, unknown>).readyAtMs)
+        || !Number.isSafeInteger((value as Record<string, unknown>).remainingMs)
+        || Number((value as Record<string, unknown>).readyAtMs) < 0 || Number((value as Record<string, unknown>).remainingMs) < 0) throw new Error('finalCooldowns: 缺少实际冷却期限');
+      const row = value as { readyAtMs: number; remainingMs: number };
+      return { owner: actor.key, abilityRef, readyAtMs: row.readyAtMs, remainingMs: row.remainingMs };
+    })).sort((a, b) => a.owner.localeCompare(b.owner) || a.abilityRef.localeCompare(b.abilityRef))
   };
 }
 
@@ -182,7 +197,7 @@ export function compareMechanismExpectation(actual: MechanismProjection, expecte
   };
   if (expected.summary) fields('summary', actual.summary, expected.summary);
   if (expected.finalAttributes) fields('finalAttributes', actual.finalAttributes, expected.finalAttributes);
-  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges', 'finalProviders', 'restorations'] as const) {
+  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges', 'finalProviders', 'restorations', 'initializations', 'empoweredWindows', 'empoweredConsumptions', 'finalCooldowns'] as const) {
     const wanted = expected[list];
     if (!wanted) continue;
     const rows = actual[list] as unknown as Record<string, unknown>[];

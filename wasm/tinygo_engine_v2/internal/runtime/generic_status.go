@@ -62,6 +62,9 @@ func (f *executionFrame) prepareProviderMutation(definitionRef, providerRef, sou
 	if provider.HasStateOnExpire {
 		return nil, f.providerLifecycleError(model.GenericErrRuntimeInvariantFailed, "providers", "state expiry source requires its real initial owner mount", provider.ProviderKey)
 	}
+	if provider.PermanentResourceMax {
+		return nil, f.providerLifecycleError(model.GenericErrRuntimeInvariantFailed, "providerDefinitionRef", "permanent HP instances are owned by cold initialization", provider.ProviderKey)
+	}
 	if provider.HasModifierSnapshots && providerRef != "" {
 		return nil, f.providerLifecycleError(model.GenericErrRuntimeInvariantFailed, "providerRef", "snapshot attribute refresh requires its complete actual target hit application", providerRef)
 	}

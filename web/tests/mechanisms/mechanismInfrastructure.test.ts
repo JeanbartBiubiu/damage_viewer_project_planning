@@ -12,6 +12,15 @@ function parse(expected: unknown) {
 }
 
 describe('机制覆盖必须有有效的手算数值断言', () => {
+  it('初始化、额度与冷却投影只接受明确合法字段，不以名称获得覆盖', () => {
+    expect(() => parse({ initializations: [{ owner: 'source', max: 1200, current: 1000, value: 200, abilityRef: null, useRef: null }] })).not.toThrow();
+    expect(() => parse({ empoweredWindows: [{ maximumAttackCount: 3, consumptionCount: 2, pendingHitCount: 1, finishedAtMs: null }] })).not.toThrow();
+    expect(() => parse({ empoweredConsumptions: [{ consumptionIndex: 1, startedAtMs: 1000, hitRef: null, hitSequence: null, resolvedAtMs: null }] })).not.toThrow();
+    for (const expected of [{ initializations: [{ abilityRef: 'invented', value: 200 }] }, { initializations: [{ value: -1 }] },
+      { empoweredWindows: [{ maximumAttackCount: 65 }] }, { empoweredConsumptions: [{ consumptionIndex: 0 }] },
+      { finalCooldowns: [{ owner: 'foreign', readyAtMs: 1 }] }, { finalCooldowns: [{ readyAtMs: -1 }] },
+      { empoweredWindows: [{ consumptionCount: 1, unknown: 1 }] }, { initializations: [{ owner: 'source' }] }]) expect(() => parse(expected)).toThrow();
+  });
   it.each([{}, { summary: {} }, { damage: [{}] }, { summary: { stopReason: 'duration_reached' } }, { damage: [] }])('拒绝空泛期望 %j', expected => {
     expect(() => parse(expected)).toThrow(/期望|数值断言/);
   });

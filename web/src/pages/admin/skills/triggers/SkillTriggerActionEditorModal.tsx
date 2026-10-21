@@ -59,6 +59,7 @@ import {
   type SkillTriggerActionDraft
 } from './triggerRuleForm';
 import { SkillTriggerRuntimeInputBindingEditorModal } from './SkillTriggerRuntimeInputBindingEditorModal';
+import type { ProcessSceneParameterConfiguration } from '../../../../engine/processSceneParameterInput';
 
 export type SkillTriggerActionEditorMode = 'create' | 'edit';
 
@@ -94,6 +95,7 @@ type SkillTriggerActionEditorModalProps = {
   processes: readonly SkillProcessSummary[];
   processesLoadState?: CatalogLoadState;
   processDetails?: ReadonlyMap<string, SkillProcess>;
+  scenePayloadContext?: ProcessSceneParameterConfiguration;
   onEnsureProcess?: (processKey: string) => Promise<SkillProcess | null>;
   skillKey?: string;
   internalStates: readonly SkillInternalState[];
@@ -141,6 +143,7 @@ export function SkillTriggerActionEditorModal({
   processes,
   processesLoadState,
   processDetails,
+  scenePayloadContext,
   onEnsureProcess,
   skillKey,
   internalStates,
@@ -721,6 +724,7 @@ export function SkillTriggerActionEditorModal({
         skillKey={skillKey}
         attributesLoadState={attributesLoadState}
         processes={processes}
+        scenePayloadContext={scenePayloadContext}
         processesLoadState={processesLoadState}
         onRetryAttributes={onRetryAttributes}
         reachableParameters={reachableParameters}

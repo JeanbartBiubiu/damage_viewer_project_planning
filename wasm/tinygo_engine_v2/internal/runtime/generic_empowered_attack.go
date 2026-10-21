@@ -35,6 +35,7 @@ type empoweredShieldClaim struct{ owner, provider string }
 // Only the new attached-result group uses these bounded journals. Old frames
 // retain their existing process, listener and commit boundaries.
 type empoweredFrame struct {
+	reservations              []empoweredReservation
 	mutations                 []empoweredProcessMutation
 	moments                   []empoweredMoment
 	finished                  []*processRuntime
@@ -66,6 +67,11 @@ func (s *genericRunState) startEmpoweredProcess(entry model.DriverEntry, entryIn
 	if _, found := s.empoweredBinding(owner, provider, definition.ProcessKey); !found {
 		return s.processErr(definition.Path, "empowered attack requires its complete compiled own result binding", use)
 	}
+	for _, current := range s.empoweredWaits {
+		if current.Owner == owner && current.Status == "active" && (definition.Steps[0].MaximumAttackCount > 0 || current.EmpoweredAttackWindow != nil) {
+			return s.rejectProcess(entry, "empowered_window_already_active")
+		}
+	}
 	return s.startProcessReplacing(entry, entryIndex, owner, target, provider, ref, ability, definition, use, 0, nil, replaced)
 }
 
@@ -73,6 +79,11 @@ func cloneEmpoweredProcess(p *processRuntime) *processRuntime {
 	copy := *p
 	copy.ActualCosts = cloneProcessCosts(p.ActualCosts)
 	copy.ActionOccupancies = append([]model.ProcessActionOccupancy{}, p.ActionOccupancies...)
+	if window := p.EmpoweredAttackWindow; window != nil {
+		cloned := *window
+		cloned.Consumptions = append(make([]model.ProcessAttackConsumption, 0, window.MaximumAttackCount), window.Consumptions...)
+		copy.EmpoweredAttackWindow = &cloned
+	}
 	return &copy
 }
 
@@ -99,7 +110,7 @@ func (s *genericRunState) updateEmpoweredWait(p *processRuntime) {
 func (s *genericRunState) freezeEmpoweredWaits(owner string) []empoweredWaitFreeze {
 	var out []empoweredWaitFreeze
 	for _, p := range s.empoweredWaits {
-		if p.Owner == owner && p.Status == "active" && p.StepExecutionIndex == 0 && p.ExpiresAtMs != nil && s.nowMs < *p.ExpiresAtMs && s.processMounted(owner, p.ProviderRef, p.ability.ProviderIndex) {
+		if p.EmpoweredAttackWindow == nil && p.Owner == owner && p.Status == "active" && p.StepExecutionIndex == 0 && p.ExpiresAtMs != nil && s.nowMs < *p.ExpiresAtMs && s.processMounted(owner, p.ProviderRef, p.ability.ProviderIndex) {
 			out = append(out, empoweredWaitFreeze{p, p.UseKey, p.StepVersion, *p.ExpiresAtMs})
 		}
 	}
@@ -124,6 +135,9 @@ func (s *genericRunState) stageEmpoweredEntry(f *executionFrame) *model.EngineEr
 	}
 	p.stepIndex, p.StepVersion, p.StepKey = 0, 1, step.StepKey
 	p.StepStartedAtMs, p.AdvanceAtMs, p.ExpiresAtMs = s.nowMs, s.nowMs, &deadline
+	if step.MaximumAttackCount > 0 {
+		p.EmpoweredAttackWindow = &model.ProcessEmpoweredAttackWindow{MaximumAttackCount: step.MaximumAttackCount, Consumptions: make([]model.ProcessAttackConsumption, 0, step.MaximumAttackCount)}
+	}
 	f.pendingProcessTimer = true
 	return s.applyProcessMoment(p, f, "STEP_START", "")
 }
@@ -174,12 +188,19 @@ func (s *genericRunState) stageEmpoweredFailure(f *executionFrame, original *pro
 func (f *executionFrame) commitEmpoweredProcesses() {
 	for _, mutation := range f.empowered.mutations {
 		*mutation.original = *mutation.pending
+		if mutation.original.EmpoweredAttackWindow != nil {
+			mutation.original.EmpoweredAttack = nil
+		}
 		f.run.updateEmpoweredWait(mutation.original)
 	}
 }
 
 func (f *executionFrame) commitEmpoweredFacts() {
 	s := f.run
+	for _, reservation := range f.empowered.reservations {
+		reservation.use.empoweredProcess = reservation.process
+		reservation.use.empoweredConsumption = reservation.index
+	}
 	if replacement := f.empowered.primaryReplacement; replacement != nil {
 		s.commitPrimaryReplacement(*replacement, f.empowered.primaryReplacementBinding)
 	}

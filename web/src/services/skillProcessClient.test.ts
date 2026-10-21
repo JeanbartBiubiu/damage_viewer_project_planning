@@ -23,6 +23,20 @@ function jsonResponse(status: number, body: unknown): Response {
 }
 
 describe('步骤行动占用读回合同', () => {
+  it('发动配额可选字段原形保留，旧命中消费不补次数', () => {
+    const value = structuredClone(detail);
+    value.steps = [{ stepKey: 'wait', name: '待击', sortOrder: 0, description: null, occupiesAction: false,
+      stepType: 'EMPOWERED_BASIC_ATTACK', detail: { windowValue: { kind: 'FIXED', value: 6000 }, consumeMoment: 'ATTACK_START', maximumAttackCountValue: { kind: 'FIXED', value: 3 } } }];
+    expect(parseSkillProcess(value)).toEqual(value);
+    const step = value.steps[0]!;
+    if (step.stepType !== 'EMPOWERED_BASIC_ATTACK') throw new Error('fixture');
+    Object.assign(step.detail, { maximumAttackCountValue: null });
+    expect(() => parseSkillProcess(value)).toThrow();
+    delete step.detail.maximumAttackCountValue;
+    expect(() => parseSkillProcess(value)).toThrow();
+    step.detail.consumeMoment = 'ATTACK_HIT';
+    expect(parseSkillProcess(value).steps[0]!.detail).not.toHaveProperty('maximumAttackCountValue');
+  });
   it.each([null, true, false])('保留%j，不猜默认布尔', occupiesAction => {
     const value = structuredClone(detail);
     value.steps[0]!.occupiesAction = occupiesAction;

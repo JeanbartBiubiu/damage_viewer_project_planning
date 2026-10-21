@@ -886,14 +886,16 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
 
 /** 从真实作者过程挂接编译负载；不制造作者规则，也不发布第二份命中事件。 */
 export function adaptEmpoweredProcessPayload(authored: Omit<AuthoredHitProgram, 'rules' | 'chargeReleaseContext'>, process: SkillProcess,
-  context: { processStartStateBindings?: Readonly<Record<string, string>> } = {}): AdaptedHitProgram {
+  context: { processStartStateBindings?: Readonly<Record<string, string>>; sceneParameterValues?: Readonly<Record<string, number>> } = {}): AdaptedHitProgram {
   const root = `skills.${authored.skillKey}.processes.${process.processKey}`;
   const step = process.steps[0];
+  const quota = step?.stepType === 'EMPOWERED_BASIC_ATTACK' && Object.prototype.hasOwnProperty.call(step.detail, 'maximumAttackCountValue');
   if (process.gameId !== authored.gameId || process.skillKey !== authored.skillKey || process.steps.length !== 1
-    || step?.stepType !== 'EMPOWERED_BASIC_ATTACK' || step.detail.consumeMoment !== 'ATTACK_HIT' || step.occupiesAction !== false) fail(root, '负载仅接真实单步骤命中消费强化过程');
+    || step?.stepType !== 'EMPOWERED_BASIC_ATTACK' || step.detail.consumeMoment !== (quota ? 'ATTACK_START' : 'ATTACK_HIT') || step.occupiesAction !== false) fail(root, '负载仅接真实单步骤且明确声明消费模式的强化过程');
   const bindings = stableSorted(process.effectBindings.filter(binding => binding.moment.momentType === 'STEP_EXECUTION' && binding.moment.stepKey === step.stepKey), binding => binding.sortOrder);
   if (!bindings.length) fail(`${root}.effectBindings`, '强化步骤缺少真实命中挂接');
   const program: AuthoredHitProgram = { ...authored, rules: [] };
+  if (quota && compileLifecycleNumber(step.detail.maximumAttackCountValue!, `${root}.steps.${step.stepKey}.detail.maximumAttackCountValue`, program, '发动配额') > 64) fail(root, '发动配额必须为静态1～64整数');
   const state = numericState(program), providers = new Map<string, ProviderDefinition>(), typeEntries = new TypeCatalogEntries();
   state.processStartStateBindings = context.processStartStateBindings;
   // resolve_skill_hit 的正式编译依赖；声明类型不创建作者监听或运行时命中事实。
@@ -917,7 +919,8 @@ export function adaptEmpoweredProcessPayload(authored: Omit<AuthoredHitProgram, 
       resultKeys.add(result.resultKey);
       if (result.target !== 'TARGET' || result.resultType !== 'DAMAGE'
         && !(result.resultType === 'STATUS_OPERATION' && result.detail.operation === 'APPLY')) fail(path, '强化负载仅接实际命中目标的完整伤害或状态施加');
-      const compiled = compileResultOperations(program, effect, result, path, state, providers, typeEntries, 'skill', true);
+      const compiled = compileResultOperations(program, effect, result, path, result.resultType === 'DAMAGE'
+        ? { ...state, sceneParameterValues: context.sceneParameterValues } : state, providers, typeEntries, 'skill', true);
       if (compiled.vamp) {
         if (vampRules && !sameJson(vampRules, compiled.vamp.rules)) fail(path, '强化负载吸血规则不一致');
         vampRules = compiled.vamp.rules;
@@ -936,6 +939,7 @@ export function adaptEmpoweredProcessPayload(authored: Omit<AuthoredHitProgram, 
       || candidates[0].operations.length !== 1 || candidates[0].operations[0]?.operation !== 'damage')) {
     fail(`${root}.effectBindings`, '替换主体负载必须为唯一无条件即时目标伤害');
   }
+  if (quota && candidates.some(candidate => candidate.attackDamageRole !== undefined)) fail(`${root}.effectBindings`, '发动配额只接普通附加负载，不能声明主体替换');
   return { skillHit: { skillKey: authored.skillKey, candidates }, resolveKind: 'skill', providers: [...providers.values()], params: state.params,
     formulas: formulasUsedByInternalValue([...providers.values(), candidates], [...state.namedFormulas.values()]), requiredAttributes: [...state.requiredAttributes],
     typeEntries: [...typeEntries].map(([key, domain]) => ({ key, domain })), vampRules, abilityTypes: [...abilityTypes] };

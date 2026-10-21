@@ -1,4 +1,5 @@
 import type { SkillParameter } from '../../../../types/skillParameter';
+import { sceneInitialParameterDetailIssue } from '../../../../services/sceneInitialParameterContract';
 import type { SkillTriggerSceneInitialParameterBinding } from '../../../../types/skillTriggerRule';
 import { numericIssuePath, numericValueError } from '../numericValueForm';
 import { numericFormulaKey } from '../../../../types/numericValue';
@@ -539,7 +540,7 @@ function validateTypeSpecificFields(
       || !SKILL_INTERNAL_STATE_KEY_PATTERN.test(binding.bindingKey) || !value || value.kind !== 'PARAMETER' || value.parameterKey !== binding.parameterKey
       || !parameter || parameter.valueType !== 'INTEGER' || parameter.valueMode !== 'RUNTIME_INPUT'
       || parameter.fixedValue !== null || parameter.levelValues !== null
-      || !Number.isSafeInteger(binding.detail.minValue) || !Number.isSafeInteger(binding.detail.maxValue)
+      || sceneInitialParameterDetailIssue(binding.detail, true) !== null
       || binding.detail.minValue < 0 || binding.detail.minValue > binding.detail.maxValue) {
       fieldErrors[field] = '状态初值须直接绑定本技能无默认整数参数，并明确非负整数范围。';
     }

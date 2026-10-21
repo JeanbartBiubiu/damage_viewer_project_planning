@@ -1,12 +1,15 @@
 import type { CompileRequest, DoneResult, RunRequest } from '../types/genericEngine';
-import { inspectEmpoweredAttackFacts } from './empoweredAttackContract';
+import { empoweredDamageProcess, inspectEmpoweredAttackFacts } from './empoweredAttackContract';
 import { inspectResourceChangeContract } from './resourceChangeContract';
 import type { HealingEvidenceOrder } from './ordinaryHealingContract';
+import { inspectEmpoweredHealingAliases } from './empoweredHealingAlias';
 
 const close = (first: number, second: number) => Math.abs(first - second) <= 1e-9 * Math.max(1, Math.abs(first), Math.abs(second));
 
 export function inspectSimulationHealthLedger(compile: CompileRequest, request: RunRequest, done: DoneResult, evidenceOrder?: HealingEvidenceOrder): string[] {
   const issues: string[] = [...inspectEmpoweredAttackFacts(compile, request, done), ...inspectResourceChangeContract(compile, request, done)];
+  const healingAliases = inspectEmpoweredHealingAliases(compile, done);
+  issues.push(...healingAliases.issues);
   const hp = { source: request.initialSnapshot.combatants.find(actor => actor.key === 'source')!.attributes.hp!.current,
     target: request.initialSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp!.current };
   const damages = done.damageRecords ?? [];
@@ -57,6 +60,14 @@ export function inspectSimulationHealthLedger(compile: CompileRequest, request: 
         checkpoints.set(row.useRef, { ...hp });
         const association = aliases.get(row.useRef);
         if (association?.timeMs === row.timeMs) checkpoints.set(association.useRef, { ...hp });
+        if (selected === 0) {
+          const damage = damages[positions[0]!]!;
+          if (damage.empoweredAttack && empoweredDamageProcess(compile, done, damage)) checkpoints.set(damage.empoweredAttack.useRef, { ...hp });
+        }
+        if (selected === 1) {
+          const alias = healingAliases.aliases.get(healing[positions[1]!]!);
+          if (alias) checkpoints.set(alias, { ...hp });
+        }
       }
       positions[selected] = positions[selected]! + 1;
     }
@@ -117,10 +128,13 @@ export function inspectSimulationHealthLedger(compile: CompileRequest, request: 
       hp[target] = damage.hpAfter;
       hp[source] = damage.sourceHpAfter;
       checkpoint(damage.useRef, damage.timeMs);
+      if (!issues.length && damage.empoweredAttack && empoweredDamageProcess(compile, done, damage)) checkpoints.set(damage.empoweredAttack.useRef, { ...hp });
       damageIndex++;
     } else if (healMatches && heal) {
       hp[heal.target as keyof typeof hp] = heal.hpAfter;
       checkpoint(heal.useRef, heal.timeMs);
+      const alias = healingAliases.aliases.get(heal);
+      if (alias) checkpoints.set(alias, { ...hp });
       healingIndex++;
     } else { check(false, '伤害、吸血与直接治疗的真实前后生命不能连接'); break; }
     check(time >= previousTime, '合并生命账时刻逆序');

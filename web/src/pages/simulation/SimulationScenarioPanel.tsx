@@ -48,7 +48,7 @@ import { AutomaticSkillPlan } from './AutomaticSkillPlan';
 import { AutomaticSkillResult } from './AutomaticSkillResult';
 import { reconcileCombatRules } from './combatSkillRoster';
 import { CombatScenarioSetup, type CombatantSetup } from './CombatScenarioSetup';
-import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, type SceneInitialParameterInput,
+import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialParameterInput, type SceneInitialParameterInput,
   type SceneInitialParameterRequirement } from '../../engine/sceneInitialParameterInput';
 import { initialResourceCapacity, initialResourceKey } from '../../engine/initialResourceInputs';
 
@@ -429,8 +429,8 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
         ? [`${sideLabels[row.side]}初始当前${row.resourceName}须在0至${row.maxValue}之间，不会自动夹取。`] : [];
   });
   const resourcesBlocked = resourceUnfilled || resourceIssues.length > 0;
-  const sourceHealthLimit = snapshot ? simulationHealthLimit(snapshot, 'source', attributeDrafts.source.hp) : undefined;
-  const targetHealthLimit = snapshot ? simulationHealthLimit(snapshot, 'target', attributeDrafts.target.hp) : undefined;
+  const sourceHealthLimit = snapshot && inspection ? simulationHealthLimit(snapshot, 'source', attributeDrafts.source.hp, inspection.permanentHealthIncreases.source) : undefined;
+  const targetHealthLimit = snapshot && inspection ? simulationHealthLimit(snapshot, 'target', attributeDrafts.target.hp, inspection.permanentHealthIncreases.target) : undefined;
   const healthIssues = (['source', 'target'] as const).flatMap(side => {
     const current = initialHealth[side];
     const limit = side === 'source' ? sourceHealthLimit : targetHealthLimit;
@@ -450,10 +450,8 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     clearFormulaProofScope(identity);
     if (formulaProofIdentityRef.current === identity) formulaProofIdentityRef.current = null;
   };
-  const sceneInputsFromDrafts = (rows: readonly SceneInitialParameterRequirement[] = sceneParameterRequirements) => rows.map(row => ({
-    side: row.side, origin: row.origin, skillKey: row.skillKey, parameterKey: row.parameterKey,
-    declarationIdentity: row.declarationIdentity, value: sceneParameterDrafts[row.declarationIdentity]
-  })) as SceneInitialParameterInput[];
+  const sceneInputsFromDrafts = (rows: readonly SceneInitialParameterRequirement[] = sceneParameterRequirements) => rows.map(row =>
+    sceneInitialParameterInput(row, sceneParameterDrafts[row.declarationIdentity]!));
   const trackFormulaProof = (task: Task, next: SimulationSnapshot, inputs: readonly SceneInitialParameterInput[] = []) => {
     task.formulaProofIdentity = snapshotFormulaProofIdentity(next, inputs);
     formulaProofIdentityRef.current = task.formulaProofIdentity;
@@ -1473,6 +1471,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
               setFormulaPreflight(null); setPrepared(null); setInspection(null); invalidateRunResult();
             }} />
           <Typography.Text type="secondary">{row.valueType === 'INTEGER' ? '整数' : '数值'} {row.minValue}～{row.maxValue}，不自动补初值。</Typography.Text>
+          {row.members ? <Typography.Paragraph type="secondary">同方角色共享，实际用于：{row.members.map(member => `${member.skillName}／${member.parameterName}`).join('、')}。</Typography.Paragraph> : null}
         </Form.Item>)}</Form>
       </section> : null}
       {inspection ? <SimulationMechanicInputs requirements={mechanicRequirements} drafts={mechanicDrafts} disabled={busy} onChange={updateMechanic} /> : null}

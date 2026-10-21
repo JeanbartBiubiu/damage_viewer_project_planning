@@ -219,6 +219,22 @@ describe('skill process form defaults and conversion', () => {
 });
 
 describe('skill process steps, moments and behaviors', () => {
+  it('新发动配额显式保存并回读，旧模式省略次数；缺值、越界与混用拒绝', () => {
+    const draft = validProcessDraft({ steps: [{ ...createEmptyStepDraft('EMPOWERED_BASIC_ATTACK'), stepKey: 'wait', name: '三次发动', sortOrder: '0',
+      windowValue: fixedValue(6000), consumeMoment: 'ATTACK_START', maximumAttackCountValue: fixedValue(3) }], effectBindings: [binding({ stepKey: 'wait' })] });
+    const normalized = expectValid(draft);
+    expect(normalized.steps[0]!.detail).toEqual({ windowValue: fixedValue(6000), consumeMoment: 'ATTACK_START', maximumAttackCountValue: fixedValue(3) });
+    const read = skillProcessToDraft({ ...SAVED_PROCESS, ...normalized });
+    expect(read.steps[0]!.maximumAttackCountValue).toEqual(fixedValue(3));
+    for (const value of [null, fixedValue(0), fixedValue(65), fixedValue(1.5)]) {
+      draft.steps[0]!.maximumAttackCountValue = value;
+      expect(validateSkillProcessDraft(draft, { includeProcessKey: true, catalog: CATALOG }).ok).toBe(false);
+    }
+    draft.steps[0]!.maximumAttackCountValue = fixedValue(3); draft.steps[0]!.consumeMoment = 'ATTACK_HIT';
+    expect(validateSkillProcessDraft(draft, { includeProcessKey: true, catalog: CATALOG }).ok).toBe(false);
+    draft.steps[0]!.maximumAttackCountValue = null;
+    expect(expectValid(draft).steps[0]!.detail).not.toHaveProperty('maximumAttackCountValue');
+  });
   it('builds eight step kinds and clears hidden fields when switching a new step', () => {
     const delay = expectValid(validProcessDraft({
       steps: [{

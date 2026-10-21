@@ -517,7 +517,7 @@ export type SkillTriggerSceneInitialParameterBinding = {
   bindingKey: string;
   parameterKey: string;
   sourceType: 'SCENE_INITIAL_PARAMETER';
-  detail: { minValue: number; maxValue: number };
+  detail: { minValue: number; maxValue: number; sharedInputKey?: string };
 };
 
 export type SkillTriggerPriorResultBindingDetail = {

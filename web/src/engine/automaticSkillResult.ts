@@ -8,6 +8,9 @@ import { assessContinuousAttackResult } from './continuousAttackResult';
 import { inspectSimulationProcessFacts } from './simulationProcessFacts';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import { inspectResourceChangeContract } from './resourceChangeContract';
+import { inspectPermanentHealthInitialization } from './permanentHealthInitialization';
+import { empoweredWindowHitCount } from './empoweredAttackWindowContract';
+import { inspectEmpoweredHealingAliases } from './empoweredHealingAlias';
 import { AUTOMATIC_SKILL_RECORD_KINDS, AUTOMATIC_SKILL_WAIT_REASONS } from '../types/skillSystemEnums.generated';
 import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 import { tryFoldConstant } from './numericAdapter';
@@ -167,6 +170,7 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
     const processFacts = inspectSimulationProcessFacts(compile, request, done);
     issues.push(...processFacts.issues);
     identityGaps.push(...empoweredAttackIdentityGaps(request, done));
+    identityGaps.push(...inspectEmpoweredHealingAliases(compile, done).identityGaps);
     const processByUse = new Map(processFacts.processes.map(process => [process.useKey, process]));
     const ruleForUse = (ref: string) => {
       const process = processByUse.get(ref);
@@ -186,6 +190,12 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       const ruleKey = ruleForUse(process.useKey);
       const context = ruleKey && contexts.get(ruleKey);
       if (!context) continue;
+      if (process.empoweredAttackWindow) {
+        const hits = empoweredWindowHitCount(process.empoweredAttackWindow);
+        expectedReleases += hits; possibleHits += hits;
+        if (execution.complete && process.status !== 'failed') requiredHits += hits;
+        continue;
+      }
       if (!context.binding.hitBindings.length && process.status === 'complete') expectedReleases++;
       const stages = inspectProcessSkillHitStages(context.binding, context.process, process, context.rule.hitBindings, duration);
       if (stages) {
@@ -401,6 +411,8 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       } else issues.push(...inspectActiveAmmoMechanics(compile, request, done, processFacts.processes, mechanics));
     }
     issues.push(...inspectResourceChangeContract(compile, request, done));
+    const initializedHealth = inspectPermanentHealthInitialization(compile, request, done);
+    issues.push(...initializedHealth.issues); identityGaps.push(...initializedHealth.identityGaps);
     if (done.resourceChangeSummary) issues.push(...inspectSimulationHealthLedger(compile, request, done));
     if (request.driverPlan.basicAttack) {
       const basic = object(summary.basicAttack, 'summary.basicAttack');

@@ -68,6 +68,9 @@ func (s *genericRunState) validateStaticInitializationListener(listener planbund
 		if !static || math.IsNaN(value) || math.IsInf(value, 0) {
 			return s.basicAttackErr("initialization modifier requires an application snapshot constant", operation.Path)
 		}
+		if effect.PermanentResourceMax && modifier.Kind == "resource_max" && modifier.CurrentValuePolicy == "preserve_initial_current" {
+			continue
+		}
 		if modifier.Kind == "attribute" && pipeline.ModifierTargetCombatantSelector(modifier.Target) == model.SelectorOpponent {
 			attributeKey := pipeline.AttributeKeyFromModifierTarget(modifier.Target)
 			opponent, exists := s.combatants[opponentCombatantKey(listener.OwnerCombatantKey)]

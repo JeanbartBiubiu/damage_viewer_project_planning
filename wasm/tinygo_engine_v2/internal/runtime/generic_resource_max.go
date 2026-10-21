@@ -39,7 +39,7 @@ func (s *genericRunState) initResourceMaxState() *model.EngineError {
 		c.hpMaxAnchor = hp.Max
 		s.combatants[key] = c
 	}
-	return nil
+	return s.initPermanentResourceMax()
 }
 
 func (s *genericRunState) reserveHealthOrder() uint64 { s.nextHealthOrder++; return s.nextHealthOrder }

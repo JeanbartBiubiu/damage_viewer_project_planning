@@ -745,6 +745,9 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 	if err := f.bumpCommandBudget(); err != nil {
 		return err
 	}
+	if op.ColdResourceMax {
+		return f.skipInstalledPermanentResourceMax(*op)
+	}
 	if (f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange || f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasModifierSnapshots) && op.Operation != "apply_provider" && op.Operation != "refresh_provider" && op.Operation != "expire_provider" {
 		f.flushDynamicProviders()
 		if f.fatal {

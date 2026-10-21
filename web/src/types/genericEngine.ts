@@ -239,7 +239,7 @@ export type HealGroupCalculationMode = 'ratio_add' | 'ratio_max';
 
 export type ModifierDefinition = {
   valueReadMode?: 'APPLICATION_SNAPSHOT';
-  currentValuePolicy?: 'grant_positive_delta_clamp';
+  currentValuePolicy?: 'grant_positive_delta_clamp' | 'preserve_initial_current';
   affectedAbilityRefs?: string[];
   modifierKey: string;
   kind: string;
@@ -641,7 +641,8 @@ export type ProcessStepDefinition = {
   maximumChargeMs?: GenericFormulaExpr;
   releaseAtMaximum?: boolean;
   windowMs?: GenericFormulaExpr;
-  consumeMoment?: 'ATTACK_HIT';
+  consumeMoment?: 'ATTACK_HIT' | 'ATTACK_START';
+  maximumAttackCount?: GenericFormulaExpr;
 };
 
 export type ProcessCostDefinition = {
@@ -698,6 +699,11 @@ export type BasicAttackPrimaryReplacement = {
   target: string; count: number; blockedCount: number; postDefenseDamage: number; shieldAbsorbed: number; actualHpLoss: number;
 };
 export type EmpoweredAttackConsumption = { useRef: string; hitRef: string; target: string; replacedPrimary?: BasicAttackPrimaryIdentity };
+export type EmpoweredAttackWindow = {
+  maximumAttackCount: number; consumptionCount: number; pendingHitCount: number;
+  consumptions: Array<{ consumptionIndex: number; useRef: string; target: string; startedAtMs: number;
+    hitRef: string | null; hitSequence: number | null; resolvedAtMs: number | null }>;
+};
 
 export type ProcessInstanceSnapshot = {
   skillHitStages?: Array<{ hitBindingKey: string; stepKey: string; timeMs: number; released: boolean; contact: boolean; completed: boolean }>;
@@ -724,6 +730,7 @@ export type ProcessInstanceSnapshot = {
   repeat: ProcessRepeatSnapshot | null;
   actionOccupancies: ProcessActionOccupancy[];
   empoweredAttack?: EmpoweredAttackConsumption;
+  empoweredAttackWindow?: EmpoweredAttackWindow;
   /** 自动资格成功消费的真实直接前项；只运输含强化消费的因果链。 */
   empoweredPredecessorUseRef?: string;
 };

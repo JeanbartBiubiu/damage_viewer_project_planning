@@ -113,6 +113,7 @@ export type SkillProcessStepDraft = {
   releaseAtMaximum: boolean;
   windowValue: NumericValue | null;
   maximumRecastCountValue: NumericValue | null;
+  maximumAttackCountValue: NumericValue | null;
   consumeMoment: SkillProcessEmpoweredConsumeMoment | '';
   originalStepType: SkillProcessStepType | null;
 };
@@ -195,6 +196,7 @@ export type SkillProcessStepDraftField =
   | 'releaseAtMaximum'
   | 'windowValue'
   | 'maximumRecastCountValue'
+  | 'maximumAttackCountValue'
   | 'consumeMoment'
   | 'detail';
 
@@ -327,6 +329,7 @@ const STEP_FIELD_BY_PATH: { [path: string]: SkillProcessStepDraftField } = {
   'detail.releaseAtMaximum': 'releaseAtMaximum',
   'detail.windowValue': 'windowValue',
   'detail.maximumRecastCountValue': 'maximumRecastCountValue',
+  'detail.maximumAttackCountValue': 'maximumAttackCountValue',
   'detail.consumeMoment': 'consumeMoment'
 };
 
@@ -431,6 +434,7 @@ export function createEmptyStepDraft(
     releaseAtMaximum: true,
     windowValue: null,
     maximumRecastCountValue: null,
+    maximumAttackCountValue: null,
     consumeMoment: stepType === 'EMPOWERED_BASIC_ATTACK' ? 'ATTACK_HIT' : '',
     originalStepType: null
   });
@@ -565,6 +569,7 @@ export function skillProcessStepToDraft(step: SkillProcessStep): SkillProcessSte
     case 'EMPOWERED_BASIC_ATTACK':
       draft.windowValue = step.detail.windowValue;
       draft.consumeMoment = step.detail.consumeMoment;
+      draft.maximumAttackCountValue = step.detail.maximumAttackCountValue ?? null;
       break;
     default: {
       const unexpected: never = step;
@@ -631,6 +636,7 @@ export function applyStepTypeChange(
     releaseAtMaximum: true,
     windowValue: null,
     maximumRecastCountValue: null,
+    maximumAttackCountValue: null,
     consumeMoment: nextType === 'EMPOWERED_BASIC_ATTACK' ? 'ATTACK_HIT' : ''
   });
 }
@@ -654,6 +660,7 @@ export function clearHiddenStepFields(draft: SkillProcessStepDraft): SkillProces
     releaseAtMaximum: type === 'CHARGE' ? draft.releaseAtMaximum : true,
     windowValue: type === 'RECAST' || type === 'EMPOWERED_BASIC_ATTACK' ? draft.windowValue : null,
     maximumRecastCountValue: type === 'RECAST' ? draft.maximumRecastCountValue : null,
+    maximumAttackCountValue: type === 'EMPOWERED_BASIC_ATTACK' ? draft.maximumAttackCountValue : null,
     consumeMoment: type === 'EMPOWERED_BASIC_ATTACK' ? draft.consumeMoment || 'ATTACK_HIT' : ''
   };
 }
@@ -762,7 +769,7 @@ export function stepSummary(step: SkillProcessStepDraft): string {
     case 'RECAST':
       return `${numericValueSummary(step.windowValue)} / ${numericValueSummary(step.maximumRecastCountValue)}`;
     case 'EMPOWERED_BASIC_ATTACK':
-      return `${numericValueSummary(step.windowValue)} / ${step.consumeMoment ? EMPOWERED_CONSUME_MOMENT_LABELS[step.consumeMoment] : '—'}`;
+      return `${numericValueSummary(step.windowValue)} / ${step.consumeMoment ? EMPOWERED_CONSUME_MOMENT_LABELS[step.consumeMoment] : '—'}${step.maximumAttackCountValue ? ` / 配额${numericValueSummary(step.maximumAttackCountValue)}` : ''}`;
     default: {
       const unexpected: never = step.stepType;
       return unexpected;
@@ -1149,6 +1156,12 @@ function validateStepDetail(
         fieldErrors.consumeMoment = '请选择消耗时点。';
       }
       validateFormulaRef(options, draft.windowValue, fieldErrors, 'windowValue');
+      if (draft.consumeMoment === 'ATTACK_START') {
+        requireNonEmpty(draft.maximumAttackCountValue, fieldErrors, 'maximumAttackCountValue', '发动消费须明确声明最多次数。');
+        validateFormulaRef(options, draft.maximumAttackCountValue, fieldErrors, 'maximumAttackCountValue');
+        if (draft.maximumAttackCountValue?.kind === 'FIXED' && (!Number.isSafeInteger(draft.maximumAttackCountValue.value)
+          || draft.maximumAttackCountValue.value < 1 || draft.maximumAttackCountValue.value > 64)) fieldErrors.maximumAttackCountValue = '发动配额须为静态1～64整数。';
+      } else if (draft.maximumAttackCountValue !== null) fieldErrors.maximumAttackCountValue = '命中消费模式不能声明发动配额。';
       break;
     default: {
       const unexpected: never = draft.stepType;
@@ -1263,7 +1276,8 @@ function buildStep(
         stepType: 'EMPOWERED_BASIC_ATTACK',
         detail: {
           windowValue: draft.windowValue!,
-          consumeMoment: draft.consumeMoment as SkillProcessEmpoweredConsumeMoment
+          consumeMoment: draft.consumeMoment as SkillProcessEmpoweredConsumeMoment,
+          ...(draft.maximumAttackCountValue === null ? {} : { maximumAttackCountValue: draft.maximumAttackCountValue })
         }
       };
     default: {

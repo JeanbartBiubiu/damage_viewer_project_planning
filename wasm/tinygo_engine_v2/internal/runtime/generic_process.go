@@ -18,16 +18,17 @@ type processRuntime struct {
 	ability          planbundle.CompiledAbility
 	abilityRef       string
 	// 过程身份在构造后不变；帧复制保留同一份不可变排序键。
-	mountKey                  string
-	stableKey                 string
-	stepIndex                 int
-	castID                    uint64
-	chainDepth                int
-	collector                 *eventCopyableCollector
-	empoweredAbilityIndex     uint16
-	hasEmpoweredAbility       bool
-	replacesPrimary           bool
-	primaryReplacementBinding uint16
+	mountKey                   string
+	stableKey                  string
+	stepIndex                  int
+	castID                     uint64
+	chainDepth                 int
+	collector                  *eventCopyableCollector
+	empoweredAbilityIndex      uint16
+	hasEmpoweredAbility        bool
+	replacesPrimary            bool
+	primaryReplacementBinding  uint16
+	empoweredResolvedPublished bool
 }
 
 func (s *genericRunState) processErr(path, message, ref string) *model.EngineError {
@@ -109,7 +110,7 @@ func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryInd
 				mountKey = processMountKey(source, parsed.ProviderRef, p.ProcessKey)
 			}
 			if processInstanceMountKey(current) == mountKey {
-				if isEmpoweredProcess(p) && current.hasEmpoweredAbility && current.StepExecutionIndex == 0 {
+				if isEmpoweredProcess(p) && p.Steps[0].MaximumAttackCount == 0 && current.hasEmpoweredAbility && current.StepExecutionIndex == 0 {
 					replaced = current
 				} else {
 					return s.rejectProcess(entry, "process_already_active")
@@ -708,6 +709,9 @@ func (s *genericRunState) handleProcessTimer(ev scheduler.GenericEvent) *model.E
 		return s.completeProcessStep(p)
 	}
 	step := p.definition.Steps[p.stepIndex]
+	if step.StepType == empoweredAttackStep && p.EmpoweredAttackWindow != nil {
+		return s.finishCountedEmpoweredWindow(p)
+	}
 	if step.StepType == "IMMEDIATE" {
 		if err := s.runProcessMoment(p, "STEP_EXECUTION", ""); err != nil {
 			return err

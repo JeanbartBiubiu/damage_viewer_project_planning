@@ -90,7 +90,10 @@ export async function runFirstHeroCase(snapshot: SimulationSnapshot, selection: 
   const absent = inspection.requirements.filter(row => row.storedValue === undefined
     && attributes[row.side][row.attribute.attributeKey] === undefined);
   if (absent.length) throw new Error('真实来源缺少必要属性，不填假0：' + absent.map(row => `${row.side}.${row.attribute.attributeKey}`).join(','));
-  const healthLimits = { source: simulationHealthLimit(snapshot, 'source'), target: simulationHealthLimit(snapshot, 'target') };
+  const healthLimits = {
+    source: simulationHealthLimit(snapshot, 'source', undefined, inspection.permanentHealthIncreases.source),
+    target: simulationHealthLimit(snapshot, 'target', undefined, inspection.permanentHealthIncreases.target),
+  };
   if (typeof healthLimits.source !== 'number' || !Number.isFinite(healthLimits.source) || healthLimits.source <= 0
     || typeof healthLimits.target !== 'number' || !Number.isFinite(healthLimits.target) || healthLimits.target <= 0) {
     throw new Error('真实生命上限缺失或非法');

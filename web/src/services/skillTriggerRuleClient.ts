@@ -400,10 +400,11 @@ function assertBinding(value: unknown, path: string): SkillTriggerRuntimeInputBi
     for (const key of ['bindingKey', 'parameterKey'] as const) {
       if (typeof value[key] !== 'string' || !TRIGGER_KEY_PATTERN.test(value[key])) protocolError(`${path}.${key}`);
     }
-    if (Object.keys(detail).length !== 2 || Object.keys(detail).some(key => key !== 'minValue' && key !== 'maxValue')
+    if (Object.keys(detail).some(key => !['minValue', 'maxValue', 'sharedInputKey'].includes(key))
       || typeof detail.minValue !== 'number' || !Number.isFinite(detail.minValue)
       || typeof detail.maxValue !== 'number' || !Number.isFinite(detail.maxValue)
-      || detail.minValue > detail.maxValue) protocolError(`${path}.detail`);
+      || detail.minValue > detail.maxValue || Object.prototype.hasOwnProperty.call(detail, 'sharedInputKey')
+      && (typeof detail.sharedInputKey !== 'string' || !TRIGGER_KEY_PATTERN.test(detail.sharedInputKey))) protocolError(`${path}.detail`);
   }
   if (sourceType === 'PRIOR_ACTION_RESULT') {
     if (

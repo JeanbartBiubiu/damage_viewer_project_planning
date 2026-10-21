@@ -36,6 +36,25 @@ const options = { includeRuleKey: true, skillKey, parameters: [parameter],
 const error = (selected = binding, param = parameter) => sceneInitialParameterError(selected, event, skillKey, action(), [param], effect);
 
 describe('场景显式初值管理表单', () => {
+  it('可选共享标识保存回读无损，未声明时保持旧形状', () => {
+    const shared = draft();
+    shared.actions[0]!.runtimeInputBindings = [{ ...binding, detail: { ...binding.detail, sharedInputKey: 'shared_count' } }];
+    const request = toCreateRequest(shared);
+    expect(toCreateRequest(fromDetail(request))).toEqual(request);
+    expect(bindingSummary(request.actions[0]!.runtimeInputBindings[0]!)).toContain('同角色共享shared_count');
+    expect(validateSkillTriggerDraft(shared, options).ok).toBe(true);
+    for (const key of [null, '', 'bad-key']) {
+      Object.assign(shared.actions[0]!.runtimeInputBindings[0]!.detail, { sharedInputKey: key });
+      expect(validateSkillTriggerDraft(shared, options).ok).toBe(false);
+    }
+  });
+  it('只有本技能真实首次START可选择负载场景输入，未加载完整图时保留并拒绝', () => {
+    const start = { ...createEmptyActionDraft([], 'START_PROCESS'), actionType: 'START_PROCESS' as const, targetContext: 'CURRENT_TARGET' as const, detail: { processKey: 'cast' } };
+    const source = { eventType: 'SKILL_USED' as const, detail: { sourceSkillKey: skillKey, useKind: 'ACTIVE' as const, castPhase: 'INITIAL' as const } };
+    expect(allowsSceneInitialParameter(source, skillKey, start)).toBe(true);
+    expect(allowsSceneInitialParameter({ ...source, detail: { ...source.detail, sourceSkillKey: 'foreign' } }, skillKey, start)).toBe(false);
+    expect(sceneInitialParameterError(binding, source, skillKey, start, [parameter], effect)).toContain('完整详情');
+  });
   it('新建上下界留空，切换丢弃旧明细，反向切回也不恢复旧值', () => {
     expect(createEmptyBindingDetail('SCENE_INITIAL_PARAMETER')).toEqual({ minValue: Number.NaN, maxValue: Number.NaN });
     const empty = createEmptyBinding([], 'SCENE_INITIAL_PARAMETER');

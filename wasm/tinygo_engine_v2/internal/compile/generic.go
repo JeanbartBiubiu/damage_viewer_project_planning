@@ -179,6 +179,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeOwnedHealthModifiers(ctx)
 	validateProviderElapsedReads(ctx)
 	finalizeListenerIndex(ctx)
+	finalizePermanentResourceMax(ctx)
 	finalizeAttackStartStateReads(ctx)
 	compileAmmoBindings(ctx)
 	validateMechanicFormulaContexts(ctx)

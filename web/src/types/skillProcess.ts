@@ -79,6 +79,7 @@ export type SkillProcessRecastDetail = {
 export type SkillProcessEmpoweredBasicAttackDetail = {
   windowValue: NumericValue;
   consumeMoment: SkillProcessEmpoweredConsumeMoment;
+  maximumAttackCountValue?: NumericValue;
 };
 
 type SkillProcessStepBase = {

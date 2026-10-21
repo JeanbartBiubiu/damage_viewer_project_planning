@@ -1,6 +1,7 @@
 import type { BasicAttackPlan, CompileRequest, DamageRecord, DoneResult, EmpoweredAttackConsumption, ProcessInstanceSnapshot, RunRequest, SkillActionBinding, SkillUseRecord } from '../types/genericEngine';
 import { tryFoldConstant } from './numericAdapter';
 import { basicAttackPrimaryBinding, inspectPrimaryReplacements, replacementPayloadBinding, samePrimaryIdentity, validPrimaryIdentity } from './primaryAttackReplacementContract';
+import { empoweredWindowConsumption, empoweredWindowIssue, empoweredWindowUseIssue, inspectEmpoweredWindowFacts } from './empoweredAttackWindowContract';
 
 /** 从真实编译定义识别待击绑定；普通技能保持原有路径。 */
 export function empoweredAttackBinding(compile: CompileRequest, binding: SkillActionBinding) {
@@ -17,8 +18,12 @@ export function empoweredAttackBinding(compile: CompileRequest, binding: SkillAc
   const payloadKey = /^source\.provider\[([^\]]+)\]\.ability\[([^\]]+)\]$/.exec(hit?.hitAbilityRef ?? '');
   const payload = definition.abilities?.find(row => row.abilityKey === payloadKey?.[2]);
   const windowMs = step?.windowMs && tryFoldConstant(step.windowMs);
+  const quota = step !== undefined && Object.prototype.hasOwnProperty.call(step, 'maximumAttackCount');
+  const maximumAttackCount = quota && step.maximumAttackCount ? tryFoldConstant(step.maximumAttackCount) : null;
   if (binding.controls.length !== 1 || initial?.action !== 'INITIAL' || !process || process.skillKey !== binding.skillKey
-    || process.steps.length !== 1 || step?.stepType !== 'EMPOWERED_BASIC_ATTACK' || step.consumeMoment !== 'ATTACK_HIT'
+    || process.steps.length !== 1 || step?.stepType !== 'EMPOWERED_BASIC_ATTACK' || step.consumeMoment !== (quota ? 'ATTACK_START' : 'ATTACK_HIT')
+    || quota && (typeof maximumAttackCount !== 'number' || !Number.isSafeInteger(maximumAttackCount) || maximumAttackCount < 1 || maximumAttackCount > 64)
+    || quota && process.cooldown && process.cooldown.startMoment.momentType !== 'PROCESS_COMPLETE'
     || step.occupiesAction !== false || typeof windowMs !== 'number' || !Number.isSafeInteger(windowMs) || windowMs <= 0
     || mount?.definitionRef !== definition.providerKey || abilityKey?.[1] !== binding.providerRef || initialAbility?.kind !== 'active'
     || initialAbility.skillKey !== binding.skillKey || initialAbility.processControl?.action !== 'INITIAL'
@@ -31,7 +36,10 @@ export function empoweredAttackBinding(compile: CompileRequest, binding: SkillAc
     throw new Error(`skillActionBindings.${binding.bindingKey}: 强化待击必须保留真实同来源首次、单步骤和完整负载绑定`);
   }
   const replacement = replacementPayloadBinding(compile, binding);
-  return { process, step, windowMs, hit, payload, replacement };
+  if (quota && (replacement || payload.operations[0]!.skillHit!.candidates.some(candidate => candidate.attackDamageRole === 'REPLACE_PRIMARY'))) {
+    throw new Error(`skillActionBindings.${binding.bindingKey}: 发动配额不能替换普攻主体`);
+  }
+  return { process, step, windowMs, hit, payload, replacement, maximumAttackCount };
 }
 
 /** 只接受本次实际普攻驱动引用的完整同拥有者 INITIAL。 */
@@ -74,8 +82,10 @@ export function sameEmpoweredAttack(left: unknown, right: unknown): left is Empo
 export function empoweredConsumptionIssue(compile: CompileRequest, request: RunRequest, process: ProcessInstanceSnapshot): string | null {
   const binding = compile.rules.skillActionBindings?.find(row => row.source === process.owner && row.providerRef === process.providerRef);
   const contract = binding && empoweredAttackBinding(compile, binding);
-  if (!contract) return process.empoweredAttack === undefined ? null : '普通过程不能伪造强化消费关联';
+  if (!contract) return process.empoweredAttack === undefined && process.empoweredAttackWindow === undefined ? null : '普通过程不能伪造强化消费关联';
   const plan = requireEmpoweredBasicAttack(compile, request.driverPlan.basicAttack);
+  if (contract.maximumAttackCount !== null) return empoweredWindowIssue(compile, request, process, contract);
+  if (process.empoweredAttackWindow !== undefined) return '旧命中消费不能夹带发动配额';
   if (process.target !== process.owner || process.repeat !== null || process.actionOccupancies.length !== 0
     || process.advanceAtMs !== process.stepStartedAtMs || process.expiresAtMs !== process.stepStartedAtMs + contract.windowMs) return '待击窗口、激活目标或占用与真实定义不符';
   if (process.stepExecutionIndex === 0) return process.empoweredAttack === undefined && process.lastExecutionAtMs === null
@@ -93,9 +103,11 @@ export function empoweredConsumptionIssue(compile: CompileRequest, request: RunR
 
 export function empoweredDamageProcess(compile: CompileRequest, done: DoneResult, row: Pick<DamageRecord, 'abilityRef' | 'useRef' | 'empoweredAttack' | 'timeMs' | 'source' | 'target' | 'hitRef'>) {
   const binding = compile.rules.skillActionBindings?.find(binding => binding.hitBindings.some(hit => hit.hitAbilityRef === row.abilityRef));
-  if (!binding || !empoweredAttackBinding(compile, binding)) return null;
+  const contract = binding && empoweredAttackBinding(compile, binding);
+  if (!binding || !contract) return null;
   const process = done.finalSnapshot.processInstances?.find(process => process.useKey === row.useRef
     && process.providerRef === binding.providerRef && process.owner === binding.source && process.skillKey === binding.skillKey);
+  if (contract.maximumAttackCount !== null) return process && empoweredWindowConsumption(process, row) ? process : null;
   return process?.status === 'complete' && process.lastExecutionAtMs === row.timeMs && row.source === process.owner
     && row.target === process.empoweredAttack?.target && row.hitRef === process.empoweredAttack?.hitRef
     && sameEmpoweredAttack(row.empoweredAttack, process.empoweredAttack) ? process : null;
@@ -108,6 +120,7 @@ export function empoweredUseRecordIssue(compile: CompileRequest, done: DoneResul
   const process = done.finalSnapshot.processInstances?.find(process => process.useKey === row.useRef && process.owner === row.source
     && process.providerRef === binding!.providerRef && process.skillKey === binding!.skillKey && process.processKey === contract.process.processKey);
   if (!process) return '强化使用事实缺少真实原使用过程';
+  if (contract.maximumAttackCount !== null) return empoweredWindowUseIssue(process, row, contract.step.stepKey);
   const consumed = ['STEP_EXECUTED', 'RELEASED', 'STEP_COMPLETED', 'HIT', 'COMPLETED'].includes(row.kind);
   if (!consumed) return row.empoweredAttack === undefined && row.target === process.target ? null : '开始、进入或失败不能带成功消费关联';
   return process.status === 'complete' && row.timeMs === process.lastExecutionAtMs && row.target === process.empoweredAttack?.target
@@ -120,7 +133,15 @@ export function empoweredUseRecordIssue(compile: CompileRequest, done: DoneResul
 export function empoweredAttackIdentityGaps(request: RunRequest, done: DoneResult): string[] {
   const plan = request.driverPlan.basicAttack;
   if (!plan) return [];
-  return (done.finalSnapshot.processInstances ?? []).filter(process => process.empoweredAttack !== undefined).flatMap(process => {
+  const windowGaps = (done.finalSnapshot.processInstances ?? []).flatMap(process => (process.empoweredAttackWindow?.consumptions ?? []).flatMap(consumption => {
+    if (consumption.resolvedAtMs === null) return [];
+    const retained = consumption.hitRef === null ? done.attackRecords?.some(row => row.useRef === consumption.useRef
+      && row.source === process.owner && row.target === consumption.target && row.startAtMs === consumption.startedAtMs && row.completed && row.hitAtMs === null)
+      : done.damageRecords?.some(row => row.abilityRef === plan.hitAbilityRef && row.useRef === consumption.useRef && row.hitRef === consumption.hitRef
+        && row.timeMs === consumption.resolvedAtMs && row.source === process.owner && row.target === consumption.target);
+    return retained ? [] : [`发动窗口${process.useKey}第${consumption.consumptionIndex}份未保留原普攻命中或未命中明细，完整消费快照仍单独核对`];
+  }));
+  return [...windowGaps, ...(done.finalSnapshot.processInstances ?? []).filter(process => process.empoweredAttack !== undefined).flatMap(process => {
     const association = process.empoweredAttack;
     const replaced = association && (done.finalSnapshot.processInstances ?? []).find(row => row.empoweredAttack?.replacedPrimary
       && row.empoweredAttack.useRef === association.useRef && row.empoweredAttack.hitRef === association.hitRef);
@@ -131,7 +152,7 @@ export function empoweredAttackIdentityGaps(request: RunRequest, done: DoneResul
     if (!retained && replaced && done.summary.basicAttack?.primaryReplacements?.some(row =>
       samePrimaryIdentity(row.primary, replaced.empoweredAttack?.replacedPrimary) && row.replacement.providerRef === replaced.providerRef && row.blockedCount > 0)) return [];
     return retained ? [] : [`强化使用 ${process.useKey} 未保留关联原普攻的伤害明细，无法独立核实命中标识；完整过程与累计仍单独核对`];
-  });
+  })];
 }
 
 export function inspectEmpoweredAttackFacts(compile: CompileRequest, request: RunRequest, done: DoneResult): string[] {
@@ -146,6 +167,15 @@ export function inspectEmpoweredAttackFacts(compile: CompileRequest, request: Ru
       const identity = JSON.stringify([process.owner, process.providerRef, process.processKey]);
       if (active.has(identity)) issues.push(`processInstances.${process.useKey}.empoweredAttack: 同一真实挂载过程只能有一个活动等待`);
       active.add(identity);
+    }
+    if (process.empoweredAttackWindow && !problem) {
+      issues.push(...inspectEmpoweredWindowFacts(compile, request, done, process));
+      for (const row of process.empoweredAttackWindow.consumptions) {
+        const identity = JSON.stringify([process.owner, 'counted_window', row.useRef]);
+        if (consumed.has(identity)) issues.push(`processInstances.${process.useKey}.empoweredAttackWindow: 同一挂载真实普攻不能跨窗口重复消费`);
+        consumed.add(identity);
+      }
+      continue;
     }
     const association = process.empoweredAttack;
     if (!association || problem) continue;
@@ -173,6 +203,16 @@ export function inspectEmpoweredAttackFacts(compile: CompileRequest, request: Ru
       && row.source === plan.source && row.target === association.target && row.empoweredAttack === undefined)) {
       issues.push(`processInstances.${process.useKey}.empoweredAttack: 关联命中身份没有原普攻伤害事实`);
     }
+  }
+  const waits = processes.filter(process => {
+    const binding = compile.rules.skillActionBindings?.find(binding => binding.source === process.owner && binding.providerRef === process.providerRef);
+    return binding && empoweredAttackBinding(compile, binding);
+  });
+  for (const [index, left] of waits.entries()) for (const right of waits.slice(index + 1)) {
+    if (left.owner !== right.owner || !left.empoweredAttackWindow && !right.empoweredAttackWindow) continue;
+    const leftEnd = left.finishedAtMs ?? done.summary.durationMs, rightEnd = right.finishedAtMs ?? done.summary.durationMs;
+    if (Math.max(left.startedAtMs, right.startedAtMs) < Math.min(leftEnd, rightEnd)
+      || left.status === 'active' && right.status === 'active') issues.push(`processInstances.empoweredAttackWindow: 同拥有者发动配额不能与其它活动待击窗口重叠`);
   }
   for (const row of done.skillUseRecords ?? []) {
     const problem = empoweredUseRecordIssue(compile, done, row);
@@ -214,7 +254,8 @@ export function inspectEmpoweredPredecessors(compile: CompileRequest, request: R
       const parent = rules.find(row => row.ruleKey === current!.releaseAfterRuleKey);
       const binding = bindings.find(row => row.bindingKey === parent?.bindingKey);
       if (!parent || !binding) return true;
-      if (empoweredAttackBinding(compile, binding)) return true;
+      const empowered = empoweredAttackBinding(compile, binding);
+      if (empowered && empowered.maximumAttackCount === null) return true;
       current = parent;
     }
     return current?.releaseAfterRuleKey != null;

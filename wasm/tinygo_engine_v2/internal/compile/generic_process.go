@@ -63,6 +63,9 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 		ctx.currentProcess = &compiled
 		if def.Cooldown != nil {
 			cp := p + ".cooldown"
+			if len(compiled.Steps) == 1 && compiled.Steps[0].MaximumAttackCount > 0 && def.Cooldown.StartMoment.MomentType != "PROCESS_COMPLETE" {
+				ctx.collector.addError(model.GenericErrUnknownRef, cp+".startMoment", "counted attack window cooldown starts only at PROCESS_COMPLETE", def.ProcessKey)
+			}
 			validateProcessMoment(def.Cooldown.StartMoment, &compiled, cp+".startMoment", ctx)
 			ctx.currentProcessMoment = &def.Cooldown.StartMoment
 			program, has := compileProcessFormula(&def.Cooldown.DurationMs, cp+".durationMs", !def.Cooldown.RoundPositiveMs, def.Cooldown.RoundPositiveMs, ctx)
@@ -174,6 +177,9 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 			ctx.collector.addError(model.GenericErrMissingRequiredField, path+"."+field.name, "process step field must be explicit", def.StepType)
 		}
 	}
+	if def.MaximumAttackCount != nil && def.StepType != "EMPOWERED_BASIC_ATTACK" {
+		ctx.collector.addError(model.GenericErrUnknownRef, path+".maximumAttackCount", "attack count only belongs to an empowered attack window", def.StepKey)
+	}
 	switch def.StepType {
 	case "IMMEDIATE":
 	case "DELAY":
@@ -195,8 +201,23 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 		compiled.WindowProgram, compiled.HasWindow = compileProcessFormula(def.WindowMs, path+".windowMs", true, true, ctx)
 	case "EMPOWERED_BASIC_ATTACK":
 		compiled.WindowProgram, compiled.HasWindow = compileProcessWindowFormula(def.WindowMs, path+".windowMs", true, ctx)
-		if !last || def.OccupiesAction == nil || *def.OccupiesAction || def.ConsumeMoment == nil || *def.ConsumeMoment != "ATTACK_HIT" {
-			ctx.collector.addError(model.GenericErrUnknownRef, path, "empowered attack requires a final non-occupying ATTACK_HIT step", def.StepKey)
+		consume := "ATTACK_HIT"
+		if def.MaximumAttackCount != nil {
+			consume = "ATTACK_START"
+			program, valid := compileProcessFormula(def.MaximumAttackCount, path+".maximumAttackCount", true, true, ctx)
+			if !valid {
+				ctx.collector.addError(model.GenericErrFormulaTypeError, path+".maximumAttackCount", "empowered attack count must be a static integer in [1,64]", def.StepKey)
+			} else {
+				value, static := ctx.session.Formulas.FoldStatic(program)
+				if !static || math.IsNaN(value) || math.IsInf(value, 0) || math.Trunc(value) != value || value < 1 || value > 64 {
+					ctx.collector.addError(model.GenericErrFormulaTypeError, path+".maximumAttackCount", "empowered attack count must be a static integer in [1,64]", def.StepKey)
+				} else {
+					compiled.MaximumAttackCount = int(value)
+				}
+			}
+		}
+		if !last || def.OccupiesAction == nil || *def.OccupiesAction || def.ConsumeMoment == nil || *def.ConsumeMoment != consume {
+			ctx.collector.addError(model.GenericErrUnknownRef, path, "empowered attack requires its explicit final non-occupying consumption mode", def.StepKey)
 		}
 	case "MULTI_HIT":
 		compiled.RepeatCountProgram, _ = compileProcessFormula(def.RepeatCount, path+".repeatCount", true, true, ctx)

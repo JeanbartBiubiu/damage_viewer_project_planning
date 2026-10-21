@@ -65,9 +65,10 @@ export function equipmentContribution(snapshot: SimulationSnapshot, side: 'sourc
   return snapshot[side].selectedEquipment.reduce((total, item) => total + (item.attributes.attributeValues[attributeKey] ?? 0), 0);
 }
 
-export function simulationHealthLimit(snapshot: SimulationSnapshot, side: 'source' | 'target', explicitBaseline?: number): number | undefined {
+export function simulationHealthLimit(snapshot: SimulationSnapshot, side: 'source' | 'target', explicitBaseline?: number, permanentIncrease = 0): number | undefined {
   const baseline = snapshot[side].selectedLevelValues.hp ?? explicitBaseline;
   if (baseline === undefined) return undefined;
-  const limit = baseline + equipmentContribution(snapshot, side, 'hp');
+  if (!Number.isFinite(permanentIncrease) || permanentIncrease < 0) return undefined;
+  const limit = baseline + equipmentContribution(snapshot, side, 'hp') + permanentIncrease;
   return Number.isFinite(limit) ? limit : undefined;
 }

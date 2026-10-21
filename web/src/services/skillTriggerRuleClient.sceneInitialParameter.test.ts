@@ -16,6 +16,14 @@ function detail(bindingDetail: unknown, bindingExtra: Record<string, unknown> = 
 }
 
 describe('场景显式初值客户端协议', () => {
+  it('可选共享标识按原形保留，显式空值及未知明细仍拒绝', () => {
+    const input = detail({ minValue: 0, maxValue: 150, sharedInputKey: 'shared_count' });
+    expect(parseSkillTriggerRuleDetail(input)).toEqual(input);
+    for (const sharedInputKey of [null, undefined, '', 'wrong-key', 1]) {
+      expect(() => parseSkillTriggerRuleDetail(detail({ minValue: 0, maxValue: 150, sharedInputKey }))).toThrow();
+    }
+    expect(() => parseSkillTriggerRuleDetail(detail({ minValue: 0, maxValue: 150, sharedInputKey: 'shared_count', extra: 1 }))).toThrow();
+  });
   afterEach(() => { vi.unstubAllGlobals(); vi.restoreAllMocks(); });
 
   it.each([{ minValue: 0, maxValue: 0 }, { minValue: -5, maxValue: 5 }, { minValue: -.5, maxValue: 1.25 }])(

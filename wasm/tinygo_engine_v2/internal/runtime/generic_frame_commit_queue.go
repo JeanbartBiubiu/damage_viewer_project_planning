@@ -214,6 +214,9 @@ func (f *executionFrame) preflightProviderMutation(providers []status.ProviderIn
 			return badRef("unknown provider definition", mutation.definitionRef)
 		}
 		definition := s.compiled.Providers[defIndex]
+		if definition.PermanentResourceMax {
+			return badRef("permanent HP instance is only installed by cold initialization", mutation.definitionRef)
+		}
 		if mutation.kind != "shield_apply" && definition.Lifecycle != nil && definition.Lifecycle.AllowsSourceTargetReuse() {
 			for i, inst := range providers {
 				if inst.DefinitionRef == mutation.definitionRef && inst.Source == mutation.sourceKey && inst.Owner == mutation.targetKey && inst.Expired(s.nowMs) {
@@ -256,6 +259,9 @@ func (f *executionFrame) preflightProviderMutation(providers []status.ProviderIn
 		return added, providers, nil
 	}
 	inst, index, exists := status.FindByRef(providers, mutation.providerRef)
+	if exists && s.compiled.Providers[inst.DefinitionIndex].PermanentResourceMax {
+		return badRef("permanent HP initialization instance cannot be changed in combat", mutation.providerRef)
+	}
 	if mutation.kind == "ensure_remaining" {
 		if !exists || inst.Expired(s.nowMs) {
 			return 0, providers, nil

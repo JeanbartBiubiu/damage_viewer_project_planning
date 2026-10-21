@@ -65,6 +65,10 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 					fail("empowered execution results must use their one ordered payload, not separate moment operations")
 					invalid = true
 				}
+				if process.Steps[0].MaximumAttackCount > 0 && moment.Moment.MomentType == "STEP_TIMEOUT" && moment.OperationCount != 0 {
+					fail("counted attack window expires through normal process completion")
+					invalid = true
+				}
 			}
 		}
 		hasDelay := false
@@ -154,6 +158,10 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 		}
 		if hasExplicitSteps && hasImplicitCompletion {
 			fail("explicit step hits cannot mix with an implicit completion hit")
+			invalid = true
+		}
+		if empowered && process.Steps[0].MaximumAttackCount > 0 && replacesPrimary {
+			fail("counted attack windows only admit attached damage, never primary replacement")
 			invalid = true
 		}
 		if hasExplicitSteps && len(process.Steps) > 1 && !hasDelay {

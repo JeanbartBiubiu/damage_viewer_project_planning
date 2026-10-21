@@ -29,6 +29,7 @@ type CompiledSession struct {
 	HasProviderElapsedReads   bool
 	HasFiniteModifierExpiry   bool
 	HasResourceMax            bool
+	PermanentResourceMax      []CompiledPermanentResourceMax
 	HasCooldownDuration       bool
 	HasProviderDurationChange bool
 	StatusKeys                []string
@@ -115,6 +116,14 @@ type CompiledCooldownDurationTarget struct {
 	AbilityIndex  uint16
 }
 
+// CompiledPermanentResourceMax is an actual mounted initialization consumer.
+// It is installed once per fresh run, before any combat operation executes.
+type CompiledPermanentResourceMax struct {
+	Owner, SourceProviderRef, SourceDefinitionRef string
+	ListenerKey, ProviderRef                      string
+	OperationIndex, ProviderIndex                 uint16
+}
+
 // CompiledListener 是 compile 后的 listener（provider / rules / inline listenerSpec）。
 type CompiledListener struct {
 	ListenerKey         string
@@ -184,27 +193,28 @@ type CompiledProvider struct {
 	AtomicLinkedShield   bool
 	HasModifierSnapshots bool
 	// ShieldDefinitionRef is set only for a provider owned by an actual numeric shield.
-	ShieldDefinitionRef string
-	NeedsElapsedTime    bool
-	NeedsModifierExpiry bool
-	HasResourceMax      bool
-	HasCooldownDuration bool
-	StaticDurationMs    int64
-	AtomicDynamic       bool
-	SkillKey            string
-	AmmoBinding         *CompiledAmmoBinding
-	Processes           []CompiledProcess
-	ProviderKey         string
-	Kind                string
-	StableID            string
-	TypeSet             typeset.TypeSet
-	AbilityStart        uint16
-	AbilityCount        uint16
-	Modifiers           []CompiledModifier
-	Listeners           []CompiledListener
-	Lifecycle           *CompiledProviderLifecycle
-	StateFields         map[string]CompiledProviderStateField
-	StatusContributions []CompiledStatusContribution
+	ShieldDefinitionRef  string
+	NeedsElapsedTime     bool
+	NeedsModifierExpiry  bool
+	HasResourceMax       bool
+	PermanentResourceMax bool
+	HasCooldownDuration  bool
+	StaticDurationMs     int64
+	AtomicDynamic        bool
+	SkillKey             string
+	AmmoBinding          *CompiledAmmoBinding
+	Processes            []CompiledProcess
+	ProviderKey          string
+	Kind                 string
+	StableID             string
+	TypeSet              typeset.TypeSet
+	AbilityStart         uint16
+	AbilityCount         uint16
+	Modifiers            []CompiledModifier
+	Listeners            []CompiledListener
+	Lifecycle            *CompiledProviderLifecycle
+	StateFields          map[string]CompiledProviderStateField
+	StatusContributions  []CompiledStatusContribution
 }
 
 // CompiledAbilityCost 是 compile 后的 ability 资源消耗。
@@ -263,6 +273,7 @@ type CompiledAbility struct {
 
 // CompiledOperation 是 compile 后的 operation 定义。
 type CompiledOperation struct {
+	ColdResourceMax              bool
 	OwnerProviderIndex           int
 	Operation                    string
 	Target                       string
@@ -394,6 +405,7 @@ type CompiledProcess struct {
 }
 
 type CompiledProcessStep struct {
+	MaximumAttackCount          int
 	StepKey                     string
 	StepType                    string
 	OccupiesAction              bool

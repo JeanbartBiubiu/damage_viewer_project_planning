@@ -7,17 +7,23 @@ import { naturalRuleKeys, plannedSkillRuleKeys, sourceIsPlanned, validateSimulat
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
 import { validateStateInitialBinding } from './stateInitialParameterBinding';
 import { NumericAdaptationError } from './numericAdapter';
+import { sceneInitialParameterDetailIssue } from '../services/sceneInitialParameterContract';
+import { validateProcessSceneParameterBinding } from './processSceneParameterInput';
 
 type Side = 'source' | 'target';
 type Binding = { ruleKey?: string; actionKey?: string; bindingKey: string; effectKey?: string;
-  stateKey?: string; field?: 'initialValue' | 'initialRemainingValue' };
+  processKey?: string; stateKey?: string; field?: 'initialValue' | 'initialRemainingValue' };
 export type SceneInitialParameterRequirement = {
   side: Side; origin: SimulationSkillOrigin; skillKey: string; parameterKey: string;
   skillName: string; parameterName: string; valueType: 'INTEGER' | 'DECIMAL';
   minValue: number; maxValue: number; declarationIdentity: string; bindings: Binding[];
+  sharedInputKey?: string;
+  members?: SceneInitialParameterRequirement[];
 };
-export type SceneInitialParameterInput = Pick<SceneInitialParameterRequirement,
-  'side' | 'origin' | 'skillKey' | 'parameterKey' | 'declarationIdentity'> & { value: number };
+export type SceneInitialParameterInput = (Pick<SceneInitialParameterRequirement,
+  'side' | 'origin' | 'skillKey' | 'parameterKey' | 'declarationIdentity'> | {
+    side: Side; origin: Extract<SimulationSkillOrigin, { kind: 'CHARACTER' }>; sharedInputKey: string; declarationIdentity: string;
+  }) & { value: number };
 
 export class SceneInitialParameterRequired extends NumericAdaptationError {
   constructor(readonly requirements: SceneInitialParameterRequirement[]) {
@@ -63,7 +69,9 @@ export function sceneInitialParameterRequirements(snapshot: SimulationSnapshot):
     const add = (binding: import('../types/skillTriggerRule').SkillTriggerSceneInitialParameterBinding, location: Binding, path: string,
       integerOnly = false) => {
       exact(binding, ['bindingKey', 'parameterKey', 'sourceType', 'detail'], path);
-      exact(binding.detail, ['minValue', 'maxValue'], `${path}.detail`);
+      const detailIssue = sceneInitialParameterDetailIssue(binding.detail, integerOnly);
+      if (detailIssue) fail(`${path}.detail`, detailIssue);
+      if (binding.detail.sharedInputKey !== undefined && source.origin.kind !== 'CHARACTER') fail(path, '共享初值仅允许真实角色来源，不跨装备或构筑');
       const { minValue, maxValue } = binding.detail;
       if (typeof minValue !== 'number' || typeof maxValue !== 'number' || !Number.isFinite(minValue) || !Number.isFinite(maxValue)
         || minValue > maxValue) fail(path, '场景初值必须声明有限且有序的上下界');
@@ -80,8 +88,10 @@ export function sceneInitialParameterRequirements(snapshot: SimulationSnapshot):
         requirement = { side, origin: structuredClone(source.origin), skillKey: source.skillKey, parameterKey: parameter.parameterKey,
           skillName: configuration.skill.name, parameterName: parameter.name, valueType: parameter.valueType,
           minValue, maxValue, declarationIdentity: '', bindings: [] };
+        if (binding.detail.sharedInputKey !== undefined) requirement.sharedInputKey = binding.detail.sharedInputKey;
         requirements.set(key, requirement);
       }
+      if (requirement.sharedInputKey !== binding.detail.sharedInputKey) fail(path, '同一来源参数的共享声明不一致');
       if (requirement.bindings.some(row => JSON.stringify(row) === JSON.stringify(location)
         || location.actionKey !== undefined && row.ruleKey === location.ruleKey && row.actionKey === location.actionKey)) fail(path, '初始化参数在同动作中重复绑定');
       requirement.bindings.push(location);
@@ -104,23 +114,22 @@ export function sceneInitialParameterRequirements(snapshot: SimulationSnapshot):
       if (source.origin.kind === 'EQUIPMENT' || side === 'source' && source.skillKey === snapshot.selection.basicAttackSkillKey) {
         fail(path, '本轮显式初值只接入角色或构筑的自然初始化，不接入装备或所选普攻主体');
       }
+      if (action.actionType === 'START_PROCESS') {
+        const processKey = validateProcessSceneParameterBinding(configuration, rule, action, binding, path);
+        add(binding, { ruleKey: rule.ruleKey, actionKey: action.actionKey, bindingKey: binding.bindingKey, processKey }, path);
+        continue;
+      }
       if (rule.eventSource.eventType !== 'SOURCE_INITIALIZED' || Object.keys(rule.eventSource.detail).length
         || rule.conditionGroups.length || rule.oncePerUse !== null || rule.perTargetCooldown !== null || rule.maxTriggersPerProcess !== null
         || action.actionType !== 'EXECUTE_EFFECT' || action.targetContext !== 'EVENT_SOURCE' || action.resultModifiers.length) {
         fail(path, '场景初值仅授权无条件自身初始化动作的结果数值');
       }
       if (!source.enabledRuleKeys.includes(rule.ruleKey)) fail(path, '初始化声明没有进入本场真实来源闭包');
-      exact(binding, ['bindingKey', 'parameterKey', 'sourceType', 'detail'], path);
-      exact(binding.detail, ['minValue', 'maxValue'], `${path}.detail`);
-      const { minValue, maxValue } = binding.detail;
-      if (typeof minValue !== 'number' || typeof maxValue !== 'number' || !Number.isFinite(minValue) || !Number.isFinite(maxValue)
-        || minValue > maxValue) fail(path, '场景初值必须声明有限且有序的上下界');
       const parameters = configuration.parameters.filter(row => row.parameterKey === binding.parameterKey);
       const parameter = parameters[0];
       if (parameters.length !== 1 || !parameter || parameter.gameId !== snapshot.gameId || parameter.skillKey !== source.skillKey
         || parameter.valueMode !== 'RUNTIME_INPUT' || parameter.fixedValue !== null || parameter.levelValues !== null
         || !['INTEGER', 'DECIMAL'].includes(parameter.valueType)) fail(path, '初值必须绑定本技能无默认的计算时数值参数');
-      if (parameter.valueType === 'INTEGER' && (!Number.isSafeInteger(minValue) || !Number.isSafeInteger(maxValue))) fail(path, '整数初值边界必须为安全整数');
       if (action.actionType !== 'EXECUTE_EFFECT') fail(path, '场景初值动作未接入');
       const effects = configuration.effects.filter(row => row.effectKey === action.detail.effectKey);
       const effect = effects[0];
@@ -129,22 +138,37 @@ export function sceneInitialParameterRequirements(snapshot: SimulationSnapshot):
       }
       if (effect.lifecycle && [effect.lifecycle.durationValue, effect.lifecycle.maxStacksValue, effect.lifecycle.applicationStacksValue,
         effect.lifecycle.periodicIntervalValue].some(value => consumes(configuration, value, parameter.parameterKey))) fail(path, '初始化参数不能借给生命周期');
-      const key = ownerKey(side, source.origin, source.skillKey, parameter.parameterKey);
-      let requirement = requirements.get(key);
-      if (requirement && (requirement.minValue !== minValue || requirement.maxValue !== maxValue)) fail(path, '同一来源参数的初始化边界不一致');
-      if (!requirement) {
-        requirement = { side, origin: structuredClone(source.origin), skillKey: source.skillKey, parameterKey: parameter.parameterKey,
-          skillName: configuration.skill.name, parameterName: parameter.name, valueType: parameter.valueType,
-          minValue, maxValue, declarationIdentity: '', bindings: [] };
-        requirements.set(key, requirement);
-      }
-      if (requirement.bindings.some(row => row.ruleKey === rule.ruleKey && row.actionKey === action.actionKey)) fail(path, '初始化参数在同动作中重复绑定');
-      requirement.bindings.push({ ruleKey: rule.ruleKey, actionKey: action.actionKey, bindingKey: binding.bindingKey, effectKey: effect.effectKey });
-      requirement.declarationIdentity = JSON.stringify([snapshot.gameId, key, configuration.baseDigest, source.skillLevel,
-        snapshot.selection[`${side}Level`], parameter.valueType, minValue, maxValue, requirement.bindings]);
+      add(binding, { ruleKey: rule.ruleKey, actionKey: action.actionKey, bindingKey: binding.bindingKey, effectKey: effect.effectKey }, path);
     }
   }
-  return [...requirements.values()].sort((left, right) => left.declarationIdentity < right.declarationIdentity ? -1 : left.declarationIdentity > right.declarationIdentity ? 1 : 0);
+  const shared = new Map<string, SceneInitialParameterRequirement>();
+  const result: SceneInitialParameterRequirement[] = [];
+  for (const requirement of requirements.values()) {
+    if (requirement.sharedInputKey === undefined) { result.push(requirement); continue; }
+    if (requirement.origin.kind !== 'CHARACTER') fail('sceneParameterInputs', '共享初值缺少真实角色身份');
+    const key = JSON.stringify([snapshot.gameId, requirement.side, requirement.origin.characterKey, requirement.sharedInputKey]);
+    const group = shared.get(key);
+    if (group && (group.valueType !== requirement.valueType || group.minValue !== requirement.minValue || group.maxValue !== requirement.maxValue)) {
+      fail('sceneParameterInputs', '同角色共享初值的数值类型或上下界冲突');
+    }
+    if (group) group.members!.push(requirement);
+    else { const created = { ...requirement, members: [requirement] }; shared.set(key, created); result.push(created); }
+  }
+  for (const [key, group] of shared) {
+    group.members!.sort((a, b) => a.declarationIdentity.localeCompare(b.declarationIdentity));
+    group.declarationIdentity = JSON.stringify([snapshot.gameId, 'shared_character_input', key,
+      group.valueType, group.minValue, group.maxValue, group.members!.map(member => member.declarationIdentity)]);
+  }
+  return result.sort((left, right) => left.declarationIdentity < right.declarationIdentity ? -1 : left.declarationIdentity > right.declarationIdentity ? 1 : 0);
+}
+
+export function sceneInitialParameterInput(requirement: SceneInitialParameterRequirement, value: number): SceneInitialParameterInput {
+  if (requirement.sharedInputKey !== undefined) {
+    if (requirement.origin.kind !== 'CHARACTER') fail('sceneParameterInputs', '共享初值缺少实际角色来源');
+    return { side: requirement.side, origin: requirement.origin, sharedInputKey: requirement.sharedInputKey, declarationIdentity: requirement.declarationIdentity, value };
+  }
+  return { side: requirement.side, origin: requirement.origin, skillKey: requirement.skillKey, parameterKey: requirement.parameterKey,
+    declarationIdentity: requirement.declarationIdentity, value };
 }
 
 /** 校验完整声明身份后规范排序；直接API调用也不能添加未声明的输入。 */
@@ -155,11 +179,15 @@ export function normalizeSceneInitialParameterInputs(snapshot: SimulationSnapsho
   const byKey = new Map<string, SceneInitialParameterInput>();
   for (const [index, input] of inputs.entries()) {
     const path = `sceneParameterInputs[${index}]`;
-    exact(input, ['side', 'origin', 'skillKey', 'parameterKey', 'declarationIdentity', 'value'], path);
     const requirement = required.find(row => row.declarationIdentity === input.declarationIdentity);
-    if (!requirement || input.side !== requirement.side || input.skillKey !== requirement.skillKey || input.parameterKey !== requirement.parameterKey) fail(path, '初始化输入归属或声明身份已变化');
+    if (!requirement || input.side !== requirement.side) fail(path, '初始化输入归属或声明身份已变化');
+    const shared = requirement.sharedInputKey !== undefined;
+    exact(input, shared ? ['side', 'origin', 'sharedInputKey', 'declarationIdentity', 'value']
+      : ['side', 'origin', 'skillKey', 'parameterKey', 'declarationIdentity', 'value'], path);
+    if (shared ? !('sharedInputKey' in input) || input.sharedInputKey !== requirement.sharedInputKey
+      : !('skillKey' in input) || input.skillKey !== requirement.skillKey || input.parameterKey !== requirement.parameterKey) fail(path, '初始化输入归属或共享标识已变化');
     exact(input.origin, Object.keys(requirement.origin), `${path}.origin`);
-    if (simulationSkillSourceIdentity(input.origin, input.skillKey) !== simulationSkillSourceIdentity(requirement.origin, requirement.skillKey)) fail(path, '初始化输入来源不匹配');
+    if (simulationSkillSourceIdentity(input.origin, requirement.skillKey) !== simulationSkillSourceIdentity(requirement.origin, requirement.skillKey)) fail(path, '初始化输入来源不匹配');
     if (byKey.has(requirement.declarationIdentity)) fail(path, '初始化输入重复');
     const value = input.value;
     if (typeof value !== 'number' || !Number.isFinite(value) || value < requirement.minValue || value > requirement.maxValue
@@ -171,15 +199,18 @@ export function normalizeSceneInitialParameterInputs(snapshot: SimulationSnapsho
 }
 
 export function sceneInitialValuesForSource(requirements: readonly SceneInitialParameterRequirement[], inputs: readonly SceneInitialParameterInput[],
-  side: Side, source: SimulationSkillSource, action?: { ruleKey: string; actionKey: string; effectKey: string }): Record<string, number> {
+  side: Side, source: SimulationSkillSource, action?: { ruleKey: string; actionKey: string; effectKey?: string; processKey?: string }): Record<string, number> {
   const values: Record<string, number> = {};
   const identity = simulationSkillSourceIdentity(source.origin, source.skillKey);
   for (const requirement of requirements) {
-    if (requirement.side !== side || simulationSkillSourceIdentity(requirement.origin, requirement.skillKey) !== identity
-      || action && !requirement.bindings.some(row => row.ruleKey === action.ruleKey && row.actionKey === action.actionKey && row.effectKey === action.effectKey)) continue;
-    const input = inputs.find(row => row.declarationIdentity === requirement.declarationIdentity);
-    if (!input) throw new SceneInitialParameterRequired([...requirements]);
-    values[requirement.parameterKey] = input.value;
+    for (const member of requirement.members ?? [requirement]) {
+      if (member.side !== side || simulationSkillSourceIdentity(member.origin, member.skillKey) !== identity
+        || action && !member.bindings.some(row => row.ruleKey === action.ruleKey && row.actionKey === action.actionKey
+          && row.effectKey === action.effectKey && row.processKey === action.processKey)) continue;
+      const input = inputs.find(row => row.declarationIdentity === requirement.declarationIdentity);
+      if (!input) throw new SceneInitialParameterRequired([...requirements]);
+      values[member.parameterKey] = input.value;
+    }
   }
   return values;
 }

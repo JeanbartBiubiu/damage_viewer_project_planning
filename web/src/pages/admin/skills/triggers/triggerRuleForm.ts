@@ -1,4 +1,5 @@
 import { SKILL_TRIGGER_SUBJECTS, SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_KINDS, SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_LABELS } from '../../../../types/skillSystemEnums.generated';
+import { validateProcessSceneParameterBinding, type ProcessSceneParameterConfiguration } from '../../../../engine/processSceneParameterInput';
 import type { SkillTriggerRecentDamageOutputKind } from '../../../../types/skillSystemEnums.generated';
 import {
   SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS,
@@ -2610,7 +2611,7 @@ export function actionSummary(action: SkillTriggerActionDraft): string {
 export function bindingSummary(binding: SkillTriggerRuntimeInputBinding): string {
   switch (binding.sourceType) {
     case 'SCENE_INITIAL_PARAMETER':
-      return `${SKILL_TRIGGER_SOURCE_TYPE_LABELS.SCENE_INITIAL_PARAMETER} / 下界${Number.isFinite(binding.detail.minValue) ? binding.detail.minValue : '未填写'} / 上界${Number.isFinite(binding.detail.maxValue) ? binding.detail.maxValue : '未填写'} / 本场明确填写`;
+      return `${SKILL_TRIGGER_SOURCE_TYPE_LABELS.SCENE_INITIAL_PARAMETER} / 下界${Number.isFinite(binding.detail.minValue) ? binding.detail.minValue : '未填写'} / 上界${Number.isFinite(binding.detail.maxValue) ? binding.detail.maxValue : '未填写'} / 本场明确填写${binding.detail.sharedInputKey === undefined ? '' : ` / 同角色共享${binding.detail.sharedInputKey}`}`;
     case 'SOURCE_CAST_RESOURCE_COST':
       return `${SKILL_TRIGGER_SOURCE_TYPE_LABELS.SOURCE_CAST_RESOURCE_COST} / ${binding.detail.attributeKey}`;
     case 'SCENE_ATTRIBUTE_SNAPSHOT':
@@ -2769,7 +2770,10 @@ export function allowsSceneInitialParameter(
   action: SkillTriggerActionDraft | undefined
 ): boolean {
   return Boolean(skillKey) && eventSource.eventType === 'SOURCE_INITIALIZED'
-    && action?.actionType === 'EXECUTE_EFFECT' && action.targetContext === 'EVENT_SOURCE';
+    && action?.actionType === 'EXECUTE_EFFECT' && action.targetContext === 'EVENT_SOURCE'
+    || Boolean(skillKey) && eventSource.eventType === 'SKILL_USED' && eventSource.detail.sourceSkillKey === skillKey
+      && eventSource.detail.useKind === 'ACTIVE' && eventSource.detail.castPhase === 'INITIAL'
+      && action?.actionType === 'START_PROCESS' && action.targetContext === 'CURRENT_TARGET';
 }
 
 export function sceneInitialParameterError(
@@ -2778,10 +2782,21 @@ export function sceneInitialParameterError(
   skillKey: string,
   action: SkillTriggerActionDraft | undefined,
   consumedParameters: readonly SkillParameter[],
-  effect: Pick<SkillEffect, 'skillKey'> | undefined
+  effect: Pick<SkillEffect, 'skillKey'> | undefined,
+  payloadContext?: ProcessSceneParameterConfiguration,
+  fullRule?: SkillTriggerRuleDetail
 ): string | null {
   if (!allowsSceneInitialParameter(eventSource, skillKey, action)) {
-    return '场景显式初值仅用于来源初始化事件，以事件来源对象执行本技能效果。';
+    return '场景显式初值仅用于自身初始化效果或本技能真实首次过程的伤害负载。';
+  }
+  if (action?.actionType === 'START_PROCESS') {
+    if (!payloadContext) return '请先加载本技能过程、效果与公式完整详情；草稿已保留。';
+    try {
+      validateProcessSceneParameterBinding(payloadContext, fullRule ?? { ruleKey: 'scene_payload', name: '负载初值', description: null,
+        sortOrder: 0, eventSource, conditionGroups: [], actions: [], oncePerUse: null, maxTriggersPerProcess: null, perTargetCooldown: null },
+      toAction(action, 0), binding, 'runtimeInputBindings');
+      return null;
+    } catch (error) { return error instanceof Error ? error.message : '负载初值声明不完整。'; }
   }
   if (!effect || effect.skillKey !== skillKey) return '本技能效果详情尚未成功加载；当前草稿已保留。';
   const parameter = consumedParameters.find((item) => item.parameterKey === binding.parameterKey);
@@ -2790,9 +2805,11 @@ export function sceneInitialParameterError(
     return '请选择本技能效果结果实际消费的计算时输入数值参数。';
   }
   const detail = binding.detail;
-  if (!detail || Object.keys(detail).length !== 2 || Object.keys(detail).some((key) => key !== 'minValue' && key !== 'maxValue')) {
+  if (!detail || Object.keys(detail).some((key) => !['minValue', 'maxValue', 'sharedInputKey'].includes(key))) {
     return '场景显式初值明细只能声明最小值与最大值，不接受默认值或本场取值。';
   }
+  if (Object.prototype.hasOwnProperty.call(detail, 'sharedInputKey') && (typeof detail.sharedInputKey !== 'string'
+    || !SKILL_TRIGGER_KEY_PATTERN.test(detail.sharedInputKey))) return '共享输入标识必须合法，不能为null或空值。';
   if (typeof detail.minValue !== 'number' || !Number.isFinite(detail.minValue)
     || typeof detail.maxValue !== 'number' || !Number.isFinite(detail.maxValue)) {
     return '请明确填写有限数值的最小值与最大值。';
@@ -3672,9 +3689,12 @@ export function validateSkillTriggerDraft(
       if (binding.sourceType === 'SCENE_INITIAL_PARAMETER') {
         const effect = action.actionType === 'EXECUTE_EFFECT' ? options.effectsByKey?.get(action.detail.effectKey) : undefined;
         const formulas = options.formulasByKey ?? new Map();
-        const consumed = reachableRuntimeInputParameters(action.actionType === 'MODIFY_INTERNAL_STATE' ? [action.detail.value]
+        const consumed = reachableRuntimeInputParameters(action.actionType === 'START_PROCESS' ? collectActionValues(action, options)
+          : action.actionType === 'MODIFY_INTERNAL_STATE' ? [action.detail.value]
           : effect ? collectExecuteEffectValues({ ...effect, lifecycle: null }) : [], formulas, options.parameters ?? []);
-        const error = sceneInitialParameterError(binding, draft.eventSource, options.skillKey ?? '', action, consumed, effect);
+        const error = sceneInitialParameterError(binding, draft.eventSource, options.skillKey ?? '', action, consumed, effect,
+          { skill: { gameId: options.parameters?.[0]?.gameId ?? '', skillKey: options.skillKey ?? '' }, parameters: [...(options.parameters ?? [])],
+            formulas: [...formulas.values()], processes: [...(options.processesByKey?.values() ?? [])], effects: [...(options.effectsByKey?.values() ?? [])] }, toCreateRequest(draft));
         if (error) pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}]`, error);
         if (effect && reachableRuntimeInputParameters(numericValuesIn(effect.lifecycle), formulas, options.parameters ?? [])
           .some((parameter) => parameter.parameterKey === binding.parameterKey)) {

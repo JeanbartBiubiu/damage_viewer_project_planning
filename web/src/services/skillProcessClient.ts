@@ -98,6 +98,12 @@ export function parseSkillProcess(value: unknown): SkillProcess {
     if (!isRecord(step) || step.occupiesAction != null && typeof step.occupiesAction !== 'boolean') {
       protocolError(`process.steps[${index}].occupiesAction`);
     }
+    if (step.stepType === 'EMPOWERED_BASIC_ATTACK') {
+      if (!isRecord(step.detail) || Object.keys(step.detail).some(key => !['windowValue', 'consumeMoment', 'maximumAttackCountValue'].includes(key))
+        || step.detail.consumeMoment !== (Object.prototype.hasOwnProperty.call(step.detail, 'maximumAttackCountValue') ? 'ATTACK_START' : 'ATTACK_HIT')) {
+        protocolError(`process.steps[${index}].detail`);
+      }
+    }
   });
   if (isRecord(value.cooldown) && 'startMoment' in value.cooldown) {
     value.cooldown.startMoment = parseSkillProcessMoment(

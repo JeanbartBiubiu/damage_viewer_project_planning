@@ -287,9 +287,6 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 	if err != nil {
 		return nil, err
 	}
-	if err := validateFixedEquipmentHealth(compiled, combatants, req.SessionID); err != nil {
-		return nil, err
-	}
 	usedProviderRefs := map[string]bool{}
 	usedShieldRefs := map[string]bool{}
 	for _, c := range combatants {
@@ -325,6 +322,9 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 		continuations:              make(map[uint64]*triggeredContinuationPayload),
 	}
 	if err := state.initResourceMaxState(); err != nil {
+		return nil, err
+	}
+	if err := validateFixedEquipmentHealth(compiled, state.combatants, req.SessionID); err != nil {
 		return nil, err
 	}
 

@@ -2,6 +2,7 @@ import type { CompileRequest, DoneResult, ProcessActionOccupancy, ProcessInstanc
 import { tryFoldConstant } from './numericAdapter';
 import { simulationAbility } from './simulationAdapter';
 import { inspectEmpoweredPredecessors } from './empoweredAttackContract';
+import { empoweredWindowHitCount } from './empoweredAttackWindowContract';
 
 function channelWindowExecutionOffset(first: number, last: number, count: number, ordinal: number): number {
   if (count === 1) return first;
@@ -71,8 +72,9 @@ export function inspectSimulationProcessFacts(compile: CompileRequest, request: 
     check(time(process.stepExecutionIndex) && process.stepExecutionIndex <= 64
       && (process.stepExecutionIndex === 0 ? process.lastExecutionAtMs === null : time(process.lastExecutionAtMs)
         && process.lastExecutionAtMs >= process.stepStartedAtMs && process.lastExecutionAtMs <= done.summary.durationMs)
-      && (process.stepCompletedAtMs === null || process.stepExecutionIndex > 0 && time(process.stepCompletedAtMs)
-        && process.stepCompletedAtMs >= process.lastExecutionAtMs! && process.stepCompletedAtMs <= done.summary.durationMs),
+      && (process.stepCompletedAtMs === null || (process.empoweredAttackWindow !== undefined || process.stepExecutionIndex > 0)
+        && time(process.stepCompletedAtMs) && process.stepCompletedAtMs >= (process.lastExecutionAtMs ?? process.stepStartedAtMs)
+        && process.stepCompletedAtMs <= done.summary.durationMs),
     path, '完整步骤执行进度、最后执行与真实完成时刻不一致，不从有限明细补全');
     check(process.status === 'active' ? process.finishedAtMs === null && process.failureReason === null
       : ['complete', 'failed'].includes(process.status) && time(process.finishedAtMs) && process.finishedAtMs >= process.stepStartedAtMs
@@ -225,7 +227,8 @@ export function inspectSimulationProcessFacts(compile: CompileRequest, request: 
   'processInstances', '完整计划过程快照与使用、完成、失败和在途累计不一致');
   if (summary) check(processes.reduce((count, process) => count + process.stepVersion, 0) === summary.stepEnteredCount,
     'summary.skillUses.stepEnteredCount', '步骤进入累计必须对应完整过程已进入版本，不依赖截断明细');
-  if (summary) check(processes.reduce((count, process) => count + (process.stepVersion === 0 ? 0 : process.stepVersion - 1 + process.stepExecutionIndex), 0)
+  if (summary) check(processes.reduce((count, process) => count + (process.empoweredAttackWindow ? empoweredWindowHitCount(process.empoweredAttackWindow)
+    : process.stepVersion === 0 ? 0 : process.stepVersion - 1 + process.stepExecutionIndex), 0)
     === summary.stepExecutedCount, 'summary.skillUses.stepExecutedCount', '完整步骤执行累计必须对应可靠进度，零记录与截断不能绕过');
   if (summary) check(processes.reduce((count, process) => count + (process.stepVersion === 0 ? 0 : process.stepVersion - 1
     + (process.stepCompletedAtMs !== null ? 1 : 0)), 0) === summary.stepCompletedCount,

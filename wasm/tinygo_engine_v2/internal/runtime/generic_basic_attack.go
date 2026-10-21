@@ -2,7 +2,6 @@ package runtime
 
 import (
 	"math"
-	"strconv"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -361,53 +360,12 @@ func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
 	if b.summary.StartedCount >= s.budget.MaxBasicAttacks {
 		return s.budgetError(model.BudgetCauseMaxBasicAttacks, "basic attack count exceeded")
 	}
-	b.wait = nil
 	s.basicAttackEventActive = true
 	s.currentEventCommands = 0
 	defer func() { s.basicAttackEventActive = false; s.finishCurrentAttackRecord() }()
-	b.summary.StartedCount++
-	index := b.summary.StartedCount
-	useRef := "basic:" + b.plan.PlanKey + ":" + strconv.Itoa(index)
-	startKey, hitKey := useRef+":start", useRef+":hit"
-	b.current = &model.BasicAttackRecord{PlanKey: b.plan.PlanKey, AttackIndex: index, UseRef: useRef, Source: b.plan.Source, Target: b.plan.Target, SkillKey: b.plan.SkillKey, StartAtMs: s.nowMs, AttackSpeed: s.combatants[b.plan.Source].attributes.At(b.plan.AttackSpeedAttributeKey).Resolved}
-	b.currentRecordIndex = -1
-	if s.detailedOutput() && len(s.attackRecords) < s.maxAttackRecords {
-		b.currentRecordIndex = len(s.attackRecords)
-		s.attackRecords = append(s.attackRecords, *b.current)
-	}
-	b.unfinishedTail = true
-	s.skillUses[useRef] = &skillUseRuntime{useKey: useRef, source: b.plan.Source, skillKey: b.plan.SkillKey, historyState: model.SkillHitHistoryComplete}
-	s.attackStartFacts[startKey] = model.AttackStartFact{DriverEntryKey: startKey, UseRef: useRef}
-	sequence := 1
-	s.skillHitFacts[hitKey] = model.SkillHitFact{DriverEntryKey: hitKey, UseRef: &useRef, Sequence: &sequence}
-	startEntry := model.DriverEntry{EntryKey: startKey, AbilityRef: b.plan.StartAbilityRef, Source: b.plan.Source, Target: b.plan.Target, FirstAtMs: s.nowMs}
-	s.abilityAttemptCount++
-	s.statFor(b.plan.StartAbilityRef).attemptCount++
-	if err := s.executeAbilityCast(startEntry); err != nil {
+	_, hitKey, err := s.beginNativeBasicAttackUse()
+	if err != nil {
 		return err
-	}
-	if s.processFailure != nil {
-		return s.processFailure
-	}
-	found := false
-	for _, p := range s.processInstances {
-		if p.UseKey == useRef && p.abilityRef == b.plan.InitialControlAbilityRef && p.Owner == b.plan.Source && p.Target == b.plan.Target && p.SkillKey == b.plan.SkillKey && p.Status == "complete" {
-			found = true
-			break
-		}
-	}
-	if !found {
-		return s.basicAttackErr("native start did not complete its actual attack process", b.plan.InitialControlAbilityRef)
-	}
-	ready := s.combatants[b.plan.Source].cooldowns.abilityReadyAt(b.plan.Source, b.plan.InitialControlAbilityRef)
-	if ready <= s.nowMs || ready > maxJSONSafeInteger {
-		return s.basicAttackErr("committed attack cooldown is missing or invalid", b.plan.InitialControlAbilityRef)
-	}
-	if b.wait == nil || s.basicAttackReadyAt() != ready || b.current.ReadyAtMs == nil {
-		return s.basicAttackErr("attack process did not commit its unique waiting node", b.plan.InitialControlAbilityRef)
-	}
-	if s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0 {
-		return s.basicAttackErr("combatant died before native hit", "driverPlan.basicAttack")
 	}
 	hitEntry := model.DriverEntry{EntryKey: hitKey, AbilityRef: b.plan.HitAbilityRef, Source: b.plan.Source, Target: b.plan.Target, FirstAtMs: s.nowMs}
 	s.abilityAttemptCount++

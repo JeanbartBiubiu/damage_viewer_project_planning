@@ -132,7 +132,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
           if (effects.length !== 1) fail(rulePath, '初始化引用效果缺失或重复');
           const effect = effects[0]!;
           const effectPath = `skills.${source.skillKey}.effects.${effect.effectKey}`;
-          const actionContext = { ...permanentContext, sceneParameterValues: sceneInitialValuesForSource(sceneRequirements,
+          const actionContext = { ...permanentContext, permanentHealthInitialization: true, sceneParameterValues: sceneInitialValuesForSource(sceneRequirements,
             sceneParameters, side, source, { ruleKey: rule.ruleKey, actionKey: action.actionKey, effectKey: effect.effectKey }) };
           for (const subscriber of configuration.triggerRules) {
             const event = subscriber.eventSource;
@@ -172,7 +172,8 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
             }
             const effectRef = [providerRef, source.skillKey, effect.effectKey, result.resultKey].join('/');
             providers.push({ providerKey: effectRef, skillKey: source.skillKey, stableId: effectRef, kind: 'status', modifiers: [modifier] });
-            operations.push({ operation: 'apply_provider', target: 'self', providerDefinitionRef: effectRef, providerRef: effectRef });
+            operations.push({ operation: 'apply_provider', target: 'self', providerDefinitionRef: effectRef, providerRef: effectRef,
+              ...(modifier.kind === 'resource_max' && modifier.currentValuePolicy === 'preserve_initial_current' ? { ref: resultPath } : {}) });
             coverage.push({ authorPath: resultPath, compiledPath: `sharedProviders[${effectRef}].modifiers[0]` });
             if (result.resultType === 'ATTRIBUTE_CHANGE') {
               const attributeKey = String(result.detail.attributeKey);

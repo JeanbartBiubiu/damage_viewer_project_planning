@@ -169,6 +169,9 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 	if isEmpoweredProcess(def) {
 		return bad(".status", "empowered attack process snapshots cannot be restored in this stage")
 	}
+	if row.EmpoweredAttackWindow != nil {
+		return bad(".empoweredAttackWindow", "counted attack facts cannot be borrowed by another process")
+	}
 	if row.EmpoweredAttack != nil && !isEmpoweredProcess(def) {
 		return bad(".empoweredAttack", "attack consumption belongs only to an empowered process")
 	}

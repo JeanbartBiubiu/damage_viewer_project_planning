@@ -54,6 +54,14 @@ export type ProjectedRestoration = {
   useRef: string | null; resourceKey: string; requestedAmount: number; effectiveAmount: number;
   currentBefore: number; currentAfter: number; actualDelta: number; overflow: number;
 };
+export type ProjectedInitialization = { timeMs: number; resourceKey: string; owner: string; source: string; target: string;
+  anchorMax: number; permanentIncrease: number; max: number; current: number; sourceProviderRef: string; sourceDefinitionRef: string;
+  listenerKey: string; opRef: string; opPath: string; abilityRef: null; useRef: null; providerRef: string; definitionRef: string; modifierKey: string; value: number };
+export type ProjectedEmpoweredWindow = { owner: string; providerRef: string; skillKey: string; processKey: string; useRef: string;
+  startedAtMs: number; expiresAtMs: number; finishedAtMs: number | null; status: string; maximumAttackCount: number; consumptionCount: number; pendingHitCount: number };
+export type ProjectedEmpoweredConsumption = { owner: string; skillKey: string; activationUseRef: string; consumptionIndex: number;
+  useRef: string; target: string; startedAtMs: number; hitRef: string | null; hitSequence: number | null; resolvedAtMs: number | null };
+export type ProjectedCooldown = { owner: string; abilityRef: string; readyAtMs: number; remainingMs: number };
 export type MechanismProjection = {
   summary: ProjectedSummary;
   damage: ProjectedDamage[];
@@ -65,6 +73,10 @@ export type MechanismProjection = {
   finalAttributes: Record<string, number>;
   finalProviders: ProjectedProvider[];
   restorations: ProjectedRestoration[];
+  initializations: ProjectedInitialization[];
+  empoweredWindows: ProjectedEmpoweredWindow[];
+  empoweredConsumptions: ProjectedEmpoweredConsumption[];
+  finalCooldowns: ProjectedCooldown[];
 };
 
 /** 期望只写手算或游戏机制确定的值；列表按发生顺序完整列出，对象只比较写出的字段。 */
@@ -79,6 +91,10 @@ export type MechanismExpectation = {
   finalAttributes?: Record<string, number>;
   finalProviders?: ProjectedProvider[];
   restorations?: ProjectedRestoration[];
+  initializations?: Partial<ProjectedInitialization>[];
+  empoweredWindows?: Partial<ProjectedEmpoweredWindow>[];
+  empoweredConsumptions?: Partial<ProjectedEmpoweredConsumption>[];
+  finalCooldowns?: Partial<ProjectedCooldown>[];
 };
 
 type CaseSnapshot = Omit<SimulationSnapshot, 'gameId' | 'catalogs' | 'snapshotDigest' | 'readAt'>;
@@ -166,7 +182,12 @@ const EXPECTED_FIELDS: Record<string, readonly string[]> = {
   resourceChanges: ['timeMs', 'target', 'resourceKey', 'currentBefore', 'currentAfter', 'currentDelta', 'maxBefore', 'maxAfter', 'maxDelta'],
   finalProviders: ['owner', 'source', 'definitionRef', 'stacks', 'expireAt'],
   restorations: ['timeMs', 'kind', 'owner', 'source', 'target', 'providerRef', 'providerDefinitionRef', 'abilityRef', 'operationRef',
-    'operationPath', 'useRef', 'resourceKey', 'requestedAmount', 'effectiveAmount', 'currentBefore', 'currentAfter', 'actualDelta', 'overflow']
+    'operationPath', 'useRef', 'resourceKey', 'requestedAmount', 'effectiveAmount', 'currentBefore', 'currentAfter', 'actualDelta', 'overflow'],
+  initializations: ['timeMs', 'resourceKey', 'owner', 'source', 'target', 'anchorMax', 'permanentIncrease', 'max', 'current', 'sourceProviderRef', 'sourceDefinitionRef',
+    'listenerKey', 'opRef', 'opPath', 'abilityRef', 'useRef', 'providerRef', 'definitionRef', 'modifierKey', 'value'],
+  empoweredWindows: ['owner', 'providerRef', 'skillKey', 'processKey', 'useRef', 'startedAtMs', 'expiresAtMs', 'finishedAtMs', 'status', 'maximumAttackCount', 'consumptionCount', 'pendingHitCount'],
+  empoweredConsumptions: ['owner', 'skillKey', 'activationUseRef', 'consumptionIndex', 'useRef', 'target', 'startedAtMs', 'hitRef', 'hitSequence', 'resolvedAtMs'],
+  finalCooldowns: ['owner', 'abilityRef', 'readyAtMs', 'remainingMs']
 };
 
 /** 覆盖标签必须对应至少一个数值断言，空对象或只有名称不能获得回归覆盖。 */
@@ -194,6 +215,23 @@ function validateExpectation(expected: Record<string, unknown>, file: string) {
       const fields = object(row, file, path);
       if (!Object.keys(fields).length) fail(file, `${path} 不能是空期望对象`);
       onlyKeys(fields, EXPECTED_FIELDS[section]!, file, path);
+      if (['initializations', 'empoweredWindows', 'empoweredConsumptions', 'finalCooldowns'].includes(section)) {
+        const nullable = section === 'initializations' ? ['abilityRef', 'useRef'] : section === 'empoweredWindows' ? ['finishedAtMs']
+          : section === 'empoweredConsumptions' ? ['hitRef', 'hitSequence', 'resolvedAtMs'] : [];
+        const numeric = section === 'initializations' ? ['timeMs', 'anchorMax', 'permanentIncrease', 'max', 'current', 'value']
+          : section === 'empoweredWindows' ? ['startedAtMs', 'expiresAtMs', 'finishedAtMs', 'maximumAttackCount', 'consumptionCount', 'pendingHitCount']
+            : section === 'empoweredConsumptions' ? ['consumptionIndex', 'startedAtMs', 'hitSequence', 'resolvedAtMs'] : ['readyAtMs', 'remainingMs'];
+        for (const [key, value] of Object.entries(fields)) {
+          if (value === null && nullable.includes(key)) continue;
+          if (numeric.includes(key) ? typeof value !== 'number' || !Number.isFinite(value) || value < 0
+            || !['anchorMax', 'permanentIncrease', 'max', 'current', 'value'].includes(key) && !Number.isSafeInteger(value)
+            : typeof value !== 'string' || !value.trim()) fail(file, `${path}.${key} 初始化或配额期望字段非法`);
+          if (['owner', 'source', 'target'].includes(key) && !['source', 'target'].includes(String(value))) fail(file, `${path}.${key} 拥有者非法`);
+          if (section === 'initializations' && ['abilityRef', 'useRef'].includes(key) && value !== null) fail(file, `${path}.${key} 初始化没有能力或使用身份`);
+        }
+        if (section === 'empoweredWindows' && fields.maximumAttackCount !== undefined && ((fields.maximumAttackCount as number) < 1 || (fields.maximumAttackCount as number) > 64)
+          || section === 'empoweredConsumptions' && fields.consumptionIndex !== undefined && (fields.consumptionIndex as number) < 1) fail(file, `${path} 配额期望超出范围`);
+      }
       if (section === 'finalProviders') {
         if (Object.keys(fields).length !== EXPECTED_FIELDS.finalProviders!.length
           || !['source', 'target'].includes(String(fields.owner)) || !['source', 'target'].includes(String(fields.source))

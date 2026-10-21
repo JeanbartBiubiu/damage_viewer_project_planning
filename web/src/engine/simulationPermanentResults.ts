@@ -17,6 +17,7 @@ export type PermanentResultContext = {
   formulaNamespace: string;
   onNumericConsumed?: PermanentNumericConsumer;
   sceneParameterValues?: Readonly<Record<string, number>>;
+  permanentHealthInitialization?: boolean;
 };
 export type PermanentNumericConsumer = (value: NumericValue, authorPath: string, expression: GenericFormulaExpr) => void;
 
@@ -83,6 +84,9 @@ export function permanentModifier(context: PermanentResultContext, result: Skill
     || behavior.periodicExecutionMode !== null) {
     fail(path, '只接入完整永久自身常驻或装备静态对手属性光环');
   }
+  if (result.resultType === 'ATTRIBUTE_CHANGE' && result.detail.attributeKey === 'hp'
+    && (!context.permanentHealthInitialization || source.origin.kind !== 'CHARACTER' || result.detail.operation !== 'INCREASE'
+      || behavior.valueReadMode !== 'APPLICATION_SNAPSHOT')) fail(path, '永久生命只允许真实角色无条件初始化的静态施加快照平加');
   const dynamicAddition = dynamicPermanentAttribute(context, result, path);
   if (dynamicAddition) return dynamicAddition;
   const authoredValue = result.valueRule.value;
@@ -115,7 +119,15 @@ export function permanentModifier(context: PermanentResultContext, result: Skill
     if (attributes.length !== 1 || attributes[0]!.gameId !== snapshot.gameId || attributes[0]!.status !== 'ENABLED') {
       fail(`${path}.detail.attributeKey`, '缺少唯一真实启用属性目录');
     }
-    if (attributeKey === 'hp') fail(path, '尚未接入常驻生命上限修正，不能丢弃该结果');
+    if (attributeKey === 'hp') {
+      if (!context.permanentHealthInitialization || source.origin.kind !== 'CHARACTER' || result.target !== 'SOURCE'
+        || behavior.valueReadMode !== 'APPLICATION_SNAPSHOT' || result.detail.operation !== 'INCREASE'
+        || zone.domain !== 'ATTRIBUTE' || zone.calculationMode !== 'FLAT_ADD' || zone.applicationStage !== 'ATTRIBUTE_FLAT' || value < 0) {
+        fail(path, '永久生命仅接真实角色无条件来源初始化的自身静态非负生命平加');
+      }
+      return { modifierKey: result.resultKey, kind: 'resource_max', target: 'self.attr.hp', valuePolicy: 'add',
+        value: constExpr(value), currentValuePolicy: 'preserve_initial_current' };
+    }
     if (zone.domain !== 'ATTRIBUTE' || !['INCREASE', 'DECREASE'].includes(result.detail.operation)) fail(path, '属性修正声明不完整');
     const decrease = result.detail.operation === 'DECREASE';
     if (String(zone.calculationMode) === 'RATIO_COMPLEMENT_MULTIPLY') {

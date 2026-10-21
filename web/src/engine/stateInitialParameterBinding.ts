@@ -3,6 +3,7 @@ import type { SkillParameter } from '../types/skillParameter';
 import type { NumericValue } from '../types/numericValue';
 import type { SkillTriggerSceneInitialParameterBinding } from '../types/skillTriggerRule';
 import { NumericAdaptationError } from './numericAdapter';
+import { sceneInitialParameterDetailIssue } from '../services/sceneInitialParameterContract';
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 function exact(value: unknown, keys: readonly string[], path: string) {
@@ -19,7 +20,8 @@ export function validateStateInitialBinding(row: SkillInternalState, field: 'ini
   if (binding === undefined) return undefined;
   if (row.scope !== 'SKILL') fail(path, '场景状态初值只允许本技能自身计数或弹药');
   exact(binding, ['bindingKey', 'parameterKey', 'sourceType', 'detail'], path);
-  exact(binding.detail, ['minValue', 'maxValue'], `${path}.detail`);
+  const issue = sceneInitialParameterDetailIssue(binding.detail, true);
+  if (issue) fail(`${path}.detail`, issue);
   if (typeof binding.bindingKey !== 'string' || typeof binding.parameterKey !== 'string'
     || !/^[a-z][a-z0-9_]{0,63}$/.test(binding.bindingKey) || !/^[a-z][a-z0-9_]{0,63}$/.test(binding.parameterKey)
     || binding.sourceType !== 'SCENE_INITIAL_PARAMETER') fail(path, '状态初值必须明确声明场景输入');

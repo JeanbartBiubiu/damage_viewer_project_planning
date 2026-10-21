@@ -92,7 +92,9 @@ export function parseSkillInternalState(value: unknown): SkillInternalState {
         || !/^[a-z][a-z0-9_]{0,63}$/.test(binding.bindingKey) || !/^[a-z][a-z0-9_]{0,63}$/.test(binding.parameterKey)
         || !numeric || numeric.kind !== 'PARAMETER' || numeric.parameterKey !== binding.parameterKey
         || !binding.detail || typeof binding.detail !== 'object' || Array.isArray(binding.detail)
-        || Object.keys(binding.detail).length !== 2 || Object.keys(binding.detail).some(key => !['minValue', 'maxValue'].includes(key))
+        || Object.keys(binding.detail).some(key => !['minValue', 'maxValue', 'sharedInputKey'].includes(key))
+        || Object.prototype.hasOwnProperty.call(binding.detail, 'sharedInputKey') && (typeof binding.detail.sharedInputKey !== 'string'
+          || !/^[a-z][a-z0-9_]{0,63}$/.test(binding.detail.sharedInputKey))
         || !Number.isSafeInteger(binding.detail.minValue) || !Number.isSafeInteger(binding.detail.maxValue)
         || binding.detail.minValue < 0 || binding.detail.minValue > binding.detail.maxValue) throw new Error(`状态初值声明响应不合法：detail.${path}`);
     }

@@ -20,28 +20,39 @@ func finalizeDynamicModifiers(ctx *genericCompileContext) {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path+field, message, mod.ModifierKey)
 			}
 			lc := p.Lifecycle
+			permanent := mod.Kind == "resource_max" && mod.CurrentValuePolicy == "preserve_initial_current"
 			valid := p.Kind == "status" && p.TypeSet.Empty() && p.AbilityCount == 0 && len(p.Listeners)+len(p.StateFields)+len(p.Processes)+len(p.StatusContributions) == 0 && p.ShieldDefinitionRef == "" && p.AmmoBinding == nil && !p.NeedsElapsedTime
-			valid = valid && lc != nil && lc.HasDuration && lc.MaxStacks == 1 && lc.RefreshPolicy == model.RefreshPolicyReplace && lc.InstanceScope == model.InstanceScopeSourceTarget && lc.TickIntervalMs == 0
-			if lc != nil && lc.HasDuration {
+			if permanent {
+				valid = valid && lc == nil && len(p.Modifiers) == 1 && p.SkillKey != ""
+			} else {
+				valid = valid && lc != nil && lc.HasDuration && lc.MaxStacks == 1 && lc.RefreshPolicy == model.RefreshPolicyReplace && lc.InstanceScope == model.InstanceScopeSourceTarget && lc.TickIntervalMs == 0
+			}
+			if !permanent && lc != nil && lc.HasDuration {
 				duration, static := ctx.session.Formulas.FoldStatic(lc.DurationProgram)
 				valid = valid && static && formula.ValidPositiveInt64DurationMs(duration)
 			}
 			valid = valid && mod.HasValue && !mod.HasCondition && mod.Command == "" && mod.Channel == "" && mod.Stage == "" && mod.Bucket == "" && mod.Priority == 0 && mod.HealDirection == "" && mod.HealCategory == "" && mod.HealGroupKey == "" && mod.HealGroupCalculationMode == ""
 			value, static := ctx.session.Formulas.FoldStatic(mod.ValueProgram)
 			valid = valid && static && !math.IsNaN(value) && !math.IsInf(value, 0)
+			if permanent {
+				valid = valid && permanentHealthStaticOwner(ctx.session.Formulas, mod.ValueProgram, p.SkillKey, 0)
+			}
 			if !valid {
 				fail("", "dynamic modifier requires a pure finite static own single-layer provider")
 				continue
 			}
 			mod.StaticValue = value
-			duration, _ := ctx.session.Formulas.FoldStatic(lc.DurationProgram)
-			p.StaticDurationMs = int64(duration)
+			if !permanent {
+				duration, _ := ctx.session.Formulas.FoldStatic(lc.DurationProgram)
+				p.StaticDurationMs = int64(duration)
+			}
 			if mod.Kind == "resource_max" {
-				if mod.Target != "self.attr.hp" || mod.ValuePolicy != "add" || value < 0 || mod.CurrentValuePolicy != "grant_positive_delta_clamp" || mod.HasAffectedAbilityRefs {
+				if mod.Target != "self.attr.hp" || mod.ValuePolicy != "add" || value < 0 || (!permanent && mod.CurrentValuePolicy != "grant_positive_delta_clamp") || mod.HasAffectedAbilityRefs {
 					fail("", "resource_max requires nonnegative hp add and its explicit current-value policy")
 					continue
 				}
 				p.HasResourceMax, ctx.session.HasResourceMax = true, true
+				p.PermanentResourceMax = permanent
 			} else {
 				if mod.Target != "self" || mod.ValuePolicy != "multiply" || value <= 0 || mod.CurrentValuePolicy != "" || !mod.HasAffectedAbilityRefs {
 					fail("", "cooldown_duration requires a positive multiplier and explicit ability reference array")
@@ -70,7 +81,9 @@ func finalizeDynamicModifiers(ctx *genericCompileContext) {
 				}
 				p.HasCooldownDuration, ctx.session.HasCooldownDuration = true, true
 			}
-			p.NeedsModifierExpiry, ctx.session.HasFiniteModifierExpiry = true, true
+			if !permanent {
+				p.NeedsModifierExpiry, ctx.session.HasFiniteModifierExpiry = true, true
+			}
 		}
 		if p.HasResourceMax || p.HasCooldownDuration {
 			for _, mod := range p.Modifiers {
@@ -91,7 +104,7 @@ func finalizeDynamicModifiers(ctx *genericCompileContext) {
 	}
 	for i := range ctx.session.Providers {
 		p := &ctx.session.Providers[i]
-		p.AtomicDynamic = p.HasResourceMax || p.HasCooldownDuration || pureFiniteTargetAttributeProvider(p.ProviderKey, ctx)
+		p.AtomicDynamic = !p.PermanentResourceMax && (p.HasResourceMax || p.HasCooldownDuration || pureFiniteTargetAttributeProvider(p.ProviderKey, ctx))
 		if p.AtomicDynamic {
 			duration, _ := ctx.session.Formulas.FoldStatic(p.Lifecycle.DurationProgram)
 			p.StaticDurationMs = int64(duration)

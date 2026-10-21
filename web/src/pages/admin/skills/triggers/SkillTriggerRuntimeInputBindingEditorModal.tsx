@@ -28,6 +28,7 @@ import {
   type SourceCastResourceCostProcess
 } from './sourceCastResourceCost';
 import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import type { ProcessSceneParameterConfiguration } from '../../../../engine/processSceneParameterInput';
 import { useQualifiedSkillEffect, useQualifiedSkillState } from '../useQualifiedSkillReference';
 import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
 import { NumericValueField } from '../NumericValueField';
@@ -188,6 +189,7 @@ type SkillTriggerRuntimeInputBindingEditorModalProps = {
   skillKey?: string;
   attributesLoadState?: CatalogLoadState;
   processes: readonly SourceCastResourceCostProcess[];
+  scenePayloadContext?: ProcessSceneParameterConfiguration;
   processesLoadState?: CatalogLoadState;
   onRetryAttributes: () => Promise<void>;
   reachableParameters: readonly SkillParameter[];
@@ -233,6 +235,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   skillKey = '',
   attributesLoadState,
   processes,
+  scenePayloadContext,
   processesLoadState,
   onRetryAttributes,
   reachableParameters,
@@ -275,7 +278,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   const currentAction = actions[currentActionIndex];
   const sceneInitialError = current.sourceType === 'SCENE_INITIAL_PARAMETER'
     ? sceneInitialParameterError(current, eventSource, skillKey, currentAction, reachableParameters,
-      currentAction?.actionType === 'EXECUTE_EFFECT' ? effectsByKey.get(currentAction.detail.effectKey) : undefined)
+      currentAction?.actionType === 'EXECUTE_EFFECT' ? effectsByKey.get(currentAction.detail.effectKey) : undefined, scenePayloadContext)
     : null;
   const allowedValues = allowedEventValuesFor(eventSource, stepType, chargeHitContext);
   const subjectOptions = subjectOptionsForEvent(eventSource.eventType);
@@ -652,7 +655,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
 
           {current.sourceType === 'SCENE_INITIAL_PARAMETER' ? (
             <>
-              <Alert type="info" content="声明本场机制初值的合法范围；本场取值在准备计算时明确填写。仅供来源初始化执行本技能效果，不保存默认值，也不向主动过程或生命周期供值。" />
+              <Alert type="info" content="本场取值在准备计算时明确填写；仅供自身初始化或本技能首次过程的真实伤害负载，不保存默认值，不向费用、时序和生命周期供值。" />
               {sceneInitialError ? <Alert type="warning" content={sceneInitialError} /> : null}
               {(['minValue', 'maxValue'] as const).map((field) => (
                 <AuthoringFieldAnchor key={field} field={field} active={focusField === field}>
@@ -667,6 +670,12 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
                   </Form.Item>
                 </AuthoringFieldAnchor>
               ))}
+              <Form.Item label="共享输入标识" extra="可选；仅同方同角色的相同标识共用一个本场初值，留空保持各技能独立。">
+                <Input aria-label="共享输入标识" value={current.detail.sharedInputKey ?? ''} disabled={disabled} onChange={value => {
+                  const { sharedInputKey: _old, ...detail } = current.detail;
+                  setCurrent({ ...current, detail: value === '' ? detail : { ...detail, sharedInputKey: value } });
+                }} />
+              </Form.Item>
             </>
           ) : null}
 

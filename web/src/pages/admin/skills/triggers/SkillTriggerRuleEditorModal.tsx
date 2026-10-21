@@ -2010,6 +2010,8 @@ export function SkillTriggerRuleEditorModal({
         processes={processes}
         processesLoadState={catalogStates.processes}
         processDetails={processByKey}
+        scenePayloadContext={{ skill: { gameId: selectedGameId, skillKey: skill.skillKey }, parameters,
+          formulas: [...formulaByKey.values()], processes: [...processByKey.values()], effects: [...effectByKey.values()] }}
         onEnsureProcess={ensureProcess}
         skillKey={skill.skillKey}
         internalStates={[...stateByKey.values()]}

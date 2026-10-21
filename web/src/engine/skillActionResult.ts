@@ -4,6 +4,9 @@ import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 import { assessContinuousAttackResult } from './continuousAttackResult';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import { inspectResourceChangeContract } from './resourceChangeContract';
+import { inspectPermanentHealthInitialization } from './permanentHealthInitialization';
+import { empoweredWindowHitCount } from './empoweredAttackWindowContract';
+import { inspectEmpoweredHealingAliases } from './empoweredHealingAlias';
 import type { OperationOrigin } from './simulationAdapter';
 import { committedSkillControl, inspectSimulationProcessFacts } from './simulationProcessFacts';
 import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, empoweredUseRecordIssue, requireEmpoweredBasicAttack } from './empoweredAttackContract';
@@ -81,6 +84,12 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     check(execution.requestedDurationMs === request.stopPolicy.durationMs && typeof execution.complete === 'boolean'
       && (execution.complete ? execution.incompleteReason === null && execution.budgetCause === null : execution.incompleteReason !== null), 'summary.execution', '公共完整性字段不一致');
     const duration = amount(summary.durationMs, 'summary.durationMs');
+    const quotaHits = (done.finalSnapshot.processInstances ?? []).reduce((sum, process) => sum
+      + (process.empoweredAttackWindow ? empoweredWindowHitCount(process.empoweredAttackWindow) : 0), 0);
+    check(uses.releasedCount >= quotaHits && uses.hitCount >= quotaHits, 'summary.skillUses', '完整发动配额的真实负载命中不能被记录预算或汇总省略');
+    if (instructions.length > 0 && instructions.every(instruction => contexts.get(instruction.instructionKey)?.empowered?.maximumAttackCount != null)) {
+      check(uses.releasedCount === quotaHits && uses.hitCount === quotaHits, 'summary.skillUses', '纯配额计划的释放与命中累计必须精确等于真实消费命中份数');
+    }
     check(duration <= request.stopPolicy.durationMs, 'summary.durationMs', '超过观察终点');
     check(done.finalSnapshot.timeMs === duration, 'finalSnapshot.timeMs', '最终快照时刻与公共停止时刻不一致');
     const stagedByUse = new Map<string, SkillHitStageFact[]>();
@@ -132,6 +141,7 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     if (!Array.isArray(actionRecords) || !Array.isArray(useRecords) || !Array.isArray(healingRecords) || !Array.isArray(damageRecords)
       || !Array.isArray(mechanicRecords) || !done.recording) throw new Error('done: 缺少独立有限记录及保留统计');
     identityGaps.push(...empoweredAttackIdentityGaps(request, done));
+    identityGaps.push(...inspectEmpoweredHealingAliases(compile, done).identityGaps);
     const recording = done.recording as unknown as Record<string, unknown>;
     if (done.recording.skillActionRecordsTruncated) identityGaps.push('行动记录已截断，无法逐项核实所有保留明细与已接受指令的使用身份关联');
     if (done.recording.skillUseRecordsTruncated) identityGaps.push('使用记录已截断，无法逐项核实所有保留主动伤害的真实命中关联');
@@ -202,7 +212,8 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       const instruction = contexts.get(initialKey)!.instruction;
       const process = compile.sharedProviders?.find(provider => provider.providerKey === binding.providerDefinitionRef)?.processes?.find(process => process.processKey === control.processKey);
       const stepIndex = process?.steps.findIndex(step => step.stepKey === row.stepKey) ?? -1;
-      const empoweredConsumed = context.empowered && ['STEP_EXECUTED', 'RELEASED', 'STEP_COMPLETED', 'HIT', 'COMPLETED'].includes(row.kind);
+      const quota = context.empowered?.maximumAttackCount != null;
+      const empoweredConsumed = context.empowered && (quota ? ['STEP_EXECUTED', 'RELEASED', 'HIT'] : ['STEP_EXECUTED', 'RELEASED', 'STEP_COMPLETED', 'HIT', 'COMPLETED']).includes(row.kind);
       const associationIssue = empoweredUseRecordIssue(compile, done, row);
       check(associationIssue === null, 'skillUseRecords.empoweredAttack', associationIssue ?? '强化关联不合法');
       check(row.source === instruction.source && row.target === (empoweredConsumed ? row.empoweredAttack?.target : instruction.target)
@@ -220,7 +231,7 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
         : beforeFirstFailure ? row.stepKey === '' && row.stepVersion === 0 && row.executionIndex === 0
         : stepIndex >= 0 && row.stepVersion === stepIndex + 1 && Number.isSafeInteger(row.executionIndex) && row.executionIndex >= 0 && row.executionIndex <= 64,
       'skillUseRecords.stepKey', '真实步骤、版本和已提交段号不合法');
-      if (row.kind === 'STEP_EXECUTED') check(row.executionIndex >= 1
+      if (row.kind === 'STEP_EXECUTED' && !quota) check(row.executionIndex >= 1
         && (['MULTI_HIT', 'CHANNEL'].includes(process?.steps[stepIndex]?.stepType ?? '') || row.executionIndex === 1),
       'skillUseRecords.executionIndex', '实际段执行必须有真实递增段号，普通步骤只执行一次');
       if (!done.recording.skillActionRecordsTruncated) check(accepted.get(initialKey) === row.useRef, 'skillUseRecords.useRef', '使用没有对应已接受原首次');
@@ -238,11 +249,11 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     for (const key of instructions.filter(instruction => instruction.action === 'INITIAL').map(instruction => instruction.instructionKey)) {
       const rows = useRecords.filter(row => contexts.get(row.instructionKey)?.initialKey === key);
       check(new Set(rows.map(row => row.useRef)).size <= 1
-        && new Set(rows.map(row => `${row.kind}/${row.stepKey}/${row.stepVersion}/${row.executionIndex}`)).size === rows.length,
+        && new Set(rows.map(row => `${row.kind}/${row.stepKey}/${row.stepVersion}/${row.executionIndex}${contexts.get(key)?.empowered?.maximumAttackCount != null ? `/${row.empoweredAttack?.useRef ?? ''}/${row.empoweredAttack?.hitRef ?? ''}` : ''}`)).size === rows.length,
       'skillUseRecords', '同一首次不得生成多个使用或重复同段事实');
       for (const version of new Set(rows.map(row => row.stepVersion))) {
         const executed = rows.filter(row => row.stepVersion === version && row.kind === 'STEP_EXECUTED');
-        check(executed.every((row, index) => row.executionIndex === index + 1), 'skillUseRecords.executionIndex', '各步骤已提交段号必须从1连续递增');
+        if (contexts.get(key)?.empowered?.maximumAttackCount == null) check(executed.every((row, index) => row.executionIndex === index + 1), 'skillUseRecords.executionIndex', '各步骤已提交段号必须从1连续递增');
       }
       if (!done.recording.skillUseRecordsTruncated) {
         const first = contexts.get(key)!;
@@ -268,7 +279,7 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
           && actual.timeMs === row.timeMs), 'skillUseRecords.HIT', '每个命中必须来自该次使用同段真实释放');
         if (rows.some(row => row.kind === 'COMPLETED')) for (const [index, step] of (process?.steps ?? []).entries()) {
           check(rows.some(row => row.kind === 'STEP_ENTERED' && row.stepKey === step.stepKey && row.stepVersion === index + 1)
-            && rows.some(row => row.kind === 'STEP_EXECUTED' && row.stepKey === step.stepKey && row.stepVersion === index + 1)
+            && (first.empowered?.maximumAttackCount != null || rows.some(row => row.kind === 'STEP_EXECUTED' && row.stepKey === step.stepKey && row.stepVersion === index + 1))
             && rows.some(row => row.kind === 'STEP_COMPLETED' && row.stepKey === step.stepKey && row.stepVersion === index + 1),
           'skillUseRecords.COMPLETED', '完整过程必须实际进入、执行并完成全部原步骤');
         }
@@ -364,6 +375,8 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     check(close(summary.sourceDamageDealt, summary.targetDamageTaken) && close(summary.targetDamageDealt, summary.sourceDamageTaken),
       'summary', '真实双方造成与承受伤害方向不一致');
     issues.push(...inspectResourceChangeContract(compile, request, done), ...inspectContinuousAttackSeries(request, done).seriesIssues);
+    const initializedHealth = inspectPermanentHealthInitialization(compile, request, done);
+    issues.push(...initializedHealth.issues); identityGaps.push(...initializedHealth.identityGaps);
     if (request.driverPlan.basicAttack) {
       const continuous = assessContinuousAttackResult(compile, request, done, origins);
       issues.push(...continuous.issues);

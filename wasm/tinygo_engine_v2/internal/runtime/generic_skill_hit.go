@@ -22,14 +22,16 @@ const (
 )
 
 type skillUseRuntime struct {
-	providerStateBefore []attackProviderStateCapture
-	ammoBefore          *ammoUseCapture
-	useKey              string
-	source              string
-	skillKey            string
-	historyState        string
-	prior               []string
-	contacts            []string
+	empoweredProcess     *processRuntime
+	empoweredConsumption int
+	providerStateBefore  []attackProviderStateCapture
+	ammoBefore           *ammoUseCapture
+	useKey               string
+	source               string
+	skillKey             string
+	historyState         string
+	prior                []string
+	contacts             []string
 }
 
 type skillHitGroup struct {
@@ -47,6 +49,7 @@ type skillHitDecision struct {
 }
 
 type frozenSkillHitContext struct {
+	hitSequence         *int
 	rootDamageEvent     bool
 	empoweredWaits      []empoweredWaitFreeze
 	occurrenceID        uint64
@@ -378,6 +381,7 @@ func (f *executionFrame) resolveSkillHit(op planbundle.CompiledOperation, abilit
 	}
 
 	freeze := &frozenSkillHitContext{
+		hitSequence:     fact.Sequence,
 		rootDamageEvent: f.chainDepth == 0,
 		occurrenceID:    occurrenceID,
 		useRef:          useRef,
@@ -838,7 +842,12 @@ func (s *genericRunState) dispatchSkillHitEvent(ev emittedEvent, chainDepth int)
 		}
 	}
 	if ev.eventType == model.EventTypeBasicAttackHit && len(freeze.empoweredWaits) != 0 {
-		return s.executeEmpoweredGroup(ev, freeze.empoweredWaits, chainDepth)
+		if err := s.executeEmpoweredGroup(ev, freeze.empoweredWaits, chainDepth); err != nil {
+			return err
+		}
+	}
+	if ev.eventType == model.EventTypeBasicAttackHit {
+		return s.executeReservedEmpoweredAttack(ev, chainDepth)
 	}
 	return nil
 }

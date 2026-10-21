@@ -218,11 +218,18 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   const providerRef = `source_natural_skill_${sourceIndex}${finiteTargetCounterContract(complete) ? '_active' : ''}`;
   const definitionRef = `${providerRef}_definition`;
   const sceneAttributeInputs = sceneAttributeParameterInputs(snapshot, configuration, process.processKey);
+  const payloadSceneValues: Record<string, number> = {};
+  const sceneSource = snapshot.source.skillSources.find(source => simulationSkillSourceIdentity(source.origin, source.skillKey)
+    === simulationSkillSourceIdentity(plan.origin, plan.skillKey))!;
+  for (const rule of processRules) for (const action of rule.actions) if (action.actionType === 'START_PROCESS' && action.detail.processKey === process.processKey) {
+    Object.assign(payloadSceneValues, sceneInitialValuesForSource(sceneInitialParameterRequirements(snapshot), sceneInputs, 'source', sceneSource,
+      { ruleKey: rule.ruleKey, actionKey: action.actionKey, processKey: process.processKey }));
+  }
   const adapted = adaptProcessProgram({ gameId: snapshot.gameId, skillKey: plan.skillKey, skillLevel: plan.skillLevel,
     characterLevel: snapshot.selection.sourceLevel, process, rules: processRules, effects: configuration.effects,
     parameters: configuration.parameters, formulas: configuration.formulas, owner: 'source',
     internalStates: configuration.internalStates, modifierZones: snapshot.catalogs.modifierZones, damageTypes: snapshot.catalogs.damageTypes.map(row => row.type), providerDefinitionRef: definitionRef,
-    basicAttackContext, sceneAttributeInputs, stateInitialValues: sceneInitialValuesForSource(sceneInitialParameterRequirements(snapshot), sceneInputs,
+    basicAttackContext, sceneAttributeInputs, payloadSceneParameterValues: payloadSceneValues, stateInitialValues: sceneInitialValuesForSource(sceneInitialParameterRequirements(snapshot), sceneInputs,
       'source', snapshot.source.skillSources.find(source => simulationSkillSourceIdentity(source.origin, source.skillKey)
         === simulationSkillSourceIdentity(plan.origin, plan.skillKey))!),
     hitContext: { statuses: snapshot.catalogs.statuses, skillCategoryKeys: configuration.skill.skillCategoryKeys,

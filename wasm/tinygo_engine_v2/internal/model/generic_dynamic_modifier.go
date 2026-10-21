@@ -31,7 +31,7 @@ func (v *ModifierDefinition) UnmarshalJSON(data []byte) error {
 		}
 		_, current := fields["currentValuePolicy"]
 		_, refs := fields["affectedAbilityRefs"]
-		if (current && (value.Kind != "resource_max" || value.CurrentValuePolicy != "grant_positive_delta_clamp")) || (value.Kind == "resource_max" && !current) {
+		if (current && (value.Kind != "resource_max" || (value.CurrentValuePolicy != "grant_positive_delta_clamp" && value.CurrentValuePolicy != "preserve_initial_current"))) || (value.Kind == "resource_max" && !current) {
 			return errors.New("currentValuePolicy is required only on resource_max")
 		}
 		if (refs && (value.Kind != "cooldown_duration" || value.AffectedAbilityRefs == nil || *value.AffectedAbilityRefs == nil)) || (value.Kind == "cooldown_duration" && !refs) {
