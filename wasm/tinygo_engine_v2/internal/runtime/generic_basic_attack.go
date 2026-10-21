@@ -106,7 +106,14 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 				if permanentSourceKeys[gear.StableID] {
 					return s.basicAttackErr("duplicate permanent skill source", "initialSnapshot.combatants.providers")
 				}
-				if err := s.validateStaticInitializer(gear, actor.Key, mount.ProviderRef); err != nil {
+				if tick, hasTick := findTickAbility(gear, s.compiled); hasTick {
+					if err := s.validateTargetWindowProvider(gear, actor.Key, mount.ProviderRef); err != nil {
+						return err
+					}
+					for _, operation := range s.compiled.Operations[int(tick.TickSpec.OnTickStart) : int(tick.TickSpec.OnTickStart)+int(tick.TickSpec.OnTickCount)] {
+						periodicOperations[operation.Path] = true
+					}
+				} else if err := s.validateStaticInitializer(gear, actor.Key, mount.ProviderRef); err != nil {
 					if err := s.validateEquipmentHitProvider(gear, actor.Key, mount.ProviderRef); err != nil {
 						return err
 					}

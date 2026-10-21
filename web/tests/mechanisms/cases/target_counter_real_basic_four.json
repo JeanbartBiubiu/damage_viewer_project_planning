@@ -1,0 +1,1631 @@
+{
+  "schemaVersion": "mechanism-case-v1",
+  "caseKey": "target_counter_real_basic_four",
+  "title": "真实背景普攻四次命中使目标窗口提前结算",
+  "mechanisms": [
+    "state.finite_target_counter",
+    "state.target_window_expiry",
+    "state.real_basic_attack_stack"
+  ],
+  "derivation": [
+    "基数100；暴击率0.5、额外暴击倍率1，系数1+0.5×0.4×1=1.2。0/1/2/3/4层金额分别120/150/180/210/240。",
+    "普通攻击攻速1、攻击力0。0毫秒先真实挂弹，再由0/1000/2000/3000四次真实背景普攻叠到4层，3000爆炸240；4000普攻不再爆炸。"
+  ],
+  "catalog": "mechanism_lab",
+  "snapshot": {
+    "selection": {
+      "sourceCharacterKey": "lab_attacker",
+      "sourceLevel": 1,
+      "targetCharacterKey": "lab_dummy",
+      "targetLevel": 1,
+      "basicAttackSkillKey": "lab_basic_attack",
+      "basicAttackLevel": 1,
+      "plannedSkills": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_charge",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        }
+      ],
+      "sourceEquipmentKeys": [],
+      "targetEquipmentKeys": [],
+      "sourceBuildConfigurations": [],
+      "targetBuildConfigurations": [],
+      "targetSkillSettings": [],
+      "sourceSkillSettings": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_charge",
+          "enabled": true,
+          "skillLevel": 1
+        }
+      ]
+    },
+    "source": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_attacker",
+        "name": "机制攻击方",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_attacker",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 0,
+            "critical_strike_chance": 0.5,
+            "critical_strike_damage_bonus_percent": 1,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 0,
+        "critical_strike_chance": 0.5,
+        "critical_strike_damage_bonus_percent": 1,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_charge",
+          "skillName": "lab_charge",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "begin_attack",
+            "hit_attack"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_charge",
+          "skillName": "lab_charge",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "inactiveReason": null,
+          "enabledRuleKeys": [
+            "application_hit",
+            "attack_stack",
+            "mark_on_unblocked_hit",
+            "on_used"
+          ]
+        }
+      ]
+    },
+    "target": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_dummy",
+        "name": "机制木桩",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_dummy",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 10000,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 50,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 10000,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 50,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": []
+    },
+    "skillConfigurations": [
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_basic_attack",
+          "name": "机制普攻",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "basic_attack"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "raw",
+            "name": "攻击力",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "damage",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_damage",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "攻击力",
+                  "expression": {
+                    "op": "read",
+                    "inputKey": "damage"
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "interval",
+            "name": "攻击间隔",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "speed",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_speed",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "攻击间隔",
+                  "expression": {
+                    "op": "div",
+                    "args": [
+                      {
+                        "op": "const",
+                        "value": "1000"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "speed"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "effectKey": "start",
+            "name": "发起",
+            "description": null,
+            "sortOrder": 0,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "attack_link",
+                "name": "攻击联动",
+                "resultType": "ATTACK_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "effectKey": "hit",
+            "name": "命中",
+            "description": null,
+            "sortOrder": 1,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "raw"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "SOURCE_CRIT_CHANCE",
+                    "multiplierValue": {
+                      "kind": "FIXED",
+                      "value": 1.75
+                    }
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              },
+              {
+                "resultKey": "hit_link",
+                "name": "命中联动",
+                "resultType": "HIT_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 20,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "processKey": "attack",
+            "name": "普攻节奏",
+            "activationType": "ACTIVE",
+            "description": null,
+            "sortOrder": 0,
+            "steps": [
+              {
+                "stepKey": "begin",
+                "name": "发起",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FORMULA",
+                "formulaKey": "interval"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [
+              {
+                "bindingKey": "start_link",
+                "effectKey": "start",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                },
+                "sortOrder": 0
+              }
+            ],
+            "stateOperations": [],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "begin_attack",
+            "name": "普攻开始",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_START",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_process",
+                "name": "普攻开始",
+                "sortOrder": 0,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "attack"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "hit_attack",
+            "name": "普攻命中",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_HIT",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "execute_effect",
+                "name": "普攻命中",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_lab_basic_attack"
+      },
+      {
+        "baseDigest": "mechanism_target_counter",
+        "effects": [
+          {
+            "description": "Wiki明确初次应用为0点物理伤害；真实命中且未被法术盾阻挡后才挂弹。",
+            "effectKey": "application_hit",
+            "lifecycle": null,
+            "name": "爆炸火花真实初次应用",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "vampOverrides": [],
+                  "vampQualification": "RESOLVED"
+                },
+                "lifecycleBehavior": null,
+                "name": "初次应用零物理伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": "SKILL",
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ],
+            "sortOrder": 30,
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "createdAt": "2026-09-07T18:02:23.443454Z",
+            "description": "按实际目标层数一次结算；本轮法术盾仅在零伤害挂弹应用判定，已挂弹后新增法术盾分支不展开。",
+            "effectKey": "bomb_explosion",
+            "gameId": "mechanism_lab",
+            "lifecycle": null,
+            "name": "炸弹实际爆炸伤害",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "vampOverrides": [],
+                  "vampQualification": "RESOLVED"
+                },
+                "lifecycleBehavior": null,
+                "name": "炸弹实际爆炸伤害",
+                "resultKey": "damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "bomb_damage",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "lab_charge",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T18:02:23.443454Z"
+          }
+        ],
+        "formulas": [
+          {
+            "createdAt": "2026-09-07T18:02:21.896296Z",
+            "description": "固定16.17完整公式：总暴击倍率减1等于额外暴击伤害倍率；不再额外加1，爆炸不二次概率暴击。",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "base",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_charge",
+                    "parameterKey": "base_damage"
+                  }
+                },
+                {
+                  "key": "stacks",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_charge",
+                    "parameterKey": "bomb_stacks"
+                  }
+                },
+                {
+                  "key": "chance",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "critical_strike_chance",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                },
+                {
+                  "key": "bonus",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "critical_strike_damage_bonus_percent",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "out",
+                  "name": "手算炸弹金额",
+                  "expression": {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "op": "read",
+                            "inputKey": "base"
+                          },
+                          {
+                            "op": "add",
+                            "args": [
+                              {
+                                "op": "const",
+                                "value": "1"
+                              },
+                              {
+                                "op": "mul",
+                                "args": [
+                                  {
+                                    "op": "const",
+                                    "value": "0.25"
+                                  },
+                                  {
+                                    "op": "read",
+                                    "inputKey": "stacks"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "add",
+                        "args": [
+                          {
+                            "op": "const",
+                            "value": "1"
+                          },
+                          {
+                            "op": "mul",
+                            "args": [
+                              {
+                                "op": "mul",
+                                "args": [
+                                  {
+                                    "op": "read",
+                                    "inputKey": "chance"
+                                  },
+                                  {
+                                    "op": "const",
+                                    "value": "0.4"
+                                  }
+                                ]
+                              },
+                              {
+                                "op": "read",
+                                "inputKey": "bonus"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "out"
+            },
+            "formulaKey": "bomb_damage",
+            "gameId": "mechanism_lab",
+            "name": "按实际层数引爆伤害",
+            "skillKey": "lab_charge",
+            "sortOrder": 20,
+            "updatedAt": "2026-10-08T18:16:38.52499Z"
+          }
+        ],
+        "internalStates": [
+          {
+            "name": "实际目标炸弹层数",
+            "description": "由真实目标命中开启与叠层，不使用场景默认值；来源与目标分别隔离。",
+            "stateType": "COUNTER",
+            "scope": "TARGET",
+            "sortOrder": 10,
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "max_stacks"
+              },
+              "durationValue": null
+            },
+            "stateKey": "bomb_count",
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "name": "实际目标挂弹窗口",
+            "description": "由真实目标命中开启与叠层，不使用场景默认值；来源与目标分别隔离。",
+            "stateType": "COUNTER",
+            "scope": "TARGET",
+            "sortOrder": 20,
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "bomb_duration_ms"
+              }
+            },
+            "stateKey": "bomb_window",
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:02:17.492953Z",
+            "description": "客户端当前根绑定 DataValues.ActiveBaseDamage 取索引1至5。",
+            "fixedValue": 100,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "基础伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "lab_charge",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T18:02:17.492953Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:02:20.585811Z",
+            "description": "客户端当前根绑定 DataValues.ActiveDuration 取索引1至5。",
+            "fixedValue": 4000,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "炸弹自然引爆等待（毫秒）",
+            "parameterKey": "bomb_duration_ms",
+            "skillKey": "lab_charge",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:02:20.585811Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:02:21.007831Z",
+            "description": "必须来自该目标该来源炸弹，合法整数0至4；不默认满层。当前独立公式保留，合法取层事件待接。",
+            "fixedValue": null,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "本次引爆实际炸弹层数",
+            "parameterKey": "bomb_stacks",
+            "skillKey": "lab_charge",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:02:21.007831Z",
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:02:16.633098Z",
+            "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+            "fixedValue": 1000,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "lab_charge",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T18:02:16.633098Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:02:18.858078Z",
+            "description": "客户端当前根绑定 DataValues.CritChanceModifier 取索引1至5。",
+            "fixedValue": 0.4,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "暴击属性折算系数",
+            "parameterKey": "crit_scaling",
+            "skillKey": "lab_charge",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T18:02:18.858078Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T18:02:20.110743Z",
+            "description": "客户端当前根绑定 DataValues.ActiveMaxStacks 取索引1至5。",
+            "fixedValue": 4,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "引爆满层数",
+            "parameterKey": "max_stacks",
+            "skillKey": "lab_charge",
+            "sortOrder": 90,
+            "updatedAt": "2026-09-07T18:02:20.110743Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:02:19.286095Z",
+            "description": "当前完整暴击计算树有1与−1常数；角色根暴击倍率2减1为1。",
+            "fixedValue": 1,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "倍率单位值",
+            "parameterKey": "one",
+            "skillKey": "lab_charge",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-07T18:02:19.286095Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:02:19.680159Z",
+            "description": "客户端当前根绑定 DataValues.ActivePerStackAmp 取索引1至5。",
+            "fixedValue": 0.25,
+            "gameId": "mechanism_lab",
+            "levelValues": null,
+            "name": "每层伤害增幅比例",
+            "parameterKey": "per_stack_amp",
+            "skillKey": "lab_charge",
+            "sortOrder": 80,
+            "updatedAt": "2026-09-07T18:02:19.680159Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "processes": [
+          {
+            "name": "爆炸火花首次主动施放",
+            "description": "按当前总攻速占用前摇，真实应用命中另行驱动挂弹；未命中或被阻挡不写目标状态。",
+            "sortOrder": 10,
+            "activationType": "ACTIVE",
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "instant",
+                "name": "即时真实应用",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "IMMEDIATE",
+                "occupiesAction": false,
+                "detail": {}
+              }
+            ],
+            "stateOperations": [],
+            "effectBindings": [],
+            "processKey": "cast",
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "name": "结算后关闭窗口",
+            "description": "本技能目标状态的即时被动过程，完整降低为同一实际来源的有序操作。",
+            "sortOrder": 40,
+            "activationType": "PASSIVE",
+            "cooldown": null,
+            "steps": [
+              {
+                "stepKey": "apply",
+                "name": "即时目标状态",
+                "description": "有序状态与结算在同一即时被动帧执行，不占行动。",
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "occupiesAction": false,
+                "detail": {}
+              }
+            ],
+            "effectBindings": [],
+            "stateOperations": [
+              {
+                "operationKey": "close_window",
+                "name": "close_window",
+                "stateSkillKey": "lab_charge",
+                "stateKey": "bomb_window",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "optionKey": null,
+                "sortOrder": 10,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              }
+            ],
+            "processKey": "clear_window",
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "name": "真实命中挂弹",
+            "description": "本技能目标状态的即时被动过程，完整降低为同一实际来源的有序操作。",
+            "sortOrder": 20,
+            "activationType": "PASSIVE",
+            "cooldown": null,
+            "steps": [
+              {
+                "stepKey": "apply",
+                "name": "即时目标状态",
+                "description": "有序状态与结算在同一即时被动帧执行，不占行动。",
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "occupiesAction": false,
+                "detail": {}
+              }
+            ],
+            "effectBindings": [],
+            "stateOperations": [
+              {
+                "operationKey": "reset_count",
+                "name": "reset_count",
+                "stateSkillKey": "lab_charge",
+                "stateKey": "bomb_count",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "optionKey": null,
+                "sortOrder": 10,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              },
+              {
+                "operationKey": "open_window",
+                "name": "open_window",
+                "stateSkillKey": "lab_charge",
+                "stateKey": "bomb_window",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "optionKey": null,
+                "sortOrder": 20,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              }
+            ],
+            "processKey": "mark_window",
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "name": "实际命中叠一层",
+            "description": "本技能目标状态的即时被动过程，完整降低为同一实际来源的有序操作。",
+            "sortOrder": 30,
+            "activationType": "PASSIVE",
+            "cooldown": null,
+            "steps": [
+              {
+                "stepKey": "apply",
+                "name": "即时目标状态",
+                "description": "有序状态与结算在同一即时被动帧执行，不占行动。",
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "occupiesAction": false,
+                "detail": {}
+              }
+            ],
+            "effectBindings": [],
+            "stateOperations": [
+              {
+                "operationKey": "add_count",
+                "name": "add_count",
+                "stateSkillKey": "lab_charge",
+                "stateKey": "bomb_count",
+                "operation": "INCREASE",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "optionKey": null,
+                "sortOrder": 10,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              }
+            ],
+            "processKey": "stack_once",
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "skill": {
+          "createdAt": "2026-09-06T18:20:41.265597Z",
+          "description": "真实施放并命中后挂弹4秒；自身实际普攻或R命中增加一层，最多4层后立即结算，未满则到期按实际层数结算。本轮忽略W、死亡溅射及击退位移；R最后一层的击退等待简化为即时结算。法术盾只在挂弹应用判定。",
+          "gameId": "mechanism_lab",
+          "maxLevel": 1,
+          "name": "有限目标计数窗口",
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "skillKey": "lab_charge",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:41.265597Z"
+        },
+        "triggerRules": [
+          {
+            "name": "application_hit",
+            "description": "实际来源、目标和完整因果链；不使用最终层数预设。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_charge"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "按实际层数结算",
+                "sortOrder": 10,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "application_hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "ruleKey": "application_hit"
+          },
+          {
+            "name": "attack_stack",
+            "description": "实际来源、目标和完整因果链；不使用最终层数预设。",
+            "sortOrder": 30,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_HIT",
+              "detail": {}
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "eligible",
+                "name": "真实窗口资格",
+                "sortOrder": 10,
+                "conditions": [
+                  {
+                    "conditionKey": "bomb_window",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 10,
+                    "detail": {
+                      "stateSkillKey": "lab_charge",
+                      "stateKey": "bomb_window",
+                      "valueKind": "VALUE",
+                      "optionKey": null,
+                      "expectedBoolean": null,
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      }
+                    }
+                  },
+                  {
+                    "conditionKey": "bomb_count",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 20,
+                    "detail": {
+                      "stateSkillKey": "lab_charge",
+                      "stateKey": "bomb_count",
+                      "valueKind": "VALUE",
+                      "optionKey": null,
+                      "expectedBoolean": null,
+                      "comparator": "LT",
+                      "comparisonValue": {
+                        "kind": "PARAMETER",
+                        "parameterKey": "max_stacks"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "start",
+                "name": "启动实际过程",
+                "sortOrder": 10,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "stack_once"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "ruleKey": "attack_stack"
+          },
+          {
+            "name": "full_detonation",
+            "description": "实际来源、目标和完整因果链；不使用最终层数预设。",
+            "sortOrder": 50,
+            "eventSource": {
+              "eventType": "PROCESS_MOMENT",
+              "detail": {
+                "processKey": "stack_once",
+                "moment": {
+                  "momentType": "STEP_EXECUTION",
+                  "stepKey": "apply",
+                  "failureReason": null
+                }
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "eligible",
+                "name": "真实窗口资格",
+                "sortOrder": 10,
+                "conditions": [
+                  {
+                    "conditionKey": "bomb_count",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 20,
+                    "detail": {
+                      "stateSkillKey": "lab_charge",
+                      "stateKey": "bomb_count",
+                      "valueKind": "VALUE",
+                      "optionKey": null,
+                      "expectedBoolean": null,
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "PARAMETER",
+                        "parameterKey": "max_stacks"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "按实际层数结算",
+                "sortOrder": 10,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "bomb_explosion"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [
+                  {
+                    "bindingKey": "actual_stacks",
+                    "parameterKey": "bomb_stacks",
+                    "sourceType": "INTERNAL_STATE",
+                    "detail": {
+                      "stateSkillKey": "lab_charge",
+                      "stateKey": "bomb_count",
+                      "valueKind": "VALUE",
+                      "optionKey": null
+                    }
+                  }
+                ],
+                "resultModifiers": []
+              },
+              {
+                "actionKey": "clear",
+                "name": "启动实际过程",
+                "sortOrder": 20,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "clear_window"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "ruleKey": "full_detonation"
+          },
+          {
+            "name": "mark_on_unblocked_hit",
+            "description": "实际来源、目标和完整因果链；不使用最终层数预设。",
+            "sortOrder": 20,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_charge"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "eligible",
+                "name": "真实窗口资格",
+                "sortOrder": 10,
+                "conditions": [
+                  {
+                    "conditionKey": "skill_hit_spell_shield_blocked",
+                    "conditionType": "EVENT_VALUE_COMPARE",
+                    "sortOrder": 30,
+                    "detail": {
+                      "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "start",
+                "name": "启动实际过程",
+                "sortOrder": 10,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "mark_window"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "ruleKey": "mark_on_unblocked_hit"
+          },
+          {
+            "name": "natural_detonation",
+            "description": "实际来源、目标和完整因果链；不使用最终层数预设。",
+            "sortOrder": 60,
+            "eventSource": {
+              "eventType": "INTERNAL_STATE_CHANGED",
+              "detail": {
+                "stateSkillKey": "lab_charge",
+                "stateKey": "bomb_window",
+                "changeKind": "VALUE_CHANGED"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "eligible",
+                "name": "真实窗口资格",
+                "sortOrder": 10,
+                "conditions": [
+                  {
+                    "conditionKey": "state_before",
+                    "conditionType": "EVENT_VALUE_COMPARE",
+                    "sortOrder": 10,
+                    "detail": {
+                      "eventValueKey": "STATE_BEFORE",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      }
+                    }
+                  },
+                  {
+                    "conditionKey": "state_after",
+                    "conditionType": "EVENT_VALUE_COMPARE",
+                    "sortOrder": 20,
+                    "detail": {
+                      "eventValueKey": "STATE_AFTER",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      }
+                    }
+                  },
+                  {
+                    "conditionKey": "bomb_count",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 30,
+                    "detail": {
+                      "stateSkillKey": "lab_charge",
+                      "stateKey": "bomb_count",
+                      "valueKind": "VALUE",
+                      "optionKey": null,
+                      "expectedBoolean": null,
+                      "comparator": "LT",
+                      "comparisonValue": {
+                        "kind": "PARAMETER",
+                        "parameterKey": "max_stacks"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "按实际层数结算",
+                "sortOrder": 10,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "bomb_explosion"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [
+                  {
+                    "bindingKey": "actual_stacks",
+                    "parameterKey": "bomb_stacks",
+                    "sourceType": "INTERNAL_STATE",
+                    "detail": {
+                      "stateSkillKey": "lab_charge",
+                      "stateKey": "bomb_count",
+                      "valueKind": "VALUE",
+                      "optionKey": null
+                    }
+                  }
+                ],
+                "resultModifiers": []
+              }
+            ],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "ruleKey": "natural_detonation"
+          },
+          {
+            "name": "on_used",
+            "description": "实际来源、目标和完整因果链；不使用最终层数预设。",
+            "sortOrder": 5,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_charge",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start",
+                "name": "启动实际过程",
+                "sortOrder": 10,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "ruleKey": "on_used"
+          },
+          {
+            "name": "sibling_hit_stack",
+            "description": "实际来源、目标和完整因果链；不使用最终层数预设。",
+            "sortOrder": 40,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_pulse"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "eligible",
+                "name": "真实窗口资格",
+                "sortOrder": 10,
+                "conditions": [
+                  {
+                    "conditionKey": "bomb_window",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 10,
+                    "detail": {
+                      "stateSkillKey": "lab_charge",
+                      "stateKey": "bomb_window",
+                      "valueKind": "VALUE",
+                      "optionKey": null,
+                      "expectedBoolean": null,
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      }
+                    }
+                  },
+                  {
+                    "conditionKey": "bomb_count",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 20,
+                    "detail": {
+                      "stateSkillKey": "lab_charge",
+                      "stateKey": "bomb_count",
+                      "valueKind": "VALUE",
+                      "optionKey": null,
+                      "expectedBoolean": null,
+                      "comparator": "LT",
+                      "comparisonValue": {
+                        "kind": "PARAMETER",
+                        "parameterKey": "max_stacks"
+                      }
+                    }
+                  },
+                  {
+                    "conditionKey": "skill_hit_spell_shield_blocked",
+                    "conditionType": "EVENT_VALUE_COMPARE",
+                    "sortOrder": 30,
+                    "detail": {
+                      "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "start",
+                "name": "启动实际过程",
+                "sortOrder": 10,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "stack_once"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "ruleKey": "sibling_hit_stack"
+          }
+        ]
+      }
+    ],
+    "references": []
+  },
+  "scenario": {
+    "mode": "skill_action",
+    "durationMs": 4500,
+    "initialHealth": {
+      "source": 1000,
+      "target": 10000
+    },
+    "actions": [
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_charge",
+        "skillLevel": 1,
+        "instructionKey": "action_0",
+        "atMs": 0,
+        "sortOrder": 0,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      }
+    ]
+  },
+  "expected": {
+    "summary": {
+      "stopReason": "duration_reached",
+      "sourceDamageDealt": 240,
+      "targetFinalHp": 9760,
+      "basicAttackStarted": 5,
+      "basicAttackHits": 5
+    },
+    "damage": [
+      {
+        "timeMs": 0,
+        "skillKey": "lab_charge",
+        "effectKey": "application_hit",
+        "rawAmount": 0,
+        "postDefenseDamage": 0
+      },
+      {
+        "timeMs": 0,
+        "skillKey": "lab_basic_attack",
+        "rawAmount": 0,
+        "postDefenseDamage": 0
+      },
+      {
+        "timeMs": 1000,
+        "skillKey": "lab_basic_attack",
+        "rawAmount": 0,
+        "postDefenseDamage": 0
+      },
+      {
+        "timeMs": 2000,
+        "skillKey": "lab_basic_attack",
+        "rawAmount": 0,
+        "postDefenseDamage": 0
+      },
+      {
+        "timeMs": 3000,
+        "skillKey": "lab_basic_attack",
+        "rawAmount": 0,
+        "postDefenseDamage": 0
+      },
+      {
+        "timeMs": 3000,
+        "skillKey": "lab_charge",
+        "effectKey": "bomb_explosion",
+        "rawAmount": 240,
+        "postDefenseDamage": 240
+      },
+      {
+        "timeMs": 4000,
+        "skillKey": "lab_basic_attack",
+        "rawAmount": 0,
+        "postDefenseDamage": 0
+      }
+    ]
+  }
+}

@@ -10,9 +10,9 @@
 
 `GET /api/admin/games/{gameId}/simulation-availability?wasmSha256=...&adapterVersion=...`只读返回英雄、装备的当前配置缺口和计算核验状态。它用只读一致事务一次批量读取原始业务行，不执行伤害、不写数据库，也不以管理结构检查代替完整运行。只有与范围、完整对象内容、共享及外部依赖、正式Wasm和适配器版本全部匹配的通过证明才返回可选状态；缺证明或证明失效均不可选。
 
-优先范围资源`simulation-scope/lol/combat-analysis.json`从规划工作树的原始阶段进度机械生成，目前为五批49名英雄、245个技能槽和198件装备。响应中的`excludedSkillSources`只运输当前实际绑定且已有明确范围排除依据的来源及原因。完整排除依据仍进入范围摘要，未绑定的排除槽不会要求额外场景设置。盖伦P和内瑟斯W沿该通用资源排除本轮连续单向1V1，管理数据和关系保留；其它必需来源不因此关闭。正式证明资源为`simulation-verification/{gameId}/combat-analysis.json`，当前包含安妮、盖伦、库奇、崔斯特、内瑟斯、奥拉夫在约定单向1V1范围内的完整必要来源证明，以及原19件纯属性装备证明；不能因存在参数、触发规则或纯属性依据就手工标为通过。
+优先范围资源`simulation-scope/lol/combat-analysis.json`从规划工作树的原始阶段进度机械生成，目前按Excel确认保留41名英雄、205个技能槽和198件装备。响应中的`excludedSkillSources`只运输当前实际绑定且已有明确范围排除依据的来源及原因。完整排除依据仍进入范围摘要，未绑定的排除槽不会要求额外场景设置。盖伦P和内瑟斯W沿该通用资源排除本轮连续单向1V1，管理数据和关系保留；其它必需来源不因此关闭。正式证明资源为`simulation-verification/{gameId}/combat-analysis.json`，当前包含安妮、盖伦、库奇、崔斯特、内瑟斯、奥拉夫在约定单向1V1范围内的完整必要来源证明，以及原19件纯属性装备证明；不能因存在参数、触发规则或纯属性依据就手工标为通过。
 
-2026-10-21正式身份为Wasm `7912ddd4963d88488f4c28dd0bbc4fae38ad19523ac6f9a27919fd99024b0ba2`、适配器`v26-owned-health-and-duration-maintenance`。奥拉夫105场320次完整真实Worker运行及独立逐事件数值复核通过；当前源码正式重建字节一致，50个固定机制用例通过后刷新既有准入身份。证明安装后的真实HTTP精确返回6名英雄和19件装备；无数据库迁移，P/E/R配置摘要保持。完整记录见仓库根目录`outputs/skill-adaptation-20261021/奥拉夫适配验收.md`。
+此前2026-10-21的正式身份为Wasm `7912ddd4963d88488f4c28dd0bbc4fae38ad19523ac6f9a27919fd99024b0ba2`、适配器`v26-owned-health-and-duration-maintenance`。奥拉夫105场320次完整真实Worker运行及独立逐事件数值复核通过；当前源码正式重建字节一致，50个固定机制用例通过后刷新既有准入身份。证明安装后的真实HTTP精确返回6名英雄和19件装备；无数据库迁移，P/E/R配置摘要保持。完整记录见仓库根目录`outputs/skill-adaptation-20261021/奥拉夫适配验收.md`。
 
 2026-10-19阶段的正式身份为Wasm `1346f63b089edfda34335720864b3784196b350504ec47d75134524df1ba70d1`、适配器`v25-process-state-resource-max-and-cooldown`。内瑟斯86场614次主矩阵及关闭补充、已有对象3328次真实Worker回归通过独立复核；正式证明SHA为`fc9f2a0e5f9b3cee91558e4da4413901b09a7ff8ff05b8612d79cb77a5de5928`。最终代码与范围2117项全测、证明26项定向测试及隔离打包通过。安装时728个程序类、依赖、私有配置字节保持，仅范围与证明资源改变，未初始化数据库；真实HTTP精确返回5名英雄与19件装备。实际内瑟斯页面已完成击杀和会话释放。完整收尾见规划真源`outputs/priority-adaptation-2026-10-18/内瑟斯与通用资源冷却机制适配验收记录.md`及`nasus-next/proof-installation/`。
 
@@ -33,6 +33,10 @@ mvn "-Dtest=SimulationAvailability*Test" test
 ```
 
 范围或证明变化后重新生成资源并打包；业务数据变化会即时使旧证明失效。完整共享口径及当前补录缺口见规划工作树`outputs/simulation-availability-2026-10-17/`。目录不会新增表、迁移或业务数据写入；数据补录按规划真源`.agents/skills/damage-api-authoring/SKILL.md`执行保护保存和独立回读，与只读目录分开记录。
+
+## 有限目标计数窗口快照
+
+完整有限目标计数图的未计划技能不生成自然规则闭包，保持已启用、已学资料和明确的ACTIVE_DEFERRED原因；结构不完整时仍沿原有规则检查，不能笼统忽略目标状态或被动过程。当前通用管理模型、摘要保护保存和引用校验保留，没有数据库结构变更。实际挂窗、命中叠层、终点调度及独立伤害身份由宿主和引擎核对，详见[现行契约](../../outputs/skill-adaptation-20261021-next/有限目标计数窗口契约.md)及[本批验收](../../outputs/skill-adaptation-20261021-next/继续适配验收.md)。
 
 ## 至少保留效果剩余时长
 

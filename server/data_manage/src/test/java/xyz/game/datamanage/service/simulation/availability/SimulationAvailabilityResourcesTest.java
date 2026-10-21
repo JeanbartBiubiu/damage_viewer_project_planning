@@ -20,8 +20,8 @@ class SimulationAvailabilityResourcesTest {
         SimulationAvailabilityResources resources = new SimulationAvailabilityResources(json, new DefaultResourceLoader());
         var scope = resources.scope("lol");
         assertTrue(scope.valid());
-        assertEquals(49, scope.value().path("characters").size());
-        assertEquals(245, scope.value().path("characters").findValues("expectedSkills").stream().mapToInt(value -> value.size()).sum());
+        assertEquals(41, scope.value().path("characters").size());
+        assertEquals(205, scope.value().path("characters").findValues("expectedSkills").stream().mapToInt(value -> value.size()).sum());
         assertFalse(scope.value().path("characters").toString().contains("champion_zyra"));
         assertEquals(198, scope.value().path("equipment").size());
         assertEquals(47, scope.value().path("equipment").findValues("requiresSkillBindings").stream().filter(value -> !value.booleanValue()).count());

@@ -14,6 +14,8 @@ type providerStateOwnershipView struct {
 	generation             map[string]uint64
 	target, holdTarget     string
 	holdKey                string
+	holdAt                 int64
+	holdGeneration         uint64
 }
 
 func providerStateOwnershipBag() *providerStateBag {
@@ -32,6 +34,7 @@ func providerStateOwnershipSnapshot(bag *providerStateBag) providerStateOwnershi
 	return providerStateOwnershipView{
 		maps.Clone(bag.state), maps.Clone(bag.targetValues), maps.Clone(bag.expireAt), maps.Clone(bag.targetExpireAt),
 		maps.Clone(bag.anchoredTickGeneration), bag.targetKey, bag.inclusiveAtExpiryTarget, bag.inclusiveAtExpiryKey,
+		bag.inclusiveAtExpiryAt, bag.inclusiveAtExpiryGen,
 	}
 }
 
@@ -82,10 +85,10 @@ func TestProviderStateOwnershipExpiryHoldAndTargetSwitchKeepSiblingViews(t *test
 	firstMap := cloneProviderStateMap(map[string]*providerStateBag{"item": original})
 	first := firstMap["item"]
 	second := cloneProviderStateMap(firstMap)["item"]
-	first.setInclusiveAtExpiryHold("target", "hits")
 	if first.bumpAnchoredTickGeneration("hits") != 8 || second.currentAnchoredTickGeneration("hits") != 7 || original.currentAnchoredTickGeneration("hits") != 7 {
 		t.Fatal("generation advance changed another cloned bag")
 	}
+	first.setInclusiveAtExpiryHold("target", "hits")
 	frozenTarget := first.targetStateForFormula()
 	first.lazyExpireProviderState(100)
 	first.lazyExpireProviderTargetState(100)

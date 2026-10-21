@@ -38,6 +38,8 @@ import { compileStateFieldSchema } from './processStateAdapter';
 import { isOwnCooldownReductionResult, type BasicAttackCooldownReduction } from './basicAttackCooldownReduction';
 import { staticEffectAmount } from './staticEffectValue';
 import { compileProviderDurationResult } from './providerDurationAdapter';
+import { finiteTargetCounterContract } from './finiteTargetCounterContract';
+import { lowerTargetCounterValueRule } from './targetCounterFormula';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
   type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
@@ -375,6 +377,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const deferredAbilities: AbilityDefinition[] = [];
         const activeEffects = new Set<string>();
         let rootEvent = '';
+        const finiteCounter = finiteTargetCounterContract(snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey) ?? configuration);
+        let boundCounterParameter: string | undefined;
         const skillTypes = configuration.skill.skillCategoryKeys.map(category);
         const noteNumeric = (value: NumericValue) => {
           if (value.kind === 'PARAMETER') usedParameters.add(value.parameterKey);
@@ -415,6 +419,19 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const amount = (result: SkillEffectResult, resultPath: string) => {
           if (!result.valueRule) fail(`${resultPath}.valueRule`, '结果数值规则缺失');
           validateValueRule(result.valueRule, `${resultPath}.valueRule`);
+          if (boundCounterParameter && finiteCounter) {
+            noteNumeric(result.valueRule.value);
+            const lowered = lowerTargetCounterValueRule(result.valueRule, configuration, skillLevel, snapshot.selection[`${side}Level`],
+              boundCounterParameter, namedKey(skillKey, finiteCounter.counter.stateKey));
+            for (const key of lowered.requiredAttributes) required[side].add(key);
+            collectAttributes(lowered.expression, side, required);
+            if (result.valueRule.value.kind === 'FORMULA') {
+              const key = result.valueRule.value.formulaKey;
+              const formula = configuration.formulas.find(row => row.formulaKey === key)!;
+              registerCommonFormula(formula, `${root}.formulas.${formula.formulaKey}.expression`, numeric, fail);
+            }
+            return lowered.expression;
+          }
           if (contributesBasicAttack) {
             noteNumeric(result.valueRule.value);
             return lowerContribution(lowerBasicAttackContributionValueRule(result.valueRule, contributionAuthor(),
@@ -732,6 +749,13 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           }
           if (authored.conditionType === 'EVENT_VALUE_COMPARE') {
             exact(authored.detail, ['eventValueKey', 'comparator', 'comparisonValue'], detailPath);
+            if (authored.detail.eventValueKey === 'SKILL_HIT_SPELL_SHIELD_BLOCKED' && event === 'SKILL_HIT' && side === 'source') {
+              return comparator(authored.detail.comparator, { op: 'read', path: 'event.skill_hit.blocked' }, value(authored.detail.comparisonValue, detailPath), detailPath);
+            }
+            if (finiteCounter && event === 'INTERNAL_STATE_CHANGED' && ['STATE_BEFORE', 'STATE_AFTER'].includes(authored.detail.eventValueKey)) {
+              return comparator(authored.detail.comparator, constExpr(authored.detail.eventValueKey === 'STATE_BEFORE' ? 1 : 0),
+                value(authored.detail.comparisonValue, detailPath), detailPath);
+            }
             if (String(authored.detail.eventValueKey) === 'SKILL_USE_CONTACT_COUNT') {
               if (event !== 'PROCESS_RESOLVED') fail(detailPath, '接触计数仅由真实过程终结命中后事实提供');
               constant(authored.detail.comparisonValue, `${detailPath}.comparisonValue`, true);
@@ -996,8 +1020,14 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         };
         const actionShape = (action: SkillTriggerAction, actionPath: string) => {
           exact(action, ['actionKey', 'actionType', 'detail', 'targetContext', 'runtimeInputBindings', 'resultModifiers', ...METADATA], actionPath);
-          if (array(action.runtimeInputBindings, `${actionPath}.runtimeInputBindings`).length
-            || array(action.resultModifiers, `${actionPath}.resultModifiers`).length) fail(actionPath, '未接入的运行时绑定或结果修饰不能丢弃');
+          const bindings = array(action.runtimeInputBindings, `${actionPath}.runtimeInputBindings`);
+          const counterBinding = bindings[0];
+          const bound = finiteCounter && action.actionType === 'EXECUTE_EFFECT' && bindings.length === 1
+            && counterBinding?.sourceType === 'INTERNAL_STATE' && counterBinding.parameterKey === finiteCounter.parameterKey
+            && counterBinding.detail.stateSkillKey === skillKey && counterBinding.detail.stateKey === finiteCounter.counter.stateKey
+            && counterBinding.detail.valueKind === 'VALUE' && counterBinding.detail.optionKey === null
+            && ['PROCESS_MOMENT', 'INTERNAL_STATE_CHANGED'].includes(rootEvent);
+          if (bindings.length && !bound || array(action.resultModifiers, `${actionPath}.resultModifiers`).length) fail(actionPath, '未接入的运行时绑定或结果修饰不能丢弃');
         };
         const executeEffect = (authored: SkillEffect, output: OperationDefinition[], outputRoot: string, abilityRef: string,
           event: string, actionPath: string, context: string) => {
@@ -1115,7 +1145,15 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                 appliedEffects.add(authoredEffect.effectKey);
                 if (authoredEffect.lifecycle?.durationValue) noteNumeric(authoredEffect.lifecycle.durationValue);
                 cover(actionPath, 'runtimeOptions.skillOrigins');
-              } else executeEffect(authoredEffect, output, outputRoot, abilityRef, event, actionPath, context);
+              } else {
+                const previous = boundCounterParameter;
+                if (action.runtimeInputBindings.length) {
+                  boundCounterParameter = action.runtimeInputBindings[0]!.parameterKey;
+                  lookupState(finiteCounter!.counter.stateKey, skillKey, actionPath);
+                }
+                try { executeEffect(authoredEffect, output, outputRoot, abilityRef, event, actionPath, context); }
+                finally { boundCounterParameter = previous; }
+              }
             } else if (action.actionType === 'MODIFY_INTERNAL_STATE') {
               exact(action.detail, ['stateSkillKey', 'stateKey', 'operation', 'value'], `${actionPath}.detail`);
               const definition = lookupState(action.detail.stateKey, action.detail.stateSkillKey, actionPath);
@@ -1212,7 +1250,10 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             cover(`${rulePath}.conditionGroups`, `${guardPath}.amount`);
           }
           const start = output.length;
-          executeActions(rule, output, outputRoot, abilityRef, event);
+          const previousEvent = rootEvent;
+          rootEvent = event;
+          try { executeActions(rule, output, outputRoot, abilityRef, event); }
+          finally { rootEvent = previousEvent; }
           if (guardKey) for (const operation of output.slice(start)) {
             const predicate: GenericFormulaExpr = { op: 'read', path: `provider.state.${guardKey}` };
             operation.condition = operation.condition ? combine('min', [predicate, operation.condition]) : predicate;
@@ -1322,6 +1363,25 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           rootEvent = event;
           const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
           if (event === 'PROCESS_MOMENT' || event === 'LIFECYCLE_MOMENT') continue;
+          if (finiteCounter && rule.ruleKey === finiteCounter.expiryRuleKey) {
+            if (side !== 'source' || skills.length !== 1 || event !== 'INTERNAL_STATE_CHANGED') fail(rulePath, '有限目标终点只接实际自身唯一技能来源');
+            const window = lookupState(finiteCounter.window.stateKey, skillKey, rulePath);
+            if (window.stateType !== 'COUNTER' || !window.detail.durationValue) fail(rulePath, '有限目标窗口缺少明确时长');
+            const duration = constant(window.detail.durationValue, `${root}.internalStates.${window.stateKey}.detail.durationValue`, true, 1);
+            const key = namedKey(skillKey, `expiry_${rule.ruleKey}`);
+            const index = provider.abilities!.length;
+            const tickRoot = `${compiledRoot}.abilities[${index}].tickSpec.onTick`;
+            const operations: OperationDefinition[] = [];
+            executeMomentRule(rule, operations, tickRoot, `${side}.provider[${providerRef}].ability[${key}]`, event);
+            types.set('state_scope/provider_target', 'state_scope');
+            const tick: AbilityDefinition = { abilityKey: key, kind: 'tick', skillKey, types: [...skillTypes, `ability/skill/${skillKey}`],
+              tickSpec: { intervalMs: duration, anchorScope: 'state_scope/provider_target',
+                anchorStateKey: stateKey(window), onTick: operations } };
+            provider.abilities!.push(tick); abilities.push(tick);
+            cover(rulePath, `${compiledRoot}.abilities[${index}].tickSpec`);
+            cover(`${root}.internalStates.${window.stateKey}`, `${compiledRoot}.abilities[${index}].tickSpec`);
+            continue;
+          }
           if (source.allowedRootKeys && !source.allowedRootKeys.includes(rule.ruleKey)) fail(rulePath, '必要闭包的事件尾规则尚未接入，不能编译自然根后忽略尾部');
           if (contributesBasicAttack) {
             for (const action of ordered(rule.actions, `${rulePath}.actions`)) {

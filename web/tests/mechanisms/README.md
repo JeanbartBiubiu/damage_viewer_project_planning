@@ -43,7 +43,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 
 ## 已覆盖的数值机制
 
-目前50个固定用例、76类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。
+目前64个固定用例、83类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。
 
 | 范围 | 固定用例入口 |
 | --- | --- |
@@ -61,6 +61,8 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 | 普通费用按产品口径忽略、未来提交冷却倍率 | `resource_ordinary_cost_ignored`、`schedule_future_cooldown_duration` |
 | 普攻命中缩短同来源主动剩余冷却，并唤醒真实自动施放 | `schedule_basic_attack_reduces_cooldown` |
 | 真实兄弟技能施放保留活动属性的最低余时、旧到期事件失效、到期不复活与自身整体增幅 | `duration_ensure_remaining_own_attributes` |
+| 真实目标计数、实际命中开窗、后台普攻或兄弟命中叠层、满层与自然终点、旧回调失效及同刻先后 | `target_counter_*` |
+
 
 强化用例逐笔检查伤害时刻和组成，避免总额正确却在施放时提前伤害。没有把一般主动资源消耗、法力不足停放、独立斩杀结果或完整控制行动限制标为已覆盖；新增这些机制时再带固定用例。回归覆盖与首次对象准入、浏览器冒烟分别留证。
 

@@ -49,6 +49,10 @@ export async function continuousAttackRequest(
     for (const origin of prepared.skillOrigins.filter(row => row.side === actor.key && row.origin.kind !== 'EQUIPMENT' && row.providerRef && row.definitionRef)) {
       expected.push({ providerRef: origin.providerRef!, definitionRef: origin.definitionRef! });
     }
+    for (const active of input.rules.skillActionBindings ?? []) if (actor.key === active.source
+      && !expected.some(mount => mount.providerRef === active.providerRef && mount.definitionRef === active.providerDefinitionRef)) {
+      expected.push({ providerRef: active.providerRef, definitionRef: active.providerDefinitionRef });
+    }
     if (actor === source) expected.push({ providerRef: startBinding.mount.providerRef, definitionRef: startBinding.mount.definitionRef });
     if (actor.providers.length !== expected.length || new Set(actor.providers.map(row => row.providerRef)).size !== expected.length
       || actor.providers.some(row => !expected.some(mount => mount.providerRef === row.providerRef && mount.definitionRef === row.definitionRef))) {

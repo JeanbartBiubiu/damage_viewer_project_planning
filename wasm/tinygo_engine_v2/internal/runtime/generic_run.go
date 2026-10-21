@@ -165,6 +165,7 @@ type genericRunState struct {
 
 	expireCleanupPayloads  []expireCleanupPayload
 	anchoredTickPayloads   []anchoredTickPayload
+	anchoredTerminalAt     map[int64]int
 	nextProviderInstanceID uint64
 	usedProviderRefs       map[string]bool
 	nextShieldInstanceID   uint64
@@ -884,6 +885,15 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			s.nowMs = end
 			s.setStopReason(model.StopReasonDurationReached)
 			break
+		}
+		// Only terminal anchored callbacks settle before a same-time process
+		// timer. The selected event still uses this ordinary budget/stop path.
+		if ev.Kind == scheduler.GenericEventProcessTimer && len(s.anchoredTerminalAt) != 0 {
+			var selectionErr *model.EngineError
+			ev, selectionErr = s.selectAnchoredTerminalBeforeProcessTimer(ev)
+			if selectionErr != nil {
+				return selectionErr
+			}
 		}
 		s.flushSamplesBefore(ev.TimeMs)
 		s.nowMs = ev.TimeMs

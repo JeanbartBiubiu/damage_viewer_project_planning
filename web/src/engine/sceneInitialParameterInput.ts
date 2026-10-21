@@ -57,7 +57,7 @@ export function sceneInitialParameterRequirements(snapshot: SimulationSnapshot):
     const planned = sourceIsPlanned(snapshot, side, source);
     const plan = planned ? snapshot.selection.plannedSkills.find(row => simulationSkillSourceIdentity(row.origin, row.skillKey)
       === simulationSkillSourceIdentity(source.origin, source.skillKey)) : undefined;
-    const roots = [...new Set([...naturalRuleKeys(snapshot, complete, side), ...(plan ? plannedSkillRuleKeys(complete, plan.phaseKinds) : [])])];
+    const roots = [...new Set([...naturalRuleKeys(snapshot, complete, side, source), ...(plan ? plannedSkillRuleKeys(complete, plan.phaseKinds) : [])])];
     if (!roots.length || source.inactiveReason === 'ACTIVE_DEFERRED' || source.inactiveReason === 'NO_AUTONOMOUS_ATTACK') continue;
     const configuration = selectSimulationSkillSourceClosure(complete, roots).configuration;
     const add = (binding: import('../types/skillTriggerRule').SkillTriggerSceneInitialParameterBinding, location: Binding, path: string,

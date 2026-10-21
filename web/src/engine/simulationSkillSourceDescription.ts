@@ -8,6 +8,7 @@ import { isOwnCooldownMaintenanceAction } from './basicAttackCooldownReduction';
 import { isOwnProviderDurationMaintenanceAction } from './providerDurationAdapter';
 import type { PermanentNumericConsumer } from './simulationPermanentResults';
 import { calculationConfiguration } from './simulationCalculationRules';
+import { finiteTargetCounterContract, isFiniteTargetCounterPostHitRule } from './finiteTargetCounterContract';
 
 export type SimulationSourceSide = 'source' | 'target';
 type Side = SimulationSourceSide;
@@ -45,7 +46,8 @@ export function plannedSkillRuleKeys(configuration: SkillConfiguration, phases: 
     return rule.actions.length && (event.eventType === 'SKILL_USED' && event.detail.castPhase !== null && phases.includes(event.detail.castPhase)
       && event.detail.sourceSkillKey === configuration.skill.skillKey
       || event.eventType === 'PROCESS_CANCEL_REQUESTED' && phases.includes('CANCEL') && processes.has(event.detail.processKey)
-      || event.eventType === 'SKILL_HIT' && event.detail.sourceSkillKey === configuration.skill.skillKey);
+      || event.eventType === 'SKILL_HIT' && event.detail.sourceSkillKey === configuration.skill.skillKey
+        && !isFiniteTargetCounterPostHitRule(configuration, rule));
   }).map(rule => rule.ruleKey).sort();
 }
 
@@ -111,7 +113,13 @@ function activeReachableRoots(snapshot: SimulationSnapshot) {
   return roots;
 }
 
-export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: SkillConfiguration, side: Side) {
+export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: SkillConfiguration, side: Side, actualSource?: SimulationSkillSource) {
+  const finiteCounter = finiteTargetCounterContract(configuration);
+  if (finiteCounter) {
+    const matches = actualSource ? [actualSource] : snapshot[side].skillSources.filter(source => source.skillKey === configuration.skill.skillKey);
+    if (matches.length > 1) fail(`${side}.skillSources.${configuration.skill.skillKey}`, '有限目标窗口必须按当前真实来源分别核对计划');
+    if (!matches[0] || !sourceIsPlanned(snapshot, side, matches[0])) return [];
+  }
   if (snapshot.selection.basicAttackSkillKey === null) {
     const reachable = activeReachableRoots(snapshot);
     const keys = new Set(snapshot[side].skillSources.filter(source => source.skillKey === configuration.skill.skillKey)
@@ -142,7 +150,7 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
     if (event.eventType === 'BASIC_ATTACK_RECEIVED') return side === 'target' && snapshot.selection.basicAttackSkillKey !== null;
     if (event.eventType === 'SKILL_USED' || event.eventType === 'SKILL_HIT') {
       if (snapshot.selection.plannedSkills.some(plan => plan.skillKey === configuration.skill.skillKey)
-        && event.detail.sourceSkillKey === configuration.skill.skillKey) return false;
+        && event.detail.sourceSkillKey === configuration.skill.skillKey && !isFiniteTargetCounterPostHitRule(configuration, rule)) return false;
       return side === 'source' && (event.detail.sourceSkillKey === null || event.detail.sourceSkillKey === snapshot.selection.basicAttackSkillKey
         || snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey))
         && (event.eventType !== 'SKILL_USED' || event.detail.castPhase === 'INITIAL' || event.detail.castPhase !== null
@@ -238,7 +246,7 @@ export function validateSimulationSkillSourceManifest(snapshot: SimulationSnapsh
           && source.skillKey === snapshot.selection.basicAttackSkillKey;
         const planned = sourceIsPlanned(snapshot, side, source);
         const plan = snapshot.selection.plannedSkills.find(plan => simulationSkillSourceIdentity(plan.origin, plan.skillKey) === identity);
-        const roots = [...naturalRuleKeys(snapshot, configuration, side), ...(planned && plan ? plannedSkillRuleKeys(configuration, plan.phaseKinds) : [])];
+        const roots = [...naturalRuleKeys(snapshot, configuration, side, source), ...(planned && plan ? plannedSkillRuleKeys(configuration, plan.phaseKinds) : [])];
         if (planned && (source.inactiveReason !== null || !roots.length)) fail(`${side}.skillSources.${source.skillKey}`, '计划来源必须具备真实已启用首次入口');
         if (source.inactiveReason === 'NO_AUTONOMOUS_ATTACK') {
           const undrivenPrimary = source.origin.kind === 'CHARACTER' && !selectedPrimary

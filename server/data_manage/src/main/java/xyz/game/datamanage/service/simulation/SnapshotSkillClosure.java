@@ -289,6 +289,7 @@ final class SnapshotSkillClosure {
     }
 
     private boolean natural(Source source, Aggregate rule) {
+        if (source.planned == null && FiniteTargetCounterSnapshotRules.complete(json.valueToTree(source.configuration))) return false;
         JsonNode event = rule.data().path("eventSource");
         String type = event.path("eventType").asText();
         JsonNode rootActions = rule.data().path("actions");

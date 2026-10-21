@@ -14,6 +14,7 @@ import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
 import { basicAttackPrimaryBinding, inspectPrimaryReplacements } from './primaryAttackReplacementContract';
 import { hasResourceMaxAuthorization, inspectResourceChangeContract } from './resourceChangeContract';
 import { inspectBasicAttackCooldownWake } from './basicAttackCooldownWakeResultFacts';
+import { finiteTargetCounterExpiryOrigin } from './finiteTargetCounterResultContract';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
@@ -26,7 +27,7 @@ export type ContinuousAttackAssessment = {
   attackRecords: AttackRecord[]; damageRecords: DamageRecord[]; mechanicRecords: MechanicRecord[]; recording: RecordingSummary;
 };
 type Row = Record<string, unknown>;
-type DamageContract = { kind: 'attack' | 'periodic' | 'reaction' | 'linked' | 'active'; required: boolean; allowed: boolean; origin: OperationOrigin;
+type DamageContract = { kind: 'attack' | 'periodic' | 'target_window' | 'reaction' | 'linked' | 'active'; required: boolean; allowed: boolean; origin: OperationOrigin;
   requiredContribution?: boolean;
   attackOnly?: boolean;
   tick?: { intervalMs: number; startDelayMs: number } };
@@ -339,7 +340,10 @@ export function assessContinuousAttackResult(
         && origin.abilityRef === plan.initialControlAbilityRef && ability?.processControl?.processKey === process.processKey
         && ability.processControl.action === 'INITIAL' && ability.processControl.useRefFromEvent === true
         && process.skillKey === plan.skillKey && moment.momentType === 'PROCESS_START' && moment.stepKey === null && moment.failureReason === null;
-      const contract = ability && path.startsWith(`${abilityPath}.`)
+      const contract = ability && definition && /^\.tickSpec\.onTick\[\d+\]$/.test(path.slice(abilityPath.length))
+        && path.startsWith(`${abilityPath}.`) && finiteTargetCounterExpiryOrigin(input, definition, ability, origin, operation)
+        ? { kind: 'target_window' as const, allowed: true, required: false, origin }
+        : ability && path.startsWith(`${abilityPath}.`)
         ? damageContract(ability, path.slice(abilityPath.length), origin, operation, plan.hitAbilityRef,
           mixed && input.rules.skillActionBindings?.some(binding => binding.hitBindings.some(hit => hit.hitAbilityRef === origin.abilityRef)) === true,
           attackContribution)
@@ -542,6 +546,9 @@ export function assessContinuousAttackResult(
     const path = `damageRecords[${index}]`; const row = object(value, path);
     const origin = identity(row, path); amounts(row, path);
     text(row.operationPath, `${path}.operationPath`);
+    const contract = damageContracts.get(row.operationPath as string);
+    const independentWindow = contract?.kind === 'target_window' && row.attackIndex === null && row.useRef === ''
+      && !row.instructionKey && !row.hitRef;
     check(typeof row.useRef === 'string', path, '使用身份必须是明确字符串');
     const damageId = integer(row.damageId, `${path}.damageId`);
     const attackIndex = mixed && row.attackIndex === null ? null : integer(row.attackIndex, `${path}.attackIndex`);
@@ -549,7 +556,7 @@ export function assessContinuousAttackResult(
     check(damageId > 0 && !damageIds.has(damageId) && integer(row.castInstanceId, `${path}.castInstanceId`) > 0, path, '伤害或施放身份缺失、重复');
     damageIds.add(damageId);
     check((attackIndex === null || attackIndex <= hitCount) && timeMs <= finalTime
-      && (attackIndex === null ? !!row.useRef : attackIndex > 0 ? !!row.useRef : row.useRef === '')
+      && (attackIndex === null ? independentWindow || !!row.useRef : attackIndex > 0 ? !!row.useRef : row.useRef === '')
       && !!origin?.compiledPaths.includes(row.operationPath as string), path, '伤害无法关联本刀或独立真实编译路径');
     const retainedAttack = attackIndex === null ? undefined : attacks[attackIndex - 1];
     const empowered = mixed ? empoweredDamageProcess(input, done, row as unknown as DamageRecord) : null;
@@ -568,9 +575,8 @@ export function assessContinuousAttackResult(
     path, '伤害来源生命受量减少或逐笔生命超过初始上限');
     for (const key of ['resistanceFactor', 'normalPartPostResistance', 'critPartPostResistance']) finite(row[key], `${path}.${key}`);
     const operation = compiledOperation(input, row.operationPath as string);
-    const contract = damageContracts.get(row.operationPath as string);
     check(operation?.operation === 'damage' && operation.ref === row.operationRef && operation.damageType === row.damageType
-      && !!contract && contract.origin === origin && contract.allowed && (contract.kind === 'periodic' ? attackIndex === 0
+      && !!contract && contract.origin === origin && contract.allowed && (contract.kind === 'target_window' ? independentWindow : contract.kind === 'periodic' ? attackIndex === 0
         : contract.kind === 'active' ? empowered ? attackIndex !== null && attackIndex > 0 : attackIndex === null : contract.kind === 'reaction' && !contract.attackOnly ? true
           : contract.kind === 'linked' && attackIndex === null ? mixed && !!row.instructionKey : attackIndex !== null && attackIndex > 0),
     path, '伤害节点、类型或独立周期与攻击关联不一致');
@@ -623,7 +629,9 @@ export function assessContinuousAttackResult(
     const target = row.target as 'source' | 'target';
     check(mixed || !!done.resourceChangeSummary || close(row.sourceHpBefore as number, hp[source]) && close(row.hpBefore, hp[target]),
       'damageRecords', '来源受量或对手扣血缺少连续可靠生命链');
-    check((row.attackIndex !== null || mixed && !!row.instructionKey) && row.timeMs >= time
+    const independentWindow = damageContracts.get(row.operationPath)?.kind === 'target_window' && row.attackIndex === null
+      && row.useRef === '' && !row.instructionKey && !row.hitRef;
+    check((row.attackIndex !== null || independentWindow || mixed && !!row.instructionKey) && row.timeMs >= time
       && (row.attackIndex === null || row.attackIndex === 0 || row.attackIndex >= attackIndex), 'damageRecords', '连续普攻伤害刀号或已提交顺序不一致');
     hp[target] = row.hpAfter; hp[source] = row.sourceHpAfter as number;
     vampHealing[source] += (row.sourceHpAfter as number) - (row.sourceHpBefore as number);
@@ -653,7 +661,10 @@ export function assessContinuousAttackResult(
         'summary.execution', '真实死亡以后仍推进观察时刻或启动攻击');
       check(damages.slice(firstDeathIndex + 1).every(row => row.timeMs === firstDeath.timeMs
         && (firstDeath.attackIndex !== null && firstDeath.attackIndex > 0 ? row.attackIndex === firstDeath.attackIndex
-          : row.attackIndex === null && firstDeath.attackIndex === null ? row.useRef === firstDeath.useRef
+          : row.attackIndex === null && firstDeath.attackIndex === null ? firstDeath.useRef !== '' ? row.useRef === firstDeath.useRef
+            : row.useRef === '' && row.castInstanceId === firstDeath.castInstanceId
+              && damageContracts.get(row.operationPath)?.kind === 'target_window'
+              && damageContracts.get(firstDeath.operationPath)?.kind === 'target_window'
             : row.attackIndex === 0 && row.castInstanceId === firstDeath.castInstanceId)),
       'damageRecords', '真实死亡以后出现新的攻击或独立周期，而非原同步提交尾部');
     }

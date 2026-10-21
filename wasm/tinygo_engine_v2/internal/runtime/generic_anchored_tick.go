@@ -95,7 +95,7 @@ func (s *genericRunState) enqueueAnchoredTickAt(atMs int64, payload anchoredTick
 	}
 	idx := len(s.anchoredTickPayloads)
 	s.anchoredTickPayloads = append(s.anchoredTickPayloads, payload)
-	s.pushCombatEvent(scheduler.GenericEvent{
+	ev := scheduler.GenericEvent{
 		TimeMs:           atMs,
 		Category:         scheduler.GenericCategoryAnchoredTick,
 		Kind:             scheduler.GenericEventAnchoredTick,
@@ -104,7 +104,98 @@ func (s *genericRunState) enqueueAnchoredTickAt(atMs int64, payload anchoredTick
 			CombatantKey: payload.ownerKey,
 			ProviderRef:  payload.providerRef,
 		},
-	})
+	}
+	if !s.pushCombatEvent(ev) {
+		return
+	}
+	if atMs == payload.expectedExpireAt {
+		if s.anchoredTerminalAt == nil {
+			s.anchoredTerminalAt = make(map[int64]int)
+		}
+		s.anchoredTerminalAt[atMs]++
+		// Other callbacks at this exact boundary may resolve this provider's
+		// modifiers before its own terminal runs. Only an actual, still-bound
+		// queued terminal grants the existing per-bag inclusive hold.
+		if s.currentAnchoredTerminal(ev) {
+			owner := s.combatants[payload.ownerKey]
+			bag := writableProviderStateBag(owner.writableProviderStates(), payload.providerRef, false)
+			bag.setInclusiveAtExpiryHold(payload.targetKey, payload.anchorStateKey)
+			s.combatants[payload.ownerKey] = owner
+		}
+	}
+}
+
+// selectAnchoredTerminalBeforeProcessTimer changes only the next selected event,
+// never the heap's category order. Held events retain their original nonzero Seq
+// and Priority on reinsert, so all process timers and nonterminal ticks preserve
+// their existing order. The selected terminal leaves the heap exactly once and
+// is accounted/executed by the normal run loop, including errors and deaths.
+func (s *genericRunState) selectAnchoredTerminalBeforeProcessTimer(timer scheduler.GenericEvent) (scheduler.GenericEvent, *model.EngineError) {
+	if s.anchoredTerminalAt[timer.TimeMs] == 0 {
+		return timer, nil
+	}
+	held := []scheduler.GenericEvent{timer}
+	selected := timer
+	found := false
+	for {
+		at, ok := s.heap.PeekTime()
+		if !ok || at != timer.TimeMs {
+			break
+		}
+		ev, _ := s.heap.Pop()
+		if s.currentAnchoredTerminal(ev) {
+			selected, found = ev, true
+			break
+		}
+		held = append(held, ev)
+		if ev.Category > scheduler.GenericCategoryAnchoredTick {
+			break
+		}
+	}
+	if !found {
+		held = held[1:]
+		// All terminal entries at this time are already stale. A subsequent
+		// positive-duration write cannot create a new terminal at this time.
+		delete(s.anchoredTerminalAt, timer.TimeMs)
+	}
+	for _, ev := range held {
+		// No execution happens during lookahead, and exactly one event remains
+		// selected, so reinsertion cannot use more than the original capacity.
+		if s.heap.Push(ev) != model.ErrOK {
+			return timer, engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "anchored terminal selection could not restore heap", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+		}
+	}
+	return selected, nil
+}
+
+func (s *genericRunState) currentAnchoredTerminal(ev scheduler.GenericEvent) bool {
+	if ev.Kind != scheduler.GenericEventAnchoredTick || ev.DriverEntryIndex < 0 || ev.DriverEntryIndex >= len(s.anchoredTickPayloads) {
+		return false
+	}
+	payload := s.anchoredTickPayloads[ev.DriverEntryIndex]
+	if ev.TimeMs != payload.expectedExpireAt || payload.expectedExpireAt <= 0 || payload.ownerKey == "" || payload.providerRef == "" || payload.targetKey == "" || payload.anchorStateKey == "" {
+		return false
+	}
+	owner, ok := s.combatants[payload.ownerKey]
+	if !ok {
+		return false
+	}
+	inst, _, ok := status.FindByRef(owner.providers, payload.providerRef)
+	if !ok {
+		return false
+	}
+	if _, ok := s.findAnchoredTickAbility(inst.DefinitionIndex, payload.anchorStateKey); !ok {
+		return false
+	}
+	bag := owner.providerState[payload.providerRef]
+	if bag == nil || bag.targetKey != payload.targetKey || bag.currentAnchoredTickGeneration(payload.anchorStateKey) != payload.generation || bag.targetExpireAt[payload.anchorStateKey] != payload.expectedExpireAt {
+		return false
+	}
+	source := inst.Source
+	if source == "" {
+		source = payload.ownerKey
+	}
+	return payload.sourceKey == "" || payload.sourceKey == source
 }
 
 func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.EngineError {
@@ -112,6 +203,13 @@ func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.E
 		return nil
 	}
 	payload := s.anchoredTickPayloads[ev.DriverEntryIndex]
+	if ev.TimeMs == payload.expectedExpireAt {
+		if remaining := s.anchoredTerminalAt[ev.TimeMs]; remaining > 1 {
+			s.anchoredTerminalAt[ev.TimeMs] = remaining - 1
+		} else {
+			delete(s.anchoredTerminalAt, ev.TimeMs)
+		}
+	}
 	if payload.ownerKey == "" || payload.providerRef == "" || payload.targetKey == "" || payload.anchorStateKey == "" {
 		return nil
 	}
@@ -155,13 +253,14 @@ func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.E
 	}
 
 	holdInclusive := s.nowMs == payload.expectedExpireAt
+	terminalSettled := false
 	if holdInclusive {
 		bag.setInclusiveAtExpiryHold(payload.targetKey, payload.anchorStateKey)
 		owner.providerState[payload.providerRef] = bag
 		s.combatants[payload.ownerKey] = owner
 		defer func() {
 			if c, ok := s.combatants[payload.ownerKey]; ok {
-				if b := writableProviderStateBag(c.writableProviderStates(), payload.providerRef, false); b != nil {
+				if b := writableProviderStateBag(c.writableProviderStates(), payload.providerRef, false); b != nil && terminalSettled && b.targetKey == payload.targetKey && b.currentAnchoredTickGeneration(payload.anchorStateKey) == payload.generation {
 					b.clearInclusiveAtExpiryHold()
 					c.providerState[payload.providerRef] = b
 					s.combatants[payload.ownerKey] = c
@@ -178,17 +277,16 @@ func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.E
 	}
 	ops := s.compiled.Operations[start:end]
 	abilityRef := fmt.Sprintf("%s.provider[%s].ability[%s]", payload.ownerKey, inst.ProviderRef, tickAbility.AbilityKey)
-	if _, blocked := s.cooldownGate(payload.ownerKey, abilityRef); blocked {
-		return nil
-	}
-	if tickAbility.HasCastCondition {
-		blocked, err := s.castConditionBlocked(sourceKey, payload.targetKey, *tickAbility, abilityRef)
+	_, blocked := s.cooldownGate(payload.ownerKey, abilityRef)
+	if !blocked && tickAbility.HasCastCondition {
+		var err *model.EngineError
+		blocked, err = s.castConditionBlocked(sourceKey, payload.targetKey, *tickAbility, abilityRef)
 		if err != nil {
 			return err
 		}
-		if blocked {
-			return nil
-		}
+	}
+	if blocked && !holdInclusive {
+		return nil
 	}
 
 	var frameStorage executionFrame
@@ -198,18 +296,29 @@ func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.E
 	frame.ownerProviderRef = payload.providerRef
 	frame.castInstanceID = s.mintCastInstanceID()
 	frame.castOrigin = tickAbility.CastOrigin
-	if err := frame.stageLifecycleCostCooldown(*tickAbility, payload.ownerKey); err != nil {
-		return err
+	if !blocked {
+		if err := frame.stageLifecycleCostCooldown(*tickAbility, payload.ownerKey); err != nil {
+			return err
+		}
+		if err := frame.executeOperations(*tickAbility, ops); err != nil {
+			return err
+		}
 	}
-	if err := frame.executeOperations(*tickAbility, ops); err != nil {
-		return err
+	if holdInclusive {
+		if err := frame.stageAnchoredTerminalExpiry(payload); err != nil {
+			return err
+		}
 	}
 	frame.commit()
 	if frame.fatal {
 		return frame.fatalErr
 	}
+	terminalSettled = true
 	if err := frame.dispatchPendingEvents(); err != nil {
 		return err
+	}
+	if blocked {
+		return nil
 	}
 
 	s.recordEvidenceLazy(model.EvidenceKindProviderTick, func() model.EvidenceItem {
@@ -230,5 +339,30 @@ func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.E
 		}
 	})
 	// Intentionally do not reschedule: cadence is fully planned at qualifying write time.
+	return nil
+}
+
+// Stage the standard one-field target expiration in the callback's transaction.
+// This preserves its expiry evidence and attribute invalidation while preventing
+// an intervening process timer from seeing the completed window. A callback that
+// cleared or refreshed the state owns its newer value; a failed frame publishes
+// neither callback effects nor this cleanup.
+func (f *executionFrame) stageAnchoredTerminalExpiry(payload anchoredTickPayload) *model.EngineError {
+	staged := f.stageFor(payload.ownerKey)
+	bag := writableProviderStateBag(staged.writableProviderStates(), payload.providerRef, false)
+	if bag == nil || bag.targetKey != payload.targetKey || bag.currentAnchoredTickGeneration(payload.anchorStateKey) != payload.generation || bag.targetExpireAt[payload.anchorStateKey] != payload.expectedExpireAt {
+		return nil
+	}
+	if err := f.consumeCommands(1); err != nil {
+		return err
+	}
+	bag.clearInclusiveAtExpiryHold()
+	bag.writableTargetValues()[payload.anchorStateKey] = bag.fieldDefs[payload.anchorStateKey].defaultValue
+	bag.writableTargetExpireAt()[payload.anchorStateKey] = 0
+	f.reResolveStagedAttributesTwoPass(planbundle.CompiledAbility{})
+	f.recordEvidenceLazy("provider_target_state_expired", func() model.EvidenceItem {
+		return model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "provider_target_state_expired", Ref: payload.providerRef,
+			Data: map[string]interface{}{"owner": payload.ownerKey, "target": payload.targetKey, "stateKey": payload.anchorStateKey, "expectedExpireAt": payload.expectedExpireAt}}
+	})
 	return nil
 }

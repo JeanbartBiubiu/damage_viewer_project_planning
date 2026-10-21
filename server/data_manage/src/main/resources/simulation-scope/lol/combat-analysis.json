@@ -27,7 +27,8 @@
               "skillThirdStageCurrentReadback",
               "heroSourceInventory",
               "priorityGarenPW20261018",
-              "garenPassiveOneWayScope20261018"
+              "garenPassiveOneWayScope20261018",
+              "excelConfirmedScope20261021"
             ],
             "candidateSha256": null
           }
@@ -122,7 +123,8 @@
             "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：纯经济收益，不属于本批战斗数值范围。",
             "evidenceRefs": [
               "skillFirstStageCurrentReadback",
-              "heroSourceInventory"
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
             ],
             "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023"
           }
@@ -164,7 +166,8 @@
               "skillFirstStageCurrentReadback",
               "heroSourceInventory",
               "remainingUltimateCategoryBackfill",
-              "twistedFateNumericalScope20261019"
+              "twistedFateNumericalScope20261019",
+              "excelConfirmedScope20261021"
             ],
             "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023"
           }
@@ -203,7 +206,8 @@
               "skillThirdStageCurrentReadback",
               "heroSourceInventory",
               "threeHeroCastProcessEntryBackfillFifth",
-              "nasusNumericalScope20261019"
+              "nasusNumericalScope20261019",
+              "excelConfirmedScope20261021"
             ],
             "candidateSha256": null
           }
@@ -269,64 +273,6 @@
       ]
     },
     {
-      "key": "champion_soraka",
-      "name": "索拉卡",
-      "batchOrder": 1,
-      "sourceChampionId": "Soraka",
-      "scopeBoundary": null,
-      "expectedSkills": [
-        {
-          "slot": "P",
-          "key": "soraka_p",
-          "name": "索拉卡·拯救",
-          "excluded": true,
-          "exclusion": {
-            "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：明确依赖另一名友方英雄，本轮1v1不录自益效果。",
-            "evidenceRefs": [
-              "skillFirstStageCurrentReadback",
-              "heroSourceInventory"
-            ],
-            "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e"
-          }
-        },
-        {
-          "slot": "Q",
-          "key": "soraka_q",
-          "name": "索拉卡·流星坠落",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "W",
-          "key": "soraka_w",
-          "name": "索拉卡·星之灌注",
-          "excluded": true,
-          "exclusion": {
-            "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：W正文明确another ally，本轮没有友方目标，不录外部治疗结果。",
-            "evidenceRefs": [
-              "skillFirstStageCurrentReadback",
-              "heroSourceInventory"
-            ],
-            "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e"
-          }
-        },
-        {
-          "slot": "E",
-          "key": "soraka_e",
-          "name": "索拉卡·星体结界",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "R",
-          "key": "soraka_r",
-          "name": "索拉卡·祈愿",
-          "excluded": false,
-          "exclusion": null
-        }
-      ]
-    },
-    {
       "key": "champion_tristana",
       "name": "崔丝塔娜",
       "batchOrder": 1,
@@ -351,8 +297,20 @@
           "slot": "W",
           "key": "tristana_w",
           "name": "崔丝塔娜·火箭跳跃",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!D8明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillThirdStageCurrentReadback",
+              "heroSourceInventory",
+              "tristanaWOwnKillResetBackfill",
+              "tristanaWExplicitComponentsReturn",
+              "takedownEventReturn",
+              "castOptionalFieldDescriptionReturn",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": null
+          }
         },
         {
           "slot": "E",
@@ -439,8 +397,17 @@
           "slot": "W",
           "key": "lux_w",
           "name": "拉克丝·曲光屏障",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!D10明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillThirdStageCurrentReadback",
+              "heroSourceInventory",
+              "threeHeroCastProcessEntryBackfillFifth",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": null
+          }
         },
         {
           "slot": "E",
@@ -666,8 +633,20 @@
           "slot": "E",
           "key": "morgana_e",
           "name": "莫甘娜·黑暗之盾",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!E15明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory",
+              "morganaExplicitSelfShieldBackfill",
+              "descriptionCorrectionsFirst",
+              "fiveSelfSkillCostCooldownBackfill",
+              "fourSkillCostDescriptionCorrections",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc"
+          }
         },
         {
           "slot": "R",
@@ -694,7 +673,8 @@
             "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：自主完整变形范围跳过。；主负责人确认未消费，不录候选参数。",
             "evidenceRefs": [
               "skillFirstStageCurrentReadback",
-              "heroSourceInventory"
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
             ],
             "candidateSha256": "0b029b59ead40cd28f3757265fdd7d557f00d347159f02b22d7753f264d7f91c"
           }
@@ -745,7 +725,8 @@
             "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：ice_servant_slow_ratio：独立冰奴减速专用值属于范围外；仅留原始DataValues证据。；ice_servant_explosion_delay_ms：独立冰奴爆炸等待专用值属于范围外；仅留原始DataValues证据。；ice_servant_base_damage：独立冰奴爆炸基础伤害和等级曲线属于范围外；未知等级算法不展开。",
             "evidenceRefs": [
               "skillSecondStageCurrentReadback",
-              "heroSourceInventory"
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
             ],
             "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc"
           }
@@ -949,7 +930,8 @@
             "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：纯地图视野与侦查、鹰单位、5秒视野、两充能和充能时间整槽排除；本轮无待接新增组成。",
             "evidenceRefs": [
               "skillFirstStageCurrentReadback",
-              "heroSourceInventory"
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
             ],
             "candidateSha256": "0ce76bd47383a74900ed3c2b6e3a7a070c3608c741c30016595ecad0b56b5dba"
           }
@@ -1083,8 +1065,16 @@
           "slot": "E",
           "key": "talon_e",
           "name": "泰隆·刺客之道",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!E24明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e"
+          }
         },
         {
           "slot": "R",
@@ -1150,15 +1140,32 @@
           "slot": "P",
           "key": "sett_p",
           "name": "瑟提·沙场豪情",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!B26明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillThirdStageCurrentReadback",
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": null
+          }
         },
         {
           "slot": "Q",
           "key": "sett_q",
           "name": "瑟提·屈人之威",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!C26明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillThirdStageCurrentReadback",
+              "heroSourceInventory",
+              "settCooldownOnlyReturn",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": null
+          }
         },
         {
           "slot": "W",
@@ -1171,15 +1178,34 @@
           "slot": "E",
           "key": "sett_e",
           "name": "瑟提·强手裂颅",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!E26明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillThirdStageCurrentReadback",
+              "heroSourceInventory",
+              "settCooldownOnlyReturn",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": null
+          }
         },
         {
           "slot": "R",
           "key": "sett_r",
           "name": "瑟提·叹为观止",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!F26明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillThirdStageCurrentReadback",
+              "heroSourceInventory",
+              "settCooldownOnlyReturn",
+              "sevenUltimateCategoryBackfill",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": null
+          }
         }
       ]
     },
@@ -1252,8 +1278,16 @@
           "slot": "W",
           "key": "akali_w",
           "name": "阿卡丽·我流奥义！霞阵",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!D28明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0"
+          }
         },
         {
           "slot": "E",
@@ -1414,8 +1448,16 @@
           "slot": "P",
           "key": "kogmaw_p",
           "name": "克格莫·来自艾卡西亚的惊喜",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!B32明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae"
+          }
         },
         {
           "slot": "Q",
@@ -1479,8 +1521,16 @@
           "slot": "E",
           "key": "missfortune_e",
           "name": "厄运小姐·枪林弹雨",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!E33明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillThirdStageCurrentReadback",
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": null
+          }
         },
         {
           "slot": "R",
@@ -1530,226 +1580,6 @@
           "slot": "R",
           "key": "sivir_r",
           "name": "希维尔·狩猎",
-          "excluded": false,
-          "exclusion": null
-        }
-      ]
-    },
-    {
-      "key": "champion_sona",
-      "name": "娑娜",
-      "batchOrder": 4,
-      "sourceChampionId": "Sona",
-      "scopeBoundary": null,
-      "expectedSkills": [
-        {
-          "slot": "P",
-          "key": "sona_p",
-          "name": "娑娜·能量和弦",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "Q",
-          "key": "sona_q",
-          "name": "娑娜·英勇赞美诗",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "W",
-          "key": "sona_w",
-          "name": "娑娜·坚毅咏叹调",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "E",
-          "key": "sona_e",
-          "name": "娑娜·迅捷奏鸣曲",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "R",
-          "key": "sona_r",
-          "name": "娑娜·狂舞终乐章",
-          "excluded": false,
-          "exclusion": null
-        }
-      ]
-    },
-    {
-      "key": "champion_zilean",
-      "name": "基兰",
-      "batchOrder": 4,
-      "sourceChampionId": "Zilean",
-      "scopeBoundary": null,
-      "expectedSkills": [
-        {
-          "slot": "P",
-          "key": "zilean_p",
-          "name": "基兰·瓶中时光",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "Q",
-          "key": "zilean_q",
-          "name": "基兰·定时炸弹",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "W",
-          "key": "zilean_w",
-          "name": "基兰·穿梭未来",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "E",
-          "key": "zilean_e",
-          "name": "基兰·时光发条",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "R",
-          "key": "zilean_r",
-          "name": "基兰·时光倒流",
-          "excluded": false,
-          "exclusion": null
-        }
-      ]
-    },
-    {
-      "key": "champion_lulu",
-      "name": "璐璐",
-      "batchOrder": 4,
-      "sourceChampionId": "Lulu",
-      "scopeBoundary": null,
-      "expectedSkills": [
-        {
-          "slot": "P",
-          "key": "lulu_p",
-          "name": "璐璐·皮克斯，仙灵伙伴",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "Q",
-          "key": "lulu_q",
-          "name": "璐璐·闪耀长枪",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "W",
-          "key": "lulu_w",
-          "name": "璐璐·奇思妙想",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "E",
-          "key": "lulu_e",
-          "name": "璐璐·帮忙，皮克斯！",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "R",
-          "key": "lulu_r",
-          "name": "璐璐·狂野生长",
-          "excluded": false,
-          "exclusion": null
-        }
-      ]
-    },
-    {
-      "key": "champion_janna",
-      "name": "迦娜",
-      "batchOrder": 4,
-      "sourceChampionId": "Janna",
-      "scopeBoundary": null,
-      "expectedSkills": [
-        {
-          "slot": "P",
-          "key": "janna_p",
-          "name": "迦娜·顺风而行",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "Q",
-          "key": "janna_q",
-          "name": "迦娜·飓风呼啸",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "W",
-          "key": "janna_w",
-          "name": "迦娜·和风守护",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "E",
-          "key": "janna_e",
-          "name": "迦娜·风暴之眼",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "R",
-          "key": "janna_r",
-          "name": "迦娜·复苏季风",
-          "excluded": false,
-          "exclusion": null
-        }
-      ]
-    },
-    {
-      "key": "champion_seraphine",
-      "name": "萨勒芬妮",
-      "batchOrder": 4,
-      "sourceChampionId": "Seraphine",
-      "scopeBoundary": null,
-      "expectedSkills": [
-        {
-          "slot": "P",
-          "key": "seraphine_p",
-          "name": "萨勒芬妮·星光漫射",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "Q",
-          "key": "seraphine_q",
-          "name": "萨勒芬妮·清籁穿云",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "W",
-          "key": "seraphine_w",
-          "name": "萨勒芬妮·聚和心声",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "E",
-          "key": "seraphine_e",
-          "name": "萨勒芬妮·增幅节拍",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "R",
-          "key": "seraphine_r",
-          "name": "萨勒芬妮·炫音返场",
           "excluded": false,
           "exclusion": null
         }
@@ -1905,22 +1735,46 @@
           "slot": "Q",
           "key": "pyke_q",
           "name": "派克·透骨尖钉",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!C43明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023"
+          }
         },
         {
           "slot": "W",
           "key": "pyke_w",
           "name": "派克·幽潭潜行",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!D43明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023"
+          }
         },
         {
           "slot": "E",
           "key": "pyke_e",
           "name": "派克·魅影浪洄",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!E43明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023"
+          }
         },
         {
           "slot": "R",
@@ -1956,8 +1810,16 @@
           "slot": "W",
           "key": "malzahar_w",
           "name": "玛尔扎哈·虚空虫群",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!D44明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillSecondStageCurrentReadback",
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc"
+          }
         },
         {
           "slot": "E",
@@ -1970,50 +1832,6 @@
           "slot": "R",
           "key": "malzahar_r",
           "name": "玛尔扎哈·冥府之握",
-          "excluded": false,
-          "exclusion": null
-        }
-      ]
-    },
-    {
-      "key": "champion_teemo",
-      "name": "提莫",
-      "batchOrder": 5,
-      "sourceChampionId": "Teemo",
-      "scopeBoundary": "独立陷阱及视野执行沿原边界，不为补致盲扩大场景模拟。",
-      "expectedSkills": [
-        {
-          "slot": "P",
-          "key": "teemo_p",
-          "name": "提莫·游击队军备",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "Q",
-          "key": "teemo_q",
-          "name": "提莫·致盲吹箭",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "W",
-          "key": "teemo_w",
-          "name": "提莫·小莫快跑",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "E",
-          "key": "teemo_e",
-          "name": "提莫·毒性射击",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "R",
-          "key": "teemo_r",
-          "name": "提莫·种蘑菇",
           "excluded": false,
           "exclusion": null
         }
@@ -2139,57 +1957,21 @@
           "slot": "E",
           "key": "jhin_e",
           "name": "烬·万众倾倒",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!E48明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillThirdStageCurrentReadback",
+              "heroSourceInventory",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": null
+          }
         },
         {
           "slot": "R",
           "key": "jhin_r",
           "name": "烬·完美谢幕",
-          "excluded": false,
-          "exclusion": null
-        }
-      ]
-    },
-    {
-      "key": "champion_braum",
-      "name": "布隆",
-      "batchOrder": 5,
-      "sourceChampionId": "Braum",
-      "scopeBoundary": "先表达防护方向与结果资格，实际弹道拦截执行不加入本轮宿主开发。",
-      "expectedSkills": [
-        {
-          "slot": "P",
-          "key": "braum_p",
-          "name": "布隆·震荡猛击",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "Q",
-          "key": "braum_q",
-          "name": "布隆·寒冬之咬",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "W",
-          "key": "braum_w",
-          "name": "布隆·挺身而出",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "E",
-          "key": "braum_e",
-          "name": "布隆·坚不可摧",
-          "excluded": false,
-          "exclusion": null
-        },
-        {
-          "slot": "R",
-          "key": "braum_r",
-          "name": "布隆·冰川裂隙",
           "excluded": false,
           "exclusion": null
         }
@@ -2227,8 +2009,17 @@
           "slot": "E",
           "key": "trundle_e",
           "name": "特朗德尔·寒冰之柱",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户在Excel 英雄技能批注!E50明确约定本轮跳过整槽；原资料、已有配置与运行证据保留，本轮不进入补齐与完整计算队列。",
+            "evidenceRefs": [
+              "skillFirstStageCurrentReadback",
+              "heroSourceInventory",
+              "sixHeroCastProcessEntryBackfillFourth",
+              "excelConfirmedScope20261021"
+            ],
+            "candidateSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e"
+          }
         },
         {
           "slot": "R",

@@ -82,9 +82,12 @@ type providerStateBag struct {
 	targetExpireAt            map[string]int64
 	// anchoredTickGeneration 按 anchorStateKey 记录当前调度世代；target 切换时清空。
 	anchoredTickGeneration map[string]uint64
-	// inclusiveAtExpiry*：仅在锚定 tick 帧内、now==expireAt 时抑制该 key 的惰性过期。
+	// 已有真实终点事件入堆时，仅在now==expireAt抑制该锚字段的惰性过期；
+	// 终点成功帧原子清理旧字段及hold，避免同刻其他终点先吞掉待结算状态。
 	inclusiveAtExpiryKey    string
 	inclusiveAtExpiryTarget string
+	inclusiveAtExpiryAt     int64
+	inclusiveAtExpiryGen    uint64
 }
 
 func (b *providerStateBag) ensure() {
@@ -766,7 +769,8 @@ func (b *providerStateBag) lazyExpireProviderState(nowMs int64) {
 
 // lazyExpireProviderTargetState resets expired provider_target keys to defaultValue.
 // Global semantics remain nowMs >= expireAt. A bag-local inclusive-at-expiry hold may
-// suppress exactly one owner/provider/target/anchor key while nowMs == expireAt.
+// suppress exactly one owner/provider/target/anchor key while nowMs == expireAt,
+// after its real terminal callback has been queued and until it settles.
 func (b *providerStateBag) lazyExpireProviderTargetState(nowMs int64) {
 	if b == nil || len(b.fieldDefs) == 0 {
 		return
@@ -800,7 +804,7 @@ func (b *providerStateBag) holdsInclusiveAtExpiry(key string, nowMs, exp int64) 
 	if b.inclusiveAtExpiryTarget == "" || b.targetKey != b.inclusiveAtExpiryTarget {
 		return false
 	}
-	return nowMs == exp
+	return nowMs == exp && b.inclusiveAtExpiryAt == exp && b.inclusiveAtExpiryGen == b.currentAnchoredTickGeneration(key)
 }
 
 func (b *providerStateBag) setInclusiveAtExpiryHold(targetKey, anchorKey string) {
@@ -810,6 +814,8 @@ func (b *providerStateBag) setInclusiveAtExpiryHold(targetKey, anchorKey string)
 	b.ensure()
 	b.inclusiveAtExpiryTarget = targetKey
 	b.inclusiveAtExpiryKey = anchorKey
+	b.inclusiveAtExpiryAt = b.targetExpireAt[anchorKey]
+	b.inclusiveAtExpiryGen = b.currentAnchoredTickGeneration(anchorKey)
 }
 
 func (b *providerStateBag) clearInclusiveAtExpiryHold() {
@@ -818,6 +824,8 @@ func (b *providerStateBag) clearInclusiveAtExpiryHold() {
 	}
 	b.inclusiveAtExpiryKey = ""
 	b.inclusiveAtExpiryTarget = ""
+	b.inclusiveAtExpiryAt = 0
+	b.inclusiveAtExpiryGen = 0
 }
 
 // bumpAnchoredTickGeneration advances the generation token for one anchor key.
@@ -939,6 +947,9 @@ func (b *providerStateBag) refreshTargetExpireAtOnWrite(key string, nowMs int64)
 		return 0, true
 	}
 	b.ensure()
+	if b.targetValues[key] == def.defaultValue && b.inclusiveAtExpiryKey == key && b.inclusiveAtExpiryTarget == b.targetKey {
+		b.clearInclusiveAtExpiryHold()
+	}
 	switch def.refreshPolicy {
 	case model.ProviderStateRefreshOnWrite:
 		if b.targetValues[key] == def.defaultValue {

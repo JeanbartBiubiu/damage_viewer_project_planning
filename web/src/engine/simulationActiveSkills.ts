@@ -8,6 +8,7 @@ import { adaptProcessProgram, type CastCostRef, type ProcessBasicAttackContext }
 import { adaptHitProgram } from './hitAdapter';
 import { cooldownDurationProviderKey } from './cooldownDurationEffectAdapter';
 import { NumericAdaptationError } from './numericAdapter';
+import { finiteTargetCounterContract } from './finiteTargetCounterContract';
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import { naturalRuleKeys, plannedSkillRuleKeys, sourceIsPlanned, validateSimulationSkillSourceManifest } from './simulationSkillSourceDescription';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
@@ -100,7 +101,7 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
       const source = sources[0]!;
       if (!source.enabled || source.skillStatus !== 'ENABLED' || source.skillLevel === 0) continue;
       if (!sourceIsPlanned(snapshot, 'source', source) && source.inactiveReason === 'ACTIVE_DEFERRED'
-        && source.enabledRuleKeys.length === 0 && naturalRuleKeys(snapshot, configuration, 'source').length === 0
+        && source.enabledRuleKeys.length === 0 && naturalRuleKeys(snapshot, configuration, 'source', source).length === 0
         && plannedSkillRuleKeys(configuration, ['INITIAL']).length > 0) continue;
       const matches = assemblies.filter(row => row.binding.skillKey === skillKey);
       const control = matches[0]?.binding.controls.filter(row => row.action === 'INITIAL');
@@ -203,7 +204,8 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     return identity(left) < identity(right) ? -1 : identity(left) > identity(right) ? 1 : 0;
   }).findIndex(row => row.origin.kind === 'CHARACTER' && row.origin.characterKey === plan.origin.characterKey && row.skillKey === plan.skillKey);
   if (sourceIndex < 0) fail('selection.plannedSkills.origin', '计划技能没有真实拥有者来源');
-  const providerRef = `source_natural_skill_${sourceIndex}`;
+  // 有限目标窗口的自然状态只保留一份；主动过程使用独立真实绑定，不能把tick塞进计划入口。
+  const providerRef = `source_natural_skill_${sourceIndex}${finiteTargetCounterContract(complete) ? '_active' : ''}`;
   const definitionRef = `${providerRef}_definition`;
   const sceneAttributeInputs = sceneAttributeParameterInputs(snapshot, configuration, process.processKey);
   const adapted = adaptProcessProgram({ gameId: snapshot.gameId, skillKey: plan.skillKey, skillLevel: plan.skillLevel,

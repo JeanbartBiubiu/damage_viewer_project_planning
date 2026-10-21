@@ -49,7 +49,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
       if (sourceIsPlanned(snapshot, side, source)) {
         trace.providerRef = `${side}_natural_skill_${sourceIndex}`;
         trace.definitionRef = `${trace.providerRef}_definition`;
-        const roots = naturalRuleKeys(snapshot, snapshot.skillConfigurations.find(row => row.skill.skillKey === source.skillKey)!, side);
+        const roots = naturalRuleKeys(snapshot, snapshot.skillConfigurations.find(row => row.skill.skillKey === source.skillKey)!, side, source);
         if (!roots.length) continue;
         source.enabledRuleKeys = roots;
       }

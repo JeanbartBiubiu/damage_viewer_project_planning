@@ -236,7 +236,7 @@ class SimulationAvailabilityServiceTest {
             assertEquals(expected, actual.excludedSkillSources());
             assertTrue(json.valueToTree(actual).path("excludedSkillSources").isArray());
         }
-        assertEquals(9, excludedCount);
+        assertEquals(24, excludedCount);
         Entry garen = result.characters().stream().filter(item -> item.key().equals("champion_garen")).findFirst().orElseThrow();
         assertEquals(List.of("garen_p"), garen.excludedSkillSources().stream().map(ExcludedSkillSource::skillKey).toList());
         Entry nasus = result.characters().stream().filter(item -> item.key().equals("champion_nasus")).findFirst().orElseThrow();

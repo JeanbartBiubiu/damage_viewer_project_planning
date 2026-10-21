@@ -28,9 +28,10 @@ import { assembleNaturalSkillSources, type SimulationSkillOriginTrace } from './
 import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive, primaryMechanicRequirements, validateMechanicStateInputs } from './simulationPrimaryAttack';
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
+import { bindFiniteTargetCounterSources } from './finiteTargetCounterBinding';
 import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
-export const SIMULATION_ADAPTER_VERSION = 'v26-owned-health-and-duration-maintenance';
+export const SIMULATION_ADAPTER_VERSION = 'v27-finite-target-counter-window';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -573,6 +574,7 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
     binding: base.basicAttackBinding, provider: base.provider,
     mount: { providerRef: MOUNT, definitionRef: base.provider.providerKey }
   } : undefined, sceneInputs);
+  bindFiniteTargetCounterSources(snapshot, base.natural.providers, active);
   bindBasicAttackCooldownReductions([
     ...(base.triggered.basicAttackCooldownReductions ?? []),
     ...(base.natural.triggered.basicAttackCooldownReductions ?? [])
