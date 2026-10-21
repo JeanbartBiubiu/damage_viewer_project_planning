@@ -31,7 +31,7 @@ describe('自动规则的真实首次闭包与独立运行装配', () => {
     expect(summary.runInputHash).not.toBe(detailed.runInputHash);
     await expect(automaticSkillRequest(prepared, snapshot, inputs)).rejects.toThrow(/hitPreset/);
   });
-  it.each(['disabled', 'unlearned', 'wrong_level', 'wrong_origin', 'complex_step', 'multiple_steps'] as const)('拒绝实际来源或过程失效：%s', async kind => {
+  it.each(['disabled', 'unlearned', 'wrong_level', 'wrong_origin', 'complex_step'] as const)('拒绝实际来源或过程失效：%s', async kind => {
     const { snapshot, prepared } = preparedActiveSample();
     const input = structuredClone(inputs);
     if (kind === 'disabled') snapshot.source.skillSources[1]!.enabled = false;
@@ -39,11 +39,18 @@ describe('自动规则的真实首次闭包与独立运行装配', () => {
     if (kind === 'wrong_level') input.rules[0]!.skillLevel = 2;
     if (kind === 'wrong_origin') input.rules[0]!.origin.characterKey = 'actor_b';
     if (kind === 'complex_step') prepared.compileRequest.sharedProviders!.find(provider => provider.processes?.some(process => process.processKey === 'cast'))!.processes![0]!.steps[0]!.stepType = 'MULTI_HIT';
-    if (kind === 'multiple_steps') {
-      const process = prepared.compileRequest.sharedProviders!.find(provider => provider.processes?.some(process => process.processKey === 'cast'))!.processes![0]!;
-      process.steps.push({ ...structuredClone(process.steps[0]!), stepKey: 'second_delay' });
-    }
     await expect(automaticSkillRequest(prepared, snapshot, input)).rejects.toThrow(/真实来源|绑定|过程/);
+  });
+  it('允许有限普通延时链，混入复杂步骤或重复步骤仍拒绝', async () => {
+    const { snapshot, prepared } = preparedActiveSample();
+    const process = prepared.compileRequest.sharedProviders!.find(provider => provider.processes?.some(process => process.processKey === 'cast'))!.processes![0]!;
+    process.steps.push({ ...structuredClone(process.steps[0]!), stepKey: 'second_delay' });
+    const request = await automaticSkillRequest(prepared, snapshot, inputs);
+    expect(request.runRequest.driverPlan.automaticSkills?.rules).toHaveLength(1);
+    process.steps[1]!.stepType = 'CHANNEL';
+    await expect(automaticSkillRequest(prepared, snapshot, inputs)).rejects.toThrow(/过程/);
+    process.steps[1] = { ...structuredClone(process.steps[0]!) };
+    await expect(automaticSkillRequest(prepared, snapshot, inputs)).rejects.toThrow(/过程/);
   });
   it('最多16项使用同一链算法，闭包按真实来源稳定排序，与用户优先级无关', () => {
     const chain = Array.from({ length: 16 }, (_, index) => ({ ...rules[0]!, ruleKey: `r_${index}`, skillKey: `skill_${index.toString().padStart(2, '0')}`,

@@ -22,13 +22,14 @@ const (
 )
 
 type skillUseRuntime struct {
-	ammoBefore   *ammoUseCapture
-	useKey       string
-	source       string
-	skillKey     string
-	historyState string
-	prior        []string
-	contacts     []string
+	providerStateBefore []attackProviderStateCapture
+	ammoBefore          *ammoUseCapture
+	useKey              string
+	source              string
+	skillKey            string
+	historyState        string
+	prior               []string
+	contacts            []string
 }
 
 type skillHitGroup struct {

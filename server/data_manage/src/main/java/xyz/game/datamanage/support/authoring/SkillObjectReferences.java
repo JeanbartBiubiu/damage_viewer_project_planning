@@ -368,7 +368,17 @@ public final class SkillObjectReferences {
             JsonNode detail = event.path("detail");
             String path = "eventSource.detail";
             switch (required(event, "eventType", "eventSource")) {
-                case "SKILL_USED", "SKILL_HIT", "HIT_LINK_APPLIED", "ATTACK_LINK_APPLIED" -> dictionary(detail, path, "sourceSkillKey", TargetType.SKILL);
+                case "SKILL_USED", "SKILL_HIT", "HIT_LINK_APPLIED", "ATTACK_LINK_APPLIED" -> {
+                    dictionary(detail, path, "sourceSkillKey", TargetType.SKILL);
+                    if (detail.has("processMoment")) {
+                        JsonNode phase = detail.path("processMoment");
+                        String phasePath = path + ".processMoment";
+                        local(phase, phasePath, "processKey", TargetType.PROCESS);
+                        String processKey = text(phase, "processKey");
+                        moment(phase.path("moment"), phasePath + ".moment", processKey);
+                        child(phase, phasePath, "requiresPriorStepKey", TargetType.STEP, processKey);
+                    }
+                }
                 case "PROCESS_MOMENT" -> {
                     local(detail, path, "processKey", TargetType.PROCESS);
                     moment(detail.path("moment"), path + ".moment", text(detail, "processKey"));

@@ -129,6 +129,9 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 	bad := func(field, message string) (*processRuntime, *model.EngineError) {
 		return nil, s.processErr(path+field, message, row.UseKey)
 	}
+	if row.SkillHitStages != nil {
+		return bad(".skillHitStages", "planned skill hit stages are output facts and cannot be restored")
+	}
 	if row.EmpoweredPredecessorUseRef != nil {
 		return bad(".empoweredPredecessorUseRef", "empowered predecessor provenance cannot be restored in this stage")
 	}
@@ -157,6 +160,11 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 	}
 	if def == nil || def.SkillKey != row.SkillKey || !s.processMounted(row.Owner, row.ProviderRef, providerIndex) {
 		return bad(".processKey", "process snapshot must match a real mounted definition and skill")
+	}
+	for _, binding := range s.compiled.SkillActionBindings {
+		if binding.Source == row.Owner && binding.ProviderRef == row.ProviderRef && binding.Controls[0].ProcessKey == row.ProcessKey && hasSimpleStepHits(def, binding) {
+			return bad(".skillHitStages", "explicit planned hit processes require a fresh runtime use")
+		}
 	}
 	if isEmpoweredProcess(def) {
 		return bad(".status", "empowered attack process snapshots cannot be restored in this stage")

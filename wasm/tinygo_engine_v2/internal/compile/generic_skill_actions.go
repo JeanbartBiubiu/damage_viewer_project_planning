@@ -67,7 +67,9 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 				}
 			}
 		}
+		hasDelay := false
 		for stepIndex, step := range process.Steps {
+			hasDelay = hasDelay || step.StepType == "DELAY"
 			if !step.HasActionOccupancy {
 				fail("every planned skill step requires an explicit occupiesAction boolean")
 				invalid = true
@@ -103,13 +105,24 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 			controls[selected.Action] = selectedRef.AbilityIndex
 		}
 		seenHits, seenMoments := map[string]bool{}, map[string]bool{}
+		hitSteps := map[string]int{}
+		hasExplicitSteps, hasImplicitCompletion := false, false
 		for _, hit := range binding.HitBindings {
 			parsedHit, validHit := plan.ParseAbilityRef(hit.HitAbilityRef)
 			hitRef, foundHit := ctx.session.AbilityRefIndex[hit.HitAbilityRef]
 			momentKey := hit.Moment.MomentType
 			validMoment := complexStep == "" && hit.Moment.MomentType == "PROCESS_COMPLETE" && hit.Moment.StepKey == nil
+			stepIndex := len(process.Steps) - 1
 			if hit.Moment.MomentType == "STEP_EXECUTION" && hit.Moment.StepKey != nil {
 				validMoment = complexStep != "" && *hit.Moment.StepKey == complexStep
+				if complexStep == "" {
+					for index, step := range process.Steps {
+						if step.StepKey == *hit.Moment.StepKey && (step.StepType == "IMMEDIATE" || step.StepType == "DELAY") {
+							stepIndex, validMoment = index, true
+							break
+						}
+					}
+				}
 				momentKey += "|" + *hit.Moment.StepKey
 			}
 			if !validHit || !foundHit || parsedHit.Combatant != binding.Source || parsedHit.ProviderRef != binding.ProviderRef || strings.TrimSpace(hit.HitBindingKey) == "" || seenHits[hit.HitBindingKey] || seenMoments[momentKey] || hit.ProcessKey != control.ProcessKey || !validMoment || hit.Moment.FailureReason != nil {
@@ -118,6 +131,9 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 				continue
 			}
 			seenHits[hit.HitBindingKey], seenMoments[momentKey] = true, true
+			hitSteps[hit.HitBindingKey] = stepIndex
+			hasExplicitSteps = hasExplicitSteps || hit.Moment.MomentType == "STEP_EXECUTION" && complexStep == ""
+			hasImplicitCompletion = hasImplicitCompletion || hit.Moment.MomentType == "PROCESS_COMPLETE"
 			hitAbility := ctx.session.Abilities[hitRef.AbilityIndex]
 			if hitRef.ProviderIndex != ref.ProviderIndex || !hitAbility.HasSkillHit || hitAbility.IsBasicAttack || hitAbility.SkillKey != binding.SkillKey || hitAbility.Kind != "active" || hitAbility.Cost != nil || hitAbility.Cooldown != nil || hitAbility.ProcessControl != nil {
 				fail("release must resolve the same skill with no independent cost or cooldown")
@@ -136,6 +152,25 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 				}
 			}
 		}
+		if hasExplicitSteps && hasImplicitCompletion {
+			fail("explicit step hits cannot mix with an implicit completion hit")
+			invalid = true
+		}
+		if hasExplicitSteps && len(process.Steps) > 1 && !hasDelay {
+			fail("explicit multi-step hits require at least one finite positive delay")
+			invalid = true
+		}
+		for _, hit := range binding.HitBindings {
+			if hit.RequiresPriorHitBindingKey == nil {
+				continue
+			}
+			priorStep, priorFound := hitSteps[*hit.RequiresPriorHitBindingKey]
+			currentStep, currentFound := hitSteps[hit.HitBindingKey]
+			if strings.TrimSpace(*hit.RequiresPriorHitBindingKey) == "" || !priorFound || !currentFound || priorStep >= currentStep {
+				fail("required prior hit must name a strictly earlier actual step in this same binding")
+				invalid = true
+			}
+		}
 		if !invalid {
 			compiled := plan.CompiledSkillActionBinding{SkillActionBinding: binding, Slot: uint16(len(ctx.session.SkillActionBindings)), InitialAbilityIndex: ref.AbilityIndex, ControlAbilityIndices: controls}
 			compiled.HasEmpoweredAttack, compiled.EmpoweredAbilityIndex = empowered, empoweredAbility
@@ -152,13 +187,18 @@ func automaticSkillAdmission(binding model.SkillActionBinding, process plan.Comp
 	if len(binding.Controls) != 1 || binding.Controls[0].Action != "INITIAL" {
 		return path + ".controls", "automatic skills admit only the initial control"
 	}
-	if len(process.Steps) != 1 {
-		return process.Path + ".steps", "automatic skills require one immediate, finite delay, channel or empowered step"
+	if len(process.Steps) < 1 || len(process.Steps) > 64 {
+		return process.Path + ".steps", "automatic skills require 1 to 64 finite steps"
 	}
+	hasDelay := false
 	for _, step := range process.Steps {
-		if step.StepType != "IMMEDIATE" && step.StepType != "DELAY" && step.StepType != "CHANNEL" && step.StepType != "EMPOWERED_BASIC_ATTACK" {
-			return step.Path + ".stepType", "automatic skills admit only immediate, finite delay, channel or empowered steps"
+		hasDelay = hasDelay || step.StepType == "DELAY"
+		if step.StepType != "IMMEDIATE" && step.StepType != "DELAY" && !(len(process.Steps) == 1 && (step.StepType == "CHANNEL" || step.StepType == "EMPOWERED_BASIC_ATTACK")) {
+			return step.Path + ".stepType", "automatic skills admit finite immediate or delay sequences, or one channel or empowered step"
 		}
+	}
+	if len(process.Steps) > 1 && !hasDelay {
+		return process.Path + ".steps", "automatic multi-step skills require at least one finite positive delay"
 	}
 	if process.Cooldown == nil || !process.Cooldown.HasDuration || int(process.Cooldown.DurationProgram) >= len(ctx.session.Formulas.Programs) {
 		return process.Path + ".cooldown", "automatic skills require an authored positive process cooldown"

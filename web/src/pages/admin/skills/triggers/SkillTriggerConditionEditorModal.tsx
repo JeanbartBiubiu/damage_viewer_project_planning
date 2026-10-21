@@ -651,7 +651,7 @@ export function SkillTriggerConditionEditorModal({
                   options={stateOptions}
                   onChange={(value) => {
                     const nextState = internalStates.find((item) => item.stateKey === value);
-                    const kinds = valueKindsForInternalState(nextState?.stateType ?? null, eventSource.eventType === 'SKILL_HIT');
+                    const kinds = valueKindsForInternalState(nextState?.stateType ?? null, nextState?.stateType === 'COUNTER' ? nextState.scope === 'SKILL' && nextState.skillKey === skillKey && ['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT'].includes(eventSource.eventType) : eventSource.eventType === 'SKILL_HIT');
                     const next = patchInternalStateCheckStateKey(
                       current,
                       String(value ?? ''),
@@ -668,7 +668,7 @@ export function SkillTriggerConditionEditorModal({
                   aria-label="内部状态取值方式"
                   value={current.detail.valueKind}
                   disabled={disabled}
-                  options={valueKindsForInternalState(selectedState?.stateType ?? null, eventSource.eventType === 'SKILL_HIT').map((value) => ({
+                  options={valueKindsForInternalState(selectedState?.stateType ?? null, selectedState?.stateType === 'COUNTER' ? selectedState.scope === 'SKILL' && selectedState.skillKey === skillKey && ['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT'].includes(eventSource.eventType) : eventSource.eventType === 'SKILL_HIT').map((value) => ({
                     value,
                     label: SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS[value]
                   }))}

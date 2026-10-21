@@ -300,6 +300,26 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
     }
 
     @Test
+    void naturalAttackStartAndHitReadTheOwnedSkillCounterSnapshot() {
+        for (var eventType : List.of(SkillTriggerEventType.BASIC_ATTACK_START, SkillTriggerEventType.BASIC_ATTACK_HIT)) {
+            var counter = attackStartAmmoCondition(SKILL_KEY, "stacks");
+            var saved = service.create(GAME_ID, SKILL_KEY, withGroupsOn("counter_" + eventType.name().toLowerCase(),
+                new SkillTriggerEventSource(eventType, new SkillTriggerEmptyEventDetail()), List.of(group("g", counter))));
+            assertEquals(counter, saved.conditionGroups().getFirst().conditions().getFirst());
+        }
+    }
+
+    @Test
+    void naturalAttackCounterSnapshotRejectsTargetScope() {
+        when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateLockRow("stacks", SkillInternalStateType.COUNTER, "TARGET")));
+        var error = thrown(() -> service.create(GAME_ID, SKILL_KEY, withGroupsOn("target_counter",
+            new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_START, new SkillTriggerEmptyEventDetail()),
+            List.of(group("g", attackStartAmmoCondition(SKILL_KEY, "stacks"))))));
+        assertField(error, "conditionGroups[0].conditions[0].detail.valueKind", "REFERENCE_TYPE_MISMATCH");
+    }
+
+    @Test
     void attackStartValueRejectsCounterAndOtherSkillState() {
         SkillTriggerEventSource hit = new SkillTriggerEventSource(SkillTriggerEventType.SKILL_HIT,
             new SkillTriggerSkillEventDetail(null, null));
@@ -316,7 +336,8 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
     @Test
     void attackStartValueRejectsEventsWithoutTheOriginalAmmoCapture() {
         ApiException ordinary = thrown(() -> service.create(GAME_ID, SKILL_KEY,
-            withGroups("ordinary", List.of(group("g", attackStartAmmoCondition(SKILL_KEY, "ammo"))))));
+            withGroupsOn("ordinary", new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_RECEIVED, new SkillTriggerEmptyEventDetail()),
+                List.of(group("g", attackStartAmmoCondition(SKILL_KEY, "ammo"))))));
         assertField(ordinary, "conditionGroups[0].conditions[0].detail.valueKind", "EVENT_VALUE_NOT_AVAILABLE");
         when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of(
             SkillTriggerRuleTestSupport.state("ammo", SkillInternalStateType.AMMO)));

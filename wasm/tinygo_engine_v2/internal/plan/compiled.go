@@ -17,6 +17,7 @@ type CompiledAbilityRef struct {
 
 // CompiledSession 是 generic compile 输出的只读 session 快照。
 type CompiledSession struct {
+	HasAttackStartStateReads  bool
 	HasStateOnExpire          bool
 	HasStagedLinkedShield     bool
 	HasModifierSnapshots      bool
@@ -178,6 +179,7 @@ type CompiledProviderStateField struct {
 
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
+	AttackStartStateKeys []string
 	HasStateOnExpire     bool
 	AtomicLinkedShield   bool
 	HasModifierSnapshots bool

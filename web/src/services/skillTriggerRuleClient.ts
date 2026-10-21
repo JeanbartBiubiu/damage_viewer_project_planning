@@ -168,6 +168,20 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
       if (detail.sourceSkillKey !== null && typeof detail.sourceSkillKey !== 'string') {
         protocolError(`${path}.detail.sourceSkillKey`);
       }
+      if (Object.keys(detail).some(key => !['sourceSkillKey', 'processMoment'].includes(key))) protocolError(`${path}.detail`);
+      if (Object.prototype.hasOwnProperty.call(detail, 'processMoment')) {
+        const phase = detail.processMoment;
+        if (typeof detail.sourceSkillKey !== 'string' || !TRIGGER_KEY_PATTERN.test(detail.sourceSkillKey)
+          || !isRecord(phase) || Object.keys(phase).length !== 3
+          || Object.keys(phase).some(key => !['processKey', 'moment', 'requiresPriorStepKey'].includes(key))
+          || typeof phase.processKey !== 'string' || !TRIGGER_KEY_PATTERN.test(phase.processKey)
+          || !isRecord(phase.moment) || Object.keys(phase.moment).length !== 2
+          || Object.keys(phase.moment).some(key => !['momentType', 'stepKey'].includes(key))
+          || phase.moment.momentType !== 'STEP_EXECUTION' || typeof phase.moment.stepKey !== 'string' || !TRIGGER_KEY_PATTERN.test(phase.moment.stepKey)
+          || phase.requiresPriorStepKey !== null && (typeof phase.requiresPriorStepKey !== 'string' || !TRIGGER_KEY_PATTERN.test(phase.requiresPriorStepKey))) {
+          protocolError(`${path}.detail.processMoment`);
+        }
+      }
       break;
     case 'HIT_LINK_APPLIED':
     case 'ATTACK_LINK_APPLIED':

@@ -12,6 +12,8 @@ import { AUTOMATIC_SKILL_RECORD_KINDS, AUTOMATIC_SKILL_WAIT_REASONS } from '../t
 import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 import { tryFoldConstant } from './numericAdapter';
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
+import { automaticProcessStepsAllowed } from './processSkillHitStages';
+import { inspectProcessSkillHitStages, processSkillHitTimes } from './processSkillHitStageFacts';
 
 export type AutomaticSkillAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
 type Row = Record<string, unknown>;
@@ -94,9 +96,8 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       if (matches.length !== 1 || !binding || !control || !ability || binding.source !== 'source' || binding.controls.length !== 1
         || ability.mount.providerRef !== binding.providerRef || ability.mount.definitionRef !== binding.providerDefinitionRef
         || ability.ability.skillKey !== binding.skillKey || ability.ability.processControl?.action !== 'INITIAL'
-        || ability.ability.processControl.processKey !== control.processKey || !process || process.steps.length !== 1
-        || process.steps.some(step => !['IMMEDIATE', 'DELAY', 'EMPOWERED_BASIC_ATTACK', 'CHANNEL'].includes(step.stepType))) {
-        throw new Error(`automaticSkills.rules.${rule.ruleKey}.bindingKey: 必须对应真实首次即时／有限延时／有限引导过程`);
+        || ability.ability.processControl.processKey !== control.processKey || !process || !automaticProcessStepsAllowed(process)) {
+        throw new Error(`automaticSkills.rules.${rule.ruleKey}.bindingKey: 必须对应真实首次有限普通步骤链或既有单步骤过程`);
       }
       const empowered = empoweredAttackBinding(compile, binding);
       if (empowered) {
@@ -186,6 +187,21 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       const context = ruleKey && contexts.get(ruleKey);
       if (!context) continue;
       if (!context.binding.hitBindings.length && process.status === 'complete') expectedReleases++;
+      const stages = inspectProcessSkillHitStages(context.binding, context.process, process, context.rule.hitBindings, duration);
+      if (stages) {
+        expectedReleases += stages.filter(stage => stage.released).length;
+        possibleHits += stages.filter(stage => stage.contact).length;
+        requiredHits += stages.filter(stage => stage.contact).length;
+        for (const stage of stages) {
+          const hit = context.binding.hitBindings.find(hit => hit.hitBindingKey === stage.hitBindingKey)!;
+          const ability = simulationAbility(compile, hit.hitAbilityRef)?.ability;
+          if (stage.released && context.rule.hitBindings.find(preset => preset.hitBindingKey === hit.hitBindingKey)?.preset === 'TARGET_HIT'
+            && execution.complete && summary.attemptSkippedCount === 0 && process.status !== 'failed' && ability && !ability.castCondition) {
+            check(stage.contact, 'processInstances.skillHitStages.contact', '已提交的正常目标命中阶段缺少真实接触');
+          }
+        }
+        continue;
+      }
       for (const hit of context.binding.hitBindings) {
         const released = hit.moment.momentType === 'STEP_EXECUTION' && hit.moment.stepKey === process.stepKey
           ? process.stepExecutionIndex : hit.moment.momentType === 'PROCESS_COMPLETE' && process.status === 'complete' ? 1 : 0;
@@ -335,7 +351,7 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
         check(returned === rows.length && total === returned + dropped && returned === Math.min(total, maximum)
           && stats[`${kind}RecordsTruncated`] === (dropped > 0), `recording.${kind}`, '通用明细预算与实际丢弃不守恒');
       }
-      const hitIdentities = new Map<string, { useRef: string; timeMs: number }>();
+      const hitIdentities = new Map<string, { useRef: string; timeMs: number; hitBindingKey: string }>();
       const executionHits = new Map<string, string>();
       for (const row of damages) {
         const ability = simulationAbility(compile, row.abilityRef);
@@ -355,16 +371,17 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
           const contextKey = process && ruleForUse(process.useKey);
           const context = contextKey ? contexts.get(contextKey) : undefined;
           const hit = binding.hitBindings.find(hit => hit.hitAbilityRef === row.abilityRef);
-          const step = context?.process.steps[0];
-          const times = process && step?.stepType === 'CHANNEL' && hit?.moment.momentType === 'STEP_EXECUTION'
-            ? committedChannelTimes(process, step) : process?.lastExecutionAtMs === null || process?.lastExecutionAtMs === undefined ? [] : [process.lastExecutionAtMs];
+          const step = context?.process.steps.find(step => step.stepKey === hit?.moment.stepKey);
+          const times = process && hit ? processSkillHitTimes(process, hit) ?? (step?.stepType === 'CHANNEL' && hit.moment.momentType === 'STEP_EXECUTION'
+            ? committedChannelTimes(process, step) : process.lastExecutionAtMs === null ? [] : [process.lastExecutionAtMs]) : [];
           check(!!process && !!context && context.binding === binding && row.source === process.owner && row.target === process.target
             && times.includes(row.timeMs), 'damageRecords.timeMs', '主动伤害必须来自该次使用已提交的实际圈时点');
           if (typeof row.hitRef === 'string' && row.hitRef) {
-            const prior = hitIdentities.get(row.hitRef), executionKey = `${row.useRef}/${row.timeMs}`;
-            check(!prior || prior.useRef === row.useRef && prior.timeMs === row.timeMs, 'damageRecords.hitRef', '同一命中身份不能跨使用或跨圈复用');
+            const prior = hitIdentities.get(row.hitRef), executionKey = `${row.useRef}/${hit?.hitBindingKey}/${row.timeMs}`;
+            check(!prior || prior.useRef === row.useRef && prior.timeMs === row.timeMs && prior.hitBindingKey === hit?.hitBindingKey,
+              'damageRecords.hitRef', '同一命中身份不能跨使用、阶段或执行时刻复用');
             check(!executionHits.has(executionKey) || executionHits.get(executionKey) === row.hitRef, 'damageRecords.hitRef', '同一次真实圈执行不能伪造多个主动命中');
-            hitIdentities.set(row.hitRef, { useRef: row.useRef, timeMs: row.timeMs }); executionHits.set(executionKey, row.hitRef);
+            hitIdentities.set(row.hitRef, { useRef: row.useRef, timeMs: row.timeMs, hitBindingKey: hit!.hitBindingKey }); executionHits.set(executionKey, row.hitRef);
           }
         }
       }

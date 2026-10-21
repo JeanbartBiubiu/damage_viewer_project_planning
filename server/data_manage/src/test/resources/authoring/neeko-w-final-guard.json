@@ -1,0 +1,1773 @@
+{
+  "before": {
+    "baseDigest": "61337cbc9277ac7bb71e6c01344ef4f167bde2c31d8b42e135a607aa44ca300a",
+    "effects": [
+      {
+        "createdAt": "2026-09-10T02:04:47.695898Z",
+        "description": "主动本体自身增益；分身和镜像链排除。",
+        "effectKey": "self_active_move_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "active_move_speed_duration_ms"
+          },
+          "endWhenShieldEndsResultKey": null,
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "两生花影主动自身移动速度",
+        "results": [
+          {
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "两生花影主动自身移动速度",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "active_move_speed",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "neeko_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-10T02:04:47.695898Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:46.116479Z",
+        "description": "第三次攻击后的自身增益；触发由事件层接线。",
+        "effectKey": "self_passive_move_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "passive_move_speed_duration_ms"
+          },
+          "endWhenShieldEndsResultKey": null,
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "两生花影被动自身移动速度",
+        "results": [
+          {
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "两生花影被动自身移动速度",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "passive_move_speed",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "neeko_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-10T02:04:46.116479Z"
+      }
+    ],
+    "formulas": [
+      {
+        "createdAt": "2026-09-10T02:04:44.443838Z",
+        "description": "主动本体移速增量；分身不建结果。",
+        "expression": {
+          "inputs": [
+            {
+              "key": "input_0",
+              "binding": {
+                "kind": "parameter",
+                "skillKey": "neeko_w",
+                "parameterKey": "active_percent_scale"
+              }
+            },
+            {
+              "key": "input_1",
+              "binding": {
+                "kind": "parameter",
+                "skillKey": "neeko_w",
+                "parameterKey": "active_move_speed_points"
+              }
+            }
+          ],
+          "stages": [
+            {
+              "key": "output",
+              "name": "原技能公式输出",
+              "expression": {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "read",
+                    "inputKey": "input_0"
+                  },
+                  {
+                    "op": "read",
+                    "inputKey": "input_1"
+                  }
+                ]
+              }
+            }
+          ],
+          "outputStageKey": "output"
+        },
+        "formulaKey": "active_move_speed",
+        "gameId": "lol",
+        "name": "两生花影主动移速比例",
+        "skillKey": "neeko_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-10-08T18:16:38.52499Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:41.242497Z",
+        "description": "对应PassiveBonusDamageCalc。",
+        "expression": {
+          "inputs": [
+            {
+              "key": "input_0",
+              "binding": {
+                "kind": "parameter",
+                "skillKey": "neeko_w",
+                "parameterKey": "passive_damage_base"
+              }
+            },
+            {
+              "key": "input_1",
+              "binding": {
+                "kind": "parameter",
+                "skillKey": "neeko_w",
+                "parameterKey": "ap_ratio"
+              }
+            },
+            {
+              "key": "input_2",
+              "binding": {
+                "kind": "attribute",
+                "view": "current_frame",
+                "object": "source",
+                "valueKind": "TOTAL",
+                "attributeKey": "ability_power"
+              }
+            }
+          ],
+          "stages": [
+            {
+              "key": "output",
+              "name": "原技能公式输出",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "op": "read",
+                    "inputKey": "input_0"
+                  },
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "input_1"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "input_2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "outputStageKey": "output"
+        },
+        "formulaKey": "passive_damage",
+        "gameId": "lol",
+        "name": "两生花影第三击魔法伤害",
+        "skillKey": "neeko_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-10-08T18:16:38.52499Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:42.816333Z",
+        "description": "第三次攻击后自身移速增量；属性使用平加区。",
+        "expression": {
+          "inputs": [
+            {
+              "key": "input_0",
+              "binding": {
+                "kind": "parameter",
+                "skillKey": "neeko_w",
+                "parameterKey": "passive_percent_scale"
+              }
+            },
+            {
+              "key": "input_1",
+              "binding": {
+                "kind": "parameter",
+                "skillKey": "neeko_w",
+                "parameterKey": "passive_move_speed_points"
+              }
+            }
+          ],
+          "stages": [
+            {
+              "key": "output",
+              "name": "原技能公式输出",
+              "expression": {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "read",
+                    "inputKey": "input_0"
+                  },
+                  {
+                    "op": "read",
+                    "inputKey": "input_1"
+                  }
+                ]
+              }
+            }
+          ],
+          "outputStageKey": "output"
+        },
+        "formulaKey": "passive_move_speed",
+        "gameId": "lol",
+        "name": "两生花影被动移速比例",
+        "skillKey": "neeko_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-10-08T18:16:38.52499Z"
+      }
+    ],
+    "internalStates": [],
+    "parameters": [
+      {
+        "createdAt": "2026-09-10T02:04:37.701872Z",
+        "description": "3秒转毫秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "主动移速持续（毫秒）",
+        "parameterKey": "active_move_speed_duration_ms",
+        "skillKey": "neeko_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-10T02:04:37.701872Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:33.614762Z",
+        "description": "来源20/25/30/35/40百分数点；外层0.01转系统比例。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20,
+          "2": 25,
+          "3": 30,
+          "4": 35,
+          "5": 40
+        },
+        "name": "主动移速百分数点",
+        "parameterKey": "active_move_speed_points",
+        "skillKey": "neeko_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-10T02:04:33.614762Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:35.433591Z",
+        "description": "百分数点到系统比例转换。",
+        "fixedValue": 0.01,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "主动移速百分数点转比例",
+        "parameterKey": "active_percent_scale",
+        "skillKey": "neeko_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-10T02:04:35.433591Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:25.562901Z",
+        "description": "当前树NamedDataValue APRatio=0.6。",
+        "fixedValue": 0.6000000238,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "被动伤害法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "neeko_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:04:25.562901Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T02:40:50.952959Z",
+        "description": "DDragon16.17.1 Neeko.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。保留本体隐身及其他自用收益，独立分身分支后置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "neeko_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:50.952959Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:23.866976Z",
+        "description": "来源30/65/100/135/170。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30,
+          "2": 65,
+          "3": 100,
+          "4": 135,
+          "5": 170
+        },
+        "name": "第三次攻击基础魔法伤害",
+        "parameterKey": "passive_damage_base",
+        "skillKey": "neeko_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:04:23.866976Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:31.739689Z",
+        "description": "1秒转毫秒。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "被动移速持续（毫秒）",
+        "parameterKey": "passive_move_speed_duration_ms",
+        "skillKey": "neeko_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-10T02:04:31.739689Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:27.326531Z",
+        "description": "来源10/17.5/25/32.5/40百分数点；外层0.01转系统比例。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10,
+          "2": 17.5,
+          "3": 25,
+          "4": 32.5,
+          "5": 40
+        },
+        "name": "被动移速百分数点",
+        "parameterKey": "passive_move_speed_points",
+        "skillKey": "neeko_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T02:04:27.326531Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:28.995241Z",
+        "description": "百分数点到系统比例转换。",
+        "fixedValue": 0.01,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "被动移速百分数点转比例",
+        "parameterKey": "passive_percent_scale",
+        "skillKey": "neeko_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-10T02:04:28.995241Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:39.421Z",
+        "description": "0.5秒转毫秒；独立分身排除。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本体隐身持续（毫秒）",
+        "parameterKey": "stealth_duration_ms",
+        "skillKey": "neeko_w",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-10T02:04:39.421Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "processes": [],
+    "skill": {
+      "createdAt": "2026-09-06T18:19:37.374311Z",
+      "description": "被动效果：妮蔻每第三次攻击造成额外魔法伤害，并短暂提升她的移动速度。主动效果：妮蔻能够朝一个方向投射出一个幻像并通过再次施放来改变幻象的方向。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "妮蔻·两生花影",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "neeko_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:37.374311Z"
+    },
+    "triggerRules": []
+  },
+  "expected": {
+    "baseDigest": "61337cbc9277ac7bb71e6c01344ef4f167bde2c31d8b42e135a607aa44ca300a",
+    "effects": [
+      {
+        "description": "附伤由本次攻击开始快照资格决定，不取命中时已被清空或后来改动的计数；不冒充普攻主体。",
+        "lifecycle": null,
+        "name": "满层普攻真实命中附加魔伤",
+        "results": [
+          {
+            "description": "引用同技能damage，保留已有属性口径和等级系数。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampOverrides": [],
+              "vampQualification": "RESOLVED"
+            },
+            "lifecycleBehavior": null,
+            "name": "每第三刀附加魔伤",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "passive_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20,
+        "effectKey": "passive_bonus",
+        "gameId": "lol",
+        "skillKey": "neeko_w"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:47.695898Z",
+        "description": "主动本体自身增益；分身和镜像链排除。",
+        "effectKey": "self_active_move_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "active_move_speed_duration_ms"
+          },
+          "endWhenShieldEndsResultKey": null,
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "两生花影主动自身移动速度",
+        "results": [
+          {
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "两生花影主动自身移动速度",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "active_move_speed",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "neeko_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-10T02:04:47.695898Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:46.116479Z",
+        "description": "本场数值模型将满层消费与1000毫秒加速在同次攻击发动时结算；只作用于软上限前总移速。",
+        "effectKey": "self_passive_move_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "passive_move_speed_duration_ms"
+          },
+          "endWhenShieldEndsResultKey": null,
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "满层攻击发动时的有限自身加速",
+        "results": [
+          {
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "detail": {
+              "attributeKey": "move_speed",
+              "modifierZoneKey": "attribute_percent_multiply",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "两生花影被动自身移动速度",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "passive_move_speed",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "neeko_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-10T02:04:46.116479Z"
+      }
+    ],
+    "formulas": [
+      {
+        "createdAt": "2026-09-10T02:04:44.443838Z",
+        "description": "主动本体移速增量；分身不建结果。",
+        "expression": {
+          "inputs": [
+            {
+              "key": "input_0",
+              "binding": {
+                "kind": "parameter",
+                "skillKey": "neeko_w",
+                "parameterKey": "active_percent_scale"
+              }
+            },
+            {
+              "key": "input_1",
+              "binding": {
+                "kind": "parameter",
+                "skillKey": "neeko_w",
+                "parameterKey": "active_move_speed_points"
+              }
+            }
+          ],
+          "stages": [
+            {
+              "key": "output",
+              "name": "原技能公式输出",
+              "expression": {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "read",
+                    "inputKey": "input_0"
+                  },
+                  {
+                    "op": "read",
+                    "inputKey": "input_1"
+                  }
+                ]
+              }
+            }
+          ],
+          "outputStageKey": "output"
+        },
+        "formulaKey": "active_move_speed",
+        "gameId": "lol",
+        "name": "两生花影主动移速比例",
+        "skillKey": "neeko_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-10-08T18:16:38.52499Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:41.242497Z",
+        "description": "对应PassiveBonusDamageCalc。",
+        "expression": {
+          "inputs": [
+            {
+              "key": "input_0",
+              "binding": {
+                "kind": "parameter",
+                "skillKey": "neeko_w",
+                "parameterKey": "passive_damage_base"
+              }
+            },
+            {
+              "key": "input_1",
+              "binding": {
+                "kind": "parameter",
+                "skillKey": "neeko_w",
+                "parameterKey": "ap_ratio"
+              }
+            },
+            {
+              "key": "input_2",
+              "binding": {
+                "kind": "attribute",
+                "view": "current_frame",
+                "object": "source",
+                "valueKind": "TOTAL",
+                "attributeKey": "ability_power"
+              }
+            }
+          ],
+          "stages": [
+            {
+              "key": "output",
+              "name": "原技能公式输出",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "op": "read",
+                    "inputKey": "input_0"
+                  },
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "input_1"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "input_2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "outputStageKey": "output"
+        },
+        "formulaKey": "passive_damage",
+        "gameId": "lol",
+        "name": "两生花影第三击魔法伤害",
+        "skillKey": "neeko_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-10-08T18:16:38.52499Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:42.816333Z",
+        "description": "第三次攻击后自身移速增量；属性使用平加区。",
+        "expression": {
+          "inputs": [
+            {
+              "key": "input_0",
+              "binding": {
+                "kind": "parameter",
+                "skillKey": "neeko_w",
+                "parameterKey": "passive_percent_scale"
+              }
+            },
+            {
+              "key": "input_1",
+              "binding": {
+                "kind": "parameter",
+                "skillKey": "neeko_w",
+                "parameterKey": "passive_move_speed_points"
+              }
+            }
+          ],
+          "stages": [
+            {
+              "key": "output",
+              "name": "原技能公式输出",
+              "expression": {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "read",
+                    "inputKey": "input_0"
+                  },
+                  {
+                    "op": "read",
+                    "inputKey": "input_1"
+                  }
+                ]
+              }
+            }
+          ],
+          "outputStageKey": "output"
+        },
+        "formulaKey": "passive_move_speed",
+        "gameId": "lol",
+        "name": "两生花影被动移速比例",
+        "skillKey": "neeko_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-10-08T18:16:38.52499Z"
+      }
+    ],
+    "internalStates": [
+      {
+        "description": "命中叠至2，满层下一次发动时消费；本刀资格沿真实攻击开始快照。",
+        "sortOrder": 0,
+        "name": "本来源普攻叠层",
+        "stateType": "COUNTER",
+        "scope": "SKILL",
+        "detail": {
+          "initialValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "initial_hits"
+          },
+          "maxValue": {
+            "kind": "FIXED",
+            "value": 2
+          },
+          "durationValue": null,
+          "initialValueBinding": {
+            "bindingKey": "initial_hits",
+            "parameterKey": "initial_hits",
+            "sourceType": "SCENE_INITIAL_PARAMETER",
+            "detail": {
+              "minValue": 0,
+              "maxValue": 2
+            }
+          }
+        },
+        "stateKey": "hits",
+        "gameId": "lol",
+        "skillKey": "neeko_w"
+      }
+    ],
+    "parameters": [
+      {
+        "createdAt": "2026-09-10T02:04:37.701872Z",
+        "description": "3秒转毫秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "主动移速持续（毫秒）",
+        "parameterKey": "active_move_speed_duration_ms",
+        "skillKey": "neeko_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-10T02:04:37.701872Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:33.614762Z",
+        "description": "来源20/25/30/35/40百分数点；外层0.01转系统比例。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20,
+          "2": 25,
+          "3": 30,
+          "4": 35,
+          "5": 40
+        },
+        "name": "主动移速百分数点",
+        "parameterKey": "active_move_speed_points",
+        "skillKey": "neeko_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-10T02:04:33.614762Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:35.433591Z",
+        "description": "百分数点到系统比例转换。",
+        "fixedValue": 0.01,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "主动移速百分数点转比例",
+        "parameterKey": "active_percent_scale",
+        "skillKey": "neeko_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-10T02:04:35.433591Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:25.562901Z",
+        "description": "按来源60%规范化客户端浮点尾差。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "被动伤害法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "neeko_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:04:25.562901Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T02:40:50.952959Z",
+        "description": "DDragon16.17.1 Neeko.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。保留本体隐身及其他自用收益，独立分身分支后置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "neeko_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:50.952959Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "name": "开场已有命中计数",
+        "description": "场景显式输入0至2已有命中层数，无默认值；不补造叠层失效时间。",
+        "sortOrder": 0,
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER",
+        "fixedValue": null,
+        "levelValues": null,
+        "parameterKey": "initial_hits",
+        "gameId": "lol",
+        "skillKey": "neeko_w"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:23.866976Z",
+        "description": "来源30/65/100/135/170。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30,
+          "2": 65,
+          "3": 100,
+          "4": 135,
+          "5": 170
+        },
+        "name": "第三次攻击基础魔法伤害",
+        "parameterKey": "passive_damage_base",
+        "skillKey": "neeko_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:04:23.866976Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:31.739689Z",
+        "description": "1秒转毫秒。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "被动移速持续（毫秒）",
+        "parameterKey": "passive_move_speed_duration_ms",
+        "skillKey": "neeko_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-10T02:04:31.739689Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:27.326531Z",
+        "description": "来源10/17.5/25/32.5/40百分数点；外层0.01转系统比例。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10,
+          "2": 17.5,
+          "3": 25,
+          "4": 32.5,
+          "5": 40
+        },
+        "name": "被动移速百分数点",
+        "parameterKey": "passive_move_speed_points",
+        "skillKey": "neeko_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T02:04:27.326531Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:28.995241Z",
+        "description": "百分数点到系统比例转换。",
+        "fixedValue": 0.01,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "被动移速百分数点转比例",
+        "parameterKey": "passive_percent_scale",
+        "skillKey": "neeko_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-10T02:04:28.995241Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:39.421Z",
+        "description": "0.5秒转毫秒；独立分身排除。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本体隐身持续（毫秒）",
+        "parameterKey": "stealth_duration_ms",
+        "skillKey": "neeko_w",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-10T02:04:39.421Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "processes": [
+      {
+        "description": "自身即时被动状态操作，不占用行动、不建立独立主动冷却。",
+        "sortOrder": 0,
+        "name": "普通命中叠层",
+        "activationType": "PASSIVE",
+        "cooldown": null,
+        "steps": [
+          {
+            "stepKey": "now",
+            "name": "即时",
+            "description": null,
+            "sortOrder": 0,
+            "stepType": "IMMEDIATE",
+            "detail": {},
+            "occupiesAction": false
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": [
+          {
+            "operationKey": "increment",
+            "name": "命中加一",
+            "stateSkillKey": "neeko_w",
+            "stateKey": "hits",
+            "operation": "INCREASE",
+            "value": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "optionKey": null,
+            "sortOrder": 0,
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null,
+              "failureReason": null
+            }
+          }
+        ],
+        "processKey": "increment",
+        "gameId": "lol",
+        "skillKey": "neeko_w"
+      },
+      {
+        "description": "自身即时被动状态操作，不占用行动、不建立独立主动冷却。",
+        "sortOrder": 0,
+        "name": "满层攻击发动消费",
+        "activationType": "PASSIVE",
+        "cooldown": null,
+        "steps": [
+          {
+            "stepKey": "now",
+            "name": "即时",
+            "description": null,
+            "sortOrder": 0,
+            "stepType": "IMMEDIATE",
+            "detail": {},
+            "occupiesAction": false
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": [
+          {
+            "operationKey": "reset",
+            "name": "命中加一",
+            "stateSkillKey": "neeko_w",
+            "stateKey": "hits",
+            "operation": "SET",
+            "value": {
+              "kind": "FIXED",
+              "value": 0
+            },
+            "optionKey": null,
+            "sortOrder": 0,
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null,
+              "failureReason": null
+            }
+          }
+        ],
+        "processKey": "reset",
+        "gameId": "lol",
+        "skillKey": "neeko_w"
+      }
+    ],
+    "skill": {
+      "createdAt": "2026-09-06T18:19:37.374311Z",
+      "description": "只保留被动：普通攻击真实命中叠至2层，满层后的下一次攻击发动时消费，命中附加30/65/100/135/170＋60%法强魔法伤害。本场将消费与1000毫秒10/17.5/25/32.5/40%总移速加速一并在发动时结算；未命中不回退消费和加速，不叠层或补附伤。开场层数0至2显式输入且无默认值。不接假身主动、变身、潜行、野怪附伤、弹道及移速软上限。",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "妮蔻·两生花影",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "neeko_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:37.374311Z"
+    },
+    "triggerRules": [
+      {
+        "name": "empowered_hit",
+        "description": "本刀开始快照为2的真实命中只结算附伤，不再叠层；共享吸血规则，不暴击。",
+        "sortOrder": 2,
+        "eventSource": {
+          "eventType": "BASIC_ATTACK_HIT",
+          "detail": {}
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "original_attack",
+            "name": "本次攻击起始计数",
+            "sortOrder": 0,
+            "conditions": [
+              {
+                "conditionKey": "before",
+                "conditionType": "INTERNAL_STATE_CHECK",
+                "sortOrder": 0,
+                "detail": {
+                  "stateSkillKey": "neeko_w",
+                  "stateKey": "hits",
+                  "valueKind": "ATTACK_START_VALUE",
+                  "optionKey": null,
+                  "expectedBoolean": null,
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 2
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "bonus",
+            "name": "bonus",
+            "sortOrder": 0,
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "passive_bonus"
+            },
+            "targetContext": "CURRENT_TARGET",
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": null,
+        "ruleKey": "empowered_hit"
+      },
+      {
+        "name": "ordinary_hit",
+        "description": "本刀开始快照不足2的真实命中叠一层，未命中不叠层。",
+        "sortOrder": 1,
+        "eventSource": {
+          "eventType": "BASIC_ATTACK_HIT",
+          "detail": {}
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "original_attack",
+            "name": "本次攻击起始计数",
+            "sortOrder": 0,
+            "conditions": [
+              {
+                "conditionKey": "before",
+                "conditionType": "INTERNAL_STATE_CHECK",
+                "sortOrder": 0,
+                "detail": {
+                  "stateSkillKey": "neeko_w",
+                  "stateKey": "hits",
+                  "valueKind": "ATTACK_START_VALUE",
+                  "optionKey": null,
+                  "expectedBoolean": null,
+                  "comparator": "LT",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 2
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "increment",
+            "name": "increment",
+            "sortOrder": 0,
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "increment"
+            },
+            "targetContext": "CURRENT_TARGET",
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": null,
+        "ruleKey": "ordinary_hit"
+      },
+      {
+        "name": "ready_start",
+        "description": "本刀开始快照为2：消费为0并加速；后续未命中不回退已提交的发动效果。",
+        "sortOrder": 0,
+        "eventSource": {
+          "eventType": "BASIC_ATTACK_START",
+          "detail": {}
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "original_attack",
+            "name": "本次攻击起始计数",
+            "sortOrder": 0,
+            "conditions": [
+              {
+                "conditionKey": "before",
+                "conditionType": "INTERNAL_STATE_CHECK",
+                "sortOrder": 0,
+                "detail": {
+                  "stateSkillKey": "neeko_w",
+                  "stateKey": "hits",
+                  "valueKind": "ATTACK_START_VALUE",
+                  "optionKey": null,
+                  "expectedBoolean": null,
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 2
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "consume",
+            "name": "consume",
+            "sortOrder": 0,
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "reset"
+            },
+            "targetContext": "CURRENT_TARGET",
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          },
+          {
+            "actionKey": "speed",
+            "name": "speed",
+            "sortOrder": 1,
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "self_passive_move_speed"
+            },
+            "targetContext": "CURRENT_TARGET",
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": null,
+        "ruleKey": "ready_start"
+      }
+    ]
+  },
+  "request": {
+    "baseDigest": "61337cbc9277ac7bb71e6c01344ef4f167bde2c31d8b42e135a607aa44ca300a",
+    "changes": [
+      {
+        "objectType": "PARAMETER",
+        "operation": "UPDATE",
+        "key": "ap_ratio",
+        "value": {
+          "description": "按来源60%规范化客户端浮点尾差。",
+          "fixedValue": 0.6,
+          "levelValues": null,
+          "name": "被动伤害法强倍率",
+          "sortOrder": 20,
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      },
+      {
+        "objectType": "PARAMETER",
+        "operation": "CREATE",
+        "key": "initial_hits",
+        "value": {
+          "name": "开场已有命中计数",
+          "description": "场景显式输入0至2已有命中层数，无默认值；不补造叠层失效时间。",
+          "sortOrder": 0,
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER",
+          "fixedValue": null,
+          "levelValues": null,
+          "parameterKey": "initial_hits"
+        }
+      },
+      {
+        "objectType": "INTERNAL_STATE",
+        "operation": "CREATE",
+        "key": "hits",
+        "value": {
+          "description": "命中叠至2，满层下一次发动时消费；本刀资格沿真实攻击开始快照。",
+          "sortOrder": 0,
+          "name": "本来源普攻叠层",
+          "stateType": "COUNTER",
+          "scope": "SKILL",
+          "detail": {
+            "initialValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "initial_hits"
+            },
+            "maxValue": {
+              "kind": "FIXED",
+              "value": 2
+            },
+            "durationValue": null,
+            "initialValueBinding": {
+              "bindingKey": "initial_hits",
+              "parameterKey": "initial_hits",
+              "sourceType": "SCENE_INITIAL_PARAMETER",
+              "detail": {
+                "minValue": 0,
+                "maxValue": 2
+              }
+            }
+          },
+          "stateKey": "hits"
+        }
+      },
+      {
+        "objectType": "PROCESS",
+        "operation": "CREATE",
+        "key": "increment",
+        "value": {
+          "description": "自身即时被动状态操作，不占用行动、不建立独立主动冷却。",
+          "sortOrder": 0,
+          "name": "普通命中叠层",
+          "activationType": "PASSIVE",
+          "cooldown": null,
+          "steps": [
+            {
+              "stepKey": "now",
+              "name": "即时",
+              "description": null,
+              "sortOrder": 0,
+              "stepType": "IMMEDIATE",
+              "detail": {},
+              "occupiesAction": false
+            }
+          ],
+          "effectBindings": [],
+          "stateOperations": [
+            {
+              "operationKey": "increment",
+              "name": "命中加一",
+              "stateSkillKey": "neeko_w",
+              "stateKey": "hits",
+              "operation": "INCREASE",
+              "value": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "optionKey": null,
+              "sortOrder": 0,
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            }
+          ],
+          "processKey": "increment"
+        }
+      },
+      {
+        "objectType": "PROCESS",
+        "operation": "CREATE",
+        "key": "reset",
+        "value": {
+          "description": "自身即时被动状态操作，不占用行动、不建立独立主动冷却。",
+          "sortOrder": 0,
+          "name": "满层攻击发动消费",
+          "activationType": "PASSIVE",
+          "cooldown": null,
+          "steps": [
+            {
+              "stepKey": "now",
+              "name": "即时",
+              "description": null,
+              "sortOrder": 0,
+              "stepType": "IMMEDIATE",
+              "detail": {},
+              "occupiesAction": false
+            }
+          ],
+          "effectBindings": [],
+          "stateOperations": [
+            {
+              "operationKey": "reset",
+              "name": "命中加一",
+              "stateSkillKey": "neeko_w",
+              "stateKey": "hits",
+              "operation": "SET",
+              "value": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "optionKey": null,
+              "sortOrder": 0,
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            }
+          ],
+          "processKey": "reset"
+        }
+      },
+      {
+        "objectType": "EFFECT",
+        "operation": "UPDATE",
+        "key": "self_passive_move_speed",
+        "value": {
+          "description": "本场数值模型将满层消费与1000毫秒加速在同次攻击发动时结算；只作用于软上限前总移速。",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "passive_move_speed_duration_ms"
+            },
+            "endWhenShieldEndsResultKey": null,
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "满层攻击发动时的有限自身加速",
+          "results": [
+            {
+              "description": "只定义自身属性变化，触发条件由事件层接线。",
+              "detail": {
+                "attributeKey": "move_speed",
+                "modifierZoneKey": "attribute_percent_multiply",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "两生花影被动自身移动速度",
+              "resultKey": "attribute",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "passive_move_speed",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "sortOrder": 100
+        }
+      },
+      {
+        "objectType": "EFFECT",
+        "operation": "CREATE",
+        "key": "passive_bonus",
+        "value": {
+          "description": "附伤由本次攻击开始快照资格决定，不取命中时已被清空或后来改动的计数；不冒充普攻主体。",
+          "lifecycle": null,
+          "name": "满层普攻真实命中附加魔伤",
+          "results": [
+            {
+              "description": "引用同技能damage，保留已有属性口径和等级系数。",
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "vampOverrides": [],
+                "vampQualification": "RESOLVED"
+              },
+              "lifecycleBehavior": null,
+              "name": "每第三刀附加魔伤",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "passive_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "sortOrder": 20,
+          "effectKey": "passive_bonus"
+        }
+      },
+      {
+        "objectType": "TRIGGER_RULE",
+        "operation": "CREATE",
+        "key": "ready_start",
+        "value": {
+          "name": "ready_start",
+          "description": "本刀开始快照为2：消费为0并加速；后续未命中不回退已提交的发动效果。",
+          "sortOrder": 0,
+          "eventSource": {
+            "eventType": "BASIC_ATTACK_START",
+            "detail": {}
+          },
+          "conditionGroups": [
+            {
+              "groupKey": "original_attack",
+              "name": "本次攻击起始计数",
+              "sortOrder": 0,
+              "conditions": [
+                {
+                  "conditionKey": "before",
+                  "conditionType": "INTERNAL_STATE_CHECK",
+                  "sortOrder": 0,
+                  "detail": {
+                    "stateSkillKey": "neeko_w",
+                    "stateKey": "hits",
+                    "valueKind": "ATTACK_START_VALUE",
+                    "optionKey": null,
+                    "expectedBoolean": null,
+                    "comparator": "EQ",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 2
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "actionKey": "consume",
+              "name": "consume",
+              "sortOrder": 0,
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "reset"
+              },
+              "targetContext": "CURRENT_TARGET",
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            },
+            {
+              "actionKey": "speed",
+              "name": "speed",
+              "sortOrder": 1,
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "self_passive_move_speed"
+              },
+              "targetContext": "CURRENT_TARGET",
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null,
+          "oncePerUse": null,
+          "ruleKey": "ready_start"
+        }
+      },
+      {
+        "objectType": "TRIGGER_RULE",
+        "operation": "CREATE",
+        "key": "ordinary_hit",
+        "value": {
+          "name": "ordinary_hit",
+          "description": "本刀开始快照不足2的真实命中叠一层，未命中不叠层。",
+          "sortOrder": 1,
+          "eventSource": {
+            "eventType": "BASIC_ATTACK_HIT",
+            "detail": {}
+          },
+          "conditionGroups": [
+            {
+              "groupKey": "original_attack",
+              "name": "本次攻击起始计数",
+              "sortOrder": 0,
+              "conditions": [
+                {
+                  "conditionKey": "before",
+                  "conditionType": "INTERNAL_STATE_CHECK",
+                  "sortOrder": 0,
+                  "detail": {
+                    "stateSkillKey": "neeko_w",
+                    "stateKey": "hits",
+                    "valueKind": "ATTACK_START_VALUE",
+                    "optionKey": null,
+                    "expectedBoolean": null,
+                    "comparator": "LT",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 2
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "actionKey": "increment",
+              "name": "increment",
+              "sortOrder": 0,
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "increment"
+              },
+              "targetContext": "CURRENT_TARGET",
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null,
+          "oncePerUse": null,
+          "ruleKey": "ordinary_hit"
+        }
+      },
+      {
+        "objectType": "TRIGGER_RULE",
+        "operation": "CREATE",
+        "key": "empowered_hit",
+        "value": {
+          "name": "empowered_hit",
+          "description": "本刀开始快照为2的真实命中只结算附伤，不再叠层；共享吸血规则，不暴击。",
+          "sortOrder": 2,
+          "eventSource": {
+            "eventType": "BASIC_ATTACK_HIT",
+            "detail": {}
+          },
+          "conditionGroups": [
+            {
+              "groupKey": "original_attack",
+              "name": "本次攻击起始计数",
+              "sortOrder": 0,
+              "conditions": [
+                {
+                  "conditionKey": "before",
+                  "conditionType": "INTERNAL_STATE_CHECK",
+                  "sortOrder": 0,
+                  "detail": {
+                    "stateSkillKey": "neeko_w",
+                    "stateKey": "hits",
+                    "valueKind": "ATTACK_START_VALUE",
+                    "optionKey": null,
+                    "expectedBoolean": null,
+                    "comparator": "EQ",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 2
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "actionKey": "bonus",
+              "name": "bonus",
+              "sortOrder": 0,
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "passive_bonus"
+              },
+              "targetContext": "CURRENT_TARGET",
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "perTargetCooldown": null,
+          "maxTriggersPerProcess": null,
+          "oncePerUse": null,
+          "ruleKey": "empowered_hit"
+        }
+      }
+    ],
+    "skill": {
+      "name": "妮蔻·两生花影",
+      "maxLevel": 5,
+      "status": "ENABLED",
+      "sortOrder": 2,
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "description": "只保留被动：普通攻击真实命中叠至2层，满层后的下一次攻击发动时消费，命中附加30/65/100/135/170＋60%法强魔法伤害。本场将消费与1000毫秒10/17.5/25/32.5/40%总移速加速一并在发动时结算；未命中不回退消费和加速，不叠层或补附伤。开场层数0至2显式输入且无默认值。不接假身主动、变身、潜行、野怪附伤、弹道及移速软上限。"
+    }
+  }
+}

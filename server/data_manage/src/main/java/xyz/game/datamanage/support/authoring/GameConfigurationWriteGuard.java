@@ -120,6 +120,9 @@ public class GameConfigurationWriteGuard {
         SkillAttackDamageRoleSemantics.validate(skillAffected, skillContext);
         Set<String> changedSkills = changes.changed().stream().filter(s -> s.type() != SourceType.DAMAGE_TYPE)
             .map(Source::skill).collect(java.util.stream.Collectors.toSet());
+        List<Aggregate> changedSkillContext = skillContext.stream().filter(aggregate -> changedSkills.contains(aggregate.skillKey())).toList();
+        SkillHitPhaseSemantics.validate(changedSkillContext, skillContext);
+        SkillAttackStartValueSemantics.validate(changedSkillContext, skillContext);
         SkillChargeDurationSemantics.validate(skillContext.stream().filter(aggregate -> changedSkills.contains(aggregate.skillKey())).toList(),
             skillContext);
         SkillTriggerOncePerUseSemantics.validate(skillAffected);

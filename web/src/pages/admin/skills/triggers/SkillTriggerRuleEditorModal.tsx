@@ -371,7 +371,8 @@ export function SkillTriggerRuleEditorModal({
   const dirty = visible && isTriggerRuleDraftDirty(draft, baseline);
   const selectedProcess = draft.eventSource.eventType === 'PROCESS_MOMENT'
     ? processByKey.get(draft.eventSource.detail.processKey) ?? null
-    : null;
+    : draft.eventSource.eventType === 'SKILL_HIT' && draft.eventSource.detail.processMoment
+      ? processByKey.get(draft.eventSource.detail.processMoment.processKey) ?? null : null;
   const selectedResultEffect = draft.eventSource.eventType === 'RESULT_AVAILABLE'
     ? effectByKey.get(draft.eventSource.detail.effectKey) ?? null
     : null;
@@ -994,6 +995,9 @@ export function SkillTriggerRuleEditorModal({
     const eventSource = draft.eventSource;
     if (eventSource.eventType === 'PROCESS_MOMENT' && eventSource.detail.processKey) {
       void ensureProcess(eventSource.detail.processKey);
+    }
+    if (eventSource.eventType === 'SKILL_HIT' && eventSource.detail.processMoment?.processKey) {
+      void ensureProcess(eventSource.detail.processMoment.processKey);
     }
     if (eventSource.eventType === 'RESULT_AVAILABLE' && eventSource.detail.effectKey) {
       void ensureEffect(eventSource.detail.effectKey);
@@ -2163,6 +2167,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
       );
     case 'SKILL_HIT':
       return (
+        <>
         <Form.Item label="来源技能">
           <Select
             aria-label="命中来源技能"
@@ -2175,11 +2180,44 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               const key = String(value ?? '');
               onChange({
                 eventType: 'SKILL_HIT',
-                detail: { sourceSkillKey: key === '' ? null : key }
+                detail: { ...eventSource.detail, sourceSkillKey: key === '' ? null : key }
               });
             }}
           />
         </Form.Item>
+        <Form.Item label="按过程步骤分阶段命中">
+          <Switch aria-label="按过程步骤分阶段命中" checked={eventSource.detail.processMoment !== undefined} disabled={disabled}
+            onChange={enabled => onChange({ eventType: 'SKILL_HIT', detail: enabled
+              ? { sourceSkillKey: props.skillKey, processMoment: { processKey: '', moment: { momentType: 'STEP_EXECUTION', stepKey: '' }, requiresPriorStepKey: null } }
+              : { sourceSkillKey: eventSource.detail.sourceSkillKey } })} />
+        </Form.Item>
+        {eventSource.detail.processMoment ? <>
+          <Form.Item label="命中所属过程" required>
+            <Select aria-label="命中所属过程" value={eventSource.detail.processMoment.processKey || undefined} disabled={disabled}
+              options={props.processes.map(process => ({ value: process.processKey, label: `${process.name}（${process.processKey}）` }))}
+              onChange={value => {
+                const processKey = String(value ?? ''); props.onSelectProcess(processKey);
+                onChange({ eventType: 'SKILL_HIT', detail: { sourceSkillKey: props.skillKey,
+                  processMoment: { processKey, moment: { momentType: 'STEP_EXECUTION', stepKey: '' }, requiresPriorStepKey: null } } });
+              }} />
+          </Form.Item>
+          <Form.Item label="实际命中步骤" required>
+            <Select aria-label="实际命中步骤" value={eventSource.detail.processMoment.moment.stepKey || undefined} disabled={disabled}
+              options={(props.selectedProcess?.steps ?? []).map(step => ({ value: step.stepKey, label: `${step.name}（${step.stepKey}）` }))}
+              onChange={value => onChange({ eventType: 'SKILL_HIT', detail: { ...eventSource.detail,
+                processMoment: { ...eventSource.detail.processMoment!, moment: { momentType: 'STEP_EXECUTION', stepKey: String(value ?? '') }, requiresPriorStepKey: null } } })} />
+          </Form.Item>
+          <Form.Item label="所需更早真实接触步骤" help="未命中不授予资格；被法术护盾阻挡仍为真实接触。">
+            <Select aria-label="所需更早真实接触步骤" value={eventSource.detail.processMoment.requiresPriorStepKey ?? ''} disabled={disabled}
+              options={[{ value: '', label: '无前置接触' }, ...(props.selectedProcess?.steps ?? []).filter(step => {
+                const current = props.selectedProcess?.steps.find(row => row.stepKey === eventSource.detail.processMoment!.moment.stepKey);
+                return current && step.sortOrder < current.sortOrder;
+              }).map(step => ({ value: step.stepKey, label: `${step.name}（${step.stepKey}）` }))]}
+              onChange={value => onChange({ eventType: 'SKILL_HIT', detail: { ...eventSource.detail,
+                processMoment: { ...eventSource.detail.processMoment!, requiresPriorStepKey: value ? String(value) : null } } })} />
+          </Form.Item>
+        </> : null}
+        </>
       );
     case 'HIT_LINK_APPLIED':
     case 'ATTACK_LINK_APPLIED':

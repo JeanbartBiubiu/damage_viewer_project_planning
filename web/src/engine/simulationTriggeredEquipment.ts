@@ -632,19 +632,27 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               const zone = zones[0];
               if (zones.length !== 1 || !zone || zone.gameId !== snapshot.gameId || zone.status !== 'ENABLED' || zone.domain !== 'ATTRIBUTE'
                 || !(zone.calculationMode === 'FLAT_ADD' && zone.applicationStage === 'ATTRIBUTE_FLAT'
-                  || zone.calculationMode === 'RATIO_ADD' && zone.applicationStage === 'ATTRIBUTE_PERCENT')) fail(resultPath, '来源属性修正区缺少完整真实目录');
-              policy = zone.calculationMode === 'FLAT_ADD' ? 'add' : 'percent_add';
+                  || ['RATIO_ADD', 'RATIO_MULTIPLY'].includes(zone.calculationMode) && zone.applicationStage === 'ATTRIBUTE_PERCENT')) fail(resultPath, '来源属性修正区缺少完整真实目录');
+              if (zone.calculationMode === 'RATIO_MULTIPLY' && maximum !== 1) fail(resultPath, '来源总值乘算只接入明确单层有限实例');
+              if (zone.calculationMode === 'RATIO_MULTIPLY' && result.detail.attributeKey === 'hp') fail(resultPath, '来源总值乘算不能绕过生命上限账本');
+              policy = zone.calculationMode === 'FLAT_ADD' ? 'add' : zone.calculationMode === 'RATIO_MULTIPLY' ? 'multiply' : 'percent_add';
               cover(`catalogs.modifierZones.${zone.modifierZoneKey}`, `${compiledRoot}.modifiers[${modifiers.length}]`);
             }
             stableKey(result.detail.attributeKey, `${resultPath}.detail.attributeKey`);
             required[side].add(result.detail.attributeKey);
             changed[side].add(result.detail.attributeKey);
             const magnitude = foldAmount(result, resultPath) * (result.detail.operation === 'DECREASE' ? -1 : 1);
+            if (policy === 'multiply' && (result.detail.operation === 'DECREASE' ? magnitude < -1 || magnitude > 0 : magnitude < 0)) {
+              fail(resultPath, '来源总值比例增加须非负，减少须为0至1');
+            }
             const read: GenericFormulaExpr = { op: 'read', path: `provider.state.${key}` };
             const layers = behavior.stackValueMode === 'PER_STACK' ? read : { op: 'min', args: [constExpr(1), read] };
             const modifierPath = `${compiledRoot}.modifiers[${modifiers.length}]`;
             modifiers.push({ modifierKey: namedKey(skillKey, `${authored.effectKey}_${result.resultKey}`), kind: 'attribute',
-              target: `self.attr.${result.detail.attributeKey}`, valuePolicy: policy, value: { op: 'mul', args: [constExpr(magnitude), layers] } });
+              ...(policy === 'multiply' ? { stage: 'total' } : {}),
+              target: `self.attr.${result.detail.attributeKey}`, valuePolicy: policy,
+              value: policy === 'multiply' ? { op: 'add', args: [constExpr(1), { op: 'mul', args: [constExpr(magnitude), layers] }] }
+                : { op: 'mul', args: [constExpr(magnitude), layers] } });
             cover(resultPath, modifierPath);
             cover(`${resultPath}.valueRule`, `${modifierPath}.value`);
             cover(`${resultPath}.lifecycleBehavior`, modifierPath);
@@ -672,6 +680,12 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             const state = lookupState(detail.stateKey, detail.stateSkillKey, detailPath);
             if (detail.optionKey !== null || detail.expectedBoolean !== null || !detail.comparisonValue || !detail.comparator) fail(detailPath, '真实数值状态检查字段不完整');
             const read = stateRead(state);
+            if (state.stateType === 'COUNTER' && state.scope === 'SKILL' && detail.valueKind === 'ATTACK_START_VALUE'
+              && side === 'source' && ['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT'].includes(event)) {
+              constant(detail.comparisonValue, `${detailPath}.comparisonValue`, true);
+              return comparator(detail.comparator, { op: 'read', path: `use.provider_state_before.${stateKey(state)}` },
+                value(detail.comparisonValue, detailPath), detailPath);
+            }
             if (state.stateType === 'COUNTER' && detail.valueKind === 'VALUE') {
               constant(detail.comparisonValue, `${detailPath}.comparisonValue`, true);
               return comparator(detail.comparator, read, value(detail.comparisonValue, detailPath), detailPath);

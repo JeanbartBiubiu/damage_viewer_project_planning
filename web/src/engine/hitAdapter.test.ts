@@ -141,6 +141,19 @@ function request(): CompileRequest {
 }
 
 describe('有界命中适配', () => {
+  it('直接命中明确拒绝持续和周期伤害，不能丢弃期限后当作即时伤害', () => {
+    const authored = program({ rules: [execute('actual_hit', 'primary_hit', 10, championEnemy())] });
+    const primary = authored.effects.find(effect => effect.effectKey === 'primary_hit')!;
+    primary.lifecycle = lifecycle('SOURCE', 1500);
+    primary.lifecycle.periodicIntervalValue = fixedValue(750);
+    primary.lifecycle.firstPeriodicExecution = 'AFTER_INTERVAL';
+    const result = primary.results[0]!;
+    result.lifecycleBehavior = { moment: 'PERIODIC', valueReadMode: 'MOMENT_EVALUATION', stackValueMode: null,
+      reapplicationValueMode: null, periodicExecutionMode: 'ONCE_PER_INSTANCE' };
+    expect(() => adaptHitProgram(authored)).toThrow('不能丢弃持续或周期');
+    primary.lifecycle = null;
+    expect(() => adaptHitProgram(authored)).toThrow('不能丢弃持续或周期');
+  });
   it.each([['SELF', 0], ['ALLY', 0], ['ENEMY', 1]] as const)('共享敌我检查保留%s真实关系', (hostility, expected) => {
     expect(compileHitIdentityCondition({ conditionKey: 'enemy', conditionType: 'SKILL_HIT_TARGET_IS_ENEMY', sortOrder: 0, detail: {} },
       'enemy', { identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility } } }))

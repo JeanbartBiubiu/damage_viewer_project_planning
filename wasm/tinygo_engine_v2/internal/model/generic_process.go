@@ -109,6 +109,16 @@ type BasicAttackPrimaryIdentity struct {
 	ResultKey                string `json:"resultKey"`
 }
 
+// 已执行的显式简单阶段事实；不受展示记录预算影响，也不用于恢复资格。
+type ProcessSkillHitStage struct {
+	HitBindingKey string `json:"hitBindingKey"`
+	StepKey       string `json:"stepKey"`
+	TimeMs        int64  `json:"timeMs"`
+	Released      bool   `json:"released"`
+	Contact       bool   `json:"contact"`
+	Completed     bool   `json:"completed"`
+}
+
 type ProcessInstanceSnapshot struct {
 	Owner                      string                   `json:"owner"`
 	ProviderRef                string                   `json:"providerRef"`
@@ -134,6 +144,7 @@ type ProcessInstanceSnapshot struct {
 	ActionOccupancies          []ProcessActionOccupancy `json:"actionOccupancies"`
 	EmpoweredAttack            *ProcessEmpoweredAttack  `json:"empoweredAttack,omitempty"`
 	EmpoweredPredecessorUseRef *string                  `json:"empoweredPredecessorUseRef,omitempty"`
+	SkillHitStages             *[]ProcessSkillHitStage  `json:"skillHitStages,omitempty"`
 }
 
 func ValidProcessFailureReason(reason string) bool {

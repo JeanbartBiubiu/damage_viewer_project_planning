@@ -245,6 +245,8 @@ npm run build
 
 本迭代默认页面回归为**非 Wasm**，按本节命令和[模块验证规则](AGENTS.md#验证)选择受影响检查。当前管理页只维护桌面布局，不覆盖移动端。
 
+分阶段命中由 `web/src/engine/processSkillHitStages.ts` 统一核对作者步骤及前置接触，并由 `processSkillHitStageFacts.ts` 核对不可截断的原生阶段事实。自动技能选项与请求共用步骤形状判断；实际数值、占用及资格仍由正式适配器和引擎检查。字段和数值边界见[共享契约](../outputs/skill-adaptation-20261021-neeko/分阶段命中与攻击起始状态契约.md)，首次对象验收仍与固定机制回归分开。
+
 ## 常见问题
 
 ### 1. 页面能打开，但接口请求失败

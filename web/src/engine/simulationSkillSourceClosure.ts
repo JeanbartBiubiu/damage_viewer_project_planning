@@ -34,6 +34,11 @@ export function selectSimulationSkillSourceClosure(configuration: SkillConfigura
     }
     if (!value || typeof value !== 'object') return;
     const row = value as Record<string, unknown>;
+    if (row.eventType === 'SKILL_HIT') {
+      const detail = row.detail as Record<string, unknown> | undefined;
+      const moment = detail?.processMoment as Record<string, unknown> | undefined;
+      if (moment) include('processes', moment.processKey, `${path}.detail.processMoment.processKey`);
+    }
     if (row.kind === 'PARAMETER' || row.kind === 'parameter') { ownSkill(row.skillKey, path); include('parameters', row.parameterKey, path); }
     if (row.kind === 'FORMULA') include('formulas', row.formulaKey, path);
     if (row.actionType === 'EXECUTE_EFFECT') {
@@ -71,7 +76,7 @@ export function selectSimulationSkillSourceClosure(configuration: SkillConfigura
       if (detail?.operation === 'ENSURE_REMAINING') include('effects', detail.targetEffectKey, `${path}.detail.targetEffectKey`);
     }
     Object.entries(row).forEach(([field, child]) => {
-      if (field !== 'eventSource') visit(child, `${path}.${field}`);
+      if (field !== 'eventSource' || (child as { eventType?: string } | null)?.eventType === 'SKILL_HIT') visit(child, `${path}.${field}`);
     });
   };
   if (!rootKeys.length || new Set(rootKeys).size !== rootKeys.length) fail(root, '自然根集合缺失或重复');

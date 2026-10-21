@@ -8,6 +8,7 @@ import type { OperationOrigin } from './simulationAdapter';
 import { committedSkillControl, inspectSimulationProcessFacts } from './simulationProcessFacts';
 import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, empoweredUseRecordIssue, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
+import { hasProcessSkillHitStages, inspectProcessSkillHitStages, processSkillHitTimes, type SkillHitStageFact } from './processSkillHitStageFacts';
 
 export type SkillActionAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
 const close = (first: number, second: number) => Math.abs(first - second) <= 1e-9 * Math.max(1, Math.abs(first), Math.abs(second));
@@ -82,6 +83,35 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     const duration = amount(summary.durationMs, 'summary.durationMs');
     check(duration <= request.stopPolicy.durationMs, 'summary.durationMs', '超过观察终点');
     check(done.finalSnapshot.timeMs === duration, 'finalSnapshot.timeMs', '最终快照时刻与公共停止时刻不一致');
+    const stagedByUse = new Map<string, SkillHitStageFact[]>();
+    let allStaged = true, stagedReleases = 0, stagedContacts = 0;
+    for (const process of done.finalSnapshot.processInstances ?? []) {
+      const matches = [...contexts.values()].filter(context => context.instruction.action === 'INITIAL'
+        && context.binding.providerRef === process.providerRef && context.binding.skillKey === process.skillKey
+        && context.control.processKey === process.processKey && context.instruction.firstAtMs === process.startedAtMs
+        && context.instruction.source === process.owner && context.instruction.target === process.target);
+      if (!matches.length) continue;
+      const context = matches.find(context => done.skillActionRecords?.some(record => record.outcome === 'ACCEPTED'
+        && record.useRef === process.useKey && record.instructionKey === context.instruction.instructionKey)) ?? (matches.length === 1 ? matches[0] : undefined);
+      if (!context) throw new Error('processInstances.skillHitStages: 原首次与实际使用身份含糊');
+      const definition = compile.sharedProviders?.find(provider => provider.providerKey === context.binding.providerDefinitionRef)
+        ?.processes?.find(definition => definition.processKey === process.processKey);
+      if (!definition) throw new Error('processInstances: 缺少真实过程定义');
+      const facts = inspectProcessSkillHitStages(context.binding, definition, process, context.instruction.hitBindings, duration);
+      allStaged &&= hasProcessSkillHitStages(context.binding, definition);
+      if (facts) {
+        stagedByUse.set(process.useKey, facts);
+        stagedReleases += facts.filter(fact => fact.released).length;
+        stagedContacts += facts.filter(fact => fact.contact).length;
+        for (const fact of facts) if (fact.released && context.instruction.hitBindings.find(hit => hit.hitBindingKey === fact.hitBindingKey)?.preset === 'TARGET_HIT'
+          && execution.complete && summary.attemptSkippedCount === 0 && process.status !== 'failed') {
+          const hit = context.binding.hitBindings.find(hit => hit.hitBindingKey === fact.hitBindingKey)!;
+          if (!simulationAbility(compile, hit.hitAbilityRef)?.ability.castCondition) check(fact.contact, 'processInstances.skillHitStages.contact', '正常已提交阶段缺少真实接触');
+        }
+      }
+    }
+    if (stagedByUse.size) check(allStaged ? uses.releasedCount === stagedReleases && uses.hitCount === stagedContacts
+      : uses.releasedCount >= stagedReleases && uses.hitCount >= stagedContacts, 'summary.skillUses', '阶段提交事实与完整释放／接触累计不一致');
     for (const side of ['source', 'target'] as const) {
       const initial = request.initialSnapshot.combatants.find(actor => actor.key === side)?.attributes.hp?.current;
       const finalSlot = done.finalSnapshot.combatants.find(actor => actor.key === side)?.attributes.hp;
@@ -218,6 +248,13 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
         const first = contexts.get(key)!;
         const process = compile.sharedProviders?.find(provider => provider.providerKey === first.binding.providerDefinitionRef)
           ?.processes?.find(process => process.processKey === first.control.processKey);
+        const stageFacts = rows[0] && stagedByUse.get(rows[0].useRef);
+        if (stageFacts) for (const fact of stageFacts) {
+          for (const [kind, expected] of [['RELEASED', fact.released], ['HIT', fact.contact]] as const) {
+            check(rows.filter(row => row.kind === kind && row.stepKey === fact.stepKey && row.timeMs === fact.timeMs).length === Number(expected),
+              `skillUseRecords.${kind}`, '有限阶段明细与本次使用不可截断提交事实不一致');
+          }
+        }
         for (const row of rows.filter(row => row.kind === 'RELEASED')) {
           const binding = first.binding.hitBindings.find(binding => binding.moment.momentType === 'STEP_EXECUTION'
             && binding.moment.stepKey === row.stepKey || binding.moment.momentType === 'PROCESS_COMPLETE');
@@ -274,6 +311,12 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       if (row.instructionKey) check(contexts.has(row.instructionKey) && actions.acceptedCount > 0 && !!row.useRef
         && (done.recording.skillActionRecordsTruncated || accepted.get(row.instructionKey) === row.useRef), 'damageRecords.instructionKey', '伤害没有对应已接受使用');
       const hitBinding = compile.rules.skillActionBindings?.find(binding => binding.hitBindings.some(hit => hit.hitAbilityRef === row.abilityRef));
+      if (hitBinding) {
+        const process = done.finalSnapshot.processInstances?.find(process => process.useKey === row.useRef);
+        const hit = hitBinding.hitBindings.find(hit => hit.hitAbilityRef === row.abilityRef)!;
+        const times = process && processSkillHitTimes(process, hit);
+        if (times) check(times.includes(row.timeMs), 'damageRecords.timeMs', '阶段伤害缺少同使用、同绑定的真实提交接触');
+      }
       const listener = ability?.ability.listenerSpec;
       const hitListener = listener?.eventMatcher.all?.includes('event/skill_hit') && listener.eventMatcher.all.includes('event/source_owner');
       if (hitBinding || hitListener) {

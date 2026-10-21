@@ -17,6 +17,7 @@ import { describeCombatSkill, reconcileCombatRules } from '../../src/pages/simul
 import type { SimulationCharacterSkillOption } from '../../src/pages/simulation/simulationSelectionOptions';
 import type { SkillConfiguration } from '../../src/types/skillConfiguration';
 import { simulationSkillSourceIdentity } from '../../src/services/simulationSkillSourceIdentity';
+import type { SceneInitialParameterInput } from '../../src/engine/sceneInitialParameterInput';
 
 export type FirstHeroOptions = {
   mode: 'automatic' | 'fixed' | 'continuous';
@@ -26,6 +27,7 @@ export type FirstHeroOptions = {
   automaticRules?: AutomaticSkillInput[];
   ruleOrder?: 'ui' | 'reverse';
   attributeInputs?: SimulationAttributeInputs;
+  sceneParameterInputs?: SceneInitialParameterInput[];
   initialHealthRatios?: { source: number; target: number };
   expectedStartedSkillKeys?: string[];
   checkRecordVariants?: boolean;
@@ -80,8 +82,9 @@ export async function runFirstHeroCase(snapshot: SimulationSnapshot, selection: 
   validateSimulationSnapshot(snapshot, 'lol', selection);
   const client = retainedClient ??= new GenericEngineClient();
   const ignoredCosts = simulationCastCostCandidates(snapshot);
-  const formulaPreflight = await preflightSkillFormulas(snapshot, client);
-  const inspection = inspectSimulationSnapshot(snapshot, ignoredCosts);
+  const sceneParameterInputs = options.sceneParameterInputs ?? [];
+  const formulaPreflight = await preflightSkillFormulas(snapshot, client, () => true, sceneParameterInputs);
+  const inspection = inspectSimulationSnapshot(snapshot, ignoredCosts, sceneParameterInputs);
   const attributes = options.attributeInputs ?? { source: {}, target: {} };
   const absent = inspection.requirements.filter(row => row.storedValue === undefined
     && attributes[row.side][row.attribute.attributeKey] === undefined);
@@ -93,9 +96,9 @@ export async function runFirstHeroCase(snapshot: SimulationSnapshot, selection: 
   }
   const ratios = options.initialHealthRatios ?? { source: .5, target: 1 };
   const initialHealth = { source: healthLimits.source * ratios.source, target: healthLimits.target * ratios.target };
-  const prepared = await prepareSimulation(snapshot, attributes, initialHealth, [], [], ignoredCosts);
+  const prepared = await prepareSimulation(snapshot, attributes, initialHealth, [], [], ignoredCosts, sceneParameterInputs);
   const diagnostics: Record<string, unknown> = { snapshot, inspection, attributes, healthLimits, initialHealth,
-    formulaPreflight, ignoredCosts, prepared, options };
+    formulaPreflight, ignoredCosts, sceneParameterInputs, prepared, options };
   let sessionId: string | null = null;
   const equal = (a: unknown, b: unknown, label: string) => {
     if (JSON.stringify(a) !== JSON.stringify(b)) throw new Error(label);
@@ -178,7 +181,7 @@ export async function runFirstHeroCase(snapshot: SimulationSnapshot, selection: 
     const release = await client.release(sessionId, prepared.compileRequest.rulesHash);
     if (!release.released || release.sessionId !== sessionId) throw new Error('会话释放未确认');
     sessionId = null;
-    return { snapshot, inspection, attributes, healthLimits, initialHealth, formulaPreflight, ignoredCosts,
+    return { snapshot, inspection, attributes, healthLimits, initialHealth, formulaPreflight, ignoredCosts, sceneParameterInputs,
       prepared, compiled, automaticRules, runRequest: run.runRequest, runInputHash: run.runInputHash, done, repeated,
       assessment, release, iterations, variants, actualSkillExecutionFacts, hostRunElapsedMs,
       timingNotice: 'hostRunElapsedMs含Worker往返、编码及出口回收，不作为纯计算性能证据' };

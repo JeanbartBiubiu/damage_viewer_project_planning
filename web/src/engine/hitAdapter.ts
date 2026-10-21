@@ -547,6 +547,9 @@ function compileResultOperations(
 ): { semantic: SkillHitSemantic; operations: OperationDefinition[]; vamp?: AdaptedVampDamage } {
   if (result.resultType !== 'DAMAGE' && 'attackDamageRole' in result.detail) fail(`${path}.detail.attackDamageRole`, '非伤害结果不能声明普攻伤害角色');
   if (result.resultType === 'DAMAGE') {
+    if (effect.lifecycle !== null || result.lifecycleBehavior !== null) {
+      return fail(path, '即时命中伤害不能丢弃持续或周期生命周期与结果时点');
+    }
     const compiled = compileDamage(authored, result, path, state, typeEntries, resolveKind, empoweredPayload);
     return {
       semantic: { resultType: 'DAMAGE', target: 'TARGET', moment: 'INSTANT' },
@@ -695,6 +698,9 @@ function assertHitRule(rule: SkillTriggerRuleDetail, authored: AuthoredHitProgra
   if (rule.eventSource.eventType === 'SKILL_HIT' && rule.eventSource.detail.sourceSkillKey
     && rule.eventSource.detail.sourceSkillKey !== authored.skillKey) {
     return fail(`${root}.eventSource.detail.sourceSkillKey`, '来源技能必须等于本次作者技能身份');
+  }
+  if (rule.eventSource.eventType === 'SKILL_HIT' && Object.prototype.hasOwnProperty.call(rule.eventSource.detail, 'processMoment')) {
+    return fail(`${root}.eventSource.detail.processMoment`, '阶段命中必须先经过完整过程阶段图校验');
   }
   for (const action of rule.actions) {
     if (action.actionType !== 'EXECUTE_EFFECT') return fail(`${root}.actions.${action.actionKey}.actionType`, '未支持的过程或动作依赖，按共享契约整体拒绝');

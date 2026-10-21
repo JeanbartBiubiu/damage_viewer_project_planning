@@ -178,6 +178,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeOwnedHealthModifiers(ctx)
 	validateProviderElapsedReads(ctx)
 	finalizeListenerIndex(ctx)
+	finalizeAttackStartStateReads(ctx)
 	compileAmmoBindings(ctx)
 	validateMechanicFormulaContexts(ctx)
 	if len(session.Operations) > 65535 {

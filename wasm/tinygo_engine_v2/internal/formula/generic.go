@@ -48,6 +48,7 @@ const (
 	ReadDamageSelf
 	ReadEventLink
 	ReadUseAmmoBefore
+	ReadUseProviderStateBefore
 	ReadSourceStatusPresent
 	ReadTargetStatusPresent
 	ReadUseChargeDuration
@@ -351,6 +352,10 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 	}
 	if path == "use.ammo.before" {
 		return ReadUseAmmoBefore, "before", true
+	}
+	if strings.HasPrefix(path, "use.provider_state_before.") {
+		key := strings.TrimPrefix(path, "use.provider_state_before.")
+		return ReadUseProviderStateBefore, key, key != "" && !strings.ContainsAny(key, ".[] ")
 	}
 	for _, statusPath := range []struct {
 		prefix string

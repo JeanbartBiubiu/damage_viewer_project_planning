@@ -20,9 +20,12 @@ import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationResponse;
 import xyz.game.datamanage.model.skillparameter.SkillParameterResponse;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail;
 import xyz.game.datamanage.service.simulation.SnapshotSources.Source;
 import xyz.game.datamanage.support.authoring.SkillCastingPhaseSemantics;
 import xyz.game.datamanage.support.authoring.SkillChargeDurationSemantics;
+import xyz.game.datamanage.support.authoring.SkillHitPhaseSemantics;
+import xyz.game.datamanage.support.authoring.SkillAttackStartValueSemantics;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Reference;
@@ -131,9 +134,21 @@ final class SnapshotSkillClosure {
         }
         List<Reference> references = needed.stream().flatMap(object -> references(object).stream()).distinct().toList();
         references.stream().map(Reference::target).filter(target -> target.skillKey().isEmpty()).forEach(targets::add);
+        for (Aggregate object : needed) {
+            if (object.type() != SourceType.TRIGGER) continue;
+            var rule = configurations.get(object.skillKey()).triggerRules().stream()
+                .filter(candidate -> candidate.ruleKey().equals(object.key())).findFirst().orElseThrow();
+            if (rule.eventSource().detail() instanceof SkillTriggerSkillEventDetail detail && detail.processMoment() != null) {
+                var issues = SkillHitPhaseSemantics.shapeIssues(detail.processMoment(), "eventSource.detail.processMoment");
+                if (!issues.isEmpty()) throw SnapshotIssues.invalid(objectPath(object) + "." + issues.getFirst().get("field"),
+                    "INVALID_STORED_DATA", issues.getFirst().get("message"));
+            }
+        }
         try {
             SkillObjectReferences.extractAndValidate(gameId, needed, List.copyOf(objects.values()), targets);
             SkillCastingPhaseSemantics.validate(needed, List.copyOf(objects.values()));
+            SkillHitPhaseSemantics.validate(needed, List.copyOf(objects.values()));
+            SkillAttackStartValueSemantics.validate(needed, List.copyOf(objects.values()));
             SkillChargeDurationSemantics.validate(needed, needed);
         } catch (ApiException exception) {
             throw translate(exception);

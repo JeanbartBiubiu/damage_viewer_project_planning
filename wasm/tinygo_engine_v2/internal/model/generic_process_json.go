@@ -37,7 +37,7 @@ func processJSONShape(data []byte, name, allowed, required string) error {
 	// Nullable fields are still part of the frozen new object shape.
 	if name == "ProcessDefinition" || name == "ProcessMomentDefinition" || name == "ProcessInstanceSnapshot" || name == "ProcessRepeatSnapshot" || name == "ProcessActionOccupancy" {
 		for _, k := range strings.Fields(allowed) {
-			if name == "ProcessInstanceSnapshot" && (k == "empoweredAttack" || k == "empoweredPredecessorUseRef") {
+			if name == "ProcessInstanceSnapshot" && (k == "empoweredAttack" || k == "empoweredPredecessorUseRef" || k == "skillHitStages") {
 				continue
 			}
 			if _, present := fields[k]; !present {
@@ -46,6 +46,9 @@ func processJSONShape(data []byte, name, allowed, required string) error {
 		}
 	}
 	if name == "ProcessInstanceSnapshot" {
+		if raw, present := fields["skillHitStages"]; present && string(raw) == "null" {
+			return errors.New(name + ".skillHitStages must be an array")
+		}
 		if raw, present := fields["empoweredPredecessorUseRef"]; present {
 			var ref string
 			if err := json.Unmarshal(raw, &ref); err != nil || strings.TrimSpace(ref) == "" {
@@ -195,7 +198,7 @@ func (v *ProcessCommandFact) UnmarshalJSON(data []byte) error {
 	return nil
 }
 func (v *ProcessInstanceSnapshot) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "ProcessInstanceSnapshot", "owner providerRef processKey skillKey useKey target stepKey stepVersion stepExecutionIndex lastExecutionAtMs stepCompletedAtMs startedAtMs stepStartedAtMs advanceAtMs expiresAtMs actualCosts cooldownStarted status failureReason finishedAtMs repeat actionOccupancies empoweredAttack empoweredPredecessorUseRef", "owner providerRef processKey skillKey useKey target stepKey stepVersion stepExecutionIndex startedAtMs stepStartedAtMs advanceAtMs actualCosts cooldownStarted status actionOccupancies"); err != nil {
+	if err := processJSONShape(data, "ProcessInstanceSnapshot", "owner providerRef processKey skillKey useKey target stepKey stepVersion stepExecutionIndex lastExecutionAtMs stepCompletedAtMs startedAtMs stepStartedAtMs advanceAtMs expiresAtMs actualCosts cooldownStarted status failureReason finishedAtMs repeat actionOccupancies empoweredAttack empoweredPredecessorUseRef skillHitStages", "owner providerRef processKey skillKey useKey target stepKey stepVersion stepExecutionIndex startedAtMs stepStartedAtMs advanceAtMs actualCosts cooldownStarted status actionOccupancies"); err != nil {
 		return err
 	}
 	type plain ProcessInstanceSnapshot
@@ -203,7 +206,27 @@ func (v *ProcessInstanceSnapshot) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
+	if value.SkillHitStages != nil && len(*value.SkillHitStages) > 64 {
+		return errors.New("ProcessInstanceSnapshot.skillHitStages admits at most 64 executed stages")
+	}
 	*v = ProcessInstanceSnapshot(value)
+	return nil
+}
+
+func (v *ProcessSkillHitStage) UnmarshalJSON(data []byte) error {
+	const fields = "hitBindingKey stepKey timeMs released contact completed"
+	if err := processJSONShape(data, "ProcessSkillHitStage", fields, fields); err != nil {
+		return err
+	}
+	type plain ProcessSkillHitStage
+	var value plain
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	if strings.TrimSpace(value.HitBindingKey) == "" || strings.TrimSpace(value.StepKey) == "" || value.TimeMs < 0 || value.Contact && !value.Released {
+		return errors.New("ProcessSkillHitStage requires actual identity, nonnegative time and released contact")
+	}
+	*v = ProcessSkillHitStage(value)
 	return nil
 }
 

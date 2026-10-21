@@ -1237,8 +1237,8 @@ export function eventStepType(
   eventSource: SkillTriggerEventSource,
   process: SkillProcess | null | undefined
 ): SkillProcessStepType | null {
-  if (eventSource.eventType !== 'PROCESS_MOMENT') return null;
-  const stepKey = eventSource.detail.moment.stepKey;
+  if (eventSource.eventType !== 'PROCESS_MOMENT' && eventSource.eventType !== 'SKILL_HIT') return null;
+  const stepKey = eventSource.eventType === 'SKILL_HIT' ? eventSource.detail.processMoment?.moment.stepKey : eventSource.detail.moment.stepKey;
   if (!stepKey || !process) return null;
   return process.steps.find((item) => item.stepKey === stepKey)?.stepType ?? null;
 }
@@ -3251,7 +3251,7 @@ export function valueKindsForInternalState(
 ): SkillTriggerInternalStateValueKind[] {
   switch (stateType) {
     case 'COUNTER':
-      return ['VALUE'];
+      return includeAttackStart ? ['VALUE', 'ATTACK_START_VALUE'] : ['VALUE'];
     case 'AMMO':
       return includeAttackStart ? ['VALUE', 'ATTACK_START_VALUE'] : ['VALUE'];
     case 'MODE':
@@ -3350,6 +3350,19 @@ export function validateSkillTriggerDraft(
     const phase = draft.eventSource.detail.castPhase;
     if (phase === null || !(SKILL_TRIGGER_CAST_PHASES as readonly string[]).includes(phase)) {
       pushError(nestedErrors, 'eventSource.detail.castPhase', SKILL_TRIGGER_CAST_PHASE_REQUIRED_MESSAGE);
+    }
+  }
+  if (draft.eventSource.eventType === 'SKILL_HIT' && Object.prototype.hasOwnProperty.call(draft.eventSource.detail, 'processMoment')) {
+    const stage = draft.eventSource.detail.processMoment;
+    const path = 'eventSource.detail.processMoment';
+    const process = stage && options.processesByKey?.get(stage.processKey);
+    const steps = [...(process?.steps ?? [])].sort((a, b) => a.sortOrder - b.sortOrder);
+    const index = stage ? steps.findIndex(step => step.stepKey === stage.moment?.stepKey) : -1;
+    if (!stage || !options.skillKey || draft.eventSource.detail.sourceSkillKey !== options.skillKey
+      || !process || process.skillKey !== options.skillKey || process.activationType !== 'ACTIVE'
+      || stage.moment?.momentType !== 'STEP_EXECUTION' || index < 0
+      || stage.requiresPriorStepKey !== null && !steps.slice(0, index).some(step => step.stepKey === stage.requiresPriorStepKey)) {
+      pushError(nestedErrors, path, '阶段命中必须明确选择本技能主动过程、实际执行步骤及更早的接触阶段。');
     }
   }
   if (draft.eventSource.eventType === 'PROCESS_MOMENT' && !draft.eventSource.detail.processKey.trim()) {
@@ -3462,6 +3475,14 @@ export function validateSkillTriggerDraft(
       if (condition.conditionType === 'INTERNAL_STATE_CHECK' && !condition.detail.stateSkillKey?.trim()) {
         pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.stateSkillKey`,
           '请选择内部状态所属技能。');
+      }
+      if (condition.conditionType === 'INTERNAL_STATE_CHECK' && condition.detail.valueKind === 'ATTACK_START_VALUE') {
+        const state = options.statesByKey?.get(condition.detail.stateKey);
+        if (state?.stateType === 'COUNTER' && (state.scope !== 'SKILL' || condition.detail.stateSkillKey !== options.skillKey
+          || !['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT'].includes(draft.eventSource.eventType))) {
+          pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.valueKind`,
+            '计数开始值只允许本技能自身计数在真实普通攻击开始或命中时读取。');
+        }
       }
       if (condition.conditionType === 'TARGET_CATEGORY_CHECK') {
         const error = targetCategoryConditionError(condition.detail, draft.eventSource.eventType);

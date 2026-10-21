@@ -540,7 +540,8 @@ export type AutomaticSkillRecording = {
 export type SkillActionBinding = {
   bindingKey: string; source: 'source'; providerRef: string; providerDefinitionRef: string; skillKey: string;
   controls: Array<{ action: SkillActionPhase; processKey: string; abilityRef: string }>;
-  hitBindings: Array<{ hitBindingKey: string; processKey: string; moment: ProcessMomentDefinition; hitAbilityRef: string }>;
+  hitBindings: Array<{ hitBindingKey: string; processKey: string; moment: ProcessMomentDefinition; hitAbilityRef: string;
+    requiresPriorHitBindingKey?: string | null }>;
 };
 
 export type SkillActionPlan = {
@@ -699,6 +700,7 @@ export type BasicAttackPrimaryReplacement = {
 export type EmpoweredAttackConsumption = { useRef: string; hitRef: string; target: string; replacedPrimary?: BasicAttackPrimaryIdentity };
 
 export type ProcessInstanceSnapshot = {
+  skillHitStages?: Array<{ hitBindingKey: string; stepKey: string; timeMs: number; released: boolean; contact: boolean; completed: boolean }>;
   owner: 'source' | 'target';
   providerRef: string;
   processKey: string;

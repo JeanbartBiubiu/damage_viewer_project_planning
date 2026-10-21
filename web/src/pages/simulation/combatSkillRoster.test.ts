@@ -56,7 +56,10 @@ describe('混合战斗真实绑定技能描述', () => {
     expect(describeCombatSkill(active(true), false)).toMatchObject({ kind: 'active', targetSide: 'source', hitPreset: null, issue: null });
     const complex = active();
     complex.processes[0]!.steps.push({ ...structuredClone(complex.processes[0]!.steps[0]!), stepKey: 'second_step' });
-    expect(describeCombatSkill(complex, false)).toMatchObject({ kind: 'active', issue: expect.stringContaining('单步骤') });
+    expect(describeCombatSkill(complex, false)).toMatchObject({ kind: 'active', issue: null });
+    complex.processes[0]!.steps[1] = { ...complex.processes[0]!.steps[1]!, stepType: 'MULTI_HIT',
+      detail: { repeatCountValue: { kind: 'FIXED', value: 2 }, intervalValue: { kind: 'FIXED', value: 10 } } };
+    expect(describeCombatSkill(complex, false)).toMatchObject({ kind: 'active', issue: expect.stringContaining('复杂过程') });
   });
 
   it('缺失或歧义首次过程、缺占用声明及目标矛盾只给问题，不改写配置或冒充可执行', () => {
@@ -121,10 +124,11 @@ describe('混合战斗真实绑定技能描述', () => {
   it('结构提示保持可见但不充当新的硬门禁；不支持的自动过程仍由正式请求路径拒绝', async () => {
     const snapshot = simulationActiveSample(true);
     const configuration = snapshot.skillConfigurations[1]!;
-    configuration.processes[0]!.steps.push({ ...structuredClone(configuration.processes[0]!.steps[0]!), stepKey: 'second_step' });
+    configuration.processes[0]!.steps.push({ ...structuredClone(configuration.processes[0]!.steps[0]!), stepKey: 'second_step',
+      stepType: 'MULTI_HIT', detail: { repeatCountValue: { kind: 'FIXED', value: 2 }, intervalValue: { kind: 'FIXED', value: 10 } } });
     const description = option(configuration);
     const reconciled = reconcileCombatRules([description], snapshot.selection.sourceCharacterKey, [], snapshot.selection.sourceSkillSettings, {});
-    expect(description.combat!.issue).toContain('单步骤');
+    expect(description.combat!.issue).toContain('复杂过程');
     expect(reconciled.issues).toEqual([]);
     approveSnapshotFixture(snapshot);
     const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
@@ -133,7 +137,7 @@ describe('混合战斗真实绑定技能描述', () => {
     }
     const prepared = await prepareSimulation(snapshot, inputs, { source: 250, target: 500 });
     await expect(automaticSkillRequest(prepared, snapshot, { rules: reconciled.enabledRules, durationMs: 1000, recordTimeSeries: false,
-      maxAutomaticSkillRecords: 10, maxHealingRecords: 10, outputMode: 'detailed' })).rejects.toThrow('单步骤');
+      maxAutomaticSkillRecords: 10, maxHealingRecords: 10, outputMode: 'detailed' })).rejects.toThrow(/步骤|复杂/);
   });
 });
 

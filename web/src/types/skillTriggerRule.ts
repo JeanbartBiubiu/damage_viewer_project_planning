@@ -72,6 +72,11 @@ export type SkillTriggerSkillUsedEventDetail = {
 
 export type SkillTriggerSkillHitEventDetail = {
   sourceSkillKey: string | null;
+  processMoment?: {
+    processKey: string;
+    moment: { momentType: 'STEP_EXECUTION'; stepKey: string };
+    requiresPriorStepKey: string | null;
+  };
 };
 
 export type SkillTriggerProcessMomentEventDetail = {
@@ -241,12 +246,12 @@ export type SkillTriggerSpellShieldBlockedEventSource = {
 
 export type SkillTriggerHitLinkAppliedEventSource = {
   eventType: 'HIT_LINK_APPLIED';
-  detail: SkillTriggerSkillHitEventDetail;
+  detail: Pick<SkillTriggerSkillHitEventDetail, 'sourceSkillKey'>;
 };
 
 export type SkillTriggerAttackLinkAppliedEventSource = {
   eventType: 'ATTACK_LINK_APPLIED';
-  detail: SkillTriggerSkillHitEventDetail;
+  detail: Pick<SkillTriggerSkillHitEventDetail, 'sourceSkillKey'>;
 };
 
 export type SkillTriggerEventSource =

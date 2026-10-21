@@ -25,6 +25,7 @@ type GenericEvalContext struct {
 	UseChargeDurationMs     int64
 	HasUseAmmoBefore        bool
 	UseAmmoBefore           float64
+	UseProviderStateBefore  []ProviderStateBeforeValue
 	HasStatusContext        bool
 	SourceStatuses          map[string]bool
 	TargetStatuses          map[string]bool
@@ -368,6 +369,14 @@ func genericArithmeticName(op GenericOp) string {
 }
 
 func evalRead(kind GenericReadKind, key string, ctx *GenericEvalContext) (float64, error) {
+	if kind == ReadUseProviderStateBefore {
+		for _, captured := range ctx.UseProviderStateBefore {
+			if captured.StateKey == key {
+				return captured.Value, nil
+			}
+		}
+		return 0, errors.New("use.provider_state_before requires the same owning attack's committed counter capture: " + key)
+	}
 	if kind == ReadUseAmmoBefore {
 		if !ctx.HasUseAmmoBefore {
 			return 0, errors.New("use.ammo.before requires the original owning use's committed ammo capture")

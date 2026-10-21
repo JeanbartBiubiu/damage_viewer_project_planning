@@ -1,6 +1,10 @@
 package model
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"errors"
+	"strings"
+)
 
 type SkillActionControl struct {
 	Action     string `json:"action"`
@@ -9,10 +13,11 @@ type SkillActionControl struct {
 }
 
 type SkillActionHitBinding struct {
-	HitBindingKey string                  `json:"hitBindingKey"`
-	ProcessKey    string                  `json:"processKey"`
-	Moment        ProcessMomentDefinition `json:"moment"`
-	HitAbilityRef string                  `json:"hitAbilityRef"`
+	HitBindingKey              string                  `json:"hitBindingKey"`
+	ProcessKey                 string                  `json:"processKey"`
+	Moment                     ProcessMomentDefinition `json:"moment"`
+	HitAbilityRef              string                  `json:"hitAbilityRef"`
+	RequiresPriorHitBindingKey *string                 `json:"requiresPriorHitBindingKey,omitempty"`
 }
 
 type SkillActionBinding struct {
@@ -54,14 +59,18 @@ func (value *SkillActionControl) UnmarshalJSON(data []byte) error {
 }
 
 func (value *SkillActionHitBinding) UnmarshalJSON(data []byte) error {
-	const fields = "hitBindingKey processKey moment hitAbilityRef"
-	if err := processJSONShape(data, "SkillActionHitBinding", fields, fields); err != nil {
+	const fields = "hitBindingKey processKey moment hitAbilityRef requiresPriorHitBindingKey"
+	const required = "hitBindingKey processKey moment hitAbilityRef"
+	if err := processJSONShape(data, "SkillActionHitBinding", fields, required); err != nil {
 		return err
 	}
 	type plain SkillActionHitBinding
 	var decoded plain
 	if err := json.Unmarshal(data, &decoded); err != nil {
 		return err
+	}
+	if decoded.RequiresPriorHitBindingKey != nil && strings.TrimSpace(*decoded.RequiresPriorHitBindingKey) == "" {
+		return errors.New("SkillActionHitBinding.requiresPriorHitBindingKey must be a non-empty string or null")
 	}
 	*value = SkillActionHitBinding(decoded)
 	return nil

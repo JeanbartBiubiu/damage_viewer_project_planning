@@ -2682,6 +2682,9 @@ func (f *executionFrame) maybeDispatchBasicAttackStart(ability planbundle.Compil
 	if !found {
 		return f.run.skillHitErr(model.GenericErrUnknownRef, "attack start useRef is missing", "attackStartFacts.useRef", fact.UseRef)
 	}
+	if err := f.captureAttackStartState(use); err != nil {
+		return err
+	}
 	eventTypes := []string{model.EventTypeBasicAttackStart}
 	eventTypes = append(eventTypes, f.abilityTypeKeys(ability)...)
 	eventTypes = f.appendCastOriginEventType(eventTypes)

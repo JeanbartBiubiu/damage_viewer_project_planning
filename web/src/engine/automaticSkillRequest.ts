@@ -8,6 +8,7 @@ import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
 import { empoweredAttackBinding, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 import { tryFoldConstant } from './numericAdapter';
+import { automaticProcessStepsAllowed } from './processSkillHitStages';
 import { drivenActiveAmmo } from './simulationAmmoMechanics';
 
 export type AutomaticSkillInput = Pick<SimulationPlannedSkill, 'origin' | 'skillKey' | 'skillLevel'> & {
@@ -113,9 +114,8 @@ export async function automaticSkillRequest(prepared: ReturnType<typeof assemble
       || matches.length !== 1 || !binding || binding.source !== 'source' || binding.controls.length !== 1 || !control || !ability
       || selectedBindings.has(binding.bindingKey) || ability.mount.providerRef !== binding.providerRef || ability.mount.definitionRef !== binding.providerDefinitionRef
       || ability.ability.skillKey !== input.skillKey || ability.ability.processControl?.action !== 'INITIAL'
-      || ability.ability.processControl.processKey !== control.processKey || !process || process.steps.length !== 1
-      || process.steps.some(step => !['IMMEDIATE', 'DELAY', 'EMPOWERED_BASIC_ATTACK', 'CHANNEL'].includes(step.stepType))) {
-      throw new Error(`${path}: 真实来源、等级、首次绑定或单步骤即时／有限延时／有限引导过程不一致；其它复杂过程请用固定时刻计划`);
+      || ability.ability.processControl.processKey !== control.processKey || !process || !automaticProcessStepsAllowed(process)) {
+      throw new Error(`${path}: 真实来源、等级、首次绑定或有限普通步骤链不一致；复杂过程仍需满足原单步骤范围`);
     }
     const empowered = empoweredAttackBinding(compile, binding);
     if (empowered) {

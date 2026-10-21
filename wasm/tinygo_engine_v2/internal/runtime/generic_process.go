@@ -215,6 +215,10 @@ func (s *genericRunState) initProcessFrame(f *executionFrame, p *processRuntime)
 		staged.Repeat = &repeat
 	}
 	staged.ActionOccupancies = append([]model.ProcessActionOccupancy{}, p.ActionOccupancies...)
+	if p.SkillHitStages != nil {
+		stages := append([]model.ProcessSkillHitStage{}, (*p.SkillHitStages)...)
+		staged.SkillHitStages = &stages
+	}
 	staged.ActualCosts = make(map[string]float64, len(p.ActualCosts))
 	for key, amount := range p.ActualCosts {
 		staged.ActualCosts[key] = amount
@@ -821,6 +825,10 @@ func (s *genericRunState) snapshotProcesses() []model.ProcessInstanceSnapshot {
 	for _, p := range ordered {
 		row := p.ProcessInstanceSnapshot
 		row.ActionOccupancies = append([]model.ProcessActionOccupancy{}, p.ActionOccupancies...)
+		if p.SkillHitStages != nil {
+			stages := append([]model.ProcessSkillHitStage{}, (*p.SkillHitStages)...)
+			row.SkillHitStages = &stages
+		}
 		if p.Repeat != nil {
 			repeat := *p.Repeat
 			row.Repeat = &repeat

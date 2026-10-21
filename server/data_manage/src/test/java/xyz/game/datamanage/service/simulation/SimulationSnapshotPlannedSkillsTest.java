@@ -314,6 +314,101 @@ class SimulationSnapshotPlannedSkillsTest {
         assertNull(source(declared, "source", SPELL).inactiveReason());
     }
 
+    @Test
+    void explicitHitPhasesRemainInTheCompleteAuthorAndEnabledClosure() throws Exception {
+        var baseline = fixture.service.get(GAME, choice(settings(1), plans(1)));
+        var oldAuthor = baseline.skillConfigurations().stream().filter(c -> c.skill().skillKey().equals(SPELL)).findFirst().orElseThrow();
+        assertFalse(fixture.json.valueToTree(oldAuthor).path("triggerRules").get(1).path("eventSource").path("detail").has("processMoment"));
+        var data = stagedAuthor();
+        fixture.configuration(SPELL, 2, data.toString());
+        var result = fixture.service.get(GAME, choice(settings(1), plans(1)));
+        var author = result.skillConfigurations().stream().filter(c -> c.skill().skillKey().equals(SPELL)).findFirst().orElseThrow();
+        var phase = author.triggerRules().stream().filter(r -> r.ruleKey().equals("on_hit_later")).findFirst().orElseThrow();
+        assertEquals("wait", ((xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail) phase.eventSource().detail()).processMoment().requiresPriorStepKey());
+        assertTrue(source(result, "source", SPELL).enabledRuleKeys().containsAll(List.of("on_hit", "on_hit_later", "on_used")));
+        assertTrue(result.references().stream().anyMatch(r -> r.sourceKey().equals("on_hit_later")
+            && r.fieldPath().equals("eventSource.detail.processMoment.requiresPriorStepKey") && r.targetType().equals("STEP")
+            && r.targetKey().equals("cast") && r.targetSubKey().equals("wait")));
+        assertNotEquals(baseline.snapshotDigest(), result.snapshotDigest());
+    }
+
+    @Test
+    void aSnapshotRejectsADependencyWhoseActualHitRuleHasBeenRemoved() throws Exception {
+        var data = stagedAuthor();
+        ((com.fasterxml.jackson.databind.node.ArrayNode) data.path("triggerRules")).remove(1);
+        fixture.configuration(SPELL, 2, data.toString());
+        var error = assertThrows(ApiException.class, () -> fixture.service.get(GAME, choice(settings(1), plans(1))));
+        assertTrue(error.getDetails().toString().contains("requiresPriorStepKey"));
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"missing_prior", "blank_prior", "unknown_phase", "unknown_moment"})
+    void malformedStoredPhasesCannotBecomeDefaultsWhenBuildingTheSnapshot(String scenario) throws Exception {
+        var data = stagedAuthor();
+        var phase = (com.fasterxml.jackson.databind.node.ObjectNode) data.path("triggerRules").get(1).path("eventSource").path("detail").path("processMoment");
+        switch (scenario) {
+            case "missing_prior" -> phase.remove("requiresPriorStepKey");
+            case "blank_prior" -> phase.put("requiresPriorStepKey", " ");
+            case "unknown_phase" -> phase.put("unexpected", true);
+            case "unknown_moment" -> ((com.fasterxml.jackson.databind.node.ObjectNode) phase.path("moment")).put("unexpected", true);
+            default -> fail(scenario);
+        }
+        fixture.configuration(SPELL, 2, data.toString());
+        var error = assertThrows(ApiException.class, () -> fixture.service.get(GAME, choice(settings(1), plans(1))));
+        assertTrue(error.getDetails().toString().contains("processMoment"));
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"SKILL", "TARGET"})
+    void naturalCounterSnapshotReadsRetainTheirOwnedScopeInTheRealClosure(String scope) throws Exception {
+        var data = (com.fasterxml.jackson.databind.node.ObjectNode) fixture.json.valueToTree(fixture.configurations.get(GAME, SPELL));
+        data.withArray("internalStates").add(fixture.json.readTree("""
+            {"stateKey":"counter","stateType":"COUNTER","scope":"%s",
+              "detail":{"initialValue":{"kind":"FIXED","value":0},"maxValue":{"kind":"FIXED","value":2}}}
+            """.formatted(scope)));
+        var rule = (com.fasterxml.jackson.databind.node.ObjectNode) fixture.json.readTree(effectRule("counter_start", "BASIC_ATTACK_START", "{}", "tail"));
+        rule.set("conditionGroups", fixture.json.readTree("""
+            [{"groupKey":"counter","conditions":[{"conditionKey":"ready","conditionType":"INTERNAL_STATE_CHECK",
+              "detail":{"stateSkillKey":"selected_spell","stateKey":"counter","valueKind":"ATTACK_START_VALUE",
+                "comparator":"EQ","comparisonValue":{"kind":"FIXED","value":2}}}]}]
+            """));
+        data.withArray("triggerRules").add(rule);
+        fixture.configuration(SPELL, 2, data.toString());
+        Selection selection = new Selection("hero_a", 1, "hero_b", 2, ATTACK, 1,
+            List.of(), List.of(), List.of(), List.of(), settings(1), List.of(), plans(1));
+        if (scope.equals("TARGET")) {
+            var error = assertThrows(ApiException.class, () -> fixture.service.get(GAME, selection));
+            assertTrue(error.getDetails().toString().contains("valueKind"));
+        } else {
+            var result = fixture.service.get(GAME, selection);
+            assertTrue(source(result, "source", SPELL).enabledRuleKeys().contains("counter_start"));
+            assertTrue(result.references().stream().anyMatch(r -> r.sourceKey().equals("counter_start")
+                && r.targetType().equals("STATE") && r.targetKey().equals("counter") && r.targetSkillKey().equals(SPELL)));
+            var author = result.skillConfigurations().stream().filter(c -> c.skill().skillKey().equals(SPELL)).findFirst().orElseThrow();
+            assertTrue(fixture.json.valueToTree(author).path("triggerRules").toString().contains("ATTACK_START_VALUE"));
+        }
+    }
+
+    private com.fasterxml.jackson.databind.node.ObjectNode stagedAuthor() throws Exception {
+        var configured = fixture.configurations.get(GAME, SPELL);
+        var data = (com.fasterxml.jackson.databind.node.ObjectNode) fixture.json.valueToTree(configured);
+        var process = (com.fasterxml.jackson.databind.node.ObjectNode) data.path("processes").get(0);
+        var first = (com.fasterxml.jackson.databind.node.ObjectNode) process.path("steps").get(0);
+        first.put("sortOrder", 10).put("occupiesAction", true);
+        var second = first.deepCopy(); second.put("stepKey", "follow").put("sortOrder", 20).put("occupiesAction", false);
+        ((com.fasterxml.jackson.databind.node.ObjectNode) second.path("detail").path("delayValue")).put("value", 750);
+        ((com.fasterxml.jackson.databind.node.ArrayNode) process.path("steps")).add(second);
+        ((com.fasterxml.jackson.databind.node.ObjectNode) data.path("triggerRules").get(0).path("eventSource").path("detail")).put("useKind", "ACTIVE");
+        var firstHit = (com.fasterxml.jackson.databind.node.ObjectNode) data.path("triggerRules").get(1);
+        ((com.fasterxml.jackson.databind.node.ObjectNode) firstHit.path("eventSource").path("detail")).set("processMoment", fixture.json.readTree("""
+            {"processKey":"cast","moment":{"momentType":"STEP_EXECUTION","stepKey":"wait"},"requiresPriorStepKey":null}
+            """));
+        var later = firstHit.deepCopy(); later.put("ruleKey", "on_hit_later");
+        var phase = (com.fasterxml.jackson.databind.node.ObjectNode) later.path("eventSource").path("detail").path("processMoment");
+        phase.put("requiresPriorStepKey", "wait");
+        ((com.fasterxml.jackson.databind.node.ObjectNode) phase.path("moment")).put("stepKey", "follow");
+        ((com.fasterxml.jackson.databind.node.ArrayNode) data.path("triggerRules")).add(later);
+        return data;
+    }
+
     private void active(String key) throws Exception {
         fixture.configuration(key, 2, """
             {"parameters":[{"parameterKey":"amount","valueType":"DECIMAL","valueMode":"SKILL_LEVEL","levelValues":{"1":10,"2":20}}],

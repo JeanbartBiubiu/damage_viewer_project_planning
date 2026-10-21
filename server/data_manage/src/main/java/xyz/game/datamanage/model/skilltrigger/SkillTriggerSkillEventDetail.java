@@ -15,6 +15,8 @@ public record SkillTriggerSkillEventDetail(
     SkillTriggerEventUseKind useKind,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     SkillTriggerCastPhase castPhase,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    SkillTriggerSkillHitProcessMoment processMoment,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillTriggerEventDetail {
@@ -26,7 +28,7 @@ public record SkillTriggerSkillEventDetail(
     }
 
     public SkillTriggerSkillEventDetail(String sourceSkillKey, SkillTriggerEventUseKind useKind) {
-        this(sourceSkillKey, useKind, null, Set.of(), Set.of());
+        this(sourceSkillKey, useKind, null, null, Set.of(), Set.of());
     }
 
     public SkillTriggerSkillEventDetail(
@@ -34,7 +36,16 @@ public record SkillTriggerSkillEventDetail(
         SkillTriggerEventUseKind useKind,
         SkillTriggerCastPhase castPhase
     ) {
-        this(sourceSkillKey, useKind, castPhase, Set.of(), Set.of());
+        this(sourceSkillKey, useKind, castPhase, null, Set.of(), Set.of());
+    }
+
+    public SkillTriggerSkillEventDetail(
+        String sourceSkillKey,
+        SkillTriggerEventUseKind useKind,
+        SkillTriggerCastPhase castPhase,
+        SkillTriggerSkillHitProcessMoment processMoment
+    ) {
+        this(sourceSkillKey, useKind, castPhase, processMoment, Set.of(), Set.of());
     }
 
     @JsonCreator
@@ -42,6 +53,7 @@ public record SkillTriggerSkillEventDetail(
         @JsonProperty("sourceSkillKey") String sourceSkillKey,
         @JsonProperty("useKind") SkillTriggerEventUseKind useKind,
         @JsonProperty("castPhase") SkillTriggerCastPhase castPhase,
+        @JsonProperty("processMoment") JsonNode processMoment,
         @JsonProperty("processKey") JsonNode processKey,
         @JsonProperty("effectKey") JsonNode effectKey,
         @JsonAnySetter Map<String, JsonNode> unknown
@@ -50,6 +62,7 @@ public record SkillTriggerSkillEventDetail(
             sourceSkillKey,
             useKind,
             castPhase,
+            SkillTriggerSkillHitProcessMoment.fromNode(processMoment),
             SkillTriggerDetailFieldCapture.captureForeign("processKey", processKey, "effectKey", effectKey),
             SkillTriggerDetailFieldCapture.captureUnknown(unknown)
         );

@@ -89,6 +89,7 @@ func (s *genericRunState) basicAttackAmmoReady() (bool, *model.EngineError) {
 }
 
 func (f *executionFrame) populateMechanicEvalContext(context *formula.GenericEvalContext, ability planbundle.CompiledAbility) {
+	f.populateAttackStartStateContext(context)
 	if !f.run.compiled.HasMechanicReads {
 		return
 	}

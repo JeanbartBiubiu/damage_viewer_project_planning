@@ -51,9 +51,16 @@ func TestAutomaticAdmissionDoesNotRejectManualShapes(t *testing.T) {
 		name, path string
 		mutate     func(*model.CompileRequest)
 	}{
-		{"multiple steps", ".steps", func(request *model.CompileRequest) {
+		{"multiple immediate steps", ".steps", func(request *model.CompileRequest) {
+			request.SharedProviders[0].Processes[0].Steps = []model.ProcessStepDefinition{
+				{StepKey: "first", StepType: "IMMEDIATE", OccupiesAction: model.BoolPtr(false)},
+				{StepKey: "last", StepType: "IMMEDIATE", OccupiesAction: model.BoolPtr(false)},
+			}
+		}},
+		{"delay followed by channel", ".stepType", func(request *model.CompileRequest) {
 			process := &request.SharedProviders[0].Processes[0]
-			process.Steps = append(process.Steps, model.ProcessStepDefinition{StepKey: "extra", StepType: "IMMEDIATE", OccupiesAction: model.BoolPtr(false)})
+			first := "IMMEDIATE"
+			process.Steps = append(process.Steps, model.ProcessStepDefinition{StepKey: "extra", StepType: "CHANNEL", OccupiesAction: model.BoolPtr(false), DurationMs: processCompileNumber(1000), ExecutionCount: processCompileNumber(4), FirstExecution: &first})
 		}},
 		{"missing cooldown", ".cooldown", func(request *model.CompileRequest) { request.SharedProviders[0].Processes[0].Cooldown = nil }},
 		{"zero cooldown", ".durationMs", func(request *model.CompileRequest) {
@@ -85,6 +92,16 @@ func TestAutomaticAdmissionDoesNotRejectManualShapes(t *testing.T) {
 				t.Fatal(binding)
 			}
 		})
+	}
+}
+
+func TestAutomaticSingleImmediateRemainsEligible(t *testing.T) {
+	request := automaticBindingCompileRequest()
+	step := &request.SharedProviders[0].Processes[0].Steps[0]
+	step.StepType, step.DelayMs = "IMMEDIATE", nil
+	result := CompileGeneric(request)
+	if !result.OK || len(result.Session.SkillActionBindings) != 1 || !result.Session.SkillActionBindings[0].AutomaticEligible {
+		t.Fatal("existing single immediate admission changed", result.Result)
 	}
 }
 

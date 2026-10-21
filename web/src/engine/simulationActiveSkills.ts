@@ -6,6 +6,7 @@ import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
 import { adaptProcessProgram, type CastCostRef, type ProcessBasicAttackContext } from './processAdapter';
 import { adaptHitProgram } from './hitAdapter';
+import { processSkillHitStages } from './processSkillHitStages';
 import { cooldownDurationProviderKey } from './cooldownDurationEffectAdapter';
 import { NumericAdaptationError } from './numericAdapter';
 import { finiteTargetCounterContract } from './finiteTargetCounterContract';
@@ -189,6 +190,12 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   const firstProcesses = configuration.processes.filter(process => firstProcessKeys.has(process.processKey) && process.activationType === 'ACTIVE');
   if (firstProcessKeys.size !== 1 || firstProcesses.length !== 1) fail(`${root}.processes`, '首次入口必须明确引用唯一有限主动过程，不能从完整过程数组猜选');
   const process = firstProcesses[0]!;
+  if (complete.triggerRules.some(rule => rule.eventSource.eventType === 'SKILL_HIT'
+    && Object.prototype.hasOwnProperty.call(rule.eventSource.detail, 'processMoment'))) {
+    processSkillHitStages(plan.skillKey, process, complete.triggerRules.filter(rule => rule.eventSource.eventType === 'SKILL_HIT'
+      && (rule.eventSource.detail.sourceSkillKey === null || rule.eventSource.detail.sourceSkillKey === plan.skillKey
+        || Object.prototype.hasOwnProperty.call(rule.eventSource.detail, 'processMoment'))));
+  }
   for (const step of process.steps) if (typeof step.occupiesAction !== 'boolean') {
     fail(`${root}.processes.${process.processKey}.steps.${step.stepKey}.occupiesAction`, '计划步骤必须由作者明确是否占用行动，不为延时猜默认值');
   }
@@ -337,11 +344,13 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   const defenses = new Map<string, ReturnType<typeof compileSimulationDamageFormula>>();
   let vampRules: ReturnType<typeof adaptHitProgram>['vampRules'];
   if (adapted.empoweredPayload && hitRules.length) fail(`${root}.triggerRules`, '强化待击结果只来自真实步骤效果挂接，不能再以技能命中监听重复执行');
-  if (hitRules.length || adapted.empoweredPayload) {
+  const hitStages = processSkillHitStages(plan.skillKey, process, hitRules);
+  if (adapted.empoweredPayload) hitStages.push({ rules: [], abilityKey: 'selected_skill_hit', hitBindingKey: 'selected_skill_release_hit',
+    moment: { momentType: 'STEP_EXECUTION', stepKey: process.steps[0]!.stepKey, failureReason: null }, authorPaths: [] });
+  for (const stage of hitStages) {
     const terminal = provider.processes[0]!.steps[provider.processes[0]!.steps.length - 1]!;
-    const stepExecution = ['CHARGE', 'RECAST', 'MULTI_HIT', 'CHANNEL', 'EMPOWERED_BASIC_ATTACK'].includes(terminal.stepType);
     const hit = adapted.empoweredPayload?.hit ?? adaptHitProgram({ gameId: snapshot.gameId, skillKey: plan.skillKey, skillLevel: plan.skillLevel,
-      characterLevel: snapshot.selection.sourceLevel, rules: hitRules, effects: configuration.effects,
+      characterLevel: snapshot.selection.sourceLevel, rules: stage.rules, effects: configuration.effects,
       parameters: configuration.parameters, formulas: configuration.formulas, internalStates: configuration.internalStates, statuses: snapshot.catalogs.statuses,
       modifierZones: snapshot.catalogs.modifierZones, skillCategoryKeys: configuration.skill.skillCategoryKeys,
       vampRules: snapshot.catalogs.vampRules.rules, identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
@@ -350,12 +359,14 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
         ? { chargeReleaseContext: { process, rules: processRules } } : {}) });
     if (!hit.skillHit.candidates.length) fail(`${root}.triggerRules`, '计划命中缺少完整必要结果');
     const hitAbilityIndex = provider.abilities.length;
-    provider.abilities.push({ abilityKey: 'selected_skill_hit', kind: 'active', skillKey: plan.skillKey,
+    provider.abilities.push({ abilityKey: stage.abilityKey, kind: 'active', skillKey: plan.skillKey,
       types: [...new Set([...categories, skillType, ...hit.abilityTypes])], params: hit.params,
       operations: [{ operation: 'resolve_skill_hit', target: 'target', skillHit: hit.skillHit }] });
-    binding.hitBindings.push({ hitBindingKey: 'selected_skill_release_hit', processKey: process.processKey,
-      moment: { momentType: stepExecution ? 'STEP_EXECUTION' : 'PROCESS_COMPLETE', stepKey: stepExecution ? terminal.stepKey : null, failureReason: null },
-      hitAbilityRef: `source.provider[${providerRef}].ability[selected_skill_hit]` });
+    const hitAbilityRef = `source.provider[${providerRef}].ability[${stage.abilityKey}]`;
+    binding.hitBindings.push({ hitBindingKey: stage.hitBindingKey, processKey: process.processKey, moment: stage.moment,
+      hitAbilityRef, ...(stage.requiresPriorHitBindingKey ? { requiresPriorHitBindingKey: stage.requiresPriorHitBindingKey } : {}) });
+    for (const authorPath of stage.authorPaths) coverage.push({ authorPath,
+      compiledPath: `rules.skillActionBindings[${binding.bindingKey}].hitBindings[${binding.hitBindings.length - 1}]` });
     providers.push(...hit.providers);
     formulas.push(...hit.formulas);
     for (const type of hit.typeEntries) types.set(type.key, type.domain);
@@ -380,7 +391,7 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
         coverage.push({ authorPath: `${authorPath}.detail.critical.mode`, compiledPath: `${compiledPath}.operations[${candidate.operations.indexOf(operation)}].critChance` },
           { authorPath: `${authorPath}.detail.critical.multiplierValue`, compiledPath: `${compiledPath}.operations[${candidate.operations.indexOf(operation)}].critMultiplier` });
       }
-      operationOrigins.push({ abilityRef: binding.hitBindings[0]!.hitAbilityRef, operationRef: authorPath,
+      operationOrigins.push({ abilityRef: hitAbilityRef, operationRef: authorPath,
         skillKey: plan.skillKey, effectKey: candidate.effectKey, resultKey: candidate.resultKey,
         compiledPaths: candidate.operations.map((_operation, index) => `${compiledPath}.operations[${index}]`), providerDefinitionRef: definitionRef });
       for (const operation of candidate.operations) if (operation.operation === 'damage' && operation.damageType) {

@@ -137,6 +137,8 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillHitTargetIsEnemyC
 import xyz.game.datamanage.support.authoring.SkillLifecycleConditionSemantics;
 import xyz.game.datamanage.support.authoring.SkillTargetCategoryConditionSemantics;
 import xyz.game.datamanage.support.authoring.SkillTriggerOncePerUseSemantics;
+import xyz.game.datamanage.support.authoring.SkillHitPhaseSemantics;
+import xyz.game.datamanage.support.authoring.SkillAttackStartValueSemantics;
 import xyz.game.datamanage.model.value.SkillNumericValue;
 
 @Service
@@ -314,7 +316,7 @@ public class SkillTriggerRuleService {
                         && states.contains(state.stateKey())
                         && skillKey.equals(readOwner(state.stateSkillKey(), sourceSkillKey))) {
                         SkillTriggerInternalStateLockRow target = findState(gameId, skillKey, state.stateKey());
-                        if (target == null || !internalStateValueMatches(target.stateType(), state.valueKind()))
+                        if (!conditionStateValueMatches(sourceSkillKey, event, state, target))
                             issues.add(fieldIssue(prefix + ".valueKind", "TRIGGER_RULE_SHAPE_IN_USE", "状态取值方式与最终状态种类不匹配"));
                         if (state.valueKind() == SkillTriggerInternalStateValueKind.OPTION_SELECTED
                             && state.optionKey() != null && nullToEmpty(mapper.lockOptions(gameId, skillKey,
@@ -1275,6 +1277,9 @@ public class SkillTriggerRuleService {
                 if (skill.castPhase() == null) {
                     issues.add(fieldIssue("eventSource.detail.castPhase", "REQUIRED", "技能使用阶段不能为空"));
                 }
+                if (skill.processMoment() != null) {
+                    issues.add(fieldIssue("eventSource.detail.processMoment", "FORBIDDEN", "技能使用事件不能指定实际命中阶段"));
+                }
             }
             case SKILL_HIT -> {
                 if (!(detail instanceof SkillTriggerSkillEventDetail skill)) {
@@ -1287,6 +1292,7 @@ public class SkillTriggerRuleService {
                 if (skill.castPhase() != null) {
                     issues.add(fieldIssue("eventSource.detail.castPhase", "FORBIDDEN", "技能命中事件不能提供使用阶段"));
                 }
+                issues.addAll(SkillHitPhaseSemantics.shapeIssues(skill.processMoment(), "eventSource.detail.processMoment"));
             }
             case RESULT_AVAILABLE -> {
                 if (!(detail instanceof SkillTriggerResultEventDetail result)) {
@@ -1519,9 +1525,11 @@ public class SkillTriggerRuleService {
                     issues
                 );
                 if (detail.valueKind() == SkillTriggerInternalStateValueKind.ATTACK_START_VALUE
-                    && eventSource.eventType() != SkillTriggerEventType.SKILL_HIT) {
+                    && eventSource.eventType() != SkillTriggerEventType.SKILL_HIT
+                    && eventSource.eventType() != SkillTriggerEventType.BASIC_ATTACK_START
+                    && eventSource.eventType() != SkillTriggerEventType.BASIC_ATTACK_HIT) {
                     issues.add(fieldIssue(prefix + ".detail.valueKind", "EVENT_VALUE_NOT_AVAILABLE",
-                        "本次攻击开始值只能由原技能命中读取"));
+                        "本次攻击开始值只能由普通攻击开始、命中或原技能命中读取"));
                 }
             }
             case EVENT_VALUE_COMPARE -> {
@@ -2073,6 +2081,23 @@ public class SkillTriggerRuleService {
                     gameId, skillKey, detail.processKey(), detail.moment(), "eventSource.detail", processShapes, issues
                 );
             }
+            case SKILL_HIT -> {
+                SkillTriggerSkillEventDetail detail = (SkillTriggerSkillEventDetail) eventSource.detail();
+                if (detail.processMoment() == null) break;
+                var phase = detail.processMoment();
+                if (!skillKey.equals(detail.sourceSkillKey())) {
+                    issues.add(fieldIssue("eventSource.detail.sourceSkillKey", "REFERENCE_TYPE_MISMATCH", "显式命中阶段必须明确属于当前技能"));
+                }
+                List<SkillTriggerProcessShapeRow> shapes = processShapes.getOrDefault(phase.processKey(), List.of());
+                if (processActivation(shapes) != SkillProcessActivationType.ACTIVE) {
+                    issues.add(fieldIssue("eventSource.detail.processMoment.processKey", "REFERENCE_TYPE_MISMATCH", "命中阶段只能引用本技能主动过程"));
+                }
+                validateProcessMoment(gameId, skillKey, phase.processKey(), phase.moment(), "eventSource.detail.processMoment", processShapes, issues);
+                if (phase.requiresPriorStepKey() != null) {
+                    List<String> prior = mapper.lockSteps(gameId, skillKey, phase.processKey(), List.of(phase.requiresPriorStepKey()));
+                    if (prior == null || prior.isEmpty()) issues.add(fieldIssue("eventSource.detail.processMoment.requiresPriorStepKey", "UNKNOWN_STEP", "前置命中步骤不存在或不属于当前过程"));
+                }
+            }
             case RESULT_AVAILABLE -> {
                 SkillTriggerResultEventDetail detail = (SkillTriggerResultEventDetail) eventSource.detail();
                 SkillTriggerEffectShapeRow shape = findResult(effectShapes, detail.effectKey(), detail.resultKey());
@@ -2193,7 +2218,7 @@ public class SkillTriggerRuleService {
             if (detail.valueKind() == SkillTriggerInternalStateValueKind.ATTACK_START_VALUE
                 && !skillKey.equals(detail.stateSkillKey())) {
                 issues.add(fieldIssue(prefix + ".detail.stateSkillKey", "REFERENCE_TYPE_MISMATCH",
-                    "本次攻击开始值必须读取当前技能自己的弹药"));
+                    "本次攻击开始值必须读取当前技能自己的状态"));
             }
             if (detail.valueKind() == SkillTriggerInternalStateValueKind.ATTACK_START_VALUE
                 && eventSource.detail() instanceof SkillTriggerSkillEventDetail skillEvent
@@ -2202,7 +2227,7 @@ public class SkillTriggerRuleService {
                     "其它技能的命中不能读取当前技能的攻击开始弹药"));
             }
             SkillTriggerInternalStateLockRow state = states.get(detail.stateSkillKey() + "\0" + detail.stateKey());
-            if (state != null && !internalStateValueMatches(state.stateType(), detail.valueKind())) {
+            if (state != null && !conditionStateValueMatches(skillKey, eventSource, detail, state)) {
                 issues.add(fieldIssue(
                     prefix + ".detail.valueKind",
                     "REFERENCE_TYPE_MISMATCH",
@@ -2799,6 +2824,9 @@ public class SkillTriggerRuleService {
                 if (detail.sourceSkillKey() != null) {
                     refs.addSkill(new CatalogRef("eventSource.detail.sourceSkillKey", detail.sourceSkillKey()));
                 }
+                if (detail.processMoment() != null) {
+                    refs.addProcess(new CatalogRef("eventSource.detail.processMoment.processKey", detail.processMoment().processKey()));
+                }
             }
             case HIT_LINK_APPLIED, ATTACK_LINK_APPLIED -> {
                 SkillTriggerLinkEventDetail detail = (SkillTriggerLinkEventDetail) eventSource.detail();
@@ -3249,6 +3277,14 @@ public class SkillTriggerRuleService {
             case ENABLED -> stateType == SkillInternalStateType.FLAG;
             case REMAINING_MS -> stateType == SkillInternalStateType.INTERNAL_COOLDOWN;
         };
+    }
+
+    private static boolean conditionStateValueMatches(String skillKey, SkillTriggerEventSource event,
+        SkillTriggerInternalStateConditionDetail detail, SkillTriggerInternalStateLockRow state) {
+        if (state == null) return false;
+        if (detail.valueKind() == SkillTriggerInternalStateValueKind.ATTACK_START_VALUE)
+            return SkillAttackStartValueSemantics.readAllowed(skillKey, event, detail.stateSkillKey(), state);
+        return internalStateValueMatches(state.stateType(), detail.valueKind());
     }
 
     private static SkillTriggerEffectShapeRow findResult(

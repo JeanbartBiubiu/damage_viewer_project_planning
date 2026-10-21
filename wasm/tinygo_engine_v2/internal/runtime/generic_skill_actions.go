@@ -10,19 +10,58 @@ import (
 )
 
 type skillActionRuntime struct {
-	automaticRule       *automaticSkillRuleRuntime
-	automaticFinished   bool
-	plan                model.SkillActionPlan
-	binding             planbundle.CompiledSkillActionBinding
-	summary             model.SkillActionSummary
-	uses                model.SkillUseSummary
-	useRef              string
-	accepted            bool
-	rejection           string
-	controlAbilityIndex uint16
-	parentIndex         int
-	chargeDurationMs    *int64
-	nextHitSequence     int
+	automaticRule        *automaticSkillRuleRuntime
+	automaticFinished    bool
+	plan                 model.SkillActionPlan
+	binding              planbundle.CompiledSkillActionBinding
+	summary              model.SkillActionSummary
+	uses                 model.SkillUseSummary
+	useRef               string
+	accepted             bool
+	rejection            string
+	controlAbilityIndex  uint16
+	parentIndex          int
+	chargeDurationMs     *int64
+	nextHitSequence      int
+	committedHitContacts uint64
+}
+
+// 编译已确认依赖位于同一绑定的更早步骤；旧绑定无依赖时不增加查找。
+func (action *skillActionRuntime) hasRequiredHitContact(hit model.SkillActionHitBinding) bool {
+	if hit.RequiresPriorHitBindingKey == nil {
+		return true
+	}
+	for index, prior := range action.binding.HitBindings {
+		if prior.HitBindingKey == *hit.RequiresPriorHitBindingKey {
+			return action.committedHitContacts&(uint64(1)<<uint(index)) != 0
+		}
+	}
+	return false
+}
+
+func hasSimpleStepHits(definition *planbundle.CompiledProcess, binding planbundle.CompiledSkillActionBinding) bool {
+	if len(binding.HitBindings) == 0 || binding.HitBindings[0].Moment.MomentType != "STEP_EXECUTION" {
+		return false
+	}
+	for _, step := range definition.Steps {
+		if step.StepType != "IMMEDIATE" && step.StepType != "DELAY" {
+			return false
+		}
+	}
+	return true
+}
+
+func (process *processRuntime) completeSkillHitStage(key string, contact, completed bool) {
+	if process.SkillHitStages == nil {
+		return
+	}
+	for index := len(*process.SkillHitStages) - 1; index >= 0; index-- {
+		stage := &(*process.SkillHitStages)[index]
+		if stage.HitBindingKey == key {
+			stage.Contact, stage.Completed = contact, completed
+			return
+		}
+	}
 }
 
 func (state *genericRunState) automatedRun() bool {
@@ -210,6 +249,10 @@ func (state *genericRunState) publishSkillActionStart(process *processRuntime) {
 		return
 	}
 	action.accepted = true
+	if hasSimpleStepHits(process.definition, action.binding) {
+		stages := make([]model.ProcessSkillHitStage, 0, len(action.binding.HitBindings))
+		process.SkillHitStages = &stages
+	}
 	action.summary.AcceptedCount++
 	action.uses.StartedCount++
 	state.skillUses[process.UseKey] = &skillUseRuntime{useKey: process.UseKey, source: process.Owner, skillKey: process.SkillKey, historyState: model.SkillHitHistoryComplete}
@@ -282,7 +325,14 @@ func (state *genericRunState) publishSkillActionMoment(process *processRuntime, 
 		state.recordSkillUse(process, "STEP_COMPLETED", nil, nil)
 	}
 	for _, hit := range action.binding.HitBindings {
-		if processMomentMatches(hit.Moment, kind, process.StepKey, "") {
+		if !processMomentMatches(hit.Moment, kind, process.StepKey, "") {
+			continue
+		}
+		released := action.hasRequiredHitContact(hit)
+		if process.SkillHitStages != nil {
+			*process.SkillHitStages = append(*process.SkillHitStages, model.ProcessSkillHitStage{HitBindingKey: hit.HitBindingKey, StepKey: process.StepKey, TimeMs: state.nowMs, Released: released})
+		}
+		if released {
 			action.uses.ReleasedCount++
 			state.recordSkillUse(process, "RELEASED", nil, nil)
 		}
@@ -301,8 +351,12 @@ func (state *genericRunState) resolveSkillActionMoment(process *processRuntime, 
 	if action == nil || !action.accepted || process.UseKey != action.useRef || process.Status == "failed" || process.Owner != action.plan.Source || process.ProviderRef != action.binding.ProviderRef || process.ProcessKey != action.binding.Controls[0].ProcessKey || state.actionDeaths[process.Owner] || state.actionDeaths[process.Target] || state.combatantHp(process.Owner) <= 0 || state.combatantHp(process.Target) <= 0 {
 		return nil
 	}
-	for _, hit := range action.binding.HitBindings {
+	for index, hit := range action.binding.HitBindings {
 		if !processMomentMatches(hit.Moment, kind, process.StepKey, "") {
+			continue
+		}
+		if !action.hasRequiredHitContact(hit) {
+			process.completeSkillHitStage(hit.HitBindingKey, false, true)
 			continue
 		}
 		miss := false
@@ -312,11 +366,19 @@ func (state *genericRunState) resolveSkillActionMoment(process *processRuntime, 
 			}
 		}
 		if miss {
+			process.completeSkillHitStage(hit.HitBindingKey, false, true)
 			continue
 		}
 		action.nextHitSequence++
-		if err := state.executeSkillActionHit(process, action, hit, action.nextHitSequence); err != nil {
+		before := action.uses.HitCount
+		err := state.executeSkillActionHit(process, action, hit, action.nextHitSequence)
+		contact := action.uses.HitCount > before
+		process.completeSkillHitStage(hit.HitBindingKey, contact, err == nil)
+		if err != nil {
 			return err
+		}
+		if contact {
+			action.committedHitContacts |= uint64(1) << uint(index)
 		}
 	}
 	return nil
