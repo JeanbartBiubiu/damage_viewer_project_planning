@@ -532,6 +532,39 @@
           "status.stale_expiry_rejected"
         ],
         "rationale": "完整P/Q/E/R与后台普攻真实77场256次及独立逐事件重算；自身等级射程、有限攻速和实际总攻速前摇、真实命中目标计数、满层与自然终点、同刻先后、旧回调失效及暴击增幅。W按Excel排除，位移、死亡溅射与完整控制行动限制沿本轮范围。 当前真实作者图含有限控制标记，依赖按来源和目标单实例刷新、旧期限失效及最终到期；该声明不包含完整控制行动限制。"
+      },
+      "CHARACTER:champion_lissandra": {
+        "contentDigest": "50a061e91a5bc2ba9fbcc219bde8c6159060d58a2d8be301961b67bc1795f495",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.target_total_move_speed",
+          "basic_attack.cadence",
+          "basic_attack.interval_rounding",
+          "combat.kill_stop",
+          "combat.overkill_clamp",
+          "damage.critical_expectation",
+          "damage.magic_resist",
+          "damage.physical_armor",
+          "effect.finite_expiry",
+          "healing.life_steal",
+          "healing.omnivamp",
+          "healing.per_result_qualification",
+          "resource.ordinary_cost_ignored",
+          "skill.action_occupancy",
+          "skill.automatic_cooldown",
+          "skill.delay_hit",
+          "skill.formula_attribute_ratio",
+          "skill.hit_miss",
+          "skill.manual_cast",
+          "skill.release_after",
+          "skill.wait_for_cooldown",
+          "status.finite_expiry",
+          "status.finite_target_instance",
+          "status.miss_does_not_apply",
+          "status.source_target_refresh",
+          "status.stale_expiry_rejected"
+        ],
+        "rationale": "Q/W/E/R完整单向数值范围98场296次真实工作线程运行及独立逐笔复核；P按Excel排除。Q单段及1.5秒减速、W即时伤害和有限禁锢刷新、E首次一次伤害、R敌方375毫秒一笔伤害及1.5秒控制标记、3秒驻场减速数值抽象。保留背景普攻和目标必要来源，不声明完整控制行动限制、位置、R刷新尾迹或跨施放4秒归属。"
       }
     }
   }
