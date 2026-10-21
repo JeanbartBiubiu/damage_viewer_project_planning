@@ -36,7 +36,7 @@ export function describeCombatSkill(configuration: SkillConfiguration, basicAtta
     const starts = initialRules.flatMap(rule => rule.actions.filter(action => action.actionType === 'START_PROCESS'));
     const process = starts.length === 1 ? closure.processes.find(row => row.processKey === starts[0]!.detail.processKey) : undefined;
     const empowered = process?.steps.length === 1 && process.steps[0]?.stepType === 'EMPOWERED_BASIC_ATTACK'
-      && process.steps[0].detail.consumeMoment === 'ATTACK_HIT' && process.steps[0].occupiesAction === false;
+      && ['ATTACK_HIT', 'ATTACK_START'].includes(process.steps[0].detail.consumeMoment) && process.steps[0].occupiesAction === false;
     if (empowered) { description.targetSide = 'source'; description.hitPreset = null; }
     if (starts.length !== 1 || !process || closure.processes.filter(row => row.activationType === 'ACTIVE').length !== 1 || process.activationType !== 'ACTIVE') {
       issues.push('首次施放需要唯一的真实主动过程');
