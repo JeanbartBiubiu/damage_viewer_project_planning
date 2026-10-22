@@ -84,7 +84,7 @@
 
 真实页面专项可用 `SIMULATION_LIVE_CHARACTER_KEY` 选择已证明英雄，指定却未就绪时直接失败；`SIMULATION_LIVE_OUTPUT_DIR` 另存本次证据。有战前机制初值时，`SIMULATION_LIVE_INITIAL_PARAMETER_VALUES` 须明确给出与实际输入项等长的数值数组；必要属性缺失时，用 `SIMULATION_LIVE_ATTRIBUTE_INPUTS` 显式提供按 `source/target` 分组的键值。两者不补默认值、不覆盖已录属性，只作为本次验收场景输入。
 
-真实目录还直接经过生产准入函数，精确接纳当前正式证明集合，其余对象带原因禁选；这项函数验证与浏览器可操作性分开记录。当前正式资源包含安妮、盖伦在约定单向1V1范围内的完整必要来源及原19件纯属性装备。实际页面专项分别验证未就绪英雄保持禁选，以及通过英雄可直接选择、调整技能等级、准备并运行到结果与会话释放。不伪造HTTP，也不关闭必需兄弟技能绕过门禁。当前证据由`SIMULATION_LIVE_OUTPUT_DIR`另存于`output/combat-analysis/scene-initial-final-live-*`；未启用真实服务导致的跳过不计作验收。
+真实目录还直接经过生产准入函数，精确接纳当前正式证明集合，其余对象带原因禁选；这项函数验证与浏览器可操作性分开记录。当前正式资源包含12名英雄在约定单向1V1范围内的完整必要来源和53件装备的双方单件证明。拉克丝P/Q/E/R及背景普攻、W整槽排除与E尽快爆炸的最新证据见[验收与安装](../outputs/skill-adaptation-20261022-lux/验收与安装.md)。实际页面专项分别验证未就绪英雄保持禁选，以及通过英雄可直接选择、调整技能等级、准备并运行到结果与会话释放。不伪造HTTP，也不关闭必需兄弟技能绕过门禁。当前证据由`SIMULATION_LIVE_OUTPUT_DIR`另存于`output/combat-analysis/scene-initial-final-live-*`；未启用真实服务导致的跳过不计作验收。
 
 完整来源采集入口为`node scripts/first-hero-availability.mjs --execute --mode all`，须明确设置`SIMULATION_EXPECTED_WASM_SHA256`；默认无请求，`--read-plan --mode all`仅用真实GET生成计划，不请求快照或建立计算Worker。执行时读取真实目录与快照，通过正式宿主和工作线程，复用页面绑定与规则顺序，覆盖双方等级、技能等级、背景普攻及同会话重复，另含默认及反序的30秒观察。机制专项用`node scripts/first-hero-mechanisms.mjs --base <已通过矩阵原始包.json.gz>`，同样明确指定正式摘要；它是受控协议附加证据，不代替保留普攻的矩阵。当前安妮74场／248次、机制25场／50次、19件装备含基准1404次、严格回放6次，以及盖伦98场／542次和真实页面4项均通过。独立复核与当前身份见规划工作树 `outputs/priority-adaptation-2026-10-18/场景显式初值与盖伦完整适配验收记录.md`；独立召唤物、友军和完整控制行动限制后置，目标死亡后结束，不纳入击杀后补偿。
 
