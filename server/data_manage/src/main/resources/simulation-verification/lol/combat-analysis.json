@@ -5,14 +5,14 @@
   "digestVersion": "simulation-availability-v1",
   "scopeDigest": "82de0865c8c346d7c726022da38944f91046b3a6e37ea2eaff7e19122c769064",
   "sharedDigest": "91a01f39579d516eeb68c2ffc69b2899ce05326185d2d6f2c38fbe4e966b6e58",
-  "wasmSha256": "45d9ccf1ee811b0b0b76a305ade242b4fa868b16f4647d73febe222fb5051242",
-  "adapterVersion": "v34-linked-shield-absorption",
+  "wasmSha256": "d4dd48049f6d5337e54ca5b80fef1bcc875f4481a4b068a0ec60ec32ccfd1eb6",
+  "adapterVersion": "v35-target-state-remaining",
   "mechanismRegression": {
-    "sourceCommit": "289bb68c7428f0ccf4696e187db532d06296f34c",
-    "caseCount": 140,
-    "casesDigest": "a3765d8e4124d825a1ee476635fa98c8efc7898dd01dcdfc1900acb15f811160",
+    "sourceCommit": "ff417ba52342a5d6cb22c0dcb8ec3acc7708dc6d",
+    "caseCount": 145,
+    "casesDigest": "ffbc07d85a9a5c2c8fa4bfc01eba2e23cf8a85c7b3769d67a213b278bb3e0882",
     "coverageDigest": "0dc8e67d26052830032087d0ebbbf9e86c8430181c8f028143c6c391de5e305d",
-    "wasmBuildSha256": "45d9ccf1ee811b0b0b76a305ade242b4fa868b16f4647d73febe222fb5051242"
+    "wasmBuildSha256": "d4dd48049f6d5337e54ca5b80fef1bcc875f4481a4b068a0ec60ec32ccfd1eb6"
   },
   "entries": [
     {
@@ -3568,6 +3568,92 @@
       "evidenceRefs": [
         "outputs/skill-adaptation-20261022-malphite-ready/运行与页面摘要.json#sha256=a4446eeaade00e78e2a0789c1a4af136c8ff3dd2e1a93ad6ae245234279fa786",
         "outputs/skill-adaptation-20261022-malphite-ready/页面独立复核.json#sha256=d287c194824c4667a463f0a5295a3840e049fc65b1ae0fb60e18a4c862b424f1"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "CHARACTER",
+      "key": "champion_lux",
+      "contentDigest": "440753044f74d4a1b39e2ffd5c203a993053353500f3ed958983125a004c3407",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "lux_e",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "lux_p",
+            "levels": [
+              1
+            ]
+          },
+          {
+            "skillKey": "lux_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "lux_r",
+            "levels": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "evidenceRefs": [
+        "outputs/skill-adaptation-20261022-lux/录入与运行摘要.json#sha256=a222d01933540282c799048c05596c942fd64b264f73603baa24e494bac7c995",
+        "outputs/skill-adaptation-20261022-lux/矩阵独立复核.json#sha256=9eb984e4d5a902a3470e93e4928e21e745925aa8912f67750f6a553c51640c9e"
       ],
       "issues": []
     }

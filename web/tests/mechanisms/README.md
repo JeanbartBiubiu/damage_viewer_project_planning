@@ -46,7 +46,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 
 ## 已覆盖的数值机制
 
-目前140个固定用例、143类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
+目前145个固定用例、150类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
 
 | 范围 | 固定用例入口 |
 | --- | --- |
@@ -67,6 +67,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 | 普攻命中缩短同来源主动剩余冷却，并唤醒真实自动施放 | `schedule_basic_attack_reduces_cooldown` |
 | 真实兄弟技能施放保留活动属性的最低余时、旧到期事件失效、到期不复活与自身整体增幅 | `duration_ensure_remaining_own_attributes` |
 | 真实目标计数、实际命中开窗、后台普攻或兄弟命中叠层、满层与自然终点、旧回调失效及同刻先后 | `target_counter_*` |
+| 自有有限目标计数余时、真实兄弟施放保底余时、边界与到期不复活、普攻消费及未计划兄弟隔离 | `target_state_remaining_*` |
 | 单目标总移速乘算、百分数换算与有限单层整体刷新 | `ordinary_target_move_speed_refresh` |
 | 有限禁锢与晕眩实例、旧期限前后的唯一实例、精确旧期限及最终到期、未命中不施加 | `finite_status_*` |
 | 普攻发动前计数、显式初值、发动消费与命中叠层、自身有限总移速乘算 | `attack_start_counter_*` |
