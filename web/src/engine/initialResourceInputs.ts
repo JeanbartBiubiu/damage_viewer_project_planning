@@ -2,6 +2,7 @@ import type { ProviderDefinition } from '../types/genericEngine';
 import type { SimulationAttributeInputs, SimulationInitialResourceInput, SimulationSnapshot } from '../types/simulationSnapshot';
 import { NumericAdaptationError } from './numericAdapter';
 import { equipmentContribution } from './simulationEquipment';
+import { compiledTargetMark } from './targetMarkContract';
 
 type Side = 'source' | 'target';
 export type InitialResourceRequirement = { side: Side; resourceKey: string; resourceName: string; maxValue: number | undefined };
@@ -24,8 +25,10 @@ export function initialResourceRequirements(snapshot: SimulationSnapshot, provid
     const definitions = providers.filter(provider => provider.providerKey === mount.definitionRef);
     if (definitions.length !== 1) fail('资源恢复缺少唯一真实挂载定义');
     for (const ability of definitions[0]!.abilities ?? []) for (const operation of ability.listenerSpec?.operations ?? []) {
-      if (operation.operation !== 'resource_change' || operation.target !== 'self') continue;
-      const key = operation.resourceKey;
+      const mark = compiledTargetMark(operation, `providers.${mount.providerRef}.abilities.${ability.abilityKey}`);
+      const restoration = mark ? mark.restore : operation;
+      if (!restoration || restoration.operation !== 'resource_change' || restoration.target !== 'self') continue;
+      const key = restoration.resourceKey;
       if (!key || key === 'hp') fail('普通资源恢复需要明确非生命资源');
       const entries = snapshot.catalogs.attributes.filter(row => row.attributeKey === key && row.gameId === snapshot.gameId && row.status === 'ENABLED');
       if (entries.length !== 1) fail('可恢复资源缺少唯一已启用的真实属性目录');

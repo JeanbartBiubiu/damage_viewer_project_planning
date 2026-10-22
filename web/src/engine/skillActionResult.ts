@@ -2,6 +2,7 @@ import type { CompileRequest, DoneResult, RunRequest } from '../types/genericEng
 import { simulationAbility } from './simulationAdapter';
 import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 import { assessContinuousAttackResult } from './continuousAttackResult';
+import { inspectTargetMarkResult } from './targetMarkResultContract';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import { inspectResourceChangeContract } from './resourceChangeContract';
 import { inspectPermanentHealthInitialization } from './permanentHealthInitialization';
@@ -19,6 +20,8 @@ const close = (first: number, second: number) => Math.abs(first - second) <= 1e-
 export function assessSkillActionResult(compile: CompileRequest, request: RunRequest, done: DoneResult, origins: OperationOrigin[] = []): SkillActionAssessment {
   const issues: string[] = [];
   const identityGaps: string[] = [];
+  const marks = inspectTargetMarkResult(compile, request, done, origins);
+  issues.push(...marks.issues); identityGaps.push(...marks.identityGaps);
   const check = (condition: boolean, path: string, message: string) => { if (!condition) issues.push(`${path}: ${message}`); };
   const amount = (value: unknown, path: string): number => {
     check(typeof value === 'number' && Number.isFinite(value) && value >= 0, path, '缺少明确非负有限值');
@@ -380,6 +383,7 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     if (request.driverPlan.basicAttack) {
       const continuous = assessContinuousAttackResult(compile, request, done, origins);
       issues.push(...continuous.issues);
+      identityGaps.push(...continuous.identityGaps);
     } else {
       const processFacts = inspectSimulationProcessFacts(compile, request, done);
       issues.push(...processFacts.issues, ...inspectActiveAmmoMechanics(compile, request, done, processFacts.processes));

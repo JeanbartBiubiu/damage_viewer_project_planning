@@ -12,6 +12,17 @@ function parse(expected: unknown) {
 }
 
 describe('机制覆盖必须有有效的手算数值断言', () => {
+  it('目标标记次数参与实际比较，未知或缺失次数不能冒充明确0', () => {
+    const summary = { targetMarkConsumed: 1, targetMarkAttackConsumed: 0, targetMarkSkillConsumed: 1, targetMarkDamageBlocked: 0 };
+    expect(() => parse({ summary })).not.toThrow();
+    const actual = { summary } as unknown as MechanismProjection;
+    expect(compareMechanismExpectation(actual, { summary })).toEqual([]);
+    for (const key of Object.keys(summary)) {
+      expect(compareMechanismExpectation(actual, { summary: { [key]: 2 } }).join(';')).toContain(`summary.${key}`);
+      expect(compareMechanismExpectation({ summary: {} } as unknown as MechanismProjection, { summary: { [key]: 0 } }).join(';')).toContain(`summary.${key}`);
+      for (const value of [-1, 0.5, '0', null]) expect(() => parse({ summary: { sourceDamageDealt: 1, [key]: value } })).toThrow();
+    }
+  });
   it('新增额度列表实际参与期望比较，数量和每项身份变异都必须报差异', () => {
     const row = { owner: 'source', providerRef: 'actual_parent', groupKey: 'once', scope: 'provider_target' as const,
       useSource: 'source', useSkillKey: 'lab_active', useKey: 'skill:first', target: 'target' };

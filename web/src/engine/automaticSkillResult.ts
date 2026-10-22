@@ -17,6 +17,7 @@ import { tryFoldConstant } from './numericAdapter';
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
 import { automaticProcessStepsAllowed } from './processSkillHitStages';
 import { inspectProcessSkillHitStages, processSkillHitTimes } from './processSkillHitStageFacts';
+import { inspectTargetMarkResult } from './targetMarkResultContract';
 
 export type AutomaticSkillAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
 type Row = Record<string, unknown>;
@@ -51,6 +52,8 @@ function committedChannelTimes(process: ProcessInstanceSnapshot, step: ProcessSt
 export function assessAutomaticSkillResult(compile: CompileRequest, request: RunRequest, done: DoneResult, origins: OperationOrigin[] = []): AutomaticSkillAssessment {
   const issues: string[] = [];
   const identityGaps: string[] = [];
+  const marks = inspectTargetMarkResult(compile, request, done, origins);
+  issues.push(...marks.issues); identityGaps.push(...marks.identityGaps);
   const check = (condition: boolean, path: string, message: string) => { if (!condition) issues.push(`${path}: ${message}`); };
   const object = (value: unknown, path: string): Row => {
     if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${path}: 必须返回完整对象`);

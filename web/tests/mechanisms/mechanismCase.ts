@@ -40,6 +40,10 @@ export type ProjectedSummary = {
   targetKilledAtMs: number | null;
   basicAttackStarted: number;
   basicAttackHits: number;
+  targetMarkConsumed?: number;
+  targetMarkAttackConsumed?: number;
+  targetMarkSkillConsumed?: number;
+  targetMarkDamageBlocked?: number;
 };
 export type ProjectedDamage = {
   timeMs: number; source: string; target: string; skillKey: string | null; effectKey: string | null; resultKey: string | null;
@@ -190,7 +194,8 @@ export function parseMechanismCase(bytes: Buffer, file: string): MechanismCase {
 }
 
 const EXPECTED_FIELDS: Record<string, readonly string[]> = {
-  summary: ['stopReason', 'sourceFinalHp', 'targetFinalHp', 'sourceDamageDealt', 'targetHpLoss', 'sourceDirectHealing', 'sourceVampHealing', 'targetKilledAtMs', 'basicAttackStarted', 'basicAttackHits'],
+  summary: ['stopReason', 'sourceFinalHp', 'targetFinalHp', 'sourceDamageDealt', 'targetHpLoss', 'sourceDirectHealing', 'sourceVampHealing', 'targetKilledAtMs', 'basicAttackStarted', 'basicAttackHits',
+    'targetMarkConsumed', 'targetMarkAttackConsumed', 'targetMarkSkillConsumed', 'targetMarkDamageBlocked'],
   damage: ['timeMs', 'source', 'target', 'skillKey', 'effectKey', 'resultKey', 'damageType', 'rawAmount', 'postDefenseDamage', 'shieldAbsorbed', 'actualHpLoss'],
   healing: ['timeMs', 'source', 'target', 'rawAmount', 'actualHealing', 'overheal'],
   skillStarts: ['timeMs', 'skillKey'],
@@ -237,6 +242,11 @@ function validateExpectation(expected: Record<string, unknown>, file: string) {
       const fields = object(row, file, path);
       if (!Object.keys(fields).length) fail(file, `${path} 不能是空期望对象`);
       onlyKeys(fields, EXPECTED_FIELDS[section]!, file, path);
+      if (section === 'summary') for (const key of ['targetMarkConsumed', 'targetMarkAttackConsumed', 'targetMarkSkillConsumed', 'targetMarkDamageBlocked']) {
+        if (Object.prototype.hasOwnProperty.call(fields, key) && (!Number.isSafeInteger(fields[key]) || Number(fields[key]) < 0)) {
+          fail(file, `${path}.${key} 消费次数需要明确非负安全整数`);
+        }
+      }
       if (section === 'finalShieldWaits') {
         if (Object.keys(fields).length !== EXPECTED_FIELDS.finalShieldWaits!.length
           || ['owner', 'source'].some(key => !['source', 'target'].includes(String(fields[key])))

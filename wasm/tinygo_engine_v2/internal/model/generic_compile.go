@@ -222,15 +222,16 @@ const (
 
 // OperationDefinition 是 ability 成功执行后的 operation。
 type OperationDefinition struct {
-	Operation    string              `json:"operation"`
-	Target       string              `json:"target"`
-	Amount       *GenericFormulaExpr `json:"amount,omitempty"`
-	ValuePolicy  string              `json:"valuePolicy,omitempty"`
-	DamageType   string              `json:"damageType,omitempty"`
-	ResourceKey  string              `json:"resourceKey,omitempty"`
-	AttributeKey string              `json:"attributeKey,omitempty"`
-	AbilityRef   string              `json:"abilityRef,omitempty"`
-	ShieldRef    string              `json:"shieldRef,omitempty"`
+	TargetMark   *TargetMarkDefinition `json:"targetMark,omitempty"`
+	Operation    string                `json:"operation"`
+	Target       string                `json:"target"`
+	Amount       *GenericFormulaExpr   `json:"amount,omitempty"`
+	ValuePolicy  string                `json:"valuePolicy,omitempty"`
+	DamageType   string                `json:"damageType,omitempty"`
+	ResourceKey  string                `json:"resourceKey,omitempty"`
+	AttributeKey string                `json:"attributeKey,omitempty"`
+	AbilityRef   string                `json:"abilityRef,omitempty"`
+	ShieldRef    string                `json:"shieldRef,omitempty"`
 	// ShieldLifecycleProviderDefinitionRef binds a fresh dynamic provider to this actual shield.
 	// Only shield operations with an explicit static shieldRef may declare it.
 	ShieldLifecycleProviderDefinitionRef string                 `json:"shieldLifecycleProviderDefinitionRef,omitempty"`

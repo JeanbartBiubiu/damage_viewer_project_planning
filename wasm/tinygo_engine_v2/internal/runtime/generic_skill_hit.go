@@ -852,6 +852,11 @@ func (s *genericRunState) dispatchSkillHitEvent(ev emittedEvent, chainDepth int)
 		}
 	}
 	s.refreshEmittedEventLiveSnapshot(&ev)
+	if s.compiled.HasTargetMarkConsumption && ev.eventType == model.EventTypeBasicAttackHit {
+		// Retain the native contact for the new operation without authorizing
+		// public event.skill_hit formula reads on ordinary attack listeners.
+		ev.snapshot.skillHit = freeze
+	}
 	if err := s.dispatchListeners(ev, chainDepth); err != nil {
 		return err
 	}

@@ -88,7 +88,7 @@ describe('命中计划减冷却的真实主动总装配', () => {
     expect(() => withHitProgram(request, { authored: program(snapshot), hitProviderKey: 'unneeded', hitAbilityKey: 'unneeded' }, { rulesHash: 'new' }))
       .toThrow(/不能序列化待绑定/);
   });
-  it.each(['HIT_LINK_APPLICATION', 'ATTACK_LINK_APPLICATION', 'RESOURCE_CHANGE', 'DIRECT_HEAL'] as const)('其它未支持命中结果%s继续整体拒绝', resultType => {
+  it.each(['RESOURCE_CHANGE', 'DIRECT_HEAL'] as const)('其它未支持命中结果%s继续整体拒绝', resultType => {
     const snapshot = snapshotWithReduction(), config = snapshot.skillConfigurations.find(row => row.skill.skillKey === key)!;
     const extra = { ...structuredClone(config.effects[0]!.results[1]!), resultKey: 'unsupported', resultType, detail: {} } as SkillEffectResult;
     config.effects[0]!.results.push(extra);

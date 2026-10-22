@@ -99,6 +99,7 @@ type eventFormulaSnapshot struct {
 }
 
 type executionFrame struct {
+	pendingTargetMark              model.TargetMarkSummary
 	projectedLifecycles            []projectedProviderLifecycle
 	flushingDynamicProviders       bool
 	dynamicProviderDirty           bool
@@ -792,6 +793,8 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 	}
 
 	switch op.Operation {
+	case model.OperationKindConsumeTargetMark:
+		return f.consumeTargetMark(*op, ability)
 	case model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
 		return f.applyLink(ability, *op, targetKey)
 	case "damage", "heal", "shield":
@@ -1100,6 +1103,11 @@ func isSkillHitBlockedWrite(op string) bool {
 }
 
 func (f *executionFrame) applyStateChange(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {
+	if op.TargetMarkWriterRef != "" {
+		if err := f.validateTargetMarkWriter(op); err != nil {
+			return err
+		}
+	}
 	if f.ownerProviderRef == "" {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "state_change requires provider context", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}

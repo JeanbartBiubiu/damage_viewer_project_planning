@@ -4,6 +4,7 @@ import type { SimulationSkillSource, SimulationSnapshot } from '../types/simulat
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import { validateSimulationSkillSourceManifest, type TriggeredSkillSourceDescription } from './simulationSkillSourceDescription';
 import { assembleTriggeredSkillSources } from './simulationTriggeredEquipment';
+import { targetMarkAuthoringContract } from './targetMarkAuthoringContract';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
 import { naturalRuleKeys, sourceIsPlanned } from './simulationSkillSourceDescription';
 export { executableEquipmentRelations, validateSimulationSkillSourceManifest, equipmentSourceEnabled } from './simulationSkillSourceDescription';
@@ -36,6 +37,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
   const changed = changedAttributes();
   const derivations: SimulationAttributeDerivation[] = [];
   const descriptions: TriggeredSkillSourceDescription[] = [];
+  const targetMarkSources: Array<{ source: SimulationSkillSource; side: Side; providerRef: string; definitionRef: string }> = [];
   for (const side of ['source', 'target'] as const) {
     const sources = structuredClone(snapshot[side].skillSources).sort((left, right) => {
       const leftKey = simulationSkillSourceIdentity(left.origin, left.skillKey);
@@ -64,6 +66,18 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
       }
       if (!source.enabled || source.skillStatus !== 'ENABLED' || source.skillLevel === 0) {
         coverage.push({ authorPath: root, compiledPath: 'runtimeOptions.skillOrigins', note: '真实绑定保留，本场关闭、全局禁用或未学，不生成执行程序' });
+        continue;
+      }
+      const markConfiguration = snapshot.skillConfigurations.find(row => row.skill.skillKey === source.skillKey);
+      if (markConfiguration && targetMarkAuthoringContract(markConfiguration)) {
+        if (source.origin.kind !== 'CHARACTER') fail(root, '目标标记消费仅接当前实际角色来源');
+        if (!sourceIsPlanned(snapshot, side, source)) {
+          coverage.push({ authorPath: root, compiledPath: 'runtimeOptions.skillOrigins', note: '本场未驱动标记自身主动，不装配挂标或消费监听，也不索取恢复资源初值' });
+          continue;
+        }
+        const providerRef = `${side}_natural_skill_${sourceIndex}`, definitionRef = `${providerRef}_definition`;
+        trace.providerRef = providerRef; trace.definitionRef = definitionRef;
+        targetMarkSources.push({ source, side, providerRef, definitionRef });
         continue;
       }
       if (source.inactiveReason === 'NO_AUTONOMOUS_ATTACK') {
@@ -200,5 +214,5 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
     for (const key of triggered.required[side]) required[side].add(key);
     for (const key of triggered.changedAttributes[side]) changed[side].add(key);
   }
-  return { providers, mounts, origins, coverage, required, changedAttributes: changed, derivations, triggered };
+  return { providers, mounts, origins, coverage, required, changedAttributes: changed, derivations, triggered, targetMarkSources };
 }

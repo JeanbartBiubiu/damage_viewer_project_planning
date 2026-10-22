@@ -33,8 +33,9 @@ import { bindFiniteTargetCounterSources } from './finiteTargetCounterBinding';
 import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
 import { initialResourceRequirements, normalizeInitialResourceInputs } from './initialResourceInputs';
 import { permanentHealthIncreases } from './permanentHealthInitialization';
+import { assembleTargetMarkSource } from './targetMarkAdapter';
 
-export const SIMULATION_ADAPTER_VERSION = 'v36-skill-hit-cooldown';
+export const SIMULATION_ADAPTER_VERSION = 'v37-target-mark-and-hit-links';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -657,6 +658,47 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
     if (base.rules.vampRules && JSON.stringify(base.rules.vampRules) !== JSON.stringify(active.rules.vampRules)) fail('rules.vampRules', '主动与普攻必须共享真实吸血规则');
     base.rules.vampRules = active.rules.vampRules;
   }
+  const markAssemblies: Array<{ assembly: NonNullable<ReturnType<typeof assembleTargetMarkSource>>;
+    definitionRef: string; abilityOffset: number; defenseIndices: Map<number, number> }> = [];
+  const actualProviders = [...(base.provider ? [base.provider] : []), ...base.equipment.providers,
+    ...base.triggered.providers, ...base.natural.providers, ...active.providers];
+  const actualMounts = [...(base.provider ? [{ side: 'source' as const, providerRef: MOUNT, definitionRef: base.provider.providerKey }] : []),
+    ...base.equipment.origins, ...base.triggered.mounts, ...base.natural.mounts];
+  for (const descriptor of base.natural.targetMarkSources) {
+    const assembly = assembleTargetMarkSource({ snapshot, ...descriptor, providers: actualProviders, mounts: actualMounts,
+      skillActionBindings: active.bindings, basicAttackBinding: base.basicAttackBinding });
+    if (!assembly) continue;
+    const parent = actualProviders.find(row => row.providerKey === descriptor.definitionRef);
+    const supplement = assembly.providers[0];
+    if (!parent || !supplement || assembly.providers.length !== 1 || assembly.mounts.length
+      || supplement.providerKey !== parent.providerKey || supplement.stableId !== parent.stableId
+      || supplement.kind !== parent.kind || supplement.skillKey !== parent.skillKey || supplement.processes?.length) {
+      fail('sharedProviders', '目标标记必须合并到唯一真实父定义，不能新建挂载或过程');
+    }
+    const abilityOffset = parent.abilities?.length ?? 0;
+    if (supplement.abilities?.some(row => parent.abilities?.some(previous => previous.abilityKey === row.abilityKey))) {
+      fail('sharedProviders', '目标标记辅助能力重复');
+    }
+    for (const [key, field] of Object.entries(supplement.initialStateSchema ?? {})) {
+      const previous = parent.initialStateSchema?.[key];
+      if (previous !== undefined && JSON.stringify(previous) !== JSON.stringify(field)) fail(`sharedProviders.${parent.providerKey}.initialStateSchema.${key}`, '目标标记状态与真实父定义冲突');
+      (parent.initialStateSchema ??= {})[key] = field;
+    }
+    parent.abilities = [...(parent.abilities ?? []), ...(supplement.abilities ?? [])];
+    const defenseIndices = new Map<number, number>();
+    for (const [index, formula] of (assembly.rules.damageTypeFormulas ?? []).entries()) {
+      const previous = base.rules.damageTypeFormulas!.findIndex(row => row.damageType === formula.damageType);
+      if (previous !== -1 && JSON.stringify(base.rules.damageTypeFormulas![previous]) !== JSON.stringify(formula)) fail('rules.damageTypeFormulas', '标记附伤必须共享真实防御规则');
+      if (previous === -1) base.rules.damageTypeFormulas!.push(formula);
+      defenseIndices.set(index, previous === -1 ? base.rules.damageTypeFormulas!.length - 1 : previous);
+    }
+    if (assembly.rules.vampRules) {
+      if (base.rules.vampRules && JSON.stringify(base.rules.vampRules) !== JSON.stringify(assembly.rules.vampRules)) fail('rules.vampRules', '标记附伤必须共享真实吸血规则');
+      base.rules.vampRules = assembly.rules.vampRules;
+    }
+    for (const side of ['source', 'target'] as const) for (const key of assembly.required[side]) base.required.get(side)!.add(key);
+    markAssemblies.push({ assembly, definitionRef: descriptor.definitionRef, abilityOffset, defenseIndices });
+  }
   for (const rule of base.rules.vampRules ?? []) base.required.get('source')!.add(rule.sourceAttributeKey);
   const providers = [...(base.provider ? [base.provider] : []), ...base.equipment.providers,
     ...base.triggered.providers, ...base.natural.providers, ...active.providers];
@@ -668,7 +710,13 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
       (_match, index: string) => `.abilities[${Number(index) + (offset?.abilities ?? 0)}]`).replace(/\.processes\[(\d+)\]/g,
       (_match, index: string) => `.processes[${Number(index) + (offset?.processes ?? 0)}]`)}`;
   });
-  const types = new TypeCatalogEntries([...base.types, ...active.types].map(type => [type.key, type.domain]));
+  const types = new TypeCatalogEntries([...base.types, ...active.types, ...markAssemblies.flatMap(row => row.assembly.types)].map(type => [type.key, type.domain]));
+  const rebaseMark = (path: string, row: typeof markAssemblies[number]) => path
+    .replace(/sharedProviders\[([^\]]+)\](.*)/, (original, definition: string, suffix: string) => definition !== row.definitionRef
+      ? original : `sharedProviders[${indices.get(definition)}]${suffix.replace(/\.abilities\[(\d+)\]/g,
+        (_match, index: string) => `.abilities[${Number(index) + row.abilityOffset}]`)}`)
+    .replace(/rules\.damageTypeFormulas\[(\d+)\]/, (original, index: string) => row.defenseIndices.has(Number(index))
+      ? `rules.damageTypeFormulas[${row.defenseIndices.get(Number(index))}]` : original);
   const collect = (value: unknown): void => {
     if (Array.isArray(value)) { value.forEach(collect); return; }
     if (!value || typeof value !== 'object') return;
@@ -688,10 +736,13 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
     if (row.kind === 'attribute' && (row.object === 'source' || row.object === 'target') && typeof row.attributeKey === 'string') base.required.get(row.object)!.add(row.attributeKey);
     Object.values(row).forEach(collect);
   };
-  collect(providers); collect(active.formulas); collect(base.rules);
-  return { ...base, active, types: [...types].map(([key, domain]) => ({ key, domain })), formulas: [...(base.formulas ?? []), ...extraGame.formulas, ...active.formulas],
-    coverage: [...base.coverage, ...active.coverage.map(row => ({ ...row, compiledPath: rebase(row.compiledPath) }))],
-    operationOrigins: [...base.operationOrigins, ...active.operationOrigins.map(origin => ({ ...origin, compiledPaths: origin.compiledPaths.map(rebase) }))] };
+  const markFormulas = markAssemblies.flatMap(row => row.assembly.formulas);
+  collect(providers); collect(active.formulas); collect(markFormulas); collect(base.rules);
+  return { ...base, active, types: [...types].map(([key, domain]) => ({ key, domain })), formulas: [...(base.formulas ?? []), ...extraGame.formulas, ...active.formulas, ...markFormulas],
+    coverage: [...base.coverage, ...active.coverage.map(row => ({ ...row, compiledPath: rebase(row.compiledPath) })),
+      ...markAssemblies.flatMap(row => row.assembly.coverage.map(entry => ({ ...entry, compiledPath: rebaseMark(entry.compiledPath, row) })))],
+    operationOrigins: [...base.operationOrigins, ...active.operationOrigins.map(origin => ({ ...origin, compiledPaths: origin.compiledPaths.map(rebase) })),
+      ...markAssemblies.flatMap(row => row.assembly.operationOrigins.map(origin => ({ ...origin, compiledPaths: origin.compiledPaths.map(path => rebaseMark(path, row)) })))] };
 }
 
 export function inspectSimulationSnapshot(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = [],

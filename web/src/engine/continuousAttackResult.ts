@@ -17,6 +17,8 @@ import { inspectPermanentHealthInitialization } from './permanentHealthInitializ
 import { inspectBasicAttackCooldownWake } from './basicAttackCooldownWakeResultFacts';
 import { finiteTargetCounterExpiryOrigin } from './finiteTargetCounterResultContract';
 import { inspectOrdinaryHealing } from './ordinaryHealingContract';
+import { inspectSkillHitLinkEvidence, skillHitLinkListenerEvent } from './skillHitLinkEvidence';
+import { inspectTargetMarkResult, targetMarkDamageOriginMatches } from './targetMarkResultContract';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
@@ -29,7 +31,7 @@ export type ContinuousAttackAssessment = {
   attackRecords: AttackRecord[]; damageRecords: DamageRecord[]; mechanicRecords: MechanicRecord[]; recording: RecordingSummary;
 };
 type Row = Record<string, unknown>;
-type DamageContract = { kind: 'attack' | 'periodic' | 'target_window' | 'reaction' | 'linked' | 'active'; required: boolean; allowed: boolean; origin: OperationOrigin;
+type DamageContract = { kind: 'attack' | 'periodic' | 'target_window' | 'target_mark' | 'reaction' | 'linked' | 'active'; required: boolean; allowed: boolean; origin: OperationOrigin;
   requiredContribution?: boolean;
   attackOnly?: boolean;
   tick?: { intervalMs: number; startDelayMs: number } };
@@ -156,7 +158,7 @@ function damageContract(ability: AbilityDefinition, suffix: string, origin: Oper
     const matcher = listener.eventMatcher;
     const eventTypes = ['event/basic_attack_hit', 'event/source_owner'];
     if ([...(matcher.all ?? []), ...(matcher.any ?? []), ...(matcher.none ?? [])].some(key => key.startsWith('event/damage_dealt'))) return undefined;
-    if (matcher.all?.includes('event/hit_link_applied') && matcher.all.includes('event/source_owner')) {
+    if (skillHitLinkListenerEvent(ability)) {
       return { kind: 'linked', allowed: origin.abilityRef.startsWith('source.provider['), required: false, origin };
     }
     if (matcher.all?.includes('event/target_owner') && (matcher.all.includes('event/damage_taken') || matcher.all.includes('event/basic_attack_received'))) {
@@ -208,6 +210,10 @@ export function assessContinuousAttackResult(
   issues.push(...inspectResourceChangeContract(input, request, done));
   const initializedHealth = inspectPermanentHealthInitialization(input, request, done);
   issues.push(...initializedHealth.issues); identityGaps.push(...initializedHealth.identityGaps);
+  const links = inspectSkillHitLinkEvidence(input, request, done, origins);
+  issues.push(...links.issues); identityGaps.push(...links.identityGaps);
+  const marks = inspectTargetMarkResult(input, request, done, origins);
+  issues.push(...marks.issues); identityGaps.push(...marks.identityGaps);
   const check = (condition: boolean, path: string, message: string) => { if (!condition) issues.push(`${path}：${message}`); };
   check(bool(result.ok, 'runResult.ok'), 'runResult.ok', '运行返回未成功');
   for (const actor of request.initialSnapshot.combatants) {
@@ -347,7 +353,9 @@ export function assessContinuousAttackResult(
         && origin.abilityRef === plan.initialControlAbilityRef && ability?.processControl?.processKey === process.processKey
         && ability.processControl.action === 'INITIAL' && ability.processControl.useRefFromEvent === true
         && process.skillKey === plan.skillKey && moment.momentType === 'PROCESS_START' && moment.stepKey === null && moment.failureReason === null;
-      const contract = ability && definition && /^\.tickSpec\.onTick\[\d+\]$/.test(path.slice(abilityPath.length))
+      const contract = targetMarkDamageOriginMatches(input, origin, path)
+        ? { kind: 'target_mark' as const, allowed: true, required: false, origin }
+        : ability && definition && /^\.tickSpec\.onTick\[\d+\]$/.test(path.slice(abilityPath.length))
         && path.startsWith(`${abilityPath}.`) && finiteTargetCounterExpiryOrigin(input, definition, ability, origin, operation)
         ? { kind: 'target_window' as const, allowed: true, required: false, origin }
         : ability && path.startsWith(`${abilityPath}.`)
@@ -586,7 +594,7 @@ export function assessContinuousAttackResult(
     check(operation?.operation === 'damage' && operation.ref === row.operationRef && operation.damageType === row.damageType
       && !!contract && contract.origin === origin && contract.allowed && (contract.kind === 'target_window' ? independentWindow : contract.kind === 'periodic' ? attackIndex === 0
         : contract.kind === 'active' ? empowered ? attackIndex !== null && attackIndex > 0 : attackIndex === null : contract.kind === 'reaction' && !contract.attackOnly ? true
-          : contract.kind === 'linked' && attackIndex === null ? mixed && !!row.instructionKey : attackIndex !== null && attackIndex > 0),
+          : (contract.kind === 'linked' || contract.kind === 'target_mark') && attackIndex === null ? mixed && !!row.instructionKey : attackIndex !== null && attackIndex > 0),
     path, '伤害节点、类型或独立周期与攻击关联不一致');
     if (contract?.tick) {
       const activatedAt = contract.origin.providerDefinitionRef ? integer(row.providerActivatedAtMs, `${path}.providerActivatedAtMs`) : 0;

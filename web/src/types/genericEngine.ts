@@ -159,9 +159,21 @@ export type OperationDefinition = {
   vampQualification?: 'RESOLVED' | 'UNRESOLVED';
   vampOverrides?: GenericVampOverride[];
   skillHit?: SkillHitDefinition;
+  targetMark?: TargetMarkDefinition;
   providerRefFromEvent?: boolean;
   /** Same-frame damage export key; later ops read operation.output.<outputRef>.<kind>. */
   outputRef?: string;
+};
+
+/** 一次真实命中消费本父来源的有限目标标记，不另建主动使用。 */
+export type TargetMarkDefinition = {
+  stateKey: string;
+  stateScope: 'provider_target';
+  triggerKind: 'event/skill_hit' | 'event/basic_attack_hit';
+  triggerAbilityRef: string;
+  damageBlockScope: 'DAMAGE_INSTANCE';
+  damage: OperationDefinition;
+  restore?: OperationDefinition;
 };
 
 export type SkillHitHistoryState = 'complete' | 'unknown';
@@ -935,6 +947,7 @@ export type SeriesSamplingEvidence = {
 };
 
 export type DoneResult = {
+  targetMarkSummary?: TargetMarkSummary;
   resourceChangeRecords?: ResourceChangeRecord[];
   resourceChangeSummary?: ResourceChangeSummary;
   /** summary表示未请求明细；预算丢弃量仍按原记录预算核对。 */
@@ -957,6 +970,8 @@ export type DoneResult = {
   automaticSkillRecords?: AutomaticSkillRecord[];
   automaticSkillRecording?: AutomaticSkillRecording;
 };
+
+export type TargetMarkSummary = { consumedCount: number; attackCount: number; skillCount: number; damageBlockedCount: number };
 
 export type ResourceChangeContributor = { source: 'source' | 'target'; providerRef: string; definitionRef: string; modifierKey: string;
   reason: 'apply' | 'refresh' | 'remove' | 'expire'; useRef?: string };

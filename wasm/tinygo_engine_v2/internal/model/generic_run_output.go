@@ -49,6 +49,7 @@ const (
 
 // DoneResult 是 generic run 成功时的 outbox payload。
 type DoneResult struct {
+	TargetMarkSummary       *TargetMarkSummary       `json:"targetMarkSummary,omitempty"`
 	ResourceChangeRecords   *[]ResourceChangeRecord  `json:"resourceChangeRecords,omitempty"`
 	ResourceChangeSummary   *ResourceChangeSummary   `json:"resourceChangeSummary,omitempty"`
 	AutomaticSkillSummary   *AutomaticSkillSummary   `json:"automaticSkillSummary,omitempty"`

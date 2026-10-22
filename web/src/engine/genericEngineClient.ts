@@ -1,6 +1,7 @@
 import { registerFormulaForApprovedReads } from './approvedFormulaValues';
 import { assertResourceChangeOutputShape, assertResourceRecordBudget } from './resourceChangeContract';
 import { assertAttributeSnapshotOutputShape } from './attributeSnapshotContract';
+import { assertTargetMarkOutputShape } from './targetMarkContract';
 import {
   OUTBOX_GENERIC_COMPILE_RESULT,
   OUTBOX_GENERIC_DONE,
@@ -109,6 +110,7 @@ export function parseDoneResult(frames: TinyGoV2Frame[]): DoneResult {
   }
   assertResourceChangeOutputShape(result);
   assertAttributeSnapshotOutputShape(result);
+  assertTargetMarkOutputShape(result);
   return result;
 }
 

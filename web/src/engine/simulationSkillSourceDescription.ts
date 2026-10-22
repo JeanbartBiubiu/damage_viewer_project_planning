@@ -9,6 +9,7 @@ import { isOwnProviderDurationMaintenanceAction } from './providerDurationAdapte
 import type { PermanentNumericConsumer } from './simulationPermanentResults';
 import { calculationConfiguration } from './simulationCalculationRules';
 import { finiteTargetCounterContract, isFiniteTargetCounterPostHitRule } from './finiteTargetCounterContract';
+import { targetMarkAuthoringContract, isTargetMarkPostHitRule } from './targetMarkAuthoringContract';
 
 export type SimulationSourceSide = 'source' | 'target';
 type Side = SimulationSourceSide;
@@ -47,7 +48,7 @@ export function plannedSkillRuleKeys(configuration: SkillConfiguration, phases: 
       && event.detail.sourceSkillKey === configuration.skill.skillKey
       || event.eventType === 'PROCESS_CANCEL_REQUESTED' && phases.includes('CANCEL') && processes.has(event.detail.processKey)
       || event.eventType === 'SKILL_HIT' && event.detail.sourceSkillKey === configuration.skill.skillKey
-        && !isFiniteTargetCounterPostHitRule(configuration, rule));
+        && !isFiniteTargetCounterPostHitRule(configuration, rule) && !isTargetMarkPostHitRule(configuration, rule));
   }).map(rule => rule.ruleKey).sort();
 }
 
@@ -115,7 +116,8 @@ function activeReachableRoots(snapshot: SimulationSnapshot) {
 
 export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: SkillConfiguration, side: Side, actualSource?: SimulationSkillSource) {
   const finiteCounter = finiteTargetCounterContract(configuration);
-  if (finiteCounter) {
+  const targetMark = targetMarkAuthoringContract(configuration);
+  if (finiteCounter || targetMark) {
     const matches = actualSource ? [actualSource] : snapshot[side].skillSources.filter(source => source.skillKey === configuration.skill.skillKey);
     if (matches.length > 1) fail(`${side}.skillSources.${configuration.skill.skillKey}`, '有限目标窗口必须按当前真实来源分别核对计划');
     if (!matches[0] || !sourceIsPlanned(snapshot, side, matches[0])) return [];
@@ -150,7 +152,8 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
     if (event.eventType === 'BASIC_ATTACK_RECEIVED') return side === 'target' && snapshot.selection.basicAttackSkillKey !== null;
     if (event.eventType === 'SKILL_USED' || event.eventType === 'SKILL_HIT') {
       if (snapshot.selection.plannedSkills.some(plan => plan.skillKey === configuration.skill.skillKey)
-        && event.detail.sourceSkillKey === configuration.skill.skillKey && !isFiniteTargetCounterPostHitRule(configuration, rule)) return false;
+        && event.detail.sourceSkillKey === configuration.skill.skillKey && !isFiniteTargetCounterPostHitRule(configuration, rule)
+        && !isTargetMarkPostHitRule(configuration, rule)) return false;
       return side === 'source' && (event.detail.sourceSkillKey === null || event.detail.sourceSkillKey === snapshot.selection.basicAttackSkillKey
         || snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey))
         && (event.eventType !== 'SKILL_USED' || event.detail.castPhase === 'INITIAL' || event.detail.castPhase !== null

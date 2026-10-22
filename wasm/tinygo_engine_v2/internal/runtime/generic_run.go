@@ -66,6 +66,7 @@ type damageRecord struct {
 }
 
 type genericRunState struct {
+	targetMarkSummary          model.TargetMarkSummary
 	nextHealthOrder            uint64
 	resourceChangeRecords      []model.ResourceChangeRecord
 	resourceChangeSummary      *model.ResourceChangeSummary
@@ -387,6 +388,9 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 		return nil, err
 	}
 	if err := state.initBasicAttack(); err != nil {
+		return nil, err
+	}
+	if err := state.initTargetMarkSources(); err != nil {
 		return nil, err
 	}
 	state.initPlannedAmmo()
@@ -1376,6 +1380,7 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 	warnings, warningCount := s.buildWarnings(downsampled, droppedSeriesPoints)
 
 	return model.DoneResult{
+		TargetMarkSummary:       s.targetMarkSummaryOutput(),
 		ResourceChangeRecords:   s.resourceRecordsOutput(),
 		ResourceChangeSummary:   s.resourceSummaryOutput(),
 		AutomaticSkillSummary:   automaticSummary,

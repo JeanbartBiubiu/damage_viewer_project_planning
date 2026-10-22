@@ -1,5 +1,7 @@
 # TinyGo Engine V2
 
+有限目标标记的消费操作`consume_target_mark`只允许在实际角色父来源的单操作命中监听内使用。它重新核对原生接触与当前目标字段，在既有提交帧内清标、独立判盾、结算附伤和可选非生命资源恢复；失败不发布半组事实。新增消费统计只在启用本功能的会话输出。字段、准入、期限、死亡和提交约束以[有限目标标记消费共享契约](../../outputs/skill-adaptation-20261022-ezreal/有限目标标记消费共享契约.md)为唯一来源。
+
 本来源有限目标整数计数可在自身监听条件中读取活动余时；`state_duration_change / ensure_remaining`（确保最低余时）只延长仍活动的自身目标计数，不改值或复活计数，且拒绝修改真实周期锚字段。金额由宿主静态核定为正安全整数常量；旧减时策略不变。详细授权、失效与回滚边界见[目标标记余时契约](../../outputs/skill-adaptation-20261022-lux/通用目标标记余时与拉克丝适配契约.md)，固定回归为`web/tests/mechanisms/cases/target_state_remaining_*.json`。
 
 TinyGo编译的浏览器内计算引擎。正式业务入口为 `engine_compile`、`engine_run`、`engine_release_session`；浏览器工作线程是正式宿主，Node脚本用于本地验证。当前约束与完成门槛见[模块规则](AGENTS.md)，结构与调用关系见[架构图](ARCHITECTURE.md)。

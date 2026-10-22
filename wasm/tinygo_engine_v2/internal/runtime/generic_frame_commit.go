@@ -83,6 +83,7 @@ func (f *executionFrame) recordOverheal(source string, amount float64) {
 
 func (f *executionFrame) commitFrameFacts() {
 	f.committed = true
+	f.commitTargetMarkSummary()
 	if f.processIsNew && f.processOriginal != nil {
 		f.run.publishSkillActionStart(f.processOriginal)
 	}

@@ -29,6 +29,9 @@ func (s *genericRunState) validateEquipmentHitListener(listener planbundle.Compi
 		return s.basicAttackErr("source requires a complete owner-start/hit/link or receiver-only engine event listener", "listeners."+listener.ListenerKey)
 	}
 	for _, operation := range s.compiled.Operations[int(listener.OperationStart) : int(listener.OperationStart)+int(listener.OperationCount)] {
+		if operation.Operation == model.OperationKindConsumeTargetMark && s.targetMarkListenerOwned(listener, operation) {
+			continue
+		}
 		if (operation.Operation == "heal" || operation.Operation == "resource_change") && s.isOwnedSettledSelfRecovery(listener, operation) {
 			continue
 		}

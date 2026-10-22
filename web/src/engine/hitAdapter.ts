@@ -29,6 +29,7 @@ import { compilePairedAttributeSnapshot } from './pairedAttributeSnapshotAdapter
 import { adaptDamageVamp, type AdaptedVampDamage, type AuthoredVampDamage } from './vampAdapter';
 import { compileSkillOncePerUse, validateHitRuleGroups, validateProviderOncePerUseScopes } from './skillOncePerUse';
 import { compileSkillHitCooldownReduction, type SkillHitCooldownReduction } from './skillHitCooldownReduction';
+import { staticEffectAmount } from './staticEffectValue';
 
 export class HitAdaptationError extends NumericAdaptationError {
   constructor(path: string, message: string) {
@@ -353,7 +354,7 @@ function mergeProvider(
   if (!existing) providers.set(provider.providerKey, provider);
 }
 
-function compileDamage(
+export function compileDamage(
   authored: AuthoredHitProgram,
   result: Extract<SkillEffectResult, { resultType: 'DAMAGE' }>,
   path: string,
@@ -551,6 +552,22 @@ function compileResultOperations(
 ): { semantic: SkillHitSemantic; operations: OperationDefinition[]; vamp?: AdaptedVampDamage;
   cooldownReduction?: Omit<SkillHitCooldownReduction, 'candidate'> } {
   if (result.resultType !== 'DAMAGE' && 'attackDamageRole' in result.detail) fail(`${path}.detail.attackDamageRole`, '非伤害结果不能声明普攻伤害角色');
+  if (result.resultType === 'HIT_LINK_APPLICATION' || result.resultType === 'ATTACK_LINK_APPLICATION') {
+    if (resolveKind !== 'skill' || empoweredPayload || result.target !== 'TARGET'
+      || effect.lifecycle !== null || result.lifecycleBehavior !== null) {
+      fail(path, '命中特效仅接真实技能命中的即时目标结果，不扩大普攻或强化负载');
+    }
+    if (!result.detail || Array.isArray(result.detail) || Object.keys(result.detail).length) {
+      fail(`${path}.detail`, '命中特效明细必须为空对象');
+    }
+    if (!result.valueRule) fail(`${path}.valueRule`, '命中特效缺少完整次数规则');
+    const count = staticEffectAmount(result.valueRule, `${path}.valueRule`, state);
+    if (!Number.isSafeInteger(count) || count < 0) fail(`${path}.valueRule`, '命中特效次数须为完整静态有限非负安全整数');
+    const hit = result.resultType === 'HIT_LINK_APPLICATION';
+    typeEntries.set(hit ? 'event/hit_link_applied' : 'event/attack_link_applied', 'event');
+    return { semantic: { resultType: result.resultType, target: 'TARGET', moment: 'INSTANT' },
+      operations: [{ operation: hit ? 'apply_hit_link' : 'apply_attack_link', target: 'target', ref: path, amount: constExpr(count) }] };
+  }
   if (result.resultType === 'COOLDOWN_CHANGE') {
     if (resolveKind !== 'skill' || empoweredPayload) fail(path, '减冷却只接真实主动技能命中，不扩大普攻或强化负载入口');
     return { semantic: { resultType: 'COOLDOWN_CHANGE', target: 'SOURCE', moment: 'INSTANT' }, operations: [],

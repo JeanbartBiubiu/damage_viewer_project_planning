@@ -17,6 +17,7 @@ type CompiledAbilityRef struct {
 
 // CompiledSession 是 generic compile 输出的只读 session 快照。
 type CompiledSession struct {
+	HasTargetMarkConsumption  bool
 	HasReceivedShieldReads    bool
 	HasAttackStartStateReads  bool
 	HasStateOnExpire          bool
@@ -279,6 +280,8 @@ type CompiledAbility struct {
 
 // CompiledOperation 是 compile 后的 operation 定义。
 type CompiledOperation struct {
+	TargetMark                   *CompiledTargetMark
+	TargetMarkWriterRef          string
 	ColdResourceMax              bool
 	OwnerProviderIndex           int
 	Operation                    string
@@ -324,6 +327,17 @@ type CompiledOperation struct {
 	OutputRef                    string
 	HasShieldDuration            bool
 	ShieldDurationProgram        formula.GenericProgramID
+}
+
+// CompiledTargetMark keeps nested leaves out of the listener's flat operation range.
+type CompiledTargetMark struct {
+	StateKey, TriggerKind, TriggerAbilityRef string
+	OwnerProviderRef, OwnerCombatantKey      string
+	TriggerAbilityIndex                      uint16
+	MarkAbilityRef                           string
+	Clear                                    *CompiledOperation
+	Damage                                   *CompiledOperation
+	Restore                                  *CompiledOperation
 }
 
 // CompiledSkillHit 是 resolve_skill_hit 的编译计划。

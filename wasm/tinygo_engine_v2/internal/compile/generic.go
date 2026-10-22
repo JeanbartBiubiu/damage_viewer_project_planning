@@ -186,6 +186,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	validateMechanicFormulaContexts(ctx)
 	finalizeReceivedShieldReads(ctx)
 	finalizeTargetStateRemaining(ctx)
+	finalizeTargetMarkConsumption(req, ctx)
 	if len(session.Operations) > 65535 {
 		collector.addError(model.GenericErrRuntimeInvariantFailed, "operations", "compiled operations exceed supported index range", "")
 	}
@@ -933,6 +934,13 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 }
 
 func compileOperation(op model.OperationDefinition, path string, ownerProviderIndex int, ctx *genericCompileContext) {
+	if op.Operation == model.OperationKindConsumeTargetMark {
+		compileTargetMarkOperation(op, path, ownerProviderIndex, ctx)
+		return
+	}
+	if op.TargetMark != nil {
+		ctx.collector.addError(model.GenericErrUnknownRef, path+".targetMark", "targetMark requires consume_target_mark", op.Operation)
+	}
 	collector := ctx.collector
 	session := ctx.session
 	catalog := ctx.catalog

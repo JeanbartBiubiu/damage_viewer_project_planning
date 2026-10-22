@@ -145,7 +145,10 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
       sourceDamageDealt: summary.sourceDamageDealt, targetHpLoss: summary.targetHpLoss ?? 0,
       sourceDirectHealing: summary.sourceDirectHealing ?? 0, sourceVampHealing: summary.sourceVampHealing ?? 0,
       targetKilledAtMs: summary.execution?.targetKilledAtMs ?? null,
-      basicAttackStarted: summary.basicAttack?.startedCount ?? 0, basicAttackHits: summary.basicAttack?.hitCount ?? 0
+      basicAttackStarted: summary.basicAttack?.startedCount ?? 0, basicAttackHits: summary.basicAttack?.hitCount ?? 0,
+      ...(done.targetMarkSummary ? { targetMarkConsumed: done.targetMarkSummary.consumedCount,
+        targetMarkAttackConsumed: done.targetMarkSummary.attackCount, targetMarkSkillConsumed: done.targetMarkSummary.skillCount,
+        targetMarkDamageBlocked: done.targetMarkSummary.damageBlockedCount } : {})
     },
     damage: [...(done.damageRecords ?? [])].sort((a, b) => a.timeMs - b.timeMs || a.damageId - b.damageId).map(row => {
       const origin = originOf(row);

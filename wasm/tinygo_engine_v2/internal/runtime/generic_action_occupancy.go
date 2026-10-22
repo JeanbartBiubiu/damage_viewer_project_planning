@@ -215,6 +215,10 @@ func (state *genericRunState) validatePlannedSkillProvider(owner, providerRef st
 			continue
 		}
 		switch operation.Operation {
+		case model.OperationKindConsumeTargetMark:
+			if operation.TargetMark == nil || operation.TargetMark.OwnerCombatantKey != owner || operation.TargetMark.OwnerProviderRef != providerRef {
+				return state.basicAttackErr("planned mark consumption requires its exact compiled owner", operation.Path)
+			}
 		case "attribute_change":
 			if operation.AttributeKey == "" || operation.AttributeKey == "hp" || operation.ValuePolicy != "add" ||
 				(operation.Target != "source" && operation.Target != "self" && operation.Target != "target") ||
