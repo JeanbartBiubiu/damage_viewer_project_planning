@@ -194,6 +194,14 @@ mvn "-Dtest=SimulationAvailability*Test" test
 
 定向检查：`mvn "-Dtest=SkillChannelWindowSemanticsTest,SkillProcessStepRequestTest,SkillProcessServiceTest,SkillProcessAdminControllerTest,SkillConfigurationServiceTest,SkillObjectReferencesTest,SkillNumericSemanticsTest,GameConfigurationWriteGuardTest" test`。负责人使用8080录入时，验证用同目录临时构建配置只将构建目录改为 `target/phase6c-channel`，分别执行定向检查、全量测试和打包；不替换原服务的类文件或JAR，不切换、停止或重启服务。替身与静态检查不代表真实管理录入或最终Wasm验收。
 
+### 有限重施间隔与独立命中
+
+`RECAST`（重施步骤）保留必填 `windowValue`（窗口）及 `maximumRecastCountValue`（额外施放次数），可选 `intervalValue`（两次实际接受之间的间隔）。省略或空值都表示未配置，回读不补空字段；提供时沿现有固定值、参数或共同公式结构保存。窗口和间隔在全部等级必须静态求得正安全整数毫秒，额外次数为1至63；当前属性、上下文及未供值运行参数不能替代静态数值，间隔允许大于窗口。
+
+显式命中阶段新增明确不占行动的“即时首步→唯一末尾重施”两步形状，两步分别声明步骤执行时点的实际命中，前段命中依赖均须显式为空。已有即时／延时阶段和蓄力控制继续沿各自约束；两次命中阶段不复制为两份主动过程。间隔一并进入聚合保存、引用提取、删除保护和事务最终数值复核，无数据库迁移或英雄分支。
+
+共享含义以[有限重施共享契约](../../outputs/skill-adaptation-20261022-ahri/有限重施共享契约.md)为准。定向检查：`mvn "-Dtest=SkillProcessRecastStepDetailTest,SkillRecastAuthoringSemanticsTest,SkillProcessServiceTest,SkillProcessStepRequestTest,SkillHitPhaseSemanticsTest,SkillNumericSemanticsTest,SkillObjectReferencesTest,GameConfigurationWriteGuardTest" test`，收尾执行 `mvn test`。这些检查使用隔离替身，不代表真实保存或运行验收。
+
 ## 开发范围与入口
 
 默认写入范围为本模块、`db/**`、后端接口文档和直接相关的 `tools/**`；`web/**`、`wasm/**` 与其他模块设计只读参考。修改前先读 [本模块规则](AGENTS.md) 和 [仓库规则](../../AGENTS.md)。

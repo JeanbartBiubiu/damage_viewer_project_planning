@@ -286,7 +286,7 @@ func (f *executionFrame) applyDirectHeal(cmd command.Command, op planbundle.Comp
 	}
 	if use := f.skillActionUseRef(); use != "" {
 		record.UseRef = &use
-		if action := f.run.skillActionByUse[use]; action != nil {
+		if action := f.run.skillActionForUse(use); action != nil {
 			record.InstructionKey = &action.plan.InstructionKey
 		}
 	}

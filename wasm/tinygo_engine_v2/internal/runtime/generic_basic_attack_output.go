@@ -100,7 +100,7 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 	}
 	if use := f.skillActionUseRef(); use != "" {
 		data["useRef"] = use
-		if action := s.skillActionByUse[use]; action != nil {
+		if action := s.skillActionForUse(use); action != nil {
 			data["instructionKey"] = action.plan.InstructionKey
 		}
 	}

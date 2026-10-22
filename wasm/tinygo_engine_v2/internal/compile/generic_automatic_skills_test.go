@@ -72,6 +72,7 @@ func TestAutomaticAdmissionDoesNotRejectManualShapes(t *testing.T) {
 		{"recast step", ".stepType", func(request *model.CompileRequest) {
 			step := &request.SharedProviders[0].Processes[0].Steps[0]
 			step.StepType, step.DelayMs, step.WindowMs = "RECAST", nil, processCompileNumber(1000)
+			step.MaximumRecastCount = processCompileNumber(1)
 		}},
 		{"explicit cancel", ".controls", func(request *model.CompileRequest) {
 			request.SharedProviders[0].Abilities = append(request.SharedProviders[0].Abilities, model.AbilityDefinition{AbilityKey: "cancel", Kind: "active", SkillKey: "skill:q", ProcessControl: &model.ProcessControlDefinition{ProcessKey: "cast", Action: "CANCEL", FailureReason: "ACTIVE_CANCELLED"}})

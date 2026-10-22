@@ -3,6 +3,8 @@ import { tryFoldConstant } from './numericAdapter';
 import { simulationAbility } from './simulationAdapter';
 import { inspectEmpoweredPredecessors } from './empoweredAttackContract';
 import { empoweredWindowHitCount } from './empoweredAttackWindowContract';
+import { recastDefinition } from './finiteRecast';
+import { inspectProcessSkillHitStages } from './processSkillHitStageFacts';
 
 function channelWindowExecutionOffset(first: number, last: number, count: number, ordinal: number): number {
   if (count === 1) return first;
@@ -24,6 +26,9 @@ export function committedSkillControl(compile: CompileRequest, request: RunReque
     || process.owner !== action.source || process.target !== action.target || process.startedAtMs !== parent.firstAtMs) return false;
   if (action.action === 'CANCEL') return process.status === 'failed' && process.failureReason === 'ACTIVE_CANCELLED'
     && process.finishedAtMs === action.firstAtMs;
+  const recast = action.action === 'RECAST' && ability.provider.processes?.find(p => p.processKey === control.processKey);
+  if (recast && recastDefinition(recast) && process.skillHitStages) return process.skillHitStages.some(fact => fact.stepKey === ability.ability.processControl?.stepKey
+    && fact.timeMs === action.firstAtMs && fact.released && fact.completed);
   if (process.stepKey !== ability.ability.processControl?.stepKey || process.stepExecutionIndex !== 1
     || process.lastExecutionAtMs !== action.firstAtMs) return false;
   const step = ability.provider.processes?.find(definition => definition.processKey === control.processKey)?.steps.find(step => step.stepKey === process.stepKey);
@@ -94,7 +99,27 @@ export function inspectSimulationProcessFacts(compile: CompileRequest, request: 
     useRefs.add(process.useKey);
     processes.push(process);
     const repeating = step?.stepType === 'MULTI_HIT' || step?.stepType === 'CHANNEL';
-    if (!repeating) check(process.repeat === null && process.stepExecutionIndex <= 1, `${path}.repeat`, '普通步骤不能伪造重复段或重复执行');
+    const recast = definition && recastDefinition(definition);
+    if (recast && definition) {
+      check(process.useKey.startsWith('skill:') && (automatic !== undefined
+        ? new RegExp(`^skill:auto_${automatic.ruleKey}_[1-9][0-9]*$`).test(process.useKey)
+        : initial.some(i => process.useKey === `skill:${i.instructionKey}`)), path, '重施窗口必须来自真实原生首次身份');
+      if (automatic) {
+        const ordinal = Number(process.useKey.slice(`skill:auto_${automatic.ruleKey}_`.length));
+        check(Number.isSafeInteger(ordinal) && ordinal >= 1 && ordinal <= (done.automaticSkillSummary?.attemptCount ?? 0),
+          path, '自动窗口编号不得越过真实首次尝试累计');
+      }
+      if (step?.stepType === 'RECAST') check(process.expiresAtMs === process.stepStartedAtMs + recast.window
+        && time(process.expiresAtMs) && process.stepExecutionIndex <= recast.maximum
+        && (process.status !== 'complete' || process.stepExecutionIndex === recast.maximum)
+        && (process.status !== 'active' || process.stepExecutionIndex < recast.maximum
+          && process.advanceAtMs === (process.lastExecutionAtMs ?? process.stepStartedAtMs) + recast.interval)
+        && (process.failureReason !== 'EVENT_ABORTED' || process.finishedAtMs === process.expiresAtMs && process.stepExecutionIndex < recast.maximum),
+      path, '重施原窗口、剩余额度、间隔或到期终结不一致');
+      try { inspectProcessSkillHitStages(binding, definition, process, automatic?.hitBindings ?? initial[0]?.hitBindings ?? [], done.summary.durationMs, done); }
+      catch (error) { check(false, path, error instanceof Error ? error.message : String(error)); }
+    }
+    if (!repeating) check(process.repeat === null && process.stepExecutionIndex <= (step?.stepType === 'RECAST' && recast ? recast.maximum : 1), `${path}.repeat`, '普通步骤不能伪造重复段或重复执行');
     else {
       const repeat = process.repeat;
       check(!!repeat && Number.isSafeInteger(repeat.executionCount) && repeat.executionCount >= 1 && repeat.executionCount <= 64
@@ -234,10 +259,30 @@ export function inspectSimulationProcessFacts(compile: CompileRequest, request: 
     + (process.stepCompletedAtMs !== null ? 1 : 0)), 0) === summary.stepCompletedCount,
   'summary.skillUses.stepCompletedCount', '完整步骤完成累计必须对应真实完成标记，不能从执行次数或有限记录猜完成');
   const controls = new Set<string>();
+  let recastControls = 0;
+  for (const process of processes) {
+    const binding = bindings.find(b => b.source === process.owner && b.providerRef === process.providerRef && b.skillKey === process.skillKey);
+    const definition = compile.sharedProviders?.find(p => p.providerKey === binding?.providerDefinitionRef)?.processes?.find(p => p.processKey === process.processKey);
+    const recast = definition && recastDefinition(definition);
+    if (!definition || !recast || process.stepVersion !== definition.steps.length || automaticRules) continue;
+    recastControls += process.stepExecutionIndex;
+    const available = actions.filter(a => a.action === 'RECAST' && a.bindingKey === binding?.bindingKey && a.source === process.owner && a.target === process.target
+      && a.parentInstructionKey === process.useKey.slice('skill:'.length));
+    const consumed = new Set<string>();
+    const committedTimes = process.skillHitStages?.filter(f => f.stepKey === process.stepKey).map(f => f.timeMs)
+      ?? (recast.maximum === 1 && process.stepExecutionIndex === 1 && process.lastExecutionAtMs !== null ? [process.lastExecutionAtMs] : []);
+    check(committedTimes.length === process.stepExecutionIndex, 'processInstances.skillHitStages', '每次已提交重施须有完整阶段或单次实际执行时点');
+    for (const timeMs of committedTimes) {
+      const action = available.find(a => a.firstAtMs === timeMs && !consumed.has(a.instructionKey));
+      check(!!action, 'processInstances.skillHitStages', '每次重施必须对应不同的真实计划控制，不能复用同一指令');
+      if (action) consumed.add(action.instructionKey);
+    }
+  }
   for (const process of processes) for (const action of actions) if (committedSkillControl(compile, request, action, process)) {
+    if (action.action === 'RECAST') continue;
     controls.add(`${process.useKey}/${action.action}/${action.firstAtMs}`);
   }
-  if (summary && done.summary.skillActions) check(done.summary.skillActions.acceptedCount === summary.startedCount + controls.size,
+  if (summary && done.summary.skillActions) check(done.summary.skillActions.acceptedCount === summary.startedCount + controls.size + recastControls,
     'summary.skillActions.acceptedCount', '完整控制接受累计须对应原使用实际执行或主动取消，零明细不得绕过');
   return { issues, occupancies, processes, empoweredSuccessions: empowered.successions };
 }

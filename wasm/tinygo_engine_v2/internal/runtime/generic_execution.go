@@ -119,6 +119,8 @@ type executionFrame struct {
 	pendingBasicAttackWait         *basicAttackWait
 	pendingActionWait              bool
 	processUseKey                  string
+	processCastPhase               string
+	recastExecutionCommitted       bool
 	processUseSkillKey             string
 	processUseSource               string
 	damageDefenseContext           *formula.GenericEvalContext
@@ -2407,16 +2409,16 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 		return err
 	}
 	// Mint after successful gate (driver) / lifecycle staging; Listener AbilityRef always new ID.
-	frame.castInstanceID = s.mintCastInstanceID()
+	frame.castInstanceID = 0
 	if s.hasSkillPlan() {
-		if fact, exists := s.skillHitFacts[driverEntryKey]; exists && fact.UseRef != nil && s.skillActionByUse[*fact.UseRef] != nil {
-			for _, process := range s.processInstances {
-				if process.UseKey == *fact.UseRef {
-					frame.castInstanceID = process.castID
-					break
-				}
+		if fact, exists := s.skillHitFacts[driverEntryKey]; exists && fact.UseRef != nil {
+			if use := s.skillUses[*fact.UseRef]; use != nil && use.plannedProcess != nil {
+				frame.castInstanceID = use.castID
 			}
 		}
+	}
+	if frame.castInstanceID == 0 {
+		frame.castInstanceID = s.mintCastInstanceID()
 	}
 	frame.castOrigin = ability.CastOrigin
 	frame.countCastOnCommit = !isNativeHitFollowUp(frame.driverEntryKey)
@@ -2622,6 +2624,9 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability planbundle.Com
 	}
 	if ability.HasSkillHit {
 		if fact, ok := f.run.skillHitFacts[f.driverEntryKey]; ok && fact.UseRef != nil {
+			if use := f.run.skillUses[*fact.UseRef]; use != nil && use.plannedProcess != nil && use.source == f.sourceKey && use.skillKey == ability.SkillKey {
+				return nil
+			}
 			for _, p := range f.run.processInstances {
 				if p.UseKey == *fact.UseRef && p.Owner == f.sourceKey && p.SkillKey == ability.SkillKey {
 					return nil
@@ -2641,6 +2646,10 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability planbundle.Com
 	eventTypes = append(eventTypes, f.abilityTypeKeys(ability)...)
 	eventTypes = f.appendCastOriginEventType(eventTypes)
 	useRef := f.processUseKey
+	phase := f.processCastPhase
+	if phase == "" {
+		phase = "INITIAL"
+	}
 	f.recordEvidenceLazy(model.EvidenceKindEmittedEvent, func() model.EvidenceItem {
 		startedData := map[string]interface{}{
 			"source":    f.sourceKey,
@@ -2648,9 +2657,9 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability planbundle.Com
 			"eventType": eventTypeAbilityStarted,
 		}
 		if useRef != "" {
-			startedData["useRef"], startedData["skillKey"], startedData["phaseKind"] = useRef, f.processUseSkillKey, "INITIAL"
+			startedData["useRef"], startedData["skillKey"], startedData["phaseKind"] = useRef, f.processUseSkillKey, phase
 			startedData["owner"], startedData["providerRef"] = f.ownerCombatantKey, f.ownerProviderRef
-			if action := f.run.skillActionByUse[useRef]; action != nil {
+			if action := f.run.skillActionForUse(useRef); action != nil {
 				startedData["instructionKey"] = action.plan.InstructionKey
 				startedData["providerDefinitionRef"] = action.binding.ProviderDefinitionRef
 			}

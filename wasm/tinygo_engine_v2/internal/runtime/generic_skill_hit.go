@@ -22,6 +22,9 @@ const (
 )
 
 type skillUseRuntime struct {
+	plannedProcess       *processRuntime
+	plannedAction        *skillActionRuntime
+	castID               uint64
 	empoweredProcess     *processRuntime
 	empoweredConsumption int
 	providerStateBefore  []attackProviderStateCapture

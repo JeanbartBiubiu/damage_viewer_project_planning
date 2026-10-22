@@ -3,6 +3,7 @@ package xyz.game.datamanage.model.skillprocess;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
@@ -15,6 +16,8 @@ public record SkillProcessRecastStepDetail(
     SkillNumericValue windowValue,
     @Valid
     SkillNumericValue maximumRecastCountValue,
+    @Valid @JsonInclude(JsonInclude.Include.NON_NULL)
+    SkillNumericValue intervalValue,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillProcessStepDetail {
@@ -25,7 +28,12 @@ public record SkillProcessRecastStepDetail(
     }
 
     public SkillProcessRecastStepDetail(SkillNumericValue windowValue, SkillNumericValue maximumRecastCountValue) {
-        this(windowValue, maximumRecastCountValue, Set.of(), Set.of());
+        this(windowValue, maximumRecastCountValue, null, Set.of(), Set.of());
+    }
+
+    public SkillProcessRecastStepDetail(SkillNumericValue windowValue, SkillNumericValue maximumRecastCountValue,
+        SkillNumericValue intervalValue) {
+        this(windowValue, maximumRecastCountValue, intervalValue, Set.of(), Set.of());
     }
 
     @JsonCreator
@@ -34,7 +42,7 @@ public record SkillProcessRecastStepDetail(
         @JsonProperty("maximumRecastCountValue") SkillNumericValue maximumRecastCountValue,
         @JsonProperty("delayValue") JsonNode delayValue,
         @JsonProperty("repeatCountValue") JsonNode repeatCountValue,
-        @JsonProperty("intervalValue") JsonNode intervalValue,
+        @JsonProperty("intervalValue") SkillNumericValue intervalValue,
         @JsonProperty("firstExecution") JsonNode firstExecution,
         @JsonProperty("durationValue") JsonNode durationValue,
         @JsonProperty("executionCountValue") JsonNode executionCountValue,
@@ -47,10 +55,10 @@ public record SkillProcessRecastStepDetail(
         return new SkillProcessRecastStepDetail(
             windowValue,
             maximumRecastCountValue,
+            intervalValue,
             SkillProcessDetailFieldCapture.captureForeign(
                 "delayValue", delayValue,
                 "repeatCountValue", repeatCountValue,
-                "intervalValue", intervalValue,
                 "firstExecution", firstExecution,
                 "durationValue", durationValue,
                 "executionCountValue", executionCountValue,

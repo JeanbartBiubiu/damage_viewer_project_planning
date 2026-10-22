@@ -7,6 +7,7 @@ import type { SkillActionInput } from '../../src/engine/skillActionRequest';
 import type { SceneInitialParameterInput } from '../../src/engine/sceneInitialParameterInput';
 import type { ProjectedStatusContribution, ProjectedEffectiveStatus } from './statusProjection';
 import type { ProjectedUseTrigger } from './useTriggerProjection';
+import type { ProjectedFiniteRecastStage, ProjectedFiniteRecastWindow, ProjectedFiniteRecastWitness } from './finiteRecastProjection';
 import type { SimulationAttributeInputs, SimulationInitialHealth, SimulationInitialResourceInput, SimulationSnapshot, SimulationMechanicStateInput, SimulationEquipmentAssumption } from '../../src/types/simulationSnapshot';
 
 export const MECHANISM_CASE_VERSION = 'mechanism-case-v1';
@@ -40,6 +41,12 @@ export type ProjectedSummary = {
   targetKilledAtMs: number | null;
   basicAttackStarted: number;
   basicAttackHits: number;
+  skillUseStarted?: number;
+  skillUseReleased?: number;
+  skillUseHits?: number;
+  skillUseCompleted?: number;
+  skillUseFailed?: number;
+  skillUseInFlight?: number;
   targetMarkConsumed?: number;
   targetMarkAttackConsumed?: number;
   targetMarkSkillConsumed?: number;
@@ -92,6 +99,9 @@ export type MechanismProjection = {
   finalUseTriggerLedger: ProjectedUseTrigger[];
   shieldAbsorptions: ProjectedShieldAbsorption[];
   finalShieldWaits: ProjectedShieldWait[];
+  finiteRecastWindows: ProjectedFiniteRecastWindow[];
+  finiteRecastStages: ProjectedFiniteRecastStage[];
+  finiteRecastWitnesses: ProjectedFiniteRecastWitness[];
 };
 
 /** 期望只写手算或游戏机制确定的值；列表按发生顺序完整列出，对象只比较写出的字段。 */
@@ -115,6 +125,9 @@ export type MechanismExpectation = {
   finalUseTriggerLedger?: ProjectedUseTrigger[];
   shieldAbsorptions?: Partial<ProjectedShieldAbsorption>[];
   finalShieldWaits?: ProjectedShieldWait[];
+  finiteRecastWindows?: ProjectedFiniteRecastWindow[];
+  finiteRecastStages?: ProjectedFiniteRecastStage[];
+  finiteRecastWitnesses?: ProjectedFiniteRecastWitness[];
 };
 
 type CaseSnapshot = Omit<SimulationSnapshot, 'gameId' | 'catalogs' | 'snapshotDigest' | 'readAt'>;
@@ -195,7 +208,8 @@ export function parseMechanismCase(bytes: Buffer, file: string): MechanismCase {
 
 const EXPECTED_FIELDS: Record<string, readonly string[]> = {
   summary: ['stopReason', 'sourceFinalHp', 'targetFinalHp', 'sourceDamageDealt', 'targetHpLoss', 'sourceDirectHealing', 'sourceVampHealing', 'targetKilledAtMs', 'basicAttackStarted', 'basicAttackHits',
-    'targetMarkConsumed', 'targetMarkAttackConsumed', 'targetMarkSkillConsumed', 'targetMarkDamageBlocked'],
+    'targetMarkConsumed', 'targetMarkAttackConsumed', 'targetMarkSkillConsumed', 'targetMarkDamageBlocked',
+    'skillUseStarted', 'skillUseReleased', 'skillUseHits', 'skillUseCompleted', 'skillUseFailed', 'skillUseInFlight'],
   damage: ['timeMs', 'source', 'target', 'skillKey', 'effectKey', 'resultKey', 'damageType', 'rawAmount', 'postDefenseDamage', 'shieldAbsorbed', 'actualHpLoss'],
   healing: ['timeMs', 'source', 'target', 'rawAmount', 'actualHealing', 'overheal'],
   skillStarts: ['timeMs', 'skillKey'],
@@ -214,7 +228,13 @@ const EXPECTED_FIELDS: Record<string, readonly string[]> = {
   finalUseTriggerLedger: ['owner', 'providerRef', 'groupKey', 'scope', 'useSource', 'useSkillKey', 'useKey', 'target'],
   shieldAbsorptions: ['timeMs', 'damageId', 'damageSource', 'damageTarget', 'shieldRef', 'definitionRef', 'lifecycleProviderRef',
     'source', 'owner', 'remainingBefore', 'remainingAfter', 'absorbed'],
-  finalShieldWaits: ['owner', 'source', 'definitionRef', 'stateKey', 'value', 'expireAt']
+  finalShieldWaits: ['owner', 'source', 'definitionRef', 'stateKey', 'value', 'expireAt'],
+  finiteRecastWindows: ['owner', 'providerRef', 'providerDefinitionRef', 'bindingKey', 'processKey', 'skillKey', 'useKey', 'target', 'stepKey',
+    'stepVersion', 'stepExecutionIndex', 'lastExecutionAtMs', 'stepCompletedAtMs', 'startedAtMs', 'stepStartedAtMs', 'advanceAtMs', 'expiresAtMs',
+    'actualCosts', 'cooldownStarted', 'status', 'failureReason', 'finishedAtMs', 'repeat', 'actionOccupancies', 'maximumRecastCount', 'intervalMs', 'windowMs'],
+  finiteRecastStages: ['owner', 'providerRef', 'bindingKey', 'skillKey', 'processKey', 'windowUseRef', 'useRef', 'executionOrdinal',
+    'hitBindingKey', 'stepKey', 'timeMs', 'released', 'contact', 'completed'],
+  finiteRecastWitnesses: ['owner', 'providerRef', 'providerDefinitionRef', 'skillKey', 'groupKey', 'stateKey', 'value']
 };
 
 /** 覆盖标签必须对应至少一个数值断言，空对象或只有名称不能获得回归覆盖。 */
@@ -242,7 +262,36 @@ function validateExpectation(expected: Record<string, unknown>, file: string) {
       const fields = object(row, file, path);
       if (!Object.keys(fields).length) fail(file, `${path} 不能是空期望对象`);
       onlyKeys(fields, EXPECTED_FIELDS[section]!, file, path);
-      if (section === 'summary') for (const key of ['targetMarkConsumed', 'targetMarkAttackConsumed', 'targetMarkSkillConsumed', 'targetMarkDamageBlocked']) {
+      if (['finiteRecastWindows', 'finiteRecastStages', 'finiteRecastWitnesses'].includes(section)) {
+        if (Object.keys(fields).length !== EXPECTED_FIELDS[section]!.length) fail(file, `${path} 需要完整窗口、逐发或见证字段`);
+        const numeric = section === 'finiteRecastWindows' ? ['stepVersion', 'stepExecutionIndex', 'lastExecutionAtMs', 'stepCompletedAtMs',
+          'startedAtMs', 'stepStartedAtMs', 'advanceAtMs', 'expiresAtMs', 'finishedAtMs', 'maximumRecastCount', 'intervalMs', 'windowMs']
+          : section === 'finiteRecastStages' ? ['executionOrdinal', 'timeMs'] : ['value'];
+        const nullable = ['lastExecutionAtMs', 'stepCompletedAtMs', 'finishedAtMs', 'failureReason', 'repeat'];
+        const booleans = ['cooldownStarted', 'released', 'contact', 'completed'];
+        for (const [key, value] of Object.entries(fields)) {
+          if (nullable.includes(key) && value === null) continue;
+          if (numeric.includes(key)) {
+            if (!Number.isSafeInteger(value) || Number(value) < 0) fail(file, `${path}.${key} 需要非负安全整数`);
+            numericAssertions++;
+          } else if (booleans.includes(key)) {
+            if (typeof value !== 'boolean') fail(file, `${path}.${key} 需要真实布尔值`);
+          } else if (key === 'actualCosts') {
+            const costs = object(value, file, `${path}.actualCosts`);
+            if (Object.values(costs).some(v => typeof v !== 'number' || !Number.isFinite(v) || v < 0)) fail(file, `${path} 成本必须有限非负`);
+          } else if (key === 'actionOccupancies') {
+            if (!Array.isArray(value) || value.length) fail(file, `${path} 有限重施不得占用行动`);
+          } else if (key === 'repeat' || typeof value !== 'string' || !value.trim()) fail(file, `${path}.${key} 身份或空值非法`);
+        }
+        if (!['source', 'target'].includes(String(fields.owner)) || section === 'finiteRecastWindows'
+          && (!['source', 'target'].includes(String(fields.target)) || !['active', 'complete', 'failed'].includes(String(fields.status))
+            || fields.stepVersion !== 2 || Number(fields.maximumRecastCount) < 1 || Number(fields.maximumRecastCount) > 63
+            || Number(fields.stepExecutionIndex) > Number(fields.maximumRecastCount) || Number(fields.windowMs) < 1)
+          || section === 'finiteRecastStages' && Number(fields.executionOrdinal) > 63) fail(file, `${path} 拥有者、状态或有限配额非法`);
+        continue;
+      }
+      if (section === 'summary') for (const key of ['targetMarkConsumed', 'targetMarkAttackConsumed', 'targetMarkSkillConsumed', 'targetMarkDamageBlocked',
+        'skillUseStarted', 'skillUseReleased', 'skillUseHits', 'skillUseCompleted', 'skillUseFailed', 'skillUseInFlight']) {
         if (Object.prototype.hasOwnProperty.call(fields, key) && (!Number.isSafeInteger(fields[key]) || Number(fields[key]) < 0)) {
           fail(file, `${path}.${key} 消费次数需要明确非负安全整数`);
         }

@@ -20,6 +20,7 @@ import { compileCooldownDurationEffect } from './cooldownDurationEffectAdapter';
 import { compileTimedDamageReduction } from './timedDamageReductionAdapter';
 import { adaptEmpoweredProcessPayload, type AuthoredHitProgram, type AdaptedHitProgram } from './hitAdapter';
 import { staticEffectValue } from './staticEffectValue';
+import { finiteRecastShape, recastProofLevels } from './finiteRecast';
 import type {
   SkillProcess, SkillProcessFailureReason, SkillProcessMoment, SkillProcessStep
 } from '../types/skillProcess';
@@ -369,14 +370,15 @@ function compileSteps(process: SkillProcess, state: NumericCompileState): Proces
       terminal = true;
       steps.push({ stepKey, stepType: 'CHARGE', minimumChargeMs, maximumChargeMs, releaseAtMaximum: step.detail.releaseAtMaximum });
     } else if (step.stepType === 'RECAST') {
-      exactKeys(step.detail, ['windowValue', 'maximumRecastCountValue'], `${path}.detail`);
-      assertNumericShape(step.detail.maximumRecastCountValue, `${path}.detail.maximumRecastCountValue`);
-      const count = tryFoldConstant(compileNumericValue(
-        step.detail.maximumRecastCountValue, `${path}.detail.maximumRecastCountValue`, scratchState(state, '重施次数必须为 1', false), fail
-      ));
-      if (count !== 1) fail(`${path}.detail.maximumRecastCountValue`, '重施次数必须为 1');
+      exactKeys(step.detail, ['windowValue', 'maximumRecastCountValue', 'intervalValue'], `${path}.detail`);
+      const count = staticRecastValue(step.detail.maximumRecastCountValue, `${path}.detail.maximumRecastCountValue`, state, 1, 63);
+      if (count > 1 && !finiteRecastShape(ordered)) fail(path, '多次重施只接明确零占用的即时首发与末尾重施两步图');
+      const window = staticRecastValue(step.detail.windowValue, `${path}.detail.windowValue`, state, 1, Number.MAX_SAFE_INTEGER);
+      const interval = step.detail.intervalValue == null ? undefined
+        : staticRecastValue(step.detail.intervalValue, `${path}.detail.intervalValue`, state, 1, Number.MAX_SAFE_INTEGER);
       terminal = true;
-      steps.push({ stepKey, stepType: 'RECAST', windowMs: compileTime(step.detail.windowValue, `${path}.detail.windowValue`, state, 'positive') });
+      steps.push({ stepKey, stepType: 'RECAST', windowMs: constExpr(window), maximumRecastCount: constExpr(count),
+        ...(interval === undefined ? {} : { intervalMs: constExpr(interval) }) });
     } else if (step.stepType === 'EMPOWERED_BASIC_ATTACK') {
       exactKeys(step.detail, ['windowValue', 'consumeMoment', 'maximumAttackCountValue'], `${path}.detail`);
       const quota = Object.prototype.hasOwnProperty.call(step.detail, 'maximumAttackCountValue');
@@ -391,6 +393,17 @@ function compileSteps(process: SkillProcess, state: NumericCompileState): Proces
     } else fail(`${path}.stepType`, '本期只接受即时、延时及末尾唯一有限多段、引导、蓄力或单次重施');
   }
   return steps.map(step => ({ ...step, occupiesAction: ordered.find(author => author.stepKey === step.stepKey)!.occupiesAction ?? null }));
+}
+
+function staticRecastValue(value: NumericValue, path: string, state: NumericCompileState, minimum: number, maximum: number): number {
+  assertNumericShape(value, path);
+  for (const levels of recastProofLevels(state.parameters ?? [], state.skillLevel, state.characterLevel)) {
+    const variant = createNumericCompileState({ ...state, ...levels, formulaNamespace: state.formulaNamespace.replace(/\/levels\/.+$/, '') });
+    const n = staticEffectValue(value, path, variant);
+    if (!Number.isSafeInteger(n) || n < minimum || n > maximum) fail(path, `重施数值必须是静态${minimum}～${maximum}整数`);
+    for (const [key, formula] of variant.namedFormulas) state.namedFormulas.set(key, formula);
+  }
+  return staticEffectValue(value, path, state);
 }
 
 function compileExecutionCount(value: NumericValue, path: string, state: NumericCompileState): GenericFormulaExpr {

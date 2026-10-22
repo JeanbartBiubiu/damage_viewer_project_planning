@@ -22,6 +22,7 @@ import { projectEmpoweredWindows, projectInitializations } from './initializatio
 import { projectFinalStatuses } from './statusProjection';
 import { projectUseTriggerLedger } from './useTriggerProjection';
 import { projectShieldAbsorptions, projectShieldWaits } from './shieldAbsorptionProjection';
+import { projectFiniteRecasts } from './finiteRecastProjection';
 
 export const WASM_PATH = new URL('../../src/engine/wasm/tinygo_engine_v2.wasm', import.meta.url);
 
@@ -146,6 +147,9 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
       sourceDirectHealing: summary.sourceDirectHealing ?? 0, sourceVampHealing: summary.sourceVampHealing ?? 0,
       targetKilledAtMs: summary.execution?.targetKilledAtMs ?? null,
       basicAttackStarted: summary.basicAttack?.startedCount ?? 0, basicAttackHits: summary.basicAttack?.hitCount ?? 0,
+      ...(summary.skillUses ? { skillUseStarted: summary.skillUses.startedCount, skillUseReleased: summary.skillUses.releasedCount,
+        skillUseHits: summary.skillUses.hitCount, skillUseCompleted: summary.skillUses.completedCount,
+        skillUseFailed: summary.skillUses.failedCount, skillUseInFlight: summary.skillUses.inFlightCount } : {}),
       ...(done.targetMarkSummary ? { targetMarkConsumed: done.targetMarkSummary.consumedCount,
         targetMarkAttackConsumed: done.targetMarkSummary.attackCount, targetMarkSkillConsumed: done.targetMarkSummary.skillCount,
         targetMarkDamageBlocked: done.targetMarkSummary.damageBlockedCount } : {})
@@ -178,6 +182,7 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
     restorations: projectRestorations(origins, compileRequest, runRequest, done),
     initializations: projectInitializations(compileRequest, runRequest, done),
     ...projectEmpoweredWindows(compileRequest, runRequest, done),
+    ...projectFiniteRecasts(compileRequest, runRequest, done),
     finalCooldowns: done.finalSnapshot.combatants.flatMap(actor => Object.entries(actor.cooldowns).map(([abilityRef, value]) => {
       if (!value || typeof value !== 'object' || !Number.isSafeInteger((value as Record<string, unknown>).readyAtMs)
         || !Number.isSafeInteger((value as Record<string, unknown>).remainingMs)
@@ -207,7 +212,7 @@ export function compareMechanismExpectation(actual: MechanismProjection, expecte
   };
   if (expected.summary) fields('summary', actual.summary, expected.summary);
   if (expected.finalAttributes) fields('finalAttributes', actual.finalAttributes, expected.finalAttributes);
-  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges', 'finalProviders', 'restorations', 'initializations', 'empoweredWindows', 'empoweredConsumptions', 'finalCooldowns', 'finalStatusContributions', 'finalEffectiveStatuses', 'finalUseTriggerLedger', 'shieldAbsorptions', 'finalShieldWaits'] as const) {
+  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges', 'finalProviders', 'restorations', 'initializations', 'empoweredWindows', 'empoweredConsumptions', 'finalCooldowns', 'finalStatusContributions', 'finalEffectiveStatuses', 'finalUseTriggerLedger', 'shieldAbsorptions', 'finalShieldWaits', 'finiteRecastWindows', 'finiteRecastStages', 'finiteRecastWitnesses'] as const) {
     const wanted = expected[list];
     if (!wanted) continue;
     const rows = actual[list] as unknown as Record<string, unknown>[];

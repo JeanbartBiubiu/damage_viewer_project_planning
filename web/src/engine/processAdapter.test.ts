@@ -470,7 +470,7 @@ describe('processAdapter', () => {
     ];
     const adapted = adaptProcessProgram(recast);
     expect(adapted.provider.processes![0]!.steps[0]).toMatchObject({ stepType: 'DELAY', delayMs: { op: 'const', value: 50 } });
-    expect(adapted.provider.processes![0]!.steps[1]).toEqual({ stepKey: 'again', stepType: 'RECAST', windowMs: { op: 'const', value: 1000 }, occupiesAction: null });
+    expect(adapted.provider.processes![0]!.steps[1]).toEqual({ stepKey: 'again', stepType: 'RECAST', windowMs: { op: 'const', value: 1000 }, maximumRecastCount: { op: 'const', value: 1 }, occupiesAction: null });
     expect(adapted.controls.map((control) => control.action)).toEqual(['INITIAL', 'RECAST']);
     expect(adapted.provider.abilities![0]).toMatchObject({ skillKey: 'cast_skill', processControl: { action: 'INITIAL' } });
     expect(adapted.provider.abilities![1]).toMatchObject({ kind: 'active', processControl: { action: 'RECAST', stepKey: 'again' } });
@@ -559,7 +559,7 @@ describe('processAdapter', () => {
     reject((authored) => { authored.process.steps = [step('CHANNEL', 'bad', { durationValue: fixedValue(1), executionCountValue: fixedValue(0), firstExecution: 'IMMEDIATE' })]; }, /1～64/);
     reject((authored) => {
       authored.process.steps = [step('RECAST', 'again', { windowValue: fixedValue(1000), maximumRecastCountValue: fixedValue(2) }, 20), step('IMMEDIATE', 'start', {}, 10)];
-    }, /末尾|重施次数必须为 1/);
+    }, /末尾|多次重施/);
     reject((authored) => { authored.rules[0]!.eventSource = { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'cast_skill', useKind: 'ACTIVE', castPhase: null } }; }, /缺少施放阶段/);
     reject((authored) => { authored.rules[0]!.eventSource = { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'other_skill', useKind: 'ACTIVE', castPhase: 'INITIAL' } }; }, /跨技能/);
     reject((authored) => { (authored.process as SkillProcess & { extra?: boolean }).extra = true; }, /未支持的字段/);

@@ -59,6 +59,7 @@ export function assertNumericUses(root: unknown, domain: 'effect' | 'process' | 
     };
     for (const [index, step] of list(root.steps, 'steps').entries()) {
       for (const key of keys[String(step.stepType)] ?? []) slot(step.detail, key, `steps[${index}].detail`, step.stepType === 'MULTI_HIT' && key === 'intervalValue');
+      if (step.stepType === 'RECAST' && object(step.detail) && 'intervalValue' in step.detail) slot(step.detail, 'intervalValue', `steps[${index}].detail`, true);
       if (step.stepType === 'EMPOWERED_BASIC_ATTACK' && object(step.detail) && 'maximumAttackCountValue' in step.detail) {
         slot(step.detail, 'maximumAttackCountValue', `steps[${index}].detail`);
       }

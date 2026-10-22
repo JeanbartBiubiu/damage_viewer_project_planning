@@ -102,19 +102,21 @@ public final class SkillHitPhaseSemantics {
             Map<String, Integer> order = new LinkedHashMap<>();
             Set<Integer> usedOrder = new HashSet<>();
             JsonNode steps = process.data().path("steps");
+            boolean recastSteps = finiteRecastSteps(steps);
             boolean invalidSteps = !steps.isArray() || steps.isEmpty() || steps.size() > 64;
             boolean hasDelay = false;
             for (JsonNode step : steps) {
                 String key = text(step, "stepKey");
                 JsonNode sort = step.path("sortOrder");
                 if (key == null || !sort.isIntegralNumber() || !sort.canConvertToInt() || order.containsKey(key)
-                    || !usedOrder.add(sort.intValue()) || !("IMMEDIATE".equals(text(step, "stepType")) || "DELAY".equals(text(step, "stepType")))) invalidSteps = true;
+                    || !usedOrder.add(sort.intValue()) || !("IMMEDIATE".equals(text(step, "stepType")) || "DELAY".equals(text(step, "stepType"))
+                        || recastSteps && "RECAST".equals(text(step, "stepType")))) invalidSteps = true;
                 if (key != null && sort.isIntegralNumber() && sort.canConvertToInt()) order.put(key, sort.intValue());
                 hasDelay |= "DELAY".equals(text(step, "stepType"));
             }
-            invalidSteps |= steps.size() > 1 && !hasDelay;
+            invalidSteps |= steps.size() > 1 && !hasDelay && !recastSteps;
             if (invalidSteps)
-                issues.add(located(issue(PATH + ".processKey", "PHASE_STEP_SEQUENCE_INVALID", "分阶段命中要求1至64个排序明确的即时或有限延时步骤，多步过程至少包含一个延时步骤"), owner));
+                issues.add(located(issue(PATH + ".processKey", "PHASE_STEP_SEQUENCE_INVALID", "分阶段命中要求有序即时或有限延时步骤，或明确不占行动的即时到末尾重施两步"), owner));
             Map<String, Phase> byStep = new LinkedHashMap<>();
             for (Phase phase : members) {
                 Phase first = byStep.putIfAbsent(phase.step(), phase);
@@ -125,7 +127,13 @@ public final class SkillHitPhaseSemantics {
             }
             if (byStep.size() > 64)
                 issues.add(located(issue(PATH, "PHASE_LIMIT_EXCEEDED", "同一过程最多64个实际命中阶段"), owner));
+            if (recastSteps && (byStep.size() != 2 || !byStep.keySet().equals(order.keySet())))
+                issues.add(located(issue(PATH, "PHASE_RECAST_BINDING_INVALID", "有限重施的首步和末尾步骤必须分别声明实际命中阶段"), owner));
             for (Phase phase : members) {
+                if (recastSteps && phase.prior() != null) {
+                    issues.add(located(issue(PATH + ".requiresPriorStepKey", "PHASE_RECAST_BINDING_INVALID", "每次重施命中不得依赖前一发是否命中"), phase.rule()));
+                    continue;
+                }
                 if (phase.prior() == null) continue;
                 Integer priorOrder = order.get(phase.prior());
                 Integer currentOrder = order.get(phase.step());
@@ -142,6 +150,19 @@ public final class SkillHitPhaseSemantics {
             }
         }
         reject(issues);
+    }
+
+    private static boolean finiteRecastSteps(JsonNode steps) {
+        if (!steps.isArray() || steps.size() != 2) return false;
+        List<JsonNode> ordered = new ArrayList<>();
+        for (JsonNode step : steps) {
+            if (!step.path("sortOrder").isIntegralNumber() || !step.path("sortOrder").canConvertToInt()
+                || !step.path("occupiesAction").isBoolean() || step.path("occupiesAction").booleanValue()) return false;
+            ordered.add(step);
+        }
+        ordered.sort(java.util.Comparator.comparingInt(step -> step.path("sortOrder").intValue()));
+        return ordered.get(0).path("sortOrder").intValue() != ordered.get(1).path("sortOrder").intValue()
+            && "IMMEDIATE".equals(text(ordered.get(0), "stepType")) && "RECAST".equals(text(ordered.get(1), "stepType"));
     }
 
     private static List<Map<String, String>> rawShape(JsonNode phase) {

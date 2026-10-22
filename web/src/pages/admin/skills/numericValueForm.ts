@@ -10,6 +10,7 @@ export type NumericLimits = {
   required?: boolean;
   integer?: boolean;
   min?: number;
+  max?: number;
   exclusiveMin?: boolean;
   allowRuntimeInput?: boolean;
   parametersState?: 'ready' | 'failed';
@@ -46,6 +47,7 @@ export function numericValueError(value: NumericValue | null | undefined, catalo
   if (values && limits.min !== undefined && values.some((number) => limits.exclusiveMin ? number <= limits.min! : number < limits.min!)) {
     return `此处数值必须${limits.exclusiveMin ? '大于' : '大于等于'} ${limits.min}。`;
   }
+  if (values && limits.max !== undefined && values.some(number => number > limits.max!)) return `此处数值必须小于等于 ${limits.max}。`;
   return undefined;
 }
 

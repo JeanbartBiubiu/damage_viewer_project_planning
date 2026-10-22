@@ -17,6 +17,7 @@ type skillActionRuntime struct {
 	summary              model.SkillActionSummary
 	uses                 model.SkillUseSummary
 	useRef               string
+	acceptedUseRef       string
 	accepted             bool
 	rejection            string
 	controlAbilityIndex  uint16
@@ -44,7 +45,7 @@ func hasSimpleStepHits(definition *planbundle.CompiledProcess, binding planbundl
 		return false
 	}
 	for _, step := range definition.Steps {
-		if step.StepType != "IMMEDIATE" && step.StepType != "DELAY" {
+		if step.StepType != "IMMEDIATE" && step.StepType != "DELAY" && step.StepType != "RECAST" {
 			return false
 		}
 	}
@@ -224,6 +225,9 @@ func (state *genericRunState) finishSkillActionAttempt(err *model.EngineError) {
 	record := model.SkillActionRecord{ParentInstructionKey: action.plan.ParentInstructionKey, InstructionKey: action.plan.InstructionKey, RequestedAtMs: action.plan.FirstAtMs, ActualAtMs: state.nowMs, Action: action.plan.Action, Source: action.plan.Source, Target: action.plan.Target, SkillKey: action.plan.SkillKey, BindingKey: action.plan.BindingKey, ProviderRef: action.binding.ProviderRef, ProviderDefinitionRef: action.binding.ProviderDefinitionRef}
 	if action.accepted {
 		record.Outcome, record.UseRef = "ACCEPTED", &action.useRef
+		if action.acceptedUseRef != "" {
+			record.UseRef = &action.acceptedUseRef
+		}
 	} else if err != nil {
 		record.Outcome = "ABORTED_BEFORE_ACCEPT"
 		reason := string(err.BudgetCause)
@@ -255,7 +259,7 @@ func (state *genericRunState) publishSkillActionStart(process *processRuntime) {
 	}
 	action.summary.AcceptedCount++
 	action.uses.StartedCount++
-	state.skillUses[process.UseKey] = &skillUseRuntime{useKey: process.UseKey, source: process.Owner, skillKey: process.SkillKey, historyState: model.SkillHitHistoryComplete}
+	state.skillUses[process.UseKey] = &skillUseRuntime{useKey: process.UseKey, source: process.Owner, skillKey: process.SkillKey, historyState: model.SkillHitHistoryComplete, plannedProcess: process, plannedAction: action, castID: process.castID}
 	state.recordSkillUse(process, "STARTED", nil, nil)
 	state.publishAutomaticSkillStart(action, process)
 }
@@ -270,11 +274,18 @@ func (state *genericRunState) recordSkillUse(process *processRuntime, kind strin
 	}
 	state.skillUseRecordCount++
 	if state.detailedOutput() && len(state.skillUseRecords) < state.maxSkillUseRecords {
+		use, instruction := process.UseKey, action.plan.InstructionKey
+		if (kind == "RELEASED" || kind == "HIT") && process.castUseKey != "" {
+			use = process.castUseKey
+			if cast := state.skillActionForUse(use); cast != nil {
+				instruction = cast.plan.InstructionKey
+			}
+		}
 		target := process.Target
 		if process.EmpoweredAttack != nil {
 			target = process.EmpoweredAttack.Target
 		}
-		state.skillUseRecords = append(state.skillUseRecords, model.SkillUseRecord{EmpoweredAttack: process.EmpoweredAttack, StepKey: process.StepKey, StepVersion: process.StepVersion, ExecutionIndex: process.StepExecutionIndex, InstructionKey: action.plan.InstructionKey, TimeMs: state.nowMs, Kind: kind, Source: process.Owner, Target: target, SkillKey: process.SkillKey, ProviderRef: process.ProviderRef, ProcessKey: process.ProcessKey, UseRef: process.UseKey, HitRef: hit, Reason: reason})
+		state.skillUseRecords = append(state.skillUseRecords, model.SkillUseRecord{EmpoweredAttack: process.EmpoweredAttack, StepKey: process.StepKey, StepVersion: process.StepVersion, ExecutionIndex: process.StepExecutionIndex, InstructionKey: instruction, TimeMs: state.nowMs, Kind: kind, Source: process.Owner, Target: target, SkillKey: process.SkillKey, ProviderRef: process.ProviderRef, ProcessKey: process.ProcessKey, UseRef: use, HitRef: hit, Reason: reason})
 	}
 }
 
@@ -301,6 +312,12 @@ func (state *genericRunState) publishSkillActionControl(process *processRuntime,
 	if action != nil && action.plan.Action != "INITIAL" && !action.accepted && process != nil && process.UseKey == action.useRef && abilityRef == action.plan.AbilityRef {
 		action.accepted = true
 		action.summary.AcceptedCount++
+		if action.plan.Action == "RECAST" {
+			action.acceptedUseRef = process.castUseKey
+		}
+	}
+	if process != nil && process.castUseKey != "" && process.castUseKey != process.UseKey && state.skillUses[process.castUseKey] == nil {
+		state.skillUses[process.castUseKey] = &skillUseRuntime{useKey: process.castUseKey, source: process.Owner, skillKey: process.SkillKey, historyState: model.SkillHitHistoryComplete, plannedProcess: process, plannedAction: action, castID: process.castID}
 	}
 }
 
@@ -385,8 +402,16 @@ func (state *genericRunState) resolveSkillActionMoment(process *processRuntime, 
 }
 
 func (state *genericRunState) executeSkillActionHit(process *processRuntime, action *skillActionRuntime, hit model.SkillActionHitBinding, sequence int) *model.EngineError {
-	key := action.plan.InstructionKey + ":" + hit.HitBindingKey + ":" + strconv.Itoa(sequence) + nativeHitFollowUpSuffix
-	state.skillHitFacts[key] = model.SkillHitFact{DriverEntryKey: key, UseRef: &action.useRef, Sequence: &sequence}
+	use := process.UseKey
+	if process.castUseKey != "" {
+		use = process.castUseKey
+	}
+	instruction := action.plan.InstructionKey
+	if actual := state.skillActionForUse(use); actual != nil {
+		instruction = actual.plan.InstructionKey
+	}
+	key := instruction + ":" + hit.HitBindingKey + ":" + strconv.Itoa(sequence) + nativeHitFollowUpSuffix
+	state.skillHitFacts[key] = model.SkillHitFact{DriverEntryKey: key, UseRef: &use, Sequence: &sequence}
 	entry := model.DriverEntry{EntryKey: key, AbilityRef: hit.HitAbilityRef, Source: process.Owner, Target: process.Target, FirstAtMs: state.nowMs}
 	defer delete(state.skillHitFacts, key)
 	gate := state.checkAttemptGate(entry, -1)
@@ -435,7 +460,15 @@ func (frame *executionFrame) recordSkillActionHit(useRef string, occurrenceID ui
 }
 
 func (state *genericRunState) recordSkillActionHit(fact committedSkillActionHit) {
+	actual := state.skillUses[fact.useRef]
+	var process *processRuntime
+	if actual != nil {
+		process = actual.plannedProcess
+	}
 	action := state.skillActionByUse[fact.useRef]
+	if process != nil {
+		action = state.skillActionByUse[process.UseKey]
+	}
 	if action == nil || !action.accepted {
 		return
 	}

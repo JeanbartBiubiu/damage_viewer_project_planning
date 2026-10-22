@@ -565,6 +565,7 @@ export function skillProcessStepToDraft(step: SkillProcessStep): SkillProcessSte
     case 'RECAST':
       draft.windowValue = step.detail.windowValue;
       draft.maximumRecastCountValue = step.detail.maximumRecastCountValue;
+      draft.intervalValue = step.detail.intervalValue ?? null;
       break;
     case 'EMPOWERED_BASIC_ATTACK':
       draft.windowValue = step.detail.windowValue;
@@ -647,7 +648,7 @@ export function clearHiddenStepFields(draft: SkillProcessStepDraft): SkillProces
     ...draft,
     delayValue: type === 'DELAY' ? draft.delayValue : null,
     repeatCountValue: type === 'MULTI_HIT' || type === 'PERIODIC' ? draft.repeatCountValue : null,
-    intervalValue: type === 'MULTI_HIT' || type === 'PERIODIC' ? draft.intervalValue : null,
+    intervalValue: type === 'MULTI_HIT' || type === 'PERIODIC' || type === 'RECAST' ? draft.intervalValue : null,
     firstExecution: type === 'PERIODIC' || type === 'CHANNEL'
       ? draft.firstExecution || (type === 'PERIODIC' ? 'AFTER_INTERVAL' : 'IMMEDIATE')
       : '',
@@ -767,7 +768,7 @@ export function stepSummary(step: SkillProcessStepDraft): string {
     case 'CHARGE':
       return `${numericValueSummary(step.minimumChargeValue)} ~ ${numericValueSummary(step.maximumChargeValue)}`;
     case 'RECAST':
-      return `${numericValueSummary(step.windowValue)} / ${numericValueSummary(step.maximumRecastCountValue)}`;
+      return `${numericValueSummary(step.windowValue)} / ${numericValueSummary(step.maximumRecastCountValue)}${step.intervalValue ? ` / 间隔${numericValueSummary(step.intervalValue)}` : ''}`;
     case 'EMPOWERED_BASIC_ATTACK':
       return `${numericValueSummary(step.windowValue)} / ${step.consumeMoment ? EMPOWERED_CONSUME_MOMENT_LABELS[step.consumeMoment] : '—'}${step.maximumAttackCountValue ? ` / 配额${numericValueSummary(step.maximumAttackCountValue)}` : ''}`;
     default: {
@@ -1149,6 +1150,7 @@ function validateStepDetail(
       requireNonEmpty(draft.maximumRecastCountValue, fieldErrors, 'maximumRecastCountValue', '请选择最大重施次数取值。');
       validateFormulaRef(options, draft.windowValue, fieldErrors, 'windowValue');
       validateFormulaRef(options, draft.maximumRecastCountValue, fieldErrors, 'maximumRecastCountValue');
+      if (draft.intervalValue) validateFormulaRef(options, draft.intervalValue, fieldErrors, 'intervalValue');
       break;
     case 'EMPOWERED_BASIC_ATTACK':
       requireNonEmpty(draft.windowValue, fieldErrors, 'windowValue', '请选择有效窗口取值。');
@@ -1267,7 +1269,8 @@ function buildStep(
         stepType: 'RECAST',
         detail: {
           windowValue: draft.windowValue!,
-          maximumRecastCountValue: draft.maximumRecastCountValue!
+          maximumRecastCountValue: draft.maximumRecastCountValue!,
+          ...(draft.intervalValue ? { intervalValue: draft.intervalValue } : {})
         }
       };
     case 'EMPOWERED_BASIC_ATTACK':
@@ -1530,6 +1533,7 @@ function validateFormulaRef<T>(options: SkillProcessFormValidationOptions, value
   const integer = /CountValue$/.test(name) || name === 'value';
   const error = numericValueError(value, { ...options.catalog, parameters: options.parameters }, {
     integer, min: name === 'value' ? undefined : integer ? 1 : 0, exclusiveMin: name === 'intervalValue',
+    ...(name === 'maximumRecastCountValue' ? { max: 63 } : {}),
     formulasState: options.catalogLoadState?.formulas, parametersState: options.parametersLoadState
   });
   if (error) fieldErrors[field] = error as T[keyof T];

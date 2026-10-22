@@ -72,6 +72,7 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 			}
 		}
 		hasDelay := false
+		finiteRecast := plan.FiniteRecastProcess(&process)
 		for stepIndex, step := range process.Steps {
 			hasDelay = hasDelay || step.StepType == "DELAY"
 			if !step.HasActionOccupancy {
@@ -119,7 +120,7 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 			stepIndex := len(process.Steps) - 1
 			if hit.Moment.MomentType == "STEP_EXECUTION" && hit.Moment.StepKey != nil {
 				validMoment = complexStep != "" && *hit.Moment.StepKey == complexStep
-				if complexStep == "" {
+				if complexStep == "" || finiteRecast {
 					for index, step := range process.Steps {
 						if step.StepKey == *hit.Moment.StepKey && (step.StepType == "IMMEDIATE" || step.StepType == "DELAY") {
 							stepIndex, validMoment = index, true
@@ -164,8 +165,12 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 			fail("counted attack windows only admit attached damage, never primary replacement")
 			invalid = true
 		}
-		if hasExplicitSteps && len(process.Steps) > 1 && !hasDelay {
+		if hasExplicitSteps && len(process.Steps) > 1 && !hasDelay && !finiteRecast {
 			fail("explicit multi-step hits require at least one finite positive delay")
+			invalid = true
+		}
+		if finiteRecast && (len(binding.HitBindings) != 2 || len(hitSteps) != 2 || binding.HitBindings[0].RequiresPriorHitBindingKey != nil || binding.HitBindings[1].RequiresPriorHitBindingKey != nil) {
+			fail("finite recast requires one independent execution hit on each of its two steps")
 			invalid = true
 		}
 		for _, hit := range binding.HitBindings {
@@ -183,6 +188,7 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 			compiled := plan.CompiledSkillActionBinding{SkillActionBinding: binding, Slot: uint16(len(ctx.session.SkillActionBindings)), InitialAbilityIndex: ref.AbilityIndex, ControlAbilityIndices: controls}
 			compiled.HasEmpoweredAttack, compiled.EmpoweredAbilityIndex = empowered, empoweredAbility
 			compiled.ReplacesPrimary = replacesPrimary
+			compiled.HasFiniteRecast = finiteRecast
 			compiled.AutomaticIneligiblePath, compiled.AutomaticIneligibleReason = automaticSkillAdmission(binding, process, ability, path, ctx)
 			compiled.AutomaticEligible = compiled.AutomaticIneligibleReason == ""
 			ctx.session.SkillActionBindings = append(ctx.session.SkillActionBindings, compiled)
@@ -192,7 +198,8 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 
 // 同一绑定可用于有限手动计划；自动准入单独保存，避免拒绝合法手动控制。
 func automaticSkillAdmission(binding model.SkillActionBinding, process plan.CompiledProcess, ability plan.CompiledAbility, path string, ctx *genericCompileContext) (string, string) {
-	if len(binding.Controls) != 1 || binding.Controls[0].Action != "INITIAL" {
+	finiteRecast := plan.FiniteRecastProcess(&process)
+	if (!finiteRecast && len(binding.Controls) != 1 || finiteRecast && (len(binding.Controls) != 2 || binding.Controls[1].Action != "RECAST")) || binding.Controls[0].Action != "INITIAL" {
 		return path + ".controls", "automatic skills admit only the initial control"
 	}
 	if len(process.Steps) < 1 || len(process.Steps) > 64 {
@@ -201,11 +208,11 @@ func automaticSkillAdmission(binding model.SkillActionBinding, process plan.Comp
 	hasDelay := false
 	for _, step := range process.Steps {
 		hasDelay = hasDelay || step.StepType == "DELAY"
-		if step.StepType != "IMMEDIATE" && step.StepType != "DELAY" && !(len(process.Steps) == 1 && (step.StepType == "CHANNEL" || step.StepType == "EMPOWERED_BASIC_ATTACK")) {
+		if step.StepType != "IMMEDIATE" && step.StepType != "DELAY" && !(finiteRecast && step.StepType == "RECAST") && !(len(process.Steps) == 1 && (step.StepType == "CHANNEL" || step.StepType == "EMPOWERED_BASIC_ATTACK")) {
 			return step.Path + ".stepType", "automatic skills admit finite immediate or delay sequences, or one channel or empowered step"
 		}
 	}
-	if len(process.Steps) > 1 && !hasDelay {
+	if len(process.Steps) > 1 && !hasDelay && !finiteRecast {
 		return process.Path + ".steps", "automatic multi-step skills require at least one finite positive delay"
 	}
 	if process.Cooldown == nil || !process.Cooldown.HasDuration || int(process.Cooldown.DurationProgram) >= len(ctx.session.Formulas.Programs) {

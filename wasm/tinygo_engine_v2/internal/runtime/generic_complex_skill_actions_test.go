@@ -22,6 +22,7 @@ func complexSkillInput(kind string, occupies bool) (model.CompileRequest, model.
 		step.MinimumChargeMs, step.MaximumChargeMs, step.ReleaseAtMaximum = timedShieldExpr(200), timedShieldExpr(800), model.BoolPtr(false)
 	case "RECAST":
 		step.WindowMs = timedShieldExpr(800)
+		step.MaximumRecastCount = timedShieldExpr(1)
 	}
 	input.SharedProviders[0].Processes[0].Steps = []model.ProcessStepDefinition{step}
 	input.Rules.SkillActionBindings[0].HitBindings[0].Moment = model.ProcessMomentDefinition{MomentType: "STEP_EXECUTION", StepKey: &step.StepKey}

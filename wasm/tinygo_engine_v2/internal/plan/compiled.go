@@ -454,6 +454,8 @@ type CompiledProcess struct {
 
 type CompiledProcessStep struct {
 	MaximumAttackCount          int
+	MaximumRecastCount          int
+	RecastIntervalMs            int64
 	StepKey                     string
 	StepType                    string
 	OccupiesAction              bool
@@ -514,8 +516,15 @@ type CompiledSkillActionBinding struct {
 	AutomaticIneligiblePath   string
 	AutomaticIneligibleReason string
 	HasEmpoweredAttack        bool
+	HasFiniteRecast           bool
 	EmpoweredAbilityIndex     uint16
 	ReplacesPrimary           bool
+}
+
+// FiniteRecastProcess is the only newly admitted repeated active-cast graph.
+func FiniteRecastProcess(process *CompiledProcess) bool {
+	return process != nil && len(process.Steps) == 2 && process.Steps[0].StepType == "IMMEDIATE" && process.Steps[1].StepType == "RECAST" &&
+		process.Steps[0].HasActionOccupancy && !process.Steps[0].OccupiesAction && process.Steps[1].HasActionOccupancy && !process.Steps[1].OccupiesAction
 }
 
 type CompiledVampRule struct {

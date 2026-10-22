@@ -74,6 +74,7 @@ export type SkillProcessChargeDetail = {
 export type SkillProcessRecastDetail = {
   windowValue: NumericValue;
   maximumRecastCountValue: NumericValue;
+  intervalValue?: NumericValue | null;
 };
 
 export type SkillProcessEmpoweredBasicAttackDetail = {

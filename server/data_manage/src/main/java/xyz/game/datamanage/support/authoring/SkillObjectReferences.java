@@ -323,7 +323,7 @@ public final class SkillObjectReferences {
                     case "CHANNEL" -> formulas(detail, dp, "durationValue", "executionCountValue",
                         "firstExecutionOffsetValue", "lastExecutionOffsetValue");
                     case "CHARGE" -> formulas(detail, dp, "minimumChargeValue", "maximumChargeValue");
-                    case "RECAST" -> formulas(detail, dp, "windowValue", "maximumRecastCountValue");
+                    case "RECAST" -> formulas(detail, dp, "windowValue", "maximumRecastCountValue", "intervalValue");
                     case "EMPOWERED_BASIC_ATTACK" -> formulas(detail, dp, "windowValue", "maximumAttackCountValue");
                     case "IMMEDIATE" -> { }
                     default -> throw shape(path, "未知过程步骤类型");

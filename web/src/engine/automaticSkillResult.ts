@@ -16,7 +16,8 @@ import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamagePro
 import { tryFoldConstant } from './numericAdapter';
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
 import { automaticProcessStepsAllowed } from './processSkillHitStages';
-import { inspectProcessSkillHitStages, processSkillHitTimes } from './processSkillHitStageFacts';
+import { inspectProcessSkillHitStages, processSkillHitTimes, skillHitStageStoppedByTargetDeath } from './processSkillHitStageFacts';
+import { finiteRecastControls, processForSkillUse, recastUseOrdinal } from './finiteRecast';
 import { inspectTargetMarkResult } from './targetMarkResultContract';
 
 export type AutomaticSkillAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
@@ -99,7 +100,8 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       const control = binding?.controls.find(control => control.action === 'INITIAL');
       const ability = control && simulationAbility(compile, control.abilityRef);
       const process = ability?.provider.processes?.find(process => process.processKey === control?.processKey);
-      if (matches.length !== 1 || !binding || !control || !ability || binding.source !== 'source' || binding.controls.length !== 1
+      if (matches.length !== 1 || !binding || !control || !ability || binding.source !== 'source'
+        || binding.controls.length !== 1 && (!process || !finiteRecastControls(binding, process))
         || ability.mount.providerRef !== binding.providerRef || ability.mount.definitionRef !== binding.providerDefinitionRef
         || ability.ability.skillKey !== binding.skillKey || ability.ability.processControl?.action !== 'INITIAL'
         || ability.ability.processControl.processKey !== control.processKey || !process || !automaticProcessStepsAllowed(process)) {
@@ -175,8 +177,10 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
     identityGaps.push(...empoweredAttackIdentityGaps(request, done));
     identityGaps.push(...inspectEmpoweredHealingAliases(compile, done).identityGaps);
     const processByUse = new Map(processFacts.processes.map(process => [process.useKey, process]));
+    const definitions = [...contexts.values()].map(c => c.process);
+    const findProcess = (ref: string) => processByUse.get(ref) ?? processForSkillUse(processFacts.processes, definitions, ref);
     const ruleForUse = (ref: string) => {
-      const process = processByUse.get(ref);
+      const process = findProcess(ref);
       return process && ordered.find(rule => {
         const context = contexts.get(rule.ruleKey)!;
         return context.binding.providerRef === process.providerRef && context.binding.skillKey === process.skillKey && context.control.processKey === process.processKey && rule.target === process.target;
@@ -200,7 +204,7 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
         continue;
       }
       if (!context.binding.hitBindings.length && process.status === 'complete') expectedReleases++;
-      const stages = inspectProcessSkillHitStages(context.binding, context.process, process, context.rule.hitBindings, duration);
+      const stages = inspectProcessSkillHitStages(context.binding, context.process, process, context.rule.hitBindings, duration, done);
       if (stages) {
         expectedReleases += stages.filter(stage => stage.released).length;
         possibleHits += stages.filter(stage => stage.contact).length;
@@ -209,7 +213,8 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
           const hit = context.binding.hitBindings.find(hit => hit.hitBindingKey === stage.hitBindingKey)!;
           const ability = simulationAbility(compile, hit.hitAbilityRef)?.ability;
           if (stage.released && context.rule.hitBindings.find(preset => preset.hitBindingKey === hit.hitBindingKey)?.preset === 'TARGET_HIT'
-            && execution.complete && summary.attemptSkippedCount === 0 && process.status !== 'failed' && ability && !ability.castCondition) {
+            && execution.complete && summary.attemptSkippedCount === 0 && process.status !== 'failed' && ability && !ability.castCondition
+            && !skillHitStageStoppedByTargetDeath(process, stage, done)) {
             check(stage.contact, 'processInstances.skillHitStages.contact', '已提交的正常目标命中阶段缺少真实接触');
           }
         }
@@ -244,7 +249,7 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       const grantRef = nullableRef(edge.lastGrantUseRef, `${path}.lastGrantUseRef`);
       const consumeRef = nullableRef(edge.lastConsumeUseRef, `${path}.lastConsumeUseRef`);
       check(edge.grantedCount === 0 ? grantRef === null : grantRef !== null && ruleForUse(grantRef) === edge.grantorRuleKey && processByUse.get(grantRef)?.status === 'complete', `${path}.lastGrantUseRef`, '授予归属必须是来源已完成的真实使用');
-      check(edge.consumedCount === 0 ? consumeRef === null : consumeRef !== null && ruleForUse(consumeRef) === edge.consumerRuleKey, `${path}.lastConsumeUseRef`, '消费归属必须是后继已开始的真实使用');
+      check(edge.consumedCount === 0 ? consumeRef === null : consumeRef !== null && processByUse.has(consumeRef) && ruleForUse(consumeRef) === edge.consumerRuleKey, `${path}.lastConsumeUseRef`, '消费归属必须是后继已开始的真实使用');
     }
     const records = array(done.automaticSkillRecords, 'automaticSkillRecords');
     const recording = done.automaticSkillRecording;
@@ -274,7 +279,7 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       const relatedUse = nullableRef(row.relatedUseRef, `${path}.relatedUseRef`);
       const reason = nullableRef(row.reason, `${path}.reason`);
       const next = nullableTime(row.nextCheckAtMs, `${path}.nextCheckAtMs`);
-      if (useRef !== null) check(ruleForUse(useRef) === row.ruleKey, `${path}.useRef`, '记录必须保留本规则真实使用身份');
+      if (useRef !== null) check(processByUse.has(useRef) && ruleForUse(useRef) === row.ruleKey, `${path}.useRef`, '窗口记录必须保留本规则原首次使用身份');
       const process = useRef === null ? undefined : processByUse.get(useRef);
       if (row.kind === 'WAIT_CHANGED') {
         check(useRef === null && relatedUse === null && (reason === null ? related === null && next === null : waitingReasons.includes(reason as AutomaticSkillWaitingReason))
@@ -377,18 +382,25 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
         check(close(row.postDefenseDamage, row.shieldAbsorbed + row.actualHpLoss + row.overkillDamage) && close(row.hpBefore - row.actualHpLoss, row.hpAfter), 'damageRecords', '实际伤害及扣血分解不守恒');
         const binding = compile.rules.skillActionBindings?.find(binding => binding.hitBindings.some(hit => hit.hitAbilityRef === row.abilityRef));
         if (binding) check((empoweredAttackBinding(compile, binding) ? !!empoweredDamageProcess(compile, done, row)
-          && Number.isSafeInteger(row.attackIndex) && row.attackIndex! > 0 : row.attackIndex === null) && typeof row.useRef === 'string' && processByUse.get(row.useRef)?.providerRef === binding.providerRef
+          && Number.isSafeInteger(row.attackIndex) && row.attackIndex! > 0 : row.attackIndex === null) && typeof row.useRef === 'string' && findProcess(row.useRef)?.providerRef === binding.providerRef
           && typeof row.hitRef === 'string' && !!row.hitRef && typeof row.instructionKey === 'string' && !!row.instructionKey, 'damageRecords.useRef', '主动命中必须保留实际自动使用及命中身份');
         if (binding && !empoweredAttackBinding(compile, binding)) {
-          const process = processByUse.get(row.useRef);
+          const process = findProcess(row.useRef);
           const contextKey = process && ruleForUse(process.useKey);
           const context = contextKey ? contexts.get(contextKey) : undefined;
           const hit = binding.hitBindings.find(hit => hit.hitAbilityRef === row.abilityRef);
           const step = context?.process.steps.find(step => step.stepKey === hit?.moment.stepKey);
-          const times = process && hit ? processSkillHitTimes(process, hit) ?? (step?.stepType === 'CHANNEL' && hit.moment.momentType === 'STEP_EXECUTION'
+          const times = process && hit ? processSkillHitTimes(process, hit, row.useRef, context?.process) ?? (step?.stepType === 'CHANNEL' && hit.moment.momentType === 'STEP_EXECUTION'
             ? committedChannelTimes(process, step) : process.lastExecutionAtMs === null ? [] : [process.lastExecutionAtMs]) : [];
           check(!!process && !!context && context.binding === binding && row.source === process.owner && row.target === process.target
             && times.includes(row.timeMs), 'damageRecords.timeMs', '主动伤害必须来自该次使用已提交的实际圈时点');
+          if (process && context) {
+            const ordinal = recastUseOrdinal(process, context.process, row.useRef);
+            if (ordinal !== null) {
+              const first = process.useKey.slice('skill:'.length);
+              check(row.instructionKey === (ordinal === 0 ? first : `${first}:recast:${ordinal}`), 'damageRecords.instructionKey', '逐发自动指令必须从真实窗口和已提交序号导出');
+            }
+          }
           if (typeof row.hitRef === 'string' && row.hitRef) {
             const prior = hitIdentities.get(row.hitRef), executionKey = `${row.useRef}/${hit?.hitBindingKey}/${row.timeMs}`;
             check(!prior || prior.useRef === row.useRef && prior.timeMs === row.timeMs && prior.hitBindingKey === hit?.hitBindingKey,
@@ -404,7 +416,14 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
           && row.timeMs >= 0 && row.timeMs <= duration, 'healingRecords', '直接治疗必须保留实际编译来源和观察时刻');
         for (const field of ['rawAmount', 'healingAfterDone', 'healingAfterModifiers', 'actualHealing', 'overheal', 'hpBefore', 'hpAfter'] as const) number(row[field], `healingRecords.${field}`, false);
         check(close(row.actualHealing + row.overheal, row.healingAfterModifiers) && close(row.hpBefore + row.actualHealing, row.hpAfter), 'healingRecords', '治疗及溢出与生命变化不守恒');
-        if (row.instructionKey !== null) check(row.useRef !== null && processByUse.has(row.useRef), 'healingRecords.useRef', '自动治疗不得伪造实际使用身份');
+        if (row.instructionKey !== null) check(row.useRef !== null && !!findProcess(row.useRef), 'healingRecords.useRef', '自动治疗不得伪造实际使用身份');
+        const process = row.useRef && findProcess(row.useRef);
+        const definition = process && definitions.find(d => d.processKey === process.processKey && d.skillKey === process.skillKey);
+        const ordinal = process && definition && row.useRef ? recastUseOrdinal(process, definition, row.useRef) : null;
+        if (ordinal !== null && process) {
+          const first = process.useKey.slice('skill:'.length);
+          check(row.instructionKey === (ordinal === 0 ? first : `${first}:recast:${ordinal}`), 'healingRecords.instructionKey', '重施派生治疗必须保留当前真实施放指令');
+        }
       }
       if (!done.resourceChangeSummary && !done.recording.damageRecordsTruncated && !done.recording.healingRecordsTruncated) issues.push(...inspectSimulationHealthLedger(compile, request, done));
       if (request.driverPlan.basicAttack) {

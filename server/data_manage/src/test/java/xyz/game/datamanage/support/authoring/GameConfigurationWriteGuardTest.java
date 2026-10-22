@@ -375,6 +375,28 @@ class GameConfigurationWriteGuardTest {
     }
 
     @Test
+    void finalRecastIntervalParameterChangedToZeroRollsBackBusinessWrite() throws Exception {
+        Connection connection = connection();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of(
+            Map.of("target_type", "PARAMETER", "skill_key", "ez_q", "object_key", "gap")));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "source_type", "PROCESS", "skill_key", "ez_q", "source_key", "cast", "data", """
+                {"activationType":"ACTIVE","steps":[{"stepKey":"again","stepType":"RECAST","sortOrder":0,
+                  "detail":{"windowValue":{"kind":"FIXED","value":15000},"maximumRecastCountValue":{"kind":"FIXED","value":2},
+                    "intervalValue":{"kind":"PARAMETER","parameterKey":"gap"}}}],"effectBindings":[],"stateOperations":[]}
+                """)));
+        when(jdbc.queryForList(SkillNumericSemantics.PARAMETERS_SQL, "lol")).thenReturn(List.of(Map.of(
+            "skill_key", "ez_q", "parameter_key", "gap", "value_type", "INTEGER", "value_mode", "FIXED", "fixed_value", BigDecimal.ZERO)));
+        var error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol"); jdbc.update("UPDATE recast interval for test"); return null;
+        }));
+        assertEquals("400.INVALID_SKILL_NUMERIC_VALUE", error.getCode());
+        assertTrue(error.getDetails().toString().contains("steps[0].detail.intervalValue"));
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
+        verify(connection).rollback(); verify(connection, never()).commit();
+    }
+
+    @Test
     void finalProtectionCooldownParameterChangedToZeroRollsBackBusinessWrite() throws Exception {
         Connection connection = connection();
         when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of(

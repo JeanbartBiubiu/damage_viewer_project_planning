@@ -113,7 +113,8 @@ class SourceCastResourceCostSemanticsTest {
         return List.of(
             objects("SKILL_HIT", "source_skill", detail).getFirst(),
             new Aggregate(SourceType.PROCESS, "skill", "cast", AggregateJson.tree("""
-                {"activationType":"%s","steps":[{"stepKey":"recast","stepType":"RECAST","detail":{}}],
+                {"activationType":"%s","steps":[{"stepKey":"recast","stepType":"RECAST","detail":{
+                  "windowValue":{"kind":"FIXED","value":1000},"maximumRecastCountValue":{"kind":"FIXED","value":1}}}],
                  "cooldown":null,"effectBindings":[],"stateOperations":[]}
                 """.formatted(activation))),
             new Aggregate(SourceType.TRIGGER, "skill", "rule", AggregateJson.tree("""
@@ -129,7 +130,8 @@ class SourceCastResourceCostSemanticsTest {
         return List.of(
             objects("SKILL_HIT", "source_skill", detail).getFirst(),
             new Aggregate(SourceType.PROCESS, "skill", "cast", AggregateJson.tree("""
-                {"activationType":"ACTIVE","steps":[{"stepKey":"recast","stepType":"RECAST","detail":{}}],
+                {"activationType":"ACTIVE","steps":[{"stepKey":"recast","stepType":"RECAST","detail":{
+                  "windowValue":{"kind":"FIXED","value":1000},"maximumRecastCountValue":{"kind":"FIXED","value":1}}}],
                  "cooldown":null,"effectBindings":[],"stateOperations":[]}
                 """)),
             new Aggregate(SourceType.TRIGGER, "skill", "rule", AggregateJson.tree("""

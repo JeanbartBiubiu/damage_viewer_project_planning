@@ -13,7 +13,8 @@ import type { OperationOrigin } from './simulationAdapter';
 import { committedSkillControl, inspectSimulationProcessFacts } from './simulationProcessFacts';
 import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, empoweredUseRecordIssue, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
-import { hasProcessSkillHitStages, inspectProcessSkillHitStages, processSkillHitTimes, type SkillHitStageFact } from './processSkillHitStageFacts';
+import { hasProcessSkillHitStages, inspectProcessSkillHitStages, processSkillHitTimes, skillHitStageStoppedByTargetDeath, type SkillHitStageFact } from './processSkillHitStageFacts';
+import { processForSkillUse, recastDefinition, recastUseOrdinal, recastUseRef } from './finiteRecast';
 
 export type SkillActionAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
 const close = (first: number, second: number) => Math.abs(first - second) <= 1e-9 * Math.max(1, Math.abs(first), Math.abs(second));
@@ -99,6 +100,8 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     check(duration <= request.stopPolicy.durationMs, 'summary.durationMs', '超过观察终点');
     check(done.finalSnapshot.timeMs === duration, 'finalSnapshot.timeMs', '最终快照时刻与公共停止时刻不一致');
     const stagedByUse = new Map<string, SkillHitStageFact[]>();
+    const definitions = compile.sharedProviders?.flatMap(p => p.processes ?? []) ?? [];
+    const processForUse = (ref: string) => processForSkillUse(done.finalSnapshot.processInstances ?? [], definitions, ref);
     let allStaged = true, stagedReleases = 0, stagedContacts = 0;
     for (const process of done.finalSnapshot.processInstances ?? []) {
       const matches = [...contexts.values()].filter(context => context.instruction.action === 'INITIAL'
@@ -112,14 +115,15 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       const definition = compile.sharedProviders?.find(provider => provider.providerKey === context.binding.providerDefinitionRef)
         ?.processes?.find(definition => definition.processKey === process.processKey);
       if (!definition) throw new Error('processInstances: 缺少真实过程定义');
-      const facts = inspectProcessSkillHitStages(context.binding, definition, process, context.instruction.hitBindings, duration);
+      const facts = inspectProcessSkillHitStages(context.binding, definition, process, context.instruction.hitBindings, duration, done);
       allStaged &&= hasProcessSkillHitStages(context.binding, definition);
       if (facts) {
         stagedByUse.set(process.useKey, facts);
         stagedReleases += facts.filter(fact => fact.released).length;
         stagedContacts += facts.filter(fact => fact.contact).length;
         for (const fact of facts) if (fact.released && context.instruction.hitBindings.find(hit => hit.hitBindingKey === fact.hitBindingKey)?.preset === 'TARGET_HIT'
-          && execution.complete && summary.attemptSkippedCount === 0 && process.status !== 'failed') {
+          && execution.complete && summary.attemptSkippedCount === 0 && process.status !== 'failed'
+          && !skillHitStageStoppedByTargetDeath(process, fact, done)) {
           const hit = context.binding.hitBindings.find(hit => hit.hitBindingKey === fact.hitBindingKey)!;
           if (!simulationAbility(compile, hit.hitAbilityRef)?.ability.castCondition) check(fact.contact, 'processInstances.skillHitStages.contact', '正常已提交阶段缺少真实接触');
         }
@@ -127,6 +131,13 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     }
     if (stagedByUse.size) check(allStaged ? uses.releasedCount === stagedReleases && uses.hitCount === stagedContacts
       : uses.releasedCount >= stagedReleases && uses.hitCount >= stagedContacts, 'summary.skillUses', '阶段提交事实与完整释放／接触累计不一致');
+    if (instructions.every(i => i.action === 'INITIAL' || i.action === 'RECAST')) {
+      const recasts = (done.finalSnapshot.processInstances ?? []).reduce((n, p) => {
+        const d = definitions.find(d => d.processKey === p.processKey && d.skillKey === p.skillKey);
+        return n + (d && recastDefinition(d) && p.stepVersion === d.steps.length ? p.stepExecutionIndex : 0);
+      }, 0);
+      check(actions.acceptedCount === uses.startedCount + recasts, 'summary.skillActions.acceptedCount', '接受指令数须由首次窗口和完整重施执行序号核对');
+    }
     for (const side of ['source', 'target'] as const) {
       const initial = request.initialSnapshot.combatants.find(actor => actor.key === side)?.attributes.hp?.current;
       const finalSlot = done.finalSnapshot.combatants.find(actor => actor.key === side)?.attributes.hp;
@@ -189,16 +200,28 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
         : row.useRef === null && typeof row.reason === 'string' && !!row.reason, 'skillActionRecords.useRef', '拒绝不能产生成功使用身份');
       if (row.useRef) {
         if (instruction.action !== 'INITIAL') {
-          check(accepted.get(context.initialKey) === row.useRef, 'skillActionRecords.useRef', '控制不得生成新使用身份或关联被拒首次');
-          check(done.finalSnapshot.processInstances?.some(process => process.useKey === row.useRef
+          const window = processForUse(row.useRef);
+          const definition = definitions.find(p => p.processKey === window?.processKey && p.skillKey === window?.skillKey);
+          const ordinal = window && definition && instruction.action === 'RECAST' ? recastUseOrdinal(window, definition, row.useRef) : null;
+          check(ordinal !== null ? ordinal > 0 && accepted.get(context.initialKey) === window?.useKey && !useRefs.has(row.useRef)
+            : accepted.get(context.initialKey) === row.useRef, 'skillActionRecords.useRef', '控制必须保留真实父窗口及唯一已提交施放身份');
+          if (ordinal !== null && definition && window) {
+            const at = window.skillHitStages === undefined && ordinal === 1 ? window.lastExecutionAtMs
+              : window.skillHitStages?.filter(f => f.stepKey === definition.steps[definition.steps.length - 1]!.stepKey)[ordinal - 1]?.timeMs;
+            check(at === row.actualAtMs, 'skillActionRecords.useRef', '重施指令必须对应该序号真实接受时刻');
+          }
+          check(done.finalSnapshot.processInstances?.some(process => process === window
             && committedSkillControl(compile, request, instruction, process)) === true,
           'skillActionRecords.control', '接受控制必须由原使用同刻真实步骤进度或主动取消终结佐证，截断不能绕过');
         }
         if (instruction.action !== 'INITIAL' && !done.recording.skillUseRecordsTruncated) {
           const processControl = simulationAbility(compile, instruction.abilityRef)?.ability.processControl;
-          check(useRecords.some(fact => fact.useRef === row.useRef && fact.timeMs === row.actualAtMs && fact.processKey === context.control.processKey
+          const window = processForUse(row.useRef);
+          const definition = definitions.find(p => p.processKey === window?.processKey && p.skillKey === window?.skillKey);
+          const ordinal = window && definition && instruction.action === 'RECAST' ? recastUseOrdinal(window, definition, row.useRef) : null;
+          check(useRecords.some(fact => fact.useRef === (ordinal !== null ? window?.useKey : row.useRef) && fact.timeMs === row.actualAtMs && fact.processKey === context.control.processKey
             && (instruction.action === 'CANCEL' ? fact.kind === 'FAILED' && fact.reason === 'ACTIVE_CANCELLED'
-              : fact.kind === 'STEP_EXECUTED' && fact.stepKey === processControl?.stepKey && fact.executionIndex === 1)),
+              : fact.kind === 'STEP_EXECUTED' && fact.stepKey === processControl?.stepKey && fact.executionIndex === (ordinal ?? 1))),
           'skillActionRecords.control', '接受控制必须对应原使用同刻真实步骤执行或主动取消失败，不仅共享使用引用');
         }
         useRefs.add(row.useRef); accepted.set(row.instructionKey, row.useRef); useInstructions.set(row.useRef, context.initialKey);
@@ -238,23 +261,36 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
         : stepIndex >= 0 && row.stepVersion === stepIndex + 1 && Number.isSafeInteger(row.executionIndex) && row.executionIndex >= 0 && row.executionIndex <= 64,
       'skillUseRecords.stepKey', '真实步骤、版本和已提交段号不合法');
       if (row.kind === 'STEP_EXECUTED' && !quota) check(row.executionIndex >= 1
-        && (['MULTI_HIT', 'CHANNEL'].includes(process?.steps[stepIndex]?.stepType ?? '') || row.executionIndex === 1),
+        && (['MULTI_HIT', 'CHANNEL', 'RECAST'].includes(process?.steps[stepIndex]?.stepType ?? '') || row.executionIndex === 1),
       'skillUseRecords.executionIndex', '实际段执行必须有真实递增段号，普通步骤只执行一次');
-      if (!done.recording.skillActionRecordsTruncated) check(accepted.get(initialKey) === row.useRef, 'skillUseRecords.useRef', '使用没有对应已接受原首次');
+      const window = processForUse(row.useRef);
+      const ordinal = window && process ? recastUseOrdinal(window, process, row.useRef) : null;
+      if (ordinal !== null) {
+        const physical = row.kind === 'HIT' || row.kind === 'RELEASED';
+        check(physical ? row.useRef === recastUseRef(window!.useKey, row.stepKey === process!.steps[process!.steps.length - 1]!.stepKey ? row.executionIndex : 0)
+          : row.useRef === window!.useKey, 'skillUseRecords.useRef', '逐发命中与窗口管理身份不能混用');
+        check(!physical || ordinal === 0 ? row.instructionKey === initialKey
+          : context.instruction.action === 'RECAST' && context.instruction.firstAtMs === row.timeMs,
+        'skillUseRecords.instructionKey', '窗口记录沿首次，逐发命中沿当前已接受重施指令');
+        if (!done.recording.skillActionRecordsTruncated) check(accepted.get(physical ? row.instructionKey : initialKey) === row.useRef, 'skillUseRecords.useRef', '使用没有对应已接受指令');
+      } else if (!done.recording.skillActionRecordsTruncated) check(accepted.get(initialKey) === row.useRef, 'skillUseRecords.useRef', '使用没有对应已接受原首次');
       check(!useInstructions.has(row.useRef) || useInstructions.get(row.useRef) === initialKey, 'skillUseRecords.useRef', '不同首次复用使用身份');
       useInstructions.set(row.useRef, initialKey);
       if (row.kind === 'HIT') {
         const identity = context.empowered ? `${row.useRef}/${row.hitRef}` : row.hitRef!;
         check(binding.hitBindings.length > 0 && (context.empowered ? associationIssue === null : instruction.hitBindings.some(hit => hit.preset === 'TARGET_HIT'))
           && !hitRefs.has(identity), 'skillUseRecords.hitRef', '自身治疗、未命中或重复身份不能产生命中');
-        hitRefs.set(identity, { useRef: row.useRef, instructionKey: initialKey, timeMs: row.timeMs });
+        hitRefs.set(identity, { useRef: row.useRef, instructionKey: row.instructionKey, timeMs: row.timeMs });
       }
       useRefs.add(row.useRef);
     }
-    check(useRefs.size <= uses.startedCount, 'skillUseRecords.useRef', '实际使用身份超过原首次使用累计');
+    check(new Set([...useRefs].map(ref => processForUse(ref)?.useKey ?? ref)).size <= uses.startedCount, 'skillUseRecords.useRef', '实际窗口超过原首次使用累计');
     for (const key of instructions.filter(instruction => instruction.action === 'INITIAL').map(instruction => instruction.instructionKey)) {
       const rows = useRecords.filter(row => contexts.get(row.instructionKey)?.initialKey === key);
-      check(new Set(rows.map(row => row.useRef)).size <= 1
+      const actualWindow = done.finalSnapshot.processInstances?.find(p => p.useKey === `skill:${key}`);
+      const definition = definitions.find(p => p.processKey === actualWindow?.processKey && p.skillKey === actualWindow?.skillKey);
+      const recast = definition && recastDefinition(definition);
+      check(new Set(rows.map(row => row.useRef)).size <= (recast ? 1 + (actualWindow?.stepExecutionIndex ?? 0) : 1)
         && new Set(rows.map(row => `${row.kind}/${row.stepKey}/${row.stepVersion}/${row.executionIndex}${contexts.get(key)?.empowered?.maximumAttackCount != null ? `/${row.empoweredAttack?.useRef ?? ''}/${row.empoweredAttack?.hitRef ?? ''}` : ''}`)).size === rows.length,
       'skillUseRecords', '同一首次不得生成多个使用或重复同段事实');
       for (const version of new Set(rows.map(row => row.stepVersion))) {
@@ -266,9 +302,12 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
         const process = compile.sharedProviders?.find(provider => provider.providerKey === first.binding.providerDefinitionRef)
           ?.processes?.find(process => process.processKey === first.control.processKey);
         const stageFacts = rows[0] && stagedByUse.get(rows[0].useRef);
+        let recastOrdinal = 0;
         if (stageFacts) for (const fact of stageFacts) {
+          const expectedUse = recast && actualWindow ? recastUseRef(actualWindow.useKey,
+            fact.stepKey === definition!.steps[definition!.steps.length - 1]!.stepKey ? ++recastOrdinal : 0) : rows[0]!.useRef;
           for (const [kind, expected] of [['RELEASED', fact.released], ['HIT', fact.contact]] as const) {
-            check(rows.filter(row => row.kind === kind && row.stepKey === fact.stepKey && row.timeMs === fact.timeMs).length === Number(expected),
+            check(rows.filter(row => row.kind === kind && row.useRef === expectedUse && row.stepKey === fact.stepKey && row.timeMs === fact.timeMs).length === Number(expected),
               `skillUseRecords.${kind}`, '有限阶段明细与本次使用不可截断提交事实不一致');
           }
         }
@@ -281,6 +320,7 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
             && actual.timeMs === row.timeMs), 'skillUseRecords.RELEASED', '释放必须对应唯一实际绑定时点，完成不得多补一段');
         }
         for (const row of rows.filter(row => row.kind === 'HIT')) check(rows.some(actual => actual.kind === 'RELEASED'
+          && actual.useRef === row.useRef
           && actual.stepKey === row.stepKey && actual.stepVersion === row.stepVersion && actual.executionIndex === row.executionIndex
           && actual.timeMs === row.timeMs), 'skillUseRecords.HIT', '每个命中必须来自该次使用同段真实释放');
         if (rows.some(row => row.kind === 'COMPLETED')) for (const [index, step] of (process?.steps ?? []).entries()) {
@@ -329,9 +369,10 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
         && (done.recording.skillActionRecordsTruncated || accepted.get(row.instructionKey) === row.useRef), 'damageRecords.instructionKey', '伤害没有对应已接受使用');
       const hitBinding = compile.rules.skillActionBindings?.find(binding => binding.hitBindings.some(hit => hit.hitAbilityRef === row.abilityRef));
       if (hitBinding) {
-        const process = done.finalSnapshot.processInstances?.find(process => process.useKey === row.useRef);
+        const process = processForUse(row.useRef);
+        const definition = definitions.find(p => p.processKey === process?.processKey && p.skillKey === process?.skillKey);
         const hit = hitBinding.hitBindings.find(hit => hit.hitAbilityRef === row.abilityRef)!;
-        const times = process && processSkillHitTimes(process, hit);
+        const times = process && processSkillHitTimes(process, hit, row.useRef, definition);
         if (times) check(times.includes(row.timeMs), 'damageRecords.timeMs', '阶段伤害缺少同使用、同绑定的真实提交接触');
       }
       const listener = ability?.ability.listenerSpec;

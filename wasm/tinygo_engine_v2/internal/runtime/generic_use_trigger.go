@@ -291,11 +291,78 @@ func ledgerKeyFromEntry(row model.UseTriggerLedgerEntry) useTriggerKey {
 	return key
 }
 
+// A cast-start name is not an originating-use grant. Only the synchronous
+// accepted planned control may supply its already committed native use/cast.
+func (s *genericRunState) isAcceptedPlannedCastStart(ev emittedEvent) bool {
+	if ev.eventType != eventTypeAbilityStarted || ev.castInstanceID == 0 || !ev.snapshot.hasUse ||
+		ev.snapshot.useKey != ev.useKey || ev.snapshot.useSource != ev.useSource || ev.snapshot.useSkillKey != ev.useSkillKey ||
+		ev.snapshot.eventSourceKey != ev.sourceKey || ev.snapshot.eventTargetKey != ev.targetKey ||
+		ev.snapshot.castInstanceID != ev.castInstanceID || ev.snapshot.castOrigin != ev.castOrigin {
+		return false
+	}
+	use := s.skillUses[ev.useKey]
+	if use == nil || use.useKey != ev.useKey || use.source != ev.useSource || use.skillKey != ev.useSkillKey ||
+		use.castID != ev.castInstanceID || use.plannedProcess == nil || use.plannedAction == nil {
+		return false
+	}
+	p, action := use.plannedProcess, use.plannedAction
+	if action != s.skillAction || !action.accepted || p.castID != use.castID ||
+		p.Owner != ev.sourceKey || p.Owner != ev.useSource || p.Target != ev.targetKey || p.SkillKey != ev.useSkillKey ||
+		p.castUseKey != ev.useKey || action.useRef != p.UseKey || action.plan.Source != p.Owner || action.plan.Target != p.Target ||
+		action.plan.SkillKey != p.SkillKey || action.plan.FirstAtMs != s.nowMs {
+		return false
+	}
+	root, rootUse := s.skillActionByUse[p.UseKey], s.skillUses[p.UseKey]
+	if root == nil || !root.accepted || root.plan.Action != "INITIAL" || root.useRef != p.UseKey ||
+		rootUse == nil || rootUse.plannedProcess != p || rootUse.plannedAction != root ||
+		int(root.binding.Slot) >= len(s.compiled.SkillActionBindings) {
+		return false
+	}
+	binding := s.compiled.SkillActionBindings[root.binding.Slot]
+	if binding.BindingKey != root.plan.BindingKey || binding.BindingKey != action.plan.BindingKey ||
+		binding.BindingKey != action.binding.BindingKey || binding.Slot != action.binding.Slot ||
+		binding.Source != p.Owner || binding.ProviderRef != p.ProviderRef || binding.ProviderRef != action.binding.ProviderRef ||
+		binding.ProviderDefinitionRef != action.binding.ProviderDefinitionRef || binding.SkillKey != p.SkillKey ||
+		root.controlAbilityIndex != binding.InitialAbilityIndex || int(action.controlAbilityIndex) >= len(s.compiled.Abilities) {
+		return false
+	}
+	controlIndex, ok := binding.ControlAbilityIndices[action.plan.Action]
+	if !ok || controlIndex != action.controlAbilityIndex {
+		return false
+	}
+	ability := s.compiled.Abilities[controlIndex]
+	if ability.ProcessControl == nil || ability.ProcessControl.Action != action.plan.Action || ability.ProcessControl.UseRefFromEvent ||
+		ability.ProcessControl.ProcessKey != p.ProcessKey || ability.SkillKey != p.SkillKey || ability.CastOrigin != ev.castOrigin ||
+		int(ability.ProviderIndex) >= len(s.compiled.Providers) || s.compiled.Providers[ability.ProviderIndex].ProviderKey != binding.ProviderDefinitionRef {
+		return false
+	}
+	boundControl := false
+	for _, control := range binding.Controls {
+		if control.Action == action.plan.Action && control.ProcessKey == p.ProcessKey && control.AbilityRef == action.plan.AbilityRef {
+			boundControl = true
+			break
+		}
+	}
+	if !boundControl {
+		return false
+	}
+	switch action.plan.Action {
+	case "INITIAL":
+		return action == root && use == rootUse && p.UseKey == ev.useKey && p.StartedAtMs == s.nowMs && p.abilityRef == action.plan.AbilityRef
+	case "RECAST":
+		return action != root && action.plan.ParentInstructionKey != nil && *action.plan.ParentInstructionKey == root.plan.InstructionKey &&
+			action.acceptedUseRef == ev.useKey && ev.useKey != p.UseKey && p.stepIndex >= 0 && p.stepIndex < len(p.definition.Steps) &&
+			p.definition.Steps[p.stepIndex].StepType == "RECAST" && p.StepExecutionIndex > 0 && p.LastExecutionAtMs != nil && *p.LastExecutionAtMs == s.nowMs
+	default:
+		return false
+	}
+}
+
 func (s *genericRunState) oncePerUseKey(listener planbundle.CompiledListener, ev emittedEvent) (useTriggerKey, *model.EngineError) {
 	if !ev.hasUse || strings.TrimSpace(ev.useKey) == "" {
 		return useTriggerKey{}, s.skillHitErr(model.GenericErrMissingRequiredField, "oncePerUse requires a real use fact on the triggering event", "listeners["+listener.ListenerKey+"].oncePerUse", listener.OncePerUseGroup)
 	}
-	if !model.IsRealUseEvent(ev.eventType) {
+	if !model.IsRealUseEvent(ev.eventType) && !s.isAcceptedPlannedCastStart(ev) {
 		return useTriggerKey{}, s.skillHitErr(model.GenericErrUnknownRef, "oncePerUse requires an engine-produced originating-use event", "listeners["+listener.ListenerKey+"].oncePerUse", ev.eventType)
 	}
 	key := useTriggerKey{

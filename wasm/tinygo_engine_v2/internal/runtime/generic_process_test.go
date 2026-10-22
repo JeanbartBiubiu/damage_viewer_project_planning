@@ -29,6 +29,7 @@ func processBase(t *testing.T, kind string) (model.CompileRequest, model.RunRequ
 	switch kind {
 	case "RECAST":
 		step.WindowMs = timedShieldExpr(500)
+		step.MaximumRecastCount = timedShieldExpr(1)
 	case "CHARGE":
 		step.MinimumChargeMs = timedShieldExpr(200)
 		step.MaximumChargeMs = timedShieldExpr(500)
@@ -458,7 +459,7 @@ func TestProcessBudgetRetainsTerminalUse(t *testing.T) {
 	}
 }
 
-func TestProcessP5SameUseKeepsOnlyInitialStart(t *testing.T) {
+func TestProcessP5HitFollowupsDoNotRepeatAcceptedCastStarts(t *testing.T) {
 	c, r := processBase(t, "RECAST")
 	skillHitCatalog(&c)
 	c.SharedProviders[0].Abilities = append(c.SharedProviders[0].Abilities, model.AbilityDefinition{AbilityKey: "skill_hit", Kind: "active", SkillKey: "skill:q", Types: []string{"ability/spell"}, Operations: []model.OperationDefinition{{Operation: model.OperationKindResolveSkillHit, Target: "target", SkillHit: &model.SkillHitDefinition{SkillKey: "skill:q", Candidates: []model.SkillHitCandidate{damageCand("damage", "effect-occ", "result", "RESULT", 0)}}}}})
@@ -481,7 +482,7 @@ func TestProcessP5SameUseKeepsOnlyInitialStart(t *testing.T) {
 			hits++
 		}
 	}
-	if started != 1 || hits != 2 {
+	if started != 2 || hits != 2 {
 		t.Fatalf("started=%d hits=%d evidence=%+v", started, hits, done.Evidence.Items)
 	}
 }

@@ -122,6 +122,19 @@ class SkillProcessServiceTest {
     }
 
     @Test
+    void recastIntervalCollectsFormulaAndPreservesAggregateReadback() {
+        var detail = new SkillProcessRecastStepDetail(SkillNumericValue.fixed(new java.math.BigDecimal("15000")),
+            SkillNumericValue.fixed(new java.math.BigDecimal("2")), SkillNumericValue.formula("recast_interval"));
+        var request = new SkillProcessCreateRequest(PROCESS_KEY, "有限重施", SkillProcessActivationType.ACTIVE, null, 0, null,
+            List.of(new SkillProcessStepRequest("again", "重施窗口", SkillProcessStepType.RECAST, null, 0, false, detail)),
+            List.of(processStartBinding()), List.of());
+        var response = service.create(GAME_ID, SKILL_KEY, request);
+        verify(mapper).lockFormulas(GAME_ID, SKILL_KEY, List.of("recast_interval"));
+        assertEquals(detail, response.steps().getFirst().detail());
+        assertEquals(response, service.get(GAME_ID, SKILL_KEY, PROCESS_KEY));
+    }
+
+    @Test
     void countedEmpoweredCollectsCountFormulaAndPreservesIndependentRead() {
         var detail = new SkillProcessEmpoweredAttackStepDetail(SkillNumericValue.fixed(new java.math.BigDecimal("6000")),
             SkillProcessEmpoweredConsumeMoment.ATTACK_START, SkillNumericValue.formula("maximum_attacks"));

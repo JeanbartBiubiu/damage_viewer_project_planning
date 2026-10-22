@@ -1,5 +1,6 @@
 import type { CompileRequest, DoneResult, ListenerDefinition, RunRequest } from '../../src/types/genericEngine';
 import { validateProviderOncePerUseScopes } from '../../src/engine/skillOncePerUse';
+import { projectFiniteRecasts } from './finiteRecastProjection';
 
 export type ProjectedUseTrigger = { owner: string; providerRef: string; groupKey: string; scope: 'provider' | 'provider_target';
   useSource: string; useSkillKey: string; useKey: string; target: string | null };
@@ -37,6 +38,11 @@ export function projectUseTriggerLedger(compile: CompileRequest, request: RunReq
   const rows = done.finalSnapshot.useTriggerLedger;
   if (rows !== undefined && !Array.isArray(rows) || (rows?.length ?? 0) > 1024) fail();
   const seen = new Set<string>();
+  const finite = projectFiniteRecasts(compile, request, done);
+  const facts = [...(request.skillUses ?? []), ...(done.finalSnapshot.processInstances ?? []).map(process => ({
+    useKey: process.useKey, source: process.owner, skillKey: process.skillKey
+  })), ...finite.finiteRecastStages.map(stage => ({ useKey: stage.useRef, source: stage.owner, skillKey: stage.skillKey })),
+  ...(done.attackRecords ?? []).map(attack => ({ useKey: attack.useRef, source: attack.source, skillKey: attack.skillKey }))];
   return (rows ?? []).map(row => {
     if (!text(row.owner) || !text(row.providerRef) || !text(row.groupKey) || !text(row.useSource)
       || !text(row.useSkillKey) || !text(row.useKey) || !['source', 'target'].includes(row.owner)
@@ -45,10 +51,11 @@ export function projectUseTriggerLedger(compile: CompileRequest, request: RunReq
     if (!auth || auth.scope !== row.scope || row.scope === 'provider_target' && !['source', 'target'].includes(row.target ?? '')
       || row.scope === 'provider' && row.target !== null
       || !auth.listener && (row.useSource !== row.owner || !auth.hitSkills.has(row.useSkillKey))) fail();
-    const facts = [...(request.skillUses ?? []), ...(done.finalSnapshot.processInstances ?? []).map(process => ({
-      useKey: process.useKey, source: process.owner, skillKey: process.skillKey
-    })), ...(done.attackRecords ?? []).map(attack => ({ useKey: attack.useRef, source: attack.source, skillKey: attack.skillKey }))];
     if (!facts.some(fact => fact.useKey === row.useKey && fact.source === row.useSource && fact.skillKey === row.useSkillKey)) fail();
+    if (row.useKey.startsWith('recast:')) {
+      const stage = finite.finiteRecastStages.filter(s => s.useRef === row.useKey && s.owner === row.useSource && s.skillKey === row.useSkillKey);
+      if (stage.length !== 1 || row.scope === 'provider_target' && !finite.finiteRecastWindows.some(p => p.useKey === stage[0]!.windowUseRef && p.target === row.target)) fail();
+    }
     const target = row.target;
     const key = JSON.stringify([row.owner, row.providerRef, row.groupKey, row.scope, row.useSource, row.useKey, target]);
     if (seen.has(key)) fail();

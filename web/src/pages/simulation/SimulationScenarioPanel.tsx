@@ -620,7 +620,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
           next.basicAttackLevel = basic?.maxLevel;
         }
       }
-      try { next.plannedSkills = plannedSkillsFromAutomaticRules(combatRoster.enabledRules); }
+      try { next.plannedSkills = plannedSkillsFromAutomaticRules(combatRoster.enabledRules, boundSkills.items.flatMap(row => row.combat ? [row.combat.configuration] : [])); }
       catch { /* 等级清空时保留上次闭包，草稿校验禁止读取和执行。 */ }
       return JSON.stringify(next) === JSON.stringify(current) ? current : next;
     });
@@ -706,7 +706,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
         return [{ ...plan, skillLevel: setting.skillLevel ?? plan.skillLevel }];
       });
       if (skillMode && automaticMode) {
-        try { plannedSkills = plannedSkillsFromAutomaticRules(automaticRules); } catch { /* 失效等级保留原闭包，草稿检查阻止提交。 */ }
+        try { plannedSkills = plannedSkillsFromAutomaticRules(automaticRules, boundSkills.items.flatMap(row => row.combat ? [row.combat.configuration] : [])); } catch { /* 失效等级保留原闭包，草稿检查阻止提交。 */ }
       }
       return retainSourceSettings({ ...current, plannedSkills, [`${side}SkillSettings`]: [...settings.filter(item => simulationSkillSourceIdentity(item.origin, item.skillKey) !== identity), setting] });
     });
@@ -926,7 +926,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     let plans: SimulationSelection['plannedSkills'] = [];
     let issue: string | null = null;
     if (enabled) {
-      try { plans = automaticMode ? plannedSkillsFromAutomaticRules(automaticInputs.rules) : plannedSkillsFromActions(skillInputs.actions); }
+      try { plans = automaticMode ? plannedSkillsFromAutomaticRules(automaticInputs.rules, boundSkills.items.flatMap(row => row.combat ? [row.combat.configuration] : [])) : plannedSkillsFromActions(skillInputs.actions); }
       catch (cause) { issue = taskError(cause); }
     }
     setSkillMode(enabled);

@@ -362,10 +362,7 @@ public final class SkillNumericSemantics {
                                 Use maximum = use(a, detail, path, "maximumChargeValue", Bound.NON_NEGATIVE, false);
                                 compareCharge(minimum, maximum);
                             }
-                            case "RECAST" -> {
-                                use(a, detail, path, "windowValue", Bound.NON_NEGATIVE, false);
-                                use(a, detail, path, "maximumRecastCountValue", Bound.POSITIVE_INTEGER, false);
-                            }
+                            case "RECAST" -> validateRecast(a, detail, path);
                             case "EMPOWERED_BASIC_ATTACK" -> validateEmpowered(a, step, detail, path);
                             default -> { }
                         }
@@ -520,6 +517,25 @@ public final class SkillNumericSemantics {
                     && (count.compareTo(Fraction.of(BigDecimal.ONE)) == 0 ? span.compareTo(Fraction.of(BigDecimal.ZERO)) != 0
                         : span.compareTo(count.subtract(Fraction.of(BigDecimal.ONE))) < 0)) {
                     throw invalid(source, path + ".lastExecutionOffsetValue", "CHANNEL_WINDOW_INVALID", "首段不得晚于末段；单段两端相等，多段跨度至少为次数减一");
+                }
+            }
+        }
+
+        private void validateRecast(Aggregate source, JsonNode detail, String path) {
+            for (String field : List.of("windowValue", "maximumRecastCountValue", "intervalValue")) {
+                Use value = use(source, detail, path, field, Bound.ANY, true);
+                if (value == null) {
+                    if ("intervalValue".equals(field)) continue;
+                    throw invalid(source, path + "." + field, "REQUIRED", "重施必须明确窗口及额外施放次数");
+                }
+                Map<Levels, Fraction> values = optionalStaticValues(value);
+                if (values == null) throw invalid(source, value.path(), "STATIC_REQUIRED", "重施时间和次数必须在全部等级静态可求值");
+                BigInteger maximum = BigInteger.valueOf("maximumRecastCountValue".equals(field) ? 63L : 9007199254740991L);
+                for (Fraction number : values.values()) {
+                    if (!number.denominator().equals(BigInteger.ONE))
+                        throw invalid(source, value.path(), "VALUE_TYPE_MISMATCH", "重施时间和次数必须是整数");
+                    if (number.numerator().signum() <= 0 || number.numerator().compareTo(maximum) > 0)
+                        throw invalid(source, value.path(), "VALUE_RANGE_INVALID", "重施窗口及间隔须为正安全整数毫秒，额外次数为1至63");
                 }
             }
         }

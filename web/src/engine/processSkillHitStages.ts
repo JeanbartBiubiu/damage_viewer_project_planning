@@ -2,6 +2,7 @@ import type { SkillProcess } from '../types/skillProcess';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
 import type { ProcessDefinition, ProcessMomentDefinition } from '../types/genericEngine';
 import { NumericAdaptationError, tryFoldConstant } from './numericAdapter';
+import { finiteRecastShape } from './finiteRecast';
 
 export type ProcessSkillHitStage = {
   rules: SkillTriggerRuleDetail[];
@@ -34,8 +35,8 @@ export function processSkillHitStages(skillKey: string, process: SkillProcess, r
       moment: { momentType: stepExecution ? 'STEP_EXECUTION' : 'PROCESS_COMPLETE', stepKey: stepExecution ? terminal.stepKey : null, failureReason: null }, authorPaths: [] }];
   }
   if (process.skillKey !== skillKey || process.activationType !== 'ACTIVE' || steps.length < 1 || steps.length > 64
-    || steps.some(step => !['IMMEDIATE', 'DELAY'].includes(step.stepType))
-    || steps.length > 1 && !steps.some(step => step.stepType === 'DELAY')
+    || !finiteRecastShape(steps) && (steps.some(step => !['IMMEDIATE', 'DELAY'].includes(step.stepType))
+      || steps.length > 1 && !steps.some(step => step.stepType === 'DELAY'))
     || steps.some(step => !Number.isFinite(step.sortOrder)) || new Set(steps.map(step => step.sortOrder)).size !== steps.length
     || new Set(steps.map(step => step.stepKey)).size !== steps.length) {
     fail(`${root}.processes.${process.processKey}`, '分阶段命中只接同技能有明确排序的1至64个即时或延时步骤');
@@ -66,6 +67,9 @@ export function processSkillHitStages(skillKey: string, process: SkillProcess, r
     group.paths.push(`${path}.processMoment`);
   }
   const ordered = steps.filter(step => groups.has(step.stepKey));
+  if (finiteRecastShape(steps) && (ordered.length !== 2 || [...groups.values()].some(group => group.prior !== null))) {
+    fail(`${root}.processes.${process.processKey}`, '有限重施首发和末尾都须有独立命中且无前段接触要求');
+  }
   const indices = new Map(ordered.map((step, index) => [step.stepKey, index]));
   return ordered.map((step, index) => {
     const group = groups.get(step.stepKey)!;
@@ -79,7 +83,8 @@ export function processSkillHitStages(skillKey: string, process: SkillProcess, r
 }
 
 /** 自动入口仅新增明确的有限普通步骤链；复杂步骤仍保留原单步骤边界。 */
-export function automaticProcessShapeAllowed(steps: readonly { stepType: string }[]): boolean {
+export function automaticProcessShapeAllowed(steps: readonly { stepType: string; occupiesAction?: boolean | null }[]): boolean {
+  if (finiteRecastShape(steps)) return true;
   if (steps.length === 1) return ['IMMEDIATE', 'DELAY', 'EMPOWERED_BASIC_ATTACK', 'CHANNEL'].includes(steps[0]!.stepType);
   return steps.length > 1 && steps.length <= 64 && steps.every(step => ['IMMEDIATE', 'DELAY'].includes(step.stepType))
     && steps.some(step => step.stepType === 'DELAY');
@@ -87,6 +92,7 @@ export function automaticProcessShapeAllowed(steps: readonly { stepType: string 
 
 export function automaticProcessStepsAllowed(process: Pick<ProcessDefinition, 'steps'>): boolean {
   const steps = process.steps;
+  if (finiteRecastShape(steps)) return true;
   if (!automaticProcessShapeAllowed(steps)) return false;
   if (steps.length === 1) return true;
   return steps.length > 1 && steps.length <= 64 && steps.every(step => ['IMMEDIATE', 'DELAY'].includes(step.stepType)

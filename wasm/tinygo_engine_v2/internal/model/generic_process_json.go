@@ -89,14 +89,14 @@ func processJSONShape(data []byte, name, allowed, required string) error {
 			}
 		}
 		customWindow := kind == "CHANNEL" && firstExecution == "CUSTOM_WINDOW"
-		for _, key := range []string{"delayMs", "minimumChargeMs", "maximumChargeMs", "releaseAtMaximum", "windowMs", "consumeMoment", "maximumAttackCount", "repeatCount", "intervalMs", "durationMs", "executionCount", "firstExecution", "firstExecutionOffsetMs", "lastExecutionOffsetMs"} {
+		for _, key := range []string{"delayMs", "minimumChargeMs", "maximumChargeMs", "releaseAtMaximum", "windowMs", "consumeMoment", "maximumAttackCount", "maximumRecastCount", "repeatCount", "intervalMs", "durationMs", "executionCount", "firstExecution", "firstExecutionOffsetMs", "lastExecutionOffsetMs"} {
 			if _, present := fields[key]; !present {
 				if customWindow && (key == "firstExecutionOffsetMs" || key == "lastExecutionOffsetMs") {
 					return errors.New(name + "." + key + " is required")
 				}
 				continue
 			}
-			allowed := kind == "DELAY" && key == "delayMs" || kind == "RECAST" && key == "windowMs" || kind == "EMPOWERED_BASIC_ATTACK" && (key == "windowMs" || key == "consumeMoment" || key == "maximumAttackCount") || kind == "CHARGE" && (key == "minimumChargeMs" || key == "maximumChargeMs" || key == "releaseAtMaximum") || kind == "MULTI_HIT" && (key == "repeatCount" || key == "intervalMs") || kind == "CHANNEL" && (key == "durationMs" || key == "executionCount" || key == "firstExecution") || customWindow && (key == "firstExecutionOffsetMs" || key == "lastExecutionOffsetMs")
+			allowed := kind == "DELAY" && key == "delayMs" || kind == "RECAST" && (key == "windowMs" || key == "maximumRecastCount" || key == "intervalMs") || kind == "EMPOWERED_BASIC_ATTACK" && (key == "windowMs" || key == "consumeMoment" || key == "maximumAttackCount") || kind == "CHARGE" && (key == "minimumChargeMs" || key == "maximumChargeMs" || key == "releaseAtMaximum") || kind == "MULTI_HIT" && (key == "repeatCount" || key == "intervalMs") || kind == "CHANNEL" && (key == "durationMs" || key == "executionCount" || key == "firstExecution") || customWindow && (key == "firstExecutionOffsetMs" || key == "lastExecutionOffsetMs")
 			if !allowed || string(fields[key]) == "null" {
 				return errors.New(name + "." + key + " does not belong to this step type")
 			}
@@ -129,13 +129,22 @@ func (v *ProcessControlDefinition) UnmarshalJSON(data []byte) error {
 	return nil
 }
 func (v *ProcessStepDefinition) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "ProcessStepDefinition", "stepKey stepType occupiesAction delayMs minimumChargeMs maximumChargeMs releaseAtMaximum windowMs consumeMoment maximumAttackCount repeatCount intervalMs durationMs executionCount firstExecution firstExecutionOffsetMs lastExecutionOffsetMs", "stepKey stepType"); err != nil {
+	if err := processJSONShape(data, "ProcessStepDefinition", "stepKey stepType occupiesAction delayMs minimumChargeMs maximumChargeMs releaseAtMaximum windowMs consumeMoment maximumAttackCount maximumRecastCount repeatCount intervalMs durationMs executionCount firstExecution firstExecutionOffsetMs lastExecutionOffsetMs", "stepKey stepType"); err != nil {
 		return err
 	}
 	type plain ProcessStepDefinition
 	var value plain
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
+	}
+	if value.StepType == "RECAST" {
+		if value.MaximumRecastCount == nil {
+			return errors.New("ProcessStepDefinition.maximumRecastCount is required for RECAST")
+		}
+		fields, _ := strictJSONObject(data, "ProcessStepDefinition")
+		if raw, present := fields["intervalMs"]; present && string(raw) == "null" {
+			return errors.New("ProcessStepDefinition.intervalMs cannot be null for RECAST")
+		}
 	}
 	*v = ProcessStepDefinition(value)
 	return nil

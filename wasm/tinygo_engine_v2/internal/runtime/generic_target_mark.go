@@ -100,7 +100,7 @@ func (f *executionFrame) targetMarkContact(abilityRef, kind string) (*frozenSkil
 			return fail("target mark requires the current selected attack's completed hit")
 		}
 	} else {
-		action := f.run.skillActionByUse[contact.useRef]
+		action := f.run.skillActionForUse(contact.useRef)
 		found := false
 		if action != nil {
 			for _, hit := range action.binding.HitBindings {

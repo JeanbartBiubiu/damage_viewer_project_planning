@@ -161,6 +161,9 @@ func (s *genericRunState) restoreProcess(row model.ProcessInstanceSnapshot, path
 	if def == nil || def.SkillKey != row.SkillKey || !s.processMounted(row.Owner, row.ProviderRef, providerIndex) {
 		return bad(".processKey", "process snapshot must match a real mounted definition and skill")
 	}
+	if planbundle.FiniteRecastProcess(def) {
+		return bad("", "finite recast windows require a fresh runtime use")
+	}
 	for _, binding := range s.compiled.SkillActionBindings {
 		if binding.Source == row.Owner && binding.ProviderRef == row.ProviderRef && binding.Controls[0].ProcessKey == row.ProcessKey && hasSimpleStepHits(def, binding) {
 			return bad(".skillHitStages", "explicit planned hit processes require a fresh runtime use")

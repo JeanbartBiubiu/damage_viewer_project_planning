@@ -22,6 +22,7 @@ type processRuntime struct {
 	stableKey                  string
 	stepIndex                  int
 	castID                     uint64
+	castUseKey                 string
 	chainDepth                 int
 	collector                  *eventCopyableCollector
 	empoweredAbilityIndex      uint16
@@ -146,6 +147,16 @@ func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryInd
 	if control.StepKey != "" && control.StepKey != instance.StepKey {
 		return s.rejectProcess(entry, "wrong_step")
 	}
+	if control.Action == "RECAST" {
+		if s.combatantHasHp(source) && s.combatantHp(source) <= 0 {
+			return s.rejectProcess(entry, "source_dead")
+		}
+		for _, other := range s.processInstances {
+			if other != instance && processOccupiesAction(other, source) {
+				return s.rejectProcess(entry, "action_occupied")
+			}
+		}
+	}
 	var conditionFrame executionFrame
 	s.initProcessFrame(&conditionFrame, instance)
 	allowed, conditionErr := s.evalProcessCondition(entryIndex, &conditionFrame, controlAbility)
@@ -162,6 +173,9 @@ func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryInd
 		step := instance.definition.Steps[instance.stepIndex]
 		if (control.Action == "RECAST" && step.StepType != "RECAST") || (control.Action == "CHARGE_RELEASE" && step.StepType != "CHARGE") {
 			return s.rejectProcess(entry, "wrong_step")
+		}
+		if control.Action == "RECAST" {
+			return s.acceptRecast(entry, instance, controlAbility, resolvedRef)
 		}
 		var frameStorage executionFrame
 		s.initProcessFrame(&frameStorage, instance)
@@ -233,6 +247,9 @@ func (s *genericRunState) initProcessFrame(f *executionFrame, p *processRuntime)
 	f.chainDepth, f.copyableCollector = p.chainDepth, p.collector
 	f.processActualCosts = staged.ActualCosts
 	f.processUseKey, f.processUseSkillKey, f.processUseSource = p.UseKey, p.SkillKey, p.Owner
+	if p.castUseKey != "" {
+		f.processUseKey = p.castUseKey
+	}
 }
 
 // Condition false is represented by a normal process rejection; formula failures remain errors.
@@ -261,6 +278,9 @@ func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, 
 }
 
 func (s *genericRunState) startProcessReplacing(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, depth int, collector *eventCopyableCollector, replaced *processRuntime) *model.EngineError {
+	if planbundle.FiniteRecastProcess(definition) && !s.isBoundFiniteRecastInitial(entry, owner, target, provider, ref, ability, definition, use) {
+		return s.processErr(definition.Path, "finite recast requires its current bound INITIAL skill plan", use)
+	}
 	if len(s.processInstances) >= s.budget.MaxProcessInstances {
 		err := s.budgetError(model.BudgetCauseMaxProcessInstances, "process instance budget exceeded")
 		err.Path, err.Ref = "safetyBudget.maxProcessInstances", use
@@ -269,6 +289,7 @@ func (s *genericRunState) startProcessReplacing(entry model.DriverEntry, entryIn
 	s.refreshProviderAwareAttributes(owner, target)
 	p := &processRuntime{ProcessInstanceSnapshot: model.ProcessInstanceSnapshot{Owner: owner, ProviderRef: provider, ProcessKey: definition.ProcessKey, SkillKey: definition.SkillKey, UseKey: use, Target: target, StartedAtMs: s.nowMs, StepStartedAtMs: s.nowMs, AdvanceAtMs: s.nowMs, ActualCosts: map[string]float64{}, ActionOccupancies: []model.ProcessActionOccupancy{}, Status: "active"}, definition: definition, ability: ability, abilityRef: ref, stepIndex: -1}
 	p.cacheIdentityKeys()
+	p.castUseKey = use
 	p.chainDepth, p.collector = depth, collector
 	defer func() { p.chainDepth, p.collector = 0, nil }()
 	var frameStorage executionFrame
@@ -389,12 +410,14 @@ func (s *genericRunState) applyProcessMoment(p *processRuntime, f *executionFram
 	p = f.pendingProcess
 	f.processMomentKind = kind
 	if kind == "STEP_EXECUTION" {
-		if p.StepCompletedAtMs != nil || p.Repeat == nil && p.StepExecutionIndex > 0 {
+		if p.StepCompletedAtMs != nil || !f.recastExecutionCommitted && p.Repeat == nil && p.StepExecutionIndex > 0 {
 			return s.processErr(p.definition.Path, "process step execution has already committed", p.UseKey)
 		}
-		p.StepExecutionIndex++
-		at := s.nowMs
-		p.LastExecutionAtMs = &at
+		if !f.recastExecutionCommitted {
+			p.StepExecutionIndex++
+			at := s.nowMs
+			p.LastExecutionAtMs = &at
+		}
 		if p.Repeat != nil {
 			if err := s.stageProcessRepeatExecution(f); err != nil {
 				return err
@@ -560,9 +583,17 @@ func (s *genericRunState) enterProcessStep(p *processRuntime, index int) *model.
 			staged.AdvanceAtMs = at
 			staged.ExpiresAtMs = &at
 		case "RECAST":
+			advance, ok := processTimeAfter(s.nowMs, float64(step.RecastIntervalMs), true)
+			if !ok || advance > maxJSONSafeInteger {
+				return s.processErr(step.Path+".intervalMs", "invalid safe recast interval deadline", step.StepKey)
+			}
+			staged.AdvanceAtMs = advance
 			at, err := duration(step.WindowProgram, false, ".steps.windowMs")
 			if err != nil {
 				return err
+			}
+			if at > maxJSONSafeInteger {
+				return s.processErr(step.Path+".windowMs", "recast expiration must be a safe integer deadline", step.StepKey)
 			}
 			staged.ExpiresAtMs = &at
 		case "CHARGE":
@@ -705,7 +736,7 @@ func (s *genericRunState) handleProcessTimer(ev scheduler.GenericEvent) *model.E
 	if p.StepCompletedAtMs != nil {
 		return s.enterProcessStep(p, p.stepIndex+1)
 	}
-	if p.Repeat == nil && p.StepExecutionIndex > 0 {
+	if p.Repeat == nil && p.StepExecutionIndex > 0 && p.definition.Steps[p.stepIndex].StepType != "RECAST" {
 		return s.completeProcessStep(p)
 	}
 	step := p.definition.Steps[p.stepIndex]

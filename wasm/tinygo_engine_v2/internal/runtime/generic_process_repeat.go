@@ -13,7 +13,7 @@ func processTimerAt(process *processRuntime) int64 {
 	if process.StepCompletedAtMs != nil {
 		return *process.StepCompletedAtMs
 	}
-	if process.Repeat == nil && process.StepExecutionIndex > 0 && process.LastExecutionAtMs != nil {
+	if process.Repeat == nil && process.StepExecutionIndex > 0 && process.LastExecutionAtMs != nil && process.definition.Steps[process.stepIndex].StepType != "RECAST" {
 		return *process.LastExecutionAtMs
 	}
 	if process.Repeat != nil && process.Repeat.NextExecutionAtMs != nil {

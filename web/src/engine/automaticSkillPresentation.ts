@@ -2,6 +2,7 @@ import type { AbilityDefinition, AttackRecord, AutomaticSkillRecord, AutomaticSk
   DoneResult, HealingRecord, ResourceChangeRecord, ProcessDefinition, ProcessInstanceSnapshot, RunRequest, SkillActionBinding } from '../types/genericEngine';
 import type { OperationOrigin } from './simulationAdapter';
 import { simulationAbility } from './simulationAdapter';
+import { finiteRecastControls, processForSkillUse, recastUseOrdinal } from './finiteRecast';
 import { continuousCurves, continuousSourceKey, type AmountMetric, type AttackSelection } from './continuousAttackPresentation';
 
 /** 身份只在当前冻结档案内解释；治疗数组位置不是跨表身份。 */
@@ -95,21 +96,23 @@ export type AutomaticUseOrigin = {
   instance: ProcessInstanceSnapshot; ability: AbilityDefinition; process: ProcessDefinition;
   rulePath: string; bindingPath: string; abilityPath: string; processPath: string;
 };
-/** 使用来源只由真实过程与冻结绑定核对；不读取使用字符串结构或要求存在结算。 */
+/** 使用来源由真实窗口、完整阶段和冻结绑定核对，字面引用不单独授予来源资格。 */
 export function automaticUseOrigin(compile: CompileRequest, request: RunRequest | null, index: AutomaticPresentationIndex, useRef: string | null): {
   origin: AutomaticUseOrigin | null; issue: string | null;
 } {
   const failure = (issue: string) => ({ origin: null, issue });
   const context = useRef ? index.byUse.get(useRef) : null;
-  if (!context || context.processes.length !== 1) return failure('未能唯一核对该使用的真实过程，保留原记录，不推断作者来源。');
-  const instance = context.processes[0]!;
+  const definitions = compile.sharedProviders?.flatMap(p => p.processes ?? []) ?? [];
+  const found = useRef && processForSkillUse([...index.byUse.values()].flatMap(c => c.processes), definitions, useRef);
+  if (!context || !found) return failure('未能唯一核对该使用的真实过程，保留原记录，不推断作者来源。');
+  const instance = found;
   const rules = request?.driverPlan.automaticSkills?.rules ?? [];
   const bindingRows = compile.rules.skillActionBindings ?? [];
   const candidates = rules.flatMap((rule, ruleIndex) => {
     const bindings = bindingRows.filter(row => row.bindingKey === rule.bindingKey);
     if (bindings.length !== 1) return [];
     const binding = bindings[0]!;
-    const control = binding.controls.length === 1 ? binding.controls[0] : null;
+    const control = binding.controls.find(row => row.action === 'INITIAL');
     if (!control || control.action !== 'INITIAL' || binding.source !== instance.owner || binding.providerRef !== instance.providerRef
       || binding.skillKey !== instance.skillKey || control.processKey !== instance.processKey || rule.target !== instance.target
       || context.automatic.some(row => row.ruleKey !== rule.ruleKey)) return [];
@@ -125,10 +128,16 @@ export function automaticUseOrigin(compile: CompileRequest, request: RunRequest 
   const processes = actual.provider.processes?.filter(row => row.processKey === instance.processKey) ?? [];
   if (processes.length !== 1 || processes[0]!.skillKey !== instance.skillKey) return failure('冻结编译过程缺失、重复或技能归属不一致，无法唯一定位。');
   const process = processes[0]!;
+  if (binding.controls.length !== 1 && !finiteRecastControls(binding, process)) return failure('自动来源的控制集合不是唯一首次或明确有限重施。');
+  const ordinal = useRef ? recastUseOrdinal(instance, process, useRef) : null;
+  const actualControl = ordinal !== null && ordinal > 0 ? binding.controls.find(c => c.action === 'RECAST') : control;
+  const resolved = actualControl && simulationAbility(compile, actualControl.abilityRef);
+  if (!actualControl || !resolved || resolved.provider !== actual.provider || resolved.ability.processControl?.action !== actualControl.action
+    || resolved.ability.processControl.processKey !== process.processKey) return failure('当前施放缺少同窗口真实控制。');
   const providerIndex = compile.sharedProviders!.indexOf(actual.provider);
-  const abilityIndex = actual.provider.abilities!.indexOf(actual.ability);
+  const abilityIndex = actual.provider.abilities!.indexOf(resolved.ability);
   const processIndex = actual.provider.processes!.indexOf(process);
-  return { issue: null, origin: { rule, binding, control, instance, ability: actual.ability, process,
+  return { issue: null, origin: { rule, binding, control: actualControl, instance, ability: resolved.ability, process,
     rulePath: `driverPlan.automaticSkills.rules[${ruleIndex}]`, bindingPath: `rules.skillActionBindings[${bindingRows.indexOf(binding)}]`,
     abilityPath: `sharedProviders[${providerIndex}].abilities[${abilityIndex}]`, processPath: `sharedProviders[${providerIndex}].processes[${processIndex}]` } };
 }

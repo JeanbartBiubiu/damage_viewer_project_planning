@@ -10,6 +10,8 @@ import { empoweredAttackBinding, requireEmpoweredBasicAttack } from './empowered
 import { tryFoldConstant } from './numericAdapter';
 import { automaticProcessStepsAllowed } from './processSkillHitStages';
 import { drivenActiveAmmo } from './simulationAmmoMechanics';
+import type { SkillConfiguration } from '../types/skillConfiguration';
+import { automaticSkillPhases, finiteRecastControls } from './finiteRecast';
 
 export type AutomaticSkillInput = Pick<SimulationPlannedSkill, 'origin' | 'skillKey' | 'skillLevel'> & {
   ruleKey: string; sortOrder: number; targetSide: 'source' | 'target'; hitPreset: 'TARGET_HIT' | 'MISS' | null;
@@ -65,7 +67,7 @@ export function validateAutomaticSkillRelations(rules: readonly Pick<AutomaticSk
 }
 
 /** 直接运输自动规则的真实首次闭包，不生成手动动作。 */
-export function plannedSkillsFromAutomaticRules(rules: readonly AutomaticSkillInput[]): SimulationPlannedSkill[] {
+export function plannedSkillsFromAutomaticRules(rules: readonly AutomaticSkillInput[], configurations: readonly SkillConfiguration[]): SimulationPlannedSkill[] {
   if (rules.length > 16) throw new Error('automaticSkills.rules: 本次最多16份真实来源');
   const plans = new Map<string, SimulationPlannedSkill>();
   rules.forEach((rule, index) => {
@@ -74,7 +76,9 @@ export function plannedSkillsFromAutomaticRules(rules: readonly AutomaticSkillIn
     if (!Number.isSafeInteger(rule.skillLevel) || rule.skillLevel < 1) throw new Error(`${path}.skillLevel: 技能必须已学且等级明确`);
     const identity = simulationSkillSourceIdentity(rule.origin, rule.skillKey);
     if (plans.has(identity)) throw new Error(`${path}.skillKey: 每份真实来源只能配置一项自动规则`);
-    plans.set(identity, { origin: rule.origin, skillKey: rule.skillKey, skillLevel: rule.skillLevel, phaseKinds: ['INITIAL'] });
+    const configuration = configurations.find(c => c.skill.skillKey === rule.skillKey);
+    if (!configuration) throw new Error(`${path}: 自动闭包缺少真实作者配置`);
+    plans.set(identity, { origin: rule.origin, skillKey: rule.skillKey, skillLevel: rule.skillLevel, phaseKinds: automaticSkillPhases(configuration) });
   });
   return [...plans].sort(([left], [right]) => left < right ? -1 : left > right ? 1 : 0).map(([, plan]) => plan);
 }
@@ -82,7 +86,7 @@ export function plannedSkillsFromAutomaticRules(rules: readonly AutomaticSkillIn
 export async function automaticSkillRequest(prepared: ReturnType<typeof assembleSimulation>, snapshot: SimulationSnapshot,
   inputs: AutomaticSkillInputs, sessionId = ''): Promise<PreparedAutomaticSkill> {
   validateAutomaticSkillRelations(inputs.rules);
-  const plans = plannedSkillsFromAutomaticRules(inputs.rules);
+  const plans = plannedSkillsFromAutomaticRules(inputs.rules, snapshot.skillConfigurations);
   const compile = prepared.compileRequest;
   const bindings = compile.rules.skillActionBindings;
   if (!bindings || bindings.length !== plans.length || snapshot.selection.plannedSkills.length !== plans.length) throw new Error('automaticSkills.rules: 编译绑定与真实首次闭包不一致');
@@ -109,9 +113,10 @@ export async function automaticSkillRequest(prepared: ReturnType<typeof assemble
     const ability = control && simulationAbility(compile, control.abilityRef);
     const process = ability?.provider.processes?.find(process => process.processKey === control?.processKey);
     if (input.origin.kind !== 'CHARACTER' || input.origin.characterKey !== snapshot.selection.sourceCharacterKey
-      || !plan || plan.phaseKinds.length !== 1 || plan.phaseKinds[0] !== 'INITIAL' || plan.skillLevel !== input.skillLevel
+      || !plan || JSON.stringify(plan.phaseKinds) !== JSON.stringify(plans.find(p => p.skillKey === input.skillKey)?.phaseKinds) || plan.skillLevel !== input.skillLevel
       || !source?.enabled || source.skillStatus !== 'ENABLED' || source.skillLevel !== input.skillLevel || source.skillLevel <= 0
-      || matches.length !== 1 || !binding || binding.source !== 'source' || binding.controls.length !== 1 || !control || !ability
+      || matches.length !== 1 || !binding || binding.source !== 'source' || !control || !ability
+      || binding.controls.length !== 1 && (!process || !finiteRecastControls(binding, process))
       || selectedBindings.has(binding.bindingKey) || ability.mount.providerRef !== binding.providerRef || ability.mount.definitionRef !== binding.providerDefinitionRef
       || ability.ability.skillKey !== input.skillKey || ability.ability.processControl?.action !== 'INITIAL'
       || ability.ability.processControl.processKey !== control.processKey || !process || !automaticProcessStepsAllowed(process)) {

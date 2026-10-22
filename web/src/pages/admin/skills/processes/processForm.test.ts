@@ -164,6 +164,26 @@ describe('引导指定首末窗口草稿', () => {
   });
 });
 
+describe('有限重施静态间隔草稿', () => {
+  const recast = (): SkillProcessStepDraft => ({ ...createEmptyStepDraft('RECAST'), stepKey: 'again', name: '重施', sortOrder: '1', occupiesAction: false,
+    windowValue: fixedValue(15000), maximumRecastCountValue: fixedValue(2), intervalValue: fixedValue(1000) });
+  it('保存、回填和切换类型保留或清除同一间隔字段', () => {
+    const normalized = expectValid(validProcessDraft({ steps: [recast()], effectBindings: [binding({ stepKey: 'again' })] }));
+    expect(normalized.steps[0]!.detail).toEqual({ windowValue: fixedValue(15000), maximumRecastCountValue: fixedValue(2), intervalValue: fixedValue(1000) });
+    const draft = skillProcessToDraft({ ...normalized, gameId: 'demo', skillKey: 'sample', createdAt: '', updatedAt: '' });
+    expect(draft.steps[0]!.intervalValue).toEqual(fixedValue(1000));
+    expect(applyStepTypeChange(draft.steps[0]!, 'IMMEDIATE').intervalValue).toBeNull();
+    expect(expectValid(validProcessDraft({ steps: [{ ...recast(), intervalValue: null }], effectBindings: [binding({ stepKey: 'again' })] })).steps[0]!.detail).not.toHaveProperty('intervalValue');
+  });
+  it('拒绝64次和非正间隔，保留草稿错误', () => {
+    for (const patch of [{ maximumRecastCountValue: fixedValue(64) }, { intervalValue: fixedValue(0) }, { intervalValue: fixedValue(-1) }]) {
+      const result = validateSkillProcessDraft(validProcessDraft({ steps: [{ ...recast(), ...patch }], effectBindings: [binding({ stepKey: 'again' })] }), { includeProcessKey: true, catalog: CATALOG });
+      expect(result.ok).toBe(false);
+      if (!result.ok) expect(result.stepErrors[0]?.fieldErrors).toHaveProperty(Object.keys(patch)[0]!);
+    }
+  });
+});
+
 const SAVED_PROCESS: SkillProcess = {
   gameId: 'lol',
   skillKey: 'ezreal_q',

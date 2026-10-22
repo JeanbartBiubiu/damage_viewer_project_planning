@@ -56,9 +56,11 @@ describe('自动规则的真实首次闭包与独立运行装配', () => {
     const chain = Array.from({ length: 16 }, (_, index) => ({ ...rules[0]!, ruleKey: `r_${index}`, skillKey: `skill_${index.toString().padStart(2, '0')}`,
       sortOrder: index, releaseAfterRuleKey: index === 0 ? null : `r_${index - 1}`, waitForCooldowns: index === 0 ? ['r_15', 'r_1'] : [] }));
     expect(() => validateAutomaticSkillRelations(chain)).not.toThrow();
-    expect(plannedSkillsFromAutomaticRules([...chain].reverse())).toEqual(plannedSkillsFromAutomaticRules(chain));
-    expect(plannedSkillsFromAutomaticRules(chain)).toHaveLength(16);
-    expect(plannedSkillsFromAutomaticRules(chain).every(plan => JSON.stringify(plan.phaseKinds) === '["INITIAL"]')).toBe(true);
+    const template = preparedActiveSample().snapshot.skillConfigurations.find(c => c.skill.skillKey === 'sample_active')!;
+    const configurations = chain.map(rule => JSON.parse(JSON.stringify(template).replaceAll('sample_active', rule.skillKey)));
+    expect(plannedSkillsFromAutomaticRules([...chain].reverse(), configurations)).toEqual(plannedSkillsFromAutomaticRules(chain, configurations));
+    expect(plannedSkillsFromAutomaticRules(chain, configurations)).toHaveLength(16);
+    expect(plannedSkillsFromAutomaticRules(chain, configurations).every(plan => JSON.stringify(plan.phaseKinds) === '["INITIAL"]')).toBe(true);
     expect(() => validateAutomaticSkillRelations([...chain, { ...chain[0]!, ruleKey: 'too_many', sortOrder: 16 }])).toThrow(/16/);
   });
   it('A等B冷却与B依赖A资格合法；分叉、自引用、重复及资格环拒绝', () => {

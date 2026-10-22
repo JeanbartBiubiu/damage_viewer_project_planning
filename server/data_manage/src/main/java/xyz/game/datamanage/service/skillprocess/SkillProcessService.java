@@ -631,6 +631,9 @@ public class SkillProcessService {
                 if (step.detail() instanceof SkillProcessRecastStepDetail recast) {
                     addFormula(refs, issues, stepPath(index, "detail.windowValue"), recast.windowValue());
                     addFormula(refs, issues, stepPath(index, "detail.maximumRecastCountValue"), recast.maximumRecastCountValue());
+                    if (recast.intervalValue() != null) {
+                        addFormula(refs, issues, stepPath(index, "detail.intervalValue"), recast.intervalValue());
+                    }
                 } else {
                     issues.add(fieldIssue(stepPath(index, "detail"), "TYPE_MISMATCH", "重施步骤明细形状不合法"));
                 }

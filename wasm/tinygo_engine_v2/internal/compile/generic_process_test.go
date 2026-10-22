@@ -30,7 +30,7 @@ func processCompileRequest() model.CompileRequest {
 		Steps: []model.ProcessStepDefinition{
 			{StepKey: "begin", StepType: "IMMEDIATE"},
 			{StepKey: "delay", StepType: "DELAY", DelayMs: processCompileNumber(250)},
-			{StepKey: "window", StepType: "RECAST", WindowMs: processCompileNumber(1000)},
+			{StepKey: "window", StepType: "RECAST", WindowMs: processCompileNumber(1000), MaximumRecastCount: processCompileNumber(1)},
 		},
 		Costs:    []model.ProcessCostDefinition{{ResourceKey: "mana", Amount: *processCompileNumber(60)}},
 		Cooldown: &model.ProcessCooldownDefinition{DurationMs: *processCompileNumber(1000), StartMoment: model.ProcessMomentDefinition{MomentType: "PROCESS_START"}},

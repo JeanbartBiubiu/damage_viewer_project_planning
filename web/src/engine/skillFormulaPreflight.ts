@@ -5,6 +5,7 @@ import { createNumericCompileState, registerCommonFormula } from './numericAdapt
 import { rememberApprovedFormulaValues, selectFormulaProofScope, matchesFormulaProofScope, clearFormulaProofScope } from './approvedFormulaValues';
 import { calculationConfiguration, gameDerivationFormula } from './simulationCalculationRules';
 import { shieldAttributeProofLevels } from './shieldAttributeDependency';
+import { recastProofLevels } from './finiteRecast';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
   type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
@@ -29,6 +30,18 @@ export function skillFormulaPreflightRequest(snapshot: SimulationSnapshot, scene
       bindParameters: false, allowAttributeReads: true, runtimeInputMessage: '预检不运行技能或供给计算时输入',
       sceneParameterValues: sceneInitialValuesForSource(requirements, normalized, side, source) });
     for (const formula of config.formulas) formulas.push(registerCommonFormula(formula, 'formulas.' + formula.formulaKey, state));
+    for (const process of config.processes) for (const step of process.steps) if (step.stepType === 'RECAST') {
+      for (const value of [step.detail.windowValue, step.detail.maximumRecastCountValue, step.detail.intervalValue]) {
+        if (value?.kind !== 'FORMULA') continue;
+        const formula = config.formulas.find(f => f.formulaKey === value.formulaKey);
+        if (!formula) throw new Error('静态重施值缺少真实公式');
+        for (const levels of recastProofLevels(config.parameters, source.skillLevel, snapshot.selection[`${side}Level`])) {
+          const variant = createNumericCompileState({ ...state, ...levels, formulaNamespace: `preflight/${side}/${sourceIndex}/${source.skillKey}/recast-check` });
+          const named = registerCommonFormula(formula, 'formulas.' + formula.formulaKey, variant);
+          if (!formulas.some(f => f.key === named.key)) formulas.push(named);
+        }
+      }
+    }
     for (const effect of config.effects) for (const result of effect.results) {
       if (result.resultType !== 'ATTRIBUTE_CHANGE' || !result.detail.requiredShield || result.valueRule?.value.kind !== 'FORMULA') continue;
       const key = result.valueRule.value.formulaKey;

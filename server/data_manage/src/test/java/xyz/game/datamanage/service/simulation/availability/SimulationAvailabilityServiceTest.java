@@ -236,7 +236,8 @@ class SimulationAvailabilityServiceTest {
             assertEquals(expected, actual.excludedSkillSources());
             assertTrue(json.valueToTree(actual).path("excludedSkillSources").isArray());
         }
-        assertEquals(24, excludedCount);
+        // 当前范围已按用户确认加入布兰德R排除；仍逐项核对原技能及原因。
+        assertEquals(25, excludedCount);
         Entry garen = result.characters().stream().filter(item -> item.key().equals("champion_garen")).findFirst().orElseThrow();
         assertEquals(List.of("garen_p"), garen.excludedSkillSources().stream().map(ExcludedSkillSource::skillKey).toList());
         Entry nasus = result.characters().stream().filter(item -> item.key().equals("champion_nasus")).findFirst().orElseThrow();

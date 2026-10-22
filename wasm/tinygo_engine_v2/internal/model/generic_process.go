@@ -25,6 +25,7 @@ type ProcessStepDefinition struct {
 	WindowMs               *GenericFormulaExpr `json:"windowMs,omitempty"`
 	ConsumeMoment          *string             `json:"consumeMoment,omitempty"`
 	MaximumAttackCount     *GenericFormulaExpr `json:"maximumAttackCount,omitempty"`
+	MaximumRecastCount     *GenericFormulaExpr `json:"maximumRecastCount,omitempty"`
 	RepeatCount            *GenericFormulaExpr `json:"repeatCount,omitempty"`
 	IntervalMs             *GenericFormulaExpr `json:"intervalMs,omitempty"`
 	DurationMs             *GenericFormulaExpr `json:"durationMs,omitempty"`

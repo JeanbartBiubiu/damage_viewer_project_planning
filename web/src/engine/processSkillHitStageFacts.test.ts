@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { ProcessDefinition, ProcessInstanceSnapshot, SkillActionBinding, SkillActionPlan } from '../types/genericEngine';
+import type { DoneResult, ProcessDefinition, ProcessInstanceSnapshot, SkillActionBinding, SkillActionPlan } from '../types/genericEngine';
 import { inspectProcessSkillHitStages, processSkillHitTimes } from './processSkillHitStageFacts';
 
 function sample() {
@@ -52,6 +52,45 @@ describe('不可截断阶段提交事实', () => {
     process.skillHitStages![1]!.released = true;
     expect(() => inspectProcessSkillHitStages(binding, definition, process, presets, 2000)).toThrow('前置资格');
   });
+
+  function sameTimeDeath() {
+    const { binding, definition, process, presets } = sample();
+    for (const hit of binding.hitBindings) delete hit.requiresPriorHitBindingKey;
+    process.skillHitStages![1]!.timeMs = 1750;
+    Object.assign(process.skillHitStages![2]!, { contact: false, completed: false });
+    const done = { ok: true, summary: { stopReason: 'target_dead', durationMs: 1750, targetFinalHp: 0,
+      execution: { requestedDurationMs: 2000, complete: true, incompleteReason: null, budgetCause: null, targetKilled: true, targetKilledAtMs: 1750 } },
+      finalSnapshot: { timeMs: 1750, combatants: [{ key: 'target', attributes: { hp: { current: 0, max: 1000 } } }] } } as DoneResult;
+    return { binding, definition, process, presets, done };
+  }
+
+  it('同刻前段致死后的独立阶段保留释放而没有接触，过程仍真实完成', () => {
+    const { binding, definition, process, presets, done } = sameTimeDeath();
+    const stages = inspectProcessSkillHitStages(binding, definition, process, presets, 1750, done);
+    expect(stages?.[2]).toEqual({ hitBindingKey: 'hit_2', stepKey: 'phase_2', timeMs: 1750, released: true, contact: false, completed: false });
+    expect(stages?.filter(stage => stage.contact)).toHaveLength(2);
+  });
+
+  it.each(['alive', 'wrong_stop', 'incomplete', 'budget', 'killed_false', 'kill_time', 'final_time', 'summary_time',
+    'different_target', 'duplicate_target', 'finished_time', 'step_completed_time', 'earlier_stage', 'contact_true'])(
+    '同刻死亡豁免仍拒绝不完整或不相符的停止证明：%s', kind => {
+      const { binding, definition, process, presets, done } = sameTimeDeath();
+      if (kind === 'alive') done.finalSnapshot.combatants[0]!.attributes.hp!.current = 1;
+      if (kind === 'wrong_stop') done.summary.stopReason = 'duration_reached';
+      if (kind === 'incomplete') done.summary.execution!.complete = false;
+      if (kind === 'budget') done.summary.execution!.budgetCause = 'max_events';
+      if (kind === 'killed_false') done.summary.execution!.targetKilled = false;
+      if (kind === 'kill_time') done.summary.execution!.targetKilledAtMs = 1749;
+      if (kind === 'final_time') done.finalSnapshot.timeMs = 1751;
+      if (kind === 'summary_time') done.summary.durationMs = 1751;
+      if (kind === 'different_target') process.target = 'source';
+      if (kind === 'duplicate_target') done.finalSnapshot.combatants.push(structuredClone(done.finalSnapshot.combatants[0]!));
+      if (kind === 'finished_time') process.finishedAtMs = 1751;
+      if (kind === 'step_completed_time') process.stepCompletedAtMs = 1751;
+      if (kind === 'earlier_stage') process.skillHitStages![2]!.timeMs = 1749;
+      if (kind === 'contact_true') process.skillHitStages![2]!.contact = true;
+      expect(() => inspectProcessSkillHitStages(binding, definition, process, presets, 1750, done)).toThrow('skillHitStages');
+    });
 
   it.each(['missing', 'duplicate', 'foreign', 'wrong_step', 'future_time', 'reversed', 'extra_field', 'missing_completed', 'absent_progress'])(
     '拒绝缺失、跨阶段或伪造的原生事实：%s', kind => {

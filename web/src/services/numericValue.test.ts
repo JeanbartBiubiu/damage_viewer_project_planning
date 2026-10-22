@@ -4,6 +4,14 @@ import { assertNumericUses } from './numericValue';
 
 type Root = Record<string, unknown>;
 const v = () => fixedValue(2);
+it('重施可选间隔只接明确数值对象或null，不把缺省改成零', () => {
+  const root = { cooldown: null, stateOperations: [], steps: [{ stepType: 'RECAST', detail: { windowValue: v(), maximumRecastCountValue: v() } as Record<string, unknown> }] };
+  const fail = (path: string): never => { throw Error(path); };
+  expect(() => assertNumericUses(root, 'process', fail)).not.toThrow();
+  root.steps[0]!.detail.intervalValue = null; expect(() => assertNumericUses(root, 'process', fail)).not.toThrow();
+  root.steps[0]!.detail.intervalValue = v(); expect(() => assertNumericUses(root, 'process', fail)).not.toThrow();
+  root.steps[0]!.detail.intervalValue = 1000; expect(() => assertNumericUses(root, 'process', fail)).toThrow('intervalValue');
+});
 const roots: Array<{ domain: Parameters<typeof assertNumericUses>[1]; root: Root }> = [
   { domain: 'effect', root: {
     lifecycle: { durationValue: v(), maxStacksValue: v(), applicationStacksValue: v(), periodicIntervalValue: v() },

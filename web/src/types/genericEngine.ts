@@ -668,6 +668,7 @@ export type ProcessStepDefinition = {
   maximumChargeMs?: GenericFormulaExpr;
   releaseAtMaximum?: boolean;
   windowMs?: GenericFormulaExpr;
+  maximumRecastCount?: GenericFormulaExpr;
   consumeMoment?: 'ATTACK_HIT' | 'ATTACK_START';
   maximumAttackCount?: GenericFormulaExpr;
 };

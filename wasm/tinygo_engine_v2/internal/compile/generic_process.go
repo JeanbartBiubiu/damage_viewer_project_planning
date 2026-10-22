@@ -58,6 +58,11 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 			program, has := compileProcessFormula(&cost.Amount, cp+".amount", false, false, ctx)
 			compiled.Costs = append(compiled.Costs, plan.CompiledProcessCost{ResourceKey: cost.ResourceKey, AmountProgram: program, HasAmount: has, Path: cp})
 		}
+		for _, step := range compiled.Steps {
+			if step.MaximumRecastCount > 1 && !plan.FiniteRecastProcess(&compiled) {
+				ctx.collector.addError(model.GenericErrUnknownRef, step.Path, "multiple recasts require exactly one non-occupying immediate step and one final non-occupying recast step", step.StepKey)
+			}
+		}
 		// 成本在时点之前编译，完成/失败表达式只能读取已经声明的资源账。
 		previousProcess, previousMoment := ctx.currentProcess, ctx.currentProcessMoment
 		ctx.currentProcess = &compiled
@@ -161,6 +166,7 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 		{"maximumChargeMs", def.MaximumChargeMs != nil, def.StepType == "CHARGE"},
 		{"releaseAtMaximum", def.ReleaseAtMaximum != nil, def.StepType == "CHARGE"},
 		{"windowMs", def.WindowMs != nil, def.StepType == "RECAST" || def.StepType == "EMPOWERED_BASIC_ATTACK"},
+		{"maximumRecastCount", def.MaximumRecastCount != nil, def.StepType == "RECAST"},
 		{"consumeMoment", def.ConsumeMoment != nil, def.StepType == "EMPOWERED_BASIC_ATTACK"},
 		{"repeatCount", def.RepeatCount != nil, def.StepType == "MULTI_HIT"},
 		{"durationMs", def.DurationMs != nil, def.StepType == "CHANNEL"},
@@ -199,6 +205,11 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 		}
 	case "RECAST":
 		compiled.WindowProgram, compiled.HasWindow = compileProcessFormula(def.WindowMs, path+".windowMs", true, true, ctx)
+		compileRecastStaticValue(def.WindowMs, path+".windowMs", 9007199254740991, ctx)
+		compiled.MaximumRecastCount = int(compileRecastStaticValue(def.MaximumRecastCount, path+".maximumRecastCount", 63, ctx))
+		if def.IntervalMs != nil {
+			compiled.RecastIntervalMs = compileRecastStaticValue(def.IntervalMs, path+".intervalMs", 9007199254740991, ctx)
+		}
 	case "EMPOWERED_BASIC_ATTACK":
 		compiled.WindowProgram, compiled.HasWindow = compileProcessWindowFormula(def.WindowMs, path+".windowMs", true, ctx)
 		consume := "ATTACK_HIT"
@@ -272,10 +283,22 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 	default:
 		ctx.collector.addError(model.GenericErrUnknownRef, path+".stepType", "unsupported process step type", def.StepType)
 	}
-	if def.IntervalMs != nil && def.StepType != "MULTI_HIT" {
+	if def.IntervalMs != nil && def.StepType != "MULTI_HIT" && def.StepType != "RECAST" {
 		ctx.collector.addError(model.GenericErrUnknownRef, path+".intervalMs", "interval belongs only to finite multi-hit steps", def.StepKey)
 	}
 	return compiled
+}
+
+func compileRecastStaticValue(expr *model.GenericFormulaExpr, path string, maximum float64, ctx *genericCompileContext) int64 {
+	program, present := compileProcessFormula(expr, path, true, true, ctx)
+	if present {
+		value, static := ctx.session.Formulas.FoldStatic(program)
+		if static && isFiniteFloat(value) && value >= 1 && value <= maximum && math.Trunc(value) == value {
+			return int64(value)
+		}
+	}
+	ctx.collector.addError(model.GenericErrFormulaTypeError, path, "recast value requires an explicit static positive safe integer within its bound", "")
+	return 0
 }
 
 func compileProcessWindowFormula(expression *model.GenericFormulaExpr, path string, positive bool, ctx *genericCompileContext) (formula.GenericProgramID, bool) {

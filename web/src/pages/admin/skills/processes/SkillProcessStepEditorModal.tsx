@@ -476,6 +476,12 @@ export function SkillProcessStepEditorModal({
 
           {draft.stepType === 'RECAST' ? (
             <>
+              <Form.Item label="重施间隔取值" extra="可不填；配置后为不受技能急速影响的正整数毫秒。"
+                validateStatus={errors.intervalValue ? 'error' : undefined} help={errors.intervalValue}>
+                <NumericValueField aria-label="重施间隔取值" value={draft.intervalValue}
+                  onChange={(value) => patchDraft({ ...draft, intervalValue: value })}
+                  parameters={parameters} formulas={formulas} disabled={readOnly} />
+              </Form.Item>
               <Form.Item
                 label="重施窗口取值"
                 required

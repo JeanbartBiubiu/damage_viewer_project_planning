@@ -12,6 +12,7 @@ import (
 )
 
 type automaticSkillRuleRuntime struct {
+	recastWindow               *processRuntime
 	inputIndex                 int
 	plan                       model.AutomaticSkillRule
 	binding                    planbundle.CompiledSkillActionBinding
@@ -198,6 +199,9 @@ func sameAutomaticWaiting(a, b *model.AutomaticSkillWaiting) bool {
 }
 
 func (s *genericRunState) automaticCandidate(r *automaticSkillRuleRuntime) (string, []string, int64, *model.EngineError) {
+	if p := r.recastWindow; p != nil && p.Status == "active" {
+		return s.automaticRecastCandidate(r, p)
+	}
 	ledger := s.combatants[model.SelectorSource].cooldowns
 	if r.predecessor != nil && r.qualification.RemainingCount == 0 {
 		return model.AutomaticWaitReleaseQualification, []string{r.predecessor.plan.RuleKey}, 0, nil
@@ -346,7 +350,11 @@ func (s *genericRunState) handleAutomaticSkills(ev scheduler.GenericEvent) *mode
 			if s.compiled.Providers[s.compiled.Abilities[r.controlIndex].ProviderIndex].AmmoBinding != nil {
 				notBefore = at
 			}
-			wait := owner.cooldowns.registerWait(key, r.dependencies, notBefore, s.nowMs)
+			dependencies := r.dependencies
+			if r.recastWindow != nil && r.recastWindow.Status == "active" {
+				dependencies, notBefore = nil, at
+			}
+			wait := owner.cooldowns.registerWait(key, dependencies, notBefore, s.nowMs)
 			at = wait.readyAt
 			if next == 0 || wait.readyAt < next {
 				next = wait.readyAt
@@ -361,6 +369,9 @@ func (s *genericRunState) handleAutomaticSkills(ev scheduler.GenericEvent) *mode
 			s.queueAutomaticSkills(next)
 		}
 		return nil
+	}
+	if p := selected.recastWindow; p != nil && p.Status == "active" {
+		return s.runAutomaticRecast(selected, p)
 	}
 	a.attemptSequence++
 	key := "auto_" + selected.plan.RuleKey + "_" + strconv.Itoa(a.attemptSequence)
@@ -415,6 +426,9 @@ func (s *genericRunState) publishAutomaticSkillStart(action *skillActionRuntime,
 		return
 	}
 	r.summary.StartedCount++
+	if r.binding.HasFiniteRecast {
+		r.recastWindow = process
+	}
 	s.automaticWait(r, "", nil, 0)
 	if r.predecessor != nil {
 		q := &r.qualification
