@@ -42,6 +42,7 @@ import { staticEffectAmount } from './staticEffectValue';
 import { compileProviderDurationResult } from './providerDurationAdapter';
 import { finiteTargetCounterContract } from './finiteTargetCounterContract';
 import { lowerTargetCounterValueRule } from './targetCounterFormula';
+import { lowerSettledDamageHealValueRule, settledDamageHealBinding } from './settledDamageHeal';
 import { ownCounterShieldExpiry } from './ownCounterShieldExpiry';
 import { targetTimingDeclarations } from './targetTimingAuthoring';
 import { isCounterTargetTiming } from '../services/counterTargetTiming';
@@ -388,6 +389,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const finiteCounter = finiteTargetCounterContract(snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey) ?? configuration);
         const ownExpiry = ownCounterShieldExpiry(configuration);
         let boundCounterParameter: string | undefined;
+        let boundSettledDamage: { parameterKey: string; amountPath: string; actionPath: string } | undefined;
         const skillTypes = configuration.skill.skillCategoryKeys.map(category);
         const noteNumeric = (value: NumericValue) => {
           if (value.kind === 'PARAMETER') usedParameters.add(value.parameterKey);
@@ -428,6 +430,19 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const amount = (result: SkillEffectResult, resultPath: string) => {
           if (!result.valueRule) fail(`${resultPath}.valueRule`, '结果数值规则缺失');
           validateValueRule(result.valueRule, `${resultPath}.valueRule`);
+          if (boundSettledDamage) {
+            noteNumeric(result.valueRule.value);
+            const lowered = lowerSettledDamageHealValueRule(result.valueRule, configuration, skillLevel,
+              snapshot.selection[`${side}Level`], boundSettledDamage.parameterKey, `${resultPath}.valueRule`);
+            for (const mapping of lowered.mappings) cover(mapping.authorPath,
+              boundSettledDamage.amountPath + mapping.privatePath.replace(/^expression/, ''));
+            cover(`${boundSettledDamage.actionPath}.runtimeInputBindings`, boundSettledDamage.amountPath);
+            if (lowered.author.formulaKey) {
+              const formula = configuration.formulas.find(row => row.formulaKey === lowered.author.formulaKey)!;
+              registerCommonFormula(formula, `${root}.formulas.${formula.formulaKey}.expression`, numeric, fail);
+            }
+            return lowered.expression;
+          }
           if (boundCounterParameter && finiteCounter) {
             noteNumeric(result.valueRule.value);
             const lowered = lowerTargetCounterValueRule(result.valueRule, configuration, skillLevel, snapshot.selection[`${side}Level`],
@@ -828,7 +843,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               return comparator(authored.detail.comparator, { op: 'read', path: 'event.damage.killed' },
                 value(authored.detail.comparisonValue, detailPath), detailPath);
             }
-            if (authored.detail.eventValueKey === 'POST_DEFENSE_DAMAGE' && event === 'DAMAGE_TAKEN') {
+            if (authored.detail.eventValueKey === 'POST_DEFENSE_DAMAGE' && ['DAMAGE_TAKEN', 'DAMAGE_DEALT'].includes(event)) {
               return comparator(authored.detail.comparator, { op: 'read', path: 'event.damage.mitigatedAmount' }, value(authored.detail.comparisonValue, detailPath), detailPath);
             }
             if (authored.detail.eventValueKey === 'ACTUAL_HP_LOSS' && event === 'DAMAGE_TAKEN') {
@@ -931,7 +946,9 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           resultShape(result, resultPath);
           const operationPath = `${outputRoot}[${output.length}]`;
           let operation: OperationDefinition;
-          const restoration = compileNaturalRestoration(authored, result, resultPath, () => amount(result, resultPath));
+          const restoration: OperationDefinition | null = boundSettledDamage
+            ? { operation: 'heal', target: 'self', amount: amount(result, resultPath), ref: resultPath }
+            : compileNaturalRestoration(authored, result, resultPath, () => amount(result, resultPath));
           if (restoration) {
             operation = restoration;
             if (operation.resourceKey) required[side].add(operation.resourceKey);
@@ -1108,10 +1125,11 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           }
           return fail(actionPath, '动作目标缺少真实事件来源到当前对手的完整映射');
         };
-        const actionShape = (action: SkillTriggerAction, actionPath: string) => {
+        const actionShape = (action: SkillTriggerAction, actionPath: string, rule: SkillTriggerRuleDetail) => {
           exact(action, ['actionKey', 'actionType', 'detail', 'targetContext', 'runtimeInputBindings', 'resultModifiers', ...METADATA], actionPath);
           const bindings = array(action.runtimeInputBindings, `${actionPath}.runtimeInputBindings`);
           const counterBinding = bindings[0];
+          if (bindings.some(binding => binding.sourceType === 'EVENT_VALUE')) return settledDamageHealBinding(action, rule, configuration, actionPath);
           const bound = finiteCounter && action.actionType === 'EXECUTE_EFFECT' && bindings.length === 1
             && counterBinding?.sourceType === 'INTERNAL_STATE' && counterBinding.parameterKey === finiteCounter.parameterKey
             && counterBinding.detail.stateSkillKey === skillKey && counterBinding.detail.stateKey === finiteCounter.counter.stateKey
@@ -1218,7 +1236,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
           for (const action of ordered(rule.actions, `${rulePath}.actions`)) {
             const actionPath = `${rulePath}.actions.${action.actionKey}`;
-            actionShape(action, actionPath);
+            const settledParameter = actionShape(action, actionPath, rule);
             const context = targetFor(action, event, actionPath);
             const operationPath = `${outputRoot}[${output.length}]`;
             if (action.actionType === 'EXECUTE_EFFECT') {
@@ -1258,12 +1276,16 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                 cover(actionPath, 'runtimeOptions.skillOrigins');
               } else {
                 const previous = boundCounterParameter;
-                if (action.runtimeInputBindings.length) {
+                const previousSettled = boundSettledDamage;
+                if (settledParameter) {
+                  if (event !== 'DAMAGE_DEALT') fail(actionPath, '本笔金额绑定不能泄漏到其它事件执行点');
+                  boundSettledDamage = { parameterKey: settledParameter, amountPath: `${operationPath}.amount`, actionPath };
+                } else if (action.runtimeInputBindings.length) {
                   boundCounterParameter = action.runtimeInputBindings[0]!.parameterKey;
                   lookupState(finiteCounter!.counter.stateKey, skillKey, actionPath);
                 }
                 try { executeEffect(authoredEffect, output, outputRoot, abilityRef, event, actionPath, context); }
-                finally { boundCounterParameter = previous; }
+                finally { boundCounterParameter = previous; boundSettledDamage = previousSettled; }
               }
             } else if (action.actionType === 'MODIFY_INTERNAL_STATE') {
               exact(action.detail, ['stateSkillKey', 'stateKey', 'operation', 'value'], `${actionPath}.detail`);
@@ -1611,7 +1633,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (contributesBasicAttack) {
             for (const action of ordered(rule.actions, `${rulePath}.actions`)) {
               const actionPath = `${rulePath}.actions.${action.actionKey}`;
-              actionShape(action, actionPath);
+              actionShape(action, actionPath, rule);
               if (action.actionType !== 'EXECUTE_EFFECT') fail(actionPath, '普攻组成需要完整即时执行效果');
               exact(action.detail, ['effectKey'], `${actionPath}.detail`);
               const authored = effect(action.detail.effectKey, actionPath);

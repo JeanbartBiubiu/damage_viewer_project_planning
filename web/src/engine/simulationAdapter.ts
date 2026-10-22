@@ -36,7 +36,7 @@ import { initialResourceRequirements, normalizeInitialResourceInputs } from './i
 import { permanentHealthIncreases } from './permanentHealthInitialization';
 import { assembleTargetMarkSource } from './targetMarkAdapter';
 
-export const SIMULATION_ADAPTER_VERSION = 'v40-finite-recast-cast-identity';
+export const SIMULATION_ADAPTER_VERSION = 'v41-settled-damage-self-heal';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v5';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';

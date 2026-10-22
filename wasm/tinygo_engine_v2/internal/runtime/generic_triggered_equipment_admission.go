@@ -121,7 +121,11 @@ func (s *genericRunState) isOwnedSettledSelfRecovery(listener planbundle.Compile
 	if !supported && operation.Operation == "heal" {
 		amount, supported = s.evaluateOwnedDynamicHealAmount(listener, operation)
 	}
-	if !supported || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
+	if !supported {
+		if operation.Operation != "heal" || !s.isOwnedSettledEventHeal(listener, operation) {
+			return false
+		}
+	} else if math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
 		return false
 	}
 	health, hasHealth := owner.attributes.Lookup("hp")
