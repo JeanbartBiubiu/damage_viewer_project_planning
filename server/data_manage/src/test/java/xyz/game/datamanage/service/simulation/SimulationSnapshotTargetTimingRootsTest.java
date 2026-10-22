@@ -113,6 +113,7 @@ class SimulationSnapshotTargetTimingRootsTest {
     }
 
     @Test void independentDamageDealtRecoveryIsNotMistakenForTheTimingKillTail() throws Exception {
+        actualBackgroundDamage();
         ObjectNode independent = find(timing, "triggerRules", "ruleKey", "refund").deepCopy().put("ruleKey", "independent_damage");
         independent.putArray("conditionGroups"); timing.withArray("triggerRules").add(independent); save();
         var result = fixture.service.get(GAME, selection(false));
@@ -121,6 +122,7 @@ class SimulationSnapshotTargetTimingRootsTest {
     }
 
     @Test void readingAPreDamageValueAloneDoesNotAuthorizeHidingAnIndependentNonKillRoot() throws Exception {
+        actualBackgroundDamage();
         ObjectNode independent = find(timing, "triggerRules", "ruleKey", "refund").deepCopy().put("ruleKey", "independent_before");
         ((com.fasterxml.jackson.databind.node.ArrayNode) independent.path("conditionGroups").get(0).path("conditions")).remove(1);
         timing.withArray("triggerRules").add(independent); save();
@@ -130,6 +132,7 @@ class SimulationSnapshotTargetTimingRootsTest {
     }
 
     @Test void anUnplannedScenePreservesARealBackgroundAttackFirstKillRefundInsteadOfDeferringItAsBurn() throws Exception {
+        actualBackgroundDamage();
         ObjectNode refund = find(timing, "triggerRules", "ruleKey", "refund");
         ((ObjectNode) refund.path("eventSource").path("detail")).put("sourceSkillKey", ATTACK);
         ((ObjectNode) refund.path("conditionGroups").get(0).path("conditions").get(0).path("detail")).put("comparator", "EQ");
@@ -139,6 +142,16 @@ class SimulationSnapshotTargetTimingRootsTest {
         assertTrue(source(result, "source").enabledRuleKeys().contains("refund"));
         assertFalse(source(result, "source").enabledRuleKeys().contains("apply_hit"));
         assertTrue(result.references().stream().anyMatch(r -> r.sourceSkillKey().equals(OWNER) && r.targetKey().equals("mana")));
+    }
+
+    private void actualBackgroundDamage() throws Exception {
+        fixture.configuration(ATTACK,1,"""
+            {"effects":[{"effectKey":"attack","results":[{"resultKey":"damage","resultType":"DAMAGE","target":"TARGET",
+              "detail":{"damageTypeKey":"magic","deliveryKind":"BASIC_ATTACK","originKind":"DIRECT","critical":{"mode":"DISALLOWED"},"vampQualification":"UNRESOLVED","vampOverrides":[]},
+              "valueRule":{"value":{"kind":"FIXED","value":10}}}]}],
+             "triggerRules":[{"ruleKey":"hit","eventSource":{"eventType":"BASIC_ATTACK_HIT","detail":{}},"conditionGroups":[],
+              "actions":[{"actionKey":"damage","actionType":"EXECUTE_EFFECT","targetContext":"CURRENT_TARGET","detail":{"effectKey":"attack"},"runtimeInputBindings":[],"resultModifiers":[]}]}]}
+            """);
     }
 
     @ParameterizedTest @ValueSource(strings = {"slot_1", "pending"})

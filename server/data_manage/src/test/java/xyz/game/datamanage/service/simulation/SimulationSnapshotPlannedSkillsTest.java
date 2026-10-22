@@ -172,7 +172,7 @@ class SimulationSnapshotPlannedSkillsTest {
     }
 
     @Test
-    void plannedDamageReachesBothSidesReceivingTailsAndTheirFullReadOnlyDependencies() throws Exception {
+    void plannedDamageReachesOnlyActualDamageOwnersAndRecipientsWithFullDependencies() throws Exception {
         fixture.attach("hero_a", ATTACK, SPELL, "subscriber");
         fixture.attach("hero_b", ATTACK, "subscriber");
         fixture.configuration("subscriber", 1, """
@@ -184,7 +184,7 @@ class SimulationSnapshotPlannedSkillsTest {
                 effectRule("taken", "DAMAGE_TAKEN", "{\"sourceSkillKey\":\"selected_spell\",\"deliveryKind\":\"ANY\",\"originKind\":\"DIRECT\"}", "tail"),
                 effectRule("not_basic_damage", "DAMAGE_TAKEN", "{\"deliveryKind\":\"BASIC_ATTACK\"}", "not_reachable")));
         var result = fixture.service.get(GAME, choice(settings(1), plans(1)));
-        assertEquals(List.of("dealt", "on_used", "pending", "taken"), source(result, "source", "subscriber").enabledRuleKeys());
+        assertEquals(List.of("dealt", "on_used"), source(result, "source", "subscriber").enabledRuleKeys());
         assertEquals(List.of("pending", "taken"), source(result, "target", "subscriber").enabledRuleKeys());
         assertNull(source(result, "target", "subscriber").inactiveReason());
         assertFalse(result.references().stream().anyMatch(reference -> reference.targetKey().equals("not_reachable")));
@@ -204,6 +204,61 @@ class SimulationSnapshotPlannedSkillsTest {
         assertTrue(dependency.skillConfigurations().stream().anyMatch(skill -> skill.skill().skillKey().equals("definition_only")));
         assertFalse(dependency.source().skillSources().stream().anyMatch(source -> source.skillKey().equals("definition_only")));
         assertFalse(dependency.references().stream().anyMatch(reference -> reference.sourceSkillKey().equals("definition_only")));
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void backgroundAttacksDoNotSeedFilteredDamageSubscriptionsWithoutTheirRealProducer(boolean selfDamage) throws Exception {
+        fixture.attach("hero_a", ATTACK, SPELL, "closed_spell", "deferred_spell", "subscriber");
+        fixture.attach("hero_b", ATTACK, "subscriber");
+        active("closed_spell");active("deferred_spell");
+        active(SPELL,selfDamage);
+        fixture.configuration("subscriber", 1, """
+            {"effects":[%s],"triggerRules":[%s,%s,%s,%s,%s,%s]}
+            """.formatted(heal("tail", "{\"kind\":\"FIXED\",\"value\":1}"),
+                effectRule("real_dealt", "DAMAGE_DEALT", "{\"sourceSkillKey\":\"selected_spell\",\"deliveryKind\":\"SKILL\"}", "tail"),
+                effectRule("real_pending", "DAMAGE_PENDING", "{\"sourceSkillKey\":\"selected_spell\",\"deliveryKind\":\"SKILL\"}", "tail"),
+                effectRule("real_taken", "DAMAGE_TAKEN", "{\"sourceSkillKey\":\"selected_spell\",\"deliveryKind\":\"SKILL\"}", "tail"),
+                effectRule("closed_dealt", "DAMAGE_DEALT", "{\"sourceSkillKey\":\"closed_spell\",\"deliveryKind\":\"SKILL\"}", "tail"),
+                effectRule("deferred_dealt", "DAMAGE_DEALT", "{\"sourceSkillKey\":\"deferred_spell\",\"deliveryKind\":\"SKILL\"}", "tail"),
+                effectRule("wrong_type", "DAMAGE_DEALT", "{\"sourceSkillKey\":\"selected_spell\",\"damageTypeKey\":\"physical\"}", "tail")));
+        var overrides = List.of(new SkillSetting(Origin.character("hero_a"), SPELL, true, 1),
+            new SkillSetting(Origin.character("hero_a"), "closed_spell", false, 1),
+            new SkillSetting(Origin.character("hero_a"), "deferred_spell", true, 1));
+        var base = choice(overrides, plans(1));
+        var mixed = new Selection(base.sourceCharacterKey(),base.sourceLevel(),base.targetCharacterKey(),base.targetLevel(),
+            ATTACK,1,List.of(),List.of(),List.of(),List.of(),base.sourceSkillSettings(),List.of(),base.plannedSkills());
+        var result = fixture.service.get(GAME,mixed);
+        assertEquals(selfDamage ? List.of("real_dealt","real_pending","real_taken") : List.of("real_dealt"),
+            source(result,"source","subscriber").enabledRuleKeys());
+        assertEquals(selfDamage ? List.of() : List.of("real_pending","real_taken"),
+            source(result,"target","subscriber").enabledRuleKeys());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"closed", "unlearned", "unplanned", "no_damage"})
+    void filteredDamageSubscriptionStaysInactiveWhenItsProducerCannotExecuteDamage(String state) throws Exception {
+        fixture.attach("hero_a",ATTACK,SPELL,"subscriber");
+        fixture.configuration("subscriber",1,"""
+            {"effects":[%s],"triggerRules":[%s]}
+            """.formatted(heal("restore","{\"kind\":\"FIXED\",\"value\":1}"),
+                effectRule("dealt","DAMAGE_DEALT","{\"sourceSkillKey\":\"selected_spell\",\"deliveryKind\":\"SKILL\"}","restore")));
+        if (state.equals("no_damage")) {
+            var body = fixture.json.valueToTree(fixture.configurations.get(GAME,SPELL));
+            var result = (com.fasterxml.jackson.databind.node.ObjectNode) body.path("effects").get(0).path("results").get(0);
+            result.put("resultType","DIRECT_HEAL").put("target","SOURCE").putObject("detail");
+            fixture.configuration(SPELL,2,body.toString());
+        }
+        var selected = new SkillSetting(Origin.character("hero_a"),SPELL,!state.equals("closed"),state.equals("unlearned")?0:1);
+        var actualPlans = state.equals("closed") || state.equals("unlearned") || state.equals("unplanned")
+            ? List.<PlannedSkill>of() : plans(1);
+        var base = choice(List.of(selected),actualPlans);
+        var mixed = new Selection(base.sourceCharacterKey(),base.sourceLevel(),base.targetCharacterKey(),base.targetLevel(),
+            ATTACK,1,List.of(),List.of(),List.of(),List.of(),base.sourceSkillSettings(),List.of(),base.plannedSkills());
+        var snapshot = fixture.service.get(GAME,mixed);
+        assertTrue(source(snapshot,"source","subscriber").enabledRuleKeys().isEmpty());
+        assertEquals(InactiveReason.CONFIGURATION_INCOMPLETE,source(snapshot,"source","subscriber").inactiveReason());
+        assertFalse(snapshot.references().stream().anyMatch(reference -> reference.sourceSkillKey().equals("subscriber")));
     }
 
     @Test
@@ -410,6 +465,10 @@ class SimulationSnapshotPlannedSkillsTest {
     }
 
     private void active(String key) throws Exception {
+        active(key,false);
+    }
+
+    private void active(String key, boolean selfDamage) throws Exception {
         fixture.configuration(key, 2, """
             {"parameters":[{"parameterKey":"amount","valueType":"DECIMAL","valueMode":"SKILL_LEVEL","levelValues":{"1":10,"2":20}}],
              "formulas":[{"formulaKey":"damage","expression":{"inputs":[{"key":"input_0","binding":{"kind":"parameter","skillKey":"%2$s","parameterKey":"amount"}}],"stages":[{"key":"output","name":"原技能公式输出","expression":{"op":"read","inputKey":"input_0"}}],"outputStageKey":"output"}}],
@@ -427,7 +486,8 @@ class SimulationSnapshotPlannedSkillsTest {
                  "runtimeInputBindings":[],"resultModifiers":[]}]},%s,%s]}
             """.formatted(heal("tail", "{\"kind\":\"FIXED\",\"value\":1}"), key,
                 effectRule("on_hit", "SKILL_HIT", "{\"sourceSkillKey\":\"" + key + "\"}", "hit"),
-                effectRule("after_process", "PROCESS_MOMENT", "{\"processKey\":\"cast\",\"moment\":{\"momentType\":\"PROCESS_COMPLETE\"}}", "tail")));
+                effectRule("after_process", "PROCESS_MOMENT", "{\"processKey\":\"cast\",\"moment\":{\"momentType\":\"PROCESS_COMPLETE\"}}", "tail"))
+                .replace("\"target\":\"TARGET\"", selfDamage ? "\"target\":\"SOURCE\"" : "\"target\":\"TARGET\""));
     }
 
     private Selection choice(List<SkillSetting> settings, List<PlannedSkill> plans) {

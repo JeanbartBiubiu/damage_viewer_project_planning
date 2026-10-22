@@ -434,8 +434,9 @@ final class SnapshotSkillClosure {
             String resultType = result.path("resultType").asText();
             if (Set.of("DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN").contains(type) && resultType.equals("DAMAGE")) {
                 if (type.equals("DAMAGE_DEALT") && !subscriber.side.equals(producer.owner().side)) continue;
-                if (!type.equals("DAMAGE_DEALT") && result.path("target").asText().equals("SOURCE")
-                    && !subscriber.side.equals(producer.owner().side)) continue;
+                String recipient = result.path("target").asText().equals("SOURCE") ? producer.owner().side
+                    : producer.owner().side.equals("source") ? "target" : "source";
+                if (!type.equals("DAMAGE_DEALT") && !subscriber.side.equals(recipient)) continue;
                 JsonNode detail = result.path("detail");
                 boolean possible = true;
                 for (String field : List.of("damageTypeKey", "deliveryKind", "originKind")) {
@@ -477,6 +478,8 @@ final class SnapshotSkillClosure {
             || TargetMarkSnapshotRules.complete(json.valueToTree(source.configuration)))) return false;
         JsonNode event = rule.data().path("eventSource");
         String type = event.path("eventType").asText();
+        // 伤害订阅只由已执行结果闭包启用，后台普攻不授予所有伤害入口。
+        if (Set.of("DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN").contains(type)) return false;
         if (type.equals("DAMAGE_DEALT") && deferrableTimingSkills.contains(source.skillKey)) {
             String filtered = event.path("detail").path("sourceSkillKey").asText("");
             if (!filtered.isEmpty() && !filtered.equals(source.skillKey) && sources.stream().noneMatch(candidate -> candidate.side.equals(source.side)

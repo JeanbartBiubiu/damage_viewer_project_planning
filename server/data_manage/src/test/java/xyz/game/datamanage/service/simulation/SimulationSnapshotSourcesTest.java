@@ -235,11 +235,10 @@ class SimulationSnapshotSourcesTest {
     void readOnlySkillDefinitionDependencyIsReturnedWithoutCreatingASourceOrSubscriptions() throws Exception {
         fixture.attach("hero_a", ATTACK, "reactive");
         fixture.configuration("reactive", 1, """
-            {"effects":[%s],"triggerRules":[{"ruleKey":"received","eventSource":{"eventType":"DAMAGE_TAKEN",
-              "detail":{"sourceSkillKey":"definition_only"}},"conditionGroups":[],
-              "actions":[{"actionKey":"heal","actionType":"EXECUTE_EFFECT","targetContext":"CURRENT_TARGET",
-                "detail":{"effectKey":"heal"},"runtimeInputBindings":[],"resultModifiers":[]}]}]}
-            """.formatted(heal("heal", "{\"kind\":\"FIXED\",\"value\":1}")));
+            {"effects":[{"effectKey":"scope","results":[{"resultKey":"definition","resultType":"COOLDOWN_CHANGE","target":"SOURCE",
+              "detail":{"operation":"REDUCE","affectedSkillScope":{"mode":"SKILLS","skillKeys":["definition_only"],"skillCategoryKeys":[]}},
+              "valueRule":{"value":{"kind":"FIXED","value":1}}}]}],"triggerRules":[%s]}
+            """.formatted(initialization("definition_read","scope")));
         fixture.configuration("definition_only", 1, """
             {"triggerRules":[%s]}
             """.formatted(initialization("must_not_run", "missing")));
@@ -366,11 +365,10 @@ class SimulationSnapshotSourcesTest {
         }
         fixture.attach("hero_a", keys.toArray(String[]::new));
         fixture.configuration("reactive", 1, """
-            {"effects":[%s],"triggerRules":[{"ruleKey":"received","eventSource":{"eventType":"DAMAGE_TAKEN",
-              "detail":{"sourceSkillKey":"definition_only"}},"conditionGroups":[],
-              "actions":[{"actionKey":"heal","actionType":"EXECUTE_EFFECT","targetContext":"CURRENT_TARGET",
-                "detail":{"effectKey":"heal"},"runtimeInputBindings":[],"resultModifiers":[]}]}]}
-            """.formatted(heal("heal", "{\"kind\":\"FIXED\",\"value\":1}")));
+            {"effects":[{"effectKey":"scope","results":[{"resultKey":"definition","resultType":"COOLDOWN_CHANGE","target":"SOURCE",
+              "detail":{"operation":"REDUCE","affectedSkillScope":{"mode":"SKILLS","skillKeys":["definition_only"],"skillCategoryKeys":[]}},
+              "valueRule":{"value":{"kind":"FIXED","value":1}}}]}],"triggerRules":[%s]}
+            """.formatted(initialization("definition_read","scope")));
         assertIssue(assertThrows(ApiException.class, () -> fixture.service.get(GAME, fixture.choice())), "CONFIGURATION_LIMIT_EXCEEDED");
         verify(fixture.configurations, never()).get(GAME, "definition_only");
         var closed = fixture.service.get(GAME, settings(new SkillSetting(Origin.character("hero_a"), "reactive", false, null)));
