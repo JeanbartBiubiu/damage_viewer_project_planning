@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import xyz.game.datamanage.model.value.SkillNumericValue;
 
-/** 减少自身弹药的下一枚回充，不改变库存和单发冷却。 */
+/** 修改自身状态的计时：减少下一枚弹药回充，或确保活动目标计数的最低余时。 */
 public record SkillTriggerModifyInternalStateActionDetail(
     String stateSkillKey,
     String stateKey,

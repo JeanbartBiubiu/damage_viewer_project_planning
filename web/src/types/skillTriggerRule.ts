@@ -642,8 +642,8 @@ export type SkillTriggerModifyInternalStateAction = {
   name: string;
   actionType: 'MODIFY_INTERNAL_STATE';
   sortOrder: number;
-  targetContext: 'EVENT_SOURCE';
-  detail: { stateSkillKey: string; stateKey: string; operation: 'REDUCE_RECOVERY'; value: NumericValue };
+  targetContext: 'EVENT_SOURCE' | 'CURRENT_TARGET';
+  detail: { stateSkillKey: string; stateKey: string; operation: 'REDUCE_RECOVERY' | 'ENSURE_REMAINING'; value: NumericValue };
   runtimeInputBindings: [];
   resultModifiers: [];
 };

@@ -1,0 +1,3787 @@
+{
+  "schemaVersion": "mechanism-case-v1",
+  "caseKey": "target_state_remaining_edges",
+  "title": "目标计数余时六边界与严格不足1000保护",
+  "mechanisms": [
+    "state.target_remaining_ms",
+    "state.target_ensure_remaining",
+    "state.target_remaining_boundaries"
+  ],
+  "derivation": [
+    "纯合成场景关闭背景普攻。五次实际技能主体各20真实伤害；P每个余时等式成立时额外10，所有抗性为0。",
+    "0毫秒种下六个0/1目标计数，保持期分别1000/1001/1999/2000/2249/2250；1000毫秒R首次主动使用时，懒过期后的余时分别0/1/999/1000/1249/1250。",
+    "只有严格0<余时<1000的left_1与left_999改为截止2250；left_0已到期，不复活；1000/1249/1250不改截止2000/2249/2250。",
+    "2001毫秒逐状态读到0/249/249/0/248/249；2249毫秒读到0/1/1/0/0/1；2250毫秒全部为0。每个探针逐项产生六笔10，既检查零，也检查正数和精确旧/新截止。",
+    "主体合计5×20=100，18个明确等式奖励18×10=180，总280，木桩10000剩9720；每笔时间与状态效果身份固定，不从运行输出生成期望。"
+  ],
+  "catalog": "mechanism_lab",
+  "snapshot": {
+    "selection": {
+      "sourceCharacterKey": "lab_attacker",
+      "sourceLevel": 1,
+      "targetCharacterKey": "lab_dummy",
+      "targetLevel": 1,
+      "basicAttackSkillKey": null,
+      "basicAttackLevel": null,
+      "plannedSkills": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_seed",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_release",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_probe_a",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_probe_b",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_probe_c",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        }
+      ],
+      "sourceEquipmentKeys": [],
+      "targetEquipmentKeys": [],
+      "sourceBuildConfigurations": [],
+      "targetBuildConfigurations": [],
+      "targetSkillSettings": [],
+      "sourceSkillSettings": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_target_mark",
+          "enabled": true,
+          "skillLevel": 1
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_seed",
+          "enabled": true,
+          "skillLevel": 1
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_release",
+          "enabled": true,
+          "skillLevel": 1
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_probe_a",
+          "enabled": true,
+          "skillLevel": 1
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_probe_b",
+          "enabled": true,
+          "skillLevel": 1
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_probe_c",
+          "enabled": true,
+          "skillLevel": 1
+        }
+      ]
+    },
+    "source": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_attacker",
+        "name": "机制攻击方",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_attacker",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 0,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 0,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_target_mark",
+          "skillName": "合成目标标记被动",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_mark_seed",
+          "skillName": "lab_mark_seed",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_mark_release",
+          "skillName": "lab_mark_release",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_probe_a",
+          "skillName": "lab_probe_a",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_probe_b",
+          "skillName": "lab_probe_b",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_probe_c",
+          "skillName": "lab_probe_c",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_target_mark",
+          "skillName": "合成目标标记被动",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "ensure_left_0",
+            "ensure_left_1",
+            "ensure_left_1000",
+            "ensure_left_1249",
+            "ensure_left_1250",
+            "ensure_left_999",
+            "observe_lab_probe_a_left_0_0",
+            "observe_lab_probe_a_left_1000_0",
+            "observe_lab_probe_a_left_1249_248",
+            "observe_lab_probe_a_left_1250_249",
+            "observe_lab_probe_a_left_1_249",
+            "observe_lab_probe_a_left_999_249",
+            "observe_lab_probe_b_left_0_0",
+            "observe_lab_probe_b_left_1000_0",
+            "observe_lab_probe_b_left_1249_0",
+            "observe_lab_probe_b_left_1250_1",
+            "observe_lab_probe_b_left_1_1",
+            "observe_lab_probe_b_left_999_1",
+            "observe_lab_probe_c_left_0_0",
+            "observe_lab_probe_c_left_1000_0",
+            "observe_lab_probe_c_left_1249_0",
+            "observe_lab_probe_c_left_1250_0",
+            "observe_lab_probe_c_left_1_0",
+            "observe_lab_probe_c_left_999_0",
+            "seed_on_hit"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_seed",
+          "skillName": "lab_mark_seed",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "first_cast",
+            "on_hit"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_release",
+          "skillName": "lab_mark_release",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "first_cast",
+            "on_hit"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_probe_a",
+          "skillName": "lab_probe_a",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "first_cast",
+            "on_hit"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_probe_b",
+          "skillName": "lab_probe_b",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "first_cast",
+            "on_hit"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_probe_c",
+          "skillName": "lab_probe_c",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "first_cast",
+            "on_hit"
+          ],
+          "inactiveReason": null
+        }
+      ]
+    },
+    "target": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_dummy",
+        "name": "机制木桩",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_dummy",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 10000,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 0,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 10000,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 0,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": []
+    },
+    "skillConfigurations": [
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_target_mark",
+          "name": "合成目标标记被动",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "effectKey": "read_left_0",
+            "name": "read_left_0",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 10
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "effectKey": "read_left_1",
+            "name": "read_left_1",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 10
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "effectKey": "read_left_999",
+            "name": "read_left_999",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 10
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "effectKey": "read_left_1000",
+            "name": "read_left_1000",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 10
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "effectKey": "read_left_1249",
+            "name": "read_left_1249",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 10
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "effectKey": "read_left_1250",
+            "name": "read_left_1250",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 10
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "processKey": "seed",
+            "name": "seed",
+            "activationType": "PASSIVE",
+            "cooldown": null,
+            "steps": [
+              {
+                "stepKey": "now",
+                "name": "即时有序结算",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "IMMEDIATE",
+                "occupiesAction": false,
+                "detail": {}
+              }
+            ],
+            "effectBindings": [],
+            "stateOperations": [
+              {
+                "operationKey": "set_left_0_1",
+                "name": "明确设置计数",
+                "stateSkillKey": "lab_target_mark",
+                "stateKey": "left_0",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "optionKey": null,
+                "sortOrder": 0,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              },
+              {
+                "operationKey": "set_left_1_1",
+                "name": "明确设置计数",
+                "stateSkillKey": "lab_target_mark",
+                "stateKey": "left_1",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "optionKey": null,
+                "sortOrder": 1,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              },
+              {
+                "operationKey": "set_left_999_1",
+                "name": "明确设置计数",
+                "stateSkillKey": "lab_target_mark",
+                "stateKey": "left_999",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "optionKey": null,
+                "sortOrder": 2,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              },
+              {
+                "operationKey": "set_left_1000_1",
+                "name": "明确设置计数",
+                "stateSkillKey": "lab_target_mark",
+                "stateKey": "left_1000",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "optionKey": null,
+                "sortOrder": 3,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              },
+              {
+                "operationKey": "set_left_1249_1",
+                "name": "明确设置计数",
+                "stateSkillKey": "lab_target_mark",
+                "stateKey": "left_1249",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "optionKey": null,
+                "sortOrder": 4,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              },
+              {
+                "operationKey": "set_left_1250_1",
+                "name": "明确设置计数",
+                "stateSkillKey": "lab_target_mark",
+                "stateKey": "left_1250",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "optionKey": null,
+                "sortOrder": 5,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              }
+            ]
+          }
+        ],
+        "internalStates": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "stateKey": "left_0",
+            "name": "left_0",
+            "stateType": "COUNTER",
+            "scope": "TARGET",
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1000
+              }
+            }
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "stateKey": "left_1",
+            "name": "left_1",
+            "stateType": "COUNTER",
+            "scope": "TARGET",
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1001
+              }
+            }
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "stateKey": "left_999",
+            "name": "left_999",
+            "stateType": "COUNTER",
+            "scope": "TARGET",
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1999
+              }
+            }
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "stateKey": "left_1000",
+            "name": "left_1000",
+            "stateType": "COUNTER",
+            "scope": "TARGET",
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 2000
+              }
+            }
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "stateKey": "left_1249",
+            "name": "left_1249",
+            "stateType": "COUNTER",
+            "scope": "TARGET",
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 2249
+              }
+            }
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "stateKey": "left_1250",
+            "name": "left_1250",
+            "stateType": "COUNTER",
+            "scope": "TARGET",
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 2250
+              }
+            }
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "seed_on_hit",
+            "name": "seed_on_hit",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_mark_seed"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_seed",
+                "name": "start_seed",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "seed"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "ensure_left_0",
+            "name": "ensure_left_0",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "present",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_0",
+                      "valueKind": "VALUE",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "alive",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_0",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "short",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_0",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "LT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1000
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "ensure_left_0",
+                "name": "ensure_left_0",
+                "actionType": "MODIFY_INTERNAL_STATE",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "stateSkillKey": "lab_target_mark",
+                  "stateKey": "left_0",
+                  "operation": "ENSURE_REMAINING",
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1250
+                  }
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "ensure_left_1",
+            "name": "ensure_left_1",
+            "description": null,
+            "sortOrder": 2,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "present",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1",
+                      "valueKind": "VALUE",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "alive",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "short",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "LT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1000
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "ensure_left_1",
+                "name": "ensure_left_1",
+                "actionType": "MODIFY_INTERNAL_STATE",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "stateSkillKey": "lab_target_mark",
+                  "stateKey": "left_1",
+                  "operation": "ENSURE_REMAINING",
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1250
+                  }
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "ensure_left_999",
+            "name": "ensure_left_999",
+            "description": null,
+            "sortOrder": 3,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "present",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_999",
+                      "valueKind": "VALUE",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "alive",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_999",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "short",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_999",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "LT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1000
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "ensure_left_999",
+                "name": "ensure_left_999",
+                "actionType": "MODIFY_INTERNAL_STATE",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "stateSkillKey": "lab_target_mark",
+                  "stateKey": "left_999",
+                  "operation": "ENSURE_REMAINING",
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1250
+                  }
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "ensure_left_1000",
+            "name": "ensure_left_1000",
+            "description": null,
+            "sortOrder": 4,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "present",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1000",
+                      "valueKind": "VALUE",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "alive",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1000",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "short",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1000",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "LT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1000
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "ensure_left_1000",
+                "name": "ensure_left_1000",
+                "actionType": "MODIFY_INTERNAL_STATE",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "stateSkillKey": "lab_target_mark",
+                  "stateKey": "left_1000",
+                  "operation": "ENSURE_REMAINING",
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1250
+                  }
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "ensure_left_1249",
+            "name": "ensure_left_1249",
+            "description": null,
+            "sortOrder": 5,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "present",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1249",
+                      "valueKind": "VALUE",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "alive",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1249",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "short",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1249",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "LT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1000
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "ensure_left_1249",
+                "name": "ensure_left_1249",
+                "actionType": "MODIFY_INTERNAL_STATE",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "stateSkillKey": "lab_target_mark",
+                  "stateKey": "left_1249",
+                  "operation": "ENSURE_REMAINING",
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1250
+                  }
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "ensure_left_1250",
+            "name": "ensure_left_1250",
+            "description": null,
+            "sortOrder": 6,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "present",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1250",
+                      "valueKind": "VALUE",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "alive",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1250",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "short",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1250",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "LT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1000
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "ensure_left_1250",
+                "name": "ensure_left_1250",
+                "actionType": "MODIFY_INTERNAL_STATE",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "stateSkillKey": "lab_target_mark",
+                  "stateKey": "left_1250",
+                  "operation": "ENSURE_REMAINING",
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1250
+                  }
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_a_left_0_0",
+            "name": "observe_lab_probe_a_left_0_0",
+            "description": null,
+            "sortOrder": 7,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_a"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_0",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_0",
+                "name": "do_read_left_0",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_0"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_a_left_1_249",
+            "name": "observe_lab_probe_a_left_1_249",
+            "description": null,
+            "sortOrder": 8,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_a"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 249
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_1",
+                "name": "do_read_left_1",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_1"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_a_left_999_249",
+            "name": "observe_lab_probe_a_left_999_249",
+            "description": null,
+            "sortOrder": 9,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_a"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_999",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 249
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_999",
+                "name": "do_read_left_999",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_999"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_a_left_1000_0",
+            "name": "observe_lab_probe_a_left_1000_0",
+            "description": null,
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_a"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1000",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_1000",
+                "name": "do_read_left_1000",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_1000"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_a_left_1249_248",
+            "name": "observe_lab_probe_a_left_1249_248",
+            "description": null,
+            "sortOrder": 11,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_a"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1249",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 248
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_1249",
+                "name": "do_read_left_1249",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_1249"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_a_left_1250_249",
+            "name": "observe_lab_probe_a_left_1250_249",
+            "description": null,
+            "sortOrder": 12,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_a"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1250",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 249
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_1250",
+                "name": "do_read_left_1250",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_1250"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_b_left_0_0",
+            "name": "observe_lab_probe_b_left_0_0",
+            "description": null,
+            "sortOrder": 13,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_b"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_0",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_0",
+                "name": "do_read_left_0",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_0"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_b_left_1_1",
+            "name": "observe_lab_probe_b_left_1_1",
+            "description": null,
+            "sortOrder": 14,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_b"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_1",
+                "name": "do_read_left_1",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_1"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_b_left_999_1",
+            "name": "observe_lab_probe_b_left_999_1",
+            "description": null,
+            "sortOrder": 15,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_b"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_999",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_999",
+                "name": "do_read_left_999",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_999"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_b_left_1000_0",
+            "name": "observe_lab_probe_b_left_1000_0",
+            "description": null,
+            "sortOrder": 16,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_b"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1000",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_1000",
+                "name": "do_read_left_1000",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_1000"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_b_left_1249_0",
+            "name": "observe_lab_probe_b_left_1249_0",
+            "description": null,
+            "sortOrder": 17,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_b"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1249",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_1249",
+                "name": "do_read_left_1249",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_1249"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_b_left_1250_1",
+            "name": "observe_lab_probe_b_left_1250_1",
+            "description": null,
+            "sortOrder": 18,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_b"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1250",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_1250",
+                "name": "do_read_left_1250",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_1250"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_c_left_0_0",
+            "name": "observe_lab_probe_c_left_0_0",
+            "description": null,
+            "sortOrder": 19,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_c"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_0",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_0",
+                "name": "do_read_left_0",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_0"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_c_left_1_0",
+            "name": "observe_lab_probe_c_left_1_0",
+            "description": null,
+            "sortOrder": 20,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_c"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_1",
+                "name": "do_read_left_1",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_1"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_c_left_999_0",
+            "name": "observe_lab_probe_c_left_999_0",
+            "description": null,
+            "sortOrder": 21,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_c"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_999",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_999",
+                "name": "do_read_left_999",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_999"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_c_left_1000_0",
+            "name": "observe_lab_probe_c_left_1000_0",
+            "description": null,
+            "sortOrder": 22,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_c"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1000",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_1000",
+                "name": "do_read_left_1000",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_1000"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_c_left_1249_0",
+            "name": "observe_lab_probe_c_left_1249_0",
+            "description": null,
+            "sortOrder": 23,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_c"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1249",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_1249",
+                "name": "do_read_left_1249",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_1249"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_probe_c_left_1250_0",
+            "name": "observe_lab_probe_c_left_1250_0",
+            "description": null,
+            "sortOrder": 24,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_c"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "left_1250",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_read_left_1250",
+                "name": "do_read_left_1250",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "read_left_1250"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_target_state_remaining"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_mark_seed",
+          "name": "lab_mark_seed",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_mark_seed",
+            "effectKey": "hit",
+            "name": "hit",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 20
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_mark_seed",
+            "processKey": "cast",
+            "name": "合成施放",
+            "activationType": "ACTIVE",
+            "steps": [
+              {
+                "stepKey": "cast",
+                "name": "明确施放时长",
+                "description": null,
+                "sortOrder": 0,
+                "occupiesAction": false,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "first_cast",
+            "name": "first_cast",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_seed",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_cast",
+                "name": "start_cast",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "on_hit",
+            "name": "on_hit",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_mark_seed"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "do_hit",
+                "name": "do_hit",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_target_state_remaining"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_mark_release",
+          "name": "lab_mark_release",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_mark_release",
+            "effectKey": "hit",
+            "name": "hit",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 20
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_mark_release",
+            "processKey": "cast",
+            "name": "合成施放",
+            "activationType": "ACTIVE",
+            "steps": [
+              {
+                "stepKey": "cast",
+                "name": "明确施放时长",
+                "description": null,
+                "sortOrder": 0,
+                "occupiesAction": false,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "FIXED",
+                    "value": 1000
+                  }
+                }
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "first_cast",
+            "name": "first_cast",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_cast",
+                "name": "start_cast",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "on_hit",
+            "name": "on_hit",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "do_hit",
+                "name": "do_hit",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_target_state_remaining"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_probe_a",
+          "name": "lab_probe_a",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_probe_a",
+            "effectKey": "hit",
+            "name": "hit",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 20
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_probe_a",
+            "processKey": "cast",
+            "name": "合成施放",
+            "activationType": "ACTIVE",
+            "steps": [
+              {
+                "stepKey": "cast",
+                "name": "明确施放时长",
+                "description": null,
+                "sortOrder": 0,
+                "occupiesAction": false,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "first_cast",
+            "name": "first_cast",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_probe_a",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_cast",
+                "name": "start_cast",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "on_hit",
+            "name": "on_hit",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_a"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "do_hit",
+                "name": "do_hit",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_target_state_remaining"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_probe_b",
+          "name": "lab_probe_b",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_probe_b",
+            "effectKey": "hit",
+            "name": "hit",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 20
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_probe_b",
+            "processKey": "cast",
+            "name": "合成施放",
+            "activationType": "ACTIVE",
+            "steps": [
+              {
+                "stepKey": "cast",
+                "name": "明确施放时长",
+                "description": null,
+                "sortOrder": 0,
+                "occupiesAction": false,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "first_cast",
+            "name": "first_cast",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_probe_b",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_cast",
+                "name": "start_cast",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "on_hit",
+            "name": "on_hit",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_b"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "do_hit",
+                "name": "do_hit",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_target_state_remaining"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_probe_c",
+          "name": "lab_probe_c",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_probe_c",
+            "effectKey": "hit",
+            "name": "hit",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 20
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_probe_c",
+            "processKey": "cast",
+            "name": "合成施放",
+            "activationType": "ACTIVE",
+            "steps": [
+              {
+                "stepKey": "cast",
+                "name": "明确施放时长",
+                "description": null,
+                "sortOrder": 0,
+                "occupiesAction": false,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "first_cast",
+            "name": "first_cast",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_probe_c",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_cast",
+                "name": "start_cast",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "on_hit",
+            "name": "on_hit",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_probe_c"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "do_hit",
+                "name": "do_hit",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_target_state_remaining"
+      }
+    ],
+    "references": []
+  },
+  "scenario": {
+    "mode": "skill_action",
+    "durationMs": 2300,
+    "initialHealth": {
+      "source": 1000,
+      "target": 10000
+    },
+    "actions": [
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_mark_seed",
+        "skillLevel": 1,
+        "instructionKey": "seed",
+        "atMs": 0,
+        "sortOrder": 0,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_mark_release",
+        "skillLevel": 1,
+        "instructionKey": "release",
+        "atMs": 1000,
+        "sortOrder": 1000,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_probe_a",
+        "skillLevel": 1,
+        "instructionKey": "probe_0",
+        "atMs": 2001,
+        "sortOrder": 2001,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_probe_b",
+        "skillLevel": 1,
+        "instructionKey": "probe_1",
+        "atMs": 2249,
+        "sortOrder": 2249,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_probe_c",
+        "skillLevel": 1,
+        "instructionKey": "probe_2",
+        "atMs": 2250,
+        "sortOrder": 2250,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      }
+    ]
+  },
+  "expected": {
+    "summary": {
+      "stopReason": "duration_reached",
+      "targetFinalHp": 9720,
+      "sourceDamageDealt": 280,
+      "basicAttackStarted": 0,
+      "basicAttackHits": 0
+    },
+    "skillStarts": [
+      {
+        "timeMs": 0,
+        "skillKey": "lab_mark_seed"
+      },
+      {
+        "timeMs": 1000,
+        "skillKey": "lab_mark_release"
+      },
+      {
+        "timeMs": 2001,
+        "skillKey": "lab_probe_a"
+      },
+      {
+        "timeMs": 2249,
+        "skillKey": "lab_probe_b"
+      },
+      {
+        "timeMs": 2250,
+        "skillKey": "lab_probe_c"
+      }
+    ],
+    "attackStarts": [],
+    "damage": [
+      {
+        "timeMs": 0,
+        "skillKey": "lab_mark_seed",
+        "effectKey": "hit",
+        "rawAmount": 20,
+        "postDefenseDamage": 20,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 20,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2000,
+        "skillKey": "lab_mark_release",
+        "effectKey": "hit",
+        "rawAmount": 20,
+        "postDefenseDamage": 20,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 20,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2001,
+        "skillKey": "lab_probe_a",
+        "effectKey": "hit",
+        "rawAmount": 20,
+        "postDefenseDamage": 20,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 20,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2001,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_0",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2001,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_1",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2001,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_999",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2001,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_1000",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2001,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_1249",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2001,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_1250",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2249,
+        "skillKey": "lab_probe_b",
+        "effectKey": "hit",
+        "rawAmount": 20,
+        "postDefenseDamage": 20,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 20,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2249,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_0",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2249,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_1",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2249,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_999",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2249,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_1000",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2249,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_1249",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2249,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_1250",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2250,
+        "skillKey": "lab_probe_c",
+        "effectKey": "hit",
+        "rawAmount": 20,
+        "postDefenseDamage": 20,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 20,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2250,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_0",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2250,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_1",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2250,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_999",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2250,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_1000",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2250,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_1249",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2250,
+        "skillKey": "lab_target_mark",
+        "effectKey": "read_left_1250",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      }
+    ]
+  }
+}

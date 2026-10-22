@@ -501,6 +501,10 @@ func (f *executionFrame) evalContext(ability planbundle.CompiledAbility) formula
 	}
 	if f.ownerProviderRef != "" {
 		ctx.HasProviderContext = true
+		if f.run.compiled.HasTargetStateTimeReads {
+			ctx.HasTargetStateRemainingContext = true
+			ctx.TargetStateRemainingNowMs = f.run.nowMs
+		}
 		bag := f.providerStateBagForRead(f.providerOwnerKey(), f.ownerProviderRef, ctx.StrictReads,
 			providerStateReadOptions{defaults: true, targetView: true, targetKey: f.targetKey})
 		if bag != nil {
@@ -508,6 +512,9 @@ func (f *executionFrame) evalContext(ability planbundle.CompiledAbility) formula
 			ctx.ProviderState = bag.state
 			if bag.targetKey == f.targetKey {
 				ctx.ProviderTargetState = bag.targetStateForFormula()
+				if ctx.HasTargetStateRemainingContext && f.targetKey != "" {
+					ctx.TargetStateExpireAt = bag.targetExpireAt
+				}
 			} else {
 				ctx.ProviderTargetState = nil
 			}
@@ -1209,6 +1216,9 @@ func (f *executionFrame) applyStateDurationChange(op planbundle.CompiledOperatio
 	}
 	if !op.HasAmount {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "state_duration_change requires amount", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	if op.ValuePolicy == "ensure_remaining" {
+		return f.ensureTargetStateRemaining(op, ability)
 	}
 	if op.ValuePolicy != "subtract" {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "state_duration_change requires valuePolicy=subtract", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)

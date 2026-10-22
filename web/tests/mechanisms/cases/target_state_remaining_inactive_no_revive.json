@@ -1,0 +1,1692 @@
+{
+  "schemaVersion": "mechanism-case-v1",
+  "caseKey": "target_state_remaining_inactive_no_revive",
+  "title": "未创建、已清零与自然到期目标计数确保余时不复活",
+  "mechanisms": [
+    "state.target_remaining_ms",
+    "state.target_ensure_remaining",
+    "state.target_remaining_no_revive"
+  ],
+  "derivation": [
+    "never从未写入；0毫秒只把cleared和expired设为1；500毫秒真实清零cleared，expired在1000毫秒按其保持期到期。",
+    "1000毫秒R首次主动使用无条件对三个状态执行确保1250，专门验证操作本身对未创建/清零/到期的活动检查，而非只靠条件跳过。",
+    "2000毫秒R实际命中时，三个状态必须同时满足VALUE=0且REMAINING_MS=0，各奖励10；错误复活任一状态都会少一笔明确身份的奖励。",
+    "三次主体各20，加三笔零状态探针各10，合计90，木桩10000剩9910。"
+  ],
+  "catalog": "mechanism_lab",
+  "snapshot": {
+    "selection": {
+      "sourceCharacterKey": "lab_attacker",
+      "sourceLevel": 1,
+      "targetCharacterKey": "lab_dummy",
+      "targetLevel": 1,
+      "basicAttackSkillKey": null,
+      "basicAttackLevel": null,
+      "plannedSkills": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_seed",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_clear",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_release",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        }
+      ],
+      "sourceEquipmentKeys": [],
+      "targetEquipmentKeys": [],
+      "sourceBuildConfigurations": [],
+      "targetBuildConfigurations": [],
+      "targetSkillSettings": [],
+      "sourceSkillSettings": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_target_mark",
+          "enabled": true,
+          "skillLevel": 1
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_seed",
+          "enabled": true,
+          "skillLevel": 1
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_clear",
+          "enabled": true,
+          "skillLevel": 1
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_release",
+          "enabled": true,
+          "skillLevel": 1
+        }
+      ]
+    },
+    "source": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_attacker",
+        "name": "机制攻击方",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_attacker",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 0,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 0,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_target_mark",
+          "skillName": "合成目标标记被动",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_mark_seed",
+          "skillName": "lab_mark_seed",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_mark_clear",
+          "skillName": "lab_mark_clear",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_mark_release",
+          "skillName": "lab_mark_release",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_target_mark",
+          "skillName": "合成目标标记被动",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "clear_on_hit",
+            "ensure_cleared",
+            "ensure_expired",
+            "ensure_never",
+            "observe_lab_mark_release_cleared_0",
+            "observe_lab_mark_release_expired_0",
+            "observe_lab_mark_release_never_0",
+            "seed_on_hit"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_seed",
+          "skillName": "lab_mark_seed",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "first_cast",
+            "on_hit"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_clear",
+          "skillName": "lab_mark_clear",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "first_cast",
+            "on_hit"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_mark_release",
+          "skillName": "lab_mark_release",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "first_cast",
+            "on_hit"
+          ],
+          "inactiveReason": null
+        }
+      ]
+    },
+    "target": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_dummy",
+        "name": "机制木桩",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_dummy",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 10000,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 0,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 10000,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 0,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": []
+    },
+    "skillConfigurations": [
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_target_mark",
+          "name": "合成目标标记被动",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "effectKey": "zero_never",
+            "name": "zero_never",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 10
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "effectKey": "zero_cleared",
+            "name": "zero_cleared",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 10
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "effectKey": "zero_expired",
+            "name": "zero_expired",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 10
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "processKey": "seed",
+            "name": "seed",
+            "activationType": "PASSIVE",
+            "cooldown": null,
+            "steps": [
+              {
+                "stepKey": "now",
+                "name": "即时有序结算",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "IMMEDIATE",
+                "occupiesAction": false,
+                "detail": {}
+              }
+            ],
+            "effectBindings": [],
+            "stateOperations": [
+              {
+                "operationKey": "set_cleared_1",
+                "name": "明确设置计数",
+                "stateSkillKey": "lab_target_mark",
+                "stateKey": "cleared",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "optionKey": null,
+                "sortOrder": 0,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              },
+              {
+                "operationKey": "set_expired_1",
+                "name": "明确设置计数",
+                "stateSkillKey": "lab_target_mark",
+                "stateKey": "expired",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "optionKey": null,
+                "sortOrder": 1,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "processKey": "clear",
+            "name": "clear",
+            "activationType": "PASSIVE",
+            "cooldown": null,
+            "steps": [
+              {
+                "stepKey": "now",
+                "name": "即时有序结算",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "IMMEDIATE",
+                "occupiesAction": false,
+                "detail": {}
+              }
+            ],
+            "effectBindings": [],
+            "stateOperations": [
+              {
+                "operationKey": "set_cleared_0",
+                "name": "明确设置计数",
+                "stateSkillKey": "lab_target_mark",
+                "stateKey": "cleared",
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "optionKey": null,
+                "sortOrder": 0,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              }
+            ]
+          }
+        ],
+        "internalStates": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "stateKey": "never",
+            "name": "never",
+            "stateType": "COUNTER",
+            "scope": "TARGET",
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 6000
+              }
+            }
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "stateKey": "cleared",
+            "name": "cleared",
+            "stateType": "COUNTER",
+            "scope": "TARGET",
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 6000
+              }
+            }
+          },
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_target_mark",
+            "stateKey": "expired",
+            "name": "expired",
+            "stateType": "COUNTER",
+            "scope": "TARGET",
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1000
+              }
+            }
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "seed_on_hit",
+            "name": "seed_on_hit",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_mark_seed"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_seed",
+                "name": "start_seed",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "seed"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "ensure_never",
+            "name": "ensure_never",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "ensure_never",
+                "name": "ensure_never",
+                "actionType": "MODIFY_INTERNAL_STATE",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "stateSkillKey": "lab_target_mark",
+                  "stateKey": "never",
+                  "operation": "ENSURE_REMAINING",
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1250
+                  }
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "ensure_cleared",
+            "name": "ensure_cleared",
+            "description": null,
+            "sortOrder": 2,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "ensure_cleared",
+                "name": "ensure_cleared",
+                "actionType": "MODIFY_INTERNAL_STATE",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "stateSkillKey": "lab_target_mark",
+                  "stateKey": "cleared",
+                  "operation": "ENSURE_REMAINING",
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1250
+                  }
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "ensure_expired",
+            "name": "ensure_expired",
+            "description": null,
+            "sortOrder": 3,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "ensure_expired",
+                "name": "ensure_expired",
+                "actionType": "MODIFY_INTERNAL_STATE",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "stateSkillKey": "lab_target_mark",
+                  "stateKey": "expired",
+                  "operation": "ENSURE_REMAINING",
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1250
+                  }
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "clear_on_hit",
+            "name": "clear_on_hit",
+            "description": null,
+            "sortOrder": 4,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_mark_clear"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_clear",
+                "name": "start_clear",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "clear"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_mark_release_never_0",
+            "name": "observe_lab_mark_release_never_0",
+            "description": null,
+            "sortOrder": 5,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "never",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "empty",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "never",
+                      "valueKind": "VALUE",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_zero_never",
+                "name": "do_zero_never",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "zero_never"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_mark_release_cleared_0",
+            "name": "observe_lab_mark_release_cleared_0",
+            "description": null,
+            "sortOrder": 6,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "cleared",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "empty",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "cleared",
+                      "valueKind": "VALUE",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_zero_cleared",
+                "name": "do_zero_cleared",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "zero_cleared"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "observe_lab_mark_release_expired_0",
+            "name": "observe_lab_mark_release_expired_0",
+            "description": null,
+            "sortOrder": 7,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "check",
+                "name": "明确状态条件",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "remaining",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "expired",
+                      "valueKind": "REMAINING_MS",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  },
+                  {
+                    "conditionKey": "empty",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_target_mark",
+                      "stateKey": "expired",
+                      "valueKind": "VALUE",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      },
+                      "optionKey": null,
+                      "expectedBoolean": null
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "do_zero_expired",
+                "name": "do_zero_expired",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "zero_expired"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_target_state_remaining"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_mark_seed",
+          "name": "lab_mark_seed",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_mark_seed",
+            "effectKey": "hit",
+            "name": "hit",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 20
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_mark_seed",
+            "processKey": "cast",
+            "name": "合成施放",
+            "activationType": "ACTIVE",
+            "steps": [
+              {
+                "stepKey": "cast",
+                "name": "明确施放时长",
+                "description": null,
+                "sortOrder": 0,
+                "occupiesAction": false,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "first_cast",
+            "name": "first_cast",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_seed",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_cast",
+                "name": "start_cast",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "on_hit",
+            "name": "on_hit",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_mark_seed"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "do_hit",
+                "name": "do_hit",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_target_state_remaining"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_mark_clear",
+          "name": "lab_mark_clear",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_mark_clear",
+            "effectKey": "hit",
+            "name": "hit",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 20
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_mark_clear",
+            "processKey": "cast",
+            "name": "合成施放",
+            "activationType": "ACTIVE",
+            "steps": [
+              {
+                "stepKey": "cast",
+                "name": "明确施放时长",
+                "description": null,
+                "sortOrder": 0,
+                "occupiesAction": false,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "first_cast",
+            "name": "first_cast",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_clear",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_cast",
+                "name": "start_cast",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "on_hit",
+            "name": "on_hit",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_mark_clear"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "do_hit",
+                "name": "do_hit",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_target_state_remaining"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_mark_release",
+          "name": "lab_mark_release",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_mark_release",
+            "effectKey": "hit",
+            "name": "hit",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "固定手算伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 20
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "skillKey": "lab_mark_release",
+            "processKey": "cast",
+            "name": "合成施放",
+            "activationType": "ACTIVE",
+            "steps": [
+              {
+                "stepKey": "cast",
+                "name": "明确施放时长",
+                "description": null,
+                "sortOrder": 0,
+                "occupiesAction": false,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "FIXED",
+                    "value": 1000
+                  }
+                }
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "first_cast",
+            "name": "first_cast",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_cast",
+                "name": "start_cast",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "on_hit",
+            "name": "on_hit",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_mark_release"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "do_hit",
+                "name": "do_hit",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_target_state_remaining"
+      }
+    ],
+    "references": []
+  },
+  "scenario": {
+    "mode": "skill_action",
+    "durationMs": 2100,
+    "initialHealth": {
+      "source": 1000,
+      "target": 10000
+    },
+    "actions": [
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_mark_seed",
+        "skillLevel": 1,
+        "instructionKey": "seed",
+        "atMs": 0,
+        "sortOrder": 0,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_mark_clear",
+        "skillLevel": 1,
+        "instructionKey": "clear",
+        "atMs": 500,
+        "sortOrder": 500,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_mark_release",
+        "skillLevel": 1,
+        "instructionKey": "release",
+        "atMs": 1000,
+        "sortOrder": 1000,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      }
+    ]
+  },
+  "expected": {
+    "summary": {
+      "stopReason": "duration_reached",
+      "targetFinalHp": 9910,
+      "sourceDamageDealt": 90,
+      "basicAttackStarted": 0,
+      "basicAttackHits": 0
+    },
+    "skillStarts": [
+      {
+        "timeMs": 0,
+        "skillKey": "lab_mark_seed"
+      },
+      {
+        "timeMs": 500,
+        "skillKey": "lab_mark_clear"
+      },
+      {
+        "timeMs": 1000,
+        "skillKey": "lab_mark_release"
+      }
+    ],
+    "attackStarts": [],
+    "damage": [
+      {
+        "timeMs": 0,
+        "skillKey": "lab_mark_seed",
+        "effectKey": "hit",
+        "rawAmount": 20,
+        "postDefenseDamage": 20,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 20,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 500,
+        "skillKey": "lab_mark_clear",
+        "effectKey": "hit",
+        "rawAmount": 20,
+        "postDefenseDamage": 20,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 20,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2000,
+        "skillKey": "lab_mark_release",
+        "effectKey": "hit",
+        "rawAmount": 20,
+        "postDefenseDamage": 20,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 20,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2000,
+        "skillKey": "lab_target_mark",
+        "effectKey": "zero_never",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2000,
+        "skillKey": "lab_target_mark",
+        "effectKey": "zero_cleared",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      },
+      {
+        "timeMs": 2000,
+        "skillKey": "lab_target_mark",
+        "effectKey": "zero_expired",
+        "rawAmount": 10,
+        "postDefenseDamage": 10,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 10,
+        "damageType": "true"
+      }
+    ]
+  }
+}

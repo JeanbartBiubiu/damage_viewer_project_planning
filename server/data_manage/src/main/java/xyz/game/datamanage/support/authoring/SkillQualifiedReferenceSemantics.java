@@ -41,7 +41,7 @@ public final class SkillQualifiedReferenceSemantics {
                     JsonNode detail = condition.path("detail");
                     switch (condition.path("conditionType").asText()) {
                         case "STATUS_CHECK" -> statusRead(source, detail, effects, path);
-                        case "INTERNAL_STATE_CHECK" -> stateRead(source, detail, states, "valueKind", path);
+                        case "INTERNAL_STATE_CHECK" -> stateRead(source, detail, states, "valueKind", path, true);
                         default -> { }
                     }
                     conditionIndex++;
@@ -92,6 +92,11 @@ public final class SkillQualifiedReferenceSemantics {
     }
 
     private static void stateRead(Aggregate source, JsonNode detail, Map<String, Aggregate> states, String kindField, String path) {
+        stateRead(source, detail, states, kindField, path, false);
+    }
+
+    private static void stateRead(Aggregate source, JsonNode detail, Map<String, Aggregate> states, String kindField, String path,
+                                  boolean conditionReader) {
         Aggregate state = state(source, detail, states);
         if (state == null) throw invalid(source, path + ".stateKey", "目标内部状态不存在");
         String type = state.data().path("stateType").asText();
@@ -101,7 +106,11 @@ public final class SkillQualifiedReferenceSemantics {
             case "ATTACK_START_VALUE" -> SkillAttackStartValueSemantics.readAllowed(source, detail, state, path);
             case "OPTION_SELECTED" -> "MODE".equals(type);
             case "ENABLED", "FLAG_CHANGED" -> "FLAG".equals(type);
-            case "REMAINING_MS", "COOLDOWN_READY" -> "INTERNAL_COOLDOWN".equals(type);
+            case "REMAINING_MS" -> "INTERNAL_COOLDOWN".equals(type)
+                || conditionReader && "COUNTER".equals(type) && "TARGET".equals(state.data().path("scope").asText())
+                    && source.skillKey().equals(detail.path("stateSkillKey").textValue())
+                    && state.data().path("detail").hasNonNull("durationValue");
+            case "COOLDOWN_READY" -> "INTERNAL_COOLDOWN".equals(type);
             default -> false;
         };
         if (!valid) throw invalid(source, path + "." + kindField, "读取或事件种类与目标内部状态不匹配");

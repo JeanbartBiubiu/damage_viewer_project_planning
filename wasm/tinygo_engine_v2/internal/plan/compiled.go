@@ -28,6 +28,7 @@ type CompiledSession struct {
 	HasShieldLifecycle        bool
 	HasLinkedShieldReads      bool
 	HasProviderElapsedReads   bool
+	HasTargetStateTimeReads   bool
 	HasFiniteModifierExpiry   bool
 	HasResourceMax            bool
 	PermanentResourceMax      []CompiledPermanentResourceMax

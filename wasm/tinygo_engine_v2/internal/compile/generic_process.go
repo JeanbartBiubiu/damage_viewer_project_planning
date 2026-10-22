@@ -334,7 +334,7 @@ func validateProcessFormulaContext(instr []formula.GenericInstr, path string, al
 		}
 		switch item.ReadKind {
 		case formula.ReadSourceAttr, formula.ReadTargetAttr, formula.ReadSourceResource, formula.ReadTargetResource,
-			formula.ReadAbilityParam, formula.ReadAuthoredAbilityParameter, formula.ReadProviderState, formula.ReadProviderTargetState, formula.ReadProcessActualCost:
+			formula.ReadAbilityParam, formula.ReadAuthoredAbilityParameter, formula.ReadProviderState, formula.ReadProviderTargetState, formula.ReadProviderTargetStateRemainingMs, formula.ReadProcessActualCost:
 		case formula.ReadOperationOutput:
 			if !allowOutput {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path, "process timing and costs cannot read operation outputs", item.ReadKey)

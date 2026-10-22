@@ -449,6 +449,9 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 				continue
 			}
 			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
+				if in.ReadKind == formula.ReadProviderTargetStateRemainingMs {
+					addError(model.GenericErrFormulaTypeError, path, "target state remaining time is unavailable in a driver condition", in.ReadKey)
+				}
 				if in.ReadKind == formula.ReadReceivedLinkedShieldAbsorbed {
 					addError(model.GenericErrFormulaTypeError, path, "linked shield absorption is unavailable in a driver condition", in.ReadKey)
 				}
@@ -491,6 +494,9 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 				continue
 			}
 			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
+				if in.ReadKind == formula.ReadProviderTargetStateRemainingMs {
+					addError(model.GenericErrFormulaTypeError, path, "target state remaining time is unavailable in a driver repeat", in.ReadKey)
+				}
 				if in.ReadKind == formula.ReadReceivedLinkedShieldAbsorbed {
 					addError(model.GenericErrFormulaTypeError, path, "linked shield absorption is unavailable in a driver repeat", in.ReadKey)
 				}

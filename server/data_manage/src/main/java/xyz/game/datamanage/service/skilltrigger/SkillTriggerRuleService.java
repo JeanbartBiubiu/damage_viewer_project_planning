@@ -71,6 +71,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventUseKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey;
@@ -1579,15 +1580,30 @@ public class SkillTriggerRuleService {
                 require(detail.stateSkillKey(), prefix + ".detail.stateSkillKey", "状态所属技能不能为空", issues);
                 require(detail.stateKey(), prefix + ".detail.stateKey", "状态标识不能为空", issues);
                 require(detail.operation(), prefix + ".detail.operation", "状态操作不能为空", issues);
-                require(detail.value(), prefix + ".detail.value", "回充减时数值不能为空", issues);
-                if (eventSource == null || eventSource.eventType() != SkillTriggerEventType.BASIC_ATTACK_HIT
+                require(detail.value(), prefix + ".detail.value", "状态计时数值不能为空", issues);
+                boolean ensuring = detail.operation() == SkillTriggerInternalStateOperation.ENSURE_REMAINING;
+                if (ensuring) {
+                    if (eventSource == null || eventSource.eventType() != SkillTriggerEventType.SKILL_USED
+                        || !(eventSource.detail() instanceof SkillTriggerSkillEventDetail use)
+                        || use.sourceSkillKey() == null || use.sourceSkillKey().isBlank()
+                        || use.useKind() != SkillTriggerEventUseKind.ACTIVE || use.castPhase() != SkillTriggerCastPhase.INITIAL
+                        || action.targetContext() != SkillTriggerTargetContext.CURRENT_TARGET) {
+                        issues.add(fieldIssue(prefix + ".actionType", "EVENT_VALUE_NOT_AVAILABLE",
+                            "确保目标计数余时只允许明确技能首次主动使用作用于当前目标"));
+                    }
+                } else if (eventSource == null || eventSource.eventType() != SkillTriggerEventType.BASIC_ATTACK_HIT
                     || action.targetContext() != SkillTriggerTargetContext.EVENT_SOURCE) {
                     issues.add(fieldIssue(prefix + ".actionType", "EVENT_VALUE_NOT_AVAILABLE", "回充减时只允许普攻命中作用于来源自身"));
                 }
-                if (!action.resultModifiers().isEmpty()) issues.add(fieldIssue(prefix + ".resultModifiers", "FORBIDDEN", "回充减时不接受结果修正"));
-                if (!action.runtimeInputBindings().isEmpty()) issues.add(fieldIssue(prefix + ".runtimeInputBindings", "FORBIDDEN", "本轮回充减时不能保存动态输入绑定"));
+                if (!action.resultModifiers().isEmpty()) issues.add(fieldIssue(prefix + ".resultModifiers", "FORBIDDEN", "状态计时动作不接受结果修正"));
+                if (!action.runtimeInputBindings().isEmpty()) issues.add(fieldIssue(prefix + ".runtimeInputBindings", "FORBIDDEN", "状态计时动作不能保存动态输入绑定"));
                 if (detail.value() != null && detail.value().kind() == SkillNumericValue.Kind.FIXED && detail.value().value().signum() < 0) {
                     issues.add(fieldIssue(prefix + ".detail.value", "RANGE_INVALID", "回充减少毫秒数不能小于零"));
+                }
+                if (ensuring && detail.value() != null && detail.value().kind() == SkillNumericValue.Kind.FIXED
+                    && (detail.value().value().signum() <= 0 || detail.value().value().stripTrailingZeros().scale() > 0
+                        || detail.value().value().compareTo(new BigDecimal("9007199254740991")) > 0)) {
+                    issues.add(fieldIssue(prefix + ".detail.value", "RANGE_INVALID", "最低余时必须为严格正安全整数毫秒"));
                 }
             }
             case EXECUTE_EFFECT -> {
@@ -2309,7 +2325,12 @@ public class SkillTriggerRuleService {
         if (action.actionType() == SkillTriggerActionType.MODIFY_INTERNAL_STATE
             && action.detail() instanceof SkillTriggerModifyInternalStateActionDetail modify) {
             SkillTriggerInternalStateLockRow state = states.get(modify.stateSkillKey() + "\0" + modify.stateKey());
-            if (!skillKey.equals(modify.stateSkillKey()) || state == null || state.stateType() != SkillInternalStateType.AMMO
+            if (modify.operation() == SkillTriggerInternalStateOperation.ENSURE_REMAINING) {
+                if (!skillKey.equals(modify.stateSkillKey()) || state == null
+                    || state.stateType() != SkillInternalStateType.COUNTER || !"TARGET".equals(state.scope())) {
+                    issues.add(fieldIssue(prefix + ".detail.stateKey", "REFERENCE_TYPE_MISMATCH", "最低余时只能修改本技能自身目标范围的有限计数"));
+                }
+            } else if (!skillKey.equals(modify.stateSkillKey()) || state == null || state.stateType() != SkillInternalStateType.AMMO
                 || !"SKILL".equals(state.scope()) || modify.operation() != SkillTriggerInternalStateOperation.REDUCE_RECOVERY) {
                 issues.add(fieldIssue(prefix + ".detail.stateKey", "REFERENCE_TYPE_MISMATCH", "回充减时只能修改本技能自身范围的弹药"));
             }
@@ -3335,6 +3356,8 @@ public class SkillTriggerRuleService {
         if (state == null) return false;
         if (detail.valueKind() == SkillTriggerInternalStateValueKind.ATTACK_START_VALUE)
             return SkillAttackStartValueSemantics.readAllowed(skillKey, event, detail.stateSkillKey(), state);
+        if (detail.valueKind() == SkillTriggerInternalStateValueKind.REMAINING_MS && state.stateType() == SkillInternalStateType.COUNTER)
+            return skillKey.equals(detail.stateSkillKey()) && "TARGET".equals(state.scope());
         return internalStateValueMatches(state.stateType(), detail.valueKind());
     }
 

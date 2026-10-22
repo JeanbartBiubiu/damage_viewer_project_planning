@@ -88,7 +88,7 @@ import {
 } from './targetCategoryCondition';
 import type { Attribute } from '../../../../types/attribute';
 import { fixedValue, numericFormulaKey, numericParameterKey } from '../../../../types/numericValue';
-import { numericValueError, numericValueSummary, numericValuesIn } from '../numericValueForm';
+import { numericValueError, numericValueSummary, numericValuesIn, staticNumericValues, type NumericCatalog } from '../numericValueForm';
 import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { DamageType } from '../../../../types/damageType';
@@ -612,7 +612,7 @@ export type SkillTriggerAdvanceProcessActionDraft = ActionDraftBase & {
 export type SkillTriggerModifyInternalStateActionDraft = ActionDraftBase & {
   actionType: 'MODIFY_INTERNAL_STATE';
   targetContext: SkillTriggerTargetContext;
-  detail: { stateSkillKey: string; stateKey: string; operation: 'REDUCE_RECOVERY'; value: NumericValue };
+  detail: { stateSkillKey: string; stateKey: string; operation: 'REDUCE_RECOVERY' | 'ENSURE_REMAINING'; value: NumericValue };
 };
 
 export type SkillTriggerActionDraft =
@@ -2113,7 +2113,7 @@ export function advanceProcessStepTypeForPhase(
 
 function toAction(action: SkillTriggerActionDraft, sortOrder: number): SkillTriggerAction {
   if (action.actionType === 'MODIFY_INTERNAL_STATE') return { ...action, actionKey: action.actionKey.trim(), name: action.name.trim(),
-    sortOrder, targetContext: 'EVENT_SOURCE', detail: structuredClone(action.detail), runtimeInputBindings: [], resultModifiers: [] };
+    sortOrder, targetContext: action.targetContext, detail: structuredClone(action.detail), runtimeInputBindings: [], resultModifiers: [] };
   if (action.actionType === 'EXECUTE_EFFECT') {
     return {
       actionKey: action.actionKey.trim(),
@@ -2404,7 +2404,8 @@ function cleanupActionForEventSwitch(
   nextSource: SkillTriggerEventSource,
   processes?: ReadonlyArray<SourceCastResourceCostProcess>
 ): SkillTriggerActionDraft {
-  if (action.actionType === 'MODIFY_INTERNAL_STATE') return { ...action, targetContext: 'EVENT_SOURCE', runtimeInputBindings: [] };
+  if (action.actionType === 'MODIFY_INTERNAL_STATE') return { ...action,
+    targetContext: action.detail.operation === 'ENSURE_REMAINING' ? 'CURRENT_TARGET' : 'EVENT_SOURCE', runtimeInputBindings: [] };
   const runtimeInputBindings: SkillTriggerRuntimeInputBinding[] = [];
   for (const binding of action.runtimeInputBindings) {
     const next = cleanupBindingForEventSwitch(binding, hasEventSource, allowed, nextSource, processes);
@@ -2602,7 +2603,8 @@ export function actionSummary(action: SkillTriggerActionDraft): string {
   const target = action.targetContext
     ? SKILL_TRIGGER_TARGET_CONTEXT_LABELS[action.targetContext]
     : '—';
-  const object = action.actionType === 'MODIFY_INTERNAL_STATE' ? [action.detail.stateKey, '减少下一枚回充', numericValueSummary(action.detail.value)].join(' / ')
+  const object = action.actionType === 'MODIFY_INTERNAL_STATE' ? [action.detail.stateKey,
+    action.detail.operation === 'ENSURE_REMAINING' ? '确保至少剩余毫秒' : '减少下一枚回充', numericValueSummary(action.detail.value)].join(' / ')
     : action.actionType === 'EXECUTE_EFFECT'
     ? actionEffectKey(action.detail)
     : action.actionType === 'ADVANCE_PROCESS'
@@ -3273,11 +3275,13 @@ export function changeKindsForInternalState(
 
 export function valueKindsForInternalState(
   stateType: SkillInternalStateType | null,
-  includeAttackStart = false
+  includeAttackStart = false,
+  includeTargetRemaining = false
 ): SkillTriggerInternalStateValueKind[] {
   switch (stateType) {
     case 'COUNTER':
-      return includeAttackStart ? ['VALUE', 'ATTACK_START_VALUE'] : ['VALUE'];
+      return ['VALUE', ...(includeAttackStart ? ['ATTACK_START_VALUE' as const] : []),
+        ...(includeTargetRemaining ? ['REMAINING_MS' as const] : [])];
     case 'AMMO':
       return includeAttackStart ? ['VALUE', 'ATTACK_START_VALUE'] : ['VALUE'];
     case 'MODE':
@@ -3289,6 +3293,59 @@ export function valueKindsForInternalState(
     default:
       return ['VALUE', 'OPTION_SELECTED', 'ENABLED', 'REMAINING_MS'];
   }
+}
+
+export function targetCounterMillisecondsError(
+  value: NumericValue | null | undefined,
+  catalog: NumericCatalog = {},
+  positive = false
+): string | undefined {
+  const error = numericValueError(value, catalog, { min: positive ? 1 : 0, integer: true, allowRuntimeInput: false });
+  if (error) return error;
+  const values = staticNumericValues(value, catalog.parameters);
+  if (values?.some(number => !Number.isSafeInteger(number))) return '目标计数余时必须为安全范围内的整数毫秒。';
+  return undefined;
+}
+
+export function targetCounterRemainingStateError(
+  state: SkillInternalState | null | undefined,
+  stateSkillKey: string | null | undefined,
+  skillKey: string | undefined,
+  catalog: NumericCatalog = {}
+): string | undefined {
+  if (!skillKey || !state || stateSkillKey !== skillKey || state.skillKey !== skillKey
+    || state.stateType !== 'COUNTER' || state.scope !== 'TARGET' || state.detail.durationValue == null) {
+    return '目标计数余时只允许本技能自身有明确期限的目标计数。';
+  }
+  return targetCounterMillisecondsError(state.detail.durationValue, catalog, true);
+}
+
+export function modifyInternalStateActionError(
+  action: SkillTriggerModifyInternalStateActionDraft,
+  eventSource: SkillTriggerEventSource,
+  skillKey: string | undefined,
+  state: SkillInternalState | undefined,
+  catalog: NumericCatalog = {}
+): string | undefined {
+  if (action.detail.operation === 'ENSURE_REMAINING') {
+    if (eventSource.eventType !== 'SKILL_USED' || eventSource.detail.useKind !== 'ACTIVE'
+      || eventSource.detail.castPhase !== 'INITIAL' || !eventSource.detail.sourceSkillKey?.trim()
+      || validateKey(eventSource.detail.sourceSkillKey, '来源技能标识')
+      || action.targetContext !== 'CURRENT_TARGET') {
+      return '确保目标计数余时必须明确监听首次主动使用的技能，并选择当前目标。';
+    }
+    const stateError = targetCounterRemainingStateError(state, action.detail.stateSkillKey, skillKey, catalog);
+    if (stateError) return stateError;
+    if (action.runtimeInputBindings.length || action.resultModifiers.length) return '确保目标计数余时不接受运行输入绑定或结果修正。';
+    return targetCounterMillisecondsError(action.detail.value, catalog, true);
+  }
+  if (!skillKey || !state || eventSource.eventType !== 'BASIC_ATTACK_HIT' || action.targetContext !== 'EVENT_SOURCE'
+    || action.detail.stateSkillKey !== skillKey || state.skillKey !== skillKey
+    || action.detail.operation !== 'REDUCE_RECOVERY' || state.stateType !== 'AMMO' || state.scope !== 'SKILL') {
+    return '回充减时仅允许本技能普通攻击命中时修改自身弹药。';
+  }
+  if (action.runtimeInputBindings.length) return '回充动作本轮不接受运行输入绑定。';
+  return numericValueError(action.detail.value, catalog, { min: 0, allowRuntimeInput: false });
 }
 
 export function resultAvailableEffects(
@@ -3502,6 +3559,15 @@ export function validateSkillTriggerDraft(
         pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.stateSkillKey`,
           '请选择内部状态所属技能。');
       }
+      if (condition.conditionType === 'INTERNAL_STATE_CHECK' && condition.detail.valueKind === 'REMAINING_MS') {
+        const state = options.statesByKey?.get(condition.detail.stateKey);
+        if (state?.stateType === 'COUNTER') {
+          const catalog = { parameters: options.parameters, formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined };
+          const error = targetCounterRemainingStateError(state, condition.detail.stateSkillKey, options.skillKey, catalog)
+            ?? targetCounterMillisecondsError(condition.detail.comparisonValue, catalog);
+          if (error) pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.valueKind`, error);
+        }
+      }
       if (condition.conditionType === 'INTERNAL_STATE_CHECK' && condition.detail.valueKind === 'ATTACK_START_VALUE') {
         const state = options.statesByKey?.get(condition.detail.stateKey);
         if (state?.stateType === 'COUNTER' && (state.scope !== 'SKILL' || condition.detail.stateSkillKey !== options.skillKey
@@ -3584,17 +3650,9 @@ export function validateSkillTriggerDraft(
     if (!action.name.trim()) pushError(nestedErrors, `actions[${actionIndex}].name`, '动作名称不能为空。');
     if (action.actionType === 'MODIFY_INTERNAL_STATE') {
       const definition = options.statesByKey?.get(action.detail.stateKey);
-      if (draft.eventSource.eventType !== 'BASIC_ATTACK_HIT' || action.targetContext !== 'EVENT_SOURCE'
-        || action.detail.stateSkillKey !== options.skillKey || action.detail.operation !== 'REDUCE_RECOVERY'
-        || definition?.stateType !== 'AMMO' || definition.scope !== 'SKILL') {
-        pushError(nestedErrors, `actions[${actionIndex}].detail.stateKey`, '回充减时仅允许本技能普通攻击命中时修改自身弹药。');
-      }
-      const error = numericValueError(action.detail.value, { parameters: options.parameters,
-        formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined }, { min: 0 });
-      if (error) pushError(nestedErrors, `actions[${actionIndex}].detail.value`, error);
-      if (action.runtimeInputBindings.length) {
-        pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings`, '回充动作本轮不接受运行输入绑定。');
-      }
+      const error = modifyInternalStateActionError(action, draft.eventSource, options.skillKey, definition,
+        { parameters: options.parameters, formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined });
+      if (error) pushError(nestedErrors, `actions[${actionIndex}].detail`, error);
     }
     if (!isProcessShellAction(action.actionType) && action.targetContext === 'EVENT_SOURCE' && !hasEventSource
       && !(action.actionType === 'MODIFY_INTERNAL_STATE' && draft.eventSource.eventType === 'BASIC_ATTACK_HIT')) {

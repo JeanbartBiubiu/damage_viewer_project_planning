@@ -381,6 +381,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const deferredAbilities: AbilityDefinition[] = [];
         const activeEffects = new Set<string>();
         let rootEvent = '';
+        let rootEventSource: SkillTriggerRuleDetail['eventSource'] | null = null;
         const finiteCounter = finiteTargetCounterContract(snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey) ?? configuration);
         const ownExpiry = ownCounterShieldExpiry(configuration);
         let boundCounterParameter: string | undefined;
@@ -464,6 +465,12 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const stateRead = (state: SkillInternalState): GenericFormulaExpr => ({
           op: 'read', path: `provider.${state.scope === 'TARGET' ? 'target_state' : 'state'}.${stateKey(state)}`
         });
+        const requireTimedTargetCounter = (state: SkillInternalState, statePath: string) => {
+          if (state.stateType !== 'COUNTER' || state.scope !== 'TARGET' || state.detail.durationValue == null) {
+            fail(statePath, '目标计数余时只允许当前技能自身有明确期限的TARGET计数');
+          }
+          constant(state.detail.durationValue, `${statePath}.durationValue`, true, 1);
+        };
         const stateChange = (key: string, policy: string, expression: GenericFormulaExpr, scope: SkillInternalState['scope'] = 'SKILL'): OperationDefinition => {
           const scopeType = scope === 'TARGET' ? 'state_scope/provider_target' : 'state_scope/provider';
           types.set(scopeType, 'state_scope');
@@ -692,6 +699,12 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             if (state.stateType === 'COUNTER' && detail.valueKind === 'VALUE') {
               constant(detail.comparisonValue, `${detailPath}.comparisonValue`, true);
               return comparator(detail.comparator, read, value(detail.comparisonValue, detailPath), detailPath);
+            }
+            if (state.stateType === 'COUNTER' && detail.valueKind === 'REMAINING_MS') {
+              requireTimedTargetCounter(state, detailPath);
+              constant(detail.comparisonValue, `${detailPath}.comparisonValue`, true);
+              return comparator(detail.comparator, { op: 'read', path: `provider.target_state_remaining_ms.${stateKey(state)}` },
+                value(detail.comparisonValue, detailPath), detailPath);
             }
             if (state.stateType === 'INTERNAL_COOLDOWN' && detail.valueKind === 'REMAINING_MS'
               && constant(detail.comparisonValue, detailPath) === 0) return comparator(detail.comparator, read, constExpr(0), detailPath);
@@ -1242,16 +1255,34 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             } else if (action.actionType === 'MODIFY_INTERNAL_STATE') {
               exact(action.detail, ['stateSkillKey', 'stateKey', 'operation', 'value'], `${actionPath}.detail`);
               const definition = lookupState(action.detail.stateKey, action.detail.stateSkillKey, actionPath);
-              if (event !== 'BASIC_ATTACK_HIT' || context !== 'self' || action.targetContext !== 'EVENT_SOURCE'
-                || action.detail.operation !== 'REDUCE_RECOVERY' || definition.stateType !== 'AMMO' || definition.scope !== 'SKILL') {
-                fail(actionPath, '回充减时仅允许本技能真实普攻命中对自身弹药操作');
+              if (action.runtimeInputBindings.length || action.resultModifiers.length) fail(actionPath, '状态余时动作不接受运行输入绑定或结果修正');
+              if (action.detail.operation === 'ENSURE_REMAINING') {
+                const detail = rootEventSource?.eventType === 'SKILL_USED' ? rootEventSource.detail : null;
+                const planned = detail?.sourceSkillKey == null ? undefined : snapshot.selection.plannedSkills.find(plan =>
+                  plan.skillKey === detail.sourceSkillKey && plan.phaseKinds.includes('INITIAL')
+                  && plan.origin.characterKey === snapshot.selection.sourceCharacterKey);
+                if (event !== 'SKILL_USED' || side !== 'source' || context !== 'target' || action.targetContext !== 'CURRENT_TARGET'
+                  || detail?.useKind !== 'ACTIVE' || detail.castPhase !== 'INITIAL' || !planned) {
+                  fail(actionPath, '确保目标计数余时只允许同拥有者明确计划技能的真实首次主动使用');
+                }
+                requireTimedTargetCounter(definition, `${actionPath}.detail.stateKey`);
+                const remainingMs = constant(action.detail.value, `${actionPath}.detail.value`, true, 1);
+                const scope = 'state_scope/provider_target';
+                types.set(scope, 'state_scope');
+                output.push({ operation: 'state_duration_change', target: 'self', ref: stateKey(definition),
+                  valuePolicy: 'ensure_remaining', amount: constExpr(remainingMs), types: [scope] });
+              } else {
+                if (event !== 'BASIC_ATTACK_HIT' || context !== 'self' || action.targetContext !== 'EVENT_SOURCE'
+                  || action.detail.operation !== 'REDUCE_RECOVERY' || definition.stateType !== 'AMMO' || definition.scope !== 'SKILL') {
+                  fail(actionPath, '回充减时仅允许本技能真实普攻命中对自身弹药操作');
+                }
+                const expression = value(action.detail.value, `${actionPath}.detail.value`);
+                const folded = tryFoldConstant(expression);
+                if (folded !== null && (!Number.isFinite(folded) || folded < 0)) fail(actionPath, '回充减时必须为有限非负毫秒');
+                types.set('state_scope/provider', 'state_scope');
+                output.push({ operation: 'state_duration_change', target: 'self', ref: stateKey(definition),
+                  valuePolicy: 'subtract', amount: expression, types: ['state_scope/provider'] });
               }
-              const expression = value(action.detail.value, `${actionPath}.detail.value`);
-              const folded = tryFoldConstant(expression);
-              if (folded !== null && (!Number.isFinite(folded) || folded < 0)) fail(actionPath, '回充减时必须为有限非负毫秒');
-              types.set('state_scope/provider', 'state_scope');
-              output.push({ operation: 'state_duration_change', target: 'self', ref: stateKey(definition),
-                valuePolicy: 'subtract', amount: expression, types: ['state_scope/provider'] });
             } else if (action.actionType === 'START_PROCESS') {
               exact(action.detail, ['processKey'], `${actionPath}.detail`);
               if (context !== 'target' && event !== 'SOURCE_INITIALIZED'
@@ -1447,6 +1478,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         for (const rule of ordered(configuration.triggerRules, `${root}.triggerRules`)) {
           const event: string = rule.eventSource.eventType;
           rootEvent = event;
+          rootEventSource = rule.eventSource;
           const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
           if (event === 'PROCESS_MOMENT' || event === 'LIFECYCLE_MOMENT') continue;
           if (ownExpiry && ownExpiry.ruleKey === rule.ruleKey) {

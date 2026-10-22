@@ -61,6 +61,7 @@ const (
 	ReadAuthoredAbilityParameter
 	ReadProcessStartState
 	ReadReceivedLinkedShieldAbsorbed
+	ReadProviderTargetStateRemainingMs
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -403,6 +404,10 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 	if strings.HasPrefix(path, "provider.linked_shield[") && strings.HasSuffix(path, "].present") {
 		key := strings.TrimSuffix(strings.TrimPrefix(path, "provider.linked_shield["), "].present")
 		return ReadLinkedShieldPresent, key, key != "" && !strings.ContainsAny(key, "[]\r\n")
+	}
+	if strings.HasPrefix(path, "provider.target_state_remaining_ms.") {
+		key := strings.TrimPrefix(path, "provider.target_state_remaining_ms.")
+		return ReadProviderTargetStateRemainingMs, key, key != "" && !strings.ContainsAny(key, ".[] \t\r\n")
 	}
 	if strings.HasPrefix(path, "provider.target_state.") {
 		key := strings.TrimPrefix(path, "provider.target_state.")

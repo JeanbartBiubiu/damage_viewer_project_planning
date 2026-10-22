@@ -185,6 +185,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	compileAmmoBindings(ctx)
 	validateMechanicFormulaContexts(ctx)
 	finalizeReceivedShieldReads(ctx)
+	finalizeTargetStateRemaining(ctx)
 	if len(session.Operations) > 65535 {
 		collector.addError(model.GenericErrRuntimeInvariantFailed, "operations", "compiled operations exceed supported index range", "")
 	}
@@ -1174,8 +1175,8 @@ func validateStateDurationChangeOperation(op model.OperationDefinition, path str
 	if op.Amount == nil {
 		collector.addError(model.GenericErrMissingRequiredField, path+".amount", "state_duration_change requires amount", "")
 	}
-	if op.ValuePolicy != "subtract" {
-		collector.addError(model.GenericErrUnknownRef, path+".valuePolicy", "state_duration_change requires valuePolicy=subtract", op.ValuePolicy)
+	if op.ValuePolicy != "subtract" && op.ValuePolicy != "ensure_remaining" {
+		collector.addError(model.GenericErrUnknownRef, path+".valuePolicy", "state_duration_change requires valuePolicy=subtract or ensure_remaining", op.ValuePolicy)
 	}
 	if op.Target != model.SelectorSource && op.Target != model.SelectorSelf {
 		collector.addError(model.GenericErrOperationTargetMissing, path+".target", "state_duration_change target must be source or self", op.Target)
@@ -1185,6 +1186,9 @@ func validateStateDurationChangeOperation(op model.OperationDefinition, path str
 		collector.addError(model.GenericErrUnknownTypeKey, path+".types", "state_duration_change "+scopeErr, strings.Join(op.Types, ","))
 	}
 	_ = scope
+	if op.ValuePolicy == "ensure_remaining" && (scope != "state_scope/provider_target" || op.Target != model.SelectorSelf) {
+		collector.addError(model.GenericErrFormulaTypeError, path, "ensure_remaining requires own provider_target state and target self", op.Ref)
+	}
 	if op.Ref == "" || ownerProviderIndex < 0 || ownerProviderIndex >= len(ctx.session.Providers) {
 		return
 	}

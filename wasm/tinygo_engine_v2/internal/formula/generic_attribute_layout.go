@@ -80,6 +80,16 @@ func lookupAttributeSlot(attrs attribute.Table, key string, index int, bound boo
 }
 
 func evalInstructionRead(in GenericInstr, ctx *GenericEvalContext) (float64, error) {
+	if in.ReadKind == ReadProviderTargetStateRemainingMs {
+		if !in.ReferenceBound || !ctx.HasProviderContext || !ctx.HasTargetStateRemainingContext {
+			return 0, errors.New("target state remaining time requires a declared own finite integer field and provider condition context")
+		}
+		expires := ctx.TargetStateExpireAt[in.ReadKey]
+		if ctx.ProviderTargetState[in.ReadKey] <= 0 || expires <= ctx.TargetStateRemainingNowMs {
+			return 0, nil
+		}
+		return float64(expires - ctx.TargetStateRemainingNowMs), nil
+	}
 	if in.ReadKind == ReadReceivedLinkedShieldAbsorbed {
 		if !in.ReferenceBound || !ctx.HasProviderContext || !ctx.HasEventContext || !ctx.HasEventDamageSnapshot || ctx.ReceivedShieldReader == nil {
 			return 0, errors.New("linked shield absorption requires a bound native received-damage listener condition")

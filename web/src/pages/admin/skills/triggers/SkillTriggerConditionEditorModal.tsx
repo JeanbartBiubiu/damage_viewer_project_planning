@@ -65,6 +65,8 @@ import {
   persistentStatusApplyResults,
   subjectOptionsForEvent,
   switchConditionType,
+  targetCounterMillisecondsError,
+  targetCounterRemainingStateError,
   validateDraftChildKey,
   valueKindsForInternalState,
   type NestedFieldError,
@@ -171,6 +173,13 @@ export function SkillTriggerConditionEditorModal({
     objectKey: current.conditionType === 'INTERNAL_STATE_CHECK' ? current.detail.stateKey : '',
     local: internalStates });
   const selectedState = stateReference.value;
+  const stateValueKinds = (state: SkillInternalState | null | undefined) => valueKindsForInternalState(
+    state?.stateType ?? null,
+    state?.stateType === 'COUNTER'
+      ? state.scope === 'SKILL' && state.skillKey === skillKey && ['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT'].includes(eventSource.eventType)
+      : eventSource.eventType === 'SKILL_HIT',
+    !targetCounterRemainingStateError(state, state?.skillKey, skillKey, { parameters, formulas })
+  );
 
   const lifecycleEffects = lifecycleConditionEffects(effects, skillKey);
   const lifecycleReference = useQualifiedSkillEffect({ visible: visible && current.conditionType === 'LIFECYCLE_CHECK',
@@ -230,8 +239,14 @@ export function SkillTriggerConditionEditorModal({
       setLocalError(stateReference.error || '外部内部状态详情尚未读取。'); return;
     }
     if (current.conditionType === 'INTERNAL_STATE_CHECK' && selectedState
-      && !valueKindsForInternalState(selectedState.stateType, eventSource.eventType === 'SKILL_HIT').includes(current.detail.valueKind)) {
+      && !stateValueKinds(selectedState).includes(current.detail.valueKind)) {
       setLocalError('该内部状态不支持当前取值方式。'); return;
+    }
+    if (current.conditionType === 'INTERNAL_STATE_CHECK' && current.detail.valueKind === 'REMAINING_MS'
+      && selectedState?.stateType === 'COUNTER') {
+      const error = targetCounterRemainingStateError(selectedState, current.detail.stateSkillKey, skillKey, { parameters, formulas })
+        ?? targetCounterMillisecondsError(current.detail.comparisonValue, { parameters, formulas });
+      if (error) { setLocalError(error); return; }
     }
     if (current.conditionType === 'INTERNAL_STATE_CHECK' && current.detail.valueKind === 'OPTION_SELECTED'
       && selectedState?.stateType === 'MODE'
@@ -660,7 +675,7 @@ export function SkillTriggerConditionEditorModal({
                   options={stateOptions}
                   onChange={(value) => {
                     const nextState = internalStates.find((item) => item.stateKey === value);
-                    const kinds = valueKindsForInternalState(nextState?.stateType ?? null, nextState?.stateType === 'COUNTER' ? nextState.scope === 'SKILL' && nextState.skillKey === skillKey && ['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT'].includes(eventSource.eventType) : eventSource.eventType === 'SKILL_HIT');
+                    const kinds = stateValueKinds(nextState);
                     const next = patchInternalStateCheckStateKey(
                       current,
                       String(value ?? ''),
@@ -677,7 +692,7 @@ export function SkillTriggerConditionEditorModal({
                   aria-label="内部状态取值方式"
                   value={current.detail.valueKind}
                   disabled={disabled}
-                  options={valueKindsForInternalState(selectedState?.stateType ?? null, selectedState?.stateType === 'COUNTER' ? selectedState.scope === 'SKILL' && selectedState.skillKey === skillKey && ['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT'].includes(eventSource.eventType) : eventSource.eventType === 'SKILL_HIT').map((value) => ({
+                  options={stateValueKinds(selectedState).map((value) => ({
                     value,
                     label: SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS[value]
                   }))}

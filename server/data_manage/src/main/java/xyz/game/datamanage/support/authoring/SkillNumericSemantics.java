@@ -363,8 +363,9 @@ public final class SkillNumericSemantics {
                     for (JsonNode action : d.path("actions")) {
                         if ("MODIFY_INTERNAL_STATE".equals(text(action, "actionType"))) {
                             Use value = use(a, action.path("detail"), "actions[" + actionIndex + "].detail", "value",
-                                Bound.NON_NEGATIVE_FINITE, true);
-                            if (value == null) throw invalid(a, "actions[" + actionIndex + "].detail.value", "REQUIRED", "回充减时必须配置数值");
+                                "ENSURE_REMAINING".equals(text(action.path("detail"), "operation"))
+                                    ? Bound.POSITIVE_INTEGER : Bound.NON_NEGATIVE_FINITE, true);
+                            if (value == null) throw invalid(a, "actions[" + actionIndex + "].detail.value", "REQUIRED", "状态计时动作必须配置数值");
                         }
                         int bindingIndex = 0;
                         for (JsonNode binding : action.path("runtimeInputBindings")) {
@@ -903,6 +904,7 @@ public final class SkillNumericSemantics {
         }
 
         private void bindings(Aggregate rule) {
+            validateTargetCounterTimeConditions(rule);
             int i = 0;
             for (JsonNode action : rule.data().path("actions")) {
                 Set<String> required = new LinkedHashSet<>();
@@ -920,7 +922,8 @@ public final class SkillNumericSemantics {
                 }
                 if ("START_PROCESS".equals(type)) dependencies(rule, new Id(rule.skillKey(), SourceType.PROCESS, text(action.path("detail"), "processKey")), required, new LinkedHashSet<>());
                 if ("MODIFY_INTERNAL_STATE".equals(type)) {
-                    validateRecoveryAction(rule, action, i);
+                    if ("ENSURE_REMAINING".equals(text(action.path("detail"), "operation"))) validateEnsureTargetCounterTimeAction(rule, action, i);
+                    else validateRecoveryAction(rule, action, i);
                 }
                 Set<String> bound = new LinkedHashSet<>();
                 int j = 0;
@@ -978,6 +981,66 @@ public final class SkillNumericSemantics {
                 }
                 if (!bound.containsAll(required)) throw invalid(rule, "actions[" + i + "].runtimeInputBindings", "BINDING_MISSING", "动作需要的计算时输入缺少绑定");
                 i++;
+            }
+        }
+
+        private void validateTargetCounterTimeConditions(Aggregate rule) {
+            int groupIndex = 0;
+            for (JsonNode group : rule.data().path("conditionGroups")) {
+                int conditionIndex = 0;
+                for (JsonNode condition : group.path("conditions")) {
+                    JsonNode detail = condition.path("detail");
+                    Aggregate state = objects.get(new Id(text(detail, "stateSkillKey"), SourceType.STATE, text(detail, "stateKey")));
+                    if ("INTERNAL_STATE_CHECK".equals(text(condition, "conditionType"))
+                        && "REMAINING_MS".equals(text(detail, "valueKind")) && state != null
+                        && "COUNTER".equals(text(state.data(), "stateType"))) {
+                        String path = "conditionGroups[" + groupIndex + "].conditions[" + conditionIndex + "].detail";
+                        validateTimedOwnTargetCounter(rule, detail, path);
+                        Use comparison = use(rule, detail, path, "comparisonValue", Bound.NON_NEGATIVE_INTEGER, true);
+                        requireStaticMilliseconds(rule, comparison, path + ".comparisonValue", false);
+                    }
+                    conditionIndex++;
+                }
+                groupIndex++;
+            }
+        }
+
+        private void validateEnsureTargetCounterTimeAction(Aggregate rule, JsonNode action, int index) {
+            String path = "actions[" + index + "]";
+            JsonNode detail = action.path("detail"), event = rule.data().path("eventSource"), source = event.path("detail");
+            if (!"SKILL_USED".equals(text(event, "eventType")) || !"ACTIVE".equals(text(source, "useKind"))
+                || !"INITIAL".equals(text(source, "castPhase")) || text(source, "sourceSkillKey") == null
+                || text(source, "sourceSkillKey").isBlank() || !"CURRENT_TARGET".equals(text(action, "targetContext"))
+                || !action.path("resultModifiers").isEmpty() || !action.path("runtimeInputBindings").isEmpty()) {
+                throw invalid(rule, path, "REFERENCE_TYPE_MISMATCH", "最低目标计数余时只允许明确技能首次主动使用，不接受输入绑定或结果修正");
+            }
+            validateTimedOwnTargetCounter(rule, detail, path + ".detail");
+            Use value = use(rule, detail, path + ".detail", "value", Bound.POSITIVE_INTEGER, true);
+            requireStaticMilliseconds(rule, value, path + ".detail.value", true);
+        }
+
+        private void validateTimedOwnTargetCounter(Aggregate rule, JsonNode detail, String path) {
+            Aggregate state = objects.get(new Id(text(detail, "stateSkillKey"), SourceType.STATE, text(detail, "stateKey")));
+            if (!rule.skillKey().equals(text(detail, "stateSkillKey")) || state == null
+                || !"COUNTER".equals(text(state.data(), "stateType")) || !"TARGET".equals(text(state.data(), "scope"))) {
+                throw invalid(rule, path + ".stateKey", "REFERENCE_TYPE_MISMATCH", "只能读取或保持本技能自身目标范围的有限计数余时");
+            }
+            Use duration = use(state, state.data().path("detail"), "detail", "durationValue", Bound.POSITIVE_INTEGER, true);
+            requireStaticMilliseconds(state, duration, "detail.durationValue", true);
+        }
+
+        private void requireStaticMilliseconds(Aggregate source, Use value, String path, boolean positive) {
+            Map<Levels, Fraction> values = value == null ? null : optionalStaticValues(value);
+            if (values == null || values.isEmpty()) {
+                throw invalid(source, path, "STATIC_REQUIRED", "目标计数余时必须在全部等级静态可求值");
+            }
+            BigInteger maximum = BigInteger.valueOf(9007199254740991L);
+            for (Fraction known : values.values()) {
+                if (!known.denominator().equals(BigInteger.ONE) || known.numerator().signum() < (positive ? 1 : 0)
+                    || known.numerator().compareTo(maximum) > 0) {
+                    throw invalid(source, path, "VALUE_RANGE_INVALID", positive
+                        ? "目标计数时长必须为严格正安全整数毫秒" : "目标计数余时比较必须为非负安全整数毫秒");
+                }
             }
         }
 

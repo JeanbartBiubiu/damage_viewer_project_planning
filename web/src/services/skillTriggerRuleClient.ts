@@ -451,10 +451,15 @@ function assertAction(value: unknown, path: string): SkillTriggerAction {
     protocolError(`${path}.detail.processKey`);
   }
   if (actionType === 'MODIFY_INTERNAL_STATE') {
-    if (value.targetContext !== 'EVENT_SOURCE' || value.resultModifiers.length !== 0 || value.runtimeInputBindings.length !== 0
+    const ensure = value.detail.operation === 'ENSURE_REMAINING';
+    if (value.targetContext !== (ensure ? 'CURRENT_TARGET' : 'EVENT_SOURCE') || value.resultModifiers.length !== 0 || value.runtimeInputBindings.length !== 0
       || Object.keys(value.detail).length !== 4 || Object.keys(value.detail).some(key => !['stateSkillKey', 'stateKey', 'operation', 'value'].includes(key))
       || typeof value.detail.stateSkillKey !== 'string' || typeof value.detail.stateKey !== 'string'
-      || value.detail.operation !== 'REDUCE_RECOVERY') protocolError(`${path}.detail`);
+      || !['REDUCE_RECOVERY', 'ENSURE_REMAINING'].includes(String(value.detail.operation))) protocolError(`${path}.detail`);
+    if (ensure && (!isNumericValue(value.detail.value) || value.detail.value.kind === 'FIXED'
+      && (!Number.isSafeInteger(value.detail.value.value) || value.detail.value.value <= 0))) protocolError(`${path}.detail.value`);
+    if (ensure && (!TRIGGER_KEY_PATTERN.test(String(value.detail.stateSkillKey))
+      || !TRIGGER_KEY_PATTERN.test(String(value.detail.stateKey)))) protocolError(`${path}.detail`);
   }
   if (
     actionType === 'FAIL_PROCESS'
@@ -534,6 +539,12 @@ export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDet
     }
   }));
   const actions = value.actions.map((item, index) => assertAction(item, `detail.actions[${index}]`));
+  actions.forEach((action, index) => {
+    if (action.actionType === 'MODIFY_INTERNAL_STATE' && action.detail.operation === 'ENSURE_REMAINING'
+      && (eventSource.eventType !== 'SKILL_USED' || eventSource.detail.useKind !== 'ACTIVE'
+        || eventSource.detail.castPhase !== 'INITIAL' || !eventSource.detail.sourceSkillKey
+        || !TRIGGER_KEY_PATTERN.test(eventSource.detail.sourceSkillKey))) protocolError(`detail.actions[${index}].detail`);
+  });
   return {
     ruleKey: assertString(value.ruleKey, 'detail.ruleKey'),
     name: assertString(value.name, 'detail.name'),

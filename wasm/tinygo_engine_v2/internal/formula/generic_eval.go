@@ -46,12 +46,15 @@ type GenericEvalContext struct {
 	StrictReads bool
 
 	// Provider state reads require a concrete provider context.
-	HasProviderContext    bool
-	HasProviderElapsed    bool
-	ProviderElapsedMs     int64
-	ProviderState         map[string]float64
-	ProviderTargetState   map[string]float64
-	ProviderStateDefaults map[string]float64
+	HasProviderContext             bool
+	HasProviderElapsed             bool
+	ProviderElapsedMs              int64
+	ProviderState                  map[string]float64
+	ProviderTargetState            map[string]float64
+	ProviderStateDefaults          map[string]float64
+	HasTargetStateRemainingContext bool
+	TargetStateRemainingNowMs      int64
+	TargetStateExpireAt            map[string]int64
 
 	// Event snapshot reads require an emit_event listener / child-ability context.
 	// Participants are the original emitted event source/target (not owner-remapped).

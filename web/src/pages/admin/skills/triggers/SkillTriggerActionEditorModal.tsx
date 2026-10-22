@@ -46,12 +46,14 @@ import {
   allowsAdvanceProcessEvent,
   bindingSummary,
   createEmptyActionDraft,
+  modifyInternalStateActionError,
   evaluateBindingCompleteness,
   canModifyResultValue,
   resultModifierTargetError,
   skillUsedCastPhase,
   switchActionType,
   targetContextOptionsForEvent,
+  targetCounterRemainingStateError,
   validateResultModifier,
   validateDraftChildKey,
   type NestedFieldError,
@@ -167,7 +169,9 @@ export function SkillTriggerActionEditorModal({
   const [localError, setLocalError] = useState<string | null>(null);
   const [resolvingTarget, setResolvingTarget] = useState(false);
   const consumedBindingFocus = useRef<string | null>(null);
-  const targetOptions = current.actionType === 'MODIFY_INTERNAL_STATE' ? ['EVENT_SOURCE'] as const : targetContextOptionsForEvent(eventSource.eventType);
+  const targetOptions = current.actionType === 'MODIFY_INTERNAL_STATE'
+    ? current.detail.operation === 'ENSURE_REMAINING' ? ['CURRENT_TARGET'] as const : ['EVENT_SOURCE'] as const
+    : targetContextOptionsForEvent(eventSource.eventType);
   const selectedEffect = current.actionType === 'EXECUTE_EFFECT'
     ? effectDetails.get(current.detail.effectKey) ?? null
     : null;
@@ -241,6 +245,12 @@ export function SkillTriggerActionEditorModal({
   const confirm = () => {
     const keyError = validateDraftChildKey(current.actionKey, '动作标识', existingKeys, mode === 'edit' ? draft?.actionKey : undefined);
     if (keyError) { setLocalError(keyError); return; }
+    if (current.actionType === 'MODIFY_INTERNAL_STATE') {
+      const error = modifyInternalStateActionError(current, eventSource, skillKey,
+        internalStates.find(item => item.stateKey === current.detail.stateKey),
+        { parameters: parameters ?? reachableParameters, formulas });
+      if (error) { setLocalError(error); return; }
+    }
     if (current.actionType === 'EXECUTE_EFFECT') {
       for (const modifier of current.resultModifiers) {
         const targetError = resultModifierTargetError(selectedEffect, modifier.resultKey);
@@ -427,14 +437,30 @@ export function SkillTriggerActionEditorModal({
             ) : null}
 
             {current.actionType === 'MODIFY_INTERNAL_STATE' ? <>
-              <Form.Item label="弹药状态" required>
-                <Select aria-label="弹药状态" value={current.detail.stateKey || undefined} disabled={disabled}
-                  options={internalStates.filter(row => row.stateType === 'AMMO' && row.scope === 'SKILL' && row.skillKey === skillKey)
+              <Form.Item label="状态修改方式" required>
+                <Select aria-label="状态修改方式" value={current.detail.operation} disabled={disabled}
+                  options={[
+                    { value: 'REDUCE_RECOVERY', label: '减少下一枚弹药回充时间' },
+                    { value: 'ENSURE_REMAINING', label: '确保目标计数至少剩余指定毫秒' }
+                  ]}
+                  onChange={value => {
+                    const operation = value as 'REDUCE_RECOVERY' | 'ENSURE_REMAINING';
+                    setCurrent({ ...current, targetContext: operation === 'ENSURE_REMAINING' ? 'CURRENT_TARGET' : 'EVENT_SOURCE',
+                      detail: { ...current.detail, operation, stateSkillKey: skillKey ?? '', stateKey: '' },
+                      runtimeInputBindings: [], resultModifiers: [] });
+                    setLocalError(null);
+                  }} />
+              </Form.Item>
+              <Form.Item label={current.detail.operation === 'ENSURE_REMAINING' ? '目标计数状态' : '弹药状态'} required>
+                <Select aria-label={current.detail.operation === 'ENSURE_REMAINING' ? '目标计数状态' : '弹药状态'} value={current.detail.stateKey || undefined} disabled={disabled}
+                  options={internalStates.filter(row => current.detail.operation === 'ENSURE_REMAINING'
+                    ? !targetCounterRemainingStateError(row, skillKey, skillKey, { parameters: parameters ?? reachableParameters, formulas })
+                    : row.stateType === 'AMMO' && row.scope === 'SKILL' && row.skillKey === skillKey)
                     .map(row => ({ value: row.stateKey, label: row.name }))}
                   onChange={value => setCurrent({ ...current, detail: { ...current.detail, stateSkillKey: skillKey ?? '', stateKey: String(value ?? '') } })} />
               </Form.Item>
-              <Form.Item label="减少下一枚回充毫秒" required>
-                <NumericValueField aria-label="减少下一枚回充毫秒" value={current.detail.value} parameters={parameters ?? reachableParameters}
+              <Form.Item label={current.detail.operation === 'ENSURE_REMAINING' ? '确保至少剩余毫秒' : '减少下一枚回充毫秒'} required>
+                <NumericValueField aria-label={current.detail.operation === 'ENSURE_REMAINING' ? '确保至少剩余毫秒' : '减少下一枚回充毫秒'} value={current.detail.value} parameters={parameters ?? reachableParameters}
                   formulas={formulas ?? []} disabled={disabled} onChange={value => {
                     if (!value) return;
                     const next = { ...current, detail: { ...current.detail, value } };
