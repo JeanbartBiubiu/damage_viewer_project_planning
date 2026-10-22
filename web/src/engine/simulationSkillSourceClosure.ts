@@ -8,7 +8,7 @@ export function selectSimulationSkillSourceClosure(configuration: SkillConfigura
     parameters: new Set<string>(), formulas: new Set<string>(), effects: new Set<string>(),
     processes: new Set<string>(), internalStates: new Set<string>(), triggerRules: new Set<string>()
   };
-  const pending: Array<{ value: unknown; path: string }> = [];
+  const pending: Array<{ value: unknown; path: string; collection: Collection }> = [];
   const producedEffects = new Set<string>();
   const producedStates = new Set<string>();
   const producedStatuses = new Set<string>();
@@ -22,18 +22,34 @@ export function selectSimulationSkillSourceClosure(configuration: SkillConfigura
     if (matches.length !== 1) fail(path, '必要闭包引用缺失或重复，不能只执行其余结果');
     if (selected[collection].has(key)) return;
     selected[collection].add(key);
-    pending.push({ value: matches[0], path: `${root}.${collection}.${key}` });
+    pending.push({ value: matches[0], path: `${root}.${collection}.${key}`, collection });
   };
   const ownSkill = (owner: unknown, path: string) => {
     if (owner != null && owner !== skillKey) fail(path, '必要闭包需要跨技能执行，必须由主负责人核定真实开启来源，不能借只读定义授予执行');
   };
-  const visit = (value: unknown, path: string): void => {
+  const visit = (value: unknown, path: string, ownActiveHit = false): void => {
     if (Array.isArray(value)) {
-      value.forEach((entry, index) => visit(entry, `${path}[${index}]`));
+      value.forEach((entry, index) => visit(entry, `${path}[${index}]`, ownActiveHit));
       return;
     }
     if (!value || typeof value !== 'object') return;
     const row = value as Record<string, unknown>;
+    if (row.conditionType === 'INTERNAL_STATE_CHECK' && /\.conditionGroups\[\d+\]\.conditions\[\d+\]$/.test(path)) {
+      const detail = row.detail as Record<string, unknown> | undefined;
+      if (detail && detail.stateSkillKey !== undefined && detail.stateSkillKey !== skillKey) {
+        if (!ownActiveHit || typeof detail.stateSkillKey !== 'string' || !/^[a-z][a-z0-9_]{0,63}$/.test(detail.stateSkillKey)
+          || typeof detail.stateKey !== 'string' || !/^[a-z][a-z0-9_]{0,63}$/.test(detail.stateKey) || detail.valueKind !== 'VALUE'
+          || detail.optionKey !== null || detail.expectedBoolean !== null
+          || !['LT', 'LTE', 'EQ', 'NE', 'GTE', 'GT'].includes(String(detail.comparator)) || !detail.comparisonValue
+          || Object.keys(row).some(key => !['conditionKey', 'conditionType', 'sortOrder', 'detail'].includes(key))
+          || Object.keys(detail).some(key => !['stateSkillKey', 'stateKey', 'valueKind', 'optionKey', 'expectedBoolean', 'comparator', 'comparisonValue'].includes(key))) {
+          fail(path, '跨技能状态闭包只接受实际自身技能命中的明确普通目标计数只读条件');
+        }
+        // 定义由同拥有者只读解析器验证；这里不加入外部状态、过程或监听执行集合。
+        visit(detail.comparisonValue, `${path}.detail.comparisonValue`, false);
+        return;
+      }
+    }
     if (row.stateType === 'COUNTER') {
       const detail = row.detail as Record<string, unknown> | undefined;
       const timing = detail?.targetTiming as Record<string, unknown> | undefined;
@@ -83,7 +99,7 @@ export function selectSimulationSkillSourceClosure(configuration: SkillConfigura
       if (detail?.operation === 'ENSURE_REMAINING') include('effects', detail.targetEffectKey, `${path}.detail.targetEffectKey`);
     }
     Object.entries(row).forEach(([field, child]) => {
-      if (field !== 'eventSource' || (child as { eventType?: string } | null)?.eventType === 'SKILL_HIT') visit(child, `${path}.${field}`);
+      if (field !== 'eventSource' || (child as { eventType?: string } | null)?.eventType === 'SKILL_HIT') visit(child, `${path}.${field}`, ownActiveHit);
     });
   };
   if (!rootKeys.length || new Set(rootKeys).size !== rootKeys.length) fail(root, '自然根集合缺失或重复');
@@ -92,7 +108,9 @@ export function selectSimulationSkillSourceClosure(configuration: SkillConfigura
   while (expanded) {
     while (pending.length) {
       const next = pending.shift()!;
-      visit(next.value, next.path);
+      const rule = next.collection === 'triggerRules' ? next.value as SkillConfiguration['triggerRules'][number] : null;
+      const ownActiveHit = rule?.eventSource.eventType === 'SKILL_HIT' && rule.eventSource.detail.sourceSkillKey === skillKey;
+      visit(next.value, next.path, ownActiveHit);
     }
     expanded = false;
     for (const rule of configuration.triggerRules) {

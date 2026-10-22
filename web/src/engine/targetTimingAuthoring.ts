@@ -38,7 +38,7 @@ export function targetTimingDeclarations(configuration: SkillConfiguration,
     const effect = configuration.effects.find(row => row.effectKey === binding?.effectKey);
     const damage = effect?.results[0];
     if (process.effectBindings.length !== 1 || !binding || binding.moment.momentType !== 'STEP_EXECUTION'
-      || binding.moment.stepKey !== process.steps[0]!.stepKey || binding.moment.failureReason !== null
+      || binding.moment.stepKey !== process.steps[0]!.stepKey || binding.moment.failureReason != null
       || !effect || effect.lifecycle !== null || effect.results.length !== 1 || damage?.resultType !== 'DAMAGE'
       || damage.target !== 'TARGET' || damage.spellShieldBlockScope !== null || damage.lifecycleBehavior !== null
       || damage.detail.critical.mode !== 'DISALLOWED' || damage.detail.critical.multiplierValue !== null
@@ -85,7 +85,7 @@ export function targetTimingDeclarations(configuration: SkillConfiguration,
       const condition = rule.conditionGroups[0]?.conditions[0];
       const action = rule.actions[0];
       if (rule.eventSource.eventType !== 'PROCESS_MOMENT' || rule.eventSource.detail.moment.momentType !== 'PROCESS_COMPLETE'
-        || rule.eventSource.detail.moment.stepKey !== null || rule.eventSource.detail.moment.failureReason !== null
+        || rule.eventSource.detail.moment.stepKey !== null || rule.eventSource.detail.moment.failureReason != null
         || rule.oncePerUse !== null || rule.perTargetCooldown !== null || rule.maxTriggersPerProcess !== null
         || rule.conditionGroups.length !== 1 || rule.conditionGroups[0]!.conditions.length !== 1
         || condition?.conditionType !== 'ATTRIBUTE_COMPARE' || condition.detail.subject !== 'CURRENT_TARGET'

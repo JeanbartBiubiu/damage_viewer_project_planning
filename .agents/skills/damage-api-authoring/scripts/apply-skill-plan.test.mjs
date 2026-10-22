@@ -39,6 +39,23 @@ test('过程时点failureReason空值与服务端省略等价，其它业务空�
   assert.equal(sameConfiguration(expected, nestedNull), false);
 });
 
+test('过程时点事件复用DTO的空失败原因可省略，明确值和其它事件明细保持严格', () => {
+  const expected=configuration();
+  expected.triggerRules[0].eventSource={eventType:'PROCESS_MOMENT',detail:{processKey:'cast',
+    moment:{momentType:'PROCESS_COMPLETE',stepKey:null,failureReason:null}}};
+  const actual=copy(expected);delete actual.triggerRules[0].eventSource.detail.moment.failureReason;
+  assert.equal(sameConfiguration(expected,actual),true);
+  const named=copy(actual);named.triggerRules[0].eventSource.detail.moment.failureReason='ACTIVE_CANCELLED';
+  assert.equal(sameConfiguration(expected,named),false);
+  const missingStep=copy(actual);delete missingStep.triggerRules[0].eventSource.detail.moment.stepKey;
+  assert.equal(sameConfiguration(expected,missingStep),false);
+  const extra=copy(actual);extra.triggerRules[0].eventSource.detail.failureReason=null;
+  assert.equal(sameConfiguration(expected,extra),false);
+  const otherEvent=copy(expected);otherEvent.triggerRules[0].eventSource.eventType='SKILL_USED';
+  const otherMissing=copy(otherEvent);delete otherMissing.triggerRules[0].eventSource.detail.moment.failureReason;
+  assert.equal(sameConfiguration(otherEvent,otherMissing),false);
+});
+
 function configuration(skillKey = 'sample_q') {
   const common = { gameId: 'demo', skillKey, name: '独立规则样例', description: null, sortOrder: 0,
     createdAt: '2026-10-17T00:00:00Z', updatedAt: '2026-10-17T00:00:00Z' };

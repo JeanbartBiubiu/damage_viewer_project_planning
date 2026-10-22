@@ -38,6 +38,7 @@ function fail(path: string, message: string): never { throw new NumericAdaptatio
 
 const OWN_ATTACK_EVENTS = new Set(['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'HIT_LINK_APPLIED', 'ATTACK_LINK_APPLIED']);
 const DEFERRED_SKILL_EVENTS = new Set(['SKILL_USED', 'SKILL_HIT', 'PROCESS_RESOLVED']);
+const DAMAGE_EVENTS = new Set(['DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN']);
 
 export function plannedSkillRuleKeys(configuration: SkillConfiguration, phases: readonly SimulationSkillPhase[] = ['INITIAL']) {
   const processes = new Set(configuration.triggerRules.filter(rule => rule.eventSource.eventType === 'SKILL_USED'
@@ -62,6 +63,18 @@ function activeReachableRoots(snapshot: SimulationSnapshot) {
   const sources = (['source', 'target'] as const).flatMap(side => snapshot[side].skillSources
     .filter(source => source.enabled && source.skillStatus === 'ENABLED' && source.skillLevel !== 0)
     .map(source => ({ source, side, configuration: snapshot.skillConfigurations.find(row => row.skill.skillKey === source.skillKey) })));
+  const canProduce = (entry: typeof sources[number]) => entry.source.inactiveReason === null
+    && entry.source.skillLevel !== null && Number.isSafeInteger(entry.source.skillLevel) && entry.source.skillLevel > 0
+    && entry.configuration?.skill.gameId === snapshot.gameId && entry.configuration.skill.status === 'ENABLED'
+    && entry.source.skillLevel <= entry.configuration.skill.maxLevel;
+  const plans = snapshot.selection.plannedSkills.filter(plan => sources.filter(entry => entry.side === 'source' && canProduce(entry)
+    && entry.source.skillLevel === plan.skillLevel
+    && simulationSkillSourceIdentity(entry.source.origin, entry.source.skillKey) === simulationSkillSourceIdentity(plan.origin, plan.skillKey)).length === 1);
+  const basicAttackDriven = snapshot.selection.basicAttackSkillKey !== null && sources.filter(entry => entry.side === 'source'
+    && canProduce(entry) && entry.source.origin.kind === 'CHARACTER'
+    && entry.source.origin.characterKey === snapshot.selection.sourceCharacterKey
+    && entry.source.skillKey === snapshot.selection.basicAttackSkillKey
+    && entry.source.skillLevel === snapshot.selection.basicAttackLevel).length === 1;
   const roots = new Map<string, Set<string>>();
   const identity = (side: Side, source: SimulationSkillSource) => `${side}:${simulationSkillSourceIdentity(source.origin, source.skillKey)}`;
   for (const entry of sources) {
@@ -69,16 +82,25 @@ function activeReachableRoots(snapshot: SimulationSnapshot) {
     for (const rule of entry.configuration?.triggerRules ?? []) {
       const event = rule.eventSource;
       if (!rule.actions.length) continue;
-      if (entry.side === 'source' && event.eventType === 'SKILL_USED'
+      if (entry.side === 'source' && ['BASIC_ATTACK_HIT', 'SKILL_USED'].includes(event.eventType)
         && rule.actions.every(action => isOwnProviderDurationMaintenanceAction(entry.configuration!, action))
-        && !snapshot.selection.plannedSkills.some(plan => plan.skillKey === entry.source.skillKey)) continue;
+        && !plans.some(plan => plan.skillKey === entry.source.skillKey)) continue;
       if (event.eventType === 'SOURCE_INITIALIZED' || entry.side === 'source'
         && (event.eventType === 'SKILL_HIT' || event.eventType === 'SKILL_USED' && event.detail.castPhase !== null
-          && snapshot.selection.plannedSkills.some(plan => plan.phaseKinds.includes(event.detail.castPhase!)
+          && plans.some(plan => plan.phaseKinds.includes(event.detail.castPhase!)
             && (event.detail.sourceSkillKey === null || event.detail.sourceSkillKey === plan.skillKey)))
-        && (event.detail.sourceSkillKey === null || snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey))) selected.add(rule.ruleKey);
+        && (event.detail.sourceSkillKey === null ? plans.length > 0 : plans.some(plan => plan.skillKey === event.detail.sourceSkillKey))) selected.add(rule.ruleKey);
+      // 后台普攻提供真实开始、接触和受击；链接事件仍由可达结果继续展开。
+      if (basicAttackDriven && (event.eventType === 'BASIC_ATTACK_RECEIVED' && entry.side === 'target'
+        || entry.side === 'source' && ['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT'].includes(event.eventType)
+          && !(rule.actions.every(action => action.actionType === 'MODIFY_INTERNAL_STATE'
+            || event.eventType === 'BASIC_ATTACK_HIT' && isOwnCooldownMaintenanceAction(entry.configuration!, action))
+            && !plans.some(plan => plan.skillKey === entry.source.skillKey)))) selected.add(rule.ruleKey);
+      if (basicAttackDriven && entry.side === 'source' && (event.eventType === 'SKILL_HIT'
+        || event.eventType === 'SKILL_USED' && event.detail.castPhase === 'INITIAL')
+        && (event.detail.sourceSkillKey === null || event.detail.sourceSkillKey === snapshot.selection.basicAttackSkillKey)) selected.add(rule.ruleKey);
       if (event.eventType === 'PROCESS_RESOLVED' && entry.side === 'source'
-        && snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey)
+        && plans.some(plan => plan.skillKey === event.detail.sourceSkillKey)
         && snapshot.skillConfigurations.some(configuration => configuration.skill.skillKey === event.detail.sourceSkillKey
           && configuration.processes.some(process => process.processKey === event.detail.processKey))) selected.add(rule.ruleKey);
     }
@@ -89,7 +111,7 @@ function activeReachableRoots(snapshot: SimulationSnapshot) {
     changed = false;
     for (const producer of sources) {
       const selected = roots.get(identity(producer.side, producer.source))!;
-      if (!producer.configuration || !selected.size) continue;
+      if (!producer.configuration || !selected.size || !canProduce(producer)) continue;
       const closure = selectSimulationSkillSourceClosure(producer.configuration, [...selected]).configuration;
       for (const subscriber of sources) for (const rule of subscriber.configuration?.triggerRules ?? []) {
         const subscribed = roots.get(identity(subscriber.side, subscriber.source))!;
@@ -132,14 +154,18 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
     return configuration.triggerRules.filter(rule => keys.has(rule.ruleKey)
       && !(plan && plannedSkillRuleKeys(configuration, plan.phaseKinds).includes(rule.ruleKey))).map(rule => rule.ruleKey).sort();
   }
-  const allSides = new Set(['SOURCE_INITIALIZED', 'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN']);
+  const reachable = configuration.triggerRules.some(rule => DAMAGE_EVENTS.has(rule.eventSource.eventType) && rule.actions.length)
+    ? activeReachableRoots(snapshot) : null;
+  const damageRoots = new Set((actualSource ? [actualSource] : snapshot[side].skillSources.filter(source => source.skillKey === configuration.skill.skillKey))
+    .flatMap(source => [...(reachable?.get(`${side}:${simulationSkillSourceIdentity(source.origin, source.skillKey)}`) ?? [])]));
   return configuration.triggerRules.filter(rule => {
     if (!rule.actions.length) return false;
     const event = rule.eventSource;
     if (side === 'source' && ['BASIC_ATTACK_HIT', 'SKILL_USED'].includes(event.eventType)
       && rule.actions.every(action => isOwnProviderDurationMaintenanceAction(configuration, action))
       && !snapshot.selection.plannedSkills.some(plan => plan.skillKey === configuration.skill.skillKey)) return false;
-    if (allSides.has(event.eventType)) return true;
+    if (event.eventType === 'SOURCE_INITIALIZED') return true;
+    if (DAMAGE_EVENTS.has(event.eventType)) return damageRoots.has(rule.ruleKey);
     if (event.eventType === 'PROCESS_RESOLVED') return side === 'source'
       && snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey)
       && snapshot.skillConfigurations.some(configuration => configuration.skill.skillKey === event.detail.sourceSkillKey

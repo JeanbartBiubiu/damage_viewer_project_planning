@@ -334,7 +334,10 @@ public class GameConfigurationWriteGuard {
           FROM public.skill_processes JOIN selected_game USING (game_id)
         UNION ALL SELECT 'TRIGGER', skill_key, rule_key,
                jsonb_build_object('eventSource', event_source, 'conditionGroups', condition_groups,
-                   'actions', actions, 'limits', limits)::text
+                   'actions', actions, 'sortOrder', sort_order, 'limits', limits,
+                   'perTargetCooldown', limits->'perTargetCooldown',
+                   'maxTriggersPerProcess', limits->'maxTriggersPerProcess',
+                   'oncePerUse', limits->'oncePerUse')::text
           FROM public.skill_trigger_rules JOIN selected_game USING (game_id)
         UNION ALL SELECT 'DAMAGE_TYPE', '', damage_type_key,
                jsonb_build_object('formula', calculation_formula, 'status', status)::text

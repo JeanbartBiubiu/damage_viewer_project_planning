@@ -24,6 +24,8 @@ import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skilltrigger.*;
 import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.support.authoring.AggregateJson;
+import xyz.game.datamanage.support.authoring.SkillNumericSemantics;
+import xyz.game.datamanage.support.authoring.TargetTimingAuthoringFixture;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
@@ -134,6 +136,26 @@ class SkillTriggerTargetCounterTimeServiceTest {
         assertEquals(request.conditionGroups(), saved.conditionGroups());
         assertEquals(SkillTriggerInternalStateValueKind.DAMAGE_BEFORE_VALUE,
             ((SkillTriggerInternalStateConditionDetail) saved.conditionGroups().getFirst().conditions().getFirst().detail()).valueKind());
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"CURRENT_TARGET", "EVENT_SOURCE"})
+    void timingKillRefundUsesTheExistingDamageDealtContextWithoutGrantingAnEventSource(String context) {
+        ObjectNode request = damageBeforeRequest();
+        ((ObjectNode) request.path("actions").get(0)).put("targetContext", context);
+        var typed = AggregateJson.read(request.toString(), SkillTriggerRuleCreateRequest.class);
+        assertFalse(SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.DAMAGE_DEALT));
+        if (context.equals("CURRENT_TARGET")) assertDoesNotThrow(() -> service.create(GAME_ID, SKILL_KEY, typed));
+        else {
+            var error = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY, typed));
+            assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", error.getCode());
+            assertTrue(error.getDetails().toString().contains("EVENT_SOURCE_NOT_AVAILABLE"));
+        }
+        ObjectNode config = TargetTimingAuthoringFixture.configuration();
+        ((ObjectNode) TargetTimingAuthoringFixture.find(config, "triggerRules", "ruleKey", "refund").path("actions").get(0))
+            .put("targetContext", context);
+        assertEquals(context.equals("CURRENT_TARGET"), SkillNumericSemantics.targetTimingNaturalRootsOnly(
+            TargetTimingAuthoringFixture.OWNER, config, TargetTimingAuthoringFixture.aggregates(config), List.of()));
+        assertEquals("SOURCE", TargetTimingAuthoringFixture.find(config, "effects", "effectKey", "mana").path("results").get(0).path("target").asText());
     }
 
     @ParameterizedTest @ValueSource(strings = {"ENSURE", "BEFORE"})

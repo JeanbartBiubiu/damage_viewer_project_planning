@@ -686,7 +686,11 @@ func (f *executionFrame) resolveAttributesFor(combatantKey string, attrs attribu
 
 func (f *executionFrame) evalAmount(programID formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError) {
 	ctx := f.evalContext(ability)
-	value, err := f.run.formulas.EvalContext(programID, &ctx)
+	return f.evalAmountWithContext(programID, &ctx)
+}
+
+func (f *executionFrame) evalAmountWithContext(programID formula.GenericProgramID, ctx *formula.GenericEvalContext) (float64, *model.EngineError) {
+	value, err := f.run.formulas.EvalContext(programID, ctx)
 	if err != nil {
 		msg := err.Error()
 		out := engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, msg, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)

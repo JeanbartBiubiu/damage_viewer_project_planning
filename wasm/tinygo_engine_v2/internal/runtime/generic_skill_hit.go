@@ -595,6 +595,17 @@ func bool01(ok bool) float64 {
 	return 0
 }
 
+func (f *executionFrame) evalSkillHitParticipation(programID formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError) {
+	ctx := f.evalContext(ability)
+	if f.ownerProviderRef != "" {
+		bag := f.stageFor(f.providerOwnerKey()).providerState[f.ownerProviderRef]
+		if bag != nil && bag.targetKey == f.targetKey {
+			ctx.ProviderTargetState = bag.targetStateForParticipation(f.run.nowMs)
+		}
+	}
+	return f.evalAmountWithContext(programID, &ctx)
+}
+
 func (f *executionFrame) selectSkillHitCandidates(plan *planbundle.CompiledSkillHit, ability planbundle.CompiledAbility, firstHas bool, firstVal float64) ([]int, *model.EngineError) {
 	var out []int
 	for i := range plan.Candidates {
@@ -618,7 +629,7 @@ func (f *executionFrame) selectSkillHitCandidates(plan *planbundle.CompiledSkill
 				rebound.ownerCombatantKey, rebound.ownerProviderRef = f.sourceKey, provider
 				conditionFrame = &rebound
 			}
-			value, err := conditionFrame.evalAmount(cand.ParticipationProgram, ability)
+			value, err := conditionFrame.evalSkillHitParticipation(cand.ParticipationProgram, ability)
 			if err != nil {
 				if err.Path == "" {
 					err.Path = cand.Path + ".participationCondition"

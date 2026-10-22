@@ -30,6 +30,7 @@ import { adaptDamageVamp, type AdaptedVampDamage, type AuthoredVampDamage } from
 import { compileSkillOncePerUse, validateHitRuleGroups, validateProviderOncePerUseScopes } from './skillOncePerUse';
 import { compileSkillHitCooldownReduction, type SkillHitCooldownReduction } from './skillHitCooldownReduction';
 import { staticEffectAmount } from './staticEffectValue';
+import type { SiblingTargetCounterReadResolver } from './siblingTargetCounterRead';
 
 export class HitAdaptationError extends NumericAdaptationError {
   constructor(path: string, message: string) {
@@ -65,6 +66,8 @@ export type AuthoredHitProgram = {
   /** 仅宿主提供当前场景真实游戏绑定；不会进入公开编译或运行协议。 */
   criticalBinding?: (forced: boolean, path: string) => Pick<OperationDefinition, 'critChance' | 'critMultiplierMin'>;
   chargeReleaseContext?: { process: SkillProcess; rules: readonly SkillTriggerRuleDetail[] };
+  /** 只由真实装配上下文供给，不让作者构造兄弟技能的挂载身份。 */
+  siblingTargetCounterRead?: SiblingTargetCounterReadResolver;
 };
 
 export type HitResolveKind = 'skill' | 'basic_attack';
@@ -255,7 +258,7 @@ function convertRuleConditions(
   authored: AuthoredHitProgram,
   state: NumericCompileState,
   resolveKind: HitResolveKind
-): { eventValueConditions: SkillHitEventValueCondition[]; participation: GenericFormulaExpr | null } {
+): { eventValueConditions: SkillHitEventValueCondition[]; participation: GenericFormulaExpr | null; participationProviderRef?: string } {
   const root = planPath(authored.skillKey, `rules.${rule.ruleKey}`);
   if (rule.perTargetCooldown != null || rule.maxTriggersPerProcess != null) {
     return fail(`${root}.limits`, '未支持的过程限制，按共享契约整体拒绝');
@@ -263,6 +266,8 @@ function convertRuleConditions(
   const groups = stableSorted(rule.conditionGroups, (group) => group.sortOrder);
   if (!groups.length) return { eventValueConditions: [], participation: null };
   const extracted: Array<{ event: SkillHitEventValueCondition[]; remaining: GenericFormulaExpr; fingerprints: string[] }> = [];
+  let stateOwner: string | null = null;
+  let participationProviderRef: string | undefined;
   for (const group of groups) {
     const groupPath = `${root}.conditionGroups.${group.groupKey}`;
     const conditions = stableSorted(group.conditions, (item) => item.sortOrder);
@@ -279,6 +284,32 @@ function convertRuleConditions(
       }
       if (condition.conditionType === 'INTERNAL_STATE_CHECK') {
         const detail = condition.detail;
+        if (stateOwner !== null && stateOwner !== detail.stateSkillKey) fail(path, '同一命中规则不能混合自身状态或多个兄弟供值器的状态');
+        stateOwner = detail.stateSkillKey;
+        if (detail.stateSkillKey !== authored.skillKey) {
+          if (resolveKind !== 'skill' || rule.eventSource.eventType !== 'SKILL_HIT'
+            || rule.eventSource.detail.sourceSkillKey !== authored.skillKey || !authored.siblingTargetCounterRead
+            || detail.valueKind !== 'VALUE' || detail.optionKey !== null || detail.expectedBoolean !== null
+            || !detail.comparator || !COMPARATORS[detail.comparator] || !detail.comparisonValue
+            || Object.keys(condition).some(key => !['conditionKey', 'conditionType', 'sortOrder', 'detail'].includes(key))
+            || Object.keys(detail).some(key => !['stateSkillKey', 'stateKey', 'valueKind', 'optionKey', 'expectedBoolean', 'comparator', 'comparisonValue'].includes(key))) {
+            fail(path, '跨技能目标计数仅允许真实自身主动命中上的明确只读当前值比较');
+          }
+          const external = authored.siblingTargetCounterRead(authored.skillKey, detail.stateSkillKey, detail.stateKey, path);
+          if (participationProviderRef !== undefined && participationProviderRef !== external.participationProviderRef) fail(path, '命中候选只能绑定一个实际条件挂载');
+          participationProviderRef = external.participationProviderRef;
+          for (const formula of external.formulas) {
+            const previous = state.namedFormulas.get(formula.key);
+            if (previous && !sameFormulaPayload(previous, formula)) fail(path, '兄弟目标计数静态公式与现有定义冲突');
+            state.namedFormulas.set(formula.key, formula);
+          }
+          const right = compileNumericValue(detail.comparisonValue, `${path}.comparisonValue`,
+            { ...state, bindParameters: false, allowAttributeReads: false, runtimeInputReads: undefined, sceneParameterValues: undefined }, fail);
+          const threshold = tryFoldConstant(right);
+          if (threshold === null || !Number.isSafeInteger(threshold) || threshold < 0) fail(path, '命中状态门槛必须为明确非负整数');
+          remaining.push({ op: COMPARATORS[detail.comparator]!, args: [external.value, right] });
+          continue;
+        }
         const definitions = authored.internalStates?.filter(row => row.stateKey === detail.stateKey) ?? [];
         const definition = definitions[0];
         if (definitions.length !== 1 || !definition || definition.gameId !== authored.gameId || definition.skillKey !== authored.skillKey
@@ -305,6 +336,7 @@ function convertRuleConditions(
   }
   return {
     eventValueConditions: first.event,
+    ...(participationProviderRef ? { participationProviderRef } : {}),
     participation: extracted.every((row) => sameJson(row.remaining, constExpr(1)))
       ? null
       : combine('max', extracted.map((row) => row.remaining))
@@ -855,6 +887,7 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
           effectKey: effect.effectKey, resultKey: paired.targetResult.resultKey,
           semantic: { resultType: 'ATTRIBUTE_CHANGE', target: 'TARGET', moment: 'PERSISTENT' }, spellShieldBlockScope: 'SKILL',
           ...(converted.participation ? { participationCondition: converted.participation } : {}),
+          ...(converted.participationProviderRef ? { participationProviderRef: converted.participationProviderRef } : {}),
           ...(converted.eventValueConditions.length ? { eventValueConditions: converted.eventValueConditions } : {}), operations: [paired.operation] });
         continue;
       }
@@ -879,6 +912,7 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
           semantic: compiled.semantic,
           spellShieldBlockScope: result.spellShieldBlockScope as SpellShieldBlockScope | null,
           ...(converted.participation ? { participationCondition: converted.participation } : {}),
+          ...(converted.participationProviderRef ? { participationProviderRef: converted.participationProviderRef } : {}),
           ...(converted.eventValueConditions.length ? { eventValueConditions: converted.eventValueConditions } : {}),
           operations: compiled.operations
         };

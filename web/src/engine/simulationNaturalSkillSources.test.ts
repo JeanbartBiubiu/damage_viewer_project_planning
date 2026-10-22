@@ -408,6 +408,8 @@ describe('5B真实默认来源复用通用触发核心', () => {
     authored.triggerRules[0]!.actions[0]!.targetContext = 'CURRENT_TARGET';
     renamed.catalogs.modifierZones.push({ ...renamed.catalogs.modifierZones[0]!, modifierZoneKey: 'incoming_product', name: '承受乘算', domain: 'DAMAGE',
       calculationMode: 'RATIO_MULTIPLY', applicationStage: 'DAMAGE_POST_DEFENSE' });
+    // 本场只有目标承受实际普攻，明确关闭未受伤的来源方以验证目标的结果准入门禁。
+    renamed.selection.sourceSkillSettings.find(row => row.skillKey === skillKey)!.enabled = false;
     syncNaturalSources(renamed);
     expect(() => scene(renamed)).toThrow(/仅接真实过程施加/);
     effect.results = [{ ...effect.results[0]!, resultType: 'ATTRIBUTE_CHANGE', target: 'SOURCE',

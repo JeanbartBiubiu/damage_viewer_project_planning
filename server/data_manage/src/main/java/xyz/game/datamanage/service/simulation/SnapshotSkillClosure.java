@@ -197,10 +197,95 @@ final class SnapshotSkillClosure {
         Aggregate dependency = objects.get(key);
         if (dependency == null) throw SnapshotIssues.invalid(path, "REFERENCE_MISSING", "开启闭包中的必要组成不存在");
         Source owner = invocation.owner();
-        boolean definitionOnly = invocation.definitionOnly() || shieldDefinitionReference(invocation.object(), reference);
+        boolean definitionOnly = invocation.definitionOnly() || shieldDefinitionReference(invocation.object(), reference)
+            || hitCounterDefinitionReference(invocation, reference, dependency);
         if (!definitionOnly && key.type() != SourceType.FORMULA && !key.skillKey().equals(owner.skillKey)) owner = ownerFor(owner, key.skillKey(), path);
         boolean executes = !definitionOnly && invocation.executes() && executesDependency(invocation.object(), reference);
         enqueue(owner, dependency, executes, definitionOnly);
+    }
+
+    /** 仅实际自身主动命中条件可跨读同角色普通目标计数；不授予被读来源的执行资格。 */
+    private boolean hitCounterDefinitionReference(Invocation invocation, Reference reference, Aggregate state) {
+        Aggregate rule = invocation.object(); Source reader = invocation.owner();
+        if (reference.target().type() != TargetType.STATE || rule.type() != SourceType.TRIGGER
+            || state.skillKey().equals(rule.skillKey()) || !reference.fieldPath().matches("conditionGroups\\[\\d+\\]\\.conditions\\[\\d+\\]\\.detail.stateKey")) return false;
+        JsonNode event = rule.data().path("eventSource");
+        if (!"SKILL_HIT".equals(event.path("eventType").asText()) || !reader.skillKey.equals(rule.skillKey())
+            || !reader.skillKey.equals(event.path("detail").path("sourceSkillKey").asText()) || reader.planned == null
+            || !reader.side.equals("source") || reader.skillKey.equals(attackKey) || !"CHARACTER".equals(reader.origin.kind())) return false;
+        String path = path(reference);
+        if (!actualInitialActiveReader(reader))
+            throw SnapshotIssues.invalid(path, "PHASE_ROOT_INVALID", "跨读命中条件需要同来源实际计划的首次主动入口及唯一主动过程");
+        List<Source> providers = sources.stream().filter(candidate -> candidate.side.equals(reader.side)
+            && candidate.origin.equals(reader.origin) && candidate.skillKey.equals(state.skillKey())).toList();
+        if (providers.size() != 1) throw SnapshotIssues.invalid(path, "REFERENCE_OUT_OF_SCOPE", "命中条件只能读取同一实际角色关系中的唯一技能定义");
+        Source provider = providers.getFirst();
+        JsonNode definition = state.data(), detail = definition.path("detail");
+        if (!gameId.equals(provider.configuration.skill().gameId()) || provider.status != SkillStatus.ENABLED
+            || !state.skillKey().equals(definition.path("skillKey").asText()) || !gameId.equals(definition.path("gameId").asText())
+            || !"COUNTER".equals(definition.path("stateType").asText()) || !"TARGET".equals(definition.path("scope").asText())
+            || detail.has("initialValueBinding") || detail.has("targetTiming"))
+            throw SnapshotIssues.invalid(path, "REFERENCE_TYPE_MISMATCH", "命中条件只读同游戏同角色普通目标计数，不能读取初值绑定或时序锚");
+        if (provider.enabled && !Integer.valueOf(0).equals(provider.level)
+            && (provider.inactive != null || !active.contains(provider)))
+            throw SnapshotIssues.invalid(path, "SOURCE_DEPENDENCY_INACTIVE", "明确开启的供值技能缺少本场合法自然来源");
+        List<SkillNumericSemantics.Parameter> providerNumbers = snapshotParameters(provider);
+        requireHitCounterNumber(state, detail.path("initialValue"), "detail.initialValue", providerNumbers, 0);
+        requireHitCounterNumber(state, detail.path("maxValue"), "detail.maxValue", providerNumbers, 1);
+        requireHitCounterNumber(state, detail.path("durationValue"), "detail.durationValue", providerNumbers, 2);
+        Set<String> owners = new HashSet<>();
+        for (JsonNode group : rule.data().path("conditionGroups")) for (JsonNode condition : group.path("conditions")) {
+            if (!"INTERNAL_STATE_CHECK".equals(condition.path("conditionType").asText())) continue;
+            JsonNode check = condition.path("detail"); owners.add(check.path("stateSkillKey").asText());
+            if (!state.skillKey().equals(check.path("stateSkillKey").asText()) || !"VALUE".equals(check.path("valueKind").asText())
+                || check.hasNonNull("optionKey") || check.hasNonNull("expectedBoolean")
+                || !Set.of("EQ", "NE", "LT", "LTE", "GT", "GTE").contains(check.path("comparator").asText()))
+                throw SnapshotIssues.invalid(path, "REFERENCE_TYPE_MISMATCH", "同一命中规则只能以合法整数比较读取一个外部计数所属技能");
+            requireHitCounterNumber(rule, check.path("comparisonValue"), "conditionGroups.conditions.comparisonValue", snapshotParameters(reader), 1);
+        }
+        if (owners.size() != 1) throw SnapshotIssues.invalid(path, "REFERENCE_OUT_OF_SCOPE", "同一命中规则不能混合自身或第二供值来源");
+        return true;
+    }
+
+    private boolean actualInitialActiveReader(Source source) {
+        if (!source.planned.phaseKinds().contains("INITIAL")) return false;
+        List<Aggregate> entries = rules(source).stream().filter(rule -> {
+            JsonNode event = rule.data().path("eventSource"), detail = event.path("detail");
+            return "SKILL_USED".equals(event.path("eventType").asText()) && source.skillKey.equals(detail.path("sourceSkillKey").asText())
+                && "ACTIVE".equals(detail.path("useKind").asText()) && "INITIAL".equals(detail.path("castPhase").asText());
+        }).toList();
+        if (entries.size() != 1 || !source.ruleKeys.contains(entries.getFirst().key())) return false;
+        List<JsonNode> starts = entries.getFirst().data().path("actions").valueStream()
+            .filter(action -> "START_PROCESS".equals(action.path("actionType").asText())).toList();
+        if (starts.size() != 1) return false;
+        Aggregate process = objects.get(new ObjectKey(source.skillKey, SourceType.PROCESS, starts.getFirst().path("detail").path("processKey").asText()));
+        return process != null && "ACTIVE".equals(process.data().path("activationType").asText());
+    }
+
+    private void requireHitCounterNumber(Aggregate owner, JsonNode value, String path,
+        List<SkillNumericSemantics.Parameter> parameters, int bound) {
+        try {
+            var number = SkillNumericSemantics.snapshotStaticInteger(owner, value, path, List.copyOf(objects.values()), parameters);
+            if (bound == 0 ? number.signum() != 0 : bound == 1 ? number.signum() < 0 : number.signum() <= 0)
+                throw SnapshotIssues.invalid(objectPath(owner) + "." + path, "VALUE_RANGE_INVALID", "命中条件要求零初值、非负整数容量与阈值、正整数期限");
+        } catch (ApiException exception) { throw translate(exception); }
+    }
+
+    private List<SkillNumericSemantics.Parameter> snapshotParameters(Source source) {
+        List<SkillNumericSemantics.Parameter> result = new ArrayList<>();
+        for (SkillParameterResponse parameter : source.configuration.parameters()) {
+            BigDecimal value = parameter.fixedValue();
+            String mode = parameter.valueMode() == null ? "" : parameter.valueMode().name();
+            if (parameter.valueMode() == SkillParameterValueMode.SKILL_LEVEL || parameter.valueMode() == SkillParameterValueMode.CHARACTER_LEVEL) {
+                Integer level = parameter.valueMode() == SkillParameterValueMode.SKILL_LEVEL ? source.level : source.characterLevel;
+                value = level == null || parameter.levelValues() == null ? null : parameter.levelValues().get(level.toString());
+                mode = "FIXED";
+            }
+            result.add(new SkillNumericSemantics.Parameter(source.skillKey, parameter.parameterKey(),
+                parameter.valueType() == null ? null : parameter.valueType().name(),
+                mode, value, null));
+        }
+        return result;
     }
 
     private Source ownerFor(Source source, String skillKey, String path) {

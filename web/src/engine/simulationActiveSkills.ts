@@ -6,6 +6,7 @@ import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
 import { adaptProcessProgram, type CastCostRef, type ProcessBasicAttackContext } from './processAdapter';
 import { adaptHitProgram } from './hitAdapter';
+import { createSiblingTargetCounterReadResolver, type SiblingTargetCounterContext, type SiblingTargetCounterReadResolver } from './siblingTargetCounterRead';
 import { bindSkillHitCooldownReductions, type PendingSkillHitCooldownReduction } from './skillHitCooldownReduction';
 import { processSkillHitStages } from './processSkillHitStages';
 import { cooldownDurationProviderKey } from './cooldownDurationEffectAdapter';
@@ -73,16 +74,17 @@ export function simulationAutomaticCastCosts(snapshot: SimulationSnapshot): Simu
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 
 export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts: readonly SimulationCastCostRef[] = [], basicAttackContext?: ProcessBasicAttackContext,
-  sceneInputs: readonly SceneInitialParameterInput[] = []) {
+  sceneInputs: readonly SceneInitialParameterInput[] = [], siblingTargetCounters?: SiblingTargetCounterContext) {
   const normalized = normalizeSceneInitialParameterInputs(snapshot, sceneInputs);
   const plans = snapshot.selection.plannedSkills;
   if (!plans.length || plans.length > 16 || new Set(plans.map(plan => simulationSkillSourceIdentity(plan.origin, plan.skillKey))).size !== plans.length) {
     fail('selection.plannedSkills', '需要1～16份不同真实来源，每个来源只允许一个等级');
   }
   if (ignoredCosts.some(cost => !plans.some(plan => plan.skillKey === cost.skillKey))) fail('ignoredCastCosts', '费用引用必须属于本次计划技能');
+  const siblingTargetCounterRead = siblingTargetCounters ? createSiblingTargetCounterReadResolver(snapshot, siblingTargetCounters) : undefined;
   const assemblies = [...plans].sort((left, right) => simulationSkillSourceIdentity(left.origin, left.skillKey)
     .localeCompare(simulationSkillSourceIdentity(right.origin, right.skillKey), 'en')).map(plan =>
-    assembleActiveSkill(snapshot, plan, ignoredCosts.filter(cost => cost.skillKey === plan.skillKey), basicAttackContext, normalized));
+    assembleActiveSkill(snapshot, plan, ignoredCosts.filter(cost => cost.skillKey === plan.skillKey), basicAttackContext, normalized, siblingTargetCounterRead));
   bindSkillHitCooldownReductions(snapshot, assemblies);
   const providers = new Map<string, ProviderDefinition>();
   const formulas = new Map<string, NamedFormula>();
@@ -171,7 +173,7 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
 }
 
 function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlannedSkill, ignoredCosts: readonly SimulationCastCostRef[], basicAttackContext?: ProcessBasicAttackContext,
-  sceneInputs: readonly SceneInitialParameterInput[] = []) {
+  sceneInputs: readonly SceneInitialParameterInput[] = [], siblingTargetCounterRead?: SiblingTargetCounterReadResolver) {
   const root = `skills.${plan.skillKey}`;
   const complete = snapshot.skillConfigurations.find(row => row.skill.skillKey === plan.skillKey);
   if (!complete) fail(root, '缺少计划技能的完整作者配置');
@@ -365,6 +367,7 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
       modifierZones: snapshot.catalogs.modifierZones, skillCategoryKeys: configuration.skill.skillCategoryKeys,
       vampRules: snapshot.catalogs.vampRules.rules, identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
       criticalBinding: (forced, path) => simulationCriticalBinding(snapshot, forced, path),
+      ...(siblingTargetCounterRead ? { siblingTargetCounterRead } : {}),
       ...(terminal.stepType === 'CHARGE' && (plan.phaseKinds.includes('CHARGE_RELEASE') || terminal.releaseAtMaximum === true)
         ? { chargeReleaseContext: { process, rules: processRules } } : {}) });
     if (!hit.skillHit.candidates.length) fail(`${root}.triggerRules`, '计划命中缺少完整必要结果');

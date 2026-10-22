@@ -21,6 +21,20 @@ function attributes(sample: Sample) {
 const provider = (sample: Sample) => assemble(sample).providers.find(row => row.skillKey === 'lab_timing')!;
 
 describe('有界目标时序的生产宿主装配', () => {
+  it('真实DTO省略过程失败原因时与显式null装配相同，明确失败原因仍拒绝', () => {
+    const raw=targetTimingSample();
+    for(const process of raw.configuration.processes) {
+      for(const row of [...process.effectBindings,...process.stateOperations]) {
+        delete (row.moment as unknown as {failureReason?:string|null}).failureReason;
+      }
+    }
+    if(raw.tail.eventSource.eventType!=='PROCESS_MOMENT')throw new Error('missing synthetic tail');
+    delete (raw.tail.eventSource.detail.moment as unknown as {failureReason?:string|null}).failureReason;
+    expect(assemble(raw)).toEqual(assemble(targetTimingSample()));
+    raw.tick.effectBindings[0]!.moment.failureReason='ACTIVE_CANCELLED';
+    expect(()=>assemble(raw)).toThrow(/时序过程/);
+  });
+
   it('三个独立周期与一个预约属于同一真实挂载，周期每锚只有一笔无条件完整伤害', () => {
     const sample = targetTimingSample();
     const before = structuredClone(sample.snapshot);

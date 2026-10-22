@@ -8,6 +8,8 @@ import { assembleNaturalSkillSources } from './simulationNaturalSkillSources';
 
 function sample(event: 'DAMAGE_DEALT' | 'DAMAGE_TAKEN' | 'BASIC_ATTACK_START' | 'DAMAGE_PENDING' = 'DAMAGE_DEALT') {
   const snapshot = triggeredEquipmentSimulationSample([], []), config = recurveBowConfiguration();
+  const side = event === 'DAMAGE_TAKEN' || event === 'DAMAGE_PENDING' ? 'target' : 'source';
+  const actor = snapshot[side];
   const result = config.effects[0]!.results[0]!;
   config.effects[0]!.results = [{ ...result, resultType: 'DIRECT_HEAL', target: 'SOURCE', detail: {},
     resultKey: 'heal', valueRule: { value: { kind: 'FIXED', value: 30 }, fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null } },
@@ -20,33 +22,34 @@ function sample(event: 'DAMAGE_DEALT' | 'DAMAGE_TAKEN' | 'BASIC_ATTACK_START' | 
     conditions: [{ conditionKey: 'killed', conditionType: 'EVENT_VALUE_COMPARE', sortOrder: 0,
       detail: { eventValueKey: 'KILLED', comparator: 'EQ', comparisonValue: { kind: 'FIXED', value: 1 } } }] }];
   snapshot.skillConfigurations.push(config);
-  snapshot.source.attachedSkills.push({ gameId: snapshot.gameId, characterKey: snapshot.source.character.characterKey,
-    characterName: snapshot.source.character.name, skillKey: config.skill.skillKey, skillName: config.skill.name, skillStatus: 'ENABLED', sortOrder: 10 });
-  snapshot.selection.sourceSkillSettings.push({ origin: { kind: 'CHARACTER', characterKey: snapshot.source.character.characterKey },
+  // 单向普攻的承受方才会产生受伤前/受伤事件，恢复仍作用于监听者自身。
+  actor.attachedSkills.push({ gameId: snapshot.gameId, characterKey: actor.character.characterKey,
+    characterName: actor.character.name, skillKey: config.skill.skillKey, skillName: config.skill.name, skillStatus: 'ENABLED', sortOrder: 10 });
+  snapshot.selection[`${side}SkillSettings`].push({ origin: { kind: 'CHARACTER', characterKey: actor.character.characterKey },
     skillKey: config.skill.skillKey, skillLevel: 1, enabled: true });
   if (!snapshot.catalogs.attributes.some(row => row.attributeKey === 'mana')) snapshot.catalogs.attributes.push({ ...snapshot.catalogs.attributes[0]!,
     attributeKey: 'mana', name: '法力', minValue: 0, maxValue: null });
   syncSimulationSkillSources(snapshot);
-  return { snapshot, config };
+  return { snapshot, config, side };
 }
 function assembled(event: Parameters<typeof sample>[0] = 'DAMAGE_DEALT') {
-  const { snapshot, config } = sample(event);
+  const { snapshot, config, side } = sample(event);
   approveSnapshotFixture(snapshot);
   const result = assembleNaturalSkillSources(snapshot);
-  return { snapshot, config, result, listener: result.providers.flatMap(provider => provider.abilities ?? [])
+  return { snapshot, config, side, result, listener: result.providers.flatMap(provider => provider.abilities ?? [])
     .find(ability => ability.skillKey === config.skill.skillKey)!.listenerSpec! };
 }
 
 describe('真实逐笔击杀条件与自然普通恢复', () => {
   it.each(['DAMAGE_DEALT', 'DAMAGE_TAKEN'] as const)('%s只读真实冻结击杀值并保留完整来源筛选', event => {
-    const { listener, result, config } = assembled(event);
+    const { listener, result, config, side } = assembled(event);
     expect(listener.eventMatcher.all).toEqual(expect.arrayContaining([event === 'DAMAGE_DEALT' ? 'event/damage_instance' : 'event/damage_taken',
       event === 'DAMAGE_DEALT' ? 'event/source_owner' : 'event/target_owner', 'physics', 'damage_trait/delivery_basic_attack', 'damage_trait/origin_direct']));
     expect(listener.eventMatcher.all!.some(key => key.startsWith('ability/skill/'))).toBe(true);
     expect(listener.condition).toEqual({ op: 'eq', args: [{ op: 'read', path: 'event.damage.killed' }, { op: 'const', value: 1 }] });
     expect(listener.operations).toMatchObject([{ operation: 'heal', target: 'self', ref: expect.stringContaining('results.heal') },
       { operation: 'resource_change', target: 'self', resourceKey: 'mana', ref: expect.stringContaining('results.mana') }]);
-    expect(result.required.source.has('mana')).toBe(true);
+    expect(result.required[side].has('mana')).toBe(true);
     expect(result.triggered.operationOrigins.filter(row => row.skillKey === config.skill.skillKey)).toHaveLength(2);
   });
 

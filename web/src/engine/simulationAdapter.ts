@@ -36,7 +36,7 @@ import { initialResourceRequirements, normalizeInitialResourceInputs } from './i
 import { permanentHealthIncreases } from './permanentHealthInitialization';
 import { assembleTargetMarkSource } from './targetMarkAdapter';
 
-export const SIMULATION_ADAPTER_VERSION = 'v38-phased-target-timing-and-damage-state-before';
+export const SIMULATION_ADAPTER_VERSION = 'v39-sibling-target-counter-hit-condition';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -585,7 +585,7 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
   const active = assembleActiveSkills(snapshot, ignoredCosts, base.basicAttackBinding && base.provider ? {
     binding: base.basicAttackBinding, provider: base.provider,
     mount: { providerRef: MOUNT, definitionRef: base.provider.providerKey }
-  } : undefined, sceneInputs);
+  } : undefined, sceneInputs, base.natural);
   bindFiniteTargetCounterSources(snapshot, base.natural.providers, active);
   bindTargetTimingSources(snapshot, base.natural.providers, active);
   bindBasicAttackCooldownReductions([

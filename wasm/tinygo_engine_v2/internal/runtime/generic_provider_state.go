@@ -744,6 +744,51 @@ func (b *providerStateBag) targetStateForFormula() map[string]float64 {
 	return b.targetValues
 }
 
+// 命中候选可能先于同刻到期清理。只投影普通整数目标计数的真实期限，
+// 不写入包、期限或锚；仅首次发现不同于默认值的到期键时复制局部数值表。
+func (b *providerStateBag) targetStateForParticipation(nowMs int64) map[string]float64 {
+	if b == nil {
+		return nil
+	}
+	var projected map[string]float64
+	for key, expires := range b.targetExpireAt {
+		if expires <= 0 || nowMs < expires {
+			continue
+		}
+		def, ok := b.fieldDefs[key]
+		if !ok || def.stateKind != "" || def.valueType != model.ProviderStateValueInteger || def.durationMs <= 0 || def.hasOnExpire {
+			continue
+		}
+		if _, anchored := b.anchoredTickGeneration[key]; anchored {
+			continue
+		}
+		isTiming := false
+		if b.timing != nil {
+			for _, fact := range b.timing {
+				if fact.key == key {
+					isTiming = true
+					break
+				}
+			}
+		}
+		if isTiming {
+			continue
+		}
+		value, present := b.targetValues[key]
+		if !present || value == def.defaultValue {
+			continue
+		}
+		if projected == nil {
+			projected = cloneFloatMap(b.targetValues)
+		}
+		projected[key] = def.defaultValue
+	}
+	if projected != nil {
+		return projected
+	}
+	return b.targetValues
+}
+
 func (b *providerStateBag) defaultsForFormula() map[string]float64 {
 	if b == nil || len(b.fieldDefs) == 0 {
 		return nil

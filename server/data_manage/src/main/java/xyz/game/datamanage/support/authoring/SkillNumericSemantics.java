@@ -79,6 +79,22 @@ public final class SkillNumericSemantics {
     public record Parameter(String skillKey, String key, String valueType, String valueMode,
                             BigDecimal fixedValue, JsonNode levelValues) {}
 
+    /** 快照按真实来源选定参数后复用共同静态求值；不接受运行输入或未定等级组合。 */
+    public static BigInteger snapshotStaticInteger(Aggregate source, JsonNode value, String path,
+        List<Aggregate> context, List<Parameter> selectedParameters) {
+        Context numeric = new Context(context, selectedParameters, Map.of(), Map.of(), Map.of());
+        Use use;
+        try { use = new Use(source, path, SkillNumericValue.fromJson(value)); }
+        catch (IllegalArgumentException invalid) { throw invalid(source, path, "VALUE_SHAPE_INVALID", "只读目标计数数值形状不合法"); }
+        if (use.value() == null) throw invalid(source, path, "REQUIRED", "只读目标计数需要明确静态数值");
+        Map<Levels, Fraction> values = numeric.optionalStaticValues(use);
+        if (values == null || values.size() != 1) throw invalid(source, path, "STATIC_REQUIRED", "只读目标计数必须在实际所属等级静态可求值");
+        Fraction known = values.values().iterator().next();
+        if (!known.denominator().equals(BigInteger.ONE) || known.numerator().abs().compareTo(BigInteger.valueOf(9007199254740991L)) > 0)
+            throw invalid(source, path, "VALUE_RANGE_INVALID", "只读目标计数数值必须为安全整数");
+        return known.numerator();
+    }
+
     /** 只读快照复核新声明，不向旧来源追加整套管理写校验。 */
     public static void validateTargetTiming(List<Aggregate> sources, List<Aggregate> context, List<Parameter> parameters) {
         Context numeric = new Context(context, parameters, Map.of(), Map.of(), Map.of());

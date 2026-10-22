@@ -185,6 +185,25 @@ describe('普通盾过程与作者状态', () => {
           detail: { stateSkillKey: configuration.skill.skillKey, stateKey: 'quota', valueKind: 'VALUE', optionKey: null, expectedBoolean: null, comparator: 'EQ', comparisonValue: fixedValue(0) } }
       ] }], actions: [{ actionKey: 'retaliate', name: '受伤后消费', actionType: 'START_PROCESS', sortOrder: 0, targetContext: 'EVENT_SOURCE',
         detail: { processKey: 'retaliate' }, runtimeInputBindings: [], resultModifiers: [] }] }];
+    // 明确由目标的受击反击产生来伤，主动盾来源才能收到真实受伤事件。
+    const basic = snapshot.skillConfigurations[0]!, incomingKey = 'target_reaction';
+    const incomingDamage = structuredClone(basic.effects[1]!.results[0]!);
+    if (incomingDamage.resultType !== 'DAMAGE') throw new Error('合成来伤需要伤害结果');
+    incomingDamage.detail.deliveryKind = 'SKILL'; incomingDamage.detail.critical = { mode: 'DISALLOWED', multiplierValue: null };
+    incomingDamage.valueRule!.value = fixedValue(7);
+    snapshot.skillConfigurations.push({ ...structuredClone(basic),
+      skill: { ...basic.skill, skillKey: incomingKey, skillCategoryKeys: configuration.skill.skillCategoryKeys }, parameters: [], formulas: [], internalStates: [],
+      effects: [{ ...structuredClone(basic.effects[1]!), skillKey: incomingKey, effectKey: 'incoming', results: [incomingDamage] }],
+      processes: [{ ...structuredClone(authored.process), skillKey: incomingKey, processKey: 'incoming', activationType: 'PASSIVE',
+        stateOperations: [], effectBindings: [{ bindingKey: 'damage', effectKey: 'incoming', sortOrder: 0,
+          moment: { momentType: 'STEP_EXECUTION', stepKey: 'now', failureReason: null } }] }],
+      triggerRules: [{ ...structuredClone(authored.rules[0]!), ruleKey: 'on_received', conditionGroups: [],
+        eventSource: { eventType: 'BASIC_ATTACK_RECEIVED', detail: {} },
+        actions: [{ actionKey: 'retaliate', name: '真实来伤', sortOrder: 0, actionType: 'START_PROCESS',
+          detail: { processKey: 'incoming' }, targetContext: 'EVENT_SOURCE', runtimeInputBindings: [], resultModifiers: [] }] }] });
+    snapshot.target.attachedSkills.push({ ...snapshot.target.attachedSkills[0]!, skillKey: incomingKey, skillName: '合成受击反击' });
+    snapshot.selection.targetSkillSettings.push({ origin: { kind: 'CHARACTER', characterKey: snapshot.target.character.characterKey },
+      skillKey: incomingKey, enabled: true, skillLevel: 1 });
     syncSimulationSkillSources(snapshot); approveSnapshotFixture(snapshot);
     const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     for (const requirement of inspectSimulationSnapshot(snapshot).requirements) if (requirement.storedValue === undefined) inputs[requirement.side][requirement.attribute.attributeKey] = 0;

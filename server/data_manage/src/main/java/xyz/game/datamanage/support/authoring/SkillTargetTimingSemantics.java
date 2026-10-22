@@ -88,7 +88,7 @@ public final class SkillTargetTimingSemantics {
                     if (!before || !killed) return false;
                 }
                 JsonNode action = rule.path("actions").get(0);
-                if (!"EXECUTE_EFFECT".equals(text(action, "actionType")) || !"EVENT_SOURCE".equals(text(action, "targetContext"))
+                if (!"EXECUTE_EFFECT".equals(text(action, "actionType")) || !"CURRENT_TARGET".equals(text(action, "targetContext"))
                     || !action.path("runtimeInputBindings").isEmpty() || !action.path("resultModifiers").isEmpty()) return false;
                 JsonNode effect = null;
                 for (JsonNode candidate : configuration.path("effects")) if (text(candidate, "effectKey").equals(text(action.path("detail"), "effectKey"))) effect = candidate;

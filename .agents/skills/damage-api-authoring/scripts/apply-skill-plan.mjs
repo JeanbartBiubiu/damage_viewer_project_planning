@@ -152,6 +152,11 @@ export function businessConfiguration(value) {
       ...(processRow.stateOperations ?? []).map(operation => operation.moment)];
     for (const moment of moments) if (isObject(moment) && moment.failureReason === null) delete moment.failureReason;
   }
+  // PROCESS_MOMENT 事件明细复用同一个 SkillProcessMoment DTO，仅此明确路径同样省略 null。
+  for (const rule of result.triggerRules) if (rule.eventSource?.eventType === 'PROCESS_MOMENT') {
+    const moment = rule.eventSource.detail?.moment;
+    if (isObject(moment) && moment.failureReason === null) delete moment.failureReason;
+  }
   return result;
 }
 export function sameConfiguration(first, second) {
