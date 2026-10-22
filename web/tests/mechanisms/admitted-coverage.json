@@ -1160,6 +1160,53 @@
           "status.stale_expiry_rejected"
         ],
         "rationale": "拉克丝P/Q/E/R及背景普攻按双方1至18级、各主动合法等级、0/关闭/未纳入计划、无装备、暴击和生命偷取/全能吸血完成101场258次真实Worker检查，66,315项独立断言通过；实测由原83场214次与修正合法目标输入后的18场44次两个原始包严格合成，未将中止场景算作通过。P为6秒单目标单层标记，真实普攻消耗，R仅余时大于0且小于1000毫秒时保底1250毫秒；主体与附伤击杀、到期不复活、旧回调失效、未命中和未计划R根隔离均有固定机制用例。Q保留有限禁锢，E按用户确认在250毫秒施法结束后尽快爆炸一次并保留1秒减速标记；本轮不计算完整行动控制、移速变化或位移。W依Excel整槽排除。普通产品页与正式安装另行留证，本声明本身不构成READY。"
+      },
+      "CHARACTER:ez": {
+        "contentDigest": "e7338412b69cc56fad6adb9dd3162931280208df2a6ca726594a01ce35d5c6af",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "basic_attack.cadence",
+          "basic_attack.interval_rounding",
+          "combat.kill_stop",
+          "combat.overkill_clamp",
+          "damage.critical_expectation",
+          "damage.magic_resist",
+          "damage.physical_armor",
+          "damage.type_formula",
+          "healing.life_steal",
+          "healing.omnivamp",
+          "healing.per_result_qualification",
+          "passive.skill_hit_attack_speed_stacks",
+          "passive.skill_hit_stack_refresh_expiry",
+          "resource.ordinary_cost_ignored",
+          "skill.action_occupancy",
+          "skill.automatic_cooldown",
+          "skill.delay_hit",
+          "skill.formula_attribute_ratio",
+          "skill.hit_cooldown_reduction",
+          "skill.hit_links",
+          "skill.hit_links_miss",
+          "skill.hit_links_source_isolation",
+          "skill.hit_links_use_identity",
+          "skill.hit_miss",
+          "skill.manual_cast",
+          "skill.wait_for_cooldown",
+          "target_mark.consume",
+          "target_mark.consume_basic_attack",
+          "target_mark.consume_skill",
+          "target_mark.exact_expiry",
+          "target_mark.live_attributes",
+          "target_mark.miss",
+          "target_mark.no_skill_no_resource",
+          "target_mark.payload_lethal",
+          "target_mark.reapply_deadline",
+          "target_mark.restore_clip",
+          "target_mark.root_lethal_tail",
+          "target_mark.same_time_once",
+          "target_mark.vamp"
+        ],
+        "rationale": "伊泽瑞尔P/Q/W/E/R及背景普攻完成双方1至18级、QWE1至5/R1至3、关闭/零级/未计划、P满5层及到期、默认和反序自动连招、W普攻与技能消费、Q MISS后的E消费、显式法力夹取及零明细变体共41场86次。9,157项独立数值与时钟核验通过。新增固定技能接触叠攻速用例覆盖进行中普攻余进度及六秒刷新到期；Q真实链接/减四技能冷却与W原子消费有固定机制。Q法盾+P另以正式Wasm合法协议探针核对，不冒称管理法盾来源。仅当前无装备单向1V1，忽略位移、沿途多目标及普通法力成本，W只回60并在引爆时取值。完整证明的生效以标准机制复核和实际安装为准。"
       }
     }
   }

@@ -3657,6 +3657,103 @@
         "outputs/skill-adaptation-20261022-lux/页面独立复核.json#sha256=daa007de742356e8d68e09d3d38ecb95d9477e57a99a8f17387887d438f9ff15"
       ],
       "issues": []
+    },
+    {
+      "kind": "CHARACTER",
+      "key": "ez",
+      "contentDigest": "e7338412b69cc56fad6adb9dd3162931280208df2a6ca726594a01ce35d5c6af",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "ez_e",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "ez_p",
+            "levels": [
+              1
+            ]
+          },
+          {
+            "skillKey": "ez_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "ez_r",
+            "levels": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "skillKey": "ez_w",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "evidenceRefs": [
+        "outputs/skill-adaptation-20261022-ezreal/整英雄矩阵独立复核.json#sha256=8308f5880926e79642b9729ea9eb0e5b7a03c22d5622ecfd19ce44c808a8cb76",
+        "outputs/skill-adaptation-20261022-ezreal/自动结果校验与技能叠层回归.json#sha256=04404d2348cd24fdf8cc6c0541d2fe39f8fdae821ff5e587e5242f60911da30d",
+        "outputs/skill-adaptation-20261022-ezreal/Q法盾与被动组合探针.json#sha256=3d1b118ccc9a0d839a66cde21113c9823460ce6eb9b573b399e60a37f7accfe5"
+      ],
+      "issues": []
     }
   ]
 }
