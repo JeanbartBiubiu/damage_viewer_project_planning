@@ -34,7 +34,7 @@ import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput }
 import { initialResourceRequirements, normalizeInitialResourceInputs } from './initialResourceInputs';
 import { permanentHealthIncreases } from './permanentHealthInitialization';
 
-export const SIMULATION_ADAPTER_VERSION = 'v35-target-state-remaining';
+export const SIMULATION_ADAPTER_VERSION = 'v36-skill-hit-cooldown';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';

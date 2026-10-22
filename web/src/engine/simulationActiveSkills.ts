@@ -6,6 +6,7 @@ import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
 import { adaptProcessProgram, type CastCostRef, type ProcessBasicAttackContext } from './processAdapter';
 import { adaptHitProgram } from './hitAdapter';
+import { bindSkillHitCooldownReductions, type PendingSkillHitCooldownReduction } from './skillHitCooldownReduction';
 import { processSkillHitStages } from './processSkillHitStages';
 import { cooldownDurationProviderKey } from './cooldownDurationEffectAdapter';
 import { NumericAdaptationError } from './numericAdapter';
@@ -82,6 +83,7 @@ export function assembleActiveSkills(snapshot: SimulationSnapshot, ignoredCosts:
   const assemblies = [...plans].sort((left, right) => simulationSkillSourceIdentity(left.origin, left.skillKey)
     .localeCompare(simulationSkillSourceIdentity(right.origin, right.skillKey), 'en')).map(plan =>
     assembleActiveSkill(snapshot, plan, ignoredCosts.filter(cost => cost.skillKey === plan.skillKey), basicAttackContext, normalized));
+  bindSkillHitCooldownReductions(snapshot, assemblies);
   const providers = new Map<string, ProviderDefinition>();
   const formulas = new Map<string, NamedFormula>();
   const types = new TypeCatalogEntries();
@@ -253,6 +255,7 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     for (const authorPath of input.sourcePaths) coverage.push({ authorPath, compiledPath });
   }
   const operationOrigins: OperationOrigin[] = [];
+  const hitCooldownReductions: PendingSkillHitCooldownReduction[] = [];
   const provider = adapted.provider;
   provider.kind = 'character';
   provider.providerKey = provider.stableId = definitionRef;
@@ -398,6 +401,11 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
       for (const operation of candidate.operations) operation.ref = authorPath;
       const compiledPath = `sharedProviders[${definitionRef}].abilities[${hitAbilityIndex}].operations[0].skillHit.candidates[${candidateIndex}]`;
       coverage.push({ authorPath, compiledPath });
+      const reduction = hit.cooldownReductions?.find(row => row.candidate === candidate);
+      if (reduction) {
+        hitCooldownReductions.push({ ...reduction, authorPath, compiledPath, hitAbilityRef });
+        continue;
+      }
       for (const operation of candidate.operations) if (operation.operation === 'damage' && operation.critEligible) {
         coverage.push({ authorPath: `${authorPath}.detail.critical.mode`, compiledPath: `${compiledPath}.operations[${candidate.operations.indexOf(operation)}].critChance` },
           { authorPath: `${authorPath}.detail.critical.multiplierValue`, compiledPath: `${compiledPath}.operations[${candidate.operations.indexOf(operation)}].critMultiplier` });
@@ -433,6 +441,7 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   for (const cost of ignoredCosts) coverage.push({ authorPath: `${root}.effects.${cost.effectKey}.results.${cost.resultKey}`,
     compiledPath: `sharedProviders[${definitionRef}].processes[0].costs`, note: `本期忽略明确施法成本；原挂接${cost.bindingKey}保留在作者快照，不建立门槛、扣除或退款` });
   return { providers, formulas, types: [...types].map(([key, domain]) => ({ key, domain })), binding,
+    origin: plan.origin, hitCooldownReductions,
     rules: { damageTypeFormulas: [...defenses.values()], ...(vampRules ? { vampRules } : {}) }, coverage, operationOrigins,
     cooldownDurationScopes: configuration.effects.flatMap(effect => effect.results.flatMap(result => result.resultType === 'COOLDOWN_DURATION_MODIFIER'
       && providers.some(provider => provider.providerKey === cooldownDurationProviderKey(definitionRef, plan.skillKey, effect.effectKey))

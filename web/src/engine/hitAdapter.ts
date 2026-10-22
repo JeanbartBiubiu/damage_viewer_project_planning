@@ -28,6 +28,7 @@ import { compilePersistentResult, type AuthoredPersistentResult } from './persis
 import { compilePairedAttributeSnapshot } from './pairedAttributeSnapshotAdapter';
 import { adaptDamageVamp, type AdaptedVampDamage, type AuthoredVampDamage } from './vampAdapter';
 import { compileSkillOncePerUse, validateHitRuleGroups, validateProviderOncePerUseScopes } from './skillOncePerUse';
+import { compileSkillHitCooldownReduction, type SkillHitCooldownReduction } from './skillHitCooldownReduction';
 
 export class HitAdaptationError extends NumericAdaptationError {
   constructor(path: string, message: string) {
@@ -77,6 +78,8 @@ export type AdaptedHitProgram = {
   typeEntries: Array<{ key: string; domain: string }>;
   vampRules?: GenericVampRule[];
   abilityTypes: string[];
+  /** 全部真实主动入口装配后消费；不写入原生候选或操作字段。 */
+  cooldownReductions?: SkillHitCooldownReduction[];
 };
 
 export type HitProgramBinding = {
@@ -545,8 +548,14 @@ function compileResultOperations(
   typeEntries: TypeCatalogEntries,
   resolveKind: HitResolveKind,
   empoweredPayload = false
-): { semantic: SkillHitSemantic; operations: OperationDefinition[]; vamp?: AdaptedVampDamage } {
+): { semantic: SkillHitSemantic; operations: OperationDefinition[]; vamp?: AdaptedVampDamage;
+  cooldownReduction?: Omit<SkillHitCooldownReduction, 'candidate'> } {
   if (result.resultType !== 'DAMAGE' && 'attackDamageRole' in result.detail) fail(`${path}.detail.attackDamageRole`, '非伤害结果不能声明普攻伤害角色');
+  if (result.resultType === 'COOLDOWN_CHANGE') {
+    if (resolveKind !== 'skill' || empoweredPayload) fail(path, '减冷却只接真实主动技能命中，不扩大普攻或强化负载入口');
+    return { semantic: { resultType: 'COOLDOWN_CHANGE', target: 'SOURCE', moment: 'INSTANT' }, operations: [],
+      cooldownReduction: compileSkillHitCooldownReduction(authored.skillKey, effect, result, path, state) };
+  }
   if (result.resultType === 'DAMAGE') {
     if (effect.lifecycle !== null || result.lifecycleBehavior !== null) {
       return fail(path, '即时命中伤害不能丢弃持续或周期生命周期与结果时点');
@@ -799,6 +808,7 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
     : [['event/skill_hit', 'event']]);
   const candidates: SkillHitCandidate[] = [];
   const ruleGroups: SkillHitRuleGroup[] = [];
+  const cooldownReductions: SkillHitCooldownReduction[] = [];
   let vampRules: GenericVampRule[] | undefined;
   const abilityTypes = new Set<string>();
   const hitRules = stableSorted(resolveKind === 'basic_attack' ? basicHitRules : skillHitRules, (rule) => rule.sortOrder);
@@ -834,6 +844,7 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
       for (const result of stableSorted(effect.results, (item) => item.sortOrder)) {
         const path = planPath(authored.skillKey, `effects.${effect.effectKey}.results.${result.resultKey}`);
         const compiled = compileResultOperations(authored, effect, result, path, actionState, providers, typeEntries, resolveKind);
+        if (compiled.cooldownReduction && oncePerUse) fail(limitPath, '命中减冷却的能力引用不属于现行同次使用组直接操作范围');
         const role = result.resultType === 'DAMAGE' ? result.detail.attackDamageRole : undefined;
         if (role === 'REPLACE_PRIMARY') fail(`${path}.detail.attackDamageRole`, '替换主体必须由自身首次单步骤强化待击消费');
         if (role && (converted.participation || converted.eventValueConditions.length)) fail(path, '主体角色不能附带参与或事件值条件');
@@ -842,7 +853,7 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
           vampRules = compiled.vamp.rules;
           for (const key of compiled.vamp.abilityTypes) abilityTypes.add(key);
         }
-        candidates.push({
+        const candidate: SkillHitCandidate = {
           ...(role ? { attackDamageRole: role } : {}),
           candidateKey: `${occurrence}:${result.resultKey}`,
           effectOccurrenceKey: occurrence,
@@ -853,7 +864,9 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
           ...(converted.participation ? { participationCondition: converted.participation } : {}),
           ...(converted.eventValueConditions.length ? { eventValueConditions: converted.eventValueConditions } : {}),
           operations: compiled.operations
-        });
+        };
+        candidates.push(candidate);
+        if (compiled.cooldownReduction) cooldownReductions.push({ candidate, ...compiled.cooldownReduction });
       }
     }
     if (oncePerUse) ruleGroups.push({ ruleKey: rule.ruleKey,
@@ -892,7 +905,8 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
     requiredAttributes: [...state.requiredAttributes],
     typeEntries: [...typeEntries].map(([key, domain]) => ({ key, domain })),
     vampRules,
-    abilityTypes: [...abilityTypes]
+    abilityTypes: [...abilityTypes],
+    ...(cooldownReductions.length ? { cooldownReductions } : {})
   };
 }
 
@@ -969,6 +983,7 @@ export function withHitProgram(
 ): CompileRequest {
   if (!options.rulesHash.trim() || options.rulesHash === input.rulesHash) fail('rulesHash', '接入规则后必须提供新的配置摘要');
   const adapted = adaptHitProgram(binding.authored);
+  if (adapted.cooldownReductions?.length) fail('bindings', '命中减冷却需要完整真实主动总装配，不能序列化待绑定候选');
   const request = structuredClone(input);
   request.rulesHash = options.rulesHash;
   request.sharedProviders ??= [];

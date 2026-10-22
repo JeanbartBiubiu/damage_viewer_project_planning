@@ -46,7 +46,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 
 ## 已覆盖的数值机制
 
-目前145个固定用例、150类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
+目前150个固定用例、152类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
 
 | 范围 | 固定用例入口 |
 | --- | --- |
@@ -65,6 +65,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 | 有限生命上限、净增量授予、刷新与夹取、同实例双抗 | `resource_finite_*`、`resource_same_instance_*` |
 | 普通费用按产品口径忽略、未来提交冷却倍率 | `resource_ordinary_cost_ignored`、`schedule_future_cooldown_duration` |
 | 普攻命中缩短同来源主动剩余冷却，并唤醒真实自动施放 | `schedule_basic_attack_reduces_cooldown` |
+| 真实技能命中缩短最多四个已绑定首次入口的冷却、未驱动隔离、自动唤醒、未命中及技能生命偷取夹取 | `skill_hit_cooldown_reduction_*` |
 | 真实兄弟技能施放保留活动属性的最低余时、旧到期事件失效、到期不复活与自身整体增幅 | `duration_ensure_remaining_own_attributes` |
 | 真实目标计数、实际命中开窗、后台普攻或兄弟命中叠层、满层与自然终点、旧回调失效及同刻先后 | `target_counter_*` |
 | 自有有限目标计数余时、真实兄弟施放保底余时、边界与到期不复活、普攻消费及未计划兄弟隔离 | `target_state_remaining_*` |
