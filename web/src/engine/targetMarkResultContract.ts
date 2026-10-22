@@ -211,6 +211,36 @@ export function inspectTargetMarkResult(input: CompileRequest, request: RunReque
     else check(planned(contract.trigger.mount.providerRef, contract.trigger.ability.skillKey!), '技能消费未绑定真实驱动的兄弟技能');
   }
   const damageClaims = new Set<number>(), restoreClaims = new Set<number>(), shieldClaims = new Set<number>(), seen = new Set<string>();
+  let automaticStreamChecked = false, automaticUsesOmitted = false;
+  const automaticRecords = done.automaticSkillRecords ?? [];
+  const validateAutomaticStream = () => {
+    if (automaticStreamChecked) return;
+    automaticStreamChecked = true;
+    check(!own(done, 'skillUseRecords') && !own(done, 'skillActionRecords'), '自动消费不得夹带手动计划专用明细');
+    const recording = done.automaticSkillRecording, summaryOnly = request.outputMode === 'summary';
+    const maximum = request.recordBudget?.maxAutomaticSkillRecords ?? 1000;
+    const valid = Array.isArray(done.automaticSkillRecords) && object(recording)
+      && (['totalCount', 'returnedCount', 'omittedCount', 'droppedCount'] as const).every(key => integer(recording[key]))
+      && Object.keys(recording).length === 5 && typeof recording.truncated === 'boolean'
+      && recording.returnedCount === automaticRecords.length
+      && recording.totalCount === recording.returnedCount + recording.omittedCount + recording.droppedCount
+      && (summaryOnly ? automaticRecords.length === 0 && recording.omittedCount === recording.totalCount
+        && recording.droppedCount === 0 && !recording.truncated
+        : recording.omittedCount === 0 && recording.returnedCount === Math.min(recording.totalCount, maximum)
+          && recording.truncated === (recording.droppedCount > 0));
+    check(valid, '自动使用明细缺少真实保留统计或不符合截断前缀');
+    automaticUsesOmitted = !!valid && (summaryOnly || !!recording?.truncated);
+    const fields = ['sequence', 'timeMs', 'kind', 'ruleKey', 'useRef', 'relatedRuleKey', 'relatedUseRef', 'reason', 'nextCheckAtMs'];
+    const kinds = ['STARTED', 'COMPLETED', 'FAILED', 'ATTEMPT_REJECTED', 'ABORTED_BEFORE_START', 'WAIT_CHANGED', 'QUALIFICATION_GRANTED', 'QUALIFICATION_CONSUMED'];
+    for (const [i, row] of automaticRecords.entries()) {
+      check(object(row) && Object.keys(row).length === fields.length && fields.every(key => own(row, key))
+        && row.sequence === i + 1 && integer(row.timeMs) && row.timeMs <= done.finalSnapshot.timeMs
+        && (i === 0 || row.timeMs >= automaticRecords[i - 1]!.timeMs) && kinds.includes(row.kind)
+        && request.driverPlan.automaticSkills!.rules.filter(rule => rule.ruleKey === row.ruleKey).length === 1
+        && ['useRef', 'relatedRuleKey', 'relatedUseRef', 'reason'].every(key => row[key as keyof typeof row] === null || text(row[key as keyof typeof row]))
+        && (row.nextCheckAtMs === null || integer(row.nextCheckAtMs)), '自动使用明细含外来规则、字段错误或非真实保留前缀');
+    }
+  };
   let attackCount = 0, skillCount = 0, blockedCount = 0;
   let sourceHp: number | undefined = request.initialSnapshot.combatants.find(actor => actor.key === 'source')?.attributes.hp?.current;
   const ownHits = new Map<string, Contract>();
@@ -300,6 +330,31 @@ export function inspectTargetMarkResult(input: CompileRequest, request: RunReque
       else check(attacks.length === 1 && attacks[0]!.source === data.useSource && attacks[0]!.target === data.target
         && attacks[0]!.skillKey === data.useSkillKey && attacks[0]!.hitAtMs === item.timeMs
         && attacks[0]!.planKey === request.driverPlan.basicAttack?.planKey && positive(attacks[0]!.attackIndex), '消费没有同一普攻的实际命中');
+    } else if (request.driverPlan.automaticSkills) {
+      validateAutomaticStream();
+      const hit = initialHit(input, contract.trigger.mount.providerRef, contract.trigger.ability.skillKey!, contract.mark.triggerAbilityRef);
+      const rules = request.driverPlan.automaticSkills.rules.filter(rule => rule.bindingKey === hit?.binding.bindingKey);
+      const rule = rules[0];
+      check(!request.driverPlan.skillActions?.length && !!hit && rules.length === 1 && rule?.target === data.target
+        && rule.hitBindings.filter(binding => binding.hitBindingKey === hit.hit.hitBindingKey && binding.preset === 'TARGET_HIT').length === 1,
+      '自动消费没有唯一同一首次绑定及实际目标命中规则');
+      if (actual && hit) {
+        if (own(actual, 'skillHitStages')) {
+          const stages = actual.skillHitStages?.filter(stage => stage.hitBindingKey === hit.hit.hitBindingKey) ?? [];
+          const stage = stages[0];
+          check(stages.length === 1 && !!stage && stage.timeMs === item.timeMs && stage.stepKey === hit.hit.moment.stepKey
+            && stage.released === true && stage.contact === true && stage.completed === true,
+          '自动消费缺少同一真实已完成命中阶段');
+        } else check(hit.hit.moment.momentType === 'PROCESS_COMPLETE' && actual.status === 'complete'
+          && actual.finishedAtMs === item.timeMs, '普通自动消费必须来自已完成过程及实际末尾接触');
+      }
+      const starts = automaticRecords.filter(row => row.kind === 'STARTED' && row.useRef === data.useRef);
+      if (!starts.length) missing('自动消费缺少原技能真实开始明细', automaticUsesOmitted,
+        automaticRecords.some(row => row.useRef === data.useRef || row.timeMs > (actual?.startedAtMs ?? item.timeMs)
+          || row.kind === 'STARTED' && row.ruleKey === rule?.ruleKey && row.timeMs === actual?.startedAtMs));
+      else check(starts.length === 1 && starts[0]!.ruleKey === rule?.ruleKey && starts[0]!.timeMs === actual?.startedAtMs
+        && starts[0]!.relatedRuleKey === null && starts[0]!.relatedUseRef === null && starts[0]!.reason === null && starts[0]!.nextCheckAtMs === null,
+      '自动消费开始明细改写了规则、原使用或真实过程起点');
     } else {
       const hits = done.skillUseRecords?.filter(row => row.kind === 'HIT' && row.useRef === data.useRef && row.timeMs === item.timeMs) ?? [];
       if (!hits.length) missing('消费缺少原技能命中明细', usesOmitted);

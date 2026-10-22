@@ -125,6 +125,78 @@ function fixture(basic = false) {
 type Fixture = ReturnType<typeof fixture>;
 const inspect = (value: Fixture) => inspectTargetMarkResult(value.compile, value.request, value.done, value.origins);
 
+function automaticFixture() {
+  const value = fixture();
+  delete value.request.driverPlan.skillActions;
+  value.request.driverPlan.automaticSkills = { rules: value.compile.rules.skillActionBindings!.map((binding, index) => ({
+    ruleKey: `auto_${binding.skillKey}`, bindingKey: binding.bindingKey, sortOrder: index, target: 'target',
+    hitBindings: [{ hitBindingKey: 'contact', preset: 'TARGET_HIT' }], waitForCooldowns: [], releaseAfterRuleKey: null
+  })) };
+  for (const binding of value.compile.rules.skillActionBindings!) binding.hitBindings[0]!.moment = { momentType: 'PROCESS_COMPLETE', stepKey: null };
+  delete value.done.skillUseRecords;
+  value.done.automaticSkillRecords = [
+    { sequence: 1, timeMs: 0, kind: 'STARTED', ruleKey: 'auto_mark', useRef: 'skill:mark:1', relatedRuleKey: null, relatedUseRef: null, reason: null, nextCheckAtMs: null },
+    { sequence: 2, timeMs: 250, kind: 'STARTED', ruleKey: 'auto_bolt', useRef: 'skill:bolt:1', relatedRuleKey: null, relatedUseRef: null, reason: null, nextCheckAtMs: null }
+  ];
+  value.done.automaticSkillRecording = { totalCount: 2, returnedCount: 2, omittedCount: 0, droppedCount: 0, truncated: false };
+  return value;
+}
+
+describe('自动目标标记消费的真实原使用', () => {
+  it('用实际自动规则、STARTED及完成过程闭合，不索取手动HIT明细', () => {
+    expect(inspect(automaticFixture())).toEqual({ issues: [], identityGaps: [] });
+  });
+  it('分阶段命中仍要求同一已释放、接触和完成的实际阶段', () => {
+    const value = automaticFixture();
+    value.compile.rules.skillActionBindings![1]!.hitBindings[0]!.moment = { momentType: 'STEP_EXECUTION', stepKey: 'hit' };
+    value.done.finalSnapshot.processInstances![1]!.skillHitStages = [{ hitBindingKey: 'contact', stepKey: 'hit', timeMs: 500, released: true, contact: true, completed: true }];
+    expect(inspect(value)).toEqual({ issues: [], identityGaps: [] });
+    value.done.finalSnapshot.processInstances![1]!.skillHitStages![0]!.contact = false;
+    expect(inspect(value).issues.length).toBeGreaterThan(0);
+  });
+  it.each([
+    ['外来规则', (f: Fixture) => { f.done.automaticSkillRecords![1]!.ruleKey = 'foreign'; }],
+    ['错已知规则', (f: Fixture) => { f.done.automaticSkillRecords![1]!.ruleKey = 'auto_mark'; }],
+    ['错原使用', (f: Fixture) => { f.done.automaticSkillRecords![1]!.useRef = 'skill:other'; }],
+    ['错开始时刻', (f: Fixture) => { f.done.automaticSkillRecords![1]!.timeMs = 251; }],
+    ['错开始资格', (f: Fixture) => { f.done.automaticSkillRecords![1]!.reason = 'invented'; }],
+    ['伪重复开始', (f: Fixture) => { f.done.automaticSkillRecords!.push({ ...f.done.automaticSkillRecords![1]!, sequence: 3 }); Object.assign(f.done.automaticSkillRecording!, { totalCount: 3, returnedCount: 3 }); }],
+    ['非连续前缀', (f: Fixture) => { f.done.automaticSkillRecords![1]!.sequence = 3; }],
+    ['错误保留统计', (f: Fixture) => { f.done.automaticSkillRecording!.returnedCount = 1; }],
+    ['多余记录字段', (f: Fixture) => { Object.assign(f.done.automaticSkillRecords![1]!, { invented: true }); }],
+    ['错误真实挂载', (f: Fixture) => { f.done.finalSnapshot.processInstances![1]!.providerRef = 'foreign'; }],
+    ['错命中预设', (f: Fixture) => { f.request.driverPlan.automaticSkills!.rules[1]!.hitBindings[0]!.preset = 'MISS'; }],
+    ['缺实际规则', (f: Fixture) => { f.request.driverPlan.automaticSkills!.rules.pop(); }],
+    ['错规则目标', (f: Fixture) => { f.request.driverPlan.automaticSkills!.rules[1]!.target = 'source'; }],
+    ['错过程终点', (f: Fixture) => { f.done.finalSnapshot.processInstances![1]!.finishedAtMs = 501; }],
+    ['没有真实接触', (f: Fixture) => { f.done.evidence.items = f.done.evidence.items.filter(item => item !== f.triggerContact); }],
+    ['夹带手动命中', (f: Fixture) => { f.done.skillUseRecords = []; }],
+    ['完整流却缺开始', (f: Fixture) => { f.done.automaticSkillRecords!.pop(); Object.assign(f.done.automaticSkillRecording!, { totalCount: 1, returnedCount: 1 }); }]
+  ] as const)('保留的%s必须硬拒', (_label, mutate) => {
+    const value = automaticFixture(); mutate(value);
+    expect(inspect(value).issues.length).toBeGreaterThan(0);
+  });
+  it.each([0, 1])('合法截断预算%s只报身份缺口，不冒称全部可独立复核', maximum => {
+    const value = automaticFixture(); value.request.recordBudget = { maxAutomaticSkillRecords: maximum };
+    value.done.automaticSkillRecords!.splice(maximum);
+    value.done.automaticSkillRecording = { totalCount: 2, returnedCount: maximum, omittedCount: 0, droppedCount: 2 - maximum, truncated: true };
+    const result = inspect(value);
+    expect(result.issues).toEqual([]); expect(result.identityGaps.some(gap => gap.includes('自动消费缺少原技能真实开始'))).toBe(true);
+  });
+  it('汇总模式省略自动明细是缺身份，不能补造开始记录', () => {
+    const value = automaticFixture(); value.request.outputMode = 'summary'; value.done.automaticSkillRecords = [];
+    value.done.automaticSkillRecording = { totalCount: 2, returnedCount: 0, omittedCount: 2, droppedCount: 0, truncated: false };
+    const result = inspect(value);
+    expect(result.issues).toEqual([]); expect(result.identityGaps.length).toBeGreaterThan(0);
+  });
+  it('截断说明不能掩盖已保留的矛盾开始身份', () => {
+    const value = automaticFixture(); value.request.recordBudget = { maxAutomaticSkillRecords: 2 };
+    value.done.automaticSkillRecords![1]!.useRef = 'skill:foreign';
+    value.done.automaticSkillRecording = { totalCount: 3, returnedCount: 2, omittedCount: 0, droppedCount: 1, truncated: true };
+    expect(inspect(value).issues.length).toBeGreaterThan(0);
+  });
+});
+
 describe('targetMarkResultContract', () => {
   it('静态监听省略重复definitionRef时，仍由真实挂载与消费事实核定；出现则须相等', () => {
     const value = fixture(); delete value.markRow.providerDefinitionRef;
