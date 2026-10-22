@@ -552,8 +552,17 @@
           "slot": "R",
           "key": "brand_r",
           "name": "布兰德·烈焰风暴",
-          "excluded": false,
-          "exclusion": null
+          "excluded": true,
+          "exclusion": {
+            "reason": "用户确认R依赖人群弹跳，对本轮一对一无意义，跳过R反弹、飞行等待、各段伤害、灼烧减速及R自身法盾行为；不以排除作为已实现或READY。",
+            "evidenceRefs": [
+              "skillThirdStageCurrentReadback",
+              "heroSourceInventory",
+              "remainingUltimateCategoryBackfill",
+              "brandRUserExclusion20261022"
+            ],
+            "candidateSha256": null
+          }
         }
       ]
     },

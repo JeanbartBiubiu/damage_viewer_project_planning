@@ -3,22 +3,22 @@
   "gameId": "lol",
   "profile": "combat-analysis-v1",
   "digestVersion": "simulation-availability-v1",
-  "scopeDigest": "82de0865c8c346d7c726022da38944f91046b3a6e37ea2eaff7e19122c769064",
+  "scopeDigest": "67dfb77d447e5cee0c664d71be9bf2c062f518ff9b6b97bf157f4a530e0d5e41",
   "sharedDigest": "91a01f39579d516eeb68c2ffc69b2899ce05326185d2d6f2c38fbe4e966b6e58",
-  "wasmSha256": "92d62076659c058949e1215a1066135dc58367eddf0be3f318a808edcb046858",
-  "adapterVersion": "v37-target-mark-and-hit-links",
+  "wasmSha256": "7fa20e756da78695d26e63ea8912f3657419eb970c0e0c4bcb920d50bf1716d6",
+  "adapterVersion": "v39-sibling-target-counter-hit-condition",
   "mechanismRegression": {
-    "sourceCommit": "d59d5ccfe9d0789afd3e58600df2ab50a6ecce3a",
-    "caseCount": 162,
-    "casesDigest": "8f2df833b89336f2aba5b3e3cc8a4eb663dc1596d7f493536228427bde0c1560",
-    "coverageDigest": "b82b38ae44b0cae81da38d4e5053cb940c4d6adca819cb2b545b8df6be0329a1",
-    "wasmBuildSha256": "92d62076659c058949e1215a1066135dc58367eddf0be3f318a808edcb046858"
+    "sourceCommit": "6c4c659a8c3d983c8c0322bf828eb5a6d0e5fb6a",
+    "caseCount": 173,
+    "casesDigest": "e3e35abe5c174e3027d9269d9fa938037b6985da6a33aa93836b15e2c7656770",
+    "coverageDigest": "7308fbb655df413d43f39848439c8cd82dc3bc70359e86adf194266a5fbe8d86",
+    "wasmBuildSha256": "7fa20e756da78695d26e63ea8912f3657419eb970c0e0c4bcb920d50bf1716d6"
   },
   "entries": [
     {
       "kind": "CHARACTER",
       "key": "champion_annie",
-      "contentDigest": "72d91485d53e8f68797fa56cd7a6c14191920eed9d2fbe844343b7be474b8f5f",
+      "contentDigest": "ec5f78ab364b2da887cd47f2f7c5aad25c7885feb1b629e3ba3cbee7d4b68e12",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -116,7 +116,7 @@
     {
       "kind": "CHARACTER",
       "key": "champion_corki",
-      "contentDigest": "8cd702ddd9aca97d5f5f7dca4fab1a75c090a8e0c191f570fabd2e7092ffb406",
+      "contentDigest": "a726863430c7f1c17660809fb4e7dda234dd6a4d53a69cb85eeaac71deec7095",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -214,7 +214,7 @@
     {
       "kind": "CHARACTER",
       "key": "champion_garen",
-      "contentDigest": "459843cf16eb5d46e6e52c41ad600ece6899e4e7bbf3185cb56998ed7cf35c52",
+      "contentDigest": "6230e7de94bdf8f9082cf479d1c06aafa8b5848e237f4740ea5067abc2214230",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -306,7 +306,7 @@
     {
       "kind": "CHARACTER",
       "key": "champion_nasus",
-      "contentDigest": "3c5177f7e2c8a2d9c298d6adaf56652571354fd552fb76deb0d60273b1d95e7b",
+      "contentDigest": "4ae0f1096a7ca4a2d031837374a556b6d53cac573a1efb09b111db63250a84b2",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -395,7 +395,7 @@
     {
       "kind": "CHARACTER",
       "key": "champion_twistedfate",
-      "contentDigest": "682eae95944f6c59b57e6de38c754b56110fbfd01323037845f8bb640fb4f102",
+      "contentDigest": "68167dace8ef18b05b1370b180ba82f637a8576c61bf382f75b347560867c635",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -499,7 +499,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "duolan_jian",
-      "contentDigest": "838f7d0bd65717341acfb1ea8d1ff65bffff6ee726575d216cfaced311a46d9c",
+      "contentDigest": "610782bb0367711888545fad7bddb53c9d5b2e72dbc98702f2b8bf66adceb2f4",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -546,7 +546,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1011",
-      "contentDigest": "0530322e431820a28613a0ad94207a8d2d2271082d6f8f289b7cefe34ffe6dbb",
+      "contentDigest": "84e40a35bcee8c8988f04387180c2f2a69211f3576e182a2defbad21711f2887",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -593,7 +593,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1018",
-      "contentDigest": "7f6f42e794b7e3cee3850d11dc3ca1c5d653af5cde1bccbb9ac159ed15738b1d",
+      "contentDigest": "64dcc0121a0aff6650648147ee19a7c1bc510c139457330d867a3e8063c327d6",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -640,7 +640,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1028",
-      "contentDigest": "0205360406a1a4d6ac1d0496846eff6582a5aa7f52b091574ad39e4710111a19",
+      "contentDigest": "e699782c7cfbe1ff0ffb4b5e0505789c3963be1d1eab22d77042bec6c006e7c4",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -687,7 +687,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1029",
-      "contentDigest": "613d2242ae7eb9fe753854d2f7a28be85a7223f373fae7f135b4e7659ae8f4c0",
+      "contentDigest": "e3bd95ca5a33adbe15044ab366a41f644ba225a7c923a1fa4f7c0f581ce258aa",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -734,7 +734,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1031",
-      "contentDigest": "d95599ab3183862e58fdcd37243415db24b12db6f6c0e2882dc497d6ebfdaa80",
+      "contentDigest": "3b6109147d75a3ae53be0baa38915559b33aa7a7f86a07f40cf1a1273bd5e7e1",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -781,7 +781,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1036",
-      "contentDigest": "9534bee3a4258ab48d13c17a134a5b882be740b727865c2472396849a6335e26",
+      "contentDigest": "e1a2e21a351a5a6aed5b00c8577503239800c6cccbc10a983f40bc6d6ff60549",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -828,7 +828,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1037",
-      "contentDigest": "9015043a9b188ddbe4f1291d91a3bf0276d3a6258c22b30cbccf4f28f8cb0fdc",
+      "contentDigest": "f75ad9d5cde0fd37aac9601fe6716f81b9ea7e22a36cec7a5efaa9ac99e6bcd6",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -875,7 +875,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1038",
-      "contentDigest": "c96eae7565432314f3bc532cc259ca19ae56486c0a7ee2aa5e3ef062b8e9337f",
+      "contentDigest": "8d68c1497c4f05fab79be1d1d896c97d343d79e54902e110bc43ff2059a91e99",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -922,7 +922,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1042",
-      "contentDigest": "c5ae3f4e5c05fad2a8eb67c8d97093532a537add6d5350efae7d26f54479aa76",
+      "contentDigest": "e6b375934636e3f2f8c5c112ed7dbb89184bfd129b11e4615d5d4ae54ac0796f",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -969,7 +969,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1053",
-      "contentDigest": "2af739ddddeadb727d31bb87b851f9514a6fc61c02f0bac833073dce83b8285a",
+      "contentDigest": "133544585367f90738589d7a9909db2c5837827a947106901c9577c02fd849d9",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1016,7 +1016,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1086",
-      "contentDigest": "9ea0044a58729dd19e6abead351ca88c47887d05887b54b740452db1a19db06f",
+      "contentDigest": "8191e23d64b14016a9eda6c994fb9a1bde5961c07584586eeca570269ef26e3a",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1063,7 +1063,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_2019",
-      "contentDigest": "4d7d41c154bda2530fcbbb6a61f2c7fb1af534b2472b22dcdad87998fbe2f97c",
+      "contentDigest": "9079067c58c0313ea905466e93c5e6d00326ab09046a08877b0b102975fc6580",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1110,7 +1110,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_2021",
-      "contentDigest": "b46539ea0883cd57af39692d6d5215d0c3daa9038cbdcaaf2279beb09cfd5563",
+      "contentDigest": "997a03787b9e66de26f3dbb6ae4c756208e2d2cfcdee34ac4b412c14af87a2fc",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1157,7 +1157,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3031",
-      "contentDigest": "52213414b8e247f4a2871b206fbf0203eada7f09bc7547b6f0936ef7d53a2f91",
+      "contentDigest": "b2940c6d050ddb7acd0411fada5c46d321fee8d5bbef052fee3947bc316c3743",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1204,7 +1204,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3035",
-      "contentDigest": "b18e9689ad802b1bddb640e3f40aa7e4a24ada640f5ecd4e0397371bee72f96b",
+      "contentDigest": "10cc9bf6fedacc5d4d66955a3a9191542f689d604805557ad5a869d4dbdc6ce0",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1251,7 +1251,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3051",
-      "contentDigest": "c76d1896573933d7a0a4e6c5a651453c6d1e53751a8c0552d704e3fcd7864b5b",
+      "contentDigest": "61135767d9bcdae50887b8107072f0a662db448895a0ccbd813f55f0e7c26d95",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1298,7 +1298,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3134",
-      "contentDigest": "fb823e6a857a85657035d39d5563b2d2463adc41aba3b7ecf2dbeca32463905b",
+      "contentDigest": "53dab0bcbb729960b57635d4dbb15aa4d8e1521119238fd42016bcd28d9b2419",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1345,7 +1345,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_6670",
-      "contentDigest": "3c3d3cbf97722033404d9ab24fb7000f6002ad70905bb0ccd1ffde7081c953c2",
+      "contentDigest": "c01937547c20f221765fae673d5222fdddc789261db65b1426100477d2305f5a",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1392,7 +1392,7 @@
     {
       "kind": "CHARACTER",
       "key": "champion_olaf",
-      "contentDigest": "57bd6dcb7c28f7353b292a5f5ee36a18f483cf1d58dda2931c606b8b5610d787",
+      "contentDigest": "8857c145cbdcc23751ec24fad74adbe3b2a105ab7e6b0baaa06483526a05a73e",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1487,7 +1487,7 @@
     {
       "kind": "CHARACTER",
       "key": "champion_tristana",
-      "contentDigest": "5335d401badf0bcc1a92d88fb0d378a02dce8501a029ed7c6f348c795575ce9f",
+      "contentDigest": "349baa7de4c85d52158b4bf8e235b8821ef0fcecf2875f50a94052bcb21e99a6",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1573,7 +1573,7 @@
     {
       "kind": "CHARACTER",
       "key": "champion_lissandra",
-      "contentDigest": "2e4893e7072ef44f202978d93f40df99be81306fc2d0223375360e997c6dae77",
+      "contentDigest": "b49c6172946880e5a9e5c505f4c5bd2faec61d6db5bcc4eacb628e0d7b80f202",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1663,7 +1663,7 @@
     {
       "kind": "CHARACTER",
       "key": "champion_neeko",
-      "contentDigest": "4512465027fce390d7cb6012774676847c0a28fbd9c2c912fb3339b8662d3572",
+      "contentDigest": "fa3415e6e95f4775ca2a0a52416fbeea0c971c77d606e31793b07a6da5098ca2",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1753,7 +1753,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1026",
-      "contentDigest": "49ac8b862762439b698928cc00d3fc9e2bb096f5d744ffd0d0c661e0d060d56b",
+      "contentDigest": "a3906c05e8b44e4c597462e77e401c33369b4424702c3f639ef41c2e55f4a2bf",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1798,7 +1798,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1033",
-      "contentDigest": "e66f0c7dd64fec592acdee2c69af39f0b1561b28ffed910c71c70a46dbf7e8a3",
+      "contentDigest": "86d41929a6446fd497b87955aef9168d196875ee71f4307c9300062f0761522a",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1843,7 +1843,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1043",
-      "contentDigest": "fe18ae1bc28c1db5097263bea8163c7cfe2b217d2e08a627715fd54a60f3a2cb",
+      "contentDigest": "fcbe023757521b2303ad1adb6723e856fea00e1e7134fc08c95c77deefce06fd",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1895,7 +1895,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1052",
-      "contentDigest": "8ae2cb8bc7562ac008206f48ce151e5ec940aac366429a893915cf75a986a392",
+      "contentDigest": "7b6fb3b93eddea7f2231f510736abc9fb0ddc16ccc76ecbcf4cb132f5f19e084",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1940,7 +1940,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1057",
-      "contentDigest": "5816f52b2e3c1651d8a53017c26da6bd8db035cb5d7edeb0fe7284d732971b79",
+      "contentDigest": "b56ed30c0430cfb9fd8643f57b21b4a8ac0fc719bc616e50c6084f84086916f3",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -1985,7 +1985,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1058",
-      "contentDigest": "d86b03fa301c06c5161fb438206df2fd109d8019d0c6f5d0c97d7a9184166263",
+      "contentDigest": "71903c46776d65a34da94a10eefc2360cd26d881500c9991f641de799232bc5f",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2030,7 +2030,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_2020",
-      "contentDigest": "19cda28710845f482297b44b6d62054b46c1c59c4161926f14c6efc54ed1ec49",
+      "contentDigest": "84696634a0710daa2f5b3026a69e7a96fa418fc5e25b207418d6fb302d62d026",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2075,7 +2075,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_2022",
-      "contentDigest": "ecb179e7fd8d9d027c6a5f7a43bdaa1f7f00bbd0aec32a9c922bea860c163457",
+      "contentDigest": "86773340a54e0dd68492a681cf933103be0159b91548dcfd47011b453cad2080",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2120,7 +2120,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3067",
-      "contentDigest": "543cf5698c556660b2a906f6ebb0b8c066231257f5c5ceeb9bf481479624cb23",
+      "contentDigest": "718b4262ad6b3b347f1a4d04797e931f590138424d74f25d85c923df950ce935",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2165,7 +2165,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3089",
-      "contentDigest": "3fdccc9eddf666ffef875efadc56cc22361acfe6a13192baa6f4aaa019bd66e5",
+      "contentDigest": "743ef32c97d3128e427a3ba114f7afd0c50371ffaa548bcd34ce1e12b31f7579",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2217,7 +2217,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3108",
-      "contentDigest": "c903cc9cc576f5dfa91878fc14074fa5861e45ec797fc9243b76a50e886600e3",
+      "contentDigest": "8baf34ad4a7dd447109a8b6c3423cc953989ea209d83ede772c3c45ae1b65d54",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2262,7 +2262,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3115",
-      "contentDigest": "f7796c4b8749254e74424b6a3598a4d147a7d9ddda25f9ef2d9d7754874eaadd",
+      "contentDigest": "25e4279ec3a13a1e42c9f785cec508bf4c2e5c131845691906167ca5db506d48",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2314,7 +2314,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3133",
-      "contentDigest": "ffc14dbfdba7d68ecbe2984adacc864c525d14f8dac0752ae01e6a8dde7a8540",
+      "contentDigest": "d0621e0341d4eabf5a656b5ca5b13a5c7e38638f8ac41983853ed6c8c766dcbf",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2359,7 +2359,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3135",
-      "contentDigest": "803686d724a8822213724cc80580443052df66ba938fd5cd757a18159c487dcf",
+      "contentDigest": "45cbdda239dbcaeac024a7b569227963f165e3f623ae14e21ff6cca632eae94b",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2404,7 +2404,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_4630",
-      "contentDigest": "655801caaa6cd7ab3646c8d3ff0555451812823d16269af3943ead786cf879b2",
+      "contentDigest": "9f4c7a4cc71f428aa2b7e47e6ac810e8e9e9ffb9cb7558aed35498e5d19560a9",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2449,7 +2449,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1001",
-      "contentDigest": "9f562dfaec365f2fbfe8ec119afaacc797774b580633f66c52576f8489b3164a",
+      "contentDigest": "340cdcf5796e1710100b7a34076b34fb752bef95de75c1dd161631fd5aba2d54",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2494,7 +2494,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1027",
-      "contentDigest": "2fa1d45f17582ee662a2ea2faddcf8d5d206439e591e9c5eb6929421904be560",
+      "contentDigest": "fd8517b16c353ace317be1a1693b7ab12e4cd44eb7db8408efb446c2c2e21c7d",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2539,7 +2539,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3006",
-      "contentDigest": "06b83bcdb34b00dce62cf4370992dd87a8571310b10fc8cfa0eb49f8c563545d",
+      "contentDigest": "d36ffab7946c23730ea440112149adab1535bf559fbd98fa3854c40d8e413ba2",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2584,7 +2584,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3020",
-      "contentDigest": "347bc396dbe7aadec146dfbc44a27b8b302b344b5bb7ff8a1c0fb1168069dbe0",
+      "contentDigest": "c0b68d514b15e6c3b1fe1f21e19e68d81a53487125922501a0ef955047c27290",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2629,7 +2629,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3024",
-      "contentDigest": "67f704f9bb2a93eec5fbc4240fc1f4ad5fe1ba18a611f8e6a0f1a48fef121e24",
+      "contentDigest": "8af466cf7c742a85b12e590a9bd757e34f74ca26bb869e234b86eda84ea0c3ad",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2674,7 +2674,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3123",
-      "contentDigest": "321fa02623773d693e5ee549676920f4f671dcc57a717134d19c876e9c9fbe07",
+      "contentDigest": "397feeccaa1c5d89dd80ab35598fc4ec7b8f52ae48b1d65ca9ffebe0606dd6a2",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2727,7 +2727,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3916",
-      "contentDigest": "2819cedaf39e5a6ec713409431463bbdc877aa0af99cf25c6046a3206178bcfc",
+      "contentDigest": "5f84e0029858c8484f5aacb6fe9df875cd46e308a012c6f9d4016f45dcdda371",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2780,7 +2780,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3033",
-      "contentDigest": "45970f15fc0b70ce5e9e404ebaea0d5a2d06cbced79325f0ef7e3cbc6fe71449",
+      "contentDigest": "c884e71a4af3d50f92405c5cfdf3e33b2345514bf0cc5bfb9c4cf8865bc3394d",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2833,7 +2833,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_6609",
-      "contentDigest": "b8c56bb8a25aa58a38c9d04acfd7506033931a05a601cad3416ff95e1a75a896",
+      "contentDigest": "23d6803cf059114dbbf15d57ec08c7c3637ea5cfd10e30a26bfb7014345b3b0a",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2886,7 +2886,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3165",
-      "contentDigest": "0935e707ea3d69c2b6c89efa25897bedc1d083845779ecf01e6d568b47730c87",
+      "contentDigest": "68110a506be6a6de15255ec5c6f28b396144f6f9dc49b59d33a0bda646bbe7aa",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2939,7 +2939,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3044",
-      "contentDigest": "7cfd793b02fa964aaa7bb58f60b75fc4d8569d0b81e7a273869a0f76ed2ed708",
+      "contentDigest": "6c672026dbe442abda3efd4d737c3b8a3aca61d9677a021455efd6d1d3480ff8",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -2991,7 +2991,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3110",
-      "contentDigest": "ecbf22ddc4cf98970f028b1daa534a1fcb0e8370a13fc4727afa40d8b4fb992f",
+      "contentDigest": "b355237c8de41bf8c55dd3cc36ed731bc35a3b51e85ac1e13cca865b081a42cd",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -3043,7 +3043,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_2422",
-      "contentDigest": "ea77663ac3b7d287b228313f090a315f6e665b18eec9453ab9da2b862f554f3f",
+      "contentDigest": "2f3f34fada70c4eb159c2593b3f917c0561751a8fcd7fd7585a27e64c9cdbe75",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -3095,7 +3095,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3124",
-      "contentDigest": "3d7db486425cbdabb3b408be38e7d9d8fe0941160a5867b5960cfe5b34754536",
+      "contentDigest": "56de345396b055facb7b29ae4d0bdfc89e6262587fadd457fb4af49c776b50e4",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -3147,7 +3147,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_1120",
-      "contentDigest": "f4f76e56f1f5c748775c5c3f0a7876530167f961f89503287946527402e28ecf",
+      "contentDigest": "b3f1120891c94bc263f98a128e843ed9e724f930c9ad724aefdc6c0b2a26a80c",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -3192,7 +3192,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_2421",
-      "contentDigest": "6356a5a357f9743f3ff23e931a20cb1a4f03ee8d16618cc991238ebcd5e2d6a7",
+      "contentDigest": "47a3b7293f4d971506b39a099563e4f2a66c79fdbdc75946bafec88e851874bb",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -3237,7 +3237,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3172",
-      "contentDigest": "2cbb3bf526bebaed25d0873339d75376be16d8c56ea31aaf2d2f86ff30f22b52",
+      "contentDigest": "d6141872b5a2775be06f7db0d1ad83b9ee7bc682dc40219b863344585632f1b9",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -3282,7 +3282,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3175",
-      "contentDigest": "f069cd3a186ff33d003a02e2b3b8a4e3ca1705ebc8acdf1500139cb7b044a8d7",
+      "contentDigest": "712854b910532bedf5b57dad36ee296a7fa7b5486c19477f52044ac34e23796d",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -3327,7 +3327,7 @@
     {
       "kind": "CHARACTER",
       "key": "champion_chogath",
-      "contentDigest": "16153c6169eb7db901f7158b84e149d5a567ac28b2184e1f23a27ffc7b3cfcab",
+      "contentDigest": "397209d34ac69f1160e35f5da8cfc5c1e2dcbac831522e9e802f699bad18493a",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -3424,7 +3424,7 @@
     {
       "kind": "EQUIPMENT",
       "key": "item_3153",
-      "contentDigest": "54710cdca303227a9cafbf5c0035f7e6205acabc7e1dbc81b624d341cbe232b7",
+      "contentDigest": "e984b38cb5914ba3c40754f35eeac340224f3c083423b9903d936830bf2fb24b",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -3478,7 +3478,7 @@
     {
       "kind": "CHARACTER",
       "key": "champion_malphite",
-      "contentDigest": "e0904be3ff3b70ff58302a1bab93e565bbf74f49918ed5bcddd6b2cee1f0d7f3",
+      "contentDigest": "02d586a13a4b0607d23b5d81d51f60082c932e25583a62ad53e916678d79b806",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -3574,7 +3574,7 @@
     {
       "kind": "CHARACTER",
       "key": "champion_lux",
-      "contentDigest": "440753044f74d4a1b39e2ffd5c203a993053353500f3ed958983125a004c3407",
+      "contentDigest": "7bff58f3873cde2e54a99ae503246595bb6479c3df0317ad6ee966f05885f401",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -3661,7 +3661,7 @@
     {
       "kind": "CHARACTER",
       "key": "ez",
-      "contentDigest": "e7338412b69cc56fad6adb9dd3162931280208df2a6ca726594a01ce35d5c6af",
+      "contentDigest": "25afcee2bd682ba6cfdedb5df631c5fd2e4f21481df9f259d7de1f8ebfed5c02",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -3752,6 +3752,94 @@
         "outputs/skill-adaptation-20261022-ezreal/整英雄矩阵独立复核.json#sha256=8308f5880926e79642b9729ea9eb0e5b7a03c22d5622ecfd19ce44c808a8cb76",
         "outputs/skill-adaptation-20261022-ezreal/自动结果校验与技能叠层回归.json#sha256=04404d2348cd24fdf8cc6c0541d2fe39f8fdae821ff5e587e5242f60911da30d",
         "outputs/skill-adaptation-20261022-ezreal/Q法盾与被动组合探针.json#sha256=3d1b118ccc9a0d839a66cde21113c9823460ce6eb9b573b399e60a37f7accfe5"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "CHARACTER",
+      "key": "champion_brand",
+      "contentDigest": "4a107ed650542809010309b527719da8eac8341439480ec22595d6fde43d562e",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "brand_e",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "brand_p",
+            "levels": [
+              1
+            ]
+          },
+          {
+            "skillKey": "brand_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "brand_w",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "evidenceRefs": [
+        "outputs/skill-adaptation-20261022-brand/完整矩阵验证.json#sha256=8364b09a04d886353ffc9d2d8efd251177b4327326d16712a45b534a30fc98c0",
+        "outputs/skill-adaptation-20261022-brand/同拥有者命中前计数验证.json#sha256=155948c711aaf0f7252183126f87a1845fd605c77f89ec8d773ccaac78a568ed"
       ],
       "issues": []
     }
