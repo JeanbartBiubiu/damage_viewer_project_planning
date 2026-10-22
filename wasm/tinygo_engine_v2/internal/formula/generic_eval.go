@@ -12,9 +12,11 @@ import (
 )
 
 // GenericEvalContext 是 generic formula 运行时只读视图。
+type DamageStateBeforeReader interface{ DamageStateBefore(string) (float64, error) }
 type GenericEvalContext struct {
-	ReceivedShieldReader ReceivedShieldReader
-	LinkedShieldReader   LinkedShieldReader
+	DamageStateBeforeReader DamageStateBeforeReader
+	ReceivedShieldReader    ReceivedShieldReader
+	LinkedShieldReader      LinkedShieldReader
 	// 只有明确作者派生使用点设置。内部用途读取仍使用SourceAttrs/TargetAttrs。
 	HasAuthoredActorContext bool
 	AuthoredSourceAttrs     attribute.Table

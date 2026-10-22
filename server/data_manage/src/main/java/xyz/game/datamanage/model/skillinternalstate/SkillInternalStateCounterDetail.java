@@ -21,6 +21,8 @@ public record SkillInternalStateCounterDetail(
     SkillNumericValue durationValue,
     @Valid @JsonInclude(JsonInclude.Include.NON_NULL)
     SkillTriggerRuntimeInputBinding initialValueBinding,
+    @Valid @JsonInclude(JsonInclude.Include.NON_NULL)
+    SkillInternalStateTargetTiming targetTiming,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillInternalStateDetail {
@@ -31,11 +33,17 @@ public record SkillInternalStateCounterDetail(
     }
 
     public SkillInternalStateCounterDetail(SkillNumericValue initialValue, SkillNumericValue maxValue) {
-        this(initialValue, maxValue, null, null, Set.of(), Set.of());
+        this(initialValue, maxValue, null, null, null, Set.of(), Set.of());
     }
 
     public SkillInternalStateCounterDetail(SkillNumericValue initialValue, SkillNumericValue maxValue, SkillNumericValue durationValue) {
-        this(initialValue, maxValue, durationValue, null, Set.of(), Set.of());
+        this(initialValue, maxValue, durationValue, null, null, Set.of(), Set.of());
+    }
+
+    public SkillInternalStateCounterDetail(SkillNumericValue initialValue, SkillNumericValue maxValue,
+        SkillNumericValue durationValue, SkillTriggerRuntimeInputBinding initialValueBinding,
+        Set<String> foreignFields, Set<String> unknownFields) {
+        this(initialValue, maxValue, durationValue, initialValueBinding, null, foreignFields, unknownFields);
     }
 
     @JsonCreator
@@ -48,6 +56,7 @@ public record SkillInternalStateCounterDetail(
         @JsonProperty("initialEnabled") JsonNode initialEnabled,
         @JsonProperty("durationValue") SkillNumericValue durationValue,
         @JsonProperty("initialValueBinding") SkillTriggerRuntimeInputBinding initialValueBinding,
+        @JsonProperty("targetTiming") SkillInternalStateTargetTiming targetTiming,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillInternalStateCounterDetail(
@@ -55,6 +64,7 @@ public record SkillInternalStateCounterDetail(
             maxValue,
             durationValue,
             initialValueBinding,
+            targetTiming,
             SkillInternalStateDetailFieldCapture.captureForeign(
                 "recoveryIntervalValue", recoveryIntervalValue,
                 "recoveryMode", recoveryMode,

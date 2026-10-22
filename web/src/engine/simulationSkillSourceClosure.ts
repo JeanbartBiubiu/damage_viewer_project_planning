@@ -34,6 +34,13 @@ export function selectSimulationSkillSourceClosure(configuration: SkillConfigura
     }
     if (!value || typeof value !== 'object') return;
     const row = value as Record<string, unknown>;
+    if (row.stateType === 'COUNTER') {
+      const detail = row.detail as Record<string, unknown> | undefined;
+      const timing = detail?.targetTiming as Record<string, unknown> | undefined;
+      if (timing && typeof timing === 'object' && ['PHASED_TICK', 'EXPIRY_PAYLOAD'].includes(String(timing.kind))) {
+        include('processes', timing.processKey, `${path}.detail.targetTiming.processKey`);
+      }
+    }
     if (row.eventType === 'SKILL_HIT') {
       const detail = row.detail as Record<string, unknown> | undefined;
       const moment = detail?.processMoment as Record<string, unknown> | undefined;

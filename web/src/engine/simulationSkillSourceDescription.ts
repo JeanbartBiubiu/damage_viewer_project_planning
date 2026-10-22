@@ -10,6 +10,7 @@ import type { PermanentNumericConsumer } from './simulationPermanentResults';
 import { calculationConfiguration } from './simulationCalculationRules';
 import { finiteTargetCounterContract, isFiniteTargetCounterPostHitRule } from './finiteTargetCounterContract';
 import { targetMarkAuthoringContract, isTargetMarkPostHitRule } from './targetMarkAuthoringContract';
+import { isUndrivenTargetTimingSource } from './targetTimingAuthoring';
 
 export type SimulationSourceSide = 'source' | 'target';
 type Side = SimulationSourceSide;
@@ -115,6 +116,7 @@ function activeReachableRoots(snapshot: SimulationSnapshot) {
 }
 
 export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: SkillConfiguration, side: Side, actualSource?: SimulationSkillSource) {
+  if (isUndrivenTargetTimingSource(snapshot, configuration, side, actualSource)) return [];
   const finiteCounter = finiteTargetCounterContract(configuration);
   const targetMark = targetMarkAuthoringContract(configuration);
   if (finiteCounter || targetMark) {
@@ -249,6 +251,7 @@ export function validateSimulationSkillSourceManifest(snapshot: SimulationSnapsh
           && source.skillKey === snapshot.selection.basicAttackSkillKey;
         const planned = sourceIsPlanned(snapshot, side, source);
         const plan = snapshot.selection.plannedSkills.find(plan => simulationSkillSourceIdentity(plan.origin, plan.skillKey) === identity);
+        const undrivenTiming = isUndrivenTargetTimingSource(snapshot, configuration, side, source);
         const roots = [...naturalRuleKeys(snapshot, configuration, side, source), ...(planned && plan ? plannedSkillRuleKeys(configuration, plan.phaseKinds) : [])];
         if (planned && (source.inactiveReason !== null || !roots.length)) fail(`${side}.skillSources.${source.skillKey}`, '计划来源必须具备真实已启用首次入口');
         if (source.inactiveReason === 'NO_AUTONOMOUS_ATTACK') {
@@ -259,13 +262,13 @@ export function validateSimulationSkillSourceManifest(snapshot: SimulationSnapsh
           const undrivenNatural = (side === 'target' || snapshot.selection.basicAttackSkillKey === null)
             && roots.length === 0 && configuration.triggerRules.some(rule => OWN_ATTACK_EVENTS.has(rule.eventSource.eventType) && rule.actions.length > 0)
             && onlyUndrivenAttackRoots(configuration, basicAttackCategoryKey, true);
-          if (selectedPrimary || source.enabledRuleKeys.length || !undrivenPrimary && !undrivenNatural) {
+          if (selectedPrimary || source.enabledRuleKeys.length || !undrivenPrimary && !undrivenNatural && !undrivenTiming) {
             fail(`${side}.skillSources.${source.skillKey}`, '无自主普攻排除原因不能隐藏真实自然入口或所选主体，必须是本场不驱动的真实攻击来源');
           }
         }
         if (source.inactiveReason === 'ACTIVE_DEFERRED' && (roots.length
           || !configuration.triggerRules.some(rule => DEFERRED_SKILL_EVENTS.has(rule.eventSource.eventType))
-          || !onlyUndrivenAttackRoots(configuration, basicAttackCategoryKey, true))) {
+          || !undrivenTiming && !onlyUndrivenAttackRoots(configuration, basicAttackCategoryKey, true))) {
           fail(`${side}.skillSources.${source.skillKey}`, '主动后置原因不能隐藏真实自然入口');
         }
         if (source.inactiveReason === null

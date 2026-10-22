@@ -30,12 +30,13 @@ import { validateSimulationAttributeDerivations } from './simulationAttributeCon
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
 import { validateProviderOncePerUseScopes } from './skillOncePerUse';
 import { bindFiniteTargetCounterSources } from './finiteTargetCounterBinding';
+import { bindTargetTimingSources } from './targetTimingBinding';
 import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput } from './sceneInitialParameterInput';
 import { initialResourceRequirements, normalizeInitialResourceInputs } from './initialResourceInputs';
 import { permanentHealthIncreases } from './permanentHealthInitialization';
 import { assembleTargetMarkSource } from './targetMarkAdapter';
 
-export const SIMULATION_ADAPTER_VERSION = 'v37-target-mark-and-hit-links';
+export const SIMULATION_ADAPTER_VERSION = 'v38-phased-target-timing-and-damage-state-before';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -586,6 +587,7 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
     mount: { providerRef: MOUNT, definitionRef: base.provider.providerKey }
   } : undefined, sceneInputs);
   bindFiniteTargetCounterSources(snapshot, base.natural.providers, active);
+  bindTargetTimingSources(snapshot, base.natural.providers, active);
   bindBasicAttackCooldownReductions([
     ...(base.triggered.basicAttackCooldownReductions ?? []),
     ...(base.natural.triggered.basicAttackCooldownReductions ?? [])

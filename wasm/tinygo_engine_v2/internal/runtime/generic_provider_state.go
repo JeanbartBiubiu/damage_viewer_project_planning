@@ -62,6 +62,8 @@ func (m *providerStateFieldMetadata) definitions() map[string]providerStateField
 // Field schema (defaultValue/maxValue/durationMs/refresh_on_write|start_on_first_write)
 // applies to both provider-scope and provider_target writes.
 type providerStateBag struct {
+	timing                       *targetTimingState
+	timingShared                 bool
 	sourceExpiryFacts            map[string]sourceStateExpiryFact
 	sourceExpiryFactsShared      bool
 	headerShared                 bool
@@ -197,6 +199,7 @@ func cloneProviderStateMap(src map[string]*providerStateBag) map[string]*provide
 		bag.targetValuesShared, bag.targetExpireAtShared = true, true
 		bag.anchoredTickGenerationShared = true
 		*copied = *bag
+		bag.timingShared, copied.timingShared = true, true
 		bag.sourceExpiryFactsShared, copied.sourceExpiryFactsShared = true, true
 		copied.headerShared = false
 		out[k] = copied
@@ -221,6 +224,7 @@ func shareProviderStateMap(src map[string]*providerStateBag) map[string]*provide
 			continue
 		}
 		bag.headerShared = true
+		bag.timingShared = true
 		bag.sourceExpiryFactsShared = true
 		bag.stateShared, bag.expireAtShared = true, true
 		bag.targetValuesShared, bag.targetExpireAtShared = true, true
@@ -240,6 +244,7 @@ func freezeProviderStateView(src map[string]*providerStateBag) map[string]*provi
 	}
 	for _, bag := range src {
 		bag.headerShared = true
+		bag.timingShared = true
 		bag.sourceExpiryFactsShared = true
 		bag.stateShared, bag.expireAtShared = true, true
 		bag.targetValuesShared, bag.targetExpireAtShared = true, true
@@ -806,6 +811,13 @@ func (b *providerStateBag) lazyExpireProviderTargetState(nowMs int64) {
 }
 
 func (b *providerStateBag) holdsInclusiveAtExpiry(key string, nowMs, exp int64) bool {
+	if b != nil && b.timing != nil {
+		for _, fact := range b.timing {
+			if fact.active && fact.key == key && fact.protect && fact.expiry == exp && nowMs == exp {
+				return true
+			}
+		}
+	}
 	if b == nil || b.inclusiveAtExpiryKey == "" {
 		return false
 	}
@@ -869,6 +881,13 @@ func (b *providerStateBag) clearProviderTargetState() {
 	b.anchoredTickGeneration = map[string]uint64{}
 	b.anchoredTickGenerationShared = false
 	b.clearInclusiveAtExpiryHold()
+	if b.timing != nil {
+		facts := b.writableTargetTiming()
+		for i := range facts {
+			facts[i].active, facts[i].protect = false, false
+			facts[i].generation++
+		}
+	}
 }
 
 func (b *providerStateBag) clampProviderStateValue(key string, value float64) float64 {

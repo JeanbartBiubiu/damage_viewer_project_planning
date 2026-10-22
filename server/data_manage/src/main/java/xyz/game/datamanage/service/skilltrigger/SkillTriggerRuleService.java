@@ -335,6 +335,16 @@ public class SkillTriggerRuleService {
                 }
             }
             for (SkillTriggerAction action : nullToEmpty(rule.actions())) {
+                if (action.detail() instanceof SkillTriggerModifyInternalStateActionDetail modify
+                    && states.contains(modify.stateKey()) && skillKey.equals(modify.stateSkillKey())
+                    && (modify.operation() == SkillTriggerInternalStateOperation.ENSURE_REMAINING
+                        || modify.operation() == SkillTriggerInternalStateOperation.ENSURE_REMAINING_PRESERVE_PHASE)) {
+                    var target = findState(gameId, skillKey, modify.stateKey());
+                    Map<String, SkillTriggerInternalStateLockRow> finalStates = target == null ? Map.of()
+                        : Map.of(modify.stateSkillKey() + "\0" + modify.stateKey(), target);
+                    validateActionCatalog(gameId, sourceSkillKey, event, action, "actions[" + action.actionKey() + "]",
+                        effectShapes, processShapes, finalStates, issues);
+                }
                 if (skillKey.equals(sourceSkillKey)
                     && action.detail() instanceof SkillTriggerAdvanceProcessActionDetail advance
                     && processes.contains(advance.processKey())) {
@@ -1540,6 +1550,10 @@ public class SkillTriggerRuleService {
                     issues.add(fieldIssue(prefix + ".detail.valueKind", "EVENT_VALUE_NOT_AVAILABLE",
                         "本次攻击开始值只能由普通攻击开始、命中或原技能命中读取"));
                 }
+                if (detail.valueKind() == SkillTriggerInternalStateValueKind.DAMAGE_BEFORE_VALUE
+                    && eventSource.eventType() != SkillTriggerEventType.DAMAGE_DEALT) {
+                    issues.add(fieldIssue(prefix + ".detail.valueKind", "EVENT_VALUE_NOT_AVAILABLE", "伤害前值只能由真实造成伤害事件读取"));
+                }
             }
             case EVENT_VALUE_COMPARE -> {
                 if (!(condition.detail() instanceof SkillTriggerEventValueConditionDetail detail)) {
@@ -1581,8 +1595,16 @@ public class SkillTriggerRuleService {
                 require(detail.stateKey(), prefix + ".detail.stateKey", "状态标识不能为空", issues);
                 require(detail.operation(), prefix + ".detail.operation", "状态操作不能为空", issues);
                 require(detail.value(), prefix + ".detail.value", "状态计时数值不能为空", issues);
+                boolean phaseEnsuring = detail.operation() == SkillTriggerInternalStateOperation.ENSURE_REMAINING_PRESERVE_PHASE;
                 boolean ensuring = detail.operation() == SkillTriggerInternalStateOperation.ENSURE_REMAINING;
-                if (ensuring) {
+                if (phaseEnsuring) {
+                    if (eventSource == null || eventSource.eventType() != SkillTriggerEventType.SKILL_HIT
+                        || !(eventSource.detail() instanceof SkillTriggerSkillEventDetail hit)
+                        || hit.sourceSkillKey() == null || hit.sourceSkillKey().isBlank()
+                        || action.targetContext() != SkillTriggerTargetContext.CURRENT_TARGET) {
+                        issues.add(fieldIssue(prefix + ".actionType", "EVENT_VALUE_NOT_AVAILABLE", "保相位续期只允许明确真实技能命中作用于当前目标"));
+                    }
+                } else if (ensuring) {
                     if (eventSource == null || eventSource.eventType() != SkillTriggerEventType.SKILL_USED
                         || !(eventSource.detail() instanceof SkillTriggerSkillEventDetail use)
                         || use.sourceSkillKey() == null || use.sourceSkillKey().isBlank()
@@ -1600,7 +1622,7 @@ public class SkillTriggerRuleService {
                 if (detail.value() != null && detail.value().kind() == SkillNumericValue.Kind.FIXED && detail.value().value().signum() < 0) {
                     issues.add(fieldIssue(prefix + ".detail.value", "RANGE_INVALID", "回充减少毫秒数不能小于零"));
                 }
-                if (ensuring && detail.value() != null && detail.value().kind() == SkillNumericValue.Kind.FIXED
+                if ((ensuring || phaseEnsuring) && detail.value() != null && detail.value().kind() == SkillNumericValue.Kind.FIXED
                     && (detail.value().value().signum() <= 0 || detail.value().value().stripTrailingZeros().scale() > 0
                         || detail.value().value().compareTo(new BigDecimal("9007199254740991")) > 0)) {
                     issues.add(fieldIssue(prefix + ".detail.value", "RANGE_INVALID", "最低余时必须为严格正安全整数毫秒"));
@@ -1684,7 +1706,7 @@ public class SkillTriggerRuleService {
         List<Map<String, String>> issues
     ) {
         switch (valueKind) {
-            case VALUE, ATTACK_START_VALUE, REMAINING_MS -> {
+            case VALUE, ATTACK_START_VALUE, DAMAGE_BEFORE_VALUE, REMAINING_MS -> {
                 if (comparator == null) {
                     issues.add(fieldIssue(prefix + ".comparator", "REQUIRED", "比较符不能为空"));
                 }
@@ -1742,9 +1764,10 @@ public class SkillTriggerRuleService {
                 if (binding.detail() instanceof SkillTriggerInternalStateBindingDetail detail) {
                     require(detail.stateSkillKey(), prefix + ".detail.stateSkillKey", "内部状态所属技能不能为空", issues);
                     require(detail.stateKey(), prefix + ".detail.stateKey", "内部状态标识不能为空", issues);
-                    if (detail.valueKind() == SkillTriggerInternalStateValueKind.ATTACK_START_VALUE) {
+                    if (detail.valueKind() == SkillTriggerInternalStateValueKind.ATTACK_START_VALUE
+                        || detail.valueKind() == SkillTriggerInternalStateValueKind.DAMAGE_BEFORE_VALUE) {
                         issues.add(fieldIssue(prefix + ".detail.valueKind", "FORBIDDEN",
-                            "本次攻击开始值只用于弹药条件，不开放计算时输入绑定"));
+                            "前值读取只用于对应真实事件条件，不开放计算时输入绑定"));
                     }
                 }
             }
@@ -2325,9 +2348,11 @@ public class SkillTriggerRuleService {
         if (action.actionType() == SkillTriggerActionType.MODIFY_INTERNAL_STATE
             && action.detail() instanceof SkillTriggerModifyInternalStateActionDetail modify) {
             SkillTriggerInternalStateLockRow state = states.get(modify.stateSkillKey() + "\0" + modify.stateKey());
-            if (modify.operation() == SkillTriggerInternalStateOperation.ENSURE_REMAINING) {
+            if (modify.operation() == SkillTriggerInternalStateOperation.ENSURE_REMAINING
+                || modify.operation() == SkillTriggerInternalStateOperation.ENSURE_REMAINING_PRESERVE_PHASE) {
                 if (!skillKey.equals(modify.stateSkillKey()) || state == null
-                    || state.stateType() != SkillInternalStateType.COUNTER || !"TARGET".equals(state.scope())) {
+                    || state.stateType() != SkillInternalStateType.COUNTER || !"TARGET".equals(state.scope())
+                    || modify.operation() == SkillTriggerInternalStateOperation.ENSURE_REMAINING && state.targetTiming()) {
                     issues.add(fieldIssue(prefix + ".detail.stateKey", "REFERENCE_TYPE_MISMATCH", "最低余时只能修改本技能自身目标范围的有限计数"));
                 }
             } else if (!skillKey.equals(modify.stateSkillKey()) || state == null || state.stateType() != SkillInternalStateType.AMMO
@@ -3345,6 +3370,7 @@ public class SkillTriggerRuleService {
         return switch (valueKind) {
             case VALUE -> stateType == SkillInternalStateType.COUNTER || stateType == SkillInternalStateType.AMMO;
             case ATTACK_START_VALUE -> stateType == SkillInternalStateType.AMMO;
+            case DAMAGE_BEFORE_VALUE -> false;
             case OPTION_SELECTED -> stateType == SkillInternalStateType.MODE;
             case ENABLED -> stateType == SkillInternalStateType.FLAG;
             case REMAINING_MS -> stateType == SkillInternalStateType.INTERNAL_COOLDOWN;
@@ -3356,6 +3382,10 @@ public class SkillTriggerRuleService {
         if (state == null) return false;
         if (detail.valueKind() == SkillTriggerInternalStateValueKind.ATTACK_START_VALUE)
             return SkillAttackStartValueSemantics.readAllowed(skillKey, event, detail.stateSkillKey(), state);
+        if (detail.valueKind() == SkillTriggerInternalStateValueKind.DAMAGE_BEFORE_VALUE)
+            return skillKey.equals(detail.stateSkillKey()) && "TARGET".equals(state.scope())
+                && state.stateType() == SkillInternalStateType.COUNTER && !state.targetTiming()
+                && event != null && event.eventType() == SkillTriggerEventType.DAMAGE_DEALT;
         if (detail.valueKind() == SkillTriggerInternalStateValueKind.REMAINING_MS && state.stateType() == SkillInternalStateType.COUNTER)
             return skillKey.equals(detail.stateSkillKey()) && "TARGET".equals(state.scope());
         return internalStateValueMatches(state.stateType(), detail.valueKind());

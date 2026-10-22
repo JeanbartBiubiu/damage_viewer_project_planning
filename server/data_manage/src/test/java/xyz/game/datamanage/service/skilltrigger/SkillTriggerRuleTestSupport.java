@@ -464,7 +464,7 @@ final class SkillTriggerRuleTestSupport {
     }
 
     static SkillTriggerInternalStateLockRow state(String stateKey, SkillInternalStateType type) {
-        return new SkillTriggerInternalStateLockRow(stateKey, type, "SKILL");
+        return new SkillTriggerInternalStateLockRow(stateKey, type, "SKILL", false);
     }
 
     static SkillTriggerRuleRow ruleRow(String ruleKey, String name, SkillTriggerEventType eventType) {

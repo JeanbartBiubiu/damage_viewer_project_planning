@@ -43,6 +43,8 @@ import { compileProviderDurationResult } from './providerDurationAdapter';
 import { finiteTargetCounterContract } from './finiteTargetCounterContract';
 import { lowerTargetCounterValueRule } from './targetCounterFormula';
 import { ownCounterShieldExpiry } from './ownCounterShieldExpiry';
+import { targetTimingDeclarations } from './targetTimingAuthoring';
+import { isCounterTargetTiming } from '../services/counterTargetTiming';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
   type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
@@ -377,6 +379,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const stackEffects = new Map<string, { key: string; amount: number; policy: string }>();
         const periodicEffects = new Map<string, { definition: ProviderDefinition; dynamic: boolean }>();
         const activeProcesses = new Set<string>();
+        let timingPayload = false;
         const empoweredProcesses = new Set<string>();
         const deferredAbilities: AbilityDefinition[] = [];
         const activeEffects = new Set<string>();
@@ -480,6 +483,10 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           const statePath = `${root}.internalStates.${state.stateKey}`;
           exact(state, ['gameId', 'skillKey', 'stateKey', 'stateType', 'scope', 'detail', ...METADATA], statePath);
           if (state.gameId !== snapshot.gameId || state.skillKey !== skillKey || !['SKILL', 'TARGET'].includes(state.scope)) fail(statePath, '只接入真实来源或来源对手范围内部状态');
+          if (Object.prototype.hasOwnProperty.call(state.detail, 'targetTiming') && (state.stateType !== 'COUNTER'
+            || state.scope !== 'TARGET' || state.detail.initialValueBinding !== undefined || !isCounterTargetTiming(state.detail.targetTiming))) {
+            fail(statePath, '目标时序需要完整的本技能目标计数显式声明');
+          }
           if (state.stateType === 'AMMO' || state.stateType === 'COUNTER' && state.detail.initialValueBinding !== undefined) {
             if (skills.length !== 1) fail(statePath, '显式状态初值与弹药需要唯一真实来源，不能跨聚合来源共享');
             schema[stateKey(state)] = compileStateFieldSchema(state, numeric, statePath, source.sceneInitialValues) as ProviderStateFieldSchema;
@@ -489,7 +496,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               if (state.detail.initialRemainingValue) noteNumeric(state.detail.initialRemainingValue);
             } else if (state.detail.durationValue) noteNumeric(state.detail.durationValue);
           } else if (state.stateType === 'COUNTER') {
-            exact(state.detail, ['initialValue', 'maxValue', 'durationValue'], `${statePath}.detail`);
+            exact(state.detail, ['initialValue', 'maxValue', 'durationValue', 'targetTiming'], `${statePath}.detail`);
             const initial = constant(state.detail.initialValue, `${statePath}.detail.initialValue`, true);
             const maximum = constant(state.detail.maxValue, `${statePath}.detail.maxValue`, true);
             if (initial > maximum) fail(statePath, '计数初始值不能超过上限');
@@ -699,6 +706,12 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             if (state.stateType === 'COUNTER' && detail.valueKind === 'VALUE') {
               constant(detail.comparisonValue, `${detailPath}.comparisonValue`, true);
               return comparator(detail.comparator, read, value(detail.comparisonValue, detailPath), detailPath);
+            }
+            if (state.stateType === 'COUNTER' && state.scope === 'TARGET' && detail.valueKind === 'DAMAGE_BEFORE_VALUE'
+              && state.detail.targetTiming === undefined && event === 'DAMAGE_DEALT') {
+              constant(detail.comparisonValue, `${detailPath}.comparisonValue`, true);
+              return comparator(detail.comparator, { op: 'read', path: `event.provider_target_state_before.${stateKey(state)}` },
+                value(detail.comparisonValue, detailPath), detailPath);
             }
             if (state.stateType === 'COUNTER' && detail.valueKind === 'REMAINING_MS') {
               requireTimedTargetCounter(state, detailPath);
@@ -1256,7 +1269,28 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               exact(action.detail, ['stateSkillKey', 'stateKey', 'operation', 'value'], `${actionPath}.detail`);
               const definition = lookupState(action.detail.stateKey, action.detail.stateSkillKey, actionPath);
               if (action.runtimeInputBindings.length || action.resultModifiers.length) fail(actionPath, '状态余时动作不接受运行输入绑定或结果修正');
-              if (action.detail.operation === 'ENSURE_REMAINING') {
+              if (action.detail.operation === 'ENSURE_REMAINING_PRESERVE_PHASE') {
+                const sourceSkillKey = rootEventSource?.eventType === 'SKILL_HIT' ? rootEventSource.detail.sourceSkillKey : null;
+                const planned = snapshot.selection.plannedSkills.filter(plan => plan.skillKey === sourceSkillKey && plan.phaseKinds.includes('INITIAL'));
+                const actualSources = snapshot.source.skillSources.filter(source => source.skillKey === sourceSkillKey && source.enabled
+                  && source.skillStatus === 'ENABLED' && source.skillLevel !== null && source.skillLevel > 0 && source.inactiveReason === null
+                  && source.origin.kind === 'CHARACTER' && source.origin.characterKey === snapshot.selection.sourceCharacterKey);
+                const actualPlan = planned.length === 1 && planned[0]!.origin.kind === 'CHARACTER'
+                  && planned[0]!.origin.characterKey === snapshot.selection.sourceCharacterKey && actualSources.length === 1
+                  && actualSources[0]!.skillLevel === planned[0]!.skillLevel;
+                const unblocked = rule.conditionGroups.length > 0 && rule.conditionGroups.every(group => group.conditions.some(check =>
+                  check.conditionType === 'EVENT_VALUE_COMPARE' && check.detail.eventValueKey === 'SKILL_HIT_SPELL_SHIELD_BLOCKED'
+                  && check.detail.comparator === 'EQ' && constant(check.detail.comparisonValue, actionPath, true) === 0));
+                if (event !== 'SKILL_HIT' || side !== 'source' || context !== 'target' || action.targetContext !== 'CURRENT_TARGET'
+                  || !sourceSkillKey || !actualPlan || !unblocked || definition.stateType !== 'COUNTER'
+                  || definition.detail.targetTiming?.kind !== 'PHASED_TICK') fail(actionPath, '保相位续期只允许实际计划技能未阻挡命中修改自身显式周期锚');
+                requireTimedTargetCounter(definition, `${actionPath}.detail.stateKey`);
+                types.set('state_scope/provider_target', 'state_scope');
+                output.push({ operation: 'state_duration_change', target: 'self', ref: stateKey(definition),
+                  valuePolicy: 'ensure_remaining_preserve_phase', amount: constExpr(constant(action.detail.value, `${actionPath}.detail.value`, true, 1)),
+                  types: ['state_scope/provider_target'] });
+              } else if (action.detail.operation === 'ENSURE_REMAINING') {
+                if (definition.stateType === 'COUNTER' && definition.detail.targetTiming !== undefined) fail(actionPath, '普通确保余时不能修改时序锚');
                 const detail = rootEventSource?.eventType === 'SKILL_USED' ? rootEventSource.detail : null;
                 const planned = detail?.sourceSkillKey == null ? undefined : snapshot.selection.plannedSkills.find(plan =>
                   plan.skillKey === detail.sourceSkillKey && plan.phaseKinds.includes('INITIAL')
@@ -1357,7 +1391,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           usedRules.add(rule.ruleKey);
           const guard = conditions(rule, event);
           let guardKey: string | undefined;
-          if (guard) {
+          if (guard && !timingPayload) {
             let index = Object.keys(schema).length;
             while (schema[`compiled_guard_${index}`]) index++;
             guardKey = `compiled_guard_${index}`;
@@ -1374,6 +1408,9 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (guardKey) for (const operation of output.slice(start)) {
             const predicate: GenericFormulaExpr = { op: 'read', path: `provider.state.${guardKey}` };
             operation.condition = operation.condition ? combine('min', [predicate, operation.condition]) : predicate;
+          }
+          if (guard && timingPayload) for (const operation of output.slice(start)) {
+            operation.condition = operation.condition ? combine('min', [guard, operation.condition]) : guard;
           }
           cover(rulePath, outputRoot);
         };
@@ -1473,7 +1510,64 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           }
           cover(`${effectPath}.lifecycle.firstPeriodicExecution`, `sharedProviders.${compiled.definition.providerKey}`);
         }
-
+        const timers = targetTimingDeclarations(configuration, constant);
+        if (timers.length && (side !== 'source' || !['character', 'build'].includes(description.kind)
+          || !description.stableId || skills.length !== 1)) fail(root, '目标时序只接实际永久角色或构筑的独立来源');
+        const checkTimingExpression = (expression: GenericFormulaExpr, expiry: boolean, path: string) => {
+          if (expression.op === 'read' && (!expression.path || !(expression.path.startsWith('ability.param.')
+            || expression.path === 'target.attr.hp.max' || expiry && expression.path === 'source.attr.ability_power.resolved'))) {
+            fail(path, '周期只读取本技能静态参数与当前目标生命上限；预约另允许当前来源法强');
+          }
+          if (expression.op === 'ref') {
+            const formula = expression.ref && numeric.namedFormulas.get(expression.ref);
+            if (!formula || formula.scope !== 'skill' || formula.skillKey !== skillKey
+              || formula.parameters.some(parameter => parameter.valueMode === 'RUNTIME_INPUT')) fail(path, '时序金额公式只能引用本技能静态参数');
+            for (const input of formula.expression.inputs) {
+              const binding = input.binding;
+              if (binding.kind === 'parameter' && binding.skillKey === skillKey) continue;
+              if (binding.kind === 'attribute' && binding.view === 'current_frame'
+                && (binding.object === 'target' && binding.attributeKey === 'hp' && binding.valueKind === 'MAX'
+                  || expiry && binding.object === 'source' && binding.attributeKey === 'ability_power' && binding.valueKind === 'TOTAL')) continue;
+              fail(path, '时序公式不能读取额外事件、状态、属性或运行参数');
+            }
+          }
+          for (const child of [...(expression.args ?? []), ...[expression.min, expression.max, expression.expr].filter((row): row is GenericFormulaExpr => !!row)]) checkTimingExpression(child, expiry, path);
+        };
+        for (const timer of timers) {
+          const timing = timer.state.detail.targetTiming!;
+          const expiry = timing.kind === 'EXPIRY_PAYLOAD';
+          const abilityKey = namedKey(skillKey, `${expiry ? 'expiry' : 'tick'}_${timer.state.stateKey}`);
+          const abilityRoot = `${compiledRoot}.abilities[${provider.abilities!.length}]`;
+          const branch = expiry ? 'targetExpirySpec.onExpire' : 'tickSpec.onTick';
+          const operations: OperationDefinition[] = [];
+          const compiledProcess = process(timer.process.processKey, `${root}.internalStates.${timer.state.stateKey}.detail.targetTiming`);
+          const previous: boolean = timingPayload;
+          timingPayload = true;
+          try { compileProcess(compiledProcess, operations, `${abilityRoot}.${branch}`,
+            `${side}.provider[${providerRef}].ability[${abilityKey}]`, 'PROCESS_MOMENT', 'target'); }
+          finally { timingPayload = previous; }
+          if (operations.length > 12 || operations.filter(operation => operation.operation === 'damage').length !== 1
+            || !expiry && operations.length !== 1) fail(abilityRoot, '时序展开必须恰好一笔伤害；周期无其它叶操作，预约不超过12叶');
+          for (const operation of operations) {
+            if (operation.operation === 'damage') {
+              if (!operation.amount || operation.condition || operation.target !== 'target' || operation.critEligible !== false
+                || operation.repeatCount !== undefined || operation.repeatDelayMs !== undefined || operation.repeatScope !== undefined) {
+                fail(abilityRoot, '时序伤害必须是无条件、无复制的完整目标伤害');
+              }
+              checkTimingExpression(operation.amount, expiry, abilityRoot);
+            } else if (!expiry || operation.operation !== 'state_change' || operation.target !== 'self'
+              || operation.valuePolicy !== 'set' || !operation.ref || !Object.keys(schema).includes(operation.ref)
+              || JSON.stringify(operation.types) !== JSON.stringify(['state_scope/provider_target'])) fail(abilityRoot, '预约混入未授权叶操作');
+          }
+          const ability: AbilityDefinition = { abilityKey, skillKey, kind: expiry ? 'stateful' : 'tick',
+            types: [...skillTypes, `ability/skill/${skillKey}`], ...(expiry
+              ? { targetExpirySpec: { anchorScope: 'state_scope/provider_target', anchorStateKey: stateKey(timer.state), onExpire: operations } }
+              : { tickSpec: { intervalMs: timer.intervalMs!, startDelayMs: 0, anchorScope: 'state_scope/provider_target',
+                anchorStateKey: stateKey(timer.state), phasePolicy: 'preserve_on_extend', onTick: operations } }) };
+          provider.abilities!.push(ability); abilities.push(ability);
+          types.set('state_scope/provider_target', 'state_scope'); usedStates.add(timer.state.stateKey);
+          cover(`${root}.internalStates.${timer.state.stateKey}.detail.targetTiming`, `${abilityRoot}.${expiry ? 'targetExpirySpec' : 'tickSpec'}`);
+        }
 
         for (const rule of ordered(configuration.triggerRules, `${root}.triggerRules`)) {
           const event: string = rule.eventSource.eventType;

@@ -24,7 +24,12 @@ export type SkillInternalStateCounterDetail = {
   initialValueBinding?: SkillTriggerSceneInitialParameterBinding;
   maxValue: NumericValue;
   durationValue?: NumericValue | null;
+  targetTiming?: CounterTargetTiming;
 };
+
+export type CounterTargetTiming =
+  | { kind: 'PHASED_TICK'; processKey: string; intervalValue: NumericValue; phasePolicy: 'PRESERVE_ON_EXTEND' }
+  | { kind: 'EXPIRY_PAYLOAD'; processKey: string };
 
 export type SkillInternalStateAmmoDetail = {
   initialValue: NumericValue;

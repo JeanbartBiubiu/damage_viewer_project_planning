@@ -185,6 +185,8 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	compileAmmoBindings(ctx)
 	validateMechanicFormulaContexts(ctx)
 	finalizeReceivedShieldReads(ctx)
+	finalizeTargetTiming(req, ctx)
+	finalizeDamageStateBefore(ctx)
 	finalizeTargetStateRemaining(ctx)
 	finalizeTargetMarkConsumption(req, ctx)
 	if len(session.Operations) > 65535 {
@@ -536,9 +538,13 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 				tickSpec.StartDelayMs = tickSpec.IntervalMs
 			}
 		}
+		tickSpec.PhasePolicy = ts.PhasePolicy
 		compiled.TickSpec = tickSpec
 	} else if ability.Kind == "tick" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec", "tick ability requires tickSpec", ability.AbilityKey)
+	}
+	if ability.TargetExpirySpec != nil {
+		compiled.TargetExpirySpec = compileTargetExpiry(ability, path, providerIndex, ctx)
 	}
 	session.Abilities = append(session.Abilities, compiled)
 
@@ -1183,8 +1189,15 @@ func validateStateDurationChangeOperation(op model.OperationDefinition, path str
 	if op.Amount == nil {
 		collector.addError(model.GenericErrMissingRequiredField, path+".amount", "state_duration_change requires amount", "")
 	}
-	if op.ValuePolicy != "subtract" && op.ValuePolicy != "ensure_remaining" {
+	if op.ValuePolicy != "subtract" && op.ValuePolicy != "ensure_remaining" && op.ValuePolicy != "ensure_remaining_preserve_phase" {
 		collector.addError(model.GenericErrUnknownRef, path+".valuePolicy", "state_duration_change requires valuePolicy=subtract or ensure_remaining", op.ValuePolicy)
+	}
+	if op.ValuePolicy == "ensure_remaining_preserve_phase" {
+		copy := op
+		copy.ValuePolicy, copy.Condition = "", nil
+		if targetMarkExtraFields(copy) || op.TargetMark != nil || op.CritEligible || op.DamageType != "" || op.ResourceKey != "" || op.VampQualification != "" || len(op.VampOverrides) != 0 || len(op.Types) != 1 {
+			collector.addError(model.GenericErrFormulaTypeError, path, "phase preserving extension only accepts its own target state duration fields", op.Ref)
+		}
 	}
 	if op.Target != model.SelectorSource && op.Target != model.SelectorSelf {
 		collector.addError(model.GenericErrOperationTargetMissing, path+".target", "state_duration_change target must be source or self", op.Target)

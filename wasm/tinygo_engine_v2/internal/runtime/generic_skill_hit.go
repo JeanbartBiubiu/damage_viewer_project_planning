@@ -289,6 +289,9 @@ func (s *genericRunState) lookupDriverAbility(entry model.DriverEntry) (planbund
 	if !ok || int(ref.AbilityIndex) >= len(s.compiled.Abilities) {
 		return planbundle.CompiledAbility{}, resolved, false
 	}
+	if s.compiled.Abilities[ref.AbilityIndex].TargetExpirySpec != nil {
+		return planbundle.CompiledAbility{}, resolved, false
+	}
 	return s.compiled.Abilities[ref.AbilityIndex], resolved, true
 }
 

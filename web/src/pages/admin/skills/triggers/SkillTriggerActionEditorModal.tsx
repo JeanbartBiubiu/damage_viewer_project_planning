@@ -170,7 +170,7 @@ export function SkillTriggerActionEditorModal({
   const [resolvingTarget, setResolvingTarget] = useState(false);
   const consumedBindingFocus = useRef<string | null>(null);
   const targetOptions = current.actionType === 'MODIFY_INTERNAL_STATE'
-    ? current.detail.operation === 'ENSURE_REMAINING' ? ['CURRENT_TARGET'] as const : ['EVENT_SOURCE'] as const
+    ? current.detail.operation !== 'REDUCE_RECOVERY' ? ['CURRENT_TARGET'] as const : ['EVENT_SOURCE'] as const
     : targetContextOptionsForEvent(eventSource.eventType);
   const selectedEffect = current.actionType === 'EXECUTE_EFFECT'
     ? effectDetails.get(current.detail.effectKey) ?? null
@@ -441,26 +441,29 @@ export function SkillTriggerActionEditorModal({
                 <Select aria-label="状态修改方式" value={current.detail.operation} disabled={disabled}
                   options={[
                     { value: 'REDUCE_RECOVERY', label: '减少下一枚弹药回充时间' },
-                    { value: 'ENSURE_REMAINING', label: '确保目标计数至少剩余指定毫秒' }
+                    { value: 'ENSURE_REMAINING', label: '确保目标计数至少剩余指定毫秒' },
+                    { value: 'ENSURE_REMAINING_PRESERVE_PHASE', label: '保留周期节拍并确保至少剩余指定毫秒' }
                   ]}
                   onChange={value => {
-                    const operation = value as 'REDUCE_RECOVERY' | 'ENSURE_REMAINING';
-                    setCurrent({ ...current, targetContext: operation === 'ENSURE_REMAINING' ? 'CURRENT_TARGET' : 'EVENT_SOURCE',
+                    const operation = value as 'REDUCE_RECOVERY' | 'ENSURE_REMAINING' | 'ENSURE_REMAINING_PRESERVE_PHASE';
+                    setCurrent({ ...current, targetContext: operation !== 'REDUCE_RECOVERY' ? 'CURRENT_TARGET' : 'EVENT_SOURCE',
                       detail: { ...current.detail, operation, stateSkillKey: skillKey ?? '', stateKey: '' },
                       runtimeInputBindings: [], resultModifiers: [] });
                     setLocalError(null);
                   }} />
               </Form.Item>
-              <Form.Item label={current.detail.operation === 'ENSURE_REMAINING' ? '目标计数状态' : '弹药状态'} required>
-                <Select aria-label={current.detail.operation === 'ENSURE_REMAINING' ? '目标计数状态' : '弹药状态'} value={current.detail.stateKey || undefined} disabled={disabled}
-                  options={internalStates.filter(row => current.detail.operation === 'ENSURE_REMAINING'
+              <Form.Item label={current.detail.operation !== 'REDUCE_RECOVERY' ? '目标计数状态' : '弹药状态'} required>
+                <Select aria-label={current.detail.operation !== 'REDUCE_RECOVERY' ? '目标计数状态' : '弹药状态'} value={current.detail.stateKey || undefined} disabled={disabled}
+                  options={internalStates.filter(row => current.detail.operation !== 'REDUCE_RECOVERY'
                     ? !targetCounterRemainingStateError(row, skillKey, skillKey, { parameters: parameters ?? reachableParameters, formulas })
+                      && row.stateType === 'COUNTER' && (current.detail.operation === 'ENSURE_REMAINING_PRESERVE_PHASE'
+                        ? row.detail.targetTiming?.kind === 'PHASED_TICK' : row.detail.targetTiming === undefined)
                     : row.stateType === 'AMMO' && row.scope === 'SKILL' && row.skillKey === skillKey)
                     .map(row => ({ value: row.stateKey, label: row.name }))}
                   onChange={value => setCurrent({ ...current, detail: { ...current.detail, stateSkillKey: skillKey ?? '', stateKey: String(value ?? '') } })} />
               </Form.Item>
-              <Form.Item label={current.detail.operation === 'ENSURE_REMAINING' ? '确保至少剩余毫秒' : '减少下一枚回充毫秒'} required>
-                <NumericValueField aria-label={current.detail.operation === 'ENSURE_REMAINING' ? '确保至少剩余毫秒' : '减少下一枚回充毫秒'} value={current.detail.value} parameters={parameters ?? reachableParameters}
+              <Form.Item label={current.detail.operation !== 'REDUCE_RECOVERY' ? '确保至少剩余毫秒' : '减少下一枚回充毫秒'} required>
+                <NumericValueField aria-label={current.detail.operation !== 'REDUCE_RECOVERY' ? '确保至少剩余毫秒' : '减少下一枚回充毫秒'} value={current.detail.value} parameters={parameters ?? reachableParameters}
                   formulas={formulas ?? []} disabled={disabled} onChange={value => {
                     if (!value) return;
                     const next = { ...current, detail: { ...current.detail, value } };

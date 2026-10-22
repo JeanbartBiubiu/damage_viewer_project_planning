@@ -372,6 +372,9 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 	if err := state.initSkillHitState(); err != nil {
 		return nil, err
 	}
+	if err := state.validateTargetTimingFresh(); err != nil {
+		return nil, err
+	}
 	if err := state.restoreProviderStateTimers(req.InitialSnapshot); err != nil {
 		return nil, err
 	}
@@ -453,6 +456,9 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 				continue
 			}
 			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
+				if in.ReadKind == formula.ReadEventProviderTargetStateBefore {
+					addError(model.GenericErrFormulaTypeError, path, "damage state before is unavailable in driver conditions", in.ReadKey)
+				}
 				if in.ReadKind == formula.ReadProviderTargetStateRemainingMs {
 					addError(model.GenericErrFormulaTypeError, path, "target state remaining time is unavailable in a driver condition", in.ReadKey)
 				}
@@ -498,6 +504,9 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 				continue
 			}
 			for _, in := range s.formulas.InstructionDependencies(instr, nil) {
+				if in.ReadKind == formula.ReadEventProviderTargetStateBefore {
+					addError(model.GenericErrFormulaTypeError, path, "damage state before is unavailable in driver repeat", in.ReadKey)
+				}
 				if in.ReadKind == formula.ReadProviderTargetStateRemainingMs {
 					addError(model.GenericErrFormulaTypeError, path, "target state remaining time is unavailable in a driver repeat", in.ReadKey)
 				}
@@ -934,7 +943,7 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		s.flushSamplesBefore(ev.TimeMs)
 		s.nowMs = ev.TimeMs
 		s.processedEvents++
-		if s.hasSkillPlan() || s.currentStateOnExpire(ev) {
+		if s.hasSkillPlan() || s.currentStateOnExpire(ev) || s.compiled.HasTargetTiming {
 			s.currentEventCommands = 0
 		}
 		var err *model.EngineError

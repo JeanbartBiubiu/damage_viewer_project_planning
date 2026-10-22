@@ -430,3 +430,11 @@ node .\scripts\p4-runtime-smoke.mjs
 自动技能额外接受单步骤有限 `CHANNEL`（引导），仍要求显式行动占用、正冷却及有限次数。时间和次数沿真实首次能力在进入时求值、冻结；每段均产生真实命中，末段提前结束也保持完整引导期限，完成后才按作者时点开始冷却及授予后项资格。恢复使用已有冻结进度，不重新读取次数或首末偏移。其它多步骤和手动重施、蓄力的自动准入保持关闭。共享语义以规划工作树 `outputs/priority-adaptation-2026-10-18/有限引导与场景属性快照现行契约.md` 为准；原生专项入口为 `go test -count=1 ./internal/model ./internal/inputbinding ./internal/formula ./internal/compile ./internal/runtime -run 'AbilityParameter|AutomaticFiniteChannel|SafeInteger'`，正式产物及浏览器证据由宿主集成另行验收。
 
 主动技能在首次普攻之前修改共同冷却时，已有等待版本变化也会进入通用唤醒准备和提交；没有攻速、弹药或行动占用路径负责时，更新唯一排程节点并保留序号，缺节点先检查队列预算。不会直接制造攻击或绕过存活检查。原生回归可运行 `go test -count=1 ./internal/runtime -run 'BasicAttack.*Reset|FirstBasicAttack'`；正式产物、旧版异名复现及整英雄验证见规划工作树 `outputs/priority-adaptation-2026-10-18/首次普攻等待唤醒修补.md`。
+
+### 有界目标相位与预约
+
+周期声明显式 `tickSpec.phasePolicy=preserve_on_extend`（续期保留相位），同一永久角色或构筑来源最多三个独立目标锚；省略仍是旧周期路径。新操作策略 `state_duration_change/ensure_remaining_preserve_phase` 仅由真实已绑定、未被法盾阻挡的自身技能命中监听延长活动锚，不重启相位或复活旧目标。实际末跳仍先于同刻过程计时；延期后的旧终点恢复普通顺序。每锚保护独立，所有状态事实与追加队列都由提交帧预检后发布。
+
+同父 `stateful` 能力可声明 `targetExpirySpec`（目标预约到期负载），只在其真实目标预约到期时执行最多12叶、恰一笔完整伤害的闭合负载，不能被驱动或能力引用直接调用。预约消费与整个负载同帧；重挂只准目标仍存活的统一条件。新时序来源在计时恢复前拒绝非默认值、正期限或非空目标绑定；不提供相位恢复，旧来源恢复门不变。
+
+条件专用 `event.provider_target_state_before.<key>`（本笔扣血前目标计数）只绑定真实自身逐笔伤害监听。普通有期限或无期限整数都按本笔暂存值冻结；缺目标或真实正期限已过读0，缺声明冻结事实报错。详细证据 `damage_state_before` 严格保留 `damageId/owner/providerRef/definitionRef/stateKey/target/beforeValue` 七项；相关返蓝保留真实触发伤害编号及双方，周期没有真实使用时仍为空使用。汇总和截断只影响展示。没有该读取的会话不开启逐伤采集。专项入口为 `go test -count=1 ./internal/model ./internal/compile ./internal/runtime -run 'TargetTiming|PhasedTarget|TargetExpiry|DamageStateBefore'`；正式 Wasm 与生产适配验收由集成任务另行执行。共享语义见根目录 `outputs/skill-adaptation-20261022-brand/有界目标时序共享契约.md`。

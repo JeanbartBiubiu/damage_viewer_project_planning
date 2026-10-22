@@ -1,5 +1,6 @@
 import type { SkillParameter } from '../../../../types/skillParameter';
 import { sceneInitialParameterDetailIssue } from '../../../../services/sceneInitialParameterContract';
+import { isCounterTargetTiming } from '../../../../services/counterTargetTiming';
 import type { SkillTriggerSceneInitialParameterBinding } from '../../../../types/skillTriggerRule';
 import { numericIssuePath, numericValueError } from '../numericValueForm';
 import { numericFormulaKey } from '../../../../types/numericValue';
@@ -9,6 +10,7 @@ import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type {
   CreateSkillInternalStateRequest,
   SkillInternalState,
+  CounterTargetTiming,
   SkillInternalStateAmmoRecoveryMode,
   SkillInternalStateAmmoRecoveryStartCondition,
   SkillInternalStateModeOption,
@@ -79,6 +81,7 @@ export type SkillInternalStateDraft = {
   options: SkillInternalStateModeOptionDraft[];
   initialEnabled: boolean;
   durationValue: NumericValue | null;
+  targetTiming?: CounterTargetTiming;
   originalStateType: SkillInternalStateType | null;
   originalScope: SkillInternalStateScope | null;
 };
@@ -101,6 +104,7 @@ export type SkillInternalStateDraftField =
   | 'options'
   | 'initialEnabled'
   | 'durationValue'
+  | 'targetTiming'
   | 'detail';
 
 export type SkillInternalStateDraftErrors = {
@@ -175,6 +179,7 @@ const STATE_DRAFT_FIELDS = new Set<SkillInternalStateDraftField>([
   'options',
   'initialEnabled',
   'durationValue',
+  'targetTiming',
   'detail'
 ]);
 
@@ -189,6 +194,9 @@ const DETAIL_FIELD_BY_PATH: { [path: string]: SkillInternalStateDraftField } = {
   'detail.recoveryStartCondition': 'recoveryStartCondition',
   'detail.initialEnabled': 'initialEnabled',
   'detail.durationValue': 'durationValue',
+  'detail.targetTiming': 'targetTiming',
+  'detail.targetTiming.processKey': 'targetTiming',
+  'detail.targetTiming.intervalValue': 'targetTiming',
   'detail.options': 'options'
 };
 
@@ -250,6 +258,7 @@ export function skillInternalStateToDraft(state: SkillInternalState): SkillInter
       if (state.detail.initialValueBinding !== undefined) draft.initialValueBinding = structuredClone(state.detail.initialValueBinding);
       draft.maxValue = state.detail.maxValue;
       draft.durationValue = state.detail.durationValue ?? null;
+      if (state.detail.targetTiming !== undefined) draft.targetTiming = structuredClone(state.detail.targetTiming);
       break;
     case 'AMMO':
       draft.initialValue = state.detail.initialValue;
@@ -335,7 +344,8 @@ export function clearHiddenInternalStateFields(draft: SkillInternalStateDraft): 
     recoveryStartCondition: isAmmo ? draft.recoveryStartCondition : '',
     options: isMode ? draft.options : [],
     initialEnabled: isFlag ? draft.initialEnabled : false,
-    durationValue: isCooldown || isCounter ? draft.durationValue : null
+    durationValue: isCooldown || isCounter ? draft.durationValue : null,
+    ...(draft.targetTiming !== undefined ? { targetTiming: isCounter && draft.scope === 'TARGET' ? draft.targetTiming : undefined } : {})
   };
 }
 
@@ -502,6 +512,17 @@ function validateTypeSpecificFields(
       validateFormulaRef(options, draft.initialValue, fieldErrors, 'initialValue');
       validateFormulaRef(options, draft.maxValue, fieldErrors, 'maxValue');
       if (draft.durationValue !== null) validateFormulaRef(options, draft.durationValue, fieldErrors, 'durationValue', false, true);
+      if (draft.targetTiming !== undefined) {
+        const timing = draft.targetTiming;
+        if (!isCounterTargetTiming(timing) || draft.scope !== 'TARGET' || draft.initialValueBinding !== undefined || !draft.durationValue
+          || !SKILL_INTERNAL_STATE_KEY_PATTERN.test(timing.processKey)) fieldErrors.targetTiming = '目标时序须使用本技能目标计数、静态零初值、容量1及正整数期限，并选择完整即时被动过程。';
+        if (draft.initialValue?.kind === 'FIXED' && draft.initialValue.value !== 0
+          || draft.maxValue?.kind === 'FIXED' && draft.maxValue.value !== 1
+          || draft.durationValue?.kind === 'FIXED' && (!Number.isSafeInteger(draft.durationValue.value) || draft.durationValue.value <= 0)) {
+          fieldErrors.targetTiming = '目标时序须使用静态零初值、容量1及正安全整数期限。';
+        }
+        if (timing.kind === 'PHASED_TICK') validateFormulaRef(options, timing.intervalValue, fieldErrors, 'targetTiming', false, true);
+      }
       break;
     case 'AMMO':
       requireNonEmpty(draft.initialValue, fieldErrors, 'initialValue', '请选择初始值取值。');
@@ -609,7 +630,8 @@ function validateFormulaRef(options: SkillInternalStateFormValidationOptions, va
   if (fieldErrors[field]) return;
   const quantity = field === 'initialValue' || field === 'maxValue';
   const error = numericValueError(value, { ...options.catalog, parameters: options.parameters }, {
-    integer: quantity || counterDuration, min: ammo && field === 'maxValue' ? 1 : 0, exclusiveMin: field === 'recoveryIntervalValue',
+    integer: quantity || counterDuration, min: ammo && field === 'maxValue' || field === 'targetTiming' ? 1 : 0, exclusiveMin: field === 'recoveryIntervalValue',
+    ...(field === 'targetTiming' ? { allowRuntimeInput: false } : {}),
     formulasState: options.catalogLoadState?.formulas, parametersState: options.parametersLoadState
   });
   if (error) fieldErrors[field] = error;
@@ -638,7 +660,8 @@ function buildNormalizedRequest(
           initialValue: draft.initialValue!,
           ...(draft.initialValueBinding !== undefined ? { initialValueBinding: structuredClone(draft.initialValueBinding) } : {}),
           maxValue: draft.maxValue!,
-          ...(draft.durationValue !== null ? { durationValue: draft.durationValue } : {})
+          ...(draft.durationValue !== null ? { durationValue: draft.durationValue } : {}),
+          ...(draft.targetTiming !== undefined ? { targetTiming: structuredClone(draft.targetTiming) } : {})
         }
       };
     case 'AMMO':

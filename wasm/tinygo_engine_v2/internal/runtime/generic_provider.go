@@ -16,6 +16,7 @@ import (
 )
 
 type expireCleanupPayload struct {
+	timingSlot       int
 	stateGeneration  uint64
 	combatantKey     string
 	providerRef      string
@@ -384,6 +385,8 @@ func (s *genericRunState) handleExpireCleanup(ev scheduler.GenericEvent) {
 				}
 			}
 		}
+	case "target_timing":
+		s.applyTargetTimingExpiry(payload)
 	case "provider_target_state":
 		s.applyProviderTargetStateExpiry(payload)
 	case "provider_source_state":

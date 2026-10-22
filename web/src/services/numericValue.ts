@@ -46,6 +46,8 @@ export function assertNumericUses(root: unknown, domain: 'effect' | 'process' | 
       if (object(root.detail) && 'initialRemainingValue' in root.detail) slot(root.detail, 'initialRemainingValue', 'detail');
     }
     if (root.stateType === 'COUNTER' && object(root.detail) && 'durationValue' in root.detail) slot(root.detail, 'durationValue', 'detail', true);
+    if (root.stateType === 'COUNTER' && object(root.detail) && object(root.detail.targetTiming)
+      && root.detail.targetTiming.kind === 'PHASED_TICK') slot(root.detail.targetTiming, 'intervalValue', 'detail.targetTiming');
     if (root.stateType === 'INTERNAL_COOLDOWN') slot(root.detail, 'durationValue', 'detail');
   } else if (domain === 'process') {
     if (root.cooldown !== null) slot(root.cooldown, 'durationValue', 'cooldown');

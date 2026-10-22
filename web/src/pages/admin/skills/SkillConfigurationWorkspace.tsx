@@ -1545,7 +1545,7 @@ export function SkillConfigurationWorkspace({
       onSaved={ignoreWorkspaceCallback} onSkillMissing={ignoreWorkspaceCallback} onDirtyChange={setStateModalDirty}
       catalogRevision={0} authoringLocation={internalStateEditor.focus}
       workspaceDraft={{ initial: internalStateEditor.entry.draft, original: internalStateEditor.original,
-        parameters: draftParameters, formulas: draftFormulas,
+        parameters: draftParameters, formulas: draftFormulas, processes: draftProcessSummaries,
         onApply: (next, value) => applyInternalState(internalStateEditor.entry, next, value) }}
     /> : null}
     {effectEditor && selectedGameId ? <SkillEffectEditorModal

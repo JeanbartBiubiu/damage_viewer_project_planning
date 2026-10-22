@@ -493,6 +493,9 @@ func (s *genericRunState) evalListenerCondition(listener planbundle.CompiledList
 	if s.compiled.HasReceivedShieldReads {
 		ctx.ReceivedShieldReader = frame
 	}
+	if listener.ReadsDamageStateBefore {
+		ctx.DamageStateBeforeReader = frame
+	}
 	ctx.StrictReads = true
 	value, err := s.formulas.EvalContext(listener.ConditionProgram, &ctx)
 	if err != nil {

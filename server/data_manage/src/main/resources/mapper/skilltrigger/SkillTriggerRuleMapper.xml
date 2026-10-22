@@ -468,6 +468,7 @@
             <arg column="state_key" javaType="java.lang.String"/>
             <arg column="state_type" javaType="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType"/>
             <arg column="scope" javaType="java.lang.String"/>
+            <arg column="target_timing" javaType="_boolean"/>
         </constructor>
     </resultMap>
 
@@ -1250,7 +1251,7 @@
     </select>
 
     <select id="lockInternalStates" resultMap="internalStateLockRow">
-        SELECT state_key, state_type, scope
+        SELECT state_key, state_type, scope, jsonb_exists(detail, 'targetTiming') AS target_timing
         FROM public.skill_internal_states
         WHERE game_id = #{gameId}
           AND skill_key = #{skillKey}

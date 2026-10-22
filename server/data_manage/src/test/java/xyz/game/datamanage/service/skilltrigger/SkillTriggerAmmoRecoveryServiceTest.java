@@ -37,7 +37,7 @@ class SkillTriggerAmmoRecoveryServiceTest {
     @BeforeEach void setUp() {
         stubParentAndCatalogs(games, skills, mapper);
         when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
-            .thenReturn(List.of(new SkillTriggerInternalStateLockRow("ammo", SkillInternalStateType.AMMO, "SKILL")));
+            .thenReturn(List.of(new SkillTriggerInternalStateLockRow("ammo", SkillInternalStateType.AMMO, "SKILL", false)));
         when(mapper.lockParameters(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
             .thenReturn(List.of(runtimeParam("refund_ms", SkillParameterValueType.DECIMAL)));
         service = service(games, skills, mapper);
@@ -87,9 +87,9 @@ class SkillTriggerAmmoRecoveryServiceTest {
             case "TARGET" -> target = SkillTriggerTargetContext.CURRENT_TARGET;
             case "FOREIGN_STATE" -> detail = new SkillTriggerModifyInternalStateActionDetail("other", "ammo", SkillTriggerInternalStateOperation.REDUCE_RECOVERY, detail.value());
             case "COUNTER" -> when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
-                .thenReturn(List.of(new SkillTriggerInternalStateLockRow("ammo", SkillInternalStateType.COUNTER, "SKILL")));
+                .thenReturn(List.of(new SkillTriggerInternalStateLockRow("ammo", SkillInternalStateType.COUNTER, "SKILL", false)));
             case "TARGET_STATE" -> when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
-                .thenReturn(List.of(new SkillTriggerInternalStateLockRow("ammo", SkillInternalStateType.AMMO, "TARGET")));
+                .thenReturn(List.of(new SkillTriggerInternalStateLockRow("ammo", SkillInternalStateType.AMMO, "TARGET", false)));
             case "NEGATIVE" -> { detail = new SkillTriggerModifyInternalStateActionDetail(SKILL_KEY, "ammo", SkillTriggerInternalStateOperation.REDUCE_RECOVERY, SkillNumericValue.fixed(BigDecimal.ONE.negate())); bound = false; }
             case "RUNTIME_VALUE" -> detail = new SkillTriggerModifyInternalStateActionDetail(SKILL_KEY, "ammo", SkillTriggerInternalStateOperation.REDUCE_RECOVERY, SkillNumericValue.parameter("refund_ms"));
             case "EXTRA_BINDING", "OTHER_BINDING" -> bound = true;

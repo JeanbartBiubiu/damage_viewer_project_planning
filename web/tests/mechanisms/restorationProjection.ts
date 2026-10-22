@@ -1,6 +1,7 @@
 import type { CompileRequest, DoneResult, OperationDefinition, RunRequest } from '../../src/types/genericEngine';
 import { simulationAbility, type OperationOrigin } from '../../src/engine/simulationAdapter';
 import type { ProjectedRestoration } from './mechanismCase';
+import { inspectDamageStateBefore } from '../../src/engine/targetTimingResultContract';
 
 const own = (value: object, key: string) => Object.prototype.hasOwnProperty.call(value, key);
 function fail(message: string): never { throw new Error(`restorations: ${message}`); }
@@ -35,6 +36,10 @@ export function projectRestorations(origins: readonly OperationOrigin[], compile
     });
   }).map(origin => origin.abilityRef));
   const evidence = done.evidence.items;
+  const newCausalEvidence = evidence.some(item => item.kind === 'damage_state_before'
+    || item.kind === 'resource_restore' && item.data && 'triggerDamageId' in item.data);
+  const before = newCausalEvidence ? inspectDamageStateBefore(compile, request, done) : { issues: [], identityGaps: [] };
+  if (before.issues.length) fail(before.issues.join('; '));
   if ((restoreAbilities.size > 0 || evidence.some(row => row.kind === 'resource_restore')) && done.evidence.truncated) {
     fail('恢复证据被截断，不能以最终值代替完整逐笔列表');
   }
@@ -82,7 +87,13 @@ export function projectRestorations(origins: readonly OperationOrigin[], compile
     if (!own(data, 'useRef') || data.useRef !== null && (typeof data.useRef !== 'string' || !data.useRef)) fail('原始使用身份缺失');
     const useRef = data.useRef as string | null;
     if (useRef === null) {
-      if (!actual.ability.listenerSpec.eventMatcher.all?.includes('event/source_initialized')) fail('非初始化恢复缺少真实原使用');
+      const causalDamage = item.kind === 'resource_restore' && Number.isSafeInteger(data.triggerDamageId) && Number(data.triggerDamageId) > 0
+        && actual.ability.listenerSpec.eventMatcher.all?.includes('event/damage_instance')
+        && actual.ability.listenerSpec.eventMatcher.all?.includes('event/source_owner')
+        && before.identityGaps.length === 0
+        && evidence.some(row => row.kind === 'damage_state_before' && row.data?.damageId === data.triggerDamageId
+          && row.data?.owner === owner && row.data?.providerRef === providerRef && row.data?.target === data.triggerDamageTarget);
+      if (!actual.ability.listenerSpec.eventMatcher.all?.includes('event/source_initialized') && !causalDamage) fail('非初始化恢复缺少真实原使用或完整逐伤冻结关联');
     } else {
       if (!done.attackRecords?.some(row => row.useRef === useRef)
         && !done.finalSnapshot.processInstances?.some(row => row.useKey === useRef)

@@ -16,7 +16,19 @@ type CompiledAbilityRef struct {
 }
 
 // CompiledSession 是 generic compile 输出的只读 session 快照。
+type CompiledDamageStateReader struct {
+	Owner, ProviderRef, StateKey string
+	ProviderIndex                uint16
+}
+type CompiledTargetTiming struct {
+	StateKey     string
+	AbilityIndex uint16
+	Phased       bool
+}
 type CompiledSession struct {
+	HasTargetTiming           bool
+	HasDamageStateBefore      bool
+	DamageStateReaders        []CompiledDamageStateReader
 	HasTargetMarkConsumption  bool
 	HasReceivedShieldReads    bool
 	HasAttackStartStateReads  bool
@@ -129,23 +141,24 @@ type CompiledPermanentResourceMax struct {
 
 // CompiledListener 是 compile 后的 listener（provider / rules / inline listenerSpec）。
 type CompiledListener struct {
-	ListenerKey         string
-	AbilityRef          string
-	HasAbilityRef       bool
-	MaxTriggersPerEvent int
-	ChainLimitKey       string
-	PerCastThrottleMs   int
-	EventMatcher        typeset.Matcher
-	OwnerCombatantKey   string // empty for rules listeners; concrete key for provider-owned
-	OwnerProviderRef    string // empty for rules / inline without mount context
-	SourceAbilityIndex  int    // >=0 when compiled from passive_listener ability ops
-	OperationStart      uint16
-	OperationCount      uint16
-	HasCondition        bool
-	ConditionProgram    formula.GenericProgramID
-	HasOncePerUse       bool
-	OncePerUseGroup     string
-	OncePerUseScope     string
+	ReadsDamageStateBefore bool
+	ListenerKey            string
+	AbilityRef             string
+	HasAbilityRef          bool
+	MaxTriggersPerEvent    int
+	ChainLimitKey          string
+	PerCastThrottleMs      int
+	EventMatcher           typeset.Matcher
+	OwnerCombatantKey      string // empty for rules listeners; concrete key for provider-owned
+	OwnerProviderRef       string // empty for rules / inline without mount context
+	SourceAbilityIndex     int    // >=0 when compiled from passive_listener ability ops
+	OperationStart         uint16
+	OperationCount         uint16
+	HasCondition           bool
+	ConditionProgram       formula.GenericProgramID
+	HasOncePerUse          bool
+	OncePerUseGroup        string
+	OncePerUseScope        string
 }
 
 // CompiledProviderLifecycle 是 compile 后的 provider 生命周期。
@@ -192,6 +205,7 @@ type CompiledProviderStateField struct {
 
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
+	TargetTimings             []CompiledTargetTiming
 	HasReceivedShieldBinding  bool
 	ReceivedShieldParentIndex uint16
 	AttackStartStateKeys      []string
@@ -243,6 +257,7 @@ type CompiledAbilityCooldown struct {
 // CompiledTickSpec 是 compile 后的 tick ability 行为。
 // AnchorScope/AnchorStateKey 非空表示 target-state-anchored 模式（StartDelayMs 保持 0，不默认成 interval）。
 type CompiledTickSpec struct {
+	PhasePolicy    string
 	IntervalMs     int64
 	StartDelayMs   int64
 	OnTickStart    uint16
@@ -257,7 +272,12 @@ func (ts *CompiledTickSpec) IsAnchored() bool {
 }
 
 // CompiledAbility 是 compile 后的 ability 定义。
+type CompiledTargetExpirySpec struct {
+	AnchorStateKey               string
+	OnExpireStart, OnExpireCount uint16
+}
 type CompiledAbility struct {
+	TargetExpirySpec     *CompiledTargetExpirySpec
 	ProcessControl       *CompiledProcessControl
 	AbilityKey           string
 	Kind                 string

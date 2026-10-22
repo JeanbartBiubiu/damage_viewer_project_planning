@@ -178,7 +178,9 @@ export function SkillTriggerConditionEditorModal({
     state?.stateType === 'COUNTER'
       ? state.scope === 'SKILL' && state.skillKey === skillKey && ['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT'].includes(eventSource.eventType)
       : eventSource.eventType === 'SKILL_HIT',
-    !targetCounterRemainingStateError(state, state?.skillKey, skillKey, { parameters, formulas })
+    !targetCounterRemainingStateError(state, state?.skillKey, skillKey, { parameters, formulas }),
+    eventSource.eventType === 'DAMAGE_DEALT' && state?.stateType === 'COUNTER' && state.scope === 'TARGET'
+      && state.skillKey === skillKey && state.detail.targetTiming === undefined
   );
 
   const lifecycleEffects = lifecycleConditionEffects(effects, skillKey);
@@ -728,7 +730,7 @@ export function SkillTriggerConditionEditorModal({
                   />
                 </Form.Item>
               ) : null}
-              {current.detail.valueKind === 'VALUE' || current.detail.valueKind === 'ATTACK_START_VALUE' || current.detail.valueKind === 'REMAINING_MS' ? (
+              {current.detail.valueKind === 'VALUE' || current.detail.valueKind === 'ATTACK_START_VALUE' || current.detail.valueKind === 'DAMAGE_BEFORE_VALUE' || current.detail.valueKind === 'REMAINING_MS' ? (
                 <>
                   <Form.Item label="比较符" required>
                     <Select

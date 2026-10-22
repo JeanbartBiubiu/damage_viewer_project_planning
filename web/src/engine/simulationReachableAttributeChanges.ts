@@ -65,6 +65,7 @@ export function reachableAttributeChanges(input: CompileRequest, request?: RunRe
       operations(ability.listenerSpec.operations ?? [], context);
     }
     if (ability.tickSpec) operations(ability.tickSpec.onTick, context);
+    if (ability.targetExpirySpec) operations(ability.targetExpirySpec.onExpire, context);
     if (ability.processControl) {
       const process = provider.processes?.find(row => row.processKey === ability.processControl!.processKey);
       for (const group of process?.momentOperations ?? []) {

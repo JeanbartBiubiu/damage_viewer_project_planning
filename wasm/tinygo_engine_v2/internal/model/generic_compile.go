@@ -169,22 +169,28 @@ var ValidCastOrigins = map[string]struct{}{
 }
 
 // AbilityDefinition 是 provider 内能力定义。
+type TargetExpirySpec struct {
+	AnchorScope    string                `json:"anchorScope"`
+	AnchorStateKey string                `json:"anchorStateKey"`
+	OnExpire       []OperationDefinition `json:"onExpire"`
+}
 type AbilityDefinition struct {
-	ProcessControl *ProcessControlDefinition `json:"processControl,omitempty"`
-	AbilityKey     string                    `json:"abilityKey"`
-	Kind           string                    `json:"kind"`
-	Types          []string                  `json:"types,omitempty"`
-	Tags           []string                  `json:"tags,omitempty"`
-	Params         map[string]float64        `json:"params,omitempty"`
-	CastOrigin     string                    `json:"castOrigin,omitempty"` // champion|item|pet|innate
-	SkillKey       string                    `json:"skillKey,omitempty"`
-	Cost           *AbilityCost              `json:"cost,omitempty"`
-	Cooldown       *AbilityCooldown          `json:"cooldown,omitempty"`
-	CastCondition  *GenericFormulaExpr       `json:"castCondition,omitempty"`
-	Operations     []OperationDefinition     `json:"operations,omitempty"`
-	ListenerSpec   *ListenerDefinition       `json:"listenerSpec,omitempty"`
-	TickSpec       *TickSpec                 `json:"tickSpec,omitempty"`
-	StateSchema    map[string]interface{}    `json:"stateSchema,omitempty"`
+	TargetExpirySpec *TargetExpirySpec         `json:"targetExpirySpec,omitempty"`
+	ProcessControl   *ProcessControlDefinition `json:"processControl,omitempty"`
+	AbilityKey       string                    `json:"abilityKey"`
+	Kind             string                    `json:"kind"`
+	Types            []string                  `json:"types,omitempty"`
+	Tags             []string                  `json:"tags,omitempty"`
+	Params           map[string]float64        `json:"params,omitempty"`
+	CastOrigin       string                    `json:"castOrigin,omitempty"` // champion|item|pet|innate
+	SkillKey         string                    `json:"skillKey,omitempty"`
+	Cost             *AbilityCost              `json:"cost,omitempty"`
+	Cooldown         *AbilityCooldown          `json:"cooldown,omitempty"`
+	CastCondition    *GenericFormulaExpr       `json:"castCondition,omitempty"`
+	Operations       []OperationDefinition     `json:"operations,omitempty"`
+	ListenerSpec     *ListenerDefinition       `json:"listenerSpec,omitempty"`
+	TickSpec         *TickSpec                 `json:"tickSpec,omitempty"`
+	StateSchema      map[string]interface{}    `json:"stateSchema,omitempty"`
 }
 
 // AbilityCost 是 active ability 资源消耗。
@@ -205,6 +211,7 @@ type AbilityCooldown struct {
 // 可选配对字段 AnchorScope + AnchorStateKey：同时省略时保持既有 mount/run provider tick；
 // 同时存在时进入 target-state-anchored tick（当前仅支持 state_scope/provider_target）。
 type TickSpec struct {
+	PhasePolicy    string                `json:"phasePolicy,omitempty"`
 	IntervalMs     int64                 `json:"intervalMs"`
 	OnTick         []OperationDefinition `json:"onTick"`
 	StartDelayMs   int64                 `json:"startDelayMs,omitempty"`

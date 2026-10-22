@@ -52,7 +52,7 @@ func (s *genericRunState) validateEquipmentHitListener(listener planbundle.Compi
 				continue
 			}
 		}
-		if operation.Operation == model.OperationKindStateDurationChange && operation.StateScope == stateScopeProviderTarget && operation.Target == "self" && operation.ValuePolicy == "ensure_remaining" && operation.HasAmount {
+		if operation.Operation == model.OperationKindStateDurationChange && operation.StateScope == stateScopeProviderTarget && operation.Target == "self" && (operation.ValuePolicy == "ensure_remaining" || operation.ValuePolicy == "ensure_remaining_preserve_phase") && operation.HasAmount {
 			fields := s.resolveProviderStateFieldDefs(listener.OwnerCombatantKey, listener.OwnerProviderRef, s.combatants[listener.OwnerCombatantKey].providers).definitions()
 			field, declared := fields[operation.Ref]
 			if declared && field.valueType == model.ProviderStateValueInteger && field.stateKind == "" && field.durationMs > 0 {

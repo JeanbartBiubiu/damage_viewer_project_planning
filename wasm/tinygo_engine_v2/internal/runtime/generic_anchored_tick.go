@@ -11,6 +11,8 @@ import (
 
 // anchoredTickPayload 是锚定 tick 堆事件的 run-local 载荷（经 DriverEntryIndex 索引）。
 type anchoredTickPayload struct {
+	phased           bool
+	timingSlot       int
 	ownerKey         string
 	providerRef      string
 	sourceKey        string
@@ -29,6 +31,12 @@ func (s *genericRunState) findAnchoredTickAbility(defIdx uint16, stateKey string
 		return nil, false
 	}
 	provider := s.compiled.Providers[defIdx]
+	for i := int(provider.AbilityStart); i < int(provider.AbilityStart)+int(provider.AbilityCount); i++ {
+		a := &s.compiled.Abilities[i]
+		if a.TickSpec != nil && a.TickSpec.PhasePolicy == "preserve_on_extend" && tickSpecAnchoredTo(a.TickSpec, stateKey) {
+			return a, true
+		}
+	}
 	tickAbility, ok := findTickAbility(provider, s.compiled)
 	if !ok || tickAbility.TickSpec == nil {
 		return nil, false
@@ -119,7 +127,9 @@ func (s *genericRunState) enqueueAnchoredTickAt(atMs int64, payload anchoredTick
 		if s.currentAnchoredTerminal(ev) {
 			owner := s.combatants[payload.ownerKey]
 			bag := writableProviderStateBag(owner.writableProviderStates(), payload.providerRef, false)
-			bag.setInclusiveAtExpiryHold(payload.targetKey, payload.anchorStateKey)
+			if !payload.phased {
+				bag.setInclusiveAtExpiryHold(payload.targetKey, payload.anchorStateKey)
+			}
 			s.combatants[payload.ownerKey] = owner
 		}
 	}
@@ -169,6 +179,12 @@ func (s *genericRunState) selectAnchoredTerminalBeforeProcessTimer(timer schedul
 }
 
 func (s *genericRunState) currentAnchoredTerminal(ev scheduler.GenericEvent) bool {
+	if ev.Kind == scheduler.GenericEventAnchoredTick && ev.DriverEntryIndex >= 0 && ev.DriverEntryIndex < len(s.anchoredTickPayloads) {
+		p := s.anchoredTickPayloads[ev.DriverEntryIndex]
+		if p.phased {
+			return s.phasedTerminal(ev, p)
+		}
+	}
 	if ev.Kind != scheduler.GenericEventAnchoredTick || ev.DriverEntryIndex < 0 || ev.DriverEntryIndex >= len(s.anchoredTickPayloads) {
 		return false
 	}
@@ -199,6 +215,9 @@ func (s *genericRunState) currentAnchoredTerminal(ev scheduler.GenericEvent) boo
 }
 
 func (s *genericRunState) handleAnchoredTick(ev scheduler.GenericEvent) *model.EngineError {
+	if ev.DriverEntryIndex >= 0 && ev.DriverEntryIndex < len(s.anchoredTickPayloads) && s.anchoredTickPayloads[ev.DriverEntryIndex].phased {
+		return s.handlePhasedTick(ev, s.anchoredTickPayloads[ev.DriverEntryIndex])
+	}
 	if ev.DriverEntryIndex < 0 || ev.DriverEntryIndex >= len(s.anchoredTickPayloads) {
 		return nil
 	}

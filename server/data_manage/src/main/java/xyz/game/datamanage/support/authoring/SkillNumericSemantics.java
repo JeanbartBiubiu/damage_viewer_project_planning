@@ -72,11 +72,38 @@ public final class SkillNumericSemantics {
         Context context = new Context(objects, parameters, zoneModes, zoneDomains, zoneStages);
         context.validateSceneStartProcessUniqueness(sources.stream().map(Aggregate::skillKey).collect(java.util.stream.Collectors.toSet()));
         for (Aggregate aggregate : sources) context.collect(aggregate);
+        SkillTargetTimingSemantics.validate(sources, objects, context::targetTimingNumber);
         for (Aggregate aggregate : sources) if (aggregate.type() == SourceType.TRIGGER) context.bindings(aggregate);
     }
 
     public record Parameter(String skillKey, String key, String valueType, String valueMode,
                             BigDecimal fixedValue, JsonNode levelValues) {}
+
+    /** 只读快照复核新声明，不向旧来源追加整套管理写校验。 */
+    public static void validateTargetTiming(List<Aggregate> sources, List<Aggregate> context, List<Parameter> parameters) {
+        Context numeric = new Context(context, parameters, Map.of(), Map.of(), Map.of());
+        SkillTargetTimingSemantics.validate(sources, context, numeric::targetTimingNumber);
+        for (Aggregate source : sources) if (source.type() == SourceType.TRIGGER) {
+            numeric.validateTargetCounterTimeConditions(source);
+            int i = 0;
+            for (JsonNode action : source.data().path("actions")) {
+                if ("ENSURE_REMAINING_PRESERVE_PHASE".equals(text(action.path("detail"), "operation"))) numeric.validatePhaseExtensionAction(source, action, i);
+                else if ("ENSURE_REMAINING".equals(text(action.path("detail"), "operation"))) numeric.validateEnsureTargetCounterTimeAction(source, action, i);
+                i++;
+            }
+        }
+    }
+
+    public static boolean targetTimingNaturalRootsOnly(String skill, JsonNode configuration, List<Aggregate> context, List<Parameter> parameters) {
+        Context numeric = new Context(context, parameters, Map.of(), Map.of(), Map.of());
+        return SkillTargetTimingSemantics.deferrableRoots(skill, configuration, (rule, value, expected) -> {
+            try {
+                numeric.targetTimingNumber(new Aggregate(SourceType.TRIGGER, skill, text(rule, "ruleKey"), rule), value, "conditionGroups.conditions.comparisonValue",
+                    expected == 0 ? SkillTargetTimingSemantics.NumberKind.ZERO : SkillTargetTimingSemantics.NumberKind.ONE, null);
+                return true;
+            } catch (ApiException invalid) { return false; }
+        });
+    }
     private enum Bound { ANY, INTEGER, NON_NEGATIVE, NON_NEGATIVE_FINITE, POSITIVE, NON_NEGATIVE_INTEGER, POSITIVE_INTEGER }
     private record Id(String skill, SourceType type, String key) {}
     private record Use(Aggregate source, String path, SkillNumericValue value) {}
@@ -363,7 +390,7 @@ public final class SkillNumericSemantics {
                     for (JsonNode action : d.path("actions")) {
                         if ("MODIFY_INTERNAL_STATE".equals(text(action, "actionType"))) {
                             Use value = use(a, action.path("detail"), "actions[" + actionIndex + "].detail", "value",
-                                "ENSURE_REMAINING".equals(text(action.path("detail"), "operation"))
+                                ("ENSURE_REMAINING".equals(text(action.path("detail"), "operation")) || "ENSURE_REMAINING_PRESERVE_PHASE".equals(text(action.path("detail"), "operation")))
                                     ? Bound.POSITIVE_INTEGER : Bound.NON_NEGATIVE_FINITE, true);
                             if (value == null) throw invalid(a, "actions[" + actionIndex + "].detail.value", "REQUIRED", "状态计时动作必须配置数值");
                         }
@@ -922,7 +949,8 @@ public final class SkillNumericSemantics {
                 }
                 if ("START_PROCESS".equals(type)) dependencies(rule, new Id(rule.skillKey(), SourceType.PROCESS, text(action.path("detail"), "processKey")), required, new LinkedHashSet<>());
                 if ("MODIFY_INTERNAL_STATE".equals(type)) {
-                    if ("ENSURE_REMAINING".equals(text(action.path("detail"), "operation"))) validateEnsureTargetCounterTimeAction(rule, action, i);
+                    if ("ENSURE_REMAINING_PRESERVE_PHASE".equals(text(action.path("detail"), "operation"))) validatePhaseExtensionAction(rule, action, i);
+                    else if ("ENSURE_REMAINING".equals(text(action.path("detail"), "operation"))) validateEnsureTargetCounterTimeAction(rule, action, i);
                     else validateRecoveryAction(rule, action, i);
                 }
                 Set<String> bound = new LinkedHashSet<>();
@@ -991,6 +1019,18 @@ public final class SkillNumericSemantics {
                 for (JsonNode condition : group.path("conditions")) {
                     JsonNode detail = condition.path("detail");
                     Aggregate state = objects.get(new Id(text(detail, "stateSkillKey"), SourceType.STATE, text(detail, "stateKey")));
+                    if ("INTERNAL_STATE_CHECK".equals(text(condition, "conditionType")) && "DAMAGE_BEFORE_VALUE".equals(text(detail, "valueKind"))) {
+                        String path = "conditionGroups[" + groupIndex + "].conditions[" + conditionIndex + "].detail";
+                        if (!"DAMAGE_DEALT".equals(text(rule.data().path("eventSource"), "eventType")) || state == null
+                            || !rule.skillKey().equals(text(detail, "stateSkillKey")) || !"COUNTER".equals(text(state.data(), "stateType"))
+                            || !"TARGET".equals(text(state.data(), "scope")) || state.data().path("detail").has("targetTiming")
+                            || detail.hasNonNull("optionKey") || detail.hasNonNull("expectedBoolean")
+                            || !Set.of("EQ", "NE", "LT", "LTE", "GT", "GTE").contains(detail.path("comparator").asText(""))) {
+                            throw invalid(rule, path, "REFERENCE_TYPE_MISMATCH", "伤害前值只允许真实造成伤害事件读取本技能自身目标计数");
+                        }
+                        Use comparison = use(rule, detail, path, "comparisonValue", Bound.NON_NEGATIVE_INTEGER, true);
+                        requireStaticMilliseconds(rule, comparison, path + ".comparisonValue", false);
+                    }
                     if ("INTERNAL_STATE_CHECK".equals(text(condition, "conditionType"))
                         && "REMAINING_MS".equals(text(detail, "valueKind")) && state != null
                         && "COUNTER".equals(text(state.data(), "stateType"))) {
@@ -1015,6 +1055,9 @@ public final class SkillNumericSemantics {
                 throw invalid(rule, path, "REFERENCE_TYPE_MISMATCH", "最低目标计数余时只允许明确技能首次主动使用，不接受输入绑定或结果修正");
             }
             validateTimedOwnTargetCounter(rule, detail, path + ".detail");
+            Aggregate state = objects.get(new Id(rule.skillKey(), SourceType.STATE, text(detail, "stateKey")));
+            if (state.data().path("detail").has("targetTiming"))
+                throw invalid(rule, path + ".detail.operation", "COMBINATION_INVALID", "原最低余时动作不能修改目标时序锚");
             Use value = use(rule, detail, path + ".detail", "value", Bound.POSITIVE_INTEGER, true);
             requireStaticMilliseconds(rule, value, path + ".detail.value", true);
         }
@@ -1041,6 +1084,60 @@ public final class SkillNumericSemantics {
                     throw invalid(source, path, "VALUE_RANGE_INVALID", positive
                         ? "目标计数时长必须为严格正安全整数毫秒" : "目标计数余时比较必须为非负安全整数毫秒");
                 }
+            }
+        }
+
+        private boolean targetTimingNumber(Aggregate source, JsonNode node, String path,
+            SkillTargetTimingSemantics.NumberKind kind, Aggregate capacity) {
+            Use value;
+            try { value = new Use(source, path, SkillNumericValue.fromJson(node)); }
+            catch (IllegalArgumentException error) { throw invalid(source, path, "VALUE_SHAPE_INVALID", "目标时序数值形状不合法"); }
+            uses.computeIfAbsent(id(source), ignored -> new ArrayList<>()).add(value);
+            Map<Levels, Fraction> known = optionalStaticValues(value);
+            if (known == null || known.isEmpty()) throw invalid(source, path, "STATIC_REQUIRED", "目标时序数值必须在全部等级完整静态可求值");
+            BigInteger safe = BigInteger.valueOf(9007199254740991L);
+            for (Fraction number : known.values()) {
+                if (!finite(number)) throw invalid(source, path, "VALUE_RANGE_INVALID", "目标时序数值必须有限");
+                if (kind == SkillTargetTimingSemantics.NumberKind.STATIC) continue;
+                if (!number.denominator().equals(BigInteger.ONE) || number.numerator().signum() < 0 || number.numerator().compareTo(safe) > 0
+                    || kind == SkillTargetTimingSemantics.NumberKind.ZERO && number.numerator().signum() != 0
+                    || kind == SkillTargetTimingSemantics.NumberKind.ONE && !number.numerator().equals(BigInteger.ONE)
+                    || kind == SkillTargetTimingSemantics.NumberKind.POSITIVE_SAFE && number.numerator().signum() == 0) {
+                    throw invalid(source, path, "VALUE_RANGE_INVALID", "目标时序需要约定范围内的静态安全整数");
+                }
+            }
+            if (capacity != null) {
+                Use maximum = new Use(capacity, "detail.maxValue", SkillNumericValue.fromJson(capacity.data().path("detail").path("maxValue")));
+                targetTimingNumber(capacity, capacity.data().path("detail").path("maxValue"), "detail.maxValue", SkillTargetTimingSemantics.NumberKind.NON_NEGATIVE_SAFE, null);
+                compareInitialCapacity(value, maximum);
+            }
+            return known.values().stream().allMatch(number -> number.numerator().signum() == 0);
+        }
+
+        private void validatePhaseExtensionAction(Aggregate rule, JsonNode action, int index) {
+            String path = "actions[" + index + "]";
+            JsonNode detail = action.path("detail"), event = rule.data().path("eventSource"), source = event.path("detail");
+            if (!"SKILL_HIT".equals(text(event, "eventType")) || text(source, "sourceSkillKey") == null || text(source, "sourceSkillKey").isBlank()
+                || !"CURRENT_TARGET".equals(text(action, "targetContext")) || !action.path("runtimeInputBindings").isEmpty() || !action.path("resultModifiers").isEmpty())
+                throw invalid(rule, path, "REFERENCE_TYPE_MISMATCH", "保相位续期只允许明确真实技能命中和无修饰当前目标动作");
+            validateTimedOwnTargetCounter(rule, detail, path + ".detail");
+            Aggregate state = objects.get(new Id(rule.skillKey(), SourceType.STATE, text(detail, "stateKey")));
+            if (!"PHASED_TICK".equals(text(state.data().path("detail").path("targetTiming"), "kind")))
+                throw invalid(rule, path + ".detail.stateKey", "REFERENCE_TYPE_MISMATCH", "保相位续期必须引用明确周期锚");
+            requireStaticMilliseconds(rule, use(rule, detail, path + ".detail", "value", Bound.POSITIVE_INTEGER, true), path + ".detail.value", true);
+            JsonNode groups = rule.data().path("conditionGroups");
+            if (!groups.isArray() || groups.isEmpty()) throw invalid(rule, "conditionGroups", "COMBINATION_INVALID", "保相位续期必须明确排除法术盾阻挡");
+            for (JsonNode group : groups) {
+                boolean unblocked = false;
+                for (JsonNode condition : group.path("conditions")) {
+                    JsonNode check = condition.path("detail");
+                    if ("EVENT_VALUE_COMPARE".equals(text(condition, "conditionType")) && "SKILL_HIT_SPELL_SHIELD_BLOCKED".equals(text(check, "eventValueKey"))
+                        && "EQ".equals(text(check, "comparator"))) {
+                        targetTimingNumber(rule, check.path("comparisonValue"), "conditionGroups.conditions.comparisonValue", SkillTargetTimingSemantics.NumberKind.ZERO, null);
+                        unblocked = true;
+                    }
+                }
+                if (!unblocked) throw invalid(rule, "conditionGroups", "COMBINATION_INVALID", "每个或分支均须排除原接触法术盾阻挡");
             }
         }
 

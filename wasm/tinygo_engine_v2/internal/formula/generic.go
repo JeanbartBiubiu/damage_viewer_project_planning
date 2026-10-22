@@ -62,6 +62,7 @@ const (
 	ReadProcessStartState
 	ReadReceivedLinkedShieldAbsorbed
 	ReadProviderTargetStateRemainingMs
+	ReadEventProviderTargetStateBefore
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -349,6 +350,10 @@ func validForwardJump(pc, target, length int) bool {
 }
 
 func parseReadPath(path string) (GenericReadKind, string, bool) {
+	if strings.HasPrefix(path, "event.provider_target_state_before.") {
+		key := strings.TrimPrefix(path, "event.provider_target_state_before.")
+		return ReadEventProviderTargetStateBefore, key, key != "" && !strings.ContainsAny(key, ".[] \t\r\n")
+	}
 	if path == "use.charge_duration_ms" {
 		return ReadUseChargeDuration, "charge_duration_ms", true
 	}

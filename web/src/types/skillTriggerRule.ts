@@ -332,7 +332,7 @@ export type SkillTriggerLifecycleCheckDetail = {
 export type SkillTriggerInternalStateValueDetail = {
   stateSkillKey: string;
   stateKey: string;
-  valueKind: 'VALUE' | 'ATTACK_START_VALUE';
+  valueKind: 'VALUE' | 'ATTACK_START_VALUE' | 'DAMAGE_BEFORE_VALUE';
   optionKey: null;
   expectedBoolean: null;
   comparator: SkillTriggerComparator;
@@ -452,7 +452,7 @@ export type SkillTriggerConditionGroup = {
 export type SkillTriggerInternalStateBindingDetail = {
   stateSkillKey: string;
   stateKey: string;
-  valueKind: Exclude<SkillTriggerInternalStateValueKind, 'ATTACK_START_VALUE'>;
+  valueKind: Exclude<SkillTriggerInternalStateValueKind, 'ATTACK_START_VALUE' | 'DAMAGE_BEFORE_VALUE'>;
   optionKey: string | null;
 };
 
@@ -643,7 +643,7 @@ export type SkillTriggerModifyInternalStateAction = {
   actionType: 'MODIFY_INTERNAL_STATE';
   sortOrder: number;
   targetContext: 'EVENT_SOURCE' | 'CURRENT_TARGET';
-  detail: { stateSkillKey: string; stateKey: string; operation: 'REDUCE_RECOVERY' | 'ENSURE_REMAINING'; value: NumericValue };
+  detail: { stateSkillKey: string; stateKey: string; operation: 'REDUCE_RECOVERY' | 'ENSURE_REMAINING' | 'ENSURE_REMAINING_PRESERVE_PHASE'; value: NumericValue };
   runtimeInputBindings: [];
   resultModifiers: [];
 };

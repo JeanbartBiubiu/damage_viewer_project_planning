@@ -32,6 +32,8 @@ import xyz.game.datamanage.support.authoring.SkillObjectReferences.Reference;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.SourceType;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Target;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.TargetType;
+import xyz.game.datamanage.support.authoring.SkillTargetTimingSemantics;
+import xyz.game.datamanage.support.authoring.SkillNumericSemantics;
 import xyz.game.datamanage.support.error.ApiException;
 
 final class SnapshotSkillClosure {
@@ -51,6 +53,8 @@ final class SnapshotSkillClosure {
     private final ArrayDeque<Invocation> pending = new ArrayDeque<>();
     private final Set<Source> active = new HashSet<>();
     private boolean levelsChanged;
+    private final Set<String> validatedTimingSkills = new HashSet<>();
+    private final Set<String> deferrableTimingSkills = new HashSet<>();
 
     SnapshotSkillClosure(String gameId, String attackKey, String basicAttackCategoryKey, ObjectMapper json, List<Source> sources,
                          Map<String, SkillConfigurationResponse> configurations,
@@ -68,6 +72,17 @@ final class SnapshotSkillClosure {
     Result collect() {
         for (Source source : sources) {
             if (source.inactive != null) continue;
+            JsonNode timingConfiguration = json.valueToTree(source.configuration);
+            boolean completeTiming = false;
+            if (SkillTargetTimingSemantics.declared(timingConfiguration)) {
+                validateTargetTiming(source);
+                completeTiming = deferrableTimingSkills.contains(source.skillKey);
+                if (completeTiming && !timingDriven(source)) {
+                    source.inactive = source.side.equals("source") ? InactiveReason.ACTIVE_DEFERRED : InactiveReason.NO_AUTONOMOUS_ATTACK;
+                    source.ruleKeys.clear();
+                    continue;
+                }
+            }
             if (source.planned != null) validatePlannedRoots(source);
             for (Aggregate rule : rules(source)) {
                 if (!natural(source, rule) || rule.data().path("actions").isEmpty()) continue;
@@ -78,6 +93,8 @@ final class SnapshotSkillClosure {
                 source.ruleKeys.add(rule.key());
             }
             if (source.inactive == null) {
+                if (completeTiming) for (Aggregate declaration : objects.values()) if (declaration.skillKey().equals(source.skillKey)
+                    && declaration.type() == SourceType.STATE && declaration.data().path("detail").has("targetTiming")) enqueue(source, declaration, true);
                 for (String key : source.ruleKeys) enqueue(source, objects.get(new ObjectKey(source.skillKey, SourceType.TRIGGER, key)), true);
             } else source.ruleKeys.clear();
         }
@@ -209,7 +226,67 @@ final class SnapshotSkillClosure {
             return (reference.target().type() == TargetType.EFFECT && "EXECUTE_EFFECT".equals(action))
                 || (reference.target().type() == TargetType.PROCESS && "START_PROCESS".equals(action));
         }
-        return object.type() == SourceType.PROCESS && (field.startsWith("effectBindings[") || field.startsWith("stateOperations["));
+        return object.type() == SourceType.PROCESS && (field.startsWith("effectBindings[") || field.startsWith("stateOperations["))
+            || object.type() == SourceType.STATE && field.equals("detail.targetTiming.processKey") && reference.target().type() == TargetType.PROCESS;
+    }
+
+    private void validateTargetTiming(Source source) {
+        if (!validatedTimingSkills.add(source.skillKey)) return;
+        validateTargetTimingReferences(source);
+        List<SkillNumericSemantics.Parameter> parameters = new ArrayList<>();
+        for (SkillConfigurationResponse configuration : configurations.values()) for (SkillParameterResponse parameter : configuration.parameters())
+            parameters.add(new SkillNumericSemantics.Parameter(configuration.skill().skillKey(), parameter.parameterKey(),
+                parameter.valueType() == null ? null : parameter.valueType().name(), parameter.valueMode() == null ? null : parameter.valueMode().name(),
+                parameter.fixedValue(), json.valueToTree(parameter.levelValues())));
+        try {
+            SkillNumericSemantics.validateTargetTiming(objects.values().stream().filter(a -> a.skillKey().equals(source.skillKey)).toList(), List.copyOf(objects.values()), parameters);
+            if (SkillNumericSemantics.targetTimingNaturalRootsOnly(source.skillKey, json.valueToTree(source.configuration), List.copyOf(objects.values()), parameters)) deferrableTimingSkills.add(source.skillKey);
+        } catch (ApiException exception) { throw translate(exception); }
+    }
+
+    /** 整图休眠前检查定义，不把只读定义加入执行来源。 */
+    private void validateTargetTimingReferences(Source source) {
+        ArrayDeque<Aggregate> queue = new ArrayDeque<>(objects.values().stream().filter(a -> a.skillKey().equals(source.skillKey)).toList());
+        Set<Aggregate> checked = new LinkedHashSet<>();
+        while (!queue.isEmpty()) {
+            Aggregate object = queue.removeFirst();
+            if (!checked.add(object)) continue;
+            for (Reference reference : references(object)) {
+                Target target = reference.target();
+                if (target.type() == TargetType.SKILL) { load(target.key(), path(reference)); continue; }
+                if (target.skillKey().isEmpty()) continue;
+                load(target.skillKey(), path(reference));
+                ObjectKey key = objectKey(target);
+                if (key != null) {
+                    Aggregate dependency = objects.get(key);
+                    if (dependency == null) throw SnapshotIssues.invalid(path(reference), "REFERENCE_MISSING", "目标时序休眠前必要引用不存在");
+                    queue.add(dependency);
+                }
+            }
+        }
+        Set<Target> definitions = new HashSet<>();
+        for (SkillConfigurationResponse configuration : configurations.values()) {
+            definitions.add(new Target(TargetType.SKILL, "", configuration.skill().skillKey(), ""));
+            for (SkillParameterResponse parameter : configuration.parameters())
+                definitions.add(new Target(TargetType.PARAMETER, configuration.skill().skillKey(), parameter.parameterKey(), ""));
+        }
+        // 外部字典身份仍交现有快照目录层核对，不将这些定义视作运行生产者。
+        for (Aggregate object : checked) for (Reference reference : references(object))
+            if (reference.target().skillKey().isEmpty() && reference.target().type() != TargetType.SKILL) definitions.add(reference.target());
+        try { SkillObjectReferences.extractAndValidate(gameId, List.copyOf(checked), List.copyOf(objects.values()), definitions); }
+        catch (ApiException exception) { throw translate(exception); }
+    }
+
+    private boolean timingDriven(Source source) {
+        if (!source.side.equals("source")) return false;
+        for (Aggregate rule : rules(source)) {
+            JsonNode event = rule.data().path("eventSource");
+            if (!"SKILL_HIT".equals(event.path("eventType").asText()) || rule.data().path("actions").isEmpty()) continue;
+            String key = event.path("detail").path("sourceSkillKey").asText("");
+            if (!key.isEmpty() && sources.stream().anyMatch(candidate -> candidate.side.equals(source.side) && candidate.planned != null
+                && candidate.skillKey.equals(key) && candidate.inactive == null && candidate.enabled && !Integer.valueOf(0).equals(candidate.level))) return true;
+        }
+        return false;
     }
 
     private static boolean shieldDefinitionReference(Aggregate object, Reference reference) {
@@ -310,10 +387,16 @@ final class SnapshotSkillClosure {
     }
 
     private boolean natural(Source source, Aggregate rule) {
-        if (source.planned == null && (FiniteTargetCounterSnapshotRules.complete(json.valueToTree(source.configuration))
+        if (source.planned == null && !SkillTargetTimingSemantics.declared(json.valueToTree(source.configuration))
+            && (FiniteTargetCounterSnapshotRules.complete(json.valueToTree(source.configuration))
             || TargetMarkSnapshotRules.complete(json.valueToTree(source.configuration)))) return false;
         JsonNode event = rule.data().path("eventSource");
         String type = event.path("eventType").asText();
+        if (type.equals("DAMAGE_DEALT") && deferrableTimingSkills.contains(source.skillKey)) {
+            String filtered = event.path("detail").path("sourceSkillKey").asText("");
+            if (!filtered.isEmpty() && !filtered.equals(source.skillKey) && sources.stream().noneMatch(candidate -> candidate.side.equals(source.side)
+                && candidate.planned != null && candidate.skillKey.equals(filtered) && candidate.inactive == null)) return false;
+        }
         JsonNode rootActions = rule.data().path("actions");
         if (source.side.equals("source") && Set.of("BASIC_ATTACK_HIT", "SKILL_USED").contains(type)
             && !rootActions.isEmpty() && rootActions.valueStream().allMatch(action -> ownProviderDurationMaintenanceAction(source, action))

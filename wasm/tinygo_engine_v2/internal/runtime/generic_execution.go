@@ -67,6 +67,8 @@ type stagedCombatant struct {
 // eventFormulaSnapshot 保存父 frame entry 快照与 emit 当点 staged 深拷贝。
 // event 参与者始终是原始 emittedEvent source/target，不随 listener owner-relative 重映射。
 type eventFormulaSnapshot struct {
+	damageStateBefore    []frozenDamageStateBefore
+	damageID             uint64
 	shieldAbsorptions    *pipeline.ShieldAbsorptionSnapshot
 	hasUse               bool
 	useKey               string
@@ -99,6 +101,7 @@ type eventFormulaSnapshot struct {
 }
 
 type executionFrame struct {
+	readsDamageStateBefore         bool
 	pendingTargetMark              model.TargetMarkSummary
 	projectedLifecycles            []projectedProviderLifecycle
 	flushingDynamicProviders       bool
@@ -384,12 +387,13 @@ func cloneEventSnapshot(src *eventFormulaSnapshot) *eventFormulaSnapshot {
 		targetResources:      src.targetResources,
 		hasDamageSnapshot:    src.hasDamageSnapshot,
 		damageSnapshot:       src.damageSnapshot,
-		damageTraits:         append([]string(nil), src.damageTraits...),
-		damageTypeKey:        src.damageTypeKey,
-		castInstanceID:       src.castInstanceID,
-		castOrigin:           src.castOrigin,
-		hasSkillHit:          src.hasSkillHit,
-		skillHit:             src.skillHit,
+		damageStateBefore:    src.damageStateBefore, damageID: src.damageID,
+		damageTraits:   append([]string(nil), src.damageTraits...),
+		damageTypeKey:  src.damageTypeKey,
+		castInstanceID: src.castInstanceID,
+		castOrigin:     src.castOrigin,
+		hasSkillHit:    src.hasSkillHit,
+		skillHit:       src.skillHit,
 	}
 	return &cp
 }
@@ -734,7 +738,7 @@ func (f *executionFrame) executeOperations(ability planbundle.CompiledAbility, o
 }
 
 func (f *executionFrame) bumpCommandBudget() *model.EngineError {
-	if f.run.basicAttackEventActive || f.run.initializationEventActive || f.run.hasSkillPlan() {
+	if f.run.basicAttackEventActive || f.run.initializationEventActive || f.run.hasSkillPlan() || f.run.compiled.HasTargetTiming {
 		return f.run.consumeEventCommands(1)
 	}
 	if f.copyableCollector != nil {
@@ -1191,7 +1195,11 @@ func (f *executionFrame) applyStateChange(op planbundle.CompiledOperation, abili
 		if !ok {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "provider target state duration overflow", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
-		if exp > 0 {
+		handled, timingErr := f.stageTargetTimingWrite(ownerKey, f.ownerProviderRef, f.targetKey, op.Ref, next, exp, bag)
+		if timingErr != nil {
+			return timingErr
+		}
+		if exp > 0 && !handled {
 			f.stageProviderTargetStateExpiry(ownerKey, f.ownerProviderRef, f.targetKey, op.Ref, exp)
 			if err := f.stageAnchoredTicksOnTargetWrite(ownerKey, f.ownerProviderRef, f.sourceKey, f.targetKey, op.Ref, exp, bag); err != nil {
 				return err
@@ -1224,6 +1232,9 @@ func (f *executionFrame) applyStateDurationChange(op planbundle.CompiledOperatio
 	}
 	if !op.HasAmount {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "state_duration_change requires amount", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	if op.ValuePolicy == "ensure_remaining_preserve_phase" {
+		return f.ensurePhasedTargetRemaining(op, ability)
 	}
 	if op.ValuePolicy == "ensure_remaining" {
 		return f.ensureTargetStateRemaining(op, ability)
@@ -1517,6 +1528,14 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op planbundle.C
 		return nil
 	}
 	mitigated := numbers.mitigatedAmount
+	var beforeState []frozenDamageStateBefore
+	if f.run.compiled.HasDamageStateBefore {
+		var captureErr *model.EngineError
+		beforeState, captureErr = f.captureDamageStateBefore(cmd.Source, cmd.Target)
+		if captureErr != nil {
+			return captureErr
+		}
+	}
 	targetHPBefore := attribute.ReadHP(view.Attributes)
 	outcome, next := pipeline.ApplyMitigatedDamage(rawForEvidence, mitigated, view, f.run.nowMs, f.run.compiled.HasReceivedShieldReads)
 	if f.run.compiled.HasReceivedShieldReads {
@@ -1530,6 +1549,9 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op planbundle.C
 	}
 	f.recordOperationOutput(op, outcome)
 	damageID := f.nextDamageID()
+	if f.run.compiled.HasDamageStateBefore {
+		f.recordDamageStateBefore(beforeState, damageID, cmd.Target)
+	}
 	result := command.Result{
 		Kind:    cmd.Kind,
 		Applied: outcome.HPDamage > 0 || outcome.ShieldAbsorbed > 0,
@@ -1578,7 +1600,7 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op planbundle.C
 	if err := f.recordDamageContribution(cmd, result, operationRef, op.Path); err != nil {
 		return err
 	}
-	f.maybeQueueDamageInstanceEvent(cmd, op, ability, critEv, baseRawAmount, rawForEvidence, result.Amount, killed)
+	f.maybeQueueDamageInstanceEvent(cmd, op, ability, critEv, baseRawAmount, rawForEvidence, result.Amount, killed, beforeState, damageID)
 	return nil
 }
 
@@ -2336,6 +2358,9 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown abilityRef", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
 	ability := s.compiled.Abilities[ref.AbilityIndex]
+	if ability.TargetExpirySpec != nil || len(s.compiled.Providers[ability.ProviderIndex].TargetTimings) > 0 {
+		return s.basicAttackErr("target timing source abilities require their actual hit, damage, or timer callback", "abilityRef")
+	}
 	if s.compiled.Providers[ability.ProviderIndex].HasStateOnExpire {
 		return s.basicAttackErr("state expiry source abilities require their actual initialization or received-damage listener", "abilityRef")
 	}
@@ -2511,6 +2536,7 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 	ability planbundle.CompiledAbility,
 	critEv frozenCritEvidence,
 	baseRawAmount, preMitigationAmount, mitigatedAmount, killed float64,
+	beforeState []frozenDamageStateBefore, damageID uint64,
 ) {
 	if f.copyableCollector != nil && f.copyableCollector.phantomDepth > 0 {
 		return
@@ -2536,6 +2562,9 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 	snapshot.damageSnapshot = snap
 	snapshot.damageTraits = traits
 	snapshot.damageTypeKey = cmd.DamageType
+	if f.run.compiled.HasDamageStateBefore {
+		snapshot.damageStateBefore, snapshot.damageID = beforeState, damageID
+	}
 	event := emittedEvent{
 		eventType: eventTypeDamageInstance, ref: eventTypeDamageInstance,
 		sourceKey: cmd.Source, targetKey: cmd.Target, types: eventTypes, snapshot: snapshot,
@@ -2561,6 +2590,9 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 		}
 		if event.hasUse {
 			data["useRef"], data["skillKey"] = event.useKey, event.useSkillKey
+		}
+		if f.run.compiled.HasDamageStateBefore {
+			data["damageId"] = damageID
 		}
 		if op.Ref != "" {
 			data["operationRef"] = op.Ref
@@ -3007,6 +3039,7 @@ func (s *genericRunState) dispatchListenerOperations(listener planbundle.Compile
 	frame.ownerCombatantKey = listener.OwnerCombatantKey
 	frame.ownerProviderRef = listener.OwnerProviderRef
 	frame.mountedListener = listener.OwnerCombatantKey != "" && listener.OwnerProviderRef != ""
+	frame.readsDamageStateBefore = listener.ReadsDamageStateBefore
 	frame.eventCtx = cloneEventSnapshot(eventCtx)
 	frame.copyableCollector = collector
 	// Listener Operations inherit triggering cast identity (do not mint).

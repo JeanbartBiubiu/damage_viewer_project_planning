@@ -50,10 +50,16 @@ public final class SkillQualifiedReferenceSemantics {
             }
             int actionIndex = 0;
             for (JsonNode action : source.data().path("actions")) {
+                JsonNode detail = action.path("detail");
+                Aggregate target = state(source, detail, states);
+                if ("MODIFY_INTERNAL_STATE".equals(action.path("actionType").asText())
+                    && "ENSURE_REMAINING".equals(detail.path("operation").asText())
+                    && target != null && target.data().path("detail").has("targetTiming"))
+                    throw invalid(source, "actions[" + actionIndex + "].detail.stateKey", "原最低余时动作不能修改目标时序锚");
                 int bindingIndex = 0;
                 for (JsonNode binding : action.path("runtimeInputBindings")) {
                     String path = "actions[" + actionIndex + "].runtimeInputBindings[" + bindingIndex + "].detail";
-                    JsonNode detail = binding.path("detail");
+                    detail = binding.path("detail");
                     switch (binding.path("sourceType").asText()) {
                         case "COMBAT_STATUS" -> statusRead(source, detail, effects, path);
                         case "INTERNAL_STATE" -> stateRead(source, detail, states, "valueKind", path);
@@ -104,6 +110,11 @@ public final class SkillQualifiedReferenceSemantics {
         boolean valid = switch (kind) {
             case "VALUE", "VALUE_CHANGED" -> Set.of("COUNTER", "AMMO").contains(type);
             case "ATTACK_START_VALUE" -> SkillAttackStartValueSemantics.readAllowed(source, detail, state, path);
+            case "DAMAGE_BEFORE_VALUE" -> conditionReader && "COUNTER".equals(type)
+                && "TARGET".equals(state.data().path("scope").asText())
+                && !state.data().path("detail").has("targetTiming")
+                && source.skillKey().equals(detail.path("stateSkillKey").textValue())
+                && "DAMAGE_DEALT".equals(source.data().path("eventSource").path("eventType").asText());
             case "OPTION_SELECTED" -> "MODE".equals(type);
             case "ENABLED", "FLAG_CHANGED" -> "FLAG".equals(type);
             case "REMAINING_MS" -> "INTERNAL_COOLDOWN".equals(type)

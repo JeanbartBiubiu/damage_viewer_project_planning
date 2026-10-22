@@ -71,6 +71,29 @@ class ConditionEventDynamicInputManagementDbContractSqlTest {
     }
 
     @Test
+    void lockedStateProjectionIncludesActualJsonTimingDeclarationInTheConstructor() throws Exception {
+        Configuration configuration = new Configuration();
+        String shared = "mapper/authoring/AuthoringReadModel.xml";
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream(shared)) {
+            new XMLMapperBuilder(input, configuration, shared, configuration.getSqlFragments()).parse();
+        }
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream(RESOURCE)) {
+            new XMLMapperBuilder(input, configuration, RESOURCE, configuration.getSqlFragments()).parse();
+        }
+        var statement = configuration.getMappedStatement(NAMESPACE + "lockInternalStates");
+        var bound = statement.getBoundSql(Map.of("gameId", "game", "skillKey", "skill", "keys", List.of("mark")));
+        String sql = bound.getSql();
+        assertTrue(sql.contains("jsonb_exists(detail, 'targetTiming') AS target_timing"));
+        var parsed = org.postgresql.core.Parser.parseJdbcSql(sql, true, true, false, false, false);
+        assertEquals(1, parsed.size());
+        assertEquals(bound.getParameterMappings().size(), parsed.getFirst().bindPositions.length);
+        assertEquals(3, parsed.getFirst().bindPositions.length);
+        var constructor = statement.getResultMaps().getFirst().getConstructorResultMappings();
+        assertEquals(List.of("state_key", "state_type", "scope", "target_timing"), constructor.stream().map(result -> result.getColumn()).toList());
+        assertEquals(boolean.class, constructor.getLast().getJavaType());
+    }
+
+    @Test
     void buildsRootJsonWriteMappingsWithAllParametersAndNoUnmappedInterfaceMethods() throws Exception {
         Configuration configuration = new Configuration();
         String shared = "mapper/authoring/AuthoringReadModel.xml";

@@ -52,7 +52,7 @@ class SkillTriggerNaturalCounterFinalGuardTest {
         when(mapper.lockInternalStates(eq(GAME), eq(SKILL), anyCollection())).thenAnswer(ignored -> {
             var state = candidate.path("expected").path("internalStates").get(0);
             return List.of(new SkillTriggerInternalStateLockRow(state.path("stateKey").asText(),
-                SkillInternalStateType.valueOf(state.path("stateType").asText()), state.path("scope").asText()));
+                SkillInternalStateType.valueOf(state.path("stateType").asText()), state.path("scope").asText(), state.path("detail").has("targetTiming")));
         });
     }
 

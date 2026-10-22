@@ -1,4 +1,5 @@
 import { assertNumericUses } from './numericValue';
+import { isCounterTargetTiming } from './counterTargetTiming';
 import type { NumericValue } from '../types/numericValue';
 import type { SkillTriggerSceneInitialParameterBinding } from '../types/skillTriggerRule';
 import type { ApiResult } from './apiClient';
@@ -80,6 +81,15 @@ export function deleteSkillInternalState(
 export function parseSkillInternalState(value: unknown): SkillInternalState {
   assertNumericUses(value, 'state', (path) => { throw new Error(`数值取值响应不合法：${path}`); });
   const row = value as SkillInternalState;
+  if (row.detail && Object.prototype.hasOwnProperty.call(row.detail, 'targetTiming')) {
+    if (row.stateType !== 'COUNTER' || row.scope !== 'TARGET' || row.detail.initialValueBinding !== undefined
+      || !isCounterTargetTiming(row.detail.targetTiming) || !row.detail.durationValue
+      || row.detail.durationValue.kind === 'FIXED' && (!Number.isSafeInteger(row.detail.durationValue.value) || row.detail.durationValue.value <= 0)
+      || row.detail.initialValue.kind === 'FIXED' && row.detail.initialValue.value !== 0
+      || row.detail.maxValue.kind === 'FIXED' && row.detail.maxValue.value !== 1) {
+      throw new Error('目标时序声明响应不合法：detail.targetTiming');
+    }
+  }
   if (row.stateType === 'COUNTER' || row.stateType === 'AMMO') {
     const declarations: Array<[SkillTriggerSceneInitialParameterBinding | undefined, NumericValue | undefined, string]> = [
       [row.detail.initialValueBinding, row.detail.initialValue, 'initialValueBinding']];

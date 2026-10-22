@@ -292,6 +292,11 @@ public final class SkillObjectReferences {
                 case "COUNTER" -> {
                     formulas(detail, "detail", "initialValue", "maxValue", "durationValue");
                     local(detail.path("initialValueBinding"), "detail.initialValueBinding", "parameterKey", TargetType.PARAMETER);
+                    if (detail.has("targetTiming")) {
+                        JsonNode timing = detail.path("targetTiming");
+                        local(timing, "detail.targetTiming", "processKey", TargetType.PROCESS);
+                        formulas(timing, "detail.targetTiming", "intervalValue");
+                    }
                 }
                 case "AMMO" -> {
                     formulas(detail, "detail", "initialValue", "maxValue", "recoveryIntervalValue", "initialRemainingValue");

@@ -8,6 +8,9 @@ import (
 
 // 永久技能伴随来源使用真实目标状态驱动周期；装备固定周期仍走自己的准入。
 func (s *genericRunState) validateTargetWindowProvider(provider planbundle.CompiledProvider, owner, providerRef string) *model.EngineError {
+	if len(provider.TargetTimings) > 0 {
+		return s.validateTargetTimingProvider(provider, owner, providerRef)
+	}
 	if (provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || provider.Lifecycle != nil || provider.AmmoBinding != nil || len(provider.Processes)+len(provider.StatusContributions) != 0 {
 		return s.basicAttackErr("target window requires an owned permanent passive skill source", "initialSnapshot.combatants.providers")
 	}

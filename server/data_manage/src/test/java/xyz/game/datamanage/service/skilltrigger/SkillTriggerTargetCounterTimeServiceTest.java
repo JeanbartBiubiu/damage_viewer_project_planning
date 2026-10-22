@@ -37,7 +37,7 @@ class SkillTriggerTargetCounterTimeServiceTest {
     @BeforeEach void setUp() {
         stubParentAndCatalogs(games, skills, mapper);
         when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
-            .thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.COUNTER, "TARGET")));
+            .thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.COUNTER, "TARGET", false)));
         service = service(games, skills, mapper);
     }
 
@@ -68,11 +68,11 @@ class SkillTriggerTargetCounterTimeServiceTest {
             case "TARGET" -> action.put("targetContext", "EVENT_SOURCE");
             case "FOREIGN" -> detail.put("stateSkillKey", "foreign");
             case "SKILL_SCOPE" -> when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
-                .thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.COUNTER, "SKILL")));
+                .thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.COUNTER, "SKILL", false)));
             case "AMMO" -> when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
-                .thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.AMMO, "TARGET")));
+                .thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.AMMO, "TARGET", false)));
             case "COOLDOWN" -> when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
-                .thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.INTERNAL_COOLDOWN, "TARGET")));
+                .thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.INTERNAL_COOLDOWN, "TARGET", false)));
             case "ZERO" -> ((ObjectNode) detail.path("value")).put("value", 0);
             case "NEGATIVE" -> ((ObjectNode) detail.path("value")).put("value", -1);
             case "FRACTION" -> ((ObjectNode) detail.path("value")).put("value", new BigDecimal("0.5"));
@@ -99,5 +99,92 @@ class SkillTriggerTargetCounterTimeServiceTest {
               "detail":{"stateSkillKey":"%s","stateKey":"mark","valueKind":"REMAINING_MS","optionKey":null,"expectedBoolean":null,"comparator":"LT","comparisonValue":{"kind":"FIXED","value":1000}}}]}]
             """.formatted(SKILL_KEY)));
         return AggregateJson.read(tree.toString(), SkillTriggerRuleCreateRequest.class);
+    }
+
+    @Test void phaseExtensionUsesItsOwnHitEventGateAndRoundTripsTheNewOperation() {
+        when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.COUNTER, "TARGET", true)));
+        ObjectNode tree = phaseRequest();
+        var request = AggregateJson.read(tree.toString(), SkillTriggerRuleCreateRequest.class);
+        var saved = service.create(GAME_ID, SKILL_KEY, request);
+        assertEquals(request.actions(), saved.actions());
+        assertEquals(SkillTriggerInternalStateOperation.ENSURE_REMAINING_PRESERVE_PHASE,
+            ((SkillTriggerModifyInternalStateActionDetail) saved.actions().getFirst().detail()).operation());
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"EVENT", "SOURCE", "TARGET", "ZERO", "AMMO"})
+    void phaseExtensionShapeRejectsInvalidInputsBeforeInsert(String change) {
+        ObjectNode tree = phaseRequest(), action = (ObjectNode) tree.path("actions").get(0);
+        switch (change) {
+            case "EVENT" -> ((ObjectNode) tree.path("eventSource")).put("eventType", "BASIC_ATTACK_HIT");
+            case "SOURCE" -> ((ObjectNode) tree.path("eventSource").path("detail")).putNull("sourceSkillKey");
+            case "TARGET" -> action.put("targetContext", "EVENT_SOURCE");
+            case "ZERO" -> ((ObjectNode) action.path("detail")).set("value", AggregateJson.tree("{\"kind\":\"FIXED\",\"value\":0}"));
+            case "AMMO" -> when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection())).thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.AMMO, "SKILL", false)));
+            default -> throw new IllegalArgumentException(change);
+        }
+        assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY, AggregateJson.read(tree.toString(), SkillTriggerRuleCreateRequest.class)));
+        verify(mapper, never()).insertRule(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test void damageBeforeValueIsAConditionOnlyAndRoundTripsOnDamageDealt() {
+        ObjectNode tree = damageBeforeRequest();
+        var request = AggregateJson.read(tree.toString(), SkillTriggerRuleCreateRequest.class);
+        var saved = service.create(GAME_ID, SKILL_KEY, request);
+        assertEquals(request.conditionGroups(), saved.conditionGroups());
+        assertEquals(SkillTriggerInternalStateValueKind.DAMAGE_BEFORE_VALUE,
+            ((SkillTriggerInternalStateConditionDetail) saved.conditionGroups().getFirst().conditions().getFirst().detail()).valueKind());
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"ENSURE", "BEFORE"})
+    void timingDeclarationMetadataRejectsLegacyEnsureAndPreDamageReadsBeforeInsert(String entry) {
+        when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.COUNTER, "TARGET", true)));
+        ObjectNode tree = entry.equals("BEFORE") ? damageBeforeRequest() : (ObjectNode) AggregateJson.tree(AggregateJson.write(request()));
+        assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            AggregateJson.read(tree.toString(), SkillTriggerRuleCreateRequest.class)));
+        verify(mapper, never()).insertRule(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"ENSURE", "BEFORE"})
+    void aLaterTimingDeclarationInvalidatesAnExistingRuleDuringFinalDatabaseRecheck(String entry) {
+        ObjectNode tree = entry.equals("BEFORE") ? damageBeforeRequest() : (ObjectNode) AggregateJson.tree(AggregateJson.write(request()));
+        var request = AggregateJson.read(tree.toString(), SkillTriggerRuleCreateRequest.class);
+        service.create(GAME_ID, SKILL_KEY, request);
+        when(mapper.listRulesForGame(GAME_ID)).thenAnswer(ignored -> mapper.listRulesForUpdate(GAME_ID, SKILL_KEY));
+        assertDoesNotThrow(() -> service.validateAffectedConfigurationFinal(GAME_ID, SKILL_KEY, List.of(), List.of(), List.of("mark")));
+        when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.COUNTER, "TARGET", true)));
+        var error = assertThrows(ApiException.class, () -> service.validateAffectedConfigurationFinal(GAME_ID, SKILL_KEY, List.of(), List.of(), List.of("mark")));
+        assertEquals("409.SKILL_OBJECT_REFERENCE_INVALID", error.getCode());
+    }
+
+    @ParameterizedTest @ValueSource(strings = {"RECEIVED_EVENT", "FOREIGN", "SKILL_SCOPE", "AMMO"})
+    void damageBeforeValueDoesNotBroadenOtherEventsOrStateKinds(String change) {
+        ObjectNode tree = damageBeforeRequest();
+        switch (change) {
+            case "RECEIVED_EVENT" -> ((ObjectNode) tree.path("eventSource")).put("eventType", "DAMAGE_TAKEN");
+            case "FOREIGN" -> ((ObjectNode) tree.path("conditionGroups").get(0).path("conditions").get(0).path("detail")).put("stateSkillKey", "foreign");
+            case "SKILL_SCOPE" -> when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection())).thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.COUNTER, "SKILL", false)));
+            case "AMMO" -> when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection())).thenReturn(List.of(new SkillTriggerInternalStateLockRow("mark", SkillInternalStateType.AMMO, "TARGET", false)));
+            default -> throw new IllegalArgumentException(change);
+        }
+        assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY, AggregateJson.read(tree.toString(), SkillTriggerRuleCreateRequest.class)));
+        verify(mapper, never()).insertRule(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    private static ObjectNode phaseRequest() {
+        ObjectNode tree = (ObjectNode) AggregateJson.tree(AggregateJson.write(request()));
+        tree.set("eventSource", AggregateJson.tree("{\"eventType\":\"SKILL_HIT\",\"detail\":{\"sourceSkillKey\":\"" + SKILL_KEY + "_active\"}}"));
+        ((ObjectNode) tree.path("actions").get(0).path("detail")).put("operation", "ENSURE_REMAINING_PRESERVE_PHASE");
+        ((ObjectNode) tree.path("conditionGroups").get(0)).withArray("conditions").add(AggregateJson.tree("{\"conditionKey\":\"unblocked\",\"conditionType\":\"EVENT_VALUE_COMPARE\",\"sortOrder\":1,\"detail\":{\"eventValueKey\":\"SKILL_HIT_SPELL_SHIELD_BLOCKED\",\"comparator\":\"EQ\",\"comparisonValue\":{\"kind\":\"FIXED\",\"value\":0}}}"));
+        return tree;
+    }
+    private static ObjectNode damageBeforeRequest() {
+        ObjectNode tree = (ObjectNode) AggregateJson.tree(AggregateJson.write(request()));
+        tree.set("eventSource", AggregateJson.tree("{\"eventType\":\"DAMAGE_DEALT\",\"detail\":{\"sourceSkillKey\":null,\"damageTypeKey\":null,\"deliveryKind\":\"ANY\",\"originKind\":\"ANY\"}}"));
+        ((ObjectNode) tree.path("conditionGroups").get(0).path("conditions").get(0).path("detail")).put("valueKind", "DAMAGE_BEFORE_VALUE");
+        tree.set("actions", AggregateJson.tree(AggregateJson.write(List.of(executeAction("read", EFFECT_KEY)))));
+        return tree;
     }
 }

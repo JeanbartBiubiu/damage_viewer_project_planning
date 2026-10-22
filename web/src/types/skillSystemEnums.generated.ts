@@ -200,11 +200,12 @@ export const SKILL_TRIGGER_INTERNAL_STATE_CHANGE_LABELS = {
 } as const satisfies Record<SkillTriggerInternalStateChangeKind, string>;
 
 // 内部状态读值
-export const SKILL_TRIGGER_INTERNAL_STATE_VALUE_KINDS = ["VALUE","ATTACK_START_VALUE","OPTION_SELECTED","ENABLED","REMAINING_MS"] as const;
+export const SKILL_TRIGGER_INTERNAL_STATE_VALUE_KINDS = ["VALUE","ATTACK_START_VALUE","DAMAGE_BEFORE_VALUE","OPTION_SELECTED","ENABLED","REMAINING_MS"] as const;
 export type SkillTriggerInternalStateValueKind = (typeof SKILL_TRIGGER_INTERNAL_STATE_VALUE_KINDS)[number];
 export const SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS = {
   VALUE: "数值",
   ATTACK_START_VALUE: "本次攻击开始值",
+  DAMAGE_BEFORE_VALUE: "本笔伤害前值",
   OPTION_SELECTED: "模式是否选中",
   ENABLED: "准备标记是否启用",
   REMAINING_MS: "剩余毫秒",

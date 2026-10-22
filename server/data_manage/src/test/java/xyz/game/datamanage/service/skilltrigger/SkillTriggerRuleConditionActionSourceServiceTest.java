@@ -312,7 +312,7 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
     @Test
     void naturalAttackCounterSnapshotRejectsTargetScope() {
         when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of(
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateLockRow("stacks", SkillInternalStateType.COUNTER, "TARGET")));
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateLockRow("stacks", SkillInternalStateType.COUNTER, "TARGET", false)));
         var error = thrown(() -> service.create(GAME_ID, SKILL_KEY, withGroupsOn("target_counter",
             new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_START, new SkillTriggerEmptyEventDetail()),
             List.of(group("g", attackStartAmmoCondition(SKILL_KEY, "stacks"))))));

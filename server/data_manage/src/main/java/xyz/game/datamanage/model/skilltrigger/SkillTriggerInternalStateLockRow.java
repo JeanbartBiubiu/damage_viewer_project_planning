@@ -5,6 +5,7 @@ import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 public record SkillTriggerInternalStateLockRow(
     String stateKey,
     SkillInternalStateType stateType,
-    String scope
+    String scope,
+    boolean targetTiming
 ) {
 }

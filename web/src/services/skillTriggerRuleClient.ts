@@ -327,6 +327,13 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
       if (typeof detail.stateKey !== 'string' || typeof detail.valueKind !== 'string') {
         protocolError(`${path}.detail`);
       }
+      if (detail.valueKind === 'DAMAGE_BEFORE_VALUE' && (Object.keys(detail).length !== 7
+        || Object.keys(detail).some(key => !['stateSkillKey', 'stateKey', 'valueKind', 'optionKey', 'expectedBoolean', 'comparator', 'comparisonValue'].includes(key))
+        || typeof detail.stateSkillKey !== 'string' || !TRIGGER_KEY_PATTERN.test(detail.stateSkillKey)
+        || !TRIGGER_KEY_PATTERN.test(detail.stateKey as string) || detail.optionKey !== null || detail.expectedBoolean !== null
+        || typeof detail.comparator !== 'string' || !COMPARATORS.has(detail.comparator)
+        || !isNumericValue(detail.comparisonValue) || detail.comparisonValue.kind === 'FIXED'
+          && (!Number.isSafeInteger(detail.comparisonValue.value) || detail.comparisonValue.value < 0))) protocolError(`${path}.detail`);
       break;
     case 'EVENT_VALUE_COMPARE':
       if (
@@ -451,11 +458,11 @@ function assertAction(value: unknown, path: string): SkillTriggerAction {
     protocolError(`${path}.detail.processKey`);
   }
   if (actionType === 'MODIFY_INTERNAL_STATE') {
-    const ensure = value.detail.operation === 'ENSURE_REMAINING';
+    const ensure = value.detail.operation === 'ENSURE_REMAINING' || value.detail.operation === 'ENSURE_REMAINING_PRESERVE_PHASE';
     if (value.targetContext !== (ensure ? 'CURRENT_TARGET' : 'EVENT_SOURCE') || value.resultModifiers.length !== 0 || value.runtimeInputBindings.length !== 0
       || Object.keys(value.detail).length !== 4 || Object.keys(value.detail).some(key => !['stateSkillKey', 'stateKey', 'operation', 'value'].includes(key))
       || typeof value.detail.stateSkillKey !== 'string' || typeof value.detail.stateKey !== 'string'
-      || !['REDUCE_RECOVERY', 'ENSURE_REMAINING'].includes(String(value.detail.operation))) protocolError(`${path}.detail`);
+      || !['REDUCE_RECOVERY', 'ENSURE_REMAINING', 'ENSURE_REMAINING_PRESERVE_PHASE'].includes(String(value.detail.operation))) protocolError(`${path}.detail`);
     if (ensure && (!isNumericValue(value.detail.value) || value.detail.value.kind === 'FIXED'
       && (!Number.isSafeInteger(value.detail.value.value) || value.detail.value.value <= 0))) protocolError(`${path}.detail.value`);
     if (ensure && (!TRIGGER_KEY_PATTERN.test(String(value.detail.stateSkillKey))
@@ -530,6 +537,8 @@ export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDet
     assertGroup(item, `detail.conditionGroups[${index}]`)
   ));
   conditionGroups.forEach((group, groupIndex) => group.conditions.forEach((condition, conditionIndex) => {
+    if (condition.conditionType === 'INTERNAL_STATE_CHECK' && condition.detail.valueKind === 'DAMAGE_BEFORE_VALUE'
+      && eventSource.eventType !== 'DAMAGE_DEALT') protocolError(`detail.conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.valueKind`);
     if (condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY' && eventSource.eventType !== 'SKILL_HIT') {
       protocolError(`detail.conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail`);
     }
@@ -540,6 +549,9 @@ export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDet
   }));
   const actions = value.actions.map((item, index) => assertAction(item, `detail.actions[${index}]`));
   actions.forEach((action, index) => {
+    if (action.actionType === 'MODIFY_INTERNAL_STATE' && action.detail.operation === 'ENSURE_REMAINING_PRESERVE_PHASE'
+      && (eventSource.eventType !== 'SKILL_HIT' || !eventSource.detail.sourceSkillKey
+        || !TRIGGER_KEY_PATTERN.test(eventSource.detail.sourceSkillKey))) protocolError(`detail.actions[${index}].detail`);
     if (action.actionType === 'MODIFY_INTERNAL_STATE' && action.detail.operation === 'ENSURE_REMAINING'
       && (eventSource.eventType !== 'SKILL_USED' || eventSource.detail.useKind !== 'ACTIVE'
         || eventSource.detail.castPhase !== 'INITIAL' || !eventSource.detail.sourceSkillKey

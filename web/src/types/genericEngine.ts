@@ -323,6 +323,12 @@ export type AbilityDefinition = {
     anchorScope?: string;
     /** Trimmed state key for tick state anchor (paired with anchorScope). */
     anchorStateKey?: string;
+    phasePolicy?: 'preserve_on_extend';
+  };
+  targetExpirySpec?: {
+    anchorScope: 'state_scope/provider_target';
+    anchorStateKey: string;
+    onExpire: OperationDefinition[];
   };
   stateSchema?: Record<string, unknown>;
   /** 主动过程控制入口。有该字段时不得再配普通 cost、cooldown 或独立 operations。 */

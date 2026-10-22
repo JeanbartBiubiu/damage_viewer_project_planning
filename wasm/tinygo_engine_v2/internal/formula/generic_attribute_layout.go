@@ -80,6 +80,12 @@ func lookupAttributeSlot(attrs attribute.Table, key string, index int, bound boo
 }
 
 func evalInstructionRead(in GenericInstr, ctx *GenericEvalContext) (float64, error) {
+	if in.ReadKind == ReadEventProviderTargetStateBefore {
+		if !in.ReferenceBound || !ctx.HasProviderContext || !ctx.HasEventContext || ctx.DamageStateBeforeReader == nil {
+			return 0, errors.New("damage state before requires a bound original damage listener condition")
+		}
+		return ctx.DamageStateBeforeReader.DamageStateBefore(in.ReadKey)
+	}
 	if in.ReadKind == ReadProviderTargetStateRemainingMs {
 		if !in.ReferenceBound || !ctx.HasProviderContext || !ctx.HasTargetStateRemainingContext {
 			return 0, errors.New("target state remaining time requires a declared own finite integer field and provider condition context")

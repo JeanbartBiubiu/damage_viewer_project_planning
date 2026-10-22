@@ -31,6 +31,9 @@ func (f *executionFrame) attachRecoveryProvenance(data map[string]interface{}, o
 	if use := f.skillActionUseRef(); use != "" {
 		data["useRef"] = use
 	}
+	if f.readsDamageStateBefore && f.eventCtx != nil && f.eventCtx.damageID > 0 {
+		data["triggerDamageId"], data["triggerDamageSource"], data["triggerDamageTarget"] = f.eventCtx.damageID, f.eventCtx.eventSourceKey, f.eventCtx.eventTargetKey
+	}
 }
 
 // Resource costs still call applyResourceChange directly. Only an authored

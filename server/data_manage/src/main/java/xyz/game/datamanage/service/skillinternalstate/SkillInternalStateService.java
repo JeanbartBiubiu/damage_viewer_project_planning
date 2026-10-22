@@ -426,6 +426,15 @@ public class SkillInternalStateService {
                 addFormula(refs, issues, "detail.initialValue", counter.initialValue());
                 addFormula(refs, issues, "detail.maxValue", counter.maxValue());
                 if (counter.durationValue() != null) addFormula(refs, issues, "detail.durationValue", counter.durationValue());
+                if (counter.targetTiming() != null) {
+                    if (values.scope() != SkillInternalStateScope.TARGET || counter.initialValueBinding() != null) {
+                        issues.add(fieldIssue("detail.targetTiming", "COMBINATION_INVALID", "目标时序只允许无初值绑定的目标计数"));
+                    }
+                    if (counter.durationValue() == null) issues.add(fieldIssue("detail.durationValue", "REQUIRED", "目标时序必须声明有限期限"));
+                    if (counter.targetTiming() instanceof xyz.game.datamanage.model.skillinternalstate.SkillInternalStateTargetTiming.PhasedTick tick) {
+                        addFormula(refs, issues, "detail.targetTiming.intervalValue", tick.intervalValue());
+                    }
+                }
             }
             case AMMO -> {
                 if (!(detail instanceof SkillInternalStateAmmoDetail ammo)) {

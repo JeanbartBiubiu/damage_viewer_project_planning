@@ -20,6 +20,8 @@ import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../../services/apiClient';
 import { listSkillFormulas } from '../../../../services/skillFormulaClient';
+import { listSkillProcesses } from '../../../../services/skillProcessClient';
+import type { SkillProcessSummary } from '../../../../types/skillProcess';
 import {
   createSkillInternalState,
   getSkillInternalState,
@@ -93,6 +95,7 @@ type SkillInternalStateEditorModalProps = {
     original: SkillInternalState | null;
     parameters: SkillParameter[];
     formulas: SkillFormulaSummary[];
+    processes?: SkillProcessSummary[];
     onApply: (draft: SkillInternalStateDraft, value: CreateSkillInternalStateRequest) => string | null;
   };
 };
@@ -153,6 +156,19 @@ export function SkillInternalStateEditorModal({
   const parameters = workspaceDraft?.parameters ?? savedParameters;
   const parametersLoadState = workspaceDraft ? 'ready' : savedParametersLoadState;
   const formulas = workspaceDraft?.formulas ?? savedFormulas;
+  const [savedProcesses, setProcesses] = useState<SkillProcessSummary[]>([]);
+  const [processesError, setProcessesError] = useState<string | null>(null);
+  const processes = workspaceDraft?.processes ?? savedProcesses;
+  const needsTiming = draft.targetTiming !== undefined;
+  useEffect(() => {
+    if (!visible || !needsTiming || workspaceDraft?.processes) return;
+    let cancelled = false;
+    setProcesses([]); setProcessesError(null);
+    void listSkillProcesses(apiBaseUrl, selectedGameId, skill.skillKey, adminToken).then(result => {
+      if (!cancelled) setProcesses(result.data);
+    }).catch(error => { if (!cancelled) setProcessesError(getErrorMessage(error)); });
+    return () => { cancelled = true; };
+  }, [visible, needsTiming, workspaceDraft?.processes, apiBaseUrl, selectedGameId, skill.skillKey, adminToken, catalogRevision]);
   const [savedFormulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
   const formulasLoadState = workspaceDraft ? 'ready' : savedFormulasLoadState;
   const workspaceInitial = workspaceDraft?.initial;
@@ -831,6 +847,30 @@ export function SkillInternalStateEditorModal({
                   disabled={readOnly || saving} />
             </Form.Item>
           ) : null}
+          {draft.stateType === 'COUNTER' && draft.scope === 'TARGET' ? <>
+            <Form.Item label="目标时序" validateStatus={errors.targetTiming ? 'error' : undefined} help={errors.targetTiming}>
+              <Select aria-label="目标时序" value={draft.targetTiming?.kind ?? 'NONE'} disabled={readOnly || saving}
+                options={[{ value: 'NONE', label: '普通计数' }, { value: 'PHASED_TICK', label: '独立周期，续期保留节拍' },
+                  { value: 'EXPIRY_PAYLOAD', label: '自然到期执行预约过程' }]}
+                onChange={value => patchDraft({ ...draft, targetTiming: value === 'NONE' ? undefined
+                  : value === 'PHASED_TICK' ? { kind: 'PHASED_TICK', processKey: '', intervalValue: { kind: 'FIXED', value: Number.NaN }, phasePolicy: 'PRESERVE_ON_EXTEND' }
+                    : { kind: 'EXPIRY_PAYLOAD', processKey: '' } })} />
+            </Form.Item>
+            {draft.targetTiming ? <>
+              <Form.Item label="时序执行过程" required help={processesError ?? '选择本技能无费用、无冷却、单即时步骤的完整被动过程。'}>
+                <Select aria-label="时序执行过程" value={draft.targetTiming.processKey || undefined} disabled={readOnly || saving}
+                  options={processes.filter(row => row.activationType === 'PASSIVE').map(row => ({ value: row.processKey, label: row.name }))}
+                  onChange={value => { if (draft.targetTiming) patchDraft({ ...draft,
+                    targetTiming: { ...draft.targetTiming, processKey: String(value ?? '') } }); }} />
+              </Form.Item>
+              {draft.targetTiming.kind === 'PHASED_TICK' ? <Form.Item label="周期间隔（毫秒）" required>
+                <NumericValueField aria-label="周期间隔取值" value={draft.targetTiming.intervalValue} parameters={parameters}
+                  parametersLoadState={parametersLoadState} formulas={formulas} disabled={readOnly || saving}
+                  onChange={value => { if (value && draft.targetTiming?.kind === 'PHASED_TICK') patchDraft({ ...draft,
+                    targetTiming: { ...draft.targetTiming, intervalValue: value } }); }} />
+              </Form.Item> : null}
+            </> : null}
+          </> : null}
         </Form>
 
         {draft.stateType === 'MODE' ? (

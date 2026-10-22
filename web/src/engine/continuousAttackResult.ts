@@ -19,6 +19,7 @@ import { finiteTargetCounterExpiryOrigin } from './finiteTargetCounterResultCont
 import { inspectOrdinaryHealing } from './ordinaryHealingContract';
 import { inspectSkillHitLinkEvidence, skillHitLinkListenerEvent } from './skillHitLinkEvidence';
 import { inspectTargetMarkResult, targetMarkDamageOriginMatches } from './targetMarkResultContract';
+import { inspectDamageStateBefore, targetTimingDamageOriginMatches } from './targetTimingResultContract';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
@@ -214,6 +215,8 @@ export function assessContinuousAttackResult(
   issues.push(...links.issues); identityGaps.push(...links.identityGaps);
   const marks = inspectTargetMarkResult(input, request, done, origins);
   issues.push(...marks.issues); identityGaps.push(...marks.identityGaps);
+  const before = inspectDamageStateBefore(input, request, done);
+  issues.push(...before.issues); identityGaps.push(...before.identityGaps);
   const check = (condition: boolean, path: string, message: string) => { if (!condition) issues.push(`${path}：${message}`); };
   check(bool(result.ok, 'runResult.ok'), 'runResult.ok', '运行返回未成功');
   for (const actor of request.initialSnapshot.combatants) {
@@ -355,6 +358,9 @@ export function assessContinuousAttackResult(
         && process.skillKey === plan.skillKey && moment.momentType === 'PROCESS_START' && moment.stepKey === null && moment.failureReason === null;
       const contract = targetMarkDamageOriginMatches(input, origin, path)
         ? { kind: 'target_mark' as const, allowed: true, required: false, origin }
+        : ability && definition && targetTimingDamageOriginMatches(input, definition, ability, origin, operation)
+          && (path.startsWith(`${abilityPath}.tickSpec.onTick[`) || path.startsWith(`${abilityPath}.targetExpirySpec.onExpire[`))
+        ? { kind: 'target_window' as const, allowed: true, required: false, origin }
         : ability && definition && /^\.tickSpec\.onTick\[\d+\]$/.test(path.slice(abilityPath.length))
         && path.startsWith(`${abilityPath}.`) && finiteTargetCounterExpiryOrigin(input, definition, ability, origin, operation)
         ? { kind: 'target_window' as const, allowed: true, required: false, origin }

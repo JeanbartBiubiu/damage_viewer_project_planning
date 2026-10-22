@@ -37,7 +37,7 @@ node tools/system-enums/generate.mjs --target web --root C:/project/damage_web_d
 | 事件读值口径 | SkillTriggerEventValueKey | `STEP_EXECUTION_INDEX`（当前步骤第几次执行）、`CHARGE_DURATION_MS`（实际蓄力毫秒数）、`RECAST_COUNT`（当前过程已重施次数）、`HIT_INDEX`（当前命中序号）、`SKILL_HIT_FIRST_CONTACT`（本次使用首次目标接触）、`SKILL_USE_CONTACT_COUNT`（本次使用已结算接触数）、`SKILL_HIT_SPELL_SHIELD_BLOCKED`（技能命中被法术护盾阻挡）、`LIFECYCLE_STACKS`（当前生命周期层数）、`PERIOD_INDEX`（当前周期序号）、`REMAINING_MS`（当前生命周期剩余毫秒数）、`STATE_BEFORE`（数值内部状态变化前值）、`STATE_AFTER`（数值内部状态变化后值）、`ATTRIBUTE_BEFORE`（生命属性越阈值前值）、`ATTRIBUTE_AFTER`（生命属性越阈值后值）、`THRESHOLD_VALUE`（本次阈值取值值）、`RAW_DAMAGE`（原始伤害）、`POST_DEFENSE_DAMAGE`（防御后伤害）、`HEALTH_BEFORE`（受伤前生命）、`PROJECTED_HEALTH_AFTER`（预计受伤后生命）、`SHIELD_ABSORBED`（护盾吸收）、`ACTUAL_HP_LOSS`（实际扣血）、`BLOCKED`（是否被法术护盾阻挡（0/1））、`IMMUNE`（是否被伤害免疫（0/1））、`KILLED`（是否形成击杀（0/1））、`LINK_INDEX`（本次序号（从 1 开始））、`LINK_COUNT`（总次数（从 1 开始）） |
 | 生命越阈值方向 | SkillTriggerHealthDirection | `UPWARD`（向上）、`DOWNWARD`（向下） |
 | 内部状态变化种类 | SkillTriggerInternalStateChangeKind | `VALUE_CHANGED`（数值变化）、`OPTION_SELECTED`（模式选项变化）、`FLAG_CHANGED`（准备标记变化）、`COOLDOWN_READY`（内部冷却就绪） |
-| 内部状态读值 | SkillTriggerInternalStateValueKind | `VALUE`（数值）、`ATTACK_START_VALUE`（本次攻击开始值）、`OPTION_SELECTED`（模式是否选中）、`ENABLED`（准备标记是否启用）、`REMAINING_MS`（剩余毫秒） |
+| 内部状态读值 | SkillTriggerInternalStateValueKind | `VALUE`（数值）、`ATTACK_START_VALUE`（本次攻击开始值）、`DAMAGE_BEFORE_VALUE`（本笔伤害前值）、`OPTION_SELECTED`（模式是否选中）、`ENABLED`（准备标记是否启用）、`REMAINING_MS`（剩余毫秒） |
 | 生命周期检查 | SkillTriggerLifecycleCheckKind | `PRESENT`（存在）、`ABSENT`（不存在）、`STACKS_COMPARE`（层数比较） |
 | 生命周期离散事件 | SkillTriggerLifecycleEventMoment | `APPLICATION`（施加）、`FULL_STACKS`（满层）、`PERIODIC`（周期）、`NATURAL_END`（自然结束）、`EARLY_REMOVE`（提前移除） |
 | 同次使用范围 | SkillTriggerOncePerUseScope | `SKILL`（整个技能使用）、`TARGET`（每个目标） |

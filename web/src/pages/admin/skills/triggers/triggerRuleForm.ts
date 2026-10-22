@@ -612,7 +612,7 @@ export type SkillTriggerAdvanceProcessActionDraft = ActionDraftBase & {
 export type SkillTriggerModifyInternalStateActionDraft = ActionDraftBase & {
   actionType: 'MODIFY_INTERNAL_STATE';
   targetContext: SkillTriggerTargetContext;
-  detail: { stateSkillKey: string; stateKey: string; operation: 'REDUCE_RECOVERY' | 'ENSURE_REMAINING'; value: NumericValue };
+  detail: { stateSkillKey: string; stateKey: string; operation: 'REDUCE_RECOVERY' | 'ENSURE_REMAINING' | 'ENSURE_REMAINING_PRESERVE_PHASE'; value: NumericValue };
 };
 
 export type SkillTriggerActionDraft =
@@ -1465,7 +1465,7 @@ export function rebuildStatusCheckDetail(
 
 export function rebuildInternalStateCheckDetail(
   current: SkillTriggerInternalStateCheckDetail,
-  valueKind: 'VALUE' | 'ATTACK_START_VALUE'
+  valueKind: 'VALUE' | 'ATTACK_START_VALUE' | 'DAMAGE_BEFORE_VALUE'
 ): SkillTriggerInternalStateValueDetail;
 export function rebuildInternalStateCheckDetail(
   current: SkillTriggerInternalStateCheckDetail,
@@ -1487,17 +1487,17 @@ export function rebuildInternalStateCheckDetail(
   current: SkillTriggerInternalStateCheckDetail,
   valueKind: SkillTriggerInternalStateValueKind
 ): SkillTriggerInternalStateCheckDetail {
-  if (valueKind === 'VALUE' || valueKind === 'ATTACK_START_VALUE') {
+  if (valueKind === 'VALUE' || valueKind === 'ATTACK_START_VALUE' || valueKind === 'DAMAGE_BEFORE_VALUE') {
     return {
       stateSkillKey: current.stateSkillKey,
       stateKey: current.stateKey,
       valueKind,
       optionKey: null,
       expectedBoolean: null,
-      comparator: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'REMAINING_MS'
+      comparator: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'DAMAGE_BEFORE_VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparator
         : 'GTE',
-      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'REMAINING_MS'
+      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'DAMAGE_BEFORE_VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparisonValue
         : fixedValue(Number.NaN)
     };
@@ -1509,10 +1509,10 @@ export function rebuildInternalStateCheckDetail(
       valueKind,
       optionKey: null,
       expectedBoolean: null,
-      comparator: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'REMAINING_MS'
+      comparator: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'DAMAGE_BEFORE_VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparator
         : 'GTE',
-      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'REMAINING_MS'
+      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'DAMAGE_BEFORE_VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparisonValue
         : fixedValue(Number.NaN)
     };
@@ -1662,7 +1662,7 @@ export function patchInternalStateCompareFields(
     'comparator' | 'comparisonValue'
   >>
 ): SkillTriggerInternalStateCheckConditionDraft {
-  if (current.detail.valueKind !== 'VALUE' && current.detail.valueKind !== 'ATTACK_START_VALUE' && current.detail.valueKind !== 'REMAINING_MS') {
+  if (current.detail.valueKind !== 'VALUE' && current.detail.valueKind !== 'ATTACK_START_VALUE' && current.detail.valueKind !== 'DAMAGE_BEFORE_VALUE' && current.detail.valueKind !== 'REMAINING_MS') {
     return current;
   }
   return { ...current, detail: { ...current.detail, ...patch } };
@@ -2405,7 +2405,7 @@ function cleanupActionForEventSwitch(
   processes?: ReadonlyArray<SourceCastResourceCostProcess>
 ): SkillTriggerActionDraft {
   if (action.actionType === 'MODIFY_INTERNAL_STATE') return { ...action,
-    targetContext: action.detail.operation === 'ENSURE_REMAINING' ? 'CURRENT_TARGET' : 'EVENT_SOURCE', runtimeInputBindings: [] };
+    targetContext: action.detail.operation !== 'REDUCE_RECOVERY' ? 'CURRENT_TARGET' : 'EVENT_SOURCE', runtimeInputBindings: [] };
   const runtimeInputBindings: SkillTriggerRuntimeInputBinding[] = [];
   for (const binding of action.runtimeInputBindings) {
     const next = cleanupBindingForEventSwitch(binding, hasEventSource, allowed, nextSource, processes);
@@ -2578,7 +2578,7 @@ export function conditionSummary(condition: SkillTriggerConditionDraft): string 
         SKILL_TRIGGER_CONDITION_TYPE_LABELS.INTERNAL_STATE_CHECK,
         condition.detail.stateKey,
         SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS[condition.detail.valueKind],
-        ...(condition.detail.valueKind === 'VALUE' || condition.detail.valueKind === 'ATTACK_START_VALUE' || condition.detail.valueKind === 'REMAINING_MS'
+        ...(condition.detail.valueKind === 'VALUE' || condition.detail.valueKind === 'ATTACK_START_VALUE' || condition.detail.valueKind === 'DAMAGE_BEFORE_VALUE' || condition.detail.valueKind === 'REMAINING_MS'
           ? [SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator], numericValueSummary(condition.detail.comparisonValue)]
           : [])
       ].join(' / ');
@@ -2604,7 +2604,8 @@ export function actionSummary(action: SkillTriggerActionDraft): string {
     ? SKILL_TRIGGER_TARGET_CONTEXT_LABELS[action.targetContext]
     : '—';
   const object = action.actionType === 'MODIFY_INTERNAL_STATE' ? [action.detail.stateKey,
-    action.detail.operation === 'ENSURE_REMAINING' ? '确保至少剩余毫秒' : '减少下一枚回充', numericValueSummary(action.detail.value)].join(' / ')
+    action.detail.operation === 'ENSURE_REMAINING_PRESERVE_PHASE' ? '保留节拍并确保至少剩余毫秒'
+      : action.detail.operation === 'ENSURE_REMAINING' ? '确保至少剩余毫秒' : '减少下一枚回充', numericValueSummary(action.detail.value)].join(' / ')
     : action.actionType === 'EXECUTE_EFFECT'
     ? actionEffectKey(action.detail)
     : action.actionType === 'ADVANCE_PROCESS'
@@ -3276,11 +3277,13 @@ export function changeKindsForInternalState(
 export function valueKindsForInternalState(
   stateType: SkillInternalStateType | null,
   includeAttackStart = false,
-  includeTargetRemaining = false
+  includeTargetRemaining = false,
+  includeDamageBefore = false
 ): SkillTriggerInternalStateValueKind[] {
   switch (stateType) {
     case 'COUNTER':
       return ['VALUE', ...(includeAttackStart ? ['ATTACK_START_VALUE' as const] : []),
+        ...(includeDamageBefore ? ['DAMAGE_BEFORE_VALUE' as const] : []),
         ...(includeTargetRemaining ? ['REMAINING_MS' as const] : [])];
     case 'AMMO':
       return includeAttackStart ? ['VALUE', 'ATTACK_START_VALUE'] : ['VALUE'];
@@ -3327,7 +3330,17 @@ export function modifyInternalStateActionError(
   state: SkillInternalState | undefined,
   catalog: NumericCatalog = {}
 ): string | undefined {
+  if (action.detail.operation === 'ENSURE_REMAINING_PRESERVE_PHASE') {
+    if (eventSource.eventType !== 'SKILL_HIT' || !eventSource.detail.sourceSkillKey?.trim()
+      || validateKey(eventSource.detail.sourceSkillKey, '来源技能标识') || action.targetContext !== 'CURRENT_TARGET'
+      || !skillKey || action.detail.stateSkillKey !== skillKey || state?.skillKey !== skillKey
+      || state.stateType !== 'COUNTER' || state.scope !== 'TARGET' || state.detail.targetTiming?.kind !== 'PHASED_TICK'
+      || action.runtimeInputBindings.length || action.resultModifiers.length) return '保留节拍续期须监听明确技能的真实未阻挡命中，只修改本技能已声明周期的目标计数。';
+    return targetCounterRemainingStateError(state, action.detail.stateSkillKey, skillKey, catalog)
+      ?? targetCounterMillisecondsError(action.detail.value, catalog, true);
+  }
   if (action.detail.operation === 'ENSURE_REMAINING') {
+    if (state?.stateType === 'COUNTER' && state.detail.targetTiming !== undefined) return '普通最低余时动作不允许修改目标时序锚。';
     if (eventSource.eventType !== 'SKILL_USED' || eventSource.detail.useKind !== 'ACTIVE'
       || eventSource.detail.castPhase !== 'INITIAL' || !eventSource.detail.sourceSkillKey?.trim()
       || validateKey(eventSource.detail.sourceSkillKey, '来源技能标识')
@@ -3574,6 +3587,17 @@ export function validateSkillTriggerDraft(
           || !['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT'].includes(draft.eventSource.eventType))) {
           pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.valueKind`,
             '计数开始值只允许本技能自身计数在真实普通攻击开始或命中时读取。');
+        }
+      }
+      if (condition.conditionType === 'INTERNAL_STATE_CHECK' && condition.detail.valueKind === 'DAMAGE_BEFORE_VALUE') {
+        const state = options.statesByKey?.get(condition.detail.stateKey);
+        const catalog = { parameters: options.parameters, formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined };
+        if (draft.eventSource.eventType !== 'DAMAGE_DEALT' || !state || state.stateType !== 'COUNTER' || state.scope !== 'TARGET'
+          || state.skillKey !== options.skillKey || condition.detail.stateSkillKey !== options.skillKey || state.detail.targetTiming !== undefined) {
+          pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.valueKind`, '本笔伤害前值只允许实际造成伤害时读取本技能自己的普通目标计数。');
+        } else {
+          const error = targetCounterMillisecondsError(condition.detail.comparisonValue, catalog);
+          if (error) pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.comparisonValue`, error);
         }
       }
       if (condition.conditionType === 'TARGET_CATEGORY_CHECK') {
