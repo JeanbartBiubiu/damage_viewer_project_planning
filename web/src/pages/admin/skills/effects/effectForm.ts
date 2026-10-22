@@ -5,7 +5,7 @@ import { numericIssuePath, numericValueError, staticNumericValues } from '../num
 import { staticShieldStackValueIssue } from './damageModifierConditionFormula';
 import { isValidCooldownRemainingDuration } from '../../../../types/cooldownRemaining';
 import { isValidCooldownDurationValueRule } from '../../../../types/cooldownDuration';
-import { isValidCooldownReductionRatio } from '../../../../types/cooldownRatio';
+import { isCooldownRatioOperation, isValidCooldownReductionRatio } from '../../../../types/cooldownRatio';
 import { isValidHealingRatioMaxDecrease } from '../../../../types/healingRatioMax';
 import { isValidLifecycleExtensionDuration, isLifecycleDurationOperation } from '../../../../types/lifecycleExtension';
 import { numericFormulaKey } from '../../../../types/numericValue';
@@ -243,6 +243,7 @@ export const COOLDOWN_CHANGE_OPERATION_LABELS = {
   INCREASE: '增加',
   RESET: '重置为可用',
   REDUCE_REMAINING_RATIO: '按比例减少剩余冷却',
+  REDUCE_TOTAL_RATIO: '按本次总冷却返还',
   SET_REMAINING: '设置剩余冷却'
 } as const satisfies { [K in CooldownChangeOperation]: string };
 
@@ -1033,6 +1034,7 @@ export function requiresValueRule(
     return cooldownOperation === 'REDUCE'
       || cooldownOperation === 'INCREASE'
       || cooldownOperation === 'REDUCE_REMAINING_RATIO'
+      || cooldownOperation === 'REDUCE_TOTAL_RATIO'
       || cooldownOperation === 'SET_REMAINING';
   }
   if (resultType === 'LIFECYCLE_OPERATION') {
@@ -1104,6 +1106,9 @@ export function resolveResultStatusKind(
 
 export function cooldownChangeAmountHint(draft: SkillEffectResultDraft): string | null {
   if (draft.resultType === 'COOLDOWN_DURATION_MODIFIER') return '静态正倍率，只影响效果生效期间新提交的冷却；0.5为原时长一半，1保持原时长。';
+  if (draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_TOTAL_RATIO') {
+    return '按本次普通冷却实际提交的总时长返还，包含提交时的急速与时长倍率；后续属性变化不重算基数。比例须静态且在 0 到 1 之间，5% 填 0.05。';
+  }
   if (draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO') {
     return COOLDOWN_REMAINING_RATIO_HINT;
   }
@@ -1127,7 +1132,7 @@ export function applyResultTypeChange(
   const nextLifecycleOperation = defaultLifecycleOperation(nextType);
   const nextNeeds = requiresValueRule(nextType, nextCooldown, nextLifecycleOperation);
   const prevNeeds = draftRequiresValueRule(draft)
-    && !(draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO')
+    && !(draft.resultType === 'COOLDOWN_CHANGE' && isCooldownRatioOperation(draft.cooldownOperation))
     && !(draft.resultType === 'LIFECYCLE_OPERATION' && isLifecycleDurationOperation(draft.lifecycleOperation));
   const persistentWithoutValueModes = nextType === 'DAMAGE_IMMUNITY' || nextType === 'SPELL_SHIELD';
   const lifecycleBehavior = isPersistentOnlyResultType(nextType)
@@ -1218,7 +1223,7 @@ export function applyCooldownOperationChange(
   nextOperation: CooldownChangeOperation
 ): SkillEffectResultDraft {
   const nextNeeds = requiresValueRule('COOLDOWN_CHANGE', nextOperation);
-  const sameUnit = (draft.cooldownOperation === 'REDUCE_REMAINING_RATIO') === (nextOperation === 'REDUCE_REMAINING_RATIO');
+  const sameUnit = isCooldownRatioOperation(draft.cooldownOperation) === isCooldownRatioOperation(nextOperation);
   const prevNeeds = draftRequiresValueRule(draft) && sameUnit;
   return clearHiddenResultFields({
     ...draft,
@@ -2468,9 +2473,14 @@ function validateAndBuildResult(
     });
     if (valueError) fieldErrors.value = valueError;
   }
-  if (draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO'
+  if (draft.resultType === 'COOLDOWN_CHANGE' && isCooldownRatioOperation(draft.cooldownOperation)
     && valueRule && !fieldErrors.value) {
     const values = staticNumericValues(valueRule.value, options.parameters);
+    const parameterKey = valueRule.value.kind === 'PARAMETER' ? valueRule.value.parameterKey : null;
+    if (draft.cooldownOperation === 'REDUCE_TOTAL_RATIO' && valueRule.value.kind === 'PARAMETER'
+      && options.parameters?.find((parameter) => parameter.parameterKey === parameterKey)?.valueMode === 'RUNTIME_INPUT') {
+      fieldErrors.value = '总冷却返还比例必须静态求值，不能使用计算时输入。';
+    }
     if (values?.some((value) => !isValidCooldownReductionRatio(value, valueRule))) {
       fieldErrors.value = '有效冷却减少比例必须在 0 到 1 之间（70% 填 0.7）。';
     }
@@ -2602,7 +2612,7 @@ function validateAndBuildResult(
         valueRule: valueRule!,
         detail: {
           affectedSkillScope: buildAffectedSkillScope(draft),
-          operation: draft.cooldownOperation as 'REDUCE' | 'INCREASE' | 'REDUCE_REMAINING_RATIO' | 'SET_REMAINING'
+          operation: draft.cooldownOperation as 'REDUCE' | 'INCREASE' | 'REDUCE_REMAINING_RATIO' | 'REDUCE_TOTAL_RATIO' | 'SET_REMAINING'
         }
       };
     case 'STATUS_OPERATION':
@@ -3079,6 +3089,7 @@ function validateTypeSpecificFields(
         && draft.cooldownOperation !== 'INCREASE'
         && draft.cooldownOperation !== 'RESET'
         && draft.cooldownOperation !== 'REDUCE_REMAINING_RATIO'
+        && draft.cooldownOperation !== 'REDUCE_TOTAL_RATIO'
         && draft.cooldownOperation !== 'SET_REMAINING'
       ) {
         fieldErrors.cooldownOperation = '请选择操作。';

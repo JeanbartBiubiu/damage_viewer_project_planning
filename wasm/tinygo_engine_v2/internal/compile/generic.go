@@ -189,6 +189,8 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeDamageStateBefore(ctx)
 	finalizeTargetStateRemaining(ctx)
 	finalizeTargetMarkConsumption(req, ctx)
+	finalizeImmediatePeriodic(ctx)
+	finalizeTotalCooldownRefunds(ctx)
 	if len(session.Operations) > 65535 {
 		collector.addError(model.GenericErrRuntimeInvariantFailed, "operations", "compiled operations exceed supported index range", "")
 	}
@@ -534,7 +536,9 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			// Anchored mode: startDelay remains 0 (do not default to intervalMs).
 			tickSpec.StartDelayMs = 0
 		default:
-			if tickSpec.StartDelayMs <= 0 {
+			if ts.HasStartDelayMs && ts.StartDelayMs == 0 {
+				tickSpec.ImmediateFirst = true
+			} else if tickSpec.StartDelayMs <= 0 {
 				tickSpec.StartDelayMs = tickSpec.IntervalMs
 			}
 		}

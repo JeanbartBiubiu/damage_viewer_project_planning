@@ -39,6 +39,7 @@ import { basicAttackContributionKey, isBasicAttackContributionRule,
 import { compileStateFieldSchema } from './processStateAdapter';
 import { isOwnCooldownReductionResult, type BasicAttackCooldownReduction } from './basicAttackCooldownReduction';
 import { staticEffectAmount } from './staticEffectValue';
+import { compileCommittedTotalRefundRule, type CommittedTotalRefundPlan, type PendingCommittedTotalRefund } from './committedTotalCooldownRefund';
 import { compileProviderDurationResult } from './providerDurationAdapter';
 import { finiteTargetCounterContract } from './finiteTargetCounterContract';
 import { lowerTargetCounterValueRule } from './targetCounterFormula';
@@ -66,6 +67,7 @@ export type TriggeredEquipmentAssembly = {
   passiveHitContributions?: Array<{ sourceSkillKey: string; authorSkillKey: string; candidate: SkillHitCandidate }>;
   basicAttackContributions?: BasicAttackContribution[];
   basicAttackCooldownReductions?: BasicAttackCooldownReduction[];
+  committedTotalRefunds?: PendingCommittedTotalRefund[];
 };
 
 const METADATA = ['name', 'description', 'sortOrder', 'createdAt', 'updatedAt'];
@@ -308,6 +310,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
   const passiveHitContributions: NonNullable<TriggeredEquipmentAssembly['passiveHitContributions']> = [];
   const basicAttackContributions: BasicAttackContribution[] = [];
   const basicAttackCooldownReductions: BasicAttackCooldownReduction[] = [];
+  const committedTotalRefunds: PendingCommittedTotalRefund[] = [];
   const cover = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const addFormula = (formula: NamedFormula, path: string) => {
     const existing = formulas.get(formula.key);
@@ -386,6 +389,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const activeEffects = new Set<string>();
         let rootEvent = '';
         let rootEventSource: SkillTriggerRuleDetail['eventSource'] | null = null;
+        let committedRefundPlan: CommittedTotalRefundPlan | null = null;
         const finiteCounter = finiteTargetCounterContract(snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey) ?? configuration);
         const ownExpiry = ownCounterShieldExpiry(configuration);
         let boundCounterParameter: string | undefined;
@@ -978,18 +982,29 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           } else if (result.resultType === 'COOLDOWN_CHANGE') {
             exact(result.detail, ['affectedSkillScope', 'operation'], `${resultPath}.detail`);
             exact(result.detail.affectedSkillScope, ['mode', 'skillKeys', 'skillCategoryKeys'], `${resultPath}.detail.affectedSkillScope`);
-            if (side !== 'source' || authored.lifecycle !== null || !isOwnCooldownReductionResult(result, skillKey)
-              || cooldownContext?.event !== 'BASIC_ATTACK_HIT' || cooldownContext.context !== 'target' || !result.valueRule) {
-              fail(resultPath, '剩余冷却减少仅接入真实普攻命中对自身本技能的即时结果');
+            if (result.detail.operation === 'REDUCE_TOTAL_RATIO') {
+              if (!committedRefundPlan || committedRefundPlan.authorPath !== resultPath || committedRefundPlan.dormantReason
+                || side !== 'source' || cooldownContext?.event !== 'DAMAGE_DEALT' || cooldownContext.context !== 'target' || !result.valueRule) {
+                fail(resultPath, '总冷却返还只接完整独立的自身结算伤害监听');
+              }
+              noteNumeric(result.valueRule.value);
+              operation = { operation: 'cooldown_change', target: 'self', valuePolicy: 'reduce_total_ratio', amount: constExpr(committedRefundPlan.ratio), ref: resultPath };
+              committedTotalRefunds.push({ ...committedRefundPlan, sourceSkillKey: skillKey, providerRef, definitionRef,
+                listenerAbilityRef: abilityRef, operation });
+            } else {
+              if (side !== 'source' || authored.lifecycle !== null || !isOwnCooldownReductionResult(result, skillKey)
+                || cooldownContext?.event !== 'BASIC_ATTACK_HIT' || cooldownContext.context !== 'target' || !result.valueRule) {
+                fail(resultPath, '剩余冷却减少仅接入真实普攻命中对自身本技能的即时结果');
+              }
+              if (!snapshot.selection.plannedSkills.some(plan => plan.skillKey === skillKey)) {
+                fail(resultPath, '混合规则的减冷却结果缺少本技能真实主动计划，不能静默丢弃');
+              }
+              noteNumeric(result.valueRule.value);
+              const milliseconds = staticEffectAmount(result.valueRule, `${resultPath}.valueRule`, numeric);
+              if (!Number.isSafeInteger(milliseconds) || milliseconds < 0) fail(resultPath, '剩余冷却减少必须为静态非负安全整数毫秒');
+              operation = { operation: 'cooldown_change', target: 'self', valuePolicy: 'reduce', amount: constExpr(milliseconds), ref: resultPath };
+              basicAttackCooldownReductions.push({ side, providerRef, definitionRef, skillKey, authorPath: resultPath, operation });
             }
-            if (!snapshot.selection.plannedSkills.some(plan => plan.skillKey === skillKey)) {
-              fail(resultPath, '混合规则的减冷却结果缺少本技能真实主动计划，不能静默丢弃');
-            }
-            noteNumeric(result.valueRule.value);
-            const milliseconds = staticEffectAmount(result.valueRule, `${resultPath}.valueRule`, numeric);
-            if (!Number.isSafeInteger(milliseconds) || milliseconds < 0) fail(resultPath, '剩余冷却减少必须为静态非负安全整数毫秒');
-            operation = { operation: 'cooldown_change', target: 'self', valuePolicy: 'reduce', amount: constExpr(milliseconds), ref: resultPath };
-            basicAttackCooldownReductions.push({ side, providerRef, definitionRef, skillKey, authorPath: resultPath, operation });
           } else if (result.resultType === 'HIT_LINK_APPLICATION' || result.resultType === 'ATTACK_LINK_APPLICATION') {
             exact(result.detail, [], `${resultPath}.detail`);
             if (result.target !== 'TARGET' || authored.lifecycle !== null || result.lifecycleBehavior !== null) fail(resultPath, '命中联动必须有完整即时对手次数');
@@ -1596,6 +1611,19 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           rootEvent = event;
           rootEventSource = rule.eventSource;
           const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
+          committedRefundPlan = compileCommittedTotalRefundRule(snapshot, configuration, rule, numeric, side, description.kind);
+          if (committedRefundPlan) {
+            for (const action of rule.actions) actionShape(action, `${rulePath}.actions.${action.actionKey}`, rule);
+            const authored = effect(committedRefundPlan.effectKey, rulePath);
+            for (const result of authored.results) resultShape(result, `${root}.effects.${authored.effectKey}.results.${result.resultKey}`);
+            if (committedRefundPlan.dormantReason) {
+              usedRules.add(rule.ruleKey); usedEffects.add(authored.effectKey); appliedEffects.add(authored.effectKey);
+              for (const result of authored.results) if (result.valueRule) noteNumeric(result.valueRule.value);
+              coverage.push({ authorPath: rulePath, compiledPath: 'runtimeOptions.skillOrigins',
+                note: `总冷却返还目标${committedRefundPlan.targetSkillKey}本场关闭、未学或未计划（${committedRefundPlan.dormantReason}），仅排除本退款监听；保留其它自疗闭包` });
+              continue;
+            }
+          }
           if (event === 'PROCESS_MOMENT' || event === 'LIFECYCLE_MOMENT') continue;
           if (ownExpiry && ownExpiry.ruleKey === rule.ruleKey) {
             const state = lookupState(ownExpiry.stateKey, skillKey, rulePath);
@@ -1834,5 +1862,6 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
     rules, operationOrigins, coverage, required, selectedSkills, changedAttributes: changed, compiledSources,
     ...(passiveHitContributions.length ? { passiveHitContributions } : {}),
     ...(basicAttackContributions.length ? { basicAttackContributions } : {}),
-    ...(basicAttackCooldownReductions.length ? { basicAttackCooldownReductions } : {}) };
+    ...(basicAttackCooldownReductions.length ? { basicAttackCooldownReductions } : {}),
+    ...(committedTotalRefunds.length ? { committedTotalRefunds } : {}) };
 }

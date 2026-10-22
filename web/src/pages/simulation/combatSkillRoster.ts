@@ -20,6 +20,23 @@ function hasSelfTargetCondition(rules: readonly SkillTriggerRuleDetail[]) {
   return rules.some(rule => rule.conditionGroups.some(group => group.conditions.some(condition => condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE')));
 }
 
+function hasImmediatePeriodicTarget(configuration: SkillConfiguration, process: SkillConfiguration['processes'][number] | undefined) {
+  if (!process) return false;
+  const targetEffects = configuration.effects.filter(effect => effect.results.some(result => result.target === 'TARGET'));
+  if (targetEffects.length !== 1) return false;
+  const effect = targetEffects[0]!, life = effect.lifecycle;
+  return process.effectBindings.some(binding => binding.effectKey === effect.effectKey
+    && binding.moment.momentType === 'PROCESS_START' && binding.moment.stepKey === null)
+    && life?.instanceScope === 'SOURCE_TARGET' && life.durationValue !== null && life.periodicIntervalValue !== null
+    && life.firstPeriodicExecution === 'IMMEDIATE' && life.expiryMode === 'ALL_AT_ONCE'
+    && life.reapplicationStackMode === 'KEEP' && life.reapplicationDurationMode === 'REFRESH_ALL'
+    && effect.results.every(result => result.resultType === 'DAMAGE' && result.target === 'TARGET'
+      && result.spellShieldBlockScope === null && result.detail.deliveryKind === 'SKILL' && result.detail.originKind === 'DIRECT'
+      && result.lifecycleBehavior?.moment === 'PERIODIC' && result.lifecycleBehavior.valueReadMode === 'MOMENT_EVALUATION'
+      && result.lifecycleBehavior.stackValueMode === null && result.lifecycleBehavior.reapplicationValueMode === null
+      && result.lifecycleBehavior.periodicExecutionMode === 'ONCE_PER_INSTANCE');
+}
+
 /** 只描述作者已经声明的入口及目标，不替代最终场景适配与原生准入。 */
 export function describeCombatSkill(configuration: SkillConfiguration, basicAttack: boolean): CombatSkill {
   if (basicAttack) return { kind: 'basic', configuration, targetSide: 'target', hitPreset: 'TARGET_HIT', issue: null };
@@ -57,6 +74,8 @@ export function describeCombatSkill(configuration: SkillConfiguration, basicAtta
         || ownHitRules.some(rule => rule.actions.some(action => action.targetContext !== 'CURRENT_TARGET'))) {
         issues.push('命中入口与自身目标或结果目标不明确，请在高级设置核对');
       }
+    } else if (hasImmediatePeriodicTarget(closure, process) && !hasSelfTargetCondition(initialRules)) {
+      description.targetSide = 'target'; description.hitPreset = null;
     } else if (results.some(result => result.target === 'TARGET')) {
       issues.push('存在目标结果但没有真实命中入口，请在高级设置核对');
     }

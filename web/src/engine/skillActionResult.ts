@@ -1,5 +1,6 @@
 import type { CompileRequest, DoneResult, RunRequest } from '../types/genericEngine';
 import { simulationAbility } from './simulationAdapter';
+import { finiteImmediatePeriodicDamageSource, finitePeriodicTargetsOpponent } from './finiteImmediatePeriodicContract';
 import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 import { assessContinuousAttackResult } from './continuousAttackResult';
 import { inspectTargetMarkResult } from './targetMarkResultContract';
@@ -48,6 +49,8 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
         throw new Error('skillActionBindings: 指令引用不属于真实编译来源');
       }
       const empowered = empoweredAttackBinding(compile, binding);
+      if (finitePeriodicTargetsOpponent(compile, binding)) check(instruction.target === 'target' && instruction.hitBindings.length === 0,
+        'skillActionBindings', '独立有限周期必须保留实际对手且不伪造命中预设');
       if (empowered) {
         requireEmpoweredBasicAttack(compile, request.driverPlan.basicAttack);
         check(instruction.action === 'INITIAL' && instruction.target === instruction.source && instruction.hitBindings.length === 0,
@@ -362,9 +365,14 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     }
     for (const row of damageRecords) {
       const ability = simulationAbility(compile, row.abilityRef);
-      check((request.driverPlan.basicAttack ? row.attackIndex === null || Number.isSafeInteger(row.attackIndex) && row.attackIndex >= 0 : row.attackIndex === null)
+      const finitePeriodic = !ability && finiteImmediatePeriodicDamageSource(compile, row, done.finalSnapshot.processInstances);
+      check((request.driverPlan.basicAttack ? row.attackIndex === null || Number.isSafeInteger(row.attackIndex) && row.attackIndex >= 0 : row.attackIndex === null || finitePeriodic)
         && (!!ability || !!row.providerDefinitionRef) && row.timeMs <= duration
         && row.abilityRef.startsWith(`${row.owner}.provider[`), 'damageRecords', '伤害刀号、拥有者或来源不合法');
+      if (!ability && compile.sharedProviders?.some(provider => provider.providerKey === row.providerDefinitionRef
+        && provider.abilities?.some(tick => tick.tickSpec?.startDelayMs === 0))) {
+        check(finitePeriodic, 'damageRecords', '立即区域跳伤缺少真实首次、原相位或到期前资格');
+      }
       if (row.instructionKey) check(contexts.has(row.instructionKey) && actions.acceptedCount > 0 && !!row.useRef
         && (done.recording.skillActionRecordsTruncated || accepted.get(row.instructionKey) === row.useRef), 'damageRecords.instructionKey', '伤害没有对应已接受使用');
       const hitBinding = compile.rules.skillActionBindings?.find(binding => binding.hitBindings.some(hit => hit.hitAbilityRef === row.abilityRef));
@@ -407,7 +415,7 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     if (!Array.isArray(breakdown)) throw new Error('summary.damageBreakdown: 缺少完整伤害分类');
     for (const row of breakdown) {
       check(['source', 'target'].includes(row.source) && ['source', 'target'].includes(row.target)
-        && !!simulationAbility(compile, row.abilityRef), 'summary.damageBreakdown', '伤害分类来源不合法');
+        && (!!simulationAbility(compile, row.abilityRef) || finiteImmediatePeriodicDamageSource(compile, row, done.finalSnapshot.processInstances)), 'summary.damageBreakdown', '伤害分类来源不合法');
       count(row.damageCount, 'summary.damageBreakdown.damageCount');
       for (const field of ['postDefenseDamage', 'shieldAbsorbed', 'actualHpLoss', 'overkillDamage'] as const) amount(row[field], `summary.damageBreakdown.${field}`);
       check(close(row.postDefenseDamage, row.shieldAbsorbed + row.actualHpLoss + row.overkillDamage), 'summary.damageBreakdown', '完整分类不守恒');

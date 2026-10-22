@@ -282,6 +282,11 @@ public final class SkillNumericSemantics {
                                 .equals(text(r.path("detail"), "operation"))) {
                             validateRemainingCooldownRatio(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
                         }
+                        if ("COOLDOWN_CHANGE".equals(text(r, "resultType"))
+                            && SkillEffectCooldownChangeOperation.REDUCE_TOTAL_RATIO.name()
+                                .equals(text(r.path("detail"), "operation"))) {
+                            validateTotalCooldownRatio(a, valueUse, r.path("valueRule"), null, path + ".valueRule.value");
+                        }
                         if (isHealingRatioMaxDecrease(r)) {
                             validateHealingRatioMaxDecrease(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
                         }
@@ -1312,6 +1317,14 @@ public final class SkillNumericSemantics {
                         result.path("valueRule"), modifier,
                         "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]");
                 }
+                if (result != null && "COOLDOWN_CHANGE".equals(text(result, "resultType"))
+                    && SkillEffectCooldownChangeOperation.REDUCE_TOTAL_RATIO.name()
+                        .equals(text(result.path("detail"), "operation"))) {
+                    validateTotalCooldownRatio(rule,
+                        findUse(effect, "results[" + resultIndex + "].valueRule.value"),
+                        result.path("valueRule"), modifier,
+                        "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]");
+                }
                 if (result != null
                     && "LIFECYCLE_OPERATION".equals(text(result, "resultType"))
                     && "EXTEND_DURATION".equals(text(result.path("detail"), "operation"))) {
@@ -1473,6 +1486,25 @@ public final class SkillNumericSemantics {
                 if (modifier != null) effective = applyFixedRule(effective, modifier);
                 if (effective.compareTo(Fraction.of(BigDecimal.ZERO)) < 0 || effective.compareTo(Fraction.of(BigDecimal.ONE)) > 0) {
                     throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "按比例减少剩余冷却的有效比例必须在0到1之间");
+                }
+            }
+        }
+
+        private void validateTotalCooldownRatio(
+            Aggregate source, Use value, JsonNode rule, JsonNode modifier, String path
+        ) {
+            if (value == null) throw invalid(source, path, "REQUIRED", "总冷却返还必须提供静态比例");
+            Map<Levels, Fraction> values;
+            try { values = staticConditionValues(value); }
+            catch (ApiException ex) {
+                throw invalid(source, path, "STATIC_COOLDOWN_RATIO_REQUIRED", "总冷却返还比例必须在全部等级静态求值");
+            }
+            for (Fraction raw : values.values()) {
+                Fraction effective = applyFixedRule(raw, rule);
+                if (modifier != null) effective = applyFixedRule(effective, modifier);
+                if (!finite(effective) || effective.compareTo(Fraction.of(BigDecimal.ZERO)) < 0
+                    || effective.compareTo(Fraction.of(BigDecimal.ONE)) > 0) {
+                    throw invalid(source, path, "VALUE_RANGE_INVALID", "总冷却返还的全部等级有效比例必须有限且位于0到1之间");
                 }
             }
         }

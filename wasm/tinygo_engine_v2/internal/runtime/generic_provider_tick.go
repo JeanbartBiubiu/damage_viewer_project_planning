@@ -42,7 +42,9 @@ func (s *genericRunState) providerTickSchedule(defIdx uint16) (intervalMs, start
 		return 0, 0, false
 	}
 	if startDelayMs <= 0 {
-		startDelayMs = intervalMs
+		if !hasTick || tickAbility.TickSpec == nil || !tickAbility.TickSpec.ImmediateFirst {
+			startDelayMs = intervalMs
+		}
 	}
 	return intervalMs, startDelayMs, true
 }
@@ -126,6 +128,13 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 				targetKey = s.basicAttack.plan.Target
 			}
 		}
+	}
+	if tickAbility.TickSpec.ImmediateFirst {
+		use, exists := s.skillUses[inst.ActivationUseRef]
+		if !exists || use.plannedProcess == nil || use.plannedProcess.Owner != inst.Source || use.plannedProcess.Target != opponentCombatantKey(inst.Source) {
+			return s.processErr("provider.tick", "immediate period has no actual accepted source and opponent", inst.ProviderRef)
+		}
+		sourceKey, targetKey = use.plannedProcess.Owner, use.plannedProcess.Target
 	}
 	abilityRef := fmt.Sprintf("%s.provider[%s].ability[%s]", ref.CombatantKey, ref.ProviderRef, tickAbility.AbilityKey)
 	// 周期只提供新的真实尝试；CD内跳过的周期不缓存，也不在CD到期补放。

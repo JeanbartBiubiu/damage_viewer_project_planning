@@ -26,6 +26,8 @@ type CompiledTargetTiming struct {
 	Phased       bool
 }
 type CompiledSession struct {
+	HasImmediatePeriodic      bool
+	HasTotalCooldownRefund    bool
 	HasTargetTiming           bool
 	HasDamageStateBefore      bool
 	DamageStateReaders        []CompiledDamageStateReader
@@ -257,6 +259,7 @@ type CompiledAbilityCooldown struct {
 // CompiledTickSpec 是 compile 后的 tick ability 行为。
 // AnchorScope/AnchorStateKey 非空表示 target-state-anchored 模式（StartDelayMs 保持 0，不默认成 interval）。
 type CompiledTickSpec struct {
+	ImmediateFirst bool
 	PhasePolicy    string
 	IntervalMs     int64
 	StartDelayMs   int64
@@ -300,6 +303,8 @@ type CompiledAbility struct {
 
 // CompiledOperation 是 compile 后的 operation 定义。
 type CompiledOperation struct {
+	TotalCooldownTarget          *CompiledCooldownDurationTarget
+	TotalCooldownRatio           float64
 	TargetMark                   *CompiledTargetMark
 	TargetMarkWriterRef          string
 	ColdResourceMax              bool

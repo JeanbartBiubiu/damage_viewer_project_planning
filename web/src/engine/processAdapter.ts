@@ -21,6 +21,7 @@ import { compileTimedDamageReduction } from './timedDamageReductionAdapter';
 import { adaptEmpoweredProcessPayload, type AuthoredHitProgram, type AdaptedHitProgram } from './hitAdapter';
 import { staticEffectValue } from './staticEffectValue';
 import { finiteRecastShape, recastProofLevels } from './finiteRecast';
+import { compileFiniteImmediatePeriodic, type FinitePeriodicCompilation } from './finiteImmediatePeriodic';
 import type {
   SkillProcess, SkillProcessFailureReason, SkillProcessMoment, SkillProcessStep
 } from '../types/skillProcess';
@@ -113,6 +114,7 @@ export type AdaptedProcessProgram = {
     initialStateSchema?: ProviderDefinition['initialStateSchema'];
   };
   providers: ProviderDefinition[];
+  finitePeriodic?: FinitePeriodicCompilation[];
   typeEntries: CompileRequest['typeCatalog']['types'];
   params: Record<string, number>;
   formulas: NamedFormula[];
@@ -528,9 +530,17 @@ function compileEffectResults(
   state: NumericCompileState,
   initialAbilityKey: string,
   skip: ReadonlySet<string>,
-  context: { authored: AuthoredProcessProgram; providers: Map<string, ProviderDefinition> }
+  context: { authored: AuthoredProcessProgram; providers: Map<string, ProviderDefinition>; finitePeriodic: FinitePeriodicCompilation[] }
 ): OperationDefinition[] {
   const path = planPath(effect.skillKey, `effects.${effect.effectKey}`);
+  if (effect.lifecycle?.firstPeriodicExecution === 'IMMEDIATE') {
+    if (skip.size || moment.momentType !== 'PROCESS_START' || moment.stepKey !== null || moment.failureReason !== null) fail(path, '有限立即周期只能在真实PROCESS_START完整应用');
+    const compiled = compileFiniteImmediatePeriodic(effect, state, context.authored);
+    const previous = context.providers.get(compiled.provider.providerKey);
+    if (previous && !sameJson(previous, compiled.provider)) fail(path, '有限周期定义冲突');
+    if (!previous) { context.providers.set(compiled.provider.providerKey, compiled.provider); context.finitePeriodic.push(compiled); }
+    return [compiled.operation];
+  }
   if (effect.lifecycle?.endWhenShieldEndsResultKey != null) {
     if (skip.size) fail(path, '关联盾不能复用为施放成本');
     const compiled = compileLinkedShieldEffect(effect, state, context.authored.modifierZones, context.authored.providerDefinitionRef);
@@ -918,7 +928,8 @@ function momentOperationsFor(
   controls: ControlPlan,
   state: NumericCompileState,
   statePlan: ReturnType<typeof compileProcessStates>,
-  providers: Map<string, ProviderDefinition>
+  providers: Map<string, ProviderDefinition>,
+  finitePeriodic: FinitePeriodicCompilation[]
 ): ProcessDefinition['momentOperations'] {
   const groups: ProcessDefinition['momentOperations'] = [];
   const add = (moment: ProcessMomentDefinition, operations: OperationDefinition[]) => {
@@ -958,7 +969,7 @@ function momentOperationsFor(
     const effect = lookupEffect(authored, binding.effectKey, `${path}.effectKey`);
     if (moment.momentType === 'STEP_EXECUTION' && process.steps.some(step => step.stepType === 'EMPOWERED_BASIC_ATTACK' && step.stepKey === moment.stepKey)) continue;
     add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey,
-      costs.skipByBinding.get(`${binding.bindingKey}\0${effect.effectKey}`) ?? new Set(), { authored, providers }));
+      costs.skipByBinding.get(`${binding.bindingKey}\0${effect.effectKey}`) ?? new Set(), { authored, providers, finitePeriodic }));
   }
   for (const rule of controls.momentRules) {
     const path = planPath(authored.skillKey, `rules.${rule.ruleKey}`);
@@ -997,7 +1008,7 @@ function momentOperationsFor(
       state.runtimeInputReads = Object.keys(reads).length ? reads : undefined;
       state.formulaNamespace = `${previousNamespace}/rules/${rule.ruleKey}/actions/${action.actionKey}`;
       try {
-        add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey, new Set(), { authored, providers }));
+        add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey, new Set(), { authored, providers, finitePeriodic }));
       } finally {
         state.runtimeInputReads = previous;
         state.formulaNamespace = previousNamespace;
@@ -1074,6 +1085,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   const statePlan = compileProcessStates(authored.internalStates ?? [], state, planPath(skillKey, 'internalStates'), authored.stateInitialValues,
     { ...state, runtimeInputReads: counterReads });
   const providers = new Map<string, ProviderDefinition>();
+  const finitePeriodic: FinitePeriodicCompilation[] = [];
   const steps = compileSteps(process, state);
   let empoweredPayload: AdaptedProcessProgram['empoweredPayload'];
   if (steps.some(step => step.stepType === 'EMPOWERED_BASIC_ATTACK')) {
@@ -1138,7 +1150,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     if (seenAbilities.has(control.abilityKey)) fail(planPath(skillKey, `abilities.${control.abilityKey}`), '控制能力标识重复');
     seenAbilities.add(control.abilityKey);
   }
-  const momentOperations = momentOperationsFor(authored, process, costs, controls, state, statePlan, providers);
+  const momentOperations = momentOperationsFor(authored, process, costs, controls, state, statePlan, providers, finitePeriodic);
   const firstEffects = controls.firstEffectRules.map((rule): AbilityDefinition => {
     const abilityKey = `listen_${rule.ruleKey}`;
     if (seenAbilities.has(abilityKey)) fail(planPath(skillKey, `rules.${rule.ruleKey}.ruleKey`), '监听能力与控制能力标识重复');
@@ -1165,7 +1177,8 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
       processes: [{ processKey: process.processKey, skillKey, steps, costs: costs.costs, cooldown, momentOperations }],
       ...(Object.keys(statePlan.schema).length ? { initialStateSchema: statePlan.schema } : {})
     },
-    providers: [...providers.values()], typeEntries: [
+    providers: [...providers.values()], ...(finitePeriodic.length ? { finitePeriodic } : {}), typeEntries: [
+      ...finitePeriodic.flatMap(row => row.typeEntries),
       ...[...statePlan.scopes].map(key => ({ key, domain: 'state_scope' })),
       ...[...new Set([...providers.values()].flatMap(provider => (provider.modifiers ?? [])
         .flatMap(modifier => modifier.condition?.op === 'read' && modifier.condition.path?.startsWith('damage.type.')

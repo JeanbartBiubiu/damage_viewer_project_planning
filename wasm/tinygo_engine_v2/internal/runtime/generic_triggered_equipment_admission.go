@@ -63,6 +63,9 @@ func (s *genericRunState) validateEquipmentHitListener(listener planbundle.Compi
 		if operation.Operation == "cooldown_change" && s.isOwnedAttackCooldownReduction(listener, operation) {
 			continue
 		}
+		if operation.Operation == "cooldown_change" && s.isOwnedTotalCooldownRefund(listener, operation) {
+			continue
+		}
 		if operation.Operation == "provider_duration_change" && s.isOwnedProviderDurationListener(listener, operation) {
 			continue
 		}

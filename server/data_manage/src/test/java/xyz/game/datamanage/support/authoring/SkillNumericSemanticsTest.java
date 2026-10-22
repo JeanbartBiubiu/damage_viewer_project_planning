@@ -382,6 +382,67 @@ class SkillNumericSemanticsTest {
             List.of(formula("input"), effect), List.of(runtime("input", "DECIMAL"))));
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"0", "0.05", "1"})
+    void totalCooldownRatioAcceptsInclusiveStaticBoundaries(String value) {
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(totalRatioEffect(fixed(value), "1", null, null)), List.of()));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"-0.01", "1.01", "5", "1e308"})
+    void totalCooldownRatioRejectsOutOfRangeValues(String value) {
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(totalRatioEffect(fixed(value), "1", null, null)), List.of());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"SKILL_LEVEL", "CHARACTER_LEVEL"})
+    void totalCooldownRatioChecksEveryLevelAndEffectiveMultiplier(String mode) {
+        Aggregate effect = totalRatioEffect(parameterValue("ratio"), "2", null, null);
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(List.of(effect),
+            List.of(level("ratio", "DECIMAL", mode, "{\"1\":0,\"2\":0.05,\"3\":0.5}"))));
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value", List.of(effect),
+            List.of(level("ratio", "DECIMAL", mode, "{\"1\":0,\"2\":0.05,\"3\":0.51}")));
+    }
+
+    @Test
+    void totalCooldownRatioRequiresStaticFormulaAndRejectsRuntimeEvenWithClamps() {
+        Aggregate effect = totalRatioEffect(formulaValue(), "1", null, null);
+        Aggregate staticFormula = new Aggregate(SourceType.FORMULA, SKILL, "formula",
+            new com.fasterxml.jackson.databind.ObjectMapper().createObjectNode().set("expression",
+                xyz.game.datamanage.support.formula.SkillFormulaFixtures.parameter(SKILL, "input")));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(List.of(staticFormula, effect),
+            List.of(fixedParameter("input", "DECIMAL", "0.05"))));
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value", List.of(staticFormula, effect),
+            List.of(fixedParameter("input", "DECIMAL", "1.1")));
+        assertIssue("STATIC_COOLDOWN_RATIO_REQUIRED", "results[0].valueRule.value",
+            List.of(totalRatioEffect(parameterValue("input"), "0", "0", "1")), List.of(runtime("input", "DECIMAL")));
+        assertIssue("STATIC_COOLDOWN_RATIO_REQUIRED", "results[0].valueRule.value", List.of(staticFormula, effect),
+            List.of(runtime("input", "DECIMAL")));
+        assertIssue("STATIC_COOLDOWN_RATIO_REQUIRED", "results[0].valueRule.value", List.of(formula("input"), effect),
+            List.of(fixedParameter("input", "DECIMAL", "0.05")));
+    }
+
+    @Test
+    void totalCooldownRatioValidatesActionModifiersAfterResultBounds() {
+        Aggregate effect = totalRatioEffect(fixed("0.6"), "1", null, null);
+        assertIssue("VALUE_RANGE_INVALID", "actions[0].resultModifiers[0]",
+            List.of(effect, ratioModifierRule("2", null, null)), List.of());
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(effect, ratioModifierRule("2", null, "1")), List.of()));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(totalRatioEffect(fixed("5"), "0.01", null, null)), List.of()));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(totalRatioEffect(fixed("2"), "1", null, "1")), List.of()));
+    }
+
+    private static Aggregate totalRatioEffect(String value, String multiplier, String minimum, String maximum) {
+        Aggregate effect = ratioEffect(value, multiplier, minimum, maximum);
+        ((ObjectNode) effect.data().path("results").get(0).path("detail")).put("operation", "REDUCE_TOTAL_RATIO");
+        return effect;
+    }
+
     @Test
     void healingRatioMaxAcceptsFortyPercentAfterMultiplierAndBounds() {
         Map<String, String> zones = Map.of("foo", "RATIO_MAX");

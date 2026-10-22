@@ -644,10 +644,10 @@ describe('连续可靠结果解释', () => {
     row.attackIndex = 1; row.useRef = 'use_1';
     expect(assess(input).complete).toBe(false);
   });
-  it.each([0, undefined])('周期首延迟%s沿编译默认第一间隔，不视为立即执行', async startDelayMs => {
+  it('未提供周期首延迟沿编译默认第一间隔，不视为立即执行', async () => {
     const input = await sample();
     const periodic = mechanism(input, 'source', 'default_tick_delay', 'tick');
-    periodic.ability.tickSpec!.startDelayMs = startDelayMs;
+    delete periodic.ability.tickSpec!.startDelayMs;
     const row = periodic.record(0, 1000);
     input.done.damageRecords!.push(row);
     refreshFacts(input);
@@ -655,6 +655,12 @@ describe('连续可靠结果解释', () => {
     row.timeMs = 0;
     refreshFacts(input);
     expect(assess(input).issues.join(';')).toContain('编译后的正首间隔');
+  });
+  it('非完整有限区域的显式0不取得立即首跳准入', async () => {
+    const input = await sample(), periodic = mechanism(input, 'source', 'unbound_zero_delay', 'tick');
+    periodic.ability.tickSpec!.startDelayMs = 0;
+    input.done.damageRecords!.push(periodic.record(0, 1000)); refreshFacts(input);
+    expect(assess(input).complete).toBe(false);
   });
   it('周期拒绝负首延迟和偏离静态周期的可靠记录', async () => {
     const input = await sample();

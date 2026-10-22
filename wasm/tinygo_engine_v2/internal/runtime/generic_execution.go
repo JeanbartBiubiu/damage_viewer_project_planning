@@ -913,6 +913,9 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 		}
 		return f.applyAttributeChange(targetKey, op.AttributeKey, op.ValuePolicy, amount, ability)
 	case "cooldown_change":
+		if op.ValuePolicy == "reduce_total_ratio" {
+			return f.applyTotalCooldownRatioRefund(*op, ability)
+		}
 		cooldownKey := f.abilityRef
 		if op.HasAbilityRef && op.AbilityRefStr != "" {
 			cooldownKey = normalizeAbilityRef(op.AbilityRefStr, f.sourceKey, f.targetKey)
@@ -987,6 +990,9 @@ func (f *executionFrame) executeOperation(ability planbundle.CompiledAbility, op
 	case "apply_provider":
 		if op.ProviderDefinitionRef == "" {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "apply_provider requires providerDefinitionRef", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
+		if err := f.validateImmediatePeriodicApplication(*op); err != nil {
+			return err
 		}
 		prepared, err := f.prepareProviderMutation(op.ProviderDefinitionRef, "", f.sourceKey, targetKey, ability)
 		if err != nil {
@@ -2194,6 +2200,9 @@ func (f *executionFrame) commit() {
 					f.fatal = true
 					f.fatalErr = err
 					return
+				}
+				if f.run.compiled.HasImmediatePeriodic {
+					f.run.bindImmediatePeriodicUse(mut.targetKey, mut.sourceKey, mut.definitionRef, mut.useRef)
 				}
 			case "refresh":
 				if err := f.run.refreshProviderInstance(mut.targetKey, mut.providerRef, mut.expireAt, mut.hasExpireAt, mut.contributions); err != nil {

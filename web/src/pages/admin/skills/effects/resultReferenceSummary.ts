@@ -287,7 +287,7 @@ export function buildResultReferenceSummary(
       if (result.cooldownOperation === 'RESET') {
         return { target, segments: [operation, NO_VALUE_TEXT], scope: scopeFor(result, catalogs) };
       }
-      const unit = result.cooldownOperation === 'REDUCE_REMAINING_RATIO'
+      const unit = (result.cooldownOperation === 'REDUCE_REMAINING_RATIO' || result.cooldownOperation === 'REDUCE_TOTAL_RATIO')
         ? RATIO_UNIT
         : (result.cooldownOperation === 'REDUCE'
           || result.cooldownOperation === 'INCREASE'

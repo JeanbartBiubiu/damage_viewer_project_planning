@@ -1,6 +1,7 @@
 import type { AutomaticSkillCounts, AutomaticSkillWaitingReason, BudgetCause, CompileRequest, DoneResult,
   ProcessInstanceSnapshot, ProcessStepDefinition, RunRequest } from '../types/genericEngine';
 import { simulationAbility } from './simulationAdapter';
+import { finiteImmediatePeriodicDamageSource, finitePeriodicTargetsOpponent } from './finiteImmediatePeriodicContract';
 import type { OperationOrigin } from './simulationAdapter';
 import { validateAutomaticSkillRelations } from './automaticSkillRequest';
 import { inspectContinuousAttackSeries } from './continuousAttackSeries';
@@ -115,7 +116,7 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       }
       check((empowered ? rule.hitBindings.length === 0 : rule.hitBindings.length === binding.hitBindings.length && binding.hitBindings.every(hit => rule.hitBindings.filter(input => input.hitBindingKey === hit.hitBindingKey).length === 1))
         && rule.hitBindings.every(hit => ['TARGET_HIT', 'MISS'].includes(hit.preset))
-        && rule.target === (!empowered && binding.hitBindings.length ? 'target' : 'source'), `automaticSkills.rules.${rule.ruleKey}.hitBindings`, '命中绑定或实际目标与作者不一致');
+        && rule.target === (!empowered && binding.hitBindings.length || finitePeriodicTargetsOpponent(compile, binding) ? 'target' : 'source'), `automaticSkills.rules.${rule.ruleKey}.hitBindings`, '命中绑定或实际目标与作者不一致');
       return [rule.ruleKey, { rule, binding, control, process }] as const;
     }));
     check(new Set(rules.map(rule => rule.bindingKey)).size === rules.length, 'automaticSkills.rules', '绑定不得重复');
@@ -345,7 +346,8 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
     const breakdown = array(summary.damageBreakdown, 'summary.damageBreakdown');
     for (const row of breakdown) {
       check(['source', 'target'].includes(row.owner) && ['source', 'target'].includes(row.source) && ['source', 'target'].includes(row.target)
-        && !!simulationAbility(compile, row.abilityRef) && row.abilityRef.startsWith(`${row.owner}.provider[`), 'summary.damageBreakdown', '分类来源必须属于真实编译挂载');
+        && (!!simulationAbility(compile, row.abilityRef) || finiteImmediatePeriodicDamageSource(compile, row, done.finalSnapshot.processInstances))
+        && row.abilityRef.startsWith(`${row.owner}.provider[`), 'summary.damageBreakdown', '分类来源必须属于真实编译挂载或有限区域的实际首次来源');
       number(row.damageCount, 'summary.damageBreakdown.damageCount');
       for (const field of ['postDefenseDamage', 'shieldAbsorbed', 'actualHpLoss', 'overkillDamage'] as const) number(row[field], `summary.damageBreakdown.${field}`, false);
       check(close(row.postDefenseDamage, row.shieldAbsorbed + row.actualHpLoss + row.overkillDamage), 'summary.damageBreakdown', '完整分类分解不守恒');
@@ -373,7 +375,8 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       const executionHits = new Map<string, string>();
       for (const row of damages) {
         const ability = simulationAbility(compile, row.abilityRef);
-        check(!!ability && row.abilityRef.startsWith(`${row.owner}.provider[`) && row.timeMs >= 0 && row.timeMs <= duration, 'damageRecords', '伤害拥有者、引用或时刻不一致');
+        check((!!ability || finiteImmediatePeriodicDamageSource(compile, row, done.finalSnapshot.processInstances))
+          && row.abilityRef.startsWith(`${row.owner}.provider[`) && row.timeMs >= 0 && row.timeMs <= duration, 'damageRecords', '伤害拥有者、引用或时刻不一致');
         let operation: unknown = compile;
         for (const piece of row.operationPath.replace(/\[(\d+)\]/g, '.$1').split('.')) operation = operation && typeof operation === 'object' ? (operation as Row)[piece] : undefined;
         const actual = operation as { operation?: string; ref?: string; damageType?: string } | undefined;

@@ -7,6 +7,7 @@ import type { SkillConfiguration } from '../../types/skillConfiguration';
 import type { SimulationSkillSetting } from '../../types/simulationSnapshot';
 import { simulationActiveSample } from '../../../tests/fixtures/simulationActiveSkill';
 import { simulationSample } from '../../../tests/fixtures/simulationSnapshot';
+import { finiteImmediatePeriodicSample } from '../../../tests/fixtures/finiteImmediatePeriodic';
 import { approveSnapshotFixture } from '../../../tests/fixtures/nativeFormulaProof';
 import { fixedValue } from '../../types/numericValue';
 import { describeCombatSkill, reconcileCombatRules } from './combatSkillRoster';
@@ -60,6 +61,33 @@ describe('混合战斗真实绑定技能描述', () => {
     complex.processes[0]!.steps[1] = { ...complex.processes[0]!.steps[1]!, stepType: 'MULTI_HIT',
       detail: { repeatCountValue: { kind: 'FIXED', value: 2 }, intervalValue: { kind: 'FIXED', value: 10 } } };
     expect(describeCombatSkill(complex, false)).toMatchObject({ kind: 'active', issue: expect.stringContaining('复杂过程') });
+  });
+
+  it('有限立即周期区域使用真实对手和空命中预设，自动草稿保留这一目标', async () => {
+    const { snapshot, spell } = finiteImmediatePeriodicSample();
+    const description = describeCombatSkill(spell,false);
+    expect(description).toMatchObject({kind:'active',targetSide:'target',hitPreset:null,issue:null});
+    const basic = snapshot.skillConfigurations.find(row => row.skill.skillKey === snapshot.selection.basicAttackSkillKey)!;
+    const options = snapshot.skillConfigurations.filter(configuration => snapshot.source.attachedSkills.some(relation => relation.skillKey === configuration.skill.skillKey))
+      .map(configuration => option(configuration,configuration.skill.skillKey === basic.skill.skillKey));
+    const reconciled = reconcileCombatRules(options,snapshot.selection.sourceCharacterKey,[],snapshot.selection.sourceSkillSettings,{});
+    expect(reconciled.enabledRules).toHaveLength(snapshot.selection.plannedSkills.length);
+    expect(reconciled.enabledRules.find(rule => rule.skillKey === spell.skill.skillKey)).toMatchObject({targetSide:'target',hitPreset:null});
+    const prepared = await prepareSimulation(snapshot,{source:{},target:{}},{source:500,target:1000});
+    const request = await automaticSkillRequest(prepared,snapshot,{durationMs:1000,recordTimeSeries:true,attackSpeedInputMax:10,
+      rules:reconciled.enabledRules,outputMode:'detailed',maxAutomaticSkillRecords:1000,maxHealingRecords:1000},'ROSTER_PREPARE_ONLY');
+    const areaRule = reconciled.enabledRules.find(rule => rule.skillKey === spell.skill.skillKey)!;
+    expect(request.runRequest.driverPlan.automaticSkills?.rules.find(rule => rule.ruleKey === areaRule.ruleKey)).toMatchObject({target:'target',hitBindings:[]});
+  });
+
+  it.each(['late_start','self_target','non_periodic'] as const)('不把%s的不完整目标效果冒充区域入口', kind => {
+    const { spell } = finiteImmediatePeriodicSample();
+    const area = spell.effects.find(effect => effect.lifecycle?.firstPeriodicExecution === 'IMMEDIATE')!;
+    if (kind === 'late_start') area.lifecycle!.firstPeriodicExecution = 'AFTER_INTERVAL';
+    if (kind === 'non_periodic') area.results[0]!.lifecycleBehavior!.moment = 'APPLICATION';
+    if (kind === 'self_target') spell.triggerRules.find(rule => rule.eventSource.eventType === 'SKILL_USED')!.conditionGroups.push({
+      groupKey:'self',name:'自身目标',sortOrder:0,conditions:[{conditionKey:'self',conditionType:'EXPLICIT_TARGET_IS_SOURCE',detail:{},sortOrder:0}]});
+    expect(describeCombatSkill(spell,false).issue).toContain('没有真实命中入口');
   });
 
   it('缺失或歧义首次过程、缺占用声明及目标矛盾只给问题，不改写配置或冒充可执行', () => {

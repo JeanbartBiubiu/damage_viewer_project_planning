@@ -1,0 +1,1591 @@
+{
+  "schemaVersion": "mechanism-case-v1",
+  "caseKey": "committed_total_refund_miss",
+  "title": "Wmiss不偷启、P其它真实技能闭包保留",
+  "mechanisms": [
+    "damage.finite_immediate_periodic",
+    "cooldown.committed_total_ratio",
+    "restoration.settled_event_damage_self_heal"
+  ],
+  "derivation": [
+    "固定纯合成作者图，JSON为不变真源，不使用真实英雄配置，不读DONE修改期望。",
+    "W没有实际主动计划，辅助技能真实MISS没有伤害事实/P/退款；仅250后台AA10。",
+    "完整有限SOURCE_TARGET单层、PROCESS_START自施区域、每跳唯一对手；普通mana费用不扣，AP100/AD10/AS0.1与全部防御/吸血零值在输入明确。"
+  ],
+  "catalog": "mechanism_finite_refund",
+  "snapshot": {
+    "selection": {
+      "sourceCharacterKey": "actor_a",
+      "sourceLevel": 1,
+      "targetCharacterKey": "actor_b",
+      "targetLevel": 1,
+      "basicAttackSkillKey": "sample_basic_attack",
+      "basicAttackLevel": 1,
+      "plannedSkills": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "actor_a"
+          },
+          "skillKey": "auxiliary_spell_damage",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        }
+      ],
+      "sourceEquipmentKeys": [],
+      "targetEquipmentKeys": [],
+      "sourceBuildConfigurations": [],
+      "targetBuildConfigurations": [],
+      "sourceSkillSettings": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "actor_a"
+          },
+          "skillKey": "authored_spell_damage",
+          "enabled": true,
+          "skillLevel": 1
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "actor_a"
+          },
+          "skillKey": "authored_settled_restore",
+          "skillLevel": 1,
+          "enabled": true
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "actor_a"
+          },
+          "skillKey": "auxiliary_spell_damage",
+          "enabled": true,
+          "skillLevel": 1
+        }
+      ],
+      "targetSkillSettings": []
+    },
+    "source": {
+      "character": {
+        "gameId": "mechanism_finite_refund",
+        "characterKey": "actor_a",
+        "name": "样例A",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "actor_a",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 10,
+            "attack_speed": 0.1,
+            "armor": 38,
+            "bonus_attack_speed_percent": 0.2,
+            "ability_power": 100,
+            "ability_haste": 0,
+            "armor_pen_flat": 0,
+            "armor_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "life_steal_percent": 0,
+            "omnivamp_percent": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 10,
+        "attack_speed": 0.1,
+        "armor": 38,
+        "bonus_attack_speed_percent": 0.2,
+        "ability_power": 100,
+        "ability_haste": 0,
+        "armor_pen_flat": 0,
+        "armor_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "life_steal_percent": 0,
+        "omnivamp_percent": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_finite_refund",
+          "characterKey": "actor_a",
+          "characterName": "样例A",
+          "skillKey": "sample_basic_attack",
+          "skillName": "样例普攻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "gameId": "mechanism_finite_refund",
+          "characterKey": "actor_a",
+          "characterName": "样例A",
+          "skillKey": "authored_spell_damage",
+          "skillName": "合成真实主动伤害来源",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "gameId": "mechanism_finite_refund",
+          "characterKey": "actor_a",
+          "characterName": "样例A",
+          "skillKey": "authored_settled_restore",
+          "skillName": "本笔金额自身恢复合成来源",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        },
+        {
+          "gameId": "mechanism_finite_refund",
+          "characterKey": "actor_a",
+          "characterName": "样例A",
+          "skillKey": "auxiliary_spell_damage",
+          "skillName": "合成真实主动伤害来源",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "actor_a"
+          },
+          "skillKey": "sample_basic_attack",
+          "skillName": "样例普攻",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "begin_attack",
+            "hit_attack"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "actor_a"
+          },
+          "skillKey": "authored_spell_damage",
+          "skillName": "合成真实主动伤害来源",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [],
+          "inactiveReason": "ACTIVE_DEFERRED"
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "actor_a"
+          },
+          "skillKey": "authored_settled_restore",
+          "skillName": "本笔金额自身恢复合成来源",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "on_settled_damage",
+            "on_settled_refund"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "actor_a"
+          },
+          "skillKey": "auxiliary_spell_damage",
+          "skillName": "合成真实主动伤害来源",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "hit",
+            "initial"
+          ],
+          "inactiveReason": null
+        }
+      ]
+    },
+    "target": {
+      "character": {
+        "gameId": "mechanism_finite_refund",
+        "characterKey": "actor_b",
+        "name": "样例B",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "actor_b",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 53,
+            "attack_speed": 0.668,
+            "armor": 0,
+            "bonus_attack_speed_percent": 0.2,
+            "magic_resistance": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 53,
+        "attack_speed": 0.668,
+        "armor": 0,
+        "bonus_attack_speed_percent": 0.2,
+        "magic_resistance": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_finite_refund",
+          "characterKey": "actor_b",
+          "characterName": "样例B",
+          "skillKey": "sample_basic_attack",
+          "skillName": "样例普攻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "actor_b"
+          },
+          "skillKey": "sample_basic_attack",
+          "skillName": "样例普攻",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": null,
+          "enabledRuleKeys": [],
+          "inactiveReason": "NO_AUTONOMOUS_ATTACK"
+        }
+      ]
+    },
+    "skillConfigurations": [
+      {
+        "skill": {
+          "gameId": "mechanism_finite_refund",
+          "skillKey": "sample_basic_attack",
+          "name": "样例普攻",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "basic_attack"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "sample_basic_attack",
+            "parameterKey": "base_multiplier",
+            "name": "基础倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "sample_basic_attack",
+            "parameterKey": "milliseconds",
+            "name": "毫秒",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "formulas": [
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "sample_basic_attack",
+            "formulaKey": "raw",
+            "name": "原始伤害",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "input_0",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_damage",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "用例输出",
+                  "expression": {
+                    "op": "read",
+                    "inputKey": "input_0"
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "sample_basic_attack",
+            "formulaKey": "interval",
+            "name": "间隔",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "input_0",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "sample_basic_attack",
+                    "parameterKey": "milliseconds"
+                  }
+                },
+                {
+                  "key": "input_1",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_speed",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "用例输出",
+                  "expression": {
+                    "op": "div",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "input_0"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "input_1"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "sample_basic_attack",
+            "formulaKey": "multiplier",
+            "name": "暴击倍率",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "input_0",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "sample_basic_attack",
+                    "parameterKey": "base_multiplier"
+                  }
+                },
+                {
+                  "key": "input_1",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "critical_strike_damage_bonus_percent",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "用例输出",
+                  "expression": {
+                    "op": "add",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "input_0"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "input_1"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 2,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "effects": [
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "sample_basic_attack",
+            "effectKey": "start",
+            "name": "发起效果",
+            "description": null,
+            "sortOrder": 0,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "attack_link",
+                "name": "攻击联动",
+                "resultType": "ATTACK_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "sample_basic_attack",
+            "effectKey": "hit",
+            "name": "命中效果",
+            "description": null,
+            "sortOrder": 1,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "raw"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "SOURCE_CRIT_CHANCE",
+                    "multiplierValue": {
+                      "kind": "FORMULA",
+                      "formulaKey": "multiplier"
+                    }
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              },
+              {
+                "resultKey": "hit_link",
+                "name": "命中联动",
+                "resultType": "HIT_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 20,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "sample_basic_attack",
+            "processKey": "attack",
+            "name": "发起记录",
+            "activationType": "ACTIVE",
+            "description": null,
+            "sortOrder": 0,
+            "steps": [
+              {
+                "stepKey": "begin",
+                "name": "发起记录非命中",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FORMULA",
+                "formulaKey": "interval"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [
+              {
+                "bindingKey": "start_link",
+                "effectKey": "start",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                },
+                "sortOrder": 0
+              }
+            ],
+            "stateOperations": [],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "begin_attack",
+            "name": "开始",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_START",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_process",
+                "name": "启动过程",
+                "sortOrder": 0,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "attack"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "hit_attack",
+            "name": "命中",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_HIT",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "hit_effect",
+                "name": "命中效果",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "independent_sample"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_finite_refund",
+          "skillKey": "authored_spell_damage",
+          "description": null,
+          "sortOrder": 0,
+          "createdAt": "",
+          "updatedAt": "",
+          "name": "合成真实主动伤害来源",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "skillCategoryKeys": [
+            "common"
+          ]
+        },
+        "parameters": [],
+        "formulas": [
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "authored_spell_damage",
+            "formulaKey": "current_periodic_damage",
+            "name": "当前属性逐笔伤害",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "ap",
+                  "binding": {
+                    "kind": "attribute",
+                    "view": "current_frame",
+                    "object": "source",
+                    "valueKind": "TOTAL",
+                    "attributeKey": "ability_power"
+                  }
+                },
+                {
+                  "key": "hp",
+                  "binding": {
+                    "kind": "attribute",
+                    "view": "current_frame",
+                    "object": "target",
+                    "valueKind": "CURRENT",
+                    "attributeKey": "hp"
+                  }
+                },
+                {
+                  "key": "maximum",
+                  "binding": {
+                    "kind": "attribute",
+                    "view": "current_frame",
+                    "object": "target",
+                    "valueKind": "MAX",
+                    "attributeKey": "hp"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "每跳当前法强与目标缺血",
+                  "expression": {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "div",
+                        "args": [
+                          {
+                            "op": "add",
+                            "args": [
+                              {
+                                "op": "const",
+                                "value": "18"
+                              },
+                              {
+                                "op": "mul",
+                                "args": [
+                                  {
+                                    "op": "const",
+                                    "value": "0.2"
+                                  },
+                                  {
+                                    "op": "read",
+                                    "inputKey": "ap"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "op": "const",
+                            "value": "2"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "sub",
+                        "args": [
+                          {
+                            "op": "const",
+                            "value": "2"
+                          },
+                          {
+                            "op": "div",
+                            "args": [
+                              {
+                                "op": "read",
+                                "inputKey": "hp"
+                              },
+                              {
+                                "op": "read",
+                                "inputKey": "maximum"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            }
+          },
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "authored_spell_damage",
+            "formulaKey": "effective_cooldown",
+            "name": "当前急速普通冷却",
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": "",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "haste",
+                  "binding": {
+                    "kind": "attribute",
+                    "view": "current_frame",
+                    "object": "source",
+                    "valueKind": "TOTAL",
+                    "attributeKey": "ability_haste"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "真实过程开始读取急速",
+                  "expression": {
+                    "op": "div",
+                    "args": [
+                      {
+                        "op": "const",
+                        "value": "1200000"
+                      },
+                      {
+                        "op": "add",
+                        "args": [
+                          {
+                            "op": "const",
+                            "value": "100"
+                          },
+                          {
+                            "op": "read",
+                            "inputKey": "haste"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            }
+          }
+        ],
+        "internalStates": [],
+        "baseDigest": "synthetic_spell_source",
+        "effects": [
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "authored_spell_damage",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "effectKey": "finite_area",
+            "name": "有限纯周期区域",
+            "lifecycle": {
+              "instanceScope": "SOURCE_TARGET",
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 5000
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": {
+                "kind": "FIXED",
+                "value": 500
+              },
+              "firstPeriodicExecution": "IMMEDIATE",
+              "endWhenShieldEndsResultKey": null
+            },
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "独立已核定伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERIODIC",
+                  "valueReadMode": "MOMENT_EVALUATION",
+                  "stackValueMode": null,
+                  "reapplicationValueMode": null,
+                  "periodicExecutionMode": "ONCE_PER_INSTANCE"
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "current_periodic_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "authored_spell_damage",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "processKey": "cast",
+            "name": "合成250毫秒真实施放",
+            "activationType": "ACTIVE",
+            "cooldown": {
+              "durationValue": {
+                "kind": "FORMULA",
+                "formulaKey": "effective_cooldown"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [
+              {
+                "bindingKey": "apply_area",
+                "effectKey": "finite_area",
+                "sortOrder": 0,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                }
+              }
+            ],
+            "stateOperations": [],
+            "steps": [
+              {
+                "stepKey": "cast_time",
+                "name": "真实延迟",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "FIXED",
+                    "value": 250
+                  }
+                },
+                "occupiesAction": true
+              }
+            ]
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "initial",
+            "name": "首次施放",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "authored_spell_damage",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null,
+            "actions": [
+              {
+                "actionKey": "start",
+                "name": "启动真实过程",
+                "actionType": "START_PROCESS",
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": [],
+                "sortOrder": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_finite_refund",
+          "skillKey": "authored_settled_restore",
+          "name": "本笔金额自身恢复合成来源",
+          "description": null,
+          "status": "ENABLED",
+          "maxLevel": 1,
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "sortOrder": 0,
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "authored_settled_restore",
+            "parameterKey": "heal_percent_points",
+            "name": "独立明确伤害参数",
+            "description": null,
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 18,
+            "levelValues": null,
+            "sortOrder": 10,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "authored_settled_restore",
+            "parameterKey": "settled_amount",
+            "name": "本次动作真实金额",
+            "description": null,
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "sortOrder": 20,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "formulas": [
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "authored_settled_restore",
+            "formulaKey": "heal_amount",
+            "name": "本笔金额乘原百分数",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "amount",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "authored_settled_restore",
+                    "parameterKey": "settled_amount"
+                  }
+                },
+                {
+                  "key": "ratio",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "authored_settled_restore",
+                    "parameterKey": "heal_percent_points"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "百分比自身治疗",
+                  "expression": {
+                    "op": "div",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "op": "read",
+                            "inputKey": "amount"
+                          },
+                          {
+                            "op": "read",
+                            "inputKey": "ratio"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "const",
+                        "value": "100"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            }
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "effects": [
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "authored_settled_restore",
+            "effectKey": "heal_self",
+            "name": "独立即时附伤效果",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycle": null,
+            "createdAt": "",
+            "updatedAt": "",
+            "results": [
+              {
+                "resultKey": "heal",
+                "name": "独立已核定伤害",
+                "resultType": "DIRECT_HEAL",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "heal_amount"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {}
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "authored_settled_restore",
+            "effectKey": "refund_committed_total",
+            "name": "独立即时附伤效果",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycle": null,
+            "createdAt": "",
+            "updatedAt": "",
+            "results": [
+              {
+                "resultKey": "refund",
+                "name": "独立已核定伤害",
+                "resultType": "COOLDOWN_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 0.05
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "operation": "REDUCE_TOTAL_RATIO",
+                  "affectedSkillScope": {
+                    "mode": "SKILLS",
+                    "skillKeys": [
+                      "authored_spell_damage"
+                    ],
+                    "skillCategoryKeys": []
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "on_settled_damage",
+            "name": "独立拥有方命中监听",
+            "description": null,
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "DAMAGE_DEALT",
+              "detail": {
+                "sourceSkillKey": null,
+                "damageTypeKey": null,
+                "deliveryKind": "SKILL",
+                "originKind": "ANY"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "champion",
+                "name": "真实唯一英雄对手",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "champion",
+                    "conditionType": "TARGET_CATEGORY_CHECK",
+                    "detail": {
+                      "categories": [
+                        "CHAMPION"
+                      ]
+                    },
+                    "sortOrder": 0
+                  },
+                  {
+                    "conditionKey": "positive",
+                    "conditionType": "EVENT_VALUE_COMPARE",
+                    "sortOrder": 1,
+                    "detail": {
+                      "eventValueKey": "POST_DEFENSE_DAMAGE",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null,
+            "actions": [
+              {
+                "actionKey": "restore_self",
+                "name": "立即执行附伤",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "heal_self"
+                },
+                "runtimeInputBindings": [
+                  {
+                    "bindingKey": "read_settled_amount",
+                    "parameterKey": "settled_amount",
+                    "sourceType": "EVENT_VALUE",
+                    "detail": {
+                      "eventValueKey": "POST_DEFENSE_DAMAGE"
+                    }
+                  }
+                ],
+                "resultModifiers": []
+              }
+            ]
+          },
+          {
+            "ruleKey": "on_settled_refund",
+            "name": "独立拥有方命中监听",
+            "description": null,
+            "sortOrder": 20,
+            "eventSource": {
+              "eventType": "DAMAGE_DEALT",
+              "detail": {
+                "sourceSkillKey": null,
+                "damageTypeKey": null,
+                "deliveryKind": "SKILL",
+                "originKind": "ANY"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "champion",
+                "name": "真实唯一英雄对手",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "champion",
+                    "conditionType": "TARGET_CATEGORY_CHECK",
+                    "detail": {
+                      "categories": [
+                        "CHAMPION"
+                      ]
+                    },
+                    "sortOrder": 0
+                  },
+                  {
+                    "conditionKey": "positive",
+                    "conditionType": "EVENT_VALUE_COMPARE",
+                    "sortOrder": 1,
+                    "detail": {
+                      "eventValueKey": "POST_DEFENSE_DAMAGE",
+                      "comparator": "GT",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null,
+            "actions": [
+              {
+                "actionKey": "restore_self",
+                "name": "立即执行附伤",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "refund_committed_total"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ]
+          }
+        ],
+        "baseDigest": "independent_triggered_equipment_sample"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_finite_refund",
+          "skillKey": "auxiliary_spell_damage",
+          "description": null,
+          "sortOrder": 0,
+          "createdAt": "",
+          "updatedAt": "",
+          "name": "合成真实主动伤害来源",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "skillCategoryKeys": [
+            "common"
+          ]
+        },
+        "parameters": [],
+        "formulas": [],
+        "internalStates": [],
+        "baseDigest": "synthetic_spell_source",
+        "effects": [
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "auxiliary_spell_damage",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "effectKey": "hit",
+            "name": "真实接触伤害",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "独立已核定伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 200
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_finite_refund",
+            "skillKey": "auxiliary_spell_damage",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "processKey": "cast",
+            "name": "合成250毫秒真实施放",
+            "activationType": "ACTIVE",
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 10000
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [],
+            "stateOperations": [],
+            "steps": [
+              {
+                "stepKey": "cast_time",
+                "name": "真实延迟",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "FIXED",
+                    "value": 250
+                  }
+                },
+                "occupiesAction": true
+              }
+            ]
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "initial",
+            "name": "首次施放",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "auxiliary_spell_damage",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null,
+            "actions": [
+              {
+                "actionKey": "start",
+                "name": "启动真实过程",
+                "actionType": "START_PROCESS",
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": [],
+                "sortOrder": 0
+              }
+            ]
+          },
+          {
+            "ruleKey": "hit",
+            "name": "真实命中",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "auxiliary_spell_damage"
+              }
+            },
+            "conditionGroups": [],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null,
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "执行伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": [],
+                "sortOrder": 0
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "references": []
+  },
+  "scenario": {
+    "mode": "skill_action",
+    "durationMs": 1001,
+    "initialHealth": {
+      "source": 500,
+      "target": 1000
+    },
+    "attackSpeedInputMax": 0.1,
+    "actions": [
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "actor_a"
+        },
+        "skillKey": "auxiliary_spell_damage",
+        "skillLevel": 1,
+        "instructionKey": "auxiliary",
+        "atMs": 0,
+        "sortOrder": 1,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "MISS"
+      }
+    ]
+  },
+  "expected": {
+    "summary": {
+      "stopReason": "duration_reached",
+      "sourceFinalHp": 500,
+      "targetFinalHp": 990,
+      "sourceDamageDealt": 10,
+      "targetHpLoss": 10,
+      "sourceDirectHealing": 0,
+      "sourceVampHealing": 0,
+      "targetKilledAtMs": null,
+      "basicAttackStarted": 1,
+      "basicAttackHits": 1
+    },
+    "healing": [],
+    "attackStarts": [
+      250
+    ],
+    "skillStarts": [
+      {
+        "timeMs": 0,
+        "skillKey": "auxiliary_spell_damage"
+      }
+    ],
+    "finalCooldowns": [
+      {
+        "owner": "source",
+        "abilityRef": "source.provider[selected_basic_attack].ability[process_attack]",
+        "readyAtMs": 10250,
+        "remainingMs": 9249
+      },
+      {
+        "owner": "source",
+        "abilityRef": "source.provider[source_natural_skill_2].ability[start]",
+        "readyAtMs": 10000,
+        "remainingMs": 8999
+      }
+    ]
+  }
+}

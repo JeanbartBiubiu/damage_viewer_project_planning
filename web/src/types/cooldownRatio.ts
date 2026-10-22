@@ -1,5 +1,9 @@
 import type { SkillEffectValueRule } from './skillEffect';
 
+export function isCooldownRatioOperation(operation: string): boolean {
+  return operation === 'REDUCE_REMAINING_RATIO' || operation === 'REDUCE_TOTAL_RATIO';
+}
+
 /** 只核对可静态取得的数值；遵守结果固定倍率、最小值、最大值的顺序。 */
 export function isValidCooldownReductionRatio(value: number, rule: SkillEffectValueRule): boolean {
   if (!Number.isFinite(value) || !Number.isFinite(rule.fixedMultiplier) || rule.fixedMultiplier < 0) return false;

@@ -219,6 +219,11 @@ func RunGeneric(compiled planbundle.CompiledSession, req model.RunRequest) (mode
 }
 
 func newGenericRunState(compiled planbundle.CompiledSession, req model.RunRequest) (*genericRunState, *model.EngineError) {
+	if compiled.HasImmediatePeriodic || compiled.HasTotalCooldownRefund {
+		if err := validateImmediatePeriodicRefundFreshSnapshot(compiled, req); err != nil {
+			return nil, err
+		}
+	}
 	// TinyGo在函数入口为错误闭包捕获的参数分配；特性门须放在调用点。
 	if compiled.HasReceivedShieldReads {
 		if err := validateReceivedShieldInitialSnapshot(compiled, req); err != nil {

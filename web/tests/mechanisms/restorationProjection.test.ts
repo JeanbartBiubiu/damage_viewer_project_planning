@@ -6,6 +6,9 @@ import type { OperationOrigin } from '../../src/engine/simulationAdapter';
 import { compareMechanismExpectation } from './mechanismRunner';
 import { MECHANISM_ROOT, parseMechanismCase, type MechanismProjection, type ProjectedRestoration } from './mechanismCase';
 import { projectRestorations } from './restorationProjection';
+import { finiteImmediatePeriodicSample } from '../fixtures/finiteImmediatePeriodic';
+import { syncSimulationSkillSources } from '../fixtures/simulationSkillSources';
+import { prepareSimulation } from '../../src/engine/simulationAdapter';
 
 const providerRef = 'source_restorer', definitionRef = 'source_restorer_definition';
 const abilityRef = `source.provider[${providerRef}].ability[on_kill]`;
@@ -33,6 +36,82 @@ function fixture(kind: 'heal' | 'resource_restore' = 'resource_restore') {
     effectiveAmount: resource ? 12 : 30, currentBefore: resource ? 1 : 200, currentAfter: resource ? 13 : 230, actualDelta: resource ? 12 : 30, overflow: 0 };
   return { compile, origin, request, done, data, expected, project: () => projectRestorations([origin], compile, request, done) };
 }
+
+async function finitePeriodFixture() {
+  const { snapshot, spell, configuration } = finiteImmediatePeriodicSample();
+  snapshot.selection.plannedSkills = snapshot.selection.plannedSkills.filter(row => row.skillKey === spell.skill.skillKey); syncSimulationSkillSources(snapshot);
+  const prepared = await prepareSimulation(snapshot, { source: {}, target: {} }, { source: 500, target: 1000 }), compile = prepared.compileRequest;
+  const parent = compile.sharedProviders!.find(row => row.skillKey === configuration.skill.skillKey && row.kind === 'character')!;
+  const listener = parent.abilities!.find(row => row.listenerSpec?.operations?.[0]?.operation === 'heal')!;
+  const origin = prepared.operationOrigins.find(row => row.skillKey === configuration.skill.skillKey && row.resultKey === 'heal')!;
+  const mount = compile.combatants.find(row => row.key === 'source')!.providers.find(row => row.definitionRef === parent.providerKey)!;
+  const area = compile.sharedProviders!.find(row => row.abilities?.[0]?.tickSpec?.startDelayMs === 0)!, tick = area.abilities![0]!, tickOperation = tick.tickSpec!.onTick[0]!;
+  const binding = compile.rules.skillActionBindings![0]!, areaAbility = `source.provider[${area.providerKey}#1].ability[${tick.abilityKey}]`;
+  const data: Record<string, unknown> = { owner: 'source', source: 'source', target: 'source', providerRef: mount.providerRef, providerDefinitionRef: parent.providerKey,
+    abilityRef: origin.abilityRef, operationRef: origin.operationRef, operationPath: origin.compiledPaths[0], useRef: null, category: 'DIRECT',
+    healingBeforeModifiers: 3.42, healingAfterDone: 3.42, healingAfterModifiers: 3.42, actualHealing: 3.42, overheal: 0, hpBefore: 500, hpAfter: 503.42, modifiers: [] };
+  const damage = { damageId: 1, castInstanceId: 2, owner: 'source', source: 'source', target: 'target', abilityRef: areaAbility, providerDefinitionRef: area.providerKey,
+    providerActivatedAtMs: 0, operationRef: tickOperation.ref, operationPath: `sharedProviders[${compile.sharedProviders!.indexOf(area)}].abilities[0].tickSpec.onTick[0]`,
+    attackIndex: null, useRef: '', timeMs: 0, damageType: 'magic', rawAmount: 19, postDefenseDamage: 19, shieldAbsorbed: 0, actualHpLoss: 19,
+    overkillDamage: 0, hpBefore: 1000, hpAfter: 981, sourceHpBefore: 500, sourceHpAfter: 500 };
+  const damageData: Record<string, unknown> = { damageId: 1, castInstanceId: 2, abilityRef: areaAbility, operationRef: tickOperation.ref, source: 'source', target: 'target' };
+  const vampData: Record<string, unknown> = { ...damageData, damageTarget: 'target', target: 'source', actualHealing: 0 };
+  const healing = { timeMs: 0, source: 'source', target: 'source', abilityRef: origin.abilityRef, operationRef: origin.operationRef, useRef: null, instructionKey: null,
+    rawAmount: 3.42, healingAfterDone: 3.42, healingAfterModifiers: 3.42, actualHealing: 3.42, overheal: 0, hpBefore: 500, hpAfter: 503.42 };
+  const done = { finalSnapshot: { timeMs: 100, processInstances: [{ owner: 'source', target: 'target', providerRef: binding.providerRef, processKey: binding.controls[0]!.processKey,
+    skillKey: binding.skillKey, useKey: 'skill:area', startedAtMs: 0, stepVersion: 1 }] }, damageRecords: [damage], healingRecords: [healing],
+    recording: { damageRecordsTruncated: false, healingRecordsTruncated: false }, evidence: { truncated: false, items: [
+      { timeMs: 0, kind: 'damage', ref: areaAbility, data: damageData }, { timeMs: 0, kind: 'vamp', ref: tickOperation.ref, data: vampData },
+      { timeMs: 0, kind: 'heal', ref: origin.abilityRef, data } ] } } as unknown as DoneResult;
+  const request = { skillUses: [] } as unknown as RunRequest;
+  return { compile, listener, damage: done.damageRecords![0]!, damageData, vampData, healing: done.healingRecords![0]!, data, done,
+    project: () => projectRestorations(prepared.operationOrigins, compile, request, done) };
+}
+
+describe('有限首跳区域的本笔自身治疗空使用身份', () => {
+  it('完整实际图、唯一伤害和damage→vamp→heal顺序可接受，不造use或可选触发字段', async () => {
+    const item = await finitePeriodFixture();
+    expect(item.project()).toMatchObject([{ useRef: null, requestedAmount: 3.42, currentBefore: 500, currentAfter: 503.42 }]);
+    Object.assign(item.data, { triggerDamageId: 1, triggerDamageSource: 'source', triggerDamageTarget: 'target' });
+    expect(item.project()).toHaveLength(1);
+    item.damage.healthOrder = 1; item.healing.healthOrder = 2; expect(item.project()).toHaveLength(1);
+  });
+  it.each(['owner', 'source', 'target', 'damage_target', 'damage_path', 'operation_path', 'no_initial', 'wrong_initial', 'ambiguous_damage',
+    'duplicate_healing', 'duplicate_evidence', 'wrong_cast', 'vamp_order', 'vamp_identity', 'hp_before_vamp', 'health_order', 'missing_health_order',
+    'wrong_optional_id', 'wrong_optional_source', 'wrong_optional_target', 'wrong_skill', 'wrong_damage_type', 'wrong_delivery', 'wrong_origin', 'wrong_any', 'matching_none',
+    'not_settled_amount', 'temporary_listener'] as const)('拒绝有限区域治疗因果缺口：%s', async kind => {
+    const item = await finitePeriodFixture(), spec = item.listener.listenerSpec!;
+    if (kind === 'owner') item.data.owner = 'target';
+    if (kind === 'source') item.data.source = 'target';
+    if (kind === 'target') item.data.target = 'target';
+    if (kind === 'damage_target') item.damage.target = 'source';
+    if (kind === 'damage_path') item.damage.operationPath = 'sharedProviders[0].abilities[0].operations[0]';
+    if (kind === 'operation_path') item.data.operationPath = 'sharedProviders[0].abilities[0].operations[0]';
+    if (kind === 'no_initial') item.done.finalSnapshot.processInstances = [];
+    if (kind === 'wrong_initial') item.done.finalSnapshot.processInstances![0]!.providerRef = 'foreign';
+    if (kind === 'ambiguous_damage') item.done.damageRecords!.push({ ...item.damage, damageId: 2, castInstanceId: 3 });
+    if (kind === 'duplicate_healing') item.done.healingRecords!.push(structuredClone(item.healing));
+    if (kind === 'duplicate_evidence') item.done.evidence.items.push(structuredClone(item.done.evidence.items[2]!));
+    if (kind === 'wrong_cast') item.damageData.castInstanceId = 3;
+    if (kind === 'vamp_order') [item.done.evidence.items[1], item.done.evidence.items[2]] = [item.done.evidence.items[2]!, item.done.evidence.items[1]!];
+    if (kind === 'vamp_identity') item.vampData.damageId = 9;
+    if (kind === 'hp_before_vamp') { item.data.hpBefore = 499; item.healing.hpBefore = 499; }
+    if (kind === 'health_order') { item.damage.healthOrder = 2; item.healing.healthOrder = 1; }
+    if (kind === 'missing_health_order') item.healing.healthOrder = 2;
+    if (kind === 'wrong_optional_id') item.data.triggerDamageId = 2;
+    if (kind === 'wrong_optional_source') item.data.triggerDamageSource = 'target';
+    if (kind === 'wrong_optional_target') item.data.triggerDamageTarget = 'source';
+    if (kind === 'wrong_skill') spec.eventMatcher.all!.push('ability/skill/auxiliary_spell_damage');
+    if (kind === 'wrong_damage_type') spec.eventMatcher.all!.push('physics');
+    if (kind === 'wrong_delivery') spec.eventMatcher.all!.push('damage_trait/delivery_basic_attack');
+    if (kind === 'wrong_origin') spec.eventMatcher.all!.push('damage_trait/origin_reflected');
+    if (kind === 'wrong_any') spec.eventMatcher.any = ['ability/skill/auxiliary_spell_damage'];
+    if (kind === 'matching_none') spec.eventMatcher.none = ['ability/skill/authored_spell_damage'];
+    if (kind === 'not_settled_amount') spec.operations![0]!.amount = { op: 'const', value: 3.42 };
+    if (kind === 'temporary_listener') item.compile.sharedProviders!.find(row => row.skillKey === 'authored_settled_restore')!.lifecycle = { durationMs: { op: 'const', value: 1000 } };
+    expect(item.project).toThrow(/restorations/);
+  });
+});
 
 describe('普通恢复完整事实投影', () => {
   it.each(['heal', 'resource_restore'] as const)('%s保留所有原始身份与手算金额，0不是缺值', kind => {

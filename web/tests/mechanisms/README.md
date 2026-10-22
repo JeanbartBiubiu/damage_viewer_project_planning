@@ -46,7 +46,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 
 ## 已覆盖的数值机制
 
-目前150个固定用例、152类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
+目前209个固定用例、190类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
 
 | 范围 | 固定用例入口 |
 | --- | --- |
@@ -56,6 +56,8 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 | 本笔逐盾吸收、首次自身损盾等待、等待中不重置、扣血重置、外盾与同刻到期 | `defense_linked_shield_*` |
 | 期限内削减双抗、整体削甲、属性时间衰减、剩余比例组合、损失生命求伤 | `damage_*` |
 | 有限周期与到期、刷新保持原周期节奏 | `periodic_*` |
+| 真实首次过程施加有限纯周期、零延迟首跳、刷新保留相位、当前属性读取 | `finite_immediate_*` |
+| 按实际提交总冷却比例返还、急速取整、满血与全盾、同使用多笔、关闭与未计划隔离 | `committed_total_refund_*` |
 | 逐枚弹药、第三发、未命中扣弹与普攻缩短回充 | `ammo_*` |
 | 有限引导、完成冷却、动作占用、后继资格与等待冷却 | `channel_*`、`schedule_successor_cooldown_wait` |
 | 强化附伤、下一刀主体替换、附伤共存、计时重置、开始计数快照、逐结果暴击 | `empowered_*` |

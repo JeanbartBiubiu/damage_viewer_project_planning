@@ -461,6 +461,7 @@ func (s *genericRunState) applyProcessMoment(p *processRuntime, f *executionFram
 		if err := f.applyCooldownChange(p.Owner, p.abilityRef, ready); err != nil {
 			return err
 		}
+		f.stageFor(p.Owner).writableCooldowns().commitOrdinary(genericAbilityCooldownIdentity(p.Owner, p.abilityRef), ready, s.nowMs)
 		if err := f.stageInitialBasicAttackWait(p, ready); err != nil {
 			return err
 		}

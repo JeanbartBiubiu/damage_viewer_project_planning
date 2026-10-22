@@ -6,6 +6,7 @@ import { rememberApprovedFormulaValues, selectFormulaProofScope, matchesFormulaP
 import { calculationConfiguration, gameDerivationFormula } from './simulationCalculationRules';
 import { shieldAttributeProofLevels } from './shieldAttributeDependency';
 import { recastProofLevels } from './finiteRecast';
+import { committedRefundProofLevels } from './committedTotalCooldownRefund';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
   type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
@@ -30,6 +31,17 @@ export function skillFormulaPreflightRequest(snapshot: SimulationSnapshot, scene
       bindParameters: false, allowAttributeReads: true, runtimeInputMessage: '预检不运行技能或供给计算时输入',
       sceneParameterValues: sceneInitialValuesForSource(requirements, normalized, side, source) });
     for (const formula of config.formulas) formulas.push(registerCommonFormula(formula, 'formulas.' + formula.formulaKey, state));
+    for (const effect of config.effects) for (const result of effect.results) {
+      if (result.resultType !== 'COOLDOWN_CHANGE' || result.detail.operation !== 'REDUCE_TOTAL_RATIO' || result.valueRule?.value.kind !== 'FORMULA') continue;
+      const key = result.valueRule.value.formulaKey;
+      const actual = config.formulas.find(row => row.formulaKey === key);
+      if (!actual) throw new Error('总冷却返还缺少完整静态公式');
+      for (const levels of committedRefundProofLevels(config, result.valueRule.value, source.skillLevel, snapshot.selection[`${side}Level`], snapshot[side].attributes)) {
+        const variant = createNumericCompileState({ ...state, ...levels, formulaNamespace: `preflight/${side}/${sourceIndex}/${source.skillKey}/refund-check` });
+        const named = registerCommonFormula(actual, 'formulas.' + key, variant);
+        if (!formulas.some(row => row.key === named.key)) formulas.push(named);
+      }
+    }
     for (const process of config.processes) for (const step of process.steps) if (step.stepType === 'RECAST') {
       for (const value of [step.detail.windowValue, step.detail.maximumRecastCountValue, step.detail.intervalValue]) {
         if (value?.kind !== 'FORMULA') continue;

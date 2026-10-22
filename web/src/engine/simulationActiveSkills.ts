@@ -355,6 +355,28 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
       processKey: process.processKey, abilityRef: `source.provider[${providerRef}].ability[${control.abilityKey}]` })), hitBindings: [] };
   const defenses = new Map<string, ReturnType<typeof compileSimulationDamageFormula>>();
   let vampRules: ReturnType<typeof adaptHitProgram>['vampRules'];
+  for (const periodic of adapted.finitePeriodic ?? []) {
+    const dynamic = periodic.provider, tick = dynamic.abilities![0]!;
+    if (vampRules && JSON.stringify(vampRules) !== JSON.stringify(periodic.vampRules)) fail(root, '有限周期与其它技能必须共享真实吸血规则');
+    vampRules = periodic.vampRules;
+    for (const type of periodic.typeEntries) types.set(type.key, type.domain);
+    const effect = configuration.effects.find(row => row.effectKey === periodic.effectKey)!;
+    const tickRoot = `sharedProviders[${dynamic.providerKey}].abilities[0].tickSpec`;
+    coverage.push({ authorPath: `${root}.effects.${effect.effectKey}.lifecycle`, compiledPath: `sharedProviders[${dynamic.providerKey}].lifecycle` },
+      { authorPath: `${root}.effects.${effect.effectKey}.lifecycle.firstPeriodicExecution`, compiledPath: `${tickRoot}.startDelayMs`, note: '明确序列化0，只有有限完整纯周期实例首次提交才立即跳；刷新保留原节拍' },
+      { authorPath: `${root}.effects.${effect.effectKey}.lifecycle.periodicIntervalValue`, compiledPath: `${tickRoot}.intervalMs` });
+    for (const [index, operation] of tick.tickSpec!.onTick.entries()) {
+      const result = effect.results.find(row => operation.ref === `${root}.effects.${effect.effectKey}.results.${row.resultKey}`);
+      if (!result || result.resultType !== 'DAMAGE' || operation.operation !== 'damage') fail(root, '有限周期必须保留每笔实际作者伤害结果');
+      const compiledPath = `${tickRoot}.onTick[${index}]`, authorPath = operation.ref!;
+      coverage.push({ authorPath, compiledPath }, { authorPath: `${authorPath}.valueRule`, compiledPath: `${compiledPath}.amount` });
+      operationOrigins.push({ abilityRef: `source.provider[${dynamic.providerKey}].ability[${tick.abilityKey}]`,
+        operationRef: authorPath, skillKey: plan.skillKey, effectKey: effect.effectKey, resultKey: result.resultKey,
+        compiledPaths: [compiledPath], providerDefinitionRef: dynamic.providerKey });
+      const defense = compileSimulationDamageFormula(snapshot, result.detail.damageTypeKey);
+      defenses.set(operation.damageType!, defense);
+    }
+  }
   if (adapted.empoweredPayload && hitRules.length) fail(`${root}.triggerRules`, '强化待击结果只来自真实步骤效果挂接，不能再以技能命中监听重复执行');
   const hitStages = processSkillHitStages(plan.skillKey, process, hitRules);
   if (adapted.empoweredPayload) hitStages.push({ rules: [], abilityKey: 'selected_skill_hit', hitBindingKey: 'selected_skill_release_hit',

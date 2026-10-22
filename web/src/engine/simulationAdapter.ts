@@ -24,6 +24,7 @@ import { assembleEquipment, equipmentContribution, type EquipmentOrigin } from '
 import { validateEquipmentAssumptions } from './simulationEquipmentRange';
 import { assembleTriggeredEquipment, compileSimulationDamageFormula, validateConfiguration } from './simulationTriggeredEquipment';
 import { bindBasicAttackCooldownReductions } from './basicAttackCooldownReduction';
+import { bindCommittedTotalRefunds } from './committedTotalCooldownRefund';
 import { assembleNaturalSkillSources, type SimulationSkillOriginTrace } from './simulationNaturalSkillSources';
 import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive, primaryMechanicRequirements, validateMechanicStateInputs } from './simulationPrimaryAttack';
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
@@ -36,7 +37,7 @@ import { initialResourceRequirements, normalizeInitialResourceInputs } from './i
 import { permanentHealthIncreases } from './permanentHealthInitialization';
 import { assembleTargetMarkSource } from './targetMarkAdapter';
 
-export const SIMULATION_ADAPTER_VERSION = 'v41-settled-damage-self-heal';
+export const SIMULATION_ADAPTER_VERSION = 'v42-finite-immediate-total-refund';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v5';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -666,6 +667,8 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
     ...base.triggered.providers, ...base.natural.providers, ...active.providers];
   const actualMounts = [...(base.provider ? [{ side: 'source' as const, providerRef: MOUNT, definitionRef: base.provider.providerKey }] : []),
     ...base.equipment.origins, ...base.triggered.mounts, ...base.natural.mounts];
+  bindCommittedTotalRefunds([...(base.triggered.committedTotalRefunds ?? []), ...(base.natural.triggered.committedTotalRefunds ?? [])],
+    active.bindings, actualProviders, actualMounts);
   for (const descriptor of base.natural.targetMarkSources) {
     const assembly = assembleTargetMarkSource({ snapshot, ...descriptor, providers: actualProviders, mounts: actualMounts,
       skillActionBindings: active.bindings, basicAttackBinding: base.basicAttackBinding });

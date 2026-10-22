@@ -2,6 +2,7 @@ import type { RunRequest, SkillActionPlan } from '../types/genericEngine';
 import type { SimulationPlannedSkill, SimulationSkillPhase, SimulationSnapshot } from '../types/simulationSnapshot';
 import type { assembleSimulation } from './simulationAdapter';
 import { simulationAbility } from './simulationAdapter';
+import { finitePeriodicTargetsOpponent } from './finiteImmediatePeriodicContract';
 import { simulationHash } from './simulationHash';
 import { empoweredAttackBinding, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
@@ -71,8 +72,9 @@ export async function skillActionRequest(prepared: ReturnType<typeof assembleSim
     if (input.phaseKind === 'INITIAL' && !empowered && binding.hitBindings.length && (!['TARGET_HIT', 'MISS'].includes(input.hitPreset ?? '') || input.targetSide !== 'target')) {
       throw new Error(`${path}.hitPreset: 伤害释放仅允许唯一目标B且必须明确命中或未命中`);
     }
-    if (input.phaseKind === 'INITIAL' && (empowered || !binding.hitBindings.length) && (input.hitPreset !== null || input.targetSide !== 'source')) {
-      throw new Error(`${path}.hitPreset: 自身治疗不造命中，只允许自身目标`);
+    const periodic = finitePeriodicTargetsOpponent(compile, binding);
+    if (input.phaseKind === 'INITIAL' && (empowered || !binding.hitBindings.length) && (input.hitPreset !== null || input.targetSide !== (periodic ? 'target' : 'source'))) {
+      throw new Error(`${path}.hitPreset: 无命中步骤（自身治疗或独立区域）须按完整作者绑定选择自身或对手，并保持空命中预设`);
     }
     return { instructionKey: input.instructionKey, firstAtMs: input.atMs, sortOrder: input.sortOrder, source: 'source', target: input.targetSide,
       skillKey: binding.skillKey, bindingKey: binding.bindingKey, action: input.phaseKind, abilityRef: control.abilityRef, parentInstructionKey: input.parentInstructionKey,

@@ -1,7 +1,7 @@
 import { assertNumericUses } from './numericValue';
 import { momentSlowLifecycleIssue } from './momentSlowLifecycle';
 import { isNumericValue } from '../types/numericValue';
-import { isValidCooldownReductionRatio } from '../types/cooldownRatio';
+import { isCooldownRatioOperation, isValidCooldownReductionRatio } from '../types/cooldownRatio';
 import { isValidCooldownRemainingDuration } from '../types/cooldownRemaining';
 import { isValidCooldownDurationValueRule } from '../types/cooldownDuration';
 import { isValidLifecycleExtensionDuration } from '../types/lifecycleExtension';
@@ -301,14 +301,14 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     if (!('affectedSkillScope' in detail)) protocolError(`${path}.detail.affectedSkillScope`);
     if ('affectedSkillKeys' in detail) protocolError(`${path}.detail.affectedSkillKeys`);
     assertExactDetailKeys(detail, ['operation', 'affectedSkillScope'], path);
-    assertEnum(detail.operation, new Set(['REDUCE', 'INCREASE', 'RESET', 'REDUCE_REMAINING_RATIO', 'SET_REMAINING']), `${path}.detail.operation`);
+    assertEnum(detail.operation, new Set(['REDUCE', 'INCREASE', 'RESET', 'REDUCE_REMAINING_RATIO', 'REDUCE_TOTAL_RATIO', 'SET_REMAINING']), `${path}.detail.operation`);
     assertAffectedSkillScope(detail.affectedSkillScope, `${path}.detail.affectedSkillScope`);
     if (detail.operation === 'RESET') {
       if (value.valueRule !== null) protocolError(`${path}.valueRule`);
     } else {
       assertValueRule(value.valueRule, `${path}.valueRule`);
       const rule = value.valueRule as SkillEffectValueRule;
-      if (detail.operation === 'REDUCE_REMAINING_RATIO' && rule.value.kind === 'FIXED'
+      if (isCooldownRatioOperation(detail.operation as string) && rule.value.kind === 'FIXED'
         && !isValidCooldownReductionRatio(rule.value.value, rule)) {
         protocolError(`${path}.valueRule`);
       }

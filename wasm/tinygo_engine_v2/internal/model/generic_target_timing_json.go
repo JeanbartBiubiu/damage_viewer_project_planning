@@ -18,6 +18,12 @@ func (v *TickSpec) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &fields); err != nil {
 		return err
 	}
+	if raw, present := fields["startDelayMs"]; present {
+		if string(raw) == "null" || decoded.StartDelayMs < 0 || decoded.StartDelayMs > 9007199254740991 {
+			return errors.New("TickSpec.startDelayMs requires non-negative safe integer milliseconds")
+		}
+		decoded.HasStartDelayMs = true
+	}
 	if _, present := fields["phasePolicy"]; present {
 		if err := processJSONShape(data, "TickSpec", "intervalMs onTick startDelayMs anchorScope anchorStateKey phasePolicy", "intervalMs onTick startDelayMs anchorScope anchorStateKey phasePolicy"); err != nil {
 			return err
@@ -28,6 +34,22 @@ func (v *TickSpec) UnmarshalJSON(data []byte) error {
 	}
 	*v = TickSpec(decoded)
 	return nil
+}
+
+// Explicit zero must survive a compile-request round trip; omitted remains omitted.
+func (v TickSpec) MarshalJSON() ([]byte, error) {
+	var delay *int64
+	if v.HasStartDelayMs || v.StartDelayMs != 0 {
+		delay = &v.StartDelayMs
+	}
+	return json.Marshal(struct {
+		PhasePolicy    string                `json:"phasePolicy,omitempty"`
+		IntervalMs     int64                 `json:"intervalMs"`
+		OnTick         []OperationDefinition `json:"onTick"`
+		StartDelayMs   *int64                `json:"startDelayMs,omitempty"`
+		AnchorScope    string                `json:"anchorScope,omitempty"`
+		AnchorStateKey string                `json:"anchorStateKey,omitempty"`
+	}{v.PhasePolicy, v.IntervalMs, v.OnTick, delay, v.AnchorScope, v.AnchorStateKey})
 }
 
 func (v *TargetExpirySpec) UnmarshalJSON(data []byte) error {

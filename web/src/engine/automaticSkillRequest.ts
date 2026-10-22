@@ -3,6 +3,7 @@ import type { SimulationPlannedSkill, SimulationSnapshot } from '../types/simula
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import type { assembleSimulation } from './simulationAdapter';
 import { simulationAbility } from './simulationAdapter';
+import { finitePeriodicTargetsOpponent } from './finiteImmediatePeriodicContract';
 import { continuousAttackRequest, type AttackSpeedAdmission } from './continuousAttackRequest';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
@@ -130,7 +131,7 @@ export async function automaticSkillRequest(prepared: ReturnType<typeof assemble
     }
     selectedBindings.add(binding.bindingKey);
     if (!empowered && binding.hitBindings.length ? input.targetSide !== 'target' || !['TARGET_HIT', 'MISS'].includes(input.hitPreset ?? '')
-      : input.targetSide !== 'source' || input.hitPreset !== null) throw new Error(`${path}.hitPreset: 命中目标必须与完整作者绑定一致，自身治疗保持空预设`);
+      : input.targetSide !== (finitePeriodicTargetsOpponent(compile, binding) ? 'target' : 'source') || input.hitPreset !== null) throw new Error(`${path}.hitPreset: 命中目标必须与完整作者绑定一致，独立区域保持对手与空预设，自身治疗保持自身与空预设`);
     return { ruleKey: input.ruleKey, bindingKey: binding.bindingKey, sortOrder: input.sortOrder, target: input.targetSide,
       hitBindings: empowered ? [] : binding.hitBindings.map(hit => ({ hitBindingKey: hit.hitBindingKey, preset: input.hitPreset! })),
       waitForCooldowns: [...input.waitForCooldowns], releaseAfterRuleKey: input.releaseAfterRuleKey };

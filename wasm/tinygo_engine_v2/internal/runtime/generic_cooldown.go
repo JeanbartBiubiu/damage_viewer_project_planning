@@ -12,9 +12,11 @@ type genericCooldownIdentity struct {
 }
 
 type genericCooldownEntry struct {
-	readyAt int64
-	active  bool
-	version uint64
+	readyAt          int64
+	active           bool
+	version          uint64
+	ordinaryTotalMs  int64
+	hasOrdinaryTotal bool
 }
 
 type genericCooldownSlot struct {
@@ -255,7 +257,11 @@ func (l *genericCooldownLedger) set(id genericCooldownIdentity, readyAt, now int
 		return false
 	}
 	l.revision++
-	value := genericCooldownEntry{readyAt: readyAt, active: active, version: l.revision}
+	value := l.entryValue(id)
+	if !active || !value.active || value.readyAt <= now {
+		value.ordinaryTotalMs, value.hasOrdinaryTotal = 0, false
+	}
+	value.readyAt, value.active, value.version = readyAt, active, l.revision
 	if index >= 0 {
 		l.entries[index].value = value
 	} else {
@@ -270,6 +276,20 @@ func (l *genericCooldownLedger) set(id genericCooldownIdentity, readyAt, now int
 		l.waits[index] = wait
 	}
 	return true
+}
+
+// Only a real process cooldown commit can create this provenance. Ordinary
+// reduce/extend keep it; becoming ready clears it. Deadlines alone cannot restore it.
+func (l *genericCooldownLedger) commitOrdinary(id genericCooldownIdentity, readyAt, now int64) {
+	l.set(id, readyAt, now)
+	if index := l.entryIndex(id); index >= 0 {
+		entry := &l.entries[index].value
+		entry.hasOrdinaryTotal = readyAt > now
+		entry.ordinaryTotalMs = 0
+		if entry.hasOrdinaryTotal {
+			entry.ordinaryTotalMs = readyAt - now
+		}
+	}
 }
 
 func (l *genericCooldownLedger) start(id genericCooldownIdentity, duration, now int64) (changed, valid bool) {

@@ -105,3 +105,44 @@ describe('按比例减少当前剩余冷却', () => {
     expect(() => parseSkillEffect(missing)).toThrow(/valueRule/);
   });
 });
+
+describe('按本次已提交总冷却返还', () => {
+  const total = (value = 0.05): SkillEffectResultDraft => ({ ...ratioDraft(value), cooldownOperation: 'REDUCE_TOTAL_RATIO' });
+
+  it.each([0, 0.05, 1])('比例%s按原值保存并完整解析', (value) => {
+    const checked = validate(total(value));
+    expect(checked.ok).toBe(true);
+    if (!checked.ok) return;
+    const response = { ...checked.normalized, gameId: 'lol', skillKey: 'masteryi_r',
+      createdAt: '2026-09-21T00:00:00Z', updatedAt: '2026-09-21T00:00:00Z' };
+    expect(parseSkillEffect(response)).toEqual(response);
+    expect(cooldownOperationOf(response.results[0])).toBe('REDUCE_TOTAL_RATIO');
+    expect(response.results[0].valueRule?.value).toEqual(fixedValue(value));
+    expect(cooldownChangeAmountHint(total())).toContain('实际提交的总时长');
+  });
+
+  it.each([-0.01, 1.01, 5])('拒绝越界比例%s及非法响应', (value) => {
+    expect(validate(total(value)).ok).toBe(false);
+    const response = validResponse();
+    response.results[0].detail = { operation: 'REDUCE_TOTAL_RATIO', affectedSkillScope: scope };
+    response.results[0].valueRule!.value = fixedValue(value);
+    expect(() => parseSkillEffect(response)).toThrow(/valueRule/);
+  });
+
+  it('检查每个静态等级及倍率，拒绝计算时输入', () => {
+    const draft = { ...total(), value: parameterValue('ratio'), fixedMultiplier: '2' };
+    expect(validate(draft, [parameter('SKILL_LEVEL', [0, 0.05, 0.5])]).ok).toBe(true);
+    expect(validate(draft, [parameter('CHARACTER_LEVEL', [0, 0.05, 0.51])]).ok).toBe(false);
+    expect(validate({ ...total(), value: parameterValue('ratio') }, [parameter('RUNTIME_INPUT', [])]).ok).toBe(false);
+    expect(validate({ ...total(5), fixedMultiplier: '0.01' }).ok).toBe(true);
+    expect(validate({ ...total(2), fixedMaxValue: '1' }).ok).toBe(true);
+  });
+
+  it('在毫秒和比例之间切换清值，两种比例之间保留数值', () => {
+    expect(applyCooldownOperationChange(ratioDraft(), 'REDUCE_TOTAL_RATIO').value).toEqual(fixedValue(0.7));
+    expect(applyCooldownOperationChange(total(), 'REDUCE_REMAINING_RATIO').value).toEqual(fixedValue(0.05));
+    expect(applyCooldownOperationChange(total(), 'REDUCE').value).toBeNull();
+    expect(applyResultTypeChange(total(), 'DAMAGE').value).toBeNull();
+    expect(applyCooldownOperationChange({ ...total(), cooldownOperation: 'REDUCE', value: fixedValue(1500) }, 'REDUCE_TOTAL_RATIO').value).toBeNull();
+  });
+});

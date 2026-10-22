@@ -393,7 +393,8 @@ export function SkillEffectResultEditorModal({
   const existingResult = draft.originalResultType !== null;
   const showValueRule = isValueRuleVisible(draft);
   const cooldownHint = cooldownChangeAmountHint(draft);
-  const ratioCooldown = draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO';
+  const ratioCooldown = draft.resultType === 'COOLDOWN_CHANGE'
+    && (draft.cooldownOperation === 'REDUCE_REMAINING_RATIO' || draft.cooldownOperation === 'REDUCE_TOTAL_RATIO');
   const slowApply = isMovementSlowApply(draft);
   const valueFormulaLabel = draft.resultType === 'STATUS_OPERATION' ? '减速比例' : valueFormulaLabelFor(draft.resultType);
 

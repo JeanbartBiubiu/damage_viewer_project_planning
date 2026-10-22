@@ -101,6 +101,9 @@ describe('结果引用摘要语义', () => {
     ratio.fixedMultiplier = '1';
     expect(buildResultReferenceSummary(ratio).segments.join(' · ')).toContain(`0.7 × 1 ${RATIO_UNIT}`);
     expect(buildResultReferenceSummary(ratio).segments.join(' · ')).not.toContain(MILLISECONDS_UNIT);
+    ratio.cooldownOperation = 'REDUCE_TOTAL_RATIO';
+    ratio.value = fixedValue(0.05);
+    expect(buildResultReferenceSummary(ratio).segments).toEqual(['按本次总冷却返还', `0.05 × 1 ${RATIO_UNIT}`]);
 
     const reset = createEmptyResultDraft('COOLDOWN_CHANGE');
     reset.cooldownOperation = 'RESET';
