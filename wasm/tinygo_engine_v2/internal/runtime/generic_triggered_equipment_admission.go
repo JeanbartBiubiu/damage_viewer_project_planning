@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"math"
+	"strings"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -112,9 +113,15 @@ func (s *genericRunState) isOwnedSettledSelfRecovery(listener planbundle.Compile
 			owned = owned || mount.ProviderRef == listener.OwnerProviderRef && int(mount.DefinitionIndex) == operation.OwnerProviderIndex
 		}
 	}
-	amount, static := s.foldOwnedRecoveryAmount(listener, operation)
 	owner, exists := s.combatants[listener.OwnerCombatantKey]
-	if !owned || !exists || !static || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
+	if !owned || !exists {
+		return false
+	}
+	amount, supported := s.foldOwnedRecoveryAmount(listener, operation)
+	if !supported && operation.Operation == "heal" {
+		amount, supported = s.evaluateOwnedDynamicHealAmount(listener, operation)
+	}
+	if !supported || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
 		return false
 	}
 	health, hasHealth := owner.attributes.Lookup("hp")
@@ -154,6 +161,71 @@ func (s *genericRunState) foldOwnedRecoveryAmount(listener planbundle.CompiledLi
 		}
 	}
 	value, err := s.formulas.Eval(operation.AmountProgram, formula.GenericEvalContext{StrictReads: true, AbilityParams: ability.Params})
+	return value, err == nil
+}
+
+// Admission checks the actual owner's current inputs without freezing the
+// amount. The mounted-listener executor still evaluates it for every event.
+func (s *genericRunState) evaluateOwnedDynamicHealAmount(listener planbundle.CompiledListener, operation planbundle.CompiledOperation) (float64, bool) {
+	if listener.SourceAbilityIndex < 0 || listener.SourceAbilityIndex >= len(s.compiled.Abilities) {
+		return 0, false
+	}
+	ability := s.compiled.Abilities[listener.SourceAbilityIndex]
+	provider := s.compiled.Providers[operation.OwnerProviderIndex]
+	owner, exists := s.combatants[listener.OwnerCombatantKey]
+	if !exists || ability.Kind != "passive_listener" || int(ability.ProviderIndex) != operation.OwnerProviderIndex || listener.SourceAbilityIndex < int(provider.AbilityStart) || listener.SourceAbilityIndex >= int(provider.AbilityStart)+int(provider.AbilityCount) {
+		return 0, false
+	}
+	context := formula.GenericEvalContext{StrictReads: true, SourceAttrs: owner.attributes, AbilityParams: ability.Params}
+	hasOwnedAttribute := false
+	for _, read := range s.formulas.ReadDependencies(operation.AmountProgram) {
+		if read.ReadKey == "" {
+			return 0, false
+		}
+		switch read.ReadKind {
+		case formula.ReadSourceAttr:
+			attributeKey, field := read.ReadKey, "resolved"
+			if dot := strings.LastIndex(read.ReadKey, "."); dot > 0 {
+				attributeKey, field = read.ReadKey[:dot], read.ReadKey[dot+1:]
+			}
+			slot, present := owner.attributes.Lookup(attributeKey)
+			if !present {
+				return 0, false
+			}
+			switch field {
+			case "base":
+				present = slot.HasBase()
+			case "current":
+				present = slot.HasCurrent()
+			case "max":
+				present = slot.HasMax()
+			case "resolved":
+				present = slot.HasResolved()
+			default:
+				return 0, false
+			}
+			if !present {
+				return 0, false
+			}
+			hasOwnedAttribute = true
+		case formula.ReadAbilityParam:
+			value, present := ability.Params[read.ReadKey]
+			if !present || math.IsNaN(value) || math.IsInf(value, 0) {
+				return 0, false
+			}
+		default:
+			return 0, false
+		}
+		// Check both conditional branches as well as the selected output.
+		value, err := s.formulas.EvaluateInstructions([]formula.GenericInstr{read}, context, false)
+		if err != nil || math.IsNaN(value) || math.IsInf(value, 0) {
+			return 0, false
+		}
+	}
+	if !hasOwnedAttribute {
+		return 0, false
+	}
+	value, err := s.formulas.Eval(operation.AmountProgram, context)
 	return value, err == nil
 }
 

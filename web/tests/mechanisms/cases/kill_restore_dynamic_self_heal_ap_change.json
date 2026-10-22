@@ -1,0 +1,903 @@
+{
+  "schemaVersion": "mechanism-case-v1",
+  "caseKey": "kill_restore_dynamic_self_heal_ap_change",
+  "title": "前一刀增加法强后后台击杀按当前法强治疗",
+  "mechanisms": [
+    "event.damage_instance_killed",
+    "restoration.ordinary_self",
+    "restoration.complete_provenance",
+    "restoration.settled_dynamic_self_heal"
+  ],
+  "derivation": [
+    "完整生产作者图保留真实后台普攻100、攻速1、护甲0、暴击0；来源HP上限1000、法力上限50、AP初始100，初始HP200和mana1明确输入。",
+    "restoration.settled_dynamic_self_heal表示完整永久来源仅在自身逐笔DAMAGE_DEALT且本笔KILLED=1时按当前拥有者属性求值；治疗30+0.5×当前AP，原静态法力恢复12不变。",
+    "0毫秒第一刀100使目标HP200→100，未击杀不治疗；其真实BASIC_ATTACK_HIT监听施加有限2000毫秒、单层刷新自身AP+50，当前AP100→150。",
+    "1000毫秒第二刀100击杀；本笔治疗30+0.5×150=105，使来源HP200→305，请求105、实得105、溢出0；初始金额80不得缓存。mana1→13。后台两刀累计伤害200、实际扣血200。",
+    "观察1101毫秒，因1000毫秒目标死亡停止；第二次命中刷新单层AP效果，不累加到200，最终AP150。期望在任何正式Wasm运行前手算冻结，不读取实际输出。"
+  ],
+  "catalog": "mechanism_lab",
+  "snapshot": {
+    "selection": {
+      "sourceCharacterKey": "lab_attacker",
+      "sourceLevel": 1,
+      "targetCharacterKey": "lab_dummy",
+      "targetLevel": 1,
+      "basicAttackSkillKey": "lab_basic_attack",
+      "basicAttackLevel": 1,
+      "plannedSkills": [],
+      "sourceEquipmentKeys": [],
+      "targetEquipmentKeys": [],
+      "sourceBuildConfigurations": [],
+      "targetBuildConfigurations": [],
+      "targetSkillSettings": [],
+      "sourceSkillSettings": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_kill_restore",
+          "enabled": true,
+          "skillLevel": 1
+        }
+      ]
+    },
+    "source": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_attacker",
+        "name": "机制攻击方",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_attacker",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 100,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 0,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+              "ability_power": 100,
+            "mana": 50
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 100,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 0,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 100,
+        "mana": 50
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_kill_restore",
+          "skillName": "固定击杀后普通恢复",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "begin_attack",
+            "hit_attack"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_kill_restore",
+          "skillName": "固定击杀后普通恢复",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "on_damage_kill",
+            "boost_after_hit"
+          ],
+          "inactiveReason": null
+        }
+      ]
+    },
+    "target": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_dummy",
+        "name": "机制木桩",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_dummy",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+              "hp": 200,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 0,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 200,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 0,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_dummy",
+          "characterName": "机制木桩",
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_dummy"
+          },
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": null,
+          "enabledRuleKeys": [],
+          "inactiveReason": "NO_AUTONOMOUS_ATTACK"
+        }
+      ]
+    },
+    "skillConfigurations": [
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_basic_attack",
+          "name": "机制普攻",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "basic_attack"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "parameterKey": "base_critical_multiplier",
+            "name": "基础暴击倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.75,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "parameterKey": "milliseconds_per_second",
+            "name": "每秒毫秒",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "formulas": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "raw",
+            "name": "攻击力",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "attack_damage",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_damage",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "攻击力",
+                  "expression": {
+                    "op": "read",
+                    "inputKey": "attack_damage"
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "interval",
+            "name": "攻击间隔",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "ms",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_basic_attack",
+                    "parameterKey": "milliseconds_per_second"
+                  }
+                },
+                {
+                  "key": "speed",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_speed",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "攻击间隔",
+                  "expression": {
+                    "op": "div",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "ms"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "speed"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "critical_multiplier",
+            "name": "暴击倍率",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "base",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_basic_attack",
+                    "parameterKey": "base_critical_multiplier"
+                  }
+                },
+                {
+                  "key": "bonus",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "critical_strike_damage_bonus_percent",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "暴击倍率",
+                  "expression": {
+                    "op": "add",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "base"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "bonus"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 2,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "effectKey": "start",
+            "name": "发起",
+            "description": null,
+            "sortOrder": 0,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "attack_link",
+                "name": "攻击联动",
+                "resultType": "ATTACK_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "effectKey": "hit",
+            "name": "命中",
+            "description": null,
+            "sortOrder": 1,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "raw"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "SOURCE_CRIT_CHANCE",
+                    "multiplierValue": {
+                      "kind": "FORMULA",
+                      "formulaKey": "critical_multiplier"
+                    }
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              },
+              {
+                "resultKey": "hit_link",
+                "name": "命中联动",
+                "resultType": "HIT_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 20,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "processKey": "attack",
+            "name": "普攻节奏",
+            "activationType": "ACTIVE",
+            "description": null,
+            "sortOrder": 0,
+            "steps": [
+              {
+                "stepKey": "begin",
+                "name": "发起",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FORMULA",
+                "formulaKey": "interval"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [
+              {
+                "bindingKey": "start_link",
+                "effectKey": "start",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                },
+                "sortOrder": 0
+              }
+            ],
+            "stateOperations": [],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "begin_attack",
+            "name": "普攻开始",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_START",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_process",
+                "name": "普攻开始",
+                "sortOrder": 0,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "attack"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "hit_attack",
+            "name": "普攻命中",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_HIT",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "execute_effect",
+                "name": "普攻命中",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_lab_basic_attack"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_kill_restore",
+          "name": "固定击杀后普通恢复",
+          "description": null,
+          "status": "ENABLED",
+          "maxLevel": 1,
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "sortOrder": 10,
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [
+          { "gameId": "mechanism_lab", "skillKey": "lab_kill_restore", "parameterKey": "heal_base", "name": "治疗基础", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 30, "levelValues": null, "description": null, "sortOrder": 0, "createdAt": "", "updatedAt": "" },
+          { "gameId": "mechanism_lab", "skillKey": "lab_kill_restore", "parameterKey": "heal_ratio", "name": "法强系数", "valueType": "DECIMAL", "valueMode": "FIXED", "fixedValue": 0.5, "levelValues": null, "description": null, "sortOrder": 1, "createdAt": "", "updatedAt": "" }
+        ],
+        "formulas": [
+          {
+            "gameId": "mechanism_lab", "skillKey": "lab_kill_restore", "formulaKey": "dynamic_heal", "name": "按当前法强治疗",
+            "expression": {
+              "inputs": [
+                { "key": "base", "binding": { "kind": "parameter", "skillKey": "lab_kill_restore", "parameterKey": "heal_base" } },
+                { "key": "ratio", "binding": { "kind": "parameter", "skillKey": "lab_kill_restore", "parameterKey": "heal_ratio" } },
+                { "key": "ap", "binding": { "kind": "attribute", "object": "source", "attributeKey": "ability_power", "valueKind": "TOTAL", "view": "current_frame" } }
+              ],
+              "stages": [{ "key": "output", "name": "治疗金额", "expression": { "op": "add", "args": [{ "op": "read", "inputKey": "base" }, { "op": "mul", "args": [{ "op": "read", "inputKey": "ratio" }, { "op": "read", "inputKey": "ap" }] }] } }],
+              "outputStageKey": "output"
+            },
+            "description": "真实击杀结算时读取当前法强和本来源有限参数，不缓存初始金额。", "sortOrder": 0, "createdAt": "", "updatedAt": ""
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_kill_restore",
+            "effectKey": "restore",
+            "name": "即时自身恢复",
+            "description": null,
+            "sortOrder": 0,
+            "lifecycle": null,
+            "createdAt": "",
+            "updatedAt": "",
+            "results": [
+              {
+                "resultKey": "heal",
+                "name": "heal",
+                "resultType": "DIRECT_HEAL",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 0,
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                      "kind": "FORMULA",
+                      "formulaKey": "dynamic_heal"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                }
+              },
+              {
+                "resultKey": "mana",
+                "name": "mana",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "RESTORE"
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 12
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                }
+              }
+            ]
+          }
+          ,
+          {
+            "gameId": "mechanism_lab", "skillKey": "lab_kill_restore", "effectKey": "ap_boost", "name": "真实命中后增加法强", "description": null, "sortOrder": 1, "createdAt": "", "updatedAt": "",
+            "lifecycle": { "durationValue": { "kind": "FIXED", "value": 2000 }, "maxStacksValue": { "kind": "FIXED", "value": 1 }, "applicationStacksValue": { "kind": "FIXED", "value": 1 }, "instanceScope": "SOURCE", "reapplicationStackMode": "KEEP", "reapplicationDurationMode": "REFRESH_ALL", "expiryMode": "ALL_AT_ONCE", "periodicIntervalValue": null, "firstPeriodicExecution": null, "endWhenShieldEndsResultKey": null },
+            "results": [{ "resultKey": "ap", "name": "法强50", "resultType": "ATTRIBUTE_CHANGE", "target": "SOURCE", "description": null, "sortOrder": 0, "spellShieldBlockScope": null,
+              "valueRule": { "value": { "kind": "FIXED", "value": 50 }, "fixedMultiplier": 1, "fixedMinValue": null, "fixedMaxValue": null },
+              "detail": { "attributeKey": "ability_power", "operation": "INCREASE", "modifierZoneKey": "flat_attributes" },
+              "lifecycleBehavior": { "moment": "PERSISTENT", "valueReadMode": "APPLICATION_SNAPSHOT", "stackValueMode": "SHARED", "reapplicationValueMode": "REPLACE", "periodicExecutionMode": null } }]
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "on_damage_kill",
+            "name": "本笔击杀",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "DAMAGE_DEALT",
+              "detail": {
+                "sourceSkillKey": "lab_basic_attack",
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "kill",
+                "name": "本笔实际击杀",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "killed",
+                    "conditionType": "EVENT_VALUE_COMPARE",
+                    "sortOrder": 0,
+                    "detail": {
+                      "eventValueKey": "KILLED",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "restore",
+                "name": "本方即时恢复",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "restore"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "boost_after_hit", "name": "真实普攻命中后加法强", "description": null, "sortOrder": 1,
+            "eventSource": { "eventType": "BASIC_ATTACK_HIT", "detail": {} }, "conditionGroups": [],
+            "actions": [{ "actionKey": "boost", "name": "施加单层法强", "sortOrder": 0, "actionType": "EXECUTE_EFFECT", "detail": { "effectKey": "ap_boost" }, "targetContext": "CURRENT_TARGET", "runtimeInputBindings": [], "resultModifiers": [] }],
+            "perTargetCooldown": null, "maxTriggersPerProcess": null, "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_lab_kill_restore"
+      }
+    ],
+    "references": []
+  },
+  "scenario": {
+    "mode": "continuous_attack",
+    "durationMs": 1101,
+    "initialHealth": {
+      "source": 200,
+      "target": 200
+    },
+    "initialResourceInputs": [
+      {
+        "side": "source",
+        "resourceKey": "mana",
+        "current": 1
+      }
+    ]
+  },
+  "expected": {
+    "summary": {
+      "stopReason": "target_dead",
+      "sourceFinalHp": 305,
+      "targetFinalHp": 0,
+      "sourceDamageDealt": 200,
+      "targetHpLoss": 200,
+      "sourceDirectHealing": 105,
+      "sourceVampHealing": 0,
+      "targetKilledAtMs": 1000,
+      "basicAttackStarted": 2,
+      "basicAttackHits": 2
+    },
+    "attackStarts": [
+      0,
+      1000
+    ],
+    "damage": [
+      {
+        "timeMs": 0,
+        "source": "source",
+        "target": "target",
+        "skillKey": "lab_basic_attack",
+        "effectKey": "hit",
+        "resultKey": "damage",
+        "damageType": "physics",
+        "rawAmount": 100,
+        "postDefenseDamage": 100,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 100
+      },
+      { "timeMs": 1000, "source": "source", "target": "target", "skillKey": "lab_basic_attack", "effectKey": "hit", "resultKey": "damage", "damageType": "physics", "rawAmount": 100, "postDefenseDamage": 100, "shieldAbsorbed": 0, "actualHpLoss": 100 }
+    ],
+    "restorations": [
+      {
+        "timeMs": 1000,
+        "kind": "heal",
+        "owner": "source",
+        "source": "source",
+        "target": "source",
+        "providerRef": "source_natural_skill_1",
+        "providerDefinitionRef": "source_natural_skill_1_definition",
+        "abilityRef": "source.provider[source_natural_skill_1].ability[on_damage_kill]",
+        "operationRef": "skills.lab_kill_restore.effects.restore.results.heal",
+        "operationPath": "sharedProviders[1].abilities[0].listenerSpec.operations[0]",
+        "useRef": "basic:selected_basic_attack_plan:2",
+        "resourceKey": "hp",
+        "requestedAmount": 105,
+        "effectiveAmount": 105,
+        "currentBefore": 200,
+        "currentAfter": 305,
+        "actualDelta": 105,
+        "overflow": 0
+      },
+      {
+        "timeMs": 1000,
+        "kind": "resource_restore",
+        "owner": "source",
+        "source": "source",
+        "target": "source",
+        "providerRef": "source_natural_skill_1",
+        "providerDefinitionRef": "source_natural_skill_1_definition",
+        "abilityRef": "source.provider[source_natural_skill_1].ability[on_damage_kill]",
+        "operationRef": "skills.lab_kill_restore.effects.restore.results.mana",
+        "operationPath": "sharedProviders[1].abilities[0].listenerSpec.operations[1]",
+        "useRef": "basic:selected_basic_attack_plan:2",
+        "resourceKey": "mana",
+        "requestedAmount": 12,
+        "effectiveAmount": 12,
+        "currentBefore": 1,
+        "currentAfter": 13,
+        "actualDelta": 12,
+        "overflow": 0
+      }
+    ],
+    "finalResources": [
+      {
+        "owner": "source",
+        "attributeKey": "hp",
+        "current": 305,
+        "max": 1000
+      },
+      {
+        "owner": "source",
+        "attributeKey": "mana",
+        "current": 13,
+        "max": 50
+      },
+      {
+        "owner": "target",
+        "attributeKey": "hp",
+        "current": 0,
+        "max": 200
+      }
+    ],
+    "finalAttributes": { "source.ability_power": 150 }
+  }
+}
