@@ -11,7 +11,7 @@
     "sourceCommit": "289bb68c7428f0ccf4696e187db532d06296f34c",
     "caseCount": 140,
     "casesDigest": "a3765d8e4124d825a1ee476635fa98c8efc7898dd01dcdfc1900acb15f811160",
-    "coverageDigest": "0f150b58594c3481efcc2619e19a5d87c0149595b9e26ca61aa76642eb31bede",
+    "coverageDigest": "0dc8e67d26052830032087d0ebbbf9e86c8430181c8f028143c6c391de5e305d",
     "wasmBuildSha256": "45d9ccf1ee811b0b0b76a305ade242b4fa868b16f4647d73febe222fb5051242"
   },
   "entries": [
@@ -3472,6 +3472,102 @@
         "outputs/equipment-authoring-20261022-botrk-01a15ed4/独立复核.json",
         "outputs/equipment-authoring-20261022-botrk-01a15ed4/装备配置变更.json",
         "outputs/equipment-authoring-20261022-botrk-01a15ed4/数据依据.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "CHARACTER",
+      "key": "champion_malphite",
+      "contentDigest": "e0904be3ff3b70ff58302a1bab93e565bbf74f49918ed5bcddd6b2cee1f0d7f3",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "malphite_e",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "malphite_p",
+            "levels": [
+              1
+            ]
+          },
+          {
+            "skillKey": "malphite_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "malphite_r",
+            "levels": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "skillKey": "malphite_w",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "evidenceRefs": [
+        "outputs/skill-adaptation-20261022-malphite-ready/运行与页面摘要.json#sha256=a4446eeaade00e78e2a0789c1a4af136c8ff3dd2e1a93ad6ae245234279fa786",
+        "outputs/skill-adaptation-20261022-malphite-ready/页面独立复核.json#sha256=d287c194824c4667a463f0a5295a3840e049fc65b1ae0fb60e18a4c862b424f1"
       ],
       "issues": []
     }

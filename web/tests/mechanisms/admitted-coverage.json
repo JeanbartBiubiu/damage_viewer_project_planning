@@ -1071,6 +1071,52 @@
           "skill.formula_attribute_ratio"
         ],
         "rationale": "双方1至18级Q1混合背景普攻，18级Q2至Q5补充，盖伦1/18级近战；真实鬼索组合核15秒冷却和嵌套额外命中，另有6秒计数刷新/到期；全部使用真实保存配置、当前正式工作线程，三份完整响应逐一保留。三份固定机制候选的正式业务投影可捕获刷新、到期和冷却残余计数错误。"
+      },
+      "CHARACTER:champion_malphite": {
+        "contentDigest": "e0904be3ff3b70ff58302a1bab93e565bbf74f49918ed5bcddd6b2cee1f0d7f3",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "attribute.derived_attack_speed",
+          "attribute.paired_application_snapshot",
+          "attribute.paired_snapshot_expiry",
+          "attribute.paired_snapshot_refresh",
+          "attribute.target_total_attack_speed",
+          "basic_attack.cadence",
+          "basic_attack.empowered_bonus",
+          "basic_attack.empowered_legacy_timeout",
+          "basic_attack.timer_reset",
+          "combat.kill_stop",
+          "combat.overkill_clamp",
+          "damage.critical_expectation",
+          "damage.magic_resist",
+          "damage.per_result_critical",
+          "damage.physical_armor",
+          "defense.linked_shield_absorption_identity",
+          "defense.linked_shield_absorption_snapshot",
+          "defense.own_counter_shield_expiry",
+          "defense.own_shield_exact_expiry_hold",
+          "defense.own_shield_first_loss_wait",
+          "defense.own_shield_hp_loss_restart",
+          "healing.life_steal",
+          "healing.omnivamp",
+          "healing.per_result_qualification",
+          "passive.source_initialized",
+          "resource.ordinary_cost_ignored",
+          "shield.absorption",
+          "shield.depletion",
+          "shield.reapplication_refresh",
+          "shield.static_attribute_dependency",
+          "skill.action_occupancy",
+          "skill.automatic_cooldown",
+          "skill.cooldown_on_complete",
+          "skill.delay_hit",
+          "skill.formula_attribute_ratio",
+          "skill.manual_cast",
+          "state.own_counter_damage_restart",
+          "state.own_counter_maximum_health",
+          "state.own_counter_shield_expiry"
+        ],
+        "rationale": "墨菲特P/Q/W/E/R及背景普攻按双方1至18级、各技能合法等级与0/关闭、无装备、正生命偷取和全能吸血、0/0.5/1暴击、同会话100重放和汇总/零明细完成100场316次真实Worker独立数值复核。P首次自身盾正吸收且等待未启动时起计，之后仅实际扣血重置；逐盾完整身份、严格零值、原截止同刻调度、最大生命回盾与W护甲持续依赖分别有固定手算。Q单实例双端施加快照、刷新及到期，E总攻速削减，W下一次真实HIT附伤、余震与实际计时重置，R即时单次魔法伤害均按真实作者图映射。仅单向1V1数值，不声明目标自主行动、完整控制限制、位移或任意装备组合；普通产品页另经一次真实交互、编译、计算、会话释放与下载档案，1522项独立复算通过；正式证明仅绑定已完成的运行与页面摘要，安装后目录及普通页面冒烟另行记录。"
       }
     }
   }
