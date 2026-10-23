@@ -6,12 +6,12 @@
   "scopeDigest": "67dfb77d447e5cee0c664d71be9bf2c062f518ff9b6b97bf157f4a530e0d5e41",
   "sharedDigest": "91a01f39579d516eeb68c2ffc69b2899ce05326185d2d6f2c38fbe4e966b6e58",
   "wasmSha256": "217f78d05a57e09d3bbb58340f53349613d0f3e340218f9532eb8dd3f54ef0c8",
-  "adapterVersion": "v42-finite-immediate-total-refund",
+  "adapterVersion": "v44-unreachable-damage-listeners",
   "mechanismRegression": {
-    "sourceCommit": "ac77187fad2d4348823fdb7f4a4f76379f2a453b",
-    "caseCount": 209,
-    "casesDigest": "7e604c4128e76eae59a8d26b3e4a11fef83615f71f3dae243d5ba25f6d43d235",
-    "coverageDigest": "7308fbb655df413d43f39848439c8cd82dc3bc70359e86adf194266a5fbe8d86",
+    "sourceCommit": "3f13d60880503aec150bb8a55731ff5f042a7445",
+    "caseCount": 220,
+    "casesDigest": "0f8cfbebdc8db2f450d3e86a8476cbf143cc96e325419f7ac0245dac622ad255",
+    "coverageDigest": "d50ada0acccf07c5915e36558e2987186efdf03b418f8d7948ce98442c3f3bd1",
     "wasmBuildSha256": "217f78d05a57e09d3bbb58340f53349613d0f3e340218f9532eb8dd3f54ef0c8"
   },
   "entries": [
@@ -3840,6 +3840,93 @@
       "evidenceRefs": [
         "outputs/skill-adaptation-20261022-brand/完整矩阵验证.json#sha256=8364b09a04d886353ffc9d2d8efd251177b4327326d16712a45b534a30fc98c0",
         "outputs/skill-adaptation-20261022-brand/同拥有者命中前计数验证.json#sha256=155948c711aaf0f7252183126f87a1845fd605c77f89ec8d773ccaac78a568ed"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "CHARACTER",
+      "key": "champion_morgana",
+      "contentDigest": "4d021d6a0f090d833c29d4468af48a62c3b79f50fdc32e295f153c11dce83891",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "morgana_p",
+            "levels": [
+              1
+            ]
+          },
+          {
+            "skillKey": "morgana_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "morgana_r",
+            "levels": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "skillKey": "morgana_w",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "evidenceRefs": [
+        "outputs/skill-adaptation-20261023-morgana/完整来源验收.json#sha256=f90fcf7232526031be723ae8531107934b941149096c79e35ecc3cf2e6f37c84",
+        "outputs/skill-adaptation-20261023-morgana/R组件验收.json#sha256=82991dfc6a766764287a1e8cf0d839f4ef629da2123fa455fba5dd9f83203122",
+        "outputs/skill-adaptation-20261023-morgana/W组件验收.json#sha256=09f2c2d89c5f6b1f74a660cc244fb4ad0725a6c7cd7709b678ec54576ca81daf"
       ],
       "issues": []
     }

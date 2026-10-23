@@ -82,7 +82,7 @@
 
 有限重施的作者次数为1～63，窗口与可选间隔须在全部声明等级上证明为静态正整数；间隔省略或作者显式空值时不运输原生间隔字段。每次已接受重施都有独立的使用与施放身份，原过程仍保留首次身份、固定截止及单次自动资格。结果按完整阶段数组与真实执行序号核对，同毫秒相同行也分别计数；详细记录为0时仍检查次数及窗口终态。字段、身份和错误边界见[有限重施共享契约](../outputs/skill-adaptation-20261022-ahri/有限重施共享契约.md)；实际新产物及角色验收由后续集成另行留证。
 
-本轮宿主身份为 `v40-finite-recast-cast-identity`，完整技能请求结构摘要为 `generic-basic-attack-input-v5`。同刻前段击杀后，后段只在完整死亡停止、唯一目标生命为0且终结时刻一致时保留“已释放、未接触”的真实阶段；手动与自动入口使用同一规则，不补造命中。
+当前宿主身份为 `v44-unreachable-damage-listeners`，完整技能请求结构摘要为 `generic-basic-attack-input-v5`。同刻前段击杀后，后段只在完整死亡停止、唯一目标生命为0且终结时刻一致时保留“已释放、未接触”的真实阶段；手动与自动入口使用同一规则，不补造命中。莫甘娜P/Q/W/R完整来源、两段命中资格与后台普攻已通过正式Wasm和普通产品页，见[完整验收与安装](../outputs/skill-adaptation-20261023-morgana/验收与安装.md)；E按Excel排除。本场没有事件生产者的纯伤害监听保留启用和完整定义，按已证明的不可达原因停止挂载，不关闭必需来源绕过准备。
 
 机制与字段的唯一共享定义见规划真源[主动技能自动调度与连招约束详细设计](../文档记录/详细设计/项目/主动技能自动调度与连招约束详细设计.md)。独立构造的正式工作线程专项入口为 `node node_modules/@playwright/test/cli.js test --config tests/fixtures/simulationAutomaticSkills.config.ts --reporter=line`，复用运行中的5173服务，可用 `SIMULATION_WEB_BASE` 指定地址；2、3、4、16项链及背景普攻分别核对重复运行、记录预算、汇总、错误恢复和释放重编。专项构造不替代真实英雄作者数据与页面验收。
 
@@ -92,7 +92,7 @@
 
 真实页面专项可用 `SIMULATION_LIVE_CHARACTER_KEY` 选择已证明英雄，指定却未就绪时直接失败；`SIMULATION_LIVE_OUTPUT_DIR` 另存本次证据。有战前机制初值时，`SIMULATION_LIVE_INITIAL_PARAMETER_VALUES` 须明确给出与实际输入项等长的数值数组；必要属性缺失时，用 `SIMULATION_LIVE_ATTRIBUTE_INPUTS` 显式提供按 `source/target` 分组的键值。两者不补默认值、不覆盖已录属性，只作为本次验收场景输入。
 
-真实目录还直接经过生产准入函数，精确接纳当前正式证明集合，其余对象带原因禁选；这项函数验证与浏览器可操作性分开记录。当前正式资源包含13名英雄在约定单向1V1范围内的完整必要来源和53件装备的双方单件证明。伊泽瑞尔完整来源41场86次与正式普通产品页通过，第66项证明已安装；见[伊泽瑞尔验收与安装](../outputs/skill-adaptation-20261022-ezreal/验收与安装.md)。拉克丝P/Q/E/R及背景普攻、W整槽排除与E尽快爆炸的最新证据见[验收与安装](../outputs/skill-adaptation-20261022-lux/验收与安装.md)。实际页面专项分别验证未就绪英雄保持禁选，以及通过英雄可直接选择、调整技能等级、准备并运行到结果与会话释放。不伪造HTTP，也不关闭必需兄弟技能绕过门禁。当前证据由`SIMULATION_LIVE_OUTPUT_DIR`另存于`output/combat-analysis/scene-initial-final-live-*`；未启用真实服务导致的跳过不计作验收。
+真实目录还直接经过生产准入函数，精确接纳当前正式证明集合，其余对象带原因禁选；这项函数验证与浏览器可操作性分开记录。当前正式资源包含15名英雄在约定单向1V1范围内的完整必要来源和53件装备的双方单件证明。莫甘娜第68项证明已安装，35场70次等级补集、R组件内的源18级组合及普通产品页通过，见[莫甘娜验收与安装](../outputs/skill-adaptation-20261023-morgana/验收与安装.md)。伊泽瑞尔完整来源41场86次与正式普通产品页通过，第66项证明已安装；见[伊泽瑞尔验收与安装](../outputs/skill-adaptation-20261022-ezreal/验收与安装.md)。拉克丝P/Q/E/R及背景普攻、W整槽排除与E尽快爆炸的证据见[验收与安装](../outputs/skill-adaptation-20261022-lux/验收与安装.md)。实际页面专项分别验证未就绪英雄保持禁选，以及通过英雄可直接选择、调整技能等级、准备并运行到结果与会话释放。不伪造HTTP，也不关闭必需兄弟技能绕过门禁。当前证据由`SIMULATION_LIVE_OUTPUT_DIR`另存于`output/combat-analysis/scene-initial-final-live-*`；未启用真实服务导致的跳过不计作验收。
 
 完整来源采集入口为`node scripts/first-hero-availability.mjs --execute --mode all`，须明确设置`SIMULATION_EXPECTED_WASM_SHA256`；默认无请求，`--read-plan --mode all`仅用真实GET生成计划，不请求快照或建立计算Worker。执行时读取真实目录与快照，通过正式宿主和工作线程，复用页面绑定与规则顺序，覆盖双方等级、技能等级、背景普攻及同会话重复，另含默认及反序的30秒观察。机制专项用`node scripts/first-hero-mechanisms.mjs --base <已通过矩阵原始包.json.gz>`，同样明确指定正式摘要；它是受控协议附加证据，不代替保留普攻的矩阵。当前安妮74场／248次、机制25场／50次、19件装备含基准1404次、严格回放6次，以及盖伦98场／542次和真实页面4项均通过。独立复核与当前身份见规划工作树 `outputs/priority-adaptation-2026-10-18/场景显式初值与盖伦完整适配验收记录.md`；独立召唤物、友军和完整控制行动限制后置，目标死亡后结束，不纳入击杀后补偿。
 
