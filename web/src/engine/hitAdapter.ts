@@ -9,6 +9,7 @@ import type {
 } from '../types/skillEffect';
 import type { SkillFormula } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
+import type { NumericValue } from '../types/numericValue';
 import type { SkillInternalState } from '../types/skillInternalState';
 import type { SkillProcess } from '../types/skillProcess';
 import type { GameStatus, StatusKind } from '../types/status';
@@ -459,10 +460,142 @@ export function compileDamage(
   };
 }
 
+function hitHealingKeys(value: object, allowed: readonly string[], path: string): void {
+  if (!value || typeof value !== 'object' || Array.isArray(value)
+    || Object.keys(value).some(key => !allowed.includes(key))) fail(path, '命中减疗不能隐藏额外字段或操作');
+}
+
+/** 新减疗入口只核固定值和本技能静态参数，不解释共同公式或添加运行输入。 */
+function hitHealingStaticValues(value: NumericValue, authored: AuthoredHitProgram, path: string): number[] {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) fail(path, '减疗缺少明确静态数值');
+  if (value.kind === 'FORMULA') fail(path, '命中减疗的强度和期限暂不接受FORMULA');
+  if (value.kind === 'FIXED') {
+    hitHealingKeys(value, ['kind', 'value'], path);
+    return [finiteNumber(value.value, path, fail)];
+  }
+  if (value.kind !== 'PARAMETER') return fail(path, '命中减疗只接受固定值或本技能静态参数');
+  hitHealingKeys(value, ['kind', 'parameterKey'], path);
+  const rows = authored.parameters?.filter(row => row.parameterKey === value.parameterKey) ?? [];
+  const parameter = rows[0];
+  if (rows.length !== 1 || !parameter || parameter.gameId !== authored.gameId || parameter.skillKey !== authored.skillKey
+    || !['INTEGER', 'DECIMAL'].includes(parameter.valueType)) fail(path, '减疗参数必须属于当前技能且唯一完整');
+  const finite = (raw: unknown): number => {
+    const n = finiteNumber(raw, path, fail);
+    if (parameter.valueType === 'INTEGER' && !Number.isSafeInteger(n)) fail(path, '整数参数必须保留安全整数');
+    return n;
+  };
+  if (parameter.valueMode === 'FIXED') {
+    if (parameter.levelValues != null) fail(path, '固定参数不能混入等级值');
+    return [finite(parameter.fixedValue)];
+  }
+  if (!['SKILL_LEVEL', 'CHARACTER_LEVEL'].includes(parameter.valueMode) || parameter.fixedValue != null
+    || !parameter.levelValues || typeof parameter.levelValues !== 'object' || Array.isArray(parameter.levelValues)) {
+    fail(path, '命中减疗不读取计算时输入或缺失的等级参数');
+  }
+  const entries = Object.entries(parameter.levelValues);
+  const level = parameter.valueMode === 'SKILL_LEVEL' ? authored.skillLevel : authored.characterLevel;
+  if (!entries.length || !Object.prototype.hasOwnProperty.call(parameter.levelValues, String(level))
+    || entries.some(([key]) => !/^[1-9][0-9]*$/.test(key) || !Number.isSafeInteger(Number(key)))) {
+    fail(path, '减疗参数必须保留实际等级及全部合法声明等级');
+  }
+  return entries.map(([, raw]) => finite(raw));
+}
+
+function assertHitHealingResult(authored: AuthoredHitProgram, effect: SkillEffect,
+  result: Extract<SkillEffectResult, { resultType: 'HEALING_MODIFIER' }>, path: string,
+  resolveKind: HitResolveKind, empoweredPayload: boolean): void {
+  if (resolveKind !== 'skill' || empoweredPayload || result.target !== 'TARGET' || momentOf(result) !== 'PERSISTENT'
+    || result.spellShieldBlockScope !== null || effect.results.length !== 1 || effect.results[0] !== result
+    || authored.identity.target.category !== 'CHAMPION' || authored.identity.target.hostility !== 'ENEMY') {
+    fail(path, '有限减疗只接真实技能命中的唯一敌方英雄及独立单结果');
+  }
+  hitHealingKeys(effect, ['gameId', 'skillKey', 'effectKey', 'name', 'description', 'sortOrder', 'lifecycle', 'results', 'createdAt', 'updatedAt'], path);
+  hitHealingKeys(result, ['resultKey', 'name', 'description', 'sortOrder', 'resultType', 'target', 'spellShieldBlockScope', 'valueRule', 'detail', 'lifecycleBehavior'], path);
+  const detail = result.detail, behavior = result.lifecycleBehavior, life = effect.lifecycle;
+  hitHealingKeys(detail, ['modifierZoneKey', 'direction', 'operation', 'healingKind'], path + '.detail');
+  if (detail.direction !== 'RECEIVED' || detail.operation !== 'DECREASE' || detail.healingKind !== 'ANY') {
+    fail(path, '命中减疗只接受RECEIVED/ANY/DECREASE');
+  }
+  if (!behavior || behavior.moment !== 'PERSISTENT' || behavior.valueReadMode !== 'APPLICATION_SNAPSHOT'
+    || behavior.stackValueMode !== 'SHARED' || behavior.reapplicationValueMode !== 'REPLACE'
+    || behavior.periodicExecutionMode !== null) fail(path, '命中减疗必须为单层施加快照替换');
+  hitHealingKeys(behavior, ['moment', 'valueReadMode', 'stackValueMode', 'reapplicationValueMode', 'periodicExecutionMode'], path);
+  const zones = authored.modifierZones?.filter(row => row.modifierZoneKey === detail.modifierZoneKey) ?? [];
+  if (zones.length !== 1 || zones[0]!.gameId !== authored.gameId || zones[0]!.status !== 'ENABLED'
+    || zones[0]!.domain !== 'HEALING' || zones[0]!.calculationMode !== 'RATIO_MAX'
+    || zones[0]!.applicationStage !== 'HEALING_RESULT') fail(path, '减疗缺少同游戏唯一启用的真实HEALING_RESULT/RATIO_MAX区域');
+  if (!life || !life.durationValue || life.endWhenShieldEndsResultKey != null) fail(path, '命中减疗必须有独立有限期限');
+  hitHealingKeys(life, ['durationValue', 'maxStacksValue', 'applicationStacksValue', 'instanceScope', 'reapplicationStackMode',
+    'reapplicationDurationMode', 'expiryMode', 'periodicIntervalValue', 'firstPeriodicExecution', 'endWhenShieldEndsResultKey'], path + '.lifecycle');
+  assertStandardLifecycle(effect, path + '.lifecycle', 'SOURCE_TARGET');
+  for (const key of ['maxStacksValue', 'applicationStacksValue'] as const) {
+    if (hitHealingStaticValues(life[key], authored, path + '.lifecycle.' + key).some(n => n !== 1)) fail(path, '命中减疗只接受单层单次施加');
+  }
+  if (hitHealingStaticValues(life.durationValue, authored, path + '.lifecycle.durationValue')
+    .some(n => !Number.isSafeInteger(n) || n <= 0)) fail(path, '减疗全部声明期限必须为正安全整数');
+  const rule = result.valueRule;
+  if (!rule) fail(path, '减疗缺少完整强度规则');
+  hitHealingKeys(rule, ['value', 'fixedMultiplier', 'fixedMinValue', 'fixedMaxValue'], path + '.valueRule');
+  const multiplier = finiteNumber(rule.fixedMultiplier, path, fail);
+  if (multiplier < 0) fail(path, '减疗倍率不能为负');
+  for (const key of ['fixedMinValue', 'fixedMaxValue'] as const) {
+    if (rule[key] !== null && (finiteNumber(rule[key], path, fail) < 0 || rule[key]! > 1)) fail(path, '减疗夹取边界必须位于0至1');
+  }
+  if (rule.fixedMinValue !== null && rule.fixedMaxValue !== null && rule.fixedMinValue > rule.fixedMaxValue) fail(path, '减疗上下界不能颠倒');
+  for (const n of hitHealingStaticValues(rule.value, authored, path + '.valueRule.value')) {
+    const scaled = n * multiplier;
+    const amount = tryFoldConstant(wrapValueRuleExpression(constExpr(n), rule));
+    if (n < 0 || !Number.isFinite(scaled) || scaled < 0 || scaled > 1 || amount === null || amount < 0 || amount > 1) {
+      fail(path, '减疗全部声明强度必须在夹取前后均为有限0至1，不能隐藏非法值');
+    }
+  }
+}
+
+/** 必须核最终顺序与真实规则组，任意较晚的SKILL候选不能替换首个单位。 */
+function assertHitHealingWitness(authored: AuthoredHitProgram, candidates: readonly SkillHitCandidate[], groups: readonly SkillHitRuleGroup[]): void {
+  const healing = candidates.filter(candidate => candidate.semantic.resultType === 'HEALING_MODIFIER');
+  if (!healing.length) return;
+  const path = planPath(authored.skillKey, 'healingWitness');
+  const blockedZero = (candidate: SkillHitCandidate, required: boolean): boolean => {
+    const conditions = candidate.eventValueConditions ?? [];
+    return conditions.length === 0 && !required || conditions.length === 1 && conditions[0]!.key === 'blocked'
+      && conditions[0]!.comparator === 'eq' && sameJson(conditions[0]!.value, constExpr(0));
+  };
+  const stable = (candidate: SkillHitCandidate): boolean => !candidate.participationProviderRef
+    && (candidate.participationCondition == null || tryFoldConstant(candidate.participationCondition) === 1)
+    && !groups.some(group => group.candidateKeys.includes(candidate.candidateKey));
+  for (const candidate of healing) {
+    if (candidate.spellShieldBlockScope !== null || !stable(candidate) || !blockedZero(candidate, true)) {
+      fail(path, '减疗必须保留唯一blocked EQ 0且无动态参与引用、额外事件条件或一次额度');
+    }
+  }
+  const witness = candidates.find(candidate => candidate.spellShieldBlockScope !== null);
+  if (!witness || witness.spellShieldBlockScope !== 'SKILL' || witness.semantic.resultType !== 'DAMAGE'
+    || witness.semantic.target !== 'TARGET' || witness.semantic.moment !== 'INSTANT' || !stable(witness)
+    || !blockedZero(witness, false) || witness.operations.length !== 1) {
+    fail(path, '首个非空法盾粒度必须是稳定无条件SKILL目标伤害见证');
+  }
+  const witnessIndex = candidates.indexOf(witness);
+  if (healing.some(candidate => witnessIndex >= candidates.indexOf(candidate))) {
+    fail(path, '伤害见证必须先于每个减疗候选，不能用较晚SKILL补齐');
+  }
+  const operation = witness.operations[0]!;
+  const allowed = ['operation', 'target', 'damageType', 'amount', 'ref', 'critEligible', 'critChance', 'critMultiplier', 'critMultiplierMin', 'types', 'vampQualification', 'vampOverrides'];
+  if (operation.operation !== 'damage' || operation.target !== 'target' || Object.keys(operation).some(key => !allowed.includes(key))) {
+    fail(path, '减疗伤害见证不能隐藏操作条件、重复或其它操作');
+  }
+  const effect = lookupEffect(authored, witness.effectKey, path), results = effect.results.filter(result => result.resultKey === witness.resultKey);
+  if (results.length !== 1 || results[0]!.resultType !== 'DAMAGE') fail(path, '减疗见证缺少唯一真实伤害作者');
+  const result = results[0] as Extract<SkillEffectResult, { resultType: 'DAMAGE' }>;
+  hitHealingKeys(result, ['resultKey', 'name', 'description', 'sortOrder', 'resultType', 'target', 'spellShieldBlockScope', 'valueRule', 'detail', 'lifecycleBehavior'], path);
+  hitHealingKeys(result.detail, ['damageTypeKey', 'deliveryKind', 'originKind', 'critical', 'vampQualification', 'vampOverrides'], path);
+  hitHealingKeys(result.detail.critical, ['mode', 'multiplierValue'], path);
+}
+
 function compilePersistentHitResult(
   authored: AuthoredHitProgram,
   effect: SkillEffect,
-  result: SkillEffectStatusOperationResult | Extract<SkillEffectResult, { resultType: 'ATTRIBUTE_CHANGE' }>,
+  result: SkillEffectStatusOperationResult | Extract<SkillEffectResult, { resultType: 'ATTRIBUTE_CHANGE' | 'HEALING_MODIFIER' }>,
   providerKey: string,
   path: string,
   state: NumericCompileState,
@@ -636,6 +769,11 @@ function compileResultOperations(
       semantic,
       operations: [compileClosedControl(authored, effect, result, kind, providerKey, path, state, providers, typeEntries)]
     };
+  }
+  if (result.resultType === 'HEALING_MODIFIER') {
+    assertHitHealingResult(authored, effect, result, path, resolveKind, empoweredPayload);
+    return { semantic: { resultType: 'HEALING_MODIFIER', target: 'TARGET', moment: 'PERSISTENT' },
+      operations: [compilePersistentHitResult(authored, effect, result, `healing:${authored.skillKey}:${effect.effectKey}:${result.resultKey}`, path, state, providers)] };
   }
   if (result.resultType === 'ATTRIBUTE_CHANGE') {
     if (effect.lifecycle) {
@@ -929,6 +1067,7 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
     seenCandidate.add(candidate.candidateKey);
   }
   validateHitRuleGroups(candidates, ruleGroups, planPath(authored.skillKey, 'ruleGroups'), fail);
+  assertHitHealingWitness(authored, candidates, ruleGroups);
   for (const rule of consumeRules) {
     if (rule.eventSource.eventType !== 'SPELL_SHIELD_BLOCKED') continue;
     const shieldEffectKey = rule.eventSource.detail.shieldEffectKey;

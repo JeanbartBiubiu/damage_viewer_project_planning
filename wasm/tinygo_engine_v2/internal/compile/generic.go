@@ -176,6 +176,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeParticipationProviderBindings(ctx)
 	finalizeSkillHitRuleGroups(ctx)
 	finalizeSkillHitPersistentAttributeProviders(ctx)
+	finalizeSkillHitHealingModifiers(req, ctx)
 	finalizeProviderDurationChanges(ctx)
 	finalizeOwnedHealthModifiers(ctx)
 	validateProviderElapsedReads(ctx)

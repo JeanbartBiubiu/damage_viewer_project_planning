@@ -15,6 +15,7 @@ import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import type { SkillActionInput } from './skillActionRequest';
 import { basicAttackPrimaryBinding } from './primaryAttackReplacementContract';
 import { validateMarkedRawDamageAssembly, validateMarkedRawPrimaryOrder } from './markedRawDamageAssembly';
+import { WASM_IDENTITY } from './wasmIdentity';
 
 const primarySkill = 'physical_body';
 const skillTag = `ability/skill/${primarySkill}`;
@@ -131,7 +132,7 @@ function shieldRemaining(shield: unknown) {
 }
 const probeExpected = {
   scope: '合法Generic层协议探针；不代表管理目标法盾或永久伤害修正作者入口已经支持',
-  wasmSha256: '217f78d05a57e09d3bbb58340f53349613d0f3e340218f9532eb8dd3f54ef0c8',
+  wasmSha256: WASM_IDENTITY.sha256,
   initial_spell_shield: { rHitAtMs: [250], blocked: [1], targetHp: 1000, damage: [], marked: false, markDeadline: null },
   late_spell_shield: { rHitAtMs: [250, 1250], blocked: [0, 1], shieldAppliedAtMs: 1000,
     targetHp: 900, damage: [{ timeMs: 250, damageType: 'magic', rawAmount: 200, postDefenseDamage: 100 }], marked: true, markDeadline: 3250 },
@@ -173,6 +174,7 @@ async function freshProbe(caseKey: string, probeKey: keyof Omit<typeof probeExpe
   const snapshot = definition.buildSnapshot(); mutateSnapshot?.(snapshot);
   const engine = await mechanismEngine(), client = engine.client as unknown as GenericEngineClient;
   expect(engine.wasmSha256).toBe(probeExpected.wasmSha256);
+  expect(engine.wasmBytes).toBe(WASM_IDENTITY.bytes);
   const preflight = await preflightSkillFormulas(snapshot, client, () => true);
   const prepared = await prepareSimulation(snapshot, definition.scenario.attributeInputs ?? { source: {}, target: {} }, definition.scenario.initialHealth,
     [], [], simulationAutomaticCastCosts(snapshot));

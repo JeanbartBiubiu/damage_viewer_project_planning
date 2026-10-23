@@ -47,7 +47,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 
 ## 已覆盖的数值机制
 
-目前229个固定用例、201类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
+目前235个固定用例、204类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
 
 | 范围 | 固定用例入口 |
 | --- | --- |
@@ -67,6 +67,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 | 战前0至3计数、每N次命中、同事件条件冻结、显式永久属性初值 | `passive_*` |
 | 生命偷取、直接治疗与过量、正值全能吸血、反伤与逐结果吸血资格 | `basic_attack_life_steal`、`direct_heal_overheal`、`healing_*` |
 | 本笔击杀冻结、普通自身回复、完整恢复归属及生命/法力夹取 | `kill_restore_*` |
+| 真实命中有限受治疗降低、零伤害与未命中、精确到期、刷新及同组取强 | `hit_healing_modifier_*` |
 | 有限生命上限、净增量授予、刷新与夹取、同实例双抗 | `resource_finite_*`、`resource_same_instance_*` |
 | 普通费用按产品口径忽略、未来提交冷却倍率 | `resource_ordinary_cost_ignored`、`schedule_future_cooldown_duration` |
 | 普攻命中缩短同来源主动剩余冷却，并唤醒真实自动施放 | `schedule_basic_attack_reduces_cooldown` |
@@ -100,3 +101,5 @@ node scripts/refresh-verification-identity.mjs --write  # 条件全部满足后�
 `admitted-coverage.json` 的对象键为`<kind>:<key>`，每项保存与正式证明相同的`contentDigest`、`externalDigest`、非空唯一`mechanisms`及中文核对依据`rationale`。对象范围以当前JSON声明为准，不能用空泛标签宣称支持新对象。
 
 `npm run check:mechanism-coverage`只检查依赖，不运行回归、不写证明，也不证明构建一致。持续集成在机制测试之前另行强制运行`check:wasm-build`；`npm test`包含机制回归、刷新及构建比较门槛测试。新对象首次准入仍需按其真实配置单独验收；回归阶段只依赖这里的机制用例。
+
+真实命中有限减疗的强度与期限仅接固定值或本技能静态参数；法盾空粒度须有同次更早的稳定全技能伤害候选与明确未挡条件。六个固定场景保留背景普攻及目标真实受伤治疗，逐笔恢复与完整末态共同核对，见[共享契约](../../../outputs/skill-adaptation-20261023-varus/真实命中有限减疗共享契约.md)。补充初始通用法盾测试只证明判盾与有限效果门控；它保留法盾实例，不声称消费或管理作者初始化能力。

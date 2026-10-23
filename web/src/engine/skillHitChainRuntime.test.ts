@@ -1,5 +1,5 @@
 import {describe,it,expect} from 'vitest';
-import {mkdirSync,writeFileSync,readFileSync} from 'node:fs';
+import {mkdirSync,writeFileSync} from 'node:fs';
 import {loadMechanismCases} from '../../tests/mechanisms/mechanismCase';
 import {mechanismEngine,runMechanismCase,compareMechanismExpectation} from '../../tests/mechanisms/mechanismRunner';
 import {prepareSimulation} from './simulationAdapter';
@@ -12,6 +12,7 @@ import type {GenericEngineClient} from './genericEngineClient';
 import type {DoneResult} from '../types/genericEngine';
 import {inspectSkillHitChainResult} from './skillHitChainResult';
 import {compiledSkillHitChain} from './skillHitChainResult';
+import {WASM_IDENTITY} from './wasmIdentity';
 
 const directory=new URL(`../../output/morgana-r-web/runtime-${Date.now()}/`,import.meta.url);
 mkdirSync(directory,{recursive:true});
@@ -20,9 +21,8 @@ const cases=loadMechanismCases().filter(row=>row.caseKey.startsWith('hit_chain_'
 const basis=cases.find(row=>row.caseKey==='hit_chain_manual')!;
 const zeroRecord={maxSkillActionRecords:0,maxSkillUseRecords:0,maxHealingRecords:0};
 async function fresh(name:string,mode:'manual'|'auto',shield=false,zero=false,summary=false){
-  const {client:node,wasmSha256}=await mechanismEngine(),client=node as unknown as GenericEngineClient;
-  const frozen=JSON.parse(readFileSync(new URL('../../output/morgana-r-web/fixed-before-first-run-v2.json',import.meta.url),'utf8'));
-  expect(wasmSha256).toBe(frozen.wasm.sha256);
+  const {client:node,wasmSha256,wasmBytes}=await mechanismEngine(),client=node as unknown as GenericEngineClient;
+  expect({sha256:wasmSha256,bytes:wasmBytes}).toEqual(WASM_IDENTITY);
   const snapshot=basis.buildSnapshot();
   await preflightSkillFormulas(snapshot,client,()=>true);
   const prepared=await prepareSimulation(snapshot,{source:{},target:{}},{source:500,target:1000});

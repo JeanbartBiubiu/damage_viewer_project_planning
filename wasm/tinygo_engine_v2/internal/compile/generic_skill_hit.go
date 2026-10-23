@@ -96,6 +96,7 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 		plan.Candidates = append(plan.Candidates, compiled)
 	}
 	compileSkillHitRuleGroups(op.SkillHit.RuleGroups, op.SkillHit.Candidates, plan, opPath+".skillHit.ruleGroups", ownerProviderIndex, ctx)
+	validateSkillHitHealingCandidates(ability, op, plan, ctx)
 	if plan.PrimaryCandidate >= 0 {
 		for i, candidate := range op.SkillHit.Candidates {
 			if candidate.SpellShieldBlockScope != nil {
@@ -377,7 +378,11 @@ func operationsMatchSemantic(ops []model.OperationDefinition, sem model.SkillHit
 		} else {
 			return "STATUS_OPERATION REMOVE has no verified status-key-to-instance mapping in skill hit candidates"
 		}
-	case model.SkillHitResultDamageModifier, model.SkillHitResultHealingModifier, model.SkillHitResultDamageImmunity, model.SkillHitResultHealthFloor:
+	case model.SkillHitResultHealingModifier:
+		if sem.Target != model.SkillHitTargetTARGET || sem.Moment != model.SkillHitMomentPersistent || scope != nil || len(ops) != 1 || !allOpsAre(ops, "apply_provider", model.SelectorTarget) {
+			return "HEALING_MODIFIER requires one PERSISTENT TARGET apply_provider with null spell-shield scope"
+		}
+	case model.SkillHitResultDamageModifier, model.SkillHitResultDamageImmunity, model.SkillHitResultHealthFloor:
 		return "this resultType does not yet have a verified operation mapping in skill hit candidates"
 	default:
 		return "operations cannot match unknown resultType"
