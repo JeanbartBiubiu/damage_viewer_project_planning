@@ -7,6 +7,7 @@ import type { SkillActionInput } from '../../src/engine/skillActionRequest';
 import type { SceneInitialParameterInput } from '../../src/engine/sceneInitialParameterInput';
 import type { ProjectedStatusContribution, ProjectedEffectiveStatus } from './statusProjection';
 import type { ProjectedUseTrigger } from './useTriggerProjection';
+import type { ProjectedAmmoMechanic, ProjectedFinalAmmo } from './ammoProjection';
 import type { ProjectedFiniteRecastStage, ProjectedFiniteRecastWindow, ProjectedFiniteRecastWitness } from './finiteRecastProjection';
 import type { SimulationAttributeInputs, SimulationInitialHealth, SimulationInitialResourceInput, SimulationSnapshot, SimulationMechanicStateInput, SimulationEquipmentAssumption } from '../../src/types/simulationSnapshot';
 
@@ -99,6 +100,8 @@ export type MechanismProjection = {
   finalUseTriggerLedger: ProjectedUseTrigger[];
   shieldAbsorptions: ProjectedShieldAbsorption[];
   finalShieldWaits: ProjectedShieldWait[];
+  ammoMechanics: ProjectedAmmoMechanic[];
+  finalAmmo: ProjectedFinalAmmo[];
   finiteRecastWindows: ProjectedFiniteRecastWindow[];
   finiteRecastStages: ProjectedFiniteRecastStage[];
   finiteRecastWitnesses: ProjectedFiniteRecastWitness[];
@@ -125,6 +128,8 @@ export type MechanismExpectation = {
   finalUseTriggerLedger?: ProjectedUseTrigger[];
   shieldAbsorptions?: Partial<ProjectedShieldAbsorption>[];
   finalShieldWaits?: ProjectedShieldWait[];
+  ammoMechanics?: ProjectedAmmoMechanic[];
+  finalAmmo?: ProjectedFinalAmmo[];
   finiteRecastWindows?: ProjectedFiniteRecastWindow[];
   finiteRecastStages?: ProjectedFiniteRecastStage[];
   finiteRecastWitnesses?: ProjectedFiniteRecastWitness[];
@@ -229,6 +234,10 @@ const EXPECTED_FIELDS: Record<string, readonly string[]> = {
   shieldAbsorptions: ['timeMs', 'damageId', 'damageSource', 'damageTarget', 'shieldRef', 'definitionRef', 'lifecycleProviderRef',
     'source', 'owner', 'remainingBefore', 'remainingAfter', 'absorbed'],
   finalShieldWaits: ['owner', 'source', 'definitionRef', 'stateKey', 'value', 'expireAt'],
+  ammoMechanics: ['owner', 'source', 'providerRef', 'providerDefinitionRef', 'bindingKey', 'skillKey', 'processKey', 'stateKey',
+    'timeMs', 'kind', 'operationRole', 'beforeValue', 'afterValue', 'useRef', 'readyAtMs'],
+  finalAmmo: ['owner', 'source', 'providerRef', 'providerDefinitionRef', 'bindingKey', 'skillKey', 'processKey', 'stateKey',
+    'inventory', 'maximum', 'waiting', 'readyAtMs'],
   finiteRecastWindows: ['owner', 'providerRef', 'providerDefinitionRef', 'bindingKey', 'processKey', 'skillKey', 'useKey', 'target', 'stepKey',
     'stepVersion', 'stepExecutionIndex', 'lastExecutionAtMs', 'stepCompletedAtMs', 'startedAtMs', 'stepStartedAtMs', 'advanceAtMs', 'expiresAtMs',
     'actualCosts', 'cooldownStarted', 'status', 'failureReason', 'finishedAtMs', 'repeat', 'actionOccupancies', 'maximumRecastCount', 'intervalMs', 'windowMs'],
@@ -240,6 +249,9 @@ const EXPECTED_FIELDS: Record<string, readonly string[]> = {
 /** 覆盖标签必须对应至少一个数值断言，空对象或只有名称不能获得回归覆盖。 */
 function validateExpectation(expected: Record<string, unknown>, file: string) {
   onlyKeys(expected, [...Object.keys(EXPECTED_FIELDS), 'attackStarts', 'finalAttributes'], file, 'expected');
+  if (Object.prototype.hasOwnProperty.call(expected, 'ammoMechanics') !== Object.prototype.hasOwnProperty.call(expected, 'finalAmmo')) {
+    fail(file, 'expected.ammoMechanics 与 finalAmmo 必须成对声明');
+  }
   let numericAssertions = 0;
   for (const [section, value] of Object.entries(expected)) {
     if (section === 'finalAttributes') {
@@ -262,6 +274,30 @@ function validateExpectation(expected: Record<string, unknown>, file: string) {
       const fields = object(row, file, path);
       if (!Object.keys(fields).length) fail(file, `${path} 不能是空期望对象`);
       onlyKeys(fields, EXPECTED_FIELDS[section]!, file, path);
+      if (section === 'ammoMechanics' || section === 'finalAmmo') {
+        const nonnegative = (value: unknown) => typeof value === 'number' && Number.isSafeInteger(value) && value >= 0;
+        const identities = ['providerRef', 'providerDefinitionRef', 'bindingKey', 'skillKey', 'processKey', 'stateKey'];
+        const numeric = section === 'ammoMechanics' ? ['timeMs', 'beforeValue', 'afterValue'] : ['inventory', 'maximum'];
+        if (Object.keys(fields).length !== EXPECTED_FIELDS[section]!.length || fields.owner !== 'source' || fields.source !== 'source'
+          || identities.some(key => typeof fields[key] !== 'string' || !(fields[key] as string).trim())
+          || numeric.some(key => !nonnegative(fields[key])) || fields.readyAtMs !== null && !nonnegative(fields.readyAtMs)) {
+          fail(file, `${path} 需要完整实际弹药归属及非负安全整数事实`);
+        }
+        if (section === 'ammoMechanics') {
+          if (!['STATE_CHANGED', 'WAIT_STARTED', 'WAIT_ENDED'].includes(String(fields.kind))
+            || !['consume', 'recovery'].includes(String(fields.operationRole))
+            || fields.operationRole === 'consume' && (fields.kind !== 'STATE_CHANGED' || fields.readyAtMs !== null
+              || typeof fields.useRef !== 'string' || !fields.useRef.trim())
+            || fields.operationRole === 'recovery' && (fields.useRef !== null || !nonnegative(fields.readyAtMs))) {
+            fail(file, `${path} 消费须有实际使用，恢复须有明确截止且无伪使用`);
+          }
+        } else if (typeof fields.waiting !== 'boolean' || Number(fields.maximum) < 1 || Number(fields.inventory) > Number(fields.maximum)
+          || (fields.waiting ? !nonnegative(fields.readyAtMs) : fields.readyAtMs !== null)) {
+          fail(file, `${path} 库存、容量及重建等待必须完整一致`);
+        }
+        numericAssertions += numeric.length + (fields.readyAtMs === null ? 0 : 1);
+        continue;
+      }
       if (['finiteRecastWindows', 'finiteRecastStages', 'finiteRecastWitnesses'].includes(section)) {
         if (Object.keys(fields).length !== EXPECTED_FIELDS[section]!.length) fail(file, `${path} 需要完整窗口、逐发或见证字段`);
         const numeric = section === 'finiteRecastWindows' ? ['stepVersion', 'stepExecutionIndex', 'lastExecutionAtMs', 'stepCompletedAtMs',

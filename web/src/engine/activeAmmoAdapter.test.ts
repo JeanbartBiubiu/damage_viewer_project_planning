@@ -1,3 +1,4 @@
+import { inspectSimulationSnapshot } from './simulationAdapter';
 import { describe, expect, it } from 'vitest';
 import { simulationActiveAmmo } from '../../tests/fixtures/simulationActiveAmmo';
 import { assembleActiveSkills } from './simulationActiveSkills';
@@ -156,5 +157,54 @@ describe('通用主动弹药与整数循环宿主装配', () => {
     ]);
     expect(active(fixture).formulas.some(row => row.key.endsWith('/documented_formula'))).toBe(false);
     expect(sceneInitialParameterRequirements(fixture.snapshot).some(row => row.parameterKey === 'unresolved_reference')).toBe(false);
+  });
+});
+
+
+/** 动态回充只验证装配，不在此计算截止或触发原生运行。 */
+function dynamicRecoverySample() {
+  const fixture = simulationActiveAmmo(), { configuration, snapshot, stock } = fixture;
+  const skillKey = configuration.skill.skillKey;
+  if (!snapshot.catalogs.attributes.some(attribute => attribute.attributeKey === 'ability_haste')) {
+    snapshot.catalogs.attributes.push({ ...snapshot.catalogs.attributes[0]!, attributeKey: 'ability_haste', name: '真实急速目录', valueType: 'DECIMAL', status: 'ENABLED' });
+  }
+  configuration.parameters.push({ ...configuration.parameters[0]!, parameterKey: 'recharge_ms', valueMode: 'FIXED', valueType: 'INTEGER', fixedValue: 16000, levelValues: null });
+  configuration.formulas.push({ gameId: snapshot.gameId, skillKey, formulaKey: 'dynamic_recovery', name: '当前总急速回充',
+    description: null, sortOrder: 10, createdAt: '', updatedAt: '', expression: {
+      inputs: [{ key: 'base', binding: { kind: 'parameter', skillKey, parameterKey: 'recharge_ms' } },
+        { key: 'haste', binding: { kind: 'attribute', object: 'source', attributeKey: 'ability_haste', valueKind: 'TOTAL', view: 'current_frame' } }],
+      stages: [{ key: 'raw', name: '原额', expression: { op: 'div', args: [
+        { op: 'mul', args: [{ op: 'read', inputKey: 'base' }, { op: 'const', value: '100' }] },
+        { op: 'add', args: [{ op: 'const', value: '100' }, { op: 'read', inputKey: 'haste' }] }
+      ] } }, { key: 'result', name: '正值取整', expression: { op: 'if', args: [
+        { op: 'gt', args: [{ op: 'ref', stageKey: 'raw' }, { op: 'const', value: '0' }] },
+        { op: 'max', args: [{ op: 'const', value: '1' }, { op: 'round', args: [{ op: 'ref', stageKey: 'raw' }], decimals: 0 }] }, { op: 'ref', stageKey: 'raw' }
+      ] } }], outputStageKey: 'result'
+    } });
+  stock.detail.recoveryIntervalValue = { kind: 'FORMULA', formulaKey: 'dynamic_recovery' };
+  return fixture;
+}
+
+describe('动态回充在自然与主动库存的唯一装配', () => {
+  it('真实同拥有者schema与完整formula相等，两分支都收集AH且保留实际作者映射', () => {
+    const fixture = dynamicRecoverySample();
+    const natural = assembleNaturalSkillSources(fixture.snapshot, fixture.inputs(1, 0, 1));
+    const planned = active(fixture, 1, 0, 1);
+    const parent = planned.providers.find(provider => provider.providerKey === planned.bindings[0]!.providerDefinitionRef)!;
+    const other = natural.providers.find(provider => provider.providerKey === parent.providerKey)!;
+    expect(other.initialStateSchema?.stock).toEqual(parent.initialStateSchema?.stock);
+    const field = parent.initialStateSchema!.stock!;
+    if (typeof field === 'number') throw Error('弹药schema不能退化成裸数字');
+    const key = field.ammoRecovery!.intervalMs.ref!;
+    expect(natural.triggered.formulas.find(formula => formula.key === key)).toEqual(planned.formulas.find(formula => formula.key === key));
+    expect(natural.required.source.has('ability_haste')).toBe(true);
+    expect(inspectSimulationSnapshot(fixture.snapshot, [], fixture.inputs(1, 0, 1)).requirements.some(row => row.side === 'source' && row.attribute.attributeKey === 'ability_haste')).toBe(true);
+    expect(natural.coverage).toContainEqual({ authorPath: `skills.${fixture.configuration.skill.skillKey}.formulas.dynamic_recovery.expression`, compiledPath: `formulas[${key}].expression` });
+  });
+  it('目录缺失时不补H0，主动和自然都拒绝', () => {
+    const fixture = dynamicRecoverySample();
+    fixture.snapshot.catalogs.attributes = fixture.snapshot.catalogs.attributes.filter(attribute => attribute.attributeKey !== 'ability_haste');
+    expect(() => active(fixture, 1, 0, 1)).toThrow();
+    expect(() => assembleNaturalSkillSources(fixture.snapshot, fixture.inputs(1, 0, 1))).toThrow();
   });
 });

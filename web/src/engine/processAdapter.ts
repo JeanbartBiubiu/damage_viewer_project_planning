@@ -1,3 +1,4 @@
+import type { Attribute } from '../types/attribute';
 import { formulasUsedByInternalValue } from './approvedFormulaValues';
 import { sameFormulaPayload } from '../services/skillFormulaContract';
 import { validateStoredSkillFormula } from '../services/skillFormulaContract';
@@ -86,6 +87,8 @@ export type AuthoredProcessProgram = {
   internalStates?: readonly SkillInternalState[];
   modifierZones?: readonly ModifierZone[];
   damageTypes?: readonly DamageType[];
+  /** 仅动态弹药回充核对实际目录；静态状态可不传。 */
+  ammoRecoveryAttributes?: readonly Attribute[];
   basicAttackContext?: ProcessBasicAttackContext;
   hitContext?: Pick<AuthoredHitProgram, 'statuses' | 'identity' | 'skillCategoryKeys' | 'vampRules' | 'criticalBinding'>;
   /** 宿主绑定的真实父定义身份，使主动与自然同源，双方不同来源互不碰撞。 */
@@ -1038,7 +1041,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (!isRecord(authored)) fail('adapter.processPlan', '过程程序必须是对象');
   exactKeys(authored, [
     'gameId', 'skillKey', 'skillLevel', 'characterLevel', 'process', 'rules', 'effects',
-    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'damageTypes', 'basicAttackContext', 'hitContext', 'providerDefinitionRef', 'sceneAttributeInputs', 'stateInitialValues', 'payloadSceneParameterValues'
+    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'damageTypes', 'ammoRecoveryAttributes', 'basicAttackContext', 'hitContext', 'providerDefinitionRef', 'sceneAttributeInputs', 'stateInitialValues', 'payloadSceneParameterValues'
   ], 'adapter.processPlan');
   const gameId = catalogKey(authored.gameId, 'gameId');
   if (authored.ignoreCastCosts !== undefined && typeof authored.ignoreCastCosts !== 'boolean') fail('ignoreCastCosts', '忽略施法成本必须明确声明');
@@ -1083,7 +1086,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (authored.internalStates !== undefined && !Array.isArray(authored.internalStates)) fail(planPath(skillKey, 'internalStates'), '内部状态必须是数组');
   const counterReads = processCounterReads(process, authored.rules, authored.internalStates ?? [], state);
   const statePlan = compileProcessStates(authored.internalStates ?? [], state, planPath(skillKey, 'internalStates'), authored.stateInitialValues,
-    { ...state, runtimeInputReads: counterReads });
+    { ...state, runtimeInputReads: counterReads }, authored.ammoRecoveryAttributes);
   const providers = new Map<string, ProviderDefinition>();
   const finitePeriodic: FinitePeriodicCompilation[] = [];
   const steps = compileSteps(process, state);

@@ -22,9 +22,11 @@ export function simulationActiveSample(healing = false) {
   snapshot.selection.sourceSkillSettings.push({ origin, skillKey, enabled: true, skillLevel: 1 });
   snapshot.source.skillSources[0]!.enabledRuleKeys = [];
   snapshot.source.skillSources[0]!.inactiveReason = 'NO_AUTONOMOUS_ATTACK';
+  const startAction = structuredClone(basic.triggerRules[0]!.actions[0]!);
+  if (startAction.actionType !== 'START_PROCESS') throw new Error('独立主动样例需要真实启动过程动作');
   const initial: SkillTriggerRuleDetail = { ...structuredClone(basic.triggerRules[0]!), ruleKey: 'first_cast',
     eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: skillKey, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
-    actions: [{ ...structuredClone(basic.triggerRules[0]!.actions[0]!), actionType: 'START_PROCESS', detail: { processKey: 'cast' } }] };
+    actions: [{ ...startAction, detail: { processKey: 'cast' } }] };
   const configuration: SkillConfiguration = { ...structuredClone(basic),
     skill: { ...basic.skill, skillKey, name: '独立单段主动', skillCategoryKeys: ['active'] }, parameters: [], formulas: [],
     processes: [{ ...structuredClone(basic.processes[0]!), skillKey, processKey: 'cast', effectBindings: [],

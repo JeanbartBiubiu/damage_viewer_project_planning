@@ -239,7 +239,7 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   }
   const adapted = adaptProcessProgram({ gameId: snapshot.gameId, skillKey: plan.skillKey, skillLevel: plan.skillLevel,
     characterLevel: snapshot.selection.sourceLevel, process, rules: processRules, effects: configuration.effects,
-    parameters: configuration.parameters, formulas: configuration.formulas, owner: 'source',
+    parameters: configuration.parameters, formulas: configuration.formulas, owner: 'source', ammoRecoveryAttributes: snapshot.catalogs.attributes,
     internalStates: configuration.internalStates, modifierZones: snapshot.catalogs.modifierZones, damageTypes: snapshot.catalogs.damageTypes.map(row => row.type), providerDefinitionRef: definitionRef,
     basicAttackContext, sceneAttributeInputs, payloadSceneParameterValues: payloadSceneValues, stateInitialValues: sceneInitialValuesForSource(sceneInitialParameterRequirements(snapshot), sceneInputs,
       'source', snapshot.source.skillSources.find(source => simulationSkillSourceIdentity(source.origin, source.skillKey)

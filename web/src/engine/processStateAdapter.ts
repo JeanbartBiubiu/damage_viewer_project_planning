@@ -1,4 +1,6 @@
-import type { ProviderDefinition, OperationDefinition } from '../types/genericEngine';
+import type { Attribute } from '../types/attribute';
+import { compileDynamicAmmoRecoveryInterval } from './ammoRecoveryInterval';
+import type { ProviderDefinition, OperationDefinition, ProviderStateFieldSchema } from '../types/genericEngine';
 import type { SkillInternalState } from '../types/skillInternalState';
 import type { SkillProcessStateOperation } from '../types/skillProcess';
 import type { NumericValue } from '../types/numericValue';
@@ -19,7 +21,7 @@ function integer(value: NumericValue, path: string, state: NumericCompileState, 
 }
 
 export function compileStateFieldSchema(row: SkillInternalState, state: NumericCompileState, path: string,
-  sceneValues: Readonly<Record<string, number>> = {}): NonNullable<ProviderDefinition['initialStateSchema']>[string] {
+  sceneValues: Readonly<Record<string, number>> = {}, ammoRecoveryAttributes?: readonly Attribute[]): ProviderStateFieldSchema {
   if (row.stateType !== 'COUNTER' && row.stateType !== 'AMMO') fail(path, '这里只编译计数或弹药字段');
   const initialState = (field: 'initialValue' | 'initialRemainingValue') => {
     const bindingField = field === 'initialValue' ? 'initialValueBinding' : 'initialRemainingMsBinding';
@@ -46,7 +48,8 @@ export function compileStateFieldSchema(row: SkillInternalState, state: NumericC
   exact(row.detail, ['initialValue', 'initialValueBinding', 'initialRemainingValue', 'initialRemainingMsBinding', 'maxValue',
     'recoveryIntervalValue', 'recoveryMode', 'recoveryStartCondition'], `${path}.detail`);
   if (row.scope !== 'SKILL' || maximum < 1) fail(path, '弹药必须是技能自身状态且容量为正整数');
-  const interval = integer(row.detail.recoveryIntervalValue, `${path}.detail.recoveryIntervalValue`, staticState, 1);
+  const dynamicInterval = compileDynamicAmmoRecoveryInterval(row, staticState, `${path}.detail.recoveryIntervalValue`, ammoRecoveryAttributes);
+  const interval = dynamicInterval ? undefined : integer(row.detail.recoveryIntervalValue, `${path}.detail.recoveryIntervalValue`, staticState, 1);
   const one = row.detail.recoveryMode === 'ONE_BY_ONE' && row.detail.recoveryStartCondition === 'AFTER_CONSUME';
   const all = row.detail.recoveryMode === 'ALL_AT_ONCE' && row.detail.recoveryStartCondition === 'WHEN_EMPTY';
   if (!one && !all) fail(path, '弹药只接入逐枚消耗后恢复或整匣耗尽恢复');
@@ -55,16 +58,16 @@ export function compileStateFieldSchema(row: SkillInternalState, state: NumericC
   const remaining = row.detail.initialRemainingValue === undefined ? undefined
     : integer(row.detail.initialRemainingValue, `${path}.detail.initialRemainingValue`, remainingState);
   if (one && initial < maximum && remaining === undefined) fail(path, '欠弹必须明确初充余时，零也须自行声明');
-  if (remaining !== undefined && (remaining > interval || initial === maximum && remaining !== 0)) fail(path, '初充余时不得超过完整间隔，满弹只能为零或不声明');
-  // 用相同的核定整数保证主动与自然分支共享同一库存定义，不携带分支专属公式引用。
+  if (remaining !== undefined && (interval !== undefined && remaining > interval || initial === maximum && remaining !== 0)) fail(path, '初充余时不得超过完整间隔，满弹只能为零或不声明');
+  // 静态仍用核定整数；动态仅使用本技能/等级/状态的一致完整公式引用，不预取属性或改期。
   return { valueType: 'integer', stateKind: 'ammo', defaultValue: initial, maxValue: maximum,
-    ammoRecovery: { intervalMs: constExpr(interval), mode: one ? 'one_by_one' : 'all_at_once', startCondition: one ? 'after_consume' : 'when_empty',
+    ammoRecovery: { intervalMs: dynamicInterval ?? constExpr(interval!), mode: one ? 'one_by_one' : 'all_at_once', startCondition: one ? 'after_consume' : 'when_empty',
       ...(one && initial < maximum ? { initialRemainingMs: remaining! } : {}) } };
 }
 
 /** 状态留在作者技能的父供值器；动态效果实例不能接管作者状态。 */
 export function compileProcessStates(states: readonly SkillInternalState[], state: NumericCompileState, root: string,
-  sceneValues: Readonly<Record<string, number>> = {}, dynamicState?: NumericCompileState) {
+  sceneValues: Readonly<Record<string, number>> = {}, dynamicState?: NumericCompileState, ammoRecoveryAttributes?: readonly Attribute[]) {
   const schema: NonNullable<ProviderDefinition['initialStateSchema']> = {};
   const byKey = new Map<string, SkillInternalState>();
   for (const row of states) {
@@ -74,7 +77,7 @@ export function compileProcessStates(states: readonly SkillInternalState[], stat
       || !['SKILL', 'TARGET'].includes(row.scope) || byKey.has(row.stateKey)) fail(path, '内部状态必须有唯一的同技能身份及明确范围');
     byKey.set(row.stateKey, row);
     if (row.stateType === 'COUNTER' || row.stateType === 'AMMO') {
-      schema[row.stateKey] = compileStateFieldSchema(row, state, path, sceneValues);
+      schema[row.stateKey] = compileStateFieldSchema(row, state, path, sceneValues, ammoRecoveryAttributes);
     } else if (row.stateType === 'FLAG') {
       exact(row.detail, ['initialEnabled'], `${path}.detail`);
       if (typeof row.detail.initialEnabled !== 'boolean') fail(path, '标志必须有明确初值');

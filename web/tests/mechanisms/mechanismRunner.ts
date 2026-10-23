@@ -23,6 +23,7 @@ import { projectFinalStatuses } from './statusProjection';
 import { projectUseTriggerLedger } from './useTriggerProjection';
 import { projectShieldAbsorptions, projectShieldWaits } from './shieldAbsorptionProjection';
 import { projectFiniteRecasts } from './finiteRecastProjection';
+import { projectActiveAmmo } from './ammoProjection';
 
 export const WASM_PATH = new URL('../../src/engine/wasm/tinygo_engine_v2.wasm', import.meta.url);
 
@@ -104,7 +105,7 @@ export async function runMechanismCase(definition: MechanismCase): Promise<Mecha
     if (done.summary.execution && done.summary.execution.budgetCause !== null) throw new Error('运行耗尽预算：' + done.summary.execution.budgetCause);
     const repeated = await client.run(runRequest);
     if (!isDeepStrictEqual(repeated, done)) throw new Error('同会话重复运行结果不一致');
-    return { prepared, runRequest, done, projection: projectMechanismResult(prepared.operationOrigins, prepared.compileRequest, runRequest, done) };
+    return { prepared, runRequest, done, projection: projectMechanismResult(prepared.operationOrigins, prepared.compileRequest, runRequest, done, definition.expected) };
   } finally {
     const released = await client.release(sessionId, prepared.compileRequest.rulesHash);
     if (!released.released) throw new Error('引擎未释放实际会话');
@@ -120,7 +121,7 @@ function automaticRuleSkill(compileRequest: CompileRequest, runRequest: RunReque
 
 /** 只保留业务可手算的语义字段，避免内部引用、编号和记录形状变化影响回归。 */
 export function projectMechanismResult(origins: readonly OperationOrigin[], compileRequest: CompileRequest, runRequest: RunRequest,
-  done: DoneResult): MechanismProjection {
+  done: DoneResult, expected?: MechanismExpectation): MechanismProjection {
   const originOf = (record: DamageRecord) => {
     const matches = origins.filter(row => row.operationRef === record.operationRef && (row.abilityRef === record.abilityRef
       || !!record.providerDefinitionRef && row.providerDefinitionRef === record.providerDefinitionRef
@@ -128,6 +129,11 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
     if (matches.length !== 1) throw new Error(`伤害记录找不到唯一作者来源：${record.abilityRef}/${record.operationRef}`);
     return matches[0]!;
   };
+  const wantsAmmo = expected?.ammoMechanics !== undefined || expected?.finalAmmo !== undefined;
+  if (wantsAmmo && (expected?.ammoMechanics === undefined || expected.finalAmmo === undefined)) {
+    throw new Error('ammoMechanics 与 finalAmmo 必须成对声明');
+  }
+  const ammo = wantsAmmo ? projectActiveAmmo(compileRequest, runRequest, done) : { ammoMechanics: [], finalAmmo: [] };
   const summary = done.summary;
   const finalProviders = done.finalSnapshot.combatants.flatMap(row => row.providers.map(provider => {
     if (provider.owner !== row.key || !['source', 'target'].includes(provider.source)
@@ -183,6 +189,7 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
     initializations: projectInitializations(compileRequest, runRequest, done),
     ...projectEmpoweredWindows(compileRequest, runRequest, done),
     ...projectFiniteRecasts(compileRequest, runRequest, done),
+    ...ammo,
     finalCooldowns: done.finalSnapshot.combatants.flatMap(actor => Object.entries(actor.cooldowns).map(([abilityRef, value]) => {
       if (!value || typeof value !== 'object' || !Number.isSafeInteger((value as Record<string, unknown>).readyAtMs)
         || !Number.isSafeInteger((value as Record<string, unknown>).remainingMs)
@@ -220,6 +227,11 @@ export function compareMechanismExpectation(actual: MechanismProjection, expecte
     wanted.forEach((row, index) => {
       if (rows[index]) fields(`${list}[${index}]`, rows[index]!, row as Record<string, unknown>);
     });
+  }
+  for (const list of ['ammoMechanics', 'finalAmmo'] as const) {
+    if (expected[list] !== undefined && !isDeepStrictEqual(actual[list], expected[list])) {
+      issues.push(`${list}: 实际 ${JSON.stringify(actual[list])}，期望 ${JSON.stringify(expected[list])}`);
+    }
   }
   if (expected.attackStarts && !isDeepStrictEqual(actual.attackStarts, expected.attackStarts)) {
     issues.push(`attackStarts: 实际 ${JSON.stringify(actual.attackStarts)}，期望 ${JSON.stringify(expected.attackStarts)}`);

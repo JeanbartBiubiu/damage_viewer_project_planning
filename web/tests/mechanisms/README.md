@@ -18,6 +18,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 - `damage`、`healing`、`skillStarts`、`resourceChanges`、`finalResources` 列表按发生顺序比较，条数必须一致；`attackStarts` 整体相等；`finalAttributes` 逐项核对明确填写的双方属性。
 - `finalProviders`（运行实例列表）完整比较双方所有实例的拥有者、来源、定义、层数和期限，稳定排序后核对条数与五个字段；缺少身份直接失败，不补造来源，不筛掉额外实例。
 - `shieldAbsorptions`逐笔核对真实伤害身份、完整盾与关联实例、创建归属、余量连续性和吸收守恒；`finalShieldWaits`核对实际父挂载中的等待值及截止时刻，不从总额补造逐盾事实。无新读取的旧场景须保持原证据字段。
+- `ammoMechanics`与`finalAmmo`成对声明时，完整核对主动弹药每笔原提交顺序、真实首次使用、编译归属、库存及精确整数时刻；不从最终伤害推断回充，也不求值公式补造记录。未声明的旧用例保持原投影路径。
 - 失败时实际投影写到被忽略的 `web/output/mechanisms/<caseKey>.actual.json`。
 
 ## 文件
@@ -46,7 +47,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 
 ## 已覆盖的数值机制
 
-目前226个固定用例、200类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
+目前229个固定用例、201类机制。精确标签以各JSON的`mechanisms`为准，不另维护逐标签副本。`kill_restore_*`四例使用明确当前法力1或45、真实容量50，手算致死/非致死/过量致死/回复上限；`scenario.initialResourceInputs`缺失不补满。
 
 | 范围 | 固定用例入口 |
 | --- | --- |
@@ -59,6 +60,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 | 真实首次过程施加有限纯周期、零延迟首跳、刷新保留相位、当前属性读取 | `finite_immediate_*` |
 | 按实际提交总冷却比例返还、急速取整、满血与全盾、同使用多笔、关闭与未计划隔离 | `committed_total_refund_*` |
 | 逐枚弹药、第三发、未命中扣弹与普攻缩短回充 | `ammo_*` |
+| 每轮读取当前急速、等待中不重算、正毫秒四舍五入及精确恢复记录 | `ammo_dynamic_haste*` |
 | 真实普攻主体先挂标、同笔伤前标记、修正前原额派生真伤、零伤害、伤后挂标、已有标记续期及精确到期 | `marked_raw_*` |
 | 有限引导、完成冷却、动作占用、后继资格与等待冷却 | `channel_*`、`schedule_successor_cooldown_wait` |
 | 强化附伤、下一刀主体替换、附伤共存、计时重置、开始计数快照、逐结果暴击 | `empowered_*` |

@@ -381,6 +381,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         };
         const usedParameters = new Set<string>();
         const usedFormulas = new Set<string>();
+        const ammoRecoveryFormulaKeys = new Map<string, Set<string>>();
         const usedEffects = new Set<string>();
         const appliedEffects = new Set<string>();
         const queriedShieldEffects = new Set<string>();
@@ -535,7 +536,15 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           }
           if (state.stateType === 'AMMO' || state.stateType === 'COUNTER' && state.detail.initialValueBinding !== undefined) {
             if (skills.length !== 1) fail(statePath, '显式状态初值与弹药需要唯一真实来源，不能跨聚合来源共享');
-            schema[stateKey(state)] = compileStateFieldSchema(state, numeric, statePath, source.sceneInitialValues) as ProviderStateFieldSchema;
+            const field = compileStateFieldSchema(state, numeric, statePath, source.sceneInitialValues, snapshot.catalogs.attributes);
+            schema[stateKey(state)] = field as ProviderStateFieldSchema;
+            const interval = field.ammoRecovery?.intervalMs;
+            if (state.stateType === 'AMMO' && state.detail.recoveryIntervalValue.kind === 'FORMULA' && interval?.op === 'ref' && interval.ref) {
+              const key = state.detail.recoveryIntervalValue.formulaKey;
+              const formulas = ammoRecoveryFormulaKeys.get(key) ?? new Set<string>();
+              formulas.add(interval.ref); ammoRecoveryFormulaKeys.set(key, formulas);
+              cover(`${statePath}.detail.recoveryIntervalValue`, `${compiledRoot}.initialStateSchema.${stateKey(state)}.ammoRecovery.intervalMs`);
+            }
             noteNumeric(state.detail.initialValue); noteNumeric(state.detail.maxValue);
             if (state.stateType === 'AMMO') {
               noteNumeric(state.detail.recoveryIntervalValue);
@@ -1877,7 +1886,16 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         }
         for (const authored of configuration.formulas) {
           const authorPath = `${root}.formulas.${authored.formulaKey}.expression`;
-          if (!coverage.some(row => row.authorPath === authorPath && row.compiledPath.startsWith('formulas['))) cover(authorPath, `formulas[${numeric.formulaNamespace}/${authored.formulaKey}].expression`);
+          const recoveryKeys = ammoRecoveryFormulaKeys.get(authored.formulaKey);
+          if (recoveryKeys) {
+            for (const key of recoveryKeys) if (!coverage.some(row => row.authorPath === authorPath && row.compiledPath === `formulas[${key}].expression`)) {
+              cover(authorPath, `formulas[${key}].expression`);
+            }
+            const ordinaryKey = `${numeric.formulaNamespace}/${authored.formulaKey}`;
+            if (numeric.namedFormulas.has(ordinaryKey) && !coverage.some(row => row.authorPath === authorPath && row.compiledPath === `formulas[${ordinaryKey}].expression`)) {
+              cover(authorPath, `formulas[${ordinaryKey}].expression`);
+            }
+          } else if (!coverage.some(row => row.authorPath === authorPath && row.compiledPath.startsWith('formulas['))) cover(authorPath, `formulas[${numeric.formulaNamespace}/${authored.formulaKey}].expression`);
         }
         for (const formula of numeric.namedFormulas.values()) addFormula(formula, root);
         for (const ability of abilities) {
@@ -1886,6 +1904,11 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           collectAttributes(ability, side, required);
         }
         for (const formula of formulas.values()) if (formula.key.startsWith(`${numeric.formulaNamespace}/`)) collectAttributes(formula.expression, side, required);
+        for (const keys of ammoRecoveryFormulaKeys.values()) for (const key of keys) {
+          const formula = numeric.namedFormulas.get(key);
+          if (!formula) fail(root, '动态弹药回充缺少实际登记的完整公式');
+          collectAttributes(formula.expression, side, required);
+        }
         cover(source.path, compiledRoot);
         cover(`${root}.skill`, compiledRoot);
         compiledSources.push({ side, providerRef, definitionRef, skillKey });
