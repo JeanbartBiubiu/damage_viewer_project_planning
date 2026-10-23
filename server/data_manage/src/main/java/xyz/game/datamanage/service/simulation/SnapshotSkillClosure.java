@@ -128,6 +128,10 @@ final class SnapshotSkillClosure {
         for (Source source : sources) {
             if (source.inactive != null) continue;
             if (active.contains(source)) continue;
+            if (completeUndrivenRawDamageMark(source)) {
+                source.inactive = InactiveReason.NO_REACHABLE_EVENT;
+                continue;
+            }
             boolean deferred = rules(source).stream().anyMatch(rule ->
                 Set.of("SKILL_USED", "SKILL_HIT").contains(rule.data().path("eventSource").path("eventType").asText())
                     && !rule.data().path("actions").isEmpty());
@@ -330,6 +334,21 @@ final class SnapshotSkillClosure {
             if (effect == null) throw SnapshotIssues.invalid(objectPath(rule) + ".actions", "REFERENCE_MISSING", "休眠伤害监听的必要效果不存在");
             if (effect.data().path("results").isEmpty()) return false;
         }
+        return completeUndrivenDefinitions(source, declarations, false);
+    }
+
+    private boolean completeUndrivenRawDamageMark(Source source) {
+        if (source.planned != null || !source.ruleKeys.isEmpty() || source.level == null || source.level < 1
+            || source.configuration.skill().maxLevel() == null || source.level > source.configuration.skill().maxLevel()) return false;
+        JsonNode configuration = json.valueToTree(source.configuration);
+        if (!RawDamageMarkSnapshotRules.declared(configuration) || rules(source).stream().anyMatch(rule -> natural(source, rule))) return false;
+        if (!RawDamageMarkSnapshotRules.complete(configuration, source.level, source.characterLevel))
+            throw SnapshotIssues.invalid("skillConfigurations[" + indexOf(source.skillKey) + "]", "CONFIGURATION_INCOMPLETE", "无可达事件的原额标记来源必须具有完整且唯一的目标计数、写入过程和四监听图");
+        return completeUndrivenDefinitions(source, rules(source), true);
+    }
+
+    /** 局部定义队列不写visited/pending/active，不加载未绑定外部技能。 */
+    private boolean completeUndrivenDefinitions(Source source, List<Aggregate> declarations, boolean sameOwnerRequired) {
         ArrayDeque<Aggregate> queue = new ArrayDeque<>(declarations);
         Set<Aggregate> checked = new LinkedHashSet<>();
         Set<Target> definitions = new HashSet<>();
@@ -345,7 +364,13 @@ final class SnapshotSkillClosure {
                 Target target = reference.target();
                 if (target.type() == TargetType.SKILL) {
                     SkillConfigurationResponse definition = configurations.get(target.key());
-                    if (definition == null || definition.skill().status() != SkillStatus.ENABLED) return false;
+                    if (definition == null || definition.skill().status() != SkillStatus.ENABLED) {
+                        if (sameOwnerRequired) throw SnapshotIssues.invalid(path(reference), "REFERENCE_MISSING", "休眠标记图需要当前配置集合中真实启用的外部技能定义");
+                        return false;
+                    }
+                    if (sameOwnerRequired && sources.stream().filter(candidate -> candidate.side.equals(source.side)
+                        && candidate.origin.equals(source.origin) && candidate.skillKey.equals(target.key())).count() != 1)
+                        throw SnapshotIssues.invalid(path(reference), "REFERENCE_OUT_OF_SCOPE", "休眠标记图只能引用同一实际拥有者关系中的唯一技能定义");
                     continue;
                 }
                 if (target.skillKey().isEmpty()) { definitions.add(target); continue; }

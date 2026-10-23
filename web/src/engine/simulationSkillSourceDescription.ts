@@ -13,6 +13,7 @@ import { targetMarkAuthoringContract, isTargetMarkPostHitRule } from './targetMa
 import { isUndrivenTargetTimingSource } from './targetTimingAuthoring';
 import { skillHitChainContract, isSkillHitChainPostRule } from './skillHitChainContract';
 import { validateStoredSkillFormula } from '../services/skillFormulaContract';
+import { validateMarkedRawDamageContract } from './markedRawDamageContract';
 
 export type SimulationSourceSide = 'source' | 'target';
 type Side = SimulationSourceSide;
@@ -215,6 +216,16 @@ function validateUnreachableDamageSource(snapshot: SimulationSnapshot, configura
     || source.enabledRuleKeys.length || sourceIsPlanned(snapshot,side,source)
     || side==='source' && source.origin.kind==='CHARACTER' && source.skillKey===snapshot.selection.basicAttackSkillKey) {
     fail(root,'本场无事件原因只允许真实启用、有效等级、非计划且非所选普攻的空入口来源');
+  }
+  const markedRaw = validateMarkedRawDamageContract(snapshot,configuration,root);
+  if(markedRaw){
+    for(const key of [markedRaw.primarySkillKey,markedRaw.rSkillKey,markedRaw.wSkillKey]){
+      const relations=snapshot[side].skillSources.filter(row=>row.skillKey===key
+        && simulationSkillSourceIdentity(row.origin,key)===simulationSkillSourceIdentity(source.origin,key));
+      if(relations.length!==1 || relations[0]!.skillStatus!=='ENABLED')fail(root,'休眠标记图的外部技能必须保留唯一同拥有者启用定义关系');
+    }
+    if(naturalRuleKeys(snapshot,configuration,side,source).length)fail(root,'本场无事件原因不能隐藏真实可达的挂标或原额入口');
+    return;
   }
   if(!configuration.triggerRules.length || configuration.triggerRules.some(rule=>!DAMAGE_EVENTS.has(rule.eventSource.eventType)
     || !rule.actions.length || rule.actions.some(action=>action.actionType!=='EXECUTE_EFFECT'))) {

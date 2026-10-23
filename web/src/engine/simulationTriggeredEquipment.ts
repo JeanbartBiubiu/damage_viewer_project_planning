@@ -45,6 +45,8 @@ import { compileProviderDurationResult } from './providerDurationAdapter';
 import { finiteTargetCounterContract } from './finiteTargetCounterContract';
 import { lowerTargetCounterValueRule } from './targetCounterFormula';
 import { lowerSettledDamageHealValueRule, settledDamageHealBinding } from './settledDamageHeal';
+import { lowerRawDamageTargetValueRule, rawDamageTargetBinding } from './rawDamageTarget';
+import { validateMarkedRawDamageContract } from './markedRawDamageContract';
 import { ownCounterShieldExpiry } from './ownCounterShieldExpiry';
 import { targetTimingDeclarations } from './targetTimingAuthoring';
 import { isCounterTargetTiming } from '../services/counterTargetTiming';
@@ -353,6 +355,11 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
 
       for (const source of skills) {
         const { skillKey, skillLevel } = source;
+        const fullConfiguration = snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey) ?? source.configuration;
+        const markedRaw = validateMarkedRawDamageContract(snapshot, fullConfiguration, `skills.${skillKey}`);
+        if (markedRaw && (side !== 'source' || !['character', 'build'].includes(description.kind) || skills.length !== 1)) {
+          fail(`skills.${skillKey}`, '伤前标记原额派生只接实际拥有方的唯一永久自然来源');
+        }
         const chain = skillHitChainContract(snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey) ?? source.configuration);
         if (chain && (side !== 'source' || description.kind !== 'character' || skills.length !== 1
           || !snapshot.selection.plannedSkills.some(plan => plan.skillKey === skillKey && plan.phaseKinds.includes('INITIAL')))) fail(`skills.${skillKey}`, '首段资格监听只属于真实计划的唯一角色挂载');
@@ -398,7 +405,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const finiteCounter = finiteTargetCounterContract(snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey) ?? configuration);
         const ownExpiry = ownCounterShieldExpiry(configuration);
         let boundCounterParameter: string | undefined;
-        let boundSettledDamage: { parameterKey: string; amountPath: string; actionPath: string } | undefined;
+        let boundEventDamage: { kind: 'settled' | 'raw'; parameterKey: string; amountPath: string; actionPath: string } | undefined;
         const skillTypes = configuration.skill.skillCategoryKeys.map(category);
         const noteNumeric = (value: NumericValue) => {
           if (value.kind === 'PARAMETER') usedParameters.add(value.parameterKey);
@@ -453,13 +460,14 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const amount = (result: SkillEffectResult, resultPath: string) => {
           if (!result.valueRule) fail(`${resultPath}.valueRule`, '结果数值规则缺失');
           validateValueRule(result.valueRule, `${resultPath}.valueRule`);
-          if (boundSettledDamage) {
+          if (boundEventDamage) {
             noteNumeric(result.valueRule.value);
-            const lowered = lowerSettledDamageHealValueRule(result.valueRule, configuration, skillLevel,
-              snapshot.selection[`${side}Level`], boundSettledDamage.parameterKey, `${resultPath}.valueRule`);
+            const lower = boundEventDamage.kind === 'raw' ? lowerRawDamageTargetValueRule : lowerSettledDamageHealValueRule;
+            const lowered = lower(result.valueRule, configuration, skillLevel,
+              snapshot.selection[`${side}Level`], boundEventDamage.parameterKey, `${resultPath}.valueRule`);
             for (const mapping of lowered.mappings) cover(mapping.authorPath,
-              boundSettledDamage.amountPath + mapping.privatePath.replace(/^expression/, ''));
-            cover(`${boundSettledDamage.actionPath}.runtimeInputBindings`, boundSettledDamage.amountPath);
+              boundEventDamage.amountPath + mapping.privatePath.replace(/^expression/, ''));
+            cover(`${boundEventDamage.actionPath}.runtimeInputBindings`, boundEventDamage.amountPath);
             if (lowered.author.formulaKey) {
               const formula = configuration.formulas.find(row => row.formulaKey === lowered.author.formulaKey)!;
               registerCommonFormula(formula, `${root}.formulas.${formula.formulaKey}.expression`, numeric, fail);
@@ -972,7 +980,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           resultShape(result, resultPath);
           const operationPath = `${outputRoot}[${output.length}]`;
           let operation: OperationDefinition;
-          const restoration: OperationDefinition | null = boundSettledDamage
+          const restoration: OperationDefinition | null = boundEventDamage?.kind === 'settled'
             ? { operation: 'heal', target: 'self', amount: amount(result, resultPath), ref: resultPath }
             : compileNaturalRestoration(authored, result, resultPath, () => amount(result, resultPath));
           if (restoration) {
@@ -1166,7 +1174,14 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           exact(action, ['actionKey', 'actionType', 'detail', 'targetContext', 'runtimeInputBindings', 'resultModifiers', ...METADATA], actionPath);
           const bindings = array(action.runtimeInputBindings, `${actionPath}.runtimeInputBindings`);
           const counterBinding = bindings[0];
-          if (bindings.some(binding => binding.sourceType === 'EVENT_VALUE')) return settledDamageHealBinding(action, rule, configuration, actionPath);
+          if (bindings.some(binding => binding.sourceType === 'EVENT_VALUE')) {
+            const raw = bindings.some(binding => binding.sourceType === 'EVENT_VALUE' && binding.detail.eventValueKey === 'RAW_DAMAGE');
+            if (raw) {
+              if (!markedRaw || markedRaw.magicRule.ruleKey !== rule.ruleKey) fail(actionPath, '原额目标伤害缺少完整伤前标记图授权');
+              return { kind: 'raw' as const, parameterKey: rawDamageTargetBinding(action, rule, configuration, actionPath) };
+            }
+            return { kind: 'settled' as const, parameterKey: settledDamageHealBinding(action, rule, configuration, actionPath) };
+          }
           const bound = finiteCounter && action.actionType === 'EXECUTE_EFFECT' && bindings.length === 1
             && counterBinding?.sourceType === 'INTERNAL_STATE' && counterBinding.parameterKey === finiteCounter.parameterKey
             && counterBinding.detail.stateSkillKey === skillKey && counterBinding.detail.stateKey === finiteCounter.counter.stateKey
@@ -1273,7 +1288,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
           for (const action of ordered(rule.actions, `${rulePath}.actions`)) {
             const actionPath = `${rulePath}.actions.${action.actionKey}`;
-            const settledParameter = actionShape(action, actionPath, rule);
+            const damageBinding = actionShape(action, actionPath, rule);
             const context = targetFor(action, event, actionPath);
             const operationPath = `${outputRoot}[${output.length}]`;
             if (action.actionType === 'EXECUTE_EFFECT') {
@@ -1313,16 +1328,16 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                 cover(actionPath, 'runtimeOptions.skillOrigins');
               } else {
                 const previous = boundCounterParameter;
-                const previousSettled = boundSettledDamage;
-                if (settledParameter) {
+                const previousEventDamage = boundEventDamage;
+                if (damageBinding) {
                   if (event !== 'DAMAGE_DEALT') fail(actionPath, '本笔金额绑定不能泄漏到其它事件执行点');
-                  boundSettledDamage = { parameterKey: settledParameter, amountPath: `${operationPath}.amount`, actionPath };
+                  boundEventDamage = { ...damageBinding, amountPath: `${operationPath}.amount`, actionPath };
                 } else if (action.runtimeInputBindings.length) {
                   boundCounterParameter = action.runtimeInputBindings[0]!.parameterKey;
                   lookupState(finiteCounter!.counter.stateKey, skillKey, actionPath);
                 }
                 try { executeEffect(authoredEffect, output, outputRoot, abilityRef, event, actionPath, context); }
-                finally { boundCounterParameter = previous; boundSettledDamage = previousSettled; }
+                finally { boundCounterParameter = previous; boundEventDamage = previousEventDamage; }
               }
             } else if (action.actionType === 'MODIFY_INTERNAL_STATE') {
               exact(action.detail, ['stateSkillKey', 'stateKey', 'operation', 'value'], `${actionPath}.detail`);

@@ -36,8 +36,9 @@ import { normalizeSceneInitialParameterInputs, type SceneInitialParameterInput }
 import { initialResourceRequirements, normalizeInitialResourceInputs } from './initialResourceInputs';
 import { permanentHealthIncreases } from './permanentHealthInitialization';
 import { assembleTargetMarkSource } from './targetMarkAdapter';
+import { validateMarkedRawDamageAssembly } from './markedRawDamageAssembly';
 
-export const SIMULATION_ADAPTER_VERSION = 'v44-unreachable-damage-listeners';
+export const SIMULATION_ADAPTER_VERSION = 'v45-marked-raw-damage';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v5';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -831,13 +832,15 @@ export function assembleSimulation(
         ...compiled.natural.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef }))
       ] };
   });
+  const compileRequest: CompileRequest = {
+    schemaVersion: 'generic-p0', schemaHash: SIMULATION_SCHEMA_HASH, rulesHash: 'pending',
+    typeCatalog: { types: [...compiled.types, ...snapshot.catalogs.attributes.map(attribute => ({ key: attribute.attributeKey, domain: 'attribute' }))], relations: [] }, combatants: actors,
+    sharedProviders: programProviders(compiled), formulas: [...new Map([...(compiled.formulas ?? []), ...collectedCommonFormulaDefinitions()].map(formula => [formula.key, formula])).values()], rules: compiled.rules,
+    settings: { maxEvents: 10000, maxCommandsPerEvent: 256, maxQueueEvents: 10000, maxChainDepth: 32 }
+  };
+  validateMarkedRawDamageAssembly(snapshot, compileRequest, compiled.basicAttackBinding, compiled.natural.origins, compiled.operationOrigins);
   return {
-    compileRequest: {
-      schemaVersion: 'generic-p0', schemaHash: SIMULATION_SCHEMA_HASH, rulesHash: 'pending',
-      typeCatalog: { types: [...compiled.types, ...snapshot.catalogs.attributes.map(attribute => ({ key: attribute.attributeKey, domain: 'attribute' }))], relations: [] }, combatants: actors,
-      sharedProviders: programProviders(compiled), formulas: [...new Map([...(compiled.formulas ?? []), ...collectedCommonFormulaDefinitions()].map(formula => [formula.key, formula])).values()], rules: compiled.rules,
-      settings: { maxEvents: 10000, maxCommandsPerEvent: 256, maxQueueEvents: 10000, maxChainDepth: 32 }
-    }, coverage: compiled.coverage, operationOrigins: compiled.operationOrigins, basicAttackBinding: compiled.basicAttackBinding,
+    compileRequest, coverage: compiled.coverage, operationOrigins: compiled.operationOrigins, basicAttackBinding: compiled.basicAttackBinding,
     equipmentOrigins: compiled.equipment.origins, skillOrigins: compiled.natural.origins, snapshotDigest: snapshot.snapshotDigest,
     attributeInputs: structuredClone(attributeInputs), initialHealth: structuredClone(initialHealth), equipmentAssumptions, mechanicStateInputs,
     ignoredCastCosts: compiled.active?.ignoredCastCosts ?? [], sceneParameterInputs, initialResourceInputs
