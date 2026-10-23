@@ -218,6 +218,11 @@ public class SimulationSnapshotService {
             references.add(new Reference(row.sourceSkillKey(), row.sourceType().name(), row.sourceKey(),
                 row.fieldPath(), dependency.type().name(), dependency.skillKey(), dependency.key(), dependency.subKey()));
         }
+        Set<String> executionDamageTypeKeys = Set.copyOf(damageTypeKeys.keySet());
+        for (SkillObjectReferences.Reference row : closure.definitionDamageTypeReferences()) {
+            damageTypeKeys.putIfAbsent(row.target().key(), referencePath(skillIndices.get(row.sourceSkillKey()),
+                row.sourceType().name(), row.sourceKey(), row.fieldPath()));
+        }
 
         for (Aggregate object : execution.objects()) {
             collectAttributeKeys(object.data(), attributeKeys, closure.objectPath(object));
@@ -257,7 +262,8 @@ public class SimulationSnapshotService {
                 json.createObjectNode().set("formula", formula.formula()))));
             for (var row : dependencies) {
                 attributeKeys.putIfAbsent(row.target().key(), formulaPath + "/" + row.fieldPath());
-                references.add(new Reference("", "DAMAGE_TYPE", key, row.fieldPath(), "ATTRIBUTE", "", row.target().key(), ""));
+                if (executionDamageTypeKeys.contains(key))
+                    references.add(new Reference("", "DAMAGE_TYPE", key, row.fieldPath(), "ATTRIBUTE", "", row.target().key(), ""));
             }
             selectedDamageTypes.add(new DamageTypeEntry(type, formula));
         }

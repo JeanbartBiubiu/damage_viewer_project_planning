@@ -13,12 +13,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.http.HttpStatus;
 import xyz.game.datamanage.model.damagetype.DamageTypeFormulaResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeStatus;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.*;
 import xyz.game.datamanage.model.skill.SkillStatus;
+import xyz.game.datamanage.model.skillrelation.CharacterSkillRelationListResponse;
+import xyz.game.datamanage.model.skillrelation.CharacterSkillRelationResponse;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.formula.DamageTypeFormulaFixtures;
 
@@ -43,6 +46,7 @@ class SimulationSnapshotDormantRawDamageMarkTest {
         rebind(graph);
         graph.remove(List.of("skill", "baseDigest"));
         install();
+        damageCatalogs();
     }
 
     @Test
@@ -55,7 +59,11 @@ class SimulationSnapshotDormantRawDamageMarkTest {
         assertEquals(List.of(), passive.enabledRuleKeys());
         assertTrue(result.references().stream().noneMatch(row -> row.sourceSkillKey().equals(PASSIVE)));
         assertEquals(1, result.skillConfigurations().stream().filter(row -> row.skill().skillKey().equals(PASSIVE)).count());
-        verifyNoInteractions(fixture.damageTypes);
+        assertCompleteDamageCatalogs(result);
+        for (String key : List.of("magic", "physics", "real")) {
+            verify(fixture.damageTypes).get(GAME, key);
+            verify(fixture.damageTypes).getFormula(GAME, key);
+        }
     }
 
     @ParameterizedTest
@@ -144,6 +152,7 @@ class SimulationSnapshotDormantRawDamageMarkTest {
         assertEquals(InactiveReason.UNLEARNED, source(fixture.service.get(GAME, selection(true, 0)).target(), PASSIVE).inactiveReason());
         assertNotEquals(InactiveReason.NO_REACHABLE_EVENT, source(fixture.service.get(GAME,
             targetSettings(List.of(new SkillSetting(Origin.character("hero_b"), PASSIVE, true, null)))).target(), PASSIVE).inactiveReason());
+        verifyNoInteractions(fixture.damageTypes);
     }
 
     @Test
@@ -165,10 +174,14 @@ class SimulationSnapshotDormantRawDamageMarkTest {
         var result = fixture.service.get(GAME, sourceSelection(List.of()));
         assertNull(source(result.source(), PASSIVE).inactiveReason());
         assertEquals(List.of("mark_on_primary_attack"), source(result.source(), PASSIVE).enabledRuleKeys());
+        assertCompleteDamageCatalogs(result);
+        assertFalse(result.references().stream().anyMatch(row -> row.sourceSkillKey().equals(PASSIVE)
+            && row.targetType().equals("DAMAGE_TYPE") && !row.targetKey().equals("physics")));
     }
 
-    @Test
-    void realPlannedMagicSiblingSelectsOnlyActualDamageAndHitRulesNotBareArea() throws Exception {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void realPlannedMagicSiblingSelectsOnlyActualDamageAndHitRulesNotBareArea(boolean selectedBasicAttack) throws Exception {
         sourceGraph(); damageCatalogs();
         fixture.configuration(BURST, 1, """
             {"effects":[%s],"processes":[{"processKey":"cast","activationType":"ACTIVE","cooldown":null,
@@ -178,20 +191,110 @@ class SimulationSnapshotDormantRawDamageMarkTest {
               "conditionGroups":[],"actions":[{"actionKey":"start","actionType":"START_PROCESS","detail":{"processKey":"cast"},"targetContext":"CURRENT_TARGET","runtimeInputBindings":[],"resultModifiers":[]}]},%s]}
             """.formatted(damage("burst", "magic", "SKILL"), BURST, effectRule("on_hit", "SKILL_HIT",
                 "{\"sourceSkillKey\":\"" + BURST + "\",\"processMoment\":{\"processKey\":\"cast\",\"moment\":{\"momentType\":\"STEP_EXECUTION\",\"stepKey\":\"release\"},\"requiresPriorStepKey\":null}}", "burst")));
-        var result = fixture.service.get(GAME, sourceSelection(List.of(new PlannedSkill(Origin.character("hero_a"), BURST, 1, List.of("INITIAL")))));
+        var result = fixture.service.get(GAME, sourceSelection(List.of(new PlannedSkill(Origin.character("hero_a"), BURST, 1, List.of("INITIAL"))), selectedBasicAttack));
         assertNull(source(result.source(), PASSIVE).inactiveReason());
         assertEquals(List.of("derive_true_on_marked_magic", "mark_on_unblocked_r"), source(result.source(), PASSIVE).enabledRuleKeys());
         assertFalse(result.references().stream().anyMatch(row -> row.sourceSkillKey().equals(PASSIVE) && row.sourceKey().equals("refresh_on_marked_w")));
+        assertCompleteDamageCatalogs(result);
+        assertFalse(result.references().stream().anyMatch(row -> row.sourceSkillKey().equals(PASSIVE)
+            && row.targetType().equals("DAMAGE_TYPE") && row.targetKey().equals("physics")));
     }
 
-    @Test
-    void realAreaMagicProducerSelectsItsDamageAndRefreshButNotBurstOrPrimary() throws Exception {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void realAreaMagicProducerSelectsItsDamageAndRefreshButNotBurstOrPrimary(boolean selectedBasicAttack) throws Exception {
         sourceGraph(); damageCatalogs();
         fixture.configuration(AREA, 1, "{\"effects\":[" + damage("pulse", "magic", "SKILL") + "],\"triggerRules\":["
             + effectRule("initialize", "SOURCE_INITIALIZED", "{}", "pulse") + "]}");
-        var result = fixture.service.get(GAME, sourceSelection(List.of()));
+        var result = fixture.service.get(GAME, sourceSelection(List.of(), selectedBasicAttack));
         assertNull(source(result.source(), PASSIVE).inactiveReason());
         assertEquals(List.of("derive_true_on_marked_magic", "refresh_on_marked_w"), source(result.source(), PASSIVE).enabledRuleKeys());
+        assertCompleteDamageCatalogs(result);
+    }
+
+    @Test
+    void globallyDisabledRawGraphDoesNotRequestDefinitionCatalogsOrExternalSkills() throws Exception {
+        fixture.configuration(PASSIVE, 1, SkillStatus.DISABLED, graph.toString());
+        when(fixture.relations.listCharacterRelations(GAME, "hero_b", null)).thenReturn(new CharacterSkillRelationListResponse(
+            List.of(new CharacterSkillRelationResponse(GAME, "hero_b", "hero_b", PASSIVE, PASSIVE, SkillStatus.DISABLED, 0)), 1));
+        var result = fixture.service.get(GAME, targetSettings(List.of()));
+        assertEquals(InactiveReason.GLOBAL_DISABLED, source(result.target(), PASSIVE).inactiveReason());
+        verifyNoInteractions(fixture.damageTypes);
+        verify(fixture.configurations, never()).get(GAME, BURST);
+        verify(fixture.configurations, never()).get(GAME, AREA);
+    }
+
+    @Test
+    void definitionFormulaAttributesDoNotExtendExecutionReferencesOrActorValues() throws Exception {
+        sourceGraph();
+        fixture.configuration(ATTACK, 2, "{\"effects\":[" + damage("primary", "physics", "BASIC_ATTACK") + "],\"triggerRules\":["
+            + effectRule("on_hit", "BASIC_ATTACK_HIT", "{}", "primary") + "]}");
+        var original = fixture.service.get(GAME, sourceSelection(List.of()));
+        when(fixture.damageTypes.getFormula(GAME, "magic")).thenReturn(new DamageTypeFormulaResponse(GAME, "magic",
+            DamageTypeFormulaFixtures.definition("1", "bonus_attack_speed_percent"), null));
+        var result = fixture.service.get(GAME, sourceSelection(List.of()));
+        assertCompleteDamageCatalogs(result);
+        assertTrue(result.catalogs().attributes().stream().anyMatch(row -> row.attributeKey().equals("bonus_attack_speed_percent")));
+        assertEquals(original.references(), result.references());
+        assertEquals(original.source().selectedLevelValues(), result.source().selectedLevelValues());
+        assertEquals(original.target().selectedLevelValues(), result.target().selectedLevelValues());
+        assertFalse(result.source().selectedLevelValues().has("bonus_attack_speed_percent"));
+        assertFalse(result.target().selectedLevelValues().has("bonus_attack_speed_percent"));
+        assertEquals(List.of("mark_on_primary_attack"), source(result.source(), PASSIVE).enabledRuleKeys());
+    }
+
+    @Test
+    void incompleteActiveRawGraphGetsNoExtraCatalogsAndKeepsOriginalClosure() throws Exception {
+        sourceGraph();
+        fixture.configuration(ATTACK, 2, "{\"effects\":[" + damage("primary", "physics", "BASIC_ATTACK") + "],\"triggerRules\":["
+            + effectRule("on_hit", "BASIC_ATTACK_HIT", "{}", "primary") + "]}");
+        ((ObjectNode) graph.path("effects").get(0).path("results").get(0).path("detail")).put("damageTypeKey", "true");
+        install();
+        var result = fixture.service.get(GAME, sourceSelection(List.of()));
+        assertEquals(List.of("physics"), result.catalogs().damageTypes().stream().map(row -> row.type().damageTypeKey()).toList());
+        assertEquals(List.of("mark_on_primary_attack"), source(result.source(), PASSIVE).enabledRuleKeys());
+        verify(fixture.damageTypes, never()).get(GAME, "magic");
+        verify(fixture.damageTypes, never()).get(GAME, "real");
+        verify(fixture.damageTypes, never()).get(GAME, "true");
+    }
+
+    @Test
+    void transportsTheCompleteFiveConstantRealFormulaWithoutExecutingIt() throws Exception {
+        JsonNode formula = fixture.json.readTree("""
+            {"inputs":[],"stages":[
+             {"key":"resistanceBeforePenetration","name":"穿透前抗性","expression":{"op":"const","value":"0"}},
+             {"key":"penetrationPercent","name":"比例穿透","expression":{"op":"const","value":"0"}},
+             {"key":"penetrationFlat","name":"固定穿透","expression":{"op":"const","value":"0"}},
+             {"key":"effectiveResistance","name":"有效抗性","expression":{"op":"const","value":"0"}},
+             {"key":"resistanceFactor","name":"结算倍率","expression":{"op":"const","value":"1"}}],
+             "outputStageKey":"resistanceFactor"}
+            """);
+        when(fixture.damageTypes.getFormula(GAME, "real")).thenReturn(new DamageTypeFormulaResponse(GAME, "real", formula, null));
+        var result = fixture.service.get(GAME, selection(true, 1));
+        assertCompleteDamageCatalogs(result);
+        assertEquals(formula, result.catalogs().damageTypes().stream().filter(row -> row.type().damageTypeKey().equals("real"))
+            .findFirst().orElseThrow().formula().formula());
+        assertTrue(result.references().stream().noneMatch(row -> row.sourceSkillKey().equals(PASSIVE)));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"missing", "disabled", "unconfigured", "wrong_game", "missing_formula", "corrupt_formula"})
+    void rejectsInvalidDefinitionOnlyDamageCatalogs(String mutation) throws Exception {
+        switch (mutation) {
+            case "missing" -> when(fixture.damageTypes.get(GAME, "magic")).thenThrow(new ApiException(HttpStatus.NOT_FOUND,
+                "404.DAMAGE_TYPE_NOT_FOUND", "不存在"));
+            case "disabled" -> when(fixture.damageTypes.get(GAME, "magic")).thenReturn(new DamageTypeResponse(GAME, "magic", "magic",
+                null, DamageTypeStatus.DISABLED, 0, null, null, true));
+            case "unconfigured" -> when(fixture.damageTypes.get(GAME, "magic")).thenReturn(new DamageTypeResponse(GAME, "magic", "magic",
+                null, DamageTypeStatus.ENABLED, 0, null, null, false));
+            case "wrong_game" -> when(fixture.damageTypes.getFormula(GAME, "magic")).thenReturn(new DamageTypeFormulaResponse("foreign", "magic",
+                DamageTypeFormulaFixtures.definition("1"), null));
+            case "missing_formula" -> when(fixture.damageTypes.getFormula(GAME, "magic")).thenReturn(new DamageTypeFormulaResponse(GAME, "magic", null, null));
+            case "corrupt_formula" -> when(fixture.damageTypes.getFormula(GAME, "magic")).thenReturn(new DamageTypeFormulaResponse(GAME, "magic",
+                fixture.json.readTree("{\"inputs\":[],\"stages\":[],\"outputStageKey\":\"missing\"}"), null));
+            default -> fail(mutation);
+        }
+        assertThrows(ApiException.class, () -> fixture.service.get(GAME, selection(true, 1)));
     }
 
     private void install() throws Exception { fixture.configuration(PASSIVE, 1, graph.toString()); }
@@ -200,6 +303,9 @@ class SimulationSnapshotDormantRawDamageMarkTest {
     private ObjectNode parameter(String key) { return (ObjectNode) graph.path("parameters").valueStream().filter(row -> row.path("parameterKey").asText().equals(key)).findFirst().orElseThrow(); }
     private ObjectNode stateCheck(String key) { return (ObjectNode) rule(key).path("conditionGroups").get(0).path("conditions").get(0).path("detail"); }
     private static SkillSource source(Combatant combatant, String key) { return combatant.skillSources().stream().filter(row -> row.skillKey().equals(key)).findFirst().orElseThrow(); }
+    private static void assertCompleteDamageCatalogs(SimulationSnapshotResponse result) {
+        assertEquals(List.of("magic", "physics", "real"), result.catalogs().damageTypes().stream().map(row -> row.type().damageTypeKey()).toList());
+    }
     private void sourceGraph() { fixture.attach("hero_a", ATTACK, PASSIVE, BURST, AREA); fixture.attach("hero_b", ATTACK); }
     private void damageCatalogs() {
         for (String key : List.of("magic", "physics", "real")) {
@@ -220,9 +326,12 @@ class SimulationSnapshotDormantRawDamageMarkTest {
             """.formatted(key, type, detail, effect);
     }
     private Selection sourceSelection(List<PlannedSkill> plans) {
+        return sourceSelection(plans, true);
+    }
+    private Selection sourceSelection(List<PlannedSkill> plans, boolean selectedBasicAttack) {
         var original = fixture.choice();
         return new Selection(original.sourceCharacterKey(), original.sourceLevel(), original.targetCharacterKey(), original.targetLevel(),
-            original.basicAttackSkillKey(), original.basicAttackLevel(), List.of(), List.of(), List.of(), List.of(),
+            selectedBasicAttack ? original.basicAttackSkillKey() : null, selectedBasicAttack ? original.basicAttackLevel() : null, List.of(), List.of(), List.of(), List.of(),
             List.of(new SkillSetting(Origin.character("hero_a"), PASSIVE, true, 1), new SkillSetting(Origin.character("hero_a"), BURST, true, 1),
                 new SkillSetting(Origin.character("hero_a"), AREA, true, 1)), List.of(), plans);
     }

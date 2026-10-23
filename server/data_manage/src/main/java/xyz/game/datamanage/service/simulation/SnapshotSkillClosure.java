@@ -181,6 +181,32 @@ final class SnapshotSkillClosure {
                 .thenComparing(reference -> reference.target().toString())).toList(), needed);
     }
 
+    /** 完整原额标记图的目录定义，不进入真实执行队列或响应引用。 */
+    List<Reference> definitionDamageTypeReferences() {
+        Set<Reference> definitions = new LinkedHashSet<>();
+        for (Source source : sources) {
+            Integer maximum = source.configuration.skill().maxLevel();
+            if (!source.enabled || source.status != SkillStatus.ENABLED || source.configuration.skill().status() != SkillStatus.ENABLED
+                || source.level == null || maximum == null || source.level < 1 || source.level > maximum
+                || source.inactive != null && source.inactive != InactiveReason.NO_REACHABLE_EVENT) continue;
+            JsonNode configuration = json.valueToTree(source.configuration);
+            if (!RawDamageMarkSnapshotRules.declared(configuration)
+                || !RawDamageMarkSnapshotRules.complete(configuration, source.level, source.characterLevel)) continue;
+            if (!completeUndrivenDefinitions(source, rules(source), true))
+                throw SnapshotIssues.invalid("skillConfigurations[" + indexOf(source.skillKey) + "]", "CONFIGURATION_INCOMPLETE",
+                    "原额标记目录需要完整且同拥有者的局部定义闭包");
+            for (Aggregate object : objects.values()) {
+                if (!object.skillKey().equals(source.skillKey)) continue;
+                for (Reference reference : references(object)) {
+                    if (reference.target().type() == TargetType.DAMAGE_TYPE) definitions.add(reference);
+                }
+            }
+        }
+        return definitions.stream().sorted(Comparator.comparing(Reference::sourceSkillKey).thenComparing(reference -> reference.sourceType().name())
+            .thenComparing(Reference::sourceKey).thenComparing(Reference::fieldPath)
+            .thenComparing(reference -> reference.target().toString())).toList();
+    }
+
     private void follow(Invocation invocation, Reference reference) {
         Target target = reference.target();
         String path = path(reference);
