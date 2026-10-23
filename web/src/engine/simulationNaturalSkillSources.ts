@@ -88,6 +88,10 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
         coverage.push({ authorPath: root, compiledPath: 'runtimeOptions.skillOrigins', note: '保留绑定，本期没有该来源主动施放' });
         continue;
       }
+      if (source.inactiveReason === 'NO_REACHABLE_EVENT') {
+        coverage.push({ authorPath: root, compiledPath: 'runtimeOptions.skillOrigins', note: '完整伤害监听已证明本场没有可达事件；保留启用来源，不生成挂载、状态、监听或事件输入' });
+        continue;
+      }
       if (source.origin.kind === 'EQUIPMENT') continue;
       if (source.inactiveReason === 'LEVEL_REQUIRED' || source.skillLevel === null) fail(`${root}.skillLevel`, '默认来源已启用，必须明确本次已学等级');
       if (source.inactiveReason === 'CONFIGURATION_INCOMPLETE' || source.enabledRuleKeys.length === 0) fail(root, '默认自然技能只有资料或参数，需补完整程序或显式关闭该来源');

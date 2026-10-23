@@ -1,0 +1,1214 @@
+{
+  "schemaVersion": "mechanism-case-v1",
+  "caseKey": "unreachable_damage_listener_target",
+  "title": "目标完整伤害治疗监听无本方事件时保留绑定而不挂载",
+  "mechanisms": [
+    "source.unreachable_damage_listener"
+  ],
+  "derivation": [
+    "固定合成业务数据，复用mechanism_settled_heal目录并通过生产快照、公式预检、适配、正式Wasm和同会话重放/释放；不引用真实英雄或实库。",
+    "source.unreachable_damage_listener表示真实启用且已学1级的完整伤害监听，在本场没有本方生产者时精确保留NO_REACHABLE_EVENT与enabledRuleKeys=[]，不生成程序挂载、监听、状态或虚构事件金额输入。",
+    "来源只驱动lab_basic_attack；目标保留lab_magic_bolt完整已启用1级定义及绑定，但无主动计划，ACTIVE_DEFERRED。目标lab_settled_restore完整保留DAMAGE_DEALT、sourceSkillKey=lab_magic_bolt、SKILL、CHAMPION与POST_DEFENSE_DAMAGE>0条件、EVENT_VALUE绑定及18%自身DIRECT_HEAL；它已启用1级，未被关闭或改成空配置。",
+    "双方最大生命1000且初始生命均500；来源AD100、攻速0.1、前摇0、暴击与所有穿透0，目标护甲0，双方LS/OMNI均0。普攻周期1000/0.1=10000毫秒；观察1001毫秒，仅0毫秒真实普攻一次。",
+    "唯一物理伤害原值100，防御后100*100/(100+0)=100，无盾吸收，实际扣血100。目标只受击并未造成lab_magic_bolt技能伤害，目标自身治疗申请0笔；双方普通吸血0。",
+    "最终来源500，目标500-100=400；仅保留来源selected_basic_attack_definition永久实例（1层、无期限），目标程序实例0。damage列表仅一笔、所有治疗/恢复/技能开始列表为空。",
+    "所有数值、完整实例列表及预期均在该固定用例首个Wasm运行前写定；未从DONE反推期望。"
+  ],
+  "catalog": "mechanism_settled_heal",
+  "snapshot": {
+    "selection": {
+      "sourceCharacterKey": "lab_attacker",
+      "sourceLevel": 1,
+      "targetCharacterKey": "lab_dummy",
+      "targetLevel": 1,
+      "basicAttackSkillKey": "lab_basic_attack",
+      "basicAttackLevel": 1,
+      "plannedSkills": [],
+      "sourceEquipmentKeys": [],
+      "targetEquipmentKeys": [],
+      "sourceBuildConfigurations": [],
+      "targetBuildConfigurations": [],
+      "targetSkillSettings": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_dummy"
+          },
+          "skillKey": "lab_magic_bolt",
+          "enabled": true,
+          "skillLevel": 1
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_dummy"
+          },
+          "skillKey": "lab_settled_restore",
+          "enabled": true,
+          "skillLevel": 1
+        }
+      ],
+      "sourceSkillSettings": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_basic_attack",
+          "enabled": true,
+          "skillLevel": 1
+        }
+      ]
+    },
+    "source": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_attacker",
+        "name": "机制攻击方",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_attacker",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 100,
+            "attack_speed": 0.1,
+            "armor": 0,
+            "magic_resist": 100,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "omnivamp_percent": 0,
+            "ability_power": 100
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 100,
+        "attack_speed": 0.1,
+        "armor": 0,
+        "magic_resist": 100,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "omnivamp_percent": 0,
+        "ability_power": 100
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "begin_attack",
+            "hit_attack"
+          ],
+          "inactiveReason": null
+        }
+      ]
+    },
+    "target": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_dummy",
+        "name": "机制木桩",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_dummy",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 0,
+            "attack_speed": 0.1,
+            "armor": 0,
+            "magic_resist": 100,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "omnivamp_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 0,
+        "attack_speed": 0.1,
+        "armor": 0,
+        "magic_resist": 100,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "omnivamp_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_dummy",
+          "characterName": "机制木桩",
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_dummy",
+          "characterName": "机制木桩",
+          "skillKey": "lab_magic_bolt",
+          "skillName": "机制法术弹",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_dummy",
+          "characterName": "机制木桩",
+          "skillKey": "lab_settled_restore",
+          "skillName": "本笔防御后金额自身恢复",
+          "skillStatus": "ENABLED",
+          "sortOrder": 20
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_dummy"
+          },
+          "skillKey": "lab_basic_attack",
+          "skillName": "机制普攻",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": null,
+          "enabledRuleKeys": [],
+          "inactiveReason": "NO_AUTONOMOUS_ATTACK"
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_dummy"
+          },
+          "skillKey": "lab_magic_bolt",
+          "skillName": "机制法术弹",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [],
+          "inactiveReason": "ACTIVE_DEFERRED"
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_dummy"
+          },
+          "skillKey": "lab_settled_restore",
+          "skillName": "本笔防御后金额自身恢复",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [],
+          "inactiveReason": "NO_REACHABLE_EVENT"
+        }
+      ]
+    },
+    "skillConfigurations": [
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_basic_attack",
+          "name": "机制普攻",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "basic_attack"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "parameterKey": "base_critical_multiplier",
+            "name": "基础暴击倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.75,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "parameterKey": "milliseconds_per_second",
+            "name": "每秒毫秒",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "formulas": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "raw",
+            "name": "攻击力",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "attack_damage",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_damage",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "攻击力",
+                  "expression": {
+                    "op": "read",
+                    "inputKey": "attack_damage"
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "interval",
+            "name": "攻击间隔",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "ms",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_basic_attack",
+                    "parameterKey": "milliseconds_per_second"
+                  }
+                },
+                {
+                  "key": "speed",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_speed",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "攻击间隔",
+                  "expression": {
+                    "op": "div",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "ms"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "speed"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "formulaKey": "critical_multiplier",
+            "name": "暴击倍率",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "base",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_basic_attack",
+                    "parameterKey": "base_critical_multiplier"
+                  }
+                },
+                {
+                  "key": "bonus",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "critical_strike_damage_bonus_percent",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "暴击倍率",
+                  "expression": {
+                    "op": "add",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "base"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "bonus"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 2,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "effectKey": "start",
+            "name": "发起",
+            "description": null,
+            "sortOrder": 0,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "attack_link",
+                "name": "攻击联动",
+                "resultType": "ATTACK_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "effectKey": "hit",
+            "name": "命中",
+            "description": null,
+            "sortOrder": 1,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "raw"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "BASIC_ATTACK",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "SOURCE_CRIT_CHANCE",
+                    "multiplierValue": {
+                      "kind": "FORMULA",
+                      "formulaKey": "critical_multiplier"
+                    }
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              },
+              {
+                "resultKey": "hit_link",
+                "name": "命中联动",
+                "resultType": "HIT_LINK_APPLICATION",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 20,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_basic_attack",
+            "processKey": "attack",
+            "name": "普攻节奏",
+            "activationType": "ACTIVE",
+            "description": null,
+            "sortOrder": 0,
+            "steps": [
+              {
+                "stepKey": "begin",
+                "name": "发起",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FORMULA",
+                "formulaKey": "interval"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [
+              {
+                "bindingKey": "start_link",
+                "effectKey": "start",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                },
+                "sortOrder": 0
+              }
+            ],
+            "stateOperations": [],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "begin_attack",
+            "name": "普攻开始",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_START",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_process",
+                "name": "普攻开始",
+                "sortOrder": 0,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "attack"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "hit_attack",
+            "name": "普攻命中",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "BASIC_ATTACK_HIT",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "execute_effect",
+                "name": "普攻命中",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_lab_basic_attack"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_magic_bolt",
+          "name": "机制法术弹",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_magic_bolt",
+            "parameterKey": "base_damage",
+            "name": "基础伤害",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 150,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_magic_bolt",
+            "parameterKey": "ap_ratio",
+            "name": "法强系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "formulas": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_magic_bolt",
+            "formulaKey": "damage",
+            "name": "基础 + 系数 × 法强",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "base",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_magic_bolt",
+                    "parameterKey": "base_damage"
+                  }
+                },
+                {
+                  "key": "ratio",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_magic_bolt",
+                    "parameterKey": "ap_ratio"
+                  }
+                },
+                {
+                  "key": "ap",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "ability_power",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "基础 + 系数 × 法强",
+                  "expression": {
+                    "op": "add",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "base"
+                      },
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "op": "read",
+                            "inputKey": "ratio"
+                          },
+                          {
+                            "op": "read",
+                            "inputKey": "ap"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            },
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_magic_bolt",
+            "effectKey": "hit",
+            "name": "技能效果",
+            "description": null,
+            "sortOrder": 0,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "DAMAGE_INSTANCE"
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_magic_bolt",
+            "processKey": "cast",
+            "name": "施放",
+            "activationType": "ACTIVE",
+            "description": null,
+            "sortOrder": 0,
+            "steps": [
+              {
+                "stepKey": "stage_0",
+                "name": "阶段0",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "DELAY",
+                "occupiesAction": false,
+                "detail": {
+                  "delayValue": {
+                    "kind": "FIXED",
+                    "value": 250
+                  }
+                }
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 4000
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [],
+            "stateOperations": [],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "first_cast",
+            "name": "首次施放",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_magic_bolt",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_process",
+                "name": "首次施放",
+                "sortOrder": 0,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "first_hit",
+            "name": "first_hit",
+            "description": null,
+            "sortOrder": 20,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_magic_bolt",
+                "processMoment": {
+                  "processKey": "cast",
+                  "moment": {
+                    "momentType": "STEP_EXECUTION",
+                    "stepKey": "stage_0"
+                  },
+                  "requiresPriorStepKey": null
+                }
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "effect_0",
+                "name": "技能命中",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_lab_lab_magic_bolt"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_settled_restore",
+          "name": "本笔防御后金额自身恢复",
+          "description": null,
+          "status": "ENABLED",
+          "maxLevel": 1,
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "sortOrder": 10,
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_settled_restore",
+            "parameterKey": "heal_percent_points",
+            "name": "治疗百分数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 18,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_settled_restore",
+            "parameterKey": "settled_amount",
+            "name": "本动作真实结算金额",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": null,
+            "sortOrder": 10,
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "formulas": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_settled_restore",
+            "formulaKey": "heal_amount",
+            "name": "本笔金额乘原百分数",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "amount",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_settled_restore",
+                    "parameterKey": "settled_amount"
+                  }
+                },
+                {
+                  "key": "ratio",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_settled_restore",
+                    "parameterKey": "heal_percent_points"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "百分比自身治疗",
+                  "expression": {
+                    "op": "div",
+                    "args": [
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "op": "read",
+                            "inputKey": "amount"
+                          },
+                          {
+                            "op": "read",
+                            "inputKey": "ratio"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "const",
+                        "value": "100"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            }
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_settled_restore",
+            "effectKey": "restore",
+            "name": "即时自身恢复",
+            "description": null,
+            "sortOrder": 0,
+            "lifecycle": null,
+            "createdAt": "",
+            "updatedAt": "",
+            "results": [
+              {
+                "resultKey": "heal",
+                "name": "heal",
+                "resultType": "DIRECT_HEAL",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 0,
+                "detail": {},
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "heal_amount"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "on_settled_damage",
+            "name": "每笔技能伤害后恢复",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "DAMAGE_DEALT",
+              "detail": {
+                "sourceSkillKey": "lab_magic_bolt",
+                "damageTypeKey": null,
+                "deliveryKind": "SKILL",
+                "originKind": "ANY"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "champion",
+                "name": "真实英雄对手",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "champion",
+                    "conditionType": "TARGET_CATEGORY_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "categories": [
+                        "CHAMPION"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "restore",
+                "name": "本方即时恢复",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "restore"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [
+                  {
+                    "bindingKey": "actual_amount",
+                    "parameterKey": "settled_amount",
+                    "sourceType": "EVENT_VALUE",
+                    "detail": {
+                      "eventValueKey": "POST_DEFENSE_DAMAGE"
+                    }
+                  }
+                ],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_lab_settled_restore"
+      }
+    ],
+    "references": []
+  },
+  "scenario": {
+    "mode": "continuous_attack",
+    "durationMs": 1001,
+    "initialHealth": {
+      "source": 500,
+      "target": 500
+    }
+  },
+  "expected": {
+    "summary": {
+      "stopReason": "duration_reached",
+      "sourceFinalHp": 500,
+      "targetFinalHp": 400,
+      "sourceDamageDealt": 100,
+      "targetHpLoss": 100,
+      "sourceDirectHealing": 0,
+      "sourceVampHealing": 0,
+      "targetKilledAtMs": null,
+      "basicAttackStarted": 1,
+      "basicAttackHits": 1
+    },
+    "attackStarts": [
+      0
+    ],
+    "skillStarts": [],
+    "damage": [
+      {
+        "timeMs": 0,
+        "source": "source",
+        "target": "target",
+        "skillKey": "lab_basic_attack",
+        "effectKey": "hit",
+        "resultKey": "damage",
+        "damageType": "physics",
+        "rawAmount": 100,
+        "postDefenseDamage": 100,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 100
+      }
+    ],
+    "healing": [],
+    "restorations": [],
+    "finalResources": [
+      {
+        "owner": "source",
+        "attributeKey": "hp",
+        "current": 500,
+        "max": 1000
+      },
+      {
+        "owner": "target",
+        "attributeKey": "hp",
+        "current": 400,
+        "max": 1000
+      }
+    ],
+    "finalProviders": [
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "selected_basic_attack_definition",
+        "stacks": 1,
+        "expireAt": null
+      }
+    ]
+  }
+}

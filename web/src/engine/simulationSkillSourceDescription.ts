@@ -12,6 +12,7 @@ import { finiteTargetCounterContract, isFiniteTargetCounterPostHitRule } from '.
 import { targetMarkAuthoringContract, isTargetMarkPostHitRule } from './targetMarkAuthoringContract';
 import { isUndrivenTargetTimingSource } from './targetTimingAuthoring';
 import { skillHitChainContract, isSkillHitChainPostRule } from './skillHitChainContract';
+import { validateStoredSkillFormula } from '../services/skillFormulaContract';
 
 export type SimulationSourceSide = 'source' | 'target';
 type Side = SimulationSourceSide;
@@ -206,6 +207,54 @@ function onlyUndrivenAttackRoots(configuration: SkillConfiguration, basicAttackC
   return selectSimulationSkillSourceClosure(configuration, roots).excludedRuleKeys.length === 0;
 }
 
+function validateUnreachableDamageSource(snapshot: SimulationSnapshot, configuration: SkillConfiguration | undefined, side: Side, source: SimulationSkillSource) {
+  const root=`${side}.skillSources.${source.skillKey}`;
+  if(!source.enabled || source.skillStatus!=='ENABLED' || !configuration || configuration.skill.status!=='ENABLED'
+    || configuration.skill.gameId!==snapshot.gameId || typeof source.skillLevel!=='number' || !Number.isSafeInteger(source.skillLevel) || source.skillLevel<1
+    || !Number.isSafeInteger(configuration.skill.maxLevel) || source.skillLevel>configuration.skill.maxLevel
+    || source.enabledRuleKeys.length || sourceIsPlanned(snapshot,side,source)
+    || side==='source' && source.origin.kind==='CHARACTER' && source.skillKey===snapshot.selection.basicAttackSkillKey) {
+    fail(root,'本场无事件原因只允许真实启用、有效等级、非计划且非所选普攻的空入口来源');
+  }
+  if(!configuration.triggerRules.length || configuration.triggerRules.some(rule=>!DAMAGE_EVENTS.has(rule.eventSource.eventType)
+    || !rule.actions.length || rule.actions.some(action=>action.actionType!=='EXECUTE_EFFECT'))) {
+    fail(root,'本场无事件来源必须完整且仅含非空伤害监听与执行效果动作');
+  }
+  const closure=selectSimulationSkillSourceClosure(configuration,configuration.triggerRules.map(rule=>rule.ruleKey)).configuration;
+  for(const rule of configuration.triggerRules)for(const action of rule.actions){
+    if(action.actionType!=='EXECUTE_EFFECT')fail(root,'本场无事件来源不能隐藏过程操作');
+    const effects=closure.effects.filter(effect=>effect.effectKey===action.detail.effectKey);
+    if(effects.length!==1 || effects[0]!.gameId!==snapshot.gameId || effects[0]!.skillKey!==source.skillKey
+      || !effects[0]!.results.length)fail(root,'本场无事件来源必要效果及并列结果必须完整');
+  }
+  for(const formula of closure.formulas)if(formula.gameId!==snapshot.gameId || formula.skillKey!==source.skillKey
+    || validateStoredSkillFormula(formula.expression,source.skillKey))fail(root,'本场无事件来源的必要共同公式声明必须完整');
+  for(const parameter of closure.parameters){
+    const path=`skills.${source.skillKey}.parameters.${parameter.parameterKey}`;
+    if(parameter.gameId!==snapshot.gameId || parameter.skillKey!==source.skillKey
+      || !['INTEGER','DECIMAL'].includes(parameter.valueType))fail(path,'必要参数声明不属于当前来源');
+    if(parameter.valueMode==='RUNTIME_INPUT'){
+      if(parameter.fixedValue!==null || parameter.levelValues!==null)fail(path,'未驱动的运行输入不能夹带默认值');
+      continue;
+    }
+    const level=parameter.valueMode==='SKILL_LEVEL'?source.skillLevel:snapshot.selection[`${side}Level`];
+    const value=parameter.valueMode==='FIXED'?parameter.fixedValue:parameter.levelValues?.[String(level)];
+    if(!['FIXED','SKILL_LEVEL','CHARACTER_LEVEL'].includes(parameter.valueMode) || typeof value!=='number' || !Number.isFinite(value)
+      || parameter.valueType==='INTEGER' && !Number.isSafeInteger(value))fail(path,'必要参数缺少当前实际等级下的明确数值');
+  }
+  const knownSkill=(key:unknown)=>{
+    if(key==null)return;
+    if(typeof key!=='string' || snapshot.skillConfigurations.filter(row=>row.skill.skillKey===key&&row.skill.gameId===snapshot.gameId&&row.skill.status==='ENABLED').length!==1) {
+      fail(root,'本场无事件来源引用的技能必须已包含唯一只读定义');
+    }
+  };
+  for(const rule of configuration.triggerRules)knownSkill((rule.eventSource.detail as {sourceSkillKey?:string|null}).sourceSkillKey);
+  for(const effect of closure.effects)for(const result of effect.results)if(result.resultType==='COOLDOWN_CHANGE'){
+    if(result.detail.affectedSkillScope.mode==='SKILLS')result.detail.affectedSkillScope.skillKeys.forEach(knownSkill);
+  }
+  if(naturalRuleKeys(snapshot,configuration,side,source).length)fail(root,'本场无事件原因不能隐藏实际可达自然入口');
+}
+
 export function executableEquipmentRelations(snapshot: SimulationSnapshot, side: Side, equipmentKey: string) {
   const item = snapshot[side].selectedEquipment.find(row => row.equipment.equipmentKey === equipmentKey);
   if (!item) fail(`${side}.selectedEquipment`, '缺少实际所选装备');
@@ -215,6 +264,10 @@ export function executableEquipmentRelations(snapshot: SimulationSnapshot, side:
     if (matches.length !== 1) fail(`${side}.skillSources`, '装备绑定技能的默认来源缺失或重复');
     const source = matches[0]!;
     if (!source.enabled || source.skillStatus !== 'ENABLED' || source.skillLevel === 0) return false;
+    if (source.inactiveReason === 'NO_REACHABLE_EVENT') {
+      validateUnreachableDamageSource(snapshot,snapshot.skillConfigurations.find(row=>row.skill.skillKey===source.skillKey),side,source);
+      return false;
+    }
     if (source.inactiveReason === 'NO_AUTONOMOUS_ATTACK' || source.inactiveReason === 'ACTIVE_DEFERRED') return false;
     if (source.inactiveReason !== null || source.skillLevel === null) {
       fail(`${side}.skillSources.${source.skillKey}`, '开启装备来源缺少完整程序或明确等级，不能只取直接属性');
@@ -276,6 +329,7 @@ export function validateSimulationSkillSourceManifest(snapshot: SimulationSnapsh
       if (source.skillStatus === 'ENABLED' && (!configuration || configuration.skill.status !== 'ENABLED')) {
         fail(`${side}.skillSources.${source.skillKey}`, '完整启用作者配置缺失或全局状态不一致');
       }
+      if(source.inactiveReason==='NO_REACHABLE_EVENT')validateUnreachableDamageSource(snapshot,configuration,side,source);
       if (source.enabled && source.skillStatus === 'ENABLED' && source.skillLevel !== 0 && configuration) {
         const selectedPrimary = side === 'source' && source.origin.kind === 'CHARACTER'
           && source.skillKey === snapshot.selection.basicAttackSkillKey;

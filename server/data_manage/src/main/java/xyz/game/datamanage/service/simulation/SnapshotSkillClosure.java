@@ -139,7 +139,8 @@ final class SnapshotSkillClosure {
                     && rules(source).stream().noneMatch(rule -> NATURAL_EVENTS.contains(rule.data().path("eventSource").path("eventType").asText())
                         && !attackEvents.contains(rule.data().path("eventSource").path("eventType").asText()) && !rule.data().path("actions").isEmpty()));
             source.inactive = withoutAttackDriver ? InactiveReason.NO_AUTONOMOUS_ATTACK
-                : deferred ? InactiveReason.ACTIVE_DEFERRED : InactiveReason.CONFIGURATION_INCOMPLETE;
+                : deferred ? InactiveReason.ACTIVE_DEFERRED
+                : completeUndrivenDamageListeners(source) ? InactiveReason.NO_REACHABLE_EVENT : InactiveReason.CONFIGURATION_INCOMPLETE;
         }
         List<Aggregate> needed = visited.stream().map(Invocation::object).distinct().toList();
         Set<Target> targets = new HashSet<>();
@@ -313,6 +314,59 @@ final class SnapshotSkillClosure {
         }
         return object.type() == SourceType.PROCESS && (field.startsWith("effectBindings[") || field.startsWith("stateOperations["))
             || object.type() == SourceType.STATE && field.equals("detail.targetTiming.processKey") && reference.target().type() == TargetType.PROCESS;
+    }
+
+    /** 只证明休眠的完整伤害监听定义；不把定义加入真实执行闭包。 */
+    private boolean completeUndrivenDamageListeners(Source source) {
+        if (source.planned != null || !source.ruleKeys.isEmpty() || source.level == null || source.level < 1
+            || source.configuration.skill().maxLevel() == null || source.level > source.configuration.skill().maxLevel()) return false;
+        List<Aggregate> declarations = rules(source);
+        if (declarations.isEmpty() || declarations.stream().anyMatch(rule ->
+            !Set.of("DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN").contains(rule.data().path("eventSource").path("eventType").asText())
+                || rule.data().path("actions").isEmpty()
+                || rule.data().path("actions").valueStream().anyMatch(action -> !"EXECUTE_EFFECT".equals(action.path("actionType").asText())))) return false;
+        for (Aggregate rule : declarations) for (JsonNode action : rule.data().path("actions")) {
+            Aggregate effect = objects.get(new ObjectKey(source.skillKey, SourceType.EFFECT, action.path("detail").path("effectKey").asText()));
+            if (effect == null) throw SnapshotIssues.invalid(objectPath(rule) + ".actions", "REFERENCE_MISSING", "休眠伤害监听的必要效果不存在");
+            if (effect.data().path("results").isEmpty()) return false;
+        }
+        ArrayDeque<Aggregate> queue = new ArrayDeque<>(declarations);
+        Set<Aggregate> checked = new LinkedHashSet<>();
+        Set<Target> definitions = new HashSet<>();
+        for (SkillConfigurationResponse configuration : configurations.values()) {
+            definitions.add(new Target(TargetType.SKILL, "", configuration.skill().skillKey(), ""));
+            for (SkillParameterResponse parameter : configuration.parameters())
+                definitions.add(new Target(TargetType.PARAMETER, configuration.skill().skillKey(), parameter.parameterKey(), ""));
+        }
+        while (!queue.isEmpty()) {
+            Aggregate object = queue.removeFirst();
+            if (!checked.add(object)) continue;
+            for (Reference reference : references(object)) {
+                Target target = reference.target();
+                if (target.type() == TargetType.SKILL) {
+                    SkillConfigurationResponse definition = configurations.get(target.key());
+                    if (definition == null || definition.skill().status() != SkillStatus.ENABLED) return false;
+                    continue;
+                }
+                if (target.skillKey().isEmpty()) { definitions.add(target); continue; }
+                if (!target.skillKey().equals(source.skillKey)) return false;
+                if (target.type() == TargetType.PARAMETER) {
+                    SkillParameterResponse parameter = source.configuration.parameters().stream()
+                        .filter(row -> row.parameterKey().equals(target.key())).findFirst().orElse(null);
+                    if (parameter == null) throw SnapshotIssues.invalid(path(reference), "REFERENCE_MISSING", "休眠伤害监听的必要参数不存在");
+                    if (readsParameter(object, target.key())) validateParameter(source, source.configuration, parameter);
+                }
+                ObjectKey key = objectKey(target);
+                if (key != null) {
+                    Aggregate dependency = objects.get(key);
+                    if (dependency == null) throw SnapshotIssues.invalid(path(reference), "REFERENCE_MISSING", "休眠伤害监听的必要组成不存在");
+                    queue.add(dependency);
+                }
+            }
+        }
+        try { SkillObjectReferences.extractAndValidate(gameId, List.copyOf(checked), List.copyOf(objects.values()), definitions); }
+        catch (ApiException exception) { throw translate(exception); }
+        return true;
     }
 
     private void validateTargetTiming(Source source) {

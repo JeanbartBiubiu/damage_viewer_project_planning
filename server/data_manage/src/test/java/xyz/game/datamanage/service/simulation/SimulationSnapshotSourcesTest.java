@@ -390,7 +390,7 @@ class SimulationSnapshotSourcesTest {
         assertEquals(2, fixture.json.valueToTree(Origin.equipment("item_a")).size());
         assertEquals(6, fixture.json.valueToTree(Origin.build("build",
             new xyz.game.datamanage.model.build.BuildConfiguration.OptionSelection("main", "tree", "one", "power", 1))).size());
-        assertEquals(7, InactiveReason.values().length);
+        assertEquals(8, InactiveReason.values().length);
     }
 
     private Selection equipment(List<String> keys) {

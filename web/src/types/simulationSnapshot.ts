@@ -27,7 +27,7 @@ export type SimulationSkillSetting = {
 };
 
 export type SimulationSkillInactiveReason = 'GLOBAL_DISABLED' | 'SCENE_DISABLED' | 'UNLEARNED'
-  | 'NO_AUTONOMOUS_ATTACK' | 'ACTIVE_DEFERRED' | 'CONFIGURATION_INCOMPLETE' | 'LEVEL_REQUIRED';
+  | 'NO_AUTONOMOUS_ATTACK' | 'ACTIVE_DEFERRED' | 'NO_REACHABLE_EVENT' | 'CONFIGURATION_INCOMPLETE' | 'LEVEL_REQUIRED';
 
 export type SimulationSkillSource = {
   origin: SimulationSkillOrigin;

@@ -18,7 +18,7 @@ const selectionKeys = [
 ] as const;
 const equipmentSelectionKeys = ['sourceEquipmentKeys', 'targetEquipmentKeys'] as const;
 const inactiveReasons = ['GLOBAL_DISABLED', 'SCENE_DISABLED', 'UNLEARNED', 'NO_AUTONOMOUS_ATTACK',
-  'ACTIVE_DEFERRED', 'CONFIGURATION_INCOMPLETE', 'LEVEL_REQUIRED'];
+  'ACTIVE_DEFERRED', 'NO_REACHABLE_EVENT', 'CONFIGURATION_INCOMPLETE', 'LEVEL_REQUIRED'];
 
 export function normalizeEquipmentKeys(value: unknown, path: string): string[] {
   if (!Array.isArray(value) || value.length > 6) bad(path);
@@ -385,7 +385,11 @@ export function validateSimulationSnapshot(
         || source.inactiveReason === 'GLOBAL_DISABLED' && relation.skillStatus !== 'DISABLED'
         || source.inactiveReason === 'SCENE_DISABLED' && source.enabled !== false
         || source.inactiveReason === 'UNLEARNED' && source.skillLevel !== 0
-        || source.inactiveReason === 'LEVEL_REQUIRED' && source.skillLevel !== null) bad(`${path}.inactiveReason`);
+        || source.inactiveReason === 'LEVEL_REQUIRED' && source.skillLevel !== null
+        || source.inactiveReason === 'NO_REACHABLE_EVENT' && (source.enabled !== true || source.skillStatus !== 'ENABLED'
+          || !Number.isSafeInteger(source.skillLevel) || Number(source.skillLevel) < 1
+          || side === 'source' && (source.skillKey === expected.basicAttackSkillKey
+            || expected.plannedSkills.some(plan => simulationSkillSourceIdentity(plan.origin, plan.skillKey) === identity)))) bad(`${path}.inactiveReason`);
       if (!Array.isArray(source.enabledRuleKeys)) bad(`${path}.enabledRuleKeys`);
       if (source.inactiveReason !== null && source.enabledRuleKeys.length) bad(`${path}.enabledRuleKeys`);
       sortedUnique((source.enabledRuleKeys as unknown[]).map((item, ruleIndex) => key(item, `${path}.enabledRuleKeys[${ruleIndex}]`)), item => item, `${path}.enabledRuleKeys`);

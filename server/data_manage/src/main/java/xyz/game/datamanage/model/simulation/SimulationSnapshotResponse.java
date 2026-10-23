@@ -74,7 +74,7 @@ public record SimulationSnapshotResponse(
     public record SkillSetting(Origin origin, String skillKey, boolean enabled, Integer skillLevel) { }
 
     public enum InactiveReason {
-        GLOBAL_DISABLED, SCENE_DISABLED, UNLEARNED, NO_AUTONOMOUS_ATTACK, ACTIVE_DEFERRED,
+        GLOBAL_DISABLED, SCENE_DISABLED, UNLEARNED, NO_AUTONOMOUS_ATTACK, ACTIVE_DEFERRED, NO_REACHABLE_EVENT,
         CONFIGURATION_INCOMPLETE, LEVEL_REQUIRED
     }
 
