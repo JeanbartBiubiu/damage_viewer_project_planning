@@ -111,7 +111,13 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 					}
 					s.addTargetTimingOperations(gear, periodicOperations)
 				} else if tick, hasTick := findTickAbility(gear, s.compiled); hasTick {
-					if err := s.validateTargetWindowProvider(gear, actor.Key, mount.ProviderRef); err != nil {
+					var err *model.EngineError
+					if gear.PermanentCharacterPeriod {
+						err = s.validatePermanentCharacterPeriod(gear)
+					} else {
+						err = s.validateTargetWindowProvider(gear, actor.Key, mount.ProviderRef)
+					}
+					if err != nil {
 						return err
 					}
 					for _, operation := range s.compiled.Operations[int(tick.TickSpec.OnTickStart) : int(tick.TickSpec.OnTickStart)+int(tick.TickSpec.OnTickCount)] {

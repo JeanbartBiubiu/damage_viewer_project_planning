@@ -398,6 +398,11 @@ func newGenericRunState(compiled planbundle.CompiledSession, req model.RunReques
 	if err := state.initBasicAttack(); err != nil {
 		return nil, err
 	}
+	if compiled.HasPermanentCharacterPeriod {
+		if err := state.initPermanentCharacterPeriods(); err != nil {
+			return nil, err
+		}
+	}
 	if err := state.initTargetMarkSources(); err != nil {
 		return nil, err
 	}

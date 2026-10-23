@@ -192,6 +192,25 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeTargetMarkConsumption(req, ctx)
 	finalizeImmediatePeriodic(ctx)
 	finalizeTotalCooldownRefunds(ctx)
+	// A private candidate flag only; every actual mount is admitted before seeding.
+	for index := range session.Providers {
+		provider := &session.Providers[index]
+		if provider.Kind != "character" {
+			continue
+		}
+		for _, ability := range session.Abilities[int(provider.AbilityStart) : int(provider.AbilityStart)+int(provider.AbilityCount)] {
+			if ability.Kind != "tick" || ability.TickSpec == nil || ability.TickSpec.IsAnchored() {
+				continue
+			}
+			start, count := int(ability.TickSpec.OnTickStart), int(ability.TickSpec.OnTickCount)
+			for _, operation := range session.Operations[start : start+count] {
+				if operation.Operation == "damage" {
+					provider.PermanentCharacterPeriod = true
+					session.HasPermanentCharacterPeriod = true
+				}
+			}
+		}
+	}
 	if len(session.Operations) > 65535 {
 		collector.addError(model.GenericErrRuntimeInvariantFailed, "operations", "compiled operations exceed supported index range", "")
 	}

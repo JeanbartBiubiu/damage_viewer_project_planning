@@ -2376,6 +2376,9 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	if ability.TargetExpirySpec != nil || len(s.compiled.Providers[ability.ProviderIndex].TargetTimings) > 0 {
 		return s.basicAttackErr("target timing source abilities require their actual hit, damage, or timer callback", "abilityRef")
 	}
+	if s.compiled.Providers[ability.ProviderIndex].PermanentCharacterPeriod {
+		return s.basicAttackErr("permanent character ticks can execute only through their actual scheduled tick", "abilityRef")
+	}
 	if s.compiled.Providers[ability.ProviderIndex].HasStateOnExpire {
 		return s.basicAttackErr("state expiry source abilities require their actual initialization or received-damage listener", "abilityRef")
 	}

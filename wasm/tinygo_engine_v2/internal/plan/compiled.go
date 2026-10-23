@@ -26,47 +26,48 @@ type CompiledTargetTiming struct {
 	Phased       bool
 }
 type CompiledSession struct {
-	HasImmediatePeriodic      bool
-	HasTotalCooldownRefund    bool
-	HasTargetTiming           bool
-	HasDamageStateBefore      bool
-	DamageStateReaders        []CompiledDamageStateReader
-	HasTargetMarkConsumption  bool
-	HasReceivedShieldReads    bool
-	HasAttackStartStateReads  bool
-	HasStateOnExpire          bool
-	HasStagedLinkedShield     bool
-	HasModifierSnapshots      bool
-	AttributeLayout           *attribute.Layout
-	SkillActionBindings       []CompiledSkillActionBinding
-	HasMechanicReads          bool
-	HasShieldLifecycle        bool
-	HasLinkedShieldReads      bool
-	HasProviderElapsedReads   bool
-	HasTargetStateTimeReads   bool
-	HasFiniteModifierExpiry   bool
-	HasResourceMax            bool
-	PermanentResourceMax      []CompiledPermanentResourceMax
-	HasCooldownDuration       bool
-	HasProviderDurationChange bool
-	StatusKeys                []string
-	SchemaVersion             string
-	SchemaHash                string
-	RulesHash                 string
-	Types                     typeset.CatalogResult
-	RuntimeTypes              RuntimeTypeBindings
-	Combatants                []CompiledCombatant
-	Providers                 []CompiledProvider
-	Abilities                 []CompiledAbility
-	Operations                []CompiledOperation
-	Formulas                  formula.GenericRegistry
-	Settings                  model.GenericCompileSettings
-	AbilityRefIndex           map[string]CompiledAbilityRef
-	RuleModifiers             []CompiledModifier
-	Listeners                 []CompiledListener
-	VampRules                 []CompiledVampRule
-	DamageTypeFormulas        map[string]CompiledDamageTypeFormula
-	AttributeDerivations      []CompiledAttributeDerivation
+	HasPermanentCharacterPeriod bool
+	HasImmediatePeriodic        bool
+	HasTotalCooldownRefund      bool
+	HasTargetTiming             bool
+	HasDamageStateBefore        bool
+	DamageStateReaders          []CompiledDamageStateReader
+	HasTargetMarkConsumption    bool
+	HasReceivedShieldReads      bool
+	HasAttackStartStateReads    bool
+	HasStateOnExpire            bool
+	HasStagedLinkedShield       bool
+	HasModifierSnapshots        bool
+	AttributeLayout             *attribute.Layout
+	SkillActionBindings         []CompiledSkillActionBinding
+	HasMechanicReads            bool
+	HasShieldLifecycle          bool
+	HasLinkedShieldReads        bool
+	HasProviderElapsedReads     bool
+	HasTargetStateTimeReads     bool
+	HasFiniteModifierExpiry     bool
+	HasResourceMax              bool
+	PermanentResourceMax        []CompiledPermanentResourceMax
+	HasCooldownDuration         bool
+	HasProviderDurationChange   bool
+	StatusKeys                  []string
+	SchemaVersion               string
+	SchemaHash                  string
+	RulesHash                   string
+	Types                       typeset.CatalogResult
+	RuntimeTypes                RuntimeTypeBindings
+	Combatants                  []CompiledCombatant
+	Providers                   []CompiledProvider
+	Abilities                   []CompiledAbility
+	Operations                  []CompiledOperation
+	Formulas                    formula.GenericRegistry
+	Settings                    model.GenericCompileSettings
+	AbilityRefIndex             map[string]CompiledAbilityRef
+	RuleModifiers               []CompiledModifier
+	Listeners                   []CompiledListener
+	VampRules                   []CompiledVampRule
+	DamageTypeFormulas          map[string]CompiledDamageTypeFormula
+	AttributeDerivations        []CompiledAttributeDerivation
 }
 
 type CompiledAttributeDerivation struct {
@@ -207,6 +208,7 @@ type CompiledProviderStateField struct {
 
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
+	PermanentCharacterPeriod  bool
 	TargetTimings             []CompiledTargetTiming
 	HasReceivedShieldBinding  bool
 	ReceivedShieldParentIndex uint16

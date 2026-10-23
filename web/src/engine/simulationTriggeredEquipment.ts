@@ -50,6 +50,7 @@ import { validateMarkedRawDamageContract } from './markedRawDamageContract';
 import { ownCounterShieldExpiry } from './ownCounterShieldExpiry';
 import { targetTimingDeclarations } from './targetTimingAuthoring';
 import { isCounterTargetTiming } from '../services/counterTargetTiming';
+import { declaresPermanentCharacterPeriod, validatePermanentCharacterPeriod } from './permanentCharacterPeriodic';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
   type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
@@ -1791,6 +1792,20 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               fail(`${rulePath}.eventSource.detail.sourceSkillKey`, '非空命中联动来源筛选需要原生原使用技能身份匹配，不能忽略后继续');
             }
           } else exact(rule.eventSource.detail, [], `${rulePath}.eventSource.detail`);
+          if (description.kind === 'character' && declaresPermanentCharacterPeriod(fullConfiguration, rule)) {
+            if (skills.length !== 1 || !stableId || source.allowedRootKeys?.length !== 1
+              || source.allowedRootKeys[0] !== rule.ruleKey) fail(rulePath, '角色常驻周期需要实际唯一来源与唯一初始化根');
+            validatePermanentCharacterPeriod(fullConfiguration, configuration, rule, root);
+            const operations: OperationDefinition[] = [];
+            executeActions(rule, operations, `${compiledRoot}.abilities`, `${side}.provider[${providerRef}]`, event);
+            const tick = provider.abilities![0];
+            if (operations.length || provider.abilities!.length !== 1 || tick?.kind !== 'tick'
+              || tick.tickSpec?.onTick.length !== 1) fail(rulePath, '角色常驻周期只声明唯一完整周期，不生成空监听或初始化副作用');
+            usedRules.add(rule.ruleKey);
+            cover(rulePath, `${compiledRoot}.abilities[0].tickSpec`);
+            cover(`${rulePath}.eventSource`, `${compiledRoot}.abilities[0].tickSpec.startDelayMs`);
+            continue;
+          }
           if (event === 'SOURCE_INITIALIZED' && description.kind === 'item') {
             if (rule.conditionGroups.length || rule.oncePerUse !== null) fail(rulePath, '常驻与固定周期必须有无条件真实初始化依据');
             let hasPermanentResult = false;

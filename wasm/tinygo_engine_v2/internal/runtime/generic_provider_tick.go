@@ -108,6 +108,16 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 		return nil
 	}
 	provider := s.compiled.Providers[inst.DefinitionIndex]
+	if provider.PermanentCharacterPeriod {
+		s.currentEventCommands = 0
+		if s.stopReasonSet || s.combatantHp(model.SelectorSource) <= 0 || s.combatantHp(model.SelectorTarget) <= 0 {
+			s.checkDeathStopReason()
+			return nil
+		}
+		if inst.Source != ref.CombatantKey || inst.Owner != ref.CombatantKey || inst.ExpireAt != 0 || inst.Stacks != 1 || inst.HasAppliedAt || inst.ActivationUseRef != "" {
+			return s.basicAttackErr("permanent character tick no longer belongs to its admitted fresh mount", "provider.tick")
+		}
+	}
 	tickAbility, hasTick := findTickAbility(provider, s.compiled)
 	if !hasTick || tickAbility.TickSpec == nil {
 		return nil
@@ -128,6 +138,9 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 				targetKey = s.basicAttack.plan.Target
 			}
 		}
+	}
+	if provider.PermanentCharacterPeriod {
+		sourceKey, targetKey = ref.CombatantKey, opponentCombatantKey(ref.CombatantKey)
 	}
 	if tickAbility.TickSpec.ImmediateFirst {
 		use, exists := s.skillUses[inst.ActivationUseRef]
@@ -164,7 +177,7 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 	var frameStorage executionFrame
 	s.initExecutionFrame(&frameStorage, sourceKey, targetKey, abilityRef)
 	frame := &frameStorage
-	if s.basicAttack != nil {
+	if s.basicAttack != nil || provider.PermanentCharacterPeriod {
 		frame.strictReads = true
 	}
 	frame.ownerCombatantKey = ref.CombatantKey
@@ -197,7 +210,6 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 	if err := frame.dispatchPendingEvents(); err != nil {
 		return err
 	}
-
 	s.recordEvidenceLazy(model.EvidenceKindProviderTick, func() model.EvidenceItem {
 		return model.EvidenceItem{
 			TimeMs:  s.nowMs,
@@ -211,6 +223,12 @@ func (s *genericRunState) handleProviderTick(ev scheduler.GenericEvent) *model.E
 			},
 		}
 	})
+	if provider.PermanentCharacterPeriod {
+		s.checkDeathStopReason()
+		if s.stopReasonSet {
+			return nil
+		}
+	}
 	if s.basicAttack != nil {
 		return nil
 	}
