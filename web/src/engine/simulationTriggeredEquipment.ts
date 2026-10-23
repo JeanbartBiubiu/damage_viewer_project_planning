@@ -19,6 +19,7 @@ import type { FormulaExpressionNode } from '../types/skillFormula';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import { executableEquipmentRelations, validateSimulationSkillSourceManifest, type TriggeredSkillSourceDescription } from './simulationSkillSourceDescription';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
+import { skillHitChainContract, skillHitChainNaturalConfiguration, skillHitChainPredicate } from './skillHitChainContract';
 import {
   compileAttributeValue, compileNumericValue, registerCommonFormula, constExpr, createNumericCompileState, finiteNumber,
   NumericAdaptationError, tryFoldConstant, staticNumericField, wrapValueRuleExpression
@@ -351,7 +352,11 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
       const namedKey = (skillKey: string, key: string) => skills.length === 1 ? key : `${skillKey}_${key}`;
 
       for (const source of skills) {
-        const { skillKey, skillLevel, configuration } = source;
+        const { skillKey, skillLevel } = source;
+        const chain = skillHitChainContract(snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey) ?? source.configuration);
+        if (chain && (side !== 'source' || description.kind !== 'character' || skills.length !== 1
+          || !snapshot.selection.plannedSkills.some(plan => plan.skillKey === skillKey && plan.phaseKinds.includes('INITIAL')))) fail(`skills.${skillKey}`, '首段资格监听只属于真实计划的唯一角色挂载');
+        const configuration = chain ? skillHitChainNaturalConfiguration(snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey)!, source.allowedRootKeys ?? []) : source.configuration;
         const root = `skills.${skillKey}`;
         validateConfiguration(configuration, snapshot.gameId, root, description.kind === 'item', skillLevel,
           description.kind === 'item' ? calculationConfiguration(snapshot)?.equipmentPassiveCategoryKey ?? null : null);
@@ -431,6 +436,20 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (folded === null || !Number.isFinite(folded) || folded < minimum || integer && !Number.isSafeInteger(folded)) fail(valuePath, '需要明确的有限常量及合法整数时点，不能猜测动态值');
           return folded;
         };
+        if (chain) {
+          const waitStep = chain.process.steps.find(step => step.stepType === 'DELAY' && step.occupiesAction === false)!;
+          if (waitStep.stepType !== 'DELAY') fail(root, '资格链缺少真实等待');
+          const complete = snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey)!;
+          const wait = tryFoldConstant(compileNumericValue(waitStep.detail.delayValue, `${root}.processes.${chain.process.processKey}.steps.${waitStep.stepKey}`,
+            { ...numeric, parameters: complete.parameters, formulas: complete.formulas, bindParameters: false, allowAttributeReads: false }, fail));
+          if (wait === null || !Number.isSafeInteger(wait) || wait <= 0
+            || constant(chain.speed.lifecycle!.durationValue!, `${root}.effects.${chain.speed.effectKey}.lifecycle.durationValue`, true, 1) !== wait
+            || constant(chain.firstPair.control.lifecycle!.durationValue!, `${root}.effects.${chain.firstPair.control.effectKey}.lifecycle.durationValue`, true, 1) !== wait) fail(root, '链等待、来源加速和目标减速期限必须完全相同');
+          const result = chain.speed.results[0]!;
+          const zones = snapshot.catalogs.modifierZones.filter(row => result.resultType === 'ATTRIBUTE_CHANGE' && row.modifierZoneKey === result.detail.modifierZoneKey);
+          if (zones.length !== 1 || zones[0]!.gameId !== snapshot.gameId || zones[0]!.status !== 'ENABLED'
+            || zones[0]!.domain !== 'ATTRIBUTE' || zones[0]!.applicationStage !== 'ATTRIBUTE_PERCENT' || zones[0]!.calculationMode !== 'RATIO_ADD') fail(root, '自身链加速必须使用实际启用的比例加算属性区');
+        }
         const amount = (result: SkillEffectResult, resultPath: string) => {
           if (!result.valueRule) fail(`${resultPath}.valueRule`, '结果数值规则缺失');
           validateValueRule(result.valueRule, `${resultPath}.valueRule`);
@@ -855,6 +874,9 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             }
             if (authored.detail.eventValueKey === 'SKILL_HIT_SPELL_SHIELD_BLOCKED' && event === 'SKILL_HIT' && side === 'source') {
               return comparator(authored.detail.comparator, { op: 'read', path: 'event.skill_hit.blocked' }, value(authored.detail.comparisonValue, detailPath), detailPath);
+            }
+            if (chain && authored.detail.eventValueKey === 'SKILL_HIT_FIRST_CONTACT' && event === 'SKILL_HIT' && side === 'source') {
+              return comparator(authored.detail.comparator, { op: 'read', path: 'event.skill_hit.firstContact' }, value(authored.detail.comparisonValue, detailPath), detailPath);
             }
             if (finiteCounter && event === 'INTERNAL_STATE_CHANGED' && ['STATE_BEFORE', 'STATE_AFTER'].includes(authored.detail.eventValueKey)) {
               return comparator(authored.detail.comparator, constExpr(authored.detail.eventValueKey === 'STATE_BEFORE' ? 1 : 0),
@@ -1788,8 +1810,14 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           const operations: OperationDefinition[] = [];
           executeActions(rule, operations, outputRoot, abilityRef, event);
           if (!operations.length) fail(rulePath, '规则没有完整可执行操作');
+          if (chain) {
+            if (rule.ruleKey !== chain.postRule.ruleKey || operations.length !== 2 || operations.some(operation => operation.condition || operation.operation !== 'state_change')) fail(rulePath, '首段资格只能展开两个原子自身状态写入');
+            for (const operation of operations) operation.condition = skillHitChainPredicate();
+            const planIndex = snapshot.selection.plannedSkills.findIndex(plan => plan.skillKey === skillKey);
+            cover(`${rulePath}.eventSource.detail.processMoment`, `rules.skillActionBindings[${planIndex}].hitBindings[0].moment`);
+          }
           const listener: NonNullable<AbilityDefinition['listenerSpec']> = { listenerKey: namedKey(skillKey, rule.ruleKey), eventMatcher: matcher,
-            maxTriggersPerEvent: 1, operations, ...(predicate ? { condition: predicate } : {}) };
+            maxTriggersPerEvent: 1, operations, ...(predicate && !chain ? { condition: predicate } : {}) };
           if (rule.oncePerUse !== null) {
             listener.oncePerUse = compileSkillOncePerUse(rule.oncePerUse, `${rulePath}.oncePerUse`, fail,
               groupKey => namedKey(skillKey, groupKey));
@@ -1801,7 +1829,10 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           usedRules.add(rule.ruleKey);
           cover(rulePath, `${abilityRoot}.listenerSpec`);
           cover(`${rulePath}.eventSource`, `${abilityRoot}.listenerSpec.eventMatcher`);
-          if (predicate) cover(`${rulePath}.conditionGroups`, `${abilityRoot}.listenerSpec.condition`);
+          if (predicate) {
+            if (chain) operations.forEach((_, index) => cover(`${rulePath}.conditionGroups`, `${outputRoot}[${index}].condition`));
+            else cover(`${rulePath}.conditionGroups`, `${abilityRoot}.listenerSpec.condition`);
+          }
         }
         for (const effectKey of absorbedShieldEffects) if (!appliedEffects.has(effectKey)) fail(`${root}.effects.${effectKey}`, '指定吸收事实的自身盾必须有本来源实际创建操作');
         for (const authored of configuration.effects) if (!usedEffects.has(authored.effectKey) || !appliedEffects.has(authored.effectKey) && !queriedShieldEffects.has(authored.effectKey) && !queriedDurationEffects.has(authored.effectKey)) fail(`${root}.effects.${authored.effectKey}`, '存在未接入的作者效果，不能丢弃后成功');

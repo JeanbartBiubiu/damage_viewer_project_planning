@@ -16,6 +16,7 @@ import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamagePro
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
 import { hasProcessSkillHitStages, inspectProcessSkillHitStages, processSkillHitTimes, skillHitStageStoppedByTargetDeath, type SkillHitStageFact } from './processSkillHitStageFacts';
 import { processForSkillUse, recastDefinition, recastUseOrdinal, recastUseRef } from './finiteRecast';
+import { inspectSkillHitChainResult } from './skillHitChainResult';
 
 export type SkillActionAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
 const close = (first: number, second: number) => Math.abs(first - second) <= 1e-9 * Math.max(1, Math.abs(first), Math.abs(second));
@@ -23,6 +24,8 @@ const close = (first: number, second: number) => Math.abs(first - second) <= 1e-
 export function assessSkillActionResult(compile: CompileRequest, request: RunRequest, done: DoneResult, origins: OperationOrigin[] = []): SkillActionAssessment {
   const issues: string[] = [];
   const identityGaps: string[] = [];
+  const chain = inspectSkillHitChainResult(compile, request, done);
+  issues.push(...chain.issues); identityGaps.push(...chain.identityGaps);
   const marks = inspectTargetMarkResult(compile, request, done, origins);
   issues.push(...marks.issues); identityGaps.push(...marks.identityGaps);
   const before = inspectDamageStateBefore(compile, request, done);
@@ -118,7 +121,7 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       const definition = compile.sharedProviders?.find(provider => provider.providerKey === context.binding.providerDefinitionRef)
         ?.processes?.find(definition => definition.processKey === process.processKey);
       if (!definition) throw new Error('processInstances: 缺少真实过程定义');
-      const facts = inspectProcessSkillHitStages(context.binding, definition, process, context.instruction.hitBindings, duration, done);
+      const facts = inspectProcessSkillHitStages(context.binding, definition, process, context.instruction.hitBindings, duration, done, compile);
       allStaged &&= hasProcessSkillHitStages(context.binding, definition);
       if (facts) {
         stagedByUse.set(process.useKey, facts);

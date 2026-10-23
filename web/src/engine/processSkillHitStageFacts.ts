@@ -1,5 +1,6 @@
-import type { DoneResult, ProcessDefinition, ProcessInstanceSnapshot, SkillActionBinding, SkillActionPlan } from '../types/genericEngine';
+import type { CompileRequest, DoneResult, ProcessDefinition, ProcessInstanceSnapshot, SkillActionBinding, SkillActionPlan } from '../types/genericEngine';
 import { finiteRecastShape, recastDefinition, recastUseOrdinal } from './finiteRecast';
+import { inspectSkillHitChainStageTimes } from './skillHitChainResult';
 
 type Hit = SkillActionBinding['hitBindings'][number];
 export type SkillHitStageFact = NonNullable<ProcessInstanceSnapshot['skillHitStages']>[number];
@@ -24,7 +25,7 @@ export function hasProcessSkillHitStages(binding: SkillActionBinding, process: P
 
 /** 使用不可截断的原生提交事实，不由详细记录或初始属性重算动态步骤时刻。 */
 export function inspectProcessSkillHitStages(binding: SkillActionBinding, definition: ProcessDefinition, process: ProcessInstanceSnapshot,
-  presets: SkillActionPlan['hitBindings'], observationEndMs: number, done?: DoneResult): SkillHitStageFact[] | undefined {
+  presets: SkillActionPlan['hitBindings'], observationEndMs: number, done?: DoneResult, compile?: CompileRequest): SkillHitStageFact[] | undefined {
   if (!hasProcessSkillHitStages(binding, definition)) return undefined;
   function fail(message: string): never { throw new Error(`processInstances.skillHitStages: ${message}`); }
   if (process.owner !== binding.source || process.providerRef !== binding.providerRef || process.skillKey !== binding.skillKey
@@ -94,6 +95,7 @@ export function inspectProcessSkillHitStages(binding: SkillActionBinding, defini
       || process.status === 'active' && process.stepExecutionIndex >= recast.maximum
       || process.status === 'active' && process.advanceAtMs !== (process.lastExecutionAtMs ?? process.stepStartedAtMs) + recast.interval)) fail('有限重施原窗口、余量或下次时点不一致');
   }
+  if (compile) inspectSkillHitChainStageTimes(compile, binding, process);
   return facts;
 }
 

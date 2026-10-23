@@ -116,7 +116,11 @@ export function inspectSimulationProcessFacts(compile: CompileRequest, request: 
           && process.advanceAtMs === (process.lastExecutionAtMs ?? process.stepStartedAtMs) + recast.interval)
         && (process.failureReason !== 'EVENT_ABORTED' || process.finishedAtMs === process.expiresAtMs && process.stepExecutionIndex < recast.maximum),
       path, '重施原窗口、剩余额度、间隔或到期终结不一致');
-      try { inspectProcessSkillHitStages(binding, definition, process, automatic?.hitBindings ?? initial[0]?.hitBindings ?? [], done.summary.durationMs, done); }
+      try { inspectProcessSkillHitStages(binding, definition, process, automatic?.hitBindings ?? initial[0]?.hitBindings ?? [], done.summary.durationMs, done, compile); }
+      catch (error) { check(false, path, error instanceof Error ? error.message : String(error)); }
+    }
+    if (!recast && definition) {
+      try { inspectProcessSkillHitStages(binding, definition, process, automatic?.hitBindings ?? initial[0]?.hitBindings ?? [], done.summary.durationMs, done, compile); }
       catch (error) { check(false, path, error instanceof Error ? error.message : String(error)); }
     }
     if (!repeating) check(process.repeat === null && process.stepExecutionIndex <= (step?.stepType === 'RECAST' && recast ? recast.maximum : 1), `${path}.repeat`, '普通步骤不能伪造重复段或重复执行');

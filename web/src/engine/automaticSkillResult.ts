@@ -19,6 +19,7 @@ import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
 import { automaticProcessStepsAllowed } from './processSkillHitStages';
 import { inspectProcessSkillHitStages, processSkillHitTimes, skillHitStageStoppedByTargetDeath } from './processSkillHitStageFacts';
 import { finiteRecastControls, processForSkillUse, recastUseOrdinal } from './finiteRecast';
+import { inspectSkillHitChainResult } from './skillHitChainResult';
 import { inspectTargetMarkResult } from './targetMarkResultContract';
 
 export type AutomaticSkillAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
@@ -54,6 +55,8 @@ function committedChannelTimes(process: ProcessInstanceSnapshot, step: ProcessSt
 export function assessAutomaticSkillResult(compile: CompileRequest, request: RunRequest, done: DoneResult, origins: OperationOrigin[] = []): AutomaticSkillAssessment {
   const issues: string[] = [];
   const identityGaps: string[] = [];
+  const chain = inspectSkillHitChainResult(compile, request, done);
+  issues.push(...chain.issues); identityGaps.push(...chain.identityGaps);
   const marks = inspectTargetMarkResult(compile, request, done, origins);
   issues.push(...marks.issues); identityGaps.push(...marks.identityGaps);
   const check = (condition: boolean, path: string, message: string) => { if (!condition) issues.push(`${path}: ${message}`); };
@@ -205,7 +208,7 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
         continue;
       }
       if (!context.binding.hitBindings.length && process.status === 'complete') expectedReleases++;
-      const stages = inspectProcessSkillHitStages(context.binding, context.process, process, context.rule.hitBindings, duration, done);
+      const stages = inspectProcessSkillHitStages(context.binding, context.process, process, context.rule.hitBindings, duration, done, compile);
       if (stages) {
         expectedReleases += stages.filter(stage => stage.released).length;
         possibleHits += stages.filter(stage => stage.contact).length;

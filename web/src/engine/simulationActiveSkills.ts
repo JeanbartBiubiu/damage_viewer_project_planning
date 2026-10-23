@@ -9,6 +9,7 @@ import { adaptHitProgram } from './hitAdapter';
 import { createSiblingTargetCounterReadResolver, type SiblingTargetCounterContext, type SiblingTargetCounterReadResolver } from './siblingTargetCounterRead';
 import { bindSkillHitCooldownReductions, type PendingSkillHitCooldownReduction } from './skillHitCooldownReduction';
 import { processSkillHitStages } from './processSkillHitStages';
+import { skillHitChainContract } from './skillHitChainContract';
 import { cooldownDurationProviderKey } from './cooldownDurationEffectAdapter';
 import { NumericAdaptationError } from './numericAdapter';
 import { finiteTargetCounterContract } from './finiteTargetCounterContract';
@@ -186,6 +187,12 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     fail('selection.plannedSkills', '只开放攻击方真实角色主动技能，阶段必须明确且包含首次');
   }
   const roots = plannedSkillRuleKeys(complete, plan.phaseKinds);
+  const hitChain = skillHitChainContract(complete);
+  if (hitChain) for (const [effect, kind] of [[hitChain.firstPair.control, 'MOVEMENT_SLOW'], [hitChain.tailPair.control, 'STUN']] as const) {
+    const result = effect.results[0]!;
+    const statuses = snapshot.catalogs.statuses.filter(status => result.resultType === 'STATUS_OPERATION' && status.statusKey === result.detail.statusKey);
+    if (statuses.length !== 1 || statuses[0]!.gameId !== snapshot.gameId || statuses[0]!.status !== 'ENABLED' || statuses[0]!.statusKind !== kind) fail(`${root}.effects.${effect.effectKey}`, '首段链减速及尾段眩晕必须对应真实完整状态目录');
+  }
   const { configuration, excludedRuleKeys } = selectSimulationSkillSourceClosure(complete, roots);
   const firstProcessKeys = new Set(configuration.triggerRules.flatMap(rule => rule.eventSource.eventType === 'SKILL_USED'
     && rule.eventSource.detail.sourceSkillKey === plan.skillKey && rule.eventSource.detail.useKind === 'ACTIVE'
@@ -197,6 +204,7 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   if (complete.triggerRules.some(rule => rule.eventSource.eventType === 'SKILL_HIT'
     && Object.prototype.hasOwnProperty.call(rule.eventSource.detail, 'processMoment'))) {
     processSkillHitStages(plan.skillKey, process, complete.triggerRules.filter(rule => rule.eventSource.eventType === 'SKILL_HIT'
+      && rule.ruleKey !== hitChain?.postRule.ruleKey
       && (rule.eventSource.detail.sourceSkillKey === null || rule.eventSource.detail.sourceSkillKey === plan.skillKey
         || Object.prototype.hasOwnProperty.call(rule.eventSource.detail, 'processMoment'))));
   }
@@ -396,8 +404,12 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     const hitAbilityIndex = provider.abilities.length;
     provider.abilities.push({ abilityKey: stage.abilityKey, kind: 'active', skillKey: plan.skillKey,
       types: [...new Set([...categories, skillType, ...hit.abilityTypes])], params: hit.params,
+      ...(hitChain && stage.moment.stepKey === hitChain.tail.stepKey ? { castCondition: { op: 'eq' as const,
+        args: [{ op: 'read' as const, path: `provider.state.${hitChain.state.stateKey}` }, { op: 'const' as const, value: 1 }] } } : {}),
       operations: [{ operation: 'resolve_skill_hit', target: 'target', skillHit: hit.skillHit }] });
     const hitAbilityRef = `source.provider[${providerRef}].ability[${stage.abilityKey}]`;
+    if (hitChain && stage.moment.stepKey === hitChain.tail.stepKey) for (const rule of hitChain.tailRules) coverage.push({
+      authorPath: `${root}.triggerRules.${rule.ruleKey}.conditionGroups`, compiledPath: `sharedProviders[${definitionRef}].abilities[${hitAbilityIndex}].castCondition` });
     binding.hitBindings.push({ hitBindingKey: stage.hitBindingKey, processKey: process.processKey, moment: stage.moment,
       hitAbilityRef, ...(stage.requiresPriorHitBindingKey ? { requiresPriorHitBindingKey: stage.requiresPriorHitBindingKey } : {}) });
     for (const authorPath of stage.authorPaths) coverage.push({ authorPath,

@@ -1,0 +1,365 @@
+{
+  "schemaVersion": "mechanism-catalog-v1",
+  "catalogKey": "mechanism_hit_chain_ap",
+  "gameId": "mechanism_hit_chain_ap",
+  "catalogs": {
+    "calculationRules": {
+      "gameId": "mechanism_hit_chain_ap",
+      "baseDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "configuration": {
+        "criticalChanceAttributeKey": "critical_strike_chance",
+        "criticalMultiplierMin": 1,
+        "attackSpeedAttributeKey": "attack_speed",
+        "basicAttackCategoryKey": "basic_attack",
+        "equipmentPassiveCategoryKey": null,
+        "ignorableCastCostAttributeKeys": [],
+        "attributeDerivations": []
+      }
+    },
+    "levelConfig": {
+      "gameId": "mechanism_hit_chain_ap",
+      "minLevel": 1,
+      "maxLevel": 1
+    },
+    "attributes": [
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "attributeKey": "hp",
+        "name": "hp",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "attributeKey": "attack_damage",
+        "name": "attack_damage",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "attributeKey": "attack_speed",
+        "name": "attack_speed",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "attributeKey": "armor",
+        "name": "armor",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "attributeKey": "critical_strike_chance",
+        "name": "critical_strike_chance",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": 1,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "attributeKey": "critical_strike_damage_bonus_percent",
+        "name": "critical_strike_damage_bonus_percent",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "attributeKey": "armor_pen_percent",
+        "name": "armor_pen_percent",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "attributeKey": "armor_pen_flat",
+        "name": "armor_pen_flat",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "attributeKey": "life_steal_percent",
+        "name": "life_steal_percent",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "attributeKey": "move_speed",
+        "name": "hp",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "attributeKey": "ability_power",
+        "name": "hp",
+        "valueType": "DECIMAL",
+        "minValue": 0,
+        "maxValue": null,
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      }
+    ],
+    "skillCategories": [
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "skillCategoryKey": "basic_attack",
+        "name": "普攻",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "skillCategoryKey": "active",
+        "name": "主动",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      }
+    ],
+    "damageTypes": [
+      {
+        "type": {
+          "gameId": "mechanism_hit_chain_ap",
+          "damageTypeKey": "physics",
+          "name": "物理",
+          "description": null,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "formulaConfigured": true,
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "formula": {
+          "gameId": "mechanism_hit_chain_ap",
+          "damageTypeKey": "physics",
+          "updatedAt": "",
+          "formula": {
+            "inputs": [
+              {
+                "key": "resistance",
+                "binding": {
+                  "kind": "attribute",
+                  "object": "target",
+                  "attributeKey": "armor",
+                  "valueKind": "TOTAL",
+                  "view": "current_frame"
+                }
+              },
+              {
+                "key": "percent_pen",
+                "binding": {
+                  "kind": "attribute",
+                  "object": "source",
+                  "attributeKey": "armor_pen_percent",
+                  "valueKind": "TOTAL",
+                  "view": "current_frame"
+                }
+              },
+              {
+                "key": "flat_pen",
+                "binding": {
+                  "kind": "attribute",
+                  "object": "source",
+                  "attributeKey": "armor_pen_flat",
+                  "valueKind": "TOTAL",
+                  "view": "current_frame"
+                }
+              }
+            ],
+            "stages": [
+              {
+                "key": "resistance",
+                "name": "穿透前抗性",
+                "expression": {
+                  "op": "read",
+                  "inputKey": "resistance"
+                }
+              },
+              {
+                "key": "percent_pen",
+                "name": "百分比穿透",
+                "expression": {
+                  "op": "read",
+                  "inputKey": "percent_pen"
+                }
+              },
+              {
+                "key": "flat_pen",
+                "name": "固定穿透",
+                "expression": {
+                  "op": "read",
+                  "inputKey": "flat_pen"
+                }
+              },
+              {
+                "key": "effective",
+                "name": "有效抗性",
+                "expression": {
+                  "op": "ref",
+                  "stageKey": "resistance"
+                }
+              },
+              {
+                "key": "factor",
+                "name": "防御倍率",
+                "expression": {
+                  "op": "div",
+                  "args": [
+                    {
+                      "op": "const",
+                      "value": "100"
+                    },
+                    {
+                      "op": "add",
+                      "args": [
+                        {
+                          "op": "const",
+                          "value": "100"
+                        },
+                        {
+                          "op": "ref",
+                          "stageKey": "effective"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "outputStageKey": "factor"
+          }
+        }
+      }
+    ],
+    "modifierZones": [
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "modifierZoneKey": "speed_percent",
+        "name": "比例属性",
+        "domain": "ATTRIBUTE",
+        "applicationStage": "ATTRIBUTE_PERCENT",
+        "calculationMode": "RATIO_ADD",
+        "description": null,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      }
+    ],
+    "statuses": [
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "statusKey": "slow",
+        "name": "slow",
+        "statusKind": "MOVEMENT_SLOW",
+        "status": "ENABLED",
+        "description": null,
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      {
+        "gameId": "mechanism_hit_chain_ap",
+        "statusKey": "stun",
+        "name": "stun",
+        "statusKind": "STUN",
+        "status": "ENABLED",
+        "description": null,
+        "sortOrder": 0,
+        "createdAt": "",
+        "updatedAt": ""
+      }
+    ],
+    "vampRules": {
+      "rules": [
+        {
+          "vampType": "LIFE_STEAL",
+          "sourceAttributeKey": "life_steal_percent",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "defaultEfficiency": 1,
+          "deliveryKinds": [
+            "BASIC_ATTACK"
+          ],
+          "originKinds": [
+            "DIRECT"
+          ],
+          "skillCategoryKeys": [
+            "basic_attack"
+          ]
+        }
+      ]
+    }
+  }
+}
