@@ -141,7 +141,7 @@ class ModifierZoneServiceTest {
                     "错误组合",
                     ModifierZoneDomain.DAMAGE,
                     ModifierZoneCalculationMode.FLAT_ADD,
-                    ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE,
+                    ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE,
                     null,
                     ModifierZoneStatus.ENABLED,
                     0

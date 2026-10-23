@@ -26,6 +26,7 @@ type CompiledTargetTiming struct {
 	Phased       bool
 }
 type CompiledSession struct {
+	IncomingCappedFlatSources   []CompiledIncomingCappedFlatSource
 	HasPermanentCharacterPeriod bool
 	HasImmediatePeriodic        bool
 	HasTotalCooldownRefund      bool
@@ -100,7 +101,9 @@ type CompiledProviderMount struct {
 // CompiledModifier 是 compile 后的 provider / rule modifier。
 // CompiledModifier 是 compile 后的 provider / rule modifier。
 type CompiledModifier struct {
-	ValueReadMode string
+	HasMaximumReductionRatio bool
+	MaximumReductionRatio    float64
+	ValueReadMode            string
 	// OwnedHealthReads仅由同技能作者生命读取的动态自身加算推导，不是公开协议字段。
 	OwnedHealthReads         bool
 	CurrentValuePolicy       string
@@ -125,6 +128,15 @@ type CompiledModifier struct {
 	HasValue                 bool
 	HasCondition             bool
 	ConditionProg            formula.GenericProgramID
+}
+
+// Cold admission links a pure permanent status to its sole real character initializer.
+type CompiledIncomingCappedFlatSource struct {
+	Owner             string
+	ParentProviderRef string
+	EffectProviderRef string
+	ParentIndex       uint16
+	EffectIndex       uint16
 }
 
 type CompiledCooldownDurationTarget struct {

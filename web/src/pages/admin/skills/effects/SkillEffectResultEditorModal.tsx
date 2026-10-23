@@ -396,7 +396,10 @@ export function SkillEffectResultEditorModal({
   const ratioCooldown = draft.resultType === 'COOLDOWN_CHANGE'
     && (draft.cooldownOperation === 'REDUCE_REMAINING_RATIO' || draft.cooldownOperation === 'REDUCE_TOTAL_RATIO');
   const slowApply = isMovementSlowApply(draft);
-  const valueFormulaLabel = draft.resultType === 'STATUS_OPERATION' ? '减速比例' : valueFormulaLabelFor(draft.resultType);
+  const cappedReduction = draft.resultType === 'DAMAGE_MODIFIER' && (draft.maximumReductionRatioValue !== null
+    || modifierZones.some(zone => zone.modifierZoneKey === draft.modifierZoneKey && zone.domain === 'DAMAGE'
+      && zone.calculationMode === 'FLAT_ADD' && zone.applicationStage === 'DAMAGE_PRE_DEFENSE'));
+  const valueFormulaLabel = cappedReduction ? '每个分支减免点数' : draft.resultType === 'STATUS_OPERATION' ? '减速比例' : valueFormulaLabelFor(draft.resultType);
 
   const resetCatalogs = useCallback(() => {
     damageTypeSerial.current += 1;
@@ -661,6 +664,7 @@ export function SkillEffectResultEditorModal({
   }, [visible, resultDraft, draft.statusKey, draft.resultType, catalogLoadState.statuses, statuses]);
 
   const catalog = useMemo<EffectFormCatalog>(() => ({
+    parentSkillMaxLevel: parentSkill.maxLevel,
     parentSkillKey: parentSkill.skillKey,
     parentEffectKey: parentDraft.effectKey.trim(),
     formulas,
@@ -1665,6 +1669,14 @@ export function SkillEffectResultEditorModal({
           {draft.resultType === 'DAMAGE_MODIFIER' ? (
             <>
               {renderModifierZoneField()}
+              {cappedReduction ? (
+                <Form.Item label="每个分支最大减免比例" required validateStatus={errors.maximumReductionRatioValue ? 'error' : undefined}
+                  help={errors.maximumReductionRatioValue ?? '0 到 1；仅固定值或本技能静态参数，每个未加权分支分别封顶。'}>
+                  <NumericValueField aria-label="每个分支最大减免比例" value={draft.maximumReductionRatioValue}
+                    parameters={parameters} formulas={[]} parametersLoadState={parametersLoadState} formulasLoadState="ready"
+                    disabled={readOnly} onChange={value => patchDraft({ ...draft, maximumReductionRatioValue: value })} />
+                </Form.Item>
+              ) : null}
               <Form.Item
                 label="作用方向"
                 required

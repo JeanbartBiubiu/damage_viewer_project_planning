@@ -5,6 +5,7 @@ import { simulationSkillSourceIdentity } from '../services/simulationSkillSource
 import { NumericAdaptationError } from './numericAdapter';
 import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
 import { isOwnCooldownMaintenanceAction } from './basicAttackCooldownReduction';
+import { receivedCooldownDormancy } from './receivedCooldownDormancy';
 import { isOwnProviderDurationMaintenanceAction } from './providerDurationAdapter';
 import type { PermanentNumericConsumer } from './simulationPermanentResults';
 import { calculationConfiguration } from './simulationCalculationRules';
@@ -82,8 +83,10 @@ function activeReachableRoots(snapshot: SimulationSnapshot) {
   const roots = new Map<string, Set<string>>();
   const identity = (side: Side, source: SimulationSkillSource) => `${side}:${simulationSkillSourceIdentity(source.origin, source.skillKey)}`;
   for (const entry of sources) {
+    const dormantReceived = new Set(entry.configuration ? receivedCooldownDormancy(snapshot, entry.configuration, entry.side, entry.source).map(r => r.ruleKey) : []);
     const selected = new Set<string>();
     for (const rule of entry.configuration?.triggerRules ?? []) {
+      if (dormantReceived.has(rule.ruleKey)) continue;
       const event = rule.eventSource;
       if (!rule.actions.length) continue;
       if (entry.side === 'source' && ['BASIC_ATTACK_HIT', 'SKILL_USED'].includes(event.eventType)
@@ -142,6 +145,8 @@ function activeReachableRoots(snapshot: SimulationSnapshot) {
 }
 
 export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: SkillConfiguration, side: Side, actualSource?: SimulationSkillSource) {
+  const dormantReceived = new Set((actualSource ? [actualSource] : snapshot[side].skillSources.filter(s => s.skillKey === configuration.skill.skillKey))
+    .flatMap(source => receivedCooldownDormancy(snapshot, configuration, side, source).map(r => r.ruleKey)));
   if (isUndrivenTargetTimingSource(snapshot, configuration, side, actualSource)) return [];
   const finiteCounter = finiteTargetCounterContract(configuration);
   const targetMark = targetMarkAuthoringContract(configuration);
@@ -165,7 +170,7 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
   const damageRoots = new Set((actualSource ? [actualSource] : snapshot[side].skillSources.filter(source => source.skillKey === configuration.skill.skillKey))
     .flatMap(source => [...(reachable?.get(`${side}:${simulationSkillSourceIdentity(source.origin, source.skillKey)}`) ?? [])]));
   return configuration.triggerRules.filter(rule => {
-    if (!rule.actions.length) return false;
+    if (!rule.actions.length || dormantReceived.has(rule.ruleKey)) return false;
     const event = rule.eventSource;
     if (side === 'source' && ['BASIC_ATTACK_HIT', 'SKILL_USED'].includes(event.eventType)
       && rule.actions.every(action => isOwnProviderDurationMaintenanceAction(configuration, action))

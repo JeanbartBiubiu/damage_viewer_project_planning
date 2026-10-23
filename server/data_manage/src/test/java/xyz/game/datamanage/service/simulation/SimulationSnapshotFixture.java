@@ -119,6 +119,7 @@ final class SimulationSnapshotFixture {
                 SkillEffectResultDetail detail = switch (result.resultType()) {
                     case DAMAGE -> json.treeToValue(detailData, SkillEffectDamageDetail.class);
                     case DIRECT_HEAL -> json.treeToValue(detailData, SkillEffectDirectHealDetail.class);
+                    case DAMAGE_MODIFIER -> json.treeToValue(detailData, SkillEffectDamageModifierDetail.class);
                     case NORMAL_SHIELD -> json.treeToValue(detailData, xyz.game.datamanage.model.skilleffect.SkillEffectNormalShieldDetail.class);
                     case ATTRIBUTE_CHANGE -> json.treeToValue(detailData, SkillEffectAttributeChangeDetail.class);
                     case RESOURCE_CHANGE -> json.treeToValue(detailData, SkillEffectResourceChangeDetail.class);

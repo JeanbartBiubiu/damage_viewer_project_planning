@@ -15,6 +15,7 @@ import type { SimulationAttributeDerivation } from './simulationAttributeConvers
 import { declaredFormulaForApprovedReads } from './approvedFormulaValues';
 import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
 import { bindShieldAttributeDependencies } from './shieldAttributeDependency';
+import { receivedCooldownDormancy } from './receivedCooldownDormancy';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
   type SceneInitialParameterInput } from './sceneInitialParameterInput';
 
@@ -38,6 +39,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
   const derivations: SimulationAttributeDerivation[] = [];
   const descriptions: TriggeredSkillSourceDescription[] = [];
   const targetMarkSources: Array<{ source: SimulationSkillSource; side: Side; providerRef: string; definitionRef: string }> = [];
+  const cappedCount = { source: 0, target: 0 };
   for (const side of ['source', 'target'] as const) {
     const sources = structuredClone(snapshot[side].skillSources).sort((left, right) => {
       const leftKey = simulationSkillSourceIdentity(left.origin, left.skillKey);
@@ -98,6 +100,11 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
       const configurations = snapshot.skillConfigurations.filter(row => row.skill.skillKey === source.skillKey);
       if (configurations.length !== 1) fail(root, '自然来源缺少完整作者配置');
       const completeConfiguration = configurations[0]!;
+      const dormant = receivedCooldownDormancy(snapshot, completeConfiguration, side, source);
+      for (const item of dormant) coverage.push({ authorPath: item.authorPath, compiledPath: 'runtimeOptions.skillOrigins', note: item.note });
+      const dormantKeys = new Set(dormant.map(row => row.ruleKey));
+      source.enabledRuleKeys = source.enabledRuleKeys.filter(key => !dormantKeys.has(key));
+      trace.enabledRuleKeys = trace.enabledRuleKeys.filter(key => !dormantKeys.has(key));
       const { configuration, excludedRuleKeys } = selectSimulationSkillSourceClosure(completeConfiguration, source.enabledRuleKeys);
       for (const ruleKey of excludedRuleKeys) coverage.push({ authorPath: `skills.${source.skillKey}.triggerRules.${ruleKey}`,
         compiledPath: 'runtimeOptions.skillOrigins', note: '独立主动兄弟暂缓或所需事件未产生，不加入自然执行闭包；完整作者配置保留' });
@@ -191,6 +198,15 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
               continue;
             }
             const effectRef = [providerRef, source.skillKey, effect.effectKey, result.resultKey].join('/');
+            if (modifier.maximumReductionRatio !== undefined) {
+              if (++cappedCount[side] > 1) fail(resultPath, '同一实际拥有者不接受重复或重叠的封顶平减');
+              if (result.valueRule?.value.kind === 'FORMULA') {
+                const key = result.valueRule.value.formulaKey;
+                for (const input of configuration.formulas.find(row => row.formulaKey === key)!.expression.inputs) {
+                  if (input.binding.kind === 'attribute') required[side].add(input.binding.attributeKey);
+                }
+              }
+            }
             providers.push({ providerKey: effectRef, skillKey: source.skillKey, stableId: effectRef, kind: 'status', modifiers: [modifier] });
             operations.push({ operation: 'apply_provider', target: 'self', providerDefinitionRef: effectRef, providerRef: effectRef,
               ...(modifier.kind === 'resource_max' && modifier.currentValuePolicy === 'preserve_initial_current' ? { ref: resultPath } : {}) });

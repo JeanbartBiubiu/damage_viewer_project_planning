@@ -263,6 +263,7 @@ public final class SkillObjectReferences {
                     case "DAMAGE_MODIFIER" -> {
                         dictionary(detail, dp, "modifierZoneKey", TargetType.MODIFIER_ZONE);
                         dictionary(detail, dp, "damageTypeKey", TargetType.DAMAGE_TYPE);
+                        formulas(detail, dp, "maximumReductionRatioValue");
                         JsonNode condition = detail.path("condition");
                         if (present(condition)) {
                             dictionary(condition, dp + ".condition", "attributeKey", TargetType.ATTRIBUTE);

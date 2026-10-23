@@ -8,6 +8,7 @@ import { permanentAttributeConversion, type SimulationAttributeDerivation } from
 import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
 import { dynamicPermanentAttribute } from './dynamicPermanentAttributeAdapter';
 import { registerShieldAttributeDependency } from './shieldAttributeDependency';
+import { cappedPhysicalReduction } from './cappedPhysicalReduction';
 
 export type PermanentResultContext = {
   snapshot: SimulationSnapshot;
@@ -58,6 +59,8 @@ export function validatePermanentEffect(effect: SkillConfiguration['effects'][nu
 
 export function permanentModifier(context: PermanentResultContext, result: SkillEffectResult, path: string): ModifierDefinition | SimulationAttributeDerivation {
   const { snapshot, configuration, source, side } = context;
+  const capped = cappedPhysicalReduction(context, result, path);
+  if (capped) return capped;
   if (result.resultType === 'ATTRIBUTE_CHANGE' && Object.prototype.hasOwnProperty.call(result.detail, 'requiredShield')) {
     exact(result.detail, ['attributeKey', 'operation', 'modifierZoneKey', 'requiredShield'], `${path}.detail`);
     const { requiredShield: _dependency, ...detail } = result.detail;

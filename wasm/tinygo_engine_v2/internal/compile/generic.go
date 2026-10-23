@@ -179,6 +179,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeSkillHitHealingModifiers(req, ctx)
 	finalizeProviderDurationChanges(ctx)
 	finalizeOwnedHealthModifiers(ctx)
+	finalizeIncomingCappedFlatModifiers(req, ctx)
 	validateProviderElapsedReads(ctx)
 	finalizeListenerIndex(ctx)
 	finalizePermanentResourceMax(ctx)
@@ -664,6 +665,11 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 		HealGroupKey:             mod.HealGroupKey,
 		HealGroupCalculationMode: mod.HealGroupCalculationMode,
 	}
+	if mod.MaximumReductionRatio != nil {
+		compiled.HasMaximumReductionRatio = true
+		compiled.MaximumReductionRatio = *mod.MaximumReductionRatio
+	}
+	validateIncomingCappedFlatShape(mod, compiled, path, ctx)
 	if mod.ValueReadMode != "" && mod.ValueReadMode != "APPLICATION_SNAPSHOT" {
 		collector.addError(model.GenericErrUnknownRef, path+".valueReadMode", "unsupported modifier value read mode", mod.ModifierKey)
 	}
@@ -769,6 +775,10 @@ func validatePipelineModifier(mod plan.CompiledModifier, path string, collector 
 
 func validateDamagePipelineModifier(mod plan.CompiledModifier, path string, collector *genericCollector) {
 	switch mod.Stage {
+	case "incoming_pre_mitigation":
+		if !mod.HasMaximumReductionRatio || mod.ValuePolicy != "subtract" || mod.Channel != "all_damage" || mod.Bucket != "all_instances" {
+			collector.addError(model.GenericErrUnknownRef, path, "incoming capped flat requires explicit cap, subtract/all_damage/all_instances", mod.ModifierKey)
+		}
 	case "outgoing_pre_mitigation", "incoming_post_mitigation":
 		switch mod.ValuePolicy {
 		case "multiply", "override", "subtract":

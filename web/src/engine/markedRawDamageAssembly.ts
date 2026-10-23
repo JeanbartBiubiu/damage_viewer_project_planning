@@ -128,15 +128,17 @@ export function validateMarkedRawDamageAssembly(snapshot: SimulationSnapshot, re
     const root = `skills.${source.skillKey}`;
     const contract = validateMarkedRawDamageContract(snapshot, configuration, root);
     if (!contract) continue;
-    const mounts = request.combatants.find(actor => actor.key === source.side)?.providers.filter(row => row.providerRef === source.providerRef) ?? [];
+    const owners = request.combatants.filter(actor => actor.key === source.side);
+    const mounts = owners[0]?.providers.filter(row => row.providerRef === source.providerRef) ?? [];
     const providers = request.sharedProviders?.filter(row => row.providerKey === source.definitionRef) ?? [];
     const provider = providers[0];
-    if (source.side !== 'source' || !['CHARACTER', 'BUILD_OPTION'].includes(source.origin.kind) || mounts.length !== 1
+    if (owners.length !== 1 || !['CHARACTER', 'BUILD_OPTION'].includes(source.origin.kind) || mounts.length !== 1
       || mounts[0]!.definitionRef !== source.definitionRef || providers.length !== 1 || !provider
-      || provider.skillKey !== source.skillKey || provider.lifecycle || !['character', 'build'].includes(provider.kind)) {
+      || provider.skillKey !== source.skillKey || provider.lifecycle || !['character', 'build'].includes(provider.kind)
+      || source.side === 'target' && (source.origin.kind !== 'CHARACTER' || provider.kind !== 'character')) {
       fail(root, '原额派生缺少实际拥有方唯一永久自然挂载');
     }
-    const ownedMounts = request.combatants.find(actor => actor.key === 'source')!.providers.filter(mount =>
+    const ownedMounts = owners[0]!.providers.filter(mount =>
       request.sharedProviders?.some(row => row.providerKey === mount.definitionRef && row.skillKey === source.skillKey));
     const abilities = provider.abilities ?? [], keys = abilities.map(ability => ability.abilityKey);
     const state = provider.initialStateSchema?.[contract.state.stateKey];
@@ -195,7 +197,8 @@ export function validateMarkedRawDamageAssembly(snapshot: SimulationSnapshot, re
       }
     }
     const primary = provider.abilities?.filter(ability => ability.abilityKey === contract.primaryRule.ruleKey && ability.listenerSpec) ?? [];
-    const drivenPrimary = binding?.skillKey === contract.primarySkillKey;
+    const drivenPrimary = binding?.source === source.side && binding.target === (source.side === 'source' ? 'target' : 'source')
+      && binding.skillKey === contract.primarySkillKey;
     if (!drivenPrimary) {
       if (primary.length || source.enabledRuleKeys.includes(contract.primaryRule.ruleKey)) fail(root, '本场未驱动普攻时不能保留虚构挂标入口');
       continue;

@@ -139,7 +139,10 @@ public class GameConfigurationWriteGuard {
             healingRatioMaxSemantics.validate(gameId, skillAffected);
             Set<Aggregate> numericAffected = new LinkedHashSet<>(skillAffected);
             numericAffected.addAll(shieldReadTargets);
-            numericSemantics.validate(gameId, List.copyOf(numericAffected), skillContext);
+            Set<String> enabledAttributes = after.rows().entrySet().stream()
+                .filter(entry -> entry.getKey().type().equals("ATTRIBUTE") && "ENABLED".equals(entry.getValue().path("status").asText()))
+                .map(entry -> entry.getKey().key()).collect(java.util.stream.Collectors.toSet());
+            numericSemantics.validate(gameId, List.copyOf(numericAffected), after.aggregates(), enabledAttributes);
         }
         for (Source source : changes.changed()) {
             jdbc.update(DELETE_SOURCE_SQL, gameId, source.skill(), source.type().name(), source.key());

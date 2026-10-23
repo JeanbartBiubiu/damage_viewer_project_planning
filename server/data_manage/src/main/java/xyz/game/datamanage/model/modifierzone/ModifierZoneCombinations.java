@@ -22,6 +22,8 @@ public final class ModifierZoneCombinations {
             case DAMAGE -> (mode == ModifierZoneCalculationMode.RATIO_ADD
                 && (stage == ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE
                     || stage == ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE))
+                || (mode == ModifierZoneCalculationMode.FLAT_ADD
+                    && stage == ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE)
                 || (mode == ModifierZoneCalculationMode.RATIO_MULTIPLY
                     && stage == ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE);
             case HEALING -> (mode == ModifierZoneCalculationMode.RATIO_ADD

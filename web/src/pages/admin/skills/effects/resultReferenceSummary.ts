@@ -331,7 +331,9 @@ export function buildResultReferenceSummary(
         : '—';
       return {
         target,
-        segments: [operation, numeric(RATIO_UNIT), damageModifierConditionSummary(result, catalogs)].filter(
+        segments: [operation, numeric(result.maximumReductionRatioValue !== null ? '点' : RATIO_UNIT),
+          ...(result.maximumReductionRatioValue !== null ? ['每分支上限 ' + authoredNumericSummary(result.maximumReductionRatioValue,
+            { ...numericOptions(result, catalogs, RATIO_UNIT), multiplier: '1', min: '', max: '' })] : []), damageModifierConditionSummary(result, catalogs)].filter(
           (item): item is string => item !== null
         )
       };

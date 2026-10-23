@@ -34,13 +34,18 @@ public final class SkillNumericSemantics {
     }
 
     public void validate(String gameId, List<Aggregate> sources, List<Aggregate> context) {
+        validate(gameId, sources, context, Set.of());
+    }
+
+    public void validate(String gameId, List<Aggregate> sources, List<Aggregate> context, Set<String> enabledAttributes) {
         List<Parameter> parameters = new ArrayList<>();
         for (Map<String, Object> row : jdbc.queryForList(PARAMETERS_SQL, gameId)) {
             Object fixed = row.get("fixed_value");
             parameters.add(new Parameter((String) row.get("skill_key"), (String) row.get("parameter_key"),
                 (String) row.get("value_type"), (String) row.get("value_mode"),
                 fixed == null ? null : new BigDecimal(fixed.toString()),
-                AggregateJson.tree((String) row.get("level_values"))));
+                AggregateJson.tree((String) row.get("level_values")),
+                row.get("skill_max_level") instanceof Number number ? number.intValue() : null));
         }
         Map<String, String> zoneModes = new LinkedHashMap<>();
         Map<String, String> zoneDomains = new LinkedHashMap<>();
@@ -51,7 +56,7 @@ public final class SkillNumericSemantics {
             zoneDomains.put(key, (String) row.get("domain"));
             zoneStages.put(key, (String) row.get("application_stage"));
         }
-        validate(sources, context, parameters, zoneModes, zoneDomains, zoneStages);
+        validate(sources, context, parameters, zoneModes, zoneDomains, zoneStages, enabledAttributes);
     }
 
     public static void validate(List<Aggregate> aggregates, List<Parameter> parameters) {
@@ -69,7 +74,13 @@ public final class SkillNumericSemantics {
 
     static void validate(List<Aggregate> sources, List<Aggregate> objects, List<Parameter> parameters,
                          Map<String, String> zoneModes, Map<String, String> zoneDomains, Map<String, String> zoneStages) {
-        Context context = new Context(objects, parameters, zoneModes, zoneDomains, zoneStages);
+        validate(sources, objects, parameters, zoneModes, zoneDomains, zoneStages, Set.of());
+    }
+
+    static void validate(List<Aggregate> sources, List<Aggregate> objects, List<Parameter> parameters,
+                         Map<String, String> zoneModes, Map<String, String> zoneDomains, Map<String, String> zoneStages,
+                         Set<String> enabledAttributes) {
+        Context context = new Context(objects, parameters, zoneModes, zoneDomains, zoneStages, enabledAttributes);
         context.validateSceneStartProcessUniqueness(sources.stream().map(Aggregate::skillKey).collect(java.util.stream.Collectors.toSet()));
         for (Aggregate aggregate : sources) context.collect(aggregate);
         SkillTargetTimingSemantics.validate(sources, objects, context::targetTimingNumber);
@@ -77,7 +88,22 @@ public final class SkillNumericSemantics {
     }
 
     public record Parameter(String skillKey, String key, String valueType, String valueMode,
-                            BigDecimal fixedValue, JsonNode levelValues) {}
+                            BigDecimal fixedValue, JsonNode levelValues, Integer skillMaxLevel) {
+        public Parameter(String skillKey, String key, String valueType, String valueMode,
+                         BigDecimal fixedValue, JsonNode levelValues) {
+            this(skillKey, key, valueType, valueMode, fixedValue, levelValues, null);
+        }
+    }
+
+    /** 只核快照实际必要的新封顶声明；不对无关旧图追加管理提交规则。 */
+    public static void validateCappedDamageModifiers(List<Aggregate> sources, List<Aggregate> objects, List<Parameter> parameters,
+        Map<String, String> zoneModes, Map<String, String> zoneDomains, Map<String, String> zoneStages, Set<String> enabledAttributes) {
+        Context context = new Context(objects, parameters, zoneModes, zoneDomains, zoneStages, enabledAttributes);
+        for (Aggregate source : sources) if (source.type() == SourceType.EFFECT && source.data().path("results").valueStream().anyMatch(result ->
+            result.path("detail").has("maximumReductionRatioValue") || "DAMAGE".equals(zoneDomains.get(text(result.path("detail"), "modifierZoneKey")))
+                && "FLAT_ADD".equals(zoneModes.get(text(result.path("detail"), "modifierZoneKey")))
+                && "DAMAGE_PRE_DEFENSE".equals(zoneStages.get(text(result.path("detail"), "modifierZoneKey"))))) context.collect(source);
+    }
 
     /** 快照按真实来源选定参数后复用共同静态求值；不接受运行输入或未定等级组合。 */
     public static BigInteger snapshotStaticInteger(Aggregate source, JsonNode value, String path,
@@ -174,14 +200,22 @@ public final class SkillNumericSemantics {
         private final Map<String, String> zoneModes;
         private final Map<String, String> zoneDomains;
         private final Map<String, String> zoneStages;
+        private final Set<String> enabledAttributes;
+        private Set<String> cappedDefenseAttributes;
 
         private Context(List<Aggregate> aggregates, List<Parameter> parameters, Map<String, String> zoneModes,
                         Map<String, String> zoneDomains, Map<String, String> zoneStages) {
+            this(aggregates, parameters, zoneModes, zoneDomains, zoneStages, Set.of());
+        }
+
+        private Context(List<Aggregate> aggregates, List<Parameter> parameters, Map<String, String> zoneModes,
+                        Map<String, String> zoneDomains, Map<String, String> zoneStages, Set<String> enabledAttributes) {
             for (Aggregate a : aggregates) objects.put(id(a), a);
             for (Parameter p : parameters) this.parameters.put(p.skillKey() + "/" + p.key(), p);
             this.zoneModes = zoneModes == null ? Map.of() : zoneModes;
             this.zoneDomains = zoneDomains == null ? Map.of() : zoneDomains;
             this.zoneStages = zoneStages == null ? Map.of() : zoneStages;
+            this.enabledAttributes = Set.copyOf(enabledAttributes);
         }
 
         private void collect(Aggregate a) {
@@ -202,6 +236,8 @@ public final class SkillNumericSemantics {
                     int i = 0;
                     for (JsonNode r : d.path("results")) {
                         String path = "results[" + i++ + "]";
+                        if (r.path("detail").has("maximumReductionRatioValue") && !"DAMAGE_MODIFIER".equals(text(r, "resultType")))
+                            throw invalid(a, path + ".detail.maximumReductionRatioValue", "FORBIDDEN", "其它结果不得夹带封顶平减比例");
                         boolean current = "PERSISTENT".equals(text(r.path("lifecycleBehavior"), "moment"))
                             && "MOMENT_EVALUATION".equals(text(r.path("lifecycleBehavior"), "valueReadMode"));
                         String lifecycleOperation = text(r.path("detail"), "operation");
@@ -291,6 +327,7 @@ public final class SkillNumericSemantics {
                             validateHealingRatioMaxDecrease(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
                         }
                         if ("DAMAGE_MODIFIER".equals(text(r, "resultType"))) {
+                            validateCappedDamageModifier(a, r, path);
                             validateDamageModifierCondition(a, r, path);
                             if (isDamageRatioMultiply(r)) {
                                 List<Map<String, String>> issues = new ArrayList<>();
@@ -753,6 +790,146 @@ public final class SkillNumericSemantics {
                         "逐笔生命门槛的全部等级比例必须有限且位于0到1之间");
                 }
             }
+        }
+
+        private void validateCappedDamageModifier(Aggregate effect, JsonNode result, String path) {
+            JsonNode detail = result.path("detail");
+            String zone = text(detail, "modifierZoneKey");
+            boolean flatPre = "DAMAGE".equals(zoneDomains.get(zone)) && "FLAT_ADD".equals(zoneModes.get(zone))
+                && "DAMAGE_PRE_DEFENSE".equals(zoneStages.get(zone));
+            String capPath = path + ".detail.maximumReductionRatioValue";
+            if (!flatPre) {
+                if (detail.has("maximumReductionRatioValue")) throw invalid(effect, capPath, "FORBIDDEN",
+                    "封顶比例只用于防御前承受平减");
+                return;
+            }
+            if (!detail.hasNonNull("maximumReductionRatioValue")) throw invalid(effect, capPath, "REQUIRED", "封顶平减必须明确最大减免比例");
+            Aggregate damageType = objects.get(new Id("", SourceType.DAMAGE_TYPE, text(detail, "damageTypeKey")));
+            if (damageType == null || !"ENABLED".equals(text(damageType.data(), "status")) || !damageType.data().path("formula").isObject())
+                throw invalid(effect, path + ".detail.damageTypeKey", "REFERENCE_DISABLED", "封顶平减必须引用当前游戏真实启用且有结算公式的单一伤害类型");
+            if (xyz.game.datamanage.support.formula.FormulaContractValidator.validate(damageType.data().path("formula"),
+                xyz.game.datamanage.support.formula.DamageTypeFormulaBindings.allowed(enabledAttributes)) != null)
+                throw invalid(effect, path + ".detail.damageTypeKey", "DAMAGE_TYPE_FORMULA_INVALID", "封顶平减伤害类型的真实结算公式必须结构完整");
+            JsonNode life = effect.data().path("lifecycle"), behavior = result.path("lifecycleBehavior"), rule = result.path("valueRule");
+            if (!"SOURCE".equals(text(result, "target")) || !"TAKEN".equals(text(detail, "direction"))
+                || !"DECREASE".equals(text(detail, "operation")) || text(detail, "damageTypeKey").isEmpty()
+                || !"ANY".equals(text(detail, "deliveryKind")) || !"ANY".equals(text(detail, "originKind"))
+                || !"ANY".equals(text(detail, "criticalFilter")) || detail.hasNonNull("condition")
+                || result.hasNonNull("spellShieldBlockScope") || effect.data().path("results").size() != 1
+                || !life.isObject() || life.hasNonNull("durationValue") || !"SOURCE".equals(text(life, "instanceScope"))
+                || !"KEEP".equals(text(life, "reapplicationStackMode")) || life.hasNonNull("reapplicationDurationMode")
+                || !"EXPLICIT_ONLY".equals(text(life, "expiryMode")) || life.hasNonNull("periodicIntervalValue")
+                || life.hasNonNull("firstPeriodicExecution") || life.hasNonNull("endWhenShieldEndsResultKey")
+                || !"PERSISTENT".equals(text(behavior, "moment")) || !"MOMENT_EVALUATION".equals(text(behavior, "valueReadMode"))
+                || !"SHARED".equals(text(behavior, "stackValueMode")) || behavior.hasNonNull("reapplicationValueMode")
+                || behavior.hasNonNull("periodicExecutionMode")) {
+                throw invalid(effect, path + ".detail", "CAPPED_REDUCTION_SHAPE_INVALID", "封顶平减只接无条件单层永久自身承受、明确单伤害类型的减少结果");
+            }
+            for (String field : List.of("maxStacksValue", "applicationStacksValue")) {
+                Use one = use(effect, life, "lifecycle", field, Bound.POSITIVE_INTEGER, false);
+                if (one == null || cappedStaticValues(one).values().stream().anyMatch(v -> v.compareTo(Fraction.of(BigDecimal.ONE)) != 0))
+                    throw invalid(effect, "lifecycle." + field, "STATIC_ONE_REQUIRED", "封顶平减生命周期必须全部等级恒为单层");
+            }
+            Use cap = use(effect, detail, path + ".detail", "maximumReductionRatioValue", Bound.NON_NEGATIVE_FINITE, false);
+            for (Fraction value : cappedStaticValues(cap).values()) {
+                if (!finite(value) || value.compareTo(Fraction.of(BigDecimal.ZERO)) < 0 || value.compareTo(Fraction.of(BigDecimal.ONE)) > 0)
+                    throw invalid(effect, capPath, "VALUE_RANGE_INVALID", "最大减免比例的全部声明等级必须有限且位于0到1");
+            }
+            if (!rule.path("fixedMinValue").isNumber() || rule.path("fixedMinValue").decimalValue().compareTo(BigDecimal.ZERO) != 0)
+                throw invalid(effect, path + ".valueRule.fixedMinValue", "ZERO_MINIMUM_REQUIRED", "减伤点数必须明确以下限0夹取");
+            BigDecimal multiplier = decimal(rule, "fixedMultiplier"), maximum = decimal(rule, "fixedMaxValue");
+            if (multiplier == null || !Double.isFinite(multiplier.doubleValue()) || multiplier.signum() < 0
+                || rule.hasNonNull("fixedMaxValue") && (maximum == null || !Double.isFinite(maximum.doubleValue()) || maximum.signum() < 0))
+                throw invalid(effect, path + ".valueRule", "VALUE_RANGE_INVALID", "减伤点数的倍率和固定边界必须完整、有限且非负");
+            Use amount = findUse(effect, path + ".valueRule.value");
+            if (amount == null || amount.value() == null)
+                throw invalid(effect, path + ".valueRule.value", "REQUIRED", "减伤点数必须明确供值");
+            if (amount.value().kind() == SkillNumericValue.Kind.FORMULA) {
+                Aggregate formula = objects.get(new Id(effect.skillKey(), SourceType.FORMULA, amount.value().formulaKey()));
+                if (formula == null) throw invalid(effect, amount.path(), "UNKNOWN_FORMULA", "减伤点数公式必须属于本技能");
+                JsonNode definition = formula.data().path("expression");
+                var structure = xyz.game.datamanage.support.formula.FormulaContractValidator.validate(definition,
+                    xyz.game.datamanage.support.formula.SkillFormulaBindings.allowed(effect.skillKey(), enabledAttributes,
+                        parameters.values().stream().filter(parameter -> effect.skillKey().equals(parameter.skillKey())).map(Parameter::key).toList()));
+                if (structure != null) throw invalid(effect, amount.path() + structure.path(), structure.code(), "封顶点数共同公式结构或声明权限不合法");
+                for (JsonNode input : definition.path("inputs")) {
+                    JsonNode binding = input.path("binding");
+                    if ("parameter".equals(text(binding, "kind")) && effect.skillKey().equals(text(binding, "skillKey"))) {
+                        cappedStaticValues(new Use(effect, amount.path(), SkillNumericValue.parameter(text(binding, "parameterKey"))));
+                    } else if (!("attribute".equals(text(binding, "kind")) && "source".equals(text(binding, "object"))
+                        && "current_frame".equals(text(binding, "view")) && "BONUS".equals(text(binding, "valueKind"))
+                        && enabledAttributes.contains(text(binding, "attributeKey")) && cappedDefenseAttributes(effect, amount.path()).contains(text(binding, "attributeKey")))) {
+                        throw invalid(effect, amount.path(), "CAPPED_REDUCTION_BINDING_FORBIDDEN", "点数公式只接本技能静态参数和真实结算公式证明的当前拥有者额外抗性");
+                    }
+                }
+            } else cappedStaticValues(amount);
+            int initializers = 0;
+            for (Aggregate candidate : objects.values()) {
+                if (candidate.type() != SourceType.TRIGGER || !candidate.skillKey().equals(effect.skillKey())) continue;
+                JsonNode trigger = candidate.data();
+                for (JsonNode action : trigger.path("actions")) {
+                    if (!"EXECUTE_EFFECT".equals(text(action, "actionType")) || !effect.key().equals(text(action.path("detail"), "effectKey"))) continue;
+                    initializers++;
+                    if (!"SOURCE_INITIALIZED".equals(text(trigger.path("eventSource"), "eventType"))
+                        || !trigger.path("eventSource").path("detail").isObject() || !trigger.path("eventSource").path("detail").isEmpty()
+                        || !trigger.path("conditionGroups").isArray() || !trigger.path("conditionGroups").isEmpty()
+                        || trigger.path("actions").size() != 1 || !"EVENT_SOURCE".equals(text(action, "targetContext"))
+                        || !action.path("runtimeInputBindings").isArray() || !action.path("runtimeInputBindings").isEmpty()
+                        || !action.path("resultModifiers").isArray() || !action.path("resultModifiers").isEmpty()
+                        || trigger.hasNonNull("oncePerUse") || trigger.hasNonNull("perTargetCooldown") || trigger.hasNonNull("maxTriggersPerProcess"))
+                        throw invalid(effect, path, "CAPPED_REDUCTION_INITIALIZER_INVALID", "永久平减只能由本来源唯一无条件初始化施加");
+                }
+            }
+            if (initializers != 1) throw invalid(effect, path, "CAPPED_REDUCTION_INITIALIZER_REQUIRED", "永久平减必须有唯一真实来源初始化");
+        }
+
+        private Map<Levels, Fraction> cappedStaticValues(Use value) {
+            if (value.value() == null) throw invalid(value.source(), value.path(), "REQUIRED", "必须明确静态数值");
+            if (value.value().kind() == SkillNumericValue.Kind.FIXED) return Map.of(new Levels("", ""), Fraction.of(value.value().value()));
+            if (value.value().kind() != SkillNumericValue.Kind.PARAMETER) throw invalid(value.source(), value.path(), "STATIC_PARAMETER_REQUIRED", "只允许固定值或本技能静态参数");
+            Parameter parameter = parameter(value);
+            if (!Set.of("INTEGER", "DECIMAL").contains(parameter.valueType())
+                || "FIXED".equals(parameter.valueMode()) && parameter.levelValues() != null && !parameter.levelValues().isNull())
+                throw invalid(value.source(), value.path(), "PARAMETER_VALUES_INVALID", "静态数值参数不得夹带其它模式取值");
+            Map<Levels, Fraction> values = staticParameterValues(value, parameter);
+            if (values.values().stream().anyMatch(number -> !finite(number)))
+                throw invalid(value.source(), value.path(), "PARAMETER_VALUES_INVALID", "静态参数的全部声明值必须有限");
+            if (!"FIXED".equals(parameter.valueMode())) {
+                List<Integer> levels = new ArrayList<>();
+                List<String> declaredKeys = new ArrayList<>();
+                parameter.levelValues().fieldNames().forEachRemaining(declaredKeys::add);
+                for (String key : declaredKeys) {
+                    if (!key.matches("[1-9][0-9]*")) throw invalid(value.source(), value.path(), "PARAMETER_VALUES_INVALID", "等级声明必须使用正整数键");
+                    try { levels.add(Integer.valueOf(key)); }
+                    catch (NumberFormatException badLevel) { throw invalid(value.source(), value.path(), "PARAMETER_VALUES_INVALID", "等级声明超出整数范围"); }
+                }
+                levels.sort(Integer::compareTo);
+                int first = "SKILL_LEVEL".equals(parameter.valueMode()) ? 1 : levels.getFirst();
+                int last = "SKILL_LEVEL".equals(parameter.valueMode()) && parameter.skillMaxLevel() != null ? parameter.skillMaxLevel() : levels.getLast();
+                if ("SKILL_LEVEL".equals(parameter.valueMode()) && parameter.skillMaxLevel() == null)
+                    throw invalid(value.source(), value.path(), "SKILL_LEVEL_RANGE_REQUIRED", "静态技能等级参数必须有真实技能上限");
+                if (levels.size() != last - first + 1 || levels.getFirst() != first || levels.getLast() != last)
+                    throw invalid(value.source(), value.path(), "PARAMETER_VALUES_INVALID", "必须完整声明连续等级取值");
+            }
+            return values;
+        }
+
+        private Set<String> cappedDefenseAttributes(Aggregate source, String path) {
+            if (cappedDefenseAttributes != null) return cappedDefenseAttributes;
+            Set<String> result = new LinkedHashSet<>();
+            for (Aggregate catalog : objects.values()) {
+                if (catalog.type() != SourceType.DAMAGE_TYPE || !"ENABLED".equals(text(catalog.data(), "status"))) continue;
+                JsonNode formula = catalog.data().path("formula");
+                var issue = xyz.game.datamanage.support.formula.FormulaContractValidator.validate(formula,
+                    xyz.game.datamanage.support.formula.DamageTypeFormulaBindings.allowed(enabledAttributes));
+                if (issue != null) throw invalid(source, path, "DAMAGE_TYPE_FORMULA_INVALID", "抗性权限证明需要真实启用且结构完整的伤害结算公式");
+                for (JsonNode binding : xyz.game.datamanage.support.formula.SkillFormulaBindings.reachableBindings(formula)) {
+                    if ("attribute".equals(text(binding, "kind")) && "target".equals(text(binding, "object"))
+                        && "current_frame".equals(text(binding, "view")) && "TOTAL".equals(text(binding, "valueKind"))) result.add(text(binding, "attributeKey"));
+                }
+            }
+            cappedDefenseAttributes = Set.copyOf(result);
+            return cappedDefenseAttributes;
         }
 
         private Map<Levels, Fraction> staticConditionValues(Use use) {
@@ -1717,7 +1894,9 @@ public final class SkillNumericSemantics {
                 "sourceSkillKey", source.skillKey(), "sourceType", source.type().name(), "sourceKey", source.key()))));
     }
     static final String PARAMETERS_SQL = """
-        SELECT skill_key, parameter_key, value_type, value_mode, fixed_value, level_values::text AS level_values
-        FROM public.skill_parameters WHERE game_id = ? ORDER BY skill_key, parameter_key
+        SELECT p.skill_key, p.parameter_key, p.value_type, p.value_mode, p.fixed_value, p.level_values::text AS level_values,
+               s.max_level AS skill_max_level
+        FROM public.skill_parameters p JOIN public.skills s ON s.game_id = p.game_id AND s.skill_key = p.skill_key
+        WHERE p.game_id = ? ORDER BY p.skill_key, p.parameter_key
         """;
 }

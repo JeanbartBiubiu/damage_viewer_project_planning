@@ -74,6 +74,7 @@ import xyz.game.datamanage.service.status.StatusService;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Target;
+import xyz.game.datamanage.support.authoring.SkillNumericSemantics;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -223,6 +224,19 @@ public class SimulationSnapshotService {
             damageTypeKeys.putIfAbsent(row.target().key(), referencePath(skillIndices.get(row.sourceSkillKey()),
                 row.sourceType().name(), row.sourceKey(), row.fieldPath()));
         }
+        // 仅新封顶点数需要以真实结算公式证明BONUS抗性；新增目录不构成伤害生产者或执行引用。
+        boolean capDefenseDefinitions = cappedDefenseDefinitionsRequired(execution.objects(), closure.definitions());
+        if (capDefenseDefinitions) {
+            var directory = damageTypes.list(gameId, new xyz.game.datamanage.model.damagetype.DamageTypeListQuery(null, "ENABLED"));
+            Set<String> seen = new HashSet<>();
+            if (directory == null || directory.items() == null) throw invalid("catalogs.damageTypes", "REFERENCE_MISSING", "封顶点数缺少真实启用伤害目录");
+            for (DamageTypeResponse type : directory.items()) {
+                if (!gameId.equals(type.gameId()) || !KEY.matcher(type.damageTypeKey()).matches() || !seen.add(type.damageTypeKey()))
+                    throw invalid("catalogs.damageTypes", "REFERENCE_OUT_OF_SCOPE", "抗性证明的伤害目录身份缺失或重复");
+                requireEnabled(type.status(), "catalogs.damageTypes." + type.damageTypeKey());
+                damageTypeKeys.putIfAbsent(type.damageTypeKey(), "catalogs.damageTypes." + type.damageTypeKey());
+            }
+        }
 
         for (Aggregate object : execution.objects()) {
             collectAttributeKeys(object.data(), attributeKeys, closure.objectPath(object));
@@ -294,13 +308,50 @@ public class SimulationSnapshotService {
             if (issue != null) throw invalid(closure.objectPath(object) + "/expression" + issue.path(), issue.code(), "场景必要技能公式授权不合法");
         }        validateEquipmentAttributes(source, "source", selectedAttributes);
         validateEquipmentAttributes(target, "target", selectedAttributes);
+        List<ModifierZoneResponse> selectedZones = loadZones(gameId, zoneKeys);
+        validateCappedDamageModifiers(execution.objects(), closure.definitions(), skills, selectedZones, selectedDamageTypes, selectedAttributes);
         Catalogs catalogs = new Catalogs(levels, selectedAttributes,
             selectedCategories, List.copyOf(selectedDamageTypes),
-            loadZones(gameId, zoneKeys), loadStatuses(gameId, statusKeys), vamp, calculation);
+            selectedZones, loadStatuses(gameId, statusKeys), vamp, calculation);
         SimulationSnapshotResponse content = new SimulationSnapshotResponse(gameId, choice, source, target,
             skills, catalogs, List.copyOf(references), null, null);
         return new SimulationSnapshotResponse(gameId, choice, source, target, skills, catalogs,
             List.copyOf(references), digest(content), OffsetDateTime.now(ZoneOffset.UTC));
+    }
+
+    private static boolean cappedDefenseDefinitionsRequired(List<Aggregate> execution, List<Aggregate> definitions) {
+        Set<String> formulas = new HashSet<>();
+        for (Aggregate effect : execution) if (effect.type() == SkillObjectReferences.SourceType.EFFECT) {
+            for (JsonNode result : effect.data().path("results")) if (result.path("detail").has("maximumReductionRatioValue")
+                && "FORMULA".equals(result.path("valueRule").path("value").path("kind").asText()))
+                formulas.add(effect.skillKey() + "/" + result.path("valueRule").path("value").path("formulaKey").asText());
+        }
+        return definitions.stream().anyMatch(formula -> formula.type() == SkillObjectReferences.SourceType.FORMULA
+            && formulas.contains(formula.skillKey() + "/" + formula.key())
+            && formula.data().path("expression").path("inputs").valueStream().anyMatch(input -> "attribute".equals(input.path("binding").path("kind").asText())));
+    }
+
+    private void validateCappedDamageModifiers(List<Aggregate> execution, List<Aggregate> definitions, List<SkillConfigurationResponse> skills,
+        List<ModifierZoneResponse> zones, List<DamageTypeEntry> types, List<AttributeResponse> attributes) {
+        Map<String, String> modes = new LinkedHashMap<>(), domains = new LinkedHashMap<>(), stages = new LinkedHashMap<>();
+        for (ModifierZoneResponse zone : zones) {
+            modes.put(zone.modifierZoneKey(), zone.calculationMode().name());
+            domains.put(zone.modifierZoneKey(), zone.domain().name());
+            stages.put(zone.modifierZoneKey(), zone.applicationStage().name());
+        }
+        List<Aggregate> context = new ArrayList<>(definitions);
+        for (DamageTypeEntry type : types) context.add(new Aggregate(SkillObjectReferences.SourceType.DAMAGE_TYPE, "", type.type().damageTypeKey(),
+            json.createObjectNode().put("status", type.type().status().name()).set("formula", type.formula().formula())));
+        List<SkillNumericSemantics.Parameter> parameters = new ArrayList<>();
+        for (SkillConfigurationResponse skill : skills) for (var parameter : skill.parameters()) parameters.add(new SkillNumericSemantics.Parameter(
+            skill.skill().skillKey(), parameter.parameterKey(), parameter.valueType() == null ? null : parameter.valueType().name(),
+            parameter.valueMode() == null ? null : parameter.valueMode().name(), parameter.fixedValue(), json.valueToTree(parameter.levelValues()), skill.skill().maxLevel()));
+        try {
+            SkillNumericSemantics.validateCappedDamageModifiers(execution, context, parameters, modes, domains, stages,
+                attributes.stream().map(AttributeResponse::attributeKey).collect(java.util.stream.Collectors.toSet()));
+        } catch (ApiException error) {
+            throw new ApiException(HttpStatus.CONFLICT, "409.SIMULATION_SNAPSHOT_INVALID", "封顶平减的完整来源或数值声明不合法", error.getDetails());
+        }
     }
 
     private Combatant combatant(String gameId, String characterKey, int level, List<String> equipmentKeys,

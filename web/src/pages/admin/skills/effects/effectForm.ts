@@ -3,6 +3,7 @@ import { momentSlowLifecycleIssue } from '../../../../services/momentSlowLifecyc
 import type { GameVampRule } from '../../../../types/gameVamp';
 import { numericIssuePath, numericValueError, staticNumericValues } from '../numericValueForm';
 import { staticShieldStackValueIssue } from './damageModifierConditionFormula';
+import { cappedReductionRatioIssue } from '../../../../services/cappedPhysicalReductionContract';
 import { isValidCooldownRemainingDuration } from '../../../../types/cooldownRemaining';
 import { isValidCooldownDurationValueRule } from '../../../../types/cooldownDuration';
 import { isCooldownRatioOperation, isValidCooldownReductionRatio } from '../../../../types/cooldownRatio';
@@ -435,6 +436,7 @@ export type SkillEffectResultDraft = {
   damageFilterOriginKind: SkillEffectDamageFilterOriginKind | '';
   criticalFilter: SkillEffectCriticalFilter | '';
   damageModifierCondition: SkillEffectDamageModifierConditionDraft | null;
+  maximumReductionRatioValue: NumericValue | null;
   healingModifierDirection: SkillEffectHealingModifierDirection | '';
   healingKind: SkillEffectHealingKind | '';
   modifierZoneKey: string;
@@ -521,6 +523,7 @@ export type SkillEffectResultDraftField =
   | 'damageFilterOriginKind'
   | 'criticalFilter'
   | 'damageModifierCondition'
+  | 'maximumReductionRatioValue'
   | 'conditionAttributeKey'
   | 'conditionComparator'
   | 'conditionComparisonValue'
@@ -593,6 +596,7 @@ export type EffectCatalogLoadState = {
 
 export type EffectFormCatalog = {
   parentSkillKey: string;
+  parentSkillMaxLevel?: number;
   parentEffectKey?: string;
   formulas: ReadonlyArray<Pick<SkillFormulaSummary, 'formulaKey'> & { expression?: FormulaExpressionNode }>;
   effects: ReadonlyArray<Pick<SkillEffectSummary, 'effectKey' | 'name' | 'lifecycleEnabled'>>;
@@ -702,6 +706,7 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   'detail.decayMode': 'shieldDecayMode',
   'detail.criticalFilter': 'criticalFilter',
   'detail.condition': 'damageModifierCondition',
+  'detail.maximumReductionRatioValue': 'maximumReductionRatioValue',
   'detail.condition.receiver': 'damageModifierCondition',
   'detail.condition.attributeKey': 'conditionAttributeKey',
   'detail.condition.attributeValueKind': 'damageModifierCondition',
@@ -813,6 +818,7 @@ export function createEmptyResultDraft(
       resultType === 'DAMAGE_MODIFIER' || resultType === 'DAMAGE_IMMUNITY' ? 'ANY' : '',
     criticalFilter: resultType === 'DAMAGE_MODIFIER' ? 'ANY' : '',
     damageModifierCondition: null,
+    maximumReductionRatioValue: null,
     healingModifierDirection: resultType === 'HEALING_MODIFIER' ? 'RECEIVED' : '',
     healingKind: resultType === 'HEALING_MODIFIER' ? 'ANY' : '',
     modifierZoneKey: '',
@@ -957,6 +963,7 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       break;
     case 'DAMAGE_MODIFIER':
       draft.modifierZoneKey = result.detail.modifierZoneKey;
+      draft.maximumReductionRatioValue = result.detail.maximumReductionRatioValue ? { ...result.detail.maximumReductionRatioValue } : null;
       draft.modifierDirection = result.detail.direction;
       draft.modifierOperation = result.detail.operation;
       draft.damageTypeKey = result.detail.damageTypeKey ?? '';
@@ -1175,6 +1182,7 @@ export function applyResultTypeChange(
       nextType === 'DAMAGE_MODIFIER' || nextType === 'DAMAGE_IMMUNITY' ? 'ANY' : '',
     criticalFilter: nextType === 'DAMAGE_MODIFIER' ? 'ANY' : '',
     damageModifierCondition: null,
+    maximumReductionRatioValue: null,
     healingModifierDirection: nextType === 'HEALING_MODIFIER' ? 'RECEIVED' : '',
     healingKind: nextType === 'HEALING_MODIFIER' ? 'ANY' : '',
     attributeKey: '',
@@ -1333,6 +1341,7 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
     damageModifierCondition: draft.resultType === 'DAMAGE_MODIFIER'
       ? draft.damageModifierCondition
       : null,
+    maximumReductionRatioValue: draft.resultType === 'DAMAGE_MODIFIER' ? draft.maximumReductionRatioValue : null,
     healingModifierDirection:
       draft.resultType === 'HEALING_MODIFIER'
         ? draft.healingModifierDirection || 'RECEIVED'
@@ -2072,6 +2081,14 @@ export function validateSkillEffectDraft(
     const issue = momentSlowLifecycleIssue(lifecycle);
     if (issue) fieldErrors[issue as keyof SkillEffectDraftErrors] = '当前时点减速需要有限单层、同来源与目标、保留层数并刷新全部期限，且无周期或关联盾。';
   }
+  if (!options.skipLifecycleShapeValidation && prepared.results.some(r => r.maximumReductionRatioValue !== null)) {
+    if (!lifecycle || prepared.results.length !== 1 || lifecycle.instanceScope !== 'SOURCE'
+      || lifecycle.expiryMode !== 'EXPLICIT_ONLY' || lifecycle.durationValue !== null || lifecycle.periodicIntervalValue !== null
+      || lifecycle.firstPeriodicExecution !== null || lifecycle.reapplicationStackMode !== 'KEEP'
+      || lifecycle.reapplicationDurationMode !== null || lifecycle.endWhenShieldEndsResultKey != null) {
+      fieldErrors.results = '比例封顶平减必须是自身永久单层、无周期的独立单结果。';
+    }
+  }
 
   const seenKeys = new Map<string, number>();
   const builtResults: SkillEffectResultRequest[] = [];
@@ -2662,6 +2679,7 @@ function validateAndBuildResult(
           deliveryKind: draft.damageFilterDeliveryKind as SkillEffectDamageFilterDeliveryKind,
           originKind: draft.damageFilterOriginKind as SkillEffectDamageFilterOriginKind,
           criticalFilter: draft.criticalFilter as SkillEffectCriticalFilter,
+          ...(draft.maximumReductionRatioValue !== null ? { maximumReductionRatioValue: draft.maximumReductionRatioValue } : {}),
           condition: draft.damageModifierCondition
             ? {
                 receiver: 'ENEMY_CHAMPION',
@@ -3155,6 +3173,22 @@ function validateTypeSpecificFields(
         fieldErrors.modifierOperation = '请选择修正方式。';
       }
       validateModifierZoneRef(draft, options, fieldErrors, 'DAMAGE');
+      {
+        const zone = options.catalog?.modifierZones?.find(z => z.modifierZoneKey === draft.modifierZoneKey);
+        const capped = zone?.domain === 'DAMAGE' && zone.calculationMode === 'FLAT_ADD' && zone.applicationStage === 'DAMAGE_PRE_DEFENSE';
+        if (capped || draft.maximumReductionRatioValue !== null) {
+          if (!draft.fixedMinValue.trim() || Number(draft.fixedMinValue) !== 0) fieldErrors.fixedMinValue = '封顶平减点数须明确下限0。';
+          if (draft.fixedMaxValue.trim()) fieldErrors.fixedMaxValue = '每分支比例上限独立配置，点数不另设绝对上限。';
+          const issue = cappedReductionRatioIssue(draft.maximumReductionRatioValue, options.parameters ?? [], options.catalog?.parentSkillKey ?? '', options.catalog?.parentSkillMaxLevel);
+          if (issue) fieldErrors.maximumReductionRatioValue = issue;
+          if (!capped || draft.target !== 'SOURCE' || draft.modifierDirection !== 'TAKEN' || draft.modifierOperation !== 'DECREASE'
+            || !draft.damageTypeKey || draft.damageFilterDeliveryKind !== 'ANY' || draft.damageFilterOriginKind !== 'ANY'
+            || draft.criticalFilter !== 'ANY' || draft.damageModifierCondition !== null
+            || draft.lifecycleBehavior?.moment !== 'PERSISTENT' || draft.lifecycleBehavior.valueReadMode !== 'MOMENT_EVALUATION'
+            || draft.lifecycleBehavior.stackValueMode !== 'SHARED' || draft.lifecycleBehavior.reapplicationValueMode !== ''
+            || draft.lifecycleBehavior.periodicExecutionMode !== '' || draft.spellShieldBlockScope !== '') fieldErrors.maximumReductionRatioValue = '比例封顶只用于自身持续、全部物理包的防御前平减。';
+        }
+      }
       validateDamageFilterFields(draft, fieldErrors, true);
       if (draft.damageTypeKey.trim()) {
         validateCatalogRef(

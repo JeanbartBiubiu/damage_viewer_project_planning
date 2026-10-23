@@ -780,6 +780,17 @@ public class SkillEffectService {
         if (detail.operation() == null) {
             issues.add(fieldIssue(resultPath(index, "detail.operation"), "REQUIRED", "修正方式不能为空"));
         }
+        if (detail.maximumReductionRatioValue() != null) {
+            SkillNumericValue cap = detail.maximumReductionRatioValue();
+            if (cap.kind() == SkillNumericValue.Kind.FORMULA) {
+                issues.add(fieldIssue(resultPath(index, "detail.maximumReductionRatioValue"), "STATIC_PARAMETER_REQUIRED", "封顶比例只允许固定值或本技能静态参数"));
+            } else if (cap.kind() == SkillNumericValue.Kind.FIXED && (cap.value() == null || !Double.isFinite(cap.value().doubleValue())
+                || cap.value().signum() < 0 || cap.value().compareTo(BigDecimal.ONE) > 0)) {
+                issues.add(fieldIssue(resultPath(index, "detail.maximumReductionRatioValue"), "RANGE_INVALID", "封顶比例必须有限且位于0到1"));
+            }
+            if (detail.damageTypeKey() == null || detail.damageTypeKey().isBlank())
+                issues.add(fieldIssue(resultPath(index, "detail.damageTypeKey"), "REQUIRED", "封顶平减必须明确单一伤害类型"));
+        }
         collectModifierZoneRef(
             result,
             index,
@@ -793,7 +804,7 @@ public class SkillEffectService {
             enumName(detail.direction()),
             enumName(detail.operation())
         );
-        validateOptionalInteractionDamageType(result, index, detail.damageTypeKey(), retained, refs, issues);
+        validateOptionalInteractionDamageType(result, index, detail.damageTypeKey(), detail.maximumReductionRatioValue() == null ? retained : Map.of(), refs, issues);
         if (detail.deliveryKind() == null) {
             issues.add(fieldIssue(resultPath(index, "detail.deliveryKind"), "REQUIRED", "伤害产生方式不能为空"));
         }
@@ -1244,13 +1255,15 @@ public class SkillEffectService {
             path,
             modifierZoneKey,
             expectedDomain,
-            isRetained(retained, result.resultKey(), CatalogKind.MODIFIER_ZONE, modifierZoneKey),
+            !(result.detail() instanceof SkillEffectDamageModifierDetail damage && damage.maximumReductionRatioValue() != null)
+                && isRetained(retained, result.resultKey(), CatalogKind.MODIFIER_ZONE, modifierZoneKey),
             resultPath(index, ""),
             resultType,
             direction,
             operation,
             result.detail() instanceof SkillEffectDamageModifierDetail damage
-                && damage.condition() != null && !damage.condition().isNull()
+                && damage.condition() != null && !damage.condition().isNull(),
+            result.detail() instanceof SkillEffectDamageModifierDetail damage && damage.maximumReductionRatioValue() != null
         ));
         refs.modifierZoneKeys.add(modifierZoneKey);
     }
@@ -2469,6 +2482,11 @@ public class SkillEffectService {
             } else if (zone.domain() != ref.expectedDomain()) {
                 issues.add(fieldIssue(ref.path(), "MODIFIER_ZONE_DOMAIN_MISMATCH", "乘区作用域与结果种类不一致"));
             } else {
+                boolean cappedZone = zone.domain() == ModifierZoneDomain.DAMAGE
+                    && zone.calculationMode() == xyz.game.datamanage.model.modifierzone.ModifierZoneCalculationMode.FLAT_ADD
+                    && zone.applicationStage() == ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE;
+                if (cappedZone != ref.capped()) issues.add(fieldIssue(ref.resultPrefix() + ".detail.maximumReductionRatioValue",
+                    cappedZone ? "REQUIRED" : "FORBIDDEN", "封顶比例只允许且必须用于防御前承受平减"));
                 if (ref.conditioned() && zone.applicationStage() != ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE) {
                     issues.add(fieldIssue(ref.path(), "MODIFIER_ZONE_STAGE_INVALID", "逐笔生命门槛只支持防御前伤害乘区"));
                 }
@@ -2886,7 +2904,8 @@ public class SkillEffectService {
         String resultType,
         String direction,
         String operation,
-        boolean conditioned
+        boolean conditioned,
+        boolean capped
     ) {
     }
 

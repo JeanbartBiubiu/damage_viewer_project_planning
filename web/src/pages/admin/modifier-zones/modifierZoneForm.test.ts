@@ -16,7 +16,7 @@ describe('modifierZoneForm', () => {
   it('rejects an unsupported domain and calculation combination', () => {
     expect(validateModifierZoneDraft({
       modifierZoneKey: 'bad', name: '错误组合', domain: 'DAMAGE',
-      calculationMode: 'FLAT_ADD', applicationStage: 'DAMAGE_PRE_DEFENSE',
+      calculationMode: 'FLAT_ADD', applicationStage: 'DAMAGE_POST_DEFENSE',
       description: '', sortOrder: '0'
     }, true)).toMatchObject({ applicationStage: expect.any(String) });
   });
@@ -38,7 +38,8 @@ describe('modifierZoneForm', () => {
 
   it('allows HEALING RATIO_MAX with HEALING_RESULT and keeps RATIO_ADD', () => {
     expect(allowedCalculationModes('HEALING')).toEqual(['RATIO_ADD', 'RATIO_MAX']);
-    expect(allowedCalculationModes('DAMAGE')).toEqual(['RATIO_ADD', 'RATIO_MULTIPLY']);
+    expect(allowedCalculationModes('DAMAGE')).toEqual(['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY']);
+    expect(allowedApplicationStages('DAMAGE', 'FLAT_ADD')).toEqual(['DAMAGE_PRE_DEFENSE']);
     expect(allowedApplicationStages('HEALING', 'RATIO_MAX')).toEqual(['HEALING_RESULT']);
     expect(validateModifierZoneDraft({
       modifierZoneKey: 'grievous', name: '重伤', domain: 'HEALING',

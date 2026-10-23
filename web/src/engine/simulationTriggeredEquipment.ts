@@ -358,7 +358,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const { skillKey, skillLevel } = source;
         const fullConfiguration = snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey) ?? source.configuration;
         const markedRaw = validateMarkedRawDamageContract(snapshot, fullConfiguration, `skills.${skillKey}`);
-        if (markedRaw && (side !== 'source' || !['character', 'build'].includes(description.kind) || skills.length !== 1)) {
+        if (markedRaw && (!['character', 'build'].includes(description.kind) || skills.length !== 1
+          || side === 'target' && description.kind !== 'character')) {
           fail(`skills.${skillKey}`, '伤前标记原额派生只接实际拥有方的唯一永久自然来源');
         }
         const chain = skillHitChainContract(snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey) ?? source.configuration);

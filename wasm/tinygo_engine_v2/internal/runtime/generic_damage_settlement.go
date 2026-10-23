@@ -53,13 +53,24 @@ func (f *executionFrame) resolveDamageNumbers(
 	}
 
 	mitigatedNormal, mitigatedCrit := 0.0, 0.0
+	workingNormal, workingCrit, capped, records, capErr := f.incomingCappedFlat(cmd, ability, critEv, preOutgoingMerged, out.rawAmount, out.modifiers)
+	if capErr != nil {
+		return out, capErr
+	}
+	out.modifiers = records
+	if capped {
+		cmd.Amount = workingNormal + workingCrit
+	}
 	mitigation, err := f.resolveConfiguredDefense(cmd, def)
 	if err != nil {
 		return out, err
 	}
 	out.resistanceFactor = mitigation.factor
 	mitigatedNormal = mitigation.amount
-	if critEv.present && critEv.eligible {
+	if capped {
+		mitigatedNormal = workingNormal * mitigation.factor
+		mitigatedCrit = workingCrit * mitigation.factor
+	} else if critEv.present && critEv.eligible {
 		mitigatedNormal = normalPart * mitigation.factor
 		mitigatedCrit = critPart * mitigation.factor
 	}

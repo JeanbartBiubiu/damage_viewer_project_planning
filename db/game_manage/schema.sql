@@ -421,6 +421,8 @@ CREATE TABLE public.modifier_zones (
                 AND application_stage IN ('DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'))
             OR (domain = 'DAMAGE' AND calculation_mode = 'RATIO_MULTIPLY'
                 AND application_stage = 'DAMAGE_POST_DEFENSE')
+            OR (domain = 'DAMAGE' AND calculation_mode = 'FLAT_ADD'
+                AND application_stage = 'DAMAGE_PRE_DEFENSE')
             OR (domain = 'HEALING' AND calculation_mode = 'RATIO_ADD'
                 AND application_stage = 'HEALING_RESULT')
             OR (domain = 'HEALING' AND calculation_mode = 'RATIO_MAX'

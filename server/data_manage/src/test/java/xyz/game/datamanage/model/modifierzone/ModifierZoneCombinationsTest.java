@@ -6,6 +6,13 @@ import org.junit.jupiter.api.Test;
 
 class ModifierZoneCombinationsTest {
     @Test
+    void damageFlatAdditionOnlyAcceptsThePreDefenseStage() {
+        for (var stage : ModifierZoneApplicationStage.values()) {
+            org.junit.jupiter.api.Assertions.assertEquals(stage == ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE,
+                ModifierZoneCombinations.isLegal(ModifierZoneDomain.DAMAGE, ModifierZoneCalculationMode.FLAT_ADD, stage));
+        }
+    }
+    @Test
     void complementMultiplicationOnlyAcceptsAttributePercentageStage() {
         for (var domain : ModifierZoneDomain.values()) for (var stage : ModifierZoneApplicationStage.values()) {
             org.junit.jupiter.api.Assertions.assertEquals(

@@ -157,6 +157,7 @@ export type SkillEffectDamageModifierDetail = {
   originKind: SkillEffectDamageFilterOriginKind;
   criticalFilter: SkillEffectCriticalFilter;
   condition?: SkillEffectDamageModifierCondition | null;
+  maximumReductionRatioValue?: NumericValue;
 };
 
 export type SkillEffectHealingModifierDetail = {

@@ -1,6 +1,7 @@
 import { assertNumericUses } from './numericValue';
 import { momentSlowLifecycleIssue } from './momentSlowLifecycle';
 import { isNumericValue } from '../types/numericValue';
+import { isCappedReductionResultShape } from './cappedPhysicalReductionContract';
 import { isCooldownRatioOperation, isValidCooldownReductionRatio } from '../types/cooldownRatio';
 import { isValidCooldownRemainingDuration } from '../types/cooldownRemaining';
 import { isValidCooldownDurationValueRule } from '../types/cooldownDuration';
@@ -198,6 +199,7 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
   }
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
   const detail = value.detail;
+  if (resultType !== 'DAMAGE_MODIFIER' && 'maximumReductionRatioValue' in detail) protocolError(`${path}.detail.maximumReductionRatioValue`);
   if (resultType !== 'DAMAGE' && 'attackDamageRole' in detail) protocolError(`${path}.detail.attackDamageRole`);
   const persistent = isRecord(value.lifecycleBehavior)
     && value.lifecycleBehavior.moment === 'PERSISTENT';
@@ -439,6 +441,16 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
       assertEnum(detail.operation, new Set(['RESTORE', 'CONSUME', 'REFUND']), `${path}.detail.operation`);
       break;
     case 'DAMAGE_MODIFIER':
+      if ('maximumReductionRatioValue' in detail) {
+        assertExactKeys(value, ['resultKey', 'name', 'resultType', 'target', 'description', 'sortOrder', 'valueRule', 'detail', 'lifecycleBehavior', 'spellShieldBlockScope'], path);
+        if (isRecord(value.lifecycleBehavior)) assertExactKeys(value.lifecycleBehavior,
+          ['moment', 'valueReadMode', 'stackValueMode', 'reapplicationValueMode', 'periodicExecutionMode'], `${path}.lifecycleBehavior`);
+        assertExactDetailKeys(detail, ['modifierZoneKey', 'direction', 'operation', 'damageTypeKey', 'deliveryKind', 'originKind', 'criticalFilter',
+          ...('condition' in detail ? ['condition'] : []), 'maximumReductionRatioValue'], path);
+        const ratio = detail.maximumReductionRatioValue;
+        if (!isNumericValue(ratio) || ratio.kind === 'FORMULA' || ratio.kind === 'FIXED' && (ratio.value < 0 || ratio.value > 1)
+          || !isCappedReductionResultShape(value as SkillEffectResult)) protocolError(`${path}.detail.maximumReductionRatioValue`);
+      }
       assertEnum(detail.direction, DAMAGE_MODIFIER_DIRECTIONS, `${path}.detail.direction`);
       assertEnum(detail.operation, MODIFIER_OPERATIONS, `${path}.detail.operation`);
       assertNullableString(detail.damageTypeKey, `${path}.detail.damageTypeKey`);
@@ -518,6 +530,14 @@ export function parseSkillEffect(value: unknown): SkillEffect {
   assertNumericUses(value, 'effect', protocolError);
   if (!isRecord(value) || !Array.isArray(value.results)) protocolError('effect');
   value.results.forEach((item, index) => assertResult(item, `effect.results[${index}]`));
+  if (value.results.some(item => isRecord(item) && isRecord(item.detail) && 'maximumReductionRatioValue' in item.detail)) {
+    const life = value.lifecycle;
+    if (value.results.length !== 1 || !isRecord(life) || life.instanceScope !== 'SOURCE' || life.expiryMode !== 'EXPLICIT_ONLY'
+      || life.durationValue !== null || life.periodicIntervalValue !== null || life.firstPeriodicExecution !== null
+      || life.reapplicationStackMode !== 'KEEP' || life.reapplicationDurationMode !== null || life.endWhenShieldEndsResultKey != null) protocolError('effect.lifecycle');
+    assertExactKeys(life, ['durationValue', 'maxStacksValue', 'applicationStacksValue', 'instanceScope', 'reapplicationStackMode', 'reapplicationDurationMode',
+      'expiryMode', 'periodicIntervalValue', 'firstPeriodicExecution', ...('endWhenShieldEndsResultKey' in life ? ['endWhenShieldEndsResultKey'] : [])], 'effect.lifecycle');
+  }
   if (value.lifecycle === null && value.results.some((item) => (
     isRecord(item) && item.resultType === 'DAMAGE_MODIFIER'
       && isRecord(item.detail) && item.detail.condition != null

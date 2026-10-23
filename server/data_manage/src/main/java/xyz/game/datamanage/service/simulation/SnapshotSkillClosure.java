@@ -55,6 +55,7 @@ final class SnapshotSkillClosure {
     private boolean levelsChanged;
     private final Set<String> validatedTimingSkills = new HashSet<>();
     private final Set<String> deferrableTimingSkills = new HashSet<>();
+    private final Map<Source, Set<String>> dormantReceivedRules = new HashMap<>();
 
     SnapshotSkillClosure(String gameId, String attackKey, String basicAttackCategoryKey, ObjectMapper json, List<Source> sources,
                          Map<String, SkillConfigurationResponse> configurations,
@@ -70,8 +71,18 @@ final class SnapshotSkillClosure {
     }
 
     Result collect() {
+        dormantReceivedRules.clear();
         for (Source source : sources) {
             if (source.inactive != null) continue;
+            Set<String> dormant = ReceivedCooldownMaintenanceSnapshotRules.dormant(json.valueToTree(source.configuration),
+                source.level, source.characterLevel, "skillConfigurations[" + indexOf(source.skillKey) + "]",
+                source.side.equals("target") && attackKey != null, source.side.equals("source") && source.planned != null);
+            if (!dormant.isEmpty()) {
+                if (!"CHARACTER".equals(source.origin.kind()) || !completeUndrivenDefinitions(source,
+                    rules(source).stream().filter(rule -> dormant.contains(rule.key())).toList(), true))
+                    throw SnapshotIssues.invalid(source.path, "UNSUPPORTED_RECEIVED_COOLDOWN_MAINTENANCE", "纯接收维护缺少完整同角色来源定义");
+                dormantReceivedRules.put(source, dormant);
+            }
             JsonNode timingConfiguration = json.valueToTree(source.configuration);
             boolean completeTiming = false;
             if (SkillTargetTimingSemantics.declared(timingConfiguration)) {
@@ -488,6 +499,7 @@ final class SnapshotSkillClosure {
         for (Source source : sources) {
             if (source.inactive != null) continue;
             for (Aggregate rule : rules(source)) {
+                if (dormantReceivedRules.getOrDefault(source, Set.of()).contains(rule.key())) continue;
                 if (!matches(source, rule, producer) || rule.data().path("actions").isEmpty()) continue;
                 if (requiresLevel(source, rule)) {
                     source.inactive = InactiveReason.LEVEL_REQUIRED;
@@ -578,6 +590,7 @@ final class SnapshotSkillClosure {
     }
 
     private boolean natural(Source source, Aggregate rule) {
+        if (dormantReceivedRules.getOrDefault(source, Set.of()).contains(rule.key())) return false;
         if (source.planned == null && !SkillTargetTimingSemantics.declared(json.valueToTree(source.configuration))
             && (FiniteTargetCounterSnapshotRules.complete(json.valueToTree(source.configuration))
             || TargetMarkSnapshotRules.complete(json.valueToTree(source.configuration)))) return false;
@@ -783,9 +796,15 @@ final class SnapshotSkillClosure {
         return false;
     }
 
-    private static boolean readsParameter(Aggregate object, String key) {
-        return object.type() != SourceType.FORMULA || xyz.game.datamanage.support.formula.SkillFormulaBindings
-            .reachableParameterKeys(object.data().path("expression")).contains(key);
+    private boolean readsParameter(Aggregate object, String key) {
+        if (object.type() != SourceType.FORMULA) return true;
+        boolean capPoints = objects.values().stream().filter(effect -> effect.type() == SourceType.EFFECT && effect.skillKey().equals(object.skillKey()))
+            .anyMatch(effect -> effect.data().path("results").valueStream().anyMatch(result -> result.path("detail").has("maximumReductionRatioValue")
+                && "FORMULA".equals(result.path("valueRule").path("value").path("kind").asText())
+                && object.key().equals(result.path("valueRule").path("value").path("formulaKey").asText())));
+        if (capPoints) return object.data().path("expression").path("inputs").valueStream().anyMatch(input ->
+            "parameter".equals(input.path("binding").path("kind").asText()) && key.equals(input.path("binding").path("parameterKey").asText()));
+        return xyz.game.datamanage.support.formula.SkillFormulaBindings.reachableParameterKeys(object.data().path("expression")).contains(key);
     }
     private void validateParameter(Source source, SkillConfigurationResponse configuration, SkillParameterResponse parameter) {
         String path = "skillConfigurations[" + indexOf(configuration.skill().skillKey()) + "].parameters." + parameter.parameterKey();
@@ -818,6 +837,8 @@ final class SnapshotSkillClosure {
     private List<Aggregate> rules(Source source) {
         return source.configuration.triggerRules().stream().map(rule -> objects.get(new ObjectKey(source.skillKey, SourceType.TRIGGER, rule.ruleKey()))).toList();
     }
+
+    List<Aggregate> definitions() { return List.copyOf(objects.values()); }
 
     private SkillConfigurationResponse load(String skillKey, String path) {
         if (!configurations.containsKey(skillKey)) {

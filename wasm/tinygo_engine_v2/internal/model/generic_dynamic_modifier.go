@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"math"
 )
 
 func (v *ModifierDefinition) UnmarshalJSON(data []byte) error {
@@ -11,6 +12,20 @@ func (v *ModifierDefinition) UnmarshalJSON(data []byte) error {
 	var value plain
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
+	}
+	var fields struct {
+		MaximumReductionRatio json.RawMessage `json:"maximumReductionRatio"`
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	if value.Stage == "incoming_pre_mitigation" || fields.MaximumReductionRatio != nil {
+		if err := processJSONShape(data, "CappedFlatModifier", "modifierKey kind command channel bucket stage priority valuePolicy value condition maximumReductionRatio", "modifierKey kind command channel bucket stage valuePolicy value condition maximumReductionRatio"); err != nil {
+			return err
+		}
+		if value.Kind != "pipeline" || value.Command != "damage" || value.Stage != "incoming_pre_mitigation" || value.MaximumReductionRatio == nil || math.IsNaN(*value.MaximumReductionRatio) || math.IsInf(*value.MaximumReductionRatio, 0) || *value.MaximumReductionRatio < 0 || *value.MaximumReductionRatio > 1 {
+			return errors.New("maximumReductionRatio requires incoming_pre_mitigation damage and a finite ratio in [0,1]")
+		}
 	}
 	if bytes.Contains(data, []byte(`"valueReadMode"`)) {
 		if value.ValueReadMode != "APPLICATION_SNAPSHOT" || value.Kind != "attribute" {
@@ -20,7 +35,7 @@ func (v *ModifierDefinition) UnmarshalJSON(data []byte) error {
 			return err
 		}
 	}
-	// Keep legacy decoding allocation unchanged except for the new capabilities.
+	// Existing dynamic capabilities retain their own validation rules.
 	if value.Kind == "resource_max" || value.Kind == "cooldown_duration" || bytes.Contains(data, []byte(`"currentValuePolicy"`)) || bytes.Contains(data, []byte(`"affectedAbilityRefs"`)) {
 		if err := processJSONShape(data, "ModifierDefinition", "modifierKey kind target command channel bucket stage priority healDirection healCategory healGroupKey healGroupCalculationMode valuePolicy value condition currentValuePolicy affectedAbilityRefs", "modifierKey kind target valuePolicy value"); err != nil {
 			return err

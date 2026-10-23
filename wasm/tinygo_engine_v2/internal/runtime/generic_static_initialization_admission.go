@@ -11,7 +11,8 @@ import (
 )
 
 func (s *genericRunState) validateStaticInitializer(provider planbundle.CompiledProvider, owner, providerRef string) *model.EngineError {
-	if (provider.Kind != "item" && provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || provider.AbilityCount != 0 || provider.Lifecycle != nil || len(provider.Listeners) == 0 || len(provider.Processes)+len(provider.StateFields)+len(provider.StatusContributions)+len(provider.Modifiers) != 0 {
+	cappedParent := s.isIncomingCappedFlatParent(provider, owner, providerRef)
+	if (provider.Kind != "item" && provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || (provider.AbilityCount != 0 || len(provider.Processes) != 0) && !cappedParent || provider.Lifecycle != nil || len(provider.Listeners) == 0 || len(provider.StateFields)+len(provider.StatusContributions)+len(provider.Modifiers) != 0 {
 		return s.basicAttackErr("initializer must be a complete static owned source", "initialSnapshot.combatants.providers")
 	}
 	for _, listener := range s.compiled.Listeners {
@@ -51,6 +52,9 @@ func (s *genericRunState) validateStaticInitializationListener(listener planbund
 			return s.basicAttackErr("initialized effect must contain one permanent static modifier", operation.Path)
 		}
 		modifier := effect.Modifiers[0]
+		if modifier.HasMaximumReductionRatio && s.isIncomingCappedFlatInitializer(listener, operation) {
+			continue
+		}
 		if !modifier.HasValue || modifier.HasCondition || int(modifier.ValueProgram) >= len(s.formulas.Programs) {
 			return s.basicAttackErr("initialization modifier requires a finite constant", operation.Path)
 		}

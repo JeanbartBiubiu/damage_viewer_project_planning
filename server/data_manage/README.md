@@ -6,6 +6,8 @@
 
 阶段4B沿4A快照读取所选完整装备作者树，不新增战斗计算接口或数据库结构。管理页聚合配置保存使用 `PATCH`（部分更新请求方法），`WebCorsConfig` 已允许其跨域预检；鉴权过滤器、令牌校验和写事务约束不变。预检通过不等于管理写入免鉴权。
 
+当前源码支持[防御前分支封顶平减](../../outputs/skill-adaptation-20261023-amumu/物理分支封顶平减契约.md)的精确明细、静态比例和真实拥有者额外抗性证明；新乘区只增加伤害／平加／防御前组合。已有库使用一次性 `db/game_manage/migrations/modifier_zone_capped_flat_damage.sql`，只读预检为 `db/game_manage/checks/capped_flat_damage_preflight.sql`；先核目标、实际约束与全行摘要，不能批跑迁移目录。2026-10-23本地实库已执行并以另连接确认只改变一条约束，业务行保持；2790项最终后端测试通过。服务安装及实际作者验收单独记录。
+
 ## 混合战斗的完整对象可用目录
 
 `GET /api/admin/games/{gameId}/simulation-availability?wasmSha256=...&adapterVersion=...`只读返回英雄、装备的当前配置缺口和计算核验状态。它用只读一致事务一次批量读取原始业务行，不执行伤害、不写数据库，也不以管理结构检查代替完整运行。只有与范围、完整对象内容、共享及外部依赖、正式Wasm和适配器版本全部匹配的通过证明才返回可选状态；缺证明或证明失效均不可选。

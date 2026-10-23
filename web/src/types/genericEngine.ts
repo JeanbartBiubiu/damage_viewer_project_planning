@@ -258,6 +258,7 @@ export type SkillHitRuleGroup = {
 export type HealGroupCalculationMode = 'ratio_add' | 'ratio_max';
 
 export type ModifierDefinition = {
+  maximumReductionRatio?: number;
   valueReadMode?: 'APPLICATION_SNAPSHOT';
   currentValuePolicy?: 'grant_positive_delta_clamp' | 'preserve_initial_current';
   affectedAbilityRefs?: string[];
