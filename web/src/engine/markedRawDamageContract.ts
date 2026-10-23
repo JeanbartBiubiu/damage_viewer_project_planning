@@ -174,8 +174,8 @@ export function validateMarkedRawDamageContract(snapshot: SimulationSnapshot, co
   };
   catalog(physicalDamageTypeKey); catalog(magicDamageTypeKey);
   const trueFormula = catalog(trueDamageTypeKey).formula.formula;
-  const trueStage = one(trueFormula.stages, path);
-  if (trueFormula.inputs.length || trueFormula.outputStageKey !== trueStage.key || trueStage.expression.op !== 'const'
+  const trueStage = one(trueFormula.stages.filter(stage => stage.key === trueFormula.outputStageKey), path);
+  if (trueFormula.inputs.length || trueFormula.stages.some(stage => stage.expression.op !== 'const') || trueStage.expression.op !== 'const'
     || Number(trueStage.expression.value) !== 1) fail(path, '派生伤害必须引用真实无穿透无抗性的常量1结算公式');
   return { magicRule, primaryRule, rRule, wRule, rawAction, state, process, step, stateWrite, effect, result, parameterKey,
     primarySkillKey, rSkillKey, wSkillKey, magicDamageTypeKey, physicalDamageTypeKey, trueDamageTypeKey, durationMs, loweredValue };

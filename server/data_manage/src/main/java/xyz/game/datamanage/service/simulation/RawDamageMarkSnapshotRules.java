@@ -61,7 +61,7 @@ final class RawDamageMarkSnapshotRules {
         need(is(result, "resultType", "DAMAGE") && is(result, "target", "TARGET") && nil(result.path("lifecycleBehavior")) && nil(result.path("spellShieldBlockScope")));
         JsonNode damage = result.path("detail"); fields(damage, "damageTypeKey", "deliveryKind", "originKind", "critical", "vampQualification", "vampOverrides");
         fields(damage.path("critical"), "mode", "multiplierValue");
-        need(is(damage, "damageTypeKey", "true") && is(damage, "deliveryKind", "SKILL") && is(damage, "originKind", "DIRECT")
+        need(is(damage, "damageTypeKey", "real") && is(damage, "deliveryKind", "SKILL") && is(damage, "originKind", "DIRECT")
             && is(damage, "vampQualification", "RESOLVED") && empty(damage.path("vampOverrides")) && is(damage.path("critical"), "mode", "DISALLOWED")
             && nil(damage.path("critical").path("multiplierValue")));
         JsonNode value = result.path("valueRule"); fields(value, "value", "fixedMultiplier", "fixedMinValue", "fixedMaxValue");

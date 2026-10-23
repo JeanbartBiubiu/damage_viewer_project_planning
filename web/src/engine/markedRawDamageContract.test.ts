@@ -78,6 +78,32 @@ describe('完整标记原额派生图的只读合同', () => {
     expect(validateMarkedRawDamageContract(snapshot, config, 'contract')).toBeUndefined();
   });
 
+  it('按实际real目录验证完整五阶段常量公式，保留抗性与穿透的零值说明阶段', () => {
+    const { snapshot, config, validate } = sample();
+    const row = snapshot.catalogs.damageTypes.find(item => item.type.damageTypeKey === 'true')!;
+    row.type.damageTypeKey = 'real';
+    row.formula.damageTypeKey = 'real';
+    Object.assign(config.effects[0]!.results[0]!.detail, { damageTypeKey: 'real' });
+    row.formula.formula = { inputs: [], stages: [
+      { key: 'resistanceBeforePenetration', name: '穿透前抗性', expression: { op: 'const', value: '0' } },
+      { key: 'penetrationPercent', name: '比例穿透', expression: { op: 'const', value: '0' } },
+      { key: 'penetrationFlat', name: '固定穿透', expression: { op: 'const', value: '0' } },
+      { key: 'effectiveResistance', name: '有效抗性', expression: { op: 'const', value: '0' } },
+      { key: 'resistanceFactor', name: '结算倍率', expression: { op: 'const', value: '1' } }
+    ], outputStageKey: 'resistanceFactor' };
+    const before = structuredClone(snapshot);
+    expect(validate()?.trueDamageTypeKey).toBe('real');
+    expect(snapshot).toEqual(before);
+  });
+
+  it('输出恒为1也不能夹带未使用的计算阶段', () => {
+    const { snapshot, validate } = sample();
+    snapshot.catalogs.damageTypes.find(row => row.type.damageTypeKey === 'true')!.formula.formula.stages.push({
+      key: 'unused', name: '未使用的计算', expression: { op: 'add', args: [{ op: 'const', value: '0' }, { op: 'const', value: '1' }] }
+    });
+    expect(validate).toThrow(NumericAdaptationError);
+  });
+
   it('直接消费固定机制原配置的实际条件组，不要求不存在的描述字段', () => {
     const actual = loadMechanismCases().find(row => row.caseKey === 'marked_raw_primary_then_magic')!.buildSnapshot();
     const config = actual.skillConfigurations.find(row => row.triggerRules.some(rule => rule.actions.some(action => action.runtimeInputBindings.some(binding => binding.sourceType === 'EVENT_VALUE' && binding.detail.eventValueKey === 'RAW_DAMAGE'))))!;
