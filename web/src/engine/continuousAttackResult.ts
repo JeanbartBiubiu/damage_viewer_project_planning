@@ -21,6 +21,7 @@ import { inspectOrdinaryHealing } from './ordinaryHealingContract';
 import { inspectSkillHitLinkEvidence, skillHitLinkListenerEvent } from './skillHitLinkEvidence';
 import { inspectTargetMarkResult, targetMarkDamageOriginMatches } from './targetMarkResultContract';
 import { inspectDamageStateBefore, targetTimingDamageOriginMatches } from './targetTimingResultContract';
+import { inspectPermanentPeriodicResult } from './permanentPeriodicResultContract';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
@@ -36,6 +37,7 @@ type Row = Record<string, unknown>;
 type DamageContract = { kind: 'attack' | 'periodic' | 'target_window' | 'target_mark' | 'reaction' | 'linked' | 'active'; required: boolean; allowed: boolean; origin: OperationOrigin;
   requiredContribution?: boolean;
   attackOnly?: boolean;
+  permanent?: boolean;
   tick?: { intervalMs: number; startDelayMs: number } };
 const budgetCauses: BudgetCause[] = ['max_events', 'max_commands_per_event', 'max_chain_depth', 'max_queue_events',
   'max_process_instances', 'max_skill_hits', 'max_basic_attacks', 'max_use_trigger_ledger'];
@@ -219,6 +221,8 @@ export function assessContinuousAttackResult(
   issues.push(...marks.issues); identityGaps.push(...marks.identityGaps);
   const before = inspectDamageStateBefore(input, request, done);
   issues.push(...before.issues); identityGaps.push(...before.identityGaps);
+  const permanentPeriodic = inspectPermanentPeriodicResult(input, request, done, origins);
+  identityGaps.push(...permanentPeriodic.identityGaps);
   const check = (condition: boolean, path: string, message: string) => { if (!condition) issues.push(`${path}：${message}`); };
   check(bool(result.ok, 'runResult.ok'), 'runResult.ok', '运行返回未成功');
   for (const actor of request.initialSnapshot.combatants) {
@@ -374,6 +378,7 @@ export function assessContinuousAttackResult(
         : processStart ? { kind: 'attack' as const, required: !operation.condition, allowed: true, origin } : undefined;
       check(!!contract && operation.target === 'target' && !operation.repeatScope && (operation.repeatCount === undefined || operation.repeatCount === 1)
         && !operation.repeatDelayMs && !damageContracts.has(path), 'operationOrigins', '伤害节点的执行入口、重复或攻击关联尚未核定');
+      if (contract?.kind === 'periodic' && definition?.kind === 'character' && !definition.lifecycle) contract.permanent = true;
       if (contract) damageContracts.set(path, contract);
     }
     mapping.set(key, origin);
@@ -575,6 +580,7 @@ export function assessContinuousAttackResult(
       && !row.instructionKey && !row.hitRef;
     const independentPeriodic = contract?.kind === 'periodic' && contract.tick?.startDelayMs === 0
       && finiteImmediatePeriodicDamageSource(input, row, done.finalSnapshot.processInstances);
+    const independentPermanent = permanentPeriodic.accepts(row as unknown as DamageRecord);
     check(typeof row.useRef === 'string', path, '使用身份必须是明确字符串');
     const damageId = integer(row.damageId, `${path}.damageId`);
     const attackIndex = mixed && row.attackIndex === null ? null : integer(row.attackIndex, `${path}.attackIndex`);
@@ -582,7 +588,7 @@ export function assessContinuousAttackResult(
     check(damageId > 0 && !damageIds.has(damageId) && integer(row.castInstanceId, `${path}.castInstanceId`) > 0, path, '伤害或施放身份缺失、重复');
     damageIds.add(damageId);
     check((attackIndex === null || attackIndex <= hitCount) && timeMs <= finalTime
-      && (attackIndex === null ? independentWindow || independentPeriodic || !!row.useRef : attackIndex > 0 ? !!row.useRef : row.useRef === '')
+      && (attackIndex === null ? independentWindow || independentPeriodic || independentPermanent || !!row.useRef : attackIndex > 0 ? !!row.useRef : row.useRef === '')
       && !!origin?.compiledPaths.includes(row.operationPath as string), path, '伤害无法关联本刀或独立真实编译路径');
     const retainedAttack = attackIndex === null ? undefined : attacks[attackIndex - 1];
     const empowered = mixed ? empoweredDamageProcess(input, done, row as unknown as DamageRecord) : null;
@@ -602,8 +608,11 @@ export function assessContinuousAttackResult(
     path, '伤害来源生命受量减少或逐笔生命超过初始上限');
     for (const key of ['resistanceFactor', 'normalPartPostResistance', 'critPartPostResistance']) finite(row[key], `${path}.${key}`);
     const operation = compiledOperation(input, row.operationPath as string);
+    if (contract?.kind === 'reaction' && row.useRef === '' && permanentPeriodic.requiresProof(row as unknown as DamageRecord)) {
+      check(independentPermanent, path, '空使用原额派生缺少真实永久周期父包与完整监听资格');
+    }
     check(operation?.operation === 'damage' && operation.ref === row.operationRef && operation.damageType === row.damageType
-      && !!contract && contract.origin === origin && contract.allowed && (contract.kind === 'target_window' ? independentWindow : contract.kind === 'periodic' ? independentPeriodic || contract.tick?.startDelayMs !== 0 && attackIndex === 0
+      && !!contract && contract.origin === origin && contract.allowed && (contract.kind === 'target_window' ? independentWindow : contract.kind === 'periodic' ? contract.permanent ? independentPermanent : independentPeriodic || contract.tick?.startDelayMs !== 0 && attackIndex === 0
         : contract.kind === 'active' ? empowered ? attackIndex !== null && attackIndex > 0 : attackIndex === null : contract.kind === 'reaction' && !contract.attackOnly ? true
           : (contract.kind === 'linked' || contract.kind === 'target_mark') && attackIndex === null ? mixed && !!row.instructionKey : attackIndex !== null && attackIndex > 0),
     path, '伤害节点、类型或独立周期与攻击关联不一致');
@@ -661,7 +670,8 @@ export function assessContinuousAttackResult(
     const independentWindow = damageContracts.get(row.operationPath)?.kind === 'target_window' && row.attackIndex === null
       && row.useRef === '' && !row.instructionKey && !row.hitRef;
     const independentPeriodic = damageContracts.get(row.operationPath)?.kind === 'periodic'
-      && damageContracts.get(row.operationPath)?.tick?.startDelayMs === 0 && finiteImmediatePeriodicDamageSource(input, row, done.finalSnapshot.processInstances);
+      && damageContracts.get(row.operationPath)?.tick?.startDelayMs === 0 && finiteImmediatePeriodicDamageSource(input, row, done.finalSnapshot.processInstances)
+      || permanentPeriodic.accepts(row);
     check((row.attackIndex !== null || independentWindow || independentPeriodic || mixed && !!row.instructionKey) && row.timeMs >= time
       && (row.attackIndex === null || row.attackIndex === 0 || row.attackIndex >= attackIndex), 'damageRecords', '连续普攻伤害刀号或已提交顺序不一致');
     hp[target] = row.hpAfter; hp[source] = row.sourceHpAfter as number;
@@ -691,7 +701,7 @@ export function assessContinuousAttackResult(
       check(finalTime === firstDeath.timeMs && attacks.every(attack => attack.startAtMs <= firstDeath.timeMs),
         'summary.execution', '真实死亡以后仍推进观察时刻或启动攻击');
       check(damages.slice(firstDeathIndex + 1).every(row => row.timeMs === firstDeath.timeMs
-        && (firstDeath.attackIndex !== null && firstDeath.attackIndex > 0 ? row.attackIndex === firstDeath.attackIndex
+        && (permanentPeriodic.sameCommit(firstDeath, row) || (firstDeath.attackIndex !== null && firstDeath.attackIndex > 0 ? row.attackIndex === firstDeath.attackIndex
           : row.attackIndex === null && firstDeath.attackIndex === null ? firstDeath.useRef !== '' ? row.useRef === firstDeath.useRef
             : row.useRef === '' && row.castInstanceId === firstDeath.castInstanceId
               && (damageContracts.get(row.operationPath)?.kind === 'target_window'
@@ -699,7 +709,7 @@ export function assessContinuousAttackResult(
                 || damageContracts.get(row.operationPath)?.tick?.startDelayMs === 0 && damageContracts.get(firstDeath.operationPath)?.tick?.startDelayMs === 0
                   && finiteImmediatePeriodicDamageSource(input, row, done.finalSnapshot.processInstances)
                   && finiteImmediatePeriodicDamageSource(input, firstDeath, done.finalSnapshot.processInstances))
-            : row.attackIndex === 0 && row.castInstanceId === firstDeath.castInstanceId)),
+            : row.attackIndex === 0 && row.castInstanceId === firstDeath.castInstanceId))),
       'damageRecords', '真实死亡以后出现新的攻击或独立周期，而非原同步提交尾部');
     }
     for (const group of breakdown) {
