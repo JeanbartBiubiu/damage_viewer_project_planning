@@ -8,8 +8,9 @@ git status --short
 git switch master
 git merge --ff-only <branch>
 
-# 只有用户授权推送时才执行，目标远端先用 git remote -v 核对。
+# 合进master后直接推送就行，目标远端先用 git remote -v 核对。
 git push origin master
+git push github master
 
 # 确认合入、推送及任务收尾完成后，删除本次短期分支。
 git branch -d <branch>

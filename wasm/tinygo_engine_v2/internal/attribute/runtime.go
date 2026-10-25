@@ -14,6 +14,7 @@ func ReadAttr(attrs Table, key string) float64 {
 		return 0
 	}
 	switch field {
+	// todo 这几个不是枚举，应该可以限定传入的key是枚举类型吧
 	case "resolved":
 		if slot.Resolved != 0 {
 			return slot.Resolved
