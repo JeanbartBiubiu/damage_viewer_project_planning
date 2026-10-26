@@ -8,6 +8,18 @@
   ],
   "tasks": [
     {
+      "task_key": "server-remove-redis",
+      "title": "移除Redis与后端方法缓存",
+      "module": "server",
+      "feature": "remove_redis",
+      "status": "完成",
+      "priority": 1,
+      "owner_model": "Codex 主负责人及内置执行与评审代理",
+      "completed_at": "2026-10-26",
+      "completion_note": "本地实现移除Redis及方法缓存，2810项全测和最终打包通过；独立库59次真实HTTP覆盖ETag、关系立即可见、真实日志失败回滚、图片同步与鉴权，验证库已删除。未修改原业务数据、前端或Wasm，未执行上线或Redis退用；共享发布按对应提交的持续集成结果验收。",
+      "docs": ["文档记录/详细设计/server/Redis移除与公开资源缓存边界详细设计.md", "文档记录/测试记录/server/Redis移除验收-2026-10-26.md"]
+    },
+    {
       "task_key": "planning-automatic-skill-scheduling",
       "title": "主动技能自动调度与连招约束",
       "module": "planning",

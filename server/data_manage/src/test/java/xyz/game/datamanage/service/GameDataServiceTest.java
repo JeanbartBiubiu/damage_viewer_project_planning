@@ -1,8 +1,8 @@
 package xyz.game.datamanage.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,12 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
 
 @ExtendWith(MockitoExtension.class)
 class GameDataServiceTest {
@@ -27,43 +21,32 @@ class GameDataServiceTest {
     @Mock private PostgresWriteStore writeStore;
 
     @Test
-    void oldCachedGameUrlsCannotBypassTheNewPublicResponse() {
-        ArrayNode legacy = JsonNodeFactory.instance.arrayNode();
-        legacy.addObject().put("gameId", "lol").put("gameName", "英雄联盟")
-            .put("gameImgUrl", "https://example/old-cover.png");
-        ArrayNode current = JsonNodeFactory.instance.arrayNode();
-        current.addObject().put("gameId", "lol").put("gameName", "英雄联盟")
+    void eachReadReturnsTheCurrentPostgresSnapshot() {
+        ArrayNode before = JsonNodeFactory.instance.arrayNode();
+        before.addObject().put("gameId", "lol").put("gameName", "英雄联盟")
             .put("representativeImageKey", "lol_cover");
-        when(readStore.listGames()).thenReturn(current);
+        ArrayNode after = JsonNodeFactory.instance.arrayNode();
+        after.addObject().put("gameId", "lol").put("gameName", "英雄联盟")
+            .putNull("representativeImageKey");
+        when(readStore.listGames()).thenReturn(before, after);
+        GameDataService service = new GameDataService(readStore, writeStore);
 
-        try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext()) {
-            context.registerBean(PostgresReadStore.class, () -> readStore);
-            context.registerBean(PostgresWriteStore.class, () -> writeStore);
-            context.register(CacheConfiguration.class, GameDataService.class);
-            context.refresh();
-            var cache = context.getBean(CacheManager.class).getCache("games");
-            cache.put("all", legacy);
-            GameDataService cachedService = context.getBean(GameDataService.class);
-
-            ArrayNode first = cachedService.listGames();
-            ArrayNode second = cachedService.listGames();
-
-            assertEquals("lol_cover", first.get(0).get("representativeImageKey").asText());
-            assertFalse(first.get(0).has("gameImgUrl"));
-            assertSame(first, second);
-            assertSame(current, cache.get("all:stage9").get());
-            assertSame(legacy, cache.get("all").get());
-            assertEquals("https://example/old-cover.png", legacy.get(0).get("gameImgUrl").asText());
-            verify(readStore, times(1)).listGames();
-        }
+        assertSame(before, service.listGames());
+        assertSame(after, service.listGames());
+        assertEquals("lol_cover", before.get(0).get("representativeImageKey").asText());
+        verify(readStore, times(2)).listGames();
     }
 
-    @TestConfiguration(proxyBeanMethods = false)
-    @EnableCaching
-    static class CacheConfiguration {
-        @Bean
-        CacheManager cacheManager() {
-            return new ConcurrentMapCacheManager("games");
-        }
+    @Test
+    void databaseFailureAfterASuccessfulReadDoesNotReturnTheEarlierSnapshot() {
+        ArrayNode earlier = JsonNodeFactory.instance.arrayNode();
+        earlier.addObject().put("gameId", "lol").put("gameName", "英雄联盟");
+        IllegalStateException failure = new IllegalStateException("数据库读取失败");
+        when(readStore.listGames()).thenReturn(earlier).thenThrow(failure);
+        GameDataService service = new GameDataService(readStore, writeStore);
+
+        assertSame(earlier, service.listGames());
+        assertSame(failure, assertThrows(IllegalStateException.class, service::listGames));
+        verify(readStore, times(2)).listGames();
     }
 }

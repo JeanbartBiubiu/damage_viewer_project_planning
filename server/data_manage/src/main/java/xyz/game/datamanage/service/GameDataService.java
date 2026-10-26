@@ -2,7 +2,6 @@ package xyz.game.datamanage.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +18,6 @@ public class GameDataService {
         this.writeStore = writeStore;
     }
 
-    @Cacheable(cacheNames = "games", key = "'all:stage9'")
     public ArrayNode listGames() {
         return readStore.listGames();
     }

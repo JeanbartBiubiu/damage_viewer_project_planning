@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +39,6 @@ public class ImageRelationService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = "games", key = "'all:stage9'", condition = "#p1.name() == 'GAME'")
     public RepresentativeImageResponse put(
         String gameId, ImageRelationSource sourceType, String sourceParentKey, String sourceKey,
         RepresentativeImageRequest request
@@ -63,7 +61,6 @@ public class ImageRelationService {
     }
 
     @Transactional
-    @CacheEvict(cacheNames = "games", key = "'all:stage9'", condition = "#p1.name() == 'GAME'")
     public void delete(String gameId, ImageRelationSource sourceType, String sourceParentKey, String sourceKey) {
         configurationWrites.begin(gameId);
         RepresentativeImageResponse.Image current = readCurrent(gameId, sourceType, sourceParentKey, sourceKey);

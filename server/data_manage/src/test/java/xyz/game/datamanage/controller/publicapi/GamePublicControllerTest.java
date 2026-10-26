@@ -2,9 +2,13 @@ package xyz.game.datamanage.controller.publicapi;
 
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,6 +74,35 @@ class GamePublicControllerTest {
 
         ObjectNode first = (ObjectNode) objectMapper.readTree(body).get(0);
         assertEquals(Set.of("gameId", "gameName", "representativeImageKey"), fieldNames(first));
+    }
+
+    @Test
+    void conditionalRequestsValidateTheCurrentListBeforeReturningNotModified() throws Exception {
+        ArrayNode before = JsonNodeFactory.instance.arrayNode();
+        before.addObject().put("gameId", "lol").put("gameName", "英雄联盟")
+            .put("representativeImageKey", "old_cover");
+        ArrayNode after = JsonNodeFactory.instance.arrayNode();
+        after.addObject().put("gameId", "lol").put("gameName", "英雄联盟")
+            .put("representativeImageKey", "new_cover");
+        when(gameDataService.listGames()).thenReturn(before, before, after, after);
+
+        String firstEtag = mockMvc.perform(get("/api/games"))
+            .andExpect(status().isOk())
+            .andReturn().getResponse().getHeader(HttpHeaders.ETAG);
+        mockMvc.perform(get("/api/games").header(HttpHeaders.IF_NONE_MATCH, firstEtag))
+            .andExpect(status().isNotModified())
+            .andExpect(header().string(HttpHeaders.ETAG, firstEtag))
+            .andExpect(content().string(""));
+
+        String nextEtag = mockMvc.perform(get("/api/games").header(HttpHeaders.IF_NONE_MATCH, firstEtag))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].representativeImageKey").value("new_cover"))
+            .andReturn().getResponse().getHeader(HttpHeaders.ETAG);
+        assertNotEquals(firstEtag, nextEtag);
+        mockMvc.perform(get("/api/games").header(HttpHeaders.IF_NONE_MATCH, nextEtag))
+            .andExpect(status().isNotModified())
+            .andExpect(content().string(""));
+        verify(gameDataService, times(4)).listGames();
     }
 
     @Test
