@@ -26,6 +26,7 @@ graph TD
     Attribute["base/attribute 不可变分页"]
     Pure["base/expression 纯公式"]
     Binding["base/inputbinding 输入绑定"]
+    Numeric["base/numeric 数值边界与分组聚合"]
     Types["base/typeset 类型匹配"]
     Model["model 共享协议"]
     Host --> Exports --> Root
@@ -44,6 +45,8 @@ graph TD
     Engine --> Contract
     Engine --> Formula
     Engine --> Pipeline
+    Engine --> Numeric
+    Pipeline --> Numeric
     Actor --> Attribute
     Action --> Contract
     Effect --> Contract

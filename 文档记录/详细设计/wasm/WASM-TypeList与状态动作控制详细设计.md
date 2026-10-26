@@ -2,12 +2,14 @@ TASK_KEY: wasm-engine-v2-architecture
 DOC_TYPE: 详细设计
 WORKSTREAM: wasm
 STATUS: tracked
-EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-05-10
+EXECUTION_MODEL: 历史方案保留，主负责人更新现行入口，独立只读复核
+LAST_TRACKED_AT: 2026-10-26
 
 # WASM TypeList 与状态动作控制详细设计
 
-本文是给实现 agent 使用的编码设计。只描述怎么实现，不重复解释为什么要做；需求见 `文档记录/需求澄清/wasm/WASM-TypeList与状态动作控制需求澄清.md`，架构位置见 `文档记录/概要设计/wasm/WASM-TypeList与状态动作控制概要设计.md`。
+本文保留早期类型集合与状态动作控制设计，需求与架构背景仍由对应历史文档说明。现行类型集合位于 `wasm/tinygo_engine_v2/internal/base/typeset/`，状态控制编译位于 `wasm/tinygo_engine_v2/internal/compile/generic_status.go`，状态贡献及执行位于 `wasm/tinygo_engine_v2/internal/runtime/effect/status_contribution.go` 和 `wasm/tinygo_engine_v2/internal/runtime/execution/status.go`。
+
+2026-10-26已确认旧 `internal/control/` 没有生产或测试消费者并删除该骨架；正式状态和动作控制仍沿上述运行路径。现行包边界见[运行时拆分设计](../项目/运行时子系统拆分与数值修正分组实施详细设计.md)。下文包含已经删除的旧数据结构、目录及兼容设想，仅作历史追溯，不再作为当前编码要求。
 
 ## 1. 写入范围
 

@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"tinygo_engine_v2/internal/base/attribute"
+	"tinygo_engine_v2/internal/base/numeric"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -302,7 +303,7 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 	resolved := base
 	complementProduct, hasComplement := 1.0, false
 	totalProduct := 1.0
-	var groups AmplificationGroups
+	var groups numeric.AmplificationGroups
 	hasGroups := false
 	var participants []attributeGroupParticipant
 	for _, mod := range r.byAttribute[attributeKey] {
@@ -360,7 +361,7 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 		if mod.ValuePolicy == "multiply" && mod.Stage == "total" {
 			if mod.HasMultiplierGroup {
 				if !hasGroups {
-					groups = NewAmplificationGroups(len(r.byAttribute[attributeKey]))
+					groups = numeric.NewAmplificationGroups(len(r.byAttribute[attributeKey]))
 					participants = make([]attributeGroupParticipant, 0, len(r.byAttribute[attributeKey]))
 					hasGroups = true
 				}
@@ -385,7 +386,7 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 		groupProduct, err := groups.Product()
 		if err != nil {
 			id, match := uint16(0), false
-			if issue, ok := err.(AmplificationGroupError); ok {
+			if issue, ok := err.(numeric.AmplificationGroupError); ok {
 				id, match = issue.ID, true
 			}
 			return 0, attributeGroupIssue(attributeKey, attributeGroupFailureSource(participants, id, match), formulas, err)

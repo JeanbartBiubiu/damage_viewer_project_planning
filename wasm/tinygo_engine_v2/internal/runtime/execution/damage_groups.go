@@ -3,6 +3,7 @@ package execution
 import (
 	"math"
 
+	"tinygo_engine_v2/internal/base/numeric"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
@@ -40,7 +41,7 @@ func (f *Frame) applyGroupedDamageBands(mods []pipeline.CollectedDamageModifier,
 }
 
 func (f *Frame) applyOneGroupedDamageBand(mods []pipeline.CollectedDamageModifier, hostKey, command, stage string, amount float64, ability planbundle.CompiledAbility, damageType string, traits []string, evidence []map[string]interface{}, baseCtx *formula.GenericEvalContext, providerCtxFn pipeline.ProviderFormulaContextFunc) (float64, []map[string]interface{}, *model.EngineError) {
-	groups := pipeline.NewAmplificationGroups(len(mods))
+	groups := numeric.NewAmplificationGroups(len(mods))
 	accepted := make([]evaluatedDamageMultiplier, 0, len(mods))
 	working := amount
 	for _, collected := range mods {
@@ -74,7 +75,7 @@ func (f *Frame) applyOneGroupedDamageBand(mods []pipeline.CollectedDamageModifie
 	product, groupErr := groups.Product()
 	if groupErr != nil {
 		mod := mods[0].Modifier
-		if issue, ok := groupErr.(pipeline.AmplificationGroupError); ok {
+		if issue, ok := groupErr.(numeric.AmplificationGroupError); ok {
 			for _, entry := range accepted {
 				if entry.member.Modifier.HasMultiplierGroup && entry.member.Modifier.MultiplierGroupID == issue.ID {
 					mod = entry.member.Modifier

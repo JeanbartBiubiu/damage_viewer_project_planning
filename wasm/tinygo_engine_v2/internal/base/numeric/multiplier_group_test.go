@@ -1,4 +1,4 @@
-package pipeline
+package numeric
 
 import (
 	"math"

@@ -10,9 +10,9 @@ import (
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 
 	"tinygo_engine_v2/internal/base/attribute"
+	"tinygo_engine_v2/internal/base/numeric"
 	"tinygo_engine_v2/internal/base/typeset"
 	"tinygo_engine_v2/internal/command"
-	"tinygo_engine_v2/internal/crit"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
@@ -1795,7 +1795,7 @@ func (f *Frame) settleExpectedCrit(op planbundle.CompiledOperation, ability plan
 	if err != nil {
 		return frozenCritEvidence{}, 0, nil, err
 	}
-	p, _ := crit.ClampValue("critical_probability", "source", chanceRaw, crit.ProbabilityBounds())
+	p, _ := numeric.ClampValue("critical_probability", "source", chanceRaw, numeric.ProbabilityBounds())
 	traits := append([]string(nil), op.Types...)
 	var modEvidence []map[string]interface{}
 
@@ -1805,7 +1805,7 @@ func (f *Frame) settleExpectedCrit(op planbundle.CompiledOperation, ability plan
 	if err != nil {
 		return frozenCritEvidence{}, 0, nil, err
 	}
-	q, _ = crit.ClampValue("critical_probability", "source", q, crit.ProbabilityBounds())
+	q, _ = numeric.ClampValue("critical_probability", "source", q, numeric.ProbabilityBounds())
 
 	mForced := critDamageRaw
 	if op.HasCritMultiplierMin && mForced < op.CritMultiplierMin {

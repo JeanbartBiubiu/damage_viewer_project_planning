@@ -1,5 +1,5 @@
 // 本文件提供概率边界与数值夹取，保留原始值、实际值和边界证据。
-package crit
+package numeric
 
 import "tinygo_engine_v2/internal/model"
 
