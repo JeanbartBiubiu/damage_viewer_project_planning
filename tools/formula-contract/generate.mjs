@@ -49,8 +49,8 @@ if (target === 'web') {
   outputs.push(['server/data_manage/src/test/resources/formula-contract/cases.generated.json', casesJSON + '\n']);
 } else {
   const limits = Object.entries(schema['x-limits']).map(([key, value]) => 'const Definition' + key[0].toUpperCase() + key.slice(1) + ' = ' + value).join('\n');
-  outputs.push(['wasm/tinygo_engine_v2/internal/expression/contract_schema_generated.go', 'package expression\n\n// ' + banner + '\nconst contractSchemaSHA256 = ' + JSON.stringify(schemaHash) + '\n' + limits + '\nconst contractSchemaJSON = `' + schemaJSON + '`\n']);
-  outputs.push(['wasm/tinygo_engine_v2/internal/expression/contract_cases_generated_test.go', 'package expression\n\n// ' + banner + '\nconst contractCasesJSON = `' + casesJSON + '`\n']);
+  outputs.push(['wasm/tinygo_engine_v2/internal/base/expression/contract_schema_generated.go', 'package expression\n\n// ' + banner + '\nconst contractSchemaSHA256 = ' + JSON.stringify(schemaHash) + '\n' + limits + '\nconst contractSchemaJSON = `' + schemaJSON + '`\n']);
+  outputs.push(['wasm/tinygo_engine_v2/internal/base/expression/contract_cases_generated_test.go', 'package expression\n\n// ' + banner + '\nconst contractCasesJSON = `' + casesJSON + '`\n']);
 }
 const mismatches = [];
 for (const [path, content] of outputs) {

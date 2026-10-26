@@ -5,9 +5,9 @@ import (
 	"math"
 	"strings"
 
-	"tinygo_engine_v2/internal/attribute"
-	"tinygo_engine_v2/internal/expression"
-	"tinygo_engine_v2/internal/inputbinding"
+	"tinygo_engine_v2/internal/base/attribute"
+	"tinygo_engine_v2/internal/base/expression"
+	"tinygo_engine_v2/internal/base/inputbinding"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -36,13 +36,13 @@ type GenericEvalContext struct {
 	HasEventLink            bool
 	LinkIndex               int
 	LinkCount               int
-	ProcessActualCosts      map[string]float64
+	ProcessActualCosts model.NumericView
 	HasProcessActualCosts   bool
-	ProcessStartStateValues []ProcessStartStateValue
+	ProcessStartStateValues ProcessStartStateView
 	SourceAttrs             attribute.Table
 	TargetAttrs             attribute.Table
-	SourceResources         map[string]model.ResourceSlotDef
-	TargetResources         map[string]model.ResourceSlotDef
+	SourceResources         model.ResourceView
+	TargetResources         model.ResourceView
 	AbilityParams           map[string]float64
 	// StrictReads 用于需要区分缺值与真实零值的吸血效率和治疗修正。
 	StrictReads bool
@@ -51,24 +51,24 @@ type GenericEvalContext struct {
 	HasProviderContext             bool
 	HasProviderElapsed             bool
 	ProviderElapsedMs              int64
-	ProviderState                  map[string]float64
-	ProviderTargetState            map[string]float64
-	ProviderStateDefaults          map[string]float64
+	ProviderState                  model.NumericView
+	ProviderTargetState            model.NumericView
+	ProviderStateDefaults          model.NumericView
 	HasTargetStateRemainingContext bool
 	TargetStateRemainingNowMs      int64
-	TargetStateExpireAt            map[string]int64
+	TargetStateExpireAt            model.DeadlineView
 
 	// Event snapshot reads require an emit_event listener / child-ability context.
 	// Participants are the original emitted event source/target (not owner-remapped).
 	HasEventContext           bool
 	EventEntrySourceAttrs     attribute.Table
 	EventEntryTargetAttrs     attribute.Table
-	EventEntrySourceResources map[string]model.ResourceSlotDef
-	EventEntryTargetResources map[string]model.ResourceSlotDef
+	EventEntrySourceResources model.ResourceView
+	EventEntryTargetResources model.ResourceView
 	EventSourceAttrs          attribute.Table
 	EventTargetAttrs          attribute.Table
-	EventSourceResources      map[string]model.ResourceSlotDef
-	EventTargetResources      map[string]model.ResourceSlotDef
+	EventSourceResources      model.ResourceView
+	EventTargetResources      model.ResourceView
 
 	// DamageAmount is transient: only set while evaluating a pipeline damage modifier.
 	// Missing damage context must fail structurally (never silently return zero).
@@ -582,7 +582,7 @@ func evalRead(kind GenericReadKind, key string, ctx *GenericEvalContext) (float6
 		if !ctx.HasProcessActualCosts {
 			return 0, errors.New("process.actual_cost." + key + " requires process completion or failure context")
 		}
-		value, ok := ctx.ProcessActualCosts[key]
+		value, ok := ctx.ProcessActualCosts.Lookup(key)
 		if !ok || math.IsNaN(value) || math.IsInf(value, 0) || value < 0 {
 			return 0, errors.New("process.actual_cost." + key + " is missing or invalid")
 		}
@@ -710,14 +710,14 @@ func readAttrValue(attrs attribute.Table, key string) float64 {
 	return slot.Current
 }
 
-func readResourceValue(resources map[string]model.ResourceSlotDef, key string) float64 {
-	if resources == nil {
+func readResourceValue(resources model.ResourceView, key string) float64 {
+	if resources.Len() == 0 {
 		return 0
 	}
 	if idx := strings.LastIndex(key, "."); idx > 0 {
 		suffix := key[idx+1:]
 		resKey := key[:idx]
-		slot, ok := resources[resKey]
+		slot, ok := resources.Lookup(resKey)
 		if !ok {
 			return 0
 		}
@@ -728,29 +728,29 @@ func readResourceValue(resources map[string]model.ResourceSlotDef, key string) f
 			return slot.Max
 		}
 	}
-	slot, ok := resources[key]
+	slot, ok := resources.Lookup(key)
 	if !ok {
 		return 0
 	}
 	return slot.Current
 }
 
-func readResourceValueChecked(resources map[string]model.ResourceSlotDef, key string, strict bool) (float64, error) {
+func readResourceValueChecked(resources model.ResourceView, key string, strict bool) (float64, error) {
 	resourceKey := key
 	if idx := strings.LastIndex(key, "."); idx > 0 {
 		resourceKey = key[:idx]
 	}
-	if _, ok := resources[resourceKey]; !ok && strict {
+	if _, ok := resources.Lookup(resourceKey); !ok && strict {
 		return 0, errors.New("missing resource: " + resourceKey)
 	}
 	return readResourceValue(resources, key), nil
 }
 
-func readProviderValue(values, defaults map[string]float64, key string, strict bool) (float64, error) {
-	if value, ok := values[key]; ok {
+func readProviderValue(values, defaults model.NumericView, key string, strict bool) (float64, error) {
+	if value, ok := values.Lookup(key); ok {
 		return value, nil
 	}
-	if value, ok := defaults[key]; ok {
+	if value, ok := defaults.Lookup(key); ok {
 		return value, nil
 	}
 	if strict {

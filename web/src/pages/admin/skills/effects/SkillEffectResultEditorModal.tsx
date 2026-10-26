@@ -111,6 +111,7 @@ import {
   createEmptyDamageModifierConditionDraft,
   normalizeResultDraftForDirtyComparison,
   healingModifierAmountHint,
+  groupedAmplificationAmountHint,
   isCatalogOptionSelectable,
   isFixedPersistentSnapshotResult,
   isModifierZoneRequired,
@@ -676,7 +677,7 @@ export function SkillEffectResultEditorModal({
     skillCategories,
     statuses
   }), [attributes, damageTypes, effectSummaries, formulas, modifierZones, parentDraft.effectKey, parentSkill.skillKey, skillCategories, skills, statuses]);
-  const healingRatioMaxHint = healingModifierAmountHint(draft, catalog);
+  const healingRatioMaxHint = groupedAmplificationAmountHint(draft, catalog) ?? healingModifierAmountHint(draft, catalog);
 
   const validationCatalogState = useMemo<EffectCatalogLoadState>(() => ({
     ...catalogLoadState,

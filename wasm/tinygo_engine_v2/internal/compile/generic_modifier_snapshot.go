@@ -25,7 +25,7 @@ func pureSnapshotAttributeProvider(reference string, ctx *genericCompileContext)
 	attribute := ""
 	rate := float64(0)
 	for i, mod := range p.Modifiers {
-		if mod.Kind != "attribute" || !mod.HasValue || mod.HasCondition || mod.Command != "" || mod.Channel != "" || mod.CurrentValuePolicy != "" || mod.HasAffectedAbilityRefs || mod.HealDirection != "" || mod.HealCategory != "" || mod.HealGroupKey != "" || mod.HealGroupCalculationMode != "" {
+		if mod.HasMultiplierGroup || mod.Kind != "attribute" || !mod.HasValue || mod.HasCondition || mod.Command != "" || mod.Channel != "" || mod.CurrentValuePolicy != "" || mod.HasAffectedAbilityRefs || mod.HealDirection != "" || mod.HealCategory != "" || mod.HealGroupKey != "" || mod.HealGroupCalculationMode != "" {
 			return false
 		}
 		if key, own := strings.CutPrefix(mod.Target, "self.attr."); own && mod.Stage == "total" && mod.ValuePolicy == "multiply" && (mod.ValueReadMode == "" || mod.ValueReadMode == "APPLICATION_SNAPSHOT") {

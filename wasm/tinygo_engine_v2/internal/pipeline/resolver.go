@@ -4,7 +4,7 @@ package pipeline
 import (
 	"math"
 
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/command"
 	shieldpkg "tinygo_engine_v2/internal/shield"
 )

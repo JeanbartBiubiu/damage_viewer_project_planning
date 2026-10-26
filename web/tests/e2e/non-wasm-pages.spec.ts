@@ -254,7 +254,7 @@ type ModifierZoneRow = {
   modifierZoneKey: string;
   name: string;
   domain: 'ATTRIBUTE' | 'DAMAGE' | 'HEALING';
-  calculationMode: 'FLAT_ADD' | 'RATIO_ADD';
+  calculationMode: 'FLAT_ADD' | 'RATIO_ADD' | 'RATIO_GROUP_ADD';
   applicationStage: 'ATTRIBUTE_FLAT' | 'ATTRIBUTE_PERCENT' | 'DAMAGE_PRE_DEFENSE' | 'DAMAGE_POST_DEFENSE' | 'HEALING_RESULT';
   description: string | null;
   status: 'ENABLED' | 'DISABLED';
@@ -4485,6 +4485,34 @@ test.describe('skill category and damage type management without Wasm', () => {
     await expect(modifierZoneRow(page, 'damage_pre_defense')).toContainText('停用');
     diagnostics.assertClean('modifier zone management');
   });
+
+  test('同组增幅目录通过真实控件保存、重开及独立HTTP回读（接口替身）', async ({ page }) => {
+    const mock = new MockApi();
+    const diagnostics = await prepare(page, mock);
+    await openModifierZones(page);
+    await page.getByRole('button', { name: '新增乘区', exact: true }).click();
+    const editor = visibleModal(page, '新增乘区');
+    await editor.getByLabel('乘区标识', { exact: true }).fill('group_a');
+    await editor.getByLabel('乘区名称', { exact: true }).fill('同组增幅区域');
+    await chooseSelectOption(page, editor, '乘区作用域', '属性');
+    await chooseSelectOption(page, editor, '乘区计算方式', '同组增幅加算');
+    await chooseSelectOption(page, editor, '乘区应用阶段', '属性百分比');
+    await editor.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(editor).toBeHidden();
+    const row = modifierZoneRow(page, 'group_a');
+    await expect(row).toContainText('同组增幅加算');
+    await row.getByRole('button', { name: '编辑', exact: true }).click();
+    const reopened = visibleModal(page, '编辑乘区');
+    await expect(reopened.getByLabel('乘区计算方式', { exact: true })).toContainText('同组增幅加算');
+    await expect(reopened.getByLabel('乘区应用阶段', { exact: true })).toContainText('属性百分比');
+    const readback = await page.evaluate(async (url) => {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    }, `${MOCK_API_BASE}/api/admin/games/${GAME_ID}/modifier-zones/group_a`);
+    expect(readback).toMatchObject({ modifierZoneKey: 'group_a', calculationMode: 'RATIO_GROUP_ADD', domain: 'ATTRIBUTE', applicationStage: 'ATTRIBUTE_PERCENT' });
+    diagnostics.assertClean('grouped amplification directory with HTTP fixture');
+  });
 });
 
 test.describe('status management without Wasm', () => {
@@ -5436,6 +5464,53 @@ test.describe('skill management without Wasm', () => {
       modifierZoneKey: 'damage_ratio'
     });
     diagnostics.assertClean('inline modifier zone creation');
+  });
+
+  test('同组增幅效果保存、重开、独立HTTP回读并拒绝减少方向（接口替身）', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    mock.modifierZones.push({ ...mock.modifierZones[1]!, modifierZoneKey: 'damage_group', name: '同组伤害增幅', calculationMode: 'RATIO_GROUP_ADD' });
+    mock.skillEffects = [{ gameId: GAME_ID, skillKey: 'varus_w', effectKey: 'grouped_buff', name: '同组增幅效果', description: null, sortOrder: 0,
+      createdAt: CREATED_AT, updatedAt: UPDATED_AT,
+      lifecycle: { durationValue: { kind: 'FIXED', value: 1000 }, maxStacksValue: { kind: 'FIXED', value: 1 }, applicationStacksValue: { kind: 'FIXED', value: 1 },
+        instanceScope: 'SOURCE', reapplicationStackMode: 'KEEP', reapplicationDurationMode: 'REFRESH_ALL', expiryMode: 'ALL_AT_ONCE', periodicIntervalValue: null, firstPeriodicExecution: null, endWhenShieldEndsResultKey: null },
+      results: [{ resultKey: 'amplify', name: '造成增幅', resultType: 'DAMAGE_MODIFIER', target: 'SOURCE', description: null, sortOrder: 0, spellShieldBlockScope: null,
+        lifecycleBehavior: { moment: 'PERSISTENT', valueReadMode: 'MOMENT_EVALUATION', stackValueMode: 'SHARED', reapplicationValueMode: null, periodicExecutionMode: null },
+        valueRule: { value: { kind: 'FIXED', value: .2 }, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+        detail: { modifierZoneKey: 'damage_group', direction: 'DEALT', operation: 'INCREASE', damageTypeKey: 'physical', deliveryKind: 'ANY', originKind: 'ANY', criticalFilter: 'ANY' } }] }];
+    const diagnostics = await prepare(page, mock);
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await configurationCard(shell, 'grouped_buff').getByRole('button', { name: '编辑', exact: true }).click();
+    const effect = visibleModal(page, '编辑效果');
+    await effect.locator('tr', { hasText: 'amplify' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const result = visibleModal(page, '编辑结果');
+    await expect(result.getByText(/同组增幅加算：20%填0.2/)).toBeVisible();
+    await clickArcoRadioByVisibleLabel(result, '降低');
+    await result.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(result.getByText('同组增幅加算只支持增加，不能反转减少方向。', { exact: true })).toBeVisible();
+    await clickArcoRadioByVisibleLabel(result, '提高');
+    await result.getByLabel('修正比例公式固定数值', { exact: true }).fill('0.3');
+    await saveOpenModal(result);
+    await effect.getByRole('button', { name: '确认到技能草稿', exact: true }).click();
+    await expect(effect).toBeHidden();
+    await saveSkillConfiguration(page.locator('[aria-label="技能统一编辑工作区"]'));
+    await page.locator('[aria-label="技能统一编辑工作区"]').getByRole('button', { name: '返回', exact: true }).click();
+    const reopenedShell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await configurationCard(reopenedShell, 'grouped_buff').getByRole('button', { name: '编辑', exact: true }).click();
+    const reopenedEffect = visibleModal(page, '编辑效果');
+    await reopenedEffect.locator('tr', { hasText: 'amplify' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const reopenedResult = visibleModal(page, '编辑结果');
+    await expect(reopenedResult.getByLabel('修正比例公式固定数值', { exact: true })).toHaveValue('0.3');
+    const configuration = await page.evaluate(async (url) => {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    }, `${MOCK_API_BASE}/api/admin/games/${GAME_ID}/skills/varus_w/configuration`);
+    const saved = configuration.effects.find((row: Json) => row.effectKey === 'grouped_buff');
+    expect(saved.results[0]).toMatchObject({ valueRule: { value: { kind: 'FIXED', value: .3 } }, detail: { modifierZoneKey: 'damage_group', operation: 'INCREASE', direction: 'DEALT' } });
+    expect(JSON.stringify(saved)).not.toContain('multiplierGroupKey');
+    diagnostics.assertClean('grouped amplification authoring with HTTP fixture');
   });
 
   test('covers seven result editors and omits the value rule for cooldown reset', async ({ page }) => {

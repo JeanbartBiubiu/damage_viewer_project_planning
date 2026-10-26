@@ -268,6 +268,8 @@ export type ModifierDefinition = {
   command?: string;
   channel?: string;
   bucket?: string;
+  /** 同一真实区域的非负增幅组；省略仍沿独立倍率。 */
+  multiplierGroupKey?: string;
   stage?: string;
   priority?: number;
   valuePolicy: string;

@@ -13,10 +13,12 @@ export const SKILL_TRIGGER_ACTION_TYPE_LABELS = {
 } as const satisfies Record<SkillTriggerActionType, string>;
 
 // 内部状态修改操作
-export const SKILL_TRIGGER_INTERNAL_STATE_OPERATIONS = ["REDUCE_RECOVERY"] as const;
+export const SKILL_TRIGGER_INTERNAL_STATE_OPERATIONS = ["REDUCE_RECOVERY","ENSURE_REMAINING","ENSURE_REMAINING_PRESERVE_PHASE"] as const;
 export type SkillTriggerInternalStateOperation = (typeof SKILL_TRIGGER_INTERNAL_STATE_OPERATIONS)[number];
 export const SKILL_TRIGGER_INTERNAL_STATE_OPERATION_LABELS = {
   REDUCE_RECOVERY: "减少下一次回充余时",
+  ENSURE_REMAINING: "确保目标计数至少剩余指定毫秒",
+  ENSURE_REMAINING_PRESERVE_PHASE: "保留周期节拍并确保至少剩余指定毫秒",
 } as const satisfies Record<SkillTriggerInternalStateOperation, string>;
 
 // 施放阶段
@@ -458,12 +460,13 @@ export const AUTOMATIC_SKILL_RECORD_KIND_LABELS = {
 } as const satisfies Record<AutomaticSkillRecordKind, string>;
 
 // 修正区域计算方式
-export const MODIFIER_ZONE_CALCULATION_MODES = ["FLAT_ADD","RATIO_ADD","RATIO_MULTIPLY","RATIO_MAX","RATIO_COMPLEMENT_MULTIPLY"] as const;
+export const MODIFIER_ZONE_CALCULATION_MODES = ["FLAT_ADD","RATIO_ADD","RATIO_MULTIPLY","RATIO_GROUP_ADD","RATIO_MAX","RATIO_COMPLEMENT_MULTIPLY"] as const;
 export type ModifierZoneCalculationMode = (typeof MODIFIER_ZONE_CALCULATION_MODES)[number];
 export const MODIFIER_ZONE_CALCULATION_MODE_LABELS = {
   FLAT_ADD: "固定值加算",
   RATIO_ADD: "比例加算",
   RATIO_MULTIPLY: "比例乘算",
+  RATIO_GROUP_ADD: "同组增幅加算",
   RATIO_MAX: "比例减少取强",
   RATIO_COMPLEMENT_MULTIPLY: "剩余比例连乘",
 } as const satisfies Record<ModifierZoneCalculationMode, string>;

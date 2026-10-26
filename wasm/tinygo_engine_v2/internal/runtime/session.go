@@ -3,8 +3,9 @@ package runtime
 
 import (
 	"encoding/json"
+	"strconv"
 
-	"tinygo_engine_v2/internal/abi"
+	"tinygo_engine_v2/internal/base/abi"
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -175,7 +176,7 @@ func (s *Session) ReleaseSessionJSON(payload []byte) int32 {
 
 func (s *Session) registerGenericSession(session planbundle.CompiledSession) string {
 	s.nextGenericSessionID++
-	sessionID := "generic-session-" + itoa(s.nextGenericSessionID)
+	sessionID := "generic-session-" + strconv.FormatUint(uint64(s.nextGenericSessionID), 10)
 	s.genericSessions[sessionID] = genericSessionEntry{
 		sessionID:     sessionID,
 		schemaVersion: session.SchemaVersion,
@@ -201,18 +202,4 @@ func engineError(phase model.GenericErrorPhase, code model.GenericErrCode, messa
 	err.RulesHash = rulesHash
 	err.SessionID = sessionID
 	return err
-}
-
-func itoa(value uint32) string {
-	if value == 0 {
-		return "0"
-	}
-	buf := [10]byte{}
-	pos := len(buf)
-	for value > 0 {
-		pos--
-		buf[pos] = byte('0' + value%10)
-		value /= 10
-	}
-	return string(buf[pos:])
 }

@@ -105,6 +105,29 @@ public final class SkillNumericSemantics {
                 && "DAMAGE_PRE_DEFENSE".equals(zoneStages.get(text(result.path("detail"), "modifierZoneKey"))))) context.collect(source);
     }
 
+    /** 快照只复核实际闭包内的分组比例及消费动作，保持原区域引用与数值规则。 */
+    public static void validateGroupedAmplification(List<Aggregate> sources, List<Aggregate> objects, List<Parameter> parameters,
+        Map<String, String> zoneModes, Map<String, String> zoneDomains, Map<String, String> zoneStages) {
+        Context context = new Context(objects, parameters, zoneModes, zoneDomains, zoneStages);
+        Set<Id> groupedEffects = new LinkedHashSet<>();
+        for (Aggregate source : sources) if (source.type() == SourceType.EFFECT && source.data().path("results").valueStream()
+            .anyMatch(result -> "RATIO_GROUP_ADD".equals(zoneModes.get(text(result.path("detail"), "modifierZoneKey"))))) {
+            groupedEffects.add(id(source));
+            context.collect(source);
+        }
+        for (Aggregate source : sources) if (source.type() == SourceType.TRIGGER) {
+            int index = 0;
+            for (JsonNode action : source.data().path("actions")) {
+                String effectKey = text(action.path("detail"), "effectKey");
+                if ("EXECUTE_EFFECT".equals(text(action, "actionType"))
+                    && groupedEffects.contains(new Id(source.skillKey(), SourceType.EFFECT, effectKey))) {
+                    context.validateResultModifiers(source, action, index, effectKey, true);
+                }
+                index++;
+            }
+        }
+    }
+
     /** 快照按真实来源选定参数后复用共同静态求值；不接受运行输入或未定等级组合。 */
     public static BigInteger snapshotStaticInteger(Aggregate source, JsonNode value, String path,
         List<Aggregate> context, List<Parameter> selectedParameters) {
@@ -245,7 +268,8 @@ public final class SkillNumericSemantics {
                             && "EXTEND_DURATION".equals(lifecycleOperation);
                         boolean ensureRemaining = "LIFECYCLE_OPERATION".equals(text(r, "resultType"))
                             && "ENSURE_REMAINING".equals(lifecycleOperation);
-                        Bound valueBound = Bound.ANY;
+                        boolean groupedAmplification = "RATIO_GROUP_ADD".equals(zoneModes.get(text(r.path("detail"), "modifierZoneKey")));
+                        Bound valueBound = groupedAmplification ? Bound.NON_NEGATIVE_FINITE : Bound.ANY;
                         if ("LIFECYCLE_OPERATION".equals(text(r, "resultType")) && !extendDuration && !ensureRemaining) {
                             valueBound = Bound.INTEGER;
                         } else if ("COOLDOWN_CHANGE".equals(text(r, "resultType"))
@@ -300,6 +324,19 @@ public final class SkillNumericSemantics {
                                 throw invalid(a, issue.get("field"), issue.get("code"), issue.get("message"));
                             }
                             validateUnitRatio(a, valueUse, r.path("valueRule"), null, path + ".valueRule.value");
+                        }
+                        if (groupedAmplification) {
+                            JsonNode detail = r.path("detail");
+                            String zoneKey = text(detail, "modifierZoneKey");
+                            List<Map<String, String>> issues = new ArrayList<>();
+                            GroupedAmplificationSemantics.addReferenceIssues(zoneDomains.get(zoneKey), zoneModes.get(zoneKey),
+                                zoneStages.get(zoneKey), text(r, "resultType"), text(detail, "direction"),
+                                text(detail, "operation"), text(detail, "criticalFilter"), path, issues);
+                            if (!issues.isEmpty()) {
+                                Map<String, String> issue = issues.getFirst();
+                                throw invalid(a, issue.get("field"), issue.get("code"), issue.get("message"));
+                            }
+                            validateGroupedAmplification(a, valueUse, r.path("valueRule"), null, path + ".valueRule.value");
                         }
                         if (extendDuration) {
                             validateExtendedDuration(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
@@ -1153,7 +1190,7 @@ public final class SkillNumericSemantics {
                 if ("EXECUTE_EFFECT".equals(type)) {
                     String effectKey = text(action.path("detail"), "effectKey");
                     dependencies(rule, new Id(rule.skillKey(), SourceType.EFFECT, effectKey), required, new LinkedHashSet<>());
-                    validateResultModifiers(rule, action, i, effectKey);
+                    validateResultModifiers(rule, action, i, effectKey, false);
                     Aggregate effect = objects.get(new Id(rule.skillKey(), SourceType.EFFECT, effectKey));
                     if (effect != null && effect.data().path("results").valueStream().anyMatch(result ->
                         "LIFECYCLE_OPERATION".equals(text(result, "resultType")) && "ENSURE_REMAINING".equals(text(result.path("detail"), "operation")))
@@ -1460,7 +1497,7 @@ public final class SkillNumericSemantics {
             }
         }
 
-        private void validateResultModifiers(Aggregate rule, JsonNode action, int actionIndex, String effectKey) {
+        private void validateResultModifiers(Aggregate rule, JsonNode action, int actionIndex, String effectKey, boolean groupedOnly) {
             Aggregate effect = objects.get(new Id(rule.skillKey(), SourceType.EFFECT, effectKey));
             if (effect == null) return; // 引用存在性由统一引用校验保护。
             int modifierIndex = 0;
@@ -1474,6 +1511,10 @@ public final class SkillNumericSemantics {
                         break;
                     }
                     resultIndex++;
+                }
+                if (groupedOnly && (result == null || !"RATIO_GROUP_ADD".equals(zoneModes.get(text(result.path("detail"), "modifierZoneKey"))))) {
+                    modifierIndex++;
+                    continue;
                 }
                 if (result != null
                     && "COOLDOWN_CHANGE".equals(text(result, "resultType"))
@@ -1544,6 +1585,11 @@ public final class SkillNumericSemantics {
                         result.path("valueRule"), modifier,
                         "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]");
                 }
+                if (result != null && "RATIO_GROUP_ADD".equals(zoneModes.get(text(result.path("detail"), "modifierZoneKey")))) {
+                    validateGroupedAmplification(rule, findUse(effect, "results[" + resultIndex + "].valueRule.value"),
+                        result.path("valueRule"), modifier,
+                        "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]");
+                }
                 modifierIndex++;
             }
         }
@@ -1607,6 +1653,43 @@ public final class SkillNumericSemantics {
                 if (!finite(effective) || effective.compareTo(Fraction.of(BigDecimal.ZERO)) < 0
                     || effective.compareTo(Fraction.of(BigDecimal.ONE)) > 0) {
                     throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "连乘的有效比例必须有限且位于0到1之间");
+                }
+            }
+        }
+
+        private void validateGroupedAmplification(Aggregate source, Use use, JsonNode valueRule,
+            JsonNode modifier, String path) {
+            if (use == null) throw invalid(source, path, "REQUIRED", "同组增幅必须明确提供非负比例");
+            Map<Levels, Fraction> known = optionalStaticValues(use);
+            if (known == null || known.isEmpty()) {
+                throw invalid(source, path, "STATIC_GROUP_RATIO_REQUIRED", "同组增幅比例必须在全部声明等级静态核定");
+            }
+            String rulePath = use.path().endsWith(".value") ? use.path().substring(0, use.path().length() - 6) : use.path();
+            validateGroupedRule(use.source(), valueRule, rulePath);
+            if (modifier != null) validateGroupedRule(source, modifier, path);
+            for (Fraction raw : known.values()) {
+                if (!finite(raw) || raw.numerator().signum() < 0) {
+                    throw invalid(source, path, "VALUE_RANGE_INVALID", "同组增幅原始比例必须有限且不小于零");
+                }
+                Fraction effective = applyFixedRule(raw, valueRule);
+                if (!finite(effective) || effective.numerator().signum() < 0) {
+                    throw invalid(source, path, "VALUE_RANGE_INVALID", "同组增幅有效比例必须有限且不小于零");
+                }
+                if (modifier != null) effective = applyFixedRule(effective, modifier);
+                if (!finite(effective) || effective.numerator().signum() < 0) {
+                    throw invalid(source, path, "VALUE_RANGE_INVALID", "结果修正后的同组增幅比例必须有限且不小于零");
+                }
+            }
+        }
+
+        private void validateGroupedRule(Aggregate source, JsonNode rule, String path) {
+            for (String field : List.of("fixedMultiplier", "fixedMinValue", "fixedMaxValue")) {
+                if (!rule.hasNonNull(field)) continue;
+                JsonNode node = rule.path(field);
+                if (!node.isNumber()) throw invalid(source, path + "." + field, "VALUE_SHAPE_INVALID", "同组增幅修正规则必须是明确数值");
+                Fraction value = Fraction.of(node.decimalValue());
+                if (!finite(value) || "fixedMultiplier".equals(field) && value.numerator().signum() < 0) {
+                    throw invalid(source, path + "." + field, "VALUE_RANGE_INVALID", "同组增幅固定倍率必须有限非负，边界必须有限");
                 }
             }
         }

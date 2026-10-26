@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"strings"
 	"testing"
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"

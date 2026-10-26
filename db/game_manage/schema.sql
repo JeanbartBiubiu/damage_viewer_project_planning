@@ -405,7 +405,7 @@ CREATE TABLE public.modifier_zones (
     CONSTRAINT ck_modifier_zones_domain
         CHECK (domain IN ('ATTRIBUTE', 'DAMAGE', 'HEALING', 'SHIELD')),
     CONSTRAINT ck_modifier_zones_calculation_mode
-        CHECK (calculation_mode IN ('FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY', 'RATIO_MAX')),
+        CHECK (calculation_mode IN ('FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY', 'RATIO_MAX', 'RATIO_GROUP_ADD')),
     CONSTRAINT ck_modifier_zones_application_stage
         CHECK (application_stage IN (
             'ATTRIBUTE_FLAT', 'ATTRIBUTE_PERCENT',
@@ -415,9 +415,9 @@ CREATE TABLE public.modifier_zones (
         CHECK (
             (domain = 'ATTRIBUTE' AND calculation_mode = 'FLAT_ADD'
                 AND application_stage = 'ATTRIBUTE_FLAT')
-            OR (domain = 'ATTRIBUTE' AND calculation_mode IN ('RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY')
+            OR (domain = 'ATTRIBUTE' AND calculation_mode IN ('RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY', 'RATIO_GROUP_ADD')
                 AND application_stage = 'ATTRIBUTE_PERCENT')
-            OR (domain = 'DAMAGE' AND calculation_mode = 'RATIO_ADD'
+            OR (domain = 'DAMAGE' AND calculation_mode IN ('RATIO_ADD', 'RATIO_GROUP_ADD')
                 AND application_stage IN ('DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'))
             OR (domain = 'DAMAGE' AND calculation_mode = 'RATIO_MULTIPLY'
                 AND application_stage = 'DAMAGE_POST_DEFENSE')

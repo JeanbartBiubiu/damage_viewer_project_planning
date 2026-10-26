@@ -1,5 +1,7 @@
 # TinyGo Engine V2
 
+基础五包归集在 `internal/base/`，运行状态按数值、行动、效果、报告分包，执行层统一协调提交，根入口组合唯一时钟及队列。`multiplierGroupKey`（增幅组标识）只开放总属性及防御前/后伤害增幅；同组因子为 `1+Σ(f-1)`，各倍率有限且不小于1，原有次数范围不充当组标识。编译检查完整依赖及可能共存的优先级带，运行按实际有效成员求值、成功后逐成员消费，精确到期即排除；关联盾、施加快照、生命上限等特殊图不会因新增字段自动准入。完整契约及分层结果见[实施设计](../../文档记录/详细设计/项目/运行时子系统拆分与数值修正分组实施详细设计.md)和[验收摘要](../../文档记录/测试记录/项目/共同公式与引擎重构验收摘要.md)。
+
 真实角色的永久纯周期伤害复用现有周期队列：完整初始化作者图、单周期单伤害、正首延迟与间隔、真实双方及新鲜挂载统一核对；无后台普攻时仍取该拥有者的真实对手，按既有死亡停止规则结束。编译期私有标志只识别伤害周期，保留旧非伤害时钟。外部具体或相对能力引用不能直接调用该周期。唯一边界见[角色常驻周期伤害契约](../../outputs/skill-adaptation-20261023-amumu/角色常驻周期伤害契约.md)。阿木木W的保护保存、实际组件及整英雄分别验收。
 
 真实主动命中可施加有限目标受治疗降低。编译器复核同技能原挂载与首次绑定、单层纯治疗修正、静态正期限，以及更早的稳定全技能伤害判盾见证；减疗自身必须明确要求未被阻挡。命中候选按原顺序提交，施加、刷新、到期及同组取强沿已有运行路径，不新增协议或运行时分支。作者强度及期限只接固定值或静态参数，详情见[真实命中有限减疗共享契约](../../outputs/skill-adaptation-20261023-varus/真实命中有限减疗共享契约.md)。初始通用法盾的判盾证据和消费证据分别说明，不据此扩展作者初始化范围。
@@ -49,25 +51,25 @@ TinyGo编译的浏览器内计算引擎。正式业务入口为 `engine_compile`
 
 属性比例的剩余量连乘使用 `valuePolicy=complement_multiply` 与 `stage=total`，不依赖属性名称。所有既有加算、乘算等修正先保持原序完成，再计算 `1-(1-原修正结果)×各项(1-比例)`；原修正结果及每项比例必须有限且在[0,1]。例如0.4与0.1合成为0.46，再加一项0.1为0.514。未使用该策略的属性继续按既有顺序计算。
 
-有限、单层、覆盖刷新且明确 `source_target` 实例范围的动态属性修正，以及显式声明当前时点求值的普通减速，可读取 `provider.elapsed_ms`。真正依赖该值或明确声明该减速模式的实例快照保存可空 `appliedAtMs`（0合法），新施加及覆盖刷新重置时间；恢复拒绝缺失、负值和未来时间。不开放普通伤害、初始挂载或持续时间自身。时间依赖使对应属性计划保守不复用缓存，不使其他计划失效，不新增中间计时事件。专项原生回归入口：`go test -count=1 ./internal/compile ./internal/runtime -run 'Test(Compile.*Shield|LinkedShield|CompileProviderElapsed|ProviderElapsed|CompileMomentSlow|MomentSlow)'`；最终Wasm与宿主验证仍单独执行。
+有限、单层、覆盖刷新且明确 `source_target` 实例范围的动态属性修正，以及显式声明当前时点求值的普通减速，可读取 `provider.elapsed_ms`。真正依赖该值或明确声明该减速模式的实例快照保存可空 `appliedAtMs`（0合法），新施加及覆盖刷新重置时间；恢复拒绝缺失、负值和未来时间。不开放普通伤害、初始挂载或持续时间自身。时间依赖使对应属性计划保守不复用缓存，不使其他计划失效，不新增中间计时事件。专项原生回归入口：`go test -count=1 ./internal/compile ./internal/runtime/... ./tests/runtime -run 'Test(Compile.*Shield|LinkedShield|CompileProviderElapsed|ProviderElapsed|CompileMomentSlow|MomentSlow)'`；最终Wasm与宿主验证仍单独执行。
 
 同刻的其他到期事件可能先触发属性重算。此时只排除已经达到真实到期时间、且应用时间完整有效的实例时间修正；原清理事件继续负责实例移除、证据及预算。缺失、未来或非法应用时间仍报错，不借过期判断补0或隐藏错误。回归另覆盖0和非0时刻施加、双方同时到期的先后顺序及重施旧到期事件。
 
-普攻等待的生命周期预检独立保存操作投影标记，不能把私有预检中的移除标成父帧已经执行。资源上限与普通控制同场时，真实到期队列仍在精确期限移除实例并保留到期事实；重施后的旧期限、汇总模式和零明细预算不改变这一结果。定向回归：`go test -count=1 ./internal/runtime -run 'Test(BasicAttackWaitPreviewKeepsParentLifecycleMutations|ResourceMaxMomentQueued)'`。
+普攻等待的生命周期预检独立保存操作投影标记，不能把私有预检中的移除标成父帧已经执行。资源上限与普通控制同场时，真实到期队列仍在精确期限移除实例并保留到期事实；重施后的旧期限、汇总模式和零明细预算不改变这一结果。定向回归：`go test -count=1 ./internal/runtime/... ./tests/runtime -run 'Test(BasicAttackWaitPreviewKeepsParentLifecycleMutations|ResourceMaxMomentQueued)'`。
 
 根命中内的有序结果候选各自提交后，在实际声明伤害事件且该候选产生正伤害时，派发一笔 `event/damage_dealt`（已造成伤害事件）。候选保留原施放和使用身份，普通攻击仍只有一次父命中；资格仅由本次根 `resolve_skill_hit`（命中结算）建立，不由旧事件或法术护盾缓存恢复，不降低真实调用深度，也不扩到监听、复制、周期或强化待击尾部。未声明规则组的候选保留原提交和同步派生顺序。
 
 可选 `ruleGroups`（命中规则组）将同一真实技能命中规则的连续候选绑定到已有同次使用额度；省略或空列表沿原逐候选路径。宿主从完整作者规则核定全部动作，原生只验证所给成员存在、稳定顺序、连续且不交叉，以及共同参与条件、事件条件和真实供值来源一致，不能重建未提供的作者动作。组仅支持实际 `SKILL_HIT`（技能命中）、原始静态父挂载和真实使用；不支持首次接触比较、普攻或强化普攻负载，操作沿已有额度直接执行门禁。规则共同谓词独立冻结，护盾消费保留候选不能充当规则匹配；匹配后即使全部写入被阻挡，成功提交仍占额，显式要求未阻挡而失败的规则不占额。
 
-同组候选在一个暂存帧中按原顺序执行，逐候选隔离 `operation.output`，各自保留伤害事件口径；全部操作及原队列预检通过后与额度一起提交，再派发暂存事件。提交前失败释放预留，保留此前已提交的其它组和父命中；提交后派生失败保留已提交额度。组与监听器共用同一拥有者、真实挂载、共享键、范围及真实使用账，编译统一拒绝同键范围冲突，恢复仍核真实挂载、来源、技能和旧预算。组完成后再进入普通命中监听分发，二者没有新增作者全序。原生入口：`go test -count=1 ./internal/compile ./internal/runtime -run 'Test(CompileSkillHitRuleGroup|SkillHitRuleGroup|CompileOncePerUse|ExecutionBudgetUseLedger)'`；正式Wasm、分配及浏览器由最终集成另行验证。
+同组候选在一个暂存帧中按原顺序执行，逐候选隔离 `operation.output`，各自保留伤害事件口径；全部操作及原队列预检通过后与额度一起提交，再派发暂存事件。提交前失败释放预留，保留此前已提交的其它组和父命中；提交后派生失败保留已提交额度。组与监听器共用同一拥有者、真实挂载、共享键、范围及真实使用账，编译统一拒绝同键范围冲突，恢复仍核真实挂载、来源、技能和旧预算。组完成后再进入普通命中监听分发，二者没有新增作者全序。原生入口：`go test -count=1 ./internal/compile ./internal/runtime/... ./tests/runtime -run 'Test(CompileSkillHitRuleGroup|SkillHitRuleGroup|CompileOncePerUse|ExecutionBudgetUseLedger)'`；正式Wasm、分配及浏览器由最终集成另行验证。
 
 弹药在原有整匣回充 `all_at_once/when_empty` 之外，支持逐枚回充 `one_by_one/after_consume`，可绑定真实主动 `INITIAL` 首次控制。库存大于零时可以继续施放，继续扣弹不会重置正在运行的充能。逐枚模式欠弹时须在 `ammoRecovery.initialRemainingMs` 明确提供首枚余时（数字或同技能严格静态引用，0有效）；满弹及整匣模式禁止提供。余时为非负安全整数，不超过初始化时完整间隔；不从库存或技能学习时库存推测。
 
 等待按拥有者、实际供值器引用和状态字段分别保存，目标方未被驱动的主动来源不启动回充。`state_duration_change/subtract` 可在同供值器的逐枚弹药上缩短下一枚等待；超出部分钳到当前时刻且丢弃，仍由独立到期事件补一枚，不改变单发冷却。无等待时不求减时金额。旧事件、重复事件、移除实例和队列预算失败均不能多补弹或留下部分写入；同供值器的普通整数状态继续使用既有过程时点操作，不扩大 `use.ammo.before` 的读取范围。仅支持时间零的新运行，不恢复运行中充能。
 
-原生定向入口：`go test -count=1 ./internal/runtime -run 'ActiveAmmo|AmmoAttack|AmmoCompilation|AmmoRecovery|AmmoCapture|AutomaticSkill'`。这些检查只证明通用原生机制；正式 Wasm、浏览器宿主和真实作者来源的验证由集成时另行完成，不能据此开放英雄目录。
+原生定向入口：`go test -count=1 ./internal/runtime/... ./tests/runtime -run 'ActiveAmmo|AmmoAttack|AmmoCompilation|AmmoRecovery|AmmoCapture|AutomaticSkill'`。这些检查只证明通用原生机制；正式 Wasm、浏览器宿主和真实作者来源的验证由集成时另行完成，不能据此开放英雄目录。
 
-`ATTRIBUTE_CHANGE/PERSISTENT/TARGET`（目标有期属性变化）可以映射为一次严格纯属性实例施加：有限正期限、单层、覆盖刷新、明确来源与目标范围、无能力、监听、状态、过程、周期、护盾和状态贡献，仅自身非生命属性的有限静态平加或[0,1]整体乘数。全部定义编译后再次检查真实完整定义，防止后置能力或监听绕过；执行候选前核对实际命中目标的全部对应属性槽，缺失报错且该候选不挂实例，明确的0值合法。实例、到期、属性失效及伤害继续使用原运行路径；即时属性及来源方持久属性范围不扩大。局部回归：`go test -count=1 ./internal/compile ./internal/runtime -run 'Test(CompileSkillHitFinite|SkillHitFiniteTarget|RootSkillHitCandidate|SkillHitOldContext)'`；正式产物与旧请求对照见 `target/corki-semantics-2026-10-18/slot-fix/`，真实作者和浏览器验证另行记录。
+`ATTRIBUTE_CHANGE/PERSISTENT/TARGET`（目标有期属性变化）可以映射为一次严格纯属性实例施加：有限正期限、单层、覆盖刷新、明确来源与目标范围、无能力、监听、状态、过程、周期、护盾和状态贡献，仅自身非生命属性的有限静态平加或[0,1]整体乘数。全部定义编译后再次检查真实完整定义，防止后置能力或监听绕过；执行候选前核对实际命中目标的全部对应属性槽，缺失报错且该候选不挂实例，明确的0值合法。实例、到期、属性失效及伤害继续使用原运行路径；即时属性及来源方持久属性范围不扩大。局部回归：`go test -count=1 ./internal/compile ./internal/runtime/... ./tests/runtime -run 'Test(CompileSkillHitFinite|SkillHitFiniteTarget|RootSkillHitCandidate|SkillHitOldContext)'`；正式产物与旧请求对照见 `target/corki-semantics-2026-10-18/slot-fix/`，真实作者和浏览器验证另行记录。
 
 ## 普攻主体替换
 
@@ -75,7 +77,7 @@ TinyGo编译的浏览器内计算引擎。正式业务入口为 `engine_compile`
 
 替换伤害、待击完成、盾消费及可靠累计同帧暂存，预算或错误不提交组内写入；此前候选已经提交的结果保留。`ProcessEmpoweredAttack.replacedPrimary` 保存真实普攻完整静态身份，激活使用与实际攻击仍分别保留。`basicAttack.primaryReplacements` 按编译绑定和目标累计次数、阻挡与三种伤害口径，独立于明细数量和输出模式；没有实际替换则省略新输出。仅替换负载继承本次根候选的正伤害事件资格，事件按真实普攻分类、按实际替换作者与激活使用归属；时点操作、盾监听及旧附加不继承。
 
-定向验证为 `go test -count=1 ./internal/runtime -run TestPrimaryReplacement`，覆盖顺序、旧附加、盾与错误回滚、精确期限、来源变化、同刻冲突、两种挂载身份、记录模式、致死、会话重复及普通入口绕过。该测试是通用原生机制证据，真实三牌作者与浏览器工作线程另外验收。过程快照恢复仍明确拒绝强化待击，超时仍按现行 `EVENT_ABORTED` 失败，不改变公开恢复及冷却时点语义。
+定向验证为 `go test -count=1 ./internal/runtime/... ./tests/runtime -run TestPrimaryReplacement`，覆盖顺序、旧附加、盾与错误回滚、精确期限、来源变化、同刻冲突、两种挂载身份、记录模式、致死、会话重复及普通入口绕过。该测试是通用原生机制证据，真实三牌作者与浏览器工作线程另外验收。过程快照恢复仍明确拒绝强化待击，超时仍按现行 `EVENT_ABORTED` 失败，不改变公开恢复及冷却时点语义。
 
 ## 剖析与分配复现入口
 
@@ -87,13 +89,13 @@ TinyGo编译的浏览器内计算引擎。正式业务入口为 `engine_compile`
 
 永久生命初始化使用 `preserve_initial_current`（保留场景显式当前值），只接受实际已挂载自然角色的唯一来源初始化监听、自身静态非负生命平加、无期限单层效果。该角色父来源可保留同技能完整主动过程，永久效果不得被能力、过程时点或其它监听引用。原生先独立验证自然基础生命与所选装备静态生命，再核对真实永久贡献和输入上限，原子安装效果实例及贡献；当前生命保留且不加满、不夹取。原来源初始化只跳过已消费的精确操作，其它合法初始化照常执行。初始化证据 `resource_max_initialized` 保存容量锚点、永久贡献、上限、当前值和完整原挂载、监听、操作与新效果归属；永久贡献不计战斗增量记录和汇总。后续有限容量从真实永久实例重建，不能重复增加或丢失这部分容量。只接全新0毫秒状态，同会话重复运行各自初始化；既有实例和非零快照续跑仍拒绝。生命最大值减基础值沿现有 `MAX−BASE` 表达，不改变总值或额外值映射。
 
-资源上限会话通过冷初始化后，存活属性重建的普通与派生成功出口均保持 `hp.Resolved=hp.Current`（生命解析值等于当前生命）；状态施加、刷新、移除、到期及当前时点减速的安静终点观察也遵守同一不变量。它不改当前值、上限、天然基础、战斗增量或输入准入前的上限校验；无资源上限授权的旧会话保持原语义。回归入口：`go test -count=1 ./internal/runtime -run 'Test(ResourceMaxMoment|PermanentResourceMax|MomentSlow)'`。
+资源上限会话通过冷初始化后，存活属性重建的普通与派生成功出口均保持 `hp.Resolved=hp.Current`（生命解析值等于当前生命）；状态施加、刷新、移除、到期及当前时点减速的安静终点观察也遵守同一不变量。它不改当前值、上限、天然基础、战斗增量或输入准入前的上限校验；无资源上限授权的旧会话保持原语义。回归入口：`go test -count=1 ./internal/runtime/... ./tests/runtime -run 'Test(ResourceMaxMoment|PermanentResourceMax|MomentSlow)'`。
 
 只有编译会话包含 `resource_max` 时，结果返回 `resourceChangeRecords`、`resourceChangeSummary` 和对应 recording 四字段，伤害/直接治疗记录共用 `healthOrder`；无授权旧场景全部省略。资源变化独立于治疗/吸血，累计不受明细预算影响。预算 `maxResourceChangeRecords` 缺省1000、范围0—10000；仅汇总返回空数组和 returned=0，预算内虚拟保留不算 dropped，truncated 只表示预算溢出，沿既有记录口径。完整明细可按 healthOrder 合并核对当前值与上限两条守恒；失败帧不发布事实，顺序允许空号。
 
 `cooldown_duration` 只接有限自身正倍率和明确 `affectedAbilityRefs`（空数组是无匹配），引用编译为实际 INITIAL 拥有者、挂载及能力编号。倍率只在新的过程冷却提交时乘原公式结果，再统一取整；旧 readyAt 不追溯修改，有效期严格为施加时刻至到期时刻之前。
 
-本轮定向检查：`go test -count=1 ./internal/model ./internal/formula ./internal/compile ./internal/pipeline ./internal/runtime -run 'ProcessStartState|ResourceMax|CooldownDuration|DynamicModifier|TotalAttribute|AttributeTotal'`。原生通用能力通过不等于真实英雄开放；正式 Wasm、工作线程、真实作者和目录证明由集成验收另行给出。单次1ms专项继续暂停，不改变256MiB内存、出口回收或计算精度。
+本轮定向检查：`go test -count=1 ./internal/model ./internal/formula ./internal/compile ./internal/pipeline ./internal/runtime/... ./tests/runtime -run 'ProcessStartState|ResourceMax|CooldownDuration|DynamicModifier|TotalAttribute|AttributeTotal'`。原生通用能力通过不等于真实英雄开放；正式 Wasm、工作线程、真实作者和目录证明由集成验收另行给出。单次1ms专项继续暂停，不改变256MiB内存、出口回收或计算精度。
 
 在本模块目录运行；将`input-1.json`换成`input-0.json`即为无装备场景。正式采样报告的往返包含宿主和GC，不能当纯计算。
 
@@ -112,19 +114,34 @@ CPU报告仅筛选实际栈中含`runLoop`的样本，按叶函数汇总自身�
 ```text
 cmd/engine_wasm/          TinyGo 导出：alloc/dealloc + engine_compile/run/release_session + outbox_*
 cmd/bench/                原生 Go benchmark（generic|generic-run；不支持/未知参数非零退出）
-internal/abi/             frame header、outbox、内存桥接
+internal/base/            稳定基础层，五个叶目录各自独立成包
+internal/base/abi/        二进制帧、输出缓冲区、内存桥接
+internal/base/attribute/  属性槽、不可变分页与编辑器
+internal/base/expression/ 纯公式编译、数学原语与数值求值
+internal/base/inputbinding/ 声明输入到只读数值的绑定
+internal/base/typeset/    类型编号、位集合和匹配
 internal/model/           generic*.go 为 canonical DTO；types.go 仅保留仍被引用的共享基础类型
 internal/compile/         CompileGeneric → CompiledSession
-internal/runtime/         Session registry + RunGeneric / generic execution
-internal/scheduler/       generic 稳定事件堆
+internal/runtime/         会话注册、身份校验与单次运行组合
+internal/runtime/execution/ 帧、命中、监听与统一提交
+internal/runtime/actor/    角色数值存储与暂存变更
+internal/runtime/action/   过程、普攻、自动/手动、冷却与弹药
+internal/runtime/effect/   实例、状态、护盾与修正集合
+internal/runtime/report/   累计、有限明细与采样
+internal/runtime/contract/ 身份及只读交换值
+internal/scheduler/       唯一运行循环、时钟、稳定堆与停止状态
 internal/formula/         generic formula compile/eval
-internal/typeset/         flat type catalog/matcher
 internal/pipeline/        数值变更统一 resolver
-internal/{attribute,resource,command,status,shield,...}/  支撑子系统
+internal/{resource,command,status,shield,...}/  业务支撑子系统
 internal/testkit/         fixture、ABI helper（含 generic_p0_*）
+tests/runtime/           经根会话与公开运行入口的组合回归
 scripts/                  构建、generic ABI smoke、Node benchmark
 targets/wasm-256m.json    256 MiB TinyGo wasm target
 ```
+
+基础层默认不随普通业务迭代修改，变更例外、依赖白名单与独立验证入口见[基础层说明](internal/base/README.md)及[协作规则](internal/base/AGENTS.md)。战斗上下文仍由外层 `formula` 绑定。
+
+根运行入口为每次运行创建一个 `scheduler.Loop`，执行器借用同一时钟和队列。行动、效果、数值及报告各自持有私有状态；执行协调通过只读视图和暂存变更统一发布。生产包边界由 `node scripts/check-package-boundaries.mjs` 根据实际Go导入检查，旧五叶包路径和根业务回流会直接失败。包内单测随实现维护，组合回归位于 `tests/runtime/`，两者均由 `go test ./...` 执行。
 
 ## 核心数据流
 
@@ -152,6 +169,8 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 
 ```powershell
 go test -count=1 ./...
+node scripts/check-package-boundaries.mjs
+node --test scripts/check-package-boundaries.test.mjs
 go run ./cmd/bench
 powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1
 node .\scripts\smoke-node.mjs
@@ -310,7 +329,7 @@ Per-cast throttle 安全边界：
 专项验证使用独立构造的 `internal/testkit/fixtures/generic_vamp_damage.json`，不修改或复制原基准样例。最终构建后运行：
 
 ```powershell
-go test -count=1 ./internal/compile ./internal/runtime -run '^TestVamp'
+go test -count=1 ./internal/compile ./internal/runtime/... ./tests/runtime -run '^TestVamp'
 node .\scripts\vamp-smoke-node.mjs
 ```
 
@@ -330,7 +349,7 @@ node .\scripts\vamp-smoke-node.mjs
 专项验证使用独立构造的 `internal/testkit/fixtures/generic_status_merge_slow.json` 与 `generic_heal_ratio_max.json`，不修改或复制原基准样例。最终构建后运行：
 
 ```powershell
-go test -count=1 ./internal/compile ./internal/runtime -run 'Status|HealRatioMax|Slow'
+go test -count=1 ./internal/compile ./internal/runtime/... ./tests/runtime -run 'Status|HealRatioMax|Slow'
 node .\scripts\status-merge-smoke-node.mjs
 ```
 
@@ -352,7 +371,7 @@ node .\scripts\status-merge-smoke-node.mjs
 专项验证使用独立构造的 `internal/testkit/fixtures/generic_skill_hit.json`，不修改或复制原基准样例。最终构建后运行：
 
 ```powershell
-go test -count=1 ./internal/compile ./internal/runtime ./internal/formula ./internal/model -run 'SkillHit'
+go test -count=1 ./internal/compile ./internal/runtime/... ./tests/runtime ./internal/formula ./internal/model -run 'SkillHit'
 node .\scripts\skill-hit-smoke-node.mjs
 ```
 
@@ -374,7 +393,7 @@ node .\scripts\skill-hit-smoke-node.mjs
 专项验证使用独立构造的 `internal/testkit/fixtures/generic_p6.json`，不修改或复制原基准样例。最终构建后运行：
 
 ```powershell
-go test -count=1 ./internal/compile ./internal/runtime ./internal/formula ./internal/model -run 'P6|OncePerUse|BasicAttack|OutputRef|StartOnFirstWrite'
+go test -count=1 ./internal/compile ./internal/runtime/... ./tests/runtime ./internal/formula ./internal/model -run 'P6|OncePerUse|BasicAttack|OutputRef|StartOnFirstWrite'
 node .\scripts\p6-smoke-node.mjs
 ```
 
@@ -395,7 +414,7 @@ node .\scripts\p6-smoke-node.mjs
 
 方案唯一来源为规划工作树《管理页面与共性机制迭代计划》第4项 `casting-runtime-r2`。过程定义位于 `ProviderDefinition.processes`，能力继续使用 `kind=active`，由 `processControl.action` 声明首次施放、重施、蓄力释放、取消或中断。过程控制只接受单次驱动与明确 `processCommandFacts`，绑定已有真实 `skillUses`。
 
-普通攻击计时重置沿用 `cooldown_change / set_remaining`：仅过程开始时、同一实际拥有者、目标为自身、完整真实普攻首次控制引用、金额可静态折叠为0时，允许该项跨过程重置。原过程自身冷却及其它跨引用限制保留；不直接生成攻击，也不越过行动占用、弹药与版本校验。`go test -count=1 ./internal/runtime -run '^TestBasicAttackReset'` 覆盖两套异名身份、真实等待、同帧先后、失败原子性及负例；该原语不代表强化待击消费或整套英雄Q已经接入。正式构建及逐字节回归、分配对照记录在本模块 `target/priority-adaptation-2026-10-18/`，摘要收录于规划工作树同日期验收记录。
+普通攻击计时重置沿用 `cooldown_change / set_remaining`：仅过程开始时、同一实际拥有者、目标为自身、完整真实普攻首次控制引用、金额可静态折叠为0时，允许该项跨过程重置。原过程自身冷却及其它跨引用限制保留；不直接生成攻击，也不越过行动占用、弹药与版本校验。`go test -count=1 ./internal/runtime/... ./tests/runtime -run '^TestBasicAttackReset'` 覆盖两套异名身份、真实等待、同帧先后、失败原子性及负例；该原语不代表强化待击消费或整套英雄Q已经接入。正式构建及逐字节回归、分配对照记录在本模块 `target/priority-adaptation-2026-10-18/`，摘要收录于规划工作树同日期验收记录。
 
 - 首期支持顺序 `IMMEDIATE`（即时）、`DELAY`（延时），末尾一个 `CHARGE`（蓄力）或 `RECAST`（单次重施）。步骤时长在进入时严格求值并冻结，不接旧分步引擎，也不按英雄名判断。
 - 所有成本逐笔求值并检查有限非负，同资源聚合后统一检查、原子扣款。实例 `actualCosts` 记录扣前扣后差额；完成或失败时点可读取 `process.actual_cost.<资源键>`，属性后来变化不重算历史账。
@@ -407,7 +426,7 @@ node .\scripts\p6-smoke-node.mjs
 专项输入全部为明确合成机制样例，不代表任意管理过程或整英雄已装配。原生与真实 Node Wasm 验证入口：
 
 ```powershell
-go test -count=1 ./internal/compile ./internal/runtime ./internal/model ./internal/formula ./internal/scheduler -run 'Process|P6|SkillHit|Cooldown'
+go test -count=1 ./internal/compile ./internal/runtime/... ./tests/runtime ./internal/model ./internal/formula ./internal/scheduler -run 'Process|P6|SkillHit|Cooldown'
 node .\scripts\p4-runtime-smoke.mjs
 ```
 
@@ -423,7 +442,7 @@ node .\scripts\p4-runtime-smoke.mjs
 
 自动后项若实际消费强化因果链中的资格，完整过程另以可选 `empoweredPredecessorUseRef`（直接资格前项使用）保留每次真实前项；只有成功开始才提交，不依赖可截断日志或最后一次汇总。普通旧资格链省略该字段，任何携该新事实的快照恢复均拒绝。宿主可据完整链核对同刻发生的“普攻先命中，后项才开始占用”，不能仅因毫秒相同忽略行动占用。
 
-该机制不等于任意英雄完整技能可用。当前共享语义以规划工作树 `outputs/priority-adaptation-2026-10-18/强化下一次普攻运行现行契约.md` 为准；两套异名用例位于 `internal/runtime/generic_empowered_attack_test.go`，正式产物与浏览器证据另行验收。
+该机制不等于任意英雄完整技能可用。当前共享语义以规划工作树 `outputs/priority-adaptation-2026-10-18/强化下一次普攻运行现行契约.md` 为准；两套异名用例位于 `internal/runtime/execution/empowered_attack_test.go`，正式产物与浏览器证据另行验收。
 
 ### 有限多次普攻强化窗口
 
@@ -437,11 +456,11 @@ node .\scripts\p4-runtime-smoke.mjs
 
 具名技能公式的 `RUNTIME_INPUT` 参数可显式声明 `runtimeSource.kind=ability_parameter`（实际能力参数来源），沿原 `parameterKey` 读取同技能实际能力的 `params`。禁止声明 `resourceKey` 或默认 `value`；缺值、非有限数、整数声明的小数或超安全整数均在真正读取时拒绝，合法0及未选择分支保持原语义。无来源运行输入不借用同名能力参数，条件、静态位置和外技能供值器继续拒绝此来源。宿主负责采集已经验证的场景属性，不由原生猜测名称或补值。
 
-场景显式初值仍保留作者的 `valueMode=RUNTIME_INPUT`，由宿主提供 `runtimeSource: {kind: "scene_parameter", value: <明确有限数>}`。该来源只含 `kind/value`，不接受缺值、null、其它类型或 `resourceKey`；其它来源禁止携带 `value`，参数顶层仍禁止运行输入默认值。原生在编译时独立检查有限数，`INTEGER` 另需安全整数，0及负数合法；业务上下界由声明与宿主核验。编译时深拷贝来源和数值，静态折叠、元数据及实际读取使用同一冻结值，不依赖能力上下文、不增加状态或事件；原技能归属检查和其它来源限制保持原规则。专项原生入口为 `go test -count=1 ./internal/model ./internal/formula ./internal/compile ./internal/runtime -run SceneParameter`，正式Wasm与宿主验证由集成任务执行。
+场景显式初值仍保留作者的 `valueMode=RUNTIME_INPUT`，由宿主提供 `runtimeSource: {kind: "scene_parameter", value: <明确有限数>}`。该来源只含 `kind/value`，不接受缺值、null、其它类型或 `resourceKey`；其它来源禁止携带 `value`，参数顶层仍禁止运行输入默认值。原生在编译时独立检查有限数，`INTEGER` 另需安全整数，0及负数合法；业务上下界由声明与宿主核验。编译时深拷贝来源和数值，静态折叠、元数据及实际读取使用同一冻结值，不依赖能力上下文、不增加状态或事件；原技能归属检查和其它来源限制保持原规则。专项原生入口为 `go test -count=1 ./internal/model ./internal/formula ./internal/compile ./internal/runtime/... ./tests/runtime -run SceneParameter`，正式Wasm与宿主验证由集成任务执行。
 
-自动技能额外接受单步骤有限 `CHANNEL`（引导），仍要求显式行动占用、正冷却及有限次数。时间和次数沿真实首次能力在进入时求值、冻结；每段均产生真实命中，末段提前结束也保持完整引导期限，完成后才按作者时点开始冷却及授予后项资格。恢复使用已有冻结进度，不重新读取次数或首末偏移。其它多步骤和手动重施、蓄力的自动准入保持关闭。共享语义以规划工作树 `outputs/priority-adaptation-2026-10-18/有限引导与场景属性快照现行契约.md` 为准；原生专项入口为 `go test -count=1 ./internal/model ./internal/inputbinding ./internal/formula ./internal/compile ./internal/runtime -run 'AbilityParameter|AutomaticFiniteChannel|SafeInteger'`，正式产物及浏览器证据由宿主集成另行验收。
+自动技能额外接受单步骤有限 `CHANNEL`（引导），仍要求显式行动占用、正冷却及有限次数。时间和次数沿真实首次能力在进入时求值、冻结；每段均产生真实命中，末段提前结束也保持完整引导期限，完成后才按作者时点开始冷却及授予后项资格。恢复使用已有冻结进度，不重新读取次数或首末偏移。其它多步骤和手动重施、蓄力的自动准入保持关闭。共享语义以规划工作树 `outputs/priority-adaptation-2026-10-18/有限引导与场景属性快照现行契约.md` 为准；原生专项入口为 `go test -count=1 ./internal/model ./internal/base/inputbinding ./internal/formula ./internal/compile ./internal/runtime/... ./tests/runtime -run 'AbilityParameter|AutomaticFiniteChannel|SafeInteger'`，正式产物及浏览器证据由宿主集成另行验收。
 
-主动技能在首次普攻之前修改共同冷却时，已有等待版本变化也会进入通用唤醒准备和提交；没有攻速、弹药或行动占用路径负责时，更新唯一排程节点并保留序号，缺节点先检查队列预算。不会直接制造攻击或绕过存活检查。原生回归可运行 `go test -count=1 ./internal/runtime -run 'BasicAttack.*Reset|FirstBasicAttack'`；正式产物、旧版异名复现及整英雄验证见规划工作树 `outputs/priority-adaptation-2026-10-18/首次普攻等待唤醒修补.md`。
+主动技能在首次普攻之前修改共同冷却时，已有等待版本变化也会进入通用唤醒准备和提交；没有攻速、弹药或行动占用路径负责时，更新唯一排程节点并保留序号，缺节点先检查队列预算。不会直接制造攻击或绕过存活检查。原生回归可运行 `go test -count=1 ./internal/runtime/... ./tests/runtime -run 'BasicAttack.*Reset|FirstBasicAttack'`；正式产物、旧版异名复现及整英雄验证见规划工作树 `outputs/priority-adaptation-2026-10-18/首次普攻等待唤醒修补.md`。
 
 ### 有界目标相位与预约
 
@@ -449,4 +468,4 @@ node .\scripts\p4-runtime-smoke.mjs
 
 同父 `stateful` 能力可声明 `targetExpirySpec`（目标预约到期负载），只在其真实目标预约到期时执行最多12叶、恰一笔完整伤害的闭合负载，不能被驱动或能力引用直接调用。预约消费与整个负载同帧；重挂只准目标仍存活的统一条件。新时序来源在计时恢复前拒绝非默认值、正期限或非空目标绑定；不提供相位恢复，旧来源恢复门不变。
 
-条件专用 `event.provider_target_state_before.<key>`（本笔扣血前目标计数）只绑定真实自身逐笔伤害监听。普通有期限或无期限整数都按本笔暂存值冻结；缺目标或真实正期限已过读0，缺声明冻结事实报错。详细证据 `damage_state_before` 严格保留 `damageId/owner/providerRef/definitionRef/stateKey/target/beforeValue` 七项；相关返蓝保留真实触发伤害编号及双方，周期没有真实使用时仍为空使用。汇总和截断只影响展示。没有该读取的会话不开启逐伤采集。专项入口为 `go test -count=1 ./internal/model ./internal/compile ./internal/runtime -run 'TargetTiming|PhasedTarget|TargetExpiry|DamageStateBefore'`；正式 Wasm 与生产适配验收由集成任务另行执行。共享语义见根目录 `outputs/skill-adaptation-20261022-brand/有界目标时序共享契约.md`。
+条件专用 `event.provider_target_state_before.<key>`（本笔扣血前目标计数）只绑定真实自身逐笔伤害监听。普通有期限或无期限整数都按本笔暂存值冻结；缺目标或真实正期限已过读0，缺声明冻结事实报错。详细证据 `damage_state_before` 严格保留 `damageId/owner/providerRef/definitionRef/stateKey/target/beforeValue` 七项；相关返蓝保留真实触发伤害编号及双方，周期没有真实使用时仍为空使用。汇总和截断只影响展示。没有该读取的会话不开启逐伤采集。专项入口为 `go test -count=1 ./internal/model ./internal/compile ./internal/runtime/... ./tests/runtime -run 'TargetTiming|PhasedTarget|TargetExpiry|DamageStateBefore'`；正式 Wasm 与生产适配验收由集成任务另行执行。共享语义见根目录 `outputs/skill-adaptation-20261022-brand/有界目标时序共享契约.md`。

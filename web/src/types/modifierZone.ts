@@ -48,9 +48,9 @@ export type UpdateModifierZoneRequest = Omit<CreateModifierZoneRequest, 'modifie
 export function allowedModifierZoneCalculationModes(
   domain: ModifierZoneDomain | ''
 ): ModifierZoneCalculationMode[] {
-  if (domain === 'ATTRIBUTE') return ['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY'];
+  if (domain === 'ATTRIBUTE') return ['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY', 'RATIO_GROUP_ADD'];
   if (domain === 'HEALING') return ['RATIO_ADD', 'RATIO_MAX'];
-  if (domain === 'DAMAGE') return ['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY'];
+  if (domain === 'DAMAGE') return ['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_GROUP_ADD'];
   if (domain === 'SHIELD') return ['RATIO_ADD'];
   return [];
 }
@@ -60,9 +60,9 @@ export function allowedModifierZoneApplicationStages(
   mode: ModifierZoneCalculationMode | ''
 ): ModifierZoneApplicationStage[] {
   if (domain === 'ATTRIBUTE' && mode === 'FLAT_ADD') return ['ATTRIBUTE_FLAT'];
-  if (domain === 'ATTRIBUTE' && (mode === 'RATIO_ADD' || mode === 'RATIO_MULTIPLY' || mode === 'RATIO_COMPLEMENT_MULTIPLY')) return ['ATTRIBUTE_PERCENT'];
+  if (domain === 'ATTRIBUTE' && (mode === 'RATIO_ADD' || mode === 'RATIO_MULTIPLY' || mode === 'RATIO_COMPLEMENT_MULTIPLY' || mode === 'RATIO_GROUP_ADD')) return ['ATTRIBUTE_PERCENT'];
   if (domain === 'DAMAGE' && mode === 'FLAT_ADD') return ['DAMAGE_PRE_DEFENSE'];
-  if (domain === 'DAMAGE' && mode === 'RATIO_ADD') {
+  if (domain === 'DAMAGE' && (mode === 'RATIO_ADD' || mode === 'RATIO_GROUP_ADD')) {
     return ['DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'];
   }
   if (domain === 'DAMAGE' && mode === 'RATIO_MULTIPLY') return ['DAMAGE_POST_DEFENSE'];

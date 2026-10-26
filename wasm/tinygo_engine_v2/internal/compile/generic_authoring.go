@@ -2,8 +2,8 @@ package compile
 
 import (
 	"math"
-	"tinygo_engine_v2/internal/expression"
-	"tinygo_engine_v2/internal/inputbinding"
+	"tinygo_engine_v2/internal/base/expression"
+	"tinygo_engine_v2/internal/base/inputbinding"
 	"unsafe"
 
 	"tinygo_engine_v2/internal/formula"

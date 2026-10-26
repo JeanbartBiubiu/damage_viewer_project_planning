@@ -9,7 +9,7 @@ package main
 import (
 	goruntime "runtime"
 
-	"tinygo_engine_v2/internal/abi"
+	"tinygo_engine_v2/internal/base/abi"
 	"tinygo_engine_v2/internal/runtime"
 )
 

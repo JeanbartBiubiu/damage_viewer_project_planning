@@ -2,7 +2,7 @@ import type { SkillParameter } from '../../../../types/skillParameter';
 import { momentSlowLifecycleIssue } from '../../../../services/momentSlowLifecycle';
 import type { GameVampRule } from '../../../../types/gameVamp';
 import { numericIssuePath, numericValueError, staticNumericValues } from '../numericValueForm';
-import { staticShieldStackValueIssue } from './damageModifierConditionFormula';
+import { staticDamageModifierConditionFormulaIssue, staticShieldStackValueIssue } from './damageModifierConditionFormula';
 import { cappedReductionRatioIssue } from '../../../../services/cappedPhysicalReductionContract';
 import { isValidCooldownRemainingDuration } from '../../../../types/cooldownRemaining';
 import { isValidCooldownDurationValueRule } from '../../../../types/cooldownDuration';
@@ -1906,6 +1906,11 @@ export function healingModifierAmountHint(
   return null;
 }
 
+export function groupedAmplificationAmountHint(draft: SkillEffectResultDraft, catalog?: EffectFormCatalog | null): string | null {
+  return catalogModifierZone(catalog, draft.modifierZoneKey)?.calculationMode === 'RATIO_GROUP_ADD'
+    ? '同组增幅加算：20%填0.2，只能增加；相同乘区的增幅先相加，不同乘区再相乘。' : null;
+}
+
 export function listModifierZoneOptions(
   catalog: EffectFormCatalog,
   domain: ModifierZoneDomain,
@@ -2522,6 +2527,23 @@ function validateAndBuildResult(
     const values = staticNumericValues(valueRule.value, options.parameters);
     if (values?.some((value) => !isValidHealingRatioMaxDecrease(value, valueRule))) {
       fieldErrors.value = '比例减少取强的有效减少比例必须有限且位于0到1之间';
+    }
+  }
+  if (valueRule && catalogModifierZone(options.catalog, draft.modifierZoneKey)?.calculationMode === 'RATIO_GROUP_ADD') {
+    const values = staticNumericValues(valueRule.value, options.parameters);
+    const parameter = valueRule.value.kind === 'PARAMETER'
+      ? options.parameters?.find(row => valueRule.value.kind === 'PARAMETER' && row.parameterKey === valueRule.value.parameterKey) : undefined;
+    if (parameter?.valueMode === 'RUNTIME_INPUT') fieldErrors.value = '同组增幅只接固定值或本技能静态参数。';
+    if (valueRule.fixedMultiplier < 0) fieldErrors.fixedMultiplier = '同组增幅固定倍率不能为负，不能反转减少方向。';
+    if (values?.some(raw => {
+      let value = raw * valueRule.fixedMultiplier;
+      if (valueRule.fixedMinValue !== null) value = Math.max(value, valueRule.fixedMinValue);
+      if (valueRule.fixedMaxValue !== null) value = Math.min(value, valueRule.fixedMaxValue);
+      return !Number.isFinite(raw) || raw < 0 || !Number.isFinite(value) || value < 0 || !Number.isFinite(1 + value);
+    })) fieldErrors.value = '同组增幅的原比例和修正后比例必须有限且不小于0。';
+    if (valueRule.value.kind === 'FORMULA') {
+      const expression = options.catalog?.formulas?.find(row => valueRule.value.kind === 'FORMULA' && row.formulaKey === valueRule.value.formulaKey)?.expression;
+      if (expression && staticDamageModifierConditionFormulaIssue(expression, options.parameters ?? [])) fieldErrors.value = '同组增幅公式只能读取本技能静态参数，不能读取属性或运行期事实。';
     }
   }
 
@@ -3859,6 +3881,15 @@ function validateModifierZoneRef(
   );
   if (zone && zone.domain !== expectedDomain) {
     fieldErrors.modifierZoneKey = '乘区作用域与结果种类不一致。';
+  }
+  if (zone?.calculationMode === 'RATIO_GROUP_ADD') {
+    const matches = options.catalog.modifierZones?.filter(row => row.modifierZoneKey === draft.modifierZoneKey.trim()) ?? [];
+    if (matches.length !== 1 || zone.status !== 'ENABLED' || !/^[a-z][a-z0-9_]{0,63}$/.test(zone.modifierZoneKey)) fieldErrors.modifierZoneKey = '同组增幅需要唯一真实启用的合法乘区。';
+    const operation = draft.resultType === 'ATTRIBUTE_CHANGE' ? draft.attributeOperation : draft.modifierOperation;
+    if (operation !== 'INCREASE') fieldErrors[draft.resultType === 'ATTRIBUTE_CHANGE' ? 'attributeOperation' : 'modifierOperation'] = '同组增幅加算只支持增加，不能反转减少方向。';
+    if (expectedDomain === 'ATTRIBUTE' && zone.applicationStage !== 'ATTRIBUTE_PERCENT'
+      || expectedDomain === 'DAMAGE' && zone.applicationStage !== (draft.modifierDirection === 'DEALT' ? 'DAMAGE_PRE_DEFENSE' : 'DAMAGE_POST_DEFENSE')) fieldErrors.modifierZoneKey = '同组增幅的作用域、方向和应用阶段不一致。';
+    if (draft.resultType === 'DAMAGE_MODIFIER' && draft.criticalFilter !== 'ANY') fieldErrors.criticalFilter = '同组伤害增幅不能只作用于暴击部分。';
   }
 }
 

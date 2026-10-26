@@ -4,10 +4,10 @@ import (
 	"math"
 	"testing"
 
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/command"
-	"tinygo_engine_v2/internal/expression"
-	"tinygo_engine_v2/internal/inputbinding"
+	"tinygo_engine_v2/internal/base/expression"
+	"tinygo_engine_v2/internal/base/inputbinding"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )

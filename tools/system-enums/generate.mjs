@@ -108,7 +108,7 @@ if (args['wasm-root']) {
   await readFile(resolve(root, 'wasm/tinygo_engine_v2/go.mod'));
   for (const group of contract.groups) for (const member of group.members) if (member.native) {
     const binding = member.native;
-    assert(validIdentifier(binding.constant) && /^internal\/(model|runtime)\/[a-z0-9_]+\.go$/.test(binding.file)
+    assert(validIdentifier(binding.constant) && /^internal\/(?:model|runtime\/execution)\/[a-z0-9_]+\.go$/.test(binding.file)
       && (/^event\/[a-z0-9_]+$/.test(binding.value)
         || (!group.backend && binding.value === member.value && /^[A-Z][A-Z0-9_]*$/.test(binding.value))), '非法原生常量绑定');
     const path = containedPath(root, `wasm/tinygo_engine_v2/${binding.file}`);

@@ -1,11 +1,11 @@
 package plan
 
 import (
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
+	"tinygo_engine_v2/internal/base/inputbinding"
+	"tinygo_engine_v2/internal/base/typeset"
 	"tinygo_engine_v2/internal/formula"
-	"tinygo_engine_v2/internal/inputbinding"
 	"tinygo_engine_v2/internal/model"
-	"tinygo_engine_v2/internal/typeset"
 )
 
 // CompiledAbilityRef 是 intern 后的 ability 三元组引用。
@@ -26,6 +26,7 @@ type CompiledTargetTiming struct {
 	Phased       bool
 }
 type CompiledSession struct {
+	MultiplierGroupCount        uint32
 	IncomingCappedFlatSources   []CompiledIncomingCappedFlatSource
 	HasPermanentCharacterPeriod bool
 	HasImmediatePeriodic        bool
@@ -99,8 +100,9 @@ type CompiledProviderMount struct {
 }
 
 // CompiledModifier 是 compile 后的 provider / rule modifier。
-// CompiledModifier 是 compile 后的 provider / rule modifier。
 type CompiledModifier struct {
+	HasMultiplierGroup       bool
+	MultiplierGroupID        uint16
 	HasMaximumReductionRatio bool
 	MaximumReductionRatio    float64
 	ValueReadMode            string

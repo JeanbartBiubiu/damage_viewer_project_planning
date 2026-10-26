@@ -19,6 +19,7 @@ import { compileLinkedShieldEffect } from './shieldEffectAdapter';
 import { compileTimedAttributeEffect } from './timedAttributeEffectAdapter';
 import { compileCooldownDurationEffect } from './cooldownDurationEffectAdapter';
 import { compileTimedDamageReduction } from './timedDamageReductionAdapter';
+import { compileTimedDamageAmplification } from './timedDamageAmplificationAdapter';
 import { adaptEmpoweredProcessPayload, type AuthoredHitProgram, type AdaptedHitProgram } from './hitAdapter';
 import { staticEffectValue } from './staticEffectValue';
 import { finiteRecastShape, recastProofLevels } from './finiteRecast';
@@ -554,7 +555,9 @@ function compileEffectResults(
   }
   if (effect.lifecycle && effect.results.some(result => result.resultType === 'DAMAGE_MODIFIER')) {
     if (skip.size) fail(path, '有限减伤不能复用为施放成本');
-    const compiled = compileTimedDamageReduction(effect, state, context.authored.modifierZones ?? [], context.authored.damageTypes ?? [], context.authored.providerDefinitionRef);
+    const amplification = effect.results.some(result => result.resultType === 'DAMAGE_MODIFIER' && (result.detail.operation === 'INCREASE'
+      || context.authored.modifierZones?.some(zone => zone.modifierZoneKey === result.detail.modifierZoneKey && zone.calculationMode === 'RATIO_GROUP_ADD')));
+    const compiled = (amplification ? compileTimedDamageAmplification : compileTimedDamageReduction)(effect, state, context.authored.modifierZones ?? [], context.authored.damageTypes ?? [], context.authored.providerDefinitionRef);
     for (const provider of compiled.providers) {
       const previous = context.providers.get(provider.providerKey);
       if (previous && !sameJson(previous, provider)) fail(path, '有限减伤定义冲突');

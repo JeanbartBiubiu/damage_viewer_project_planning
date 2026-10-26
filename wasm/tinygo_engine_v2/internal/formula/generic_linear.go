@@ -1,6 +1,6 @@
 package formula
 
-import "tinygo_engine_v2/internal/expression"
+import "tinygo_engine_v2/internal/base/expression"
 
 // TargetAttributeLinear 只接受目标同一属性TOTAL与已选静态参数的线性组合。
 func (r GenericRegistry) TargetAttributeLinear(id GenericProgramID, key string) (expression.Linear, bool) {

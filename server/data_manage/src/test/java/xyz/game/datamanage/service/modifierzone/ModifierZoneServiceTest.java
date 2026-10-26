@@ -27,6 +27,24 @@ import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
 class ModifierZoneServiceTest {
+    @Test
+    void createsAndIndependentlyReadsTheThreeGroupedAmplificationCatalogShapes() {
+        for (var stage : List.of(ModifierZoneApplicationStage.ATTRIBUTE_PERCENT,
+                ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE, ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE)) {
+            String key = stage.name().toLowerCase(java.util.Locale.ROOT);
+            var domain = stage == ModifierZoneApplicationStage.ATTRIBUTE_PERCENT ? ModifierZoneDomain.ATTRIBUTE : ModifierZoneDomain.DAMAGE;
+            var timestamp = OffsetDateTime.parse("2026-10-26T00:00:00Z");
+            when(mapper.countByKey(GAME_ID, key)).thenReturn(0L);
+            when(mapper.countByNormalizedName(GAME_ID, key, null)).thenReturn(0L);
+            when(mapper.insert(GAME_ID, key, key, domain.name(), "RATIO_GROUP_ADD", stage.name(), null, "ENABLED", 0)).thenReturn(1);
+            when(mapper.findById(GAME_ID, key)).thenReturn(new ModifierZoneResponse(GAME_ID, key, key, domain,
+                ModifierZoneCalculationMode.RATIO_GROUP_ADD, stage, null, ModifierZoneStatus.ENABLED, 0, timestamp, timestamp));
+            var created = service.create(GAME_ID, new ModifierZoneCreateRequest(key, key, domain,
+                ModifierZoneCalculationMode.RATIO_GROUP_ADD, stage, null, ModifierZoneStatus.ENABLED, 0));
+            assertEquals(created, service.get(GAME_ID, key));
+            assertEquals(ModifierZoneCalculationMode.RATIO_GROUP_ADD, created.calculationMode());
+        }
+    }
 
     private static final String GAME_ID = "lol";
     private static final String KEY = "damage_pre_defense";

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -90,8 +90,8 @@ func evalInstructionRead(in GenericInstr, ctx *GenericEvalContext) (float64, err
 		if !in.ReferenceBound || !ctx.HasProviderContext || !ctx.HasTargetStateRemainingContext {
 			return 0, errors.New("target state remaining time requires a declared own finite integer field and provider condition context")
 		}
-		expires := ctx.TargetStateExpireAt[in.ReadKey]
-		if ctx.ProviderTargetState[in.ReadKey] <= 0 || expires <= ctx.TargetStateRemainingNowMs {
+		expires := ctx.TargetStateExpireAt.At(in.ReadKey)
+		if ctx.ProviderTargetState.At(in.ReadKey) <= 0 || expires <= ctx.TargetStateRemainingNowMs {
 			return 0, nil
 		}
 		return float64(expires - ctx.TargetStateRemainingNowMs), nil

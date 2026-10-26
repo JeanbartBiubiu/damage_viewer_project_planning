@@ -3856,6 +3856,54 @@ class SkillEffectServiceTest {
         );
     }
 
+    @Test
+    void groupedAttributeIncreaseSavesAndReadsBackItsActualCatalogReference() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow("grouped_attribute", ModifierZoneDomain.ATTRIBUTE,
+                ModifierZoneCalculationMode.RATIO_GROUP_ADD, ModifierZoneApplicationStage.ATTRIBUTE_PERCENT,
+                ModifierZoneStatus.ENABLED)));
+        var result = new SkillEffectResultRequest("increase", "整体增幅", SkillEffectResultType.ATTRIBUTE_CHANGE,
+            SkillEffectTarget.TARGET, null, 0,
+            new SkillEffectValueRuleRequest(SkillNumericValue.fixed(new BigDecimal("0.2")), BigDecimal.ONE, null, null),
+            new SkillEffectAttributeChangeDetail("attack_speed", SkillEffectAttributeChangeOperation.INCREASE,
+                "grouped_attribute"), persistentShared());
+        var created = service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "同组增幅", null, 0, timedLifecycle(), List.of(result)));
+        when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        var read = service.get(GAME_ID, SKILL_KEY, EFFECT_KEY);
+        assertEquals(created.results(), read.results());
+        assertEquals("grouped_attribute", ((SkillEffectAttributeChangeDetail) read.results().getFirst().detail()).modifierZoneKey());
+        assertEquals(SkillEffectTarget.TARGET, read.results().getFirst().target());
+        assertEquals(0, new BigDecimal("0.2").compareTo(read.results().getFirst().valueRule().value().value()));
+    }
+
+    @Test
+    void groupedDamageRejectsDecreaseReversedStageAndCriticalPartsBeforeWriting() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        var original = persistentDamageModifierResult();
+        var originalDetail = (SkillEffectDamageModifierDetail) original.detail();
+        for (var stage : List.of(ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE, ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE)) {
+            when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+                new SkillEffectModifierZoneLockRow(DAMAGE_ZONE_KEY, ModifierZoneDomain.DAMAGE,
+                    ModifierZoneCalculationMode.RATIO_GROUP_ADD, stage, ModifierZoneStatus.ENABLED)));
+            var reversed = stage == ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE
+                ? SkillEffectDamageModifierDirection.TAKEN : SkillEffectDamageModifierDirection.DEALT;
+            var result = new SkillEffectResultRequest(original.resultKey(), original.name(), original.resultType(), original.target(),
+                original.description(), original.sortOrder(), original.valueRule(),
+                new SkillEffectDamageModifierDetail(DAMAGE_ZONE_KEY, reversed, SkillEffectModifierOperation.INCREASE,
+                    originalDetail.damageTypeKey(), originalDetail.deliveryKind(), originalDetail.originKind(), originalDetail.criticalFilter()),
+                original.lifecycleBehavior());
+            var error = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "非法分组", null, 0, timedLifecycle(), List.of(result))));
+            assertField(error, "results[0].detail.direction", "DIRECTION_INVALID");
+        }
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
     private static SkillEffectValueRuleRequest valueRule() {
         return new SkillEffectValueRuleRequest(SkillNumericValue.formula(FORMULA_KEY), BigDecimal.ONE, null, null);
     }

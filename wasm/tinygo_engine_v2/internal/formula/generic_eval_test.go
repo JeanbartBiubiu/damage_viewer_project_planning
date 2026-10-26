@@ -3,7 +3,7 @@ package formula
 import (
 	"math"
 	"testing"
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -139,7 +139,7 @@ func TestGenericEvalProviderStateRequiresContext(t *testing.T) {
 	}
 	got, err := reg.Eval(0, GenericEvalContext{
 		HasProviderContext: true,
-		ProviderState:      map[string]float64{"hits": 3},
+		ProviderState:      model.BorrowNumericView(map[string]float64{"hits": 3}),
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -153,7 +153,7 @@ func TestGenericEvalProviderTargetState(t *testing.T) {
 	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "provider.target_state.hits"})
 	got, err := reg.Eval(0, GenericEvalContext{
 		HasProviderContext:  true,
-		ProviderTargetState: map[string]float64{"hits": 2},
+		ProviderTargetState: model.BorrowNumericView(map[string]float64{"hits": 2}),
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -165,9 +165,9 @@ func TestGenericEvalProviderTargetState(t *testing.T) {
 
 func TestGenericEvalResourceCurrentAndMax(t *testing.T) {
 	ctx := GenericEvalContext{
-		SourceResources: map[string]model.ResourceSlotDef{
+		SourceResources: model.BorrowResources(map[string]model.ResourceSlotDef{
 			"mana": {Current: 40, Max: 100},
-		},
+		}),
 	}
 	cases := []struct {
 		path string
@@ -208,9 +208,9 @@ func TestGenericEvalEventSnapshotReads(t *testing.T) {
 		EventTargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{
 			"hp": {Current: 900, Max: 1000, Resolved: 900},
 		}),
-		EventSourceResources: map[string]model.ResourceSlotDef{
+		EventSourceResources: model.BorrowResources(map[string]model.ResourceSlotDef{
 			"mana": {Current: 10, Max: 80},
-		},
+		}),
 	}
 	got, err := regEntry.Eval(0, ctx)
 	if err != nil || got != 1000 {

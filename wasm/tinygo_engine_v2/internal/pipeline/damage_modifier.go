@@ -11,6 +11,8 @@ import (
 // MountedDamageModifier is a provider/rules pipeline damage modifier mounted on a combatant.
 // OwnerCombatantKey + ProviderRef identify the mounted provider for formula provenance.
 type MountedDamageModifier struct {
+	HasMultiplierGroup       bool
+	MultiplierGroupID        uint16
 	HasMaximumReductionRatio bool
 	MaximumReductionRatio    float64
 	OwnerCombatantKey        string
@@ -50,6 +52,8 @@ func (r *DamageModifierResolver) MountCompiledModifierOwned(ownerCombatantKey, p
 	mounts := make([]MountedDamageModifier, len(r.mounts), len(r.mounts)+1)
 	copy(mounts, r.mounts)
 	r.mounts = append(mounts, MountedDamageModifier{
+		HasMultiplierGroup:       mod.HasMultiplierGroup,
+		MultiplierGroupID:        mod.MultiplierGroupID,
 		HasMaximumReductionRatio: mod.HasMaximumReductionRatio,
 		MaximumReductionRatio:    mod.MaximumReductionRatio,
 		OwnerCombatantKey:        ownerCombatantKey,

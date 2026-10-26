@@ -9,6 +9,7 @@ import xyz.game.datamanage.support.authoring.DamageModifierConditionSemantics;
 import xyz.game.datamanage.support.authoring.HealingRatioMaxSemantics;
 import xyz.game.datamanage.support.authoring.AttributeComplementMultiplySemantics;
 import xyz.game.datamanage.support.authoring.DamageRatioMultiplySemantics;
+import xyz.game.datamanage.support.authoring.GroupedAmplificationSemantics;
 import xyz.game.datamanage.support.authoring.SkillCooldownDurationSemantics;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -1261,6 +1262,7 @@ public class SkillEffectService {
             resultType,
             direction,
             operation,
+            result.detail() instanceof SkillEffectDamageModifierDetail damage ? enumName(damage.criticalFilter()) : null,
             result.detail() instanceof SkillEffectDamageModifierDetail damage
                 && damage.condition() != null && !damage.condition().isNull(),
             result.detail() instanceof SkillEffectDamageModifierDetail damage && damage.maximumReductionRatioValue() != null
@@ -2505,6 +2507,8 @@ public class SkillEffectService {
                 DamageRatioMultiplySemantics.addReferenceIssues(zone.domain(), zone.calculationMode(),
                     ref.resultType(), ref.direction(), ref.operation(), ref.path(),
                     ref.resultPrefix() + ".detail.direction", ref.resultPrefix() + ".detail.operation", issues);
+                GroupedAmplificationSemantics.addReferenceIssues(zone.domain(), zone.calculationMode(), zone.applicationStage(),
+                    ref.resultType(), ref.direction(), ref.operation(), ref.criticalFilter(), ref.resultPrefix(), issues);
             }
         }
     }
@@ -2904,6 +2908,7 @@ public class SkillEffectService {
         String resultType,
         String direction,
         String operation,
+        String criticalFilter,
         boolean conditioned,
         boolean capped
     ) {

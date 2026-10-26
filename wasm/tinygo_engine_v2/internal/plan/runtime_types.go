@@ -1,6 +1,6 @@
 package plan
 
-import "tinygo_engine_v2/internal/typeset"
+import "tinygo_engine_v2/internal/base/typeset"
 
 // DeclaredType 将类型编号与声明状态分开；编号零也是合法类型。
 type DeclaredType struct {

@@ -46,6 +46,14 @@
         {
           "value": "REDUCE_RECOVERY",
           "label": "减少下一次回充余时"
+        },
+        {
+          "value": "ENSURE_REMAINING",
+          "label": "确保目标计数至少剩余指定毫秒"
+        },
+        {
+          "value": "ENSURE_REMAINING_PRESERVE_PHASE",
+          "label": "保留周期节拍并确保至少剩余指定毫秒"
         }
       ]
     },
@@ -309,7 +317,7 @@
           "value": "DAMAGE_DEALT",
           "label": "来源对象造成伤害",
           "native": {
-            "file": "internal/runtime/generic_execution.go",
+            "file": "internal/runtime/execution/frame.go",
             "constant": "eventTypeDamageDealt",
             "value": "event/damage_dealt"
           }
@@ -1413,6 +1421,7 @@
         { "value": "FLAT_ADD", "label": "固定值加算" },
         { "value": "RATIO_ADD", "label": "比例加算" },
         { "value": "RATIO_MULTIPLY", "label": "比例乘算" },
+        { "value": "RATIO_GROUP_ADD", "label": "同组增幅加算" },
         { "value": "RATIO_MAX", "label": "比例减少取强" },
         { "value": "RATIO_COMPLEMENT_MULTIPLY", "label": "剩余比例连乘" }
       ]

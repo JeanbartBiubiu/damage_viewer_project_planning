@@ -6,8 +6,8 @@ import (
 	"math"
 	"strconv"
 
-	"tinygo_engine_v2/internal/expression"
-	"tinygo_engine_v2/internal/inputbinding"
+	"tinygo_engine_v2/internal/base/expression"
+	"tinygo_engine_v2/internal/base/inputbinding"
 )
 
 const twoStages = `{"inputs":[{"key":"res","binding":{"kind":"attribute","object":"target","attributeKey":"heat_resistance","valueKind":"TOTAL","view":"current_frame"}}],"stages":[{"key":"resistance","name":"抗性","expression":{"op":"read","inputKey":"res"}},{"key":"factor","name":"倍率","expression":{"op":"div","args":[{"op":"const","value":"100"},{"op":"add","args":[{"op":"const","value":"100"},{"op":"ref","stageKey":"resistance"}]}]}}],"outputStageKey":"factor"}`

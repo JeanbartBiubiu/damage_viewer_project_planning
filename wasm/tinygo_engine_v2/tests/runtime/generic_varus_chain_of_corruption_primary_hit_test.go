@@ -1,0 +1,666 @@
+// 跨子系统组合测试只经公开编译、会话和运行入口验证。
+package runtime_test
+
+import (
+	json "encoding/json"
+	math "math"
+	strings "strings"
+	testing "testing"
+	model "tinygo_engine_v2/internal/model"
+	runtimeengine "tinygo_engine_v2/internal/runtime"
+	formuladefinition "tinygo_engine_v2/internal/testkit/formuladefinition"
+)
+
+const (
+	varusChainOfCorruptionPrimaryHitPlanRev = "varus-r-chain-of-corruption-primary-hit-phase-a-v1"
+
+	varusChainOfCorruptionPrimaryHitProviderRef = "provider_hero_varus_r_chain_of_corruption_primary_hit"
+	varusChainOfCorruptionPrimaryHitStableID    = "hero_varus_r_chain_of_corruption_primary_hit"
+	varusChainOfCorruptionPrimaryHitAbilityID   = "ability_hero_varus_r_chain_of_corruption_primary_hit"
+	varusChainOfCorruptionPrimaryHitAbilityKey  = "chain_of_corruption"
+	varusChainOfCorruptionPrimaryHitDamageOpRef = "op:varus_chain_of_corruption_primary_hit_damage"
+
+	// Must not collide with / reuse Varus E / W / basic providers.
+	varusBasicAttackProviderRefAlias = "provider_hero_varus_basic_attack"
+
+	varusChainOfCorruptionPrimaryHitBaseDamage = 350.0
+	varusChainOfCorruptionPrimaryHitAPRatio    = 1.00
+	varusChainOfCorruptionPrimaryHitManaCost   = 100.0
+	varusChainOfCorruptionPrimaryHitCDMs       = 60000.0
+
+	// Fixture: AP200; mana300; target MR100; HP1000.
+	varusChainOfCorruptionPrimaryHitFixtureAP   = 200.0
+	varusChainOfCorruptionPrimaryHitFixtureMana = 300.0
+	varusChainOfCorruptionPrimaryHitTargetMR    = 100.0
+	varusChainOfCorruptionPrimaryHitTargetHP    = 1000.0
+
+	// Independent cross-check: AP=200 → raw 550; MR 100 → mitigated 275.
+	varusChainOfCorruptionPrimaryHitExpectedRaw       = 550.0
+	varusChainOfCorruptionPrimaryHitExpectedMitigated = 275.0
+	varusChainOfCorruptionPrimaryHitManaAfter2        = 100.0 // 300 - 100 - 100
+	varusChainOfCorruptionPrimaryHitHPAfter2          = 450.0 // 1000 - 275 - 275
+
+	varusChainOfCorruptionPrimaryHitTol = 1e-9
+)
+
+func varusChainOfCorruptionPrimaryHitExpectedRawFromAP(resolvedAP float64) float64 {
+	return varusChainOfCorruptionPrimaryHitBaseDamage +
+		varusChainOfCorruptionPrimaryHitAPRatio*resolvedAP
+}
+
+func varusChainOfCorruptionPrimaryHitDamageAmount() *model.GenericFormulaExpr {
+	base := varusChainOfCorruptionPrimaryHitBaseDamage
+	ratio := varusChainOfCorruptionPrimaryHitAPRatio
+	return &model.GenericFormulaExpr{
+		Op: "add",
+		Args: []model.GenericFormulaExpr{
+			{Op: "const", Value: &base},
+			{
+				Op: "mul",
+				Args: []model.GenericFormulaExpr{
+					{Op: "const", Value: &ratio},
+					{Op: "read", Path: "source.attr.ap.resolved"},
+				},
+			},
+		},
+	}
+}
+
+func varusChainOfCorruptionPrimaryHitAbility() model.AbilityDefinition {
+	cost := varusChainOfCorruptionPrimaryHitManaCost
+	cd := varusChainOfCorruptionPrimaryHitCDMs
+	return model.AbilityDefinition{
+		AbilityKey: varusChainOfCorruptionPrimaryHitAbilityKey,
+		Kind:       "active",
+		// Not a basic attack; CritEligible left false on the damage op.
+		Types: []string{},
+		Cost: &model.AbilityCost{
+			ResourceKey: "mana",
+			Amount:      model.GenericFormulaExpr{Op: "const", Value: &cost},
+		},
+		Cooldown: &model.AbilityCooldown{
+			DurationMs: model.GenericFormulaExpr{Op: "const", Value: &cd},
+		},
+		Operations: []model.OperationDefinition{
+			{
+				Operation:     "damage",
+				Target:        "target",
+				DamageType:    "damage/magic", // runtime type 20221; not physical 20220
+				Ref:           varusChainOfCorruptionPrimaryHitDamageOpRef,
+				Amount:        varusChainOfCorruptionPrimaryHitDamageAmount(),
+				CritEligible:  false,
+				CopyableOnHit: false,
+			},
+		},
+	}
+}
+
+func varusChainOfCorruptionPrimaryHitProviderDef() model.ProviderDefinition {
+	return model.ProviderDefinition{
+		ProviderKey: varusChainOfCorruptionPrimaryHitProviderRef,
+		Kind:        "champion",
+		StableID:    varusChainOfCorruptionPrimaryHitStableID,
+		Abilities:   []model.AbilityDefinition{varusChainOfCorruptionPrimaryHitAbility()},
+	}
+}
+
+func varusChainOfCorruptionPrimaryHitAbilityRef() string {
+	return "source.provider[" + varusChainOfCorruptionPrimaryHitProviderRef +
+		"].ability[" + varusChainOfCorruptionPrimaryHitAbilityKey + "]"
+}
+
+func configureVarusChainOfCorruptionPrimaryHitProvider(compileReq *model.CompileRequest, runReq *model.RunRequest) {
+	compileReq.SharedProviders = []model.ProviderDefinition{varusChainOfCorruptionPrimaryHitProviderDef()}
+	compileReq.Combatants[0].Providers = []model.CombatantProviderMount{
+		{ProviderRef: varusChainOfCorruptionPrimaryHitProviderRef, DefinitionRef: varusChainOfCorruptionPrimaryHitProviderRef},
+	}
+	for i := range runReq.InitialSnapshot.Combatants {
+		if runReq.InitialSnapshot.Combatants[i].Key != model.SelectorSource {
+			continue
+		}
+		runReq.InitialSnapshot.Combatants[i].Providers = []model.CombatantProviderSnapshot{
+			{
+				ProviderRef: varusChainOfCorruptionPrimaryHitProviderRef, DefinitionRef: varusChainOfCorruptionPrimaryHitProviderRef,
+				Stacks: 1, State: map[string]interface{}{},
+			},
+		}
+	}
+}
+
+func ensureVarusChainOfCorruptionPrimaryHitTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "magic_resist")
+	formuladefinition.SetDamageFormula(req, "damage/magic", formuladefinition.ResistanceDefense("magic_resist"))
+
+	need := []model.TypeCatalogEntry{
+		{Key: "damage/magic", Domain: "damage"},
+	}
+	have := map[string]bool{}
+	for _, t := range req.TypeCatalog.Types {
+		have[t.Key] = true
+	}
+	for _, t := range need {
+		if !have[t.Key] {
+			req.TypeCatalog.Types = append(req.TypeCatalog.Types, t)
+		}
+	}
+}
+
+func loadVarusChainOfCorruptionPrimaryHitFixture(t *testing.T) (model.CompileRequest, model.RunRequest) {
+	t.Helper()
+	compileReq, runReq := loadBasicFixture(t)
+	ensureVarusChainOfCorruptionPrimaryHitTypes(&compileReq)
+	configureVarusChainOfCorruptionPrimaryHitProvider(&compileReq, &runReq)
+
+	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "ap", model.AttributeSlotDef{
+		Base: varusChainOfCorruptionPrimaryHitFixtureAP, Current: varusChainOfCorruptionPrimaryHitFixtureAP,
+		Max: varusChainOfCorruptionPrimaryHitFixtureAP, Resolved: varusChainOfCorruptionPrimaryHitFixtureAP,
+	})
+	setCombatantResource(&compileReq, &runReq, model.SelectorSource, "mana", model.ResourceSlotDef{
+		Current: varusChainOfCorruptionPrimaryHitFixtureMana, Max: varusChainOfCorruptionPrimaryHitFixtureMana,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
+		Base: varusChainOfCorruptionPrimaryHitTargetHP, Current: varusChainOfCorruptionPrimaryHitTargetHP,
+		Max: varusChainOfCorruptionPrimaryHitTargetHP, Resolved: varusChainOfCorruptionPrimaryHitTargetHP,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "magic_resist", model.AttributeSlotDef{
+		Base: varusChainOfCorruptionPrimaryHitTargetMR, Current: varusChainOfCorruptionPrimaryHitTargetMR,
+		Max: varusChainOfCorruptionPrimaryHitTargetMR, Resolved: varusChainOfCorruptionPrimaryHitTargetMR,
+	})
+
+	runReq.StopPolicy.StopOnTargetDeath = model.BoolPtr(false)
+	runReq.Sampling.SampleEveryMs = 100000
+	return compileReq, runReq
+}
+
+func runVarusChainOfCorruptionPrimaryHit(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
+	t.Helper()
+	result := compileMigrated(&compileReq, &runReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := runtimeengine.RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return done
+}
+
+func varusChainOfCorruptionPrimaryHitSourceMana(t *testing.T, snap model.Snapshot) float64 {
+	t.Helper()
+	for _, c := range snap.Combatants {
+		if c.Key != model.SelectorSource {
+			continue
+		}
+		slot, ok := c.Resources["mana"]
+		if !ok {
+			t.Fatal("source mana missing")
+		}
+		return slot.Current
+	}
+	t.Fatal("source missing")
+	return 0
+}
+
+func varusChainOfCorruptionPrimaryHitSkipReasonCount(done model.DoneResult, reason model.AttemptSkipReason) int {
+	n := 0
+	for _, item := range done.Evidence.Items {
+		if item.Kind != model.EvidenceKindAttemptSkipped {
+			continue
+		}
+		if item.Data["skipReason"] == string(reason) {
+			n++
+		}
+	}
+	return n
+}
+
+func varusChainOfCorruptionPrimaryHitDamageEvidence(done model.DoneResult) []model.EvidenceItem {
+	out := make([]model.EvidenceItem, 0)
+	for _, item := range damageEvidenceItems(done) {
+		if evidenceDataString(item.Data, "operationRef") != varusChainOfCorruptionPrimaryHitDamageOpRef {
+			continue
+		}
+		out = append(out, item)
+	}
+	return out
+}
+
+func varusChainOfCorruptionPrimaryHitFindProvider(compileReq model.CompileRequest) *model.ProviderDefinition {
+	for i := range compileReq.SharedProviders {
+		p := &compileReq.SharedProviders[i]
+		if p.ProviderKey == varusChainOfCorruptionPrimaryHitProviderRef {
+			return p
+		}
+	}
+	return nil
+}
+
+func assertVarusChainOfCorruptionPrimaryHitProviderShape(t *testing.T, compileReq model.CompileRequest) {
+	t.Helper()
+	if len(compileReq.SharedProviders) != 1 {
+		t.Fatalf("SharedProviders=%d want 1", len(compileReq.SharedProviders))
+	}
+	p := varusChainOfCorruptionPrimaryHitFindProvider(compileReq)
+	if p == nil {
+		t.Fatal("provider_hero_varus_r_chain_of_corruption_primary_hit missing from SharedProviders")
+	}
+	if p.ProviderKey != varusChainOfCorruptionPrimaryHitProviderRef {
+		t.Fatalf("providerKey=%q want %q", p.ProviderKey, varusChainOfCorruptionPrimaryHitProviderRef)
+	}
+	if p.StableID != varusChainOfCorruptionPrimaryHitStableID {
+		t.Fatalf("stableId=%q want %q", p.StableID, varusChainOfCorruptionPrimaryHitStableID)
+	}
+	if p.ProviderKey == varusBQProviderRef || p.StableID == varusBQStableID ||
+		p.ProviderKey == varusBQStableID || p.StableID == varusBQProviderRef ||
+		p.ProviderKey == varusHailOfArrowsPrimaryHitProviderRef ||
+		p.StableID == varusHailOfArrowsPrimaryHitStableID ||
+		p.ProviderKey == varusBasicAttackProviderRefAlias {
+		t.Fatal("chain_of_corruption primary-hit must not reuse Varus E / W / basic provider refs")
+	}
+	if len(p.Listeners) != 0 {
+		t.Fatalf("listeners=%d want 0 (no listener / Blighted Quiver / on-hit coupling)", len(p.Listeners))
+	}
+	if len(p.InitialStateSchema) != 0 {
+		t.Fatalf("InitialStateSchema=%d want 0 (no root/reveal/Blight/tendril state)", len(p.InitialStateSchema))
+	}
+	if len(p.Modifiers) != 0 {
+		t.Fatalf("modifiers=%d want 0 (no equipment/loadout/W/E/basic modifiers)", len(p.Modifiers))
+	}
+	if p.Lifecycle != nil {
+		t.Fatalf("lifecycle=%+v want nil (no projectile/tendril/AOE lifecycle)", p.Lifecycle)
+	}
+	if len(p.Abilities) != 1 {
+		t.Fatalf("abilities=%d want 1 (ability %s)", len(p.Abilities), varusChainOfCorruptionPrimaryHitAbilityID)
+	}
+	a := p.Abilities[0]
+	if a.AbilityKey != varusChainOfCorruptionPrimaryHitAbilityKey {
+		t.Fatalf("abilityKey=%q want %q (id constant %q)",
+			a.AbilityKey, varusChainOfCorruptionPrimaryHitAbilityKey, varusChainOfCorruptionPrimaryHitAbilityID)
+	}
+	if a.Kind != "active" {
+		t.Fatalf("kind=%q want active", a.Kind)
+	}
+	for _, typ := range a.Types {
+		if typ == "ability/basic_attack" {
+			t.Fatal("chain_of_corruption must not be tagged ability/basic_attack")
+		}
+	}
+	if a.ListenerSpec != nil {
+		t.Fatal("chain_of_corruption must not carry listenerSpec")
+	}
+	if a.TickSpec != nil {
+		t.Fatal("chain_of_corruption must not carry tickSpec (no Blight/tendril ticks)")
+	}
+	if len(a.StateSchema) != 0 {
+		t.Fatalf("ability StateSchema=%d want 0", len(a.StateSchema))
+	}
+	if a.CastCondition != nil {
+		t.Fatal("chain_of_corruption must not carry castCondition")
+	}
+	if a.Cost == nil || a.Cost.ResourceKey != "mana" ||
+		a.Cost.Amount.Op != "const" || a.Cost.Amount.Value == nil ||
+		math.Abs(*a.Cost.Amount.Value-varusChainOfCorruptionPrimaryHitManaCost) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("cost=%+v want mana const 100", a.Cost)
+	}
+	if a.Cooldown == nil || a.Cooldown.DurationMs.Op != "const" || a.Cooldown.DurationMs.Value == nil ||
+		math.Abs(*a.Cooldown.DurationMs.Value-varusChainOfCorruptionPrimaryHitCDMs) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("cooldown=%+v want const 60000", a.Cooldown)
+	}
+	if len(a.Operations) != 1 {
+		t.Fatalf("operations=%d want exactly 1 (single-hit immediate scaffold; no cast/projectile/root/blight/tendril)", len(a.Operations))
+	}
+	op := a.Operations[0]
+	if op.Operation != "damage" || op.DamageType != "damage/magic" || op.Target != "target" {
+		t.Fatalf("op shape=%+v want single magic damage to target (runtime 20221)", op)
+	}
+	if op.DamageType == "damage/physical" {
+		t.Fatal("chain_of_corruption must not use physical damage (20220)")
+	}
+	if op.CritEligible {
+		t.Fatal("chain_of_corruption damage must not be crit-eligible")
+	}
+	if op.CopyableOnHit {
+		t.Fatal("chain_of_corruption damage must not be copyable on hit")
+	}
+	if op.Ref != varusChainOfCorruptionPrimaryHitDamageOpRef {
+		t.Fatalf("op ref=%q want %q", op.Ref, varusChainOfCorruptionPrimaryHitDamageOpRef)
+	}
+	if op.Amount == nil || op.Amount.Op != "add" || len(op.Amount.Args) != 2 {
+		t.Fatalf("damage amount=%+v want add(const, mul(ratio, ap.resolved))", op.Amount)
+	}
+	if op.Amount.Args[0].Op != "const" || op.Amount.Args[0].Value == nil ||
+		math.Abs(*op.Amount.Args[0].Value-varusChainOfCorruptionPrimaryHitBaseDamage) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("base const=%+v want 350", op.Amount.Args[0])
+	}
+	mul := op.Amount.Args[1]
+	if mul.Op != "mul" || len(mul.Args) != 2 {
+		t.Fatalf("AP branch=%+v want mul", mul)
+	}
+	if mul.Args[0].Op != "const" || mul.Args[0].Value == nil ||
+		math.Abs(*mul.Args[0].Value-varusChainOfCorruptionPrimaryHitAPRatio) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("AP ratio=%+v want 1.00", mul.Args[0])
+	}
+	if mul.Args[1].Op != "read" || mul.Args[1].Path != "source.attr.ap.resolved" {
+		t.Fatalf("AP read=%+v want source.attr.ap.resolved (must not bake fixture AP)", mul.Args[1])
+	}
+	if mul.Args[1].Op == "const" {
+		t.Fatal("AP branch must not bake fixture AP constants into the formula")
+	}
+	for _, banned := range a.Operations {
+		if banned.Operation == "slow" || banned.Operation == "stun" ||
+			banned.Operation == "root" || banned.Operation == "reveal" ||
+			banned.Operation == "projectile" || banned.Operation == "multi_target" ||
+			banned.Operation == "state_change" || banned.Operation == "repeat" ||
+			banned.Operation == "field" || banned.Operation == "cast_delay" ||
+			banned.DamageType == "damage/physical" {
+			t.Fatalf("chain_of_corruption must not include cast/projectile/root/reveal/blight/tendril/physical op: %+v", banned)
+		}
+	}
+}
+
+func findVarusChainOfCorruptionPrimaryHitAbilityStat(t *testing.T, done model.DoneResult) model.AbilityStat {
+	t.Helper()
+	wantRef := varusChainOfCorruptionPrimaryHitAbilityRef()
+	for _, st := range done.Summary.AbilityStats {
+		if st.AbilityRef == wantRef {
+			return st
+		}
+	}
+	t.Fatalf("AbilityStats missing ref %q (got %+v)", wantRef, done.Summary.AbilityStats)
+	return model.AbilityStat{}
+}
+
+// TestVarusChainOfCorruptionPrimaryHitConstructedFixtureFormulaAndIdentity 核对历史数值边界在现有通用运行构造样例中的身份与公式。
+func TestVarusChainOfCorruptionPrimaryHitConstructedFixtureFormulaAndIdentity(t *testing.T) {
+
+	compileReq, _ := loadVarusChainOfCorruptionPrimaryHitFixture(t)
+	assertVarusChainOfCorruptionPrimaryHitProviderShape(t, compileReq)
+	raw := varusChainOfCorruptionPrimaryHitExpectedRawFromAP(varusChainOfCorruptionPrimaryHitFixtureAP)
+	if math.Abs(raw-varusChainOfCorruptionPrimaryHitExpectedRaw) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("constructed fixture raw=%v want %v", raw, varusChainOfCorruptionPrimaryHitExpectedRaw)
+	}
+	if mit := expectedMitigatedMagic(raw, varusChainOfCorruptionPrimaryHitTargetMR); math.Abs(mit-varusChainOfCorruptionPrimaryHitExpectedMitigated) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("constructed fixture mitigated=%v want %v", mit, varusChainOfCorruptionPrimaryHitExpectedMitigated)
+	}
+}
+
+// TestVarusChainOfCorruptionPrimaryHitRank3DamageFormulaCrossCheck: independent numeric
+// cross-check 350 + 1.00*200 = 550; MR 100 → mitigated 275.
+func TestVarusChainOfCorruptionPrimaryHitRank3DamageFormulaCrossCheck(t *testing.T) {
+	raw := varusChainOfCorruptionPrimaryHitExpectedRawFromAP(varusChainOfCorruptionPrimaryHitFixtureAP)
+	if math.Abs(raw-varusChainOfCorruptionPrimaryHitExpectedRaw) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("raw=%v want %v", raw, varusChainOfCorruptionPrimaryHitExpectedRaw)
+	}
+	zeroAP := varusChainOfCorruptionPrimaryHitExpectedRawFromAP(0)
+	if math.Abs(zeroAP-varusChainOfCorruptionPrimaryHitExpectedRaw) < varusChainOfCorruptionPrimaryHitTol {
+		t.Fatal("zero-AP raw must differ from AP200 raw (formula must read ap.resolved)")
+	}
+	if math.Abs(zeroAP-varusChainOfCorruptionPrimaryHitBaseDamage) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("zero-AP raw=%v want base 350", zeroAP)
+	}
+	mit := expectedMitigatedMagic(raw, varusChainOfCorruptionPrimaryHitTargetMR)
+	if math.Abs(mit-varusChainOfCorruptionPrimaryHitExpectedMitigated) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("mitigated=%v want %v", mit, varusChainOfCorruptionPrimaryHitExpectedMitigated)
+	}
+}
+
+// TestVarusChainOfCorruptionPrimaryHitCompileShapeImmediateScaffold asserts compile shape for the
+// independent R provider: one magic damage op, cost/CD, AP200 fixture with no listener/state/
+// E/W/basic/projectile/root/reveal/Blight/tendril graph.
+func TestVarusChainOfCorruptionPrimaryHitCompileShapeImmediateScaffold(t *testing.T) {
+	compileReq, _ := loadVarusChainOfCorruptionPrimaryHitFixture(t)
+	assertVarusChainOfCorruptionPrimaryHitProviderShape(t, compileReq)
+	if varusChainOfCorruptionPrimaryHitProviderRef == varusBQProviderRef ||
+		varusChainOfCorruptionPrimaryHitProviderRef == varusHailOfArrowsPrimaryHitProviderRef ||
+		varusChainOfCorruptionPrimaryHitProviderRef == varusBasicAttackProviderRefAlias ||
+		varusChainOfCorruptionPrimaryHitStableID == varusBQStableID ||
+		varusChainOfCorruptionPrimaryHitStableID == varusHailOfArrowsPrimaryHitStableID {
+		t.Fatal("chain_of_corruption primary-hit must not reuse Varus E / W / basic provider refs")
+	}
+	if varusChainOfCorruptionPrimaryHitAbilityKey == varusHailOfArrowsPrimaryHitAbilityKey ||
+		varusChainOfCorruptionPrimaryHitAbilityKey == varusBQActiveAbilityKey ||
+		varusChainOfCorruptionPrimaryHitAbilityKey == "basic_attack" ||
+		varusChainOfCorruptionPrimaryHitAbilityKey == "blighted_quiver" ||
+		varusChainOfCorruptionPrimaryHitAbilityKey == "hail_of_arrows" {
+		t.Fatal("chain_of_corruption must not reuse E / W / basic-attack ability keys")
+	}
+	if varusChainOfCorruptionPrimaryHitDamageOpRef == varusHailOfArrowsPrimaryHitDamageOpRef ||
+		strings.Contains(varusChainOfCorruptionPrimaryHitDamageOpRef, "blighted_quiver") ||
+		strings.Contains(varusChainOfCorruptionPrimaryHitDamageOpRef, "hail_of_arrows") ||
+		strings.Contains(varusChainOfCorruptionPrimaryHitDamageOpRef, "basic_attack") {
+		t.Fatal("chain_of_corruption primary-hit must not reuse E / W / basic operation refs")
+	}
+	if varusChainOfCorruptionPrimaryHitAbilityID != "ability_hero_varus_r_chain_of_corruption_primary_hit" {
+		t.Fatal("ability id constant drifted")
+	}
+	if varusChainOfCorruptionPrimaryHitStableID != "hero_varus_r_chain_of_corruption_primary_hit" {
+		t.Fatal("stable id constant drifted")
+	}
+	if varusChainOfCorruptionPrimaryHitProviderRef != "provider_hero_varus_r_chain_of_corruption_primary_hit" {
+		t.Fatal("provider ref constant drifted")
+	}
+	if varusChainOfCorruptionPrimaryHitPlanRev != "varus-r-chain-of-corruption-primary-hit-phase-a-v1" {
+		t.Fatal("plan-rev fixture metadata drifted")
+	}
+
+	blob, err := json.Marshal(compileReq.SharedProviders)
+	if err != nil {
+		t.Fatalf("marshal SharedProviders: %v", err)
+	}
+	compiled := string(blob)
+	for _, banned := range []string{
+		"blighted_quiver", "hail_of_arrows", "basic_attack",
+		"projectile", "multi_target", "cast_delay",
+		"tendril", "blight_stack",
+	} {
+		if strings.Contains(compiled, banned) {
+			t.Fatalf("compiled fixture must not contain excluded branch %q", banned)
+		}
+	}
+}
+
+// TestVarusChainOfCorruptionPrimaryHitCanonicalSingleTargetDamage proves CompileGeneric→RunGeneric
+// for the Wiki rank-3 primary-champion immediate magic damage scaffold: cost 100,
+// CD 60000ms exact boundary, AP200 / mana300 / target MR100 / HP1000, one magic hit
+// per successful cast (no AA/crit/phantom/cast-delay/projectile/root/reveal/Blight/
+// tendril/spread/E/W/P/Q/basic). Runtime damage type is magic (20221), not physical (20220).
+//
+// Explicit exclusions (not modeled or denied as live-game absences): unspecified cast
+// delay / Effect-at-cast-time-end / projectile / travel / collision / geometry /
+// direction / root / reveal / Blight 0.65/1.2/1.75 schedule / tendril 0.25 seeking /
+// spread / multitarget / ranks 1–2 / P/Q/W/E / basic / loadout / full fidelity.
+func TestVarusChainOfCorruptionPrimaryHitCanonicalSingleTargetDamage(t *testing.T) {
+	compileReq, runReq := loadVarusChainOfCorruptionPrimaryHitFixture(t)
+	assertVarusChainOfCorruptionPrimaryHitProviderShape(t, compileReq)
+
+	ref := varusChainOfCorruptionPrimaryHitAbilityRef()
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "r0", AbilityRef: ref, Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "r_early", AbilityRef: ref, Source: "source", Target: "target", FirstAtMs: 59999},
+		{EntryKey: "r_ready", AbilityRef: ref, Source: "source", Target: "target", FirstAtMs: 60000},
+	}
+	runReq.StopPolicy.DurationMs = 60100
+
+	done := runVarusChainOfCorruptionPrimaryHit(t, compileReq, runReq)
+
+	if done.Summary.AbilityAttemptCount != 3 {
+		t.Fatalf("abilityAttemptCount=%d want 3", done.Summary.AbilityAttemptCount)
+	}
+	if done.Summary.AbilityCastCount != 2 {
+		t.Fatalf("abilityCastCount=%d want 2", done.Summary.AbilityCastCount)
+	}
+	if done.Summary.AttemptSkippedCount != 1 {
+		t.Fatalf("attemptSkippedCount=%d want 1", done.Summary.AttemptSkippedCount)
+	}
+	if varusChainOfCorruptionPrimaryHitSkipReasonCount(done, model.AttemptSkipCooldownNotReady) != 1 {
+		t.Fatal("expected exactly one cooldown_not_ready skip")
+	}
+
+	stat := findVarusChainOfCorruptionPrimaryHitAbilityStat(t, done)
+	if stat.AttemptCount != 3 || stat.CastCount != 2 || stat.SkipCount != 1 {
+		t.Fatalf("abilityStat attempt/cast/skip=%d/%d/%d want 3/2/1",
+			stat.AttemptCount, stat.CastCount, stat.SkipCount)
+	}
+
+	var skipAt59999 bool
+	for _, item := range done.Evidence.Items {
+		if item.Kind != model.EvidenceKindAttemptSkipped {
+			continue
+		}
+		if item.Data["skipReason"] != string(model.AttemptSkipCooldownNotReady) {
+			continue
+		}
+		if item.TimeMs != 59999 {
+			t.Fatalf("cooldown skip TimeMs=%d want 59999", item.TimeMs)
+		}
+		if numericAsInt64(item.Data["readyAtMs"]) != 60000 {
+			t.Fatalf("cooldown skip readyAtMs=%v want 60000", item.Data["readyAtMs"])
+		}
+		skipAt59999 = true
+	}
+	if !skipAt59999 {
+		t.Fatal("missing cooldown_not_ready skip evidence at t=59999 with readyAtMs=60000")
+	}
+
+	items := varusChainOfCorruptionPrimaryHitDamageEvidence(done)
+	if len(items) != 2 {
+		t.Fatalf("chain_of_corruption damage evidence=%d want 2", len(items))
+	}
+	wantTimes := []int64{0, 60000}
+	wantMit := expectedMitigatedMagic(varusChainOfCorruptionPrimaryHitExpectedRaw, varusChainOfCorruptionPrimaryHitTargetMR)
+	var mitSum float64
+	for i, item := range items {
+		if item.TimeMs != wantTimes[i] {
+			t.Fatalf("damage[%d] TimeMs=%d want %d", i, item.TimeMs, wantTimes[i])
+		}
+		if evidenceDataBool(item.Data, "phantom") {
+			t.Fatalf("damage[%d] must not be phantom: %+v", i, item.Data)
+		}
+		if evidenceDataString(item.Data, "phase") != "original" {
+			t.Fatalf("damage[%d] phase=%q want original", i, evidenceDataString(item.Data, "phase"))
+		}
+		if evidenceDataString(item.Data, "damageType") != "damage/magic" {
+			t.Fatalf("damage[%d] type=%q want damage/magic (runtime 20221)", i, evidenceDataString(item.Data, "damageType"))
+		}
+		if evidenceDataString(item.Data, "damageType") == "damage/physical" {
+			t.Fatalf("damage[%d] must not be physical (20220)", i)
+		}
+		if evidenceDataString(item.Data, "abilityRef") != ref {
+			t.Fatalf("damage[%d] abilityRef=%q want %q", i, evidenceDataString(item.Data, "abilityRef"), ref)
+		}
+		if evidenceDataString(item.Data, "providerRef") != varusChainOfCorruptionPrimaryHitProviderRef {
+			t.Fatalf("damage[%d] providerRef=%q want %q",
+				i, evidenceDataString(item.Data, "providerRef"), varusChainOfCorruptionPrimaryHitProviderRef)
+		}
+		if evidenceDataString(item.Data, "operationRef") != varusChainOfCorruptionPrimaryHitDamageOpRef {
+			t.Fatalf("damage[%d] operationRef=%q want %q",
+				i, evidenceDataString(item.Data, "operationRef"), varusChainOfCorruptionPrimaryHitDamageOpRef)
+		}
+		if _, ok := item.Data["eligible"]; ok {
+			t.Fatalf("damage[%d] must not carry crit evidence fields: %+v", i, item.Data)
+		}
+		rawAmt := evidenceDataFloat(item.Data, "rawAmount")
+		mit := evidenceDataFloat(item.Data, "mitigatedAmount")
+		if math.Abs(rawAmt-varusChainOfCorruptionPrimaryHitExpectedRaw) > 1e-9 {
+			t.Fatalf("damage[%d] rawAmount=%v want %v", i, rawAmt, varusChainOfCorruptionPrimaryHitExpectedRaw)
+		}
+		if math.Abs(mit-wantMit) > 1e-9 {
+			t.Fatalf("damage[%d] mitigatedAmount=%v want %v", i, mit, wantMit)
+		}
+		mitSum += mit
+	}
+
+	wantDealt := 2 * wantMit
+	if math.Abs(done.Summary.SourceDamageDealt-wantDealt) > 1e-6 {
+		t.Fatalf("sourceDamageDealt=%v want %v", done.Summary.SourceDamageDealt, wantDealt)
+	}
+	if math.Abs(mitSum-wantDealt) > 1e-6 {
+		t.Fatalf("evidence mitigated sum=%v want %v", mitSum, wantDealt)
+	}
+	if math.Abs(done.Summary.TargetFinalHp-varusChainOfCorruptionPrimaryHitHPAfter2) > 1e-6 {
+		t.Fatalf("targetFinalHp=%v want %v", done.Summary.TargetFinalHp, varusChainOfCorruptionPrimaryHitHPAfter2)
+	}
+	wantHP := varusChainOfCorruptionPrimaryHitTargetHP - wantDealt
+	if math.Abs(wantHP-varusChainOfCorruptionPrimaryHitHPAfter2) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("HP cross-check=%v want %v", wantHP, varusChainOfCorruptionPrimaryHitHPAfter2)
+	}
+
+	gotMana := varusChainOfCorruptionPrimaryHitSourceMana(t, done.FinalSnapshot)
+	if math.Abs(gotMana-varusChainOfCorruptionPrimaryHitManaAfter2) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("mana=%v want %v (spent exactly 200; skipped attempt costs 0)",
+			gotMana, varusChainOfCorruptionPrimaryHitManaAfter2)
+	}
+	if math.Abs((varusChainOfCorruptionPrimaryHitFixtureMana-gotMana)-200) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("mana spent=%v want 200", varusChainOfCorruptionPrimaryHitFixtureMana-gotMana)
+	}
+
+	if n := len(damageEvidenceItems(done)); n != 2 {
+		t.Fatalf("total damage evidence=%d want 2 (no extra AA/phantom/root/blight/tendril/E/W hits)", n)
+	}
+	if countEmittedEvents(done, "event/basic_attack_hit") != 0 {
+		t.Fatal("must not emit basic_attack_hit (no basic-attack channel)")
+	}
+	if got := sourceAttrResolved(t, done.FinalSnapshot, "ap"); math.Abs(got-varusChainOfCorruptionPrimaryHitFixtureAP) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("ap.resolved=%v want %v", got, varusChainOfCorruptionPrimaryHitFixtureAP)
+	}
+
+	// Cooldown skip must not mutate mana beyond the two successful costs, nor add
+	// damage / listener / state / control evidence beyond the two R magic ops.
+	if countEmittedEvents(done, "event/damage_dealt") != 2 {
+		t.Fatal("only the two successful casts may emit damage aggregates", done.Evidence)
+	}
+	for _, item := range done.Evidence.Items {
+		if item.Kind == model.EvidenceKindListenerSkipped ||
+			item.Kind == model.EvidenceKindProviderTick ||
+			(item.Kind == model.EvidenceKindEmittedEvent && (item.Ref != "event/damage_dealt" || item.TimeMs == 59999)) {
+			t.Fatalf("cooldown path must not emit listener/state/control-like evidence: %+v", item)
+		}
+		if item.Kind == model.EvidenceKindDamage && item.TimeMs == 59999 {
+			t.Fatal("cooldown skip at t=59999 must not deal damage")
+		}
+	}
+	for _, c := range done.FinalSnapshot.Combatants {
+		if c.Key != model.SelectorSource {
+			continue
+		}
+		bag, ok := c.ProviderState[varusChainOfCorruptionPrimaryHitProviderRef]
+		if !ok {
+			continue
+		}
+		state, _ := bag.(map[string]interface{})
+		if len(state) != 0 {
+			t.Fatalf("provider state must remain empty after cooldown skip (no root/reveal/Blight/tendril): %+v", state)
+		}
+	}
+
+	// Exclusions / no hidden behavior: Phase-A fixture only — not a claim about live game.
+	p := varusChainOfCorruptionPrimaryHitFindProvider(compileReq)
+	if p == nil {
+		t.Fatal("provider missing after run")
+	}
+	if len(p.Listeners) != 0 || len(p.InitialStateSchema) != 0 || p.Lifecycle != nil {
+		t.Fatal("fixture must not grow listener/state/lifecycle after compile (Phase-A exclusions)")
+	}
+	a := p.Abilities[0]
+	if a.TickSpec != nil || a.ListenerSpec != nil || a.CastCondition != nil || len(a.StateSchema) != 0 {
+		t.Fatal("fixture ability must not carry cast/projectile/root/reveal/Blight/tendril/listener/state surfaces")
+	}
+	for _, op := range a.Operations {
+		if op.Operation != "damage" || op.DamageType != "damage/magic" {
+			t.Fatalf("fixture must remain single magic damage op only: %+v", op)
+		}
+	}
+	outBlob, err := json.Marshal(done.Summary)
+	if err != nil {
+		t.Fatalf("marshal summary: %v", err)
+	}
+	out := string(outBlob)
+	for _, banned := range []string{
+		"blighted_quiver", "hail_of_arrows", "basic_attack",
+		"projectile", "multi_target", "tendril",
+	} {
+		if strings.Contains(out, banned) {
+			t.Fatalf("runtime summary must not contain excluded branch %q", banned)
+		}
+	}
+}

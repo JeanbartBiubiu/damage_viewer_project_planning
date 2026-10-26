@@ -782,11 +782,13 @@ function compileResultOperations(
       const flat = zone[0]?.applicationStage === 'ATTRIBUTE_FLAT' && zone[0]?.calculationMode === 'FLAT_ADD';
       const totalDecrease = zone[0]?.applicationStage === 'ATTRIBUTE_PERCENT' && zone[0]?.calculationMode === 'RATIO_MULTIPLY'
         && result.detail.operation === 'DECREASE';
+      const groupedIncrease = zone[0]?.applicationStage === 'ATTRIBUTE_PERCENT' && zone[0]?.calculationMode === 'RATIO_GROUP_ADD'
+        && result.detail.operation === 'INCREASE';
       if (effect.results.length !== 1 || result.target !== 'TARGET' || result.detail.attributeKey === 'hp'
         || life.endWhenShieldEndsResultKey != null || !life.durationValue || zone.length !== 1
-        || zone[0]!.gameId !== authored.gameId || !flat && !totalDecrease
+        || zone[0]!.gameId !== authored.gameId || !flat && !totalDecrease && !groupedIncrease
         || zone[0]!.domain !== 'ATTRIBUTE' || zone[0]!.status !== 'ENABLED') {
-        return fail(path, '持久命中属性只接完整单结果目标属性平加或总属性比例减少，不能混入其它生命周期或修正');
+        return fail(path, '持久命中属性只接完整单结果目标属性平加、原总属性比例减少或同组增幅，不能混入其它生命周期或修正');
       }
       const duration = tryFoldConstant(compileNumericValue(life.durationValue, `${path}.lifecycle.durationValue`,
         { ...state, bindParameters: false, allowAttributeReads: false, allowedContextKeys: undefined }, fail));

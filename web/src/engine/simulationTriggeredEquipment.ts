@@ -27,6 +27,8 @@ import {
 import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
 import { adaptDamageVamp } from './vampAdapter';
 import { compilePersistentResult } from './persistentResultAdapter';
+import { compileTimedDamageAmplification } from './timedDamageAmplificationAdapter';
+import { groupedAmplificationFields, staticGroupedAmplificationAmount } from './groupedAmplification';
 import { compileNaturalRestoration } from './naturalRestoration';
 import { compileSkillOncePerUse } from './skillOncePerUse';
 import { permanentModifier, validatePermanentEffect } from './simulationPermanentResults';
@@ -701,15 +703,22 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               || (behavior.stackValueMode === 'PER_STACK' ? behavior.reapplicationValueMode !== null : behavior.reapplicationValueMode !== 'REPLACE')
               || behavior.periodicExecutionMode !== null || !['INCREASE', 'DECREASE'].includes(result.detail.operation)) fail(resultPath, '来源叠层属性读取、重施或数值方式未接入');
             let policy = 'add';
+            let multiplierGroupKey: string | undefined;
             if (result.detail.modifierZoneKey !== null) {
               const zones = snapshot.catalogs.modifierZones.filter(row => row.modifierZoneKey === result.detail.modifierZoneKey);
               const zone = zones[0];
               if (zones.length !== 1 || !zone || zone.gameId !== snapshot.gameId || zone.status !== 'ENABLED' || zone.domain !== 'ATTRIBUTE'
                 || !(zone.calculationMode === 'FLAT_ADD' && zone.applicationStage === 'ATTRIBUTE_FLAT'
-                  || ['RATIO_ADD', 'RATIO_MULTIPLY'].includes(zone.calculationMode) && zone.applicationStage === 'ATTRIBUTE_PERCENT')) fail(resultPath, '来源属性修正区缺少完整真实目录');
-              if (zone.calculationMode === 'RATIO_MULTIPLY' && maximum !== 1) fail(resultPath, '来源总值乘算只接入明确单层有限实例');
-              if (zone.calculationMode === 'RATIO_MULTIPLY' && result.detail.attributeKey === 'hp') fail(resultPath, '来源总值乘算不能绕过生命上限账本');
-              policy = zone.calculationMode === 'FLAT_ADD' ? 'add' : zone.calculationMode === 'RATIO_MULTIPLY' ? 'multiply' : 'percent_add';
+                  || ['RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_GROUP_ADD'].includes(zone.calculationMode) && zone.applicationStage === 'ATTRIBUTE_PERCENT')) fail(resultPath, '来源属性修正区缺少完整真实目录');
+              const total = zone.calculationMode === 'RATIO_MULTIPLY' || zone.calculationMode === 'RATIO_GROUP_ADD';
+              if (total && maximum !== 1) fail(resultPath, '来源总值乘算只接入明确单层有限实例');
+              if (total && result.detail.attributeKey === 'hp') fail(resultPath, '来源总值乘算不能绕过生命上限账本');
+              if (zone.calculationMode === 'RATIO_GROUP_ADD') {
+                if (result.detail.operation !== 'INCREASE' || !result.valueRule) fail(resultPath, '来源同组增幅只接明确增加');
+                const ratio = staticGroupedAmplificationAmount(result.valueRule, `${resultPath}.valueRule`, numeric);
+                multiplierGroupKey = groupedAmplificationFields(zone.modifierZoneKey, ratio, resultPath).multiplierGroupKey;
+              }
+              policy = zone.calculationMode === 'FLAT_ADD' ? 'add' : total ? 'multiply' : 'percent_add';
               cover(`catalogs.modifierZones.${zone.modifierZoneKey}`, `${compiledRoot}.modifiers[${modifiers.length}]`);
             }
             stableKey(result.detail.attributeKey, `${resultPath}.detail.attributeKey`);
@@ -724,6 +733,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             const modifierPath = `${compiledRoot}.modifiers[${modifiers.length}]`;
             modifiers.push({ modifierKey: namedKey(skillKey, `${authored.effectKey}_${result.resultKey}`), kind: 'attribute',
               ...(policy === 'multiply' ? { stage: 'total' } : {}),
+              ...(multiplierGroupKey ? { multiplierGroupKey } : {}),
               target: `self.attr.${result.detail.attributeKey}`, valuePolicy: policy,
               value: policy === 'multiply' ? { op: 'add', args: [constExpr(1), { op: 'mul', args: [constExpr(magnitude), layers] }] }
                 : { op: 'mul', args: [constExpr(magnitude), layers] } });
@@ -1059,7 +1069,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             const zone = zones[0];
             if (zones.length !== 1 || !zone || zone.gameId !== snapshot.gameId || zone.status !== 'ENABLED'
               || zone.domain !== 'ATTRIBUTE' || !(zone.calculationMode === 'FLAT_ADD' && zone.applicationStage === 'ATTRIBUTE_FLAT'
-                || ['RATIO_ADD', 'RATIO_MULTIPLY'].includes(zone.calculationMode) && zone.applicationStage === 'ATTRIBUTE_PERCENT')) {
+                || ['RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_GROUP_ADD'].includes(zone.calculationMode) && zone.applicationStage === 'ATTRIBUTE_PERCENT')) {
               fail(resultPath, '目标属性修正区需要唯一已启用、同游戏的真实属性目录与对应作用阶段');
             }
             amount(result, resultPath);
@@ -1207,6 +1217,39 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (activeEffects.has(authored.effectKey)) fail(effectPath, '效果接线循环');
           activeEffects.add(authored.effectKey);
           try {
+            if (authored.lifecycle?.expiryMode === 'ALL_AT_ONCE' && authored.results.some(result => result.resultType === 'DAMAGE_MODIFIER'
+              && snapshot.catalogs.modifierZones.some(zone => zone.modifierZoneKey === result.detail.modifierZoneKey && zone.calculationMode === 'RATIO_GROUP_ADD'))) {
+              if (event === 'SOURCE_INITIALIZED') fail(effectPath, '有限同组增幅须由真实过程或已支持的命中/施放触发，不能借用永久初始化入口');
+              const compiled = compileTimedDamageAmplification(authored, numeric, snapshot.catalogs.modifierZones, snapshot.catalogs.damageTypes.map(row => row.type), definitionRef);
+              for (const dynamicProvider of compiled.providers) {
+                dynamicProvider.stableId = provider.stableId;
+                const previous = providers.find(row => row.providerKey === dynamicProvider.providerKey);
+                if (previous && JSON.stringify(previous) !== JSON.stringify(dynamicProvider)) fail(effectPath, '有限增幅定义冲突');
+                if (!previous) providers.push(dynamicProvider);
+              }
+              for (const entry of compiled.typeEntries) {
+                types.set(entry.key, entry.domain);
+                cover(`catalogs.damageTypes.${entry.key}.type`, `typeCatalog.types[${entry.key}]`);
+              }
+              for (const operation of compiled.operations) {
+                const operationPath = `${outputRoot}[${output.length}]`;
+                output.push(operation);
+                for (const result of authored.results) {
+                  if (result.resultType !== 'DAMAGE_MODIFIER') fail(effectPath, '有限增幅必须保留完整伤害修正结果');
+                  noteNumeric(result.valueRule!.value);
+                  // apply_provider在真实父能力中执行，子status只持有修正，不拥有该操作。
+                  origin(result, authored, abilityRef, [operationPath]);
+                  cover(`${effectPath}.results.${result.resultKey}`, `sharedProviders.${operation.providerDefinitionRef}.modifiers[0]`);
+                  cover(`catalogs.modifierZones.${result.detail.modifierZoneKey}`, `sharedProviders.${operation.providerDefinitionRef}.modifiers[0].multiplierGroupKey`);
+                }
+              }
+              noteNumeric(authored.lifecycle.maxStacksValue);
+              noteNumeric(authored.lifecycle.applicationStacksValue);
+              if (authored.lifecycle.durationValue) noteNumeric(authored.lifecycle.durationValue);
+              cover(`${effectPath}.lifecycle`, `sharedProviders.${compiled.providers[0]!.providerKey}.lifecycle`);
+              cover(effectPath, `sharedProviders.${compiled.providers[0]!.providerKey}`);
+              return;
+            }
             if (ownExpiry?.effectKey === authored.effectKey && ['SOURCE_INITIALIZED', 'INTERNAL_STATE_CHANGED'].includes(event)
               || event === 'SOURCE_INITIALIZED' && authored.lifecycle?.instanceScope === 'SOURCE'
                 && authored.lifecycle.endWhenShieldEndsResultKey != null) {
@@ -1257,6 +1300,10 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                     for (const parameterKey of skillFormulaParameterKeys(formula.expression, false)) cover(`${root}.parameters.${parameterKey}`, consumedPath);
                   }
                 });
+                if (result.resultType === 'DAMAGE_MODIFIER' && result.detail.damageTypeKey) {
+                  types.set(result.detail.damageTypeKey, 'damage');
+                  cover(`catalogs.damageTypes.${result.detail.damageTypeKey}.type`, `sharedProviders.${key}.modifiers[0].condition`);
+                }
                 if (!providers.some(row => row.providerKey === key)) providers.push({
                   providerKey: key, skillKey, stableId, kind: 'status', modifiers: [modifier]
                 });

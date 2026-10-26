@@ -451,7 +451,8 @@ func pureFiniteTargetAttributeProvider(reference string, ctx *genericCompileCont
 			return false
 		}
 		value, fixed := ctx.session.Formulas.FoldStatic(modifier.ValueProgram)
-		if !fixed || math.IsNaN(value) || math.IsInf(value, 0) || (total && (value < 0 || value > 1)) {
+		validTotal := !total || modifier.HasMultiplierGroup && value >= 1 || !modifier.HasMultiplierGroup && value >= 0 && value <= 1
+		if !fixed || math.IsNaN(value) || math.IsInf(value, 0) || !validTotal {
 			return false
 		}
 	}

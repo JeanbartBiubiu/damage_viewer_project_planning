@@ -3,7 +3,7 @@ package formula
 import (
 	"errors"
 	"strings"
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
 )
 
 // 严格读取不把缺值变成零，也不把合法的 Resolved=0 回退为 Current。

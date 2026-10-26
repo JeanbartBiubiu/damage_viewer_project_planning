@@ -15,6 +15,44 @@ import org.junit.jupiter.api.Test;
 class ModifierZoneManagementDbContractSqlTest {
 
     @Test
+    void groupedAmplificationMigrationExpandsOnlyTheTwoExistingChecksAndMatchesTheNewSchema() throws IOException {
+        String sql = read("db/game_manage/migrations/modifier_zone_ratio_group_add.sql");
+        String executable = sql.replaceAll("(?m)--[^\\n]*", "");
+        assertEquals(2, count(executable, "DROP CONSTRAINT"));
+        assertEquals(2, count(executable, "ADD CONSTRAINT"));
+        assertTrue(executable.contains("FOR phase IN 0..1 LOOP"));
+        assertTrue(executable.contains("observed_mode IS DISTINCT FROM expected_mode"));
+        assertTrue(executable.contains("observed_combination IS DISTINCT FROM expected_combination"));
+        assertTrue(executable.contains("before_rows IS DISTINCT FROM after_rows"));
+        assertFalse(executable.matches("(?is).*\\b(INSERT|UPDATE|DELETE|TRUNCATE)\\b.*"));
+        assertFalse(executable.contains("CREATE TABLE"));
+        assertFalse(executable.contains("ADD COLUMN"));
+        for (String name : new String[]{"ck_modifier_zones_calculation_mode", "ck_modifier_zones_combination"}) {
+            assertEquals(constraintBody(normalized(read("db/game_manage/schema.sql")), "constraint " + name),
+                constraintBody(normalized(sql), "add constraint " + name), name);
+        }
+        String preflight = normalized(read("db/game_manage/checks/ratio_group_add_preflight.sql"));
+        assertTrue(preflight.contains("repeatable read read only"));
+        assertFalse(preflight.matches("(?is).*\\b(ALTER|INSERT|UPDATE|DELETE|TRUNCATE|CREATE)\\b.*"));
+    }
+
+    private static String constraintBody(String sql, String marker) {
+        int start = sql.indexOf(marker);
+        assertTrue(start >= 0, marker);
+        start = sql.indexOf("check (", start) + 6;
+        int depth = 0;
+        boolean quoted = false;
+        for (int index = start; index < sql.length(); index++) {
+            char value = sql.charAt(index);
+            if (value == '\'') quoted = !quoted;
+            if (quoted) continue;
+            if (value == '(') depth++;
+            if (value == ')' && --depth == 0) return sql.substring(start, index + 1);
+        }
+        throw new AssertionError("unterminated constraint " + marker);
+    }
+
+    @Test
     void schemaKeepsIndependentZonesAndResultsReferenceThemFromJson() throws IOException {
         String sql = normalized(read("db/game_manage/schema.sql"));
         String zones = tableBody(sql, "public.modifier_zones");
@@ -22,7 +60,7 @@ class ModifierZoneManagementDbContractSqlTest {
 
         assertTrue(zones.contains("primary key (game_id, modifier_zone_key)"));
         assertTrue(zones.contains("domain in ('attribute', 'damage', 'healing', 'shield')"));
-        assertTrue(zones.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_multiply', 'ratio_complement_multiply', 'ratio_max')"));
+        assertTrue(zones.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_multiply', 'ratio_complement_multiply', 'ratio_max', 'ratio_group_add')"));
         assertTrue(zones.contains("varchar(16) not null"));
         assertTrue(zones.contains("and calculation_mode = 'ratio_max'"));
         assertTrue(zones.contains("and application_stage = 'healing_result'"));
@@ -145,7 +183,7 @@ class ModifierZoneManagementDbContractSqlTest {
         assertTrue(sql.contains("EXCEPT ALL"));
         assertEquals(2, count(executable, "DROP CONSTRAINT"));
         String schema = normalized(read("db/game_manage/schema.sql"));
-        assertTrue(schema.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_multiply', 'ratio_complement_multiply', 'ratio_max')"));
+        assertTrue(schema.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_multiply', 'ratio_complement_multiply', 'ratio_max', 'ratio_group_add')"));
         assertTrue(schema.contains("domain = 'healing' and calculation_mode = 'ratio_max'"));
     }
 

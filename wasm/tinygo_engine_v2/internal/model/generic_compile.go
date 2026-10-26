@@ -279,6 +279,7 @@ type OperationDefinition struct {
 
 // ModifierDefinition 是 provider 级 modifier。
 type ModifierDefinition struct {
+	MultiplierGroupKey       *string             `json:"multiplierGroupKey,omitempty"`
 	MaximumReductionRatio    *float64            `json:"maximumReductionRatio,omitempty"`
 	ValueReadMode            string              `json:"valueReadMode,omitempty"`
 	ModifierKey              string              `json:"modifierKey"`

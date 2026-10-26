@@ -349,8 +349,9 @@ public class SimulationSnapshotService {
         try {
             SkillNumericSemantics.validateCappedDamageModifiers(execution, context, parameters, modes, domains, stages,
                 attributes.stream().map(AttributeResponse::attributeKey).collect(java.util.stream.Collectors.toSet()));
+            SkillNumericSemantics.validateGroupedAmplification(execution, context, parameters, modes, domains, stages);
         } catch (ApiException error) {
-            throw new ApiException(HttpStatus.CONFLICT, "409.SIMULATION_SNAPSHOT_INVALID", "封顶平减的完整来源或数值声明不合法", error.getDetails());
+            throw new ApiException(HttpStatus.CONFLICT, "409.SIMULATION_SNAPSHOT_INVALID", "场景数值修正的完整来源或数值声明不合法", error.getDetails());
         }
     }
 
@@ -585,6 +586,9 @@ public class SimulationSnapshotService {
         List<ModifierZoneResponse> result = new ArrayList<>();
         for (var dependency : keys.entrySet()) {
             ModifierZoneResponse value = readDependency(() -> zones.get(gameId, dependency.getKey()), dependency.getValue());
+            if (!gameId.equals(value.gameId()) || !dependency.getKey().equals(value.modifierZoneKey())) {
+                throw invalid(dependency.getValue(), "REFERENCE_TYPE_MISMATCH", "乘区回读的游戏归属或标识不一致");
+            }
             requireEnabled(value.status(), dependency.getValue());
             result.add(value);
         }

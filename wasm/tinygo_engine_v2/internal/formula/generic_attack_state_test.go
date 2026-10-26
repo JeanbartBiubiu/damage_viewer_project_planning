@@ -7,7 +7,7 @@ import (
 
 func TestAttackStartCounterReadNeverFallsBackToCurrentState(t *testing.T) {
 	r := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "use.provider_state_before.hits"})
-	ctx := GenericEvalContext{HasProviderContext: true, ProviderState: map[string]float64{"hits": 2}, ProviderStateDefaults: map[string]float64{"hits": 2}}
+	ctx := GenericEvalContext{HasProviderContext: true, ProviderState: model.BorrowNumericView(map[string]float64{"hits": 2}), ProviderStateDefaults: model.BorrowNumericView(map[string]float64{"hits": 2})}
 	if _, err := r.Eval(0, ctx); err == nil {
 		t.Fatal("missing capture used mutable state")
 	}

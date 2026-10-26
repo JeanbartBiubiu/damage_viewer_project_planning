@@ -2,7 +2,7 @@ package pipeline
 
 import (
 	"testing"
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -187,12 +187,12 @@ func TestAttributeResolverPerModifierProviderContext(t *testing.T) {
 			// 覆盖项类型只允许供值状态，基础能力参数继续来自baseCtx。
 			return ProviderFormulaContext{
 				HasProviderContext: true,
-				ProviderState:      map[string]float64{"stacks": 1},
+				ProviderState:      model.BorrowNumericView(map[string]float64{"stacks": 1}),
 			}
 		case "buff_b":
 			return ProviderFormulaContext{
 				HasProviderContext: true,
-				ProviderState:      map[string]float64{"stacks": 3},
+				ProviderState:      model.BorrowNumericView(map[string]float64{"stacks": 3}),
 			}
 		default:
 			t.Fatalf("unexpected providerRef %q", providerRef)
@@ -237,7 +237,7 @@ func TestAttributeResolverCrossCombatantOwnerContext(t *testing.T) {
 		}
 		return ProviderFormulaContext{
 			HasProviderContext:  true,
-			ProviderTargetState: map[string]float64{"carve_stacks": 5},
+			ProviderTargetState: model.BorrowNumericView(map[string]float64{"carve_stacks": 5}),
 		}
 	})
 	if err != nil {

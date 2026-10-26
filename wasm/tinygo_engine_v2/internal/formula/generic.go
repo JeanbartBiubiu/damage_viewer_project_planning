@@ -4,7 +4,7 @@ import (
 	"math"
 	"strings"
 
-	"tinygo_engine_v2/internal/expression"
+	"tinygo_engine_v2/internal/base/expression"
 	"tinygo_engine_v2/internal/model"
 )
 

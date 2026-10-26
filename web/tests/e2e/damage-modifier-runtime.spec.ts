@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
 import { test, expect, type Page } from '@playwright/test';
@@ -6,8 +6,98 @@ import type { CompileRequest, GenericFormulaExpr, ModifierDefinition, RunRequest
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 import { createExplicitDamageInput } from '../fixtures/formulaPhase4AuthorInput';
 import { authoredConstantDefense } from '../fixtures/authoredDamageFormula';
+import { parseMechanismCase } from '../mechanisms/mechanismCase';
+import { compareMechanismExpectation, projectMechanismResult } from '../mechanisms/mechanismRunner';
 
 type Scenario = { compileRequest: CompileRequest; runRequest: RunRequest };
+
+for (const caseKey of ['grouped_attribute_2145', 'grouped_timed_outgoing_expiry']) {
+  test(`正式Worker生产适配：${caseKey}编译、运行、同会话重放与释放`, async ({ page }, info) => {
+    const file = resolve(`tests/mechanisms/cases/${caseKey}.json`);
+    const definition = parseMechanismCase(readFileSync(file), file);
+    const workers: string[] = [];
+    page.on('worker', worker => workers.push(worker.url()));
+    await page.addInitScript(() => {
+      const scope = window as typeof window & { groupedMessages: Array<{ type: string; id: string }> };
+      scope.groupedMessages = [];
+      const original = Worker.prototype.postMessage;
+      Worker.prototype.postMessage = function(message, ...options) {
+        if (message && typeof message === 'object' && ['init', 'compile', 'run', 'release'].includes(message.type)) {
+          scope.groupedMessages.push({ type: message.type, id: message.id });
+        }
+        return original.apply(this, [message, ...options] as Parameters<typeof original>);
+      };
+    });
+    await page.route('**/grouped-amplification-harness', route => route.fulfill({ contentType: 'text/html',
+      body: '<!doctype html><title>分组增幅正式工作线程冒烟</title>' }));
+    await page.goto('/grouped-amplification-harness');
+    const result = await page.evaluate(async ({ snapshot, scenario }) => {
+      const { GenericEngineClient } = await import(/* @vite-ignore */ '/src/engine/genericEngineClient.ts');
+      const { preflightSkillFormulas } = await import(/* @vite-ignore */ '/src/engine/skillFormulaPreflight.ts');
+      const { prepareSimulation } = await import(/* @vite-ignore */ '/src/engine/simulationAdapter.ts');
+      const { simulationAutomaticCastCosts } = await import(/* @vite-ignore */ '/src/engine/simulationActiveSkills.ts');
+      const { validateSimulationSnapshot } = await import(/* @vite-ignore */ '/src/services/simulationSnapshotClient.ts');
+      const { continuousAttackRequest } = await import(/* @vite-ignore */ '/src/engine/continuousAttackRequest.ts');
+      const { skillActionRequest } = await import(/* @vite-ignore */ '/src/engine/skillActionRequest.ts');
+      const { assessContinuousAttackResult } = await import(/* @vite-ignore */ '/src/engine/continuousAttackResult.ts');
+      const { assessSkillActionResult } = await import(/* @vite-ignore */ '/src/engine/skillActionResult.ts');
+      const { validateApprovedFormulaValues, validateConsumedFormulaValues } = await import(/* @vite-ignore */ '/src/engine/approvedFormulaValues.ts');
+      const wasmPath = '/src/engine/wasm/tinygo_engine_v2.wasm';
+      const wasmResponse = await fetch(wasmPath);
+      if (!wasmResponse.ok) throw new Error(`正式Wasm HTTP ${wasmResponse.status}`);
+      const wasm = await wasmResponse.arrayBuffer();
+      const sha256 = [...new Uint8Array(await crypto.subtle.digest('SHA-256', wasm))]
+        .map(value => value.toString(16).padStart(2, '0')).join('');
+      validateSimulationSnapshot(snapshot, snapshot.gameId, snapshot.selection);
+      const client = new GenericEngineClient();
+      let value;
+      try {
+        const ignoredCosts = simulationAutomaticCastCosts(snapshot);
+        await preflightSkillFormulas(snapshot, client, () => true, scenario.sceneParameterInputs ?? []);
+        const prepared = await prepareSimulation(snapshot, structuredClone(scenario.attributeInputs ?? { source: {}, target: {} }),
+          scenario.initialHealth, scenario.equipmentAssumptions ?? [], scenario.mechanicStateInputs ?? [], ignoredCosts,
+          scenario.sceneParameterInputs ?? [], scenario.initialResourceInputs ?? []);
+        const compiled = await client.compile(prepared.compileRequest);
+        if (!compiled.ok || !compiled.sessionId) throw new Error(JSON.stringify(compiled.errors));
+        validateConsumedFormulaValues(prepared.approvedFormulaValues, prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
+        validateApprovedFormulaValues(prepared.compileRequest.formulas ?? [], compiled.metadata?.approvedStaticValues ?? {});
+        const common = { durationMs: scenario.durationMs, recordTimeSeries: false, attackSpeedInputMax: scenario.attackSpeedInputMax ?? 10 };
+        const built = scenario.mode === 'skill_action'
+          ? await skillActionRequest(prepared, snapshot, { ...common, actions: scenario.actions ?? [], maxSkillActionRecords: 1000,
+            maxSkillUseRecords: 1000, maxHealingRecords: 1000, maxResourceChangeRecords: 1000 }, compiled.sessionId)
+          : await continuousAttackRequest(prepared, snapshot, common, compiled.sessionId);
+        const runRequest = { ...built.runRequest, runtimeOptions: { ...built.runRequest.runtimeOptions,
+          equipmentAssumptions: prepared.equipmentAssumptions, skillOrigins: prepared.skillOrigins, mechanicStateInputs: prepared.mechanicStateInputs } };
+        const done = await client.run(runRequest);
+        const repeated = await client.run(runRequest);
+        const assessment = scenario.mode === 'skill_action'
+          ? assessSkillActionResult(prepared.compileRequest, runRequest, done, prepared.operationOrigins)
+          : assessContinuousAttackResult(prepared.compileRequest, runRequest, done, prepared.operationOrigins);
+        const released = await client.release(compiled.sessionId, prepared.compileRequest.rulesHash);
+        value = { prepared, compiled, runRequest, done, repeated, assessment, released };
+      } finally { client.terminate(); }
+      return { ...value, wasm: { path: wasmPath, bytes: wasm.byteLength, sha256 }, workerAliveAfterTerminate: client.hasLiveWorker,
+        messages: (window as typeof window & { groupedMessages: Array<{ type: string; id: string }> }).groupedMessages };
+    }, { snapshot: definition.buildSnapshot(), scenario: definition.scenario });
+    const evidence = info.outputPath(`${caseKey}-worker-evidence.json`);
+    writeFileSync(evidence, JSON.stringify({ caseKey, fixtureSha256: definition.fileSha256,
+      entry: '/grouped-amplification-harness', workers, result }, null, 2) + '\n');
+    await info.attach(`${caseKey}-worker-evidence`, { contentType: 'application/json', path: evidence });
+    expect(result.wasm).toMatchObject(WASM_IDENTITY);
+    expect(workers.some(url => url.includes('genericEngineWorker'))).toBe(true);
+    expect(result.messages.map(row => row.type)).toEqual(expect.arrayContaining(['compile', 'run', 'release']));
+    expect(result.messages.filter(row => row.type === 'run')).toHaveLength(2);
+    expect(result.repeated).toEqual(result.done);
+    expect(result.released.released).toBe(true);
+    expect(result.assessment.complete, JSON.stringify(result.assessment)).toBe(true);
+    expect(result.assessment.issues).toEqual([]);
+    expect(result.workerAliveAfterTerminate).toBe(false);
+    const projection = projectMechanismResult(result.prepared.operationOrigins, result.prepared.compileRequest,
+      result.runRequest, result.done, definition.expected);
+    expect(compareMechanismExpectation(projection, definition.expected)).toEqual([]);
+  });
+}
+
 const value = (value: number): GenericFormulaExpr => ({ op: 'const', value });
 function healthCondition(comparator: 'lt' | 'gt', threshold: GenericFormulaExpr): GenericFormulaExpr {
   return { op: 'if', args: [

@@ -25,7 +25,7 @@ node tools/system-enums/generate.mjs --target web --root C:/project/damage_web_d
 | 用途 | 类型 | 固定值与显示 |
 | --- | --- | --- |
 | 触发动作 | SkillTriggerActionType | `EXECUTE_EFFECT`（执行效果）、`START_PROCESS`（启动过程）、`FAIL_PROCESS`（令过程失败）、`ADVANCE_PROCESS`（推进当前过程）、`MODIFY_INTERNAL_STATE`（修改内部状态） |
-| 内部状态修改操作 | SkillTriggerInternalStateOperation | `REDUCE_RECOVERY`（减少下一次回充余时） |
+| 内部状态修改操作 | SkillTriggerInternalStateOperation | `REDUCE_RECOVERY`（减少下一次回充余时）、`ENSURE_REMAINING`（确保目标计数至少剩余指定毫秒）、`ENSURE_REMAINING_PRESERVE_PHASE`（保留周期节拍并确保至少剩余指定毫秒） |
 | 施放阶段 | SkillTriggerCastPhase | `INITIAL`（首次施放）、`RECAST`（再次施放）、`CHARGE_RELEASE`（蓄力释放） |
 | 战斗状态读值 | SkillTriggerCombatStatusValueKind | `PRESENT`（存在）、`STACKS`（层数）、`REMAINING_MS`（剩余时间） |
 | 比较符 | SkillTriggerComparator | `LT`（小于）、`LTE`（小于等于）、`EQ`（等于）、`NE`（不等于）、`GTE`（大于等于）、`GT`（大于） |
@@ -59,5 +59,5 @@ node tools/system-enums/generate.mjs --target web --root C:/project/damage_web_d
 | 过程步骤 | SkillProcessStepType | `IMMEDIATE`（立即）、`DELAY`（延迟）、`MULTI_HIT`（多段）、`PERIODIC`（周期）、`CHANNEL`（引导）、`CHARGE`（蓄力）、`RECAST`（重施）、`EMPOWERED_BASIC_ATTACK`（强化下一次普通攻击） |
 | 自动技能等待原因 | AutomaticSkillWaitReason | `OWN_COOLDOWN`（自身冷却）、`RELATED_COOLDOWN`（关联冷却）、`RELEASE_QUALIFICATION`（缺释放资格）、`ACTION_OCCUPIED`（行动占用）、`PROCESS_ACTIVE`（同来源已有过程）、`MECHANIC_RESOURCE`（机制资源不足）、`AUTHOR_CONDITION`（作者条件不成立） |
 | 自动技能记录类别 | AutomaticSkillRecordKind | `ATTEMPT_REJECTED`（尝试拒绝）、`ABORTED_BEFORE_START`（开始前中止）、`STARTED`（成功开始）、`COMPLETED`（成功终结）、`FAILED`（失败终结）、`QUALIFICATION_GRANTED`（资格授予）、`QUALIFICATION_CONSUMED`（资格消费）、`WAIT_CHANGED`（等待变化） |
-| 修正区域计算方式 | ModifierZoneCalculationMode | `FLAT_ADD`（固定值加算）、`RATIO_ADD`（比例加算）、`RATIO_MULTIPLY`（比例乘算）、`RATIO_MAX`（比例减少取强）、`RATIO_COMPLEMENT_MULTIPLY`（剩余比例连乘） |
+| 修正区域计算方式 | ModifierZoneCalculationMode | `FLAT_ADD`（固定值加算）、`RATIO_ADD`（比例加算）、`RATIO_MULTIPLY`（比例乘算）、`RATIO_GROUP_ADD`（同组增幅加算）、`RATIO_MAX`（比例减少取强）、`RATIO_COMPLEMENT_MULTIPLY`（剩余比例连乘） |
 <!-- system-enums:members:end -->

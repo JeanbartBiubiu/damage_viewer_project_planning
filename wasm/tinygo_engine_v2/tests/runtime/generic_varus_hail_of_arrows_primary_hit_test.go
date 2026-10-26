@@ -1,0 +1,535 @@
+// 跨子系统组合测试只经公开编译、会话和运行入口验证。
+package runtime_test
+
+import (
+	math "math"
+	testing "testing"
+	model "tinygo_engine_v2/internal/model"
+	runtimeengine "tinygo_engine_v2/internal/runtime"
+	formuladefinition "tinygo_engine_v2/internal/testkit/formuladefinition"
+)
+
+const (
+	varusHailOfArrowsPrimaryHitProviderRef = "provider_hero_varus_e_hail_of_arrows_primary_hit"
+	varusHailOfArrowsPrimaryHitStableID    = "hero_varus_e_hail_of_arrows_primary_hit"
+	varusHailOfArrowsPrimaryHitAbilityID   = "ability_hero_varus_e_hail_of_arrows_primary_hit"
+	varusHailOfArrowsPrimaryHitAbilityKey  = "hail_of_arrows"
+	varusHailOfArrowsPrimaryHitDamageOpRef = "op:varus_hail_of_arrows_primary_hit_damage"
+	varusHailOfArrowsPrimaryHitBonusADMod  = "fixture_varus_hail_of_arrows_primary_hit_bonus_ad"
+
+	varusHailOfArrowsPrimaryHitBaseDamage = 180.0
+	varusHailOfArrowsPrimaryHitBonusRatio = 0.90
+	varusHailOfArrowsPrimaryHitManaCost   = 90.0
+	varusHailOfArrowsPrimaryHitCDMs       = 10000.0
+
+	varusHailOfArrowsPrimaryHitADBase      = 59.0
+	varusHailOfArrowsPrimaryHitADResolved  = 159.0
+	varusHailOfArrowsPrimaryHitTargetArmor = 100.0
+	varusHailOfArrowsPrimaryHitTargetHP    = 100000.0
+	varusHailOfArrowsPrimaryHitFixtureMana = 320.0
+
+	// Independent cross-check: bonusAD=100 → raw 270; armor 100 → mitigated 135.
+	varusHailOfArrowsPrimaryHitExpectedRaw       = 270.0
+	varusHailOfArrowsPrimaryHitExpectedMitigated = 135.0
+	varusHailOfArrowsPrimaryHitManaAfter2        = 140.0 // 320 - 90 - 90
+
+	varusHailOfArrowsPrimaryHitTol = 1e-9
+)
+
+func varusHailOfArrowsPrimaryHitExpectedRawFromAD(resolvedAD, baseAD float64) float64 {
+	return varusHailOfArrowsPrimaryHitBaseDamage + varusHailOfArrowsPrimaryHitBonusRatio*(resolvedAD-baseAD)
+}
+
+func varusHailOfArrowsPrimaryHitDamageAmount() *model.GenericFormulaExpr {
+	base := varusHailOfArrowsPrimaryHitBaseDamage
+	ratio := varusHailOfArrowsPrimaryHitBonusRatio
+	return &model.GenericFormulaExpr{
+		Op: "add",
+		Args: []model.GenericFormulaExpr{
+			{Op: "const", Value: &base},
+			{
+				Op: "mul",
+				Args: []model.GenericFormulaExpr{
+					{Op: "const", Value: &ratio},
+					{
+						Op: "sub",
+						Args: []model.GenericFormulaExpr{
+							{Op: "read", Path: "source.attr.ad.resolved"},
+							{Op: "read", Path: "source.attr.ad.base"},
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+func varusHailOfArrowsPrimaryHitAbility() model.AbilityDefinition {
+	cost := varusHailOfArrowsPrimaryHitManaCost
+	cd := varusHailOfArrowsPrimaryHitCDMs
+	return model.AbilityDefinition{
+		AbilityKey: varusHailOfArrowsPrimaryHitAbilityKey,
+		Kind:       "active",
+		// Not a basic attack; CritEligible left false on the damage op.
+		Types: []string{},
+		Cost: &model.AbilityCost{
+			ResourceKey: "mana",
+			Amount:      model.GenericFormulaExpr{Op: "const", Value: &cost},
+		},
+		Cooldown: &model.AbilityCooldown{
+			DurationMs: model.GenericFormulaExpr{Op: "const", Value: &cd},
+		},
+		Operations: []model.OperationDefinition{
+			{
+				Operation:     "damage",
+				Target:        "target",
+				DamageType:    "damage/physical",
+				Ref:           varusHailOfArrowsPrimaryHitDamageOpRef,
+				Amount:        varusHailOfArrowsPrimaryHitDamageAmount(),
+				CritEligible:  false,
+				CopyableOnHit: false,
+			},
+		},
+	}
+}
+
+func varusHailOfArrowsPrimaryHitProviderDef() model.ProviderDefinition {
+	bonusAD := varusHailOfArrowsPrimaryHitADResolved - varusHailOfArrowsPrimaryHitADBase
+	return model.ProviderDefinition{
+		ProviderKey: varusHailOfArrowsPrimaryHitProviderRef,
+		Kind:        "champion",
+		StableID:    varusHailOfArrowsPrimaryHitStableID,
+		// Fixture-only flat AD so ad.base stays 59 while ad.resolved becomes 159
+		// (attribute resolve overwrites a hand-set Resolved that differs from Base).
+		Modifiers: []model.ModifierDefinition{{
+			ModifierKey: varusHailOfArrowsPrimaryHitBonusADMod,
+			Kind:        "attribute",
+			Target:      "ad",
+			ValuePolicy: "add",
+			Value:       gfConst(bonusAD),
+		}},
+		Abilities: []model.AbilityDefinition{varusHailOfArrowsPrimaryHitAbility()},
+	}
+}
+
+func varusHailOfArrowsPrimaryHitAbilityRef() string {
+	return "source.provider[" + varusHailOfArrowsPrimaryHitProviderRef + "].ability[" + varusHailOfArrowsPrimaryHitAbilityKey + "]"
+}
+
+func configureVarusHailOfArrowsPrimaryHitProvider(compileReq *model.CompileRequest, runReq *model.RunRequest) {
+	compileReq.SharedProviders = []model.ProviderDefinition{varusHailOfArrowsPrimaryHitProviderDef()}
+	compileReq.Combatants[0].Providers = []model.CombatantProviderMount{
+		{ProviderRef: varusHailOfArrowsPrimaryHitProviderRef, DefinitionRef: varusHailOfArrowsPrimaryHitProviderRef},
+	}
+	for i := range runReq.InitialSnapshot.Combatants {
+		if runReq.InitialSnapshot.Combatants[i].Key != model.SelectorSource {
+			continue
+		}
+		runReq.InitialSnapshot.Combatants[i].Providers = []model.CombatantProviderSnapshot{
+			{
+				ProviderRef: varusHailOfArrowsPrimaryHitProviderRef, DefinitionRef: varusHailOfArrowsPrimaryHitProviderRef,
+				Stacks: 1, State: map[string]interface{}{},
+			},
+		}
+	}
+}
+
+func ensureVarusHailOfArrowsPrimaryHitTypes(req *model.CompileRequest) {
+	formuladefinition.DeclareAttributes(req, "armor")
+	formuladefinition.SetDamageFormula(req, "damage/physical", formuladefinition.ResistanceDefense("armor"))
+
+	need := []model.TypeCatalogEntry{
+		{Key: "damage/physical", Domain: "damage"},
+	}
+	have := map[string]bool{}
+	for _, t := range req.TypeCatalog.Types {
+		have[t.Key] = true
+	}
+	for _, t := range need {
+		if !have[t.Key] {
+			req.TypeCatalog.Types = append(req.TypeCatalog.Types, t)
+		}
+	}
+}
+
+func loadVarusHailOfArrowsPrimaryHitFixture(t *testing.T) (model.CompileRequest, model.RunRequest) {
+	t.Helper()
+	compileReq, runReq := loadBasicFixture(t)
+	ensureVarusHailOfArrowsPrimaryHitTypes(&compileReq)
+	configureVarusHailOfArrowsPrimaryHitProvider(&compileReq, &runReq)
+
+	setCombatantAttr(&compileReq, &runReq, model.SelectorSource, "ad", model.AttributeSlotDef{
+		Base: varusHailOfArrowsPrimaryHitADBase, Current: varusHailOfArrowsPrimaryHitADBase,
+		Max: varusHailOfArrowsPrimaryHitADBase, Resolved: varusHailOfArrowsPrimaryHitADBase,
+	})
+	setCombatantResource(&compileReq, &runReq, model.SelectorSource, "mana", model.ResourceSlotDef{
+		Current: varusHailOfArrowsPrimaryHitFixtureMana, Max: varusHailOfArrowsPrimaryHitFixtureMana,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "hp", model.AttributeSlotDef{
+		Base: varusHailOfArrowsPrimaryHitTargetHP, Current: varusHailOfArrowsPrimaryHitTargetHP,
+		Max: varusHailOfArrowsPrimaryHitTargetHP, Resolved: varusHailOfArrowsPrimaryHitTargetHP,
+	})
+	setCombatantAttr(&compileReq, &runReq, model.SelectorTarget, "armor", model.AttributeSlotDef{
+		Base: varusHailOfArrowsPrimaryHitTargetArmor, Current: varusHailOfArrowsPrimaryHitTargetArmor,
+		Max: varusHailOfArrowsPrimaryHitTargetArmor, Resolved: varusHailOfArrowsPrimaryHitTargetArmor,
+	})
+
+	runReq.StopPolicy.StopOnTargetDeath = model.BoolPtr(false)
+	runReq.Sampling.SampleEveryMs = 100000
+	return compileReq, runReq
+}
+
+func runVarusHailOfArrowsPrimaryHit(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
+	t.Helper()
+	result := compileMigrated(&compileReq, &runReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
+	done, err := runtimeengine.RunGeneric(result.Session, runReq)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return done
+}
+
+func varusHailOfArrowsPrimaryHitSourceMana(t *testing.T, snap model.Snapshot) float64 {
+	t.Helper()
+	for _, c := range snap.Combatants {
+		if c.Key != model.SelectorSource {
+			continue
+		}
+		slot, ok := c.Resources["mana"]
+		if !ok {
+			t.Fatal("source mana missing")
+		}
+		return slot.Current
+	}
+	t.Fatal("source missing")
+	return 0
+}
+
+func varusHailOfArrowsPrimaryHitSkipReasonCount(done model.DoneResult, reason model.AttemptSkipReason) int {
+	n := 0
+	for _, item := range done.Evidence.Items {
+		if item.Kind != model.EvidenceKindAttemptSkipped {
+			continue
+		}
+		if item.Data["skipReason"] == string(reason) {
+			n++
+		}
+	}
+	return n
+}
+
+func varusHailOfArrowsPrimaryHitDamageEvidence(done model.DoneResult) []model.EvidenceItem {
+	out := make([]model.EvidenceItem, 0)
+	for _, item := range damageEvidenceItems(done) {
+		if evidenceDataString(item.Data, "operationRef") != varusHailOfArrowsPrimaryHitDamageOpRef {
+			continue
+		}
+		out = append(out, item)
+	}
+	return out
+}
+
+func varusHailOfArrowsPrimaryHitFindProvider(compileReq model.CompileRequest) *model.ProviderDefinition {
+	for i := range compileReq.SharedProviders {
+		p := &compileReq.SharedProviders[i]
+		if p.ProviderKey == varusHailOfArrowsPrimaryHitProviderRef {
+			return p
+		}
+	}
+	return nil
+}
+
+func assertVarusHailOfArrowsPrimaryHitProviderShape(t *testing.T, compileReq model.CompileRequest) {
+	t.Helper()
+	if len(compileReq.SharedProviders) != 1 {
+		t.Fatalf("SharedProviders=%d want 1", len(compileReq.SharedProviders))
+	}
+	p := varusHailOfArrowsPrimaryHitFindProvider(compileReq)
+	if p == nil {
+		t.Fatal("provider_hero_varus_e_hail_of_arrows_primary_hit missing from SharedProviders")
+	}
+	if p.ProviderKey != varusHailOfArrowsPrimaryHitProviderRef {
+		t.Fatalf("providerKey=%q want %q", p.ProviderKey, varusHailOfArrowsPrimaryHitProviderRef)
+	}
+	if p.StableID != varusHailOfArrowsPrimaryHitStableID {
+		t.Fatalf("stableId=%q want %q", p.StableID, varusHailOfArrowsPrimaryHitStableID)
+	}
+	if p.ProviderKey == varusBQProviderRef || p.StableID == varusBQStableID ||
+		p.ProviderKey == varusBQStableID || p.StableID == varusBQProviderRef {
+		t.Fatal("hail_of_arrows primary-hit must not reuse Varus Blighted Quiver provider refs")
+	}
+	if len(p.Listeners) != 0 {
+		t.Fatalf("listeners=%d want 0 (no listener / on-hit / Blighted Quiver coupling)", len(p.Listeners))
+	}
+	if len(p.InitialStateSchema) != 0 {
+		t.Fatalf("InitialStateSchema=%d want 0 (no field/slow/blight/state)", len(p.InitialStateSchema))
+	}
+	if len(p.Abilities) != 1 {
+		t.Fatalf("abilities=%d want 1 (ability %s)", len(p.Abilities), varusHailOfArrowsPrimaryHitAbilityID)
+	}
+	a := p.Abilities[0]
+	if a.AbilityKey != varusHailOfArrowsPrimaryHitAbilityKey {
+		t.Fatalf("abilityKey=%q want %q (id constant %q)",
+			a.AbilityKey, varusHailOfArrowsPrimaryHitAbilityKey, varusHailOfArrowsPrimaryHitAbilityID)
+	}
+	if a.Kind != "active" {
+		t.Fatalf("kind=%q want active", a.Kind)
+	}
+	for _, typ := range a.Types {
+		if typ == "ability/basic_attack" {
+			t.Fatal("hail_of_arrows must not be tagged ability/basic_attack")
+		}
+	}
+	if a.Cost == nil || a.Cost.ResourceKey != "mana" ||
+		a.Cost.Amount.Op != "const" || a.Cost.Amount.Value == nil ||
+		math.Abs(*a.Cost.Amount.Value-varusHailOfArrowsPrimaryHitManaCost) > varusHailOfArrowsPrimaryHitTol {
+		t.Fatalf("cost=%+v want mana const 90", a.Cost)
+	}
+	if a.Cooldown == nil || a.Cooldown.DurationMs.Op != "const" || a.Cooldown.DurationMs.Value == nil ||
+		math.Abs(*a.Cooldown.DurationMs.Value-varusHailOfArrowsPrimaryHitCDMs) > varusHailOfArrowsPrimaryHitTol {
+		t.Fatalf("cooldown=%+v want const 10000", a.Cooldown)
+	}
+	if len(a.Operations) != 1 {
+		t.Fatalf("operations=%d want exactly 1 (single-hit immediate scaffold; no delay/field/slow/blight)", len(a.Operations))
+	}
+	op := a.Operations[0]
+	if op.Operation != "damage" || op.DamageType != "damage/physical" || op.Target != "target" {
+		t.Fatalf("op shape=%+v want single physical damage to target (Magic damagetype must not leak)", op)
+	}
+	if op.CritEligible {
+		t.Fatal("hail_of_arrows damage must not be crit-eligible")
+	}
+	if op.CopyableOnHit {
+		t.Fatal("hail_of_arrows damage must not be copyable on hit")
+	}
+	if op.Ref != varusHailOfArrowsPrimaryHitDamageOpRef {
+		t.Fatalf("op ref=%q want %q", op.Ref, varusHailOfArrowsPrimaryHitDamageOpRef)
+	}
+	if op.Amount == nil || op.Amount.Op != "add" || len(op.Amount.Args) != 2 {
+		t.Fatalf("damage amount=%+v want add(const, mul(ratio, sub(ad.resolved, ad.base)))", op.Amount)
+	}
+	if op.Amount.Args[0].Op != "const" || op.Amount.Args[0].Value == nil ||
+		math.Abs(*op.Amount.Args[0].Value-varusHailOfArrowsPrimaryHitBaseDamage) > varusHailOfArrowsPrimaryHitTol {
+		t.Fatalf("base const=%+v want 180", op.Amount.Args[0])
+	}
+	mul := op.Amount.Args[1]
+	if mul.Op != "mul" || len(mul.Args) != 2 {
+		t.Fatalf("bonus branch=%+v want mul", mul)
+	}
+	if mul.Args[0].Op != "const" || mul.Args[0].Value == nil ||
+		math.Abs(*mul.Args[0].Value-varusHailOfArrowsPrimaryHitBonusRatio) > varusHailOfArrowsPrimaryHitTol {
+		t.Fatalf("bonus ratio=%+v want 0.90", mul.Args[0])
+	}
+	sub := mul.Args[1]
+	if sub.Op != "sub" || len(sub.Args) != 2 ||
+		sub.Args[0].Op != "read" || sub.Args[0].Path != "source.attr.ad.resolved" ||
+		sub.Args[1].Op != "read" || sub.Args[1].Path != "source.attr.ad.base" {
+		t.Fatalf("bonus AD read=%+v want source.attr.ad.resolved - source.attr.ad.base", sub)
+	}
+	for _, banned := range a.Operations {
+		if banned.Operation == "slow" || banned.Operation == "stun" ||
+			banned.Operation == "projectile" || banned.Operation == "multi_target" ||
+			banned.Operation == "state_change" || banned.Operation == "repeat" ||
+			banned.Operation == "field" || banned.DamageType == "damage/magic" {
+			t.Fatalf("hail_of_arrows must not include field/slow/geometry/state/repeat/magic op: %+v", banned)
+		}
+	}
+}
+
+func findVarusHailOfArrowsPrimaryHitAbilityStat(t *testing.T, done model.DoneResult) model.AbilityStat {
+	t.Helper()
+	wantRef := varusHailOfArrowsPrimaryHitAbilityRef()
+	for _, st := range done.Summary.AbilityStats {
+		if st.AbilityRef == wantRef {
+			return st
+		}
+	}
+	t.Fatalf("AbilityStats missing ref %q (got %+v)", wantRef, done.Summary.AbilityStats)
+	return model.AbilityStat{}
+}
+
+// TestVarusHailOfArrowsPrimaryHitRank5DamageFormulaCrossCheck: independent numeric
+// cross-check 180 + 0.90*(159-59) = 270; armor 100 → mitigated 135.
+func TestVarusHailOfArrowsPrimaryHitRank5DamageFormulaCrossCheck(t *testing.T) {
+	bonus := varusHailOfArrowsPrimaryHitADResolved - varusHailOfArrowsPrimaryHitADBase
+	if math.Abs(bonus-100) > varusHailOfArrowsPrimaryHitTol {
+		t.Fatalf("bonusAD=%v want 100", bonus)
+	}
+	raw := varusHailOfArrowsPrimaryHitExpectedRawFromAD(varusHailOfArrowsPrimaryHitADResolved, varusHailOfArrowsPrimaryHitADBase)
+	if math.Abs(raw-varusHailOfArrowsPrimaryHitExpectedRaw) > varusHailOfArrowsPrimaryHitTol {
+		t.Fatalf("raw=%v want %v", raw, varusHailOfArrowsPrimaryHitExpectedRaw)
+	}
+	mit := expectedMitigatedPhysical(raw, varusHailOfArrowsPrimaryHitTargetArmor)
+	if math.Abs(mit-varusHailOfArrowsPrimaryHitExpectedMitigated) > varusHailOfArrowsPrimaryHitTol {
+		t.Fatalf("mitigated=%v want %v", mit, varusHailOfArrowsPrimaryHitExpectedMitigated)
+	}
+}
+
+// TestVarusHailOfArrowsPrimaryHitCompileShapeImmediateScaffold asserts compile shape for the
+// independent E provider: one physical damage op, cost/CD, no listener/state/field/blight.
+func TestVarusHailOfArrowsPrimaryHitCompileShapeImmediateScaffold(t *testing.T) {
+	compileReq, _ := loadVarusHailOfArrowsPrimaryHitFixture(t)
+	assertVarusHailOfArrowsPrimaryHitProviderShape(t, compileReq)
+	if varusHailOfArrowsPrimaryHitProviderRef == varusBQProviderRef ||
+		varusHailOfArrowsPrimaryHitProviderRef == varusBQStableID ||
+		varusHailOfArrowsPrimaryHitStableID == varusBQProviderRef ||
+		varusHailOfArrowsPrimaryHitStableID == varusBQStableID {
+		t.Fatal("hail_of_arrows primary-hit must not reuse Varus Blighted Quiver provider refs")
+	}
+	if varusHailOfArrowsPrimaryHitAbilityKey == varusBQActiveAbilityKey ||
+		varusHailOfArrowsPrimaryHitAbilityKey == varusBQCarrierAbilityKey ||
+		varusHailOfArrowsPrimaryHitAbilityKey == "basic_attack" ||
+		varusHailOfArrowsPrimaryHitAbilityKey == "blighted_quiver" {
+		t.Fatal("hail_of_arrows must not reuse Blighted Quiver / Q carrier / basic-attack ability keys")
+	}
+	if varusHailOfArrowsPrimaryHitDamageOpRef == varusBQOnHitOpRef ||
+		varusHailOfArrowsPrimaryHitDamageOpRef == varusBQCarrierQOpRef ||
+		varusHailOfArrowsPrimaryHitDamageOpRef == varusBQCarrierActiveOpRef ||
+		varusHailOfArrowsPrimaryHitDamageOpRef == varusBQCarrierBlightOpRef ||
+		varusHailOfArrowsPrimaryHitDamageOpRef == varusBQAAOpRef {
+		t.Fatal("hail_of_arrows primary-hit must not reuse Blighted Quiver operation refs")
+	}
+	if varusHailOfArrowsPrimaryHitAbilityID != "ability_hero_varus_e_hail_of_arrows_primary_hit" {
+		t.Fatal("ability id constant drifted")
+	}
+	if varusHailOfArrowsPrimaryHitStableID != "hero_varus_e_hail_of_arrows_primary_hit" {
+		t.Fatal("stable id constant drifted")
+	}
+}
+
+// TestVarusHailOfArrowsPrimaryHitCanonicalSingleTargetDamage proves CompileGeneric→RunGeneric
+// for the Wiki rank-5 single-target immediate physical damage scaffold: cost 90,
+// CD 10000ms exact boundary, one physical hit per successful cast (no AA/crit/phantom/
+// field/slow/blight; Magic damagetype metadata does not leak into runtime).
+func TestVarusHailOfArrowsPrimaryHitCanonicalSingleTargetDamage(t *testing.T) {
+	compileReq, runReq := loadVarusHailOfArrowsPrimaryHitFixture(t)
+	assertVarusHailOfArrowsPrimaryHitProviderShape(t, compileReq)
+
+	ref := varusHailOfArrowsPrimaryHitAbilityRef()
+	runReq.DriverPlan.Entries = []model.DriverEntry{
+		{EntryKey: "e0", AbilityRef: ref, Source: "source", Target: "target", FirstAtMs: 0},
+		{EntryKey: "e_early", AbilityRef: ref, Source: "source", Target: "target", FirstAtMs: 9999},
+		{EntryKey: "e_ready", AbilityRef: ref, Source: "source", Target: "target", FirstAtMs: 10000},
+	}
+	runReq.StopPolicy.DurationMs = 10100
+
+	done := runVarusHailOfArrowsPrimaryHit(t, compileReq, runReq)
+
+	if done.Summary.AbilityAttemptCount != 3 {
+		t.Fatalf("abilityAttemptCount=%d want 3", done.Summary.AbilityAttemptCount)
+	}
+	if done.Summary.AbilityCastCount != 2 {
+		t.Fatalf("abilityCastCount=%d want 2", done.Summary.AbilityCastCount)
+	}
+	if done.Summary.AttemptSkippedCount != 1 {
+		t.Fatalf("attemptSkippedCount=%d want 1", done.Summary.AttemptSkippedCount)
+	}
+	if varusHailOfArrowsPrimaryHitSkipReasonCount(done, model.AttemptSkipCooldownNotReady) != 1 {
+		t.Fatal("expected exactly one cooldown_not_ready skip")
+	}
+
+	stat := findVarusHailOfArrowsPrimaryHitAbilityStat(t, done)
+	if stat.AttemptCount != 3 || stat.CastCount != 2 || stat.SkipCount != 1 {
+		t.Fatalf("abilityStat attempt/cast/skip=%d/%d/%d want 3/2/1",
+			stat.AttemptCount, stat.CastCount, stat.SkipCount)
+	}
+
+	var skipAt9999 bool
+	for _, item := range done.Evidence.Items {
+		if item.Kind != model.EvidenceKindAttemptSkipped {
+			continue
+		}
+		if item.Data["skipReason"] != string(model.AttemptSkipCooldownNotReady) {
+			continue
+		}
+		if item.TimeMs != 9999 {
+			t.Fatalf("cooldown skip TimeMs=%d want 9999", item.TimeMs)
+		}
+		if numericAsInt64(item.Data["readyAtMs"]) != 10000 {
+			t.Fatalf("cooldown skip readyAtMs=%v want 10000", item.Data["readyAtMs"])
+		}
+		skipAt9999 = true
+	}
+	if !skipAt9999 {
+		t.Fatal("missing cooldown_not_ready skip evidence at t=9999 with readyAtMs=10000")
+	}
+
+	items := varusHailOfArrowsPrimaryHitDamageEvidence(done)
+	if len(items) != 2 {
+		t.Fatalf("hail_of_arrows damage evidence=%d want 2", len(items))
+	}
+	wantTimes := []int64{0, 10000}
+	wantMit := expectedMitigatedPhysical(varusHailOfArrowsPrimaryHitExpectedRaw, varusHailOfArrowsPrimaryHitTargetArmor)
+	var mitSum float64
+	for i, item := range items {
+		if item.TimeMs != wantTimes[i] {
+			t.Fatalf("damage[%d] TimeMs=%d want %d", i, item.TimeMs, wantTimes[i])
+		}
+		if evidenceDataBool(item.Data, "phantom") {
+			t.Fatalf("damage[%d] must not be phantom: %+v", i, item.Data)
+		}
+		if evidenceDataString(item.Data, "phase") != "original" {
+			t.Fatalf("damage[%d] phase=%q want original", i, evidenceDataString(item.Data, "phase"))
+		}
+		if evidenceDataString(item.Data, "damageType") != "damage/physical" {
+			t.Fatalf("damage[%d] type=%q want damage/physical (Magic damagetype must not leak)",
+				i, evidenceDataString(item.Data, "damageType"))
+		}
+		if evidenceDataString(item.Data, "abilityRef") != ref {
+			t.Fatalf("damage[%d] abilityRef=%q want %q", i, evidenceDataString(item.Data, "abilityRef"), ref)
+		}
+		if evidenceDataString(item.Data, "providerRef") != varusHailOfArrowsPrimaryHitProviderRef {
+			t.Fatalf("damage[%d] providerRef=%q want %q",
+				i, evidenceDataString(item.Data, "providerRef"), varusHailOfArrowsPrimaryHitProviderRef)
+		}
+		if evidenceDataString(item.Data, "operationRef") != varusHailOfArrowsPrimaryHitDamageOpRef {
+			t.Fatalf("damage[%d] operationRef=%q want %q",
+				i, evidenceDataString(item.Data, "operationRef"), varusHailOfArrowsPrimaryHitDamageOpRef)
+		}
+		if _, ok := item.Data["eligible"]; ok {
+			t.Fatalf("damage[%d] must not carry crit evidence fields: %+v", i, item.Data)
+		}
+		raw := evidenceDataFloat(item.Data, "rawAmount")
+		mit := evidenceDataFloat(item.Data, "mitigatedAmount")
+		if math.Abs(raw-varusHailOfArrowsPrimaryHitExpectedRaw) > 1e-9 {
+			t.Fatalf("damage[%d] rawAmount=%v want %v", i, raw, varusHailOfArrowsPrimaryHitExpectedRaw)
+		}
+		if math.Abs(mit-wantMit) > 1e-9 {
+			t.Fatalf("damage[%d] mitigatedAmount=%v want %v", i, mit, wantMit)
+		}
+		mitSum += mit
+	}
+
+	wantDealt := 2 * wantMit
+	if math.Abs(done.Summary.SourceDamageDealt-wantDealt) > 1e-6 {
+		t.Fatalf("sourceDamageDealt=%v want %v", done.Summary.SourceDamageDealt, wantDealt)
+	}
+	if math.Abs(mitSum-wantDealt) > 1e-6 {
+		t.Fatalf("evidence mitigated sum=%v want %v", mitSum, wantDealt)
+	}
+	wantHP := varusHailOfArrowsPrimaryHitTargetHP - wantDealt
+	if math.Abs(done.Summary.TargetFinalHp-wantHP) > 1e-6 {
+		t.Fatalf("targetFinalHp=%v want %v", done.Summary.TargetFinalHp, wantHP)
+	}
+
+	gotMana := varusHailOfArrowsPrimaryHitSourceMana(t, done.FinalSnapshot)
+	if math.Abs(gotMana-varusHailOfArrowsPrimaryHitManaAfter2) > varusHailOfArrowsPrimaryHitTol {
+		t.Fatalf("mana=%v want %v (spent exactly 180; skipped attempt costs 0)", gotMana, varusHailOfArrowsPrimaryHitManaAfter2)
+	}
+	if math.Abs((varusHailOfArrowsPrimaryHitFixtureMana-gotMana)-180) > varusHailOfArrowsPrimaryHitTol {
+		t.Fatalf("mana spent=%v want 180", varusHailOfArrowsPrimaryHitFixtureMana-gotMana)
+	}
+
+	if n := len(damageEvidenceItems(done)); n != 2 {
+		t.Fatalf("total damage evidence=%d want 2 (no extra AA/phantom/field/blight hits)", n)
+	}
+	if countEmittedEvents(done, "event/basic_attack_hit") != 0 {
+		t.Fatal("must not emit basic_attack_hit (no basic-attack channel)")
+	}
+	if got := sourceAttrResolved(t, done.FinalSnapshot, "ad"); math.Abs(got-varusHailOfArrowsPrimaryHitADResolved) > varusHailOfArrowsPrimaryHitTol {
+		t.Fatalf("ad.resolved=%v want %v", got, varusHailOfArrowsPrimaryHitADResolved)
+	}
+}

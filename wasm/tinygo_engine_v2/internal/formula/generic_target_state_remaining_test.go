@@ -19,7 +19,7 @@ func TestTargetStateRemainingReadRequiresBindingAndActualContext(t *testing.T) {
 	}
 	read := GenericInstr{Op: GenericOpRead, ReadKind: kind, ReadKey: key, ReferenceBound: true}
 	ctx := GenericEvalContext{HasProviderContext: true, HasTargetStateRemainingContext: true,
-		ProviderTargetState: map[string]float64{"mark": 1}, TargetStateExpireAt: map[string]int64{"mark": 6000}}
+		ProviderTargetState: model.BorrowNumericView(map[string]float64{"mark": 1}), TargetStateExpireAt: model.BorrowDeadlineView(map[string]int64{"mark": 6000})}
 	for _, remaining := range []int64{0, 1, 999, 1000, 1249, 1250} {
 		ctx.TargetStateRemainingNowMs = 6000 - remaining
 		value, err := evalInstructionRead(read, &ctx)
@@ -27,7 +27,7 @@ func TestTargetStateRemainingReadRequiresBindingAndActualContext(t *testing.T) {
 			t.Fatal(remaining, value, err)
 		}
 	}
-	ctx.ProviderTargetState["mark"] = 0
+	ctx.ProviderTargetState = model.BorrowNumericView(map[string]float64{"mark": 0})
 	if value, err := evalInstructionRead(read, &ctx); err != nil || value != 0 {
 		t.Fatal("cleared marker remained active", value, err)
 	}

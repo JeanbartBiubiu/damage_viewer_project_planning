@@ -2,6 +2,13 @@ import { describe, expect, it } from 'vitest';
 import { allowedApplicationStages, allowedCalculationModes, validateModifierZoneDraft } from './modifierZoneForm';
 
 describe('modifierZoneForm', () => {
+  it('同组增幅只开放属性百分比和防御前后伤害，保留旧方式', () => {
+    expect(allowedApplicationStages('ATTRIBUTE', 'RATIO_GROUP_ADD')).toEqual(['ATTRIBUTE_PERCENT']);
+    expect(allowedApplicationStages('DAMAGE', 'RATIO_GROUP_ADD')).toEqual(['DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE']);
+    for (const domain of ['HEALING', 'SHIELD'] as const) expect(allowedCalculationModes(domain)).not.toContain('RATIO_GROUP_ADD');
+    expect(validateModifierZoneDraft({ modifierZoneKey: 'group_a', name: '同组增幅', domain: 'ATTRIBUTE', calculationMode: 'RATIO_GROUP_ADD',
+      applicationStage: 'ATTRIBUTE_PERCENT', description: '', sortOrder: '0' }, true)).toEqual({});
+  });
   it('accepts each supported structure and exposes no unsupported stage', () => {
     expect(allowedApplicationStages('DAMAGE', 'RATIO_ADD')).toEqual([
       'DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'
@@ -22,7 +29,7 @@ describe('modifierZoneForm', () => {
   });
 
   it('仅为属性百分比和防御后伤害开放比例乘算，旧组合保持', () => {
-    expect(allowedCalculationModes('ATTRIBUTE')).toEqual(['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY']);
+    expect(allowedCalculationModes('ATTRIBUTE')).toEqual(['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_COMPLEMENT_MULTIPLY', 'RATIO_GROUP_ADD']);
     expect(allowedApplicationStages('ATTRIBUTE', 'RATIO_MULTIPLY')).toEqual(['ATTRIBUTE_PERCENT']);
     expect(validateModifierZoneDraft({ modifierZoneKey: 'attribute_multiply', name: '属性比例乘算', domain: 'ATTRIBUTE',
       calculationMode: 'RATIO_MULTIPLY', applicationStage: 'ATTRIBUTE_PERCENT', description: '', sortOrder: '0' }, true)).toEqual({});
@@ -38,7 +45,7 @@ describe('modifierZoneForm', () => {
 
   it('allows HEALING RATIO_MAX with HEALING_RESULT and keeps RATIO_ADD', () => {
     expect(allowedCalculationModes('HEALING')).toEqual(['RATIO_ADD', 'RATIO_MAX']);
-    expect(allowedCalculationModes('DAMAGE')).toEqual(['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY']);
+    expect(allowedCalculationModes('DAMAGE')).toEqual(['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_GROUP_ADD']);
     expect(allowedApplicationStages('DAMAGE', 'FLAT_ADD')).toEqual(['DAMAGE_PRE_DEFENSE']);
     expect(allowedApplicationStages('HEALING', 'RATIO_MAX')).toEqual(['HEALING_RESULT']);
     expect(validateModifierZoneDraft({

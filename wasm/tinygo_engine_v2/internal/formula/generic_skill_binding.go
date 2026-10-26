@@ -6,8 +6,8 @@ import (
 	"strings"
 	"unsafe"
 
-	"tinygo_engine_v2/internal/expression"
-	"tinygo_engine_v2/internal/inputbinding"
+	"tinygo_engine_v2/internal/base/expression"
+	"tinygo_engine_v2/internal/base/inputbinding"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -330,16 +330,12 @@ func (b *NamedBinding) evaluate(program *expression.Program, ctx *GenericEvalCon
 					values[i].Number = inputbinding.Scalar{Value: float64(ctx.UseChargeDurationMs), Present: ctx.UseChargeDurationMs >= 0}
 				}
 				if source.Kind == "process_actual_cost" && ctx.HasProcessActualCosts {
-					value, present := ctx.ProcessActualCosts[source.ResourceKey]
+					value, present := ctx.ProcessActualCosts.Lookup(source.ResourceKey)
 					values[i].Number = inputbinding.Scalar{Value: value, Present: present}
 				}
 				if source.Kind == "process_start_state" {
-					for _, capture := range ctx.ProcessStartStateValues {
-						if capture.StateKey == source.StateKey {
-							values[i].Number = inputbinding.Scalar{Value: capture.Value, Present: true, SafeInteger: true}
-							break
-						}
-					}
+					value,present:=ctx.ProcessStartStateValues.Lookup(source.StateKey)
+					values[i].Number=inputbinding.Scalar{Value:value,Present:present,SafeInteger:true}
 				}
 			} else {
 				value, present := ctx.RuntimeParameters[param.ParameterKey]

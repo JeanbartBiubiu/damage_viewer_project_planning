@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"tinygo_engine_v2/internal/model"
-	"tinygo_engine_v2/internal/typeset"
+	"tinygo_engine_v2/internal/base/typeset"
 )
 
 func TestRuntimeTypeBindingsPreserveZeroAbsenceAndScopedIdentity(t *testing.T) {

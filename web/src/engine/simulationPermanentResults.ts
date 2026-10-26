@@ -9,6 +9,7 @@ import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
 import { dynamicPermanentAttribute } from './dynamicPermanentAttributeAdapter';
 import { registerShieldAttributeDependency } from './shieldAttributeDependency';
 import { cappedPhysicalReduction } from './cappedPhysicalReduction';
+import { compileGroupedDamageModifier, groupedAmplificationFields, staticGroupedAmplificationAmount } from './groupedAmplification';
 
 export type PermanentResultContext = {
   snapshot: SimulationSnapshot;
@@ -62,6 +63,7 @@ export function permanentModifier(context: PermanentResultContext, result: Skill
   const capped = cappedPhysicalReduction(context, result, path);
   if (capped) return capped;
   if (result.resultType === 'ATTRIBUTE_CHANGE' && Object.prototype.hasOwnProperty.call(result.detail, 'requiredShield')) {
+    if (snapshot.catalogs.modifierZones.some(zone => zone.modifierZoneKey === result.detail.modifierZoneKey && zone.calculationMode === 'RATIO_GROUP_ADD')) fail(path, '同组增幅不扩大关联盾属性准入');
     exact(result.detail, ['attributeKey', 'operation', 'modifierZoneKey', 'requiredShield'], `${path}.detail`);
     const { requiredShield: _dependency, ...detail } = result.detail;
     const modifier = permanentModifier(context, { ...result, detail }, path);
@@ -70,11 +72,12 @@ export function permanentModifier(context: PermanentResultContext, result: Skill
     return modifier;
   }
   if (result.resultType !== 'ATTRIBUTE_CHANGE' && result.resultType !== 'HEALING_MODIFIER'
-    && result.resultType !== 'SHIELD_RECEIVED_MODIFIER' || result.valueRule === null) {
+    && result.resultType !== 'SHIELD_RECEIVED_MODIFIER' && result.resultType !== 'DAMAGE_MODIFIER' || result.valueRule === null) {
     fail(path, '该完整常驻结果尚未接入，不能只执行其它结果');
   }
   const opponentAttribute = source.origin.kind === 'EQUIPMENT' && result.resultType === 'ATTRIBUTE_CHANGE' && result.target === 'TARGET';
   exact(result.detail, result.resultType === 'ATTRIBUTE_CHANGE' ? ['attributeKey', 'operation', 'modifierZoneKey']
+    : result.resultType === 'DAMAGE_MODIFIER' ? ['direction', 'operation', 'modifierZoneKey', 'damageTypeKey', 'deliveryKind', 'originKind', 'criticalFilter', 'condition']
     : result.resultType === 'HEALING_MODIFIER' ? ['direction', 'healingKind', 'operation', 'modifierZoneKey']
       : ['operation', 'modifierZoneKey'], `${path}.detail`);
   const behavior = result.lifecycleBehavior;
@@ -90,7 +93,8 @@ export function permanentModifier(context: PermanentResultContext, result: Skill
   if (result.resultType === 'ATTRIBUTE_CHANGE' && result.detail.attributeKey === 'hp'
     && (!context.permanentHealthInitialization || source.origin.kind !== 'CHARACTER' || result.detail.operation !== 'INCREASE'
       || behavior.valueReadMode !== 'APPLICATION_SNAPSHOT')) fail(path, '永久生命只允许真实角色无条件初始化的静态施加快照平加');
-  const dynamicAddition = dynamicPermanentAttribute(context, result, path);
+  const grouped = snapshot.catalogs.modifierZones.some(zone => zone.modifierZoneKey === result.detail.modifierZoneKey && zone.calculationMode === 'RATIO_GROUP_ADD');
+  const dynamicAddition = !grouped && dynamicPermanentAttribute(context, result, path);
   if (dynamicAddition) return dynamicAddition;
   const authoredValue = result.valueRule.value;
   const amountFormula = authoredValue.kind === 'FORMULA'
@@ -98,7 +102,7 @@ export function permanentModifier(context: PermanentResultContext, result: Skill
   const hasAttributeDependency = amountFormula && skillFormulaReachableInputs(amountFormula.expression)
     .some(input => input.binding.kind === 'attribute');
   // 只有实际读取属性的实时乘算进入派生；固定值和原生核定静态公式保持普通修正。
-  const conversion = result.resultType === 'ATTRIBUTE_CHANGE' && result.target === 'SOURCE'
+  const conversion = !grouped && result.resultType === 'ATTRIBUTE_CHANGE' && result.target === 'SOURCE'
     && (result.detail.operation === 'SET' || behavior.valueReadMode === 'MOMENT_EVALUATION' && hasAttributeDependency)
     ? permanentAttributeConversion(snapshot, configuration, source, side, result, path) : undefined;
   if (conversion) return conversion;
@@ -115,6 +119,10 @@ export function permanentModifier(context: PermanentResultContext, result: Skill
   const zone = zones[0];
   if (zones.length !== 1 || !zone || zone.gameId !== snapshot.gameId || zone.status !== 'ENABLED') {
     fail(`${path}.detail.modifierZoneKey`, '缺少唯一真实启用修正区域');
+  }
+  if (result.resultType === 'DAMAGE_MODIFIER') {
+    return compileGroupedDamageModifier(result, snapshot.catalogs.modifierZones, snapshot.catalogs.damageTypes.map(row => row.type), snapshot.gameId,
+      staticGroupedAmplificationAmount(result.valueRule, `${path}.valueRule`, numeric), path);
   }
   if (result.resultType === 'ATTRIBUTE_CHANGE') {
     const attributeKey = result.detail.attributeKey;
@@ -133,6 +141,12 @@ export function permanentModifier(context: PermanentResultContext, result: Skill
     }
     if (zone.domain !== 'ATTRIBUTE' || !['INCREASE', 'DECREASE'].includes(result.detail.operation)) fail(path, '属性修正声明不完整');
     const decrease = result.detail.operation === 'DECREASE';
+    if (zone.calculationMode === 'RATIO_GROUP_ADD') {
+      if (zone.applicationStage !== 'ATTRIBUTE_PERCENT' || decrease) fail(path, '同组属性增幅只支持属性百分比阶段的增加');
+      return { modifierKey: result.resultKey, kind: 'attribute', target: `${opponentAttribute ? 'opponent' : 'self'}.attr.${attributeKey}`,
+        stage: 'total', bucket: zone.modifierZoneKey,
+        ...groupedAmplificationFields(zone.modifierZoneKey, staticGroupedAmplificationAmount(result.valueRule, `${path}.valueRule`, numeric), path) };
+    }
     if (String(zone.calculationMode) === 'RATIO_COMPLEMENT_MULTIPLY') {
       if (opponentAttribute || zone.applicationStage !== 'ATTRIBUTE_PERCENT' || decrease || value < 0 || value > 1) fail(path, '剩余比例连乘只接入自身属性百分比增加，比例须在0与1之间');
       return { modifierKey: result.resultKey, kind: 'attribute', target: `self.attr.${attributeKey}`, stage: 'total',

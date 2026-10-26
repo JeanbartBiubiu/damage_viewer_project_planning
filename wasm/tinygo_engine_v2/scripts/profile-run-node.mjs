@@ -19,9 +19,9 @@ function help() {
 
 summary默认关闭采样点，detailed默认保留冻结输入的采样设置，可用--sampling明确覆盖。
 每轮往返使用已有通用宿主；编译一次，每轮从冻结初态运行，最后释放会话。
-CPU采样由Node提供，正式产物不增加诊断导出。归因仅保留Go调用栈中有runLoop的样本；
+CPU采样由Node提供，正式产物不增加诊断导出。归因仅保留Go调用栈中有scheduler.Loop.Run主循环的样本；
 表格累计实际采样叶节点为Go函数的自身时间。叶节点为JS或系统函数时单列，不算成父Go函数自身。
-若优化内联或符号消失导致没有runLoop节点，明确返回0命中，不用RunGeneric替代。`);
+若优化内联或符号消失导致没有主循环节点，明确返回0命中，不用RunGeneric替代。`);
 }
 
 function options(argv) {
@@ -63,6 +63,11 @@ function isGoFrame(frame) {
   return name.includes('tinygo_engine_v2/') || /^(?:\(\*?)?(?:runtime|reflect|encoding\/|internal\/|math|strconv|strings|bytes|sort)[./]/.test(name);
 }
 
+function isLoopFrame(frame) {
+  const name = (frame.functionName ?? '').replace(/[()*]/g, '');
+  return isGoFrame(frame) && /(?:^|\s)tinygo_engine_v2\/internal\/scheduler\.Loop\.Run(?:$|[.$])/.test(name);
+}
+
 /** 只读取V8 CPUProfile，不运行或重编译Wasm。timeDeltas单位为微秒。 */
 export function summarizeCpuProfile(profile) {
   assert(Array.isArray(profile.nodes) && Array.isArray(profile.samples) && Array.isArray(profile.timeDeltas), '缺少CPUProfile节点、样本或timeDeltas');
@@ -78,7 +83,7 @@ export function summarizeCpuProfile(profile) {
       parents.set(child, node.id);
     }
   }
-  const loopNodes = profile.nodes.filter((node) => isGoFrame(node.callFrame) && node.callFrame.functionName?.includes('runLoop'));
+  const loopNodes = profile.nodes.filter((node) => isLoopFrame(node.callFrame));
   const loopFlags = new Map();
   function withinLoop(id) {
     const chain = [];
@@ -92,7 +97,7 @@ export function summarizeCpuProfile(profile) {
     let matched = current !== undefined && loopFlags.get(current);
     for (let index = chain.length - 1; index >= 0; index--) {
       const frame = nodes.get(chain[index]).callFrame;
-      matched ||= isGoFrame(frame) && !!frame.functionName?.includes('runLoop');
+      matched ||= isLoopFrame(frame);
       loopFlags.set(chain[index], matched);
     }
     return loopFlags.get(id);
@@ -123,7 +128,7 @@ export function summarizeCpuProfile(profile) {
       percentOfRunLoopSampleTime: matchedTimeUs ? row.selfTimeUs / matchedTimeUs * 100 : 0 }));
   return {
     kind: 'runLoop-cpu-profile', unit: 'microseconds',
-    meaning: 'CPU样本的timeDeltas归到被采样叶节点；仅Go栈含runLoop时入选，不累计父函数包含子调用的时间。JS及系统叶节点单列。',
+    meaning: 'CPU样本的timeDeltas归到被采样叶节点；仅Go栈含scheduler.Loop.Run主循环时入选，不累计父函数包含子调用的时间。JS及系统叶节点单列。',
     interval: { startTimeUs: profile.startTime, endTimeUs: profile.endTime, profileDurationUs: profile.endTime - profile.startTime,
       sampledTimeUs: totalTimeUs, observedSamplingIntervalUs: distribution(profile.timeDeltas),
       requestedIntervalUs: null, note: '原始CPUProfile没有可靠的请求采样间隔；此处报告实际timeDeltas分布。请求值见运行报告的nodeExecArgv。' },
@@ -132,7 +137,7 @@ export function summarizeCpuProfile(profile) {
     timeUs: { runLoopStack: matchedTimeUs, goLeafSelf: goTimeUs, nonGoLeafWithinRunLoop: matchedTimeUs - goTimeUs },
     runLoopNodes: loopNodes.map((node) => ({ id: node.id, ...node.callFrame })),
     functions: rows(go), nonGoLeaves: rows(other),
-    warnings: matchedSamples ? [] : ['没有命中含runLoop的Go栈，无法归因；可能未采样到该路径，或正式优化产物已将该函数内联、消名。不能用RunGeneric或全部Wasm样本替代。'],
+    warnings: matchedSamples ? [] : ['没有命中含scheduler.Loop.Run主循环的Go栈，无法归因；可能未采样到该路径，或正式优化产物已将该函数内联、消名。不能用RunGeneric或全部Wasm样本替代。'],
   };
 }
 
@@ -170,7 +175,7 @@ async function profileRun(args) {
     input: { path: args.input, bytes: inputBytes.length, sha256: sha256(inputBytes) },
     mode: args.mode, sampling, warmup: args.warmup, iterations: args.iterations,
     timingScope: '编译与释放不计入；每轮runCanonicalSession包含请求JSON/UTF8、alloc、engine_run、dealloc、复制出箱、出口清理GC、结果解码及摘要校验。不是纯RunGeneric耗时。结果一致性JSON比较在计时外。',
-    cpuScope: 'Node --cpu-prof采集整个进程，包含初始化、编译、预热、检查和释放；应另用--profile筛选含runLoop的Go栈。没有增加Wasm诊断导出。',
+    cpuScope: 'Node --cpu-prof采集整个进程，包含初始化、编译、预热、检查和释放；应另用--profile筛选含scheduler.Loop.Run主循环的Go栈。没有增加Wasm诊断导出。',
     runRoundTripMs: distribution(durations), resultSha256, resultBytes, repeatedEquivalent: true, released: true, lastSummary };
 }
 

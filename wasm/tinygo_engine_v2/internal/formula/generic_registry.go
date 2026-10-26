@@ -5,7 +5,7 @@ import (
 	"math"
 	"unsafe"
 
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
 )
 
 const (

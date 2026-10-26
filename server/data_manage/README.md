@@ -4,6 +4,10 @@
 
 当前实现保存、校验和回读配置，并为所选场景提供一致的只读配置快照；只对静态管理位置作精确数值证明，不执行战斗公式、过程或事件，不组装 Wasm 请求。旧 `/combat-data/**`、当前版本查询和 `versions:publish` 发布链路已删除。
 
+“同组增幅加算”新增目录方式 `RATIO_GROUP_ADD`，复用原修正区域引用；只接增加方向、静态有限非负比例，并分别检查原比例、固定倍率和基础/动作修正后的有效比例。属性仅作用百分比阶段，造成伤害仅防御前、承受伤害仅防御后；保存及快照都核对真实目录和完整闭包。仓库迁移 `db/game_manage/migrations/modifier_zone_ratio_group_add.sql` 仅扩两条检查约束，配套预检位于 `db/game_manage/checks/ratio_group_add_preflight.sql`；本轮只做离线校验，未执行真实数据库迁移。共享语义与验证见[实施设计](../../文档记录/详细设计/项目/运行时子系统拆分与数值修正分组实施详细设计.md)和[验收摘要](../../文档记录/测试记录/项目/共同公式与引擎重构验收摘要.md)。
+
+修正区域的 `RATIO_GROUP_ADD`（同组增幅加算）复用原 `modifierZoneKey`，只允许整体属性增幅、防御前造成伤害增幅和防御后承受伤害增幅。作者比例、基础修正及动作结果修正后的值必须有限非负，并在全部声明等级静态核定；不会通过负倍率或减少方向换算成增幅。保存和场景快照保留原引用及数值规则，后端不执行分组结算。新库约束见建表脚本；已有库的离线增量为 `db/game_manage/migrations/modifier_zone_ratio_group_add.sql`，只读预检为 `db/game_manage/checks/ratio_group_add_preflight.sql`。本轮代码和静态检查不表示实库已迁移。
+
 阶段4B沿4A快照读取所选完整装备作者树，不新增战斗计算接口或数据库结构。管理页聚合配置保存使用 `PATCH`（部分更新请求方法），`WebCorsConfig` 已允许其跨域预检；鉴权过滤器、令牌校验和写事务约束不变。预检通过不等于管理写入免鉴权。
 
 当前源码支持[防御前分支封顶平减](../../outputs/skill-adaptation-20261023-amumu/物理分支封顶平减契约.md)的精确明细、静态比例和真实拥有者额外抗性证明；新乘区只增加伤害／平加／防御前组合。已有库使用一次性 `db/game_manage/migrations/modifier_zone_capped_flat_damage.sql`，只读预检为 `db/game_manage/checks/capped_flat_damage_preflight.sql`；先核目标、实际约束与全行摘要，不能批跑迁移目录。2026-10-23本地实库已执行并以另连接确认只改变一条约束，业务行保持；2790项最终后端测试通过。服务安装及实际作者验收单独记录。

@@ -3,7 +3,7 @@ package testkit
 import (
 	"encoding/json"
 
-	"tinygo_engine_v2/internal/abi"
+	"tinygo_engine_v2/internal/base/abi"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/runtime"
 )

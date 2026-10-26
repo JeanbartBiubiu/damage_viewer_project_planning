@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )

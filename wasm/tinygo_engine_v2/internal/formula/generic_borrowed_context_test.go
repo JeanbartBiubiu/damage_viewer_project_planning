@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
@@ -18,7 +18,7 @@ func TestBorrowedContextMatchesValueEvaluationAndDoesNotWrite(t *testing.T) {
 	}}
 	for _, strict := range []bool{false, true} {
 		for _, raw := range []map[string]model.AttributeSlotDef{{}, {"amount": {Current: 0}}, {"amount": {Current: math.Copysign(0, -1)}}, {"amount": {Current: 9}}, {"amount": {Current: math.Inf(1)}}} {
-			ctx := GenericEvalContext{StrictReads: strict, SourceAttrs: attribute.FromMap(raw), ProviderState: map[string]float64{"count": 4}, AuthoredCombatantKey: "source"}
+			ctx := GenericEvalContext{StrictReads: strict, SourceAttrs: attribute.FromMap(raw), ProviderState: model.BorrowNumericView(map[string]float64{"count": 4}), AuthoredCombatantKey: "source"}
 			before := ctx
 			for _, id := range []GenericProgramID{0, 1, 2, 99} {
 				want, wantErr := registry.Eval(id, ctx)

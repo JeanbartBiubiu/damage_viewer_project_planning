@@ -17,9 +17,10 @@ public final class ModifierZoneCombinations {
             case ATTRIBUTE -> (mode == ModifierZoneCalculationMode.FLAT_ADD
                     && stage == ModifierZoneApplicationStage.ATTRIBUTE_FLAT)
                 || ((mode == ModifierZoneCalculationMode.RATIO_ADD || mode == ModifierZoneCalculationMode.RATIO_MULTIPLY
-                    || mode == ModifierZoneCalculationMode.RATIO_COMPLEMENT_MULTIPLY)
+                    || mode == ModifierZoneCalculationMode.RATIO_COMPLEMENT_MULTIPLY
+                    || mode == ModifierZoneCalculationMode.RATIO_GROUP_ADD)
                     && stage == ModifierZoneApplicationStage.ATTRIBUTE_PERCENT);
-            case DAMAGE -> (mode == ModifierZoneCalculationMode.RATIO_ADD
+            case DAMAGE -> ((mode == ModifierZoneCalculationMode.RATIO_ADD || mode == ModifierZoneCalculationMode.RATIO_GROUP_ADD)
                 && (stage == ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE
                     || stage == ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE))
                 || (mode == ModifierZoneCalculationMode.FLAT_ADD

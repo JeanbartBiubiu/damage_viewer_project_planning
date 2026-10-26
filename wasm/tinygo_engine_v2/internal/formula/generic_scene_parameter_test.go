@@ -116,7 +116,7 @@ func TestSceneParameterRejectsWrongSourceDetailsAndPreservesLegacyReads(t *testi
 			def := frozenSceneFormula("legacy", "same_skill", "DECIMAL", 0)
 			source := def.Parameters[0].RuntimeSource
 			source.Kind, source.Value = kind, nil
-			ctx := GenericEvalContext{RuntimeSkillKey: "same_skill", HasUseChargeDuration: true, UseChargeDurationMs: 7, HasProcessActualCosts: true, ProcessActualCosts: map[string]float64{"mana": 7}, AbilityParams: map[string]float64{"initial_count": 7}}
+			ctx := GenericEvalContext{RuntimeSkillKey: "same_skill", HasUseChargeDuration: true, UseChargeDurationMs: 7, HasProcessActualCosts: true, ProcessActualCosts: model.BorrowNumericView(map[string]float64{"mana": 7}), AbilityParams: map[string]float64{"initial_count": 7}}
 			if kind == "process_actual_cost" {
 				source.ResourceKey = "mana"
 			}

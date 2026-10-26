@@ -7,6 +7,7 @@ import type { SkillParameter } from '../types/skillParameter';
 import type { GameStatus } from '../types/status';
 import type { ModifierZone } from '../types/modifierZone';
 import type { NumericValue } from '../types/numericValue';
+import { groupedAmplificationFields, staticGroupedAmplificationAmount } from './groupedAmplification';
 import type {
   CompileRequest, GenericFormulaExpr, ModifierDefinition, NamedFormula,
   OperationDefinition, ProviderDefinition
@@ -34,7 +35,7 @@ export type AuthoredPersistentResult = {
   parameters?: readonly SkillParameter[];
   formulas?: readonly SkillFormula[];
   statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'statusKind' | 'status'>>;
-  modifierZones: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'calculationMode' | 'status'> & Partial<Pick<ModifierZone, 'applicationStage'>>>;
+  modifierZones: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'calculationMode' | 'status'> & Partial<Pick<ModifierZone, 'applicationStage' | 'gameId'>>>;
   source: 'source' | 'target';
   target: 'source' | 'target';
 };
@@ -299,25 +300,31 @@ function adaptTargetAttribute(authored: AuthoredPersistentResult, providerKey: s
   const zones = authored.modifierZones.filter(zone => zone.modifierZoneKey === detail.modifierZoneKey);
   const zone = zones[0];
   if (zones.length !== 1 || !zone || zone.status !== 'ENABLED' || zone.domain !== 'ATTRIBUTE'
-    || !['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY'].includes(zone.calculationMode)) return fail(resultPath, '持续属性需要真实启用的加算或比例修正区');
+    || !['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY', 'RATIO_GROUP_ADD'].includes(zone.calculationMode)) return fail(resultPath, '持续属性需要真实启用的加算或比例修正区');
   if (!['INCREASE', 'DECREASE'].includes(detail.operation)) return fail(resultPath, '持续属性需要明确的增加或减少');
   assertPersistentBehavior(authored, resultPath, ['REPLACE']);
   if (!result.valueRule) return fail(resultPath, '持续属性数值缺失');
-  const value = tryFoldConstant(compileValueRule(result.valueRule, `${resultPath}.valueRule`, numericState(authored, false, false)));
+  const grouped = zone.calculationMode === 'RATIO_GROUP_ADD';
+  const value = grouped ? staticGroupedAmplificationAmount(result.valueRule, `${resultPath}.valueRule`, numericState(authored, false, false))
+    : tryFoldConstant(compileValueRule(result.valueRule, `${resultPath}.valueRule`, numericState(authored, false, false)));
   if (value === null || !Number.isFinite(value) || value < 0
     || zone.calculationMode !== 'FLAT_ADD' && detail.operation === 'DECREASE' && value > 1) {
     return fail(resultPath, '持续属性施加快照需要明确有限非负常量，比例减少不能超过1');
   }
   const numeric = numericState(authored, true, true);
   const duration = compileDuration(authored, `${root}.lifecycle.durationValue`, numeric);
-  const multiplier = zone.calculationMode === 'RATIO_MULTIPLY';
-  if (multiplier && (zone.applicationStage !== 'ATTRIBUTE_PERCENT' || detail.operation !== 'DECREASE' || value > 1)) {
+  const multiplier = grouped || zone.calculationMode === 'RATIO_MULTIPLY';
+  if (grouped && (zone.gameId !== authored.gameId || zone.applicationStage !== 'ATTRIBUTE_PERCENT' || detail.operation !== 'INCREASE')) {
+    return fail(resultPath, '目标同组增幅需要同游戏真实属性百分比区域和明确的增加');
+  }
+  if (!grouped && multiplier && (zone.applicationStage !== 'ATTRIBUTE_PERCENT' || detail.operation !== 'DECREASE' || value > 1)) {
     return fail(resultPath, '目标整体比例只接受真实属性比例乘区的静态减少，范围0至1');
   }
   const signedValue = detail.operation === 'DECREASE' ? -value : value;
   const modifier: ModifierDefinition = { modifierKey: result.resultKey, kind: 'attribute', target: `self.attr.${attributeKey}`,
     valuePolicy: multiplier ? 'multiply' : zone.calculationMode === 'FLAT_ADD' ? 'add' : 'add_percent', bucket: zone.modifierZoneKey,
     ...(multiplier ? { stage: 'total' } : {}),
+    ...(grouped ? { multiplierGroupKey: groupedAmplificationFields(zone.modifierZoneKey, value, resultPath).multiplierGroupKey } : {}),
     value: constExpr(multiplier ? 1 + signedValue : signedValue) };
   return { provider: { providerKey, stableId: providerKey, skillKey: authored.skillKey, kind: 'status',
     lifecycle: { durationMs: duration, maxStacks: staticNumericField(authored.lifecycle.maxStacksValue, root + '.lifecycle.maxStacksValue', numericState(authored, false, false), fail), refreshPolicy: 'replace', instanceScope: 'source_target' }, modifiers: [modifier] },

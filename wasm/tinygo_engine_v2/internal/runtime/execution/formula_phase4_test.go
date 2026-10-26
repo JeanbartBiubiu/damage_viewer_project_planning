@@ -1,0 +1,150 @@
+package execution
+
+import (
+	math "math"
+	reflect "reflect"
+	testing "testing"
+	expression "tinygo_engine_v2/internal/base/expression"
+	inputbinding "tinygo_engine_v2/internal/base/inputbinding"
+	command "tinygo_engine_v2/internal/command"
+	formula "tinygo_engine_v2/internal/formula"
+	model "tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
+)
+
+func TestFormulaPhase4DamagePlanGuardPrecedesEveryAmountShortcut(t *testing.T) {
+	corruptions := []struct {
+		name   string
+		change func(*Engine, planbundle.CompiledDamageTypeFormula)
+	}{
+		{"missing", func(s *Engine, _ planbundle.CompiledDamageTypeFormula) {
+			delete(s.compiled.DamageTypeFormulas, "damage/physical")
+		}},
+		{"nil binding", func(s *Engine, d planbundle.CompiledDamageTypeFormula) {
+			d.Binding = nil
+			s.compiled.DamageTypeFormulas[d.DamageType] = d
+		}},
+		{"out of range", func(s *Engine, d planbundle.CompiledDamageTypeFormula) {
+			d.Program = 65535
+			s.compiled.DamageTypeFormulas[d.DamageType] = d
+		}},
+		{"wrong identity", func(s *Engine, d planbundle.CompiledDamageTypeFormula) {
+			d.DamageType = "foreign"
+			s.compiled.DamageTypeFormulas["damage/physical"] = d
+		}},
+		{"internal program zero", func(s *Engine, d planbundle.CompiledDamageTypeFormula) {
+			s.formulas.Programs[0] = formula.GenericProgram{Key: "sentinel-zero", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 999}}}
+			d.Program = 0
+			s.compiled.DamageTypeFormulas[d.DamageType] = d
+		}},
+		{"empty common program", func(s *Engine, d planbundle.CompiledDamageTypeFormula) {
+			s.formulas.Programs[d.Program].Authored = &expression.Program{}
+		}},
+		{"mixed program", func(s *Engine, d planbundle.CompiledDamageTypeFormula) {
+			s.formulas.Programs[d.Program].Instr = []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 999}}
+		}},
+		{"foreign skill program", func(s *Engine, d planbundle.CompiledDamageTypeFormula) {
+			s.formulas.Programs[d.Program].NamedBinding = &formula.NamedBinding{}
+		}},
+	}
+	for _, test := range corruptions {
+		for _, input := range []struct {
+			name   string
+			amount float64
+		}{{"zero", 0}, {"positive", 100}, {"negative", -1}, {"NaN", math.NaN()}, {"infinite", math.Inf(1)}} {
+			t.Run(test.name+"/"+input.name, func(t *testing.T) {
+				amount := input.amount
+				c, r := frameCommitInput(frameCommitDamage(100))
+				s := frameCommitState(t, c, r)
+				f, ability, ops := frameCommitFrame(s)
+				def := s.compiled.DamageTypeFormulas["damage/physical"]
+				test.change(s, def)
+				before := s.combatants["target"].attributesView().At("hp")
+				cmd := command.Command{Kind: command.KindDamage, Source: "source", Target: "target", DamageType: "damage/physical", Amount: amount}
+				_, issue := f.resolveDamageNumbers(cmd, ops[0], frozenCritEvidence{}, ability, nil)
+				if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != ops[0].Path+".damageType" || issue.Ref != "damage/physical" {
+					t.Fatalf("plan shortcut: amount=%v issue=%+v", amount, issue)
+				}
+				if s.combatants["target"].attributesView().At("hp") != before || s.report.Totals().SourceDamageDealt != 0 || len(reportedDamageHistory(s)) != 0 {
+					t.Fatal("invalid plan committed combat results")
+				}
+			})
+		}
+	}
+}
+
+func TestFormulaPhase4BrokenDefenseDropsEarlierStagedWritesAndRecovers(t *testing.T) {
+	c, r := frameCommitInput(model.OperationDefinition{Operation: "shield", Target: "target", Amount: authoringAmount(authoringConst(50))}, frameCommitDamage(100))
+	s := frameCommitState(t, c, r)
+	def := s.compiled.DamageTypeFormulas["damage/physical"]
+	before := *s.formulas.CloneForRun()
+	delete(s.compiled.DamageTypeFormulas, "damage/physical")
+	issue := s.runLoop()
+	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != "sharedProviders[0].abilities[0].operations[1].damageType" {
+		t.Fatalf("run=%+v", issue)
+	}
+	if s.combatants["target"].attributesView().At("hp").Current != 1000 || s.combatants["target"].instances.Shields().Len() != 0 || s.report.Totals().SourceDamageDealt != 0 || len(reportedDamageHistory(s)) != 0 {
+		t.Fatal("failed frame submitted earlier shield or damage")
+	}
+	if !reflect.DeepEqual(s.formulas, before) {
+		t.Fatal("failed invariant modified formulas")
+	}
+	s.compiled.DamageTypeFormulas["damage/physical"] = def
+	done, issue := runForTest(s.compiled, r)
+	if issue != nil || done.Summary.TargetFinalHp != 950 || done.Summary.SourceDamageDealt != 100 {
+		t.Fatalf("following run contaminated: %+v %+v", done.Summary, issue)
+	}
+}
+
+func TestFormulaPhase4GenericDamageFallbackCannotWrite(t *testing.T) {
+	c, r := frameCommitInput(frameCommitDamage(100))
+	s := frameCommitState(t, c, r)
+	f, ability, ops := frameCommitFrame(s)
+	issue := f.applyCommand(command.Command{Kind: command.KindDamage, Source: "source", Target: "target", DamageType: "damage/physical", Amount: 100}, ops[0], ability)
+	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != ops[0].Path+".damageType" || f.staged.Len() != 0 || s.report.Totals().SourceDamageDealt != 0 {
+		t.Fatalf("generic fallback escaped guard: %+v", issue)
+	}
+}
+
+func TestFormulaPhase4CopiedZeroDamageRequiresRealPlan(t *testing.T) {
+	c, r := frameCommitInput(frameCommitDamage(100))
+	s := frameCommitState(t, c, r)
+	delete(s.compiled.DamageTypeFormulas, "damage/physical")
+	operation := planbundle.CompiledOperation{Path: "original.listener.operations[3]", Operation: "damage", DamageType: "damage/physical"}
+	damage := copyableDamageFrozen{sourceKey: "source", targetKey: "target", damageType: "damage/physical", operation: operation, rawAmount: 0}
+	issue := s.applyPhantomCopyableDamage(&eventCopyableCollector{}, damage, "copy")
+	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != operation.Path+".damageType" || s.combatants["target"].attributesView().At("hp").Current != 1000 || len(reportedDamageHistory(s)) != 0 {
+		t.Fatalf("copied zero bypassed guard: %+v", issue)
+	}
+}
+
+// 手工运行态测试也必须由作者明确给出原键和完整共同定义。
+func registerTestDefense(t *testing.T, state *Engine, key string, definition map[string]any) {
+	t.Helper()
+	var allowed []any
+	var catalog []expression.Binding
+	var reads []planbundle.CompiledDamageAttributeRead
+	for _, item := range definition["inputs"].([]any) {
+		b := item.(map[string]any)["binding"].(map[string]any)
+		allowed = append(allowed, b)
+		binding := expression.Binding{Kind: "attribute", Object: b["object"].(string), AttributeKey: b["attributeKey"].(string), ValueKind: "TOTAL", View: "current_frame"}
+		catalog = append(catalog, binding)
+		reads = append(reads, planbundle.CompiledDamageAttributeRead{Object: binding.Object, AttributeKey: binding.AttributeKey})
+	}
+	program, issue := expression.CompileDefinition(definition, allowed)
+	if issue != nil {
+		t.Fatal(issue)
+	}
+	bound, issue := inputbinding.Bind(program, catalog)
+	if issue != nil {
+		t.Fatal(issue)
+	}
+	id, err := state.formulas.Register(formula.GenericProgram{Key: "test-defense/" + key, Authored: program, BindingBytes: bound.ChargedBytes()})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if state.compiled.DamageTypeFormulas == nil {
+		state.compiled.DamageTypeFormulas = map[string]planbundle.CompiledDamageTypeFormula{}
+	}
+	state.compiled.DamageTypeFormulas[key] = planbundle.CompiledDamageTypeFormula{DamageType: key, Program: id, Binding: bound, Reads: reads, Path: "test-defense/" + key, OutputPath: "test-defense/" + key}
+}

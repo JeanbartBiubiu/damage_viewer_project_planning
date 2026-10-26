@@ -7,49 +7,22 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-// ReadCurrent 读取资源 current，缺省 0。
-func ReadCurrent(resources map[string]model.ResourceSlotDef, key string) float64 {
-	if resources == nil {
-		return 0
-	}
-	slot, ok := resources[key]
-	if !ok {
-		return 0
-	}
-	return slot.Current
-}
-
-// Spend 扣减资源并 clamp，返回是否成功。
-func Spend(resources map[string]model.ResourceSlotDef, key string, amount float64) (map[string]model.ResourceSlotDef, bool) {
-	if resources == nil || amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
-		return resources, false
-	}
-	slot, ok := resources[key]
-	if !ok {
-		return resources, false
-	}
-	if slot.Current < amount {
-		return resources, false
+// SpendSlot 计算单槽扣减；集合所有者负责暂存和统一发布。
+func SpendSlot(slot model.ResourceSlotDef, exists bool, amount float64) (model.ResourceSlotDef, bool) {
+	if !exists || amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) || slot.Current < amount {
+		return slot, false
 	}
 	slot.Current -= amount
-	slot = clampSlot(slot)
-	resources[key] = slot
-	return resources, true
+	return clampSlot(slot), true
 }
 
-// Refund 增加资源并 clamp 到 max。
-func Refund(resources map[string]model.ResourceSlotDef, key string, amount float64) map[string]model.ResourceSlotDef {
-	if resources == nil || amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
-		return resources
-	}
-	slot, ok := resources[key]
-	if !ok {
-		slot = model.ResourceSlotDef{}
+// RefundSlot 增加资源并夹取到上限；不访问调用方的可写映射。
+func RefundSlot(slot model.ResourceSlotDef, amount float64) (model.ResourceSlotDef, bool) {
+	if amount < 0 || math.IsNaN(amount) || math.IsInf(amount, 0) {
+		return slot, false
 	}
 	slot.Current += amount
-	slot = clampSlot(slot)
-	resources[key] = slot
-	return resources
+	return clampSlot(slot), true
 }
 
 // EstimateReadyTimeMs 估算资源恢复到 required 的最早时间；无 regen 时回退 fallbackIntervalMs。

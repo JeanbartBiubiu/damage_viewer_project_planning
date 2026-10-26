@@ -18,7 +18,7 @@ func finalizeStagedLinkedShields(ctx *genericCompileContext) {
 			mod := &p.Modifiers[mi]
 			key, own := strings.CutPrefix(mod.Target, "self.attr.")
 			value, static := ctx.session.Formulas.FoldStatic(mod.ValueProgram)
-			valid = valid && mod.Kind == "attribute" && own && key != "" && key != "hp" && !strings.Contains(key, ".") && !mod.HasCondition && mod.HasValue && mod.ValueReadMode == "" && static && !math.IsNaN(value) && !math.IsInf(value, 0) && (mod.ValuePolicy == "add" || mod.ValuePolicy == "percent_add" || mod.ValuePolicy == "multiply") && (mod.Stage == "" || mod.Stage == "total") && mod.Command == "" && mod.Channel == "" && mod.CurrentValuePolicy == "" && !mod.HasAffectedAbilityRefs
+			valid = valid && mod.Kind == "attribute" && own && key != "" && key != "hp" && !strings.Contains(key, ".") && !mod.HasCondition && !mod.HasMultiplierGroup && mod.HasValue && mod.ValueReadMode == "" && static && !math.IsNaN(value) && !math.IsInf(value, 0) && (mod.ValuePolicy == "add" || mod.ValuePolicy == "percent_add" || mod.ValuePolicy == "multiply") && (mod.Stage == "" || mod.Stage == "total") && mod.Command == "" && mod.Channel == "" && mod.CurrentValuePolicy == "" && !mod.HasAffectedAbilityRefs
 			mod.StaticValue = value
 		}
 		if !valid {

@@ -2,12 +2,12 @@ package compile
 
 import (
 	"strings"
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
 
+	"tinygo_engine_v2/internal/base/typeset"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/plan"
-	"tinygo_engine_v2/internal/typeset"
 )
 
 const (
@@ -40,6 +40,7 @@ type genericCompileContext struct {
 	outputUnitRefs             map[string]int
 	outputUnitIndex            int
 	compilingBasicAttack       bool
+	multiplierGroups           map[string]uint16
 }
 
 type healGroupModeSeen struct {
@@ -193,6 +194,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeTargetMarkConsumption(req, ctx)
 	finalizeImmediatePeriodic(ctx)
 	finalizeTotalCooldownRefunds(ctx)
+	finalizeMultiplierGroups(ctx)
 	// A private candidate flag only; every actual mount is admitted before seeding.
 	for index := range session.Providers {
 		provider := &session.Providers[index]
@@ -358,7 +360,7 @@ func compileProviderDefinition(provider model.ProviderDefinition, path string, c
 	}
 	if compiled.Lifecycle != nil && compiled.Lifecycle.HasDuration {
 		for _, mod := range compiled.Modifiers {
-			if mod.Kind == "attribute" && mod.Stage == "total" && mod.ValuePolicy == "multiply" {
+			if mod.Kind == "attribute" && mod.Stage == "total" && mod.ValuePolicy == "multiply" || mod.HasMultiplierGroup && mod.Kind == "pipeline" && mod.Command == "damage" {
 				compiled.NeedsModifierExpiry, session.HasFiniteModifierExpiry = true, true
 			}
 		}
@@ -729,6 +731,7 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 	} else if mod.HealDirection != "" || mod.HealCategory != "" || mod.HealGroupKey != "" || mod.HealGroupCalculationMode != "" {
 		collector.addError(model.GenericErrUnknownRef, path, "heal fields require kind=pipeline and command=heal", mod.ModifierKey)
 	}
+	compileMultiplierGroup(mod, &compiled, path, ctx)
 	return compiled
 }
 

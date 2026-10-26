@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"tinygo_engine_v2/internal/attribute"
+	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -17,19 +17,21 @@ import (
 // OwnerCombatantKey + ProviderRef 标识挂载身份：跨 combatant 时用拥有者 bag 求值，
 // 且两侧同名 providerRef 互不碰撞/误卸。
 type MountedAttributeModifier struct {
-	HasSnapshot       bool
-	SnapshotValue     float64
-	OwnedHealthReads  bool
-	OwnerCombatantKey string
-	ProviderRef       string
-	ModifierKey       string
-	AttributeKey      string
-	Bucket            string
-	Stage             string
-	Priority          int
-	ValuePolicy       string
-	ValueProgram      formula.GenericProgramID
-	HasValue          bool
+	HasMultiplierGroup bool
+	MultiplierGroupID  uint16
+	HasSnapshot        bool
+	SnapshotValue      float64
+	OwnedHealthReads   bool
+	OwnerCombatantKey  string
+	ProviderRef        string
+	ModifierKey        string
+	AttributeKey       string
+	Bucket             string
+	Stage              string
+	Priority           int
+	ValuePolicy        string
+	ValueProgram       formula.GenericProgramID
+	HasValue           bool
 }
 
 // AttributeResolver 聚合 combatant 上的 attribute modifier。
@@ -139,7 +141,9 @@ func (r *AttributeResolver) mountCompiledModifierOwned(ownerCombatantKey, provid
 		return
 	}
 	mount := MountedAttributeModifier{
-		HasSnapshot: snapshot, SnapshotValue: value,
+		HasMultiplierGroup: mod.HasMultiplierGroup,
+		MultiplierGroupID:  mod.MultiplierGroupID,
+		HasSnapshot:        snapshot, SnapshotValue: value,
 		OwnedHealthReads:  mod.OwnedHealthReads,
 		OwnerCombatantKey: ownerCombatantKey,
 		ProviderRef:       providerRef,
@@ -239,7 +243,7 @@ type ProviderFormulaContext struct {
 	HasProviderElapsed                                        bool
 	ProviderElapsedMs                                         int64
 	HasProviderContext                                        bool
-	ProviderState, ProviderTargetState, ProviderStateDefaults map[string]float64
+	ProviderState, ProviderTargetState, ProviderStateDefaults model.NumericView
 }
 
 // 来源、目标属性、资源和事件字段始终来自原求值上下文。
@@ -298,6 +302,9 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 	resolved := base
 	complementProduct, hasComplement := 1.0, false
 	totalProduct := 1.0
+	var groups AmplificationGroups
+	hasGroups := false
+	var participants []attributeGroupParticipant
 	for _, mod := range r.byAttribute[attributeKey] {
 		if !mod.HasValue {
 			continue
@@ -328,9 +335,15 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 			value, err = formulas.EvalContext(mod.ValueProgram, &modCtx)
 		}
 		if err != nil {
+			if mod.HasMultiplierGroup {
+				return 0, attributeGroupIssue(attributeKey, mod, formulas, err)
+			}
 			return 0, fmt.Errorf("attribute %s modifier %s: %w", attributeKey, mod.ModifierKey, err)
 		}
 		if math.IsNaN(value) || math.IsInf(value, 0) {
+			if mod.HasMultiplierGroup {
+				return 0, attributeGroupIssue(attributeKey, mod, formulas, fmt.Errorf("non-finite grouped multiplier"))
+			}
 			return 0, fmt.Errorf("attribute %s modifier %s: invalid value: %v", attributeKey, mod.ModifierKey, err)
 		}
 		if mod.OwnedHealthReads && value < 0 {
@@ -345,6 +358,18 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 			continue
 		}
 		if mod.ValuePolicy == "multiply" && mod.Stage == "total" {
+			if mod.HasMultiplierGroup {
+				if !hasGroups {
+					groups = NewAmplificationGroups(len(r.byAttribute[attributeKey]))
+					participants = make([]attributeGroupParticipant, 0, len(r.byAttribute[attributeKey]))
+					hasGroups = true
+				}
+				if err := groups.Add(mod.MultiplierGroupID, value); err != nil {
+					return 0, attributeGroupIssue(attributeKey, mod, formulas, err)
+				}
+				participants = append(participants, attributeGroupParticipant{member: mod, value: value})
+				continue
+			}
 			totalProduct *= value
 			if math.IsNaN(totalProduct) || math.IsInf(totalProduct, 0) {
 				return 0, fmt.Errorf("attribute %s modifier %s: non-finite total multiplier", attributeKey, mod.ModifierKey)
@@ -356,8 +381,25 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 			return 0, fmt.Errorf("attribute %s modifier %s: non-finite resolved value", attributeKey, mod.ModifierKey)
 		}
 	}
+	if hasGroups {
+		groupProduct, err := groups.Product()
+		if err != nil {
+			id, match := uint16(0), false
+			if issue, ok := err.(AmplificationGroupError); ok {
+				id, match = issue.ID, true
+			}
+			return 0, attributeGroupIssue(attributeKey, attributeGroupFailureSource(participants, id, match), formulas, err)
+		}
+		totalProduct *= groupProduct
+		if math.IsNaN(totalProduct) || math.IsInf(totalProduct, 0) {
+			return 0, attributeGroupIssue(attributeKey, attributeGroupFailureSource(participants, 0, false), formulas, fmt.Errorf("non-finite grouped total multiplier"))
+		}
+	}
 	resolved *= totalProduct
 	if math.IsNaN(resolved) || math.IsInf(resolved, 0) {
+		if hasGroups {
+			return 0, attributeGroupIssue(attributeKey, attributeGroupFailureSource(participants, 0, false), formulas, fmt.Errorf("non-finite grouped total value"))
+		}
 		return 0, fmt.Errorf("attribute %s: non-finite total value", attributeKey)
 	}
 	if hasComplement {
