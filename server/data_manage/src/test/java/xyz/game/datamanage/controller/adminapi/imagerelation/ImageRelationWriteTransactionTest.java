@@ -10,10 +10,6 @@ import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,14 +30,13 @@ import xyz.game.datamanage.service.imagerelation.ImageRelationService;
 import xyz.game.datamanage.support.auth.AuthContext;
 import xyz.game.datamanage.support.error.ApiException;
 
-/** 检查真实 Spring 代理的事务参与和缓存刷新，不替代数据库回滚验收。 */
+/** 检查真实 Spring 代理的事务参与，不替代数据库回滚验收。 */
 class ImageRelationWriteTransactionTest {
     private AnnotationConfigApplicationContext context;
     private ImageRelationAdminController controller;
     private ImageRelationMapper mapper;
     private GameDataService gameData;
     private TestTransactionManager transactions;
-    private Cache cache;
     private static final AuthContext AUTH = new AuthContext("author@example.com", true, true);
 
     @BeforeEach
@@ -51,7 +46,6 @@ class ImageRelationWriteTransactionTest {
         mapper = context.getBean(ImageRelationMapper.class);
         gameData = context.getBean(GameDataService.class);
         transactions = context.getBean(TestTransactionManager.class);
-        cache = context.getBean(CacheManager.class).getCache("games");
         when(context.getBean(GamesMapper.class).countGames("lol")).thenReturn(1L);
         when(mapper.countSource(eq("lol"), anyString(), anyString(), anyString())).thenReturn(1L);
         when(mapper.findImage("lol", "icon")).thenReturn(new RepresentativeImageResponse.Image("icon", "图标", true));
@@ -61,12 +55,7 @@ class ImageRelationWriteTransactionTest {
     void close() { context.close(); }
 
     @Test
-    void gamePutAndDeleteEvictOnlyStage9KeyAndCommitEachRelationAndLogTogether() {
-        Map<String, String> legacySummary = Map.of("gameImgUrl", "旧格式封面");
-        cache.put("all", legacySummary);
-        assertNull(cache.get("all:stage9"));
-        cache.put("all:stage9", "旧封面");
-        cache.put("other", "其他键");
+    void gamePutAndDeleteCommitEachRelationAndLogTogether() {
         doAnswer(invocation -> {
             assertTrue(TransactionSynchronizationManager.isActualTransactionActive());
             assertEquals(0, transactions.commits);
@@ -75,67 +64,43 @@ class ImageRelationWriteTransactionTest {
 
         controller.put(Map.of("gameId", "lol"), request(), AUTH, http("PUT"));
 
-        assertNull(cache.get("all:stage9"));
-        assertEquals(legacySummary, cache.get("all").get());
-        assertEquals("其他键", cache.get("other", String.class));
+        verify(mapper).put("lol", "GAME", "", "lol", "icon");
         assertEquals(1, transactions.begins);
         assertEquals(1, transactions.commits);
         assertEquals(0, transactions.rollbacks);
-        cache.put("all:stage9", "新封面");
         when(mapper.findImageKey("lol", "GAME", "", "lol")).thenReturn("icon");
         when(mapper.deleteForSource("lol", "GAME", "", "lol")).thenReturn(1);
 
         controller.delete(Map.of("gameId", "lol"), AUTH, http("DELETE"));
 
-        assertNull(cache.get("all:stage9"));
-        assertEquals(legacySummary, cache.get("all").get());
+        verify(mapper).deleteForSource("lol", "GAME", "", "lol");
         assertEquals(2, transactions.commits);
         verify(gameData).recordEditLog(eq(AUTH.email()), eq("DELETE"), anyString(), any(), eq(204));
     }
 
     @Test
-    void otherSourceWritesKeepGameCache() {
-        cache.put("all:stage9", "游戏摘要");
+    void characterPutAndDeleteCommitEachRelationAndLogTogether() {
         controller.put(Map.of("gameId", "lol", "characterKey", "ezreal"), request(), AUTH, http("PUT"));
-        assertEquals("游戏摘要", cache.get("all:stage9", String.class));
         when(mapper.findImageKey("lol", "CHARACTER", "", "ezreal")).thenReturn("icon");
         when(mapper.deleteForSource("lol", "CHARACTER", "", "ezreal")).thenReturn(1);
         controller.delete(Map.of("gameId", "lol", "characterKey", "ezreal"), AUTH, http("DELETE"));
-        assertEquals("游戏摘要", cache.get("all:stage9", String.class));
+        verify(mapper).put("lol", "CHARACTER", "", "ezreal", "icon");
+        verify(mapper).deleteForSource("lol", "CHARACTER", "", "ezreal");
+        assertEquals(2, transactions.begins);
+        assertEquals(2, transactions.commits);
+        assertEquals(0, transactions.rollbacks);
+        verify(gameData).recordEditLog(eq(AUTH.email()), eq("PUT"), anyString(), any(), eq(200));
+        verify(gameData).recordEditLog(eq(AUTH.email()), eq("DELETE"), anyString(), any(), eq(204));
     }
 
     @Test
-    void cacheConditionsWorkWithoutCompiledParameterNames() {
-        var noParameterNames = new org.springframework.core.ParameterNameDiscoverer() {
-            @Override public String[] getParameterNames(java.lang.reflect.Method method) { return null; }
-            @Override public String[] getParameterNames(java.lang.reflect.Constructor<?> constructor) { return null; }
-        };
-        var parser = new org.springframework.expression.spel.standard.SpelExpressionParser();
-        for (var method : ImageRelationService.class.getDeclaredMethods()) {
-            var eviction = method.getAnnotation(org.springframework.cache.annotation.CacheEvict.class);
-            if (eviction == null) continue;
-            for (var source : xyz.game.datamanage.model.imagerelation.ImageRelationSource.values()) {
-                Object[] arguments = method.getParameterCount() == 5
-                    ? new Object[] {"lol", source, "", "sample", request()}
-                    : new Object[] {"lol", source, "", "sample"};
-                var evaluation = new org.springframework.context.expression.MethodBasedEvaluationContext(
-                    new Object(), method, arguments, noParameterNames);
-                assertEquals(source == xyz.game.datamanage.model.imagerelation.ImageRelationSource.GAME,
-                    parser.parseExpression(eviction.condition()).getValue(evaluation, Boolean.class),
-                    method.getName() + ":" + source);
-            }
-        }
-    }
-
-    @Test
-    void rejectedGameWriteDoesNotEvictOrLog() {
-        cache.put("all:stage9", "原摘要");
+    void rejectedGameWriteDoesNotWriteRelationOrLog() {
         assertThrows(ApiException.class, () -> controller.put(Map.of("gameId", "lol"),
             new RepresentativeImageRequest("", Set.of()), AUTH, http("PUT")));
-        assertEquals("原摘要", cache.get("all:stage9", String.class));
         assertEquals(1, transactions.rollbacks);
         assertEquals(0, transactions.commits);
         verifyNoInteractions(gameData);
+        verify(mapper, never()).put(anyString(), anyString(), anyString(), anyString(), anyString());
     }
 
     @Test
@@ -163,7 +128,6 @@ class ImageRelationWriteTransactionTest {
     }
 
     @Configuration(proxyBeanMethods = false)
-    @EnableCaching
     @EnableTransactionManagement(proxyTargetClass = true)
     @Import({ImageRelationService.class, ImageRelationAdminController.class})
     static class Config {
@@ -172,7 +136,6 @@ class ImageRelationWriteTransactionTest {
         @Bean ImageRelationMapper mapper() { return mock(ImageRelationMapper.class); }
         @Bean GameDataService gameData() { return mock(GameDataService.class); }
         @Bean ObjectMapper objectMapper() { return new ObjectMapper(); }
-        @Bean CacheManager cacheManager() { return new ConcurrentMapCacheManager("games"); }
         @Bean TestTransactionManager transactionManager() { return new TestTransactionManager(); }
     }
 

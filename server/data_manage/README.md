@@ -499,7 +499,7 @@ mvn "-Dtest=SimulationAvailability*Test" test
 
 游戏、角色、属性、装备、构筑可选项、构筑分组、技能、技能效果和状态通过各自的 `representative-image` 子资源维护代表图片。构筑代表图路径为 `/build-systems/{systemKey}/options/{optionKey}/representative-image` 和 `/build-systems/{systemKey}/groups/{groupKey}/representative-image`，父键是系统键。`/images/{imageKey}/usages` 的用途字段是 `buildOptions` 与 `buildGroups`；`/image-options?keyword=` 查询最多 50 个已启用图片摘要，不含图片内容。图片关联的来源存在性与来源删除清理由服务在上述同游戏写事务中保证。删除构筑系统时清理该系统的可选项和分组代表图，不删除图片本体。
 
-`GET /api/games` 只返回 `gameId`、`gameName`、可空 `representativeImageKey`。游戏代表图片写入成功后会清理游戏列表缓存。
+`GET /api/games` 只返回 `gameId`、`gameName`、可空 `representativeImageKey`，每次直接读取PostgreSQL。游戏代表图片关系设置或解除事务提交后，新请求立即看到结果；ETag条件请求保持，返回304仍先读取数据库。
 
 ### 图片内容与公开同步
 
@@ -517,7 +517,7 @@ mvn "-Dtest=SimulationAvailability*Test" test
 
 现有库约束入口为 [basic_attack_received.sql](../../db/game_manage/migrations/basic_attack_received.sql)，由调用方核对实际旧约束并在事务内执行；脚本不连接数据库或自行提交。本轮实际 `test0221` 已执行并独立读回，只扩大触发事件白名单，没有新表或业务数据删除。鬼索、荆棘和日炎的项目默认作者数据及运行证明见规划真源阶段4C验收记录第9节，不将HTTP保存当作战斗成功。
 
-前置要求为 JDK 21、Maven 3.9+、PostgreSQL 和 Redis。默认端口为 8080，以下命令在 `server/data_manage` 执行：
+前置要求为 JDK 21、Maven 3.9+和PostgreSQL。后端不再使用Redis或Spring方法缓存；移除范围与后续公开资源职责见[详细设计](../../文档记录/详细设计/server/Redis移除与公开资源缓存边界详细设计.md)。默认端口为 8080，以下命令在 `server/data_manage` 执行：
 
 | 命令 | 用途 |
 | --- | --- |
@@ -526,17 +526,16 @@ mvn "-Dtest=SimulationAvailability*Test" test
 | `mvn test` | 功能收尾测试 |
 | `mvn package` | 配置、依赖或打包链路变更后的打包检查 |
 
-默认配置在 `src/main/resources/application.yml`。本地使用环境变量或私有配置覆盖，不把真实数据库、Redis、JWT 凭据写回仓库。
+默认配置在 `src/main/resources/application.yml`。本地使用环境变量或私有配置覆盖，不把真实数据库、JWT凭据写回仓库。
 
-`mvn spring-boot:run` 已把 JDK 的 Unix 域套接字（本机进程通信路径）临时目录固定到模块 `target`。这是 Windows 下 Tomcat 与 Redis 客户端共用的选择器启动前置，避免用户临时目录能够绑定但无法连接时出现 `Unable to establish loopback connection`。该目录属于构建产物，不进入 Git；无需再手工添加 JVM 参数。
+`mvn spring-boot:run` 已把 JDK 的 Unix 域套接字（本机进程通信路径）临时目录固定到模块 `target`。这是Windows下Tomcat使用的选择器启动前置，避免用户临时目录能够绑定但无法连接时出现 `Unable to establish loopback connection`。该目录属于构建产物，不进入 Git；无需再手工添加 JVM 参数。
 
 | 环境变量 | 用途 |
 | --- | --- |
 | `SPRING_DATASOURCE_URL` | PostgreSQL 连接串 |
 | `SPRING_DATASOURCE_USERNAME` / `SPRING_DATASOURCE_PASSWORD` | 数据库账号密码 |
 | `IT_DB_INIT_FAIL_TIMEOUT` | Hikari 初始化失败等待时间 |
-| `IT_REDIS_HOST` / `IT_REDIS_PORT` / `IT_REDIS_PASSWORD` / `IT_REDIS_DATABASE` | Redis 连接配置 |
-| `APP_STARTUP_FAIL_FAST` | 是否在启动时立即检查 PostgreSQL / Redis |
+| `APP_STARTUP_FAIL_FAST` | 是否在启动时立即检查PostgreSQL |
 | `APP_AUTH_JWT_DISABLED` | 是否关闭本地管理接口 JWT 校验 |
 | `IT_ADMIN_JWT_ES256_PUBLIC_KEY_PEM` | 开启管理接口 JWT 校验时使用的 ES256 公钥 |
 

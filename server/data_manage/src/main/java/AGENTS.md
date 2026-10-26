@@ -5,8 +5,8 @@
 ## 约束
 
 - controller 保持薄转发，业务与持久化语义沿当前 service、store、mapper 调用链确定，不从路由层猜测。
-- 改 mapper interface 时同步核对对应 XML id、参数和返回列；改缓存、Redis、JWT 或启动探测时同步读取 `application.yml`。
-- 图片接口位于 `controller/publicapi/ImagePublicController.java`、`controller/adminapi/image/**`，业务位于 `service/image/**`。图片写入只清理必要的图片缓存。
+- 改 mapper interface 时同步核对对应 XML id、参数和返回列；改数据库连接、JWT 或启动探测时同步读取 `application.yml`。
+- 图片接口位于 `controller/publicapi/ImagePublicController.java`、`controller/adminapi/image/**`，业务位于 `service/image/**`。后端不使用方法缓存，游戏列表每次直接读取数据库；图片内容与代表图关系写入保持原事务边界。
 - 鉴权变化同时检查 filter、properties、错误模型和 README 配置；不得恢复旧 combat-data 控制器、发布服务或 `currentVersion` 缓存。
 
 ## 验证
