@@ -37,9 +37,13 @@ export function getErrorMessage(error: unknown): string {
     return error.code ? `${error.code}: ${error.message}` : error.message;
   }
   if (error instanceof Error) {
-    return error.message;
+    const message = error.message.trim();
+    if (/^(failed to fetch|fetch failed|network request failed|load failed|networkerror when attempting to fetch resource\.?)$/i.test(message)) {
+      return '网络请求失败，请检查网络连接和 API 地址。';
+    }
+    return message ? error.message : '发生未知错误，请稍后重试。';
   }
-  return 'An unknown error occurred.';
+  return '发生未知错误，请稍后重试。';
 }
 
 export async function listGames(apiBaseUrl: string): Promise<ApiResult<GameSummary[]>> {
@@ -129,12 +133,12 @@ function toRequestError(response: Response, body: unknown): ApiRequestError {
   if (typeof body === 'object' && body !== null) {
     const payload = body as ApiErrorResponse;
     return new ApiRequestError(
-      payload.error?.message || `Request failed with HTTP ${response.status}`,
+      payload.error?.message || `请求失败（HTTP ${response.status}）。`,
       response.status,
       payload.error?.code,
       payload.error?.details as Record<string, unknown> | undefined
     );
   }
 
-  return new ApiRequestError(`Request failed with HTTP ${response.status}`, response.status);
+  return new ApiRequestError(`请求失败（HTTP ${response.status}）。`, response.status);
 }

@@ -45,6 +45,7 @@ class ImagePublicControllerTest {
         mockMvc.perform(get("/api/games/lol/images"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.gameId").value("lol"))
-            .andExpect(jsonPath("$.images[0].imageKey").value("icon"));
+            .andExpect(jsonPath("$.images[0].imageKey").value("icon"))
+            .andExpect(jsonPath("$.images[0].imageBase64").value("data:image/png;base64,abc"));
     }
 }

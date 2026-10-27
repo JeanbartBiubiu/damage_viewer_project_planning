@@ -20,6 +20,7 @@ import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.image.ImageMapper;
 import xyz.game.datamanage.model.image.ImageCreateRequest;
 import xyz.game.datamanage.model.image.ImageListQuery;
+import xyz.game.datamanage.model.image.ImageListItemResponse;
 import xyz.game.datamanage.model.image.ImageListResponse;
 import xyz.game.datamanage.model.image.ImagePublicItemResponse;
 import xyz.game.datamanage.model.image.ImagePublicListResponse;
@@ -67,8 +68,8 @@ public class ImageService {
                 fieldIssue("keyword", "LENGTH_INVALID", "关键词不能超过100个字符")
             ));
         }
-        List<ImageResponse> rows = mapper.list(gameId, normalized.keyword(), normalized.enabled());
-        List<ImageResponse> items = rows == null ? List.of() : List.copyOf(rows);
+        List<ImageListItemResponse> rows = mapper.list(gameId, normalized.keyword(), normalized.enabled());
+        List<ImageListItemResponse> items = rows == null ? List.of() : List.copyOf(rows);
         return new ImageListResponse(items, items.size());
     }
 

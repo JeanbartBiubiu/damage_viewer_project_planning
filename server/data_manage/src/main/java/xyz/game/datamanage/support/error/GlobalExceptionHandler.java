@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(ErrorResponse.of(
                 "400.INVALID_BODY",
-                "Invalid JSON body",
+                "请求正文不是有效的JSON数据",
                 Map.of("reason", ex.getMostSpecificCause().getMessage())
             ));
     }
@@ -105,7 +105,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({MethodArgumentTypeMismatchException.class, MissingServletRequestParameterException.class})
     public ResponseEntity<ErrorResponse> handleBadRequest(Exception ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(ErrorResponse.of("400.INVALID_BODY", "Invalid request parameters", Map.of("reason", ex.getMessage())));
+            .body(ErrorResponse.of("400.INVALID_BODY", "请求参数格式不正确", Map.of("reason", ex.getMessage())));
     }
 
     @ExceptionHandler({NoResourceFoundException.class, NoHandlerFoundException.class})
@@ -114,7 +114,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
             .body(ErrorResponse.of(
                 "404.NOT_FOUND",
-                "Resource not found",
+                "请求的资源不存在",
                 Map.of("path", path, "reason", ex.getClass().getSimpleName())
             ));
     }
@@ -131,7 +131,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(ErrorResponse.of(
                 "500.INTERNAL_ERROR",
-                "Unexpected internal error",
+                "服务器内部错误，请稍后重试",
                 Map.of("reason", ex.getClass().getSimpleName())
             ));
     }
@@ -143,7 +143,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(ErrorResponse.of(
                 "400.VALIDATION_FAILED",
-                "属性信息不合法",
+                "请求信息不合法",
                 Map.of("fieldIssues", safeIssues)
             ));
     }

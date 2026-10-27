@@ -74,6 +74,7 @@ export function EquipmentManagementPage({
     if (!selectedGameId || !token) {
       setEquipment([]);
       setTotal(0);
+      setLoading(false);
       setLoadError(null);
       return;
     }

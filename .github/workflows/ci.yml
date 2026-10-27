@@ -92,4 +92,6 @@ jobs:
         with:
           node-version: '20'
       - run: npm ci --prefix tools/task-governance
+      - name: 离线资料准备与只读对账工具
+        run: node --test tools/data-readiness/readiness.test.mjs
       - run: node tools/task-governance/cli.mjs check

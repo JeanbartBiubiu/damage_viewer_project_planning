@@ -86,6 +86,7 @@ export function CharacterManagementPage({
     if (!selectedGameId || !token) {
       setCharacters([]);
       setTotal(0);
+      setLoading(false);
       setLoadError(null);
       return;
     }

@@ -4,13 +4,14 @@ import java.sql.Timestamp;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import xyz.game.datamanage.model.image.ImageListItemResponse;
 import xyz.game.datamanage.model.image.ImagePublicItemResponse;
 import xyz.game.datamanage.model.image.ImageResponse;
 
 @Mapper
 public interface ImageMapper {
 
-    List<ImageResponse> list(
+    List<ImageListItemResponse> list(
         @Param("gameId") String gameId,
         @Param("keyword") String keyword,
         @Param("enabled") Boolean enabled

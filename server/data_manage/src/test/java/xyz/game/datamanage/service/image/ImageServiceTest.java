@@ -31,6 +31,7 @@ import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.image.ImageMapper;
 import xyz.game.datamanage.model.image.ImageCreateRequest;
 import xyz.game.datamanage.model.image.ImageListQuery;
+import xyz.game.datamanage.model.image.ImageListItemResponse;
 import xyz.game.datamanage.model.image.ImagePublicItemResponse;
 import xyz.game.datamanage.model.image.ImageResponse;
 import xyz.game.datamanage.model.image.ImageUpdateRequest;
@@ -204,7 +205,9 @@ class ImageServiceTest {
             32,
             true
         );
-        when(mapper.list("lol", "ico", true)).thenReturn(List.of(image));
+        var listItem = new ImageListItemResponse(image.gameId(), image.imageKey(), image.name(), image.description(),
+            image.mimeType(), image.byteSize(), image.width(), image.height(), image.enabled(), image.createdAt(), image.updatedAt());
+        when(mapper.list("lol", "ico", true)).thenReturn(List.of(listItem));
         when(mapper.listPublic("lol", null)).thenReturn(List.of(
             new ImagePublicItemResponse(
                 "icon",
@@ -219,6 +222,8 @@ class ImageServiceTest {
             service.list("lol", new ImageListQuery(" ico ", true)).total()
         );
         assertEquals(1, service.listPublic("lol", null).images().size());
+        assertEquals("data:image/png;base64,abc", service.listPublic("lol", null).images().getFirst().imageBase64());
+        verify(mapper).list("lol", "ico", true);
     }
 
     @Test

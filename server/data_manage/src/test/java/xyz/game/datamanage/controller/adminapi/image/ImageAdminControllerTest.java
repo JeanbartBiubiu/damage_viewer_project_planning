@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;
 import xyz.game.datamanage.model.image.ImageCreateRequest;
 import xyz.game.datamanage.model.image.ImageListQuery;
+import xyz.game.datamanage.model.image.ImageListItemResponse;
 import xyz.game.datamanage.model.image.ImageListResponse;
 import xyz.game.datamanage.model.image.ImageResponse;
 import xyz.game.datamanage.model.image.ImageUpdateRequest;
@@ -61,17 +62,23 @@ class ImageAdminControllerTest {
     @Test
     void listAndGetUseFrozenImageKeyContract() throws Exception {
         ImageResponse image = image("icon");
+        var listItem = new ImageListItemResponse(image.gameId(), image.imageKey(), image.name(), image.description(),
+            image.mimeType(), image.byteSize(), image.width(), image.height(), image.enabled(), image.createdAt(), image.updatedAt());
         when(imageService.list(eq("lol"), any(ImageListQuery.class)))
-            .thenReturn(new ImageListResponse(List.of(image), 1));
+            .thenReturn(new ImageListResponse(List.of(listItem), 1));
         when(imageService.get("lol", "icon")).thenReturn(image);
 
         mockMvc.perform(get("/api/admin/games/lol/images?keyword=ico&enabled=true"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.total").value(1))
-            .andExpect(jsonPath("$.items[0].imageKey").value("icon"));
+            .andExpect(jsonPath("$.items[0].imageKey").value("icon"))
+            .andExpect(jsonPath("$.items[0].imageBase64").doesNotExist())
+            .andExpect(jsonPath("$.items[0].mimeType").value(image.mimeType()))
+            .andExpect(jsonPath("$.items[0].byteSize").value(image.byteSize()));
         mockMvc.perform(get("/api/admin/games/lol/images/icon"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.imageKey").value("icon"));
+            .andExpect(jsonPath("$.imageKey").value("icon"))
+            .andExpect(jsonPath("$.imageBase64").value(image.imageBase64()));
     }
 
     @Test
