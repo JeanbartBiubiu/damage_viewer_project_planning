@@ -3,8 +3,8 @@ package execution
 import (
 	"math"
 
-	"tinygo_engine_v2/internal/command"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
@@ -22,7 +22,7 @@ type damageNumbers struct {
 }
 
 func (f *Frame) resolveDamageNumbers(
-	cmd command.Command, op planbundle.CompiledOperation, critEv frozenCritEvidence,
+	cmd pipeline.Command, op planbundle.CompiledOperation, critEv frozenCritEvidence,
 	ability planbundle.CompiledAbility, modifiers []map[string]interface{},
 ) (damageNumbers, *model.EngineError) {
 	out := damageNumbers{crit: critEv, modifiers: modifiers}

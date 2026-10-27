@@ -22,7 +22,7 @@ graph TD
     Report["runtime/report 累计、明细与采样"]
     Contract["runtime/contract 身份与只读值"]
     Formula["formula 战斗公式绑定"]
-    Pipeline["pipeline 数值结算"]
+    Pipeline["pipeline 数值结算、命令、资源计算与护盾底层值"]
     Attribute["base/attribute 不可变分页"]
     Pure["base/expression 纯公式"]
     Binding["base/inputbinding 输入绑定"]

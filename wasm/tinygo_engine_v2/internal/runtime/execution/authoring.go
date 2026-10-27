@@ -8,9 +8,9 @@ import (
 	"tinygo_engine_v2/internal/base/inputbinding"
 
 	"tinygo_engine_v2/internal/base/attribute"
-	"tinygo_engine_v2/internal/command"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
@@ -53,7 +53,7 @@ func (f *Frame) requireConfiguredDefense(damageType, operationPath string) (plan
 	return def, nil
 }
 
-func (f *Frame) resolveConfiguredDefense(cmd command.Command, def planbundle.CompiledDamageTypeFormula) (configuredDefenseResult, *model.EngineError) {
+func (f *Frame) resolveConfiguredDefense(cmd pipeline.Command, def planbundle.CompiledDamageTypeFormula) (configuredDefenseResult, *model.EngineError) {
 	var sourceAttrs, targetAttrs attribute.Table
 	if f.damageDefenseContext != nil {
 		sourceAttrs, targetAttrs = f.damageDefenseContext.SourceAttrs, f.damageDefenseContext.TargetAttrs

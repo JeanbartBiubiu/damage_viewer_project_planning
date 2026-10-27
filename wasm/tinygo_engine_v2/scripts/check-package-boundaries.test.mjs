@@ -26,9 +26,15 @@ test('运行子系统不得反向依赖根包或互相取得执行控制', () =>
 });
 
 test('只读计划不得依赖编译器或运行包，旧路径与未知叶包拒绝', () => {
-  const errors = checkPackageBoundaries([pkg('plan', ['compile', 'runtime/action']), pkg('compile', ['attribute']), pkg('trigger'), pkg('base'), pkg('base/new'), pkg('runtime/new'), ...['crit', 'control', 'mark', 'status'].map(name => pkg(name))]);
-  assert.equal(errors.length, 11);
-  for (const name of ['crit', 'control', 'mark', 'status']) assert.ok(errors.some(value => value.startsWith(`${name}:`)), name);
+  const errors = checkPackageBoundaries([pkg('plan', ['compile', 'runtime/action']), pkg('compile', ['attribute']), pkg('trigger'), pkg('base'), pkg('base/new'), pkg('runtime/new'), ...['crit', 'control', 'mark', 'status', 'command', 'resource', 'shield'].map(name => pkg(name))]);
+  assert.equal(errors.length, 14);
+  for (const name of ['crit', 'control', 'mark', 'status', 'command', 'resource', 'shield']) assert.ok(errors.some(value => value.startsWith(`${name}:`)), name);
+});
+
+test('统一结算不得反向取得执行器、状态所有者或旧包能力', () => {
+  assert.deepEqual(checkPackageBoundaries([pkg('pipeline', ['model', 'plan', 'formula', 'base/attribute', 'base/numeric'])]), []);
+  const errors = checkPackageBoundaries([pkg('pipeline', ['runtime/execution', 'runtime/effect', 'compile', 'shield'])]);
+  for (const edge of ['pipeline -> runtime/execution', 'pipeline -> runtime/effect', 'pipeline -> compile', 'pipeline -> shield']) assert.ok(errors.some(value => value.includes(edge)), edge);
 });
 
 test('连续JSON解析保留嵌套对象和转义字符串', () => {

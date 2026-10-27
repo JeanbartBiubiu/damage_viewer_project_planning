@@ -5,22 +5,7 @@ import (
 	"math"
 
 	"tinygo_engine_v2/internal/base/attribute"
-	"tinygo_engine_v2/internal/command"
-	shieldpkg "tinygo_engine_v2/internal/shield"
 )
-
-// ShieldInstance 是 pipeline 可见的护盾视图（兼容 D1 测试）。
-type ShieldInstance struct {
-	Remaining            float64
-	ExpireAt             int64
-	Priority             int16
-	ShieldRef            string
-	DefinitionRef        string
-	LifecycleProviderRef string
-	Source               string
-	Owner                string
-	State                map[string]interface{}
-}
 
 // CombatantView 是 pipeline 可见的 combatant 属性/护盾视图。
 type CombatantView struct {
@@ -49,27 +34,27 @@ type ExecuteOutcome struct {
 }
 
 // ResolveCommand 路由治疗、护盾与斩杀；伤害只能使用已结算金额入口。
-func ResolveCommand(cmd command.Command, view CombatantView, nowMs int64) (command.Result, CombatantView) {
+func ResolveCommand(cmd Command, view CombatantView, nowMs int64) (CommandResult, CombatantView) {
 	switch cmd.Kind {
-	case command.KindHeal:
+	case KindHeal:
 		attrs, healed := ResolveHeal(cmd, view.Attributes)
 		view.Attributes = attrs
-		return command.Result{Kind: cmd.Kind, Applied: healed > 0, Amount: healed}, view
-	case command.KindShield:
+		return CommandResult{Kind: cmd.Kind, Applied: healed > 0, Amount: healed}, view
+	case KindShield:
 		view = ResolveShield(cmd, view, nowMs)
-		return command.Result{Kind: cmd.Kind, Applied: cmd.Amount > 0, Amount: cmd.Amount}, view
-	case command.KindExecuteThreshold:
+		return CommandResult{Kind: cmd.Kind, Applied: cmd.Amount > 0, Amount: cmd.Amount}, view
+	case KindExecuteThreshold:
 		outcome, next := ResolveExecuteThreshold(cmd, view)
-		return command.Result{Kind: cmd.Kind, Applied: outcome.Applied, Amount: 0}, next
+		return CommandResult{Kind: cmd.Kind, Applied: outcome.Applied, Amount: 0}, next
 	default:
-		return command.Result{Kind: cmd.Kind, Applied: false, Message: "unsupported"}, view
+		return CommandResult{Kind: cmd.Kind, Applied: false, Message: "unsupported"}, view
 	}
 }
 
 // ResolveExecuteThreshold 将 live target HP 置 0；不折算 shield、不产生 damage。
 // live HP <= 0 时跳过（Applied=false），shield 保持不变。
 // 只改 Current（经 SetHP）；ReadHP 读 hp.current，Base/Resolved 可保留给属性 refresh。
-func ResolveExecuteThreshold(cmd command.Command, view CombatantView) (ExecuteOutcome, CombatantView) {
+func ResolveExecuteThreshold(cmd Command, view CombatantView) (ExecuteOutcome, CombatantView) {
 	before := attribute.ReadHP(view.Attributes)
 	if before <= 0 || math.IsNaN(before) || math.IsInf(before, 0) {
 		return ExecuteOutcome{HPBefore: before, Applied: false}, view
@@ -92,8 +77,8 @@ func ApplyMitigatedDamage(raw, mitigated float64, view CombatantView, nowMs int6
 	if captureShieldAbsorptions {
 		snapshot = &ShieldAbsorptionSnapshot{Rows: []ShieldAbsorption{}}
 	}
-	shields := shieldInstancesFromView(view.Shields, nowMs)
-	shieldpkg.SortByPriority(shields)
+	shields := ActiveShields(view.Shields, nowMs)
+	SortShields(shields)
 	for i := range shields {
 		if remaining <= 0 {
 			break
@@ -117,7 +102,7 @@ func ApplyMitigatedDamage(raw, mitigated float64, view CombatantView, nowMs int6
 		absorbed += take
 		remaining -= take
 	}
-	view.Shields = shieldsToView(shieldpkg.RemoveExpired(shields, nowMs))
+	view.Shields = removeExpiredShields(shields, nowMs)
 	before := attribute.ReadHP(view.Attributes)
 	after := before - remaining
 	if after < 0 {
@@ -135,13 +120,13 @@ func ApplyMitigatedDamage(raw, mitigated float64, view CombatantView, nowMs int6
 }
 
 // ResolveHeal 增加 HP 并 clamp max。
-func ResolveHeal(cmd command.Command, attrs attribute.Table) (attribute.Table, float64) {
+func ResolveHeal(cmd Command, attrs attribute.Table) (attribute.Table, float64) {
 	attrs, healed := attribute.ApplyHeal(attrs, cmd.Amount)
 	return attrs, healed
 }
 
 // ResolveShield 创建护盾实例。
-func ResolveShield(cmd command.Command, view CombatantView, nowMs int64) CombatantView {
+func ResolveShield(cmd Command, view CombatantView, nowMs int64) CombatantView {
 	if cmd.Amount <= 0 {
 		return view
 	}
@@ -149,7 +134,9 @@ func ResolveShield(cmd command.Command, view CombatantView, nowMs int64) Combata
 	if ref == "" {
 		ref = "shield:auto"
 	}
-	view.Shields = append(view.Shields, ShieldInstance{
+	shields := make([]ShieldInstance, len(view.Shields), len(view.Shields)+1)
+	copy(shields, view.Shields)
+	view.Shields = append(shields, ShieldInstance{
 		ShieldRef: ref,
 		Source:    cmd.Source,
 		Owner:     cmd.Target,
@@ -160,91 +147,4 @@ func ResolveShield(cmd command.Command, view CombatantView, nowMs int64) Combata
 	})
 	_ = nowMs
 	return view
-}
-
-func shieldInstancesFromView(viewShields []ShieldInstance, nowMs int64) []shieldpkg.Instance {
-	if len(viewShields) == 0 {
-		return nil
-	}
-	out := make([]shieldpkg.Instance, 0, len(viewShields))
-	for _, s := range viewShields {
-		inst := shieldpkg.Instance{
-			ShieldRef:            s.ShieldRef,
-			DefinitionRef:        s.DefinitionRef,
-			LifecycleProviderRef: s.LifecycleProviderRef,
-			Source:               s.Source,
-			Owner:                s.Owner,
-			Remaining:            s.Remaining,
-			Priority:             s.Priority,
-			ExpireAt:             s.ExpireAt,
-			State:                s.State,
-		}
-		if inst.Remaining <= 0 || inst.Expired(nowMs) {
-			continue
-		}
-		out = append(out, inst)
-	}
-	return out
-}
-
-func shieldsToView(instances []shieldpkg.Instance) []ShieldInstance {
-	if len(instances) == 0 {
-		return nil
-	}
-	out := make([]ShieldInstance, 0, len(instances))
-	for _, inst := range instances {
-		out = append(out, ShieldInstance{
-			ShieldRef:            inst.ShieldRef,
-			DefinitionRef:        inst.DefinitionRef,
-			LifecycleProviderRef: inst.LifecycleProviderRef,
-			Source:               inst.Source,
-			Owner:                inst.Owner,
-			Remaining:            inst.Remaining,
-			Priority:             inst.Priority,
-			ExpireAt:             inst.ExpireAt,
-			State:                inst.State,
-		})
-	}
-	return out
-}
-
-// ShieldsFromRuntime 将 runtime shield 列表转为 pipeline 视图。
-func ShieldsFromRuntime(instances []shieldpkg.Instance, nowMs int64) []ShieldInstance {
-	active := shieldpkg.ActiveInstances(instances, nowMs)
-	return shieldsToView(active)
-}
-
-// RuntimeShieldsFromView 将 pipeline 视图转为 runtime shield 列表。
-// 若视图条目缺少 source/owner，则回退到传入的 frame source 与 combatant owner。
-func RuntimeShieldsFromView(viewShields []ShieldInstance, owner, source string) []shieldpkg.Instance {
-	if len(viewShields) == 0 {
-		return nil
-	}
-	out := make([]shieldpkg.Instance, 0, len(viewShields))
-	for _, s := range viewShields {
-		src := s.Source
-		if src == "" {
-			src = source
-		}
-		own := s.Owner
-		if own == "" {
-			own = owner
-		}
-		state := s.State
-		if state == nil {
-			state = map[string]interface{}{}
-		}
-		out = append(out, shieldpkg.Instance{
-			ShieldRef:            s.ShieldRef,
-			DefinitionRef:        s.DefinitionRef,
-			LifecycleProviderRef: s.LifecycleProviderRef,
-			Source:               src,
-			Owner:                own,
-			Remaining:            s.Remaining,
-			Priority:             s.Priority,
-			ExpireAt:             s.ExpireAt,
-			State:                state,
-		})
-	}
-	return out
 }

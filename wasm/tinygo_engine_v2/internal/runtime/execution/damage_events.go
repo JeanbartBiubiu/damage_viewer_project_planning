@@ -2,8 +2,8 @@ package execution
 
 import (
 	"math"
-	"tinygo_engine_v2/internal/command"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
@@ -23,7 +23,7 @@ type frameDamageAggregation struct {
 }
 
 // recordDamageContribution 不重新结算，复制与监听子帧保持原边界。
-func (f *Frame) recordDamageContribution(cmd command.Command, result command.Result, operationRef, operationPath string) *model.EngineError {
+func (f *Frame) recordDamageContribution(cmd pipeline.Command, result pipeline.CommandResult, operationRef, operationPath string) *model.EngineError {
 	if (f.chainDepth != 0 && !f.rootSkillHitDamage) || result.Amount <= 0 {
 		return nil
 	}

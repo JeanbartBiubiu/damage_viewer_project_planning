@@ -12,12 +12,10 @@ import (
 	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/base/numeric"
 	"tinygo_engine_v2/internal/base/typeset"
-	"tinygo_engine_v2/internal/command"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
-	"tinygo_engine_v2/internal/resource"
 	"tinygo_engine_v2/internal/scheduler"
 )
 
@@ -840,8 +838,8 @@ func (f *Frame) executeOperation(ability planbundle.CompiledAbility, op *planbun
 			if err := f.maybeCollectCopyableDamage(*op, ability, amount, targetKey, critEv); err != nil {
 				return err
 			}
-			cmd := command.Command{
-				Kind:       command.KindDamage,
+			cmd := pipeline.Command{
+				Kind:       pipeline.KindDamage,
 				Source:     f.sourceKey,
 				Target:     targetKey,
 				Amount:     amount,
@@ -854,8 +852,8 @@ func (f *Frame) executeOperation(ability planbundle.CompiledAbility, op *planbun
 		if operationRef == "" {
 			operationRef = op.Path
 		}
-		cmd := command.Command{
-			Kind:       command.Kind(op.Operation),
+		cmd := pipeline.Command{
+			Kind:       pipeline.CommandKind(op.Operation),
 			Source:     f.sourceKey,
 			Target:     targetKey,
 			Amount:     amount,
@@ -1350,8 +1348,8 @@ func (f *Frame) applyExecuteThreshold(op planbundle.CompiledOperation, targetKey
 		return nil
 	}
 
-	cmd := command.Command{
-		Kind:          command.KindExecuteThreshold,
+	cmd := pipeline.Command{
+		Kind:          pipeline.KindExecuteThreshold,
 		Source:        f.sourceKey,
 		Target:        targetKey,
 		Ref:           op.Ref,
@@ -1359,7 +1357,7 @@ func (f *Frame) applyExecuteThreshold(op planbundle.CompiledOperation, targetKey
 		SnapshotHP:    snapCurrent,
 		SnapshotMaxHP: snapMax,
 	}
-	if !command.Validate(cmd) {
+	if !pipeline.ValidateCommand(cmd) {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrOperationTargetMissing, "execute_threshold target unavailable", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
 
@@ -1455,11 +1453,11 @@ func (f *Frame) recordOperationOutput(op planbundle.CompiledOperation, outcome p
 	}
 }
 
-func (f *Frame) applyCommand(cmd command.Command, op planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {
-	if cmd.Kind == command.KindDamage {
+func (f *Frame) applyCommand(cmd pipeline.Command, op planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {
+	if cmd.Kind == pipeline.KindDamage {
 		return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "damage command bypassed authored defense settlement", op.Path+".damageType", cmd.DamageType, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
-	if cmd.Kind == command.KindHeal {
+	if cmd.Kind == pipeline.KindHeal {
 		return f.applyDirectHeal(cmd, op, ability)
 	}
 	sc := f.stageFor(cmd.Target)
@@ -1470,7 +1468,7 @@ func (f *Frame) applyCommand(cmd command.Command, op planbundle.CompiledOperatio
 	sc.instances.SetShields(nextShields)
 
 	switch cmd.Kind {
-	case command.KindHeal:
+	case pipeline.KindHeal:
 		f.healingDone += result.Amount
 		overheal := cmd.Amount - result.Amount
 		if overheal < 0 {
@@ -1489,7 +1487,7 @@ func (f *Frame) applyCommand(cmd command.Command, op planbundle.CompiledOperatio
 // (once on merged, then proportional part projection) → one resistance factor on both
 // parts → incoming_crit_part_post_mitigation (crit part only) → merge →
 // incoming_post_mitigation → shields/HP.
-func (f *Frame) applyDamageCommand(cmd command.Command, op planbundle.CompiledOperation, critEv frozenCritEvidence, ability planbundle.CompiledAbility, modEvidence []map[string]interface{}) *model.EngineError {
+func (f *Frame) applyDamageCommand(cmd pipeline.Command, op planbundle.CompiledOperation, critEv frozenCritEvidence, ability planbundle.CompiledAbility, modEvidence []map[string]interface{}) *model.EngineError {
 	operationRef := op.Ref
 	sourceHealthBefore, sourceHasHealth := f.stageFor(cmd.Source).attributesView().Lookup("hp")
 	traits := append([]string(nil), op.Types...)
@@ -1507,7 +1505,7 @@ func (f *Frame) applyDamageCommand(cmd command.Command, op planbundle.CompiledOp
 	cmd.Amount, critEv, modEvidence = numbers.rawAmount, numbers.crit, numbers.modifiers
 	rawForEvidence := numbers.rawAmount
 	if numbers.failClosed {
-		result := command.Result{Kind: cmd.Kind, Applied: false, Amount: 0}
+		result := pipeline.CommandResult{Kind: cmd.Kind, Applied: false, Amount: 0}
 		f.applyDamageResult(cmd, result, sc)
 		f.recordGenericDamageEvidence(genericDamageEvidence{
 			source: cmd.Source, target: cmd.Target, damageType: cmd.DamageType,
@@ -1543,7 +1541,7 @@ func (f *Frame) applyDamageCommand(cmd command.Command, op planbundle.CompiledOp
 	if f.run.compiled.HasDamageStateBefore {
 		f.recordDamageStateBefore(beforeState, damageID, cmd.Target)
 	}
-	result := command.Result{
+	result := pipeline.CommandResult{
 		Kind:    cmd.Kind,
 		Applied: outcome.HPDamage > 0 || outcome.ShieldAbsorbed > 0,
 		Amount:  outcome.MitigatedAmount,
@@ -1626,7 +1624,7 @@ func (f *Frame) matchingDamagePipelineChannels(ability planbundle.CompiledAbilit
 	return channels
 }
 
-func (f *Frame) applyDamageResult(cmd command.Command, result command.Result, sc *stagedCombatant) {
+func (f *Frame) applyDamageResult(cmd pipeline.Command, result pipeline.CommandResult, sc *stagedCombatant) {
 	// damageDealt / recordDamage use mitigated amount（抗性后、护盾前），HP clipping 不反向改变 summary。
 	f.damageDealt += result.Amount
 	f.recordDamage(cmd.Source, cmd.Target, result.Amount)
@@ -1908,12 +1906,12 @@ func (f *Frame) applyResourceChange(targetKey, resourceKey string, amount float6
 		return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "resource_change requires an explicit resource slot", "combatants."+targetKey+".resources."+resourceKey, resourceKey, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
 	if amount >= 0 {
-		if slot, valid := resource.RefundSlot(sc.resourceView().At(resourceKey), amount); valid {
+		if slot, valid := pipeline.RefundSlot(sc.resourceView().At(resourceKey), amount); valid {
 			sc.numbers.SetResource(resourceKey, slot)
 		}
 	} else {
 		slot, exists := sc.resourceView().Lookup(resourceKey)
-		next, ok := resource.SpendSlot(slot, exists, -amount)
+		next, ok := pipeline.SpendSlot(slot, exists, -amount)
 		if !ok {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "resource spend failed", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
@@ -2423,7 +2421,7 @@ func (f *Frame) abilityTypeKeys(ability planbundle.CompiledAbility) []string {
 // maybeQueueDamageInstanceEvent emits event/damage_instance once after a non-phantom damage
 // operation completes settlement without structural failure (including zero amounts).
 func (f *Frame) maybeQueueDamageInstanceEvent(
-	cmd command.Command,
+	cmd pipeline.Command,
 	op planbundle.CompiledOperation,
 	ability planbundle.CompiledAbility,
 	critEv frozenCritEvidence,
@@ -3345,8 +3343,8 @@ func (s *Engine) applyPhantomCopyableDamage(collector *eventCopyableCollector, d
 	frame.eventCtx = cloneEventSnapshot(dmg.eventCtx)
 	targetStage := frame.stageFor(dmg.targetKey)
 	viewAttributes, viewShields := targetStage.attributesView(), targetStage.instances.Shields()
-	cmd := command.Command{
-		Kind:       command.KindDamage,
+	cmd := pipeline.Command{
+		Kind:       pipeline.KindDamage,
 		Source:     dmg.sourceKey,
 		Target:     dmg.targetKey,
 		Amount:     dmg.rawAmount,
@@ -3384,7 +3382,7 @@ func (s *Engine) applyPhantomCopyableDamage(collector *eventCopyableCollector, d
 	targetHPBefore := attribute.ReadHP(viewAttributes)
 	outcome, nextAttributes, nextShields := viewShields.ApplyDamage(numbers.rawAmount, numbers.mitigatedAmount, viewAttributes, s.loop.TimeMs(), false)
 	sourceHealthBefore, sourceHasHealth := frame.stageFor(dmg.sourceKey).attributesView().Lookup("hp")
-	result := command.Result{Kind: cmd.Kind, Applied: outcome.HPDamage > 0 || outcome.ShieldAbsorbed > 0, Amount: outcome.MitigatedAmount}
+	result := pipeline.CommandResult{Kind: cmd.Kind, Applied: outcome.HPDamage > 0 || outcome.ShieldAbsorbed > 0, Amount: outcome.MitigatedAmount}
 	damageID := frame.nextDamageID()
 
 	targetStage.setAttributes(nextAttributes)

@@ -2,12 +2,10 @@ package effect
 
 import (
 	"tinygo_engine_v2/internal/base/attribute"
-	"tinygo_engine_v2/internal/command"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
-	shieldpkg "tinygo_engine_v2/internal/shield"
 )
 
 // ObjectView borrows frozen protocol state without exposing its mutable map.
@@ -150,35 +148,19 @@ type Shield struct {
 func (s Shield) Expired(now int64) bool { return s.ExpireAt > 0 && s.ExpireAt <= now }
 
 type ShieldList struct {
-	values     []shieldpkg.Instance
-	staged     []pipeline.ShieldInstance
-	projection bool
+	values []pipeline.ShieldInstance
 }
 
 func Shields(values []Shield) ShieldList {
-	out := make([]shieldpkg.Instance, len(values))
-	for i, v := range values {
-		out[i] = shieldpkg.Instance{ShieldRef: v.ShieldRef, DefinitionRef: v.DefinitionRef, LifecycleProviderRef: v.LifecycleProviderRef, Source: v.Source, Owner: v.Owner, Remaining: v.Remaining, Priority: v.Priority, ExpireAt: v.ExpireAt, State: v.State.values}
+	out := make([]pipeline.ShieldInstance, len(values))
+	for i, value := range values {
+		out[i] = shieldValue(value)
 	}
 	return ShieldList{values: out}
 }
-func (v ShieldList) Len() int {
-	if v.projection {
-		return len(v.staged)
-	}
-	return len(v.values)
-}
-func (v ShieldList) Present() bool {
-	if v.projection {
-		return v.staged != nil
-	}
-	return v.values != nil
-}
+func (v ShieldList) Len() int      { return len(v.values) }
+func (v ShieldList) Present() bool { return v.values != nil }
 func (v ShieldList) At(i int) Shield {
-	if v.projection {
-		s := v.staged[i]
-		return Shield{s.ShieldRef, s.DefinitionRef, s.LifecycleProviderRef, s.Source, s.Owner, s.Remaining, s.Priority, s.ExpireAt, ObjectView{s.State}}
-	}
 	s := v.values[i]
 	return Shield{s.ShieldRef, s.DefinitionRef, s.LifecycleProviderRef, s.Source, s.Owner, s.Remaining, s.Priority, s.ExpireAt, ObjectView{s.State}}
 }
@@ -190,22 +172,17 @@ func (v ShieldList) Snapshot() []Shield {
 	return out
 }
 func (v ShieldList) Append(value Shield) ShieldList {
-	if v.projection {
-		out := make([]pipeline.ShieldInstance, len(v.staged), len(v.staged)+1)
-		copy(out, v.staged)
-		return ShieldList{staged: append(out, providerShieldProjection(value)), projection: true}
-	}
-	out := make([]shieldpkg.Instance, len(v.values), len(v.values)+1)
+	out := make([]pipeline.ShieldInstance, len(v.values), len(v.values)+1)
 	copy(out, v.values)
-	return ShieldList{values: append(out, runtimeShieldValue(value))}
+	return ShieldList{values: append(out, shieldValue(value))}
 }
 func (v ShieldList) Remove(index int) ShieldList {
 	return v.Slice(0, index).AppendList(v.Slice(index+1, v.Len()))
 }
 func (v ShieldList) WithoutProvider(ref string) ShieldList {
 	first := -1
-	for i := 0; i < v.Len(); i++ {
-		if v.At(i).LifecycleProviderRef == ref {
+	for i, value := range v.values {
+		if value.LifecycleProviderRef == ref {
 			first = i
 			break
 		}
@@ -213,16 +190,7 @@ func (v ShieldList) WithoutProvider(ref string) ShieldList {
 	if first < 0 {
 		return v
 	}
-	if v.projection {
-		out := make([]pipeline.ShieldInstance, 0, v.Len()-1)
-		for _, value := range v.staged {
-			if value.LifecycleProviderRef != ref {
-				out = append(out, value)
-			}
-		}
-		return ShieldList{staged: out, projection: true}
-	}
-	out := make([]shieldpkg.Instance, 0, v.Len()-1)
+	out := make([]pipeline.ShieldInstance, 0, v.Len()-1)
 	for _, value := range v.values {
 		if value.LifecycleProviderRef != ref {
 			out = append(out, value)
@@ -351,7 +319,7 @@ type InstanceChangeSet struct {
 }
 
 func StageInstances(s InstanceState, now int64) InstanceChangeSet {
-	return InstanceChangeSet{providers: s.providers, shared: true, shields: pipeline.ShieldsFromRuntime(s.shields.values, now), attributes: s.attributes, damage: s.damage, resources: s.resources}
+	return InstanceChangeSet{providers: s.providers, shared: true, shields: pipeline.ActiveShields(s.shields.values, now), attributes: s.attributes, damage: s.damage, resources: s.resources}
 }
 func (s InstanceChangeSet) Providers() ProviderList     { return s.providers }
 func (s InstanceChangeSet) BaseProviders() ProviderList { return s.baseProviders }
@@ -385,18 +353,10 @@ func (s *InstanceChangeSet) RemoveProvider(i int) {
 	s.providers.values = append(s.providers.values[:i], s.providers.values[i+1:]...)
 }
 func (s InstanceChangeSet) Shields() ShieldList {
-	return ShieldList{staged: s.shields, projection: true}
+	return ShieldList{values: s.shields}
 }
 func (s *InstanceChangeSet) SetShields(v ShieldList) {
-	if v.projection {
-		s.shields = v.staged
-	} else {
-		out := make([]pipeline.ShieldInstance, len(v.values))
-		for i, value := range v.values {
-			out[i] = pipeline.ShieldInstance{ShieldRef: value.ShieldRef, DefinitionRef: value.DefinitionRef, LifecycleProviderRef: value.LifecycleProviderRef, Source: value.Source, Owner: value.Owner, Remaining: value.Remaining, Priority: value.Priority, ExpireAt: value.ExpireAt, State: value.State}
-		}
-		s.shields = out
-	}
+	s.shields = v.values
 }
 func (s InstanceChangeSet) Attributes() AttributeResolver                     { return s.attributes }
 func (s InstanceChangeSet) Damage() DamageResolver                            { return s.damage }
@@ -407,7 +367,7 @@ func (s *InstanceChangeSet) SetResourceContributions(v ResourceContributions) { 
 func (s *InstanceChangeSet) Clone() InstanceChangeSet                         { s.shared = true; return *s }
 func (s *InstanceChangeSet) Publish(owner, source string) InstanceState {
 	s.shared = true
-	return InstanceState{providers: s.providers, shields: ShieldList{values: pipeline.RuntimeShieldsFromView(s.shields, owner, source)}, attributes: s.attributes, damage: s.damage, resources: s.resources}
+	return InstanceState{providers: s.providers, shields: ShieldList{values: pipeline.NormalizeShields(s.shields, owner, source)}, attributes: s.attributes, damage: s.damage, resources: s.resources}
 }
 
 func (v ContributionView) Present() bool { return v.values != nil }
@@ -432,41 +392,21 @@ func (v ProviderList) RemoveRef(ref string) ProviderList {
 	return ProviderList{out}
 }
 func (v ShieldList) Slice(start, end int) ShieldList {
-	if v.projection {
-		return ShieldList{staged: v.staged[start:end], projection: true}
-	}
 	return ShieldList{values: v.values[start:end]}
 }
 func (v ShieldList) AppendList(other ShieldList) ShieldList {
-	if v.projection {
-		out := make([]pipeline.ShieldInstance, v.Len(), v.Len()+other.Len())
-		copy(out, v.staged)
-		for i := 0; i < other.Len(); i++ {
-			out = append(out, providerShieldProjection(other.At(i)))
-		}
-		return ShieldList{staged: out, projection: true}
-	}
-	out := make([]shieldpkg.Instance, v.Len(), v.Len()+other.Len())
+	out := make([]pipeline.ShieldInstance, v.Len(), v.Len()+other.Len())
 	copy(out, v.values)
-	for i := 0; i < other.Len(); i++ {
-		out = append(out, runtimeShieldValue(other.At(i)))
-	}
-	return ShieldList{values: out}
+	return ShieldList{values: append(out, other.values...)}
 }
 func (v ShieldList) With(index int, value Shield) ShieldList {
-	if v.projection {
-		out := append([]pipeline.ShieldInstance(nil), v.staged...)
-		out[index] = providerShieldProjection(value)
-		return ShieldList{staged: out, projection: true}
-	}
-	out := append([]shieldpkg.Instance(nil), v.values...)
-	out[index] = runtimeShieldValue(value)
+	out := append([]pipeline.ShieldInstance(nil), v.values...)
+	out[index] = shieldValue(value)
 	return ShieldList{values: out}
 }
 func (v ShieldList) RemoveExpired(now int64) ShieldList {
 	first := -1
-	for i := 0; i < v.Len(); i++ {
-		value := v.At(i)
+	for i, value := range v.values {
 		if value.Remaining <= 0 || value.Expired(now) {
 			first = i
 			break
@@ -475,16 +415,7 @@ func (v ShieldList) RemoveExpired(now int64) ShieldList {
 	if first < 0 {
 		return v
 	}
-	if v.projection {
-		out := make([]pipeline.ShieldInstance, 0, v.Len()-1)
-		for _, value := range v.staged {
-			if value.Remaining > 0 && (value.ExpireAt <= 0 || value.ExpireAt > now) {
-				out = append(out, value)
-			}
-		}
-		return ShieldList{staged: out, projection: true}
-	}
-	out := make([]shieldpkg.Instance, 0, v.Len()-1)
+	out := make([]pipeline.ShieldInstance, 0, v.Len()-1)
 	for _, value := range v.values {
 		if value.Remaining > 0 && !value.Expired(now) {
 			out = append(out, value)
@@ -526,25 +457,17 @@ func (s *InstanceChangeSet) UnmountDamage(owner, ref string) {
 	s.damage.UnmountProviderOwned(owner, ref)
 }
 
-func (v ShieldList) pipelineValues() []pipeline.ShieldInstance {
-	if v.projection {
-		return v.staged
-	}
-	s := InstanceChangeSet{}
-	s.SetShields(v)
-	return s.shields
-}
-func (v ShieldList) ResolveCommand(cmd command.Command, attrs attribute.Table, now int64) (command.Result, attribute.Table, ShieldList) {
-	result, next := pipeline.ResolveCommand(cmd, pipeline.CombatantView{Attributes: attrs, Shields: v.pipelineValues()}, now)
-	return result, next.Attributes, ShieldList{staged: next.Shields, projection: true}
+func (v ShieldList) ResolveCommand(cmd pipeline.Command, attrs attribute.Table, now int64) (pipeline.CommandResult, attribute.Table, ShieldList) {
+	result, next := pipeline.ResolveCommand(cmd, pipeline.CombatantView{Attributes: attrs, Shields: v.values}, now)
+	return result, next.Attributes, ShieldList{values: next.Shields}
 }
 func (v ShieldList) ApplyDamage(raw, mitigated float64, attrs attribute.Table, now int64, capture bool) (pipeline.DamageOutcome, attribute.Table, ShieldList) {
-	result, next := pipeline.ApplyMitigatedDamage(raw, mitigated, pipeline.CombatantView{Attributes: attrs, Shields: v.pipelineValues()}, now, capture)
-	return result, next.Attributes, ShieldList{staged: next.Shields, projection: true}
+	result, next := pipeline.ApplyMitigatedDamage(raw, mitigated, pipeline.CombatantView{Attributes: attrs, Shields: v.values}, now, capture)
+	return result, next.Attributes, ShieldList{values: next.Shields}
 }
-func (v ShieldList) ExecuteThreshold(cmd command.Command, attrs attribute.Table) (pipeline.ExecuteOutcome, attribute.Table, ShieldList) {
-	result, next := pipeline.ResolveExecuteThreshold(cmd, pipeline.CombatantView{Attributes: attrs, Shields: v.pipelineValues()})
-	return result, next.Attributes, ShieldList{staged: next.Shields, projection: true}
+func (v ShieldList) ExecuteThreshold(cmd pipeline.Command, attrs attribute.Table) (pipeline.ExecuteOutcome, attribute.Table, ShieldList) {
+	result, next := pipeline.ResolveExecuteThreshold(cmd, pipeline.CombatantView{Attributes: attrs, Shields: v.values})
+	return result, next.Attributes, ShieldList{values: next.Shields}
 }
 
 func (r *AttributeResolver) MountCompiledModifier(ref string, mod planbundle.CompiledModifier) {
@@ -553,10 +476,6 @@ func (r *AttributeResolver) MountCompiledModifier(ref string, mod planbundle.Com
 
 func (s *InstanceChangeSet) FreezeProviders() ProviderList { s.shared = true; return s.providers }
 
-func runtimeShieldValue(v Shield) shieldpkg.Instance {
-	return shieldpkg.Instance{ShieldRef: v.ShieldRef, DefinitionRef: v.DefinitionRef, LifecycleProviderRef: v.LifecycleProviderRef, Source: v.Source, Owner: v.Owner, Remaining: v.Remaining, Priority: v.Priority, ExpireAt: v.ExpireAt, State: v.State.values}
-}
-
-func providerShieldProjection(v Shield) pipeline.ShieldInstance {
+func shieldValue(v Shield) pipeline.ShieldInstance {
 	return pipeline.ShieldInstance{ShieldRef: v.ShieldRef, DefinitionRef: v.DefinitionRef, LifecycleProviderRef: v.LifecycleProviderRef, Source: v.Source, Owner: v.Owner, Remaining: v.Remaining, Priority: v.Priority, ExpireAt: v.ExpireAt, State: v.State.values}
 }

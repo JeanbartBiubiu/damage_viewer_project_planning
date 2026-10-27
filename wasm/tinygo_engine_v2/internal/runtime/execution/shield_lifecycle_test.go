@@ -5,6 +5,7 @@ import effectpkg "tinygo_engine_v2/internal/runtime/effect"
 import (
 	"encoding/json"
 	"math"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -215,7 +216,10 @@ func TestLinkedShieldFailureDoesNotReplaceExistingPair(t *testing.T) {
 		t.Run(names.shield, func(t *testing.T) {
 			s := linkedShieldState(t, names)
 			linkedShieldExecute(t, s, "apply", "source", "target")
-			before, _ := json.Marshal(s.combatants["target"].instances.Shields())
+			before := shieldsToSnapshot(s.combatants["target"].instances.Shields())
+			if len(before) != 1 || before[0].Remaining != 75 || before[0].ShieldRef == "" || before[0].LifecycleProviderRef == "" {
+				t.Fatalf("expected an existing shield pair before failed replacement: %+v", before)
+			}
 			beforeProvider := s.combatants["target"].instances.Providers().At(0).ProviderRef
 			f, ability, ops := frameCommitFrame(s)
 			if err := f.executeOperations(ability, ops); err != nil {
@@ -223,9 +227,9 @@ func TestLinkedShieldFailureDoesNotReplaceExistingPair(t *testing.T) {
 			}
 			s.loop.Queue().SetLimit(s.loop.Queue().Len())
 			f.commit()
-			after, _ := json.Marshal(s.combatants["target"].instances.Shields())
-			if f.fatalErr == nil || f.fatalErr.BudgetCause != model.BudgetCauseMaxQueueEvents || f.committed || string(before) != string(after) || s.combatants["target"].instances.Providers().At(0).ProviderRef != beforeProvider {
-				t.Fatalf("failed frame leaked: %+v", f.fatalErr)
+			after := shieldsToSnapshot(s.combatants["target"].instances.Shields())
+			if !f.fatal || f.fatalErr == nil || f.fatalErr.BudgetCause != model.BudgetCauseMaxQueueEvents || f.committed || !reflect.DeepEqual(before, after) || s.combatants["target"].instances.Providers().At(0).ProviderRef != beforeProvider {
+				t.Fatalf("failed frame leaked: before=%+v after=%+v err=%+v", before, after, f.fatalErr)
 			}
 		})
 	}

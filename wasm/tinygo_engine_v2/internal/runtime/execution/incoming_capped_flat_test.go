@@ -4,9 +4,9 @@ import (
 	json "encoding/json"
 	math "math"
 	testing "testing"
-	command "tinygo_engine_v2/internal/command"
 	formula "tinygo_engine_v2/internal/formula"
 	model "tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/pipeline"
 	formuladefinition "tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
@@ -46,7 +46,7 @@ func cappedNumbers(t *testing.T, c model.CompileRequest, r model.RunRequest) dam
 	if issue != nil {
 		t.Fatal(issue)
 	}
-	got, issue := frame.resolveDamageNumbers(command.Command{Kind: command.KindDamage, Source: "source", Target: "target", DamageType: "damage/physics", Amount: amount}, op, crit, ability, evidence)
+	got, issue := frame.resolveDamageNumbers(pipeline.Command{Kind: pipeline.KindDamage, Source: "source", Target: "target", DamageType: "damage/physics", Amount: amount}, op, crit, ability, evidence)
 	if issue != nil {
 		t.Fatal(issue)
 	}
@@ -166,7 +166,7 @@ func TestIncomingCappedFlatReadsActualOwnerAndFrozenCopyView(t *testing.T) {
 			op := session.Operations[session.Abilities[2].OperationStart] // entry is only used for shared formula context
 			ability := session.Abilities[2]
 			crit := frozenCritEvidence{present: true, eligible: true, baseRawAmount: 20, originalCritChance: .5, chanceEffective: .5, naturalWeight: .5, naturalMultiplier: 2, forcedMultiplier: 2, normalPart: 10, critPart: 20, critAdjustedRawAmount: 30}
-			cmd := command.Command{Kind: command.KindDamage, Source: attacker, Target: owner, DamageType: "damage/physics", Amount: 30}
+			cmd := pipeline.Command{Kind: pipeline.KindDamage, Source: attacker, Target: owner, DamageType: "damage/physics", Amount: 30}
 			got, e := frame.resolveDamageNumbers(cmd, op, crit, ability, nil)
 			if e != nil {
 				t.Fatal(e)

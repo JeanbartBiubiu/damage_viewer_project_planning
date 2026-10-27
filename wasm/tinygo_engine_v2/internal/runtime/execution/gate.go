@@ -11,7 +11,6 @@ import (
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
-	"tinygo_engine_v2/internal/resource"
 )
 
 type gateCheckResult struct {
@@ -173,12 +172,10 @@ func (s *Engine) resourceGate(sourceKey, targetKey string, ability planbundle.Co
 	} else if current >= amount {
 		return 0, false, nil
 	}
-	slot := c.resourceView().At(ability.Cost.ResourceKey)
-	readyAt := resource.EstimateReadyTimeMs(
+	readyAt := resourceReadyTimeMs(
 		s.loop.TimeMs(),
 		current,
 		amount,
-		resource.RegenPerMs(slot),
 		s.conditionRecheckIntervalMs,
 	)
 	if readyAt <= s.loop.TimeMs() {

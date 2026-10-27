@@ -4,8 +4,8 @@ import (
 	"math"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 
-	"tinygo_engine_v2/internal/command"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
@@ -182,7 +182,7 @@ func (f *Frame) consumeTargetMark(op planbundle.CompiledOperation, ability planb
 			return err
 		}
 		before := len(f.pendingDamage)
-		cmd := command.Command{Kind: command.KindDamage, Source: f.sourceKey, Target: f.targetKey, Amount: amount, DamageType: m.Damage.DamageType}
+		cmd := pipeline.Command{Kind: pipeline.KindDamage, Source: f.sourceKey, Target: f.targetKey, Amount: amount, DamageType: m.Damage.DamageType}
 		if err := f.applyDamageCommand(cmd, *m.Damage, frozenCritEvidence{}, ability, nil); err != nil {
 			return err
 		}

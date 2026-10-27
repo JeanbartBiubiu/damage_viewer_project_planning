@@ -5,7 +5,6 @@ import (
 
 	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/base/typeset"
-	"tinygo_engine_v2/internal/command"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
@@ -24,7 +23,7 @@ func (f *Frame) vampError(message, path, ref string) *model.EngineError {
 }
 
 // settleDamageVamp 是普通与复制伤害共同的末尾步骤；调用点在扣血后、派生事件前。
-func (f *Frame) settleDamageVamp(cmd command.Command, op planbundle.CompiledOperation, ability planbundle.CompiledAbility, outcome pipeline.DamageOutcome, targetHPBefore float64, damageID uint64, phantom bool) *model.EngineError {
+func (f *Frame) settleDamageVamp(cmd pipeline.Command, op planbundle.CompiledOperation, ability planbundle.CompiledAbility, outcome pipeline.DamageOutcome, targetHPBefore float64, damageID uint64, phantom bool) *model.EngineError {
 	if len(f.run.compiled.VampRules) == 0 {
 		return nil
 	}
@@ -186,7 +185,7 @@ func (f *Frame) settleHealing(sourceKey, targetKey string, amount float64, categ
 	if math.IsNaN(out.after) || math.IsInf(out.after, 0) {
 		return out, f.vampError("non-finite healing result", "heal", f.abilityRef)
 	}
-	cmd := command.Command{Kind: command.KindHeal, Source: sourceKey, Target: targetKey, Amount: out.after}
+	cmd := pipeline.Command{Kind: pipeline.KindHeal, Source: sourceKey, Target: targetKey, Amount: out.after}
 	sc := f.stageFor(targetKey)
 	result, nextAttributes, nextShields := sc.instances.Shields().ResolveCommand(cmd, sc.attributesView(), f.run.loop.TimeMs())
 	sc.setAttributes(nextAttributes)
@@ -271,7 +270,7 @@ func (f *Frame) applyHealingDirection(hostKey, direction, category string, amoun
 	return amount, evidence, nil
 }
 
-func (f *Frame) applyDirectHeal(cmd command.Command, op planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {
+func (f *Frame) applyDirectHeal(cmd pipeline.Command, op planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {
 	if skip, err := f.checkListenerRecoveryRecipient(cmd.Target, op); err != nil || skip {
 		return err
 	}

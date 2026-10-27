@@ -6,9 +6,9 @@ import (
 	testing "testing"
 	expression "tinygo_engine_v2/internal/base/expression"
 	inputbinding "tinygo_engine_v2/internal/base/inputbinding"
-	command "tinygo_engine_v2/internal/command"
 	formula "tinygo_engine_v2/internal/formula"
 	model "tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
@@ -60,7 +60,7 @@ func TestFormulaPhase4DamagePlanGuardPrecedesEveryAmountShortcut(t *testing.T) {
 				def := s.compiled.DamageTypeFormulas["damage/physical"]
 				test.change(s, def)
 				before := s.combatants["target"].attributesView().At("hp")
-				cmd := command.Command{Kind: command.KindDamage, Source: "source", Target: "target", DamageType: "damage/physical", Amount: amount}
+				cmd := pipeline.Command{Kind: pipeline.KindDamage, Source: "source", Target: "target", DamageType: "damage/physical", Amount: amount}
 				_, issue := f.resolveDamageNumbers(cmd, ops[0], frozenCritEvidence{}, ability, nil)
 				if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != ops[0].Path+".damageType" || issue.Ref != "damage/physical" {
 					t.Fatalf("plan shortcut: amount=%v issue=%+v", amount, issue)
@@ -100,7 +100,7 @@ func TestFormulaPhase4GenericDamageFallbackCannotWrite(t *testing.T) {
 	c, r := frameCommitInput(frameCommitDamage(100))
 	s := frameCommitState(t, c, r)
 	f, ability, ops := frameCommitFrame(s)
-	issue := f.applyCommand(command.Command{Kind: command.KindDamage, Source: "source", Target: "target", DamageType: "damage/physical", Amount: 100}, ops[0], ability)
+	issue := f.applyCommand(pipeline.Command{Kind: pipeline.KindDamage, Source: "source", Target: "target", DamageType: "damage/physical", Amount: 100}, ops[0], ability)
 	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != ops[0].Path+".damageType" || f.staged.Len() != 0 || s.report.Totals().SourceDamageDealt != 0 {
 		t.Fatalf("generic fallback escaped guard: %+v", issue)
 	}

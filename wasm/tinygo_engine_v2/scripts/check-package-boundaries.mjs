@@ -14,14 +14,15 @@ const baseDependencies = new Map([
 const runtimeDependencies = new Map([
   ['runtime', new Set(['base/abi', 'compile', 'model', 'plan', 'runtime/execution', 'scheduler'])],
   ['scheduler', new Set(['model'])],
-  ['runtime/execution', new Set(['runtime/actor', 'runtime/action', 'runtime/effect', 'runtime/report', 'runtime/contract', 'model', 'plan', 'formula', 'pipeline', 'resource', 'command', 'scheduler', 'base/attribute', 'base/expression', 'base/inputbinding', 'base/numeric', 'base/typeset'])],
+  ['runtime/execution', new Set(['runtime/actor', 'runtime/action', 'runtime/effect', 'runtime/report', 'runtime/contract', 'model', 'plan', 'formula', 'pipeline', 'scheduler', 'base/attribute', 'base/expression', 'base/inputbinding', 'base/numeric', 'base/typeset'])],
   ['runtime/action', new Set(['runtime/contract', 'model', 'plan', 'formula', 'base/attribute', 'base/expression', 'base/inputbinding', 'base/typeset'])],
-  ['runtime/effect', new Set(['runtime/contract', 'model', 'plan', 'formula', 'pipeline', 'shield', 'base/attribute', 'command'])],
+  ['runtime/effect', new Set(['runtime/contract', 'model', 'plan', 'formula', 'pipeline', 'base/attribute'])],
+  ['pipeline', new Set(['model', 'plan', 'formula', 'base/attribute', 'base/numeric'])],
   ['runtime/actor', new Set(['runtime/contract', 'base/attribute', 'model'])],
   ['runtime/report', new Set(['runtime/contract', 'model'])],
   ['runtime/contract', new Set(['model', 'plan', 'base/attribute'])],
 ]);
-const retiredPackages = new Set(['abi', 'attribute', 'expression', 'inputbinding', 'typeset', 'trigger', 'crit', 'control', 'mark', 'status']);
+const retiredPackages = new Set(['abi', 'attribute', 'expression', 'inputbinding', 'typeset', 'trigger', 'crit', 'control', 'mark', 'status', 'command', 'resource', 'shield']);
 
 // go list 输出连续的 JSON 对象；只在字符串以外计算括号，避免源码注释或转义影响边界。
 export function parsePackageStream(source) {

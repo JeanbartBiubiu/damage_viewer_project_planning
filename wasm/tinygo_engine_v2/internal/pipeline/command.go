@@ -1,25 +1,25 @@
 // operation command 类型：damage/heal/shield/resource_change/cooldown_change/execute_threshold。
-package command
+package pipeline
 
-// Kind 区分 operation command 类型。
-type Kind string
+// CommandKind 区分 operation command 类型。
+type CommandKind string
 
 const (
-	KindDamage           Kind = "damage"
-	KindHeal             Kind = "heal"
-	KindShield           Kind = "shield"
-	KindResourceChange   Kind = "resource_change"
-	KindCooldownChange   Kind = "cooldown_change"
-	KindApplyProvider    Kind = "apply_provider"
-	KindRefreshProvider  Kind = "refresh_provider"
-	KindExpireProvider   Kind = "expire_provider"
-	KindEmitEvent        Kind = "emit_event"
-	KindExecuteThreshold Kind = "execute_threshold"
+	KindDamage           CommandKind = "damage"
+	KindHeal             CommandKind = "heal"
+	KindShield           CommandKind = "shield"
+	KindResourceChange   CommandKind = "resource_change"
+	KindCooldownChange   CommandKind = "cooldown_change"
+	KindApplyProvider    CommandKind = "apply_provider"
+	KindRefreshProvider  CommandKind = "refresh_provider"
+	KindExpireProvider   CommandKind = "expire_provider"
+	KindEmitEvent        CommandKind = "emit_event"
+	KindExecuteThreshold CommandKind = "execute_threshold"
 )
 
 // Command 是 pipeline 输入的统一 command DTO。
 type Command struct {
-	Kind         Kind
+	Kind         CommandKind
 	Source       string
 	Target       string
 	Amount       float64
@@ -35,19 +35,19 @@ type Command struct {
 	SnapshotMaxHP float64
 }
 
-// Result 是单条 command 执行结果。
-type Result struct {
-	Kind    Kind
+// CommandResult 是单条 command 执行结果。
+type CommandResult struct {
+	Kind    CommandKind
 	Applied bool
 	Amount  float64
 	Message string
 }
 
-func New(kind Kind, source, target string, amount float64) Command {
+func NewCommand(kind CommandKind, source, target string, amount float64) Command {
 	return Command{Kind: kind, Source: source, Target: target, Amount: amount}
 }
 
-func Validate(cmd Command) bool {
+func ValidateCommand(cmd Command) bool {
 	switch cmd.Kind {
 	case KindDamage, KindHeal, KindShield:
 		return cmd.Target != "" && cmd.Amount >= 0

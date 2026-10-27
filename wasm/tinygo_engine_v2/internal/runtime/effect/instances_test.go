@@ -118,6 +118,89 @@ func TestInstanceExactExpiryAndShieldSettlementKeepOldState(t *testing.T) {
 	}
 }
 
+func TestShieldPartialAbsorptionOrdersEqualPriorityByReference(t *testing.T) {
+	var state InstanceState
+	state.SetShields(Shields([]Shield{
+		{ShieldRef: "b", DefinitionRef: "def/b", LifecycleProviderRef: "provider/b", Source: "source/b", Owner: "target", Remaining: 30, Priority: 2, ExpireAt: 1000},
+		{ShieldRef: "a", DefinitionRef: "def/a", LifecycleProviderRef: "provider/a", Source: "source/a", Owner: "target", Remaining: 20, Priority: 2, ExpireAt: 1000},
+	}))
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Base: 100, Current: 100, Max: 100, Resolved: 100}})
+	changes := StageInstances(state, 999)
+	oldProjection := changes.Shields()
+	outcome, nextAttrs, nextShields := oldProjection.ApplyDamage(25, 25, attrs, 999, true)
+	if outcome.ShieldAbsorbed != 25 || outcome.HPDamage != 0 || nextAttrs.At("hp").Current != 100 || outcome.ShieldAbsorptions == nil || len(outcome.ShieldAbsorptions.Rows) != 2 {
+		t.Fatalf("partial absorption changed: %+v", outcome)
+	}
+	first, second := outcome.ShieldAbsorptions.Rows[0], outcome.ShieldAbsorptions.Rows[1]
+	if first.ShieldRef != "a" || first.RemainingBefore != 20 || first.RemainingAfter != 0 || first.Absorbed != 20 || first.DefinitionRef != "def/a" || first.LifecycleProviderRef != "provider/a" || first.Source != "source/a" || first.Owner != "target" || first.ExpireAt != 1000 ||
+		second.ShieldRef != "b" || second.RemainingBefore != 30 || second.RemainingAfter != 25 || second.Absorbed != 5 || second.DefinitionRef != "def/b" || second.LifecycleProviderRef != "provider/b" || second.Source != "source/b" || second.Owner != "target" || second.ExpireAt != 1000 {
+		t.Fatalf("same-priority order or absorption identity changed: %+v", outcome.ShieldAbsorptions.Rows)
+	}
+	if nextShields.Len() != 1 || nextShields.At(0).ShieldRef != "b" || nextShields.At(0).Remaining != 25 ||
+		oldProjection.Len() != 2 || oldProjection.At(0).ShieldRef != "b" || oldProjection.At(0).Remaining != 30 || oldProjection.At(1).Remaining != 20 ||
+		state.Shields().At(0).ShieldRef != "b" || state.Shields().At(0).Remaining != 30 || state.Shields().At(1).Remaining != 20 {
+		t.Fatal("sorting or absorption changed an older shield view")
+	}
+}
+
+func TestShieldProjectionBranchesAndPublishedStateKeepOwnValues(t *testing.T) {
+	state := instanceTestState()
+	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": {Base: 100, Current: 100, Max: 100, Resolved: 100}})
+	parent := StageInstances(state, 0)
+	parentView := parent.Shields()
+	child := parent.Clone()
+	_, _, childShields := child.Shields().ApplyDamage(7, 7, attrs, 0, false)
+	child.SetShields(childShields)
+	childView := child.Shields()
+	published := child.Publish("target", "source")
+	_, _, laterChildShields := child.Shields().ApplyDamage(4, 4, attrs, 0, false)
+	child.SetShields(laterChildShields)
+	_, _, parentShields := parent.Shields().ApplyDamage(2, 2, attrs, 0, false)
+	parent.SetShields(parentShields)
+	if state.Shields().At(0).Remaining != 20 || parentView.At(0).Remaining != 20 || parent.Shields().At(0).Remaining != 18 ||
+		childView.At(0).Remaining != 13 || published.Shields().At(0).Remaining != 13 || child.Shields().At(0).Remaining != 9 {
+		t.Fatal("a shield branch or continued frame changed an older projection or published state")
+	}
+	if published.Shields().At(0).State.ToMap()["key"] != "value" || published.Shields().At(0).ShieldRef != "shield" || published.Shields().At(0).ExpireAt != 1000 {
+		t.Fatal("publishing a shield branch lost its state, identity or expiry")
+	}
+}
+
+func TestShieldPublishNormalizesOwnershipAndStateWithoutChangingInput(t *testing.T) {
+	for _, tc := range []struct {
+		name, source, owner, wantSource, wantOwner string
+	}{
+		{"missing_both", "", "", "frame-source", "target"},
+		{"missing_owner", "explicit-source", "", "explicit-source", "target"},
+		{"missing_source", "", "explicit-owner", "frame-source", "explicit-owner"},
+		{"explicit", "explicit-source", "explicit-owner", "explicit-source", "explicit-owner"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			var state InstanceState
+			state.SetShields(Shields([]Shield{{ShieldRef: "shield", DefinitionRef: "definition", LifecycleProviderRef: "provider", Source: tc.source, Owner: tc.owner, Remaining: 17, Priority: 3, ExpireAt: 1000}}))
+			changes := StageInstances(state, 999)
+			oldProjection := changes.Shields()
+			published := changes.Publish("target", "frame-source")
+			got := published.Shields().At(0)
+			if got.Source != tc.wantSource || got.Owner != tc.wantOwner || !got.State.Present() || got.State.Len() != 0 || got.ShieldRef != "shield" || got.DefinitionRef != "definition" || got.LifecycleProviderRef != "provider" || got.Remaining != 17 || got.Priority != 3 || got.ExpireAt != 1000 {
+				t.Fatalf("publish lost normalization or original fields: %+v", got)
+			}
+			for _, old := range []Shield{state.Shields().At(0), oldProjection.At(0)} {
+				if old.Source != tc.source || old.Owner != tc.owner || old.State.Present() || old.Remaining != 17 {
+					t.Fatalf("publication changed an older shield view: %+v", old)
+				}
+			}
+			changed := changes.Shields().At(0)
+			changed.Source, changed.Owner, changed.Remaining = "later-source", "later-owner", 9
+			changed.State = ObjectState(map[string]interface{}{"value": 2.0})
+			changes.SetShields(changes.Shields().With(0, changed))
+			if later := published.Shields().At(0); later.Source != tc.wantSource || later.Owner != tc.wantOwner || later.Remaining != 17 || later.State.Len() != 0 {
+				t.Fatalf("continued frame changed a published shield: %+v", later)
+			}
+		})
+	}
+}
+
 func TestInstanceModifierPlansPreserveSourceAndOldViews(t *testing.T) {
 	var state InstanceState
 	mod := planbundle.CompiledModifier{Kind: "attribute", ModifierKey: "attack_bonus", Target: "attack", ValuePolicy: "add", HasValue: true}

@@ -11,7 +11,7 @@ import { compareMechanismExpectation, projectMechanismResult } from '../mechanis
 
 type Scenario = { compileRequest: CompileRequest; runRequest: RunRequest };
 
-for (const caseKey of ['grouped_attribute_2145', 'grouped_timed_outgoing_expiry']) {
+for (const caseKey of ['grouped_attribute_2145', 'grouped_timed_outgoing_expiry', 'defense_shield_refresh_stale_expiry', 'defense_linked_shield_foreign_then_own']) {
   test(`正式Worker生产适配：${caseKey}编译、运行、同会话重放与释放`, async ({ page }, info) => {
     const file = resolve(`tests/mechanisms/cases/${caseKey}.json`);
     const definition = parseMechanismCase(readFileSync(file), file);

@@ -3,8 +3,8 @@ package execution
 import (
 	"math"
 
-	"tinygo_engine_v2/internal/command"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
@@ -103,7 +103,7 @@ func (s *Engine) incomingCappedFlatActivePlanned(source planbundle.CompiledIncom
 
 // No cap uses the old path. A matching cap evaluates its points once, then
 // changes only working branch amounts; raw and crit snapshots remain untouched.
-func (f *Frame) incomingCappedFlat(cmd command.Command, ability planbundle.CompiledAbility, crit frozenCritEvidence,
+func (f *Frame) incomingCappedFlat(cmd pipeline.Command, ability planbundle.CompiledAbility, crit frozenCritEvidence,
 	preOutgoing, raw float64, evidence []map[string]interface{},
 ) (normal, critical float64, applied bool, records []map[string]interface{}, result *model.EngineError) {
 	records = evidence

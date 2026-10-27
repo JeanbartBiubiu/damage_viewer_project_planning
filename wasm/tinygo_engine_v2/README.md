@@ -1,5 +1,7 @@
 # TinyGo Engine V2
 
+结算周边已归并到 `internal/pipeline/`：命令材料、资源槽计算和护盾底层值共处现有数值管道，原 `command/resource/shield` 三包已删除。效果侧继续私有持有护盾集合并返回只读包装，结算与发布保持独立复制；空护盾投影仍为缺失。当前内部21包，其中19包由正式入口到达，基础六包不变。职责及后续范围见[现状与归并边界](../../文档记录/概要设计/项目/Wasm子系统职责与协作现状及调整方向.md)。
+
 基础六包归集在 `internal/base/`，其中 `numeric`（通用数值计算）承接数值夹取与分组增幅聚合。运行状态按数值、行动、效果、报告分包，执行层统一协调提交，根入口组合唯一时钟及队列。`multiplierGroupKey`（增幅组标识）只开放总属性及防御前/后伤害增幅；同组因子为 `1+Σ(f-1)`，各倍率有限且不小于1，原有次数范围不充当组标识。编译检查完整依赖及可能共存的优先级带，运行按实际有效成员求值、成功后逐成员消费，精确到期即排除；关联盾、施加快照、生命上限等特殊图不会因新增字段自动准入。完整契约及分层结果见[实施设计](../../文档记录/详细设计/项目/运行时子系统拆分与数值修正分组实施详细设计.md)和[验收摘要](../../文档记录/测试记录/项目/共同公式与引擎重构验收摘要.md)。
 
 真实角色的永久纯周期伤害复用现有周期队列：完整初始化作者图、单周期单伤害、正首延迟与间隔、真实双方及新鲜挂载统一核对；无后台普攻时仍取该拥有者的真实对手，按既有死亡停止规则结束。编译期私有标志只识别伤害周期，保留旧非伤害时钟。外部具体或相对能力引用不能直接调用该周期。唯一边界见[角色常驻周期伤害契约](../../outputs/skill-adaptation-20261023-amumu/角色常驻周期伤害契约.md)。阿木木W的保护保存、实际组件及整英雄分别验收。
@@ -132,8 +134,7 @@ internal/runtime/report/   累计、有限明细与采样
 internal/runtime/contract/ 身份及只读交换值
 internal/scheduler/       唯一运行循环、时钟、稳定堆与停止状态
 internal/formula/         generic formula compile/eval
-internal/pipeline/        数值变更统一 resolver
-internal/{resource,command,shield,...}/  业务支撑子系统
+internal/pipeline/        数值结算、命令材料、资源槽计算和护盾底层值
 internal/testkit/         fixture、ABI helper（含 generic_p0_*）
 tests/runtime/           经根会话与公开运行入口的组合回归
 scripts/                  构建、generic ABI smoke、Node benchmark

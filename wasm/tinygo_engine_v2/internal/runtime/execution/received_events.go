@@ -1,7 +1,6 @@
 package execution
 
 import (
-	"tinygo_engine_v2/internal/command"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -27,7 +26,7 @@ func (s *Engine) dispatchBasicAttackReceived(original emittedEvent, depth int) *
 	return s.dispatchListeners(received, depth)
 }
 
-func (f *Frame) queueDamageTaken(cmd command.Command, operation planbundle.CompiledOperation,
+func (f *Frame) queueDamageTaken(cmd pipeline.Command, operation planbundle.CompiledOperation,
 	ability planbundle.CompiledAbility, critical frozenCritEvidence, base, raw float64, outcome pipeline.DamageOutcome, killed float64, damageID uint64) {
 	if _, declared := f.run.compiled.RuntimeTypes.DamageTaken.Lookup(); !declared {
 		return
@@ -66,7 +65,7 @@ func (f *Frame) queueDamageTaken(cmd command.Command, operation planbundle.Compi
 }
 
 // 独立调用使新增身份只在有读取时被闭包捕获，避免旧事件入口参数装箱。
-func (f *Frame) recordReceivedShieldDamageTaken(cmd command.Command, operation planbundle.CompiledOperation,
+func (f *Frame) recordReceivedShieldDamageTaken(cmd pipeline.Command, operation planbundle.CompiledOperation,
 	outcome pipeline.DamageOutcome, killed float64, damageID uint64, event emittedEvent) {
 	f.recordEvidenceLazy(model.EvidenceKindEmittedEvent, func() model.EvidenceItem {
 		data := map[string]interface{}{"source": cmd.Source, "target": cmd.Target, "useRef": event.useKey,
