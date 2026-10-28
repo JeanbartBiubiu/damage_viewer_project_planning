@@ -10,7 +10,7 @@ import (
 	"tinygo_engine_v2/internal/runtime/contract"
 )
 
-// ProcessView 不提供可写过程；执行层按身份读取，变更只保存在独占暂存中。
+// ProcessView 是不可写的活借用，原过程发布后可读到新值；保存历史须使用Freeze或Snapshot。
 type ProcessView struct{ data *processData }
 
 type processData struct {
@@ -38,7 +38,286 @@ type ProcessSeed struct {
 	CastUseKey string
 }
 
+// ProcessChangeSetAPI 列出单个过程的独占暂存能力；发布只更新该过程，不承担跨子系统提交。
+type ProcessChangeSetAPI interface {
+	// View 借用本次暂存过程的活视图；需要历史事实时另取Freeze或Snapshot。
+	View() *ProcessView
+	// Publish 将暂存状态发布到原过程并保留原槽位；旧活视图随后能看到新状态。
+	Publish(original *ProcessView)
+	// SetCast 暂存本次施放身份与使用引用。
+	SetCast(id uint64, use string)
+	// SetCooldownStarted 标记该过程已开始普通冷却，不直接修改冷却账本。
+	SetCooldownStarted()
+	// SetActualCost 保存已由执行层核定的实际资源成本。
+	SetActualCost(key string, value float64)
+	// SetStartStateValues 复制并保存过程开始时冻结的状态值。
+	SetStartStateValues(values []formula.ProcessStartStateValue)
+	// BindEmpowered 绑定强化能力编号、普通攻击替换标志和编译绑定。
+	BindEmpowered(index uint16, replaces bool, binding uint16)
+	// EnterStep 进入指定步骤并初始化本步骤版本、起点与执行计数。
+	EnterStep(index int, step planbundle.CompiledProcessStep, now int64)
+	// SetTiming 保存推进时刻和可选期限；复制期限值，不负责入队。
+	SetTiming(advance int64, expires *int64)
+	// SetRepeat 复制周期执行快照；nil表示清除本步骤重复安排。
+	SetRepeat(repeat *model.ProcessRepeatSnapshot)
+	// ExecuteStep 核对未完成与执行次数后标记实际执行；alreadyCommitted避免重复计数。
+	ExecuteStep(now int64, alreadyCommitted bool) bool
+	// CompleteStep 首次标记步骤完成时刻，重复完成返回false。
+	CompleteStep(now int64) bool
+	// Finish 暂存过程结束状态、时刻和失败原因，并清除后续重复执行时刻。
+	Finish(status, reason string, now int64)
+	// AcceptRecast 记录一次已接受重施的执行序号、时刻及新施放身份。
+	AcceptRecast(advance, now int64, castID uint64, use string)
+	// EnterEmpowered 进入强化等待步骤，保存期限并按定义创建多次消费窗口。
+	EnterEmpowered(step planbundle.CompiledProcessStep, now, deadline int64)
+	// SetEmpoweredAttack 复制强化攻击关联；nil表示清除关联。
+	SetEmpoweredAttack(association *model.ProcessEmpoweredAttack)
+	// ReserveEmpowered 为真实使用和目标预留一次强化消费；额度不足时返回false。
+	ReserveEmpowered(use, target string, now int64) (int, bool)
+	// ResolveEmpowered 填写预留消费的实际命中身份、序号与结算时刻，并减少待命中数。
+	ResolveEmpowered(index int, now int64, hit string, sequence int)
+	// ReconcileOccupancy 根据前后步骤同步占用区间；历史占用不匹配时返回false。
+	ReconcileOccupancy(previous *ProcessView, now int64) bool
+	// AdvanceRepeat 仅在预定时刻推进重复序号；分别返回是否继续等待及本次是否有效。
+	AdvanceRepeat(now int64) (bool, bool)
+}
+
 type ProcessChangeSet struct{ view ProcessView }
+
+// StateAPI 列出行动、过程、使用和驱动事实的公开能力；状态仍由具体类型独占。
+type StateAPI interface {
+	// BindAmmo 为弹药视图绑定实际目标、能力引用与已编译能力。
+	BindAmmo(a *AmmoView, target, ref string, ability planbundle.CompiledAbility)
+	// AddAmmo 登记弹药状态，保留原有登记顺序。
+	AddAmmo(a *AmmoView)
+	// AmmoCount 返回已登记弹药状态的数量。
+	AmmoCount() int
+	// AmmoAt 按有效下标借用弹药活视图。
+	AmmoAt(index int) *AmmoView
+	// PublishAmmoWait 发布该弹药的局部等待事实，不负责向调度器入队。
+	PublishAmmoWait(a *AmmoView, wait AmmoWait)
+	// RemoveAmmoProvider 移除指定拥有者和供值器关联的弹药状态。
+	RemoveAmmoProvider(owner, provider string)
+	// InitAutomatic 初始化本场自动行动的规则、索引和计数。
+	InitAutomatic()
+	// AddAutomaticRule 复制规则输入并登记自动行动及自身冷却依赖。
+	AddAutomaticRule(seed AutomaticRuleSeed)
+	// HasAutomatic 判断本场是否已初始化自动行动。
+	HasAutomatic() bool
+	// AutomaticCount 返回自动规则数；未初始化时返回0。
+	AutomaticCount() int
+	// AutomaticAt 按有效下标借用自动规则活视图。
+	AutomaticAt(index int) *AutomaticRuleView
+	// AutomaticByKey 按规则键借用自动规则；未命中时返回nil。
+	AutomaticByKey(key string) *AutomaticRuleView
+	// SortAutomaticRules 按作者优先级原地排列自动规则。
+	SortAutomaticRules()
+	// LinkAutomaticDependency 为自动规则追加已选规则的能力冷却依赖。
+	LinkAutomaticDependency(rule, dependency *AutomaticRuleView)
+	// LinkAutomaticQualification 关联唯一前后规则及其一次性释放资格归属。
+	LinkAutomaticQualification(rule, parent *AutomaticRuleView)
+	// LinkAutomaticRules 建立冷却和资格关联并检查引用与环；失败返回字段路径和原因。
+	LinkAutomaticRules() (string, string)
+	// AutomaticGeneration 读取自动调度世代；未初始化时返回0。
+	AutomaticGeneration() uint64
+	// NextAutomaticGeneration 推进并返回自动调度世代，使旧排程可被识别。
+	NextAutomaticGeneration() uint64
+	// RegisterAutomaticWait 向唯一冷却账本登记规则等待；重施窗口不等待普通冷却依赖。
+	RegisterAutomaticWait(rule *AutomaticRuleView, ledger *CooldownLedger, notBefore, now int64, recast bool) CooldownWait
+	// NewAutomaticAction 创建一次自动尝试并绑定使用身份，累计尝试数。
+	NewAutomaticAction(rule *AutomaticRuleView, now int64) *SkillActionView
+	// RecordAutomaticReject 分别累计开始前中止或普通拒绝次数。
+	RecordAutomaticReject(rule *AutomaticRuleView, aborted bool)
+	// AutomaticStarted 记录实际开始，消费已有前序资格，并返回实际转换记录。
+	AutomaticStarted(a *SkillActionView, process *ProcessView) []model.AutomaticSkillRecord
+	// AutomaticFinished 首次记录自动过程成功或失败；成功时按规则授予后继一次资格。
+	AutomaticFinished(a *SkillActionView, process *ProcessView) []model.AutomaticSkillRecord
+	// AutomaticWaiting 更新规则等待摘要，仅在等待内容变化时返回记录和true。
+	AutomaticWaiting(rule *AutomaticRuleView, reason string, related []string, at, now int64) (model.AutomaticSkillRecord, bool)
+	// AutomaticSummary 汇总规则、资格和使用统计；未初始化时返回nil，并更新在途计数。
+	AutomaticSummary() (*model.AutomaticSkillSummary, *model.SkillUseSummary)
+	// InitBasicAttack 按准备好的计划、初始能力和依赖建立普通攻击状态。
+	InitBasicAttack(seed BasicAttackSeed)
+	// BasicAttack 借用当前普通攻击活视图；未初始化时返回nil。
+	BasicAttack() *BasicAttackView
+	// SetBasicAmmo 替换当前普通攻击绑定的弹药视图。
+	SetBasicAmmo(ammo *AmmoView)
+	// BindPrimary 绑定普通攻击的真实主命中候选、计划和来源身份。
+	BindPrimary(index int, plan *planbundle.CompiledSkillHit, identity model.BasicAttackPrimaryIdentity)
+	// CommitPrimaryReplacement 按实际绑定和目标累计普通攻击替换的已提交数值事实。
+	CommitPrimaryReplacement(row model.BasicAttackPrimaryReplacement, binding uint16)
+	// BeginAttack 开始一次普通攻击，创建当前记录并返回使用、开始与命中身份。
+	BeginAttack(now int64, speed float64) (string, string, string)
+	// SetAttackRecordIndex 保存当前普通攻击在报告中的记录位置。
+	SetAttackRecordIndex(index int)
+	// SetAttackActive 标记当前事件是否处于普通攻击的伤害累计范围。
+	SetAttackActive(active bool)
+	// AttackActive 读取当前普通攻击事件标志。
+	AttackActive() bool
+	// MarkAttackHit 仅对匹配使用的首次命中记录时刻并增加命中数。
+	MarkAttackHit(use string, now int64)
+	// FinishAttackRecord 记录本次普通攻击结算后的双方生命值。
+	FinishAttackRecord(sourceHP, targetHP float64)
+	// CompleteAttack 标记当前普通攻击完成，累计完成数并清除未完成尾段。
+	CompleteAttack()
+	// SetAttackWait 保存普通攻击的当前等待活视图。
+	SetAttackWait(wait *AttackWaitView)
+	// SetAttackWindowSettled 保存普通攻击观察窗口是否已经结算。
+	SetAttackWindowSettled(settled bool)
+	// SetInitialActionReady 复制并记录初始行动许可时刻。
+	SetInitialActionReady(at *int64)
+	// SetInitialMechanicReady 复制并记录初始机制就绪时刻。
+	SetInitialMechanicReady(at *int64)
+	// SetAttackReady 记录当前普通攻击的就绪时刻。
+	SetAttackReady(at int64)
+	// SetAttackMechanicReady 记录当前普通攻击的机制就绪时刻。
+	SetAttackMechanicReady(at int64)
+	// SetAttackNext 复制并记录下一次普通攻击的开始时刻。
+	SetAttackNext(at *int64)
+	// SetAttackFinalReady 记录最终就绪时刻和可选行动许可时刻。
+	SetAttackFinalReady(at int64, actionAt *int64)
+	// ObserveAttackDamage 累计当前普攻事件内的实际伤害，并记录目标首次从存活转为死亡的时刻。
+	ObserveAttackDamage(source, target string, mitigated, hploss, before, after float64, now int64)
+	// InitDriverEntries 按编译驱动数量建立本场条件、间隔和尝试槽。
+	InitDriverEntries(n int)
+	// SetDriverCondition 保存某驱动的运行态条件公式编号与存在标记。
+	SetDriverCondition(index int, id formula.GenericProgramID)
+	// SetDriverInterval 保存某驱动的运行态重复间隔公式编号与存在标记。
+	SetDriverInterval(index int, id formula.GenericProgramID)
+	// DriverCondition 读取驱动条件编号与存在性；下标无效时返回false。
+	DriverCondition(index int) (formula.GenericProgramID, bool)
+	// DriverInterval 读取驱动间隔编号与存在性；下标无效时返回false。
+	DriverInterval(index int) (formula.GenericProgramID, bool)
+	// RecordDriverAttempt 增加指定有效驱动槽的尝试数。
+	RecordDriverAttempt(index int)
+	// InitProcessFacts 初始化用于行动驱动的过程事实映射。
+	InitProcessFacts()
+	// ProcessFact 按键读取过程事实；缺失时返回零值。
+	ProcessFact(key string) model.ProcessCommandFact
+	// HasProcessFact 判断指定过程事实是否已登记。
+	HasProcessFact(key string) bool
+	// SetProcessFact 保存执行层已经核定的过程驱动事实。
+	SetProcessFact(key string, fact model.ProcessCommandFact)
+	// RemoveProcessFact 删除指定过程驱动事实。
+	RemoveProcessFact(key string)
+	// Dead 读取拥有者是否已被标记死亡。
+	Dead(owner string) bool
+	// MarkDead 登记拥有者死亡事实，不结算生命变化。
+	MarkDead(owner string)
+	// RecordSkillTargetKilled 仅保存技能目标的首次击杀时刻。
+	RecordSkillTargetKilled(at int64)
+	// SkillTargetKilledAt 读取首次击杀时刻及其是否已发生。
+	SkillTargetKilledAt() (int64, bool)
+	// Occupied 检查拥有者是否仍有占用行动的活动过程。
+	Occupied(owner string) bool
+	// ReadyAt 取当前时刻与所有活动占用终点的最大值，得到局部行动许可时刻。
+	ReadyAt(owner string, now int64) int64
+	// OccupancyContribution 查询起点落在指定窗口内的占用最晚终点及存在性。
+	OccupancyContribution(owner string, start, end int64) (int64, bool)
+	// SetEmpoweredPredecessor 复制并保存过程关联的强化前序使用引用。
+	SetEmpoweredPredecessor(p *ProcessView, value *string)
+	// MarkEmpoweredResolved 标记强化结算事实已经发布。
+	MarkEmpoweredResolved(p *ProcessView)
+	// ClearEmpoweredAttack 清除该过程当前的强化攻击关联。
+	ClearEmpoweredAttack(p *ProcessView)
+	// ResolveEmpoweredMiss 首次结算未命中的强化预留，保存时刻并减少待命中数。
+	ResolveEmpoweredMiss(p *ProcessView, index int, now int64) bool
+	// InitSkillHitStages 为过程初始化独立的技能命中阶段记录。
+	InitSkillHitStages(p *ProcessView)
+	// AppendSkillHitStage 在已启用阶段记录时追加真实命中阶段。
+	AppendSkillHitStage(p *ProcessView, stage model.ProcessSkillHitStage)
+	// CompleteSkillHitStage 从后向前更新匹配阶段的接触和完成标记。
+	CompleteSkillHitStage(p *ProcessView, key string, contact, completed bool)
+	// ProcessViews 复制过程指针列表；各元素仍是活借用，保存历史需Freeze或Snapshot。
+	ProcessViews() []*ProcessView
+	// EmpoweredCount 返回当前强化等待索引中的过程数。
+	EmpoweredCount() int
+	// EmpoweredAt 按有效下标借用强化等待过程。
+	EmpoweredAt(index int) *ProcessView
+	// UpdateEmpoweredWait 按过程的真实活动、执行与期限状态维护强化等待索引。
+	UpdateEmpoweredWait(p *ProcessView)
+	// ProcessCount 返回本场已登记过程数，包含已结束过程。
+	ProcessCount() int
+	// ProcessAt 按有效下标借用过程活视图。
+	ProcessAt(index int) *ProcessView
+	// Process 按稳定槽引用借用过程；缺失或非法引用返回nil。
+	Process(ref contract.ProcessRef) *ProcessView
+	// AddProcess 登记过程并分配稳定槽位，不复用旧过程身份。
+	AddProcess(p *ProcessView)
+	// ExportProcesses 按挂载和使用身份稳定排序后导出独立过程快照。
+	ExportProcesses() []model.ProcessInstanceSnapshot
+	// RegisterAction 为尚未登记的行动分配稳定槽位。
+	RegisterAction(a *SkillActionView)
+	// AddManualAction 登记并追加一条手动行动。
+	AddManualAction(a *SkillActionView)
+	// ManualCount 返回已登记手动行动数。
+	ManualCount() int
+	// ManualAt 按有效下标借用手动行动活视图。
+	ManualAt(index int) *SkillActionView
+	// SortManualActions 按首次时刻、排序值及指令键稳定排列手动行动。
+	SortManualActions()
+	// BindManualParents 按完整顺序绑定手动控制的首次行动；父引用或归属不合法时返回原因。
+	BindManualParents() string
+	// SetParent 保存手动控制的父行动下标及首次使用引用。
+	SetParent(a *SkillActionView, index int, use string)
+	// CurrentAction 借用当前行动；未设置时返回nil。
+	CurrentAction() *SkillActionView
+	// SetCurrentAction 登记并设置当前行动；nil表示清除当前借用。
+	SetCurrentAction(a *SkillActionView)
+	// BindActionUse 登记行动并建立使用引用到行动的映射。
+	BindActionUse(use string, a *SkillActionView)
+	// ForgetActionUse 移除使用引用到行动的映射，不删除稳定行动槽。
+	ForgetActionUse(use string)
+	// ActionForUse 按使用引用借用行动；未登记时返回nil。
+	ActionForUse(use string) *SkillActionView
+	// Action 按稳定槽引用借用行动；缺失或非法引用返回nil。
+	Action(ref contract.ActionRef) *SkillActionView
+	// ActionUses 复制已绑定使用的行动指针列表；元素仍是活借用且顺序未定义。
+	ActionUses() []*SkillActionView
+	// Reached 累计该行动已经到达一次请求时点。
+	Reached(a *SkillActionView)
+	// Reject 保存本次行动拒绝原因。
+	Reject(a *SkillActionView, reason string)
+	// Accept 记录行动已接受及实际使用引用；首次行动同时累计开始使用数。
+	Accept(a *SkillActionView, use string, initial bool)
+	// FinishAttempt 依据接受、错误或拒绝状态生成本次记录，并累计相应失败计数。
+	FinishAttempt(a *SkillActionView, now int64, err *model.EngineError) model.SkillActionRecord
+	// RecordUse 按已发生的使用或步骤事实更新该行动计数。
+	RecordUse(a *SkillActionView, kind string)
+	// SetChargeDuration 复制并保存已核定的蓄力时长。
+	SetChargeDuration(a *SkillActionView, value int64)
+	// BeginHit 推进并返回该行动的实际命中序号。
+	BeginHit(a *SkillActionView) int
+	// CommitHitContact 记录已提交命中绑定的接触位。
+	CommitHitContact(a *SkillActionView, index int)
+	// SkillSummaries 汇总手动行动及其使用计数，保留未到达和在途数量。
+	SkillSummaries() (model.SkillActionSummary, model.SkillUseSummary)
+	// NewUse 保存真实使用身份；相同使用键按当前语义替换映射。
+	NewUse(seed UseSeed) *UseView
+	// Use 按键借用使用身份；未登记时返回nil。
+	Use(key string) *UseView
+	// ReserveUseEmpowerment 为使用身份关联强化过程及其消费下标。
+	ReserveUseEmpowerment(u *UseView, process contract.ProcessRef, index int)
+}
+
+// State 持有运行中的行动身份；不把集合或可写过程返回给执行层。
+type State struct {
+	processes              []*ProcessView
+	empoweredWaits         []*ProcessView
+	manualActions          []*SkillActionView
+	actionRegistry         []*SkillActionView
+	actionsByUse           map[string]*SkillActionView
+	currentAction          *SkillActionView
+	automatic              *automaticSkillData
+	uses                   map[string]*UseView
+	basicAttack            *BasicAttackView
+	ammo                   []*AmmoView
+	basicAttackEventActive bool
+	drivers                driverState
+}
+
+var _ ProcessChangeSetAPI = (*ProcessChangeSet)(nil)
+var _ StateAPI = (*State)(nil)
 
 func NewProcess(seed ProcessSeed) *ProcessView {
 	p := &ProcessView{data: &processData{snapshot: cloneProcessSnapshot(seed.Snapshot), slot: -1, definition: seed.Definition, ability: seed.Ability, abilityRef: seed.AbilityRef, stepIndex: seed.StepIndex, castID: seed.CastID, castUseKey: seed.CastUseKey}}
@@ -401,22 +680,6 @@ func ProcessLess(a, b *ProcessView) bool {
 		return a.MountKey() < b.MountKey()
 	}
 	return a.UseKey() < b.UseKey()
-}
-
-// State 持有运行中的行动身份；不把集合或可写过程返回给执行层。
-type State struct {
-	processes              []*ProcessView
-	empoweredWaits         []*ProcessView
-	manualActions          []*SkillActionView
-	actionRegistry         []*SkillActionView
-	actionsByUse           map[string]*SkillActionView
-	currentAction          *SkillActionView
-	automatic              *automaticSkillData
-	uses                   map[string]*UseView
-	basicAttack            *BasicAttackView
-	ammo                   []*AmmoView
-	basicAttackEventActive bool
-	drivers                driverState
 }
 
 func (s *State) SetEmpoweredPredecessor(p *ProcessView, value *string) {

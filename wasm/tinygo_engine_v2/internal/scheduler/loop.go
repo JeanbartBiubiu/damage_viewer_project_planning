@@ -19,17 +19,56 @@ type LoopStopState struct {
 // LoopDriver 是循环与执行协调之间的有限入口。观察方法只消费已提交数值。
 // 事件选择保留原有同刻特殊顺序，排程仍使用同一个根循环实例。
 type LoopDriver interface {
+	// LoopState 提供本轮驱动资格、执行失败及事件预算所需的已提交事实。
 	LoopState() LoopState
+	// LoopStopState 提供双方死亡及预算事实，由循环核定停止原因。
 	LoopStopState() LoopStopState
+	// SelectLoopEvent 对候选事件应用既有同刻业务顺序，不能创建另一套时钟。
 	SelectLoopEvent(GenericEvent) (GenericEvent, *model.EngineError)
+	// HandleLoopEvent 执行已接纳事件；错误由循环按现有停止规则处理。
 	HandleLoopEvent(GenericEvent) *model.EngineError
+	// ObserveBefore 补齐指定时刻之前的观察点，只消费已提交数值。
 	ObserveBefore(int64)
+	// ObserveThrough 补齐截至指定时刻的观察点，只消费已提交数值。
 	ObserveThrough(int64)
+	// ObserveFinal 按既有采样规则补记最终观察点。
 	ObserveFinal()
+	// PublishLoopWait 将当前等待投影发布回行动状态。
 	PublishLoopWait()
+	// SettleLoopEnd 完成循环结束时必要的业务结算，并返回实际失败。
 	SettleLoopEnd() *model.EngineError
+	// LoopBudgetExceeded 保存循环检测到的预算原因和错误事实。
 	LoopBudgetExceeded(model.BudgetCause, string)
+	// EnsureLoopBudgetCause 在预算停止尚无具体原因时补记既有默认原因。
 	EnsureLoopBudgetCause()
+}
+
+// LoopAPI 定义唯一机械循环的排程、时钟、计数与停止能力。
+type LoopAPI interface {
+	// Queue 仅交给根初始化与统一执行提交两个写入口；行动、效果和报告不持有该队列。
+	Queue() *GenericHeap
+	// TimeMs 返回唯一循环的当前时刻。
+	TimeMs() int64
+	// StartMs 返回本次运行的起始时刻。
+	StartMs() int64
+	// DurationMs 返回本次运行配置的完整时长。
+	DurationMs() int64
+	// ProcessedEvents 返回已经接纳处理的事件数。
+	ProcessedEvents() int
+	// Reason 返回当前停止原因。
+	Reason() model.StopReason
+	// Stopped 返回循环是否已标记停止。
+	Stopped() bool
+	// Advance 只由根循环在选定事件或观察终点后推进，不隐式执行战斗。
+	Advance(at int64)
+	// AcceptEvent 在选择及前置观察成功后接纳一个事件，同时推进时钟和计数。
+	AcceptEvent(at int64)
+	// Stop 记录停止状态，只允许优先级更高的原因覆盖已有原因。
+	Stop(reason model.StopReason)
+	// Finalize 按预算、死亡、时长及队列事实核定最终停止原因。
+	Finalize(state LoopStopState)
+	// Run 驱动既有唯一循环；根入口和测试均组合此实现，不复制另一份驱动。
+	Run(driver LoopDriver) *model.EngineError
 }
 
 // Loop 由根运行入口创建并拥有；执行协调借用该实例，不建立第二个时钟或堆。
@@ -42,11 +81,13 @@ type Loop struct {
 	stopped         bool
 }
 
+var _ LoopAPI = (*Loop)(nil)
+
+// NewLoop 创建本次运行唯一的时钟、事件队列与停止账，不执行战斗业务。
 func NewLoop(start, duration int64, policy model.StopPolicy) *Loop {
 	return &Loop{queue: NewGenericHeap(64), now: start, start: start, end: start + duration, policy: policy}
 }
 
-// Queue 仅交给根初始化与统一执行提交两个写入口；行动、效果和报告不依赖此包。
 func (l *Loop) Queue() *GenericHeap      { return &l.queue }
 func (l *Loop) TimeMs() int64            { return l.now }
 func (l *Loop) StartMs() int64           { return l.start }
@@ -55,15 +96,14 @@ func (l *Loop) ProcessedEvents() int     { return l.processed }
 func (l *Loop) Reason() model.StopReason { return l.reason }
 func (l *Loop) Stopped() bool            { return l.stopped }
 
-// Advance 只由根循环在选定事件或观察终点后推进，不隐式执行战斗。
 func (l *Loop) Advance(at int64) { l.now = at }
 
-// AcceptEvent 在选择及前置观察成功后接纳一个事件，时钟和计数同时前进。
 func (l *Loop) AcceptEvent(at int64) {
 	l.now = at
 	l.processed++
 }
 
+// StopReasonPriority 返回既有停止原因的固定优先级，用于保留更重要的终结事实。
 func StopReasonPriority(reason model.StopReason) int {
 	switch reason {
 	case model.StopReasonBudgetExceeded:
@@ -119,7 +159,6 @@ func (l *Loop) Finalize(state LoopStopState) {
 	}
 }
 
-// Run 是原唯一循环算法。根入口和内部测试均组合这个实现，不复制另一份驱动。
 func (l *Loop) Run(driver LoopDriver) *model.EngineError {
 	for {
 		state := driver.LoopState()

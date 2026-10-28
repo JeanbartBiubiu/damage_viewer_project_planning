@@ -11,6 +11,12 @@ import (
 
 const multiplierGroupCapacity = uint32(1 << 16)
 
+type multiplierMember struct {
+	modifier plan.CompiledModifier
+	path     string
+	carriers uint8
+}
+
 // 字符串只在编译期使用；先检查容量再转换，编号0与无组由独立布尔值区分。
 func (ctx *genericCompileContext) internMultiplierGroup(key, path, ref string) (uint16, bool) {
 	if id, exists := ctx.multiplierGroups[key]; exists {
@@ -85,12 +91,6 @@ const (
 	multiplierCarrierTarget = uint8(2)
 	multiplierCarrierBoth   = multiplierCarrierSource | multiplierCarrierTarget
 )
-
-type multiplierMember struct {
-	modifier plan.CompiledModifier
-	path     string
-	carriers uint8
-}
 
 // 恢复快照与动态挂载可把普通供值器放到任意角色，编译初始挂载不构成互斥证明。
 // 只有绝对属性目标和规则的固定阶段能证明单角色；不新增挂载白名单。

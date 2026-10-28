@@ -30,52 +30,6 @@ type SkillActionBinding struct {
 	HitBindings           []SkillActionHitBinding `json:"hitBindings"`
 }
 
-func (value *SkillActionBinding) UnmarshalJSON(data []byte) error {
-	const fields = "bindingKey source providerRef providerDefinitionRef skillKey controls hitBindings"
-	if err := processJSONShape(data, "SkillActionBinding", fields, fields); err != nil {
-		return err
-	}
-	type plain SkillActionBinding
-	var decoded plain
-	if err := json.Unmarshal(data, &decoded); err != nil {
-		return err
-	}
-	*value = SkillActionBinding(decoded)
-	return nil
-}
-
-func (value *SkillActionControl) UnmarshalJSON(data []byte) error {
-	const fields = "action processKey abilityRef"
-	if err := processJSONShape(data, "SkillActionControl", fields, fields); err != nil {
-		return err
-	}
-	type plain SkillActionControl
-	var decoded plain
-	if err := json.Unmarshal(data, &decoded); err != nil {
-		return err
-	}
-	*value = SkillActionControl(decoded)
-	return nil
-}
-
-func (value *SkillActionHitBinding) UnmarshalJSON(data []byte) error {
-	const fields = "hitBindingKey processKey moment hitAbilityRef requiresPriorHitBindingKey"
-	const required = "hitBindingKey processKey moment hitAbilityRef"
-	if err := processJSONShape(data, "SkillActionHitBinding", fields, required); err != nil {
-		return err
-	}
-	type plain SkillActionHitBinding
-	var decoded plain
-	if err := json.Unmarshal(data, &decoded); err != nil {
-		return err
-	}
-	if decoded.RequiresPriorHitBindingKey != nil && strings.TrimSpace(*decoded.RequiresPriorHitBindingKey) == "" {
-		return errors.New("SkillActionHitBinding.requiresPriorHitBindingKey must be a non-empty string or null")
-	}
-	*value = SkillActionHitBinding(decoded)
-	return nil
-}
-
 type SkillActionHitPreset struct {
 	HitBindingKey string `json:"hitBindingKey"`
 	Preset        string `json:"preset"`
@@ -93,35 +47,6 @@ type SkillActionPlan struct {
 	AbilityRef           string                 `json:"abilityRef"`
 	ParentInstructionKey *string                `json:"parentInstructionKey,omitempty"`
 	HitBindings          []SkillActionHitPreset `json:"hitBindings"`
-}
-
-func (value *SkillActionPlan) UnmarshalJSON(data []byte) error {
-	const fields = "instructionKey firstAtMs sortOrder source target skillKey bindingKey action abilityRef parentInstructionKey hitBindings"
-	const required = "instructionKey firstAtMs sortOrder source target skillKey bindingKey action abilityRef hitBindings"
-	if err := processJSONShape(data, "SkillActionPlan", fields, required); err != nil {
-		return err
-	}
-	type plain SkillActionPlan
-	var decoded plain
-	if err := json.Unmarshal(data, &decoded); err != nil {
-		return err
-	}
-	*value = SkillActionPlan(decoded)
-	return nil
-}
-
-func (value *SkillActionHitPreset) UnmarshalJSON(data []byte) error {
-	const fields = "hitBindingKey preset"
-	if err := processJSONShape(data, "SkillActionHitPreset", fields, fields); err != nil {
-		return err
-	}
-	type plain SkillActionHitPreset
-	var decoded plain
-	if err := json.Unmarshal(data, &decoded); err != nil {
-		return err
-	}
-	*value = SkillActionHitPreset(decoded)
-	return nil
 }
 
 type SkillActionSummary struct {
@@ -196,4 +121,79 @@ type DirectHealingRecord struct {
 	Overheal              float64 `json:"overheal"`
 	HpBefore              float64 `json:"hpBefore"`
 	HpAfter               float64 `json:"hpAfter"`
+}
+
+func (value *SkillActionBinding) UnmarshalJSON(data []byte) error {
+	const fields = "bindingKey source providerRef providerDefinitionRef skillKey controls hitBindings"
+	if err := processJSONShape(data, "SkillActionBinding", fields, fields); err != nil {
+		return err
+	}
+	type plain SkillActionBinding
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	*value = SkillActionBinding(decoded)
+	return nil
+}
+
+func (value *SkillActionControl) UnmarshalJSON(data []byte) error {
+	const fields = "action processKey abilityRef"
+	if err := processJSONShape(data, "SkillActionControl", fields, fields); err != nil {
+		return err
+	}
+	type plain SkillActionControl
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	*value = SkillActionControl(decoded)
+	return nil
+}
+
+func (value *SkillActionHitBinding) UnmarshalJSON(data []byte) error {
+	const fields = "hitBindingKey processKey moment hitAbilityRef requiresPriorHitBindingKey"
+	const required = "hitBindingKey processKey moment hitAbilityRef"
+	if err := processJSONShape(data, "SkillActionHitBinding", fields, required); err != nil {
+		return err
+	}
+	type plain SkillActionHitBinding
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	if decoded.RequiresPriorHitBindingKey != nil && strings.TrimSpace(*decoded.RequiresPriorHitBindingKey) == "" {
+		return errors.New("SkillActionHitBinding.requiresPriorHitBindingKey must be a non-empty string or null")
+	}
+	*value = SkillActionHitBinding(decoded)
+	return nil
+}
+
+func (value *SkillActionPlan) UnmarshalJSON(data []byte) error {
+	const fields = "instructionKey firstAtMs sortOrder source target skillKey bindingKey action abilityRef parentInstructionKey hitBindings"
+	const required = "instructionKey firstAtMs sortOrder source target skillKey bindingKey action abilityRef hitBindings"
+	if err := processJSONShape(data, "SkillActionPlan", fields, required); err != nil {
+		return err
+	}
+	type plain SkillActionPlan
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	*value = SkillActionPlan(decoded)
+	return nil
+}
+
+func (value *SkillActionHitPreset) UnmarshalJSON(data []byte) error {
+	const fields = "hitBindingKey preset"
+	if err := processJSONShape(data, "SkillActionHitPreset", fields, fields); err != nil {
+		return err
+	}
+	type plain SkillActionHitPreset
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	*value = SkillActionHitPreset(decoded)
+	return nil
 }

@@ -334,8 +334,8 @@ func (b *NamedBinding) evaluate(program *expression.Program, ctx *GenericEvalCon
 					values[i].Number = inputbinding.Scalar{Value: value, Present: present}
 				}
 				if source.Kind == "process_start_state" {
-					value,present:=ctx.ProcessStartStateValues.Lookup(source.StateKey)
-					values[i].Number=inputbinding.Scalar{Value:value,Present:present,SafeInteger:true}
+					value, present := ctx.ProcessStartStateValues.Lookup(source.StateKey)
+					values[i].Number = inputbinding.Scalar{Value: value, Present: present, SafeInteger: true}
 				}
 			} else {
 				value, present := ctx.RuntimeParameters[param.ParameterKey]
@@ -347,7 +347,6 @@ func (b *NamedBinding) evaluate(program *expression.Program, ctx *GenericEvalCon
 	return b.plan.Evaluate(program, values)
 }
 
-// DeclaredReferences不向宿主开放临时用途包装。
 func (r GenericRegistry) DeclaredReferences() map[string]model.GenericFormulaExpr {
 	refs := make(map[string]model.GenericFormulaExpr)
 	for i, p := range r.Programs {
@@ -377,7 +376,6 @@ func (r GenericRegistry) ValidDeclaredScope(instructions []GenericInstr, skill s
 	return true
 }
 
-// ReadDependencies返回输出可达读取并递归覆盖外部调用，包含条件两支。
 func (r GenericRegistry) ReadDependencies(id GenericProgramID) []GenericInstr {
 	if int(id) >= len(r.Programs) {
 		return nil

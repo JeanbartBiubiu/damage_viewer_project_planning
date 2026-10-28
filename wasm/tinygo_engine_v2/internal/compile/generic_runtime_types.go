@@ -1,9 +1,9 @@
 package compile
 
 import (
+	"tinygo_engine_v2/internal/base/typeset"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/plan"
-	"tinygo_engine_v2/internal/base/typeset"
 )
 
 // BindRuntimeTypes 只查已有完整目录；缺失引用保留原运行期检查。

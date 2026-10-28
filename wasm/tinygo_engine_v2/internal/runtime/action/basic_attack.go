@@ -8,6 +8,7 @@ import (
 )
 
 type BasicAttackView struct{ data *basicAttackData }
+
 type basicAttackData struct {
 	primary                       *model.BasicAttackPrimaryIdentity
 	primaryCandidate              int
@@ -24,17 +25,21 @@ type basicAttackData struct {
 	wait                          *AttackWaitView
 	cooldownDependencies          []formula.GenericInstr
 }
+
 type primaryReplacementSlot struct {
 	binding uint16
 	target  string
 	index   int
 }
+
 type BasicAttackSeed struct {
 	Plan                 model.BasicAttackPlan
 	InitialAbility       planbundle.CompiledAbility
 	CooldownDependencies []formula.GenericInstr
 	Ammo                 *AmmoView
 }
+
+type AttackRecordView struct{ data *model.BasicAttackRecord }
 
 func (s *State) InitBasicAttack(seed BasicAttackSeed) {
 	s.basicAttack = &BasicAttackView{data: &basicAttackData{plan: seed.Plan, summary: model.BasicAttackSummary{PlanKey: seed.Plan.PlanKey}, initialAbility: seed.InitialAbility, cooldownDependencies: seed.CooldownDependencies, ammo: seed.Ammo, currentRecordIndex: -1}}
@@ -168,8 +173,6 @@ func (s *State) ObserveAttackDamage(source, target string, mitigated, hploss, be
 		d.targetKilledAt = cloneOptional(&now)
 	}
 }
-
-type AttackRecordView struct{ data *model.BasicAttackRecord }
 
 func (r *AttackRecordView) UseRef() string             { return r.data.UseRef }
 func (r *AttackRecordView) AttackIndex() int           { return r.data.AttackIndex }

@@ -1,4 +1,4 @@
-// 本文件实现 generic EngineSession：compile / run / release_session 与 session registry。
+// 本文件实现通用编译会话的登记、运行、释放及出箱接线。
 package runtime
 
 import (
@@ -11,6 +11,31 @@ import (
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
+// SessionAPI 定义宿主与编译会话之间的有限能力；具体会话继续由 Session 保存。
+type SessionAPI interface {
+	// OutboxBytes 借用当前出箱字节，应在下一次写入或清空前完成读取。
+	OutboxBytes() []byte
+	// ClearOutbox 清空已消费的出箱内容，不释放编译会话。
+	ClearOutbox()
+	// CompileFrame 校验编译帧并编译其载荷，结果沿出箱返回；成功返回0，失败返回-1。
+	CompileFrame(input []byte) int32
+	// CompileJSON 编译作者载荷并登记可复用计划，结果沿出箱返回；写出失败时撤销本次登记。
+	// 成功返回0，编译拒绝或执行失败返回-1。
+	CompileJSON(payload []byte) int32
+	// RunFrame 校验运行帧后执行其载荷，结果沿出箱返回；成功返回0，失败返回-1。
+	RunFrame(input []byte) int32
+	// RunJSON 校验会话、规则身份及运行输入，再创建独立战斗状态执行既有计划。
+	// 结果沿出箱返回，成功返回0，失败返回-1。
+	RunJSON(payload []byte) int32
+	// ReleaseSessionFrame 校验释放帧后释放指定会话，释放结果沿出箱返回。
+	// 成功返回0，失败返回-1。
+	ReleaseSessionFrame(input []byte) int32
+	// ReleaseSessionJSON 校验会话及可选规则身份后删除登记；结果写出失败不会恢复登记。
+	// 结果沿出箱返回，成功返回0，失败返回-1。
+	ReleaseSessionJSON(payload []byte) int32
+}
+
+// Session 拥有编译会话登记与出箱，不保存跨战斗复用的可变战斗状态。
 type Session struct {
 	outbox abi.Outbox
 
@@ -26,6 +51,9 @@ type genericSessionEntry struct {
 	compiled      planbundle.CompiledSession
 }
 
+var _ SessionAPI = (*Session)(nil)
+
+// NewSession 创建独立的编译会话登记表与出箱。
 func NewSession() *Session {
 	return &Session{
 		outbox:          abi.NewOutbox(abi.DefaultOutboxCapacity),

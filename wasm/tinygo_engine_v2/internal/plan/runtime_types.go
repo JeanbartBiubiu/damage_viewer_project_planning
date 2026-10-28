@@ -8,8 +8,6 @@ type DeclaredType struct {
 	Declared bool
 }
 
-func (t DeclaredType) Lookup() (typeset.TypeID, bool) { return t.ID, t.Declared }
-
 // RuntimeTypeBindings 只保存引擎已知的固定引用，不添加类型或改变错误时机。
 type RuntimeTypeBindings struct {
 	BasicAttack, SpellShield                            DeclaredType
@@ -21,3 +19,5 @@ type RuntimeTypeBindings struct {
 	AttackLinkApplied, HitLinkApplied                   DeclaredType
 	SourceOwner, SourceOpponent, TargetOwner            DeclaredType
 }
+
+func (t DeclaredType) Lookup() (typeset.TypeID, bool) { return t.ID, t.Declared }

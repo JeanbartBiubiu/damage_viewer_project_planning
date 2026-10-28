@@ -9,6 +9,7 @@ import (
 )
 
 type SkillActionView struct{ data *skillActionData }
+
 type skillActionData struct {
 	slot                              int
 	automaticRule                     *AutomaticRuleView
@@ -36,14 +37,14 @@ type SkillActionSeed struct {
 	Summary             model.SkillActionSummary
 }
 
+type SkillActionPlanView struct{ data *model.SkillActionPlan }
+
 func NewSkillAction(seed SkillActionSeed) *SkillActionView {
 	plan := seed.Plan
 	plan.ParentInstructionKey = cloneOptional(plan.ParentInstructionKey)
 	plan.HitBindings = append([]model.SkillActionHitPreset(nil), plan.HitBindings...)
 	return &SkillActionView{data: &skillActionData{slot: -1, automaticRule: seed.AutomaticRule, plan: plan, binding: seed.Binding, controlAbilityIndex: seed.ControlAbilityIndex, parentIndex: seed.ParentIndex, useRef: seed.UseRef, summary: seed.Summary}}
 }
-
-type SkillActionPlanView struct{ data *model.SkillActionPlan }
 
 func (p SkillActionPlanView) InstructionKey() string { return p.data.InstructionKey }
 func (p SkillActionPlanView) FirstAtMs() int64       { return p.data.FirstAtMs }

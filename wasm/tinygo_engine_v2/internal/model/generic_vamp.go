@@ -21,16 +21,6 @@ const (
 	HealGroupRatioMax = "ratio_max"
 )
 
-// NormalizeHealGroupMode 将未指定的治疗组计算方式视为既有加算。
-func NormalizeHealGroupMode(mode string) string {
-	if mode == "" {
-		return HealGroupRatioAdd
-	}
-	return mode
-}
-
-var VampTypeOrder = [...]string{VampLifeSteal, VampOmnivamp, VampPhysical, VampSpell}
-
 // VampRuleDefinition 在游戏规则中保存一次；三个匹配器分别约束目标、技能与伤害。
 type VampRuleDefinition struct {
 	VampType           string      `json:"vampType"`
@@ -49,3 +39,13 @@ type VampOverrideDefinition struct {
 	BasisOutputKind string              `json:"basisOutputKind,omitempty"`
 	Efficiency      *GenericFormulaExpr `json:"efficiency,omitempty"`
 }
+
+// NormalizeHealGroupMode 将未指定的治疗组计算方式视为既有加算。
+func NormalizeHealGroupMode(mode string) string {
+	if mode == "" {
+		return HealGroupRatioAdd
+	}
+	return mode
+}
+
+var VampTypeOrder = [...]string{VampLifeSteal, VampOmnivamp, VampPhysical, VampSpell}

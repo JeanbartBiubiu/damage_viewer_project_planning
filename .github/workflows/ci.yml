@@ -82,6 +82,7 @@ jobs:
           node-version: '20'
       - run: node --test scripts/check-package-boundaries.test.mjs scripts/prepare-page-measurement.test.mjs scripts/profile-run-node.test.mjs
       - run: node scripts/check-package-boundaries.mjs
+      - run: go run ./scripts/check-contract-layout
       - run: go test -count=1 ./...
 
   governance:

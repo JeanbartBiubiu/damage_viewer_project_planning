@@ -14,6 +14,8 @@ import (
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
+type configuredDefenseResult struct{ amount, factor float64 }
+
 func (f *Frame) formulaError(id formula.GenericProgramID, message string) *model.EngineError {
 	path := "formula"
 	if int(id) < len(f.run.formulas.Programs) {
@@ -37,8 +39,6 @@ func (f *Frame) evalResultFormula(id formula.GenericProgramID, ability planbundl
 func (f *Frame) configuredFormulaIssue(def planbundle.CompiledDamageTypeFormula, issue expression.ContractIssue) *model.EngineError {
 	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrCode(issue.Code), issue.Code, def.Path+issue.Path, f.abilityRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 }
-
-type configuredDefenseResult struct{ amount, factor float64 }
 
 func (f *Frame) requireConfiguredDefense(damageType, operationPath string) (planbundle.CompiledDamageTypeFormula, *model.EngineError) {
 	def, exists := f.run.compiled.DamageTypeFormulas[damageType]

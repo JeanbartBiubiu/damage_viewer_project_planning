@@ -30,13 +30,25 @@ type boundInput struct {
 	value   string
 }
 
+// PlanAPI 集中声明已编译输入绑定的计费与显式数值求值。
+// 声明用于阅读与编译检查；实际调用继续使用具体类型。
+type PlanAPI interface {
+	// ChargedBytes 返回只读计划保留内存的逻辑计费，供会话注册预算使用。
+	ChargedBytes() uint64
+	// Evaluate 仅在同步求值期间借用数值切片，不保存或修改输入；不同于 Reader，不复制并保存供值数值。
+	Evaluate(program *expression.Program, values []Value) (expression.Evaluation, *expression.ContractIssue)
+	// Reader 复制并冻结本次数值，只有实际读取的字段执行存在性及数值检查。
+	Reader(values []Value) (expression.ReadInput, *expression.ContractIssue)
+}
+
 // Plan 固定声明到目录的索引及口径，不持有战斗对象或可写输入。
 type Plan struct {
 	inputs  []boundInput
 	entries int
 }
 
-// ChargedBytes返回只读计划保留内存的逻辑计费，供同一会话注册预算使用。
+var _ PlanAPI = (*Plan)(nil)
+
 func (p *Plan) ChargedBytes() uint64 {
 	if p == nil {
 		return 0
@@ -74,7 +86,6 @@ func Bind(program *expression.Program, catalog []expression.Binding) (*Plan, *ex
 	return plan, nil
 }
 
-// Reader 冻结本次显式数值，只有被实际读取的字段执行存在性与数值检查。
 func (p *Plan) Reader(values []Value) (expression.ReadInput, *expression.ContractIssue) {
 	if p == nil {
 		return nil, &expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}
@@ -86,7 +97,6 @@ func (p *Plan) Reader(values []Value) (expression.ReadInput, *expression.Contrac
 	return func(slot uint16) (float64, *expression.ContractIssue) { return p.readValue(frozen, slot) }, nil
 }
 
-// Evaluate只在同步求值期间借用数值切片，不保存或修改输入。
 func (p *Plan) Evaluate(program *expression.Program, values []Value) (expression.Evaluation, *expression.ContractIssue) {
 	if p == nil {
 		return expression.Evaluation{}, &expression.ContractIssue{Code: "FORMULA_INVALID_PROGRAM"}

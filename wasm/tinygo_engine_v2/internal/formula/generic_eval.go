@@ -11,8 +11,13 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-// GenericEvalContext 是 generic formula 运行时只读视图。
-type DamageStateBeforeReader interface{ DamageStateBefore(string) (float64, error) }
+// DamageStateBeforeReader 只读取当前真实伤害结算前冻结的状态事实。
+type DamageStateBeforeReader interface {
+	// DamageStateBefore 返回已授权状态的伤前冻结值，缺少事实或读取资格时返回错误。
+	DamageStateBefore(string) (float64, error)
+}
+
+// GenericEvalContext 是战斗公式运行时的只读事实视图。
 type GenericEvalContext struct {
 	DamageStateBeforeReader DamageStateBeforeReader
 	ReceivedShieldReader    ReceivedShieldReader
@@ -36,7 +41,7 @@ type GenericEvalContext struct {
 	HasEventLink            bool
 	LinkIndex               int
 	LinkCount               int
-	ProcessActualCosts model.NumericView
+	ProcessActualCosts      model.NumericView
 	HasProcessActualCosts   bool
 	ProcessStartStateValues ProcessStartStateView
 	SourceAttrs             attribute.Table
@@ -110,13 +115,15 @@ type ProcessStartStateValue struct {
 	Value    float64
 }
 
-// LinkedShieldReader resolves one compile-bound definition in a concrete provider frame.
+// LinkedShieldReader 在明确供值帧中读取已由编译绑定的关联盾。
 type LinkedShieldReader interface {
+	// LinkedShieldPresent 返回指定关联盾在当前帧的存在值；缺少合法上下文时返回错误。
 	LinkedShieldPresent(providerDefinitionIndex uint16) (float64, error)
 }
 
-// Only a mounted native received-damage listener condition supplies this reader.
+// ReceivedShieldReader 仅由已挂载的真实受伤监听条件提供。
 type ReceivedShieldReader interface {
+	// ReceivedLinkedShieldAbsorbed 返回本笔指定关联盾的真实吸收额；缺少逐盾事实时返回错误。
 	ReceivedLinkedShieldAbsorbed(providerDefinitionIndex uint16) (float64, error)
 }
 
@@ -147,13 +154,17 @@ type EventDamageSnapshot struct {
 	NaturalBranchRawAmount float64
 }
 
-// Eval 执行 generic formula 程序，非有限数返回 error。
+// AuthoredEvaluationError保留共同错误码和原表达式JSON字段定位。
+type AuthoredEvaluationError struct {
+	CombatantKey               string
+	Issue                      expression.ContractIssue
+	ProgramKey, DefinitionPath string
+}
+
 func (r GenericRegistry) Eval(id GenericProgramID, ctx GenericEvalContext) (float64, error) {
 	return r.eval(id, &ctx, false, 1, new(int))
 }
 
-// EvalContext 同步借用只读上下文，避免再次复制完整视图；不会保存指针。
-// 调用方及自定义读取回调在求值期间不得修改上下文字段。
 func (r GenericRegistry) EvalContext(id GenericProgramID, ctx *GenericEvalContext) (float64, error) {
 	if ctx == nil {
 		return 0, errors.New("formula evaluation context is required")
@@ -162,13 +173,6 @@ func (r GenericRegistry) EvalContext(id GenericProgramID, ctx *GenericEvalContex
 }
 
 var errConstFormulaRead = errors.New("formula requires runtime read")
-
-// AuthoredEvaluationError保留共同错误码和原表达式JSON字段定位。
-type AuthoredEvaluationError struct {
-	CombatantKey               string
-	Issue                      expression.ContractIssue
-	ProgramKey, DefinitionPath string
-}
 
 func (e *AuthoredEvaluationError) Error() string { return e.Issue.Code + " at " + e.Issue.Path }
 
@@ -191,8 +195,6 @@ func (r GenericRegistry) programForEvaluation(id GenericProgramID, depth int, sp
 	return program, nil
 }
 
-// EvalBound直接执行已注册作者程序的同步数值绑定，复用通用指令计费。
-// 它不创建供值闭包，也不保存values；具名程序仍走各自的作者绑定。
 func (r GenericRegistry) EvalBound(id GenericProgramID, binding *inputbinding.Plan, values []inputbinding.Value) (float64, error) {
 	var spent int
 	program, err := r.programForEvaluation(id, 1, &spent)

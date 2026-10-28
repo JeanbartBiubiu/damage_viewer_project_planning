@@ -30,6 +30,67 @@ type AutomaticSkillRule struct {
 	ReleaseAfterRuleKey *string                `json:"releaseAfterRuleKey"`
 }
 
+type AutomaticSkillWaiting struct {
+	Reason          string   `json:"reason"`
+	RelatedRuleKeys []string `json:"relatedRuleKeys"`
+	NextCheckAtMs   *int64   `json:"nextCheckAtMs"`
+}
+
+type AutomaticSkillRuleSummary struct {
+	RuleKey                 string                 `json:"ruleKey"`
+	AttemptCount            int                    `json:"attemptCount"`
+	StartedCount            int                    `json:"startedCount"`
+	RejectedCount           int                    `json:"rejectedCount"`
+	AbortedBeforeStartCount int                    `json:"abortedBeforeStartCount"`
+	CompletedCount          int                    `json:"completedCount"`
+	FailedCount             int                    `json:"failedCount"`
+	InFlightCount           int                    `json:"inFlightCount"`
+	Waiting                 *AutomaticSkillWaiting `json:"waiting"`
+}
+
+type AutomaticSkillQualification struct {
+	GrantorRuleKey    string  `json:"grantorRuleKey"`
+	ConsumerRuleKey   string  `json:"consumerRuleKey"`
+	GrantedCount      int     `json:"grantedCount"`
+	ConsumedCount     int     `json:"consumedCount"`
+	RemainingCount    int     `json:"remainingCount"`
+	LastGrantUseRef   *string `json:"lastGrantUseRef"`
+	LastConsumeUseRef *string `json:"lastConsumeUseRef"`
+}
+
+type AutomaticSkillSummary struct {
+	RuleCount               int                           `json:"ruleCount"`
+	AttemptCount            int                           `json:"attemptCount"`
+	StartedCount            int                           `json:"startedCount"`
+	RejectedCount           int                           `json:"rejectedCount"`
+	AbortedBeforeStartCount int                           `json:"abortedBeforeStartCount"`
+	CompletedCount          int                           `json:"completedCount"`
+	FailedCount             int                           `json:"failedCount"`
+	InFlightCount           int                           `json:"inFlightCount"`
+	Rules                   []AutomaticSkillRuleSummary   `json:"rules"`
+	Qualifications          []AutomaticSkillQualification `json:"qualifications"`
+}
+
+type AutomaticSkillRecord struct {
+	Sequence       int64   `json:"sequence"`
+	TimeMs         int64   `json:"timeMs"`
+	Kind           string  `json:"kind"`
+	RuleKey        string  `json:"ruleKey"`
+	UseRef         *string `json:"useRef"`
+	RelatedRuleKey *string `json:"relatedRuleKey"`
+	RelatedUseRef  *string `json:"relatedUseRef"`
+	Reason         *string `json:"reason"`
+	NextCheckAtMs  *int64  `json:"nextCheckAtMs"`
+}
+
+type AutomaticSkillRecording struct {
+	TotalCount    int  `json:"totalCount"`
+	ReturnedCount int  `json:"returnedCount"`
+	OmittedCount  int  `json:"omittedCount"`
+	DroppedCount  int  `json:"droppedCount"`
+	Truncated     bool `json:"truncated"`
+}
+
 func (value *AutomaticSkillPlan) UnmarshalJSON(data []byte) error {
 	if err := automaticJSONShape(data, "driverPlan.automaticSkills", "rules", ""); err != nil {
 		return err
@@ -247,67 +308,6 @@ const (
 	AutomaticRecordQualificationConsumed = "QUALIFICATION_CONSUMED"
 	AutomaticRecordWaitChanged           = "WAIT_CHANGED"
 )
-
-type AutomaticSkillWaiting struct {
-	Reason          string   `json:"reason"`
-	RelatedRuleKeys []string `json:"relatedRuleKeys"`
-	NextCheckAtMs   *int64   `json:"nextCheckAtMs"`
-}
-
-type AutomaticSkillRuleSummary struct {
-	RuleKey                 string                 `json:"ruleKey"`
-	AttemptCount            int                    `json:"attemptCount"`
-	StartedCount            int                    `json:"startedCount"`
-	RejectedCount           int                    `json:"rejectedCount"`
-	AbortedBeforeStartCount int                    `json:"abortedBeforeStartCount"`
-	CompletedCount          int                    `json:"completedCount"`
-	FailedCount             int                    `json:"failedCount"`
-	InFlightCount           int                    `json:"inFlightCount"`
-	Waiting                 *AutomaticSkillWaiting `json:"waiting"`
-}
-
-type AutomaticSkillQualification struct {
-	GrantorRuleKey    string  `json:"grantorRuleKey"`
-	ConsumerRuleKey   string  `json:"consumerRuleKey"`
-	GrantedCount      int     `json:"grantedCount"`
-	ConsumedCount     int     `json:"consumedCount"`
-	RemainingCount    int     `json:"remainingCount"`
-	LastGrantUseRef   *string `json:"lastGrantUseRef"`
-	LastConsumeUseRef *string `json:"lastConsumeUseRef"`
-}
-
-type AutomaticSkillSummary struct {
-	RuleCount               int                           `json:"ruleCount"`
-	AttemptCount            int                           `json:"attemptCount"`
-	StartedCount            int                           `json:"startedCount"`
-	RejectedCount           int                           `json:"rejectedCount"`
-	AbortedBeforeStartCount int                           `json:"abortedBeforeStartCount"`
-	CompletedCount          int                           `json:"completedCount"`
-	FailedCount             int                           `json:"failedCount"`
-	InFlightCount           int                           `json:"inFlightCount"`
-	Rules                   []AutomaticSkillRuleSummary   `json:"rules"`
-	Qualifications          []AutomaticSkillQualification `json:"qualifications"`
-}
-
-type AutomaticSkillRecord struct {
-	Sequence       int64   `json:"sequence"`
-	TimeMs         int64   `json:"timeMs"`
-	Kind           string  `json:"kind"`
-	RuleKey        string  `json:"ruleKey"`
-	UseRef         *string `json:"useRef"`
-	RelatedRuleKey *string `json:"relatedRuleKey"`
-	RelatedUseRef  *string `json:"relatedUseRef"`
-	Reason         *string `json:"reason"`
-	NextCheckAtMs  *int64  `json:"nextCheckAtMs"`
-}
-
-type AutomaticSkillRecording struct {
-	TotalCount    int  `json:"totalCount"`
-	ReturnedCount int  `json:"returnedCount"`
-	OmittedCount  int  `json:"omittedCount"`
-	DroppedCount  int  `json:"droppedCount"`
-	Truncated     bool `json:"truncated"`
-}
 
 // 自动输出显式返回空明细，隐藏只属于有限手动计划的记录。
 func (value DoneResult) MarshalJSON() ([]byte, error) {

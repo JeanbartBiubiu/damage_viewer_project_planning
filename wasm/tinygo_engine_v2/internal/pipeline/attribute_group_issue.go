@@ -15,6 +15,11 @@ type AttributeGroupIssue struct {
 	Cause        error
 }
 
+type attributeGroupParticipant struct {
+	member MountedAttributeModifier
+	value  float64
+}
+
 func (e *AttributeGroupIssue) Error() string {
 	return fmt.Sprintf("attribute %s modifier %s owner %s provider %s: %v", e.AttributeKey, e.Member.ModifierKey, e.Member.OwnerCombatantKey, e.Member.ProviderRef, e.Cause)
 }
@@ -26,11 +31,6 @@ func attributeGroupIssue(key string, member MountedAttributeModifier, formulas f
 		path = formulas.Programs[member.ValueProgram].Key
 	}
 	return &AttributeGroupIssue{AttributeKey: key, Member: member, ValuePath: path, Cause: cause}
-}
-
-type attributeGroupParticipant struct {
-	member MountedAttributeModifier
-	value  float64
 }
 
 func attributeGroupFailureSource(members []attributeGroupParticipant, id uint16, matchID bool) MountedAttributeModifier {

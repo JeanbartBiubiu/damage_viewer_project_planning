@@ -11,6 +11,210 @@ import (
 // ObjectView borrows frozen protocol state without exposing its mutable map.
 type ObjectView struct{ values map[string]interface{} }
 
+type ContributionView struct{ values []StatusContribution }
+
+// Provider is a value. Its nested fields remain read-only when the value is copied.
+type Provider struct {
+	ModifierSnapshots                                           model.NumericView
+	ActivationUseRef, ProviderRef, DefinitionRef, Source, Owner string
+	Stacks                                                      int
+	ExpireAt, AppliedAtMs                                       int64
+	HasAppliedAt                                                bool
+	State                                                       ObjectView
+	DefinitionIndex                                             uint16
+	StatusContributions                                         ContributionView
+}
+
+type ProviderList struct{ values []Provider }
+
+type Shield struct {
+	ShieldRef, DefinitionRef, LifecycleProviderRef, Source, Owner string
+	Remaining                                                     float64
+	Priority                                                      int16
+	ExpireAt                                                      int64
+	State                                                         ObjectView
+}
+
+type ShieldList struct {
+	values []pipeline.ShieldInstance
+}
+
+type ResourceContribution struct {
+	ProviderRef, Source, UseRef    string
+	DefinitionIndex, ModifierIndex uint16
+	Value                          float64
+}
+
+type ResourceContributions struct{ values []ResourceContribution }
+
+// AttributeResolverAPI 列出效果侧属性结算适配；挂载状态由效果拥有，数值规则沿既有管道执行。
+type AttributeResolverAPI interface {
+	// Clone 复制属性解析器值；内部挂载表沿不可变及写时复制规则共享。
+	Clone() AttributeResolver
+	// SameMounts 比较两份解析器是否共享相同挂载计划。
+	SameMounts(other AttributeResolver) bool
+	// MountedModifiers 借用当前挂载修正的只读包装。
+	MountedModifiers() AttributeModifiers
+	// ResolveAttributes 使用给定属性和公式上下文结算新属性，返回公式或数值错误。
+	ResolveAttributes(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.GenericRegistry) (attribute.Table, error)
+	// ResolveAttributesWithProviderContext 结合各拥有者与供值器上下文结算新属性，不直接发布角色数值。
+	ResolveAttributesWithProviderContext(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error)
+	// ResolveDerivedAttribute 按当前挂载和上下文计算一个派生属性槽；失败返回错误。
+	ResolveDerivedAttribute(key string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext pipeline.ProviderFormulaContextFunc) (model.AttributeSlotDef, error)
+	// MountCompiledModifierOwned 为实际拥有者与供值实例挂载编译后的属性修正。
+	MountCompiledModifierOwned(owner, ref string, mod planbundle.CompiledModifier)
+	// MountSnapshotModifierOwned 挂载已冻结金额的属性修正，不在后续结算时重取施加金额。
+	MountSnapshotModifierOwned(owner, ref string, mod planbundle.CompiledModifier, value float64)
+	// MountProviderModifiers 从供值器定义及公式表挂载其属性修正。
+	MountProviderModifiers(owner, ref string, provider planbundle.CompiledProvider, formulas formula.GenericRegistry)
+	// UnmountProviderOwned 移除该拥有者与供值实例的属性修正。
+	UnmountProviderOwned(owner, ref string)
+	// MountCompiledModifier 沿现有无拥有者入口挂载编译属性修正。
+	MountCompiledModifier(ref string, mod planbundle.CompiledModifier)
+}
+
+// AttributeResolver keeps the immutable pipeline plan behind a value view.
+type AttributeResolver struct{ value pipeline.AttributeResolver }
+
+type AttributeModifiers struct {
+	values []pipeline.MountedAttributeModifier
+}
+
+// DamageResolverAPI 列出效果侧伤害与治疗修正适配；不拥有角色数值或事件队列。
+type DamageResolverAPI interface {
+	// Clone 复制解析器值；内部挂载表沿既有不可变规则共享。
+	Clone() DamageResolver
+	// HasCommandStage 判断指定命令与阶段是否存在参与修正。
+	HasCommandStage(command, stage string) bool
+	// CollectForCommandChannelsWithMatches 按命令、通道和阶段收集修正，并保留实际匹配通道信息。
+	CollectForCommandChannelsWithMatches(command string, channels []string, stage string) []pipeline.CollectedDamageModifier
+	// CollectForHeal 按治疗方向与类别收集当前挂载修正。
+	CollectForHeal(direction, category string) []pipeline.MountedDamageModifier
+	// MountCompiledModifierOwned 为实际拥有者和供值实例挂载编译伤害修正。
+	MountCompiledModifierOwned(owner, ref string, mod planbundle.CompiledModifier)
+	// UnmountProviderOwned 移除该拥有者与供值实例的伤害修正。
+	UnmountProviderOwned(owner, ref string)
+}
+
+type DamageResolver struct {
+	value pipeline.DamageModifierResolver
+}
+
+// InstanceStateAPI 列出已提交效果集合的局部能力；其发布时点仍由执行协调者决定。
+type InstanceStateAPI interface {
+	// Providers 借用当前供值实例集合的只读包装。
+	Providers() ProviderList
+	// Shields 借用当前普通盾集合的只读包装。
+	Shields() ShieldList
+	// Attributes 取得当前属性挂载解析器值。
+	Attributes() AttributeResolver
+	// Damage 取得当前伤害挂载解析器值。
+	Damage() DamageResolver
+	// ResourceContributions 借用当前资源上限贡献的只读包装。
+	ResourceContributions() ResourceContributions
+	// SetProviders 替换该状态拥有的供值实例集合。
+	SetProviders(v ProviderList)
+	// SetShields 替换该状态拥有的普通盾集合。
+	SetShields(v ShieldList)
+	// SetAttributes 替换该状态拥有的属性挂载解析器。
+	SetAttributes(v AttributeResolver)
+	// SetDamage 替换该状态拥有的伤害挂载解析器。
+	SetDamage(v DamageResolver)
+	// SetResourceContributions 替换该状态拥有的资源上限贡献集合。
+	SetResourceContributions(v ResourceContributions)
+	// AppendProvider 以独立外层集合追加一个供值实例。
+	AppendProvider(v Provider)
+	// ReplaceProvider 以独立外层集合替换有效下标处的供值实例。
+	ReplaceProvider(i int, v Provider)
+	// RemoveProvider 以独立外层集合移除有效下标处的供值实例。
+	RemoveProvider(i int)
+	// MountAttributeCompiled 在当前效果状态中挂载指定归属的编译属性修正。
+	MountAttributeCompiled(owner, ref string, mod planbundle.CompiledModifier)
+	// MountAttributeSnapshot 在当前效果状态中挂载已冻结金额的属性修正。
+	MountAttributeSnapshot(owner, ref string, mod planbundle.CompiledModifier, value float64)
+	// UnmountAttribute 移除当前效果状态中指定归属的属性修正。
+	UnmountAttribute(owner, ref string)
+	// MountDamageCompiled 在当前效果状态中挂载指定归属的编译伤害修正。
+	MountDamageCompiled(owner, ref string, mod planbundle.CompiledModifier)
+	// UnmountDamage 移除当前效果状态中指定归属的伤害修正。
+	UnmountDamage(owner, ref string)
+}
+
+type InstanceState struct {
+	providers  ProviderList
+	shields    ShieldList
+	attributes AttributeResolver
+	damage     DamageResolver
+	resources  ResourceContributions
+}
+
+// InstanceChangeSetAPI 列出效果集合的暂存能力；只发布本包状态，不能代替执行层的跨子系统提交。
+type InstanceChangeSetAPI interface {
+	// Providers 借用本次暂存供值实例集合；保留历史时使用FreezeProviders。
+	Providers() ProviderList
+	// BaseProviders 借用首次投影前保存的基础供值集合。
+	BaseProviders() ProviderList
+	// Projected 判断本次暂存是否已建立供值投影。
+	Projected() bool
+	// ProjectProviders 首次保存基础集合并取得可写外层副本；重复调用不重建。
+	ProjectProviders()
+	// SetProviders 暂存供值集合并标记共享，后续编辑按写时复制隔离。
+	SetProviders(v ProviderList)
+	// AppendProvider 在取得独占外层集合后追加供值实例。
+	AppendProvider(v Provider)
+	// ReplaceProvider 在取得独占外层集合后替换有效下标的供值实例。
+	ReplaceProvider(i int, v Provider)
+	// RemoveProvider 在取得独占外层集合后移除有效下标的供值实例。
+	RemoveProvider(i int)
+	// Shields 借用本次暂存普通盾集合；结算不得绕过所属暂存规则写已提交集合。
+	Shields() ShieldList
+	// SetShields 保存本次盾结算投影，保持已提交与暂存的隔离责任。
+	SetShields(v ShieldList)
+	// Attributes 取得本次暂存属性挂载解析器值。
+	Attributes() AttributeResolver
+	// Damage 取得本次暂存伤害挂载解析器值。
+	Damage() DamageResolver
+	// ResourceContributions 借用本次暂存资源上限贡献集合。
+	ResourceContributions() ResourceContributions
+	// SetAttributes 保存本次暂存属性挂载解析器。
+	SetAttributes(v AttributeResolver)
+	// SetDamage 保存本次暂存伤害挂载解析器。
+	SetDamage(v DamageResolver)
+	// SetResourceContributions 保存本次暂存资源上限贡献集合。
+	SetResourceContributions(v ResourceContributions)
+	// Clone 复制暂存值并标记供值集合共享；后续供值编辑各自取得副本。
+	Clone() InstanceChangeSet
+	// Publish 交出本包投影并复制规范化盾集合；补齐缺失归属，不执行跨包提交。
+	Publish(owner, source string) InstanceState
+	// MountAttributeCompiled 在暂存解析器中挂载指定归属的编译属性修正。
+	MountAttributeCompiled(owner, ref string, mod planbundle.CompiledModifier)
+	// MountAttributeSnapshot 在暂存解析器中挂载已冻结金额的属性修正。
+	MountAttributeSnapshot(owner, ref string, mod planbundle.CompiledModifier, value float64)
+	// UnmountAttribute 从暂存解析器移除指定归属的属性修正。
+	UnmountAttribute(owner, ref string)
+	// MountDamageCompiled 在暂存解析器中挂载指定归属的编译伤害修正。
+	MountDamageCompiled(owner, ref string, mod planbundle.CompiledModifier)
+	// UnmountDamage 从暂存解析器移除指定归属的伤害修正。
+	UnmountDamage(owner, ref string)
+	// FreezeProviders 保留当前供值集合并标记共享，使后续供值编辑不改该外层视图。
+	FreezeProviders() ProviderList
+}
+
+type InstanceChangeSet struct {
+	providers         ProviderList
+	baseProviders     ProviderList
+	projected, shared bool
+	shields           []pipeline.ShieldInstance
+	attributes        AttributeResolver
+	damage            DamageResolver
+	resources         ResourceContributions
+}
+
+var _ AttributeResolverAPI = (*AttributeResolver)(nil)
+var _ DamageResolverAPI = (*DamageResolver)(nil)
+var _ InstanceStateAPI = (*InstanceState)(nil)
+var _ InstanceChangeSetAPI = (*InstanceChangeSet)(nil)
+
 func ObjectState(values map[string]interface{}) ObjectView {
 	return ObjectView{values: copyObject(values)}
 }
@@ -47,8 +251,6 @@ func copyObjectValue(value interface{}) interface{} {
 	}
 }
 
-type ContributionView struct{ values []StatusContribution }
-
 func StatusContributions(values []StatusContribution) ContributionView {
 	if values == nil {
 		return ContributionView{}
@@ -68,22 +270,8 @@ func (v ContributionView) Snapshot() []StatusContribution {
 	return out
 }
 
-// Provider is a value. Its nested fields remain read-only when the value is copied.
-type Provider struct {
-	ModifierSnapshots                                           model.NumericView
-	ActivationUseRef, ProviderRef, DefinitionRef, Source, Owner string
-	Stacks                                                      int
-	ExpireAt, AppliedAtMs                                       int64
-	HasAppliedAt                                                bool
-	State                                                       ObjectView
-	DefinitionIndex                                             uint16
-	StatusContributions                                         ContributionView
-}
-
 func (p Provider) Expired(now int64) bool { return p.ExpireAt > 0 && p.ExpireAt <= now }
 func (p Provider) NeverExpires() bool     { return p.ExpireAt <= 0 }
-
-type ProviderList struct{ values []Provider }
 
 func Providers(values []Provider) ProviderList {
 	return ProviderList{values: append([]Provider(nil), values...)}
@@ -137,19 +325,7 @@ func (v ProviderList) Active(now int64) ProviderList {
 	return ProviderList{out}
 }
 
-type Shield struct {
-	ShieldRef, DefinitionRef, LifecycleProviderRef, Source, Owner string
-	Remaining                                                     float64
-	Priority                                                      int16
-	ExpireAt                                                      int64
-	State                                                         ObjectView
-}
-
 func (s Shield) Expired(now int64) bool { return s.ExpireAt > 0 && s.ExpireAt <= now }
-
-type ShieldList struct {
-	values []pipeline.ShieldInstance
-}
 
 func Shields(values []Shield) ShieldList {
 	out := make([]pipeline.ShieldInstance, len(values))
@@ -199,13 +375,6 @@ func (v ShieldList) WithoutProvider(ref string) ShieldList {
 	return ShieldList{values: out}
 }
 
-type ResourceContribution struct {
-	ProviderRef, Source, UseRef    string
-	DefinitionIndex, ModifierIndex uint16
-	Value                          float64
-}
-type ResourceContributions struct{ values []ResourceContribution }
-
 func ResourceMaxContributions(values []ResourceContribution) ResourceContributions {
 	return ResourceContributions{append([]ResourceContribution(nil), values...)}
 }
@@ -223,12 +392,6 @@ func (v ResourceContributions) Append(value ResourceContribution) ResourceContri
 	out := make([]ResourceContribution, len(v.values), len(v.values)+1)
 	copy(out, v.values)
 	return ResourceContributions{append(out, value)}
-}
-
-// AttributeResolver keeps the immutable pipeline plan behind a value view.
-type AttributeResolver struct{ value pipeline.AttributeResolver }
-type AttributeModifiers struct {
-	values []pipeline.MountedAttributeModifier
 }
 
 func (v AttributeModifiers) Len() int                                   { return len(v.values) }
@@ -262,10 +425,6 @@ func (r *AttributeResolver) UnmountProviderOwned(owner, ref string) {
 	r.value.UnmountProviderOwned(owner, ref)
 }
 
-type DamageResolver struct {
-	value pipeline.DamageModifierResolver
-}
-
 func (r DamageResolver) Clone() DamageResolver { return r }
 func (r DamageResolver) HasCommandStage(command, stage string) bool {
 	return r.value.HasCommandStage(command, stage)
@@ -281,14 +440,6 @@ func (r *DamageResolver) MountCompiledModifierOwned(owner, ref string, mod planb
 }
 func (r *DamageResolver) UnmountProviderOwned(owner, ref string) {
 	r.value.UnmountProviderOwned(owner, ref)
-}
-
-type InstanceState struct {
-	providers  ProviderList
-	shields    ShieldList
-	attributes AttributeResolver
-	damage     DamageResolver
-	resources  ResourceContributions
 }
 
 func NewInstances(providers ProviderList, shields ShieldList, resolver AttributeResolver, damage DamageResolver, resources ResourceContributions) InstanceState {
@@ -307,16 +458,6 @@ func (s *InstanceState) SetResourceContributions(v ResourceContributions) { s.re
 func (s *InstanceState) AppendProvider(v Provider)                        { s.providers = s.providers.Append(v) }
 func (s *InstanceState) ReplaceProvider(i int, v Provider)                { s.providers = s.providers.With(i, v) }
 func (s *InstanceState) RemoveProvider(i int)                             { s.providers = s.providers.Remove(i) }
-
-type InstanceChangeSet struct {
-	providers         ProviderList
-	baseProviders     ProviderList
-	projected, shared bool
-	shields           []pipeline.ShieldInstance
-	attributes        AttributeResolver
-	damage            DamageResolver
-	resources         ResourceContributions
-}
 
 func StageInstances(s InstanceState, now int64) InstanceChangeSet {
 	return InstanceChangeSet{providers: s.providers, shared: true, shields: pipeline.ActiveShields(s.shields.values, now), attributes: s.attributes, damage: s.damage, resources: s.resources}

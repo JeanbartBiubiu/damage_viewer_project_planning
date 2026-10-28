@@ -97,6 +97,17 @@ type eventFormulaSnapshot struct {
 	skillHit             *frozenSkillHitContext
 }
 
+// FrameAPI 只向公式求值暴露已获准的战斗事实读取能力。
+type FrameAPI interface {
+	// DamageStateBefore 读取原始本来源伤害实例冻结的指定状态值；缺少声明事实时返回错误。
+	DamageStateBefore(key string) (float64, error)
+	// LinkedShieldPresent 查询当前帧投影中本来源关联盾是否有效，返回0或1；绑定非法时返回错误。
+	LinkedShieldPresent(index uint16) (float64, error)
+	// ReceivedLinkedShieldAbsorbed 读取原始受伤事件中指定自身关联盾的实际吸收额；因果不完整时返回错误。
+	ReceivedLinkedShieldAbsorbed(index uint16) (float64, error)
+}
+
+// Frame 拥有单次操作的暂存投影与待提交事实，提交仍由执行协调统一完成。
 type Frame struct {
 	readsDamageStateBefore         bool
 	pendingTargetMark              model.TargetMarkSummary
@@ -292,6 +303,62 @@ type emittedEvent struct {
 	useSource      string
 	useSkillKey    string
 }
+
+type genericExecuteEvidence struct {
+	source       string
+	target       string
+	providerRef  string
+	abilityRef   string
+	operationRef string
+	hpBefore     float64
+	maxHp        float64
+	hpRatio      float64
+	threshold    float64
+	killed       bool
+	shieldBypass bool
+}
+
+// genericDamageEvidence 是 damage evidence Data 的构造输入（不新增顶层 DTO）。
+type genericDamageEvidence struct {
+	healthOrder           uint64
+	empoweredAttack       *model.ProcessEmpoweredAttack
+	activationUseRef      string
+	providerDefinitionRef string
+	providerActivatedAtMs *int64
+	source                string
+	target                string
+	damageType            string
+	rawAmount             float64
+	mitigatedAmount       float64
+	providerRef           string
+	abilityRef            string
+	operationRef          string
+	operationPath         string
+	owner                 string
+	hpBefore              float64
+	hpAfter               float64
+	hasSourceHp           bool
+	sourceHpBefore        float64
+	sourceHpAfter         float64
+	phantom               bool
+	repeatTag             string
+	replayedFrom          map[string]interface{}
+	crit                  frozenCritEvidence
+	modifiers             []map[string]interface{}
+	traits                []string
+	castInstanceID        uint64
+	castOrigin            string
+	damageID              uint64
+	outcome               *pipeline.DamageOutcome
+	// 成功的普通与复制结算都记录真实共同倍率和防御后两部分。
+	// 金额无效的结算不伪造这些数值。
+	hasPostResistanceEvidence bool
+	resistanceFactor          float64
+	normalPartPostResistance  float64
+	critPartPostResistance    float64
+}
+
+var _ FrameAPI = (*Frame)(nil)
 
 func (s *Engine) initExecutionFrame(f *Frame, sourceKey, targetKey, abilityRef string) {
 	s.nextFrameID++
@@ -1388,20 +1455,6 @@ func (f *Frame) applyExecuteThreshold(op planbundle.CompiledOperation, targetKey
 	return nil
 }
 
-type genericExecuteEvidence struct {
-	source       string
-	target       string
-	providerRef  string
-	abilityRef   string
-	operationRef string
-	hpBefore     float64
-	maxHp        float64
-	hpRatio      float64
-	threshold    float64
-	killed       bool
-	shieldBypass bool
-}
-
 func (s *Engine) recordGenericExecuteEvidence(ev genericExecuteEvidence) {
 	s.recordEvidenceLazy(model.EvidenceKindExecute, func() model.EvidenceItem { return genericExecuteEvidenceItem(ev, s.loop.TimeMs()) })
 }
@@ -1630,46 +1683,6 @@ func (f *Frame) applyDamageResult(cmd pipeline.Command, result pipeline.CommandR
 	f.recordDamage(cmd.Source, cmd.Target, result.Amount)
 
 	sc.setAttributes(syncHPResolved(sc.attributesView()))
-}
-
-// genericDamageEvidence 是 damage evidence Data 的构造输入（不新增顶层 DTO）。
-type genericDamageEvidence struct {
-	healthOrder           uint64
-	empoweredAttack       *model.ProcessEmpoweredAttack
-	activationUseRef      string
-	providerDefinitionRef string
-	providerActivatedAtMs *int64
-	source                string
-	target                string
-	damageType            string
-	rawAmount             float64
-	mitigatedAmount       float64
-	providerRef           string
-	abilityRef            string
-	operationRef          string
-	operationPath         string
-	owner                 string
-	hpBefore              float64
-	hpAfter               float64
-	hasSourceHp           bool
-	sourceHpBefore        float64
-	sourceHpAfter         float64
-	phantom               bool
-	repeatTag             string
-	replayedFrom          map[string]interface{}
-	crit                  frozenCritEvidence
-	modifiers             []map[string]interface{}
-	traits                []string
-	castInstanceID        uint64
-	castOrigin            string
-	damageID              uint64
-	outcome               *pipeline.DamageOutcome
-	// 成功的普通与复制结算都记录真实共同倍率和防御后两部分。
-	// 金额无效的结算不伪造这些数值。
-	hasPostResistanceEvidence bool
-	resistanceFactor          float64
-	normalPartPostResistance  float64
-	critPartPostResistance    float64
 }
 
 func (s *Engine) recordGenericDamageEvidence(ev genericDamageEvidence) {

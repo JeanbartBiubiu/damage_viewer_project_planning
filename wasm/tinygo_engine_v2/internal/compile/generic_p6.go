@@ -4,10 +4,10 @@ import (
 	"strings"
 	"unicode/utf8"
 
+	"tinygo_engine_v2/internal/base/typeset"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/plan"
-	"tinygo_engine_v2/internal/base/typeset"
 )
 
 func (ctx *genericCompileContext) beginOutputUnit() {

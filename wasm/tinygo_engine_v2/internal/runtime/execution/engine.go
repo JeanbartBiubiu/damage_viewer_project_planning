@@ -44,6 +44,35 @@ type damageRecord struct {
 	amount    float64
 }
 
+// EngineAPI 定义单次执行协调的公开能力，调度仍借用根入口创建的唯一循环。
+type EngineAPI interface {
+	// LoopState 返回当前驱动资格、失败与事件预算所需的已提交事实。
+	LoopState() scheduler.LoopState
+	// LoopStopState 返回死亡与预算事实，由唯一循环核定停止原因。
+	LoopStopState() scheduler.LoopStopState
+	// SelectLoopEvent 保留状态到期、锚定终点与过程计时之间的同刻特殊顺序。
+	SelectLoopEvent(event scheduler.GenericEvent) (scheduler.GenericEvent, *model.EngineError)
+	// HandleLoopEvent 将已接纳的事件分派到既有门禁、执行帧及提交路径。
+	HandleLoopEvent(event scheduler.GenericEvent) *model.EngineError
+	// ObserveBefore 补齐指定时刻之前的采样，只观察已提交数值。
+	ObserveBefore(at int64)
+	// ObserveThrough 补齐截至指定时刻的采样，只观察已提交数值。
+	ObserveThrough(at int64)
+	// ObserveFinal 按现有采样规则补记最终观察点。
+	ObserveFinal()
+	// PublishLoopWait 将当前普攻等待投影写回行动状态，不建立独立时钟。
+	PublishLoopWait()
+	// SettleLoopEnd 结算结束时仍需处理的资源上限到期，并返回实际执行失败。
+	SettleLoopEnd() *model.EngineError
+	// LoopBudgetExceeded 保存预算原因及既有错误事实。
+	LoopBudgetExceeded(cause model.BudgetCause, message string)
+	// EnsureLoopBudgetCause 在尚无预算原因时补记事件数预算。
+	EnsureLoopBudgetCause()
+	// Finish 在唯一循环结束后刷新既有末态并转移报告容器；失败时返回执行错误。
+	Finish() (model.DoneResult, *model.EngineError)
+}
+
+// Engine 私有组合各子系统状态，拥有执行因果及统一提交协调。
 type Engine struct {
 	report                     reportpkg.State
 	nextHealthOrder            uint64
@@ -98,7 +127,8 @@ type Engine struct {
 	useTriggerReserving     int
 }
 
-// Finish 在唯一循环结束后刷新既有末态并转移报告容器。
+var _ EngineAPI = (*Engine)(nil)
+
 func (s *Engine) Finish() (model.DoneResult, *model.EngineError) {
 	if s.compiled.HasProviderElapsedReads && s.budgetCause == "" {
 		s.refreshProviderAwareAttributes(model.SelectorSource, model.SelectorTarget)
@@ -113,6 +143,7 @@ func (s *Engine) Finish() (model.DoneResult, *model.EngineError) {
 	return done, nil
 }
 
+// New 为一次运行装配私有状态并借用传入的唯一循环；输入不合法时返回实际准入错误。
 func New(compiled planbundle.CompiledSession, req model.RunRequest, loop *scheduler.Loop) (*Engine, *model.EngineError) {
 	if compiled.HasImmediatePeriodic || compiled.HasTotalCooldownRefund {
 		if err := validateImmediatePeriodicRefundFreshSnapshot(compiled, req); err != nil {

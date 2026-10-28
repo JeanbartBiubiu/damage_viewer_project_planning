@@ -7,6 +7,12 @@ import (
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
+type settledEventHealTerm struct {
+	factor  float64
+	damage  bool
+	clamped bool
+}
+
 // This is initialization-only structural admission. No event exists yet, so it
 // neither evaluates a dummy event nor freezes the amount used by the executor.
 func (s *Engine) isOwnedSettledEventHeal(listener planbundle.CompiledListener, operation planbundle.CompiledOperation) bool {
@@ -27,12 +33,6 @@ func (s *Engine) isOwnedSettledEventHeal(listener planbundle.CompiledListener, o
 	spent := 0
 	term, valid := s.settledEventHealTerm(operation.AmountProgram, ability.Params, 1, &spent)
 	return valid && term.damage && finiteNonnegativeEventHealFactor(term.factor)
-}
-
-type settledEventHealTerm struct {
-	factor  float64
-	damage  bool
-	clamped bool
 }
 
 func finiteNonnegativeEventHealFactor(value float64) bool {

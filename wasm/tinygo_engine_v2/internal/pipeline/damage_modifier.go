@@ -34,17 +34,46 @@ type MountedDamageModifier struct {
 	ConditionProg            formula.GenericProgramID
 }
 
+// DamageModifierResolverAPI 集中声明伤害与治疗修正的挂载及稳定收集，不拥有角色或效果生命周期。
+// 声明用于阅读与编译检查；实际调用继续使用具体类型。
+type DamageModifierResolverAPI interface {
+	// Clone 复制解析器值并共享不可变挂载切片；后续挂载与卸载建立新切片。
+	Clone() DamageModifierResolver
+	// CollectForChannels 收集任一指定频道匹配的伤害修正并去重，保留稳定顺序。
+	CollectForChannels(channels []string, stage string) []MountedDamageModifier
+	// CollectForChannelsWithMatches 收集伤害修正，同时保留使每项入选的频道证据。
+	CollectForChannelsWithMatches(channels []string, stage string) []CollectedDamageModifier
+	// CollectForCommandChannelsWithMatches 按命令、阶段和频道去重收集，保留稳定顺序及匹配频道证据。
+	CollectForCommandChannelsWithMatches(command string, channels []string, stage string) []CollectedDamageModifier
+	// CollectForHeal 按方向和分类收集治疗修正，沿用优先级和来源的稳定顺序。
+	CollectForHeal(direction, category string) []MountedDamageModifier
+	// CollectForStage 收集伤害命令在指定频道和阶段的修正，按优先级、拥有者、供值器及修正键稳定排序。
+	CollectForStage(channel, stage string) []MountedDamageModifier
+	// HasCommandStage 只读检查是否存在指定命令阶段的挂载，避免提前构造收集容器。
+	HasCommandStage(command, stage string) bool
+	// MountCompiledModifierOwned 按明确拥有者与供值器挂载已编译修正，保留完整来源身份。
+	MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier)
+	// UnmountProviderOwned 卸载指定拥有者与供值器的挂载，不影响其他来源。
+	UnmountProviderOwned(ownerCombatantKey, providerRef string)
+}
+
 // DamageModifierResolver aggregates pipeline damage modifiers on one combatant.
 type DamageModifierResolver struct {
 	mounts []MountedDamageModifier
 }
 
-// Clone shares the immutable mount plan; mount changes publish a new plan.
+// CollectedDamageModifier is a mounted damage modifier plus the channels that selected it.
+type CollectedDamageModifier struct {
+	Modifier        MountedDamageModifier
+	MatchedChannels []string
+}
+
+var _ DamageModifierResolverAPI = (*DamageModifierResolver)(nil)
+
 func (r DamageModifierResolver) Clone() DamageModifierResolver {
 	return r
 }
 
-// MountCompiledModifierOwned mounts a kind=pipeline damage modifier with owner provenance.
 func (r *DamageModifierResolver) MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier) {
 	if mod.Kind != "pipeline" {
 		return
@@ -76,7 +105,6 @@ func (r *DamageModifierResolver) MountCompiledModifierOwned(ownerCombatantKey, p
 	})
 }
 
-// UnmountProviderOwned removes mounts matching ownerCombatantKey + providerRef.
 func (r *DamageModifierResolver) UnmountProviderOwned(ownerCombatantKey, providerRef string) {
 	if len(r.mounts) == 0 {
 		return
@@ -100,19 +128,10 @@ func (r *DamageModifierResolver) UnmountProviderOwned(ownerCombatantKey, provide
 	r.mounts = out
 }
 
-// CollectForStage returns mounts for command=damage, the given channel/stage, sorted deterministically:
-// priority, ownerCombatantKey, providerRef, modifierKey.
 func (r DamageModifierResolver) CollectForStage(channel, stage string) []MountedDamageModifier {
 	return r.CollectForChannels([]string{channel}, stage)
 }
 
-// CollectedDamageModifier is a mounted damage modifier plus the channels that selected it.
-type CollectedDamageModifier struct {
-	Modifier        MountedDamageModifier
-	MatchedChannels []string
-}
-
-// 只读筛掉没有该命令阶段的计划，避免先构造频道列表及收集容器。
 func (r DamageModifierResolver) HasCommandStage(command, stage string) bool {
 	for index := range r.mounts {
 		mod := &r.mounts[index]
@@ -123,8 +142,6 @@ func (r DamageModifierResolver) HasCommandStage(command, stage string) bool {
 	return false
 }
 
-// CollectForChannels returns the de-duplicated union of mounts matching any of the given
-// channels at stage for command=damage, sorted by the global stable order.
 func (r DamageModifierResolver) CollectForChannels(channels []string, stage string) []MountedDamageModifier {
 	collected := r.CollectForCommandChannelsWithMatches("damage", channels, stage)
 	out := make([]MountedDamageModifier, len(collected))
@@ -134,13 +151,10 @@ func (r DamageModifierResolver) CollectForChannels(channels []string, stage stri
 	return out
 }
 
-// CollectForChannelsWithMatches is CollectForChannels plus matched channel provenance (command=damage).
 func (r DamageModifierResolver) CollectForChannelsWithMatches(channels []string, stage string) []CollectedDamageModifier {
 	return r.CollectForCommandChannelsWithMatches("damage", channels, stage)
 }
 
-// CollectForCommandChannelsWithMatches selects by command plus the de-duplicated union of all
-// matching channels at stage, preserving stable order and matched channel evidence.
 func (r DamageModifierResolver) CollectForCommandChannelsWithMatches(command string, channels []string, stage string) []CollectedDamageModifier {
 	if len(channels) == 0 || command == "" {
 		return nil

@@ -6,6 +6,19 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// EditorAPI 集中声明帧内局部批量写入；值副本共享编辑状态，发布后按新版本复制写页。
+// 声明用于阅读与编译检查；实际调用继续使用具体类型。
+type EditorAPI interface {
+	// Finish 发布当前不可变属性表；继续使用编辑器时保持已发布版本隔离。
+	Finish() Table
+	// LookupIndex 读取当前编辑投影的槽及存在性，不公开可写页。
+	LookupIndex(index int) (model.AttributeSlotDef, bool)
+	// ReuseResolvedPage 仅在目录和存在性满足条件时复用缓存页，不能复用返回 false。
+	ReuseResolvedPage(cached Table, pageIndex int, mask uint8) bool
+	// SetIndex 在局部投影中写入已知编号；首次写页取得独立副本，不修改已发布版本。
+	SetIndex(index int, slot model.AttributeSlotDef)
+}
+
 // Editor 只在局部批量写入时持有私有可写页，Finish 后发布不可变表。
 // 已开始写入的值副本共享编辑状态，发布后均从新版本重新复制写页。
 type Editor struct {
@@ -19,6 +32,8 @@ type editorState struct {
 	owned      uint64
 	ownedExtra []uint64
 }
+
+var _ EditorAPI = (*Editor)(nil)
 
 func (s *editorState) ownsPage(index int) bool {
 	if index < 64 {
@@ -67,7 +82,6 @@ func (e Editor) LookupIndex(index int) (model.AttributeSlotDef, bool) {
 	return page.slots[offset], true
 }
 
-// SetIndex 仅使用原目录；非法编号不操作，缺槽写入零值仍插入。
 func (e *Editor) SetIndex(index int, slot model.AttributeSlotDef) {
 	base := e.base
 	if e.state != nil {
@@ -113,8 +127,6 @@ func (e *Editor) prepareWork() *editorState {
 	return state
 }
 
-// ReuseResolvedPage 只恢复mask覆盖槽的Resolved；其它字段、存在位及未覆盖值必须完全一致。
-// 成功时借用已发布的不可变页，后续编辑仍复制；失败时不改变当前编辑内容。
 func (e *Editor) ReuseResolvedPage(cached Table, pageIndex int, mask uint8) bool {
 	current := e.base
 	if e.state != nil {
@@ -161,7 +173,6 @@ func (e *Editor) ReuseResolvedPage(cached Table, pageIndex int, mask uint8) bool
 	return true
 }
 
-// Finish 发布当前页目录，并在共享编辑状态中撤销全部写权限。
 func (e *Editor) Finish() Table {
 	if e.state == nil {
 		return e.base

@@ -36,6 +36,21 @@ type resultProgram struct {
 	code []instruction
 }
 
+// ProgramAPI 集中声明纯表达式程序的查询与求值，不持有战斗对象。
+// 声明用于阅读与编译检查；实际调用继续使用具体类型。
+type ProgramAPI interface {
+	// Evaluate 通过显式只读供值器求值，每次创建独立执行缓存并返回结构化问题。
+	Evaluate(reader ReadInput) (Evaluation, *ContractIssue)
+	// Inputs 返回全部声明输入的副本，调用方修改不影响程序。
+	Inputs() []Input
+	// LinearForm 用调用方给出的输入线性形式分析输出；不能证明线性时返回 false。
+	LinearForm(read func(Binding) (Linear, bool)) (Linear, bool)
+	// OutputInputs 返回输出可达输入并覆盖条件两支；声明授权仍使用全部 Inputs。
+	OutputInputs() []Input
+	// Stats 返回程序的输入、阶段、指令及逻辑计费统计；空程序返回零值。
+	Stats() ProgramStats
+}
+
 // Program 私有持有编译产物。每次执行重新建立缓存，公开查询不暴露可写切片。
 type Program struct {
 	inputs       []Input
@@ -52,6 +67,29 @@ type ProgramStats struct {
 	ChargedBytes int
 }
 
+// ReadInput 只按已编译槽号供值；具体角色、时点及口径由绑定层持有。
+type ReadInput func(slot uint16) (float64, *ContractIssue)
+
+type Evaluation struct {
+	Value           float64
+	EvaluatedStages int
+	ReadInputs      int
+}
+
+type evaluationState struct {
+	program *Program
+	reader  ReadInput
+	stack   [DefinitionMaxNodes]float64
+	top     int
+	states  [DefinitionMaxStages]uint8
+	results [DefinitionMaxStages]float64
+	read    [DefinitionMaxInputs]bool
+	inputs  [DefinitionMaxInputs]float64
+	stats   Evaluation
+}
+
+var _ ProgramAPI = (*Program)(nil)
+
 func (p *Program) Stats() ProgramStats {
 	if p == nil {
 		return ProgramStats{}
@@ -66,7 +104,6 @@ func (p *Program) Inputs() []Input {
 	return append([]Input(nil), p.inputs...)
 }
 
-// OutputInputs覆盖输出可达结果和条件两条分支；声明授权仍使用Inputs。
 func (p *Program) OutputInputs() []Input {
 	if p == nil {
 		return nil
@@ -170,27 +207,6 @@ func CompileDefinition(definition any, allowedBindings []any) (*Program, *Contra
 		}
 	}
 	return p, nil
-}
-
-// ReadInput 只按已编译槽号供值；具体角色、时点及口径由绑定层持有。
-type ReadInput func(slot uint16) (float64, *ContractIssue)
-
-type Evaluation struct {
-	Value           float64
-	EvaluatedStages int
-	ReadInputs      int
-}
-
-type evaluationState struct {
-	program *Program
-	reader  ReadInput
-	stack   [DefinitionMaxNodes]float64
-	top     int
-	states  [DefinitionMaxStages]uint8
-	results [DefinitionMaxStages]float64
-	read    [DefinitionMaxInputs]bool
-	inputs  [DefinitionMaxInputs]float64
-	stats   Evaluation
 }
 
 func (p *Program) Evaluate(reader ReadInput) (Evaluation, *ContractIssue) {

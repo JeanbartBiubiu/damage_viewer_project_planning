@@ -36,18 +36,6 @@ const (
 	RunOutputSummary  RunOutputMode = "summary"
 )
 
-func (mode *RunOutputMode) UnmarshalJSON(data []byte) error {
-	var value string
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	if value != string(RunOutputDetailed) && value != string(RunOutputSummary) {
-		return errors.New("outputMode must be detailed or summary")
-	}
-	*mode = RunOutputMode(value)
-	return nil
-}
-
 // RunSafetyBudget 是 run 请求级安全预算覆盖（§4.1）。
 type RunSafetyBudget struct {
 	MaxBasicAttacks     int `json:"maxBasicAttacks,omitempty"`
@@ -55,28 +43,6 @@ type RunSafetyBudget struct {
 	MaxChainDepth       int `json:"maxChainDepth,omitempty"`
 	MaxCommandsPerEvent int `json:"maxCommandsPerEvent,omitempty"`
 	MaxEvents           int `json:"maxEvents,omitempty"`
-}
-
-func (v *RunSafetyBudget) UnmarshalJSON(data []byte) error {
-	type plain RunSafetyBudget
-	var decoded plain
-	if err := json.Unmarshal(data, &decoded); err != nil {
-		return err
-	}
-	var fields map[string]json.RawMessage
-	if err := json.Unmarshal(data, &fields); err != nil {
-		return err
-	}
-	if raw, present := fields["maxProcessInstances"]; present && (string(raw) == "null" || decoded.MaxProcessInstances <= 0 || decoded.MaxProcessInstances > 100000) {
-		return errors.New("safetyBudget.maxProcessInstances must be a positive integer at most 100000")
-	}
-	for key, value := range map[string]int{"maxBasicAttacks": decoded.MaxBasicAttacks, "maxChainDepth": decoded.MaxChainDepth, "maxCommandsPerEvent": decoded.MaxCommandsPerEvent, "maxEvents": decoded.MaxEvents} {
-		if raw, present := fields[key]; present && (string(raw) == "null" || value <= 0 || (key == "maxBasicAttacks" && value > 4096)) {
-			return errors.New("safetyBudget." + key + " must be a positive integer within its limit")
-		}
-	}
-	*v = RunSafetyBudget(decoded)
-	return nil
 }
 
 // Snapshot 是 run 起始战斗状态。
@@ -167,6 +133,48 @@ type StopPolicy struct {
 	StopWhenNoEvents  *bool `json:"stopWhenNoEvents,omitempty"`
 }
 
+// SamplingConfig 控制 series 采样。
+type SamplingConfig struct {
+	Disabled        bool `json:"disabled,omitempty"`
+	SampleEveryMs   int  `json:"sampleEveryMs,omitempty"`
+	DpsWindowMs     int  `json:"dpsWindowMs,omitempty"`
+	MaxSeriesPoints int  `json:"maxSeriesPoints,omitempty"`
+}
+
+func (mode *RunOutputMode) UnmarshalJSON(data []byte) error {
+	var value string
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	if value != string(RunOutputDetailed) && value != string(RunOutputSummary) {
+		return errors.New("outputMode must be detailed or summary")
+	}
+	*mode = RunOutputMode(value)
+	return nil
+}
+
+func (v *RunSafetyBudget) UnmarshalJSON(data []byte) error {
+	type plain RunSafetyBudget
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	if raw, present := fields["maxProcessInstances"]; present && (string(raw) == "null" || decoded.MaxProcessInstances <= 0 || decoded.MaxProcessInstances > 100000) {
+		return errors.New("safetyBudget.maxProcessInstances must be a positive integer at most 100000")
+	}
+	for key, value := range map[string]int{"maxBasicAttacks": decoded.MaxBasicAttacks, "maxChainDepth": decoded.MaxChainDepth, "maxCommandsPerEvent": decoded.MaxCommandsPerEvent, "maxEvents": decoded.MaxEvents} {
+		if raw, present := fields[key]; present && (string(raw) == "null" || value <= 0 || (key == "maxBasicAttacks" && value > 4096)) {
+			return errors.New("safetyBudget." + key + " must be a positive integer within its limit")
+		}
+	}
+	*v = RunSafetyBudget(decoded)
+	return nil
+}
+
 // StopOnTargetDeathOrDefault 返回 stopOnTargetDeath，省略时默认为 true（§4.1）。
 func (p StopPolicy) StopOnTargetDeathOrDefault() bool {
 	if p.StopOnTargetDeath == nil {
@@ -191,12 +199,4 @@ func BoolPtr(v bool) *bool {
 // Float64Ptr 返回 float64 指针，供快照强度区分 JSON 0 与缺失。
 func Float64Ptr(v float64) *float64 {
 	return &v
-}
-
-// SamplingConfig 控制 series 采样。
-type SamplingConfig struct {
-	Disabled        bool `json:"disabled,omitempty"`
-	SampleEveryMs   int  `json:"sampleEveryMs,omitempty"`
-	DpsWindowMs     int  `json:"dpsWindowMs,omitempty"`
-	MaxSeriesPoints int  `json:"maxSeriesPoints,omitempty"`
 }

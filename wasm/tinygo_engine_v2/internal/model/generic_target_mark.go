@@ -18,6 +18,14 @@ type TargetMarkDefinition struct {
 	Restore           *OperationDefinition `json:"restore,omitempty"`
 }
 
+// TargetMarkSummary counts committed consumptions even when records are omitted.
+type TargetMarkSummary struct {
+	ConsumedCount      int64 `json:"consumedCount"`
+	AttackCount        int64 `json:"attackCount"`
+	SkillCount         int64 `json:"skillCount"`
+	DamageBlockedCount int64 `json:"damageBlockedCount"`
+}
+
 func (v *OperationDefinition) UnmarshalJSON(data []byte) error {
 	type plain OperationDefinition
 	fields, err := strictJSONObject(data, "OperationDefinition")
@@ -154,12 +162,4 @@ func targetMarkJSONShape(data []byte, name, allowed, required string) error {
 		}
 	}
 	return nil
-}
-
-// TargetMarkSummary counts committed consumptions even when records are omitted.
-type TargetMarkSummary struct {
-	ConsumedCount      int64 `json:"consumedCount"`
-	AttackCount        int64 `json:"attackCount"`
-	SkillCount         int64 `json:"skillCount"`
-	DamageBlockedCount int64 `json:"damageBlockedCount"`
 }

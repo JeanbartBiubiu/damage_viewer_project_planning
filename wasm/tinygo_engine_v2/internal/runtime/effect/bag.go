@@ -7,11 +7,6 @@ import (
 	"tinygo_engine_v2/internal/runtime/contract"
 )
 
-const (
-	StateScopeProvider       = "state_scope/provider"
-	StateScopeProviderTarget = "state_scope/provider_target"
-)
-
 // providerStateFieldDef is the runtime copy of compiled provider-scope field metadata (Gate H1).
 type FieldDefinition struct {
 	HasOnExpire   bool
@@ -28,24 +23,6 @@ type FieldDefinition struct {
 type FieldMetadata struct {
 	fields               map[string]FieldDefinition
 	hasInternalCooldowns bool
-}
-
-func NewFields(fields map[string]FieldDefinition) *FieldMetadata {
-	metadata := &FieldMetadata{fields: fields}
-	for _, field := range fields {
-		if field.StateKind == model.ProviderStateKindCooldown {
-			metadata.hasInternalCooldowns = true
-			break
-		}
-	}
-	return metadata
-}
-
-func (m *FieldMetadata) definitions() map[string]FieldDefinition {
-	if m == nil {
-		return nil
-	}
-	return m.fields
 }
 
 // providerStateBag holds numeric provider state for one mounted providerRef.
@@ -93,6 +70,38 @@ type bagData struct {
 	inclusiveAtExpiryTarget string
 	inclusiveAtExpiryAt     int64
 	inclusiveAtExpiryGen    uint64
+}
+
+type ReadOptions struct {
+	Cooldowns    contract.CooldownView
+	OwnerKey     string
+	ExpireTarget bool
+	Defaults     bool
+	TargetView   bool
+	TargetKey    string
+}
+
+const (
+	StateScopeProvider       = "state_scope/provider"
+	StateScopeProviderTarget = "state_scope/provider_target"
+)
+
+func NewFields(fields map[string]FieldDefinition) *FieldMetadata {
+	metadata := &FieldMetadata{fields: fields}
+	for _, field := range fields {
+		if field.StateKind == model.ProviderStateKindCooldown {
+			metadata.hasInternalCooldowns = true
+			break
+		}
+	}
+	return metadata
+}
+
+func (m *FieldMetadata) definitions() map[string]FieldDefinition {
+	if m == nil {
+		return nil
+	}
+	return m.fields
 }
 
 func (b *bagData) ensure() {
@@ -310,15 +319,6 @@ func writableProviderStateBag(bags map[string]*bagData, providerRef string, crea
 	bag = &copied
 	bags[providerRef] = bag
 	return bag
-}
-
-type ReadOptions struct {
-	Cooldowns    contract.CooldownView
-	OwnerKey     string
-	ExpireTarget bool
-	Defaults     bool
-	TargetView   bool
-	TargetKey    string
 }
 
 // readProviderStateBag 仅供公式借用；准备已完成的共享头不复制，真正需要准备时才取得独占头。

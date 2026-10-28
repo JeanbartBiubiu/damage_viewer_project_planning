@@ -2,7 +2,7 @@ package report
 
 import "tinygo_engine_v2/internal/model"
 
-// Output contains display values and committed numeric aggregates.
+// Output 保存展示值与已提交数值累计；所有权由 Snapshot 或 Finish 的约定决定。
 type Output struct {
 	AttackRecords         []model.BasicAttackRecord
 	MechanicRecords       []model.MechanicRecord
@@ -86,8 +86,6 @@ func cloneData(value interface{}) interface{} {
 	}
 }
 
-// Snapshot preserves a report that will continue accepting committed facts.
-// The final production path uses Finish and transfers its containers instead.
 func (s *State) Snapshot() Output {
 	out := Output{
 		AttackRecords:         append([]model.BasicAttackRecord{}, s.attackRecords...),
@@ -154,8 +152,6 @@ func (s *State) Snapshot() Output {
 	return out
 }
 
-// Finish transfers the final display containers. The state owns none of the
-// returned maps, slices or pointers afterwards. Execution discards this state.
 func (s *State) Finish() Output {
 	out := Output{AttackRecords: s.attackRecords, MechanicRecords: s.mechanicRecords, DamageRecords: s.damageRecords, DamageBreakdown: s.damageBreakdown, SkillActionRecords: s.skillActionRecords, SkillUseRecords: s.skillUseRecords, HealingRecords: s.healingRecords, ResourceChangeRecords: s.resourceChangeRecords, AutomaticRecords: s.automaticRecords, Evidence: model.EvidenceCollection{Items: s.evidence, Truncated: s.evidenceTruncated, TruncatedEvidenceCount: s.truncatedEvidenceCount, CountsByKind: s.evidenceCountsByKind}}
 	if out.Evidence.Items == nil {

@@ -8,6 +8,19 @@ type TypeID uint16
 
 type TypeSet [4]uint64
 
+// RegistryAPI 集中声明有界类型编号注册与作用域查询，保留完整身份。
+// 声明用于阅读与编译检查；实际调用继续使用具体类型。
+type RegistryAPI interface {
+	// Intern 在默认作用域查询或注册键，目录满时返回 false。
+	Intern(key string) (TypeID, bool)
+	// InternScoped 只使用声明的作用域和原键，不从键内容推断身份；失败不返回有效编号。
+	InternScoped(domain, key string) (TypeID, bool)
+	// Lookup 查询无歧义的键；跨作用域重名或不存在返回 false。
+	Lookup(key string) (TypeID, bool)
+	// LookupDomain 按明确作用域和键查询，不受其他域同名影响。
+	LookupDomain(domain, key string) (TypeID, bool)
+}
+
 type Registry struct {
 	Keys      []string
 	ids       map[string]TypeID
@@ -17,6 +30,15 @@ type Registry struct {
 
 type typeIdentity struct{ domain, key string }
 
+// MatcherAPI 集中声明只读类型集合匹配；不改目录和输入集合。
+// 声明用于阅读与编译检查；实际调用继续使用具体类型。
+type MatcherAPI interface {
+	// Match 按任一、全部和排除条件判断类型集合，保持编译后的不可能匹配结果。
+	Match(types TypeSet) bool
+	// RequiresAllType 检查指定编号是否为全部匹配条件中的必需类型。
+	RequiresAllType(id TypeID) bool
+}
+
 type Matcher struct {
 	any        TypeSet
 	all        TypeSet
@@ -24,6 +46,9 @@ type Matcher struct {
 	hasAny     bool
 	impossible bool
 }
+
+var _ RegistryAPI = (*Registry)(nil)
+var _ MatcherAPI = (*Matcher)(nil)
 
 func NewRegistry() Registry {
 	return Registry{
@@ -38,7 +63,6 @@ func (r *Registry) Intern(key string) (TypeID, bool) {
 	return r.InternScoped("", key)
 }
 
-// InternScoped只使用声明的作用域和原键，不从键内容推断身份。
 func (r *Registry) InternScoped(domain, key string) (TypeID, bool) {
 	if r.ids == nil {
 		r.ids = make(map[string]TypeID)

@@ -10,6 +10,9 @@ type CatalogResult struct {
 	Domains  map[TypeID]string
 }
 
+// EntityKind 标识 matcher domain 校验的实体类别。
+type EntityKind int
+
 // CompileTypeCatalog 将 TypeCatalog 编译为 flat registry，并校验 domain/relation。
 func CompileTypeCatalog(catalog model.TypeCatalog, addError func(code model.GenericErrCode, path, message, ref string)) CatalogResult {
 	result := CatalogResult{
@@ -128,9 +131,6 @@ func hasCycle(start string, parentOf map[string]string) bool {
 		fast = pFast
 	}
 }
-
-// EntityKind 标识 matcher domain 校验的实体类别。
-type EntityKind int
 
 const (
 	EntityCombatant EntityKind = iota

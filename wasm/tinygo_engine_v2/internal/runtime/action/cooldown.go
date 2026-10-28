@@ -10,17 +10,6 @@ import (
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
-const (
-	stateScopeProvider             = "state_scope/provider"
-	stateScopeProviderTarget       = "state_scope/provider_target"
-	maxJSONSafeInteger       int64 = 9007199254740991
-)
-
-func InternalCooldownWaitKey(id contract.CooldownIdentity) CooldownWaitKey {
-	part := func(value string) string { return strconv.Itoa(len(value)) + ":" + value }
-	return CooldownWaitKey{Kind: "provider_cooldown", Owner: id.Owner, Key: part(id.ProviderRef) + part(id.Scope) + part(id.StateKey) + part(id.Target)}
-}
-
 type CooldownWaitKey struct {
 	Kind, Owner, Key string
 }
@@ -32,6 +21,66 @@ type CooldownWait struct {
 	ReadyAt      int64
 	Version      uint64
 	Active       bool
+}
+
+// CooldownLedgerAPI 列出唯一冷却与等待账本的公开能力；调用继续使用具体账本类型。
+type CooldownLedgerAPI interface {
+	// View 借用当前版本的只读投影；后续写入沿账本复制规则隔离旧视图。
+	View() contract.CooldownView
+	// EntryAt 按有效下标读取身份与标量条目，不交出可写槽。
+	EntryAt(index int) (contract.CooldownIdentity, contract.CooldownEntry)
+	// EntryCount 返回已登记冷却槽数量，包含已失效条目。
+	EntryCount() int
+	// Revision 返回账本当前变更版本；空账本返回0。
+	Revision() uint64
+	// Clone 复制冷却槽和等待表，索引按写时复制规则共享；空账本生成空副本。
+	Clone() *CooldownLedger
+	// Entry 按完整身份读取冷却条目，并报告身份是否存在。
+	Entry(id contract.CooldownIdentity) (contract.CooldownEntry, bool)
+	// EntryValue 按完整身份读取条目；不存在时返回零值。
+	EntryValue(id contract.CooldownIdentity) contract.CooldownEntry
+	// WaitValue 读取指定等待的当前值；不存在时返回零值。
+	WaitValue(key CooldownWaitKey) CooldownWait
+	// ReadyAt 读取指定冷却的截止时刻；空账本或缺少身份时返回0。
+	ReadyAt(id contract.CooldownIdentity) int64
+	// AbilityReadyAt 读取拥有者该能力的普通冷却截止时刻。
+	AbilityReadyAt(owner, abilityRef string) int64
+	// Version 读取该冷却的身份版本；空账本或缺少身份时返回0。
+	Version(id contract.CooldownIdentity) uint64
+	// Remaining 按真实时刻计算剩余毫秒；已就绪、缺失或空账本返回0。
+	Remaining(id contract.CooldownIdentity, now int64) int64
+	// IsReady 判断当前时刻是否无需继续等待该冷却。
+	IsReady(id contract.CooldownIdentity, now int64) bool
+	// Set 更新唯一截止与版本，并统一重算依赖等待；返回是否实际变化。
+	Set(id contract.CooldownIdentity, readyAt, now int64) bool
+	// CommitOrdinary 提交真实过程产生的完整普通冷却来源；普通减延保留来源，就绪时清除。
+	CommitOrdinary(id contract.CooldownIdentity, readyAt, now int64)
+	// Start 仅在已就绪时开始正时长冷却；分别返回是否变化及时间值是否合法。
+	Start(id contract.CooldownIdentity, duration, now int64) (changed, valid bool)
+	// Reset 把指定冷却置为就绪，并沿统一版本规则更新依赖等待。
+	Reset(id contract.CooldownIdentity, now int64) bool
+	// Subtract 减少剩余毫秒；返回是否变化、是否到期及新截止，负金额不应用。
+	Subtract(id contract.CooldownIdentity, delta, now int64) (changed, expired bool, readyAt int64)
+	// RemoveProvider 按拥有者与供值器使所属冷却失效，保留版本墓碑防止旧事件复用。
+	RemoveProvider(owner, provider string, now int64)
+	// RemoveTarget 使该拥有者、供值器、目标的目标范围冷却失效并保留身份版本。
+	RemoveTarget(owner, provider, target string, now int64)
+	// RegisterWait 登记唯一等待身份并替换依赖；notBefore只表达行动许可，不写能力冷却。
+	RegisterWait(key CooldownWaitKey, dependencies []contract.CooldownIdentity, notBefore, now int64) CooldownWait
+	// CancelWait 取消仍活动的等待并更新其版本；缺失或已取消时不变。
+	CancelWait(key CooldownWaitKey)
+	// Wait 读取等待值并报告是否活动；返回值不提供可写依赖集合。
+	Wait(key CooldownWaitKey) (CooldownWait, bool)
+	// WaitCurrent 同时核对活动身份、截止和版本，拒绝过期排程。
+	WaitCurrent(key CooldownWaitKey, at int64, version uint64) bool
+	// ChangedKeys 与旧账本比较条目变化，按稳定身份顺序返回变化冷却。
+	ChangedKeys(before *CooldownLedger) []contract.CooldownIdentity
+	// ChangedWaits 返回相对旧账本发生变化的活动等待，按拥有者、种类和键稳定排序。
+	ChangedWaits(before *CooldownLedger) []CooldownWait
+	// AbilityDeadlines 生成边界或测试所需的能力截止数值投影，不作为运行时写入口。
+	AbilityDeadlines() map[string]int64
+	// Snapshot 按当前时刻导出能力截止与剩余毫秒的独立快照。
+	Snapshot(now int64) map[string]interface{}
 }
 
 // CooldownLedger 是每个拥有者唯一可写的冷却与等待账本。
@@ -46,11 +95,23 @@ type CooldownLedger struct {
 	revision   uint64
 }
 
+var _ CooldownLedgerAPI = (*CooldownLedger)(nil)
+
+const (
+	stateScopeProvider             = "state_scope/provider"
+	stateScopeProviderTarget       = "state_scope/provider_target"
+	maxJSONSafeInteger       int64 = 9007199254740991
+)
+
+func InternalCooldownWaitKey(id contract.CooldownIdentity) CooldownWaitKey {
+	part := func(value string) string { return strconv.Itoa(len(value)) + ":" + value }
+	return CooldownWaitKey{Kind: "provider_cooldown", Owner: id.Owner, Key: part(id.ProviderRef) + part(id.Scope) + part(id.StateKey) + part(id.Target)}
+}
+
 func NewCooldownLedger() *CooldownLedger {
 	return &CooldownLedger{}
 }
 
-// View 只借用当前版本；调用者沿既有写时复制规则保留冻结视图。
 func (l *CooldownLedger) View() contract.CooldownView {
 	if l == nil {
 		return contract.CooldownView{}
@@ -58,7 +119,6 @@ func (l *CooldownLedger) View() contract.CooldownView {
 	return contract.BorrowCooldownView(l.entries, l.entrySlots, l.revision)
 }
 
-// EntryAt returns an identity and scalar value; no mutable slot escapes the ledger.
 func (l *CooldownLedger) EntryAt(index int) (contract.CooldownIdentity, contract.CooldownEntry) {
 	return l.entries[index].Identity, l.entries[index].Entry
 }
@@ -270,7 +330,6 @@ func (l *CooldownLedger) IsReady(id contract.CooldownIdentity, now int64) bool {
 	return l.Remaining(id, now) == 0
 }
 
-// set 更新唯一截止，并使读取该冷却的所有等待统一失效、改期。
 func (l *CooldownLedger) Set(id contract.CooldownIdentity, readyAt, now int64) bool {
 	if l == nil {
 		return false
@@ -302,8 +361,6 @@ func (l *CooldownLedger) Set(id contract.CooldownIdentity, readyAt, now int64) b
 	return true
 }
 
-// Only a real process cooldown commit can create this provenance. Ordinary
-// reduce/extend keep it; becoming ready clears it. Deadlines alone cannot restore it.
 func (l *CooldownLedger) CommitOrdinary(id contract.CooldownIdentity, readyAt, now int64) {
 	l.Set(id, readyAt, now)
 	if index := l.entryIndex(id); index >= 0 {
@@ -437,8 +494,6 @@ func sameCooldownDependencies(left, right []contract.CooldownIdentity) bool {
 	return true
 }
 
-// registerWait 为一个等待身份建立唯一登记。重新登记会替换依赖；旧事件只核对版本。
-// notBefore 只表达占用或弹药的行动许可，不写入任何能力CD。
 func (l *CooldownLedger) RegisterWait(key CooldownWaitKey, dependencies []contract.CooldownIdentity, notBefore, now int64) CooldownWait {
 	if l == nil {
 		return CooldownWait{}
@@ -564,7 +619,6 @@ func SortCooldownIdentities(keys []contract.CooldownIdentity) {
 	})
 }
 
-// abilityDeadlines 只生成边界或测试使用的只读数值投影，不用于运行时写入。
 func (l *CooldownLedger) AbilityDeadlines() map[string]int64 {
 	out := make(map[string]int64)
 	if l != nil {

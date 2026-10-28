@@ -9,12 +9,93 @@ import (
 
 const PageSize = 8
 
+// LayoutAPI 集中声明只读属性编号目录；扩充目录不改变旧编号。
+// 声明用于阅读与编译检查；实际调用继续使用具体类型。
+type LayoutAPI interface {
+	// Extend 返回包含新增键的新目录；新增键稳定排序，原目录及其编号不变。
+	Extend(keys []string) *Layout
+	// HPIndex 返回生命槽的真实编号；缺失为 -1，扩充目录仍保留旧编号。
+	HPIndex() int
+	// Key 按编号读取属性键，空目录或越界返回空字符串。
+	Key(index int) string
+	// Len 返回目录长度；空指针目录长度为零。
+	Len() int
+	// Lookup 查询属性编号及是否存在；空目录或缺失键返回无效编号与 false。
+	Lookup(key string) (int, bool)
+}
+
 // Layout 保存只读属性编号；扩充目录不会改变已有编号或旧目录。
 type Layout struct {
 	keys  []string
 	index map[string]int
 	hp    int
 }
+
+type slotPage struct {
+	slots   [PageSize]model.AttributeSlotDef
+	present uint8
+}
+
+// TableAPI 集中声明不可变属性表的查询、派生与局部编辑；旧版本保持可读。
+// 声明用于阅读与编译检查；实际调用继续使用具体类型。
+type TableAPI interface {
+	// At 读取指定键的槽；缺失返回零值，需要区分缺失时使用 Lookup。
+	At(key string) model.AttributeSlotDef
+	// AtIndex 按编号读取槽；缺失返回零值，需要存在性时使用 LookupIndex。
+	AtIndex(index int) model.AttributeSlotDef
+	// Edit 创建局部编辑器；开始写入前继续借用原表，完成后发布新不可变表。
+	Edit() Editor
+	// Index 查询键对应的目录编号；缺失时返回 -1。
+	Index(key string) int
+	// Layout 借用当前只读属性目录，不暴露可写槽。
+	Layout() *Layout
+	// Len 返回实际存在的属性槽数，不等于目录长度。
+	Len() int
+	// Lookup 读取槽及存在性，明确区分缺失与合法零值。
+	Lookup(key string) (model.AttributeSlotDef, bool)
+	// LookupIndex 按编号读取槽及存在性，越界或未设置返回 false。
+	LookupIndex(index int) (model.AttributeSlotDef, bool)
+	// PageCount 返回当前目录对应的页数，供分页证据使用。
+	PageCount() int
+	// Range 按目录顺序借用键与槽值，回调返回 false 时停止。
+	Range(visit func(string, model.AttributeSlotDef) bool)
+	// RangeIndex 按目录编号顺序借用存在的槽，回调返回 false 时停止。
+	RangeIndex(visit func(int, model.AttributeSlotDef) bool)
+	// Same 检查是否共享同一表头，或目录、槽存在性及各不可变页全部相同。
+	Same(other Table) bool
+	// SamePage 检查指定页是否共享同一不可变页。
+	SamePage(other Table, page int) bool
+	// SameShape 检查目录和槽存在性是否相同，不比较槽值。
+	SameShape(other Table) bool
+	// ToMap 复制为可独立修改的属性映射，不返回内部存储。
+	ToMap() map[string]model.AttributeSlotDef
+	// With 返回写入指定键的新表，只复制必要目录与页，不修改旧表。
+	With(key string, slot model.AttributeSlotDef) Table
+	// WithIndex 返回写入已知编号的新表；不改变旧表及其他页。
+	WithIndex(index int, slot model.AttributeSlotDef) Table
+	// Without 返回移除指定键的新表，保留旧目录编号和旧表内容。
+	Without(key string) Table
+}
+
+// Table 是不可变属性表；值复制就是冻结视图，写入只复制目录和命中页。
+type Table struct {
+	data *tableData
+}
+
+type tableData struct {
+	layout *Layout
+	pages  []*slotPage
+	length int
+}
+
+// 小表的头和目录共用一个新对象；页独立分配，不反向保活旧版本目录。
+type smallTableData struct {
+	data  tableData
+	pages [4]*slotPage
+}
+
+var _ LayoutAPI = (*Layout)(nil)
+var _ TableAPI = (*Table)(nil)
 
 func NewLayout(keys []string) *Layout {
 	return (*Layout)(nil).Extend(keys)
@@ -73,34 +154,11 @@ func (l *Layout) Len() int {
 	return len(l.keys)
 }
 
-// HPIndex 保存目录中生命槽的真实编号；缺失为 -1，扩充目录仍保留旧编号。
 func (l *Layout) HPIndex() int {
 	if l == nil {
 		return -1
 	}
 	return l.hp
-}
-
-type slotPage struct {
-	slots   [PageSize]model.AttributeSlotDef
-	present uint8
-}
-
-// Table 是不可变属性表；值复制就是冻结视图，写入只复制目录和命中页。
-type Table struct {
-	data *tableData
-}
-
-type tableData struct {
-	layout *Layout
-	pages  []*slotPage
-	length int
-}
-
-// 小表的头和目录共用一个新对象；页独立分配，不反向保活旧版本目录。
-type smallTableData struct {
-	data  tableData
-	pages [4]*slotPage
 }
 
 func newTableData(layout *Layout, length int) *tableData {
@@ -187,7 +245,6 @@ func (t Table) With(key string, slot model.AttributeSlotDef) Table {
 	return t.withIndex(layout, index, slot)
 }
 
-// WithIndex 对非法编号明确不操作；合法编号即使原槽不存在也会插入。
 func (t Table) WithIndex(index int, slot model.AttributeSlotDef) Table {
 	if t.data == nil || index < 0 || index >= t.data.layout.Len() {
 		return t
@@ -254,7 +311,6 @@ func (t Table) Len() int {
 	return t.data.length
 }
 
-// Range 按稳定编号枚举实际存在的槽；返回 false 可提前结束。
 func (t Table) Range(visit func(string, model.AttributeSlotDef) bool) {
 	if t.data == nil {
 		return
@@ -271,7 +327,6 @@ func (t Table) Range(visit func(string, model.AttributeSlotDef) bool) {
 	}
 }
 
-// RangeIndex 与 Range 使用同一存在位和顺序，避免已编号的读取重新按名查找。
 func (t Table) RangeIndex(visit func(int, model.AttributeSlotDef) bool) {
 	if t.data == nil {
 		return

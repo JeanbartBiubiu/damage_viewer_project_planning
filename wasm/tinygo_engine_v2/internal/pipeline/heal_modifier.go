@@ -5,7 +5,6 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-// CollectForHeal 复用供值器挂载、卸载和既有稳定排序；ANY 与具体类别匹配一次。
 func (r DamageModifierResolver) CollectForHeal(direction, category string) []MountedDamageModifier {
 	var out []MountedDamageModifier
 	for _, m := range r.mounts {

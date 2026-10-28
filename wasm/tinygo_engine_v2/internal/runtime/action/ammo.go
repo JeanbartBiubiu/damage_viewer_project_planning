@@ -5,6 +5,7 @@ import (
 )
 
 type AmmoView struct{ data *ammoData }
+
 type ammoData struct {
 	owner, providerRef, target, abilityRef string
 	definition                             planbundle.CompiledProvider
@@ -12,11 +13,13 @@ type ammoData struct {
 	wait                                   AmmoWait
 	ability                                planbundle.CompiledAbility
 }
+
 type AmmoWait struct {
 	ReadyAt    int64
 	Generation uint64
 	Active     bool
 }
+
 type AmmoSeed struct {
 	Owner, ProviderRef, Target, AbilityRef string
 	Definition                             planbundle.CompiledProvider

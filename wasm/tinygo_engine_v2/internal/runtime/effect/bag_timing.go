@@ -8,6 +8,7 @@ type TimingFact struct {
 	Origin, Expiry, Scheduled int64
 	Active, Protect           bool
 }
+
 type timingState [4]TimingFact
 
 func (b *bagData) writableTargetTiming() *timingState {

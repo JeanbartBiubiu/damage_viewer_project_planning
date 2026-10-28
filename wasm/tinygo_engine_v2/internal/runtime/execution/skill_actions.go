@@ -10,6 +10,12 @@ import (
 	"tinygo_engine_v2/internal/scheduler"
 )
 
+type committedSkillActionHit struct {
+	useRef        string
+	occurrenceID  uint64
+	evidenceIndex int
+}
+
 // 编译已确认依赖位于同一绑定的更早步骤；旧绑定无依赖时不增加查找。
 func hasSimpleStepHits(definition *planbundle.CompiledProcess, binding planbundle.CompiledSkillActionBinding) bool {
 	if len(binding.HitBindings) == 0 || binding.HitBindings[0].Moment.MomentType != "STEP_EXECUTION" {
@@ -336,12 +342,6 @@ func (frame *Frame) skillActionUseRef() string {
 		return *fact.UseRef
 	}
 	return ""
-}
-
-type committedSkillActionHit struct {
-	useRef        string
-	occurrenceID  uint64
-	evidenceIndex int
 }
 
 // 与对应命中证据一起暂存，只有成功提交后发布使用记录与命中统计。

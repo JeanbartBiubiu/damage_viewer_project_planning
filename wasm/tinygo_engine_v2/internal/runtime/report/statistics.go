@@ -6,6 +6,12 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// DamageFact 只携带已经提交的数值结果与归属身份。
+type DamageFact struct {
+	Owner, Source, Target, AbilityRef, OperationRef, DamageType, ProviderDefinitionRef string
+	MitigatedAmount, ShieldAbsorbed, HPLoss, VampHealing                               float64
+}
+
 func (s *State) statFor(ref string) *abilityStatAcc {
 	if s.abilityStats == nil {
 		s.abilityStats = map[string]*abilityStatAcc{}
@@ -88,12 +94,6 @@ func (s *State) RecordOverheal(source string, amount float64) {
 	if source == model.SelectorTarget {
 		s.totals.TargetOverheal += amount
 	}
-}
-
-// DamageFact contains only the already committed numeric result and identity.
-type DamageFact struct {
-	Owner, Source, Target, AbilityRef, OperationRef, DamageType, ProviderDefinitionRef string
-	MitigatedAmount, ShieldAbsorbed, HPLoss, VampHealing                               float64
 }
 
 func (s *State) RecordCommittedDamage(fact DamageFact, detailed bool) bool {

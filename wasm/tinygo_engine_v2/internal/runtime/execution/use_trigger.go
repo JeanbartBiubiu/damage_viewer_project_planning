@@ -12,10 +12,6 @@ const maxUseTriggerLedger = 1024
 
 const nativeHitFollowUpSuffix = "__native_hit"
 
-func isNativeHitFollowUp(entryKey string) bool {
-	return strings.HasSuffix(entryKey, nativeHitFollowUpSuffix)
-}
-
 type useTriggerKey struct {
 	owner       string
 	providerRef string
@@ -36,6 +32,15 @@ type useTriggerRecord struct {
 type pendingUseReservation struct {
 	listener planbundle.CompiledListener
 	event    emittedEvent
+}
+
+type mountedUseTriggerGroup struct {
+	listener  bool
+	skillKeys []string
+}
+
+func isNativeHitFollowUp(entryKey string) bool {
+	return strings.HasSuffix(entryKey, nativeHitFollowUpSuffix)
 }
 
 func (s *Engine) initUseTriggerState() *model.EngineError {
@@ -183,11 +188,6 @@ func (s *Engine) restoreUseTriggerLedger(rows []model.UseTriggerLedgerEntry) *mo
 		s.useTriggerLedger[key] = &useTriggerRecord{key: key, useSkillKey: row.UseSkillKey, committed: true}
 	}
 	return nil
-}
-
-type mountedUseTriggerGroup struct {
-	listener  bool
-	skillKeys []string
 }
 
 func (s *Engine) mountedOncePerUseGroups() map[string]mountedUseTriggerGroup {

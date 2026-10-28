@@ -16,17 +16,22 @@ type ContractIssue struct {
 	Path string `json:"path"`
 }
 
-func decodeContractSchema() (map[string]any, error) {
-	var schema map[string]any
-	err := json.Unmarshal([]byte(contractSchemaJSON), &schema)
-	return schema, err
-}
-
 type contractShapeCheck struct {
 	schema       map[string]any
 	nodes        int
 	instructions int
 	limits       map[string]any
+}
+
+type contractEdge struct {
+	target int
+	path   string
+}
+
+func decodeContractSchema() (map[string]any, error) {
+	var schema map[string]any
+	err := json.Unmarshal([]byte(contractSchemaJSON), &schema)
+	return schema, err
 }
 
 func contractProblem(code, path string) *ContractIssue {
@@ -411,11 +416,6 @@ func contractDecimals(expr map[string]any, path string) *ContractIssue {
 		}
 	}
 	return nil
-}
-
-type contractEdge struct {
-	target int
-	path   string
 }
 
 func contractReferences(expr map[string]any, path string, inputs map[string]bool, stages map[string]int, edges *[]contractEdge) *ContractIssue {

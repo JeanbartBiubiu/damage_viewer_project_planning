@@ -23,22 +23,6 @@ const (
 	memoFieldPresence
 )
 
-func memoReadField(field string) attributeMemoField {
-	switch field {
-	case "base":
-		return memoFieldBase
-	case "current":
-		return memoFieldCurrent
-	case "max":
-		return memoFieldMax
-	case "resolved":
-		return memoFieldResolved
-	case "presence":
-		return memoFieldPresence
-	}
-	return memoFieldUnknown
-}
-
 type attributeMemoRead struct {
 	kind                 formula.GenericReadKind
 	key, owner, provider string
@@ -49,6 +33,7 @@ type attributeMemoRead struct {
 	attributeIndexBound  bool
 	providerIndex        int
 }
+
 type attributeMemoValue struct {
 	index          int
 	base, resolved uint64
@@ -56,10 +41,12 @@ type attributeMemoValue struct {
 	presence       uint8
 	multiplyInput  bool
 }
+
 type attributeMemoStamp struct {
 	value, fallback uint64
 	presence        uint8
 }
+
 type attributeMemo struct {
 	resolver                 effectpkg.AttributeResolver
 	reads                    []attributeMemoRead
@@ -93,6 +80,22 @@ type attributeMemoProviderValues struct {
 	present                 bool
 	expired                 bool
 	probedExpired           bool
+}
+
+func memoReadField(field string) attributeMemoField {
+	switch field {
+	case "base":
+		return memoFieldBase
+	case "current":
+		return memoFieldCurrent
+	case "max":
+		return memoFieldMax
+	case "resolved":
+		return memoFieldResolved
+	case "presence":
+		return memoFieldPresence
+	}
+	return memoFieldUnknown
 }
 
 func (m *attributeMemo) sameKeys(attrs attribute.Table) bool {

@@ -10,12 +10,14 @@ import (
 )
 
 type AttackWaitView struct{ data attackWaitData }
+
 type attackWaitData struct {
 	providerState, targetState         model.NumericView
 	initialReady, anchor, period       int64
 	sourceAttributes, targetAttributes attribute.Table
 	remaining, speed                   float64
 }
+
 type AttackWaitSeed struct {
 	ProviderState, TargetState         model.NumericView
 	InitialReady, Anchor, Period       int64

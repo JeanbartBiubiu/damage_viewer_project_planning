@@ -10,6 +10,7 @@ import (
 )
 
 type AutomaticRuleView struct{ data *automaticRuleData }
+
 type automaticRuleData struct {
 	recastWindow               *ProcessView
 	inputIndex                 int
@@ -23,12 +24,14 @@ type automaticRuleData struct {
 	qualification              model.AutomaticSkillQualification
 	empoweredPredecessorUseRef *string
 }
+
 type automaticSkillData struct {
 	rules           []*AutomaticRuleView
 	byKey           map[string]*AutomaticRuleView
 	attemptSequence int
 	generation      uint64
 }
+
 type AutomaticRuleSeed struct {
 	InputIndex   int
 	Plan         model.AutomaticSkillRule

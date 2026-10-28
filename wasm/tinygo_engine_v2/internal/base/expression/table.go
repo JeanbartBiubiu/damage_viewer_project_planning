@@ -8,6 +8,17 @@ const (
 	MaxMemoryBytes       = 32 << 20
 )
 
+// TableAPI 集中声明有界纯表达式注册与编号求值；不读取战斗状态。
+// 声明用于阅读与编译检查；实际调用继续使用具体类型。
+type TableAPI interface {
+	// Evaluate 按有效编号调用纯程序求值，编号或程序无效返回结构化问题。
+	Evaluate(id uint16, reader ReadInput) (Evaluation, *ContractIssue)
+	// Register 校验键、程序和预算后注册，失败返回原字段路径及结构化问题。
+	Register(key string, program *Program, path string) (uint16, *ContractIssue)
+	// Stats 返回当前注册表的程序数、指令数及逻辑计费累计。
+	Stats() TableStats
+}
+
 // Table 只允许预检后追加不可变程序；不暴露程序列表、索引或累计计数的写入口。
 type Table struct {
 	programs     []*Program
@@ -21,6 +32,8 @@ type Table struct {
 type TableStats struct {
 	Programs, Instructions, Inputs, Stages, ChargedBytes int
 }
+
+var _ TableAPI = (*Table)(nil)
 
 func (t *Table) Stats() TableStats {
 	return TableStats{len(t.programs), t.instructions, t.inputs, t.stages, t.bytes}

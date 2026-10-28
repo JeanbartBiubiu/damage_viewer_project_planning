@@ -13,10 +13,33 @@ import (
 
 const DefaultOutboxCapacity = 1024 * 1024
 
+// OutboxAPI 集中声明有界输出缓冲的借用、写入和清理，保持原帧及错误运输格式。
+// 声明用于阅读与编译检查；实际调用继续使用具体类型。
+type OutboxAPI interface {
+	// Bytes 借用当前输出字节，只在缓冲下次写入或清理之前有效，调用方不得修改。
+	Bytes() []byte
+	// Clear 清空本轮输出字节和丢弃计数，供宿主完成读取后复用缓冲。
+	Clear()
+	// Dropped 返回自上次清理以来累计丢弃的输出帧数。
+	Dropped() int
+	// WriteFrame 写入原格式帧；普通帧容量不足时计丢弃并返回成功，优先帧按既有规则清空旧缓冲或返回溢出。
+	WriteFrame(kind model.FrameKind, flags uint32, payload []byte) model.ErrCode
+	// WriteJSON 编码载荷并写入指定类型帧，失败返回现有错误码。
+	WriteJSON(kind model.FrameKind, payload any) model.ErrCode
+}
+
 type Outbox struct {
 	buf     []byte
 	dropped int
 }
+
+type outboxJSONWriter struct {
+	outbox *Outbox
+	kind   model.FrameKind
+	code   model.ErrCode
+}
+
+var _ OutboxAPI = (*Outbox)(nil)
 
 func NewOutbox(capacity int) Outbox {
 	if capacity <= 0 {
@@ -46,12 +69,6 @@ func (o *Outbox) WriteJSON(kind model.FrameKind, payload any) model.ErrCode {
 		return model.ErrInvalidInput
 	}
 	return writer.code
-}
-
-type outboxJSONWriter struct {
-	outbox *Outbox
-	kind   model.FrameKind
-	code   model.ErrCode
 }
 
 func (w *outboxJSONWriter) Write(encoded []byte) (int, error) {

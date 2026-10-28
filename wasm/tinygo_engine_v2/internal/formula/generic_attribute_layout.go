@@ -8,7 +8,6 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-// BindAttributeLayout绑定只读目录；重绑先复制指令和输入描述，不改共享会话内容。
 func (r *GenericRegistry) BindAttributeLayout(layout *attribute.Layout) {
 	if r == nil {
 		return

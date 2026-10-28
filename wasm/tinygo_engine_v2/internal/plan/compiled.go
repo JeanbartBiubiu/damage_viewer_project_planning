@@ -190,11 +190,6 @@ type CompiledProviderLifecycle struct {
 	DurationPath    string
 }
 
-// AllowsSourceTargetReuse 报告是否按 definitionRef+source+owner 复用实例。
-func (lc *CompiledProviderLifecycle) AllowsSourceTargetReuse() bool {
-	return lc != nil && lc.InstanceScope == model.InstanceScopeSourceTarget
-}
-
 // CompiledStatusContribution 是 compile 后的普通减速能力。
 type CompiledStatusContribution struct {
 	ResultRef        string
@@ -285,16 +280,12 @@ type CompiledTickSpec struct {
 	AnchorStateKey string
 }
 
-// IsAnchored 报告该 tickSpec 是否为配对锚点模式。
-func (ts *CompiledTickSpec) IsAnchored() bool {
-	return ts != nil && ts.AnchorScope != "" && ts.AnchorStateKey != ""
-}
-
 // CompiledAbility 是 compile 后的 ability 定义。
 type CompiledTargetExpirySpec struct {
 	AnchorStateKey               string
 	OnExpireStart, OnExpireCount uint16
 }
+
 type CompiledAbility struct {
 	TargetExpirySpec     *CompiledTargetExpirySpec
 	ProcessControl       *CompiledProcessControl
@@ -380,12 +371,6 @@ type CompiledTargetMark struct {
 	Damage                                   *CompiledOperation
 	Restore                                  *CompiledOperation
 }
-
-// CompiledSkillHit 是 resolve_skill_hit 的编译计划。
-const (
-	AttackDamageRolePrimary        uint8 = 1
-	AttackDamageRoleReplacePrimary uint8 = 2
-)
 
 type CompiledSkillHit struct {
 	SkillKey           string
@@ -542,12 +527,6 @@ type CompiledSkillActionBinding struct {
 	ReplacesPrimary           bool
 }
 
-// FiniteRecastProcess is the only newly admitted repeated active-cast graph.
-func FiniteRecastProcess(process *CompiledProcess) bool {
-	return process != nil && len(process.Steps) == 2 && process.Steps[0].StepType == "IMMEDIATE" && process.Steps[1].StepType == "RECAST" &&
-		process.Steps[0].HasActionOccupancy && !process.Steps[0].OccupiesAction && process.Steps[1].HasActionOccupancy && !process.Steps[1].OccupiesAction
-}
-
 type CompiledVampRule struct {
 	VampType           string
 	SourceAttributeKey string
@@ -564,4 +543,26 @@ type CompiledVampOverride struct {
 	BasisOutputKind   string
 	EfficiencyProgram formula.GenericProgramID
 	Path              string
+}
+
+// AllowsSourceTargetReuse 报告是否按 definitionRef+source+owner 复用实例。
+func (lc *CompiledProviderLifecycle) AllowsSourceTargetReuse() bool {
+	return lc != nil && lc.InstanceScope == model.InstanceScopeSourceTarget
+}
+
+// IsAnchored 报告该 tickSpec 是否为配对锚点模式。
+func (ts *CompiledTickSpec) IsAnchored() bool {
+	return ts != nil && ts.AnchorScope != "" && ts.AnchorStateKey != ""
+}
+
+// CompiledSkillHit 是 resolve_skill_hit 的编译计划。
+const (
+	AttackDamageRolePrimary        uint8 = 1
+	AttackDamageRoleReplacePrimary uint8 = 2
+)
+
+// FiniteRecastProcess is the only newly admitted repeated active-cast graph.
+func FiniteRecastProcess(process *CompiledProcess) bool {
+	return process != nil && len(process.Steps) == 2 && process.Steps[0].StepType == "IMMEDIATE" && process.Steps[1].StepType == "RECAST" &&
+		process.Steps[0].HasActionOccupancy && !process.Steps[0].OccupiesAction && process.Steps[1].HasActionOccupancy && !process.Steps[1].OccupiesAction
 }

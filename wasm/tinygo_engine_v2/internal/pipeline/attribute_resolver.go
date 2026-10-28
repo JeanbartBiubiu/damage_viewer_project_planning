@@ -35,6 +35,40 @@ type MountedAttributeModifier struct {
 	HasValue           bool
 }
 
+// AttributeResolverAPI 集中声明属性修正的挂载与数值结算；角色数值仍由角色状态保存。
+// 声明用于阅读与编译检查；实际调用继续使用具体类型。
+type AttributeResolverAPI interface {
+	// Clone 共享不可变修正计划；后续挂载与卸载创建新计划。
+	Clone() AttributeResolver
+	// MountCompiledModifier 按默认拥有者挂载一项已编译修正，沿用现有身份规则。
+	MountCompiledModifier(providerRef string, mod planbundle.CompiledModifier)
+	// MountCompiledModifierOwned 按明确拥有者与供值器身份挂载修正，双方同名引用互不覆盖。
+	MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier)
+	// MountProviderModifiers 从指定拥有者与供值器的编译定义挂载属性修正，不直接发布角色数值。
+	MountProviderModifiers(ownerCombatantKey, providerRef string, provider planbundle.CompiledProvider, formulas formula.GenericRegistry)
+	// MountSnapshotModifierOwned 挂载已冻结数值的修正，不在后续结算中重新求其施加值。
+	MountSnapshotModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier, value float64)
+	// MountedModifiers 借用当前不可变修正计划，只供读取，禁止修改切片内容。
+	MountedModifiers() []MountedAttributeModifier
+	// ResolveAttributes 使用给定只读上下文结算新属性表，不修改输入表。
+	ResolveAttributes(attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry) (attribute.Table, error)
+	// ResolveAttributesWithProviderContext 按实际挂载获取供值上下文，返回新属性表；求值或数值错误原样返回。
+	ResolveAttributesWithProviderContext(
+		attrs attribute.Table,
+		evalCtx formula.GenericEvalContext,
+		formulas formula.GenericRegistry,
+		providerContext ProviderFormulaContextFunc,
+	) (attribute.Table, error)
+	// ResolveDerivedAttribute 结算指定派生属性槽，保留属性阶段及分组规则，不发布角色状态。
+	ResolveDerivedAttribute(attributeKey string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (model.AttributeSlotDef, error)
+	// SameMounts 核对是否共享同一修正计划；两个空计划视为相同。
+	SameMounts(other AttributeResolver) bool
+	// UnmountProvider 移除默认拥有者下指定供值器的修正，不修改其他拥有者。
+	UnmountProvider(providerRef string)
+	// UnmountProviderOwned 移除指定拥有者与供值器的修正，保留其他挂载。
+	UnmountProviderOwned(ownerCombatantKey, providerRef string)
+}
+
 // AttributeResolver 聚合 combatant 上的 attribute modifier。
 type AttributeResolver struct {
 	// 这些切片与索引在创建后不再写入，Clone 可以安全共享。
@@ -43,17 +77,28 @@ type AttributeResolver struct {
 	attributeKeys []string
 }
 
-// Clone 共享不可变修正计划；挂载与卸载始终创建新计划。
+// ProviderFormulaContext 只携带供值状态覆盖项，避免复制无关的完整公式上下文。
+type ProviderFormulaContext struct {
+	SkipExpiredAttributeModifier                              bool
+	HasProviderElapsed                                        bool
+	ProviderElapsedMs                                         int64
+	HasProviderContext                                        bool
+	ProviderState, ProviderTargetState, ProviderStateDefaults model.NumericView
+}
+
+// 来源、目标属性、资源和事件字段始终来自原求值上下文。
+type ProviderFormulaContextFunc func(ownerCombatantKey, providerRef string) ProviderFormulaContext
+
+var _ AttributeResolverAPI = (*AttributeResolver)(nil)
+
 func (r AttributeResolver) Clone() AttributeResolver {
 	return r
 }
 
-// MountedModifiers 返回当前不可变修正计划，只供调用方读取，禁止修改其内容。
 func (r AttributeResolver) MountedModifiers() []MountedAttributeModifier {
 	return r.mounts
 }
 
-// SameMounts 核对是否共享同一修正计划；两个空计划视为相同。
 func (r AttributeResolver) SameMounts(other AttributeResolver) bool {
 	if len(r.mounts) != len(other.mounts) {
 		return false
@@ -104,8 +149,6 @@ func ModifierTargetCombatantSelector(target string) string {
 	}
 }
 
-// MountProviderModifiers 挂载 provider 的 attribute modifier（kind=attribute）到本 resolver。
-// ownerCombatantKey 写入每条 mount 的 provenance；同 combatant 挂载时通常等于宿主 key。
 func (r *AttributeResolver) MountProviderModifiers(ownerCombatantKey, providerRef string, provider planbundle.CompiledProvider, formulas formula.GenericRegistry) {
 	for _, mod := range provider.Modifiers {
 		r.MountCompiledModifierOwned(ownerCombatantKey, providerRef, mod)
@@ -113,12 +156,10 @@ func (r *AttributeResolver) MountProviderModifiers(ownerCombatantKey, providerRe
 	_ = formulas
 }
 
-// MountCompiledModifier 挂载单个已编译 attribute modifier（owner 空，兼容 rules / 旧调用）。
 func (r *AttributeResolver) MountCompiledModifier(providerRef string, mod planbundle.CompiledModifier) {
 	r.MountCompiledModifierOwned("", providerRef, mod)
 }
 
-// MountCompiledModifierOwned 挂载单个 modifier，并记录 owner combatant provenance。
 func (r *AttributeResolver) MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier) {
 	r.mountCompiledModifierOwned(ownerCombatantKey, providerRef, mod, false, 0)
 }
@@ -168,13 +209,10 @@ func (r *AttributeResolver) mountCompiledModifierOwned(ownerCombatantKey, provid
 	r.setMounts(mounts)
 }
 
-// UnmountProvider 移除 ProviderRef 匹配且 OwnerCombatantKey 为空的 mount（rules / 旧同侧路径）。
 func (r *AttributeResolver) UnmountProvider(providerRef string) {
 	r.UnmountProviderOwned("", providerRef)
 }
 
-// UnmountProviderOwned 按 ownerCombatantKey + providerRef 移除 mount。
-// ownerCombatantKey 为空时仅移除同样 owner 为空的条目，避免卸掉对侧同名 providerRef。
 func (r *AttributeResolver) UnmountProviderOwned(ownerCombatantKey, providerRef string) {
 	remaining := 0
 	for _, m := range r.mounts {
@@ -238,27 +276,10 @@ func (r *AttributeResolver) setMounts(mounts []MountedAttributeModifier) {
 	}
 }
 
-// ProviderFormulaContext 只携带供值状态覆盖项，避免复制无关的完整公式上下文。
-type ProviderFormulaContext struct {
-	SkipExpiredAttributeModifier                              bool
-	HasProviderElapsed                                        bool
-	ProviderElapsedMs                                         int64
-	HasProviderContext                                        bool
-	ProviderState, ProviderTargetState, ProviderStateDefaults model.NumericView
-}
-
-// 来源、目标属性、资源和事件字段始终来自原求值上下文。
-type ProviderFormulaContextFunc func(ownerCombatantKey, providerRef string) ProviderFormulaContext
-
-// ResolveAttributes 按 bucket/stage/priority 聚合 modifier，写回 resolved。
-// 等价于 ResolveAttributesWithProviderContext(..., nil)。
 func (r AttributeResolver) ResolveAttributes(attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry) (attribute.Table, error) {
 	return r.ResolveAttributesWithProviderContext(attrs, evalCtx, formulas, nil)
 }
 
-// ResolveAttributesWithProviderContext 与 ResolveAttributes 相同，但可按 modifier 的
-// OwnerCombatantKey + ProviderRef 注入逐 provider 的 formula context。
-// providerContext 为 nil 时行为与 ResolveAttributes 一致。
 func (r AttributeResolver) ResolveAttributesWithProviderContext(
 	attrs attribute.Table,
 	evalCtx formula.GenericEvalContext,

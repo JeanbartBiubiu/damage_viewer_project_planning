@@ -1,7 +1,5 @@
 package formula
 
-// AttributeCacheDependencies只允许可以完整核对的属性和供值状态读取。
-// 同时包含声明但不参与输出的作者输入，保留缺字段与严格读取的错误边界。
 func (r GenericRegistry) AttributeCacheDependencies(id GenericProgramID) ([]GenericInstr, bool) {
 	var reads []GenericInstr
 	seen := make(map[GenericProgramID]bool)
