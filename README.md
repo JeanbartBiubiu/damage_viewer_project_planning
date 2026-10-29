@@ -50,4 +50,4 @@
 node tools/task-governance/cli.mjs check
 ```
 
-所有模块在 `master` 主干上用短期分支协作，持续集成见 `.github/workflows/ci.yml`，约定见根协作规则第4节。引擎回归用[机制回归用例](web/tests/mechanisms/README.md)；移出跟踪的历史证据见[外置归档索引](数据参考/外置归档索引.md)。
+所有模块在 `master` 主干上用短期分支协作，按改动范围和目标模块规则在本地验证，合并与推送不等待 GitHub 自动检查，约定见根协作规则第4节。引擎回归用[机制回归用例](web/tests/mechanisms/README.md)；移出跟踪的历史证据见[外置归档索引](数据参考/外置归档索引.md)。

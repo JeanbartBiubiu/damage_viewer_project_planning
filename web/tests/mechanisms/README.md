@@ -101,7 +101,7 @@ node scripts/refresh-verification-identity.mjs --write  # 条件全部满足后�
 
 `admitted-coverage.json` 的对象键为`<kind>:<key>`，每项保存与正式证明相同的`contentDigest`、`externalDigest`、非空唯一`mechanisms`及中文核对依据`rationale`。对象范围以当前JSON声明为准，不能用空泛标签宣称支持新对象。
 
-`npm run check:mechanism-coverage`只检查依赖，不运行回归、不写证明，也不证明构建一致。持续集成在机制测试之前另行强制运行`check:wasm-build`；`npm test`包含机制回归、刷新及构建比较门槛测试。新对象首次准入仍需按其真实配置单独验收；回归阶段只依赖这里的机制用例。
+`npm run check:mechanism-coverage`只检查依赖，不运行回归、不写证明，也不证明构建一致。当前源码与分发Wasm的构建一致性由`npm run check:wasm-build`单独核对；`npm test`包含机制回归、刷新及构建比较门槛测试。新对象首次准入仍需按其真实配置单独验收；回归阶段只依赖这里的机制用例。
 
 真实命中有限减疗的强度与期限仅接固定值或本技能静态参数；法盾空粒度须有同次更早的稳定全技能伤害候选与明确未挡条件。六个固定场景保留背景普攻及目标真实受伤治疗，逐笔恢复与完整末态共同核对，见[共享契约](../../../outputs/skill-adaptation-20261023-varus/真实命中有限减疗共享契约.md)。补充初始通用法盾测试只证明判盾与有限效果门控；它保留法盾实例，不声称消费或管理作者初始化能力。
 

@@ -1,6 +1,6 @@
 # TinyGo Scripts AGENTS.md
 
-本文件适用于 `scripts/**`。Node 脚本是本地和持续集成验证工具，不是正式浏览器 Worker 宿主。
+本文件适用于 `scripts/**`。Node 脚本是本地验证工具，不是正式浏览器 Worker 宿主。
 
 ## 约束
 

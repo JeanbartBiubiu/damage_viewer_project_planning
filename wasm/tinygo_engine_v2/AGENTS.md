@@ -8,7 +8,7 @@
 
 ## 当前架构边界
 
-- 正式业务路径是 `CompileRequest -> engine_compile -> CompiledSession`，再由 `engine_run` 执行，最后 `engine_release_session` 释放。正式宿主是浏览器 Worker；Node 脚本只用于本地和持续集成验证。
+- 正式业务路径是 `CompileRequest -> engine_compile -> CompiledSession`，再由 `engine_run` 执行，最后 `engine_release_session` 释放。正式宿主是浏览器 Worker；Node 脚本只用于本地验证。
 - 新机制进入 provider（供值器）、ability（能力）、operation（操作）及其编译、门禁和执行层。旧 Rust、单攻 DPS、step-loop（分步循环）及对应导出已删除，不恢复兼容。
 - 当前目标是 1 对 1、单线程、确定性计算。热路径禁止 goroutine、channel、lock、反射和以 panic/recover 控制流程；优先使用编译后短标识、索引、定长结构和位集合。
 - 数值变化经过 operation 与 pipeline（数值管道）；监听器产出操作，不直接写运行时状态。已进入评审门槛的公共 DTO 不随手改变字段语义。

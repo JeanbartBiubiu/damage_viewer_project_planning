@@ -13,7 +13,7 @@ LAST_TRACKED_AT: 2026-05-10
 
 1. 正式计算引擎路线采用 TinyGo，落点为 `wasm/tinygo_engine_v2`。
 2. 旧 Rust/Katarina crate 已删除，不再作为历史 ABI、行为或性能基线目录；后续对照以文档记录和 TinyGo V2 验证样例为准。
-3. 浏览器 Worker 是正式宿主；Node 只保留为本地/CI instantiate、ABI smoke 和 benchmark 工具。
+3. 浏览器 Worker 是正式宿主；Node 只保留为本地 instantiate、ABI smoke 和 benchmark 工具。
 4. 首期优化目标是 1v1 战斗，不提前为多单位战斗支付热路径复杂度。
 5. TinyGo 初始和最大内存默认固定为 256 MiB，后续只有在 benchmark 证明安全后再下探。
 6. TinyGo 核心只接收准备好的输入，不负责网络请求、缓存、版本协商或文件加载。
