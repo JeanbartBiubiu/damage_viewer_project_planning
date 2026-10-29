@@ -1338,17 +1338,17 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
           { title: '技能／阶段／等级', render: (_, row) => <Space direction="vertical">
             <Select aria-label={`计划技能 ${row.instructionKey}`} value={row.skillKey} disabled={busy}
               options={activeSkills.items.map(option => ({ value: option.key, label: `${option.name}（${option.key}）` }))}
-              onChange={value => selectActiveSkill(value, row.instructionKey)} />
+              onChange={(value: SkillActionInput['skillKey']) => selectActiveSkill(value, row.instructionKey)} />
             <Select aria-label={`技能阶段 ${row.instructionKey}`} value={row.phaseKind} disabled={busy}
               options={skillActionPhases(sourcesSnapshot?.skillConfigurations.find(configuration => configuration.skill.skillKey === row.skillKey))
                 .map(value => ({ value, label: { INITIAL: '首次使用', CHARGE_RELEASE: '蓄力释放', RECAST: '重施', CANCEL: '主动取消' }[value] }))}
-              onChange={value => editSkillAction(row.instructionKey, { phaseKind: value, parentInstructionKey: null, hitPreset: null,
+              onChange={(value: SkillActionInput['phaseKind']) => editSkillAction(row.instructionKey, { phaseKind: value, parentInstructionKey: null, hitPreset: null,
                 ...(row.phaseKind === 'INITIAL' && value !== 'INITIAL' ? { atMs: NaN } : {}) })} />
             <Typography.Text>等级{row.skillLevel}</Typography.Text>
           </Space> },
           { title: '关联原首次指令', render: (_, row) => row.phaseKind === 'INITIAL' ? <Typography.Text>不关联</Typography.Text>
             : <Select aria-label={`关联首次指令 ${row.instructionKey}`} value={row.parentInstructionKey ?? undefined} disabled={busy} allowClear
-              placeholder="明确选择排序更早的原首次" onChange={value => editSkillAction(row.instructionKey, { parentInstructionKey: value ?? null })}
+              placeholder="明确选择排序更早的原首次" onChange={(value: SkillActionInput['parentInstructionKey'] | undefined) => editSkillAction(row.instructionKey, { parentInstructionKey: value ?? null })}
               options={skillActionParentCandidates(skillInputs.actions, row).map(parent => ({ value: parent.instructionKey,
                 label: `${parent.instructionKey} · ${parent.atMs}毫秒 · 顺序${parent.sortOrder}` }))} /> },
           { title: '尝试时刻（毫秒）', render: (_, row) => <InputNumber aria-label={`技能尝试时刻 ${row.instructionKey}`}
@@ -1358,12 +1358,12 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
             value={Number.isFinite(row.sortOrder) ? row.sortOrder : undefined} min={0} precision={0} disabled={busy}
             onChange={value => editSkillAction(row.instructionKey, { sortOrder: value ?? NaN })} /> },
           { title: '目标', render: (_, row) => <Select aria-label={`技能目标 ${row.instructionKey}`} value={row.targetSide} disabled={busy}
-            onChange={value => editSkillAction(row.instructionKey, { targetSide: value })}
-            options={[{ label: '唯一目标B', value: 'target' }, { label: '攻击方A自身', value: 'source' }]} /> },
+            onChange={(value: SkillActionInput['targetSide']) => editSkillAction(row.instructionKey, { targetSide: value })}
+            options={[{ label: '唯一目标B', value: 'target' }, { label: '攻击方A自身', value: 'source' }] satisfies { value: SkillActionInput['targetSide']; label: string }[]} /> },
           { title: '明确命中预设', render: (_, row) => <Select aria-label={`技能命中预设 ${row.instructionKey}`} value={row.hitPreset ?? undefined}
             allowClear disabled={busy || row.phaseKind !== 'INITIAL'} placeholder={row.phaseKind === 'INITIAL' ? '明确填写' : '继承原首次预设'}
-            onChange={value => editSkillAction(row.instructionKey, { hitPreset: value ?? null })}
-            options={[{ label: '释放后对唯一目标尝试命中', value: 'TARGET_HIT' }, { label: '本次明确未命中', value: 'MISS' }]} /> },
+            onChange={(value: SkillActionInput['hitPreset'] | undefined) => editSkillAction(row.instructionKey, { hitPreset: value ?? null })}
+            options={[{ label: '释放后对唯一目标尝试命中', value: 'TARGET_HIT' }, { label: '本次明确未命中', value: 'MISS' }] satisfies { value: NonNullable<SkillActionInput['hitPreset']>; label: string }[]} /> },
           { title: '编辑', render: (_, row) => <Button aria-label={`删除指令 ${row.instructionKey}`} disabled={busy} onClick={() => removeSkillAction(row.instructionKey)}>删除</Button> }
         ]} />
         <Typography.Text type="secondary">自身治疗保持空命中预设、目标为A；伤害首次必须明确选择目标B与命中预设。控制不重新填写命中，继承原使用；同刻到期先于控制。有限多段及引导由原生求绝对段时点，不模拟弹道。</Typography.Text>

@@ -144,8 +144,8 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
           <span>可见终点（毫秒）</span><InputNumber aria-label="可见终点（毫秒）" min={view.timeRangeMs[0]} max={usable.durationMs} precision={0} value={view.timeRangeMs[1]}
             onChange={value => rangeChange([view.timeRangeMs[0], value ?? usable.durationMs])} style={{ width: 130 }} />
           <Button onClick={() => rangeChange([0, usable.durationMs])}>恢复完整时间范围</Button>
-          <Select aria-label="伤害率模式" value={view.dpsMode} style={{ width: 210 }} options={[{ label: '累计平均伤害率', value: 'cumulative' }, { label: '滚动窗口伤害率', value: 'window' }]}
-            onChange={value => patchView({ dpsMode: value })} />
+          <Select aria-label="伤害率模式" value={view.dpsMode} style={{ width: 210 }} options={[{ label: '累计平均伤害率', value: 'cumulative' }, { label: '滚动窗口伤害率', value: 'window' }] satisfies { value: ContinuousAttackView['dpsMode']; label: string }[]}
+            onChange={(value: ContinuousAttackView['dpsMode']) => patchView({ dpsMode: value })} />
         </Space>
         {usable.series.length ? <>
           <Typography.Paragraph data-testid="continuous-sampling-evidence" style={{ marginTop: 12 }}>请求间隔{usable.seriesSamplingEvidence!.requestedSampleEveryMs}毫秒；有效间隔{usable.seriesSamplingEvidence!.effectiveSampleEveryMs}毫秒；
@@ -165,18 +165,18 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
         <Typography.Title heading={5}>来源拆分与筛选</Typography.Title>
         <Space wrap>
           <Select aria-label="伤害来源筛选" placeholder="全部来源" mode="multiple" allowClear value={view.sourceKeys} style={{ minWidth: 260, maxWidth: 600 }}
-            options={sourceRows.map(([key, row]) => ({ value: key, label: sourceLabel(row) }))} onChange={value => patchView({ sourceKeys: value })} />
+            options={sourceRows.map(([key, row]) => ({ value: key, label: sourceLabel(row) }))} onChange={(value: ContinuousAttackView['sourceKeys']) => patchView({ sourceKeys: value })} />
           <Select aria-label="伤害类型筛选" placeholder="全部伤害类型" mode="multiple" allowClear value={view.damageTypes} style={{ minWidth: 190 }}
-            options={[...new Set(usable.damageBreakdown.map(row => row.damageType))].map(key => ({ value: key, label: damageTypeLabel(key) }))} onChange={value => patchView({ damageTypes: value })} />
+            options={[...new Set(usable.damageBreakdown.map(row => row.damageType))].map(key => ({ value: key, label: damageTypeLabel(key) }))} onChange={(value: ContinuousAttackView['damageTypes']) => patchView({ damageTypes: value })} />
           <InputNumber aria-label="攻击序号筛选" placeholder="全部刀号" min={1} max={Math.max(1, usable.startedCount)} precision={0} value={view.attackIndex ?? undefined}
             onChange={value => patchView({ attackIndex: value ?? null })} style={{ width: 150 }} />
           <Button onClick={() => patchView({ sourceKeys: [], damageTypes: [], attackIndex: null })}>清除来源与明细筛选</Button>
         </Space>
         <Space wrap style={{ marginTop: 12 }}>
-          <Select aria-label="来源拆分方式" value={view.breakdownMode} style={{ width: 150 }} options={[{ label: '按来源拆分', value: 'source' }, { label: '按伤害类型拆分', value: 'type' }]}
-            onChange={value => patchView({ breakdownMode: value })} />
+          <Select aria-label="来源拆分方式" value={view.breakdownMode} style={{ width: 150 }} options={[{ label: '按来源拆分', value: 'source' }, { label: '按伤害类型拆分', value: 'type' }] satisfies { value: ContinuousAttackView['breakdownMode']; label: string }[]}
+            onChange={(value: ContinuousAttackView['breakdownMode']) => patchView({ breakdownMode: value })} />
           <Select aria-label="来源金额指标" value={view.amountMetric} style={{ width: 170 }} options={amountMetrics.map(key => ({ value: key, label: amountLabels[key] }))}
-            onChange={value => patchView({ amountMetric: value as AmountMetric })} />
+            onChange={(value: AmountMetric) => patchView({ amountMetric: value })} />
         </Space>
         <Typography.Paragraph style={{ marginTop: 12 }}>分类筛选小计（整次运行造成伤害）：<span data-testid="continuous-breakdown-subtotal">{number(data.breakdownSubtotal)}</span>。来源／类型只筛选完整分类和伤害表，不改变顶部卡片或A/B总量曲线。</Typography.Paragraph>
         <div className="continuous-source-bars">{contributionRows.map(row => <button className="continuous-source-bar" key={row.key} type="button"

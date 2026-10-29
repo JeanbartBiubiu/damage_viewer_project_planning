@@ -811,7 +811,7 @@ function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDef
   const momentRules: SkillTriggerRuleDetail[] = [];
   const firstEffectRules: SkillTriggerRuleDetail[] = [];
   const seenRules = new Set<string>();
-  for (const rule of stableSorted(authored.rules, (item) => item.sortOrder)) {
+  for (const rule of stableSorted<SkillTriggerRuleDetail>(authored.rules, (item) => item.sortOrder)) {
     const path = `${root}.${rule.ruleKey || 'missing'}`;
     catalogKey(rule.ruleKey, `${path}.ruleKey`);
     if (seenRules.has(rule.ruleKey)) fail(`${path}.ruleKey`, '规则标识重复');

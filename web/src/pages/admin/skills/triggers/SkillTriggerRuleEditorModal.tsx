@@ -70,6 +70,7 @@ import type {
   SkillTriggerRuleDetail,
   SkillTriggerRuleSummary,
   SkillTriggerStatusChangeKind,
+  SkillTriggerSubjectEventDetail,
   SkillTriggerTargetContext,
   SkillTriggerOncePerUseScope
 } from '../../../../types/skillTriggerRule';
@@ -1568,9 +1569,9 @@ export function SkillTriggerRuleEditorModal({
                 options={SKILL_TRIGGER_EVENT_TYPES.map((value) => ({
                   value,
                   label: SKILL_TRIGGER_EVENT_TYPE_LABELS[value]
-                }))}
-                onChange={(value) => commitEventSource(
-                  createEmptyEventSource(value as SkillTriggerEventType)
+                })) satisfies { value: SkillTriggerEventType; label: string; disabled?: boolean }[]}
+                onChange={(value: SkillTriggerEventType) => commitEventSource(
+                  createEmptyEventSource(value)
                 )}
               />
             </Form.Item>
@@ -1833,10 +1834,10 @@ export function SkillTriggerRuleEditorModal({
                     options={targetOptions.map((value) => ({
                       value,
                       label: SKILL_TRIGGER_TARGET_CONTEXT_LABELS[value]
-                    }))}
-                    onChange={(value) => patchDraft({
+                    })) satisfies { value: SkillTriggerTargetContext; label: string; disabled?: boolean }[]}
+                    onChange={(value: SkillTriggerTargetContext) => patchDraft({
                       ...draft,
-                      perTargetCooldownTargetContext: value as SkillTriggerTargetContext
+                      perTargetCooldownTargetContext: value
                     })}
                   />
                 </Form.Item>
@@ -1922,13 +1923,13 @@ export function SkillTriggerRuleEditorModal({
                       aria-label="同次使用范围"
                       value={draft.oncePerUseScope}
                       disabled={saving}
-                      onChange={(value) => patchDraft({
+                      onChange={(value: SkillTriggerOncePerUseScope) => patchDraft({
                         ...draft,
-                        oncePerUseScope: value as SkillTriggerOncePerUseScope
+                        oncePerUseScope: value
                       })}
                     >
-                      <Radio value="SKILL">{SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS.SKILL}</Radio>
-                      <Radio value="TARGET">{SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS.TARGET}</Radio>
+                      <Radio value={"SKILL" satisfies SkillTriggerOncePerUseScope}>{SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS.SKILL}</Radio>
+                      <Radio value={"TARGET" satisfies SkillTriggerOncePerUseScope}>{SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS.TARGET}</Radio>
                     </Radio.Group>
                   </AuthoringFieldAnchor>
                 </Form.Item>
@@ -2108,7 +2109,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               value={eventSource.detail.sourceSkillKey ?? ''}
               disabled={disabled}
               options={props.skills(eventSource.detail.sourceSkillKey)}
-              onChange={(value) => {
+              onChange={(value: string) => {
                 const key = String(value ?? '');
                 onChange({
                   eventType: 'SKILL_USED',
@@ -2129,12 +2130,12 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               options={(Object.keys(SKILL_TRIGGER_USE_KIND_LABELS) as SkillTriggerEventUseKind[]).map((value) => ({
                 value,
                 label: SKILL_TRIGGER_USE_KIND_LABELS[value]
-              }))}
-              onChange={(value) => onChange({
+              })) satisfies { value: SkillTriggerEventUseKind; label: string; disabled?: boolean }[]}
+              onChange={(value: SkillTriggerEventUseKind) => onChange({
                 eventType: 'SKILL_USED',
                 detail: {
                   sourceSkillKey: eventSource.detail.sourceSkillKey,
-                  useKind: value as SkillTriggerEventUseKind,
+                  useKind: value,
                   castPhase: eventSource.detail.castPhase
                 }
               })}
@@ -2154,13 +2155,13 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               options={SKILL_TRIGGER_CAST_PHASES.map((value) => ({
                 value,
                 label: SKILL_TRIGGER_CAST_PHASE_LABELS[value]
-              }))}
-              onChange={(value) => onChange({
+              })) satisfies { value: SkillTriggerCastPhase; label: string; disabled?: boolean }[]}
+              onChange={(value: SkillTriggerCastPhase) => onChange({
                 eventType: 'SKILL_USED',
                 detail: {
                   sourceSkillKey: eventSource.detail.sourceSkillKey,
                   useKind: eventSource.detail.useKind,
-                  castPhase: value as SkillTriggerCastPhase
+                  castPhase: value
                 }
               })}
             />
@@ -2178,7 +2179,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
             value={eventSource.detail.sourceSkillKey ?? ''}
             disabled={disabled}
             options={props.skills(eventSource.detail.sourceSkillKey)}
-            onChange={(value) => {
+            onChange={(value: string) => {
               const key = String(value ?? '');
               onChange({
                 eventType: 'SKILL_HIT',
@@ -2197,7 +2198,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
           <Form.Item label="命中所属过程" required>
             <Select aria-label="命中所属过程" value={eventSource.detail.processMoment.processKey || undefined} disabled={disabled}
               options={props.processes.map(process => ({ value: process.processKey, label: `${process.name}（${process.processKey}）` }))}
-              onChange={value => {
+              onChange={(value: string) => {
                 const processKey = String(value ?? ''); props.onSelectProcess(processKey);
                 onChange({ eventType: 'SKILL_HIT', detail: { sourceSkillKey: props.skillKey,
                   processMoment: { processKey, moment: { momentType: 'STEP_EXECUTION', stepKey: '' }, requiresPriorStepKey: null } } });
@@ -2206,7 +2207,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
           <Form.Item label="实际命中步骤" required>
             <Select aria-label="实际命中步骤" value={eventSource.detail.processMoment.moment.stepKey || undefined} disabled={disabled}
               options={(props.selectedProcess?.steps ?? []).map(step => ({ value: step.stepKey, label: `${step.name}（${step.stepKey}）` }))}
-              onChange={value => onChange({ eventType: 'SKILL_HIT', detail: { ...eventSource.detail,
+              onChange={(value: string) => onChange({ eventType: 'SKILL_HIT', detail: { ...eventSource.detail,
                 processMoment: { ...eventSource.detail.processMoment!, moment: { momentType: 'STEP_EXECUTION', stepKey: String(value ?? '') }, requiresPriorStepKey: null } } })} />
           </Form.Item>
           <Form.Item label="所需更早真实接触步骤" help="未命中不授予资格；被法术护盾阻挡仍为真实接触。">
@@ -2215,7 +2216,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                 const current = props.selectedProcess?.steps.find(row => row.stepKey === eventSource.detail.processMoment!.moment.stepKey);
                 return current && step.sortOrder < current.sortOrder;
               }).map(step => ({ value: step.stepKey, label: `${step.name}（${step.stepKey}）` }))]}
-              onChange={value => onChange({ eventType: 'SKILL_HIT', detail: { ...eventSource.detail,
+              onChange={(value: string) => onChange({ eventType: 'SKILL_HIT', detail: { ...eventSource.detail,
                 processMoment: { ...eventSource.detail.processMoment!, requiresPriorStepKey: value ? String(value) : null } } })} />
           </Form.Item>
         </> : null}
@@ -2232,7 +2233,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               value={eventSource.detail.sourceSkillKey ?? ''}
               disabled={disabled}
               options={props.skills(eventSource.detail.sourceSkillKey)}
-              onChange={(value) => {
+              onChange={(value: string) => {
                 const key = String(value ?? '');
                 onChange({
                   eventType: eventSource.eventType,
@@ -2248,7 +2249,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
           <Select aria-label="结算完成来源技能" showSearch filterOption={matchesSelectOptionSearch}
             value={eventSource.detail.sourceSkillKey || undefined} disabled={disabled}
             options={props.skills(eventSource.detail.sourceSkillKey)}
-            onChange={value => onChange({ eventType: 'PROCESS_RESOLVED', detail: { sourceSkillKey: String(value ?? ''), processKey: '' } })} />
+            onChange={(value: string) => onChange({ eventType: 'PROCESS_RESOLVED', detail: { sourceSkillKey: String(value ?? ''), processKey: '' } })} />
         </Form.Item>
         <Form.Item label="来源技能过程标识" required help="必须属于所选来源技能；保存时核对真实过程引用。">
           <Input aria-label="结算完成过程标识" value={eventSource.detail.processKey} disabled={disabled}
@@ -2267,7 +2268,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                 value: item.processKey,
                 label: item.name || item.processKey
               }))}
-              onChange={(value) => {
+              onChange={(value: string) => {
                 const processKey = String(value ?? '');
                 props.onSelectProcess(processKey);
                 onChange({
@@ -2288,13 +2289,13 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               options={SKILL_PROCESS_MOMENT_TYPES.map((value) => ({
                 value,
                 label: SKILL_PROCESS_MOMENT_TYPE_LABELS[value]
-              }))}
-              onChange={(value) => onChange({
+              })) satisfies { value: SkillProcessMomentType; label: string; disabled?: boolean }[]}
+              onChange={(value: SkillProcessMomentType) => onChange({
                 eventType: 'PROCESS_MOMENT',
                 detail: {
                   processKey: eventSource.detail.processKey,
                   moment: processMomentFrom(
-                    value as SkillProcessMomentType,
+                    value,
                     eventSource.detail.moment.stepKey ?? '',
                     eventSource.detail.moment.failureReason ?? ''
                   )
@@ -2312,7 +2313,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                   value: item.stepKey,
                   label: item.name || item.stepKey
                 }))}
-                onChange={(value) => onChange({
+                onChange={(value: string) => onChange({
                   eventType: 'PROCESS_MOMENT',
                   detail: {
                     processKey: eventSource.detail.processKey,
@@ -2337,15 +2338,15 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                 options={PROCESS_FAILURE_REASONS.map((value) => ({
                   value,
                   label: PROCESS_FAILURE_REASON_LABELS[value]
-                }))}
-                onChange={(value) => onChange({
+                })) satisfies { value: SkillProcessFailureReason; label: string; disabled?: boolean }[]}
+                onChange={(value: SkillProcessFailureReason | undefined) => onChange({
                   eventType: 'PROCESS_MOMENT',
                   detail: {
                     processKey: eventSource.detail.processKey,
                     moment: processMomentFrom(
                       eventSource.detail.moment.momentType,
                       eventSource.detail.moment.stepKey ?? '',
-                      value ? value as SkillProcessFailureReason : ''
+                      value ? value : ''
                     )
                   }
                 })}
@@ -2369,7 +2370,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                   label: item.name || item.effectKey,
                   disabled: item.lifecycleEnabled && item.effectKey !== eventSource.detail.effectKey
                 }))}
-              onChange={(value) => {
+              onChange={(value: string) => {
                 const effectKey = String(value ?? '');
                 props.onSelectEffect(effectKey);
                 onChange({
@@ -2388,7 +2389,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                 value: item.resultKey,
                 label: item.name || item.resultKey
               }))}
-              onChange={(value) => onChange({
+              onChange={(value: string) => onChange({
                 eventType: 'RESULT_AVAILABLE',
                 detail: {
                   effectKey: eventSource.detail.effectKey,
@@ -2414,7 +2415,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                   label: item.name || item.effectKey,
                   disabled: !item.lifecycleEnabled && item.effectKey !== eventSource.detail.effectKey
                 }))}
-              onChange={(value) => {
+              onChange={(value: string) => {
                 const effectKey = String(value ?? '');
                 props.onSelectEffect(effectKey);
                 onChange({
@@ -2432,12 +2433,12 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               options={SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENTS.map((value) => ({
                 value,
                 label: SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENT_LABELS[value]
-              }))}
-              onChange={(value) => onChange({
+              })) satisfies { value: SkillTriggerLifecycleEventMoment; label: string; disabled?: boolean }[]}
+              onChange={(value: SkillTriggerLifecycleEventMoment) => onChange({
                 eventType: 'LIFECYCLE_MOMENT',
                 detail: {
                   effectKey: eventSource.detail.effectKey,
-                  moment: value as SkillTriggerLifecycleEventMoment
+                  moment: value
                 }
               })}
             />
@@ -2453,7 +2454,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
           <Form.Item label="来源技能">
             <Select aria-label="伤害事件来源技能" value={eventSource.detail.sourceSkillKey ?? ''}
               disabled={disabled} options={props.skills(eventSource.detail.sourceSkillKey)}
-              onChange={(value) => onChange({ eventType,
+              onChange={(value: string) => onChange({ eventType,
                 detail: { ...eventSource.detail, sourceSkillKey: value ? String(value) : null } })} />
           </Form.Item>
           <Form.Item label="伤害类型">
@@ -2462,7 +2463,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               value={eventSource.detail.damageTypeKey ?? ''}
               disabled={disabled}
               options={props.damageTypes(eventSource.detail.damageTypeKey)}
-              onChange={(value) => {
+              onChange={(value: string) => {
                 const key = String(value ?? '');
                 onChange({
                   eventType,
@@ -2484,12 +2485,12 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               ) as SkillTriggerDamageDeliveryKind[]).map((value) => ({
                 value,
                 label: SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS[value]
-              }))}
-              onChange={(value) => onChange({
+              })) satisfies { value: SkillTriggerDamageDeliveryKind; label: string; disabled?: boolean }[]}
+              onChange={(value: SkillTriggerDamageDeliveryKind) => onChange({
                 eventType,
                 detail: {
                   ...eventSource.detail,
-                  deliveryKind: value as SkillTriggerDamageDeliveryKind
+                  deliveryKind: value
                 }
               })}
             />
@@ -2504,12 +2505,12 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               ) as SkillTriggerDamageOriginKind[]).map((value) => ({
                 value,
                 label: SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS[value]
-              }))}
-              onChange={(value) => onChange({
+              })) satisfies { value: SkillTriggerDamageOriginKind; label: string; disabled?: boolean }[]}
+              onChange={(value: SkillTriggerDamageOriginKind) => onChange({
                 eventType,
                 detail: {
                   ...eventSource.detail,
-                  originKind: value as SkillTriggerDamageOriginKind
+                  originKind: value
                 }
               })}
             />
@@ -2528,12 +2529,12 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               options={(['SOURCE', 'CURRENT_TARGET'] as const).map((value) => ({
                 value,
                 label: SKILL_TRIGGER_SUBJECT_LABELS[value]
-              }))}
-              onChange={(value) => onChange({
+              })) satisfies { value: SkillTriggerSubjectEventDetail['subject']; label: string; disabled?: boolean }[]}
+              onChange={(value: SkillTriggerSubjectEventDetail['subject']) => onChange({
                 eventType: 'STATUS_CHANGED',
                 detail: {
                   ...eventSource.detail,
-                  subject: value as 'SOURCE' | 'CURRENT_TARGET'
+                  subject: value
                 }
               })}
             />
@@ -2544,7 +2545,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               value={eventSource.detail.statusKey || undefined}
               disabled={disabled}
               options={props.statuses(eventSource.detail.statusKey)}
-              onChange={(value) => onChange({
+              onChange={(value: string) => onChange({
                 eventType: 'STATUS_CHANGED',
                 detail: { ...eventSource.detail, statusKey: String(value ?? '') }
               })}
@@ -2558,12 +2559,12 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               options={(Object.keys(SKILL_TRIGGER_STATUS_CHANGE_LABELS) as SkillTriggerStatusChangeKind[]).map((value) => ({
                 value,
                 label: SKILL_TRIGGER_STATUS_CHANGE_LABELS[value]
-              }))}
-              onChange={(value) => onChange({
+              })) satisfies { value: SkillTriggerStatusChangeKind; label: string; disabled?: boolean }[]}
+              onChange={(value: SkillTriggerStatusChangeKind) => onChange({
                 eventType: 'STATUS_CHANGED',
                 detail: {
                   ...eventSource.detail,
-                  change: value as SkillTriggerStatusChangeKind
+                  change: value
                 }
               })}
             />
@@ -2581,12 +2582,12 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               options={(['SOURCE', 'CURRENT_TARGET'] as const).map((value) => ({
                 value,
                 label: SKILL_TRIGGER_SUBJECT_LABELS[value]
-              }))}
-              onChange={(value) => onChange({
+              })) satisfies { value: SkillTriggerSubjectEventDetail['subject']; label: string; disabled?: boolean }[]}
+              onChange={(value: SkillTriggerSubjectEventDetail['subject']) => onChange({
                 eventType: 'HEALTH_THRESHOLD_CROSSED',
                 detail: {
                   ...eventSource.detail,
-                  subject: value as 'SOURCE' | 'CURRENT_TARGET'
+                  subject: value
                 }
               })}
             />
@@ -2597,7 +2598,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               value={eventSource.detail.attributeKey || undefined}
               disabled={disabled}
               options={props.attributes(eventSource.detail.attributeKey)}
-              onChange={(value) => onChange({
+              onChange={(value: string) => onChange({
                 eventType: 'HEALTH_THRESHOLD_CROSSED',
                 detail: { ...eventSource.detail, attributeKey: String(value ?? '') }
               })}
@@ -2622,12 +2623,12 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               options={(Object.keys(SKILL_TRIGGER_HEALTH_DIRECTION_LABELS) as SkillTriggerHealthDirection[]).map((value) => ({
                 value,
                 label: SKILL_TRIGGER_HEALTH_DIRECTION_LABELS[value]
-              }))}
-              onChange={(value) => onChange({
+              })) satisfies { value: SkillTriggerHealthDirection; label: string; disabled?: boolean }[]}
+              onChange={(value: SkillTriggerHealthDirection) => onChange({
                 eventType: 'HEALTH_THRESHOLD_CROSSED',
                 detail: {
                   ...eventSource.detail,
-                  direction: value as SkillTriggerHealthDirection
+                  direction: value
                 }
               })}
             />
@@ -2658,7 +2659,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                 value: item.stateKey,
                 label: item.name || item.stateKey
               }))}
-              onChange={(value) => {
+              onChange={(value: string) => {
                 const stateKey = String(value ?? '');
                 const nextState = props.internalStates.find((item) => item.stateKey === stateKey);
                 const nextKinds = changeKindsForInternalState(nextState?.stateType ?? null);
@@ -2684,13 +2685,13 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               options={kinds.map((value) => ({
                 value,
                 label: SKILL_TRIGGER_INTERNAL_STATE_CHANGE_LABELS[value]
-              }))}
-              onChange={(value) => onChange({
+              })) satisfies { value: SkillTriggerInternalStateChangeKind; label: string; disabled?: boolean }[]}
+              onChange={(value: SkillTriggerInternalStateChangeKind) => onChange({
                 eventType: 'INTERNAL_STATE_CHANGED',
                 detail: {
                   stateSkillKey: eventSource.detail.stateSkillKey || props.skillKey,
                   stateKey: eventSource.detail.stateKey,
-                  changeKind: value as SkillTriggerInternalStateChangeKind
+                  changeKind: value
                 }
               })}
             />
@@ -2708,10 +2709,10 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
             options={(['SOURCE', 'CURRENT_TARGET'] as const).map((value) => ({
               value,
               label: SKILL_TRIGGER_SUBJECT_LABELS[value]
-            }))}
-            onChange={(value) => onChange({
+            })) satisfies { value: SkillTriggerSubjectEventDetail['subject']; label: string; disabled?: boolean }[]}
+            onChange={(value: SkillTriggerSubjectEventDetail['subject']) => onChange({
               eventType: 'ENTITY_DIED',
-              detail: { subject: value as 'SOURCE' | 'CURRENT_TARGET' }
+              detail: { subject: value }
             })}
           />
         </Form.Item>
@@ -2726,10 +2727,10 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
             options={(['SOURCE', 'CURRENT_TARGET'] as const).map((value) => ({
               value,
               label: SKILL_TRIGGER_SUBJECT_LABELS[value]
-            }))}
-            onChange={(value) => onChange({
+            })) satisfies { value: SkillTriggerSubjectEventDetail['subject']; label: string; disabled?: boolean }[]}
+            onChange={(value: SkillTriggerSubjectEventDetail['subject']) => onChange({
               eventType: 'ENTITY_UNTARGETABLE',
-              detail: { subject: value as 'SOURCE' | 'CURRENT_TARGET' }
+              detail: { subject: value }
             })}
           />
         </Form.Item>
@@ -2745,7 +2746,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               value: item.processKey,
               label: item.name || item.processKey
             }))}
-            onChange={(value) => onChange({
+            onChange={(value: string) => onChange({
               eventType: 'PROCESS_CANCEL_REQUESTED',
               detail: { processKey: String(value ?? '') }
             })}
@@ -2790,7 +2791,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
             loading={props.spellShieldCatalogState === 'loading'}
             disabled={disabled || props.spellShieldCatalogState !== 'ready'}
             options={options}
-            onChange={(value) => onChange({
+            onChange={(value: string) => onChange({
               eventType: 'SPELL_SHIELD_BLOCKED',
               detail: { shieldEffectKey: String(value ?? '') }
             })}

@@ -23,17 +23,19 @@ export type AutomaticSkillInputs = {
   maxAutomaticSkillRecords: number; maxHealingRecords: number; maxResourceChangeRecords?: number; outputMode: 'detailed' | 'summary';
 };
 export type PreparedAutomaticSkill = { runRequest: RunRequest; runInputHash: string; attackSpeedAdmission: AttackSpeedAdmission | null };
+type AutomaticSkillRelation = Pick<AutomaticSkillInput, 'ruleKey' | 'sortOrder' | 'waitForCooldowns' | 'releaseAfterRuleKey'>;
 const keyPattern = /^[a-z][a-z0-9_]{0,63}$/;
 function integer(value: number, maximum: number, path: string) {
   if (!Number.isSafeInteger(value) || value < 0 || value > maximum) throw new Error(`${path}: 需要0～${maximum}的明确整数`);
 }
 
 /** 资格图与关联冷却图分别核对，冷却相互等待不属于资格环。 */
-export function validateAutomaticSkillRelations(rules: readonly Pick<AutomaticSkillInput, 'ruleKey' | 'sortOrder' | 'waitForCooldowns' | 'releaseAfterRuleKey'>[]) {
+export function validateAutomaticSkillRelations(rules: readonly AutomaticSkillRelation[]) {
   if (!Array.isArray(rules) || !rules.length || rules.length > 16) throw new Error('automaticSkills.rules: 需要1～16项明确规则');
+  const relationRules: readonly AutomaticSkillRelation[] = rules;
   const keys = new Set<string>();
   const priorities = new Set<number>();
-  for (const [index, rule] of rules.entries()) {
+  for (const [index, rule] of relationRules.entries()) {
     const path = `automaticSkills.rules[${index}]`;
     if (!rule || !keyPattern.test(rule.ruleKey) || keys.has(rule.ruleKey)) throw new Error(`${path}.ruleKey: 规则标识需要合法且唯一`);
     integer(rule.sortOrder, 15, `${path}.sortOrder`);
@@ -41,7 +43,7 @@ export function validateAutomaticSkillRelations(rules: readonly Pick<AutomaticSk
     keys.add(rule.ruleKey); priorities.add(rule.sortOrder);
   }
   const successors = new Set<string>();
-  for (const [index, rule] of rules.entries()) {
+  for (const [index, rule] of relationRules.entries()) {
     const path = `automaticSkills.rules[${index}]`;
     if (!Array.isArray(rule.waitForCooldowns)) throw new Error(`${path}.waitForCooldowns: 必须明确提供关联数组`);
     const refs = new Set<string>();
@@ -56,8 +58,8 @@ export function validateAutomaticSkillRelations(rules: readonly Pick<AutomaticSk
       successors.add(ref);
     }
   }
-  const byKey = new Map(rules.map(rule => [rule.ruleKey, rule]));
-  for (const rule of rules) {
+  const byKey = new Map(relationRules.map(rule => [rule.ruleKey, rule]));
+  for (const rule of relationRules) {
     const visited = new Set<string>();
     let current: string | null = rule.ruleKey;
     while (current !== null) {

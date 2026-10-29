@@ -6570,6 +6570,7 @@ test.describe('skill management without Wasm', () => {
     await stepModal.getByLabel('步骤名称', { exact: true }).fill('强化普攻');
     await chooseSelectOption(page, stepModal, '有效窗口取值', '强化窗口');
     await clickArcoRadioByVisibleLabel(stepModal, '攻击发起');
+    await stepModal.getByRole('spinbutton', { name: '最多消费次数固定数值', exact: true }).fill('1');
     await saveOpenModal(stepModal);
     await expect(createModal.locator('tr', { hasText: 'empowered' })).toContainText('强化下一次普通攻击');
     await createModal.getByRole('button', { name: '取消', exact: true }).click();
@@ -8004,7 +8005,7 @@ test.describe('attribute management without Wasm', () => {
     const enableModal = visibleModal(page, '启用属性');
     mock.writeFailure = 'network';
     await enableModal.getByRole('button', { name: '启用', exact: true }).click();
-    await expect(enableModal.getByText(/fetch|network/i)).toBeVisible();
+    await expect(enableModal.getByText('网络请求失败，请检查网络连接和 API 地址。', { exact: true })).toBeVisible();
     await expect(enableModal).toBeVisible();
     mock.writeFailure = null;
     await enableModal.getByRole('button', { name: '启用', exact: true }).click();
@@ -8040,7 +8041,7 @@ test.describe('attribute management without Wasm', () => {
 
     mock.writeFailure = 'network';
     await modal.getByRole('button', { name: '保存', exact: true }).click();
-    await expect(modal.getByText(/fetch|network/i)).toBeVisible();
+    await expect(modal.getByText('网络请求失败，请检查网络连接和 API 地址。', { exact: true })).toBeVisible();
     await expect(modal.getByLabel('属性名称')).toHaveValue('重复草稿');
     diagnostics.assertClean('write failures retain draft');
   });

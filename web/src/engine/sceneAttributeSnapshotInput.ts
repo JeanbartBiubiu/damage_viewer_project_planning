@@ -99,7 +99,7 @@ export function bindSceneAttributeParameters(authored: {
     const detail = detailOf(binding, path);
     const parameter = parameterOf(authored.parameters ?? [], authored.skillKey, binding.parameterKey, path);
     if (parameter.gameId !== authored.gameId) fail(path, '场景属性快照参数不属于当前游戏');
-    const matches = inputs.filter(input => input.ruleKey === rule.ruleKey && input.actionKey === action.actionKey
+    const matches: SceneAttributeParameterInput[] = inputs.filter((input: SceneAttributeParameterInput) => input.ruleKey === rule.ruleKey && input.actionKey === action.actionKey
       && input.bindingKey === binding.bindingKey && input.parameterKey === binding.parameterKey);
     const input = matches[0];
     if (matches.length !== 1 || !input || input.subject !== detail.subject || input.attributeKey !== detail.attributeKey

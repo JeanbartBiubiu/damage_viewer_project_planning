@@ -84,7 +84,8 @@ export function AutomaticSkillAnalysis({ archive, view, onChange, ruleName, chil
           onChange={value => value !== undefined && rangeChange([view.timeRangeMs[0], value])} /></label>
         <Button onClick={() => rangeChange([0, done.summary.durationMs])}>恢复完整时间范围</Button>
         <Select aria-label="自动伤害率模式" value={view.dpsMode} style={{ width: 210 }}
-          options={[{ value: 'cumulative', label: '累计平均伤害率' }, { value: 'window', label: '滚动窗口伤害率' }]} onChange={value => patch({ dpsMode: value })} />
+          options={[{ value: 'cumulative', label: '累计平均伤害率' }, { value: 'window', label: '滚动窗口伤害率' }] satisfies { value: AutomaticSkillView['dpsMode']; label: string }[]}
+          onChange={(value: AutomaticSkillView['dpsMode']) => patch({ dpsMode: value })} />
       </Space>
       {done.series.length ? <>
         <Typography.Paragraph data-testid="automatic-sampling-evidence">请求间隔{done.seriesSamplingEvidence.requestedSampleEveryMs}毫秒；有效间隔{done.seriesSamplingEvidence.effectiveSampleEveryMs}毫秒；
@@ -108,14 +109,15 @@ export function AutomaticSkillAnalysis({ archive, view, onChange, ruleName, chil
       <Typography.Title heading={5}>完整来源与伤害类型贡献</Typography.Title>
       <Space wrap>
         <Select aria-label="自动伤害来源筛选" placeholder="全部来源" mode="multiple" allowClear value={view.sourceKeys} style={{ minWidth: 260, maxWidth: 600 }}
-          options={sourceRows.map(([value, row]) => ({ value, label: sourceLabel(row) }))} onChange={value => patch({ sourceKeys: value })} />
+          options={sourceRows.map(([value, row]) => ({ value, label: sourceLabel(row) }))} onChange={(value: AutomaticSkillView['sourceKeys']) => patch({ sourceKeys: value })} />
         <Select aria-label="自动伤害类型筛选" placeholder="全部伤害类型" mode="multiple" allowClear value={view.damageTypes} style={{ minWidth: 190 }}
-          options={[...new Set(allBreakdown.map(row => row.damageType))].map(value => ({ value, label: typeLabel(value) }))} onChange={value => patch({ damageTypes: value })} />
+          options={[...new Set(allBreakdown.map(row => row.damageType))].map(value => ({ value, label: typeLabel(value) }))} onChange={(value: AutomaticSkillView['damageTypes']) => patch({ damageTypes: value })} />
         <Button onClick={() => patch({ sourceKeys: [], damageTypes: [] })}>清除来源与类型筛选</Button>
         <Select aria-label="自动来源拆分方式" value={view.breakdownMode} style={{ width: 170 }}
-          options={[{ value: 'source', label: '按来源拆分' }, { value: 'type', label: '按伤害类型拆分' }]} onChange={value => patch({ breakdownMode: value })} />
+          options={[{ value: 'source', label: '按来源拆分' }, { value: 'type', label: '按伤害类型拆分' }] satisfies { value: AutomaticSkillView['breakdownMode']; label: string }[]}
+          onChange={(value: AutomaticSkillView['breakdownMode']) => patch({ breakdownMode: value })} />
         <Select aria-label="自动来源金额指标" value={view.amountMetric} style={{ width: 160 }}
-          options={amountMetrics.map(value => ({ value, label: amountLabels[value] }))} onChange={value => patch({ amountMetric: value as AmountMetric })} />
+          options={amountMetrics.map(value => ({ value, label: amountLabels[value] }))} onChange={(value: AmountMetric) => patch({ amountMetric: value })} />
       </Space>
       <Typography.Paragraph>分类小计（整次运行{amountLabels[view.amountMetric]}）：<span data-testid="automatic-breakdown-subtotal">{number(filtered.breakdownSubtotal)}</span>。
         完整分类来自汇总，不按时间范围裁剪；四种金额分别观察，不能相加为总额。</Typography.Paragraph>

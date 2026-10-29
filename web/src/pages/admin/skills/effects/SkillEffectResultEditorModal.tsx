@@ -282,9 +282,9 @@ function DamageFilterFields({
           aria-label="伤害过滤产生方式"
           value={draft.damageFilterDeliveryKind}
           disabled={readOnly}
-          onChange={(value) => onChange({
+          onChange={(value: SkillEffectDamageFilterDeliveryKind) => onChange({
             ...draft,
-            damageFilterDeliveryKind: value as SkillEffectDamageFilterDeliveryKind
+            damageFilterDeliveryKind: value
           })}
         >
           {Object.entries(SKILL_EFFECT_DAMAGE_FILTER_DELIVERY_KIND_LABELS).map(([value, label]) => (
@@ -302,9 +302,9 @@ function DamageFilterFields({
           aria-label="伤害过滤来源性质"
           value={draft.damageFilterOriginKind}
           disabled={readOnly}
-          onChange={(value) => onChange({
+          onChange={(value: SkillEffectDamageFilterOriginKind) => onChange({
             ...draft,
-            damageFilterOriginKind: value as SkillEffectDamageFilterOriginKind
+            damageFilterOriginKind: value
           })}
         >
           {Object.entries(SKILL_EFFECT_DAMAGE_FILTER_ORIGIN_KIND_LABELS).map(([value, label]) => (
@@ -323,9 +323,9 @@ function DamageFilterFields({
             aria-label="暴击过滤"
             value={draft.criticalFilter}
             disabled={readOnly}
-            onChange={(value) => onChange({
+            onChange={(value: SkillEffectCriticalFilter) => onChange({
               ...draft,
-              criticalFilter: value as SkillEffectCriticalFilter
+              criticalFilter: value
             })}
           >
             {Object.entries(SKILL_EFFECT_CRITICAL_FILTER_LABELS).map(([value, label]) => (
@@ -1054,7 +1054,7 @@ export function SkillEffectResultEditorModal({
             options={toSelectOptions(modifierZoneOptions, modifierZoneNames)}
             placeholder="请选择乘区"
             style={{ minWidth: 360 }}
-            onChange={(value) => patchDraft({ ...draft, modifierZoneKey: String(value ?? '') })}
+            onChange={(value: string) => patchDraft({ ...draft, modifierZoneKey: String(value ?? '') })}
           />
           {!readOnly && !workspaceMode ? (
             <Button
@@ -1296,8 +1296,8 @@ export function SkillEffectResultEditorModal({
               options={SKILL_EFFECT_RESULT_TYPES.map((value) => ({
                 value,
                 label: SKILL_EFFECT_RESULT_TYPE_LABELS[value]
-              }))}
-              onChange={(value) => changeResultType(value as SkillEffectResultType)}
+              })) satisfies { value: SkillEffectResultType; label: string; disabled?: boolean }[]}
+              onChange={(value: SkillEffectResultType) => changeResultType(value)}
             />
           </Form.Item>
           </AuthoringFieldAnchor>
@@ -1312,13 +1312,13 @@ export function SkillEffectResultEditorModal({
               aria-label="作用对象"
               value={draft.target}
               disabled={readOnly}
-              onChange={(value) => patchDraftWithCleanupConfirmation({
+              onChange={(value: SkillEffectTarget) => patchDraftWithCleanupConfirmation({
                 ...draft,
-                target: value as SkillEffectTarget
+                target: value
               })}
             >
-              <Radio value="SOURCE">{SKILL_EFFECT_TARGET_LABELS.SOURCE}</Radio>
-              <Radio value="TARGET">{SKILL_EFFECT_TARGET_LABELS.TARGET}</Radio>
+              <Radio value={"SOURCE" satisfies SkillEffectTarget}>{SKILL_EFFECT_TARGET_LABELS.SOURCE}</Radio>
+              <Radio value={"TARGET" satisfies SkillEffectTarget}>{SKILL_EFFECT_TARGET_LABELS.TARGET}</Radio>
             </Radio.Group>
           </Form.Item>
           </AuthoringFieldAnchor>
@@ -1445,8 +1445,8 @@ export function SkillEffectResultEditorModal({
               <Form.Item label="普攻伤害角色" validateStatus={errors.attackDamageRole ? 'error' : undefined} help={errors.attackDamageRole}>
                 <Select aria-label="普攻伤害角色" value={draft.attackDamageRole} disabled={readOnly}
                   options={[{ value: '', label: '普通伤害' }, { value: 'PRIMARY', label: '普通攻击主体' },
-                    { value: 'REPLACE_PRIMARY', label: '待击替换主体' }]}
-                  onChange={value => patchDraft({ ...draft, attackDamageRole: value as typeof draft.attackDamageRole })} />
+                    { value: 'REPLACE_PRIMARY', label: '待击替换主体' }] satisfies { value: SkillEffectResultDraft['attackDamageRole']; label: string; disabled?: boolean }[]}
+                  onChange={(value: SkillEffectResultDraft['attackDamageRole']) => patchDraft({ ...draft, attackDamageRole: value })} />
               </Form.Item>
               <Form.Item
                 label="伤害类型"
@@ -1460,7 +1460,7 @@ export function SkillEffectResultEditorModal({
                   disabled={readOnly}
                   options={toSelectOptions(damageTypeOptions, damageTypeNames)}
                   placeholder="请选择伤害类型"
-                  onChange={(value) => patchDraft({ ...draft, damageTypeKey: String(value ?? '') })}
+                  onChange={(value: string) => patchDraft({ ...draft, damageTypeKey: String(value ?? '') })}
                 />
               </Form.Item>
               <Form.Item
@@ -1473,9 +1473,9 @@ export function SkillEffectResultEditorModal({
                   aria-label="伤害产生方式"
                   value={draft.damageDeliveryKind}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft({
+                  onChange={(value: SkillEffectDamageDeliveryKind) => patchDraft({
                     ...draft,
-                    damageDeliveryKind: value as SkillEffectDamageDeliveryKind
+                    damageDeliveryKind: value
                   })}
                 >
                   {(Object.keys(
@@ -1497,9 +1497,9 @@ export function SkillEffectResultEditorModal({
                   aria-label="伤害来源性质"
                   value={draft.damageOriginKind}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft({
+                  onChange={(value: SkillEffectDamageOriginKind) => patchDraft({
                     ...draft,
-                    damageOriginKind: value as SkillEffectDamageOriginKind
+                    damageOriginKind: value
                   })}
                 >
                   {(Object.keys(
@@ -1527,8 +1527,8 @@ export function SkillEffectResultEditorModal({
                   aria-label="暴击方式"
                   value={draft.criticalMode}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft(
-                    applyCriticalModeChange(draft, value as SkillEffectCriticalMode)
+                  onChange={(value: SkillEffectCriticalMode) => patchDraft(
+                    applyCriticalModeChange(draft, value)
                   )}
                 >
                   {(Object.keys(
@@ -1559,14 +1559,14 @@ export function SkillEffectResultEditorModal({
                 </Form.Item>
               ) : null}
               <Form.Item label="吸血资格" required validateStatus={errors.vampQualification ? 'error' : undefined} help={errors.vampQualification}>
-                <Radio.Group aria-label="吸血资格" value={draft.vampQualification} disabled={readOnly} onChange={(value) => {
+                <Radio.Group aria-label="吸血资格" value={draft.vampQualification} disabled={readOnly} onChange={(value: SkillEffectResultDraft['vampQualification']) => {
                   const apply = () => patchDraft({ ...draft, vampQualification: value, vampOverrides: value === 'UNRESOLVED' ? [] : draft.vampOverrides });
                   if (value === 'UNRESOLVED' && draft.vampOverrides.length) {
                     Modal.confirm({ title: '清除吸血例外', content: '改为未核定会清除当前吸血例外，后续核定前不能运行。', okText: '清除并设为未核定', cancelText: '继续编辑', onOk: apply });
                   } else apply();
                 }}>
-                  <Radio value="UNRESOLVED">未核定，不可运行</Radio>
-                  <Radio value="RESOLVED">已核定，继承游戏规则</Radio>
+                  <Radio value={"UNRESOLVED" satisfies SkillEffectResultDraft['vampQualification']}>未核定，不可运行</Radio>
+                  <Radio value={"RESOLVED" satisfies SkillEffectResultDraft['vampQualification']}>已核定，继承游戏规则</Radio>
                 </Radio.Group>
               </Form.Item>
               <Alert type="warning" content="召唤师技能、反伤、强化攻击附伤、宠物及范围或持续伤害，需要按来源核定资格。不要仅凭技能伤害或普攻伤害分类判断；独立治疗仍单独配置。" />
@@ -1596,15 +1596,15 @@ export function SkillEffectResultEditorModal({
                       const patchRule = (next: typeof rule) => patchDraft({ ...draft, vampOverrides: sortVampOverrideDrafts(draft.vampOverrides.map((item, i) => i === index ? next : item)) });
                       return <Space wrap key={(rule.vampType || 'new') + '-' + index} style={{ width: '100%' }}>
                         <Select aria-label={'吸血种类 ' + (index + 1)} value={rule.vampType || undefined} disabled={readOnly} style={{ width: 180 }}
-                          options={SKILL_EFFECT_VAMP_TYPES.filter((value) => !usedByOthers.has(value)).map((value) => ({ value, label: SKILL_EFFECT_VAMP_TYPE_LABELS[value] }))}
-                          onChange={(value) => patchRule({ ...rule, vampType: value as SkillEffectVampType })} />
+                          options={SKILL_EFFECT_VAMP_TYPES.filter((value) => !usedByOthers.has(value)).map((value) => ({ value, label: SKILL_EFFECT_VAMP_TYPE_LABELS[value] })) satisfies { value: SkillEffectVampType; label: string; disabled?: boolean }[]}
+                          onChange={(value: SkillEffectVampType) => patchRule({ ...rule, vampType: value })} />
                         <Select aria-label={'吸血例外方式 ' + (index + 1)} value={rule.mode} disabled={readOnly} style={{ width: 180 }}
-                          options={[{ value: 'DISABLED', label: '明确禁止' }, { value: 'OVERRIDE', label: '覆盖资格与效率' }]}
-                          onChange={(mode) => patchRule({ ...rule, mode, basisOutputKind: null, efficiencyValue: null })} />
+                          options={[{ value: 'DISABLED', label: '明确禁止' }, { value: 'OVERRIDE', label: '覆盖资格与效率' }] satisfies { value: typeof rule.mode; label: string; disabled?: boolean }[]}
+                          onChange={(mode: typeof rule.mode) => patchRule({ ...rule, mode, basisOutputKind: null, efficiencyValue: null })} />
                         {rule.mode === 'OVERRIDE' ? <>
                           <Select aria-label={'吸血计算基准 ' + (index + 1)} value={rule.basisOutputKind || undefined} disabled={readOnly} style={{ width: 200 }} placeholder="计算基准"
                             options={Object.entries(SKILL_EFFECT_VAMP_BASIS_OUTPUT_KIND_LABELS).map(([value, label]) => ({ value, label }))}
-                            onChange={(value) => patchRule({ ...rule, basisOutputKind: value as SkillEffectVampBasisOutputKind })} />
+                            onChange={(value: SkillEffectVampBasisOutputKind) => patchRule({ ...rule, basisOutputKind: value })} />
                           <NumericValueField aria-label={'吸血效率取值 ' + (index + 1)} value={rule.efficiencyValue}
                             onChange={(efficiencyValue) => patchRule({ ...rule, efficiencyValue })} parameters={parameters} formulas={formulas} disabled={readOnly} />
                         </> : null}
@@ -1635,7 +1635,7 @@ export function SkillEffectResultEditorModal({
                     { value: '', label: '全部伤害' },
                     ...toSelectOptions(absorbedDamageTypeOptions, damageTypeNames)
                   ]}
-                  onChange={(value) => patchDraft({
+                  onChange={(value: string) => patchDraft({
                     ...draft,
                     absorbedDamageTypeKey: String(value ?? '')
                   })}
@@ -1651,8 +1651,8 @@ export function SkillEffectResultEditorModal({
                   aria-label="护盾衰减"
                   value={draft.shieldDecayMode}
                   disabled={readOnly}
-                  onChange={(value) => changeShieldDecayMode(
-                    value as SkillEffectNormalShieldDecayMode
+                  onChange={(value: SkillEffectNormalShieldDecayMode) => changeShieldDecayMode(
+                    value
                   )}
                 >
                   {(Object.keys(
@@ -1688,9 +1688,9 @@ export function SkillEffectResultEditorModal({
                   aria-label="伤害修正作用方向"
                   value={draft.modifierDirection}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft({
+                  onChange={(value: SkillEffectDamageModifierDirection) => patchDraft({
                     ...draft,
-                    modifierDirection: value as SkillEffectDamageModifierDirection
+                    modifierDirection: value
                   })}
                 >
                   {Object.entries(SKILL_EFFECT_DAMAGE_MODIFIER_DIRECTION_LABELS).map(([value, label]) => (
@@ -1708,9 +1708,9 @@ export function SkillEffectResultEditorModal({
                   aria-label="伤害修正方式"
                   value={draft.modifierOperation}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft({
+                  onChange={(value: SkillEffectModifierOperation) => patchDraft({
                     ...draft,
-                    modifierOperation: value as SkillEffectModifierOperation
+                    modifierOperation: value
                   })}
                 >
                   {Object.entries(SKILL_EFFECT_MODIFIER_OPERATION_LABELS).map(([value, label]) => (
@@ -1731,7 +1731,7 @@ export function SkillEffectResultEditorModal({
                     { value: '', label: '全部伤害' },
                     ...toSelectOptions(damageTypeOptions, damageTypeNames)
                   ]}
-                  onChange={(value) => patchDraft({ ...draft, damageTypeKey: String(value ?? '') })}
+                  onChange={(value: string) => patchDraft({ ...draft, damageTypeKey: String(value ?? '') })}
                 />
               </Form.Item>
               <DamageFilterFields
@@ -1768,7 +1768,7 @@ export function SkillEffectResultEditorModal({
                         loading={Boolean(catalogLoading.attributes)}
                         options={toSelectOptions(conditionAttributeOptions, attributeNames)}
                         placeholder="请选择生命属性"
-                        onChange={(value) => patchDraft({
+                        onChange={(value: string) => patchDraft({
                           ...draft,
                           damageModifierCondition: {
                             ...draft.damageModifierCondition!, attributeKey: String(value ?? '')
@@ -1782,14 +1782,14 @@ export function SkillEffectResultEditorModal({
                       help={errors.conditionComparator}>
                       <Radio.Group aria-label="本笔生命比例严格比较"
                         value={draft.damageModifierCondition.comparator} disabled={readOnly}
-                        onChange={(value) => patchDraft({
+                        onChange={(value: NonNullable<SkillEffectResultDraft['damageModifierCondition']>['comparator']) => patchDraft({
                           ...draft,
                           damageModifierCondition: {
-                            ...draft.damageModifierCondition!, comparator: value as 'LT' | 'GT'
+                            ...draft.damageModifierCondition!, comparator: value
                           }
                         })}>
-                        <Radio value="LT">严格低于（&lt;）</Radio>
-                        <Radio value="GT">严格高于（&gt;）</Radio>
+                        <Radio value={"LT" satisfies NonNullable<SkillEffectResultDraft['damageModifierCondition']>['comparator']}>严格低于（&lt;）</Radio>
+                        <Radio value={"GT" satisfies NonNullable<SkillEffectResultDraft['damageModifierCondition']>['comparator']}>严格高于（&gt;）</Radio>
                       </Radio.Group>
                     </Form.Item>
                   </AuthoringFieldAnchor>
@@ -1825,7 +1825,7 @@ export function SkillEffectResultEditorModal({
                 help={errors.modifierOperation}>
                 <Radio.Group aria-label="收到护盾修正方式" value={draft.modifierOperation}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft({ ...draft, modifierOperation: value as SkillEffectModifierOperation })}>
+                  onChange={(value: SkillEffectModifierOperation) => patchDraft({ ...draft, modifierOperation: value })}>
                   {Object.entries(SKILL_EFFECT_MODIFIER_OPERATION_LABELS).map(([value, label]) => (
                     <Radio key={value} value={value}>{label}</Radio>
                   ))}
@@ -1847,9 +1847,9 @@ export function SkillEffectResultEditorModal({
                   aria-label="治疗修正作用方向"
                   value={draft.healingModifierDirection}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft({
+                  onChange={(value: SkillEffectHealingModifierDirection) => patchDraft({
                     ...draft,
-                    healingModifierDirection: value as SkillEffectHealingModifierDirection
+                    healingModifierDirection: value
                   })}
                 >
                   {Object.entries(SKILL_EFFECT_HEALING_MODIFIER_DIRECTION_LABELS).map(([value, label]) => (
@@ -1867,9 +1867,9 @@ export function SkillEffectResultEditorModal({
                   aria-label="治疗修正方式"
                   value={draft.modifierOperation}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft({
+                  onChange={(value: SkillEffectModifierOperation) => patchDraft({
                     ...draft,
-                    modifierOperation: value as SkillEffectModifierOperation
+                    modifierOperation: value
                   })}
                 >
                   {Object.entries(SKILL_EFFECT_MODIFIER_OPERATION_LABELS).map(([value, label]) => (
@@ -1887,9 +1887,9 @@ export function SkillEffectResultEditorModal({
                   aria-label="治疗种类"
                   value={draft.healingKind}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft({
+                  onChange={(value: SkillEffectHealingKind) => patchDraft({
                     ...draft,
-                    healingKind: value as SkillEffectHealingKind
+                    healingKind: value
                   })}
                 >
                   {Object.entries(SKILL_EFFECT_HEALING_KIND_LABELS).map(([value, label]) => (
@@ -1919,7 +1919,7 @@ export function SkillEffectResultEditorModal({
                     { value: '', label: '全部伤害' },
                     ...toSelectOptions(damageTypeOptions, damageTypeNames)
                   ]}
-                  onChange={(value) => patchDraft({ ...draft, damageTypeKey: String(value ?? '') })}
+                  onChange={(value: string) => patchDraft({ ...draft, damageTypeKey: String(value ?? '') })}
                 />
               </Form.Item>
               <DamageFilterFields
@@ -1945,7 +1945,7 @@ export function SkillEffectResultEditorModal({
                 disabled={readOnly}
                 options={toSelectOptions(attributeOptions, attributeNames)}
                 placeholder="请选择生命属性"
-                onChange={(value) => patchDraft({ ...draft, attributeKey: String(value ?? '') })}
+                onChange={(value: string) => patchDraft({ ...draft, attributeKey: String(value ?? '') })}
               />
             </Form.Item>
           ) : null}
@@ -1965,7 +1965,7 @@ export function SkillEffectResultEditorModal({
                   disabled={readOnly}
                   options={toSelectOptions(attributeOptions, attributeNames)}
                   placeholder="请选择属性"
-                  onChange={(value) => patchDraft({ ...draft, attributeKey: String(value ?? '') })}
+                  onChange={(value: string) => patchDraft({ ...draft, attributeKey: String(value ?? '') })}
                 />
               </Form.Item>
               </AuthoringFieldAnchor>
@@ -1979,9 +1979,9 @@ export function SkillEffectResultEditorModal({
                   aria-label="属性变化操作"
                   value={draft.attributeOperation}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft({
+                  onChange={(value: AttributeChangeOperation) => patchDraft({
                     ...draft,
-                    attributeOperation: value as AttributeChangeOperation
+                    attributeOperation: value
                   })}
                 >
                   {Object.entries(ATTRIBUTE_CHANGE_OPERATION_LABELS).map(([value, label]) => (
@@ -2021,7 +2021,7 @@ export function SkillEffectResultEditorModal({
                   disabled={readOnly}
                   options={toSelectOptions(attributeOptions, attributeNames)}
                   placeholder="请选择资源属性"
-                  onChange={(value) => patchDraft({ ...draft, attributeKey: String(value ?? '') })}
+                  onChange={(value: string) => patchDraft({ ...draft, attributeKey: String(value ?? '') })}
                 />
               </Form.Item>
               </AuthoringFieldAnchor>
@@ -2036,9 +2036,9 @@ export function SkillEffectResultEditorModal({
                   aria-label="资源变化操作"
                   value={draft.resourceOperation}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft({
+                  onChange={(value: ResourceChangeOperation) => patchDraft({
                     ...draft,
-                    resourceOperation: value as ResourceChangeOperation
+                    resourceOperation: value
                   })}
                 >
                   {Object.entries(RESOURCE_CHANGE_OPERATION_LABELS).map(([value, label]) => (
@@ -2073,8 +2073,8 @@ export function SkillEffectResultEditorModal({
                   aria-label="冷却变化操作"
                   value={draft.cooldownOperation}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft(
-                    applyCooldownOperationChange(draft, value as CooldownChangeOperation)
+                  onChange={(value: CooldownChangeOperation) => patchDraft(
+                    applyCooldownOperationChange(draft, value)
                   )}
                 >
                   {Object.entries(COOLDOWN_CHANGE_OPERATION_LABELS).map(([value, label]) => (
@@ -2097,9 +2097,9 @@ export function SkillEffectResultEditorModal({
                   aria-label="技能急速操作"
                   value={draft.skillHasteOperation}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft({
+                  onChange={(value: SkillEffectModifierOperation) => patchDraft({
                     ...draft,
-                    skillHasteOperation: value as SkillEffectModifierOperation
+                    skillHasteOperation: value
                   })}
                 >
                   {Object.entries(SKILL_HASTE_MODIFIER_OPERATION_LABELS).map(([value, label]) => (
@@ -2135,7 +2135,7 @@ export function SkillEffectResultEditorModal({
                   disabled={readOnly}
                   options={toSelectOptions(statusOptions, statusNames)}
                   placeholder="请选择状态"
-                  onChange={(value) => {
+                  onChange={(value: string) => {
                     const key = String(value ?? '');
                     patchDraftWithCleanupConfirmation(applyStatusSelection(
                       draft, key, statuses.find((item) => item.statusKey === key)?.statusKind ?? null
@@ -2153,8 +2153,8 @@ export function SkillEffectResultEditorModal({
                   aria-label="状态操作"
                   value={draft.statusOperation}
                   disabled={readOnly}
-                  onChange={(value) => patchDraftWithCleanupConfirmation(applyStatusSelection(
-                    draft, draft.statusKey, draft.statusKind, value as StatusOperation
+                  onChange={(value: StatusOperation) => patchDraftWithCleanupConfirmation(applyStatusSelection(
+                    draft, draft.statusKey, draft.statusKind, value
                   ))}
                 >
                   {Object.entries(STATUS_OPERATION_LABELS).map(([value, label]) => (
@@ -2182,8 +2182,8 @@ export function SkillEffectResultEditorModal({
                     value,
                     label: SKILL_EFFECT_SPELL_SHIELD_BLOCK_SCOPE_LABELS[value]
                   }))
-                ]}
-                onChange={(value) => patchDraft({
+                ] satisfies { value: SkillEffectSpellShieldBlockScope | ''; label: string; disabled?: boolean }[]}
+                onChange={(value: SkillEffectSpellShieldBlockScope | '') => patchDraft({
                   ...draft,
                   spellShieldBlockScope: String(value ?? '') as SkillEffectSpellShieldBlockScope | ''
                 })}
@@ -2206,10 +2206,10 @@ export function SkillEffectResultEditorModal({
                   options={allowedMoments.map((value) => ({
                     value,
                     label: SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS[value]
-                  }))}
+                  })) satisfies { value: SkillEffectLifecycleMoment; label: string; disabled?: boolean }[]}
                   placeholder="请选择生命周期时点"
-                  onChange={(value) => patchDraftWithCleanupConfirmation(
-                    applyLifecycleMomentChange(draft, value as SkillEffectLifecycleMoment)
+                  onChange={(value: SkillEffectLifecycleMoment) => patchDraftWithCleanupConfirmation(
+                    applyLifecycleMomentChange(draft, value)
                   )}
                 />
               </Form.Item>
@@ -2225,8 +2225,8 @@ export function SkillEffectResultEditorModal({
                     aria-label="数值读取"
                     value={draft.lifecycleBehavior.valueReadMode}
                     disabled={readOnly || isValueReadModeFixed(draft)}
-                    onChange={(value) => patchDraftWithCleanupConfirmation(
-                      applyValueReadModeChange(draft, value as SkillEffectValueReadMode)
+                    onChange={(value: SkillEffectValueReadMode) => patchDraftWithCleanupConfirmation(
+                      applyValueReadModeChange(draft, value)
                     )}
                   >
                     {Object.entries(SKILL_EFFECT_VALUE_READ_MODE_LABELS)
@@ -2250,8 +2250,8 @@ export function SkillEffectResultEditorModal({
                     aria-label="层数值方式"
                     value={draft.lifecycleBehavior.stackValueMode}
                     disabled={readOnly || slowApply || isSharedOnlyPersistentResult(draft) || isFixedPersistentSnapshotResult(draft)}
-                    onChange={(value) => patchDraft(
-                      applyStackValueModeChange(draft, value as SkillEffectStackValueMode)
+                    onChange={(value: SkillEffectStackValueMode) => patchDraft(
+                      applyStackValueModeChange(draft, value)
                     )}
                   >
                     {Object.entries(SKILL_EFFECT_STACK_VALUE_MODE_LABELS)
@@ -2283,11 +2283,11 @@ export function SkillEffectResultEditorModal({
                     aria-label="重复值方式"
                     value={draft.lifecycleBehavior.reapplicationValueMode}
                     disabled={readOnly || slowApply || isFixedPersistentSnapshotResult(draft)}
-                    onChange={(value) => patchDraft({
+                    onChange={(value: SkillEffectReapplicationValueMode) => patchDraft({
                       ...draft,
                       lifecycleBehavior: {
                         ...draft.lifecycleBehavior,
-                        reapplicationValueMode: value as SkillEffectReapplicationValueMode
+                        reapplicationValueMode: value
                       }
                     })}
                   >
@@ -2314,11 +2314,11 @@ export function SkillEffectResultEditorModal({
                     aria-label="周期执行次数"
                     value={draft.lifecycleBehavior.periodicExecutionMode}
                     disabled={readOnly}
-                    onChange={(value) => patchDraft({
+                    onChange={(value: SkillEffectPeriodicExecutionMode) => patchDraft({
                       ...draft,
                       lifecycleBehavior: {
                         ...draft.lifecycleBehavior,
-                        periodicExecutionMode: value as SkillEffectPeriodicExecutionMode
+                        periodicExecutionMode: value
                       }
                     })}
                   >
@@ -2346,7 +2346,7 @@ export function SkillEffectResultEditorModal({
                   disabled={readOnly}
                   options={toLifecycleTargetSelectOptions(lifecycleTargetOptions, lifecycleTargetNames)}
                   placeholder="请选择目标效果"
-                  onChange={(value) => patchDraft({ ...draft, targetEffectKey: String(value ?? '') })}
+                  onChange={(value: string) => patchDraft({ ...draft, targetEffectKey: String(value ?? '') })}
                 />
               </Form.Item>
               <Form.Item
@@ -2362,10 +2362,10 @@ export function SkillEffectResultEditorModal({
                   options={SKILL_EFFECT_LIFECYCLE_OPERATIONS.map((value) => ({
                     value,
                     label: SKILL_EFFECT_LIFECYCLE_OPERATION_LABELS[value]
-                  }))}
+                  })) satisfies { value: SkillEffectLifecycleOperation; label: string; disabled?: boolean }[]}
                   placeholder="请选择操作"
-                  onChange={(value) => patchDraft(
-                    applyLifecycleOperationChange(draft, value as SkillEffectLifecycleOperation)
+                  onChange={(value: SkillEffectLifecycleOperation) => patchDraft(
+                    applyLifecycleOperationChange(draft, value)
                   )}
                 />
               </Form.Item>
