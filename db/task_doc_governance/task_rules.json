@@ -8,6 +8,16 @@
   ],
   "tasks": [
     {
+      "task_key": "web-type-safety-tightening",
+      "title": "前端关键数据流类型收紧",
+      "module": "web",
+      "feature": "type_safety_tightening",
+      "status": "未开始",
+      "priority": 2,
+      "owner_model": "Codex 主负责人",
+      "docs": ["文档记录/详细设计/web/前端类型收紧实施方案.md"]
+    },
+    {
       "task_key": "server-remove-redis",
       "title": "移除Redis与后端方法缓存",
       "module": "server",
