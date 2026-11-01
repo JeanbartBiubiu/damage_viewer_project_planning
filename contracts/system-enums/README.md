@@ -1,19 +1,19 @@
 # 系统固定枚举
 
-`authoring.json` 保存35组、202个固定成员及中文标签，是对应Web定义的唯一来源，包含触发、过程、修正区域计算方式及自动技能运行值。作者选择已有选项，原生返回实际运行值；目录标识、公式、数值、对象关系仍由作者填写。
+`authoring.json` 保存固定选项及中文标签，是对应Web定义的唯一来源，包含触发、过程、修正区域计算方式及自动技能运行值。作者选择已有选项，原生返回实际运行值；目录标识、公式、数值、对象关系仍由作者填写。
 
-生成文件为 `web/src/types/skillSystemEnums.generated.ts`。后端33个Java枚举、原生9个明确事件常量及15个自动调度常量使用只读成员核对；自动运行枚举不声明后端Java绑定。完整作者目录边界见[系统固定枚举与作者目录边界清单](../../文档记录/详细设计/项目/系统固定枚举与作者目录边界清单.md)，自动运行语义见[主动技能自动调度与连招约束详细设计](../../文档记录/详细设计/项目/主动技能自动调度与连招约束详细设计.md)。
+生成文件为 `web/src/types/skillSystemEnums.generated.ts`。后端Java枚举、原生事件及自动调度常量通过清单中的绑定做只读核对；自动运行枚举不声明后端Java绑定。作者仍配置技能、属性、伤害类型、对象引用及数值；固定选项不代替作者目录或位置准入。运行语义由实际调度与适配源码维护。
 
-生成与检查命令在规划真源运行，工作树必须明确指定：
+生成与检查命令从仓库根目录运行，目标检出必须明确指定：
 
 ```powershell
-node tools/system-enums/generate.mjs --target docs --root C:/project/damage_viewer_project_planning
-node tools/system-enums/generate.mjs --target docs --root C:/project/damage_viewer_project_planning --check
-node tools/system-enums/generate.mjs --target web --root C:/project/damage_web_dev
-node tools/system-enums/generate.mjs --target web --root C:/project/damage_web_dev --check --backend-root C:/project/damage_backend_dev --wasm-root C:/project/damage_wasm_dev
+node tools/system-enums/generate.mjs --target docs --root (Get-Location).Path
+node tools/system-enums/generate.mjs --target docs --root (Get-Location).Path --check
+node tools/system-enums/generate.mjs --target web --root (Get-Location).Path
+node tools/system-enums/generate.mjs --target web --root (Get-Location).Path --check --backend-root (Get-Location).Path --wasm-root (Get-Location).Path
 ```
 
-检查模式不写任何模块；生成模式按目标只写规划清单表或明确指定的Web生成文件，不同步根协作规则，也不修改后端或原生。固定选项全集与特定位置的支持子集分开：周期首次执行仅两值，引导窗口可以使用第三值；管理侧强化普攻消费有两值，当前运行准入仍只开放命中消费。
+检查模式不写任何模块；生成模式按目标只写本清单表或指定的Web生成文件，不同步根协作规则，也不修改后端或原生。固定选项全集与特定位置的支持子集分开：周期首次执行、引导窗口、强化普攻消费各有实际准入约束，不能由枚举值存在推断全部场景可运行。
 
 `SKILL_USED`与原生成功开始机制存在有界映射，`PROCESS_MOMENT`是过程操作时点，二者不生成虚构的同名事件目录键。现行类型目录声明、事件排序、生命、暴击及费用语义继续按原协议执行。
 
