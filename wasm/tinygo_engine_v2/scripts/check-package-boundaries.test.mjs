@@ -52,35 +52,44 @@ test('根运行入口与调度不能重新持有业务依赖或形成第二套�
   for (const edge of ['runtime -> pipeline', 'runtime -> runtime/action', 'runtime -> base/attribute', 'scheduler -> runtime/execution']) assert.ok(errors.some(value => value.includes(edge)), edge);
 });
 
-const executionLeaves = ['admission', 'hit', 'listener', 'evaluation'].map(name => `runtime/execution/${name}`);
+const executionLeaves = ['actionflow', 'lifecycle', 'operation', 'hit', 'listener', 'continuation'].map(name => `runtime/execution/${name}`);
+const supportLeaves = ['admission', 'evaluation', 'usage'].map(name => `runtime/execution/${name}`);
 
-test('四个执行子包按明确白名单供父执行器组合', () => {
+test('功能执行及公共支撑只能由父层按明确白名单组合', () => {
   assert.deepEqual(checkPackageBoundaries([
-    pkg('runtime/execution', executionLeaves),
+    pkg('runtime/execution', [...executionLeaves, ...supportLeaves]),
+    pkg('runtime/execution/actionflow', ['model', 'plan', 'formula', 'pipeline', 'base/attribute', 'base/typeset', 'runtime/action', 'runtime/effect', 'runtime/contract']),
+    pkg('runtime/execution/continuation', ['model', 'plan', 'formula', 'base/attribute', 'runtime/contract', 'runtime/execution/usage']),
+    pkg('runtime/execution/lifecycle', ['model', 'plan', 'formula', 'pipeline', 'base/attribute', 'runtime/action', 'runtime/actor', 'runtime/contract', 'runtime/effect', 'runtime/execution/evaluation']),
+    pkg('runtime/execution/operation', ['model', 'plan', 'formula', 'pipeline', 'base/attribute', 'base/numeric', 'base/typeset', 'runtime/actor', 'runtime/contract', 'runtime/effect', 'runtime/execution/evaluation']),
+    pkg('runtime/execution/hit', ['model', 'plan', 'formula', 'pipeline', 'base/typeset', 'runtime/action', 'runtime/contract', 'runtime/effect', 'runtime/execution/usage']),
+    pkg('runtime/execution/listener', ['model', 'plan', 'base/typeset', 'runtime/execution/usage']),
     pkg('runtime/execution/admission', ['model', 'plan', 'formula', 'pipeline', 'base/attribute']),
-    pkg('runtime/execution/hit', ['model', 'plan']),
-    pkg('runtime/execution/listener', ['model', 'plan', 'base/typeset']),
     pkg('runtime/execution/evaluation', ['model', 'plan', 'formula', 'pipeline', 'runtime/effect', 'base/attribute', 'base/expression', 'base/inputbinding']),
+    pkg('runtime/execution/usage', ['model']),
   ]), []);
 });
 
-test('执行子包不能反向调用父层、调度或相互取得控制能力', () => {
+test('六个执行包不能互相调用或反向取得父层及调度', () => {
   for (const leaf of executionLeaves) {
     const forbidden = ['runtime', 'runtime/execution', 'scheduler', ...executionLeaves.filter(other => other !== leaf)];
     const errors = checkPackageBoundaries([pkg(leaf, forbidden)]);
-    for (const dependency of forbidden) {
-      assert.ok(errors.some(value => value.includes(`${leaf} -> ${dependency}:`)), `${leaf} -> ${dependency}`);
-    }
+    for (const dependency of forbidden) assert.ok(errors.some(value => value.includes(`${leaf} -> ${dependency}:`)), `${leaf} -> ${dependency}`);
   }
-  const unknown = checkPackageBoundaries([pkg('runtime/execution/undeclared')]);
-  assert.ok(unknown.some(value => value.includes('没有声明依赖边界')));
+  assert.ok(checkPackageBoundaries([pkg('runtime/execution/undeclared')]).some(value => value.includes('没有声明依赖边界')));
 });
 
-test('数值、行动、效果、报告和调度不能取得四个执行子包的能力', () => {
-  for (const owner of ['runtime/actor', 'runtime/action', 'runtime/effect', 'runtime/report', 'pipeline', 'scheduler']) {
+test('额度账与公共支撑不能取得功能执行状态', () => {
+  for (const owner of supportLeaves) {
     const errors = checkPackageBoundaries([pkg(owner, executionLeaves)]);
-    for (const leaf of executionLeaves) {
-      assert.ok(errors.some(value => value.includes(`${owner} -> ${leaf}:`)), `${owner} -> ${leaf}`);
-    }
+    for (const leaf of executionLeaves) assert.ok(errors.some(value => value.includes(`${owner} -> ${leaf}:`)), `${owner} -> ${leaf}`);
+  }
+});
+
+test('所属状态与数值管道不能反向取得执行能力', () => {
+  const allLeaves = [...executionLeaves, ...supportLeaves];
+  for (const owner of ['runtime/actor', 'runtime/action', 'runtime/effect', 'runtime/report', 'runtime/contract', 'pipeline', 'scheduler']) {
+    const errors = checkPackageBoundaries([pkg(owner, allLeaves)]);
+    for (const leaf of allLeaves) assert.ok(errors.some(value => value.includes(`${owner} -> ${leaf}:`)), `${owner} -> ${leaf}`);
   }
 });

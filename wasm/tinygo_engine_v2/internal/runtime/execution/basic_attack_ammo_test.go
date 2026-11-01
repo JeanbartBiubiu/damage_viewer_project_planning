@@ -57,7 +57,8 @@ func TestAmmoAttackFourCapturesFifthReloadAndIndependentDamage(test *testing.T) 
 	for index, expected := range []int64{0, 1000, 2000, 3000, 5500} {
 		attack := done.AttackRecords[index]
 		capture := state.skillUses[attack.UseRef].ammoBefore
-		if attack.StartAtMs != expected || capture == nil || capture.owner != "source" || capture.providerRef != "attack" || capture.stateKey != "rounds" || capture.before != []float64{4, 3, 2, 1, 4}[index] {
+		before, present := capture.Before("source", "attack", "rounds")
+		if attack.StartAtMs != expected || !present || before != []float64{4, 3, 2, 1, 4}[index] {
 			test.Fatal(attack, capture)
 		}
 	}

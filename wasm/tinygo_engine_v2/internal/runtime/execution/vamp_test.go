@@ -87,8 +87,8 @@ func TestVampPhantomUsesOriginalQualificationAndCurrentRatio(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	dmg := copyableDamageFrozen{rawAmount: 100, damageType: "damage/physical", sourceKey: "source", targetKey: "target", originRef: r.DriverPlan.Entries[0].AbilityRef, providerRef: "champion", operationRef: "sample_hit", ability: compiled.Session.Abilities[0], operation: compiled.Session.Operations[0], eventSourceKey: "source", eventTargetKey: "target", entrySourceAttrs: s.combatants["source"].attributesView(), entryTargetAttrs: s.combatants["target"].attributesView(), castInstanceID: 7}
-	collector := &eventCopyableCollector{}
+	dmg := copyableDamageFrozen{RawAmount: 100, DamageType: "damage/physical", SourceKey: "source", TargetKey: "target", OriginRef: r.DriverPlan.Entries[0].AbilityRef, ProviderRef: "champion", OperationRef: "sample_hit", Ability: compiled.Session.Abilities[0], Operation: compiled.Session.Operations[0], EventSourceKey: "source", EventTargetKey: "target", EntrySourceAttrs: s.combatants["source"].attributesView(), EntryTargetAttrs: s.combatants["target"].attributesView(), CastInstanceID: 7}
+	collector := newTestCopyableCollector(collectorTestSeed{})
 	if err := s.applyPhantomCopyableDamage(collector, dmg, "sample_copy"); err != nil {
 		t.Fatal(err)
 	}

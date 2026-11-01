@@ -137,7 +137,7 @@ func TestProviderListOwnershipStaleExpiryAndPostCommitWrites(t *testing.T) {
 	failed := state.newExecutionFrame("source", "target", "failed")
 	host := failed.stageFor("target")
 	failedBefore := mustJSON(effectpkg.ProvidersToSnapshot(host.instances.Providers()))
-	host.providerOps = append(host.providerOps, stagedProviderMutation{kind: "expire", targetKey: "target", providerRef: host.instances.Providers().At(0).ProviderRef})
+	host.providerOps = append(host.providerOps, stagedProviderMutation{Kind: "expire", TargetKey: "target", ProviderRef: host.instances.Providers().At(0).ProviderRef})
 	failed.fatal, failed.fatalErr = true, state.budgetError(model.BudgetCauseMaxCommandsPerEvent, "failed ownership frame")
 	failed.commit()
 	assertProviderListSnapshot(t, host.instances.Providers(), failedBefore)

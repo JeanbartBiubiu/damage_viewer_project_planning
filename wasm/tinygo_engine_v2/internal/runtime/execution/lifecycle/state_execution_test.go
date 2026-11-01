@@ -1,0 +1,69 @@
+package lifecycle
+
+import (
+	"testing"
+	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
+	effectpkg "tinygo_engine_v2/internal/runtime/effect"
+)
+
+type anchoredWriteFixture struct {
+	providers effectpkg.ProviderList
+	capacity  int
+	at        []int64
+	ticks     []effectpkg.AnchoredPayload
+}
+
+func (f *anchoredWriteFixture) StateProviders(string) effectpkg.ProviderList { return f.providers }
+func (f *anchoredWriteFixture) RemainingTimingSlots() int                    { return f.capacity }
+func (*anchoredWriteFixture) StageStateExpiry(int64, effectpkg.ExpiryPayload) {
+	panic("ordinary anchored preparation must not append the source expiry")
+}
+func (f *anchoredWriteFixture) StageAnchoredTick(at int64, payload effectpkg.AnchoredPayload) {
+	f.at = append(f.at, at)
+	f.ticks = append(f.ticks, payload)
+}
+
+func TestAnchoredTargetWriteChecksCapacityBeforeGenerationAndKeepsOriginalExpiry(t *testing.T) {
+	for _, source := range []string{"caster", ""} {
+		t.Run(source, func(t *testing.T) {
+			compiled := plan.CompiledSession{
+				Providers: []plan.CompiledProvider{{AbilityCount: 1}},
+				Abilities: []plan.CompiledAbility{{Kind: "tick", TickSpec: &plan.CompiledTickSpec{
+					IntervalMs: 100, AnchorScope: "provider_target", AnchorStateKey: "mark",
+				}}},
+			}
+			executor := New(&compiled, nil, nil, "")
+			var state effectpkg.BagState
+			bag := state.Edit("period", true)
+			bag.Ensure()
+			fixture := &anchoredWriteFixture{providers: effectpkg.Providers([]effectpkg.Provider{{
+				ProviderRef: "period", DefinitionIndex: 0, Source: source,
+			}}), capacity: 1}
+			input := AnchoredWriteInput{Owner: "source", Provider: "period", Target: "target", Key: "mark",
+				Expires: 500, Now: 100, Stop: 350, Bag: bag}
+			err := executor.StageAnchoredTargetWrite(input, fixture, fixture)
+			if err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents ||
+				bag.CurrentAnchoredTickGeneration("mark") != 0 || len(fixture.ticks) != 0 {
+				t.Fatal("capacity failure changed the generation or staged a partial series", err, fixture)
+			}
+			fixture.capacity = 2
+			if err := executor.StageAnchoredTargetWrite(input, fixture, fixture); err != nil {
+				t.Fatal(err)
+			}
+			wantSource := source
+			if wantSource == "" {
+				wantSource = input.Owner
+			}
+			if len(fixture.ticks) != 2 || fixture.at[0] != 200 || fixture.at[1] != 300 {
+				t.Fatal("run window changed the anchored phase", fixture)
+			}
+			for _, tick := range fixture.ticks {
+				if tick.SourceKey != wantSource || tick.ExpectedExpireAt != 500 || tick.Generation != 1 ||
+					tick.OwnerKey != input.Owner || tick.ProviderRef != input.Provider || tick.TargetKey != input.Target || tick.AnchorStateKey != input.Key {
+					t.Fatal("tick lost the original state identity or complete expiry", tick)
+				}
+			}
+		})
+	}
+}

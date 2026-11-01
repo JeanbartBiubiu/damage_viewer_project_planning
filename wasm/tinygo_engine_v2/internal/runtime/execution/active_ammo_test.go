@@ -90,7 +90,8 @@ func TestActiveAmmoOneByOneConsumesWhileChargingAndContinuesToFull(t *testing.T)
 		t.Fatal("active-only wait was coupled to basic attack", s.actions.AmmoCount())
 	}
 	for _, use := range s.skillUses {
-		if use.ammoBefore == nil || use.ammoBefore.before < 1 || use.ammoBefore.providerRef != "caster" {
+		before, present := use.ammoBefore.Before("source", "caster", "rounds")
+		if !present || before < 1 {
 			t.Fatal("capture missing after actual INITIAL publication", use)
 		}
 	}

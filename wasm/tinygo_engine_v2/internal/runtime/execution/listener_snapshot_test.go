@@ -90,7 +90,7 @@ func listenerSnapshotState(t *testing.T, listenerCount int) *Engine {
 
 func listenerSnapshotEvent(state *Engine, castID uint64) emittedEvent {
 	snapshot := state.newExecutionFrame("source", "target", "snapshot").captureEmitSnapshot(listenerSnapshotEventType, "source", "target")
-	snapshot.castInstanceID = castID
+	snapshot.CastInstanceID = castID
 	return emittedEvent{eventType: listenerSnapshotEventType, sourceKey: "source", targetKey: "target",
 		types: []string{listenerSnapshotEventType}, snapshot: snapshot, castInstanceID: castID}
 }

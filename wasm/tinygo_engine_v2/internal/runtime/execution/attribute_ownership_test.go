@@ -41,10 +41,10 @@ func attributeOwnershipState(t *testing.T, targetHP float64, ops ...model.Operat
 
 func attributeOwnershipFrozenCopy(snapshot eventFormulaSnapshot) eventFormulaSnapshot {
 	return eventFormulaSnapshot{
-		entrySourceAttrs: independentAttributeTable(snapshot.entrySourceAttrs),
-		entryTargetAttrs: independentAttributeTable(snapshot.entryTargetAttrs),
-		sourceAttrs:      independentAttributeTable(snapshot.sourceAttrs),
-		targetAttrs:      independentAttributeTable(snapshot.targetAttrs),
+		EntrySourceAttrs: independentAttributeTable(snapshot.EntrySourceAttrs),
+		EntryTargetAttrs: independentAttributeTable(snapshot.EntryTargetAttrs),
+		SourceAttrs:      independentAttributeTable(snapshot.SourceAttrs),
+		TargetAttrs:      independentAttributeTable(snapshot.TargetAttrs),
 	}
 }
 
@@ -55,10 +55,10 @@ func assertAttributeOwnershipSnapshot(t *testing.T, label string, got, want even
 		got  attribute.Table
 		want attribute.Table
 	}{
-		{"entrySource", got.entrySourceAttrs, want.entrySourceAttrs},
-		{"entryTarget", got.entryTargetAttrs, want.entryTargetAttrs},
-		{"source", got.sourceAttrs, want.sourceAttrs},
-		{"target", got.targetAttrs, want.targetAttrs},
+		{"entrySource", got.EntrySourceAttrs, want.EntrySourceAttrs},
+		{"entryTarget", got.EntryTargetAttrs, want.EntryTargetAttrs},
+		{"source", got.SourceAttrs, want.SourceAttrs},
+		{"target", got.TargetAttrs, want.TargetAttrs},
 	} {
 		if !reflect.DeepEqual(item.got, item.want) {
 			t.Fatalf("%s.%s changed: got %+v want %+v", label, item.name, item.got, item.want)
@@ -80,7 +80,7 @@ func TestAttributeOwnershipEntryAndEmitSurviveLaterOperationsAndNextFrame(t *tes
 	snapshot := frame.pendingEvents[0].snapshot
 	cloned := cloneEventSnapshot(&snapshot)
 	want := attributeOwnershipFrozenCopy(snapshot)
-	if snapshot.entryTargetAttrs.At("hp").Current != 1000 || snapshot.targetAttrs.At("hp").Current != 900 || snapshot.sourceAttrs.At("attack_damage").Resolved != 100 {
+	if snapshot.EntryTargetAttrs.At("hp").Current != 1000 || snapshot.TargetAttrs.At("hp").Current != 900 || snapshot.SourceAttrs.At("attack_damage").Resolved != 100 {
 		t.Fatalf("wrong entry/emit values: %+v", snapshot)
 	}
 	if err := frame.executeOperations(ability, ops[2:]); err != nil {
@@ -200,7 +200,7 @@ func TestAttributeOwnershipPhantomDamageKeepsOriginalAndCurrentEventViews(t *tes
 	damage.CopyableOnHit = true
 	state := attributeOwnershipState(t, 1000, damage, attributeOwnershipChange())
 	frame, ability, ops := frameCommitFrame(state)
-	collector := &eventCopyableCollector{}
+	collector := newTestCopyableCollector(collectorTestSeed{})
 	frame.copyableCollector = collector
 	snapshot := frame.captureEmitSnapshot(eventTypeBasicAttackHit, "source", "target")
 	frame.eventCtx = cloneEventSnapshot(&snapshot)
@@ -208,11 +208,13 @@ func TestAttributeOwnershipPhantomDamageKeepsOriginalAndCurrentEventViews(t *tes
 	if err := frame.executeOperations(ability, ops); err != nil {
 		t.Fatal(err)
 	}
-	if len(frame.pendingCopyable) != 1 {
-		t.Fatalf("copyable damage=%d want 1", len(frame.pendingCopyable))
+	if frame.pendingContinuation.Count() != 1 {
+		t.Fatalf("copyable damage=%d want 1", frame.pendingContinuation.Count())
 	}
-	frozenDamage := frame.pendingCopyable[0]
+
 	frame.commit()
+	frozenDamages, _ := collector.CloneSorted()
+	frozenDamage := frozenDamages[0]
 	if frame.fatal || !frame.committed || state.combatantHp("target") != 900 {
 		t.Fatal(frame.fatalErr, state.combatantHp("target"))
 	}
@@ -231,9 +233,9 @@ func TestAttributeOwnershipPhantomDamageKeepsOriginalAndCurrentEventViews(t *tes
 		t.Fatal("phantom mutated the target table published by the original damage")
 	}
 	assertAttributeOwnershipSnapshot(t, "original emit after phantom", snapshot, want)
-	assertAttributeOwnershipSnapshot(t, "frozen damage event after phantom", *frozenDamage.eventCtx, want)
+	assertAttributeOwnershipSnapshot(t, "frozen damage event after phantom", *frozenDamage.EventCtx, want)
 	assertAttributeOwnershipSnapshot(t, "current observer after phantom", currentSnapshot, wantCurrent)
-	if frozenDamage.entryTargetAttrs.At("hp").Current != 1000 || currentSnapshot.targetAttrs.At("hp").Current != 900 {
+	if frozenDamage.EntryTargetAttrs.At("hp").Current != 1000 || currentSnapshot.TargetAttrs.At("hp").Current != 900 {
 		t.Fatal("phantom changed its original or current frozen view")
 	}
 }

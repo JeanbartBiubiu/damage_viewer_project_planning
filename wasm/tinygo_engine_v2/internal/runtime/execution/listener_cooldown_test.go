@@ -97,7 +97,7 @@ func TestListenerChildCooldownSkipPreservesSameUseCastThrottle(t *testing.T) {
 	if castID == 0 || reportedAbilityStat(state, childRef).CastCount != 1 || listenerCooldownProcCount(t, state) != 1 {
 		t.Fatal("cooldown-blocked event executed the child", castID)
 	}
-	if len(state.useTriggerLedger) != 0 || state.useTriggerReserving != 0 {
+	if state.useTriggerLedger.Len() != 0 || state.useTriggerLedger.Pending() != 0 {
 		t.Fatal("cooldown skip consumed a shared use reservation", state.useTriggerLedger)
 	}
 	listenerCooldownNextHit(t, state, 200)
@@ -122,7 +122,7 @@ func TestListenerChildCooldownSkipPreservesSameUseCastThrottle(t *testing.T) {
 	if action.Uses().HitCount != 6 || action.Uses().CompletedCount != 1 || reportedAbilityStat(state, childRef).CastCount != 3 || listenerCooldownProcCount(t, state) != 3 {
 		t.Fatal("native completion or successful child count changed", action.Uses(), reportedAbilityStat(state, childRef))
 	}
-	if len(state.snapshotUseTriggerLedger()) != 0 || state.useTriggerReserving != 0 {
+	if len(state.snapshotUseTriggerLedger()) != 0 || state.useTriggerLedger.Pending() != 0 {
 		t.Fatal("cast-throttle-only listener invented a use quota")
 	}
 }

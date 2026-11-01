@@ -62,7 +62,7 @@ func TestKilledMissingSettlementAndRuntimeForgingFailBeforeRecovery(t *testing.T
 			f := s.newExecutionFrame("source", "target", "external")
 			ev := emittedEvent{eventType: event, sourceKey: "source", targetKey: "target", types: []string{event}, snapshot: f.captureEmitSnapshot(event, "source", "target")}
 			// Non-settlement callers cannot turn a missing fact into the valid value zero.
-			ev.snapshot.hasDamageSnapshot = true
+			ev.snapshot.HasDamageSnapshot = true
 			if err := s.dispatchListeners(ev, 1); err == nil || !strings.Contains(err.Message, "actual per-instance damage settlement") {
 				t.Fatal("missing native settlement was accepted", err)
 			}

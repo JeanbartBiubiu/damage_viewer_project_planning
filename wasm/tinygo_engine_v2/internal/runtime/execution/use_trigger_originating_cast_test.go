@@ -4,6 +4,7 @@ import (
 	testing "testing"
 	model "tinygo_engine_v2/internal/model"
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
+	"tinygo_engine_v2/internal/runtime/execution/usage"
 )
 
 func replaceAcceptedControlForTest(s *Engine, accepted bool, mount, bindingKey string) {
@@ -60,11 +61,11 @@ func TestOnCastOncePerUseRejectsMismatchedAcceptedContext(t *testing.T) {
 		{"wrong_skill", func(_ *Engine, ev *emittedEvent) { ev.useSkillKey = "other_skill" }},
 		{"wrong_use_source", func(_ *Engine, ev *emittedEvent) { ev.useSource = "target" }},
 		{"wrong_cast", func(_ *Engine, ev *emittedEvent) { ev.castInstanceID++ }},
-		{"missing_cast", func(_ *Engine, ev *emittedEvent) { ev.castInstanceID, ev.snapshot.castInstanceID = 0, 0 }},
-		{"wrong_frozen_cast", func(_ *Engine, ev *emittedEvent) { ev.snapshot.castInstanceID++ }},
-		{"wrong_frozen_use", func(_ *Engine, ev *emittedEvent) { ev.snapshot.useKey = "other_use" }},
-		{"wrong_frozen_source", func(_ *Engine, ev *emittedEvent) { ev.snapshot.useSource = "target" }},
-		{"wrong_frozen_skill", func(_ *Engine, ev *emittedEvent) { ev.snapshot.useSkillKey = "other_skill" }},
+		{"missing_cast", func(_ *Engine, ev *emittedEvent) { ev.castInstanceID, ev.snapshot.CastInstanceID = 0, 0 }},
+		{"wrong_frozen_cast", func(_ *Engine, ev *emittedEvent) { ev.snapshot.CastInstanceID++ }},
+		{"wrong_frozen_use", func(_ *Engine, ev *emittedEvent) { ev.snapshot.UseKey = "other_use" }},
+		{"wrong_frozen_source", func(_ *Engine, ev *emittedEvent) { ev.snapshot.UseSource = "target" }},
+		{"wrong_frozen_skill", func(_ *Engine, ev *emittedEvent) { ev.snapshot.UseSkillKey = "other_skill" }},
 		{"wrong_process_owner", func(s *Engine, ev *emittedEvent) {
 			original := s.processForUse(s.skillUses[ev.useKey])
 			row := original.Snapshot()
@@ -95,11 +96,11 @@ func TestOnCastOncePerUseRejectsMismatchedAcceptedContext(t *testing.T) {
 				snapshot: f.captureEmitSnapshot(eventTypeAbilityStarted, p.Owner(), p.Target())}
 			attachUseToSnapshot(&ev)
 			listener := s.compiled.Listeners[1]
-			before := len(s.useTriggerLedger)
+			before := s.useTriggerLedger.Len()
 			test.mutate(s, &ev)
 			reserved, skipped, err := s.reserveOncePerUse(listener, ev)
-			if err == nil || reserved || skipped || len(s.useTriggerLedger) != before || s.useTriggerReserving != 0 {
-				t.Fatalf("invalid native provenance changed the quota: reserved=%v skipped=%v err=%+v ledger=%d/%d pending=%d", reserved, skipped, err, len(s.useTriggerLedger), before, s.useTriggerReserving)
+			if err == nil || reserved != (usage.Reservation{}) || skipped || s.useTriggerLedger.Len() != before || s.useTriggerLedger.Pending() != 0 {
+				t.Fatalf("invalid native provenance changed the quota: reserved=%v skipped=%v err=%+v ledger=%d/%d pending=%d", reserved, skipped, err, s.useTriggerLedger.Len(), before, s.useTriggerLedger.Pending())
 			}
 		})
 	}
@@ -120,8 +121,8 @@ func TestOnCastOncePerUseCommitSurvivesListenerDeath(t *testing.T) {
 				t.Fatal(err)
 			}
 			d := s.buildDoneResult(false)
-			if s.combatantHp(target) != 0 || recastCounter(t, d, "once") != 1 || len(d.FinalSnapshot.UseTriggerLedger) != 1 || s.useTriggerReserving != 0 {
-				t.Fatalf("committed on-cast effect must retain its quota after death: hp=%v once=%v ledger=%+v pending=%d", s.combatantHp(target), recastCounter(t, d, "once"), d.FinalSnapshot.UseTriggerLedger, s.useTriggerReserving)
+			if s.combatantHp(target) != 0 || recastCounter(t, d, "once") != 1 || len(d.FinalSnapshot.UseTriggerLedger) != 1 || s.useTriggerLedger.Pending() != 0 {
+				t.Fatalf("committed on-cast effect must retain its quota after death: hp=%v once=%v ledger=%+v pending=%d", s.combatantHp(target), recastCounter(t, d, "once"), d.FinalSnapshot.UseTriggerLedger, s.useTriggerLedger.Pending())
 			}
 		})
 	}

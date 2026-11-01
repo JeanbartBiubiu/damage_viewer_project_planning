@@ -52,7 +52,7 @@ func TestReceivedShieldReadRequiresRealContextAndSurvivesDepletion(t *testing.T)
 	// Every condition shares the same frozen rows. Cloning an event must not
 	// allocate/copy a per-listener receipt or erase the completed-empty marker.
 	clone := cloneEventSnapshot(&ev.snapshot)
-	if clone.shieldAbsorptions != ev.snapshot.shieldAbsorptions {
+	if clone.ShieldAbsorptions != ev.snapshot.ShieldAbsorptions {
 		t.Fatal("condition snapshot copied the shield receipt")
 	}
 	zeroEvent := actualReceivedShieldEvent(t, s, receivedDamageFrame(t, s, 0))
@@ -63,22 +63,22 @@ func TestReceivedShieldReadRequiresRealContextAndSurvivesDepletion(t *testing.T)
 	for _, mode := range []string{"missing_event", "sender_event", "aggregate_event", "missing_damage", "missing_facts", "wrong_event_target", "other_parent", "missing_owner", "unbound_definition", "wrong_lifecycle", "wrong_row_owner", "nonfinite_receipt"} {
 		t.Run(mode, func(t *testing.T) {
 			frame, bound := actualReceivedShieldReader(s, ev)
-			snapshot := *frame.eventCtx.shieldAbsorptions
+			snapshot := *frame.eventCtx.ShieldAbsorptions
 			snapshot.Rows = append([]pipeline.ShieldAbsorption(nil), snapshot.Rows...)
-			frame.eventCtx.shieldAbsorptions = &snapshot
+			frame.eventCtx.ShieldAbsorptions = &snapshot
 			switch mode {
 			case "missing_event":
 				frame.eventCtx = nil
 			case "sender_event":
-				frame.eventCtx.eventType = "event/damage_instance"
+				frame.eventCtx.EventType = "event/damage_instance"
 			case "aggregate_event":
-				frame.eventCtx.eventType = "event/damage_dealt"
+				frame.eventCtx.EventType = "event/damage_dealt"
 			case "missing_damage":
-				frame.eventCtx.hasDamageSnapshot = false
+				frame.eventCtx.HasDamageSnapshot = false
 			case "missing_facts":
-				frame.eventCtx.shieldAbsorptions = nil
+				frame.eventCtx.ShieldAbsorptions = nil
 			case "wrong_event_target":
-				frame.eventCtx.eventTargetKey = "target"
+				frame.eventCtx.EventTargetKey = "target"
 			case "other_parent":
 				frame.ownerProviderRef = "attack"
 			case "missing_owner":

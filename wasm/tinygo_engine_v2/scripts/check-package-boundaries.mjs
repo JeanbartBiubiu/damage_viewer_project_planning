@@ -14,17 +14,22 @@ const baseDependencies = new Map([
 const runtimeDependencies = new Map([
   ['runtime', new Set(['base/abi', 'compile', 'model', 'plan', 'runtime/execution', 'scheduler'])],
   ['scheduler', new Set(['model'])],
-  ['runtime/execution', new Set(['runtime/execution/admission', 'runtime/execution/hit', 'runtime/execution/listener', 'runtime/execution/evaluation', 'runtime/actor', 'runtime/action', 'runtime/effect', 'runtime/report', 'runtime/contract', 'model', 'plan', 'formula', 'pipeline', 'scheduler', 'base/attribute', 'base/expression', 'base/inputbinding', 'base/numeric', 'base/typeset'])],
+  ['runtime/execution', new Set(['runtime/execution/actionflow', 'runtime/execution/lifecycle', 'runtime/execution/operation', 'runtime/execution/continuation', 'runtime/execution/usage', 'runtime/execution/admission', 'runtime/execution/hit', 'runtime/execution/listener', 'runtime/execution/evaluation', 'runtime/actor', 'runtime/action', 'runtime/effect', 'runtime/report', 'runtime/contract', 'model', 'plan', 'formula', 'pipeline', 'scheduler', 'base/attribute', 'base/expression', 'base/inputbinding', 'base/numeric', 'base/typeset'])],
   ['runtime/execution/admission', new Set(['model', 'plan', 'formula', 'pipeline', 'base/attribute'])],
-  ['runtime/execution/hit', new Set(['model', 'plan'])],
-  ['runtime/execution/listener', new Set(['model', 'plan', 'base/typeset'])],
+  ['runtime/execution/hit', new Set(['model', 'plan', 'formula', 'pipeline', 'base/typeset', 'runtime/action', 'runtime/contract', 'runtime/effect', 'runtime/execution/usage'])],
+  ['runtime/execution/listener', new Set(['model', 'plan', 'base/typeset', 'runtime/execution/usage'])],
   ['runtime/execution/evaluation', new Set(['model', 'plan', 'formula', 'pipeline', 'runtime/effect', 'base/attribute', 'base/expression', 'base/inputbinding'])],
+  ['runtime/execution/actionflow', new Set(['model', 'plan', 'formula', 'pipeline', 'base/attribute', 'base/typeset', 'runtime/action', 'runtime/effect', 'runtime/contract'])],
+  ['runtime/execution/continuation', new Set(['model', 'plan', 'formula', 'base/attribute', 'runtime/contract', 'runtime/execution/usage'])],
+  ['runtime/execution/lifecycle', new Set(['model', 'plan', 'formula', 'pipeline', 'base/attribute', 'runtime/action', 'runtime/actor', 'runtime/contract', 'runtime/effect', 'runtime/execution/evaluation'])],
+  ['runtime/execution/operation', new Set(['model', 'plan', 'formula', 'pipeline', 'base/attribute', 'base/numeric', 'base/typeset', 'runtime/actor', 'runtime/contract', 'runtime/effect', 'runtime/execution/evaluation'])],
+  ['runtime/execution/usage', new Set(['model'])],
   ['runtime/action', new Set(['runtime/contract', 'model', 'plan', 'formula', 'base/attribute', 'base/expression', 'base/inputbinding', 'base/typeset'])],
   ['runtime/effect', new Set(['runtime/contract', 'model', 'plan', 'formula', 'pipeline', 'base/attribute'])],
   ['pipeline', new Set(['model', 'plan', 'formula', 'base/attribute', 'base/numeric'])],
   ['runtime/actor', new Set(['runtime/contract', 'base/attribute', 'model'])],
   ['runtime/report', new Set(['runtime/contract', 'model'])],
-  ['runtime/contract', new Set(['model', 'plan', 'base/attribute'])],
+  ['runtime/contract', new Set(['model', 'plan', 'base/attribute', 'formula', 'pipeline'])],
 ]);
 const retiredPackages = new Set(['abi', 'attribute', 'expression', 'inputbinding', 'typeset', 'trigger', 'crit', 'control', 'mark', 'status', 'command', 'resource', 'shield']);
 

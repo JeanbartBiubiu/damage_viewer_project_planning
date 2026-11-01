@@ -52,7 +52,8 @@ func TestAttackStartCounterFrozenAcrossConsumptionAndUses(t *testing.T) {
 		for index := 0; index < 4; index++ {
 			use := state.skillUses[done.AttackRecords[index].UseRef]
 			want := float64((int(initial) + index) % 3)
-			if len(use.providerStateBefore) != 1 || use.providerStateBefore[0].providerRef != "counter_a" || len(use.providerStateBefore[0].values) != 1 || use.providerStateBefore[0].values[0].Value != want {
+			values := use.providerStateBefore.Values("counter_a")
+			if use.providerStateBefore.Len() != 1 || len(values) != 1 || values[0].Value != want {
 				t.Fatal(initial, index, use.providerStateBefore, want)
 			}
 		}
@@ -77,7 +78,7 @@ func TestAttackStartCounterNoHitKeepsStartConsumption(t *testing.T) {
 	}
 	frame := state.newExecutionFrame("source", "target", "")
 	bag := frame.providerStateBagForRead("source", "counter_a", false, effectpkg.ReadOptions{})
-	if !bag.Present() || bag.State().At("hits") != 0 || state.skillUses["attack/1"].providerStateBefore[0].values[0].Value != 2 {
+	if !bag.Present() || bag.State().At("hits") != 0 || state.skillUses["attack/1"].providerStateBefore.Values("counter_a")[0].Value != 2 {
 		t.Fatal(bag)
 	}
 }
@@ -100,7 +101,7 @@ func TestAttackStartCounterCaptureIsolatedByMountAndMissingContext(t *testing.T)
 	}
 	frame := state.newExecutionFrame("source", "target", "")
 	frame.ownerCombatantKey, frame.ownerProviderRef = "source", "counter_a"
-	frame.eventCtx = &eventFormulaSnapshot{eventType: model.EventTypeBasicAttackHit, hasUse: true, useKey: "basic:native-test:1", useSource: "source", eventSourceKey: "source"}
+	frame.eventCtx = &eventFormulaSnapshot{EventType: model.EventTypeBasicAttackHit, HasUse: true, UseKey: "basic:native-test:1", UseSource: "source", EventSourceKey: "source"}
 	var ctx formula.GenericEvalContext
 	frame.populateAttackStartStateContext(&ctx)
 	if len(ctx.UseProviderStateBefore) != 1 || ctx.UseProviderStateBefore[0].Value != 2 {

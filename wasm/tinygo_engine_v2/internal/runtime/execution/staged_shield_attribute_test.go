@@ -77,8 +77,8 @@ func TestStagedShieldAttributesDisappearBeforePostDamageReads(t *testing.T) {
 		t.Fatal(got)
 	}
 	for _, event := range f.pendingEvents {
-		if event.eventType == model.EventTypeDamageTaken && event.snapshot.targetAttrs.At("armor").Resolved != 100 {
-			t.Fatal("post-damage event retained depleted shield armor", event.snapshot.targetAttrs)
+		if event.eventType == model.EventTypeDamageTaken && event.snapshot.TargetAttrs.At("armor").Resolved != 100 {
+			t.Fatal("post-damage event retained depleted shield armor", event.snapshot.TargetAttrs)
 		}
 	}
 	next := s.newExecutionFrame("target", "source", "next_hit")

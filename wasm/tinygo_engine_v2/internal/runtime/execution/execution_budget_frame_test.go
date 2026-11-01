@@ -3,6 +3,7 @@ package execution
 import (
 	"fmt"
 	"testing"
+	"tinygo_engine_v2/internal/runtime/execution/usage"
 
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -86,44 +87,48 @@ func TestExecutionBudgetUseLedgerExplicitCauseAndCommitBoundary(t *testing.T) {
 	s := frameCommitState(t, c, r)
 	listener := planbundle.CompiledListener{ListenerKey: "once", HasOncePerUse: true, OwnerCombatantKey: "source", OwnerProviderRef: "attack", OncePerUseGroup: "once", OncePerUseScope: model.OncePerUseScopeProvider}
 	ev := emittedEvent{eventType: model.EventTypeBasicAttackHit, sourceKey: "source", targetKey: "target", hasUse: true, useSource: "source", useSkillKey: "attack", useKey: "u1"}
-	s.useTriggerLedger = make(map[useTriggerKey]*useTriggerRecord)
+	s.useTriggerLedger = usage.New(usage.Identity{})
 	for i := 0; i < maxUseTriggerLedger; i++ {
-		key := useTriggerKey{useKey: fmt.Sprint(i)}
-		s.useTriggerLedger[key] = &useTriggerRecord{key: key, committed: true}
+		token, _, issue := s.useTriggerLedger.Reserve(usage.Key{UseKey: fmt.Sprint(i)}, "")
+		if issue != nil {
+			t.Fatal(issue)
+		}
+		s.useTriggerLedger.Commit(token)
 	}
 	_, _, err := s.reserveOncePerUse(listener, ev)
 	if err == nil || err.BudgetCause != model.BudgetCauseMaxUseTriggerLedger {
 		t.Fatalf("ledger budget: %+v", err)
 	}
-	s.useTriggerLedger = make(map[useTriggerKey]*useTriggerRecord)
+	s.useTriggerLedger = usage.New(usage.Identity{})
 	reserved, _, err := s.reserveOncePerUse(listener, ev)
-	if err != nil || !reserved {
+	if err != nil || reserved == (usage.Reservation{}) {
 		t.Fatalf("reserve: %v %+v", reserved, err)
 	}
-	reservation := &pendingUseReservation{listener: listener, event: ev}
+	reservation := &pendingUseReservation{token: reserved}
 	f, ability, ops := frameCommitFrame(s)
-	f.copyableCollector = &eventCopyableCollector{reservation: reservation}
+	f.copyableCollector = newTestCopyableCollector(collectorTestSeed{reservation: reservation})
 	s.budget.MaxCommandsPerEvent = 1
 	if err := f.executeOperations(ability, ops); err == nil {
 		t.Fatal("expected budget failure")
 	}
 	f.commit()
 	s.releaseUncommittedUseReservation(reservation)
-	if len(s.useTriggerLedger) != 0 || s.useTriggerReserving != 0 {
+	if s.useTriggerLedger.Len() != 0 || s.useTriggerLedger.Pending() != 0 {
 		t.Fatalf("failed frame retained a use reservation: %+v", s.useTriggerLedger)
 	}
 	reserved, _, err = s.reserveOncePerUse(listener, ev)
-	if err != nil || !reserved {
+	if err != nil || reserved == (usage.Reservation{}) {
 		t.Fatalf("reserve committed example: %v %+v", reserved, err)
 	}
+	reservation = &pendingUseReservation{token: reserved}
 	f, ability, ops = frameCommitFrame(s)
-	f.copyableCollector = &eventCopyableCollector{reservation: reservation}
+	f.copyableCollector = newTestCopyableCollector(collectorTestSeed{reservation: reservation})
 	if err := f.executeOperations(ability, ops[:1]); err != nil {
 		t.Fatal(err)
 	}
 	f.commit()
 	s.releaseUncommittedUseReservation(reservation)
-	if len(s.snapshotUseTriggerLedger()) != 1 || s.useTriggerReserving != 0 {
+	if len(s.snapshotUseTriggerLedger()) != 1 || s.useTriggerLedger.Pending() != 0 {
 		t.Fatalf("a committed listener loses its ledger on later failure: %+v", s.useTriggerLedger)
 	}
 }

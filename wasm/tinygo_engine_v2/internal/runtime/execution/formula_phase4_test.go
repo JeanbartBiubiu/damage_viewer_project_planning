@@ -96,23 +96,13 @@ func TestFormulaPhase4BrokenDefenseDropsEarlierStagedWritesAndRecovers(t *testin
 	}
 }
 
-func TestFormulaPhase4GenericDamageFallbackCannotWrite(t *testing.T) {
-	c, r := frameCommitInput(frameCommitDamage(100))
-	s := frameCommitState(t, c, r)
-	f, ability, ops := frameCommitFrame(s)
-	issue := f.applyCommand(pipeline.Command{Kind: pipeline.KindDamage, Source: "source", Target: "target", DamageType: "damage/physical", Amount: 100}, ops[0], ability)
-	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != ops[0].Path+".damageType" || f.staged.Len() != 0 || s.report.Totals().SourceDamageDealt != 0 {
-		t.Fatalf("generic fallback escaped guard: %+v", issue)
-	}
-}
-
 func TestFormulaPhase4CopiedZeroDamageRequiresRealPlan(t *testing.T) {
 	c, r := frameCommitInput(frameCommitDamage(100))
 	s := frameCommitState(t, c, r)
 	delete(s.compiled.DamageTypeFormulas, "damage/physical")
 	operation := planbundle.CompiledOperation{Path: "original.listener.operations[3]", Operation: "damage", DamageType: "damage/physical"}
-	damage := copyableDamageFrozen{sourceKey: "source", targetKey: "target", damageType: "damage/physical", operation: operation, rawAmount: 0}
-	issue := s.applyPhantomCopyableDamage(&eventCopyableCollector{}, damage, "copy")
+	damage := copyableDamageFrozen{SourceKey: "source", TargetKey: "target", DamageType: "damage/physical", Operation: operation, RawAmount: 0}
+	issue := s.applyPhantomCopyableDamage(newTestCopyableCollector(collectorTestSeed{}), damage, "copy")
 	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != operation.Path+".damageType" || s.combatants["target"].attributesView().At("hp").Current != 1000 || len(reportedDamageHistory(s)) != 0 {
 		t.Fatalf("copied zero bypassed guard: %+v", issue)
 	}

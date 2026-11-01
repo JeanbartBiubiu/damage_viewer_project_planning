@@ -4,6 +4,7 @@ import (
 	reflect "reflect"
 	testing "testing"
 	model "tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/runtime/contract"
 )
 
 func rootCandidateDamageFixture(t *testing.T, basic bool) (model.CompileRequest, model.RunRequest) {
@@ -61,12 +62,12 @@ func TestSkillHitOldContextDoesNotGrantRootDamageQualification(t *testing.T) {
 	frame := state.newExecutionFrame("source", "target", ref)
 	frame.chainDepth = 1
 	frame.driverEntryKey = "hit"
-	frame.eventCtx = &eventFormulaSnapshot{hasSkillHit: true, skillHit: &frozenSkillHitContext{rootDamageEvent: true}}
+	frame.eventCtx = &eventFormulaSnapshot{HasSkillHit: true, SkillHit: &contract.SkillHitFacts{RootDamageEvent: true}}
 	op := state.compiled.Operations[ability.OperationStart]
 	if issue := frame.resolveSkillHit(op, ability); issue != nil {
 		t.Fatal(issue)
 	}
-	if len(frame.pendingEvents) != 1 || frame.pendingEvents[0].skillHit.rootDamageEvent {
+	if len(frame.pendingEvents) != 1 || frame.pendingEvents[0].skillHit.View().RootDamageEvent {
 		t.Fatal("old event context leaked root qualification")
 	}
 }

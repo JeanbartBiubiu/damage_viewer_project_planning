@@ -105,7 +105,7 @@ func TestFrameCommitSharedBudgetKeepsEarlierFrames(t *testing.T) {
 	s.budget.MaxCommandsPerEvent = 256
 	for _, count := range []int{100, 100, 57} {
 		f, ability, ops := frameCommitFrame(s)
-		f.copyableCollector = &eventCopyableCollector{}
+		f.copyableCollector = newTestCopyableCollector(collectorTestSeed{})
 		batch := make([]planbundle.CompiledOperation, count)
 		for i := range batch {
 			batch[i] = ops[0]

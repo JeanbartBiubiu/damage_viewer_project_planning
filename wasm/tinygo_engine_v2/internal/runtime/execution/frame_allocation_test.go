@@ -152,7 +152,7 @@ func TestFrameAllocationWaitContextResetsAndKeepsAttackDirection(t *testing.T) {
 			source := frame.stageFor("source")
 			var context Frame
 			context.fatal, context.committed, context.skipBlockedWrites = true, true, true
-			context.eventCtx = &eventFormulaSnapshot{eventType: "stale"}
+			context.eventCtx = &eventFormulaSnapshot{EventType: "stale"}
 			context.processActualCosts = model.BorrowNumericView(map[string]float64{"mana": 10})
 			context.processCostReadable = true
 			context.pendingBasicAttackWait = state.actions.BasicAttack().Wait()
@@ -215,7 +215,7 @@ func TestFrameAllocationWaitProviderPreviewAndCooldownWritesStayIndependent(t *t
 	if err := frame.applyCooldownChange("source", "auxiliary", 0); err != nil {
 		t.Fatal(err)
 	}
-	source.providerOps = []stagedProviderMutation{{kind: "apply", definitionRef: "waiting-speed", sourceKey: "source", targetKey: "source"}}
+	source.providerOps = []stagedProviderMutation{{Kind: "apply", DefinitionRef: "waiting-speed", SourceKey: "source", TargetKey: "source"}}
 	parentVersion := source.cooldowns
 	var preview Frame
 	if err := frame.basicAttackWaitContext(&preview); err != nil {
@@ -263,7 +263,7 @@ func TestFrameAllocationWaitProviderPreviewAndCooldownWritesStayIndependent(t *t
 	}
 	state.loop.Advance(500)
 	remove := state.newExecutionFrame("source", "source", "speed-expire")
-	remove.stageFor("source").providerOps = []stagedProviderMutation{{kind: "expire", providerRef: providerRef, targetKey: "source"}}
+	remove.stageFor("source").providerOps = []stagedProviderMutation{{Kind: "expire", ProviderRef: providerRef, TargetKey: "source"}}
 	if _, err := remove.prepareBasicAttackWait(); err != nil {
 		t.Fatal(err)
 	}
@@ -285,7 +285,7 @@ func TestFrameAllocationFailedWaitProviderPreviewDoesNotPublish(t *testing.T) {
 	if err := frame.applyCooldownChange("source", control, 800); err != nil {
 		t.Fatal(err)
 	}
-	frame.stageFor("source").providerOps = []stagedProviderMutation{{kind: "apply", definitionRef: "missing", sourceKey: "source", targetKey: "source"}}
+	frame.stageFor("source").providerOps = []stagedProviderMutation{{Kind: "apply", DefinitionRef: "missing", SourceKey: "source", TargetKey: "source"}}
 	frame.commit()
 	if !frame.fatal || frame.fatalErr == nil || frame.committed || state.actions.BasicAttack().Wait() != wait || !reflect.DeepEqual(testCooldownEntries(state.combatants["source"].cooldowns), before) {
 		t.Fatal("failed provider preview published cooldown or waiting changes", frame.fatalErr)
@@ -372,7 +372,7 @@ func TestFrameAllocationCallerOwnedInitializationResetsAndKeepsEarlierViews(t *t
 	}
 	firstStage := frame.stageFor("source")
 	snapshot := frame.captureEmitSnapshot(attributeOwnershipEvent, "source", "target")
-	wantSource := independentAttributeTable(snapshot.sourceAttrs)
+	wantSource := independentAttributeTable(snapshot.SourceAttrs)
 	frame.commit()
 	if frame.fatal || !frame.committed {
 		t.Fatal(frame.fatalErr)
@@ -405,7 +405,7 @@ func TestFrameAllocationCallerOwnedInitializationResetsAndKeepsEarlierViews(t *t
 	if _, exists := state.combatants["target"].cooldowns.Entry(actionpkg.AbilityCooldownIdentity("target", "second")); exists {
 		t.Fatal("failed reinitialized frame published its cooldown")
 	}
-	if firstStage.cooldowns.AbilityReadyAt("source", "control") != 700 || state.combatants["source"].cooldowns.AbilityReadyAt("source", "control") != 700 || !reflect.DeepEqual(snapshot.sourceAttrs, wantSource) {
+	if firstStage.cooldowns.AbilityReadyAt("source", "control") != 700 || state.combatants["source"].cooldowns.AbilityReadyAt("source", "control") != 700 || !reflect.DeepEqual(snapshot.SourceAttrs, wantSource) {
 		t.Fatal("reinitialized local storage changed an earlier staged or event view")
 	}
 }

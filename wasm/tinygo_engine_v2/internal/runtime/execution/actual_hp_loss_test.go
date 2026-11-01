@@ -17,7 +17,7 @@ func TestDamageTakenActualHPLossKeepsEachPacketSnapshot(t *testing.T) {
 		if event.eventType != model.EventTypeDamageTaken {
 			continue
 		}
-		fact := event.snapshot.damageSnapshot
+		fact := event.snapshot.DamageSnapshot
 		if len(want) == 0 || !fact.HasActualHPLoss || fact.ActualHPLoss != want[0] {
 			t.Fatal("damage packet lost its immutable HP damage", fact, want)
 		}

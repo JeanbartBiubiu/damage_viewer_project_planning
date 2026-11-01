@@ -18,8 +18,8 @@ func TestGroupedDamageResultOverflowNeverBlamesInactiveTail(t *testing.T) {
 	f, ability, _ := frameCommitFrame(s)
 	setGroupedFrameAttribute(f, "multiplier", 1e308)
 	_, err := groupedFrameAmount(f, ability, 2)
-	if err == nil || !strings.Contains(err.Ref, "modifier[a]") || strings.Contains(err.Ref, "modifier[z]") || !strings.Contains(err.Path, "modifiers[0].value") || len(f.consumedFirstPerCast) != 0 {
-		t.Fatal(err, f.consumedFirstPerCast)
+	if err == nil || !strings.Contains(err.Ref, "modifier[a]") || strings.Contains(err.Ref, "modifier[z]") || !strings.Contains(err.Path, "modifiers[0].value") || len(f.numeric.FirstPerCast()) != 0 {
+		t.Fatal(err, f.numeric.FirstPerCast())
 	}
 }
 

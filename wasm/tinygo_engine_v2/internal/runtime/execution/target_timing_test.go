@@ -7,6 +7,7 @@ import (
 	formula "tinygo_engine_v2/internal/formula"
 	model "tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
+	"tinygo_engine_v2/internal/runtime/contract"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 	scheduler "tinygo_engine_v2/internal/scheduler"
 	formuladefinition "tinygo_engine_v2/internal/testkit/formuladefinition"
@@ -297,9 +298,9 @@ func TestTargetTimingGenerationsTargetSwitchAndInactiveDoNotResurrect(t *testing
 	var noOp Frame
 	s.initExecutionFrame(&noOp, "source", "target", "inactive")
 	noOp.ownerCombatantKey, noOp.ownerProviderRef, noOp.mountedListener = "source", "timed_mount", true
-	noOp.eventCtx = &eventFormulaSnapshot{eventType: model.EventTypeSkillHit, eventSourceKey: "source", eventTargetKey: "target", skillHit: &frozenSkillHitContext{}}
+	noOp.eventCtx = &eventFormulaSnapshot{EventType: model.EventTypeSkillHit, EventSourceKey: "source", EventTargetKey: "target", SkillHit: &contract.SkillHitFacts{}}
 	extension.AmountProgram = formula.GenericProgramID(65535)
-	if err := noOp.ensurePhasedTargetRemaining(extension, s.compiled.Abilities[provider.AbilityStart]); err != nil {
+	if err := noOp.applyStateDurationChange(extension, s.compiled.Abilities[provider.AbilityStart]); err != nil {
 		t.Fatal("inactive extension evaluated amount", err)
 	}
 }

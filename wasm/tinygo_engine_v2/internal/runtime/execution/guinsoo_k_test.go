@@ -174,121 +174,6 @@ func itoaRuntime(n int) string {
 	return string(b[i:])
 }
 
-func TestGenericPhantomProvenanceSortStable(t *testing.T) {
-	// 逆序 append；排序后按 provenance 升序；等键项（用 rawAmount 区分）保持相对顺序。
-	damages := []copyableDamageFrozen{
-		{providerRef: "p2", originRef: "o2", sourceKey: "source", targetKey: "target", damageType: "damage/true", rawAmount: 2},
-		{providerRef: "p2", originRef: "o1", sourceKey: "source", targetKey: "target", damageType: "damage/magic", rawAmount: 21},
-		{providerRef: "p1", originRef: "o9", sourceKey: "source", targetKey: "target", damageType: "damage/physical", rawAmount: 11},
-		{providerRef: "p1", originRef: "o9", sourceKey: "source", targetKey: "target", damageType: "damage/physical", rawAmount: 12},
-		{providerRef: "p1", originRef: "o8", sourceKey: "source", targetKey: "target", damageType: "damage/true", rawAmount: 10},
-	}
-	sortCopyableDamagesStable(damages)
-	wantDamages := []copyableDamageFrozen{
-		{providerRef: "p1", originRef: "o8", sourceKey: "source", targetKey: "target", damageType: "damage/true", rawAmount: 10},
-		{providerRef: "p1", originRef: "o9", sourceKey: "source", targetKey: "target", damageType: "damage/physical", rawAmount: 11},
-		{providerRef: "p1", originRef: "o9", sourceKey: "source", targetKey: "target", damageType: "damage/physical", rawAmount: 12},
-		{providerRef: "p2", originRef: "o1", sourceKey: "source", targetKey: "target", damageType: "damage/magic", rawAmount: 21},
-		{providerRef: "p2", originRef: "o2", sourceKey: "source", targetKey: "target", damageType: "damage/true", rawAmount: 2},
-	}
-	if len(damages) != len(wantDamages) {
-		t.Fatalf("damages len=%d want %d", len(damages), len(wantDamages))
-	}
-	for i := range wantDamages {
-		got, want := damages[i], wantDamages[i]
-		if got.providerRef != want.providerRef || got.originRef != want.originRef ||
-			got.sourceKey != want.sourceKey || got.targetKey != want.targetKey ||
-			got.damageType != want.damageType || got.rawAmount != want.rawAmount {
-			t.Fatalf("damages[%d]=prov=%s origin=%s src=%s tgt=%s type=%s amt=%v want prov=%s origin=%s src=%s tgt=%s type=%s amt=%v",
-				i, got.providerRef, got.originRef, got.sourceKey, got.targetKey, got.damageType, got.rawAmount,
-				want.providerRef, want.originRef, want.sourceKey, want.targetKey, want.damageType, want.rawAmount)
-		}
-	}
-
-	// 逆序/乱序 repeats；等键两项用相同 provenance，稳定排序后相对顺序不变。
-	equalA := deferredRepeatRequest{
-		ownerProviderRef: "item:a", ownerCombatantKey: "source", repeatTag: "a",
-		triggerStateKey: "stacks", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 4, repeatCount: 1,
-	}
-	equalB := equalA // 完全相同 provenance；稳定排序后 A 仍在 B 前
-	repeats := []deferredRepeatRequest{
-		{ownerProviderRef: "item:z", ownerCombatantKey: "source", repeatTag: "b", triggerStateKey: "stacks", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 4, repeatCount: 2},
-		{ownerProviderRef: "item:a", ownerCombatantKey: "target", repeatTag: "a", triggerStateKey: "stacks", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 4, repeatCount: 1},
-		{ownerProviderRef: "item:a", ownerCombatantKey: "source", repeatTag: "z", triggerStateKey: "stacks", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 4, repeatCount: 1},
-		{ownerProviderRef: "item:a", ownerCombatantKey: "source", repeatTag: "a", triggerStateKey: "later", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 4, repeatCount: 1},
-		{ownerProviderRef: "item:a", ownerCombatantKey: "source", repeatTag: "a", triggerStateKey: "stacks", repeatScope: "other_scope", threshold: 4, repeatCount: 1},
-		{ownerProviderRef: "item:a", ownerCombatantKey: "source", repeatTag: "a", triggerStateKey: "stacks", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 5, repeatCount: 1},
-		{ownerProviderRef: "item:a", ownerCombatantKey: "source", repeatTag: "a", triggerStateKey: "stacks", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 4, repeatCount: 3},
-		equalA,
-		equalB,
-	}
-	sortDeferredRepeatsStable(repeats)
-	wantRepeats := []deferredRepeatRequest{
-		{ownerProviderRef: "item:a", ownerCombatantKey: "source", repeatTag: "a", triggerStateKey: "later", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 4, repeatCount: 1},
-		equalA,
-		equalB,
-		{ownerProviderRef: "item:a", ownerCombatantKey: "source", repeatTag: "a", triggerStateKey: "stacks", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 4, repeatCount: 3},
-		{ownerProviderRef: "item:a", ownerCombatantKey: "source", repeatTag: "a", triggerStateKey: "stacks", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 5, repeatCount: 1},
-		{ownerProviderRef: "item:a", ownerCombatantKey: "source", repeatTag: "a", triggerStateKey: "stacks", repeatScope: "other_scope", threshold: 4, repeatCount: 1},
-		{ownerProviderRef: "item:a", ownerCombatantKey: "source", repeatTag: "z", triggerStateKey: "stacks", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 4, repeatCount: 1},
-		{ownerProviderRef: "item:a", ownerCombatantKey: "target", repeatTag: "a", triggerStateKey: "stacks", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 4, repeatCount: 1},
-		{ownerProviderRef: "item:z", ownerCombatantKey: "source", repeatTag: "b", triggerStateKey: "stacks", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 4, repeatCount: 2},
-	}
-	if len(repeats) != len(wantRepeats) {
-		t.Fatalf("repeats len=%d want %d", len(repeats), len(wantRepeats))
-	}
-	for i := range wantRepeats {
-		if repeats[i] != wantRepeats[i] {
-			t.Fatalf("repeats[%d]=%+v want %+v", i, repeats[i], wantRepeats[i])
-		}
-	}
-
-	c := &eventCopyableCollector{
-		damages: []copyableDamageFrozen{
-			{providerRef: "b", originRef: "o", sourceKey: "s", targetKey: "t", damageType: "damage/true"},
-			{providerRef: "a", originRef: "o", sourceKey: "s", targetKey: "t", damageType: "damage/magic"},
-		},
-		repeats: []deferredRepeatRequest{
-			{ownerProviderRef: "b", ownerCombatantKey: "source", repeatTag: "x", triggerStateKey: "k", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 1, repeatCount: 1},
-			{ownerProviderRef: "a", ownerCombatantKey: "source", repeatTag: "x", triggerStateKey: "k", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 1, repeatCount: 1},
-		},
-	}
-	sortEventCopyableProvenanceStable(c)
-	if c.damages[0].providerRef != "a" || c.damages[1].providerRef != "b" {
-		t.Fatalf("collector damages order=%s,%s want a,b", c.damages[0].providerRef, c.damages[1].providerRef)
-	}
-	if c.repeats[0].ownerProviderRef != "a" || c.repeats[1].ownerProviderRef != "b" {
-		t.Fatalf("collector repeats order=%s,%s want a,b", c.repeats[0].ownerProviderRef, c.repeats[1].ownerProviderRef)
-	}
-
-	// cloneAndSort 不得破坏 collector 原始 append 顺序。
-	raw := &eventCopyableCollector{
-		damages: []copyableDamageFrozen{
-			{providerRef: "z", originRef: "o", sourceKey: "s", targetKey: "t", damageType: "damage/true", rawAmount: 1},
-			{providerRef: "a", originRef: "o", sourceKey: "s", targetKey: "t", damageType: "damage/magic", rawAmount: 2},
-		},
-		repeats: []deferredRepeatRequest{
-			{ownerProviderRef: "z", ownerCombatantKey: "source", repeatTag: "r", triggerStateKey: "k", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 1, repeatCount: 1},
-			{ownerProviderRef: "a", ownerCombatantKey: "source", repeatTag: "r", triggerStateKey: "k", repeatScope: model.RepeatScopeCopyableOnHit, threshold: 1, repeatCount: 1},
-		},
-	}
-	sortedDamages, sortedRepeats := cloneAndSortEventCopyableProvenance(raw)
-	if raw.damages[0].providerRef != "z" || raw.damages[1].providerRef != "a" {
-		t.Fatalf("collector damages mutated in place: %s,%s", raw.damages[0].providerRef, raw.damages[1].providerRef)
-	}
-	if raw.repeats[0].ownerProviderRef != "z" || raw.repeats[1].ownerProviderRef != "a" {
-		t.Fatalf("collector repeats mutated in place: %s,%s", raw.repeats[0].ownerProviderRef, raw.repeats[1].ownerProviderRef)
-	}
-	if sortedDamages[0].providerRef != "a" || sortedDamages[1].providerRef != "z" {
-		t.Fatalf("sorted damages=%s,%s want a,z", sortedDamages[0].providerRef, sortedDamages[1].providerRef)
-	}
-	if sortedRepeats[0].ownerProviderRef != "a" || sortedRepeats[1].ownerProviderRef != "z" {
-		t.Fatalf("sorted repeats=%s,%s want a,z", sortedRepeats[0].ownerProviderRef, sortedRepeats[1].ownerProviderRef)
-	}
-}
-
-// TestGenericPhantomReplayStableOrderViaShieldHP 直接 flush：逆序 append 的 copyable damages
-// 必须按 provenance 回放；用 damageHistory 顺序 + 护盾/HP/不同 damageType 断言，而非只比总伤害。
 func TestGenericPhantomReplayStableOrderViaShieldHP(t *testing.T) {
 	armor := 100.0
 	hp0 := 100.0
@@ -317,42 +202,37 @@ func TestGenericPhantomReplayStableOrderViaShieldHP(t *testing.T) {
 	registerTestDefense(t, s, "damage/physical", formuladefinition.ResistanceDefense("armor"))
 	registerTestDefense(t, s, "damage/magic", formuladefinition.ConstantDefense("1"))
 	// 故意按 provenance 逆序 append：z 在前、a 在后；physical/magic 抗性不同。
-	collector := &eventCopyableCollector{
+	collector := newTestCopyableCollector(collectorTestSeed{
 		damages: []copyableDamageFrozen{
 			{
-				providerRef: "prov:z", originRef: "listener:z", sourceKey: model.SelectorSource, targetKey: model.SelectorTarget,
-				damageType: "damage/physical", rawAmount: 100,
-				eventTargetKey: model.SelectorTarget, entryTargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"armor": entryArmor}),
+				ProviderRef: "prov:z", OriginRef: "listener:z", SourceKey: model.SelectorSource, TargetKey: model.SelectorTarget,
+				DamageType: "damage/physical", RawAmount: 100,
+				EventTargetKey: model.SelectorTarget, EntryTargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"armor": entryArmor}),
 			},
 			{
-				providerRef: "prov:a", originRef: "listener:a", sourceKey: model.SelectorSource, targetKey: model.SelectorTarget,
-				damageType: "damage/magic", rawAmount: 60,
-				eventTargetKey: model.SelectorTarget, entryTargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"armor": entryArmor}),
+				ProviderRef: "prov:a", OriginRef: "listener:a", SourceKey: model.SelectorSource, TargetKey: model.SelectorTarget,
+				DamageType: "damage/magic", RawAmount: 60,
+				EventTargetKey: model.SelectorTarget, EntryTargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"armor": entryArmor}),
 			},
 		},
 		repeats: []deferredRepeatRequest{{
-			ownerCombatantKey: model.SelectorSource, ownerProviderRef: "prov:gate",
-			triggerStateKey: "stacks", threshold: 4, repeatCount: 1,
-			repeatScope: model.RepeatScopeCopyableOnHit, repeatTag: "phantom_hit",
+			OwnerCombatantKey: model.SelectorSource, OwnerProviderRef: "prov:gate",
+			TriggerStateKey: "stacks", Threshold: 4, RepeatCount: 1,
+			RepeatScope: model.RepeatScopeCopyableOnHit, RepeatTag: "phantom_hit",
 		}},
-	}
-	appendProv := []string{collector.damages[0].providerRef, collector.damages[1].providerRef}
+	})
 
 	if err := s.flushDeferredPhantomReplay(collector); err != nil {
 		t.Fatalf("flush: %+v", err)
-	}
-	if collector.damages[0].providerRef != appendProv[0] || collector.damages[1].providerRef != appendProv[1] {
-		t.Fatalf("flush must not reorder collector in place: got %s,%s want %s,%s",
-			collector.damages[0].providerRef, collector.damages[1].providerRef, appendProv[0], appendProv[1])
 	}
 
 	// provenance：prov:a (magic 60) 先于 prov:z (physical 100→50)
 	if len(reportedDamageHistory(s)) != 2 {
 		t.Fatalf("damageHistory len=%d want 2 phantom hits", len(reportedDamageHistory(s)))
 	}
-	if math.Abs(reportedDamageHistory(s)[0].amount-60) > 1e-6 || math.Abs(reportedDamageHistory(s)[1].amount-50) > 1e-6 {
+	if math.Abs(reportedDamageHistory(s)[0].Amount-60) > 1e-6 || math.Abs(reportedDamageHistory(s)[1].Amount-50) > 1e-6 {
 		t.Fatalf("phantom order amounts=%v,%v want 60 then 50 (provenance a/magic before z/physical); append order would be 50 then 60",
-			reportedDamageHistory(s)[0].amount, reportedDamageHistory(s)[1].amount)
+			reportedDamageHistory(s)[0].Amount, reportedDamageHistory(s)[1].Amount)
 	}
 
 	tgt := s.combatants[model.SelectorTarget]

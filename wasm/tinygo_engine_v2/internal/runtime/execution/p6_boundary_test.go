@@ -4,6 +4,7 @@ import (
 	testing "testing"
 	compile "tinygo_engine_v2/internal/compile"
 	model "tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/runtime/execution/usage"
 )
 
 func p6BoundaryFixture(t *testing.T) (model.CompileRequest, model.RunRequest) {
@@ -53,8 +54,17 @@ func TestP6LedgerSortOrdersDistinctSources(t *testing.T) {
 	a := model.UseTriggerLedgerEntry{Owner: "source", ProviderRef: "p", GroupKey: "g", Scope: model.OncePerUseScopeProvider, UseSource: "source", UseSkillKey: "q", UseKey: "u"}
 	b := a
 	b.UseSource = "target"
-	if !useTriggerLedgerLess(a, b) || useTriggerLedgerLess(b, a) {
-		t.Fatal("different source identities require a total deterministic ordering")
+	ledger := usage.New(usage.Identity{})
+	for _, row := range []model.UseTriggerLedgerEntry{b, a} {
+		token, _, err := ledger.Reserve(usage.Key{Owner: row.Owner, ProviderRef: row.ProviderRef, GroupKey: row.GroupKey, Scope: row.Scope, UseSource: row.UseSource, UseKey: row.UseKey}, row.UseSkillKey)
+		if err != nil {
+			t.Fatal(err)
+		}
+		ledger.Commit(token)
+	}
+	rows := ledger.Snapshot()
+	if len(rows) != 2 || rows[0].UseSource != "source" || rows[1].UseSource != "target" {
+		t.Fatal("different source identities require a total deterministic ordering", rows)
 	}
 }
 

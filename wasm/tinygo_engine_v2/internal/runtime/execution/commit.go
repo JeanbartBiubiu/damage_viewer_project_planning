@@ -1,0 +1,430 @@
+// 帧预检、所属状态发布及事实提交，保留前序成功边界。
+package execution
+
+import (
+	"math"
+	"tinygo_engine_v2/internal/base/attribute"
+	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
+	actionpkg "tinygo_engine_v2/internal/runtime/action"
+	"tinygo_engine_v2/internal/runtime/actor"
+	contractpkg "tinygo_engine_v2/internal/runtime/contract"
+)
+
+type damageRecord = contractpkg.DamageHistory
+
+type genericExecuteEvidence = contractpkg.ExecuteFact
+
+type genericDamageEvidence = contractpkg.DamageFact
+
+func (s *Engine) recordGenericExecuteEvidence(ev genericExecuteEvidence) {
+	s.recordEvidenceLazy(model.EvidenceKindExecute, func() model.EvidenceItem { return genericExecuteEvidenceItem(ev, s.loop.TimeMs()) })
+}
+
+func genericExecuteEvidenceItem(ev genericExecuteEvidence, timeMs int64) model.EvidenceItem {
+	data := map[string]interface{}{
+		"source":         ev.Source,
+		"target":         ev.Target,
+		"operationRef":   ev.OperationRef,
+		"hpBefore":       ev.HpBefore,
+		"maxHp":          ev.MaxHp,
+		"hpRatio":        ev.HpRatio,
+		"threshold":      ev.Threshold,
+		"thresholdType":  executeThresholdTypeRatio,
+		"comparison":     executeThresholdComparison,
+		"killed":         ev.Killed,
+		"shieldBypassed": ev.ShieldBypass,
+		"phantom":        false,
+	}
+	if ev.ProviderRef != "" {
+		data["providerRef"] = ev.ProviderRef
+	}
+	if ev.AbilityRef != "" {
+		data["abilityRef"] = ev.AbilityRef
+	}
+	ref := ev.OperationRef
+	if ref == "" {
+		ref = ev.AbilityRef
+	}
+	return model.EvidenceItem{
+		TimeMs: timeMs,
+		Kind:   model.EvidenceKindExecute,
+		Ref:    ref,
+		Data:   data,
+	}
+}
+
+func (s *Engine) recordGenericDamageEvidence(ev genericDamageEvidence) {
+	s.recordEvidenceLazy(model.EvidenceKindDamage, func() model.EvidenceItem { return genericDamageEvidenceItem(ev, s.loop.TimeMs()) })
+}
+
+func genericDamageEvidenceItem(ev genericDamageEvidence, timeMs int64) model.EvidenceItem {
+	phase := "original"
+	if ev.Phantom {
+		phase = "phantom"
+	}
+	data := map[string]interface{}{
+		"phase":           phase,
+		"phantom":         ev.Phantom,
+		"source":          ev.Source,
+		"target":          ev.Target,
+		"damageType":      ev.DamageType,
+		"rawAmount":       ev.RawAmount,
+		"mitigatedAmount": ev.MitigatedAmount,
+	}
+	if ev.EmpoweredAttack != nil {
+		data["empoweredAttack"], data["useRef"] = ev.EmpoweredAttack, ev.ActivationUseRef
+	}
+	if ev.Outcome != nil {
+		data["damageId"] = ev.DamageID
+		data["postDefenseDamage"] = ev.Outcome.MitigatedAmount
+		data["shieldAbsorbed"] = ev.Outcome.ShieldAbsorbed
+		data["actualHpLoss"] = ev.Outcome.HPDamage
+		data["overkillDamage"] = math.Max(0, ev.Outcome.MitigatedAmount-ev.Outcome.ShieldAbsorbed-ev.Outcome.HPDamage)
+	}
+	if ev.ProviderRef != "" {
+		data["providerRef"] = ev.ProviderRef
+	}
+	if ev.AbilityRef != "" {
+		data["abilityRef"] = ev.AbilityRef
+	}
+	if ev.OperationRef != "" {
+		data["operationRef"] = ev.OperationRef
+	}
+	if len(ev.Traits) > 0 {
+		data["traits"] = append([]string(nil), ev.Traits...)
+	}
+	attachCastProvenance(data, ev.CastInstanceID, ev.CastOrigin)
+	if ev.Phantom {
+		if ev.RepeatTag != "" {
+			data["repeatTag"] = ev.RepeatTag
+		}
+		if len(ev.ReplayedFrom) > 0 {
+			data["replayedFrom"] = ev.ReplayedFrom
+		}
+	}
+	writeCritEvidenceFields(data, ev.Crit)
+	if ev.HasPostResistanceEvidence {
+		data["resistanceFactor"] = ev.ResistanceFactor
+		data["normalPartPostResistance"] = ev.NormalPartPostResistance
+		data["critPartPostResistance"] = ev.CritPartPostResistance
+	}
+	if len(ev.Modifiers) > 0 {
+		data["modifiers"] = ev.Modifiers
+	}
+	ref := ev.AbilityRef
+	if ref == "" {
+		ref = ev.OperationRef
+	}
+	return model.EvidenceItem{
+		TimeMs: timeMs,
+		Kind:   model.EvidenceKindDamage,
+		Ref:    ref,
+		Data:   data,
+	}
+}
+
+func writeCritEvidenceFields(data map[string]interface{}, critEv frozenCritEvidence) {
+	if !critEv.Present {
+		return
+	}
+	data["eligible"] = critEv.Eligible
+	if critEv.Policy != "" {
+		data["policy"] = critEv.Policy
+	}
+	data["baseRawAmount"] = critEv.BaseRawAmount
+	if !critEv.Eligible {
+		return
+	}
+	data["chanceRaw"] = critEv.ChanceRaw
+	data["chanceEffective"] = critEv.ChanceEffective
+	data["originalCritChance"] = critEv.OriginalCritChance
+	data["effectiveCritChance"] = critEv.ChanceEffective
+	data["multiplier"] = critEv.Multiplier
+	data["naturalCritWeight"] = critEv.NaturalWeight
+	data["forcedCritWeight"] = critEv.ForcedWeight
+	data["naturalCritMultiplier"] = critEv.NaturalMultiplier
+	data["forcedCritMultiplier"] = critEv.ForcedMultiplier
+	data["normalPart"] = critEv.NormalPart
+	data["critPart"] = critEv.CritPart
+	data["critAdjustedRawAmount"] = critEv.CritAdjustedRawAmount
+}
+
+func (f *Frame) commit() {
+	if f.fatal || f.committed {
+		return
+	}
+	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange || f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasModifierSnapshots {
+		f.flushDynamicProviders()
+		if f.fatal {
+			return
+		}
+	}
+	if f.run.compiled.HasShieldLifecycle {
+		f.prepareShieldLifecycleRemovals()
+		if f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasProviderDurationChange && !f.run.compiled.HasResourceMax && !f.run.compiled.HasCooldownDuration {
+			// Depletion can append a removal after the first projection pass.
+			f.flushDynamicProviders()
+			if f.fatal {
+				return
+			}
+		}
+	}
+	var keyBuffer [2]string
+	keys, err := f.commitKeysAndPreflight(keyBuffer[:0])
+	if err != nil {
+		f.fatal, f.fatalErr = true, err
+		return
+	}
+	for _, key := range keys {
+		staged := f.staged.Get(key)
+		c, ok := f.run.combatants[key]
+		if !ok {
+			c = combatantRuntime{numbers: actor.New(key, attribute.Table{}, nil), cooldowns: actionpkg.NewCooldownLedger()}
+		}
+
+		c.numbers = staged.numbers.Publish(c.numbers)
+		c.cooldowns = staged.cooldowns
+		staged.cooldownsShared = true
+		c.instances = staged.instances.Publish(key, f.sourceKey)
+
+		c.providerState = staged.providerState.Publish()
+
+		f.run.combatants[key] = c
+	}
+	evalAbility := planbundle.CompiledAbility{}
+	evalCtx := f.evalContext(evalAbility)
+	for _, key := range keys {
+		staged := f.staged.Get(key)
+		for _, mut := range staged.providerOps {
+			if mut.Projected {
+				continue
+			}
+			switch mut.Kind {
+			case "shield_apply":
+				f.run.mountFreshProviderInstance(mut.TargetKey, mut.SourceKey, mut.DefinitionIndex, mut.ProviderRef, mut.ExpireAt, mut.Contributions)
+			case "apply":
+				if err := f.run.applyProviderInstanceWithRef(mut.TargetKey, mut.SourceKey, mut.DefinitionRef, mut.ProviderRef, mut.ExpireAt, mut.HasExpireAt, mut.Contributions); err != nil {
+					f.fatal = true
+					f.fatalErr = err
+					return
+				}
+				if f.run.compiled.HasImmediatePeriodic {
+					f.run.bindImmediatePeriodicUse(mut.TargetKey, mut.SourceKey, mut.DefinitionRef, mut.UseRef)
+				}
+			case "refresh":
+				if err := f.run.refreshProviderInstance(mut.TargetKey, mut.ProviderRef, mut.ExpireAt, mut.HasExpireAt, mut.Contributions); err != nil {
+					f.fatal = true
+					f.fatalErr = err
+					return
+				}
+			case "expire":
+				if mut.Strict {
+					if err := f.run.removeProviderInstanceStrict(mut.TargetKey, mut.ProviderRef, mut.DefinitionRef, evalCtx); err != nil {
+						f.fatal = true
+						f.fatalErr = err
+						return
+					}
+					continue
+				}
+				kind := mut.EvidenceKind
+				if kind == "" {
+					kind = model.EvidenceKindProviderRemove
+				}
+				f.run.removeProviderInstance(mut.TargetKey, mut.ProviderRef, evalCtx, kind)
+			}
+		}
+	}
+	f.commitProjectedProviderLifecycles()
+	if f.run.compiled.HasResourceMax {
+		for _, key := range keys {
+			c := f.run.combatants[key]
+
+			c.setAttributes(syncHPResolved(c.attributesView()))
+			f.run.combatants[key] = c
+		}
+	}
+	if f.fatal {
+		return
+	}
+	if f.pendingProcess != nil {
+		f.processChanges.Publish(f.processOriginal)
+		if f.processIsNew {
+			f.run.actions.AddProcess(f.processOriginal)
+		}
+		f.run.updateEmpoweredWait(f.processOriginal)
+	}
+	if f.empowered != nil {
+		f.commitEmpoweredProcesses()
+	}
+	f.run.freezeActionDeaths()
+	f.commitFrameQueues()
+	if f.run.processFailure != nil {
+		f.fatal, f.fatalErr = true, f.run.processFailure
+		return
+	}
+	f.commitFrameFacts()
+	if !f.run.settlingProcessDeaths && f.run.processFailure == nil {
+		f.run.processFailure = f.run.failDeadProcesses()
+		if f.run.processFailure != nil {
+			f.fatal = true
+			f.fatalErr = f.run.processFailure
+		}
+	}
+}
+
+// 只保存当前帧新增的事实，不复制整场伤害历史、过程列表或可靠记录。
+func (f *Frame) recordEvidence(item model.EvidenceItem) {
+	if f.committed {
+		f.run.recordEvidence(item)
+		return
+	}
+	if !f.run.detailedOutput() {
+		f.recordEvidenceKind(item.Kind)
+		return
+	}
+	f.pendingEvidence = append(f.pendingEvidence, item)
+}
+
+func (f *Frame) recordEvidenceKind(kind model.EvidenceKind) {
+	if f.committed {
+		f.run.recordEvidence(model.EvidenceItem{Kind: kind})
+		return
+	}
+	f.pendingEvidenceKinds = append(f.pendingEvidenceKinds, kind)
+}
+
+func (f *Frame) pendingEvidenceIndex() int {
+	if !f.run.detailedOutput() {
+		return len(f.pendingEvidenceKinds)
+	}
+	return len(f.pendingEvidence)
+}
+
+func (f *Frame) recordGenericExecuteEvidence(ev genericExecuteEvidence) {
+	f.recordEvidenceLazy(model.EvidenceKindExecute, func() model.EvidenceItem { return genericExecuteEvidenceItem(ev, f.run.loop.TimeMs()) })
+}
+
+func (f *Frame) recordGenericDamageEvidence(ev genericDamageEvidence) {
+	if f.run.compiled.HasResourceMax {
+		ev.HealthOrder = f.run.reserveHealthOrder()
+	}
+	if f.empoweredAttack != nil {
+		ev.EmpoweredAttack, ev.ActivationUseRef = f.empoweredAttack, f.processUseKey
+	}
+	if f.providerDefinitionRef != "" {
+		ev.ProviderDefinitionRef = f.providerDefinitionRef
+		ev.ProviderActivatedAtMs = f.providerActivatedAtMs
+	}
+	if f.damageOwnerKey != "" {
+		ev.Owner = f.damageOwnerKey
+	}
+	if ev.Owner == "" {
+		ev.Owner = f.ownerCombatantKey
+	}
+	if ev.Owner == "" {
+		if ref, ok := parseFrameAbilityOwner(ev.AbilityRef); ok {
+			ev.Owner = ref
+		}
+	}
+	f.numeric.AddDamage(ev)
+	f.recordEvidenceLazy(model.EvidenceKindDamage, func() model.EvidenceItem { return genericDamageEvidenceItem(ev, f.run.loop.TimeMs()) })
+}
+
+func (f *Frame) nextDamageID() uint64 {
+	return f.numeric.NextDamageID(f.run.nextDamageID)
+}
+
+func (f *Frame) recordDamage(source, target string, amount float64) {
+	if amount > 0 {
+		f.numeric.AddHistory(damageRecord{TimeMs: f.run.loop.TimeMs(), SourceKey: source, TargetKey: target, Amount: amount})
+	}
+}
+
+func (f *Frame) recordOverheal(source string, amount float64) { f.numeric.AddOverheal(source, amount) }
+
+func (f *Frame) commitFrameFacts() {
+	f.committed = true
+	f.commitTargetMarkSummary()
+	if f.processIsNew && f.processOriginal != nil {
+		f.run.publishSkillActionStart(f.processOriginal)
+	}
+	if f.processOriginal != nil {
+		if f.countCastOnCommit {
+			f.run.publishSkillActionControl(f.processOriginal, f.castStatRef)
+		}
+		if f.processMomentKind != "" && f.empowered == nil {
+			f.run.publishSkillActionMoment(f.processOriginal, f.processMomentKind)
+		}
+	}
+	if f.empowered != nil {
+		f.commitEmpoweredFacts()
+	}
+	for _, record := range f.numeric.Facts().DirectHealing {
+		f.run.recordDirectHealing(record)
+	}
+	for _, record := range f.numeric.Facts().ResourceChanges {
+		f.run.commitResourceChange(record)
+	}
+	if capture := f.pendingAmmoCapture; capture != nil {
+		f.run.skillUses[capture.UseKey()].ammoBefore = capture
+	}
+	for _, record := range f.pendingMechanicRecords {
+		f.run.report.RecordMechanic(record, f.run.detailedOutput())
+	}
+	f.run.nextDamageID += f.numeric.Facts().DamageIDs
+	for _, row := range f.numeric.Facts().History {
+		f.run.recordDamage(row.SourceKey, row.TargetKey, row.Amount, row.TimeMs)
+	}
+	for source, amount := range f.numeric.Facts().Overheal {
+		f.run.recordOverheal(source, amount)
+	}
+	for _, damage := range f.numeric.Facts().Damages {
+		f.run.recordCommittedDamage(f, damage)
+	}
+	hitIndex := 0
+	if f.run.detailedOutput() {
+		for index, item := range f.pendingEvidence {
+			for hitIndex < len(f.pendingSkillHits) && f.pendingSkillHits[hitIndex].evidenceIndex == index {
+				f.run.recordSkillActionHit(f.pendingSkillHits[hitIndex])
+				hitIndex++
+			}
+			f.run.recordEvidence(item)
+		}
+	} else {
+		for index, kind := range f.pendingEvidenceKinds {
+			for hitIndex < len(f.pendingSkillHits) && f.pendingSkillHits[hitIndex].evidenceIndex == index {
+				f.run.recordSkillActionHit(f.pendingSkillHits[hitIndex])
+				hitIndex++
+			}
+			f.run.recordEvidence(model.EvidenceItem{Kind: kind})
+		}
+	}
+	if f.copyableCollector != nil {
+		f.pendingContinuation.Publish(f.copyableCollector)
+		f.run.commitOncePerUse(f.copyableCollector.Reservation())
+	}
+	ref := f.statRef
+	if ref == "" {
+		ref = f.abilityRef
+	}
+	if f.countCastOnCommit || f.numeric.Facts().Damage > 0 || f.numeric.Facts().Healing > 0 {
+		f.run.report.EnsureAbility(ref)
+		if f.countCastOnCommit {
+			f.run.abilityCastCount++
+			castRef := ref
+			if f.castStatRef != "" {
+				castRef = f.castStatRef
+			}
+			f.run.report.Cast(castRef)
+		}
+		damage, healing := 0.0, 0.0
+		if f.numeric.Facts().Damage > 0 {
+			damage = f.numeric.Facts().Damage
+		}
+		if f.numeric.Facts().Healing > 0 {
+			healing = f.numeric.Facts().Healing
+		}
+		f.run.report.AbilityOutput(ref, damage, healing)
+	}
+}

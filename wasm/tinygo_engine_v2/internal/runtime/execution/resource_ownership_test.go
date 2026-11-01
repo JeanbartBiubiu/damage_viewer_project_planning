@@ -21,11 +21,11 @@ func TestResourceOwnershipFrozenViewsAndCommittedFrames(t *testing.T) {
 	}
 	frozen := frame.captureEmitSnapshot(attributeOwnershipEvent, "source", "target")
 	copied := cloneEventSnapshot(&frozen)
-	entry, emitted := frozen.entrySourceResources.ToMap(), frozen.sourceResources.ToMap()
+	entry, emitted := frozen.EntrySourceResources.ToMap(), frozen.SourceResources.ToMap()
 	if err := frame.applyResourceChange("source", "mana", -15, ability); err != nil {
 		t.Fatal(err)
 	}
-	if !reflect.DeepEqual(frozen.entrySourceResources.ToMap(), entry) || !reflect.DeepEqual(copied.sourceResources.ToMap(), emitted) {
+	if !reflect.DeepEqual(frozen.EntrySourceResources.ToMap(), entry) || !reflect.DeepEqual(copied.SourceResources.ToMap(), emitted) {
 		t.Fatal("resource snapshot changed during later operation")
 	}
 	if state.combatants["source"].resourceView().At("mana").Current != 50 {
@@ -48,7 +48,7 @@ func TestResourceOwnershipFrozenViewsAndCommittedFrames(t *testing.T) {
 	}
 	next.fatal = true
 	next.commit()
-	if !reflect.DeepEqual(state.combatants["source"].resourceView().ToMap(), published) || !reflect.DeepEqual(frozen.entrySourceResources.ToMap(), entry) || !reflect.DeepEqual(copied.sourceResources.ToMap(), emitted) {
+	if !reflect.DeepEqual(state.combatants["source"].resourceView().ToMap(), published) || !reflect.DeepEqual(frozen.EntrySourceResources.ToMap(), entry) || !reflect.DeepEqual(copied.SourceResources.ToMap(), emitted) {
 		t.Fatal("failed frame changed live or frozen resource views")
 	}
 }
@@ -66,7 +66,7 @@ func TestResourceOwnershipZeroRefundInsertsOnlyIntoStagedView(t *testing.T) {
 	if _, exists := state.combatants["source"].resourceView().Lookup("new_resource"); exists {
 		t.Fatal("zero refund inserted into live view")
 	}
-	if _, exists := frozen.sourceResources.Lookup("new_resource"); exists {
+	if _, exists := frozen.SourceResources.Lookup("new_resource"); exists {
 		t.Fatal("zero refund changed prior event view")
 	}
 }

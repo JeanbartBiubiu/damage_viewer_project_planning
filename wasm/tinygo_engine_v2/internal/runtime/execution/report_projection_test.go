@@ -15,7 +15,7 @@ func reportedDamageHistory(s *Engine) []damageRecord {
 		}
 		source, _ := row.Data["source"].(string)
 		target, _ := row.Data["target"].(string)
-		out = append(out, damageRecord{timeMs: row.TimeMs, sourceKey: source, targetKey: target, amount: amount})
+		out = append(out, damageRecord{TimeMs: row.TimeMs, SourceKey: source, TargetKey: target, Amount: amount})
 	}
 	return out
 }

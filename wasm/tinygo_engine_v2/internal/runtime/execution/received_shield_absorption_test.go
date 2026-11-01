@@ -293,7 +293,7 @@ func receivedShieldInitializedState(t *testing.T) *Engine {
 	t.Helper()
 	c, r := receivedShieldInput(4000)
 	s := receivedShieldState(t, c, r)
-	for s.initializationPending > 0 {
+	for s.effectInitialization.Pending() > 0 {
 		event, ok := s.loop.Queue().Pop()
 		if !ok || event.Kind != scheduler.GenericEventSourceInitialized {
 			t.Fatal("actual source initialization was not first", event)

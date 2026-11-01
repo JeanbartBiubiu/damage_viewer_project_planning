@@ -1,201 +1,114 @@
-# TinyGo Engine V2 当前架构图
+# TinyGo Engine V2 当前架构
 
-按当前 generic ABI 实现生成，用于快速 review 边界。使用基础 `graph TD/LR`，避免部分预览器不识别复杂 Mermaid 语法。
+本文说明正式编译、运行、释放链及执行所有权。完整方法以源码能力声明为准；持续约束见[功能执行与组合设计](../../文档记录/详细设计/项目/执行协调层功能执行与组合重构技术方案.md)，实际产物、成本取舍及验证范围见[本轮验收记录](../../文档记录/测试记录/项目/执行协调层功能组合重构验收-2026-11-01.md)。
 
-## 模块依赖图
+## 模块与执行依赖
 
-运行状态按所属子系统封装，箭头表示生产包依赖。根入口创建唯一循环；执行协调借用同一实例，调度通过有限接口调用执行器，不导入执行包。
+根运行入口创建唯一 `scheduler.Loop`，再组合执行器。循环通过有限协作接口调用执行层，不导入执行包。执行层有六个执行所有者，以及准入、运行求值、共同额度三个支撑包。
 
 ```mermaid
 graph TD
-    Host["浏览器工作线程与Node宿主"]
-    Exports["cmd/engine_wasm 正式导出"]
-    Root["runtime 会话、请求校验与运行组合"]
-    ABI["base/abi 帧与输出缓冲"]
+    Host["浏览器工作线程与Node验证宿主"]
+    Export["cmd/engine_wasm 正式导出"]
+    Runtime["runtime 会话、身份校验与单场组合"]
     Compile["compile 编译"]
-    Plan["plan 只读计划"]
-    Engine["runtime/execution 帧与统一提交"]
-    Admission["execution/admission 准入检查"]
-    Hit["execution/hit 命中判断与局部账"]
-    Listener["execution/listener 监听选择与施放节流"]
-    Evaluation["execution/evaluation 运行求值与属性缓存"]
-    Loop["scheduler 唯一时钟、队列与停止账"]
-    Actor["runtime/actor 数值存储"]
-    Action["runtime/action 行动、过程与冷却"]
-    Effect["runtime/effect 实例、状态与修正"]
-    Report["runtime/report 累计、明细与采样"]
-    Contract["runtime/contract 身份与只读值"]
-    Formula["formula 战斗公式绑定"]
-    Pipeline["pipeline 数值结算、命令、资源计算与护盾底层值"]
-    Attribute["base/attribute 不可变分页"]
-    Pure["base/expression 纯公式"]
-    Binding["base/inputbinding 输入绑定"]
-    Numeric["base/numeric 数值边界与分组聚合"]
-    Types["base/typeset 类型匹配"]
-    Model["model 共享协议"]
-    Host --> Exports --> Root
-    Root --> ABI
-    Root --> Compile
-    Root --> Engine
+    Plan["plan 只读执行计划"]
+    Root["execution 原时点读取、跨功能次序、真实帧与提交"]
+    Loop["scheduler 唯一时钟、队列、计数与停止账"]
+    Act["actionflow 行动、普攻与过程执行"]
+    Life["lifecycle 效果、状态与周期执行"]
+    Op["operation 数值操作执行"]
+    Hit["hit 候选、规则组与强化执行"]
+    Listener["listener 冻结、复查与派发执行"]
+    Cont["continuation 复制与同步因果"]
+    Admission["admission 准入"]
+    Eval["evaluation 运行求值与缓存"]
+    Usage["usage 唯一共同额度账"]
+    Stores["actor / action / effect / report 所属状态"]
+    Contract["contract 身份与有限交换事实"]
+    Math["formula / pipeline 公式与数值管道"]
+    Host --> Export --> Runtime
+    Runtime --> Compile --> Plan
+    Runtime --> Root
+    Runtime --> Loop
     Root --> Loop
-    Compile --> Plan
-    Compile --> Formula
-    Engine --> Plan
-    Engine --> Admission
-    Engine --> Hit
-    Engine --> Listener
-    Engine --> Evaluation
-    Engine --> Loop
-    Engine --> Actor
-    Engine --> Action
-    Engine --> Effect
-    Engine --> Report
-    Engine --> Contract
-    Engine --> Formula
-    Engine --> Pipeline
-    Engine --> Numeric
-    Evaluation --> Effect
-    Evaluation --> Formula
-    Evaluation --> Pipeline
-    Pipeline --> Numeric
-    Actor --> Attribute
-    Action --> Contract
-    Effect --> Contract
-    Effect --> Pipeline
-    Report --> Model
-    Loop --> Model
-    Formula --> Attribute
-    Formula --> Pure
-    Formula --> Binding
-    Formula --> Types
-    Binding --> Pure
+    Root --> Act
+    Root --> Life
+    Root --> Op
+    Root --> Hit
+    Root --> Listener
+    Root --> Cont
+    Root --> Admission
+    Root --> Eval
+    Root --> Usage
+    Root --> Stores
+    Root --> Contract
+    Root --> Math
+    Act --> Stores
+    Life --> Stores
+    Op --> Stores
+    Hit --> Stores
+    Life --> Eval
+    Op --> Eval
+    Hit --> Usage
+    Listener --> Usage
+    Cont --> Usage
+    Act --> Contract
+    Life --> Contract
+    Op --> Contract
+    Hit --> Contract
+    Cont --> Contract
+    Eval --> Math
 ```
 
-## 控制流时序图
+图只展示主要依赖，完整合法边由 `scripts/check-package-boundaries.mjs` 逐项维护。六个执行所有者不互相导入，也不导入父执行包、根运行包或调度器；状态包不反向取得执行控制。跨功能同步调用通过消费方声明的有限能力交接，不等于导入另一执行所有者。
 
-基础能力统一位于 `internal/base/`，各叶目录独立成包；默认写入边界和独立验证见[基础层说明](internal/base/README.md)。`base/attribute` 继续提供属性分页与不可变表；外层公式、数值管道和运行时只组合这些能力。
+基础能力仍位于 `internal/base/` 的六个独立包，见[基础层说明](internal/base/README.md)。主要对象使用具体类型；能力接口表达真实借用及阶段约束，不建立插件注册表或通用流程解释器。
 
-准入、命中、监听和运行求值四个执行子包彼此独立，不反向导入执行根包或调度器。命中候选执行、事件当前值刷新、普通及阻挡监听、强化尾部的次序继续由根执行层协调；共同使用额度也只保留一份。具体落点见[执行功能入口](internal/runtime/execution/README.md)。
+## 正式调用链与共享值
 
-```mermaid
-graph TD
-    A["宿主写入 compile frame kind=200"]
-    B["engine_compile"]
-    C["CompileGeneric"]
-    D{"compile OK?"}
-    E["register sessionId"]
-    F["outbox compile_result"]
-    G["outbox error / ok=false"]
-    H["宿主写入 run frame kind=201"]
-    I["engine_run"]
-    J{"session + hash OK?"}
-    K["RunGeneric"]
-    L["outbox generic done"]
-    M["outbox EngineError"]
-    N["宿主写入 release frame kind=202"]
-    O["engine_release_session"]
-    P["outbox release_result"]
-    Q["宿主读 outbox_ptr/len 并 clear"]
+`engine_compile` 从编译帧（种类200）读取 `CompileRequest`，调用编译器并登记 `CompiledSession`；`engine_run` 从运行帧（种类201）读取请求并核对会话和规则身份，再创建本场独立状态及唯一循环；`engine_release_session` 处理释放帧（种类202）并删除会话。宿主通过统一出箱缓冲读取结果，不新增内部求值导出。
 
-    A --> B --> C --> D
-    D -->|是| E --> F --> Q
-    D -->|否| G --> Q
-    F --> H --> I --> J
-    J -->|是| K --> L --> Q
-    J -->|否| M --> Q
-    L --> N --> O --> P --> Q
-```
+编译计划可被多次运行借用。执行与数值管道只消费编译结果，不反向调用编译器；本次驱动公式进入独立运行公式表，不改共享计划。`internal/model/` 定义外部协议，`internal/plan/` 定义编译结果，`internal/runtime/contract/` 保存跨所有者的有限身份及事实。
 
-## 数据形态转换图
+`CompiledSkillHit` 包含只读候选与规则组计划，运行上下文由 `hit.Context` 私有持有。共同事件快照只保留 `SkillHitFacts` 等有限命中事实，不携带完整候选、计划或强化等待上下文。
 
-```mermaid
-graph LR
-    A["frame.Payload JSON"]
-    B["CompileRequest"]
-    C["CompiledSession"]
-    D["RunRequest"]
-    E["DoneResult"]
-    F["ReleaseSessionRequest"]
-    G["release_result"]
+## 状态与局部帧所有权
 
-    A -->|compile| B
-    B -->|CompileGeneric| C
-    A -->|run| D
-    C -->|RunGeneric| E
-    D -->|RunGeneric| E
-    A -->|release| F
-    F -->|registry delete| G
-```
+| 所有者 | 私有状态或事实 | 根层取得的内容 |
+| --- | --- | --- |
+| 会话与只读计划 | 会话登记、编译规则、公式及完整编译身份 | 本场只读绑定 |
+| `scheduler.Loop` | 唯一时钟、队列、事件计数与停止账 | 原位入队、容量及循环协作 |
+| `actor/action/effect` | 角色数值、实际使用与过程、冷却弹药等待、效果状态与护盾 | 有限视图及所属变更对象 |
+| `actionflow` | 行动及过程业务阶段、发动前状态与弹药捕获、等待准备 | 本次真实帧的有限执行阶段 |
+| `lifecycle` | 效果局部迁移、动态投影、期限与周期计算 | 所属变更及已决定的计时请求 |
+| `operation.Frame` | 数值汇总、逐伤、操作输出、同次施放消费及待报告事实 | 原提交位置借用的事实 |
+| `hit` | 命中账、历史、候选上下文、阻挡复用及强化暂存 | 有限命中事实及原序发布请求 |
+| `listener` | 动态列表、冻结条件、派发遍历与成功节流 | 已核定监听的同步执行请求 |
+| `continuation` | 复制收集、重复请求、延迟载荷及同步因果栈 | 原位复制帧及唯一队列请求 |
+| `usage.Ledger` | 唯一共同额度记录及真实预留凭据 | 原边界的预留、提交及失败释放 |
+| `evaluation/report` | 单场求值缓存、可靠累计、有界记录及采样 | 计算结果、已拥有快照及输出 |
 
-## CompiledSession 职责（glance）
+根 `Engine` 组合这些对象，根 `Frame` 组合所属变更和局部帧，不另存同一套功能私有账。使用身份归 `action`，命中历史、发动前状态、弹药捕获和复制因果各归实际消费者；同步因果不写入过程快照。帧、伤害、施放等编号及共同预算保留原位置，不提前分配身份。
 
-| 对象 | 职责 |
-| --- | --- |
-| `plan.CompiledSession` | 只读规则快照：schema/rules hash、combatants、providers、abilities、operations、formulas、settings、abilityRefIndex；类型归执行计划包，编译器仅生产它 |
-| `CompiledSkillActionBinding` | 编译期固定来源、首次过程控制与合法完成命中绑定；运行只选择预设，不改过程时点或能力引用 |
-| `CompiledCombatant` | combatant 模板与 provider mounts |
-| `CompiledProvider` / `CompiledAbility` | capability 与 ability 定义；含 `instanceScope`、`statusContributions` 与治疗组计算方式 |
-| `CompiledOperation` | 执行期 operation IR；`resolve_skill_hit` 携带编译后的命中计划；`outputRef` 导出同帧伤害口径 |
-| `CompiledSkillHit` | 命中候选、阻挡范围、供值条件与候选 operations 切片；可选规则组保存连续候选区间和已有额度身份；显式普攻主体和待击替换角色编译为整数及固定候选位置 |
-| `formula.GenericRegistry` | 内部用途指令与技能／伤害共同只读程序共享的有界注册表；外部调用只链接已声明具名程序 |
-| `formula.SkillBinding` | 私有作者归属、原定义定位、已选参数、实际运行来源及只读绑定；可达依赖覆盖条件两支 |
-| `CompiledAttributeDerivation` | 明确派生拥有方与可选作者技能；共同读取按拥有方解释，内部读取维持战斗侧语义 |
-| `CompiledDamageTypeFormula` | 共同程序编号、只读绑定及原属性读值描述；一次防御求值供两部分使用 |
-| `typeset.CatalogResult` | flat type key / matcher 输入 |
+## 同步执行与读取边界
 
-## 运行状态归属
+根层按原时点准备当前暂存、帧入口、事件入口和事件冻结视图。普通伤害防御读取当前伤害帧入口，复制伤害读取原伤害冻结的完整防御双方；当前盾血在实际结算位置读取。惰性到期、动态投影和两遍重算保持原位置，读取准备不是无副作用查询。
 
-```mermaid
-graph TD
-    Session["Session: genericSessions + outbox"]
-    Entry["genericSessionEntry: sessionId hashes CompiledSession"]
-    State["execution.Engine：运行组合、帧与伤害身份、共同额度及统一提交"]
-    ExecutionParts["hit / listener / evaluation：各自单场事实、节流与缓存"]
-    Loop["scheduler.Loop：唯一时钟、队列、计数与停止状态"]
-    Subsystems["actor/action/effect/report：各自私有状态"]
-    Outbox["abi.Outbox priority frames"]
+根层保留以下跨功能次序：
 
-    Session --> Entry
-    Session --> Outbox
-    Entry --> State
-    State --> Loop
-    State --> Subsystems
-    State --> ExecutionParts
-```
+- 普攻受击通知 → 命中候选或规则组 → 事件当前属性及资源刷新 → 普通监听 → 法盾阻挡监听 → 强化尾部。
+- 伤害扣盾血 → 盾耗尽及属性同步 → 吸血 → 原受伤和逐伤事实。
+- 效果卸载中的行动／弹药、监听、所属效果、修正及属性清理，按现有局部发布顺序执行。
 
-## Review 建议
+候选、监听、过程和周期的业务循环由所属包执行。根层在有限同步阶段创建真实帧、交接原操作、统一提交并处理跨功能尾部。返回后按原规则复查活过程及挂载；每次嵌套调用有独立绑定恢复凭据，不保存单个可覆盖的“当前帧”。
 
-1. 先看 `internal/model/generic*.go` 与 `ARCHITECTURE` 本图，确认 ABI 边界。
-2. 再看 `compile/generic.go` → `session.go` → `RunGeneric`，确认 call chain。
-3. 新机制落在 provider/ability/operation + gate/execution；legacy step-loop/DPS 源码与导出已删除。
-4. 当前验证契约：独立作者 `formula-phase4-input.mjs`／`formula_phase4_explicit_basic_damage.json` + `smoke-node.mjs` + `go run ./cmd/bench`。原 `generic_p0_basic_damage.json` 字节保留，当前协议明确拒绝；旧900结果由 `target/formula-phase4-baseline` 档案复核。
+同帧专用操作借用当前原帧。`resolve_skill_hit` 只准备事实和待派发事件，不能提前提交或运行候选与监听。监听先冻结列表及全部条件，再逐项复查实际资格；规则组共用原帧与共同额度，逐候选清理可读操作输出。首接触及合格接触保留原尝试登记时点，节流和额度保留原成功记账及失败释放边界。
 
-第二阶段执行及数值管道已解除对编译器包的类型依赖；会话接线仍调用真实编译入口。临时驱动程序只追加到本次独立公式表，派生与其他求值共同读取该表。第三阶段A将伤害共同定义接入正式防御结算；第三阶段B将技能具名共同定义和私有参数绑定先注册，再链接内部用途包装，统一读取依赖、静态冻结、作用域及调用预算。第四阶段要求每个实际伤害操作都有成功注册的共同防御计划，金额短路前检查计划约束；普通防御读取帧入口，复制读取完整冻结双方视图，统一结算后才经 `ApplyMitigatedDamage` 扣盾和生命。通用命令入口只保留治疗、护盾与斩杀。成功编译的已核定静态输出只供宿主消费本次真实程序结果，不另设求值导出。正式技能／伤害专项经过真实编译、运行和释放导出，Node证据不代替浏览器工作线程。
+## 提交、恢复与验证
 
-## 阶段2连续运行链
+统一提交按原位置预检，再发布所属状态、生命周期、过程与强化事实、死亡冻结、队列和报告。局部发布之后失败保留真实已发生的事实；成功返回、正常跳过、内部失败和致命错误不合并为全链事务的单一标志。
 
-`model/generic_basic_attack.go`定义原生连续计划、已知预算原因、可靠记录与完整性字段。`runtime/execution/basic_attack_admission.go`在原始初始快照上核对本次编译身份和静态共享普攻范围；`runtime/execution/basic_attack.go`在`RunGeneric`内逐刀创建使用身份，依次经过真实开始监听、首次即时过程、命中候选及同步尾部，只消费已提交的过程冷却并安排下一刀。它不改变单次事实限制，也不增加导出入口。
+过程和目标计时保留实际身份、版本、世代、完整期限、有限分段与精确到期规则。恢复只重建当前允许的计时，不恢复整个事件堆，不用新的作者公式重写冻结历史。可靠累计、明细限额与采样独立，截断记录不改变计算、使用身份或最终状态。
 
-`runtime/execution/frame_commit*.go`先核对本帧所需队列容量，再统一提交生命、过程、冷却、证据及相关统计；`runtime/execution/execution_budget*.go`跨同刀各帧保留命令计数，并传播可识别的停止原因。`runtime/execution/basic_attack_output.go`只观察已提交伤害，完整累计与有限明细互不代替；预算中断可保留已经发生的击杀，但不能把未完成尾部标成完整。
-
-`runtime/execution/sampling_cursor.go`只在战斗时点之间和同刻全部提交后观察，独立于`scheduler.GenericHeap`。调整或关闭采样、截断记录都不改变战斗时钟、事件预算或可靠汇总。具体运行字段与验收以规划工作树阶段2设计及验收记录为准，本图不另定义契约。
-
-## 主动过程运行链
-
-阶段6C `runtime/execution/skill_actions.go` 的有限行动列表与现有普攻事件堆共用时钟，使用引用索引关联每项真实过程及其已接受首次指令。后续控制调用真实阶段能力，转移提交后接受；首次只发布一次成功开始事件。普通过程成功完成或唯一末尾复杂步骤的实际执行，在该转移同步尾部生成同一使用的独立命中事实，不另排宿主计时器或预加载成功事实。`runtime/execution/process_repeat.go`冻结有限分段并只调度下一真实时点，快照保存进度及占用历史。`runtime/execution/action_occupancy.go`从已提交活动步骤派生许可，共同提交预检用待提交实例核对安全期限与唯一下一刀的队列容量；提前控制按实际退出唤醒，旧步骤与段序守卫防重复释放。占用、普通冷却与弹药恢复共同约束下一刀，不重复建立时钟。直接治疗与实际扣血在原帧提交时累计，行动、使用、治疗记录预算只控制保留数量。当前通用机制验证不等于候选业务对象已录入或已通过真实联调；详细契约以规划真源阶段6设计为准。
-
-`model/generic_process.go` 固定第4项过程、控制事实与实例快照；`compile/generic_process.go` 编译步骤时间、逐笔成本和有序时点操作。`runtime/execution/process.go` 负责单次控制入口、暂存付款、统一时点和终结；`runtime/execution/process_snapshot.go` 负责严格恢复与计时重建。
-
-`runtime/execution/process_repeat.go`（有限分段执行）在引导实际进入时冻结指定窗口的首末偏移、次数及完整时长，只安排下一段或最后一段后的完整期限事件。旧引导仍直接按冻结完整时长与原首次口径计算，各段不依赖已舍入的证明端点。`runtime/execution/process_snapshot.go`（过程恢复）按真实步骤口径校验两项偏移、计数、最后／下一执行时刻及完整占用；终结不恢复下一段，变化后的作者表达式不能重写冻结历史。
-
-`generic_empowered_attack.go`（强化下一次普攻）只索引活动等待。`generic_skill_hit.go` 在真实普攻命中入口冻结实例与使用，保留原普攻及原候选完整执行，随后暂存并整体提交所有仍合法的强化负载、法术护盾消费、过程进度和双使用关联。负载始终读取实际命中目标；原激活目标与使用仍保留。单步等待的超时、刷新及旧计时失效沿过程终结路径处理；不接受含该步骤的过程快照恢复，不发布伪造的独立技能命中。
-
-首次控制使用一个执行帧检查全部成本，再生成稳定使用归属的实例。阶段推进复用首次拥有者、挂载、目标和能力分类，数值仍经现有操作与管道；时点帧提交后按首次完整能力引用累计伤害和治疗。成本供值仅在所属完成/失败时点开放。
-
-过程计时采用独立事件类别，同刻先于推进。实例索引与步骤版本让旧事件失效；拥有者、挂载、过程和使用组成可重建的同刻排序键，因此中途恢复与连续执行顺序一致。死亡结算先冻结全部受影响实例，再执行失败效果并检查连带死亡。
-
-实例快照保存活动和终结记录，独立预算不遗忘已开始的使用。恢复只重建当前步骤所需计时，不恢复整个事件堆；到期等于快照时间仍入队处理，过去期限拒绝。过程相关运行拒绝任何过去驱动，避免普通伤害或第5项命中使时间倒退。
-
-`compile/generic_target_timing.go` 将显式目标保相位周期和预约负载绑定为最多四个编译槽；`runtime/execution/target_timing.go` 只为这些来源建立小数组事实，所有世代、期限、相位序号和待入队事件均暂存于现有提交帧。它复用普通锚事件与清理类别，不建立另一套时钟，不扩旧续时或恢复门。
-
-`compile/generic_damage_state_before.go` 仅从真实已挂载逐伤监听条件建立读取表；`runtime/execution/damage_state_before.go` 在每笔扣血前冻结该帧已暂存的必要整数，成功产生原伤害编号后一起提交。条件读取、七字段证据、逐伤事件及恢复因果使用同一编号；没有编译读取表时不采集，不复制完整状态。具体字段与边界由上述有界目标时序共享契约独占定义。
+源码阅读从[20个根组合文件与功能入口](internal/runtime/execution/README.md)进入。命令与正式工具链见[引擎说明](README.md)，固定机制及真实宿主验证见[机制说明](../../web/tests/mechanisms/README.md)。当前验证结果由[本轮验收记录](../../文档记录/测试记录/项目/执行协调层功能组合重构验收-2026-11-01.md)承接，历史阶段从对应验收摘要及Git历史追溯。

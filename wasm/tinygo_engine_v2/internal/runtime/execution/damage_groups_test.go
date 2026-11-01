@@ -57,7 +57,7 @@ func TestGroupedDamageFirstPerCastConsumesQualifiedMembersAndResetsPerFrame(t *t
 		if err != nil || math.Abs(got-want) > 1e-10 {
 			t.Fatal(index, got, want, err)
 		}
-		if count := len(f.consumedFirstPerCast); count != []int{1, 2, 2}[index] {
+		if count := len(f.numeric.FirstPerCast()); count != []int{1, 2, 2}[index] {
 			t.Fatal(index, count)
 		}
 	}
@@ -78,13 +78,13 @@ func TestGroupedDamageDynamicFailurePublishesNoPartialConsumption(t *testing.T) 
 	for _, value := range []float64{.8, math.Inf(1)} {
 		setGroupedFrameAttribute(f, "multiplier", value)
 		_, err := groupedFrameAmount(f, ability, 100)
-		if err == nil || err.Code != model.GenericErrFormulaTypeError || !strings.Contains(err.Ref, "modifier[b]") || !strings.Contains(err.Path, ".value") || len(f.consumedFirstPerCast) != 0 {
-			t.Fatal(value, err, f.consumedFirstPerCast)
+		if err == nil || err.Code != model.GenericErrFormulaTypeError || !strings.Contains(err.Ref, "modifier[b]") || !strings.Contains(err.Path, ".value") || len(f.numeric.FirstPerCast()) != 0 {
+			t.Fatal(value, err, f.numeric.FirstPerCast())
 		}
 	}
 	setGroupedFrameAttribute(f, "multiplier", 1.3)
-	if value, err := groupedFrameAmount(f, ability, 100); err != nil || value != 150 || len(f.consumedFirstPerCast) != 2 {
-		t.Fatal(value, err, f.consumedFirstPerCast)
+	if value, err := groupedFrameAmount(f, ability, 100); err != nil || value != 150 || len(f.numeric.FirstPerCast()) != 2 {
+		t.Fatal(value, err, f.numeric.FirstPerCast())
 	}
 }
 
@@ -94,7 +94,7 @@ func TestGroupedDamageNeutralAndZeroAreAppliedMembers(t *testing.T) {
 		c.SharedProviders[0].Modifiers = []model.ModifierDefinition{groupedDamageDefinition("a", value), groupedDamageDefinition("b", 1.3)}
 		s := frameCommitState(t, c, r)
 		f, ability, _ := frameCommitFrame(s)
-		if amount, err := groupedFrameAmount(f, ability, 0); err != nil || amount != 0 || len(f.consumedFirstPerCast) != 2 {
+		if amount, err := groupedFrameAmount(f, ability, 0); err != nil || amount != 0 || len(f.numeric.FirstPerCast()) != 2 {
 			t.Fatal(value, amount, err)
 		}
 		if amount, err := groupedFrameAmount(f, ability, 100); err != nil || amount != 100 {
@@ -122,8 +122,8 @@ func TestGroupedDamageSourceIdentityAndDualChannelDeduplicate(t *testing.T) {
 	staged.instances.AppendProvider(effectpkg.Provider{ProviderRef: "second_source", DefinitionRef: s.compiled.Providers[0].ProviderKey, DefinitionIndex: 0, Source: "source", Owner: "source", Stacks: 1})
 	staged.instances.MountDamageCompiled("source", "second_source", modifier)
 	value, err := groupedFrameAmount(f, ability, 100)
-	if err != nil || math.Abs(value-140) > 1e-10 || len(f.consumedFirstPerCast) != 2 {
-		t.Fatal(value, err, f.consumedFirstPerCast)
+	if err != nil || math.Abs(value-140) > 1e-10 || len(f.numeric.FirstPerCast()) != 2 {
+		t.Fatal(value, err, f.numeric.FirstPerCast())
 	}
 }
 
@@ -178,8 +178,8 @@ func TestGroupedDamageDynamicSumAndProductOverflowIsAtomicEvenAtZero(t *testing.
 		f, ability, _ := frameCommitFrame(s)
 		setGroupedFrameAttribute(f, "multiplier", math.MaxFloat64)
 		_, err := groupedFrameAmount(f, ability, 0)
-		if err == nil || !strings.Contains(err.Message, "overflow") || err.Ref == "" || len(f.consumedFirstPerCast) != 0 {
-			t.Fatal(kind, err, f.consumedFirstPerCast)
+		if err == nil || !strings.Contains(err.Message, "overflow") || err.Ref == "" || len(f.numeric.FirstPerCast()) != 0 {
+			t.Fatal(kind, err, f.numeric.FirstPerCast())
 		}
 	}
 }
@@ -225,14 +225,14 @@ func TestGroupedDamageCritDefensePriorityAndShieldHandCalculation(t *testing.T) 
 		c2PipelineMod("before_group", "damage", "all_damage", "incoming_post_mitigation", "subtract", 10, -10),
 	)
 	numbers := cappedNumbers(t, c, r)
-	for label, values := range map[string][2]float64{"raw": {numbers.rawAmount, 450}, "normal_defense": {numbers.normalPartPostResistance, 70}, "critical_defense": {numbers.critPartPostResistance, 145}, "mitigated": {numbers.mitigatedAmount, 264}} {
+	for label, values := range map[string][2]float64{"raw": {numbers.RawAmount, 450}, "normal_defense": {numbers.NormalPartPostResistance, 70}, "critical_defense": {numbers.CritPartPostResistance, 145}, "mitigated": {numbers.MitigatedAmount, 264}} {
 		if math.Abs(values[0]-values[1]) > 1e-9 {
 			t.Fatal(label, values, numbers)
 		}
 	}
 	shields := effectpkg.ShieldList{}.Append(effectpkg.Shield{ShieldRef: "hand_shield", Source: "target", Owner: "target", Remaining: 30})
 	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": authoringSlot(1000)})
-	out, after, _ := shields.ApplyDamage(numbers.rawAmount, numbers.mitigatedAmount, attrs, 0, true)
+	out, after, _ := shields.ApplyDamage(numbers.RawAmount, numbers.MitigatedAmount, attrs, 0, true)
 	if math.Abs(out.HPDamage-234) > 1e-9 || out.ShieldAbsorbed != 30 || math.Abs(attribute.ReadHP(after)-766) > 1e-9 {
 		t.Fatal(out, after)
 	}

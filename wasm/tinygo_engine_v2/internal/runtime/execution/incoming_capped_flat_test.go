@@ -76,20 +76,20 @@ func TestIncomingCappedFlatBranchBoundariesAndSourceProjection(t *testing.T) {
 				c.Rules.Modifiers = append(c.Rules.Modifiers, c2PipelineMod("one_source_projection", "damage", "all_damage", "outgoing_pre_mitigation", policy, tc.out, 0))
 			}
 			got := cappedNumbers(t, c, r)
-			if math.Abs(got.mitigatedAmount-tc.want) > 1e-10 {
-				t.Fatal(got.mitigatedAmount, tc.want)
+			if math.Abs(got.MitigatedAmount-tc.want) > 1e-10 {
+				t.Fatal(got.MitigatedAmount, tc.want)
 			}
-			if math.Abs(got.rawAmount-tc.wantRaw) > 1e-10 {
+			if math.Abs(got.RawAmount-tc.wantRaw) > 1e-10 {
 				t.Fatal("raw was changed", got)
 			}
 			outCount := 0
-			for _, row := range got.modifiers {
+			for _, row := range got.Modifiers {
 				if row["stage"] == "outgoing_pre_mitigation" {
 					outCount++
 				}
 			}
 			if tc.out != 1 && outCount != 1 {
-				t.Fatal("source modifier evaluated more than once", got.modifiers)
+				t.Fatal("source modifier evaluated more than once", got.Modifiers)
 			}
 		})
 	}
@@ -103,10 +103,10 @@ func TestIncomingCappedFlatNaturalAndForcedStaySeparate(t *testing.T) {
 		c2PipelineMod("forced", "crit", "all_damage", "crit_multiplier_forced_branch", "override", 4, 0))
 	got := cappedNumbers(t, c, r)
 	// .25*10 + .25*27 + .5*67 = 42.75; merged critical cap is not equivalent.
-	if got.mitigatedAmount != 42.75 {
+	if got.MitigatedAmount != 42.75 {
 		t.Fatal(got)
 	}
-	if got.rawAmount != 55 || got.crit.normalPart != 5 || got.crit.critPart != 50 {
+	if got.RawAmount != 55 || got.Crit.NormalPart != 5 || got.Crit.CritPart != 50 {
 		t.Fatal(got)
 	}
 }
@@ -165,21 +165,21 @@ func TestIncomingCappedFlatReadsActualOwnerAndFrozenCopyView(t *testing.T) {
 			frame := state.newExecutionFrame(attacker, owner, "")
 			op := session.Operations[session.Abilities[2].OperationStart] // entry is only used for shared formula context
 			ability := session.Abilities[2]
-			crit := frozenCritEvidence{present: true, eligible: true, baseRawAmount: 20, originalCritChance: .5, chanceEffective: .5, naturalWeight: .5, naturalMultiplier: 2, forcedMultiplier: 2, normalPart: 10, critPart: 20, critAdjustedRawAmount: 30}
+			crit := frozenCritEvidence{Present: true, Eligible: true, BaseRawAmount: 20, OriginalCritChance: .5, ChanceEffective: .5, NaturalWeight: .5, NaturalMultiplier: 2, ForcedMultiplier: 2, NormalPart: 10, CritPart: 20, CritAdjustedRawAmount: 30}
 			cmd := pipeline.Command{Kind: pipeline.KindDamage, Source: attacker, Target: owner, DamageType: "damage/physics", Amount: 30}
 			got, e := frame.resolveDamageNumbers(cmd, op, crit, ability, nil)
 			if e != nil {
 				t.Fatal(e)
 			}
-			if math.Abs(got.mitigatedAmount-24.1/1.1) > 1e-9 {
-				t.Fatal("wrong owner's BONUS resistance", got.mitigatedAmount)
+			if math.Abs(got.MitigatedAmount-24.1/1.1) > 1e-9 {
+				t.Fatal("wrong owner's BONUS resistance", got.MitigatedAmount)
 			}
 			frozen := frame.stageFor(owner).attributesView()
 			frame.damageDefenseContext = &formula.GenericEvalContext{SourceAttrs: frame.stageFor(attacker).attributesView(), TargetAttrs: frozen}
 
 			frame.stageFor(owner).setAttributes(frame.stageFor(owner).attributesView().With("armor", authoringSlot(9999)))
 			copied, e := frame.resolveDamageNumbers(cmd, op, crit, ability, nil)
-			if e != nil || math.Abs(copied.mitigatedAmount-got.mitigatedAmount) > 1e-9 {
+			if e != nil || math.Abs(copied.MitigatedAmount-got.MitigatedAmount) > 1e-9 {
 				t.Fatal("copy lost frozen recipient view", copied, e)
 			}
 		})

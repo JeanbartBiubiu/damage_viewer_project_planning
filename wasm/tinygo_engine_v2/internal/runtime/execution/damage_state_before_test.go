@@ -39,11 +39,11 @@ func TestDamageStateBeforeWrongContextsAndMissingAreNotZero(t *testing.T) {
 	if _, err := f.DamageStateBefore("mark"); err == nil {
 		t.Fatal("missing context became zero")
 	}
-	f.eventCtx = &eventFormulaSnapshot{eventType: eventTypeDamageInstance, eventSourceKey: "source", eventTargetKey: "target", damageID: 1}
+	f.eventCtx = &eventFormulaSnapshot{EventType: eventTypeDamageInstance, EventSourceKey: "source", EventTargetKey: "target", DamageID: 1}
 	if _, err := f.DamageStateBefore("mark"); err == nil {
 		t.Fatal("missing declared frozen fact became zero")
 	}
-	f.eventCtx.damageStateBefore = []frozenDamageStateBefore{{reader: 0, value: 0}}
+	f.eventCtx.DamageStateBefore = []frozenDamageStateBefore{{Reader: 0, Value: 0}}
 	if value, err := f.DamageStateBefore("mark"); err != nil || value != 0 {
 		t.Fatal("legitimate frozen zero rejected", value, err)
 	}

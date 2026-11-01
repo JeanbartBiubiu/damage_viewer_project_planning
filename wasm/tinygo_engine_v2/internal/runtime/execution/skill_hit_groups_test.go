@@ -6,6 +6,8 @@ import (
 	testing "testing"
 	formula "tinygo_engine_v2/internal/formula"
 	model "tinygo_engine_v2/internal/model"
+	hitpkg "tinygo_engine_v2/internal/runtime/execution/hit"
+	"tinygo_engine_v2/internal/runtime/execution/usage"
 )
 
 func hitRule(key, group, scope string, candidates ...string) model.SkillHitRuleGroup {
@@ -56,15 +58,17 @@ func TestSkillHitRuleGroupUnknownUseAndForeignMountFail(t *testing.T) {
 	s := frameCommitState(t, c, r)
 	ability, ref, _ := s.lookupDriverAbility(r.DriverPlan.Entries[0])
 	plan := s.compiled.Operations[ability.OperationStart].SkillHit
-	freeze := &frozenSkillHitContext{plan: plan, ability: ability, abilityRef: ref, sourceKey: "source", targetKey: "target", skillKey: "author:q", useRef: "u1"}
+	seed := hitpkg.ContextSeed{Facts: hitpkg.Facts{SourceKey: "source", TargetKey: "target", SkillKey: "author:q", UseRef: "u1"}, Plan: plan, Ability: ability, AbilityRef: ref}
+	freeze := hitpkg.NewContext(seed)
 	ev := emittedEvent{eventType: model.EventTypeSkillHit, sourceKey: "source", targetKey: "target", hasUse: true, useSource: "source", useSkillKey: "author:q", useKey: "u1"}
-	for _, mutate := range []func(){func() { freeze.abilityRef = "target.provider[champion:source_demo].ability[skill_hit]" }, func() { freeze.abilityRef = ref; ev.useSource = "target" }, func() { ev.useSource = "source"; freeze.plan.OwnerProviderIndex = -1 }} {
+	for _, mutate := range []func(){func() { seed.AbilityRef = "target.provider[champion:source_demo].ability[skill_hit]" }, func() { seed.AbilityRef = ref; ev.useSource = "target" }, func() { ev.useSource = "source"; seed.Plan.OwnerProviderIndex = -1 }} {
 		mutate()
+		freeze = hitpkg.NewContext(seed)
 		if _, err := s.skillHitRuleQuota(ev, freeze, plan.RuleGroups[0]); err == nil {
 			t.Fatal("foreign identity gained quota")
 		}
 	}
-	if len(s.useTriggerLedger) != 0 {
+	if s.useTriggerLedger.Len() != 0 {
 		t.Fatal("bad identity allocated quota")
 	}
 	for _, field := range []string{"source", "owner", "duplicate"} {
@@ -90,12 +94,15 @@ func TestSkillHitRuleGroupSharesDedicatedLedgerBudget(t *testing.T) {
 	oneGroupedHit(&r)
 	s := frameCommitState(t, c, r)
 	for i := 0; i < maxUseTriggerLedger; i++ {
-		key := useTriggerKey{useKey: fmt.Sprint(i)}
-		s.useTriggerLedger[key] = &useTriggerRecord{key: key, committed: true}
+		token, _, issue := s.useTriggerLedger.Reserve(usage.Key{UseKey: fmt.Sprint(i)}, "")
+		if issue != nil {
+			t.Fatal(issue)
+		}
+		s.useTriggerLedger.Commit(token)
 	}
 	err := s.executeAbilityCast(r.DriverPlan.Entries[0])
-	if err == nil || err.BudgetCause != model.BudgetCauseMaxUseTriggerLedger || s.report.Totals().SourceDamageDealt != 0 || len(s.useTriggerLedger) != maxUseTriggerLedger || s.useTriggerReserving != 0 {
-		t.Fatal("new groups bypassed or corrupted the shared budget", err, s.report.Totals().SourceDamageDealt, len(s.useTriggerLedger))
+	if err == nil || err.BudgetCause != model.BudgetCauseMaxUseTriggerLedger || s.report.Totals().SourceDamageDealt != 0 || s.useTriggerLedger.Len() != maxUseTriggerLedger || s.useTriggerLedger.Pending() != 0 {
+		t.Fatal("new groups bypassed or corrupted the shared budget", err, s.report.Totals().SourceDamageDealt, s.useTriggerLedger.Len())
 	}
 }
 
@@ -111,7 +118,7 @@ func TestSkillHitRuleGroupSecondCommandFailureKeepsEarlierGroupOnly(t *testing.T
 	s.actions.SetAttackActive(true)
 	s.budget.MaxCommandsPerEvent = 3
 	err := s.executeAbilityCast(r.DriverPlan.Entries[0])
-	if err == nil || err.BudgetCause != model.BudgetCauseMaxCommandsPerEvent || s.report.Totals().SourceDamageDealt != 100 || s.combatantHp("target") != 900 || s.useTriggerReserving != 0 {
+	if err == nil || err.BudgetCause != model.BudgetCauseMaxCommandsPerEvent || s.report.Totals().SourceDamageDealt != 100 || s.combatantHp("target") != 900 || s.useTriggerLedger.Pending() != 0 {
 		t.Fatal("failed second result leaked a half-rule", err, s.report.Totals().SourceDamageDealt, s.combatantHp("target"), s.useTriggerLedger)
 	}
 	rows := s.snapshotUseTriggerLedger()
@@ -126,7 +133,7 @@ func TestSkillHitRuleGroupSecondFormulaFailureIsAtomic(t *testing.T) {
 	groupedPlan(&c).Candidates[1].Operations[0].Amount = &model.GenericFormulaExpr{Op: "div", Args: []model.GenericFormulaExpr{hitConst(1), hitConst(0)}}
 	s := frameCommitState(t, c, r)
 	err := s.executeAbilityCast(r.DriverPlan.Entries[0])
-	if err == nil || err.Code != model.GenericErrFormulaTypeError || s.report.Totals().SourceDamageDealt != 0 || s.combatantHp("target") != 1000 || len(s.useTriggerLedger) != 0 || s.recordingSummary().DamageRecordCount != 0 {
+	if err == nil || err.Code != model.GenericErrFormulaTypeError || s.report.Totals().SourceDamageDealt != 0 || s.combatantHp("target") != 1000 || s.useTriggerLedger.Len() != 0 || s.recordingSummary().DamageRecordCount != 0 {
 		t.Fatal("second formula failure committed damage/quota", err, s.report.Totals().SourceDamageDealt, s.useTriggerLedger)
 	}
 	if len(s.report.Snapshot().Evidence.CountsByKind) == 0 || s.report.Snapshot().Evidence.CountsByKind[string(model.EvidenceKindSkillHit)] != 1 {
@@ -160,7 +167,7 @@ func TestSkillHitRuleGroupProviderBatchQueueAndSecondValueFailure(t *testing.T) 
 			s.loop.Queue().SetLimit(1)
 		}
 		err := s.executeAbilityCast(r.DriverPlan.Entries[0])
-		if err == nil || s.combatants["target"].instances.Providers().Len() != 0 || len(s.useTriggerLedger) != 0 || s.useTriggerReserving != 0 || s.report.Totals().SourceDamageDealt != 80 {
+		if err == nil || s.combatants["target"].instances.Providers().Len() != 0 || s.useTriggerLedger.Len() != 0 || s.useTriggerLedger.Pending() != 0 || s.report.Totals().SourceDamageDealt != 80 {
 			t.Fatal("second provider failed after publishing first", failure, err, s.combatants["target"].instances.Providers(), s.useTriggerLedger)
 		}
 		if failure == "queue" && err.BudgetCause != model.BudgetCauseMaxQueueEvents {
@@ -188,7 +195,7 @@ func TestSkillHitRuleGroupRuntimeDoesNotExposePreviousCandidateOutput(t *testing
 	plan := s.compiled.Operations[ability.OperationStart].SkillHit
 	operation := &s.compiled.Operations[plan.Candidates[1].OperationStart]
 	operation.AmountProgram, operation.HasAmount = id, true
-	if issue := s.executeAbilityCast(r.DriverPlan.Entries[0]); issue == nil || s.report.Totals().SourceDamageDealt != 0 || s.combatantHp("target") != 1000 || len(s.useTriggerLedger) != 0 || s.recordingSummary().DamageRecordCount != 0 {
+	if issue := s.executeAbilityCast(r.DriverPlan.Entries[0]); issue == nil || s.report.Totals().SourceDamageDealt != 0 || s.combatantHp("target") != 1000 || s.useTriggerLedger.Len() != 0 || s.recordingSummary().DamageRecordCount != 0 {
 		t.Fatal("candidate reused another result's private output", issue, s.report.Totals().SourceDamageDealt, s.useTriggerLedger)
 	}
 }
@@ -199,7 +206,7 @@ func TestSkillHitRuleGroupQuotaCommittedBeforeDerivedFailure(t *testing.T) {
 	ensureC1CatalogTypes(&c, model.TypeCatalogEntry{Key: eventTypeDamageInstance, Domain: "event"})
 	c.SharedProviders[0].Listeners = []model.ListenerDefinition{{ListenerKey: "fail_after_commit", EventMatcher: model.TypeMatcher{All: []string{eventTypeDamageInstance}}, Operations: []model.OperationDefinition{{Operation: "heal", Target: "self", Amount: &model.GenericFormulaExpr{Op: "div", Args: []model.GenericFormulaExpr{hitConst(1), hitConst(0)}}}}}}
 	s := frameCommitState(t, c, r)
-	if err := s.executeAbilityCast(r.DriverPlan.Entries[0]); err == nil || s.report.Totals().SourceDamageDealt != 200 || len(s.snapshotUseTriggerLedger()) != 1 || s.useTriggerReserving != 0 {
+	if err := s.executeAbilityCast(r.DriverPlan.Entries[0]); err == nil || s.report.Totals().SourceDamageDealt != 200 || len(s.snapshotUseTriggerLedger()) != 1 || s.useTriggerLedger.Pending() != 0 {
 		t.Fatal("derived failure rolled back committed quota/damage", err, s.report.Totals().SourceDamageDealt, s.useTriggerLedger)
 	}
 }
@@ -218,20 +225,20 @@ func TestSkillHitRuleGroupReservedIdentityCannotReenter(t *testing.T) {
 	ev := emittedEvent{eventType: model.EventTypeSkillHit, sourceKey: "source", targetKey: "target", hasUse: true, useSource: "source", useSkillKey: "author:q", useKey: "u1"}
 	ability, ref, _ := s.lookupDriverAbility(r.DriverPlan.Entries[0])
 	hit := s.compiled.Operations[ability.OperationStart].SkillHit
-	freeze := &frozenSkillHitContext{ability: ability, abilityRef: ref, plan: hit, sourceKey: "source", targetKey: "target", useRef: "u1", skillKey: "author:q"}
+	freeze := hitpkg.NewContext(hitpkg.ContextSeed{Facts: hitpkg.Facts{SourceKey: "source", TargetKey: "target", UseRef: "u1", SkillKey: "author:q"}, Ability: ability, AbilityRef: ref, Plan: hit})
 	descriptor, err := s.skillHitRuleQuota(ev, freeze, hit.RuleGroups[0])
 	if err != nil {
 		t.Fatal(err)
 	}
 	reserved, _, err := s.reserveOncePerUse(descriptor, ev)
-	if err != nil || !reserved {
+	if err != nil || reserved == (usage.Reservation{}) {
 		t.Fatal(err)
 	}
-	if err := s.executeSkillHitRuleGroup(ev, freeze, hit.RuleGroups[0], 1); err != nil || s.report.Totals().SourceDamageDealt != 0 || s.useTriggerReserving != 1 {
+	if err := s.executeSkillHitRuleGroup(ev, freeze, hit.RuleGroups[0], 1); err != nil || s.report.Totals().SourceDamageDealt != 0 || s.useTriggerLedger.Pending() != 1 {
 		t.Fatal("reservation recursively acquired", group, err, s.useTriggerLedger)
 	}
-	s.releaseUncommittedUseReservation(&pendingUseReservation{listener: descriptor, event: ev})
-	if len(s.useTriggerLedger) != 0 {
+	s.releaseUncommittedUseReservation(&pendingUseReservation{token: reserved})
+	if s.useTriggerLedger.Len() != 0 {
 		t.Fatal("reservation did not release")
 	}
 }
