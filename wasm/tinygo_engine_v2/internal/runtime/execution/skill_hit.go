@@ -6,44 +6,20 @@ import effectpkg "tinygo_engine_v2/internal/runtime/effect"
 
 import (
 	"math"
-	"sort"
-	"strconv"
 	"strings"
 	"tinygo_engine_v2/internal/pipeline"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
-)
-
-const (
-	maxSkillUsesPerRun      = 256
-	maxSkillHitFactsPerRun  = 1024
-	maxSkillHistoryContacts = 4096
-	maxSkillLedgerUnits     = 1024
-	maxSkillHitOccurrences  = 4096
+	"tinygo_engine_v2/internal/runtime/execution/hit"
 )
 
 type skillUseRuntime struct {
 	identity            *actionpkg.UseView
 	providerStateBefore []attackProviderStateCapture
 	ammoBefore          *ammoUseCapture
-	prior               []string
-	contacts            []string
-}
-
-type skillHitGroup struct {
-	useRef     string
-	firstAtMs  int64
-	entryKeys  []string
-	knownOrder bool
-	started    bool
-	frozen     map[string]skillHitDecision // entryKey → first_contact freeze for unknown groups
-}
-
-type skillHitDecision struct {
-	has   bool
-	value float64
+	history             hit.History
 }
 
 type frozenSkillHitContext struct {
@@ -74,206 +50,25 @@ type frozenSkillHitContext struct {
 	abilityRef          string
 }
 
-func skillHitBudget(maxEvents int) int {
-	if maxEvents <= 0 {
-		return 256
-	}
-	if maxEvents < 256 {
-		return 256
-	}
-	if maxEvents > maxSkillHitOccurrences {
-		return maxSkillHitOccurrences
-	}
-	return maxEvents
-}
-
 func (s *Engine) initSkillHitState() *model.EngineError {
 	s.skillUses = map[string]*skillUseRuntime{}
-	s.skillHitFacts = map[string]model.SkillHitFact{}
-	s.skillHitGroups = map[string]*skillHitGroup{}
-	s.skillHitLedger = map[string]*frozenSkillHitContext{}
-	s.runtimeListeners = nil
-	if err := s.validateAndIndexSkillHitFacts(); err != nil {
+	s.listeners.ResetDynamic()
+	bindings := make([]hit.DriverBinding, len(s.req.DriverPlan.Entries))
+	for index, entry := range s.req.DriverPlan.Entries {
+		ability, _, ok := s.lookupDriverAbility(entry)
+		bindings[index] = hit.DriverBinding{HasSkillHit: ok && ability.HasSkillHit, SkillKey: ability.SkillHitSkillKey, WhileReady: s.isWhileReady(entry)}
+	}
+	if err := s.hits.Initialize(s.req.SkillUses, s.req.SkillHitFacts, s.req.DriverPlan.Entries, bindings, hit.Identity{SchemaHash: s.compiled.SchemaHash, RulesHash: s.compiled.RulesHash, SessionID: s.req.SessionID}); err != nil {
 		return err
+	}
+	for _, use := range s.req.SkillUses {
+		s.skillUses[use.UseKey] = &skillUseRuntime{
+			identity: s.actions.NewUse(actionpkg.UseSeed{UseKey: use.UseKey, Source: use.Source, SkillKey: use.SkillKey, HistoryState: use.HistoryState}),
+			history:  hit.NewHistory(use.PriorQualifiedContacts),
+		}
 	}
 	s.bindDynamicProviderListeners()
 	return nil
-}
-
-func (s *Engine) validateAndIndexSkillHitFacts() *model.EngineError {
-	if len(s.req.SkillUses) > maxSkillUsesPerRun {
-		return s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "skillUses exceeded run budget", "skillUses", "")
-	}
-	if len(s.req.SkillHitFacts) > maxSkillHitFactsPerRun {
-		return s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "skillHitFacts exceeded run budget", "skillHitFacts", "")
-	}
-	seenUse := map[string]int{}
-	for i, use := range s.req.SkillUses {
-		path := "skillUses[" + itoa(uint32(i)) + "]"
-		if strings.TrimSpace(use.UseKey) == "" {
-			return s.skillHitErr(model.GenericErrMissingRequiredField, "skillUses.useKey is required", path+".useKey", "")
-		}
-		if prev, ok := seenUse[use.UseKey]; ok {
-			return s.skillHitErr(model.GenericErrUnknownRef, "duplicate skillUses.useKey", path+".useKey", use.UseKey+" previously "+itoa(uint32(prev)))
-		}
-		seenUse[use.UseKey] = i
-		if strings.TrimSpace(use.Source) == "" {
-			return s.skillHitErr(model.GenericErrMissingRequiredField, "skillUses.source is required", path+".source", use.UseKey)
-		}
-		if strings.TrimSpace(use.SkillKey) == "" {
-			return s.skillHitErr(model.GenericErrMissingRequiredField, "skillUses.skillKey is required", path+".skillKey", use.UseKey)
-		}
-		if use.HistoryState != model.SkillHitHistoryComplete && use.HistoryState != model.SkillHitHistoryUnknown {
-			return s.skillHitErr(model.GenericErrUnknownRef, "skillUses.historyState must be complete or unknown", path+".historyState", use.HistoryState)
-		}
-		if len(use.PriorQualifiedContacts) > maxSkillHistoryContacts {
-			return s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "priorQualifiedContacts exceeded run budget", path+".priorQualifiedContacts", use.UseKey)
-		}
-		s.skillUses[use.UseKey] = &skillUseRuntime{
-			identity: s.actions.NewUse(actionpkg.UseSeed{UseKey: use.UseKey, Source: use.Source, SkillKey: use.SkillKey, HistoryState: use.HistoryState}),
-			prior:    append([]string(nil), use.PriorQualifiedContacts...),
-		}
-	}
-
-	hitEntries := map[string]int{}
-	for i, entry := range s.req.DriverPlan.Entries {
-		ability, _, ok := s.lookupDriverAbility(entry)
-		if !ok || !ability.HasSkillHit {
-			continue
-		}
-		hitEntries[entry.EntryKey] = i
-		if entry.Repeat != nil || s.isWhileReady(entry) {
-			return s.skillHitErr(model.GenericErrUnknownRef, "resolve_skill_hit driver cannot use Repeat or WhileReady", "driverPlan.entries["+entry.EntryKey+"]", entry.AbilityRef)
-		}
-		if entry.Source == "" || entry.Target == "" {
-			return s.skillHitErr(model.GenericErrMissingRequiredField, "hit driver requires explicit source and target", "driverPlan.entries["+entry.EntryKey+"]", entry.AbilityRef)
-		}
-	}
-
-	seenFact := map[string]int{}
-	for i, fact := range s.req.SkillHitFacts {
-		path := "skillHitFacts[" + itoa(uint32(i)) + "]"
-		if strings.TrimSpace(fact.DriverEntryKey) == "" {
-			return s.skillHitErr(model.GenericErrMissingRequiredField, "skillHitFacts.driverEntryKey is required", path+".driverEntryKey", "")
-		}
-		if prev, ok := seenFact[fact.DriverEntryKey]; ok {
-			return s.skillHitErr(model.GenericErrUnknownRef, "duplicate skillHitFacts.driverEntryKey", path+".driverEntryKey", fact.DriverEntryKey+" previously "+itoa(uint32(prev)))
-		}
-		seenFact[fact.DriverEntryKey] = i
-		entryIdx, ok := hitEntries[fact.DriverEntryKey]
-		if !ok {
-			return s.skillHitErr(model.GenericErrUnknownRef, "skillHitFact must point to a single-shot resolve_skill_hit driver", path+".driverEntryKey", fact.DriverEntryKey)
-		}
-		entry := s.req.DriverPlan.Entries[entryIdx]
-		ability, _, _ := s.lookupDriverAbility(entry)
-		if fact.UseRef != nil && *fact.UseRef != "" {
-			use, found := s.skillUses[*fact.UseRef]
-			if !found {
-				return s.skillHitErr(model.GenericErrUnknownRef, "skillHitFact.useRef is not a declared skill use", path+".useRef", *fact.UseRef)
-			}
-			if use.identity.Source() != entry.Source {
-				return s.skillHitErr(model.GenericErrUnknownRef, "skill use source must equal the driver source", path+".useRef", *fact.UseRef)
-			}
-			if use.identity.SkillKey() != ability.SkillHitSkillKey {
-				return s.skillHitErr(model.GenericErrUnknownRef, "skill use skillKey must equal the hit plan skillKey", path+".useRef", *fact.UseRef)
-			}
-		}
-		if fact.Sequence != nil && *fact.Sequence < 0 {
-			return s.skillHitErr(model.GenericErrUnknownRef, "skillHitFact.sequence must be a non-negative integer", path+".sequence", fact.DriverEntryKey)
-		}
-		s.skillHitFacts[fact.DriverEntryKey] = fact
-	}
-	return s.buildSkillHitGroups(hitEntries)
-}
-
-func (s *Engine) buildSkillHitGroups(hitEntries map[string]int) *model.EngineError {
-	type groupKey struct {
-		use     string
-		at      int64
-		nullUse bool
-	}
-	buckets := map[groupKey][]string{}
-	for entryKey, fact := range s.skillHitFacts {
-		entry := s.req.DriverPlan.Entries[hitEntries[entryKey]]
-		key := groupKey{at: entry.FirstAtMs}
-		if fact.UseRef != nil && *fact.UseRef != "" {
-			key.use = *fact.UseRef
-		} else {
-			key.nullUse = true
-			key.use = "\x00" + entryKey
-		}
-		buckets[key] = append(buckets[key], entryKey)
-	}
-	for key, members := range buckets {
-		sort.SliceStable(members, func(i, j int) bool {
-			ei := hitEntries[members[i]]
-			ej := hitEntries[members[j]]
-			pi := s.req.DriverPlan.Entries[ei].Priority
-			pj := s.req.DriverPlan.Entries[ej].Priority
-			if pi != pj {
-				return pi < pj
-			}
-			return ei < ej
-		})
-		g := &skillHitGroup{useRef: key.use, firstAtMs: key.at, entryKeys: members, frozen: map[string]skillHitDecision{}}
-		if key.nullUse {
-			g.knownOrder = false
-			s.skillHitGroups[groupMapKey(key.use, key.at)] = g
-			continue
-		}
-		if len(members) <= 1 {
-			g.knownOrder = true
-			s.skillHitGroups[groupMapKey(key.use, key.at)] = g
-			continue
-		}
-		known, err := s.groupOrderKnown(members, g.entryKeys)
-		if err != nil {
-			return err
-		}
-		g.knownOrder = known
-		s.skillHitGroups[groupMapKey(key.use, key.at)] = g
-	}
-	return nil
-}
-
-func groupMapKey(use string, at int64) string {
-	return use + "\x00" + strconv.FormatInt(at, 10)
-}
-
-func (s *Engine) groupOrderKnown(members, heapOrder []string) (bool, *model.EngineError) {
-	seqs := make([]int, 0, len(members))
-	missing := 0
-	seenSeq := map[int]string{}
-	lastProvided := -1
-	for _, key := range members {
-		fact := s.skillHitFacts[key]
-		if fact.Sequence == nil {
-			missing++
-			continue
-		}
-		if prev, ok := seenSeq[*fact.Sequence]; ok {
-			return false, s.skillHitErr(model.GenericErrUnknownRef, "duplicate skillHitFact.sequence in same-use same-time group", "skillHitFacts.sequence", key+" conflicts "+prev)
-		}
-		seenSeq[*fact.Sequence] = key
-		if *fact.Sequence <= lastProvided {
-			return false, s.skillHitErr(model.GenericErrUnknownRef, "provided sequence contradicts relative heap order", "skillHitFacts.sequence", key)
-		}
-		lastProvided = *fact.Sequence
-		seqs = append(seqs, *fact.Sequence)
-	}
-	if missing > 0 {
-		return false, nil
-	}
-	bySeq := append([]string(nil), members...)
-	sort.SliceStable(bySeq, func(i, j int) bool {
-		return *s.skillHitFacts[bySeq[i]].Sequence < *s.skillHitFacts[bySeq[j]].Sequence
-	})
-	for i := range heapOrder {
-		if bySeq[i] != heapOrder[i] {
-			return false, s.skillHitErr(model.GenericErrUnknownRef, "skillHitFact.sequence contradicts heap order (priority then driver entries index)", "skillHitFacts.sequence", bySeq[i])
-		}
-	}
-	return true, nil
 }
 
 func (s *Engine) lookupDriverAbility(entry model.DriverEntry) (planbundle.CompiledAbility, string, bool) {
@@ -304,15 +99,14 @@ func (f *Frame) resolveSkillHit(op planbundle.CompiledOperation, ability planbun
 	if f.driverEntryKey == "" {
 		return f.run.skillHitErr(model.GenericErrMissingRequiredField, "resolve_skill_hit requires a single driver fact", f.abilityRef, "")
 	}
-	fact, ok := f.run.skillHitFacts[f.driverEntryKey]
+	fact, ok := f.run.hits.Fact(f.driverEntryKey)
 	if !ok {
 		return f.run.skillHitErr(model.GenericErrMissingRequiredField, "missing skill hit fact for driver entry", "skillHitFacts", f.driverEntryKey)
 	}
-	if int(f.run.skillHitOccurrenceCount) >= skillHitBudget(f.run.budget.MaxEvents) {
+	occurrenceID, accepted := f.run.hits.NextOccurrence(f.run.budget.MaxEvents)
+	if !accepted {
 		return f.run.budgetError(model.BudgetCauseMaxSkillHits, "skill hit occurrences exceeded run budget")
 	}
-	f.run.skillHitOccurrenceCount++
-	occurrenceID := f.run.skillHitOccurrenceCount
 	f.skillHitOccurrenceID = occurrenceID
 
 	useRef := ""
@@ -337,7 +131,7 @@ func (f *Frame) resolveSkillHit(op planbundle.CompiledOperation, ability planbun
 	if err != nil {
 		return err
 	}
-	unit, err := f.formSkillHitUnit(op.SkillHit, set, occurrenceID, useRef)
+	unit, hasUnit, err := hit.FormBlockUnit(op.SkillHit, set, occurrenceID, useRef, hit.Identity{SchemaHash: f.run.compiled.SchemaHash, RulesHash: f.run.compiled.RulesHash, SessionID: f.run.req.SessionID})
 	if err != nil {
 		return err
 	}
@@ -346,24 +140,18 @@ func (f *Frame) resolveSkillHit(op planbundle.CompiledOperation, ability planbun
 	reused := false
 	var shield effectpkg.Provider
 	hasShield := false
-	hasBlockable := false
-	for _, idx := range set {
-		if op.SkillHit.Candidates[idx].InboundBlockEligible {
-			hasBlockable = true
-			break
-		}
-	}
+	hasBlockable := hit.HasBlockable(op.SkillHit, set)
 	if useRef != "" && hasBlockable {
-		if existing := f.run.skillHitLedger[useRef]; existing != nil && existing.unitScope == model.SpellShieldScopeSkill {
-			if unitCoversCandidates(existing, op.SkillHit, set, occurrenceID, useRef) {
+		if existing, exists := f.run.hits.BlockUnit(useRef); exists && existing.Scope == model.SpellShieldScopeSkill {
+			if hit.CoversCandidates(existing, op.SkillHit, set, occurrenceID, useRef) {
 				blocked = 1
 				reused = true
-				unit = existing
+				unit, hasUnit = existing, true
 			}
 		}
 	}
 	if !reused && hasBlockable {
-		if unit != nil && unit.unitScope == model.SpellShieldScopeSkill && useRef == "" {
+		if hasUnit && unit.Scope == model.SpellShieldScopeSkill && useRef == "" {
 			return f.run.skillHitErr(model.GenericErrMissingRequiredField, "SKILL block scope requires a qualified useRef", "skillHitFacts["+f.driverEntryKey+"].useRef", f.driverEntryKey)
 		}
 		insts := f.activeSpellShields(f.targetKey)
@@ -398,29 +186,28 @@ func (f *Frame) resolveSkillHit(op planbundle.CompiledOperation, ability planbun
 	if ability.IsBasicAttack && f.run.actions.EmpoweredCount() != 0 {
 		freeze.empoweredWaits = f.run.freezeEmpoweredWaits(f.sourceKey)
 	}
-	if unit != nil {
-		freeze.unitScope = unit.unitScope
-		freeze.effectOccurrenceKey = unit.effectOccurrenceKey
-		freeze.resultKey = unit.resultKey
-		freeze.candidateKey = unit.candidateKey
+	if hasUnit {
+		freeze.unitScope = unit.Scope
+		freeze.effectOccurrenceKey = unit.EffectOccurrenceKey
+		freeze.resultKey = unit.ResultKey
+		freeze.candidateKey = unit.CandidateKey
 	}
 	if hasShield {
 		freeze.shieldOwner = shield.Owner
 		freeze.shieldProviderRef = shield.ProviderRef
 		freeze.shieldDefinitionRef = shield.DefinitionRef
 		freeze.shieldSource = shield.Source
-	} else if reused && unit != nil {
-		freeze.shieldOwner = unit.shieldOwner
-		freeze.shieldProviderRef = unit.shieldProviderRef
-		freeze.shieldDefinitionRef = unit.shieldDefinitionRef
-		freeze.shieldSource = unit.shieldSource
+	} else if reused && hasUnit {
+		freeze.shieldOwner = unit.ShieldOwner
+		freeze.shieldProviderRef = unit.ShieldProviderRef
+		freeze.shieldDefinitionRef = unit.ShieldDefinitionRef
+		freeze.shieldSource = unit.ShieldSource
 	}
 	if blocked == 1 && !reused && freeze.unitScope == model.SpellShieldScopeSkill && useRef != "" && !ability.IsBasicAttack {
-		if len(f.run.skillHitLedger) >= maxSkillLedgerUnits {
-			return f.run.skillHitErr(model.GenericErrRuntimeInvariantFailed, "SKILL ledger exceeded run budget", "skillUses", useRef)
+		stored := hit.BlockUnit{Scope: freeze.unitScope, OccurrenceID: freeze.occurrenceID, UseRef: freeze.useRef, EffectOccurrenceKey: freeze.effectOccurrenceKey, ResultKey: freeze.resultKey, CandidateKey: freeze.candidateKey, ShieldOwner: freeze.shieldOwner, ShieldProviderRef: freeze.shieldProviderRef, ShieldDefinitionRef: freeze.shieldDefinitionRef, ShieldSource: freeze.shieldSource}
+		if err := f.run.hits.StoreBlockUnit(useRef, stored, hit.Identity{SchemaHash: f.run.compiled.SchemaHash, RulesHash: f.run.compiled.RulesHash, SessionID: f.run.req.SessionID}); err != nil {
+			return err
 		}
-		copied := *freeze
-		f.run.skillHitLedger[useRef] = &copied
 	}
 
 	matched, err := f.consumptionMatchedCandidates(op.SkillHit, ability, set, freeze)
@@ -534,29 +321,8 @@ func (s *Engine) qualifyFirstContact(entryKey, useRef, targetKey string) (bool, 
 		return false, 0, nil
 	}
 	entry := s.driverEntryByKey(entryKey)
-	g := s.skillHitGroups[groupMapKey(useRef, entry.FirstAtMs)]
-	hasPriorContact := len(use.prior)+len(use.contacts) > 0
-	if g == nil {
-		return true, bool01(!hasPriorContact), nil
-	}
-	if !g.knownOrder {
-		if !g.started {
-			g.started = true
-			for _, key := range g.entryKeys {
-				if hasPriorContact {
-					g.frozen[key] = skillHitDecision{has: true, value: 0}
-				} else {
-					g.frozen[key] = skillHitDecision{has: false}
-				}
-			}
-		}
-		dec := g.frozen[entryKey]
-		return dec.has, dec.value, nil
-	}
-	if hasPriorContact {
-		return true, 0, nil
-	}
-	return true, 1, nil
+	has, value := s.hits.FirstContact(entryKey, useRef, use.identity.HistoryState(), &use.history, entry.FirstAtMs)
+	return has, value, nil
 }
 
 func (s *Engine) registerQualifiedContact(useRef, targetKey string) *model.EngineError {
@@ -567,10 +333,10 @@ func (s *Engine) registerQualifiedContact(useRef, targetKey string) *model.Engin
 	if use == nil {
 		return nil
 	}
-	if len(use.contacts)+len(use.prior) >= maxSkillHistoryContacts {
+	if use.history.TotalCount() >= hit.MaxHistoryContacts {
 		return s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "skill use history exceeded run budget", "skillUses["+useRef+"].priorQualifiedContacts", useRef)
 	}
-	use.contacts = append(use.contacts, targetKey)
+	use.history.Append(targetKey)
 	return nil
 }
 
@@ -581,13 +347,6 @@ func (s *Engine) driverEntryByKey(entryKey string) model.DriverEntry {
 		}
 	}
 	return model.DriverEntry{}
-}
-
-func bool01(ok bool) float64 {
-	if ok {
-		return 1
-	}
-	return 0
 }
 
 func (f *Frame) evalSkillHitParticipation(programID formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError) {
@@ -709,56 +468,6 @@ func (f *Frame) skillHitAbilityParams() map[string]float64 {
 		return map[string]float64{}
 	}
 	return f.run.compiled.Abilities[ref.AbilityIndex].Params
-}
-
-func (f *Frame) formSkillHitUnit(plan *planbundle.CompiledSkillHit, set []int, occurrenceID uint64, useRef string) (*frozenSkillHitContext, *model.EngineError) {
-	var first *planbundle.CompiledSkillHitCandidate
-	for _, idx := range set {
-		cand := plan.Candidates[idx]
-		if cand.InboundBlockEligible && cand.HasBlockScope {
-			c := cand
-			first = &c
-			break
-		}
-	}
-	if first == nil {
-		return nil, nil
-	}
-	unit := &frozenSkillHitContext{
-		occurrenceID:        occurrenceID,
-		useRef:              useRef,
-		unitScope:           first.BlockScope,
-		effectOccurrenceKey: first.EffectOccurrenceKey,
-		resultKey:           first.ResultKey,
-		candidateKey:        first.CandidateKey,
-	}
-	for _, idx := range set {
-		cand := plan.Candidates[idx]
-		if !cand.HasBlockScope || !cand.InboundBlockEligible {
-			continue
-		}
-		if model.ScopeCovers(unit.unitScope, occurrenceID, unit.effectOccurrenceKey, unit.resultKey, unit.candidateKey, useRef, cand.BlockScope, occurrenceID, cand.EffectOccurrenceKey, cand.ResultKey, cand.CandidateKey, useRef) {
-			continue
-		}
-		return nil, f.run.skillHitErr(model.GenericErrRuntimeInvariantFailed, "incompatible spell shield units; the first non-null result cannot be expanded by a later candidate", cand.Path+".spellShieldBlockScope", cand.CandidateKey)
-	}
-	return unit, nil
-}
-
-func unitCoversCandidates(unit *frozenSkillHitContext, plan *planbundle.CompiledSkillHit, set []int, occurrenceID uint64, useRef string) bool {
-	if unit == nil {
-		return false
-	}
-	for _, idx := range set {
-		cand := plan.Candidates[idx]
-		if !cand.HasBlockScope {
-			continue
-		}
-		if !model.ScopeCovers(unit.unitScope, unit.occurrenceID, unit.effectOccurrenceKey, unit.resultKey, unit.candidateKey, unit.useRef, cand.BlockScope, occurrenceID, cand.EffectOccurrenceKey, cand.ResultKey, cand.CandidateKey, useRef) {
-			return false
-		}
-	}
-	return true
 }
 
 func (f *Frame) consumptionMatchedCandidates(plan *planbundle.CompiledSkillHit, ability planbundle.CompiledAbility, set []int, freeze *frozenSkillHitContext) ([]int, *model.EngineError) {
@@ -1057,25 +766,11 @@ func (s *Engine) bindProviderInstanceListeners(inst effectpkg.Provider) {
 		return
 	}
 	provider := s.compiled.Providers[inst.DefinitionIndex]
-	for _, listener := range provider.Listeners {
-		bound := listener
-		bound.OwnerCombatantKey = inst.Owner
-		bound.OwnerProviderRef = inst.ProviderRef
-		s.runtimeListeners = append(s.runtimeListeners, bound)
-	}
+	s.listeners.Bind(provider.Listeners, inst.Owner, inst.ProviderRef)
 }
 
 func (s *Engine) unbindProviderInstanceListeners(ownerKey, providerRef string) {
-	if providerRef == "" || len(s.runtimeListeners) == 0 {
-		return
-	}
-	out := s.runtimeListeners[:0]
-	for _, listener := range s.runtimeListeners {
-		if listener.OwnerProviderRef != providerRef || listener.OwnerCombatantKey != ownerKey {
-			out = append(out, listener)
-		}
-	}
-	s.runtimeListeners = out
+	s.listeners.Unbind(ownerKey, providerRef)
 }
 
 func (s *Engine) listenerStillLive(listener planbundle.CompiledListener) bool {

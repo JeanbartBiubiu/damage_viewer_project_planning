@@ -212,8 +212,8 @@ func TestSkillHitRestoredShieldListenerConsumesExactInstance(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(state.runtimeListeners) != 1 {
-		t.Fatalf("runtime listeners=%d", len(state.runtimeListeners))
+	if state.listeners.DynamicLen() != 1 {
+		t.Fatalf("runtime listeners=%d", state.listeners.DynamicLen())
 	}
 	done, err := runForTest(compiled.Session, r)
 	if err != nil {

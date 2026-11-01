@@ -313,7 +313,7 @@ func validateShieldLifecycleSnapshot(snapshot model.Snapshot, compiled planbundl
 					continue
 				}
 				matches++
-				index, exists := findProviderDefIndex(compiled, p.DefinitionRef)
+				index, exists := effectpkg.FindProviderDefinitionIndex(compiled, p.DefinitionRef)
 				if !exists || compiled.Providers[index].ShieldDefinitionRef != sh.DefinitionRef {
 					return bad(path+".definitionRef", "linked provider definition does not match shield", sh.ShieldRef)
 				}
@@ -337,7 +337,7 @@ func validateShieldLifecycleSnapshot(snapshot model.Snapshot, compiled planbundl
 			}
 		}
 		for _, p := range c.Providers {
-			index, known := findProviderDefIndex(compiled, p.DefinitionRef)
+			index, known := effectpkg.FindProviderDefinitionIndex(compiled, p.DefinitionRef)
 			if !known || compiled.Providers[index].ShieldDefinitionRef == "" {
 				continue
 			}

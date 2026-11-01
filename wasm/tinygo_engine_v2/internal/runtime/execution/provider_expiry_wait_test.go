@@ -48,7 +48,7 @@ func TestBasicAttackWaitPreviewKeepsParentLifecycleMutations(t *testing.T) {
 	parent := frame.stageFor("target")
 	parent.providerOps = []stagedProviderMutation{{kind: "expire", targetKey: "target", providerRef: ref, evidenceKind: model.EvidenceKindProviderExpire}}
 	mutationsBefore := append([]stagedProviderMutation(nil), parent.providerOps...)
-	providersBefore := mustJSON(providersToSnapshot(parent.instances.Providers()))
+	providersBefore := mustJSON(effectpkg.ProvidersToSnapshot(parent.instances.Providers()))
 	evidenceBefore := len(s.report.Snapshot().Evidence.Items)
 	var preview Frame
 	if err := frame.basicAttackWaitContext(&preview); err != nil {

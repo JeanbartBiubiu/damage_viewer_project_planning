@@ -24,7 +24,7 @@ func (s *Engine) publishProcessResolved(p *actionpkg.ProcessView) *model.EngineE
 	storage.castInstanceID, storage.castOrigin = p.CastID(), p.Ability().CastOrigin
 	snapshot := storage.captureEmitSnapshot(model.EventTypeProcessResolved, p.Owner(), p.Target())
 	snapshot.hasUseContactCount = true
-	snapshot.useContactCount = len(use.prior) + len(use.contacts)
+	snapshot.useContactCount = use.history.TotalCount()
 	event := emittedEvent{eventType: model.EventTypeProcessResolved, sourceKey: p.Owner(), targetKey: p.Target(),
 		types:    []string{model.EventTypeProcessResolved, "ability/" + p.SkillKey(), "event/process_resolved/" + p.SkillKey() + "/" + p.ProcessKey()},
 		snapshot: snapshot, castInstanceID: p.CastID(), hasUse: true, useKey: p.UseKey(), useSource: p.Owner(), useSkillKey: p.SkillKey()}

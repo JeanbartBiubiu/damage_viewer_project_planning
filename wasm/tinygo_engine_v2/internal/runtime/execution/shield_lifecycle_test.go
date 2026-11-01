@@ -163,8 +163,8 @@ func TestLinkedShieldSnapshotRestoreAndRejection(t *testing.T) {
 			snapshot := s.req.InitialSnapshot
 			for i := range snapshot.Combatants {
 				c := s.combatants[snapshot.Combatants[i].Key]
-				snapshot.Combatants[i].Shields = shieldsToSnapshot(c.instances.Shields())
-				snapshot.Combatants[i].Providers = providersToSnapshot(c.instances.Providers())
+				snapshot.Combatants[i].Shields = effectpkg.ShieldsToSnapshot(c.instances.Shields())
+				snapshot.Combatants[i].Providers = effectpkg.ProvidersToSnapshot(c.instances.Providers())
 			}
 			r := s.req
 			r.InitialSnapshot = snapshot
@@ -216,7 +216,7 @@ func TestLinkedShieldFailureDoesNotReplaceExistingPair(t *testing.T) {
 		t.Run(names.shield, func(t *testing.T) {
 			s := linkedShieldState(t, names)
 			linkedShieldExecute(t, s, "apply", "source", "target")
-			before := shieldsToSnapshot(s.combatants["target"].instances.Shields())
+			before := effectpkg.ShieldsToSnapshot(s.combatants["target"].instances.Shields())
 			if len(before) != 1 || before[0].Remaining != 75 || before[0].ShieldRef == "" || before[0].LifecycleProviderRef == "" {
 				t.Fatalf("expected an existing shield pair before failed replacement: %+v", before)
 			}
@@ -227,7 +227,7 @@ func TestLinkedShieldFailureDoesNotReplaceExistingPair(t *testing.T) {
 			}
 			s.loop.Queue().SetLimit(s.loop.Queue().Len())
 			f.commit()
-			after := shieldsToSnapshot(s.combatants["target"].instances.Shields())
+			after := effectpkg.ShieldsToSnapshot(s.combatants["target"].instances.Shields())
 			if !f.fatal || f.fatalErr == nil || f.fatalErr.BudgetCause != model.BudgetCauseMaxQueueEvents || f.committed || !reflect.DeepEqual(before, after) || s.combatants["target"].instances.Providers().At(0).ProviderRef != beforeProvider {
 				t.Fatalf("failed frame leaked: before=%+v after=%+v err=%+v", before, after, f.fatalErr)
 			}

@@ -9,7 +9,8 @@
 | `cmd/engine_wasm/`、`internal/base/abi/` | 正式导出、请求帧、线性内存及输出缓冲 |
 | `internal/model/`、`internal/plan/`、`internal/compile/` | 共享协议、只读执行计划及规则编译 |
 | `internal/runtime/` | 会话登记、请求身份检查及单场运行组合 |
-| `internal/runtime/execution/` | 门禁、命中、监听、因果、预检与统一提交 |
+| `internal/runtime/execution/` | 运行装配、视图准备、操作执行、事件次序、预检与统一提交，见[功能入口](internal/runtime/execution/README.md) |
+| `internal/runtime/execution/admission/`、`hit/`、`listener/`、`evaluation/` | 分别拥有准入检查、命中判断、监听选择、运行求值及相应局部状态 |
 | `internal/scheduler/` | 唯一时钟、稳定队列、循环与停止账 |
 | `internal/runtime/actor/`、`action/`、`effect/` | 角色数值、行动过程与效果实例的私有状态 |
 | `internal/formula/`、`internal/pipeline/` | 战斗输入绑定与数值结算；管道同时承接命令、资源计算和护盾底层值 |
@@ -24,6 +25,8 @@
 ## 运行边界
 
 只读编译计划可以复用，每场状态独立。事件时间、实际来源与完整使用身份必须明确；数值读取保留缺失与有效0的区别。数值管道产生结果，所属子系统暂存，执行层按现有帧边界发布；不能推断整条派生链可回滚。
+
+四个执行子包彼此不导入，也不接收完整执行器、帧或调度器。父层组合准备好的输入及判断结果；同次使用额度继续由父层唯一持有，命中规则和普通监听共享同一预留与提交边界。
 
 可靠累计、战斗预算、明细限额和采样分别负责；明细截断不改变数值。通用操作存在不等于任意管理配置可以运行，具体对象仍需生产适配、机制范围及首次运行验收。
 

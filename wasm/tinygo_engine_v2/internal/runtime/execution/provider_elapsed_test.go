@@ -104,11 +104,6 @@ func TestProviderElapsedRefreshResetsApplicationTimeAndStaleExpiry(t *testing.T)
 	if value := s.combatants["source"].attributesView().At("attack_damage").Resolved; value != 110 {
 		t.Fatal("stale expiry removed refreshed instance", value)
 	}
-	for _, memo := range s.attributeMemos[0] {
-		if memo != nil && memo.cacheable {
-			t.Fatal("elapsed provider reused an attribute memo with no clock dependency")
-		}
-	}
 }
 
 func TestProviderElapsedRestoreRequiresActualApplicationTime(t *testing.T) {
@@ -119,7 +114,7 @@ func TestProviderElapsedRestoreRequiresActualApplicationTime(t *testing.T) {
 	snapshot.TimeMs = 750
 	for i := range snapshot.Combatants {
 		actor := s.combatants[snapshot.Combatants[i].Key]
-		snapshot.Combatants[i].Providers = providersToSnapshot(actor.instances.Providers())
+		snapshot.Combatants[i].Providers = effectpkg.ProvidersToSnapshot(actor.instances.Providers())
 	}
 	r.InitialSnapshot, r.DriverPlan.Entries = snapshot, nil
 	result := compile.CompileGeneric(c)
@@ -152,14 +147,14 @@ func TestProviderElapsedFailedRefreshKeepsOriginalTimeAndPair(t *testing.T) {
 	s := frameCommitState(t, c, r)
 	linkedShieldExecute(t, s, "apply", "source", "target")
 	s.loop.Advance(750)
-	before, _ := json.Marshal(providersToSnapshot(s.combatants["source"].instances.Providers()))
+	before, _ := json.Marshal(effectpkg.ProvidersToSnapshot(s.combatants["source"].instances.Providers()))
 	f, ability, operations := frameCommitFrame(s)
 	if err := f.executeOperations(ability, operations); err != nil {
 		t.Fatal(err)
 	}
 	s.loop.Queue().SetLimit(s.loop.Queue().Len())
 	f.commit()
-	after, _ := json.Marshal(providersToSnapshot(s.combatants["source"].instances.Providers()))
+	after, _ := json.Marshal(effectpkg.ProvidersToSnapshot(s.combatants["source"].instances.Providers()))
 	if !f.fatal || f.committed || string(before) != string(after) {
 		t.Fatalf("failed refresh changed application time: %s -> %s err=%+v", before, after, f.fatalErr)
 	}

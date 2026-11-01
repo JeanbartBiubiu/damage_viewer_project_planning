@@ -667,7 +667,7 @@ func (s *Engine) resolveAttributesFor(combatantKey string, attrs attribute.Table
 	if !ok {
 		return attrs
 	}
-	resolved, err := s.resolveOrdinaryAttributes(combatantKey,
+	resolved, err := s.evaluation.ResolveOrdinary(s.formulas, combatantKey,
 		attrs,
 		c.instances.Attributes(),
 		evalCtx,
@@ -686,14 +686,14 @@ func (s *Engine) resolveAttributesFor(combatantKey string, attrs attribute.Table
 	ordinary := map[string]attribute.Table{}
 	for _, owner := range []string{"source", "target"} {
 		host := s.combatants[owner]
-		ordinary[owner], err = s.resolveOrdinaryAttributes(owner, host.attributesView(), host.instances.Attributes(), evalCtx, s.providerFormulaContextFunc(owner, activeTargetKey))
+		ordinary[owner], err = s.evaluation.ResolveOrdinary(s.formulas, owner, host.attributesView(), host.instances.Attributes(), evalCtx, s.providerFormulaContextFunc(owner, activeTargetKey))
 		if err != nil {
 			s.processFailure = preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+owner+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
 			return attrs
 		}
 	}
 	ordinary[combatantKey] = resolved
-	resolved, err = s.resolveDerivedAttributesCached(combatantKey, resolved, c.instances.Attributes(), ordinary["source"], ordinary["target"], s.providerFormulaContextFunc(combatantKey, activeTargetKey))
+	resolved, err = s.evaluation.ResolveDerived(s.compiled.AttributeDerivations, s.formulas, combatantKey, resolved, c.instances.Attributes(), ordinary["source"], ordinary["target"], s.providerFormulaContextFunc(combatantKey, activeTargetKey))
 	if err != nil {
 		s.processFailure = preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
 		return attrs
@@ -723,105 +723,6 @@ func (s *Engine) refreshProviderAwareAttributes(sourceKey, targetKey string) {
 	}
 }
 
-func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantKey string, compiled planbundle.CompiledSession, combatantKeys map[string]bool, path string, schemaHash, rulesHash, sessionID string) (effectpkg.ProviderList, effectpkg.AttributeResolver, *model.EngineError) {
-	// Resolver stays empty here; cross-combatant mounts happen in remountAllProviderModifiers.
-	resolver := effectpkg.AttributeResolver{}
-	if len(snapshot) == 0 {
-		return effectpkg.ProviderList{}, resolver, nil
-	}
-	instances := effectpkg.ProviderList{}
-	seenRefs := map[string]bool{}
-	seenSourceTargets := map[string]bool{}
-	for i, snap := range snapshot {
-		p := path + ".providers[" + itoa(uint32(i)) + "]"
-		defIdx, ok := findProviderDefIndex(compiled, snap.DefinitionRef)
-		if !ok {
-			if len(snap.StatusContributions) > 0 || snap.ModifierSnapshots != nil {
-				return effectpkg.ProviderList{}, resolver, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown provider definition with statusContributions", p+".definitionRef", snap.DefinitionRef, schemaHash, rulesHash, sessionID)
-			}
-			continue
-		}
-		provider := compiled.Providers[defIdx]
-		strictIdentity := (provider.Lifecycle != nil && provider.Lifecycle.AllowsSourceTargetReuse()) || provider.NeedsElapsedTime
-		if strictIdentity {
-			invalid := func(field, message string) *model.EngineError {
-				return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, message, p+"."+field, snap.ProviderRef, schemaHash, rulesHash, sessionID)
-			}
-			if snap.Source == "" || !combatantKeys[snap.Source] {
-				return effectpkg.ProviderList{}, resolver, invalid("source", "source_target snapshot requires the actual source combatant")
-			}
-			if snap.Owner != combatantKey {
-				return effectpkg.ProviderList{}, resolver, invalid("owner", "source_target snapshot owner must equal its recipient combatant")
-			}
-			if snap.ProviderRef == "" {
-				return effectpkg.ProviderList{}, resolver, invalid("providerRef", "source_target snapshot requires an explicit instance reference")
-			}
-			if snap.Stacks != 1 {
-				return effectpkg.ProviderList{}, resolver, invalid("stacks", "source_target snapshot must have exactly one stack")
-			}
-			if provider.ShieldDefinitionRef == "" && (snap.ExpireAt == nil || *snap.ExpireAt <= 0) {
-				return effectpkg.ProviderList{}, resolver, invalid("expireAt", "source_target snapshot requires a positive expiry timestamp")
-			}
-			identity := snap.DefinitionRef + "\x00" + snap.Source + "\x00" + snap.Owner
-			if seenSourceTargets[identity] {
-				return effectpkg.ProviderList{}, resolver, invalid("providerRef", "duplicate source_target snapshot instance")
-			}
-			seenSourceTargets[identity] = true
-		}
-		if priorStrict, duplicate := seenRefs[snap.ProviderRef]; duplicate && (priorStrict || strictIdentity) {
-			return effectpkg.ProviderList{}, resolver, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "duplicate providerRef involving a source_target instance", p+".providerRef", snap.ProviderRef, schemaHash, rulesHash, sessionID)
-		}
-		seenRefs[snap.ProviderRef] = strictIdentity
-		owner := snap.Owner
-		if owner == "" {
-			owner = combatantKey
-		}
-		source := snap.Source
-		if source == "" {
-			source = owner
-		}
-		expireAt := int64(0)
-		if snap.ExpireAt != nil && *snap.ExpireAt > 0 {
-			expireAt = *snap.ExpireAt
-		}
-		if len(provider.StatusContributions) > 0 && expireAt <= 0 {
-			return effectpkg.ProviderList{}, resolver, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "status contribution duration must be positive", p+".expireAt", snap.ProviderRef, schemaHash, rulesHash, sessionID)
-		}
-		state := snap.State
-		if state == nil {
-			state = map[string]interface{}{}
-		}
-		contribs, err := restoreStatusContributions(snap, provider, p, schemaHash, rulesHash, sessionID)
-		if err != nil {
-			return effectpkg.ProviderList{}, resolver, err
-		}
-		snapshots, snapshotErr := restoreModifierSnapshots(snap, provider, p, schemaHash, rulesHash, sessionID)
-		if snapshotErr != nil {
-			return effectpkg.ProviderList{}, resolver, snapshotErr
-		}
-		inst := effectpkg.Provider{
-			ModifierSnapshots:   model.BorrowNumericView(snapshots),
-			ProviderRef:         snap.ProviderRef,
-			DefinitionRef:       snap.DefinitionRef,
-			Source:              source,
-			Owner:               owner,
-			Stacks:              snap.Stacks,
-			ExpireAt:            expireAt,
-			State:               effectpkg.ObjectState(state),
-			DefinitionIndex:     defIdx,
-			StatusContributions: contribs,
-		}
-		if snap.AppliedAtMs != nil {
-			inst.AppliedAtMs, inst.HasAppliedAt = *snap.AppliedAtMs, true
-		}
-		if inst.Stacks <= 0 {
-			inst.Stacks = 1
-		}
-		instances = instances.Append(inst)
-	}
-	return instances, resolver, nil
-}
-
 // remountAllProviderModifiers clears then remounts every provider modifier onto the correct
 // combatant resolver (including opponent.attr.* cross-combatant mounts).
 func remountAllProviderModifiers(combatants map[string]combatantRuntime, compiled planbundle.CompiledSession) {
@@ -836,128 +737,4 @@ func remountAllProviderModifiers(combatants map[string]combatantRuntime, compile
 			mountProviderModifiersAcross(combatants, ownerKey, inst, compiled)
 		}
 	}
-}
-
-func materializeShields(snapshot []model.CombatantShieldSnapshot, combatantKey string) effectpkg.ShieldList {
-	if len(snapshot) == 0 {
-		return effectpkg.ShieldList{}
-	}
-	out := effectpkg.ShieldList{}
-	for i, snap := range snapshot {
-		ref := snap.ShieldRef
-		if ref == "" {
-			ref = fmt.Sprintf("shield#%d", i+1)
-		}
-		owner := snap.Owner
-		if owner == "" {
-			owner = combatantKey
-		}
-		source := snap.Source
-		if source == "" {
-			source = owner
-		}
-		expireAt := int64(0)
-		if snap.ExpireAt != nil && *snap.ExpireAt > 0 {
-			expireAt = *snap.ExpireAt
-		}
-		state := snap.State
-		if state == nil {
-			state = map[string]interface{}{}
-		}
-		if snap.Remaining > 0 {
-			out = out.Append(effectpkg.Shield{
-				ShieldRef:            ref,
-				DefinitionRef:        snap.DefinitionRef,
-				LifecycleProviderRef: snap.LifecycleProviderRef,
-				Source:               source,
-				Owner:                owner,
-				Remaining:            snap.Remaining,
-				Priority:             snap.Priority,
-				ExpireAt:             expireAt,
-				State:                effectpkg.ObjectState(state),
-			})
-		}
-	}
-	return out
-}
-
-func findProviderDefIndex(compiled planbundle.CompiledSession, definitionRef string) (uint16, bool) {
-	for i, p := range compiled.Providers {
-		if p.ProviderKey == definitionRef {
-			return uint16(i), true
-		}
-	}
-	return 0, false
-}
-
-func providersToSnapshot(instances effectpkg.ProviderList) []model.CombatantProviderSnapshot {
-	if !instances.Present() {
-		return []model.CombatantProviderSnapshot{}
-	}
-	out := make([]model.CombatantProviderSnapshot, 0, instances.Len())
-	for instanceIndex, instanceValues := 0, instances; instanceIndex < instanceValues.Len(); instanceIndex++ {
-		inst := instanceValues.At(instanceIndex)
-		state := inst.State.ToMap()
-		if state == nil {
-			state = map[string]interface{}{}
-		}
-		source := inst.Source
-		if source == "" {
-			source = inst.Owner
-		}
-		snap := model.CombatantProviderSnapshot{
-			ProviderRef:         inst.ProviderRef,
-			DefinitionRef:       inst.DefinitionRef,
-			Source:              source,
-			Owner:               inst.Owner,
-			Stacks:              inst.Stacks,
-			ExpireAt:            expireAtPtr(inst.ExpireAt),
-			State:               state,
-			StatusContributions: contributionsToSnapshot(inst.StatusContributions),
-			AppliedAtMs:         providerAppliedAtPtr(inst),
-		}
-		if inst.ModifierSnapshots.Present() {
-			snap.ModifierSnapshots = inst.ModifierSnapshots.ToMap()
-		}
-		out = append(out, snap)
-	}
-	return out
-}
-
-func shieldsToSnapshot(instances effectpkg.ShieldList) []model.CombatantShieldSnapshot {
-	if !instances.Present() {
-		return []model.CombatantShieldSnapshot{}
-	}
-	out := make([]model.CombatantShieldSnapshot, 0, instances.Len())
-	for instanceIndex, instanceValues := 0, instances; instanceIndex < instanceValues.Len(); instanceIndex++ {
-		sh := instanceValues.At(instanceIndex)
-		state := sh.State.ToMap()
-		if state == nil {
-			state = map[string]interface{}{}
-		}
-		source := sh.Source
-		if source == "" {
-			source = sh.Owner
-		}
-		out = append(out, model.CombatantShieldSnapshot{
-			ShieldRef:            sh.ShieldRef,
-			DefinitionRef:        sh.DefinitionRef,
-			LifecycleProviderRef: sh.LifecycleProviderRef,
-			Source:               source,
-			Owner:                sh.Owner,
-			Remaining:            sh.Remaining,
-			Priority:             sh.Priority,
-			ExpireAt:             expireAtPtr(sh.ExpireAt),
-			State:                state,
-		})
-	}
-	return out
-}
-
-func expireAtPtr(expireAt int64) *int64 {
-	if expireAt <= 0 {
-		return nil
-	}
-	v := expireAt
-	return &v
 }

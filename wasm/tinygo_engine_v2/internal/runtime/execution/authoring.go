@@ -4,17 +4,14 @@ import actionpkg "tinygo_engine_v2/internal/runtime/action"
 
 import (
 	"math"
-	"tinygo_engine_v2/internal/base/expression"
-	"tinygo_engine_v2/internal/base/inputbinding"
 
 	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
+	"tinygo_engine_v2/internal/runtime/execution/evaluation"
 )
-
-type configuredDefenseResult struct{ amount, factor float64 }
 
 func (f *Frame) formulaError(id formula.GenericProgramID, message string) *model.EngineError {
 	path := "formula"
@@ -36,24 +33,7 @@ func (f *Frame) evalResultFormula(id formula.GenericProgramID, ability planbundl
 	return value, nil
 }
 
-func (f *Frame) configuredFormulaIssue(def planbundle.CompiledDamageTypeFormula, issue expression.ContractIssue) *model.EngineError {
-	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrCode(issue.Code), issue.Code, def.Path+issue.Path, f.abilityRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
-}
-
-func (f *Frame) requireConfiguredDefense(damageType, operationPath string) (planbundle.CompiledDamageTypeFormula, *model.EngineError) {
-	def, exists := f.run.compiled.DamageTypeFormulas[damageType]
-	valid := exists && def.DamageType == damageType && def.Binding != nil && int(def.Program) < len(f.run.formulas.Programs)
-	if valid {
-		program := f.run.formulas.Programs[def.Program]
-		valid = program.Authored != nil && program.Authored.Stats().Stages > 0 && len(program.Instr) == 0 && program.NamedBinding == nil
-	}
-	if !valid {
-		return planbundle.CompiledDamageTypeFormula{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "damage operation requires a valid authored defense plan", operationPath+".damageType", damageType, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
-	}
-	return def, nil
-}
-
-func (f *Frame) resolveConfiguredDefense(cmd pipeline.Command, def planbundle.CompiledDamageTypeFormula) (configuredDefenseResult, *model.EngineError) {
+func (f *Frame) resolveConfiguredDefense(cmd pipeline.Command, def planbundle.CompiledDamageTypeFormula) (evaluation.DefenseResult, *model.EngineError) {
 	var sourceAttrs, targetAttrs attribute.Table
 	if f.damageDefenseContext != nil {
 		sourceAttrs, targetAttrs = f.damageDefenseContext.SourceAttrs, f.damageDefenseContext.TargetAttrs
@@ -71,43 +51,9 @@ func (f *Frame) resolveConfiguredDefense(cmd pipeline.Command, def planbundle.Co
 		}
 		sourceAttrs, targetAttrs = entry(cmd.Source), entry(cmd.Target)
 	}
-	var valueBuffer [8]inputbinding.Value
-	values := valueBuffer[:0]
-	if len(def.Reads) <= len(valueBuffer) {
-		values = valueBuffer[:len(def.Reads)]
-	} else {
-		values = make([]inputbinding.Value, len(def.Reads))
-	}
-	for i, read := range def.Reads {
-		attrs := sourceAttrs
-		if read.Object == "target" {
-			attrs = targetAttrs
-		}
-		slot, exists := attrs.Lookup(read.AttributeKey)
-		if !exists {
-			continue
-		}
-		values[i] = inputbinding.Value{Base: inputbinding.Scalar{Value: slot.Base, Present: slot.HasBase()}, Total: inputbinding.Scalar{Value: slot.Resolved, Present: slot.HasResolved()}}
-	}
-	factor, err := f.run.formulas.EvalBound(def.Program, def.Binding, values)
-	if err != nil {
-		if authored, ok := err.(*formula.AuthoredEvaluationError); ok {
-			return configuredDefenseResult{}, f.configuredFormulaIssue(def, authored.Issue)
-		}
-		return configuredDefenseResult{}, f.formulaError(def.Program, err.Error())
-	}
-	amount := cmd.Amount * factor
-	if factor < 0 {
-		result := f.configuredFormulaIssue(def, expression.ContractIssue{Code: "FORMULA_INVALID_OUTPUT"})
-		result.Path, result.Message = def.OutputPath, "configured defense factor must be non-negative"
-		return configuredDefenseResult{}, result
-	}
-	if math.IsNaN(factor) || math.IsInf(factor, 0) || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
-		result := f.configuredFormulaIssue(def, expression.ContractIssue{Code: "FORMULA_NON_FINITE"})
-		result.Path = def.OutputPath
-		return configuredDefenseResult{}, result
-	}
-	return configuredDefenseResult{amount: amount, factor: factor}, nil
+	return evaluation.ResolveConfiguredDefense(f.run.formulas, def, cmd.Amount, sourceAttrs, targetAttrs, evaluation.DefenseIdentity{
+		AbilityRef: f.abilityRef, SchemaHash: f.run.compiled.SchemaHash, RulesHash: f.run.compiled.RulesHash, SessionID: f.run.req.SessionID,
+	})
 }
 
 func attachUseToSnapshot(ev *emittedEvent) {

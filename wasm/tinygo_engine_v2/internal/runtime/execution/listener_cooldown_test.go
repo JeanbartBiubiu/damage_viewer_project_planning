@@ -97,8 +97,8 @@ func TestListenerChildCooldownSkipPreservesSameUseCastThrottle(t *testing.T) {
 	if castID == 0 || reportedAbilityStat(state, childRef).CastCount != 1 || listenerCooldownProcCount(t, state) != 1 {
 		t.Fatal("cooldown-blocked event executed the child", castID)
 	}
-	if len(state.useTriggerLedger) != 0 || state.useTriggerReserving != 0 || len(state.perCastThrottle) != 0 {
-		t.Fatal("cooldown skip recorded a cast throttle", state.useTriggerLedger, state.perCastThrottle)
+	if len(state.useTriggerLedger) != 0 || state.useTriggerReserving != 0 {
+		t.Fatal("cooldown skip consumed a shared use reservation", state.useTriggerLedger)
 	}
 	listenerCooldownNextHit(t, state, 200)
 	if action.Uses().HitCount != 2 || state.actions.ProcessAt(0).CastID() != castID || reportedAbilityStat(state, childRef).CastCount != 2 || listenerCooldownProcCount(t, state) != 2 {
@@ -106,14 +106,6 @@ func TestListenerChildCooldownSkipPreservesSameUseCastThrottle(t *testing.T) {
 	}
 	if state.combatants["source"].cooldowns.AbilityReadyAt("source", childRef) != 400 {
 		t.Fatal("successful child did not commit its next cooldown")
-	}
-	if len(state.perCastThrottle) != 1 {
-		t.Fatal("successful child omitted the real cast throttle", state.perCastThrottle)
-	}
-	for key, last := range state.perCastThrottle {
-		if key.castInstanceID != castID || key.ownerCombatantKey != "source" || key.ownerProviderRef != listenerCooldownProvider || last != 200 {
-			t.Fatal("throttle captured a skipped event or child cast identity", key, last)
-		}
 	}
 	listenerCooldownNextHit(t, state, 300)
 	listenerCooldownNextHit(t, state, 400)

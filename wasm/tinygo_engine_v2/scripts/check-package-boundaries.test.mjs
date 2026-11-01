@@ -51,3 +51,36 @@ test('根运行入口与调度不能重新持有业务依赖或形成第二套�
   assert.equal(errors.length, 4);
   for (const edge of ['runtime -> pipeline', 'runtime -> runtime/action', 'runtime -> base/attribute', 'scheduler -> runtime/execution']) assert.ok(errors.some(value => value.includes(edge)), edge);
 });
+
+const executionLeaves = ['admission', 'hit', 'listener', 'evaluation'].map(name => `runtime/execution/${name}`);
+
+test('四个执行子包按明确白名单供父执行器组合', () => {
+  assert.deepEqual(checkPackageBoundaries([
+    pkg('runtime/execution', executionLeaves),
+    pkg('runtime/execution/admission', ['model', 'plan', 'formula', 'pipeline', 'base/attribute']),
+    pkg('runtime/execution/hit', ['model', 'plan']),
+    pkg('runtime/execution/listener', ['model', 'plan', 'base/typeset']),
+    pkg('runtime/execution/evaluation', ['model', 'plan', 'formula', 'pipeline', 'runtime/effect', 'base/attribute', 'base/expression', 'base/inputbinding']),
+  ]), []);
+});
+
+test('执行子包不能反向调用父层、调度或相互取得控制能力', () => {
+  for (const leaf of executionLeaves) {
+    const forbidden = ['runtime', 'runtime/execution', 'scheduler', ...executionLeaves.filter(other => other !== leaf)];
+    const errors = checkPackageBoundaries([pkg(leaf, forbidden)]);
+    for (const dependency of forbidden) {
+      assert.ok(errors.some(value => value.includes(`${leaf} -> ${dependency}:`)), `${leaf} -> ${dependency}`);
+    }
+  }
+  const unknown = checkPackageBoundaries([pkg('runtime/execution/undeclared')]);
+  assert.ok(unknown.some(value => value.includes('没有声明依赖边界')));
+});
+
+test('数值、行动、效果、报告和调度不能取得四个执行子包的能力', () => {
+  for (const owner of ['runtime/actor', 'runtime/action', 'runtime/effect', 'runtime/report', 'pipeline', 'scheduler']) {
+    const errors = checkPackageBoundaries([pkg(owner, executionLeaves)]);
+    for (const leaf of executionLeaves) {
+      assert.ok(errors.some(value => value.includes(`${owner} -> ${leaf}:`)), `${owner} -> ${leaf}`);
+    }
+  }
+});

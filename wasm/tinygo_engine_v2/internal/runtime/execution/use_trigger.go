@@ -3,6 +3,8 @@ package execution
 import (
 	"math"
 	"strings"
+	"tinygo_engine_v2/internal/runtime/execution/hit"
+	listenerpkg "tinygo_engine_v2/internal/runtime/execution/listener"
 
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -53,7 +55,7 @@ func (s *Engine) initUseTriggerState() *model.EngineError {
 }
 
 func (s *Engine) validateAttackStartFacts() *model.EngineError {
-	if len(s.req.AttackStartFacts) > maxSkillHitFactsPerRun {
+	if len(s.req.AttackStartFacts) > hit.MaxFactsPerRun {
 		return s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "attackStartFacts exceeded dedicated budget", "attackStartFacts", "")
 	}
 	s.attackStartFacts = map[string]model.AttackStartFact{}
@@ -113,60 +115,7 @@ func (s *Engine) validateAttackStartFacts() *model.EngineError {
 		}
 		s.attackStartFacts[fact.DriverEntryKey] = fact
 	}
-	return s.validateAttackStartHitOrder()
-}
-
-func (s *Engine) validateAttackStartHitOrder() *model.EngineError {
-	type order struct {
-		timeMs   int64
-		priority int16
-		index    int
-		entryKey string
-	}
-	startsByUse := map[string]order{}
-	for entryKey, fact := range s.attackStartFacts {
-		entry := s.driverEntryByKey(entryKey)
-		startsByUse[fact.UseRef] = order{timeMs: entry.FirstAtMs, priority: int16(entry.Priority), index: s.driverIndexByKey(entryKey), entryKey: entryKey}
-	}
-	for entryKey, fact := range s.skillHitFacts {
-		if fact.UseRef == nil || *fact.UseRef == "" {
-			continue
-		}
-		start, ok := startsByUse[*fact.UseRef]
-		if !ok {
-			continue
-		}
-		hitEntry := s.driverEntryByKey(entryKey)
-		hit := order{timeMs: hitEntry.FirstAtMs, priority: int16(hitEntry.Priority), index: s.driverIndexByKey(entryKey), entryKey: entryKey}
-		if !attackStartBeforeHit(start, hit) {
-			return s.skillHitErr(model.GenericErrUnknownRef, "attack start must precede the corresponding hit in heap order", "attackStartFacts", start.entryKey+" vs "+hit.entryKey)
-		}
-	}
-	return nil
-}
-
-func attackStartBeforeHit(start, hit struct {
-	timeMs   int64
-	priority int16
-	index    int
-	entryKey string
-}) bool {
-	if start.timeMs != hit.timeMs {
-		return start.timeMs < hit.timeMs
-	}
-	if start.priority != hit.priority {
-		return start.priority < hit.priority
-	}
-	return start.index < hit.index
-}
-
-func (s *Engine) driverIndexByKey(entryKey string) int {
-	for i, entry := range s.req.DriverPlan.Entries {
-		if entry.EntryKey == entryKey {
-			return i
-		}
-	}
-	return math.MaxInt32
+	return s.hits.ValidateAttackStartOrder(s.attackStartFacts, s.req.DriverPlan.Entries, hit.Identity{SchemaHash: s.compiled.SchemaHash, RulesHash: s.compiled.RulesHash, SessionID: s.req.SessionID})
 }
 
 func (s *Engine) restoreUseTriggerLedger(rows []model.UseTriggerLedgerEntry) *model.EngineError {
@@ -379,7 +328,7 @@ func (s *Engine) oncePerUseKey(listener planbundle.CompiledListener, ev emittedE
 	if listener.OncePerUseScope == model.OncePerUseScopeProviderTarget {
 		key.target = ev.targetKey
 		if ev.eventType == model.EventTypeDamageTaken || ev.eventType == model.EventTypeBasicAttackReceived {
-			_, key.target = s.listenerFrameCombatants(ev, listener)
+			_, key.target = listenerpkg.Combatants(ev.eventType, ev.sourceKey, ev.targetKey, listener.OwnerCombatantKey)
 		}
 	}
 	return key, nil
@@ -540,7 +489,7 @@ func addDuration(nowMs, durationMs int64) (int64, bool) {
 }
 
 func (s *Engine) evalListenerCondition(listener planbundle.CompiledListener, ev emittedEvent) (bool, *model.EngineError) {
-	sourceKey, targetKey := s.listenerFrameCombatants(ev, listener)
+	sourceKey, targetKey := listenerpkg.Combatants(ev.eventType, ev.sourceKey, ev.targetKey, listener.OwnerCombatantKey)
 	ability := planbundle.CompiledAbility{Params: map[string]float64{}}
 	if listener.SourceAbilityIndex >= 0 && listener.SourceAbilityIndex < len(s.compiled.Abilities) {
 		ability = s.compiled.Abilities[listener.SourceAbilityIndex]

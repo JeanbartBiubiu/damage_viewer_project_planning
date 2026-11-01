@@ -312,9 +312,9 @@ func (state *Engine) executeSkillActionHit(process *actionpkg.ProcessView, actio
 		instruction = actual.Plan().InstructionKey()
 	}
 	key := instruction + ":" + hit.HitBindingKey + ":" + strconv.Itoa(sequence) + nativeHitFollowUpSuffix
-	state.skillHitFacts[key] = model.SkillHitFact{DriverEntryKey: key, UseRef: &use, Sequence: &sequence}
+	state.hits.PutFact(key, model.SkillHitFact{DriverEntryKey: key, UseRef: &use, Sequence: &sequence})
 	entry := model.DriverEntry{EntryKey: key, AbilityRef: hit.HitAbilityRef, Source: process.Owner(), Target: process.Target(), FirstAtMs: state.loop.TimeMs()}
-	defer delete(state.skillHitFacts, key)
+	defer state.hits.RemoveFact(key)
 	gate := state.checkAttemptGate(entry, -1)
 	if gate.err != nil {
 		return gate.err
@@ -338,7 +338,7 @@ func (frame *Frame) skillActionUseRef() string {
 			return frame.eventCtx.skillHit.useRef
 		}
 	}
-	if fact, exists := frame.run.skillHitFacts[frame.driverEntryKey]; exists && fact.UseRef != nil {
+	if fact, exists := frame.run.hits.Fact(frame.driverEntryKey); exists && fact.UseRef != nil {
 		return *fact.UseRef
 	}
 	return ""
@@ -372,7 +372,7 @@ func (state *Engine) recordSkillActionHit(fact committedSkillActionHit) {
 		process := state.actions.ProcessAt(processSlot)
 		if process.UseKey() == action.UseRef() {
 			// 保持原提交口径：HIT记录使用提交时的全局发生计数。
-			hit := "hit:" + strconv.FormatUint(state.skillHitOccurrenceCount, 10)
+			hit := "hit:" + strconv.FormatUint(state.hits.OccurrenceCount(), 10)
 			state.recordSkillUse(process, "HIT", &hit, nil)
 			return
 		}

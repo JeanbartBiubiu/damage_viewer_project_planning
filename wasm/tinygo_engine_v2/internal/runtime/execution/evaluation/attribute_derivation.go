@@ -1,4 +1,4 @@
-package execution
+package evaluation
 
 import effectpkg "tinygo_engine_v2/internal/runtime/effect"
 
@@ -12,12 +12,13 @@ import (
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
-func resolveDerivedAttributes(compiled planbundle.CompiledSession, formulas formula.GenericRegistry, actorKey string, attrs attribute.Table, resolver effectpkg.AttributeResolver, sourceAttrs, targetAttrs attribute.Table, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
-	if len(compiled.AttributeDerivations) == 0 {
+// ResolveDerivedAttributes 依据已选时点的双方视图计算所属派生属性，不发布或缓存状态。
+func ResolveDerivedAttributes(derivations []planbundle.CompiledAttributeDerivation, formulas formula.GenericRegistry, actorKey string, attrs attribute.Table, resolver effectpkg.AttributeResolver, sourceAttrs, targetAttrs attribute.Table, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
+	if len(derivations) == 0 {
 		return attrs, nil
 	}
 	out := attrs
-	for _, derivation := range compiled.AttributeDerivations {
+	for _, derivation := range derivations {
 		if derivation.CombatantKey != actorKey {
 			continue
 		}
@@ -76,7 +77,7 @@ func resolveDerivedAttributes(compiled planbundle.CompiledSession, formulas form
 }
 
 func validateDerivedOutput(derivation planbundle.CompiledAttributeDerivation, value float64) error {
-	if math.IsNaN(value) || math.IsInf(value, 0) || (derivation.ValueType == "INTEGER" && (math.Trunc(value) != value || math.Abs(value) > float64(maxJSONSafeInteger))) {
+	if math.IsNaN(value) || math.IsInf(value, 0) || (derivation.ValueType == "INTEGER" && (math.Trunc(value) != value || math.Abs(value) > float64(9007199254740991))) {
 		return fmt.Errorf("%s: derived output violates its explicit numeric type", derivation.Path)
 	}
 	return nil

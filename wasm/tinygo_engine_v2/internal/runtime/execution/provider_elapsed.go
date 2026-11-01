@@ -44,21 +44,13 @@ func actualProviderElapsed(inst effectpkg.Provider, nowMs int64) (int64, bool) {
 	return nowMs - inst.AppliedAtMs, true
 }
 
-func providerAppliedAtPtr(inst effectpkg.Provider) *int64 {
-	if !inst.HasAppliedAt {
-		return nil
-	}
-	value := inst.AppliedAtMs
-	return &value
-}
-
 func validateProviderElapsedSnapshot(snapshot model.Snapshot, compiled planbundle.CompiledSession, sessionID string) *model.EngineError {
 	if !compiled.HasProviderElapsedReads {
 		return nil
 	}
 	for _, combatant := range snapshot.Combatants {
 		for _, provider := range combatant.Providers {
-			index, found := findProviderDefIndex(compiled, provider.DefinitionRef)
+			index, found := effectpkg.FindProviderDefinitionIndex(compiled, provider.DefinitionRef)
 			if !found || !compiled.Providers[index].NeedsElapsedTime {
 				continue
 			}

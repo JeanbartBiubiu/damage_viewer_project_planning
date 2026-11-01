@@ -5,6 +5,8 @@ import actionpkg "tinygo_engine_v2/internal/runtime/action"
 import (
 	"strconv"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
+	"tinygo_engine_v2/internal/runtime/execution/hit"
+	listenerpkg "tinygo_engine_v2/internal/runtime/execution/listener"
 
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -181,7 +183,7 @@ func (f *Frame) commitEmpoweredFacts() {
 	}
 	for _, contact := range f.empowered.contacts {
 		use := s.skillUses[contact.process.UseKey()]
-		use.contacts = append(use.contacts, contact.attack.Target)
+		use.history.Append(contact.attack.Target)
 		if action := s.actions.ActionForUse(contact.process.UseKey()); action != nil {
 			s.actions.RecordUse(action, "HIT")
 			hit := contact.attack.HitRef
@@ -266,7 +268,7 @@ func (s *Engine) executeEmpoweredGroup(ev emittedEvent, waits []empoweredWaitFre
 		}
 		original := wait.instance
 		use := s.skillUses[original.UseKey()]
-		if use == nil || use.identity.Source() != original.Owner() || use.identity.SkillKey() != original.SkillKey() || use.identity.HistoryState() != model.SkillHitHistoryComplete || len(use.contacts)+len(use.prior) >= maxSkillHistoryContacts {
+		if use == nil || use.identity.Source() != original.Owner() || use.identity.SkillKey() != original.SkillKey() || use.identity.HistoryState() != model.SkillHitHistoryComplete || use.history.TotalCount() >= hit.MaxHistoryContacts {
 			return s.processErr("skillUses", "empowered activation requires its real complete contact history", original.UseKey())
 		}
 		changes := actionpkg.StageProcess(original)
@@ -326,7 +328,7 @@ func (f *Frame) executeEmpoweredPayload(parent emittedEvent, p *actionpkg.Proces
 	operation := f.run.compiled.Operations[ability.OperationStart]
 	plan := operation.SkillHit
 	first := float64(1)
-	if use := f.run.skillUses[p.UseKey()]; len(use.prior)+len(use.contacts) > 0 {
+	if use := f.run.skillUses[p.UseKey()]; use.history.TotalCount() > 0 {
 		first = 0
 	}
 	f.eventCtx = cloneEventSnapshot(&parent.snapshot)
@@ -334,15 +336,15 @@ func (f *Frame) executeEmpoweredPayload(parent emittedEvent, p *actionpkg.Proces
 	if err != nil {
 		return err
 	}
-	unit, err := f.formSkillHitUnit(plan, set, parent.skillHit.occurrenceID, p.UseKey())
+	unit, hasUnit, err := hit.FormBlockUnit(plan, set, parent.skillHit.occurrenceID, p.UseKey(), hit.Identity{SchemaHash: f.run.compiled.SchemaHash, RulesHash: f.run.compiled.RulesHash, SessionID: f.run.req.SessionID})
 	if err != nil {
 		return err
 	}
 	freeze := &frozenSkillHitContext{occurrenceID: parent.skillHit.occurrenceID, useRef: p.UseKey(), skillKey: p.SkillKey(), sourceKey: p.Owner(), targetKey: parent.targetKey, hasFirstContact: true, firstContact: first, ability: ability, plan: plan, abilityRef: f.abilityRef}
-	if unit != nil {
-		freeze.unitScope, freeze.effectOccurrenceKey, freeze.resultKey, freeze.candidateKey = unit.unitScope, unit.effectOccurrenceKey, unit.resultKey, unit.candidateKey
+	if hasUnit {
+		freeze.unitScope, freeze.effectOccurrenceKey, freeze.resultKey, freeze.candidateKey = unit.Scope, unit.EffectOccurrenceKey, unit.ResultKey, unit.CandidateKey
 	}
-	if unit != nil {
+	if hasUnit {
 		shields, shieldErr := f.empoweredSpellShields(parent.targetKey)
 		if shieldErr != nil {
 			return shieldErr
@@ -399,12 +401,12 @@ func (f *Frame) stageEmpoweredSpellShield(parent emittedEvent, freeze *frozenSki
 	})
 	matched := false
 	compiledCount := len(f.run.compiled.Listeners)
-	for index := 0; index < compiledCount+len(f.run.runtimeListeners); index++ {
+	for index := 0; index < compiledCount+f.run.listeners.DynamicLen(); index++ {
 		var listener planbundle.CompiledListener
 		if index < compiledCount {
 			listener = f.run.compiled.Listeners[index]
 		} else {
-			listener = f.run.runtimeListeners[index-compiledCount]
+			listener = f.run.listeners.DynamicAt(index - compiledCount)
 		}
 		if listener.OwnerCombatantKey != freeze.shieldOwner || listener.OwnerProviderRef != freeze.shieldProviderRef {
 			continue
@@ -427,7 +429,7 @@ func (f *Frame) stageEmpoweredSpellShield(parent emittedEvent, freeze *frozenSki
 		}
 		savedOwner, savedProvider, savedContext, savedAbility := f.ownerCombatantKey, f.ownerProviderRef, f.eventCtx, f.abilityRef
 		savedSource, savedTarget := f.sourceKey, f.targetKey
-		f.sourceKey, f.targetKey = f.run.listenerFrameCombatants(event, listener)
+		f.sourceKey, f.targetKey = listenerpkg.Combatants(event.eventType, event.sourceKey, event.targetKey, listener.OwnerCombatantKey)
 		f.ownerCombatantKey, f.ownerProviderRef, f.eventCtx, f.abilityRef = listener.OwnerCombatantKey, listener.OwnerProviderRef, &context, "listener:"+listener.ListenerKey
 		ability := planbundle.CompiledAbility{}
 		if listener.SourceAbilityIndex >= 0 {

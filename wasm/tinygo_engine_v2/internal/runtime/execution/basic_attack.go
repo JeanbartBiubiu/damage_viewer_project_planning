@@ -215,7 +215,7 @@ func (s *Engine) initBasicAttack() *model.EngineError {
 	if len(provider.Processes) != 1 || provider.AbilityCount != 3 || provider.Lifecycle != nil || len(provider.Modifiers)+len(provider.StatusContributions) != 0 || !validBasicAttackAmmoProvider(provider) {
 		return s.basicAttackErr("continuous basic attack requires the complete static three-ability provider", "driverPlan.basicAttack")
 	}
-	if len(s.runtimeListeners) != 0 {
+	if s.listeners.DynamicLen() != 0 {
 		return s.basicAttackErr("continuous basic attack requires the unique native-start listener", "driverPlan.basicAttack")
 	}
 	if provider.AmmoBinding != nil {

@@ -104,7 +104,7 @@ func TestTargetMarkSkillIndependentShieldUsesRealConsumerWithoutNewContact(t *te
 	if done.TargetMarkSummary.SkillCount != 1 || done.TargetMarkSummary.DamageBlockedCount != 1 || done.Summary.SourceDamageDealt != 100 || done.FinalSnapshot.Combatants[0].Resources["mana"].Current != 100 || len(done.FinalSnapshot.Combatants[1].Providers) != 0 {
 		t.Fatal(done.Summary, done.TargetMarkSummary, done.FinalSnapshot.Combatants[1].Providers)
 	}
-	if len(s.skillHitLedger) != 0 || len(s.skillUses["skill:q"].contacts) != 1 || len(targetMarkRows(done)) != 1 {
+	if _, stored := s.hits.BlockUnit("skill:q"); stored || s.skillUses["skill:q"].history.ContactCount() != 1 || len(targetMarkRows(done)) != 1 {
 		t.Fatal("local shield polluted root contact/ledger")
 	}
 	for _, item := range done.Evidence.Items {

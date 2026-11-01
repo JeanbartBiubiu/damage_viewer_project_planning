@@ -5,6 +5,7 @@ import actionpkg "tinygo_engine_v2/internal/runtime/action"
 import (
 	"math"
 	"strconv"
+	"tinygo_engine_v2/internal/runtime/execution/hit"
 
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -64,7 +65,7 @@ func (s *Engine) executePrimaryReplacement(ev emittedEvent, freeze *frozenSkillH
 	}
 	original := chosen.instance
 	use := s.skillUses[original.UseKey()]
-	if use == nil || use.identity.Source() != original.Owner() || use.identity.SkillKey() != original.SkillKey() || use.identity.HistoryState() != model.SkillHitHistoryComplete || len(use.contacts)+len(use.prior) >= maxSkillHistoryContacts {
+	if use == nil || use.identity.Source() != original.Owner() || use.identity.SkillKey() != original.SkillKey() || use.identity.HistoryState() != model.SkillHitHistoryComplete || use.history.TotalCount() >= hit.MaxHistoryContacts {
 		return false, s.processErr("skillUses", "primary replacement requires its real complete activation history", original.UseKey())
 	}
 	changes := actionpkg.StageProcess(original)

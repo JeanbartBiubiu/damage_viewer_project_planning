@@ -1,6 +1,7 @@
 package execution
 
 import effectpkg "tinygo_engine_v2/internal/runtime/effect"
+import reportpkg "tinygo_engine_v2/internal/runtime/report"
 
 import actionpkg "tinygo_engine_v2/internal/runtime/action"
 
@@ -179,44 +180,17 @@ func (f *Frame) providerLifecycleError(code model.GenericErrCode, path, message,
 	return engineErrorPtrAt(model.GenericPhaseRun, code, message, path, ref, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 }
 
-func contributionsToSnapshot(items effectpkg.ContributionView) []model.ProviderStatusContributionSnapshot {
-	if items.Len() == 0 {
-		return nil
-	}
-	out := make([]model.ProviderStatusContributionSnapshot, 0, items.Len())
-	for instanceIndex, instanceValues := 0, items; instanceIndex < instanceValues.Len(); instanceIndex++ {
-		item := instanceValues.At(instanceIndex)
-		strength := item.Strength
-		out = append(out, model.ProviderStatusContributionSnapshot{
-			ResultRef:  item.ResultRef,
-			StatusKey:  item.StatusKey,
-			StatusKind: item.StatusKind,
-			Strength:   &strength,
-		})
-	}
-	return out
-}
-
-func snapshotStatusContributionsData(items effectpkg.ContributionView) []map[string]interface{} {
-	out := make([]map[string]interface{}, 0, items.Len())
-	for instanceIndex, instanceValues := 0, items; instanceIndex < instanceValues.Len(); instanceIndex++ {
-		item := instanceValues.At(instanceIndex)
-		out = append(out, map[string]interface{}{
-			"resultRef":  item.ResultRef,
-			"statusKey":  item.StatusKey,
-			"statusKind": item.StatusKind,
-			"strength":   item.Strength,
-		})
-	}
-	return out
-}
-
 func (s *Engine) recordProviderLifecycleEvidence(kind model.EvidenceKind, inst effectpkg.Provider) {
 	source := inst.Source
 	if source == "" {
 		source = inst.Owner
 	}
 	s.recordEvidenceLazy(kind, func() model.EvidenceItem {
+		contributions := make([]map[string]interface{}, 0, inst.StatusContributions.Len())
+		for index := 0; index < inst.StatusContributions.Len(); index++ {
+			item := inst.StatusContributions.At(index)
+			contributions = append(contributions, reportpkg.StatusContributionData(item.ResultRef, item.StatusKey, item.StatusKind, item.Strength))
+		}
 		return model.EvidenceItem{
 			TimeMs: s.loop.TimeMs(),
 			Kind:   kind,
@@ -228,135 +202,8 @@ func (s *Engine) recordProviderLifecycleEvidence(kind model.EvidenceKind, inst e
 				"source":              source,
 				"owner":               inst.Owner,
 				"expireAt":            inst.ExpireAt,
-				"statusContributions": snapshotStatusContributionsData(inst.StatusContributions),
+				"statusContributions": contributions,
 			},
 		}
 	})
-}
-
-func (s *Engine) buildEffectiveStatuses(instances []model.CombatantProviderSnapshot) []model.EffectiveStatusSnapshot {
-	type acc struct {
-		strength      float64
-		contributions []model.EffectiveStatusContribution
-	}
-	byKind := map[string]*acc{}
-	order := make([]string, 0)
-	for _, inst := range instances {
-		if inst.ExpireAt != nil && *inst.ExpireAt > 0 && *inst.ExpireAt <= s.loop.TimeMs() {
-			continue
-		}
-		source := inst.Source
-		if source == "" {
-			source = inst.Owner
-		}
-		for _, item := range inst.StatusContributions {
-			if item.StatusKind != model.StatusKindMovementSlow {
-				continue
-			}
-			strength := *item.Strength // The owned output was built from validated actual contributions.
-			expires := int64(0)
-			if inst.ExpireAt != nil {
-				expires = *inst.ExpireAt
-			}
-			bucket, ok := byKind[item.StatusKind]
-			if !ok {
-				bucket = &acc{}
-				byKind[item.StatusKind] = bucket
-				order = append(order, item.StatusKind)
-			}
-			bucket.contributions = append(bucket.contributions, model.EffectiveStatusContribution{
-				ProviderRef: inst.ProviderRef,
-				ResultRef:   item.ResultRef,
-				StatusKey:   item.StatusKey,
-				Source:      source,
-				ExpireAt:    expires,
-				Strength:    strength,
-			})
-			if len(bucket.contributions) == 1 || strength > bucket.strength {
-				bucket.strength = strength
-			}
-		}
-	}
-	if len(order) == 0 {
-		return []model.EffectiveStatusSnapshot{}
-	}
-	out := make([]model.EffectiveStatusSnapshot, 0, len(order))
-	for _, kind := range order {
-		bucket := byKind[kind]
-		contribs := bucket.contributions
-		if contribs == nil {
-			contribs = []model.EffectiveStatusContribution{}
-		}
-		out = append(out, model.EffectiveStatusSnapshot{
-			StatusKind:    kind,
-			Strength:      bucket.strength,
-			Contributions: contribs,
-		})
-	}
-	return out
-}
-
-func restoreStatusContributions(snap model.CombatantProviderSnapshot, provider planbundle.CompiledProvider, path string, schemaHash, rulesHash, sessionID string) (effectpkg.ContributionView, *model.EngineError) {
-	defs := provider.StatusContributions
-	raw := snap.StatusContributions
-	if len(defs) == 0 && len(raw) == 0 {
-		return effectpkg.ContributionView{}, nil
-	}
-	if len(defs) == 0 {
-		return effectpkg.ContributionView{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "provider snapshot has statusContributions but definition has none", path+".statusContributions", snap.ProviderRef, schemaHash, rulesHash, sessionID)
-	}
-	if len(raw) != len(defs) {
-		return effectpkg.ContributionView{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "provider snapshot statusContributions must align with definition", path+".statusContributions", snap.ProviderRef, schemaHash, rulesHash, sessionID)
-	}
-	byRef := map[string]int{}
-	out := effectpkg.ContributionView{}
-	for i, item := range raw {
-		p := path + ".statusContributions[" + itoa(uint32(i)) + "]"
-		if item.ResultRef == "" {
-			return effectpkg.ContributionView{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "status contribution resultRef is required", p+".resultRef", snap.ProviderRef, schemaHash, rulesHash, sessionID)
-		}
-		if prev, dup := byRef[item.ResultRef]; dup {
-			_ = prev
-			return effectpkg.ContributionView{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "duplicate status contribution resultRef", p+".resultRef", item.ResultRef, schemaHash, rulesHash, sessionID)
-		}
-		byRef[item.ResultRef] = i
-		def, ok := findCompiledStatusContribution(defs, item.ResultRef)
-		if !ok {
-			return effectpkg.ContributionView{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "status contribution resultRef is not in definition", p+".resultRef", item.ResultRef, schemaHash, rulesHash, sessionID)
-		}
-		if item.StatusKey != def.StatusKey {
-			return effectpkg.ContributionView{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "status contribution statusKey does not match definition", p+".statusKey", item.StatusKey, schemaHash, rulesHash, sessionID)
-		}
-		if item.StatusKind != def.StatusKind {
-			return effectpkg.ContributionView{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "status contribution statusKind does not match definition", p+".statusKind", item.StatusKind, schemaHash, rulesHash, sessionID)
-		}
-		if item.Strength == nil {
-			return effectpkg.ContributionView{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "status contribution strength is required; explicit zero is allowed", p+".strength", item.ResultRef, schemaHash, rulesHash, sessionID)
-		}
-		strength := *item.Strength
-		if math.IsNaN(strength) || math.IsInf(strength, 0) || strength < 0 || strength > 1 {
-			return effectpkg.ContributionView{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "status contribution strength must be finite and within [0,1]", p+".strength", item.ResultRef, schemaHash, rulesHash, sessionID)
-		}
-		out = out.Append(effectpkg.StatusContribution{
-			ResultRef:  item.ResultRef,
-			StatusKey:  item.StatusKey,
-			StatusKind: item.StatusKind,
-			Strength:   strength,
-		})
-	}
-	for _, def := range defs {
-		if _, ok := byRef[def.ResultRef]; !ok {
-			return effectpkg.ContributionView{}, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "provider snapshot missing status contribution", path+".statusContributions", def.ResultRef, schemaHash, rulesHash, sessionID)
-		}
-	}
-	return out, nil
-}
-
-func findCompiledStatusContribution(defs []planbundle.CompiledStatusContribution, resultRef string) (planbundle.CompiledStatusContribution, bool) {
-	for _, def := range defs {
-		if def.ResultRef == resultRef {
-			return def, true
-		}
-	}
-	return planbundle.CompiledStatusContribution{}, false
 }

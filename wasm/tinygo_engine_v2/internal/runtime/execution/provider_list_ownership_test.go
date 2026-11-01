@@ -27,8 +27,8 @@ func providerListOwnershipSlow(strength float64) effectpkg.ContributionView {
 
 func assertProviderListSnapshot(t *testing.T, providers effectpkg.ProviderList, before []byte) {
 	t.Helper()
-	if !bytes.Equal(before, mustJSON(providersToSnapshot(providers))) {
-		t.Fatalf("a live write changed an older provider list: %+v", providersToSnapshot(providers))
+	if !bytes.Equal(before, mustJSON(effectpkg.ProvidersToSnapshot(providers))) {
+		t.Fatalf("a live write changed an older provider list: %+v", effectpkg.ProvidersToSnapshot(providers))
 	}
 }
 
@@ -39,7 +39,7 @@ func TestProviderListOwnershipLiveAppendRefreshAndResharing(t *testing.T) {
 	}
 	frame := state.newExecutionFrame("source", "target", "ownership")
 	staged := frame.stageFor("target")
-	before := mustJSON(providersToSnapshot(staged.instances.Providers()))
+	before := mustJSON(effectpkg.ProvidersToSnapshot(staged.instances.Providers()))
 	if staged.instances.Providers().Len() != state.combatants["target"].instances.Providers().Len() {
 		t.Fatal("stageFor failed to share and mark the live provider list")
 	}
@@ -51,7 +51,7 @@ func TestProviderListOwnershipLiveAppendRefreshAndResharing(t *testing.T) {
 		t.Fatal("live append did not obtain an owned list")
 	}
 	second := state.newExecutionFrame("source", "target", "second").stageFor("target")
-	secondBefore := mustJSON(providersToSnapshot(second.instances.Providers()))
+	secondBefore := mustJSON(effectpkg.ProvidersToSnapshot(second.instances.Providers()))
 	if err := state.refreshProviderInstance("target", second.instances.Providers().At(0).ProviderRef, 2000, true, effectpkg.ContributionView{}); err != nil {
 		t.Fatal(err)
 	}
@@ -73,7 +73,7 @@ func TestProviderListOwnershipReplacePreservesNestedReadOnlyData(t *testing.T) {
 	combatant.instances.ReplaceProvider(0, historical)
 	state.combatants["target"] = combatant
 	staged := state.newExecutionFrame("source", "target", "replace").stageFor("target")
-	before := mustJSON(providersToSnapshot(staged.instances.Providers()))
+	before := mustJSON(effectpkg.ProvidersToSnapshot(staged.instances.Providers()))
 	contributions := providerListOwnershipSlow(.7)
 	if err := state.applyProviderInstance("target", "source", "ownership:slow", 2000, true, contributions); err != nil {
 		t.Fatal(err)
@@ -94,14 +94,14 @@ func TestProviderListOwnershipRemovalAndSweepKeepOldFrames(t *testing.T) {
 		}
 	}
 	staged := state.newExecutionFrame("source", "target", "remove").stageFor("target")
-	before := mustJSON(providersToSnapshot(staged.instances.Providers()))
+	before := mustJSON(effectpkg.ProvidersToSnapshot(staged.instances.Providers()))
 	state.removeProviderInstance("target", staged.instances.Providers().At(0).ProviderRef, state.evalContextForCombatants("source", "target"), model.EvidenceKindProviderRemove)
 	assertProviderListSnapshot(t, staged.instances.Providers(), before)
 	if live := state.combatants["target"].instances.Providers(); live.Len() != 2 || live.At(0).ProviderRef != staged.instances.Providers().At(1).ProviderRef {
 		t.Fatal("provider removal changed stable order")
 	}
 	sweepView := state.newExecutionFrame("source", "target", "sweep").stageFor("target")
-	sweepBefore := mustJSON(providersToSnapshot(sweepView.instances.Providers()))
+	sweepBefore := mustJSON(effectpkg.ProvidersToSnapshot(sweepView.instances.Providers()))
 	state.loop.Advance(2000)
 	state.sweepExpiredInstances()
 	assertProviderListSnapshot(t, staged.instances.Providers(), before)
@@ -119,7 +119,7 @@ func TestProviderListOwnershipStaleExpiryAndPostCommitWrites(t *testing.T) {
 	oldCleanup := state.effectTimers.ExpiryCount() - 1
 	frame := state.newExecutionFrame("source", "target", "commit")
 	staged := frame.stageFor("target")
-	before := mustJSON(providersToSnapshot(staged.instances.Providers()))
+	before := mustJSON(effectpkg.ProvidersToSnapshot(staged.instances.Providers()))
 	frame.commit()
 	if frame.fatal || !frame.committed || staged.instances.Providers().Len() != state.combatants["target"].instances.Providers().Len() {
 		t.Fatal("commit failed to publish a shared read-only list")
@@ -136,7 +136,7 @@ func TestProviderListOwnershipStaleExpiryAndPostCommitWrites(t *testing.T) {
 	assertProviderListSnapshot(t, staged.instances.Providers(), before)
 	failed := state.newExecutionFrame("source", "target", "failed")
 	host := failed.stageFor("target")
-	failedBefore := mustJSON(providersToSnapshot(host.instances.Providers()))
+	failedBefore := mustJSON(effectpkg.ProvidersToSnapshot(host.instances.Providers()))
 	host.providerOps = append(host.providerOps, stagedProviderMutation{kind: "expire", targetKey: "target", providerRef: host.instances.Providers().At(0).ProviderRef})
 	failed.fatal, failed.fatalErr = true, state.budgetError(model.BudgetCauseMaxCommandsPerEvent, "failed ownership frame")
 	failed.commit()
@@ -165,12 +165,12 @@ func TestProviderListOwnershipDynamicListenerRemovalKeepsFrozenList(t *testing.T
 		t.Fatal(err)
 	}
 	view := state.newExecutionFrame("source", "target", "before_hit").stageFor("target")
-	before := mustJSON(providersToSnapshot(view.instances.Providers()))
+	before := mustJSON(effectpkg.ProvidersToSnapshot(view.instances.Providers()))
 	if err := state.runLoop(); err != nil {
 		t.Fatal(err)
 	}
 	got := state.buildDoneResult(false)
-	if !bytes.Equal(mustJSON(expected), mustJSON(got)) || len(state.runtimeListeners) != 0 {
+	if !bytes.Equal(mustJSON(expected), mustJSON(got)) || state.listeners.DynamicLen() != 0 {
 		t.Fatal("provider-list sharing changed the real blocked-hit/listener result")
 	}
 	assertProviderListSnapshot(t, view.instances.Providers(), before)

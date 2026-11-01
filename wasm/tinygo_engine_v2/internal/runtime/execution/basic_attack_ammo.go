@@ -82,7 +82,7 @@ func (f *Frame) populateMechanicEvalContext(context *formula.GenericEvalContext,
 			useRef := f.processUseKey
 			if f.eventCtx != nil && f.eventCtx.hasUse {
 				useRef = f.eventCtx.useKey
-			} else if fact, exists := f.run.skillHitFacts[f.driverEntryKey]; exists && fact.UseRef != nil {
+			} else if fact, exists := f.run.hits.Fact(f.driverEntryKey); exists && fact.UseRef != nil {
 				useRef = *fact.UseRef
 			}
 			if use := f.run.skillUses[useRef]; use != nil && use.identity.Source() == f.providerOwnerKey() && use.identity.SkillKey() == ability.SkillKey {

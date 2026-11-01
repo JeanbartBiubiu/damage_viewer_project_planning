@@ -5,6 +5,28 @@ import (
 	"tinygo_engine_v2/internal/scheduler"
 )
 
+func (s *Engine) setStopReason(reason model.StopReason) { s.loop.Stop(reason) }
+
+func (s *Engine) finalizeStopReason() { s.loop.Finalize(s.LoopStopState()) }
+
+func (s *Engine) checkDeathStopReason() {
+	if !s.settlingProcessDeaths && s.processFailure == nil {
+		s.processFailure = s.failDeadProcesses()
+	}
+	if s.loop.Stopped() {
+		return
+	}
+	sourceDead := s.actions.Dead(model.SelectorSource) || s.combatantHasHp(model.SelectorSource) && s.combatantHp(model.SelectorSource) <= 0
+	targetDead := s.actions.Dead(model.SelectorTarget) || s.combatantHasHp(model.SelectorTarget) && s.combatantHp(model.SelectorTarget) <= 0
+	if sourceDead && targetDead {
+		s.setStopReason(model.StopReasonBothDead)
+	} else if sourceDead {
+		s.setStopReason(model.StopReasonSourceDead)
+	} else if targetDead && s.req.StopPolicy.StopOnTargetDeathOrDefault() {
+		s.setStopReason(model.StopReasonTargetDead)
+	}
+}
+
 func (s *Engine) LoopState() scheduler.LoopState {
 	basic := s.actions.BasicAttack()
 	hasSkillPlan := s.hasSkillPlan()
@@ -80,10 +102,14 @@ func (s *Engine) HandleLoopEvent(event scheduler.GenericEvent) *model.EngineErro
 	return nil
 }
 
-func (s *Engine) ObserveBefore(at int64)  { s.flushSamplesBefore(at) }
+func (s *Engine) ObserveBefore(at int64) { s.flushSamplesBefore(at) }
+
 func (s *Engine) ObserveThrough(at int64) { s.flushSamplesThrough(at) }
-func (s *Engine) ObserveFinal()           { s.appendFinalSample() }
-func (s *Engine) PublishLoopWait()        { s.publishBasicAttackWait() }
+
+func (s *Engine) ObserveFinal() { s.appendFinalSample() }
+
+func (s *Engine) PublishLoopWait() { s.publishBasicAttackWait() }
+
 func (s *Engine) SettleLoopEnd() *model.EngineError {
 	if s.compiled.HasResourceMax {
 		s.settleLiveResourceExpiry()
@@ -93,9 +119,11 @@ func (s *Engine) SettleLoopEnd() *model.EngineError {
 	}
 	return nil
 }
+
 func (s *Engine) LoopBudgetExceeded(cause model.BudgetCause, message string) {
 	s.budgetError(cause, message)
 }
+
 func (s *Engine) EnsureLoopBudgetCause() {
 	if s.budgetCause == "" {
 		s.budgetCause = model.BudgetCauseMaxEvents

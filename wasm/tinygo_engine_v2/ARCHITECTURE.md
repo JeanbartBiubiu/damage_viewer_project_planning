@@ -15,6 +15,10 @@ graph TD
     Compile["compile 编译"]
     Plan["plan 只读计划"]
     Engine["runtime/execution 帧与统一提交"]
+    Admission["execution/admission 准入检查"]
+    Hit["execution/hit 命中判断与局部账"]
+    Listener["execution/listener 监听选择与施放节流"]
+    Evaluation["execution/evaluation 运行求值与属性缓存"]
     Loop["scheduler 唯一时钟、队列与停止账"]
     Actor["runtime/actor 数值存储"]
     Action["runtime/action 行动、过程与冷却"]
@@ -37,6 +41,10 @@ graph TD
     Compile --> Plan
     Compile --> Formula
     Engine --> Plan
+    Engine --> Admission
+    Engine --> Hit
+    Engine --> Listener
+    Engine --> Evaluation
     Engine --> Loop
     Engine --> Actor
     Engine --> Action
@@ -46,6 +54,9 @@ graph TD
     Engine --> Formula
     Engine --> Pipeline
     Engine --> Numeric
+    Evaluation --> Effect
+    Evaluation --> Formula
+    Evaluation --> Pipeline
     Pipeline --> Numeric
     Actor --> Attribute
     Action --> Contract
@@ -63,6 +74,8 @@ graph TD
 ## 控制流时序图
 
 基础能力统一位于 `internal/base/`，各叶目录独立成包；默认写入边界和独立验证见[基础层说明](internal/base/README.md)。`base/attribute` 继续提供属性分页与不可变表；外层公式、数值管道和运行时只组合这些能力。
+
+准入、命中、监听和运行求值四个执行子包彼此独立，不反向导入执行根包或调度器。命中候选执行、事件当前值刷新、普通及阻挡监听、强化尾部的次序继续由根执行层协调；共同使用额度也只保留一份。具体落点见[执行功能入口](internal/runtime/execution/README.md)。
 
 ```mermaid
 graph TD
@@ -136,7 +149,8 @@ graph LR
 graph TD
     Session["Session: genericSessions + outbox"]
     Entry["genericSessionEntry: sessionId hashes CompiledSession"]
-    State["execution.Engine：帧身份、公式上下文、命中与监听冻结事实"]
+    State["execution.Engine：运行组合、帧与伤害身份、共同额度及统一提交"]
+    ExecutionParts["hit / listener / evaluation：各自单场事实、节流与缓存"]
     Loop["scheduler.Loop：唯一时钟、队列、计数与停止状态"]
     Subsystems["actor/action/effect/report：各自私有状态"]
     Outbox["abi.Outbox priority frames"]
@@ -146,6 +160,7 @@ graph TD
     Entry --> State
     State --> Loop
     State --> Subsystems
+    State --> ExecutionParts
 ```
 
 ## Review 建议

@@ -1,4 +1,4 @@
-package execution
+package evaluation
 
 import (
 	"encoding/json"
@@ -30,7 +30,7 @@ func TestAttributeProbePageSignaturesMatchFreshReads(t *testing.T) {
 		attributeMemoRead{kind: formula.ReadSourceAttr, key: "hp", field: memoFieldCurrent, attributeIndex: hp, attributeIndexBound: true},
 		attributeMemoRead{kind: formula.ReadProviderState, key: "count", providerIndex: 0},
 	)
-	memo := attributeMemo{providers: []attributeMemoProvider{{"source", "buff"}}, cacheable: true, reads: reads, stamps: make([]attributeMemoStamp, len(reads)), scratch: make([]attributeMemoStamp, len(reads)), providerValues: make([]attributeMemoProviderValues, 1)}
+	memo := Memo{providers: []attributeMemoProvider{{"source", "buff"}}, cacheable: true, reads: reads, stamps: make([]attributeMemoStamp, len(reads)), scratch: make([]attributeMemoStamp, len(reads)), providerValues: make([]attributeMemoProviderValues, 1)}
 	ctx := formula.GenericEvalContext{StrictReads: true, SourceAttrs: source, TargetAttrs: target}
 	state := map[string]float64{"count": 2}
 	calls := 0
@@ -38,8 +38,8 @@ func TestAttributeProbePageSignaturesMatchFreshReads(t *testing.T) {
 		calls++
 		return pipeline.ProviderFormulaContext{HasProviderContext: true, ProviderState: model.BorrowNumericView(state)}
 	}
-	memo.probe(attribute.Table{}, &ctx, provider)
-	memo.remember(attribute.Table{}, attribute.Table{}, true)
+	memo.Probe(attribute.Table{}, &ctx, provider)
+	memo.Remember(attribute.Table{}, attribute.Table{}, true)
 	reference := memo
 	reference.scratch = append([]attributeMemoStamp(nil), memo.scratch...)
 	reference.stamps = append([]attributeMemoStamp(nil), memo.stamps...)
@@ -95,12 +95,12 @@ func TestAttributeProbePageSignaturesMatchFreshReads(t *testing.T) {
 		t.Run(step.name, func(t *testing.T) {
 			step.edit()
 			calls = 0
-			got := memo.probe(attribute.Table{}, &ctx, provider)
+			got := memo.Probe(attribute.Table{}, &ctx, provider)
 			if calls != 1 {
 				t.Fatalf("cached probe made %d provider calls", calls)
 			}
 			reference.probeValid = false
-			want := reference.probe(attribute.Table{}, &ctx, provider)
+			want := reference.Probe(attribute.Table{}, &ctx, provider)
 			if calls != 2 || got != want || !reflect.DeepEqual(memo.scratch, reference.scratch) || !reflect.DeepEqual(memo.stamps, reference.stamps) {
 				t.Fatalf("cached=%v fresh=%v scratch=%+v freshScratch=%+v", got, want, memo.scratch, reference.scratch)
 			}
@@ -112,23 +112,23 @@ func TestAttributeProbeSameFailedPageDoesNotPublishSuccess(t *testing.T) {
 	layout := attribute.NewLayout([]string{"dep", "speed"})
 	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceAttr, ReadKey: "dep.current"}}}}}
 	registry.BindAttributeLayout(layout)
-	state := Engine{loop: newTestLoopAt(0), formulas: registry}
+	state := attributeFixture{formulas: registry}
 	var resolver effectpkg.AttributeResolver
 	resolver.MountCompiledModifierOwned("source", "buff", planbundle.CompiledModifier{Kind: "attribute", Target: "speed", HasValue: true, ValuePolicy: "add"})
 	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"speed": authoringSlot(100)}, layout)
 	good := attribute.FromMap(map[string]model.AttributeSlotDef{"dep": authoringSlot(2)}, layout)
 	ctx := formula.GenericEvalContext{StrictReads: true, SourceAttrs: good}
-	if _, err := state.resolveOrdinaryAttributes("source", attrs, resolver, ctx, nil); err != nil {
+	if _, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err != nil {
 		t.Fatal(err)
 	}
 	ctx.SourceAttrs = good.Without("dep")
 	for round := 0; round < 3; round++ {
-		if _, err := state.resolveOrdinaryAttributes("source", attrs, resolver, ctx, nil); err == nil {
+		if _, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err == nil {
 			t.Fatalf("failed dependency page became a successful cache at round %d", round)
 		}
 	}
 	ctx.SourceAttrs = good
-	if out, err := state.resolveOrdinaryAttributes("source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 102 {
+	if out, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 102 {
 		t.Fatal("recovery changed successful values", out, err)
 	}
 }

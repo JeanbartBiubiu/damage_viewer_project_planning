@@ -100,7 +100,7 @@ func TestListenerSnapshotFreezesDynamicMembershipConditionsAndIndices(t *testing
 		t.Run(fmt.Sprintf("conditions_%d", listenerCount), func(t *testing.T) {
 			state := listenerSnapshotState(t, listenerCount)
 			original := append([]planbundle.CompiledListener(nil), state.compiled.Listeners...)
-			original = append(original, state.runtimeListeners...)
+			original = append(original, state.listeners.FreezeDynamic()...)
 			if len(state.compiled.Listeners) != 1 || len(original) != listenerCount || original[1].ListenerKey != "first" || original[listenerCount-1].ListenerKey != "rejected" {
 				t.Fatalf("unexpected listener fixture: compiled=%d listeners=%+v", len(state.compiled.Listeners), original)
 			}
@@ -119,20 +119,15 @@ func TestListenerSnapshotFreezesDynamicMembershipConditionsAndIndices(t *testing
 			if attrs.At("listener_trace").Base != 1234 || attrs.At("listener_gate").Base != 1 {
 				t.Fatalf("frozen order or conditions changed: trace=%v gate=%v", attrs.At("listener_trace").Base, attrs.At("listener_gate").Base)
 			}
-			if len(state.perCastThrottle) != listenerCount-1 {
-				t.Fatalf("triggered listeners=%d want %d", len(state.perCastThrottle), listenerCount-1)
-			}
 			for index, listener := range original {
-				key := perCastThrottleKey{listenerIndex: index, ownerCombatantKey: listener.OwnerCombatantKey,
-					ownerProviderRef: listener.OwnerProviderRef, castInstanceID: firstCastID}
-				last, triggered := state.perCastThrottle[key]
-				if want := listener.ListenerKey != "rejected"; triggered != want || (triggered && last != state.loop.TimeMs()) {
-					t.Fatalf("listener %q frozen index=%d trigger=%t at=%d", listener.ListenerKey, index, triggered, last)
+				triggered := !state.listeners.Allow(index, listener.OwnerCombatantKey, listener.OwnerProviderRef, firstCastID, 1, state.loop.TimeMs())
+				if want := listener.ListenerKey != "rejected"; triggered != want {
+					t.Fatalf("listener %q frozen index=%d trigger=%t", listener.ListenerKey, index, triggered)
 				}
 			}
-			if len(state.runtimeListeners) != listenerCount-1 || state.runtimeListeners[0].ListenerKey != "second" ||
-				state.runtimeListeners[len(state.runtimeListeners)-1].ListenerKey != "added" {
-				t.Fatalf("provider operations did not replace the dynamic first item: %+v", state.runtimeListeners)
+			if state.listeners.DynamicLen() != listenerCount-1 || state.listeners.DynamicAt(0).ListenerKey != "second" ||
+				state.listeners.DynamicAt(state.listeners.DynamicLen()-1).ListenerKey != "added" {
+				t.Fatalf("provider operations did not replace the dynamic first item: %+v", state.listeners.FreezeDynamic())
 			}
 
 			// 新项从下一事件开始参与；门值反向条件也必须在静态项再次改值前冻结。

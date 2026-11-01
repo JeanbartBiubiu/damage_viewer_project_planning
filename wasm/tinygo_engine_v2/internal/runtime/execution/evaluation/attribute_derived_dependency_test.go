@@ -1,4 +1,4 @@
-package execution
+package evaluation
 
 import effectpkg "tinygo_engine_v2/internal/runtime/effect"
 
@@ -17,7 +17,7 @@ import (
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
-func derivedDependencyFixture(t *testing.T, route string) (*Engine, effectpkg.AttributeResolver, attribute.Table, attribute.Table) {
+func derivedDependencyFixture(t *testing.T, route string) (*attributeFixture, effectpkg.AttributeResolver, attribute.Table, attribute.Table) {
 	t.Helper()
 	var registry formula.GenericRegistry
 	definition := formuladefinition.FromExpr("dependency_base", "dependency_skill", authoringRead("source.attr.pulse.base"), nil)
@@ -34,8 +34,7 @@ func derivedDependencyFixture(t *testing.T, route string) (*Engine, effectpkg.At
 		}
 		resolver.MountCompiledModifierOwned("source", "buff", planbundle.CompiledModifier{ModifierKey: "dependency_add", Kind: "attribute", Target: "speed", ValuePolicy: "add", ValueProgram: 0, HasValue: true})
 	}
-	state := &Engine{loop: newTestLoopAt(0),
-		formulas: registry,
+	state := &attributeFixture{formulas: registry,
 		compiled: planbundle.CompiledSession{AttributeDerivations: []planbundle.CompiledAttributeDerivation{{
 			CombatantKey: "source", AttributeKey: "speed", SkillKey: "dependency_skill", ValueProgram: program, ValuePolicy: "set", ValueType: "DECIMAL", Path: "rules.attributeDerivations[0]",
 		}}},
@@ -47,11 +46,11 @@ func derivedDependencyFixture(t *testing.T, route string) (*Engine, effectpkg.At
 	return state, resolver, attrs, attribute.FromMap(map[string]model.AttributeSlotDef{"hp": authoringSlot(100)})
 }
 
-func assertDerivedDependencyMatchesUncached(t *testing.T, state *Engine, resolver effectpkg.AttributeResolver, attrs, target attribute.Table, provider pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
+func assertDerivedDependencyMatchesUncached(t *testing.T, state *attributeFixture, resolver effectpkg.AttributeResolver, attrs, target attribute.Table, provider pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
 	t.Helper()
 	before := independentAttributeTable(attrs)
-	want, wantErr := resolveDerivedAttributes(state.compiled, state.formulas, "source", attrs, resolver, attrs, target, provider)
-	got, gotErr := state.resolveDerivedAttributesCached("source", attrs, resolver, attrs, target, provider)
+	want, wantErr := ResolveDerivedAttributes(state.compiled.AttributeDerivations, state.formulas, "source", attrs, resolver, attrs, target, provider)
+	got, gotErr := state.cache.ResolveDerived(state.compiled.AttributeDerivations, state.formulas, "source", attrs, resolver, attrs, target, provider)
 	if (wantErr == nil) != (gotErr == nil) || (wantErr != nil && wantErr.Error() != gotErr.Error()) || !reflect.DeepEqual(got, want) {
 		t.Fatalf("cached path differs: got=%+v error=%v want=%+v error=%v", got, gotErr, want, wantErr)
 	}
@@ -67,14 +66,14 @@ func assertDerivedDependencyMatchesUncached(t *testing.T, state *Engine, resolve
 	return got, gotErr
 }
 
-func assertDerivedDependencyWarmHit(t *testing.T, state *Engine, resolver effectpkg.AttributeResolver, attrs, target attribute.Table, provider pipeline.ProviderFormulaContextFunc) {
+func assertDerivedDependencyWarmHit(t *testing.T, state *attributeFixture, resolver effectpkg.AttributeResolver, attrs, target attribute.Table, provider pipeline.ProviderFormulaContextFunc) {
 	t.Helper()
-	memo := state.attributeMemo("source", true, false, [2]string{}, resolver, attrs)
+	memo := state.cache.Memo(state.compiled.AttributeDerivations, state.formulas, "source", true, false, [2]string{}, resolver, attrs)
 	if len(memo.values) != 1 || memo.output.Layout().Key(memo.values[0].index) != "speed" {
 		t.Fatalf("derived-only memo retained unrelated values: attrs=%d values=%+v", attrs.Len(), memo.values)
 	}
 	ctx := formula.GenericEvalContext{StrictReads: true, SourceAttrs: attrs, TargetAttrs: target}
-	if !memo.probe(attrs, &ctx, provider) {
+	if !memo.Probe(attrs, &ctx, provider) {
 		t.Fatal("unchanged valid derived inputs did not hit the warm cache")
 	}
 }
@@ -145,7 +144,7 @@ func TestDerivedDependencySameSizeKeyReplacementRebuildsAndRecovers(t *testing.T
 					t.Fatal(err)
 				}
 				assertDerivedDependencyWarmHit(t, state, resolver, attrs, target, nil)
-				oldMemo := state.attributeMemo("source", true, false, [2]string{}, resolver, attrs)
+				oldMemo := state.cache.Memo(state.compiled.AttributeDerivations, state.formulas, "source", true, false, [2]string{}, resolver, attrs)
 				original := attrs.At(removed)
 				attrs = attrs.Without(removed)
 				attrs = attrs.With("unrelated_replacement", authoringSlot(99))
@@ -164,7 +163,7 @@ func TestDerivedDependencySameSizeKeyReplacementRebuildsAndRecovers(t *testing.T
 						t.Fatalf("missing output differs from uncached behavior: %+v %v", out, err)
 					}
 				}
-				if state.attributeMemo("source", true, false, [2]string{}, resolver, attrs) == oldMemo {
+				if state.cache.Memo(state.compiled.AttributeDerivations, state.formulas, "source", true, false, [2]string{}, resolver, attrs) == oldMemo {
 					t.Fatal("equal-sized key replacement reused the old key-set memo")
 				}
 				attrs = attrs.Without("unrelated_replacement")
@@ -181,15 +180,15 @@ func TestDerivedDependencySameSizeKeyReplacementRebuildsAndRecovers(t *testing.T
 func TestDerivedDependencyMemoWithoutActorOutputStoresNoValues(t *testing.T) {
 	state, resolver, attrs, _ := derivedDependencyFixture(t, "derivation")
 	before := independentAttributeTable(attrs)
-	if _, err := state.resolveDerivedAttributesCached("target", attrs, resolver, attrs, attrs, nil); err != nil {
+	if _, err := state.cache.ResolveDerived(state.compiled.AttributeDerivations, state.formulas, "target", attrs, resolver, attrs, attrs, nil); err != nil {
 		t.Fatal(err)
 	}
-	memo := state.attributeMemo("target", true, false, [2]string{}, resolver, attrs)
+	memo := state.cache.Memo(state.compiled.AttributeDerivations, state.formulas, "target", true, false, [2]string{}, resolver, attrs)
 	ctx := formula.GenericEvalContext{StrictReads: true, SourceAttrs: attrs, TargetAttrs: attrs}
-	if len(memo.values) != 0 || len(memo.derivedInputs) != 0 || !memo.probe(attrs, &ctx, nil) {
+	if len(memo.values) != 0 || len(memo.derivedInputs) != 0 || !memo.Probe(attrs, &ctx, nil) {
 		t.Fatalf("no-output actor retained the 180 unrelated slots: %+v", memo.values)
 	}
-	out, err := state.resolveDerivedAttributesCached("target", attrs, resolver, attrs, attrs, nil)
+	out, err := state.cache.ResolveDerived(state.compiled.AttributeDerivations, state.formulas, "target", attrs, resolver, attrs, attrs, nil)
 	if err != nil || !reflect.DeepEqual(out, before) || !reflect.DeepEqual(attrs, before) {
 		t.Fatal("no-output actor changed input", out, err)
 	}

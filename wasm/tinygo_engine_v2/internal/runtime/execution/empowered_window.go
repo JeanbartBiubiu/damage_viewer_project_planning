@@ -4,6 +4,7 @@ import actionpkg "tinygo_engine_v2/internal/runtime/action"
 
 import (
 	"strconv"
+	"tinygo_engine_v2/internal/runtime/execution/hit"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -127,7 +128,7 @@ func (s *Engine) executeReservedEmpoweredAttack(ev emittedEvent, depth int) *mod
 		return s.processErr("skillHitFacts", "counted payload must retain its original actual attack identity", use.identity.UseKey())
 	}
 	activation := s.skillUses[original.UseKey()]
-	if activation == nil || activation.identity.Source() != original.Owner() || activation.identity.SkillKey() != original.SkillKey() || activation.identity.HistoryState() != model.SkillHitHistoryComplete || len(activation.contacts)+len(activation.prior) >= maxSkillHistoryContacts {
+	if activation == nil || activation.identity.Source() != original.Owner() || activation.identity.SkillKey() != original.SkillKey() || activation.identity.HistoryState() != model.SkillHitHistoryComplete || activation.history.TotalCount() >= hit.MaxHistoryContacts {
 		return s.processErr("skillUses", "counted window requires its actual activation history", original.UseKey())
 	}
 	changes := actionpkg.StageProcess(original)

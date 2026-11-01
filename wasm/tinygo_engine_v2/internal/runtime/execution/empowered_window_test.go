@@ -162,7 +162,7 @@ func TestCountedEmpoweredWindowFinalNativeStartSurvivesCompletionAndDeadline(t *
 	if err := state.executeAbilityCast(entry); err != nil {
 		t.Fatal(err)
 	}
-	if state.report.Totals().SourceDamageDealt != 340 || p.EmpoweredAttackWindow().ConsumptionCount != 3 || len(state.skillUses[p.UseKey()].contacts) != 3 {
+	if state.report.Totals().SourceDamageDealt != 340 || p.EmpoweredAttackWindow().ConsumptionCount != 3 || state.skillUses[p.UseKey()].history.ContactCount() != 3 {
 		t.Fatal("reservation was reused", state.report.Totals().SourceDamageDealt, p)
 	}
 }
@@ -193,7 +193,7 @@ func TestCountedEmpoweredWindowActualMissConsumesWithoutRefundAndCannotBeForged(
 			t.Fatal(err)
 		}
 	}
-	if p.Status() != "complete" || p.EmpoweredAttackWindow().ConsumptionCount != 3 || p.EmpoweredAttackWindow().PendingHitCount != 0 || state.report.Totals().SourceDamageDealt != 220 || len(state.skillUses[p.UseKey()].contacts) != 2 || !p.EmpoweredResolvedPublished() {
+	if p.Status() != "complete" || p.EmpoweredAttackWindow().ConsumptionCount != 3 || p.EmpoweredAttackWindow().PendingHitCount != 0 || state.report.Totals().SourceDamageDealt != 220 || state.skillUses[p.UseKey()].history.ContactCount() != 2 || !p.EmpoweredResolvedPublished() {
 		t.Fatal(p, state.report.Totals().SourceDamageDealt)
 	}
 }

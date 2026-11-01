@@ -14,7 +14,11 @@ const baseDependencies = new Map([
 const runtimeDependencies = new Map([
   ['runtime', new Set(['base/abi', 'compile', 'model', 'plan', 'runtime/execution', 'scheduler'])],
   ['scheduler', new Set(['model'])],
-  ['runtime/execution', new Set(['runtime/actor', 'runtime/action', 'runtime/effect', 'runtime/report', 'runtime/contract', 'model', 'plan', 'formula', 'pipeline', 'scheduler', 'base/attribute', 'base/expression', 'base/inputbinding', 'base/numeric', 'base/typeset'])],
+  ['runtime/execution', new Set(['runtime/execution/admission', 'runtime/execution/hit', 'runtime/execution/listener', 'runtime/execution/evaluation', 'runtime/actor', 'runtime/action', 'runtime/effect', 'runtime/report', 'runtime/contract', 'model', 'plan', 'formula', 'pipeline', 'scheduler', 'base/attribute', 'base/expression', 'base/inputbinding', 'base/numeric', 'base/typeset'])],
+  ['runtime/execution/admission', new Set(['model', 'plan', 'formula', 'pipeline', 'base/attribute'])],
+  ['runtime/execution/hit', new Set(['model', 'plan'])],
+  ['runtime/execution/listener', new Set(['model', 'plan', 'base/typeset'])],
+  ['runtime/execution/evaluation', new Set(['model', 'plan', 'formula', 'pipeline', 'runtime/effect', 'base/attribute', 'base/expression', 'base/inputbinding'])],
   ['runtime/action', new Set(['runtime/contract', 'model', 'plan', 'formula', 'base/attribute', 'base/expression', 'base/inputbinding', 'base/typeset'])],
   ['runtime/effect', new Set(['runtime/contract', 'model', 'plan', 'formula', 'pipeline', 'base/attribute'])],
   ['pipeline', new Set(['model', 'plan', 'formula', 'base/attribute', 'base/numeric'])],

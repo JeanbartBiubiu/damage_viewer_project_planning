@@ -1,6 +1,333 @@
 package execution
 
-import "tinygo_engine_v2/internal/model"
+import (
+	"math"
+	"tinygo_engine_v2/internal/base/attribute"
+	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/pipeline"
+	planbundle "tinygo_engine_v2/internal/plan"
+	actionpkg "tinygo_engine_v2/internal/runtime/action"
+	"tinygo_engine_v2/internal/runtime/actor"
+)
+
+// 实例列表可供帧读取；State与StatusContributions在列表内始终只读。
+
+type damageRecord struct {
+	timeMs    int64
+	sourceKey string
+	targetKey string
+	amount    float64
+}
+
+type genericExecuteEvidence struct {
+	source       string
+	target       string
+	providerRef  string
+	abilityRef   string
+	operationRef string
+	hpBefore     float64
+	maxHp        float64
+	hpRatio      float64
+	threshold    float64
+	killed       bool
+	shieldBypass bool
+}
+
+// genericDamageEvidence 是 damage evidence Data 的构造输入（不新增顶层 DTO）。
+type genericDamageEvidence struct {
+	healthOrder           uint64
+	empoweredAttack       *model.ProcessEmpoweredAttack
+	activationUseRef      string
+	providerDefinitionRef string
+	providerActivatedAtMs *int64
+	source                string
+	target                string
+	damageType            string
+	rawAmount             float64
+	mitigatedAmount       float64
+	providerRef           string
+	abilityRef            string
+	operationRef          string
+	operationPath         string
+	owner                 string
+	hpBefore              float64
+	hpAfter               float64
+	hasSourceHp           bool
+	sourceHpBefore        float64
+	sourceHpAfter         float64
+	phantom               bool
+	repeatTag             string
+	replayedFrom          map[string]interface{}
+	crit                  frozenCritEvidence
+	modifiers             []map[string]interface{}
+	traits                []string
+	castInstanceID        uint64
+	castOrigin            string
+	damageID              uint64
+	outcome               *pipeline.DamageOutcome
+	// 成功的普通与复制结算都记录真实共同倍率和防御后两部分。
+	// 金额无效的结算不伪造这些数值。
+	hasPostResistanceEvidence bool
+	resistanceFactor          float64
+	normalPartPostResistance  float64
+	critPartPostResistance    float64
+}
+
+func (s *Engine) recordGenericExecuteEvidence(ev genericExecuteEvidence) {
+	s.recordEvidenceLazy(model.EvidenceKindExecute, func() model.EvidenceItem { return genericExecuteEvidenceItem(ev, s.loop.TimeMs()) })
+}
+
+func genericExecuteEvidenceItem(ev genericExecuteEvidence, timeMs int64) model.EvidenceItem {
+	data := map[string]interface{}{
+		"source":         ev.source,
+		"target":         ev.target,
+		"operationRef":   ev.operationRef,
+		"hpBefore":       ev.hpBefore,
+		"maxHp":          ev.maxHp,
+		"hpRatio":        ev.hpRatio,
+		"threshold":      ev.threshold,
+		"thresholdType":  executeThresholdTypeRatio,
+		"comparison":     executeThresholdComparison,
+		"killed":         ev.killed,
+		"shieldBypassed": ev.shieldBypass,
+		"phantom":        false,
+	}
+	if ev.providerRef != "" {
+		data["providerRef"] = ev.providerRef
+	}
+	if ev.abilityRef != "" {
+		data["abilityRef"] = ev.abilityRef
+	}
+	ref := ev.operationRef
+	if ref == "" {
+		ref = ev.abilityRef
+	}
+	return model.EvidenceItem{
+		TimeMs: timeMs,
+		Kind:   model.EvidenceKindExecute,
+		Ref:    ref,
+		Data:   data,
+	}
+}
+
+func (s *Engine) recordGenericDamageEvidence(ev genericDamageEvidence) {
+	s.recordEvidenceLazy(model.EvidenceKindDamage, func() model.EvidenceItem { return genericDamageEvidenceItem(ev, s.loop.TimeMs()) })
+}
+
+func genericDamageEvidenceItem(ev genericDamageEvidence, timeMs int64) model.EvidenceItem {
+	phase := "original"
+	if ev.phantom {
+		phase = "phantom"
+	}
+	data := map[string]interface{}{
+		"phase":           phase,
+		"phantom":         ev.phantom,
+		"source":          ev.source,
+		"target":          ev.target,
+		"damageType":      ev.damageType,
+		"rawAmount":       ev.rawAmount,
+		"mitigatedAmount": ev.mitigatedAmount,
+	}
+	if ev.empoweredAttack != nil {
+		data["empoweredAttack"], data["useRef"] = ev.empoweredAttack, ev.activationUseRef
+	}
+	if ev.outcome != nil {
+		data["damageId"] = ev.damageID
+		data["postDefenseDamage"] = ev.outcome.MitigatedAmount
+		data["shieldAbsorbed"] = ev.outcome.ShieldAbsorbed
+		data["actualHpLoss"] = ev.outcome.HPDamage
+		data["overkillDamage"] = math.Max(0, ev.outcome.MitigatedAmount-ev.outcome.ShieldAbsorbed-ev.outcome.HPDamage)
+	}
+	if ev.providerRef != "" {
+		data["providerRef"] = ev.providerRef
+	}
+	if ev.abilityRef != "" {
+		data["abilityRef"] = ev.abilityRef
+	}
+	if ev.operationRef != "" {
+		data["operationRef"] = ev.operationRef
+	}
+	if len(ev.traits) > 0 {
+		data["traits"] = append([]string(nil), ev.traits...)
+	}
+	attachCastProvenance(data, ev.castInstanceID, ev.castOrigin)
+	if ev.phantom {
+		if ev.repeatTag != "" {
+			data["repeatTag"] = ev.repeatTag
+		}
+		if len(ev.replayedFrom) > 0 {
+			data["replayedFrom"] = ev.replayedFrom
+		}
+	}
+	writeCritEvidenceFields(data, ev.crit)
+	if ev.hasPostResistanceEvidence {
+		data["resistanceFactor"] = ev.resistanceFactor
+		data["normalPartPostResistance"] = ev.normalPartPostResistance
+		data["critPartPostResistance"] = ev.critPartPostResistance
+	}
+	if len(ev.modifiers) > 0 {
+		data["modifiers"] = ev.modifiers
+	}
+	ref := ev.abilityRef
+	if ref == "" {
+		ref = ev.operationRef
+	}
+	return model.EvidenceItem{
+		TimeMs: timeMs,
+		Kind:   model.EvidenceKindDamage,
+		Ref:    ref,
+		Data:   data,
+	}
+}
+
+func writeCritEvidenceFields(data map[string]interface{}, critEv frozenCritEvidence) {
+	if !critEv.present {
+		return
+	}
+	data["eligible"] = critEv.eligible
+	if critEv.policy != "" {
+		data["policy"] = critEv.policy
+	}
+	data["baseRawAmount"] = critEv.baseRawAmount
+	if !critEv.eligible {
+		return
+	}
+	data["chanceRaw"] = critEv.chanceRaw
+	data["chanceEffective"] = critEv.chanceEffective
+	data["originalCritChance"] = critEv.originalCritChance
+	data["effectiveCritChance"] = critEv.chanceEffective
+	data["multiplier"] = critEv.multiplier
+	data["naturalCritWeight"] = critEv.naturalWeight
+	data["forcedCritWeight"] = critEv.forcedWeight
+	data["naturalCritMultiplier"] = critEv.naturalMultiplier
+	data["forcedCritMultiplier"] = critEv.forcedMultiplier
+	data["normalPart"] = critEv.normalPart
+	data["critPart"] = critEv.critPart
+	data["critAdjustedRawAmount"] = critEv.critAdjustedRawAmount
+}
+
+func (f *Frame) commit() {
+	if f.fatal || f.committed {
+		return
+	}
+	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange || f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasModifierSnapshots {
+		f.flushDynamicProviders()
+		if f.fatal {
+			return
+		}
+	}
+	if f.run.compiled.HasShieldLifecycle {
+		f.prepareShieldLifecycleRemovals()
+		if f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasProviderDurationChange && !f.run.compiled.HasResourceMax && !f.run.compiled.HasCooldownDuration {
+			// Depletion can append a removal after the first projection pass.
+			f.flushDynamicProviders()
+			if f.fatal {
+				return
+			}
+		}
+	}
+	var keyBuffer [2]string
+	keys, err := f.commitKeysAndPreflight(keyBuffer[:0])
+	if err != nil {
+		f.fatal, f.fatalErr = true, err
+		return
+	}
+	for _, key := range keys {
+		staged := f.staged.Get(key)
+		c, ok := f.run.combatants[key]
+		if !ok {
+			c = combatantRuntime{numbers: actor.New(key, attribute.Table{}, nil), cooldowns: actionpkg.NewCooldownLedger()}
+		}
+
+		c.numbers = staged.numbers.Publish(c.numbers)
+		c.cooldowns = staged.cooldowns
+		staged.cooldownsShared = true
+		c.instances = staged.instances.Publish(key, f.sourceKey)
+
+		c.providerState = staged.providerState.Publish()
+
+		f.run.combatants[key] = c
+	}
+	evalAbility := planbundle.CompiledAbility{}
+	evalCtx := f.evalContext(evalAbility)
+	for _, key := range keys {
+		staged := f.staged.Get(key)
+		for _, mut := range staged.providerOps {
+			if mut.projected {
+				continue
+			}
+			switch mut.kind {
+			case "shield_apply":
+				f.run.mountFreshProviderInstance(mut.targetKey, mut.sourceKey, mut.definitionIndex, mut.providerRef, mut.expireAt, mut.contributions)
+			case "apply":
+				if err := f.run.applyProviderInstanceWithRef(mut.targetKey, mut.sourceKey, mut.definitionRef, mut.providerRef, mut.expireAt, mut.hasExpireAt, mut.contributions); err != nil {
+					f.fatal = true
+					f.fatalErr = err
+					return
+				}
+				if f.run.compiled.HasImmediatePeriodic {
+					f.run.bindImmediatePeriodicUse(mut.targetKey, mut.sourceKey, mut.definitionRef, mut.useRef)
+				}
+			case "refresh":
+				if err := f.run.refreshProviderInstance(mut.targetKey, mut.providerRef, mut.expireAt, mut.hasExpireAt, mut.contributions); err != nil {
+					f.fatal = true
+					f.fatalErr = err
+					return
+				}
+			case "expire":
+				if mut.strict {
+					if err := f.run.removeProviderInstanceStrict(mut.targetKey, mut.providerRef, mut.definitionRef, evalCtx); err != nil {
+						f.fatal = true
+						f.fatalErr = err
+						return
+					}
+					continue
+				}
+				kind := mut.evidenceKind
+				if kind == "" {
+					kind = model.EvidenceKindProviderRemove
+				}
+				f.run.removeProviderInstance(mut.targetKey, mut.providerRef, evalCtx, kind)
+			}
+		}
+	}
+	f.commitProjectedProviderLifecycles()
+	if f.run.compiled.HasResourceMax {
+		for _, key := range keys {
+			c := f.run.combatants[key]
+
+			c.setAttributes(syncHPResolved(c.attributesView()))
+			f.run.combatants[key] = c
+		}
+	}
+	if f.fatal {
+		return
+	}
+	if f.pendingProcess != nil {
+		f.processChanges.Publish(f.processOriginal)
+		if f.processIsNew {
+			f.run.actions.AddProcess(f.processOriginal)
+		}
+		f.run.updateEmpoweredWait(f.processOriginal)
+	}
+	if f.empowered != nil {
+		f.commitEmpoweredProcesses()
+	}
+	f.run.freezeActionDeaths()
+	f.commitFrameQueues()
+	if f.run.processFailure != nil {
+		f.fatal, f.fatalErr = true, f.run.processFailure
+		return
+	}
+	f.commitFrameFacts()
+	if !f.run.settlingProcessDeaths && f.run.processFailure == nil {
+		f.run.processFailure = f.run.failDeadProcesses()
+		if f.run.processFailure != nil {
+			f.fatal = true
+			f.fatalErr = f.run.processFailure
+		}
+	}
+}
 
 // 只保存当前帧新增的事实，不复制整场伤害历史、过程列表或可靠记录。
 func (f *Frame) recordEvidence(item model.EvidenceItem) {

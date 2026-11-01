@@ -3,6 +3,7 @@ package execution
 import (
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/plan"
+	"tinygo_engine_v2/internal/runtime/execution/admission"
 )
 
 func (s *Engine) initStateOnExpireSources() *model.EngineError {
@@ -30,38 +31,15 @@ func (s *Engine) initStateOnExpireSources() *model.EngineError {
 }
 
 func (s *Engine) ownLinkedShieldInitialization(listener plan.CompiledListener) bool {
-	initialized, declared := s.compiled.RuntimeTypes.SourceInitialized.Lookup()
-	ownerType, ownerDeclared := s.compiled.RuntimeTypes.SourceOwner.Lookup()
-	if !s.compiled.HasStateOnExpire || !declared || !ownerDeclared || !listener.EventMatcher.RequiresAllType(initialized) || !listener.EventMatcher.RequiresAllType(ownerType) || listener.HasAbilityRef || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 || listener.MaxTriggersPerEvent != 1 || listener.OperationCount != 1 {
-		return false
-	}
-	operation := s.compiled.Operations[listener.OperationStart]
-	if operation.OwnerProviderIndex < 0 || !s.compiled.Providers[operation.OwnerProviderIndex].HasStateOnExpire {
-		return false
-	}
-	return operation.Operation == "shield" && operation.Target == "self" && operation.HasAmount && operation.HasShieldLifecycleProvider && !operation.HasCondition && !operation.HasShieldDuration
+	return admission.OwnLinkedShieldInitialization(s.compiled, listener)
 }
 
 func (s *Engine) validateStateOnExpireProvider(provider plan.CompiledProvider, owner, ref string) *model.EngineError {
+	if err := admission.ValidateStateOnExpireDefinition(s.admissionInput(owner), provider); err != nil {
+		return err
+	}
 	fail := func() *model.EngineError {
 		return s.basicAttackErr("state expiry source requires complete permanent own shield initialization and damage-driven state writes", "initialSnapshot.combatants.providers")
-	}
-	if (provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || provider.Lifecycle != nil || provider.AmmoBinding != nil || len(provider.Processes)+len(provider.Modifiers)+len(provider.StatusContributions) != 0 {
-		return fail()
-	}
-	for _, ability := range s.compiled.Abilities[int(provider.AbilityStart) : int(provider.AbilityStart)+int(provider.AbilityCount)] {
-		if ability.Kind != "passive_listener" || ability.ProcessControl != nil || ability.Cost != nil || ability.Cooldown != nil || ability.HasCastCondition || ability.TickSpec != nil || ability.HasSkillHit || ability.IsBasicAttack {
-			return fail()
-		}
-		if ability.OperationCount > 0 {
-			complete := false
-			for _, listener := range provider.Listeners {
-				complete = complete || listener.OperationStart == ability.OperationStart && listener.OperationCount == ability.OperationCount
-			}
-			if !complete {
-				return fail()
-			}
-		}
 	}
 	initializers := 0
 	for _, listener := range s.compiled.Listeners {

@@ -18,7 +18,7 @@ func (s *Engine) beginNativeBasicAttackUse() (string, string, *model.EngineError
 	s.skillUses[useRef] = &skillUseRuntime{identity: s.actions.NewUse(actionpkg.UseSeed{UseKey: useRef, Source: b.Plan().Source, SkillKey: b.Plan().SkillKey, HistoryState: model.SkillHitHistoryComplete})}
 	s.attackStartFacts[startKey] = model.AttackStartFact{DriverEntryKey: startKey, UseRef: useRef}
 	sequence := 1
-	s.skillHitFacts[hitKey] = model.SkillHitFact{DriverEntryKey: hitKey, UseRef: &useRef, Sequence: &sequence}
+	s.hits.PutFact(hitKey, model.SkillHitFact{DriverEntryKey: hitKey, UseRef: &useRef, Sequence: &sequence})
 	startEntry := model.DriverEntry{EntryKey: startKey, AbilityRef: b.Plan().StartAbilityRef, Source: b.Plan().Source, Target: b.Plan().Target, FirstAtMs: s.loop.TimeMs()}
 	s.report.Attempt(b.Plan().StartAbilityRef)
 	if err := s.executeAbilityCast(startEntry); err != nil {
