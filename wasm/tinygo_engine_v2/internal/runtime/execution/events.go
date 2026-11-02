@@ -9,6 +9,7 @@ import (
 	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
 	contractpkg "tinygo_engine_v2/internal/runtime/contract"
+	reportpkg "tinygo_engine_v2/internal/runtime/report"
 )
 
 type emittedEvent struct {
@@ -36,22 +37,11 @@ const (
 	eventTypeDamageDealt            = "event/damage_dealt"
 	eventTypeDamageDealtBasicAttack = "event/damage_dealt/basic_attack"
 	eventTypeDamageInstance         = "event/damage_instance"
-	executeThresholdTypeRatio       = "current_hp_ratio"
-	executeThresholdComparison      = "strict_below"
 )
 
 func (s *Engine) mintCastInstanceID() uint64 {
 	s.nextCastInstanceID++
 	return s.nextCastInstanceID
-}
-
-func attachCastProvenance(data map[string]interface{}, castInstanceID uint64, castOrigin string) {
-	if castInstanceID > 0 {
-		data["castInstanceId"] = float64(castInstanceID)
-	}
-	if castOrigin != "" {
-		data["castOrigin"] = castOrigin
-	}
 }
 
 func (f *Frame) appendCastOriginEventType(types []string) []string {
@@ -101,27 +91,6 @@ func buildDamageInstanceSnapshot(critEv frozenCritEvidence, baseRawAmount, preMi
 	}
 	snap.NaturalBranchRawAmount = baseRawAmount * critEv.NaturalMultiplier * outgoingFactor
 	return snap
-}
-
-func damageSnapshotEvidenceData(snap formula.EventDamageSnapshot) map[string]interface{} {
-	data := map[string]interface{}{
-		"baseRawAmount":          snap.BaseRawAmount,
-		"preMitigationAmount":    snap.PreMitigationAmount,
-		"mitigatedAmount":        snap.MitigatedAmount,
-		"originalCritChance":     snap.OriginalCritChance,
-		"effectiveCritChance":    snap.EffectiveCritChance,
-		"forcedCritWeight":       snap.ForcedCritWeight,
-		"naturalCritWeight":      snap.NaturalCritWeight,
-		"forcedCritMultiplier":   snap.ForcedCritMultiplier,
-		"naturalCritMultiplier":  snap.NaturalCritMultiplier,
-		"normalPart":             snap.NormalPart,
-		"critPart":               snap.CritPart,
-		"naturalBranchRawAmount": snap.NaturalBranchRawAmount,
-	}
-	if snap.HasKilled {
-		data["killed"] = snap.Killed
-	}
-	return data
 }
 
 func (f *Frame) abilityTypeKeys(ability planbundle.CompiledAbility) []string {
@@ -203,7 +172,7 @@ func (f *Frame) maybeQueueDamageInstanceEvent(
 			"abilityRef": f.abilityRef,
 			"phantom":    false,
 			"traits":     traits,
-			"damage":     damageSnapshotEvidenceData(snap),
+			"damage":     reportpkg.DamageSnapshotEvidenceData(snap),
 		}
 		if event.hasUse {
 			data["useRef"], data["skillKey"] = event.useKey, event.useSkillKey
@@ -214,7 +183,7 @@ func (f *Frame) maybeQueueDamageInstanceEvent(
 		if op.Ref != "" {
 			data["operationRef"] = op.Ref
 		}
-		attachCastProvenance(data, f.castInstanceID, f.castOrigin)
+		reportpkg.AttachCastProvenance(data, f.castInstanceID, f.castOrigin)
 		return model.EvidenceItem{
 			TimeMs: f.run.loop.TimeMs(),
 			Kind:   model.EvidenceKindEmittedEvent,
@@ -276,7 +245,7 @@ func (f *Frame) maybeDispatchAbilityStartedEvent(ability planbundle.CompiledAbil
 				startedData["providerDefinitionRef"] = action.Binding().ProviderDefinitionRef
 			}
 		}
-		attachCastProvenance(startedData, f.castInstanceID, f.castOrigin)
+		reportpkg.AttachCastProvenance(startedData, f.castInstanceID, f.castOrigin)
 		return model.EvidenceItem{
 			TimeMs: f.run.loop.TimeMs(),
 			Kind:   model.EvidenceKindEmittedEvent,
@@ -326,7 +295,7 @@ func (f *Frame) maybeDispatchBasicAttackHit(ability planbundle.CompiledAbility) 
 			"target":    f.targetKey,
 			"eventType": model.EventTypeBasicAttackHit,
 		}
-		attachCastProvenance(data, f.castInstanceID, f.castOrigin)
+		reportpkg.AttachCastProvenance(data, f.castInstanceID, f.castOrigin)
 		if fact, ok := f.run.hits.Fact(f.driverEntryKey); ok && fact.UseRef != nil && *fact.UseRef != "" {
 			if use, found := f.run.skillUses[*fact.UseRef]; found {
 				data["useRef"], data["skillKey"] = use.identity.UseKey(), use.identity.SkillKey()
@@ -392,7 +361,7 @@ func (f *Frame) maybeDispatchBasicAttackStart(ability planbundle.CompiledAbility
 			"useRef":    fact.UseRef,
 			"skillKey":  use.identity.SkillKey(),
 		}
-		attachCastProvenance(data, f.castInstanceID, f.castOrigin)
+		reportpkg.AttachCastProvenance(data, f.castInstanceID, f.castOrigin)
 		return model.EvidenceItem{
 			TimeMs: f.run.loop.TimeMs(),
 			Kind:   model.EvidenceKindEmittedEvent,

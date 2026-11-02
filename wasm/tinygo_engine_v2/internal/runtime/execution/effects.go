@@ -879,28 +879,6 @@ func remountAllProviderModifiers(combatants map[string]combatantRuntime, compile
 	}
 }
 
-func (s *Engine) isOwnedProviderDurationListener(listener planbundle.CompiledListener, operation planbundle.CompiledOperation) bool {
-	ownerType, ownerDeclared := s.compiled.RuntimeTypes.SourceOwner.Lookup()
-	hitType, hitDeclared := s.compiled.RuntimeTypes.BasicAttackHit.Lookup()
-	startType, startDeclared := s.compiled.RuntimeTypes.AbilityStarted.Lookup()
-	attack := s.req.DriverPlan.BasicAttack
-	hit := hitDeclared && listener.EventMatcher.RequiresAllType(hitType) && (attack == nil || attack.Source == listener.OwnerCombatantKey)
-	started := startDeclared && listener.EventMatcher.RequiresAllType(startType)
-	if !s.compiled.HasProviderDurationChange || listener.OwnerCombatantKey != model.SelectorSource || !ownerDeclared ||
-		!listener.EventMatcher.RequiresAllType(ownerType) || (!hit && !started) || operation.Target != model.SelectorSelf || operation.ValuePolicy != "ensure_remaining" ||
-		!s.plannedSkillProvider(listener.OwnerCombatantKey, listener.OwnerProviderRef) {
-		return false
-	}
-	for _, actor := range s.compiled.Combatants {
-		for _, mount := range actor.ProviderMounts {
-			if actor.Key == listener.OwnerCombatantKey && mount.ProviderRef == listener.OwnerProviderRef && int(mount.DefinitionIndex) == operation.OwnerProviderIndex {
-				return true
-			}
-		}
-	}
-	return false
-}
-
 func (f *Frame) applyProviderEnsureRemaining(operation planbundle.CompiledOperation) *model.EngineError {
 	executor := f.run.lifecycleExecutor()
 	owner := f.providerOwnerKey()

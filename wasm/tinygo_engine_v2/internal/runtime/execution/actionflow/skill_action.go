@@ -125,8 +125,6 @@ type SkillActionExecutorAPI interface {
 	ValidateImmediatePeriod(operation planbundle.CompiledOperation, process *actionpkg.ProcessView, moment, owner, provider, expectedTarget string, enabled bool) *model.EngineError
 	// BindImmediatePeriod 在真实已提交实例中找到原激活来源，并仅返回该实例的使用绑定变更。
 	BindImmediatePeriod(owner, source, definition, use string, now int64, instances effectpkg.ProviderList) (effectpkg.Provider, int, bool)
-	// OwnedTotalCooldownRefund 核对监听、唯一挂载及实际选中首次行动的完整返还归属。
-	OwnedTotalCooldownRefund(listener planbundle.CompiledListener, operation planbundle.CompiledOperation, combatants []planbundle.CompiledCombatant, runtimeTypes planbundle.RuntimeTypeBindings) bool
 	// ApplyTotalCooldownRefund 只按真实结算包和已提交普通总冷却计算返还并暂存新期限。
 	ApplyTotalCooldownRefund(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, mounted bool, event *contract.EventSnapshot, owner string, now int64, work CooldownRefundWork) *model.EngineError
 	// PrepareCooldownWake 核对首次自动资格并建立当前唤醒计划；不借用遍历回调或持有当前帧。

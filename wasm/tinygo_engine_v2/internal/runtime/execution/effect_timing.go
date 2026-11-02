@@ -87,56 +87,6 @@ func (s *Engine) findAnchoredTickAbility(index uint16, key string) (*planbundle.
 	return executor.FindAnchoredAbility(index, key)
 }
 
-// scheduleAnchoredTicksOnTargetWrite 在合格 provider_target 写入后重启锚定 tick 世代。
-// bag 必须是本次写入所在的 bag（通常为 execution frame staged bag），不能回读未 commit 的 run combatants。
-// 在 write+n*interval（n>=1）且 <= expireAt 处调度全部 ticks；tick 处理本身不递归续期。
-func (s *Engine) scheduleAnchoredTicksOnTargetWrite(
-	ownerKey, providerRef, sourceKey, targetKey, stateKey string,
-	expireAt int64,
-	bag effectpkg.BagChange,
-) {
-	if s == nil || !bag.Present() || expireAt <= 0 || ownerKey == "" || providerRef == "" || targetKey == "" || stateKey == "" {
-		return
-	}
-	owner, ok := s.combatants[ownerKey]
-	if !ok {
-		return
-	}
-	inst, _, ok := owner.instances.Providers().Find(providerRef)
-	if !ok {
-		return
-	}
-	tickAbility, ok := s.findAnchoredTickAbility(inst.DefinitionIndex, stateKey)
-	if !ok {
-		return
-	}
-	intervalMs := tickAbility.TickSpec.IntervalMs
-	if intervalMs <= 0 {
-		return
-	}
-	gen := bag.BumpAnchoredTickGeneration(stateKey)
-
-	writeAt := s.loop.TimeMs()
-	resolvedSource := sourceKey
-	if resolvedSource == "" {
-		resolvedSource = inst.Source
-	}
-	if resolvedSource == "" {
-		resolvedSource = ownerKey
-	}
-	for at := writeAt + intervalMs; at <= expireAt; at += intervalMs {
-		s.enqueueAnchoredTickAt(at, effectpkg.AnchoredPayload{
-			OwnerKey:         ownerKey,
-			ProviderRef:      providerRef,
-			SourceKey:        resolvedSource,
-			TargetKey:        targetKey,
-			AnchorStateKey:   stateKey,
-			Generation:       gen,
-			ExpectedExpireAt: expireAt,
-		})
-	}
-}
-
 func (s *Engine) enqueueAnchoredTickAt(atMs int64, payload effectpkg.AnchoredPayload) {
 	if atMs > s.loop.StartMs()+s.loop.DurationMs() {
 		return

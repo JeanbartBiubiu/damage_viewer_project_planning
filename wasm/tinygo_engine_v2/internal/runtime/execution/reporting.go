@@ -25,58 +25,32 @@ func (s *Engine) recordCommittedDamage(f *Frame, ev genericDamageEvidence) {
 	if !s.report.RecordCommittedDamage(reportpkg.DamageFact{Owner: ev.Owner, Source: ev.Source, Target: ev.Target, AbilityRef: ev.AbilityRef, OperationRef: ev.OperationRef, DamageType: ev.DamageType, ProviderDefinitionRef: ev.ProviderDefinitionRef, MitigatedAmount: ev.Outcome.MitigatedAmount, ShieldAbsorbed: ev.Outcome.ShieldAbsorbed, HPLoss: ev.Outcome.HPDamage, VampHealing: vampHealing}, s.detailedOutput()) {
 		return
 	}
-	data := genericDamageEvidenceItem(ev, s.loop.TimeMs()).Data
-	if ev.HealthOrder != 0 {
-		data["healthOrder"] = ev.HealthOrder
-	}
-	data["owner"] = ev.Owner
-	if ev.ProviderDefinitionRef != "" {
-		data["providerDefinitionRef"] = ev.ProviderDefinitionRef
-		if ev.ProviderActivatedAtMs != nil {
-			data["providerActivatedAtMs"] = *ev.ProviderActivatedAtMs
-		}
-	}
-	data["operationPath"] = ev.OperationPath
-	data["hpBefore"] = ev.HpBefore
-	data["hpAfter"] = ev.HpAfter
-	data["sourceHpBefore"], data["sourceHpAfter"] = nil, nil
-	if ev.HasSourceHp {
-		data["sourceHpBefore"], data["sourceHpAfter"] = ev.SourceHpBefore, ev.SourceHpAfter
-	}
-	data["castInstanceId"] = ev.CastInstanceID
-	data["abilityRef"] = ev.AbilityRef
-	data["operationRef"] = ev.OperationRef
-	data["useRef"] = ""
-	data["attackIndex"] = 0
-	if s.hasSkillPlan() {
-		data["attackIndex"] = nil
-		data["hitRef"] = nil
+	ownership := reportpkg.DamageDetailOwnership{SkillPlan: s.hasSkillPlan()}
+	if ownership.SkillPlan {
 		hit := f.skillHitOccurrenceID
 		if hit == 0 && f.eventCtx != nil && f.eventCtx.SkillHit != nil {
 			hit = f.eventCtx.SkillHit.OccurrenceID
 		}
-		if hit != 0 {
-			data["hitRef"] = "hit:" + itoa(uint32(hit))
-		}
+		ownership.HitOccurrenceID = hit
 	}
 	if use := f.skillActionUseRef(); use != "" {
-		data["useRef"] = use
+		ownership.UseRef = use
 		if action := s.skillActionForUse(use); action != nil {
-			data["instructionKey"] = action.Plan().InstructionKey()
+			ownership.InstructionKey, ownership.HasInstructionKey = action.Plan().InstructionKey(), true
 		}
 	}
-	data["timeMs"] = s.loop.TimeMs()
+	timeMs := s.loop.TimeMs()
 	if s.actions.BasicAttack() != nil && s.actions.BasicAttack().Current() != nil && s.actions.AttackActive() {
 		row := s.actions.BasicAttack().Current()
-		data["useRef"], data["attackIndex"] = row.UseRef(), row.AttackIndex()
+		ownership.UseRef, ownership.AttackIndex, ownership.HasAttackIndex = row.UseRef(), row.AttackIndex(), true
 	}
 	if ev.EmpoweredAttack != nil {
-		data["useRef"], data["hitRef"], data["empoweredAttack"] = ev.ActivationUseRef, ev.EmpoweredAttack.HitRef, ev.EmpoweredAttack
+		ownership.UseRef = ev.ActivationUseRef
 		if action := s.actions.ActionForUse(ev.ActivationUseRef); action != nil {
-			data["instructionKey"] = action.Plan().InstructionKey()
+			ownership.InstructionKey, ownership.HasInstructionKey = action.Plan().InstructionKey(), true
 		}
 	}
-	s.report.AppendDamageDetails(data)
+	s.report.AppendDamageDetails(reportpkg.CommittedDamageDetails(ev, timeMs, ownership))
 }
 
 func (s *Engine) executionSummary() *model.RunExecutionSummary {

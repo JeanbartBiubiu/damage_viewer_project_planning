@@ -412,94 +412,12 @@ func (s *Engine) validateTargetWindowProvider(provider planbundle.CompiledProvid
 }
 
 func (s *Engine) validateEquipmentHitListener(listener planbundle.CompiledListener) *model.EngineError {
-	if err := admission.ValidateEquipmentHitListenerHeader(s.admissionInput(listener.OwnerCombatantKey), listener); err != nil {
-		return err
+	sources := admission.ListenerSources{Selection: admission.SourceSelection{SkillBindings: s.plannedSkillBindings(), BasicAttack: s.req.DriverPlan.BasicAttack}}
+	owner := s.combatants[listener.OwnerCombatantKey]
+	if index := compiledStateDefinitionIndex(s.compiled, listener.OwnerCombatantKey, listener.OwnerProviderRef, owner.instances.Providers()); index >= 0 {
+		sources.StateFields = s.compiled.Providers[index].StateFields
 	}
-	types := s.compiled.RuntimeTypes
-	for _, operation := range s.compiled.Operations[int(listener.OperationStart) : int(listener.OperationStart)+int(listener.OperationCount)] {
-		if operation.Operation == model.OperationKindConsumeTargetMark && s.targetMarkListenerOwned(listener, operation) {
-			continue
-		}
-		if (operation.Operation == "heal" || operation.Operation == "resource_change") && s.isOwnedSettledSelfRecovery(listener, operation) {
-			continue
-		}
-		if operation.Operation == "damage" && operation.Target == "target" && operation.HasAmount {
-			continue
-		}
-		if operation.Operation == "state_change" && (operation.StateScope == stateScopeProvider || operation.StateScope == stateScopeProviderTarget) && (operation.Target == "self" || operation.Target == "source") && operation.HasAmount {
-			fields := s.resolveProviderStateFieldDefs(listener.OwnerCombatantKey, listener.OwnerProviderRef, s.combatants[listener.OwnerCombatantKey].instances.Providers()).Definitions()
-			if _, declared := fields.Lookup(operation.Ref); !declared {
-				return s.basicAttackErr("source state operation requires its complete declared field", operation.Path)
-			}
-			continue
-		}
-		if operation.Operation == model.OperationKindStateDurationChange && operation.StateScope == stateScopeProvider && (operation.Target == "self" || operation.Target == "source") && operation.ValuePolicy == "subtract" && operation.HasAmount {
-			provider := s.compiled.Providers[operation.OwnerProviderIndex]
-			field := provider.StateFields[operation.Ref]
-			if provider.AmmoBinding != nil && provider.AmmoBinding.StateKey == operation.Ref && field.AmmoRecovery != nil && field.AmmoRecovery.OneByOne && s.plannedSkillProvider(listener.OwnerCombatantKey, listener.OwnerProviderRef) {
-				continue
-			}
-		}
-		if operation.Operation == model.OperationKindStateDurationChange && operation.StateScope == stateScopeProviderTarget && operation.Target == "self" && (operation.ValuePolicy == "ensure_remaining" || operation.ValuePolicy == "ensure_remaining_preserve_phase") && operation.HasAmount {
-			fields := s.resolveProviderStateFieldDefs(listener.OwnerCombatantKey, listener.OwnerProviderRef, s.combatants[listener.OwnerCombatantKey].instances.Providers()).Definitions()
-			field, declared := fields.Lookup(operation.Ref)
-			if declared && field.ValueType == model.ProviderStateValueInteger && field.StateKind == "" && field.DurationMs > 0 {
-				continue
-			}
-		}
-		if operation.Operation == "cooldown_change" && s.isOwnedAttackCooldownReduction(listener, operation) {
-			continue
-		}
-		if operation.Operation == "cooldown_change" && s.isOwnedTotalCooldownRefund(listener, operation) {
-			continue
-		}
-		if operation.Operation == "provider_duration_change" && s.isOwnedProviderDurationListener(listener, operation) {
-			continue
-		}
-		if (operation.Operation == model.OperationKindApplyHitLink || operation.Operation == model.OperationKindApplyAttackLink) && operation.Target == "target" && operation.HasAmount {
-			link := types.HitLinkApplied
-			if operation.Operation == model.OperationKindApplyAttackLink {
-				link = types.AttackLinkApplied
-			}
-			linkType, declared := link.Lookup()
-			if declared && listener.EventMatcher.RequiresAllType(linkType) {
-				return s.basicAttackErr("a link listener cannot recursively apply the same link", operation.Path)
-			}
-			continue
-		}
-		if operation.Operation == "apply_provider" && (operation.Target == "target" || operation.Target == "self") {
-			if err := s.validateEquipmentDynamicDefinition(listener.OwnerCombatantKey, listener.OwnerProviderRef, operation.ProviderDefinitionRef, operation.Target); err != nil {
-				return err
-			}
-			continue
-		}
-		return s.basicAttackErr("source trigger requires complete opponent damage, owned state, links or a supported dynamic result", operation.Path)
-	}
-	return nil
-}
-
-func (s *Engine) isOwnedSettledSelfRecovery(listener planbundle.CompiledListener, operation planbundle.CompiledOperation) bool {
-	input := s.admissionInput(listener.OwnerCombatantKey)
-	qualified, eventAmount := admission.OwnedSettledSelfRecovery(input, listener, operation)
-	return qualified && (!eventAmount || admission.OwnedSettledEventHeal(input, listener, operation))
-}
-
-func (s *Engine) isOwnedAttackCooldownReduction(listener planbundle.CompiledListener, operation planbundle.CompiledOperation) bool {
-	input := s.admissionInput(listener.OwnerCombatantKey)
-	if !admission.AttackCooldownReductionListener(input, s.req.DriverPlan.BasicAttack, listener, operation) {
-		return false
-	}
-	ref := normalizeAbilityRef(operation.AbilityRefStr, listener.OwnerCombatantKey, opponentCombatantKey(listener.OwnerCombatantKey))
-	for _, action := range s.plannedSkillSources() {
-		if admission.AttackCooldownReductionBinding(input, action.Binding(), ref, listener, operation) {
-			return true
-		}
-	}
-	return false
-}
-
-func (s *Engine) validateEquipmentDynamicDefinition(owner, providerRef, reference, target string) *model.EngineError {
-	return admission.ValidateEquipmentDynamicDefinition(s.admissionInput(owner), owner, providerRef, reference, target)
+	return admission.ValidateEquipmentHitListener(s.admissionInput(listener.OwnerCombatantKey), listener, sources)
 }
 
 func (s *Engine) validateEquipmentHitProvider(provider planbundle.CompiledProvider, owner, providerRef string) *model.EngineError {

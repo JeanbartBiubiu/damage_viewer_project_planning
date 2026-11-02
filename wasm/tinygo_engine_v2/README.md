@@ -16,7 +16,7 @@
 | `internal/scheduler/` | 唯一时钟、稳定队列、循环与停止账 |
 | `internal/runtime/actor/`、`action/`、`effect/` | 角色数值、行动过程与效果实例的私有状态 |
 | `internal/formula/`、`internal/pipeline/` | 战斗输入绑定与数值结算；管道同时承接命令、资源计算和护盾底层值 |
-| `internal/runtime/report/` | 可靠累计、有界记录及观察采样 |
+| `internal/runtime/report/` | 可靠累计、有界记录、观察采样及冻结执行事实到报告字段的纯转换 |
 | `internal/base/` | 六个稳定基础包，详见[基础层说明](internal/base/README.md) |
 | `internal/testkit/`、`tests/runtime/` | 固定构造输入及公开入口的组合回归 |
 

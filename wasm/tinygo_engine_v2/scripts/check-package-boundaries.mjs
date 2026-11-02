@@ -28,7 +28,7 @@ const runtimeDependencies = new Map([
   ['runtime/effect', new Set(['runtime/contract', 'model', 'plan', 'formula', 'pipeline', 'base/attribute'])],
   ['pipeline', new Set(['model', 'plan', 'formula', 'base/attribute', 'base/numeric'])],
   ['runtime/actor', new Set(['runtime/contract', 'base/attribute', 'model'])],
-  ['runtime/report', new Set(['runtime/contract', 'model'])],
+  ['runtime/report', new Set(['runtime/contract', 'model', 'formula'])],
   ['runtime/contract', new Set(['model', 'plan', 'base/attribute', 'formula', 'pipeline'])],
 ]);
 const retiredPackages = new Set(['abi', 'attribute', 'expression', 'inputbinding', 'typeset', 'trigger', 'crit', 'control', 'mark', 'status', 'command', 'resource', 'shield']);

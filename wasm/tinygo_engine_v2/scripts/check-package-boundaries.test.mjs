@@ -93,3 +93,11 @@ test('所属状态与数值管道不能反向取得执行能力', () => {
     for (const leaf of allLeaves) assert.ok(errors.some(value => value.includes(`${owner} -> ${leaf}:`)), `${owner} -> ${leaf}`);
   }
 });
+
+test('报告可读取既有公式快照类型，但不能取得状态控制或调度能力', () => {
+  assert.deepEqual(checkPackageBoundaries([pkg('runtime/report', ['model', 'runtime/contract', 'formula'])]), []);
+  const forbidden = ['runtime/execution', 'runtime/action', 'runtime/effect', 'scheduler'];
+  const errors = checkPackageBoundaries([pkg('runtime/report', forbidden)]);
+  assert.equal(errors.length, forbidden.length);
+  for (const dependency of forbidden) assert.ok(errors.some(value => value.includes(`runtime/report -> ${dependency}:`)), dependency);
+});

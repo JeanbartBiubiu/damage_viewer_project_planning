@@ -193,8 +193,13 @@ func (s *Engine) plannedAttributeOperationPosition(provider planbundle.CompiledP
 	return s.skillActionFlowExecutor().AttributeOperationPosition(provider, index, s.compiled.Operations)
 }
 
-func (state *Engine) plannedSkillSources() []*actionpkg.SkillActionView {
-	return state.skillActionFlowExecutor().PlannedSources()
+func (state *Engine) plannedSkillBindings() []planbundle.CompiledSkillActionBinding {
+	sources := state.skillActionFlowExecutor().PlannedSources()
+	bindings := make([]planbundle.CompiledSkillActionBinding, len(sources))
+	for index, source := range sources {
+		bindings[index] = source.Binding()
+	}
+	return bindings
 }
 
 func (s *Engine) processFlowExecutor() actionflow.ProcessExecutor {
@@ -1139,10 +1144,6 @@ func (s *Engine) bindImmediatePeriodicUse(owner, source, definition, use string)
 		actor.instances.ReplaceProvider(index, instance)
 		s.combatants[owner] = actor
 	}
-}
-
-func (s *Engine) isOwnedTotalCooldownRefund(listener planbundle.CompiledListener, operation planbundle.CompiledOperation) bool {
-	return s.skillActionFlowExecutor().OwnedTotalCooldownRefund(listener, operation, s.compiled.Combatants, s.compiled.RuntimeTypes)
 }
 
 func (f *Frame) applyTotalCooldownRatioRefund(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {

@@ -11,6 +11,7 @@ import (
 	"tinygo_engine_v2/internal/runtime/execution/actionflow"
 	"tinygo_engine_v2/internal/runtime/execution/admission"
 	"tinygo_engine_v2/internal/runtime/execution/operation"
+	reportpkg "tinygo_engine_v2/internal/runtime/report"
 )
 
 type frozenCritEvidence = contractpkg.CritEvidence
@@ -127,7 +128,7 @@ func (f *Frame) maybeQueueDamageDealtEvent(ability planbundle.CompiledAbility) {
 		if len(damageTypes) == 1 {
 			data["damageType"] = damageTypes[0]
 		}
-		attachCastProvenance(data, f.castInstanceID, f.castOrigin)
+		reportpkg.AttachCastProvenance(data, f.castInstanceID, f.castOrigin)
 		if f.rootSkillHitDamage && f.eventCtx != nil && f.eventCtx.HasUse {
 			data["useRef"], data["skillKey"] = f.eventCtx.UseKey, f.eventCtx.UseSkillKey
 		}

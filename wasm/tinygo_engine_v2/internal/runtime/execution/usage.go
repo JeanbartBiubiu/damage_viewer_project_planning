@@ -180,19 +180,6 @@ func (s *Engine) lazyExpireAllProviderState() {
 	}
 }
 
-func addDuration(nowMs, durationMs int64) (int64, bool) {
-	if durationMs <= 0 {
-		return 0, false
-	}
-	if nowMs > 0 && durationMs > math.MaxInt64-nowMs {
-		return 0, false
-	}
-	if nowMs < 0 && durationMs < math.MinInt64-nowMs {
-		return 0, false
-	}
-	return nowMs + durationMs, true
-}
-
 func (s *Engine) evalListenerCondition(listener planbundle.CompiledListener, ev emittedEvent) (bool, *model.EngineError) {
 	sourceKey, targetKey := listenerpkg.Combatants(ev.eventType, ev.sourceKey, ev.targetKey, listener.OwnerCombatantKey)
 	ability := planbundle.CompiledAbility{Params: map[string]float64{}}

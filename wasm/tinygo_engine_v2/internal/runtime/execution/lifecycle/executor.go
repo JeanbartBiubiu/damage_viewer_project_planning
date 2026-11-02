@@ -63,6 +63,10 @@ type ExecutorAPI interface {
 	PrepareDurationExtension(operation plan.CompiledOperation, owner string, instances effectpkg.ProviderList, deadline, now int64) (Mutation, bool, *model.EngineError)
 	// PrepareLifecycle 求值期限及状态贡献，不更改实例、角色或队列。
 	PrepareLifecycle(provider plan.CompiledProvider, evalCtx formula.GenericEvalContext, now int64) (PreparedLifecycle, *model.EngineError)
+	// PreflightMutations 复制有变更角色的基础实例并按原序只读预演，返回排程数或原错误；不发布、登记身份或入队。
+	PreflightMutations(base effectpkg.ProviderList, mutations []Mutation, input MutationPreflight) (int, *model.EngineError)
+	// ProjectShieldCandidates 仅预演现有实例的移除和刷新供同组后续选盾；临时列表只借用于本次同步选盾，不发布。
+	ProjectShieldCandidates(base effectpkg.ProviderList, mutations []Mutation, now int64) (effectpkg.ProviderList, *model.EngineError)
 	// PreparePermanentResourceMax 先验证双方容量、静态锚点和真实来源挂载，任一失败均不安装贡献。
 	PreparePermanentResourceMax(snapshot model.Snapshot, owners [2]InitialResourceOwner, now int64) ([2]PermanentResourcePlan, *model.EngineError)
 	// PrepareProviderMutation 核对真实施加或刷新目标及定义，再在原位置准备期限和贡献。

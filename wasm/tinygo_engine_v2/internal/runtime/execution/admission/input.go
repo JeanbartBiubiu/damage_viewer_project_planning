@@ -27,6 +27,13 @@ type Input struct {
 	Actors   [2]Actor
 }
 
+// SourceSelection 借用原读取点实际选中的来源；技能绑定保持原手动或自动顺序，不合并两种计划。
+// BasicAttack 为空表示该读取点没有选中普攻，不能用全部编译能力补足。
+type SourceSelection struct {
+	SkillBindings []planbundle.CompiledSkillActionBinding
+	BasicAttack   *model.BasicAttackPlan
+}
+
 func actorView(input Input, key string) (Actor, bool) {
 	for _, value := range input.Actors {
 		if value.Key == key && value.Present {

@@ -3,7 +3,6 @@ package execution
 
 import (
 	"fmt"
-	"math"
 	"sort"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -12,6 +11,7 @@ import (
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
 	contractpkg "tinygo_engine_v2/internal/runtime/contract"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
+	"tinygo_engine_v2/internal/runtime/execution/admission"
 	"tinygo_engine_v2/internal/runtime/execution/hit"
 	"tinygo_engine_v2/internal/runtime/execution/lifecycle"
 	"tinygo_engine_v2/internal/scheduler"
@@ -645,61 +645,24 @@ func (s *Engine) targetMarkSummaryOutput() *model.TargetMarkSummary {
 
 func (f *Frame) commitTargetMarkSummary() { f.run.report.AddTargetMark(f.pendingTargetMark) }
 
-func (s *Engine) targetMarkListenerOwned(listener planbundle.CompiledListener, op planbundle.CompiledOperation) bool {
-	m := op.TargetMark
-	return s.compiled.HasTargetMarkConsumption && m != nil && listener.OperationCount == 1 && listener.SourceAbilityIndex >= 0 &&
-		listener.OwnerCombatantKey == m.OwnerCombatantKey && listener.OwnerProviderRef == m.OwnerProviderRef && !listener.HasAbilityRef && !listener.HasOncePerUse && listener.PerCastThrottleMs == 0
-}
-
-func (s *Engine) targetMarkProviderPlanned(provider string) bool {
-	for _, source := range s.plannedSkillSources() {
-		if source.Binding().Source == model.SelectorSource && source.Binding().ProviderRef == provider {
-			return true
-		}
-	}
-	return false
-}
-
 func (s *Engine) initTargetMarkSources() *model.EngineError {
 	if !s.compiled.HasTargetMarkConsumption {
 		return nil
 	}
-	for _, op := range s.compiled.Operations {
-		m := op.TargetMark
-		if m == nil {
+	sources := admission.TargetMarkSources{StartMs: s.loop.StartMs(), Selection: admission.SourceSelection{SkillBindings: s.plannedSkillBindings()}}
+	if attack := s.actions.BasicAttack(); attack != nil {
+		plan := attack.Plan()
+		sources.Selection.BasicAttack = &plan
+	}
+	for index, operation := range s.compiled.Operations {
+		mark := operation.TargetMark
+		if mark == nil {
 			continue
 		}
-		fail := func(message string) *model.EngineError { return s.basicAttackErr(message, op.Path) }
-		if s.loop.StartMs() != 0 || m.OwnerCombatantKey != model.SelectorSource || !s.targetMarkProviderPlanned(m.OwnerProviderRef) {
-			return fail("target mark requires a fresh zero-time scene and its actual planned parent")
-		}
-		if m.TriggerKind == model.EventTypeBasicAttackHit {
-			if s.actions.BasicAttack() == nil || s.actions.BasicAttack().Plan().HitAbilityRef != m.TriggerAbilityRef || s.actions.BasicAttack().Plan().Source != m.OwnerCombatantKey {
-				return fail("target mark attack trigger is not the actual selected native hit")
-			}
-		} else {
-			parsed, valid := planbundle.ParseAbilityRef(m.TriggerAbilityRef)
-			if !valid || !s.targetMarkProviderPlanned(parsed.ProviderRef) {
-				return fail("target mark skill trigger is not driven by its real INITIAL source")
-			}
-		}
-		owner, exists := s.combatants[m.OwnerCombatantKey]
-		if !exists {
-			return fail("target mark owner is missing")
-		}
-		if bag := owner.providerState.Lookup(m.OwnerProviderRef); bag.Present() {
-			if bag.TargetValues().At(m.StateKey) != 0 || bag.TargetExpireAt().At(m.StateKey) != 0 {
-				return fail("target mark cannot restore an external active target field")
-			}
-		}
-		if m.Restore != nil {
-			slot, exists := owner.resourceView().Lookup(m.Restore.ResourceKey)
-			if !exists || math.IsNaN(slot.Current) || math.IsInf(slot.Current, 0) || math.IsNaN(slot.Max) || math.IsInf(slot.Max, 0) || slot.Max <= 0 || slot.Current < 0 || slot.Current > slot.Max {
-				return fail("target mark restore requires an explicit finite current and positive resource capacity")
-			}
-		}
+		bag := s.combatants[mark.OwnerCombatantKey].providerState.Lookup(mark.OwnerProviderRef)
+		sources.Initial = append(sources.Initial, admission.TargetMarkInitialState{OperationIndex: index, BagPresent: bag.Present(), Value: bag.TargetValues().At(mark.StateKey), ExpireAt: bag.TargetExpireAt().At(mark.StateKey)})
 	}
-	return nil
+	return admission.ValidateTargetMarkSources(s.admissionInput(model.SelectorSource), sources)
 }
 
 func (f *Frame) targetMarkContact(abilityRef, kind string) (*contractpkg.SkillHitFacts, *model.EngineError) {
@@ -752,26 +715,6 @@ func (f *Frame) consumeTargetMark(op planbundle.CompiledOperation, ability planb
 	executor := f.run.lifecycleExecutor()
 	return executor.ConsumeTargetMark(lifecycle.MarkInput{Operation: op, Ability: ability, Owner: f.providerOwnerKey(),
 		Provider: f.ownerProviderRef, AbilityRef: f.abilityRef, Target: f.targetKey, Now: f.run.loop.TimeMs()}, (*lifecycleMarkExecution)(f))
-}
-
-// scheduleProviderTargetStateExpiry enqueues a deterministic expire_cleanup for one
-// provider_target state key. Stale events are dropped in handleExpireCleanup by matching
-// owner + providerRef + targetKey + stateKey + expectedExpireAt.
-func (s *Engine) scheduleProviderTargetStateExpiry(
-	ownerKey, providerRef, targetKey, stateKey string,
-	expireAt int64,
-) {
-	if s == nil || expireAt <= 0 || ownerKey == "" || providerRef == "" || stateKey == "" {
-		return
-	}
-	s.enqueueExpireCleanup(expireAt, effectpkg.ExpiryPayload{
-		Kind:             "provider_target_state",
-		CombatantKey:     ownerKey,
-		ProviderRef:      providerRef,
-		TargetKey:        targetKey,
-		StateKey:         stateKey,
-		ExpectedExpireAt: expireAt,
-	})
 }
 
 // applyProviderTargetStateExpiry clears one expired target-bound state key and re-resolves

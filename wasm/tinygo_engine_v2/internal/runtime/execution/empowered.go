@@ -141,22 +141,10 @@ func (f *Frame) commitEmpoweredFacts() {
 // already claimed by one result cannot be claimed again later in this group.
 func (f *Frame) empoweredSpellShields(owner string) (effectpkg.ProviderList, *model.EngineError) {
 	staged := f.stageFor(owner)
-	providers := staged.instances.Providers()
-	if len(staged.providerOps) != 0 {
-		providers = effectpkg.ProviderList{}.AppendList(providers)
-	}
-	for _, mutation := range staged.providerOps {
-		// New mounts become live at this frame's commit, as for ordinary
-		// multi-operation frames. Existing-instance expiry/refresh is visible
-		// to later attached shield decisions; claimed instances are excluded.
-		if mutation.Kind != "expire" && mutation.Kind != "refresh" {
-			continue
-		}
-		_, next, err := f.preflightProviderMutation(providers, mutation)
-		if err != nil {
-			return effectpkg.ProviderList{}, err
-		}
-		providers = next
+	executor := f.run.lifecycleExecutor()
+	providers, err := executor.ProjectShieldCandidates(staged.instances.Providers(), staged.providerOps, f.run.loop.TimeMs())
+	if err != nil {
+		return effectpkg.ProviderList{}, err
 	}
 	id, declared := f.run.compiled.RuntimeTypes.SpellShield.Lookup()
 	return f.empowered.AvailableShields(owner, providers, f.run.compiled.Providers, id, declared, f.run.loop.TimeMs()), nil

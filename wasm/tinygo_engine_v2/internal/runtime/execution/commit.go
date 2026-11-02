@@ -2,13 +2,13 @@
 package execution
 
 import (
-	"math"
 	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
 	"tinygo_engine_v2/internal/runtime/actor"
 	contractpkg "tinygo_engine_v2/internal/runtime/contract"
+	reportpkg "tinygo_engine_v2/internal/runtime/report"
 )
 
 type damageRecord = contractpkg.DamageHistory
@@ -18,136 +18,11 @@ type genericExecuteEvidence = contractpkg.ExecuteFact
 type genericDamageEvidence = contractpkg.DamageFact
 
 func (s *Engine) recordGenericExecuteEvidence(ev genericExecuteEvidence) {
-	s.recordEvidenceLazy(model.EvidenceKindExecute, func() model.EvidenceItem { return genericExecuteEvidenceItem(ev, s.loop.TimeMs()) })
-}
-
-func genericExecuteEvidenceItem(ev genericExecuteEvidence, timeMs int64) model.EvidenceItem {
-	data := map[string]interface{}{
-		"source":         ev.Source,
-		"target":         ev.Target,
-		"operationRef":   ev.OperationRef,
-		"hpBefore":       ev.HpBefore,
-		"maxHp":          ev.MaxHp,
-		"hpRatio":        ev.HpRatio,
-		"threshold":      ev.Threshold,
-		"thresholdType":  executeThresholdTypeRatio,
-		"comparison":     executeThresholdComparison,
-		"killed":         ev.Killed,
-		"shieldBypassed": ev.ShieldBypass,
-		"phantom":        false,
-	}
-	if ev.ProviderRef != "" {
-		data["providerRef"] = ev.ProviderRef
-	}
-	if ev.AbilityRef != "" {
-		data["abilityRef"] = ev.AbilityRef
-	}
-	ref := ev.OperationRef
-	if ref == "" {
-		ref = ev.AbilityRef
-	}
-	return model.EvidenceItem{
-		TimeMs: timeMs,
-		Kind:   model.EvidenceKindExecute,
-		Ref:    ref,
-		Data:   data,
-	}
+	s.recordEvidenceLazy(model.EvidenceKindExecute, func() model.EvidenceItem { return reportpkg.ExecuteEvidenceItem(ev, s.loop.TimeMs()) })
 }
 
 func (s *Engine) recordGenericDamageEvidence(ev genericDamageEvidence) {
-	s.recordEvidenceLazy(model.EvidenceKindDamage, func() model.EvidenceItem { return genericDamageEvidenceItem(ev, s.loop.TimeMs()) })
-}
-
-func genericDamageEvidenceItem(ev genericDamageEvidence, timeMs int64) model.EvidenceItem {
-	phase := "original"
-	if ev.Phantom {
-		phase = "phantom"
-	}
-	data := map[string]interface{}{
-		"phase":           phase,
-		"phantom":         ev.Phantom,
-		"source":          ev.Source,
-		"target":          ev.Target,
-		"damageType":      ev.DamageType,
-		"rawAmount":       ev.RawAmount,
-		"mitigatedAmount": ev.MitigatedAmount,
-	}
-	if ev.EmpoweredAttack != nil {
-		data["empoweredAttack"], data["useRef"] = ev.EmpoweredAttack, ev.ActivationUseRef
-	}
-	if ev.Outcome != nil {
-		data["damageId"] = ev.DamageID
-		data["postDefenseDamage"] = ev.Outcome.MitigatedAmount
-		data["shieldAbsorbed"] = ev.Outcome.ShieldAbsorbed
-		data["actualHpLoss"] = ev.Outcome.HPDamage
-		data["overkillDamage"] = math.Max(0, ev.Outcome.MitigatedAmount-ev.Outcome.ShieldAbsorbed-ev.Outcome.HPDamage)
-	}
-	if ev.ProviderRef != "" {
-		data["providerRef"] = ev.ProviderRef
-	}
-	if ev.AbilityRef != "" {
-		data["abilityRef"] = ev.AbilityRef
-	}
-	if ev.OperationRef != "" {
-		data["operationRef"] = ev.OperationRef
-	}
-	if len(ev.Traits) > 0 {
-		data["traits"] = append([]string(nil), ev.Traits...)
-	}
-	attachCastProvenance(data, ev.CastInstanceID, ev.CastOrigin)
-	if ev.Phantom {
-		if ev.RepeatTag != "" {
-			data["repeatTag"] = ev.RepeatTag
-		}
-		if len(ev.ReplayedFrom) > 0 {
-			data["replayedFrom"] = ev.ReplayedFrom
-		}
-	}
-	writeCritEvidenceFields(data, ev.Crit)
-	if ev.HasPostResistanceEvidence {
-		data["resistanceFactor"] = ev.ResistanceFactor
-		data["normalPartPostResistance"] = ev.NormalPartPostResistance
-		data["critPartPostResistance"] = ev.CritPartPostResistance
-	}
-	if len(ev.Modifiers) > 0 {
-		data["modifiers"] = ev.Modifiers
-	}
-	ref := ev.AbilityRef
-	if ref == "" {
-		ref = ev.OperationRef
-	}
-	return model.EvidenceItem{
-		TimeMs: timeMs,
-		Kind:   model.EvidenceKindDamage,
-		Ref:    ref,
-		Data:   data,
-	}
-}
-
-func writeCritEvidenceFields(data map[string]interface{}, critEv frozenCritEvidence) {
-	if !critEv.Present {
-		return
-	}
-	data["eligible"] = critEv.Eligible
-	if critEv.Policy != "" {
-		data["policy"] = critEv.Policy
-	}
-	data["baseRawAmount"] = critEv.BaseRawAmount
-	if !critEv.Eligible {
-		return
-	}
-	data["chanceRaw"] = critEv.ChanceRaw
-	data["chanceEffective"] = critEv.ChanceEffective
-	data["originalCritChance"] = critEv.OriginalCritChance
-	data["effectiveCritChance"] = critEv.ChanceEffective
-	data["multiplier"] = critEv.Multiplier
-	data["naturalCritWeight"] = critEv.NaturalWeight
-	data["forcedCritWeight"] = critEv.ForcedWeight
-	data["naturalCritMultiplier"] = critEv.NaturalMultiplier
-	data["forcedCritMultiplier"] = critEv.ForcedMultiplier
-	data["normalPart"] = critEv.NormalPart
-	data["critPart"] = critEv.CritPart
-	data["critAdjustedRawAmount"] = critEv.CritAdjustedRawAmount
+	s.recordEvidenceLazy(model.EvidenceKindDamage, func() model.EvidenceItem { return reportpkg.DamageEvidenceItem(ev, s.loop.TimeMs()) })
 }
 
 func (f *Frame) commit() {
@@ -302,7 +177,7 @@ func (f *Frame) pendingEvidenceIndex() int {
 }
 
 func (f *Frame) recordGenericExecuteEvidence(ev genericExecuteEvidence) {
-	f.recordEvidenceLazy(model.EvidenceKindExecute, func() model.EvidenceItem { return genericExecuteEvidenceItem(ev, f.run.loop.TimeMs()) })
+	f.recordEvidenceLazy(model.EvidenceKindExecute, func() model.EvidenceItem { return reportpkg.ExecuteEvidenceItem(ev, f.run.loop.TimeMs()) })
 }
 
 func (f *Frame) recordGenericDamageEvidence(ev genericDamageEvidence) {
@@ -328,7 +203,7 @@ func (f *Frame) recordGenericDamageEvidence(ev genericDamageEvidence) {
 		}
 	}
 	f.numeric.AddDamage(ev)
-	f.recordEvidenceLazy(model.EvidenceKindDamage, func() model.EvidenceItem { return genericDamageEvidenceItem(ev, f.run.loop.TimeMs()) })
+	f.recordEvidenceLazy(model.EvidenceKindDamage, func() model.EvidenceItem { return reportpkg.DamageEvidenceItem(ev, f.run.loop.TimeMs()) })
 }
 
 func (f *Frame) nextDamageID() uint64 {

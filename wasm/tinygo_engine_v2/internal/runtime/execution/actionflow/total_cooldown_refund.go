@@ -64,40 +64,6 @@ func (s SkillActionExecutor) BindImmediatePeriod(owner, source, definition, use 
 	return effectpkg.Provider{}, 0, false
 }
 
-func (s SkillActionExecutor) OwnedTotalCooldownRefund(listener planbundle.CompiledListener, operation planbundle.CompiledOperation, combatants []planbundle.CompiledCombatant, runtimeTypes planbundle.RuntimeTypeBindings) bool {
-	target := operation.TotalCooldownTarget
-	if operation.ValuePolicy != "reduce_total_ratio" || target == nil || listener.OperationCount != 1 || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 || operation.Target != model.SelectorSelf || operation.HasCondition || listener.OwnerCombatantKey != target.CombatantKey || listener.SourceAbilityIndex < 0 || listener.SourceAbilityIndex >= len(s.abilities) {
-		return false
-	}
-	damage, hasDamage := runtimeTypes.DamageInstance.Lookup()
-	owner, hasOwner := runtimeTypes.SourceOwner.Lookup()
-	if !hasDamage || !hasOwner || !listener.EventMatcher.RequiresAllType(damage) || !listener.EventMatcher.RequiresAllType(owner) {
-		return false
-	}
-	ability := s.abilities[listener.SourceAbilityIndex]
-	if int(ability.ProviderIndex) != operation.OwnerProviderIndex || ability.Kind != "passive_listener" {
-		return false
-	}
-	mounts := 0
-	for _, actor := range combatants {
-		for _, mount := range actor.ProviderMounts {
-			if actor.Key == listener.OwnerCombatantKey && mount.ProviderRef == listener.OwnerProviderRef && mount.DefinitionIndex == ability.ProviderIndex {
-				mounts++
-			}
-		}
-	}
-	if mounts != 1 {
-		return false
-	}
-	for _, action := range s.PlannedSources() {
-		binding := action.Binding()
-		if binding.Source == target.CombatantKey && binding.ProviderRef == target.ProviderRef && binding.InitialAbilityIndex == target.AbilityIndex && s.abilities[target.AbilityIndex].ProviderIndex == target.ProviderIndex && binding.ProviderDefinitionRef == s.providers[target.ProviderIndex].ProviderKey {
-			return true
-		}
-	}
-	return false
-}
-
 func (s SkillActionExecutor) ApplyTotalCooldownRefund(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, mounted bool, event *contract.EventSnapshot, owner string, now int64, work CooldownRefundWork) *model.EngineError {
 	target := operation.TotalCooldownTarget
 	if target == nil || !mounted || event == nil || !event.HasDamageSnapshot || event.EventType != "event/damage_instance" || event.EventSourceKey != owner || target.CombatantKey != owner || int(ability.ProviderIndex) != operation.OwnerProviderIndex {

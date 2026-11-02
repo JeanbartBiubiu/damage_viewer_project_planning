@@ -102,7 +102,7 @@ func EvaluateOwnedDynamicHealAmount(input Input, listener planbundle.CompiledLis
 	return value, err == nil
 }
 
-// OwnedSettledSelfRecovery 校验真实挂载、自身数值和金额依赖；事件金额的结构资格由父层在需要时继续核定。
+// OwnedSettledSelfRecovery 校验真实挂载、自身数值和金额依赖；事件金额的结构资格由完整监听准入链在需要时继续核定。
 func OwnedSettledSelfRecovery(input Input, listener planbundle.CompiledListener, operation planbundle.CompiledOperation) (qualified, requiresEventAmount bool) {
 	if (operation.Target != model.SelectorSelf && operation.Target != model.SelectorSource) || !operation.HasAmount || int(operation.AmountProgram) >= len(input.Formulas.Programs) || operation.OwnerProviderIndex < 0 || operation.OwnerProviderIndex >= len(input.Compiled.Providers) {
 		return false, false

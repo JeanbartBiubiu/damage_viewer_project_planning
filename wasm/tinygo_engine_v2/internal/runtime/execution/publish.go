@@ -123,15 +123,15 @@ func (f *Frame) commitKeysAndPreflight(keyBuffer []string) ([]string, *model.Eng
 		if staged.instances.Projected() {
 			base = staged.instances.BaseProviders()
 		}
-		providers := effectpkg.ProviderList{}.AppendList(base)
-		for _, mutation := range staged.providerOps {
-			added, next, err := f.preflightProviderMutation(providers, mutation)
-			if err != nil {
-				return nil, err
-			}
-			count += added
-			providers = next
+		executor := f.run.lifecycleExecutor()
+		added, err := executor.PreflightMutations(base, staged.providerOps, lifecycle.MutationPreflight{
+			Now: f.run.loop.TimeMs(), Stop: f.run.loop.StartMs() + f.run.loop.DurationMs(),
+			BasicAttack: f.run.actions.BasicAttack() != nil, ParticipantsAlive: f.continuousCombatantsLive(),
+		})
+		if err != nil {
+			return nil, err
 		}
+		count += added
 	}
 	if !f.run.loop.Queue().CanPush(count) {
 		return nil, f.run.budgetError(model.BudgetCauseMaxQueueEvents, "frame combat event queue overflow")
@@ -153,129 +153,6 @@ func sortedFrameCombatantKeys(staged *frameStagedCollection, keyBuffer []string)
 		keys[0], keys[1] = keys[1], keys[0]
 	}
 	return keys
-}
-
-func (f *Frame) preflightProviderMutation(providers effectpkg.ProviderList, mutation stagedProviderMutation) (int, effectpkg.ProviderList, *model.EngineError) {
-	s := f.run
-	badRef := func(message, ref string) (int, effectpkg.ProviderList, *model.EngineError) {
-		return 0, providers, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, message, "providers", ref, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
-	}
-	if mutation.Kind == "apply" || mutation.Kind == "shield_apply" {
-		defIndex, exists := mutation.DefinitionIndex, mutation.Kind == "shield_apply"
-		if !exists {
-			defIndex, exists = s.findProviderDefinitionIndex(mutation.DefinitionRef)
-		}
-		if !exists {
-			return badRef("unknown provider definition", mutation.DefinitionRef)
-		}
-		definition := s.compiled.Providers[defIndex]
-		if definition.PermanentResourceMax {
-			return badRef("permanent HP instance is only installed by cold initialization", mutation.DefinitionRef)
-		}
-		if mutation.Kind != "shield_apply" && definition.Lifecycle != nil && definition.Lifecycle.AllowsSourceTargetReuse() {
-			for i, instanceValues := 0, providers; i < instanceValues.Len(); i++ {
-				inst := instanceValues.At(i)
-				if inst.DefinitionRef == mutation.DefinitionRef && inst.Source == mutation.SourceKey && inst.Owner == mutation.TargetKey && inst.Expired(s.loop.TimeMs()) {
-					providers = providers.Slice(0, i).AppendList(providers.Slice(i+1, providers.Len()))
-					break
-				}
-			}
-			if inst, index, found := providers.FindSourceTarget(mutation.DefinitionRef, mutation.SourceKey, mutation.TargetKey, s.loop.TimeMs()); found {
-				added := 0
-				if mutation.HasExpireAt {
-					inst.ExpireAt = mutation.ExpireAt
-					if mutation.ExpireAt > 0 {
-						added++
-					}
-				}
-				providers = providers.With(index, inst)
-				return added, providers, nil
-			}
-		}
-		expires := int64(0)
-		if mutation.HasExpireAt {
-			expires = mutation.ExpireAt
-		}
-		added := 0
-		if expires > 0 {
-			added++
-		}
-		tick, hasTick := findTickAbility(definition, s.compiled)
-		if !hasTick || tick.TickSpec == nil || !tick.TickSpec.IsAnchored() {
-			interval, delay, ok := s.providerTickSchedule(defIndex)
-			if ok && interval > 0 && delay <= s.loop.StartMs()+s.loop.DurationMs()-s.loop.TimeMs() && f.continuousCombatantsLive() {
-				first := s.loop.TimeMs() + delay
-				if s.actions.BasicAttack() != nil || expires <= 0 || first < expires {
-					added++
-				}
-			}
-		}
-		providers = providers.Append(effectpkg.Provider{ProviderRef: mutation.ProviderRef, DefinitionRef: mutation.DefinitionRef, DefinitionIndex: defIndex,
-			Source: mutation.SourceKey, Owner: mutation.TargetKey, Stacks: 1, ExpireAt: expires})
-		return added, providers, nil
-	}
-	inst, index, exists := providers.Find(mutation.ProviderRef)
-	if exists && s.compiled.Providers[inst.DefinitionIndex].PermanentResourceMax {
-		return badRef("permanent HP initialization instance cannot be changed in combat", mutation.ProviderRef)
-	}
-	if mutation.Kind == "ensure_remaining" {
-		if !exists || inst.Expired(s.loop.TimeMs()) {
-			return 0, providers, nil
-		}
-		if inst.Owner != mutation.TargetKey || inst.Source != mutation.SourceKey || inst.DefinitionRef != mutation.DefinitionRef {
-			return badRef("provider duration change has a foreign instance owner", mutation.ProviderRef)
-		}
-		if mutation.ExpireAt <= inst.ExpireAt {
-			return 0, providers, nil
-		}
-		inst.ExpireAt = mutation.ExpireAt
-		providers = providers.With(index, inst)
-		return 1, providers, nil
-	}
-	if mutation.Kind == "expire" {
-		if !exists {
-			if mutation.Strict {
-				return badRef("expire_provider instance is missing", mutation.ProviderRef)
-			}
-			return 0, providers, nil
-		}
-		if mutation.Strict && mutation.DefinitionRef != "" && mutation.DefinitionRef != inst.DefinitionRef {
-			return badRef("expire_provider definitionRef mismatch", mutation.ProviderRef)
-		}
-		return 0, providers.Slice(0, index).AppendList(providers.Slice(index+1, providers.Len())), nil
-	}
-	if !exists {
-		return badRef("unknown providerRef", mutation.ProviderRef)
-	}
-	definition := s.compiled.Providers[inst.DefinitionIndex]
-	if definition.ShieldDefinitionRef != "" {
-		return badRef("linked shield provider must be refreshed by applying its shield", mutation.ProviderRef)
-	}
-	policy := model.RefreshPolicyReplace
-	if definition.Lifecycle != nil && definition.Lifecycle.RefreshPolicy != "" {
-		policy = definition.Lifecycle.RefreshPolicy
-	}
-	if definition.Lifecycle != nil && definition.Lifecycle.AllowsSourceTargetReuse() {
-		policy = model.RefreshPolicyReplace
-	}
-	added := 0
-	switch policy {
-	case "extend":
-		if mutation.HasExpireAt && mutation.ExpireAt > inst.ExpireAt {
-			inst.ExpireAt = mutation.ExpireAt
-			added++
-		}
-	case "add_stack":
-	default:
-		if mutation.HasExpireAt {
-			inst.ExpireAt = mutation.ExpireAt
-			if mutation.ExpireAt > 0 {
-				added++
-			}
-		}
-	}
-	providers = providers.With(index, inst)
-	return added, providers, nil
 }
 
 func (f *Frame) commitFrameQueues() {
