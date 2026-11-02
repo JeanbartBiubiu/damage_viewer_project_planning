@@ -8,6 +8,30 @@
   ],
   "tasks": [
     {
+      "task_key": "web-simulation-source-compile-refactor",
+      "title": "前端模拟来源与通用编译拆分",
+      "module": "web",
+      "feature": "simulation_source_compile_refactor",
+      "status": "未开始",
+      "priority": 1,
+      "owner_model": "Codex 主负责人及内置执行与独立评审代理",
+      "docs": [
+        "文档记录/详细设计/web/模拟来源与通用编译拆分技术方案.md"
+      ]
+    },
+    {
+      "task_key": "server-skill-trigger-responsibility-refactor",
+      "title": "后端触发规则校验与引用保护拆分",
+      "module": "server",
+      "feature": "skill_trigger_responsibility_refactor",
+      "status": "未开始",
+      "priority": 1,
+      "owner_model": "Codex 主负责人及内置执行与独立评审代理",
+      "docs": [
+        "文档记录/详细设计/server/触发规则校验与引用保护拆分技术方案.md"
+      ]
+    },
+    {
       "task_key": "web-type-safety-tightening",
       "title": "前端关键数据流类型收紧",
       "module": "web",
