@@ -1,7 +1,7 @@
 import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { describe, expect, it } from 'vitest';
 import { triggeredEquipmentSimulationSample } from '../../tests/fixtures/simulationTriggeredEquipment';
-import { assembleTriggeredEquipment as raw_assembleTriggeredEquipment } from './simulationTriggeredEquipment';
+import { assembleTriggeredEquipment as raw_assembleTriggeredEquipment } from './simulation/sources/equipment';
 import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot } from './simulationAdapter';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 

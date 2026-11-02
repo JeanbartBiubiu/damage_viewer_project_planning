@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { AbilityDefinition, CompileRequest, DamageRecord, DoneResult, EvidenceItem, OperationDefinition, RunRequest } from '../types/genericEngine';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { inspectDamageStateBefore, targetTimingDamageOriginMatches } from './targetTimingResultContract';
 
 const constant = (value: number) => ({ op: 'const', value });

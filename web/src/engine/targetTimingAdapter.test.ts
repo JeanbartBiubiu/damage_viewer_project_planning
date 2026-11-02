@@ -2,10 +2,10 @@ import { describe, expect, it } from 'vitest';
 import { targetTimingSample } from '../../tests/fixtures/targetTiming';
 import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { fixedValue } from '../types/numericValue';
-import { assembleTriggeredSkillSources } from './simulationTriggeredEquipment';
-import { assembleNaturalSkillSources } from './simulationNaturalSkillSources';
-import { naturalRuleKeys } from './simulationSkillSourceDescription';
-import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
+import { assembleTriggeredSkillSources } from './simulation/compile/triggered';
+import { assembleNaturalSkillSources } from './simulation/sources/natural';
+import { naturalRuleKeys } from './simulation/sources/description';
+import { selectSimulationSkillSourceClosure } from './simulation/sources/closure';
 import { inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
 
 type Sample = ReturnType<typeof targetTimingSample>;

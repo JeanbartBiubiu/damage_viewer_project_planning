@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import type { CompileRequest, DoneResult, RunRequest } from '../../src/types/genericEngine';
-import type { OperationOrigin } from '../../src/engine/simulationAdapter';
+import type { OperationOrigin } from '../../src/engine/simulation/model';
 import { compareMechanismExpectation } from './mechanismRunner';
 import { MECHANISM_ROOT, parseMechanismCase, type MechanismProjection, type ProjectedRestoration } from './mechanismCase';
 import { projectRestorations } from './restorationProjection';

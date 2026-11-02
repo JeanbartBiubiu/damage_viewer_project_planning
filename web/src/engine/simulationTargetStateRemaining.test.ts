@@ -5,9 +5,10 @@ import type { SkillInternalState } from '../types/skillInternalState';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillParameter } from '../types/skillParameter';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
-import { assembleTriggeredSkillSources } from './simulationTriggeredEquipment';
-import { assembleNaturalSkillSources } from './simulationNaturalSkillSources';
-import { naturalRuleKeys, type TriggeredSkillSourceDescription } from './simulationSkillSourceDescription';
+import { assembleTriggeredSkillSources } from './simulation/compile/triggered';
+import { assembleNaturalSkillSources } from './simulation/sources/natural';
+import { naturalRuleKeys } from './simulation/sources/description';
+import type { TriggeredSourceDescription } from './simulation/model';
 
 function sample() {
   const snapshot = simulationActiveSample();
@@ -40,7 +41,7 @@ function sample() {
     skillLevel: 1, enabledRuleKeys: [rule.ruleKey], inactiveReason: null });
   snapshot.source.attachedSkills.push({ ...snapshot.source.attachedSkills[0]!, skillKey, skillName: configuration.skill.name });
   snapshot.selection.sourceSkillSettings.push({ origin, skillKey, enabled: true, skillLevel: 1 });
-  const description: TriggeredSkillSourceDescription = { side: 'source', kind: 'character', stableId: 'mark_definition',
+  const description: TriggeredSourceDescription = { side: 'source', kind: 'character', stableId: 'mark_definition',
     providerRef: 'mark_provider', definitionRef: 'mark_definition', path: 'source.skillSources.mark',
     skills: [{ skillKey, skillLevel: 1, path: 'skills.sample_mark', configuration }] };
   return { snapshot, configuration, rule, mark, description };

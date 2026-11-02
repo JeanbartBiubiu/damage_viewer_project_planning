@@ -1,6 +1,6 @@
 import type { AbilityDefinition, AttackRecord, AutomaticSkillRecord, AutomaticSkillRule, CompileRequest, DamageBreakdown, DamageRecord,
   DoneResult, HealingRecord, ResourceChangeRecord, ProcessDefinition, ProcessInstanceSnapshot, RunRequest, SkillActionBinding } from '../types/genericEngine';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { simulationAbility } from './simulationAdapter';
 import { finiteRecastControls, processForSkillUse, recastUseOrdinal } from './finiteRecast';
 import { continuousCurves, continuousSourceKey, type AmountMetric, type AttackSelection } from './continuousAttackPresentation';

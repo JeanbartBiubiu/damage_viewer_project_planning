@@ -1,5 +1,6 @@
 import type { CompileRequest, DoneResult, RunRequest } from '../types/genericEngine';
-import { simulationAbility, type OperationOrigin } from './simulationAdapter';
+import { simulationAbility } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 
 export type HealingEvidenceOrder = { healing: Array<number | undefined>; damage: Array<number | undefined>; truncated?: boolean };
 const close = (a: number, b: number) => Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(a), Math.abs(b));

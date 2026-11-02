@@ -1,5 +1,5 @@
 import type { AbilityDefinition, CompileRequest, DoneResult, EvidenceItem, OperationDefinition, RunRequest } from '../types/genericEngine';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { tryFoldConstant } from './numericAdapter';
 
 const eventOperations = {

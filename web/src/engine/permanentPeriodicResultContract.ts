@@ -1,5 +1,5 @@
 import type { AbilityDefinition, CompileRequest, DamageRecord, DoneResult, EvidenceItem, GenericFormulaExpr, OperationDefinition, ProviderDefinition, RunRequest } from '../types/genericEngine';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 
 type Owner = 'source' | 'target';
 type Located = { owner: Owner; providerRef: string; provider: ProviderDefinition; ability: AbilityDefinition; operation: OperationDefinition };

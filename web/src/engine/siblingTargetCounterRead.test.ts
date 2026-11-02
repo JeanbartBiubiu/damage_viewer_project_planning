@@ -9,7 +9,7 @@ import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinit
 import { registerFormulaForApprovedReads, rememberApprovedFormulaValues, selectFormulaProofScope } from './approvedFormulaValues';
 import { adaptHitProgram, type AuthoredHitProgram } from './hitAdapter';
 import { assembleActiveSkills } from './simulationActiveSkills';
-import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
+import { selectSimulationSkillSourceClosure } from './simulation/sources/closure';
 import type { SkillTriggerInternalStateCheckCondition } from '../types/skillTriggerRule';
 
 type Sample = ReturnType<typeof siblingTargetCounterSample>;

@@ -1,5 +1,5 @@
 import type { AbilityDefinition, CompileRequest, DoneResult, GenericFormulaExpr, OperationDefinition, ProviderDefinition, RunRequest } from '../types/genericEngine';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { tryFoldConstant } from './numericAdapter';
 
 const object = (value: unknown): value is Record<string, unknown> => !!value && typeof value === 'object' && !Array.isArray(value);

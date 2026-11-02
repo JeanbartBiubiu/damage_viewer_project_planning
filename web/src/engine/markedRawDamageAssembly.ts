@@ -1,7 +1,6 @@
 import type { AbilityDefinition, CompileRequest, GenericFormulaExpr, ListenerDefinition, OperationDefinition, ProviderDefinition } from '../types/genericEngine';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
-import type { BasicAttackBinding, OperationOrigin } from './simulationAdapter';
-import type { SimulationSkillOriginTrace } from './simulationNaturalSkillSources';
+import type { BasicAttackBinding, OperationOrigin, SimulationSkillOriginTrace } from './simulation/model';
 import { NumericAdaptationError } from './numericAdapter';
 import { basicAttackPrimaryBinding } from './primaryAttackReplacementContract';
 import { validateMarkedRawDamageContract } from './markedRawDamageContract';

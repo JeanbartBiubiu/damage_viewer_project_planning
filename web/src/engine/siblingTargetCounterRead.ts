@@ -2,7 +2,7 @@ import type { GenericFormulaExpr, NamedFormula, ProviderDefinition, StaticNumeri
 import type { NumericValue } from '../types/numericValue';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SimulationSkillSource, SimulationSnapshot } from '../types/simulationSnapshot';
-import type { SimulationSkillOriginTrace } from './simulationNaturalSkillSources';
+import type { SimulationSkillOriginTrace } from './simulation/model';
 import { constExpr, createNumericCompileState, NumericAdaptationError, tryFoldConstant } from './numericAdapter';
 import { staticEffectValue } from './staticEffectValue';
 

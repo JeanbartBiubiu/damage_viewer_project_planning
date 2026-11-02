@@ -6,8 +6,8 @@ import { equipmentSimulationSample } from '../../tests/fixtures/simulationEquipm
 import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkillSources';
 import { assembleSimulation, inspectSimulationSnapshot } from './simulationAdapter';
 import { assembleActiveSkills, simulationAutomaticCastCosts, simulationCastCostCandidates } from './simulationActiveSkills';
-import { assembleTriggeredEquipment } from './simulationTriggeredEquipment';
-import { validateSimulationSkillSourceManifest } from './simulationSkillSourceDescription';
+import { assembleTriggeredEquipment } from './simulation/sources/equipment';
+import { validateSimulationSkillSourceManifest } from './simulation/sources/description';
 import { validateSimulationSnapshot } from '../services/simulationSnapshotClient';
 
 function costResult(snapshot: ReturnType<typeof classificationCostBindingsSample>) {

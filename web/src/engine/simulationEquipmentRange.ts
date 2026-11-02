@@ -1,7 +1,7 @@
 import type { SimulationEquipmentAssumption, SimulationSnapshot } from '../types/simulationSnapshot';
 import { NumericAdaptationError } from './numericAdapter';
-import { executableEquipmentRelations, validateSimulationSkillSourceManifest } from './simulationSkillSourceDescription';
-import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
+import { executableEquipmentRelations, validateSimulationSkillSourceManifest } from './simulation/sources/description';
+import { selectSimulationSkillSourceClosure } from './simulation/sources/closure';
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 

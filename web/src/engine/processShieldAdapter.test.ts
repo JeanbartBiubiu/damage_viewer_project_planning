@@ -14,7 +14,7 @@ import { triggeredEquipmentSimulationSample } from '../../tests/fixtures/simulat
 import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkillSources';
 import { assembleActiveSkills } from './simulationActiveSkills';
-import { assembleTriggeredEquipment } from './simulationTriggeredEquipment';
+import { assembleTriggeredEquipment } from './simulation/sources/equipment';
 import { assembleSimulation, inspectSimulationSnapshot } from './simulationAdapter';
 
 function program(skillKey = 'ward_alpha', amount = 100, duration = 3000): AuthoredProcessProgram {

@@ -8,7 +8,7 @@ import type { SkillProcess } from '../types/skillProcess';
 import { fixedValue } from '../types/numericValue';
 import { assembleSimulation, inspectSimulationSnapshot } from './simulationAdapter';
 import { permanentModifier, type PermanentResultContext } from './simulationPermanentResults';
-import { naturalRuleKeys } from './simulationSkillSourceDescription';
+import { naturalRuleKeys } from './simulation/sources/description';
 import { readFileSync } from 'node:fs';
 import { TinyGoV2Bridge } from './tinygoV2Bridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';

@@ -1,12 +1,11 @@
+import type { SimulationCoverage, OperationOrigin, BasicAttackBinding, SimulationAttributeRequirement, SimulationSkillOriginTrace } from './simulation/model';
 import { assembleGameAttributeDerivations, calculationConfiguration, changedAttributes, simulationCriticalBinding } from './simulationCalculationRules';
 import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
 import { consumedApprovedFormulaValues, resetConsumedApprovedFormulaValues, collectedCommonFormulaDefinitions } from './approvedFormulaValues';
 import { TypeCatalogEntries } from './typeCatalogEntries';
 import { skillCategoryTypeKey } from './skillCategoryType';
-import type { Attribute } from '../types/attribute';
-
 import type {
-  AbilityDefinition, AttributeSlot, BasicAttackPlan, CompileRequest, GenericFormulaExpr,
+  AbilityDefinition, AttributeSlot, CompileRequest, GenericFormulaExpr,
   GenericRules, OperationDefinition, ProcessDefinition, ProviderDefinition, RunRequest, SkillHitCandidate
 } from '../types/genericEngine';
 import type { SkillEffect, SkillEffectResult } from '../types/skillEffect';
@@ -22,10 +21,12 @@ import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
 import { assembleEquipment, equipmentContribution, type EquipmentOrigin } from './simulationEquipment';
 import { validateEquipmentAssumptions } from './simulationEquipmentRange';
-import { assembleTriggeredEquipment, compileSimulationDamageFormula, validateConfiguration } from './simulationTriggeredEquipment';
+import { assembleTriggeredEquipment } from './simulation/sources/equipment';
+import { compileSimulationDamageFormula } from './simulation/compile/damageFormula';
+import { validateConfiguration } from './simulation/compile/configuration';
 import { bindBasicAttackCooldownReductions } from './basicAttackCooldownReduction';
 import { bindCommittedTotalRefunds } from './committedTotalCooldownRefund';
-import { assembleNaturalSkillSources, type SimulationSkillOriginTrace } from './simulationNaturalSkillSources';
+import { assembleNaturalSkillSources } from './simulation/sources/natural';
 import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive, primaryMechanicRequirements, validateMechanicStateInputs } from './simulationPrimaryAttack';
 import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
 import { assembleActiveSkills, type SimulationCastCostRef } from './simulationActiveSkills';
@@ -45,17 +46,6 @@ const DEFINITION = 'selected_basic_attack_definition';
 const START_ABILITY = 'attack_start';
 const HIT_ABILITY = 'attack_hit';
 const KEY = /^[a-z][a-z0-9_]{0,63}$/;
-
-
-export type SimulationCoverage = { authorPath: string; compiledPath: string; note?: string };
-export type OperationOrigin = {
-  abilityRef: string; operationRef: string; skillKey: string; effectKey: string; resultKey: string; compiledPaths: string[];
-  providerDefinitionRef?: string;
-};
-export type BasicAttackBinding = Omit<BasicAttackPlan, 'planKey' | 'attackSpeedInputMax' | 'attackSpeedAttributeKey'> & { attackSpeedAttributeKey: string | null };
-export type SimulationAttributeRequirement = {
-  side: 'source' | 'target'; attribute: Attribute; storedValue: number | undefined
-};
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 function record(value: unknown, path: string): Record<string, unknown> {

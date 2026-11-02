@@ -7,7 +7,7 @@ import { fixedValue } from '../types/numericValue';
 import type { SkillEffect } from '../types/skillEffect';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import { inspectSimulationSnapshot, assembleSimulation } from './simulationAdapter';
-import { naturalRuleKeys, plannedSkillRuleKeys } from './simulationSkillSourceDescription';
+import { naturalRuleKeys, plannedSkillRuleKeys } from './simulation/sources/description';
 import { bindBasicAttackCooldownReductions } from './basicAttackCooldownReduction';
 
 function sync(snapshot: SimulationSnapshot) {

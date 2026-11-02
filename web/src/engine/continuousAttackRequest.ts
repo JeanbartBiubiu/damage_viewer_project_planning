@@ -3,7 +3,7 @@ import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import { simulationAbility, type assembleSimulation } from './simulationAdapter';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
-import { executableEquipmentRelations } from './simulationNaturalSkillSources';
+import { executableEquipmentRelations } from './simulation/sources/description';
 
 export const CONTINUOUS_DURATION_INITIAL_MS = 30_000;
 export type ContinuousAttackInputs = { durationMs: number; attackSpeedInputMax?: number; recordTimeSeries?: boolean };

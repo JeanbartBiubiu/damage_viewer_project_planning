@@ -2,7 +2,7 @@ import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
 import type { GenericFormulaExpr } from '../types/genericEngine';
 import { NumericAdaptationError } from './numericAdapter';
-import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
+import { selectSimulationSkillSourceClosure } from './simulation/sources/closure';
 
 type Rule = SkillTriggerRuleDetail;
 const META = ['name', 'description', 'sortOrder', 'createdAt', 'updatedAt'];

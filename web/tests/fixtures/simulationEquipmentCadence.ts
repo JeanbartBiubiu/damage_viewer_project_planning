@@ -1,5 +1,6 @@
 import type { GenericFormulaExpr, OperationDefinition, ProviderDefinition } from '../../src/types/genericEngine';
-import type { OperationOrigin, prepareSimulation } from '../../src/engine/simulationAdapter';
+import type { OperationOrigin } from '../../src/engine/simulation/model';
+import type { prepareSimulation } from '../../src/engine/simulationAdapter';
 
 export type CadenceScenario = 'counter' | 'cooldown' | 'periodic' | 'target_death' | 'source_death' | 'vamp' | 'periodic_speed';
 

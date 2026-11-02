@@ -4,7 +4,7 @@ import { automaticAttackKey, automaticOrigin, automaticUseOrigin, filterAutomati
   initialAutomaticSkillView, resolveAutomaticSelection } from './automaticSkillPresentation';
 import { continuousContributions, continuousSourceKey } from './continuousAttackPresentation';
 import { buildAutomaticSkillArchive } from './continuousAttackArchive';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { preparedActiveSample } from '../../tests/fixtures/simulationActiveSkill';
 import { automaticSkillRequest } from './automaticSkillRequest';
 

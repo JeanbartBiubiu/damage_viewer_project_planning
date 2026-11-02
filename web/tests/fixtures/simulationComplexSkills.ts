@@ -4,9 +4,9 @@ import type { SkillActionInput, SkillActionInputs } from '../../src/engine/skill
 import type { SkillProcessStep } from '../../src/types/skillProcess';
 import type { SkillTriggerRuleDetail } from '../../src/types/skillTriggerRule';
 import { fixedValue, formulaValue } from '../../src/types/numericValue';
-import { plannedSkillRuleKeys } from '../../src/engine/simulationSkillSourceDescription';
+import { plannedSkillRuleKeys } from '../../src/engine/simulation/sources/description';
 import { triggeredEquipmentSimulationSample } from './simulationTriggeredEquipment';
-import { naturalRuleKeys } from '../../src/engine/simulationSkillSourceDescription';
+import { naturalRuleKeys } from '../../src/engine/simulation/sources/description';
 
 export type ComplexSampleKind = 'MULTI_HIT' | 'CHANNEL' | 'CHARGE' | 'RECAST';
 

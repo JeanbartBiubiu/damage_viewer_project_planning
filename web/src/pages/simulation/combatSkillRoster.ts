@@ -1,5 +1,5 @@
 import type { AutomaticSkillInput } from '../../engine/automaticSkillRequest';
-import { selectSimulationSkillSourceClosure } from '../../engine/simulationSkillSourceClosure';
+import { selectSimulationSkillSourceClosure } from '../../engine/simulation/sources/closure';
 import { automaticProcessShapeAllowed } from '../../engine/processSkillHitStages';
 import { simulationSkillSourceIdentity } from '../../services/simulationSkillSourceIdentity';
 import type { SkillConfiguration } from '../../types/skillConfiguration';

@@ -10,7 +10,7 @@ import { inspectResourceChangeContract } from './resourceChangeContract';
 import { inspectPermanentHealthInitialization } from './permanentHealthInitialization';
 import { empoweredWindowHitCount } from './empoweredAttackWindowContract';
 import { inspectEmpoweredHealingAliases } from './empoweredHealingAlias';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { committedSkillControl, inspectSimulationProcessFacts } from './simulationProcessFacts';
 import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, empoweredUseRecordIssue, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';

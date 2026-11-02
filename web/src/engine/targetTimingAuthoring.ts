@@ -6,7 +6,7 @@ import { isCounterTargetTiming } from '../services/counterTargetTiming';
 import { NumericAdaptationError } from './numericAdapter';
 import { compileNumericValue, createNumericCompileState, tryFoldConstant } from './numericAdapter';
 import type { SimulationSkillSource, SimulationSnapshot } from '../types/simulationSnapshot';
-import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
+import { selectSimulationSkillSourceClosure } from './simulation/sources/closure';
 
 export type TargetTimingDeclaration = {
   state: SkillInternalStateCounter;

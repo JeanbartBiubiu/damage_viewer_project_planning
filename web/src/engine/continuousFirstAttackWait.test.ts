@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import type { CompileRequest, DoneResult, RunRequest } from '../types/genericEngine';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { assessContinuousAttackResult } from './continuousAttackResult';
 
 type Regression = { key: string; compileRequest: CompileRequest; request: RunRequest; done: DoneResult; origins: OperationOrigin[];

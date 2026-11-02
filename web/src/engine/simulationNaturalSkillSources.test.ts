@@ -14,8 +14,8 @@ import { recurveBowConfiguration, triggeredEquipmentSimulationSample } from '../
 import type { SkillEffect, SkillEffectLifecycle } from '../types/skillEffect';
 import type { SkillProcess } from '../types/skillProcess';
 import type { SkillTriggerAction, SkillTriggerRuleDetail } from '../types/skillTriggerRule';
-import { naturalRuleKeys, validateSimulationSkillSourceManifest } from './simulationSkillSourceDescription';
-import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
+import { naturalRuleKeys, validateSimulationSkillSourceManifest } from './simulation/sources/description';
+import { selectSimulationSkillSourceClosure } from './simulation/sources/closure';
 
 function syncNaturalSources(snapshot: SimulationSnapshot) {
   syncSimulationSkillSources(snapshot);

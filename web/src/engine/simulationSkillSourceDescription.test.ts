@@ -4,8 +4,8 @@ import { fixedValue } from '../types/numericValue';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SimulationSkillSource, SimulationSnapshot } from '../types/simulationSnapshot';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
-import { naturalRuleKeys, validateSimulationSkillSourceManifest } from './simulationSkillSourceDescription';
-import { assembleNaturalSkillSources } from './simulationNaturalSkillSources';
+import { naturalRuleKeys, validateSimulationSkillSourceManifest } from './simulation/sources/description';
+import { assembleNaturalSkillSources } from './simulation/sources/natural';
 
 function attach(snapshot: SimulationSnapshot, configuration: SkillConfiguration, side: 'source' | 'target' = 'source') {
   snapshot.skillConfigurations.push(configuration);

@@ -1,5 +1,5 @@
 import type { AbilityDefinition, CompileRequest, GenericFormulaExpr, OperationDefinition, ProviderDefinition, ProviderStateFieldSchema } from '../types/genericEngine';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { tryFoldConstant } from './numericAdapter';
 
 const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);

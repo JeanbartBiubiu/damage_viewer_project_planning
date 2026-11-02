@@ -12,7 +12,7 @@ import { assembleTargetMarkSource, type TargetMarkAssemblyInput } from './target
 import { targetMarkAuthoringContract } from './targetMarkAuthoringContract';
 import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { inspectSimulationSnapshot, prepareSimulation, simulationAbility } from './simulationAdapter';
-import { naturalRuleKeys, plannedSkillRuleKeys } from './simulationSkillSourceDescription';
+import { naturalRuleKeys, plannedSkillRuleKeys } from './simulation/sources/description';
 
 function graph() {
   const snapshot = simulationActiveSample();

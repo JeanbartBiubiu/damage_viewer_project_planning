@@ -2,7 +2,7 @@ import type {
   AbilityDefinition, CompileRequest, DoneResult, OperationDefinition,
   ProviderDefinition, RunRequest, TargetMarkDefinition
 } from '../types/genericEngine';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { tryFoldConstant } from './numericAdapter';
 import { assertTargetMarkOutputShape, compiledTargetMark } from './targetMarkContract';
 

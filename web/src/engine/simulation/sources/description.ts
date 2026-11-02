@@ -1,42 +1,19 @@
-import type { ProviderDefinition } from '../types/genericEngine';
-import type { SkillConfiguration } from '../types/skillConfiguration';
-import type { SimulationSkillOrigin, SimulationSkillPhase, SimulationSkillSource, SimulationSnapshot } from '../types/simulationSnapshot';
-import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
-import { NumericAdaptationError } from './numericAdapter';
-import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
-import { isOwnCooldownMaintenanceAction } from './basicAttackCooldownReduction';
-import { receivedCooldownDormancy } from './receivedCooldownDormancy';
-import { isOwnProviderDurationMaintenanceAction } from './providerDurationAdapter';
-import type { PermanentNumericConsumer } from './simulationPermanentResults';
-import { calculationConfiguration } from './simulationCalculationRules';
-import { finiteTargetCounterContract, isFiniteTargetCounterPostHitRule } from './finiteTargetCounterContract';
-import { targetMarkAuthoringContract, isTargetMarkPostHitRule } from './targetMarkAuthoringContract';
-import { isUndrivenTargetTimingSource } from './targetTimingAuthoring';
-import { skillHitChainContract, isSkillHitChainPostRule } from './skillHitChainContract';
-import { validateStoredSkillFormula } from '../services/skillFormulaContract';
-import { validateMarkedRawDamageContract } from './markedRawDamageContract';
-
-export type SimulationSourceSide = 'source' | 'target';
-type Side = SimulationSourceSide;
-export type TriggeredSkillSourceDescription = {
-  side: Side;
-  kind: 'item' | 'character' | 'build';
-  stableId: string;
-  providerRef: string;
-  definitionRef: string;
-  path: string;
-  equipmentKey?: string;
-  skills: Array<{
-    skillKey: string;
-    skillLevel: number;
-    path: string;
-    configuration: SkillConfiguration;
-    allowedRootKeys?: readonly string[];
-    sceneInitialValues?: Readonly<Record<string, number>>;
-    permanentModifier?: (result: SkillConfiguration['effects'][number]['results'][number], path: string, onNumericConsumed?: PermanentNumericConsumer) =>
-      NonNullable<ProviderDefinition['modifiers']>[number];
-  }>;
-};
+import type { SkillConfiguration } from '../../../types/skillConfiguration';
+import type { SimulationSkillOrigin, SimulationSkillPhase, SimulationSkillSource, SimulationSnapshot } from '../../../types/simulationSnapshot';
+import { simulationSkillSourceIdentity } from '../../../services/simulationSkillSourceIdentity';
+import { NumericAdaptationError } from '../../numericAdapter';
+import { selectSimulationSkillSourceClosure } from './closure';
+import { isOwnCooldownMaintenanceAction } from '../../basicAttackCooldownReduction';
+import { receivedCooldownDormancy } from '../../receivedCooldownDormancy';
+import { isOwnProviderDurationMaintenanceAction } from '../../providerDurationAdapter';
+import { calculationConfiguration } from '../../simulationCalculationRules';
+import { finiteTargetCounterContract, isFiniteTargetCounterPostHitRule } from '../../finiteTargetCounterContract';
+import { targetMarkAuthoringContract, isTargetMarkPostHitRule } from '../../targetMarkAuthoringContract';
+import { isUndrivenTargetTimingSource } from '../../targetTimingAuthoring';
+import { skillHitChainContract, isSkillHitChainPostRule } from '../../skillHitChainContract';
+import { validateStoredSkillFormula } from '../../../services/skillFormulaContract';
+import { validateMarkedRawDamageContract } from '../../markedRawDamageContract';
+import type { SimulationSourceSide as Side } from '../model';
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 

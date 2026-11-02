@@ -1,8 +1,7 @@
 import type { ModifierDefinition, ProviderDefinition } from '../types/genericEngine';
 import type { SkillEffectAttributeChangeResult } from '../types/skillEffect';
 import type { PermanentResultContext } from './simulationPermanentResults';
-import type { SimulationCoverage, OperationOrigin } from './simulationAdapter';
-import type { SimulationSkillOriginTrace } from './simulationNaturalSkillSources';
+import type { SimulationCoverage, OperationOrigin, SimulationSkillOriginTrace } from './simulation/model';
 import { createNumericCompileState, NumericAdaptationError } from './numericAdapter';
 import { staticEffectAmount } from './staticEffectValue';
 import { shieldEffectDefinitionRef, shieldResultDefinitionRef } from './shieldEffectAdapter';

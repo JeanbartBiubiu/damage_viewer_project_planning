@@ -1,5 +1,5 @@
-import type { SkillConfiguration } from '../types/skillConfiguration';
-import { NumericAdaptationError } from './numericAdapter';
+import type { SkillConfiguration } from '../../../types/skillConfiguration';
+import { NumericAdaptationError } from '../../numericAdapter';
 
 export function selectSimulationSkillSourceClosure(configuration: SkillConfiguration, rootKeys: readonly string[]) {
   const root = `skills.${configuration.skill.skillKey}`;

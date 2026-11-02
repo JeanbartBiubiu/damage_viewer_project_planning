@@ -2,7 +2,7 @@ import type { AutomaticSkillCounts, AutomaticSkillWaitingReason, BudgetCause, Co
   ProcessInstanceSnapshot, ProcessStepDefinition, RunRequest } from '../types/genericEngine';
 import { simulationAbility } from './simulationAdapter';
 import { finiteImmediatePeriodicDamageSource, finitePeriodicTargetsOpponent } from './finiteImmediatePeriodicContract';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { validateAutomaticSkillRelations } from './automaticSkillRequest';
 import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 import { assessContinuousAttackResult } from './continuousAttackResult';

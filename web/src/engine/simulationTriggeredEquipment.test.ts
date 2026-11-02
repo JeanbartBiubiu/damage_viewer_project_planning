@@ -11,7 +11,7 @@ import type { SkillTriggerAction, SkillTriggerCondition, SkillTriggerRuleDetail 
 import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot, SIMULATION_ADAPTER_VERSION } from './simulationAdapter';
 import { equipmentRangeRequirements } from './simulationEquipmentRange';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
-import { assembleTriggeredEquipment as raw_assembleTriggeredEquipment } from './simulationTriggeredEquipment';
+import { assembleTriggeredEquipment as raw_assembleTriggeredEquipment } from './simulation/sources/equipment';
 
 function configuration(snapshot: SimulationSnapshot) {
   return snapshot.skillConfigurations.find(row => row.skill.skillKey === 'item_1043_passive')!;

@@ -1,5 +1,6 @@
 import type { CompileRequest, DoneResult, GenericFormulaExpr, OperationDefinition, RunRequest } from '../../src/types/genericEngine';
-import { simulationAbility, type OperationOrigin } from '../../src/engine/simulationAdapter';
+import { simulationAbility } from '../../src/engine/simulationAdapter';
+import type { OperationOrigin } from '../../src/engine/simulation/model';
 import type { ProjectedRestoration } from './mechanismCase';
 import { inspectDamageStateBefore } from '../../src/engine/targetTimingResultContract';
 import { finiteImmediatePeriodicDamageSource } from '../../src/engine/finiteImmediatePeriodicContract';

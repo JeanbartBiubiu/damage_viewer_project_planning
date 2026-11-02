@@ -4,7 +4,7 @@ import type { SkillConfiguration } from '../../src/types/skillConfiguration';
 import type { SkillInternalStateCounter } from '../../src/types/skillInternalState';
 import type { ProviderDefinition, ProviderStateFieldSchema } from '../../src/types/genericEngine';
 import type { SimulationSkillSource } from '../../src/types/simulationSnapshot';
-import type { SimulationSkillOriginTrace } from '../../src/engine/simulationNaturalSkillSources';
+import type { SimulationSkillOriginTrace } from '../../src/engine/simulation/model';
 import type { SkillTriggerInternalStateCheckCondition, SkillTriggerRuleDetail } from '../../src/types/skillTriggerRule';
 
 /** 完全合成的只读挂载夹具，不复制英雄配置。 */

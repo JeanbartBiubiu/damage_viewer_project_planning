@@ -1,28 +1,22 @@
-import { changedAttributes } from './simulationCalculationRules';
-import type { ProviderDefinition } from '../types/genericEngine';
-import type { SimulationSkillSource, SimulationSnapshot } from '../types/simulationSnapshot';
-import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
-import { validateSimulationSkillSourceManifest, type TriggeredSkillSourceDescription } from './simulationSkillSourceDescription';
-import { assembleTriggeredSkillSources } from './simulationTriggeredEquipment';
-import { targetMarkAuthoringContract } from './targetMarkAuthoringContract';
-import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
-import { naturalRuleKeys, sourceIsPlanned } from './simulationSkillSourceDescription';
-export { executableEquipmentRelations, validateSimulationSkillSourceManifest, equipmentSourceEnabled } from './simulationSkillSourceDescription';
-import { NumericAdaptationError } from './numericAdapter';
-import { permanentModifier, validatePermanentEffect, type PermanentResultContext } from './simulationPermanentResults';
-import type { SimulationCoverage } from './simulationAdapter';
-import type { SimulationAttributeDerivation } from './simulationAttributeConversion';
-import { declaredFormulaForApprovedReads } from './approvedFormulaValues';
-import { skillFormulaReachableInputs } from '../services/skillFormulaContract';
-import { bindShieldAttributeDependencies } from './shieldAttributeDependency';
-import { receivedCooldownDormancy } from './receivedCooldownDormancy';
-import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
-  type SceneInitialParameterInput } from './sceneInitialParameterInput';
+import { changedAttributes } from '../../simulationCalculationRules';
+import type { ProviderDefinition } from '../../../types/genericEngine';
+import type { SimulationSkillSource, SimulationSnapshot } from '../../../types/simulationSnapshot';
+import { simulationSkillSourceIdentity } from '../../../services/simulationSkillSourceIdentity';
+import { validateSimulationSkillSourceManifest } from './description';
+import { assembleTriggeredSkillSources } from '../compile/triggered';
+import { targetMarkAuthoringContract } from '../../targetMarkAuthoringContract';
+import { selectSimulationSkillSourceClosure } from './closure';
+import { naturalRuleKeys, sourceIsPlanned } from './description';
+import { NumericAdaptationError } from '../../numericAdapter';
+import { permanentModifier, validatePermanentEffect, type PermanentResultContext } from '../../simulationPermanentResults';
+import type { SimulationCoverage, SimulationSkillOriginTrace, TriggeredSourceDescription, SimulationSourceSide as Side } from '../model';
+import type { SimulationAttributeDerivation } from '../../simulationAttributeConversion';
+import { declaredFormulaForApprovedReads } from '../../approvedFormulaValues';
+import { skillFormulaReachableInputs } from '../../../services/skillFormulaContract';
+import { bindShieldAttributeDependencies } from '../../shieldAttributeDependency';
+import { receivedCooldownDormancy } from '../../receivedCooldownDormancy';
+import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource, type SceneInitialParameterInput } from '../../sceneInitialParameterInput';
 
-type Side = 'source' | 'target';
-export type SimulationSkillOriginTrace = SimulationSkillSource & {
-  side: Side; providerRef?: string; definitionRef?: string;
-};
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 
@@ -37,7 +31,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
   const required: Record<Side, Set<string>> = { source: new Set(), target: new Set() };
   const changed = changedAttributes();
   const derivations: SimulationAttributeDerivation[] = [];
-  const descriptions: TriggeredSkillSourceDescription[] = [];
+  const descriptions: TriggeredSourceDescription[] = [];
   const targetMarkSources: Array<{ source: SimulationSkillSource; side: Side; providerRef: string; definitionRef: string }> = [];
   const cappedCount = { source: 0, target: 0 };
   for (const side of ['source', 'target'] as const) {

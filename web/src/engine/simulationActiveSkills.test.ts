@@ -7,9 +7,9 @@ import { skillActionRequest, type SkillActionInputs } from './skillActionRequest
 import { normalizeSimulationSelection, validateSimulationSnapshot } from '../services/simulationSnapshotClient';
 import { assembleActiveSkills as raw_assembleActiveSkills, simulationCastCostCandidates } from './simulationActiveSkills';
 import { fixedValue, formulaValue } from '../types/numericValue';
-import { naturalRuleKeys, plannedSkillRuleKeys } from './simulationSkillSourceDescription';
+import { naturalRuleKeys, plannedSkillRuleKeys } from './simulation/sources/description';
 import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
-import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
+import { selectSimulationSkillSourceClosure } from './simulation/sources/closure';
 import type { SkillEffect } from '../types/skillEffect';
 import { adaptHitProgram as raw_adaptHitProgram } from './hitAdapter';
 

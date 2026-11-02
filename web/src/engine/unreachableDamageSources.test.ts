@@ -2,8 +2,8 @@ import {describe,expect,it} from 'vitest';
 import type {SkillConfiguration} from '../types/skillConfiguration';
 import type {SimulationSkillSource} from '../types/simulationSnapshot';
 import {triggeredEquipmentSimulationSample,recurveBowConfiguration} from '../../tests/fixtures/simulationTriggeredEquipment';
-import {naturalRuleKeys,validateSimulationSkillSourceManifest} from './simulationSkillSourceDescription';
-import {assembleNaturalSkillSources} from './simulationNaturalSkillSources';
+import { naturalRuleKeys, validateSimulationSkillSourceManifest } from './simulation/sources/description';
+import { assembleNaturalSkillSources } from './simulation/sources/natural';
 import {validateSimulationSnapshot} from '../services/simulationSnapshotClient';
 import {skillFormulaDefinition} from '../../tests/fixtures/skillFormulaDefinition';
 

@@ -1,10 +1,17 @@
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { expect, test, type Locator, type Page, type Route } from '@playwright/test';
 import { simulationSample } from '../fixtures/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
 import { expectSimulationConfigurationReady, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
-import { simulationAvailabilityCatalog } from '../fixtures/simulationAvailability';
+import { simulationAvailabilityCatalog, simulationAvailabilitySample } from '../fixtures/simulationAvailability';
+import { loadMechanismCases } from '../mechanisms/mechanismCase';
+import { compareMechanismExpectation, projectMechanismResult } from '../mechanisms/mechanismRunner';
+import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import type { AutomaticSkillArchive } from '../../src/pages/simulation/SimulationScenarioPanel';
 
-// 操作真实管理组件，只替换 HTTP；本专项不作为实库或计算运行证据。
+// 只替换接口；普通模式用例不启动计算，末尾的混合战斗用例执行真实计算。
 const API = 'http://127.0.0.1:19096';
 const GAME_ID = 'workspace_demo';
 const TOKEN = 'workspace-mode-fixture';
@@ -94,11 +101,15 @@ async function installApi(page: Page) {
     await route.abort();
   });
   return {
-    assertClean(formulaPreflightOnly = false) {
+    assertClean(formulaPreflightOnly: boolean | 'runtime' = false) {
       expect(pageErrors, '页面异常').toEqual([]);
       expect(unexpected, '未定义接口请求').toEqual([]);
       expect(writes, '切模式不得写管理数据').toEqual([]);
-      if (formulaPreflightOnly) {
+      if (formulaPreflightOnly === 'runtime') {
+        expect(workers.length, '页面准备与运行均使用真实线程').toBeGreaterThan(1);
+        expect(workers.every(url => url.includes('genericEngineWorker'))).toBe(true);
+        expect(wasmRequests, '每个线程读取正式分发产物').toHaveLength(workers.length);
+      } else if (formulaPreflightOnly) {
         expect(workers, '读取完整作者配置只建立一次公式预检线程').toHaveLength(1);
         expect(workers[0]).toContain('genericEngineWorker');
         expect(wasmRequests, '公式预检使用实际产物').toHaveLength(1);
@@ -513,4 +524,112 @@ test('初始当前生命保持未填写与0区别，明确点击才使用快照�
     { type: 'compile', rulesHash: 'skill-formula-preflight' }, { type: 'release', rulesHash: 'skill-formula-preflight' }
   ]);
   diagnostics.assertClean(true);
+});
+
+type RuntimeObservation = {
+  sent: Array<{ worker: number; type: string; sessionId: string | null; rulesHash: string | null }>;
+  released: Array<{ worker: number; sessionId: string; ok: boolean; released: boolean }>;
+  terminated: number[];
+};
+
+test('混合战斗完整页面：普攻与主动共用时钟，真实编译运行后正常释放', async ({ page }, testInfo) => {
+  // 固定机制已有独立手算：两次100真伤和六次10普攻，总额260，目标余血9740。
+  const definition = loadMechanismCases().find(row => row.caseKey === 'schedule_basic_attack_reduces_cooldown')!;
+  const snapshot = definition.buildSnapshot();
+  const wasm = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
+  expect(createHash('sha256').update(wasm).digest('hex')).toBe(WASM_IDENTITY.sha256);
+  expect(wasm.length).toBe(WASM_IDENTITY.bytes);
+  const diagnostics = await installApi(page);
+  await page.addInitScript(() => {
+    const scope = window as typeof window & { combatRuntimeObservation: RuntimeObservation };
+    const state: RuntimeObservation = { sent: [], released: [], terminated: [] };
+    scope.combatRuntimeObservation = state;
+    const workers = new WeakMap<Worker, number>();
+    let nextWorker = 0;
+    const postMessage = Worker.prototype.postMessage;
+    const terminate = Worker.prototype.terminate;
+    // 透明记录真实消息与释放帧，所有请求继续由原生线程处理。
+    Worker.prototype.postMessage = function(message, ...options) {
+      if (!workers.has(this)) {
+        const worker = nextWorker++;
+        workers.set(this, worker);
+        this.addEventListener('message', event => {
+          if (event.data.type !== 'releaseResult') return;
+          for (const frame of event.data.frames as Array<{ kind: number; payload: ArrayBuffer }>) {
+            if (frame.kind === 214) state.released.push({ worker,
+              ...JSON.parse(new TextDecoder().decode(frame.payload)) as { sessionId: string; ok: boolean; released: boolean } });
+          }
+        });
+      }
+      state.sent.push({ worker: workers.get(this)!, type: message.type,
+        sessionId: message.sessionId ?? message.request?.sessionId ?? null,
+        rulesHash: message.request?.rulesHash ?? message.expectedRulesHash ?? null });
+      return Reflect.apply(postMessage, this, [message, ...options]);
+    };
+    Worker.prototype.terminate = function() {
+      state.terminated.push(workers.get(this)!);
+      return Reflect.apply(terminate, this, []);
+    };
+  });
+  await installSimulationSelectionApi(page, API, snapshot.gameId, snapshot);
+  await page.route(`${API}/api/games`, route => respond(route, [
+    { gameId: snapshot.gameId, gameName: '合成混合战斗验收', representativeImageKey: null }
+  ]));
+  await page.route(`${API}/api/admin/games/${snapshot.gameId}/simulation-availability?**`, route =>
+    respond(route, simulationAvailabilitySample(snapshot)));
+  await page.route(`${API}/api/admin/games/${snapshot.gameId}/character-skill-relations?**`, route => {
+    const characterKey = new URL(route.request().url()).searchParams.get('characterKey');
+    const actor = [snapshot.source, snapshot.target].find(row => row.character.characterKey === characterKey)!;
+    return respond(route, { items: actor.attachedSkills, total: actor.attachedSkills.length });
+  });
+  await page.route(`${API}/api/admin/games/${snapshot.gameId}/skills/*/configuration`, route => {
+    const skillKey = new URL(route.request().url()).pathname.split('/').at(-2);
+    return respond(route, snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey)!);
+  });
+  await page.route('**/simulation-snapshot', route => {
+    expect(route.request().method()).toBe('POST');
+    return respond(route, simulationSnapshotWithSelection(snapshot, route.request().postDataJSON()));
+  });
+
+  await page.goto('/#/simulation/combat-analysis');
+  await waitForGame(page, snapshot.gameId);
+  await chooseSimulationEntity(page, '攻击方角色', snapshot.selection.sourceCharacterKey);
+  await chooseSimulationLevel(page, '攻击方等级', snapshot.selection.sourceLevel);
+  await chooseSimulationEntity(page, '目标角色', snapshot.selection.targetCharacterKey);
+  await chooseSimulationLevel(page, '目标等级', snapshot.selection.targetLevel);
+  await expect(page.getByRole('group', { name: '攻击方技能 lab_true_strike', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '准备计算', exact: true }).click();
+  await expectSimulationConfigurationReady(page);
+  await page.getByRole('spinbutton', { name: '攻击方初始当前生命', exact: true }).fill('1000');
+  await page.getByRole('spinbutton', { name: '目标初始当前生命', exact: true }).fill('10000');
+  await page.getByRole('spinbutton', { name: '观察时长（毫秒）', exact: true }).fill('5500');
+  await page.getByRole('spinbutton', { name: '攻速输入上界', exact: true }).fill('10');
+  await page.getByText('调试详情：编译请求、原始结果与引用覆盖', { exact: true }).click();
+  await page.getByRole('button', { name: '编译验证', exact: true }).click();
+  await expect(page.getByText('仅编译验证通过，不代表单次/连续计算通过。', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '开始计算', exact: true }).click();
+  await expect(page.getByText('自动循环观察完成，会话已释放；完整累计、最后等待与资格账本已核对。', { exact: true })).toBeVisible();
+  const result = page.getByRole('region', { name: '自动技能结果', exact: true });
+  await expect(result).toContainText('观察完整核对；会话已释放');
+  await expect(result).toContainText('背景普攻实际开始6，命中6，完整6');
+
+  const download = page.waitForEvent('download');
+  await result.getByRole('button', { name: '下载自动冻结档案', exact: true }).click();
+  const archive = JSON.parse(readFileSync((await (await download).path())!, 'utf8')) as AutomaticSkillArchive;
+  expect(archive).toMatchObject({ taskKind: 'automatic_skill', outcome: 'passed', cleanup: 'released', assessment: { complete: true } });
+  expect(archive.releaseResult).toMatchObject({ ok: true, released: true, sessionId: archive.runRequest!.sessionId });
+  const projection = projectMechanismResult(archive.operationOrigins, archive.compileRequest, archive.runRequest!, archive.runResult!);
+  expect(compareMechanismExpectation(projection, definition.expected), '下载的真实逐笔结果与手算机制期望一致').toEqual([]);
+  const observation = await page.evaluate(() => (window as typeof window & { combatRuntimeObservation: RuntimeObservation }).combatRuntimeObservation);
+  const run = observation.sent.filter(row => row.type === 'run');
+  expect(run).toHaveLength(1);
+  expect(observation.sent).toContainEqual({ worker: run[0]!.worker, type: 'release', sessionId: archive.runRequest!.sessionId,
+    rulesHash: archive.compileRequest.rulesHash });
+  expect(observation.released).toContainEqual({ worker: run[0]!.worker, sessionId: archive.runRequest!.sessionId, ok: true, released: true });
+  await page.getByRole('link', { name: '普攻模拟', exact: false }).click();
+  await expect(page).toHaveURL(/#\/simulation\/basic-attack$/);
+  const afterLeave = await page.evaluate(() => (window as typeof window & { combatRuntimeObservation: RuntimeObservation }).combatRuntimeObservation);
+  expect(afterLeave.terminated).toContain(run[0]!.worker);
+  await testInfo.attach('混合页面真实运行及会话清理', { body: JSON.stringify({ archive, observation: afterLeave }), contentType: 'application/json' });
+  diagnostics.assertClean('runtime');
 });

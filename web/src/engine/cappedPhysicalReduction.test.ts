@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { cappedPhysicalReductionSample, useOwnerBonusFormula } from '../../tests/fixtures/cappedPhysicalReduction';
 import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
-import { assembleNaturalSkillSources } from './simulationNaturalSkillSources';
-import { naturalRuleKeys } from './simulationSkillSourceDescription';
+import { assembleNaturalSkillSources } from './simulation/sources/natural';
+import { naturalRuleKeys } from './simulation/sources/description';
 import { receivedCooldownDormancy, requireReceivedMaintenanceDormant } from './receivedCooldownDormancy';
 import { permanentModifier } from './simulationPermanentResults';
 import { loadMechanismCases } from '../../tests/mechanisms/mechanismCase';

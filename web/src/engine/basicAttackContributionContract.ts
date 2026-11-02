@@ -1,7 +1,7 @@
 import type { AbilityDefinition, CompileRequest, SkillHitCandidate } from '../types/genericEngine';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import type { LoweredBasicAttackContributionFormula } from './basicAttackContributionFormula';
 
 export type BasicAttackContribution = {

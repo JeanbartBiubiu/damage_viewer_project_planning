@@ -5,14 +5,8 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { JsonBlock } from '../../components/JsonBlock';
 import { GenericEngineClient, GenericEngineClientError } from '../../engine/genericEngineClient';
 import { WASM_IDENTITY } from '../../engine/wasmIdentity';
-import {
-  inspectSimulationSnapshot,
-  prepareSimulation,
-  singleAttackRequest,
-  SIMULATION_ADAPTER_VERSION,
-  type SimulationAttributeRequirement,
-  type SimulationCoverage
-} from '../../engine/simulationAdapter';
+import { inspectSimulationSnapshot, prepareSimulation, singleAttackRequest, SIMULATION_ADAPTER_VERSION } from '../../engine/simulationAdapter';
+import type { SimulationAttributeRequirement, SimulationCoverage } from '../../engine/simulation/model';
 import { getErrorMessage } from '../../services/apiClient';
 import { getSimulationSnapshot, normalizeEquipmentKeys, normalizeSimulationSelection } from '../../services/simulationSnapshotClient';
 import { simulationSkillSourceIdentity } from '../../services/simulationSkillSourceIdentity';

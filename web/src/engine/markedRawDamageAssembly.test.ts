@@ -6,7 +6,7 @@ import { mechanismEngine } from '../../tests/mechanisms/mechanismRunner';
 import type { AbilityDefinition, CompileRequest, ProviderDefinition, RunRequest, SkillHitCandidate } from '../types/genericEngine';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import type { GenericEngineClient } from './genericEngineClient';
-import type { BasicAttackBinding, OperationOrigin } from './simulationAdapter';
+import type { BasicAttackBinding, OperationOrigin } from './simulation/model';
 import { prepareSimulation } from './simulationAdapter';
 import { simulationAutomaticCastCosts } from './simulationActiveSkills';
 import { preflightSkillFormulas } from './skillFormulaPreflight';

@@ -10,7 +10,7 @@ import { compilePersistentResult } from './persistentResultAdapter';
 import { permanentModifier } from './simulationPermanentResults';
 import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
 import { parseMechanismCase } from '../../tests/mechanisms/mechanismCase';
-import { assembleTriggeredEquipment } from './simulationTriggeredEquipment';
+import { assembleTriggeredEquipment } from './simulation/sources/equipment';
 
 const metadata = { description: null, sortOrder: 0, createdAt: '', updatedAt: '' };
 function fixture(direction: 'DEALT' | 'TAKEN' = 'DEALT') {

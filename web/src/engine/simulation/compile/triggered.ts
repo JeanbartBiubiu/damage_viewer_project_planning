@@ -1,112 +1,49 @@
-import { calculationConfiguration, changedAttributes, simulationCriticalBinding } from './simulationCalculationRules';
-import { sameFormulaPayload } from '../services/skillFormulaContract';
-import { skillFormulaParameterKeys, skillFormulaReachableInputs, validateStoredSkillFormula } from '../services/skillFormulaContract';
-import { TypeCatalogEntries } from './typeCatalogEntries';
-import { SKILL_CATEGORY_TYPE_PREFIX, skillCategoryTypeKey } from './skillCategoryType';
-import { damageTypeFormulaAllowedBindings } from '../types/damageTypeFormula';
-import { parseDamageTypeFormulaDefinition } from '../services/damageTypeClient';
-import type {
-  CompileRequest, GenericDamageTypeFormula, GenericFormulaExpr, GenericRules, NamedFormula,
-  AbilityDefinition, ModifierDefinition, OperationDefinition, ProviderDefinition, ProviderStateFieldSchema, SkillHitCandidate
-} from '../types/genericEngine';
-import type { NumericValue } from '../types/numericValue';
-import type { SkillConfiguration } from '../types/skillConfiguration';
-import type { SkillEffect, SkillEffectDamageResult, SkillEffectLifecycle, SkillEffectResult, SkillEffectValueRule } from '../types/skillEffect';
-import type { SkillInternalState } from '../types/skillInternalState';
-import type { SkillProcess, SkillProcessMoment, SkillProcessStateOperation } from '../types/skillProcess';
-import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerAction, type SkillTriggerCondition, type SkillTriggerRuleDetail } from '../types/skillTriggerRule';
-import type { FormulaExpressionNode } from '../types/skillFormula';
-import type { SimulationSnapshot } from '../types/simulationSnapshot';
-import { executableEquipmentRelations, validateSimulationSkillSourceManifest, type TriggeredSkillSourceDescription } from './simulationSkillSourceDescription';
-import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosure';
-import { skillHitChainContract, skillHitChainNaturalConfiguration, skillHitChainPredicate } from './skillHitChainContract';
-import {
-  compileAttributeValue, compileNumericValue, registerCommonFormula, constExpr, createNumericCompileState, finiteNumber,
-  NumericAdaptationError, tryFoldConstant, staticNumericField, wrapValueRuleExpression
-} from './numericAdapter';
-import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
-import { adaptDamageVamp } from './vampAdapter';
-import { compilePersistentResult } from './persistentResultAdapter';
-import { compileTimedDamageAmplification } from './timedDamageAmplificationAdapter';
-import { groupedAmplificationFields, staticGroupedAmplificationAmount } from './groupedAmplification';
-import { compileNaturalRestoration } from './naturalRestoration';
-import { compileSkillOncePerUse } from './skillOncePerUse';
-import { permanentModifier, validatePermanentEffect } from './simulationPermanentResults';
-import { compileSimulationStatusCondition } from './simulationPrimaryAttack';
-import { compileLinkedShieldEffect } from './shieldEffectAdapter';
-import { compileHitIdentityCondition, compilePassiveHitControl } from './hitAdapter';
-import { lowerBasicAttackContributionValue, lowerBasicAttackContributionValueRule,
-  type BasicAttackContributionFormulaPurpose, type LoweredBasicAttackContributionFormula } from './basicAttackContributionFormula';
-import { basicAttackContributionKey, isBasicAttackContributionRule,
-  type BasicAttackContribution } from './basicAttackContributionContract';
-import { compileStateFieldSchema } from './processStateAdapter';
-import { isOwnCooldownReductionResult, type BasicAttackCooldownReduction } from './basicAttackCooldownReduction';
-import { staticEffectAmount } from './staticEffectValue';
-import { compileCommittedTotalRefundRule, type CommittedTotalRefundPlan, type PendingCommittedTotalRefund } from './committedTotalCooldownRefund';
-import { compileProviderDurationResult } from './providerDurationAdapter';
-import { finiteTargetCounterContract } from './finiteTargetCounterContract';
-import { lowerTargetCounterValueRule } from './targetCounterFormula';
-import { lowerSettledDamageHealValueRule, settledDamageHealBinding } from './settledDamageHeal';
-import { lowerRawDamageTargetValueRule, rawDamageTargetBinding } from './rawDamageTarget';
-import { validateMarkedRawDamageContract } from './markedRawDamageContract';
-import { ownCounterShieldExpiry } from './ownCounterShieldExpiry';
-import { targetTimingDeclarations } from './targetTimingAuthoring';
-import { isCounterTargetTiming } from '../services/counterTargetTiming';
-import { declaresPermanentCharacterPeriod, validatePermanentCharacterPeriod } from './permanentCharacterPeriodic';
-import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource,
-  type SceneInitialParameterInput } from './sceneInitialParameterInput';
+import { calculationConfiguration, changedAttributes, simulationCriticalBinding } from '../../simulationCalculationRules';
+import { sameFormulaPayload } from '../../../services/skillFormulaContract';
+import { skillFormulaParameterKeys, skillFormulaReachableInputs } from '../../../services/skillFormulaContract';
+import { TypeCatalogEntries } from '../../typeCatalogEntries';
+import { SKILL_CATEGORY_TYPE_PREFIX, skillCategoryTypeKey } from '../../skillCategoryType';
+import type { GenericFormulaExpr, GenericRules, NamedFormula, AbilityDefinition, ModifierDefinition, OperationDefinition, ProviderDefinition, ProviderStateFieldSchema } from '../../../types/genericEngine';
+import type { NumericValue } from '../../../types/numericValue';
+import type { SkillEffect, SkillEffectDamageResult, SkillEffectLifecycle, SkillEffectResult, SkillEffectValueRule } from '../../../types/skillEffect';
+import type { SkillInternalState } from '../../../types/skillInternalState';
+import type { SkillProcess, SkillProcessMoment, SkillProcessStateOperation } from '../../../types/skillProcess';
+import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerAction, type SkillTriggerCondition, type SkillTriggerRuleDetail } from '../../../types/skillTriggerRule';
+import type { FormulaExpressionNode } from '../../../types/skillFormula';
+import type { SimulationSnapshot } from '../../../types/simulationSnapshot';
+import { skillHitChainContract, skillHitChainNaturalConfiguration, skillHitChainPredicate } from '../../skillHitChainContract';
+import { compileAttributeValue, compileNumericValue, registerCommonFormula, constExpr, createNumericCompileState, finiteNumber, tryFoldConstant, staticNumericField, wrapValueRuleExpression } from '../../numericAdapter';
+import type { OperationOrigin, SimulationCoverage, TriggeredSourceAssembly, TriggeredSourceDescription, SimulationSourceSide as Side } from '../model';
+import { adaptDamageVamp } from '../../vampAdapter';
+import { compilePersistentResult } from '../../persistentResultAdapter';
+import { compileTimedDamageAmplification } from '../../timedDamageAmplificationAdapter';
+import { groupedAmplificationFields, staticGroupedAmplificationAmount } from '../../groupedAmplification';
+import { compileNaturalRestoration } from '../../naturalRestoration';
+import { compileSkillOncePerUse } from '../../skillOncePerUse';
+import { compileSimulationStatusCondition } from '../../simulationPrimaryAttack';
+import { compileLinkedShieldEffect } from '../../shieldEffectAdapter';
+import { compileHitIdentityCondition, compilePassiveHitControl } from '../../hitAdapter';
+import { lowerBasicAttackContributionValue, lowerBasicAttackContributionValueRule, type BasicAttackContributionFormulaPurpose, type LoweredBasicAttackContributionFormula } from '../../basicAttackContributionFormula';
+import { basicAttackContributionKey, isBasicAttackContributionRule, type BasicAttackContribution } from '../../basicAttackContributionContract';
+import { compileStateFieldSchema } from '../../processStateAdapter';
+import { isOwnCooldownReductionResult, type BasicAttackCooldownReduction } from '../../basicAttackCooldownReduction';
+import { staticEffectAmount } from '../../staticEffectValue';
+import { compileCommittedTotalRefundRule, type CommittedTotalRefundPlan, type PendingCommittedTotalRefund } from '../../committedTotalCooldownRefund';
+import { compileProviderDurationResult } from '../../providerDurationAdapter';
+import { finiteTargetCounterContract } from '../../finiteTargetCounterContract';
+import { lowerTargetCounterValueRule } from '../../targetCounterFormula';
+import { lowerSettledDamageHealValueRule, settledDamageHealBinding } from '../../settledDamageHeal';
+import { lowerRawDamageTargetValueRule, rawDamageTargetBinding } from '../../rawDamageTarget';
+import { validateMarkedRawDamageContract } from '../../markedRawDamageContract';
+import { ownCounterShieldExpiry } from '../../ownCounterShieldExpiry';
+import { targetTimingDeclarations } from '../../targetTimingAuthoring';
+import { isCounterTargetTiming } from '../../../services/counterTargetTiming';
+import { declaresPermanentCharacterPeriod, validatePermanentCharacterPeriod } from '../../permanentCharacterPeriodic';
+import { METADATA, fail, record, exact, array, stableKey, uniqueRows, ordered } from './validation';
+import { validateConfiguration } from './configuration';
+import { compileSimulationDamageFormula } from './damageFormula';
 
 
-type Side = 'source' | 'target';
-export type TriggeredEquipmentAssembly = {
-  providers: ProviderDefinition[];
-  mounts: Array<{ side: Side; providerRef: string; definitionRef: string }>;
-  types: CompileRequest['typeCatalog']['types'];
-  formulas: NamedFormula[];
-  rules: GenericRules;
-  operationOrigins: OperationOrigin[];
-  coverage: SimulationCoverage[];
-  required: Record<Side, Set<string>>;
-  selectedSkills: Set<string>;
-  changedAttributes: ReturnType<typeof changedAttributes>;
-  compiledSources: Array<{ side: Side; providerRef: string; definitionRef: string; skillKey: string }>;
-  passiveHitContributions?: Array<{ sourceSkillKey: string; authorSkillKey: string; candidate: SkillHitCandidate }>;
-  basicAttackContributions?: BasicAttackContribution[];
-  basicAttackCooldownReductions?: BasicAttackCooldownReduction[];
-  committedTotalRefunds?: PendingCommittedTotalRefund[];
-};
-
-const METADATA = ['name', 'description', 'sortOrder', 'createdAt', 'updatedAt'];
-
-function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
-function record(value: unknown, path: string): Record<string, unknown> {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) fail(path, '需要完整对象');
-  return value as Record<string, unknown>;
-}
-function exact(value: unknown, fields: readonly string[], path: string) {
-  const unexpected = Object.keys(record(value, path)).find(key => !fields.includes(key));
-  if (unexpected) fail(`${path}.${unexpected}`, '4C未接入的字段不能被静默忽略');
-}
-function array<T>(value: T[], path: string): T[] {
-  if (!Array.isArray(value)) fail(path, '需要完整数组');
-  return value;
-}
-function stableKey(value: unknown, path: string): string {
-  if (typeof value !== 'string' || !/^[a-z][a-z0-9_]{0,63}$/.test(value)) fail(path, '需要合法稳定标识');
-  return value;
-}
-function uniqueRows<T>(rows: T[], keyFor: (row: T) => string, path: string) {
-  const seen = new Set<string>();
-  for (const row of array(rows, path)) {
-    const key = stableKey(keyFor(row), path);
-    if (seen.has(key)) fail(path, '稳定标识重复，不能过滤后继续');
-    seen.add(key);
-  }
-}
-function validateFormulaNode(node: FormulaExpressionNode, path: string, skillKey: string) {
-  const problem = validateStoredSkillFormula(node, skillKey);
-  if (problem) fail(path + problem.path, problem.code);
-}
 function validateNumeric(value: NumericValue, path: string) {
   record(value, path);
   if (value.kind === 'FIXED') exact(value, ['kind', 'value'], path);
@@ -143,65 +80,9 @@ function renameFormulaRefs(expression: GenericFormulaExpr, names: ReadonlyMap<st
     ...(expression.expr ? { expr: renameFormulaRefs(expression.expr, names) } : {})
   };
 }
-
-function ordered<T extends { sortOrder: number }>(rows: T[], path: string): T[] {
-  if (array(rows, path).some(row => !Number.isInteger(row.sortOrder))) fail(path, '排序必须为整数');
-  return rows.map((row, index) => ({ row, index }))
-    .sort((left, right) => left.row.sortOrder - right.row.sortOrder || left.index - right.index).map(entry => entry.row);
-}
-
-export function compileSimulationDamageFormula(snapshot: SimulationSnapshot, damageKey: string): GenericDamageTypeFormula {
-  stableKey(damageKey, `catalogs.damageTypes.${damageKey}`);
-  const entries = snapshot.catalogs.damageTypes.filter(row => row.type.damageTypeKey === damageKey);
-  const authored = entries[0];
-  if (entries.length !== 1 || !authored || authored.type.gameId !== snapshot.gameId || authored.type.status !== 'ENABLED'
-    || authored.type.formulaConfigured !== true) fail(`catalogs.damageTypes.${damageKey}`, '缺少唯一已启用的真实共同防御公式');
-  exact(authored.type, ['gameId', 'damageTypeKey', 'status', 'formulaConfigured', ...METADATA], `catalogs.damageTypes.${damageKey}.type`);
-  exact(authored.formula, ['gameId', 'damageTypeKey', 'formula', 'updatedAt'], `catalogs.damageTypes.${damageKey}.formula`);
-  if (authored.formula.gameId !== snapshot.gameId || authored.formula.damageTypeKey !== damageKey) fail(`catalogs.damageTypes.${damageKey}.formula`, '防御公式归属不一致');
-  const formula = parseDamageTypeFormulaDefinition(authored.formula.formula,
-    damageTypeFormulaAllowedBindings(snapshot.catalogs.attributes.filter(attribute => attribute.gameId === snapshot.gameId)));
-  return { damageType: damageKey, formula };
-}
 function combine(operation: 'min' | 'max', expressions: GenericFormulaExpr[]): GenericFormulaExpr {
   if (!expressions.length) fail('conditionGroups', '条件组不能为空');
   return expressions.reduce((left, right) => ({ op: operation, args: [left, right] }));
-}
-export function validateConfiguration(configuration: SkillConfiguration, gameId: string, root: string, item: boolean, skillLevel: number, equipmentPassiveCategoryKey: string | null) {
-  exact(configuration, ['skill', 'parameters', 'formulas', 'effects', 'processes', 'internalStates', 'triggerRules', 'baseDigest'], root);
-  exact(configuration.skill, ['gameId', 'skillKey', 'maxLevel', 'status', 'skillCategoryKeys', ...METADATA], `${root}.skill`);
-  const categories = array(configuration.skill.skillCategoryKeys, `${root}.skill.skillCategoryKeys`);
-  if (item && equipmentPassiveCategoryKey === null) fail('catalogs.calculationRules.configuration.equipmentPassiveCategoryKey', '实际启用且可达的装备技能需要明确配置被动分类用途绑定');
-  if (configuration.skill.gameId !== gameId || configuration.skill.status !== 'ENABLED'
-    || !Number.isSafeInteger(configuration.skill.maxLevel) || configuration.skill.maxLevel < 1
-    || !Number.isSafeInteger(skillLevel) || skillLevel < 1 || skillLevel > configuration.skill.maxLevel
-    || item && (configuration.skill.maxLevel !== 1 || skillLevel !== 1 || !categories.includes(equipmentPassiveCategoryKey!))
-    || new Set(categories).size !== categories.length) {
-    fail(root, item ? '装备关系需要完整单级、已启用的被动技能' : '自然来源需要真实启用技能与明确合法已学等级');
-  }
-  uniqueRows(configuration.parameters, row => row.parameterKey, `${root}.parameters`);
-  uniqueRows(configuration.formulas, row => row.formulaKey, `${root}.formulas`);
-  uniqueRows(configuration.effects, row => row.effectKey, `${root}.effects`);
-  uniqueRows(configuration.processes, row => row.processKey, `${root}.processes`);
-  uniqueRows(configuration.internalStates, row => row.stateKey, `${root}.internalStates`);
-  uniqueRows(configuration.triggerRules, row => row.ruleKey, `${root}.triggerRules`);
-  if (!configuration.triggerRules.length || !configuration.effects.length && (item || !configuration.processes.length && !configuration.internalStates.length)) fail(root, '缺少完整效果或触发规则，不能仅取直接属性');
-  for (const parameter of configuration.parameters) {
-    const path = `${root}.parameters.${parameter.parameterKey}`;
-    exact(parameter, ['gameId', 'skillKey', 'parameterKey', 'valueType', 'valueMode', 'fixedValue', 'levelValues', ...METADATA], path);
-    if (parameter.gameId !== gameId || parameter.skillKey !== configuration.skill.skillKey
-      || !['INTEGER', 'DECIMAL'].includes(parameter.valueType)
-      || !['FIXED', 'SKILL_LEVEL', 'CHARACTER_LEVEL', 'RUNTIME_INPUT'].includes(parameter.valueMode)) fail(path, '参数归属或取值方式未核定');
-    if (parameter.valueMode === 'FIXED' && parameter.levelValues !== null
-      || parameter.valueMode !== 'FIXED' && parameter.fixedValue !== null
-      || parameter.valueMode === 'RUNTIME_INPUT' && parameter.levelValues !== null) fail(path, '参数必须符合声明的取值方式，不能忽略另一组数值');
-  }
-  for (const formula of configuration.formulas) {
-    const path = `${root}.formulas.${formula.formulaKey}`;
-    exact(formula, ['gameId', 'skillKey', 'formulaKey', 'expression', ...METADATA], path);
-    if (formula.gameId !== gameId || formula.skillKey !== configuration.skill.skillKey) fail(path, '公式归属不一致');
-    validateFormulaNode(formula.expression, `${path}.expression`, configuration.skill.skillKey);
-  }
 }
 function validateLifecycle(lifecycle: SkillEffectLifecycle, path: string) {
   exact(lifecycle, ['durationValue', 'maxStacksValue', 'applicationStacksValue', 'instanceScope', 'reapplicationStackMode',
@@ -220,90 +101,9 @@ function validateValueRule(rule: SkillEffectValueRule, path: string) {
   if (rule.fixedMinValue !== null && rule.fixedMaxValue !== null && rule.fixedMinValue > rule.fixedMaxValue) fail(path, '数值下界不能高于上界');
 }
 
-export function assembleTriggeredEquipment(snapshot: SimulationSnapshot, sceneInputs: readonly SceneInitialParameterInput[] = []): TriggeredEquipmentAssembly {
-  const normalized = normalizeSceneInitialParameterInputs(snapshot, sceneInputs);
-  const sceneRequirements = sceneInitialParameterRequirements(snapshot);
-  validateSimulationSkillSourceManifest(snapshot);
-  const descriptions: TriggeredSkillSourceDescription[] = [];
-  const excludedCoverage: SimulationCoverage[] = [];
-  for (const side of ['source', 'target'] as const) {
-    const keys = array(snapshot.selection[`${side}EquipmentKeys`], `selection.${side}EquipmentKeys`);
-    const items = array(snapshot[side].selectedEquipment, `${side}.selectedEquipment`);
-    if (new Set(keys).size !== keys.length || keys.length > 6) fail(`selection.${side}EquipmentKeys`, '装备选择不能重复或超过6件');
-    if (keys.length !== items.length
-      || new Set(items.map(item => item.equipment.equipmentKey)).size !== items.length
-      || items.some(item => !keys.includes(item.equipment.equipmentKey))) fail(`${side}.selectedEquipment`, '所选装备完整集缺失或重复');
-    for (const equipmentKey of [...keys].sort()) {
-      stableKey(equipmentKey, `selection.${side}EquipmentKeys`);
-      const path = `${side}.selectedEquipment[${equipmentKey}]`;
-      const item = items.find(row => row.equipment.equipmentKey === equipmentKey)!;
-      if (item.equipment.gameId !== snapshot.gameId || item.attributes.equipmentKey !== equipmentKey) fail(path, '装备归属不一致');
-      const allRelations = array(item.attachedSkills, `${path}.attachedSkills`);
-      const relations = executableEquipmentRelations(snapshot, side, equipmentKey);
-      uniqueRows(allRelations, row => row.skillKey, `${path}.attachedSkills`);
-      uniqueRows(relations, row => row.skillKey, `${path}.attachedSkills`);
-      for (const relation of relations) {
-        const relationPath = `${path}.attachedSkills[${relations.indexOf(relation)}]`;
-        exact(relation, ['gameId', 'skillKey', 'skillName', 'skillStatus', 'sortOrder', 'equipmentKey', 'equipmentName'], relationPath);
-        if (relation.gameId !== snapshot.gameId || relation.equipmentKey !== equipmentKey || relation.skillStatus !== 'ENABLED') {
-          fail(relationPath, '必须保留完整启用被动关系，整件装备拒绝，不能过滤后只取直接属性');
-        }
-      }
-      if (!relations.length) continue;
-      if (!Number.isInteger(snapshot.selection[`${side}Level`]) || snapshot.selection[`${side}Level`] < 1) fail(`selection.${side}Level`, '装备拥有方等级必须明确且有效');
-      const providerRef = `${side}_${equipmentKey}_passive`;
-      const definitionRef = `${providerRef}_definition`;
-      descriptions.push({ side, kind: 'item', stableId: `${side}_equipment_${equipmentKey}_definition`,
-        providerRef, definitionRef, path, equipmentKey, skills: ordered(relations, `${path}.attachedSkills`).map(relation => {
-          const configurations = snapshot.skillConfigurations.filter(row => row.skill.skillKey === relation.skillKey);
-          if (configurations.length !== 1) fail(`${path}.attachedSkills`, '完整被动配置缺失或重复，整件装备拒绝');
-          const complete = configurations[0]!;
-          validateConfiguration(complete, snapshot.gameId, `skills.${relation.skillKey}`, true, 1, calculationConfiguration(snapshot)?.equipmentPassiveCategoryKey ?? null);
-          const source = snapshot[side].skillSources.find(source => source.origin.kind === 'EQUIPMENT'
-            && source.origin.equipmentKey === equipmentKey && source.skillKey === relation.skillKey)!;
-          const rootKeys = source.enabledRuleKeys;
-          const { configuration } = selectSimulationSkillSourceClosure(complete, rootKeys);
-          // 作者说明公式与参数继续完整校验、保留，不把未挂接的值冒充实际效果。
-          configuration.parameters = complete.parameters;
-          configuration.formulas = complete.formulas;
-          for (const [collection, key] of [
-            ['effects', 'effectKey'], ['processes', 'processKey'], ['internalStates', 'stateKey'], ['triggerRules', 'ruleKey']
-          ] as const) for (const authored of complete[collection]) {
-            const stableKey = (authored as unknown as Record<string, unknown>)[key];
-            if (!configuration[collection].some(row => (row as unknown as Record<string, unknown>)[key] === stableKey)) {
-              excludedCoverage.push({ authorPath: `skills.${relation.skillKey}.${collection}.${stableKey}`,
-                compiledPath: 'runtimeOptions.skillOrigins', note: '完整作者配置保留；本场没有可达入口，不生成执行程序' });
-            }
-          }
-          return { skillKey: relation.skillKey, skillLevel: 1,
-            path: `${path}.attachedSkills[${relations.indexOf(relation)}]`, configuration, allowedRootKeys: rootKeys,
-            sceneInitialValues: sceneInitialValuesForSource(sceneRequirements, normalized, side, source),
-            permanentModifier: (result, resultPath, onNumericConsumed) => {
-              const effect = configuration.effects.find(row => row.results.includes(result))!;
-              const context = { snapshot, configuration, source, side, formulaNamespace: `${providerRef}/${relation.skillKey}/permanent`, onNumericConsumed };
-              validatePermanentEffect(effect, `skills.${relation.skillKey}.effects.${effect.effectKey}`, context);
-              const modifier = permanentModifier(context, result, resultPath);
-              if ('combatantKey' in modifier) fail(resultPath, '装备常驻只接入明确静态修正，动态转换尚未开放');
-              return modifier;
-            } };
-        }) });
-    }
-  }
-  const assembled = assembleTriggeredSkillSources(snapshot, descriptions);
-  const expected = descriptions.flatMap(description => description.skills.map(skill =>
-    JSON.stringify([description.side, description.providerRef, description.definitionRef, skill.skillKey])));
-  const actual = assembled.compiledSources.map(source => JSON.stringify([source.side, source.providerRef, source.definitionRef, source.skillKey]));
-  if (new Set(expected).size !== expected.length || new Set(actual).size !== actual.length
-    || expected.length !== actual.length || expected.some(source => !actual.includes(source))) {
-    fail('skillSources', '开启装备来源与实编拥有方、挂载及技能身份不一致，不能漏编或覆盖兄弟技能');
-  }
-  assembled.coverage.push(...excludedCoverage);
-  return assembled;
-}
-
-export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, descriptions: readonly TriggeredSkillSourceDescription[]): TriggeredEquipmentAssembly {
+export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, descriptions: readonly TriggeredSourceDescription[]): TriggeredSourceAssembly {
   const providers: ProviderDefinition[] = [];
-  const mounts: TriggeredEquipmentAssembly['mounts'] = [];
+  const mounts: TriggeredSourceAssembly['mounts'] = [];
   const types = new TypeCatalogEntries();
   const formulas = new Map<string, NamedFormula>();
   const rules: GenericRules = { damageTypeFormulas: [] };
@@ -312,8 +112,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
   const required: Record<Side, Set<string>> = { source: new Set(), target: new Set() };
   const selectedSkills = new Set<string>();
   const changed = changedAttributes();
-  const compiledSources: TriggeredEquipmentAssembly['compiledSources'] = [];
-  const passiveHitContributions: NonNullable<TriggeredEquipmentAssembly['passiveHitContributions']> = [];
+  const compiledSources: TriggeredSourceAssembly['compiledSources'] = [];
+  const passiveHitContributions: NonNullable<TriggeredSourceAssembly['passiveHitContributions']> = [];
   const basicAttackContributions: BasicAttackContribution[] = [];
   const basicAttackCooldownReductions: BasicAttackCooldownReduction[] = [];
   const committedTotalRefunds: PendingCommittedTotalRefund[] = [];
@@ -376,7 +176,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           characterLevel: snapshot.selection[`${side}Level`], parameters: configuration.parameters,
           formulas: configuration.formulas, formulaNamespace: skills.length === 1 ? providerRef : `${providerRef}/${skillKey}`,
           bindParameters: true, allowAttributeReads: true, runtimeInputMessage: '触发来源不允许未供值的计算时参数' });
-        const staticField = (authored: NumericValue, fieldPath: string, state: import('./numericAdapter').NumericCompileState, reject: typeof fail) => {
+        const staticField = (authored: NumericValue, fieldPath: string, state: import('../../numericAdapter').NumericCompileState, reject: typeof fail) => {
           const field = staticNumericField(authored, fieldPath, state, reject);
           if (skills.length === 1 || typeof field === 'number') return field;
           const approved = tryFoldConstant(field);

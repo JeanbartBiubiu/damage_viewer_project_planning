@@ -6,7 +6,7 @@ import { fixedValue } from '../types/numericValue';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import type { SkillEffect } from '../types/skillEffect';
 import { inspectSimulationSnapshot, assembleSimulation } from './simulationAdapter';
-import { naturalRuleKeys, plannedSkillRuleKeys } from './simulationSkillSourceDescription';
+import { naturalRuleKeys, plannedSkillRuleKeys } from './simulation/sources/description';
 
 function sync(snapshot: SimulationSnapshot) {
   syncSimulationSkillSources(snapshot);

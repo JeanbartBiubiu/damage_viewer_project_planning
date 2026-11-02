@@ -2,7 +2,7 @@ import { simulationActiveSample } from './simulationActiveSkill';
 import type { SkillParameter } from '../../src/types/skillParameter';
 import type { SkillInternalState } from '../../src/types/skillInternalState';
 import type { SkillTriggerSceneInitialParameterBinding } from '../../src/types/skillTriggerRule';
-import { naturalRuleKeys, plannedSkillRuleKeys } from '../../src/engine/simulationSkillSourceDescription';
+import { naturalRuleKeys, plannedSkillRuleKeys } from '../../src/engine/simulation/sources/description';
 import { sceneInitialParameterRequirements } from '../../src/engine/sceneInitialParameterInput';
 
 /** 独立机制样例，不使用真实英雄标识或数据。 */

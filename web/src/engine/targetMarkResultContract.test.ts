@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type {
   AbilityDefinition, CompileRequest, DamageRecord, DoneResult, EvidenceItem, ProcessInstanceSnapshot, RunRequest, SkillActionBinding
 } from '../types/genericEngine';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { inspectTargetMarkResult, targetMarkDamageOriginMatches } from './targetMarkResultContract';
 
 const ref = (provider: string, ability: string) => `source.provider[${provider}].ability[${ability}]`;

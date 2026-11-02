@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { loadMechanismCases } from '../../tests/mechanisms/mechanismCase';
-import { assembleNaturalSkillSources } from './simulationNaturalSkillSources';
+import { assembleNaturalSkillSources } from './simulation/sources/natural';
 import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { shieldResultDefinitionRef } from './shieldEffectAdapter';
 

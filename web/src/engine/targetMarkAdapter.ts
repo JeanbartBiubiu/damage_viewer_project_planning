@@ -3,9 +3,8 @@ import type { SimulationSkillSource, SimulationSnapshot } from '../types/simulat
 import type { AbilityDefinition, GenericFormulaExpr, OperationDefinition, ProviderDefinition, SkillActionBinding } from '../types/genericEngine';
 import type { SkillEffectDamageResult, SkillEffectValueRule } from '../types/skillEffect';
 import type { NumericValue } from '../types/numericValue';
-import type { BasicAttackBinding } from './simulationAdapter';
-import type { TriggeredEquipmentAssembly } from './simulationTriggeredEquipment';
-import { compileSimulationDamageFormula } from './simulationTriggeredEquipment';
+import type { BasicAttackBinding, TriggeredSourceAssembly } from './simulation/model';
+import { compileSimulationDamageFormula } from './simulation/compile/damageFormula';
 import { compileDamage, type AuthoredHitProgram } from './hitAdapter';
 import { compileNumericValue, constExpr, createNumericCompileState, NumericAdaptationError, tryFoldConstant } from './numericAdapter';
 import { staticEffectAmount } from './staticEffectValue';
@@ -80,7 +79,7 @@ function ruleRef(skillKey: string, ruleKey: string) { return `skills.${skillKey}
  * 在所有主动/普攻完成装配后调用。providers只返回同父定义的补充schema/abilities，
  * 由根合并到现有定义并重定位局部数组索引；mounts为空，不能重复挂载父来源。
  */
-export function assembleTargetMarkSource(input: TargetMarkAssemblyInput): TriggeredEquipmentAssembly | null {
+export function assembleTargetMarkSource(input: TargetMarkAssemblyInput): TriggeredSourceAssembly | null {
   const { snapshot, source, side, providerRef, definitionRef, providers, skillActionBindings, basicAttackBinding } = input;
   if (!available(snapshot, source, side)) return null;
   const configurations = snapshot.skillConfigurations.filter(row => row.skill.skillKey === source.skillKey);
@@ -106,7 +105,7 @@ export function assembleTargetMarkSource(input: TargetMarkAssemblyInput): Trigge
     characterLevel: snapshot.selection.sourceLevel, parameters: configuration.parameters, formulas: configuration.formulas,
     formulaNamespace: `target_mark/${definitionRef}/${skillKey}`, bindParameters: true, allowAttributeReads: true,
     runtimeInputMessage: '标记伤害不得依赖引爆技能费用或未声明运行输入' });
-  const required: TriggeredEquipmentAssembly['required'] = { source: new Set(), target: new Set() };
+  const required: TriggeredSourceAssembly['required'] = { source: new Set(), target: new Set() };
   const validateValue = (value: NumericValue, path: string, attributes = true) => {
     if (value.kind === 'FIXED') { if (!Number.isFinite(value.value)) fail(path, '标记数值必须有限'); return; }
     if (value.kind === 'PARAMETER') {
@@ -143,7 +142,7 @@ export function assembleTargetMarkSource(input: TargetMarkAssemblyInput): Trigge
   if (priorState !== undefined && (typeof priorState !== 'object' || priorState.defaultValue !== 0 || priorState.maxValue !== 1
     || priorState.durationMs !== duration || priorState.refreshPolicy !== 'refresh_on_write' || priorState.stateKind !== undefined || priorState.onExpire !== undefined)) fail(statePath, '标记不得覆盖同父定义的其它状态语义');
   const types = new TypeCatalogEntries([['event/skill_hit', 'event'], ['event/source_owner', 'event'], ['state_scope/provider_target', 'state_scope']]);
-  const assembly: TriggeredEquipmentAssembly = { providers: [], mounts: [], formulas: [], types: [], rules: { damageTypeFormulas: [] },
+  const assembly: TriggeredSourceAssembly = { providers: [], mounts: [], formulas: [], types: [], rules: { damageTypeFormulas: [] },
     coverage: [], operationOrigins: [], required, selectedSkills: new Set([skillKey]), changedAttributes: { source: new Set(), target: new Set() },
     compiledSources: [{ side, providerRef, definitionRef, skillKey }] };
   const coverValue = (value: NumericValue, compiledPath: string) => {

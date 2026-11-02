@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { CompileRequest, DamageRecord, DoneResult, RunRequest } from '../types/genericEngine';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { inspectPermanentPeriodicResult } from './permanentPeriodicResultContract';
 
 function sample(mixed = true, owner: 'source' | 'target' = 'source') {

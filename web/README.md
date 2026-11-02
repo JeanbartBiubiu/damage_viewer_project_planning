@@ -13,6 +13,8 @@
 | 混合战斗分析 | `#/simulation/combat-analysis`；自动连招、背景普攻、曲线及使用／结算联动 |
 | 请求与错误 | `src/services/apiClient.ts`，各业务服务位于 `src/services/` |
 | 场景与生产适配 | `src/engine/simulationAdapter.ts`、`simulationActiveSkills.ts`、`processAdapter.ts` |
+| 模拟来源准备 | `src/engine/simulation/sources/`；装备与自然来源分别拥有选择、身份、执行闭包和所属常驻贡献 |
+| 通用配置校验与编译 | `src/engine/simulation/compile/`；完整配置校验、共同防御公式及触发程序编译；共享类型在 `simulation/model.ts` |
 | Wasm协议与分发 | `src/engine/` 内客户端／工作线程及 `src/engine/wasm/tinygo_engine_v2.wasm` |
 | 固定机制回归 | [用例说明](tests/mechanisms/README.md) |
 

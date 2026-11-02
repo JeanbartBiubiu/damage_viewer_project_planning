@@ -1,5 +1,5 @@
 import { simulationSkillSourceIdentity } from '../../src/services/simulationSkillSourceIdentity';
-import { plannedSkillRuleKeys } from '../../src/engine/simulationSkillSourceDescription';
+import { plannedSkillRuleKeys } from '../../src/engine/simulation/sources/description';
 import type { SimulationSelection, SimulationSkillOrigin, SimulationSkillSetting, SimulationSkillSource, SimulationSnapshot } from '../../src/types/simulationSnapshot';
 
 const naturalEvents = new Set(['SOURCE_INITIALIZED', 'BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'BASIC_ATTACK_RECEIVED',

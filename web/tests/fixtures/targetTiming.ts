@@ -5,7 +5,7 @@ import type { SkillInternalStateCounter } from '../../src/types/skillInternalSta
 import type { SkillProcess, SkillProcessMoment } from '../../src/types/skillProcess';
 import type { SkillTriggerRuleDetail } from '../../src/types/skillTriggerRule';
 import type { SkillEffect, SkillEffectResult } from '../../src/types/skillEffect';
-import type { TriggeredSkillSourceDescription } from '../../src/engine/simulationSkillSourceDescription';
+import type { TriggeredSourceDescription } from '../../src/engine/simulation/model';
 
 /** 完全合成的作者图，只供协议与装配边界检查，不复制正式英雄配置。 */
 export function targetTimingSample() {
@@ -120,7 +120,7 @@ export function targetTimingSample() {
   snapshot.selection.basicAttackSkillKey = basic.skill.skillKey; snapshot.selection.basicAttackLevel = 1;
   snapshot.source.skillSources[0]!.enabledRuleKeys = basic.triggerRules.map(row => row.ruleKey).sort();
   snapshot.source.skillSources[0]!.inactiveReason = null;
-  const description: TriggeredSkillSourceDescription = { side: 'source', kind: 'character', stableId: 'lab_timing_definition',
+  const description: TriggeredSourceDescription = { side: 'source', kind: 'character', stableId: 'lab_timing_definition',
     providerRef: 'lab_timing_mount', definitionRef: 'lab_timing_definition', path: 'source.skillSources.lab_timing',
     skills: [{ skillKey, skillLevel: 1, path: 'skills.lab_timing', configuration }] };
   return { snapshot, configuration, description, phases, reservation, count, restriction, tick, detonate, reapply, apply,

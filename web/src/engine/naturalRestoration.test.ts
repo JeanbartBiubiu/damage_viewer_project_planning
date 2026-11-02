@@ -4,7 +4,7 @@ import { recurveBowConfiguration, triggeredEquipmentSimulationSample } from '../
 import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkillSources';
 import type { SkillEffect, SkillEffectResult } from '../types/skillEffect';
 import { compileNaturalRestoration } from './naturalRestoration';
-import { assembleNaturalSkillSources } from './simulationNaturalSkillSources';
+import { assembleNaturalSkillSources } from './simulation/sources/natural';
 
 function sample(event: 'DAMAGE_DEALT' | 'DAMAGE_TAKEN' | 'BASIC_ATTACK_START' | 'DAMAGE_PENDING' = 'DAMAGE_DEALT') {
   const snapshot = triggeredEquipmentSimulationSample([], []), config = recurveBowConfiguration();

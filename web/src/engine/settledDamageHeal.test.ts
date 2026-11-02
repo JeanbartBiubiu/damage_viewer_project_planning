@@ -6,7 +6,7 @@ import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkill
 import { lowerSettledDamageHealValueRule, settledDamageHealBinding } from './settledDamageHeal';
 import { compileNaturalRestoration } from './naturalRestoration';
 import { skillFormulaPreflightRequest } from './skillFormulaPreflight';
-import { assembleNaturalSkillSources } from './simulationNaturalSkillSources';
+import { assembleNaturalSkillSources } from './simulation/sources/natural';
 
 function reads(value: unknown): string[] {
   if (Array.isArray(value)) return value.flatMap(reads);

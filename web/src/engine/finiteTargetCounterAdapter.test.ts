@@ -6,7 +6,7 @@ import { preflightSkillFormulas } from './skillFormulaPreflight';
 import { prepareSimulation } from './simulationAdapter';
 import { simulationAutomaticCastCosts } from './simulationActiveSkills';
 import { finiteTargetCounterContract } from './finiteTargetCounterContract';
-import { naturalRuleKeys, plannedSkillRuleKeys } from './simulationSkillSourceDescription';
+import { naturalRuleKeys, plannedSkillRuleKeys } from './simulation/sources/description';
 import type { GenericEngineClient } from './genericEngineClient';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import type { CompileRequest, RunRequest } from '../types/genericEngine';

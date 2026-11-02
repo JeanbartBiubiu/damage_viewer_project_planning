@@ -1,12 +1,12 @@
 import type { ProviderDefinition, SkillActionBinding, SkillHitCandidate } from '../types/genericEngine';
 import type { SkillEffect, SkillEffectResult } from '../types/skillEffect';
 import type { SimulationPlannedSkill, SimulationSnapshot } from '../types/simulationSnapshot';
-import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
+import type { OperationOrigin, SimulationCoverage } from './simulation/model';
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import { NumericAdaptationError, constExpr, type NumericCompileState } from './numericAdapter';
 import { staticEffectAmount } from './staticEffectValue';
 import { calculationConfiguration } from './simulationCalculationRules';
-import { validateSimulationSkillSourceManifest } from './simulationSkillSourceDescription';
+import { validateSimulationSkillSourceManifest } from './simulation/sources/description';
 
 /** 仅宿主暂存；不属于原生命中候选或操作协议。 */
 export type SkillHitCooldownReduction = {

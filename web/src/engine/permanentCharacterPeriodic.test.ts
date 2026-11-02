@@ -5,8 +5,8 @@ import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinit
 import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkillSources';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillEffectDamageResult } from '../types/skillEffect';
-import { assembleNaturalSkillSources } from './simulationNaturalSkillSources';
-import { assembleTriggeredSkillSources } from './simulationTriggeredEquipment';
+import { assembleNaturalSkillSources } from './simulation/sources/natural';
+import { assembleTriggeredSkillSources } from './simulation/compile/triggered';
 
 function sample(side: 'source' | 'target' = 'source', background = true) {
   const snapshot = triggeredEquipmentSimulationSample([], []);

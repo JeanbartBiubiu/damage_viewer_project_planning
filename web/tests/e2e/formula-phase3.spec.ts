@@ -184,7 +184,7 @@ test('真实管理页录入灼热两／六结果，读回定义由正式Worker�
     page.on('worker', worker => workers.push(worker.url()));
     const runtime = await page.evaluate(async ({ input, detail, actualType, attributes }) => {
       const clientPath = '/src/engine/genericEngineClient.ts';
-      const adapterPath = '/src/engine/simulationTriggeredEquipment.ts';
+      const adapterPath = '/src/engine/simulation/compile/damageFormula.ts';
       const { GenericEngineClient } = await import(clientPath);
       const { compileSimulationDamageFormula } = await import(adapterPath);
       // 目录来自真实只读接口；此处只验证作者公式运输，独立伤害输入仍明确构造。

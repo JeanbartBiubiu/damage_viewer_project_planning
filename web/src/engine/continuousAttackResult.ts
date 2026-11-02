@@ -6,7 +6,7 @@ import type {
   AbilityDefinition, AttackRecord, BudgetCause, CompileRequest, DamageBreakdown, DamageRecord, DoneResult, GenericFormulaExpr,
   ExecutionSummary, MechanicRecord, OperationDefinition, ProcessInstanceSnapshot, ProviderStateFieldSchema, RecordingSummary, RunRequest, StopReason, SeriesPoint, SeriesSamplingEvidence
 } from '../types/genericEngine';
-import type { OperationOrigin } from './simulationAdapter';
+import type { OperationOrigin } from './simulation/model';
 import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import { inspectSimulationProcessFacts, simulationActionContribution } from './simulationProcessFacts';

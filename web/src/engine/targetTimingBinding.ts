@@ -1,6 +1,6 @@
 import type { ProviderDefinition, SkillActionBinding } from '../types/genericEngine';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
-import type { SimulationCoverage } from './simulationAdapter';
+import type { SimulationCoverage } from './simulation/model';
 import { NumericAdaptationError } from './numericAdapter';
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 
