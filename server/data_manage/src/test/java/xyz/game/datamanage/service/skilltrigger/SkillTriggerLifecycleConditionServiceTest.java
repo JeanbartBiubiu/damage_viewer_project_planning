@@ -38,12 +38,14 @@ class SkillTriggerLifecycleConditionServiceTest {
     @Mock private SkillMapper skills;
     @Mock private SkillTriggerRuleMapper mapper;
     private SkillTriggerRuleService service;
+    private xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard references;
 
     @BeforeEach
     void setUp() {
         stubParentAndCatalogs(games, skills, mapper);
         when(mapper.findLifecycleScope(GAME_ID, SKILL_KEY, "mark")).thenReturn(SkillEffectLifecycleInstanceScope.SOURCE_TARGET);
         service = service(games, skills, mapper);
+        references = SkillTriggerRuleTestSupport.references(mapper);
     }
 
     @ParameterizedTest
@@ -127,11 +129,11 @@ class SkillTriggerLifecycleConditionServiceTest {
         when(mapper.countLifecycleReferences(GAME_ID, SKILL_KEY, "mark")).thenReturn(1L);
         xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow existing = org.mockito.Mockito.mock(
             xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRow.class);
-        ApiException removed = thrown(() -> service.assertEffectUpdate(GAME_ID, SKILL_KEY, "mark", existing, null, List.of(), List.of()));
+        ApiException removed = thrown(() -> references.assertEffectUpdate(GAME_ID, SKILL_KEY, "mark", existing, null, List.of(), List.of()));
         assertEquals("409.SKILL_EFFECT_IN_USE", removed.getCode());
         assertField(removed, "lifecycle", "TRIGGER_RULE_LIFECYCLE_IN_USE");
         when(mapper.countEffectReferences(GAME_ID, SKILL_KEY, "mark")).thenReturn(1L);
-        assertTrue(service.effectDeleteIssues(GAME_ID, SKILL_KEY, "mark").stream()
+        assertTrue(references.effectDeleteIssues(GAME_ID, SKILL_KEY, "mark").stream()
             .anyMatch(issue -> "TRIGGER_RULE_EFFECT_IN_USE".equals(issue.get("code"))));
     }
 

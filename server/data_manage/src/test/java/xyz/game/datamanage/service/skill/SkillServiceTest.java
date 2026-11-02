@@ -54,6 +54,7 @@ import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 
 @ExtendWith(MockitoExtension.class)
 class SkillServiceTest {
+    @Mock private xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard triggerReferences;
 
     private static final String GAME_ID = "lol";
     private static final String SKILL_KEY = "ezreal_q";
@@ -84,9 +85,11 @@ class SkillServiceTest {
             internalStateMapper,
             levelService,
             triggerRuleService,
+            triggerReferences,
             imageRelationMapper,
-            skillRelationMapper
-        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+            skillRelationMapper,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
@@ -545,16 +548,27 @@ class SkillServiceTest {
             org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
         SkillParameterLevelService levelService = new SkillParameterLevelService(new ObjectMapper());
         SkillService guarded = new SkillService(
-            gamesMapper, mapper, parameterMapper, formulaMapper, effectMapper, processMapper,
-            internalStateMapper, levelService, triggerRuleService, imageRelationMapper, skillRelationMapper
-        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+            gamesMapper,
+            mapper,
+            parameterMapper,
+            formulaMapper,
+            effectMapper,
+            processMapper,
+            internalStateMapper,
+            levelService,
+            triggerRuleService,
+            triggerReferences,
+            imageRelationMapper,
+            skillRelationMapper,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
         org.mockito.Mockito.doThrow(new ApiException(
             org.springframework.http.HttpStatus.CONFLICT,
             "409.SKILL_IN_USE",
             "技能仍被其他技能的触发规则引用，不能删除",
             Map.of("fieldIssues", List.of(Map.of("field", "skillKey", "code", "CONFLICT")))
-        )).when(triggerRuleService).assertSourceSkillNotReferenced(GAME_ID, SKILL_KEY);
+        )).when(triggerReferences).assertSourceSkillNotReferenced(GAME_ID, SKILL_KEY);
         ApiException blocked = assertThrows(ApiException.class, () -> guarded.delete(GAME_ID, SKILL_KEY));
         assertEquals("409.SKILL_IN_USE", blocked.getCode());
         verify(triggerRuleService, never()).deleteAllForSkill(GAME_ID, SKILL_KEY);
@@ -562,7 +576,7 @@ class SkillServiceTest {
         verify(mapper, never()).delete(GAME_ID, SKILL_KEY);
         verifyNoInteractions(imageRelationMapper);
 
-        org.mockito.Mockito.reset(triggerRuleService);
+        org.mockito.Mockito.reset(triggerRuleService, triggerReferences);
         org.mockito.Mockito.clearInvocations(
             mapper, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper
         );
@@ -575,10 +589,10 @@ class SkillServiceTest {
         when(mapper.delete(GAME_ID, SKILL_KEY)).thenReturn(1);
         guarded.delete(GAME_ID, SKILL_KEY);
         InOrder order = inOrder(
-            mapper, triggerRuleService, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper
+            mapper, triggerRuleService, triggerReferences, processMapper, effectMapper, internalStateMapper, formulaMapper, parameterMapper
         );
         order.verify(mapper).findByIdForUpdate(GAME_ID, SKILL_KEY);
-        order.verify(triggerRuleService).assertSourceSkillNotReferenced(GAME_ID, SKILL_KEY);
+        order.verify(triggerReferences).assertSourceSkillNotReferenced(GAME_ID, SKILL_KEY);
         order.verify(effectMapper).countExternalSkillScopeReferences(GAME_ID, SKILL_KEY);
         order.verify(triggerRuleService).deleteAllForSkill(GAME_ID, SKILL_KEY);
         order.verify(processMapper).deleteAllForSkill(GAME_ID, SKILL_KEY);

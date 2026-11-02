@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,7 @@ import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateScope;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateSummaryResponse;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateUpdateRequest;
-import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
+import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.authoring.AggregateJson;
 
@@ -53,29 +52,19 @@ public class SkillInternalStateService {
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
     private final SkillInternalStateMapper mapper;
-    private final SkillTriggerRuleService triggerRuleService;
+    private final SkillTriggerReferenceGuard triggerReferences;
 
     public SkillInternalStateService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillInternalStateMapper mapper,
-        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
-    ) {
-        this(gamesMapper, skillMapper, mapper, null, configurationWrites);
-    }
-
-    @Autowired
-    public SkillInternalStateService(
-        GamesMapper gamesMapper,
-        SkillMapper skillMapper,
-        SkillInternalStateMapper mapper,
-        SkillTriggerRuleService triggerRuleService,
+        SkillTriggerReferenceGuard triggerReferences,
         xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.mapper = mapper;
-        this.triggerRuleService = triggerRuleService;
+        this.triggerReferences = java.util.Objects.requireNonNull(triggerReferences);
 
         this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
@@ -187,9 +176,7 @@ public class SkillInternalStateService {
         if (mapper.countStateOperations(gameId, skillKey, stateKey) > 0) {
             throw stateInUse();
         }
-        if (triggerRuleService != null) {
-            triggerRuleService.assertInternalStateDeletable(gameId, skillKey, stateKey);
-        }
+        triggerReferences.assertInternalStateDeletable(gameId, skillKey, stateKey);
         try {
             if (mapper.deleteState(gameId, skillKey, stateKey) == 0) {
                 throw stateNotFound(stateKey);
@@ -516,8 +503,8 @@ public class SkillInternalStateService {
         ) > 0) {
             throw optionInUse();
         }
-        if (!removed.isEmpty() && triggerRuleService != null) {
-            triggerRuleService.assertOptionsNotReferenced(
+        if (!removed.isEmpty()) {
+            triggerReferences.assertOptionsNotReferenced(
                 existing.gameId(), existing.skillKey(), existing.stateKey(), removed
             );
         }

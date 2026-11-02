@@ -104,7 +104,7 @@ class SkillTriggerLifecycleOnlyEffectServiceTest {
 
     @Test
     void nullResultKeysCannotMatchMetadataAndMetadataOffersNoPriorOutputs() throws Exception {
-        Method find = SkillTriggerRuleService.class.getDeclaredMethod("findResult", Map.class, String.class, String.class);
+        Method find = Class.forName("xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceSupport").getDeclaredMethod("findResult", Map.class, String.class, String.class);
         find.setAccessible(true);
         var metadata = lifecycleOnly(EFFECT_KEY, true);
         Map<String, List<SkillTriggerEffectShapeRow>> catalog = Map.of(EFFECT_KEY, List.of(metadata));

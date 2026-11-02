@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ import xyz.game.datamanage.model.skillparameter.SkillParameterRow;
 import xyz.game.datamanage.model.skillparameter.SkillParameterUpdateRequest;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
-import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
+import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -41,32 +40,21 @@ public class SkillParameterService {
     private final SkillMapper skillMapper;
     private final SkillParameterMapper parameterMapper;
     private final SkillParameterLevelService levelService;
-    private final SkillTriggerRuleService triggerRuleService;
+    private final SkillTriggerReferenceGuard triggerReferences;
 
     public SkillParameterService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillParameterMapper parameterMapper,
         SkillParameterLevelService levelService,
-        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
-    ) {
-        this(gamesMapper, skillMapper, parameterMapper, levelService, null, configurationWrites);
-    }
-
-    @Autowired
-    public SkillParameterService(
-        GamesMapper gamesMapper,
-        SkillMapper skillMapper,
-        SkillParameterMapper parameterMapper,
-        SkillParameterLevelService levelService,
-        SkillTriggerRuleService triggerRuleService,
+        SkillTriggerReferenceGuard triggerReferences,
         xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.parameterMapper = parameterMapper;
         this.levelService = levelService;
-        this.triggerRuleService = triggerRuleService;
+        this.triggerReferences = java.util.Objects.requireNonNull(triggerReferences);
 
         this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
@@ -219,9 +207,7 @@ public class SkillParameterService {
         if (parameterMapper.countFormulaReferences(gameId, skillKey, parameterKey) > 0) {
             throw parameterInUse();
         }
-        if (triggerRuleService != null) {
-            triggerRuleService.assertParameterDeletable(gameId, skillKey, parameterKey);
-        }
+        triggerReferences.assertParameterDeletable(gameId, skillKey, parameterKey);
         configurationWrites.assertNotReferenced(gameId, "PARAMETER", skillKey, parameterKey,
             "409.SKILL_PARAMETER_IN_USE", "技能参数已被引用，不能删除");
         try {

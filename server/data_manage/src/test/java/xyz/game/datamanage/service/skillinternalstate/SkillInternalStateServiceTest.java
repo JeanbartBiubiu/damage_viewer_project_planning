@@ -83,7 +83,13 @@ class SkillInternalStateServiceTest {
             return 1;
         });
         when(mapper.findState(any(), any(), any())).thenAnswer(inv -> stored.get(inv.getArgument(2)));
-        service = new SkillInternalStateService(gamesMapper, skillMapper, mapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+        service = new SkillInternalStateService(
+            gamesMapper,
+            skillMapper,
+            mapper,
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class),
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
         when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
@@ -472,11 +478,15 @@ class SkillInternalStateServiceTest {
 
     @Test
     void triggerRuleProtectsStateDeleteAndOptionRemovalWithLongConstructor() {
-        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
-            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
+        xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard triggerReferences =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class);
         SkillInternalStateService guarded = new SkillInternalStateService(
-            gamesMapper, skillMapper, mapper, triggerRuleService
-        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+            gamesMapper,
+            skillMapper,
+            mapper,
+            triggerReferences,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(mapper.findStateForUpdate(GAME_ID, SKILL_KEY, STATE_KEY)).thenReturn(stateRow(
             STATE_KEY, SkillInternalStateType.COUNTER, SkillInternalStateScope.TARGET
         ));
@@ -486,7 +496,7 @@ class SkillInternalStateServiceTest {
             "409.SKILL_INTERNAL_STATE_IN_USE",
             "内部状态仍被触发规则引用，不能删除",
             Map.of("fieldIssues", List.of(Map.of("field", "stateKey", "code", "TRIGGER_RULE_INTERNAL_STATE_IN_USE")))
-        )).when(triggerRuleService).assertInternalStateDeletable(GAME_ID, SKILL_KEY, STATE_KEY);
+        )).when(triggerReferences).assertInternalStateDeletable(GAME_ID, SKILL_KEY, STATE_KEY);
         ApiException state = assertThrows(ApiException.class, () -> guarded.delete(GAME_ID, SKILL_KEY, STATE_KEY));
         assertEquals("409.SKILL_INTERNAL_STATE_IN_USE", state.getCode());
         assertField(state, "stateKey", "TRIGGER_RULE_INTERNAL_STATE_IN_USE");
@@ -501,7 +511,7 @@ class SkillInternalStateServiceTest {
             "409.SKILL_INTERNAL_STATE_OPTION_IN_USE",
             "模式选项仍被触发规则引用，不能移除",
             Map.of("fieldIssues", List.of(Map.of("field", "detail.options", "code", "TRIGGER_RULE_OPTION_IN_USE")))
-        )).when(triggerRuleService).assertOptionsNotReferenced(eq(GAME_ID), eq(SKILL_KEY), eq("stance"), anyCollection());
+        )).when(triggerReferences).assertOptionsNotReferenced(eq(GAME_ID), eq(SKILL_KEY), eq("stance"), anyCollection());
         ApiException option = assertThrows(
             ApiException.class,
             () -> guarded.update(

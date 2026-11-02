@@ -51,62 +51,64 @@ class SkillTriggerRuleReverseProtectionServiceTest {
     @Mock private SkillTriggerRuleMapper mapper;
 
     private SkillTriggerRuleService service;
+    private xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard references;
 
     @BeforeEach
     void setUp() {
         stubParentAndCatalogs(gamesMapper, skillMapper, mapper);
         service = SkillTriggerRuleTestSupport.service(gamesMapper, skillMapper, mapper);
+        references = SkillTriggerRuleTestSupport.references(mapper);
     }
 
     @Test
     void reverseProtectionsUseStableConflictCodesAndExactFieldPaths() {
         when(mapper.countSourceSkillReferences(GAME_ID, SKILL_KEY)).thenReturn(1L);
-        ApiException skill = thrown(() -> service.assertSourceSkillNotReferenced(GAME_ID, SKILL_KEY));
+        ApiException skill = thrown(() -> references.assertSourceSkillNotReferenced(GAME_ID, SKILL_KEY));
         assertEquals("409.SKILL_IN_USE", skill.getCode());
         assertField(skill, "skillKey", "CONFLICT");
 
         when(mapper.countEffectReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1L);
-        List<Map<String, String>> effectIssues = service.effectDeleteIssues(GAME_ID, SKILL_KEY, EFFECT_KEY);
+        List<Map<String, String>> effectIssues = references.effectDeleteIssues(GAME_ID, SKILL_KEY, EFFECT_KEY);
         assertEquals("TRIGGER_RULE_EFFECT_IN_USE", effectIssues.get(0).get("code"));
         assertEquals("effectKey", effectIssues.get(0).get("field"));
-        assertCode("409.SKILL_EFFECT_IN_USE", () -> service.assertEffectDeletable(GAME_ID, SKILL_KEY, EFFECT_KEY));
+        assertCode("409.SKILL_EFFECT_IN_USE", () -> references.assertEffectDeletable(GAME_ID, SKILL_KEY, EFFECT_KEY));
 
         when(mapper.countProcessReferences(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(1L);
-        ApiException process = thrown(() -> service.assertProcessDeletable(GAME_ID, SKILL_KEY, PROCESS_KEY));
+        ApiException process = thrown(() -> references.assertProcessDeletable(GAME_ID, SKILL_KEY, PROCESS_KEY));
         assertEquals("409.SKILL_PROCESS_IN_USE", process.getCode());
         assertField(process, "processKey", "TRIGGER_RULE_PROCESS_IN_USE");
 
         when(mapper.countStepReferences(GAME_ID, SKILL_KEY, PROCESS_KEY, "windup")).thenReturn(1L);
-        ApiException step = thrown(() -> service.assertStepsNotReferenced(
+        ApiException step = thrown(() -> references.assertStepsNotReferenced(
             GAME_ID, SKILL_KEY, PROCESS_KEY, List.of("windup")
         ));
         assertEquals("409.SKILL_PROCESS_IN_USE", step.getCode());
         assertField(step, "steps", "TRIGGER_RULE_STEP_IN_USE");
 
         when(mapper.countInternalStateReferences(GAME_ID, SKILL_KEY, "flag")).thenReturn(1L);
-        ApiException state = thrown(() -> service.assertInternalStateDeletable(GAME_ID, SKILL_KEY, "flag"));
+        ApiException state = thrown(() -> references.assertInternalStateDeletable(GAME_ID, SKILL_KEY, "flag"));
         assertEquals("409.SKILL_INTERNAL_STATE_IN_USE", state.getCode());
         assertField(state, "stateKey", "TRIGGER_RULE_INTERNAL_STATE_IN_USE");
 
         when(mapper.countOptionReferences(GAME_ID, SKILL_KEY, "stance", List.of("ranged"))).thenReturn(1L);
-        ApiException option = thrown(() -> service.assertOptionsNotReferenced(
+        ApiException option = thrown(() -> references.assertOptionsNotReferenced(
             GAME_ID, SKILL_KEY, "stance", List.of("ranged")
         ));
         assertEquals("409.SKILL_INTERNAL_STATE_OPTION_IN_USE", option.getCode());
         assertField(option, "detail.options", "TRIGGER_RULE_OPTION_IN_USE");
 
         when(mapper.countFormulaReferences(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(1L);
-        ApiException formula = thrown(() -> service.assertFormulaDeletable(GAME_ID, SKILL_KEY, FORMULA_KEY));
+        ApiException formula = thrown(() -> references.assertFormulaDeletable(GAME_ID, SKILL_KEY, FORMULA_KEY));
         assertEquals("409.SKILL_FORMULA_IN_USE", formula.getCode());
         assertField(formula, "formulaKey", "TRIGGER_RULE_FORMULA_IN_USE");
 
         when(mapper.countParameterReferences(GAME_ID, SKILL_KEY, "ratio")).thenReturn(1L);
-        ApiException parameter = thrown(() -> service.assertParameterDeletable(GAME_ID, SKILL_KEY, "ratio"));
+        ApiException parameter = thrown(() -> references.assertParameterDeletable(GAME_ID, SKILL_KEY, "ratio"));
         assertEquals("409.SKILL_PARAMETER_IN_USE", parameter.getCode());
         assertField(parameter, "parameterKey", "TRIGGER_RULE_PARAMETER_IN_USE");
 
         when(mapper.countStatusReferences(GAME_ID, "poison")).thenReturn(1L);
-        ApiException status = thrown(() -> service.assertStatusDeletable(GAME_ID, "poison"));
+        ApiException status = thrown(() -> references.assertStatusDeletable(GAME_ID, "poison"));
         assertEquals("409.STATUS_IN_USE", status.getCode());
         assertField(status, "statusKey", "TRIGGER_RULE_STATUS_IN_USE");
     }
@@ -116,7 +118,7 @@ class SkillTriggerRuleReverseProtectionServiceTest {
         when(mapper.listResultReferences(GAME_ID, SKILL_KEY, EFFECT_KEY, List.of(RESULT_REMOVED))).thenReturn(List.of(
             new SkillTriggerReferenceHit("on_hit", "results", RESULT_REMOVED, "in use")
         ));
-        ApiException result = thrown(() -> service.assertEffectUpdate(
+        ApiException result = thrown(() -> references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, lifecycleRow(), lifecycleRequest(), List.of(), List.of(RESULT_REMOVED)
         ));
         assertEquals("409.SKILL_EFFECT_IN_USE", result.getCode());
@@ -124,7 +126,7 @@ class SkillTriggerRuleReverseProtectionServiceTest {
 
         when(mapper.listResultReferences(GAME_ID, SKILL_KEY, EFFECT_KEY, List.of())).thenReturn(List.of());
         when(mapper.countLifecycleReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1L);
-        ApiException lifecycle = thrown(() -> service.assertEffectUpdate(
+        ApiException lifecycle = thrown(() -> references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, lifecycleRow(), null, List.of(damageResult()), List.of()
         ));
         assertEquals("409.SKILL_EFFECT_IN_USE", lifecycle.getCode());
@@ -134,7 +136,7 @@ class SkillTriggerRuleReverseProtectionServiceTest {
         when(mapper.listResultEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new SkillTriggerResultEventRow(GAME_ID, SKILL_KEY, "on_hit", EFFECT_KEY, "physical_hit")
         ));
-        ApiException shape = thrown(() -> service.assertEffectUpdate(
+        ApiException shape = thrown(() -> references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, lifecycleRow(), lifecycleRequest(), List.of(damageResult()), List.of()
         ));
         assertEquals("409.SKILL_EFFECT_IN_USE", shape.getCode());
@@ -147,7 +149,7 @@ class SkillTriggerRuleReverseProtectionServiceTest {
                 GAME_ID, SKILL_KEY, "tick", EFFECT_KEY, SkillTriggerLifecycleEventMoment.PERIODIC
             )
         ));
-        ApiException periodic = thrown(() -> service.assertEffectUpdate(
+        ApiException periodic = thrown(() -> references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, lifecycleRow(), lifecycleRequestWithoutPeriodic(), List.of(damageResult()), List.of()
         ));
         assertField(periodic, "lifecycle.periodicIntervalValue", "TRIGGER_RULE_SHAPE_IN_USE");
@@ -171,7 +173,7 @@ class SkillTriggerRuleReverseProtectionServiceTest {
                 java.math.BigDecimal.ONE, java.math.BigDecimal.ZERO, java.math.BigDecimal.ONE),
             new xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail("slow",
                 xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation.APPLY), null);
-        ApiException error = thrown(() -> service.assertEffectUpdate(
+        ApiException error = thrown(() -> references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, lifecycleRow(), lifecycleRequest(), List.of(result), List.of()));
         assertField(error, "results[0].valueRule", "TRIGGER_RULE_SHAPE_IN_USE");
     }

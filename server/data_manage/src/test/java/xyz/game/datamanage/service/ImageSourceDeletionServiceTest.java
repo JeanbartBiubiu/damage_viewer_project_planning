@@ -134,18 +134,31 @@ class ImageSourceDeletionServiceTest {
                 when(mapper.findByIdForUpdate(GAME, SOURCE)).thenReturn(existingStatus);
                 when(mapper.delete(GAME, SOURCE)).thenReturn(deletedRows);
                 StatusService service = transactional(new StatusService(
-                    games, mapper, triggers, images
-                , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)), transactions);
+            games,
+            mapper,
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class),
+            images,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        ), transactions);
                 yield () -> service.delete(GAME, SOURCE);
             }
             case SKILL -> {
                 when(skills.delete(GAME, SKILL)).thenReturn(deletedRows);
                 SkillService service = transactional(new SkillService(
-                    games, skills, mock(SkillParameterMapper.class), mock(SkillFormulaMapper.class),
-                    mock(SkillEffectMapper.class), mock(SkillProcessMapper.class),
-                    mock(SkillInternalStateMapper.class), new SkillParameterLevelService(objectMapper),
-                    triggers, images, mock(SkillRelationMapper.class)
-                , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)), transactions);
+            games,
+            skills,
+            mock(SkillParameterMapper.class),
+            mock(SkillFormulaMapper.class),
+            mock(SkillEffectMapper.class),
+            mock(SkillProcessMapper.class),
+            mock(SkillInternalStateMapper.class),
+            new SkillParameterLevelService(objectMapper),
+            triggers,
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class),
+            images,
+            mock(SkillRelationMapper.class),
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        ), transactions);
                 yield () -> service.delete(GAME, SKILL);
             }
             case SKILL_EFFECT -> {
@@ -154,8 +167,14 @@ class ImageSourceDeletionServiceTest {
                 when(mapper.findEffectForUpdate(GAME, SKILL, SOURCE)).thenReturn(existingEffect);
                 when(mapper.deleteEffect(GAME, SKILL, SOURCE)).thenReturn(deletedRows);
                 SkillEffectService service = transactional(new SkillEffectService(
-                    games, skills, mapper, triggers, images
-                , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)), transactions);
+            games,
+            skills,
+            mapper,
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class),
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerCycleValidator.class),
+            images,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        ), transactions);
                 yield () -> service.delete(GAME, SKILL, SOURCE);
             }
         };

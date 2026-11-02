@@ -66,6 +66,7 @@ import xyz.game.datamanage.support.error.ApiException;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class SkillProcessServiceTest {
+    @Mock private xyz.game.datamanage.service.skilltrigger.SkillTriggerCycleValidator triggerCycles;
 
     private static final String GAME_ID = "lol";
     private static final String SKILL_KEY = "ezreal_q";
@@ -83,7 +84,14 @@ class SkillProcessServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new SkillProcessService(gamesMapper, skillMapper, mapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+        service = new SkillProcessService(
+            gamesMapper,
+            skillMapper,
+            mapper,
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class),
+            triggerCycles,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
         when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
@@ -631,22 +639,29 @@ class SkillProcessServiceTest {
 
     @Test
     void triggerRuleProtectsProcessDeleteStepRemovalAndCycleWithLongConstructor() {
-        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
-            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
-        SkillProcessService guarded = new SkillProcessService(gamesMapper, skillMapper, mapper, triggerRuleService, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+        xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard triggerReferences =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class);
+        SkillProcessService guarded = new SkillProcessService(
+            gamesMapper,
+            skillMapper,
+            mapper,
+            triggerReferences,
+            triggerCycles,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(mapper.findProcessForUpdate(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(processRow());
         org.mockito.Mockito.doThrow(new ApiException(
             org.springframework.http.HttpStatus.CONFLICT,
             "409.SKILL_PROCESS_IN_USE",
             "技能过程仍被触发规则引用，不能删除",
             Map.of("fieldIssues", List.of(Map.of("field", "processKey", "code", "TRIGGER_RULE_PROCESS_IN_USE")))
-        )).when(triggerRuleService).assertProcessDeletable(GAME_ID, SKILL_KEY, PROCESS_KEY);
+        )).when(triggerReferences).assertProcessDeletable(GAME_ID, SKILL_KEY, PROCESS_KEY);
         ApiException deletable = assertThrows(ApiException.class, () -> guarded.delete(GAME_ID, SKILL_KEY, PROCESS_KEY));
         assertEquals("409.SKILL_PROCESS_IN_USE", deletable.getCode());
         assertField(deletable, "processKey", "TRIGGER_RULE_PROCESS_IN_USE");
         verify(mapper, never()).deleteProcess(any(), any(), any());
 
-        org.mockito.Mockito.reset(triggerRuleService);
+        org.mockito.Mockito.reset(triggerReferences);
         when(mapper.listStepsForUpdate(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
             stepRow("cast", SkillProcessStepType.IMMEDIATE),
             stepRow("windup", SkillProcessStepType.DELAY)
@@ -657,7 +672,7 @@ class SkillProcessServiceTest {
             "409.SKILL_PROCESS_IN_USE",
             "技能过程或步骤仍被触发规则引用",
             Map.of("fieldIssues", List.of(Map.of("field", "steps", "code", "TRIGGER_RULE_STEP_IN_USE")))
-        )).when(triggerRuleService).assertStepsNotReferenced(eq(GAME_ID), eq(SKILL_KEY), eq(PROCESS_KEY), anyCollection());
+        )).when(triggerReferences).assertStepsNotReferenced(eq(GAME_ID), eq(SKILL_KEY), eq(PROCESS_KEY), anyCollection());
         ApiException steps = assertThrows(
             ApiException.class,
             () -> guarded.update(
@@ -671,13 +686,13 @@ class SkillProcessServiceTest {
         assertEquals("409.SKILL_PROCESS_IN_USE", steps.getCode());
         assertField(steps, "steps", "TRIGGER_RULE_STEP_IN_USE");
 
-        org.mockito.Mockito.reset(triggerRuleService);
+        org.mockito.Mockito.reset(triggerReferences);
         org.mockito.Mockito.doThrow(new ApiException(
             org.springframework.http.HttpStatus.BAD_REQUEST,
             "400.TRIGGER_RULE_CYCLE_UNGUARDED",
             "触发规则存在未受保护的循环",
             Map.of()
-        )).when(triggerRuleService).assertCurrentSkillCycle(GAME_ID, SKILL_KEY);
+        )).when(triggerCycles).validateCurrentSkill(GAME_ID, SKILL_KEY);
         ApiException cycle = assertThrows(
             ApiException.class,
             () -> guarded.update(

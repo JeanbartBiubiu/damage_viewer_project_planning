@@ -34,7 +34,7 @@ import xyz.game.datamanage.model.status.StatusKind;
 import xyz.game.datamanage.model.status.StatusResponse;
 import xyz.game.datamanage.model.status.StatusUpdateRequest;
 import xyz.game.datamanage.support.error.ApiException;
-import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
+import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard;
 
 @ExtendWith(MockitoExtension.class)
 class StatusServiceTest {
@@ -43,7 +43,7 @@ class StatusServiceTest {
     private static final String KEY = "poison";
 
     @Mock private GamesMapper gamesMapper;
-    @Mock private SkillTriggerRuleService triggerRuleService;
+    @Mock private SkillTriggerReferenceGuard triggerReferences;
     @Mock private ImageRelationMapper imageRelationMapper;
     @Mock private StatusMapper mapper;
 
@@ -51,7 +51,13 @@ class StatusServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new StatusService(gamesMapper, mapper, triggerRuleService, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+        service = new StatusService(
+            gamesMapper,
+            mapper,
+            triggerReferences,
+            imageRelationMapper,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         lenient().when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
@@ -268,16 +274,22 @@ class StatusServiceTest {
     @ParameterizedTest
     @EnumSource(StatusKind.class)
     void triggerRuleProtectsStatusDeleteBeforeMapperDeleteWithLongConstructor(StatusKind kind) {
-        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
-            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
-        StatusService guarded = new StatusService(gamesMapper, mapper, triggerRuleService, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+        xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard triggerReferences =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class);
+        StatusService guarded = new StatusService(
+            gamesMapper,
+            mapper,
+            triggerReferences,
+            imageRelationMapper,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(status(kind));
         org.mockito.Mockito.doThrow(new ApiException(
             org.springframework.http.HttpStatus.CONFLICT,
             "409.STATUS_IN_USE",
             "状态仍被触发规则引用，不能删除",
             Map.of("fieldIssues", List.of(Map.of("field", "statusKey", "code", "TRIGGER_RULE_STATUS_IN_USE")))
-        )).when(triggerRuleService).assertStatusDeletable(GAME_ID, KEY);
+        )).when(triggerReferences).assertStatusDeletable(GAME_ID, KEY);
         assertCode("409.STATUS_IN_USE", () -> guarded.delete(GAME_ID, KEY));
         verify(mapper, never()).delete(GAME_ID, KEY);
         verifyNoInteractions(imageRelationMapper);

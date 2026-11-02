@@ -22,7 +22,7 @@ import xyz.game.datamanage.model.status.StatusListResponse;
 import xyz.game.datamanage.model.status.StatusRecordStatus;
 import xyz.game.datamanage.model.status.StatusResponse;
 import xyz.game.datamanage.model.status.StatusUpdateRequest;
-import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
+import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -37,19 +37,19 @@ public class StatusService {
 
     private final GamesMapper gamesMapper;
     private final StatusMapper mapper;
-    private final SkillTriggerRuleService triggerRuleService;
+    private final SkillTriggerReferenceGuard triggerReferences;
     private final ImageRelationMapper imageRelationMapper;
 
     public StatusService(
         GamesMapper gamesMapper,
         StatusMapper mapper,
-        SkillTriggerRuleService triggerRuleService,
+        SkillTriggerReferenceGuard triggerReferences,
         ImageRelationMapper imageRelationMapper,
         xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.mapper = mapper;
-        this.triggerRuleService = triggerRuleService;
+        this.triggerReferences = java.util.Objects.requireNonNull(triggerReferences);
         this.imageRelationMapper = imageRelationMapper;
 
         this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
@@ -148,9 +148,7 @@ public class StatusService {
         if (mapper.findByIdForUpdate(gameId, statusKey) == null) {
             throw notFound(statusKey);
         }
-        if (triggerRuleService != null) {
-            triggerRuleService.assertStatusDeletable(gameId, statusKey);
-        }
+        triggerReferences.assertStatusDeletable(gameId, statusKey);
         configurationWrites.assertNotReferenced(gameId, "STATUS", "", statusKey,
             "409.STATUS_IN_USE", "状态已被引用，不能删除");
         try {

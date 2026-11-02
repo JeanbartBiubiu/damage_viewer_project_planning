@@ -59,7 +59,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleResponse;
 import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.service.skilleffect.SkillEffectService;
-import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
+import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
 import xyz.game.datamanage.support.auth.JwtVerifier;
@@ -346,9 +346,14 @@ class SkillEffectAdminControllerTest {
         ));
         when(effectMapper.countByKey("lol", "ezreal_q", "reduce_cooldowns")).thenReturn(0L);
         SkillEffectService realService = new SkillEffectService(
-            gamesMapper, skillMapper, effectMapper,
-            Mockito.mock(SkillTriggerRuleService.class), Mockito.mock(ImageRelationMapper.class)
-        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+            gamesMapper,
+            skillMapper,
+            effectMapper,
+            Mockito.mock(SkillTriggerReferenceGuard.class),
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerCycleValidator.class),
+            Mockito.mock(ImageRelationMapper.class),
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(service.create(eq("lol"), eq("ezreal_q"), any(SkillEffectCreateRequest.class)))
             .thenAnswer(invocation -> realService.create(
                 invocation.getArgument(0),
@@ -478,9 +483,14 @@ class SkillEffectAdminControllerTest {
         ));
         when(effectMapper.countByKey("lol", "ezreal_q", "on_hit_results")).thenReturn(0L);
         SkillEffectService realService = new SkillEffectService(
-            gamesMapper, skillMapper, effectMapper,
-            Mockito.mock(SkillTriggerRuleService.class), Mockito.mock(ImageRelationMapper.class)
-        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+            gamesMapper,
+            skillMapper,
+            effectMapper,
+            Mockito.mock(SkillTriggerReferenceGuard.class),
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerCycleValidator.class),
+            Mockito.mock(ImageRelationMapper.class),
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(service.create(eq("lol"), eq("ezreal_q"), any(SkillEffectCreateRequest.class)))
             .thenAnswer(invocation -> realService.create(
                 invocation.getArgument(0),

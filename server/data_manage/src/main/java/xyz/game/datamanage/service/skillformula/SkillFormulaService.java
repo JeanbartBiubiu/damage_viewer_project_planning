@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ import xyz.game.datamanage.model.skillformula.SkillFormulaDetailResponse;
 import xyz.game.datamanage.model.skillformula.SkillFormulaRow;
 import xyz.game.datamanage.model.skillformula.SkillFormulaSummaryResponse;
 import xyz.game.datamanage.model.skillformula.SkillFormulaUpdateRequest;
-import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
+import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard;
 import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.support.error.ApiException;
 
@@ -48,29 +47,19 @@ public class SkillFormulaService {
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
     private final SkillFormulaMapper formulaMapper;
-    private final SkillTriggerRuleService triggerRuleService;
+    private final SkillTriggerReferenceGuard triggerReferences;
 
     public SkillFormulaService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillFormulaMapper formulaMapper,
-        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
-    ) {
-        this(gamesMapper, skillMapper, formulaMapper, null, configurationWrites);
-    }
-
-    @Autowired
-    public SkillFormulaService(
-        GamesMapper gamesMapper,
-        SkillMapper skillMapper,
-        SkillFormulaMapper formulaMapper,
-        SkillTriggerRuleService triggerRuleService,
+        SkillTriggerReferenceGuard triggerReferences,
         xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.formulaMapper = formulaMapper;
-        this.triggerRuleService = triggerRuleService;
+        this.triggerReferences = java.util.Objects.requireNonNull(triggerReferences);
 
         this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
@@ -185,9 +174,7 @@ public class SkillFormulaService {
         if (formulaMapper.findByIdForUpdate(gameId, skillKey, formulaKey) == null) {
             throw formulaNotFound(formulaKey);
         }
-        if (triggerRuleService != null) {
-            triggerRuleService.assertFormulaDeletable(gameId, skillKey, formulaKey);
-        }
+        triggerReferences.assertFormulaDeletable(gameId, skillKey, formulaKey);
         configurationWrites.assertNotReferenced(gameId, "FORMULA", skillKey, formulaKey,
             "409.SKILL_FORMULA_IN_USE", "技能公式已被引用，不能删除");
         try {

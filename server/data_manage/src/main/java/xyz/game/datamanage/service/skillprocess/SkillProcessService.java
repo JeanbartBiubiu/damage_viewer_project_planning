@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -56,7 +55,8 @@ import xyz.game.datamanage.model.skillprocess.SkillProcessStepRow;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessSummaryResponse;
 import xyz.game.datamanage.model.skillprocess.SkillProcessUpdateRequest;
-import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
+import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerCycleValidator;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.authoring.AggregateJson;
 
@@ -103,29 +103,22 @@ public class SkillProcessService {
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
     private final SkillProcessMapper mapper;
-    private final SkillTriggerRuleService triggerRuleService;
+    private final SkillTriggerReferenceGuard triggerReferences;
+    private final SkillTriggerCycleValidator triggerCycles;
 
     public SkillProcessService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillProcessMapper mapper,
-        xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
-    ) {
-        this(gamesMapper, skillMapper, mapper, null, configurationWrites);
-    }
-
-    @Autowired
-    public SkillProcessService(
-        GamesMapper gamesMapper,
-        SkillMapper skillMapper,
-        SkillProcessMapper mapper,
-        SkillTriggerRuleService triggerRuleService,
+        SkillTriggerReferenceGuard triggerReferences,
+        SkillTriggerCycleValidator triggerCycles,
         xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.mapper = mapper;
-        this.triggerRuleService = triggerRuleService;
+        this.triggerReferences = java.util.Objects.requireNonNull(triggerReferences);
+        this.triggerCycles = java.util.Objects.requireNonNull(triggerCycles);
 
         this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
     }
@@ -196,7 +189,7 @@ public class SkillProcessService {
 
     public void validatePreparedAgainstFinalDatabase(String gameId, String skillKey, Prepared prepared) {
         lockAndValidateCatalogs(gameId, skillKey, prepared.refs);
-        if (triggerRuleService != null) triggerRuleService.assertCurrentSkillCycle(gameId, skillKey);
+        triggerCycles.validateCurrentSkill(gameId, skillKey);
     }
 
     public void deleteWithinConfiguration(String gameId, String skillKey, String processKey) {
@@ -298,8 +291,8 @@ public class SkillProcessService {
             }
         }
         try {
-            if (!removedSteps.isEmpty() && triggerRuleService != null) {
-                triggerRuleService.assertStepsNotReferenced(gameId, skillKey, processKey, removedSteps);
+            if (!removedSteps.isEmpty()) {
+                triggerReferences.assertStepsNotReferenced(gameId, skillKey, processKey, removedSteps);
             }
             if (mapper.updateProcess(
                 gameId,
@@ -319,9 +312,7 @@ public class SkillProcessService {
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex);
         }
-        if (triggerRuleService != null) {
-            triggerRuleService.assertCurrentSkillCycle(gameId, skillKey);
-        }
+        triggerCycles.validateCurrentSkill(gameId, skillKey);
         return requireDetail(gameId, skillKey, processKey);
     }
 
@@ -333,9 +324,7 @@ public class SkillProcessService {
         if (mapper.findProcessForUpdate(gameId, skillKey, processKey) == null) {
             throw processNotFound(processKey);
         }
-        if (triggerRuleService != null) {
-            triggerRuleService.assertProcessDeletable(gameId, skillKey, processKey);
-        }
+        triggerReferences.assertProcessDeletable(gameId, skillKey, processKey);
         try {
             if (mapper.deleteProcess(gameId, skillKey, processKey) == 0) {
                 throw processNotFound(processKey);

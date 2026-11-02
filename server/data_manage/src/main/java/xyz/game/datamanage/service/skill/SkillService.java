@@ -40,6 +40,7 @@ import xyz.game.datamanage.model.skill.SkillUpdateRequest;
 import xyz.game.datamanage.model.skillparameter.SkillParameterRow;
 import xyz.game.datamanage.service.skillparameter.SkillParameterLevelService;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
+import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -61,6 +62,7 @@ public class SkillService {
     private final SkillInternalStateMapper internalStateMapper;
     private final SkillParameterLevelService levelService;
     private final SkillTriggerRuleService triggerRuleService;
+    private final SkillTriggerReferenceGuard triggerReferences;
     private final ImageRelationMapper imageRelationMapper;
     private final SkillRelationMapper skillRelationMapper;
 
@@ -74,6 +76,7 @@ public class SkillService {
         SkillInternalStateMapper internalStateMapper,
         SkillParameterLevelService levelService,
         SkillTriggerRuleService triggerRuleService,
+        SkillTriggerReferenceGuard triggerReferences,
         ImageRelationMapper imageRelationMapper,
         SkillRelationMapper skillRelationMapper,
         xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
@@ -87,6 +90,7 @@ public class SkillService {
         this.internalStateMapper = internalStateMapper;
         this.levelService = levelService;
         this.triggerRuleService = triggerRuleService;
+        this.triggerReferences = java.util.Objects.requireNonNull(triggerReferences);
         this.imageRelationMapper = imageRelationMapper;
         this.skillRelationMapper = skillRelationMapper;
 
@@ -239,9 +243,7 @@ public class SkillService {
         if (skillRelationMapper.countBySkill(gameId, skillKey) > 0) {
             throw inUse();
         }
-        if (triggerRuleService != null) {
-            triggerRuleService.assertSourceSkillNotReferenced(gameId, skillKey);
-        }
+        triggerReferences.assertSourceSkillNotReferenced(gameId, skillKey);
         if (effectMapper.countExternalSkillScopeReferences(gameId, skillKey) > 0) {
             throw inUse();
         }

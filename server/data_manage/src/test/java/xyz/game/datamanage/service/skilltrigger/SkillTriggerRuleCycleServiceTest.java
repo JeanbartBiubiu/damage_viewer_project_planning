@@ -740,7 +740,7 @@ class SkillTriggerRuleCycleServiceTest {
         );
         assertCode(
             "400.TRIGGER_RULE_CYCLE_UNGUARDED",
-            () -> service.assertCurrentSkillCycle(GAME_ID, SKILL_KEY)
+            () -> new SkillTriggerCycleValidator(mapper).validateCurrentSkill(GAME_ID, SKILL_KEY)
         );
     }
 

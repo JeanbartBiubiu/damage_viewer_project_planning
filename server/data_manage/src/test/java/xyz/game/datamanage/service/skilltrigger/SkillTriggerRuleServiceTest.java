@@ -133,11 +133,13 @@ class SkillTriggerRuleServiceTest {
     @Mock private SkillTriggerRuleMapper mapper;
 
     private SkillTriggerRuleService service;
+    private xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard references;
 
     @BeforeEach
     void setUp() {
         stubParentAndCatalogs(gamesMapper, skillMapper, mapper);
         service = SkillTriggerRuleTestSupport.service(gamesMapper, skillMapper, mapper);
+        references = SkillTriggerRuleTestSupport.references(mapper);
     }
 
     @Test
@@ -337,7 +339,7 @@ class SkillTriggerRuleServiceTest {
             new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, null), xyz.game.datamanage.model.skilleffect.SkillEffectVampQualification.UNRESOLVED,
             List.of()
         );
-        ApiException exception = thrown(() -> service.assertEffectUpdate(
+        ApiException exception = thrown(() -> references.assertEffectUpdate(
             GAME_ID,
             SKILL_KEY,
             EFFECT_KEY,
@@ -367,7 +369,7 @@ class SkillTriggerRuleServiceTest {
                 "结果前反伤过程", SkillTriggerActionType.START_PROCESS, 10, SkillTriggerTargetContext.EVENT_SOURCE)
         ));
         when(mapper.listDamageEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of());
-        service.assertEffectUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY, null, null,
+        references.assertEffectUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY, null, null,
             List.of(new SkillEffectResultRequest("reflected_damage", "反伤", SkillEffectResultType.DAMAGE,
                 SkillEffectTarget.TARGET, null, 0, null, reflected)), List.of());
     }
@@ -441,7 +443,7 @@ class SkillTriggerRuleServiceTest {
             ), xyz.game.datamanage.model.skilleffect.SkillEffectVampQualification.UNRESOLVED,
             List.of()
         );
-        ApiException exception = thrown(() -> service.assertEffectUpdate(
+        ApiException exception = thrown(() -> references.assertEffectUpdate(
             GAME_ID,
             SKILL_KEY,
             EFFECT_KEY,
@@ -1342,7 +1344,7 @@ class SkillTriggerRuleServiceTest {
         when(mapper.listResultReferences(GAME_ID, SKILL_KEY, EFFECT_KEY, List.of(RESULT_KEY))).thenReturn(List.of(
             new SkillTriggerReferenceHit("prior", "results", RESULT_KEY, "in use")
         ));
-        ApiException removed = thrown(() -> service.assertEffectUpdate(
+        ApiException removed = thrown(() -> references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, null, null, List.of(damageResult(List.of(), null)), List.of(RESULT_KEY)
         ));
         assertEquals("409.SKILL_EFFECT_IN_USE", removed.getCode());
@@ -1366,7 +1368,7 @@ class SkillTriggerRuleServiceTest {
         ));
         when(mapper.listEffectInteractionValues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of());
         when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of());
-        ApiException lastVamp = thrown(() -> service.assertEffectUpdate(
+        ApiException lastVamp = thrown(() -> references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, null, null, List.of(damageResult(List.of(), null)), List.of()
         ));
         assertEquals("409.SKILL_EFFECT_IN_USE", lastVamp.getCode());
@@ -1382,7 +1384,7 @@ class SkillTriggerRuleServiceTest {
                 "deal_first", EFFECT_KEY, RESULT_KEY, SkillTriggerPriorResultOutputKind.BLOCKED
             )
         ));
-        ApiException clearedBlock = thrown(() -> service.assertEffectUpdate(
+        ApiException clearedBlock = thrown(() -> references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, null, null,
             List.of(damageResult(List.of(), null)), List.of()
         ));
@@ -1395,7 +1397,7 @@ class SkillTriggerRuleServiceTest {
                 "deal_first", EFFECT_KEY, RESULT_KEY, SkillTriggerPriorResultOutputKind.STATUS_APPLIED
             )
         ));
-        ApiException applyToRemove = thrown(() -> service.assertEffectUpdate(
+        ApiException applyToRemove = thrown(() -> references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, null, null, List.of(statusResult(SkillEffectStatusOperation.REMOVE)), List.of()
         ));
         assertField(applyToRemove, "results[0].detail.operation", "TRIGGER_RULE_SHAPE_IN_USE");
@@ -1407,7 +1409,7 @@ class SkillTriggerRuleServiceTest {
                 "deal_first", EFFECT_KEY, RESULT_KEY, SkillTriggerPriorResultOutputKind.CONFIGURED_VALUE
             )
         ));
-        ApiException lostImmediate = thrown(() -> service.assertEffectUpdate(
+        ApiException lostImmediate = thrown(() -> references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, null, lifecycleRequest(),
             List.of(damageResultWithMoment(SkillEffectLifecycleMoment.PERIODIC)), List.of()
         ));
@@ -1434,7 +1436,7 @@ class SkillTriggerRuleServiceTest {
             }
             return List.of();
         });
-        ApiException formula = thrown(() -> service.assertEffectUpdate(
+        ApiException formula = thrown(() -> references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, null, null,
             List.of(new SkillEffectResultRequest(
                 RESULT_KEY, "伤害", SkillEffectResultType.DAMAGE, SkillEffectTarget.TARGET, null, 0,
@@ -1448,11 +1450,11 @@ class SkillTriggerRuleServiceTest {
 
         when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of());
         when(mapper.listPriorResultBindings(GAME_ID, SKILL_KEY, "prior")).thenReturn(List.of());
-        service.assertEffectUpdate(
+        references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, null, null,
             List.of(damageResult(List.of(), null)), List.of()
         );
-        service.assertEffectUpdate(
+        references.assertEffectUpdate(
             GAME_ID, SKILL_KEY, EFFECT_KEY, null, null,
             List.of(new SkillEffectResultRequest(
                 RESULT_KEY, "冷却", SkillEffectResultType.COOLDOWN_CHANGE, SkillEffectTarget.SOURCE, null, 0,

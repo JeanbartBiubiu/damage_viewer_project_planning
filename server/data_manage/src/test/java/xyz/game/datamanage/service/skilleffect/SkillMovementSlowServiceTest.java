@@ -51,8 +51,15 @@ class SkillMovementSlowServiceTest {
             return 1;
         });
         when(mapper.findEffect("lol", "skill", "slow")).thenAnswer(i -> stored);
-        service = new SkillEffectService(games, skills, mapper, null, mock(ImageRelationMapper.class),
-            mock(GameConfigurationWriteGuard.class));
+        service = new SkillEffectService(
+            games,
+            skills,
+            mapper,
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class),
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerCycleValidator.class),
+            mock(ImageRelationMapper.class),
+            mock(GameConfigurationWriteGuard.class)
+        );
     }
 
     @ParameterizedTest

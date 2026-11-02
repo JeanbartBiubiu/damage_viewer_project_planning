@@ -33,7 +33,13 @@ class SkillFormulaServiceTest {
     @Mock SkillFormulaMapper formulas;
     @Mock GameConfigurationWriteGuard guard;
     SkillFormulaService service;
-    @BeforeEach void setup(){service=new SkillFormulaService(games,skills,formulas,guard);lenient().when(games.countGames(GAME)).thenReturn(1L);}
+    @BeforeEach void setup(){service=new SkillFormulaService(
+            games,
+            skills,
+            formulas,
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class),
+            guard
+        );lenient().when(games.countGames(GAME)).thenReturn(1L);}
     static SkillRow skill(){return new SkillRow(GAME,SKILL,"技能",null,5,SkillStatus.ENABLED,1,TIME,TIME);}
     static SkillFormulaRow row(JsonNode definition){return new SkillFormulaRow(GAME,SKILL,KEY,"伤害",null,1,definition.toString(),TIME,TIME);}
     static SkillFormulaCreateRequest create(JsonNode definition){return new SkillFormulaCreateRequest(KEY,"伤害",null,1,definition);}

@@ -129,13 +129,14 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectVampOverride;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampOverrideRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
 import xyz.game.datamanage.model.value.SkillNumericValue;
-import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
+import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard;
 import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.support.error.ApiException;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class SkillEffectServiceTest {
+    @Mock private xyz.game.datamanage.service.skilltrigger.SkillTriggerCycleValidator triggerCycles;
 
     private static final String GAME_ID = "lol";
     private static final String SKILL_KEY = "ezreal_q";
@@ -152,7 +153,7 @@ class SkillEffectServiceTest {
     private static final OffsetDateTime TS = OffsetDateTime.parse("2026-08-27T00:00:00Z");
 
     @Mock private GamesMapper gamesMapper;
-    @Mock private SkillTriggerRuleService triggerRuleService;
+    @Mock private SkillTriggerReferenceGuard triggerReferences;
     @Mock private ImageRelationMapper imageRelationMapper;
     @Mock private SkillMapper skillMapper;
     @Mock private SkillEffectMapper mapper;
@@ -213,7 +214,15 @@ class SkillEffectServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+        service = new SkillEffectService(
+            gamesMapper,
+            skillMapper,
+            mapper,
+            triggerReferences,
+            triggerCycles,
+            imageRelationMapper,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
         when(mapper.insertEffect(any(), any(), any(), any(), any(), any(), any(), any())).thenAnswer(this::saveAggregate);
         when(mapper.updateEffect(any(), any(), any(), any(), any(), any(), any(), any())).thenAnswer(this::saveAggregate);
@@ -3159,13 +3168,21 @@ class SkillEffectServiceTest {
 
     @Test
     void triggerRuleProtectsEffectDeleteUpdateAndCycleWithLongConstructor() {
-        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
-            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
-        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+        xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard triggerReferences =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class);
+        SkillEffectService guarded = new SkillEffectService(
+            gamesMapper,
+            skillMapper,
+            mapper,
+            triggerReferences,
+            triggerCycles,
+            imageRelationMapper,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
         when(mapper.countProcessBindings(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
-        when(triggerRuleService.effectDeleteIssues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
+        when(triggerReferences.effectDeleteIssues(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(List.of(
             Map.of("field", "effectKey", "code", "TRIGGER_RULE_EFFECT_IN_USE", "message", "技能效果仍被触发规则引用，不能删除")
         ));
         ApiException triggerOnly = assertThrows(ApiException.class, () -> guarded.delete(GAME_ID, SKILL_KEY, EFFECT_KEY));
@@ -3183,7 +3200,7 @@ class SkillEffectServiceTest {
             "409.SKILL_EFFECT_IN_USE",
             "结果仍被触发规则引用，不能移除",
             Map.of("fieldIssues", List.of(Map.of("field", "results", "code", "TRIGGER_RULE_RESULT_IN_USE")))
-        )).when(triggerRuleService).assertEffectUpdate(any(), any(), any(), any(), any(), any(), any());
+        )).when(triggerReferences).assertEffectUpdate(any(), any(), any(), any(), any(), any(), any());
         fixture.put("listResultsForUpdate", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE)
         ));
@@ -3199,13 +3216,13 @@ class SkillEffectServiceTest {
         assertEquals("409.SKILL_EFFECT_IN_USE", result.getCode());
         assertField(result, "results", "TRIGGER_RULE_RESULT_IN_USE");
 
-        org.mockito.Mockito.reset(triggerRuleService);
+        org.mockito.Mockito.reset(triggerReferences);
         org.mockito.Mockito.doThrow(new ApiException(
             org.springframework.http.HttpStatus.BAD_REQUEST,
             "400.TRIGGER_RULE_CYCLE_UNGUARDED",
             "触发规则存在未受保护的循环",
             Map.of()
-        )).when(triggerRuleService).assertCurrentSkillCycle(GAME_ID, SKILL_KEY);
+        )).when(triggerCycles).validateCurrentSkill(GAME_ID, SKILL_KEY);
         fixture.put("listResultsForUpdate", List.of(
             resultRow("physical_hit", SkillEffectResultType.DAMAGE)
         ));
@@ -3238,9 +3255,17 @@ class SkillEffectServiceTest {
 
     @Test
     void stage765InboundShapeConflictDoesNotWriteAndUnreferencedUpdateSucceeds() {
-        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
-            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
-        SkillEffectService guarded = new SkillEffectService(gamesMapper, skillMapper, mapper, triggerRuleService, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+        xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard triggerReferences =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class);
+        SkillEffectService guarded = new SkillEffectService(
+            gamesMapper,
+            skillMapper,
+            mapper,
+            triggerReferences,
+            triggerCycles,
+            imageRelationMapper,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
         fixture.put("listResultsForUpdate", List.of(
@@ -3259,7 +3284,7 @@ class SkillEffectServiceTest {
                 "bindingKey", "from_first",
                 "outputKind", "ACTUAL_HEALING"
             )))
-        )).when(triggerRuleService).assertEffectUpdate(any(), any(), any(), any(), any(), any(), any());
+        )).when(triggerReferences).assertEffectUpdate(any(), any(), any(), any(), any(), any(), any());
         ApiException blocked = assertThrows(
             ApiException.class,
             () -> guarded.update(
@@ -3272,7 +3297,7 @@ class SkillEffectServiceTest {
         assertEquals("ACTUAL_HEALING", fieldIssues(blocked).get(0).get("outputKind"));
         verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any(), any(), any());
 
-        org.mockito.Mockito.reset(triggerRuleService);
+        org.mockito.Mockito.reset(triggerReferences);
         stubEnabledCatalogs();
         fixture.put("listValues", List.of(valueRow("physical_hit")));
         fixture.put("listDamageDetails", List.of(
@@ -3403,7 +3428,7 @@ class SkillEffectServiceTest {
         SkillEffectRow before = savedEffect;
         org.mockito.Mockito.doThrow(new ApiException(org.springframework.http.HttpStatus.CONFLICT,
             "409.SKILL_EFFECT_IN_USE", "结果仍被引用", Map.of()))
-            .when(triggerRuleService).assertEffectUpdate(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), any(),
+            .when(triggerReferences).assertEffectUpdate(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), any(),
                 eq(timedLifecycle()), eq(List.of()), eq(List.of("physical_hit")));
         assertCode("409.SKILL_EFFECT_IN_USE", () -> service.update(GAME_ID, SKILL_KEY, EFFECT_KEY,
             new SkillEffectUpdateRequest(null, "资格窗口", null, 10, timedLifecycle(), List.of())));

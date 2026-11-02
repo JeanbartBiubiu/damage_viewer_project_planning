@@ -94,7 +94,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneApplicationStage;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
-import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
+import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard;
+import xyz.game.datamanage.service.skilltrigger.SkillTriggerCycleValidator;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -126,21 +127,24 @@ public class SkillEffectService {
     private final GamesMapper gamesMapper;
     private final SkillMapper skillMapper;
     private final SkillEffectMapper mapper;
-    private final SkillTriggerRuleService triggerRuleService;
+    private final SkillTriggerReferenceGuard triggerReferences;
+    private final SkillTriggerCycleValidator triggerCycles;
     private final ImageRelationMapper imageRelationMapper;
 
     public SkillEffectService(
         GamesMapper gamesMapper,
         SkillMapper skillMapper,
         SkillEffectMapper mapper,
-        SkillTriggerRuleService triggerRuleService,
+        SkillTriggerReferenceGuard triggerReferences,
+        SkillTriggerCycleValidator triggerCycles,
         ImageRelationMapper imageRelationMapper,
         xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites
     ) {
         this.gamesMapper = gamesMapper;
         this.skillMapper = skillMapper;
         this.mapper = mapper;
-        this.triggerRuleService = triggerRuleService;
+        this.triggerReferences = java.util.Objects.requireNonNull(triggerReferences);
+        this.triggerCycles = java.util.Objects.requireNonNull(triggerCycles);
         this.imageRelationMapper = imageRelationMapper;
 
         this.configurationWrites = java.util.Objects.requireNonNull(configurationWrites);
@@ -246,17 +250,15 @@ public class SkillEffectService {
                 removedKeys.add(existing.resultKey());
             }
         }
-        if (triggerRuleService != null) {
-            triggerRuleService.assertEffectUpdate(
-                gameId,
-                skillKey,
-                effectKey,
-                existingLifecycle,
-                values.lifecycle(),
-                values.results(),
-                removedKeys
-            );
-        }
+        triggerReferences.assertEffectUpdate(
+            gameId,
+            skillKey,
+            effectKey,
+            existingLifecycle,
+            values.lifecycle(),
+            values.results(),
+            removedKeys
+        );
         long extendDurationReferences = existingLifecycle == null
             ? 0
             : mapper.countExtendDurationOperationReferences(gameId, skillKey, effectKey);
@@ -322,9 +324,7 @@ public class SkillEffectService {
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex, existingLifecycle != null && values.lifecycle() == null, clearingDuration);
         }
-        if (triggerRuleService != null) {
-            triggerRuleService.assertCurrentSkillCycle(gameId, skillKey);
-        }
+        triggerCycles.validateCurrentSkill(gameId, skillKey);
         return requireDetail(gameId, skillKey, effectKey);
     }
 
@@ -340,9 +340,7 @@ public class SkillEffectService {
         if (mapper.countProcessBindings(gameId, skillKey, effectKey) > 0) {
             inUse.add(fieldIssue("effectKey", "CONFLICT", "技能效果已被过程挂接引用，不能删除"));
         }
-        if (triggerRuleService != null) {
-            inUse.addAll(triggerRuleService.effectDeleteIssues(gameId, skillKey, effectKey));
-        }
+        inUse.addAll(triggerReferences.effectDeleteIssues(gameId, skillKey, effectKey));
         if (!inUse.isEmpty()) {
             inUse.sort(Comparator.comparing(issue -> issue.get("field")));
             throw effectInUse(inUse);
@@ -393,11 +391,11 @@ public class SkillEffectService {
         }
         throwIfInvalid(typeIssues);
         SkillEffectLifecycleRow previousLifecycle = SkillEffectAggregate.lifecycleRow(existing);
-        if (!deferRuleReferences && triggerRuleService != null) {
+        if (!deferRuleReferences) {
             List<String> retainedKeys = values.results().stream().map(SkillEffectResultRequest::resultKey).toList();
             List<String> removedKeys = existingResults.stream().map(SkillEffectResultRequest::resultKey)
                 .filter(key -> !retainedKeys.contains(key)).toList();
-            triggerRuleService.assertEffectUpdate(gameId, skillKey, effectKey, previousLifecycle,
+            triggerReferences.assertEffectUpdate(gameId, skillKey, effectKey, previousLifecycle,
                 values.lifecycle(), values.results(), removedKeys);
         }
         CollectedRefs refs = collectAndValidateResults(values.lifecycle(), values.results(),
@@ -457,7 +455,7 @@ public class SkillEffectService {
     }
 
     public void validateConfigurationFinalCycle(String gameId, String skillKey) {
-        if (triggerRuleService != null) triggerRuleService.assertCurrentSkillCycle(gameId, skillKey);
+        triggerCycles.validateCurrentSkill(gameId, skillKey);
     }
 
     public void validateConfigurationFinalTargets(

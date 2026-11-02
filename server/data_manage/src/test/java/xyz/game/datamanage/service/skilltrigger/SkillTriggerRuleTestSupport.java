@@ -73,6 +73,9 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
 import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.support.error.ApiException;
+import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerCatalogValidator;
+import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard;
+import xyz.game.datamanage.service.skilltrigger.validation.SkillTriggerPayloadValidator;
 
 final class SkillTriggerRuleTestSupport {
 
@@ -98,10 +101,18 @@ final class SkillTriggerRuleTestSupport {
             skillMapper,
             mapper,
             new SkillTriggerRuleAssembler(),
-            new SkillTriggerRuntimeInputAnalyzer(mapper),
+            new SkillTriggerPayloadValidator(),
+            new SkillTriggerCatalogValidator(mapper, new SkillTriggerRuntimeInputAnalyzer(mapper)),
+            references(mapper),
             new SkillTriggerCycleValidator(mapper),
             org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
         );
+    }
+
+    static SkillTriggerReferenceGuard references(SkillTriggerRuleMapper mapper) {
+        var analyzer = new SkillTriggerRuntimeInputAnalyzer(mapper);
+        return new SkillTriggerReferenceGuard(mapper, analyzer, new SkillTriggerRuleAssembler(),
+            new SkillTriggerCatalogValidator(mapper, analyzer));
     }
 
     static void stubParentAndCatalogs(

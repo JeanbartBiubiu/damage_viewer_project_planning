@@ -58,7 +58,14 @@ class SkillParameterServiceTest {
     @BeforeEach
     void setUp() {
         levelService = new SkillParameterLevelService(new ObjectMapper());
-        service = new SkillParameterService(gamesMapper, skillMapper, parameterMapper, levelService, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+        service = new SkillParameterService(
+            gamesMapper,
+            skillMapper,
+            parameterMapper,
+            levelService,
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class),
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
@@ -462,11 +469,16 @@ class SkillParameterServiceTest {
 
     @Test
     void triggerRuleProtectsParameterDeleteAfterFormulaCheckWithLongConstructor() {
-        xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
-            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
+        xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard triggerReferences =
+            org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard.class);
         SkillParameterService guarded = new SkillParameterService(
-            gamesMapper, skillMapper, parameterMapper, levelService, triggerRuleService
-        , org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
+            gamesMapper,
+            skillMapper,
+            parameterMapper,
+            levelService,
+            triggerReferences,
+            org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class)
+        );
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill(5));
         when(parameterMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, PARAMETER_KEY)).thenReturn(row(
             PARAMETER_KEY, SkillParameterValueType.DECIMAL, SkillParameterValueMode.FIXED, java.math.BigDecimal.ONE, null
@@ -477,7 +489,7 @@ class SkillParameterServiceTest {
             "409.SKILL_PARAMETER_IN_USE",
             "技能参数仍被触发规则引用，不能删除",
             Map.of("fieldIssues", List.of(Map.of("field", "parameterKey", "code", "TRIGGER_RULE_PARAMETER_IN_USE")))
-        )).when(triggerRuleService).assertParameterDeletable(GAME_ID, SKILL_KEY, PARAMETER_KEY);
+        )).when(triggerReferences).assertParameterDeletable(GAME_ID, SKILL_KEY, PARAMETER_KEY);
         assertCode("409.SKILL_PARAMETER_IN_USE", () -> guarded.delete(GAME_ID, SKILL_KEY, PARAMETER_KEY));
         verify(parameterMapper, never()).delete(anyString(), anyString(), anyString());
     }
