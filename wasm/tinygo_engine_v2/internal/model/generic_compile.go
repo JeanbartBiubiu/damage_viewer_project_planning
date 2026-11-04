@@ -3,6 +3,8 @@ package model
 
 // CompileRequest 是 generic compile frame 的顶层 payload。
 type CompileRequest struct {
+	// Authorization 是当前账号的原始计算授权票据；只有关闭验签构建允许省略。
+	Authorization   string                 `json:"authorization,omitempty"`
 	SchemaVersion   string                 `json:"schemaVersion"`
 	SchemaHash      string                 `json:"schemaHash"`
 	RulesHash       string                 `json:"rulesHash"`

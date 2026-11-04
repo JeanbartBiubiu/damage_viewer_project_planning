@@ -24,21 +24,18 @@ function charactersPath(gameId: string, characterKey?: string): string {
 export function getLevelConfig(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   signal?: AbortSignal
 ): Promise<ApiResult<LevelConfig>> {
-  return requestJson<LevelConfig>(apiBaseUrl, gameAdminPath(gameId, 'level-config'), { token, signal });
+  return requestJson<LevelConfig>(apiBaseUrl, gameAdminPath(gameId, 'level-config'), { signal });
 }
 
 export function updateLevelConfig(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   body: UpdateLevelConfigRequest
 ): Promise<ApiResult<LevelConfig>> {
   return requestJson<LevelConfig>(apiBaseUrl, gameAdminPath(gameId, 'level-config'), {
     method: 'PUT',
-    token,
     body: JSON.stringify(body)
   });
 }
@@ -46,7 +43,6 @@ export function updateLevelConfig(
 export function listCharacters(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   query: CharacterListQuery = {},
   signal?: AbortSignal
 ): Promise<ApiResult<CharacterListResponse>> {
@@ -54,27 +50,24 @@ export function listCharacters(
   const path = keyword
     ? `${charactersPath(gameId)}?${new URLSearchParams({ keyword }).toString()}`
     : charactersPath(gameId);
-  return requestJson<CharacterListResponse>(apiBaseUrl, path, { token, signal });
+  return requestJson<CharacterListResponse>(apiBaseUrl, path, { signal });
 }
 
 export function getCharacter(
   apiBaseUrl: string,
   gameId: string,
-  characterKey: string,
-  token: string
+  characterKey: string
 ): Promise<ApiResult<Character>> {
-  return requestJson<Character>(apiBaseUrl, charactersPath(gameId, characterKey), { token });
+  return requestJson<Character>(apiBaseUrl, charactersPath(gameId, characterKey));
 }
 
 export function createCharacter(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   body: CreateCharacterRequest
 ): Promise<ApiResult<Character>> {
   return requestJson<Character>(apiBaseUrl, charactersPath(gameId), {
     method: 'POST',
-    token,
     body: JSON.stringify(body)
   });
 }
@@ -83,12 +76,10 @@ export function updateCharacter(
   apiBaseUrl: string,
   gameId: string,
   characterKey: string,
-  token: string,
   body: UpdateCharacterRequest
 ): Promise<ApiResult<Character>> {
   return requestJson<Character>(apiBaseUrl, charactersPath(gameId, characterKey), {
     method: 'PUT',
-    token,
     body: JSON.stringify(body)
   });
 }
@@ -96,25 +87,21 @@ export function updateCharacter(
 export function deleteCharacter(
   apiBaseUrl: string,
   gameId: string,
-  characterKey: string,
-  token: string
+  characterKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, charactersPath(gameId, characterKey), {
-    method: 'DELETE',
-    token
+    method: 'DELETE'
   });
 }
 
 export function getCharacterAttributes(
   apiBaseUrl: string,
   gameId: string,
-  characterKey: string,
-  token: string
+  characterKey: string
 ): Promise<ApiResult<CharacterAttributes>> {
   return requestJson<CharacterAttributes>(
     apiBaseUrl,
-    `${charactersPath(gameId, characterKey)}/attributes`,
-    { token }
+    `${charactersPath(gameId, characterKey)}/attributes`
   );
 }
 
@@ -122,12 +109,11 @@ export function updateCharacterAttributes(
   apiBaseUrl: string,
   gameId: string,
   characterKey: string,
-  token: string,
   body: UpdateCharacterAttributesRequest
 ): Promise<ApiResult<CharacterAttributes>> {
   return requestJson<CharacterAttributes>(
     apiBaseUrl,
     `${charactersPath(gameId, characterKey)}/attributes`,
-    { method: 'PUT', token, body: JSON.stringify(body) }
+    { method: 'PUT', body: JSON.stringify(body) }
   );
 }

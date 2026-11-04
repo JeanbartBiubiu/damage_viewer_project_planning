@@ -10,12 +10,11 @@ type Props = {
   apiBaseUrl: string;
   selectedGameId: string | null;
   selectedGameName: string;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
   onSaved: () => void;
 };
 
-export function GameRepresentativeImagePanel({ apiBaseUrl, selectedGameId, selectedGameName, adminToken, onDirtyChange, onSaved }: Props) {
+export function GameRepresentativeImagePanel({ apiBaseUrl, selectedGameId, selectedGameName, onDirtyChange, onSaved }: Props) {
   const [image, setImage] = useState<{ imageKey: string; name: string; enabled: boolean } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -24,22 +23,22 @@ export function GameRepresentativeImagePanel({ apiBaseUrl, selectedGameId, selec
   const load = useCallback(async () => {
     const ticket = ++serial.current;
     setError(null);
-    if (!selectedGameId || !adminToken.trim()) { setImage(null); setLoading(false); return; }
+    if (!selectedGameId) { setImage(null); setLoading(false); return; }
     setLoading(true);
     try {
       const result = await getRepresentativeImage(apiBaseUrl, selectedGameId,
-        { kind: 'game', key: selectedGameId, name: selectedGameName }, adminToken.trim());
+        { kind: 'game', key: selectedGameId, name: selectedGameName });
       if (serial.current === ticket) setImage(result.data.image);
     } catch (e) { if (serial.current === ticket) { setImage(null); setError(getErrorMessage(e)); } }
     finally { if (serial.current === ticket) setLoading(false); }
-  }, [apiBaseUrl, selectedGameId, selectedGameName, adminToken]);
+  }, [apiBaseUrl, selectedGameId, selectedGameName]);
   useEffect(() => {
     setVisible(false); setImage(null); void load();
     return () => { serial.current += 1; };
   }, [load]);
   return <Panel title="代表图片" actions={<Space>
-    <Button loading={loading} disabled={!selectedGameId || !adminToken.trim()} onClick={() => void load()}>刷新代表图片</Button>
-    <Button type="primary" disabled={!selectedGameId || !adminToken.trim()} onClick={() => setVisible(true)}>设置代表图片</Button>
+    <Button loading={loading} disabled={!selectedGameId} onClick={() => void load()}>刷新代表图片</Button>
+    <Button type="primary" disabled={!selectedGameId} onClick={() => setVisible(true)}>设置代表图片</Button>
   </Space>}>
     {error ? <Alert type="error" content={error} /> : null}
     <Space>
@@ -51,7 +50,7 @@ export function GameRepresentativeImagePanel({ apiBaseUrl, selectedGameId, selec
     </Space>
     {visible && selectedGameId ? <RepresentativeImageModal visible
       target={{ kind: 'game', key: selectedGameId, name: selectedGameName }} apiBaseUrl={apiBaseUrl}
-      selectedGameId={selectedGameId} adminToken={adminToken} onDirtyChange={onDirtyChange}
+      selectedGameId={selectedGameId}  onDirtyChange={onDirtyChange}
       onClose={() => { setVisible(false); onDirtyChange(false); }}
       onSaved={() => { void load(); onSaved(); }} /> : null}
   </Panel>;

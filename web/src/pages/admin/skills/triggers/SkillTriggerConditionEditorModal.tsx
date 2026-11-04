@@ -87,7 +87,6 @@ type SkillTriggerConditionEditorModalProps = {
   skillKey: string;
   apiBaseUrl: string;
   selectedGameId: string;
-  adminToken: string;
   originalConditionType?: SkillTriggerConditionType;
   effectsLoadState?: 'idle' | 'loading' | 'ready' | 'error';
   onRetryLifecycleEffects: () => Promise<void>;
@@ -126,7 +125,6 @@ export function SkillTriggerConditionEditorModal({
   skillKey,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   originalConditionType,
   effectsLoadState,
   onRetryLifecycleEffects,
@@ -168,7 +166,7 @@ export function SkillTriggerConditionEditorModal({
   }, [draft, visible]);
 
   const stateReference = useQualifiedSkillState({ visible: visible && current.conditionType === 'INTERNAL_STATE_CHECK',
-    apiBaseUrl, gameId: selectedGameId, adminToken, currentSkillKey: skillKey,
+    apiBaseUrl, gameId: selectedGameId, currentSkillKey: skillKey,
     ownerSkillKey: current.conditionType === 'INTERNAL_STATE_CHECK' ? current.detail.stateSkillKey || skillKey : '',
     objectKey: current.conditionType === 'INTERNAL_STATE_CHECK' ? current.detail.stateKey : '',
     local: internalStates });
@@ -185,7 +183,7 @@ export function SkillTriggerConditionEditorModal({
 
   const lifecycleEffects = lifecycleConditionEffects(effects, skillKey);
   const lifecycleReference = useQualifiedSkillEffect({ visible: visible && current.conditionType === 'LIFECYCLE_CHECK',
-    apiBaseUrl, gameId: selectedGameId, adminToken, currentSkillKey: skillKey,
+    apiBaseUrl, gameId: selectedGameId, currentSkillKey: skillKey,
     ownerSkillKey: current.conditionType === 'LIFECYCLE_CHECK' ? current.detail.effectSkillKey || skillKey : '',
     objectKey: current.conditionType === 'LIFECYCLE_CHECK' ? current.detail.effectKey : '',
     local: effects });
@@ -197,7 +195,7 @@ export function SkillTriggerConditionEditorModal({
   }, [current, selectedLifecycle]);
   const statusReference = useQualifiedSkillEffect({ visible: visible && current.conditionType === 'STATUS_CHECK'
     && current.detail.checkKind !== 'PRESENT' && current.detail.checkKind !== 'ABSENT',
-    apiBaseUrl, gameId: selectedGameId, adminToken, currentSkillKey: skillKey,
+    apiBaseUrl, gameId: selectedGameId, currentSkillKey: skillKey,
     ownerSkillKey: current.conditionType === 'STATUS_CHECK' && current.detail.checkKind !== 'PRESENT'
       && current.detail.checkKind !== 'ABSENT' ? current.detail.effectSkillKey || skillKey : '',
     objectKey: current.conditionType === 'STATUS_CHECK' && current.detail.checkKind !== 'PRESENT'

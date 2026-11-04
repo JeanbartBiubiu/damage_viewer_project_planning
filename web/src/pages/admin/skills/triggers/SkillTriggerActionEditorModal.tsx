@@ -74,7 +74,6 @@ type BindingEditorState = {
 type SkillTriggerActionEditorModalProps = {
   apiBaseUrl: string;
   selectedGameId: string;
-  adminToken: string;
   visible: boolean;
   mode: SkillTriggerActionEditorMode;
   keyReadOnly: boolean;
@@ -122,7 +121,6 @@ function titleFor(mode: SkillTriggerActionEditorMode): string {
 export function SkillTriggerActionEditorModal({
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   visible,
   mode,
   keyReadOnly,
@@ -740,7 +738,7 @@ export function SkillTriggerActionEditorModal({
       </Modal>
 
       <SkillTriggerRuntimeInputBindingEditorModal
-        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
         visible={bindingEditor !== null}
         mode={bindingEditor?.mode ?? 'create'}
         binding={bindingEditor?.binding ?? null}

@@ -43,7 +43,6 @@ export type SkillBehaviorOverviewRequest = {
   apiBaseUrl: string;
   gameId: string;
   skillKey: string;
-  token: string;
   generation: number;
 };
 
@@ -82,28 +81,28 @@ export async function loadSkillBehaviorOverview(
   isCurrent: (generation: number) => boolean = () => true
 ): Promise<SkillBehaviorOverviewBundle | null> {
   const current = () => isCurrent(request.generation);
-  const { apiBaseUrl, gameId, skillKey, token } = request;
+  const { apiBaseUrl, gameId, skillKey } = request;
   const [parameters, formulas, effectList, processList, stateList, ruleList] = await Promise.all([
-    loadCatalog(() => listSkillParameters(apiBaseUrl, gameId, skillKey, token)),
-    loadCatalog(() => listSkillFormulas(apiBaseUrl, gameId, skillKey, token)),
-    loadCatalog(() => listSkillEffects(apiBaseUrl, gameId, skillKey, token)),
-    loadCatalog(() => listSkillProcesses(apiBaseUrl, gameId, skillKey, token)),
-    loadCatalog(() => listSkillInternalStates(apiBaseUrl, gameId, skillKey, token)),
-    loadCatalog(() => listSkillTriggerRules(apiBaseUrl, gameId, skillKey, token))
+    loadCatalog(() => listSkillParameters(apiBaseUrl, gameId, skillKey)),
+    loadCatalog(() => listSkillFormulas(apiBaseUrl, gameId, skillKey)),
+    loadCatalog(() => listSkillEffects(apiBaseUrl, gameId, skillKey)),
+    loadCatalog(() => listSkillProcesses(apiBaseUrl, gameId, skillKey)),
+    loadCatalog(() => listSkillInternalStates(apiBaseUrl, gameId, skillKey)),
+    loadCatalog(() => listSkillTriggerRules(apiBaseUrl, gameId, skillKey))
   ]);
   if (!current()) return null;
 
   const effects = effectList.error ? { details: [] as SkillEffect[], failedKeys: [] as string[] }
-    : await loadDetails(effectList.items, (item) => item.effectKey, (key) => getSkillEffect(apiBaseUrl, gameId, skillKey, key, token), current);
+    : await loadDetails(effectList.items, (item) => item.effectKey, (key) => getSkillEffect(apiBaseUrl, gameId, skillKey, key), current);
   if (!current()) return null;
   const processes = processList.error ? { details: [] as SkillProcess[], failedKeys: [] as string[] }
-    : await loadDetails(processList.items, (item) => item.processKey, (key) => getSkillProcess(apiBaseUrl, gameId, skillKey, key, token), current);
+    : await loadDetails(processList.items, (item) => item.processKey, (key) => getSkillProcess(apiBaseUrl, gameId, skillKey, key), current);
   if (!current()) return null;
   const internalStates = stateList.error ? { details: [] as SkillInternalState[], failedKeys: [] as string[] }
-    : await loadDetails(stateList.items, (item) => item.stateKey, (key) => getSkillInternalState(apiBaseUrl, gameId, skillKey, key, token), current);
+    : await loadDetails(stateList.items, (item) => item.stateKey, (key) => getSkillInternalState(apiBaseUrl, gameId, skillKey, key), current);
   if (!current()) return null;
   const rules = ruleList.error ? { details: [] as SkillTriggerRuleDetail[], failedKeys: [] as string[] }
-    : await loadDetails(ruleList.items, (item) => item.ruleKey, (key) => getSkillTriggerRule(apiBaseUrl, gameId, skillKey, key, token), current);
+    : await loadDetails(ruleList.items, (item) => item.ruleKey, (key) => getSkillTriggerRule(apiBaseUrl, gameId, skillKey, key), current);
   if (!current()) return null;
 
   const bundle: SkillBehaviorOverviewBundle = {

@@ -18,7 +18,6 @@ type EquipmentEditorModalProps = {
   equipment: Equipment | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSaved: (equipment: Equipment) => void | Promise<void>;
   onDirtyChange: (dirty: boolean) => void;
@@ -38,7 +37,6 @@ export function EquipmentEditorModal({
   equipment,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onDirtyChange
@@ -85,22 +83,17 @@ export function EquipmentEditorModal({
       setSaveError('请先选择游戏。');
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
 
     setSaving(true);
     setSaveError(null);
     try {
       const result = mode === 'create'
-        ? await createEquipment(apiBaseUrl, selectedGameId, token, {
+        ? await createEquipment(apiBaseUrl, selectedGameId, {
             equipmentKey: draft.equipmentKey.trim(),
             name: draft.name.trim(),
             description: draft.description.trim() || null
           })
-        : await updateEquipment(apiBaseUrl, selectedGameId, equipment!.equipmentKey, token, {
+        : await updateEquipment(apiBaseUrl, selectedGameId, equipment!.equipmentKey, {
             name: draft.name.trim(),
             description: draft.description.trim() || null
           });

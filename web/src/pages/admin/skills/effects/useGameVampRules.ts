@@ -3,9 +3,9 @@ import { getErrorMessage } from '../../../../services/apiClient';
 import { getGameVampRules } from '../../../../services/gameVampClient';
 import type { GameVampRule } from '../../../../types/gameVamp';
 
-export function useGameVampRules(apiBaseUrl: string, gameId: string, adminToken: string, enabled: boolean) {
-  const token = adminToken.trim();
-  const context = useMemo(() => ({ apiBaseUrl, gameId, token, enabled }), [apiBaseUrl, gameId, token, enabled]);
+export function useGameVampRules(apiBaseUrl: string, gameId: string, enabled: boolean) {
+
+  const context = useMemo(() => ({ apiBaseUrl, gameId, enabled }), [apiBaseUrl, gameId, enabled]);
   const current = useRef(context);
   current.current = context;
   const serial = useRef(0);
@@ -16,9 +16,9 @@ export function useGameVampRules(apiBaseUrl: string, gameId: string, adminToken:
   const reload = useCallback(async () => {
     const ticket = ++serial.current;
     setLoaded(null); setRules([]); setState('loading'); setError(null);
-    if (!context.enabled || !context.token) return;
+    if (!context.enabled) return;
     try {
-      const result = await getGameVampRules(context.apiBaseUrl, context.gameId, context.token);
+      const result = await getGameVampRules(context.apiBaseUrl, context.gameId);
       if (serial.current !== ticket || current.current !== context) return;
       setRules(result.data.rules); setState('ready'); setLoaded(context);
     } catch (e) {

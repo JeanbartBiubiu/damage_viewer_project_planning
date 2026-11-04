@@ -34,11 +34,11 @@ describe('character authoring check', () => {
     const fetchMock = vi.fn(async (_url: RequestInfo | URL, init?: RequestInit) => {
       expect(init?.body).toBeUndefined();
       expect(init?.method ?? 'GET').toBe('GET');
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer example-token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return new Response(JSON.stringify({ ...report, characterKey: 'a/b' }), { status: 200 });
     });
     vi.stubGlobal('fetch', fetchMock);
-    const response = await getCharacterAuthoringCheck('http://localhost:8080', 'lol', 'a/b', 'example-token');
+    const response = await getCharacterAuthoringCheck('http://localhost:8080', 'lol', 'a/b');
     expect(String(fetchMock.mock.calls[0][0])).toBe('http://localhost:8080/api/admin/games/lol/characters/a%2Fb/authoring-check');
     expect(response.data.summary.attachedSkillCount).toBe(0);
   });
@@ -105,6 +105,6 @@ describe('character authoring check', () => {
   });
   it('propagates server failures without creating an empty passing report', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ error: { code: '500.ERROR', message: '检查读取失败' } }), { status: 500 })));
-    await expect(getCharacterAuthoringCheck('http://localhost:8080', 'lol', 'ez', 'example-token')).rejects.toThrow('检查读取失败');
+    await expect(getCharacterAuthoringCheck('http://localhost:8080', 'lol', 'ez')).rejects.toThrow('检查读取失败');
   });
 });

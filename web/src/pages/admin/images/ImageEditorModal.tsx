@@ -16,7 +16,6 @@ type ImageEditorModalProps = {
   image: ManagedImage | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSaved: (image: ManagedImage) => void | Promise<void>;
   onDirtyChange: (dirty: boolean) => void;
@@ -58,7 +57,6 @@ export function ImageEditorModal({
   image,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onDirtyChange
@@ -147,11 +145,7 @@ export function ImageEditorModal({
       setSaveError('请先选择游戏。');
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
+
     if (image?.enabled && !draft.enabled && !window.confirm(`确定停用图片“${image.name}”吗？`)) {
       return;
     }
@@ -160,13 +154,13 @@ export function ImageEditorModal({
     setSaveError(null);
     try {
       const result = mode === 'create'
-        ? await createImage(apiBaseUrl, selectedGameId, token, {
+        ? await createImage(apiBaseUrl, selectedGameId, {
             imageKey: normalizeImageKey(draft.imageKey)!,
             name: draft.name.trim(),
             description: draft.description.trim() || null,
             imageBase64: prepared!.imageBase64
           })
-        : await updateImage(apiBaseUrl, selectedGameId, image!.imageKey, token, {
+        : await updateImage(apiBaseUrl, selectedGameId, image!.imageKey, {
             name: draft.name.trim(),
             description: draft.description.trim() || null,
             enabled: draft.enabled,

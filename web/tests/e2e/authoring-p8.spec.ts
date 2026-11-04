@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { expect, test, type Page, type Route } from '@playwright/test';
 
@@ -420,6 +421,7 @@ class AuthoringP8Api {
 
   async install(page: Page) {
     await page.route('**/api/**', async route => {
+      if (await fulfillAuthSession(route)) return;
       const request = route.request();
       const url = new URL(request.url());
       if (request.method() === 'OPTIONS') {
@@ -431,11 +433,6 @@ class AuthoringP8Api {
             'Access-Control-Allow-Methods': 'GET,PATCH,POST,DELETE,OPTIONS'
           }
         });
-        return;
-      }
-      if (url.origin !== API) {
-        this.unexpected.push(`${request.method()} ${url.href}`);
-        await route.abort();
         return;
       }
       await this.dispatch(route, url);
@@ -692,8 +689,6 @@ async function prepare(page: Page, api: AuthoringP8Api, hash = '/#/skills') {
   await page.addInitScript(apiBase => {
     localStorage.clear();
     sessionStorage.clear();
-    localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
-    localStorage.setItem('damage-viewer.web.admin-token', 'authoring-p8-example');
   }, API);
   await page.goto(hash);
   return () => {

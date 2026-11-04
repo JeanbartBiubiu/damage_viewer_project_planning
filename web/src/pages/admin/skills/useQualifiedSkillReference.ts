@@ -17,14 +17,12 @@ type Options<T> = {
   visible: boolean;
   apiBaseUrl: string;
   gameId: string;
-  adminToken: string;
   currentSkillKey: string;
   ownerSkillKey: string;
   objectKey: string;
   local: readonly T[];
   keyField: keyof T;
-  load: (apiBaseUrl: string, gameId: string, ownerSkillKey: string, objectKey: string,
-    token: string) => Promise<{ data: T }>;
+  load: (apiBaseUrl: string, gameId: string, ownerSkillKey: string, objectKey: string) => Promise<{ data: T }>;
 };
 
 function useQualifiedReference<T extends { skillKey: string }>(options: Options<T>) {
@@ -49,16 +47,11 @@ function useQualifiedReference<T extends { skillKey: string }>(options: Options<
       setError(null);
       return;
     }
-    if (!options.adminToken.trim()) {
-      setLoaded(null);
-      setState('error');
-      setError('请先配置管理令牌。');
-      return;
-    }
+
     setLoaded(null);
     setState('loading');
     setError(null);
-    void options.load(options.apiBaseUrl, options.gameId, owner, key, options.adminToken.trim())
+    void options.load(options.apiBaseUrl, options.gameId, owner, key)
       .then((result) => {
         if (serial.current !== request) return;
         setLoaded(result.data);
@@ -70,8 +63,7 @@ function useQualifiedReference<T extends { skillKey: string }>(options: Options<
         setError(getErrorMessage(reason));
       });
     return () => { serial.current += 1; };
-  }, [options.visible, options.apiBaseUrl, options.gameId, options.adminToken,
-    options.load, external, owner, key, retryRevision]);
+  }, [options.visible, options.apiBaseUrl, options.gameId, options.load, external, owner, key, retryRevision]);
 
   return { value: external ? externalValue : local,
     state: external ? state : local ? 'ready' as const : 'idle' as const,

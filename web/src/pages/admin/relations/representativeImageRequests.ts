@@ -17,7 +17,6 @@ export function readTableRepresentativeImage(
   apiBaseUrl: Parameters<typeof getRepresentativeImage>[0],
   gameId: Parameters<typeof getRepresentativeImage>[1],
   target: Parameters<typeof getRepresentativeImage>[2],
-  token: string,
   signal: AbortSignal
 ): ReturnType<typeof getRepresentativeImage> {
   return new Promise((resolve, reject) => {
@@ -34,7 +33,7 @@ export function readTableRepresentativeImage(
       running += 1;
       // 将同步参数错误也纳入释放名额的流程。
       void Promise.resolve()
-        .then(() => getRepresentativeImage(apiBaseUrl, gameId, target, token, signal))
+        .then(() => getRepresentativeImage(apiBaseUrl, gameId, target, signal))
         .then(resolve, reject)
         .finally(() => {
           running -= 1;

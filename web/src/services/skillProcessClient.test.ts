@@ -136,20 +136,19 @@ describe('skillProcessClient', () => {
     vi.restoreAllMocks();
   });
 
-  it('encodes game, skill and process path segments with admin token', async () => {
+  it('encodes game, skill and process path segments with cookie authentication', async () => {
     const listMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       expect(String(input)).toBe(
         'http://localhost:8080/api/admin/games/demo%20arena/skills/active%2Fq/processes'
       );
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, [summary]);
     });
     vi.stubGlobal('fetch', listMock);
     const listed = await listSkillProcesses(
       'http://localhost:8080/',
       'demo arena',
-      'active/q',
-      'token'
+      'active/q'
     );
     expect(listed.status).toBe(200);
     expect(listed.data[0]).not.toHaveProperty('steps');
@@ -160,7 +159,7 @@ describe('skillProcessClient', () => {
       expect(String(input)).toBe(
         'http://localhost:8080/api/admin/games/demo/skills/ezreal_q/processes/primary%2Fcast'
       );
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, detail);
     });
     vi.stubGlobal('fetch', detailMock);
@@ -168,8 +167,7 @@ describe('skillProcessClient', () => {
       'http://localhost:8080',
       'demo',
       'ezreal_q',
-      'primary/cast',
-      'token'
+      'primary/cast'
     );
     expect(loaded.data.steps).toEqual(detail.steps);
     expect(loaded.data.effectBindings).toEqual(detail.effectBindings);
@@ -186,7 +184,7 @@ describe('skillProcessClient', () => {
         status,
         body: init?.body ? JSON.parse(String(init.body)) : null
       });
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(status, method === 'DELETE' ? null : detail);
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -195,7 +193,6 @@ describe('skillProcessClient', () => {
       'http://localhost:8080',
       'demo arena',
       'active/q',
-      'token',
       createBody
     );
     const updated = await updateSkillProcess(
@@ -203,15 +200,13 @@ describe('skillProcessClient', () => {
       'demo',
       'ezreal_q',
       'primary/cast',
-      'token',
       updateBody
     );
     const deleted = await deleteSkillProcess(
       'http://localhost:8080',
       'demo',
       'ezreal_q',
-      'primary/cast',
-      'token'
+      'primary/cast'
     );
 
     expect(created.status).toBe(201);

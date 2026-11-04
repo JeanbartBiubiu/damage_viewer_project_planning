@@ -27,7 +27,6 @@ import type { AuthoringLocation } from '../../../types/authoringLocation';
 export type CharacterManagementPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
 };
 
@@ -44,7 +43,6 @@ function formatUpdatedAt(value: string): string {
 export function CharacterManagementPage({
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onDirtyChange
 }: CharacterManagementPageProps) {
   const [keywordDraft, setKeywordDraft] = useState('');
@@ -69,7 +67,7 @@ export function CharacterManagementPage({
     navigation?: AuthoringNavigationRequest;
   } | null>(null);
   const skillFocusDirty = useRef(false);
-  const focusContext = JSON.stringify([apiBaseUrl, selectedGameId, adminToken]);
+  const focusContext = JSON.stringify([apiBaseUrl, selectedGameId]);
   const activeContext = useRef(focusContext);
   activeContext.current = focusContext;
   const requestSerial = useRef(0);
@@ -82,8 +80,8 @@ export function CharacterManagementPage({
   const loadList = useCallback(async (queryKeyword?: string) => {
     const serial = requestSerial.current + 1;
     requestSerial.current = serial;
-    const token = adminToken.trim();
-    if (!selectedGameId || !token) {
+
+    if (!selectedGameId) {
       setCharacters([]);
       setTotal(0);
       setLoading(false);
@@ -93,7 +91,7 @@ export function CharacterManagementPage({
     setLoading(true);
     setLoadError(null);
     try {
-      const result = await listCharacters(apiBaseUrl, selectedGameId, token, {
+      const result = await listCharacters(apiBaseUrl, selectedGameId, {
         keyword: queryKeyword
       });
       if (requestSerial.current !== serial) return;
@@ -107,7 +105,7 @@ export function CharacterManagementPage({
     } finally {
       if (requestSerial.current === serial) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, selectedGameId]);
+  }, [apiBaseUrl, selectedGameId]);
 
   useEffect(() => { void loadList(keyword); }, [keyword, loadList]);
 
@@ -140,16 +138,12 @@ export function CharacterManagementPage({
 
   const confirmDelete = async () => {
     if (!deleteTarget || !selectedGameId) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setDeleteError('请先配置 Admin Token。');
-      return;
-    }
+
     setDeleting(true);
     setDeleteError(null);
     try {
       const deletedName = deleteTarget.name;
-      await deleteCharacter(apiBaseUrl, selectedGameId, deleteTarget.characterKey, token);
+      await deleteCharacter(apiBaseUrl, selectedGameId, deleteTarget.characterKey);
       setDeleteTarget(null);
       setNotice(`角色「${deletedName}」已删除。`);
       await loadList(keyword);
@@ -161,8 +155,7 @@ export function CharacterManagementPage({
   };
 
   const { imageColumn, onImageSaved } = useRepresentativeImageColumn<Character>({
-    apiBaseUrl, selectedGameId, adminToken,
-    getTarget: record => ({ kind: 'character', key: record.characterKey, name: record.name })
+    apiBaseUrl, selectedGameId, getTarget: record => ({ kind: 'character', key: record.characterKey, name: record.name })
   });
   const columns: TableColumnProps[] = [
     imageColumn,
@@ -189,7 +182,7 @@ export function CharacterManagementPage({
           <ObjectRelationActions
             key={`${apiBaseUrl}:${selectedGameId}:${record.characterKey}`}
             target={{ kind: 'character', key: record.characterKey, name: record.name }}
-            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
             onDirtyChange={onDirtyChange}
             onImageSaved={() => onImageSaved(record)}
             onOpenSkills={() => setSkillsTarget(record)}
@@ -212,7 +205,7 @@ export function CharacterManagementPage({
       key={`${focusContext}:${skillFocus.skillKey}`}
       apiBaseUrl={apiBaseUrl}
       selectedGameId={selectedGameId}
-      adminToken={adminToken}
+
       onDirtyChange={reportSkillDirty}
       focus={{
         skillKey: skillFocus.skillKey,
@@ -240,7 +233,7 @@ export function CharacterManagementPage({
           <Space>
             <Button
               loading={loading}
-              disabled={!selectedGameId || !adminToken.trim()}
+              disabled={!selectedGameId}
               onClick={() => void loadList(keyword)}
             >刷新</Button>
             <Button type="primary" disabled={!selectedGameId} onClick={() => setEditor({ mode: 'create', character: null })}>
@@ -250,7 +243,7 @@ export function CharacterManagementPage({
         }
       >
         {!selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : null}
-        {selectedGameId && !adminToken.trim() ? <Alert type="warning" content="请先在顶部配置 Admin Token。" /> : null}
+
         {loadError ? <Alert type="error" content={loadError} className="workspace-alert" /> : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
@@ -267,7 +260,7 @@ export function CharacterManagementPage({
             />
           </label>
           <Space>
-            <Button type="primary" disabled={!selectedGameId || !adminToken.trim()} onClick={() => setKeyword(keywordDraft.trim() || undefined)}>
+            <Button type="primary" disabled={!selectedGameId} onClick={() => setKeyword(keywordDraft.trim() || undefined)}>
               查询
             </Button>
             <Button onClick={() => { setKeywordDraft(''); setKeyword(undefined); }}>重置</Button>
@@ -295,7 +288,7 @@ export function CharacterManagementPage({
         character={editor?.character ?? null}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={() => setEditor(null)}
         onSaved={handleSaved}
         onDirtyChange={onDirtyChange}
@@ -307,7 +300,7 @@ export function CharacterManagementPage({
         character={checkTarget}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={() => setCheckTarget(null)}
         onEditCharacter={() => checkTarget && setEditor({ mode: 'edit', character: checkTarget })}
         onEditAttributes={() => setAttributesTarget(checkTarget)}
@@ -329,7 +322,7 @@ export function CharacterManagementPage({
         target={{ kind: 'character', key: skillsTarget.characterKey, name: skillsTarget.name }}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onDirtyChange={onDirtyChange}
         onClose={() => setSkillsTarget(null)}
         onEditSkill={(skillKey) => {
@@ -344,7 +337,7 @@ export function CharacterManagementPage({
         character={attributesTarget}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={() => setAttributesTarget(null)}
         onSaved={() => setNotice(`角色「${attributesTarget?.name ?? ''}」的等级属性已保存。`)}
         onDirtyChange={onDirtyChange}

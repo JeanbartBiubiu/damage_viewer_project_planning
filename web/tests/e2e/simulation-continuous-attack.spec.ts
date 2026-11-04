@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -15,6 +16,7 @@ test.beforeEach(async ({ page }) => {
   const wasm = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
   expect(wasm.length).toBe(WASM_IDENTITY.bytes);
   expect(createHash('sha256').update(wasm).digest('hex')).toBe(WASM_IDENTITY.sha256);
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/games', route => route.fulfill({ json: [{ gameId: 'demo', gameName: '独立连续用例', representativeImageKey: null }] }));
   await installSimulationSelectionApi(page, '**', 'demo');
   await page.goto('/#/simulation/basic-attack');
@@ -373,16 +375,17 @@ test('连续运行拒绝离开保留任务，确认离开销毁工作线程', as
   await expect(page.getByRole('region', { name: '连续普攻结果', exact: true })).toHaveCount(0);
 });
 
-test('连接变更确认后旧连续任务与输入失效，迟到结果不能回流', async ({ page }) => {
+test('游戏变更确认后旧连续任务与输入失效，迟到结果不能回流', async ({ page }) => {
   const snapshot = await preparePage(page); await page.getByLabel('攻速输入上界', { exact: true }).fill('1');
   await fault(page, 'record'); await holdResult(page); await runButton(page).click();
   await expect.poll(() => page.evaluate(() => typeof (window as unknown as { resumeContinuous: () => void }).resumeContinuous)).toBe('function');
-  await page.locator('.app-toolbar-field--api input').fill('http://127.0.0.1:19199');
   page.once('dialog', dialog => dialog.dismiss());
-  await page.getByRole('button', { name: '应用', exact: true }).click();
+  await page.locator('.app-toolbar-field--game .arco-select').click();
+  await page.getByRole('option', { name: '未选择', exact: true }).click();
   expect((await diagnostics(page)).terminated).toBe(0);
   page.once('dialog', dialog => dialog.accept());
-  await page.getByRole('button', { name: '应用', exact: true }).click();
+  await page.locator('.app-toolbar-field--game .arco-select').click();
+  await page.getByRole('option', { name: '未选择', exact: true }).click();
   await expect.poll(async () => (await diagnostics(page)).terminated).toBe(1);
   await page.evaluate(() => (window as unknown as { resumeContinuous: () => void }).resumeContinuous());
   await expect(page.getByRole('region', { name: '连续普攻结果', exact: true })).toHaveCount(0);
@@ -394,8 +397,7 @@ test('连接变更确认后旧连续任务与输入失效，迟到结果不能�
 test('真实只读接口亚托克斯对阿狸：最新原配置经实际页面与最终Wasm连续击杀', async ({ page, request }, testInfo) => {
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '真实服务专项需显式启用，跳过不算通过');
   const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
-  const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN;
-  const { snapshot, response, path } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection(), token);
+  const { snapshot, response, path } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection());
   const result = await runSnapshot(page, snapshot, testInfo, {}, 'actual-continuous-run');
   const expected = continuousExpectation(snapshot, result.prepared.attributeInputs);
   const count = expected.count;
@@ -411,10 +413,8 @@ test('真实只读接口亚托克斯对阿狸：最新原配置经实际页面�
   writeFileSync(expectedPath, JSON.stringify(expected, null, 2));
   await testInfo.attach('原作者树独立期望.json', { path: expectedPath, contentType: 'application/json' });
   await page.unrouteAll({ behavior: 'wait' });
-  await page.addInitScript(({ apiBase, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
-    localStorage.setItem('damage-viewer.web.admin-token', token || 'local-readonly-check');
-  }, { apiBase, token });
+  await page.addInitScript(({ apiBase }) => {
+  }, { apiBase });
   const methods: { path: string; method: string }[] = [];
   page.on('request', request => {
     const url = new URL(request.url());
@@ -510,7 +510,7 @@ test('真实只读接口亚托克斯对阿狸：最新原配置经实际页面�
   expect(filtered.runResult).toEqual(archive.runResult);
   expect(filtered.view).toMatchObject({ dpsMode: 'window', timeRangeMs: [secondAttack.startAtMs, expected.killedAtMs] });
   await page.getByRole('region', { name: '连续普攻结果', exact: true }).screenshot({ path: testInfo.outputPath('真实页面窗口伤害率与筛选.png') });
-  const readBack = await request.post(apiBase + path, { headers: token ? { Authorization: `Bearer ${token}` } : {}, data: snapshot.selection });
+  const readBack = await request.post(apiBase + path, { headers: {  }, data: snapshot.selection });
   expect(readBack.status()).toBe(200);
   expect((await readBack.json()).snapshotDigest).toBe(snapshot.snapshotDigest);
   writeFileSync(testInfo.outputPath('actual-http-readonly-evidence.json'), JSON.stringify({ at: new Date().toISOString(),
@@ -638,6 +638,7 @@ test('阶段3：关闭和开启采样不改变战斗，0毫秒击杀单点不制
 test('阶段3：真实Wasm降采样及攻击记录0预算，击杀与孤立伤害详情仍真实', async ({ page }) => {
   let changedBuilder = false;
   await page.route('**/src/engine/continuousAttackRequest.ts*', async route => {
+    if (await fulfillAuthSession(route, false)) return;
     const response = await route.fetch(); const code = await response.text();
     const altered = code.replace(/maxAttackRecords:\s*(?:1000|1e3)/g, 'maxAttackRecords: 0').replace(/maxSeriesPoints:\s*(?:5000|5e3)/g, 'maxSeriesPoints: 10');
     changedBuilder = altered !== code;

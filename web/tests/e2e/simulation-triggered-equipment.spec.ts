@@ -89,7 +89,7 @@ test('4C真实反曲、振奋与冰心完整配置进入实际Worker并独立验
   const base = process.env.SIMULATION_LIVE_API_BASE_URL ?? 'http://127.0.0.1:8080';
   const { snapshot } = await readIsolatedSimulationSnapshot(request, base, simulationComparisonSelection({
     sourceEquipmentKeys: ['item_1043', 'item_3065'], targetEquipmentKeys: ['item_3110']
-  }), process.env.SIMULATION_LIVE_ADMIN_TOKEN);
+  }));
   const result = await runSnapshot(page, snapshot);
   await testInfo.attach('4C真实完整运行', { body: JSON.stringify(result), contentType: 'application/json' });
   const folder = resolve('output/phase4c-2026-10-03');

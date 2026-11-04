@@ -12,6 +12,7 @@
     "test": "node --test scripts/verificationRegression.test.mjs scripts/wasmBuild.test.mjs && vitest run --config vitest.config.ts",
     "test:mechanisms": "vitest run --config vitest.config.ts tests/mechanisms",
     "test:e2e:non-wasm": "playwright test --config playwright.non-wasm.config.ts",
+    "test:e2e:auth": "playwright test --config playwright.auth.config.ts",
     "test:verification": "node --test scripts/verificationRegression.test.mjs scripts/wasmBuild.test.mjs",
     "check:mechanism-coverage": "node scripts/refresh-verification-identity.mjs --check-coverage",
     "check:wasm-build": "node scripts/check-wasm-build.mjs"

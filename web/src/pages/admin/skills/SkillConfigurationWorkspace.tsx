@@ -13,7 +13,7 @@ import type { SkillTriggerRuleDetail, SkillTriggerRuleSummary } from '../../../t
 import type { Attribute } from '../../../types/attribute';
 import { getLevelConfig } from '../../../services/characterClient';
 import { listAttributes } from '../../../services/attributeClient';
-import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
+import { ApiRequestError, getErrorMessage, getErrorMessageWithContext } from '../../../services/apiClient';
 import {
   createSkillConfiguration,
   getSkillConfiguration,
@@ -143,7 +143,6 @@ type LocatedIssue = {
 type Props = {
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   skillKey: string | null;
   initialModule: SkillWorkspaceModule;
   initialStatus?: SkillStatus;
@@ -407,7 +406,7 @@ function ruleSummaries(rules: SkillTriggerRuleDetail[]): SkillTriggerRuleSummary
 }
 
 export function SkillConfigurationWorkspace({
-  apiBaseUrl, selectedGameId, adminToken, skillKey, initialModule, initialStatus,
+  apiBaseUrl, selectedGameId, skillKey, initialModule, initialStatus,
   source = null, categories, categoryDirectoryReady, authoringLocation, backLabel = '返回',
   onBack, onSaved, onDirtyChange
 }: Props) {
@@ -457,8 +456,8 @@ export function SkillConfigurationWorkspace({
   const nextProcessId = useRef(0);
   const nextRuleId = useRef(0);
   const queuedStatus = useRef(initialStatus);
-  const contextAtOpen = useRef(JSON.stringify([apiBaseUrl, selectedGameId, adminToken]));
-  const contextChanged = contextAtOpen.current !== JSON.stringify([apiBaseUrl, selectedGameId, adminToken]);
+  const contextAtOpen = useRef(JSON.stringify([apiBaseUrl, selectedGameId]));
+  const contextChanged = contextAtOpen.current !== JSON.stringify([apiBaseUrl, selectedGameId]);
   const frozen = status === 'saving' || status === 'pending';
   const dirty = configurationDraftDirty(baseline, draft) || parameterModalDirty || formulaModalDirty
     || stateModalDirty || effectModalDirty || processModalDirty || ruleModalDirty || relationDirty;
@@ -495,13 +494,13 @@ export function SkillConfigurationWorkspace({
   };
 
   useEffect(() => { onDirtyChange(dirty); }, [dirty, onDirtyChange]);
-  useEffect(() => { setRelationDirty(false); }, [apiBaseUrl, selectedGameId, adminToken, currentSkillKey]);
+  useEffect(() => { setRelationDirty(false); }, [apiBaseUrl, selectedGameId, currentSkillKey]);
   useEffect(() => () => { requestGeneration.current += 1; attributeGeneration.current += 1; }, []);
   useEffect(() => { if (contextChanged) { requestGeneration.current += 1; attributeGeneration.current += 1; } }, [contextChanged]);
 
   const readConfiguration = useCallback(async (key: string) => {
     const generation = ++requestGeneration.current;
-    if (!selectedGameId || !adminToken.trim() || contextChanged) {
+    if (!selectedGameId || contextChanged) {
       setLoadError('当前连接、游戏或令牌不可用；旧技能草稿不能用于新上下文。');
       setLoading(false);
       return;
@@ -509,7 +508,7 @@ export function SkillConfigurationWorkspace({
     setLoading(true);
     setLoadError(null);
     try {
-      const result = await getSkillConfiguration(apiBaseUrl, selectedGameId, key, adminToken.trim());
+      const result = await getSkillConfiguration(apiBaseUrl, selectedGameId, key);
       if (generation !== requestGeneration.current) return;
       setBaseline(result.data);
       const next = configurationToDraft(result.data);
@@ -525,7 +524,7 @@ export function SkillConfigurationWorkspace({
     } finally {
       if (generation === requestGeneration.current) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, contextChanged, selectedGameId]);
+  }, [apiBaseUrl, contextChanged, selectedGameId]);
 
   useEffect(() => {
     if (skillKey) void readConfiguration(skillKey);
@@ -535,9 +534,9 @@ export function SkillConfigurationWorkspace({
   }, []);
 
   useEffect(() => {
-    if (!selectedGameId || !adminToken.trim() || contextChanged) return;
+    if (!selectedGameId || contextChanged) return;
     let active = true;
-    void getLevelConfig(apiBaseUrl, selectedGameId, adminToken.trim())
+    void getLevelConfig(apiBaseUrl, selectedGameId)
       .then((result) => {
         if (!active) return;
         setCharacterLevelRange({ minLevel: result.data.minLevel, maxLevel: result.data.maxLevel });
@@ -549,15 +548,15 @@ export function SkillConfigurationWorkspace({
         setCharacterLevelError(getErrorMessage(error));
       });
     return () => { active = false; };
-  }, [adminToken, apiBaseUrl, contextChanged, selectedGameId]);
+  }, [apiBaseUrl, contextChanged, selectedGameId]);
 
   const loadAttributes = useCallback(async () => {
     const generation = ++attributeGeneration.current;
-    if (!selectedGameId || !adminToken.trim() || contextChanged) return;
+    if (!selectedGameId || contextChanged) return;
     setAttributesReady(false);
     setAttributeError(null);
     try {
-      const result = await listAttributes(apiBaseUrl, selectedGameId, adminToken.trim());
+      const result = await listAttributes(apiBaseUrl, selectedGameId);
       if (generation !== attributeGeneration.current) return;
       setAttributes(result.data.items);
       setAttributesReady(true);
@@ -567,7 +566,7 @@ export function SkillConfigurationWorkspace({
       setAttributesReady(false);
       setAttributeError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, contextChanged, selectedGameId]);
+  }, [apiBaseUrl, contextChanged, selectedGameId]);
   useEffect(() => { void loadAttributes(); }, [loadAttributes]);
 
   useEffect(() => {
@@ -935,11 +934,11 @@ export function SkillConfigurationWorkspace({
 
   const verifySave = async (frozenSave: PendingSave) => {
     const generation = ++requestGeneration.current;
-    if (!selectedGameId || !adminToken.trim() || contextChanged) return;
+    if (!selectedGameId || contextChanged) return;
     setStatus('pending');
     setSaveError(null);
     try {
-      const result = await getSkillConfiguration(apiBaseUrl, selectedGameId, frozenSave.skillKey, adminToken.trim());
+      const result = await getSkillConfiguration(apiBaseUrl, selectedGameId, frozenSave.skillKey);
       if (generation !== requestGeneration.current) return;
       const current = result.data;
       const matches = configurationMatchesRequest(current, frozenSave.expectedSkill,
@@ -972,13 +971,13 @@ export function SkillConfigurationWorkspace({
           : '只读核对未发现新技能；如需重试，请再次明确点击保存更改。');
       } else {
         setStatus('pending');
-        setSaveError(`保存结果待核对：${getErrorMessage(error)}。可再次只读核对，页面不会自动重发写入。`);
+        setSaveError(getErrorMessageWithContext(error, '保存结果待核对：', '。可再次只读核对，页面不会自动重发写入。'));
       }
     }
   };
 
   const save = async () => {
-    if (!ready || frozen || modalOpen || contextChanged || !selectedGameId || !adminToken.trim()) return;
+    if (!ready || frozen || modalOpen || contextChanged || !selectedGameId) return;
     if (!attributesReady && draft.formulas.some((entry) => {
       const original = baseline?.formulas.find((item) => item.formulaKey === entry.baselineKey);
       return !original || JSON.stringify(entry.draft) !== JSON.stringify(formulaToDraft(original));
@@ -1043,12 +1042,12 @@ export function SkillConfigurationWorkspace({
     setLocatedIssues([]);
     try {
       const result = baseline
-        ? await updateSkillConfiguration(apiBaseUrl, selectedGameId, key, adminToken.trim(), {
+        ? await updateSkillConfiguration(apiBaseUrl, selectedGameId, key, {
           baseDigest: baseline.baseDigest,
           ...(built.skillChanged ? { skill: built.skill } : {}),
           changes: built.changes
         })
-        : await createSkillConfiguration(apiBaseUrl, selectedGameId, key, adminToken.trim(), {
+        : await createSkillConfiguration(apiBaseUrl, selectedGameId, key, {
           skill: built.skill, changes: built.changes
         });
       if (generation !== requestGeneration.current) return;
@@ -1097,7 +1096,7 @@ export function SkillConfigurationWorkspace({
         setStatus(error.status === 409 ? 'conflict' : 'editing');
       } else {
         setPending(frozenSave);
-        setSaveError(`写入响应不明：${getErrorMessage(error)}。正在只读核对；不会自动重发写入。`);
+        setSaveError(getErrorMessageWithContext(error, '写入响应不明：', '。正在只读核对；不会自动重发写入。'));
         await verifySave(frozenSave);
       }
     }
@@ -1441,7 +1440,7 @@ export function SkillConfigurationWorkspace({
                   key={`${apiBaseUrl}:${selectedGameId}:${workingSkill.skillKey}:${effect.effectKey}`}
                   target={{ kind: 'skillEffect', key: effect.effectKey, name: effect.name,
                     skillKey: workingSkill.skillKey }}
-                  apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+                  apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
                   onDirtyChange={setRelationDirty}
                 /> : null}
                 <Button size="mini" disabled={frozen} onClick={() => openEffect(entry)}>编辑</Button>
@@ -1540,7 +1539,7 @@ export function SkillConfigurationWorkspace({
       key={internalStateEditor.entry.id}
       visible mode={internalStateEditor.original ? 'edit' : 'create'}
       skill={workingSkill} internalState={internalStateEditor.original}
-      apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+      apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
       onClose={() => { setInternalStateEditor(null); setStateModalDirty(false); }}
       onSaved={ignoreWorkspaceCallback} onSkillMissing={ignoreWorkspaceCallback} onDirtyChange={setStateModalDirty}
       catalogRevision={0} authoringLocation={internalStateEditor.focus}
@@ -1553,7 +1552,7 @@ export function SkillConfigurationWorkspace({
       visible mode={effectEditor.mode} skill={workingSkill}
       effect={effectEditor.original ? draftEffectSummaries.find((item) =>
         item.effectKey === effectEditor.original?.effectKey) ?? null : null}
-      apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+      apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
       onClose={() => { setEffectEditor(null); setEffectModalDirty(false); }}
       onSaved={ignoreWorkspaceCallback} onSkillMissing={ignoreWorkspaceCallback} onDirtyChange={setEffectModalDirty}
       authoringLocation={effectEditor.focus}
@@ -1566,7 +1565,7 @@ export function SkillConfigurationWorkspace({
       visible mode={processEditor.original ? 'edit' : 'create'} skill={workingSkill}
       process={processEditor.original ? draftProcessSummaries.find((item) =>
         item.processKey === processEditor.original?.processKey) ?? null : null}
-      apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+      apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
       onClose={() => { setProcessEditor(null); setProcessModalDirty(false); }}
       onSaved={ignoreWorkspaceCallback} onSkillMissing={ignoreWorkspaceCallback}
       onDirtyChange={setProcessModalDirty} catalogRevision={0}
@@ -1582,7 +1581,7 @@ export function SkillConfigurationWorkspace({
       visible mode={ruleEditor.original ? 'edit' : 'create'} skill={workingSkill}
       rule={ruleEditor.original ? draftRuleSummaries.find((item) =>
         item.ruleKey === ruleEditor.original?.ruleKey) ?? null : null}
-      apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+      apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
       onClose={() => { setRuleEditor(null); setRuleModalDirty(false); }}
       onSaved={ignoreWorkspaceCallback} onSkillMissing={ignoreWorkspaceCallback}
       onRuleMissing={ignoreWorkspaceCallback} onDirtyChange={setRuleModalDirty}

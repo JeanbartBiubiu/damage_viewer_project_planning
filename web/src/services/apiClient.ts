@@ -1,22 +1,29 @@
 import type { ApiErrorResponse, GameSummary } from '../types/api';
+import { getAuthRevision, setAuthSession, showLoginRequired } from './authState';
 
-const DEFAULT_API_BASE_URL = 'http://localhost:8080';
+const DEFAULT_API_BASE_URL = typeof window === 'undefined' ? 'http://localhost:8080' : window.location.origin;
 
 export type ApiResult<T> = {
   data: T;
   status: number;
   etag: string | null;
+  flowCsrf?: string;
 };
 
-export type ApiRequestOptions = RequestInit & {
-  token?: string;
+export type ApiRequestOptions = Omit<RequestInit, 'credentials'> & {
   ifNoneMatch?: string;
+  authentication?: 'anonymous' | 'bootstrap' | 'session' | 'flow';
+  authFailure?: 'silent' | 'prompt';
+  loginPrompt?: 'operation' | 'compute';
+  preserveSessionOn401?: boolean;
+  csrfToken?: string | null;
 };
 
 export class ApiRequestError extends Error {
   status: number;
   code?: string;
   details?: Record<string, unknown>;
+  handledByLoginPrompt = false;
 
   constructor(message: string, status: number, code?: string, details?: Record<string, unknown>) {
     super(message);
@@ -33,7 +40,11 @@ export function resolveApiBaseUrl(explicitValue?: string): string {
 }
 
 export function getErrorMessage(error: unknown): string {
+  if (isLoginPromptHandled(error)) return '';
   if (error instanceof ApiRequestError) {
+    if (error.code === 'AUTH.LOGIN_NOT_ENABLED') return '账号尚未开通，请完成开通后重新登录。';
+    if (error.code === 'AUTH.ACCOUNT_DISABLED') return '账号已被禁用，请联系维护者。';
+    if (error.code === 'AUTH.EDIT_REQUIRED') return '当前账号没有编辑资格，可以继续浏览游戏资料。';
     return error.code ? `${error.code}: ${error.message}` : error.message;
   }
   if (error instanceof Error) {
@@ -44,6 +55,14 @@ export function getErrorMessage(error: unknown): string {
     return message ? error.message : '发生未知错误，请稍后重试。';
   }
   return '发生未知错误，请稍后重试。';
+}
+
+export function isLoginPromptHandled(error: unknown): boolean {
+  return error instanceof Error && 'handledByLoginPrompt' in error && error.handledByLoginPrompt === true;
+}
+
+export function getErrorMessageWithContext(error: unknown, prefix: string, suffix = ''): string {
+  return isLoginPromptHandled(error) ? '' : `${prefix}${getErrorMessage(error)}${suffix}`;
 }
 
 export async function listGames(apiBaseUrl: string): Promise<ApiResult<GameSummary[]>> {
@@ -66,30 +85,70 @@ export async function requestJson<T>(
     headers.set('Content-Type', 'application/json');
   }
 
-  if (options.token) {
-    headers.set('Authorization', `Bearer ${options.token}`);
+  const { authentication, authFailure = 'prompt', loginPrompt = 'operation', preserveSessionOn401 = false, csrfToken, ifNoneMatch, ...requestOptions } = options;
+  const method = (options.method ?? 'GET').toUpperCase();
+  const authRevision = getAuthRevision();
+  const access = authentication ?? ((method === 'GET' || method === 'HEAD' || /\/simulation-snapshot(?:\?|$)/.test(path)) ? 'anonymous' : 'session');
+  headers.delete('Authorization');
+  headers.delete('Cookie');
+  headers.delete('X-CSRF-Token');
+  headers.delete('X-Damage-Client');
+  if (access !== 'anonymous') {
+    headers.set('X-Damage-Client', 'web');
+    if (method !== 'GET' && method !== 'HEAD') {
+      headers.set('Content-Type', 'application/json');
+    }
+    if (access === 'flow' || (access === 'session' && method !== 'GET' && method !== 'HEAD')) {
+      const csrf = csrfToken === undefined ? readAuthCsrf(access) : csrfToken;
+      if (csrf) headers.set('X-CSRF-Token', csrf);
+    }
   }
 
-  if (options.ifNoneMatch) {
-    headers.set('If-None-Match', options.ifNoneMatch);
+  if (ifNoneMatch) {
+    headers.set('If-None-Match', ifNoneMatch);
   }
 
   const response = await fetch(buildUrl(apiBaseUrl, path), {
-    ...options,
-    headers
+    ...requestOptions,
+    headers,
+    credentials: access === 'anonymous' ? 'omit' : 'include'
   });
 
   const body = await parseBody(response);
 
   if (!response.ok) {
-    throw toRequestError(response, body);
+    const error = toRequestError(response, body);
+    if (access === 'session' && response.status === 401 && !preserveSessionOn401 && authRevision === getAuthRevision()) {
+      setAuthSession(null, authFailure === 'prompt');
+      if (authFailure === 'prompt') {
+        error.handledByLoginPrompt = true;
+        showLoginRequired(loginPrompt);
+      }
+    }
+    if (access === 'session' && response.status === 403 && authRevision === getAuthRevision() && (error.code === 'AUTH.ACCOUNT_DISABLED' || error.code === 'AUTH.LOGIN_NOT_ENABLED')) {
+      setAuthSession(null, authFailure === 'prompt');
+    }
+    throw error;
   }
 
+  const flowCsrf = response.headers.get('X-Damage-Flow-CSRF');
   return {
     data: body as T,
     status: response.status,
-    etag: response.headers.get('ETag')
+    etag: response.headers.get('ETag'),
+    ...(flowCsrf ? { flowCsrf } : {})
   };
+}
+
+function readCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
+  const entry = document.cookie.split(';').map(part => part.trim()).find(part => part.startsWith(`${name}=`));
+  if (!entry) return null;
+  try { return decodeURIComponent(entry.slice(name.length + 1)); } catch { return null; }
+}
+
+export function readAuthCsrf(kind: 'session' | 'flow'): string | null {
+  return readCookie(kind === 'session' ? '__Host-dv_csrf' : '__Host-dv_flow_csrf');
 }
 
 function normalizeGameSummaries(value: unknown): GameSummary[] {

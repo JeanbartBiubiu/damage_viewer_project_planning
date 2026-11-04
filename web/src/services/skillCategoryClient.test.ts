@@ -26,12 +26,12 @@ describe('skillCategoryClient', () => {
       expect(url.pathname).toBe('/api/admin/games/demo%20arena/skill-categories');
       expect(url.searchParams.get('keyword')).toBe('主动/+');
       expect(url.searchParams.get('status')).toBe('DISABLED');
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, { items: [], total: 0 });
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await listSkillCategories('http://localhost:8080/', 'demo arena', 'token', {
+    await listSkillCategories('http://localhost:8080/', 'demo arena', {
       keyword: ' 主动/+ ',
       status: 'DISABLED'
     });
@@ -45,7 +45,7 @@ describe('skillCategoryClient', () => {
       return jsonResponse(200, {});
     });
     vi.stubGlobal('fetch', fetchMock);
-    await getSkillCategory('http://localhost:8080', 'demo', 'active/control', 'token');
+    await getSkillCategory('http://localhost:8080', 'demo', 'active/control');
   });
 
   it('sends POST, full PUT without the stable key, and DELETE', async () => {
@@ -60,13 +60,13 @@ describe('skillCategoryClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await createSkillCategory('http://localhost:8080', 'demo', 'token', {
+    await createSkillCategory('http://localhost:8080', 'demo', {
       skillCategoryKey: 'active', name: '主动技能', description: null, status: 'ENABLED', sortOrder: 10
     });
-    await updateSkillCategory('http://localhost:8080', 'demo', 'active', 'token', {
+    await updateSkillCategory('http://localhost:8080', 'demo', 'active', {
       name: '主动技能', description: null, status: 'DISABLED', sortOrder: 20
     });
-    await deleteSkillCategory('http://localhost:8080', 'demo', 'active', 'token');
+    await deleteSkillCategory('http://localhost:8080', 'demo', 'active');
 
     expect(calls.map((call) => call.method)).toEqual(['POST', 'PUT', 'DELETE']);
     expect(calls[1]?.body).not.toHaveProperty('skillCategoryKey');

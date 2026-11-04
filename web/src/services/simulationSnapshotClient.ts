@@ -497,12 +497,11 @@ export async function getSimulationSnapshot(
   apiBaseUrl: string,
   gameId: string,
   selection: SimulationSelection,
-  token: string,
   signal?: AbortSignal
 ): Promise<ApiResult<SimulationSnapshot>> {
   const normalized = normalizeSimulationSelection(selection);
   const result = await requestJson<unknown>(apiBaseUrl, simulationSnapshotPath(gameId), {
-    method: 'POST', body: JSON.stringify(normalized), token, signal
+    method: 'POST', body: JSON.stringify(normalized), signal
   });
   return { ...result, data: validateSimulationSnapshot(result.data, gameId, normalized) };
 }

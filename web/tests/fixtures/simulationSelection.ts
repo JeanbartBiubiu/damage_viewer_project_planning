@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from './authSession';
 import { expect, type Page } from '@playwright/test';
 import { simulationSample } from './simulationSnapshot';
 
@@ -26,25 +27,26 @@ export async function installSimulationSelectionApi(page: Page, api: string, gam
   const sourceKey = selectionSample || gameId === 'demo' ? sample.selection.sourceCharacterKey : 'source_sample';
   const targetKey = selectionSample || gameId === 'demo' ? sample.selection.targetCharacterKey : 'target_sample';
   const skillKey = selectionSample || gameId === 'demo' ? sample.selection.basicAttackSkillKey : 'shared_basic_attack';
-  await page.route(`${api}/api/admin/games/${gameId}/calculation-rules`, route => route.fulfill({ json: {
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
+  await page.route(`**/api/admin/games/${gameId}/calculation-rules`, route => route.fulfill({ json: {
     ...sample.catalogs.calculationRules, gameId
   } }));
   const categories = sample.catalogs.skillCategories.map(row => ({ ...row, gameId }));
-  await page.route(`${api}/api/admin/games/${gameId}/skill-categories`, route => route.fulfill({ json: { items: categories, total: categories.length } }));
-  await page.route(`${api}/api/admin/games/${gameId}/level-config`, route => route.fulfill({ json: {
+  await page.route(`**/api/admin/games/${gameId}/skill-categories`, route => route.fulfill({ json: { items: categories, total: categories.length } }));
+  await page.route(`**/api/admin/games/${gameId}/level-config`, route => route.fulfill({ json: {
     ...sample.catalogs.levelConfig, gameId
   } }));
   const characters = [sourceKey, targetKey].map((characterKey, index) => ({
     gameId, characterKey, name: index ? '目标角色' : '攻击方角色', description: null, createdAt: '', updatedAt: ''
   }));
-  await page.route(`${api}/api/admin/games/${gameId}/characters`, route => route.fulfill({ json: { items: characters, total: 2 } }));
-  await page.route(`${api}/api/admin/games/${gameId}/equipment`, route => route.fulfill({ json: { items: [], total: 0 } }));
-  await page.route(`${api}/api/admin/games/${gameId}/build-systems`, route => route.fulfill({ json: { items: [], total: 0 } }));
-  await page.route(`${api}/api/admin/games/${gameId}/character-skill-relations?**`, route => route.fulfill({ json: {
+  await page.route(`**/api/admin/games/${gameId}/characters`, route => route.fulfill({ json: { items: characters, total: 2 } }));
+  await page.route(`**/api/admin/games/${gameId}/equipment`, route => route.fulfill({ json: { items: [], total: 0 } }));
+  await page.route(`**/api/admin/games/${gameId}/build-systems`, route => route.fulfill({ json: { items: [], total: 0 } }));
+  await page.route(`**/api/admin/games/${gameId}/character-skill-relations?**`, route => route.fulfill({ json: {
     items: [{ gameId, characterKey: sourceKey, characterName: '攻击方角色', skillKey, skillName: '普通攻击·共享', skillStatus: 'ENABLED', sortOrder: 0 }], total: 1
   } }));
-  await page.route(`${api}/api/admin/games/${gameId}/skills/${skillKey}`, route => route.fulfill({ json: {
+  await page.route(`**/api/admin/games/${gameId}/skills/${skillKey}`, route => route.fulfill({ json: {
     ...sample.skillConfigurations[0]!.skill, gameId, skillKey, name: '普通攻击·共享'
   } }));
-  await page.route(`${api}/api/admin/games/${gameId}/**/representative-image`, route => route.fulfill({ json: { image: null } }));
+  await page.route(`**/api/admin/games/${gameId}/**/representative-image`, route => route.fulfill({ json: { image: null } }));
 }

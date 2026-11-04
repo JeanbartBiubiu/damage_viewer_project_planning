@@ -16,7 +16,6 @@ type Props = {
   apiBaseUrl: string;
   selectedGameId: string;
   systemKey: string;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
 };
 
@@ -58,7 +57,7 @@ function configurationValue(systemKey: string, draft: TrialDraft, budgetKey: str
   };
 }
 
-export function BuildTrialPanel({ apiBaseUrl, selectedGameId, systemKey, adminToken, onDirtyChange }: Props) {
+export function BuildTrialPanel({ apiBaseUrl, selectedGameId, systemKey, onDirtyChange }: Props) {
   const [definition, setDefinition] = useState<BuildDefinition | null>(null);
   const [draft, setDraft] = useState<TrialDraft>({ assignments: [], selections: [], scenarioBudget: '' });
   const [initial, setInitial] = useState<TrialDraft>({ assignments: [], selections: [], scenarioBudget: '' });
@@ -69,12 +68,12 @@ export function BuildTrialPanel({ apiBaseUrl, selectedGameId, systemKey, adminTo
   const [checked, setChecked] = useState<BuildConfiguration | null>(null);
   const active = useRef(true);
   const serial = useRef(0);
-  const token = adminToken.trim();
+
   const load = async () => {
     const request = ++serial.current;
     setLoading(true); setError(null); setDefinition(null); setIssues(null); setNotices([]); setChecked(null);
     try {
-      const result = await getBuildDefinition(apiBaseUrl, selectedGameId, systemKey, token);
+      const result = await getBuildDefinition(apiBaseUrl, selectedGameId, systemKey);
       if (!active.current || request !== serial.current) return;
       setDefinition(result.data);
       const next = initialDraft(result.data);
@@ -90,7 +89,7 @@ export function BuildTrialPanel({ apiBaseUrl, selectedGameId, systemKey, adminTo
     active.current = true;
     void load();
     return () => { active.current = false; serial.current += 1; onDirtyChange(false); };
-  }, [apiBaseUrl, selectedGameId, systemKey, token, onDirtyChange]);
+  }, [apiBaseUrl, selectedGameId, systemKey, onDirtyChange]);
   useEffect(() => { onDirtyChange(JSON.stringify(draft) !== JSON.stringify(initial)); }, [draft, initial, onDirtyChange]);
   const validate = () => {
     if (!definition) return;

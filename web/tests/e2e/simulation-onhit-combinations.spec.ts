@@ -65,7 +65,7 @@ function damageDefinition(snapshot: SimulationSnapshot, row: DamageRecord) {
 async function readSnapshot(request: APIRequestContext, scenario: CombinationScenario) {
   const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL ?? 'http://127.0.0.1:8080';
   const { snapshot, response, path } = await readIsolatedSimulationSnapshot(request, apiBase,
-    simulationComparisonSelection({ targetLevel: 18, sourceEquipmentKeys: scenario.source, targetEquipmentKeys: scenario.target }), process.env.SIMULATION_LIVE_ADMIN_TOKEN);
+    simulationComparisonSelection({ targetLevel: 18, sourceEquipmentKeys: scenario.source, targetEquipmentKeys: scenario.target }));
   const body = await response.body();
   saveArtifact(`${scenario.name}-snapshot`, { http: { method: 'POST', path, selection: snapshot.selection, status: response.status(),
     bodySha256: createHash('sha256').update(body).digest('hex') }, snapshot });

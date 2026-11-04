@@ -2,9 +2,9 @@ import { getSimulationSnapshot } from '../../src/services/simulationSnapshotClie
 import type { SimulationSelection, SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { isolatedSimulationSelection } from './simulationSkillSources';
 
-export async function getIsolatedSimulationSnapshot(apiBase: string, gameId: string, selection: SimulationSelection, token: string): Promise<SimulationSnapshot> {
-  const candidate = (await getSimulationSnapshot(apiBase, gameId, selection, token)).data;
-  const snapshot = (await getSimulationSnapshot(apiBase, gameId, isolatedSimulationSelection(candidate), token)).data;
+export async function getIsolatedSimulationSnapshot(apiBase: string, gameId: string, selection: SimulationSelection): Promise<SimulationSnapshot> {
+  const candidate = (await getSimulationSnapshot(apiBase, gameId, selection)).data;
+  const snapshot = (await getSimulationSnapshot(apiBase, gameId, isolatedSimulationSelection(candidate))).data;
   for (const side of ['source', 'target'] as const) for (const source of snapshot[side].skillSources) {
     const expected = source.origin.kind !== 'CHARACTER' || source.skillStatus === 'DISABLED'
       || side === 'source' && source.skillKey === snapshot.selection.basicAttackSkillKey;

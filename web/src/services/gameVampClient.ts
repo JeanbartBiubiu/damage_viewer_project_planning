@@ -38,12 +38,12 @@ function path(gameId: string): string {
   return `/api/admin/games/${encodePathSegment(gameId)}/vamp-rules`;
 }
 
-export async function getGameVampRules(apiBaseUrl: string, gameId: string, token: string): Promise<ApiResult<GameVampRulesResponse>> {
-  const result = await requestJson<unknown>(apiBaseUrl, path(gameId), { token });
+export async function getGameVampRules(apiBaseUrl: string, gameId: string): Promise<ApiResult<GameVampRulesResponse>> {
+  const result = await requestJson<unknown>(apiBaseUrl, path(gameId));
   return { ...result, data: parseGameVampRules(result.data) };
 }
 
-export async function updateGameVampRules(apiBaseUrl: string, gameId: string, token: string, body: GameVampRulesResponse): Promise<ApiResult<GameVampRulesResponse>> {
-  const result = await requestJson<unknown>(apiBaseUrl, path(gameId), { method: 'PUT', token, body: JSON.stringify(parseGameVampRules(body)) });
+export async function updateGameVampRules(apiBaseUrl: string, gameId: string, body: GameVampRulesResponse): Promise<ApiResult<GameVampRulesResponse>> {
+  const result = await requestJson<unknown>(apiBaseUrl, path(gameId), { method: 'PUT', body: JSON.stringify(parseGameVampRules(body)) });
   return { ...result, data: parseGameVampRules(result.data) };
 }

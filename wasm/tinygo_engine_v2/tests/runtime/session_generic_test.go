@@ -141,7 +141,7 @@ func compileGenericSession(t *testing.T, session *runtimeengine.Session) model.C
 }
 
 func TestGenericCompileCanonicalSuccess(t *testing.T) {
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	compiled := compileGenericSession(t, session)
 	if !compiled.OK {
 		t.Fatalf("compile ok = false: %+v", compiled)
@@ -164,7 +164,7 @@ func TestGenericCompileCanonicalSuccess(t *testing.T) {
 }
 
 func TestGenericCompileMultiErrorCollectAll(t *testing.T) {
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	session.ClearOutbox()
 	req := loadGenericFixtureCompileRequest(t, "generic_p0_compile_multi_error.json")
 	if code := session.CompileJSON(mustJSON(req)); code != -1 {
@@ -196,7 +196,7 @@ func TestGenericCompileMultiErrorCollectAll(t *testing.T) {
 }
 
 func TestGenericCompileFrameMultiErrorCollectAll(t *testing.T) {
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	session.ClearOutbox()
 	req := loadGenericFixtureCompileRequest(t, "generic_p0_compile_multi_error.json")
 	if code := session.CompileFrame(encodeGenericFrame(model.FrameKindGenericCompile, req)); code != -1 {
@@ -225,7 +225,7 @@ func TestGenericCompileFrameMultiErrorCollectAll(t *testing.T) {
 }
 
 func TestGenericRunMissingSession(t *testing.T) {
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	session.ClearOutbox()
 	runReq := model.GenericRunRequest{SessionID: "missing-session"}
 	encoded, _ := json.Marshal(runReq)
@@ -239,7 +239,7 @@ func TestGenericRunMissingSession(t *testing.T) {
 }
 
 func TestGenericRunHashMismatch(t *testing.T) {
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	compiled := compileGenericSession(t, session)
 	if !compiled.OK || compiled.SessionID == "" {
 		t.Fatalf("compile failed: %+v", compiled)
@@ -261,7 +261,7 @@ func TestGenericRunHashMismatch(t *testing.T) {
 }
 
 func TestGenericRunMatchingReturnsDone(t *testing.T) {
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	compiled := compileGenericSession(t, session)
 	if !compiled.OK || compiled.SessionID == "" {
 		t.Fatalf("compile failed: %+v", compiled)
@@ -289,7 +289,7 @@ func TestGenericRunMatchingReturnsDone(t *testing.T) {
 }
 
 func TestGenericReleaseSessionThenRunMissing(t *testing.T) {
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	compiled := compileGenericSession(t, session)
 	if !compiled.OK || compiled.SessionID == "" {
 		t.Fatalf("compile failed: %+v", compiled)

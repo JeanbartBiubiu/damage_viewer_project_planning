@@ -10,7 +10,6 @@ import { GameCalculationRulesPanel } from './GameCalculationRulesPanel';
 export type GameSettingsPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   selectedGameName: string;
   onDirtyChange: (dirty: boolean) => void;
   onGameImageSaved: () => void;
@@ -19,7 +18,6 @@ export type GameSettingsPageProps = {
 export function GameSettingsPage({
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   selectedGameName,
   onDirtyChange,
   onGameImageSaved
@@ -37,8 +35,8 @@ export function GameSettingsPage({
   const [calculationDirty, setCalculationDirty] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
-  const token = adminToken.trim();
-  const context = useMemo(() => ({ apiBaseUrl, gameId: selectedGameId, token }), [apiBaseUrl, selectedGameId, token]);
+
+  const context = useMemo(() => ({ apiBaseUrl, gameId: selectedGameId }), [apiBaseUrl, selectedGameId]);
   const [loadedContext, setLoadedContext] = useState<typeof context | null>(null);
   const currentContext = useRef(context);
   currentContext.current = context;
@@ -69,10 +67,10 @@ export function GameSettingsPage({
     setConfigExists(false);
     setError(null);
     setNotice(null);
-    setLoading(Boolean(context.gameId && context.token));
-    if (!context.gameId || !context.token) return;
+    setLoading(Boolean(context.gameId));
+    if (!context.gameId) return;
     try {
-      const result = await getLevelConfig(context.apiBaseUrl, context.gameId, context.token);
+      const result = await getLevelConfig(context.apiBaseUrl, context.gameId);
       if (!isCurrent(request, context)) return;
       if (result.data.gameId !== context.gameId) throw new Error('返回的等级配置不属于当前游戏，请刷新后重试。');
       setMinLevel(result.data.minLevel);
@@ -120,7 +118,7 @@ export function GameSettingsPage({
   };
 
   const save = async () => {
-    if (!ready || busy.current || loading || !context.gameId || !context.token) return;
+    if (!ready || busy.current || loading || !context.gameId) return;
     if (minLevel === undefined || maxLevel === undefined) {
       setError('等级范围不能为空。');
       return;
@@ -173,7 +171,7 @@ export function GameSettingsPage({
       if (!isCurrent(request, context)) return;
       setConfirming(false);
       setSaving(true);
-      const result = await updateLevelConfig(context.apiBaseUrl, context.gameId, context.token, {
+      const result = await updateLevelConfig(context.apiBaseUrl, context.gameId, {
         minLevel,
         maxLevel
       });
@@ -201,13 +199,13 @@ export function GameSettingsPage({
       <Panel
         title="游戏配置"
         actions={
-          <Button loading={loading} disabled={saving || confirming || !selectedGameId || !token} onClick={refresh}>
+          <Button loading={loading} disabled={saving || confirming || !selectedGameId} onClick={refresh}>
             刷新
           </Button>
         }
       >
         {!selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : null}
-        {selectedGameId && !adminToken.trim() ? <Alert type="warning" content="请先在顶部配置 Admin Token。" /> : null}
+
         {error ? <Alert type="error" content={error} className="workspace-alert" /> : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
@@ -239,17 +237,17 @@ export function GameSettingsPage({
           <Button
             type="primary"
             loading={saving}
-            disabled={!ready || loading || confirming || !selectedGameId || !token}
+            disabled={!ready || loading || confirming || !selectedGameId}
             onClick={() => void save()}
           >
             保存等级范围
           </Button>
         </Form>
       </Panel>
-      <GameVampRulesPanel apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} onDirtyChange={setVampDirty} />
-      <GameCalculationRulesPanel apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} onDirtyChange={setCalculationDirty} />
+      <GameVampRulesPanel apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}  onDirtyChange={setVampDirty} />
+      <GameCalculationRulesPanel apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}  onDirtyChange={setCalculationDirty} />
       <GameRepresentativeImagePanel apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
-        selectedGameName={selectedGameName} adminToken={adminToken}
+        selectedGameName={selectedGameName}
         onDirtyChange={setImageDirty} onSaved={onGameImageSaved} />
     </div>
   );

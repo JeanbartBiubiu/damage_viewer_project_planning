@@ -25,7 +25,6 @@ type Props = {
   configurationMode: BuildConfigurationMode;
   apiBaseUrl: string;
   selectedGameId: string;
-  adminToken: string;
   onClose: () => void;
   onSaved: (group: BuildGroup) => void;
   onDirtyChange: (dirty: boolean) => void;
@@ -34,7 +33,7 @@ type Props = {
 const blank: BuildGroupDraft = { groupKey: '', name: '', description: '', sortOrder: '0', slots: [] };
 
 export function BuildGroupEditorModal(props: Props) {
-  const { mode, systemKey, groupKey, configurationMode, apiBaseUrl, selectedGameId, adminToken, onClose, onSaved, onDirtyChange } = props;
+  const { mode, systemKey, groupKey, configurationMode, apiBaseUrl, selectedGameId, onClose, onSaved, onDirtyChange } = props;
   const [draft, setDraft] = useState<BuildGroupDraft>(blank);
   const [initial, setInitial] = useState<BuildGroupDraft>(blank);
   const [options, setOptions] = useState<BuildOption[]>([]);
@@ -55,10 +54,10 @@ export function BuildGroupEditorModal(props: Props) {
     setLoading(true); setError(null); setLoaded(false);
     try {
       const [optionResult, groupResult] = await Promise.all([
-        listBuildOptions(apiBaseUrl, selectedGameId, systemKey, adminToken.trim()),
-        listBuildGroups(apiBaseUrl, selectedGameId, systemKey, adminToken.trim())
+        listBuildOptions(apiBaseUrl, selectedGameId, systemKey),
+        listBuildGroups(apiBaseUrl, selectedGameId, systemKey)
       ]);
-      const current = groupKey ? await getBuildGroup(apiBaseUrl, selectedGameId, systemKey, groupKey, adminToken.trim()) : null;
+      const current = groupKey ? await getBuildGroup(apiBaseUrl, selectedGameId, systemKey, groupKey) : null;
       if (!active.current) return;
       const value: BuildGroupDraft = current ? {
         groupKey: current.data.groupKey, name: current.data.name, description: current.data.description ?? '',
@@ -103,13 +102,13 @@ export function BuildGroupEditorModal(props: Props) {
           }))
         };
         const result = mode === 'create'
-          ? await createBuildGroup(apiBaseUrl, selectedGameId, systemKey, adminToken.trim(), { groupKey: draft.groupKey.trim(), ...body })
-          : await updateBuildGroup(apiBaseUrl, selectedGameId, systemKey, groupKey!, adminToken.trim(), body);
+          ? await createBuildGroup(apiBaseUrl, selectedGameId, systemKey, { groupKey: draft.groupKey.trim(), ...body })
+          : await updateBuildGroup(apiBaseUrl, selectedGameId, systemKey, groupKey!, body);
         writtenKey = result.data.groupKey;
         if (!active.current) return;
         setSavedKey(writtenKey);
       }
-      const result = await getBuildGroup(apiBaseUrl, selectedGameId, systemKey, writtenKey, adminToken.trim());
+      const result = await getBuildGroup(apiBaseUrl, selectedGameId, systemKey, writtenKey);
       if (!active.current) return;
       onDirtyChange(false); onSaved(result.data);
     } catch (cause) {

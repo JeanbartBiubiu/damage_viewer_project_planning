@@ -20,32 +20,28 @@ function internalStatesPath(gameId: string, skillKey: string, stateKey?: string)
 export function listSkillInternalStates(
   apiBaseUrl: string,
   gameId: string,
-  skillKey: string,
-  token: string
+  skillKey: string
 ): Promise<ApiResult<SkillInternalStateSummary[]>> {
-  return requestJson<SkillInternalStateSummary[]>(apiBaseUrl, internalStatesPath(gameId, skillKey), { token });
+  return requestJson<SkillInternalStateSummary[]>(apiBaseUrl, internalStatesPath(gameId, skillKey));
 }
 
 export function getSkillInternalState(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  stateKey: string,
-  token: string
+  stateKey: string
 ): Promise<ApiResult<SkillInternalState>> {
-  return requestJson<SkillInternalState>(apiBaseUrl, internalStatesPath(gameId, skillKey, stateKey), { token }).then((result) => ({ ...result, data: parseSkillInternalState(result.data) }));
+  return requestJson<SkillInternalState>(apiBaseUrl, internalStatesPath(gameId, skillKey, stateKey)).then((result) => ({ ...result, data: parseSkillInternalState(result.data) }));
 }
 
 export function createSkillInternalState(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  token: string,
   body: CreateSkillInternalStateRequest
 ): Promise<ApiResult<SkillInternalState>> {
   return requestJson<SkillInternalState>(apiBaseUrl, internalStatesPath(gameId, skillKey), {
     method: 'POST',
-    token,
     body: JSON.stringify(body)
   }).then((result) => ({ ...result, data: parseSkillInternalState(result.data) }));
 }
@@ -55,12 +51,10 @@ export function updateSkillInternalState(
   gameId: string,
   skillKey: string,
   stateKey: string,
-  token: string,
   body: UpdateSkillInternalStateRequest
 ): Promise<ApiResult<SkillInternalState>> {
   return requestJson<SkillInternalState>(apiBaseUrl, internalStatesPath(gameId, skillKey, stateKey), {
     method: 'PUT',
-    token,
     body: JSON.stringify(body)
   }).then((result) => ({ ...result, data: parseSkillInternalState(result.data) }));
 }
@@ -69,12 +63,10 @@ export function deleteSkillInternalState(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  stateKey: string,
-  token: string
+  stateKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, internalStatesPath(gameId, skillKey, stateKey), {
-    method: 'DELETE',
-    token
+    method: 'DELETE'
   });
 }
 

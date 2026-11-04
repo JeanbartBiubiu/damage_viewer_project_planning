@@ -1,12 +1,11 @@
+import { fulfillAuthSession } from '../../fixtures/authSession';
 import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { expect, test, type Page, type Route } from '@playwright/test';
 import { createServer, transformWithEsbuild, type ViteDevServer } from 'vite';
 
 // 仅在测试内提供组件页，不加入产品路由或生产构建。所有接口均为固定测试替身。
-const MOCK_API_BASE = 'http://127.0.0.1:19083';
 const GAME_ID = 'demo';
-const ADMIN_TOKEN = 'admin-list-loading-test';
 const HARNESS_PATH = '/__admin-list-loading';
 const HARNESS_MODULE = '/__admin-list-loading.tsx';
 const resources = [
@@ -31,20 +30,17 @@ test.beforeAll(async () => {
     import { EquipmentManagementPage } from '/src/pages/admin/equipment/EquipmentManagementPage';
     function Harness() {
       const [game, setGame] = useState(${JSON.stringify(GAME_ID)});
-      const [token, setToken] = useState(${JSON.stringify(ADMIN_TOKEN)});
       const onDirtyChange = useCallback(() => {}, []);
       const Page = new URLSearchParams(location.search).get('resource') === 'characters'
         ? CharacterManagementPage : EquipmentManagementPage;
       return <>
         <div aria-label="测试上下文">
-          <button onClick={() => setToken('')}>清空令牌</button>
-          <button onClick={() => setToken(${JSON.stringify(ADMIN_TOKEN)})}>恢复令牌</button>
           <button onClick={() => setGame(null)}>清空游戏</button>
           <button onClick={() => setGame(${JSON.stringify(GAME_ID)})}>恢复游戏</button>
         </div>
         <main aria-label="列表组件">
-          <Page apiBaseUrl=${JSON.stringify(MOCK_API_BASE)} selectedGameId={game}
-            adminToken={token} onDirtyChange={onDirtyChange} />
+          <Page apiBaseUrl={location.origin} selectedGameId={game}
+            onDirtyChange={onDirtyChange} />
         </main>
       </>;
     }
@@ -112,9 +108,10 @@ async function installMock(page: Page, resource: Resource,
   const pageErrors: string[] = [];
   page.on('pageerror', error => pageErrors.push(error.message));
   await page.route('**/api/**', async route => {
+    if (await fulfillAuthSession(route, false)) return;
     const request = route.request();
     const url = new URL(request.url());
-    if (url.origin !== MOCK_API_BASE || request.method() !== 'GET') {
+    if (request.method() !== 'GET') {
       unexpected.push(`${request.method()} ${url.pathname}`);
       await route.abort('blockedbyclient');
       return;
@@ -123,8 +120,8 @@ async function installMock(page: Page, resource: Resource,
       await json(route, [{ gameId: GAME_ID, gameName: '测试游戏', representativeImageKey: null }]);
       return;
     }
-    if (request.headers().authorization !== `Bearer ${ADMIN_TOKEN}`) {
-      unexpected.push(`缺少测试授权 ${url.pathname}`);
+    if (request.headers().authorization || request.headers()['x-csrf-token'] || request.headers().cookie) {
+      unexpected.push(`公开读取不应带凭据 ${url.pathname}`);
       await route.abort('blockedbyclient');
       return;
     }
@@ -154,7 +151,7 @@ async function settleResponse(page: Page, response: ReturnType<Page['waitForResp
 }
 
 for (const resource of resources) {
-  for (const context of ['令牌', '游戏'] as const) {
+  for (const context of ['游戏'] as const) {
     for (const outcome of ['成功', '失败'] as const) {
       test(`${resource.label}同一组件清空${context}立即停止加载，迟到${outcome}不回填且恢复可重载`, async ({ page }) => {
         const stale = deferred();
@@ -218,25 +215,16 @@ for (const resource of resources) {
     }
   }
 
-  test(`${resource.label}正常管理页清空并恢复令牌保持只读且无未授权请求`, async ({ page }) => {
+  test(`${resource.label}访客正常管理页可读取与刷新`, async ({ page }) => {
     const mock = await installMock(page, resource, (route) => json(route, listBody(resource, '正常')));
-    await page.addInitScript(({ apiBase, token }) => {
-      localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
-      localStorage.setItem('damage-viewer.web.admin-token', token);
-    }, { apiBase: MOCK_API_BASE, token: ADMIN_TOKEN });
     await page.goto(`${harnessBase}#/${resource.path}`);
     const main = page.locator('.app-main');
     await expect(main.getByRole('cell', { name: `正常${resource.label}`, exact: true })).toBeVisible();
-    const tokenInput = page.getByPlaceholder('粘贴 Admin JWT', { exact: true });
-    await tokenInput.fill('');
-    await expect(main.getByRole('cell', { name: `正常${resource.label}`, exact: true })).toHaveCount(0);
-    await expect(main.getByText('请先在顶部配置 Admin Token。', { exact: true })).toBeVisible();
-    const clearedCount = mock.listCount();
-    await expect(main.locator('.data-table-shell .arco-spin-loading')).toHaveCount(0);
-    expect(mock.listCount()).toBe(clearedCount);
-    await tokenInput.fill(ADMIN_TOKEN);
+    const count = mock.listCount();
+    await main.locator('.panel-head').getByRole('button', { name: '刷新', exact: true }).click();
+    await expect.poll(mock.listCount).toBe(count + 1);
     await expect(main.getByRole('cell', { name: `正常${resource.label}`, exact: true })).toBeVisible();
-    expect(mock.listCount()).toBeGreaterThan(clearedCount);
+    await expect(page.getByRole('button', { name: '登录', exact: true })).toBeVisible();
     mock.assertClean();
   });
 }

@@ -8,6 +8,8 @@ import (
 
 // RunRequest 是 generic run frame 的顶层 payload。
 type RunRequest struct {
+	// Authorization 每次运行重新校验，并必须与编译时账号一致；不属于战斗规则身份。
+	Authorization string `json:"authorization,omitempty"`
 	// OutputMode省略时返回完整明细；summary仅省略明细，采样仍由Sampling独立控制。
 	OutputMode          RunOutputMode        `json:"outputMode,omitempty"`
 	ProcessCommandFacts []ProcessCommandFact `json:"processCommandFacts,omitempty"`

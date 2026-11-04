@@ -602,10 +602,9 @@ function maybeParseSummaries(data: unknown): SkillTriggerRuleSummary[] {
 export function listSkillTriggerRules(
   apiBaseUrl: string,
   gameId: string,
-  skillKey: string,
-  token: string
+  skillKey: string
 ): Promise<ApiResult<SkillTriggerRuleSummary[]>> {
-  return requestJson<unknown>(apiBaseUrl, triggerRulesPath(gameId, skillKey), { token })
+  return requestJson<unknown>(apiBaseUrl, triggerRulesPath(gameId, skillKey))
     .then((result) => ({ ...result, data: maybeParseSummaries(result.data) }));
 }
 
@@ -613,10 +612,9 @@ export function getSkillTriggerRule(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  ruleKey: string,
-  token: string
+  ruleKey: string
 ): Promise<ApiResult<SkillTriggerRuleDetail>> {
-  return requestJson<unknown>(apiBaseUrl, triggerRulesPath(gameId, skillKey, ruleKey), { token })
+  return requestJson<unknown>(apiBaseUrl, triggerRulesPath(gameId, skillKey, ruleKey))
     .then((result) => ({ ...result, data: maybeParseDetail(result.data) }));
 }
 
@@ -624,12 +622,10 @@ export function createSkillTriggerRule(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  token: string,
   body: CreateSkillTriggerRuleRequest
 ): Promise<ApiResult<SkillTriggerRuleDetail>> {
   return requestJson<unknown>(apiBaseUrl, triggerRulesPath(gameId, skillKey), {
     method: 'POST',
-    token,
     body: JSON.stringify(body)
   }).then((result) => ({ ...result, data: maybeParseDetail(result.data) }));
 }
@@ -639,12 +635,10 @@ export function updateSkillTriggerRule(
   gameId: string,
   skillKey: string,
   ruleKey: string,
-  token: string,
   body: UpdateSkillTriggerRuleRequest
 ): Promise<ApiResult<SkillTriggerRuleDetail>> {
   return requestJson<unknown>(apiBaseUrl, triggerRulesPath(gameId, skillKey, ruleKey), {
     method: 'PUT',
-    token,
     body: JSON.stringify(body)
   }).then((result) => ({ ...result, data: maybeParseDetail(result.data) }));
 }
@@ -653,11 +647,9 @@ export function deleteSkillTriggerRule(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  ruleKey: string,
-  token: string
+  ruleKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, triggerRulesPath(gameId, skillKey, ruleKey), {
-    method: 'DELETE',
-    token
+    method: 'DELETE'
   });
 }

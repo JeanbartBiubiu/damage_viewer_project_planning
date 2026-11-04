@@ -13,9 +13,9 @@ import { CommonFormulaDefinitionEditor } from '../common-formula/CommonFormulaDe
 import { updateCommonFormulaNode, type CommonFormulaDraft, type CommonFormulaNodeDraft } from '../common-formula/commonFormulaForm';
 import { emptyGameCalculationDraft, validateGameCalculationDraft, type GameCalculationDraft } from './gameCalculationForm';
 
-type Props = { apiBaseUrl: string; selectedGameId: string | null; adminToken: string; onDirtyChange: (dirty: boolean) => void };
-export function GameCalculationRulesPanel({ apiBaseUrl, selectedGameId, adminToken, onDirtyChange }: Props) {
-  const context = useMemo(() => ({ apiBaseUrl, gameId: selectedGameId, token: adminToken.trim() }), [apiBaseUrl, selectedGameId, adminToken]);
+type Props = { apiBaseUrl: string; selectedGameId: string | null; onDirtyChange: (dirty: boolean) => void };
+export function GameCalculationRulesPanel({ apiBaseUrl, selectedGameId, onDirtyChange }: Props) {
+  const context = useMemo(() => ({ apiBaseUrl, gameId: selectedGameId }), [apiBaseUrl, selectedGameId]);
   const current = useRef(context); current.current = context;
   const serial = useRef(0), active = useRef(true), busy = useRef(false);
   const [loaded, setLoaded] = useState<typeof context | null>(null);
@@ -34,11 +34,11 @@ export function GameCalculationRulesPanel({ apiBaseUrl, selectedGameId, adminTok
   const load = useCallback(async () => {
     const id = ++serial.current;
     setLoaded(null); setResponse(null); setDraft(null); setPending(null); setAttributes([]); setCategories([]); setError(null); setNotice(null);
-    setLoading(Boolean(context.gameId && context.token));
-    if (!context.gameId || !context.token) return;
+    setLoading(Boolean(context.gameId));
+    if (!context.gameId) return;
     try {
-      const [rules, catalog, categoryCatalog] = await Promise.all([getGameCalculationRules(context.apiBaseUrl, context.gameId, context.token),
-        listAttributes(context.apiBaseUrl, context.gameId, context.token), listSkillCategories(context.apiBaseUrl, context.gameId, context.token)]);
+      const [rules, catalog, categoryCatalog] = await Promise.all([getGameCalculationRules(context.apiBaseUrl, context.gameId),
+        listAttributes(context.apiBaseUrl, context.gameId), listSkillCategories(context.apiBaseUrl, context.gameId)]);
       if (!isCurrent(id, context)) return;
       if (catalog.data.total !== catalog.data.items.length || categoryCatalog.data.total !== categoryCatalog.data.items.length
         || new Set(catalog.data.items.map(row => row.attributeKey)).size !== catalog.data.items.length
@@ -63,7 +63,7 @@ export function GameCalculationRulesPanel({ apiBaseUrl, selectedGameId, adminTok
     if (!pending || !ready || busy.current || !context.gameId) return;
     const id = ++serial.current; busy.current = true; setSaving(true); setError(null);
     try {
-      const read = await getGameCalculationRules(context.apiBaseUrl, context.gameId, context.token);
+      const read = await getGameCalculationRules(context.apiBaseUrl, context.gameId);
       if (!isCurrent(id, context)) return;
       const response = parseGameCalculationRules(read.data, context.gameId, attributes, categories);
       if (!sameFormulaPayload(response.configuration, pending)) throw new Error('独立读回与待确认草稿不同，保留草稿；请核对当前版本。');
@@ -78,7 +78,7 @@ export function GameCalculationRulesPanel({ apiBaseUrl, selectedGameId, adminTok
     catch (error) { setError(getErrorMessage(error)); return; }
     const id = ++serial.current; busy.current = true; setSaving(true); setError(null); setNotice(null);
     try {
-      const written = await updateGameCalculationRules(context.apiBaseUrl, context.gameId, context.token, { baseDigest: response.baseDigest, configuration: candidate });
+      const written = await updateGameCalculationRules(context.apiBaseUrl, context.gameId, { baseDigest: response.baseDigest, configuration: candidate });
       if (!isCurrent(id, context)) return;
       setResponse(written.data); setDraft(structuredClone(written.data.configuration)); setNotice('计算规则已保存并独立读回确认。');
     } catch (error) {
@@ -94,7 +94,7 @@ export function GameCalculationRulesPanel({ apiBaseUrl, selectedGameId, adminTok
   const rulePatch = (index: number, next: GameCalculationDraft['attributeDerivations'][number]) => {
     if (draft) patch({ ...draft, attributeDerivations: draft.attributeDerivations.map((rule, i) => index === i ? next : rule) });
   };
-  return <Panel title="游戏计算规则" actions={<Button loading={loading} disabled={saving || !context.gameId || !context.token} onClick={refresh}>刷新计算规则</Button>}>
+  return <Panel title="游戏计算规则" actions={<Button loading={loading} disabled={saving || !context.gameId} onClick={refresh}>刷新计算规则</Button>}>
     <Space direction="vertical" style={{ width: '100%' }} size="large">
       <Typography.Paragraph>明确属性和技能分类的用途绑定。费用名单只允许进入逐项确认的忽略候选，不自动忽略费用。派生公式读取拥有方本帧属性；有来源明确输出时优先采用来源输出。未配置时不补默认目录或公式。</Typography.Paragraph>
       {error ? <Alert type="error" content={error} /> : null}{notice ? <Alert type="success" content={notice} /> : null}

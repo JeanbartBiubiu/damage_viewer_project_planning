@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { writeFileSync } from 'node:fs';
 import { test, expect, type TestInfo } from '@playwright/test';
@@ -11,6 +12,7 @@ async function archive(testInfo: TestInfo, name: string, value: unknown): Promis
 }
 
 test.beforeEach(async ({ page }) => {
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/games', route => route.fulfill({ json: [] }));
   await page.goto('/#/simulation/basic-attack');
   const bytes = await page.evaluate(async () => [...new Uint8Array(await (await fetch('/src/engine/wasm/tinygo_engine_v2.wasm')).arrayBuffer())]);

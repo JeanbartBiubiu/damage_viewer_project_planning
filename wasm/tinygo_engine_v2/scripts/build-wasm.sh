@@ -10,6 +10,10 @@ entry="${ENTRY:-./cmd/engine_wasm}"
 out="${OUT:-./dist/tinygo_engine_v2.wasm}"
 target="$root/targets/wasm-256m.json"
 
+# 两种脚本共用配置校验及链接参数，启用但缺公钥时不产生新产物。
+cd "$root"
+authorization_flags="$(go run ./scripts/authorization-build flags)"
+
 first_existing() {
   for candidate in "$@"; do
     if [ -x "$candidate" ]; then
@@ -53,5 +57,6 @@ echo "$wasmopt_version"
 
 cd "$root"
 mkdir -p "$(dirname "$out")"
-"$tinygo" build -scheduler=none -no-debug -opt=2 -target "$target" -o "$out" "$entry"
+"$tinygo" build -scheduler=none -no-debug -opt=2 -ldflags "$authorization_flags" -target "$target" -o "$out" "$entry"
+go run ./scripts/authorization-build identity "$out"
 echo "Built $root/${out#./} ($(wc -c < "$out" | tr -d ' ') bytes)"

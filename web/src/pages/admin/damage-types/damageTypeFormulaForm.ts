@@ -25,7 +25,7 @@ export type DamageTypeFormulaValidation =
   | { ok: true; formula: DamageTypeFormula }
   | { ok: false; nodeIssues: DamageTypeFormulaNodeIssue[] };
 export type DamageTypeFormulaAttributeOption = { attributeKey: string; name: string; status: string };
-export type DamageTypeFormulaRequestContext = { apiBaseUrl: string; gameId: string; token: string; damageTypeKey: string };
+export type DamageTypeFormulaRequestContext = { apiBaseUrl: string; gameId: string; damageTypeKey: string };
 
 export function damageTypeFormulaOperationLabel(operation: DamageTypeFormulaOperation): string {
   return commonFormulaOperationLabel(operation);
@@ -212,9 +212,7 @@ export function isSameFormulaContext(
   current: DamageTypeFormulaRequestContext
 ): boolean {
   return request.apiBaseUrl === current.apiBaseUrl
-    && request.gameId === current.gameId
-    && request.token === current.token
-    && request.damageTypeKey === current.damageTypeKey;
+    && request.gameId === current.gameId && request.damageTypeKey === current.damageTypeKey;
 }
 
 export function resolveFormulaCloseAttempt(dirty: boolean, confirmedDiscard: boolean): 'close' | 'keep' {

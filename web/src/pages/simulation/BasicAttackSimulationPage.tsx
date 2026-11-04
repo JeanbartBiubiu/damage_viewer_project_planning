@@ -4,7 +4,7 @@ import { SimulationScenarioPanel, type SimulationScenarioPanelProps } from './Si
 
 export type BasicAttackSimulationPageProps = Omit<SimulationScenarioPanelProps, 'mode'>;
 
-export function BasicAttackSimulationPage({ apiBaseUrl, selectedGameId, adminToken, onDirtyChange }: BasicAttackSimulationPageProps) {
+export function BasicAttackSimulationPage({ apiBaseUrl, selectedGameId, onDirtyChange }: BasicAttackSimulationPageProps) {
   return (
     <section className="panel-shell" style={{ minWidth: 0 }} aria-labelledby="basic-attack-simulation-title">
       <Typography.Title heading={3} id="basic-attack-simulation-title" className="panel-title">
@@ -16,7 +16,7 @@ export function BasicAttackSimulationPage({ apiBaseUrl, selectedGameId, adminTok
       <Alert type="info" content="单次／连续普攻及固定时刻技能计划，可独立开启背景普攻。自动连招、采样曲线及使用与结算联动请进入混合战斗分析。" style={{ marginBottom: 16 }} />
       <Button href={hashForRoute(COMBAT_ANALYSIS_ROUTE)} style={{ marginBottom: 16 }}>进入混合战斗分析（自动循环）</Button>
       <SimulationScenarioPanel key="basic-scenario" mode="basic" apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
-        adminToken={adminToken} onDirtyChange={onDirtyChange} />
+         onDirtyChange={onDirtyChange} />
     </section>
   );
 }

@@ -15,9 +15,9 @@ describe('统一技能配置接口', () => {
       .mockResolvedValueOnce(new Response(JSON.stringify({ ...body, effects: undefined }), { status: 200 }));
     vi.stubGlobal('fetch', fetchMock);
     expect(skillConfigurationPath('demo', 'sample_q')).toBe('/api/admin/games/demo/skills/sample_q/configuration');
-    await expect(getSkillConfiguration('http://localhost:8080', 'demo', 'sample_q', 'token'))
+    await expect(getSkillConfiguration('http://localhost:8080', 'demo', 'sample_q'))
       .resolves.toMatchObject({ data: body });
-    await expect(getSkillConfiguration('http://localhost:8080', 'demo', 'sample_q', 'token'))
+    await expect(getSkillConfiguration('http://localhost:8080', 'demo', 'sample_q'))
       .rejects.toMatchObject({ code: 'INVALID_CONFIGURATION_RESPONSE' });
   });
 
@@ -26,8 +26,8 @@ describe('统一技能配置接口', () => {
     vi.stubGlobal('fetch', fetchMock);
     const skill = { name: '样例 Q', description: null, maxLevel: 1, status: 'ENABLED' as const,
       sortOrder: 0, skillCategoryKeys: [] };
-    await createSkillConfiguration('http://localhost:8080', 'demo', 'sample_q', 'token', { skill, changes: [] });
-    await updateSkillConfiguration('http://localhost:8080', 'demo', 'sample_q', 'token', {
+    await createSkillConfiguration('http://localhost:8080', 'demo', 'sample_q', { skill, changes: [] });
+    await updateSkillConfiguration('http://localhost:8080', 'demo', 'sample_q', {
       baseDigest: 'digest', changes: [{ objectType: 'PARAMETER', operation: 'DELETE', key: 'unused' }]
     });
     expect(fetchMock.mock.calls.map(([url, options]) => [url, options.method, JSON.parse(options.body)])).toEqual([
@@ -45,7 +45,7 @@ describe('统一技能配置接口', () => {
     ] };
     const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(new Response(JSON.stringify(duplicate), { status: 200 })));
     vi.stubGlobal('fetch', fetchMock);
-    await expect(getSkillConfiguration('http://localhost:8080', 'demo', 'sample_q', 'token'))
+    await expect(getSkillConfiguration('http://localhost:8080', 'demo', 'sample_q'))
       .rejects.toMatchObject({ code: 'INVALID_CONFIGURATION_RESPONSE' });
   });
 });

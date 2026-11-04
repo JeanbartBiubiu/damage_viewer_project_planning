@@ -376,7 +376,7 @@ func setKaisaSSDriverHits(runReq *model.RunRequest, atMs []int64) {
 func runKaisaSecondSkin(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
 	prepareNativeBasicAttackHits(&compileReq, &runReq)
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	session.ClearOutbox()
 	if code := session.CompileFrame(encodeGenericFrame(model.FrameKindGenericCompile, compileReq)); code != 0 {
 		t.Fatalf("CompileFrame code=%d err=%+v", code, lastGenericError(session.OutboxBytes()))

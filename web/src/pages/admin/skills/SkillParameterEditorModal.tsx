@@ -57,7 +57,6 @@ type SkillParameterEditorModalProps = {
   apiBaseUrl: string;
   selectedGameId: string;
   skillKey: string;
-  adminToken: string;
   onClose: () => void;
   onSaved: () => void | Promise<void>;
   onSkillMissing: () => void;
@@ -80,7 +79,6 @@ export function SkillParameterEditorModal({
   apiBaseUrl,
   selectedGameId,
   skillKey,
-  adminToken,
   onClose,
   onSaved,
   onSkillMissing,
@@ -260,11 +258,7 @@ export function SkillParameterEditorModal({
       setErrors(validation.fieldErrors);
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
+
     setSaving(true);
     setSaveError(null);
     try {
@@ -273,7 +267,6 @@ export function SkillParameterEditorModal({
           apiBaseUrl,
           selectedGameId,
           skillKey,
-          token,
           buildCreateParameterRequest(validation.normalized)
         );
       } else {
@@ -282,7 +275,6 @@ export function SkillParameterEditorModal({
           selectedGameId,
           skillKey,
           parameter!.parameterKey,
-          token,
           buildUpdateParameterRequest(validation.normalized)
         );
       }

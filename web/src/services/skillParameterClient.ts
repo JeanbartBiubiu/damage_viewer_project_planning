@@ -15,23 +15,20 @@ function parametersPath(gameId: string, skillKey: string, parameterKey?: string)
 export function listSkillParameters(
   apiBaseUrl: string,
   gameId: string,
-  skillKey: string,
-  token: string
+  skillKey: string
 ): Promise<ApiResult<SkillParameter[]>> {
-  return requestJson<SkillParameter[]>(apiBaseUrl, parametersPath(gameId, skillKey), { token });
+  return requestJson<SkillParameter[]>(apiBaseUrl, parametersPath(gameId, skillKey));
 }
 
 export function getSkillParameter(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  parameterKey: string,
-  token: string
+  parameterKey: string
 ): Promise<ApiResult<SkillParameter>> {
   return requestJson<SkillParameter>(
     apiBaseUrl,
-    parametersPath(gameId, skillKey, parameterKey),
-    { token }
+    parametersPath(gameId, skillKey, parameterKey)
   );
 }
 
@@ -39,12 +36,10 @@ export function createSkillParameter(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  token: string,
   body: CreateSkillParameterRequest
 ): Promise<ApiResult<SkillParameter>> {
   return requestJson<SkillParameter>(apiBaseUrl, parametersPath(gameId, skillKey), {
     method: 'POST',
-    token,
     body: JSON.stringify(body)
   });
 }
@@ -54,7 +49,6 @@ export function updateSkillParameter(
   gameId: string,
   skillKey: string,
   parameterKey: string,
-  token: string,
   body: UpdateSkillParameterRequest
 ): Promise<ApiResult<SkillParameter>> {
   return requestJson<SkillParameter>(
@@ -62,7 +56,6 @@ export function updateSkillParameter(
     parametersPath(gameId, skillKey, parameterKey),
     {
       method: 'PUT',
-      token,
       body: JSON.stringify(body)
     }
   );
@@ -72,11 +65,9 @@ export function deleteSkillParameter(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  parameterKey: string,
-  token: string
+  parameterKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, parametersPath(gameId, skillKey, parameterKey), {
-    method: 'DELETE',
-    token
+    method: 'DELETE'
   });
 }

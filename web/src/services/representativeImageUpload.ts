@@ -1,4 +1,4 @@
-import { ApiRequestError, getErrorMessage } from './apiClient';
+import { ApiRequestError, getErrorMessageWithContext, isLoginPromptHandled } from './apiClient';
 import { createImage, getImage } from './imageClient';
 import { upsertManagedImage } from './imageCache';
 import { setRepresentativeImageVerified } from './imageRelationClient';
@@ -19,7 +19,6 @@ export type RepresentativeImageUploadContext = {
   apiBaseUrl: string;
   gameId: string;
   target: ImageRelationTarget;
-  token: string;
 };
 
 export type RepresentativeImageUploadResult = {
@@ -29,14 +28,15 @@ export type RepresentativeImageUploadResult = {
 };
 
 export class RepresentativeImageUploadFailure extends Error {
+  get handledByLoginPrompt(): boolean { return isLoginPromptHandled(this.originalError); }
   constructor(
     public draft: RepresentativeImageUploadDraft,
     public phase: 'upload' | 'relation',
     public originalError: unknown
   ) {
-    super(phase === 'relation'
-      ? `图片已上传，尚未设为代表图片，请点击“上传并使用”重试。${getErrorMessage(originalError)}`
-      : `图片上传未完成，已保留所选文件，请重试。${getErrorMessage(originalError)}`);
+    super(getErrorMessageWithContext(originalError, phase === 'relation'
+      ? '图片已上传，尚未设为代表图片，请点击“上传并使用”重试。'
+      : '图片上传未完成，已保留所选文件，请重试。'));
     this.name = 'RepresentativeImageUploadFailure';
   }
 }
@@ -69,7 +69,7 @@ function uncertainUpload(error: unknown): boolean {
 
 async function recoverImage(context: RepresentativeImageUploadContext, draft: RepresentativeImageUploadDraft): Promise<ManagedImage | null> {
   try {
-    const result = await getImage(context.apiBaseUrl, context.gameId, draft.imageKey, context.token);
+    const result = await getImage(context.apiBaseUrl, context.gameId, draft.imageKey);
     assertMatchingImage(result.data, context.gameId, draft);
     return result.data;
   } catch (error) {
@@ -95,7 +95,7 @@ export async function uploadAndUseRepresentativeImage(
     if (!next.uploaded) {
       next = { ...next, uploadUncertain: true };
       try {
-        const result = await createImage(context.apiBaseUrl, context.gameId, context.token, {
+        const result = await createImage(context.apiBaseUrl, context.gameId, {
           imageKey: next.imageKey, name: next.name, description: null, imageBase64: next.prepared.imageBase64
         });
         if (!isCurrent()) return null;
@@ -121,7 +121,7 @@ export async function uploadAndUseRepresentativeImage(
   const uploaded = next.uploaded;
   let image: RepresentativeImage;
   try {
-    const result = await setRepresentativeImageVerified(context.apiBaseUrl, context.gameId, context.target, context.token, uploaded.imageKey);
+    const result = await setRepresentativeImageVerified(context.apiBaseUrl, context.gameId, context.target, uploaded.imageKey);
     if (!isCurrent()) return null;
     if (!result.data.image || result.data.image.imageKey !== uploaded.imageKey) {
       throw new ApiRequestError('代表图片保存响应不完整，请重试。', 502, '502.IMAGE_RELATION_RESPONSE_INVALID');

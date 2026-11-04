@@ -231,7 +231,7 @@ func TestAmmoTypedSchemaJSONCarriesNoCounterLifetime(test *testing.T) {
 
 func TestAmmoNativeSessionFrameReuseErrorRecoveryAndRelease(test *testing.T) {
 	input, request := ammoAttackInput(4, 1000, 5500)
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	if code := session.CompileFrame(encodeGenericFrame(model.FrameKindGenericCompile, input)); code != 0 {
 		test.Fatal("native compile frame failed", code, lastGenericError(session.OutboxBytes()))
 	}

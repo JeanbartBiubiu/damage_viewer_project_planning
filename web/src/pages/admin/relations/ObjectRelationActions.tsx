@@ -8,7 +8,6 @@ import { SkillRelationsModal } from './SkillRelationsModal';
 type ContextProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
 };
 
@@ -18,12 +17,12 @@ export function ObjectRelationActions({ target, onImageSaved, onOpenSkills, ...c
   onOpenSkills?: () => void;
 }) {
   const [active, setActive] = useState<'skills' | 'image' | null>(null);
-  const { apiBaseUrl, selectedGameId, adminToken, onDirtyChange } = context;
+  const { apiBaseUrl, selectedGameId, onDirtyChange } = context;
   const skillTarget = target.kind === 'character' || target.kind === 'equipment' || target.kind === 'skill' || target.kind === 'buildOption'
     ? { kind: target.kind, key: target.key, name: target.name, systemKey: target.systemKey } : null;
-  useEffect(() => { setActive(null); }, [apiBaseUrl, selectedGameId, adminToken, target.kind, target.key, target.skillKey, target.systemKey]);
+  useEffect(() => { setActive(null); }, [apiBaseUrl, selectedGameId, target.kind, target.key, target.skillKey, target.systemKey]);
   const close = () => { setActive(null); onDirtyChange(false); };
-  const disabled = !selectedGameId || !adminToken.trim() || (target.kind === 'skillEffect' && !target.skillKey);
+  const disabled = !selectedGameId || (target.kind === 'skillEffect' && !target.skillKey);
   return <>
     {skillTarget ? <Button size="mini" disabled={disabled} onClick={() => onOpenSkills ? onOpenSkills() : setActive('skills')}>
       {target.kind === 'skill' ? '挂载对象' : '关联技能'}
@@ -40,9 +39,9 @@ export function ObjectRelationActions({ target, onImageSaved, onOpenSkills, ...c
 
 export function ImageUsageAction({ imageKey, ...context }: ContextProps & { imageKey: string }) {
   const [visible, setVisible] = useState(false);
-  useEffect(() => { setVisible(false); }, [context.apiBaseUrl, context.selectedGameId, context.adminToken, imageKey]);
+  useEffect(() => { setVisible(false); }, [context.apiBaseUrl, context.selectedGameId, imageKey]);
   return <>
-    <Button size="mini" disabled={!context.selectedGameId || !context.adminToken.trim()}
+    <Button size="mini" disabled={!context.selectedGameId}
       onClick={() => setVisible(true)}>用途关系</Button>
     {visible ? <ImageUsagesModal {...context} visible imageKey={imageKey}
       onClose={() => { setVisible(false); context.onDirtyChange(false); }} /> : null}

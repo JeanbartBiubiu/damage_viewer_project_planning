@@ -31,7 +31,6 @@ import { DamageTypeFormulaEditorModal } from './DamageTypeFormulaEditorModal';
 export type DamageTypeManagementPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
 };
 
@@ -59,7 +58,6 @@ function statusRequest(damageType: DamageType, status: DamageTypeStatus): Update
 export function DamageTypeManagementPage({
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onDirtyChange
 }: DamageTypeManagementPageProps) {
   const [keywordDraft, setKeywordDraft] = useState('');
@@ -85,8 +83,8 @@ export function DamageTypeManagementPage({
   const loadList = useCallback(async (query: DamageTypeListQuery) => {
     const serial = requestSerial.current + 1;
     requestSerial.current = serial;
-    const token = adminToken.trim();
-    if (!selectedGameId || !token) {
+
+    if (!selectedGameId) {
       setItems([]);
       setTotal(0);
       setLoadError(null);
@@ -96,7 +94,7 @@ export function DamageTypeManagementPage({
     setLoading(true);
     setLoadError(null);
     try {
-      const result = await listDamageTypes(apiBaseUrl, selectedGameId, token, query);
+      const result = await listDamageTypes(apiBaseUrl, selectedGameId, query);
       if (requestSerial.current !== serial) return;
       setItems(result.data.items);
       setTotal(result.data.total);
@@ -108,7 +106,7 @@ export function DamageTypeManagementPage({
     } finally {
       if (requestSerial.current === serial) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, selectedGameId]);
+  }, [apiBaseUrl, selectedGameId]);
 
   useEffect(() => { void loadList(appliedQuery); }, [appliedQuery, loadList]);
 
@@ -135,7 +133,7 @@ export function DamageTypeManagementPage({
   useEffect(() => {
     setFormulaEditor(null);
     setFormulaDirty(false);
-  }, [adminToken, apiBaseUrl]);
+  }, [apiBaseUrl]);
 
   const applyQuery = () => {
     setNotice(null);
@@ -161,11 +159,7 @@ export function DamageTypeManagementPage({
 
   const confirmStatusChange = async () => {
     if (!statusTarget || statusUpdatingKey || !selectedGameId) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setStatusError('请先配置 Admin Token。');
-      return;
-    }
+
     const { damageType, nextStatus } = statusTarget;
     const action = nextStatus === 'ENABLED' ? '启用' : '停用';
     setStatusUpdatingKey(damageType.damageTypeKey);
@@ -175,7 +169,6 @@ export function DamageTypeManagementPage({
         apiBaseUrl,
         selectedGameId,
         damageType.damageTypeKey,
-        token,
         statusRequest(damageType, nextStatus)
       );
       setStatusTarget(null);
@@ -190,16 +183,12 @@ export function DamageTypeManagementPage({
 
   const confirmDelete = async () => {
     if (!deleteTarget || deleting || !selectedGameId) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setDeleteError('请先配置 Admin Token。');
-      return;
-    }
+
     setDeleting(true);
     setDeleteError(null);
     try {
       const deletedName = deleteTarget.name;
-      await deleteDamageType(apiBaseUrl, selectedGameId, deleteTarget.damageTypeKey, token);
+      await deleteDamageType(apiBaseUrl, selectedGameId, deleteTarget.damageTypeKey);
       setDeleteTarget(null);
       setNotice(`伤害类型「${deletedName}」已删除。`);
       await loadList(appliedQuery);
@@ -280,7 +269,7 @@ export function DamageTypeManagementPage({
           <Space>
             <Button
               loading={loading}
-              disabled={!selectedGameId || !adminToken.trim()}
+              disabled={!selectedGameId}
               onClick={() => void loadList(appliedQuery)}
             >刷新</Button>
             <Button
@@ -292,7 +281,7 @@ export function DamageTypeManagementPage({
         }
       >
         {!selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : null}
-        {selectedGameId && !adminToken.trim() ? <Alert type="warning" content="请先在顶部配置 Admin Token。" /> : null}
+
         {loadError ? <Alert type="error" content={loadError} className="workspace-alert" /> : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
@@ -327,7 +316,7 @@ export function DamageTypeManagementPage({
             </Radio.Group>
           </div>
           <Space>
-            <Button type="primary" disabled={!selectedGameId || !adminToken.trim()} onClick={applyQuery}>查询</Button>
+            <Button type="primary" disabled={!selectedGameId} onClick={applyQuery}>查询</Button>
             <Button onClick={resetQuery}>重置</Button>
           </Space>
         </div>
@@ -353,7 +342,7 @@ export function DamageTypeManagementPage({
         damageType={editor?.damageType ?? null}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={() => setEditor(null)}
         onSaved={handleSaved}
         onDirtyChange={setEntityDirty}
@@ -365,7 +354,7 @@ export function DamageTypeManagementPage({
           readOnly={formulaEditor.readOnly}
           apiBaseUrl={apiBaseUrl}
           selectedGameId={selectedGameId}
-          adminToken={adminToken}
+
           onClose={() => setFormulaEditor(null)}
           onSaved={async (message) => {
             setFormulaEditor(null);

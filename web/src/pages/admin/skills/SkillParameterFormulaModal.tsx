@@ -36,7 +36,6 @@ type SkillParameterFormulaModalProps = {
   skill: Skill | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSkillMissing: () => void;
   authoringFocus?: AuthoringNavigationRequest | null;
@@ -66,7 +65,6 @@ export function SkillParameterFormulaModal({
   skill,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSkillMissing,
   authoringFocus
@@ -124,8 +122,8 @@ export function SkillParameterFormulaModal({
   const loadParameters = useCallback(async () => {
     const serial = parameterSerial.current + 1;
     parameterSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !openGameId || !openSkillKey || !token) {
+
+    if (!visible || !openGameId || !openSkillKey) {
       setParameters([]);
       setParametersError(null);
       setParametersLoading(false);
@@ -134,7 +132,7 @@ export function SkillParameterFormulaModal({
     setParametersLoading(true);
     setParametersError(null);
     try {
-      const result = await listSkillParameters(apiBaseUrl, openGameId, openSkillKey, token);
+      const result = await listSkillParameters(apiBaseUrl, openGameId, openSkillKey);
       if (parameterSerial.current !== serial) return;
       if (selectedGameId !== openGameId || skill?.skillKey !== openSkillKey) return;
       setParameters(result.data);
@@ -149,13 +147,13 @@ export function SkillParameterFormulaModal({
     } finally {
       if (parameterSerial.current === serial) setParametersLoading(false);
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, openGameId, openSkillKey, selectedGameId, skill?.skillKey, visible]);
+  }, [apiBaseUrl, onSkillMissing, openGameId, openSkillKey, selectedGameId, skill?.skillKey, visible]);
 
   const loadFormulas = useCallback(async () => {
     const serial = formulaSerial.current + 1;
     formulaSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !openGameId || !openSkillKey || !token) {
+
+    if (!visible || !openGameId || !openSkillKey) {
       setFormulas([]);
       setFormulasError(null);
       setFormulasLoading(false);
@@ -164,7 +162,7 @@ export function SkillParameterFormulaModal({
     setFormulasLoading(true);
     setFormulasError(null);
     try {
-      const result = await listSkillFormulas(apiBaseUrl, openGameId, openSkillKey, token);
+      const result = await listSkillFormulas(apiBaseUrl, openGameId, openSkillKey);
       if (formulaSerial.current !== serial) return;
       if (selectedGameId !== openGameId || skill?.skillKey !== openSkillKey) return;
       setFormulas(result.data);
@@ -179,13 +177,13 @@ export function SkillParameterFormulaModal({
     } finally {
       if (formulaSerial.current === serial) setFormulasLoading(false);
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, openGameId, openSkillKey, selectedGameId, skill?.skillKey, visible]);
+  }, [apiBaseUrl, onSkillMissing, openGameId, openSkillKey, selectedGameId, skill?.skillKey, visible]);
 
   const loadLevelRange = useCallback(async () => {
     const serial = levelSerial.current + 1;
     levelSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !openGameId || !token) {
+
+    if (!visible || !openGameId) {
       setCharacterLevelRange(null);
       setCharacterLevelLoadError(null);
       setCharacterLevelLoading(false);
@@ -194,7 +192,7 @@ export function SkillParameterFormulaModal({
     setCharacterLevelLoading(true);
     setCharacterLevelLoadError(null);
     try {
-      const result = await getLevelConfig(apiBaseUrl, openGameId, token);
+      const result = await getLevelConfig(apiBaseUrl, openGameId);
       if (levelSerial.current !== serial) return;
       setCharacterLevelRange({
         minLevel: result.data.minLevel,
@@ -212,7 +210,7 @@ export function SkillParameterFormulaModal({
     } finally {
       if (levelSerial.current === serial) setCharacterLevelLoading(false);
     }
-  }, [adminToken, apiBaseUrl, openGameId, visible]);
+  }, [apiBaseUrl, openGameId, visible]);
 
   useEffect(() => {
     if (!visible || !skill) {
@@ -308,11 +306,7 @@ export function SkillParameterFormulaModal({
 
   const confirmDeleteParameter = async () => {
     if (!deleteParameterTarget || !selectedGameId || !skill || deleting) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setDeleteError('请先配置 Admin Token。');
-      return;
-    }
+
     setDeleting(true);
     setDeleteError(null);
     try {
@@ -320,8 +314,7 @@ export function SkillParameterFormulaModal({
         apiBaseUrl,
         selectedGameId,
         skill.skillKey,
-        deleteParameterTarget.parameterKey,
-        token
+        deleteParameterTarget.parameterKey
       );
       setDeleteParameterTarget(null);
       await loadParameters();
@@ -340,11 +333,7 @@ export function SkillParameterFormulaModal({
 
   const confirmDeleteFormula = async () => {
     if (!deleteFormulaTarget || !selectedGameId || !skill || deleting) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setDeleteError('请先配置 Admin Token。');
-      return;
-    }
+
     setDeleting(true);
     setDeleteError(null);
     try {
@@ -352,8 +341,7 @@ export function SkillParameterFormulaModal({
         apiBaseUrl,
         selectedGameId,
         skill.skillKey,
-        deleteFormulaTarget.formulaKey,
-        token
+        deleteFormulaTarget.formulaKey
       );
       setDeleteFormulaTarget(null);
       await loadFormulas();
@@ -587,7 +575,7 @@ export function SkillParameterFormulaModal({
               </label>
               <Button
                 type="primary"
-                disabled={!selectedGameId || !adminToken.trim() || !skill}
+                disabled={!selectedGameId || !skill}
                 onClick={() => setParameterEditor({ mode: 'create', parameter: null })}
               >
                 新增参数
@@ -651,7 +639,7 @@ export function SkillParameterFormulaModal({
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
               <Button
                 type="primary"
-                disabled={!selectedGameId || !adminToken.trim() || !skill}
+                disabled={!selectedGameId || !skill}
                 onClick={() => setFormulaEditor({ mode: 'create', formula: null })}
               >
                 新增公式
@@ -696,7 +684,7 @@ export function SkillParameterFormulaModal({
           apiBaseUrl={apiBaseUrl}
           selectedGameId={selectedGameId}
           skillKey={skill.skillKey}
-          adminToken={adminToken}
+
           onClose={() => setParameterEditor(null)}
           onSaved={async () => {
             setParameterEditor(null);
@@ -715,7 +703,7 @@ export function SkillParameterFormulaModal({
           apiBaseUrl={apiBaseUrl}
           selectedGameId={selectedGameId}
           skillKey={skill.skillKey}
-          adminToken={adminToken}
+
           onClose={() => setFormulaEditor(null)}
           onSaved={async () => {
             setFormulaEditor(null);

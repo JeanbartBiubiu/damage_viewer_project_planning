@@ -1,0 +1,176 @@
+package authorization
+
+import (
+	"crypto/ed25519"
+	"crypto/rand"
+	"encoding/base64"
+	"fmt"
+	"strings"
+	"testing"
+)
+
+const testAccount = "73a4b87c-c5d5-4f10-89ee-53a52cd76ba3"
+const testHeader = `{"alg":"Ed25519","typ":"dv-wasm-grant+jwt","kid":"isolated-unit-key"}`
+const testPayload = `{"iss":"damage-viewer","aud":"damage-viewer-wasm","sub":"` + testAccount + `","canLogin":1,"scope":["engine:compute"],"iat":1000,"nbf":1000,"exp":1300,"authorizationVersion":1,"jti":"d0d487c9-537a-4408-9edf-630c3234fc99"}`
+
+func isolatedKey(t *testing.T) (Policy, ed25519.PrivateKey) {
+	t.Helper()
+	publicKey, privateKey, err := ed25519.GenerateKey(rand.Reader)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return NewPolicy(true, "isolated-unit-key", publicKey), privateKey
+}
+
+func signedGrant(privateKey ed25519.PrivateKey, header, payload string) string {
+	message := base64.RawURLEncoding.EncodeToString([]byte(header)) + "." + base64.RawURLEncoding.EncodeToString([]byte(payload))
+	return message + "." + base64.RawURLEncoding.EncodeToString(ed25519.Sign(privateKey, []byte(message)))
+}
+
+func TestGrantSignatureAndTimeBoundaries(t *testing.T) {
+	policy, key := isolatedKey(t)
+	grant := signedGrant(key, testHeader, testPayload)
+	for _, test := range []struct {
+		now  int64
+		want Failure
+	}{{999, Invalid}, {1000, ""}, {1299, ""}, {1300, Expired}, {1301, Expired}} {
+		t.Run(fmt.Sprint(test.now), func(t *testing.T) {
+			subject, failure := Verify(policy, grant, test.now)
+			if failure != test.want || failure == "" && subject != testAccount {
+				t.Fatalf("failure=%q subject=%q", failure, subject)
+			}
+		})
+	}
+	// 验证原始编码，重排或修改正文但沿用原签名会失败。
+	parts := strings.Split(grant, ".")
+	parts[1] = base64.RawURLEncoding.EncodeToString([]byte(strings.Replace(testPayload, "1000", "1001", -1)))
+	if _, failure := Verify(policy, strings.Join(parts, "."), 1001); failure != Invalid {
+		t.Fatal("tampered payload accepted")
+	}
+	_, otherKey := isolatedKey(t)
+	if _, failure := Verify(policy, signedGrant(otherKey, testHeader, testPayload), 1000); failure != Invalid {
+		t.Fatal("untrusted signature accepted")
+	}
+}
+
+func TestGrantStrictHeaderAndClaims(t *testing.T) {
+	policy, key := isolatedKey(t)
+	tests := []struct{ name, header, payload string }{
+		{"algorithm", strings.Replace(testHeader, "Ed25519", "EdDSA", 1), testPayload},
+		{"none algorithm", strings.Replace(testHeader, "Ed25519", "none", 1), testPayload},
+		{"key", strings.Replace(testHeader, "isolated-unit-key", "another-key", 1), testPayload},
+		{"type", strings.Replace(testHeader, "dv-wasm-grant+jwt", "JWT", 1), testPayload},
+		{"unknown header", strings.Replace(testHeader, `"alg":`, `"extra":false,"alg":`, 1), testPayload},
+		{"duplicate header", strings.Replace(testHeader, `"alg":`, `"alg":"Ed25519","alg":`, 1), testPayload},
+		{"escaped duplicate header", strings.Replace(testHeader, `"alg":`, `"\u0061lg":"Ed25519","alg":`, 1), testPayload},
+		{"header type", strings.Replace(testHeader, `"Ed25519"`, `null`, 1), testPayload},
+		{"header array", `[]`, testPayload},
+		{"issuer", testHeader, strings.Replace(testPayload, `"damage-viewer"`, `"untrusted"`, 1)},
+		{"audience", testHeader, strings.Replace(testPayload, `"damage-viewer-wasm"`, `"other-service"`, 1)},
+		{"audience array", testHeader, strings.Replace(testPayload, `"damage-viewer-wasm"`, `["damage-viewer-wasm"]`, 1)},
+		{"account", testHeader, strings.Replace(testPayload, testAccount, "account", 1)},
+		{"account null", testHeader, strings.Replace(testPayload, `"`+testAccount+`"`, `null`, 1)},
+		{"jti", testHeader, strings.Replace(testPayload, "d0d487c9-537a-4408-9edf-630c3234fc99", "not-a-uuid", 1)},
+		{"not paid", testHeader, strings.Replace(testPayload, `"canLogin":1`, `"canLogin":0`, 1)},
+		{"boolean paid", testHeader, strings.Replace(testPayload, `"canLogin":1`, `"canLogin":true`, 1)},
+		{"string paid", testHeader, strings.Replace(testPayload, `"canLogin":1`, `"canLogin":"1"`, 1)},
+		{"float paid", testHeader, strings.Replace(testPayload, `"canLogin":1`, `"canLogin":1.0`, 1)},
+		{"exponent paid", testHeader, strings.Replace(testPayload, `"canLogin":1`, `"canLogin":1e0`, 1)},
+		{"scope string", testHeader, strings.Replace(testPayload, `["engine:compute"]`, `"engine:compute"`, 1)},
+		{"scope extra", testHeader, strings.Replace(testPayload, `["engine:compute"]`, `["engine:compute","edit"]`, 1)},
+		{"scope empty", testHeader, strings.Replace(testPayload, `["engine:compute"]`, `[]`, 1)},
+		{"scope wrong", testHeader, strings.Replace(testPayload, `["engine:compute"]`, `["edit"]`, 1)},
+		{"scope null", testHeader, strings.Replace(testPayload, `["engine:compute"]`, `null`, 1)},
+		{"version", testHeader, strings.Replace(testPayload, `"authorizationVersion":1`, `"authorizationVersion":2`, 1)},
+		{"version type", testHeader, strings.Replace(testPayload, `"authorizationVersion":1`, `"authorizationVersion":"1"`, 1)},
+		{"nbf differs", testHeader, strings.Replace(testPayload, `"nbf":1000`, `"nbf":999`, 1)},
+		{"long lifetime", testHeader, strings.Replace(testPayload, `"exp":1300`, `"exp":1301`, 1)},
+		{"short lifetime", testHeader, strings.Replace(testPayload, `"exp":1300`, `"exp":1299`, 1)},
+		{"time fraction", testHeader, strings.Replace(testPayload, `"iat":1000`, `"iat":1000.0`, 1)},
+		{"time null", testHeader, strings.Replace(testPayload, `"iat":1000`, `"iat":null`, 1)},
+		{"missing time", testHeader, strings.Replace(testPayload, `"iat":1000,`, ``, 1)},
+		{"overflow", testHeader, strings.Replace(testPayload, `"iat":1000`, `"iat":9223372036854775807`, 1)},
+		{"duplicate claim", testHeader, strings.Replace(testPayload, `"canLogin":1`, `"canLogin":0,"canLogin":1`, 1)},
+		{"escaped duplicate claim", testHeader, strings.Replace(testPayload, `"iat":1000`, `"\u0069at":1000,"iat":1000`, 1)},
+		{"unknown claim", testHeader, strings.Replace(testPayload, `"iss":`, `"extra":false,"iss":`, 1)},
+		{"payload array", testHeader, `[]`},
+		{"trailing object", testHeader, testPayload + `{}`},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if _, failure := Verify(policy, signedGrant(key, test.header, test.payload), 1000); failure != Invalid {
+				t.Fatalf("failure=%q want invalid", failure)
+			}
+		})
+	}
+}
+
+func TestGrantEncodingLengthAndDisabledMode(t *testing.T) {
+	policy, key := isolatedKey(t)
+	valid := signedGrant(key, testHeader, testPayload)
+	for _, token := range []string{valid + ".", valid + "=", " " + valid, strings.Replace(valid, ".", ".\n", 1), strings.Repeat("x", MaxGrantBytes+1), "a.b.c"} {
+		if _, failure := Verify(policy, token, 1000); failure != Invalid {
+			t.Fatal("malformed compact encoding accepted")
+		}
+	}
+	if _, failure := Verify(policy, "", 1000); failure != Required {
+		t.Fatal("missing authorization accepted")
+	}
+	var boundary string
+	for padding := 0; padding < MaxGrantBytes; padding++ {
+		token := signedGrant(key, testHeader, testPayload+strings.Repeat(" ", padding))
+		if len(token) == MaxGrantBytes {
+			boundary = token
+			break
+		}
+		if len(token) > MaxGrantBytes {
+			break
+		}
+	}
+	if boundary == "" {
+		t.Fatal("could not construct exact length boundary")
+	}
+	if _, failure := Verify(policy, boundary, 1000); failure != "" {
+		t.Fatalf("4096-byte valid grant rejected: %q", failure)
+	}
+	for _, token := range []string{"", "malformed", strings.Repeat("x", MaxGrantBytes+1)} {
+		if subject, failure := Verify(NewPolicy(false, "", nil), token, 0); failure != "" || subject != "" {
+			t.Fatal("explicitly disabled mode inspected authorization")
+		}
+	}
+	if _, failure := Verify(Policy{}, valid, 1000); failure != Invalid {
+		t.Fatal("zero policy must fail closed")
+	}
+}
+
+func TestBuildConfigurationAndTrustedKeyCopy(t *testing.T) {
+	publicKey, privateKey, err := ed25519.GenerateKey(rand.Reader)
+	if err != nil {
+		t.Fatal(err)
+	}
+	encoded := base64.RawURLEncoding.EncodeToString(publicKey)
+	for _, value := range []string{"", "TRUE", "False", "1", "false "} {
+		if _, err := ParseBuildConfig(value, "key", encoded); err == nil {
+			t.Fatalf("invalid switch %q accepted", value)
+		}
+	}
+	for _, value := range []string{"", encoded + "=", encoded + "\n", "wrong", base64.RawURLEncoding.EncodeToString(make([]byte, 31))} {
+		if _, err := ParseBuildConfig("true", "key", value); err == nil {
+			t.Fatal("invalid public key accepted")
+		}
+	}
+	if _, err := ParseBuildConfig("true", "", encoded); err == nil {
+		t.Fatal("missing key id accepted")
+	}
+	if config, err := ParseBuildConfig("false", "ignored", "invalid"); err != nil || config.Required || config.KeyID != "" || config.PublicKey != "" {
+		t.Fatal("disabled build must not retain a key")
+	}
+	if _, err := ParseBuildConfig("true", "test-key", encoded); err != nil {
+		t.Fatal(err)
+	}
+	policy := NewPolicy(true, "isolated-unit-key", publicKey)
+	publicKey[0] ^= 1
+	if _, failure := Verify(policy, signedGrant(privateKey, testHeader, testPayload), 1000); failure != "" {
+		t.Fatal("trusted public key was not copied")
+	}
+}

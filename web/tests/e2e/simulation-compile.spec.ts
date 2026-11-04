@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -14,6 +15,7 @@ test.beforeEach(async ({ page }) => {
   const wasm = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
   expect(wasm.length).toBe(expectedWasm.bytes);
   expect(createHash('sha256').update(wasm).digest('hex')).toBe(expectedWasm.sha256);
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/games', route => route.fulfill({ json: [{ gameId: 'demo', gameName: '独立用例', representativeImageKey: null }] }));
   await installSimulationSelectionApi(page, '**', 'demo');
   await page.goto('/#/simulation/basic-attack');
@@ -150,8 +152,7 @@ test('编译检查仍独立释放，不自动运行单次或连续普攻且不�
 test('真实接口A/B等级属性及完整共享普攻，经同一快照进入最终浏览器Wasm编译与释放', async ({ page, request }, testInfo) => {
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '真实服务专项需显式启用；跳过不是通过证据');
   const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
-  const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN;
-  const { snapshot } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection(), token);
+  const { snapshot } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection());
   const result = await compileSnapshot(page, snapshot, testInfo);
   const basicAttack = snapshot.skillConfigurations.find(configuration => configuration.skill.skillKey === snapshot.selection.basicAttackSkillKey)!;
   expect(basicAttack.triggerRules).toHaveLength(2);

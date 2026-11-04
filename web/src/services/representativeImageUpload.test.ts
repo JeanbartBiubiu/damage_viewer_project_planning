@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ApiRequestError, type ApiResult } from './apiClient';
+import { ApiRequestError, getErrorMessage, type ApiResult } from './apiClient';
 import { createImage, getImage, updateImage } from './imageClient';
 import { upsertManagedImage } from './imageCache';
 import { setRepresentativeImageVerified } from './imageRelationClient';
@@ -12,7 +12,7 @@ vi.mock('./imageCache', () => ({ upsertManagedImage: vi.fn() }));
 vi.mock('./imageRelationClient', () => ({ setRepresentativeImageVerified: vi.fn() }));
 
 const PREPARED: PreparedResourceImage = { imageBase64: 'data:image/png;base64,AQID', mimeType: 'image/png', byteSize: 3, width: 32, height: 32, sourceWidth: 32, sourceHeight: 32, transformed: false };
-const CONTEXT: RepresentativeImageUploadContext = { apiBaseUrl: 'http://localhost:8080', gameId: 'game', target: { kind: 'skillEffect', key: 'effect', name: '技能效果', skillKey: 'parent-skill' }, token: 'test-token' };
+const CONTEXT: RepresentativeImageUploadContext = { apiBaseUrl: 'http://localhost:8080', gameId: 'game', target: { kind: 'skillEffect', key: 'effect', name: '技能效果', skillKey: 'parent-skill' } };
 
 function result<T>(data: T): ApiResult<T> { return { data, status: 200, etag: null }; }
 function managed(draft: RepresentativeImageUploadDraft): ManagedImage {
@@ -24,11 +24,27 @@ beforeEach(() => {
   let sequence = 0;
   vi.stubGlobal('crypto', { randomUUID: () => `00000000-0000-4000-8000-${String(++sequence).padStart(12, '0')}` });
   vi.mocked(upsertManagedImage).mockResolvedValue({ count: 1, enabledCount: 1, latestUpdate: null });
-  vi.mocked(setRepresentativeImageVerified).mockImplementation(async (_base, _game, _target, _token, imageKey) => result({ image: { imageKey, name: '代表图片', enabled: true } }));
+  vi.mocked(setRepresentativeImageVerified).mockImplementation(async (_base, _game, _target, imageKey) => result({ image: { imageKey, name: '代表图片', enabled: true } }));
 });
 afterEach(() => vi.unstubAllGlobals());
 
 describe('automatic representative image upload', () => {
+  it.each(['upload', 'relation'] as const)('已处理的401只显示全局登录提示，并保留%s阶段和文件状态', async phase => {
+    const draft = createRepresentativeImageUploadDraft('角色', 'fixture.png', PREPARED);
+    const error = new ApiRequestError('会话失效', 401, 'AUTH.INVALID_CREDENTIALS'); error.handledByLoginPrompt = true;
+    if (phase === 'upload') vi.mocked(createImage).mockRejectedValue(error);
+    else {
+      vi.mocked(createImage).mockResolvedValue(result(managed(draft)));
+      vi.mocked(setRepresentativeImageVerified).mockRejectedValue(error);
+    }
+    const failure = await uploadAndUseRepresentativeImage(CONTEXT, draft, () => true).catch(cause => cause as RepresentativeImageUploadFailure);
+    expect(failure).toBeInstanceOf(RepresentativeImageUploadFailure);
+    expect(failure).toMatchObject({ phase, originalError: error, handledByLoginPrompt: true });
+    expect(getErrorMessage(failure)).toBe(''); expect(failure.draft.prepared).toBe(PREPARED);
+    expect(failure.draft.uploaded?.imageKey ?? null).toBe(phase === 'relation' ? draft.imageKey : null);
+    expect(createImage).toHaveBeenCalledTimes(1); expect(setRepresentativeImageVerified).toHaveBeenCalledTimes(phase === 'relation' ? 1 : 0);
+    expect(getImage).not.toHaveBeenCalled(); expect(upsertManagedImage).not.toHaveBeenCalled();
+  });
   it('generates different valid keys and unique names for repeated uploads to the same object', () => {
     const first = createRepresentativeImageUploadDraft('角色名称'.repeat(30), 'first.png', PREPARED);
     const second = createRepresentativeImageUploadDraft('角色名称'.repeat(30), 'second.png', PREPARED);
@@ -46,8 +62,8 @@ describe('automatic representative image upload', () => {
     const image = managed(draft);
     vi.mocked(createImage).mockResolvedValue(result(image));
     const saved = await uploadAndUseRepresentativeImage(CONTEXT, draft, () => true);
-    expect(createImage).toHaveBeenCalledWith(CONTEXT.apiBaseUrl, CONTEXT.gameId, CONTEXT.token, { imageKey: draft.imageKey, name: draft.name, description: null, imageBase64: PREPARED.imageBase64 });
-    expect(setRepresentativeImageVerified).toHaveBeenCalledWith(CONTEXT.apiBaseUrl, CONTEXT.gameId, CONTEXT.target, CONTEXT.token, draft.imageKey);
+    expect(createImage).toHaveBeenCalledWith(CONTEXT.apiBaseUrl, CONTEXT.gameId, { imageKey: draft.imageKey, name: draft.name, description: null, imageBase64: PREPARED.imageBase64 });
+    expect(setRepresentativeImageVerified).toHaveBeenCalledWith(CONTEXT.apiBaseUrl, CONTEXT.gameId, CONTEXT.target, draft.imageKey);
     expect(upsertManagedImage).toHaveBeenCalledWith(image);
     expect(saved?.image.imageKey).toBe(draft.imageKey);
     expect(saved?.cacheWarning).toBeNull();
@@ -87,7 +103,7 @@ describe('automatic representative image upload', () => {
     vi.mocked(createImage).mockRejectedValue(new TypeError('Failed to fetch'));
     vi.mocked(getImage).mockResolvedValue(result(managed(draft)));
     const saved = await uploadAndUseRepresentativeImage(CONTEXT, draft, () => true);
-    expect(getImage).toHaveBeenCalledWith(CONTEXT.apiBaseUrl, CONTEXT.gameId, draft.imageKey, CONTEXT.token);
+    expect(getImage).toHaveBeenCalledWith(CONTEXT.apiBaseUrl, CONTEXT.gameId, draft.imageKey);
     expect(createImage).toHaveBeenCalledTimes(1);
     expect(saved?.image.imageKey).toBe(draft.imageKey);
   });

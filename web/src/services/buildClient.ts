@@ -358,71 +358,71 @@ async function exact<T>(
   return { ...result, data };
 }
 
-export function listBuildSystems(apiBaseUrl: string, gameId: string, token: string, keyword?: string): Promise<ApiResult<BuildSystemListResponse>> {
-  return listed(requestJson(apiBaseUrl, keywordPath(basePath(gameId), keyword), { token }), value => system(value, gameId), value => value.systemKey);
+export function listBuildSystems(apiBaseUrl: string, gameId: string, keyword?: string): Promise<ApiResult<BuildSystemListResponse>> {
+  return listed(requestJson(apiBaseUrl, keywordPath(basePath(gameId), keyword)), value => system(value, gameId), value => value.systemKey);
 }
 
-export function getBuildSystem(apiBaseUrl: string, gameId: string, systemKey: string, token: string) {
-  return exact(requestJson(apiBaseUrl, basePath(gameId, systemKey), { token }), value => system(value, gameId), value => value.systemKey, systemKey);
+export function getBuildSystem(apiBaseUrl: string, gameId: string, systemKey: string) {
+  return exact(requestJson(apiBaseUrl, basePath(gameId, systemKey)), value => system(value, gameId), value => value.systemKey, systemKey);
 }
 
-export function createBuildSystem(apiBaseUrl: string, gameId: string, token: string, body: CreateBuildSystemRequest) {
-  return exact(requestJson(apiBaseUrl, basePath(gameId), { method: 'POST', token, body: JSON.stringify(body) }), value => system(value, gameId), value => value.systemKey, body.systemKey);
+export function createBuildSystem(apiBaseUrl: string, gameId: string, body: CreateBuildSystemRequest) {
+  return exact(requestJson(apiBaseUrl, basePath(gameId), { method: 'POST', body: JSON.stringify(body) }), value => system(value, gameId), value => value.systemKey, body.systemKey);
 }
 
-export function updateBuildSystem(apiBaseUrl: string, gameId: string, systemKey: string, token: string, body: UpdateBuildSystemRequest) {
-  return exact(requestJson(apiBaseUrl, basePath(gameId, systemKey), { method: 'PUT', token, body: JSON.stringify(body) }), value => system(value, gameId), value => value.systemKey, systemKey);
+export function updateBuildSystem(apiBaseUrl: string, gameId: string, systemKey: string, body: UpdateBuildSystemRequest) {
+  return exact(requestJson(apiBaseUrl, basePath(gameId, systemKey), { method: 'PUT', body: JSON.stringify(body) }), value => system(value, gameId), value => value.systemKey, systemKey);
 }
 
-export function deleteBuildSystem(apiBaseUrl: string, gameId: string, systemKey: string, token: string) {
-  return requestJson<null>(apiBaseUrl, basePath(gameId, systemKey), { method: 'DELETE', token });
+export function deleteBuildSystem(apiBaseUrl: string, gameId: string, systemKey: string) {
+  return requestJson<null>(apiBaseUrl, basePath(gameId, systemKey), { method: 'DELETE' });
 }
 
-export function getBuildDefinition(apiBaseUrl: string, gameId: string, systemKey: string, token: string): Promise<ApiResult<BuildDefinition>> {
+export function getBuildDefinition(apiBaseUrl: string, gameId: string, systemKey: string): Promise<ApiResult<BuildDefinition>> {
   return exact(
-    requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/definition`, { token }),
+    requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/definition`),
     value => definition(value, gameId, systemKey),
     value => value.system.systemKey,
     systemKey
   );
 }
 
-export function listBuildGroups(apiBaseUrl: string, gameId: string, systemKey: string, token: string, keyword?: string): Promise<ApiResult<BuildGroupListResponse>> {
-  return listed(requestJson(apiBaseUrl, keywordPath(`${basePath(gameId, systemKey)}/groups`, keyword), { token }), value => group(value, gameId, systemKey), value => value.groupKey);
+export function listBuildGroups(apiBaseUrl: string, gameId: string, systemKey: string, keyword?: string): Promise<ApiResult<BuildGroupListResponse>> {
+  return listed(requestJson(apiBaseUrl, keywordPath(`${basePath(gameId, systemKey)}/groups`, keyword)), value => group(value, gameId, systemKey), value => value.groupKey);
 }
 
-export function getBuildGroup(apiBaseUrl: string, gameId: string, systemKey: string, groupKey: string, token: string) {
-  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/groups/${encodePathSegment(groupKey)}`, { token }), value => group(value, gameId, systemKey), value => value.groupKey, groupKey);
+export function getBuildGroup(apiBaseUrl: string, gameId: string, systemKey: string, groupKey: string) {
+  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/groups/${encodePathSegment(groupKey)}`), value => group(value, gameId, systemKey), value => value.groupKey, groupKey);
 }
 
-export function createBuildGroup(apiBaseUrl: string, gameId: string, systemKey: string, token: string, body: CreateBuildGroupRequest) {
-  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/groups`, { method: 'POST', token, body: JSON.stringify(body) }), value => group(value, gameId, systemKey), value => value.groupKey, body.groupKey);
+export function createBuildGroup(apiBaseUrl: string, gameId: string, systemKey: string, body: CreateBuildGroupRequest) {
+  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/groups`, { method: 'POST', body: JSON.stringify(body) }), value => group(value, gameId, systemKey), value => value.groupKey, body.groupKey);
 }
 
-export function updateBuildGroup(apiBaseUrl: string, gameId: string, systemKey: string, groupKey: string, token: string, body: UpdateBuildGroupRequest) {
-  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/groups/${encodePathSegment(groupKey)}`, { method: 'PUT', token, body: JSON.stringify(body) }), value => group(value, gameId, systemKey), value => value.groupKey, groupKey);
+export function updateBuildGroup(apiBaseUrl: string, gameId: string, systemKey: string, groupKey: string, body: UpdateBuildGroupRequest) {
+  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/groups/${encodePathSegment(groupKey)}`, { method: 'PUT', body: JSON.stringify(body) }), value => group(value, gameId, systemKey), value => value.groupKey, groupKey);
 }
 
-export function deleteBuildGroup(apiBaseUrl: string, gameId: string, systemKey: string, groupKey: string, token: string) {
-  return requestJson<null>(apiBaseUrl, `${basePath(gameId, systemKey)}/groups/${encodePathSegment(groupKey)}`, { method: 'DELETE', token });
+export function deleteBuildGroup(apiBaseUrl: string, gameId: string, systemKey: string, groupKey: string) {
+  return requestJson<null>(apiBaseUrl, `${basePath(gameId, systemKey)}/groups/${encodePathSegment(groupKey)}`, { method: 'DELETE' });
 }
 
-export function listBuildOptions(apiBaseUrl: string, gameId: string, systemKey: string, token: string, keyword?: string): Promise<ApiResult<BuildOptionListResponse>> {
-  return listed(requestJson(apiBaseUrl, keywordPath(`${basePath(gameId, systemKey)}/options`, keyword), { token }), value => option(value, gameId, systemKey), value => value.optionKey);
+export function listBuildOptions(apiBaseUrl: string, gameId: string, systemKey: string, keyword?: string): Promise<ApiResult<BuildOptionListResponse>> {
+  return listed(requestJson(apiBaseUrl, keywordPath(`${basePath(gameId, systemKey)}/options`, keyword)), value => option(value, gameId, systemKey), value => value.optionKey);
 }
 
-export function getBuildOption(apiBaseUrl: string, gameId: string, systemKey: string, optionKey: string, token: string) {
-  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/options/${encodePathSegment(optionKey)}`, { token }), value => option(value, gameId, systemKey), value => value.optionKey, optionKey);
+export function getBuildOption(apiBaseUrl: string, gameId: string, systemKey: string, optionKey: string) {
+  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/options/${encodePathSegment(optionKey)}`), value => option(value, gameId, systemKey), value => value.optionKey, optionKey);
 }
 
-export function createBuildOption(apiBaseUrl: string, gameId: string, systemKey: string, token: string, body: CreateBuildOptionRequest) {
-  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/options`, { method: 'POST', token, body: JSON.stringify(body) }), value => option(value, gameId, systemKey), value => value.optionKey, body.optionKey);
+export function createBuildOption(apiBaseUrl: string, gameId: string, systemKey: string, body: CreateBuildOptionRequest) {
+  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/options`, { method: 'POST', body: JSON.stringify(body) }), value => option(value, gameId, systemKey), value => value.optionKey, body.optionKey);
 }
 
-export function updateBuildOption(apiBaseUrl: string, gameId: string, systemKey: string, optionKey: string, token: string, body: UpdateBuildOptionRequest) {
-  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/options/${encodePathSegment(optionKey)}`, { method: 'PUT', token, body: JSON.stringify(body) }), value => option(value, gameId, systemKey), value => value.optionKey, optionKey);
+export function updateBuildOption(apiBaseUrl: string, gameId: string, systemKey: string, optionKey: string, body: UpdateBuildOptionRequest) {
+  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/options/${encodePathSegment(optionKey)}`, { method: 'PUT', body: JSON.stringify(body) }), value => option(value, gameId, systemKey), value => value.optionKey, optionKey);
 }
 
-export function deleteBuildOption(apiBaseUrl: string, gameId: string, systemKey: string, optionKey: string, token: string) {
-  return requestJson<null>(apiBaseUrl, `${basePath(gameId, systemKey)}/options/${encodePathSegment(optionKey)}`, { method: 'DELETE', token });
+export function deleteBuildOption(apiBaseUrl: string, gameId: string, systemKey: string, optionKey: string) {
+  return requestJson<null>(apiBaseUrl, `${basePath(gameId, systemKey)}/options/${encodePathSegment(optionKey)}`, { method: 'DELETE' });
 }

@@ -33,7 +33,6 @@ import { STATUS_KIND_LABELS } from '../../../types/status';
 export type StatusManagementPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
 };
 
@@ -61,7 +60,6 @@ function statusRequest(statusRecord: GameStatus, status: StatusRecordStatus): Up
 export function StatusManagementPage({
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onDirtyChange
 }: StatusManagementPageProps) {
   const [keywordDraft, setKeywordDraft] = useState('');
@@ -84,8 +82,8 @@ export function StatusManagementPage({
   const loadList = useCallback(async (query: StatusListQuery) => {
     const serial = requestSerial.current + 1;
     requestSerial.current = serial;
-    const token = adminToken.trim();
-    if (!selectedGameId || !token) {
+
+    if (!selectedGameId) {
       setItems([]);
       setTotal(0);
       setLoadError(null);
@@ -95,7 +93,7 @@ export function StatusManagementPage({
     setLoading(true);
     setLoadError(null);
     try {
-      const result = await listStatuses(apiBaseUrl, selectedGameId, token, query);
+      const result = await listStatuses(apiBaseUrl, selectedGameId, query);
       if (requestSerial.current !== serial) return;
       setItems(result.data.items);
       setTotal(result.data.total);
@@ -107,7 +105,7 @@ export function StatusManagementPage({
     } finally {
       if (requestSerial.current === serial) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, selectedGameId]);
+  }, [apiBaseUrl, selectedGameId]);
 
   useEffect(() => { void loadList(appliedQuery); }, [appliedQuery, loadList]);
 
@@ -148,11 +146,7 @@ export function StatusManagementPage({
 
   const confirmStatusChange = async () => {
     if (!statusTarget || statusUpdatingKey || !selectedGameId) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setStatusError('请先配置 Admin Token。');
-      return;
-    }
+
     const { statusRecord, nextStatus } = statusTarget;
     const action = nextStatus === 'ENABLED' ? '启用' : '停用';
     setStatusUpdatingKey(statusRecord.statusKey);
@@ -162,7 +156,6 @@ export function StatusManagementPage({
         apiBaseUrl,
         selectedGameId,
         statusRecord.statusKey,
-        token,
         statusRequest(statusRecord, nextStatus)
       );
       setStatusTarget(null);
@@ -177,11 +170,7 @@ export function StatusManagementPage({
 
   const confirmDelete = async () => {
     if (!deleteTarget || deleting || !selectedGameId) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setDeleteError('请先配置 Admin Token。');
-      return;
-    }
+
     setDeleting(true);
     setDeleteError(null);
     try {
@@ -189,8 +178,7 @@ export function StatusManagementPage({
       await deleteStatus(
         apiBaseUrl,
         selectedGameId,
-        deleteTarget.statusKey,
-        token
+        deleteTarget.statusKey
       );
       setDeleteTarget(null);
       setNotice(`状态「${deletedName}」已删除。`);
@@ -203,8 +191,7 @@ export function StatusManagementPage({
   };
 
   const { imageColumn, onImageSaved } = useRepresentativeImageColumn<GameStatus>({
-    apiBaseUrl, selectedGameId, adminToken,
-    getTarget: record => ({ kind: 'status', key: record.statusKey, name: record.name })
+    apiBaseUrl, selectedGameId, getTarget: record => ({ kind: 'status', key: record.statusKey, name: record.name })
   });
   const columns: TableColumnProps[] = [
     imageColumn,
@@ -242,7 +229,7 @@ export function StatusManagementPage({
           <ObjectRelationActions
             key={`${apiBaseUrl}:${selectedGameId}:${record.statusKey}`}
             target={{ kind: 'status', key: record.statusKey, name: record.name }}
-            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
             onDirtyChange={onDirtyChange}
             onImageSaved={() => onImageSaved(record)}
           />
@@ -278,7 +265,7 @@ export function StatusManagementPage({
           <Space>
             <Button
               loading={loading}
-              disabled={!selectedGameId || !adminToken.trim()}
+              disabled={!selectedGameId}
               onClick={() => void loadList(appliedQuery)}
             >刷新</Button>
             <Button
@@ -290,7 +277,7 @@ export function StatusManagementPage({
         }
       >
         {!selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : null}
-        {selectedGameId && !adminToken.trim() ? <Alert type="warning" content="请先在顶部配置 Admin Token。" /> : null}
+
         {loadError ? <Alert type="error" content={loadError} className="workspace-alert" /> : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
@@ -325,7 +312,7 @@ export function StatusManagementPage({
             </Radio.Group>
           </div>
           <Space>
-            <Button type="primary" disabled={!selectedGameId || !adminToken.trim()} onClick={applyQuery}>查询</Button>
+            <Button type="primary" disabled={!selectedGameId} onClick={applyQuery}>查询</Button>
             <Button onClick={resetQuery}>重置</Button>
           </Space>
         </div>
@@ -351,7 +338,7 @@ export function StatusManagementPage({
         statusRecord={editor?.statusRecord ?? null}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={() => setEditor(null)}
         onSaved={handleSaved}
         onDirtyChange={onDirtyChange}

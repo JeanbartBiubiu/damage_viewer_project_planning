@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { fixedValue, formulaValue, type NumericValue } from '../../src/types/numericValue';
 import type { GameVampRule } from '../../src/types/gameVamp';
@@ -15,12 +16,8 @@ import {
   type TestInfo
 } from '@playwright/test';
 
-const API_BASE_STORAGE_KEY = 'damage-viewer.web.api-base-url';
-const ADMIN_TOKEN_STORAGE_KEY = 'damage-viewer.web.admin-token';
-const MOCK_API_BASE = 'http://127.0.0.1:19080';
 const GAME_ID = 'demo';
 const GAME_NAME = 'Demo Arena';
-const ADMIN_TOKEN = 'non-wasm-e2e-token';
 
 test('通用冷却时长倍率经真实表单进入技能草稿、保存并重开回读', async ({ page }) => {
   const mock = new MockApi(); seedSkillEffectCatalog(mock);
@@ -515,6 +512,7 @@ class MockApi {
 
   async install(page: Page): Promise<void> {
     await page.route('**/api/**', async (route) => {
+      if (await fulfillAuthSession(route)) return;
       await this.handle(route);
     });
   }
@@ -522,11 +520,6 @@ class MockApi {
   private async handle(route: Route): Promise<void> {
     const request = route.request();
     const url = new URL(request.url());
-    if (!url.href.startsWith(MOCK_API_BASE)) {
-      this.unmockedRequests.push(`${request.method()} ${url.href}`);
-      await route.abort('failed');
-      return;
-    }
 
     try {
       await this.dispatch(route, request, url);
@@ -2806,20 +2799,7 @@ async function prepare(page: Page, mock: MockApi): Promise<Diagnostics> {
   const pageErrors: string[] = [];
   page.on('pageerror', (error) => pageErrors.push(error.message));
   await mock.install(page);
-  await page.addInitScript(
-    ({ apiKey, tokenKey, apiBase, token }) => {
-      window.localStorage.clear();
-      window.sessionStorage.clear();
-      window.localStorage.setItem(apiKey, apiBase);
-      window.localStorage.setItem(tokenKey, token);
-    },
-    {
-      apiKey: API_BASE_STORAGE_KEY,
-      tokenKey: ADMIN_TOKEN_STORAGE_KEY,
-      apiBase: MOCK_API_BASE,
-      token: ADMIN_TOKEN
-    }
-  );
+  await page.addInitScript(() => { localStorage.clear(); sessionStorage.clear(); });
   return {
     assertClean(label: string) {
       expect(pageErrors, `${label}: uncaught page errors`).toEqual([]);
@@ -3737,23 +3717,24 @@ async function fillCreateDraft(
 async function installSecondSafetyGame(page: Page, mock: MockApi) {
   const gameId = 'other_safety';
   const config = { gameId, minLevel: 1, maxLevel: 20 };
-  await page.route(`${MOCK_API_BASE}/api/games`, route => route.fulfill({ json: [
+  await page.route(`**/api/games`, route => route.fulfill({ json: [
     { gameId: GAME_ID, gameName: GAME_NAME, representativeImageKey: null },
     { gameId, gameName: '另一游戏', representativeImageKey: null }
   ] }));
-  await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/representative-image`,
+  await page.route(`**/api/admin/games/${gameId}/representative-image`,
     route => route.fulfill({ json: { image: null } }));
-  await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/vamp-rules`,
+  await page.route(`**/api/admin/games/${gameId}/vamp-rules`,
     route => route.fulfill({ json: { rules: [] } }));
-  await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/calculation-rules`, route => {
+  await page.route(`**/api/admin/games/${gameId}/calculation-rules`, route => {
     if (route.request().method() !== 'GET') return route.fallback();
     return route.fulfill({ json: { gameId, baseDigest: 'd'.repeat(64), configuration: null } });
   });
-  await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/attributes`,
+  await page.route(`**/api/admin/games/${gameId}/attributes`,
     route => route.fulfill({ json: { items: [], total: 0 } }));
-  await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/skill-categories`,
+  await page.route(`**/api/admin/games/${gameId}/skill-categories`,
     route => route.fulfill({ json: { items: [], total: 0 } }));
-  await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/level-config`, async route => {
+  await page.route(`**/api/admin/games/${gameId}/level-config`, async route => {
+      if (await fulfillAuthSession(route)) return;
     if (route.request().method() === 'PUT') {
       const body = route.request().postDataJSON();
       mock.writes.push({ method: 'PUT', path: new URL(route.request().url()).pathname, body });
@@ -3784,7 +3765,8 @@ test.describe('通用吸血管理', () => {
     const diagnostics = await prepare(page, mock);
     let rules = [gameVampRule()];
     let failWrite = false;
-    await page.route(`${MOCK_API_BASE}/api/admin/games/${GAME_ID}/vamp-rules`, async route => {
+    await page.route(`**/api/admin/games/${GAME_ID}/vamp-rules`, async route => {
+      if (await fulfillAuthSession(route)) return;
       if (route.request().method() === 'PUT') {
         const body = route.request().postDataJSON();
         mock.writes.push({ method: 'PUT', path: new URL(route.request().url()).pathname, body });
@@ -3846,13 +3828,14 @@ test.describe('通用吸血管理', () => {
     await installSecondSafetyGame(page, mock);
     const otherGame = 'other_safety';
     let otherRules = [gameVampRule({ sourceAttributeKey: 'other_omnivamp', defaultEfficiency: 0.25, skillCategoryKeys: ['other_active'] })];
-    await page.route(`${MOCK_API_BASE}/api/admin/games/${otherGame}/attributes`, route => route.fulfill({ json: {
+    await page.route(`**/api/admin/games/${otherGame}/attributes`, route => route.fulfill({ json: {
       items: [attribute('other_omnivamp', '另一吸血比例', { gameId: otherGame })], total: 1
     } }));
-    await page.route(`${MOCK_API_BASE}/api/admin/games/${otherGame}/skill-categories`, route => route.fulfill({ json: {
+    await page.route(`**/api/admin/games/${otherGame}/skill-categories`, route => route.fulfill({ json: {
       items: [{ ...mock.skillCategories[0], gameId: otherGame, skillCategoryKey: 'other_active', name: '另一技能分类' }], total: 1
     } }));
-    await page.route(`${MOCK_API_BASE}/api/admin/games/${otherGame}/vamp-rules`, async route => {
+    await page.route(`**/api/admin/games/${otherGame}/vamp-rules`, async route => {
+      if (await fulfillAuthSession(route)) return;
       if (route.request().method() === 'PUT') {
         const body = route.request().postDataJSON();
         mock.writes.push({ method: 'PUT', path: new URL(route.request().url()).pathname, body });
@@ -3863,7 +3846,8 @@ test.describe('通用吸血管理', () => {
     const hold = createDeferred();
     let oldStarted = false;
     let oldSettled = false;
-    await page.route(`${MOCK_API_BASE}/api/admin/games/${GAME_ID}/vamp-rules`, async route => {
+    await page.route(`**/api/admin/games/${GAME_ID}/vamp-rules`, async route => {
+      if (await fulfillAuthSession(route)) return;
       oldStarted = true;
       await hold.promise;
       await route.fulfill({ json: { rules: [gameVampRule()] } });
@@ -3896,7 +3880,7 @@ test.describe('通用吸血管理', () => {
     mock.attributes.push(attribute('omnivamp_percent', '全能吸血比例'));
     const original = structuredClone(mock.skillEffects.find((item) => item.effectKey === 'on_hit_results')!.results[0]!);
     const diagnostics = await prepare(page, mock);
-    await page.route(`${MOCK_API_BASE}/api/admin/games/${GAME_ID}/vamp-rules`, route => route.fulfill({ json: { rules: [gameVampRule()] } }));
+    await page.route(`**/api/admin/games/${GAME_ID}/vamp-rules`, route => route.fulfill({ json: { rules: [gameVampRule()] } }));
     await openSkills(page);
     const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
     const effectRow = configurationCard(shell, 'on_hit_results');
@@ -3981,7 +3965,8 @@ test.describe('authoring input safety', () => {
     const gate = new Promise<void>(resolve => { release = resolve; });
     let started = false;
     let settled = false;
-    await page.route(`${MOCK_API_BASE}/api/admin/games/${GAME_ID}/level-config`, async route => {
+    await page.route(`**/api/admin/games/${GAME_ID}/level-config`, async route => {
+      if (await fulfillAuthSession(route)) return;
       started = true;
       await gate;
       await route.fulfill({ json: { gameId: GAME_ID, minLevel: 1, maxLevel: 2 } });
@@ -4011,7 +3996,8 @@ test.describe('authoring input safety', () => {
     const mock = new MockApi();
     const diagnostics = await prepare(page, mock);
     let fail = false;
-    await page.route(`${MOCK_API_BASE}/api/admin/games/${GAME_ID}/level-config`, async route => {
+    await page.route(`**/api/admin/games/${GAME_ID}/level-config`, async route => {
+      if (await fulfillAuthSession(route)) return;
       if (fail && route.request().method() === 'GET') {
         await route.fulfill({ status: 503, json: { error: { code: '503.TEST', message: '等级读取失败', details: {} } } });
       } else await route.fallback();
@@ -4030,7 +4016,7 @@ test.describe('authoring input safety', () => {
     diagnostics.assertClean('level retry');
   });
 
-  test('level drafts survive rejected refresh, game and connection switches', async ({ page }) => {
+  test('level drafts survive account dialog, rejected refresh and game switches', async ({ page }) => {
     const mock = new MockApi();
     const diagnostics = await prepare(page, mock);
     await installSecondSafetyGame(page, mock);
@@ -4045,8 +4031,11 @@ test.describe('authoring input safety', () => {
       await dialog.dismiss();
     };
     page.on('dialog', dismissUnexpected);
-    await page.locator('.app-toolbar-field--token input').fill(` ${ADMIN_TOKEN} `);
-    await expect(page.locator('.app-toolbar-field--token input')).toHaveValue(ADMIN_TOKEN);
+    await page.getByRole('button', { name: 'fixture_editor · 已开通', exact: true }).click();
+    await page.getByText('账号安全', { exact: true }).click();
+    await expect(page.locator('.account-dialog')).toBeVisible();
+    await page.locator('.account-dialog').getByRole('button', { name: 'Close', exact: true }).click();
+    await expect(page.locator('.account-dialog')).toHaveCount(0);
     await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('4');
     page.off('dialog', dismissUnexpected);
     expect(unexpectedDialogs).toEqual([]);
@@ -4063,8 +4052,6 @@ test.describe('authoring input safety', () => {
     await reject(() => page.locator('.app-toolbar-actions').getByRole('button', { name: '刷新', exact: true }).click());
     await reject(() => switchSafetyGame(page));
     await expect(page.locator('.app-toolbar-field--game .arco-select-view-value')).toContainText(GAME_ID);
-    await page.getByPlaceholder('http://localhost:8080', { exact: true }).fill('http://127.0.0.1:19081');
-    await reject(() => page.getByRole('button', { name: '应用', exact: true }).click());
     expect(mock.writes).toHaveLength(0);
     diagnostics.assertClean('dirty level protection');
   });
@@ -4077,7 +4064,8 @@ test.describe('authoring input safety', () => {
     const gate = new Promise<void>(resolve => { release = resolve; });
     let saving = false;
     let settled = false;
-    await page.route(`${MOCK_API_BASE}/api/admin/games/${GAME_ID}/level-config`, async route => {
+    await page.route(`**/api/admin/games/${GAME_ID}/level-config`, async route => {
+      if (await fulfillAuthSession(route)) return;
       if (route.request().method() !== 'PUT') { await route.fallback(); return; }
       saving = true;
       mock.writes.push({ method: 'PUT', path: new URL(route.request().url()).pathname, body: route.request().postDataJSON() });
@@ -4509,7 +4497,7 @@ test.describe('skill category and damage type management without Wasm', () => {
       const response = await fetch(url);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.json();
-    }, `${MOCK_API_BASE}/api/admin/games/${GAME_ID}/modifier-zones/group_a`);
+    }, `/api/admin/games/${GAME_ID}/modifier-zones/group_a`);
     expect(readback).toMatchObject({ modifierZoneKey: 'group_a', calculationMode: 'RATIO_GROUP_ADD', domain: 'ATTRIBUTE', applicationStage: 'ATTRIBUTE_PERCENT' });
     diagnostics.assertClean('grouped amplification directory with HTTP fixture');
   });
@@ -4757,6 +4745,7 @@ test.describe('skill management without Wasm', () => {
     const diagnostics = await prepare(page, mock);
     const detail = createDeferred();
     await page.route('**/skills/fresh_skill/configuration', async (route) => {
+      if (await fulfillAuthSession(route)) return;
       if (route.request().method() === 'GET') await detail.promise;
       await route.fallback();
     });
@@ -4807,6 +4796,7 @@ test.describe('skill management without Wasm', () => {
     let detailPhase: 'failed' | 'late' | 'current' = 'failed';
     let lateReads = 0;
     await page.route('**/skills/retry_skill/configuration', async (route) => {
+      if (await fulfillAuthSession(route)) return;
       if (detailPhase === 'failed') {
         await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: { code: '503.UNAVAILABLE', message: '技能详情暂时不可用' } }) });
       } else if (detailPhase === 'late') {
@@ -4873,7 +4863,7 @@ test.describe('skill management without Wasm', () => {
     diagnostics.assertClean('status changes preserve current skill fields');
   });
 
-  test('技能主体最新详情：切换连接后不提交旧启停请求', async ({ page }) => {
+  test('技能主体最新详情：离开页面后不提交旧启停请求', async ({ page }) => {
     const mock = new MockApi();
     mock.skills = [{
       gameId: GAME_ID, skillKey: 'status_cancel', name: '取消旧请求', description: null,
@@ -4885,6 +4875,7 @@ test.describe('skill management without Wasm', () => {
     const delivered = createDeferred();
     let waiting = false;
     await page.route('**/skills/status_cancel/configuration', async (route) => {
+      if (await fulfillAuthSession(route)) return;
       if (route.request().method() === 'GET') {
         waiting = true;
         await detail.promise;
@@ -4899,18 +4890,14 @@ test.describe('skill management without Wasm', () => {
     const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
     try {
       await expect.poll(() => waiting).toBe(true);
-      // 模拟外壳在详情读取期间切换连接，确认旧请求不会继续提交。
-      await page.getByPlaceholder('粘贴 Admin JWT', { exact: true }).evaluate((input) => {
-        Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(input, 'changed-test-token');
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-      });
-      await expect.poll(() => page.evaluate((key) => window.localStorage.getItem(key), ADMIN_TOKEN_STORAGE_KEY)).toBe('changed-test-token');
-      diagnostics.assertClean('connection change before pending detail completes');
+      // 详情读取期间离开页面，旧请求不能继续提交。
+      await page.evaluate(() => { location.hash = '#/attributes'; });
       await expect(workspace).toHaveCount(0);
     } finally {
       detail.resolve();
     }
     await delivered.promise;
+    await openSkills(page);
     await expect(skillRow(page, 'status_cancel').getByRole('button', { name: '停用', exact: true })).toBeEnabled();
     expect(mock.writes).toHaveLength(0);
     expect(mock.skills[0]!.status).toBe('ENABLED');
@@ -5506,7 +5493,7 @@ test.describe('skill management without Wasm', () => {
       const response = await fetch(url);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.json();
-    }, `${MOCK_API_BASE}/api/admin/games/${GAME_ID}/skills/varus_w/configuration`);
+    }, `/api/admin/games/${GAME_ID}/skills/varus_w/configuration`);
     const saved = configuration.effects.find((row: Json) => row.effectKey === 'grouped_buff');
     expect(saved.results[0]).toMatchObject({ valueRule: { value: { kind: 'FIXED', value: .3 } }, detail: { modifierZoneKey: 'damage_group', operation: 'INCREASE', direction: 'DEALT' } });
     expect(JSON.stringify(saved)).not.toContain('multiplierGroupKey');
@@ -6293,6 +6280,7 @@ test.describe('skill management without Wasm', () => {
     let detailReads = 0;
     const collection = target.kind === 'process' ? 'processes' : target.kind === 'effect' ? 'effects' : 'trigger-rules';
     await page.route(`**/skills/varus_w/${collection}/${target.key}`, async (route) => {
+      if (await fulfillAuthSession(route)) return;
       detailReads += 1;
       await route.fallback();
     });
@@ -6324,6 +6312,7 @@ test.describe('skill management without Wasm', () => {
     const retry = createDeferred();
     let reads = 0;
     await page.route('**/skills/varus_w/configuration', async (route) => {
+      if (await fulfillAuthSession(route)) return;
       reads += 1;
       if (reads === 1) {
         await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: { code: '503.UNAVAILABLE', message: '详情暂时不可用' } }) });
@@ -6362,6 +6351,7 @@ test.describe('skill management without Wasm', () => {
     await expect(effect.getByLabel('效果名称', { exact: true })).toHaveValue('法力消耗');
     const hold = createDeferred();
     await page.route(`**/api/admin/games/${GAME_ID}/attributes`, async (route) => {
+      if (await fulfillAuthSession(route)) return;
       await hold.promise;
       await route.fallback();
     });
@@ -7071,6 +7061,7 @@ test.describe('skill management without Wasm', () => {
       const retry = createDeferred();
       let catalogReads = 0;
       await page.route(`**/api/admin/games/${GAME_ID}/skills`, async (route) => {
+      if (await fulfillAuthSession(route)) return;
         catalogReads += 1;
         if (catalogReads === 1) {
           await first.promise;

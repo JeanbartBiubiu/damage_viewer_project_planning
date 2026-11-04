@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
@@ -15,6 +16,7 @@ test('最终原生共同公式经Web适配及真实Worker保持50伤害与590到
   snapshot.source.attributes.levelValues['1']!.attack_damage = 100;
   snapshot.target.selectedLevelValues.armor = 100;
   snapshot.target.attributes.levelValues['1']!.armor = 100;
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/games', route => route.fulfill({ json: [] }));
   await page.goto('/#/simulation/basic-attack');
   const result = await page.evaluate(async ({ snapshot, wasmUrl }) => {

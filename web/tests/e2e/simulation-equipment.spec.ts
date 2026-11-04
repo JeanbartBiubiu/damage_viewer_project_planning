@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -35,29 +36,29 @@ async function installFixture(page: Page, permanent = false) {
   const mode = { fail: false, missingRatio: false, passive: false, hold: false };
   let pending: (() => void) | null = null;
   await page.addInitScript(api => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', 'equipment-fixture-only');
   }, API);
   page.on('request', request => {
     if (request.url().includes('/api/')) methods.push({ path: new URL(request.url()).pathname, method: request.method() });
   });
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/games', route => route.fulfill({ json: [{ gameId: 'lol', gameName: '独立装备结构用例', representativeImageKey: null }] }));
   await installSimulationSelectionApi(page, API, 'lol', sample);
   const items = equipmentSimulationSample(['item_1028', 'item_1036', 'item_1042']).source.selectedEquipment.map(row => row.equipment);
   if (permanent) items.push(...permanentEquipmentSimulationSample(['item_3065', 'item_3110']).source.selectedEquipment.map(row => row.equipment));
   items.push(...Array.from({ length: 4 }, (_, index) => ({ ...items[0]!, equipmentKey: `unverified_${index}`, name: `未核定样例${index}` })));
-  await page.route(`${API}/api/admin/games/lol/equipment`, route => route.fulfill({ json: { items, total: items.length } }));
-  await page.route(`${API}/api/admin/games/lol/equipment/*/representative-image`, route => {
+  await page.route(`**/api/admin/games/lol/equipment`, route => route.fulfill({ json: { items, total: items.length } }));
+  await page.route(`**/api/admin/games/lol/equipment/*/representative-image`, route => {
     const key = new URL(route.request().url()).pathname.split('/').at(-2)!;
     return route.fulfill({ json: { image: ['item_1036', 'item_1028'].includes(key)
       ? { imageKey: `${key}_icon`, name: '装备图标', enabled: true } : null } });
   });
-  await page.route(`${API}/api/admin/games/lol/images/*`, route => route.fulfill({ json: {
+  await page.route(`**/api/admin/games/lol/images/*`, route => route.fulfill({ json: {
     gameId: 'lol', imageKey: new URL(route.request().url()).pathname.split('/').at(-1), name: '装备图标', description: null,
     imageBase64: PNG, mimeType: 'image/png', byteSize: 68, width: 1, height: 1, enabled: true,
     createdAt: '2026-10-04T00:00:00Z', updatedAt: '2026-10-04T00:00:00Z'
   } }));
-  await page.route(`${API}/api/admin/games/lol/simulation-snapshot`, async route => {
+  await page.route(`**/api/admin/games/lol/simulation-snapshot`, async route => {
+    if (await fulfillAuthSession(route, false)) return;
     expect(route.request().method()).toBe('POST');
     const selection = route.request().postDataJSON() as SimulationSelection;
     expect(Object.keys(selection).sort()).toEqual(['sourceCharacterKey', 'sourceLevel', 'targetCharacterKey', 'targetLevel',
@@ -189,7 +190,7 @@ test('装备图标按可见选项读取，双方共用缓存，缺图和读取�
   const equipmentImageReads = () => fixture.methods.filter(row => /\/equipment\/[^/]+\/representative-image$/.test(row.path));
   const swordDownloads = () => fixture.methods.filter(row => row.path.endsWith('/images/item_1036_icon'));
   expect(equipmentImageReads()).toHaveLength(0);
-  await page.route(`${API}/api/admin/games/lol/images/item_1028_icon`, route => route.fulfill({ status: 500, json: { message: '图片暂不可读' } }));
+  await page.route(`**/api/admin/games/lol/images/item_1028_icon`, route => route.fulfill({ status: 500, json: { message: '图片暂不可读' } }));
   await chooseEquipment(page, '攻击方', 'item_1036');
   await chooseEquipment(page, '目标', 'item_1036');
   for (const side of ['攻击方', '目标']) {
@@ -356,25 +357,24 @@ test('代表装备双侧进入实际引擎，固有零值不累计装备、生�
 test('真实服务长剑与红水晶完整作者快照进入实际引擎，不写业务数据或替换被动', async ({ page }, testInfo) => {
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '必须显式启用真实只读服务；跳过不是4A验收通过');
   const base = process.env.SIMULATION_LIVE_API_BASE_URL ?? 'http://127.0.0.1:8080';
-  const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN ?? '';
   await page.goto('/#/simulation/basic-attack');
-  const data = await page.evaluate(async ({ base, token }) => {
+  const data = await page.evaluate(async ({ base }) => {
     const snapshotPath = '/tests/fixtures/simulationLiveSnapshot.ts';
     const equipmentPath = '/src/services/equipmentClient.ts';
     const adapterPath = '/src/engine/simulationAdapter.ts';
     const { getIsolatedSimulationSnapshot } = await import(snapshotPath) as typeof import('../fixtures/simulationLiveSnapshot');
     const { listEquipment } = await import(equipmentPath) as typeof import('../../src/services/equipmentClient');
     const { inspectSimulationSnapshot } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
-    const catalog = (await listEquipment(base, 'lol', token)).data;
+    const catalog = (await listEquipment(base, 'lol')).data;
     const snapshot = await getIsolatedSimulationSnapshot(base, 'lol', {
       sourceCharacterKey: 'champion_aatrox', sourceLevel: 1, targetCharacterKey: 'champion_ahri', targetLevel: 1,
       basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, plannedSkills: [], sourceEquipmentKeys: ['item_1028', 'item_1036'], targetEquipmentKeys: ['item_1028'],
       sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: []
-    }, token);
+    });
     const inputs: SimulationAttributeInputs = { source: {}, target: {} };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) inputs[row.side][row.attribute.attributeKey] = 0;
     return { snapshot, inputs, catalogKeys: catalog.items.map(row => row.equipmentKey) };
-  }, { base, token });
+  }, { base });
   expect(data.catalogKeys).toContain('item_1036');
   expect(data.catalogKeys).toContain('item_1028');
   const limits = (['source', 'target'] as const).map(side => data.snapshot[side].selectedLevelValues.hp! + data.snapshot[side].selectedEquipment.reduce((total, item) => total + (item.attributes.attributeValues.hp ?? 0), 0));
@@ -384,7 +384,6 @@ test('真实服务长剑与红水晶完整作者快照进入实际引擎，不�
 test('真实服务短剑使用独立核定的角色收益系数，由原普攻过程求得原生间隔', async ({ page }, testInfo) => {
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '必须显式启用真实只读服务；跳过不是4A验收通过');
   const base = process.env.SIMULATION_LIVE_API_BASE_URL ?? 'http://127.0.0.1:8080';
-  const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN ?? '';
   const ratioSource = {
     version: '16.19', build: '16.19.8230722+branch.releases-16-19.content.release',
     path: 'game/data/characters/aatrox/aatrox.bin.json', field: 'attackSpeedRatioModifiable.baseValue',
@@ -392,7 +391,7 @@ test('真实服务短剑使用独立核定的角色收益系数，由原普攻�
     value: 0.6510000228881836
   };
   await page.goto('/#/simulation/basic-attack');
-  const data = await page.evaluate(async ({ base, token, ratio }) => {
+  const data = await page.evaluate(async ({ base, ratio }) => {
     const snapshotPath = '/tests/fixtures/simulationLiveSnapshot.ts';
     const adapterPath = '/src/engine/simulationAdapter.ts';
     const { getIsolatedSimulationSnapshot } = await import(snapshotPath) as typeof import('../fixtures/simulationLiveSnapshot');
@@ -401,13 +400,13 @@ test('真实服务短剑使用独立核定的角色收益系数，由原普攻�
       sourceCharacterKey: 'champion_aatrox', sourceLevel: 1, targetCharacterKey: 'champion_ahri', targetLevel: 1,
       basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, plannedSkills: [], sourceEquipmentKeys: ['item_1042'], targetEquipmentKeys: ['item_1028'],
       sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: []
-    }, token);
+    });
     const inputs: SimulationAttributeInputs = { source: {}, target: {} };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) {
       if (row.storedValue === undefined) inputs[row.side][row.attribute.attributeKey] = row.attribute.attributeKey === 'attack_speed_ratio' ? ratio : 0;
     }
     return { snapshot, inputs };
-  }, { base, token, ratio: ratioSource.value });
+  }, { base, ratio: ratioSource.value });
   const ratioDefinition = data.snapshot.catalogs.attributes.find(row => row.attributeKey === 'attack_speed_ratio');
   expect(ratioDefinition).toMatchObject({ valueType: 'DECIMAL', minValue: 0, maxValue: null, status: 'ENABLED' });
   expect(data.snapshot.source.selectedLevelValues.attack_speed_ratio).toBeUndefined();
@@ -462,9 +461,8 @@ for (const combination of [
 ]) test(`4B真实服务${combination.name}完整作者树经最终Wasm与Worker运行释放`, async ({ page }, testInfo) => {
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '需要显式启用真实服务；跳过不算验收');
   const base = process.env.SIMULATION_LIVE_API_BASE_URL ?? 'http://127.0.0.1:8080';
-  const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN ?? '';
   await page.goto('/#/simulation/basic-attack');
-  const data = await page.evaluate(async ({ base, token, combination }) => {
+  const data = await page.evaluate(async ({ base, combination }) => {
     const snapshotPath = '/tests/fixtures/simulationLiveSnapshot.ts';
     const adapterPath = '/src/engine/simulationAdapter.ts';
     const { getIsolatedSimulationSnapshot } = await import(snapshotPath) as typeof import('../fixtures/simulationLiveSnapshot');
@@ -473,7 +471,7 @@ for (const combination of [
       sourceCharacterKey: 'champion_aatrox', sourceLevel: 1, targetCharacterKey: 'champion_ahri', targetLevel: 1,
       basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, plannedSkills: [], sourceEquipmentKeys: combination.source, targetEquipmentKeys: combination.target,
       sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: []
-    }, token);
+    });
     const inputs: SimulationAttributeInputs = { source: {}, target: {} };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) inputs[row.side][row.attribute.attributeKey] = 0;
     if (combination.source.includes('item_3065') && snapshot.source.selectedLevelValues.life_steal_percent === undefined) inputs.source.life_steal_percent = .1;
@@ -485,7 +483,7 @@ for (const combination of [
       .filter(owner => snapshot.selection[`${owner}EquipmentKeys`].includes('item_3110'))
       .map(owner => ({ owner, equipmentKey: 'item_3110', target: owner === 'source' ? 'target' : 'source', inRange: true }));
     return { snapshot, inputs, health, assumptions };
-  }, { base, token, combination });
+  }, { base, combination });
   const result = await runActual(page, data.snapshot, data.inputs, data.health, testInfo, data.assumptions);
   const initialization = result.continuous!.evidence.items.filter(item => item.kind === 'source_initialized');
   expect(initialization).toHaveLength(2);

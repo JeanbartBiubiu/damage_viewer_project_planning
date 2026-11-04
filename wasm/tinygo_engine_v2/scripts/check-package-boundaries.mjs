@@ -12,7 +12,8 @@ const baseDependencies = new Map([
   ['base/typeset', new Set(['model'])],
 ]);
 const runtimeDependencies = new Map([
-  ['runtime', new Set(['base/abi', 'compile', 'model', 'plan', 'runtime/execution', 'scheduler'])],
+  ['runtime', new Set(['authorization', 'base/abi', 'compile', 'model', 'plan', 'runtime/execution', 'scheduler'])],
+  ['authorization', new Set()],
   ['scheduler', new Set(['model'])],
   ['runtime/execution', new Set(['runtime/execution/actionflow', 'runtime/execution/lifecycle', 'runtime/execution/operation', 'runtime/execution/continuation', 'runtime/execution/usage', 'runtime/execution/admission', 'runtime/execution/hit', 'runtime/execution/listener', 'runtime/execution/evaluation', 'runtime/actor', 'runtime/action', 'runtime/effect', 'runtime/report', 'runtime/contract', 'model', 'plan', 'formula', 'pipeline', 'scheduler', 'base/attribute', 'base/expression', 'base/inputbinding', 'base/numeric', 'base/typeset'])],
   ['runtime/execution/admission', new Set(['model', 'plan', 'formula', 'pipeline', 'base/attribute'])],

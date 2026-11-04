@@ -13,7 +13,7 @@ import type { SimulationAvailabilityEntry, SimulationAvailabilityResponse, Simul
 import type { SimulationSkillSetting } from '../../types/simulationSnapshot';
 import { describeCombatSkill } from './combatSkillRoster';
 
-export type SelectionContext = { apiBaseUrl: string; gameId: string; token: string };
+export type SelectionContext = { apiBaseUrl: string; gameId: string; };
 export type SimulationEntityOption = { key: string; name: string; disabled?: boolean; unavailableReason?: string; unavailableDetails?: string } &
   ({ kind: 'character' } | { kind: 'equipment' } | { kind: 'skill'; maxLevel: number });
 export type SimulationImageLoader = (option: SimulationEntityOption) => Promise<string | null>;
@@ -109,7 +109,7 @@ function checkActive(signal: AbortSignal) {
 }
 
 export async function loadCharacterLevelOptions(context: SelectionContext, signal: AbortSignal): Promise<number[]> {
-  const { data } = await getLevelConfig(context.apiBaseUrl, context.gameId, context.token, signal);
+  const { data } = await getLevelConfig(context.apiBaseUrl, context.gameId, signal);
   checkActive(signal);
   if (!data || data.gameId !== context.gameId || !Number.isInteger(data.minLevel) || !Number.isInteger(data.maxLevel)
     || data.minLevel < 1 || data.maxLevel < data.minLevel || data.maxLevel > 100) {
@@ -119,7 +119,7 @@ export async function loadCharacterLevelOptions(context: SelectionContext, signa
 }
 
 export async function loadCharacterOptions(context: SelectionContext, signal: AbortSignal): Promise<SimulationEntityOption[]> {
-  const { data } = await listCharacters(context.apiBaseUrl, context.gameId, context.token, {}, signal);
+  const { data } = await listCharacters(context.apiBaseUrl, context.gameId, {}, signal);
   checkActive(signal);
   if (!Array.isArray(data.items) || data.total !== data.items.length
     || data.items.some(row => row.gameId !== context.gameId || !row.characterKey || !row.name?.trim())
@@ -130,7 +130,7 @@ export async function loadCharacterOptions(context: SelectionContext, signal: Ab
 }
 
 export async function loadEquipmentOptions(context: SelectionContext, signal: AbortSignal): Promise<SimulationEntityOption[]> {
-  const { data } = await listEquipment(context.apiBaseUrl, context.gameId, context.token, {}, signal);
+  const { data } = await listEquipment(context.apiBaseUrl, context.gameId, {}, signal);
   checkActive(signal);
   if (!Array.isArray(data.items) || data.total !== data.items.length
     || data.items.some(row => row.gameId !== context.gameId || !/^[a-z][a-z0-9_]{0,63}$/.test(row.equipmentKey) || !row.name?.trim())
@@ -145,9 +145,9 @@ export async function loadCharacterSkillOptions(
 ): Promise<{ items: SimulationCharacterSkillOption[]; notice: string | null }> {
   checkActive(signal);
   const [relationsResponse, rulesResponse, categoryResponse] = await Promise.all([
-    listCharacterSkillRelations(context.apiBaseUrl, context.gameId, context.token, { characterKey }, signal),
-    getGameCalculationRules(context.apiBaseUrl, context.gameId, context.token, signal),
-    listSkillCategories(context.apiBaseUrl, context.gameId, context.token, {}, signal)
+    listCharacterSkillRelations(context.apiBaseUrl, context.gameId, { characterKey }, signal),
+    getGameCalculationRules(context.apiBaseUrl, context.gameId, signal),
+    listSkillCategories(context.apiBaseUrl, context.gameId, {}, signal)
   ]);
   checkActive(signal);
   const catalog = categoryResponse.data;
@@ -171,10 +171,10 @@ export async function loadCharacterSkillOptions(
     const skills = await Promise.all(relations.slice(index, index + 4).map(async row => {
       checkActive(signal);
       const configuration = combatMode
-        ? (await getSkillConfiguration(context.apiBaseUrl, context.gameId, row.skillKey, context.token)).data : null;
+        ? (await getSkillConfiguration(context.apiBaseUrl, context.gameId, row.skillKey)).data : null;
       checkActive(signal);
       const skill = configuration?.skill
-        ?? (await getSkill(context.apiBaseUrl, context.gameId, row.skillKey, context.token, signal)).data;
+        ?? (await getSkill(context.apiBaseUrl, context.gameId, row.skillKey, signal)).data;
       checkActive(signal);
       if (skill.gameId !== context.gameId || skill.skillKey !== row.skillKey || !skill.name?.trim()
         || !Array.isArray(skill.skillCategoryKeys) || !['ENABLED', 'DISABLED'].includes(skill.status)
@@ -215,7 +215,7 @@ export function createSimulationImageLoader(context: SelectionContext, signal: A
       const cached = await getCachedImage(context.gameId, imageKey).catch(() => null);
       checkActive(signal);
       if (cached?.gameId === context.gameId && cached.imageKey === imageKey) return cached.imageBase64;
-      const { data } = await getImage(context.apiBaseUrl, context.gameId, imageKey, context.token, signal);
+      const { data } = await getImage(context.apiBaseUrl, context.gameId, imageKey, signal);
       checkActive(signal);
       if (data.gameId !== context.gameId || data.imageKey !== imageKey || !data.enabled) return null;
       await upsertManagedImage(data).catch(() => undefined);
@@ -236,7 +236,7 @@ export function createSimulationImageLoader(context: SelectionContext, signal: A
         void (async () => {
           checkActive(signal);
           const { data } = await getRepresentativeImage(context.apiBaseUrl, context.gameId,
-            { kind: option.kind, key: option.key, name: option.name }, context.token, signal);
+            { kind: option.kind, key: option.key, name: option.name }, signal);
           checkActive(signal);
           return data.image?.enabled ? await readImage(data.image.imageKey) : null;
         })().catch(() => null).then(resolve).finally(() => { running -= 1; schedule(); });

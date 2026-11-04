@@ -27,7 +27,6 @@ type DamageTypeEditorModalProps = {
   damageType: DamageType | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSaved: (damageType: DamageType) => void | Promise<void>;
   onDirtyChange: (dirty: boolean) => void;
@@ -52,7 +51,6 @@ export function DamageTypeEditorModal({
   damageType,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onDirtyChange
@@ -100,11 +98,6 @@ export function DamageTypeEditorModal({
       setSaveError('请先选择游戏。');
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
 
     setSaving(true);
     setSaveError(null);
@@ -117,7 +110,7 @@ export function DamageTypeEditorModal({
         sortOrder: Number(draft.sortOrder.trim())
       };
       const result = mode === 'create'
-        ? await createDamageType(apiBaseUrl, selectedGameId, token, {
+        ? await createDamageType(apiBaseUrl, selectedGameId, {
             damageTypeKey: draft.damageTypeKey.trim(),
             ...body
           })
@@ -125,7 +118,6 @@ export function DamageTypeEditorModal({
             apiBaseUrl,
             selectedGameId,
             damageType!.damageTypeKey,
-            token,
             body
           );
       onDirtyChange(false);

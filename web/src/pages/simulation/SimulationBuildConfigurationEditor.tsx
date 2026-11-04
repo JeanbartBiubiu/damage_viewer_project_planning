@@ -15,7 +15,6 @@ type Draft = {
 type Props = {
   apiBaseUrl: string;
   gameId: string | null;
-  token: string;
   side: 'source' | 'target';
   disabled: boolean;
   selectedBuilds: SimulationSelectedBuild[] | undefined;
@@ -25,7 +24,7 @@ type Props = {
 
 const emptyDraft = (): Draft => ({ groupAssignments: [], selections: [], scenarioBudget: '' });
 
-export function SimulationBuildConfigurationEditor({ apiBaseUrl, gameId, token, side, disabled, selectedBuilds, onEdit, onConfirm }: Props) {
+export function SimulationBuildConfigurationEditor({ apiBaseUrl, gameId, side, disabled, selectedBuilds, onEdit, onConfirm }: Props) {
   const label = side === 'source' ? '攻击方' : '目标';
   const [systems, setSystems] = useState<BuildSystem[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
@@ -42,10 +41,10 @@ export function SimulationBuildConfigurationEditor({ apiBaseUrl, gameId, token, 
 
   const load = async () => {
     const request = ++listRequest.current;
-    if (!gameId || !token) return;
+    if (!gameId) return;
     setLoading(true); setError(null);
     try {
-      const result = await listBuildSystems(apiBaseUrl, gameId, token);
+      const result = await listBuildSystems(apiBaseUrl, gameId);
       if (active.current && request === listRequest.current) setSystems(result.data.items);
     } catch (cause) {
       if (active.current && request === listRequest.current) setError(getErrorMessage(cause));
@@ -60,7 +59,7 @@ export function SimulationBuildConfigurationEditor({ apiBaseUrl, gameId, token, 
     setLoading(false); setLoadingDefinitions(false); setError(null); setIssues([]); setConfirmed(false);
     void load();
     return () => { active.current = false; listRequest.current += 1; definitionRequest.current += 1; };
-  }, [apiBaseUrl, gameId, token]);
+  }, [apiBaseUrl, gameId]);
 
   useEffect(() => {
     if (!selectedBuilds?.length) return;
@@ -77,7 +76,7 @@ export function SimulationBuildConfigurationEditor({ apiBaseUrl, gameId, token, 
     if (!keys.length) { setLoadingDefinitions(false); onConfirm([], []); return; }
     setLoadingDefinitions(true);
     try {
-      const loaded = await Promise.all(keys.map(async key => definitions[key] ?? (await getBuildDefinition(apiBaseUrl, gameId, key, token)).data));
+      const loaded = await Promise.all(keys.map(async key => definitions[key] ?? (await getBuildDefinition(apiBaseUrl, gameId, key)).data));
       if (active.current && request === definitionRequest.current) {
         setDefinitions(Object.fromEntries(loaded.map(definition => [definition.system.systemKey, definition])));
       }
@@ -117,7 +116,7 @@ export function SimulationBuildConfigurationEditor({ apiBaseUrl, gameId, token, 
   return <section className="simulation-build-editor" aria-label={`${label}构筑配置`}>
     <Typography.Title heading={6}>{label}构筑</Typography.Title>
     <Select aria-label={`${label}构筑系统`} mode="multiple" allowClear showSearch style={{ width: '100%' }}
-      value={selectedKeys} loading={loading} disabled={disabled || loading || !gameId || !token}
+      value={selectedKeys} loading={loading} disabled={disabled || loading || !gameId}
       options={systems.map(system => ({ value: system.systemKey, label: `${system.name}（${system.systemKey}）` }))}
       placeholder="可留空，不自动选择推荐构筑" onChange={(keys: string[]) => void selectSystems(keys)} />
     {error ? <Alert type="error" content={`构筑读取失败：${error}`} action={<Button size="mini" disabled={disabled || loading}

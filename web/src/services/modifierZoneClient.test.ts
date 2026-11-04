@@ -30,7 +30,7 @@ describe('modifierZoneClient', () => {
       expect(url.searchParams.get('status')).toBe('ENABLED');
       return jsonResponse(200, { items: [], total: 0 });
     }));
-    await listModifierZones('http://localhost:8080', 'demo arena', 'token', {
+    await listModifierZones('http://localhost:8080', 'demo arena', {
       keyword: ' 伤害 ', domain: 'DAMAGE', status: 'ENABLED'
     });
   });
@@ -49,11 +49,11 @@ describe('modifierZoneClient', () => {
       applicationStage: 'DAMAGE_PRE_DEFENSE' as const, description: null,
       status: 'ENABLED' as const, sortOrder: 0
     };
-    await createModifierZone('http://localhost:8080', 'lol', 'token', {
+    await createModifierZone('http://localhost:8080', 'lol', {
       modifierZoneKey: 'damage_pre_defense', ...body
     });
-    await updateModifierZone('http://localhost:8080', 'lol', 'damage_pre_defense', 'token', body);
-    await deleteModifierZone('http://localhost:8080', 'lol', 'damage_pre_defense', 'token');
+    await updateModifierZone('http://localhost:8080', 'lol', 'damage_pre_defense', body);
+    await deleteModifierZone('http://localhost:8080', 'lol', 'damage_pre_defense');
     expect(calls.map((item) => item.method)).toEqual(['POST', 'PUT', 'DELETE']);
     expect(calls[1]?.body).not.toHaveProperty('modifierZoneKey');
   });
@@ -83,6 +83,6 @@ describe('modifierZoneClient', () => {
     vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(200, {
       items: [{ ...zone, calculationMode: 'TAKE_MAX' }], total: 1
     })));
-    await expect(listModifierZones('http://localhost:8080', 'lol', 'token')).rejects.toThrow('计算方式');
+    await expect(listModifierZones('http://localhost:8080', 'lol')).rejects.toThrow('计算方式');
   });
 });

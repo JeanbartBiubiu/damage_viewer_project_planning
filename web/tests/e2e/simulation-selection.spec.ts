@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { expect, test, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -69,7 +70,6 @@ test('5A测试样例同步：装备默认来源完整、双方独立，关闭英
 });
 
 const API = 'http://127.0.0.1:19106';
-const TOKEN = 'selection-fixture-only';
 const PNG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1cAAAAASUVORK5CYII=';
 const select = (page: Page, label: string) => page.locator(`.simulation-entity-select[aria-label="${label}"]`);
 const levelSelect = (page: Page, label: string) => page.locator(`.simulation-level-select[aria-label="${label}"]`);
@@ -79,11 +79,11 @@ async function installApi(page: Page) {
   const reads: string[] = [];
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.addInitScript(({ api, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', token);
-  }, { api: API, token: TOKEN });
+  await page.addInitScript(({ api }) => {
+  }, { api: API });
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/**', async route => {
+    if (await fulfillAuthSession(route, false)) return;
     const request = route.request();
     if (request.method() === 'OPTIONS') {
       await route.fulfill({ status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*' } });
@@ -97,7 +97,7 @@ async function installApi(page: Page) {
       { gameId: 'demo', gameName: '下拉测试', representativeImageKey: null },
       { gameId: 'other', gameName: '其他游戏', representativeImageKey: null }
     ]);
-    expect(request.headers().authorization).toBe(`Bearer ${TOKEN}`);
+    expect(request.headers().authorization).toBeUndefined();
     const resource = url.pathname.replace(/^\/api\/admin\/games\/[^/]+\//, '');
     const gameId = url.pathname.split('/')[4]!;
     if (resource === 'calculation-rules') return reply(simulationSample(gameId).catalogs.calculationRules);
@@ -180,19 +180,18 @@ async function installSnapshotStructureApi(page: Page, sample: SimulationSnapsho
   const errors: string[] = [];
   let candidate = sample;
   page.on('pageerror', error => errors.push(error.message));
-  await page.addInitScript(({ api, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', token);
-  }, { api: API, token: TOKEN });
-  await page.route(`${API}/api/games`, route => route.fulfill({ json: [{ gameId: sample.gameId, gameName: '独立来源结构', representativeImageKey: null }] }));
+  await page.addInitScript(({ api }) => {
+  }, { api: API });
+  await page.route(`**/api/games`, route => route.fulfill({ json: [{ gameId: sample.gameId, gameName: '独立来源结构', representativeImageKey: null }] }));
   await installSimulationSelectionApi(page, API, sample.gameId, sample);
   const definitions = [...sample.source.selectedBuilds, ...sample.target.selectedBuilds].map(build => build.definition);
-  await page.route(`${API}/api/admin/games/${sample.gameId}/build-systems`, route => route.fulfill({ json: {
+  await page.route(`**/api/admin/games/${sample.gameId}/build-systems`, route => route.fulfill({ json: {
     items: definitions.map(definition => definition.system), total: definitions.length
   } }));
-  for (const definition of definitions) await page.route(`${API}/api/admin/games/${sample.gameId}/build-systems/${definition.system.systemKey}/definition`,
+  for (const definition of definitions) await page.route(`**/api/admin/games/${sample.gameId}/build-systems/${definition.system.systemKey}/definition`,
     route => route.fulfill({ json: definition }));
-  await page.route(`${API}/api/admin/games/${sample.gameId}/simulation-snapshot`, async route => {
+  await page.route(`**/api/admin/games/${sample.gameId}/simulation-snapshot`, async route => {
+    if (await fulfillAuthSession(route, false)) return;
     expect(route.request().method(), '独立接口结构用例：只读快照也必须使用POST').toBe('POST');
     const selection = route.request().postDataJSON() as SimulationSelection;
     requests.push(selection);
@@ -483,11 +482,8 @@ test.describe('真实只读目录', () => {
   test('真实角色头像与共享普攻由现有接口进入选择框，无全量图片读取', async ({ page }, testInfo) => {
     test.skip(process.env.SIMULATION_LIVE_API !== '1', '真实服务检查需显式启用。');
     const api = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
-    const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN || 'local-readonly-check';
-    await page.addInitScript(({ api, token }) => {
-      localStorage.setItem('damage-viewer.web.api-base-url', api);
-      localStorage.setItem('damage-viewer.web.admin-token', token);
-    }, { api, token });
+    await page.addInitScript(({ api }) => {
+    }, { api });
     const paths: string[] = [];
     page.on('request', request => {
       const url = new URL(request.url());
@@ -512,9 +508,8 @@ test.describe('真实只读目录', () => {
   test('真实页面Kog/Ahri搜索与九项符文录入保持角色和等级', async ({ page, request }, testInfo) => {
     test.skip(process.env.SIMULATION_LIVE_API !== '1', '角色与符文稳定性检查需真实只读服务。');
     const api = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
-    const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN || 'local-readonly-check';
     const preview = process.env.SIMULATION_SELECTION_PREVIEW_URL;
-    const response = await request.get(`${api}/api/admin/games/lol/build-systems/runes/definition`, { headers: { Authorization: `Bearer ${token}` } });
+    const response = await request.get(`${api}/api/admin/games/lol/build-systems/runes/definition`, { headers: {  } });
     expect(response.status()).toBe(200);
     const definition = await response.json() as BuildDefinition;
     const checkpoints: Array<{ phase: string; source: string; target: string; sourceLevel: string; targetLevel: string; attackDisabled: boolean }> = [];
@@ -526,10 +521,8 @@ test.describe('真实只读目录', () => {
     page.on('request', request => {
       if (new URL(request.url()).pathname.endsWith('/simulation-snapshot') && request.method() === 'POST') selections.push(request.postDataJSON() as SimulationSelection);
     });
-    await page.addInitScript(({ api, token }) => {
-      localStorage.setItem('damage-viewer.web.api-base-url', api);
-      localStorage.setItem('damage-viewer.web.admin-token', token);
-    }, { api, token });
+    await page.addInitScript(({ api }) => {
+    }, { api });
     const readState = async (phase: string) => {
       const state = { phase, source: await select(page, '攻击方角色').innerText(), target: await select(page, '目标角色').innerText(),
         sourceLevel: await levelSelect(page, '攻击方等级').innerText(), targetLevel: await levelSelect(page, '目标等级').innerText(),
@@ -644,7 +637,8 @@ test('虚拟列表按可见候选加载，缓存命中不再次下载，缺头�
 test('目录失败有重试，技能失败不伪装成没有普攻，输入不丢失', async ({ page }) => {
   const diagnostics = await installApi(page);
   let failing = true;
-  await page.route(`${API}/api/admin/games/demo/characters`, async route => {
+  await page.route(`**/api/admin/games/demo/characters`, async route => {
+    if (await fulfillAuthSession(route, false)) return;
     if (failing) await route.fulfill({ status: 500, json: { error: { message: '目录失败' } } });
     else await route.fallback();
   });
@@ -652,7 +646,7 @@ test('目录失败有重试，技能失败不伪装成没有普攻，输入不�
   await expect(page.getByText(/角色列表读取失败/)).toBeVisible();
   failing = false;
   await page.getByRole('button', { name: '重试角色列表' }).click();
-  await page.route(`${API}/api/admin/games/demo/character-skill-relations?**`, route => route.fulfill({ status: 500, json: { error: { message: '技能失败' } } }));
+  await page.route(`**/api/admin/games/demo/character-skill-relations?**`, route => route.fulfill({ status: 500, json: { error: { message: '技能失败' } } }));
   await chooseSimulationEntity(page, '攻击方角色', 'hero_alpha');
   await expect(page.getByText(/普攻列表读取失败/)).toBeVisible();
   await expect(select(page, '攻击方角色')).toContainText('英雄甲');
@@ -668,7 +662,8 @@ test('攻击方和游戏切换后迟到目录不覆盖新选项', async ({ page 
   let release!: () => void;
   let started = false;
   const gate = new Promise<void>(resolve => { release = resolve; });
-  await page.route(`${API}/api/admin/games/demo/character-skill-relations?characterKey=hero_alpha`, async route => {
+  await page.route(`**/api/admin/games/demo/character-skill-relations?characterKey=hero_alpha`, async route => {
+    if (await fulfillAuthSession(route, false)) return;
     started = true;
     await gate;
     try { await route.fulfill({ status: 500, json: { message: '旧目录迟到错误' } }); } catch { /* 已取消。 */ }
@@ -692,8 +687,9 @@ test('攻击方和游戏切换后迟到目录不覆盖新选项', async ({ page 
 
 test('三个等级下拉仅提供实际范围，切换普攻清空旧等级且没有手写输入', async ({ page }) => {
   const diagnostics = await installApi(page);
-  await page.route(`${API}/api/admin/games/demo/level-config`, route => route.fulfill({ json: { gameId: 'demo', minLevel: 2, maxLevel: 4 } }));
-  await page.route(`${API}/api/admin/games/demo/skills/attack_alpha`, async route => {
+  await page.route(`**/api/admin/games/demo/level-config`, route => route.fulfill({ json: { gameId: 'demo', minLevel: 2, maxLevel: 4 } }));
+  await page.route(`**/api/admin/games/demo/skills/attack_alpha`, async route => {
+    if (await fulfillAuthSession(route, false)) return;
     // 本专项采用独立目录数据，不访问正式后端。
     await route.fulfill({ json: { gameId: 'demo', skillKey: 'attack_alpha', name: '普通攻击甲', description: null,
       maxLevel: 3, status: 'ENABLED', sortOrder: 0, skillCategoryKeys: ['basic_attack'], createdAt: '', updatedAt: '' } });
@@ -733,7 +729,7 @@ test('三个等级下拉仅提供实际范围，切换普攻清空旧等级且�
 test('等级范围失败禁用选择和读取，重试后按真实最小等级恢复', async ({ page }) => {
   const diagnostics = await installApi(page);
   let failed = true;
-  await page.route(`${API}/api/admin/games/demo/level-config`, route => route.fulfill(failed
+  await page.route(`**/api/admin/games/demo/level-config`, route => route.fulfill(failed
     ? { status: 500, json: { error: { message: '等级配置读取失败' } } }
     : { json: { gameId: 'demo', minLevel: 3, maxLevel: 5 } }));
   await page.goto('/#/simulation/basic-attack');
@@ -758,12 +754,13 @@ test('切换游戏时丢弃迟到等级范围，旧等级选择不会带入新�
   let release!: () => void;
   let started = false;
   const gate = new Promise<void>(resolve => { release = resolve; });
-  await page.route(`${API}/api/admin/games/demo/level-config`, async route => {
+  await page.route(`**/api/admin/games/demo/level-config`, async route => {
+    if (await fulfillAuthSession(route, false)) return;
     started = true;
     await gate;
     await route.fulfill({ json: { gameId: 'demo', minLevel: 1, maxLevel: 18 } }).catch(() => undefined);
   });
-  await page.route(`${API}/api/admin/games/other/level-config`, route => route.fulfill({ json: { gameId: 'other', minLevel: 2, maxLevel: 3 } }));
+  await page.route(`**/api/admin/games/other/level-config`, route => route.fulfill({ json: { gameId: 'other', minLevel: 2, maxLevel: 3 } }));
   await page.goto('/#/simulation/basic-attack');
   await expect.poll(() => started).toBe(true);
   await expect(levelSelect(page, '攻击方等级')).toHaveClass(/arco-select-disabled/);

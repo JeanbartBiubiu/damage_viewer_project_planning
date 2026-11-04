@@ -24,40 +24,39 @@ type ImageUsagesModalProps = {
   imageKey: string | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onDirtyChange?: (dirty: boolean) => void;
 };
 
 export function ImageUsagesModal(props: ImageUsagesModalProps) {
   if (!props.visible || !props.imageKey || !props.selectedGameId) return null;
-  return <ImageUsagesForm key={JSON.stringify([props.apiBaseUrl, props.selectedGameId, props.imageKey, props.adminToken])} {...props} imageKey={props.imageKey} selectedGameId={props.selectedGameId} />;
+  return <ImageUsagesForm key={JSON.stringify([props.apiBaseUrl, props.selectedGameId, props.imageKey])} {...props} imageKey={props.imageKey} selectedGameId={props.selectedGameId} />;
 }
 
-async function sourceOptions(apiBaseUrl: string, gameId: string, token: string, kind: ImageRelationTarget['kind'], parentKey: string | null): Promise<ImageSourceOption[]> {
+async function sourceOptions(apiBaseUrl: string, gameId: string, kind: ImageRelationTarget['kind'], parentKey: string | null): Promise<ImageSourceOption[]> {
   switch (kind) {
     case 'game': return (await listGames(apiBaseUrl)).data.filter((game) => game.gameId === gameId)
       .map((game) => ({ target: { kind, key: game.gameId, name: game.gameName } }));
-    case 'character': return (await listCharacters(apiBaseUrl, gameId, token)).data.items
+    case 'character': return (await listCharacters(apiBaseUrl, gameId)).data.items
       .map((row) => ({ target: { kind, key: row.characterKey, name: row.name } }));
-    case 'attribute': return (await listAttributes(apiBaseUrl, gameId, token)).data.items
+    case 'attribute': return (await listAttributes(apiBaseUrl, gameId)).data.items
       .map((row) => ({ target: { kind, key: row.attributeKey, name: row.name }, status: row.status }));
-    case 'equipment': return (await listEquipment(apiBaseUrl, gameId, token)).data.items
+    case 'equipment': return (await listEquipment(apiBaseUrl, gameId)).data.items
       .map((row) => ({ target: { kind, key: row.equipmentKey, name: row.name } }));
-    case 'buildOption': return parentKey ? (await listBuildOptions(apiBaseUrl, gameId, parentKey, token)).data.items
+    case 'buildOption': return parentKey ? (await listBuildOptions(apiBaseUrl, gameId, parentKey)).data.items
       .map((row) => ({ target: { kind, key: row.optionKey, name: row.name, systemKey: row.systemKey } })) : [];
-    case 'buildGroup': return parentKey ? (await listBuildGroups(apiBaseUrl, gameId, parentKey, token)).data.items
+    case 'buildGroup': return parentKey ? (await listBuildGroups(apiBaseUrl, gameId, parentKey)).data.items
       .map((row) => ({ target: { kind, key: row.groupKey, name: row.name, systemKey: row.systemKey } })) : [];
-    case 'skill': return (await listSkills(apiBaseUrl, gameId, token)).data.items
+    case 'skill': return (await listSkills(apiBaseUrl, gameId)).data.items
       .map((row) => ({ target: { kind, key: row.skillKey, name: row.name }, status: row.status }));
-    case 'skillEffect': return parentKey ? (await listSkillEffects(apiBaseUrl, gameId, parentKey, token)).data
+    case 'skillEffect': return parentKey ? (await listSkillEffects(apiBaseUrl, gameId, parentKey)).data
       .map((row) => ({ target: { kind, key: row.effectKey, name: row.name, skillKey: row.skillKey } })) : [];
-    case 'status': return (await listStatuses(apiBaseUrl, gameId, token)).data.items
+    case 'status': return (await listStatuses(apiBaseUrl, gameId)).data.items
       .map((row) => ({ target: { kind, key: row.statusKey, name: row.name }, status: row.status }));
   }
 }
 
-function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onClose, onDirtyChange }: ImageUsagesModalProps & { imageKey: string; selectedGameId: string }) {
+function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, onClose, onDirtyChange }: ImageUsagesModalProps & { imageKey: string; selectedGameId: string }) {
   const [image, setImage] = useState<RepresentativeImage | null>(null);
   const [usages, setUsages] = useState<ImageUsages | null>(null);
   const [loading, setLoading] = useState(true);
@@ -90,8 +89,8 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
     setError(null);
     try {
       const [usageResult, imageResult] = await Promise.all([
-        getImageUsages(apiBaseUrl, selectedGameId, imageKey, adminToken.trim()),
-        getImage(apiBaseUrl, selectedGameId, imageKey, adminToken.trim())
+        getImageUsages(apiBaseUrl, selectedGameId, imageKey),
+        getImage(apiBaseUrl, selectedGameId, imageKey)
       ]);
       if (!active.current || request !== readRequest.current) return false;
       setUsages(usageResult.data);
@@ -123,9 +122,9 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
     const parentKey = sourceKind === 'skillEffect' ? skillKey : systemKey;
     const query = needsParent && !parentKey
       ? sourceKind === 'skillEffect'
-        ? sourceOptions(apiBaseUrl, selectedGameId, adminToken.trim(), 'skill', null)
-        : listBuildSystems(apiBaseUrl, selectedGameId, adminToken.trim()).then(result => result.data.items.map(row => ({ target: { kind: 'buildGroup' as const, key: row.systemKey, name: row.name, systemKey: row.systemKey } })))
-      : sourceOptions(apiBaseUrl, selectedGameId, adminToken.trim(), sourceKind, parentKey);
+        ? sourceOptions(apiBaseUrl, selectedGameId, 'skill', null)
+        : listBuildSystems(apiBaseUrl, selectedGameId).then(result => result.data.items.map(row => ({ target: { kind: 'buildGroup' as const, key: row.systemKey, name: row.name, systemKey: row.systemKey } })))
+      : sourceOptions(apiBaseUrl, selectedGameId, sourceKind, parentKey);
     void query.then((items) => {
       if (!current) return;
       if (needsParent && !parentKey) {
@@ -138,7 +137,7 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
       if (current) setOptionsLoading(false);
     });
     return () => { current = false; };
-  }, [apiBaseUrl, selectedGameId, adminToken, sourceKind, skillKey, systemKey, optionsRevision]);
+  }, [apiBaseUrl, selectedGameId, sourceKind, skillKey, systemKey, optionsRevision]);
 
   const add = async () => {
     if (!selection || !image?.enabled || !loaded || saving) return;
@@ -146,11 +145,11 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
     setError(null);
     setSuccess(null);
     try {
-      const latest = await getRepresentativeImage(apiBaseUrl, selectedGameId, selection.target, adminToken.trim());
+      const latest = await getRepresentativeImage(apiBaseUrl, selectedGameId, selection.target);
       if (!active.current) return;
       const replacement = representativeImageReplacementMessage(latest.data.image, imageKey, selection.target.name);
       if (replacement && !window.confirm(replacement)) return;
-      await setRepresentativeImageVerified(apiBaseUrl, selectedGameId, selection.target, adminToken.trim(), imageKey);
+      await setRepresentativeImageVerified(apiBaseUrl, selectedGameId, selection.target, imageKey);
       if (!active.current) return;
       if (!await load()) return;
       if (!active.current) return;
@@ -174,14 +173,14 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
     setSuccess(null);
     try {
       // 再读来源，避免旧用途列表误删其他维护者刚替换的图片关系。
-      const latest = await getRepresentativeImage(apiBaseUrl, selectedGameId, source.target, adminToken.trim());
+      const latest = await getRepresentativeImage(apiBaseUrl, selectedGameId, source.target);
       if (!active.current) return;
       if (latest.data.image?.imageKey !== imageKey) {
         await load();
         if (active.current) setError('该来源的代表图片已经变更，用途列表已刷新，请重新核对。');
         return;
       }
-      await removeRepresentativeImageVerified(apiBaseUrl, selectedGameId, source.target, adminToken.trim());
+      await removeRepresentativeImageVerified(apiBaseUrl, selectedGameId, source.target);
       if (!active.current) return;
       if (!await load()) return;
       if (active.current) setSuccess('图片用途关系已移除并回读确认。');
@@ -197,13 +196,13 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
     dirtyCallback.current?.(false);
     onClose();
   };
-  const editable = loaded && Boolean(image?.enabled) && Boolean(adminToken.trim()) && !saving;
+  const editable = loaded && Boolean(image?.enabled) && true && !saving;
 
   return <Modal title="图片用途关系" visible onCancel={close} style={{ width: 940 }} footer={<Button disabled={saving} onClick={close}>关闭</Button>}>
     <Space direction="vertical" size="medium" style={{ width: '100%' }}>
       {error ? <Alert type="error" content={error} /> : null}
       {success ? <Alert type="success" content={success} /> : null}
-      {!adminToken.trim() ? <Alert type="warning" content="请先配置 Admin Token。" /> : null}
+
       <Space>
         <CachedImagePreview gameId={selectedGameId} imageKey={imageKey} enabled={loaded && Boolean(image?.enabled)} name={image?.name ?? imageKey} />
         <Typography.Text>{image ? `${image.name}（${imageKey}）` : imageKey}</Typography.Text>
@@ -248,7 +247,7 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
         <Table<ImageSourceOption> size="small" pagination={false} rowKey={(row) => imageTargetIdentity(row.target)} data={group.items} noDataElement="暂无用途关系" columns={[
           { title: '名称与标识', render: (_, row) => <Space direction="vertical" size="mini"><Typography.Text>{row.target.name}（{row.target.key}）</Typography.Text>{row.target.skillKey ? <Typography.Text type="secondary">所属技能：{row.skillName}（{row.target.skillKey}）</Typography.Text> : null}{row.target.systemKey ? <Typography.Text type="secondary">所属构筑系统：{row.target.systemKey}</Typography.Text> : null}</Space> },
           { title: '状态', width: 100, render: (_, row) => row.status ? <Tag color={row.status === 'ENABLED' ? 'green' : 'gray'}>{row.status === 'ENABLED' ? '已启用' : '已停用'}</Tag> : <Typography.Text type="secondary">无启停状态</Typography.Text> },
-          { title: '操作', width: 120, render: (_, row) => <Button type="text" status="danger" disabled={saving || !adminToken.trim()} onClick={() => void remove(row)}>移除关系</Button> }
+          { title: '操作', width: 120, render: (_, row) => <Button type="text" status="danger" disabled={saving} onClick={() => void remove(row)}>移除关系</Button> }
         ]} />
       </section>) : null}
     </Space>

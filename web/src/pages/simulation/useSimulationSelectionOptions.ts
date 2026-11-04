@@ -49,7 +49,7 @@ function useSimulationAvailability(scope: SelectionContext | null) {
     active.current = request;
     setState({ scope, loading: true, error: null, response: null });
     try {
-      const { data } = await getSimulationAvailability(scope.apiBaseUrl, scope.gameId, scope.token, controller.signal);
+      const { data } = await getSimulationAvailability(scope.apiBaseUrl, scope.gameId, controller.signal);
       if (controller.signal.aborted || active.current !== request || currentScope.current !== scope || !mounted.current) {
         throw new DOMException('计算可用性读取已取消。', 'AbortError');
       }
@@ -77,9 +77,9 @@ function useSimulationAvailability(scope: SelectionContext | null) {
   return { loading: visible.loading, error: visible.error, response: visible.response, retry, refresh };
 }
 
-export function useSimulationSelectionOptions(apiBaseUrl: string, gameId: string | null, token: string, sourceKey: string,
+export function useSimulationSelectionOptions(apiBaseUrl: string, gameId: string | null, sourceKey: string,
   combatMode = false, targetKey = '') {
-  const context = useMemo(() => gameId && token ? { apiBaseUrl, gameId, token } : null, [apiBaseUrl, gameId, token]);
+  const context = useMemo(() => gameId ? { apiBaseUrl, gameId } : null, [apiBaseUrl, gameId]);
   const loadCharacters = useCallback(async (signal: AbortSignal) => ({ items: context
     ? await loadCharacterOptions(context, signal) : [] }), [context]);
   const characters = useOptionList(context, loadCharacters);

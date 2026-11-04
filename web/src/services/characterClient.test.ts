@@ -33,8 +33,8 @@ describe('characterClient', () => {
       return jsonResponse(200, { items: [], total: 0 });
     }));
 
-    await getLevelConfig('http://localhost:8080', 'demo', 'token');
-    await listCharacters('http://localhost:8080', 'demo', 'token', { keyword: '  寒冰 /  ' });
+    await getLevelConfig('http://localhost:8080', 'demo');
+    await listCharacters('http://localhost:8080', 'demo', { keyword: '  寒冰 /  ' });
 
     expect(calls[0]).toBe('GET http://localhost:8080/api/admin/games/demo/level-config');
     expect(calls[1]).toContain('/api/admin/games/demo/characters?keyword=');
@@ -53,10 +53,10 @@ describe('characterClient', () => {
       });
     }));
 
-    await createCharacter('http://localhost:8080', 'demo', 'token', {
+    await createCharacter('http://localhost:8080', 'demo', {
       characterKey: 'ashe', name: '艾希', description: null
     });
-    await updateCharacter('http://localhost:8080', 'demo', 'ashe', 'token', {
+    await updateCharacter('http://localhost:8080', 'demo', 'ashe', {
       name: '寒冰射手', description: null
     });
 
@@ -80,7 +80,6 @@ describe('characterClient', () => {
     const result = await updateLevelConfig(
       'http://localhost:8080',
       'demo',
-      'token',
       { minLevel: 1, maxLevel: 20 }
     );
 
@@ -98,8 +97,8 @@ describe('characterClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await getCharacterAttributes('http://localhost:8080', 'demo', 'ashe', 'token');
-    await updateCharacterAttributes('http://localhost:8080', 'demo', 'ashe', 'token', { levelValues });
+    await getCharacterAttributes('http://localhost:8080', 'demo', 'ashe');
+    await updateCharacterAttributes('http://localhost:8080', 'demo', 'ashe', { levelValues });
 
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
@@ -112,7 +111,7 @@ describe('characterClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    const result = await deleteCharacter('http://localhost:8080', 'demo', 'ashe', 'token');
+    const result = await deleteCharacter('http://localhost:8080', 'demo', 'ashe');
 
     expect(result.status).toBe(204);
     expect(result.data).toBeNull();

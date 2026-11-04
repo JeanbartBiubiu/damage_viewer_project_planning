@@ -25,7 +25,7 @@ describe('混合战斗计算可用性只读目录', () => {
     const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(response), { status: 200, headers: { ETag: 'directory-current' } }));
     vi.stubGlobal('fetch', fetchMock);
     const controller = new AbortController();
-    expect(await getSimulationAvailability('http://api.test/prefix', 'demo', 'local-test', controller.signal))
+    expect(await getSimulationAvailability('http://api.test/prefix', 'demo', controller.signal))
       .toEqual({ data: response, status: 200, etag: 'directory-current' });
     const [address, options] = fetchMock.mock.calls[0]!;
     const url = new URL(address);
@@ -34,7 +34,7 @@ describe('混合战斗计算可用性只读目录', () => {
     expect(url.searchParams.get('adapterVersion')).toBe(SIMULATION_AVAILABILITY_IDENTITY.adapterVersion);
     expect(options.signal).toBe(controller.signal);
     expect(options.cache).toBe('no-store');
-    expect(options.headers.get('Authorization')).toBe('Bearer local-test');
+    expect(options.headers.get('Authorization')).toBeNull();
     expect(options.body).toBeUndefined();
     expect(simulationAvailabilityPath('a/b')).toContain('/games/a%2Fb/simulation-availability?');
   });
@@ -115,7 +115,7 @@ describe('混合战斗计算可用性只读目录', () => {
     let deliver!: (response: Response) => void;
     vi.stubGlobal('fetch', vi.fn(() => new Promise<Response>(resolve => { deliver = resolve; })));
     const controller = new AbortController();
-    const pending = getSimulationAvailability('http://api.test', 'demo', 'local-test', controller.signal);
+    const pending = getSimulationAvailability('http://api.test', 'demo', controller.signal);
     controller.abort();
     deliver(new Response(JSON.stringify(sample()), { status: 200 }));
     await expect(pending).rejects.toMatchObject({ name: 'AbortError' });
@@ -123,6 +123,6 @@ describe('混合战斗计算可用性只读目录', () => {
 
   it('读取或鉴权失败保留统一API错误，不返回空目录或旧白名单', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ error: { code: 'forbidden', message: '不可读取' } }), { status: 403 })));
-    await expect(getSimulationAvailability('http://api.test', 'demo', 'local-test')).rejects.toMatchObject({ status: 403, code: 'forbidden' });
+    await expect(getSimulationAvailability('http://api.test', 'demo')).rejects.toMatchObject({ status: 403, code: 'forbidden' });
   });
 });

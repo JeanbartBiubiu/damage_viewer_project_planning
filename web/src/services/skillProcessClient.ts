@@ -25,32 +25,28 @@ function processesPath(gameId: string, skillKey: string, processKey?: string): s
 export function listSkillProcesses(
   apiBaseUrl: string,
   gameId: string,
-  skillKey: string,
-  token: string
+  skillKey: string
 ): Promise<ApiResult<SkillProcessSummary[]>> {
-  return requestJson<SkillProcessSummary[]>(apiBaseUrl, processesPath(gameId, skillKey), { token });
+  return requestJson<SkillProcessSummary[]>(apiBaseUrl, processesPath(gameId, skillKey));
 }
 
 export function getSkillProcess(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  processKey: string,
-  token: string
+  processKey: string
 ): Promise<ApiResult<SkillProcess>> {
-  return requestJson<SkillProcess>(apiBaseUrl, processesPath(gameId, skillKey, processKey), { token }).then((result) => ({ ...result, data: parseSkillProcess(result.data) }));
+  return requestJson<SkillProcess>(apiBaseUrl, processesPath(gameId, skillKey, processKey)).then((result) => ({ ...result, data: parseSkillProcess(result.data) }));
 }
 
 export function createSkillProcess(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  token: string,
   body: CreateSkillProcessRequest
 ): Promise<ApiResult<SkillProcess>> {
   return requestJson<SkillProcess>(apiBaseUrl, processesPath(gameId, skillKey), {
     method: 'POST',
-    token,
     body: JSON.stringify(body)
   }).then((result) => ({ ...result, data: parseSkillProcess(result.data) }));
 }
@@ -60,12 +56,10 @@ export function updateSkillProcess(
   gameId: string,
   skillKey: string,
   processKey: string,
-  token: string,
   body: UpdateSkillProcessRequest
 ): Promise<ApiResult<SkillProcess>> {
   return requestJson<SkillProcess>(apiBaseUrl, processesPath(gameId, skillKey, processKey), {
     method: 'PUT',
-    token,
     body: JSON.stringify(body)
   }).then((result) => ({ ...result, data: parseSkillProcess(result.data) }));
 }
@@ -74,12 +68,10 @@ export function deleteSkillProcess(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  processKey: string,
-  token: string
+  processKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, processesPath(gameId, skillKey, processKey), {
-    method: 'DELETE',
-    token
+    method: 'DELETE'
   });
 }
 

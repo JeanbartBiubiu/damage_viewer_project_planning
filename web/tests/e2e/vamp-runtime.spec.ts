@@ -117,7 +117,7 @@ for (const representative of [
   test(`原库配置进入实际 Worker：${representative.skillKey}`, async ({ page, request }, testInfo) => {
     test.skip(process.env.VAMP_LIVE_API !== '1', '显式启用后只读本地实际服务');
     const api = `${apiBase}/api/admin/games/lol`;
-    const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
+    const headers = {  };
     const read = async (path: string) => {
       const response = await request.get(api + path, { headers });
       expect(response.status()).toBe(200);
@@ -160,10 +160,8 @@ test('实际页面读取游戏通用吸血规则', async ({ page }, testInfo) =>
   test.skip(process.env.VAMP_LIVE_API !== '1', '显式启用后只读本地实际服务');
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.addInitScript(({ apiBase, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
-    localStorage.setItem('damage-viewer.web.admin-token', token);
-  }, { apiBase, token: process.env.DAMAGE_ADMIN_TOKEN || 'test' });
+  await page.addInitScript(({ apiBase }) => {
+  }, { apiBase });
   await page.goto('/#/game-settings');
   await expect(page.getByRole('spinbutton', { name: '生命偷取默认效率', exact: true })).toHaveValue('1');
   await expect(page.getByRole('spinbutton', { name: '全能吸血默认效率', exact: true })).toHaveValue('1');

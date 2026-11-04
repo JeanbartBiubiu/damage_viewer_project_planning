@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from './authSession';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -16,7 +17,6 @@ import { expectSimulationConfigurationReady } from './simulationSnapshotRequests
 import { syncSimulationSkillSources } from './simulationSkillSources';
 
 const API = 'http://127.0.0.1:19616';
-const TOKEN = 'combat-analysis-readonly-fixture';
 export const combatAnalysisOutput = resolve('output/combat-analysis/skill-roster-layout');
 export type FrozenCombatAnalysis = AutomaticSkillArchive & { displayDefinitionVersion: 2; view: AutomaticSkillView };
 type WorkerObservation = { messages: string[]; terminated: number };
@@ -35,9 +35,7 @@ export async function installCombatAnalysisApi(page: Page, sample: SimulationSna
   const heldConfigurations = new Map<string, { requested: () => void; wait: Promise<void> }>();
   page.on('pageerror', error => pageErrors.push(error.message));
   page.on('worker', worker => workers.push(worker.url()));
-  await page.addInitScript(({ api, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', token);
+  await page.addInitScript(({ api }) => {
     const state: WorkerObservation = { messages: [], terminated: 0 };
     (window as typeof window & { combatAnalysisWorkers: WorkerObservation }).combatAnalysisWorkers = state;
     const postMessage = Worker.prototype.postMessage;
@@ -47,18 +45,20 @@ export async function installCombatAnalysisApi(page: Page, sample: SimulationSna
     };
     const terminate = Worker.prototype.terminate;
     Worker.prototype.terminate = function() { state.terminated++; return terminate.call(this); };
-  }, { api: API, token: TOKEN });
+  }, { api: API });
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/**', async route => {
+    if (await fulfillAuthSession(route, false)) return;
     const request = route.request();
     if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: {
       'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*', 'Access-Control-Allow-Methods': 'GET,POST,OPTIONS'
     } });
     const { origin, pathname, searchParams } = new URL(request.url());
     requests.push({ method: request.method(), path: pathname });
-    expect(origin, '专项请求只进入隔离 HTTP').toBe(API);
+    expect(origin, '专项请求保持同源').toBe(new URL(page.url()).origin);
     const reply = (body: unknown) => route.fulfill({ json: body, headers: { 'Access-Control-Allow-Origin': '*' } });
     if (pathname === '/api/games') return reply([{ gameId: sample.gameId, gameName: '混合分析独立作者构造', representativeImageKey: null }]);
-    expect(request.headers().authorization, '管理只读请求保持鉴权').toBe(`Bearer ${TOKEN}`);
+    expect(request.headers().authorization, '公开读取不附带凭据').toBeUndefined();
     const resource = pathname.replace(/^\/api\/admin\/games\/[^/]+\//, '');
     if (resource === 'simulation-snapshot') {
       expect(request.method(), 'POST 仅用于只读场景快照').toBe('POST');

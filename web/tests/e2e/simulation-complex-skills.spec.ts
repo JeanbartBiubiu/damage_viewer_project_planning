@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -261,10 +262,10 @@ test('独立页面：真实控制选择、时刻留空、父关联、快照阶�
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.addInitScript(() => {
-    localStorage.setItem('damage-viewer.web.api-base-url', 'http://127.0.0.1:19607');
-    localStorage.setItem('damage-viewer.web.admin-token', 'independent-readonly-fixture');
   });
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/**', async route => {
+    if (await fulfillAuthSession(route, false)) return;
     const request = route.request();
     if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*' } });
     const url = new URL(request.url());

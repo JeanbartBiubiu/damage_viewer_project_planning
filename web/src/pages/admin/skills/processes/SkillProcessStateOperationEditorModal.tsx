@@ -67,7 +67,6 @@ type SkillProcessStateOperationEditorModalProps = {
   apiBaseUrl: string;
   selectedGameId: string;
   skillKey: string;
-  adminToken: string;
   onOpenParameterFormula?: () => void;
   onClose: () => void;
   onConfirm: (draft: SkillProcessStateOperationDraft) => void;
@@ -99,7 +98,6 @@ export function SkillProcessStateOperationEditorModal({
   apiBaseUrl,
   selectedGameId,
   skillKey,
-  adminToken,
   onOpenParameterFormula,
   onClose,
   onConfirm,
@@ -142,9 +140,9 @@ export function SkillProcessStateOperationEditorModal({
   const loadModeOptions = useCallback(async () => {
     const serial = modeOptionSerial.current + 1;
     modeOptionSerial.current = serial;
-    const token = adminToken.trim();
+
     const stateKey = draft.stateKey.trim();
-    if (!visible || !stateKey || !token) {
+    if (!visible || !stateKey) {
       setExternalStateDetail(null);
       setModeOptions([]);
       setModeOptionsLoadState(undefined);
@@ -158,7 +156,7 @@ export function SkillProcessStateOperationEditorModal({
       setModeOptionsError(null);
       try {
         const result = await getSkillInternalState(apiBaseUrl, selectedGameId,
-          draft.stateSkillKey, stateKey, token);
+          draft.stateSkillKey, stateKey);
         if (modeOptionSerial.current !== serial) return;
         setExternalStateDetail(result.data);
         setModeOptions(result.data.stateType === 'MODE' ? result.data.detail.options.map((item) => ({
@@ -189,7 +187,7 @@ export function SkillProcessStateOperationEditorModal({
     }
     try {
       const result = await getSkillInternalState(apiBaseUrl, selectedGameId,
-        draft.stateSkillKey || skillKey, stateKey, token);
+        draft.stateSkillKey || skillKey, stateKey);
       if (modeOptionSerial.current !== serial) return;
       if (result.data.stateType !== 'MODE') {
         setModeOptions([]);
@@ -210,7 +208,6 @@ export function SkillProcessStateOperationEditorModal({
       setModeOptionsError(getErrorMessage(error));
     }
   }, [
-    adminToken,
     apiBaseUrl,
     draft.stateKey,
     selectedState?.stateType,

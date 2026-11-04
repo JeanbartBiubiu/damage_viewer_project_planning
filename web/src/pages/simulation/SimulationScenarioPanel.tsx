@@ -50,7 +50,6 @@ export type SimulationScenarioPanelProps = {
   mode: 'basic' | 'automatic';
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onDirtyChange: (busy: boolean) => void;
 };
 
@@ -324,7 +323,7 @@ function downloadJson(name: string, value: unknown) {
   window.setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
-export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, adminToken, onDirtyChange }: SimulationScenarioPanelProps) {
+export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, onDirtyChange }: SimulationScenarioPanelProps) {
   const automaticMode = mode === 'automatic';
   const [selection, setSelection] = useState(emptySelection);
   const [formulaPreflight, setFormulaPreflight] = useState<{ compileCount: number; released: boolean; formulaCount: number } | null>(null);
@@ -365,10 +364,10 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
   const formulaProofIdentityRef = useRef<string | null>(null);
   const taskRef = useRef<Task | null>(null);
   const computationClientRef = useRef<GenericEngineClient | null>(null);
-  const token = adminToken.trim();
+
   const busy = phase !== 'idle';
   const { characters, skills, activeSkills, boundSkills, targetBoundSkills, equipment, levels, imageLoader, availability } = useSimulationSelectionOptions(
-    apiBaseUrl, selectedGameId, token, selection.sourceCharacterKey, automaticMode, selection.targetCharacterKey);
+    apiBaseUrl, selectedGameId, selection.sourceCharacterKey, automaticMode, selection.targetCharacterKey);
   const combatRoster = useMemo(() => reconcileCombatRules(boundSkills.items, selection.sourceCharacterKey,
     automaticInputs.rules, selection.sourceSkillSettings, clearedSkillLevels),
   [boundSkills.items, selection.sourceCharacterKey, automaticInputs.rules, selection.sourceSkillSettings, clearedSkillLevels]);
@@ -457,7 +456,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     client.terminate();
   };
   const computationClient = () => {
-    if (!computationClientRef.current) computationClientRef.current = new GenericEngineClient();
+    if (!computationClientRef.current) computationClientRef.current = new GenericEngineClient({ apiBaseUrl });
     return computationClientRef.current;
   };
 
@@ -504,7 +503,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
       clearOwnedFormulaProof(formulaProofIdentityRef.current);
       onDirtyChange(false);
     };
-  }, [apiBaseUrl, selectedGameId, token, onDirtyChange]);
+  }, [apiBaseUrl, selectedGameId, onDirtyChange]);
 
   const isCurrent = (task: Task) => active.current && taskRef.current === task && !task.cancelled;
 
@@ -724,7 +723,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
       return false;
     }
     trackFormulaProof(task, next, sceneInputs);
-    const client = new GenericEngineClient();
+    const client = new GenericEngineClient({ apiBaseUrl });
     task.client = client;
     let evidence: Awaited<ReturnType<typeof preflightSkillFormulas>>;
     try {
@@ -754,7 +753,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
   };
 
   const readSnapshot = async () => {
-    if (taskRef.current || !selectedGameId || !token || !objectsSelected || !buildsReady.source || !buildsReady.target) return;
+    if (taskRef.current || !selectedGameId || !objectsSelected || !buildsReady.source || !buildsReady.target) return;
     let requested: SimulationSelection;
     try {
       if (automaticIssues.length) throw new Error(automaticIssues.join('；'));
@@ -773,7 +772,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
         const issues = selectedSimulationAvailabilityIssues(currentAvailability, requested);
         if (issues.length) throw new Error(issues.join('；'));
       }
-      let result = await getSimulationSnapshot(apiBaseUrl, selectedGameId, requested, token, task.controller.signal);
+      let result = await getSimulationSnapshot(apiBaseUrl, selectedGameId, requested, task.controller.signal);
       if (!isCurrent(task)) return;
       const defaults = fillSimulationSkillLevelDefaults(result.data.selection, result.data, clearedSkillLevels);
       if (defaults.changed) {
@@ -782,7 +781,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
         setInspection(null);
         setSourcesSnapshot(result.data);
         setSelection(current => ({ ...defaults.selection, basicAttackSkillKey: current.basicAttackSkillKey, basicAttackLevel: current.basicAttackLevel }));
-        result = await getSimulationSnapshot(apiBaseUrl, selectedGameId, defaults.selection, token, task.controller.signal);
+        result = await getSimulationSnapshot(apiBaseUrl, selectedGameId, defaults.selection, task.controller.signal);
         if (!isCurrent(task)) return;
       }
       task.snapshot = result.data;
@@ -988,7 +987,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
         const issues = selectedSimulationAvailabilityIssues(currentAvailability, snapshot.selection);
         if (issues.length) throw new Error(issues.join('；'));
       }
-      const latest = await getSimulationSnapshot(apiBaseUrl, selectedGameId, snapshot.selection, token, task.controller.signal);
+      const latest = await getSimulationSnapshot(apiBaseUrl, selectedGameId, snapshot.selection, task.controller.signal);
       if (!isCurrent(task)) return;
       if (!sameSkillConfigurations(latest.data, snapshot) || latest.data.snapshotDigest !== snapshot.snapshotDigest) {
         await acceptSnapshot(latest.data, task);
@@ -1158,7 +1157,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
       onEquipment: values => patchEquipment(side, values),
       onSkill: (key, patch) => patchBoundSkill(side, key, patch),
       extra: <>
-        <SimulationBuildConfigurationEditor apiBaseUrl={apiBaseUrl} gameId={selectedGameId} token={token} side={side} disabled={busy}
+        <SimulationBuildConfigurationEditor apiBaseUrl={apiBaseUrl} gameId={selectedGameId}  side={side} disabled={busy}
           selectedBuilds={sourcesSnapshot?.[side].selectedBuilds} onEdit={keys => editBuilds(side, keys)}
           onConfirm={(configurations, definitions) => confirmBuilds(side, configurations, definitions)} />
         {sourcesSnapshot ? <SimulationSkillSources side={side} snapshot={sourcesSnapshot}
@@ -1176,7 +1175,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
       {formulaPreflight && !automaticMode ? <Typography.Text type="secondary">共同公式原生预检：编译{formulaPreflight.compileCount}次，完整程序{formulaPreflight.formulaCount}份，预检会话已释放。最终场景编译仍独立校验。</Typography.Text> : null}
       {!selectedGameId ? <Alert key="missing-game" type="warning" content="请先在顶部选择游戏。" /> : null}
-      {selectedGameId && !token ? <Alert key="missing-token" type="warning" content="请先在顶部配置 Admin Token。" /> : null}
+
       {notice ? <Alert key="task-notice" type={archive?.outcome === 'passed' ? 'success' : 'info'} content={notice} /> : null}
       {busy ? <Alert key="task-progress" type="info" content={phase === 'running' && taskRef.current?.kind === 'continuous_attack'
         ? '正在执行连续普攻' : phase === 'running' && taskRef.current?.kind === 'automatic_skill' ? '正在执行主动技能自动循环' : phaseLabels[phase as Exclude<TaskPhase, 'idle'>]} /> : null}
@@ -1205,7 +1204,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
       {automaticMode ? <CombatScenarioSetup key="combat-scene-selection" source={combatantSetup('source')} target={combatantSetup('target')}
         characters={characters.items} charactersLoading={characters.loading} equipment={equipment.items} equipmentLoading={equipment.loading}
         levels={levels.items} levelsLoading={levels.loading} imageLoader={imageLoader} disabled={busy}
-        unavailable={!selectedGameId || !token || Boolean(characters.error) || Boolean(levels.error) || Boolean(equipment.error)}
+        unavailable={!selectedGameId || Boolean(characters.error) || Boolean(levels.error) || Boolean(equipment.error)}
         issues={[...availabilityIssues, ...automaticIssues]} prepareDisabled={!objectsSelected || !levelsSelected || combatSkillsLoading || Boolean(boundSkills.error)
           || Boolean(targetBoundSkills.error) || automaticIssues.length > 0 || availabilityIssues.length > 0
           || availability.loading || Boolean(availability.error) || !availability.response || !buildsReady.source || !buildsReady.target}
@@ -1235,7 +1234,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
             </> : null}
             <Form.Item label="攻击方角色" required>
               <SimulationEntitySelect label="攻击方角色" value={selection.sourceCharacterKey} options={characters.items}
-                loading={characters.loading} disabled={busy || !selectedGameId || !token || characters.loading || Boolean(characters.error)}
+                loading={characters.loading} disabled={busy || !selectedGameId || characters.loading || Boolean(characters.error)}
                 loadImage={imageLoader} onChange={value => patchSelection('sourceCharacterKey', value)} placeholder="搜索角色名称或标识" />
             </Form.Item>
             <Form.Item label="攻击方等级" required>
@@ -1248,7 +1247,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
             <Form.Item label="普攻技能" required>
               <SimulationEntitySelect label="普攻技能" value={selection.basicAttackSkillKey} options={skills.items}
                 loading={skills.loading} disabled={busy || skillMode && !backgroundAttack || !characters.items.some(row => row.key === selection.sourceCharacterKey)
-                  || skills.loading || Boolean(skills.error) || !selectedGameId || !token}
+                  || skills.loading || Boolean(skills.error) || !selectedGameId}
                 loadImage={imageLoader} onChange={value => patchSelection('basicAttackSkillKey', value)}
                 placeholder={!selection.sourceCharacterKey ? '先选择攻击方角色' : skills.loading ? '正在读取挂载的普攻…'
                   : skills.error ? '普攻读取失败，请重试'
@@ -1264,10 +1263,10 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
             </Form.Item>
             <Form.Item label="攻击方装备（最多6件）">
               <SimulationEquipmentSelect label="攻击方装备" value={selection.sourceEquipmentKeys} options={equipment.items} loading={equipment.loading}
-                disabled={busy || !selectedGameId || !token || equipment.loading || Boolean(equipment.error)}
+                disabled={busy || !selectedGameId || equipment.loading || Boolean(equipment.error)}
                 loadImage={imageLoader} onChange={values => patchEquipment('source', values)} />
             </Form.Item>
-            <SimulationBuildConfigurationEditor apiBaseUrl={apiBaseUrl} gameId={selectedGameId} token={token} side="source" disabled={busy}
+            <SimulationBuildConfigurationEditor apiBaseUrl={apiBaseUrl} gameId={selectedGameId}  side="source" disabled={busy}
               selectedBuilds={sourcesSnapshot?.source.selectedBuilds}
               onEdit={keys => editBuilds('source', keys)} onConfirm={(configurations, definitions) => confirmBuilds('source', configurations, definitions)} />
             <SimulationSkillSources side="source" snapshot={sourcesSnapshot}
@@ -1280,7 +1279,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
             <Typography.Title heading={5} id="simulation-target-config-title" style={{ margin: '0 0 16px' }}>目标方配置</Typography.Title>
             <Form.Item label="目标角色" required>
               <SimulationEntitySelect label="目标角色" value={selection.targetCharacterKey} options={characters.items}
-                loading={characters.loading} disabled={busy || !selectedGameId || !token || characters.loading || Boolean(characters.error)}
+                loading={characters.loading} disabled={busy || !selectedGameId || characters.loading || Boolean(characters.error)}
                 loadImage={imageLoader} onChange={value => patchSelection('targetCharacterKey', value)} placeholder="搜索角色名称或标识" />
             </Form.Item>
             <Form.Item label="目标等级" required>
@@ -1292,10 +1291,10 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
             </Form.Item>
             <Form.Item label="目标装备（最多6件）">
               <SimulationEquipmentSelect label="目标装备" value={selection.targetEquipmentKeys} options={equipment.items} loading={equipment.loading}
-                disabled={busy || !selectedGameId || !token || equipment.loading || Boolean(equipment.error)}
+                disabled={busy || !selectedGameId || equipment.loading || Boolean(equipment.error)}
                 loadImage={imageLoader} onChange={values => patchEquipment('target', values)} />
             </Form.Item>
-            <SimulationBuildConfigurationEditor apiBaseUrl={apiBaseUrl} gameId={selectedGameId} token={token} side="target" disabled={busy}
+            <SimulationBuildConfigurationEditor apiBaseUrl={apiBaseUrl} gameId={selectedGameId}  side="target" disabled={busy}
               selectedBuilds={sourcesSnapshot?.target.selectedBuilds}
               onEdit={keys => editBuilds('target', keys)} onConfirm={(configurations, definitions) => confirmBuilds('target', configurations, definitions)} />
             <SimulationSkillSources side="target" snapshot={sourcesSnapshot}
@@ -1310,7 +1309,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, admi
           同一装备可由双方各选一次。来源开关、技能等级和构筑均按侧别独立；改变选择保留当前生命及属性草稿，必须重新读取快照。
         </Typography.Paragraph>
         <Space wrap>
-          <Button type="primary" disabled={busy || !selectedGameId || !token || !objectsSelected || !levelsSelected || !buildsReady.source || !buildsReady.target} onClick={() => void readSnapshot()}>
+          <Button type="primary" disabled={busy || !selectedGameId || !objectsSelected || !levelsSelected || !buildsReady.source || !buildsReady.target} onClick={() => void readSnapshot()}>
             读取场景快照
           </Button>
           {busy ? <Button status="danger" onClick={cancelTask}>取消当前请求</Button> : null}

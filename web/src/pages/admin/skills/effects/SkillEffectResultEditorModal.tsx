@@ -181,7 +181,6 @@ type SkillEffectResultEditorModalProps = {
   onEnableLifecycle: () => void;
   apiBaseUrl: string;
   selectedGameId: string;
-  adminToken: string;
   onClose: () => void;
   onConfirm: (draft: SkillEffectResultDraft) => void;
   focusField?: string | null;
@@ -363,7 +362,6 @@ export function SkillEffectResultEditorModal({
   onEnableLifecycle,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onConfirm,
   focusField = null,
@@ -435,16 +433,16 @@ export function SkillEffectResultEditorModal({
   const loadDamageTypes = useCallback(async () => {
     const serial = damageTypeSerial.current + 1;
     damageTypeSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) {
+
+    if (!visible) {
       setDamageTypes([]);
-      setCatalogLoadState((current) => ({ ...current, damageTypes: token ? current.damageTypes : undefined }));
+      setCatalogLoadState((current) => ({ ...current, damageTypes: current.damageTypes }));
       setCatalogLoading((current) => ({ ...current, damageTypes: false }));
       return;
     }
     setCatalogLoading((current) => ({ ...current, damageTypes: true }));
     try {
-      const result = await listDamageTypes(apiBaseUrl, selectedGameId, token);
+      const result = await listDamageTypes(apiBaseUrl, selectedGameId);
       if (damageTypeSerial.current !== serial) return;
       setDamageTypes(result.data.items);
       setCatalogLoadState((current) => ({ ...current, damageTypes: 'ready' }));
@@ -459,21 +457,21 @@ export function SkillEffectResultEditorModal({
         setCatalogLoading((current) => ({ ...current, damageTypes: false }));
       }
     }
-  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+  }, [apiBaseUrl, selectedGameId, visible]);
 
   const loadModifierZones = useCallback(async () => {
     const serial = modifierZoneSerial.current + 1;
     modifierZoneSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) {
+
+    if (!visible) {
       setModifierZones([]);
-      setCatalogLoadState((current) => ({ ...current, modifierZones: token ? current.modifierZones : undefined }));
+      setCatalogLoadState((current) => ({ ...current, modifierZones: current.modifierZones }));
       setCatalogLoading((current) => ({ ...current, modifierZones: false }));
       return;
     }
     setCatalogLoading((current) => ({ ...current, modifierZones: true }));
     try {
-      const result = await listModifierZones(apiBaseUrl, selectedGameId, token);
+      const result = await listModifierZones(apiBaseUrl, selectedGameId);
       if (modifierZoneSerial.current !== serial) return;
       setModifierZones(result.data.items);
       setCatalogLoadState((current) => ({ ...current, modifierZones: 'ready' }));
@@ -488,21 +486,21 @@ export function SkillEffectResultEditorModal({
         setCatalogLoading((current) => ({ ...current, modifierZones: false }));
       }
     }
-  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+  }, [apiBaseUrl, selectedGameId, visible]);
 
   const loadAttributes = useCallback(async () => {
     const serial = attributeSerial.current + 1;
     attributeSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) {
+
+    if (!visible) {
       setAttributes([]);
-      setCatalogLoadState((current) => ({ ...current, attributes: token ? current.attributes : undefined }));
+      setCatalogLoadState((current) => ({ ...current, attributes: current.attributes }));
       setCatalogLoading((current) => ({ ...current, attributes: false }));
       return;
     }
     setCatalogLoading((current) => ({ ...current, attributes: true }));
     try {
-      const result = await listAttributes(apiBaseUrl, selectedGameId, token);
+      const result = await listAttributes(apiBaseUrl, selectedGameId);
       if (attributeSerial.current !== serial) return;
       setAttributes(result.data.items);
       setCatalogLoadState((current) => ({ ...current, attributes: 'ready' }));
@@ -517,21 +515,21 @@ export function SkillEffectResultEditorModal({
         setCatalogLoading((current) => ({ ...current, attributes: false }));
       }
     }
-  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+  }, [apiBaseUrl, selectedGameId, visible]);
 
   const loadSkillsCatalog = useCallback(async () => {
     const serial = skillSerial.current + 1;
     skillSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) {
+
+    if (!visible) {
       setSkills([]);
-      setCatalogLoadState((current) => ({ ...current, skills: token ? current.skills : undefined }));
+      setCatalogLoadState((current) => ({ ...current, skills: current.skills }));
       setCatalogLoading((current) => ({ ...current, skills: false }));
       return;
     }
     setCatalogLoading((current) => ({ ...current, skills: true }));
     try {
-      const result = await listSkills(apiBaseUrl, selectedGameId, token);
+      const result = await listSkills(apiBaseUrl, selectedGameId);
       if (skillSerial.current !== serial) return;
       setSkills(result.data.items);
       setCatalogLoadState((current) => ({ ...current, skills: 'ready' }));
@@ -546,24 +544,24 @@ export function SkillEffectResultEditorModal({
         setCatalogLoading((current) => ({ ...current, skills: false }));
       }
     }
-  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+  }, [apiBaseUrl, selectedGameId, visible]);
 
   const loadSkillCategoriesCatalog = useCallback(async () => {
     const serial = skillCategorySerial.current + 1;
     skillCategorySerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) {
+
+    if (!visible) {
       setSkillCategories([]);
       setCatalogLoadState((current) => ({
         ...current,
-        skillCategories: token ? current.skillCategories : undefined
+        skillCategories: current.skillCategories
       }));
       setCatalogLoading((current) => ({ ...current, skillCategories: false }));
       return;
     }
     setCatalogLoading((current) => ({ ...current, skillCategories: true }));
     try {
-      const result = await listSkillCategories(apiBaseUrl, selectedGameId, token);
+      const result = await listSkillCategories(apiBaseUrl, selectedGameId);
       if (skillCategorySerial.current !== serial) return;
       setSkillCategories(result.data.items);
       setCatalogLoadState((current) => ({ ...current, skillCategories: 'ready' }));
@@ -578,21 +576,21 @@ export function SkillEffectResultEditorModal({
         setCatalogLoading((current) => ({ ...current, skillCategories: false }));
       }
     }
-  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+  }, [apiBaseUrl, selectedGameId, visible]);
 
   const loadStatusesCatalog = useCallback(async () => {
     const serial = statusSerial.current + 1;
     statusSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) {
+
+    if (!visible) {
       setStatuses([]);
-      setCatalogLoadState((current) => ({ ...current, statuses: token ? current.statuses : undefined }));
+      setCatalogLoadState((current) => ({ ...current, statuses: current.statuses }));
       setCatalogLoading((current) => ({ ...current, statuses: false }));
       return;
     }
     setCatalogLoading((current) => ({ ...current, statuses: true }));
     try {
-      const result = await listStatuses(apiBaseUrl, selectedGameId, token);
+      const result = await listStatuses(apiBaseUrl, selectedGameId);
       if (statusSerial.current !== serial) return;
       setStatuses(result.data.items);
       setCatalogLoadState((current) => ({ ...current, statuses: 'ready' }));
@@ -607,7 +605,7 @@ export function SkillEffectResultEditorModal({
         setCatalogLoading((current) => ({ ...current, statuses: false }));
       }
     }
-  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+  }, [apiBaseUrl, selectedGameId, visible]);
 
   useEffect(() => {
     if (!visible) return;
@@ -1058,7 +1056,7 @@ export function SkillEffectResultEditorModal({
           />
           {!readOnly && !workspaceMode ? (
             <Button
-              disabled={!selectedGameId || !adminToken.trim()}
+              disabled={!selectedGameId}
               onClick={() => setModifierZoneEditorVisible(true)}
             >新增乘区</Button>
           ) : null}
@@ -2381,7 +2379,7 @@ export function SkillEffectResultEditorModal({
       initialDomain={modifierZoneDomain ?? undefined}
       apiBaseUrl={apiBaseUrl}
       selectedGameId={selectedGameId}
-      adminToken={adminToken}
+
       onClose={() => setModifierZoneEditorVisible(false)}
       onSaved={(saved) => {
         setModifierZones((current) => [
@@ -2400,7 +2398,7 @@ export function SkillEffectResultEditorModal({
       category={null}
       apiBaseUrl={apiBaseUrl}
       selectedGameId={selectedGameId}
-      adminToken={adminToken}
+
       onClose={() => setSkillCategoryEditorVisible(false)}
       onSaved={async (saved) => {
         setSkillCategoryEditorVisible(false);

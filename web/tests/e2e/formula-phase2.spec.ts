@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -9,6 +10,7 @@ const fixture = createExplicitDamageInput();
 const oldFixture = JSON.parse(readFileSync(resolve('../wasm/tinygo_engine_v2/internal/testkit/fixtures/generic_p0_basic_damage.json'), 'utf8'));
 
 test.beforeEach(async ({ page }) => {
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/games', route => route.fulfill({ json: [] }));
   await page.goto('/#/simulation/basic-attack');
   const bytes = await page.evaluate(async () => [...new Uint8Array(await (await fetch('/src/engine/wasm/tinygo_engine_v2.wasm')).arrayBuffer())]);

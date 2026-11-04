@@ -27,39 +27,34 @@ function withQuery(path: string, query: SkillCategoryListQuery = {}): string {
 export function listSkillCategories(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   query: SkillCategoryListQuery = {},
   signal?: AbortSignal
 ): Promise<ApiResult<SkillCategoryListResponse>> {
   return requestJson<SkillCategoryListResponse>(
     apiBaseUrl,
     withQuery(skillCategoriesPath(gameId), query),
-    { token, signal }
+    { signal }
   );
 }
 
 export function getSkillCategory(
   apiBaseUrl: string,
   gameId: string,
-  skillCategoryKey: string,
-  token: string
+  skillCategoryKey: string
 ): Promise<ApiResult<SkillCategory>> {
   return requestJson<SkillCategory>(
     apiBaseUrl,
-    skillCategoriesPath(gameId, skillCategoryKey),
-    { token }
+    skillCategoriesPath(gameId, skillCategoryKey)
   );
 }
 
 export function createSkillCategory(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   body: CreateSkillCategoryRequest
 ): Promise<ApiResult<SkillCategory>> {
   return requestJson<SkillCategory>(apiBaseUrl, skillCategoriesPath(gameId), {
     method: 'POST',
-    token,
     body: JSON.stringify(body)
   });
 }
@@ -68,12 +63,10 @@ export function updateSkillCategory(
   apiBaseUrl: string,
   gameId: string,
   skillCategoryKey: string,
-  token: string,
   body: UpdateSkillCategoryRequest
 ): Promise<ApiResult<SkillCategory>> {
   return requestJson<SkillCategory>(apiBaseUrl, skillCategoriesPath(gameId, skillCategoryKey), {
     method: 'PUT',
-    token,
     body: JSON.stringify(body)
   });
 }
@@ -81,11 +74,9 @@ export function updateSkillCategory(
 export function deleteSkillCategory(
   apiBaseUrl: string,
   gameId: string,
-  skillCategoryKey: string,
-  token: string
+  skillCategoryKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, skillCategoriesPath(gameId, skillCategoryKey), {
-    method: 'DELETE',
-    token
+    method: 'DELETE'
   });
 }

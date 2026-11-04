@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { expect, test, type Locator, type Page, type Route } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -105,6 +106,7 @@ class AuthoringP6Api {
 
   async install(page: Page) {
     await page.route('**/api/**', async route => {
+      if (await fulfillAuthSession(route)) return;
       const request = route.request();
       const url = new URL(request.url());
       if (request.method() === 'OPTIONS') {
@@ -116,11 +118,6 @@ class AuthoringP6Api {
             'Access-Control-Allow-Methods': 'GET,PATCH,POST,DELETE,OPTIONS'
           }
         });
-        return;
-      }
-      if (url.origin !== API) {
-        this.unexpected.push(`${request.method()} ${url.href}`);
-        await route.abort();
         return;
       }
       await this.dispatch(route, url);
@@ -353,8 +350,6 @@ async function prepare(page: Page, api: AuthoringP6Api, hash = '/#/skills') {
   await page.addInitScript(apiBase => {
     localStorage.clear();
     sessionStorage.clear();
-    localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
-    localStorage.setItem('damage-viewer.web.admin-token', 'authoring-p6-example');
   }, API);
   await page.goto(hash);
   return () => {
@@ -615,7 +610,7 @@ test('系统枚举专项：受到普攻列表明细、固定事件选择和两�
   // 后续界面断言仍经过正式构建的统一技能工作区；请求封装另由服务单测覆盖。
   const wireReadback = await page.evaluate(async ({ base, gameId, skillKey }) => {
     const path = `${base}/api/admin/games/${encodeURIComponent(gameId)}/skills/${encodeURIComponent(skillKey)}/trigger-rules`;
-    const headers = { Accept: 'application/json', Authorization: 'Bearer authoring-p6-example' };
+    const headers = { Accept: 'application/json' };
     const [listed, loaded] = await Promise.all([
       fetch(path, { headers }), fetch(`${path}/received`, { headers })
     ]);

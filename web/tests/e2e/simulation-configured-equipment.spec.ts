@@ -19,7 +19,7 @@ for (const scenario of scenarios) test(`4C配置驱动真实装备 ${scenario.na
   expect(bytes.length).toBe(WASM_IDENTITY.bytes);
   expect(createHash('sha256').update(bytes).digest('hex')).toBe(WASM_IDENTITY.sha256);
   const { snapshot } = await readIsolatedSimulationSnapshot(request, process.env.SIMULATION_LIVE_API_BASE_URL ?? 'http://127.0.0.1:8080',
-    simulationComparisonSelection({ targetLevel: 18, sourceEquipmentKeys: scenario.source, targetEquipmentKeys: scenario.target }), process.env.SIMULATION_LIVE_ADMIN_TOKEN);
+    simulationComparisonSelection({ targetLevel: 18, sourceEquipmentKeys: scenario.source, targetEquipmentKeys: scenario.target }));
   await page.goto('/');
   const result = await page.evaluate(async ({ snapshot, duration }) => {
     const adapterPath = '/src/engine/simulationAdapter.ts';

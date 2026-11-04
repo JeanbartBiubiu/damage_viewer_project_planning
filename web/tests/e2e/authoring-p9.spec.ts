@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { expect, test, type Page, type Route } from '@playwright/test';
 
@@ -218,6 +219,7 @@ class AuthoringP9Api {
 
   async install(page: Page) {
     await page.route('**/api/**', async route => {
+      if (await fulfillAuthSession(route)) return;
       const request = route.request();
       const url = new URL(request.url());
       if (request.method() === 'OPTIONS') {
@@ -229,11 +231,6 @@ class AuthoringP9Api {
             'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS'
           }
         });
-        return;
-      }
-      if (url.origin !== API) {
-        this.unexpected.push(`${request.method()} ${url.href}`);
-        await route.abort();
         return;
       }
       await this.dispatch(route, url);
@@ -395,8 +392,6 @@ async function prepare(page: Page, api: AuthoringP9Api) {
   await page.addInitScript(apiBase => {
     localStorage.clear();
     sessionStorage.clear();
-    localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
-    localStorage.setItem('damage-viewer.web.admin-token', 'authoring-p9-example');
   }, API);
   await page.goto('/#/attributes');
   await expect(page.locator('.app-toolbar-field--game')).toContainText(FIRST_GAME);

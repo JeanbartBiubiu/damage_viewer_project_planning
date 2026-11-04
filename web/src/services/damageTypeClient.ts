@@ -176,32 +176,28 @@ function updatePayload(body: UpdateDamageTypeRequest): UpdateDamageTypeRequest {
 export function listDamageTypes(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   query: DamageTypeListQuery = {}
 ): Promise<ApiResult<DamageTypeListResponse>> {
-  return requestJson<unknown>(apiBaseUrl, withQuery(damageTypesPath(gameId), query), { token })
+  return requestJson<unknown>(apiBaseUrl, withQuery(damageTypesPath(gameId), query))
     .then(parseDamageTypeList);
 }
 
 export function getDamageType(
   apiBaseUrl: string,
   gameId: string,
-  damageTypeKey: string,
-  token: string
+  damageTypeKey: string
 ): Promise<ApiResult<DamageType>> {
-  return requestJson<unknown>(apiBaseUrl, damageTypesPath(gameId, damageTypeKey), { token })
+  return requestJson<unknown>(apiBaseUrl, damageTypesPath(gameId, damageTypeKey))
     .then(parseDamageTypeResult);
 }
 
 export function createDamageType(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   body: CreateDamageTypeRequest
 ): Promise<ApiResult<DamageType>> {
   return requestJson<unknown>(apiBaseUrl, damageTypesPath(gameId), {
     method: 'POST',
-    token,
     body: JSON.stringify(createPayload(body))
   }).then(parseDamageTypeResult);
 }
@@ -210,12 +206,10 @@ export function updateDamageType(
   apiBaseUrl: string,
   gameId: string,
   damageTypeKey: string,
-  token: string,
   body: UpdateDamageTypeRequest
 ): Promise<ApiResult<DamageType>> {
   return requestJson<unknown>(apiBaseUrl, damageTypesPath(gameId, damageTypeKey), {
     method: 'PUT',
-    token,
     body: JSON.stringify(updatePayload(body))
   }).then(parseDamageTypeResult);
 }
@@ -223,22 +217,19 @@ export function updateDamageType(
 export function deleteDamageType(
   apiBaseUrl: string,
   gameId: string,
-  damageTypeKey: string,
-  token: string
+  damageTypeKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, damageTypesPath(gameId, damageTypeKey), {
-    method: 'DELETE',
-    token
+    method: 'DELETE'
   });
 }
 
 export function getDamageTypeFormula(
   apiBaseUrl: string,
   gameId: string,
-  damageTypeKey: string,
-  token: string
+  damageTypeKey: string
 ): Promise<ApiResult<DamageTypeFormulaDetail>> {
-  return requestJson<unknown>(apiBaseUrl, damageTypeFormulaPath(gameId, damageTypeKey), { token })
+  return requestJson<unknown>(apiBaseUrl, damageTypeFormulaPath(gameId, damageTypeKey))
     .then((result) => parseFormulaResult(result, { gameId, damageTypeKey }));
 }
 
@@ -246,13 +237,11 @@ export function updateDamageTypeFormula(
   apiBaseUrl: string,
   gameId: string,
   damageTypeKey: string,
-  token: string,
   body: { formula: DamageTypeFormula }
 ): Promise<ApiResult<DamageTypeFormulaDetail>> {
   const formula = parseDamageTypeFormulaDefinition(body.formula);
   return requestJson<unknown>(apiBaseUrl, damageTypeFormulaPath(gameId, damageTypeKey), {
     method: 'PUT',
-    token,
     body: JSON.stringify({ formula })
   }).then((result) => {
     try {
@@ -268,11 +257,9 @@ export function updateDamageTypeFormula(
 export function deleteDamageTypeFormula(
   apiBaseUrl: string,
   gameId: string,
-  damageTypeKey: string,
-  token: string
+  damageTypeKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, damageTypeFormulaPath(gameId, damageTypeKey), {
-    method: 'DELETE',
-    token
+    method: 'DELETE'
   }).catch((error: unknown) => unconfirmedFormulaWrite(error, '伤害类型公式删除结果无法确认。'));
 }

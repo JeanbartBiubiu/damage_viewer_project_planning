@@ -18,7 +18,6 @@ type CharacterEditorModalProps = {
   character: Character | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSaved: (character: Character) => void | Promise<void>;
   onDirtyChange: (dirty: boolean) => void;
@@ -38,7 +37,6 @@ export function CharacterEditorModal({
   character,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onDirtyChange
@@ -85,22 +83,17 @@ export function CharacterEditorModal({
       setSaveError('请先选择游戏。');
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
 
     setSaving(true);
     setSaveError(null);
     try {
       const result = mode === 'create'
-        ? await createCharacter(apiBaseUrl, selectedGameId, token, {
+        ? await createCharacter(apiBaseUrl, selectedGameId, {
             characterKey: draft.characterKey,
             name: draft.name.trim(),
             description: draft.description.trim() || null
           })
-        : await updateCharacter(apiBaseUrl, selectedGameId, character!.characterKey, token, {
+        : await updateCharacter(apiBaseUrl, selectedGameId, character!.characterKey, {
             name: draft.name.trim(),
             description: draft.description.trim() || null
           });

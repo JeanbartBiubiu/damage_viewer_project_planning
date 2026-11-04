@@ -2,6 +2,9 @@ import { registerFormulaForApprovedReads } from './approvedFormulaValues';
 import { assertResourceChangeOutputShape, assertResourceRecordBudget } from './resourceChangeContract';
 import { assertAttributeSnapshotOutputShape } from './attributeSnapshotContract';
 import { assertTargetMarkOutputShape } from './targetMarkContract';
+import { WASM_IDENTITY } from './wasmIdentity';
+import { ApiRequestError, resolveApiBaseUrl } from '../services/apiClient';
+import { getWasmGrant, onAuthSessionChanged } from '../services/authClient';
 import {
   OUTBOX_GENERIC_COMPILE_RESULT,
   OUTBOX_GENERIC_DONE,
@@ -21,6 +24,8 @@ import type {
 
 const DEFAULT_WASM_URL = new URL('./wasm/tinygo_engine_v2.wasm', import.meta.url);
 const RUN_TIMEOUT_MS = 30_000;
+const AUTHORIZATION_LIFETIME_MS = 300_000;
+const MAX_AUTHORIZATION_CLOCK_WAIT_MS = 5000;
 
 type SerializedFrame = {
   schemaVersion: number;
@@ -49,7 +54,10 @@ export class GenericEngineClientError extends Error {
 
 export type GenericEngineClientOptions = {
   wasmUrl?: URL | string;
+  apiBaseUrl?: string;
 };
+
+type CachedAuthorization = { grant: string; expiresAt: number };
 
 type PendingRequest = {
   resolve: (frames: TinyGoV2Frame[]) => void;
@@ -133,9 +141,16 @@ export class GenericEngineClient {
   private initPromise: Promise<void> | null = null;
   private readonly pending = new Map<string, PendingRequest>();
   private readonly wasmUrl: URL | string;
+  private readonly apiBaseUrl: string;
+  private authorizationEpoch = 0;
+  private cachedAuthorization: CachedAuthorization | null = null;
+  private pendingAuthorization: Promise<CachedAuthorization> | null = null;
+  private unsubscribeAuth: (() => void) | null = null;
 
   constructor(options: GenericEngineClientOptions = {}) {
     this.wasmUrl = options.wasmUrl ?? DEFAULT_WASM_URL;
+    this.apiBaseUrl = resolveApiBaseUrl(options.apiBaseUrl);
+    this.observeAccount();
   }
 
   /** 只查询当前线程引用，销毁后的旧会话应跳过释放。 */
@@ -144,7 +159,10 @@ export class GenericEngineClient {
   }
 
   async compile(request: CompileRequest): Promise<CompileResult> {
-    const frames = await this.send('compile', { request }, false);
+    const epoch = this.authorizationEpoch;
+    const authorized = WASM_IDENTITY.authorizationRequired ? await this.authorize(request) : request;
+    this.assertAccountUnchanged(epoch);
+    const frames = await this.send('compile', { request: authorized }, false);
     const result = parseCompileResult(frames);
     if (result.ok) for (const formula of request.formulas ?? []) registerFormulaForApprovedReads(formula);
     return result;
@@ -152,7 +170,10 @@ export class GenericEngineClient {
 
   async run(request: RunRequest): Promise<DoneResult> {
     assertResourceRecordBudget(request);
-    const frames = await this.send('run', { request }, true);
+    const epoch = this.authorizationEpoch;
+    const authorized = WASM_IDENTITY.authorizationRequired ? await this.authorize(request) : request;
+    this.assertAccountUnchanged(epoch);
+    const frames = await this.send('run', { request: authorized }, true);
     return parseDoneResult(frames);
   }
 
@@ -170,10 +191,72 @@ export class GenericEngineClient {
   }
 
   terminate(): void {
+    this.invalidateAuthorization();
+    this.unsubscribeAuth?.();
+    this.unsubscribeAuth = null;
     this.discardWorker(new GenericEngineClientError('工作线程已终止'));
   }
 
+  private observeAccount(): void {
+    if (this.unsubscribeAuth) return;
+    this.unsubscribeAuth = onAuthSessionChanged(() => {
+      this.invalidateAuthorization();
+      this.discardWorker(new GenericEngineClientError('账号状态已变化，请重新发起计算。'));
+    });
+  }
+
+  private invalidateAuthorization(): void {
+    this.authorizationEpoch += 1;
+    this.cachedAuthorization = null;
+    this.pendingAuthorization = null;
+  }
+
+  private assertAccountUnchanged(epoch: number): void {
+    if (epoch !== this.authorizationEpoch) throw new GenericEngineClientError('账号状态已变化，请重新发起计算。');
+  }
+
+  private async authorize<T extends CompileRequest | RunRequest>(request: T): Promise<T> {
+    this.observeAccount();
+    const epoch = this.authorizationEpoch;
+    let authorization = this.cachedAuthorization;
+    if (!authorization || authorization.expiresAt <= Date.now() + 5000) {
+      let pending = this.pendingAuthorization;
+      if (!pending) {
+        pending = getWasmGrant(this.apiBaseUrl).then(async response => {
+          this.assertAccountUnchanged(epoch);
+          const expiresAt = Date.parse(response.expiresAt);
+          if (typeof response.grant !== 'string' || !response.grant || response.grant.length > 4096
+            || !Number.isFinite(expiresAt) || expiresAt <= Date.now()) {
+            throw new ApiRequestError('计算授权响应不完整或已过期，请重试。', 502, 'AUTH.INVALID_WASM_GRANT');
+          }
+          // 票据固定 nbf=iat、exp=iat+300；只等待可用时点，Wasm 仍独立验证全部签名与期限。
+          const notBefore = expiresAt - AUTHORIZATION_LIFETIME_MS;
+          const waitMs = notBefore - Date.now();
+          if (waitMs > MAX_AUTHORIZATION_CLOCK_WAIT_MS) {
+            throw new ApiRequestError('设备时间与服务时间相差过大，请同步设备时间后重试。', 502, 'AUTH.CLOCK_SKEW');
+          }
+          if (waitMs > 0) await new Promise<void>(resolve => setTimeout(resolve, waitMs));
+          this.assertAccountUnchanged(epoch);
+          if (Date.now() < notBefore) {
+            throw new ApiRequestError('设备时间已变化，请同步设备时间后重试。', 502, 'AUTH.CLOCK_SKEW');
+          }
+          this.cachedAuthorization = { grant: response.grant, expiresAt };
+          return this.cachedAuthorization;
+        });
+        this.pendingAuthorization = pending;
+      }
+      try {
+        authorization = await pending;
+      } finally {
+        if (this.pendingAuthorization === pending) this.pendingAuthorization = null;
+      }
+    }
+    this.assertAccountUnchanged(epoch);
+    return { ...request, authorization: authorization.grant };
+  }
+
   private async ensureWorker(): Promise<Worker> {
+    this.observeAccount();
     let worker = this.worker;
     if (!worker) {
       worker = new Worker(new URL('../workers/genericEngineWorker.ts', import.meta.url), {

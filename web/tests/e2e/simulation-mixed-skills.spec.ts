@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -167,8 +168,6 @@ test('独立页面：稳定计划标识，编辑时刻不读快照且过期，�
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.addInitScript(() => {
-    localStorage.setItem('damage-viewer.web.api-base-url', 'http://127.0.0.1:19606');
-    localStorage.setItem('damage-viewer.web.admin-token', 'independent-readonly-fixture');
     const scope = window as typeof window & { simulationWorkerMessages: Array<{ type: string; rulesHash: string | null; instructionKeys: string[] }> };
     scope.simulationWorkerMessages = [];
     const original = Worker.prototype.postMessage;
@@ -181,7 +180,9 @@ test('独立页面：稳定计划标识，编辑时刻不读快照且过期，�
       return Reflect.apply(original, this, [message, ...options]);
     };
   });
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/**', async route => {
+    if (await fulfillAuthSession(route, false)) return;
     const request = route.request();
     if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*' } });
     const url = new URL(request.url());
@@ -405,8 +406,6 @@ test('真实页面：安妮Q／W＋耀光完整选择、普通拒绝、真实结
   const api = process.env.SIMULATION_API_BASE || 'http://127.0.0.1:8080';
   const selected = await readMixedLiveSnapshot(request, api, 'annie', ['annie_q', 'annie_w'], ['item_3057']);
   await page.addInitScript(api => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', 'local-readonly-check');
   }, api);
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));

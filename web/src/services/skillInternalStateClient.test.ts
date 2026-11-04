@@ -74,20 +74,19 @@ describe('skillInternalStateClient', () => {
     vi.restoreAllMocks();
   });
 
-  it('encodes game, skill and state path segments with admin token', async () => {
+  it('encodes game, skill and state path segments with cookie authentication', async () => {
     const listMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       expect(String(input)).toBe(
         'http://localhost:8080/api/admin/games/demo%20arena/skills/active%2Fq/internal-states'
       );
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, [summary]);
     });
     vi.stubGlobal('fetch', listMock);
     const listed = await listSkillInternalStates(
       'http://localhost:8080/',
       'demo arena',
-      'active/q',
-      'token'
+      'active/q'
     );
     expect(listed.status).toBe(200);
     expect(listed.data[0]).not.toHaveProperty('detail');
@@ -97,7 +96,7 @@ describe('skillInternalStateClient', () => {
       expect(String(input)).toBe(
         'http://localhost:8080/api/admin/games/demo/skills/ashe_q/internal-states/focus%2Fstacks'
       );
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, detail);
     });
     vi.stubGlobal('fetch', detailMock);
@@ -105,8 +104,7 @@ describe('skillInternalStateClient', () => {
       'http://localhost:8080',
       'demo',
       'ashe_q',
-      'focus/stacks',
-      'token'
+      'focus/stacks'
     );
     expect(loaded.data.detail).toEqual({
       initialValue: formulaValue("zero"),
@@ -125,7 +123,7 @@ describe('skillInternalStateClient', () => {
         status,
         body: init?.body ? JSON.parse(String(init.body)) : null
       });
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(status, method === 'DELETE' ? null : detail);
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -134,7 +132,6 @@ describe('skillInternalStateClient', () => {
       'http://localhost:8080',
       'demo arena',
       'active/q',
-      'token',
       createBody
     );
     const updated = await updateSkillInternalState(
@@ -142,15 +139,13 @@ describe('skillInternalStateClient', () => {
       'demo',
       'ashe_q',
       'focus/stacks',
-      'token',
       updateBody
     );
     const deleted = await deleteSkillInternalState(
       'http://localhost:8080',
       'demo',
       'ashe_q',
-      'focus/stacks',
-      'token'
+      'focus/stacks'
     );
 
     expect(created.status).toBe(201);

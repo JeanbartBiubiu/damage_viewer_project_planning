@@ -48,7 +48,7 @@ describe('attributeClient', () => {
       expect([...url.searchParams.keys()]).toEqual(['keyword', 'status']);
       expect(url.pathname).not.toContain('combat-data');
       expect(init?.method).toBeUndefined();
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer admin-token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, { items: [ATTRIBUTE], total: 1 });
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -56,7 +56,6 @@ describe('attributeClient', () => {
     const result = await listAttributes(
       'http://localhost:8080/',
       'demo arena',
-      'admin-token',
       { keyword: '  移动 速度/+  ', status: 'DISABLED' }
     );
 
@@ -72,7 +71,7 @@ describe('attributeClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await listAttributes('http://localhost:8080', 'demo', 'token', { keyword: '   ' });
+    await listAttributes('http://localhost:8080', 'demo', { keyword: '   ' });
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
@@ -82,7 +81,7 @@ describe('attributeClient', () => {
       expect(String(input)).toBe(
         'http://localhost:8080/api/admin/games/demo/attributes/armor%2Fpenetration'
       );
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, ATTRIBUTE);
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -90,8 +89,7 @@ describe('attributeClient', () => {
     const result = await getAttribute(
       'http://localhost:8080',
       'demo',
-      'armor/penetration',
-      'token'
+      'armor/penetration'
     );
 
     expect(result.data).toEqual(ATTRIBUTE);
@@ -120,7 +118,6 @@ describe('attributeClient', () => {
     const result = await createAttribute(
       'http://localhost:8080',
       'demo',
-      'token',
       body
     );
 
@@ -153,7 +150,6 @@ describe('attributeClient', () => {
       'http://localhost:8080',
       'demo',
       'move_speed',
-      'token',
       body
     );
 
@@ -192,7 +188,7 @@ describe('attributeClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await expect(getAttribute('http://localhost:8080', 'demo', 'missing', 'token')).rejects.toMatchObject<
+    await expect(getAttribute('http://localhost:8080', 'demo', 'missing')).rejects.toMatchObject<
       Partial<ApiRequestError>
     >({
       name: 'ApiRequestError',

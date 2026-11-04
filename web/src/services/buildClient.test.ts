@@ -16,9 +16,9 @@ describe('buildClient', () => {
   it('lists by the current game and omits a blank keyword', async () => {
     const fetchMock = vi.fn(async () => response({ items: [system], total: 1 }));
     vi.stubGlobal('fetch', fetchMock);
-    expect((await listBuildSystems(base, 'g', 'token', '  ')).data.items[0].systemKey).toBe('paths');
+    expect((await listBuildSystems(base, 'g', '  ')).data.items[0].systemKey).toBe('paths');
     expect(String(fetchMock.mock.calls[0][0])).toBe(`${base}/api/admin/games/g/build-systems`);
-    expect(new Headers(fetchMock.mock.calls[0][1]?.headers).get('Authorization')).toBe('Bearer token');
+    expect(new Headers(fetchMock.mock.calls[0][1]?.headers).get('Authorization')).toBeNull();
   });
 
   it('rejects a foreign game, an unknown configuration mode and a mismatched list total', async () => {
@@ -26,16 +26,16 @@ describe('buildClient', () => {
       .mockResolvedValueOnce(response({ items: [{ ...system, gameId: 'other' }], total: 1 }))
       .mockResolvedValueOnce(response({ items: [{ ...system, configurationMode: 'CUSTOM' }], total: 1 }))
       .mockResolvedValueOnce(response({ items: [system], total: 2 })));
-    await expect(listBuildSystems(base, 'g', 'token')).rejects.toMatchObject({ status: 502, code: 'INVALID_RESPONSE' });
-    await expect(listBuildSystems(base, 'g', 'token')).rejects.toMatchObject({ status: 502 });
-    await expect(listBuildSystems(base, 'g', 'token')).rejects.toMatchObject({ status: 502 });
+    await expect(listBuildSystems(base, 'g')).rejects.toMatchObject({ status: 502, code: 'INVALID_RESPONSE' });
+    await expect(listBuildSystems(base, 'g')).rejects.toMatchObject({ status: 502 });
+    await expect(listBuildSystems(base, 'g')).rejects.toMatchObject({ status: 502 });
   });
 
   it('rejects unknown fields in a definition snapshot instead of silently accepting another contract', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => response({
       system: { ...system, futureRule: true }, groups: [], options: [], skillRelations: []
     })));
-    await expect(getBuildDefinition(base, 'g', 'paths', 'token')).rejects.toMatchObject({
+    await expect(getBuildDefinition(base, 'g', 'paths')).rejects.toMatchObject({
       status: 502, code: 'INVALID_RESPONSE'
     });
   });
@@ -50,14 +50,14 @@ describe('buildClient', () => {
     vi.stubGlobal('fetch', vi.fn()
       .mockResolvedValueOnce(response({ system: point, groups: [group], options: [option], skillRelations: [] }))
       .mockResolvedValueOnce(response({ system, groups: [{ ...group, systemKey: 'other', slots: [] }], options: [], skillRelations: [] })));
-    await expect(getBuildDefinition(base, 'g', 'paths', 'token')).rejects.toMatchObject({ status: 502 });
-    await expect(getBuildDefinition(base, 'g', 'paths', 'token')).rejects.toMatchObject({ status: 502 });
+    await expect(getBuildDefinition(base, 'g', 'paths')).rejects.toMatchObject({ status: 502 });
+    await expect(getBuildDefinition(base, 'g', 'paths')).rejects.toMatchObject({ status: 502 });
   });
 
   it('updates without resending the stable system key', async () => {
     const fetchMock = vi.fn(async (_input, init) => response(init?.method === 'PUT' ? system : { items: [], total: 0 }));
     vi.stubGlobal('fetch', fetchMock);
-    await updateBuildSystem(base, 'g', 'paths', 'token', { name: '系', description: null, configurationMode: 'SLOT_SELECTION', sortOrder: 0, selectionRules: rules });
+    await updateBuildSystem(base, 'g', 'paths', { name: '系', description: null, configurationMode: 'SLOT_SELECTION', sortOrder: 0, selectionRules: rules });
     expect(String(fetchMock.mock.calls[0][0])).toBe(`${base}/api/admin/games/g/build-systems/paths`);
     expect(JSON.parse(String(fetchMock.mock.calls[0][1]?.body))).not.toHaveProperty('systemKey');
   });
@@ -65,6 +65,6 @@ describe('buildClient', () => {
   it('rejects an option list that repeats an identity', async () => {
     const option = { ...time, gameId: 'g', systemKey: 'paths', optionKey: 'press', name: '强攻', description: null, maxRank: 1, rankCosts: [0] };
     vi.stubGlobal('fetch', vi.fn(async () => response({ items: [option, option], total: 2 })));
-    await expect(listBuildOptions(base, 'g', 'paths', 'token')).rejects.toMatchObject({ status: 502 });
+    await expect(listBuildOptions(base, 'g', 'paths')).rejects.toMatchObject({ status: 502 });
   });
 });

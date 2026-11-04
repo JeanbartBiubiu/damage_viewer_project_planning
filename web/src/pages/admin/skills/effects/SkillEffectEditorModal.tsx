@@ -126,7 +126,6 @@ type SkillEffectEditorModalProps = {
   effect: SkillEffectSummary | null;
   apiBaseUrl: string;
   selectedGameId: string;
-  adminToken: string;
   onClose: () => void;
   onSaved: (effect: SkillEffect) => void | Promise<void>;
   onSkillMissing: () => void;
@@ -313,7 +312,6 @@ export function SkillEffectEditorModal({
   effect,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onSkillMissing,
@@ -333,7 +331,7 @@ export function SkillEffectEditorModal({
   const [detailReady, setDetailReady] = useState(false);
   const [savedFormulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
   const { parameters: savedParameters, parametersLoadState: savedParametersLoadState } = useNumericParameters(
-    apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible && !workspaceDraft
+    apiBaseUrl, selectedGameId, skill.skillKey, visible && !workspaceDraft
   );
   const parameters = workspaceDraft?.parameters ?? savedParameters;
   const parametersLoadState = workspaceDraft ? 'ready' : savedParametersLoadState;
@@ -366,7 +364,7 @@ export function SkillEffectEditorModal({
   const effectsSerial = useRef(0);
   const skillSerial = useRef(0);
   const skillCategorySerial = useRef(0);
-  const gameVamp = useGameVampRules(apiBaseUrl, selectedGameId, adminToken, visible);
+  const gameVamp = useGameVampRules(apiBaseUrl, selectedGameId, visible);
   const workspaceInitial = workspaceDraft?.initial;
   const readOnly = mode === 'view';
   const closeBlocked = saving || (!readOnly && loadingDetail);
@@ -421,15 +419,15 @@ export function SkillEffectEditorModal({
     if (workspaceInitial) return;
     const serial = formulaSerial.current + 1;
     formulaSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) {
+
+    if (!visible) {
       setFormulas([]);
       setFormulasLoadState(undefined);
       setFormulasError(null);
       return;
     }
     try {
-      const result = await listSkillFormulas(apiBaseUrl, selectedGameId, skill.skillKey, token);
+      const result = await listSkillFormulas(apiBaseUrl, selectedGameId, skill.skillKey);
       if (formulaSerial.current !== serial) return;
       setFormulas(result.data);
       setFormulasLoadState('ready');
@@ -444,17 +442,17 @@ export function SkillEffectEditorModal({
       setFormulasLoadState('failed');
       setFormulasError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible, workspaceInitial]);
+  }, [apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible, workspaceInitial]);
 
   const loadStatusesCatalog = useCallback(async () => {
     const serial = ++statusSerial.current;
-    const token = adminToken.trim();
+
     setStatuses([]);
     setStatusesLoadState(undefined);
     setStatusesError(null);
-    if (!visible || !token) return;
+    if (!visible) return;
     try {
-      const response = await listStatuses(apiBaseUrl, selectedGameId, token);
+      const response = await listStatuses(apiBaseUrl, selectedGameId);
       if (serial !== statusSerial.current) return;
       setStatuses(response.data.items);
       setStatusesLoadState('ready');
@@ -464,20 +462,20 @@ export function SkillEffectEditorModal({
       setStatusesLoadState('failed');
       setStatusesError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+  }, [apiBaseUrl, selectedGameId, visible]);
 
   const loadAttributesCatalog = useCallback(async () => {
     const serial = attributeSerial.current + 1;
     attributeSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) {
+
+    if (!visible) {
       setAttributes([]);
       setAttributesLoadState(undefined);
       setAttributesError(null);
       return;
     }
     try {
-      const result = await listAttributes(apiBaseUrl, selectedGameId, token);
+      const result = await listAttributes(apiBaseUrl, selectedGameId);
       if (attributeSerial.current !== serial) return;
       setAttributes(result.data.items);
       setAttributesLoadState('ready');
@@ -488,20 +486,20 @@ export function SkillEffectEditorModal({
       setAttributesLoadState('failed');
       setAttributesError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+  }, [apiBaseUrl, selectedGameId, visible]);
 
   const loadSkillsCatalog = useCallback(async () => {
     const serial = skillSerial.current + 1;
     skillSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) {
+
+    if (!visible) {
       setSkills([]);
       setSkillsLoadState(undefined);
       setSkillsError(null);
       return;
     }
     try {
-      const result = await listSkills(apiBaseUrl, selectedGameId, token);
+      const result = await listSkills(apiBaseUrl, selectedGameId);
       if (skillSerial.current !== serial) return;
       setSkills(result.data.items);
       setSkillsLoadState('ready');
@@ -512,20 +510,20 @@ export function SkillEffectEditorModal({
       setSkillsLoadState('failed');
       setSkillsError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+  }, [apiBaseUrl, selectedGameId, visible]);
 
   const loadSkillCategoriesCatalog = useCallback(async () => {
     const serial = skillCategorySerial.current + 1;
     skillCategorySerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) {
+
+    if (!visible) {
       setSkillCategories([]);
       setSkillCategoriesLoadState(undefined);
       setSkillCategoriesError(null);
       return;
     }
     try {
-      const result = await listSkillCategories(apiBaseUrl, selectedGameId, token);
+      const result = await listSkillCategories(apiBaseUrl, selectedGameId);
       if (skillCategorySerial.current !== serial) return;
       setSkillCategories(result.data.items);
       setSkillCategoriesLoadState('ready');
@@ -536,21 +534,21 @@ export function SkillEffectEditorModal({
       setSkillCategoriesLoadState('failed');
       setSkillCategoriesError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
+  }, [apiBaseUrl, selectedGameId, visible]);
 
   const loadEffectSummaries = useCallback(async () => {
     if (workspaceInitial) return;
     const serial = effectsSerial.current + 1;
     effectsSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) {
+
+    if (!visible) {
       setEffectSummaries([]);
       setEffectsLoadState(undefined);
       setEffectsError(null);
       return;
     }
     try {
-      const result = await listSkillEffects(apiBaseUrl, selectedGameId, skill.skillKey, token);
+      const result = await listSkillEffects(apiBaseUrl, selectedGameId, skill.skillKey);
       if (effectsSerial.current !== serial) return;
       setEffectSummaries(result.data);
       setEffectsLoadState('ready');
@@ -565,7 +563,7 @@ export function SkillEffectEditorModal({
       setEffectsLoadState('failed');
       setEffectsError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible, workspaceInitial]);
+  }, [apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible, workspaceInitial]);
 
   const applyAuthoringLocation = useCallback((detail: SkillEffect, nextDraft: SkillEffectDraft) => {
     if (!authoringLocation) {
@@ -641,13 +639,7 @@ export function SkillEffectEditorModal({
       onDirtyChange(false);
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setLoadError('请先配置 Admin Token。');
-      setDetailReady(false);
-      setLoadingDetail(false);
-      return;
-    }
+
     if (!effect) {
       setLoadError('效果详情加载失败。');
       setDetailReady(false);
@@ -662,8 +654,7 @@ export function SkillEffectEditorModal({
         apiBaseUrl,
         selectedGameId,
         skill.skillKey,
-        effect.effectKey,
-        token
+        effect.effectKey
       );
       if (detailSerial.current !== serial) return;
       const next = mode === 'copy' ? skillEffectToCopyDraft(result.data) : skillEffectToDraft(result.data);
@@ -690,7 +681,6 @@ export function SkillEffectEditorModal({
       if (detailSerial.current === serial) setLoadingDetail(false);
     }
   }, [
-    adminToken,
     apiBaseUrl,
     effect,
     mode,
@@ -818,11 +808,7 @@ export function SkillEffectEditorModal({
       setResultErrors(validation.resultErrors);
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
+
     setSaving(true);
     setSaveError(null);
     try {
@@ -832,7 +818,7 @@ export function SkillEffectEditorModal({
           if (!formula) throw new Error(`技能草稿中没有公式「${formulaKey}」。`);
           return formula;
         }
-        return (await getSkillFormula(apiBaseUrl, selectedGameId, skill.skillKey, formulaKey, token)).data;
+        return (await getSkillFormula(apiBaseUrl, selectedGameId, skill.skillKey, formulaKey)).data;
       };
       const conditionFormulaErrors = await preflightDamageModifierConditionFormulas(
         sorted.results, parameters, parametersLoadState,
@@ -871,7 +857,6 @@ export function SkillEffectEditorModal({
             apiBaseUrl,
             selectedGameId,
             skill.skillKey,
-            token,
             buildCreateSkillEffectRequest(validation.normalized)
           )
         : await updateSkillEffect(
@@ -879,7 +864,6 @@ export function SkillEffectEditorModal({
             selectedGameId,
             skill.skillKey,
             effect!.effectKey,
-            token,
             buildUpdateSkillEffectRequest(validation.normalized)
           );
       onDirtyChange(false);
@@ -1568,7 +1552,7 @@ export function SkillEffectEditorModal({
         onEnableLifecycle={() => patchLifecycleDraft(enableLifecycleDraft(draft))}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={() => setResultEditor(null)}
         focusField={resultEditor?.focusField ?? null}
         locateMessage={resultEditor?.locateMessage ?? null}

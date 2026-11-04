@@ -12,6 +12,7 @@
 | 普攻模拟 | `#/simulation/basic-attack`；单次／连续普攻及固定时刻技能计划 |
 | 混合战斗分析 | `#/simulation/combat-analysis`；自动连招、背景普攻、曲线及使用／结算联动 |
 | 请求与错误 | `src/services/apiClient.ts`，各业务服务位于 `src/services/` |
+| 账号与安全 | `src/pages/auth/AccountControls.tsx`、`src/services/authClient.ts`、`src/services/authState.ts`；冻结接口见[账号方案](../文档记录/详细设计/项目/账号注册登录与权限接入技术方案.md) |
 | 场景与生产适配 | `src/engine/simulationAdapter.ts`、`simulationActiveSkills.ts`、`processAdapter.ts` |
 | 模拟来源准备 | `src/engine/simulation/sources/`；装备与自然来源分别拥有选择、身份、执行闭包和所属常驻贡献 |
 | 通用配置校验与编译 | `src/engine/simulation/compile/`；完整配置校验、共同防御公式及触发程序编译；共享类型在 `simulation/model.ts` |
@@ -24,7 +25,11 @@
 
 ## 连接与本地开发
 
-依赖和工具版本以 `package.json`、锁文件及已验证工具链为准。API基址依次取页面保存的地址、`VITE_API_BASE_URL`、`http://localhost:8080`；使用完整来源地址，不带 `/api`。连接地址和管理令牌会保存在浏览器本地存储，切换时旧请求与场景须失效。
+依赖和工具版本以 `package.json`、锁文件及已验证工具链为准。浏览器默认同源访问 `/api`；可通过构建环境中的 `VITE_API_BASE_URL` 显式指定精确来源，不在页面编辑或保存任意 API 地址。开发服务将 `/api` 代理到 `DEV_API_TARGET`，缺省为 `http://127.0.0.1:8080`。
+
+账号采用浏览器安全凭据（Cookie），本地账号联调需要加密访问（HTTPS）。在未提交的本地环境文件中配置 `DEV_HTTPS_KEY_PATH` 与 `DEV_HTTPS_CERT_PATH`，分别指向可信本地证书的私钥与证书；二者必须同时提供。后端受控来源配置须包含实际前端来源，代理保留原来源。不要将证书私钥提交到仓库。
+
+顶栏右上角手动进入登录或注册。所有账号均须验证器动态码；注册绑定验证器并确认保存恢复码后等待开通，未完成注册可用原用户名和密码从登录入口继续。会话通过 `/me` 静默恢复；游戏资料读取与只读场景快照始终匿名，不等待会话恢复。未登录或会话失效的受保护操作只弹出“需要登录”提示，用户自行登录后重新操作，当前页面和输入保留。账号安全支持修改密码、更换验证器、重新生成恢复码及退出全部设备。密码、绑定材料、恢复码和会话值不写入浏览器本地存储。
 
 在 `web/` 目录执行：
 
@@ -33,7 +38,7 @@ npm ci
 npm run dev
 ```
 
-生产构建用 `npm run build`，预览用 `npm run preview`。空Hash和未知路径进入 `#/attributes`。接口失败先核对后端是否运行、浏览器保存的地址和鉴权配置。
+生产构建用 `npm run build`，预览用 `npm run preview`。空Hash和未知路径进入 `#/attributes`。接口失败先核对后端、同源代理、证书及受控来源配置。
 
 ## 验证与正式产物
 
@@ -50,6 +55,7 @@ npm run build
 | --- | --- |
 | `npm run test:mechanisms` | 合成场景经生产适配及真实Wasm，与独立手算期望比较 |
 | `npm run test:e2e:non-wasm` | 隔离的非Wasm桌面管理页验收，使用真实浏览器；显式真接口用例仍遵循各配置开关 |
+| `npm run test:e2e:auth` | 账号与会话浏览器接线：分步登录／注册、恢复、安全变更、失效提示与草稿保留；使用隔离接口替身，不代替真实后端验证 |
 | `npm run check:mechanism-coverage` | 只读核对正式对象声明所依赖的机制用例，不生成新证明 |
 | `npm run check:wasm-build` | 按固定工具链及正式参数重建当前源码，与前端分发Wasm逐字节比较 |
 | `npm run test:verification` | 核对证明刷新及构建检查脚本 |

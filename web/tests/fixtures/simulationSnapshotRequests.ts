@@ -16,13 +16,12 @@ export function simulationComparisonSelection(patch: Partial<SimulationSelection
 }
 
 export async function readIsolatedSimulationSnapshot(request: APIRequestContext, apiBase: string, selection: SimulationSelection,
-  token = '', gameId = 'lol'): Promise<{ snapshot: SimulationSnapshot; response: APIResponse; path: string }> {
+  gameId = 'lol'): Promise<{ snapshot: SimulationSnapshot; response: APIResponse; path: string }> {
   const path = `/api/admin/games/${encodeURIComponent(gameId)}/simulation-snapshot`;
-  const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
-  const candidateResponse = await request.post(apiBase + path, { headers, data: selection });
+  const candidateResponse = await request.post(apiBase + path, { data: selection });
   expect(candidateResponse.status(), '真实默认来源候选POST').toBe(200);
   const candidate = await candidateResponse.json() as SimulationSnapshot;
-  const response = await request.post(apiBase + path, { headers, data: isolatedSimulationSelection(candidate) });
+  const response = await request.post(apiBase + path, { data: isolatedSimulationSelection(candidate) });
   expect(response.status(), '显式关闭附加英雄来源的真实快照POST').toBe(200);
   const snapshot = await response.json() as SimulationSnapshot;
   assertIsolatedCharacterSources(snapshot);

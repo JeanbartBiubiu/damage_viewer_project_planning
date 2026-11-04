@@ -49,7 +49,7 @@ describe('loadSkillBehaviorOverview', () => {
     });
 
     const partial = await loadSkillBehaviorOverview({
-      apiBaseUrl: 'http://overview.test', gameId: 'demo', skillKey: 'q', token: 't', generation: 1
+      apiBaseUrl: 'http://overview.test', gameId: 'demo', skillKey: 'q', generation: 1
     });
     expect(partial?.effects.details.map((item) => item.effectKey)).toEqual(['ok']);
     expect(partial?.effects.failedKeys).toEqual(['bad']);
@@ -58,7 +58,7 @@ describe('loadSkillBehaviorOverview', () => {
 
     vi.mocked(listSkillEffects).mockResolvedValue({ data: [], status: 200, etag: null });
     const empty = await loadSkillBehaviorOverview({
-      apiBaseUrl: 'http://overview.test', gameId: 'demo', skillKey: 'q', token: 't', generation: 2
+      apiBaseUrl: 'http://overview.test', gameId: 'demo', skillKey: 'q', generation: 2
     });
     expect(empty?.effects.listError).toBeNull();
     expect(empty?.effects.details).toEqual([]);
@@ -70,7 +70,7 @@ describe('loadSkillBehaviorOverview', () => {
     for (const fn of listFns) vi.mocked(fn).mockResolvedValue({ data: [], status: 200, etag: null });
     vi.mocked(listSkillProcesses).mockRejectedValue(new Error('过程列表失败'));
     const bundle = await loadSkillBehaviorOverview({
-      apiBaseUrl: 'http://overview.test', gameId: 'demo', skillKey: 'q', token: 't', generation: 3
+      apiBaseUrl: 'http://overview.test', gameId: 'demo', skillKey: 'q', generation: 3
     });
     expect(bundle?.processes.listError).toContain('过程列表失败');
     expect(bundle?.processes.summaries).toEqual([]);
@@ -94,7 +94,7 @@ describe('loadSkillBehaviorOverview', () => {
       return ok({ effectKey: 'e', name: 'e', results: [] } as never);
     });
     await loadSkillBehaviorOverview({
-      apiBaseUrl: 'http://overview.test', gameId: 'demo', skillKey: 'q', token: 't', generation: 4
+      apiBaseUrl: 'http://overview.test', gameId: 'demo', skillKey: 'q', generation: 4
     });
     expect(peak).toBe(SKILL_BEHAVIOR_DETAIL_CONCURRENCY);
     expect(getSkillEffect).toHaveBeenCalledTimes(6);
@@ -104,7 +104,7 @@ describe('loadSkillBehaviorOverview', () => {
     for (const fn of listFns) vi.mocked(fn).mockResolvedValue({ data: [], status: 200, etag: null });
     let current = 8;
     const pending = loadSkillBehaviorOverview({
-      apiBaseUrl: 'http://overview.test', gameId: 'demo', skillKey: 'q', token: 't', generation: 8
+      apiBaseUrl: 'http://overview.test', gameId: 'demo', skillKey: 'q', generation: 8
     }, (generation) => generation === current);
     current = 9;
     expect(await pending).toBeNull();

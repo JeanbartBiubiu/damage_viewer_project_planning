@@ -216,7 +216,7 @@ func runJinxZap(t *testing.T, compileReq model.CompileRequest, runReq model.RunR
 
 func runJinxZapFrames(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	session.ClearOutbox()
 	if code := session.CompileFrame(encodeGenericFrame(model.FrameKindGenericCompile, compileReq)); code != 0 {
 		t.Fatalf("CompileFrame code=%d err=%+v", code, lastGenericError(session.OutboxBytes()))
@@ -910,7 +910,7 @@ func TestJinxZapDeterminismAndLifecycle(t *testing.T) {
 		}
 		r.StopPolicy.DurationMs = 50
 
-		session := runtimeengine.NewSession()
+		session := runtimeengine.NewMathSession()
 		session.ClearOutbox()
 		if code := session.CompileFrame(encodeGenericFrame(model.FrameKindGenericCompile, c)); code != 0 {
 			t.Fatalf("CompileFrame code=%d err=%+v", code, lastGenericError(session.OutboxBytes()))

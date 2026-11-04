@@ -307,7 +307,7 @@ test('实际 Worker：直接治疗与吸血走同一取强乘区', async ({ page
 test('原库乌尔加特配置保留命中要求，独立结果入口拒绝绕过', async ({ page, request }, testInfo) => {
   test.skip(process.env.P7_LIVE_API !== '1', '显式启用后只读本地实际服务');
   const api = `${apiBase}/api/admin/games/lol`;
-  const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
+  const headers = {  };
   const read = async (path: string) => {
     const response = await request.get(api + path, { headers });
     expect(response.status(), path).toBe(200);
@@ -342,7 +342,7 @@ test('原库乌尔加特配置保留命中要求，独立结果入口拒绝绕�
 test('真实页面保存的两项重伤→GET→Worker，同组40%取强且各自到期', async ({ page, request }, testInfo) => {
   test.skip(process.env.P7_LIVE_API !== '1', '显式启用后只读本地实际服务');
   const api = `${apiBase}/api/admin/games/lol`;
-  const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
+  const headers = {  };
   const read = async (path: string) => {
     const response = await request.get(api + path, { headers });
     expect(response.status(), path).toBe(200);

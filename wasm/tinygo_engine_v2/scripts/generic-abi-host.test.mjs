@@ -6,7 +6,25 @@ import {
   SCHEMA_VERSION,
   decodeFrames,
   encodeFrame,
+  setNodeAuthorizationProvider,
+  withNodeAuthorization,
 } from "./generic-abi-host.mjs";
+
+test('短期票据逐次获取且显式负例不会被本地注入覆盖', () => {
+  let count = 0;
+  try {
+    setNodeAuthorizationProvider(() => `short-grant-${++count}`);
+    const input = { rulesHash: 'unchanged' };
+    assert.equal(withNodeAuthorization(input).authorization, 'short-grant-1');
+    assert.equal(withNodeAuthorization(input).authorization, 'short-grant-2');
+    assert.deepEqual(input, { rulesHash: 'unchanged' });
+    const negative = { authorization: '' };
+    assert.equal(withNodeAuthorization(negative), negative);
+    assert.equal(count, 2);
+  } finally {
+    setNodeAuthorizationProvider(undefined);
+  }
+});
 
 function headerBytes({ magic = MAGIC, schemaVersion = SCHEMA_VERSION, kind = 210, flags = 0, payloadLen }) {
   const header = new Uint8Array(HEADER_LEN);

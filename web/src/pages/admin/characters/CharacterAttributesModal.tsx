@@ -41,7 +41,6 @@ type CharacterAttributesModalProps = {
   character: Character | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSaved: () => void;
   onDirtyChange: (dirty: boolean) => void;
@@ -56,7 +55,6 @@ export function CharacterAttributesModal({
   character,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onDirtyChange
@@ -108,11 +106,7 @@ export function CharacterAttributesModal({
 
   useEffect(() => {
     if (!visible || !selectedGameId || !character) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setLoadError('请先配置 Admin Token。');
-      return;
-    }
+
     let cancelled = false;
     setLoading(true);
     setLoadError(null);
@@ -124,9 +118,9 @@ export function CharacterAttributesModal({
     onDirtyChange(false);
 
     void Promise.all([
-      getLevelConfig(apiBaseUrl, selectedGameId, token),
-      getCharacterAttributes(apiBaseUrl, selectedGameId, character.characterKey, token),
-      listAttributes(apiBaseUrl, selectedGameId, token)
+      getLevelConfig(apiBaseUrl, selectedGameId),
+      getCharacterAttributes(apiBaseUrl, selectedGameId, character.characterKey),
+      listAttributes(apiBaseUrl, selectedGameId)
     ]).then(([configResult, valuesResult, attributesResult]) => {
       if (cancelled) return;
       const config = configResult.data;
@@ -148,7 +142,7 @@ export function CharacterAttributesModal({
     });
 
     return () => { cancelled = true; };
-  }, [adminToken, apiBaseUrl, character, onDirtyChange, selectedGameId, visible]);
+  }, [apiBaseUrl, character, onDirtyChange, selectedGameId, visible]);
 
   const close = () => {
     if (saving) return;
@@ -247,11 +241,7 @@ export function CharacterAttributesModal({
 
   const save = async () => {
     if (!selectedGameId || !character) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
+
     setSaving(true);
     setSaveError(null);
     setRowErrors({});
@@ -260,7 +250,6 @@ export function CharacterAttributesModal({
         apiBaseUrl,
         selectedGameId,
         character.characterKey,
-        token,
         { levelValues: values }
       );
       const normalized = normalizeLevelValues(minLevel, maxLevel, attributes, result.data.levelValues);

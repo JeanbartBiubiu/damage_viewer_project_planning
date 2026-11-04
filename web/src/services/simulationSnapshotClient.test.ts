@@ -35,7 +35,7 @@ describe('场景只读快照接口', () => {
       syncSimulationSkillSources(snapshot);
       return new Response(JSON.stringify(snapshot), { status: 200, headers: { 'Content-Type': 'application/json' } });
     }));
-    const snapshot = await getIsolatedSimulationSnapshot('http://api.test', 'demo', candidate.selection, 'test');
+    const snapshot = await getIsolatedSimulationSnapshot('http://api.test', 'demo', candidate.selection);
     expect(snapshot.source.skillSources.find(source => source.skillKey === 'sample_disabled'))
       .toMatchObject({ enabled: true, inactiveReason: 'GLOBAL_DISABLED', enabledRuleKeys: [] });
   });
@@ -97,7 +97,7 @@ describe('场景只读快照接口', () => {
     const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(snapshot), { status: 200 }));
     vi.stubGlobal('fetch', fetchMock);
     const abort = new AbortController();
-    await expect(getSimulationSnapshot('http://localhost:8080', snapshot.gameId, snapshot.selection, 'example-token', abort.signal))
+    await expect(getSimulationSnapshot('http://localhost:8080', snapshot.gameId, snapshot.selection, abort.signal))
       .resolves.toMatchObject({ data: snapshot });
     const [url, options] = fetchMock.mock.calls[0]!;
     expect(url).toBe('http://localhost:8080/api/admin/games/demo/simulation-snapshot');
@@ -105,7 +105,7 @@ describe('场景只读快照接口', () => {
     expect(JSON.parse(options.body)).toEqual(snapshot.selection);
     expect(options.headers.get('Content-Type')).toBe('application/json');
     expect(options.signal).toBe(abort.signal);
-    expect(options.headers.get('Authorization')).toBe('Bearer example-token');
+    expect(options.headers.get('Authorization')).toBeNull();
     expect(simulationSnapshotPath('a/b')).toContain('/games/a%2Fb/');
   });
 

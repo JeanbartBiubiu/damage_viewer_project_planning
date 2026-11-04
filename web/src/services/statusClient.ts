@@ -38,13 +38,11 @@ function withQuery(path: string, query: StatusListQuery = {}): string {
 export function listStatuses(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   query: StatusListQuery = {}
 ): Promise<ApiResult<StatusListResponse>> {
   return requestJson<StatusListResponse>(
     apiBaseUrl,
-    withQuery(statusesPath(gameId), query),
-    { token }
+    withQuery(statusesPath(gameId), query)
   ).then((result) => {
     if (!Array.isArray(result.data?.items)) throw new Error('状态目录响应不完整。');
     return { ...result, data: { ...result.data, items: result.data.items.map(parseStatus) } };
@@ -54,21 +52,18 @@ export function listStatuses(
 export function getStatus(
   apiBaseUrl: string,
   gameId: string,
-  statusKey: string,
-  token: string
+  statusKey: string
 ): Promise<ApiResult<GameStatus>> {
-  return requestJson<unknown>(apiBaseUrl, statusesPath(gameId, statusKey), { token }).then(parseStatusResult);
+  return requestJson<unknown>(apiBaseUrl, statusesPath(gameId, statusKey)).then(parseStatusResult);
 }
 
 export function createStatus(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   body: CreateStatusRequest
 ): Promise<ApiResult<GameStatus>> {
   return requestJson<GameStatus>(apiBaseUrl, statusesPath(gameId), {
     method: 'POST',
-    token,
     body: JSON.stringify(body)
   }).then(parseStatusResult);
 }
@@ -77,12 +72,10 @@ export function updateStatus(
   apiBaseUrl: string,
   gameId: string,
   statusKey: string,
-  token: string,
   body: UpdateStatusRequest
 ): Promise<ApiResult<GameStatus>> {
   return requestJson<GameStatus>(apiBaseUrl, statusesPath(gameId, statusKey), {
     method: 'PUT',
-    token,
     body: JSON.stringify(body)
   }).then(parseStatusResult);
 }
@@ -90,11 +83,9 @@ export function updateStatus(
 export function deleteStatus(
   apiBaseUrl: string,
   gameId: string,
-  statusKey: string,
-  token: string
+  statusKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, statusesPath(gameId, statusKey), {
-    method: 'DELETE',
-    token
+    method: 'DELETE'
   });
 }

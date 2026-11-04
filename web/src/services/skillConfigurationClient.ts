@@ -16,7 +16,6 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-
 export function validateSkillConfiguration(
   value: unknown,
   gameId: string,
@@ -51,10 +50,9 @@ export function validateSkillConfiguration(
 export async function getSkillConfiguration(
   apiBaseUrl: string,
   gameId: string,
-  skillKey: string,
-  token: string
+  skillKey: string
 ): Promise<ApiResult<SkillConfiguration>> {
-  const result = await requestJson<unknown>(apiBaseUrl, skillConfigurationPath(gameId, skillKey), { token });
+  const result = await requestJson<unknown>(apiBaseUrl, skillConfigurationPath(gameId, skillKey));
   return { ...result, data: validateSkillConfiguration(result.data, gameId, skillKey) };
 }
 
@@ -62,11 +60,10 @@ export async function createSkillConfiguration(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  token: string,
   body: CreateSkillConfigurationRequest
 ): Promise<ApiResult<SkillConfiguration>> {
   const result = await requestJson<unknown>(apiBaseUrl, skillConfigurationPath(gameId, skillKey), {
-    method: 'POST', token, body: JSON.stringify(body)
+    method: 'POST', body: JSON.stringify(body)
   });
   return { ...result, data: validateSkillConfiguration(result.data, gameId, skillKey) };
 }
@@ -75,11 +72,10 @@ export async function updateSkillConfiguration(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  token: string,
   body: UpdateSkillConfigurationRequest
 ): Promise<ApiResult<SkillConfiguration>> {
   const result = await requestJson<unknown>(apiBaseUrl, skillConfigurationPath(gameId, skillKey), {
-    method: 'PATCH', token, body: JSON.stringify(body)
+    method: 'PATCH', body: JSON.stringify(body)
   });
   return { ...result, data: validateSkillConfiguration(result.data, gameId, skillKey) };
 }

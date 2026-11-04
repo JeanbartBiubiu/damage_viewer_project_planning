@@ -99,26 +99,25 @@ export function parseGameCalculationRules(value: unknown, gameId?: string, attri
     configuration: row.configuration === null ? null : parseGameCalculationConfiguration(row.configuration, attributes, skillCategories) };
 }
 function path(gameId: string) { return `/api/admin/games/${encodePathSegment(gameId)}/calculation-rules`; }
-export async function getGameCalculationRules(api: string, gameId: string, token: string, signal?: AbortSignal): Promise<ApiResult<GameCalculationRulesResponse>> {
-  const result = await requestJson<unknown>(api, path(gameId), { token, signal });
+export async function getGameCalculationRules(api: string, gameId: string, signal?: AbortSignal): Promise<ApiResult<GameCalculationRulesResponse>> {
+  const result = await requestJson<unknown>(api, path(gameId), { signal });
   return { ...result, data: parseGameCalculationRules(result.data, gameId) };
 }
 export class UnconfirmedCalculationRulesWriteError extends Error {}
-export async function updateGameCalculationRules(api: string, gameId: string, token: string,
-  body: { baseDigest: string; configuration: GameCalculationConfiguration }): Promise<ApiResult<GameCalculationRulesResponse>> {
+export async function updateGameCalculationRules(api: string, gameId: string, body: { baseDigest: string; configuration: GameCalculationConfiguration }): Promise<ApiResult<GameCalculationRulesResponse>> {
   if (body.configuration === null) fail('configuration');
   const candidate = parseGameCalculationRules({ gameId, ...body });
   const frozenBody = { baseDigest: candidate.baseDigest, configuration: candidate.configuration! };
   let written: ApiResult<GameCalculationRulesResponse>;
   try {
-    const result = await requestJson<unknown>(api, path(gameId), { method: 'PUT', token, body: JSON.stringify(frozenBody) });
+    const result = await requestJson<unknown>(api, path(gameId), { method: 'PUT', body: JSON.stringify(frozenBody) });
     written = { ...result, data: parseGameCalculationRules(result.data, gameId) };
   } catch (error) {
     if (error instanceof ApiRequestError && error.status >= 400 && error.status < 500) throw error;
     throw new UnconfirmedCalculationRulesWriteError('计算配置保存响应未确认，请保留草稿并重新读取确认。');
   }
   try {
-    const read = await getGameCalculationRules(api, gameId, token);
+    const read = await getGameCalculationRules(api, gameId);
     if (read.data.baseDigest !== written.data.baseDigest || !sameFormulaPayload(read.data.configuration, frozenBody.configuration)
       || !sameFormulaPayload(written.data.configuration, frozenBody.configuration)) throw new Error('读回不一致');
     return read;

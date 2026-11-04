@@ -34,7 +34,6 @@ export type ImageManagementPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
   selectedGameName: string;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
 };
 
@@ -72,7 +71,6 @@ export function ImageManagementPage({
   apiBaseUrl,
   selectedGameId,
   selectedGameName,
-  adminToken,
   onDirtyChange
 }: ImageManagementPageProps) {
   const [keywordDraft, setKeywordDraft] = useState('');
@@ -174,11 +172,11 @@ export function ImageManagementPage({
       setEditor({ mode, image: null });
       return;
     }
-    if (!selectedGameId || !image || !adminToken.trim()) return;
+    if (!selectedGameId || !image) return;
     setEditorLoadingKey(image.imageKey);
     setLoadError(null);
     try {
-      const result = await getImage(apiBaseUrl, selectedGameId, image.imageKey, adminToken.trim());
+      const result = await getImage(apiBaseUrl, selectedGameId, image.imageKey);
       setEditor({ mode, image: result.data });
     } catch (error) {
       setLoadError(getErrorMessage(error));
@@ -206,16 +204,12 @@ export function ImageManagementPage({
 
   const beginStatusChange = async (record: CachedImageRecord) => {
     if (!selectedGameId || statusLoadingKey || statusUpdatingKey) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setLoadError('请先配置 Admin Token。');
-      return;
-    }
+
     setStatusLoadingKey(record.imageKey);
     setLoadError(null);
     setStatusError(null);
     try {
-      const result = await getImage(apiBaseUrl, selectedGameId, record.imageKey, token);
+      const result = await getImage(apiBaseUrl, selectedGameId, record.imageKey);
       if (record.enabled) setStatusTarget(result.data);
       else await changeStatus(result.data, true);
     } catch (error) {
@@ -227,11 +221,7 @@ export function ImageManagementPage({
 
   const changeStatus = async (image: ManagedImage, enabled: boolean) => {
     if (!selectedGameId || statusUpdatingKey) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setStatusError('请先配置 Admin Token。');
-      return;
-    }
+
     setStatusUpdatingKey(image.imageKey);
     setStatusError(null);
     try {
@@ -239,7 +229,6 @@ export function ImageManagementPage({
         apiBaseUrl,
         selectedGameId,
         image.imageKey,
-        token,
         statusBody(image, enabled)
       );
       setStatusTarget(null);
@@ -335,19 +324,19 @@ export function ImageManagementPage({
         <Space size="mini" wrap>
           <ImageUsageAction key={`${apiBaseUrl}:${selectedGameId}:${record.imageKey}`}
             imageKey={record.imageKey} apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
-            adminToken={adminToken} onDirtyChange={onDirtyChange} />
+             onDirtyChange={onDirtyChange} />
           <Button
             size="mini"
-            disabled={!adminToken.trim()}
+            disabled={false}
             loading={editorLoadingKey === record.imageKey}
             onClick={() => void openEditor('view', record)}
           >查看</Button>
-          <Button size="mini" disabled={!adminToken.trim()} onClick={() => void openEditor('edit', record)}>编辑</Button>
-          <Button size="mini" disabled={!adminToken.trim()} onClick={() => void openEditor('edit', record)}>替换图片</Button>
+          <Button size="mini" disabled={false} onClick={() => void openEditor('edit', record)}>编辑</Button>
+          <Button size="mini" disabled={false} onClick={() => void openEditor('edit', record)}>替换图片</Button>
           <Button
             size="mini"
             status={record.enabled ? 'danger' : 'success'}
-            disabled={!adminToken.trim()}
+            disabled={false}
             loading={statusLoadingKey === record.imageKey || statusUpdatingKey === record.imageKey}
             onClick={() => void beginStatusChange(record)}
           >{record.enabled ? '停用' : '启用'}</Button>
@@ -404,7 +393,7 @@ export function ImageManagementPage({
         }
       >
         {!selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : null}
-        {selectedGameId && !adminToken.trim() ? <Alert type="warning" content="请先在顶部配置 Admin Token。" /> : null}
+
         {loadError ? <Alert type="error" content={loadError} className="workspace-alert" /> : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
@@ -476,7 +465,7 @@ export function ImageManagementPage({
         image={editor?.image ?? null}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={() => setEditor(null)}
         onSaved={handleSaved}
         onDirtyChange={onDirtyChange}

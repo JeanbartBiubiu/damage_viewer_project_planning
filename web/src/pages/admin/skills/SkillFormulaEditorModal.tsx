@@ -52,7 +52,6 @@ type SkillFormulaEditorModalProps = {
   apiBaseUrl: string;
   selectedGameId: string;
   skillKey: string;
-  adminToken: string;
   onClose: () => void;
   onSaved: () => void | Promise<void>;
   onSkillMissing: () => void;
@@ -76,13 +75,12 @@ export function SkillFormulaEditorModal({
   apiBaseUrl,
   selectedGameId,
   skillKey,
-  adminToken,
   onClose,
   onSaved,
   onSkillMissing,
   authoringLocation
 }: SkillFormulaEditorModalProps) {
-  const context = JSON.stringify([visible, apiBaseUrl, selectedGameId, skillKey, adminToken, mode, formula?.formulaKey]);
+  const context = JSON.stringify([visible, apiBaseUrl, selectedGameId, skillKey, mode, formula?.formulaKey]);
   const contextRef = useRef(context); contextRef.current = context;
   const [draft, setDraft] = useState<SkillFormulaDraft>(createEmptyFormulaDraft());
   const [baseline, setBaseline] = useState<SkillFormulaDraft>(createEmptyFormulaDraft());
@@ -120,14 +118,6 @@ export function SkillFormulaEditorModal({
 
   useEffect(() => {
     if (!visible) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setLoadError('请先配置 Admin Token。');
-      setCatalogError(null);
-      setCatalogReady(false);
-      setDetailReady(false);
-      return;
-    }
 
     let cancelled = false;
     setLoading(true);
@@ -148,13 +138,13 @@ export function SkillFormulaEditorModal({
     const load = async () => {
       const detailPromise: Promise<SkillFormula | null> = mode === 'create' || !formula
         ? Promise.resolve(null)
-        : getSkillFormula(apiBaseUrl, selectedGameId, skillKey, formula.formulaKey, token)
+        : getSkillFormula(apiBaseUrl, selectedGameId, skillKey, formula.formulaKey)
           .then((result) => result.data);
 
       const [detailSettled, parameterSettled, attributeSettled] = await Promise.allSettled([
         detailPromise,
-        listSkillParameters(apiBaseUrl, selectedGameId, skillKey, token),
-        listAttributes(apiBaseUrl, selectedGameId, token)
+        listSkillParameters(apiBaseUrl, selectedGameId, skillKey),
+        listAttributes(apiBaseUrl, selectedGameId)
       ]);
 
       if (cancelled) return;
@@ -296,7 +286,7 @@ export function SkillFormulaEditorModal({
       if (!cancelled) setLoading(false);
     });
     return () => { cancelled = true; };
-  }, [adminToken, apiBaseUrl, formula, mode, onSkillMissing, selectedGameId, skillKey, visible, authoringLocation]);
+  }, [apiBaseUrl, formula, mode, onSkillMissing, selectedGameId, skillKey, visible, authoringLocation]);
 
   const close = () => {
     if (saving) return;
@@ -316,7 +306,7 @@ export function SkillFormulaEditorModal({
     setPendingSubmission(structuredClone(submitted));
     setSaving(true);
     try {
-      const result = await getSkillFormula(apiBaseUrl, selectedGameId, skillKey, submitted.formulaKey, adminToken.trim());
+      const result = await getSkillFormula(apiBaseUrl, selectedGameId, skillKey, submitted.formulaKey);
       if (contextRef.current !== started) return;
       const readback = { formulaKey: result.data.formulaKey, ...buildUpdateFormulaRequest(result.data) };
       if (!sameFormulaPayload(submitted, readback)) { setSaveError('保存结果待确认，请重新读取确认。'); return; }
@@ -333,11 +323,7 @@ export function SkillFormulaEditorModal({
       setNodeIssues(validation.nodeIssues);
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
+
     const started = context;
     setSaving(true);
     setSaveError(null);
@@ -347,7 +333,6 @@ export function SkillFormulaEditorModal({
           apiBaseUrl,
           selectedGameId,
           skillKey,
-          token,
           buildCreateFormulaRequest(validation.normalized)
         );
       } else {
@@ -356,7 +341,6 @@ export function SkillFormulaEditorModal({
           selectedGameId,
           skillKey,
           formula!.formulaKey,
-          token,
           buildUpdateFormulaRequest(validation.normalized)
         );
       }

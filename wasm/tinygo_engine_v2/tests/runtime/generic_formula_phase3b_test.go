@@ -129,7 +129,7 @@ func TestPhase3BResourceGateKeepsCommonErrorAndNativeFrameRetryRelease(t *testin
 	r.InitialSnapshot.Combatants[0].Resources["mana"] = c.Combatants[0].Resources["mana"]
 	c.Formulas = append(c.Formulas, formuladefinition.FromExpr("gate", "probe", authoringBinary("div", authoringConst(60), authoringRead("source.attr.armor.resolved")), nil))
 	c.SharedProviders[0].Abilities[0].Cost = &model.AbilityCost{ResourceKey: "mana", Amount: model.GenericFormulaExpr{Op: "ref", Ref: "gate"}}
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	if code := session.CompileFrame(encodeGenericFrame(model.FrameKindGenericCompile, c)); code != 0 {
 		t.Fatal(code, lastGenericError(session.OutboxBytes()))
 	}

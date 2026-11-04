@@ -38,7 +38,7 @@ func runGenericBench() {
 		fatalf("load fixture: %v", err)
 	}
 
-	session := runtime.NewSession()
+	session := runtime.NewMathSession()
 	compiled := compileFixtureSession(session, fixture.CompileRequest)
 	if !compiled.OK || compiled.SessionID == "" {
 		fatalf("compile failed: %+v", compiled)

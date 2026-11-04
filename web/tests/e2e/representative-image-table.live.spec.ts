@@ -122,8 +122,6 @@ test('live: six tables show representative images in the first column and refres
       expect(response.status(), `创建 ${fixture.path}: ${await response.text()}`).toBe(201);
     }
     await page.addInitScript(apiBase => {
-      localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
-      localStorage.setItem('damage-viewer.web.admin-token', 'local-stage9-table-placeholder');
     }, API);
     await page.goto('/#/characters');
     await expect(page.locator('.app-toolbar-field--game')).toContainText(GAME);

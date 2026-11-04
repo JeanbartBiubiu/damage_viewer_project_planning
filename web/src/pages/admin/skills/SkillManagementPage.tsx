@@ -19,7 +19,6 @@ import {
 export type SkillManagementPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
   focus?: {
     skillKey: string;
@@ -56,7 +55,7 @@ function categoryLabel(key: string, directory: SkillCategory[]): string {
 }
 
 export function SkillManagementPage({
-  apiBaseUrl, selectedGameId, adminToken, onDirtyChange, focus
+  apiBaseUrl, selectedGameId, onDirtyChange, focus
 }: SkillManagementPageProps) {
   const [keywordDraft, setKeywordDraft] = useState('');
   const [statusDraft, setStatusDraft] = useState<SkillStatus | ''>('');
@@ -89,15 +88,15 @@ export function SkillManagementPage({
   const loadSkills = useCallback(async (query: SkillListQuery) => {
     if (focus) return;
     const generation = ++listGeneration.current;
-    const token = adminToken.trim();
-    if (!selectedGameId || !token) {
+
+    if (!selectedGameId) {
       setItems([]); setTotal(0); setLoading(false); setLoadError(null);
       return;
     }
     setLoading(true);
     setLoadError(null);
     try {
-      const result = await listSkills(apiBaseUrl, selectedGameId, token, query);
+      const result = await listSkills(apiBaseUrl, selectedGameId, query);
       if (generation !== listGeneration.current) return;
       setItems(result.data.items);
       setTotal(result.data.total);
@@ -107,19 +106,19 @@ export function SkillManagementPage({
     } finally {
       if (generation === listGeneration.current) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, focus, selectedGameId]);
+  }, [apiBaseUrl, focus, selectedGameId]);
 
   const loadCategories = useCallback(async () => {
     const generation = ++categoryGeneration.current;
-    const token = adminToken.trim();
-    if (!selectedGameId || !token) {
+
+    if (!selectedGameId) {
       setCategories([]); setCategoryDirectoryReady(false); setCategoryLoading(false);
       return;
     }
     setCategoryLoading(true);
     setCategoryError(null);
     try {
-      const result = await listSkillCategories(apiBaseUrl, selectedGameId, token);
+      const result = await listSkillCategories(apiBaseUrl, selectedGameId);
       if (generation !== categoryGeneration.current) return;
       setCategories(result.data.items);
       setCategoryDirectoryReady(true);
@@ -131,7 +130,7 @@ export function SkillManagementPage({
     } finally {
       if (generation === categoryGeneration.current) setCategoryLoading(false);
     }
-  }, [adminToken, apiBaseUrl, selectedGameId]);
+  }, [apiBaseUrl, selectedGameId]);
 
   useEffect(() => { void loadSkills(appliedQuery); }, [appliedQuery, loadSkills]);
   useEffect(() => { void loadCategories(); }, [loadCategories]);
@@ -166,12 +165,12 @@ export function SkillManagementPage({
     setKeywordDraft(''); setStatusDraft(''); setCurrentPage(1); setAppliedQuery(EMPTY_QUERY);
   };
   const confirmDelete = async () => {
-    if (!deleteTarget || deleting || !selectedGameId || !adminToken.trim()) return;
+    if (!deleteTarget || deleting || !selectedGameId) return;
     setDeleting(true);
     setDeleteError(null);
     try {
       const name = deleteTarget.name;
-      await deleteSkill(apiBaseUrl, selectedGameId, deleteTarget.skillKey, adminToken.trim());
+      await deleteSkill(apiBaseUrl, selectedGameId, deleteTarget.skillKey);
       setDeleteTarget(null);
       setNotice(`技能「${name}」已删除。`);
       await loadSkills(appliedQuery);
@@ -183,8 +182,7 @@ export function SkillManagementPage({
   };
 
   const { imageColumn, onImageSaved } = useRepresentativeImageColumn<Skill>({
-    apiBaseUrl, selectedGameId, adminToken,
-    getTarget: (record) => ({ kind: 'skill', key: record.skillKey, name: record.name })
+    apiBaseUrl, selectedGameId, getTarget: (record) => ({ kind: 'skill', key: record.skillKey, name: record.name })
   });
   const columns: TableColumnProps[] = [
     imageColumn,
@@ -203,7 +201,7 @@ export function SkillManagementPage({
       <ObjectRelationActions
         key={`${apiBaseUrl}:${selectedGameId}:${record.skillKey}`}
         target={{ kind: 'skill', key: record.skillKey, name: record.name }}
-        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
         onDirtyChange={onDirtyChange} onImageSaved={() => onImageSaved(record)} />
       <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'overview')}>编辑配置</Button>
       <Button size="mini" status={record.status === 'ENABLED' ? 'danger' : 'success'}
@@ -222,7 +220,7 @@ export function SkillManagementPage({
         action={<Button size="mini" loading={categoryLoading} onClick={() => void loadCategories()}>重试目录</Button>} /> : null}
       <SkillConfigurationWorkspace
         key={workspace.id}
-        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
         skillKey={workspace.skillKey} initialModule={workspace.module} initialStatus={workspace.initialStatus}
         categories={categories} categoryDirectoryReady={categoryDirectoryReady}
         source={focus ? {
@@ -241,13 +239,13 @@ export function SkillManagementPage({
 
   return <div className="page-stack">
     <Panel title="技能管理" actions={<Space>
-      <Button loading={loading} disabled={!selectedGameId || !adminToken.trim()}
+      <Button loading={loading} disabled={!selectedGameId}
         onClick={() => { void loadSkills(appliedQuery); void loadCategories(); }}>刷新</Button>
-      <Button type="primary" disabled={!selectedGameId || !adminToken.trim()}
+      <Button type="primary" disabled={!selectedGameId}
         onClick={() => openWorkspace(null, 'basic')}>新增技能</Button>
     </Space>}>
       {!selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : null}
-      {selectedGameId && !adminToken.trim() ? <Alert type="warning" content="请先在顶部配置管理令牌。" /> : null}
+
       {loadError ? <Alert type="error" content={loadError} /> : null}
       {categoryError ? <Alert type="warning" content={`技能分类目录读取失败：${categoryError}`}
         action={<Button size="mini" loading={categoryLoading} onClick={() => void loadCategories()}>重试目录</Button>} /> : null}

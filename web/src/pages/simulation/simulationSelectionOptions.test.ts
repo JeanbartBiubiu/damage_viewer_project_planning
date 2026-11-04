@@ -25,7 +25,7 @@ vi.mock('../../services/equipmentClient');
 vi.mock('../../services/gameCalculationRulesClient', async original => ({ ...await original<typeof import('../../services/gameCalculationRulesClient')>(), getGameCalculationRules: vi.fn() }));
 vi.mock('../../services/skillCategoryClient');
 
-const context = { apiBaseUrl: 'http://example.test', gameId: 'demo', token: 'test-only' };
+const context = { apiBaseUrl: 'http://example.test', gameId: 'demo' };
 const entity = { key: 'hero', name: '英雄', kind: 'character' as const };
 const result = <T>(data: T) => ({ data, status: 200, etag: null });
 const image = {
@@ -50,7 +50,7 @@ describe('模拟选择目录与按需头像', () => {
     expect(await loadEquipmentOptions(context, controller.signal)).toEqual([
       { key: 'item_1036', name: '长剑', kind: 'equipment' }, { key: 'item_unverified', name: '未核定装备', kind: 'equipment' }
     ]);
-    expect(listEquipment).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', context.token, {}, controller.signal);
+    expect(listEquipment).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', {}, controller.signal);
     controller.abort();
     await expect(loadEquipmentOptions(context, controller.signal)).rejects.toMatchObject({ name: 'AbortError' });
   });
@@ -71,7 +71,7 @@ describe('模拟选择目录与按需头像', () => {
     vi.mocked(getLevelConfig).mockResolvedValue(result({ gameId: 'demo', minLevel: 2, maxLevel: 4 }));
     expect(await loadCharacterLevelOptions(context, signal)).toEqual([2, 3, 4]);
     expect(getLevelConfig).toHaveBeenCalledOnce();
-    expect(getLevelConfig).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', context.token, signal);
+    expect(getLevelConfig).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', signal);
   });
 
   it('等级范围失败、非法或属于旧游戏时不猜1到18，取消后不接受返回', async () => {
@@ -98,7 +98,7 @@ describe('模拟选择目录与按需头像', () => {
     const signal = new AbortController().signal;
     vi.mocked(listCharacters).mockResolvedValue(result({ items: [row], total: 1 }));
     expect(await loadCharacterOptions(context, signal)).toEqual([entity]);
-    expect(listCharacters).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', context.token, {}, signal);
+    expect(listCharacters).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', {}, signal);
     vi.mocked(listCharacters).mockResolvedValue(result({ items: [{ ...row, gameId: 'other' }], total: 1 }));
     await expect(loadCharacterOptions(context, signal)).rejects.toThrow('当前游戏');
     vi.mocked(listCharacters).mockResolvedValue(result({ items: [row, row], total: 2 }));
@@ -117,11 +117,11 @@ describe('模拟选择目录与按需头像', () => {
       skillCategoryKeys: [skillKey === 'attack' ? 'basic_attack' : 'active'], createdAt: '', updatedAt: ''
     }));
     expect(await loadBasicAttackOptions(context, 'hero', signal)).toEqual([{ key: 'attack', name: 'attack', kind: 'skill', maxLevel: 1 }]);
-    expect(listCharacterSkillRelations).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', context.token, { characterKey: 'hero' }, signal);
+    expect(listCharacterSkillRelations).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', { characterKey: 'hero' }, signal);
     expect(getSkill).toHaveBeenCalledTimes(2);
-    expect(getSkill).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', 'attack', context.token, signal);
-    expect(getGameCalculationRules).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', context.token, signal);
-    expect(listSkillCategories).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', context.token, {}, signal);
+    expect(getSkill).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', 'attack', signal);
+    expect(getGameCalculationRules).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', signal);
+    expect(listSkillCategories).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', {}, signal);
     expect(getSkillConfiguration).not.toHaveBeenCalled();
   });
 
@@ -272,7 +272,7 @@ describe('模拟选择目录与按需头像', () => {
     vi.mocked(getImage).mockResolvedValue(result(image));
     vi.mocked(upsertManagedImage).mockRejectedValue(new Error('缓存不可用'));
     expect(await createSimulationImageLoader(context, signal)(entity)).toBe(image.imageBase64);
-    expect(getImage).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', 'portrait', context.token, signal);
+    expect(getImage).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', 'portrait', signal);
   });
 
   it('缺少头像、停用头像和读取失败均退为占位，不抛出页面错误', async () => {

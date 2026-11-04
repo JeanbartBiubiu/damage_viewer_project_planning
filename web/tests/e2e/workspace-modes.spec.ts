@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -14,7 +15,6 @@ import type { AutomaticSkillArchive } from '../../src/pages/simulation/Simulatio
 // 只替换接口；普通模式用例不启动计算，末尾的混合战斗用例执行真实计算。
 const API = 'http://127.0.0.1:19096';
 const GAME_ID = 'workspace_demo';
-const TOKEN = 'workspace-mode-fixture';
 const managementPaths = [
   'attributes', 'characters', 'equipment', 'builds', 'skill-categories', 'damage-types',
   'modifier-zones', 'skills', 'statuses', 'game-settings', 'images'
@@ -35,17 +35,17 @@ async function installApi(page: Page) {
   const pageErrors: string[] = [];
   const workers: string[] = [];
   const wasmRequests: string[] = [];
-  const authenticatedReads: boolean[] = [];
+  const anonymousReads: boolean[] = [];
   page.on('pageerror', error => pageErrors.push(error.message));
   page.on('worker', worker => workers.push(worker.url()));
   page.on('request', request => {
     if (new URL(request.url()).pathname.endsWith('.wasm')) wasmRequests.push(request.url());
   });
-  await page.addInitScript(({ api, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', token);
-  }, { api: API, token: TOKEN });
+  await page.addInitScript(({ api }) => {
+  }, { api: API });
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/**', async route => {
+    if (await fulfillAuthSession(route, false)) return;
     const request = route.request();
     const { pathname, origin } = new URL(request.url());
     if (request.method() === 'OPTIONS') {
@@ -55,7 +55,7 @@ async function installApi(page: Page) {
       } });
       return;
     }
-    if (origin !== API || request.method() !== 'GET') {
+    if (request.method() !== 'GET') {
       if (request.method() !== 'GET') writes.push(`${request.method()} ${pathname}`);
       unexpected.push(`${request.method()} ${pathname}`);
       await route.abort();
@@ -70,7 +70,7 @@ async function installApi(page: Page) {
     }
     const match = /^\/api\/admin\/games\/(workspace_demo|other_workspace)\/(.+)$/.exec(pathname);
     if (match) {
-      authenticatedReads.push(request.headers().authorization === `Bearer ${TOKEN}`);
+      anonymousReads.push(!request.headers().authorization && !request.headers().cookie && !request.headers()['x-csrf-token']);
       const [, gameId, resource] = match;
       if (resource === 'simulation-availability') {
         await respond(route, simulationAvailabilityCatalog(gameId!));
@@ -117,7 +117,7 @@ async function installApi(page: Page) {
         expect(workers, '切模式不得建立计算线程').toEqual([]);
         expect(wasmRequests, '切模式不得加载计算产物').toEqual([]);
       }
-      expect(authenticatedReads.every(Boolean), '管理只读接口保持鉴权').toBe(true);
+      expect(anonymousReads.every(Boolean), '游戏读取不附带凭据').toBe(true);
     }
   };
 }
@@ -189,7 +189,7 @@ test('根地址与未知完整路径回到管理，模拟直达和刷新保持�
   diagnostics.assertClean();
 });
 
-test('两模式共享连接、所选游戏与本地令牌，切换不启动计算或写管理数据', async ({ page }) => {
+test('两模式共享所选游戏，访客切换不启动计算或写管理数据', async ({ page }) => {
   const diagnostics = await installApi(page);
   await page.goto('/#/attributes');
   await waitForGame(page);
@@ -200,8 +200,7 @@ test('两模式共享连接、所选游戏与本地令牌，切换不启动计�
   await expect(page).toHaveURL(/#\/simulation\/basic-attack$/);
   await expectMode(page, 'simulation');
   await expect(page.getByText('当前游戏：other_workspace', { exact: true })).toBeVisible();
-  await expect(page.locator('.app-toolbar-field--api input')).toHaveValue(API);
-  await expect(page.locator('.app-toolbar-field--token input')).toHaveValue(TOKEN);
+  await expect(page.getByRole('button', { name: '登录', exact: true })).toBeVisible();
   await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
   await expect(page).toHaveURL(/#\/attributes$/);
   await expectMode(page, 'management');
@@ -385,6 +384,7 @@ test('场景读取中拒绝离开保留输入，确认离开后迟到错误不�
   const settledResponse = new Promise<void>(resolve => { responseFinished = resolve; });
   let reads = 0;
   await page.route('**/simulation-snapshot', async route => {
+    if (await fulfillAuthSession(route, false)) return;
     reads += 1;
     await responseGate;
     try {
@@ -427,6 +427,7 @@ test('取消读取后可重新请求，旧请求结束不会清除新请求忙�
   const gates: Array<() => void> = [];
   const settled: Array<Promise<void>> = [];
   await page.route('**/simulation-snapshot', async route => {
+    if (await fulfillAuthSession(route, false)) return;
     const index = gates.length;
     let finish!: () => void;
     settled.push(new Promise<void>(resolve => { finish = resolve; }));
@@ -480,7 +481,7 @@ test('初始当前生命保持未填写与0区别，明确点击才使用快照�
     };
   });
   await installSimulationSelectionApi(page, API, snapshot.gameId);
-  await page.route(`${API}/api/games`, route => respond(route, [
+  await page.route(`**/api/games`, route => respond(route, [
     { gameId: snapshot.gameId, gameName: '明确生命输入测试', representativeImageKey: null }
   ]));
   await page.route('**/simulation-snapshot', route => {
@@ -572,17 +573,17 @@ test('混合战斗完整页面：普攻与主动共用时钟，真实编译运�
     };
   });
   await installSimulationSelectionApi(page, API, snapshot.gameId, snapshot);
-  await page.route(`${API}/api/games`, route => respond(route, [
+  await page.route(`**/api/games`, route => respond(route, [
     { gameId: snapshot.gameId, gameName: '合成混合战斗验收', representativeImageKey: null }
   ]));
-  await page.route(`${API}/api/admin/games/${snapshot.gameId}/simulation-availability?**`, route =>
+  await page.route(`**/api/admin/games/${snapshot.gameId}/simulation-availability?**`, route =>
     respond(route, simulationAvailabilitySample(snapshot)));
-  await page.route(`${API}/api/admin/games/${snapshot.gameId}/character-skill-relations?**`, route => {
+  await page.route(`**/api/admin/games/${snapshot.gameId}/character-skill-relations?**`, route => {
     const characterKey = new URL(route.request().url()).searchParams.get('characterKey');
     const actor = [snapshot.source, snapshot.target].find(row => row.character.characterKey === characterKey)!;
     return respond(route, { items: actor.attachedSkills, total: actor.attachedSkills.length });
   });
-  await page.route(`${API}/api/admin/games/${snapshot.gameId}/skills/*/configuration`, route => {
+  await page.route(`**/api/admin/games/${snapshot.gameId}/skills/*/configuration`, route => {
     const skillKey = new URL(route.request().url()).pathname.split('/').at(-2);
     return respond(route, snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey)!);
   });

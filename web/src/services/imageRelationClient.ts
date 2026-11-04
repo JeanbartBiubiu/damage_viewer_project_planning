@@ -100,13 +100,13 @@ async function normalized<T>(result: Promise<ApiResult<unknown>>, parse: (value:
   return { ...response, data: parse(response.data) };
 }
 
-export function getRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget, token: string, signal?: AbortSignal): Promise<ApiResult<RepresentativeImageResponse>> {
-  return normalized(requestJson<unknown>(apiBaseUrl, representativeImagePath(gameId, target), { token, signal }), parseRepresentative);
+export function getRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget, signal?: AbortSignal): Promise<ApiResult<RepresentativeImageResponse>> {
+  return normalized(requestJson<unknown>(apiBaseUrl, representativeImagePath(gameId, target), { signal }), parseRepresentative);
 }
 
-export function setRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget, token: string, imageKey: string): Promise<ApiResult<RepresentativeImageResponse>> {
+export function setRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget, imageKey: string): Promise<ApiResult<RepresentativeImageResponse>> {
   return normalized(requestJson<unknown>(apiBaseUrl, representativeImagePath(gameId, target), {
-    method: 'PUT', token, body: JSON.stringify({ imageKey })
+    method: 'PUT', body: JSON.stringify({ imageKey })
   }), (value) => {
     const parsed = parseRepresentative(value);
     if (parsed.image?.imageKey !== imageKey) invalidResponse();
@@ -114,8 +114,8 @@ export function setRepresentativeImage(apiBaseUrl: string, gameId: string, targe
   });
 }
 
-export function removeRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget, token: string): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, representativeImagePath(gameId, target), { method: 'DELETE', token });
+export function removeRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget): Promise<ApiResult<null>> {
+  return requestJson<null>(apiBaseUrl, representativeImagePath(gameId, target), { method: 'DELETE' });
 }
 
 function mutationResultIsUncertain(error: unknown): boolean {
@@ -123,45 +123,45 @@ function mutationResultIsUncertain(error: unknown): boolean {
 }
 
 export async function setRepresentativeImageVerified(
-  apiBaseUrl: string, gameId: string, target: ImageRelationTarget, token: string, imageKey: string
+  apiBaseUrl: string, gameId: string, target: ImageRelationTarget, imageKey: string
 ): Promise<ApiResult<RepresentativeImageResponse>> {
   let uncertain: unknown = null;
   try {
-    await setRepresentativeImage(apiBaseUrl, gameId, target, token, imageKey);
+    await setRepresentativeImage(apiBaseUrl, gameId, target, imageKey);
   } catch (error) {
     if (!mutationResultIsUncertain(error)) throw error;
     uncertain = error;
   }
-  const readback = await getRepresentativeImage(apiBaseUrl, gameId, target, token);
+  const readback = await getRepresentativeImage(apiBaseUrl, gameId, target);
   if (readback.data.image?.imageKey === imageKey) return readback;
   if (uncertain) throw uncertain;
   invalidResponse();
 }
 
 export async function removeRepresentativeImageVerified(
-  apiBaseUrl: string, gameId: string, target: ImageRelationTarget, token: string
+  apiBaseUrl: string, gameId: string, target: ImageRelationTarget
 ): Promise<ApiResult<RepresentativeImageResponse>> {
   let uncertain: unknown = null;
   try {
-    await removeRepresentativeImage(apiBaseUrl, gameId, target, token);
+    await removeRepresentativeImage(apiBaseUrl, gameId, target);
   } catch (error) {
     if (!mutationResultIsUncertain(error)) throw error;
     uncertain = error;
   }
-  const readback = await getRepresentativeImage(apiBaseUrl, gameId, target, token);
+  const readback = await getRepresentativeImage(apiBaseUrl, gameId, target);
   if (readback.data.image === null) return readback;
   if (uncertain) throw uncertain;
   invalidResponse();
 }
 
-export function listImageOptions(apiBaseUrl: string, gameId: string, token: string, keyword: string): Promise<ApiResult<ImageOptionsResponse>> {
+export function listImageOptions(apiBaseUrl: string, gameId: string, keyword: string): Promise<ApiResult<ImageOptionsResponse>> {
   const normalizedKeyword = keyword.trim();
   if (normalizedKeyword.length < 1 || normalizedKeyword.length > 100) {
     return Promise.reject(new ApiRequestError('图片搜索文字须为 1～100 个字符。', 400, '400.VALIDATION_FAILED'));
   }
-  return normalized(requestJson<unknown>(apiBaseUrl, `${adminGamePath(gameId)}/image-options?${new URLSearchParams({ keyword: normalizedKeyword })}`, { token }), parseOptions);
+  return normalized(requestJson<unknown>(apiBaseUrl, `${adminGamePath(gameId)}/image-options?${new URLSearchParams({ keyword: normalizedKeyword })}`), parseOptions);
 }
 
-export function getImageUsages(apiBaseUrl: string, gameId: string, imageKey: string, token: string): Promise<ApiResult<ImageUsages>> {
-  return normalized(requestJson<unknown>(apiBaseUrl, `${adminGamePath(gameId)}/images/${encodePathSegment(imageKey)}/usages`, { token }), (value) => parseUsages(value, gameId, imageKey));
+export function getImageUsages(apiBaseUrl: string, gameId: string, imageKey: string): Promise<ApiResult<ImageUsages>> {
+  return normalized(requestJson<unknown>(apiBaseUrl, `${adminGamePath(gameId)}/images/${encodePathSegment(imageKey)}/usages`), (value) => parseUsages(value, gameId, imageKey));
 }

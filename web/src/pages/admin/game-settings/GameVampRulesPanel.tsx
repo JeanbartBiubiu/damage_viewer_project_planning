@@ -13,13 +13,12 @@ import { createGameVampRuleDraft, validateGameVampRules, type GameVampRuleDraft 
 type Props = {
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
 };
 
-export function GameVampRulesPanel({ apiBaseUrl, selectedGameId, adminToken, onDirtyChange }: Props) {
-  const token = adminToken.trim();
-  const context = useMemo(() => ({ apiBaseUrl, gameId: selectedGameId, token }), [apiBaseUrl, selectedGameId, token]);
+export function GameVampRulesPanel({ apiBaseUrl, selectedGameId, onDirtyChange }: Props) {
+
+  const context = useMemo(() => ({ apiBaseUrl, gameId: selectedGameId }), [apiBaseUrl, selectedGameId]);
   const currentContext = useRef(context);
   currentContext.current = context;
   const serial = useRef(0);
@@ -48,13 +47,13 @@ export function GameVampRulesPanel({ apiBaseUrl, selectedGameId, adminToken, onD
     const request = ++serial.current;
     setLoadedContext(null); setError(null); setNotice(null);
     setDraft([]); setBaseline([]); setAttributes([]); setCategories([]);
-    setLoading(Boolean(context.gameId && context.token));
-    if (!context.gameId || !context.token) return;
+    setLoading(Boolean(context.gameId));
+    if (!context.gameId) return;
     try {
       const [rules, attributeList, categoryList] = await Promise.all([
-        getGameVampRules(context.apiBaseUrl, context.gameId, context.token),
-        listAttributes(context.apiBaseUrl, context.gameId, context.token),
-        listSkillCategories(context.apiBaseUrl, context.gameId, context.token)
+        getGameVampRules(context.apiBaseUrl, context.gameId),
+        listAttributes(context.apiBaseUrl, context.gameId),
+        listSkillCategories(context.apiBaseUrl, context.gameId)
       ]);
       if (!isCurrent(request, context)) return;
       if (attributeList.data.items.some((item) => item.gameId !== context.gameId)
@@ -84,13 +83,13 @@ export function GameVampRulesPanel({ apiBaseUrl, selectedGameId, adminToken, onD
   };
 
   const save = async () => {
-    if (!ready || loading || busy.current || !context.gameId || !context.token) return;
+    if (!ready || loading || busy.current || !context.gameId) return;
     const validation = validateGameVampRules(draft, attributes, categories);
     if (!validation.ok) { setError(validation.message); return; }
     const request = ++serial.current;
     busy.current = true; setSaving(true); setError(null); setNotice(null);
     try {
-      const result = await updateGameVampRules(context.apiBaseUrl, context.gameId, context.token, validation.value);
+      const result = await updateGameVampRules(context.apiBaseUrl, context.gameId, validation.value);
       if (!isCurrent(request, context)) return;
       setDraft(result.data.rules); setBaseline(result.data.rules); setNotice('游戏吸血规则已保存；已核定的普通伤害继承这些规则。');
     } catch (saveError) {
@@ -106,7 +105,7 @@ export function GameVampRulesPanel({ apiBaseUrl, selectedGameId, adminToken, onD
   };
   const disabled = !ready || loading || saving;
 
-  return <Panel title="通用吸血规则" actions={<Button loading={loading} disabled={saving || !context.gameId || !context.token} onClick={refresh}>刷新吸血规则</Button>}>
+  return <Panel title="通用吸血规则" actions={<Button loading={loading} disabled={saving || !context.gameId} onClick={refresh}>刷新吸血规则</Button>}>
     <Space direction="vertical" style={{ width: '100%' }} size="large">
       <Typography.Paragraph>在这里维护共同规则；伤害结果只核定资格并填写有来源依据的禁止或覆盖。比例读取伤害来源当前属性，技能自身治疗仍单独配置。</Typography.Paragraph>
       <Alert type="info" content="每个选择集合内任一项匹配；产生方式、来源性质和技能分类三个条件必须同时满足。未配置的吸血种类不会启用。" />

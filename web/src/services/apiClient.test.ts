@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ApiRequestError, getErrorMessage, listGames, requestJson } from './apiClient';
+import { ApiRequestError, getErrorMessage, getErrorMessageWithContext, listGames, requestJson } from './apiClient';
 
 function jsonResponse(status: number, body: unknown): Response {
   return new Response(JSON.stringify(body), {
@@ -117,5 +117,15 @@ describe('apiClient 错误提示', () => {
       method: 'POST', body: JSON.stringify({ name: '示例' })
     })).rejects.toBe(error);
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+  it.each([
+    ['保存结果待核对：', '。可再次只读核对，页面不会自动重发写入。'],
+    ['写入响应不明：', '。正在只读核对；不会自动重发写入。'],
+    ['写入结果不明，独立回读失败；请刷新确认，暂不重复提交。', '']
+  ])('已由登录提示处理的401不再被上下文前后缀拼成错误提示：%s', (prefix, suffix) => {
+    const error = new ApiRequestError('会话失效', 401, 'AUTH.INVALID_CREDENTIALS'); error.handledByLoginPrompt = true;
+    expect(getErrorMessageWithContext(error, prefix, suffix)).toBe('');
+    const network = new TypeError('Failed to fetch');
+    expect(getErrorMessageWithContext(network, prefix, suffix)).toBe(`${prefix}网络请求失败，请检查网络连接和 API 地址。${suffix}`);
   });
 });

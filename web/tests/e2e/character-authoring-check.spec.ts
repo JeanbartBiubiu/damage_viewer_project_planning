@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { expect, test, type Route } from '@playwright/test';
 
 test('角色录入检查失败重试、技能往返和迟到响应隔离', async ({ page }) => {
@@ -18,7 +19,8 @@ test('角色录入检查失败重试、技能往返和迟到响应隔离', async
   let reads = 0;
   const json = (route: Route, body: unknown, status = 200) => route.fulfill({ status, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify(body) });
   page.on('pageerror', error => errors.push(error.message));
-  await page.route(base + '/**', async route => {
+  await page.route('**/api/**', async route => {
+      if (await fulfillAuthSession(route)) return;
     const request = route.request();
     const pathname = new URL(request.url()).pathname;
     if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*', 'Access-Control-Allow-Methods': 'GET,OPTIONS' } });
@@ -46,8 +48,6 @@ test('角色录入检查失败重试、技能往返和迟到响应隔离', async
   await page.addInitScript(({ base }) => {
     localStorage.clear();
     sessionStorage.clear();
-    localStorage.setItem('damage-viewer.web.api-base-url', base);
-    localStorage.setItem('damage-viewer.web.admin-token', 'authoring-check-example');
   }, { base });
   await page.goto('/#/characters');
   const ez = page.getByRole('row').filter({ has: page.getByText('伊泽瑞尔', { exact: true }) });

@@ -33,7 +33,6 @@ type StatusEditorModalProps = {
   statusRecord: GameStatus | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSaved: (status: GameStatus) => void | Promise<void>;
   onDirtyChange: (dirty: boolean) => void;
@@ -57,7 +56,6 @@ export function StatusEditorModal({
   statusRecord,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onDirtyChange
@@ -72,7 +70,7 @@ export function StatusEditorModal({
   const [saving, setSaving] = useState(false);
   const readOnly = mode === 'view';
   const dirty = visible && !readOnly && JSON.stringify(draft) !== JSON.stringify(initial);
-  const context = useMemo(() => ({}), [apiBaseUrl, selectedGameId, adminToken, mode, initial, visible]);
+  const context = useMemo(() => ({}), [apiBaseUrl, selectedGameId, mode, initial, visible]);
   const currentContext = useRef(context);
   currentContext.current = context;
   const active = useRef(true);
@@ -117,11 +115,6 @@ export function StatusEditorModal({
       setSaveError('请先选择游戏。');
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
 
     busy.current = true;
     const isCurrent = () => active.current && currentContext.current === context;
@@ -132,14 +125,12 @@ export function StatusEditorModal({
         ? await createStatus(
             apiBaseUrl,
             selectedGameId,
-            token,
             buildCreateStatusRequest(validation.normalized)
           )
         : await updateStatus(
             apiBaseUrl,
             selectedGameId,
             statusRecord!.statusKey,
-            token,
             buildUpdateStatusRequest(validation.normalized, statusRecord!.status)
           );
       if (!isCurrent()) return;

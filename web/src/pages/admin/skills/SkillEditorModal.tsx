@@ -50,7 +50,6 @@ type SkillEditorModalProps = {
   skillCategories: SkillCategory[];
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSaved: (skill: Skill, options?: SkillEditorSaveOptions) => void | Promise<void>;
   onDirtyChange: (dirty: boolean) => void;
@@ -92,7 +91,6 @@ export function SkillEditorModal({
   skillCategories,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onDirtyChange,
@@ -155,14 +153,14 @@ export function SkillEditorModal({
       setLoadingDetail(false);
       return invalidate;
     }
-    const token = adminToken.trim();
-    if (!selectedGameId || !skillKey || !token) {
+
+    if (!selectedGameId || !skillKey) {
       setLoadingDetail(false);
-      setLoadError('请先选择游戏并配置 Admin Token，再重新打开技能。');
+      setLoadError('请先选择游戏，再重新打开技能。');
       return invalidate;
     }
     setLoadingDetail(true);
-    void loadFocusedSkill(apiBaseUrl, selectedGameId, skillKey, token)
+    void loadFocusedSkill(apiBaseUrl, selectedGameId, skillKey)
       .then((current) => {
         if (!active) return;
         const fresh = skillToDraft(current);
@@ -202,7 +200,7 @@ export function SkillEditorModal({
         }
       });
     return invalidate;
-  }, [adminToken, apiBaseUrl, authoringFocus, detailAttempt, mode, onDirtyChange, selectedGameId, skillKey, visible]);
+  }, [apiBaseUrl, authoringFocus, detailAttempt, mode, onDirtyChange, selectedGameId, skillKey, visible]);
 
   const patchDraft = <K extends keyof SkillDraft>(field: K, value: SkillDraft[K]) => {
     const next = { ...draft, [field]: value };
@@ -233,11 +231,6 @@ export function SkillEditorModal({
     }
     if (!selectedGameId) {
       setSaveError('请先选择游戏。');
-      return;
-    }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
       return;
     }
 
@@ -273,14 +266,12 @@ export function SkillEditorModal({
         ? await createSkill(
             apiBaseUrl,
             selectedGameId,
-            token,
             buildCreateSkillRequest(validation.normalized)
           )
         : await updateSkill(
             apiBaseUrl,
             selectedGameId,
             loadedSkill!.skillKey,
-            token,
             buildUpdateSkillRequest(validation.normalized)
           );
       if (saveRequestSerial.current !== saveSerial) return;

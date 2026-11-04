@@ -20,7 +20,7 @@ import { BuildSystemEditorModal, type BuildEditorMode } from './BuildSystemEdito
 import { BuildTrialPanel } from './BuildTrialPanel';
 import { buildErrorMessage } from './buildForm';
 
-type Props = { apiBaseUrl: string; selectedGameId: string | null; adminToken: string; onDirtyChange: (dirty: boolean) => void };
+type Props = { apiBaseUrl: string; selectedGameId: string | null; onDirtyChange: (dirty: boolean) => void };
 type View = 'systems' | 'options' | 'groups' | 'trial';
 type CatalogFilter = { keywordDraft: string; query: string; page: number; pageSize: number };
 type Entry = BuildSystem | BuildOption | BuildGroup;
@@ -41,16 +41,16 @@ export function BuildManagementPage(props: Props) {
   const skillFocusDirty = useRef(false);
   const active = useRef(true);
   const serial = useRef(0);
-  const focusContext = JSON.stringify([props.apiBaseUrl, props.selectedGameId, props.adminToken]);
-  const token = props.adminToken.trim();
+  const focusContext = JSON.stringify([props.apiBaseUrl, props.selectedGameId]);
+
   const selected = systems.find(system => system.systemKey === selectedKey) ?? null;
   const onDirtyChange = useCallback((value: boolean) => { dirty.current = value; props.onDirtyChange(value); }, [props.onDirtyChange]);
   const reportSkillDirty = useCallback((value: boolean) => { skillFocusDirty.current = value; props.onDirtyChange(value); }, [props.onDirtyChange]);
   const loadSystems = useCallback(async () => {
     const request = ++serial.current;
-    if (!props.selectedGameId || !token) { setSystems([]); setSelectedKey(null); return; }
+    if (!props.selectedGameId) { setSystems([]); setSelectedKey(null); return; }
     try {
-      const result = await listBuildSystems(props.apiBaseUrl, props.selectedGameId, token);
+      const result = await listBuildSystems(props.apiBaseUrl, props.selectedGameId);
       if (!active.current || request !== serial.current) return;
       setSystems(result.data.items);
       setCatalogError(null);
@@ -58,7 +58,7 @@ export function BuildManagementPage(props: Props) {
     } catch (cause) {
       if (active.current && request === serial.current) { setSystems([]); setSelectedKey(null); setCatalogError(getErrorMessage(cause)); }
     }
-  }, [props.apiBaseUrl, props.selectedGameId, token]);
+  }, [props.apiBaseUrl, props.selectedGameId]);
   useEffect(() => {
     active.current = true;
     setSkillsTarget(null); setSkillFocus(null); skillFocusDirty.current = false;
@@ -73,7 +73,7 @@ export function BuildManagementPage(props: Props) {
       key={`${focusContext}:${skillFocus.skillKey}`}
       apiBaseUrl={props.apiBaseUrl}
       selectedGameId={props.selectedGameId}
-      adminToken={props.adminToken}
+
       onDirtyChange={reportSkillDirty}
       focus={{
         skillKey: skillFocus.skillKey,
@@ -94,16 +94,16 @@ export function BuildManagementPage(props: Props) {
   }
   return <div className="page-stack">
     <Panel title="构筑系统管理">
-      {!props.selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : !token ? <Alert type="warning" content="请先在顶部配置 Admin Token。" /> : null}
+
       {catalogError ? <Alert type="error" content={catalogError} /> : null}
       <Space wrap>
-        <Select aria-label="当前构筑系统" placeholder="选择当前构筑系统" style={{ width: 360 }} disabled={!props.selectedGameId || !token}
+        <Select aria-label="当前构筑系统" placeholder="选择当前构筑系统" style={{ width: 360 }} disabled={!props.selectedGameId}
           value={selectedKey ?? undefined} options={systems.map(system => ({ value: system.systemKey, label: `${system.name} · ${system.systemKey}` }))}
           onChange={(value: string) => {
             if ((dirty.current || skillFocusDirty.current) && !window.confirm('当前修改尚未保存，确定切换构筑系统吗？')) return;
             onDirtyChange(false); setSkillsTarget(null); setSelectedKey(value);
           }} />
-        <Button disabled={!props.selectedGameId || !token} onClick={() => {
+        <Button disabled={!props.selectedGameId} onClick={() => {
           if ((dirty.current || skillFocusDirty.current) && !window.confirm('当前修改尚未保存，确定刷新构筑系统吗？')) return;
           onDirtyChange(false); reportSkillDirty(false); setSkillsTarget(null); setSkillFocus(null); void loadSystems();
         }}>刷新系统</Button>
@@ -120,10 +120,10 @@ export function BuildManagementPage(props: Props) {
     </Tabs>
     {view === 'trial'
       ? selected && props.selectedGameId
-        ? <BuildTrialPanel key={JSON.stringify([props.apiBaseUrl, props.selectedGameId, token, selected.systemKey])} apiBaseUrl={props.apiBaseUrl} selectedGameId={props.selectedGameId} systemKey={selected.systemKey} adminToken={props.adminToken} onDirtyChange={onDirtyChange} />
+        ? <BuildTrialPanel key={JSON.stringify([props.apiBaseUrl, props.selectedGameId, selected.systemKey])} apiBaseUrl={props.apiBaseUrl} selectedGameId={props.selectedGameId} systemKey={selected.systemKey}  onDirtyChange={onDirtyChange} />
         : <Alert type="warning" content="请先选择当前游戏内的构筑系统。" />
       : <BuildCatalog
-        key={JSON.stringify([props.apiBaseUrl, props.selectedGameId, token, view, selectedKey])}
+        key={JSON.stringify([props.apiBaseUrl, props.selectedGameId, view, selectedKey])}
         {...props}
         view={view}
         system={selected}
@@ -142,7 +142,7 @@ export function BuildManagementPage(props: Props) {
       }}
       apiBaseUrl={props.apiBaseUrl}
       selectedGameId={props.selectedGameId}
-      adminToken={props.adminToken}
+
       onDirtyChange={onDirtyChange}
       onClose={() => setSkillsTarget(null)}
       onEditSkill={skillKey => {
@@ -155,7 +155,7 @@ export function BuildManagementPage(props: Props) {
 }
 
 function BuildCatalog({
-  view, system, filter, onFilter, apiBaseUrl, selectedGameId, adminToken, onDirtyChange, onSystemsChanged, onOpenSkills
+  view, system, filter, onFilter, apiBaseUrl, selectedGameId, onDirtyChange, onSystemsChanged, onOpenSkills
 }: Props & {
   view: Exclude<View, 'trial'>;
   system: BuildSystem | null;
@@ -177,25 +177,25 @@ function BuildCatalog({
   const serial = useRef(0);
   const deleteBusy = useRef(false);
   const deleteSerial = useRef(0);
-  const token = adminToken.trim();
-  const ready = Boolean(selectedGameId && token && (view === 'systems' || system));
+
+  const ready = Boolean(selectedGameId && (view === 'systems' || system));
   const current = Math.min(filter.page, Math.max(1, Math.ceil(entries.length / filter.pageSize)));
   const load = useCallback(async () => {
     const request = ++serial.current;
-    if (!selectedGameId || !token || (view !== 'systems' && !system)) return;
+    if (!selectedGameId || (view !== 'systems' && !system)) return;
     setLoading(true); setLoadError(null);
     try {
       const keyword = filter.query || undefined;
       const result = view === 'systems'
-        ? await listBuildSystems(apiBaseUrl, selectedGameId, token, keyword)
+        ? await listBuildSystems(apiBaseUrl, selectedGameId, keyword)
         : view === 'options'
-          ? await listBuildOptions(apiBaseUrl, selectedGameId, system!.systemKey, token, keyword)
-          : await listBuildGroups(apiBaseUrl, selectedGameId, system!.systemKey, token, keyword);
+          ? await listBuildOptions(apiBaseUrl, selectedGameId, system!.systemKey, keyword)
+          : await listBuildGroups(apiBaseUrl, selectedGameId, system!.systemKey, keyword);
       if (active.current && request === serial.current) setEntries(result.data.items);
     } catch (cause) {
       if (active.current && request === serial.current) { setEntries([]); setLoadError(getErrorMessage(cause)); }
     } finally { if (active.current && request === serial.current) setLoading(false); }
-  }, [apiBaseUrl, filter.query, selectedGameId, system, token, view]);
+  }, [apiBaseUrl, filter.query, selectedGameId, system, view]);
   useEffect(() => { active.current = true; return () => { active.current = false; serial.current += 1; onDirtyChange(false); }; }, [onDirtyChange]);
   useEffect(() => { void load(); }, [load]);
   const saved = () => { setEditor(null); setNotice('已保存并回读。'); onDirtyChange(false); onSystemsChanged(); void load(); };
@@ -204,32 +204,30 @@ function BuildCatalog({
     setDeleteTarget(entry); setDeleteError(null); setDeletePreview(null);
     if (view !== 'systems' || !selectedGameId) return;
     try {
-      const definition = await getBuildDefinition(apiBaseUrl, selectedGameId, (entry as BuildSystem).systemKey, token);
+      const definition = await getBuildDefinition(apiBaseUrl, selectedGameId, (entry as BuildSystem).systemKey);
       if (active.current && request === deleteSerial.current) {
         setDeletePreview({ groups: definition.data.groups.length, options: definition.data.options.length, grants: definition.data.skillRelations.length });
       }
     } catch (cause) { if (active.current && request === deleteSerial.current) setDeleteError(buildErrorMessage(cause)); }
   };
   const remove = async () => {
-    if (!deleteTarget || !selectedGameId || !token || deleteBusy.current) return;
+    if (!deleteTarget || !selectedGameId || deleteBusy.current) return;
     if (view === 'systems' && !deletePreview) return;
     deleteBusy.current = true; setDeleting(true); setDeleteError(null);
     try {
-      if (view === 'systems') await deleteBuildSystem(apiBaseUrl, selectedGameId, (deleteTarget as BuildSystem).systemKey, token);
-      else if (view === 'options') await deleteBuildOption(apiBaseUrl, selectedGameId, system!.systemKey, (deleteTarget as BuildOption).optionKey, token);
-      else await deleteBuildGroup(apiBaseUrl, selectedGameId, system!.systemKey, (deleteTarget as BuildGroup).groupKey, token);
+      if (view === 'systems') await deleteBuildSystem(apiBaseUrl, selectedGameId, (deleteTarget as BuildSystem).systemKey);
+      else if (view === 'options') await deleteBuildOption(apiBaseUrl, selectedGameId, system!.systemKey, (deleteTarget as BuildOption).optionKey);
+      else await deleteBuildGroup(apiBaseUrl, selectedGameId, system!.systemKey, (deleteTarget as BuildGroup).groupKey);
       if (!active.current) return;
       setDeleteTarget(null); setNotice(`「${deleteTarget.name}」已删除。`); onSystemsChanged(); await load();
     } catch (cause) { if (active.current) setDeleteError(buildErrorMessage(cause)); }
     finally { deleteBusy.current = false; if (active.current) setDeleting(false); }
   };
   const optionColumn = useRepresentativeImageColumn<BuildOption>({
-    apiBaseUrl, selectedGameId, adminToken,
-    getTarget: option => ({ kind: 'buildOption', key: option.optionKey, name: option.name, systemKey: option.systemKey })
+    apiBaseUrl, selectedGameId, getTarget: option => ({ kind: 'buildOption', key: option.optionKey, name: option.name, systemKey: option.systemKey })
   });
   const groupColumn = useRepresentativeImageColumn<BuildGroup>({
-    apiBaseUrl, selectedGameId, adminToken,
-    getTarget: group => ({ kind: 'buildGroup', key: group.groupKey, name: group.name, systemKey: group.systemKey })
+    apiBaseUrl, selectedGameId, getTarget: group => ({ kind: 'buildGroup', key: group.groupKey, name: group.name, systemKey: group.systemKey })
   });
   const columns: TableColumnProps<Entry>[] = view === 'systems' ? [
     { title: '系统名称', dataIndex: 'name', width: 180 },
@@ -264,7 +262,7 @@ function BuildCatalog({
           ? { kind: 'buildGroup' as const, key, name: entry.name, systemKey: (entry as BuildGroup).systemKey }
           : null;
       return <Space size="mini" wrap>
-        {target ? <ObjectRelationActions apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} onDirtyChange={onDirtyChange} target={target}
+        {target ? <ObjectRelationActions apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}  onDirtyChange={onDirtyChange} target={target}
           onImageSaved={() => view === 'options' ? optionColumn.onImageSaved(entry as BuildOption) : groupColumn.onImageSaved(entry as BuildGroup)}
           onOpenSkills={skills ? () => onOpenSkills(entry as BuildOption) : undefined} /> : null}
         <Button size="mini" disabled={!ready} onClick={() => setEditor({ mode: 'view', key })}>查看</Button>
@@ -291,9 +289,9 @@ function BuildCatalog({
     <Table<Entry> className="data-table-shell" columns={columns} data={entries} loading={loading} rowKey={entry => `${view}:${'optionKey' in entry ? entry.optionKey : 'groupKey' in entry && view === 'groups' ? (entry as BuildGroup).groupKey : (entry as BuildSystem).systemKey}`}
       scroll={{ x: 1200 }} noDataElement={<Empty description={loadError ? '读取失败' : `暂无${label}`} />}
       pagination={{ current, pageSize: filter.pageSize, total: entries.length, sizeCanChange: true, sizeOptions: [25, 50, 100], showTotal: true, onChange: page => onFilter({ page }), onPageSizeChange: pageSize => onFilter({ pageSize, page: 1 }) }} />
-    {editor && selectedGameId && view === 'systems' ? <BuildSystemEditorModal key={`${editor.mode}:${editor.key}`} mode={editor.mode} systemKey={editor.key} apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} onClose={() => setEditor(null)} onSaved={saved} onDirtyChange={onDirtyChange} /> : null}
-    {editor && selectedGameId && system && view === 'options' ? <BuildOptionEditorModal key={`${editor.mode}:${editor.key}`} mode={editor.mode} systemKey={system.systemKey} optionKey={editor.key} configurationMode={system.configurationMode} budgetEnabled={system.selectionRules.budget !== null} apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} onClose={() => setEditor(null)} onSaved={saved} onDirtyChange={onDirtyChange} /> : null}
-    {editor && selectedGameId && system && view === 'groups' ? <BuildGroupEditorModal key={`${editor.mode}:${editor.key}`} mode={editor.mode} systemKey={system.systemKey} groupKey={editor.key} configurationMode={system.configurationMode} apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} onClose={() => setEditor(null)} onSaved={saved} onDirtyChange={onDirtyChange} /> : null}
+    {editor && selectedGameId && view === 'systems' ? <BuildSystemEditorModal key={`${editor.mode}:${editor.key}`} mode={editor.mode} systemKey={editor.key} apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}  onClose={() => setEditor(null)} onSaved={saved} onDirtyChange={onDirtyChange} /> : null}
+    {editor && selectedGameId && system && view === 'options' ? <BuildOptionEditorModal key={`${editor.mode}:${editor.key}`} mode={editor.mode} systemKey={system.systemKey} optionKey={editor.key} configurationMode={system.configurationMode} budgetEnabled={system.selectionRules.budget !== null} apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}  onClose={() => setEditor(null)} onSaved={saved} onDirtyChange={onDirtyChange} /> : null}
+    {editor && selectedGameId && system && view === 'groups' ? <BuildGroupEditorModal key={`${editor.mode}:${editor.key}`} mode={editor.mode} systemKey={system.systemKey} groupKey={editor.key} configurationMode={system.configurationMode} apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}  onClose={() => setEditor(null)} onSaved={saved} onDirtyChange={onDirtyChange} /> : null}
     <Modal title={`删除${label}`} visible={deleteTarget !== null} okText="删除" cancelText="取消" okButtonProps={{ status: 'danger', disabled: view === 'systems' && !deletePreview }} confirmLoading={deleting} maskClosable={false}
       onCancel={() => { if (!deleteBusy.current) { deleteSerial.current += 1; setDeleteTarget(null); } }} onOk={() => void remove()}>
       {deleteError ? <Alert type="error" content={deleteError} style={{ marginBottom: 12 }} /> : null}

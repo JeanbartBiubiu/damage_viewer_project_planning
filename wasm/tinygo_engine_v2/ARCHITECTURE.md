@@ -12,6 +12,7 @@ graph TD
     Export["cmd/engine_wasm 正式导出"]
     Runtime["runtime 会话、身份校验与单场组合"]
     Compile["compile 编译"]
+    Authorization["authorization 固化策略与计算授权验签"]
     Plan["plan 只读执行计划"]
     Root["execution 原时点读取、跨功能次序、真实帧与提交"]
     Loop["scheduler 唯一时钟、队列、计数与停止账"]
@@ -29,6 +30,7 @@ graph TD
     Math["formula / pipeline 公式与数值管道"]
     Host --> Export --> Runtime
     Runtime --> Compile --> Plan
+    Runtime --> Authorization
     Runtime --> Root
     Runtime --> Loop
     Root --> Loop
@@ -70,6 +72,8 @@ graph TD
 ## 正式调用链与共享值
 
 `engine_compile` 从编译帧（种类200）读取 `CompileRequest`，调用编译器并登记 `CompiledSession`；`engine_run` 从运行帧（种类201）读取请求并核对会话和规则身份，再创建本场独立状态及唯一循环；`engine_release_session` 处理释放帧（种类202）并删除会话。宿主通过统一出箱缓冲读取结果，不新增内部求值导出。
+
+编译和运行入口先按产物固化策略检查顶层 `authorization` 票据；启用时成功编译登记账号编号，每次运行重新验签并匹配同一账号。关闭版只跳过授权，仍校验输入、会话和规则身份。释放不核验票据。验签包独立于战斗协议、编译计划与执行循环，不在每次事件或命中中检查账号资格。
 
 编译计划可被多次运行借用。执行与数值管道只消费编译结果，不反向调用编译器；本次驱动公式进入独立运行公式表，不改共享计划。`internal/model/` 定义外部协议，`internal/plan/` 定义编译结果，`internal/runtime/contract/` 保存跨所有者的有限身份及事实。
 

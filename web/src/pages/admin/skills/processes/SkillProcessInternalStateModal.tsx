@@ -46,7 +46,6 @@ type SkillProcessInternalStateModalProps = {
   skill: Skill | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSkillMissing: () => void;
   onDirtyChange: (dirty: boolean) => void;
@@ -77,7 +76,6 @@ export function SkillProcessInternalStateModal({
   skill,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSkillMissing,
   onDirtyChange,
@@ -162,8 +160,8 @@ export function SkillProcessInternalStateModal({
   const loadProcesses = useCallback(async () => {
     const serial = processSerial.current + 1;
     processSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !openGameId || !openSkillKey || !token) {
+
+    if (!visible || !openGameId || !openSkillKey) {
       setProcesses([]);
       setProcessesError(null);
       setProcessesLoading(false);
@@ -172,7 +170,7 @@ export function SkillProcessInternalStateModal({
     setProcessesLoading(true);
     setProcessesError(null);
     try {
-      const result = await listSkillProcesses(apiBaseUrl, openGameId, openSkillKey, token);
+      const result = await listSkillProcesses(apiBaseUrl, openGameId, openSkillKey);
       if (processSerial.current !== serial) return;
       if (selectedGameId !== openGameId || skill?.skillKey !== openSkillKey) return;
       setProcesses(result.data);
@@ -187,13 +185,13 @@ export function SkillProcessInternalStateModal({
     } finally {
       if (processSerial.current === serial) setProcessesLoading(false);
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, openGameId, openSkillKey, selectedGameId, skill?.skillKey, visible]);
+  }, [apiBaseUrl, onSkillMissing, openGameId, openSkillKey, selectedGameId, skill?.skillKey, visible]);
 
   const loadInternalStates = useCallback(async () => {
     const serial = internalStateSerial.current + 1;
     internalStateSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !openGameId || !openSkillKey || !token) {
+
+    if (!visible || !openGameId || !openSkillKey) {
       setInternalStates([]);
       setInternalStatesError(null);
       setInternalStatesLoading(false);
@@ -202,7 +200,7 @@ export function SkillProcessInternalStateModal({
     setInternalStatesLoading(true);
     setInternalStatesError(null);
     try {
-      const result = await listSkillInternalStates(apiBaseUrl, openGameId, openSkillKey, token);
+      const result = await listSkillInternalStates(apiBaseUrl, openGameId, openSkillKey);
       if (internalStateSerial.current !== serial) return;
       if (selectedGameId !== openGameId || skill?.skillKey !== openSkillKey) return;
       setInternalStates(result.data);
@@ -217,7 +215,7 @@ export function SkillProcessInternalStateModal({
     } finally {
       if (internalStateSerial.current === serial) setInternalStatesLoading(false);
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, openGameId, openSkillKey, selectedGameId, skill?.skillKey, visible]);
+  }, [apiBaseUrl, onSkillMissing, openGameId, openSkillKey, selectedGameId, skill?.skillKey, visible]);
 
   useEffect(() => {
     if (!visible || !skill) {
@@ -280,11 +278,7 @@ export function SkillProcessInternalStateModal({
 
   const confirmDeleteProcess = async () => {
     if (!deleteProcessTarget || deleting || !selectedGameId || !skill) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setDeleteError('请先配置 Admin Token。');
-      return;
-    }
+
     setDeleting(true);
     setDeleteError(null);
     try {
@@ -293,8 +287,7 @@ export function SkillProcessInternalStateModal({
         apiBaseUrl,
         selectedGameId,
         skill.skillKey,
-        deleteProcessTarget.processKey,
-        token
+        deleteProcessTarget.processKey
       );
       setDeleteProcessTarget(null);
       setNotice(`过程「${deletedName}」已删除。`);
@@ -312,11 +305,7 @@ export function SkillProcessInternalStateModal({
 
   const confirmDeleteInternalState = async () => {
     if (!deleteInternalStateTarget || deleting || !selectedGameId || !skill) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setDeleteError('请先配置 Admin Token。');
-      return;
-    }
+
     setDeleting(true);
     setDeleteError(null);
     try {
@@ -325,8 +314,7 @@ export function SkillProcessInternalStateModal({
         apiBaseUrl,
         selectedGameId,
         skill.skillKey,
-        deleteInternalStateTarget.stateKey,
-        token
+        deleteInternalStateTarget.stateKey
       );
       setDeleteInternalStateTarget(null);
       setNotice(`内部状态「${deletedName}」已删除。`);
@@ -459,14 +447,14 @@ export function SkillProcessInternalStateModal({
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginBottom: 16 }}>
               <Button
                 loading={processesLoading}
-                disabled={!selectedGameId || !adminToken.trim() || !skill}
+                disabled={!selectedGameId || !skill}
                 onClick={() => void loadProcesses()}
               >
                 刷新
               </Button>
               <Button
                 type="primary"
-                disabled={!selectedGameId || !adminToken.trim() || !skill}
+                disabled={!selectedGameId || !skill}
                 onClick={() => setProcessEditor({ mode: 'create', process: null })}
               >
                 新增过程
@@ -498,14 +486,14 @@ export function SkillProcessInternalStateModal({
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginBottom: 16 }}>
               <Button
                 loading={internalStatesLoading}
-                disabled={!selectedGameId || !adminToken.trim() || !skill}
+                disabled={!selectedGameId || !skill}
                 onClick={() => void loadInternalStates()}
               >
                 刷新
               </Button>
               <Button
                 type="primary"
-                disabled={!selectedGameId || !adminToken.trim() || !skill}
+                disabled={!selectedGameId || !skill}
                 onClick={() => setInternalStateEditor({ mode: 'create', internalState: null })}
               >
                 新增内部状态
@@ -544,7 +532,7 @@ export function SkillProcessInternalStateModal({
           process={processEditor?.process ?? null}
           apiBaseUrl={apiBaseUrl}
           selectedGameId={selectedGameId}
-          adminToken={adminToken}
+
           onClose={() => setProcessEditor(null)}
           catalogRevision={catalogRevision}
           onOpenParameterFormula={openParameterFormula}
@@ -569,7 +557,7 @@ export function SkillProcessInternalStateModal({
           internalState={internalStateEditor?.internalState ?? null}
           apiBaseUrl={apiBaseUrl}
           selectedGameId={selectedGameId}
-          adminToken={adminToken}
+
           onClose={() => setInternalStateEditor(null)}
           catalogRevision={catalogRevision}
           onOpenParameterFormula={openParameterFormula}
@@ -628,7 +616,7 @@ export function SkillProcessInternalStateModal({
         skill={skill}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={closeContentManager}
         onSkillMissing={handleSkillMissing}
       />
@@ -638,7 +626,7 @@ export function SkillProcessInternalStateModal({
         skill={skill}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={closeContentManager}
         onSkillMissing={handleSkillMissing}
         onDirtyChange={handleContentEditorDirty}

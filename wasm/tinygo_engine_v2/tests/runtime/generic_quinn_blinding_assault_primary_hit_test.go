@@ -285,7 +285,7 @@ type quinnBARunBundle struct {
 
 func runQuinnBAFrames(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) quinnBARunBundle {
 	t.Helper()
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	session.ClearOutbox()
 	if code := session.CompileFrame(encodeGenericFrame(model.FrameKindGenericCompile, compileReq)); code != 0 {
 		t.Fatalf("CompileFrame code=%d err=%+v", code, lastGenericError(session.OutboxBytes()))

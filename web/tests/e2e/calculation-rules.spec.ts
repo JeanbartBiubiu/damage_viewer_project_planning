@@ -18,8 +18,6 @@ async function archive(info: TestInfo, value: unknown) {
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(api => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', 'local-calculation-verification');
   }, api);
   await page.goto('/#/simulation/basic-attack');
   const bytes = await page.evaluate(async () => [...new Uint8Array(await (await fetch('/src/engine/wasm/tinygo_engine_v2.wasm')).arrayBuffer())]);

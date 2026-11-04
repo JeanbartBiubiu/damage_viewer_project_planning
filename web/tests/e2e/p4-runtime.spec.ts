@@ -343,7 +343,7 @@ test('真实API索拉卡R完整已保存组成进入Worker：首次互斥自身�
   test.skip(process.env.P4_SORAKA_LIVE_API !== '1', '正式三条规则保存重开并独立回读后启用只读专项');
   const base = `${apiBase}/api/admin/games/lol/skills/soraka_r`;
   const read = async (path: string) => {
-    const response = await request.get(`${base}${path}`, { headers: { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` } });
+    const response = await request.get(`${base}${path}`, { headers: {  } });
     expect(response.status(), path).toBe(200);
     return response.json();
   };
@@ -481,7 +481,7 @@ test('真实API三名代表保持当前完整作者：Lux/Jax成本冷却运行�
   await page.goto('/');
   const records: unknown[] = [];
   for (const [skillKey, remaining, readyAt] of [['vi_q', 50, null], ['lux_e', 30, 10000], ['jax_e', 50, 17000]] as const) {
-    const read = async (path: string) => { const response = await request.get(`${apiBase}/api/admin/games/lol/skills/${skillKey}${path}`, { headers: { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` } }); expect(response.status()).toBe(200); return response.json(); };
+    const read = async (path: string) => { const response = await request.get(`${apiBase}/api/admin/games/lol/skills/${skillKey}${path}`, { headers: {  } }); expect(response.status()).toBe(200); return response.json(); };
     const [savedProcess, costEffect, parameters, rules] = await Promise.all([read('/processes/cast'), read('/effects/mana_cost'), read('/parameters'), read('/trigger-rules')]);
     if (skillKey === 'vi_q') {
       const configuration = await read('/configuration');

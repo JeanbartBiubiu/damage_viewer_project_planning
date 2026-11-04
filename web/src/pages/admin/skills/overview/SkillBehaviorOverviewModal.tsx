@@ -19,7 +19,6 @@ type Props = {
   skill: Skill | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   refreshNonce?: number;
   onClose: () => void;
   onEdit: (location: AuthoringLocation) => void;
@@ -47,13 +46,13 @@ function entryColumns(onEdit: (location: AuthoringLocation) => void) {
 }
 
 export function SkillBehaviorOverviewModal({
-  visible, skill, apiBaseUrl, selectedGameId, adminToken, refreshNonce = 0, onClose, onEdit
+  visible, skill, apiBaseUrl, selectedGameId, refreshNonce = 0, onClose, onEdit
 }: Props) {
   const [bundle, setBundle] = useState<SkillBehaviorOverviewBundle | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const generation = useRef(0);
-  const context = JSON.stringify([apiBaseUrl, selectedGameId, adminToken, skill?.skillKey, refreshNonce]);
+  const context = JSON.stringify([apiBaseUrl, selectedGameId, skill?.skillKey, refreshNonce]);
   const skillKey = skill?.skillKey ?? null;
 
   const load = useCallback(async () => {
@@ -61,7 +60,7 @@ export function SkillBehaviorOverviewModal({
     generation.current = requestGeneration;
     setError(null);
     setBundle(null);
-    if (!visible || !selectedGameId || !skillKey || !adminToken.trim()) {
+    if (!visible || !selectedGameId || !skillKey) {
       setLoading(false);
       return;
     }
@@ -71,7 +70,6 @@ export function SkillBehaviorOverviewModal({
         apiBaseUrl,
         gameId: selectedGameId,
         skillKey,
-        token: adminToken.trim(),
         generation: requestGeneration
       }, (value) => generation.current === value);
       if (generation.current !== requestGeneration) return;
@@ -82,7 +80,7 @@ export function SkillBehaviorOverviewModal({
     } finally {
       if (generation.current === requestGeneration) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, selectedGameId, skillKey, visible]);
+  }, [apiBaseUrl, selectedGameId, skillKey, visible]);
 
   useEffect(() => {
     void load();
@@ -117,7 +115,7 @@ export function SkillBehaviorOverviewModal({
     >
       <Space direction="vertical" style={{ width: '100%' }} size="medium">
         <Space wrap>
-          <Button loading={loading} disabled={!adminToken.trim() || !selectedGameId} onClick={() => void load()}>重试</Button>
+          <Button loading={loading} disabled={!selectedGameId} onClick={() => void load()}>重试</Button>
         </Space>
         <Alert type="info" content={AUTHORING_NOT_BATTLE_VERIFIED} />
         {loading ? <Typography.Text>正在读取技能、效果、过程与规则…</Typography.Text> : null}

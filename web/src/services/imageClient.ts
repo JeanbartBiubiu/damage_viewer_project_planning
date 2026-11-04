@@ -123,11 +123,10 @@ export function getImage(
   apiBaseUrl: string,
   gameId: string,
   imageKey: string,
-  token: string,
   signal?: AbortSignal
 ): Promise<ApiResult<ManagedImage>> {
   return normalizeResult(
-    requestJson<unknown>(apiBaseUrl, adminImagesPath(gameId, imageKey), { token, signal }),
+    requestJson<unknown>(apiBaseUrl, adminImagesPath(gameId, imageKey), { signal }),
     normalizeManagedImage
   );
 }
@@ -135,13 +134,11 @@ export function getImage(
 export function createImage(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   body: CreateImageRequest
 ): Promise<ApiResult<ManagedImage>> {
   return normalizeResult(
     requestJson<unknown>(apiBaseUrl, adminImagesPath(gameId), {
       method: 'POST',
-      token,
       body: JSON.stringify(body)
     }),
     normalizeManagedImage
@@ -152,13 +149,11 @@ export function updateImage(
   apiBaseUrl: string,
   gameId: string,
   imageKey: string,
-  token: string,
   body: UpdateImageRequest
 ): Promise<ApiResult<ManagedImage>> {
   return normalizeResult(
     requestJson<unknown>(apiBaseUrl, adminImagesPath(gameId, imageKey), {
       method: 'PUT',
-      token,
       body: JSON.stringify(body)
     }),
     normalizeManagedImage

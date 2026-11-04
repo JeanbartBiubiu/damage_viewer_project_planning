@@ -40,7 +40,6 @@ type DamageTypeFormulaEditorModalProps = {
   readOnly: boolean;
   apiBaseUrl: string;
   selectedGameId: string;
-  adminToken: string;
   onClose: () => void;
   onSaved: (message: string) => void | Promise<void>;
   onDeleted: (message: string) => void | Promise<void>;
@@ -54,13 +53,11 @@ type PendingFormulaWrite =
 function requestContext(
   apiBaseUrl: string,
   selectedGameId: string,
-  adminToken: string,
   damageTypeKey: string
 ): DamageTypeFormulaRequestContext {
   return {
     apiBaseUrl,
     gameId: selectedGameId,
-    token: adminToken.trim(),
     damageTypeKey
   };
 }
@@ -70,7 +67,6 @@ export function DamageTypeFormulaEditorModal({
   readOnly,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onDeleted,
@@ -98,7 +94,7 @@ export function DamageTypeFormulaEditorModal({
   const generationRef = useRef(0);
   const catalogGeneration = useRef(0);
   const contextRef = useRef<DamageTypeFormulaRequestContext>(
-    requestContext(apiBaseUrl, selectedGameId, adminToken, damageType.damageTypeKey)
+    requestContext(apiBaseUrl, selectedGameId, damageType.damageTypeKey)
   );
   const draftRef = useRef<DamageTypeFormulaDraft | null>(null);
   const savingRef = useRef(false);
@@ -145,7 +141,7 @@ export function DamageTypeFormulaEditorModal({
   useEffect(() => {
     const generation = ++generationRef.current;
     const catalogRequestGeneration = ++catalogGeneration.current;
-    const started = requestContext(apiBaseUrl, selectedGameId, adminToken, damageType.damageTypeKey);
+    const started = requestContext(apiBaseUrl, selectedGameId, damageType.damageTypeKey);
     contextRef.current = started;
     let cancelled = false;
     const current = () => !cancelled
@@ -174,12 +170,6 @@ export function DamageTypeFormulaEditorModal({
     setPersisted(false);
     setBlank(false);
 
-    if (!started.token) {
-      setPhase('error');
-      setLoadError('请先配置 Admin Token。');
-      setCatalogLoading(false);
-      return () => { cancelled = true; };
-    }
     if (!started.gameId) {
       setPhase('error');
       setLoadError('请先选择游戏。');
@@ -193,8 +183,7 @@ export function DamageTypeFormulaEditorModal({
         const result = await getDamageTypeFormula(
           apiBaseUrl,
           selectedGameId,
-          damageType.damageTypeKey,
-          started.token
+          damageType.damageTypeKey
         );
         resolved = resolveFormulaLoad({ ok: true, detail: result.data });
       } catch (error) {
@@ -217,7 +206,7 @@ export function DamageTypeFormulaEditorModal({
 
     const loadCatalog = async () => {
       try {
-        const result = await listAttributes(apiBaseUrl, selectedGameId, started.token);
+        const result = await listAttributes(apiBaseUrl, selectedGameId);
         if (!catalogCurrent()) return;
         if (!Array.isArray(result.data?.items)) {
           setAttributes([]);
@@ -245,16 +234,16 @@ export function DamageTypeFormulaEditorModal({
       generationRef.current += 1;
       catalogGeneration.current += 1;
     };
-  }, [adminToken, apiBaseUrl, damageType.damageTypeKey, reloadToken, selectedGameId]);
+  }, [apiBaseUrl, damageType.damageTypeKey, reloadToken, selectedGameId]);
 
   const retryCatalog = async () => {
     const generation = ++catalogGeneration.current;
     const started = contextRef.current;
-    if (!started.token || !started.gameId) return;
+    if (!started.gameId) return;
     setCatalogLoading(true);
     setCatalogError(null);
     try {
-      const result = await listAttributes(started.apiBaseUrl, started.gameId, started.token);
+      const result = await listAttributes(started.apiBaseUrl, started.gameId);
       if (catalogGeneration.current !== generation || !isSameFormulaContext(started, contextRef.current)) return;
       if (!Array.isArray(result.data?.items)) {
         setCatalogReady(false);
@@ -289,8 +278,7 @@ export function DamageTypeFormulaEditorModal({
       const result = await getDamageTypeFormula(
         started.apiBaseUrl,
         started.gameId,
-        started.damageTypeKey,
-        started.token
+        started.damageTypeKey
       );
       readback = stillCurrent() ? { ok: true, formula: result.data.formula } : { ok: false };
     } catch {
@@ -324,8 +312,7 @@ export function DamageTypeFormulaEditorModal({
       await getDamageTypeFormula(
         started.apiBaseUrl,
         started.gameId,
-        started.damageTypeKey,
-        started.token
+        started.damageTypeKey
       );
     } catch (error) {
       deleted = error instanceof ApiRequestError
@@ -366,7 +353,6 @@ export function DamageTypeFormulaEditorModal({
         started.apiBaseUrl,
         started.gameId,
         started.damageTypeKey,
-        started.token,
         { formula: validation.formula }
       );
     } catch (error) {
@@ -406,7 +392,7 @@ export function DamageTypeFormulaEditorModal({
     setSaveError(null);
     let verifyDelete = false;
     try {
-      await deleteDamageTypeFormula(started.apiBaseUrl, started.gameId, started.damageTypeKey, started.token);
+      await deleteDamageTypeFormula(started.apiBaseUrl, started.gameId, started.damageTypeKey);
       if (generationRef.current !== generation || !isSameFormulaContext(started, contextRef.current)) return;
       verifyDelete = true;
     } catch (error) {

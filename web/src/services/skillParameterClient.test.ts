@@ -25,11 +25,11 @@ describe('skillParameterClient', () => {
       expect(String(input)).toBe(
         'http://localhost:8080/api/admin/games/demo%20arena/skills/active%2Fq/parameters'
       );
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, []);
     });
     vi.stubGlobal('fetch', fetchMock);
-    await listSkillParameters('http://localhost:8080/', 'demo arena', 'active/q', 'token');
+    await listSkillParameters('http://localhost:8080/', 'demo arena', 'active/q');
 
     const detailMock = vi.fn(async (input: RequestInfo | URL) => {
       expect(String(input)).toBe(
@@ -38,7 +38,7 @@ describe('skillParameterClient', () => {
       return jsonResponse(200, {});
     });
     vi.stubGlobal('fetch', detailMock);
-    await getSkillParameter('http://localhost:8080', 'demo', 'ezreal_q', 'base/damage', 'token');
+    await getSkillParameter('http://localhost:8080', 'demo', 'ezreal_q', 'base/damage');
   });
 
   it('sends four value-mode bodies and omits parameterKey on PUT', async () => {
@@ -55,7 +55,7 @@ describe('skillParameterClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await createSkillParameter('http://localhost:8080', 'demo', 'ezreal_q', 'token', {
+    await createSkillParameter('http://localhost:8080', 'demo', 'ezreal_q', {
       parameterKey: 'total_ad_ratio',
       name: '总攻击力系数',
       valueType: 'DECIMAL',
@@ -65,7 +65,7 @@ describe('skillParameterClient', () => {
       description: null,
       sortOrder: 20
     });
-    await createSkillParameter('http://localhost:8080', 'demo', 'ezreal_q', 'token', {
+    await createSkillParameter('http://localhost:8080', 'demo', 'ezreal_q', {
       parameterKey: 'base_damage',
       name: '基础伤害',
       valueType: 'DECIMAL',
@@ -75,7 +75,7 @@ describe('skillParameterClient', () => {
       description: null,
       sortOrder: 10
     });
-    await createSkillParameter('http://localhost:8080', 'demo', 'ezreal_q', 'token', {
+    await createSkillParameter('http://localhost:8080', 'demo', 'ezreal_q', {
       parameterKey: 'level_scaling',
       name: '角色等级缩放',
       valueType: 'INTEGER',
@@ -85,7 +85,7 @@ describe('skillParameterClient', () => {
       description: null,
       sortOrder: 30
     });
-    await createSkillParameter('http://localhost:8080', 'demo', 'ezreal_q', 'token', {
+    await createSkillParameter('http://localhost:8080', 'demo', 'ezreal_q', {
       parameterKey: 'current_stacks',
       name: '当前层数',
       valueType: 'INTEGER',
@@ -100,7 +100,6 @@ describe('skillParameterClient', () => {
       'demo',
       'ezreal_q',
       'total_ad_ratio',
-      'token',
       {
         name: '总攻击力系数',
         valueType: 'DECIMAL',
@@ -115,8 +114,7 @@ describe('skillParameterClient', () => {
       'http://localhost:8080',
       'demo',
       'ezreal_q',
-      'total_ad_ratio',
-      'token'
+      'total_ad_ratio'
     );
 
     expect(calls.map((call) => call.method)).toEqual([

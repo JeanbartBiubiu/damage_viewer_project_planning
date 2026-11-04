@@ -36,7 +36,6 @@ export type AttributeEditorModalProps = {
   attribute: Attribute | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSaved: (attribute: Attribute) => void | Promise<void>;
   onDirtyChange: (dirty: boolean) => void;
@@ -64,7 +63,6 @@ export function AttributeEditorModal({
   attribute,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onDirtyChange
@@ -74,7 +72,7 @@ export function AttributeEditorModal({
   const [fieldErrors, setFieldErrors] = useState<AttributeFieldErrors>({});
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
-  const context = useMemo(() => ({}), [apiBaseUrl, selectedGameId, adminToken, attribute, mode, visible]);
+  const context = useMemo(() => ({}), [apiBaseUrl, selectedGameId, attribute, mode, visible]);
   const currentContext = useRef(context);
   currentContext.current = context;
   const active = useRef(true);
@@ -143,11 +141,6 @@ export function AttributeEditorModal({
       setSaveError('请先在顶部选择游戏。');
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('保存需要 Admin Token。');
-      return;
-    }
 
     busy.current = true;
     const isCurrent = () => active.current && currentContext.current === context;
@@ -159,14 +152,12 @@ export function AttributeEditorModal({
         ? await createAttribute(
             apiBaseUrl,
             selectedGameId,
-            token,
             buildCreateAttributeRequest(validation.normalized)
           )
         : await updateAttribute(
             apiBaseUrl,
             selectedGameId,
             validation.normalized.attributeKey,
-            token,
             buildUpdateAttributeRequest(validation.normalized)
           );
       if (!isCurrent()) return;

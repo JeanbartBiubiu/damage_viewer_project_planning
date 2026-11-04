@@ -56,11 +56,11 @@ describe('skillFormulaClient', () => {
       expect(String(input)).toBe(
         'http://localhost:8080/api/admin/games/demo%20arena/skills/active%2Fw/formulas'
       );
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, [summary]);
     });
     vi.stubGlobal('fetch', listMock);
-    const listed = await listSkillFormulas('http://localhost:8080/', 'demo arena', 'active/w', 'token');
+    const listed = await listSkillFormulas('http://localhost:8080/', 'demo arena', 'active/w');
     expect(listed.data[0]).not.toHaveProperty('expression');
 
     const detailMock = vi.fn(async (input: RequestInfo | URL) => {
@@ -74,8 +74,7 @@ describe('skillFormulaClient', () => {
       'http://localhost:8080',
       'demo',
       'varus_w',
-      'missing/health',
-      'token'
+      'missing/health'
     );
     expect(loaded.data.expression).toEqual(expression);
   });
@@ -92,7 +91,7 @@ describe('skillFormulaClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await createSkillFormula('http://localhost:8080', 'demo', 'varus_w', 'token', {
+    await createSkillFormula('http://localhost:8080', 'demo', 'varus_w', {
       formulaKey: 'missing_health_damage',
       name: '已损失生命值伤害',
       description: null,
@@ -104,7 +103,6 @@ describe('skillFormulaClient', () => {
       'demo',
       'varus_w',
       'missing_health_damage',
-      'token',
       {
         name: '已损失生命值伤害',
         description: null,
@@ -116,8 +114,7 @@ describe('skillFormulaClient', () => {
       'http://localhost:8080',
       'demo',
       'varus_w',
-      'missing_health_damage',
-      'token'
+      'missing_health_damage'
     );
 
     expect(calls.map((call) => call.method)).toEqual(['POST', 'PUT', 'DELETE']);

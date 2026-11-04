@@ -23,7 +23,6 @@ type Props = {
   character: Character | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onEditCharacter: () => void;
   onEditAttributes: () => void;
@@ -47,7 +46,7 @@ function skillLabel(skills: readonly AuthoringCheckSkill[], skillKey: string): s
 }
 
 export function CharacterAuthoringCheckModal({
-  visible, character, apiBaseUrl, selectedGameId, adminToken, onClose,
+  visible, character, apiBaseUrl, selectedGameId, onClose,
   onEditCharacter, onEditAttributes, onEditRelations, onLocate
 }: Props) {
   const [report, setReport] = useState<CharacterAuthoringCheck | null>(null);
@@ -62,17 +61,17 @@ export function CharacterAuthoringCheckModal({
     setReport(null);
     setError(null);
     setReferencesExpanded(false);
-    if (!visible || !selectedGameId || !characterKey || !adminToken.trim()) { setLoading(false); return; }
+    if (!visible || !selectedGameId || !characterKey) { setLoading(false); return; }
     setLoading(true);
     try {
-      const result = await getCharacterAuthoringCheck(apiBaseUrl, selectedGameId, characterKey, adminToken.trim());
+      const result = await getCharacterAuthoringCheck(apiBaseUrl, selectedGameId, characterKey);
       if (serial.current === request) setReport(result.data);
     } catch (failure) {
       if (serial.current === request) setError(getErrorMessage(failure));
     } finally {
       if (serial.current === request) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, characterKey, selectedGameId, visible]);
+  }, [apiBaseUrl, characterKey, selectedGameId, visible]);
   useEffect(() => { void load(); return () => { serial.current++; }; }, [load]);
   const ready = visible && report?.gameId === selectedGameId && report?.characterKey === characterKey ? report : null;
   useEffect(() => {
@@ -80,11 +79,11 @@ export function CharacterAuthoringCheckModal({
     setReferenceNames(new Map());
     if (ready && selectedGameId) {
       void loadAuthoringReferenceNames(ready.references, {
-        apiBaseUrl, gameId: selectedGameId, token: adminToken.trim()
+        apiBaseUrl, gameId: selectedGameId
       }, () => current).then(names => { if (current) setReferenceNames(names); });
     }
     return () => { current = false; };
-  }, [ready, apiBaseUrl, selectedGameId, adminToken]);
+  }, [ready, apiBaseUrl, selectedGameId]);
 
   const locate = (location: AuthoringLocation, skillKey: string | null) => {
     if (location.editor === 'CHARACTER_BASIC') {
@@ -114,12 +113,12 @@ export function CharacterAuthoringCheckModal({
     style={{ width: 'calc(100vw - 80px)', maxWidth: 1500 }} footer={<Button onClick={onClose}>关闭</Button>}>
     <Space direction="vertical" style={{ width: '100%' }} size="medium">
       <Space wrap>
-        <Button loading={loading} disabled={!adminToken.trim() || !selectedGameId} onClick={() => void load()}>重新检查</Button>
+        <Button loading={loading} disabled={!selectedGameId} onClick={() => void load()}>重新检查</Button>
         <Button onClick={onEditCharacter}>编辑基础资料</Button>
         <Button onClick={onEditAttributes}>维护等级属性</Button>
         <Button onClick={onEditRelations}>维护关联技能</Button>
       </Space>
-      {!adminToken.trim() ? <Alert type="warning" content="请先配置管理令牌。" /> : null}
+      {<Alert type="warning" content="请先配置管理令牌。" />}
       {loading ? <Typography.Text>正在读取角色与挂载技能…</Typography.Text> : null}
       {error ? <Alert type="error" content={error} /> : null}
       {ready ? <>

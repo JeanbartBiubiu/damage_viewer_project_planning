@@ -31,10 +31,10 @@ describe('游戏吸血规则接口', () => {
   it('沿用统一请求并保存完整集合', async () => {
     const fetch = vi.fn().mockResolvedValue(new Response(JSON.stringify({ rules: [rule] }), { status: 200 }));
     vi.stubGlobal('fetch', fetch);
-    await getGameVampRules('http://localhost:8080', 'demo', 'test-token');
+    await getGameVampRules('http://localhost:8080', 'demo');
     expect(fetch.mock.calls[0][0]).toBe('http://localhost:8080/api/admin/games/demo/vamp-rules');
     fetch.mockResolvedValue(new Response(JSON.stringify({ rules: [rule] }), { status: 200 }));
-    const saved = await updateGameVampRules('http://localhost:8080', 'demo', 'test-token', { rules: [rule] });
+    const saved = await updateGameVampRules('http://localhost:8080', 'demo', { rules: [rule] });
     expect(fetch.mock.calls[1][1]).toMatchObject({ method: 'PUT', body: JSON.stringify({ rules: [rule] }) });
     expect(saved.data.rules).toEqual([rule]);
   });

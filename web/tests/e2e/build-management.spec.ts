@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { expect, test, type Page, type Route } from '@playwright/test';
 
 const API = 'http://127.0.0.1:8080';
@@ -33,7 +34,8 @@ async function json(route: Route, body: unknown, status = 200) {
 
 async function installApi(page: Page) {
   const unexpected: string[] = [];
-  await page.route(`${API}/**`, async route => {
+  await page.route('**/api/**', async route => {
+      if (await fulfillAuthSession(route)) return;
     const request = route.request();
     const url = new URL(request.url());
     const method = request.method();
@@ -55,8 +57,6 @@ async function installApi(page: Page) {
     return json(route, { error: { message: 'unexpected' } }, 404);
   });
   await page.addInitScript(api => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', 'build-management-test');
   }, API);
   return unexpected;
 }

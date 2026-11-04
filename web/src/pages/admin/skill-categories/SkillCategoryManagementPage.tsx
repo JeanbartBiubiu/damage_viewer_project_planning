@@ -33,7 +33,6 @@ import {
 export type SkillCategoryManagementPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
 };
 
@@ -60,7 +59,6 @@ function statusRequest(category: SkillCategory, status: SkillCategoryStatus): Up
 export function SkillCategoryManagementPage({
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onDirtyChange
 }: SkillCategoryManagementPageProps) {
   const [keywordDraft, setKeywordDraft] = useState('');
@@ -83,8 +81,8 @@ export function SkillCategoryManagementPage({
   const loadList = useCallback(async (query: SkillCategoryListQuery) => {
     const serial = requestSerial.current + 1;
     requestSerial.current = serial;
-    const token = adminToken.trim();
-    if (!selectedGameId || !token) {
+
+    if (!selectedGameId) {
       setItems([]);
       setTotal(0);
       setLoadError(null);
@@ -94,7 +92,7 @@ export function SkillCategoryManagementPage({
     setLoading(true);
     setLoadError(null);
     try {
-      const result = await listSkillCategories(apiBaseUrl, selectedGameId, token, query);
+      const result = await listSkillCategories(apiBaseUrl, selectedGameId, query);
       if (requestSerial.current !== serial) return;
       setItems(result.data.items);
       setTotal(result.data.total);
@@ -106,7 +104,7 @@ export function SkillCategoryManagementPage({
     } finally {
       if (requestSerial.current === serial) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, selectedGameId]);
+  }, [apiBaseUrl, selectedGameId]);
 
   useEffect(() => { void loadList(appliedQuery); }, [appliedQuery, loadList]);
 
@@ -147,11 +145,7 @@ export function SkillCategoryManagementPage({
 
   const confirmStatusChange = async () => {
     if (!statusTarget || statusUpdatingKey || !selectedGameId) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setStatusError('请先配置 Admin Token。');
-      return;
-    }
+
     const { category, nextStatus } = statusTarget;
     const action = nextStatus === 'ENABLED' ? '启用' : '停用';
     setStatusUpdatingKey(category.skillCategoryKey);
@@ -161,7 +155,6 @@ export function SkillCategoryManagementPage({
         apiBaseUrl,
         selectedGameId,
         category.skillCategoryKey,
-        token,
         statusRequest(category, nextStatus)
       );
       setStatusTarget(null);
@@ -176,11 +169,7 @@ export function SkillCategoryManagementPage({
 
   const confirmDelete = async () => {
     if (!deleteTarget || deleting || !selectedGameId) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setDeleteError('请先配置 Admin Token。');
-      return;
-    }
+
     setDeleting(true);
     setDeleteError(null);
     try {
@@ -188,8 +177,7 @@ export function SkillCategoryManagementPage({
       await deleteSkillCategory(
         apiBaseUrl,
         selectedGameId,
-        deleteTarget.skillCategoryKey,
-        token
+        deleteTarget.skillCategoryKey
       );
       setDeleteTarget(null);
       setNotice(`技能分类「${deletedName}」已删除。`);
@@ -263,7 +251,7 @@ export function SkillCategoryManagementPage({
           <Space>
             <Button
               loading={loading}
-              disabled={!selectedGameId || !adminToken.trim()}
+              disabled={!selectedGameId}
               onClick={() => void loadList(appliedQuery)}
             >刷新</Button>
             <Button
@@ -275,7 +263,7 @@ export function SkillCategoryManagementPage({
         }
       >
         {!selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : null}
-        {selectedGameId && !adminToken.trim() ? <Alert type="warning" content="请先在顶部配置 Admin Token。" /> : null}
+
         {loadError ? <Alert type="error" content={loadError} className="workspace-alert" /> : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
@@ -310,7 +298,7 @@ export function SkillCategoryManagementPage({
             </Radio.Group>
           </div>
           <Space>
-            <Button type="primary" disabled={!selectedGameId || !adminToken.trim()} onClick={applyQuery}>查询</Button>
+            <Button type="primary" disabled={!selectedGameId} onClick={applyQuery}>查询</Button>
             <Button onClick={resetQuery}>重置</Button>
           </Space>
         </div>
@@ -336,7 +324,7 @@ export function SkillCategoryManagementPage({
         category={editor?.category ?? null}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={() => setEditor(null)}
         onSaved={handleSaved}
         onDirtyChange={onDirtyChange}

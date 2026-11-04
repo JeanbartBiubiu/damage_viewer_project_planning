@@ -130,9 +130,8 @@ export function simulationAvailabilityPath(gameId: string, identity: SimulationA
   return `/api/admin/games/${encodePathSegment(gameId)}/simulation-availability?${query}`;
 }
 
-export async function getSimulationAvailability(apiBaseUrl: string, gameId: string, token: string,
-  signal?: AbortSignal): Promise<ApiResult<SimulationAvailabilityResponse>> {
-  const result = await requestJson<unknown>(apiBaseUrl, simulationAvailabilityPath(gameId), { token, signal, cache: 'no-store' });
+export async function getSimulationAvailability(apiBaseUrl: string, gameId: string, signal?: AbortSignal): Promise<ApiResult<SimulationAvailabilityResponse>> {
+  const result = await requestJson<unknown>(apiBaseUrl, simulationAvailabilityPath(gameId), { signal, cache: 'no-store' });
   if (signal?.aborted) throw new DOMException('计算可用性读取已取消。', 'AbortError');
   return { ...result, data: parseSimulationAvailabilityResponse(result.data, gameId) };
 }

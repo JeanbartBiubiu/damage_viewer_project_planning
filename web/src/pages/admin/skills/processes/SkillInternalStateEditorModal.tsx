@@ -82,7 +82,6 @@ type SkillInternalStateEditorModalProps = {
   internalState: SkillInternalStateSummary | null;
   apiBaseUrl: string;
   selectedGameId: string;
-  adminToken: string;
   onClose: () => void;
   onSaved: (state: SkillInternalState) => void | Promise<void>;
   onSkillMissing: () => void;
@@ -129,7 +128,6 @@ export function SkillInternalStateEditorModal({
   internalState,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onSkillMissing,
@@ -151,7 +149,7 @@ export function SkillInternalStateEditorModal({
   const [detailReady, setDetailReady] = useState(mode === 'create');
   const [savedFormulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
   const { parameters: savedParameters, parametersLoadState: savedParametersLoadState } = useNumericParameters(
-    apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible && !workspaceDraft, catalogRevision
+    apiBaseUrl, selectedGameId, skill.skillKey, visible && !workspaceDraft, catalogRevision
   );
   const parameters = workspaceDraft?.parameters ?? savedParameters;
   const parametersLoadState = workspaceDraft ? 'ready' : savedParametersLoadState;
@@ -164,11 +162,11 @@ export function SkillInternalStateEditorModal({
     if (!visible || !needsTiming || workspaceDraft?.processes) return;
     let cancelled = false;
     setProcesses([]); setProcessesError(null);
-    void listSkillProcesses(apiBaseUrl, selectedGameId, skill.skillKey, adminToken).then(result => {
+    void listSkillProcesses(apiBaseUrl, selectedGameId, skill.skillKey).then(result => {
       if (!cancelled) setProcesses(result.data);
     }).catch(error => { if (!cancelled) setProcessesError(getErrorMessage(error)); });
     return () => { cancelled = true; };
-  }, [visible, needsTiming, workspaceDraft?.processes, apiBaseUrl, selectedGameId, skill.skillKey, adminToken, catalogRevision]);
+  }, [visible, needsTiming, workspaceDraft?.processes, apiBaseUrl, selectedGameId, skill.skillKey, catalogRevision]);
   const [savedFormulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
   const formulasLoadState = workspaceDraft ? 'ready' : savedFormulasLoadState;
   const workspaceInitial = workspaceDraft?.initial;
@@ -212,10 +210,10 @@ export function SkillInternalStateEditorModal({
     if (workspaceInitial) return;
     const serial = formulaSerial.current + 1;
     formulaSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) return;
+
+    if (!visible) return;
     try {
-      const result = await listSkillFormulas(apiBaseUrl, selectedGameId, skill.skillKey, token);
+      const result = await listSkillFormulas(apiBaseUrl, selectedGameId, skill.skillKey);
       if (formulaSerial.current !== serial) return;
       setFormulas(result.data);
       setFormulasLoadState('ready');
@@ -230,7 +228,7 @@ export function SkillInternalStateEditorModal({
       setFormulasLoadState('failed');
       setFormulasError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible, workspaceInitial]);
+  }, [apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible, workspaceInitial]);
 
   const applyAuthoringLocation = useCallback((detail: unknown, next: SkillInternalStateDraft) => {
     if (!authoringLocation) return;
@@ -292,13 +290,7 @@ export function SkillInternalStateEditorModal({
       onDirtyChange(false);
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setLoadError('请先配置 Admin Token。');
-      setDetailReady(false);
-      setLoadingDetail(false);
-      return;
-    }
+
     if (!internalState) {
       setLoadError('内部状态详情加载失败。');
       setDetailReady(false);
@@ -312,8 +304,7 @@ export function SkillInternalStateEditorModal({
         apiBaseUrl,
         selectedGameId,
         skill.skillKey,
-        internalState.stateKey,
-        token
+        internalState.stateKey
       );
       if (detailSerial.current !== serial) return;
       const next = skillInternalStateToDraft(result.data);
@@ -340,7 +331,6 @@ export function SkillInternalStateEditorModal({
       if (detailSerial.current === serial) setLoadingDetail(false);
     }
   }, [
-    adminToken,
     apiBaseUrl,
     applyAuthoringLocation,
     internalState,
@@ -423,11 +413,7 @@ export function SkillInternalStateEditorModal({
       else onDirtyChange(false);
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
+
     setSaving(true);
     setSaveError(null);
     try {
@@ -436,7 +422,6 @@ export function SkillInternalStateEditorModal({
             apiBaseUrl,
             selectedGameId,
             skill.skillKey,
-            token,
             buildCreateSkillInternalStateRequest(validation.normalized)
           )
         : await updateSkillInternalState(
@@ -444,7 +429,6 @@ export function SkillInternalStateEditorModal({
             selectedGameId,
             skill.skillKey,
             internalState!.stateKey,
-            token,
             buildUpdateSkillInternalStateRequest(validation.normalized)
           );
       onDirtyChange(false);

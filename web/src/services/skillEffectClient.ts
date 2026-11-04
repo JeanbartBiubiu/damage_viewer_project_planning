@@ -641,10 +641,9 @@ function maybeParseSummaries(value: unknown): SkillEffectSummary[] {
 export function listSkillEffects(
   apiBaseUrl: string,
   gameId: string,
-  skillKey: string,
-  token: string
+  skillKey: string
 ): Promise<ApiResult<SkillEffectSummary[]>> {
-  return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey), { token })
+  return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey))
     .then((result) => ({ ...result, data: maybeParseSummaries(result.data) }));
 }
 
@@ -652,10 +651,9 @@ export function getSkillEffect(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  effectKey: string,
-  token: string
+  effectKey: string
 ): Promise<ApiResult<SkillEffect>> {
-  return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey, effectKey), { token })
+  return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey, effectKey))
     .then((result) => ({ ...result, data: maybeParseEffect(result.data) }));
 }
 
@@ -663,12 +661,10 @@ export function createSkillEffect(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  token: string,
   body: CreateSkillEffectRequest
 ): Promise<ApiResult<SkillEffect>> {
   return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey), {
     method: 'POST',
-    token,
     body: JSON.stringify(body)
   }).then((result) => ({ ...result, data: maybeParseEffect(result.data) }));
 }
@@ -678,12 +674,10 @@ export function updateSkillEffect(
   gameId: string,
   skillKey: string,
   effectKey: string,
-  token: string,
   body: UpdateSkillEffectRequest
 ): Promise<ApiResult<SkillEffect>> {
   return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey, effectKey), {
     method: 'PUT',
-    token,
     body: JSON.stringify(body)
   }).then((result) => ({ ...result, data: maybeParseEffect(result.data) }));
 }
@@ -692,11 +686,9 @@ export function deleteSkillEffect(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  effectKey: string,
-  token: string
+  effectKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, effectsPath(gameId, skillKey, effectKey), {
-    method: 'DELETE',
-    token
+    method: 'DELETE'
   });
 }

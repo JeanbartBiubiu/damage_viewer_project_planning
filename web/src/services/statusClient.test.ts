@@ -24,13 +24,13 @@ describe('statusClient', () => {
     const row = { statusKey: 'arbitrary_key', statusKind, status: 'DISABLED' };
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => jsonResponse(200,
       String(input).endsWith('/statuses') ? { items: [row], total: 1 } : row)));
-    expect((await listStatuses('http://localhost:8080', 'demo', 'token')).data.items[0]).toEqual(row);
-    expect((await getStatus('http://localhost:8080', 'demo', 'arbitrary_key', 'token')).data).toEqual(row);
+    expect((await listStatuses('http://localhost:8080', 'demo')).data.items[0]).toEqual(row);
+    expect((await getStatus('http://localhost:8080', 'demo', 'arbitrary_key')).data).toEqual(row);
   });
 
   it('整个状态目录拒绝无种类条目，不返回部分或默认眩晕', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(200, { items: [{ statusKey: 'stun' }], total: 1 })));
-    await expect(listStatuses('http://localhost:8080', 'demo', 'token')).rejects.toThrow('状态种类');
+    await expect(listStatuses('http://localhost:8080', 'demo')).rejects.toThrow('状态种类');
   });
   afterEach(() => {
     vi.unstubAllGlobals();
@@ -43,12 +43,12 @@ describe('statusClient', () => {
       expect(url.pathname).toBe('/api/admin/games/demo%20arena/statuses');
       expect(url.searchParams.get('keyword')).toBe('眩晕/+');
       expect(url.searchParams.get('status')).toBe('DISABLED');
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, { items: [], total: 0 });
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await listStatuses('http://localhost:8080/', 'demo arena', 'token', {
+    await listStatuses('http://localhost:8080/', 'demo arena', {
       keyword: ' 眩晕/+ ',
       status: 'DISABLED'
     });
@@ -64,7 +64,7 @@ describe('statusClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await listStatuses('http://localhost:8080', 'demo', 'token', {
+    await listStatuses('http://localhost:8080', 'demo', {
       keyword: '   ',
       status: undefined
     });
@@ -78,7 +78,7 @@ describe('statusClient', () => {
       return jsonResponse(200, { statusKind: 'STUN' });
     });
     vi.stubGlobal('fetch', fetchMock);
-    await getStatus('http://localhost:8080', 'demo', 'stun/control', 'token');
+    await getStatus('http://localhost:8080', 'demo', 'stun/control');
   });
 
   it('击飞创建与更新请求保留种类，响应可再次解析', async () => {
@@ -95,8 +95,8 @@ describe('statusClient', () => {
       return jsonResponse(init?.method === 'POST' ? 201 : 200, { ...body, statusKey: 'airborne' });
     }));
 
-    expect((await createStatus('http://localhost:8080', 'demo', 'token', createBody)).data).toEqual(createBody);
-    expect((await updateStatus('http://localhost:8080', 'demo', 'airborne', 'token', updateBody)).data)
+    expect((await createStatus('http://localhost:8080', 'demo', createBody)).data).toEqual(createBody);
+    expect((await updateStatus('http://localhost:8080', 'demo', 'airborne', updateBody)).data)
       .toEqual({ ...updateBody, statusKey: 'airborne' });
     expect(calls).toEqual([{ method: 'POST', body: createBody }, { method: 'PUT', body: updateBody }]);
   });
@@ -113,7 +113,7 @@ describe('statusClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await createStatus('http://localhost:8080', 'demo', 'token', {
+    await createStatus('http://localhost:8080', 'demo', {
       statusKey: 'stun',
       statusKind: 'STUN',
       name: '眩晕',
@@ -121,14 +121,14 @@ describe('statusClient', () => {
       status: 'ENABLED',
       sortOrder: 10
     });
-    await updateStatus('http://localhost:8080', 'demo', 'stun', 'token', {
+    await updateStatus('http://localhost:8080', 'demo', 'stun', {
       statusKind: 'STUN',
       name: '眩晕',
       description: null,
       status: 'DISABLED',
       sortOrder: 20
     });
-    await deleteStatus('http://localhost:8080', 'demo', 'stun', 'token');
+    await deleteStatus('http://localhost:8080', 'demo', 'stun');
 
     expect(calls.map((call) => call.method)).toEqual(['POST', 'PUT', 'DELETE']);
     expect(calls[0]?.body).toEqual({

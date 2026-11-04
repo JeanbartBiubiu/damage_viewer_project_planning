@@ -514,7 +514,7 @@ test('实际 Worker：阈值小数、缺事实错误、同会话重跑不泄漏�
 test('真实 API GET→adapter→Worker 或明确错误，404 不算通过', async ({ page, request }, testInfo) => {
   test.skip(process.env.P5_LIVE_API !== '1', '显式启用后只读本地实际服务');
   const api = `${apiBase}/api/admin/games/lol`;
-  const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
+  const headers = {  };
   const read = async (path: string) => {
     const response = await request.get(api + path, { headers });
     expect(response.status(), path).toBe(200);

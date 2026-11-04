@@ -16,7 +16,6 @@ import { ApiRequestError } from './apiClient';
 import type { DamageType } from '../types/damageType';
 import type { DamageTypeFormula, DamageTypeFormulaNode } from '../types/damageTypeFormula';
 
-
 function jsonResponse(status: number, body: unknown): Response {
   return new Response(status === 204 ? null : JSON.stringify(body), {
     status,
@@ -59,12 +58,12 @@ describe('damageTypeClient', () => {
       expect(url.pathname).toBe('/api/admin/games/demo%20arena/damage-types');
       expect(url.searchParams.get('keyword')).toBe('物理/+');
       expect(url.searchParams.get('status')).toBe('ENABLED');
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, { items: [], total: 0 });
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await listDamageTypes('http://localhost:8080/', 'demo arena', 'token', {
+    await listDamageTypes('http://localhost:8080/', 'demo arena', {
       keyword: ' 物理/+ ',
       status: 'ENABLED'
     });
@@ -78,7 +77,7 @@ describe('damageTypeClient', () => {
       return jsonResponse(200, damageType(true, { damageTypeKey: 'physical/bonus' }));
     });
     vi.stubGlobal('fetch', fetchMock);
-    const loaded = await getDamageType('http://localhost:8080', 'demo', 'physical/bonus', 'token');
+    const loaded = await getDamageType('http://localhost:8080', 'demo', 'physical/bonus');
     expect(loaded.data.formulaConfigured).toBe(true);
 
     const incomplete = damageType(false);
@@ -100,7 +99,7 @@ describe('damageTypeClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await createDamageType('http://localhost:8080', 'demo', 'token', {
+    await createDamageType('http://localhost:8080', 'demo', {
       damageTypeKey: 'physical',
       name: '物理伤害',
       description: null,
@@ -108,14 +107,14 @@ describe('damageTypeClient', () => {
       sortOrder: 10,
       ...({ formulaConfigured: true, formula: { resistanceBeforePenetration: fixed(1) } } as object)
     });
-    await updateDamageType('http://localhost:8080', 'demo', 'physical', 'token', {
+    await updateDamageType('http://localhost:8080', 'demo', 'physical', {
       name: '物理伤害',
       description: null,
       status: 'DISABLED',
       sortOrder: 20,
       ...({ formulaConfigured: false, formula: formulaWith(fixed(1)) } as object)
     });
-    const deleted = await deleteDamageType('http://localhost:8080', 'demo', 'physical', 'token');
+    const deleted = await deleteDamageType('http://localhost:8080', 'demo', 'physical');
 
     expect(calls.map((call) => call.method)).toEqual(['POST', 'PUT', 'DELETE']);
     expect(calls[0]?.body).toEqual({
@@ -152,7 +151,7 @@ describe('damageTypeClient', () => {
         'http://localhost:8080/api/admin/games/demo%20arena/damage-types/physical%2Fbonus/formula'
       );
       expect(init?.method ?? 'GET').toBe('GET');
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, detail);
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -160,8 +159,7 @@ describe('damageTypeClient', () => {
     const loaded = await getDamageTypeFormula(
       'http://localhost:8080/',
       'demo arena',
-      'physical/bonus',
-      'token'
+      'physical/bonus'
     );
     expect(loaded.data.formula).toEqual(formula);
     expect(Object.keys(loaded.data)).toEqual(['gameId', 'damageTypeKey', 'formula', 'updatedAt']);
@@ -182,8 +180,8 @@ describe('damageTypeClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await updateDamageTypeFormula('http://localhost:8080', 'demo', 'physical', 'token', { formula });
-    const deleted = await deleteDamageTypeFormula('http://localhost:8080', 'demo', 'physical', 'token');
+    await updateDamageTypeFormula('http://localhost:8080', 'demo', 'physical', { formula });
+    const deleted = await deleteDamageTypeFormula('http://localhost:8080', 'demo', 'physical');
 
     expect(calls[0]).toMatchObject({
       method: 'PUT',
@@ -205,14 +203,12 @@ describe('damageTypeClient', () => {
       'http://localhost:8080',
       'demo',
       'physical',
-      'token',
       { formula }
     )).rejects.toBeInstanceOf(UnconfirmedDamageTypeFormulaWriteError);
     await expect(deleteDamageTypeFormula(
       'http://localhost:8080',
       'demo',
-      'physical',
-      'token'
+      'physical'
     )).rejects.toBeInstanceOf(UnconfirmedDamageTypeFormulaWriteError);
 
     vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(500, {
@@ -222,7 +218,6 @@ describe('damageTypeClient', () => {
       'http://localhost:8080',
       'demo',
       'physical',
-      'token',
       { formula }
     )).rejects.toBeInstanceOf(UnconfirmedDamageTypeFormulaWriteError);
 
@@ -233,7 +228,6 @@ describe('damageTypeClient', () => {
       'http://localhost:8080',
       'demo',
       'physical',
-      'token',
       { formula }
     );
     await expect(clientFailure).rejects.toBeInstanceOf(ApiRequestError);
@@ -245,7 +239,7 @@ describe('damageTypeClient', () => {
       error: { code: '404.DAMAGE_TYPE_FORMULA_NOT_FOUND', message: '尚未配置结算公式' }
     }));
     vi.stubGlobal('fetch', fetchMock);
-    await expect(getDamageTypeFormula('http://localhost:8080', 'demo', 'physical', 'token'))
+    await expect(getDamageTypeFormula('http://localhost:8080', 'demo', 'physical'))
       .rejects.toMatchObject({ status: 404, code: '404.DAMAGE_TYPE_FORMULA_NOT_FOUND' });
 
     const expected = { gameId: 'demo', damageTypeKey: 'physical' };

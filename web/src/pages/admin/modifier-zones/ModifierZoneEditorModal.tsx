@@ -29,7 +29,6 @@ type Props = {
   initialDomain?: ModifierZoneDomain;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSaved: (modifierZone: ModifierZone) => void | Promise<void>;
   onDirtyChange: (dirty: boolean) => void;
@@ -47,8 +46,7 @@ function titleFor(mode: ModifierZoneEditorMode): string {
 }
 
 export function ModifierZoneEditorModal({
-  visible, mode, modifierZone, apiBaseUrl, selectedGameId, adminToken,
-  initialDomain, onClose, onSaved, onDirtyChange
+  visible, mode, modifierZone, apiBaseUrl, selectedGameId, initialDomain, onClose, onSaved, onDirtyChange
 }: Props) {
   const initial = useMemo<ModifierZoneDraft>(() => modifierZone ? {
     modifierZoneKey: modifierZone.modifierZoneKey,
@@ -96,8 +94,7 @@ export function ModifierZoneEditorModal({
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
     if (!selectedGameId) return setSaveError('请先选择游戏。');
-    const token = adminToken.trim();
-    if (!token) return setSaveError('请先配置 Admin Token。');
+
     setSaving(true);
     setSaveError(null);
     try {
@@ -111,11 +108,11 @@ export function ModifierZoneEditorModal({
         sortOrder: Number(draft.sortOrder)
       };
       const result = mode === 'create'
-        ? await createModifierZone(apiBaseUrl, selectedGameId, token, {
+        ? await createModifierZone(apiBaseUrl, selectedGameId, {
             modifierZoneKey: draft.modifierZoneKey.trim(), ...body
           })
         : await updateModifierZone(
-            apiBaseUrl, selectedGameId, modifierZone!.modifierZoneKey, token, body
+            apiBaseUrl, selectedGameId, modifierZone!.modifierZoneKey, body
           );
       onDirtyChange(false);
       await onSaved(result.data);

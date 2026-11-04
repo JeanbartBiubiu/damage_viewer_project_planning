@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react';
-import { Alert, Button, Input, Layout, Select, Tag, Typography } from '@arco-design/web-react';
+import { Alert, Button, Layout, Select, Tag, Typography } from '@arco-design/web-react';
 import { IconDown, IconMenu } from '@arco-design/web-react/icon';
 import {
   createDefaultCollapsedNavigationGroups,
@@ -25,10 +25,9 @@ import { BuildManagementPage } from './pages/admin/builds/BuildManagementPage';
 import { BasicAttackSimulationPage } from './pages/simulation/BasicAttackSimulationPage';
 import { CombatAnalysisPage } from './pages/simulation/CombatAnalysisPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
+import { AccountControls } from './pages/auth/AccountControls';
 import type { GameSummary, LoadState } from './types/api';
 
-const API_BASE_STORAGE_KEY = 'damage-viewer.web.api-base-url';
-const ADMIN_TOKEN_STORAGE_KEY = 'damage-viewer.web.admin-token';
 const PREFERRED_DEFAULT_GAME_ID = 'lol';
 const MOBILE_NAV_MEDIA_QUERY = '(max-width: 1240px)';
 const MOBILE_PRIMARY_NAVIGATION_ID = 'mobile-primary-navigation';
@@ -48,14 +47,6 @@ function resolveSelectedGameId(current: string | null, games: GameSummary[]): st
 }
 
 const { Sider, Content } = Layout;
-
-function readStoredValue(key: string, fallback: string): string {
-  if (typeof window === 'undefined') {
-    return fallback;
-  }
-
-  return window.localStorage.getItem(key) ?? fallback;
-}
 
 function readRouteFromHash(): RouteId {
   if (typeof window === 'undefined') {
@@ -115,12 +106,9 @@ function isNavItemActive(itemHashSegment: string, route: RouteId): boolean {
 }
 
 export default function App() {
-  const initialApiBaseUrl = readStoredValue(API_BASE_STORAGE_KEY, resolveApiBaseUrl());
+  const apiBaseUrl = resolveApiBaseUrl();
   const [route, setRoute] = useState<RouteId>(() => readRouteFromHash());
-  const [apiBaseDraft, setApiBaseDraft] = useState(initialApiBaseUrl);
-  const [apiBaseUrl, setApiBaseUrl] = useState(initialApiBaseUrl);
   // 先默认一个就行了
-  const [adminToken, setAdminToken] = useState(() => readStoredValue(ADMIN_TOKEN_STORAGE_KEY, 'test').trim());
   const [games, setGames] = useState<GameSummary[]>([]);
   const [gamesStatus, setGamesStatus] = useState<LoadState>('loading');
   const [gamesError, setGamesError] = useState<string | null>(null);
@@ -247,12 +235,11 @@ export default function App() {
   }, [route]);
 
   useEffect(() => {
-    window.localStorage.setItem(API_BASE_STORAGE_KEY, apiBaseUrl);
-  }, [apiBaseUrl]);
-
-  useEffect(() => {
-    window.localStorage.setItem(ADMIN_TOKEN_STORAGE_KEY, adminToken);
-  }, [adminToken]);
+    try {
+      window.localStorage.removeItem('damage-viewer.web.admin-token');
+      window.localStorage.removeItem('damage-viewer.web.api-base-url');
+    } catch { /* 禁用本地存储不影响 Cookie 会话。 */ }
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -297,18 +284,6 @@ export default function App() {
   const selectedGame = games.find((game) => game.gameId === selectedGameId) ?? null;
   const selectedGameName = selectedGame?.gameName ?? '未选择游戏';
 
-  const applyApiBase = () => {
-    const nextValue = resolveApiBaseUrl(apiBaseDraft);
-    if (nextValue !== apiBaseUrl && attributeEditorDirtyRef.current
-      && !confirmLeavingPage('当前修改尚未保存，确定放弃修改并切换连接吗？')) return;
-    setApiBaseDraft(nextValue);
-    if (nextValue === apiBaseUrl) return;
-    handleAttributeDirtyChange(false);
-    setGames([]);
-    setGamesEtag(null);
-    setSelectedGameId(null);
-    setApiBaseUrl(nextValue);
-  };
 
   const changeGame = (value: string) => {
     const nextGameId = value || null;
@@ -319,14 +294,6 @@ export default function App() {
     setSelectedGameId(nextGameId);
   };
 
-  const changeAdminToken = (value: string) => {
-    const nextToken = value.trim();
-    if (nextToken === adminToken) return;
-    if (attributeEditorDirtyRef.current
-      && !confirmLeavingPage('当前修改尚未保存，确定放弃修改并更换 Admin Token 吗？')) return;
-    handleAttributeDirtyChange(false);
-    setAdminToken(nextToken);
-  };
 
   const refreshGames = () => {
     if (attributeEditorDirtyRef.current) {
@@ -371,7 +338,6 @@ export default function App() {
     <AttributeManagementPage
       apiBaseUrl={apiBaseUrl}
       selectedGameId={selectedGameId}
-      adminToken={adminToken}
       onDirtyChange={handleAttributeDirtyChange}
     />
   );
@@ -381,7 +347,6 @@ export default function App() {
       <BasicAttackSimulationPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
         onDirtyChange={handleSimulationDirtyChange}
       />
     );
@@ -390,7 +355,6 @@ export default function App() {
       <CombatAnalysisPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
         onDirtyChange={handleSimulationDirtyChange}
       />
     );
@@ -399,7 +363,6 @@ export default function App() {
       <CharacterManagementPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
         onDirtyChange={handleAttributeDirtyChange}
       />
     );
@@ -408,18 +371,16 @@ export default function App() {
       <EquipmentManagementPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
         onDirtyChange={handleAttributeDirtyChange}
       />
     );
   } else if (route === 'builds') {
-    pageContent = <BuildManagementPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} onDirtyChange={handleAttributeDirtyChange} />;
+    pageContent = <BuildManagementPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} onDirtyChange={handleAttributeDirtyChange} />;
   } else if (route === 'skill-categories') {
     pageContent = (
       <SkillCategoryManagementPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
         onDirtyChange={handleAttributeDirtyChange}
       />
     );
@@ -428,7 +389,6 @@ export default function App() {
       <DamageTypeManagementPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
         onDirtyChange={handleAttributeDirtyChange}
       />
     );
@@ -437,7 +397,6 @@ export default function App() {
       <ModifierZoneManagementPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
         onDirtyChange={handleAttributeDirtyChange}
       />
     );
@@ -446,7 +405,6 @@ export default function App() {
       <SkillManagementPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
         onDirtyChange={handleAttributeDirtyChange}
       />
     );
@@ -455,7 +413,6 @@ export default function App() {
       <StatusManagementPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
         onDirtyChange={handleAttributeDirtyChange}
       />
     );
@@ -464,7 +421,6 @@ export default function App() {
       <GameSettingsPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
         selectedGameName={selectedGameName}
         onDirtyChange={handleAttributeDirtyChange}
         onGameImageSaved={() => setReloadSeed((value) => value + 1)}
@@ -476,7 +432,6 @@ export default function App() {
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         selectedGameName={selectedGameName}
-        adminToken={adminToken}
         onDirtyChange={handleAttributeDirtyChange}
       />
     );
@@ -598,7 +553,6 @@ export default function App() {
             </Typography.Title>
             <Typography.Text className="sidebar-status-line">API {apiBaseUrl}</Typography.Text>
             <Typography.Text className="sidebar-status-line">GameId {selectedGame?.gameId ?? '未选择'}</Typography.Text>
-            <Typography.Text className="sidebar-status-line">Token {adminToken.trim() ? '已本地保存' : '未配置'}</Typography.Text>
             <Typography.Text className="sidebar-status-line">ETag {gamesEtag ?? '无'}</Typography.Text>
           </section>
         </div>
@@ -607,16 +561,6 @@ export default function App() {
       <Layout className="app-content">
         <Content className="app-main">
           <div className="app-toolbar">
-            <div className="app-toolbar-field app-toolbar-field--api">
-              <span className="app-toolbar-label">API</span>
-              <Input
-                value={apiBaseDraft}
-                onChange={setApiBaseDraft}
-                placeholder="http://localhost:8080"
-                size="small"
-                onPressEnter={applyApiBase}
-              />
-            </div>
             <div className="app-toolbar-field app-toolbar-field--game">
               <span className="app-toolbar-label">游戏</span>
               <Select
@@ -631,25 +575,13 @@ export default function App() {
                 ]}
               />
             </div>
-            <div className="app-toolbar-field app-toolbar-field--token">
-              <span className="app-toolbar-label">Token</span>
-              <Input.Password
-                value={adminToken}
-                onChange={changeAdminToken}
-                placeholder="粘贴 Admin JWT"
-                autoComplete="off"
-                size="small"
-              />
-            </div>
             <div className="app-toolbar-actions">
               <Tag color={getGamesStatusColor(gamesStatus)}>{getGamesStatusLabel(gamesStatus)}</Tag>
-              <Button type="primary" size="small" onClick={applyApiBase}>
-                应用
-              </Button>
               <Button size="small" onClick={refreshGames}>
                 刷新
               </Button>
             </div>
+            <AccountControls apiBaseUrl={apiBaseUrl} />
           </div>
 
           <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 8, fontSize: 12 }}>
@@ -658,7 +590,7 @@ export default function App() {
 
           {gamesError ? <Alert type="error" content={gamesError} className="workspace-alert" /> : null}
 
-          <div className="page-stack" key={JSON.stringify([apiBaseUrl, selectedGameId, adminToken.trim(), pageReloadSeed])}>
+          <div className="page-stack" key={JSON.stringify([apiBaseUrl, selectedGameId, pageReloadSeed])}>
             {pageContent}
           </div>
         </Content>

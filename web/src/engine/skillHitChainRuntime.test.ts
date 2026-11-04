@@ -22,7 +22,7 @@ const basis=cases.find(row=>row.caseKey==='hit_chain_manual')!;
 const zeroRecord={maxSkillActionRecords:0,maxSkillUseRecords:0,maxHealingRecords:0};
 async function fresh(name:string,mode:'manual'|'auto',shield=false,zero=false,summary=false){
   const {client:node,wasmSha256,wasmBytes}=await mechanismEngine(),client=node as unknown as GenericEngineClient;
-  expect({sha256:wasmSha256,bytes:wasmBytes}).toEqual(WASM_IDENTITY);
+  expect({sha256:wasmSha256,bytes:wasmBytes}).toEqual({sha256:WASM_IDENTITY.sha256,bytes:WASM_IDENTITY.bytes});
   const snapshot=basis.buildSnapshot();
   await preflightSkillFormulas(snapshot,client,()=>true);
   const prepared=await prepareSimulation(snapshot,{source:{},target:{}},{source:500,target:1000});

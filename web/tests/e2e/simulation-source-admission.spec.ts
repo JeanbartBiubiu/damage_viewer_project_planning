@@ -75,8 +75,6 @@ test('真实页面目标三相保持开启，读取、确认与连续模拟通�
     targetEquipmentKeys: ['item_3078']
   }));
   await page.addInitScript(api => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', 'local-readonly-check');
   }, api);
   await page.goto('/#/simulation/basic-attack');
   await chooseSimulationEntity(page, '攻击方角色', 'champion_jax');

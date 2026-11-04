@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { expect, test, type Page } from '@playwright/test';
 import type { SkillConfiguration, SkillConfigurationChange } from '../../src/types/skillConfiguration';
@@ -40,10 +41,10 @@ function configuration(): SkillConfiguration {
 async function install(page: Page, rejectWrite = false) {
   const state = { current: configuration(), writes: [] as Array<{ baseDigest: string; changes: SkillConfigurationChange[] }>, unexpected: [] as string[] };
   await page.addInitScript(({ api }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', 'independent-window-fixture');
   }, { api: API });
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/**', async route => {
+    if (await fulfillAuthSession(route, false)) return;
     const request = route.request();
     const url = new URL(request.url());
     const respond = (body: unknown, status = 200) => route.fulfill({ status, contentType: 'application/json',
@@ -52,7 +53,6 @@ async function install(page: Page, rejectWrite = false) {
       await route.fulfill({ status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*', 'Access-Control-Allow-Methods': '*' } });
       return;
     }
-    if (url.origin !== API) { state.unexpected.push(url.pathname); await route.abort(); return; }
     if (request.method() === 'GET' && url.pathname === '/api/games') {
       await respond([{ gameId: 'window_fixture', gameName: '独立窗口表单', representativeImageKey: null }]);
     } else if (request.method() === 'GET' && url.pathname.endsWith('/configuration')) {

@@ -28,7 +28,7 @@ describe('equipmentClient', () => {
       return jsonResponse(200, { items: [], total: 0 });
     }));
 
-    await listEquipment('http://localhost:8080', 'demo', 'token', { keyword: '  长剑 /  ' });
+    await listEquipment('http://localhost:8080', 'demo', { keyword: '  长剑 /  ' });
 
     expect(calls[0]).toContain('/api/admin/games/demo/equipment?keyword=');
     expect(decodeURIComponent(calls[0])).toContain('keyword=长剑+/');
@@ -49,14 +49,14 @@ describe('equipmentClient', () => {
       });
     }));
 
-    await createEquipment('http://localhost:8080', 'demo', 'token', {
+    await createEquipment('http://localhost:8080', 'demo', {
       equipmentKey: 'long_sword', name: '长剑', description: null
     });
-    await updateEquipment('http://localhost:8080', 'demo', 'long_sword', 'token', {
+    await updateEquipment('http://localhost:8080', 'demo', 'long_sword', {
       name: '长剑改', description: null
     });
-    await getEquipmentAttributes('http://localhost:8080', 'demo', 'long_sword', 'token');
-    await updateEquipmentAttributes('http://localhost:8080', 'demo', 'long_sword', 'token', {
+    await getEquipmentAttributes('http://localhost:8080', 'demo', 'long_sword');
+    await updateEquipmentAttributes('http://localhost:8080', 'demo', 'long_sword', {
       attributeValues: { hp: 100 }
     });
 
@@ -73,7 +73,7 @@ describe('equipmentClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    const result = await deleteEquipment('http://localhost:8080', 'demo', 'long_sword', 'token');
+    const result = await deleteEquipment('http://localhost:8080', 'demo', 'long_sword');
     expect(result.status).toBe(204);
     expect(result.data).toBeNull();
   });

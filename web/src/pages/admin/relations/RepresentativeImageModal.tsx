@@ -21,7 +21,6 @@ type RepresentativeImageModalProps = {
   target: ImageRelationTarget | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSaved?: () => void;
   onDirtyChange?: (dirty: boolean) => void;
@@ -29,11 +28,11 @@ type RepresentativeImageModalProps = {
 
 export function RepresentativeImageModal(props: RepresentativeImageModalProps) {
   if (!props.visible || !props.target || !props.selectedGameId) return null;
-  const contextKey = JSON.stringify([props.apiBaseUrl, props.selectedGameId, imageTargetIdentity(props.target), props.adminToken]);
+  const contextKey = JSON.stringify([props.apiBaseUrl, props.selectedGameId, imageTargetIdentity(props.target)]);
   return <RepresentativeImageForm key={contextKey} {...props} target={props.target} selectedGameId={props.selectedGameId} />;
 }
 
-function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, adminToken, onClose, onSaved, onDirtyChange }: RepresentativeImageModalProps & { target: ImageRelationTarget; selectedGameId: string }) {
+function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, onClose, onSaved, onDirtyChange }: RepresentativeImageModalProps & { target: ImageRelationTarget; selectedGameId: string }) {
   const [current, setCurrent] = useState<RepresentativeImage | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -67,7 +66,7 @@ function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, adminToke
     setLoading(true);
     setError(null);
     try {
-      const result = await getRepresentativeImage(apiBaseUrl, selectedGameId, target, adminToken.trim());
+      const result = await getRepresentativeImage(apiBaseUrl, selectedGameId, target);
       if (!active.current || request !== readRequest.current) return;
       setCurrent(result.data.image);
       setLoaded(true);
@@ -118,7 +117,7 @@ function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, adminToke
     setSuccess(null);
     setCacheWarning(null);
     try {
-      const result = await uploadAndUseRepresentativeImage({ apiBaseUrl, gameId: selectedGameId, target, token: adminToken.trim() },
+      const result = await uploadAndUseRepresentativeImage({ apiBaseUrl, gameId: selectedGameId, target },
         uploadDraft, () => active.current && request === fileRequest.current);
       if (!result || !active.current) return;
       setCurrent(result.image);
@@ -146,7 +145,7 @@ function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, adminToke
     setSearching(true);
     setSearched(false);
     try {
-      const result = await listImageOptions(apiBaseUrl, selectedGameId, adminToken.trim(), keyword);
+      const result = await listImageOptions(apiBaseUrl, selectedGameId, keyword);
       if (!active.current || request !== searchRequest.current) return;
       setOptions(result.data.items);
       setSearched(true);
@@ -164,7 +163,7 @@ function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, adminToke
     setError(null);
     setSuccess(null);
     try {
-      const result = await setRepresentativeImageVerified(apiBaseUrl, selectedGameId, target, adminToken.trim(), selection.imageKey);
+      const result = await setRepresentativeImageVerified(apiBaseUrl, selectedGameId, target, selection.imageKey);
       if (!active.current) return;
       setCurrent(result.data.image);
       setSelection(null);
@@ -190,7 +189,7 @@ function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, adminToke
     setError(null);
     setSuccess(null);
     try {
-      await removeRepresentativeImageVerified(apiBaseUrl, selectedGameId, target, adminToken.trim());
+      await removeRepresentativeImageVerified(apiBaseUrl, selectedGameId, target);
       if (!active.current) return;
       setCurrent(null);
       setSelection(null);
@@ -221,9 +220,9 @@ function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, adminToke
   return <Modal title={`${target.name} · 代表图片`} visible onCancel={close} style={{ width: 720 }} footer={
     <Space>
       <Button onClick={close} disabled={saving || processing}>关闭</Button>
-      <Button status="danger" disabled={!loaded || !current || saving || processing || !adminToken.trim()} onClick={() => void remove()}>移除代表图片</Button>
-      {mode === 'upload' ? <Button type="primary" loading={saving} disabled={!loaded || !uploadDraft || processing || Boolean(fileError) || !adminToken.trim()} onClick={() => void upload()}>上传并使用</Button>
-        : <Button type="primary" loading={saving} disabled={!loaded || !existingDirty || processing || !adminToken.trim()} onClick={() => void save()}>保存代表图片</Button>}
+      <Button status="danger" disabled={!loaded || !current || saving || processing} onClick={() => void remove()}>移除代表图片</Button>
+      {mode === 'upload' ? <Button type="primary" loading={saving} disabled={!loaded || !uploadDraft || processing || Boolean(fileError)} onClick={() => void upload()}>上传并使用</Button>
+        : <Button type="primary" loading={saving} disabled={!loaded || !existingDirty || processing} onClick={() => void save()}>保存代表图片</Button>}
     </Space>
   }>
     <Space direction="vertical" size="medium" style={{ width: '100%' }}>
@@ -231,7 +230,7 @@ function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, adminToke
       {error ? <Alert type="error" content={error} /> : null}
       {success ? <Alert type="success" content={success} /> : null}
       {cacheWarning ? <Alert type="warning" content={cacheWarning} /> : null}
-      {!adminToken.trim() ? <Alert type="warning" content="请先配置 Admin Token。" /> : null}
+
       {loading ? <Spin tip="正在读取代表图片" /> : !loaded ? <Button onClick={() => void load()}>重新读取</Button> : (
         <Space align="center">
           {savedPreview && current?.imageKey === savedPreview.imageKey && current.enabled
@@ -264,7 +263,7 @@ function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, adminToke
             <Input aria-label="搜索代表图片" placeholder="输入图片名称或标识" maxLength={100} value={keyword} disabled={!loaded || saving} onChange={(value) => {
               setKeyword(value); searchRequest.current += 1; setOptions([]); setSearching(false); setSearched(false); setSearchError(null);
             }} onPressEnter={() => void search()} style={{ width: 440 }} />
-            <Button loading={searching} disabled={!loaded || saving || !keyword.trim() || !adminToken.trim()} onClick={() => void search()}>搜索图片</Button>
+            <Button loading={searching} disabled={!loaded || saving || !keyword.trim()} onClick={() => void search()}>搜索图片</Button>
           </Space>
           {searchError ? <Typography.Text type="error">{searchError}</Typography.Text> : null}
         </Form.Item>

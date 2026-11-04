@@ -250,6 +250,9 @@ func (value *RunRequest) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	if err := validateAuthorizationJSON(fields); err != nil {
+		return err
+	}
 	type plain RunRequest
 	var decoded plain
 	if err := json.Unmarshal(data, &decoded); err != nil {

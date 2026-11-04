@@ -9,16 +9,13 @@ import type { Expression } from '../../src/types/formulaContract.generated';
 import type { SkillConfiguration } from '../../src/types/skillConfiguration';
 
 const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:18081';
-const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN || '';
-const headers = token ? { Authorization: `Bearer ${token}` } : {};
+const headers = {  };
 const builderUrl = pathToFileURL('../wasm/tinygo_engine_v2/scripts/formula-phase3b-input.mjs').href;
 
 test.beforeEach(async ({ page }) => {
   expect(process.env.SIMULATION_LIVE_API, '本专项必须启用真实服务').toBe('1');
-  await page.addInitScript(({ apiBase, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
-    localStorage.setItem('damage-viewer.web.admin-token', token || 'local-readonly-check');
-  }, { apiBase, token });
+  await page.addInitScript(({ apiBase }) => {
+  }, { apiBase });
 });
 
 async function browserIdentity(page: Page): Promise<void> {
@@ -33,7 +30,7 @@ function archive(testInfo: TestInfo, name: string, value: unknown) {
 }
 
 test('真实共享普攻完整技能共同定义经原生静态核定、最终场景与Worker二十次一致', async ({ page, request }, testInfo) => {
-  const { snapshot } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection(), token);
+  const { snapshot } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection());
   const skill = snapshot.skillConfigurations.find(row => row.skill.skillKey === snapshot.selection.basicAttackSkillKey)!;
   expect(skill.formulas.length).toBeGreaterThan(0);
   for (const row of skill.formulas) {

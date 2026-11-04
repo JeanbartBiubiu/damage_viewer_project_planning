@@ -38,10 +38,10 @@ const isRecord = (value: unknown): value is NamedRecord => !!value && typeof val
 
 export async function loadAuthoringReferenceNames(
   refs: readonly AuthoringCheckReference[],
-  context: { apiBaseUrl: string; gameId: string; token: string },
+  context: { apiBaseUrl: string; gameId: string; },
   isCurrent: () => boolean
 ): Promise<Map<string, ReferenceName>> {
-  const { apiBaseUrl: api, gameId: game, token } = context;
+  const { apiBaseUrl: api, gameId: game } = context;
   const parents = new Map<string, Promise<unknown>>();
   const distinct = new Map<string, ReferenceTarget>();
   for (const ref of refs) for (const target of [referenceSource(ref), referenceTarget(ref)]) {
@@ -59,18 +59,18 @@ export async function loadAuthoringReferenceNames(
     };
     const read = async () => {
       switch (type) {
-        case 'ATTRIBUTE': return (await getAttribute(api, game, target.key, token)).data;
-        case 'DAMAGE_TYPE': return (await getDamageType(api, game, target.key, token)).data;
-        case 'MODIFIER_ZONE': return (await getModifierZone(api, game, target.key, token)).data;
-        case 'STATUS': return (await getStatus(api, game, target.key, token)).data;
-        case 'SKILL_CATEGORY': return (await getSkillCategory(api, game, target.key, token)).data;
-        case 'SKILL': return (await getSkill(api, game, target.key, token)).data;
-        case 'EFFECT': return (await getSkillEffect(api, game, scoped(), target.key, token)).data;
-        case 'FORMULA': return (await getSkillFormula(api, game, scoped(), target.key, token)).data;
-        case 'PARAMETER': return (await getSkillParameter(api, game, scoped(), target.key, token)).data;
-        case 'PROCESS': return (await getSkillProcess(api, game, scoped(), target.key, token)).data;
-        case 'STATE': return (await getSkillInternalState(api, game, scoped(), target.key, token)).data;
-        case 'TRIGGER': return (await getSkillTriggerRule(api, game, scoped(), target.key, token)).data;
+        case 'ATTRIBUTE': return (await getAttribute(api, game, target.key)).data;
+        case 'DAMAGE_TYPE': return (await getDamageType(api, game, target.key)).data;
+        case 'MODIFIER_ZONE': return (await getModifierZone(api, game, target.key)).data;
+        case 'STATUS': return (await getStatus(api, game, target.key)).data;
+        case 'SKILL_CATEGORY': return (await getSkillCategory(api, game, target.key)).data;
+        case 'SKILL': return (await getSkill(api, game, target.key)).data;
+        case 'EFFECT': return (await getSkillEffect(api, game, scoped(), target.key)).data;
+        case 'FORMULA': return (await getSkillFormula(api, game, scoped(), target.key)).data;
+        case 'PARAMETER': return (await getSkillParameter(api, game, scoped(), target.key)).data;
+        case 'PROCESS': return (await getSkillProcess(api, game, scoped(), target.key)).data;
+        case 'STATE': return (await getSkillInternalState(api, game, scoped(), target.key)).data;
+        case 'TRIGGER': return (await getSkillTriggerRule(api, game, scoped(), target.key)).data;
         default: throw new Error('未支持的引用目录');
       }
     };

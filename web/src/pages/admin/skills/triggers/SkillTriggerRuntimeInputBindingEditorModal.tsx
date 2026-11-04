@@ -176,7 +176,6 @@ export function priorResultDraftSummary(
 type SkillTriggerRuntimeInputBindingEditorModalProps = {
   apiBaseUrl: string;
   selectedGameId: string;
-  adminToken: string;
   visible: boolean;
   mode: SkillTriggerRuntimeInputBindingEditorMode;
   binding: SkillTriggerRuntimeInputBinding | null;
@@ -222,7 +221,6 @@ function emptyBinding(existingKeys: readonly string[]): SkillTriggerRuntimeInput
 export function SkillTriggerRuntimeInputBindingEditorModal({
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   visible,
   mode,
   binding,
@@ -308,14 +306,14 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   }, [current, selectedParameter, sourceResults]);
   const completeness = evaluateBindingCompleteness(reachableParameters, currentBindings);
   const stateReference = useQualifiedSkillState({ visible: visible && current.sourceType === 'INTERNAL_STATE',
-    apiBaseUrl, gameId: selectedGameId, adminToken, currentSkillKey: skillKey,
+    apiBaseUrl, gameId: selectedGameId, currentSkillKey: skillKey,
     ownerSkillKey: current.sourceType === 'INTERNAL_STATE' ? current.detail.stateSkillKey || skillKey : '',
     objectKey: current.sourceType === 'INTERNAL_STATE' ? current.detail.stateKey : '',
     local: internalStates });
   const selectedState = stateReference.value;
   const effectReference = useQualifiedSkillEffect({ visible: visible && current.sourceType === 'COMBAT_STATUS'
     && current.detail.valueKind !== 'PRESENT',
-    apiBaseUrl, gameId: selectedGameId, adminToken, currentSkillKey: skillKey,
+    apiBaseUrl, gameId: selectedGameId, currentSkillKey: skillKey,
     ownerSkillKey: current.sourceType === 'COMBAT_STATUS' && current.detail.valueKind !== 'PRESENT'
       ? current.detail.effectSkillKey || skillKey : '',
     objectKey: current.sourceType === 'COMBAT_STATUS' && current.detail.valueKind !== 'PRESENT'

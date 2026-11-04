@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -13,6 +14,7 @@ test.beforeEach(async ({ page }) => {
   const wasm = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
   expect(wasm.length).toBe(WASM_IDENTITY.bytes);
   expect(createHash('sha256').update(wasm).digest('hex')).toBe(WASM_IDENTITY.sha256);
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/games', route => route.fulfill({ json: [{ gameId: 'demo', gameName: '独立单次用例', representativeImageKey: null }] }));
   await installSimulationSelectionApi(page, '**', 'demo');
   await page.goto('/#/simulation/basic-attack');
@@ -461,14 +463,14 @@ test('正常跨任务只保留一个工作线程，每轮重新编译释放，�
   await expect.poll(async () => (await workerDiagnostics(page)).terminated).toBe(1);
 });
 
-test('连接身份变化清理已完成任务留下的空闲工作线程', async ({ page }) => {
+test('游戏变化清理已完成任务留下的空闲工作线程', async ({ page }) => {
   const snapshot = await preparePage(page, sampleWithStaticProof());
   await instrumentWorker(page, 'record');
   await page.getByRole('button', { name: '执行一次普攻', exact: true }).click();
   await expect(page.getByText('单次普攻运行通过，不代表连续攻击通过。', { exact: true })).toBeVisible();
   expect((await workerDiagnostics(page)).terminated).toBe(0);
-  await page.locator('.app-toolbar-field--api input').fill('http://127.0.0.1:19199');
-  await page.getByRole('button', { name: '应用', exact: true }).click();
+  await page.locator('.app-toolbar-field--game .arco-select').click();
+  await page.getByRole('option', { name: '未选择', exact: true }).click();
   await expect.poll(async () => (await workerDiagnostics(page)).terminated).toBe(1);
   expect(await formulaProofState(page, snapshot)).toMatchObject({ active: false, declarations: 0 });
 });
@@ -495,6 +497,7 @@ test('桥接异常陷阱废弃实例，下一项任务可重新编译运行释�
   await instrumentWorker(page, 'record');
   let inject = true;
   await page.route('**/src/workers/genericEngineWorker.ts*', async route => {
+    if (await fulfillAuthSession(route, false)) return;
     const response = await route.fetch();
     if (!inject) { await route.fulfill({ response }); return; }
     inject = false;
@@ -558,7 +561,7 @@ test('最终原生编译失败清除成功预检缓存，保留输入并在重�
   await info.attach('失败清理与真实原生重新预检.json', { body: JSON.stringify({ initialProof, trace, wasm: WASM_IDENTITY }), contentType: 'application/json' });
 });
 
-test('成功预检的空闲场景在选择变更、卸载及连接切换时清空所属缓存', async ({ page }) => {
+test('成功预检的空闲场景在选择变更、卸载及游戏切换时清空所属缓存', async ({ page }) => {
   const fixture = sampleWithStaticProof();
   let snapshot = await preparePage(page, fixture);
   expect((await formulaProofState(page, snapshot)).value).not.toBeNull();
@@ -572,8 +575,8 @@ test('成功预检的空闲场景在选择变更、卸载及连接切换时清�
   await page.goto('/#/simulation/basic-attack');
   snapshot = await preparePage(page, fixture, false);
   expect((await formulaProofState(page, snapshot)).value).not.toBeNull();
-  await page.locator('.app-toolbar-field--api input').fill('http://127.0.0.1:19199');
-  await page.getByRole('button', { name: '应用', exact: true }).click();
+  await page.locator('.app-toolbar-field--game .arco-select').click();
+  await page.getByRole('option', { name: '未选择', exact: true }).click();
   expect(await formulaProofState(page, snapshot)).toMatchObject({ active: false, declarations: 0 });
 });
 
@@ -589,6 +592,7 @@ test('重新读场景失败或取消保留既有补充值和初始生命', async
   let finish!: () => void;
   const gate = new Promise<void>(resolve => { finish = resolve; });
   await page.route('**/api/admin/games/demo/simulation-snapshot', async route => {
+    if (await fulfillAuthSession(route, false)) return;
     await gate;
     await route.fulfill({ json: simulationSnapshotWithSelection(sampleWithDamage(), route.request().postDataJSON()) }).catch(() => undefined);
   });
@@ -605,8 +609,7 @@ test('重新读场景失败或取消保留既有补充值和初始生命', async
 test('真实只读接口亚托克斯对阿狸的完整共享普攻进入最终Wasm单次运行', async ({ page, request }, testInfo) => {
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '真实服务专项需显式启用，跳过不是运行通过证据');
   const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
-  const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN;
-  const { snapshot } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection(), token);
+  const { snapshot } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection());
   const basicAttack = snapshot.skillConfigurations.find(configuration => configuration.skill.skillKey === snapshot.selection.basicAttackSkillKey)!;
   expect(basicAttack.effects).toHaveLength(2);
   expect(basicAttack.triggerRules).toHaveLength(2);
@@ -623,10 +626,8 @@ test('真实只读接口亚托克斯对阿狸的完整共享普攻进入最终Wa
   expect(crit.assessment.damageDealt).toBeCloseTo(expectedDamage * (1 + 0.25 * (multiplier!.fixedValue! - 1)), 8);
   // 同时走正式页面的真实目录、头像及快照读取，不拦截Wasm消息或伪造运行结果。
   await page.unroute('**/api/games');
-  await page.addInitScript(({ apiBase, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
-    localStorage.setItem('damage-viewer.web.admin-token', token || 'local-readonly-check');
-  }, { apiBase, token });
+  await page.addInitScript(({ apiBase }) => {
+  }, { apiBase });
   const methods: { path: string; method: string }[] = [];
   page.on('request', request => {
     const url = new URL(request.url());

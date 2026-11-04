@@ -21,7 +21,6 @@ type Props = {
   budgetEnabled: boolean;
   apiBaseUrl: string;
   selectedGameId: string;
-  adminToken: string;
   onClose: () => void;
   onSaved: (option: BuildOption) => void;
   onDirtyChange: (dirty: boolean) => void;
@@ -35,7 +34,7 @@ function blankDraft(mode: BuildConfigurationMode, budgetEnabled: boolean): Build
 }
 
 export function BuildOptionEditorModal(props: Props) {
-  const { mode, systemKey, optionKey, configurationMode, budgetEnabled, apiBaseUrl, selectedGameId, adminToken, onClose, onSaved, onDirtyChange } = props;
+  const { mode, systemKey, optionKey, configurationMode, budgetEnabled, apiBaseUrl, selectedGameId, onClose, onSaved, onDirtyChange } = props;
   const [draft, setDraft] = useState<BuildOptionDraft>(() => blankDraft(configurationMode, budgetEnabled));
   const [initial, setInitial] = useState<BuildOptionDraft>(() => blankDraft(configurationMode, budgetEnabled));
   const [loaded, setLoaded] = useState(mode === 'create');
@@ -53,7 +52,7 @@ export function BuildOptionEditorModal(props: Props) {
     if (!optionKey) return;
     setLoading(true); setError(null); setLoaded(false);
     try {
-      const { data } = await getBuildOption(apiBaseUrl, selectedGameId, systemKey, optionKey, adminToken.trim());
+      const { data } = await getBuildOption(apiBaseUrl, selectedGameId, systemKey, optionKey);
       if (!active.current) return;
       const value = { optionKey: data.optionKey, name: data.name, description: data.description ?? '', maxRank: String(data.maxRank), rankCosts: data.rankCosts.map(String) };
       setDraft(value); setInitial(value); setLoaded(true);
@@ -81,13 +80,13 @@ export function BuildOptionEditorModal(props: Props) {
       if (!writtenKey) {
         const body = { name: draft.name.trim(), description: draft.description.trim() || null, maxRank: Number(draft.maxRank), rankCosts: draft.rankCosts.map(Number) };
         const result = mode === 'create'
-          ? await createBuildOption(apiBaseUrl, selectedGameId, systemKey, adminToken.trim(), { optionKey: draft.optionKey.trim(), ...body })
-          : await updateBuildOption(apiBaseUrl, selectedGameId, systemKey, optionKey!, adminToken.trim(), body);
+          ? await createBuildOption(apiBaseUrl, selectedGameId, systemKey, { optionKey: draft.optionKey.trim(), ...body })
+          : await updateBuildOption(apiBaseUrl, selectedGameId, systemKey, optionKey!, body);
         writtenKey = result.data.optionKey;
         if (!active.current) return;
         setSavedKey(writtenKey);
       }
-      const result = await getBuildOption(apiBaseUrl, selectedGameId, systemKey, writtenKey, adminToken.trim());
+      const result = await getBuildOption(apiBaseUrl, selectedGameId, systemKey, writtenKey);
       if (!active.current) return;
       onDirtyChange(false); onSaved(result.data);
     } catch (cause) {

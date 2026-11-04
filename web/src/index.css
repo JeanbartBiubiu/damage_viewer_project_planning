@@ -411,17 +411,13 @@ img {
   min-width: 0;
 }
 
-.app-toolbar-field--api {
-  flex: 1 1 280px;
-}
-
 .app-toolbar-field--game {
   flex: 0 1 220px;
 }
 
-.app-toolbar-field--token {
-  flex: 1 1 240px;
-}
+.account-actions { margin-left: auto; }
+.account-totp-qr { display: block; width: 220px; max-width: 100%; margin: 12px auto; }
+.account-recovery-codes { padding: 16px; line-height: 1.8; overflow-wrap: anywhere; white-space: pre-wrap; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); }
 
 .app-toolbar-label {
   flex: 0 0 auto;

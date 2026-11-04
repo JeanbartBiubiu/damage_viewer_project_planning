@@ -216,7 +216,7 @@ func TestVampStrictMissingInputsAndInvalidEfficiency(t *testing.T) {
 
 func TestVampSessionErrorPreservesPathAndSessionCanRunAgain(t *testing.T) {
 	c, r := vampFixture(t)
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	if code := session.CompileJSON(mustJSON(c)); code != 0 {
 		t.Fatalf("compile code=%d", code)
 	}

@@ -25,31 +25,27 @@ function withQuery(path: string, query: SkillListQuery = {}): string {
 export function listSkills(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   query: SkillListQuery = {}
 ): Promise<ApiResult<SkillListResponse>> {
-  return requestJson<SkillListResponse>(apiBaseUrl, withQuery(skillsPath(gameId), query), { token });
+  return requestJson<SkillListResponse>(apiBaseUrl, withQuery(skillsPath(gameId), query));
 }
 
 export function getSkill(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  token: string,
   signal?: AbortSignal
 ): Promise<ApiResult<Skill>> {
-  return requestJson<Skill>(apiBaseUrl, skillsPath(gameId, skillKey), { token, signal });
+  return requestJson<Skill>(apiBaseUrl, skillsPath(gameId, skillKey), { signal });
 }
 
 export function createSkill(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   body: CreateSkillRequest
 ): Promise<ApiResult<Skill>> {
   return requestJson<Skill>(apiBaseUrl, skillsPath(gameId), {
     method: 'POST',
-    token,
     body: JSON.stringify(body)
   });
 }
@@ -58,12 +54,10 @@ export function updateSkill(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  token: string,
   body: UpdateSkillRequest
 ): Promise<ApiResult<Skill>> {
   return requestJson<Skill>(apiBaseUrl, skillsPath(gameId, skillKey), {
     method: 'PUT',
-    token,
     body: JSON.stringify(body)
   });
 }
@@ -71,11 +65,9 @@ export function updateSkill(
 export function deleteSkill(
   apiBaseUrl: string,
   gameId: string,
-  skillKey: string,
-  token: string
+  skillKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, skillsPath(gameId, skillKey), {
-    method: 'DELETE',
-    token
+    method: 'DELETE'
   });
 }

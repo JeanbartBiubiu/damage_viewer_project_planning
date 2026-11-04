@@ -7,7 +7,7 @@ import { loadAuthoringReferenceNames, referenceNameLabel, referenceSource, refer
 
 vi.mock('../../../services/attributeClient', () => ({ getAttribute: vi.fn() }));
 vi.mock('../../../services/skillEffectClient', () => ({ getSkillEffect: vi.fn() }));
-const context = { apiBaseUrl: 'http://example.invalid', gameId: 'game', token: 'test' };
+const context = { apiBaseUrl: 'http://example.invalid', gameId: 'game' };
 const ref = (patch: Partial<AuthoringCheckReference> = {}): AuthoringCheckReference => ({
   sourceType: 'EFFECT', sourceSkillKey: 'q', sourceKey: 'hit', fieldPath: 'results[0].value',
   targetType: 'ATTRIBUTE', targetKey: 'ad', targetSkillKey: null, targetSubKey: null,

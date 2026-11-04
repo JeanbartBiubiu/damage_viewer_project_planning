@@ -312,20 +312,19 @@ describe('skillEffectClient', () => {
     vi.restoreAllMocks();
   });
 
-  it('encodes game, skill and effect path segments with admin token', async () => {
+  it('encodes game, skill and effect path segments with cookie authentication', async () => {
     const listMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       expect(String(input)).toBe(
         'http://localhost:8080/api/admin/games/demo%20arena/skills/active%2Fq/effects'
       );
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, [summary]);
     });
     vi.stubGlobal('fetch', listMock);
     const listed = await listSkillEffects(
       'http://localhost:8080/',
       'demo arena',
-      'active/q',
-      'token'
+      'active/q'
     );
     expect(listed.status).toBe(200);
     expect(listed.data[0]).not.toHaveProperty('results');
@@ -336,7 +335,7 @@ describe('skillEffectClient', () => {
       expect(String(input)).toBe(
         'http://localhost:8080/api/admin/games/demo/skills/ezreal_q/effects/on%2Fhit'
       );
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, detail);
     });
     vi.stubGlobal('fetch', detailMock);
@@ -344,8 +343,7 @@ describe('skillEffectClient', () => {
       'http://localhost:8080',
       'demo',
       'ezreal_q',
-      'on/hit',
-      'token'
+      'on/hit'
     );
     expect(loaded.data.results).toEqual([damageResult]);
   });
@@ -361,7 +359,7 @@ describe('skillEffectClient', () => {
         status,
         body: init?.body ? JSON.parse(String(init.body)) : null
       });
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(status, method === 'DELETE' ? null : detail);
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -370,7 +368,6 @@ describe('skillEffectClient', () => {
       'http://localhost:8080',
       'demo arena',
       'active/q',
-      'token',
       createBody
     );
     const updated = await updateSkillEffect(
@@ -378,15 +375,13 @@ describe('skillEffectClient', () => {
       'demo',
       'ezreal_q',
       'on/hit',
-      'token',
       updateBody
     );
     const deleted = await deleteSkillEffect(
       'http://localhost:8080',
       'demo',
       'ezreal_q',
-      'on/hit',
-      'token'
+      'on/hit'
     );
 
     expect(created.status).toBe(201);
@@ -509,14 +504,13 @@ describe('skillEffectClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    const listed = await listSkillEffects('http://localhost:8080', 'demo', 'ezreal_q', 'token');
+    const listed = await listSkillEffects('http://localhost:8080', 'demo', 'ezreal_q');
     expect(listed.data[0]?.lifecycleEnabled).toBe(true);
 
     const created = await createSkillEffect(
       'http://localhost:8080',
       'demo',
       'ezreal_q',
-      'token',
       createLifecycleBody
     );
     expect(created.data.lifecycle).toEqual(lifecycleDetail.lifecycle);
@@ -571,11 +565,11 @@ describe('skillEffectClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    const listed = await listSkillEffects('http://localhost:8080', 'demo', 'veigar_e', 'token');
+    const listed = await listSkillEffects('http://localhost:8080', 'demo', 'veigar_e');
     expect(listed.data[0]).toMatchObject({ effectKey: 'event_horizon_stun', lifecycleEnabled: true });
 
     const loaded = await getSkillEffect(
-      'http://localhost:8080', 'demo', 'veigar_e', 'event_horizon_stun', 'token'
+      'http://localhost:8080', 'demo', 'veigar_e', 'event_horizon_stun'
     );
     expect(loaded.data.results[0]).toMatchObject({
       resultType: 'STATUS_OPERATION',
@@ -586,7 +580,7 @@ describe('skillEffectClient', () => {
     });
 
     const created = await createSkillEffect(
-      'http://localhost:8080', 'demo', 'veigar_e', 'token', persistentStatusBody
+      'http://localhost:8080', 'demo', 'veigar_e', persistentStatusBody
     );
     expect(created.status).toBe(201);
     expect(created.data.results[0]?.spellShieldBlockScope).toBe('RESULT');

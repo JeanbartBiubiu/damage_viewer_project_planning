@@ -418,6 +418,8 @@ export type CompileSettings = {
 };
 
 export type CompileRequest = {
+  /** 构建启用授权时，由宿主附带原始签名票据；不参与战斗规则身份。 */
+  authorization?: string;
   schemaVersion: string;
   schemaHash: string;
   rulesHash: string;
@@ -777,6 +779,8 @@ export type AttackStartFact = {
 };
 
 export type RunRequest = {
+  /** 每次运行独立检查的原始授权票据；释放会话不需要该字段。 */
+  authorization?: string;
   /** 省略返回完整明细；summary仅省略记录，采样仍独立控制。 */
   outputMode?: 'detailed' | 'summary';
   runtimeOptions?: {

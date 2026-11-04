@@ -45,7 +45,7 @@ describe('真实HIT有限减疗的独立Generic初始法盾协议', () => {
     archive.wasm = { wasmSha256, wasmBytes };
     let sessionId: string | null = null, rulesHash: string | undefined;
     try {
-      expect({ sha256: wasmSha256, bytes: wasmBytes }).toEqual(WASM_IDENTITY);
+      expect({ sha256: wasmSha256, bytes: wasmBytes }).toEqual({ sha256: WASM_IDENTITY.sha256, bytes: WASM_IDENTITY.bytes });
       const definition = loadMechanismCases().find(row => row.caseKey === 'hit_healing_modifier_present');
       if (!definition) throw Error('缺少冻结的有限命中减疗基础场景');
       const caseBytes = readFileSync(resolve(MECHANISM_ROOT, 'cases/hit_healing_modifier_present.json'));

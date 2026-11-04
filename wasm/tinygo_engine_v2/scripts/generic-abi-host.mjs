@@ -12,6 +12,23 @@ export const moduleRoot = resolve(scriptDir, "..");
 const workspaceRoot = resolve(moduleRoot, "..", "..");
 const projectRoot = resolve(workspaceRoot, "..");
 
+let nodeAuthorizationProvider;
+
+// 本地受控签发方可逐次提供短期票据；不向真实 Wasm 导出新的能力。
+export function setNodeAuthorizationProvider(provider) {
+  if (provider !== undefined && typeof provider !== 'function') throw new TypeError('authorization provider must be a function');
+  nodeAuthorizationProvider = provider;
+}
+
+export function withNodeAuthorization(request) {
+  if (Object.hasOwn(request, 'authorization')) return request;
+  const path = process.env.WASM_AUTHORIZATION_FILE;
+  const authorization = nodeAuthorizationProvider ? nodeAuthorizationProvider() : path ? readFileSync(path, 'utf8').trim() : undefined;
+  if (authorization === undefined) return request;
+  if (typeof authorization !== 'string') throw new TypeError('authorization provider must return a string');
+  return { ...request, authorization };
+}
+
 export const MAGIC = 0x32475644;
 export const SCHEMA_VERSION = 1;
 export const HEADER_LEN = 16;
@@ -273,7 +290,7 @@ export function validateExpectedSummarySubset(summary, expectedSubset) {
 }
 
 export function compileCanonicalSession(exports, fixture) {
-  const frames = invokeFrame(exports, "engine_compile", FRAME_GENERIC_COMPILE, fixture.compileRequest);
+  const frames = invokeFrame(exports, "engine_compile", FRAME_GENERIC_COMPILE, withNodeAuthorization(fixture.compileRequest));
   const result = requireFramePayload(frames, OUTBOX_GENERIC_COMPILE_RESULT, "compile_result");
   if (result.ok !== true) {
     throw new Error(`compile ok=false: ${JSON.stringify(result)}`);
@@ -295,7 +312,7 @@ export function runCanonicalSession(exports, fixture, sessionId, expectedRulesHa
     sessionId,
     expectedRulesHash,
   };
-  const frames = invokeFrame(exports, "engine_run", FRAME_GENERIC_RUN, runRequest);
+  const frames = invokeFrame(exports, "engine_run", FRAME_GENERIC_RUN, withNodeAuthorization(runRequest));
   const done = requireFramePayload(frames, OUTBOX_GENERIC_DONE, "generic done");
   if (done.ok !== true) {
     throw new Error(`done.ok=false: ${JSON.stringify(done)}`);

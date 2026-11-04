@@ -24,7 +24,6 @@ import { SkillManagementPage } from '../skills/SkillManagementPage';
 export type EquipmentManagementPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
 };
 
@@ -41,7 +40,6 @@ function formatUpdatedAt(value: string): string {
 export function EquipmentManagementPage({
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onDirtyChange
 }: EquipmentManagementPageProps) {
   const [keywordDraft, setKeywordDraft] = useState('');
@@ -59,7 +57,7 @@ export function EquipmentManagementPage({
   const [skillsTarget, setSkillsTarget] = useState<Equipment | null>(null);
   const [skillFocus, setSkillFocus] = useState<{ equipment: Equipment; skillKey: string; context: string } | null>(null);
   const skillFocusDirty = useRef(false);
-  const focusContext = JSON.stringify([apiBaseUrl, selectedGameId, adminToken]);
+  const focusContext = JSON.stringify([apiBaseUrl, selectedGameId]);
   const requestSerial = useRef(0);
 
   const reportSkillDirty = useCallback((dirty: boolean) => {
@@ -70,8 +68,8 @@ export function EquipmentManagementPage({
   const loadList = useCallback(async (queryKeyword?: string) => {
     const serial = requestSerial.current + 1;
     requestSerial.current = serial;
-    const token = adminToken.trim();
-    if (!selectedGameId || !token) {
+
+    if (!selectedGameId) {
       setEquipment([]);
       setTotal(0);
       setLoading(false);
@@ -81,7 +79,7 @@ export function EquipmentManagementPage({
     setLoading(true);
     setLoadError(null);
     try {
-      const result = await listEquipment(apiBaseUrl, selectedGameId, token, { keyword: queryKeyword });
+      const result = await listEquipment(apiBaseUrl, selectedGameId, { keyword: queryKeyword });
       if (requestSerial.current !== serial) return;
       setEquipment(result.data.items);
       setTotal(result.data.total);
@@ -93,7 +91,7 @@ export function EquipmentManagementPage({
     } finally {
       if (requestSerial.current === serial) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, selectedGameId]);
+  }, [apiBaseUrl, selectedGameId]);
 
   useEffect(() => { void loadList(keyword); }, [keyword, loadList]);
 
@@ -123,16 +121,12 @@ export function EquipmentManagementPage({
 
   const confirmDelete = async () => {
     if (!deleteTarget || !selectedGameId) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setDeleteError('请先配置 Admin Token。');
-      return;
-    }
+
     setDeleting(true);
     setDeleteError(null);
     try {
       const deletedName = deleteTarget.name;
-      await deleteEquipment(apiBaseUrl, selectedGameId, deleteTarget.equipmentKey, token);
+      await deleteEquipment(apiBaseUrl, selectedGameId, deleteTarget.equipmentKey);
       setDeleteTarget(null);
       setNotice(`装备「${deletedName}」已删除。`);
       await loadList(keyword);
@@ -144,8 +138,7 @@ export function EquipmentManagementPage({
   };
 
   const { imageColumn, onImageSaved } = useRepresentativeImageColumn<Equipment>({
-    apiBaseUrl, selectedGameId, adminToken,
-    getTarget: record => ({ kind: 'equipment', key: record.equipmentKey, name: record.name })
+    apiBaseUrl, selectedGameId, getTarget: record => ({ kind: 'equipment', key: record.equipmentKey, name: record.name })
   });
   const columns: TableColumnProps[] = [
     imageColumn,
@@ -172,7 +165,7 @@ export function EquipmentManagementPage({
           <ObjectRelationActions
             key={`${apiBaseUrl}:${selectedGameId}:${record.equipmentKey}`}
             target={{ kind: 'equipment', key: record.equipmentKey, name: record.name }}
-            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
             onDirtyChange={onDirtyChange}
             onImageSaved={() => onImageSaved(record)}
             onOpenSkills={() => setSkillsTarget(record)}
@@ -194,7 +187,7 @@ export function EquipmentManagementPage({
       key={`${focusContext}:${skillFocus.skillKey}`}
       apiBaseUrl={apiBaseUrl}
       selectedGameId={selectedGameId}
-      adminToken={adminToken}
+
       onDirtyChange={reportSkillDirty}
       focus={{
         skillKey: skillFocus.skillKey,
@@ -218,7 +211,7 @@ export function EquipmentManagementPage({
         title="装备管理"
         actions={
           <Space>
-            <Button loading={loading} disabled={!selectedGameId || !adminToken.trim()} onClick={() => void loadList(keyword)}>
+            <Button loading={loading} disabled={!selectedGameId} onClick={() => void loadList(keyword)}>
               刷新
             </Button>
             <Button type="primary" disabled={!selectedGameId} onClick={() => setEditor({ mode: 'create', equipment: null })}>
@@ -228,7 +221,7 @@ export function EquipmentManagementPage({
         }
       >
         {!selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : null}
-        {selectedGameId && !adminToken.trim() ? <Alert type="warning" content="请先在顶部配置 Admin Token。" /> : null}
+
         {loadError ? <Alert type="error" content={loadError} className="workspace-alert" /> : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
@@ -245,7 +238,7 @@ export function EquipmentManagementPage({
             />
           </label>
           <Space>
-            <Button type="primary" disabled={!selectedGameId || !adminToken.trim()} onClick={() => setKeyword(keywordDraft.trim() || undefined)}>
+            <Button type="primary" disabled={!selectedGameId} onClick={() => setKeyword(keywordDraft.trim() || undefined)}>
               查询
             </Button>
             <Button onClick={() => { setKeywordDraft(''); setKeyword(undefined); }}>重置</Button>
@@ -272,7 +265,7 @@ export function EquipmentManagementPage({
         target={{ kind: 'equipment', key: skillsTarget.equipmentKey, name: skillsTarget.name }}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onDirtyChange={onDirtyChange}
         onClose={() => setSkillsTarget(null)}
         onEditSkill={(skillKey) => {
@@ -288,7 +281,7 @@ export function EquipmentManagementPage({
         equipment={editor?.equipment ?? null}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={() => setEditor(null)}
         onSaved={handleSaved}
         onDirtyChange={onDirtyChange}
@@ -299,7 +292,7 @@ export function EquipmentManagementPage({
         equipment={attributesTarget}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={() => setAttributesTarget(null)}
         onSaved={() => setNotice(`装备「${attributesTarget?.name ?? ''}」的属性已保存。`)}
         onDirtyChange={onDirtyChange}

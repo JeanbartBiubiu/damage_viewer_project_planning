@@ -29,36 +29,29 @@ function withAttributeQuery(path: string, query: AttributeListQuery = {}): strin
 export async function listAttributes(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   query: AttributeListQuery = {}
 ): Promise<ApiResult<AttributeListResponse>> {
   return requestJson<AttributeListResponse>(
     apiBaseUrl,
-    withAttributeQuery(attributesPath(gameId), query),
-    { token }
+    withAttributeQuery(attributesPath(gameId), query)
   );
 }
 
 export async function getAttribute(
   apiBaseUrl: string,
   gameId: string,
-  attributeKey: string,
-  token: string
+  attributeKey: string
 ): Promise<ApiResult<Attribute>> {
-  return requestJson<Attribute>(apiBaseUrl, attributesPath(gameId, attributeKey), {
-    token
-  });
+  return requestJson<Attribute>(apiBaseUrl, attributesPath(gameId, attributeKey));
 }
 
 export async function createAttribute(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   body: CreateAttributeRequest
 ): Promise<ApiResult<Attribute>> {
   return requestJson<Attribute>(apiBaseUrl, attributesPath(gameId), {
     method: 'POST',
-    token,
     body: JSON.stringify(body)
   });
 }
@@ -67,12 +60,10 @@ export async function updateAttribute(
   apiBaseUrl: string,
   gameId: string,
   attributeKey: string,
-  token: string,
   body: UpdateAttributeRequest
 ): Promise<ApiResult<Attribute>> {
   return requestJson<Attribute>(apiBaseUrl, attributesPath(gameId, attributeKey), {
     method: 'PUT',
-    token,
     body: JSON.stringify(body)
   });
 }

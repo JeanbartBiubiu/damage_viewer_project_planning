@@ -17,7 +17,6 @@ import { ModifierZoneEditorModal, type ModifierZoneEditorMode } from './Modifier
 type Props = {
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
 };
 
@@ -37,7 +36,7 @@ function statusRequest(zone: ModifierZone, status: ModifierZoneStatus): UpdateMo
 }
 
 export function ModifierZoneManagementPage({
-  apiBaseUrl, selectedGameId, adminToken, onDirtyChange
+  apiBaseUrl, selectedGameId, onDirtyChange
 }: Props) {
   const [keyword, setKeyword] = useState('');
   const [domain, setDomain] = useState<ModifierZoneDomain | ''>('');
@@ -57,13 +56,13 @@ export function ModifierZoneManagementPage({
 
   const load = useCallback(async (nextQuery: ModifierZoneListQuery) => {
     const request = ++serial.current;
-    const token = adminToken.trim();
-    if (!selectedGameId || !token) {
+
+    if (!selectedGameId) {
       setItems([]); setTotal(0); setLoadError(null); setLoading(false); return;
     }
     setLoading(true); setLoadError(null);
     try {
-      const result = await listModifierZones(apiBaseUrl, selectedGameId, token, nextQuery);
+      const result = await listModifierZones(apiBaseUrl, selectedGameId, nextQuery);
       if (serial.current !== request) return;
       setItems(result.data.items); setTotal(result.data.total);
     } catch (error) {
@@ -72,7 +71,7 @@ export function ModifierZoneManagementPage({
     } finally {
       if (serial.current === request) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, selectedGameId]);
+  }, [apiBaseUrl, selectedGameId]);
 
   useEffect(() => { void load(query); }, [load, query]);
   useEffect(() => {
@@ -92,13 +91,11 @@ export function ModifierZoneManagementPage({
 
   const changeStatus = async () => {
     if (!statusTarget || !selectedGameId || actionLoading) return;
-    const token = adminToken.trim();
-    if (!token) return setActionError('请先配置 Admin Token。');
+
     setActionLoading(true); setActionError(null);
     try {
       const result = await updateModifierZone(
-        apiBaseUrl, selectedGameId, statusTarget.modifierZone.modifierZoneKey, token,
-        statusRequest(statusTarget.modifierZone, statusTarget.nextStatus)
+        apiBaseUrl, selectedGameId, statusTarget.modifierZone.modifierZoneKey, statusRequest(statusTarget.modifierZone, statusTarget.nextStatus)
       );
       setStatusTarget(null);
       setNotice(`乘区「${result.data.name}」已${result.data.status === 'ENABLED' ? '启用' : '停用'}。`);
@@ -109,12 +106,11 @@ export function ModifierZoneManagementPage({
 
   const remove = async () => {
     if (!deleteTarget || !selectedGameId || actionLoading) return;
-    const token = adminToken.trim();
-    if (!token) return setActionError('请先配置 Admin Token。');
+
     setActionLoading(true); setActionError(null);
     try {
       const name = deleteTarget.name;
-      await deleteModifierZone(apiBaseUrl, selectedGameId, deleteTarget.modifierZoneKey, token);
+      await deleteModifierZone(apiBaseUrl, selectedGameId, deleteTarget.modifierZoneKey);
       setDeleteTarget(null); setNotice(`乘区「${name}」已删除。`); await load(query);
     } catch (error) { setActionError(getErrorMessage(error)); }
     finally { setActionLoading(false); }
@@ -144,11 +140,11 @@ export function ModifierZoneManagementPage({
 
   return <div className="page-stack">
     <Panel title="乘区管理" actions={<Space>
-      <Button loading={loading} disabled={!selectedGameId || !adminToken.trim()} onClick={() => void load(query)}>刷新</Button>
+      <Button loading={loading} disabled={!selectedGameId} onClick={() => void load(query)}>刷新</Button>
       <Button type="primary" disabled={!selectedGameId} onClick={() => setEditor({ mode: 'create', modifierZone: null })}>新增乘区</Button>
     </Space>}>
       {!selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : null}
-      {selectedGameId && !adminToken.trim() ? <Alert type="warning" content="请先在顶部配置 Admin Token。" /> : null}
+
       {loadError ? <Alert type="error" content={loadError} className="workspace-alert" /> : null}
       {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
       <Space wrap style={{ marginBottom: 16 }}>
@@ -163,7 +159,7 @@ export function ModifierZoneManagementPage({
       <Table className="data-table-shell" loading={loading} columns={columns} data={items} pagination={false} rowKey={(record: ModifierZone) => record.modifierZoneKey} scroll={{ x: 1250 }} noDataElement={<Empty description="暂无乘区" />} />
     </Panel>
 
-    <ModifierZoneEditorModal visible={editor !== null} mode={editor?.mode ?? 'view'} modifierZone={editor?.modifierZone ?? null} apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} onClose={() => setEditor(null)} onSaved={async (saved) => { setEditor(null); setNotice(`乘区「${saved.name}」已保存。`); onDirtyChange(false); await load(query); }} onDirtyChange={onDirtyChange} />
+    <ModifierZoneEditorModal visible={editor !== null} mode={editor?.mode ?? 'view'} modifierZone={editor?.modifierZone ?? null} apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}  onClose={() => setEditor(null)} onSaved={async (saved) => { setEditor(null); setNotice(`乘区「${saved.name}」已保存。`); onDirtyChange(false); await load(query); }} onDirtyChange={onDirtyChange} />
 
     <Modal title={statusTarget?.nextStatus === 'ENABLED' ? '启用乘区' : '停用乘区'} visible={statusTarget !== null} okText={statusTarget?.nextStatus === 'ENABLED' ? '启用' : '停用'} cancelText="取消" confirmLoading={actionLoading} maskClosable onCancel={() => { if (!actionLoading) { setStatusTarget(null); setActionError(null); } }} onOk={() => void changeStatus()}>
       {actionError ? <Alert type="error" content={actionError} style={{ marginBottom: 12 }} /> : null}

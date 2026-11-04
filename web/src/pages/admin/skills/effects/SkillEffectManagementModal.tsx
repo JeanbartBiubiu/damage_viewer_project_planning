@@ -27,7 +27,6 @@ type SkillEffectManagementModalProps = {
   skill: Skill | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSkillMissing: () => void;
   onDirtyChange: (dirty: boolean) => void;
@@ -53,7 +52,6 @@ export function SkillEffectManagementModal({
   skill,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSkillMissing,
   onDirtyChange,
@@ -90,8 +88,8 @@ export function SkillEffectManagementModal({
   const loadEffects = useCallback(async () => {
     const serial = listSerial.current + 1;
     listSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !openGameId || !openSkillKey || !token) {
+
+    if (!visible || !openGameId || !openSkillKey) {
       setItems([]);
       setLoadError(null);
       setLoading(false);
@@ -100,7 +98,7 @@ export function SkillEffectManagementModal({
     setLoading(true);
     setLoadError(null);
     try {
-      const result = await listSkillEffects(apiBaseUrl, openGameId, openSkillKey, token);
+      const result = await listSkillEffects(apiBaseUrl, openGameId, openSkillKey);
       if (listSerial.current !== serial) return;
       if (selectedGameId !== openGameId || skill?.skillKey !== openSkillKey) return;
       setItems(result.data);
@@ -115,7 +113,7 @@ export function SkillEffectManagementModal({
     } finally {
       if (listSerial.current === serial) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, openGameId, openSkillKey, selectedGameId, skill?.skillKey, visible]);
+  }, [apiBaseUrl, onSkillMissing, openGameId, openSkillKey, selectedGameId, skill?.skillKey, visible]);
 
   useEffect(() => {
     if (!visible || !skill) {
@@ -159,11 +157,7 @@ export function SkillEffectManagementModal({
 
   const confirmDelete = async () => {
     if (!deleteTarget || deleting || !selectedGameId || !skill) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setDeleteError('请先配置 Admin Token。');
-      return;
-    }
+
     setDeleting(true);
     setDeleteError(null);
     try {
@@ -172,8 +166,7 @@ export function SkillEffectManagementModal({
         apiBaseUrl,
         selectedGameId,
         skill.skillKey,
-        deleteTarget.effectKey,
-        token
+        deleteTarget.effectKey
       );
       setDeleteTarget(null);
       setNotice(`效果「${deletedName}」已删除。`);
@@ -194,8 +187,7 @@ export function SkillEffectManagementModal({
   };
 
   const { imageColumn, onImageSaved } = useRepresentativeImageColumn<SkillEffectSummary>({
-    apiBaseUrl, selectedGameId, adminToken,
-    getTarget: record => ({ kind: 'skillEffect', key: record.effectKey, name: record.name, skillKey: record.skillKey })
+    apiBaseUrl, selectedGameId, getTarget: record => ({ kind: 'skillEffect', key: record.effectKey, name: record.name, skillKey: record.skillKey })
   });
   const columns: TableColumnProps[] = [
     imageColumn,
@@ -225,7 +217,7 @@ export function SkillEffectManagementModal({
           <ObjectRelationActions
             key={`${apiBaseUrl}:${selectedGameId}:${record.effectKey}`}
             target={{ kind: 'skillEffect', key: record.effectKey, name: record.name, skillKey: skill?.skillKey }}
-            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
             onDirtyChange={onDirtyChange}
             onImageSaved={() => onImageSaved(record)}
           />
@@ -268,14 +260,14 @@ export function SkillEffectManagementModal({
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginBottom: 16 }}>
           <Button
             loading={loading}
-            disabled={!selectedGameId || !adminToken.trim() || !skill}
+            disabled={!selectedGameId || !skill}
             onClick={() => void loadEffects()}
           >
             刷新
           </Button>
           <Button
             type="primary"
-            disabled={!selectedGameId || !adminToken.trim() || !skill}
+            disabled={!selectedGameId || !skill}
             onClick={() => setEditor({ mode: 'create', effect: null })}
           >
             新增效果
@@ -315,7 +307,7 @@ export function SkillEffectManagementModal({
           effect={editor?.effect ?? null}
           apiBaseUrl={apiBaseUrl}
           selectedGameId={selectedGameId}
-          adminToken={adminToken}
+
           onClose={() => setEditor(null)}
           onSaved={async (saved) => {
             setEditor(null);

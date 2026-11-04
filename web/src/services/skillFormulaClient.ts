@@ -18,20 +18,18 @@ function formulasPath(gameId: string, skillKey: string, formulaKey?: string): st
 export function listSkillFormulas(
   apiBaseUrl: string,
   gameId: string,
-  skillKey: string,
-  token: string
+  skillKey: string
 ): Promise<ApiResult<SkillFormulaSummary[]>> {
-  return requestJson<SkillFormulaSummary[]>(apiBaseUrl, formulasPath(gameId, skillKey), { token });
+  return requestJson<SkillFormulaSummary[]>(apiBaseUrl, formulasPath(gameId, skillKey));
 }
 
 export async function getSkillFormula(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  formulaKey: string,
-  token: string
+  formulaKey: string
 ): Promise<ApiResult<SkillFormula>> {
-  const result = await requestJson<SkillFormula>(apiBaseUrl, formulasPath(gameId, skillKey, formulaKey), { token });
+  const result = await requestJson<SkillFormula>(apiBaseUrl, formulasPath(gameId, skillKey, formulaKey));
   return { ...result, data: parseSkillFormula(result.data, gameId, skillKey, formulaKey) };
 }
 
@@ -39,12 +37,10 @@ export async function createSkillFormula(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  token: string,
   body: CreateSkillFormulaRequest
 ): Promise<ApiResult<SkillFormula>> {
   const result = await requestJson<SkillFormula>(apiBaseUrl, formulasPath(gameId, skillKey), {
     method: 'POST',
-    token,
     body: JSON.stringify(body)
   }).catch(unconfirmedSkillFormulaWrite);
   try { return { ...result, data: parseSkillFormula(result.data, gameId, skillKey, body.formulaKey) }; }
@@ -56,7 +52,6 @@ export async function updateSkillFormula(
   gameId: string,
   skillKey: string,
   formulaKey: string,
-  token: string,
   body: UpdateSkillFormulaRequest
 ): Promise<ApiResult<SkillFormula>> {
   const result = await requestJson<SkillFormula>(
@@ -64,7 +59,6 @@ export async function updateSkillFormula(
     formulasPath(gameId, skillKey, formulaKey),
     {
       method: 'PUT',
-      token,
       body: JSON.stringify(body)
     }
   ).catch(unconfirmedSkillFormulaWrite);
@@ -76,12 +70,10 @@ export function deleteSkillFormula(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  formulaKey: string,
-  token: string
+  formulaKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, formulasPath(gameId, skillKey, formulaKey), {
-    method: 'DELETE',
-    token
+    method: 'DELETE'
   });
 }
 

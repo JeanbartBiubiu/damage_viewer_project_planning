@@ -45,22 +45,22 @@ describe('游戏计算配置严格契约与完整保存', () => {
       .mockResolvedValueOnce(new Response(JSON.stringify(written), { status: 200 }))
       .mockResolvedValueOnce(new Response(JSON.stringify(written), { status: 200 }));
     vi.stubGlobal('fetch', fetch);
-    await getGameCalculationRules('http://localhost:8080', 'demo', 'fixture-token');
+    await getGameCalculationRules('http://localhost:8080', 'demo');
     const before = structuredClone(original.configuration!);
-    const result = await updateGameCalculationRules('http://localhost:8080', 'demo', 'fixture-token', { baseDigest: original.baseDigest, configuration: original.configuration! });
+    const result = await updateGameCalculationRules('http://localhost:8080', 'demo', { baseDigest: original.baseDigest, configuration: original.configuration! });
     expect(result.data.baseDigest).toBe(written.baseDigest);
     expect(fetch.mock.calls[1]![1]).toMatchObject({ method: 'PUT', body: JSON.stringify({ baseDigest: original.baseDigest, configuration: before }) });
     expect(fetch.mock.calls[2]![1]).not.toHaveProperty('method', 'PUT');
     expect(sameFormulaPayload(original.configuration, before)).toBe(true);
     fetch.mockResolvedValueOnce(new Response(JSON.stringify({ error: { code: '409.CONFLICT', message: '版本冲突' } }), { status: 409 }));
-    await expect(updateGameCalculationRules('http://localhost:8080', 'demo', 'fixture-token', { baseDigest: original.baseDigest, configuration: before })).rejects.toThrow('版本冲突');
+    await expect(updateGameCalculationRules('http://localhost:8080', 'demo', { baseDigest: original.baseDigest, configuration: before })).rejects.toThrow('版本冲突');
   });
   it('写后读回失败或候选不同，冻结待确认并保留原草稿', async () => {
     const value = authoredCalculationRules('demo');
     const fetch = vi.fn().mockResolvedValueOnce(new Response(JSON.stringify(value), { status: 200 }))
       .mockResolvedValueOnce(new Response(JSON.stringify({ ...value, configuration: { ...value.configuration, criticalMultiplierMin: 0 } }), { status: 200 }));
     vi.stubGlobal('fetch', fetch);
-    await expect(updateGameCalculationRules('http://localhost:8080', 'demo', 'fixture-token', { baseDigest: value.baseDigest, configuration: value.configuration! })).rejects.toBeInstanceOf(UnconfirmedCalculationRulesWriteError);
+    await expect(updateGameCalculationRules('http://localhost:8080', 'demo', { baseDigest: value.baseDigest, configuration: value.configuration! })).rejects.toBeInstanceOf(UnconfirmedCalculationRulesWriteError);
   });
 
   it('七字段全部必填，不接旧四字段，不补分类、费用或自动排序', () => {
@@ -123,7 +123,7 @@ describe('游戏计算配置严格契约与完整保存', () => {
     const fetch = vi.fn().mockImplementationOnce(() => new Promise<Response>(resolve => { deliver = resolve; }))
       .mockResolvedValueOnce(new Response(JSON.stringify({ ...original, baseDigest: 'd'.repeat(64), configuration: expected }), { status: 200 }));
     vi.stubGlobal('fetch', fetch);
-    const pending = updateGameCalculationRules('http://api.test', 'demo', 'fixture-token', { baseDigest: original.baseDigest, configuration: original.configuration! });
+    const pending = updateGameCalculationRules('http://api.test', 'demo', { baseDigest: original.baseDigest, configuration: original.configuration! });
     original.configuration!.basicAttackCategoryKey = null;
     original.configuration!.ignorableCastCostAttributeKeys = [];
     deliver(new Response(JSON.stringify({ ...original, baseDigest: 'd'.repeat(64), configuration: expected }), { status: 200 }));
@@ -140,7 +140,7 @@ describe('游戏计算配置严格契约与完整保存', () => {
     else changed.configuration![field] = null;
     vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(new Response(JSON.stringify(rules), { status: 200 }))
       .mockResolvedValueOnce(new Response(JSON.stringify(changed), { status: 200 })));
-    await expect(updateGameCalculationRules('http://api.test', 'demo', 'fixture-token', { baseDigest: rules.baseDigest, configuration: rules.configuration! }))
+    await expect(updateGameCalculationRules('http://api.test', 'demo', { baseDigest: rules.baseDigest, configuration: rules.configuration! }))
       .rejects.toBeInstanceOf(UnconfirmedCalculationRulesWriteError);
   });
 });

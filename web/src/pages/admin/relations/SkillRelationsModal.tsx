@@ -1,7 +1,7 @@
 import { Alert, Button, Empty, Input, Modal, Select, Space, Table, Tag, Typography } from '@arco-design/web-react';
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { getErrorMessage } from '../../../services/apiClient';
+import { getErrorMessage, getErrorMessageWithContext } from '../../../services/apiClient';
 import { getBuildOption, listBuildOptions, listBuildSystems } from '../../../services/buildClient';
 import { listCharacters } from '../../../services/characterClient';
 import { listEquipment } from '../../../services/equipmentClient';
@@ -53,7 +53,6 @@ export type SkillRelationsModalProps = {
   target: SkillRelationTarget | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onDirtyChange?: (dirty: boolean) => void;
   onEditSkill?: (skillKey: string) => void;
@@ -122,12 +121,12 @@ function initialDrafts(): Record<SkillRelationOwnerKind, SkillRelationAddDraft> 
 }
 
 export function SkillRelationsModal({
-  visible, target, apiBaseUrl, selectedGameId, adminToken, onClose, onDirtyChange, onEditSkill
+  visible, target, apiBaseUrl, selectedGameId, onClose, onDirtyChange, onEditSkill
 }: SkillRelationsModalProps) {
   const kind = target?.kind;
   const targetKey = target?.key;
-  const token = adminToken.trim();
-  const scope = JSON.stringify([visible, apiBaseUrl, selectedGameId, kind, targetKey, target?.systemKey, token]);
+
+  const scope = JSON.stringify([visible, apiBaseUrl, selectedGameId, kind, targetKey, target?.systemKey]);
   const currentScope = useRef(scope);
   currentScope.current = scope;
   const loadSerial = useRef(0);
@@ -148,11 +147,11 @@ export function SkillRelationsModal({
   const [uncertainGrantPending, setUncertainGrantPending] = useState(false);
   const dirty = skillRelationDraftIsDirty(drafts, sortEdits) || Object.keys(grantEdits).length > 0;
   const data = loaded?.scope === scope ? loaded : null;
-  const ready = Boolean(data && !loading && !saving && !uncertainGrantPending && selectedGameId && token);
+  const ready = Boolean(data && !loading && !saving && !uncertainGrantPending && selectedGameId);
 
   const load = useCallback(async (): Promise<LoadedRelations | null> => {
     const serial = ++loadSerial.current;
-    if (!visible || !selectedGameId || !kind || !targetKey || !token) return null;
+    if (!visible || !selectedGameId || !kind || !targetKey) return null;
     setLoading(true);
     setError(null);
     const next: LoadedRelations = {
@@ -163,13 +162,13 @@ export function SkillRelationsModal({
       if (kind === 'buildOption' && !target?.systemKey) throw new Error('构筑可选项缺少所属构筑系统。');
       if (kind === 'skill') {
         const [characters, equipment, grants, characterOptions, equipmentOptions, systems, skill] = await Promise.all([
-          listCharacterSkillRelations(apiBaseUrl, selectedGameId, token, { skillKey: targetKey }),
-          listEquipmentSkillRelations(apiBaseUrl, selectedGameId, token, { skillKey: targetKey }),
-          listBuildOptionSkillRelations(apiBaseUrl, selectedGameId, token, { skillKey: targetKey }),
-          listCharacters(apiBaseUrl, selectedGameId, token),
-          listEquipment(apiBaseUrl, selectedGameId, token),
-          listBuildSystems(apiBaseUrl, selectedGameId, token),
-          getSkill(apiBaseUrl, selectedGameId, targetKey, token)
+          listCharacterSkillRelations(apiBaseUrl, selectedGameId, { skillKey: targetKey }),
+          listEquipmentSkillRelations(apiBaseUrl, selectedGameId, { skillKey: targetKey }),
+          listBuildOptionSkillRelations(apiBaseUrl, selectedGameId, { skillKey: targetKey }),
+          listCharacters(apiBaseUrl, selectedGameId),
+          listEquipment(apiBaseUrl, selectedGameId),
+          listBuildSystems(apiBaseUrl, selectedGameId),
+          getSkill(apiBaseUrl, selectedGameId, targetKey)
         ]);
         next.characters = characters.data.items;
         next.equipment = equipment.data.items;
@@ -184,11 +183,11 @@ export function SkillRelationsModal({
       } else {
         const [relations, skills] = await Promise.all([
           kind === 'character'
-            ? listCharacterSkillRelations(apiBaseUrl, selectedGameId, token, { characterKey: targetKey })
+            ? listCharacterSkillRelations(apiBaseUrl, selectedGameId, { characterKey: targetKey })
             : kind === 'buildOption'
-              ? listBuildOptionSkillRelations(apiBaseUrl, selectedGameId, token, { systemKey: target?.systemKey, optionKey: targetKey })
-              : listEquipmentSkillRelations(apiBaseUrl, selectedGameId, token, { equipmentKey: targetKey }),
-          listSkills(apiBaseUrl, selectedGameId, token)
+              ? listBuildOptionSkillRelations(apiBaseUrl, selectedGameId, { systemKey: target?.systemKey, optionKey: targetKey })
+              : listEquipmentSkillRelations(apiBaseUrl, selectedGameId, { equipmentKey: targetKey }),
+          listSkills(apiBaseUrl, selectedGameId)
         ]);
         if (kind === 'character') next.characters = relations.data.items as CharacterSkillRelation[];
         else if (kind === 'equipment') next.equipment = relations.data.items as EquipmentSkillRelation[];
@@ -218,29 +217,29 @@ export function SkillRelationsModal({
     } catch (cause) {
       if (currentScope.current === scope && loadSerial.current === serial) {
         setLoaded(null);
-        setError(`${uncertainBuildGrant.current ? '写入结果不明，独立回读失败；请刷新确认，暂不重复提交。' : ''}${getErrorMessage(cause)}`);
+        setError(getErrorMessageWithContext(cause, uncertainBuildGrant.current ? '写入结果不明，独立回读失败；请刷新确认，暂不重复提交。' : ''));
       }
       return null;
     } finally {
       if (currentScope.current === scope && loadSerial.current === serial) setLoading(false);
     }
-  }, [apiBaseUrl, kind, scope, selectedGameId, target?.systemKey, targetKey, token, visible]);
+  }, [apiBaseUrl, kind, scope, selectedGameId, target?.systemKey, targetKey, visible]);
 
   useEffect(() => {
     const serial = ++optionSerial.current;
-    if (!visible || kind !== 'skill' || !selectedGameId || !token || !drafts.buildOption.systemKey) {
+    if (!visible || kind !== 'skill' || !selectedGameId || !drafts.buildOption.systemKey) {
       setOptionCatalog([]);
       return;
     }
     let current = true;
-    void listBuildOptions(apiBaseUrl, selectedGameId, drafts.buildOption.systemKey, token).then(result => {
+    void listBuildOptions(apiBaseUrl, selectedGameId, drafts.buildOption.systemKey).then(result => {
       if (!current || serial !== optionSerial.current) return;
       setOptionCatalog(skillRelationOptionsFromResponse(result.data, selectedGameId, 'buildOption'));
     }).catch(cause => {
       if (current && serial === optionSerial.current) { setOptionCatalog([]); setError(getErrorMessage(cause)); }
     });
     return () => { current = false; };
-  }, [apiBaseUrl, drafts.buildOption.systemKey, kind, selectedGameId, token, visible]);
+  }, [apiBaseUrl, drafts.buildOption.systemKey, kind, selectedGameId, visible]);
 
   useEffect(() => {
     currentScope.current = scope;
@@ -356,8 +355,8 @@ export function SkillRelationsModal({
     if (ownerKind !== 'buildOption') {
       void write(
         () => ownerKind === 'character'
-          ? createCharacterSkillRelation(apiBaseUrl, selectedGameId, token, { characterKey: ownerKey, skillKey, sortOrder })
-          : createEquipmentSkillRelation(apiBaseUrl, selectedGameId, token, { equipmentKey: ownerKey, skillKey, sortOrder }),
+          ? createCharacterSkillRelation(apiBaseUrl, selectedGameId, { characterKey: ownerKey, skillKey, sortOrder })
+          : createEquipmentSkillRelation(apiBaseUrl, selectedGameId, { equipmentKey: ownerKey, skillKey, sortOrder }),
         () => setDrafts(previous => ({ ...previous, [ownerKind]: emptySkillRelationDraft() })),
         '技能挂载已添加。'
       );
@@ -382,7 +381,7 @@ export function SkillRelationsModal({
       skillLevelMode: draft.skillLevelMode, fixedSkillLevel: draft.skillLevelMode === 'FIXED' ? Number(draft.fixedSkillLevel) : null, sortOrder
     };
     void write(
-      () => createBuildOptionSkillRelation(apiBaseUrl, selectedGameId, token, body),
+      () => createBuildOptionSkillRelation(apiBaseUrl, selectedGameId, body),
       () => setDrafts(previous => ({ ...previous, buildOption: emptySkillRelationDraft() })),
       '技能授予已添加并回读确认。',
       () => ({ kind: 'present', grant: body })
@@ -399,13 +398,13 @@ export function SkillRelationsModal({
     const fixedSkillLevel = edit?.fixedSkillLevel ?? (row.fixedSkillLevel == null ? '' : String(row.fixedSkillLevel));
     if (!selectedGameId || !row.systemKey) throw new Error('构筑可选项缺少所属构筑系统。');
     let maxRank = kind === 'buildOption' ? target?.maxRank : optionCatalog.find(item => item.systemKey === row.systemKey && item.key === row.ownerKey)?.maxRank;
-    if (maxRank === undefined) maxRank = (await getBuildOption(apiBaseUrl, selectedGameId, row.systemKey, row.ownerKey, token)).data.maxRank;
+    if (maxRank === undefined) maxRank = (await getBuildOption(apiBaseUrl, selectedGameId, row.systemKey, row.ownerKey)).data.maxRank;
     const mode: BuildConfigurationMode | undefined = kind === 'buildOption'
       ? target?.configurationMode
       : data?.systems.find(system => system.systemKey === row.systemKey)?.configurationMode;
     if (!mode) throw new Error('构筑系统配置方式未返回。');
     let skillMaxLevel = kind === 'skill' ? data?.skillMaxLevel ?? null : data?.skillOptions.find(item => item.key === row.skillKey)?.maxLevel ?? null;
-    if (skillMaxLevel === null) skillMaxLevel = (await getSkill(apiBaseUrl, selectedGameId, row.skillKey, token)).data.maxLevel;
+    if (skillMaxLevel === null) skillMaxLevel = (await getSkill(apiBaseUrl, selectedGameId, row.skillKey)).data.maxLevel;
     const grantErrors = validateGrantDraft({ activationRank, skillLevelMode, fixedSkillLevel, sortOrder: String(sortOrder), maxRank, mode, skillMaxLevel });
     if (Object.keys(grantErrors).length) throw new Error(Object.values(grantErrors)[0] ?? '技能授予不合法。');
     return { activationRank: Number(activationRank), skillLevelMode, fixedSkillLevel: skillLevelMode === 'FIXED' ? Number(fixedSkillLevel) : null, sortOrder };
@@ -418,11 +417,11 @@ export function SkillRelationsModal({
     catch (cause) { setError(getErrorMessage(cause)); return; }
     let expected: GrantReadbackExpectation | undefined;
     void write(async () => {
-      if (row.kind === 'character') return updateCharacterSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey, token, { sortOrder });
-      if (row.kind === 'equipment') return updateEquipmentSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey, token, { sortOrder });
+      if (row.kind === 'character') return updateCharacterSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey, { sortOrder });
+      if (row.kind === 'equipment') return updateEquipmentSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey, { sortOrder });
       const body = await grantBody(row, sortOrder);
       expected = { kind: 'present', grant: { systemKey: row.systemKey ?? '', optionKey: row.ownerKey, skillKey: row.skillKey, ...body } };
-      return updateBuildOptionSkillRelation(apiBaseUrl, selectedGameId, row.systemKey ?? '', row.ownerKey, row.skillKey, token, body);
+      return updateBuildOptionSkillRelation(apiBaseUrl, selectedGameId, row.systemKey ?? '', row.ownerKey, row.skillKey, body);
     }, () => removeSortDraft(row.identity), row.kind === 'buildOption' ? '技能授予已保存。' : '挂载顺序已保存。',
     row.kind === 'buildOption' ? () => expected : undefined);
   };
@@ -435,10 +434,10 @@ export function SkillRelationsModal({
     }) : undefined;
     void write(
       () => row.kind === 'character'
-        ? deleteCharacterSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey, token)
+        ? deleteCharacterSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey)
         : row.kind === 'equipment'
-          ? deleteEquipmentSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey, token)
-          : deleteBuildOptionSkillRelation(apiBaseUrl, selectedGameId, row.systemKey ?? '', row.ownerKey, row.skillKey, token),
+          ? deleteEquipmentSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey)
+          : deleteBuildOptionSkillRelation(apiBaseUrl, selectedGameId, row.systemKey ?? '', row.ownerKey, row.skillKey),
       () => removeSortDraft(row.identity), row.kind === 'buildOption' ? '技能授予已移除。' : '技能挂载已移除。', expected
     );
   };
@@ -592,9 +591,9 @@ export function SkillRelationsModal({
     <Modal title={`${kind === 'skill' ? '挂载对象' : '关联技能'}${target ? ` · ${target.name}` : ''}`} visible={visible && target !== null}
       style={{ width: 'calc(100vw - 80px)', maxWidth: 1280 }} maskClosable={false} onCancel={close} footer={<Button onClick={close} disabled={saving}>关闭</Button>}>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
-        <Button loading={loading} disabled={saving || !selectedGameId || !token} onClick={() => void load()}>刷新</Button>
+        <Button loading={loading} disabled={saving || !selectedGameId} onClick={() => void load()}>刷新</Button>
       </div>
-      {!token ? <Alert type="warning" content="请先配置管理令牌。" style={{ marginBottom: 12 }} /> : null}
+      {<Alert type="warning" content="请先配置管理令牌。" style={{ marginBottom: 12 }} />}
       {error ? <Alert type="error" content={error} style={{ marginBottom: 12 }} /> : null}
       {notice ? <Alert type="success" content={notice} style={{ marginBottom: 12 }} /> : null}
       {data?.skillStatus === 'DISABLED' ? <Alert type="warning" content="当前技能已停用，已有挂载仍可调整顺序或移除，不能新增挂载。" style={{ marginBottom: 12 }} /> : null}

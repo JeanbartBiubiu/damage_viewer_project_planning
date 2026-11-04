@@ -63,8 +63,8 @@ describe('场景显式初值客户端协议', () => {
       sent.push(init?.body ? JSON.parse(String(init.body)) : null);
       return new Response(JSON.stringify(input), { status: 200, headers: { 'Content-Type': 'application/json' } });
     }));
-    const saved = await createSkillTriggerRule('http://localhost:8080', 'example', 'unrelated_skill', 'fixture', input);
-    const loaded = await getSkillTriggerRule('http://localhost:8080', 'example', 'unrelated_skill', input.ruleKey, 'fixture');
+    const saved = await createSkillTriggerRule('http://localhost:8080', 'example', 'unrelated_skill', input);
+    const loaded = await getSkillTriggerRule('http://localhost:8080', 'example', 'unrelated_skill', input.ruleKey);
     expect(saved.data).toEqual(input);
     expect(loaded.data).toEqual(input);
     expect(sent).toEqual([input, null]);
@@ -75,7 +75,7 @@ describe('场景显式初值客户端协议', () => {
     const before = structuredClone(input);
     vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ code: 'INVALID_BINDING', message: '来源不合法' }),
       { status, headers: { 'Content-Type': 'application/json' } })));
-    await expect(createSkillTriggerRule('http://localhost:8080', 'example', 'unrelated_skill', 'fixture', input)).rejects.toBeInstanceOf(ApiRequestError);
+    await expect(createSkillTriggerRule('http://localhost:8080', 'example', 'unrelated_skill', input)).rejects.toBeInstanceOf(ApiRequestError);
     expect(input).toEqual(before);
   });
 });

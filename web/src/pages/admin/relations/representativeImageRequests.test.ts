@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { readTableRepresentativeImage } from './representativeImageRequests';
 
 const read = (key: string, signal = new AbortController().signal) =>
-  readTableRepresentativeImage('http://localhost:8080', 'lol', { kind: 'skill', key, name: key }, 'local-entry', signal);
+  readTableRepresentativeImage('http://localhost:8080', 'lol', { kind: 'skill', key, name: key }, signal);
 const response = () => new Response(JSON.stringify({ image: null }), { status: 200 });
 afterEach(() => { vi.unstubAllGlobals(); });
 

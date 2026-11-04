@@ -7,15 +7,12 @@ import { readIsolatedSimulationSnapshot, simulationComparisonSelection } from '.
 import type { Expression, FormulaDefinition } from '../../src/types/formulaContract.generated';
 
 const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
-const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN || '';
 const builderUrl = pathToFileURL('../wasm/tinygo_engine_v2/scripts/formula-phase3-input.mjs').href;
 
 test.beforeEach(async ({ page }) => {
   expect(process.env.SIMULATION_LIVE_API, '本专项必须启用真实后端；不以跳过代替验收').toBe('1');
-  await page.addInitScript(({ api, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', token || 'local-readonly-check');
-  }, { api: apiBase, token });
+  await page.addInitScript(({ api }) => {
+  }, { api: apiBase });
 });
 
 async function assertBrowserWasm(page: Page): Promise<void> {
@@ -25,9 +22,9 @@ async function assertBrowserWasm(page: Page): Promise<void> {
 }
 
 test('真实场景快照完整共同定义原样进入最终Worker物理伤害', async ({ page, request }, testInfo) => {
-  const { snapshot } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection(), token);
+  const { snapshot } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection());
   const formulas = await request.get(`${apiBase}/api/admin/games/lol/damage-types/physics/formula`, {
-    headers: token ? { Authorization: `Bearer ${token}` } : {}
+    headers: {  }
   });
   expect(formulas.status()).toBe(200);
   const physics = await formulas.json();
@@ -141,7 +138,7 @@ async function saveHeatFormulaInPage(page: Page, formula: FormulaDefinition): Pr
 
 test('真实管理页录入灼热两／六结果，读回定义由正式Worker结算80伤害、30护盾、50生命损失', async ({ page, request }, testInfo) => {
   const { createFormulaPhase3Definition, createFormulaPhase3Input } = await import(builderUrl);
-  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+  const headers = {  };
   const typePath = `${apiBase}/api/admin/games/lol/damage-types/heat`;
   const existing = await request.get(typePath, { headers });
   expect([200, 404]).toContain(existing.status());

@@ -16,7 +16,7 @@ import (
 
 func compileBasicDamageSession(t *testing.T) (*runtimeengine.Session, model.CompileResult) {
 	t.Helper()
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	compiled := compileGenericSession(t, session)
 	return session, compiled
 }

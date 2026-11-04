@@ -37,14 +37,14 @@ describe('imageRelationClient', () => {
   it.each(SOURCES)('uses independently encoded $target.kind object routes for all reads and writes', async ({ target, path }) => {
     const fetchMock = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => init?.method === 'DELETE' ? new Response(null, { status: 204 }) : jsonResponse({ image: IMAGE }));
     vi.stubGlobal('fetch', fetchMock);
-    expect((await getRepresentativeImage(BASE, GAME, target, 'test-token')).data.image).toEqual(IMAGE);
-    await setRepresentativeImage(BASE, GAME, target, 'test-token', IMAGE.imageKey);
-    const removed = await removeRepresentativeImage(BASE, GAME, target, 'test-token');
+    expect((await getRepresentativeImage(BASE, GAME, target)).data.image).toEqual(IMAGE);
+    await setRepresentativeImage(BASE, GAME, target, IMAGE.imageKey);
+    const removed = await removeRepresentativeImage(BASE, GAME, target);
     expect(removed.status).toBe(204);
     expect(removed.data).toBeNull();
     for (const [input, options] of fetchMock.mock.calls) {
       expect(String(input)).toBe(`${BASE}/api/admin/games/demo%20arena${path}`);
-      expect(new Headers(options?.headers).get('Authorization')).toBe('Bearer test-token');
+      expect(new Headers(options?.headers).get('Authorization')).toBeNull();
     }
     expect(fetchMock.mock.calls[1][1]?.method).toBe('PUT');
     expect(JSON.parse(String(fetchMock.mock.calls[1][1]?.body))).toEqual({ imageKey: IMAGE.imageKey });
@@ -53,22 +53,22 @@ describe('imageRelationClient', () => {
 
   it('preserves an absent image and an existing disabled image', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(jsonResponse({ image: null })).mockResolvedValueOnce(jsonResponse({ image: { ...IMAGE, enabled: false } })));
-    expect((await getRepresentativeImage(BASE, GAME, SOURCES[1].target, '')).data).toEqual({ image: null });
-    expect((await getRepresentativeImage(BASE, GAME, SOURCES[1].target, '')).data.image?.enabled).toBe(false);
+    expect((await getRepresentativeImage(BASE, GAME, SOURCES[1].target)).data).toEqual({ image: null });
+    expect((await getRepresentativeImage(BASE, GAME, SOURCES[1].target)).data.image?.enabled).toBe(false);
   });
 
   it('refuses an effect without its parent and a game source outside the current game before sending requests', () => {
     const fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
-    expect(() => getRepresentativeImage(BASE, GAME, { kind: 'skillEffect', key: 'same', name: '效果' }, '')).toThrow(ApiRequestError);
-    expect(() => getRepresentativeImage(BASE, GAME, { kind: 'game', key: 'other', name: '其他游戏' }, '')).toThrow(ApiRequestError);
+    expect(() => getRepresentativeImage(BASE, GAME, { kind: 'skillEffect', key: 'same', name: '效果' })).toThrow(ApiRequestError);
+    expect(() => getRepresentativeImage(BASE, GAME, { kind: 'game', key: 'other', name: '其他游戏' })).toThrow(ApiRequestError);
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('searches by trimmed literal text and sends no image content', async () => {
     const fetchMock = vi.fn(async () => jsonResponse({ items: [{ imageKey: IMAGE.imageKey, name: IMAGE.name }], total: 1 }));
     vi.stubGlobal('fetch', fetchMock);
-    const result = await listImageOptions(BASE, GAME, 'test-token', '  图像 /%_?  ');
+    const result = await listImageOptions(BASE, GAME, '  图像 /%_?  ');
     const url = new URL(String(fetchMock.mock.calls[0][0]));
     expect(url.pathname).toBe('/api/admin/games/demo%20arena/image-options');
     expect(url.searchParams.get('keyword')).toBe('图像 /%_?');
@@ -78,7 +78,7 @@ describe('imageRelationClient', () => {
   it.each(['   ', '字'.repeat(101)])('rejects invalid candidate searches before requesting', async (keyword) => {
     const fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
-    await expect(listImageOptions(BASE, GAME, '', keyword)).rejects.toMatchObject({ status: 400 });
+    await expect(listImageOptions(BASE, GAME, keyword)).rejects.toMatchObject({ status: 400 });
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
@@ -86,12 +86,12 @@ describe('imageRelationClient', () => {
     {}, { image: {} }, { image: { ...IMAGE, enabled: 'true' } }, { image: { ...IMAGE, name: '' } }
   ])('rejects malformed representative image responses', async (body) => {
     vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(body)));
-    await expect(getRepresentativeImage(BASE, GAME, SOURCES[1].target, '')).rejects.toMatchObject({ status: 502, code: '502.IMAGE_RELATION_RESPONSE_INVALID' });
+    await expect(getRepresentativeImage(BASE, GAME, SOURCES[1].target)).rejects.toMatchObject({ status: 502, code: '502.IMAGE_RELATION_RESPONSE_INVALID' });
   });
 
   it('rejects a successful write response for a different image', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => jsonResponse({ image: { ...IMAGE, imageKey: 'other' } })));
-    await expect(setRepresentativeImage(BASE, GAME, SOURCES[1].target, '', IMAGE.imageKey)).rejects.toMatchObject({ status: 502 });
+    await expect(setRepresentativeImage(BASE, GAME, SOURCES[1].target, IMAGE.imageKey)).rejects.toMatchObject({ status: 502 });
   });
 
   it('recovers an uncertain representative-image write only through an independent readback', async () => {
@@ -99,7 +99,7 @@ describe('imageRelationClient', () => {
       .mockResolvedValueOnce(jsonResponse({ error: { message: 'response lost' } }, 502))
       .mockResolvedValueOnce(jsonResponse({ image: IMAGE }));
     vi.stubGlobal('fetch', fetchMock);
-    expect((await setRepresentativeImageVerified(BASE, GAME, SOURCES[4].target, 'token', IMAGE.imageKey)).data.image)
+    expect((await setRepresentativeImageVerified(BASE, GAME, SOURCES[4].target, IMAGE.imageKey)).data.image)
       .toEqual(IMAGE);
     expect(fetchMock.mock.calls.map(([, init]) => init?.method ?? 'GET')).toEqual(['PUT', 'GET']);
   });
@@ -109,7 +109,7 @@ describe('imageRelationClient', () => {
       .mockResolvedValueOnce(new Response(null, { status: 204 }))
       .mockResolvedValueOnce(jsonResponse({ image: null }));
     vi.stubGlobal('fetch', fetchMock);
-    expect((await removeRepresentativeImageVerified(BASE, GAME, SOURCES[5].target, 'token')).data.image).toBeNull();
+    expect((await removeRepresentativeImageVerified(BASE, GAME, SOURCES[5].target)).data.image).toBeNull();
     expect(fetchMock.mock.calls.map(([, init]) => init?.method ?? 'GET')).toEqual(['DELETE', 'GET']);
   });
 
@@ -119,7 +119,7 @@ describe('imageRelationClient', () => {
     { items: Array.from({ length: 51 }, (_, index) => ({ imageKey: String(index), name: '图' })), total: 51 }
   ])('rejects mismatched candidate counts, duplicate keys and more than 50 entries', async (body) => {
     vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(body)));
-    await expect(listImageOptions(BASE, GAME, '', '图片')).rejects.toMatchObject({ status: 502 });
+    await expect(listImageOptions(BASE, GAME, '图片')).rejects.toMatchObject({ status: 502 });
   });
 
   it('reads all nine fixed usage groups and preserves effect parent identity', async () => {
@@ -137,7 +137,7 @@ describe('imageRelationClient', () => {
     };
     const fetchMock = vi.fn(async () => jsonResponse(payload));
     vi.stubGlobal('fetch', fetchMock);
-    expect((await getImageUsages(BASE, GAME, IMAGE.imageKey, '')).data).toEqual(payload);
+    expect((await getImageUsages(BASE, GAME, IMAGE.imageKey)).data).toEqual(payload);
     expect(String(fetchMock.mock.calls[0][0])).toBe(`${BASE}/api/admin/games/demo%20arena/images/portrait%2F%3F/usages`);
   });
 
@@ -149,12 +149,12 @@ describe('imageRelationClient', () => {
     { ...EMPTY_USAGES, skillEffects: [{ effectKey: 'e', effectName: '效果' }] }
   ])('rejects incomplete, foreign or invalid usage records', async (body) => {
     vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(body)));
-    await expect(getImageUsages(BASE, GAME, IMAGE.imageKey, '')).rejects.toMatchObject({ status: 502 });
+    await expect(getImageUsages(BASE, GAME, IMAGE.imageKey)).rejects.toMatchObject({ status: 502 });
   });
 
   it.each([400, 404, 409])('preserves HTTP %s, backend error codes and field issues', async (status) => {
     const details = { fieldIssues: [{ field: 'imageKey', code: 'REFERENCE_DISABLED', message: '图片已停用' }] };
     vi.stubGlobal('fetch', vi.fn(async () => jsonResponse({ error: { code: `${status}.REFERENCE_DISABLED`, message: '图片已停用', details } }, status)));
-    await expect(setRepresentativeImage(BASE, GAME, SOURCES[1].target, '', IMAGE.imageKey)).rejects.toMatchObject({ status, code: `${status}.REFERENCE_DISABLED`, details });
+    await expect(setRepresentativeImage(BASE, GAME, SOURCES[1].target, IMAGE.imageKey)).rejects.toMatchObject({ status, code: `${status}.REFERENCE_DISABLED`, details });
   });
 });

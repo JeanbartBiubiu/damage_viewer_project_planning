@@ -30,7 +30,6 @@ type SkillCategoryEditorModalProps = {
   category: SkillCategory | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSaved: (category: SkillCategory) => void | Promise<void>;
   onDirtyChange: (dirty: boolean) => void;
@@ -55,7 +54,6 @@ export function SkillCategoryEditorModal({
   category,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onDirtyChange
@@ -103,11 +101,6 @@ export function SkillCategoryEditorModal({
       setSaveError('请先选择游戏。');
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
 
     setSaving(true);
     setSaveError(null);
@@ -120,7 +113,7 @@ export function SkillCategoryEditorModal({
         sortOrder: Number(draft.sortOrder.trim())
       };
       const result = mode === 'create'
-        ? await createSkillCategory(apiBaseUrl, selectedGameId, token, {
+        ? await createSkillCategory(apiBaseUrl, selectedGameId, {
             skillCategoryKey: draft.skillCategoryKey.trim(),
             ...body
           })
@@ -128,7 +121,6 @@ export function SkillCategoryEditorModal({
             apiBaseUrl,
             selectedGameId,
             category!.skillCategoryKey,
-            token,
             body
           );
       onDirtyChange(false);

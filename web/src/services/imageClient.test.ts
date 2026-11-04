@@ -49,21 +49,21 @@ describe('imageClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await getImage('http://localhost:8080', 'demo arena', 'icon/test', 'token');
-    await createImage('http://localhost:8080', 'demo arena', 'token', {
+    await getImage('http://localhost:8080', 'demo arena', 'icon/test');
+    await createImage('http://localhost:8080', 'demo arena', {
       imageKey: 'icon/test',
       name: '测试图片',
       description: null,
       imageBase64: IMAGE.imageBase64
     });
-    await updateImage('http://localhost:8080', 'demo arena', 'icon/test', 'token', {
+    await updateImage('http://localhost:8080', 'demo arena', 'icon/test', {
       name: '测试图片二',
       description: '说明',
       enabled: false
     });
 
     expect(calls.map((call) => call.method)).toEqual(['GET', 'POST', 'PUT']);
-    expect(calls.map((call) => call.token)).toEqual(['Bearer token', 'Bearer token', 'Bearer token']);
+    expect(calls.map((call) => call.token)).toEqual([null, null, null]);
     expect(calls[0]?.url).toBe('http://localhost:8080/api/admin/games/demo%20arena/images/icon%2Ftest');
     expect(calls[1]?.body).toEqual({
       imageKey: 'icon/test',
@@ -107,7 +107,7 @@ describe('imageClient', () => {
   it('rejects partial image responses instead of assembling defaults', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(200, { ...IMAGE, width: undefined })));
 
-    await expect(getImage('http://localhost:8080', 'demo', 'icon', 'token')).rejects.toMatchObject({
+    await expect(getImage('http://localhost:8080', 'demo', 'icon')).rejects.toMatchObject({
       code: '502.IMAGE_RESPONSE_INVALID'
     });
   });

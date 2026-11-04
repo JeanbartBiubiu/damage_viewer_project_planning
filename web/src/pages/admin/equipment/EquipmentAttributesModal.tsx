@@ -34,7 +34,6 @@ type EquipmentAttributesModalProps = {
   equipment: Equipment | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSaved: () => void;
   onDirtyChange: (dirty: boolean) => void;
@@ -49,7 +48,6 @@ export function EquipmentAttributesModal({
   equipment,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onDirtyChange
@@ -91,11 +89,7 @@ export function EquipmentAttributesModal({
 
   useEffect(() => {
     if (!visible || !selectedGameId || !equipment) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setLoadError('请先配置 Admin Token。');
-      return;
-    }
+
     let cancelled = false;
     setLoading(true);
     setLoadError(null);
@@ -107,8 +101,8 @@ export function EquipmentAttributesModal({
     onDirtyChange(false);
 
     void Promise.all([
-      getEquipmentAttributes(apiBaseUrl, selectedGameId, equipment.equipmentKey, token),
-      listAttributes(apiBaseUrl, selectedGameId, token)
+      getEquipmentAttributes(apiBaseUrl, selectedGameId, equipment.equipmentKey),
+      listAttributes(apiBaseUrl, selectedGameId)
     ]).then(([valuesResult, attributesResult]) => {
       if (cancelled) return;
       const normalized = normalizeEquipmentAttributeValues(
@@ -124,7 +118,7 @@ export function EquipmentAttributesModal({
       if (!cancelled) setLoading(false);
     });
     return () => { cancelled = true; };
-  }, [adminToken, apiBaseUrl, equipment, onDirtyChange, selectedGameId, visible]);
+  }, [apiBaseUrl, equipment, onDirtyChange, selectedGameId, visible]);
 
   const close = () => {
     if (saving) return;
@@ -186,11 +180,7 @@ export function EquipmentAttributesModal({
 
   const save = async () => {
     if (!selectedGameId || !equipment) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
+
     setSaving(true);
     setSaveError(null);
     setRowErrors({});
@@ -199,7 +189,6 @@ export function EquipmentAttributesModal({
         apiBaseUrl,
         selectedGameId,
         equipment.equipmentKey,
-        token,
         { attributeValues: values }
       );
       const normalized = normalizeEquipmentAttributeValues(attributes, result.data.attributeValues);

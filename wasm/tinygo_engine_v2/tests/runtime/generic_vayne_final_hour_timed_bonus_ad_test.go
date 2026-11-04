@@ -272,7 +272,7 @@ type vayneFinalHourFrameBundle struct {
 // and proves the released session cannot be run again (Graves QD release precedent).
 func runVayneFinalHourFrames(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) vayneFinalHourFrameBundle {
 	t.Helper()
-	session := runtimeengine.NewSession()
+	session := runtimeengine.NewMathSession()
 	session.ClearOutbox()
 	if code := session.CompileFrame(encodeGenericFrame(model.FrameKindGenericCompile, compileReq)); code != 0 {
 		t.Fatalf("CompileFrame code=%d err=%+v", code, lastGenericError(session.OutboxBytes()))

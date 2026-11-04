@@ -9,6 +9,7 @@
 | `cmd/engine_wasm/`、`internal/base/abi/` | 正式导出、请求帧、线性内存及输出缓冲 |
 | `internal/model/`、`internal/plan/`、`internal/compile/` | 共享协议、只读执行计划及规则编译 |
 | `internal/runtime/` | 会话登记、请求身份检查及单场运行组合 |
+| `internal/authorization/` | 固化可信公钥、计算授权票据验签及期限检查，只在编译和运行入口调用 |
 | `internal/runtime/execution/` | 运行装配、原时点读取准备、跨功能次序、预算身份、帧预检与统一提交，见[功能入口](internal/runtime/execution/README.md) |
 | `internal/runtime/execution/actionflow/`、`lifecycle/`、`operation/` | 分别执行行动与过程、效果生命周期、数值操作；私有持有所属局部执行事实 |
 | `internal/runtime/execution/hit/`、`listener/`、`continuation/` | 分别执行命中候选与强化、监听派发、复制与续接；私有持有命中、节流、收集及同步因果 |
@@ -41,10 +42,13 @@
 在 `wasm/tinygo_engine_v2/` 执行：
 
 ```powershell
+$env:WASM_AUTH_REQUIRED = "false" # 早期匿名计算必须显式关闭
 powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1
 ```
 
-macOS／Linux使用 `bash scripts/build-wasm.sh`。产物是 `dist/tinygo_engine_v2.wasm`；前端分发位于 `web/src/engine/wasm/tinygo_engine_v2.wasm`，更新须核对正式构建身份与最终字节。
+macOS／Linux关闭版使用 `WASM_AUTH_REQUIRED=false bash scripts/build-wasm.sh`。缺省为启用版，设置 `WASM_AUTH_PUBLIC_KEY` 为原始32字节公钥的无填充、网址安全 Base64 编码，并通过 `WASM_AUTH_KEY_ID` 指定固定密钥编号；开关只接受小写 `true/false`，启用时缺少有效公钥或编号立即失败。私钥不参与 Wasm 构建。两种脚本共用 `scripts/authorization-build/` 验证配置，不从请求、浏览器或运行选项读取开关和可信公钥。
+
+产物是 `dist/tinygo_engine_v2.wasm`，旁边的 `tinygo_engine_v2.identity.json` 记录实际字节数、摘要及授权策略。指定其他输出路径时，身份文件仍与产物同目录、同名。关闭版的密钥编号和公钥均为 `null`。前端分发位于 `web/src/engine/wasm/tinygo_engine_v2.wasm`，更新须同步实际身份与最终字节。
 
 工具不在PATH时，脚本继续查仓库 `.tools/` 和上一级目录的 `tinygo0.40.1/tinygo/bin/`、`binaryen-version_129/bin/`。也可用PowerShell参数 `-TinyGo`、环境变量 `TINYGO` 或 `WASMOPT` 指定。Node加载与编译器同版本的 `wasm_exec.js`，可用 `TINYGO_WASM_EXEC` 指定。
 
@@ -64,6 +68,12 @@ node .\scripts\bench-node.mjs --mode generic-run --iterations 10 --warmup 2
 ```
 
 涉及协议或会话时先构建最终Wasm再做真实冒烟。生产适配与真实Wasm回归见[固定机制用例](../../web/tests/mechanisms/README.md)，正式证明刷新见[开发与独立评审流程](../../文档记录/项目说明/开发与独立评审流程说明.md)。原生单测、Node、浏览器和真实对象各自说明验证范围。
+
+启用版的编译及每次运行必须在顶层 `authorization` 字符串携带短期票据，会话绑定签发账号；同账号新票据可继续使用已编译会话，释放无需授权。票据唯一契约见[账号与权限接入方案](../../文档记录/详细设计/项目/账号注册登录与权限接入技术方案.md)。错误码为 `authorization_required`、`authorization_invalid`、`authorization_expired`、`authorization_account_mismatch`。授权不进入战斗规则身份或数值结算循环。
+
+普通 Go 数学回归使用仅在非 TinyGo 构建存在的 `NewMathSession()`，固定输入不保存长期票据；正式导出始终使用固化构建策略的 `NewSession()`，缺配置时拒绝计算。Node 验证宿主可用 `WASM_AUTHORIZATION_FILE` 指向受控签发方提供的原始短期票据文件，每次编译和运行重新读取；集成工具也可调用 `setNodeAuthorizationProvider()` 按次提供票据。两者仅给真实请求附加字段，不能跳过产物验签，显式请求票据优先，底层 `invokeFrame()` 不自动注入。
+
+`node scripts/authorization-smoke-node.mjs` 使用进程内临时密钥在 `target/account-authorization/` 分别构建关闭版和隔离启用版，验证真实入口拒绝、续票、释放、规则身份及数值一致性，并记录包体与入口往返耗时。Windows 可加 `--shell bash` 验证类 Unix 脚本；工具不会写私钥或长期票据。隔离构建不能替代正式公钥产物及真实服务签发的联调。
 
 保留旧 `generic_p0_basic_damage.json` 基准字节，不修改或复制来迁就实现；当前基准由 `scripts/formula-phase4-input.mjs` 和独立显式公式样例构造。测试不固化已录入英雄配置或资料摘要。
 

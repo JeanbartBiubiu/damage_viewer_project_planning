@@ -192,7 +192,6 @@ type SkillTriggerRuleEditorModalProps = {
   rule: SkillTriggerRuleSummary | null;
   apiBaseUrl: string;
   selectedGameId: string;
-  adminToken: string;
   onClose: () => void;
   onSaved: (rule: SkillTriggerRuleDetail) => void | Promise<void>;
   onSkillMissing: () => void;
@@ -293,7 +292,6 @@ export function SkillTriggerRuleEditorModal({
   rule,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSaved,
   onSkillMissing,
@@ -352,16 +350,16 @@ export function SkillTriggerRuleEditorModal({
     : storedChargeHitContext;
   const chargeHitSkillKey = draft.eventSource.eventType === 'SKILL_HIT' ? draft.eventSource.detail.sourceSkillKey : null;
   useEffect(() => {
-    if (workspaceSnapshot || !visible || chargeHitSkillKey !== skill.skillKey || !adminToken.trim()) return;
+    if (workspaceSnapshot || !visible || chargeHitSkillKey !== skill.skillKey) return;
     let current = true;
     setStoredChargeHitContext(undefined);
-    void getSkillConfiguration(apiBaseUrl, selectedGameId, skill.skillKey, adminToken.trim()).then(result => {
+    void getSkillConfiguration(apiBaseUrl, selectedGameId, skill.skillKey).then(result => {
       if (current) setStoredChargeHitContext({ skillKey: skill.skillKey, processes: result.data.processes, rules: result.data.triggerRules });
     }).catch(() => {
       if (current) setStoredChargeHitContext(undefined);
     });
     return () => { current = false; };
-  }, [workspaceSnapshot, visible, chargeHitSkillKey, skill.skillKey, adminToken, apiBaseUrl, selectedGameId]);
+  }, [workspaceSnapshot, visible, chargeHitSkillKey, skill.skillKey, apiBaseUrl, selectedGameId]);
   effectByKeyRef.current = effectByKey;
   processByKeyRef.current = processByKey;
   stateByKeyRef.current = stateByKey;
@@ -379,7 +377,7 @@ export function SkillTriggerRuleEditorModal({
     : null;
   const eventStateReference = useQualifiedSkillState({
     visible: visible && draft.eventSource.eventType === 'INTERNAL_STATE_CHANGED',
-    apiBaseUrl, gameId: selectedGameId, adminToken, currentSkillKey: skill.skillKey,
+    apiBaseUrl, gameId: selectedGameId, currentSkillKey: skill.skillKey,
     ownerSkillKey: draft.eventSource.eventType === 'INTERNAL_STATE_CHANGED'
       ? draft.eventSource.detail.stateSkillKey || skill.skillKey : '',
     objectKey: draft.eventSource.eventType === 'INTERNAL_STATE_CHANGED'
@@ -476,11 +474,11 @@ export function SkillTriggerRuleEditorModal({
 
   const loadSkillsCatalog = useCallback(async () => {
     const serial = catalogSerial.current;
-    const token = adminToken.trim();
-    if (!visible || !token) return;
+
+    if (!visible) return;
     setCatalog('skills', 'loading');
     try {
-      const result = await listSkills(apiBaseUrl, selectedGameId, token);
+      const result = await listSkills(apiBaseUrl, selectedGameId);
       if (catalogSerial.current !== serial) return;
       setSkills(workspaceSnapshot && !result.data.items.some((item) => item.skillKey === skill.skillKey)
         ? [...result.data.items, skill] : result.data.items);
@@ -491,15 +489,15 @@ export function SkillTriggerRuleEditorModal({
       setSkills([]);
       setCatalog('skills', 'error', getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, visible, workspaceSnapshot, skill.skillKey]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, visible, workspaceSnapshot, skill.skillKey]);
 
   const loadAttributesCatalog = useCallback(async () => {
     const serial = catalogSerial.current;
-    const token = adminToken.trim();
-    if (!visible || !token) return;
+
+    if (!visible) return;
     setCatalog('attributes', 'loading');
     try {
-      const result = await listAttributes(apiBaseUrl, selectedGameId, token);
+      const result = await listAttributes(apiBaseUrl, selectedGameId);
       if (catalogSerial.current !== serial) return;
       setAttributes(result.data.items);
       setCatalog('attributes', 'ready');
@@ -509,15 +507,15 @@ export function SkillTriggerRuleEditorModal({
       setAttributes([]);
       setCatalog('attributes', 'error', getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, visible]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, visible]);
 
   const loadDamageTypesCatalog = useCallback(async () => {
     const serial = catalogSerial.current;
-    const token = adminToken.trim();
-    if (!visible || !token) return;
+
+    if (!visible) return;
     setCatalog('damageTypes', 'loading');
     try {
-      const result = await listDamageTypes(apiBaseUrl, selectedGameId, token);
+      const result = await listDamageTypes(apiBaseUrl, selectedGameId);
       if (catalogSerial.current !== serial) return;
       setDamageTypes(result.data.items);
       setCatalog('damageTypes', 'ready');
@@ -527,15 +525,15 @@ export function SkillTriggerRuleEditorModal({
       setDamageTypes([]);
       setCatalog('damageTypes', 'error', getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, visible]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, visible]);
 
   const loadStatusesCatalog = useCallback(async () => {
     const serial = catalogSerial.current;
-    const token = adminToken.trim();
-    if (!visible || !token) return;
+
+    if (!visible) return;
     setCatalog('statuses', 'loading');
     try {
-      const result = await listStatuses(apiBaseUrl, selectedGameId, token);
+      const result = await listStatuses(apiBaseUrl, selectedGameId);
       if (catalogSerial.current !== serial) return;
       setStatuses(result.data.items);
       setCatalog('statuses', 'ready');
@@ -545,15 +543,15 @@ export function SkillTriggerRuleEditorModal({
       setStatuses([]);
       setCatalog('statuses', 'error', getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, visible]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, visible]);
 
   const loadParametersCatalog = useCallback(async () => {
     const serial = catalogSerial.current;
-    const token = adminToken.trim();
-    if (!visible || !token) return;
+
+    if (!visible) return;
     setCatalog('parameters', 'loading');
     try {
-      const result = await listSkillParameters(apiBaseUrl, selectedGameId, skill.skillKey, token);
+      const result = await listSkillParameters(apiBaseUrl, selectedGameId, skill.skillKey);
       if (catalogSerial.current !== serial) return;
       setParameters(result.data);
       setCatalog('parameters', 'ready');
@@ -563,15 +561,15 @@ export function SkillTriggerRuleEditorModal({
       setParameters([]);
       setCatalog('parameters', 'error', getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
 
   const loadFormulasCatalog = useCallback(async () => {
     const serial = catalogSerial.current;
-    const token = adminToken.trim();
-    if (!visible || !token) return;
+
+    if (!visible) return;
     setCatalog('formulas', 'loading');
     try {
-      const result = await listSkillFormulas(apiBaseUrl, selectedGameId, skill.skillKey, token);
+      const result = await listSkillFormulas(apiBaseUrl, selectedGameId, skill.skillKey);
       if (catalogSerial.current !== serial) return;
       setFormulas(result.data);
       setCatalog('formulas', 'ready');
@@ -581,15 +579,15 @@ export function SkillTriggerRuleEditorModal({
       setFormulas([]);
       setCatalog('formulas', 'error', getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
 
   const loadEffectsCatalog = useCallback(async () => {
     const serial = catalogSerial.current;
-    const token = adminToken.trim();
-    if (!visible || !token) return;
+
+    if (!visible) return;
     setCatalog('effects', 'loading');
     try {
-      const result = await listSkillEffects(apiBaseUrl, selectedGameId, skill.skillKey, token);
+      const result = await listSkillEffects(apiBaseUrl, selectedGameId, skill.skillKey);
       if (catalogSerial.current !== serial) return;
       setEffects(result.data);
       setCatalog('effects', 'ready');
@@ -600,15 +598,15 @@ export function SkillTriggerRuleEditorModal({
       setEffects([]);
       setCatalog('effects', 'error', getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
 
   const loadProcessesCatalog = useCallback(async () => {
     const serial = catalogSerial.current;
-    const token = adminToken.trim();
-    if (!visible || !token) return;
+
+    if (!visible) return;
     setCatalog('processes', 'loading');
     try {
-      const result = await listSkillProcesses(apiBaseUrl, selectedGameId, skill.skillKey, token);
+      const result = await listSkillProcesses(apiBaseUrl, selectedGameId, skill.skillKey);
       if (catalogSerial.current !== serial) return;
       setProcesses(result.data);
       setCatalog('processes', 'ready');
@@ -618,15 +616,15 @@ export function SkillTriggerRuleEditorModal({
       setProcesses([]);
       setCatalog('processes', 'error', getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
 
   const loadInternalStatesCatalog = useCallback(async () => {
     const serial = catalogSerial.current;
-    const token = adminToken.trim();
-    if (!visible || !token) return;
+
+    if (!visible) return;
     setCatalog('internalStates', 'loading');
     try {
-      const result = await listSkillInternalStates(apiBaseUrl, selectedGameId, skill.skillKey, token);
+      const result = await listSkillInternalStates(apiBaseUrl, selectedGameId, skill.skillKey);
       if (catalogSerial.current !== serial) return;
       setInternalStates(result.data);
       setCatalog('internalStates', 'ready');
@@ -636,14 +634,14 @@ export function SkillTriggerRuleEditorModal({
       setInternalStates([]);
       setCatalog('internalStates', 'error', getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
 
   const loadRuleNames = useCallback(async () => {
     const serial = catalogSerial.current;
-    const token = adminToken.trim();
-    if (!visible || !token) return;
+
+    if (!visible) return;
     try {
-      const result = await listSkillTriggerRules(apiBaseUrl, selectedGameId, skill.skillKey, token);
+      const result = await listSkillTriggerRules(apiBaseUrl, selectedGameId, skill.skillKey);
       if (catalogSerial.current !== serial) return;
       const names = new Map<string, string>();
       for (const item of result.data) names.set(item.ruleKey, item.name);
@@ -652,7 +650,7 @@ export function SkillTriggerRuleEditorModal({
       if (catalogSerial.current !== serial) return;
       if (handleMissing(error)) return;
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
 
   const applyAuthoringLocation = useCallback((detail: SkillTriggerRuleDetail, next: SkillTriggerRuleDraft) => {
     if (!authoringLocation) return;
@@ -734,7 +732,7 @@ export function SkillTriggerRuleEditorModal({
   const loadDetail = useCallback(async () => {
     const serial = detailSerial.current + 1;
     detailSerial.current = serial;
-    const token = adminToken.trim();
+
     if (workspaceSnapshot && visible) {
       setDraft(workspaceSnapshot.initial);
       setBaseline(workspaceSnapshot.initial);
@@ -751,12 +749,7 @@ export function SkillTriggerRuleEditorModal({
       setDetailReady(visible && mode === 'create');
       return;
     }
-    if (!token) {
-      setLoadError('请先配置 Admin Token。');
-      setLoadingDetail(false);
-      setDetailReady(false);
-      return;
-    }
+
     setDetailReady(false);
     setLoadingDetail(true);
     setLoadError(null);
@@ -765,8 +758,7 @@ export function SkillTriggerRuleEditorModal({
         apiBaseUrl,
         selectedGameId,
         skill.skillKey,
-        rule.ruleKey,
-        token
+        rule.ruleKey
       );
       if (detailSerial.current !== serial) return;
       const next = fromDetail(result.data, skill.skillKey);
@@ -797,17 +789,16 @@ export function SkillTriggerRuleEditorModal({
     } finally {
       if (detailSerial.current === serial) setLoadingDetail(false);
     }
-  }, [adminToken, apiBaseUrl, applyAuthoringLocation, authoringLocation, handleMissing, mode,
+  }, [apiBaseUrl, applyAuthoringLocation, authoringLocation, handleMissing, mode,
     onRuleMissing, reportDirty, rule, selectedGameId, skill.skillKey, visible, workspaceSnapshot]);
 
   const ensureEffect = useCallback(async (effectKey: string): Promise<SkillEffect | null> => {
     if (!effectKey.trim()) return null;
     const cached = effectByKeyRef.current.get(effectKey);
     if (cached) return cached;
-    const token = adminToken.trim();
-    if (!token) return null;
+
     try {
-      const result = await getSkillEffect(apiBaseUrl, selectedGameId, skill.skillKey, effectKey, token);
+      const result = await getSkillEffect(apiBaseUrl, selectedGameId, skill.skillKey, effectKey);
       effectByKeyRef.current.set(effectKey, result.data);
       setEffectByKey(new Map(effectByKeyRef.current));
       setReferenceError(null);
@@ -817,7 +808,7 @@ export function SkillTriggerRuleEditorModal({
       setReferenceError(getErrorMessage(error));
       return null;
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, skill.skillKey]);
 
   const refreshSpellShieldEffectDetails = useCallback(async (): Promise<boolean> => {
     if (workspaceSnapshot) {
@@ -826,8 +817,8 @@ export function SkillTriggerRuleEditorModal({
     }
     const serial = spellShieldSerial.current + 1;
     spellShieldSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !token) {
+
+    if (!visible) {
       setSpellShieldCatalogState('error');
       return false;
     }
@@ -838,8 +829,7 @@ export function SkillTriggerRuleEditorModal({
           apiBaseUrl,
           selectedGameId,
           skill.skillKey,
-          summary.effectKey,
-          token
+          summary.effectKey
         );
         return result.data;
       } catch (error) {
@@ -860,16 +850,15 @@ export function SkillTriggerRuleEditorModal({
     setEffectByKey(new Map(next));
     setSpellShieldCatalogState('ready');
     return true;
-  }, [adminToken, apiBaseUrl, effects, handleMissing, selectedGameId, skill.skillKey, visible, workspaceSnapshot]);
+  }, [apiBaseUrl, effects, handleMissing, selectedGameId, skill.skillKey, visible, workspaceSnapshot]);
 
   const ensureProcess = useCallback(async (processKey: string): Promise<SkillProcess | null> => {
     if (!processKey.trim()) return null;
     const cached = processByKeyRef.current.get(processKey);
     if (cached) return cached;
-    const token = adminToken.trim();
-    if (!token) return null;
+
     try {
-      const result = await getSkillProcess(apiBaseUrl, selectedGameId, skill.skillKey, processKey, token);
+      const result = await getSkillProcess(apiBaseUrl, selectedGameId, skill.skillKey, processKey);
       processByKeyRef.current.set(processKey, result.data);
       setProcessByKey(new Map(processByKeyRef.current));
       return result.data;
@@ -878,16 +867,15 @@ export function SkillTriggerRuleEditorModal({
       setReferenceError(getErrorMessage(error));
       return null;
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, skill.skillKey]);
 
   const ensureInternalState = useCallback(async (stateKey: string): Promise<SkillInternalState | null> => {
     if (!stateKey.trim()) return null;
     const cached = stateByKeyRef.current.get(stateKey);
     if (cached) return cached;
-    const token = adminToken.trim();
-    if (!token) return null;
+
     try {
-      const result = await getSkillInternalState(apiBaseUrl, selectedGameId, skill.skillKey, stateKey, token);
+      const result = await getSkillInternalState(apiBaseUrl, selectedGameId, skill.skillKey, stateKey);
       stateByKeyRef.current.set(stateKey, result.data);
       setStateByKey(new Map(stateByKeyRef.current));
       return result.data;
@@ -896,7 +884,7 @@ export function SkillTriggerRuleEditorModal({
       setReferenceError(getErrorMessage(error));
       return null;
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, skill.skillKey]);
 
   const ensureFormula = useCallback(async (formulaKey: string): Promise<SkillFormula | null> => {
     if (!formulaKey.trim()) return null;
@@ -907,10 +895,9 @@ export function SkillTriggerRuleEditorModal({
     }
     const cached = formulaCacheRef.current.get(selectedGameId, skill.skillKey, formulaKey);
     if (cached) return cached;
-    const token = adminToken.trim();
-    if (!token) return null;
+
     try {
-      const result = await getSkillFormula(apiBaseUrl, selectedGameId, skill.skillKey, formulaKey, token);
+      const result = await getSkillFormula(apiBaseUrl, selectedGameId, skill.skillKey, formulaKey);
       formulaCacheRef.current.set(selectedGameId, skill.skillKey, formulaKey, result.data);
       formulaByKeyRef.current.set(formulaKey, result.data);
       setFormulaByKey(new Map(formulaByKeyRef.current));
@@ -920,7 +907,7 @@ export function SkillTriggerRuleEditorModal({
       setReferenceError(getErrorMessage(error));
       return null;
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, workspaceSnapshot]);
+  }, [apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, workspaceSnapshot]);
 
   const reloadReferences = useCallback(async () => {
     setReferenceError(null);
@@ -1221,7 +1208,7 @@ export function SkillTriggerRuleEditorModal({
     const conditionEffects = await Promise.all([...unique.values()].map(async ({ owner, key }) => {
       if (owner === skill.skillKey) return ensureEffect(key);
       try {
-        return (await getSkillEffect(apiBaseUrl, selectedGameId, owner, key, adminToken.trim())).data;
+        return (await getSkillEffect(apiBaseUrl, selectedGameId, owner, key)).data;
       } catch (error) {
         setReferenceError(getErrorMessage(error));
         return null;
@@ -1264,11 +1251,7 @@ export function SkillTriggerRuleEditorModal({
       setSaveError('该内部状态不支持当前变化种类。');
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setSaveError('请先配置 Admin Token。');
-      return;
-    }
+
     setSaving(true);
     setSaveError(null);
     setCycle(null);
@@ -1311,7 +1294,6 @@ export function SkillTriggerRuleEditorModal({
             apiBaseUrl,
             selectedGameId,
             skill.skillKey,
-            token,
             toCreateRequest(draft)
           )
         : await updateSkillTriggerRule(
@@ -1319,7 +1301,6 @@ export function SkillTriggerRuleEditorModal({
             selectedGameId,
             skill.skillKey,
             rule?.ruleKey ?? draft.ruleKey,
-            token,
             toUpdateRequest(draft)
           );
       const next = fromDetail(result.data, skill.skillKey);
@@ -1943,7 +1924,7 @@ export function SkillTriggerRuleEditorModal({
 
       <SkillTriggerConditionEditorModal
         skillKey={skill.skillKey}
-        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
         effectsLoadState={catalogStates.effects}
         onRetryLifecycleEffects={retryLifecycleConditionEffects}
         originalConditionType={conditionEditor ? baseline.conditionGroups.find((group) => group.groupKey === sortedGroups[conditionEditor.groupIndex]?.groupKey)?.conditions.find((condition) => condition.conditionKey === conditionEditor.draft.conditionKey)?.conditionType : undefined}
@@ -1988,7 +1969,7 @@ export function SkillTriggerRuleEditorModal({
       />
 
       <SkillTriggerActionEditorModal
-        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
         originalBindings={baseline.actions.find((item) => item.actionKey === actionEditor?.draft?.actionKey)?.runtimeInputBindings ?? []}
         attributes={attributes}
         skills={skills}

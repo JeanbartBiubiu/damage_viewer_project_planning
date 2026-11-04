@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { expect, test, type Page, type Route } from '@playwright/test';
 import { configurationMatchesRequest } from '../../src/pages/admin/skills/skillConfigurationDraft';
@@ -56,10 +57,9 @@ class ConfigurationApi {
 
   async install(page: Page) {
     await page.addInitScript(({ api }) => {
-      localStorage.setItem('damage-viewer.web.api-base-url', api);
-      localStorage.setItem('damage-viewer.web.admin-token', 'mock-token');
     }, { api: API });
     await page.route('**/api/**', async (route) => {
+      if (await fulfillAuthSession(route)) return;
       const request = route.request();
       const url = new URL(request.url());
       if (request.method() === 'OPTIONS') {
@@ -67,11 +67,6 @@ class ConfigurationApi {
           'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*',
           'Access-Control-Allow-Methods': 'GET,PATCH,POST,DELETE,OPTIONS'
         } });
-        return;
-      }
-      if (url.origin !== API) {
-        this.unexpected.push(`${request.method()} ${url.pathname}`);
-        await route.abort();
         return;
       }
       const path = url.pathname;
@@ -597,15 +592,18 @@ test('外部同名状态与生命周期按所属技能读取，失败重试保�
   let stateReads = 0;
   let effectReads = 0;
   await page.route('**/skills/foreign/internal-states/shared_mode', async (route) => {
+      if (await fulfillAuthSession(route)) return;
     stateReads += 1;
     if (stateReads === 1) await respond(route, { error: { code: 'READ_FAILED', message: '外部状态暂不可用' } }, 503);
     else await respond(route, externalState);
   });
   await page.route('**/skills/foreign/effects/mark', async (route) => {
+      if (await fulfillAuthSession(route)) return;
     effectReads += 1;
     await respond(route, externalEffect);
   });
   await page.route('**/skills/foreign/effects/mark_source', async (route) => {
+      if (await fulfillAuthSession(route)) return;
     effectReads += 1;
     await respond(route, { ...externalEffect, effectKey: 'mark_source',
       lifecycle: { ...externalEffect.lifecycle, instanceScope: 'SOURCE' } });
@@ -679,8 +677,6 @@ test('隔离服务真接口：页面同次创建参数与引用公式，重开�
   }));
   const key = `front_formula_${Date.now().toString(36)}`;
   await page.addInitScript(({ api }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', 'local-test');
   }, { api: apiBase });
   const writes: string[] = [];
   page.on('request', (req) => {
@@ -721,7 +717,7 @@ test('隔离服务真接口：页面同次创建参数与引用公式，重开�
   const reopened = await openExistingSkill(page, key, '参数与公式');
   await expect(reopened.getByText('计算结果', { exact: true }).first()).toBeVisible();
   const persisted = await request.get(`${apiBase}/api/admin/games/configuration_test/skills/${key}/configuration`,
-    { headers: { Authorization: 'Bearer local-test' } });
+    { headers: {  } });
   expect(persisted.ok()).toBe(true);
   const current = await persisted.json() as Json;
   expect(current).toMatchObject({
@@ -742,8 +738,6 @@ test('隔离服务真接口：页面同次创建内部状态与带结果的效�
   }));
   const key = `front_stage3_${Date.now().toString(36)}`;
   await page.addInitScript(({ api }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', 'local-test');
   }, { api: apiBase });
   const writes: string[] = [];
   page.on('request', (req) => {
@@ -793,7 +787,7 @@ test('隔离服务真接口：页面同次创建内部状态与带结果的效�
   const reopened = await openExistingSkill(page, key, '效果与生命周期');
   await expect(reopened.getByText('法术护盾标记', { exact: true }).first()).toBeVisible();
   const persisted = await request.get(`${apiBase}/api/admin/games/configuration_test/skills/${key}/configuration`,
-    { headers: { Authorization: 'Bearer local-test' } });
+    { headers: {  } });
   expect(persisted.ok()).toBe(true);
   expect(await persisted.json()).toMatchObject({
     skill: { skillKey: key },
@@ -813,8 +807,6 @@ test('隔离服务真接口：六模块同次保存并独立回读', async ({ pa
   expect(await games.json()).toContainEqual(expect.objectContaining({ gameId: 'configuration_test' }));
   const key = `front_all_${Date.now().toString(36)}`;
   await page.addInitScript(({ api }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', 'local-test');
   }, { api: apiBase });
   const writes: string[] = [];
   let savedChanges: SkillConfigurationChange[] = [];
@@ -927,7 +919,7 @@ test('隔离服务真接口：六模块同次保存并独立回读', async ({ pa
   responseDigest = ((await written.json()) as SkillConfiguration).baseDigest;
   await expect.poll(() => writes.length).toBe(1);
   const persisted = await request.get(`${apiBase}/api/admin/games/configuration_test/skills/${key}/configuration`,
-    { headers: { Authorization: 'Bearer local-test' } });
+    { headers: {  } });
   expect(persisted.ok()).toBe(true);
   const current = await persisted.json() as SkillConfiguration;
   for (const change of savedChanges) {

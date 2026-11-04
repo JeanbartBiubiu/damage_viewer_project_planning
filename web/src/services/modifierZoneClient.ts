@@ -74,10 +74,9 @@ function withQuery(path: string, query: ModifierZoneListQuery = {}): string {
 export function listModifierZones(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   query: ModifierZoneListQuery = {}
 ): Promise<ApiResult<ModifierZoneListResponse>> {
-  return requestJson<unknown>(apiBaseUrl, withQuery(modifierZonesPath(gameId), query), { token }).then((result) => {
+  return requestJson<unknown>(apiBaseUrl, withQuery(modifierZonesPath(gameId), query)).then((result) => {
     if (!isRecord(result.data) || !Array.isArray(result.data.items) || typeof result.data.total !== 'number') {
       throw new Error('乘区目录响应不完整。');
     }
@@ -91,20 +90,18 @@ export function listModifierZones(
 export function getModifierZone(
   apiBaseUrl: string,
   gameId: string,
-  modifierZoneKey: string,
-  token: string
+  modifierZoneKey: string
 ): Promise<ApiResult<ModifierZone>> {
-  return requestJson<unknown>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey), { token }).then(parseModifierZoneResult);
+  return requestJson<unknown>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey)).then(parseModifierZoneResult);
 }
 
 export function createModifierZone(
   apiBaseUrl: string,
   gameId: string,
-  token: string,
   body: CreateModifierZoneRequest
 ): Promise<ApiResult<ModifierZone>> {
   return requestJson<unknown>(apiBaseUrl, modifierZonesPath(gameId), {
-    method: 'POST', token, body: JSON.stringify(body)
+    method: 'POST', body: JSON.stringify(body)
   }).then(parseModifierZoneResult);
 }
 
@@ -112,21 +109,19 @@ export function updateModifierZone(
   apiBaseUrl: string,
   gameId: string,
   modifierZoneKey: string,
-  token: string,
   body: UpdateModifierZoneRequest
 ): Promise<ApiResult<ModifierZone>> {
   return requestJson<unknown>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey), {
-    method: 'PUT', token, body: JSON.stringify(body)
+    method: 'PUT', body: JSON.stringify(body)
   }).then(parseModifierZoneResult);
 }
 
 export function deleteModifierZone(
   apiBaseUrl: string,
   gameId: string,
-  modifierZoneKey: string,
-  token: string
+  modifierZoneKey: string
 ): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey), {
-    method: 'DELETE', token
+    method: 'DELETE'
   });
 }

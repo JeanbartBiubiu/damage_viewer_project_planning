@@ -4,7 +4,9 @@ package runtime
 import (
 	"encoding/json"
 	"strconv"
+	"time"
 
+	"tinygo_engine_v2/internal/authorization"
 	"tinygo_engine_v2/internal/base/abi"
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
@@ -19,12 +21,12 @@ type SessionAPI interface {
 	ClearOutbox()
 	// CompileFrame 校验编译帧并编译其载荷，结果沿出箱返回；成功返回0，失败返回-1。
 	CompileFrame(input []byte) int32
-	// CompileJSON 编译作者载荷并登记可复用计划，结果沿出箱返回；写出失败时撤销本次登记。
+	// CompileJSON 先核验计算授权，再编译作者载荷并登记绑定账号的可复用计划；写出失败时撤销本次登记。
 	// 成功返回0，编译拒绝或执行失败返回-1。
 	CompileJSON(payload []byte) int32
 	// RunFrame 校验运行帧后执行其载荷，结果沿出箱返回；成功返回0，失败返回-1。
 	RunFrame(input []byte) int32
-	// RunJSON 校验会话、规则身份及运行输入，再创建独立战斗状态执行既有计划。
+	// RunJSON 先核验本次票据及编译账号，再校验规则身份和运行输入，创建独立战斗状态执行既有计划。
 	// 结果沿出箱返回，成功返回0，失败返回-1。
 	RunJSON(payload []byte) int32
 	// ReleaseSessionFrame 校验释放帧后释放指定会话，释放结果沿出箱返回。
@@ -37,7 +39,9 @@ type SessionAPI interface {
 
 // Session 拥有编译会话登记与出箱，不保存跨战斗复用的可变战斗状态。
 type Session struct {
-	outbox abi.Outbox
+	outbox        abi.Outbox
+	authorization authorization.Policy
+	now           func() int64
 
 	genericSessions      map[string]genericSessionEntry
 	nextGenericSessionID uint32
@@ -48,15 +52,22 @@ type genericSessionEntry struct {
 	schemaVersion string
 	schemaHash    string
 	rulesHash     string
+	accountID     string
 	compiled      planbundle.CompiledSession
 }
 
 var _ SessionAPI = (*Session)(nil)
 
-// NewSession 创建独立的编译会话登记表与出箱。
+// NewSession 按固化构建策略创建独立的授权会话登记表与出箱，配置缺失时拒绝计算。
 func NewSession() *Session {
+	return newSession(authorization.BuildPolicy(), func() int64 { return time.Now().Unix() })
+}
+
+func newSession(policy authorization.Policy, now func() int64) *Session {
 	return &Session{
 		outbox:          abi.NewOutbox(abi.DefaultOutboxCapacity),
+		authorization:   policy,
+		now:             now,
 		genericSessions: make(map[string]genericSessionEntry),
 	}
 }
@@ -88,12 +99,17 @@ func (s *Session) CompileJSON(payload []byte) int32 {
 		s.writeGenericError(model.GenericPhaseParse, model.GenericErrJSONParseError, err.Error(), "", "", "")
 		return -1
 	}
+	accountID, failure := authorization.Verify(s.authorization, req.Authorization, s.authorizationTime())
+	if failure != "" {
+		s.writeGenericError(model.GenericPhaseCompile, model.GenericErrCode(failure), "计算授权无效或不可用", "", "", "")
+		return -1
+	}
 	compiled := compilebundle.CompileGeneric(req)
 	if !compiled.OK {
 		s.writeGenericCompileResult(compiled.Result)
 		return -1
 	}
-	sessionID := s.registerGenericSession(compiled.Session)
+	sessionID := s.registerGenericSession(compiled.Session, accountID)
 	result := compiled.Result
 	result.SessionID = sessionID
 	if code := s.outbox.WriteJSON(model.FrameKindGenericCompileResult, result); code != model.ErrOK {
@@ -123,6 +139,11 @@ func (s *Session) RunJSON(payload []byte) int32 {
 		s.writeGenericError(model.GenericPhaseParse, model.GenericErrJSONParseError, err.Error(), "", "", "")
 		return -1
 	}
+	accountID, failure := authorization.Verify(s.authorization, req.Authorization, s.authorizationTime())
+	if failure != "" {
+		s.writeGenericError(model.GenericPhaseRun, model.GenericErrCode(failure), "计算授权无效或不可用", "", "", req.SessionID)
+		return -1
+	}
 	if req.SessionID == "" {
 		s.writeGenericError(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "sessionId is required", req.SchemaHash, req.RulesHash, "")
 		return -1
@@ -130,6 +151,10 @@ func (s *Session) RunJSON(payload []byte) int32 {
 	entry, ok := s.genericSessions[req.SessionID]
 	if !ok {
 		s.writeGenericError(model.GenericPhaseRun, model.GenericErrSessionNotFound, "session not found", "", "", req.SessionID)
+		return -1
+	}
+	if entry.accountID != accountID {
+		s.writeGenericError(model.GenericPhaseRun, model.GenericErrAuthorizationAccountMismatch, "计算授权账号与编译会话不一致", entry.schemaHash, entry.rulesHash, req.SessionID)
 		return -1
 	}
 	if req.ExpectedRulesHash == "" {
@@ -202,7 +227,7 @@ func (s *Session) ReleaseSessionJSON(payload []byte) int32 {
 	return 0
 }
 
-func (s *Session) registerGenericSession(session planbundle.CompiledSession) string {
+func (s *Session) registerGenericSession(session planbundle.CompiledSession, accountID string) string {
 	s.nextGenericSessionID++
 	sessionID := "generic-session-" + strconv.FormatUint(uint64(s.nextGenericSessionID), 10)
 	s.genericSessions[sessionID] = genericSessionEntry{
@@ -210,9 +235,17 @@ func (s *Session) registerGenericSession(session planbundle.CompiledSession) str
 		schemaVersion: session.SchemaVersion,
 		schemaHash:    session.SchemaHash,
 		rulesHash:     session.RulesHash,
+		accountID:     accountID,
 		compiled:      session,
 	}
 	return sessionID
+}
+
+func (s *Session) authorizationTime() int64 {
+	if s.now == nil {
+		return 0
+	}
+	return s.now()
 }
 
 func (s *Session) writeGenericCompileResult(result model.CompileResult) {

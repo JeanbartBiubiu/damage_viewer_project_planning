@@ -30,7 +30,6 @@ type Props = {
   systemKey: string | null;
   apiBaseUrl: string;
   selectedGameId: string;
-  adminToken: string;
   onClose: () => void;
   onSaved: (system: BuildSystem) => void;
   onDirtyChange: (dirty: boolean) => void;
@@ -42,7 +41,7 @@ const blank: BuildSystemDraft = {
 };
 
 export function BuildSystemEditorModal(props: Props) {
-  const { mode, systemKey, apiBaseUrl, selectedGameId, adminToken, onClose, onSaved, onDirtyChange } = props;
+  const { mode, systemKey, apiBaseUrl, selectedGameId, onClose, onSaved, onDirtyChange } = props;
   const [draft, setDraft] = useState<BuildSystemDraft>(blank);
   const [initial, setInitial] = useState<BuildSystemDraft>(blank);
   const [groups, setGroups] = useState<BuildGroup[]>([]);
@@ -66,9 +65,9 @@ export function BuildSystemEditorModal(props: Props) {
     setLoading(true); setError(null); setLoaded(false);
     try {
       const [systemResult, groupResult, optionResult] = await Promise.all([
-        getBuildSystem(apiBaseUrl, selectedGameId, systemKey, adminToken.trim()),
-        listBuildGroups(apiBaseUrl, selectedGameId, systemKey, adminToken.trim()),
-        listBuildOptions(apiBaseUrl, selectedGameId, systemKey, adminToken.trim())
+        getBuildSystem(apiBaseUrl, selectedGameId, systemKey),
+        listBuildGroups(apiBaseUrl, selectedGameId, systemKey),
+        listBuildOptions(apiBaseUrl, selectedGameId, systemKey)
       ]);
       if (!active.current) return;
       const value: BuildSystemDraft = {
@@ -92,7 +91,7 @@ export function BuildSystemEditorModal(props: Props) {
   };
   const save = async () => {
     if (writing.current || readOnly || !loaded) return;
-    if (!adminToken.trim()) { setError('请先配置 Admin Token。'); return; }
+
     const checked = validateSystemDraft(draft, mode === 'create', groups, options);
     setErrors(checked);
     if (Object.keys(checked).length) return;
@@ -109,13 +108,13 @@ export function BuildSystemEditorModal(props: Props) {
           selectionRules: selectionRulesFromDraft(draft.selectionRules)
         };
         const result = mode === 'create'
-          ? await createBuildSystem(apiBaseUrl, selectedGameId, adminToken.trim(), { systemKey: draft.systemKey.trim(), ...body })
-          : await updateBuildSystem(apiBaseUrl, selectedGameId, systemKey!, adminToken.trim(), body);
+          ? await createBuildSystem(apiBaseUrl, selectedGameId, { systemKey: draft.systemKey.trim(), ...body })
+          : await updateBuildSystem(apiBaseUrl, selectedGameId, systemKey!, body);
         writtenKey = result.data.systemKey;
         if (!active.current) return;
         setSavedKey(writtenKey);
       }
-      const result = await getBuildSystem(apiBaseUrl, selectedGameId, writtenKey, adminToken.trim());
+      const result = await getBuildSystem(apiBaseUrl, selectedGameId, writtenKey);
       if (!active.current) return;
       onDirtyChange(false); onSaved(result.data);
     } catch (cause) {

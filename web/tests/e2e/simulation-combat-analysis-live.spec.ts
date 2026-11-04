@@ -9,7 +9,6 @@ import type { SimulationAvailabilityResponse } from '../../src/types/simulationA
 
 const output = resolve(process.env.SIMULATION_LIVE_OUTPUT_DIR || 'output/combat-analysis/availability-gate');
 const api = process.env.SIMULATION_API_BASE || 'http://127.0.0.1:8080';
-const token = 'local-readonly-check';
 
 // 旧安妮Q/W关闭兄弟来源的局部机制诊断已归档至 output/combat-analysis/availability-gate/
 // historical-annie-local-combination.spec.ts.txt。该历史证据不构成整英雄READY证明；本入口不再绕过门禁。
@@ -132,7 +131,7 @@ function assertDirectoryMatchesVerification(response: SimulationAvailabilityResp
 
 test('真实计算可用目录：精确接受正式英雄与装备证明，未证明对象均不放行', async ({ request }, testInfo) => {
   const expected = readExpectedVerification();
-  const response = await request.get(api + simulationAvailabilityPath('lol'), { headers: { Authorization: 'Bearer ' + token } });
+  const response = await request.get(api + simulationAvailabilityPath('lol'), { headers: {  } });
   expect(response.status(), '读取真实目录，不替换HTTP或后端证明').toBe(200);
   const directory = parseSimulationAvailabilityResponse(await response.json(), 'lol');
   const admission = assertDirectoryMatchesVerification(directory, expected);
@@ -165,10 +164,8 @@ test('真实新页面：未就绪英雄禁选，装备与准备保持阻断且�
     const url = new URL(request.url());
     if (url.origin === api && request.method() !== 'OPTIONS') requests.push({ method: request.method(), path: url.pathname });
   });
-  await page.addInitScript(({ api, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', token);
-  }, { api, token });
+  await page.addInitScript(({ api }) => {
+  }, { api });
   const responsePromise = page.waitForResponse(response => new URL(response.url()).pathname.endsWith('/simulation-availability')
     && response.request().method() === 'GET');
   await page.goto('/?combat-availability-live=1#/simulation/combat-analysis');
@@ -220,10 +217,8 @@ test('真实新页面：正式通过英雄直接配置全技能并运行，显�
     if (url.origin === api && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(row.method())
       && !url.pathname.endsWith('/simulation-snapshot')) writes.push(row.method() + ' ' + url.pathname);
   });
-  await page.addInitScript(({ api, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', token);
-  }, { api, token });
+  await page.addInitScript(({ api }) => {
+  }, { api });
   const readyDirectoryResponse = page.waitForResponse(response => new URL(response.url()).pathname.endsWith('/simulation-availability')
     && response.request().method() === 'GET');
   await page.goto('/?combat-availability-live=ready#/simulation/combat-analysis');
@@ -285,7 +280,7 @@ test('真实新页面：正式通过英雄直接配置全技能并运行，显�
     await input.fill(String(value)); await input.press('Tab');
   }
   const attributesResponse = await request.get(`${api}/api/admin/games/lol/characters/${ready!.key}/attributes`,
-    { headers: { Authorization: 'Bearer ' + token } });
+    { headers: {  } });
   expect(attributesResponse.status()).toBe(200);
   const attributes = await attributesResponse.json();
   const health = attributes.levelValues['18'].hp;

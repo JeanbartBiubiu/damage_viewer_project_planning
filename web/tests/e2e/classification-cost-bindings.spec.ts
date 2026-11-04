@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -11,7 +12,6 @@ import { expectSimulationConfigurationReady } from '../fixtures/simulationSnapsh
 import { syncSimulationSkillSources } from '../fixtures/simulationSkillSources';
 
 const API = 'http://127.0.0.1:19611';
-const TOKEN = 'classification-bindings-fixture';
 type ApiState = {
   sample: SimulationSnapshot;
   rules: GameCalculationRulesResponse;
@@ -62,9 +62,7 @@ async function installApi(page: Page): Promise<ApiState> {
     earlierSkillCategory: null, snapshotRules: null, otherRules, rulesFailure: false, gate: null, snapshotGate: null,
     writeOutcome: 'ok', writes: [], reads: [], errors: [] };
   page.on('pageerror', error => state.errors.push(error.message));
-  await page.addInitScript(({ api, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', api);
-    localStorage.setItem('damage-viewer.web.admin-token', token);
+  await page.addInitScript(({ api }) => {
     const scope = window as typeof window & { bindingWorkerMessages: Array<{ type: string; rulesHash: string | null }> };
     scope.bindingWorkerMessages = [];
     const original = Worker.prototype.postMessage;
@@ -74,15 +72,17 @@ async function installApi(page: Page): Promise<ApiState> {
       }
       return Reflect.apply(original, this, [message, ...options]);
     };
-  }, { api: API, token: TOKEN });
-  await page.route(`${API}/api/**`, async route => {
+  }, { api: API });
+  await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
+  await page.route(`**/api/**`, async route => {
+    if (await fulfillAuthSession(route, false)) return;
     const request = route.request();
     if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*' } });
     const url = new URL(request.url());
     const reply = (data: unknown) => route.fulfill({ json: data });
     if (url.pathname === '/api/games') return reply([{ gameId: 'demo', gameName: '作者绑定游戏', representativeImageKey: null },
       { gameId: 'other', gameName: '其他绑定游戏', representativeImageKey: null }]);
-    expect(request.headers().authorization).toBe(`Bearer ${TOKEN}`);
+    expect(request.headers().authorization).toBeUndefined();
     const gameId = url.pathname.split('/')[4]!;
     const resource = url.pathname.replace(/^\/api\/admin\/games\/[^/]+\//, '');
     const sample = gameId === 'demo' ? state.sample : JSON.parse(JSON.stringify(state.sample).replaceAll('"demo"', '"other"')) as SimulationSnapshot;

@@ -20,12 +20,12 @@ describe('skillClient', () => {
       expect(url.pathname).toBe('/api/admin/games/demo%20arena/skills');
       expect(url.searchParams.get('keyword')).toBe('火球/+');
       expect(url.searchParams.get('status')).toBe('DISABLED');
-      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer token');
+      expect(new Headers(init?.headers).get('Authorization')).toBeNull();
       return jsonResponse(200, { items: [], total: 0 });
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await listSkills('http://localhost:8080/', 'demo arena', 'token', {
+    await listSkills('http://localhost:8080/', 'demo arena', {
       keyword: ' 火球/+ ',
       status: 'DISABLED'
     });
@@ -38,7 +38,7 @@ describe('skillClient', () => {
     });
     vi.stubGlobal('fetch', emptyQueryMock);
 
-    await listSkills('http://localhost:8080', 'demo', 'token', { keyword: '   ' });
+    await listSkills('http://localhost:8080', 'demo', { keyword: '   ' });
     expect(emptyQueryMock).toHaveBeenCalledOnce();
   });
 
@@ -48,7 +48,7 @@ describe('skillClient', () => {
       return jsonResponse(200, {});
     });
     vi.stubGlobal('fetch', fetchMock);
-    await getSkill('http://localhost:8080', 'demo', 'active/control', 'token');
+    await getSkill('http://localhost:8080', 'demo', 'active/control');
   });
 
   it('sends POST body, full PUT category array without skillKey, and DELETE', async () => {
@@ -63,7 +63,7 @@ describe('skillClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
 
-    await createSkill('http://localhost:8080', 'demo', 'token', {
+    await createSkill('http://localhost:8080', 'demo', {
       skillKey: 'fireball',
       name: '火球',
       description: null,
@@ -72,7 +72,7 @@ describe('skillClient', () => {
       sortOrder: 10,
       skillCategoryKeys: ['active', 'damage']
     });
-    await updateSkill('http://localhost:8080', 'demo', 'fireball', 'token', {
+    await updateSkill('http://localhost:8080', 'demo', 'fireball', {
       name: '火球',
       description: null,
       maxLevel: 5,
@@ -80,7 +80,7 @@ describe('skillClient', () => {
       sortOrder: 20,
       skillCategoryKeys: ['active', 'disabled-cat']
     });
-    await deleteSkill('http://localhost:8080', 'demo', 'fireball', 'token');
+    await deleteSkill('http://localhost:8080', 'demo', 'fireball');
 
     expect(calls.map((call) => call.method)).toEqual(['POST', 'PUT', 'DELETE']);
     expect(calls[0]?.body).toEqual({

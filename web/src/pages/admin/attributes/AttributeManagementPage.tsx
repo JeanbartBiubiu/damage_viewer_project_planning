@@ -32,7 +32,6 @@ import type { AttributeEditorMode } from './attributeForm';
 export type AttributeManagementPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
 };
 
@@ -90,7 +89,6 @@ function updateRequestFor(attribute: Attribute, status: AttributeStatus): Update
 export function AttributeManagementPage({
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onDirtyChange
 }: AttributeManagementPageProps) {
   const [keywordDraft, setKeywordDraft] = useState('');
@@ -115,7 +113,7 @@ export function AttributeManagementPage({
     const serial = requestSerial.current + 1;
     requestSerial.current = serial;
 
-    if (!selectedGameId || !adminToken.trim()) {
+    if (!selectedGameId) {
       setAttributes([]);
       setTotal(0);
       setLoadError(null);
@@ -129,7 +127,6 @@ export function AttributeManagementPage({
       const result = await listAttributes(
         apiBaseUrl,
         selectedGameId,
-        adminToken.trim(),
         query
       );
       if (requestSerial.current !== serial) {
@@ -155,7 +152,7 @@ export function AttributeManagementPage({
         setLoading(false);
       }
     }
-  }, [adminToken, apiBaseUrl, selectedGameId]);
+  }, [apiBaseUrl, selectedGameId]);
 
   useEffect(() => {
     void loadList(appliedQuery);
@@ -223,11 +220,6 @@ export function AttributeManagementPage({
       setStatusUpdateError('请先在顶部选择游戏。');
       return;
     }
-    const token = adminToken.trim();
-    if (!token) {
-      setStatusUpdateError(`${actionLabel}需要 Admin Token。`);
-      return;
-    }
 
     setStatusUpdatingKey(attribute.attributeKey);
     setStatusUpdateError(null);
@@ -237,7 +229,6 @@ export function AttributeManagementPage({
         apiBaseUrl,
         selectedGameId,
         attribute.attributeKey,
-        token,
         updateRequestFor(attribute, nextStatus)
       );
       setKeywordDraft('');
@@ -255,8 +246,7 @@ export function AttributeManagementPage({
   };
 
   const { imageColumn, onImageSaved } = useRepresentativeImageColumn<Attribute>({
-    apiBaseUrl, selectedGameId, adminToken,
-    getTarget: record => ({ kind: 'attribute', key: record.attributeKey, name: record.name })
+    apiBaseUrl, selectedGameId, getTarget: record => ({ kind: 'attribute', key: record.attributeKey, name: record.name })
   });
   const columns: TableColumnProps[] = [
     imageColumn,
@@ -307,7 +297,7 @@ export function AttributeManagementPage({
           <ObjectRelationActions
             key={`${apiBaseUrl}:${selectedGameId}:${record.attributeKey}`}
             target={{ kind: 'attribute', key: record.attributeKey, name: record.name }}
-            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
             onDirtyChange={onDirtyChange}
             onImageSaved={() => onImageSaved(record)}
           />
@@ -352,7 +342,7 @@ export function AttributeManagementPage({
             <Button
               onClick={() => void loadList(appliedQuery)}
               loading={loading}
-              disabled={!selectedGameId || !adminToken.trim()}
+              disabled={!selectedGameId}
             >
               刷新
             </Button>
@@ -367,9 +357,7 @@ export function AttributeManagementPage({
         }
       >
         {!selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : null}
-        {selectedGameId && !adminToken.trim() ? (
-          <Alert type="warning" content="请先在顶部配置 Admin Token，才能读取和保存属性。" />
-        ) : null}
+
         {loadError ? <Alert type="error" content={loadError} className="workspace-alert" /> : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
@@ -415,7 +403,7 @@ export function AttributeManagementPage({
             </div>
           </div>
           <Space>
-            <Button type="primary" onClick={applyQuery} disabled={!selectedGameId || !adminToken.trim()}>
+            <Button type="primary" onClick={applyQuery} disabled={!selectedGameId}>
               查询
             </Button>
             <Button onClick={resetQuery}>重置</Button>
@@ -451,7 +439,7 @@ export function AttributeManagementPage({
         attribute={editor?.attribute ?? null}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
-        adminToken={adminToken}
+
         onClose={() => setEditor(null)}
         onSaved={handleSaved}
         onDirtyChange={onDirtyChange}

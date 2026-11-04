@@ -90,8 +90,8 @@ describe('共同公式管理草稿', () => {
     expect(visibleFormulaIssueMessages(draft, mapped)).toEqual(['damageTypeKey：不应写入', '节点不存在']);
     expect(resolveFormulaCloseAttempt(true, false)).toBe('keep');
     expect(resolveFormulaCloseAttempt(true, true)).toBe('close');
-    expect(isSameFormulaContext({ apiBaseUrl: 'http://localhost', gameId: 'demo', token: 'a', damageTypeKey: 'heat' },
-      { apiBaseUrl: 'http://localhost/', gameId: 'demo', token: 'a', damageTypeKey: 'heat' })).toBe(false);
+    expect(isSameFormulaContext({ apiBaseUrl: 'http://localhost', gameId: 'demo', damageTypeKey: 'heat' },
+      { apiBaseUrl: 'http://localhost/', gameId: 'demo', damageTypeKey: 'heat' })).toBe(false);
     const scroller = { scrollTop: 0 }; restoreScrollTop(scroller, 240); expect(scroller.scrollTop).toBe(240);
   });
 });

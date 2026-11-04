@@ -37,7 +37,6 @@ type SkillTriggerRuleManagementModalProps = {
   skill: Skill | null;
   apiBaseUrl: string;
   selectedGameId: string | null;
-  adminToken: string;
   onClose: () => void;
   onSkillMissing: () => void;
   onDirtyChange: (dirty: boolean) => void;
@@ -59,7 +58,6 @@ export function SkillTriggerRuleManagementModal({
   skill,
   apiBaseUrl,
   selectedGameId,
-  adminToken,
   onClose,
   onSkillMissing,
   onDirtyChange,
@@ -96,8 +94,8 @@ export function SkillTriggerRuleManagementModal({
   const loadRules = useCallback(async () => {
     const serial = listSerial.current + 1;
     listSerial.current = serial;
-    const token = adminToken.trim();
-    if (!visible || !openGameId || !openSkillKey || !token) {
+
+    if (!visible || !openGameId || !openSkillKey) {
       setItems([]);
       setLoadError(null);
       setLoading(false);
@@ -106,7 +104,7 @@ export function SkillTriggerRuleManagementModal({
     setLoading(true);
     setLoadError(null);
     try {
-      const result = await listSkillTriggerRules(apiBaseUrl, openGameId, openSkillKey, token);
+      const result = await listSkillTriggerRules(apiBaseUrl, openGameId, openSkillKey);
       if (listSerial.current !== serial) return;
       if (selectedGameId !== openGameId || skill?.skillKey !== openSkillKey) return;
       setItems(result.data);
@@ -121,7 +119,7 @@ export function SkillTriggerRuleManagementModal({
     } finally {
       if (listSerial.current === serial) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, openGameId, openSkillKey, selectedGameId, skill?.skillKey, visible]);
+  }, [apiBaseUrl, onSkillMissing, openGameId, openSkillKey, selectedGameId, skill?.skillKey, visible]);
 
   useEffect(() => {
     if (!visible || !skill) {
@@ -175,11 +173,7 @@ export function SkillTriggerRuleManagementModal({
 
   const confirmDelete = async () => {
     if (!deleteTarget || deleting || !selectedGameId || !skill) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setDeleteError('请先配置 Admin Token。');
-      return;
-    }
+
     setDeleting(true);
     setDeleteError(null);
     try {
@@ -188,8 +182,7 @@ export function SkillTriggerRuleManagementModal({
         apiBaseUrl,
         selectedGameId,
         skill.skillKey,
-        deleteTarget.ruleKey,
-        token
+        deleteTarget.ruleKey
       );
       setDeleteTarget(null);
       setNotice(`规则「${deletedName}」已删除。`);
@@ -290,14 +283,14 @@ export function SkillTriggerRuleManagementModal({
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginBottom: 16 }}>
           <Button
             loading={loading}
-            disabled={!selectedGameId || !adminToken.trim() || !skill || deleting}
+            disabled={!selectedGameId || !skill || deleting}
             onClick={() => void loadRules()}
           >
             刷新
           </Button>
           <Button
             type="primary"
-            disabled={!selectedGameId || !adminToken.trim() || !skill || deleting}
+            disabled={!selectedGameId || !skill || deleting}
             onClick={() => setEditor({ mode: 'create', rule: null })}
           >
             新增规则
@@ -337,7 +330,7 @@ export function SkillTriggerRuleManagementModal({
           rule={editor?.rule ?? null}
           apiBaseUrl={apiBaseUrl}
           selectedGameId={selectedGameId}
-          adminToken={adminToken}
+
           onClose={() => {
             setEditor(null);
           }}

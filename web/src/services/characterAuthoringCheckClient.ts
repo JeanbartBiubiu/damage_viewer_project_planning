@@ -42,8 +42,8 @@ export function parseCharacterAuthoringCheck(value: unknown, gameId: string, cha
   return value as CharacterAuthoringCheck;
 }
 
-export async function getCharacterAuthoringCheck(apiBaseUrl: string, gameId: string, characterKey: string, token: string): Promise<ApiResult<CharacterAuthoringCheck>> {
+export async function getCharacterAuthoringCheck(apiBaseUrl: string, gameId: string, characterKey: string): Promise<ApiResult<CharacterAuthoringCheck>> {
   const path = `/api/admin/games/${encodePathSegment(gameId)}/characters/${encodePathSegment(characterKey)}/authoring-check`;
-  const result = await requestJson<unknown>(apiBaseUrl, path, { token });
+  const result = await requestJson<unknown>(apiBaseUrl, path);
   return { ...result, data: parseCharacterAuthoringCheck(result.data, gameId, characterKey) };
 }

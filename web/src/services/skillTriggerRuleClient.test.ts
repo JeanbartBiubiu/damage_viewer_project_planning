@@ -120,8 +120,8 @@ describe('skillTriggerRuleClient', () => {
       return jsonResponse(200, takedown);
     }));
     const { ruleKey, ...body } = takedown;
-    const updated = await updateSkillTriggerRule('http://localhost:8080', 'lol', 'tristana_w', ruleKey, 'local-entry', body);
-    const loaded = await getSkillTriggerRule('http://localhost:8080', 'lol', 'tristana_w', ruleKey, 'local-entry');
+    const updated = await updateSkillTriggerRule('http://localhost:8080', 'lol', 'tristana_w', ruleKey, body);
+    const loaded = await getSkillTriggerRule('http://localhost:8080', 'lol', 'tristana_w', ruleKey);
     expect(calls).toEqual([body, null]);
     expect(updated.data).toEqual(takedown);
     expect(loaded.data).toEqual(takedown);
@@ -148,8 +148,8 @@ describe('skillTriggerRuleClient', () => {
       calls.push(init?.body ? JSON.parse(String(init.body)) : null);
       return jsonResponse(init?.method === 'POST' ? 201 : 200, initialized);
     }));
-    const created = await createSkillTriggerRule('http://localhost:8080', 'lol', 'nasus_p', 'local-entry', initialized);
-    const loaded = await getSkillTriggerRule('http://localhost:8080', 'lol', 'nasus_p', initialized.ruleKey, 'local-entry');
+    const created = await createSkillTriggerRule('http://localhost:8080', 'lol', 'nasus_p', initialized);
+    const loaded = await getSkillTriggerRule('http://localhost:8080', 'lol', 'nasus_p', initialized.ruleKey);
     expect(calls).toEqual([initialized, null]);
     expect(created.data).toEqual(initialized);
     expect(loaded.data).toEqual(initialized);
@@ -166,13 +166,13 @@ describe('skillTriggerRuleClient', () => {
     }
   );
 
-  it('encodes game, skill and rule path segments with admin token and JSON headers', async () => {
+  it('encodes game, skill and rule path segments with cookie authentication and JSON headers', async () => {
     const listMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       expect(String(input)).toBe(
         'http://localhost:8080/api/admin/games/demo%20arena/skills/active%2Fq/trigger-rules'
       );
       const headers = new Headers(init?.headers);
-      expect(headers.get('Authorization')).toBe('Bearer token');
+      expect(headers.get('Authorization')).toBeNull();
       expect(headers.get('Accept')).toBe('application/json');
       expect(headers.get('Content-Type')).toBeNull();
       expect(init?.method ?? 'GET').toBe('GET');
@@ -183,8 +183,7 @@ describe('skillTriggerRuleClient', () => {
     const listed = await listSkillTriggerRules(
       'http://localhost:8080/',
       'demo arena',
-      'active/q',
-      'token'
+      'active/q'
     );
     expect(listed.status).toBe(200);
     expect(listed.data[0]).toEqual(summary);
@@ -198,7 +197,7 @@ describe('skillTriggerRuleClient', () => {
         'http://localhost:8080/api/admin/games/demo/skills/ezreal_q/trigger-rules/full%2Fstacks'
       );
       const headers = new Headers(init?.headers);
-      expect(headers.get('Authorization')).toBe('Bearer token');
+      expect(headers.get('Authorization')).toBeNull();
       expect(headers.get('Accept')).toBe('application/json');
       return jsonResponse(200, detail);
     });
@@ -208,8 +207,7 @@ describe('skillTriggerRuleClient', () => {
       'http://localhost:8080',
       'demo',
       'ezreal_q',
-      'full/stacks',
-      'token'
+      'full/stacks'
     );
     expect(loaded.status).toBe(200);
     expect(loaded.data.eventSource).toEqual(detail.eventSource);
@@ -230,7 +228,7 @@ describe('skillTriggerRuleClient', () => {
         body: init?.body ? JSON.parse(String(init.body)) : null,
         headers
       });
-      expect(headers.get('Authorization')).toBe('Bearer token');
+      expect(headers.get('Authorization')).toBeNull();
       expect(headers.get('Accept')).toBe('application/json');
       if (method === 'POST' || method === 'PUT') {
         expect(headers.get('Content-Type')).toBe('application/json');
@@ -243,7 +241,6 @@ describe('skillTriggerRuleClient', () => {
       'http://localhost:8080',
       'demo arena',
       'active/q',
-      'token',
       createBody
     );
     const updated = await updateSkillTriggerRule(
@@ -251,15 +248,13 @@ describe('skillTriggerRuleClient', () => {
       'demo',
       'ezreal_q',
       'full/stacks',
-      'token',
       updateBody
     );
     const deleted = await deleteSkillTriggerRule(
       'http://localhost:8080',
       'demo',
       'ezreal_q',
-      'full/stacks',
-      'token'
+      'full/stacks'
     );
 
     expect(created.status).toBe(201);
@@ -547,8 +542,7 @@ describe('skillTriggerRuleClient', () => {
       'http://localhost:8080',
       'demo',
       'ezreal_q',
-      'missing',
-      'token'
+      'missing'
     )).rejects.toMatchObject<Partial<ApiRequestError>>({
       name: 'ApiRequestError',
       status: payload.status,
@@ -727,9 +721,9 @@ describe('首次目标接触事件值响应', () => {
       return jsonResponse(init?.method === 'POST' ? 201 : 200, parsed);
     }));
     const { ruleKey, ...update } = parsed;
-    const created = await createSkillTriggerRule('http://localhost:8080', 'demo', 'contact_skill', 'test-token', parsed);
-    const updated = await updateSkillTriggerRule('http://localhost:8080', 'demo', 'contact_skill', ruleKey, 'test-token', update);
-    const loaded = await getSkillTriggerRule('http://localhost:8080', 'demo', 'contact_skill', ruleKey, 'test-token');
+    const created = await createSkillTriggerRule('http://localhost:8080', 'demo', 'contact_skill', parsed);
+    const updated = await updateSkillTriggerRule('http://localhost:8080', 'demo', 'contact_skill', ruleKey, update);
+    const loaded = await getSkillTriggerRule('http://localhost:8080', 'demo', 'contact_skill', ruleKey);
     expect(calls).toEqual([parsed, update, null]);
     for (const result of [created, updated, loaded]) {
       expect(result.data.conditionGroups[0].conditions[0].detail).toEqual(conditionDetail);
@@ -825,8 +819,8 @@ describe('系统枚举响应缺口', () => {
         ? [{ ...summary, eventType: 'BASIC_ATTACK_RECEIVED' }] : received);
     }));
     try {
-      const listed = await listSkillTriggerRules('http://localhost:8080', 'demo', 'reactive', 'fixture');
-      const loaded = await getSkillTriggerRule('http://localhost:8080', 'demo', 'reactive', received.ruleKey, 'fixture');
+      const listed = await listSkillTriggerRules('http://localhost:8080', 'demo', 'reactive');
+      const loaded = await getSkillTriggerRule('http://localhost:8080', 'demo', 'reactive', received.ruleKey);
       expect(listed.data[0].eventType).toBe('BASIC_ATTACK_RECEIVED');
       expect(loaded.data.eventSource).toEqual({ eventType: 'BASIC_ATTACK_RECEIVED', detail: {} });
       expect(requests).toHaveLength(2);

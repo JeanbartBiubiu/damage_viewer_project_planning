@@ -234,8 +234,6 @@ test('live: upload and associate from seven object pages without editing image i
       expect(response.status(), `创建 ${fixture.path}: ${await response.text()}`).toBe(201);
     }
     await page.addInitScript(apiBase => {
-      localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
-      localStorage.setItem('damage-viewer.web.admin-token', 'local-stage9-upload-placeholder');
     }, API);
     await page.goto('/#/characters');
     await expect(page.locator('.app-toolbar-field--game')).toContainText(GAME);

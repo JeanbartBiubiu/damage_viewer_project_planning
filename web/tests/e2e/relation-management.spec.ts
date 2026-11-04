@@ -1,3 +1,4 @@
+import { fulfillAuthSession } from '../fixtures/authSession';
 /**
  * 阶段 9 的有状态桌面浏览器回归。接口全部由当前文件替代，不能作为实库验收证据。
  * 两端入口共享同一份替身状态，验证的是页面请求、交互、回读与游戏隔离。
@@ -83,12 +84,8 @@ class RelationApi {
   }
   async install(page: Page) {
     await page.route('**/api/**', async route => {
+      if (await fulfillAuthSession(route)) return;
       const url = new URL(route.request().url());
-      if (url.origin !== API) {
-        this.unexpected.push(`${route.request().method()} ${url.href}`);
-        await route.abort();
-        return;
-      }
       await this.dispatch(route, url);
     });
   }
@@ -328,8 +325,6 @@ async function prepare(page: Page, api: RelationApi) {
   page.on('pageerror', error => errors.push(error.message));
   await api.install(page);
   await page.addInitScript(apiBase => {
-    localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
-    localStorage.setItem('damage-viewer.web.admin-token', 'isolated-relation-test');
   }, API);
   await page.goto('/#/characters');
   await expect(page.locator('.app-toolbar-field--game')).toContainText(FIRST_GAME);
@@ -531,7 +526,8 @@ test('equipment skill authoring preserves owner and filter, confirms drafts, ret
   api.mounts.push({ gameId: FIRST_GAME, kind: 'equipment', ownerKey: 'blade', skillKey: 'strike', sortOrder: 4 });
   const assertClean = await prepare(page, api);
   let failSkillRead = true;
-  await page.route(`${API}/api/admin/games/${FIRST_GAME}/skills/strike/configuration`, async route => {
+  await page.route(`**/api/admin/games/${FIRST_GAME}/skills/strike/configuration`, async route => {
+      if (await fulfillAuthSession(route)) return;
     if (route.request().method() === 'GET' && failSkillRead) {
       await api.error(route, { status: 503, code: '503.SKILL_READ_FAILED', message: '技能读取暂时失败', field: '' });
     } else await route.fallback();

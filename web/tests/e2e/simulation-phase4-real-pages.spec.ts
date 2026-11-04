@@ -43,10 +43,8 @@ for (const sample of [
     if (['POST', 'PATCH', 'PUT', 'DELETE'].includes(request.method()) && !request.url().endsWith('/simulation-snapshot')) writes.push(request.method() + ' ' + new URL(request.url()).pathname);
   });
   page.on('pageerror', error => errors.push(error.message));
-  await page.addInitScript(({ apiBase, token }) => {
-    localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
-    localStorage.setItem('damage-viewer.web.admin-token', token || 'local-readonly-check');
-  }, { apiBase, token: process.env.SIMULATION_LIVE_ADMIN_TOKEN || '' });
+  await page.addInitScript(({ apiBase }) => {
+  }, { apiBase });
   await page.goto('/#/simulation/basic-attack');
   const bytes = await (await page.request.get('/src/engine/wasm/tinygo_engine_v2.wasm')).body();
   expect(bytes.length).toBe(WASM_IDENTITY.bytes);
