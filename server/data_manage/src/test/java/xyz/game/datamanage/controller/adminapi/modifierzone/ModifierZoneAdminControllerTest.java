@@ -33,11 +33,10 @@ import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
 import xyz.game.datamanage.service.modifierzone.ModifierZoneService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = ModifierZoneAdminController.class)
-@Import({AdminAuthFilter.class, GlobalExceptionHandler.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, GlobalExceptionHandler.class})
 class ModifierZoneAdminControllerTest {
 
     private static final String BASE_PATH = "/api/admin/games/lol/modifier-zones";
@@ -45,14 +44,6 @@ class ModifierZoneAdminControllerTest {
     @Autowired private MockMvc mockMvc;
     @MockitoBean private ModifierZoneService service;
     @MockitoBean private AdminEditLogHelper logHelper;
-    @MockitoBean private JwtVerifier jwtVerifier;
-
-    @BeforeEach
-    void enableDevelopmentAdmin() {
-        when(jwtVerifier.isDisabled()).thenReturn(true);
-        when(jwtVerifier.developmentAuthContext())
-            .thenReturn(new AuthContext("admin@example.com", true, true));
-    }
 
     @Test
     void listsCreatesAndDeletesWithStableContract() throws Exception {

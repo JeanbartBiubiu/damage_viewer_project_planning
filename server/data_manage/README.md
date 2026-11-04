@@ -38,9 +38,17 @@
 
 ## 鉴权与编辑留痕
 
-管理鉴权在 `support/auth/AdminAuthFilter.java` 与 `JwtVerifier.java`。启用时按当前ES256签名令牌及编辑权限核验；本地关闭开关不代表公网部署要求。跨域配置 `WebCorsConfig` 覆盖 `/api/**`、允许现行请求方法并暴露ETag。
+账号入口位于 `support/account/`，共享字段、阶段和权限以[账号方案](../../文档记录/详细设计/项目/账号注册登录与权限接入技术方案.md)为准。全部游戏 GET 及只读 `POST /api/admin/games/{gameId}/simulation-snapshot` 匿名开放，即使携带失效 Cookie 也不检查会话；账号私有操作、计算票据和游戏写入按各自凭证检查。游戏写入要求已开通的正式会话及编辑资格，`AccountGameWriteGuard` 在真实写事务开始后先持有账号共享锁并复核版本，再进入游戏业务。旧手填令牌、邮箱身份和鉴权关闭开关已移除。
 
-编辑记录由 `AdminEditLogHelper`、`PostgresWriteStore` 及对应mapper维护；写入流程调用过期日志清理。实际留痕及失败语义查源码，不沿用旧文档中必须安装定时清理扩展的要求。当前没有另建注册、登录或编辑日志查询页面。
+注册必须完成验证器绑定及恢复码保存确认；正确密码可续办未完成注册。账号开通只由独立内网凭据调用 `POST /internal/accounts/{accountId}/enable-login`；请求头 `X-Damage-Internal-Token` 的值从私密文件读取，不使用玩家会话。请求体为 `{enablementReference}`。相同关联编号可重试，冲突不覆盖首次开通。禁用和编辑资格维护由 `AccountMaintenance.changeAccess` 在账号排他锁内完成并提升凭证版本，当前没有普通玩家权限管理路由。
+
+正式会话、流程及对应防跨站请求伪造值使用独立的安全 Cookie，不写浏览器存储。账号及写入请求必须带允许的精确 `Origin`、`Content-Type: application/json` 和 `X-Damage-Client: web`；有会话／流程的状态变更再核对各自可读 Cookie、`X-CSRF-Token` 和数据库摘要。初始化注册、登录及恢复请求忽略残留 Cookie；安全变更起点用会话防伪值，后续流程用流程防伪值。流程 GET（材料与状态）也要求流程防伪证明；创建及已验证的流程响应用 `X-Damage-Flow-CSRF` 返回本流程的绑定值，页面固定该值后发请求，防止多标签页 Cookie 切换误确认另一批材料。完成流程只保留到原截止时间的状态回查，临时密文立即擦除。
+
+跨域配置由 `WebCorsConfig` 按操作区分：游戏公共读取允许无凭据跨域，账号及写入仅允许配置中的来源并允许受控凭据。账号响应均禁止缓存。浏览器与接口须使用同源 HTTPS；本地通过 HTTPS 前端代理访问回环后端，不能去掉 Cookie 的安全属性。
+
+编辑记录由 `AdminEditLogHelper`、`PostgresWriteStore` 及对应mapper维护，身份是账号 UUID 与当时用户名快照；迁移保留历史邮箱列及原记录。部分既有编辑日志助手仍采用容错策略；账号安全事件完全独立，关键状态与事件同事务提交，绝不向编辑日志传递密码、动态码、种子或恢复材料。新库及一次性迁移入口见[账号数据库说明](../../db/user_manage/README.md)。
+
+每小时清理超过七天、从未开通的账号，按 200 个一批持锁重新核对，单轮最多 20 批；满七天整不删除，已开通过的禁用账号保留。过期流程、会话、限流记录及超过 30 天安全事件另作有界清理。默认启用，隔离验证时可暂停调度；上线前核对候选、备份与内网接口外部不可达。应用不会自动运行建表或迁移。
 
 ## 本地开发与配置
 
@@ -53,7 +61,7 @@ mvn test
 mvn package
 ```
 
-默认配置在 `src/main/resources/application.yml`，由环境变量或私有配置覆盖；不提交真实凭据。常用变量：
+默认配置在 `src/main/resources/application.yml`，由环境变量或私有配置覆盖；数据库密码必须通过 `SPRING_DATASOURCE_PASSWORD` 或私有配置提供，源码不保存真实密码。常用变量：
 
 | 变量 | 用途 |
 | --- | --- |
@@ -61,10 +69,27 @@ mvn package
 | `SPRING_DATASOURCE_USERNAME` / `SPRING_DATASOURCE_PASSWORD` | 数据库账号与密码 |
 | `IT_DB_INIT_FAIL_TIMEOUT` | 连接池初始化失败等待 |
 | `APP_STARTUP_FAIL_FAST` | 启动时检查数据库依赖 |
-| `APP_AUTH_JWT_DISABLED` | 关闭本地管理鉴权的开关 |
-| `IT_ADMIN_JWT_ES256_PUBLIC_KEY_PEM` | 管理令牌核验公钥 |
+| `APP_AUTH_ALLOWED_ORIGINS` | 精确浏览器来源列表，默认 `https://localhost:5173` |
+| `APP_AUTH_AEAD_KEYSET_PATH` / `APP_AUTH_AEAD_KEY_ID` | 数据库外的带认证加密密钥集文件及编号 |
+| `APP_AUTH_GRANT_PRIVATE_KEY_PATH` / `APP_AUTH_GRANT_KEY_ID` | Ed25519 计算票据私钥文件及公钥编号 |
+| `APP_AUTH_INTERNAL_TOKEN_PATH` | 独立内网调用凭据文件 |
+| `APP_AUTH_INTERNAL_TRUSTED_ADDRESSES` | 直连可信来源地址清单，默认仅回环 |
+| `APP_AUTH_CLEANUP_ENABLED` | 默认 `true`，隔离验证可设 `false` 暂停定时调度 |
+| `SERVER_ADDRESS` | 默认 `127.0.0.1`；仅显式改为受控内网监听 |
 
-默认服务端口为8080。`mvn spring-boot:run` 的本机进程通信临时目录由 `pom.xml` 配置到模块 `target/`，避免Windows临时目录的套接字连接异常。启动后仍应验证实际读取接口；401／403先核对鉴权开关、令牌与公钥。
+默认服务端口为8080，默认监听回环且 `server.forward-headers-strategy=none`。可信来源仅取直连地址，不接受转发来源头；非回环的内网调用还要求直接加密连接。过滤器使用 Spring 实际路由的解码及矩阵参数语义分类，内部控制器在任何账号操作前还强制执行独立凭据守卫。公网代理须明确拒绝转发 `/internal/**` 及其规范化变体，防火墙限制后端直连端口，并从外网实测拒绝结果。账号浏览器流量可由同机 HTTPS 代理转入回环后端。
+
+`mvn spring-boot:run` 的本机进程通信临时目录由 `pom.xml` 配置到模块 `target/`。启动后验证实际读取及账号接口。密码使用 Argon2id，64 MiB、3 次迭代；最多一个活动密码任务、四个等待任务，排队不超过一秒；容量不足返回 503，认证限流返回 429 和 `Retry-After`。这些是初始资源上限，不是服务器容量实测。
+
+在模块目录显式运行下列工具可生成持久化密钥，应用自身绝不自动生成临时替代密钥：
+
+```powershell
+mvn -q -DskipTests compile dependency:build-classpath "-Dmdep.outputFile=target/runtime-classpath.txt"
+$authRuntime = 'target/classes;' + (Get-Content -Raw target/runtime-classpath.txt).Trim()
+java -cp $authRuntime xyz.game.datamanage.support.account.AuthKeyTool ../../config/auth
+```
+
+工具拒绝覆盖已有文件并收紧目录／文件权限；只输出目录和公钥元数据路径。`config/auth/` 被仓库忽略，其中 `aead-keyset.json`、`grant-private.pk8` 和 `internal-token.txt` 必须私密保存及备份，不进入日志或版本库。`grant-public.json` 是可分发的 `kid=wasm-1` 公钥元数据；更换公钥编号须同步受信任的 Wasm 构建。缺少私密配置时相关操作失败关闭，公共游戏读取仍然可用。清理构建会删除 `target/runtime-classpath.txt`，需要时重新生成。
 
 ## 验证与运维
 

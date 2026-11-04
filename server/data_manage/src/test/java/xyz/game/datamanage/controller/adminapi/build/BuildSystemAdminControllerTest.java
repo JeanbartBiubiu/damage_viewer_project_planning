@@ -31,24 +31,16 @@ import xyz.game.datamanage.service.build.BuildSystemService;
 import xyz.game.datamanage.service.skillrelation.BuildOptionSkillRelationService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = {BuildSystemAdminController.class, BuildOptionSkillRelationAdminController.class})
-@Import({AdminAuthFilter.class, GlobalExceptionHandler.class, BuildSystemAdminControllerTest.Transactions.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, GlobalExceptionHandler.class, BuildSystemAdminControllerTest.Transactions.class})
 class BuildSystemAdminControllerTest {
     private static final String ROOT = "/api/admin/games/lol";
     @Autowired MockMvc mvc;
     @MockitoBean BuildSystemService systems;
     @MockitoBean BuildOptionSkillRelationService relations;
     @MockitoBean GameDataService logs;
-    @MockitoBean JwtVerifier jwt;
-
-    @BeforeEach
-    void setup() {
-        when(jwt.isDisabled()).thenReturn(true);
-        when(jwt.developmentAuthContext()).thenReturn(new AuthContext("author@example.com", true, true));
-    }
 
     @Test
     void writesForwardAndLogWhileDefinitionStaysReadOnly() throws Exception {
@@ -57,7 +49,7 @@ class BuildSystemAdminControllerTest {
         when(systems.createSystem(eq("lol"), any())).thenReturn(system);
         mvc.perform(post(ROOT + "/build-systems").contentType(MediaType.APPLICATION_JSON).content("{\"systemKey\":\"runes\"}"))
             .andExpect(status().isCreated()).andExpect(jsonPath("$.systemKey").value("runes"));
-        verify(logs).recordEditLog(eq("author@example.com"), eq("POST"), eq(ROOT + "/build-systems"), any(JsonNode.class), eq(201));
+        verify(logs).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq("fixture_author"), eq("POST"), eq(ROOT + "/build-systems"), any(JsonNode.class), eq(201));
 
         when(systems.definition("lol", "runes")).thenReturn(new BuildDefinitionResponse(system, List.of(), List.of(), List.of()));
         mvc.perform(get(ROOT + "/build-systems/runes/definition"))
@@ -66,7 +58,7 @@ class BuildSystemAdminControllerTest {
             .andExpect(jsonPath("$.groups").isArray())
             .andExpect(jsonPath("$.options").isArray())
             .andExpect(jsonPath("$.skillRelations").isArray());
-        verify(logs, never()).recordEditLog(any(), eq("GET"), any(), any(), anyInt());
+        verify(logs, never()).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), any(), eq("GET"), any(), any(), anyInt());
     }
 
     @Test

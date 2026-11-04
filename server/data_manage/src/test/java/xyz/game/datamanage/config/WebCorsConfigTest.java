@@ -22,13 +22,13 @@ import xyz.game.datamanage.controller.publicapi.GamePublicController;
 import xyz.game.datamanage.service.GameDataService;
 import xyz.game.datamanage.service.image.ImageService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.JwtVerifier;
+
 
 @WebMvcTest(controllers = {GamePublicController.class, ImageAdminController.class})
-@Import({WebCorsConfig.class, AdminAuthFilter.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, WebCorsConfig.class, AdminAuthFilter.class})
 class WebCorsConfigTest {
 
-    private static final String ORIGIN = "http://localhost:5173";
+    private static final String ORIGIN = "https://localhost:5173";
 
     @Autowired
     private MockMvc mockMvc;
@@ -42,8 +42,7 @@ class WebCorsConfigTest {
     @MockitoBean
     private AdminEditLogHelper adminEditLogHelper;
 
-    @MockitoBean
-    private JwtVerifier jwtVerifier;
+
 
     @Test
     void publicGetResponseExposesEtagForCrossOriginFetch() throws Exception {
@@ -62,10 +61,10 @@ class WebCorsConfigTest {
             options("/api/admin/games/lol/images/icon")
                     .header(HttpHeaders.ORIGIN, ORIGIN)
                     .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "PUT")
-                    .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "Authorization, Content-Type, If-None-Match")
+                    .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "X-Damage-Client, Content-Type, If-None-Match")
             )
             .andExpect(status().isOk())
-            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*"))
+            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, ORIGIN))
             .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, containsString("PUT")))
             .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, containsString("If-None-Match")));
     }
@@ -75,10 +74,10 @@ class WebCorsConfigTest {
         mockMvc.perform(options("/api/admin/games/lol/skills/item_3110_passive/configuration")
                 .header(HttpHeaders.ORIGIN, ORIGIN)
                 .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "PATCH")
-                .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "Authorization, Content-Type"))
+                .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "X-Damage-Client, Content-Type"))
             .andExpect(status().isOk())
-            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*"))
+            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, ORIGIN))
             .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, containsString("PATCH")))
-            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, containsString("Authorization")));
+            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, containsString("X-Damage-Client")));
     }
 }

@@ -55,7 +55,7 @@ public class BuildSystemAdminController {
     public BuildSystemResponse create(@PathVariable("gameId") String gameId, @RequestBody JsonNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth, HttpServletRequest request) {
         BuildSystemResponse response = service.createSystem(gameId, body);
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(), body, 201);
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), body, 201);
         return response;
     }
 
@@ -76,7 +76,7 @@ public class BuildSystemAdminController {
         @RequestBody JsonNode body, @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request) {
         BuildSystemResponse response = service.updateSystem(gameId, systemKey, body);
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(), body, 200);
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), body, 200);
         return response;
     }
 
@@ -86,7 +86,7 @@ public class BuildSystemAdminController {
     public void delete(@PathVariable("gameId") String gameId, @PathVariable("systemKey") String systemKey,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth, HttpServletRequest request) {
         service.deleteSystem(gameId, systemKey);
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(),
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(),
             objectMapper.createObjectNode(), 204);
     }
 
@@ -103,7 +103,7 @@ public class BuildSystemAdminController {
         @PathVariable("systemKey") String systemKey, @RequestBody JsonNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth, HttpServletRequest request) {
         BuildGroupResponse response = service.createGroup(gameId, systemKey, body);
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(), body, 201);
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), body, 201);
         return response;
     }
 
@@ -119,7 +119,7 @@ public class BuildSystemAdminController {
         @PathVariable("systemKey") String systemKey, @PathVariable("groupKey") String groupKey, @RequestBody JsonNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth, HttpServletRequest request) {
         BuildGroupResponse response = service.updateGroup(gameId, systemKey, groupKey, body);
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(), body, 200);
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), body, 200);
         return response;
     }
 
@@ -130,7 +130,7 @@ public class BuildSystemAdminController {
         @PathVariable("groupKey") String groupKey, @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request) {
         service.deleteGroup(gameId, systemKey, groupKey);
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(),
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(),
             objectMapper.createObjectNode(), 204);
     }
 
@@ -147,7 +147,7 @@ public class BuildSystemAdminController {
         @PathVariable("systemKey") String systemKey, @RequestBody JsonNode body,
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth, HttpServletRequest request) {
         BuildOptionResponse response = service.createOption(gameId, systemKey, body);
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(), body, 201);
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), body, 201);
         return response;
     }
 
@@ -164,7 +164,7 @@ public class BuildSystemAdminController {
         @RequestBody JsonNode body, @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request) {
         BuildOptionResponse response = service.updateOption(gameId, systemKey, optionKey, body);
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(), body, 200);
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), body, 200);
         return response;
     }
 
@@ -175,7 +175,7 @@ public class BuildSystemAdminController {
         @PathVariable("optionKey") String optionKey, @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
         HttpServletRequest request) {
         service.deleteOption(gameId, systemKey, optionKey);
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(),
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(),
             objectMapper.createObjectNode(), 204);
     }
 }

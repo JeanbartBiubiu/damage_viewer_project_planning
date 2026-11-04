@@ -37,7 +37,7 @@ class ImageRelationWriteTransactionTest {
     private ImageRelationMapper mapper;
     private GameDataService gameData;
     private TestTransactionManager transactions;
-    private static final AuthContext AUTH = new AuthContext("author@example.com", true, true);
+    private static final AuthContext AUTH = new AuthContext(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author", true, java.util.UUID.fromString("00000000-0000-4000-8000-000000000002"), 1, java.time.Instant.parse("2099-01-01T00:00:00Z"));
 
     @BeforeEach
     void setup() {
@@ -60,7 +60,7 @@ class ImageRelationWriteTransactionTest {
             assertTrue(TransactionSynchronizationManager.isActualTransactionActive());
             assertEquals(0, transactions.commits);
             return null;
-        }).when(gameData).recordEditLog(anyString(), eq("PUT"), anyString(), any(), eq(200));
+        }).when(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), anyString(), eq("PUT"), anyString(), any(), eq(200));
 
         controller.put(Map.of("gameId", "lol"), request(), AUTH, http("PUT"));
 
@@ -75,7 +75,7 @@ class ImageRelationWriteTransactionTest {
 
         verify(mapper).deleteForSource("lol", "GAME", "", "lol");
         assertEquals(2, transactions.commits);
-        verify(gameData).recordEditLog(eq(AUTH.email()), eq("DELETE"), anyString(), any(), eq(204));
+        verify(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq(AUTH.username()), eq("DELETE"), anyString(), any(), eq(204));
     }
 
     @Test
@@ -89,8 +89,8 @@ class ImageRelationWriteTransactionTest {
         assertEquals(2, transactions.begins);
         assertEquals(2, transactions.commits);
         assertEquals(0, transactions.rollbacks);
-        verify(gameData).recordEditLog(eq(AUTH.email()), eq("PUT"), anyString(), any(), eq(200));
-        verify(gameData).recordEditLog(eq(AUTH.email()), eq("DELETE"), anyString(), any(), eq(204));
+        verify(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq(AUTH.username()), eq("PUT"), anyString(), any(), eq(200));
+        verify(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq(AUTH.username()), eq("DELETE"), anyString(), any(), eq(204));
     }
 
     @Test
@@ -112,7 +112,7 @@ class ImageRelationWriteTransactionTest {
         doAnswer(invocation -> {
             assertTrue(TransactionSynchronizationManager.isActualTransactionActive());
             throw new IllegalStateException("编辑日志写入失败");
-        }).when(gameData).recordEditLog(anyString(), anyString(), anyString(), any(), anyInt());
+        }).when(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), anyString(), anyString(), anyString(), any(), anyInt());
 
         assertThrows(IllegalStateException.class, () -> controller.put(Map.of("gameId", "lol"), request(), AUTH, http("PUT")));
 

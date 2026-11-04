@@ -29,10 +29,9 @@ import xyz.game.datamanage.service.GameDataService;
 import xyz.game.datamanage.service.imagerelation.ImageRelationService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 
 @WebMvcTest(controllers = ImageRelationAdminController.class)
-@Import({AdminAuthFilter.class, ImageRelationService.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, ImageRelationService.class})
 class ImageRelationAdminControllerTest {
     @MockitoBean private xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
     private static final String ROOT = "/api/admin/games/lol";
@@ -40,12 +39,10 @@ class ImageRelationAdminControllerTest {
     @MockitoBean GamesMapper games;
     @MockitoBean ImageRelationMapper mapper;
     @MockitoBean GameDataService gameData;
-    @MockitoBean JwtVerifier jwt;
+
 
     @BeforeEach
     void setup() {
-        when(jwt.isDisabled()).thenReturn(true);
-        when(jwt.developmentAuthContext()).thenReturn(new AuthContext("author@example.com", true, true));
         when(games.countGames("lol")).thenReturn(1L);
     }
 
@@ -76,7 +73,7 @@ class ImageRelationAdminControllerTest {
             .andExpect(status().isOk()).andExpect(content().json("{\"image\":{\"imageKey\":\"icon\",\"name\":\"图标\",\"enabled\":true}}"));
         verify(mapper).put("lol", type, parent, key, "icon");
         ArgumentCaptor<JsonNode> body = ArgumentCaptor.forClass(JsonNode.class);
-        verify(gameData).recordEditLog(eq("author@example.com"), eq("PUT"), eq(path), body.capture(), eq(200));
+        verify(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq("fixture_author"), eq("PUT"), eq(path), body.capture(), eq(200));
         assertEquals(type, body.getValue().get("sourceType").asText());
         assertEquals(parent, body.getValue().get("sourceParentKey").asText());
         assertFalse(body.getValue().has("imageBase64"));
@@ -86,7 +83,7 @@ class ImageRelationAdminControllerTest {
         when(mapper.deleteForSource("lol", type, parent, key)).thenReturn(1);
         mvc.perform(delete(path)).andExpect(status().isNoContent()).andExpect(content().string(""));
         verify(mapper).deleteForSource("lol", type, parent, key);
-        verify(gameData).recordEditLog(eq("author@example.com"), eq("DELETE"), eq(path), any(JsonNode.class), eq(204));
+        verify(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq("fixture_author"), eq("DELETE"), eq(path), any(JsonNode.class), eq(204));
     }
 
     @Test

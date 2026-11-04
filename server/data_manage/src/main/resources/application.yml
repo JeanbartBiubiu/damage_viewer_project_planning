@@ -1,7 +1,7 @@
 spring:
   datasource:
     username: postgres
-    password: postgresql123a123aA_
+    password: ${SPRING_DATASOURCE_PASSWORD:}
     url: jdbc:postgresql://192.168.5.6:5432/test0221
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
@@ -14,7 +14,14 @@ app:
   startup:
     fail-fast: false
   auth:
-    jwt:
-      disabled: ${APP_AUTH_JWT_DISABLED:true}
-      es256-public-key-pem: ${IT_ADMIN_JWT_ES256_PUBLIC_KEY_PEM:MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEPogZ3IHtc+zE4vC+RVV9sr57Gj9zUCougpYPzjXZgknKELUlprAO60O8xDuW6ptu5hdwTP5Xgh6se1241KGf4A==}
-      exp-leeway: ${IT_ADMIN_JWT_EXP_LEEWAY:30s}
+    allowed-origins: ${APP_AUTH_ALLOWED_ORIGINS:https://localhost:5173}
+    aead-keyset-path: ${APP_AUTH_AEAD_KEYSET_PATH:../../config/auth/aead-keyset.json}
+    aead-key-id: ${APP_AUTH_AEAD_KEY_ID:auth-aead-1}
+    grant-private-key-path: ${APP_AUTH_GRANT_PRIVATE_KEY_PATH:../../config/auth/grant-private.pk8}
+    grant-key-id: ${APP_AUTH_GRANT_KEY_ID:wasm-1}
+    internal-token-path: ${APP_AUTH_INTERNAL_TOKEN_PATH:../../config/auth/internal-token.txt}
+    internal-trusted-addresses: ${APP_AUTH_INTERNAL_TRUSTED_ADDRESSES:127.0.0.1,::1}
+    cleanup-enabled: ${APP_AUTH_CLEANUP_ENABLED:true}
+server:
+  address: ${SERVER_ADDRESS:127.0.0.1}
+  forward-headers-strategy: none

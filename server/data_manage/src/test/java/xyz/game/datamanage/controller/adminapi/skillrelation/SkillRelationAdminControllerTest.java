@@ -49,15 +49,15 @@ import xyz.game.datamanage.service.GameDataService;
 import xyz.game.datamanage.service.skillrelation.SkillRelationService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = {CharacterSkillRelationAdminController.class, EquipmentSkillRelationAdminController.class})
-@Import({AdminAuthFilter.class, GlobalExceptionHandler.class, SkillRelationService.class, SkillRelationAdminControllerTest.Transactions.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, GlobalExceptionHandler.class, SkillRelationService.class, SkillRelationAdminControllerTest.Transactions.class})
 class SkillRelationAdminControllerTest {
     @MockitoBean private xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
 
     @Autowired private MockMvc mockMvc;
+    @Autowired private xyz.game.datamanage.support.account.AccountSessions sessions;
     @Autowired private RecordingTransactionManager transactions;
     @MockitoBean private GamesMapper gamesMapper;
     @MockitoBean private CharacterMapper characterMapper;
@@ -65,12 +65,12 @@ class SkillRelationAdminControllerTest {
     @MockitoBean private SkillMapper skillMapper;
     @MockitoBean private SkillRelationMapper mapper;
     @MockitoBean private GameDataService gameDataService;
-    @MockitoBean private JwtVerifier jwtVerifier;
+
 
     @BeforeEach
     void setUp() {
-        when(jwtVerifier.isDisabled()).thenReturn(true);
-        when(jwtVerifier.developmentAuthContext()).thenReturn(new AuthContext("admin@example.com", true, true));
+        when(sessions.resolve(any())).thenReturn(new xyz.game.datamanage.support.account.AccountSessions.Resolved(
+            xyz.game.datamanage.support.auth.AccountControllerTestConfig.editor(),xyz.game.datamanage.support.account.AccountCrypto.hash("c".repeat(43))));
         when(gamesMapper.countGames("lol")).thenReturn(1L);
         transactions.commits = 0;
         transactions.rollbacks = 0;
@@ -118,9 +118,9 @@ class SkillRelationAdminControllerTest {
             .andExpect(jsonPath("$.skillKey").value("fire"));
         mockMvc.perform(delete(base + "/source/fire")).andExpect(status().isNoContent());
 
-        verify(gameDataService).recordEditLog(eq("admin@example.com"), eq("POST"), eq(base), any(), eq(201));
-        verify(gameDataService).recordEditLog(eq("admin@example.com"), eq("PUT"), eq(base + "/source/fire"), any(), eq(200));
-        verify(gameDataService).recordEditLog(eq("admin@example.com"), eq("DELETE"), eq(base + "/source/fire"), any(), eq(204));
+        verify(gameDataService).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq("fixture_author"), eq("POST"), eq(base), any(), eq(201));
+        verify(gameDataService).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq("fixture_author"), eq("PUT"), eq(base + "/source/fire"), any(), eq(200));
+        verify(gameDataService).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq("fixture_author"), eq("DELETE"), eq(base + "/source/fire"), any(), eq(204));
     }
 
     @ParameterizedTest
@@ -132,7 +132,7 @@ class SkillRelationAdminControllerTest {
             .andExpect(jsonPath("$.error.code").value("400.VALIDATION_FAILED"))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("sortOrder"));
         verify(mapper, never()).insertCharacterRelation(any(), any(), any(), anyInt());
-        verify(gameDataService, never()).recordEditLog(any(), any(), any(), any(), anyInt());
+        verify(gameDataService, never()).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), any(), any(), any(), any(), anyInt());
     }
 
     @ParameterizedTest
@@ -154,7 +154,7 @@ class SkillRelationAdminControllerTest {
                 .content("{\"sortOrder\":0,\"unknownFields\":[]}"))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("unknownFields"));
-        verify(gameDataService, never()).recordEditLog(any(), any(), any(), any(), anyInt());
+        verify(gameDataService, never()).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), any(), any(), any(), any(), anyInt());
     }
 
     @Test
@@ -170,10 +170,8 @@ class SkillRelationAdminControllerTest {
 
     @Test
     void existingAdminPermissionsProtectWrites() throws Exception {
-        when(jwtVerifier.isDisabled()).thenReturn(false);
-        when(jwtVerifier.verify("test-token")).thenReturn(new AuthContext("viewer@example.com", false, false));
+        when(sessions.resolve(any())).thenReturn(new xyz.game.datamanage.support.account.AccountSessions.Resolved(new AuthContext(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author", false, java.util.UUID.fromString("00000000-0000-4000-8000-000000000002"), 1, java.time.Instant.parse("2099-01-01T00:00:00Z")),new byte[32]));
         mockMvc.perform(post("/api/admin/games/lol/character-skill-relations")
-                .header("Authorization", "Bearer test-token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"characterKey\":\"source\",\"skillKey\":\"fire\",\"sortOrder\":0}"))
             .andExpect(status().isForbidden());
@@ -194,7 +192,7 @@ class SkillRelationAdminControllerTest {
             assertTrue(TransactionSynchronizationManager.isActualTransactionActive());
             assertEquals(0, transactions.commits);
             throw new IllegalStateException("测试日志写入失败");
-        }).when(gameDataService).recordEditLog(any(), any(), any(), any(), anyInt());
+        }).when(gameDataService).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), any(), any(), any(), any(), anyInt());
 
         mockMvc.perform(post("/api/admin/games/lol/character-skill-relations")
                 .contentType(MediaType.APPLICATION_JSON)

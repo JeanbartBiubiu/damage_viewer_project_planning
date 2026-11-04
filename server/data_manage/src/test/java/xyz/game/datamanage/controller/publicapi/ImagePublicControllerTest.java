@@ -15,9 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import xyz.game.datamanage.model.image.ImagePublicItemResponse;
 import xyz.game.datamanage.model.image.ImagePublicListResponse;
 import xyz.game.datamanage.service.image.ImageService;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 
 @WebMvcTest(controllers = ImagePublicController.class)
+@org.springframework.context.annotation.Import(xyz.game.datamanage.support.auth.AccountControllerTestConfig.class)
 class ImagePublicControllerTest {
 
     @Autowired
@@ -26,8 +26,7 @@ class ImagePublicControllerTest {
     @MockitoBean
     private ImageService imageService;
 
-    @MockitoBean
-    private JwtVerifier jwtVerifier;
+
 
     @Test
     void getImagesReturnsStoredPayload() throws Exception {

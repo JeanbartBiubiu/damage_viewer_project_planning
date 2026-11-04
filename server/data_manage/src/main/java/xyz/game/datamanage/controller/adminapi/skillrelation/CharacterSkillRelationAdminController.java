@@ -60,7 +60,7 @@ public class CharacterSkillRelationAdminController {
     ) {
         CharacterSkillRelationResponse response = service.createCharacterRelation(gameId, body);
         gameDataService.recordEditLog(
-            auth.email(), request.getMethod(), request.getRequestURI(), objectMapper.valueToTree(body), 201
+            auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), objectMapper.valueToTree(body), 201
         );
         return response;
     }
@@ -77,7 +77,7 @@ public class CharacterSkillRelationAdminController {
     ) {
         CharacterSkillRelationResponse response = service.updateCharacterRelation(gameId, characterKey, skillKey, body);
         gameDataService.recordEditLog(
-            auth.email(), request.getMethod(), request.getRequestURI(), objectMapper.valueToTree(body), 200
+            auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), objectMapper.valueToTree(body), 200
         );
         return response;
     }
@@ -94,7 +94,7 @@ public class CharacterSkillRelationAdminController {
     ) {
         service.deleteCharacterRelation(gameId, characterKey, skillKey);
         gameDataService.recordEditLog(
-            auth.email(), request.getMethod(), request.getRequestURI(), objectMapper.createObjectNode(), 204
+            auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), objectMapper.createObjectNode(), 204
         );
     }
 }

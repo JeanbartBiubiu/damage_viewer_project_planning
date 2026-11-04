@@ -31,12 +31,11 @@ import xyz.game.datamanage.model.damagetype.DamageTypeFormulaResponse;
 import xyz.game.datamanage.service.damagetype.DamageTypeService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = DamageTypeAdminController.class)
-@Import({AdminAuthFilter.class, GlobalExceptionHandler.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, GlobalExceptionHandler.class})
 class DamageTypeFormulaAdminControllerTest {
 
     private static final String PATH = "/api/admin/games/lol/damage-types/physical/formula";
@@ -44,14 +43,6 @@ class DamageTypeFormulaAdminControllerTest {
     @Autowired private MockMvc mockMvc;
     @MockitoBean private DamageTypeService service;
     @MockitoBean private AdminEditLogHelper logHelper;
-    @MockitoBean private JwtVerifier jwtVerifier;
-
-    @BeforeEach
-    void enableDevelopmentAdmin() {
-        when(jwtVerifier.isDisabled()).thenReturn(true);
-        when(jwtVerifier.developmentAuthContext())
-            .thenReturn(new AuthContext("admin@example.com", true, true));
-    }
 
     @Test
     void getsPutsAndDeletesFormula() throws Exception {

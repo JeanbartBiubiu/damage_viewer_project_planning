@@ -27,17 +27,18 @@ import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Selection
 import xyz.game.datamanage.service.simulation.SimulationSnapshotService;
 import xyz.game.datamanage.service.simulation.SnapshotSelectionParser;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
+import xyz.game.datamanage.support.account.*;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
+@org.springframework.context.annotation.Import(xyz.game.datamanage.support.auth.AccountControllerTestConfig.class)
 class SimulationSnapshotAdminControllerTest {
     private static final String URL = "/api/admin/games/lol/simulation-snapshot";
     private static final Selection CHOICE = new Selection("hero_a", 1, "hero_b", 2,
         "shared_basic_attack", 1, List.of(), List.of(), List.of(), List.of(), List.of(), List.of(), List.of());
     private final SimulationSnapshotService service = mock(SimulationSnapshotService.class);
-    private final JwtVerifier verifier = mock(JwtVerifier.class);
+    private final AccountSessions verifier = mock(AccountSessions.class);
     private ObjectMapper json;
     private MockMvc mvc;
 
@@ -48,9 +49,7 @@ class SimulationSnapshotAdminControllerTest {
         mvc = MockMvcBuilders.standaloneSetup(new SimulationSnapshotAdminController(service))
             .setControllerAdvice(new GlobalExceptionHandler())
             .setMessageConverters(new MappingJackson2HttpMessageConverter(json))
-            .addFilters(new AdminAuthFilter(json, verifier)).build();
-        when(verifier.isDisabled()).thenReturn(true);
-        when(verifier.developmentAuthContext()).thenReturn(new AuthContext("test@example.invalid", true, true));
+            .addFilters(new AdminAuthFilter(json, verifier, new AccountBrowser(new AccountProperties()))).build();
     }
 
     @Test
@@ -71,12 +70,10 @@ class SimulationSnapshotAdminControllerTest {
     }
 
     @Test
-    void authenticationAndEditPermissionStillApply() throws Exception {
-        when(verifier.isDisabled()).thenReturn(false);
-        mvc.perform(request(body())).andExpect(status().isUnauthorized());
-        when(verifier.verify("fixture")).thenReturn(new AuthContext("test@example.invalid", false, false));
-        mvc.perform(request(body()).header("Authorization", "Bearer fixture")).andExpect(status().isForbidden());
-        verifyNoInteractions(service);
+    void anonymousReadIgnoresInvalidCookieAndNoCsrfIsRequired() throws Exception {
+        mvc.perform(request(body()).cookie(new jakarta.servlet.http.Cookie("__Host-dv_session", "invalid")))
+            .andExpect(status().isOk());
+        verifyNoInteractions(verifier);
     }
 
     @ParameterizedTest

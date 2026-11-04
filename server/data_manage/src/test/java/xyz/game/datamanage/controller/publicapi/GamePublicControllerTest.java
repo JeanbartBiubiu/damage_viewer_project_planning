@@ -30,10 +30,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import xyz.game.datamanage.service.GameDataService;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.ApiException;
 
 @WebMvcTest(controllers = GamePublicController.class)
+@org.springframework.context.annotation.Import(xyz.game.datamanage.support.auth.AccountControllerTestConfig.class)
 class GamePublicControllerTest {
 
     @Autowired
@@ -45,8 +45,7 @@ class GamePublicControllerTest {
     @MockitoBean
     private GameDataService gameDataService;
 
-    @MockitoBean
-    private JwtVerifier jwtVerifier;
+
 
     @Test
     void listGamesReturnsOnlyFrozenSummaryFields() throws Exception {

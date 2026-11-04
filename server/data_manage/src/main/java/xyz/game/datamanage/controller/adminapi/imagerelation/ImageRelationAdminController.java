@@ -79,7 +79,7 @@ public class ImageRelationAdminController {
         RepresentativeImageResponse response = service.put(path.get("gameId"), target.type(), target.parent(), target.key(), body);
         ObjectNode logBody = logBody(path.get("gameId"), target);
         logBody.put("imageKey", body.imageKey());
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(), logBody, 200);
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), logBody, 200);
         return response;
     }
 
@@ -103,7 +103,7 @@ public class ImageRelationAdminController {
     ) {
         Target target = target(path);
         service.delete(path.get("gameId"), target.type(), target.parent(), target.key());
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(),
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(),
             logBody(path.get("gameId"), target), 204);
     }
 

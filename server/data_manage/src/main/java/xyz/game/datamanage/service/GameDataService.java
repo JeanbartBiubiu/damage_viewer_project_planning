@@ -22,7 +22,7 @@ public class GameDataService {
         return readStore.listGames();
     }
 
-    public void recordEditLog(String email, String method, String path, JsonNode requestBody, int responseCode) {
-        writeStore.recordEditLog(email, method, path, requestBody, responseCode);
+    public void recordEditLog(java.util.UUID accountId, String username, String method, String path, JsonNode requestBody, int responseCode) {
+        writeStore.recordEditLog(accountId, username, method, path, requestBody, responseCode);
     }
 }

@@ -56,7 +56,7 @@ public class BuildOptionSkillRelationAdminController {
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth, HttpServletRequest request
     ) {
         BuildOptionSkillRelationResponse response = service.create(gameId, body);
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(), body, 201);
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), body, 201);
         return response;
     }
 
@@ -68,7 +68,7 @@ public class BuildOptionSkillRelationAdminController {
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth, HttpServletRequest request
     ) {
         BuildOptionSkillRelationResponse response = service.update(gameId, systemKey, optionKey, skillKey, body);
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(), body, 200);
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), body, 200);
         return response;
     }
 
@@ -81,7 +81,7 @@ public class BuildOptionSkillRelationAdminController {
         @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth, HttpServletRequest request
     ) {
         service.delete(gameId, systemKey, optionKey, skillKey);
-        gameDataService.recordEditLog(auth.email(), request.getMethod(), request.getRequestURI(),
+        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(),
             objectMapper.createObjectNode(), 204);
     }
 }

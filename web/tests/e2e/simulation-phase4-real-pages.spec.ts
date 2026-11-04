@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { test, expect, type APIResponse, type Page } from '@playwright/test';
+import { test, expect, type Page, type Response } from '@playwright/test';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import type { SkillActionArchive } from '../../src/pages/simulation/SimulationScenarioPanel';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
@@ -9,7 +9,6 @@ import { simulationSkillSourceIdentity } from '../../src/services/simulationSkil
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
 import { expectSimulationConfigurationReady } from '../fixtures/simulationSnapshotRequests';
 
-const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:18082';
 const proofDirectory = resolve('output/formula-phase4-real-pages');
 async function selectOption(page: Page, label: string, option: string) {
   const select = page.getByLabel(label, { exact: true });
@@ -17,9 +16,9 @@ async function selectOption(page: Page, label: string, option: string) {
   await page.locator(`#${await select.getAttribute('aria-controls')}`).getByRole('option', { name: option, exact: true }).click();
 }
 async function readSnapshot(page: Page) {
-  const responses: APIResponse[] = [];
-  const isSnapshot = (response: APIResponse) => response.url().endsWith('/simulation-snapshot') && response.request().method() === 'POST';
-  const observe = (response: APIResponse) => { if (isSnapshot(response)) responses.push(response); };
+  const responses: Response[] = [];
+  const isSnapshot = (response: Response) => response.url().endsWith('/simulation-snapshot') && response.request().method() === 'POST';
+  const observe = (response: Response) => { if (isSnapshot(response)) responses.push(response); };
   page.on('response', observe);
   try {
     const receiving = page.waitForResponse(isSnapshot);
@@ -43,8 +42,15 @@ for (const sample of [
     if (['POST', 'PATCH', 'PUT', 'DELETE'].includes(request.method()) && !request.url().endsWith('/simulation-snapshot')) writes.push(request.method() + ' ' + new URL(request.url()).pathname);
   });
   page.on('pageerror', error => errors.push(error.message));
-  await page.addInitScript(({ apiBase }) => {
-  }, { apiBase });
+  await page.addInitScript(() => {
+    const evidence = { messages: [] as string[] };
+    (window as typeof window & { accountPageWorkerEvidence: typeof evidence }).accountPageWorkerEvidence = evidence;
+    const send = Worker.prototype.postMessage;
+    Worker.prototype.postMessage = function(message, ...options) {
+      if (message && typeof message === 'object' && typeof message.type === 'string') evidence.messages.push(message.type);
+      return Reflect.apply(send, this, [message, ...options]);
+    };
+  });
   await page.goto('/#/simulation/basic-attack');
   const bytes = await (await page.request.get('/src/engine/wasm/tinygo_engine_v2.wasm')).body();
   expect(bytes.length).toBe(WASM_IDENTITY.bytes);
@@ -99,9 +105,13 @@ for (const sample of [
   for (const key of ['resistanceBeforePenetration', 'penetrationPercent', 'penetrationFlat', 'effectiveResistance']) expect(damage).not.toHaveProperty(key);
   expect(writes).toEqual([]);
   expect(errors).toEqual([]);
-  await expect.poll(() => page.workers().length).toBe(0);
+  // 释放由真实响应及档案确认；页面可以继续复用同一个工作线程。
+  const workerEvidence = await page.evaluate(() =>
+    (window as typeof window & { accountPageWorkerEvidence: { messages: string[] } }).accountPageWorkerEvidence);
+  for (const type of ['compile', 'run', 'release']) expect(workerEvidence.messages).toContain(type);
   writeFileSync(resolve(proofDirectory, `${sample.skillKey}-page-checks.json`), JSON.stringify({ wasm: WASM_IDENTITY,
-    businessWrites: writes, errors, selection: snapshot.selection, summary: archive.runResult!.summary, cleanup: archive.cleanup }, null, 2));
+    businessWrites: writes, errors, selection: snapshot.selection, summary: archive.runResult!.summary, cleanup: archive.cleanup,
+    workerMessages: workerEvidence.messages }, null, 2));
   await info.attach('真实页面主动冻结档案', { path: artifactPath, contentType: 'application/json' });
   await page.screenshot({ path: resolve(proofDirectory, `${sample.skillKey}-page.png`), fullPage: true, mask: [page.locator('.app-toolbar')] });
 });

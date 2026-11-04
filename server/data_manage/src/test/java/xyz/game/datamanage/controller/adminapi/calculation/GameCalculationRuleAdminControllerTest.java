@@ -53,7 +53,7 @@ class GameCalculationRuleAdminControllerTest {
             .andExpect(jsonPath("$.configuration").value(org.hamcrest.Matchers.nullValue())).andReturn();
         String digest = new ObjectMapper().readTree(before.getResponse().getContentAsString()).path("baseDigest").textValue();
         mvc.perform(put(PATH).contentType(MediaType.APPLICATION_JSON).content(body(digest, "0"))
-                .requestAttr(AdminAuthFilter.AUTH_CONTEXT_ATTR, new AuthContext("admin@example.com", true, true)))
+                .requestAttr(AdminAuthFilter.AUTH_CONTEXT_ATTR, new AuthContext(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author", true, java.util.UUID.fromString("00000000-0000-4000-8000-000000000002"), 1, java.time.Instant.parse("2099-01-01T00:00:00Z"))))
             .andExpect(status().isOk()).andExpect(jsonPath("$.configuration.criticalMultiplierMin").value(0))
             .andExpect(jsonPath("$.configuration.criticalChanceAttributeKey").value(org.hamcrest.Matchers.nullValue()));
         mvc.perform(get(PATH)).andExpect(status().isOk()).andExpect(jsonPath("$.configuration.criticalMultiplierMin").value(0))
@@ -66,7 +66,7 @@ class GameCalculationRuleAdminControllerTest {
         service.replace("example", xyz.game.datamanage.support.authoring.AggregateJson.tree(body(digest, "null")));
         String current = service.get("example").baseDigest();
         mvc.perform(put(PATH).contentType(MediaType.APPLICATION_JSON).content(body(digest, "1"))
-                .requestAttr(AdminAuthFilter.AUTH_CONTEXT_ATTR, new AuthContext("admin@example.com", true, true)))
+                .requestAttr(AdminAuthFilter.AUTH_CONTEXT_ATTR, new AuthContext(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author", true, java.util.UUID.fromString("00000000-0000-4000-8000-000000000002"), 1, java.time.Instant.parse("2099-01-01T00:00:00Z"))))
             .andExpect(status().isConflict()).andExpect(jsonPath("$.error.code").value("409.GAME_CALCULATION_RULES_CHANGED"))
             .andExpect(jsonPath("$.error.details.baseDigest").value(current));
         verifyNoInteractions(logs);
@@ -75,7 +75,7 @@ class GameCalculationRuleAdminControllerTest {
     @Test void unknownFieldReturnsValidationPointerInsteadOfBeingIgnoredByDeserialization() throws Exception {
         String request = body(service.get("example").baseDigest(), "null").replace("\"attributeDerivations\":[]", "\"attributeDerivations\":[],\"oldRules\":[]");
         mvc.perform(put(PATH).contentType(MediaType.APPLICATION_JSON).content(request)
-                .requestAttr(AdminAuthFilter.AUTH_CONTEXT_ATTR, new AuthContext("admin@example.com", true, true)))
+                .requestAttr(AdminAuthFilter.AUTH_CONTEXT_ATTR, new AuthContext(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author", true, java.util.UUID.fromString("00000000-0000-4000-8000-000000000002"), 1, java.time.Instant.parse("2099-01-01T00:00:00Z"))))
             .andExpect(status().isBadRequest()).andExpect(jsonPath("$.error.code").value("400.VALIDATION_FAILED"))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("/configuration/oldRules"))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].code").value("UNKNOWN_FIELD"));
@@ -89,7 +89,7 @@ class GameCalculationRuleAdminControllerTest {
         var request = new ObjectMapper().readTree(body(service.get("example").baseDigest(), "null"));
         ((com.fasterxml.jackson.databind.node.ObjectNode) request.get("configuration")).remove(field);
         mvc.perform(put(PATH).contentType(MediaType.APPLICATION_JSON).content(request.toString())
-                .requestAttr(AdminAuthFilter.AUTH_CONTEXT_ATTR, new AuthContext("admin@example.com", true, true)))
+                .requestAttr(AdminAuthFilter.AUTH_CONTEXT_ATTR, new AuthContext(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author", true, java.util.UUID.fromString("00000000-0000-4000-8000-000000000002"), 1, java.time.Instant.parse("2099-01-01T00:00:00Z"))))
             .andExpect(status().isBadRequest()).andExpect(jsonPath("$.error.code").value("400.VALIDATION_FAILED"))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("/configuration/" + field))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].code").value("REQUIRED"));

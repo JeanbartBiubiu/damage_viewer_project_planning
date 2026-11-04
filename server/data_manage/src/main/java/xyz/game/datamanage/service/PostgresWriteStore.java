@@ -23,7 +23,8 @@ public class PostgresWriteStore {
     }
 
     @Transactional
-    public void recordEditLog(String email, String method, String path, JsonNode requestBody, int responseCode) {
+    public void recordEditLog(java.util.UUID accountId, String username, String method, String path, JsonNode requestBody, int responseCode) {
+        if (accountId == null || username == null || username.isBlank()) throw new IllegalArgumentException("编辑身份不能为空");
         ObjectNode editBody = objectMapper.createObjectNode();
         editBody.put("method", method);
         editBody.put("path", path);
@@ -38,7 +39,7 @@ public class PostgresWriteStore {
             serialized = "{\"method\":\"" + method + "\",\"path\":\"" + path + "\"}";
         }
 
-        editLogMapper.insertEditLog(email, serialized);
+        editLogMapper.insertEditLog(accountId, username, serialized);
         editLogMapper.deleteExpiredEditLogs();
     }
 }

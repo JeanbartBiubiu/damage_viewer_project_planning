@@ -38,11 +38,10 @@ import xyz.game.datamanage.model.status.StatusUpdateRequest;
 import xyz.game.datamanage.service.status.StatusService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = StatusAdminController.class)
-@Import({AdminAuthFilter.class, GlobalExceptionHandler.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, GlobalExceptionHandler.class})
 class StatusAdminControllerTest {
 
     private static final String BASE_PATH = "/api/admin/games/lol/statuses";
@@ -50,14 +49,6 @@ class StatusAdminControllerTest {
     @Autowired private MockMvc mockMvc;
     @MockitoBean private StatusService service;
     @MockitoBean private AdminEditLogHelper logHelper;
-    @MockitoBean private JwtVerifier jwtVerifier;
-
-    @BeforeEach
-    void enableDevelopmentAdmin() {
-        when(jwtVerifier.isDisabled()).thenReturn(true);
-        when(jwtVerifier.developmentAuthContext())
-            .thenReturn(new AuthContext("admin@example.com", true, true));
-    }
 
     @ParameterizedTest
     @CsvSource({"STUN,poison,中毒", "AIRBORNE,airborne,击飞"})

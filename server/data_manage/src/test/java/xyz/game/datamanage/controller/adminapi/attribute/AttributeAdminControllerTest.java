@@ -48,12 +48,11 @@ import xyz.game.datamanage.model.attribute.AttributeValueType;
 import xyz.game.datamanage.service.attribute.AttributeService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = AttributeAdminController.class)
-@Import({AdminAuthFilter.class, GlobalExceptionHandler.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, GlobalExceptionHandler.class})
 class AttributeAdminControllerTest {
 
     private static final String GAME_ID = "lol";
@@ -62,16 +61,16 @@ class AttributeAdminControllerTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private ObjectMapper objectMapper;
+    @Autowired private xyz.game.datamanage.support.account.AccountSessions sessions;
 
     @MockitoBean private AttributeService service;
     @MockitoBean private AdminEditLogHelper adminEditLogHelper;
-    @MockitoBean private JwtVerifier jwtVerifier;
+
 
     @BeforeEach
     void enableDevelopmentAdmin() {
-        when(jwtVerifier.isDisabled()).thenReturn(true);
-        when(jwtVerifier.developmentAuthContext())
-            .thenReturn(new AuthContext("author@example.com", true, true));
+        when(sessions.resolve(any())).thenReturn(new xyz.game.datamanage.support.account.AccountSessions.Resolved(
+            xyz.game.datamanage.support.auth.AccountControllerTestConfig.editor(),xyz.game.datamanage.support.account.AccountCrypto.hash("c".repeat(43))));
     }
 
     @Test
@@ -356,27 +355,24 @@ class AttributeAdminControllerTest {
     }
 
     @Test
-    void getPostAndPutAllRequireAdminAuthentication() throws Exception {
-        when(jwtVerifier.isDisabled()).thenReturn(false);
-
-        mockMvc.perform(get(BASE_PATH)).andExpect(status().isUnauthorized());
+    void readsAreAnonymousAndWritesRequireSession() throws Exception {
+        when(sessions.resolve(any())).thenThrow(xyz.game.datamanage.support.account.AccountErrors.invalid());
+        mockMvc.perform(get(BASE_PATH)).andExpect(status().isOk());
         mockMvc.perform(postJson(BASE_PATH, validCreateJson())).andExpect(status().isUnauthorized());
         mockMvc.perform(putJson(BASE_PATH + "/" + ATTRIBUTE_KEY, validUpdateJson()))
             .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(service);
+        verify(service).list(eq(GAME_ID), any(AttributeListQuery.class));
         verifyNoInteractions(adminEditLogHelper);
     }
 
     @Test
     void deniesAuthenticatedCallerWithoutEditPermission() throws Exception {
-        when(jwtVerifier.isDisabled()).thenReturn(false);
-        when(jwtVerifier.verify("reader-token"))
-            .thenReturn(new AuthContext("reader@example.com", false, true));
-
-        mockMvc.perform(get(BASE_PATH).header("Authorization", "Bearer reader-token"))
+        when(sessions.resolve(any()))
+            .thenReturn(new xyz.game.datamanage.support.account.AccountSessions.Resolved(new AuthContext(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author", false, java.util.UUID.fromString("00000000-0000-4000-8000-000000000002"), 1, java.time.Instant.parse("2099-01-01T00:00:00Z")),new byte[32]));
+        mockMvc.perform(postJson(BASE_PATH,validCreateJson()))
             .andExpect(status().isForbidden())
-            .andExpect(jsonPath("$.error.code").value("403.FORBIDDEN"));
+            .andExpect(jsonPath("$.error.code").value("AUTH.EDIT_REQUIRED"));
 
         verifyNoInteractions(service);
     }

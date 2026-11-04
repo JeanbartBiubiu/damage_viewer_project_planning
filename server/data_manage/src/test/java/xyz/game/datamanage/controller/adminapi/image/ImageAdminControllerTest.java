@@ -34,10 +34,9 @@ import xyz.game.datamanage.model.image.ImageUpdateRequest;
 import xyz.game.datamanage.service.image.ImageService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 
 @WebMvcTest(controllers = ImageAdminController.class)
-@Import(AdminAuthFilter.class)
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class})
 class ImageAdminControllerTest {
 
     @Autowired
@@ -48,16 +47,6 @@ class ImageAdminControllerTest {
 
     @MockitoBean
     private AdminEditLogHelper adminEditLogHelper;
-
-    @MockitoBean
-    private JwtVerifier jwtVerifier;
-
-    @BeforeEach
-    void enableDevelopmentAdmin() {
-        when(jwtVerifier.isDisabled()).thenReturn(true);
-        when(jwtVerifier.developmentAuthContext())
-            .thenReturn(new AuthContext("author@example.com", true, true));
-    }
 
     @Test
     void listAndGetUseFrozenImageKeyContract() throws Exception {

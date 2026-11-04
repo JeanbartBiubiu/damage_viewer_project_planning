@@ -6,7 +6,8 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface EditLogMapper {
 
-    int insertEditLog(@Param("email") String email, @Param("editBody") String editBody);
+    int insertEditLog(@Param("accountId") java.util.UUID accountId,
+                      @Param("username") String username, @Param("editBody") String editBody);
 
     int deleteExpiredEditLogs();
 }

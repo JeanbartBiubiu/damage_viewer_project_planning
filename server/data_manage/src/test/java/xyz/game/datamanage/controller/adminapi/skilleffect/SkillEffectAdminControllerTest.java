@@ -62,12 +62,11 @@ import xyz.game.datamanage.service.skilleffect.SkillEffectService;
 import xyz.game.datamanage.service.skilltrigger.reference.SkillTriggerReferenceGuard;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = SkillEffectAdminController.class)
-@Import({AdminAuthFilter.class, GlobalExceptionHandler.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, GlobalExceptionHandler.class})
 class SkillEffectAdminControllerTest {
 
     private static final String BASE_PATH = "/api/admin/games/lol/skills/ezreal_q/effects";
@@ -76,14 +75,6 @@ class SkillEffectAdminControllerTest {
     @Autowired private MockMvc mockMvc;
     @MockitoBean private SkillEffectService service;
     @MockitoBean private AdminEditLogHelper logHelper;
-    @MockitoBean private JwtVerifier jwtVerifier;
-
-    @BeforeEach
-    void enableDevelopmentAdmin() {
-        when(jwtVerifier.isDisabled()).thenReturn(true);
-        when(jwtVerifier.developmentAuthContext())
-            .thenReturn(new AuthContext("admin@example.com", true, true));
-    }
 
     @Test
     void cooldownDurationJsonAcceptedAndIndependentGetKeepsOnlyItsScope() throws Exception {

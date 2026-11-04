@@ -22,17 +22,15 @@ import xyz.game.datamanage.support.auth.*;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = GameVampRuleAdminController.class)
-@Import({AdminAuthFilter.class, GlobalExceptionHandler.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, GlobalExceptionHandler.class})
 class GameVampRuleAdminControllerTest {
     private static final String PATH = "/api/admin/games/lol/vamp-rules";
     @Autowired private MockMvc mvc;
     @MockitoBean private GameVampRuleService service;
     @MockitoBean private AdminEditLogHelper logs;
-    @MockitoBean private JwtVerifier auth;
+
 
     @BeforeEach void enableDevelopmentAdmin() {
-        when(auth.isDisabled()).thenReturn(true);
-        when(auth.developmentAuthContext()).thenReturn(new AuthContext("admin@example.com", true, true));
     }
 
     @Test void getsAndReplacesCompleteCollection() throws Exception {

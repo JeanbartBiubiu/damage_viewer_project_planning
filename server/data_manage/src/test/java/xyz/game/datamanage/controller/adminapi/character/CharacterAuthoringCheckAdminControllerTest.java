@@ -20,14 +20,16 @@ import xyz.game.datamanage.model.character.CharacterAuthoringCheckResponse.*;
 import xyz.game.datamanage.service.character.CharacterAuthoringCheckService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
+import xyz.game.datamanage.support.account.AccountSessions;
+import xyz.game.datamanage.support.account.AccountBrowser;
+import xyz.game.datamanage.support.account.AccountProperties;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 class CharacterAuthoringCheckAdminControllerTest {
     private static final String URL = "/api/admin/games/lol/characters/hero/authoring-check";
     private final CharacterAuthoringCheckService service = mock(CharacterAuthoringCheckService.class);
-    private final JwtVerifier verifier = mock(JwtVerifier.class);
+    private final AccountSessions verifier = mock(AccountSessions.class);
     private MockMvc mvc;
 
     @BeforeEach
@@ -36,9 +38,7 @@ class CharacterAuthoringCheckAdminControllerTest {
         mvc = MockMvcBuilders.standaloneSetup(new CharacterAuthoringCheckAdminController(service))
             .setControllerAdvice(new GlobalExceptionHandler())
             .setMessageConverters(new MappingJackson2HttpMessageConverter(objectMapper))
-            .addFilters(new AdminAuthFilter(objectMapper, verifier)).build();
-        when(verifier.isDisabled()).thenReturn(true);
-        when(verifier.developmentAuthContext()).thenReturn(new AuthContext("test@example.invalid", true, true));
+            .addFilters(new AdminAuthFilter(objectMapper, verifier, new AccountBrowser(new AccountProperties()))).build();
     }
 
     @Test
@@ -72,12 +72,10 @@ class CharacterAuthoringCheckAdminControllerTest {
     }
 
     @Test
-    void authenticationAndEditPermissionRemainRequired() throws Exception {
-        when(verifier.isDisabled()).thenReturn(false);
-        mvc.perform(get(URL)).andExpect(status().isUnauthorized());
-        when(verifier.verify("fixture")).thenReturn(new AuthContext("test@example.invalid", false, false));
-        mvc.perform(get(URL).header("Authorization", "Bearer fixture")).andExpect(status().isForbidden());
-        verifyNoInteractions(service);
+    void anonymousReadIgnoresInvalidCookie() throws Exception {
+        mvc.perform(get(URL).cookie(new jakarta.servlet.http.Cookie("__Host-dv_session", "invalid")))
+            .andExpect(status().isOk());
+        verifyNoInteractions(verifier);
     }
 
     @Test

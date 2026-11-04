@@ -38,12 +38,11 @@ import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
 import xyz.game.datamanage.service.skillparameter.SkillParameterService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = SkillParameterAdminController.class)
-@Import({AdminAuthFilter.class, GlobalExceptionHandler.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, GlobalExceptionHandler.class})
 class SkillParameterAdminControllerTest {
 
     private static final String BASE_PATH = "/api/admin/games/lol/skills/ezreal_q/parameters";
@@ -51,14 +50,6 @@ class SkillParameterAdminControllerTest {
     @Autowired private MockMvc mockMvc;
     @MockitoBean private SkillParameterService service;
     @MockitoBean private AdminEditLogHelper logHelper;
-    @MockitoBean private JwtVerifier jwtVerifier;
-
-    @BeforeEach
-    void enableDevelopmentAdmin() {
-        when(jwtVerifier.isDisabled()).thenReturn(true);
-        when(jwtVerifier.developmentAuthContext())
-            .thenReturn(new AuthContext("admin@example.com", true, true));
-    }
 
     @Test
     void listsGetsCreatesUpdatesAndDeletesWithStatusesAndEditLogs() throws Exception {

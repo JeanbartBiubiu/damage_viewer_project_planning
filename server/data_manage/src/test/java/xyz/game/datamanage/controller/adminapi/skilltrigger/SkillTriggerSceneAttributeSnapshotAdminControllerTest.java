@@ -23,20 +23,17 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleDetailResponse;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = SkillTriggerRuleAdminController.class)
-@Import({AdminAuthFilter.class, GlobalExceptionHandler.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, GlobalExceptionHandler.class})
 class SkillTriggerSceneAttributeSnapshotAdminControllerTest {
     @Autowired private MockMvc mvc;
     @MockitoBean private SkillTriggerRuleService service;
     @MockitoBean private AdminEditLogHelper logHelper;
-    @MockitoBean private JwtVerifier jwtVerifier;
+
 
     @BeforeEach void setUp() {
-        when(jwtVerifier.isDisabled()).thenReturn(true);
-        when(jwtVerifier.developmentAuthContext()).thenReturn(new AuthContext("admin@example.com", true, true));
     }
 
     @Test void acceptsTheExtensionWithoutChangingTheExistingRequestOrResponseEnvelope() throws Exception {

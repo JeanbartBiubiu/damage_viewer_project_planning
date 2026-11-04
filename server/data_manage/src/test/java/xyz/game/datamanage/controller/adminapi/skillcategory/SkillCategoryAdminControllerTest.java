@@ -31,11 +31,10 @@ import xyz.game.datamanage.model.skillcategory.SkillCategoryStatus;
 import xyz.game.datamanage.service.skillcategory.SkillCategoryService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = SkillCategoryAdminController.class)
-@Import({AdminAuthFilter.class, GlobalExceptionHandler.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, GlobalExceptionHandler.class})
 class SkillCategoryAdminControllerTest {
 
     private static final String BASE_PATH = "/api/admin/games/lol/skill-categories";
@@ -43,14 +42,6 @@ class SkillCategoryAdminControllerTest {
     @Autowired private MockMvc mockMvc;
     @MockitoBean private SkillCategoryService service;
     @MockitoBean private AdminEditLogHelper logHelper;
-    @MockitoBean private JwtVerifier jwtVerifier;
-
-    @BeforeEach
-    void enableDevelopmentAdmin() {
-        when(jwtVerifier.isDisabled()).thenReturn(true);
-        when(jwtVerifier.developmentAuthContext())
-            .thenReturn(new AuthContext("admin@example.com", true, true));
-    }
 
     @Test
     void listsCreatesAndDeletesWithStableContract() throws Exception {

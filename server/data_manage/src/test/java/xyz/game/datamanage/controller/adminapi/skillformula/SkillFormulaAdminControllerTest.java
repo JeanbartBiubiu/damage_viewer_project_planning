@@ -41,12 +41,11 @@ import xyz.game.datamanage.model.skillformula.SkillFormulaUpdateRequest;
 import xyz.game.datamanage.service.skillformula.SkillFormulaService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import xyz.game.datamanage.support.auth.AuthContext;
-import xyz.game.datamanage.support.auth.JwtVerifier;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = SkillFormulaAdminController.class)
-@Import({AdminAuthFilter.class, GlobalExceptionHandler.class})
+@Import({xyz.game.datamanage.support.auth.AccountControllerTestConfig.class, AdminAuthFilter.class, GlobalExceptionHandler.class})
 class SkillFormulaAdminControllerTest {
 
     private static final String BASE_PATH = "/api/admin/games/lol/skills/varus_w/formulas";
@@ -54,14 +53,6 @@ class SkillFormulaAdminControllerTest {
     @Autowired private MockMvc mockMvc;
     @MockitoBean private SkillFormulaService service;
     @MockitoBean private AdminEditLogHelper logHelper;
-    @MockitoBean private JwtVerifier jwtVerifier;
-
-    @BeforeEach
-    void enableDevelopmentAdmin() {
-        when(jwtVerifier.isDisabled()).thenReturn(true);
-        when(jwtVerifier.developmentAuthContext())
-            .thenReturn(new AuthContext("admin@example.com", true, true));
-    }
 
     @Test void completeCommonDefinitionTravelsThroughCrudAndEditLogs() throws Exception {
         var detail=detail();

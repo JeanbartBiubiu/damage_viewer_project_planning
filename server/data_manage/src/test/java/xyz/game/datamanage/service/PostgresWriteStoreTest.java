@@ -43,7 +43,7 @@ class PostgresWriteStoreTest {
     @Test
     void recordEditLogPersistsSanitizedControllerBody() {
         store.recordEditLog(
-            "author@example.com",
+            java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author",
             "PUT",
             "/api/admin/games/lol/images/icon",
             JsonNodeFactory.instance.objectNode().put("imageReplaced", false),
@@ -51,7 +51,7 @@ class PostgresWriteStoreTest {
         );
 
         verify(editLogMapper).insertEditLog(
-            eq("author@example.com"),
+            eq(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001")), eq("fixture_author"),
             contains("\"imageReplaced\":false")
         );
         verify(editLogMapper).deleteExpiredEditLogs();

@@ -22,7 +22,8 @@ public class AdminEditLogHelper {
     public void log(AuthContext auth, HttpServletRequest request, JsonNode body, int responseCode) {
         try {
             gameDataService.recordEditLog(
-                auth.email(),
+                auth.accountId(),
+                auth.username(),
                 request.getMethod(),
                 request.getRequestURI(),
                 body,
@@ -31,8 +32,8 @@ public class AdminEditLogHelper {
         } catch (RuntimeException ex) {
             // Fail-open policy: edit_log failure must not block admin write responses.
             log.warn(
-                "Admin edit log write failed and was skipped. email={}, method={}, path={}, responseCode={}",
-                auth.email(),
+                "Admin edit log write failed and was skipped. accountId={}, method={}, path={}, responseCode={}",
+                auth.accountId(),
                 request.getMethod(),
                 request.getRequestURI(),
                 responseCode,

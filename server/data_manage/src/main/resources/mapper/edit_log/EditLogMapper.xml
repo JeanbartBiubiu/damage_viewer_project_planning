@@ -5,8 +5,8 @@
 <mapper namespace="xyz.game.datamanage.mapper.EditLogMapper">
 
     <update id="insertEditLog">
-        INSERT INTO "user".edit_log (email, edit_body, create_time)
-        VALUES (#{email}, #{editBody}, NOW())
+        INSERT INTO "user".edit_log (account_id, username_snapshot, edit_body, create_time)
+        VALUES (#{accountId}, #{username}, #{editBody}, NOW())
     </update>
 
     <update id="deleteExpiredEditLogs">
