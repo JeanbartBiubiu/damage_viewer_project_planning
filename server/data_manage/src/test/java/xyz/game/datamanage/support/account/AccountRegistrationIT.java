@@ -136,7 +136,7 @@ class AccountRegistrationIT {
         for(;;) {long current=store.now().getEpochSecond()/30;loginStep=Math.max(used+1,current-1);if(loginStep<=current+1) break;Thread.sleep(100);}
         var logged=response(flow("login/totp",java.util.Map.of("totpCode",hotp.generate(loginStep))));assertEquals(1,logged.path("canLogin").asInt());assertEquals(createdAccount.toString(),logged.path("accountId").asText());
         assertTrue(cookies.containsKey(AccountBrowser.SESSION) && cookies.containsKey(AccountBrowser.CSRF));
-        assertEquals(1,jdbc.queryForObject("SELECT count(*) FROM auth.accounts WHERE id=? AND status='active' AND password_hash ~ '^\\$2a\\$12\\$[./A-Za-z0-9]{53}$'",Integer.class,createdAccount));
+        assertEquals(1,jdbc.queryForObject("SELECT count(*) FROM auth.accounts WHERE id=? AND status='active' AND password_hash ~ '^\\$2a\\$10\\$[./A-Za-z0-9]{53}$'",Integer.class,createdAccount));
         assertEquals(10,jdbc.queryForObject("SELECT count(*) FROM auth.recovery_codes WHERE account_id=? AND octet_length(code_hash)=32",Integer.class,createdAccount));
         assertEquals(1,jdbc.queryForObject("SELECT count(*) FROM auth.sessions WHERE account_id=? AND octet_length(token_hash)=32 AND octet_length(csrf_hash)=32 AND revoked_at IS NULL",Integer.class,createdAccount));
     }

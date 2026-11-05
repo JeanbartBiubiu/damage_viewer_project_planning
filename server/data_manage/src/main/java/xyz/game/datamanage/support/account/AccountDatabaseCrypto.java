@@ -23,13 +23,13 @@ public class AccountDatabaseCrypto {
     private static final int QUERY_SECONDS=5, NETWORK_MILLIS=10_000;
     private static final Executor DIRECT=Runnable::run;
     // 固定成本的非账号校验材料；无论比较结果如何，都不能作为未知账号登录成功。
-    static final String DUMMY_HASH="$2a$12$R9h/cIPz0gi.URNNX3kh2OPST9/PgBkqquzi.Ss7KIUgO2t0jWMUW";
+    static final String DUMMY_HASH="$2a$10$R9h/cIPz0gi.URNNX3kh2OPST9/PgBkqquzi.Ss7KIUgO2t0jWMUW";
     private final DataSource source;
     public AccountDatabaseCrypto(DataSource source) { this.source=source; }
     public record Tokens(String token,String csrf) {
         @Override public String toString() { return "Tokens[redacted]"; }
     }
-    static boolean supported(String encoded) { return encoded!=null && encoded.matches("\\$2a\\$12\\$[./A-Za-z0-9]{53}"); }
+    static boolean supported(String encoded) { return encoded!=null && encoded.matches("\\$2a\\$(?:10|12)\\$[./A-Za-z0-9]{53}"); }
     private interface Query<T> { T run(Connection connection) throws Exception; }
     private <T> T protectedQuery(Query<T> query) {
         Connection connection=null;
@@ -92,11 +92,11 @@ public class AccountDatabaseCrypto {
     public String encode(String password) {
         PasswordTasks.validate(password,null);
         return protectedQuery(connection-> {
-            try (PreparedStatement statement=prepare(connection,"SELECT public.crypt(?,public.gen_salt('bf',12))")) {
+            try (PreparedStatement statement=prepare(connection,"SELECT public.crypt(?,public.gen_salt('bf',10))")) {
                 statement.setString(1,password);
                 try(ResultSet rows=statement.executeQuery()) {
                     if(!rows.next()) throw AccountErrors.unavailable();String encoded=rows.getString(1);
-                    if(!supported(encoded) || rows.next()) throw AccountErrors.unavailable();return encoded;
+                    if(!supported(encoded) || !encoded.startsWith("$2a$10$") || rows.next()) throw AccountErrors.unavailable();return encoded;
                 }
             }
         });

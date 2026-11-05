@@ -1,6 +1,9 @@
 package xyz.game.datamanage.support.account;
 
 import java.util.Map;
+import java.util.List;
+import java.time.Instant;
+import java.sql.Timestamp;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import xyz.game.datamanage.support.error.ApiException;
@@ -9,6 +12,51 @@ import xyz.game.datamanage.support.error.ApiException;
 public class AccountRateLimits {
     private final AccountStore store;
     public AccountRateLimits(AccountStore store) { this.store = store; }
+    private record PasswordWindow(String scope,byte[] subjectHash,Instant startedAt,int maximum) {}
+    /** 失败和未决共用窗口额度；完成正确证明或技术失败后，只退回自己的原窗口。 */
+    public final class PasswordAttempt implements AutoCloseable {
+        private final List<PasswordWindow> windows;
+        private boolean retain,closed;
+        private PasswordAttempt(List<PasswordWindow> windows) { this.windows=List.copyOf(windows); }
+        public synchronized void retainFailure() { if(!closed) retain=true; }
+        @Override public synchronized void close() {
+            if(closed) return;
+            // 先标记，避免提交结果不明时重复退还；失败占额至多留到原窗口过期。
+            closed=true;
+            if(retain) return;
+            try { store.independent(()-> {
+                for(PasswordWindow window:windows) store.jdbc().update("""
+                    UPDATE auth.rate_limits SET attempt_count=GREATEST(attempt_count-1,0),
+                        blocked_until=CASE WHEN attempt_count-1<? THEN NULL ELSE blocked_until END
+                    WHERE scope=? AND subject_hash=? AND window_started_at=?
+                    """,window.maximum(),window.scope(),window.subjectHash(),Timestamp.from(window.startedAt()));
+                return null;
+            }); } catch(RuntimeException failure) { throw AccountErrors.unavailable(); }
+        }
+        @Override public String toString() { return "PasswordAttempt[redacted]"; }
+    }
+    /** 固定先账号后来源；任一维度不足，独立事务回滚两项联合预占。 */
+    public PasswordAttempt reservePasswordAttempt(String account,String address) {
+        try { return store.independent(()->new PasswordAttempt(List.of(reservePasswordWindow("password_account",account),reservePasswordWindow("password_ip",address)))); }
+        catch(ApiException failure) { throw failure; }
+        catch(RuntimeException failure) { throw AccountErrors.unavailable(); }
+    }
+    private PasswordWindow reservePasswordWindow(String scope,String subject) {
+        Rule rule=rule(scope);byte[] hash=AccountCrypto.hash(subject);
+        var started=store.jdbc().queryForList("""
+            INSERT INTO auth.rate_limits(scope,subject_hash,window_started_at,attempt_count,blocked_until,expires_at)
+            SELECT ?,?,to_timestamp(floor(extract(epoch from CURRENT_TIMESTAMP)/?)*?),1,NULL,
+                to_timestamp((floor(extract(epoch from CURRENT_TIMESTAMP)/?)+1)*?)
+            ON CONFLICT(scope,subject_hash,window_started_at) DO UPDATE SET
+                attempt_count=auth.rate_limits.attempt_count+1,
+                blocked_until=CASE WHEN auth.rate_limits.attempt_count+1>=? THEN auth.rate_limits.expires_at ELSE auth.rate_limits.blocked_until END
+            WHERE auth.rate_limits.attempt_count<?
+            RETURNING window_started_at
+            """,Timestamp.class,scope,hash,rule.seconds(),rule.seconds(),rule.seconds(),rule.seconds(),rule.maximum(),rule.maximum());
+        if(started.isEmpty()) { check(scope,subject);throw limited(rule.seconds()); }
+        if(started.size()!=1 || started.getFirst()==null) throw AccountErrors.unavailable();
+        return new PasswordWindow(scope,hash,started.getFirst().toInstant(),rule.maximum());
+    }
     private record Rule(int seconds, int maximum) {}
     private Rule rule(String scope) { return switch (scope) {
         case "password_account" -> new Rule(900, 5);

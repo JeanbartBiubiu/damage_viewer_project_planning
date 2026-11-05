@@ -27,13 +27,27 @@ class AccountDatabaseCryptoIT {
         database=new AccountDatabaseCrypto(source);
     }
     @Test void databaseBcryptUsesFixedVersionCostAndIndependentSalts() {
-        try(var tasks=new TaskResource(new PasswordTasks(database))) {
-            String value="  fixture 密码  ",one=tasks.value.encode(value,"fixture"),two=tasks.value.encode(value,"fixture");
-            assertTrue(AccountDatabaseCrypto.supported(one));assertTrue(AccountDatabaseCrypto.supported(two));assertFalse(one.equals(two));
-            assertTrue(tasks.value.matches(value,one));assertFalse(tasks.value.matches(value.strip(),one));assertFalse(tasks.value.matches("incorrect fixture",one));
-            assertFalse(tasks.value.matches(value,null));assertFalse(tasks.value.matches(value,"$argon2id$unsupported"));
-            assertFalse(tasks.value.matches(value,one.replace("$2a$12$","$2b$12$")));assertFalse(tasks.value.matches(value,one.replace("$12$","$10$")));
-        }
+        var tasks=new PasswordTasks(database);
+        String value="  fixture 密码  ",one=tasks.encode(value,"fixture"),two=tasks.encode(value,"fixture");
+        assertTrue(one.startsWith("$2a$10$") && one.length()==60);assertTrue(two.startsWith("$2a$10$") && two.length()==60);assertFalse(one.equals(two));
+        assertTrue(tasks.matches(value,one));assertFalse(tasks.matches(value.strip(),one));assertFalse(tasks.matches("incorrect fixture",one));
+        assertFalse(tasks.matches(value,null));assertFalse(tasks.matches(value,"$argon2id$unsupported"));
+        assertFalse(tasks.matches(value,one.replace("$2a$10$","$2b$10$")));assertFalse(tasks.matches(value,one.replace("$10$","$11$")));
+    }
+    @Test void oldCostTwelveStillVerifiesWithoutAutomaticRehashing() throws Exception {
+        String value="legacy fixture password";
+        Class<?> query=Class.forName(AccountDatabaseCrypto.class.getName()+"$Query");
+        Object fixture=java.lang.reflect.Proxy.newProxyInstance(query.getClassLoader(),new Class<?>[]{query},(proxy,method,args)->{
+            if(!method.getName().equals("run")) return "LegacyFixtureQuery";
+            try(var statement=((java.sql.Connection)args[0]).prepareStatement("SELECT public.crypt(?,public.gen_salt('bf',12))")) {
+                statement.setQueryTimeout(5);statement.setString(1,value);
+                try(var rows=statement.executeQuery()){assertTrue(rows.next());return rows.getString(1);}
+            }
+        });
+        var guarded=AccountDatabaseCrypto.class.getDeclaredMethod("protectedQuery",query);guarded.setAccessible(true);
+        String old=(String)guarded.invoke(database,fixture);
+        assertTrue(old.startsWith("$2a$12$") && old.length()==60);assertTrue(database.matches(value,old));assertFalse(database.matches("incorrect fixture",old));
+        assertFalse(database.matches(value,old.replace("$12$","$09$")));assertTrue(old.startsWith("$2a$12$"));
     }
     @Test void fullSeventyTwoUtf8BytesAreSignificantAndLongInputCannotBeSilentlyTruncated() {
         String ascii="Ab9!".repeat(18),unicode="😀😁😂🤣".repeat(4)+"😀😁";
@@ -67,5 +81,4 @@ class AccountDatabaseCryptoIT {
         } finally {jdbc.update("DELETE FROM auth.accounts WHERE id=? AND username=?",id,name);}
     }
     private static class DeliberateRollback extends RuntimeException {}
-    private record TaskResource(PasswordTasks value) implements AutoCloseable {public void close(){value.close();}}
 }

@@ -28,6 +28,7 @@ class AccountServiceTest {
     private final PasswordTasks passwords=mock(PasswordTasks.class);
     private final AccountDatabaseCrypto database=mock(AccountDatabaseCrypto.class);
     private final AccountRateLimits limits=mock(AccountRateLimits.class);
+    private final AccountRateLimits.PasswordAttempt attempt=mock(AccountRateLimits.PasswordAttempt.class);
     private final AccountProperties properties=new AccountProperties();
     private AccountService service;
     private final UUID id=UUID.randomUUID(), flowId=UUID.randomUUID(), codeId=UUID.randomUUID(), batch=UUID.randomUUID();
@@ -42,6 +43,7 @@ class AccountServiceTest {
         store=spy(new AccountStore(jdbc,manager)); doReturn(now).when(store).now();
         doReturn(account("active",1)).when(store).account(eq(id),anyBoolean());
         when(database.tokens()).thenReturn(new AccountDatabaseCrypto.Tokens("t".repeat(43),"c".repeat(43)));
+        when(limits.reservePasswordAttempt(anyString(),anyString())).thenReturn(attempt);
         service=new AccountService(store,crypto,passwords,limits,properties,new AccountBrowser(properties),database);
     }
     private MockHttpServletRequest flowRequest(String method) {
@@ -58,6 +60,7 @@ class AccountServiceTest {
         verify(store).revokeChanges(id);
         verify(jdbc,never()).update(startsWith("UPDATE auth.accounts"),any(Object[].class));
         verify(jdbc).update(contains("INSERT INTO auth.flows"),any(Object[].class));
+        var finish=inOrder(manager,attempt);finish.verify(manager).commit(any());finish.verify(attempt).close();verify(attempt,never()).retainFailure();
     }
     @Test void completedStatusSurvivesEpochAndSourceRevocationButCannotReadMaterialsOrExecuteAgain() {
         doReturn(account("disabled",8)).when(store).account(id,true);currentFlow(flow("change_totp","completed",1));
@@ -104,8 +107,39 @@ class AccountServiceTest {
     @Test void incorrectPasswordCountsBothAccountAndAddressWithoutCreatingFlow() {
         doReturn(account("active",1)).when(store).byUsername("fixture_author");when(passwords.matches(anyString(),anyString())).thenReturn(false);
         assertEquals(HttpStatus.UNAUTHORIZED,assertThrows(ApiException.class,()->service.login("fixture_author","incorrect-password","127.0.0.1")).getStatus());
-        verify(limits).fail("password_account","fixture_author");verify(limits).fail("password_ip","127.0.0.1");
+        verify(limits).reservePasswordAttempt("fixture_author","127.0.0.1");verify(attempt).retainFailure();verify(attempt).close();
+        verify(limits,never()).fail(anyString(),anyString());
         verify(jdbc,never()).update(anyString(),any(Object[].class));
+    }
+    @Test void capacityOrDatabaseFailureRefundsTheReservedPasswordAttempt() {
+        doReturn(account("active",1)).when(store).byUsername("fixture_author");when(passwords.matches(anyString(),anyString())).thenThrow(AccountErrors.unavailable());
+        assertEquals(503,assertThrows(ApiException.class,()->service.login("fixture_author","fixture password","127.0.0.1")).getStatus().value());
+        verify(attempt).close();verify(attempt,never()).retainFailure();verify(limits,never()).fail(anyString(),anyString());
+    }
+    @Test void successfulPasswordButDisabledLoginRefundsItsOriginalReservation() {
+        var disabled=account("disabled",1);doReturn(disabled).when(store).byUsername("fixture_author");doReturn(disabled).when(store).account(id,true);when(passwords.matches(anyString(),anyString())).thenReturn(true);
+        assertEquals(403,assertThrows(ApiException.class,()->service.login("fixture_author","fixture password","127.0.0.1")).getStatus().value());
+        verify(attempt).close();verify(attempt,never()).retainFailure();
+    }
+    @Test void recoveryCodeFailureKeepsOneExistingReservationWithoutRefundOrDoubleCounting() {
+        doReturn(account("active",1)).when(store).byUsername("fixture_author");when(passwords.matches(anyString(),anyString())).thenReturn(true);
+        assertEquals(401,assertThrows(ApiException.class,()->service.recoverTotp("fixture_author","fixture password","x".repeat(22),"127.0.0.1")).getStatus().value());
+        verify(limits).reservePasswordAttempt("fixture_author","127.0.0.1");verify(attempt).retainFailure();verify(attempt).close();verify(limits,never()).fail(anyString(),anyString());
+    }
+    @Test void downstreamTotpFailureInSecurityRefundsPasswordButKeepsTotpReservation() {
+        UUID session=UUID.randomUUID();var auth=new xyz.game.datamanage.support.auth.AuthContext(id,"fixture_author",false,session,1,now.plusSeconds(600));
+        doReturn(account("active",1)).when(store).byUsername("fixture_author");when(passwords.matches(anyString(),anyString())).thenReturn(true);
+        doReturn(new AccountStore.Session(session,id,1,new byte[32],now.plusSeconds(600),null)).when(store).session(session);
+        doReturn(new AccountStore.Credential(new byte[]{1},"auth-aead-1",1,4)).when(store).credential(id);
+        when(crypto.decrypt(any(),anyString(),anyString())).thenReturn("fixture-secret");when(crypto.matchingStep(anyString(),anyString(),any(),anyLong())).thenThrow(AccountErrors.invalid());
+        assertEquals(401,assertThrows(ApiException.class,()->service.security(auth,"fixture password","012345","change_password","127.0.0.1")).getStatus().value());
+        verify(limits).reserveTotp("totp_account",id.toString());verify(attempt,never()).retainFailure();
+        var order=inOrder(manager,attempt);order.verify(manager).rollback(any());order.verify(attempt).close();
+    }
+    @Test void flowCreationFailureRefundsOnlyAfterTheBusinessTransactionRollsBack() {
+        doReturn(account("active",1)).when(store).byUsername("fixture_author");when(passwords.matches(anyString(),anyString())).thenReturn(true);when(database.tokens()).thenThrow(AccountErrors.unavailable());
+        assertEquals(503,assertThrows(ApiException.class,()->service.login("fixture_author","fixture password","127.0.0.1")).getStatus().value());
+        var order=inOrder(manager,attempt);order.verify(manager).rollback(any());order.verify(attempt).close();verify(attempt,never()).retainFailure();
     }
     @Test void totpAttemptsAreReservedBeforeVerificationAndRemainCountedAfterRollback() {
         currentFlow(flow("login","started",1));

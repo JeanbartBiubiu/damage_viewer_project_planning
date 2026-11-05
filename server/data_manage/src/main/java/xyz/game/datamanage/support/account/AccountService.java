@@ -67,15 +67,23 @@ public class AccountService {
             throw new ApiException(HttpStatus.CONFLICT,"AUTH.USERNAME_UNAVAILABLE","用户名不可用");
         }
     }
-    private Account passwordProof(String rawUsername, String password, String address) {
+    private record PasswordProof(Account snapshot,AccountRateLimits.PasswordAttempt attempt) implements AutoCloseable {
+        @Override public void close() { attempt.close(); }
+        @Override public String toString() { return "PasswordProof[redacted]"; }
+    }
+    private PasswordProof passwordProof(String rawUsername, String password, String address) {
         String name=username(rawUsername);
-        limits.check("password_account",name); limits.check("password_ip",address);
-        Account snapshot=store.byUsername(name);
-        if (!passwords.matches(password,snapshot==null?null:snapshot.passwordHash())) {
-            limits.fail("password_account",name); limits.fail("password_ip",address);
-            throw AccountErrors.invalid();
+        var attempt=limits.reservePasswordAttempt(name,address);
+        boolean transferred=false;
+        try {
+            Account snapshot=store.byUsername(name);
+            if (!passwords.matches(password,snapshot==null?null:snapshot.passwordHash())) {
+                attempt.retainFailure();throw AccountErrors.invalid();
+            }
+            transferred=true;return new PasswordProof(snapshot,attempt);
+        } finally {
+            if(!transferred) attempt.close();
         }
-        return snapshot;
     }
     private Account recheck(Account snapshot) {
         Account current=store.account(snapshot.id(),true);
@@ -83,13 +91,14 @@ public class AccountService {
         return current;
     }
     public Issued login(String rawUsername, String password, String address) {
-        Account proof=passwordProof(rawUsername,password,address);
-        return store.tx(() -> {
-            Account current=recheck(proof);
+        try(var proof=passwordProof(rawUsername,password,address)) {
+          return store.tx(() -> {
+            Account current=recheck(proof.snapshot());
             if ("disabled".equals(current.status())) throw new ApiException(HttpStatus.FORBIDDEN,"AUTH.ACCOUNT_DISABLED","账号已禁用");
             // 续办保持原注册时间、已到账开通状态及账号编号。
             return start(current,"pending".equals(current.status())?"register":"login",null,null);
-        });
+          });
+        }
     }
     private Issued start(Account account, String purpose, UUID sourceSession, UUID recoveryCode) {
         if (!"login".equals(purpose)) store.revokeChanges(account.id());
@@ -246,21 +255,22 @@ public class AccountService {
         }
     }
     public Issued recoverTotp(String rawUsername,String password,String recoveryCode,String address) {
-        Account snapshot=passwordProof(rawUsername,password,address);
-        try { return store.tx(()-> {
-            Account a=recheck(snapshot);
+        try(var proof=passwordProof(rawUsername,password,address)) {
+          try { return store.tx(()-> {
+            Account a=recheck(proof.snapshot());
             if (!"active".equals(a.status())) throw AccountErrors.invalid();
             return start(a,"replace_totp",null,recoveryId(a,recoveryCode));
         }); } catch (ApiException e) {
-            if (e.getStatus()==HttpStatus.UNAUTHORIZED) { limits.fail("password_account",snapshot.username()); limits.fail("password_ip",address); }
+            if (e.getStatus()==HttpStatus.UNAUTHORIZED) proof.attempt().retainFailure();
             throw e;
+          }
         }
     }
     public Issued security(AuthContext auth,String currentPassword,String code,String purpose,String address) {
-        Account snapshot=passwordProof(auth.username(),currentPassword,address);
+        try(var proof=passwordProof(auth.username(),currentPassword,address)) {
         limits.reserveTotp("totp_account",auth.accountId().toString());
         try { return store.tx(()-> {
-            Account a=recheck(snapshot);
+            Account a=recheck(proof.snapshot());
             if (!a.id().equals(auth.accountId()) || auth.authEpoch()!=a.epoch() || !validSession(store.session(auth.sessionId()),a)) throw AccountErrors.invalid();
             AccountErrors.enabled(a); currentTotp(a,code);
             Issued result=start(a,purpose,auth.sessionId(),null);
@@ -270,6 +280,7 @@ public class AccountService {
             }
             return result;
         }); } catch (ApiException e) { throw e; }
+        }
     }
     public Object completePassword(HttpServletRequest request,String newPassword) {
         // 快速读取阶段与本人用户名后在事务外计算哈希；提交时重新完整检查流程、版本、来源会话。

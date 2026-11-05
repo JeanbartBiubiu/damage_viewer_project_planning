@@ -46,7 +46,7 @@ class AccountDatabaseCryptoTest {
         ApiException failure=assertThrows(ApiException.class,action::run);assertEquals(503,failure.getStatus().value());assertNull(failure.getCause());
     }
     @Test void constructionDoesNotContactDatabaseOrRequireExtension() {
-        reset(source);new AccountDatabaseCrypto(source);new PasswordTasks(database).close();verifyNoInteractions(source);
+        reset(source);new AccountDatabaseCrypto(source);new PasswordTasks(database);verifyNoInteractions(source);
     }
     @Test void passwordIsBoundOnlyAfterGuardsOnSameConnectionWithTimeoutRestored() throws Exception {
         oneRow();when(result.getString(1)).thenReturn(AccountDatabaseCrypto.DUMMY_HASH);
@@ -59,12 +59,21 @@ class AccountDatabaseCryptoTest {
     @Test void unknownAndUnsupportedHashesStillRunOneFixedCostCheckButCannotSucceed() throws Exception {
         when(result.next()).thenAnswer(new org.mockito.stubbing.Answer<Boolean>() {int count;public Boolean answer(org.mockito.invocation.InvocationOnMock i){return count++%2==0;}});
         when(result.getBoolean(1)).thenReturn(true);
-        for(String old:new String[]{null,"$argon2id$unsupported","$2b$12$unsupported",AccountDatabaseCrypto.DUMMY_HASH.replace("$12$","$10$")}) {
+        for(String old:new String[]{null,"$argon2id$unsupported","$2b$10$unsupported",AccountDatabaseCrypto.DUMMY_HASH.replace("$10$","$11$")}) {
             assertFalse(database.matches("fixture password",old));
             assertTrue(AccountDatabaseCrypto.DUMMY_HASH.equals(parameters.get(2)) && parameters.get(2).equals(parameters.get(3)));
         }
         verify(query,times(4)).executeQuery();
         assertTrue(database.matches("fixture password",AccountDatabaseCrypto.DUMMY_HASH));
+    }
+    @Test void existingCompleteCostTwelveHashIsVerifiedWithoutChangingItsCost() throws Exception {
+        oneRow();when(result.getBoolean(1)).thenReturn(true);
+        String existing=AccountDatabaseCrypto.DUMMY_HASH.replace("$10$","$12$");
+        assertTrue(database.matches("fixture password",existing));assertTrue(existing.equals(parameters.get(2)) && existing.equals(parameters.get(3)));
+    }
+    @Test void creationRequiresCostTenEvenThoughVerificationAcceptsOldTwelve() throws Exception {
+        oneRow();when(result.getString(1)).thenReturn(AccountDatabaseCrypto.DUMMY_HASH.replace("$10$","$12$"));unavailable(()->database.encode("fixture password"));
+        verify(connection).prepareStatement("SELECT public.crypt(?,public.gen_salt('bf',10))");
     }
     @Test void simpleProtocolNeverBindsOrExecutesPassword() throws Exception {
         when(pg.getPreferQueryMode()).thenReturn(PreferQueryMode.SIMPLE);unavailable(()->database.encode("fixture password"));
