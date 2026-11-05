@@ -9,6 +9,7 @@
 | 能力 | 当前入口 |
 | --- | --- |
 | 公共游戏列表 | `GET /api/games`，支持ETag条件请求，`controller/publicapi/GamePublicController.java` |
+| 访问统计 | 匿名上报、编辑账号查询近30天；[统计口径、接口及独立建表入口](../../db/visit_statistics/README.md) |
 | 公共图片同步 | `GET /api/games/{gameId}/images?updatedAfter=...`，按时间游标做全量／增量同步 |
 | 各类管理读写 | `controller/adminapi/`；游戏、属性、角色、装备、构筑、技能组成、状态、乘区、图片及关系 |
 | 技能统一配置 | `GET/POST/PATCH /skills/{skillKey}/configuration`，`SkillConfigurationAdminController` 及 `SkillConfigurationService` |

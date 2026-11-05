@@ -93,8 +93,10 @@ export async function requestJson<T>(
   headers.delete('Cookie');
   headers.delete('X-CSRF-Token');
   headers.delete('X-Damage-Client');
-  if (access !== 'anonymous') {
+  if (access !== 'anonymous' || !['GET', 'HEAD', 'OPTIONS'].includes(method)) {
     headers.set('X-Damage-Client', 'web');
+  }
+  if (access !== 'anonymous') {
     if (method !== 'GET' && method !== 'HEAD') {
       headers.set('Content-Type', 'application/json');
     }

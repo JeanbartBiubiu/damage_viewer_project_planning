@@ -20,7 +20,8 @@ describe('账号请求凭据边界', () => {
     const fetchMock = vi.fn(async (_url, init: RequestInit) => {
       expect(init.credentials).toBe('omit');
       const headers = new Headers(init.headers);
-      expect(headers.get('Authorization')).toBeNull(); expect(headers.get('X-CSRF-Token')).toBeNull(); expect(headers.get('X-Damage-Client')).toBeNull();
+      expect(headers.get('Authorization')).toBeNull(); expect(headers.get('X-CSRF-Token')).toBeNull();
+      expect(headers.get('X-Damage-Client')).toBe(init.method === 'POST' ? 'web' : null);
       return json(200, {});
     });
     vi.stubGlobal('fetch', fetchMock);

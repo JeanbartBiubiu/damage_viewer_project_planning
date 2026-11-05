@@ -1,4 +1,5 @@
 import { expect, test, type BrowserContext, type Page, type Route } from '@playwright/test';
+import { fulfillVisitReport } from '../fixtures/authSession';
 
 // 全部凭据和恢复材料都是隔离替身；此处验证浏览器接线，不替代真实后端安全验证。
 const PASSWORD = 'fixture-password-123';
@@ -32,6 +33,7 @@ class AccountApi {
     ]);
   }
   private async handle(route: Route) {
+    if (await fulfillVisitReport(route)) return;
     const request = route.request(), path = new URL(request.url()).pathname, method = request.method();
     const body = request.postData() ? request.postDataJSON() as Record<string, string> : null;
     this.calls.push({ path, method, body, csrf: request.headers()['x-csrf-token'] });

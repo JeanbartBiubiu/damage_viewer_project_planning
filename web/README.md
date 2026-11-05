@@ -13,6 +13,7 @@
 | 混合战斗分析 | `#/simulation/combat-analysis`；自动连招、背景普攻、曲线及使用／结算联动 |
 | 请求与错误 | `src/services/apiClient.ts`，各业务服务位于 `src/services/` |
 | 账号与安全 | `src/pages/auth/AccountControls.tsx`、`src/services/authClient.ts`、`src/services/authState.ts`；冻结接口见[账号方案](../文档记录/详细设计/项目/账号注册登录与权限接入技术方案.md) |
+| 访问统计 | `src/services/visitStatisticsClient.ts`、`src/components/VisitStatistics.tsx`；[统计口径、权限与安装](../db/visit_statistics/README.md) |
 | 场景与生产适配 | `src/engine/simulationAdapter.ts`、`simulationActiveSkills.ts`、`processAdapter.ts` |
 | 模拟来源准备 | `src/engine/simulation/sources/`；装备与自然来源分别拥有选择、身份、执行闭包和所属常驻贡献 |
 | 通用配置校验与编译 | `src/engine/simulation/compile/`；完整配置校验、共同防御公式及触发程序编译；共享类型在 `simulation/model.ts` |
@@ -56,6 +57,7 @@ npm run build
 | `npm run test:mechanisms` | 合成场景经生产适配及真实Wasm，与独立手算期望比较 |
 | `npm run test:e2e:non-wasm` | 隔离的非Wasm桌面管理页验收，使用真实浏览器；显式真接口用例仍遵循各配置开关 |
 | `npm run test:e2e:auth` | 账号与会话浏览器接线：分步登录／注册、恢复、安全变更、失效提示与草稿保留；使用隔离接口替身，不代替真实后端验证 |
+| `npm run test:e2e:visits` | 访问上报、刷新与切页计次、统计查看权限及关闭／退出后的清理；使用隔离接口替身 |
 | `npm run check:mechanism-coverage` | 只读核对正式对象声明所依赖的机制用例，不生成新证明 |
 | `npm run check:wasm-build` | 按固定工具链及正式参数重建当前源码，与前端分发Wasm逐字节比较 |
 | `npm run test:verification` | 核对证明刷新及构建检查脚本 |

@@ -26,6 +26,7 @@ import { BasicAttackSimulationPage } from './pages/simulation/BasicAttackSimulat
 import { CombatAnalysisPage } from './pages/simulation/CombatAnalysisPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import { AccountControls } from './pages/auth/AccountControls';
+import { VisitStatistics } from './components/VisitStatistics';
 import type { GameSummary, LoadState } from './types/api';
 
 const PREFERRED_DEFAULT_GAME_ID = 'lol';
@@ -576,6 +577,7 @@ export default function App() {
               />
             </div>
             <div className="app-toolbar-actions">
+              <VisitStatistics apiBaseUrl={apiBaseUrl} />
               <Tag color={getGamesStatusColor(gamesStatus)}>{getGamesStatusLabel(gamesStatus)}</Tag>
               <Button size="small" onClick={refreshGames}>
                 刷新

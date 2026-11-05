@@ -8,6 +8,7 @@
 | --- | --- | --- |
 | `game_manage/` | 游戏配置、角色、装备、技能组成、状态、构筑与图片 | 当前建表及约束脚本 |
 | `user_manage/` | 用户、权限及编辑记录相关结构 | [用户结构脚本](user_manage/schema.sql)及对应后端实现 |
+| `visit_statistics/` | 页面访问量与每日独立访客 | [统计说明及接口](visit_statistics/README.md)、[建表脚本](visit_statistics/schema.sql) |
 | `task_doc_governance/` | 仓库任务与文档的本地查询 | [任务规则](task_doc_governance/task_rules.json)；SQLite仅为派生索引 |
 
 当前 `game_manage/schema.sql` 定义30张业务逻辑表，含图片父表，不含实际图片子分区。普通管理表不按游戏分区；现行分区函数只维护图片。已部署数据库的结构仍须另行核对，建表脚本不证明实库状态。
