@@ -28,7 +28,7 @@ class AccountConcurrencyIT {
     @BeforeEach void setup() {
         if (!"isolated-account-tests".equals(System.getenv("ACCOUNT_IT_ALLOW_MUTATION"))) throw new IllegalStateException("仅允许显式隔离库测试");
         String url=required("ACCOUNT_IT_JDBC_URL"),database=required("ACCOUNT_IT_DATABASE_NAME");
-        if (!database.matches("dv_auth_verify_20261104_[A-Za-z0-9_]+") || !url.matches(".*[/]"+java.util.regex.Pattern.quote(database)+"(?:\\?.*)?$"))
+        if (!database.matches("dv_auth_verify_20261104_pg_20261105_[a-f0-9]{8}") || !url.matches(".*[/]"+java.util.regex.Pattern.quote(database)+"(?:\\?.*)?$"))
             throw new IllegalStateException("隔离库不在授权范围");
         DriverManagerDataSource source=new DriverManagerDataSource(url,required("ACCOUNT_IT_JDBC_USERNAME"),required("ACCOUNT_IT_JDBC_PASSWORD"));
         jdbc=new JdbcTemplate(source);

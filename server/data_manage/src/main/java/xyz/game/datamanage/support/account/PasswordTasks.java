@@ -9,39 +9,36 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-/** 64 MiB、3次迭代；只允许1个活动密码任务和4个等待任务。 */
+/** 数据库密码任务只允许1个活动任务和4个等待任务，准入后才取得连接。 */
 @Component
 public class PasswordTasks {
-    private final Argon2PasswordEncoder encoder = new Argon2PasswordEncoder(16, 32, 1, 65536, 3);
+    private final AccountDatabaseCrypto database;
     private final ThreadPoolExecutor pool = new ThreadPoolExecutor(1, 1, 0, TimeUnit.SECONDS, new ArrayBlockingQueue<>(4), r -> {
         Thread t = new Thread(r, "account-password"); t.setDaemon(true); return t;
     }, new ThreadPoolExecutor.AbortPolicy());
-    private final String dummy;
-    public PasswordTasks() {
-        // 启动时准备未知账号的等价验证值，避免首次未知账号额外执行一次哈希。
-        dummy=task(()->encoder.encode(java.util.UUID.randomUUID().toString()));
-    }
+    public PasswordTasks(AccountDatabaseCrypto database) { this.database=database; }
     public String encode(String password, String username) {
         validate(password, username);
-        return task(() -> encoder.encode(password));
+        return task(() -> database.encode(password));
     }
     public boolean matches(String password, String encoded) {
-        if (password == null || password.length() > 256 || password.getBytes(java.nio.charset.StandardCharsets.UTF_8).length > 512) throw AccountErrors.bad();
-        return task(() -> {
-            String actual = encoded;
-            if (actual == null) {
-                actual = dummy;
-            }
-            boolean valid = encoder.matches(password, actual);
-            return encoded != null && valid;
-        });
+        validateInput(password);
+        return task(() -> database.matches(password,encoded));
+    }
+    static void validateInput(String password) {
+        if(password==null || password.indexOf('\0')>=0) throw AccountErrors.bad();
+        for(int i=0;i<password.length();i++) {
+            char c=password.charAt(i);
+            if(Character.isHighSurrogate(c)) {if(i+1>=password.length() || !Character.isLowSurrogate(password.charAt(++i))) throw AccountErrors.bad();}
+            else if(Character.isLowSurrogate(c)) throw AccountErrors.bad();
+        }
+        if(password.getBytes(java.nio.charset.StandardCharsets.UTF_8).length>72) throw AccountErrors.bad();
     }
     static void validate(String password, String username) {
-        if (password == null || password.codePointCount(0,password.length()) < 12 || password.codePointCount(0,password.length()) > 128
-            || password.getBytes(java.nio.charset.StandardCharsets.UTF_8).length > 512
+        validateInput(password);
+        if (password.codePointCount(0,password.length()) < 12
             || password.isBlank() || password.codePoints().distinct().count() < 4
             || password.equalsIgnoreCase(username) || Set.of("password1234", "password123456", "123456789012", "qwertyuiop12")
                 .contains(password.toLowerCase(Locale.ROOT))) throw AccountErrors.bad();

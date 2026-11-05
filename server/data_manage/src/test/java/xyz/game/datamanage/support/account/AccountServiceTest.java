@@ -26,6 +26,7 @@ class AccountServiceTest {
     private AccountStore store;
     private final AccountCrypto crypto=mock(AccountCrypto.class);
     private final PasswordTasks passwords=mock(PasswordTasks.class);
+    private final AccountDatabaseCrypto database=mock(AccountDatabaseCrypto.class);
     private final AccountRateLimits limits=mock(AccountRateLimits.class);
     private final AccountProperties properties=new AccountProperties();
     private AccountService service;
@@ -40,8 +41,8 @@ class AccountServiceTest {
         when(manager.getTransaction(any())).thenAnswer(i->mock(TransactionStatus.class));
         store=spy(new AccountStore(jdbc,manager)); doReturn(now).when(store).now();
         doReturn(account("active",1)).when(store).account(eq(id),anyBoolean());
-        when(crypto.randomToken()).thenReturn("t".repeat(43));
-        service=new AccountService(store,crypto,passwords,limits,properties,new AccountBrowser(properties));
+        when(database.tokens()).thenReturn(new AccountDatabaseCrypto.Tokens("t".repeat(43),"c".repeat(43)));
+        service=new AccountService(store,crypto,passwords,limits,properties,new AccountBrowser(properties),database);
     }
     private MockHttpServletRequest flowRequest(String method) {
         var request=new MockHttpServletRequest(method,"/api/auth/flow/complete");

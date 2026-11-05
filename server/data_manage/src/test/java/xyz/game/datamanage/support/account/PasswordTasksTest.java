@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 import org.junit.jupiter.api.Test;
 import xyz.game.datamanage.support.error.ApiException;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class PasswordTasksTest {
     @SuppressWarnings("unchecked") private <T> T work(PasswordTasks tasks,Supplier<T> work) {
@@ -24,7 +25,7 @@ class PasswordTasksTest {
     }
     private void await(CountDownLatch latch) { try { if(!latch.await(5,TimeUnit.SECONDS)) throw new AssertionError("测试等待超时"); } catch (InterruptedException e) { throw new AssertionError(e); } }
     @Test void onlyOnePasswordOperationAndFourWaitingOperationsAreAdmitted() throws Exception {
-        PasswordTasks tasks=new PasswordTasks();var callers=Executors.newFixedThreadPool(6);
+        PasswordTasks tasks=new PasswordTasks(mock(AccountDatabaseCrypto.class));var callers=Executors.newFixedThreadPool(6);
         CountDownLatch active=new CountDownLatch(1),release=new CountDownLatch(1);
         try {
             var first=callers.submit(()->work(tasks,()-> { active.countDown();await(release);return 1; }));await(active);
@@ -37,7 +38,7 @@ class PasswordTasksTest {
         } finally { release.countDown();callers.shutdownNow();tasks.close(); }
     }
     @Test void waitingDeadlineCancelsWorkInsteadOfRunningItLater() throws Exception {
-        PasswordTasks tasks=new PasswordTasks();var callers=Executors.newSingleThreadExecutor();
+        PasswordTasks tasks=new PasswordTasks(mock(AccountDatabaseCrypto.class));var callers=Executors.newSingleThreadExecutor();
         CountDownLatch active=new CountDownLatch(1),release=new CountDownLatch(1);AtomicBoolean ran=new AtomicBoolean();
         try {
             var first=callers.submit(()->work(tasks,()->{active.countDown();await(release);return 1;}));await(active);
@@ -45,13 +46,20 @@ class PasswordTasksTest {
             release.countDown();first.get(3,TimeUnit.SECONDS);assertFalse(ran.get());
         } finally { release.countDown();callers.shutdownNow();tasks.close(); }
     }
-    @Test void passwordsKeepWhitespaceAndUseRealArgon2WithWeakAndSizeRejection() {
-        PasswordTasks tasks=new PasswordTasks();
+    @Test void passwordsKeepWhitespaceAndRejectOversizedOrMalformedInputBeforeDatabaseAccess() {
+        var database=mock(AccountDatabaseCrypto.class);PasswordTasks tasks=new PasswordTasks(database);
         try {
-            String encoded=tasks.encode("  fixture password  ","fixture_author");
-            assertTrue(encoded.startsWith("$argon2id$"));assertTrue(tasks.matches("  fixture password  ",encoded));assertFalse(tasks.matches("fixture password",encoded));
+            when(database.encode("  fixture password  ")).thenReturn(AccountDatabaseCrypto.DUMMY_HASH);
+            String encoded=tasks.encode("  fixture password  ","fixture_author");verify(database).encode("  fixture password  ");
+            tasks.matches("  fixture password  ",encoded);verify(database).matches("  fixture password  ",encoded);
             assertThrows(ApiException.class,()->tasks.encode("password1234","fixture_author"));assertThrows(ApiException.class,()->tasks.encode("A".repeat(129),"fixture_author"));
-            assertFalse(tasks.matches("  fixture password  ",null));
+            for(String invalid:java.util.List.of("a".repeat(73),"中".repeat(25),"x".repeat(12)+"\0","x".repeat(12)+"\uD800","x".repeat(12)+"\uDC00")) {
+                assertThrows(ApiException.class,()->tasks.matches(invalid,encoded));assertThrows(ApiException.class,()->tasks.encode(invalid,"fixture_author"));
+            }
+            verifyNoMoreInteractions(database);
+            assertDoesNotThrow(()->PasswordTasks.validateInput("a".repeat(72)));
+            assertDoesNotThrow(()->PasswordTasks.validateInput("😀".repeat(18)));
+            assertThrows(ApiException.class,()->PasswordTasks.validateInput("😀".repeat(19)));
         } finally { tasks.close(); }
     }
 }

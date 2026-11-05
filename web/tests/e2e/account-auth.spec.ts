@@ -159,6 +159,48 @@ test('未完成注册由原用户名密码登录续办，不重复注册账号',
   await expect(dialog(page)).toContainText('账号等待开通'); expect(api.calls.filter(call => call.path.endsWith('/register'))).toHaveLength(0);
 });
 
+test('注册拒绝第73字节并原样提交合法的72字节中文密码', async ({ page, context }) => {
+  const api = new AccountApi(context); await api.install(); await open(page, api);
+  await page.getByRole('button', { name: '注册', exact: true }).click(); await credentials(page);
+  const tooLong = 'aB9!'.repeat(18) + 'Z';
+  await dialog(page).getByLabel('密码', { exact: true }).fill(tooLong);
+  await dialog(page).getByLabel('再次输入密码', { exact: true }).fill(tooLong);
+  await expect(dialog(page).getByLabel('密码', { exact: true })).toHaveValue(tooLong);
+  await dialog(page).getByRole('button', { name: '创建账号并绑定验证器', exact: true }).click();
+  await expect(dialog(page)).toContainText('密码超过72字节');
+  expect(api.calls.filter(call => call.path === '/api/auth/register')).toHaveLength(0);
+  const accepted = '安全密码中文四字'.repeat(3);
+  await dialog(page).getByLabel('密码', { exact: true }).fill(accepted);
+  await dialog(page).getByLabel('再次输入密码', { exact: true }).fill(accepted);
+  await expect(dialog(page)).toContainText('当前已用 72/72 字节');
+  await dialog(page).getByRole('button', { name: '创建账号并绑定验证器', exact: true }).click();
+  await expect(dialog(page).getByAltText('验证器绑定二维码', { exact: true })).toBeVisible();
+  expect(api.calls.find(call => call.path === '/api/auth/register')?.body?.password).toBe(accepted);
+});
+
+test('重设密码共用字节边界并保留首尾空白', async ({ page, context }) => {
+  const api = new AccountApi(context); await api.install(); await open(page, api);
+  await page.getByRole('button', { name: '登录', exact: true }).click();
+  await dialog(page).getByRole('button', { name: '忘记密码', exact: true }).click();
+  await dialog(page).getByLabel('用户名', { exact: true }).fill('fixture_player');
+  await dialog(page).getByLabel('验证器动态码', { exact: true }).fill('001234');
+  await dialog(page).getByLabel('未使用的恢复码', { exact: true }).fill('fixture-recovery-1');
+  await dialog(page).getByRole('button', { name: '验证并继续', exact: true }).click();
+  await expect(dialog(page).getByLabel('新密码', { exact: true })).toBeVisible();
+  const tooLong = 'aB9!'.repeat(18) + 'Z';
+  await dialog(page).getByLabel('新密码', { exact: true }).fill(tooLong);
+  await dialog(page).getByLabel('再次输入新密码', { exact: true }).fill(tooLong);
+  await dialog(page).getByRole('button', { name: '保存新密码', exact: true }).click();
+  await expect(dialog(page)).toContainText('密码超过72字节');
+  expect(api.calls.filter(call => call.path === '/api/auth/flow/complete')).toHaveLength(0);
+  const accepted = '  fixture password  ';
+  await dialog(page).getByLabel('新密码', { exact: true }).fill(accepted);
+  await dialog(page).getByLabel('再次输入新密码', { exact: true }).fill(accepted);
+  await dialog(page).getByRole('button', { name: '保存新密码', exact: true }).click();
+  await expect(dialog(page)).toContainText('操作已完成');
+  expect(api.calls.find(call => call.path === '/api/auth/flow/complete')?.body?.newPassword).toBe(accepted);
+});
+
 test('忘记密码使用动态码与恢复码，验证器丢失使用密码与恢复码', async ({ page, context }) => {
   const api = new AccountApi(context); await api.install(); await open(page, api);
   await page.getByRole('button', { name: '登录', exact: true }).click(); await dialog(page).getByRole('button', { name: '忘记密码', exact: true }).click();

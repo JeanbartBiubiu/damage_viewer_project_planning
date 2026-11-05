@@ -8,6 +8,7 @@ import {
 } from '../../services/authClient';
 import { ApiRequestError, getErrorMessage } from '../../services/apiClient';
 import { getAuthSession, onLoginRequired, setAuthSession, subscribeAuthState, type LoginPromptKind } from '../../services/authState';
+import { PASSWORD_RULE_HINT, passwordByteLength, passwordValidationError } from './passwordPolicy';
 
 type Entry = 'login' | 'register' | 'recover-password' | 'recover-totp' | 'security';
 type Result = { purpose?: FlowPurpose; accountId?: string; pending?: boolean };
@@ -169,9 +170,8 @@ function AccountDialog({ entry, apiBaseUrl, onEntryChange, onClose }: {
     if (entry !== 'security' && !/^[a-zA-Z0-9_]{3,32}$/.test(username)) {
       setError('用户名须为 3～32 位字母、数字或下划线。'); return;
     }
-    if (entry === 'register' && (password.length < 12 || password.length > 128)) {
-      setError('密码须为 12～128 个字符，空格也属于密码。'); return;
-    }
+    const passwordError = entry === 'register' ? passwordValidationError(password) : null;
+    if (passwordError) { setError(passwordError); return; }
     if (entry === 'register' && password !== passwordConfirmation) { setError('两次输入的密码不一致。'); return; }
     if (entry !== 'recover-password' && !password) { setError('请输入密码。'); return; }
     if ((entry === 'security' || entry === 'recover-password') && !validTotp()) return;
@@ -200,7 +200,8 @@ function AccountDialog({ entry, apiBaseUrl, onEntryChange, onClose }: {
     });
   };
   const submitPassword = () => {
-    if (newPassword.length < 12 || newPassword.length > 128) { setError('新密码须为 12～128 个字符。'); return; }
+    const passwordError = passwordValidationError(newPassword);
+    if (passwordError) { setError(passwordError); return; }
     if (newPassword !== passwordConfirmation) { setError('两次输入的新密码不一致。'); return; }
     void withOperation(async isCurrent => {
       await completePasswordFlow(apiBaseUrl, newPassword);
@@ -250,6 +251,7 @@ function AccountDialog({ entry, apiBaseUrl, onEntryChange, onClose }: {
         </> : <Typography.Paragraph>恢复码尚未加载，请查询当前进度重试。</Typography.Paragraph>}
       </> : passwordPurpose(flow) ? <Form layout="vertical" onSubmit={submitPassword}>
         <Form.Item label="新密码" required><Input.Password aria-label="新密码" value={newPassword} onChange={setNewPassword} autoComplete="new-password" disabled={busy} maxLength={128} /></Form.Item>
+        <Typography.Paragraph type="secondary">{PASSWORD_RULE_HINT} 当前已用 {passwordByteLength(newPassword)}/72 字节。</Typography.Paragraph>
         <Form.Item label="再次输入新密码" required><Input.Password aria-label="再次输入新密码" value={passwordConfirmation} onChange={setPasswordConfirmation} autoComplete="new-password" disabled={busy} maxLength={128} /></Form.Item>
         <Button type="primary" htmlType="submit" loading={busy}>保存新密码</Button>
       </Form> : <>
@@ -270,7 +272,7 @@ function AccountDialog({ entry, apiBaseUrl, onEntryChange, onClose }: {
       {entry === 'register' ? <Form.Item label="再次输入密码" required><Input.Password aria-label="再次输入密码" value={passwordConfirmation} onChange={setPasswordConfirmation} autoComplete="new-password" disabled={busy} maxLength={128} /></Form.Item> : null}
       {entry === 'recover-password' || entry === 'security' ? otpInput : null}
       {entry === 'recover-password' || entry === 'recover-totp' ? <Form.Item label="未使用的恢复码" required><Input aria-label="未使用的恢复码" value={recoveryCode} onChange={setRecoveryCode} autoComplete="off" disabled={busy} /></Form.Item> : null}
-      {entry === 'register' ? <Typography.Paragraph type="secondary">密码须为 12～128 个字符。注册后须绑定验证器、保存恢复码，再等待开通。</Typography.Paragraph> : null}
+      {entry === 'register' ? <Typography.Paragraph type="secondary">{PASSWORD_RULE_HINT} 当前已用 {passwordByteLength(password)}/72 字节。注册后须绑定验证器、保存恢复码，再等待开通。</Typography.Paragraph> : null}
       <Button type="primary" htmlType="submit" loading={busy}>{entry === 'register' ? '创建账号并绑定验证器' : entry === 'login' ? '下一步' : '验证并继续'}</Button>
       <div style={{ marginTop: 12 }}><Button type="text" disabled={busy} onClick={() => void refreshFlow()}>继续未完成的操作</Button></div>
       {entry === 'login' ? <Space wrap>

@@ -1,5 +1,18 @@
 BEGIN;
 
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
+DO $installation$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_extension e JOIN pg_namespace n ON n.oid=e.extnamespace
+                   WHERE e.extname='pgcrypto' AND n.nspname='public')
+       OR to_regprocedure('public.crypt(text,text)') IS NULL
+       OR to_regprocedure('public.gen_salt(text,integer)') IS NULL
+       OR to_regprocedure('public.gen_random_bytes(integer)') IS NULL THEN
+        RAISE EXCEPTION '账号密码扩展必须安装在 public，且所需函数完整';
+    END IF;
+END
+$installation$;
+
 CREATE SCHEMA auth;
 
 -- 账号。可登录就是已付费，账号禁用由 status 独立控制。

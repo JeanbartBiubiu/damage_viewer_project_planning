@@ -2,7 +2,6 @@ package xyz.game.datamanage.support.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.bastiaanjansen.otp.HOTPGenerator;
-import com.bastiaanjansen.otp.SecretGenerator;
 import com.google.crypto.tink.Aead;
 import com.google.crypto.tink.CleartextKeysetHandle;
 import com.google.crypto.tink.JsonKeysetReader;
@@ -16,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
-import java.security.SecureRandom;
 import java.security.Signature;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Instant;
@@ -29,14 +27,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AccountCrypto {
-    private final SecureRandom random = new SecureRandom();
     private final AccountProperties properties;
     private final ObjectMapper json;
     private volatile Aead aead;
     public AccountCrypto(AccountProperties properties, ObjectMapper json) { this.properties = properties; this.json = json; }
-    public String randomToken() { byte[] b = new byte[32]; random.nextBytes(b); return b64(b); }
-    public String recoveryCode() { byte[] b = new byte[16]; random.nextBytes(b); return b64(b); }
-    public String newTotpSecret() { return new String(SecretGenerator.generate(), StandardCharsets.US_ASCII); }
     public static byte[] hash(String s) {
         try { return MessageDigest.getInstance("SHA-256").digest(s.getBytes(StandardCharsets.UTF_8)); }
         catch (Exception e) { throw new IllegalStateException("SHA-256不可用"); }

@@ -30,12 +30,14 @@ public class AccountService {
     private final AccountStore store;
     private final AccountCrypto crypto;
     private final PasswordTasks passwords;
+    private final AccountDatabaseCrypto database;
     private final AccountRateLimits limits;
     private final AccountProperties properties;
     private final AccountBrowser browser;
     public AccountService(AccountStore store, AccountCrypto crypto, PasswordTasks passwords, AccountRateLimits limits,
-                          AccountProperties properties, AccountBrowser browser) {
+                          AccountProperties properties, AccountBrowser browser,AccountDatabaseCrypto database) {
         this.store=store; this.crypto=crypto; this.passwords=passwords; this.limits=limits; this.properties=properties; this.browser=browser;
+        this.database=database;
     }
     public static String username(String raw) {
         if (raw==null || !raw.matches("[A-Za-z0-9_]{3,32}")) throw AccountErrors.bad();
@@ -91,7 +93,7 @@ public class AccountService {
     }
     private Issued start(Account account, String purpose, UUID sourceSession, UUID recoveryCode) {
         if (!"login".equals(purpose)) store.revokeChanges(account.id());
-        String token=crypto.randomToken(), csrf=crypto.randomToken();
+        var tokens=database.tokens();String token=tokens.token(),csrf=tokens.csrf();
         UUID id=UUID.randomUUID();
         store.jdbc().update("""
             INSERT INTO auth.flows(id,account_id,token_hash,csrf_hash,auth_epoch,purpose,source_session_id,verified_recovery_code_id,expires_at)
@@ -136,7 +138,7 @@ public class AccountService {
                 Credential old=store.credential(a.id());
                 long version=old==null?1:old.version()+1;
                 String aad=a.id()+"|flow:"+f.id()+"|"+f.purpose()+"|totp|"+version;
-                byte[] encrypted=crypto.encrypt(crypto.newTotpSecret(),aad);
+                byte[] encrypted=crypto.encrypt(database.totpSecret(),aad);
                 store.jdbc().update("UPDATE auth.flows SET candidate_secret_ciphertext=?,candidate_credential_version=?,encryption_key_id=? WHERE id=?",encrypted,version,properties.getAeadKeyId(),f.id());
                 f=store.flow(AccountCrypto.hash(AccountBrowser.cookie(request,AccountBrowser.FLOW)),false);
             }
@@ -154,8 +156,7 @@ public class AccountService {
         }));
     }
     private void ready(Account account, Flow flow) {
-        List<String> codes=new ArrayList<>();
-        for (int i=0;i<10;i++) codes.add(crypto.recoveryCode());
+        List<String> codes=database.recoveryCodes();
         // 码的永久摘要在最终确认事务中写入，短期明文只存在本流程的密文中。
         byte[] material=crypto.encrypt(String.join("\n",codes),materialAad(flow));
         store.jdbc().update("UPDATE auth.flows SET recovery_material_ciphertext=?,encryption_key_id=?,phase='recovery_codes_ready' WHERE id=?",material,properties.getAeadKeyId(),flow.id());
@@ -206,7 +207,7 @@ public class AccountService {
             phase(f,"started",Set.of("login"));
             AccountErrors.enabled(a);
             currentTotp(a,code);
-            String token=crypto.randomToken(), csrf=crypto.randomToken(); UUID id=UUID.randomUUID();
+            var tokens=database.tokens();String token=tokens.token(),csrf=tokens.csrf(); UUID id=UUID.randomUUID();
             store.jdbc().update("INSERT INTO auth.sessions(id,account_id,token_hash,csrf_hash,auth_epoch,expires_at) VALUES (?,?,?,?,?,CURRENT_TIMESTAMP+INTERVAL '7 days')",id,a.id(),AccountCrypto.hash(token),AccountCrypto.hash(csrf),a.epoch());
             Session s=store.session(id);
             store.finish(f.id()); store.event(a.id(),a.id(),"account","account.login");
