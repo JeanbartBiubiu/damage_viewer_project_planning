@@ -1,6 +1,8 @@
 # Damage Viewer 数据库导览
 
-当前结构由 [建表脚本](game_manage/schema.sql) 和 [约束与图片分区脚本](game_manage/triggers.sql) 定义；后端接口、迁移及检查命令见[后端说明](../server/data_manage/README.md)。本文只说明目录与阅读入口，不保存第二份字段定义。
+游戏配置结构由 [建表脚本](game_manage/schema.sql) 和 [约束与图片分区脚本](game_manage/triggers.sql) 定义；账号、统计和任务治理分别从下表进入。后端接口、迁移及检查命令见[后端说明](../server/data_manage/README.md)。本文只说明目录与阅读入口，不保存第二份字段定义。
+
+修改数据库文件先读[数据库规则](AGENTS.md)。新增表、字段、查询或迁移时，从[数据库设计与验证指南](../文档记录/项目说明/开发指南/数据库设计与验证指南.md)明确事实、身份、空值、约束、索引和验证方法；后端事务与接口接线继续由[后端编码指南](../文档记录/项目说明/开发指南/后端编码指南.md)维护。
 
 ## 目录职责
 
@@ -27,4 +29,6 @@
 
 已有库先核对实际结构，再按后端说明选择对应功能的迁移。`build_system_management.sql` 是符文专用三表到构筑系统的破坏式替换；`rune_management.sql` 仅是更早基线的历史迁移。不要批量重放迁移，也不要将 `CREATE TABLE IF NOT EXISTS` 当作结构升级器。
 
-旧实体模型、版本发布、发布快照和旧分区说明已清理，需追溯时查看Git历史。当前规则与数据操作边界见[根协作规则](../AGENTS.md)及[后端规则](../server/data_manage/AGENTS.md)。
+账号和访问统计各自的首次安装、已有库前置与保留策略见[账号数据库说明](user_manage/README.md)、[访问统计说明](visit_statistics/README.md)，不能把游戏配置初始化顺序套用到所有目录。
+
+旧实体模型、版本发布、发布快照和旧分区说明已清理，需追溯时查看Git历史。当前规则与数据操作边界见[根协作规则](../AGENTS.md)、[数据库规则](AGENTS.md)及[后端规则](../server/data_manage/AGENTS.md)。

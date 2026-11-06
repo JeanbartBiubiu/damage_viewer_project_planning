@@ -8,6 +8,7 @@
 
 | 想了解什么 | 当前入口 |
 | --- | --- |
+| 乘区、属性与资源、公式时点、伤害金额等概念口径 | [领域知识库](文档记录/领域知识库/README.md) |
 | 产品目标、当前能力和后续愿景 | [背景说明](文档记录/需求澄清/项目/背景说明.md) |
 | 管理模型与数据责任 | [系统精简设计](文档记录/概要设计/项目/实录驱动的系统精简设计.md) |
 | 技能计算的简化和保留边界 | [技能计算取舍](文档记录/概要设计/项目/技能六模块能力组合表.md) |
@@ -28,7 +29,7 @@
 | 前端 | [前端说明](web/README.md)、[前端规则](web/AGENTS.md) |
 | 后端 | [后端说明](server/data_manage/README.md)、[后端规则](server/data_manage/AGENTS.md) |
 | 计算引擎 | [引擎说明](wasm/tinygo_engine_v2/README.md)、[引擎规则](wasm/tinygo_engine_v2/AGENTS.md)、[当前架构](wasm/tinygo_engine_v2/ARCHITECTURE.md) |
-| 数据库与共享定义 | [数据库导览](db/README.md)、[共同公式](contracts/formula/README.md)、[固定枚举](contracts/system-enums/README.md) |
+| 数据库与共享定义 | [数据库导览](db/README.md)、[数据库规则](db/AGENTS.md)、[共同公式](contracts/formula/README.md)、[固定枚举](contracts/system-enums/README.md) |
 
 ## 验证与文档维护
 
