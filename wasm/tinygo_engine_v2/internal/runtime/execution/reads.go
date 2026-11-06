@@ -509,16 +509,11 @@ func validateProviderElapsedSnapshot(snapshot model.Snapshot, compiled planbundl
 }
 
 func preserveFormulaIssue(err error, fallback *model.EngineError) *model.EngineError {
-	return evaluation.PreserveFormulaIssue(err, fallback)
+	return evaluation.PreserveFormulaIssue(err, fallback, "")
 }
 
 func (f *Frame) preserveFormulaIssue(err error, fallback *model.EngineError) *model.EngineError {
-	out := preserveFormulaIssue(err, fallback)
-	_, grouped := out.Details["attributeGroupSource"]
-	if _, common := out.Details["formulaKey"]; common && !grouped && f.abilityRef != "" {
-		out.Ref = f.abilityRef
-	}
-	return out
+	return evaluation.PreserveFormulaIssue(err, fallback, f.abilityRef)
 }
 
 func (s *Engine) evalFormulaError(id formula.GenericProgramID, err error, ref string) *model.EngineError {

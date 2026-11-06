@@ -442,8 +442,7 @@ func (s *Engine) initSkillHitState() *model.EngineError {
 			history:  hit.NewHistory(use.PriorQualifiedContacts),
 		}
 	}
-	s.bindDynamicProviderListeners()
-	return nil
+	return s.bindDynamicProviderListeners()
 }
 
 func (s *Engine) lookupDriverAbility(entry model.DriverEntry) (planbundle.CompiledAbility, string, bool) {
@@ -848,7 +847,7 @@ func (s *Engine) removeProviderInstanceStrict(targetKey, providerRef, definition
 	return nil
 }
 
-func (s *Engine) bindDynamicProviderListeners() {
+func (s *Engine) bindDynamicProviderListeners() *model.EngineError {
 	static := map[string]bool{}
 	for _, combatant := range s.compiled.Combatants {
 		for _, mount := range combatant.ProviderMounts {
@@ -861,17 +860,23 @@ func (s *Engine) bindDynamicProviderListeners() {
 			if static[c.numbers.Key()+"\x00"+inst.ProviderRef] {
 				continue
 			}
-			s.bindProviderInstanceListeners(inst)
+			if err := s.bindProviderInstanceListeners(inst); err != nil {
+				return err
+			}
 		}
 	}
+	return nil
 }
 
-func (s *Engine) bindProviderInstanceListeners(inst effectpkg.Provider) {
+func (s *Engine) bindProviderInstanceListeners(inst effectpkg.Provider) *model.EngineError {
 	if int(inst.DefinitionIndex) >= len(s.compiled.Providers) {
-		return
+		return nil
 	}
 	provider := s.compiled.Providers[inst.DefinitionIndex]
-	s.listeners.Bind(provider.Listeners, inst.Owner, inst.ProviderRef)
+	if !s.listeners.Bind(provider.Listeners, inst.Owner, inst.ProviderRef) {
+		return s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "dynamic listener identity space exhausted", "providers["+inst.ProviderRef+"].listeners", inst.ProviderRef)
+	}
+	return nil
 }
 
 func (s *Engine) unbindProviderInstanceListeners(ownerKey, providerRef string) {

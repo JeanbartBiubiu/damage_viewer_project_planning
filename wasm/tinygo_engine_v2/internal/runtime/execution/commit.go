@@ -77,7 +77,10 @@ func (f *Frame) commit() {
 			}
 			switch mut.Kind {
 			case "shield_apply":
-				f.run.mountFreshProviderInstance(mut.TargetKey, mut.SourceKey, mut.DefinitionIndex, mut.ProviderRef, mut.ExpireAt, mut.Contributions)
+				if err := f.run.mountFreshProviderInstance(mut.TargetKey, mut.SourceKey, mut.DefinitionIndex, mut.ProviderRef, mut.ExpireAt, mut.Contributions); err != nil {
+					f.fatal, f.fatalErr = true, err
+					return
+				}
 			case "apply":
 				if err := f.run.applyProviderInstanceWithRef(mut.TargetKey, mut.SourceKey, mut.DefinitionRef, mut.ProviderRef, mut.ExpireAt, mut.HasExpireAt, mut.Contributions); err != nil {
 					f.fatal = true

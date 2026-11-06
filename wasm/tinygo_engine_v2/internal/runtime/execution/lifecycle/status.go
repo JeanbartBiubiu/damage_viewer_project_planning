@@ -6,6 +6,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/plan"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
+	"tinygo_engine_v2/internal/runtime/execution/evaluation"
 )
 
 func (e *Executor) PrepareLifecycle(provider plan.CompiledProvider, evalCtx formula.GenericEvalContext, now int64) (PreparedLifecycle, *model.EngineError) {
@@ -49,7 +50,7 @@ func (e *Executor) preparedDuration(provider plan.CompiledProvider, evalCtx form
 	}
 	value, err := e.formulas.EvalContext(lc.DurationProgram, &evalCtx)
 	if err != nil {
-		return 0, preserveFormulaIssue(err, e.fail(model.GenericErrFormulaTypeError, path, err.Error(), provider.ProviderKey))
+		return 0, evaluation.PreserveFormulaIssue(err, e.fail(model.GenericErrFormulaTypeError, path, err.Error(), provider.ProviderKey), "")
 	}
 	if math.IsNaN(value) || math.IsInf(value, 0) {
 		return 0, e.fail(model.GenericErrFormulaTypeError, path, "non-finite duration", provider.ProviderKey)
@@ -82,7 +83,7 @@ func (e *Executor) preparedStatus(provider plan.CompiledProvider, evalCtx formul
 		}
 		value, err := e.formulas.EvalContext(item.StrengthProgram, &evalCtx)
 		if err != nil {
-			return effectpkg.ContributionView{}, preserveFormulaIssue(err, e.fail(model.GenericErrFormulaTypeError, path, err.Error(), item.ResultRef))
+			return effectpkg.ContributionView{}, evaluation.PreserveFormulaIssue(err, e.fail(model.GenericErrFormulaTypeError, path, err.Error(), item.ResultRef), "")
 		}
 		if math.IsNaN(value) || math.IsInf(value, 0) || value < 0 || value > 1 {
 			return effectpkg.ContributionView{}, e.fail(model.GenericErrFormulaTypeError, path, "status contribution strength must be finite and within [0,1]", item.ResultRef)

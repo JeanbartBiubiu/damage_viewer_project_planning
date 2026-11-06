@@ -41,7 +41,7 @@ type DispatchHost[Event, Collector any] interface {
 // Dispatch 先冻结列表与全部条件，再按原序逐项复查活资格并同步执行。
 // 事件与收集器只在本次调用期间借用；递归派发具有独立上下文和冻结数组。
 func Dispatch[Event, Collector any](state *State, input DispatchInput, event Event, collector Collector, host DispatchHost[Event, Collector]) *model.EngineError {
-	dynamic := state.FreezeDynamic()
+	dynamic := append([]dynamicListenerBinding(nil), state.dynamic...)
 	compiledCount := len(input.Compiled)
 	listenerCount := compiledCount + len(dynamic)
 	var inlineConditions [16]uint8
@@ -50,7 +50,7 @@ func Dispatch[Event, Collector any](state *State, input DispatchInput, event Eve
 		frozen = make([]uint8, listenerCount)
 	}
 	for index := 0; index < listenerCount; index++ {
-		definition := dispatchDefinition(input.Compiled, dynamic, index)
+		definition := dispatchBinding(input.Compiled, dynamic, index).definition
 		if !definition.HasCondition || !dispatchMatches(input, definition, host.ListenerMountLive(definition)) {
 			continue
 		}
@@ -64,7 +64,8 @@ func Dispatch[Event, Collector any](state *State, input DispatchInput, event Eve
 		}
 	}
 	for index := 0; index < listenerCount; index++ {
-		definition := dispatchDefinition(input.Compiled, dynamic, index)
+		binding := dispatchBinding(input.Compiled, dynamic, index)
+		definition := binding.definition
 		if !dispatchMatches(input, definition, host.ListenerMountLive(definition)) {
 			continue
 		}
@@ -81,7 +82,7 @@ func Dispatch[Event, Collector any](state *State, input DispatchInput, event Eve
 		if !hasOperations && !hasAbility {
 			continue
 		}
-		if !state.Allow(index, definition.OwnerCombatantKey, definition.OwnerProviderRef, input.CastID, definition.PerCastThrottleMs, input.NowMs) {
+		if !state.Allow(binding.throttleIndex, definition.OwnerCombatantKey, definition.OwnerProviderRef, input.CastID, definition.PerCastThrottleMs, input.NowMs) {
 			continue
 		}
 		if definition.HasOncePerUse && index >= compiledCount {
@@ -120,15 +121,15 @@ func Dispatch[Event, Collector any](state *State, input DispatchInput, event Eve
 		}
 		host.FinishListenerUse(collector, definition, reserved, triggered)
 		if triggered && definition.PerCastThrottleMs > 0 {
-			state.Triggered(index, definition.OwnerCombatantKey, definition.OwnerProviderRef, input.CastID, input.NowMs)
+			state.Triggered(binding.throttleIndex, definition.OwnerCombatantKey, definition.OwnerProviderRef, input.CastID, input.NowMs)
 		}
 	}
 	return host.FinishListenerDispatch(collector)
 }
 
-func dispatchDefinition(compiled, dynamic []planbundle.CompiledListener, index int) planbundle.CompiledListener {
+func dispatchBinding(compiled []planbundle.CompiledListener, dynamic []dynamicListenerBinding, index int) dynamicListenerBinding {
 	if index < len(compiled) {
-		return compiled[index]
+		return dynamicListenerBinding{definition: compiled[index], throttleIndex: index}
 	}
 	return dynamic[index-len(compiled)]
 }

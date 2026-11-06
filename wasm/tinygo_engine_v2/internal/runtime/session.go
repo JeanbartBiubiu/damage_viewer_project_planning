@@ -22,7 +22,7 @@ type SessionAPI interface {
 	// CompileFrame 校验编译帧并编译其载荷，结果沿出箱返回；成功返回0，失败返回-1。
 	CompileFrame(input []byte) int32
 	// CompileJSON 先核验计算授权，再编译作者载荷并登记绑定账号的可复用计划；写出失败时撤销本次登记。
-	// 成功返回0，编译拒绝或执行失败返回-1。
+	// 成功返回0，编译拒绝或执行失败返回-1；错误输出超限时尝试固定短错误，连短错误也无法容纳则清空出箱。
 	CompileJSON(payload []byte) int32
 	// RunFrame 校验运行帧后执行其载荷，结果沿出箱返回；成功返回0，失败返回-1。
 	RunFrame(input []byte) int32
@@ -112,9 +112,8 @@ func (s *Session) CompileJSON(payload []byte) int32 {
 	sessionID := s.registerGenericSession(compiled.Session, accountID)
 	result := compiled.Result
 	result.SessionID = sessionID
-	if code := s.outbox.WriteJSON(model.FrameKindGenericCompileResult, result); code != model.ErrOK {
+	if !s.writeGenericFrame(model.FrameKindGenericCompileResult, result) {
 		delete(s.genericSessions, sessionID)
-		s.writeGenericError(model.GenericPhaseABI, model.GenericErrRuntimeInvariantFailed, "compile result frame write failed", result.SchemaHash, result.RulesHash, sessionID)
 		return -1
 	}
 	return 0
@@ -173,11 +172,10 @@ func (s *Session) RunJSON(payload []byte) int32 {
 	if runErr != nil {
 		// 保留运行层的具体字段路径与引用，避免宿主只收到无法定位的错误消息。
 		runErr.SchemaHash, runErr.RulesHash, runErr.SessionID = entry.schemaHash, entry.rulesHash, req.SessionID
-		s.outbox.WriteJSON(model.FrameKindGenericError, *runErr)
+		s.writeGenericFrame(model.FrameKindGenericError, *runErr)
 		return -1
 	}
-	if code := s.outbox.WriteJSON(model.FrameKindGenericDone, done.JSONValue()); code != model.ErrOK {
-		s.writeGenericError(model.GenericPhaseABI, model.GenericErrRuntimeInvariantFailed, "done frame write failed", entry.schemaHash, entry.rulesHash, req.SessionID)
+	if !s.writeGenericFrame(model.FrameKindGenericDone, done.JSONValue()) {
 		return -1
 	}
 	return 0
@@ -216,12 +214,11 @@ func (s *Session) ReleaseSessionJSON(payload []byte) int32 {
 		return -1
 	}
 	delete(s.genericSessions, req.SessionID)
-	if code := s.outbox.WriteJSON(model.FrameKindGenericReleaseResult, model.GenericReleaseDonePayload{
+	if !s.writeGenericFrame(model.FrameKindGenericReleaseResult, model.GenericReleaseDonePayload{
 		OK:        true,
 		SessionID: req.SessionID,
 		Released:  true,
-	}); code != model.ErrOK {
-		s.writeGenericError(model.GenericPhaseABI, model.GenericErrRuntimeInvariantFailed, "release result frame write failed", entry.schemaHash, entry.rulesHash, req.SessionID)
+	}) {
 		return -1
 	}
 	return 0
@@ -249,12 +246,28 @@ func (s *Session) authorizationTime() int64 {
 }
 
 func (s *Session) writeGenericCompileResult(result model.CompileResult) {
-	s.outbox.WriteJSON(model.FrameKindGenericCompileResult, result)
+	s.writeGenericFrame(model.FrameKindGenericCompileResult, result)
 }
 
 func (s *Session) writeGenericError(phase model.GenericErrorPhase, code model.GenericErrCode, message, schemaHash, rulesHash, sessionID string) {
 	payload := engineError(phase, code, message, schemaHash, rulesHash, sessionID)
-	s.outbox.WriteJSON(model.FrameKindGenericError, payload)
+	s.writeGenericFrame(model.FrameKindGenericError, payload)
+}
+
+// 所有会话输出共用失败边界；固定短错误不带可能造成超限的请求标识或原错误文本。
+func (s *Session) writeGenericFrame(kind model.FrameKind, payload any) bool {
+	code := s.outbox.WriteJSON(kind, payload)
+	if code == model.ErrOK {
+		return true
+	}
+	s.outbox.Clear()
+	failure := model.NewEngineError(model.GenericPhaseABI, model.GenericErrRuntimeInvariantFailed, "outbox frame write failed")
+	failure.Path = "outbox"
+	failure.Details = map[string]interface{}{"frameKind": kind, "writeCode": code}
+	if s.outbox.WriteJSON(model.FrameKindGenericError, failure) != model.ErrOK {
+		s.outbox.Clear()
+	}
+	return false
 }
 
 func engineError(phase model.GenericErrorPhase, code model.GenericErrCode, message, schemaHash, rulesHash, sessionID string) model.EngineError {

@@ -2,7 +2,7 @@ package listener
 
 import "tinygo_engine_v2/internal/model"
 
-// perCastThrottleKey 保留既有监听序号、拥有者、挂载和施放的完整身份。
+// perCastThrottleKey 保存稳定监听编号、拥有者、挂载和施放的完整身份。
 type perCastThrottleKey struct {
 	listenerIndex     int
 	ownerCombatantKey string
@@ -96,12 +96,21 @@ func (s *State) evictPerCastThrottleIfNeeded() {
 	}
 }
 
-// 淘汰顺序先比较施放身份，再比较监听序号、拥有者和挂载，不依赖映射遍历顺序。
+// 淘汰先比较施放身份，再按静态编译索引、动态绑定先后、拥有者及挂载稳定比较。
 func perCastThrottleLess(a, b perCastThrottleKey) bool {
 	if a.castInstanceID != b.castInstanceID {
 		return a.castInstanceID < b.castInstanceID
 	}
 	if a.listenerIndex != b.listenerIndex {
+		if a.listenerIndex < 0 && b.listenerIndex >= 0 {
+			return false
+		}
+		if a.listenerIndex >= 0 && b.listenerIndex < 0 {
+			return true
+		}
+		if a.listenerIndex < 0 {
+			return a.listenerIndex > b.listenerIndex
+		}
 		return a.listenerIndex < b.listenerIndex
 	}
 	if a.ownerCombatantKey != b.ownerCombatantKey {

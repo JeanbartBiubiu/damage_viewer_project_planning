@@ -156,18 +156,25 @@ function decodeFrames(bytes: Uint8Array): TinyGoV2Frame[] {
     if (view.getUint32(0, true) !== MAGIC) {
       throw new Error('TinyGo V2 outbox frame has invalid magic.');
     }
+    const schemaVersion = view.getUint16(4, true);
+    if (schemaVersion !== SCHEMA_VERSION) {
+      throw new Error(`TinyGo V2 outbox frame has unsupported schema version: ${schemaVersion}`);
+    }
     const payloadLen = view.getUint32(12, true);
     const end = offset + HEADER_LEN + payloadLen;
     if (end > bytes.length) {
       throw new Error('TinyGo V2 outbox frame is truncated.');
     }
     frames.push({
-      schemaVersion: view.getUint16(4, true),
+      schemaVersion,
       kind: view.getUint16(6, true),
       flags: view.getUint32(8, true),
       payload: bytes.slice(offset + HEADER_LEN, end)
     });
     offset = end;
+  }
+  if (offset !== bytes.length) {
+    throw new Error(`TinyGo V2 outbox has trailing fragment of ${bytes.length - offset} byte(s)`);
   }
   return frames;
 }

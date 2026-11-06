@@ -34,7 +34,9 @@ func (f *dispatchFixture) ListenerOperations(event int, collector *int, definiti
 	if event == 1 && definition.ListenerKey == "first" {
 		f.state.Unbind("source", "dynamic_mount")
 		f.dynamicLive = false
-		f.state.Bind([]planbundle.CompiledListener{{ListenerKey: "new", HasCondition: true, OperationCount: 1}}, "source", "new_mount")
+		if !f.state.Bind([]planbundle.CompiledListener{{ListenerKey: "new", HasCondition: true, OperationCount: 1}}, "source", "new_mount") {
+			return f.ListenerDispatchError(model.GenericErrRuntimeInvariantFailed, "new listener fixture could not bind", "listeners", "new")
+		}
 		// A nested dispatch owns its own frozen list and conditions. The outer
 		// dispatch must still use its original list, then recheck the old mount.
 		nestedCollector := 0
@@ -67,7 +69,9 @@ func (f *dispatchFixture) ListenerDispatchError(code model.GenericErrCode, messa
 
 func TestDispatchFreezesAllConditionsAndKeepsOuterListAcrossNestedMutation(t *testing.T) {
 	state := New(10)
-	state.Bind([]planbundle.CompiledListener{{ListenerKey: "dynamic", HasCondition: true, OperationCount: 1}}, "source", "dynamic_mount")
+	if !state.Bind([]planbundle.CompiledListener{{ListenerKey: "dynamic", HasCondition: true, OperationCount: 1}}, "source", "dynamic_mount") {
+		t.Fatal("dynamic listener fixture could not bind")
+	}
 	fixture := &dispatchFixture{state: &state, dynamicLive: true}
 	input := DispatchInput{Compiled: []planbundle.CompiledListener{{ListenerKey: "first", HasCondition: true, OperationCount: 1}}}
 	collector := 0

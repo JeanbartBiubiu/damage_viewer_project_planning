@@ -119,11 +119,9 @@ func TestListenerSnapshotFreezesDynamicMembershipConditionsAndIndices(t *testing
 			if attrs.At("listener_trace").Base != 1234 || attrs.At("listener_gate").Base != 1 {
 				t.Fatalf("frozen order or conditions changed: trace=%v gate=%v", attrs.At("listener_trace").Base, attrs.At("listener_gate").Base)
 			}
-			for index, listener := range original {
-				triggered := !state.listeners.Allow(index, listener.OwnerCombatantKey, listener.OwnerProviderRef, firstCastID, 1, state.loop.TimeMs())
-				if want := listener.ListenerKey != "rejected"; triggered != want {
-					t.Fatalf("listener %q frozen index=%d trigger=%t", listener.ListenerKey, index, triggered)
-				}
+			static := original[0]
+			if state.listeners.Allow(0, static.OwnerCombatantKey, static.OwnerProviderRef, firstCastID, 1, state.loop.TimeMs()) {
+				t.Fatal("static listener lost its successful throttle record")
 			}
 			if state.listeners.DynamicLen() != listenerCount-1 || state.listeners.DynamicAt(0).ListenerKey != "second" ||
 				state.listeners.DynamicAt(state.listeners.DynamicLen()-1).ListenerKey != "added" {
@@ -139,5 +137,44 @@ func TestListenerSnapshotFreezesDynamicMembershipConditionsAndIndices(t *testing
 				t.Fatalf("next-event membership or condition freeze changed: trace=%v gate=%v", attrs.At("listener_trace").Base, attrs.At("listener_gate").Base)
 			}
 		})
+	}
+}
+
+func TestDynamicListenerSameCastThrottleSurvivesRealProviderRemoval(t *testing.T) {
+	c, r := frameCommitInput()
+	c.TypeCatalog.Types = append(c.TypeCatalog.Types,
+		model.TypeCatalogEntry{Key: "listener_trace", Domain: "attribute"},
+		model.TypeCatalogEntry{Key: listenerSnapshotEventType, Domain: "event"})
+	slot := model.AttributeSlotDef{Max: 1000000000}
+	c.Combatants[0].Attributes["listener_trace"] = slot
+	r.InitialSnapshot.Combatants[0].Attributes["listener_trace"] = slot
+	matcher := model.TypeMatcher{All: []string{listenerSnapshotEventType}}
+	first := model.ProviderDefinition{ProviderKey: "stable:first_def", Kind: "status", StableID: "stable_first",
+		Listeners: []model.ListenerDefinition{{ListenerKey: "first", EventMatcher: matcher, PerCastThrottleMs: 100,
+			Operations: []model.OperationDefinition{{Operation: "expire_provider", Target: "source", ProviderRef: "stable:first"}}}}}
+	followers := model.ProviderDefinition{ProviderKey: "stable:followers_def", Kind: "status", StableID: "stable_followers",
+		Listeners: []model.ListenerDefinition{
+			{ListenerKey: "second", EventMatcher: matcher, PerCastThrottleMs: 100, Operations: []model.OperationDefinition{listenerSnapshotTrace(2)}},
+			{ListenerKey: "third", EventMatcher: matcher, PerCastThrottleMs: 100, Operations: []model.OperationDefinition{listenerSnapshotTrace(3)}},
+		}}
+	c.SharedProviders = append(c.SharedProviders, first, followers)
+	r.InitialSnapshot.Combatants[0].Providers = append(r.InitialSnapshot.Combatants[0].Providers,
+		model.CombatantProviderSnapshot{ProviderRef: "stable:first", DefinitionRef: first.ProviderKey, Source: "source", Owner: "source", Stacks: 1},
+		model.CombatantProviderSnapshot{ProviderRef: "stable:followers", DefinitionRef: followers.ProviderKey, Source: "source", Owner: "source", Stacks: 1})
+	state := frameCommitState(t, c, r)
+	for _, scenario := range []struct {
+		at   int64
+		want float64
+	}{{0, 23}, {1, 23}, {99, 23}, {100, 2323}} {
+		state.loop.Advance(scenario.at)
+		if err := state.dispatchListeners(listenerSnapshotEvent(state, 7), 0); err != nil {
+			t.Fatal(err)
+		}
+		if trace := state.combatants["source"].attributesView().At("listener_trace").Base; trace != scenario.want {
+			t.Fatalf("same cast at %dms: trace=%v want %v", scenario.at, trace, scenario.want)
+		}
+		if state.listeners.DynamicLen() != 2 || state.listeners.DynamicAt(0).ListenerKey != "second" || state.listeners.DynamicAt(1).ListenerKey != "third" {
+			t.Fatal("real provider removal changed surviving listeners", state.listeners.FreezeDynamic())
+		}
 	}
 }

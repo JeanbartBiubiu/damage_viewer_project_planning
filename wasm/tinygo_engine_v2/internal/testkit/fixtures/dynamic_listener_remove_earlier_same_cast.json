@@ -1,0 +1,409 @@
+{
+  "name": "dynamic_listener_remove_earlier_same_cast",
+  "phase": "run",
+  "compileRequest": {
+    "schemaVersion": "generic-p0",
+    "schemaHash": "schema.generic-p0.example",
+    "rulesHash": "rules.dynamic_listener_remove_earlier_same_cast",
+    "typeCatalog": {
+      "types": [
+        {
+          "key": "combatant/champion",
+          "domain": "combatant"
+        },
+        {
+          "key": "provider/champion",
+          "domain": "provider"
+        },
+        {
+          "key": "ability/basic_attack",
+          "domain": "ability"
+        },
+        {
+          "key": "damage/physical",
+          "domain": "damage"
+        },
+        {
+          "key": "event/damage_dealt",
+          "domain": "event"
+        },
+        {
+          "key": "event/ability_cast",
+          "domain": "event"
+        },
+        {
+          "key": "counter",
+          "domain": "attribute"
+        },
+        {
+          "key": "event/damage_instance",
+          "domain": "event"
+        }
+      ],
+      "relations": []
+    },
+    "combatants": [
+      {
+        "key": "source",
+        "types": [
+          "combatant/champion"
+        ],
+        "attributes": {
+          "hp": {
+            "base": 1000,
+            "current": 1000,
+            "max": 1000,
+            "resolved": 1000
+          },
+          "attack_damage": {
+            "base": 100,
+            "current": 100,
+            "max": 100,
+            "resolved": 100
+          },
+          "armor": {
+            "base": 0,
+            "current": 0,
+            "max": 0,
+            "resolved": 0
+          },
+          "magic_resist": {
+            "base": 0,
+            "current": 0,
+            "max": 0,
+            "resolved": 0
+          },
+          "counter": {
+            "base": 0,
+            "current": 0,
+            "max": 100,
+            "resolved": 0
+          }
+        },
+        "resources": {
+          "mana": {
+            "current": 200,
+            "max": 200
+          }
+        },
+        "providers": [
+          {
+            "providerRef": "champion:source_demo",
+            "definitionRef": "champion:source_demo"
+          }
+        ]
+      },
+      {
+        "key": "target",
+        "types": [
+          "combatant/champion"
+        ],
+        "attributes": {
+          "hp": {
+            "base": 1000,
+            "current": 1000,
+            "max": 1000,
+            "resolved": 1000
+          },
+          "attack_damage": {
+            "base": 50,
+            "current": 50,
+            "max": 50,
+            "resolved": 50
+          },
+          "armor": {
+            "base": 0,
+            "current": 0,
+            "max": 0,
+            "resolved": 0
+          },
+          "magic_resist": {
+            "base": 0,
+            "current": 0,
+            "max": 0,
+            "resolved": 0
+          }
+        },
+        "resources": {},
+        "providers": []
+      }
+    ],
+    "sharedProviders": [
+      {
+        "providerKey": "champion:source_demo",
+        "kind": "champion",
+        "stableId": "source_demo",
+        "types": [
+          "provider/champion"
+        ],
+        "abilities": [
+          {
+            "abilityKey": "basic_attack",
+            "kind": "active",
+            "types": [
+              "ability/basic_attack"
+            ],
+            "params": {
+              "baseDamage": 100
+            },
+            "operations": [
+              {
+                "operation": "damage",
+                "target": "target",
+                "amount": {
+                  "op": "read",
+                  "path": "ability.param.baseDamage"
+                },
+                "damageType": "damage/physical"
+              },
+              {
+                "operation": "damage",
+                "target": "target",
+                "amount": {
+                  "op": "read",
+                  "path": "ability.param.baseDamage"
+                },
+                "damageType": "damage/physical"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "providerKey": "audit:first_def",
+        "kind": "status",
+        "stableId": "audit_first",
+        "listeners": [
+          {
+            "listenerKey": "first",
+            "eventMatcher": {
+              "all": [
+                "event/damage_instance"
+              ]
+            },
+            "perCastThrottleMs": 100,
+            "operations": [
+              {
+                "operation": "expire_provider",
+                "target": "source",
+                "providerRef": "audit:first"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "providerKey": "audit:follower_def",
+        "kind": "status",
+        "stableId": "audit_follower",
+        "listeners": [
+          {
+            "listenerKey": "follower",
+            "eventMatcher": {
+              "all": [
+                "event/damage_instance"
+              ]
+            },
+            "perCastThrottleMs": 100,
+            "operations": [
+              {
+                "operation": "attribute_change",
+                "target": "source",
+                "attributeKey": "counter",
+                "valuePolicy": "add",
+                "amount": {
+                  "op": "const",
+                  "value": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "rules": {
+      "operations": [],
+      "modifiers": [],
+      "listeners": [],
+      "triggerRules": [],
+      "damageTypeFormulas": [
+        {
+          "damageType": "damage/physical",
+          "formula": {
+            "inputs": [],
+            "stages": [
+              {
+                "key": "factor",
+                "name": "作者明确防御倍率",
+                "expression": {
+                  "op": "const",
+                  "value": "1"
+                }
+              }
+            ],
+            "outputStageKey": "factor"
+          }
+        }
+      ]
+    },
+    "formulas": [],
+    "settings": {}
+  },
+  "runRequest": {
+    "sessionId": "",
+    "expectedRulesHash": "rules.dynamic_listener_remove_earlier_same_cast",
+    "initialSnapshot": {
+      "schemaHash": "schema.generic-p0.example",
+      "rulesHash": "rules.dynamic_listener_remove_earlier_same_cast",
+      "timeMs": 0,
+      "processInstances": [],
+      "useTriggerLedger": [],
+      "combatants": [
+        {
+          "key": "source",
+          "attributes": {
+            "hp": {
+              "base": 1000,
+              "current": 1000,
+              "max": 1000,
+              "resolved": 1000
+            },
+            "attack_damage": {
+              "base": 100,
+              "current": 100,
+              "max": 100,
+              "resolved": 100
+            },
+            "armor": {
+              "base": 0,
+              "current": 0,
+              "max": 0,
+              "resolved": 0
+            },
+            "magic_resist": {
+              "base": 0,
+              "current": 0,
+              "max": 0,
+              "resolved": 0
+            },
+            "counter": {
+              "base": 0,
+              "current": 0,
+              "max": 100,
+              "resolved": 0
+            }
+          },
+          "resources": {
+            "mana": {
+              "current": 200,
+              "max": 200
+            }
+          },
+          "cooldowns": {},
+          "providers": [
+            {
+              "providerRef": "champion:source_demo",
+              "definitionRef": "champion:source_demo",
+              "source": "source",
+              "owner": "source",
+              "stacks": 1,
+              "expireAt": null,
+              "state": {}
+            },
+            {
+              "providerRef": "audit:first",
+              "definitionRef": "audit:first_def",
+              "source": "source",
+              "owner": "source",
+              "stacks": 1,
+              "expireAt": null,
+              "state": {}
+            },
+            {
+              "providerRef": "audit:follower",
+              "definitionRef": "audit:follower_def",
+              "source": "source",
+              "owner": "source",
+              "stacks": 1,
+              "expireAt": null,
+              "state": {}
+            }
+          ],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        },
+        {
+          "key": "target",
+          "attributes": {
+            "hp": {
+              "base": 1000,
+              "current": 1000,
+              "max": 1000,
+              "resolved": 1000
+            },
+            "attack_damage": {
+              "base": 50,
+              "current": 50,
+              "max": 50,
+              "resolved": 50
+            },
+            "armor": {
+              "base": 0,
+              "current": 0,
+              "max": 0,
+              "resolved": 0
+            },
+            "magic_resist": {
+              "base": 0,
+              "current": 0,
+              "max": 0,
+              "resolved": 0
+            }
+          },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        }
+      ]
+    },
+    "driverPlan": {
+      "entries": [
+        {
+          "entryKey": "basic_once",
+          "abilityRef": "source.provider[champion:source_demo].ability[basic_attack]",
+          "source": "source",
+          "target": "target",
+          "firstAtMs": 0,
+          "priority": 0
+        }
+      ]
+    },
+    "stopPolicy": {
+      "durationMs": 100,
+      "stopOnTargetDeath": true,
+      "stopWhenNoEvents": true
+    },
+    "sampling": {
+      "sampleEveryMs": 50,
+      "dpsWindowMs": 1000,
+      "maxSeriesPoints": 1024,
+      "disabled": true
+    },
+    "outputMode": "detailed"
+  },
+  "expectedResultKind": "done",
+  "expectedSummarySubset": {
+    "targetFinalHp": 800,
+    "sourceFinalHp": 1000,
+    "sourceDamageDealt": 200,
+    "abilityAttemptCount": 1,
+    "abilityCastCount": 1
+  },
+  "notes": "独立期望：同一真实施放两笔100伤害；卸载先项不能绕过后继100毫秒同次施放节流。"
+}

@@ -195,12 +195,7 @@ func (c Owner) attributesView() attribute.Table     { return c.Numbers.Attribute
 func (c Owner) resourceView() model.ResourceView    { return c.Numbers.Resources() }
 func (c Owner) setAttributes(value attribute.Table) { c.Numbers.SetAttributes(value) }
 func (f *calculation) preserveFormulaIssue(err error, fallback *model.EngineError) *model.EngineError {
-	out := evaluation.PreserveFormulaIssue(err, fallback)
-	_, grouped := out.Details["attributeGroupSource"]
-	if _, common := out.Details["formulaKey"]; common && !grouped && f.input.AbilityRef != "" {
-		out.Ref = f.input.AbilityRef
-	}
-	return out
+	return evaluation.PreserveFormulaIssue(err, fallback, f.input.AbilityRef)
 }
 func (f *calculation) formulaError(id formula.GenericProgramID, message string) *model.EngineError {
 	path := "formula"
@@ -219,7 +214,7 @@ func (f *calculation) evalResultFormula(id formula.GenericProgramID, ability pla
 	ctx.TargetResources = f.stageFor(target).resourceView()
 	value, err := f.executor.formulas.EvalContext(id, &ctx)
 	if err != nil {
-		return 0, evaluation.PreserveFormulaIssue(err, f.formulaError(id, err.Error()))
+		return 0, evaluation.PreserveFormulaIssue(err, f.formulaError(id, err.Error()), f.input.AbilityRef)
 	}
 	return value, nil
 }

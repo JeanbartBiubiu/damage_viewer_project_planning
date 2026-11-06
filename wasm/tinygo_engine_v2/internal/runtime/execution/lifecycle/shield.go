@@ -8,6 +8,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/plan"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
+	"tinygo_engine_v2/internal/runtime/execution/evaluation"
 )
 
 type ShieldExpiry struct {
@@ -77,7 +78,7 @@ func (e *Executor) ShieldDuration(op plan.CompiledOperation, context formula.Gen
 	}
 	value, err := e.formulas.EvalContext(op.ShieldDurationProgram, &context)
 	if err != nil {
-		return 0, preserveFormulaIssue(err, e.fail(model.GenericErrFormulaTypeError, path, err.Error(), op.ShieldRef))
+		return 0, evaluation.PreserveFormulaIssue(err, e.fail(model.GenericErrFormulaTypeError, path, err.Error(), op.ShieldRef), "")
 	}
 	if !formula.ValidPositiveInt64DurationMs(value) {
 		return 0, e.fail(model.GenericErrFormulaTypeError, path, "shieldDurationMs must be a positive integer within the timestamp range", op.ShieldRef)

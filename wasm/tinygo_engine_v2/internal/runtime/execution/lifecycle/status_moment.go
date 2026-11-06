@@ -6,6 +6,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/plan"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
+	"tinygo_engine_v2/internal/runtime/execution/evaluation"
 )
 
 func (e *Executor) ObserveMomentStatuses(instances effectpkg.ProviderList, snapshots []model.CombatantProviderSnapshot, now int64) *model.EngineError {
@@ -41,7 +42,7 @@ func (e *Executor) momentStatusStrength(inst effectpkg.Provider, definition plan
 	ctx := formula.GenericEvalContext{StrictReads: true, HasProviderContext: true, HasProviderElapsed: true, ProviderElapsedMs: elapsed}
 	value, err := e.formulas.EvalContext(definition.StrengthProgram, &ctx)
 	if err != nil {
-		return 0, preserveFormulaIssue(err, bad(model.GenericErrFormulaTypeError, err.Error()))
+		return 0, evaluation.PreserveFormulaIssue(err, bad(model.GenericErrFormulaTypeError, err.Error()), "")
 	}
 	if math.IsNaN(value) || math.IsInf(value, 0) || value < 0 || value > 1 {
 		return 0, bad(model.GenericErrFormulaTypeError, "status contribution strength must be finite and within [0,1]")

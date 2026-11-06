@@ -10,6 +10,7 @@ import (
 	planbundle "tinygo_engine_v2/internal/plan"
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
+	"tinygo_engine_v2/internal/runtime/execution/evaluation"
 	"tinygo_engine_v2/internal/runtime/execution/lifecycle"
 	reportpkg "tinygo_engine_v2/internal/runtime/report"
 	"tinygo_engine_v2/internal/scheduler"
@@ -226,11 +227,7 @@ func (f *Frame) preserveLifecycleFormulaError(err *model.EngineError) *model.Eng
 	if err == nil {
 		return nil
 	}
-	_, grouped := err.Details["attributeGroupSource"]
-	if _, authored := err.Details["formulaKey"]; authored && !grouped && f.abilityRef != "" {
-		err.Ref = f.abilityRef
-	}
-	return err
+	return evaluation.PreserveFormulaIssue(nil, err, f.abilityRef)
 }
 
 func (f *Frame) adoptLifecycleBudget(err *model.EngineError) *model.EngineError {
@@ -423,11 +420,10 @@ func (s *Engine) applyProviderInstanceWithRef(target, source, definition, assign
 	if !hasExpiry {
 		expiry = 0
 	}
-	s.mountFreshProviderInstance(target, source, decision.DefinitionIndex, reference, expiry, contributions)
-	return nil
+	return s.mountFreshProviderInstance(target, source, decision.DefinitionIndex, reference, expiry, contributions)
 }
 
-func (s *Engine) mountFreshProviderInstance(targetKey, sourceKey string, defIdx uint16, providerRef string, expireAt int64, contributions effectpkg.ContributionView) {
+func (s *Engine) mountFreshProviderInstance(targetKey, sourceKey string, defIdx uint16, providerRef string, expireAt int64, contributions effectpkg.ContributionView) *model.EngineError {
 	executor := s.lifecycleExecutor()
 	inst := executor.FreshProvider(defIdx, providerRef, sourceKey, targetKey, expireAt, s.loop.TimeMs(), contributions)
 	c := s.combatants[targetKey]
@@ -444,7 +440,7 @@ func (s *Engine) mountFreshProviderInstance(targetKey, sourceKey string, defIdx 
 	}
 	s.scheduleInitialProviderTick(targetKey, providerRef, defIdx, expireAt, inst.Source)
 	s.recordProviderLifecycleEvidence(model.EvidenceKindProviderApply, inst)
-	s.bindProviderInstanceListeners(inst)
+	return s.bindProviderInstanceListeners(inst)
 }
 
 func (s *Engine) replaceProviderInstance(target string, index int, instance effectpkg.Provider, expiry int64, hasExpiry bool, contributions effectpkg.ContributionView, kind model.EvidenceKind) *model.EngineError {
