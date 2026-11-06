@@ -17,6 +17,7 @@
 | 英雄技能的原始资料 | [全英雄Wiki入口](数据参考/lol-wiki-champions-full/README.md)、[修订与覆盖清单](数据参考/lol-wiki-champions-full/manifest.json) |
 | 来源卡、资料队列和账本对账 | [资料准备工具](tools/data-readiness/README.md) |
 | 开发、验证和正式证明刷新 | [开发与独立评审流程](文档记录/项目说明/开发与独立评审流程说明.md)、[固定机制回归](web/tests/mechanisms/README.md) |
+| 三端编码、测试写法、构建排错和文件维护 | [开发指南](文档记录/项目说明/开发指南/README.md) |
 | 备用部署步骤 | [部署操作规程](文档记录/项目说明/部署操作规程.md)，未对目标环境演练当前代码 |
 
 ## 按模块继续阅读
