@@ -306,7 +306,7 @@ func (bridge automaticChoiceBridge) RecordAutomaticResult(record model.Automatic
 }
 
 func (bridge automaticChoiceBridge) QueueAutomaticCandidate(at int64, onlyMissing bool) {
-	if !onlyMissing || !bridge.engine.loop.Queue().HasAutomaticSkill() {
+	if !onlyMissing || !bridge.engine.loop.HasAutomaticSkill() {
 		bridge.engine.queueAutomaticSkills(at)
 	}
 }
@@ -647,7 +647,7 @@ func (s *Engine) queueAutomaticSkills(at int64) {
 		return
 	}
 	generation := s.actions.NextAutomaticGeneration()
-	if s.loop.Queue().RescheduleAutomaticSkill(at, generation) {
+	if s.loop.RescheduleAutomaticSkill(at, generation) {
 		return
 	}
 	s.pushCombatEvent(scheduler.GenericEvent{TimeMs: at, Category: scheduler.GenericCategorySkillAction, Kind: scheduler.GenericEventAutomaticSkill, AutomaticGeneration: generation, DriverEntryIndex: -1})
@@ -723,14 +723,14 @@ func (f *Frame) prepareCooldownWakeups() (int, *model.EngineError) {
 		return 0, err
 	}
 	count := 0
-	if plan.Automatic && !f.run.loop.Queue().HasAutomaticSkill() {
+	if plan.Automatic && !f.run.loop.HasAutomaticSkill() {
 		count++
 	}
-	if plan.BasicAttack && !f.run.loop.Queue().HasBasicAttack() {
+	if plan.BasicAttack && !f.run.loop.HasBasicAttack() {
 		count++
 	}
 	for _, attempt := range plan.Attempts {
-		if !f.run.loop.Queue().HasCooldownAttempt(attempt.Entry) {
+		if !f.run.loop.HasCooldownAttempt(attempt.Entry) {
 			count++
 		}
 	}
@@ -741,14 +741,14 @@ func (f *Frame) commitCooldownWakeups() {
 	if f.pendingBasicAttackCooldownWake && f.continuousCombatantsLive() {
 		attack := f.run.actions.BasicAttack()
 		if wait, exists := f.run.combatants[attack.Plan().Source].cooldowns.Wait(basicAttackCooldownWaitKey(attack)); exists {
-			if !f.run.loop.Queue().RescheduleBasicAttack(wait.ReadyAt, wait.Version) {
+			if !f.run.loop.RescheduleBasicAttack(wait.ReadyAt, wait.Version) {
 				f.run.pushCombatEvent(scheduler.GenericEvent{TimeMs: wait.ReadyAt, Category: scheduler.GenericCategoryAbilityAttempt,
 					Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1, BasicAttackGeneration: wait.Version})
 			}
 		}
 	}
 	for _, pending := range f.pendingCooldownAttempts {
-		if f.run.loop.Queue().RescheduleCooldownAttempt(pending.Entry, pending.Wait.ReadyAt, pending.Wait.Version) {
+		if f.run.loop.RescheduleCooldownAttempt(pending.Entry, pending.Wait.ReadyAt, pending.Wait.Version) {
 			continue
 		}
 		f.run.pushCombatEvent(scheduler.GenericEvent{TimeMs: pending.Wait.ReadyAt, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventAbilityAttempt, DriverEntryIndex: pending.Entry, CooldownWaitVersion: pending.Wait.Version})
@@ -764,7 +764,7 @@ func (s *Engine) enqueueCooldownAttempt(at int64, index, attempt int, owner, abi
 	c.cooldowns = c.cooldowns.Clone()
 	wait := c.cooldowns.RegisterWait(whileReadyCooldownWaitKey(owner, entry.EntryKey), []contractpkg.CooldownIdentity{actionpkg.AbilityCooldownIdentity(owner, ability)}, 0, s.loop.TimeMs())
 	s.combatants[owner] = c
-	if s.loop.Queue().RescheduleCooldownAttempt(index, wait.ReadyAt, wait.Version) {
+	if s.loop.RescheduleCooldownAttempt(index, wait.ReadyAt, wait.Version) {
 		return
 	}
 	s.pushCombatEvent(scheduler.GenericEvent{TimeMs: wait.ReadyAt, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventAbilityAttempt, DriverEntryIndex: index, AttemptIndex: attempt, CooldownWaitVersion: wait.Version})

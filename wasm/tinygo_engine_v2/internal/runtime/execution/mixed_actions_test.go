@@ -47,12 +47,12 @@ func TestMixedActionStepQueueFailureDoesNotUnlockOrSpawnExtraAttack(test *testin
 	if err != nil {
 		test.Fatal(err)
 	}
-	state.loop.Queue().Pop()
-	state.loop.Queue().SetLimit(1)
+	takeNextEventForTest(state.loop)
+	state.loop.SetQueueLimit(1)
 	if err := state.handleSkillAction(0); err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents {
 		test.Fatal(err)
 	}
-	if state.actionOccupied("source") || state.loop.Queue().Len() != 1 || state.actions.ManualAt(0).Uses().StartedCount != 1 || state.actions.ManualAt(0).Uses().HitCount != 0 {
+	if state.actionOccupied("source") || state.loop.QueuedEvents() != 1 || state.actions.ManualAt(0).Uses().StartedCount != 1 || state.actions.ManualAt(0).Uses().HitCount != 0 {
 		test.Fatal("failed step transaction changed action ownership or attack queue")
 	}
 }

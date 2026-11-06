@@ -141,9 +141,9 @@ func TestFrameCommitQueueOverflowDropsWholeFrame(t *testing.T) {
 				c.SharedProviders = append(c.SharedProviders, model.ProviderDefinition{ProviderKey: "queued", StableID: "queued", Kind: "status", Lifecycle: &model.ProviderLifecycle{DurationMs: authoringAmount(authoringConst(100))}})
 			}
 			s := frameCommitState(t, c, r)
-			*s.loop.Queue() = scheduler.NewGenericHeap(1)
-			s.loop.Queue().SetLimit(1)
-			if s.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 1000}) != model.ErrOK {
+			clearQueuedEventsForTest(s.loop)
+			s.loop.SetQueueLimit(1)
+			if s.loop.Enqueue(scheduler.GenericEvent{TimeMs: 1000}) != model.ErrOK {
 				t.Fatal("queue setup")
 			}
 			f, ability, ops := frameCommitFrame(s)
@@ -154,8 +154,8 @@ func TestFrameCommitQueueOverflowDropsWholeFrame(t *testing.T) {
 			if f.fatalErr == nil || f.fatalErr.BudgetCause != model.BudgetCauseMaxQueueEvents || f.committed {
 				t.Fatalf("queue failure: %+v", f.fatalErr)
 			}
-			if s.combatantHp("target") != 1000 || s.report.Totals().SourceDamageDealt != 0 || len(s.report.Snapshot().Evidence.Items) != 0 || len(reportedDamageHistory(s)) != 0 || s.combatants["target"].instances.Providers().Len() != 0 || s.combatants["target"].instances.Shields().Len() != 0 || s.loop.Queue().Len() != 1 || s.effectTimers.ExpiryCount() != 0 {
-				t.Fatalf("queue failure leaked state: target=%+v evidence=%+v queue=%d", s.combatants["target"], s.report.Snapshot().Evidence.Items, s.loop.Queue().Len())
+			if s.combatantHp("target") != 1000 || s.report.Totals().SourceDamageDealt != 0 || len(s.report.Snapshot().Evidence.Items) != 0 || len(reportedDamageHistory(s)) != 0 || s.combatants["target"].instances.Providers().Len() != 0 || s.combatants["target"].instances.Shields().Len() != 0 || s.loop.QueuedEvents() != 1 || s.effectTimers.ExpiryCount() != 0 {
+				t.Fatalf("queue failure leaked state: target=%+v evidence=%+v queue=%d", s.combatants["target"], s.report.Snapshot().Evidence.Items, s.loop.QueuedEvents())
 			}
 		})
 	}
@@ -251,21 +251,21 @@ func TestFrameCommitAnchoredEventsDoNotEscapeFailedFrame(t *testing.T) {
 			c, r := loadAnchoredVenomFixture(t, anchoredFixtureOpts{intervalMs: 10, durationMs: 100})
 			c.SharedProviders[0].Abilities[0].Operations = append(c.SharedProviders[0].Abilities[0].Operations, frameCommitDamage(100))
 			s := frameCommitState(t, c, r)
-			*s.loop.Queue() = scheduler.NewGenericHeap(1)
+			clearQueuedEventsForTest(s.loop)
 			s.actions.SetAttackActive(true)
 			s.budget.MaxCommandsPerEvent = 1
 			wantCause := model.BudgetCauseMaxCommandsPerEvent
 			if queueFailure {
 				s.budget.MaxCommandsPerEvent = 10
-				s.loop.Queue().SetLimit(1)
+				s.loop.SetQueueLimit(1)
 				wantCause = model.BudgetCauseMaxQueueEvents
 			}
 			err := s.executeAbilityCast(r.DriverPlan.Entries[0])
 			if err == nil || err.BudgetCause != wantCause {
 				t.Fatalf("expected %s: %+v", wantCause, err)
 			}
-			if s.loop.Queue().Len() != 0 || s.effectTimers.AnchoredCount() != 0 || s.effectTimers.ExpiryCount() != 0 || s.report.Totals().SourceDamageDealt != 0 || len(s.report.Snapshot().Evidence.Items) != 0 {
-				t.Fatalf("failed state write scheduled events: heap=%d anchored=%d expiry=%d", s.loop.Queue().Len(), s.effectTimers.AnchoredCount(), s.effectTimers.ExpiryCount())
+			if s.loop.QueuedEvents() != 0 || s.effectTimers.AnchoredCount() != 0 || s.effectTimers.ExpiryCount() != 0 || s.report.Totals().SourceDamageDealt != 0 || len(s.report.Snapshot().Evidence.Items) != 0 {
+				t.Fatalf("failed state write scheduled events: heap=%d anchored=%d expiry=%d", s.loop.QueuedEvents(), s.effectTimers.AnchoredCount(), s.effectTimers.ExpiryCount())
 			}
 			bag := s.combatants["source"].providerState.Lookup("champion:source_demo")
 			if bag.Present() && (bag.TargetKey() != "" || bag.TargetValues().At(anchoredVenomStateKey) != 0 || bag.CurrentAnchoredTickGeneration(anchoredVenomStateKey) != 0) {
@@ -278,9 +278,9 @@ func TestFrameCommitAnchoredEventsDoNotEscapeFailedFrame(t *testing.T) {
 func TestFrameCommitProcessTimerCapacityKeepsOnlyCommittedStart(t *testing.T) {
 	c, r := processBase(t, "RECAST")
 	s := frameCommitState(t, c, r)
-	*s.loop.Queue() = scheduler.NewGenericHeap(1)
-	s.loop.Queue().SetLimit(1)
-	if s.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 1000}) != model.ErrOK {
+	clearQueuedEventsForTest(s.loop)
+	s.loop.SetQueueLimit(1)
+	if s.loop.Enqueue(scheduler.GenericEvent{TimeMs: 1000}) != model.ErrOK {
 		t.Fatal("queue setup")
 	}
 	err := s.handleAbilityAttempt(scheduler.GenericEvent{DriverEntryIndex: 0})
@@ -288,7 +288,7 @@ func TestFrameCommitProcessTimerCapacityKeepsOnlyCommittedStart(t *testing.T) {
 		t.Fatalf("expected capacity stop after process start: err=%+v instances=%+v", err, s.actions.ProcessViews())
 	}
 	p := s.actions.ProcessAt(0)
-	if p.StepVersion() != 0 || p.StepKey() != "" || p.ExpiresAtMs() != nil || p.StepIndex() != -1 || s.combatants["source"].resourceView().At("mana").Current != 140 || s.loop.Queue().Len() != 1 {
+	if p.StepVersion() != 0 || p.StepKey() != "" || p.ExpiresAtMs() != nil || p.StepIndex() != -1 || s.combatants["source"].resourceView().At("mana").Current != 140 || s.loop.QueuedEvents() != 1 {
 		t.Fatalf("failed step or missing committed cost: %+v", p)
 	}
 	for _, item := range s.report.Snapshot().Evidence.Items {

@@ -30,8 +30,8 @@ func TestCountedEmpoweredWindowOriginalTimerRetainsPendingAttackAndLaterRealHit(
 	}
 	p := countedLiveProcess(t, state)
 	found := false
-	for state.loop.Queue().Len() > 0 {
-		event, _ := state.loop.Queue().Pop()
+	for state.loop.QueuedEvents() > 0 {
+		event, _ := takeNextEventForTest(state.loop)
 		if event.Kind != scheduler.GenericEventProcessTimer || event.TimeMs != 6000 {
 			continue
 		}

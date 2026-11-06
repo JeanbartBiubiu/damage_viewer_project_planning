@@ -15,7 +15,12 @@ import (
 
 func elapsedExpiryState(t *testing.T, names string) *Engine {
 	t.Helper()
-	input, request := continuousAttackInput(1, 10000, 10, 0, 0, 4000)
+	return elapsedExpiryStateWithDuration(t, names, 4000)
+}
+
+func elapsedExpiryStateWithDuration(t *testing.T, names string, duration int64) *Engine {
+	t.Helper()
+	input, request := continuousAttackInput(1, 10000, 10, 0, 0, duration)
 	input.TypeCatalog.Types = append(input.TypeCatalog.Types, model.TypeCatalogEntry{Key: "configured_speed", Domain: "attribute"})
 	for i := range input.Combatants {
 		input.Combatants[i].Attributes["configured_speed"] = authoringSlot(100)
@@ -48,7 +53,7 @@ func applyElapsedExpiryDefinition(t *testing.T, state *Engine, definition, owner
 
 func startFirstElapsedAttack(t *testing.T, state *Engine) {
 	t.Helper()
-	event, found := state.loop.Queue().Pop()
+	event, found := takeNextEventForTest(state.loop)
 	if !found || event.Kind != scheduler.GenericEventBasicAttack || event.TimeMs != 0 {
 		t.Fatal("missing first attack", event)
 	}
@@ -103,7 +108,7 @@ func TestProviderElapsedSimultaneousExpiryBeforeAttackRecalculation(t *testing.T
 }
 
 func TestProviderElapsedRepeatedApplicationKeepsNewDeadlineDuringOtherExpiry(t *testing.T) {
-	state := elapsedExpiryState(t, "configured_refresh")
+	state := elapsedExpiryStateWithDuration(t, "configured_refresh", 2000)
 	startFirstElapsedAttack(t, state)
 	state.loop.Advance(500)
 	applyElapsedExpiryDefinition(t, state, "configured_refresh:control", "target")
@@ -112,7 +117,6 @@ func TestProviderElapsedRepeatedApplicationKeepsNewDeadlineDuringOtherExpiry(t *
 	if err := state.applyProviderInstance("source", "source", "configured_refresh:first", 2250, true, effectpkg.ContributionView{}); err != nil {
 		t.Fatal(err)
 	}
-	setTestLoopDuration(state, 2000)
 	if err := state.runLoop(); err != nil {
 		t.Fatal(err)
 	}

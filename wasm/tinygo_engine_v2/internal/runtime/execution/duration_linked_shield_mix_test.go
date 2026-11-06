@@ -81,9 +81,9 @@ func TestDurationLinkedShieldMixedQueueFailureRollsBackBothSides(t *testing.T) {
 			}
 			s.loop.Advance(500)
 			before := s.buildDoneResult(false)
-			*s.loop.Queue() = scheduler.NewGenericHeap(1)
-			s.loop.Queue().SetLimit(1)
-			s.loop.Queue().Push(scheduler.GenericEvent{Kind: scheduler.GenericEventSample, TimeMs: 6000})
+			clearQueuedEventsForTest(s.loop)
+			s.loop.SetQueueLimit(1)
+			s.loop.Enqueue(scheduler.GenericEvent{Kind: scheduler.GenericEventSample, TimeMs: 6000})
 			ability, ref, _ := s.lookupDriverAbility(model.DriverEntry{AbilityRef: timedShieldRef("mixed"), Source: "source", Target: "target"})
 			f := s.newExecutionFrame("source", "target", ref)
 			f.ownerCombatantKey, f.ownerProviderRef = "source", "champion:source_demo"
@@ -142,7 +142,7 @@ func TestDurationLinkedShieldMixedDepletionZeroAndRemoval(t *testing.T) {
 				}
 			}
 			if mode == "remove_rollback" || mode == "zero_rollback" {
-				s.loop.Queue().SetLimit(s.loop.Queue().Len())
+				s.loop.SetQueueLimit(s.loop.QueuedEvents())
 			}
 			f.commit()
 			if mode == "remove_rollback" || mode == "zero_rollback" {

@@ -121,10 +121,7 @@ func TestPrimaryReplacementExpiryRefreshRemovalAndConflict(t *testing.T) {
 				t.Fatal(err)
 			}
 			if variant == "refresh" || variant == "removed" {
-				setTestLoopDuration(state, 999)
-				if err = state.runLoop(); err != nil {
-					t.Fatal(err)
-				}
+				runPrefixThroughForTest(t, state, 999)
 				waits := state.freezeEmpoweredWaits("source")
 				if len(waits) != 1 {
 					t.Fatal(waits)
@@ -207,11 +204,7 @@ func TestPrimaryReplacementBlockedAndShieldRollback(t *testing.T) {
 			}
 			state := primaryShieldState(t, c, r)
 			if variant == "command_budget" {
-				setTestLoopDuration(state, 999)
-				if err := state.runLoop(); err != nil {
-					t.Fatal(err)
-				}
-				setTestLoopDuration(state, 1300)
+				runPrefixThroughForTest(t, state, 999)
 				state.budget.MaxCommandsPerEvent = 2
 			}
 			err := state.runLoop()
@@ -244,14 +237,10 @@ func TestPrimaryReplacementNumericShieldAndLateFailureAreAtomic(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	setTestLoopDuration(state, 999)
-	if err = state.runLoop(); err != nil {
-		t.Fatal(err)
-	}
+	runPrefixThroughForTest(t, state, 999)
 	actor := state.combatants["target"]
 	actor.instances.SetShields(effectpkg.Shields([]effectpkg.Shield{{ShieldRef: "numeric", Remaining: 50}}))
 	state.combatants["target"] = actor
-	setTestLoopDuration(state, 1300)
 	err = state.runLoop()
 	done := state.buildDoneResult(false)
 	if err == nil || done.Summary.SourceDamageDealt != 10 || done.Summary.TargetFinalHp != 99990 || len(done.Summary.BasicAttack.PrimaryReplacements) != 0 || state.combatants["target"].instances.Shields().At(0).Remaining != 50 || empoweredProcess(t, done, "skill:atomic_first").Status != "active" {
@@ -316,14 +305,10 @@ func TestPrimaryReplacementSuccessfulNumericShield(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	setTestLoopDuration(state, 999)
-	if err = state.runLoop(); err != nil {
-		t.Fatal(err)
-	}
+	runPrefixThroughForTest(t, state, 999)
 	actor := state.combatants["target"]
 	actor.instances.SetShields(effectpkg.Shields([]effectpkg.Shield{{ShieldRef: "numeric", Remaining: 50}}))
 	state.combatants["target"] = actor
-	setTestLoopDuration(state, 1300)
 	if err = state.runLoop(); err != nil {
 		t.Fatal(err)
 	}
@@ -356,12 +341,8 @@ func TestPrimaryReplacementQueueBudgetRollsBackWholeGroup(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	setTestLoopDuration(state, 999)
-	if err = state.runLoop(); err != nil {
-		t.Fatal(err)
-	}
-	state.loop.Queue().SetLimit(state.loop.Queue().Len())
-	setTestLoopDuration(state, 1300)
+	runPrefixThroughForTest(t, state, 999)
+	state.loop.SetQueueLimit(state.loop.QueuedEvents())
 	err = state.runLoop()
 	done := state.buildDoneResult(false)
 	if state.budgetCause != model.BudgetCauseMaxQueueEvents && (err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents) {

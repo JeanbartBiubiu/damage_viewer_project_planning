@@ -94,9 +94,9 @@ func TestComplexSkillRepeatTransitionQueueFailureIsAtomic(test *testing.T) {
 		test.Fatal(err)
 	}
 	process := state.actions.ProcessAt(0)
-	*state.loop.Queue() = scheduler.NewGenericHeap(1)
-	state.loop.Queue().SetLimit(1)
-	state.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 1000})
+	clearQueuedEventsForTest(state.loop)
+	state.loop.SetQueueLimit(1)
+	state.loop.Enqueue(scheduler.GenericEvent{TimeMs: 1000})
 	state.loop.Advance(200)
 	if err := state.executeProcessRepeat(process); err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents {
 		test.Fatal(err)
@@ -195,9 +195,9 @@ func TestComplexSkillRestoreCommittedPrefixDoesNotExecuteAgain(test *testing.T) 
 	if err := state.handleSkillAction(0); err != nil {
 		test.Fatal(err)
 	}
-	*state.loop.Queue() = scheduler.NewGenericHeap(1)
-	state.loop.Queue().SetLimit(1)
-	state.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 1000})
+	clearQueuedEventsForTest(state.loop)
+	state.loop.SetQueueLimit(1)
+	state.loop.Enqueue(scheduler.GenericEvent{TimeMs: 1000})
 	state.loop.Advance(200)
 	if err := state.handleProcessTimer(scheduler.GenericEvent{TimeMs: 200, ProcessIndex: 0, ProcessStepVersion: 1}); err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents {
 		test.Fatal(err)
@@ -212,11 +212,11 @@ func TestComplexSkillRestoreCommittedPrefixDoesNotExecuteAgain(test *testing.T) 
 	}
 	actionpkg.StageProcess(restored).Publish(state.actions.ProcessAt(0))
 	restored = state.actions.ProcessAt(0)
-	*state.loop.Queue() = scheduler.NewGenericHeap(10)
+	clearQueuedEventsForTest(state.loop)
 	if err := state.enqueueProcessTimer(restored); err != nil {
 		test.Fatal(err)
 	}
-	event, _ := state.loop.Queue().Pop()
+	event, _ := takeNextEventForTest(state.loop)
 	if err := state.handleProcessTimer(event); err != nil {
 		test.Fatal(err)
 	}
@@ -257,9 +257,9 @@ func TestComplexSkillRestoreExecutionOnlyCommitsUnfinishedCompletion(test *testi
 	actionpkg.StageProcess(restored).Publish(state.actions.ProcessAt(0))
 	restored = state.actions.ProcessAt(0)
 	state.currentEventCommands, state.budget.MaxCommandsPerEvent = 0, 1000
-	*state.loop.Queue() = scheduler.NewGenericHeap(10)
+	clearQueuedEventsForTest(state.loop)
 	state.enqueueProcessTimer(restored)
-	event, _ := state.loop.Queue().Pop()
+	event, _ := takeNextEventForTest(state.loop)
 	if err := state.handleProcessTimer(event); err != nil {
 		test.Fatal(err)
 	}
@@ -272,9 +272,9 @@ func TestComplexSkillRestoreBeforeFirstStepDoesNotStartAgain(test *testing.T) {
 	input, request := complexSkillInput("CHARGE", true)
 	state := frameCommitState(test, input, request)
 	state.loop.Advance(100)
-	*state.loop.Queue() = scheduler.NewGenericHeap(1)
-	state.loop.Queue().SetLimit(1)
-	state.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 1000})
+	clearQueuedEventsForTest(state.loop)
+	state.loop.SetQueueLimit(1)
+	state.loop.Enqueue(scheduler.GenericEvent{TimeMs: 1000})
 	if err := state.handleSkillAction(0); err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents {
 		test.Fatal(err)
 	}
@@ -288,9 +288,9 @@ func TestComplexSkillRestoreBeforeFirstStepDoesNotStartAgain(test *testing.T) {
 	}
 	actionpkg.StageProcess(restored).Publish(state.actions.ProcessAt(0))
 	restored = state.actions.ProcessAt(0)
-	*state.loop.Queue() = scheduler.NewGenericHeap(10)
+	clearQueuedEventsForTest(state.loop)
 	state.enqueueProcessTimer(restored)
-	event, _ := state.loop.Queue().Pop()
+	event, _ := takeNextEventForTest(state.loop)
 	if err := state.handleProcessTimer(event); err != nil {
 		test.Fatal(err)
 	}

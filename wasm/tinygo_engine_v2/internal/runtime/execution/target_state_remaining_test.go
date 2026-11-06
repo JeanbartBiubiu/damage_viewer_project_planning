@@ -162,9 +162,9 @@ func TestTargetStateRemainingFailedFramePreservesCommittedParent(t *testing.T) {
 			key := "fail"
 			if failure == "queue" {
 				key = "ensure"
-				*s.loop.Queue() = scheduler.NewGenericHeap(1)
-				s.loop.Queue().SetLimit(1)
-				if s.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 6000}) != model.ErrOK {
+				clearQueuedEventsForTest(s.loop)
+				s.loop.SetQueueLimit(1)
+				if s.loop.Enqueue(scheduler.GenericEvent{TimeMs: 6000}) != model.ErrOK {
 					t.Fatal("queue setup")
 				}
 			}

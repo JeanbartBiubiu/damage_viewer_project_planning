@@ -49,14 +49,14 @@ func finitePeriodicCastInput(t *testing.T, cooldown float64, refund bool) (model
 func TestFinitePeriodicFirstQueueBudgetRollsBackOrdinaryCooldownAndMount(t *testing.T) {
 	c, r := finitePeriodicCastInput(t, 12000, true)
 	s := frameCommitState(t, c, r)
-	*s.loop.Queue() = scheduler.NewGenericHeap(1)
-	s.loop.Queue().SetLimit(1)
-	if s.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 10000}) != model.ErrOK {
+	clearQueuedEventsForTest(s.loop)
+	s.loop.SetQueueLimit(1)
+	if s.loop.Enqueue(scheduler.GenericEvent{TimeMs: 10000}) != model.ErrOK {
 		t.Fatal("heap setup")
 	}
 	err := s.handleSkillAction(0)
 	id := actionpkg.AbilityCooldownIdentity("source", c.Rules.SkillActionBindings[0].Controls[0].AbilityRef)
-	if err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents || s.combatants["source"].cooldowns.ReadyAt(id) != 0 || s.combatants["source"].cooldowns.EntryValue(id).HasOrdinaryTotal || s.report.Totals().SourceDamageDealt != 0 || s.loop.Queue().Len() != 1 {
+	if err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents || s.combatants["source"].cooldowns.ReadyAt(id) != 0 || s.combatants["source"].cooldowns.EntryValue(id).HasOrdinaryTotal || s.report.Totals().SourceDamageDealt != 0 || s.loop.QueuedEvents() != 1 {
 		t.Fatal("failed first tick frame leaked CD/metadata/queue", err, s.combatants["source"].cooldowns, s.report.Totals().SourceDamageDealt)
 	}
 	for instanceIndex, instanceValues := 0, s.combatants["source"].instances.Providers(); instanceIndex < instanceValues.Len(); instanceIndex++ {

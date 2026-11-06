@@ -34,13 +34,13 @@ func TestGenericRunSampleLastAtSameTimeMs(t *testing.T) {
 	if runErr != nil {
 		t.Fatalf("newGenericRunState: %+v", runErr)
 	}
-	*state.loop.Queue() = scheduler.NewGenericHeap(4)
+	clearQueuedEventsForTest(state.loop)
 	state.enqueueAttempt(0, 0, 0)
-	_ = state.loop.Queue().Push(scheduler.GenericEvent{
+	_ = state.loop.Enqueue(scheduler.GenericEvent{
 		TimeMs: 0, Category: scheduler.GenericCategorySample, Kind: scheduler.GenericEventSample,
 	})
-	ev1, _ := state.loop.Queue().Pop()
-	ev2, _ := state.loop.Queue().Pop()
+	ev1, _ := takeNextEventForTest(state.loop)
+	ev2, _ := takeNextEventForTest(state.loop)
 	if ev1.Category != scheduler.GenericCategoryAbilityAttempt {
 		t.Fatalf("first=%d want ability_attempt", ev1.Category)
 	}
@@ -700,15 +700,15 @@ func TestExpireCleanupBeforeAbilityAttemptSameTimeMs(t *testing.T) {
 	if runErr != nil {
 		t.Fatal(runErr)
 	}
-	*state.loop.Queue() = scheduler.NewGenericHeap(8)
+	clearQueuedEventsForTest(state.loop)
 	state.enqueueAttempt(500, 0, 0)
 	state.enqueueExpireCleanup(500, effectpkg.ExpiryPayload{
 		CombatantKey: model.SelectorTarget,
 		ProviderRef:  "status:attack_buff#1",
 		Kind:         "provider",
 	})
-	ev1, _ := state.loop.Queue().Pop()
-	ev2, _ := state.loop.Queue().Pop()
+	ev1, _ := takeNextEventForTest(state.loop)
+	ev2, _ := takeNextEventForTest(state.loop)
 	if ev1.Category != scheduler.GenericCategoryExpireCleanup {
 		t.Fatalf("first category=%d want expire_cleanup", ev1.Category)
 	}
@@ -746,13 +746,13 @@ func TestExpireCleanupUsesDedicatedKind(t *testing.T) {
 	if runErr != nil {
 		t.Fatal(runErr)
 	}
-	*state.loop.Queue() = scheduler.NewGenericHeap(4)
+	clearQueuedEventsForTest(state.loop)
 	state.enqueueExpireCleanup(100, effectpkg.ExpiryPayload{
 		CombatantKey: model.SelectorTarget,
 		ProviderRef:  "status:attack_buff#1",
 		Kind:         "provider",
 	})
-	ev, _ := state.loop.Queue().Pop()
+	ev, _ := takeNextEventForTest(state.loop)
 	if ev.Kind != scheduler.GenericEventExpireCleanup {
 		t.Fatalf("kind=%d want GenericEventExpireCleanup", ev.Kind)
 	}

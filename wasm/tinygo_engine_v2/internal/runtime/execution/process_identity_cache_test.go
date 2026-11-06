@@ -159,7 +159,7 @@ func TestProcessIdentityCacheStartRestoreAndFailedFrameIsolation(t *testing.T) {
 			}
 			var timer scheduler.GenericEvent
 			for {
-				event, present := restoredState.loop.Queue().Pop()
+				event, present := takeNextEventForTest(restoredState.loop)
 				if !present {
 					break
 				}

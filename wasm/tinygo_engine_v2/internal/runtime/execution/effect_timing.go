@@ -130,36 +130,9 @@ func (s *Engine) selectAnchoredTerminalBeforeProcessTimer(timer scheduler.Generi
 	if s.effectTimers.TerminalCount(timer.TimeMs) == 0 {
 		return timer, nil
 	}
-	held := []scheduler.GenericEvent{timer}
-	selected := timer
-	found := false
-	for {
-		at, ok := s.loop.Queue().PeekTime()
-		if !ok || at != timer.TimeMs {
-			break
-		}
-		ev, _ := s.loop.Queue().Pop()
-		if s.currentAnchoredTerminal(ev) {
-			selected, found = ev, true
-			break
-		}
-		held = append(held, ev)
-		if ev.Category > scheduler.GenericCategoryAnchoredTick {
-			break
-		}
-	}
-	if !found {
-		held = held[1:]
-		// All terminal entries at this time are already stale. A subsequent
-		// positive-duration write cannot create a new terminal at this time.
-		s.effectTimers.ClearTerminal(timer.TimeMs)
-	}
-	for _, ev := range held {
-		// No execution happens during lookahead, and exactly one event remains
-		// selected, so reinsertion cannot use more than the original capacity.
-		if s.loop.Queue().Push(ev) != model.ErrOK {
-			return timer, engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "anchored terminal selection could not restore heap", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
-		}
+	selected, restored := s.selectSameTimeEvent(timer, sameTimeAnchoredTerminal)
+	if !restored {
+		return timer, engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "anchored terminal selection could not restore heap", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
 	return selected, nil
 }
@@ -338,8 +311,7 @@ func (r *lifecycleTickExecution) EnqueuePeriodicTick(request lifecycle.ProviderT
 }
 
 func (r *lifecycleTimingRequests) RemainingTimingSlots() int {
-	frame := (*Frame)(r)
-	return frame.run.loop.Queue().RemainingCapacity() - len(frame.pendingAnchoredTicks) - len(frame.pendingStateExpiry)
+	return (*Frame)(r).remainingTimingSlots()
 }
 
 func (r *lifecycleTimingRequests) StageStateExpiry(at int64, payload effectpkg.ExpiryPayload) {

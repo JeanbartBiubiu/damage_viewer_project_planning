@@ -690,7 +690,7 @@ func (f *Frame) prepareBasicAttackProgress() (int, *model.EngineError) {
 }
 
 func (f *Frame) attackWaitInput() actionflow.AttackWaitInput {
-	return actionflow.AttackWaitInput{PendingWait: f.pendingBasicAttackWait, PendingAmmo: f.hasPendingBasicAttackAmmo(), PendingAction: f.pendingActionWait, HasQueuedAttack: f.run.loop.Queue().HasBasicAttack(), CombatantsAlive: f.continuousCombatantsLive()}
+	return actionflow.AttackWaitInput{PendingWait: f.pendingBasicAttackWait, PendingAmmo: f.hasPendingBasicAttackAmmo(), PendingAction: f.pendingActionWait, HasQueuedAttack: f.run.loop.HasBasicAttack(), CombatantsAlive: f.continuousCombatantsLive()}
 }
 
 func (f *Frame) basicAttackWaitContext(context *Frame) *model.EngineError {
@@ -749,7 +749,7 @@ func (f *Frame) commitBasicAttackWait() {
 			generation = registration.Version
 		}
 		ready := f.run.nextBasicAttackTime()
-		if !f.run.loop.Queue().RescheduleBasicAttack(ready, generation) {
+		if !f.run.loop.RescheduleBasicAttack(ready, generation) {
 			f.run.pushCombatEvent(scheduler.GenericEvent{TimeMs: ready, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1, BasicAttackGeneration: generation})
 		}
 	}

@@ -589,7 +589,7 @@ func (s *Engine) enqueueProcessTimer(p *actionpkg.ProcessView) *model.EngineErro
 			break
 		}
 	}
-	if s.loop.Queue().Push(scheduler.GenericEvent{TimeMs: p.TimerAt(), Category: scheduler.GenericCategoryProcessTimer, Kind: scheduler.GenericEventProcessTimer, ProcessIndex: index, ProcessStepVersion: p.StepVersion(), ProcessExecutionIndex: p.StepExecutionIndex(), ProcessSortKey: p.StableKey(), DriverEntryIndex: -1}) != model.ErrOK {
+	if s.loop.Enqueue(scheduler.GenericEvent{TimeMs: p.TimerAt(), Category: scheduler.GenericCategoryProcessTimer, Kind: scheduler.GenericEventProcessTimer, ProcessIndex: index, ProcessStepVersion: p.StepVersion(), ProcessExecutionIndex: p.StepExecutionIndex(), ProcessSortKey: p.StableKey(), DriverEntryIndex: -1}) != model.ErrOK {
 		return s.budgetError(model.BudgetCauseMaxQueueEvents, "process timer queue overflow")
 	}
 	return nil

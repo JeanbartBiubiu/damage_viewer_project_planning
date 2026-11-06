@@ -106,9 +106,9 @@ func TestAmmoAttackBudgetsCommitNoPartialConsumptionOrRecovery(test *testing.T) 
 	state.loop.Advance(2500)
 
 	state.actions.PublishAmmoWait(state.actions.BasicAttack().Ammo(), actionpkg.AmmoWait{Active: true, ReadyAt: 2500, Generation: 3})
-	*state.loop.Queue() = scheduler.NewGenericHeap(1)
-	state.loop.Queue().SetLimit(1)
-	state.loop.Queue().Push(scheduler.GenericEvent{Kind: scheduler.GenericEventSample, TimeMs: 3000})
+	clearQueuedEventsForTest(state.loop)
+	state.loop.SetQueueLimit(1)
+	state.loop.Enqueue(scheduler.GenericEvent{Kind: scheduler.GenericEventSample, TimeMs: 3000})
 	err = state.handleAmmoRecovery(scheduler.GenericEvent{TimeMs: 2500, AmmoGeneration: 3, ProviderInstanceRef: scheduler.ProviderInstanceRef{CombatantKey: "source", ProviderRef: "attack"}})
 	if err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents || !state.actions.BasicAttack().Ammo().Wait().Active || state.recordingSummary().MechanicRecordCount != 0 || state.combatants["source"].providerState.Lookup("attack").State().At("rounds") != 0 {
 		test.Fatal("failed recovery partially committed", err, state.actions.BasicAttack().Ammo().Wait())
@@ -184,7 +184,7 @@ func TestAmmoRecoveryIntervalFrozenAtEmptyAndRuntimeInvalidIsAtomic(test *testin
 	if err != nil {
 		test.Fatal(err)
 	}
-	event, _ := state.loop.Queue().Pop()
+	event, _ := takeNextEventForTest(state.loop)
 	if !state.basicAttackEventCurrent(event) || state.handleBasicAttack() != nil {
 		test.Fatal("first attack failed")
 	}

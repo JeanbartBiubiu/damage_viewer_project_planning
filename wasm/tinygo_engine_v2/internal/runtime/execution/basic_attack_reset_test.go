@@ -61,7 +61,7 @@ func resetAttackState(t *testing.T, input model.CompileRequest, request model.Ru
 	if err != nil {
 		t.Fatal(err)
 	}
-	first, found := state.loop.Queue().Pop()
+	first, found := takeNextEventForTest(state.loop)
 	if !found || first.Kind != scheduler.GenericEventBasicAttack || first.TimeMs != 0 {
 		t.Fatal("expected real first native attack", first)
 	}
@@ -106,15 +106,15 @@ func resetQueuedAttack(t *testing.T, state *Engine) scheduler.GenericEvent {
 	var attack scheduler.GenericEvent
 	found := 0
 	var queued []scheduler.GenericEvent
-	for state.loop.Queue().Len() > 0 {
-		event, _ := state.loop.Queue().Pop()
+	for state.loop.QueuedEvents() > 0 {
+		event, _ := takeNextEventForTest(state.loop)
 		queued = append(queued, event)
 		if event.Kind == scheduler.GenericEventBasicAttack {
 			attack, found = event, found+1
 		}
 	}
 	for _, event := range queued {
-		if state.loop.Queue().Push(event) != model.ErrOK {
+		if state.loop.Enqueue(event) != model.ErrOK {
 			t.Fatal("could not return original queue event")
 		}
 	}

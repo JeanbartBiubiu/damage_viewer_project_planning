@@ -1,6 +1,8 @@
 package execution
 
 import (
+	"testing"
+
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/scheduler"
 )
@@ -11,25 +13,37 @@ func newTestLoopAt(at int64) *scheduler.Loop {
 	return loop
 }
 
-// 重建测试观察窗口，继续借用同一份真实队列，不公开循环内部状态。
-func setTestLoopDuration(state *Engine, duration int64) {
-	replaceTestLoop(state, duration, true)
+func takeNextEventForTest(loop *scheduler.Loop) (scheduler.GenericEvent, bool) {
+	at, exists := loop.NextEventAt()
+	if !exists {
+		return scheduler.GenericEvent{}, false
+	}
+	return loop.TakeAt(at)
 }
 
-func clearTestLoopStop(state *Engine) {
-	replaceTestLoop(state, state.loop.DurationMs(), false)
+type prefixTestDriver struct {
+	*Engine
+	through    int64
+	checkpoint *model.EngineError
 }
 
-func replaceTestLoop(state *Engine, duration int64, preserveStop bool) {
-	previous := state.loop
-	loop := scheduler.NewLoop(previous.StartMs(), duration, state.req.StopPolicy)
-	*loop.Queue() = *previous.Queue()
-	for count := 0; count < previous.ProcessedEvents(); count++ {
-		loop.AcceptEvent(previous.TimeMs())
+func (d *prefixTestDriver) DecideNext(observation scheduler.LoopObservation) (scheduler.LoopDecision, *model.EngineError) {
+	decision, err := d.Engine.DecideNext(observation)
+	if err != nil {
+		return decision, err
 	}
-	loop.Advance(previous.TimeMs())
-	if preserveStop && previous.Stopped() {
-		loop.Stop(previous.Reason())
+	if decision.Kind == scheduler.LoopHandleNext && observation.HasNextEvent && observation.NextEventAtMs > d.through {
+		return scheduler.LoopDecision{}, d.checkpoint
 	}
-	state.loop = loop
+	return decision, nil
+}
+
+// 检查点只中断接纳下一事件，不结束观察窗口或改变真实循环的队列、计数和停止状态。
+func runPrefixThroughForTest(t *testing.T, state *Engine, through int64) {
+	t.Helper()
+	checkpoint := &model.EngineError{Message: "test prefix checkpoint"}
+	driver := &prefixTestDriver{Engine: state, through: through, checkpoint: checkpoint}
+	if err := state.loop.Run(driver); err != checkpoint {
+		t.Fatalf("expected prefix checkpoint through %d, got %v", through, err)
+	}
 }

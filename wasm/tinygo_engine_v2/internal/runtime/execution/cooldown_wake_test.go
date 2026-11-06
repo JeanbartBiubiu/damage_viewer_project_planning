@@ -32,7 +32,7 @@ func cooldownWakeWaitingState(t *testing.T, executionSource string) *Engine {
 	if err != nil {
 		t.Fatal(err)
 	}
-	first, exists := state.loop.Queue().Pop()
+	first, exists := takeNextEventForTest(state.loop)
 	if !exists || first.Kind != scheduler.GenericEventAbilityAttempt || first.TimeMs != 0 {
 		t.Fatal("missing real initial driver attempt", first)
 	}
@@ -48,20 +48,20 @@ func cooldownWakeWaitingState(t *testing.T, executionSource string) *Engine {
 	if _, wronglyRegistered := state.combatants["target"].cooldowns.Wait(key); wronglyRegistered {
 		t.Fatal("the execution source received another owner's cooldown waiter")
 	}
-	if state.report.Totals().AbilityAttemptCount != 1 || state.report.Totals().AttemptSkippedCount != 1 || state.abilityCastCount != 0 || state.loop.Queue().Len() != 1 {
-		t.Fatal("unexpected facts after the first cooldown rejection", state.report.Totals().AbilityAttemptCount, state.report.Totals().AttemptSkippedCount, state.abilityCastCount, state.loop.Queue().Len())
+	if state.report.Totals().AbilityAttemptCount != 1 || state.report.Totals().AttemptSkippedCount != 1 || state.abilityCastCount != 0 || state.loop.QueuedEvents() != 1 {
+		t.Fatal("unexpected facts after the first cooldown rejection", state.report.Totals().AbilityAttemptCount, state.report.Totals().AttemptSkippedCount, state.abilityCastCount, state.loop.QueuedEvents())
 	}
 	return state
 }
 
 func cooldownWakeQueuedAttempt(t *testing.T, state *Engine) scheduler.GenericEvent {
 	t.Helper()
-	queued, exists := state.loop.Queue().Pop()
-	if !exists || state.loop.Queue().Len() != 0 || queued.Kind != scheduler.GenericEventAbilityAttempt || queued.DriverEntryIndex != 0 || queued.CooldownWaitVersion == 0 {
-		t.Fatal("the common waiter must have exactly one queued driver attempt", queued, state.loop.Queue().Len())
+	queued, exists := takeNextEventForTest(state.loop)
+	if !exists || state.loop.QueuedEvents() != 0 || queued.Kind != scheduler.GenericEventAbilityAttempt || queued.DriverEntryIndex != 0 || queued.CooldownWaitVersion == 0 {
+		t.Fatal("the common waiter must have exactly one queued driver attempt", queued, state.loop.QueuedEvents())
 	}
 	// 只读检查通过原序号归还同一事件；不借此制造新事件或新预算。
-	if result := state.loop.Queue().Push(queued); result != model.ErrOK {
+	if result := state.loop.Enqueue(queued); result != model.ErrOK {
 		t.Fatal("failed to return the inspected attempt", result)
 	}
 	return queued
@@ -78,7 +78,7 @@ func TestCommonCooldownWhileReadyFrameReplansOneAttemptAndStopsAfterSuccess(t *t
 				state := cooldownWakeWaitingState(t, executionSource)
 				original := cooldownWakeQueuedAttempt(t, state)
 				// 队列已满仍应原位改期，不额外占一个槽。
-				state.loop.Queue().SetLimit(1)
+				state.loop.SetQueueLimit(1)
 				state.loop.Advance(200)
 				frame := state.newExecutionFrame(executionSource, "target", "cooldown-change")
 				if err := frame.applyCooldownChange(executionSource, cooldownWakeAbilityRef, change.deadline); err != nil {
@@ -91,8 +91,8 @@ func TestCommonCooldownWhileReadyFrameReplansOneAttemptAndStopsAfterSuccess(t *t
 				updated := cooldownWakeQueuedAttempt(t, state)
 				key := whileReadyCooldownWaitKey("source", "waiting-cast")
 				ledger := state.combatants["source"].cooldowns
-				if updated.TimeMs != change.wantAt || updated.Seq != original.Seq || updated.CooldownWaitVersion == original.CooldownWaitVersion || !ledger.WaitCurrent(key, updated.TimeMs, updated.CooldownWaitVersion) || state.loop.Queue().Peak != 1 {
-					t.Fatal("frame did not replan the unique common waiter in place", original, updated, state.loop.Queue().Peak)
+				if updated.TimeMs != change.wantAt || updated.Seq != original.Seq || updated.CooldownWaitVersion == original.CooldownWaitVersion || !ledger.WaitCurrent(key, updated.TimeMs, updated.CooldownWaitVersion) || state.loop.PeakQueuedEvents() != 1 {
+					t.Fatal("frame did not replan the unique common waiter in place", original, updated, state.loop.PeakQueuedEvents())
 				}
 				if state.combatants["target"].cooldowns.EntryCount() != 0 {
 					t.Fatal("cooldown changed the execution source instead of the actual ability owner")
@@ -100,7 +100,7 @@ func TestCommonCooldownWhileReadyFrameReplansOneAttemptAndStopsAfterSuccess(t *t
 				if err := state.handleAbilityAttempt(original); err != nil {
 					t.Fatal(err)
 				}
-				if state.report.Totals().AbilityAttemptCount != 1 || state.report.Totals().AttemptSkippedCount != 1 || state.abilityCastCount != 0 || state.loop.Queue().Len() != 1 {
+				if state.report.Totals().AbilityAttemptCount != 1 || state.report.Totals().AttemptSkippedCount != 1 || state.abilityCastCount != 0 || state.loop.QueuedEvents() != 1 {
 					t.Fatal("an obsolete cooldown event was executed or re-registered")
 				}
 				if err := state.runLoop(); err != nil {
@@ -110,13 +110,13 @@ func TestCommonCooldownWhileReadyFrameReplansOneAttemptAndStopsAfterSuccess(t *t
 				if state.report.Totals().AbilityAttemptCount != 2 || state.report.Totals().AttemptSkippedCount != 1 || state.abilityCastCount != 1 || owner.providerState.Lookup("champion:source_demo").State().At("wake_casts") != 1 {
 					t.Fatal("whileReady did not succeed exactly once", state.report.Totals().AbilityAttemptCount, state.report.Totals().AttemptSkippedCount, state.abilityCastCount)
 				}
-				if _, registered := owner.cooldowns.Wait(key); registered || state.loop.Queue().Len() != 0 || owner.cooldowns.AbilityReadyAt("source", cooldownWakeAbilityRef) != change.wantAt+500 {
-					t.Fatal("successful finite driver remained registered or automatically looped", owner.cooldowns.WaitValue(key), state.loop.Queue().Len())
+				if _, registered := owner.cooldowns.Wait(key); registered || state.loop.QueuedEvents() != 0 || owner.cooldowns.AbilityReadyAt("source", cooldownWakeAbilityRef) != change.wantAt+500 {
+					t.Fatal("successful finite driver remained registered or automatically looped", owner.cooldowns.WaitValue(key), state.loop.QueuedEvents())
 				}
 				if err := state.handleAbilityAttempt(updated); err != nil {
 					t.Fatal(err)
 				}
-				if state.report.Totals().AbilityAttemptCount != 2 || state.abilityCastCount != 1 || state.loop.Queue().Len() != 0 {
+				if state.report.Totals().AbilityAttemptCount != 2 || state.abilityCastCount != 1 || state.loop.QueuedEvents() != 0 {
 					t.Fatal("replaying the consumed wait reopened the driver")
 				}
 			})

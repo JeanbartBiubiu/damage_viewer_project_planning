@@ -176,12 +176,12 @@ func TestComplexSkillChannelWindowFrozenParametersSurviveRestoration(test *testi
 	}
 	actionpkg.StageProcess(restored).Publish(state.actions.ProcessAt(0))
 	restored = state.actions.ProcessAt(0)
-	*state.loop.Queue() = scheduler.NewGenericHeap(64)
+	clearQueuedEventsForTest(state.loop)
 	if err := state.enqueueProcessTimer(restored); err != nil {
 		test.Fatal(err)
 	}
-	for state.loop.Queue().Len() > 0 {
-		event, _ := state.loop.Queue().Pop()
+	for state.loop.QueuedEvents() > 0 {
+		event, _ := takeNextEventForTest(state.loop)
 		state.loop.Advance(event.TimeMs)
 		state.currentEventCommands = 0
 		if err := state.handleProcessTimer(event); err != nil {
@@ -247,7 +247,7 @@ func TestComplexSkillChannelWindowRestoreAfterLastWaitsForFullDeadline(test *tes
 		test.Fatal(err)
 	}
 	for state.actions.ProcessAt(0).Repeat().ExecutionIndex < 14 {
-		event, _ := state.loop.Queue().Pop()
+		event, _ := takeNextEventForTest(state.loop)
 		state.loop.Advance(event.TimeMs)
 		state.currentEventCommands = 0
 		if err := state.handleProcessTimer(event); err != nil {
@@ -261,11 +261,11 @@ func TestComplexSkillChannelWindowRestoreAfterLastWaitsForFullDeadline(test *tes
 	}
 	actionpkg.StageProcess(restored).Publish(state.actions.ProcessAt(0))
 	restored = state.actions.ProcessAt(0)
-	*state.loop.Queue() = scheduler.NewGenericHeap(2)
+	clearQueuedEventsForTest(state.loop)
 	if err := state.enqueueProcessTimer(restored); err != nil {
 		test.Fatal(err)
 	}
-	event, _ := state.loop.Queue().Pop()
+	event, _ := takeNextEventForTest(state.loop)
 	state.loop.Advance(event.TimeMs)
 	state.currentEventCommands = 0
 	if err := state.handleProcessTimer(event); err != nil || state.actions.ManualAt(0).Uses().HitCount != 14 || restored.Status() != "complete" || restored.OccupiesAction("source") {
@@ -286,14 +286,14 @@ func TestComplexSkillChannelWindowRestoreAfterLastWaitsForFullDeadline(test *tes
 func TestComplexSkillChannelWindowQueueBoundaryIsAtomicAndOnlyNextEvent(test *testing.T) {
 	input, request := channelWindowInput(3000, 14, 50, 2900)
 	state := frameCommitState(test, input, request)
-	*state.loop.Queue() = scheduler.NewGenericHeap(64)
-	if err := state.handleSkillAction(0); err != nil || state.loop.Queue().Len() != 1 {
-		test.Fatal(err, state.loop.Queue().Len())
+	clearQueuedEventsForTest(state.loop)
+	if err := state.handleSkillAction(0); err != nil || state.loop.QueuedEvents() != 1 {
+		test.Fatal(err, state.loop.QueuedEvents())
 	}
 	process := state.actions.ProcessAt(0)
-	*state.loop.Queue() = scheduler.NewGenericHeap(1)
-	state.loop.Queue().SetLimit(1)
-	state.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 5000})
+	clearQueuedEventsForTest(state.loop)
+	state.loop.SetQueueLimit(1)
+	state.loop.Enqueue(scheduler.GenericEvent{TimeMs: 5000})
 	state.loop.Advance(50)
 	if err := state.executeProcessRepeat(process); err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents {
 		test.Fatal(err)
@@ -301,23 +301,23 @@ func TestComplexSkillChannelWindowQueueBoundaryIsAtomicAndOnlyNextEvent(test *te
 	if process.Repeat().ExecutionIndex != 0 || process.StepExecutionIndex() != 0 || *process.Repeat().NextExecutionAtMs != 50 || state.combatantHp("target") != 100000 || state.actions.ManualAt(0).Uses().HitCount != 0 || !process.OccupiesAction("source") {
 		test.Fatal("uncommitted segment or permission leaked", process, state.actions.ManualAt(0).Uses())
 	}
-	*state.loop.Queue() = scheduler.NewGenericHeap(2)
-	state.loop.Queue().SetLimit(2)
-	state.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 5000})
-	if err := state.executeProcessRepeat(process); err != nil || state.loop.Queue().Len() != 2 || process.Repeat().ExecutionIndex != 1 || *process.Repeat().NextExecutionAtMs != 269 {
-		test.Fatal("channel did not enqueue only the next real event", process, state.loop.Queue().Len(), err)
+	clearQueuedEventsForTest(state.loop)
+	state.loop.SetQueueLimit(2)
+	state.loop.Enqueue(scheduler.GenericEvent{TimeMs: 5000})
+	if err := state.executeProcessRepeat(process); err != nil || state.loop.QueuedEvents() != 2 || process.Repeat().ExecutionIndex != 1 || *process.Repeat().NextExecutionAtMs != 269 {
+		test.Fatal("channel did not enqueue only the next real event", process, state.loop.QueuedEvents(), err)
 	}
 	for process.Repeat().ExecutionIndex < 13 {
-		event, _ := state.loop.Queue().Pop()
+		event, _ := takeNextEventForTest(state.loop)
 		state.loop.Advance(event.TimeMs)
 		state.currentEventCommands = 0
 		if err := state.handleProcessTimer(event); err != nil {
 			test.Fatal(err)
 		}
 	}
-	*state.loop.Queue() = scheduler.NewGenericHeap(1)
-	state.loop.Queue().SetLimit(1)
-	state.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 5000})
+	clearQueuedEventsForTest(state.loop)
+	state.loop.SetQueueLimit(1)
+	state.loop.Enqueue(scheduler.GenericEvent{TimeMs: 5000})
 	state.loop.Advance(2900)
 	state.currentEventCommands = 0
 	if err := state.executeProcessRepeat(process); err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents || process.Repeat().ExecutionIndex != 13 || process.ActionOccupancies()[0].FinishedAtMs != nil {
@@ -338,7 +338,7 @@ func TestComplexSkillChannelWindowOldFrozenTimingSurvivesRestoration(test *testi
 			input.SharedProviders[0].Abilities[0].Params = map[string]float64{"duration": 15, "count": 4}
 			request.DriverPlan.SkillActions[0].FirstAtMs, request.StopPolicy.DurationMs = 0, 15
 			state := frameCommitState(test, input, request)
-			*state.loop.Queue() = scheduler.NewGenericHeap(8)
+			clearQueuedEventsForTest(state.loop)
 			if err := state.handleSkillAction(0); err != nil {
 				test.Fatal(err)
 			}
@@ -349,12 +349,12 @@ func TestComplexSkillChannelWindowOldFrozenTimingSurvivesRestoration(test *testi
 			}
 			actionpkg.StageProcess(restored).Publish(state.actions.ProcessAt(0))
 			restored = state.actions.ProcessAt(0)
-			*state.loop.Queue() = scheduler.NewGenericHeap(8)
+			clearQueuedEventsForTest(state.loop)
 			if err := state.enqueueProcessTimer(restored); err != nil {
 				test.Fatal(err)
 			}
-			for state.loop.Queue().Len() > 0 {
-				event, _ := state.loop.Queue().Pop()
+			for state.loop.QueuedEvents() > 0 {
+				event, _ := takeNextEventForTest(state.loop)
 				state.loop.Advance(event.TimeMs)
 				state.currentEventCommands = 0
 				if err := state.handleProcessTimer(event); err != nil {
@@ -486,12 +486,12 @@ func TestComplexSkillChannelWindowRestoreBudgetInterruptedCompletion(test *testi
 	}
 	actionpkg.StageProcess(restored).Publish(state.actions.ProcessAt(0))
 	restored = state.actions.ProcessAt(0)
-	*state.loop.Queue() = scheduler.NewGenericHeap(2)
+	clearQueuedEventsForTest(state.loop)
 	state.currentEventCommands, state.budget.MaxCommandsPerEvent = 0, 1000
 	if err := state.enqueueProcessTimer(restored); err != nil {
 		test.Fatal(err)
 	}
-	event, _ := state.loop.Queue().Pop()
+	event, _ := takeNextEventForTest(state.loop)
 	if err := state.handleProcessTimer(event); err != nil || state.combatantHp("source") != 470 || state.actions.ManualAt(0).Uses().StepExecutedCount != 1 || restored.Status() != "complete" {
 		test.Fatal("restoration repeated committed execution instead of completing", state.combatantHp("source"), restored, err)
 	}

@@ -127,9 +127,9 @@ func TestFiniteRecastQueuePreflightRetainsOriginalControlState(t *testing.T) {
 	}
 	p := s.actions.ProcessAt(0)
 	before := p.Snapshot()
-	*s.loop.Queue() = scheduler.NewGenericHeap(1)
-	s.loop.Queue().SetLimit(1)
-	s.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 15000})
+	clearQueuedEventsForTest(s.loop)
+	s.loop.SetQueueLimit(1)
+	s.loop.Enqueue(scheduler.GenericEvent{TimeMs: 15000})
 	s.loop.Advance(1000)
 	err := s.handleSkillAction(1)
 	if err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents || !reflect.DeepEqual(before, p.Snapshot()) || s.skillUses["recast:skill:cast_once:1"] != nil {

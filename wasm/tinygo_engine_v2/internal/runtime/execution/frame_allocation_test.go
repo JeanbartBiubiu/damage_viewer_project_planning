@@ -116,9 +116,9 @@ func TestFrameAllocationCooldownChildCommitAndFailedParentKeepViews(t *testing.T
 	if published.AbilityReadyAt("source", "control") != 700 || parentView.AbilityReadyAt("source", "control") != 1000 {
 		t.Fatal("parent write changed a committed child or older readonly view")
 	}
-	*state.loop.Queue() = scheduler.NewGenericHeap(1)
-	state.loop.Queue().SetLimit(1)
-	if state.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 1000}) != model.ErrOK {
+	clearQueuedEventsForTest(state.loop)
+	state.loop.SetQueueLimit(1)
+	if state.loop.Enqueue(scheduler.GenericEvent{TimeMs: 1000}) != model.ErrOK {
 		t.Fatal("queue setup failed")
 	}
 	parent.pendingStateExpiry = []pendingFrameStateExpiry{{at: 2000}}
@@ -197,7 +197,7 @@ func frameAllocationWaitingProviderState(t *testing.T) *Engine {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if _, exists := state.loop.Queue().Pop(); !exists {
+	if _, exists := takeNextEventForTest(state.loop); !exists {
 		t.Fatal("missing first attack")
 	}
 	if err := state.handleBasicAttack(); err != nil {

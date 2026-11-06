@@ -139,7 +139,7 @@ func TestCalculationRenamedSpeedKeepsWaitingProgressAndUniqueNode(t *testing.T) 
 	if err != nil {
 		t.Fatal(err)
 	}
-	if _, exists := state.loop.Queue().Pop(); !exists {
+	if _, exists := takeNextEventForTest(state.loop); !exists {
 		t.Fatal("missing first attack")
 	}
 	if err := state.handleBasicAttack(); err != nil {
@@ -153,8 +153,8 @@ func TestCalculationRenamedSpeedKeepsWaitingProgressAndUniqueNode(t *testing.T) 
 
 	staged.setAttributes(staged.attributesView().With("tempo", slot))
 	frame.commit()
-	if frame.fatal || state.basicAttackReadyAt() != 700 || state.actions.BasicAttack().Wait().Remaining() != .6 || state.loop.Queue().Len() != 1 {
-		t.Fatal(frame.fatalErr, state.actions.BasicAttack().Wait(), state.loop.Queue().Len())
+	if frame.fatal || state.basicAttackReadyAt() != 700 || state.actions.BasicAttack().Wait().Remaining() != .6 || state.loop.QueuedEvents() != 1 {
+		t.Fatal(frame.fatalErr, state.actions.BasicAttack().Wait(), state.loop.QueuedEvents())
 	}
 	if err := state.runLoop(); err != nil {
 		t.Fatal(err)
@@ -174,7 +174,7 @@ func TestCalculationFirstSpeedInvalidFrameDoesNotCommitAttributesOrClock(t *test
 		if state.actions.BasicAttack().Wait() != nil {
 			t.Fatal("unexpected prior wait")
 		}
-		count := state.loop.Queue().Len()
+		count := state.loop.QueuedEvents()
 		frame := state.newExecutionFrame("source", "target", "invalid-initial-speed")
 		staged := frame.stageFor("source")
 		slot := staged.attributesView().At("tempo")
@@ -186,8 +186,8 @@ func TestCalculationFirstSpeedInvalidFrameDoesNotCommitAttributesOrClock(t *test
 
 		staged.setAttributes(staged.attributesView().With("hp", hp))
 		frame.commit()
-		if !frame.fatal || state.combatants["source"].attributesView().At("tempo").Resolved != 1 || state.combatants["source"].attributesView().At("hp").Current != c.Combatants[0].Attributes["hp"].Current || state.loop.Queue().Len() != count || state.actions.BasicAttack().Wait() != nil {
-			t.Fatal(invalid, frame.fatalErr, state.combatants["source"].attributesView(), state.loop.Queue().Len())
+		if !frame.fatal || state.combatants["source"].attributesView().At("tempo").Resolved != 1 || state.combatants["source"].attributesView().At("hp").Current != c.Combatants[0].Attributes["hp"].Current || state.loop.QueuedEvents() != count || state.actions.BasicAttack().Wait() != nil {
+			t.Fatal(invalid, frame.fatalErr, state.combatants["source"].attributesView(), state.loop.QueuedEvents())
 		}
 	}
 }

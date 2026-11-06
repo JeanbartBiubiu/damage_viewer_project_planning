@@ -340,9 +340,9 @@ func TestActiveAmmoQueueAndCommandBudgetsLeaveNoPartialFrame(t *testing.T) {
 			}
 			beforeWait, beforeRecords := ammo.Wait(), s.recordingSummary().MechanicRecordCount
 			beforeActor := s.buildDoneResult(false).FinalSnapshot.Combatants[0]
-			*s.loop.Queue() = scheduler.NewGenericHeap(1)
-			s.loop.Queue().SetLimit(1)
-			s.loop.Queue().Push(scheduler.GenericEvent{Kind: scheduler.GenericEventSample, TimeMs: 5000})
+			clearQueuedEventsForTest(s.loop)
+			s.loop.SetQueueLimit(1)
+			s.loop.Enqueue(scheduler.GenericEvent{Kind: scheduler.GenericEventSample, TimeMs: 5000})
 			switch stage {
 			case "initialize":
 				err = s.initializeDrivenAmmo()

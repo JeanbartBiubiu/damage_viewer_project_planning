@@ -152,7 +152,7 @@ func TestProviderElapsedFailedRefreshKeepsOriginalTimeAndPair(t *testing.T) {
 	if err := f.executeOperations(ability, operations); err != nil {
 		t.Fatal(err)
 	}
-	s.loop.Queue().SetLimit(s.loop.Queue().Len())
+	s.loop.SetQueueLimit(s.loop.QueuedEvents())
 	f.commit()
 	after, _ := json.Marshal(effectpkg.ProvidersToSnapshot(s.combatants["source"].instances.Providers()))
 	if !f.fatal || f.committed || string(before) != string(after) {

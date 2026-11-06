@@ -125,9 +125,9 @@ func TestAutomaticSkillZeroCooldownFormulaAndCommitBudget(t *testing.T) {
 	s.actions.BindActionUse(action.UseRef(), action)
 	s.actions.SetCurrentAction(action)
 	s.actions.SetProcessFact(key, model.ProcessCommandFact{DriverEntryKey: key, UseRef: action.UseRef()})
-	*s.loop.Queue() = scheduler.NewGenericHeap(1)
-	s.loop.Queue().SetLimit(1)
-	s.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 200, Kind: scheduler.GenericEventSample})
+	clearQueuedEventsForTest(s.loop)
+	s.loop.SetQueueLimit(1)
+	s.loop.Enqueue(scheduler.GenericEvent{TimeMs: 200, Kind: scheduler.GenericEventSample})
 	err := s.handleProcessCommand(model.DriverEntry{EntryKey: key, AbilityRef: b.AbilityRef(), Source: "source", Target: "target"}, -1, s.compiled.Abilities[b.ControlIndex()], b.AbilityRef())
 	if err == nil || action.Accepted() || b.Qualification().RemainingCount != 1 || s.actions.ProcessCount() != 0 {
 		t.Fatal(err, action.Accepted(), b.Qualification(), s.actions.ProcessCount())

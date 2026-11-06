@@ -116,7 +116,7 @@ func TestReceivedShieldListenerFailureRetainsCommittedParentDamage(t *testing.T)
 				t.Fatal("missing actual parent listener")
 			}
 			if mode == "queue" {
-				s.loop.Queue().SetLimit(s.loop.Queue().Len())
+				s.loop.SetQueueLimit(s.loop.QueuedEvents())
 			} else {
 				bad := formula.GenericProgramID(len(s.formulas.Programs))
 				s.formulas.Programs = append(s.formulas.Programs, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}, {Op: formula.GenericOpConst, Value: 0}, {Op: formula.GenericOpDiv}}})

@@ -24,6 +24,16 @@ func runForTest(compiled planbundle.CompiledSession, req model.RunRequest) (mode
 	return engine.Finish()
 }
 func (s *Engine) runLoop() *model.EngineError { return s.loop.Run(s) }
+
+// 测试重新准备事件时只排空真实队列，不重建循环或重置已经分配的事件身份。
+func clearQueuedEventsForTest(loop *scheduler.Loop) {
+	for {
+		if _, exists := takeNextEventForTest(loop); !exists {
+			break
+		}
+	}
+	loop.SetQueueLimit(0)
+}
 func executionModuleRoot() string {
 	_, file, _, ok := gort.Caller(0)
 	if !ok {

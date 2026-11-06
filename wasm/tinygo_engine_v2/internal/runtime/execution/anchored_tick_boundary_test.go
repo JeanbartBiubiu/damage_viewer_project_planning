@@ -93,11 +93,11 @@ func anchoredBoundaryStateBeforeExpiry(t *testing.T, c model.CompileRequest, r m
 		t.Fatal(err)
 	}
 	for {
-		at, ok := state.loop.Queue().PeekTime()
+		at, ok := state.loop.NextEventAt()
 		if !ok || at > 0 {
 			break
 		}
-		ev, _ := state.loop.Queue().Pop()
+		ev, _ := takeNextEventForTest(state.loop)
 		state.loop.AcceptEvent(ev.TimeMs)
 		state.currentEventCommands = 0
 		switch ev.Kind {
@@ -169,7 +169,7 @@ func TestAnchoredTerminalFailureRollsBackCallbackAndCleanup(t *testing.T) {
 				state.budget.MaxCommandsPerEvent = 1 // one damage fits; the atomic expiry does not.
 			}
 			if failure == "queue" {
-				state.loop.Queue().SetLimit(state.loop.Queue().Len()) // the pending process timer still occupies its slot.
+				state.loop.SetQueueLimit(state.loop.QueuedEvents()) // the pending process timer still occupies its slot.
 			}
 			err := state.runLoop()
 			if failure == "formula" && err == nil || failure != "formula" && (state.budgetCause == "" || err != nil) {
@@ -238,31 +238,31 @@ func TestAnchoredTerminalPrioritySeqAndPerEventCommands(t *testing.T) {
 	anchoredBoundaryAddSecondWindow(&c, &r)
 	state := anchoredBoundaryStateBeforeExpiry(t, c, r)
 	var queued []scheduler.GenericEvent
-	for ev, ok := state.loop.Queue().Pop(); ok; ev, ok = state.loop.Queue().Pop() {
+	for ev, ok := takeNextEventForTest(state.loop); ok; ev, ok = takeNextEventForTest(state.loop) {
 		if ev.Kind == scheduler.GenericEventAnchoredTick && state.effectTimers.AnchoredAt(ev.DriverEntryIndex).ProviderRef == "other_window" {
 			ev.Priority = -1
 		}
 		queued = append(queued, ev)
 	}
 	for _, ev := range queued {
-		if state.loop.Queue().Push(ev) != model.ErrOK {
+		if state.loop.Enqueue(ev) != model.ErrOK {
 			t.Fatal("restore test queue")
 		}
 	}
 	var original []scheduler.GenericEvent
-	for ev, ok := state.loop.Queue().Pop(); ok; ev, ok = state.loop.Queue().Pop() {
+	for ev, ok := takeNextEventForTest(state.loop); ok; ev, ok = takeNextEventForTest(state.loop) {
 		original = append(original, ev)
 	}
 	for _, ev := range original {
-		state.loop.Queue().Push(ev)
+		state.loop.Enqueue(ev)
 	}
-	timer, _ := state.loop.Queue().Pop()
+	timer, _ := takeNextEventForTest(state.loop)
 	selected, err := state.selectAnchoredTerminalBeforeProcessTimer(timer)
 	if err != nil || selected.Kind != scheduler.GenericEventAnchoredTick || selected.Priority != -1 {
 		t.Fatalf("wrong selected terminal: %+v err=%+v", selected, err)
 	}
 	var restored []scheduler.GenericEvent
-	for ev, ok := state.loop.Queue().Pop(); ok; ev, ok = state.loop.Queue().Pop() {
+	for ev, ok := takeNextEventForTest(state.loop); ok; ev, ok = takeNextEventForTest(state.loop) {
 		restored = append(restored, ev)
 	}
 	var want []scheduler.GenericEvent
@@ -274,9 +274,9 @@ func TestAnchoredTerminalPrioritySeqAndPerEventCommands(t *testing.T) {
 	if !reflect.DeepEqual(restored, want) {
 		t.Fatalf("selection changed original queued identities or order: got %+v want %+v", restored, want)
 	}
-	state.loop.Queue().Push(selected)
+	state.loop.Enqueue(selected)
 	for _, ev := range restored {
-		state.loop.Queue().Push(ev)
+		state.loop.Enqueue(ev)
 	}
 	state.budget.MaxCommandsPerEvent = 2 // each terminal independently spends damage + cleanup.
 	if err := state.runLoop(); err != nil {
@@ -346,7 +346,7 @@ func TestAnchoredTerminalSelectionRejectsStaleAndForeignIdentity(t *testing.T) {
 			anchored := anchoredPayloadsForTest(state)
 			anchored[0] = payload
 			replaceEffectTimePayloadsForTest(state, expiryPayloadsForTest(state), anchored, true)
-			timer, _ := state.loop.Queue().Pop()
+			timer, _ := takeNextEventForTest(state.loop)
 			selected, err := state.selectAnchoredTerminalBeforeProcessTimer(timer)
 			if err != nil || selected != timer {
 				t.Fatalf("selected invalid terminal %s: %+v err=%+v", invalid, selected, err)
@@ -381,7 +381,7 @@ func TestAnchoredTerminalFailedEnqueueDoesNotGrantHold(t *testing.T) {
 	state.combatants["source"] = owner
 	bag.ClearInclusiveAtExpiryHold()
 	replaceEffectTimePayloadsForTest(state, expiryPayloadsForTest(state), anchoredPayloadsForTest(state), false)
-	state.loop.Queue().SetLimit(state.loop.Queue().Len())
+	state.loop.SetQueueLimit(state.loop.QueuedEvents())
 	state.enqueueAnchoredTickAt(1000, state.effectTimers.AnchoredAt(0))
 	// 若失败入队仍授予了hold，精确期限的惰性到期就会错误保留该值。
 	bag.LazyExpireProviderTargetState(1000)

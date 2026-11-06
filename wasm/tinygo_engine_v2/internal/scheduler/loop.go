@@ -2,13 +2,11 @@ package scheduler
 
 import "tinygo_engine_v2/internal/model"
 
-// LoopState 只交换循环分支所需的值，不携带执行器或子系统状态。
+// LoopState 只交换事件处理后必须立即复核的事实，不携带执行器或子系统状态。
 type LoopState struct {
 	Failure                               *model.EngineError
-	Automated, HasSkillPlan, HasActions   bool
-	SkillPlanDead, BasicWindowSettled     bool
+	Automated                             bool
 	HasBasicAttack, BasicParticipantsDead bool
-	MaxEvents                             int
 }
 
 type LoopStopState struct {
@@ -16,10 +14,40 @@ type LoopStopState struct {
 	BudgetCause            model.BudgetCause
 }
 
+// LoopObservation 是前置决策读取的机械循环事实；无下一事件时不使用其时刻。
+type LoopObservation struct {
+	NowMs, EndMs    int64
+	ProcessedEvents int
+	HasNextEvent    bool
+	NextEventAtMs   int64
+}
+
+// LoopDecisionKind 表示下一次事件接纳前需要循环完成的动作。
+type LoopDecisionKind uint8
+
+const (
+	LoopHandleNext LoopDecisionKind = iota + 1
+	LoopEndAtLimit
+	LoopFinalizeNow
+	LoopStopNow
+)
+
+// LoopDecision 不执行事件或推进时钟；停止与预算字段只在LoopStopNow下使用。
+type LoopDecision struct {
+	Kind          LoopDecisionKind
+	StopReason    model.StopReason
+	BudgetCause   model.BudgetCause
+	BudgetMessage string
+}
+
 // LoopDriver 是循环与执行协调之间的有限入口。观察方法只消费已提交数值。
 // 事件选择保留原有同刻特殊顺序，排程仍使用同一个根循环实例。
 type LoopDriver interface {
-	// LoopState 提供本轮驱动资格、执行失败及事件预算所需的已提交事实。
+	// DecideNext 根据机械事实作前置业务决定；可以返回原执行失败，不改变队列、时钟或停止账。
+	DecideNext(LoopObservation) (LoopDecision, *model.EngineError)
+	// LoopDecisionError 为无效决定生成带本场身份的非空运行不变量错误，不发布状态。
+	LoopDecisionError(message string) *model.EngineError
+	// LoopState 在处理事件返回后立即提供内部失败、自动预算路径与普攻死亡事实。
 	LoopState() LoopState
 	// LoopStopState 提供双方死亡及预算事实，由循环核定停止原因。
 	LoopStopState() LoopStopState
@@ -45,8 +73,36 @@ type LoopDriver interface {
 
 // LoopAPI 定义唯一机械循环的排程、时钟、计数与停止能力。
 type LoopAPI interface {
-	// Queue 仅交给根初始化与统一执行提交两个写入口；行动、效果和报告不持有该队列。
-	Queue() *GenericHeap
+	// SetQueueLimit 在本场装配位置设置有效队列上限，沿用编译限额及硬上限。
+	SetQueueLimit(limit int)
+	// NextEventAt 只查询下一事件时刻及存在性，不出队或推进时钟。
+	NextEventAt() (int64, bool)
+	// CanEnqueue 预检新增数量是否可容纳，不保留容量票据。
+	CanEnqueue(count int) bool
+	// RemainingCapacity 返回当前队列剩余容量，不包含调用方尚未提交的计时请求。
+	RemainingCapacity() int
+	// Enqueue 沿用稳定堆序及容量错误；新事件的零序号在实际入队时分配。
+	Enqueue(event GenericEvent) model.ErrCode
+	// HasBasicAttack 查询队列是否已有普攻唤醒，不判断业务资格。
+	HasBasicAttack() bool
+	// RescheduleBasicAttack 改期已有普攻唤醒并更新世代，保留其原序号；不存在返回false。
+	RescheduleBasicAttack(at int64, generation uint64) bool
+	// HasAutomaticSkill 查询队列是否已有自动行动唤醒，不将改期算作新增。
+	HasAutomaticSkill() bool
+	// RescheduleAutomaticSkill 改期已有自动行动唤醒并更新世代，保留其原序号。
+	RescheduleAutomaticSkill(at int64, generation uint64) bool
+	// HasCooldownAttempt 查询实际等待索引是否已有带非零版本的冷却尝试。
+	HasCooldownAttempt(entry int) bool
+	// RescheduleCooldownAttempt 改期指定等待的已有尝试并更新版本，保留其原序号。
+	RescheduleCooldownAttempt(entry int, at int64, version uint64) bool
+	// TakeAt 仅取出堆顶恰好同刻的候选，不接纳、执行或推进时钟。
+	TakeAt(at int64) (GenericEvent, bool)
+	// RestoreCandidate 在同次同步选择内恢复本循环取出的原事件；零序号拒绝，容量错误显式返回。
+	RestoreCandidate(event GenericEvent) model.ErrCode
+	// QueuedEvents 返回实际入队数，不包括已经取出的候选。
+	QueuedEvents() int
+	// PeakQueuedEvents 返回本场队列曾同时持有的最高事件数。
+	PeakQueuedEvents() int
 	// TimeMs 返回唯一循环的当前时刻。
 	TimeMs() int64
 	// StartMs 返回本次运行的起始时刻。
@@ -88,7 +144,6 @@ func NewLoop(start, duration int64, policy model.StopPolicy) *Loop {
 	return &Loop{queue: NewGenericHeap(64), now: start, start: start, end: start + duration, policy: policy}
 }
 
-func (l *Loop) Queue() *GenericHeap      { return &l.queue }
 func (l *Loop) TimeMs() int64            { return l.now }
 func (l *Loop) StartMs() int64           { return l.start }
 func (l *Loop) DurationMs() int64        { return l.end - l.start }
@@ -160,36 +215,36 @@ func (l *Loop) Finalize(state LoopStopState) {
 }
 
 func (l *Loop) Run(driver LoopDriver) *model.EngineError {
+eventLoop:
 	for {
-		state := driver.LoopState()
-		if state.Failure != nil {
-			if !state.Automated || state.Failure.BudgetCause == "" {
-				return state.Failure
-			}
-			l.Stop(model.StopReasonBudgetExceeded)
-			break
-		}
 		next, hasNext := l.queue.PeekTime()
-		if state.HasSkillPlan && state.SkillPlanDead {
+		decision, err := driver.DecideNext(LoopObservation{
+			NowMs: l.now, EndMs: l.end, ProcessedEvents: l.processed,
+			HasNextEvent: hasNext, NextEventAtMs: next,
+		})
+		if err != nil {
+			return err
+		}
+		if message := l.decisionIssue(decision); message != "" {
+			return driver.LoopDecisionError(message)
+		}
+		switch decision.Kind {
+		case LoopHandleNext:
+			// 无事件与越过终点仍由同一循环的机械停止策略处理。
+		case LoopEndAtLimit:
+			driver.ObserveBefore(l.end)
+			l.Advance(l.end)
+			l.Stop(model.StopReasonDurationReached)
+			break eventLoop
+		case LoopFinalizeNow:
 			l.Finalize(driver.LoopStopState())
-			break
-		}
-		if state.HasActions && (!hasNext || next > l.end) {
-			driver.ObserveBefore(l.end)
-			l.Advance(l.end)
-			l.Stop(model.StopReasonDurationReached)
-			break
-		}
-		if state.BasicWindowSettled && (!hasNext || next > l.end) {
-			driver.ObserveBefore(l.end)
-			l.Advance(l.end)
-			l.Stop(model.StopReasonDurationReached)
-			break
-		}
-		if l.processed >= state.MaxEvents {
-			driver.LoopBudgetExceeded(model.BudgetCauseMaxEvents, "event budget exceeded")
-			l.Stop(model.StopReasonBudgetExceeded)
-			break
+			break eventLoop
+		case LoopStopNow:
+			if decision.BudgetCause != "" {
+				driver.LoopBudgetExceeded(decision.BudgetCause, decision.BudgetMessage)
+			}
+			l.Stop(decision.StopReason)
+			break eventLoop
 		}
 		event, ok := l.queue.Pop()
 		if !ok {
@@ -210,7 +265,6 @@ func (l *Loop) Run(driver LoopDriver) *model.EngineError {
 			l.Stop(model.StopReasonDurationReached)
 			break
 		}
-		var err *model.EngineError
 		event, err = driver.SelectLoopEvent(event)
 		if err != nil {
 			return err
@@ -218,7 +272,7 @@ func (l *Loop) Run(driver LoopDriver) *model.EngineError {
 		driver.ObserveBefore(event.TimeMs)
 		l.AcceptEvent(event.TimeMs)
 		err = driver.HandleLoopEvent(event)
-		state = driver.LoopState()
+		state := driver.LoopState()
 		if err == nil {
 			err = state.Failure
 		}
@@ -252,4 +306,33 @@ func (l *Loop) Run(driver LoopDriver) *model.EngineError {
 	driver.ObserveThrough(l.now)
 	driver.ObserveFinal()
 	return nil
+}
+
+func (l *Loop) decisionIssue(decision LoopDecision) string {
+	if decision.Kind != LoopStopNow && (decision.StopReason != "" || decision.BudgetCause != "" || decision.BudgetMessage != "") {
+		return "loop decision carries stop or budget facts without stopping"
+	}
+	switch decision.Kind {
+	case LoopHandleNext, LoopFinalizeNow:
+		return ""
+	case LoopEndAtLimit:
+		if l.end < l.now {
+			return "loop decision cannot move time backwards"
+		}
+		return ""
+	case LoopStopNow:
+		if StopReasonPriority(decision.StopReason) == 0 {
+			return "loop decision has no valid stop reason"
+		}
+		if decision.BudgetCause == "" {
+			if decision.BudgetMessage != "" {
+				return "loop decision carries a budget message without its cause"
+			}
+		} else if decision.BudgetCause != model.BudgetCauseMaxEvents || decision.StopReason != model.StopReasonBudgetExceeded || decision.BudgetMessage != "event budget exceeded" {
+			return "loop decision has inconsistent event budget facts"
+		}
+		return ""
+	default:
+		return "loop decision kind is invalid"
+	}
 }

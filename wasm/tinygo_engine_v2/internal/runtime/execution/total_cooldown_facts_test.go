@@ -6,7 +6,6 @@ import (
 	model "tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
-	scheduler "tinygo_engine_v2/internal/scheduler"
 )
 
 func totalRatioPacketInput(t *testing.T, total float64, amounts ...float64) (model.CompileRequest, model.RunRequest) {
@@ -46,7 +45,7 @@ func TestTotalCooldownRatioCommitsFinalDurationAndNeverRecomputesAfterAttributeO
 				wantTotal, wantRefund = 3000, 150
 			}
 			s := frameCommitState(t, c, r)
-			*s.loop.Queue() = scheduler.NewGenericHeap(32)
+			clearQueuedEventsForTest(s.loop)
 			if mode == "duration_factor" {
 				applyDurationWindow(t, s)
 			}
@@ -93,7 +92,7 @@ func TestTotalCooldownRatioCommitsFinalDurationAndNeverRecomputesAfterAttributeO
 func TestTotalCooldownRatioMissingContextKeepsCommittedDamageAndIndependentHeal(t *testing.T) {
 	c, r := finitePeriodicCastInput(t, 12000, true)
 	s := frameCommitState(t, c, r)
-	*s.loop.Queue() = scheduler.NewGenericHeap(32)
+	clearQueuedEventsForTest(s.loop)
 	if err := s.handleSkillAction(0); err != nil {
 		t.Fatal(err)
 	}

@@ -80,12 +80,12 @@ func TestTriggeredSkillSourceSameTimeStartAndHitKeepUniqueWait(test *testing.T) 
 	if err != nil {
 		test.Fatal(err)
 	}
-	state.loop.Queue().Pop()
+	takeNextEventForTest(state.loop)
 	if err := state.handleBasicAttack(); err != nil {
 		test.Fatal(err)
 	}
-	if state.loop.Queue().Len() != 1 || state.basicAttackReadyAt() != 333 || *state.actions.BasicAttack().Current().ReadyAtMs() != 1000 || state.actions.ProcessCount() != 1 {
-		test.Fatal(state.actions.BasicAttack().Wait(), state.loop.Queue().Len(), state.actions.ProcessViews())
+	if state.loop.QueuedEvents() != 1 || state.basicAttackReadyAt() != 333 || *state.actions.BasicAttack().Current().ReadyAtMs() != 1000 || state.actions.ProcessCount() != 1 {
+		test.Fatal(state.actions.BasicAttack().Wait(), state.loop.QueuedEvents(), state.actions.ProcessViews())
 	}
 	first := input.Combatants[0].Providers[0]
 	input.Combatants[0].Providers = append(input.Combatants[0].Providers[1:], first)
@@ -93,11 +93,11 @@ func TestTriggeredSkillSourceSameTimeStartAndHitKeepUniqueWait(test *testing.T) 
 	if err != nil {
 		test.Fatal(err)
 	}
-	state.loop.Queue().Pop()
+	takeNextEventForTest(state.loop)
 	if err := state.handleBasicAttack(); err != nil {
 		test.Fatal(err)
 	}
-	if state.loop.Queue().Len() != 1 || state.basicAttackReadyAt() != 333 || *state.actions.BasicAttack().Current().ReadyAtMs() != 500 || state.actions.ProcessCount() != 1 {
+	if state.loop.QueuedEvents() != 1 || state.basicAttackReadyAt() != 333 || *state.actions.BasicAttack().Current().ReadyAtMs() != 500 || state.actions.ProcessCount() != 1 {
 		test.Fatal("cooldown baseline did not capture the actual pre-process attribute value", state.actions.BasicAttack().Wait(), state.actions.BasicAttack().Current())
 	}
 }
@@ -141,7 +141,7 @@ func TestTriggeredSkillSourceExpiryBudgetFailureKeepsCommittedStateAndWait(test 
 	if err != nil {
 		test.Fatal(err)
 	}
-	state.loop.Queue().Pop()
+	takeNextEventForTest(state.loop)
 	if err := state.handleBasicAttack(); err != nil {
 		test.Fatal(err)
 	}
@@ -177,7 +177,7 @@ func TestIntegerSourceAndTargetOperandsCannotHideBehindCaps(test *testing.T) {
 			if err != nil {
 				test.Fatal(err)
 			}
-			state.loop.Queue().Pop()
+			takeNextEventForTest(state.loop)
 			err = state.handleBasicAttack()
 			if (err == nil) != scenario.valid {
 				test.Fatal(scope, scenario, err)
@@ -225,10 +225,10 @@ func TestTriggeredSkillSourceInitialWaitQueueFailureIsAtomic(test *testing.T) {
 	if err != nil {
 		test.Fatal(err)
 	}
-	state.loop.Queue().Pop()
-	state.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 10, Kind: scheduler.GenericEventExpireCleanup})
+	takeNextEventForTest(state.loop)
+	state.loop.Enqueue(scheduler.GenericEvent{TimeMs: 10, Kind: scheduler.GenericEventExpireCleanup})
 	err = state.handleBasicAttack()
-	if err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents || state.actions.BasicAttack().Wait() != nil || state.actions.ProcessCount() != 0 || state.combatants["source"].cooldowns.EntryCount() != 0 || state.loop.Queue().Len() != 1 {
+	if err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents || state.actions.BasicAttack().Wait() != nil || state.actions.ProcessCount() != 0 || state.combatants["source"].cooldowns.EntryCount() != 0 || state.loop.QueuedEvents() != 1 {
 		test.Fatal(err, state.actions.BasicAttack().Wait(), state.actions.ProcessViews(), state.combatants["source"].cooldowns)
 	}
 }
@@ -384,10 +384,10 @@ func TestTriggeredSkillSourceRejectsUnsafeInitialWaitWithoutPartialCommit(test *
 	if err != nil {
 		test.Fatal(err)
 	}
-	state.loop.Queue().Pop()
+	takeNextEventForTest(state.loop)
 	err = state.handleBasicAttack()
-	if err == nil || state.actions.BasicAttack().Wait() != nil || state.combatants["source"].cooldowns.EntryCount() != 0 || state.actions.ProcessCount() != 0 || state.loop.Queue().Len() != 0 {
-		test.Fatal(err, state.actions.BasicAttack().Wait(), state.actions.ProcessViews(), state.loop.Queue().Len())
+	if err == nil || state.actions.BasicAttack().Wait() != nil || state.combatants["source"].cooldowns.EntryCount() != 0 || state.actions.ProcessCount() != 0 || state.loop.QueuedEvents() != 0 {
+		test.Fatal(err, state.actions.BasicAttack().Wait(), state.actions.ProcessViews(), state.loop.QueuedEvents())
 	}
 }
 
@@ -458,15 +458,15 @@ func TestTriggeredSkillSourceDynamicAttributeBudgetFailureIsAtomic(test *testing
 		if err != nil {
 			test.Fatal(err)
 		}
-		state.loop.Queue().Pop()
+		takeNextEventForTest(state.loop)
 		if err := state.handleBasicAttack(); err != nil {
 			test.Fatal(err)
 		}
-		queued := state.loop.Queue().Len()
+		queued := state.loop.QueuedEvents()
 		if cause == model.BudgetCauseMaxCommandsPerEvent {
 			state.budget.MaxCommandsPerEvent = 1
 		} else {
-			state.loop.Queue().SetLimit(queued)
+			state.loop.SetQueueLimit(queued)
 		}
 		frame := state.newExecutionFrame("source", "target", "budgeted_attribute")
 		frame.ownerCombatantKey, frame.ownerProviderRef = "source", root
@@ -480,8 +480,8 @@ func TestTriggeredSkillSourceDynamicAttributeBudgetFailureIsAtomic(test *testing
 			}
 		}
 		frame.commit()
-		if !frame.fatal || frame.fatalErr.BudgetCause != cause || state.basicAttackReadyAt() != 1000 || state.combatants["source"].attributesView().At("attack_speed").Resolved != 1 || state.loop.Queue().Len() != queued {
-			test.Fatal(cause, frame.fatalErr, state.actions.BasicAttack().Wait(), state.loop.Queue().Len())
+		if !frame.fatal || frame.fatalErr.BudgetCause != cause || state.basicAttackReadyAt() != 1000 || state.combatants["source"].attributesView().At("attack_speed").Resolved != 1 || state.loop.QueuedEvents() != queued {
+			test.Fatal(cause, frame.fatalErr, state.actions.BasicAttack().Wait(), state.loop.QueuedEvents())
 		}
 		for instanceIndex, instanceValues := 0, state.combatants["source"].instances.Providers(); instanceIndex < instanceValues.Len(); instanceIndex++ {
 			provider := instanceValues.At(instanceIndex)

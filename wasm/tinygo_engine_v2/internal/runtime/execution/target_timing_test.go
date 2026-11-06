@@ -133,11 +133,11 @@ func targetTimingStateUntil(t *testing.T, c model.CompileRequest, r model.RunReq
 		t.Fatal(err)
 	}
 	for {
-		at, ok := s.loop.Queue().PeekTime()
+		at, ok := s.loop.NextEventAt()
 		if !ok || at > until {
 			break
 		}
-		event, _ := s.loop.Queue().Pop()
+		event, _ := takeNextEventForTest(s.loop)
 		s.loop.AcceptEvent(event.TimeMs)
 		s.currentEventCommands = 0
 		switch event.Kind {
@@ -192,11 +192,11 @@ func TestTargetExpiryPayloadAtomicFailureAndExactNineCommands(t *testing.T) {
 			payload := targetTimingExpiryPayload(t, s, "pending")
 			// Settle the actual 2200 phase first, as the production category does.
 			for {
-				at, ok := s.loop.Queue().PeekTime()
+				at, ok := s.loop.NextEventAt()
 				if !ok || at != 2200 {
 					break
 				}
-				ev, _ := s.loop.Queue().Pop()
+				ev, _ := takeNextEventForTest(s.loop)
 				if ev.Kind == scheduler.GenericEventAnchoredTick {
 					s.loop.Advance(2200)
 					s.currentEventCommands = 0
@@ -211,14 +211,14 @@ func TestTargetExpiryPayloadAtomicFailureAndExactNineCommands(t *testing.T) {
 			s.currentEventCommands = 0
 			before := s.report.Totals().SourceDamageDealt
 			beforeID := s.nextDamageID
-			beforeEvents := s.loop.Queue().Len()
+			beforeEvents := s.loop.QueuedEvents()
 			beforeFacts := targetTimingFactsForTest(s.combatants["source"].providerState.Lookup("timed_mount"))
 			s.budget.MaxCommandsPerEvent = 9
 			if failure == "commands" {
 				s.budget.MaxCommandsPerEvent = 8
 			}
 			if failure == "queue" {
-				s.loop.Queue().SetLimit(beforeEvents)
+				s.loop.SetQueueLimit(beforeEvents)
 			}
 			if failure == "formula" {
 				for i := range s.compiled.Abilities {
@@ -237,8 +237,8 @@ func TestTargetExpiryPayloadAtomicFailureAndExactNineCommands(t *testing.T) {
 					t.Fatal("payload did not commit exactly nine leaf commands", s.processFailure, s.currentEventCommands, s.report.Totals().SourceDamageDealt, bag)
 				}
 			} else {
-				if s.processFailure == nil || s.report.Totals().SourceDamageDealt != before || s.nextDamageID != beforeID || s.loop.Queue().Len() != beforeEvents || !reflect.DeepEqual(targetTimingFactsForTest(bag), beforeFacts) || bag.ReadTargetValue("count") != 3 || bag.ReadTargetValue("slot1") != 1 {
-					t.Fatal("failed expiry published partial state/damage/queue/ID", failure, s.processFailure, s.report.Totals().SourceDamageDealt, before, s.loop.Queue().Len(), beforeEvents, bag)
+				if s.processFailure == nil || s.report.Totals().SourceDamageDealt != before || s.nextDamageID != beforeID || s.loop.QueuedEvents() != beforeEvents || !reflect.DeepEqual(targetTimingFactsForTest(bag), beforeFacts) || bag.ReadTargetValue("count") != 3 || bag.ReadTargetValue("slot1") != 1 {
+					t.Fatal("failed expiry published partial state/damage/queue/ID", failure, s.processFailure, s.report.Totals().SourceDamageDealt, before, s.loop.QueuedEvents(), beforeEvents, bag)
 				}
 			}
 		})

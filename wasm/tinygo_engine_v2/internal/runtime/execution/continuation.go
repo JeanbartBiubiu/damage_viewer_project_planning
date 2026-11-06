@@ -93,7 +93,7 @@ func (s *Engine) handleTriggeredContinuation(ev scheduler.GenericEvent) *model.E
 
 // QueueCopyContinuation 只在原延迟登记位置接线唯一队列。
 func (s *Engine) QueueCopyContinuation(id uint64, delayMs int) *model.EngineError {
-	code := s.loop.Queue().Push(scheduler.GenericEvent{TimeMs: s.loop.TimeMs() + int64(delayMs), Category: scheduler.GenericCategoryTriggeredContinuation, Kind: scheduler.GenericEventTriggeredContinuation, ContinuationID: id})
+	code := s.loop.Enqueue(scheduler.GenericEvent{TimeMs: s.loop.TimeMs() + int64(delayMs), Category: scheduler.GenericCategoryTriggeredContinuation, Kind: scheduler.GenericEventTriggeredContinuation, ContinuationID: id})
 	if code != model.ErrOK {
 		return s.budgetError(model.BudgetCauseMaxQueueEvents, "triggered continuation queue overflow")
 	}

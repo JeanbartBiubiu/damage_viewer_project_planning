@@ -34,7 +34,7 @@ func TestModifierSnapshotQueueFailureDoesNotInstallEitherSide(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	s.loop.Queue().SetLimit(1)
+	s.loop.SetQueueLimit(1)
 	if err = s.runLoop(); err == nil || err.BudgetCause != model.BudgetCauseMaxQueueEvents {
 		t.Fatal(err)
 	}

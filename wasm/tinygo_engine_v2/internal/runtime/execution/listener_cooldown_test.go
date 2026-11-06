@@ -57,7 +57,7 @@ func listenerCooldownUseState(t *testing.T) (*Engine, string) {
 
 func listenerCooldownNextHit(t *testing.T, state *Engine, at int64) {
 	t.Helper()
-	event, exists := state.loop.Queue().Pop()
+	event, exists := takeNextEventForTest(state.loop)
 	if !exists || event.TimeMs != at {
 		t.Fatal("missing real skill process event", event, exists, at)
 	}

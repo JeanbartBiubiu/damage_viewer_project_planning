@@ -24,13 +24,7 @@ func targetMarkShieldState(t *testing.T, c model.CompileRequest, r model.RunRequ
 		c.SharedProviders = append(c.SharedProviders, shield)
 	}
 	s := targetMarkState(t, c, r)
-	duration := s.loop.DurationMs()
-	setTestLoopDuration(s, r.DriverPlan.SkillActions[0].FirstAtMs+250)
-	if err := s.runLoop(); err != nil {
-		t.Fatal(err)
-	}
-	setTestLoopDuration(s, duration)
-	clearTestLoopStop(s)
+	runPrefixThroughForTest(t, s, r.DriverPlan.SkillActions[0].FirstAtMs+250)
 
 	s.publishBasicAttackWait()
 	for i := 0; i < count; i++ {

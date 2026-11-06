@@ -22,11 +22,11 @@ func initializedOwnShield(t *testing.T) *Engine {
 		t.Fatal(err)
 	}
 	for {
-		at, present := s.loop.Queue().PeekTime()
+		at, present := s.loop.NextEventAt()
 		if !present || at > 0 {
 			break
 		}
-		event, _ := s.loop.Queue().Pop()
+		event, _ := takeNextEventForTest(s.loop)
 		if event.Kind != scheduler.GenericEventSourceInitialized {
 			t.Fatal(event)
 		}

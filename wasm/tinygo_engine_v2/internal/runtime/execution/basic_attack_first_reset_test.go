@@ -23,7 +23,7 @@ func TestBasicAttackResetBeforeFirstAttackRepublishesWaitingVersion(t *testing.T
 			state.loop.Advance(200)
 			key := basicAttackCooldownWaitKey(state.actions.BasicAttack())
 			wait := state.combatants["source"].cooldowns.RegisterWait(key, []contract.CooldownIdentity{actionpkg.AbilityCooldownIdentity("source", request.DriverPlan.BasicAttack.InitialControlAbilityRef)}, 200, state.loop.TimeMs())
-			if !state.loop.Queue().RescheduleBasicAttack(200, wait.Version) {
+			if !state.loop.RescheduleBasicAttack(200, wait.Version) {
 				t.Fatal("missing genuine initial attack node")
 			}
 			old := resetQueuedAttack(t, state)
@@ -73,25 +73,25 @@ func TestBasicAttackFirstResetMissingNodeBudgetIsAtomic(t *testing.T) {
 		key := basicAttackCooldownWaitKey(state.actions.BasicAttack())
 		wait := state.combatants["source"].cooldowns.RegisterWait(key, []contract.CooldownIdentity{actionpkg.AbilityCooldownIdentity("source", request.DriverPlan.BasicAttack.InitialControlAbilityRef)}, 200, 200)
 		var others []scheduler.GenericEvent
-		for state.loop.Queue().Len() > 0 {
-			event, _ := state.loop.Queue().Pop()
+		for state.loop.QueuedEvents() > 0 {
+			event, _ := takeNextEventForTest(state.loop)
 			if event.Kind != scheduler.GenericEventBasicAttack {
 				others = append(others, event)
 			}
 		}
 		for _, event := range others {
-			state.loop.Queue().Push(event)
+			state.loop.Enqueue(event)
 		}
 		if limited {
-			if state.loop.Queue().Len() == 0 {
+			if state.loop.QueuedEvents() == 0 {
 				t.Fatal("budget fixture needs a real occupied slot")
 			}
-			state.loop.Queue().SetLimit(state.loop.Queue().Len())
+			state.loop.SetQueueLimit(state.loop.QueuedEvents())
 		}
 		frame := resetAttackFrame(t, state, 200)
 		if limited {
 			current, _ := state.combatants["source"].cooldowns.Wait(key)
-			if !frame.fatal || frame.committed || frame.fatalErr.BudgetCause != model.BudgetCauseMaxQueueEvents || state.loop.Queue().HasBasicAttack() || current.Version != wait.Version || state.basicAttackReadyAt() != 0 {
+			if !frame.fatal || frame.committed || frame.fatalErr.BudgetCause != model.BudgetCauseMaxQueueEvents || state.loop.HasBasicAttack() || current.Version != wait.Version || state.basicAttackReadyAt() != 0 {
 				t.Fatal("failed preflight published a cooldown or fallback attack", frame.fatalErr, current)
 			}
 		} else {

@@ -180,7 +180,7 @@ func TestGenericRunAnchoredTickMissingBindingNoops(t *testing.T) {
 		t.Fatal(err)
 	}
 	// Process the apply at t=0.
-	ev, ok := state.loop.Queue().Pop()
+	ev, ok := takeNextEventForTest(state.loop)
 	if !ok {
 		t.Fatal("expected apply event")
 	}
@@ -230,7 +230,7 @@ func TestGenericRunAnchoredTickStaleGenerationAndNoRecursion(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	ev, ok := state.loop.Queue().Pop()
+	ev, ok := takeNextEventForTest(state.loop)
 	if !ok {
 		t.Fatal("expected apply")
 	}
@@ -275,7 +275,7 @@ func TestGenericRunAnchoredTickExpiredStateNoops(t *testing.T) {
 		t.Fatal(err)
 	}
 	// Apply write.
-	ev, _ := state.loop.Queue().Pop()
+	ev, _ := takeNextEventForTest(state.loop)
 	state.loop.Advance(ev.TimeMs)
 	if err := state.handleAbilityAttempt(ev); err != nil {
 		t.Fatal(err)

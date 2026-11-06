@@ -163,14 +163,12 @@ func TestEmpoweredAttackFailedRefreshPreservesOldWindow(t *testing.T) {
 			if gate == "queue" {
 				// Execute the first activation through the real loop, then fill only
 				// the bounded queue before the second real scheduled activation.
-				setTestLoopDuration(state, 499)
-				if err := state.runLoop(); err != nil {
-					t.Fatal(err)
-				}
-				setTestLoopDuration(state, 1300)
+				runPrefixThroughForTest(t, state, 499)
 				state.loop.Advance(500)
-				for state.loop.Queue().RemainingCapacity() > 0 {
-					state.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 99999, Kind: scheduler.GenericEventSample})
+				for state.loop.RemainingCapacity() > 0 {
+					if code := state.loop.Enqueue(scheduler.GenericEvent{TimeMs: 99999, Kind: scheduler.GenericEventSample}); code != model.ErrOK {
+						t.Fatal(code)
+					}
 				}
 				err = state.handleSkillAction(1)
 			} else {
@@ -204,16 +202,12 @@ func TestEmpoweredAttackFrozenIdentity(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	setTestLoopDuration(state, 999)
-	if err := state.runLoop(); err != nil {
-		t.Fatal(err)
-	}
+	runPrefixThroughForTest(t, state, 999)
 	waits := state.freezeEmpoweredWaits("source")
 	if len(waits) != 1 {
 		t.Fatal(waits)
 	}
 	state.loop.Advance(1000)
-	setTestLoopDuration(state, 1300)
 	if err := state.handleSkillAction(1); err != nil {
 		t.Fatal(err)
 	}

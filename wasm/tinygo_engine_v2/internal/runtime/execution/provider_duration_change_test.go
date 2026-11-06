@@ -102,9 +102,9 @@ func TestProviderEnsureRemainingPreservesIdentityAndRollsBackQueueFailure(t *tes
 		t.Fatal("ensure reapplied the existing instance", original, after)
 	}
 	s.loop.Advance(2000)
-	*s.loop.Queue() = scheduler.NewGenericHeap(1)
-	s.loop.Queue().SetLimit(1)
-	s.loop.Queue().Push(scheduler.GenericEvent{Kind: scheduler.GenericEventSample, TimeMs: 5000})
+	clearQueuedEventsForTest(s.loop)
+	s.loop.SetQueueLimit(1)
+	s.loop.Enqueue(scheduler.GenericEvent{Kind: scheduler.GenericEventSample, TimeMs: 5000})
 	ability, ref, _ := s.lookupDriverAbility(model.DriverEntry{AbilityRef: timedShieldRef("ensure"), Source: "source", Target: "target"})
 	frame := s.newExecutionFrame("source", "target", ref)
 	frame.ownerCombatantKey, frame.ownerProviderRef = "source", "champion:source_demo"

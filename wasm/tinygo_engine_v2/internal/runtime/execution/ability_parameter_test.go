@@ -4,7 +4,6 @@ import (
 	testing "testing"
 	model "tinygo_engine_v2/internal/model"
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
-	scheduler "tinygo_engine_v2/internal/scheduler"
 	formuladefinition "tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
@@ -47,12 +46,12 @@ func TestAuthoredAbilityParameterChannelUsesActualInitialAbilityAndFrozenProgres
 	}
 	actionpkg.StageProcess(restored).Publish(state.actions.ProcessAt(0))
 	restored = state.actions.ProcessAt(0)
-	*state.loop.Queue() = scheduler.NewGenericHeap(64)
+	clearQueuedEventsForTest(state.loop)
 	if err := state.enqueueProcessTimer(restored); err != nil {
 		t.Fatal(err)
 	}
-	for state.loop.Queue().Len() > 0 {
-		event, _ := state.loop.Queue().Pop()
+	for state.loop.QueuedEvents() > 0 {
+		event, _ := takeNextEventForTest(state.loop)
 		state.loop.Advance(event.TimeMs)
 		state.currentEventCommands = 0
 		if err := state.handleProcessTimer(event); err != nil {

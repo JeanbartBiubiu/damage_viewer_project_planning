@@ -9,13 +9,18 @@ import (
 
 func waitingTestState(t *testing.T) *Engine {
 	t.Helper()
-	input, request := continuousAttackInput(1, 10000, 0, 0, 0, 4000)
+	return waitingTestStateWithDuration(t, 4000)
+}
+
+func waitingTestStateWithDuration(t *testing.T, duration int64) *Engine {
+	t.Helper()
+	input, request := continuousAttackInput(1, 10000, 0, 0, 0, duration)
 	request.DriverPlan.BasicAttack.AttackSpeedInputMax = 10
 	state, err := newGenericRunState(authoringCompile(t, input), request)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if _, exists := state.loop.Queue().Pop(); !exists {
+	if _, exists := takeNextEventForTest(state.loop); !exists {
 		t.Fatal("missing first attack")
 	}
 	if err := state.handleBasicAttack(); err != nil {
@@ -44,8 +49,8 @@ func TestContinuousWaitingPreservesFractionAndUniqueEvent(t *testing.T) {
 	}{{2, 700}, {.5, 1600}} {
 		state := waitingTestState(t)
 		frame := changeWaitingSpeed(t, state, 400, scenario.speed)
-		if frame.fatal || state.basicAttackReadyAt() != scenario.ready || state.loop.Queue().Len() != 1 || state.actions.BasicAttack().Wait().Remaining() != .6 || state.combatants["source"].cooldowns.AbilityReadyAt("source", state.actions.BasicAttack().Plan().InitialControlAbilityRef) != scenario.ready {
-			t.Fatal(scenario, frame.fatalErr, state.actions.BasicAttack().Wait(), state.loop.Queue().Len())
+		if frame.fatal || state.basicAttackReadyAt() != scenario.ready || state.loop.QueuedEvents() != 1 || state.actions.BasicAttack().Wait().Remaining() != .6 || state.combatants["source"].cooldowns.AbilityReadyAt("source", state.actions.BasicAttack().Plan().InitialControlAbilityRef) != scenario.ready {
+			t.Fatal(scenario, frame.fatalErr, state.actions.BasicAttack().Wait(), state.loop.QueuedEvents())
 		}
 		attack := state.report.Snapshot().AttackRecords[0]
 		if *attack.ReadyAtMs != 1000 || *attack.FinalReadyAtMs != scenario.ready || *attack.NextStartAtMs != scenario.ready || attack.AttackSpeed != 1 {
@@ -67,14 +72,13 @@ func TestContinuousWaitingBudgetFailureDoesNotPublishSpeedOrClock(t *testing.T) 
 	state := waitingTestState(t)
 	state.budget.MaxCommandsPerEvent = 0
 	frame := changeWaitingSpeed(t, state, 400, 2)
-	if !frame.fatal || frame.fatalErr.BudgetCause != model.BudgetCauseMaxCommandsPerEvent || state.combatants["source"].attributesView().At("attack_speed").Resolved != 1 || state.basicAttackReadyAt() != 1000 || state.loop.Queue().Len() != 1 {
+	if !frame.fatal || frame.fatalErr.BudgetCause != model.BudgetCauseMaxCommandsPerEvent || state.combatants["source"].attributesView().At("attack_speed").Resolved != 1 || state.basicAttackReadyAt() != 1000 || state.loop.QueuedEvents() != 1 {
 		t.Fatal(frame.fatalErr, state.actions.BasicAttack().Wait())
 	}
 }
 
 func TestContinuousWaitingBeyondWindowCanReturnIntoWindow(t *testing.T) {
-	state := waitingTestState(t)
-	setTestLoopDuration(state, 900)
+	state := waitingTestStateWithDuration(t, 900)
 	state.publishBasicAttackWait()
 	if state.actions.BasicAttack().Current().NextStartAtMs() != nil {
 		t.Fatal(state.actions.BasicAttack().Current())

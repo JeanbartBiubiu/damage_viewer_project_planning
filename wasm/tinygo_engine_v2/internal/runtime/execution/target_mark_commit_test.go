@@ -38,7 +38,7 @@ func TestTargetMarkQueuePreflightCannotPublishStagedGroupFacts(t *testing.T) {
 	}
 	frame.pendingTargetMark.ConsumedCount, frame.pendingTargetMark.SkillCount = 1, 1
 	frame.stageProviderTargetStateExpiry("source", "w", "target", "mark", 4250)
-	s.loop.Queue().SetLimit(s.loop.Queue().Len())
+	s.loop.SetQueueLimit(s.loop.QueuedEvents())
 	frame.commit()
 	if !frame.fatal || frame.fatalErr.BudgetCause != model.BudgetCauseMaxQueueEvents || frame.committed || s.report.TargetMarkSummary().ConsumedCount != 0 || s.combatantHp("target") != 900 || s.combatantHp("source") != 520 || s.combatants["source"].resourceView().At("mana").Current != 80 || s.combatants["source"].providerState.Lookup("w").TargetValues().At("mark") != 1 {
 		t.Fatal("failed preflight published part of the group", frame.fatalErr, s.report.TargetMarkSummary())

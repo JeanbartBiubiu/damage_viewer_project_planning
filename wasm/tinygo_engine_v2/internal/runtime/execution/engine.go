@@ -20,8 +20,19 @@ import (
 	"tinygo_engine_v2/internal/scheduler"
 )
 
+type sameTimeSelectionRule uint8
+
+const (
+	sameTimeBeforeStateExpiry sameTimeSelectionRule = iota
+	sameTimeAnchoredTerminal
+)
+
 // EngineAPI 定义单次执行协调的公开能力，调度仍借用根入口创建的唯一循环。
 type EngineAPI interface {
+	// DecideNext 在每轮前置位置核对本场业务结束及事件预算，不推进时钟或发布战斗状态。
+	DecideNext(observation scheduler.LoopObservation) (scheduler.LoopDecision, *model.EngineError)
+	// LoopDecisionError 为不符合循环交接契约的决定生成带本场身份的运行错误。
+	LoopDecisionError(message string) *model.EngineError
 	// ApplyCopy 创建并完整提交一笔原始复制伤害；失败保留已经发布的前序事实。
 	ApplyCopy(c *eventCopyableCollector, d copyableDamageFrozen, tag string) *model.EngineError
 	// CopiesStopped 返回唯一循环当前停止状态。
@@ -68,7 +79,7 @@ type EngineAPI interface {
 	ListenerSkipped(definition planbundle.CompiledListener, reason string)
 	// LoopBudgetExceeded 保存预算原因及既有错误事实。
 	LoopBudgetExceeded(cause model.BudgetCause, message string)
-	// LoopState 返回当前驱动资格、失败与事件预算所需的已提交事实。
+	// LoopState 提供事件处理后立即复核的失败、自动运行及普攻参与者事实。
 	LoopState() scheduler.LoopState
 	// LoopStopState 返回死亡与预算事实，由唯一循环核定停止原因。
 	LoopStopState() scheduler.LoopStopState
@@ -280,7 +291,7 @@ func New(compiled planbundle.CompiledSession, req model.RunRequest, loop *schedu
 		return nil, err
 	}
 
-	state.loop.Queue().SetLimit(compiled.Settings.MaxQueueEvents)
+	state.loop.SetQueueLimit(compiled.Settings.MaxQueueEvents)
 	if !state.report.InitBasicRecords(req.RecordBudget) {
 		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "invalid record retention budget", "recordBudget", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 	}
@@ -406,7 +417,7 @@ func (s *Engine) consumeEventCommands(count int) *model.EngineError {
 }
 
 func (s *Engine) pushCombatEvent(ev scheduler.GenericEvent) bool {
-	if s.loop.Queue().Push(ev) == model.ErrOK {
+	if s.loop.Enqueue(ev) == model.ErrOK {
 		return true
 	}
 	if s.processFailure == nil {
@@ -439,20 +450,39 @@ func (s *Engine) checkDeathStopReason() {
 
 func (s *Engine) LoopState() scheduler.LoopState {
 	basic := s.actions.BasicAttack()
-	hasSkillPlan := s.hasSkillPlan()
-	skillDead := false
-	if hasSkillPlan {
-		skillDead = s.actions.Dead(model.SelectorSource) || s.actions.Dead(model.SelectorTarget) || s.combatantHp(model.SelectorSource) <= 0 || s.combatantHp(model.SelectorTarget) <= 0
-	}
 	return scheduler.LoopState{
 		Failure: s.processFailure, Automated: s.automatedRun(),
-		HasSkillPlan: hasSkillPlan, HasActions: s.actions.ManualCount() > 0,
-		SkillPlanDead:         skillDead,
-		BasicWindowSettled:    basic != nil && !basic.UnfinishedTail() && basic.WindowSettled(),
 		HasBasicAttack:        basic != nil,
 		BasicParticipantsDead: basic != nil && (s.combatantHp(basic.Plan().Source) <= 0 || s.combatantHp(basic.Plan().Target) <= 0),
-		MaxEvents:             s.budget.MaxEvents,
 	}
+}
+
+func (s *Engine) DecideNext(observation scheduler.LoopObservation) (scheduler.LoopDecision, *model.EngineError) {
+	if s.processFailure != nil {
+		if !s.automatedRun() || s.processFailure.BudgetCause == "" {
+			return scheduler.LoopDecision{}, s.processFailure
+		}
+		return scheduler.LoopDecision{Kind: scheduler.LoopStopNow, StopReason: model.StopReasonBudgetExceeded}, nil
+	}
+	if s.hasSkillPlan() && (s.actions.Dead(model.SelectorSource) || s.actions.Dead(model.SelectorTarget) || s.combatantHp(model.SelectorSource) <= 0 || s.combatantHp(model.SelectorTarget) <= 0) {
+		return scheduler.LoopDecision{Kind: scheduler.LoopFinalizeNow}, nil
+	}
+	outsideWindow := !observation.HasNextEvent || observation.NextEventAtMs > observation.EndMs
+	if s.actions.ManualCount() > 0 && outsideWindow {
+		return scheduler.LoopDecision{Kind: scheduler.LoopEndAtLimit}, nil
+	}
+	if basic := s.actions.BasicAttack(); basic != nil && !basic.UnfinishedTail() && basic.WindowSettled() && outsideWindow {
+		return scheduler.LoopDecision{Kind: scheduler.LoopEndAtLimit}, nil
+	}
+	if observation.ProcessedEvents >= s.budget.MaxEvents {
+		return scheduler.LoopDecision{Kind: scheduler.LoopStopNow, StopReason: model.StopReasonBudgetExceeded,
+			BudgetCause: model.BudgetCauseMaxEvents, BudgetMessage: "event budget exceeded"}, nil
+	}
+	return scheduler.LoopDecision{Kind: scheduler.LoopHandleNext}, nil
+}
+
+func (s *Engine) LoopDecisionError(message string) *model.EngineError {
+	return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, message, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 }
 
 func (s *Engine) LoopStopState() scheduler.LoopStopState {
@@ -475,6 +505,50 @@ func (s *Engine) SelectLoopEvent(event scheduler.GenericEvent) (scheduler.Generi
 		event, err = s.selectAnchoredTerminalBeforeProcessTimer(event)
 	}
 	return event, err
+}
+
+// 两条既有同刻规则共用取还流程，不在前瞻期间执行战斗或改变事件计数。
+func (s *Engine) selectSameTimeEvent(first scheduler.GenericEvent, rule sameTimeSelectionRule) (scheduler.GenericEvent, bool) {
+	held := []scheduler.GenericEvent{first}
+	selected, found := first, false
+	for {
+		event, exists := s.loop.TakeAt(first.TimeMs)
+		if !exists {
+			break
+		}
+		matches := false
+		switch rule {
+		case sameTimeBeforeStateExpiry:
+			matches = event.Kind != scheduler.GenericEventSample && !s.currentStateOnExpire(event)
+		case sameTimeAnchoredTerminal:
+			matches = s.currentAnchoredTerminal(event)
+		}
+		if matches {
+			selected, found = event, true
+			break
+		}
+		held = append(held, event)
+		if rule == sameTimeAnchoredTerminal && event.Category > scheduler.GenericCategoryAnchoredTick {
+			break
+		}
+	}
+	if !found {
+		held = held[1:]
+		if rule == sameTimeAnchoredTerminal {
+			// 所有旧终点已失效时仍在恢复之前清理计数，不改变原失败边界。
+			s.effectTimers.ClearTerminal(first.TimeMs)
+		}
+	}
+	return selected, s.restoreSameTimeCandidates(held)
+}
+
+func (s *Engine) restoreSameTimeCandidates(events []scheduler.GenericEvent) bool {
+	for _, event := range events {
+		if s.loop.RestoreCandidate(event) != model.ErrOK {
+			return false
+		}
+	}
+	return true
 }
 
 func (s *Engine) HandleLoopEvent(event scheduler.GenericEvent) *model.EngineError {

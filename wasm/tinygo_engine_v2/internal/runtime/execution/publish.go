@@ -133,10 +133,15 @@ func (f *Frame) commitKeysAndPreflight(keyBuffer []string) ([]string, *model.Eng
 		}
 		count += added
 	}
-	if !f.run.loop.Queue().CanPush(count) {
+	if !f.run.loop.CanEnqueue(count) {
 		return nil, f.run.budgetError(model.BudgetCauseMaxQueueEvents, "frame combat event queue overflow")
 	}
 	return keys, nil
+}
+
+// 只扣除已经暂存在本帧的两类计时请求；总帧排程仍由原统一预检核定。
+func (f *Frame) remainingTimingSlots() int {
+	return f.run.loop.RemainingCapacity() - len(f.pendingAnchoredTicks) - len(f.pendingStateExpiry)
 }
 
 func sortedFrameCombatantKeys(staged *frameStagedCollection, keyBuffer []string) []string {

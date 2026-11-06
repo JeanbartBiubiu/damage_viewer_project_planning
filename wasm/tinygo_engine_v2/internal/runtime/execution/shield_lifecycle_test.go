@@ -225,7 +225,7 @@ func TestLinkedShieldFailureDoesNotReplaceExistingPair(t *testing.T) {
 			if err := f.executeOperations(ability, ops); err != nil {
 				t.Fatal(err)
 			}
-			s.loop.Queue().SetLimit(s.loop.Queue().Len())
+			s.loop.SetQueueLimit(s.loop.QueuedEvents())
 			f.commit()
 			after := effectpkg.ShieldsToSnapshot(s.combatants["target"].instances.Shields())
 			if !f.fatal || f.fatalErr == nil || f.fatalErr.BudgetCause != model.BudgetCauseMaxQueueEvents || f.committed || !reflect.DeepEqual(before, after) || s.combatants["target"].instances.Providers().At(0).ProviderRef != beforeProvider {

@@ -457,27 +457,9 @@ func (s *Engine) currentStateOnExpire(event scheduler.GenericEvent) bool {
 
 // 只有新到期回调排在同刻真实战斗之后；原清理事件与事件身份均不改。
 func (s *Engine) selectCombatBeforeStateOnExpire(expiry scheduler.GenericEvent) (scheduler.GenericEvent, *model.EngineError) {
-	held := []scheduler.GenericEvent{expiry}
-	selected, found := expiry, false
-	for {
-		at, ok := s.loop.Queue().PeekTime()
-		if !ok || at != expiry.TimeMs {
-			break
-		}
-		event, _ := s.loop.Queue().Pop()
-		if event.Kind != scheduler.GenericEventSample && !s.currentStateOnExpire(event) {
-			selected, found = event, true
-			break
-		}
-		held = append(held, event)
-	}
-	if !found {
-		held = held[1:]
-	}
-	for _, event := range held {
-		if s.loop.Queue().Push(event) != model.ErrOK {
-			return expiry, s.basicAttackErr("state expiry selection could not restore original events", "events")
-		}
+	selected, restored := s.selectSameTimeEvent(expiry, sameTimeBeforeStateExpiry)
+	if !restored {
+		return expiry, s.basicAttackErr("state expiry selection could not restore original events", "events")
 	}
 	return selected, nil
 }
@@ -609,8 +591,7 @@ func (r *stateExecutionFrame) ReleaseStateTargetCooldowns(owner, provider, previ
 }
 
 func (r *stateExecutionFrame) RemainingTimingSlots() int {
-	f := (*Frame)(r)
-	return f.run.loop.Queue().RemainingCapacity() - len(f.pendingAnchoredTicks) - len(f.pendingStateExpiry)
+	return (*Frame)(r).remainingTimingSlots()
 }
 
 func (r *stateExecutionFrame) StageStateExpiry(at int64, payload effectpkg.ExpiryPayload) {

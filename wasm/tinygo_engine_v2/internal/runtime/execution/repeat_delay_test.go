@@ -58,7 +58,7 @@ func TestFlushImmediateCompletesBeforeDelayedEnqueue(t *testing.T) {
 	if pendingContinuations(s) != 1 {
 		t.Fatalf("continuations=%d want 1", pendingContinuations(s))
 	}
-	ev, ok := s.loop.Queue().Pop()
+	ev, ok := takeNextEventForTest(s.loop)
 	if !ok {
 		t.Fatal("expected continuation on heap")
 	}
@@ -68,8 +68,8 @@ func TestFlushImmediateCompletesBeforeDelayedEnqueue(t *testing.T) {
 	if ev.TimeMs != 1200 || ev.ContinuationID == 0 {
 		t.Fatalf("continuation TimeMs/ID=%d/%d want 1200/nonzero", ev.TimeMs, ev.ContinuationID)
 	}
-	if s.loop.Queue().Len() != 0 {
-		t.Fatalf("extra heap events=%d", s.loop.Queue().Len())
+	if s.loop.QueuedEvents() != 0 {
+		t.Fatalf("extra heap events=%d", s.loop.QueuedEvents())
 	}
 }
 
@@ -117,8 +117,8 @@ func TestFlushDelayedMultipleDamagesAndSameTimeContinuationsDeterministic(t *tes
 	if len(reportedDamageHistory(s)) != 0 {
 		t.Fatalf("delayed path must not apply during flush, got %d", len(reportedDamageHistory(s)))
 	}
-	first, _ := s.loop.Queue().Pop()
-	second, _ := s.loop.Queue().Pop()
+	first, _ := takeNextEventForTest(s.loop)
+	second, _ := takeNextEventForTest(s.loop)
 	if first.TimeMs != 150 || second.TimeMs != 150 {
 		t.Fatalf("times=%d,%d want 150,150", first.TimeMs, second.TimeMs)
 	}
@@ -178,7 +178,7 @@ func TestTriggeredContinuationNoRecursionAndFreshCommandBudget(t *testing.T) {
 	if err := s.flushDeferredPhantomReplay(orig); err != nil {
 		t.Fatalf("flush: %+v", err)
 	}
-	ev, ok := s.loop.Queue().Pop()
+	ev, ok := takeNextEventForTest(s.loop)
 	if !ok {
 		t.Fatal("expected continuation")
 	}
@@ -228,7 +228,7 @@ func TestTriggeredContinuationNoRecursionAndFreshCommandBudget(t *testing.T) {
 	if err := s2.flushDeferredPhantomReplay(seed); err != nil {
 		t.Fatal(err)
 	}
-	scheduled, _ := s2.loop.Queue().Pop()
+	scheduled, _ := takeNextEventForTest(s2.loop)
 	id := scheduled.ContinuationID
 	if err := s2.handleTriggeredContinuation(scheduler.GenericEvent{
 		TimeMs: 10, Category: scheduler.GenericCategoryTriggeredContinuation,
@@ -236,8 +236,8 @@ func TestTriggeredContinuationNoRecursionAndFreshCommandBudget(t *testing.T) {
 	}); err != nil {
 		t.Fatalf("handle: %+v", err)
 	}
-	if s2.loop.Queue().Len() != 0 || pendingContinuations(s2) != 0 {
-		t.Fatalf("continuation must not recurse: heap=%d payloads=%d", s2.loop.Queue().Len(), pendingContinuations(s2))
+	if s2.loop.QueuedEvents() != 0 || pendingContinuations(s2) != 0 {
+		t.Fatalf("continuation must not recurse: heap=%d payloads=%d", s2.loop.QueuedEvents(), pendingContinuations(s2))
 	}
 }
 
@@ -258,7 +258,7 @@ func TestTriggeredContinuationHeapPushFailureIsRunError(t *testing.T) {
 		},
 	}
 	for i := 0; i < scheduler.MaxGenericEventHeap; i++ {
-		if code := s.loop.Queue().Push(scheduler.GenericEvent{TimeMs: int64(i), Category: scheduler.GenericCategorySample, Kind: scheduler.GenericEventSample}); code != model.ErrOK {
+		if code := s.loop.Enqueue(scheduler.GenericEvent{TimeMs: int64(i), Category: scheduler.GenericCategorySample, Kind: scheduler.GenericEventSample}); code != model.ErrOK {
 			t.Fatalf("seed push %d: %s", i, code)
 		}
 	}

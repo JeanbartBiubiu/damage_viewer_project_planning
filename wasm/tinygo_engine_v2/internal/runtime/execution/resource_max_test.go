@@ -186,7 +186,7 @@ func TestResourceMaxDamageSeparatedBatchesAndGearAnchor(t *testing.T) {
 func TestResourceMaxQueueBudgetRollbackAfterVisibleFlush(t *testing.T) {
 	input, run := resourceMaxInput(t, 500, 1500, false)
 	state := frameCommitState(t, input, run)
-	state.loop.Queue().SetLimit(state.loop.Queue().Len())
+	state.loop.SetQueueLimit(state.loop.QueuedEvents())
 	var frame Frame
 	state.initExecutionFrame(&frame, "source", "target", "queue_budget")
 	if err := frame.executeOperations(plan.CompiledAbility{}, []plan.CompiledOperation{{Operation: "apply_provider", Target: "self", ProviderDefinitionRef: "health_window"}}); err != nil {

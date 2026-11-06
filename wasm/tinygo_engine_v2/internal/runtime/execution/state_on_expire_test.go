@@ -67,11 +67,11 @@ func ownExpiryStartedState(t *testing.T) *Engine {
 		t.Fatal(err)
 	}
 	for {
-		at, ok := s.loop.Queue().PeekTime()
+		at, ok := s.loop.NextEventAt()
 		if !ok || at > 0 {
 			break
 		}
-		event, _ := s.loop.Queue().Pop()
+		event, _ := takeNextEventForTest(s.loop)
 		s.loop.AcceptEvent(0)
 		s.currentEventCommands = 0
 		switch event.Kind {
@@ -140,7 +140,7 @@ func TestStateOnExpireFailureRollsBackCallbackAndFact(t *testing.T) {
 func TestStateOnExpireRearmQueueFailurePreservesPreviousGeneration(t *testing.T) {
 	s := ownExpiryStartedState(t)
 	before := s.combatants["source"].providerState.Lookup("own_recharge").SourceExpiry("wait")
-	s.loop.Queue().SetLimit(s.loop.Queue().Len())
+	s.loop.SetQueueLimit(s.loop.QueuedEvents())
 	s.loop.Advance(200)
 	s.currentEventCommands = 0
 	f := s.newExecutionFrame("source", "source", "reset")

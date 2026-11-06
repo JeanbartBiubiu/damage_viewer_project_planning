@@ -164,7 +164,7 @@ func TestSkillHitRuleGroupProviderBatchQueueAndSecondValueFailure(t *testing.T) 
 		s := frameCommitState(t, c, r)
 		s.loop.Advance(1125)
 		if failure == "queue" {
-			s.loop.Queue().SetLimit(1)
+			s.loop.SetQueueLimit(1)
 		}
 		err := s.executeAbilityCast(r.DriverPlan.Entries[0])
 		if err == nil || s.combatants["target"].instances.Providers().Len() != 0 || s.useTriggerLedger.Len() != 0 || s.useTriggerLedger.Pending() != 0 || s.report.Totals().SourceDamageDealt != 80 {

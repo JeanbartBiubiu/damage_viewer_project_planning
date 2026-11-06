@@ -43,15 +43,15 @@ func TestEmpoweredPredecessorCooldownWakePrecedesSameTimeBasicAttack(t *testing.
 	if err != nil {
 		t.Fatal(err)
 	}
-	*state.loop.Queue() = scheduler.NewGenericHeap(2)
-	if code := state.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 1000, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack}); code != model.ErrOK {
+	clearQueuedEventsForTest(state.loop)
+	if code := state.loop.Enqueue(scheduler.GenericEvent{TimeMs: 1000, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack}); code != model.ErrOK {
 		t.Fatal(code)
 	}
 	state.queueAutomaticSkills(2000)
 	state.queueAutomaticSkills(1000)
-	first, firstPresent := state.loop.Queue().Pop()
-	second, secondPresent := state.loop.Queue().Pop()
-	if !firstPresent || !secondPresent || first.Kind != scheduler.GenericEventAutomaticSkill || second.Kind != scheduler.GenericEventBasicAttack || first.TimeMs != 1000 || second.TimeMs != 1000 || first.Seq != 2 || second.Seq != 1 || first.AutomaticGeneration != state.actions.AutomaticGeneration() {
+	first, firstPresent := takeNextEventForTest(state.loop)
+	second, secondPresent := takeNextEventForTest(state.loop)
+	if !firstPresent || !secondPresent || first.Kind != scheduler.GenericEventAutomaticSkill || second.Kind != scheduler.GenericEventBasicAttack || first.TimeMs != 1000 || second.TimeMs != 1000 || second.Seq == 0 || first.Seq != second.Seq+1 || first.AutomaticGeneration != state.actions.AutomaticGeneration() {
 		t.Fatal("automatic cooldown wake must precede an already queued same-time attack while preserving event sequence", first, second)
 	}
 }
@@ -70,10 +70,7 @@ func TestEmpoweredPredecessorFailedStartKeepsPendingGrant(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			setTestLoopDuration(state, 0)
-			if err := state.runLoop(); err != nil {
-				t.Fatal(err)
-			}
+			runPrefixThroughForTest(t, state, 0)
 			b := state.actions.AutomaticAt(1)
 			if b.Qualification().RemainingCount != 1 || !b.HasEmpoweredPredecessor() {
 				t.Fatal("real seed did not grant lineage", b.Qualification())
@@ -87,9 +84,11 @@ func TestEmpoweredPredecessorFailedStartKeepsPendingGrant(t *testing.T) {
 				state.combatants["source"] = actor
 			}
 			if gate == "queue" {
-				*state.loop.Queue() = scheduler.NewGenericHeap(1)
-				state.loop.Queue().SetLimit(1)
-				state.loop.Queue().Push(scheduler.GenericEvent{TimeMs: 10000, Kind: scheduler.GenericEventSample})
+				clearQueuedEventsForTest(state.loop)
+				state.loop.SetQueueLimit(1)
+				if code := state.loop.Enqueue(scheduler.GenericEvent{TimeMs: 10000, Kind: scheduler.GenericEventSample}); code != model.ErrOK {
+					t.Fatal(code)
+				}
 			}
 			key := "failed_start"
 			action := actionpkg.NewSkillAction(actionpkg.SkillActionSeed{AutomaticRule: b, Plan: model.SkillActionPlan{InstructionKey: key, AbilityRef: b.AbilityRef()}, UseRef: "skill:" + key})
