@@ -1,3 +1,4 @@
+import { removeFixtureDirectory } from './test-support/temporary-directory.mjs';
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
@@ -102,9 +103,7 @@ async function fixture(run) {
   }
   try { await run({ state, invoke, approve, read, save, dir }); }
   finally {
-    const resolved = path.resolve(dir);
-    assert(resolved.startsWith(prefix) && path.dirname(resolved) === path.dirname(prefix));
-    fs.rmSync(resolved, { recursive: true });
+    removeFixtureDirectory(dir, prefix);
   }
 }
 

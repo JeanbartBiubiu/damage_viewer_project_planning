@@ -11,7 +11,11 @@ const api = 'https://damage.example';
 const session = (): SessionView => ({ accountId: 'test-account', username: 'player', canLogin: 1, canEdit: false, expiresAt: new Date(Date.now() + 3_600_000).toISOString() });
 const json = (status: number, body?: unknown, csrf = readAuthCsrf('flow') ?? 'flow-csrf') => new Response(status === 204 ? null : JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', 'X-Damage-Flow-CSRF': csrf } });
 
-beforeEach(() => { vi.stubGlobal('document', { cookie: '__Host-dv_flow_csrf=flow-csrf' }); });
+beforeEach(() => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date('2026-11-06T00:00:00Z'));
+  vi.stubGlobal('document', { cookie: '__Host-dv_flow_csrf=flow-csrf' });
+});
 afterEach(() => { setAuthSession(null); clearAuthFlowBinding(); vi.useRealTimers(); vi.unstubAllGlobals(); vi.restoreAllMocks(); });
 
 describe('账号请求凭据边界', () => {

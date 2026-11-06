@@ -1,6 +1,6 @@
 /**
  * 真实服务验收，无接口替身。手动运行：
- * $env:STAGE9_LIVE_ACCEPTANCE='1'; node node_modules/@playwright/test/cli.js test --config playwright.relations-live.config.ts
+ * $env:STAGE9_LIVE_ACCEPTANCE='1'; node node_modules/@playwright/test/cli.js test --config tests/playwright/playwright.relations-live.config.ts
  * 若对象侧已有最终代码的有效证据，可再设置 STAGE9_LIVE_PHASE=image-usages 聚焦图片用途侧，产物另存目录。
  * 固定访问本机 5173/8080，使用本机已关闭鉴权的服务和非秘密占位令牌。
  * 仅创建指定前缀对象，退出时删除本次创建的精确键；属性无删除接口，由主负责人用精确 SQL 清理。

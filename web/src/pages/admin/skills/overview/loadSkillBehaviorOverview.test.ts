@@ -20,10 +20,6 @@ const listFns = [
   listSkillInternalStates, listSkillTriggerRules
 ] as const;
 
-function ok<T>(data: T) {
-  return Promise.resolve({ data, status: 200, etag: null });
-}
-
 describe('loadSkillBehaviorOverview', () => {
   afterEach(() => {
     vi.clearAllMocks();
@@ -78,26 +74,60 @@ describe('loadSkillBehaviorOverview', () => {
     expect(bundle?.complete).toBe(false);
   });
 
-  it('caps detail fetches at four concurrent requests', async () => {
+  it('按详情并发额度排队，乱序完成仍保留全部详情的原始身份与顺序', async () => {
     for (const fn of listFns) vi.mocked(fn).mockResolvedValue({ data: [], status: 200, etag: null });
+    const keys = Array.from({ length: SKILL_BEHAVIOR_DETAIL_CONCURRENCY + 2 }, (_, index) => `e${index}`);
+    const gates = keys.map(() => {
+      let release!: () => void;
+      const promise = new Promise<void>(resolve => { release = resolve; });
+      return { promise, release };
+    });
+    const starts = keys.map(() => {
+      let signal!: () => void;
+      const promise = new Promise<void>(resolve => { signal = resolve; });
+      return { promise, signal };
+    });
     vi.mocked(listSkillEffects).mockResolvedValue({
-      data: Array.from({ length: 6 }, (_, index) => ({ effectKey: `e${index}`, name: `e${index}`, resultCount: 0, lifecycleEnabled: false })) as never,
+      data: keys.map(effectKey => ({ effectKey, name: effectKey, resultCount: 0, lifecycleEnabled: false })) as never,
       status: 200, etag: null
     });
+    const started: string[] = [];
     let running = 0;
     let peak = 0;
-    vi.mocked(getSkillEffect).mockImplementation(async () => {
+    vi.mocked(getSkillEffect).mockImplementation(async (_api, _game, _skill, key) => {
+      const index = keys.indexOf(key);
+      started.push(key);
       running += 1;
       peak = Math.max(peak, running);
-      await new Promise((resolve) => setTimeout(resolve, 20));
+      starts[index]!.signal();
+      await gates[index]!.promise;
       running -= 1;
-      return ok({ effectKey: 'e', name: 'e', results: [] } as never);
+      return { data: { effectKey: key, name: key, results: [] } as never, status: 200, etag: null };
     });
-    await loadSkillBehaviorOverview({
+    const pending = loadSkillBehaviorOverview({
       apiBaseUrl: 'http://overview.test', gameId: 'demo', skillKey: 'q', generation: 4
     });
-    expect(peak).toBe(SKILL_BEHAVIOR_DETAIL_CONCURRENCY);
-    expect(getSkillEffect).toHaveBeenCalledTimes(6);
+    try {
+      await starts[SKILL_BEHAVIOR_DETAIL_CONCURRENCY - 1]!.promise;
+      expect(started).toEqual(keys.slice(0, SKILL_BEHAVIOR_DETAIL_CONCURRENCY));
+      expect(running).toBe(SKILL_BEHAVIOR_DETAIL_CONCURRENCY);
+      gates[SKILL_BEHAVIOR_DETAIL_CONCURRENCY - 1]!.release();
+      await starts[SKILL_BEHAVIOR_DETAIL_CONCURRENCY]!.promise;
+      expect(started).toEqual(keys.slice(0, SKILL_BEHAVIOR_DETAIL_CONCURRENCY + 1));
+      expect(running).toBe(SKILL_BEHAVIOR_DETAIL_CONCURRENCY);
+      gates[SKILL_BEHAVIOR_DETAIL_CONCURRENCY]!.release();
+      await starts[SKILL_BEHAVIOR_DETAIL_CONCURRENCY + 1]!.promise;
+      gates.forEach(gate => gate.release());
+      const bundle = await pending;
+      expect(bundle?.effects.details.map(row => row.effectKey)).toEqual(keys);
+      expect(bundle?.effects.failedKeys).toEqual([]);
+      expect(bundle?.complete).toBe(true);
+      expect(peak).toBe(SKILL_BEHAVIOR_DETAIL_CONCURRENCY);
+      expect(running).toBe(0);
+    } finally {
+      gates.forEach(gate => gate.release());
+      await pending;
+    }
   });
 
   it('drops a finished payload after the request generation has been replaced', async () => {

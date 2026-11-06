@@ -1,6 +1,6 @@
 /**
  * 六类业务表格最左侧代表图片的真实浏览器验收，无接口替身。
- * 手动：STAGE9_TABLE_LIVE_ACCEPTANCE=1 后运行专用 playwright.image-table-live.config.ts。
+ * 手动：STAGE9_TABLE_LIVE_ACCEPTANCE=1 后运行专用 tests/playwright/playwright.image-table-live.config.ts。
  * 只创建可通过 API 删除的测试对象，复用已有图片。属性只读，不新增图片/属性，不全量同步缓存。
  */
 import { expect, request as playwrightRequest, test, type Locator, type Page } from '@playwright/test';

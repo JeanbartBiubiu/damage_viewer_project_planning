@@ -21,7 +21,13 @@ describe('显式战前参数按来源冻结', () => {
     const attributes = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     for (const row of inspectSimulationSnapshot(snapshot, [], values).requirements) if (row.storedValue === undefined) attributes[row.side][row.attribute.attributeKey] = 0;
     const prepared = assembleSimulation(snapshot, attributes, { source: 250, target: 500 }, [], [], [], values);
-    expect(prepared.sceneParameterInputs).toEqual(normalizeSceneInitialParameterInputs(snapshot, values));
+    expect(prepared.sceneParameterInputs).toEqual(values);
+    expect(prepared.sceneParameterInputs.map(row => ({ side: row.side, origin: row.origin,
+      skillKey: 'skillKey' in row ? row.skillKey : null, parameterKey: 'parameterKey' in row ? row.parameterKey : null, value: row.value })))
+      .toEqual([
+        { side: 'source', origin: { kind: 'CHARACTER', characterKey: snapshot.source.character.characterKey }, skillKey: skill, parameterKey: parameter, value: 0 },
+        { side: 'target', origin: { kind: 'CHARACTER', characterKey: snapshot.target.character.characterKey }, skillKey: skill, parameterKey: parameter, value: 150 }
+      ]);
     const request = prepared.compileRequest;
     expect(compileFixtureWithNative(request).ok).toBe(true);
     const sources = request.sharedProviders.filter(row => row.skillKey === skill);

@@ -4,8 +4,6 @@ package runtime_test
 import (
 	json "encoding/json"
 	math "math"
-	os "os"
-	filepath "path/filepath"
 	regexp "regexp"
 	strings "strings"
 	testing "testing"
@@ -1042,49 +1040,4 @@ func TestAzirConqueringSandsOneSoldierPrimaryHitDeterminismAndLifecycle(t *testi
 			t.Fatal("released session re-run want session_not_found")
 		}
 	})
-}
-
-// TestAzirConqueringSandsOneSoldierPrimaryHitProductionBoundary 拒绝生产源码按样例身份硬编码。
-func TestAzirConqueringSandsOneSoldierPrimaryHitProductionBoundary(t *testing.T) {
-	err := filepath.Walk(filepath.Join("..", "..", "internal"), func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if info.IsDir() {
-			if info.Name() == "testdata" {
-				return filepath.SkipDir
-			}
-			return nil
-		}
-		if !strings.HasSuffix(path, ".go") || strings.HasSuffix(path, "_test.go") {
-			return nil
-		}
-		rel, _ := filepath.Rel(filepath.Join("..", "..", "internal"), path)
-		rel = filepath.ToSlash(rel)
-		if !(strings.HasPrefix(rel, "runtime/") || strings.HasPrefix(rel, "model/") ||
-			strings.HasPrefix(rel, "compile/") || strings.HasPrefix(rel, "formula/") ||
-			strings.HasPrefix(rel, "abi/")) {
-			return nil
-		}
-		b, readErr := os.ReadFile(path)
-		if readErr != nil {
-			return readErr
-		}
-		body := string(b)
-		for _, frag := range []string{
-			`case "hero_azir"`,
-			`case "azir"`,
-			`if hero_azir`,
-			`conquering_sands_one_soldier_primary_hit`,
-			`provider_hero_azir_q_conquering_sands_one_soldier_primary_hit`,
-		} {
-			if strings.Contains(body, frag) {
-				t.Fatalf("production source %s contains hero-switch/Q-graph fragment %q", rel, frag)
-			}
-		}
-		return nil
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
 }

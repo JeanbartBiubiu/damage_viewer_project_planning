@@ -1,11 +1,13 @@
 package xyz.game.datamanage.support.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.Duration;
 import java.util.UUID;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +24,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.PlatformTransactionManager;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.awaitility.Awaitility.await;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -33,7 +36,7 @@ class AccountRegistrationIT {
     private UUID createdAccount;
     private final java.util.Map<String,jakarta.servlet.http.Cookie> cookies=new java.util.HashMap<>();
     private String flowCsrf;
-    private java.nio.file.Path temporaryKeys;
+    @TempDir java.nio.file.Path temporaryKeys;
     private final String name="reg_it_"+UUID.randomUUID().toString().replace("-","").substring(0,24);
     private final String source="127.31."+java.util.concurrent.ThreadLocalRandom.current().nextInt(1,255)+"."+java.util.concurrent.ThreadLocalRandom.current().nextInt(1,255);
     private String required(String name) { String value=System.getenv(name);if(value==null || value.isEmpty()) throw new IllegalStateException("缺少隔离测试配置："+name);return value; }
@@ -92,10 +95,6 @@ class AccountRegistrationIT {
                 }
             } finally { context.close(); }
         }
-        if(temporaryKeys!=null) {
-            for(String file:java.util.List.of("aead-keyset.json","grant-private.pk8","grant-public.json","internal-token.txt")) try {java.nio.file.Files.deleteIfExists(temporaryKeys.resolve(file));}catch(Exception ignored){}
-            try{java.nio.file.Files.delete(temporaryKeys);}catch(Exception ignored){}
-        }
     }
     private com.fasterxml.jackson.databind.JsonNode response(MockHttpServletRequestBuilder request) throws Exception {
         if(!cookies.isEmpty()) request.cookie(cookies.values().toArray(jakarta.servlet.http.Cookie[]::new));
@@ -115,7 +114,6 @@ class AccountRegistrationIT {
             .with(request->{request.setRemoteAddr(source);return request;}).content(context.getBean(ObjectMapper.class).writeValueAsString(body));
     }
     @Test void completeRegistrationUsesDatabaseSeedsCodesAndSessionPairThroughRealHttpChain() throws Exception {
-        temporaryKeys=java.nio.file.Files.createTempDirectory(java.nio.file.Path.of("target"),"pg-registration-it-");
         AuthKeyTool.create(temporaryKeys);context.getBean(AccountProperties.class).setAeadKeysetPath(temporaryKeys.resolve("aead-keyset.json"));
         String password="complete-fixture-"+UUID.randomUUID();
         var registered=response(credentials("register",password));
@@ -132,9 +130,19 @@ class AccountRegistrationIT {
         var store=context.getBean(AccountStore.class);new AccountMaintenance(store,context.getBean(AccountProperties.class)).enable(createdAccount,"reg-it:"+createdAccount);
         assertEquals("login",response(credentials("login",password)).path("purpose").asText());
         long used=jdbc.queryForObject("SELECT last_used_step FROM auth.totp_credentials WHERE account_id=?",Long.class,createdAccount);
-        long loginStep;
-        for(;;) {long current=store.now().getEpochSecond()/30;loginStep=Math.max(used+1,current-1);if(loginStep<=current+1) break;Thread.sleep(100);}
-        var logged=response(flow("login/totp",java.util.Map.of("totpCode",hotp.generate(loginStep))));assertEquals(1,logged.path("canLogin").asInt());assertEquals(createdAccount.toString(),logged.path("accountId").asText());
+        var crypto=context.getBean(AccountCrypto.class);
+        String loginCode=await("等待当前时间窗口内未使用的动态码")
+            .pollDelay(Duration.ZERO).pollInterval(Duration.ofMillis(100)).atMost(Duration.ofSeconds(35))
+            .until(()-> {
+                var now=store.now();long current=now.getEpochSecond()/30;
+                for(long candidate:new long[]{current,current+1,current-1}) {
+                    if(candidate<=used) continue;
+                    String code=hotp.generate(candidate);
+                    if(crypto.matchingStep(secretMatcher.group(1),code,now,used)>used) return code;
+                }
+                return null;
+            },java.util.Objects::nonNull);
+        var logged=response(flow("login/totp",java.util.Map.of("totpCode",loginCode)));assertEquals(1,logged.path("canLogin").asInt());assertEquals(createdAccount.toString(),logged.path("accountId").asText());
         assertTrue(cookies.containsKey(AccountBrowser.SESSION) && cookies.containsKey(AccountBrowser.CSRF));
         assertEquals(1,jdbc.queryForObject("SELECT count(*) FROM auth.accounts WHERE id=? AND status='active' AND password_hash ~ '^\\$2a\\$10\\$[./A-Za-z0-9]{53}$'",Integer.class,createdAccount));
         assertEquals(10,jdbc.queryForObject("SELECT count(*) FROM auth.recovery_codes WHERE account_id=? AND octet_length(code_hash)=32",Integer.class,createdAccount));

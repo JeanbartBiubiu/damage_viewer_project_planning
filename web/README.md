@@ -64,12 +64,12 @@ npm run build
 | `npm run check:wasm-build` | 按固定工具链及正式参数重建当前源码，与前端分发Wasm逐字节比较 |
 | `npm run test:verification` | 核对证明刷新及构建检查脚本 |
 
-根目录的 `playwright.*.config.ts` 分别选择管理、账号、访问统计、计算场景、专项机制与真实接口用例；阶段名称较旧不代表验证对象已删除。`testMatch`、服务来源、注入产物及环境开关都可能不同，删除前应核对真实选择及覆盖。`live`配置使用已运行的真实服务，按用例要求核对授权、数据和鉴权条件。
+浏览器配置集中在[测试配置目录](tests/playwright/README.md)，分别选择管理、账号、访问统计、计算场景、专项机制与真实接口用例。测试数据和工作线程夹具留在 `tests/fixtures/`，浏览器用例留在 `tests/e2e/`。配置文件位置不改变服务的工作目录或 `output/` 证据目录；阶段名称较旧不代表验证对象已删除。`testMatch`、服务来源、注入产物及环境开关都可能不同，删除前应核对真实选择及覆盖。`live`配置使用已运行的真实服务，按用例要求核对授权、数据和鉴权条件。
 
 只核对某个配置会选择哪些测试时，在本目录执行以下发现命令；它不运行浏览器用例，也不证明真实接口可用：
 
 ```powershell
-npx playwright test --config playwright.p4.config.ts --list
+npx playwright test --config tests/playwright/playwright.p4.config.ts --list
 ```
 
 引擎或适配变化后的长期回归使用固定机制用例；新对象首次准入按其真实配置另行验收，不新增只校验已录入对象资料的回归。代表计算页面还需验证真实编译／运行／释放，Node单测不能代替浏览器。

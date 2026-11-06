@@ -37,11 +37,13 @@ describe('混合战斗可用目录与实际选择核对', () => {
   });
 
   it('目录加载、读取失败和缺失条目都禁选，旧角色资料不会获得READY', () => {
-    expect(applySimulationAvailability(options, null, '目录读取失败').every(row => row.disabled)).toBe(true);
-    expect(applySimulationAvailability(options, null, '目录读取失败')[0]!.unavailableReason).toBe('目录读取失败');
-    expect(applySimulationAvailability(options, { ...directory(), characters: [], equipment: [] }).every(row => row.disabled)).toBe(true);
+    const expected = [['hero', true], ['unfinished', true], ['unknown', true], ['item', true], ['unfinished_item', true]];
+    const failed = applySimulationAvailability(options, null, '目录读取失败');
+    expect(failed.map(row => [row.key, row.disabled])).toEqual(expected);
+    expect(failed[0]!.unavailableReason).toBe('目录读取失败');
+    expect(applySimulationAvailability(options, { ...directory(), characters: [], equipment: [] }).map(row => [row.key, row.disabled])).toEqual(expected);
     const prior = applySimulationAvailability(options, directory());
-    expect(applySimulationAvailability(prior, null).every(row => row.disabled)).toBe(true);
+    expect(applySimulationAvailability(prior, null).map(row => [row.key, row.disabled])).toEqual(expected);
   });
 
   it('重新核对只更新可用状态，不改技能、角色、装备或已有选择草稿', () => {

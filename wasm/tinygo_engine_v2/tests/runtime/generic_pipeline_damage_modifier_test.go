@@ -162,17 +162,24 @@ func damageEvidenceModifiers(data map[string]interface{}) []map[string]interface
 	}
 	switch v := raw.(type) {
 	case []map[string]interface{}:
+		for _, item := range v {
+			if item == nil {
+				panic("damage modifier evidence contains a null item")
+			}
+		}
 		return v
 	case []interface{}:
 		out := make([]map[string]interface{}, 0, len(v))
 		for _, item := range v {
-			if m, ok := item.(map[string]interface{}); ok {
-				out = append(out, m)
+			m, ok := item.(map[string]interface{})
+			if !ok || m == nil {
+				panic("damage modifier evidence contains an invalid item")
 			}
+			out = append(out, m)
 		}
 		return out
 	default:
-		return nil
+		panic("damage modifier evidence must be a list")
 	}
 }
 

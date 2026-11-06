@@ -962,7 +962,10 @@ func evidenceDataString(data map[string]interface{}, key string) string {
 }
 
 func evidenceDataFloat(data map[string]interface{}, key string) float64 {
-	v, _ := data[key].(float64)
+	v, ok := data[key].(float64)
+	if !ok || math.IsNaN(v) || math.IsInf(v, 0) {
+		panic("missing or invalid finite numeric evidence: " + key)
+	}
 	return v
 }
 

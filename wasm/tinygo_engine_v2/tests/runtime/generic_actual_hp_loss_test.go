@@ -44,7 +44,7 @@ func TestDamageTakenActualHPLossOverflowStartsWaiting(t *testing.T) {
 	if done.Summary.SourceFinalHp != 900 || ownShieldRemaining(done) != 100 || done.FinalSnapshot.Combatants[0].Attributes["armor"].Resolved != 130 {
 		t.Fatal(done.Summary, done.FinalSnapshot)
 	}
-	expiries := 0
+	expiries, damageEvents := 0, 0
 	for _, event := range done.Evidence.Items {
 		if event.Kind == "provider_state_expired" {
 			expiries++
@@ -53,6 +53,7 @@ func TestDamageTakenActualHPLossOverflowStartsWaiting(t *testing.T) {
 			}
 		}
 		if event.Ref == model.EventTypeDamageTaken && event.Data["target"] == "source" {
+			damageEvents++
 			if event.Data["actualHpLoss"] != float64(100) || event.Data["shieldAbsorbed"] != float64(100) || event.Data["postDefenseDamage"] != float64(200) {
 				t.Fatal(event)
 			}
@@ -60,6 +61,9 @@ func TestDamageTakenActualHPLossOverflowStartsWaiting(t *testing.T) {
 	}
 	if expiries != 1 {
 		t.Fatal("expected one actual HP-loss restart", expiries)
+	}
+	if damageEvents != 1 {
+		t.Fatal("expected one real received damage event", damageEvents)
 	}
 }
 

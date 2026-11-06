@@ -151,7 +151,7 @@ func TestAutomaticResultShapeKeepsNullFactsAndHidesManualRecords(t *testing.T) {
 	result := DoneResult{
 		AutomaticSkillSummary:   &AutomaticSkillSummary{RuleCount: 1, Rules: []AutomaticSkillRuleSummary{{RuleKey: "a"}}, Qualifications: []AutomaticSkillQualification{{GrantorRuleKey: "a", ConsumerRuleKey: "b"}}},
 		AutomaticSkillRecording: &AutomaticSkillRecording{},
-		Summary:                 RunSummary{SkillActions: &SkillActionSummary{}},
+		Summary:                 RunSummary{SkillActions: &SkillActionSummary{}, SourceHpLoss: 37},
 		SkillActionRecords:      []SkillActionRecord{}, SkillUseRecords: []SkillUseRecord{},
 	}
 	encoded, err := json.Marshal(result)
@@ -166,8 +166,10 @@ func TestAutomaticResultShapeKeepsNullFactsAndHidesManualRecords(t *testing.T) {
 		t.Fatal(string(encoded))
 	}
 	var summary map[string]json.RawMessage
-	_ = json.Unmarshal(fields["summary"], &summary)
-	if summary["skillActions"] != nil {
+	if err := json.Unmarshal(fields["summary"], &summary); err != nil || summary == nil {
+		t.Fatalf("missing or invalid summary: %s (%v)", fields["summary"], err)
+	}
+	if summary["skillActions"] != nil || string(summary["sourceHpLoss"]) != "37" {
 		t.Fatal(string(encoded))
 	}
 	for _, fragment := range []string{`"waiting":null`, `"lastGrantUseRef":null`, `"lastConsumeUseRef":null`} {

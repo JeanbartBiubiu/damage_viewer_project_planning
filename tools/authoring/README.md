@@ -126,3 +126,14 @@ java --class-path $taskClasspath tools/authoring/ApplySkillCommonFormula.java $t
 ```
 
 `VerifySkillFormulaReadSql.java`（公式输出读取SQL核验）在明确的 `test0221` 只读事务内执行正式效果映射的输出可达查询，样例仅由查询内值构造，不建表或改数据。核对未使用计算时输入被排除、实际读取被包括、条件两分支依赖都被包括；连接配置只在进程内解析。沿用上述依赖路径，运行 `java --class-path $taskClasspath tools/authoring/VerifySkillFormulaReadSql.java $taskRoot`。
+
+## 离线测试的临时目录
+
+本目录的 Node 测试用合成资料和请求替身验证保护行为；测试结束后恢复请求、参数和环境变量。临时目录的清理由 `test-support/temporary-directory.mjs` 统一处理，先核对本用例分配的目录前缀和直属父目录，再递归删除。Windows 瞬时占用最多重试三次，最终失败仍报错，不把清理失败视为通过。
+
+从仓库根目录运行全部离线 Node 测试，包含临时目录的路径保护回归：
+
+```powershell
+$taskTests = @(rg --files tools/authoring -g '*.test.mjs')
+node --test @taskTests
+```

@@ -139,10 +139,10 @@ func combatantFinalHP(t *testing.T, snap model.Snapshot, key string) float64 {
 		if !ok {
 			t.Fatalf("combatant %s missing hp", key)
 		}
-		if slot.Current != 0 {
-			return slot.Current
+		if !slot.HasCurrent() {
+			t.Fatalf("combatant %s missing current hp", key)
 		}
-		return slot.Resolved
+		return slot.Current
 	}
 	t.Fatalf("combatant %s missing", key)
 	return 0

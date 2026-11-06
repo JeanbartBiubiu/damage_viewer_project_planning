@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { loadMechanismCases } from '../../tests/mechanisms/mechanismCase';
 import { mechanismEngine } from '../../tests/mechanisms/mechanismRunner';
@@ -17,6 +17,9 @@ import { assessSkillActionResult } from './skillActionResult';
 import { assessContinuousAttackResult } from './continuousAttackResult';
 
 const definition = loadMechanismCases().find(row => row.caseKey === 'target_counter_three_expiry')!;
+beforeAll(() => {
+  mkdirSync(new URL('../../../output/skill-adaptation-20261021-next/e-adapter/', import.meta.url), { recursive: true });
+});
 function config(snapshot: SimulationSnapshot) { return snapshot.skillConfigurations.find(row => row.skill.skillKey === 'lab_charge')!; }
 async function prepare(snapshot = definition.buildSnapshot(), initialHealth = definition.scenario.initialHealth) {
   const { client } = await mechanismEngine();
@@ -72,7 +75,6 @@ describe('有限实际目标计数窗口装配', () => {
     expect(tick.tickSpec!.onTick.filter(row => row.operation === 'damage')).toHaveLength(1);
     expect(tick.tickSpec!.onTick.some(row => row.operation === 'state_change' && row.ref === 'bomb_window')).toBe(false);
     const dir = new URL('../../../output/skill-adaptation-20261021-next/e-adapter/', import.meta.url);
-    mkdirSync(dir, { recursive: true });
     writeFileSync(new URL('generic-compiled.json', dir), JSON.stringify(prepared.compileRequest, null, 2) + '\n');
     writeFileSync(new URL('generic-prepared.json', dir), JSON.stringify(prepared, null, 2) + '\n');
   });
@@ -128,7 +130,9 @@ describe('有限实际目标计数窗口装配', () => {
     expect(origin[0]!.providerRef).toBe('source_natural_skill_1');
     const binding = prepared.compileRequest.rules.skillActionBindings![0]!;
     expect(binding.providerRef).toBe('source_natural_skill_1_active');
-    expect(prepared.operationOrigins.filter(row => row.effectKey === 'bomb_explosion').every(row => row.skillKey === 'lab_charge' && row.abilityRef.startsWith('source.provider[source_natural_skill_1]'))).toBe(true);
+    const explosionOrigins = prepared.operationOrigins.filter(row => row.effectKey === 'bomb_explosion');
+    expect(explosionOrigins.length).toBeGreaterThan(0);
+    expect(explosionOrigins.every(row => row.skillKey === 'lab_charge' && row.abilityRef.startsWith('source.provider[source_natural_skill_1]'))).toBe(true);
   });
 
   it('删除真实未阻挡条件、原子清理或改为外来目标状态均拒绝', () => {

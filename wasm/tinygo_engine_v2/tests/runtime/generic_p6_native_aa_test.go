@@ -5,6 +5,7 @@ import (
 	strings "strings"
 	compile "tinygo_engine_v2/internal/compile"
 	model "tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 // Synthetic fixture identity only; the production runtime never invents use facts.
@@ -68,10 +69,6 @@ func nativeHitAbility(abilityKey, skillKey string, candidateOps []model.Operatio
 	}
 }
 
-func abilityRefHasKey(ref, abilityKey string) bool {
-	return strings.Contains(ref, ".ability["+abilityKey+"]")
-}
-
 func ensureNativeHitEventCatalog(req *model.CompileRequest) {
 	ensureC1CatalogTypes(req,
 		model.TypeCatalogEntry{Key: model.EventTypeBasicAttackHit, Domain: "event"},
@@ -132,27 +129,42 @@ func uniqueResolve(ops []model.OperationDefinition) (model.OperationDefinition, 
 }
 
 func bindFactsForBasicAttackResolves(c *model.CompileRequest, r *model.RunRequest) {
-	skillByKey := map[string]string{}
-	for _, provider := range c.SharedProviders {
-		for _, ability := range provider.Abilities {
-			op, ok := uniqueResolve(ability.Operations)
-			if !ok || !abilityHasBasicAttackType(ability) {
-				continue
-			}
-			skill := strings.TrimSpace(ability.SkillKey)
-			if skill == "" && op.SkillHit != nil {
-				skill = strings.TrimSpace(op.SkillHit.SkillKey)
-			}
-			if skill == "" {
-				skill = nativeBasicAttackSkillPrefix + ability.AbilityKey
-			}
-			skillByKey[ability.AbilityKey] = skill
-		}
+	definitions := make(map[string]model.ProviderDefinition, len(c.SharedProviders))
+	for _, definition := range c.SharedProviders {
+		definitions[definition.ProviderKey] = definition
 	}
 	for _, entry := range r.DriverPlan.Entries {
-		for key, skill := range skillByKey {
-			if abilityRefHasKey(entry.AbilityRef, key) {
-				bindNativeHitFact(r, entry, skill)
+		ref, valid := plan.ParseAbilityRef(entry.AbilityRef)
+		if !valid {
+			continue // 非法引用交给真实编译入口拒绝，不补造使用事实。
+		}
+		if ref.Combatant == model.SelectorSelf {
+			ref.Combatant = entry.Source
+		} else if ref.Combatant == model.SelectorOpponent {
+			ref.Combatant = entry.Target
+		}
+		for _, combatant := range c.Combatants {
+			if combatant.Key != ref.Combatant {
+				continue
+			}
+			for _, mount := range combatant.Providers {
+				if mount.ProviderRef != ref.ProviderRef {
+					continue
+				}
+				for _, ability := range definitions[mount.DefinitionRef].Abilities {
+					op, ok := uniqueResolve(ability.Operations)
+					if ability.AbilityKey != ref.AbilityKey || !ok || !abilityHasBasicAttackType(ability) {
+						continue
+					}
+					skill := strings.TrimSpace(ability.SkillKey)
+					if skill == "" && op.SkillHit != nil {
+						skill = strings.TrimSpace(op.SkillHit.SkillKey)
+					}
+					if skill == "" {
+						skill = nativeBasicAttackSkillPrefix + ability.AbilityKey
+					}
+					bindNativeHitFact(r, entry, skill)
+				}
 			}
 		}
 	}

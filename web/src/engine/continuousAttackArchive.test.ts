@@ -48,7 +48,9 @@ describe('连续展示档案和安全表格导出', () => {
       { damageId: 3, sourceHpBefore: 600, sourceHpAfter: 599 }
     ], { runInputHash: null, view: initialContinuousView(2500), executionComplete: false,
       attackRecordsTruncated: false, damageRecordsTruncated: true, seriesDownsampled: false });
-    for (const row of text.split('\r\n').slice(1)) expect(row.endsWith(',')).toBe(true);
+    const rows = text.split('\r\n');
+    expect(rows).toHaveLength(4);
+    expect(rows.slice(1).map(row => row.endsWith(','))).toEqual([true, true, true]);
   });
   it('冻结装备选择、属性来源及编译派生，不跟随后续输入变化或视图筛选', () => {
     const input = { snapshot: { selection: { sourceEquipmentKeys: ['item_1042'], targetEquipmentKeys: [] } },

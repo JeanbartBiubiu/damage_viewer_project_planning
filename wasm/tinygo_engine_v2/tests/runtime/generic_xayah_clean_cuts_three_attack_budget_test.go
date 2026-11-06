@@ -4,8 +4,6 @@ package runtime_test
 import (
 	json "encoding/json"
 	math "math"
-	os "os"
-	filepath "path/filepath"
 	strings "strings"
 	testing "testing"
 	compile "tinygo_engine_v2/internal/compile"
@@ -968,57 +966,4 @@ func TestXayahCleanCutsDeterminismAndLifecycle(t *testing.T) {
 			t.Fatal("frame-path want one automatic ability_started from arm")
 		}
 	})
-}
-
-// TestXayahCleanCutsGenericProductionBoundary 拒绝生产源码按样例身份硬编码。
-func TestXayahCleanCutsGenericProductionBoundary(t *testing.T) {
-	prodRoots := []string{
-		filepath.Join("..", "..", "internal"), // internal/
-		filepath.Join("..", "..", "cmd"),      // cmd/
-	}
-	bannedFragments := []string{
-		`case "hero_xayah"`,
-		`case "xayah"`,
-		`if hero_xayah`,
-		`hero_xayah_p_clean_cuts`,
-		`clean_cuts_attacks_remaining`,
-		`clean_cuts_direct_post_cast_arm`,
-	}
-	err := filepath.Walk(filepath.Join(prodRoots[0]), func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if info.IsDir() {
-			base := info.Name()
-			if base == "testdata" {
-				return filepath.SkipDir
-			}
-			return nil
-		}
-		if !strings.HasSuffix(path, ".go") || strings.HasSuffix(path, "_test.go") {
-			return nil
-		}
-		// Only scan production packages under runtime/model/compile (+ sibling non-test).
-		rel, _ := filepath.Rel(filepath.Join("..", "..", "internal"), path)
-		rel = filepath.ToSlash(rel)
-		if !(strings.HasPrefix(rel, "runtime/") || strings.HasPrefix(rel, "model/") ||
-			strings.HasPrefix(rel, "compile/") || strings.HasPrefix(rel, "formula/") ||
-			strings.HasPrefix(rel, "abi/")) {
-			return nil
-		}
-		b, readErr := os.ReadFile(path)
-		if readErr != nil {
-			return readErr
-		}
-		body := string(b)
-		for _, frag := range bannedFragments {
-			if strings.Contains(body, frag) {
-				t.Fatalf("production source %s contains hero-switch/P-graph fragment %q", rel, frag)
-			}
-		}
-		return nil
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
 }

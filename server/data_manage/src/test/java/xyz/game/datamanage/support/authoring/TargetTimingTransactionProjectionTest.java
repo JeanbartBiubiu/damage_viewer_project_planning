@@ -6,11 +6,8 @@ import static org.mockito.Mockito.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -22,7 +19,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.transaction.support.TransactionTemplate;
-import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationSaveRequest;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.SourceType;
 import xyz.game.datamanage.support.error.ApiException;
@@ -170,48 +166,4 @@ public class TargetTimingTransactionProjectionTest {
         }
     }
 
-    /** 一次性真实保存失败调查入口；日常回归只使用上面的完全合成图。 */
-    public static void main(String[] args) throws Exception {
-        Path folder = Path.of(args[0]);
-        var request = AggregateJson.read(Files.readString(folder.resolve("request.json")), SkillConfigurationSaveRequest.class);
-        ObjectNode candidate = (ObjectNode) AggregateJson.tree(Files.readString(folder.resolve("before.json")));
-        ObjectNode expected = (ObjectNode) AggregateJson.tree(Files.readString(folder.resolve("expected.json")));
-        Map<String, String[]> sections = Map.of("PARAMETER", new String[]{"parameters", "parameterKey"}, "FORMULA", new String[]{"formulas", "formulaKey"},
-            "EFFECT", new String[]{"effects", "effectKey"}, "INTERNAL_STATE", new String[]{"internalStates", "stateKey"},
-            "PROCESS", new String[]{"processes", "processKey"}, "TRIGGER_RULE", new String[]{"triggerRules", "ruleKey"});
-        for (var change : request.changes()) {
-            var fields = sections.get(change.objectType()); assertNotNull(fields);
-            var rows = candidate.withArray(fields[0]); ObjectNode row = null;
-            for (JsonNode value : rows) if (value.path(fields[1]).asText().equals(change.key())) row = (ObjectNode) value;
-            if (change.operation().equals("CREATE")) { assertNull(row); row = rows.addObject(); }
-            else assertEquals("UPDATE", change.operation());
-            assertNotNull(row); row.setAll((ObjectNode) change.value()); row.put(fields[1], change.key());
-        }
-        for (var fields : sections.values()) {
-            var actualRows = new LinkedHashMap<String, JsonNode>();
-            var expectedRows = new LinkedHashMap<String, JsonNode>();
-            for (JsonNode row : candidate.path(fields[0])) actualRows.put(row.path(fields[1]).asText(), business(row));
-            for (JsonNode row : expected.path(fields[0])) expectedRows.put(row.path(fields[1]).asText(), business(row));
-            assertEquals(expectedRows, actualRows, fields[0]);
-        }
-        String owner = expected.path("skill").path("skillKey").asText();
-        List<SkillNumericSemantics.Parameter> numbers = new ArrayList<>();
-        List<Map<String, Object>> parameters = new ArrayList<>();
-        for (JsonNode p : candidate.path("parameters")) {
-            numbers.add(new SkillNumericSemantics.Parameter(owner, p.path("parameterKey").asText(), p.path("valueType").asText(), p.path("valueMode").asText(), p.hasNonNull("fixedValue") ? p.path("fixedValue").decimalValue() : null, p.hasNonNull("levelValues") ? p.path("levelValues") : null));
-            Map<String, Object> row = new LinkedHashMap<>(); row.put("skill_key", owner); row.put("parameter_key", p.path("parameterKey").asText()); row.put("value_type", p.path("valueType").asText()); row.put("value_mode", p.path("valueMode").asText());
-            row.put("fixed_value", p.hasNonNull("fixedValue") ? p.path("fixedValue").decimalValue() : null); row.put("level_values", p.hasNonNull("levelValues") ? p.path("levelValues").toString() : null); parameters.add(row);
-        }
-        var old = projected(candidate, owner, LEGACY_TRIGGER_PROJECTION);
-        var error = assertThrows(ApiException.class, () -> SkillNumericSemantics.validateTargetTiming(old, old, numbers));
-        assertEquals("400.SKILL_TARGET_TIMING_INVALID", error.getCode()); assertTrue(error.getDetails().toString().contains("sortOrder"));
-        var fixed = projected(candidate, owner, triggerProjection());
-        SkillNumericSemantics.validateTargetTiming(fixed, fixed, numbers);
-        throughGuard(candidate, owner, parameters);
-        System.out.println("CAPTURED_REQUEST_PASSED changes=" + request.changes().size() + " owner=" + owner + " legacyError=" + error.getCode() + " fixedProjectionAndFinalGuard=PASSED");
-    }
-
-    private static JsonNode business(JsonNode row) {
-        ObjectNode result = ((ObjectNode) row).deepCopy(); result.remove(List.of("gameId", "skillKey", "createdAt", "updatedAt")); return result;
-    }
 }

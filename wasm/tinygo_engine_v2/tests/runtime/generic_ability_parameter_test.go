@@ -122,9 +122,11 @@ func TestAutomaticFiniteChannelKeepsFullOccupancyCompletionCooldownAndQualificat
 	if process.Repeat.ExecutionCount != 4 || process.Repeat.ExecutionIndex != 4 || *process.LastExecutionAtMs != 750 || *process.FinishedAtMs != 1000 || *process.ActionOccupancies[0].FinishedAtMs != 1000 || !process.CooldownStarted {
 		t.Fatal(process)
 	}
-	for _, qualification := range done.AutomaticSkillSummary.Qualifications {
-		if qualification.GrantedCount != 1 || qualification.ConsumedCount != 1 || qualification.RemainingCount != 0 {
-			t.Fatal(qualification)
-		}
+	if len(done.AutomaticSkillSummary.Qualifications) != 1 {
+		t.Fatal("missing rule0 to rule1 qualification", done.AutomaticSkillSummary.Qualifications)
+	}
+	qualification := done.AutomaticSkillSummary.Qualifications[0]
+	if qualification.GrantorRuleKey != "rule0" || qualification.ConsumerRuleKey != "rule1" || qualification.GrantedCount != 1 || qualification.ConsumedCount != 1 || qualification.RemainingCount != 0 {
+		t.Fatal(qualification)
 	}
 }

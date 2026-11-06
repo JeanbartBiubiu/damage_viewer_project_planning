@@ -7,6 +7,8 @@ const KEY = 'damage-viewer.visitor-id';
 let saved: Map<string, string>;
 
 beforeEach(() => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date('2026-11-06T00:00:00Z'));
   vi.resetModules();
   saved = new Map();
   vi.stubGlobal('window', { location: { origin: API }, localStorage: {
@@ -19,7 +21,7 @@ beforeEach(() => {
 afterEach(async () => {
   const { setAuthSession } = await import('./authState');
   setAuthSession(null);
-  vi.unstubAllGlobals(); vi.restoreAllMocks();
+  vi.unstubAllGlobals(); vi.restoreAllMocks(); vi.useRealTimers();
 });
 
 describe('访问统计', () => {

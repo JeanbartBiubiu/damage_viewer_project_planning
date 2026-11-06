@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.ATTRIBUTE_KEY;
@@ -1079,7 +1081,6 @@ class SkillTriggerRuleServiceTest {
         ));
 
         stubPriorFollow(damageShape(EFFECT_KEY, RESULT_KEY, 1, null), SkillParameterValueType.DECIMAL);
-        stubPriorSuccessAssemble("ok_raw", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, priorRule(
             "ok_raw", SkillTriggerPriorResultOutputKind.RAW_DAMAGE, 10, 20
         ));
@@ -1167,7 +1168,6 @@ class SkillTriggerRuleServiceTest {
         );
         assertTrue(SkillTriggerPriorResultOutputs.immediatelyAvailable(SkillTriggerPriorResultOutputs.Shape.from(application)));
         stubPriorFollow(application, SkillParameterValueType.DECIMAL);
-        stubPriorSuccessAssemble("app", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, priorRule(
             "app", SkillTriggerPriorResultOutputKind.CONFIGURED_VALUE, 10, 20
         ));
@@ -1199,18 +1199,15 @@ class SkillTriggerRuleServiceTest {
             damageShape(EFFECT_KEY, RESULT_KEY, 0, SkillEffectSpellShieldBlockScope.RESULT),
             SkillParameterValueType.INTEGER
         );
-        stubPriorSuccessAssemble("int_int", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, priorRule("int_int", SkillTriggerPriorResultOutputKind.BLOCKED, 10, 20));
 
         stubPriorFollow(
             damageShape(EFFECT_KEY, RESULT_KEY, 0, SkillEffectSpellShieldBlockScope.RESULT),
             SkillParameterValueType.DECIMAL
         );
-        stubPriorSuccessAssemble("int_dec", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, priorRule("int_dec", SkillTriggerPriorResultOutputKind.IMMUNE, 10, 20));
 
         stubPriorFollow(SkillTriggerRuleTestSupport.damageShape(EFFECT_KEY, RESULT_KEY), SkillParameterValueType.DECIMAL);
-        stubPriorSuccessAssemble("dec_dec", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, priorRule("dec_dec", SkillTriggerPriorResultOutputKind.RAW_DAMAGE, 10, 20));
 
         stubPriorFollow(SkillTriggerRuleTestSupport.damageShape(EFFECT_KEY, RESULT_KEY), SkillParameterValueType.INTEGER);
@@ -1225,13 +1222,13 @@ class SkillTriggerRuleServiceTest {
     void stage765CooldownChangeHasSingleConfiguredValueExceptReset() {
         SkillTriggerEffectShapeRow reduce = cooldownShape(true, "cd_f", SkillEffectCooldownChangeOperation.REDUCE);
         SkillTriggerEffectShapeRow reset = cooldownShape(false, null, SkillEffectCooldownChangeOperation.RESET);
-        assertEquals(1, List.of(reduce).size());
+        assertEquals(Set.of(SkillTriggerPriorResultOutputKind.CONFIGURED_VALUE),
+            SkillTriggerPriorResultOutputs.available(SkillTriggerPriorResultOutputs.Shape.from(reduce)));
+        assertTrue(SkillTriggerPriorResultOutputs.available(SkillTriggerPriorResultOutputs.Shape.from(reset)).isEmpty());
         stubPriorFollow(reduce, SkillParameterValueType.DECIMAL);
-        stubPriorSuccessAssemble("cd_ok", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, priorRule("cd_ok", SkillTriggerPriorResultOutputKind.CONFIGURED_VALUE, 10, 20));
         SkillTriggerEffectShapeRow setRemaining = cooldownShape(true, "cd_f", SkillEffectCooldownChangeOperation.SET_REMAINING);
         stubPriorFollow(setRemaining, SkillParameterValueType.DECIMAL);
-        stubPriorSuccessAssemble("cd_set", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, priorRule("cd_set", SkillTriggerPriorResultOutputKind.CONFIGURED_VALUE, 10, 20));
         stubPriorFollow(reset, SkillParameterValueType.DECIMAL);
         ApiException resetValue = thrown(() -> service.create(
@@ -1279,28 +1276,15 @@ class SkillTriggerRuleServiceTest {
             "{\"kind\":\"FORMULA\",\"formulaKey\":\"crit_f\"}",
             "{\"kind\":\"FORMULA\",\"formulaKey\":\"vamp_f\"}"
         ));
-        when(mapper.listRuntimeInputParameters(eq(GAME_ID), eq(SKILL_KEY), any())).thenAnswer(invocation -> {
-            @SuppressWarnings("unchecked")
-            Collection<String> keys = (Collection<String>) invocation.getArgument(2);
-            if (keys != null && keys.contains("execute_f") && keys.contains("mod_f")) {
-                assertTrue(keys.contains("base_damage"));
-                assertTrue(keys.contains("mod_f"));
-                assertTrue(keys.contains("heal_mod_f"));
-                assertTrue(keys.contains("floor_f"));
-                assertTrue(keys.contains("execute_f"));
-                assertTrue(keys.contains("hit_f"));
-                assertTrue(keys.contains("attack_f"));
-                assertTrue(keys.contains("crit_f"));
-                assertTrue(keys.contains("vamp_f"));
-                assertTrue(keys.contains("duration_f"));
-            }
-            return List.of();
-        });
+        when(mapper.listRuntimeInputParameters(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of());
         service.create(
             GAME_ID, SKILL_KEY,
             emptyEventExecute("collect_all", SkillTriggerEventType.BASIC_ATTACK_HIT, "deal", EFFECT_KEY)
         );
-        when(mapper.listRuntimeInputParameters(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of());
+        Set<String> expected = Set.of("base_damage", "mod_f", "heal_mod_f", "floor_f", "execute_f",
+            "hit_f", "attack_f", "crit_f", "vamp_f", "duration_f");
+        verify(mapper, atLeastOnce()).listRuntimeInputParameters(eq(GAME_ID), eq(SKILL_KEY),
+            argThat(keys -> keys != null && Set.copyOf(keys).equals(expected)));
 
         when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             SkillTriggerRuleTestSupport.ruleRow("shield_break", "shield_break", SkillTriggerEventType.LIFECYCLE_MOMENT)
@@ -1579,9 +1563,6 @@ class SkillTriggerRuleServiceTest {
             }
             return List.of();
         });
-    }
-
-    private void stubPriorSuccessAssemble(String ruleKey, String sourceEffectKey) {
     }
 
     private static SkillTriggerRuleCreateRequest priorRule(

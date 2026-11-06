@@ -15,13 +15,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.UUID;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -40,13 +41,24 @@ class PostgresWriteStoreTest {
         store = new PostgresWriteStore(editLogMapper, new ObjectMapper());
     }
 
-    @Test
-    void storeOnlyOwnsEditLogDependencies() {
-        Set<String> types = Arrays.stream(PostgresWriteStore.class.getDeclaredFields())
-            .map(Field::getType)
-            .map(Class::getSimpleName)
-            .collect(Collectors.toSet());
-        assertEquals(Set.of("EditLogMapper", "ObjectMapper"), types);
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("invalidEditorIdentities")
+    void invalidEditorIdentityDoesNotPersistOrCleanLogs(String scenario, UUID accountId, String username) {
+        assertThrows(IllegalArgumentException.class, () -> store.recordEditLog(
+            accountId, username, "PUT", "/api/admin/games/lol/images/icon", null, 200
+        ));
+
+        verifyNoInteractions(editLogMapper);
+    }
+
+    private static Stream<Arguments> invalidEditorIdentities() {
+        UUID account = UUID.fromString("00000000-0000-4000-8000-000000000001");
+        return Stream.of(
+            Arguments.of("缺少账号编号", null, "fixture_author"),
+            Arguments.of("缺少用户名", account, null),
+            Arguments.of("用户名为空", account, ""),
+            Arguments.of("用户名只有空白", account, "   ")
+        );
     }
 
     @Test

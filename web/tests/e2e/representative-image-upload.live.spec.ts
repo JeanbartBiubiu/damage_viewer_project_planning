@@ -1,7 +1,7 @@
 /**
  * 真实对象侧直接上传验收，不拦截或替代任何接口。
  * 手动执行：设置 STAGE9_UPLOAD_LIVE_ACCEPTANCE=1，随后
- * node node_modules/@playwright/test/cli.js test --config playwright.image-upload-live.config.ts
+ * node node_modules/@playwright/test/cli.js test --config tests/playwright/playwright.image-upload-live.config.ts
  * 本机 5173/8080；服务已关闭本地鉴权，只使用非秘密占位令牌。
  * 对象与关系由 finally 精确清理。图片和属性没有删除接口，主负责人按 assets-manifest.json 精确清理数据库。
  */

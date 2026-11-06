@@ -49,7 +49,7 @@ describe('只读折叠引用展示', () => {
     expect(referenceListNeedsToggle(3)).toBe(false);
     expect(catalogStatusText(undefined)).toBe(CATALOG_LOADING_TEXT);
     expect(catalogStatusText('failed')).toBe(CATALOG_FAILED_TEXT);
-    expect(catalogReferenceItems(keys, 'failed').every((item) => item.name == null && !item.missing)).toBe(true);
+    expect(catalogReferenceItems(keys, 'failed')).toEqual([{ key: 'only' }, { key: 'two' }]);
     expect(formatReferenceItem({ key: 'only' })).toBe(`${CATALOG_MISSING_TEXT}（only）`);
   });
 });
