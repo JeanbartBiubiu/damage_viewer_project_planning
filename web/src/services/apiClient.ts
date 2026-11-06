@@ -155,17 +155,25 @@ export function readAuthCsrf(kind: 'session' | 'flow'): string | null {
 
 function normalizeGameSummaries(value: unknown): GameSummary[] {
   if (!Array.isArray(value)) {
-    return [];
+    throw new ApiRequestError('游戏目录响应必须是数组。', 502, '502.GAME_RESPONSE_INVALID');
   }
   return value.map((item) => normalizeGameSummary(item));
 }
 
 function normalizeGameSummary(value: unknown): GameSummary {
-  const record = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new ApiRequestError('游戏摘要响应格式不合法。', 502, '502.GAME_RESPONSE_INVALID');
+  }
+  const record = value as Record<string, unknown>;
+  if (typeof record.gameId !== 'string' || typeof record.gameName !== 'string'
+    || (record.representativeImageKey !== undefined && record.representativeImageKey !== null
+      && typeof record.representativeImageKey !== 'string')) {
+    throw new ApiRequestError('游戏摘要缺少合法的游戏身份、名称或代表图片标识。', 502, '502.GAME_RESPONSE_INVALID');
+  }
   return {
-    gameId: typeof record.gameId === 'string' ? record.gameId : '',
-    gameName: typeof record.gameName === 'string' ? record.gameName : '',
-    representativeImageKey: typeof record.representativeImageKey === 'string' ? record.representativeImageKey : null
+    gameId: record.gameId,
+    gameName: record.gameName,
+    representativeImageKey: record.representativeImageKey ?? null
   };
 }
 

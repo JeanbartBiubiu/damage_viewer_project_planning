@@ -454,7 +454,7 @@ func (s *Engine) recordDamage(sourceKey, targetKey string, amount float64, timeM
 
 func (s *Engine) initSamplingCursor(config model.SamplingConfig) *model.EngineError {
 	if !s.report.InitSampling(config, s.loop.StartMs(), s.loop.DurationMs()) {
-		return s.basicAttackErr("sampling requires positive intervals and maxSeriesPoints in [2,5000]", "sampling")
+		return s.basicAttackErr("sampling requires positive intervals, maxSeriesPoints in [2,5000], and requested point count and effective interval within int32", "sampling")
 	}
 	return nil
 }

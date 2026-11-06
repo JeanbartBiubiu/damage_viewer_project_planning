@@ -462,9 +462,11 @@ func TestGenericRunDivByZeroFatalNoDone(t *testing.T) {
 	if code := session.RunJSON(mustJSON(runReq)); code != -1 {
 		t.Fatalf("RunJSON code=%d want -1", code)
 	}
-	if lastGenericRunDone(session.OutboxBytes()).OK {
-		t.Fatal("expected no done frame on fatal")
-	}
+	forEachGenericFrame(session.OutboxBytes(), func(frame abi.Frame) {
+		if frame.Kind == model.FrameKindGenericDone {
+			t.Fatal("expected no done frame on fatal")
+		}
+	})
 	errPayload := lastGenericError(session.OutboxBytes())
 	if errPayload.Code != model.GenericErrFormulaTypeError {
 		t.Fatalf("code=%q want formula_type_error", errPayload.Code)

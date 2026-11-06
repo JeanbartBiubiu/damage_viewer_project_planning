@@ -391,11 +391,12 @@ type DriverPlan struct {
 
 // DriverEntry 是 driver plan 单条 entry。
 type DriverEntry struct {
-	EntryKey   string              `json:"entryKey"`
-	AbilityRef string              `json:"abilityRef"`
-	Source     string              `json:"source"`
-	Target     string              `json:"target"`
-	Priority   int                 `json:"priority,omitempty"`
+	EntryKey   string `json:"entryKey"`
+	AbilityRef string `json:"abilityRef"`
+	Source     string `json:"source"`
+	Target     string `json:"target"`
+	Priority   int    `json:"priority,omitempty"`
+	// FirstAtMs 是首次尝试的绝对毫秒时刻，不得早于本次初始快照；晚于终点时不执行。
 	FirstAtMs  int64               `json:"firstAtMs"`
 	Repeat     *DriverRepeat       `json:"repeat,omitempty"`
 	WhileReady interface{}         `json:"whileReady,omitempty"`

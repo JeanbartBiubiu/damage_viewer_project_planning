@@ -635,7 +635,7 @@ func (s *Engine) publishProcessResolved(process *actionpkg.ProcessView) *model.E
 }
 
 func (s *Engine) initProcessState() *model.EngineError {
-	return s.processFlowExecutor().Initialize(actionflow.ProcessInitialInput{Rows: s.req.InitialSnapshot.ProcessInstances, Entries: s.req.DriverPlan.Entries, Commands: s.req.ProcessCommandFacts, Start: s.loop.StartMs(), Now: s.loop.TimeMs(), MaxInstances: s.budget.MaxProcessInstances}, s.processRestorePlan(), processRestoreBridge{engine: s}, processRestoreBridge{engine: s})
+	return s.processFlowExecutor().Initialize(actionflow.ProcessInitialInput{Rows: s.req.InitialSnapshot.ProcessInstances, Entries: s.req.DriverPlan.Entries, Commands: s.req.ProcessCommandFacts, Now: s.loop.TimeMs(), MaxInstances: s.budget.MaxProcessInstances}, s.processRestorePlan(), processRestoreBridge{engine: s}, processRestoreBridge{engine: s})
 }
 
 func (s *Engine) restoreProcess(row model.ProcessInstanceSnapshot, path string) (*actionpkg.ProcessView, *model.EngineError) {

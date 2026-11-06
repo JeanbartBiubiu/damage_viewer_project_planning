@@ -1,7 +1,7 @@
 // Shared TinyGo generic ABI host helpers for Node smoke/bench.
 // Not a formal Worker host; mirrors frame/outbox conventions used by web TinyGoV2Bridge.
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { accessSync, constants, existsSync, readFileSync, statSync } from "node:fs";
 import { dirname, isAbsolute, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
@@ -67,39 +67,44 @@ const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
 
 export function findWasmExec() {
-  const candidates = [];
-
+  // 显式配置就是本次工具链选择，配置错误不能改用另一份运行库。
   if (process.env.TINYGO_WASM_EXEC) {
-    candidates.push(process.env.TINYGO_WASM_EXEC);
+    return requireWasmExec(process.env.TINYGO_WASM_EXEC);
   }
 
-  candidates.push(
+  const candidates = [
     resolve(workspaceRoot, ".tools", "tinygo0.40.1", "tinygo", "targets", "wasm_exec.js"),
     resolve(projectRoot, "tinygo0.40.1", "tinygo", "targets", "wasm_exec.js")
-  );
+  ];
+  for (const candidate of candidates) {
+    try {
+      return requireWasmExec(candidate);
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+    }
+  }
 
+  let tinygoRoot;
   try {
-    const tinygoRoot = execFileSync("tinygo", ["env", "TINYGOROOT"], {
+    tinygoRoot = execFileSync("tinygo", ["env", "TINYGOROOT"], {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"],
     }).trim();
-    if (tinygoRoot) {
-      candidates.push(resolve(tinygoRoot, "targets", "wasm_exec.js"));
-    }
-  } catch {
-    // Caller can still provide TINYGO_WASM_EXEC explicitly.
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
   }
-
-  for (const candidate of candidates) {
-    const fullPath = isAbsolute(candidate) ? candidate : resolve(moduleRoot, candidate);
-    if (existsSync(fullPath)) {
-      return fullPath;
-    }
-  }
+  if (tinygoRoot) return requireWasmExec(resolve(tinygoRoot, "targets", "wasm_exec.js"));
 
   throw new Error(
-    "Could not find TinyGo wasm_exec.js. Set TINYGO_WASM_EXEC, keep the repo-local .tools TinyGo bundle, or install tinygo on PATH (fallback: C:\\project\\tinygo0.40.1)."
+    "Could not find TinyGo wasm_exec.js. Set TINYGO_WASM_EXEC, keep the repo-local .tools TinyGo bundle, or install tinygo on PATH."
   );
+}
+
+function requireWasmExec(candidate) {
+  const fullPath = isAbsolute(candidate) ? candidate : resolve(moduleRoot, candidate);
+  if (!statSync(fullPath).isFile()) throw new Error(`TinyGo runtime path is not a file: ${fullPath}`);
+  accessSync(fullPath, constants.R_OK);
+  return fullPath;
 }
 
 export function loadGoRuntime() {

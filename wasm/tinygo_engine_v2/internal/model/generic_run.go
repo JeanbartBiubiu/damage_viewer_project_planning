@@ -1,4 +1,4 @@
-// canonical RunRequest 与 snapshot DTO（Slice B fixture / 后续 A2/C）。
+// 运行请求与可恢复战斗快照的共享定义。
 package model
 
 import (
@@ -38,7 +38,7 @@ const (
 	RunOutputSummary  RunOutputMode = "summary"
 )
 
-// RunSafetyBudget 是 run 请求级安全预算覆盖（§4.1）。
+// RunSafetyBudget 是运行请求级安全预算覆盖。
 type RunSafetyBudget struct {
 	MaxBasicAttacks     int `json:"maxBasicAttacks,omitempty"`
 	MaxProcessInstances int `json:"maxProcessInstances,omitempty"`
@@ -52,15 +52,14 @@ type Snapshot struct {
 	ProcessInstances []ProcessInstanceSnapshot `json:"processInstances"`
 	SchemaHash       string                    `json:"schemaHash"`
 	RulesHash        string                    `json:"rulesHash"`
-	TimeMs           int64                     `json:"timeMs"`
-	Combatants       []CombatantSnapshot       `json:"combatants"`
-	UseTriggerLedger []UseTriggerLedgerEntry   `json:"useTriggerLedger"`
+	// TimeMs 是非负的绝对逻辑时刻，单位为毫秒；续算保留快照原时刻。
+	TimeMs           int64                   `json:"timeMs"`
+	Combatants       []CombatantSnapshot     `json:"combatants"`
+	UseTriggerLedger []UseTriggerLedgerEntry `json:"useTriggerLedger"`
 }
 
-// CombatantSnapshot 是 run 期单个 combatant 状态。
-// finalSnapshot 输出要求稳定 shape：空 map/array 也必须 materialize，故关键字段不加 omitempty。
-// CombatantSnapshot 是 run 期单个 combatant 状态。
-// finalSnapshot 输出要求稳定 shape：空 map/array 也必须 materialize，故关键字段不加 omitempty。
+// CombatantSnapshot 是运行期单个角色的状态。
+// 最终快照保留空映射和空数组，关键字段不省略。
 type CombatantSnapshot struct {
 	Key               string                      `json:"key"`
 	Attributes        map[string]AttributeSlotDef `json:"attributes"`
@@ -130,12 +129,14 @@ type CombatantShieldSnapshot struct {
 
 // StopPolicy 控制 run 停止条件。
 type StopPolicy struct {
+	// DurationMs 是从起点继续运行的非负毫秒数，允许0；起点加时长不能溢出int64。
 	DurationMs        int64 `json:"durationMs"`
 	StopOnTargetDeath *bool `json:"stopOnTargetDeath,omitempty"`
 	StopWhenNoEvents  *bool `json:"stopWhenNoEvents,omitempty"`
 }
 
 // SamplingConfig 控制 series 采样。
+// 启用时，请求点数及预算调整后的间隔必须能由32位有符号整数表示；关闭采样不受此限制。
 type SamplingConfig struct {
 	Disabled        bool `json:"disabled,omitempty"`
 	SampleEveryMs   int  `json:"sampleEveryMs,omitempty"`
@@ -177,7 +178,7 @@ func (v *RunSafetyBudget) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// StopOnTargetDeathOrDefault 返回 stopOnTargetDeath，省略时默认为 true（§4.1）。
+// StopOnTargetDeathOrDefault 返回 stopOnTargetDeath，省略时默认为 true。
 func (p StopPolicy) StopOnTargetDeathOrDefault() bool {
 	if p.StopOnTargetDeath == nil {
 		return true
@@ -185,7 +186,7 @@ func (p StopPolicy) StopOnTargetDeathOrDefault() bool {
 	return *p.StopOnTargetDeath
 }
 
-// StopWhenNoEventsOrDefault 返回 stopWhenNoEvents，省略时默认为 true（§4.1）。
+// StopWhenNoEventsOrDefault 返回 stopWhenNoEvents，省略时默认为 true。
 func (p StopPolicy) StopWhenNoEventsOrDefault() bool {
 	if p.StopWhenNoEvents == nil {
 		return true

@@ -78,7 +78,10 @@ if (args.target === 'docs') {
 const problems = [];
 if (args.check) {
   let actual;
-  try { actual = await readFile(destination, 'utf8'); } catch { actual = ''; }
+  try { actual = await readFile(destination, 'utf8'); } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+    actual = '';
+  }
   if (actual.replaceAll('\r\n', '\n') !== expected) problems.push('生成文件与系统枚举清单不一致');
 } else {
   assert(!args['backend-root'] && !args['wasm-root'], '跨端参数仅用于只读检查，不能在生成时隐式写其他模块');

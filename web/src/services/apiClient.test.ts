@@ -47,6 +47,27 @@ describe('apiClient.listGames', () => {
     expect(result.data).toEqual([{ gameId: 'lol', gameName: '英雄联盟', representativeImageKey: null }]);
     expect(result.data[0]).not.toHaveProperty('progressionSchema');
   });
+
+  it('接受合法的空游戏目录', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(200, [])));
+    expect((await listGames('http://localhost:8080')).data).toEqual([]);
+  });
+
+  it.each([
+    { label: '空响应', body: null },
+    { label: '对象代替数组', body: { items: [] } },
+    { label: '空摘要', body: [null] },
+    { label: '数组代替摘要', body: [[]] },
+    { label: '缺少身份', body: [{ gameName: '英雄联盟' }] },
+    { label: '名称类型错误', body: [{ gameId: 'lol', gameName: 123 }] },
+    { label: '代表图类型错误', body: [{ gameId: 'lol', gameName: '英雄联盟', representativeImageKey: 123 }] }
+  ])('拒绝非法游戏目录响应，不补为空目录或空身份：$label', async ({ body }) => {
+    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(200, body)));
+    await expect(listGames('http://localhost:8080')).rejects.toMatchObject({
+      status: 502,
+      code: '502.GAME_RESPONSE_INVALID'
+    });
+  });
 });
 
 describe('apiClient 错误提示', () => {

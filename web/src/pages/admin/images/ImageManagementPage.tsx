@@ -94,6 +94,15 @@ export function ImageManagementPage({
   const [syncMessage, setSyncMessage] = useState('尚未同步。');
   const [syncAction, setSyncAction] = useState<SyncAction>(null);
   const requestSerial = useRef(0);
+  const editorRequest = useRef<AbortController | null>(null);
+
+  const cancelEditorRequest = useCallback(() => {
+    editorRequest.current?.abort();
+    editorRequest.current = null;
+    setEditorLoadingKey(null);
+  }, []);
+
+  useEffect(() => () => { editorRequest.current?.abort(); }, [apiBaseUrl, selectedGameId]);
 
   const loadCachedList = useCallback(async (query: CachedImageQuery) => {
     const serial = requestSerial.current + 1;
@@ -138,6 +147,7 @@ export function ImageManagementPage({
   }, [lastPage]);
 
   useEffect(() => {
+    cancelEditorRequest();
     setKeywordDraft('');
     setEnabledDraft('');
     setAppliedQuery(EMPTY_QUERY);
@@ -149,7 +159,7 @@ export function ImageManagementPage({
     setCacheError(null);
     setSyncMessage('尚未同步。');
     onDirtyChange(false);
-  }, [onDirtyChange, selectedGameId]);
+  }, [apiBaseUrl, cancelEditorRequest, onDirtyChange, selectedGameId]);
 
   const applyQuery = () => {
     setNotice(null);
@@ -168,20 +178,28 @@ export function ImageManagementPage({
   };
 
   const openEditor = async (mode: ImageEditorMode, image: CachedImageRecord | null) => {
+    cancelEditorRequest();
     if (mode === 'create') {
       setEditor({ mode, image: null });
       return;
     }
     if (!selectedGameId || !image) return;
+    const controller = new AbortController();
+    editorRequest.current = controller;
+    const isCurrent = () => editorRequest.current === controller && !controller.signal.aborted;
     setEditorLoadingKey(image.imageKey);
     setLoadError(null);
     try {
-      const result = await getImage(apiBaseUrl, selectedGameId, image.imageKey);
+      const result = await getImage(apiBaseUrl, selectedGameId, image.imageKey, controller.signal);
+      if (!isCurrent()) return;
       setEditor({ mode, image: result.data });
     } catch (error) {
-      setLoadError(getErrorMessage(error));
+      if (isCurrent()) setLoadError(getErrorMessage(error));
     } finally {
-      setEditorLoadingKey(null);
+      if (isCurrent()) {
+        editorRequest.current = null;
+        setEditorLoadingKey(null);
+      }
     }
   };
 
@@ -466,7 +484,7 @@ export function ImageManagementPage({
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
 
-        onClose={() => setEditor(null)}
+        onClose={() => { cancelEditorRequest(); setEditor(null); }}
         onSaved={handleSaved}
         onDirtyChange={onDirtyChange}
       />

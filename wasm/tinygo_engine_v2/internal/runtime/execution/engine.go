@@ -162,6 +162,7 @@ func (s *Engine) Finish() (model.DoneResult, *model.EngineError) {
 }
 
 // New 为一次运行装配私有状态并借用传入的唯一循环；输入不合法时返回实际准入错误。
+// 运行时间范围由上层公开运行入口在创建循环前统一校验。
 func New(compiled planbundle.CompiledSession, req model.RunRequest, loop *scheduler.Loop) (*Engine, *model.EngineError) {
 	if compiled.HasImmediatePeriodic || compiled.HasTotalCooldownRefund {
 		if err := validateImmediatePeriodicRefundFreshSnapshot(compiled, req); err != nil {

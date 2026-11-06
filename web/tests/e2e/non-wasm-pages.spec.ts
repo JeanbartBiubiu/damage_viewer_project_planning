@@ -7723,7 +7723,71 @@ test.describe('skill management without Wasm', () => {
   });
 });
 
+test('游戏目录刷新收到非法成功载荷时显示错误并保留当前游戏和列表', async ({ page }) => {
+  const mock = new MockApi();
+  mock.attributes = [attribute('current_value', '当前属性')];
+  const diagnostics = await prepare(page, mock);
+  await openAttributes(page);
+  await expect(page.locator('tr').filter({ hasText: 'current_value' })).toBeVisible();
+  await page.route('**/api/games', route => route.fulfill({ json: { items: [] } }));
+  await page.locator('.app-toolbar-actions').getByRole('button', { name: '刷新', exact: true }).click();
+  await expect(page.getByRole('alert').filter({ hasText: '502.GAME_RESPONSE_INVALID' })).toBeVisible();
+  await waitForGame(page);
+  await expect(page.locator('tr').filter({ hasText: 'current_value' })).toBeVisible();
+  diagnostics.assertClean('非法游戏目录不能清空已有游戏上下文');
+});
+
 test.describe('image management without Wasm', () => {
+  for (const scenario of ['edit', 'create', 'closed', 'failure'] as const) {
+    test(`图片详情迟到不会覆盖后来的编辑或关闭操作：${scenario}`, async ({ page }) => {
+      const mock = new MockApi();
+      const diagnostics = await prepare(page, mock);
+      await openImages(page);
+      const upload = await pngUpload(page, 20, 20);
+      mock.images = ['first', 'second'].map(imageKey => ({
+        gameId: GAME_ID, imageKey, name: imageKey, description: null,
+        imageBase64: `data:image/png;base64,${upload.buffer.toString('base64')}`,
+        mimeType: 'image/png', byteSize: upload.buffer.length, width: 20, height: 20,
+        enabled: true, createdAt: CREATED_AT, updatedAt: UPDATED_AT
+      }));
+      await page.getByRole('button', { name: '全量同步', exact: true }).click();
+      await expect(imageRow(page, 'first')).toBeVisible();
+      const hold = createDeferred();
+      let started = false;
+      let settled = false;
+      await page.route(`**/api/admin/games/${GAME_ID}/images/first`, async route => {
+        started = true;
+        await hold.promise;
+        await route.fulfill(scenario === 'failure'
+          ? { status: 502, json: { error: { code: '502.OLD_IMAGE', message: '旧图片详情加载失败' } } }
+          : { json: mock.images[0] });
+        settled = true;
+      });
+      try {
+        await imageRow(page, 'first').getByRole('button', { name: '查看', exact: true }).click();
+        await expect.poll(() => started).toBe(true);
+        const editingExisting = scenario === 'edit' || scenario === 'failure';
+        if (editingExisting) await imageRow(page, 'second').getByRole('button', { name: '编辑', exact: true }).click();
+        else await page.getByRole('button', { name: '新建图片', exact: true }).click();
+        const modal = visibleModal(page, editingExisting ? '编辑图片' : '新建图片');
+        await expect(modal).toBeVisible();
+        if (scenario === 'closed') await modal.getByRole('button', { name: '取消', exact: true }).click();
+        else await modal.getByLabel('图片名称', { exact: true }).fill('后来的图片草稿');
+        hold.resolve();
+        await expect.poll(() => settled).toBe(true);
+        if (scenario === 'closed') await expect(page.locator('.arco-modal:visible')).toHaveCount(0);
+        else {
+          await expect(modal).toBeVisible();
+          await expect(modal.getByLabel('图片名称', { exact: true })).toHaveValue('后来的图片草稿');
+          await expect(modal.getByLabel('图片标识', { exact: true })).toHaveValue(editingExisting ? 'second' : '');
+        }
+        await expect(page.getByText('旧图片详情加载失败', { exact: false })).toHaveCount(0);
+        expect(mock.writes).toHaveLength(0);
+        diagnostics.assertClean(`图片详情迟到：${scenario}`);
+      } finally { hold.resolve(); }
+    });
+  }
+
   test('reads the image list from local cache and fills it through full sync', async ({ page }) => {
     const mock = new MockApi();
     const diagnostics = await prepare(page, mock);

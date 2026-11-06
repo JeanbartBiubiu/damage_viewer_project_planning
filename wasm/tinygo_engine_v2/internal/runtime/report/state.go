@@ -96,7 +96,7 @@ type StateAPI interface {
 	TruncatedEvidenceKinds(detailed bool) []string
 	// EvidenceTruncation 返回是否发生证据截断及被截断的条数。
 	EvidenceTruncation() (bool, int)
-	// InitSampling 配置并校验观察间隔及预算，按时长提高有效采样间隔。
+	// InitSampling 校验观察间隔、点数预算及32位输出范围，按时长提高有效采样间隔。
 	InitSampling(config model.SamplingConfig, start, duration int64) bool
 	// Sampling 返回当前采样配置副本。
 	Sampling() model.SamplingConfig
@@ -106,7 +106,7 @@ type StateAPI interface {
 	NextSample() (int64, bool)
 	// AppendSample 追加观察点，不推进采样游标。
 	AppendSample(point model.SeriesPoint)
-	// AdvanceSample 追加观察点，并按有效间隔推进采样游标。
+	// AdvanceSample 追加观察点，并按有效间隔推进游标；下个时刻越出窗口时标记耗尽，不计算溢出时刻。
 	AdvanceSample(point model.SeriesPoint)
 	// NeedsFinalSample 判断启用采样后是否还缺少指定结束时刻的观察点。
 	NeedsFinalSample(timeMs int64) bool
@@ -151,6 +151,7 @@ type State struct {
 	evidenceCountsByKind, evidenceRetainedByKind                    map[string]int
 	series                                                          []model.SeriesPoint
 	sampling                                                        model.SamplingConfig
+	samplingExhausted                                               bool
 	effectiveSampleEveryMs, nextSampleAtMs, startMs, durationMs     int64
 	automaticRecords                                                []model.AutomaticSkillRecord
 	automaticRecordCount, maxAutomaticRecords                       int

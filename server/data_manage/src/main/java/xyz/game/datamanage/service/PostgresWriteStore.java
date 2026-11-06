@@ -22,6 +22,7 @@ public class PostgresWriteStore {
         this.objectMapper = objectMapper;
     }
 
+    /** 保存完整编辑记录；序列化或持久化失败向调用方抛出，不补造简化记录。 */
     @Transactional
     public void recordEditLog(java.util.UUID accountId, String username, String method, String path, JsonNode requestBody, int responseCode) {
         if (accountId == null || username == null || username.isBlank()) throw new IllegalArgumentException("编辑身份不能为空");
@@ -36,7 +37,7 @@ public class PostgresWriteStore {
         try {
             serialized = objectMapper.writeValueAsString(editBody);
         } catch (JsonProcessingException ex) {
-            serialized = "{\"method\":\"" + method + "\",\"path\":\"" + path + "\"}";
+            throw new IllegalStateException("编辑记录无法保存为结构化数据", ex);
         }
 
         editLogMapper.insertEditLog(accountId, username, serialized);

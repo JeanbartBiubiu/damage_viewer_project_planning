@@ -29,7 +29,7 @@
 
 ## 运行边界
 
-只读编译计划可以复用，每场状态独立。事件时间、实际来源与完整使用身份必须明确；数值读取保留缺失与有效0的区别。数值管道产生结果，所属子系统暂存，执行层按现有帧边界发布；不能推断整条派生链可回滚。
+只读编译计划可以复用，每场状态独立。事件时间、实际来源与完整使用身份必须明确；数值读取保留缺失与有效0的区别。运行时间约束在 `internal/model/` 的快照、停止策略与驱动字段上说明，公开运行入口在创建循环前统一核对；续算保留非零起点，重复排程不把窗口外时刻回绕到过去。数值管道产生结果，所属子系统暂存，执行层按现有帧边界发布；不能推断整条派生链可回滚。
 
 六个执行所有者不互相导入，也不接收完整执行器、根帧或调度器。数值和效果执行可以使用运行求值；命中、监听和续接可以借用同一个共同额度账。根层只通过原时点的有限事实、所属变更对象和同步阶段组合它们，不提供覆盖全部能力的大接口。
 
@@ -52,7 +52,7 @@ macOS／Linux关闭版使用 `WASM_AUTH_REQUIRED=false bash scripts/build-wasm.s
 
 产物是 `dist/tinygo_engine_v2.wasm`，旁边的 `tinygo_engine_v2.identity.json` 记录实际字节数、摘要及授权策略。指定其他输出路径时，身份文件仍与产物同目录、同名。关闭版的密钥编号和公钥均为 `null`。前端分发位于 `web/src/engine/wasm/tinygo_engine_v2.wasm`，更新须同步实际身份与最终字节。
 
-工具不在PATH时，脚本继续查仓库 `.tools/` 和上一级目录的 `tinygo0.40.1/tinygo/bin/`、`binaryen-version_129/bin/`。也可用PowerShell参数 `-TinyGo`、环境变量 `TINYGO` 或 `WASMOPT` 指定。Node加载与编译器同版本的 `wasm_exec.js`，可用 `TINYGO_WASM_EXEC` 指定。
+工具不在PATH时，脚本继续查仓库 `.tools/` 和上一级目录的 `tinygo0.40.1/tinygo/bin/`、`binaryen-version_129/bin/`。也可用PowerShell参数 `-TinyGo`、环境变量 `TINYGO` 或 `WASMOPT` 指定。Node加载与编译器同版本的 `wasm_exec.js`；显式设置 `TINYGO_WASM_EXEC` 时只使用该文件，不存在、不可读或不是文件都立即失败。未设置时依次查固定本地目录及PATH中的TinyGo安装，已找到工具的执行失败保留原错误。
 
 在前端目录运行 `npm run check:wasm-build`，会把当前源码按正式参数重建到被忽略目录并与分发文件逐字节比较，不改分发文件或正式证明。
 
@@ -66,6 +66,7 @@ node scripts/check-package-boundaries.mjs
 go run ./scripts/check-contract-layout
 go run ./cmd/bench
 node .\scripts\smoke-node.mjs
+node .\scripts\time-bounds-smoke-node.mjs
 node .\scripts\bench-node.mjs --mode generic-run --iterations 10 --warmup 2
 ```
 

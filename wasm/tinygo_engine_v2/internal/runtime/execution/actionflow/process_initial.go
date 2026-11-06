@@ -13,7 +13,7 @@ type ProcessInitialInput struct {
 	Rows         []model.ProcessInstanceSnapshot
 	Entries      []model.DriverEntry
 	Commands     []model.ProcessCommandFact
-	Start, Now   int64
+	Now          int64
 	MaxInstances int
 }
 
@@ -29,31 +29,6 @@ type ProcessInitialChecks interface {
 
 func (s ProcessExecutor) Initialize(input ProcessInitialInput, plan ProcessRestorePlan, restore ProcessRestoreFacts, checks ProcessInitialChecks) *model.EngineError {
 	s.actions.InitProcessFacts()
-	hasProcess := len(input.Rows) > 0 || len(input.Commands) > 0
-	if !hasProcess {
-		for _, ability := range plan.Abilities {
-			if ability.ProcessControl != nil && ability.ProcessControl.UseRefFromEvent {
-				hasProcess = true
-				break
-			}
-		}
-	}
-	if !hasProcess {
-		for _, entry := range input.Entries {
-			ability, _, ok := checks.InitialProcessAbility(entry)
-			if ok && ability.ProcessControl != nil {
-				hasProcess = true
-				break
-			}
-		}
-	}
-	if hasProcess {
-		for _, entry := range input.Entries {
-			if entry.FirstAtMs < input.Start {
-				return s.error("driverPlan.entries["+entry.EntryKey+"].firstAtMs", "driver in a process run cannot precede the initial snapshot", entry.AbilityRef)
-			}
-		}
-	}
 	if len(input.Rows) > input.MaxInstances {
 		return s.error("initialSnapshot.processInstances", "process instance budget exceeded", "")
 	}
@@ -95,9 +70,6 @@ func (s ProcessExecutor) Initialize(input ProcessInitialInput, plan ProcessResto
 		}
 		if strings.TrimSpace(entry.EntryKey) == "" || entry.Repeat != nil || entry.WhileReady != nil {
 			return s.error(path, "process control requires a named single-shot driver", ref)
-		}
-		if entry.FirstAtMs < input.Start {
-			return s.error(path+".firstAtMs", "process driver cannot precede the initial snapshot", ref)
 		}
 		source, sourceOK := checks.InitialProcessActor(entry.Source, model.SelectorSource)
 		target, targetOK := checks.InitialProcessActor(entry.Target, source)

@@ -2,13 +2,13 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parseArgs } from 'node:util';
 
 const canonicalRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const args = process.argv.slice(2);
-const check = args.includes('--check');
-const target = args[args.indexOf('--target') + 1];
-const rootArgument = args[args.indexOf('--root') + 1];
-if (!args.includes('--target') || !args.includes('--root') || !['web', 'backend', 'wasm'].includes(target) || !rootArgument || !isAbsolute(rootArgument)) {
+const { values: { target, root: rootArgument, check } } = parseArgs({ options: {
+  target: { type: 'string' }, root: { type: 'string' }, check: { type: 'boolean' },
+} });
+if (!['web', 'backend', 'wasm'].includes(target) || !rootArgument || !isAbsolute(rootArgument)) {
   throw new Error('用法：node tools/formula-contract/generate.mjs --target web|backend|wasm --root <绝对工作树路径> [--check]');
 }
 const targetRoot = resolve(rootArgument);
@@ -58,7 +58,9 @@ for (const [path, content] of outputs) {
   if (relative(targetRoot, destination).startsWith('..') || isAbsolute(relative(targetRoot, destination))) throw new Error('生成目标越出工作树');
   if (check) {
     let actual;
-    try { actual = await readFile(destination, 'utf8'); } catch { actual = undefined; }
+    try { actual = await readFile(destination, 'utf8'); } catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+    }
     if (actual?.replaceAll('\r\n', '\n') !== content) mismatches.push(path);
   } else {
     await mkdir(dirname(destination), { recursive: true });

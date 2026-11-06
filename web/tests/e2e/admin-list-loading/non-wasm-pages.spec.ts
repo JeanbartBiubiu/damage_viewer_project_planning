@@ -28,19 +28,25 @@ test.beforeAll(async () => {
     import '/src/index.css';
     import { CharacterManagementPage } from '/src/pages/admin/characters/CharacterManagementPage';
     import { EquipmentManagementPage } from '/src/pages/admin/equipment/EquipmentManagementPage';
+    import { ImageManagementPage } from '/src/pages/admin/images/ImageManagementPage';
     function Harness() {
       const [game, setGame] = useState(${JSON.stringify(GAME_ID)});
       const onDirtyChange = useCallback(() => {}, []);
-      const Page = new URLSearchParams(location.search).get('resource') === 'characters'
+      const resource = new URLSearchParams(location.search).get('resource');
+      const Page = resource === 'characters'
         ? CharacterManagementPage : EquipmentManagementPage;
       return <>
         <div aria-label="测试上下文">
           <button onClick={() => setGame(null)}>清空游戏</button>
           <button onClick={() => setGame(${JSON.stringify(GAME_ID)})}>恢复游戏</button>
+          <button onClick={() => setGame('other_safety')}>切换游戏</button>
         </div>
         <main aria-label="列表组件">
-          <Page apiBaseUrl={location.origin} selectedGameId={game}
-            onDirtyChange={onDirtyChange} />
+          {resource === 'images'
+            ? <ImageManagementPage apiBaseUrl={location.origin} selectedGameId={game}
+                selectedGameName={game ?? '未选择'} onDirtyChange={onDirtyChange} />
+            : <Page apiBaseUrl={location.origin} selectedGameId={game}
+                onDirtyChange={onDirtyChange} />}
         </main>
       </>;
     }
@@ -149,6 +155,58 @@ async function settleResponse(page: Page, response: ReturnType<Page['waitForResp
   await (await response).finished();
   await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
 }
+
+test('图片同一组件切换游戏清理旧详情加载状态，新游戏同名图片仍可查看', async ({ page }) => {
+  const stale = deferred();
+  let started = false;
+  let settled = false;
+  const unexpected: string[] = [];
+  const pageErrors: string[] = [];
+  const imageBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==';
+  const image = (gameId: string) => ({
+    gameId, imageKey: 'same_key', name: `${gameId}图片`, description: null,
+    imageBase64, mimeType: 'image/png', byteSize: 70, width: 1, height: 1,
+    enabled: true, createdAt: '2026-10-28T00:00:00Z', updatedAt: '2026-10-28T00:00:00Z'
+  });
+  page.on('pageerror', error => pageErrors.push(error.message));
+  await page.route('**/api/**', async route => {
+    const path = new URL(route.request().url()).pathname;
+    const publicMatch = /^\/api\/games\/(demo|other_safety)\/images$/.exec(path);
+    const detailMatch = /^\/api\/admin\/games\/(demo|other_safety)\/images\/same_key$/.exec(path);
+    if (route.request().method() === 'GET' && publicMatch) {
+      await json(route, { gameId: publicMatch[1], images: [image(publicMatch[1]!)] });
+    } else if (route.request().method() === 'GET' && detailMatch) {
+      if (detailMatch[1] === GAME_ID) { started = true; await stale.promise; }
+      await json(route, image(detailMatch[1]!));
+      if (detailMatch[1] === GAME_ID) settled = true;
+    } else {
+      unexpected.push(`${route.request().method()} ${path}`);
+      await route.abort('blockedbyclient');
+    }
+  });
+  try {
+    await page.goto(`${harnessBase}${HARNESS_PATH.slice(1)}?resource=images`);
+    await page.getByRole('button', { name: '切换游戏', exact: true }).click();
+    await page.getByRole('button', { name: '全量同步', exact: true }).click();
+    await expect(page.getByRole('row').filter({ hasText: 'same_key' })).toBeVisible();
+    await page.getByRole('button', { name: '恢复游戏', exact: true }).click();
+    await page.getByRole('button', { name: '全量同步', exact: true }).click();
+    const view = page.getByRole('row').filter({ hasText: 'same_key' }).getByRole('button', { name: '查看', exact: true });
+    await view.click();
+    await expect.poll(() => started).toBe(true);
+    await expect(view).toHaveClass(/arco-btn-loading/);
+    await page.getByRole('button', { name: '切换游戏', exact: true }).click();
+    await expect(view).not.toHaveClass(/arco-btn-loading/);
+    await view.click();
+    const modal = page.getByRole('dialog', { name: '查看图片', exact: true });
+    await expect(modal.getByLabel('图片名称', { exact: true })).toHaveValue('other_safety图片');
+    stale.release();
+    await expect.poll(() => settled).toBe(true);
+    await expect(modal.getByLabel('图片名称', { exact: true })).toHaveValue('other_safety图片');
+    expect(unexpected).toEqual([]);
+    expect(pageErrors).toEqual([]);
+  } finally { stale.release(); }
+});
 
 for (const resource of resources) {
   for (const context of ['游戏'] as const) {

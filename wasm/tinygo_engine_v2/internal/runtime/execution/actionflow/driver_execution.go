@@ -53,15 +53,21 @@ func (s SkillActionExecutor) SeedDrivers(entries []model.DriverEntry, timing Dri
 	for index, entry := range entries {
 		schedules.QueueDriverAttempt(entry.FirstAtMs, index, 0)
 		if entry.Repeat != nil && entry.Repeat.IntervalMs > 0 {
+			end := timing.Start + timing.Duration
+			if entry.FirstAtMs > end {
+				continue
+			}
+			lastAttempt := (end - entry.FirstAtMs) / entry.Repeat.IntervalMs
 			maximum := entry.Repeat.MaxAttempts
 			if maximum <= 0 {
 				maximum = EstimateDriverAttempts(entry, timing.Start, timing.Duration, maxEvents)
 			}
 			for attempt := 1; attempt < maximum; attempt++ {
-				at := entry.FirstAtMs + int64(attempt)*entry.Repeat.IntervalMs
-				if at > timing.Start+timing.Duration {
+				// 先用剩余窗口判界，再乘加，避免超大间隔回绕到过去。
+				if int64(attempt) > lastAttempt {
 					break
 				}
+				at := entry.FirstAtMs + int64(attempt)*entry.Repeat.IntervalMs
 				schedules.QueueDriverAttempt(at, index, attempt)
 			}
 		}

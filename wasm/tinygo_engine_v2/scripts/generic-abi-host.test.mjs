@@ -1,14 +1,49 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { resolve } from 'node:path';
 import {
   HEADER_LEN,
   MAGIC,
   SCHEMA_VERSION,
   decodeFrames,
   encodeFrame,
+  findWasmExec,
   setNodeAuthorizationProvider,
   withNodeAuthorization,
 } from "./generic-abi-host.mjs";
+
+test('显式运行库不存在或不是文件时立即失败，不切换工具链', () => {
+  const directory = mkdtempSync(resolve(tmpdir(), 'damage-wasm-runtime-'));
+  const previous = process.env.TINYGO_WASM_EXEC;
+  try {
+    process.env.TINYGO_WASM_EXEC = resolve(directory, 'missing-wasm_exec.js');
+    assert.throws(() => findWasmExec(), { code: 'ENOENT' });
+    process.env.TINYGO_WASM_EXEC = directory;
+    assert.throws(() => findWasmExec(), /not a file/);
+  } finally {
+    if (previous === undefined) delete process.env.TINYGO_WASM_EXEC;
+    else process.env.TINYGO_WASM_EXEC = previous;
+    rmdirSync(directory);
+  }
+});
+
+test('显式运行库优先于自动发现且查找不执行其内容', () => {
+  const directory = mkdtempSync(resolve(tmpdir(), 'damage-wasm-runtime-'));
+  const runtimePath = resolve(directory, 'wasm_exec.js');
+  const previous = process.env.TINYGO_WASM_EXEC;
+  try {
+    writeFileSync(runtimePath, 'throw new Error("查找运行库不得执行脚本");');
+    process.env.TINYGO_WASM_EXEC = runtimePath;
+    assert.equal(findWasmExec(), runtimePath);
+  } finally {
+    if (previous === undefined) delete process.env.TINYGO_WASM_EXEC;
+    else process.env.TINYGO_WASM_EXEC = previous;
+    unlinkSync(runtimePath);
+    rmdirSync(directory);
+  }
+});
 
 test('短期票据逐次获取且显式负例不会被本地注入覆盖', () => {
   let count = 0;

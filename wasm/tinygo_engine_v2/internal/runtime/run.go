@@ -9,6 +9,9 @@ import (
 
 // RunGeneric 为单次运行创建唯一循环并协调初始化、执行及末态输出。
 func RunGeneric(compiled planbundle.CompiledSession, req model.RunRequest) (model.DoneResult, *model.EngineError) {
+	if err := validateRunTimeRange(compiled, req); err != nil {
+		return model.DoneResult{}, err
+	}
 	loop := scheduler.NewLoop(req.InitialSnapshot.TimeMs, req.StopPolicy.DurationMs, req.StopPolicy)
 	engine, err := execution.New(compiled, req, loop)
 	if err != nil {

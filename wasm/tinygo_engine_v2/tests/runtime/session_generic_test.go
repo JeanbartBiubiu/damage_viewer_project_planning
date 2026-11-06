@@ -3,6 +3,7 @@ package runtime_test
 
 import (
 	json "encoding/json"
+	"fmt"
 	os "os"
 	filepath "path/filepath"
 	gort "runtime"
@@ -22,72 +23,66 @@ func encodeGenericFrame(kind model.FrameKind, payload any) []byte {
 }
 
 func lastGenericCompileResult(outbox []byte) model.CompileResult {
-	var result model.CompileResult
-	offset := 0
-	for offset+abi.HeaderLen <= len(outbox) {
-		frame, err := abi.DecodeFrame(outbox[offset:])
-		if err != nil {
-			break
+	return lastGenericPayload[model.CompileResult](outbox, model.FrameKindGenericCompileResult)
+}
+
+func lastGenericError(outbox []byte) model.EngineError {
+	return lastGenericPayload[model.EngineError](outbox, model.FrameKindGenericError)
+}
+
+func lastGenericReleaseDone(outbox []byte) model.GenericReleaseDonePayload {
+	return lastGenericPayload[model.GenericReleaseDonePayload](outbox, model.FrameKindGenericReleaseResult)
+}
+
+func lastGenericRunDone(outbox []byte) model.DoneResult {
+	return lastGenericPayload[model.DoneResult](outbox, model.FrameKindGenericDone)
+}
+
+// 每个目标帧独立解码；无目标、损坏帧和损坏载荷都是测试工具错误。
+func lastGenericPayload[T any](outbox []byte, kind model.FrameKind) T {
+	var result T
+	found := false
+	forEachGenericFrame(outbox, func(frame abi.Frame) {
+		if frame.Kind != kind {
+			return
 		}
-		if frame.Kind == model.FrameKindGenericCompileResult {
-			_ = json.Unmarshal(frame.Payload, &result)
+		var payload *T
+		if err := json.Unmarshal(frame.Payload, &payload); err != nil {
+			panic(fmt.Sprintf("decode generic output kind %d: %v", kind, err))
 		}
-		offset += abi.HeaderLen + len(frame.Payload)
+		if payload == nil {
+			panic(fmt.Sprintf("generic output kind %d is null", kind))
+		}
+		if kind == model.FrameKindGenericDone {
+			var envelope struct {
+				Summary map[string]json.RawMessage `json:"summary"`
+			}
+			if err := json.Unmarshal(frame.Payload, &envelope); err != nil {
+				panic(fmt.Sprintf("decode generic run summary: %v", err))
+			}
+			if len(envelope.Summary) == 0 {
+				panic("generic run output has no non-empty summary")
+			}
+		}
+		result = *payload
+		found = true
+	})
+	if !found {
+		panic(fmt.Sprintf("missing generic output kind %d", kind))
 	}
 	return result
 }
 
-func lastGenericError(outbox []byte) model.EngineError {
-	var payload model.EngineError
-	offset := 0
-	for offset+abi.HeaderLen <= len(outbox) {
+// 即使前面已经取得结果，也检查剩余帧和不足一个帧头的尾片。
+func forEachGenericFrame(outbox []byte, visit func(abi.Frame)) {
+	for offset := 0; offset < len(outbox); {
 		frame, err := abi.DecodeFrame(outbox[offset:])
 		if err != nil {
-			break
+			panic(fmt.Sprintf("decode generic output frame at byte %d: %v", offset, err))
 		}
-		if frame.Kind == model.FrameKindGenericError {
-			_ = json.Unmarshal(frame.Payload, &payload)
-		}
+		visit(frame)
 		offset += abi.HeaderLen + len(frame.Payload)
 	}
-	return payload
-}
-
-func lastGenericReleaseDone(outbox []byte) model.GenericReleaseDonePayload {
-	var payload model.GenericReleaseDonePayload
-	offset := 0
-	for offset+abi.HeaderLen <= len(outbox) {
-		frame, err := abi.DecodeFrame(outbox[offset:])
-		if err != nil {
-			break
-		}
-		if frame.Kind == model.FrameKindGenericReleaseResult {
-			_ = json.Unmarshal(frame.Payload, &payload)
-		}
-		offset += abi.HeaderLen + len(frame.Payload)
-	}
-	return payload
-}
-
-func lastGenericRunDone(outbox []byte) model.DoneResult {
-	var payload model.DoneResult
-	offset := 0
-	for offset+abi.HeaderLen <= len(outbox) {
-		frame, err := abi.DecodeFrame(outbox[offset:])
-		if err != nil {
-			break
-		}
-		if frame.Kind == model.FrameKindGenericDone {
-			var probe map[string]json.RawMessage
-			if json.Unmarshal(frame.Payload, &probe) == nil {
-				if _, hasSummary := probe["summary"]; hasSummary {
-					_ = json.Unmarshal(frame.Payload, &payload)
-				}
-			}
-		}
-		offset += abi.HeaderLen + len(frame.Payload)
-	}
-	return payload
 }
 
 func loadGenericFixtureRunRequest(t *testing.T, name string) model.RunRequest {
@@ -309,20 +304,11 @@ func TestGenericReleaseSessionThenRunMissing(t *testing.T) {
 		t.Fatalf("release done = %+v, want ok released session", done)
 	}
 	// release must not reuse FrameKindGenericDone
-	offset := 0
-	for offset+abi.HeaderLen <= len(session.OutboxBytes()) {
-		frame, err := abi.DecodeFrame(session.OutboxBytes()[offset:])
-		if err != nil {
-			break
-		}
+	forEachGenericFrame(session.OutboxBytes(), func(frame abi.Frame) {
 		if frame.Kind == model.FrameKindGenericDone {
 			t.Fatal("release success must not write FrameKindGenericDone")
 		}
-		if frame.Kind == model.FrameKindGenericReleaseResult {
-			break
-		}
-		offset += abi.HeaderLen + len(frame.Payload)
-	}
+	})
 
 	session.ClearOutbox()
 	runEncoded, _ := json.Marshal(model.GenericRunRequest{

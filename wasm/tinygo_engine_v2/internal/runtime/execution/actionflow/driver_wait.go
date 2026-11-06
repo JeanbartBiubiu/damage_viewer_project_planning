@@ -55,11 +55,11 @@ func EstimateDriverAttempts(entry model.DriverEntry, start, duration int64, maxE
 	if remaining < 0 {
 		return 1
 	}
-	count := int(remaining/entry.Repeat.IntervalMs) + 1
-	if count > maxEvents {
-		count = maxEvents
+	additional := remaining / entry.Repeat.IntervalMs
+	if additional >= int64(maxEvents) {
+		return maxEvents
 	}
-	return count
+	return int(additional) + 1
 }
 
 // NextWhileReadyTime 保留拒绝原因对应的真实等待或条件重查，不消费释放资格。
@@ -79,10 +79,17 @@ func DynamicRepeatTime(raw float64, now, end int64) (int64, bool) {
 	if math.IsNaN(raw) || math.IsInf(raw, 0) || raw <= 0 {
 		return 0, false
 	}
-	interval := int64(math.Round(raw))
-	if interval < 1 {
-		interval = 1
+	rounded := math.Round(raw)
+	if rounded < 1 {
+		rounded = 1
 	}
-	next := now + interval
-	return next, next <= end
+	// 先按剩余窗口和整数范围核对，避免浮点转整数溢出后被补成1毫秒。
+	if now > end || rounded >= float64(math.MaxInt64) || rounded > float64(end-now) {
+		return 0, false
+	}
+	interval := int64(rounded)
+	if interval > end-now {
+		return 0, false
+	}
+	return now + interval, true
 }

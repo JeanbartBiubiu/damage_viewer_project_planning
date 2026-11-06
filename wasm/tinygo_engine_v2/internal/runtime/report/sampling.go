@@ -1,9 +1,13 @@
 package report
 
-import "tinygo_engine_v2/internal/model"
+import (
+	"math"
+	"tinygo_engine_v2/internal/model"
+)
 
 func (s *State) InitSampling(config model.SamplingConfig, start, duration int64) bool {
 	s.sampling, s.startMs, s.durationMs = config, start, duration
+	s.samplingExhausted = false
 	if config.Disabled {
 		s.effectiveSampleEveryMs = 0
 		return true
@@ -11,10 +15,25 @@ func (s *State) InitSampling(config model.SamplingConfig, start, duration int64)
 	if config.SampleEveryMs <= 0 || config.DpsWindowMs <= 0 || config.MaxSeriesPoints < 2 || config.MaxSeriesPoints > 5000 {
 		return false
 	}
+	requestedIntervals := duration / int64(config.SampleEveryMs)
+	if duration%int64(config.SampleEveryMs) != 0 {
+		requestedIntervals++
+	}
+	// 对外采样计数使用32位整数；不能在Wasm输出时窄化成负数或伪造计数。
+	if requestedIntervals >= math.MaxInt32 {
+		return false
+	}
 	s.effectiveSampleEveryMs = int64(config.SampleEveryMs)
-	minimum := (duration + int64(config.MaxSeriesPoints) - 2) / int64(config.MaxSeriesPoints-1)
+	divisor := int64(config.MaxSeriesPoints - 1)
+	minimum := duration / divisor
+	if duration%divisor != 0 {
+		minimum++
+	}
 	if minimum > s.effectiveSampleEveryMs {
 		s.effectiveSampleEveryMs = minimum
+	}
+	if s.effectiveSampleEveryMs > math.MaxInt32 {
+		return false
 	}
 	s.nextSampleAtMs = start
 	return true
@@ -22,11 +41,15 @@ func (s *State) InitSampling(config model.SamplingConfig, start, duration int64)
 func (s *State) Sampling() model.SamplingConfig { return s.sampling }
 func (s *State) EffectiveSampleEveryMs() int64  { return s.effectiveSampleEveryMs }
 func (s *State) NextSample() (int64, bool) {
-	return s.nextSampleAtMs, !s.sampling.Disabled && s.nextSampleAtMs <= s.startMs+s.durationMs
+	return s.nextSampleAtMs, !s.sampling.Disabled && !s.samplingExhausted && s.nextSampleAtMs <= s.startMs+s.durationMs
 }
 func (s *State) AppendSample(point model.SeriesPoint) { s.series = append(s.series, point) }
 func (s *State) AdvanceSample(point model.SeriesPoint) {
 	s.AppendSample(point)
+	if s.effectiveSampleEveryMs > s.startMs+s.durationMs-s.nextSampleAtMs {
+		s.samplingExhausted = true
+		return
+	}
 	s.nextSampleAtMs += s.effectiveSampleEveryMs
 }
 func (s *State) NeedsFinalSample(timeMs int64) bool {
