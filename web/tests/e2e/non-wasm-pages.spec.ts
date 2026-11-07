@@ -4031,7 +4031,7 @@ test.describe('authoring input safety', () => {
       await dialog.dismiss();
     };
     page.on('dialog', dismissUnexpected);
-    await page.getByRole('button', { name: 'fixture_editor · 已开通', exact: true }).click();
+    await page.getByRole('button', { name: '已开通', exact: true }).click();
     await page.getByText('账号安全', { exact: true }).click();
     await expect(page.locator('.account-dialog')).toBeVisible();
     await page.locator('.account-dialog').getByRole('button', { name: 'Close', exact: true }).click();

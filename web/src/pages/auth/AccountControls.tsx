@@ -55,7 +55,7 @@ export function AccountControls({ apiBaseUrl }: { apiBaseUrl: string }) {
         <Menu.Item key="logout" disabled={loggingOut}>退出登录</Menu.Item>
         <Menu.Item key="logout-all" disabled={loggingOut}>退出全部设备</Menu.Item>
       </Menu>}>
-        <Button size="small" loading={loggingOut}>{session.username} · 已开通</Button>
+        <Button size="small" loading={loggingOut}>已开通</Button>
       </Dropdown> : <>
         <Button size="small" onClick={() => setEntry('login')}>登录</Button>
         <Button size="small" type="primary" onClick={() => setEntry('register')}>注册</Button>

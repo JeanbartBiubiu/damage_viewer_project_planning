@@ -128,13 +128,13 @@ test('右上角手动两步登录，表单错误局部展示，刷新恢复身�
   await expect(dialog(page).getByText('AUTH.INVALID_CREDENTIALS: 测试凭据无效或会话已结束。', { exact: true })).toBeVisible();
   await expect(page.getByRole('dialog').filter({ hasText: '需要登录' })).toHaveCount(0);
   await credentials(page); await dialog(page).getByRole('button', { name: '下一步', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'fixture_player · 已开通', exact: true })).toHaveCount(0);
-  await otp(page); await expect(page.getByRole('button', { name: 'fixture_player · 已开通', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '已开通', exact: true })).toHaveCount(0);
+  await otp(page); await expect(page.getByRole('button', { name: '已开通', exact: true })).toBeVisible();
   await expect(page.getByLabel('关键词', { exact: true })).toHaveValue('保留筛选');
   expect(api.calls.find(call => call.path.endsWith('/login/totp'))?.body).toEqual({ totpCode: '001234' });
   expect(api.calls.find(call => call.path.endsWith('/login/totp'))?.csrf).toBe('fixture-flow-csrf');
   expect(api.calls.filter(call => call.path === '/api/auth/login').every(call => call.csrf === undefined)).toBe(true);
-  await page.reload(); await expect(page.getByRole('button', { name: 'fixture_player · 已开通', exact: true })).toBeVisible();
+  await page.reload(); await expect(page.getByRole('button', { name: '已开通', exact: true })).toBeVisible();
   expect(api.publicCredentialLeaks).toEqual([]);
 });
 
@@ -147,7 +147,7 @@ test('注册绑定、保存恢复码后等待开通；完成响应丢失可回�
   await expect(dialog(page).getByText('网络请求失败，请检查网络连接和 API 地址。', { exact: true })).toBeVisible();
   await dialog(page).getByRole('button', { name: '查询当前进度', exact: true }).click();
   await expect(dialog(page)).toContainText('账号等待开通'); await expect(dialog(page)).toContainText(ACCOUNT_ID);
-  await expect(page.getByRole('button', { name: 'fixture_player · 已开通', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '已开通', exact: true })).toHaveCount(0);
   expect(api.calls.filter(call => call.path.endsWith('/recovery-codes/confirm'))).toHaveLength(1);
   expect(await page.evaluate(() => Object.values(localStorage).join('|'))).not.toMatch(/fixture-recovery|otpauth|fixture-password|fixture-session/);
   await dialog(page).getByRole('button', { name: '返回登录', exact: true }).click(); await expect(dialog(page).getByLabel('用户名', { exact: true })).toBeVisible();
@@ -219,7 +219,7 @@ test('忘记密码使用动态码与恢复码，验证器丢失使用密码与�
 
 for (const kind of ['password', 'totp', 'recovery-codes'] as const) test(`正常账号安全操作：${kind}`, async ({ page, context }) => {
   const api = new AccountApi(context); api.signedIn = true; await api.install(); await open(page, api);
-  await page.getByRole('button', { name: 'fixture_player · 已开通', exact: true }).click(); await page.getByText('账号安全', { exact: true }).click();
+  await page.getByRole('button', { name: '已开通', exact: true }).click(); await page.getByText('账号安全', { exact: true }).click();
   if (kind !== 'password') { await dialog(page).getByLabel('安全操作', { exact: true }).click(); await page.getByRole('option', { name: kind === 'totp' ? '更换验证器' : '重新生成恢复码', exact: true }).click(); }
   await dialog(page).getByLabel('当前密码', { exact: true }).fill(PASSWORD); await dialog(page).getByLabel('验证器动态码', { exact: true }).fill('001234');
   await dialog(page).getByRole('button', { name: '验证并继续', exact: true }).click();
@@ -227,7 +227,7 @@ for (const kind of ['password', 'totp', 'recovery-codes'] as const) test(`正常
     await dialog(page).getByLabel('新密码', { exact: true }).fill('new-fixture-password'); await dialog(page).getByLabel('再次输入新密码', { exact: true }).fill('new-fixture-password');
     await dialog(page).getByRole('button', { name: '保存新密码', exact: true }).click();
   } else { if (kind === 'totp') await otp(page); await saveCodes(page); }
-  await expect(dialog(page)).toContainText('操作已完成'); await expect(page.getByRole('button', { name: 'fixture_player · 已开通', exact: true })).toHaveCount(0);
+  await expect(dialog(page)).toContainText('操作已完成'); await expect(page.getByRole('button', { name: '已开通', exact: true })).toHaveCount(0);
   expect(api.calls.find(call => call.path.endsWith(`/security/${kind}`))?.body).toEqual({ currentPassword: PASSWORD, totpCode: '001234' });
   expect(api.calls.find(call => call.path.endsWith(`/security/${kind}`))?.csrf).toBe('fixture-session-csrf');
 });
@@ -236,7 +236,7 @@ test('全部退出跨标签页失效，保留两个页面的当前输入', async
   const api = new AccountApi(context); api.signedIn = true; await api.install(); await open(page, api);
   const second = await context.newPage(); await open(second, api);
   await page.getByLabel('关键词', { exact: true }).fill('页面甲草稿'); await second.getByLabel('关键词', { exact: true }).fill('页面乙草稿');
-  await page.getByRole('button', { name: 'fixture_player · 已开通', exact: true }).click(); await page.getByText('退出全部设备', { exact: true }).click();
+  await page.getByRole('button', { name: '已开通', exact: true }).click(); await page.getByText('退出全部设备', { exact: true }).click();
   await expect(page.getByRole('button', { name: '登录', exact: true })).toBeVisible(); await expect(second.getByRole('button', { name: '登录', exact: true })).toBeVisible();
   await expect(page.getByLabel('关键词', { exact: true })).toHaveValue('页面甲草稿'); await expect(second.getByLabel('关键词', { exact: true })).toHaveValue('页面乙草稿');
   await expect(second.getByRole('dialog')).toHaveCount(0);
@@ -253,11 +253,11 @@ test('无编辑资格的403保留编辑草稿并展示资格提示', async ({ pa
 
 test('安全证明错误仅在表单内提示，会话失效才出现需要登录且不重放原操作', async ({ page, context }) => {
   const api = new AccountApi(context); api.signedIn = true; api.securityProofFails = true; await api.install(); await open(page, api);
-  await page.getByRole('button', { name: 'fixture_player · 已开通', exact: true }).click(); await page.getByText('账号安全', { exact: true }).click();
+  await page.getByRole('button', { name: '已开通', exact: true }).click(); await page.getByText('账号安全', { exact: true }).click();
   await dialog(page).getByLabel('当前密码', { exact: true }).fill('wrong-fixture-password'); await dialog(page).getByLabel('验证器动态码', { exact: true }).fill('001234');
   await dialog(page).getByRole('button', { name: '验证并继续', exact: true }).click();
   await expect(dialog(page)).toContainText('AUTH.INVALID_CREDENTIALS: 测试凭据无效或会话已结束。');
-  await expect(page.getByRole('button', { name: 'fixture_player · 已开通', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '已开通', exact: true })).toBeVisible();
   await expect(page.getByRole('dialog').filter({ hasText: '需要登录' })).toHaveCount(0);
   api.signedIn = false;
   await dialog(page).getByRole('button', { name: '验证并继续', exact: true }).click();
@@ -269,7 +269,7 @@ test('安全证明错误仅在表单内提示，会话失效才出现需要登�
 
 test('会话固定期限到达后静默恢复访客并保留当前筛选输入', async ({ page, context }) => {
   const api = new AccountApi(context); api.signedIn = true; api.sessionExpiresAt = new Date(Date.now() + 2500).toISOString(); await api.install(); await open(page, api);
-  await expect(page.getByRole('button', { name: 'fixture_player · 已开通', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '已开通', exact: true })).toBeVisible();
   await page.getByLabel('关键词', { exact: true }).fill('过期后仍保留');
   await expect(page.getByRole('button', { name: '登录', exact: true })).toBeVisible();
   await expect(page.getByLabel('关键词', { exact: true })).toHaveValue('过期后仍保留');

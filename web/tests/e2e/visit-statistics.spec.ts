@@ -75,7 +75,7 @@ test('访客和无编辑资格账号没有统计入口，上报失败不阻塞�
   await open(page, api); await expect(page.getByRole('button', { name: '访问统计', exact: true })).toHaveCount(0);
   await expect(page.getByRole('dialog')).toHaveCount(0); expect(api.reports).toHaveLength(1);
   api.signedIn = true; api.canEdit = false;
-  await page.reload(); await expect(page.getByRole('button', { name: 'fixture_editor · 已开通' })).toBeVisible();
+  await page.reload(); await expect(page.getByRole('button', { name: '已开通', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '访问统计', exact: true })).toHaveCount(0);
   expect(api.statisticsReads).toBe(0); await expect(page.getByRole('dialog')).toHaveCount(0);
 });
@@ -116,7 +116,7 @@ test('其他标签页退出会关闭统计并丢弃未完成查询', async ({ pa
   await page.getByRole('button', { name: '访问统计', exact: true }).click();
   await expect.poll(() => api.pendingStatistics.length).toBe(1);
   const other = await context.newPage(); await other.goto('/#/attributes');
-  await other.getByRole('button', { name: 'fixture_editor · 已开通' }).click();
+  await other.getByRole('button', { name: '已开通', exact: true }).click();
   await other.getByRole('menuitem', { name: '退出登录', exact: true }).click();
   await expect(page.getByRole('button', { name: '登录', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '访问统计', exact: true })).toHaveCount(0);
