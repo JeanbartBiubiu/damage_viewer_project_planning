@@ -241,45 +241,66 @@ function apiBase(value) {
     || !/^\/(?:[a-zA-Z0-9_-]+\/?)*$/.test(url.pathname)) fail('api-base', '只允许无凭据和查询串的HTTP(S)基址');
   return url.toString().replace(/\/$/, '');
 }
-function redact(value, token) {
+function authoringAuthentication(env) {
+  const session = env.DAMAGE_AUTHORING_SESSION;
+  const csrf = env.DAMAGE_AUTHORING_CSRF;
+  for (const [name, value] of [['DAMAGE_AUTHORING_SESSION', session], ['DAMAGE_AUTHORING_CSRF', csrf]]) {
+    if (typeof value !== 'string' || !/^[A-Za-z0-9_-]{43}$/.test(value)) fail(name, '需要当前已授权会话的43位网址安全编码值');
+  }
+  const source = env.DAMAGE_AUTHORING_ORIGIN;
+  if (typeof source !== 'string' || !/^https?:\/\/[^/?#]+\/?$/.test(source) || /[\s\\]/.test(source)) {
+    fail('DAMAGE_AUTHORING_ORIGIN', '需要服务允许的HTTP(S)来源地址');
+  }
+  let origin;
+  try { origin = new URL(source); } catch { fail('DAMAGE_AUTHORING_ORIGIN', '非法来源地址'); }
+  if (origin.username || origin.password || origin.search || origin.hash || origin.pathname !== '/') {
+    fail('DAMAGE_AUTHORING_ORIGIN', '来源不能包含凭据、路径、查询或片段');
+  }
+  return { session, csrf, origin: origin.origin };
+}
+const credentialValues = env => [env.DAMAGE_AUTHORING_SESSION, env.DAMAGE_AUTHORING_CSRF]
+  .filter(value => typeof value === 'string' && value);
+function redact(value, secrets) {
   if (typeof value === 'string') {
-    const hidden = token ? value.split(token).join('[已隐藏令牌]') : value;
+    const hidden = secrets.reduce((text, secret) => text.split(secret).join('[已隐藏凭据]'), value);
     return hidden.replace(/\bBearer\s+[^\s,;"']+/gi, '鉴权信息已隐藏');
   }
-  if (Array.isArray(value)) return value.map(item => redact(item, token));
+  if (Array.isArray(value)) return value.map(item => redact(item, secrets));
   if (!isObject(value)) return value;
   return Object.fromEntries(Object.entries(value).filter(([key]) =>
-    !/^(?:headers?|authorization|proxyAuthorization|set-cookie|cookies?|password|passwd|secret|apiKey|api_key|accessToken|refreshToken|bearerToken|adminToken|token)$/i.test(key))
-    .map(([key, item]) => [key, redact(item, token)]));
+    !/^(?:headers?|authorization|proxyAuthorization|set-cookie|cookies?|password|passwd|secret|apiKey|api_key|accessToken|refreshToken|bearerToken|adminToken|token|sessionCookie|csrfToken|DAMAGE_AUTHORING_SESSION|DAMAGE_AUTHORING_CSRF)$/i.test(key))
+    .map(([key, item]) => [redact(key, secrets), redact(item, secrets)]));
 }
-const safeError = (error, token) => redact(error instanceof Error ? error.message : String(error), token);
+const safeError = (error, secrets) => redact(error instanceof Error ? error.message : String(error), secrets);
 
 const DEFAULT_TIMEOUT_MS = 60000;
 
-/** token仅从env取得；fetchImpl只供本地transport测试；timeoutMs覆盖响应头和完整响应体读取。 */
+/** 会话凭据与来源仅从env取得；fetchImpl只供本地传输测试；timeoutMs覆盖响应头和完整响应体读取。 */
 export async function runSkillPlan({ apiBase: suppliedBase, planPath, outputDir, apply = false, env = process.env,
   fetchImpl = globalThis.fetch, timeoutMs = DEFAULT_TIMEOUT_MS }) {
-  const token = env.DAMAGE_AUTHORING_TOKEN;
-  if (typeof token !== 'string' || !token || /\s/.test(token)) fail('DAMAGE_AUTHORING_TOKEN', '请通过环境变量提供无空白的令牌');
+  const authentication = authoringAuthentication(env);
+  const secrets = credentialValues(env);
   const base = apiBase(suppliedBase);
   if (typeof planPath !== 'string' || !planPath || typeof outputDir !== 'string' || !outputDir) fail('paths', '必须明确提供plan和output-dir');
   await mkdir(path.resolve(outputDir), { recursive: true });
   const attemptDir = path.resolve(outputDir, `attempt-${new Date().toISOString().replace(/[:.]/g, '-')}-${randomUUID().slice(0, 8)}`);
   await mkdir(attemptDir);
-  const save = (filename, value) => writeFile(path.resolve(attemptDir, filename), `${JSON.stringify(redact(value, token), null, 2)}\n`, { flag: 'wx' });
+  const save = (filename, value) => writeFile(path.resolve(attemptDir, filename), `${JSON.stringify(redact(value, secrets), null, 2)}\n`, { flag: 'wx' });
   const summary = { schemaVersion: 'skill-configuration-attempt-v1', mode: apply ? 'apply' : 'dry-run', attemptDir,
     startedAt: new Date().toISOString(), timeoutMs, passed: false, patchCount: 0, items: [], error: null };
   async function exchange(method, url, body) {
     try {
-      const response = await fetchImpl(url, { method, headers: { Authorization: `Bearer ${token}`,
-        ...(method === 'PATCH' ? { 'Content-Type': 'application/json' } : {}) },
+      const response = await fetchImpl(url, { method, headers: {
+        Cookie: `__Host-dv_session=${authentication.session}; __Host-dv_csrf=${authentication.csrf}`,
+        Origin: authentication.origin, 'X-Damage-Client': 'web',
+        ...(method === 'PATCH' ? { 'Content-Type': 'application/json', 'X-CSRF-Token': authentication.csrf } : {}) },
         ...(method === 'PATCH' ? { body: JSON.stringify(body) } : {}), redirect: 'error', signal: AbortSignal.timeout(timeoutMs) });
       const text = await response.text();
       let data;
       let jsonError = false;
       try { data = JSON.parse(text); } catch { jsonError = true; data = { unparsedText: text }; }
       return { status: response.status, ok: response.ok, jsonError, body: data };
-    } catch (error) { return { status: null, ok: false, error: safeError(error, token) }; }
+    } catch (error) { return { status: null, ok: false, error: safeError(error, secrets) }; }
   }
   function checkedRead(reply, gameId, skillKey, label) {
     if (!reply.ok || reply.jsonError) fail(label, `读取失败（HTTP ${reply.status ?? '结果不明'}）`);
@@ -359,12 +380,12 @@ export async function runSkillPlan({ apiBase: suppliedBase, planPath, outputDir,
         }
       } catch (error) {
         if (result.status === 'reading') result.status = 'blocked-read';
-        result.error = safeError(error, token);
+        result.error = safeError(error, secrets);
         throw error;
       } finally { await save(`${subdirectory}/status.json`, result); }
     }
     summary.passed = true;
-  } catch (error) { summary.error = safeError(error, token); }
+  } catch (error) { summary.error = safeError(error, secrets); }
   for (const result of summary.items) if (result.status === 'not-attempted') await save(`${result.directory}/status.json`, result);
   summary.finishedAt = new Date().toISOString();
   await save('summary.json', summary);
@@ -393,13 +414,13 @@ export function parseCli(argv) {
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   if (process.argv.length === 3 && process.argv[2] === '--help') {
-    console.log('node apply-skill-plan.mjs --api-base http://127.0.0.1:8080 --plan <plan.json> --output-dir <evidence-directory> [--timeout-ms <1000..300000>] [--apply]\n令牌仅取DAMAGE_AUTHORING_TOKEN；默认只读，每次创建独立attempt目录。\n超时默认60000毫秒，包含完整响应体读取；写入结果不明时只独立回读，未确认完整expected即停批，不自动重发。');
+    console.log('node apply-skill-plan.mjs --api-base http://127.0.0.1:8080 --plan <plan.json> --output-dir <evidence-directory> [--timeout-ms <1000..300000>] [--apply]\n会话与防伪值仅取DAMAGE_AUTHORING_SESSION、DAMAGE_AUTHORING_CSRF；允许的来源取DAMAGE_AUTHORING_ORIGIN，不使用旧令牌。默认只读，每次创建独立attempt目录。\n超时默认60000毫秒，包含完整响应体读取；写入结果不明时只独立回读，未确认完整expected即停批，不自动重发。');
   } else {
     try {
       const summary = await runSkillPlan(parseCli(process.argv.slice(2)));
       console.log(JSON.stringify(redact({ mode: summary.mode, passed: summary.passed, attemptDir: summary.attemptDir,
-        patchCount: summary.patchCount, items: summary.items.map(({ skillKey, status }) => ({ skillKey, status })), error: summary.error }, process.env.DAMAGE_AUTHORING_TOKEN)));
+        patchCount: summary.patchCount, items: summary.items.map(({ skillKey, status }) => ({ skillKey, status })), error: summary.error }, credentialValues(process.env))));
       if (!summary.passed) process.exitCode = 1;
-    } catch (error) { console.error(safeError(error, process.env.DAMAGE_AUTHORING_TOKEN)); process.exitCode = 1; }
+    } catch (error) { console.error(safeError(error, credentialValues(process.env))); process.exitCode = 1; }
   }
 }

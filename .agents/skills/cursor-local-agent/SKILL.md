@@ -11,7 +11,7 @@ description: "用户明确选择或要求排查 Cursor SDK 本地代理路线时
 
 - 顶层代理使用 `@cursor/sdk@1.0.32`，模型固定为 `grok-4.7`、本地上下文 `256k`、额外高推理 `reasoning_effort=xhigh`、`fast=false`。Cursor 虽已公布 `500k` 最大上下文，但本地 SDK 运行仍会拒绝该参数；在 `500k` 本地真实冒烟成功前不得启用，也不得未经用户另行选择改走云端代理。该限制不约束 Codex 或 Cursor 内部有界委派。
 - `Agent.create(...)` 必须显式传入 `apiKey`，真实运行请求 `settingSources: ["project"]`。不得输出密钥或片段；只报告密钥是否可用。
-- 优先使用 Node `>=22.13`；低于 `20` 阻塞运行。Codex 桌面系统 Node 过旧时，仅为本进程使用工作区依赖工具返回的 Node，不修改全局 `PATH`。
+- 真实运行优先使用 Node `>=22.13`；低于 `20` 阻塞真实运行。Codex 桌面系统 Node 过旧时，仅为本进程使用工作区依赖工具返回的 Node，不修改全局 `PATH`。
 - 每次真实运行至少提供一个 `--allowed-path`。它是运行前后文件变化的审计清单，不是操作系统沙箱；路径必须位于 `--cwd` 内。
 - 提示词第一物理行必须精确为 `MODE: DESIGN_REVIEW_ONLY` 或 `MODE: IMPLEMENTATION`，不能带空格、注释或其他文字。
 - 运行证据默认写入 Git 忽略的 `.agents/artifacts/`。自定义目录先用 `git check-ignore` 确认已忽略，不将证据目录用作任务产物目录。
@@ -66,13 +66,20 @@ node $runner `
 - `MaxListeners` 警告本身不代表失败，应结合最终状态、审计和资源变化判断。
 - 主负责人复核最终差异并运行仓库验证。Cursor 产物证明一次工具运行，不代替代码、浏览器、数据库或运行时验收。
 
+## 冒烟检查的边界
+
+`cursor_local_agent_smoke.mjs` 在 `--dry-run` 或未传 `--send` 时只解析本地参数、显示固定模型和空设置来源；不读取 API 密钥，不探测或安装 SDK，不调用外部命令，不发送请求。两项同时传入时 `--dry-run` 优先。指定输出路径时，仅写本地摘要和空事件文件；摘要中的 `preflight: null` 表示未执行真实预检，不生成密钥或 SDK 可用性结论。
+
+只有单独启用 `--send` 才执行原有真实预检、SDK 准备与请求，消耗 Cursor 用量；仅在已授权真实 Cursor 请求时使用。冒烟请求使用 `settingSources: []`，不加载项目设置；即使真实冒烟成功，也不证明项目技能加载或任务完成。
+
 ## 轻量验证
 
 修改本技能或 runner 后按影响选择：
 
 ```powershell
 node .agents\skills\cursor-local-agent\scripts\cursor_local_agent_path_policy.test.mjs
+node --test .agents\skills\cursor-local-agent\scripts\cursor_local_agent_smoke.test.mjs
 node .agents\skills\cursor-local-agent\scripts\cursor_local_agent_smoke.mjs --dry-run
 ```
 
-`--dry-run` 只验证接线和固定模型参数，不证明真实 SDK 调用、项目技能加载或任务完成。
+行为测试在无凭据、无 SDK 的临时目录运行，拦截密钥读取、SDK 探测、外部命令和网络访问；不需要真实 Cursor 请求。空跑通过只证明本地参数检查成功。

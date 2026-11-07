@@ -42,4 +42,4 @@ description: "规划、实现或验证 Damage Viewer TinyGo V2 运行机制或�
 
 报告实际命令、退出结果、代码状态及关键断言。真实 Wasm 验证记录最终产物路径和摘要；浏览器验证记录路径与操作。Node 单测不代替浏览器或真实 Wasm 证明，静态文档不证明数据库或运行时支持。
 
-复用当前 `internal/testkit/fixtures/generic_p0_basic_damage.json`，不要修改或复制它来迁就实现。工具缺失与产品错误分开说明，不虚报通过。
+当前成功基准使用 `wasm/tinygo_engine_v2/internal/testkit/fixtures/formula_phase4_explicit_basic_damage.json`，Node 验证使用 `wasm/tinygo_engine_v2/scripts/formula-phase4-input.mjs` 构造输入。旧 `generic_p0_basic_damage.json` 保留原始字节，仅用于历史保护和当前协议的拒绝验证；不修改或复制来迁就实现。具体用法以模块 `README.md` 为准。工具缺失与产品错误分开说明，不虚报通过。

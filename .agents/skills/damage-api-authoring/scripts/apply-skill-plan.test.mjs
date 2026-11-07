@@ -7,8 +7,12 @@ import os from 'node:os';
 import path from 'node:path';
 import { parseCli, runSkillPlan, sameConfiguration, validatePlan, validateConfiguration } from './apply-skill-plan.mjs';
 
-const TOKEN = 'independent-local-credential-not-for-evidence';
-const ENV = { DAMAGE_AUTHORING_TOKEN: TOKEN };
+const SESSION = 'test_session_'.padEnd(43, 's');
+const CSRF = 'test_csrf_'.padEnd(43, 'c');
+const ORIGIN = 'https://authoring.example.invalid';
+const COOKIE = `__Host-dv_session=${SESSION}; __Host-dv_csrf=${CSRF}`;
+const ENV = { DAMAGE_AUTHORING_SESSION: SESSION, DAMAGE_AUTHORING_CSRF: CSRF, DAMAGE_AUTHORING_ORIGIN: ORIGIN };
+const READ_HEADERS = { Cookie: COOKIE, Origin: ORIGIN, 'X-Damage-Client': 'web' };
 const sha = data => createHash('sha256').update(data).digest('hex');
 const copy = value => JSON.parse(JSON.stringify(value));
 const TYPES = { PARAMETER: ['parameters', 'parameterKey'], FORMULA: ['formulas', 'formulaKey'],
@@ -118,7 +122,14 @@ async function fixture(t, { count = 1, patch, get } = {}) {
   };
   const server = createServer(async (req, res) => {
     try {
-      assert.equal(req.headers.authorization, `Bearer ${TOKEN}`);
+      assert.equal(req.headers.authorization, undefined);
+      assert.equal(req.headers.cookie, COOKIE);
+      assert.equal(req.headers.origin, ORIGIN);
+      assert.equal(req.headers['x-damage-client'], 'web');
+      if (req.method === 'PATCH') {
+        assert.equal(req.headers['content-type'], 'application/json');
+        assert.equal(req.headers['x-csrf-token'], CSRF);
+      } else assert.equal(req.headers['x-csrf-token'], undefined);
       const match = /^\/api\/admin\/games\/demo\/skills\/([a-z][a-z0-9_]*)\/configuration$/.exec(req.url);
       assert.ok(match, 'only the fixed aggregate endpoint is allowed');
       const skillKey = match[1];
@@ -345,7 +356,7 @@ async function evidenceContents(directory) {
   return pieces;
 }
 
-test('默认dry-run只读取；完整输入和证据落在新attempt目录，令牌不进入证据', async t => {
+test('默认dry-run只读取；完整输入和证据落在新attempt目录，会话与防伪值不进入证据', async t => {
   const f = await fixture(t);
   const summary = await f.run();
   assert.equal(summary.passed, true);
@@ -356,7 +367,10 @@ test('默认dry-run只读取；完整输入和证据落在新attempt目录，令
   assert.deepEqual(f.calls, ['GET:sample_q']);
   assert.deepEqual(f.requests, []);
   assert.equal(JSON.parse(await readFile(path.resolve(summary.attemptDir, '0001-sample_q/request.json'), 'utf8')).baseDigest, f.plan.items[0].before.baseDigest);
-  for (const text of await evidenceContents(summary.attemptDir)) assert.ok(!text.includes(TOKEN));
+  for (const text of await evidenceContents(summary.attemptDir)) {
+    assert.ok(!text.includes(SESSION));
+    assert.ok(!text.includes(CSRF));
+  }
   const second = await f.run();
   assert.notEqual(second.attemptDir, summary.attemptDir);
   assert.equal(await readFile(path.resolve(summary.attemptDir, 'summary.json'), 'utf8'), `${JSON.stringify(summary, null, 2)}\n`);
@@ -492,17 +506,19 @@ test('500已提交靠独立GET确认；500未提交则停批，不向后续对�
   assert.deepEqual(failed.calls, ['GET:sample_q', 'PATCH:sample_q', 'GET:sample_q']);
 });
 
-test('明确4xx停批并留回读，响应反射令牌与headers不进入任何证据', async t => {
+test('明确4xx停批并留回读，响应反射会话与防伪值不进入任何证据', async t => {
   const f = await fixture(t, { count: 2, patch({ reply }) { reply(400, { error: { code: '400.VALIDATION',
-    message: `拒绝 Bearer ${TOKEN}`, details: { headers: { Authorization: `Bearer ${TOKEN}` }, adminToken: TOKEN } } }); } });
+    message: `拒绝 ${COOKIE} X-CSRF-Token=${CSRF}`, details: { headers: { Cookie: COOKIE },
+      sessionCookie: SESSION, csrfToken: CSRF, DAMAGE_AUTHORING_SESSION: SESSION, DAMAGE_AUTHORING_CSRF: CSRF } } }); } });
   const summary = await f.run({ apply: true });
   assert.equal(summary.passed, false);
   assert.equal(summary.items[0].status, 'blocked-http-rejection');
   assert.equal(summary.patchCount, 1);
   assert.deepEqual(f.calls, ['GET:sample_q', 'PATCH:sample_q', 'GET:sample_q']);
   for (const text of await evidenceContents(summary.attemptDir)) {
-    assert.ok(!text.includes(TOKEN));
-    assert.ok(!/"(?:headers|Authorization|adminToken)"/.test(text));
+    assert.ok(!text.includes(SESSION));
+    assert.ok(!text.includes(CSRF));
+    assert.ok(!/"(?:headers|sessionCookie|csrfToken|DAMAGE_AUTHORING_SESSION|DAMAGE_AUTHORING_CSRF)"/.test(text));
   }
 });
 
@@ -541,7 +557,7 @@ test('超时回读旧值即停；迟提交经调用方独立回读后，显式�
   // 这是调用方确认迟提交之后的新一次调用；脚本自身没有等待、循环或重放写入。
   lateCommit();
   const readback = await fetch(`${f.apiBase}/api/admin/games/demo/skills/sample_q/configuration`, {
-    headers: { Authorization: `Bearer ${TOKEN}` }, signal: AbortSignal.timeout(1000)
+    headers: READ_HEADERS, signal: AbortSignal.timeout(1000)
   });
   assert.equal(readback.status, 200);
   const independentlyRead = await readback.json();
@@ -630,12 +646,60 @@ test('回读失败时只有一次PATCH，保留不确定结果并停批', async 
   assert.deepEqual(f.calls, ['GET:sample_q', 'PATCH:sample_q', 'GET:sample_q']);
 });
 
-test('仅从环境读取令牌，危险基址和无来源计划在任何传输前被拒绝', async t => {
+test('仅从环境读取会话，危险基址和无来源计划在任何传输前被拒绝', async t => {
   const f = await fixture(t);
-  await assert.rejects(() => f.run({ env: {} }), /DAMAGE_AUTHORING_TOKEN/);
+  await assert.rejects(() => f.run({ env: {} }), /DAMAGE_AUTHORING_SESSION/);
   await assert.rejects(() => f.run({ apiBase: 'http://user:pass@127.0.0.1:8080' }), /api-base/);
   assert.deepEqual(f.calls, []);
   const emptySource = copy(f.plan);
   emptySource.items[0].sourceEvidence = [];
   assert.throws(() => validatePlan(emptySource), /冻结来源/);
+});
+
+test('缺少或非法会话、防伪值与来源在创建证据和传输前拒绝，旧令牌不能替代', async t => {
+  const f = await fixture(t);
+  const invalid = [
+    {}, { DAMAGE_AUTHORING_TOKEN: 'obsolete-test-value' },
+    { ...ENV, DAMAGE_AUTHORING_SESSION: undefined }, { ...ENV, DAMAGE_AUTHORING_SESSION: 'short' },
+    { ...ENV, DAMAGE_AUTHORING_SESSION: `${SESSION}\r\nX-Injected: value` },
+    { ...ENV, DAMAGE_AUTHORING_CSRF: undefined }, { ...ENV, DAMAGE_AUTHORING_CSRF: 'invalid value' },
+    { ...ENV, DAMAGE_AUTHORING_ORIGIN: undefined },
+    ...['null', 'file:///tmp/test', 'http:example.invalid', 'https://user:pass@example.invalid',
+      'https://example.invalid/path', 'https://example.invalid/path/..', 'https://example.invalid?query',
+      'https://example.invalid?', 'https://example.invalid#fragment', 'https://example.invalid#',
+      ' https://example.invalid', 'https://example.invalid\r\nX-Injected: value'].map(origin => ({ ...ENV, DAMAGE_AUTHORING_ORIGIN: origin }))
+  ];
+  for (const env of invalid) await assert.rejects(() => f.run({ env }), /DAMAGE_AUTHORING_(?:SESSION|CSRF|ORIGIN)/);
+  assert.deepEqual(f.calls, []);
+  await assert.rejects(() => readdir(f.outputDir), { code: 'ENOENT' });
+});
+
+test('合法来源只保留规范化来源地址', async t => {
+  const f = await fixture(t);
+  const summary = await f.run({ env: { ...ENV, DAMAGE_AUTHORING_ORIGIN: `${ORIGIN}/` }, apply: true });
+  assert.equal(summary.passed, true);
+  assert.deepEqual(f.calls, ['GET:sample_q', 'PATCH:sample_q', 'GET:sample_q']);
+});
+
+test('会话过期或编辑权限被拒绝时只尝试一次写入，独立回读后停批', async t => {
+  for (const status of [401, 403]) {
+    const f = await fixture(t, { count: 2, patch({ reply }) { reply(status, { error: { code: `AUTH.${status}` } }); } });
+    const summary = await f.run({ apply: true });
+    assert.equal(summary.passed, false);
+    assert.equal(summary.items[0].status, 'blocked-http-rejection');
+    assert.equal(summary.items[1].status, 'not-attempted');
+    assert.equal(summary.patchCount, 1);
+    assert.deepEqual(f.calls, ['GET:sample_q', 'PATCH:sample_q', 'GET:sample_q']);
+  }
+});
+
+test('传输异常反射两个凭据时摘要与证据都不包含秘密值', async t => {
+  const f = await fixture(t);
+  const summary = await f.run({ fetchImpl: async () => { throw new Error(`transport ${SESSION} ${CSRF}`); } });
+  assert.equal(summary.passed, false);
+  assert.equal(summary.patchCount, 0);
+  for (const text of [JSON.stringify(summary), ...await evidenceContents(summary.attemptDir)]) {
+    assert.ok(!text.includes(SESSION));
+    assert.ok(!text.includes(CSRF));
+  }
 });

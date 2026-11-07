@@ -49,8 +49,8 @@ function parseArgs(argv) {
 
 Options:
   --cwd <path>         Cursor local agent working directory. Defaults to cwd.
-  --send               Actually send the smoke prompt. This consumes Cursor usage.
-  --dry-run            Validate config and print the requested non-fast model only.
+  --send               Run real preflight and send the smoke prompt. Consumes Cursor usage.
+  --dry-run            Local config only; default without --send. Overrides --send.
   --prompt <text>      Override smoke prompt.
   --name <name>        Agent name.
   --json-out <path>    Write a structured summary JSON file.
@@ -68,6 +68,7 @@ Options:
     if (!args.eventsOut) args.eventsOut = join(args.outDir, "events.jsonl");
   }
   if (!args.send) args.dryRun = true;
+  if (args.dryRun) args.send = false;
   if (!Number.isInteger(args.timeoutMs) || args.timeoutMs < 0) {
     throw new Error("--timeout-ms must be a non-negative integer");
   }
@@ -76,8 +77,6 @@ Options:
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const apiKey = getApiKey();
-  const preflight = performPreflight({ cwd: args.cwd, requireApiKey: true, requireSdk: true });
   const summary = {
     startedAt: new Date().toISOString(),
     requestedModel: MODEL,
@@ -88,21 +87,34 @@ async function main() {
     agentName: args.name,
     timeoutMs: args.timeoutMs,
     settingSources: [...SMOKE_SETTING_SOURCES],
-    apiKeyPresent: Boolean(apiKey),
-    apiKeyLength: apiKey ? apiKey.length : 0,
     statuses: [],
     eventCountByType: {},
     assistantText: "",
     toolCalls: [],
-    preflight,
+    preflight: null,
   };
 
-  console.log(`API_KEY=${apiKey ? `SET length=${apiKey.length}` : "NOT_SET"}`);
   console.log(`REQUESTED_MODEL=${JSON.stringify(MODEL)}`);
   console.log(`CWD=${args.cwd}`);
   console.log(`SETTING_SOURCES=${JSON.stringify(summary.settingSources)}`);
   if (args.jsonOut) console.log(`JSON_OUT=${args.jsonOut}`);
   if (args.eventsOut) console.log(`EVENTS_OUT=${args.eventsOut}`);
+
+  // Return before credential access, real preflight, SDK resolution, or CLI probes.
+  if (args.dryRun) {
+    console.log("PREFLIGHT=SKIPPED_DRY_RUN");
+    summary.completedAt = new Date().toISOString();
+    if (args.jsonOut) writeJson(args.jsonOut, summary);
+    if (args.eventsOut) writeText(args.eventsOut, "");
+    return;
+  }
+
+  const apiKey = getApiKey();
+  const preflight = performPreflight({ cwd: args.cwd, requireApiKey: true, requireSdk: true });
+  summary.apiKeyPresent = Boolean(apiKey);
+  summary.apiKeyLength = apiKey ? apiKey.length : 0;
+  summary.preflight = preflight;
+  console.log(`API_KEY=${apiKey ? `SET length=${apiKey.length}` : "NOT_SET"}`);
 
   const sdkInfo = preflight.sdk?.path
     ? preflight.sdk
@@ -127,14 +139,6 @@ async function main() {
   if (preflight.blocking.length > 0) {
     throw new Error(`Preflight failed: ${preflight.blocking.join(" | ")}`);
   }
-  if (args.dryRun) {
-    summary.completedAt = new Date().toISOString();
-    if (args.jsonOut) writeJson(args.jsonOut, summary);
-    // Empty parseable events artifact for dry-run completeness (no network).
-    if (args.eventsOut) writeText(args.eventsOut, "");
-    return;
-  }
-
   // Smoke uses a single create+send attempt (no startup retry) to expose raw SDK health.
   const requireSdk = createRequire(import.meta.url);
   const { Agent, JsonlLocalAgentStore } = requireSdk(sdkPath);
