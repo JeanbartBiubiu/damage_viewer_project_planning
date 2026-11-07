@@ -39,7 +39,7 @@ function VisitStatisticsDialog({ apiBaseUrl, onClose }: { apiBaseUrl: string; on
       <Statistic title="今日 PV（访问量）" value={today.pv} />
       <Statistic title="今日 UV（独立访客）" value={today.uv} />
     </Space> : null}
-    <Table<VisitStatisticsDay> rowKey="date" data={days} loading={loading} pagination={false} scroll={{ y: 360 }}
+    <Table<VisitStatisticsDay> rowKey="date" data={[...days].reverse()} loading={loading} pagination={false} scroll={{ y: 360 }}
       columns={[
         { title: '日期', dataIndex: 'date' },
         { title: 'PV（访问量）', dataIndex: 'pv' },

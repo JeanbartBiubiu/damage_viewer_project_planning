@@ -80,14 +80,20 @@ test('访客和无编辑资格账号没有统计入口，上报失败不阻塞�
   expect(api.statisticsReads).toBe(0); await expect(page.getByRole('dialog')).toHaveCount(0);
 });
 
-test('编辑账号主动查看今日数字及近30天日期，关闭后重新读取', async ({ page, context }) => {
+test('编辑账号查看今日数字及近30天倒序日期，关闭后重新读取', async ({ page, context }) => {
   const api = new VisitApi(context); api.signedIn = true; await api.install(); await open(page, api);
   const button = page.getByRole('button', { name: '访问统计', exact: true }); await button.click();
   const modal = statisticsDialog(page);
   await expect(modal.getByText('今日 PV（访问量）', { exact: true })).toBeVisible();
   await expect(modal.getByText('今日 UV（独立访客）', { exact: true })).toBeVisible();
   await expect(modal.getByRole('row')).toHaveCount(31);
-  await expect(modal).toContainText('2026-10-07'); await expect(modal).toContainText('2026-11-05');
+  await expect(modal.locator('.arco-statistic').filter({ hasText: '今日 PV（访问量）' })).toContainText('7');
+  await expect(modal.locator('.arco-statistic').filter({ hasText: '今日 UV（独立访客）' })).toContainText('3');
+  const dateCells = modal.getByRole('row').filter({ has: page.getByRole('cell') }).getByRole('cell').nth(0);
+  await expect(dateCells).toHaveText('2026-11-05');
+  const rows = modal.getByRole('row').filter({ has: page.getByRole('cell') });
+  expect(await rows.evaluateAll(elements => elements.map(row => row.querySelector('td')?.textContent?.trim())))
+    .toEqual(Array.from({ length: 30 }, (_, index) => new Date(Date.UTC(2026, 10, 5 - index)).toISOString().slice(0, 10)));
   expect(api.statisticsReads).toBe(1);
   await modal.getByRole('button', { name: '关闭', exact: true }).click(); await expect(modal).toHaveCount(0);
   await button.click(); await expect.poll(() => api.statisticsReads).toBe(2); await expect(modal.getByRole('row')).toHaveCount(31);
