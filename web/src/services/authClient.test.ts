@@ -5,7 +5,7 @@ import {
   logout, recoverPassword, recoverTotp, registerAccount, restoreSession, setupTotp, startLogin, startSecurityFlow,
   synchronizeAuthSession, verifyTotp
 } from './authClient';
-import { AUTH_CHANGE_STORAGE_KEY, getAuthSession, onAuthSessionChanged, onLoginRequired, setAuthSession, type SessionView } from './authState';
+import { AUTH_CHANGE_STORAGE_KEY, getAuthRevision, getAuthSession, onAuthSessionChanged, onLoginRequired, setAuthSession, type SessionView } from './authState';
 
 const api = 'https://damage.example';
 const session = (): SessionView => ({ accountId: 'test-account', username: 'player', canLogin: 1, canEdit: false, expiresAt: new Date(Date.now() + 3_600_000).toISOString() });
@@ -140,6 +140,61 @@ describe('会话与登录提示', () => {
     setAuthSession({ ...session(), expiresAt: new Date(Date.now() + 1000).toISOString() }); changed.mockClear();
     vi.advanceTimersByTime(1000); expect(getAuthSession()).toBeNull(); expect(changed).toHaveBeenCalledTimes(1); expect(prompt).not.toHaveBeenCalled();
     offPrompt(); offChanged();
+  });
+  it.each([
+    { name: '单次计时上限前', lifetime: 2_147_483_646 },
+    { name: '单次计时上限', lifetime: 2_147_483_647 },
+    { name: '单次计时上限后', lifetime: 2_147_483_648 },
+    { name: '固定30天', lifetime: 30 * 24 * 60 * 60 * 1000 }
+  ])('$name会话只在原到期时刻退出，跨段计时不发布变化或续期', ({ lifetime }) => {
+    const next = { ...session(), expiresAt: new Date(Date.now() + lifetime).toISOString() };
+    const changed = vi.fn(), setItem = vi.fn();
+    const off = onAuthSessionChanged(changed);
+    vi.stubGlobal('window', { localStorage: { setItem } });
+    try {
+      setAuthSession(next); changed.mockClear();
+      const revision = getAuthRevision();
+      const firstWait = Math.min(2_147_483_647, lifetime - 1);
+      vi.advanceTimersByTime(firstWait);
+      expect(getAuthSession()).toBe(next); expect(getAuthRevision()).toBe(revision);
+      expect(changed).not.toHaveBeenCalled(); expect(setItem).not.toHaveBeenCalled();
+      vi.advanceTimersByTime(lifetime - firstWait - 1);
+      expect(getAuthSession()).toBe(next); expect(getAuthRevision()).toBe(revision);
+      expect(changed).not.toHaveBeenCalled(); expect(setItem).not.toHaveBeenCalled();
+      vi.advanceTimersByTime(1);
+      expect(getAuthSession()).toBeNull(); expect(getAuthRevision()).toBe(revision + 1);
+      expect(changed).toHaveBeenCalledTimes(1); expect(setItem).toHaveBeenCalledTimes(1);
+      expect(Date.parse(next.expiresAt)).toBe(Date.parse('2026-11-06T00:00:00Z') + lifetime);
+    } finally { off(); }
+  });
+  it('长会话跨段后切换账号，旧期限不能清除新会话', () => {
+    const lifetime = 30 * 24 * 60 * 60 * 1000;
+    const initial = { ...session(), expiresAt: new Date(Date.now() + lifetime).toISOString() };
+    setAuthSession(initial); vi.advanceTimersByTime(2_147_483_647);
+    const next = { ...session(), accountId: 'next-account', expiresAt: new Date(Date.now() + lifetime).toISOString() };
+    setAuthSession(next);
+    const revision = getAuthRevision();
+    vi.advanceTimersByTime(lifetime - 2_147_483_647);
+    expect(getAuthSession()).toBe(next); expect(getAuthRevision()).toBe(revision);
+    vi.advanceTimersByTime(2_147_483_646);
+    expect(getAuthSession()).toBe(next);
+    vi.advanceTimersByTime(1);
+    expect(getAuthSession()).toBeNull();
+  });
+  it('长会话跨段后退出会取消剩余任务，不再广播过期或修改状态', () => {
+    const lifetime = 30 * 24 * 60 * 60 * 1000;
+    setAuthSession({ ...session(), expiresAt: new Date(Date.now() + lifetime).toISOString() });
+    vi.advanceTimersByTime(2_147_483_647);
+    const changed = vi.fn(), setItem = vi.fn(), off = onAuthSessionChanged(changed);
+    vi.stubGlobal('window', { localStorage: { setItem } });
+    try {
+      setAuthSession(null);
+      const revision = getAuthRevision(); changed.mockClear();
+      expect(vi.getTimerCount()).toBe(0);
+      vi.advanceTimersByTime(lifetime);
+      expect(getAuthSession()).toBeNull(); expect(getAuthRevision()).toBe(revision);
+      expect(changed).not.toHaveBeenCalled(); expect(setItem).not.toHaveBeenCalled();
+    } finally { off(); }
   });
   it('退出与全部退出使用正式会话CSRF且撤销本地身份', async () => {
     const paths: string[] = [];

@@ -163,13 +163,15 @@ class AccountServiceTest {
     @Test void successfulTotpPersistsActualMatchedStepInSameTransactionAsSessionAndCompletion() {
         currentFlow(flow("login","started",1));
         doReturn(new AccountStore.Credential(new byte[]{1},"auth-aead-1",1,4)).when(store).credential(id);
-        doReturn(new AccountStore.Session(UUID.randomUUID(),id,1,new byte[32],now.plusSeconds(604800),null)).when(store).session(any(UUID.class));
+        Instant expiry=now.plus(java.time.Duration.ofDays(30));
+        doReturn(new AccountStore.Session(UUID.randomUUID(),id,1,new byte[32],expiry,null)).when(store).session(any(UUID.class));
         when(crypto.decrypt(any(),anyString(),anyString())).thenReturn("fixture-secret");
         when(crypto.matchingStep(anyString(),eq("012345"),eq(now),eq(4L))).thenReturn(10L);
         var result=service.loginTotp(flowRequest("POST"),"012345");assertTrue(result.session());
+        assertEquals(expiry,result.expiresAt());assertEquals(expiry,((Map<?,?>)result.view()).get("expiresAt"));
         var ordered=inOrder(jdbc,store,manager);
         ordered.verify(jdbc).update(startsWith("UPDATE auth.totp_credentials"),eq(10L),eq(id),eq(10L));
-        ordered.verify(jdbc).update(startsWith("INSERT INTO auth.sessions"),any(Object[].class));
+        ordered.verify(jdbc).update(contains("CURRENT_TIMESTAMP+INTERVAL '30 days'"),any(Object[].class));
         ordered.verify(store).finish(flowId);ordered.verify(manager).commit(any());
         verify(manager,never()).rollback(any());
     }

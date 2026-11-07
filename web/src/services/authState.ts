@@ -34,6 +34,17 @@ export function showLoginRequired(kind: LoginPromptKind = 'operation'): void {
   promptListeners.forEach(listener => listener(kind));
 }
 
+function scheduleSessionExpiry(current: SessionView): void {
+  const expiresAt = Date.parse(current.expiresAt);
+  expiryTimer = setTimeout(() => {
+    if (session !== current) return;
+    if (Date.now() >= expiresAt) setAuthSession(null, true);
+    else scheduleSessionExpiry(current);
+  }, Math.min(Math.max(0, expiresAt - Date.now()), 2_147_483_647));
+  // Node 验证不因浏览器会话计时器持续等待。
+  if (typeof expiryTimer === 'object' && 'unref' in expiryTimer) expiryTimer.unref();
+}
+
 export function setAuthSession(next: SessionView | null, broadcast = false): void {
   if (next && (!Number.isFinite(Date.parse(next.expiresAt)) || Date.parse(next.expiresAt) <= Date.now())) next = null;
   const changed = JSON.stringify(session) !== JSON.stringify(next);
@@ -41,12 +52,7 @@ export function setAuthSession(next: SessionView | null, broadcast = false): voi
   if (changed) revision += 1;
   if (expiryTimer !== undefined) clearTimeout(expiryTimer);
   expiryTimer = undefined;
-  if (next) {
-    const remaining = Date.parse(next.expiresAt) - Date.now();
-    expiryTimer = setTimeout(() => setAuthSession(null, true), Math.min(remaining, 2_147_483_647));
-    // Node 验证不因浏览器会话计时器持续等待。
-    if (typeof expiryTimer === 'object' && 'unref' in expiryTimer) expiryTimer.unref();
-  }
+  if (next) scheduleSessionExpiry(next);
   if (changed) {
     stateListeners.forEach(listener => listener());
     sessionListeners.forEach(listener => listener());

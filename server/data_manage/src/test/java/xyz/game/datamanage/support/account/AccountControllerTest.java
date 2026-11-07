@@ -59,10 +59,19 @@ class AccountControllerTest {
     }
     @Test void totpStringPreservesLeadingZeroAndSessionResponseMatchesMeContract() throws Exception {
         UUID account=UUID.randomUUID();
-        when(service.loginTotp(any(),eq("012345"))).thenReturn(new AccountService.Issued(Map.of("accountId",account,"username","fixture_author","canLogin",1,"canEdit",false,"expiresAt",now.plusSeconds(604800)),"s".repeat(43),"c".repeat(43),now,now.plusSeconds(604800),true));
-        mvc.perform(postJson("login/totp","{\"totpCode\":\"012345\"}"))
+        Instant expiry=now.plus(java.time.Duration.ofDays(30));
+        when(service.loginTotp(any(),eq("012345"))).thenReturn(new AccountService.Issued(Map.of("accountId",account,"username","fixture_author","canLogin",1,"canEdit",false,"expiresAt",expiry),"s".repeat(43),"c".repeat(43),now,expiry,true));
+        var response=mvc.perform(postJson("login/totp","{\"totpCode\":\"012345\"}"))
             .andExpect(status().isOk()).andExpect(jsonPath("$.canLogin").value(1)).andExpect(jsonPath("$.canEdit").value(false))
-            .andExpect(jsonPath("$.username").value("fixture_author")).andExpect(jsonPath("$.expiresAt").isString());
+            .andExpect(jsonPath("$.username").value("fixture_author")).andExpect(jsonPath("$.expiresAt").value(expiry.toString()))
+            .andReturn().getResponse();
+        var issued=response.getHeaders("Set-Cookie");
+        assertEquals(2,issued.size());
+        for(String name:java.util.List.of(AccountBrowser.SESSION,AccountBrowser.CSRF)) {
+            String cookie=issued.stream().filter(value->value.startsWith(name+"=")).findFirst().orElseThrow();
+            assertTrue(cookie.contains("Max-Age=2592000"));assertTrue(cookie.contains("Secure"));assertTrue(cookie.contains("SameSite=Strict"));
+            assertEquals(name.equals(AccountBrowser.SESSION),cookie.contains("HttpOnly"));
+        }
         verify(service).loginTotp(any(),eq("012345"));
     }
     @Test void completedFlowRetainsOriginalFlowCookieAndClearsOnlySession() throws Exception {

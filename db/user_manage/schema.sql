@@ -81,7 +81,7 @@ CREATE TABLE auth.sessions (
     expires_at timestamptz NOT NULL,
     revoked_at timestamptz,
     CONSTRAINT sessions_expiry CHECK (
-        expires_at > created_at AND expires_at <= created_at + INTERVAL '7 days'
+        expires_at > created_at AND expires_at <= created_at + INTERVAL '30 days'
     )
 );
 
