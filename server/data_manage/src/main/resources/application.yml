@@ -12,7 +12,7 @@ mybatis:
 
 app:
   startup:
-    fail-fast: false
+    fail-fast: true
   auth:
     allowed-origins: ${APP_AUTH_ALLOWED_ORIGINS:https://localhost:5173}
     aead-keyset-path: ${APP_AUTH_AEAD_KEYSET_PATH:../../config/auth/aead-keyset.json}
