@@ -14,7 +14,7 @@ import {
   Typography
 } from '@arco-design/web-react';
 import type { TableColumnProps } from '@arco-design/web-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
 import { listAttributes } from '../../../services/attributeClient';
 import {
@@ -79,6 +79,11 @@ export function CharacterAttributesModal({
   const [generationIncrement, setGenerationIncrement] = useState<number | undefined>(0);
   const [generationLevelText, setGenerationLevelText] = useState('');
   const [generationError, setGenerationError] = useState<string | null>(null);
+  const context = useMemo(() => ({}), [apiBaseUrl, selectedGameId, character, visible, onDirtyChange]);
+  const currentContext = useRef(context);
+  currentContext.current = context;
+  const active = useRef(false);
+  const savingInProgress = useRef(false);
 
   const levels = useMemo(() => Array.from(
     { length: maxLevel - minLevel + 1 },
@@ -105,6 +110,9 @@ export function CharacterAttributesModal({
   }, [attributes, maxLevel, minLevel, onlyConfigured, search, values]);
 
   useEffect(() => {
+    active.current = visible && Boolean(selectedGameId && character);
+    savingInProgress.current = false;
+    setSaving(false);
     if (!visible || !selectedGameId || !character) return;
 
     let cancelled = false;
@@ -141,16 +149,17 @@ export function CharacterAttributesModal({
       if (!cancelled) setLoading(false);
     });
 
-    return () => { cancelled = true; };
+    return () => { cancelled = true; active.current = false; };
   }, [apiBaseUrl, character, onDirtyChange, selectedGameId, visible]);
 
   const close = () => {
-    if (saving) return;
+    if (savingInProgress.current) return;
     onDirtyChange(false);
     onClose();
   };
 
   const openAttributeEditor = (attribute?: Attribute) => {
+    if (savingInProgress.current) return;
     const selected = attribute ?? unconfiguredAttributes[0];
     if (!selected) return;
     const configured = isAttributeConfigured(values, selected.attributeKey, minLevel, maxLevel);
@@ -169,6 +178,7 @@ export function CharacterAttributesModal({
   };
 
   const selectNewAttribute = (attributeKey: string) => {
+    if (savingInProgress.current) return;
     setEditingAttributeKey(attributeKey);
     setGenerationMode('fixed');
     setGenerationStart(0);
@@ -178,6 +188,7 @@ export function CharacterAttributesModal({
   };
 
   const applyAttributeEditor = () => {
+    if (savingInProgress.current) return;
     const attribute = attributes.find((item) => item.attributeKey === editingAttributeKey);
     if (!attribute) {
       setGenerationError('请选择属性。');
@@ -232,6 +243,7 @@ export function CharacterAttributesModal({
   };
 
   const removeAttribute = () => {
+    if (savingInProgress.current) return;
     const next = removeConfiguredAttribute(values, editingAttributeKey);
     setValues(next);
     setAttributeEditorVisible(false);
@@ -240,8 +252,10 @@ export function CharacterAttributesModal({
   };
 
   const save = async () => {
-    if (!selectedGameId || !character) return;
+    if (!visible || !selectedGameId || !character || loading || loadError || savingInProgress.current) return;
 
+    savingInProgress.current = true;
+    const isCurrent = () => active.current && currentContext.current === context;
     setSaving(true);
     setSaveError(null);
     setRowErrors({});
@@ -252,6 +266,7 @@ export function CharacterAttributesModal({
         character.characterKey,
         { levelValues: values }
       );
+      if (!isCurrent()) return;
       const normalized = normalizeLevelValues(minLevel, maxLevel, attributes, result.data.levelValues);
       setValues(normalized);
       setBaseline(JSON.stringify(normalized));
@@ -259,6 +274,7 @@ export function CharacterAttributesModal({
       onSaved();
       onClose();
     } catch (error) {
+      if (!isCurrent()) return;
       const nextErrors: Record<string, string> = {};
       for (const issue of characterFieldIssues(error)) {
         const attributeKey = issue.field.split('/')[3];
@@ -267,8 +283,15 @@ export function CharacterAttributesModal({
       setRowErrors(nextErrors);
       setSaveError(getErrorMessage(error));
     } finally {
-      setSaving(false);
+      if (isCurrent()) {
+        savingInProgress.current = false;
+        setSaving(false);
+      }
     }
+  };
+
+  const closeAttributeEditor = () => {
+    if (!savingInProgress.current) setAttributeEditorVisible(false);
   };
 
   const columns: TableColumnProps[] = [
@@ -303,7 +326,7 @@ export function CharacterAttributesModal({
       render: (_value, record: Attribute) => {
         const configured = isAttributeConfigured(values, record.attributeKey, minLevel, maxLevel);
         return (
-          <Button size="mini" type={configured ? 'secondary' : 'primary'} onClick={() => openAttributeEditor(record)}>
+          <Button size="mini" type={configured ? 'secondary' : 'primary'} disabled={saving} onClick={() => openAttributeEditor(record)}>
             {configured ? '编辑' : '设置'}
           </Button>
         );
@@ -319,12 +342,14 @@ export function CharacterAttributesModal({
         title={character ? `等级属性 - ${character.name}` : '等级属性'}
         visible={visible}
         style={{ width: 'calc(100vw - 48px)', maxWidth: 1280 }}
-        maskClosable
+        closable={!saving}
+        maskClosable={!saving}
+        escToExit={!saving}
         onCancel={close}
         footer={
           <Space>
             <Button onClick={close} disabled={saving}>取消</Button>
-            <Button type="primary" loading={saving} disabled={loading || Boolean(loadError)} onClick={() => void save()}>
+            <Button type="primary" loading={saving} disabled={saving || loading || Boolean(loadError)} onClick={() => void save()}>
               保存
             </Button>
           </Space>
@@ -340,15 +365,16 @@ export function CharacterAttributesModal({
                   <Input
                     aria-label="搜索属性"
                     value={search}
+                    disabled={saving}
                     allowClear
                     placeholder="搜索属性..."
                     style={{ width: 240 }}
                     onChange={setSearch}
                   />
-                  <Checkbox checked={onlyConfigured} onChange={setOnlyConfigured}>
+                  <Checkbox checked={onlyConfigured} disabled={saving} onChange={setOnlyConfigured}>
                     只显示已配置
                   </Checkbox>
-                  <Button type="primary" disabled={unconfiguredAttributes.length === 0} onClick={() => openAttributeEditor()}>
+                  <Button type="primary" disabled={saving || unconfiguredAttributes.length === 0} onClick={() => openAttributeEditor()}>
                     + 添加属性
                   </Button>
                 </div>
@@ -374,13 +400,15 @@ export function CharacterAttributesModal({
       <Modal
         title={`${editingExisting ? '编辑' : '设置'}属性${editingAttribute ? ` - ${editingAttribute.name}` : ''}`}
         visible={attributeEditorVisible}
-        maskClosable
-        onCancel={() => setAttributeEditorVisible(false)}
+        closable={!saving}
+        maskClosable={!saving}
+        escToExit={!saving}
+        onCancel={closeAttributeEditor}
         footer={
           <Space>
-            {editingExisting ? <Button status="danger" onClick={removeAttribute}>取消配置</Button> : null}
-            <Button onClick={() => setAttributeEditorVisible(false)}>取消</Button>
-            <Button type="primary" onClick={applyAttributeEditor}>应用</Button>
+            {editingExisting ? <Button status="danger" disabled={saving} onClick={removeAttribute}>取消配置</Button> : null}
+            <Button disabled={saving} onClick={closeAttributeEditor}>取消</Button>
+            <Button type="primary" disabled={saving} onClick={applyAttributeEditor}>应用</Button>
           </Space>
         }
       >
@@ -391,7 +419,7 @@ export function CharacterAttributesModal({
               <Select
                 aria-label="设置属性"
                 value={editingAttributeKey}
-                disabled={editingExisting}
+                disabled={editingExisting || saving}
                 options={(editingExisting ? attributes : unconfiguredAttributes).map((attribute) => ({
                   label: `${attribute.name} (${attribute.attributeKey})`,
                   value: attribute.attributeKey
@@ -404,6 +432,7 @@ export function CharacterAttributesModal({
                 aria-label="属性录入方式"
                 type="button"
                 value={generationMode}
+                disabled={saving}
                 onChange={(value) => {
                   setGenerationMode(value === 'levels' ? 'levels' : value === 'increment' ? 'increment' : 'fixed');
                   setGenerationError(null);
@@ -419,6 +448,7 @@ export function CharacterAttributesModal({
                 <Input.TextArea
                   aria-label="各级数值"
                   value={generationLevelText}
+                  disabled={saving}
                   autoSize={{ minRows: 4, maxRows: 12 }}
                   onChange={setGenerationLevelText}
                 />
@@ -427,6 +457,7 @@ export function CharacterAttributesModal({
               <InputNumber
                 aria-label={`Lv${minLevel} 数值`}
                 value={generationStart}
+                disabled={saving}
                 precision={editingAttribute?.valueType === 'INTEGER' ? 0 : undefined}
                 style={{ width: '100%' }}
                 onChange={setGenerationStart}
@@ -437,6 +468,7 @@ export function CharacterAttributesModal({
                 <InputNumber
                   aria-label="每级增量"
                   value={generationIncrement}
+                  disabled={saving}
                   precision={editingAttribute?.valueType === 'INTEGER' ? 0 : undefined}
                   style={{ width: '100%' }}
                   onChange={setGenerationIncrement}

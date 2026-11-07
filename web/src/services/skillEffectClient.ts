@@ -78,10 +78,6 @@ function protocolError(path: string): never {
   throw new SkillEffectProtocolError(`技能效果响应与固定联合类型不匹配：${path}`);
 }
 
-function shouldValidateShape(): boolean {
-  return import.meta.env.DEV === true;
-}
-
 function assertString(value: unknown, path: string): string {
   if (typeof value !== 'string') protocolError(path);
   return value;
@@ -630,12 +626,9 @@ function maybeParseEffect(value: unknown): SkillEffect {
 
 function maybeParseSummaries(value: unknown): SkillEffectSummary[] {
   if (!Array.isArray(value)) {
-    if (shouldValidateShape()) protocolError('list');
-    return [];
+    protocolError('list');
   }
-  return shouldValidateShape()
-    ? value.map((item) => parseSkillEffectSummary(item))
-    : value as SkillEffectSummary[];
+  return value.map((item) => parseSkillEffectSummary(item));
 }
 
 export function listSkillEffects(

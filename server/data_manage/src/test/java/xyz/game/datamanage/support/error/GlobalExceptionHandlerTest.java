@@ -19,6 +19,39 @@ class GlobalExceptionHandlerTest {
     private final GlobalExceptionHandler handler = new GlobalExceptionHandler();
 
     @Test
+    void malformedJsonWithMessageLessCauseStillReturnsInvalidBody() {
+        var exception = new HttpMessageNotReadableException(
+            "malformed input",
+            new IllegalArgumentException(),
+            new MockHttpInputMessage(new byte[0])
+        );
+
+        var response = handler.handleBadJson(exception);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("400.INVALID_BODY", response.getBody().error().code());
+        assertEquals("请求正文不是有效的JSON数据", response.getBody().error().message());
+        assertEquals(IllegalArgumentException.class.getName(), response.getBody().error().details().get("reason"));
+    }
+
+    @Test
+    void parameterErrorWithoutMessageStillReturnsInvalidBody() {
+        var exception = new MissingServletRequestParameterException("gameId", "String") {
+            @Override
+            public String getMessage() {
+                return null;
+            }
+        };
+
+        var response = handler.handleBadRequest(exception);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("400.INVALID_BODY", response.getBody().error().code());
+        assertEquals("请求参数格式不正确", response.getBody().error().message());
+        assertEquals(exception.getClass().getName(), response.getBody().error().details().get("reason"));
+    }
+
+    @Test
     void genericMessagesAreChineseAndExistingCodesAndDetailsRemainAvailable() {
         var json = handler.handleBadJson(new HttpMessageNotReadableException("test malformed body", new MockHttpInputMessage(new byte[0])));
         assertEquals(HttpStatus.BAD_REQUEST, json.getStatusCode());

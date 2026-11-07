@@ -13,7 +13,7 @@ import {
   Typography
 } from '@arco-design/web-react';
 import type { TableColumnProps } from '@arco-design/web-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
 import { listAttributes } from '../../../services/attributeClient';
 import {
@@ -67,6 +67,11 @@ export function EquipmentAttributesModal({
   const [editingExisting, setEditingExisting] = useState(false);
   const [editingValue, setEditingValue] = useState<number | undefined>();
   const [editingError, setEditingError] = useState<string | null>(null);
+  const context = useMemo(() => ({}), [apiBaseUrl, selectedGameId, equipment, visible, onDirtyChange]);
+  const currentContext = useRef(context);
+  currentContext.current = context;
+  const active = useRef(false);
+  const savingInProgress = useRef(false);
 
   const configuredCount = useMemo(() => attributes.filter((attribute) =>
     isEquipmentAttributeConfigured(values, attribute.attributeKey)
@@ -88,6 +93,9 @@ export function EquipmentAttributesModal({
   }, [attributes, onlyConfigured, search, values]);
 
   useEffect(() => {
+    active.current = visible && Boolean(selectedGameId && equipment);
+    savingInProgress.current = false;
+    setSaving(false);
     if (!visible || !selectedGameId || !equipment) return;
 
     let cancelled = false;
@@ -117,16 +125,17 @@ export function EquipmentAttributesModal({
     }).finally(() => {
       if (!cancelled) setLoading(false);
     });
-    return () => { cancelled = true; };
+    return () => { cancelled = true; active.current = false; };
   }, [apiBaseUrl, equipment, onDirtyChange, selectedGameId, visible]);
 
   const close = () => {
-    if (saving) return;
+    if (savingInProgress.current) return;
     onDirtyChange(false);
     onClose();
   };
 
   const openEditor = (attribute?: Attribute) => {
+    if (savingInProgress.current) return;
     const selected = attribute ?? unconfiguredAttributes[0];
     if (!selected) return;
     const configured = isEquipmentAttributeConfigured(values, selected.attributeKey);
@@ -138,12 +147,14 @@ export function EquipmentAttributesModal({
   };
 
   const selectNewAttribute = (attributeKey: string) => {
+    if (savingInProgress.current) return;
     setEditingAttributeKey(attributeKey);
     setEditingValue(0);
     setEditingError(null);
   };
 
   const applyEditor = () => {
+    if (savingInProgress.current) return;
     const attribute = attributes.find((item) => item.attributeKey === editingAttributeKey);
     if (!attribute || editingValue === undefined) {
       setEditingError('属性数值不能为空。');
@@ -171,6 +182,7 @@ export function EquipmentAttributesModal({
   };
 
   const removeAttribute = () => {
+    if (savingInProgress.current) return;
     const next = removeEquipmentAttribute(values, editingAttributeKey);
     setValues(next);
     setEditorVisible(false);
@@ -179,8 +191,10 @@ export function EquipmentAttributesModal({
   };
 
   const save = async () => {
-    if (!selectedGameId || !equipment) return;
+    if (!visible || !selectedGameId || !equipment || loading || loadError || savingInProgress.current) return;
 
+    savingInProgress.current = true;
+    const isCurrent = () => active.current && currentContext.current === context;
     setSaving(true);
     setSaveError(null);
     setRowErrors({});
@@ -191,6 +205,7 @@ export function EquipmentAttributesModal({
         equipment.equipmentKey,
         { attributeValues: values }
       );
+      if (!isCurrent()) return;
       const normalized = normalizeEquipmentAttributeValues(attributes, result.data.attributeValues);
       setValues(normalized);
       setBaseline(JSON.stringify(normalized));
@@ -198,6 +213,7 @@ export function EquipmentAttributesModal({
       onSaved();
       onClose();
     } catch (error) {
+      if (!isCurrent()) return;
       const nextErrors: Record<string, string> = {};
       for (const issue of equipmentFieldIssues(error)) {
         const attributeKey = issue.field.split('/')[2];
@@ -206,8 +222,15 @@ export function EquipmentAttributesModal({
       setRowErrors(nextErrors);
       setSaveError(getErrorMessage(error));
     } finally {
-      setSaving(false);
+      if (isCurrent()) {
+        savingInProgress.current = false;
+        setSaving(false);
+      }
     }
+  };
+
+  const closeEditor = () => {
+    if (!savingInProgress.current) setEditorVisible(false);
   };
 
   const columns: TableColumnProps[] = [
@@ -234,7 +257,7 @@ export function EquipmentAttributesModal({
       render: (_value, record: Attribute) => {
         const configured = isEquipmentAttributeConfigured(values, record.attributeKey);
         return (
-          <Button size="mini" type={configured ? 'secondary' : 'primary'} onClick={() => openEditor(record)}>
+          <Button size="mini" type={configured ? 'secondary' : 'primary'} disabled={saving} onClick={() => openEditor(record)}>
             {configured ? '编辑' : '设置'}
           </Button>
         );
@@ -249,12 +272,14 @@ export function EquipmentAttributesModal({
       <Modal
         title={equipment ? `装备属性 - ${equipment.name}` : '装备属性'}
         visible={visible}
-        maskClosable
+        closable={!saving}
+        maskClosable={!saving}
+        escToExit={!saving}
         onCancel={close}
         footer={
           <Space>
             <Button onClick={close} disabled={saving}>取消</Button>
-            <Button type="primary" loading={saving} disabled={loading || Boolean(loadError)} onClick={() => void save()}>
+            <Button type="primary" loading={saving} disabled={saving || loading || Boolean(loadError)} onClick={() => void save()}>
               保存
             </Button>
           </Space>
@@ -270,12 +295,13 @@ export function EquipmentAttributesModal({
                   <Input
                     aria-label="搜索属性"
                     value={search}
+                    disabled={saving}
                     allowClear
                     placeholder="搜索属性..."
                     onChange={setSearch}
                   />
-                  <Checkbox checked={onlyConfigured} onChange={setOnlyConfigured}>只显示已配置</Checkbox>
-                  <Button type="primary" disabled={unconfiguredAttributes.length === 0} onClick={() => openEditor()}>
+                  <Checkbox checked={onlyConfigured} disabled={saving} onChange={setOnlyConfigured}>只显示已配置</Checkbox>
+                  <Button type="primary" disabled={saving || unconfiguredAttributes.length === 0} onClick={() => openEditor()}>
                     + 添加属性
                   </Button>
                 </Space>
@@ -298,13 +324,15 @@ export function EquipmentAttributesModal({
       <Modal
         title={`${editingExisting ? '编辑' : '设置'}属性${editingAttribute ? ` - ${editingAttribute.name}` : ''}`}
         visible={editorVisible}
-        maskClosable
-        onCancel={() => setEditorVisible(false)}
+        closable={!saving}
+        maskClosable={!saving}
+        escToExit={!saving}
+        onCancel={closeEditor}
         footer={
           <Space>
-            {editingExisting ? <Button status="danger" onClick={removeAttribute}>取消配置</Button> : null}
-            <Button onClick={() => setEditorVisible(false)}>取消</Button>
-            <Button type="primary" onClick={applyEditor}>应用</Button>
+            {editingExisting ? <Button status="danger" disabled={saving} onClick={removeAttribute}>取消配置</Button> : null}
+            <Button disabled={saving} onClick={closeEditor}>取消</Button>
+            <Button type="primary" disabled={saving} onClick={applyEditor}>应用</Button>
           </Space>
         }
       >
@@ -315,7 +343,7 @@ export function EquipmentAttributesModal({
               <Select
                 aria-label="设置属性"
                 value={editingAttributeKey}
-                disabled={editingExisting}
+                disabled={editingExisting || saving}
                 options={(editingExisting ? attributes : unconfiguredAttributes).map((attribute) => ({
                   label: `${attribute.name} (${attribute.attributeKey})`,
                   value: attribute.attributeKey
@@ -327,6 +355,7 @@ export function EquipmentAttributesModal({
               <InputNumber
                 aria-label="属性数值"
                 value={editingValue}
+                disabled={saving}
                 precision={editingAttribute?.valueType === 'INTEGER' ? 0 : undefined}
                 style={{ width: '100%' }}
                 onChange={setEditingValue}

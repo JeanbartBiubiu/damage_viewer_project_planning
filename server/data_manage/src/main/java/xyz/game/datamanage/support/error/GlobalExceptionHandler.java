@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
             .body(ErrorResponse.of(
                 "400.INVALID_BODY",
                 "请求正文不是有效的JSON数据",
-                Map.of("reason", ex.getMostSpecificCause().getMessage())
+                Map.of("reason", exceptionReason(ex.getMostSpecificCause()))
             ));
     }
 
@@ -105,7 +105,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({MethodArgumentTypeMismatchException.class, MissingServletRequestParameterException.class})
     public ResponseEntity<ErrorResponse> handleBadRequest(Exception ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(ErrorResponse.of("400.INVALID_BODY", "请求参数格式不正确", Map.of("reason", ex.getMessage())));
+            .body(ErrorResponse.of("400.INVALID_BODY", "请求参数格式不正确", Map.of("reason", exceptionReason(ex))));
     }
 
     @ExceptionHandler({NoResourceFoundException.class, NoHandlerFoundException.class})
@@ -134,6 +134,11 @@ public class GlobalExceptionHandler {
                 "服务器内部错误，请稍后重试",
                 Map.of("reason", ex.getClass().getSimpleName())
             ));
+    }
+
+    private static String exceptionReason(Throwable exception) {
+        String message = exception.getMessage();
+        return message == null ? exception.getClass().getName() : message;
     }
 
     private static ResponseEntity<ErrorResponse> validationFailed(List<Map<String, String>> fieldIssues) {

@@ -17,15 +17,19 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.image.ImageMapper;
@@ -233,6 +237,40 @@ class ImageServiceTest {
             () -> service.listPublic("lol", "not-a-time")
         );
         assertEquals("400.VALIDATION_FAILED", error.getCode());
+    }
+
+    @Test
+    void publicSyncRejectsTimeOutsideExactJdbcRangeBeforeQuery() {
+        for (String input : List.of(
+            "+1000000000-12-31T23:59:59.999999999Z",
+            "-1000000000-01-01T00:00:00Z"
+        )) {
+            ApiException error = assertThrows(ApiException.class, () -> service.listPublic("lol", input));
+            assertEquals("400.VALIDATION_FAILED", error.getCode());
+            assertEquals(List.of(Map.of(
+                "field", "updatedAfter", "code", "FORMAT_INVALID", "message", "更新时间必须是标准时间"
+            )), error.getDetails().get("fieldIssues"));
+        }
+        verify(mapper, never()).listPublic(any(), any());
+    }
+
+    @Test
+    void publicSyncPreservesExactInstantsWithoutBusinessYearLimit() {
+        List<Instant> instants = List.of(
+            Instant.parse("2026-11-07T00:00:00.123456789Z"),
+            Instant.parse("1969-12-31T23:59:59.999999999Z"),
+            Instant.ofEpochMilli(Long.MIN_VALUE).plusSeconds(1),
+            Instant.ofEpochMilli(Long.MAX_VALUE)
+        );
+        when(mapper.listPublic(eq("lol"), any(Timestamp.class))).thenReturn(List.of());
+
+        for (Instant instant : instants) {
+            assertEquals(List.of(), service.listPublic("lol", " " + instant + " ").images());
+        }
+
+        ArgumentCaptor<Timestamp> cursor = ArgumentCaptor.forClass(Timestamp.class);
+        verify(mapper, org.mockito.Mockito.times(instants.size())).listPublic(eq("lol"), cursor.capture());
+        assertEquals(instants, cursor.getAllValues().stream().map(Timestamp::toInstant).toList());
     }
 
     private static ImageResponse image(

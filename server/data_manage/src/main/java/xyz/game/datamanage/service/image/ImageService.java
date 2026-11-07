@@ -82,11 +82,8 @@ public class ImageService {
     @Transactional(readOnly = true)
     public ImagePublicListResponse listPublic(String gameId, String updatedAfterRaw) {
         requireGame(gameId);
-        Instant updatedAfter = parseOptionalInstant(updatedAfterRaw);
-        List<ImagePublicItemResponse> rows = mapper.listPublic(
-            gameId,
-            updatedAfter == null ? null : Timestamp.from(updatedAfter)
-        );
+        Timestamp updatedAfter = parseOptionalTimestamp(updatedAfterRaw);
+        List<ImagePublicItemResponse> rows = mapper.listPublic(gameId, updatedAfter);
         return new ImagePublicListResponse(gameId, rows == null ? List.of() : List.copyOf(rows));
     }
 
@@ -250,13 +247,20 @@ public class ImageService {
         );
     }
 
-    private static Instant parseOptionalInstant(String raw) {
+    private static Timestamp parseOptionalTimestamp(String raw) {
         if (raw == null || raw.isBlank()) {
             return null;
         }
         try {
-            return Instant.parse(raw.trim());
-        } catch (DateTimeParseException ex) {
+            Instant instant = Instant.parse(raw.trim());
+            // Timestamp.from 的秒转毫秒不会检查溢出，先精确检查，再确认纳秒回转一致。
+            instant.toEpochMilli();
+            Timestamp timestamp = Timestamp.from(instant);
+            if (!timestamp.toInstant().equals(instant)) {
+                throw new IllegalArgumentException("更新时间不能精确转换为数据库时间");
+            }
+            return timestamp;
+        } catch (DateTimeParseException | ArithmeticException | IllegalArgumentException ex) {
             throw new ApiException(
                 HttpStatus.BAD_REQUEST,
                 "400.VALIDATION_FAILED",

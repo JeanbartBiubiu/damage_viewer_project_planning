@@ -4309,6 +4309,112 @@ test.describe('equipment management without Wasm', () => {
   });
 });
 
+async function prepareAttributeSaveWindow(page: Page, kind: 'character' | 'equipment') {
+  const mock = new MockApi();
+  mock.attributes = [attribute('hp', '生命值'), attribute('armor', '护甲')];
+  mock.characters = [{ gameId: GAME_ID, characterKey: 'draft_actor', name: '并发角色', description: null,
+    createdAt: CREATED_AT, updatedAt: UPDATED_AT }];
+  mock.equipment = [{ gameId: GAME_ID, equipmentKey: 'draft_equipment', name: '并发装备', description: null,
+    createdAt: CREATED_AT, updatedAt: UPDATED_AT }];
+  mock.characterAttributes.draft_actor = { '1': { hp: 1 }, '2': { hp: 1 } };
+  mock.equipmentAttributes.draft_equipment = { hp: 1 };
+  const diagnostics = await prepare(page, mock);
+  if (kind === 'character') {
+    await openCharacters(page);
+    await characterRow(page, 'draft_actor').getByRole('button', { name: '等级属性', exact: true }).click();
+  } else {
+    await openEquipment(page);
+    await equipmentRow(page, 'draft_equipment').getByRole('button', { name: '装备属性', exact: true }).click();
+  }
+  const modal = visibleModal(page, kind === 'character' ? '等级属性 - 并发角色' : '装备属性 - 并发装备');
+  await expect(modal.getByRole('button', { name: '保存', exact: true })).toBeEnabled();
+  const row = modal.getByRole('row').filter({ hasText: 'hp' });
+  const valueLabel = kind === 'character' ? 'Lv1 数值' : '属性数值';
+  const editValue = async (value: string) => {
+    await row.getByRole('button', { name: '编辑', exact: true }).click();
+    const editor = visibleModal(page, '编辑属性 - 生命值');
+    await editor.getByLabel(valueLabel, { exact: true }).fill(value);
+    await editor.getByRole('button', { name: '应用', exact: true }).click();
+    await expect(editor).toBeHidden();
+  };
+  await editValue('10');
+  const endpoint = `/api/admin/games/${GAME_ID}/${kind === 'character' ? 'characters/draft_actor' : 'equipment/draft_equipment'}/attributes`;
+  return { mock, diagnostics, modal, row, editValue, endpoint };
+}
+
+for (const kind of ['character', 'equipment'] as const) {
+  test(`${kind}属性窗口保存期间冻结修改且失败后保留草稿`, async ({ page }) => {
+    const { mock, diagnostics, modal, row, editValue, endpoint } = await prepareAttributeSaveWindow(page, kind);
+    const started = createDeferred(), finish = createDeferred();
+    let attempts = 0;
+    await page.route(`**${endpoint}`, async route => {
+      if (route.request().method() !== 'PUT' || ++attempts !== 1) return route.fallback();
+      started.resolve();
+      await finish.promise;
+      await route.fulfill({ status: 500, json: { error: { code: '500.CONTROLLED_SAVE', message: '属性保存暂时失败', details: {} } } });
+    });
+    const response = page.waitForResponse(item => new URL(item.url()).pathname === endpoint && item.request().method() === 'PUT');
+    try {
+      await modal.getByRole('button', { name: '保存', exact: true }).click();
+      await started.promise;
+      await expect(row.getByRole('button', { name: '编辑', exact: true })).toBeDisabled();
+      await expect(modal.getByRole('button', { name: '设置', exact: true })).toBeDisabled();
+      await expect(modal.getByRole('button', { name: '+ 添加属性', exact: true })).toBeDisabled();
+      await expect(modal.getByRole('button', { name: '取消', exact: true })).toBeDisabled();
+      await page.keyboard.press('Escape');
+      await expect(modal).toBeVisible();
+      finish.resolve();
+      await response;
+      await expect(modal.getByRole('alert').filter({ hasText: '属性保存暂时失败' })).toBeVisible();
+      await expect(row.getByRole('cell', { name: '10', exact: true }).first()).toBeVisible();
+      await expect(row.getByRole('button', { name: '编辑', exact: true })).toBeEnabled();
+      await expect(modal.getByRole('button', { name: '+ 添加属性', exact: true })).toBeEnabled();
+      await editValue('20');
+      await modal.getByRole('button', { name: '保存', exact: true }).click();
+      await expect(modal).toBeHidden();
+      if (kind === 'character') expect(mock.characterAttributes.draft_actor).toEqual({ '1': { hp: 20 }, '2': { hp: 20 } });
+      else expect(mock.equipmentAttributes.draft_equipment).toEqual({ hp: 20 });
+      expect(attempts).toBe(2);
+      diagnostics.assertClean(`${kind} attribute save failure retains draft`);
+    } finally { finish.resolve(); await response; }
+  });
+
+  test(`${kind}旧属性保存响应不清除新页面草稿保护`, async ({ page }) => {
+    const { diagnostics, modal, endpoint } = await prepareAttributeSaveWindow(page, kind);
+    const started = createDeferred(), finish = createDeferred();
+    await page.route(`**${endpoint}`, async route => {
+      if (route.request().method() !== 'PUT') return route.fallback();
+      started.resolve();
+      await finish.promise;
+      await route.fulfill({ json: kind === 'character'
+        ? { characterKey: 'draft_actor', minLevel: 1, maxLevel: 2, levelValues: { '1': { hp: 10 }, '2': { hp: 10 } } }
+        : { equipmentKey: 'draft_equipment', attributeValues: { hp: 10 } } });
+    });
+    const response = page.waitForResponse(item => new URL(item.url()).pathname === endpoint && item.request().method() === 'PUT');
+    try {
+      await modal.getByRole('button', { name: '保存', exact: true }).click();
+      await started.promise;
+      page.once('dialog', dialog => dialog.accept());
+      await page.evaluate(() => { window.location.hash = '#/attributes'; });
+      await expect(modal).toBeHidden();
+      await page.getByRole('button', { name: '新增属性', exact: true }).click();
+      const nextDraft = visibleModal(page, '新增属性');
+      await nextDraft.getByLabel('稳定标识', { exact: true }).fill('protected_after_old_save');
+      await nextDraft.getByLabel('属性名称', { exact: true }).fill('新页面草稿');
+      finish.resolve();
+      await (await response).finished();
+      await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+      const confirmations: string[] = [];
+      page.on('dialog', dialog => { confirmations.push(dialog.message()); void dialog.dismiss(); });
+      await page.evaluate(() => { window.location.hash = '#/equipment'; });
+      await expect.poll(() => confirmations).toEqual(['当前修改尚未保存，确定要离开吗？']);
+      await expect(page).toHaveURL(/#\/attributes$/);
+      await expect(nextDraft.getByLabel('属性名称', { exact: true })).toHaveValue('新页面草稿');
+      diagnostics.assertClean(`${kind} stale attribute save cannot clear another page draft`);
+    } finally { finish.resolve(); await response; }
+  });
+}
+
 test.describe('skill category and damage type management without Wasm', () => {
   test('manages flat skill categories with stable status filtering', async ({ page }, testInfo) => {
     const mock = new MockApi();

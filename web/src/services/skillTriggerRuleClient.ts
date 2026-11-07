@@ -85,10 +85,6 @@ function protocolError(path: string): never {
   throw new SkillTriggerRuleProtocolError(`触发规则响应与固定联合类型不匹配：${path}`);
 }
 
-function shouldValidateShape(): boolean {
-  return import.meta.env.DEV === true;
-}
-
 function assertString(value: unknown, path: string): string {
   if (typeof value !== 'string') protocolError(path);
   return value;
@@ -581,11 +577,7 @@ function maybeParseDetail(data: unknown): SkillTriggerRuleDetail {
 
 function maybeParseSummaries(data: unknown): SkillTriggerRuleSummary[] {
   if (!Array.isArray(data)) {
-    if (shouldValidateShape()) protocolError('list');
-    return [];
-  }
-  if (!shouldValidateShape()) {
-    return data as SkillTriggerRuleSummary[];
+    protocolError('list');
   }
   return data.map((item, index) => {
     try {

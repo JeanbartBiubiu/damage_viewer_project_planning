@@ -750,6 +750,37 @@ test('stage 9 image failures preserve drafts and disabling retains existing refe
   assertClean();
 });
 
+test('图片用途候选拒绝非法技能效果摘要，重试后恢复选择', async ({ page }) => {
+  const api = new RelationApi();
+  const assertClean = await prepare(page, api);
+  let invalidResponse = true;
+  let reads = 0;
+  await page.route(`**/api/admin/games/${FIRST_GAME}/skills/strike/effects`, async route => {
+    reads += 1;
+    if (invalidResponse) await api.json(route, {});
+    else await route.fallback();
+  });
+
+  await syncImages(page);
+  await row(page, 'portrait_a').getByRole('button', { name: '用途关系', exact: true }).click();
+  const dialog = modal(page, '图片用途关系');
+  await choose(page, dialog, '图片来源类别', '技能效果');
+  await choose(page, dialog, '来源技能', '打击技能', true);
+  await expect(dialog.getByRole('alert')).toContainText('技能效果响应与固定联合类型不匹配');
+  await expect(dialog.getByRole('button', { name: '设置此图片', exact: true })).toBeDisabled();
+  expect(reads).toBe(1);
+  expect(api.writes).toEqual([]);
+
+  invalidResponse = false;
+  await dialog.getByRole('button', { name: '重新读取候选', exact: true }).click();
+  await choose(page, dialog, '图片来源对象', '同名效果', true);
+  await expect(dialog.getByRole('alert')).toHaveCount(0);
+  await expect(dialog.getByRole('button', { name: '设置此图片', exact: true })).toBeEnabled();
+  expect(reads).toBe(2);
+  expect(api.writes).toEqual([]);
+  assertClean();
+});
+
 test('stage 9 switching games rejects late image candidates and does not reuse same-key previews', async ({ page }) => {
   const api = new RelationApi();
   api.representatives.set(api.sourceId(FIRST_GAME, 'characters/hero_a'), 'portrait_a');
