@@ -53,7 +53,7 @@ const runRequest: RunRequest = {
 describe('计算授权与账号生命周期', () => {
   let client: GenericEngineClient;
   let workers: AuthorizationWorker[];
-  const ticket = (value = 'signed-fixture-ticket', lifetime = 300_000) => ({ grant: value, expiresAt: new Date(Date.now() + lifetime).toISOString() });
+  const ticket = (value = 'signed-fixture-ticket', lifetime = 86_400_000) => ({ grant: value, expiresAt: new Date(Date.now() + lifetime).toISOString() });
   const accountChanged = () => { for (const listener of [...authorization.listeners]) listener(); };
 
   beforeEach(() => {
@@ -93,11 +93,12 @@ describe('计算授权与账号生命周期', () => {
     expect(compileRequest.authorization).toBeUndefined();
   });
 
-  it('启用版传入原始票据，编译与运行复用未过期授权', async () => {
+  it('启用版传入原始票据，编译与十二小时后的运行复用授权', async () => {
     const worker = await compile();
     expect(authorization.grant).toHaveBeenCalledWith('https://api.example.test');
     expect(worker.messages.find(message => message.type === 'compile')?.request?.authorization).toBe('signed-fixture-ticket');
     expect(compileRequest.authorization).toBeUndefined();
+    await vi.advanceTimersByTimeAsync(43_200_000);
     const running = client.run(runRequest);
     const rejected = expect(running).rejects.toThrow('fixture-finished');
     await vi.advanceTimersByTimeAsync(0);
@@ -120,10 +121,13 @@ describe('计算授权与账号生命周期', () => {
     await Promise.all([first, second]);
   });
 
-  it('授权接近到期时续取，释放过期会话不取票据', async () => {
-    authorization.grant.mockResolvedValueOnce(ticket('first-ticket', 30_000));
+  it('授权剩余五秒时续取，释放过期会话不取票据', async () => {
+    authorization.grant.mockResolvedValueOnce(ticket('first-ticket'));
     const worker = await compile();
-    await vi.advanceTimersByTimeAsync(26_000);
+    await vi.advanceTimersByTimeAsync(86_394_999);
+    await compile();
+    expect(authorization.grant).toHaveBeenCalledTimes(1);
+    await vi.advanceTimersByTimeAsync(1);
     authorization.grant.mockResolvedValueOnce(ticket('renewed-ticket'));
     const running = client.run(runRequest);
     const rejected = expect(running).rejects.toThrow('fixture-finished');
@@ -132,7 +136,7 @@ describe('计算授权与账号生命周期', () => {
     expect(sent.request?.authorization).toBe('renewed-ticket');
     worker.emit({ type: 'error', id: sent.id, message: 'fixture-finished' });
     await rejected;
-    await vi.advanceTimersByTimeAsync(300_000);
+    await vi.advanceTimersByTimeAsync(86_400_000);
     const released = client.release('session-1', 'r');
     await vi.advanceTimersByTimeAsync(0);
     worker.respond('release', { ok: true, sessionId: 'session-1', released: true });
@@ -179,7 +183,7 @@ describe('计算授权与账号生命周期', () => {
   });
 
   it('服务时钟略快时等待票据生效，再提交一次编译', async () => {
-    authorization.grant.mockResolvedValueOnce(ticket('future-ticket', 301_000));
+    authorization.grant.mockResolvedValueOnce(ticket('future-ticket', 86_401_000));
     const compiling = client.compile(compileRequest);
     await vi.advanceTimersByTimeAsync(999);
     expect(workers).toHaveLength(0);
@@ -194,13 +198,13 @@ describe('计算授权与账号生命周期', () => {
   });
 
   it('时钟提前超过五秒时拒绝计算并提示同步时间', async () => {
-    authorization.grant.mockResolvedValueOnce(ticket('far-future-ticket', 305_001));
+    authorization.grant.mockResolvedValueOnce(ticket('far-future-ticket', 86_405_001));
     await expect(client.compile(compileRequest)).rejects.toMatchObject({ code: 'AUTH.CLOCK_SKEW' });
     expect(workers).toHaveLength(0);
   });
 
   it('等待票据生效期间退出，旧票据不能创建工作线程', async () => {
-    authorization.grant.mockResolvedValueOnce(ticket('future-ticket', 301_000));
+    authorization.grant.mockResolvedValueOnce(ticket('future-ticket', 86_401_000));
     const compiling = client.compile(compileRequest);
     const rejected = expect(compiling).rejects.toThrow('账号状态已变化');
     await vi.advanceTimersByTimeAsync(0);

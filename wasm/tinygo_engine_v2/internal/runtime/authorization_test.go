@@ -69,7 +69,7 @@ func sessionGrant(t *testing.T, key ed25519.PrivateKey, account string, iat int6
 	header := base64.RawURLEncoding.EncodeToString([]byte(`{"alg":"Ed25519","typ":"dv-wasm-grant+jwt","kid":"runtime-isolated-key"}`))
 	body := authorizationJSON(t, map[string]any{
 		"iss": "damage-viewer", "aud": "damage-viewer-wasm", "sub": account, "canLogin": 1,
-		"scope": []string{"engine:compute"}, "iat": iat, "nbf": iat, "exp": iat + 300,
+		"scope": []string{"engine:compute"}, "iat": iat, "nbf": iat, "exp": iat + 86_400,
 		"authorizationVersion": 1, "jti": "ae08810a-aec8-4635-9d7d-06080818262d",
 	})
 	message := header + "." + base64.RawURLEncoding.EncodeToString(body)
@@ -107,7 +107,8 @@ func TestAuthorizedCompileRunRenewalAndRelease(t *testing.T) {
 	assertAuthorizationError(t, session, session.RunJSON(authorizationJSON(t, runRequest)), model.GenericErrHashMismatch)
 	runRequest.ExpectedRulesHash = compiled.RulesHash
 	var baseline model.DoneResult
-	for iteration := 0; iteration < 2; iteration++ {
+	for iteration, authorizedAt := range []int64{1300, 87_399} {
+		now = authorizedAt
 		if code := session.RunFrame(abi.EncodeFrame(model.FrameKindGenericRun, 0, authorizationJSON(t, runRequest))); code != 0 {
 			t.Fatal("signed run failed")
 		}
@@ -122,7 +123,7 @@ func TestAuthorizedCompileRunRenewalAndRelease(t *testing.T) {
 			t.Fatal("reusing a grant changed the result")
 		}
 	}
-	now = 1300
+	now = 87_400
 	assertAuthorizationError(t, session, session.RunJSON(authorizationJSON(t, runRequest)), model.GenericErrAuthorizationExpired)
 	runRequest.Authorization = sessionGrant(t, key, authorizationAccount, now)
 	if code := session.RunJSON(authorizationJSON(t, runRequest)); code != 0 {

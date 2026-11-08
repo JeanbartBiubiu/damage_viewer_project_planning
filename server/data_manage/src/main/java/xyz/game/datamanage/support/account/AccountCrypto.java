@@ -87,15 +87,16 @@ public class AccountCrypto {
     public Map<String, Object> grant(UUID account, Instant now) {
         try {
             long second = now.getEpochSecond();
+            long expiresAt = second + 86_400;
             String header = b64(json.writeValueAsBytes(Map.of("alg", "Ed25519", "typ", "dv-wasm-grant+jwt", "kid", properties.getGrantKeyId())));
             String body = b64(json.writeValueAsBytes(Map.of("iss", "damage-viewer", "aud", "damage-viewer-wasm", "sub", account.toString(),
-                "canLogin", 1, "scope", List.of("engine:compute"), "iat", second, "nbf", second, "exp", second + 300,
+                "canLogin", 1, "scope", List.of("engine:compute"), "iat", second, "nbf", second, "exp", expiresAt,
                 "authorizationVersion", 1, "jti", UUID.randomUUID().toString())));
             Signature signature = Signature.getInstance("Ed25519");
             signature.initSign(KeyFactory.getInstance("Ed25519").generatePrivate(new PKCS8EncodedKeySpec(Files.readAllBytes(properties.getGrantPrivateKeyPath()))));
             String input = header + "." + body;
             signature.update(input.getBytes(StandardCharsets.US_ASCII));
-            return Map.of("grant", input + "." + b64(signature.sign()), "expiresAt", Instant.ofEpochSecond(second + 300));
+            return Map.of("grant", input + "." + b64(signature.sign()), "expiresAt", Instant.ofEpochSecond(expiresAt));
         } catch (Exception e) { throw AccountErrors.unavailable(); }
     }
 }

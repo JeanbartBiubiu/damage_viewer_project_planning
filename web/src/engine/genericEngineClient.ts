@@ -24,7 +24,7 @@ import type {
 
 const DEFAULT_WASM_URL = new URL('./wasm/tinygo_engine_v2.wasm', import.meta.url);
 const RUN_TIMEOUT_MS = 30_000;
-const AUTHORIZATION_LIFETIME_MS = 300_000;
+const AUTHORIZATION_LIFETIME_MS = 86_400_000;
 const MAX_AUTHORIZATION_CLOCK_WAIT_MS = 5000;
 
 type SerializedFrame = {
@@ -229,7 +229,7 @@ export class GenericEngineClient {
             || !Number.isFinite(expiresAt) || expiresAt <= Date.now()) {
             throw new ApiRequestError('计算授权响应不完整或已过期，请重试。', 502, 'AUTH.INVALID_WASM_GRANT');
           }
-          // 票据固定 nbf=iat、exp=iat+300；只等待可用时点，Wasm 仍独立验证全部签名与期限。
+          // 票据固定 nbf=iat、exp=iat+86400；只等待可用时点，Wasm 仍独立验证全部签名与期限。
           const notBefore = expiresAt - AUTHORIZATION_LIFETIME_MS;
           const waitMs = notBefore - Date.now();
           if (waitMs > MAX_AUTHORIZATION_CLOCK_WAIT_MS) {

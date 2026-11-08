@@ -15,7 +15,7 @@ import { createFormulaPhase4Input } from './formula-phase4-input.mjs';
 
 function claims(account = randomUUID(), iat = Math.floor(Date.now() / 1000) - 1) {
   return { iss: 'damage-viewer', aud: 'damage-viewer-wasm', sub: account, canLogin: 1,
-    scope: ['engine:compute'], iat, nbf: iat, exp: iat + 300, authorizationVersion: 1, jti: randomUUID() };
+    scope: ['engine:compute'], iat, nbf: iat, exp: iat + 86_400, authorizationVersion: 1, jti: randomUUID() };
 }
 
 function authorizedFixture(authorization) {
@@ -93,13 +93,14 @@ export async function verifyAuthorizationArtifacts({ disabledPath, enabledPath, 
     ['wrong-audience', { ...validClaims, aud: 'another-service' }],
     ['wrong-version', { ...validClaims, authorizationVersion: 2 }],
     ['long-life', { ...validClaims, exp: validClaims.exp + 1 }],
+    ['old-five-minute-life', { ...validClaims, exp: validClaims.iat + 300 }],
     ['noninteger-paid', { ...validClaims, canLogin: true }],
     ['future', claims(account, Math.floor(Date.now() / 1000) + 300)],
   ];
   for (const [, payload] of signedNegatives) {
     expectRejected(enabled, 'run', { ...runRequest, authorization: grant(payload) }, 'authorization_invalid');
   }
-  expectRejected(enabled, 'run', { ...runRequest, authorization: grant(claims(account, Math.floor(Date.now() / 1000) - 301)) }, 'authorization_expired');
+  expectRejected(enabled, 'run', { ...runRequest, authorization: grant(claims(account, Math.floor(Date.now() / 1000) - 86_401)) }, 'authorization_expired');
   expectRejected(enabled, 'run', { ...runRequest, authorization: grant(claims()) }, 'authorization_account_mismatch');
   expectRejected(enabled, 'run', { ...runRequest, authorization: grant(validClaims, { ...header, alg: 'EdDSA' }) }, 'authorization_invalid');
   expectRejected(enabled, 'run', { ...runRequest, authorization: grant(validClaims, { ...header, kid: 'unknown-key' }) }, 'authorization_invalid');
@@ -114,10 +115,12 @@ export async function verifyAuthorizationArtifacts({ disabledPath, enabledPath, 
   expectRejected(enabled, 'run', { ...runRequest, authorization: '', authorizationRequired: false }, 'authorization_required');
   expectRejected(enabled, 'run', { ...runRequest, expectedRulesHash: 'wrong-rules' }, 'hash_mismatch');
   const enabledDone = runCanonicalSession(enabled.exports, enabledFixture, compiled.sessionId, compiled.rulesHash);
+  const cached = authorizedFixture(grant(claims(account, Math.floor(Date.now() / 1000) - 43_200)));
+  assert.deepEqual(runCanonicalSession(enabled.exports, cached, compiled.sessionId, compiled.rulesHash), enabledDone);
   const renewed = authorizedFixture(grant({ ...validClaims, jti: randomUUID() }));
   assert.deepEqual(runCanonicalSession(enabled.exports, renewed, compiled.sessionId, compiled.rulesHash), enabledDone);
   // 释放没有 authorization；前一个失败请求已使用过期票据。
-  expectRejected(enabled, 'run', { ...runRequest, authorization: grant(claims(account, Math.floor(Date.now() / 1000) - 301)) }, 'authorization_expired');
+  expectRejected(enabled, 'run', { ...runRequest, authorization: grant(claims(account, Math.floor(Date.now() / 1000) - 86_401)) }, 'authorization_expired');
   releaseCanonicalSession(enabled.exports, compiled.sessionId, compiled.rulesHash);
   expectRejected(enabled, 'run', runRequest, 'session_not_found');
 

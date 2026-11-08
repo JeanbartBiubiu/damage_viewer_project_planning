@@ -37,7 +37,7 @@ class AccountCryptoTest {
         assertTrue("test-only-material".equals(new AccountCrypto(p,new ObjectMapper()).decrypt(ciphertext,aad,"auth-aead-1")));
         assertThrows(IllegalStateException.class,()->AuthKeyTool.create(directory));
     }
-    @Test void fullCompactJwsUsesFixedEd25519HeaderAndFiveMinuteIntegerClaims() throws Exception {
+    @Test void fullCompactJwsUsesFixedEd25519HeaderAndTwentyFourHourIntegerClaims() throws Exception {
         AccountCrypto crypto=crypto(); UUID account=UUID.randomUUID(); Instant now=Instant.parse("2026-11-04T00:00:00.999Z");
         Map<String,Object> result=crypto.grant(account,now);
         String[] parts=((String)result.get("grant")).split("\\."); assertEquals(3,parts.length);
@@ -51,14 +51,14 @@ class AccountCryptoTest {
         assertTrue(body.path("iat").isIntegralNumber());assertTrue(body.path("nbf").isIntegralNumber());assertTrue(body.path("exp").isIntegralNumber());
         assertEquals(1_793_750_400L,body.path("iat").asLong());
         assertEquals(1_793_750_400L,body.path("nbf").asLong());
-        assertEquals(1_793_750_700L,body.path("exp").asLong());
+        assertEquals(1_793_836_800L,body.path("exp").asLong());
         assertEquals(1,body.path("authorizationVersion").asInt());assertDoesNotThrow(()->UUID.fromString(body.path("jti").asText()));
         var metadata=json.readTree(Files.readAllBytes(directory.resolve("grant-public.json")));
         byte[] raw=Base64.getUrlDecoder().decode(metadata.path("publicKeyBase64Url").asText());
         byte[] der=new byte[44];System.arraycopy(HexFormat.of().parseHex("302a300506032b6570032100"),0,der,0,12);System.arraycopy(raw,0,der,12,32);
         Signature verifier=Signature.getInstance("Ed25519");verifier.initVerify(KeyFactory.getInstance("Ed25519").generatePublic(new X509EncodedKeySpec(der)));
         verifier.update((parts[0]+"."+parts[1]).getBytes(java.nio.charset.StandardCharsets.US_ASCII)); assertTrue(verifier.verify(Base64.getUrlDecoder().decode(parts[2])));
-        assertEquals(Instant.parse("2026-11-04T00:05:00Z"),result.get("expiresAt"));
+        assertEquals(Instant.parse("2026-11-05T00:00:00Z"),result.get("expiresAt"));
     }
     @Test void matchingTotpReturnsRealFutureStepAndRejectsReplayAndOutOfWindow() {
         AccountCrypto crypto=new AccountCrypto(new AccountProperties(),new ObjectMapper());

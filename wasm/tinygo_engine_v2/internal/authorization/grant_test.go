@@ -11,7 +11,7 @@ import (
 
 const testAccount = "73a4b87c-c5d5-4f10-89ee-53a52cd76ba3"
 const testHeader = `{"alg":"Ed25519","typ":"dv-wasm-grant+jwt","kid":"isolated-unit-key"}`
-const testPayload = `{"iss":"damage-viewer","aud":"damage-viewer-wasm","sub":"` + testAccount + `","canLogin":1,"scope":["engine:compute"],"iat":1000,"nbf":1000,"exp":1300,"authorizationVersion":1,"jti":"d0d487c9-537a-4408-9edf-630c3234fc99"}`
+const testPayload = `{"iss":"damage-viewer","aud":"damage-viewer-wasm","sub":"` + testAccount + `","canLogin":1,"scope":["engine:compute"],"iat":1000,"nbf":1000,"exp":87400,"authorizationVersion":1,"jti":"d0d487c9-537a-4408-9edf-630c3234fc99"}`
 
 func isolatedKey(t *testing.T) (Policy, ed25519.PrivateKey) {
 	t.Helper()
@@ -33,7 +33,7 @@ func TestGrantSignatureAndTimeBoundaries(t *testing.T) {
 	for _, test := range []struct {
 		now  int64
 		want Failure
-	}{{999, Invalid}, {1000, ""}, {1299, ""}, {1300, Expired}, {1301, Expired}} {
+	}{{999, Invalid}, {1000, ""}, {1300, ""}, {44_200, ""}, {87_399, ""}, {87_400, Expired}, {87_401, Expired}} {
 		t.Run(fmt.Sprint(test.now), func(t *testing.T) {
 			subject, failure := Verify(policy, grant, test.now)
 			if failure != test.want || failure == "" && subject != testAccount {
@@ -84,8 +84,9 @@ func TestGrantStrictHeaderAndClaims(t *testing.T) {
 		{"version", testHeader, strings.Replace(testPayload, `"authorizationVersion":1`, `"authorizationVersion":2`, 1)},
 		{"version type", testHeader, strings.Replace(testPayload, `"authorizationVersion":1`, `"authorizationVersion":"1"`, 1)},
 		{"nbf differs", testHeader, strings.Replace(testPayload, `"nbf":1000`, `"nbf":999`, 1)},
-		{"long lifetime", testHeader, strings.Replace(testPayload, `"exp":1300`, `"exp":1301`, 1)},
-		{"short lifetime", testHeader, strings.Replace(testPayload, `"exp":1300`, `"exp":1299`, 1)},
+		{"long lifetime", testHeader, strings.Replace(testPayload, `"exp":87400`, `"exp":87401`, 1)},
+		{"short lifetime", testHeader, strings.Replace(testPayload, `"exp":87400`, `"exp":87399`, 1)},
+		{"old five-minute lifetime", testHeader, strings.Replace(testPayload, `"exp":87400`, `"exp":1300`, 1)},
 		{"time fraction", testHeader, strings.Replace(testPayload, `"iat":1000`, `"iat":1000.0`, 1)},
 		{"time null", testHeader, strings.Replace(testPayload, `"iat":1000`, `"iat":null`, 1)},
 		{"missing time", testHeader, strings.Replace(testPayload, `"iat":1000,`, ``, 1)},
@@ -100,6 +101,30 @@ func TestGrantStrictHeaderAndClaims(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			if _, failure := Verify(policy, signedGrant(key, test.header, test.payload), 1000); failure != Invalid {
 				t.Fatalf("failure=%q want invalid", failure)
+			}
+		})
+	}
+}
+
+func TestGrantLifetimeOverflowBoundaries(t *testing.T) {
+	policy, key := isolatedKey(t)
+	for _, test := range []struct {
+		name string
+		iat  int64
+		exp  int64
+		want Failure
+	}{
+		{"largest valid issuance", 9_223_372_036_854_689_407, 9_223_372_036_854_775_807, ""},
+		{"expiration overflow", 9_223_372_036_854_689_408, -9_223_372_036_854_775_808, Invalid},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			payload := strings.NewReplacer(
+				`"iat":1000`, fmt.Sprintf(`"iat":%d`, test.iat),
+				`"nbf":1000`, fmt.Sprintf(`"nbf":%d`, test.iat),
+				`"exp":87400`, fmt.Sprintf(`"exp":%d`, test.exp),
+			).Replace(testPayload)
+			if _, failure := Verify(policy, signedGrant(key, testHeader, payload), test.iat); failure != test.want {
+				t.Fatalf("failure=%q want %q", failure, test.want)
 			}
 		})
 	}

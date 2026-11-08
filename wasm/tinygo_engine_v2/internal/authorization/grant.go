@@ -32,12 +32,13 @@ type BuildConfig struct {
 type Failure string
 
 const (
-	Version                 = 1
-	MaxGrantBytes           = 4096
-	Required        Failure = "authorization_required"
-	Invalid         Failure = "authorization_invalid"
-	Expired         Failure = "authorization_expired"
-	AccountMismatch Failure = "authorization_account_mismatch"
+	grantLifetimeSeconds         = 24 * 60 * 60
+	Version                      = 1
+	MaxGrantBytes                = 4096
+	Required             Failure = "authorization_required"
+	Invalid              Failure = "authorization_invalid"
+	Expired              Failure = "authorization_expired"
+	AccountMismatch      Failure = "authorization_account_mismatch"
 )
 
 // TinyGo 0.40.1 会以源码初值覆盖链接赋值，因此必须保留无初值的字符串变量。
@@ -141,7 +142,7 @@ func Verify(policy Policy, token string, now int64) (string, Failure) {
 	iat, iatOK := integerValue(payload["iat"])
 	nbf, nbfOK := integerValue(payload["nbf"])
 	exp, expOK := integerValue(payload["exp"])
-	if !iatOK || !nbfOK || !expOK || nbf != iat || iat > math.MaxInt64-300 || exp != iat+300 {
+	if !iatOK || !nbfOK || !expOK || nbf != iat || iat > math.MaxInt64-grantLifetimeSeconds || exp != iat+grantLifetimeSeconds {
 		return "", Invalid
 	}
 	if now < nbf {
