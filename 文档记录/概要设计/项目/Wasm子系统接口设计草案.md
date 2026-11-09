@@ -3,7 +3,7 @@ DOC_TYPE: 概要设计
 WORKSTREAM: planning
 STATUS: tracked
 EXECUTION_MODEL: Codex 主负责人及内置独立只读评审代理
-LAST_TRACKED_AT: 2026-11-07
+LAST_TRACKED_AT: 2026-11-09
 
 # Wasm子系统接口与协作入口
 
@@ -15,6 +15,8 @@ LAST_TRACKED_AT: 2026-11-07
 | 当前执行包、真实帧及跨功能次序 | [功能执行与组合设计](../../详细设计/项目/执行协调层功能执行与组合重构技术方案.md) |
 | 接口的输入、结果、失败、副作用及验收 | [详细说明](../../详细设计/项目/Wasm子系统接口设计草案.md) |
 | 两个视角查看职责与改动 | [子系统协作图](Wasm子系统协作图.html) |
+| 下一轮初始化、调用权限及循环依赖方案，尚未实施 | [控制反转规划](Wasm子系统控制反转规划.md) |
+| 区分构造输入、调用权限与现行包导入 | [新依赖图](Wasm子系统控制反转依赖图.html) |
 | 当前真实协议、能力及验证命令 | [引擎说明](../../../wasm/tinygo_engine_v2/README.md)及其源码入口 |
 
 沿用任务 `planning-engine-subsystem-refactor`，总体状态继续由[任务规则](../../../db/task_doc_governance/task_rules.json)维护。本次保持公开协议及既有业务行为，验证以最终源码与产物为准。
