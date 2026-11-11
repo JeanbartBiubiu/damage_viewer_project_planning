@@ -1874,7 +1874,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     }
   &lt;/style&gt;
   &lt;h2 class=&quot;wp-heading&quot;&gt;Wasm 子系统职责与进度&lt;/h2&gt;
-  &lt;div class=&quot;text-small wp-context&quot;&gt;总任务：进行中 · 内容核对：2026-11-07&lt;/div&gt;
+  &lt;div class=&quot;text-small wp-context&quot;&gt;任务状态以任务规则为准 · 内容核对：2026-11-12&lt;/div&gt;
   &lt;div class=&quot;nav nav-pills&quot; role=&quot;tablist&quot; aria-label=&quot;查看视角&quot;&gt;
     &lt;button class=&quot;nav-link active&quot; type=&quot;button&quot; role=&quot;tab&quot; id=&quot;wn-map-tab&quot; aria-controls=&quot;wn-map&quot; aria-selected=&quot;true&quot;&gt;职责与协作&lt;/button&gt;
     &lt;button class=&quot;nav-link&quot; type=&quot;button&quot; role=&quot;tab&quot; id=&quot;wn-board-tab&quot; aria-controls=&quot;wn-board&quot; aria-selected=&quot;false&quot;&gt;改动与后续&lt;/button&gt;
@@ -1924,7 +1924,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       const root = document.getElementById(&#x27;wasm-progress-nov07&#x27;);
       const nodes = [
         { id:&#x27;session&#x27;, group:&#x27;entry&#x27;, label:&#x27;协议与会话&#x27;, detail:&#x27;编译、运行、释放沿正式导出；会话复用只读计划，每场状态独立。&#x27; },
-        { id:&#x27;authorization&#x27;, group:&#x27;entry&#x27;, label:&#x27;授权校验&#x27;, detail:&#x27;编译与每次运行入口验签并核对账号；授权有效期读取 Unix 时间，不进入战斗热循环。&#x27; },
+        { id:&#x27;authorization&#x27;, group:&#x27;entry&#x27;, label:&#x27;授权校验&#x27;, detail:&#x27;编译与每次运行入口按构建策略验签并核对账号；授权有效期读取系统时间，不进入战斗热循环。&#x27; },
         { id:&#x27;compile&#x27;, group:&#x27;entry&#x27;, label:&#x27;规则编译&#x27;, detail:&#x27;校验作者配置、引用与公式，生产只读执行计划；运行不反向修改编译结果。&#x27; },
         { id:&#x27;plan&#x27;, group:&#x27;entry&#x27;, label:&#x27;只读计划&#x27;, detail:&#x27;编译规则、公式与完整身份由会话持有；单场追加公式和可变状态另行隔离。&#x27; },
         { id:&#x27;runtime&#x27;, group:&#x27;run&#x27;, label:&#x27;单场装配&#x27;, detail:&#x27;runtime（运行入口）统一检查时间范围与驱动时刻，再创建本场状态和循环。&#x27; },
@@ -1932,10 +1932,10 @@ html&gt;body{padding:0}&lt;/style&gt;
         { id:&#x27;execution&#x27;, group:&#x27;run&#x27;, label:&#x27;执行协调&#x27;, detail:&#x27;根层组合功能、准备原时点读值、交接同步阶段，并保留真实帧的预检与发布边界。&#x27; },
         { id:&#x27;actionflow&#x27;, group:&#x27;owners&#x27;, label:&#x27;行动与过程执行&#x27;, detail:&#x27;actionflow 执行尝试、步骤、占用、冷却与共同等待；私有持有发动前状态及弹药捕获。&#x27; },
         { id:&#x27;lifecycle&#x27;, group:&#x27;owners&#x27;, label:&#x27;生命周期执行&#x27;, detail:&#x27;lifecycle 执行效果、期限与周期，持有局部迁移与动态投影；预演不等于发布。&#x27; },
-        { id:&#x27;operation&#x27;, group:&#x27;owners&#x27;, label:&#x27;数值操作执行&#x27;, detail:&#x27;operation 执行伤害、治疗、资源及作者事件；局部帧持有数值、逐伤和操作输出事实。&#x27; },
+        { id:&#x27;operation&#x27;, group:&#x27;owners&#x27;, label:&#x27;数值操作执行&#x27;, detail:&#x27;operation 拥有伤害、治疗、资源、作者事件及属性初值、单遍／两遍重算和缓存流程；局部帧持有数值、逐伤和操作输出事实。&#x27; },
         { id:&#x27;hit&#x27;, group:&#x27;owners&#x27;, label:&#x27;命中与强化执行&#x27;, detail:&#x27;hit 拥有命中账、候选上下文、阻挡复用与强化暂存，按真实挂载和同次使用处理规则。&#x27; },
         { id:&#x27;listener&#x27;, group:&#x27;owners&#x27;, label:&#x27;监听派发执行&#x27;, detail:&#x27;listener 冻结列表与条件，再逐项复查资格、遍历执行；成功节流和额度沿原边界处理。&#x27; },
-        { id:&#x27;continuation&#x27;, group:&#x27;owners&#x27;, label:&#x27;复制与续接&#x27;, detail:&#x27;continuation 拥有复制收集、重复请求、延迟载荷及同步因果栈；因果组织已归所属包。&#x27; },
+        { id:&#x27;continuation&#x27;, group:&#x27;owners&#x27;, label:&#x27;复制与续接&#x27;, detail:&#x27;continuation 拥有复制资格、入口选择、事件克隆、收集容量及冻结防御上下文，维护重复请求、延迟载荷及同步因果；根捕获运输原帧事实并创建真实副本帧。&#x27; },
         { id:&#x27;admission&#x27;, group:&#x27;support&#x27;, label:&#x27;运行前准入&#x27;, detail:&#x27;admission 借用实际选中来源和只读初态，核对监听操作与目标标记初态，不执行战斗。&#x27; },
         { id:&#x27;evaluation&#x27;, group:&#x27;support&#x27;, label:&#x27;运行求值&#x27;, detail:&#x27;evaluation 从已准备视图求值并持有单场缓存，不发布角色或效果状态。&#x27; },
         { id:&#x27;usage&#x27;, group:&#x27;support&#x27;, label:&#x27;共同额度&#x27;, detail:&#x27;usage 每场只有一份 Ledger（额度账）；命中、监听与续接借用真实预留，按成功或失败边界处理。&#x27; },
@@ -1943,7 +1943,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         { id:&#x27;action&#x27;, group:&#x27;stores&#x27;, label:&#x27;行动与过程状态&#x27;, detail:&#x27;action 持有实际使用、过程、占用、冷却、弹药与等待身份；不另造战斗时钟。&#x27; },
         { id:&#x27;effect&#x27;, group:&#x27;stores&#x27;, label:&#x27;效果与护盾状态&#x27;, detail:&#x27;effect 持有实例、期限、层数、修正和护盾集合，负责所属恢复及快照转换。&#x27; },
         { id:&#x27;report&#x27;, group:&#x27;stores&#x27;, label:&#x27;报告与采样状态&#x27;, detail:&#x27;report 拥有可靠累计、有界明细、采样及冻结事实转换；记录截断不改变战斗结果。&#x27; },
-        { id:&#x27;formula&#x27;, group:&#x27;foundation&#x27;, label:&#x27;战斗公式&#x27;, detail:&#x27;formula 绑定用途权限、实际来源和读取时点；作者公式定义仍归共同契约及源码。&#x27; },
+        { id:&#x27;formula&#x27;, group:&#x27;foundation&#x27;, label:&#x27;战斗公式&#x27;, detail:&#x27;formula 分阶段构建、冻结及交付只读求值与元信息，消费已准备事实；不回调执行帧或发布战斗状态，作者定义仍归共同契约及源码。&#x27; },
         { id:&#x27;pipeline&#x27;, group:&#x27;foundation&#x27;, label:&#x27;数值管道&#x27;, detail:&#x27;pipeline 计算属性、伤害、治疗、护盾与资源结果；不决定跨功能事件次序。&#x27; },
         { id:&#x27;base&#x27;, group:&#x27;foundation&#x27;, label:&#x27;基础六包&#x27;, detail:&#x27;运输、属性、表达式、绑定、数值和类型分别维护基础契约；业务由外层组合。&#x27; }
       ];
@@ -1958,7 +1958,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         { id:&#x27;queue-plan&#x27;, group:&#x27;current&#x27;, label:&#x27;有限排程接口&#x27;, detail:&#x27;Queue() 可写堆外借已删除；入队与容量预检、普攻／自动行动／冷却尝试三类查询及改期、同刻取出与原序号恢复均已实施。&#x27; },
         { id:&#x27;decision-plan&#x27;, group:&#x27;current&#x27;, label:&#x27;循环决策交接&#x27;, detail:&#x27;DecideNext（下一步决定）已实施：HandleNext接纳事件、EndAtLimit到限结束、FinalizeNow立即核定停止原因、StopNow立即停止；结束结算仍由循环原位处理。事件后只立即复核失败、自动运行与普攻死亡。&#x27; },
         { id:&#x27;same-time-capacity-ready&#x27;, group:&#x27;current&#x27;, label:&#x27;同刻取还与容量归集&#x27;, detail:&#x27;同刻机械扫描和候选恢复共用辅助流程；业务候选选择与终点清理仍按原次序，剩余计时容量改为单处计算。&#x27; },
-        { id:&#x27;views-plan&#x27;, group:&#x27;candidate&#x27;, label:&#x27;具体读写契约收敛&#x27;, detail:&#x27;区分当前暂存、帧入口、事件冻结和所属写入；逐个核对误用入口，不宣称已经完成全面改造。&#x27; },
+        { id:&#x27;views-plan&#x27;, group:&#x27;current&#x27;, label:&#x27;具体读写契约已划定&#x27;, detail:&#x27;六步职责封装及最终产物验收已完成；当前暂存、帧入口、事件冻结和所属写入分别有契约，后续按真实误用维护，不预设全面深复制或全局回滚。&#x27; },
         { id:&#x27;polling-choice&#x27;, group:&#x27;candidate&#x27;, label:&#x27;减少定时重查&#x27;, detail:&#x27;条件或资源等待的唤醒策略仍是候选，须另定响应时机；正常周期结算继续保留。&#x27; },
         { id:&#x27;cache-later&#x27;, group:&#x27;paused&#x27;, label:&#x27;浏览器快照缓存&#x27;, detail:&#x27;等待数据版本管理明确后再讨论复用和失效；浏览器缓存不归战斗状态。&#x27; }
       ];
